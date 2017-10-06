@@ -76,7 +76,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		instances.add(this);
 		addStyleName("GeoGebraFrame");
 		DOM.sinkEvents(this.getElement(), Event.ONMOUSEDOWN | Event.ONMOUSEMOVE
-		        | Event.ONMOUSEUP | Event.ONMOUSEOVER);
+				| Event.ONMOUSEUP | Event.ONMOUSEOVER);
+		if (mainTag) {
+			getElement().setAttribute("role", "main");
+		}
 	}
 
 	/**

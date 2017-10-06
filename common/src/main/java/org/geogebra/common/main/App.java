@@ -4460,7 +4460,7 @@ public abstract class App implements UpdateSelection {
 
 				// <Space> -> toggle slider animation off/on
 				GeoNumeric num = (GeoNumeric) geo;
-				if (num.isSlider() && num.isAnimatable()) {
+				if (num.isAnimatable()) {
 					num.setAnimating(!num.isAnimating());
 
 					storeUndoInfo();

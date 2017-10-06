@@ -165,6 +165,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		 */
 		public EuclidianPanel(EuclidianDockPanelWAbstract dockPanel) {
 			this(dockPanel, new AbsolutePanel());
+			getElement().setAttribute("role", "application");
 		}
 
 		/**

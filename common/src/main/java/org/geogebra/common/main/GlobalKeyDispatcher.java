@@ -154,10 +154,11 @@ public abstract class GlobalKeyDispatcher {
 	 * Start editing in AV
 	 * 
 	 * @param geoElement
+	 *            element to edit
 	 */
 	protected void startEdit(GeoElement geoElement) {
-		if (app.getGuiManager() != null && app.getAlgebraView() != null) {
-			app.getAlgebraView().startEditItem(geoElement);
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().startEditing(geoElement);
 		}
 	}
 	private void toggleSelectionVisibility() {
