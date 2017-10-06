@@ -36,8 +36,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		ChangeHandler {
-	/** application */
-	AppW app;
 	private Button btPrint;
 	private Button btCancel;
 	/** view list */
@@ -183,12 +181,19 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 
 			@Override
 			public void onClose(final CloseEvent<GPopupPanel> event) {
-				app.setDefaultCursor();
-				app.closePopups();
+				onPreviewClose();
 			}
 		});
 
 		add(centerPanel);
+	}
+
+	/**
+	 * Dialog close callback
+	 */
+	protected void onPreviewClose() {
+		app.setDefaultCursor();
+		app.closePopups();
 	}
 
 	@Override
@@ -218,13 +223,15 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	}
 
 	private void addScalePanelOrCreatePreview() {
+		AppW appw = (AppW) app;
 		if ((App.VIEW_EUCLIDIAN + "").equals(m_cbView.getSelectedValue())) {
-			scalePanelHolder.add(new PrintScalePanelW(app, app
+			scalePanelHolder.add(new PrintScalePanelW(appw, app
 					.getEuclidianView1()));
 			btPrint.setEnabled(true);
 		} else if ((App.VIEW_EUCLIDIAN2 + "").equals(m_cbView
 				.getSelectedValue())) {
-			scalePanelHolder.add(new PrintScalePanelW(app, app
+			scalePanelHolder
+					.add(new PrintScalePanelW(appw, app
 					.getEuclidianView2(1)));
 			btPrint.setEnabled(true);
 		} else {
@@ -237,14 +244,12 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		if (event.getSource() == m_cbView) {
 			scalePanelHolder.clear();
 			addScalePanelOrCreatePreview();
-
 		}
 	}
 
 	private void createPreview(final String viewID) {
-
-		createPrintables(Integer.parseInt(viewID), app, printPanel, btPrint);
-
+		createPrintables(Integer.parseInt(viewID), (AppW) app, printPanel,
+				btPrint);
 	}
 
 	private static void createPrintables(int viewID, AppW app, FlowPanel pPanel,

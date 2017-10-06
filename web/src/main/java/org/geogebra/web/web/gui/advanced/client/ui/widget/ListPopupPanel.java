@@ -397,10 +397,12 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 
 	/** Chooses and sets a mostly appropriate position of the drop down list */
 	protected void resetPosition() {
-		int absTop = getComboBox().getAbsoluteTop()
-				- (int) ((AppW) app).getAbsLeft();
-		int absLeft = getComboBox().getAbsoluteLeft()
-				- (int) ((AppW) app).getAbsLeft();
+		int absTop = (int) ((getComboBox().getAbsoluteTop()
+				- ((AppW) app).getAbsLeft())
+						/ ((AppW) app).getArticleElement().getScaleX());
+		int absLeft = (int) ((getComboBox().getAbsoluteLeft()
+				- ((AppW) app).getAbsLeft())
+				/ ((AppW) app).getArticleElement().getScaleX());
 		if (getDropDownPosition() == DropDownPosition.ABOVE
 				|| getDropDownPosition() == DropDownPosition.AUTO
 						&& Window.getClientHeight()
@@ -413,8 +415,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 		} else if (getDropDownPosition() == DropDownPosition.UNDER
 				|| getDropDownPosition() == DropDownPosition.AUTO) {
 			setPopupPosition(absLeft,
-					absTop
-							+ getComboBox().getOffsetHeight() + 5);
+					absTop + getComboBox().getOffsetHeight() + 5);
 		}
 	}
 

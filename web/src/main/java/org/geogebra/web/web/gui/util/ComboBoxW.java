@@ -96,7 +96,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	}
 
 	@Override 
-    protected void select(ListModelEvent event) {
+	protected void select(ListModelEvent event) {
 		if (isListPanelOpened()) {
 			return;
 		}
