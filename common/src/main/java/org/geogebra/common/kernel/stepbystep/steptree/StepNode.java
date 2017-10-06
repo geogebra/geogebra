@@ -353,6 +353,11 @@ public abstract class StepNode {
 		return nonSpecialConstant() || isOperation(Operation.POWER) && isEven(((StepOperation) this).getSubTree(1));
 	}
 
+	public boolean isCube() {
+		return isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).isCube() || nonSpecialConstant()
+				|| isOperation(Operation.POWER) && isEqual(((StepOperation) this).getSubTree(1), 3);
+	}
+
 	/**
 	 * Only if isSquare() is true!
 	 * 
@@ -369,6 +374,27 @@ public abstract class StepNode {
 			
 			StepOperation so = (StepOperation) this;
 			return nonTrivialPower(so.getSubTree(0), so.getSubTree(1).getValue() / 2);
+		}
+
+		return null;
+	}
+
+	public StepNode getCubeRoot() {
+		if (isCube()) {
+			if (nonSpecialConstant()) {
+				if (isEqual(Math.cbrt(getValue()), Math.floor(Math.cbrt(getValue())))) {
+					return new StepConstant(Math.cbrt(getValue()));
+				}
+				return root(this, 3);
+			}
+
+			StepOperation so = (StepOperation) this;
+
+			if (isOperation(Operation.MINUS)) {
+				return negate(so.getSubTree(0).getCubeRoot());
+			}
+
+			return nonTrivialPower(so.getSubTree(0), so.getSubTree(1).getValue() / 3);
 		}
 
 		return null;
@@ -654,20 +680,6 @@ public abstract class StepNode {
 		}
 		if (b == null) {
 			return a.deepCopy();
-		}
-
-		if (a.isOperation(Operation.PLUS)) {
-			StepOperation copyofa = (StepOperation) a.deepCopy();
-
-			if (b.isOperation(Operation.PLUS)) {
-				for (int i = 0; i < ((StepOperation) b).noOfOperands(); i++) {
-					copyofa.addSubTree(((StepOperation) b).getSubTree(i).deepCopy());
-				}
-			} else {
-				copyofa.addSubTree(b.deepCopy());
-			}
-
-			return copyofa;
 		}
 
 		StepOperation so = new StepOperation(Operation.PLUS);
@@ -1176,7 +1188,7 @@ public abstract class StepNode {
 	}
 
 	public static boolean isEqual(StepNode a, double b) {
-		return a instanceof StepConstant && isEqual(a.getValue(), b);
+		return a.nonSpecialConstant() && isEqual(a.getValue(), b);
 	}
 
 	public static boolean isEven(double d) {

@@ -201,6 +201,50 @@ public enum SolutionStepType {
 
 	DIFFERENCE_OF_SQUARES("DifferenceOfSquares", "Use $(a+b)(a-b) \\equiv a^2-b^2$ to expand"),
 
+	SUM_OF_CUBES("SumOfCubes", "Use $a^3 + b^3 = (a + b)(a^2 - ab + b^2)$ to factor"),
+
+	DIFFERENCE_OF_CUBES("DifferenceOfCubes", "Use $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$ to factor"),
+	
+	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor", "Use $a^2-b^2 \\equiv (a+b)(a-b)$ to expand"),
+	
+	FACTOR_COMMON("FactorOutA", "Factor out %0"),
+
+	FACTOR_MINUS("FactorMinus", "Factor out the minus sign"),
+
+	FACTOR_GCD("FactorGCD", "Factor out the greatest common divisor of %0 and %1: %2") {
+		@Override
+		public String getDefaultText(Localization loc, StepNode[] parameters) {
+			StringBuilder serializedDefault = new StringBuilder();
+			for (int i = 0; i < parameters.length - 2; i++) {
+				if (i != 0) {
+					serializedDefault.append(",\\;");
+				}
+				serializedDefault.append(parameters[i].toLaTeXString(loc, false));
+			}
+
+			return loc.getMenuLaTeX(getKey(), getDefault(), serializedDefault.toString(),
+					parameters[parameters.length - 2].toLaTeXString(loc, false),
+					parameters[parameters.length - 1].toLaTeXString(loc, false));
+		}
+
+		@Override
+		public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
+			StringBuilder serializedDefault = new StringBuilder();
+			for (int i = 0; i < parameters.length - 2; i++) {
+				if (i != 0) {
+					serializedDefault.append(",\\;");
+				}
+				serializedDefault.append(parameters[i].toLaTeXString(loc, true));
+			}
+
+			return loc.getMenuLaTeX(getKey(), getDefault(), serializedDefault.toString(),
+					parameters[parameters.length - 2].toLaTeXString(loc, true),
+					parameters[parameters.length - 1].toLaTeXString(loc, true));
+		}
+	},
+
+	REORGANIZE_EXPRESSION("ReorganizeExression", "Reorganize expression"),
+
 	REWRITE_AS_MULTIPLICATION("RewriteAsMultiplication", "Rewrite as multiplication"),
 
 	DISTRIBUTE_POWER_OVER_PRODUCT("DistributePowerOverProduct", "Distribute power over product"),
