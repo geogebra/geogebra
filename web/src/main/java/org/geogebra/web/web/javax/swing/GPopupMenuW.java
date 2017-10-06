@@ -10,6 +10,7 @@ import org.geogebra.web.web.html5.AttachedToDOM;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -17,7 +18,6 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
@@ -330,22 +330,18 @@ public class GPopupMenuW implements AttachedToDOM {
 					}
 					subPopup = new GPopupMenuW(subMenu, getApp());
 					subPopup.setVisible(true);
-					int xPercent = 0;
 					// Calculate the position of the "submenu", and show it
 					if (getApp().getLocalization()
 							.isRightToLeftReadingOrder()) {
 						xCord = getLeftSubPopupXCord();
 						if (xCord < 0) {
 							xCord = getRightSubPopupXCord();
-						} else {
-							xPercent = 100;
 						}
 					} else {
 						xCord = getRightSubPopupXCord();
 						if (xCord + getSubPopupWidth() > Window
 						        .getClientWidth()) {
 							xCord = getLeftSubPopupXCord();
-							xPercent = 100;
 						}
 					}
 					yCord = Math.min(
@@ -359,13 +355,13 @@ public class GPopupMenuW implements AttachedToDOM {
 
 			// adding arrow for the menuitem
 			Element td = DOM.createTD();
-			DOM.setElementProperty(td, "vAlign", "middle");
+			td.setAttribute("vAlign", "middle");
 			td.addClassName("subMenuIcon");
 			ImageResource imgRes = getSubMenuIcon(
 					app.getLocalization().isRightToLeftReadingOrder(),
 					app.isUnbundled());
-			td.setInnerSafeHtml(AbstractImagePrototype.create(imgRes)
-			        .getSafeHtml());
+			td.setInnerSafeHtml(
+					AbstractImagePrototype.create(imgRes).getSafeHtml());
 			newItem.getElement().setAttribute("colspan", "1");
 			DOM.appendChild((Element) newItem.getElement().getParentNode(), td);
 		}
@@ -515,7 +511,7 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		private MenuItem findItem(Element hItem) {
 			for (MenuItem item : getItems()) {
-				if (DOM.isOrHasChild(item.getElement(), hItem)) {
+				if (item.getElement().isOrHasChild(hItem)) {
 					return item;
 				}
 			}
