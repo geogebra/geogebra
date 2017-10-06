@@ -52,6 +52,7 @@ public abstract class FastButton extends CustomButton {
 	private int touchId;
 	private boolean isActive;
 	private List<FastClickHandler> handlers;
+	private List<TabHandler> tabHandlers;
 
 	/**
 	 * New fast button
@@ -68,7 +69,7 @@ public abstract class FastButton extends CustomButton {
 		                                               // Cancel, Change)
 
 		this.handlers = new ArrayList<FastClickHandler>();
-
+		this.tabHandlers = new ArrayList<TabHandler>();
 	}
 
 	/**
@@ -101,6 +102,18 @@ public abstract class FastButton extends CustomButton {
 	 */
 	public void addFastClickHandler(FastClickHandler handler) {
 		this.handlers.add(handler);
+	}
+
+	/**
+	 * Use this method in the same way you would use addKeyHandler for Tab keys
+	 * only.
+	 * 
+	 * @param handler
+	 *            handler
+	 * 
+	 */
+	public void addTabHandler(TabHandler handler) {
+		this.tabHandlers.add(handler);
 	}
 
 	/**
@@ -179,6 +192,8 @@ public abstract class FastButton extends CustomButton {
 			char keyCode = (char) event.getKeyCode();
 			if (keyCode == ' ') {
 				onClick(event);
+			} else if (keyCode == '\t') {
+				onTab(event);
 			}
 			break;
 		case Event.ONKEYPRESS:
@@ -196,6 +211,15 @@ public abstract class FastButton extends CustomButton {
 				Log.debug(DOM.eventGetType(event) + "event failed");
 			}
 		}
+		}
+	}
+
+	private void onTab(Event event) {
+		for (TabHandler h : tabHandlers) {
+			if (h.onTab(this, event.getShiftKey())) {
+				event.stopPropagation();
+				event.preventDefault();
+			}
 		}
 	}
 

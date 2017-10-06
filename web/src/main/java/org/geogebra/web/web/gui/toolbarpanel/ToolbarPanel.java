@@ -11,6 +11,7 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -34,8 +35,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
@@ -44,7 +43,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * 
@@ -259,7 +257,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/**
 	 * tab of tools
 	 */
-	class ToolsTab extends ToolbarTab implements KeyDownHandler {
+	class ToolsTab extends ToolbarTab implements TabHandler {
 	
 		/**
 		 * panel containing the tools
@@ -321,8 +319,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			});
 
 			if (app.has(Feature.TAB_ON_GUI)) {
-				moreBtn.addKeyDownHandler(this);
-				lessBtn.addKeyDownHandler(this);
+				moreBtn.addTabHandler(this);
+				lessBtn.addTabHandler(this);
 			}
 		}
 
@@ -464,25 +462,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		}
 
-		public void onKeyDown(KeyDownEvent event) {
-			int key = event.getNativeKeyCode();
-			Object source = event.getSource();
-
-			if ((source == moreBtn || source == moreBtn)
-					&& key == GWTKeycodes.KEY_TAB && !event.isShiftKeyDown()) {
-				header.focusMenu();
-			}
-			if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
-				return;
-			}
-			if (source == moreBtn) {
-				onMorePressed();
-			} else if (source == lessBtn) {
-				onLessPressed();
-			}
+		public boolean onTab(Widget source, boolean shiftDown) {
+			return false;
 		}
-
 	}
+
 	/**
 	 * 
 	 * @param app

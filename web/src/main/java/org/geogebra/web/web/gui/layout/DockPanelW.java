@@ -17,6 +17,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
@@ -46,8 +47,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
@@ -60,7 +59,6 @@ import com.google.gwt.user.client.ui.ResizeComposite;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Every object which should be dragged needs to be of type DockPanel. A
@@ -82,7 +80,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  */
 public abstract class DockPanelW extends ResizeComposite implements
  DockPanel,
-		DockComponent, KeyDownHandler {
+		DockComponent, TabHandler {
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */
@@ -577,7 +575,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			titleBarPanelContent.add(graphicsContextMenuBtn);
 			if (app.has(Feature.TAB_ON_GUI)) {
 				graphicsContextMenuBtn.setTabIndex(GUITabs.EV_TAB_START);
-				graphicsContextMenuBtn.addKeyDownHandler(this);
+				graphicsContextMenuBtn.addTabHandler(this);
 			}
 			return;
 		}
@@ -1635,24 +1633,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 		// do nothing by default
 	}
 
-	public void onKeyDown(KeyDownEvent event) {
-		int key = event.getNativeKeyCode();
-		Object source = event.getSource();
-
-		if (source == graphicsContextMenuBtn && key == GWTKeycodes.KEY_TAB
-				&& !event.isShiftKeyDown()) {
+	@Override
+	public boolean onTab(Widget source, boolean shiftDown) {
+		if (source == graphicsContextMenuBtn && !shiftDown) {
 			app.getGlobalKeyDispatcher().focusFirstGeo();
-			event.stopPropagation();
-			event.preventDefault();
+			return true;
 		}
 
-		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
-			return;
-		}
-
-		if (source == graphicsContextMenuBtn) {
-			onGraphicsSettingsPressed();
-
-		}
+		return false;
 	}
 }

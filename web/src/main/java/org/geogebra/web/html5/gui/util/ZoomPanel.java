@@ -12,6 +12,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -20,15 +21,12 @@ import org.geogebra.web.web.gui.layout.GUITabs;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * Place of the zoom buttons.
@@ -37,7 +35,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  *
  */
 public class ZoomPanel extends FlowPanel
-		implements CoordSystemListener, KeyDownHandler {
+		implements CoordSystemListener, TabHandler {
 
 	private StandardButton homeBtn;
 	private StandardButton zoomInBtn;
@@ -134,7 +132,7 @@ public class ZoomPanel extends FlowPanel
 		};
 
 		if (app.has(Feature.TAB_ON_GUI)) {
-			fullscreenBtn.addKeyDownHandler(this);
+			fullscreenBtn.addTabHandler(this);
 		}
 
 		fullscreenBtn.addFastClickHandler(handlerFullscreen);
@@ -233,7 +231,7 @@ public class ZoomPanel extends FlowPanel
 		homeBtn.addFastClickHandler(handlerHome);
 
 		if (app.has(Feature.TAB_ON_GUI)) {
-			homeBtn.addKeyDownHandler(this);
+			homeBtn.addTabHandler(this);
 		}
 
 		zoomPanel.add(homeBtn);
@@ -267,11 +265,6 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
-
-		if (app.has(Feature.TAB_ON_GUI)) {
-			zoomOutBtn.addKeyDownHandler(this);
-		}
-
 		zoomPanel.add(zoomOutBtn);
 	}
 
@@ -288,11 +281,6 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
-
-		if (app.has(Feature.TAB_ON_GUI)) {
-			zoomInBtn.addKeyDownHandler(this);
-		}
-
 		zoomPanel.add(zoomInBtn);
 	}
 
@@ -535,40 +523,17 @@ public class ZoomPanel extends FlowPanel
 		}
 	}
 
-	public void onKeyDown(KeyDownEvent event) {
-		int key = event.getNativeKeyCode();
-		Object source = event.getSource();
-		if (key == GWTKeycodes.KEY_TAB) {
-			if (source == getFirstButton()	&& event.isShiftKeyDown()) {
-				app.getGlobalKeyDispatcher().focusLastGeo();
-				event.stopPropagation();
-				event.preventDefault();
-			} else  {
-				if (source == getLastButton() && !event.isShiftKeyDown()) {
-					app.getGuiManager().focusToobarFirstElement();
-					event.stopPropagation();
-					event.preventDefault();
-				}
-
-
-			}
-
-
-		}
-		
-		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
-			return;
+	@Override
+	public boolean onTab(Widget source, boolean shiftDown) {
+		if (source == getFirstButton() && shiftDown) {
+			app.getGlobalKeyDispatcher().focusLastGeo();
+			return true;
+		} else if (source == getLastButton() && !shiftDown) {
+			app.getGuiManager().focusToobarFirstElement();
+			return true;
 		}
 
-		if (source == homeBtn) {
-			onHomePressed();
-		} else if (source == zoomOutBtn) {
-			onZoomOutPressed();
-		} else if (source == zoomInBtn) {
-			onZoomInPressed();
-		} else if (source == fullscreenBtn) {
-			onFullscreenPressed();
-		}
+		return false;
 	}
 
 	/** Focus the first available button on zoom panel. */
