@@ -2,7 +2,6 @@ package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -59,8 +58,6 @@ public class GPopupMenuW implements AttachedToDOM {
 	public GPopupMenuW(AppW app) {
 		this.app = app;
 		popupPanel = new GPopupPanel(app.getPanel(), app);
-		Browser.scale(popupPanel.getElement(), app.getArticleElement()
-		        .getScaleX(), 0, 0);
 		popupMenu = new PopupMenuBar(true);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
@@ -355,9 +352,6 @@ public class GPopupMenuW implements AttachedToDOM {
 							newItem.getAbsoluteTop()
 									- getApp().getPanel().getAbsoluteTop(),
 					        Window.getClientHeight() - getSubPopupHeight());
-					Browser.scale(subPopup.getPopupPanel().getElement(),
-							getApp()
-					        .getArticleElement().getScaleX(), xPercent, 0);
 					subPopup.showAtPoint(new GPoint(xCord, yCord));
 				}
 			};
