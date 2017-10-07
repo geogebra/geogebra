@@ -7587,19 +7587,21 @@ namespace giac {
       c=arg(c-p,contextptr);
       d=inversion(centre,rapport,d,contextptr);
       d=arg(d-p,contextptr);
+      if (is_greater(c,d,contextptr))
+	swapgen(c,d);
       gen e=arg(centre-p,contextptr),a1,a2;
-      // Segment: choose c,d or d,c (should not contain e), halfline: choose c,e or e,c (should contain d)
+      // Segment: choose c,d or d,c (never contains e), halfline: choose c,e or e,c (should contain d)
       if (b.subtype==_HALFLINE__VECT){
 	if (arg_between(c,d,e,contextptr)){
 	  a1=c; a2=e;
 	}
 	else {
-	  a1=e; a2=c;
+	  a1=e; a2=c+cst_two_pi;
 	}
       }
       else {
 	if (arg_between(c,e,d,contextptr)){
-	  a1=d; a2=c;
+	  a1=d; a2=c+cst_two_pi;
 	}
 	else {
 	  a1=c; a2=d;

@@ -14743,7 +14743,7 @@ namespace giac {
 	modular=true;
 	a=*a.front()._VECTptr;
       }
-      // if (!is_squarematrix(a)) return false; // setsizeerr(gettext("Expecting a square matrix"));
+      if (!ckmatrix(a)) return false; // setsizeerr(gettext("Expecting a square matrix"));
     }
     gen det;
     vecteur pivots;

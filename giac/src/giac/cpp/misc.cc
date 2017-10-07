@@ -5422,6 +5422,12 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if (!s || s>2 || (s==2 && v[1].type!=_VECT) )
       return gendimerr(contextptr);
     v.front()=eval(v.front(),1,contextptr);
+    if (s==2 && v.front().type==_VECT && is_squarematrix(v.front()) && !v[1]._VECTptr->empty() && v[1]._VECTptr->front().type==_STRNG){
+      vecteur mb=*v.front()._VECTptr;
+      mb.push_back(v.back());
+      v.front()=mb;
+      s=1;
+    }
     if (s==1)
       return plotproba(v.front(),vecteur(0),attributs,contextptr);
     return plotproba(v[0],*v[1]._VECTptr,attributs,contextptr);

@@ -725,9 +725,9 @@ namespace giac {
   static const char _derive_s []="diff";
   static string printasderive(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if (feuille.type!=_VECT){
-      if (need_parenthesis(feuille))
+      // if (need_parenthesis(feuille))
 	return "("+feuille.print()+")'";
-      return feuille.print()+"'";
+	//return feuille.print()+"'";
     }
     return sommetstr+("("+feuille.print(contextptr)+")");
   }
