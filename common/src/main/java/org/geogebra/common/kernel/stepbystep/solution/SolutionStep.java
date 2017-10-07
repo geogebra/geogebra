@@ -28,7 +28,10 @@ public class SolutionStep {
 		this.loc = loc;
 
 		this.type = type;
-		this.parameters = parameters;
+		this.parameters = new StepNode[parameters.length];
+		for (int i = 0; i < parameters.length; i++) {
+			this.parameters[i] = parameters[i].deepCopy();
+		}
 	}
 
 	public SolutionStep(Localization loc, SolutionStepType type, int color) {

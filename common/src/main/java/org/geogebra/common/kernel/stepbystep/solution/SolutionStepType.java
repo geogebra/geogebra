@@ -179,7 +179,7 @@ public enum SolutionStepType {
 	
 	DIVIDE_BY_NEGATVE_ONE("DividedByNegativeOne", "Any expression divided by negative one negates the expression"),
 
-	REWRITE_AS_POWER("RevriteAAsB", "Rewrite %0 as %1"),
+	REWRITE_AS("RevriteAAsB", "Rewrite %0 as %1"),
 
 	POWER_OF_POWER("MultiplyExponents", "Simplify the expression by multiplying the exponents"),
 
@@ -203,9 +203,13 @@ public enum SolutionStepType {
 
 	SUM_OF_CUBES("SumOfCubes", "Use $a^3 + b^3 = (a + b)(a^2 - ab + b^2)$ to factor"),
 
-	DIFFERENCE_OF_CUBES("DifferenceOfCubes", "Use $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$ to factor"),
+	BINOM_SQUARED_SUM_FACTOR("BinomSquaredSum", "Use $a^2 + 2ab + b^2 \\equiv (a+b)^2$ to factor"),
+
+	BINOM_SQUARED_DIFF_FACTOR("BinomSquaredDiff", "Use $a^2 - 2ab + b^2 \\equiv (a-b)^2$ to factor"),
+
+	DIFFERENCE_OF_CUBES_FACTOR("DifferenceOfCubes", "Use $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$ to factor"),
 	
-	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor", "Use $a^2-b^2 \\equiv (a+b)(a-b)$ to expand"),
+	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor", "Use $a^2-b^2 \\equiv (a+b)(a-b)$ to factor"),
 	
 	FACTOR_COMMON("FactorOutA", "Factor out %0"),
 
