@@ -8,12 +8,14 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.ToolbarSvgResources;
+import org.geogebra.web.web.gui.GuiManagerW;
 
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Window;
@@ -24,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author judit Content of tools tab of Toolbar panel.
  */
-public class Tools extends FlowPanel implements SetLabels {
+public class Tools extends FlowPanel implements SetLabels, TabHandler {
 
 	/**
 	 * Tool categories
@@ -151,6 +153,18 @@ public class Tools extends FlowPanel implements SetLabels {
 			add(catPanel);
 		}
 		setMoveMode();
+
+		StandardButton firstBtn = getFirstToolButton();
+		if (firstBtn != null) {
+			firstBtn.addTabHandler(this);
+		}
+	}
+
+	private StandardButton getFirstToolButton() {
+		if (categoryPanelList != null && !categoryPanelList.isEmpty()) {
+			return categoryPanelList.get(0).getFirstButton();
+		}
+		return null;
 	}
 
 	@Override
@@ -167,7 +181,7 @@ public class Tools extends FlowPanel implements SetLabels {
 	 */
 	public void focusFirst() {
 		if (categoryPanelList != null && !categoryPanelList.isEmpty()) {
-			categoryPanelList.get(0).toolBtnList.get(0).setFocus(true);
+			getFirstToolButton().setFocus(true);
 		}
 
 	}
@@ -182,6 +196,27 @@ public class Tools extends FlowPanel implements SetLabels {
 			super();
 			category = cat;
 			initGui();
+		}
+
+		/**
+		 * 
+		 * @return the first button of the category.
+		 */
+		public StandardButton getFirstButton() {
+			if (toolBtnList != null && toolBtnList.size() != 0) {
+				return toolBtnList.get(0);
+			}
+			return null;
+		}
+
+		/**
+		 * @return the last button of the category.
+		 */
+		public StandardButton getLasButton() {
+			if (toolBtnList != null && toolBtnList.size() != 0) {
+				return toolBtnList.get(toolBtnList.size() - 1);
+			}
+			return null;
 		}
 
 		private void initGui() {
@@ -740,4 +775,11 @@ public class Tools extends FlowPanel implements SetLabels {
 		}
 	}
 
+	public boolean onTab(Widget source, boolean shiftDown) {
+		if (source == getFirstToolButton() && shiftDown) {
+			((GuiManagerW) app.getGuiManager()).focusLastButtonOnEV();
+			return true;
+		}
+		return false;
+	}
 }

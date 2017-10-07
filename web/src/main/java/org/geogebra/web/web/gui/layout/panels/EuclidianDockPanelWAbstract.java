@@ -374,6 +374,17 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			graphicsContextMenuBtn.getElement().focus();
 		}
 	}
+
+	/**
+	 * Focus the last zoom button available or settings button.
+	 */
+	public void focusLastZoomButton() {
+		if (zoomPanel != null) {
+			zoomPanel.focusLastButton();
+		} else {
+			focusLastGUIElement();
+		}
+	}
 	/**
 	 * Checks if zoom panel fit on Euclidian View with given height and
 	 * shows/hides it respectively.

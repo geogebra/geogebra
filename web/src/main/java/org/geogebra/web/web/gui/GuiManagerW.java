@@ -2495,6 +2495,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	/**
+	 * Focus last available button in EV.
+	 */
+	public void focusLastButtonOnEV() {
+		EuclidianDockPanelW dp = (EuclidianDockPanelW) getLayout()
+				.getDockManager().getPanel(App.VIEW_EUCLIDIAN);
+		dp.focusLastZoomButton();
+	}
 	public void focusToobarFirstElement() {
 		if (getToolbarPanelV2() != null) {
 			getToolbarPanelV2().focusFirstElement();
