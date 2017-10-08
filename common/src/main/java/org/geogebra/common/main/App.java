@@ -4223,9 +4223,6 @@ public abstract class App implements UpdateSelection {
 		case STORE_IMAGES_ON_APPS_PICKER:
 			return true;
 
-		case UNBUNDLING:
-			return relaunch;
-
 		case EXPORT_SCAD:
 			return prerelease;
 

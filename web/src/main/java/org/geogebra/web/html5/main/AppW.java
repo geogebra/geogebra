@@ -253,7 +253,13 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
 		super(getVersion(ae, dimension, laf));
-		this.initialPerspective = ae.getDataParamPerspective();
+		if ("graphing".equals(ae.getDataParamAppName())) {
+			this.initialPerspective = "1";
+		} else if ("geometry".equals(ae.getDataParamAppName())) {
+			this.initialPerspective = "2";
+		} else {
+			this.initialPerspective = ae.getDataParamPerspective();
+		}
 		setPrerelease(ArticleElement.getDataParamPrerelease(ae));
 
 		// laf = null in webSimple
@@ -3400,12 +3406,9 @@ public abstract class AppW extends App implements SetLabels {
 		setTubeId(i);
 
 		if (articleElement.getDataParamApp() && sharingKey != null) {
-			String appName = "classic";
-			if ("1".equals(this.initialPerspective)) {
-				appName = "graphing";
-			}
-			if ("2".equals(this.initialPerspective)) {
-				appName = "geometry";
+			String appName = articleElement.getDataParamAppName();
+			if (StringUtil.empty(appName)) {
+				appName = "classic";
 			}
 			Browser.changeUrl("/" + appName + "/" + sharingKey);
 			if (!StringUtil.empty(title)) {
@@ -3635,37 +3638,31 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public boolean isUnbundled() {
-		return ("1".equals(initialPerspective)
-				|| "2".equals(initialPerspective))
-				&& has(Feature.UNBUNDLING)
+		return !StringUtil.empty(articleElement.getDataParamAppName())
 				&& !"classic".equals(articleElement.getDataParamAppName());
 
 	}
 
 	@Override
 	public AppConfig getConfig() {
-		if (has(Feature.UNBUNDLING)
-				&& !"classic".equals(articleElement.getDataParamAppName())) {
-			if ("1".equals(initialPerspective)) {
+		if ("graphing".equals(articleElement.getDataParamAppName())) {
 				return new AppConfigGraphing();
-			}
-			if ("2".equals(initialPerspective)) {
-				return new AppConfigGeometry();
-			}
 		}
+		if ("geometry".equals(articleElement.getDataParamAppName())) {
+				return new AppConfigGeometry();
+		}
+
 		return new AppConfigDefault();
 	}
 
 	@Override
 	public boolean isUnbundledGraphing() {
-		return "1".equals(initialPerspective) && has(Feature.UNBUNDLING)
-				&& !"classic".equals(articleElement.getDataParamAppName());
+		return "graphing".equals(articleElement.getDataParamAppName());
 	}
 
 	@Override
 	public boolean isUnbundledGeometry() {
-		return "2".equals(initialPerspective) && has(Feature.UNBUNDLING)
-				&& !"classic".equals(articleElement.getDataParamAppName());
+		return "geometry".equals(articleElement.getDataParamAppName());
 	}
 
 	public void ensureStandardView() {

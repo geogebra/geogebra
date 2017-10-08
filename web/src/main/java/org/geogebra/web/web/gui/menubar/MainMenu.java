@@ -15,11 +15,13 @@ import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.browser.SignInButton;
+import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -111,6 +113,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 
 	private void init() {
+		if (app.getLoginOperation() == null) {
+			app.initSignInEventFlow(new LoginOperationW(app),
+					ArticleElement.isEnableUsageStats());
+		}
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();
 		if(app.enableFileFeatures()){

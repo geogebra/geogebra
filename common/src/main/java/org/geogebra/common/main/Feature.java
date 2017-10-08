@@ -176,9 +176,6 @@ public enum Feature {
 	/** GGB-1810 */
 	AV_TEXT_ITEM,
 
-	/** GGB-1773 */
-	UNBUNDLING,
-
 	EXPORT_SCAD,
 
 	/** AND-343 */

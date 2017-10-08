@@ -143,10 +143,8 @@ public class PerspectivesMenuW extends GMenuBar {
 		if (Location.getPath().replace("/", "").equals(slug)) {
 			return;
 		}
-		if (app.has(Feature.UNBUNDLING)) {
-			Browser.changeUrl("/classic/" + slug);
-		} else {
-			Browser.changeUrl("/" + slug);
-		}
+
+		Browser.changeUrl("/classic/" + slug);
+
 	}
 }

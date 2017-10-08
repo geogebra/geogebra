@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GeoGebra Dinamikus munkalap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="gwt:property" content="locale=en">
+<script type="text/javascript">
+// for IE9
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function () { };
+
+            WebFontConfig = {
+                loading: function() {},
+                active: function() {},
+                inactive: function() {},
+				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
+				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
+                fontinactive: function(familyName, fvd) {},
+                custom: {
+                    families: ["geogebra-serif", "geogebra-sans-serif" ],
+                    urls: [ "web3d/css/fonts.css?v=1.15" ]
+                }
+            };
+</script>
+<script src="web3d/js/webfont.js?v=1.15"></script>
+</head>
+<body>
+    <script type="text/javascript"  src="web3d/web3d.nocache.js"></script>
+    
+    <div style="margin-left:100px;margin-top:100px;" id="parent"><div>
+    <article class="geogebraweb" data-param-showLogging="true"
+   data-param-showAlgebraInput="true"
+    data-param-showToolBar="true"
+    data-param-scale="1"
+    data-param-xallowStyleBar="true"
+    data-param-prerelease="false"
+    data-param-enableRightClick="true"
+    data-param-showResetIcon="true"
+    data-param-showTutorialLink="true"
+    data-param-appName="graphing"
+    data-param-width="1249"
+    data-param-materialsApi="null"
+    data-param-height="588"></article>
+    </div></div>
+</body>
+</html>
