@@ -147,7 +147,7 @@ public class DrawGrid {
 			double startGrid = start + topSubGrids * tickStepY / n;
 			pix = startGrid;
 			for (int j = 0; pix <= yAxisEnd; j++) {
-				drawHorizontalGridLine(g2, pix, left, xCrossPix, yCrossPix);
+				drawHorizontalGridLine(g2, pix, left, yCrossPix);
 				pix = startGrid + (j * tickStepY);
 			}
 			g2.endAndDrawGeneralPath();
@@ -159,7 +159,7 @@ public class DrawGrid {
 			for (int j = 0; pix <= yAxisEnd; j++) {
 				if ((j - topSubGrids - 1) % n != 0) {
 					// don't draw over main grid
-					drawHorizontalGridLine(g2, pix, left, xCrossPix, yCrossPix);
+					drawHorizontalGridLine(g2, pix, left, yCrossPix);
 				}
 				pix = start + (j * tickStepY / n);
 			}
@@ -202,7 +202,8 @@ public class DrawGrid {
 		}
 	}
 
-	private void drawHorizontalGridLine(GGraphics2D g2, double pix, double left, double xCrossPix, double yCrossPix) {
+	private void drawHorizontalGridLine(GGraphics2D g2, double pix, double left,
+			double yCrossPix) {
 		// don't draw the grid line x=0 if the y-axis is showing
 		// or if it's too close (eg sticky axes)
 		if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
@@ -231,8 +232,8 @@ public class DrawGrid {
 						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 
 					// hits axis label, draw in 2 sections
-					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(), pix,
-							xCrossPix);
+					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(),
+							pix);
 				} else {
 
 					// not hitting axis label, just draw it
@@ -435,7 +436,7 @@ public class DrawGrid {
 	}
 
 	private void drawLineAvoidingLabelsH(GGraphics2D g2, double x1, double y1,
-			double x2, double y2, double xCrossPix) {
+			double x2, double y2) {
 
 		addStraightLineToGeneralPath(g2, x1, y1, x2, y2);
 

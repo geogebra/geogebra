@@ -129,14 +129,14 @@ public class PerspectivesMenuW extends GMenuBar {
 				&& app.getArticleElement().getDataParamApp()) {
 			Browser.changeMetaTitle(app.getLocalization()
 					.getMenu(Layout.getDefaultPerspectives(index).getId()));
-			updateURL(app, Perspective.getPerspectiveSlug(index));
+			updateURL(Perspective.getPerspectiveSlug(index));
 		}
 		if (changed) {
 			app.storeUndoInfo();
 		}
 	}
 
-	private static void updateURL(AppW app, String slug) {
+	private static void updateURL(String slug) {
 		// temporary: /graphing and /geometry in stable still point to
 		// classic; the URLs should be rewritten to eg /classic#3d and not
 		// changed when current perspective is selected
