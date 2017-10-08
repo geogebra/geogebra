@@ -236,6 +236,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 	private void setKeyListener(final Widget html2,
 			final KeyListener keyListener) {
+		html2.getElement().setAttribute("role", "application");
 		html2.addDomHandler(new KeyPressHandler() {
 
 			@Override

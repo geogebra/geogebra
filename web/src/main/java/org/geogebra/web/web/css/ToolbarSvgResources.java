@@ -19,73 +19,73 @@ public interface ToolbarSvgResources extends ClientBundle {
 	SVGResource mode_angle_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_anglefixed.svg")
-		SVGResource mode_anglefixed_32();
+	SVGResource mode_anglefixed_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_angularbisector.svg")
-		SVGResource mode_angularbisector_32();
+	SVGResource mode_angularbisector_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_area.svg")
-		SVGResource mode_area_32();
+	SVGResource mode_area_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_attachdetachpoint.svg")
-		SVGResource mode_attachdetachpoint_32();
+	SVGResource mode_attachdetachpoint_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_buttonaction.svg")
-		SVGResource mode_buttonaction_32();
+	SVGResource mode_buttonaction_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circle2.svg")
-		SVGResource mode_circle2_32();
+	SVGResource mode_circle2_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circle3.svg")
-		SVGResource mode_circle3_32();
+	SVGResource mode_circle3_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circlearc3.svg")
-		SVGResource mode_circlearc3_32();
+	SVGResource mode_circlearc3_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circlepointradius.svg")
-		SVGResource mode_circlepointradius_32();
+	SVGResource mode_circlepointradius_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circlesector3.svg")
-		SVGResource mode_circlesector3_32();
+	SVGResource mode_circlesector3_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circumcirclearc3.svg")
-		SVGResource mode_circumcirclearc3_32();
+	SVGResource mode_circumcirclearc3_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_circumcirclesector3.svg")
-		SVGResource mode_circumcirclesector3_32();
+	SVGResource mode_circumcirclesector3_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_compasses.svg")
-		SVGResource mode_compasses_32();
+	SVGResource mode_compasses_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_complexnumber.svg")
-		SVGResource mode_complexnumber_32();
+	SVGResource mode_complexnumber_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_conic5.svg")
-		SVGResource mode_conic5_32();
+	SVGResource mode_conic5_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_copyvisualstyle.svg")
-		SVGResource mode_copyvisualstyle_32();
+	SVGResource mode_copyvisualstyle_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_createlist.svg")
-		SVGResource mode_createlist_32();
+	SVGResource mode_createlist_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_delete.svg")
-		SVGResource mode_delete_32();
+	SVGResource mode_delete_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_dilatefrompoint.svg")
-		SVGResource mode_dilatefrompoint_32();
+	SVGResource mode_dilatefrompoint_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_distance.svg")
-		SVGResource mode_distance_32();
+	SVGResource mode_distance_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ellipse3.svg")
-		SVGResource mode_ellipse3_32();
+	SVGResource mode_ellipse3_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_extremum.svg")
-		SVGResource mode_extremum_32();
+	SVGResource mode_extremum_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_fitline.svg")
-		SVGResource mode_fitline_32();
+	SVGResource mode_fitline_32();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_freehandshape.svg")
 	SVGResource mode_freehandshape_32();
