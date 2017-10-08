@@ -4986,6 +4986,30 @@ namespace giac {
     }
 #endif
     modpoly::const_iterator it=p.begin(),itend=p.end();
+    if (x.type==_CPLX && x.subtype==3){
+      complex<double> res(0),X(x._CPLXptr->_DOUBLE_val,(x._CPLXptr+1)->_DOUBLE_val);
+      bool ok=true;
+      for (;ok && it!=itend;++it){
+	res *=X;
+	switch (it->type){
+	case _INT_:
+	  res += it->val;
+	  break;
+	case _DOUBLE_:
+	  res += it->_DOUBLE_val;
+	  break;
+	case _CPLX:
+	  if (it->subtype==3){
+	    res += complex<double>(it->_CPLXptr->_DOUBLE_val,(it->_CPLXptr+1)->_DOUBLE_val);
+	    break;
+	  }
+	default:
+	  ok=false;
+	}
+      }
+      if (ok) return res;
+    }
+    it=p.begin();
     gen res(*it);
     ++it;
     if (env && env->moduloon){

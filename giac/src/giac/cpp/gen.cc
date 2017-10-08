@@ -8947,8 +8947,19 @@ namespace giac {
 	  return symb_of(tmp,i);
 	gen res=i;
 	int n=tmp._VECTptr->back().val;
-	if (n<0)
-	  return gensizeerr(contextptr);
+	if (n<0){
+	  // try to invert the function
+	  gen x(identificateur("xinvert")),y(identificateur("yinvert"));
+	  gen f=tmp._VECTptr->front();
+	  gen s=_solve(makesequence(symb_equal(f(x,contextptr),y),x),contextptr);
+	  if (s.type!=_VECT || s._VECTptr->size()<1 || is_undef(s._VECTptr->front()))
+	    return gensizeerr("Unable to invert function");
+	  if (s._VECTptr->size()>1)
+	    *logptr(contextptr) << "Choosing first solution in "<<s<<endl;
+	  f=symb_program(y,0,s._VECTptr->front(),contextptr);
+	  n=-n;
+	  tmp=makesequence(f,n);
+	}
 	if (!n)
 	  return i;
 	int ratnormal_test=MAX_RECURSION_LEVEL/2;
