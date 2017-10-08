@@ -4204,12 +4204,6 @@ public abstract class App implements UpdateSelection {
 		case AV_ITEM_DESIGN:
 			return relaunch || isNativeMobileAppWithNewUI();
 
-		case AV_PLAY_ONLY:
-			return relaunch;
-
-		case AV_TEXT_ITEM:
-			return relaunch;
-
 		case AV_PLUS:
 			return relaunch;
 
@@ -4251,10 +4245,6 @@ public abstract class App implements UpdateSelection {
 
 		case OBJECT_DEFAULTS_AND_COLOR:
 			return relaunch && isUnbundledOrWhiteboard();
-
-		/** GGB-1838 */
-		case ZOOM_PANEL:
-			return true;
 
 		case SHOW_STEPS:
 			return prerelease;

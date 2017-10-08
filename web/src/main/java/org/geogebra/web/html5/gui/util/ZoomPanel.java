@@ -498,8 +498,7 @@ public class ZoomPanel extends FlowPanel
 	 * @return true if app needs zoom panel.
 	 */
 	public static boolean neededFor(AppW app) {
-		return (needsZoomButtons(app) || needsFullscreenButton(app))
-				&& app.has(Feature.ZOOM_PANEL);
+		return needsZoomButtons(app) || needsFullscreenButton(app);
 	}
 
 	/**

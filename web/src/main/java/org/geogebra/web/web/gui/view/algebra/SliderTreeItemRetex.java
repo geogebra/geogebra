@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -164,7 +163,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 		int width = getAV().getOffsetWidth() - 2 * marblePanel.getOffsetWidth()
 				+ SLIDER_EXT;
-		if (app.has(Feature.AV_PLAY_ONLY) && controls.getAnimPanel() != null) {
+		if (controls.getAnimPanel() != null) {
 			width -= controls.getAnimPanel().getPlayButton().getOffsetWidth();
 		}
 		slider.setWidth(width);

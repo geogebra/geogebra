@@ -196,9 +196,7 @@ public class ItemControls extends FlowPanel
 	protected void createAnimPanel() {
 		GeoElement geo = radioTreeItem.geo;
 		if (geo.isAnimatable() && animPanelFits(geo)) {
-			animPanel = radioTreeItem.app.has(Feature.AV_PLAY_ONLY)
-					? new AnimPanel(radioTreeItem, this)
-					: new AnimPanel(radioTreeItem);
+			animPanel = new AnimPanel(radioTreeItem, this);
 		} else {
 			animPanel = null;
 		}

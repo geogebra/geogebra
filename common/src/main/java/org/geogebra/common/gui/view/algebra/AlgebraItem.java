@@ -245,8 +245,7 @@ public class AlgebraItem {
 	}
 
 	public static boolean isTextItem(GeoElement geo) {
-		return geo.getConstruction().getApplication().has(Feature.AV_TEXT_ITEM)
-				&& geo instanceof GeoText && !((GeoText) geo).isLaTeX()
+		return geo instanceof GeoText && !((GeoText) geo).isLaTeX()
 				&& !(geo).isTextCommand();
 	}
 }

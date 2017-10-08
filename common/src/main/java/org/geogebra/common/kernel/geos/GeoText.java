@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.ExtendedBoolean;
@@ -1443,8 +1442,7 @@ public class GeoText extends GeoElement
 
 	@Override
 	public String getDefinitionForEditor() {
-		if (!getConstruction().getApplication().has(Feature.AV_TEXT_ITEM)
-				|| !this.isIndependent()) {
+		if (!this.isIndependent()) {
 			return super.getDefinitionForEditor();
 		}
 

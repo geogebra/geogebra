@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -77,7 +76,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		this.radioTreeItem = radioTreeItem;
 		this.listener = listener;
 		addStyleName("elemRow");
-		playOnly = radioTreeItem.app.has(Feature.AV_PLAY_ONLY);
+		playOnly = true;
 		
 		if (playOnly) {
 			buildPlayOnly();

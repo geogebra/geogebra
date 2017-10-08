@@ -170,12 +170,6 @@ public enum Feature {
 	/** GGB-1756 */
 	STORE_IMAGES_ON_APPS_PICKER,
 
-	/** GGB-1732 */
-	AV_PLAY_ONLY,
-
-	/** GGB-1810 */
-	AV_TEXT_ITEM,
-
 	EXPORT_SCAD,
 
 	/** AND-343 */
@@ -218,8 +212,6 @@ public enum Feature {
 
 	/** AND-422 */
 	AND_COLLECT_ADAPTER_NOTIFICATIONS,
-
-	ZOOM_PANEL,
 
 	MOB_TOOLSET_LEVELS, SHOW_STEPS,
 

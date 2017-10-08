@@ -307,7 +307,7 @@ public class RadioTreeItem extends AVTreeItem
 		createAvexWidget();
 		addAVEXWidget(content);
 		getWidget().addStyleName("latexEditor");
-		if (app.isUnbundled() && app.has(Feature.AV_PLAY_ONLY)
+		if (app.isUnbundled()
 				&& geo0.getParentAlgorithm() != null
 				&& geo0.getParentAlgorithm() instanceof AlgoPointOnPath) {
 			getWidget().getElement().getStyle().setProperty("height", 72,
