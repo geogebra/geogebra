@@ -24,7 +24,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.main.Feature;
 
 /**
  * Polynomial remainder
@@ -97,62 +96,8 @@ public class AlgoPolynomialDivision extends AlgoElement {
 			return;
 		}
 
-		if (kernel.getApplication().has(Feature.NON_CAS_POLYNOMIAL_DIVISION)) {
+		nonCASDivision(kernel, f1, f2, g, h);
 
-			nonCASDivision(kernel, f1, f2, g, h);
-
-			return;
-
-		}
-
-		try {
-			// get function and function variable string using temp variable
-			// prefixes,
-			// e.g. f(x) = a x^2 returns {"ggbtmpvara ggbtmpvarx^2",
-			// "ggbtmpvarx"}
-			String[] funVarStr1 = f1.getTempVarCASString(false);
-			String[] funVarStr2 = f2.getTempVarCASString(false);
-
-			sb.setLength(0);
-			sb.append("Div(");
-			sb.append(funVarStr1[0]); // function f1 expression
-			sb.append(",");
-			sb.append(funVarStr2[0]); // function f2 expression
-			sb.append(")");
-
-			// cached evaluation of MPReduce as we are only using variable
-			// values
-			String functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-					arbconst);
-			if (functionOut == null || functionOut.length() == 0) {
-				g.setUndefined();
-			} else {
-				// read result back into function
-				g.set(kernel.getAlgebraProcessor()
-						.evaluateToFunction(functionOut, false));
-			}
-
-			sb.setLength(0);
-			sb.append("Mod(");
-			sb.append(funVarStr1[0]); // function f1 expression
-			sb.append(",");
-			sb.append(funVarStr2[0]); // function f2 expression
-			sb.append(")");
-
-			// cached evaluation of MPReduce as we are only using variable
-			// values
-			functionOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
-					arbconst);
-			if (functionOut == null || functionOut.length() == 0) {
-				h.setUndefined();
-			} else {
-				// read result back into function
-				h.set(kernel.getAlgebraProcessor()
-						.evaluateToFunction(functionOut, false));
-			}
-		} catch (Throwable th) {
-			g.setUndefined();
-		}
 	}
 
 	/**

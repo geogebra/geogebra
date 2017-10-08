@@ -184,17 +184,11 @@ public enum Feature {
 	/** MOB-1241 */
 	MOB_INPUT_BAR_SOLVE,
 
-	/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
-	NON_CAS_POLYNOMIAL_DIVISION,
-
 	/** GGB-1876 */
 	DOUBLE_ROUND_BRACKETS,
 
 	/** GGB-1708 */
 	INPUT_BAR_ADD_SLIDER,
-
-	/** GGB-1880 */
-	AXES_NUMBERS_WHITE_BACKGROUND,
 
 	/** GGB-1881 */
 	MINOR_GRIDLINES,

@@ -3776,10 +3776,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		yLabelMaxWidthNeg = 0;
 		xLabelHeights = estimateNumberHeight(getFontAxes());
 
-		if (app.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
-			if (showGrid) {
-				drawGrid(g);
-			}
+		if (showGrid) {
+			drawGrid(g);
 		}
 
 		// this will fill axesLabelsBounds with the rectangles where the axes
@@ -3791,12 +3789,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			da.drawAxes(g);
 			if (!app.has(Feature.TICK_NUMBERS_AT_EDGE)) {
 				drawCornerCoordsIfNeeded(g);
-			}
-		}
-
-		if (!app.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
-			if (showGrid) {
-				drawGrid(g);
 			}
 		}
 

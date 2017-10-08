@@ -387,9 +387,8 @@ public class DrawAxis {
 		double xoffset = -4 - (fontsize / 4);
 		double yoffset = (fontsize / 2) - 1;
 		
-		boolean enableTicks = !view.getApplication()
-				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND) || (view.getApplication()
-				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND) && !view.getShowGrid());
+		boolean enableTicks = !view.getShowGrid(); // TODO what if axis and grid
+													// tick distances differ
 		
 		boolean[] drawMajorTicks = {
 				view.axesTickStyles[0] <= 1 && enableTicks,
@@ -898,13 +897,11 @@ public class DrawAxis {
 	 */
 	void drawString(GGraphics2D g2, String text, double x, double y) {
 
-		if (view.getShowGrid() && view.getApplication()
-				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)) {
-			g2.setColor(view.getBackgroundCommon());
-			g2.setStrokeLineWidth(view.getFontAxes().getSize() / 3d);
-			g2.drawStringStroke(text, x, y);
-		}
 		
+		g2.setColor(view.getBackgroundCommon());
+		g2.setStrokeLineWidth(view.getFontAxes().getSize() / 3d);
+		g2.drawStringStroke(text, x, y);
+
 		g2.setColor(view.axesColor);
 		g2.drawString(text, (int) (x), (int) y);
 
@@ -915,11 +912,8 @@ public class DrawAxis {
 			double xAxisStart) {
 		double yoffset = view.getYOffsetForXAxis(fontsize);
 
-		boolean enableTicks = !view.getApplication()
-				.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)
-				|| (view.getApplication()
-						.has(Feature.AXES_NUMBERS_WHITE_BACKGROUND)
-						&& !view.getShowGrid());
+		boolean enableTicks = !view.getShowGrid(); // TODO what if grid and axes
+													// tick distances differ?
 		boolean[] drawMajorTicks = { view.axesTickStyles[0] <= 1 && enableTicks,
 				view.axesTickStyles[1] <= 1 && enableTicks };
 		boolean[] drawMinorTicks = { view.axesTickStyles[0] == 0 && enableTicks,

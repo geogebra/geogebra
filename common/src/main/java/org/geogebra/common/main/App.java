@@ -4229,13 +4229,6 @@ public abstract class App implements UpdateSelection {
 		case DOUBLE_ROUND_BRACKETS:
 			return prerelease;
 
-		case AXES_NUMBERS_WHITE_BACKGROUND:
-			return true;
-
-		/** /GGB-1895 Div[], Mod[], Division[] of polynomials */
-		case NON_CAS_POLYNOMIAL_DIVISION:
-			return true;
-
 		/** GGB-1881 */
 		case MINOR_GRIDLINES:
 			return true;
