@@ -4251,10 +4251,6 @@ public abstract class App implements UpdateSelection {
 		case DYNAMIC_STYLEBAR_SELECTION_TOOL:
 			return relaunch;
 
-		/** GGB-1958 */
-		case ONLY_ONE_ZERO:
-			return true;
-
 		case CENTER_STANDARD_VIEW:
 			return relaunch;
 

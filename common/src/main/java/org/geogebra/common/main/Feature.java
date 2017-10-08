@@ -215,9 +215,6 @@ public enum Feature {
 	/** GGB-1910 */
 	LABEL_SETTING_ON_STYLEBAR,
 
-	/** GGB-1958 */
-	ONLY_ONE_ZERO,
-
 	/** GGB-1960 */
 	DELETE_BUTTON_BEHAVIOR_FIX,
 

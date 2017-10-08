@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPolynomialFromCoordinates;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -35,8 +34,6 @@ public class AlgoPolynomialDivision extends AlgoElement {
 	private GeoFunction f1, f2; // input
 	private GeoFunction g, h; // output
 	private GeoList result;
-	private StringBuilder sb = new StringBuilder();
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons

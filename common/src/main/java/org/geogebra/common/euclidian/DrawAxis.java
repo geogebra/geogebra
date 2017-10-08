@@ -240,8 +240,7 @@ public class DrawAxis {
 			}
 		}
 
-		if (view.getApplication().has(Feature.ONLY_ONE_ZERO)
-				&& (!view.logAxes[0] || !view.logAxes[1])) {
+		if (!view.logAxes[0] || !view.logAxes[1]) {
 			if (view.axisCross[0] == 0 && view.axisCross[1] == 0) {
 				drawZero(g2, xCrossPix, yCrossPix, fontsize);
 			}
@@ -522,8 +521,7 @@ public class DrawAxis {
 							y = (int) (pix + yoffset);
 						}
 
-						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								|| !bothNull){
+						if (!bothNull) {
 							if (view.getApplication()
 									.has(Feature.TICK_NUMBERS_AT_EDGE)) {
 								numbers.add(new TickNumber(g2, sb.toString(), x, y,
@@ -707,23 +705,11 @@ public class DrawAxis {
 		}
 
 		public void draw() {
-			// At the left and right edge numbers will be stayed
-			// at the border
-			if (view.getApplication().has(Feature.ONLY_ONE_ZERO)) {
-				Integer x2 = getXPositionAtEdge(xCrossPix, xoffset, width);
-				if (x2 != null) {
-					x = x2;
-				}
-			} else {
-				double leftLimit = (view.yLabelMaxWidthNeg > 0
-						? view.yLabelMaxWidthNeg : view.yLabelMaxWidthPos) + 10;
+			// At the left and right edge numbers will stay at the border
 
-				if (xCrossPix < leftLimit) {
-					x = (int) ((leftLimit + xoffset) - width);
-				} else if (xCrossPix > view.getWidth()) {
-					x = (int) (view.getWidth() - width + xoffset);
-				}
-
+			Integer x2 = getXPositionAtEdge(xCrossPix, xoffset, width);
+			if (x2 != null) {
+				x = x2;
 			}
 
 			drawString(g2, text, x, y);
@@ -1028,9 +1014,8 @@ public class DrawAxis {
 
 						boolean bothNull = zero && view.axisCross[0] == 0
 								&& view.axisCross[1] == 0;
-						
-						if (!view.getApplication().has(Feature.ONLY_ONE_ZERO)
-								|| !bothNull) {
+
+						if (!bothNull) {
 							drawString(g2, sb.toString(), x, y);
 						}
 

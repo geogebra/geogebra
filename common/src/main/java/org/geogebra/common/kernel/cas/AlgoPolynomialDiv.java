@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.cas;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -28,9 +27,6 @@ public class AlgoPolynomialDiv extends AlgoElement {
 
 	private GeoFunction f1, f2; // input
 	private GeoFunction g; // output
-
-	private StringBuilder sb = new StringBuilder();
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	/**
 	 * @param cons
