@@ -2050,6 +2050,11 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral[(a*(acosh(1-((x-m)/a))))*(a*(acosh(1-((x-m)/a))))]", result:"a\u00B2 ((-1) / 2 a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 - 1 / 2 a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)\u00B2 / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) + a (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) - a ln(sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1) / (sqrt(((-(-m + x)) / a + 1)\u00B2 - 1) - (-m + x) / a + 1)) + c_0" },
 { cat:"Evaluate", cmd:"Evaluate[(2x-1)/(x y)+3/x-2/y]", result:"(3y - 1) / (x y)", notes:"reported as ((3y-1)/x)/y on GGB6/macOS"},
 { cat:"ToComplex", cmd:"ToComplex[Vector[(1,2)]]", result:"1 + 2\u03AF" }
+// not working { cat:"Integrate", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),0,2pi)", result:"6 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
+{ cat:"Integrate", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),0,pi/2)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
+{ cat:"Integrate", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),pi/2,pi)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
+{ cat:"Integrate", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),pi,3pi/2)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
+{ cat:"Integrate", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),3pi/2,2pi)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
 // JSONEND
 // +c not at end { cat:"Integral", cmd:"Integral[6x^2-2x-1/x+1/x^2]", result:"2x\u00B3 - x\u00B2 - 1 / x - ln(abs(x)) + c_0" },
 
