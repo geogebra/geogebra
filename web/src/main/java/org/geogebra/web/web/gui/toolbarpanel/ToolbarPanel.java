@@ -244,7 +244,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		@Override
 		public void focusFirstElement() {
-			aview.getItem(0).getElement().focus();
+			aview.focusFirst();
 		}
 
 		@Override

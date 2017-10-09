@@ -469,9 +469,10 @@ public class GlobalKeyDispatcherW extends
 		Log.debug("KEY pressed::"
 				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()) + " in "
 				+ getActive());
-
+		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (app.has(Feature.TAB_ON_GUI) && !isTabOverGeos()
-				&& event.getNativeKeyCode() == 9) {
+				&& kc == KeyCodes.TAB) {
+			event.stopPropagation();
 			return;
 		}
 
@@ -501,7 +502,6 @@ public class GlobalKeyDispatcherW extends
 		// necessary to move it to here because preventDefault only
 		// works here for the TAB key, otherwise both the default
 		// browser action (for tabindex) and custom code would run
-		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
 		if (kc == KeyCodes.TAB) {
 
 			// event.stopPropagation() is already called!

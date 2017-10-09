@@ -21,6 +21,9 @@ public class GUITabs {
 	/** Start tab index of algebra widgets */
 	public static final int AV_TAB_START = 4000;
 
+	/** Maximum tab count within one AV item */
+	public static final int AV_MAX_TABS_IN_ITEM = 50;
+
 	/** Tab index of floating move button in Tools tab. */
 	public static final int TOOLS_MOVE_TAB = 4900;
 
