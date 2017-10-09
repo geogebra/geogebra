@@ -246,10 +246,7 @@ public class RegressionPanel extends JPanel
 			if (daModel.getRegressionMode().equals(Regression.NONE)
 					|| statDialog.getRegressionModel() == null) {
 				eqn = "";
-			}
-
-			// nonlinear
-			else {
+			} else {
 				eqn = "y = " + statDialog.getRegressionModel()
 						.getFormulaString(highPrecision, true);
 			}
