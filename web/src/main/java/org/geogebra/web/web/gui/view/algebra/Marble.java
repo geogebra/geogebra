@@ -157,8 +157,12 @@ public class Marble extends SimplePanel
 		} else {
 			removeStyleName("marbleHidden");
 		}
-    }
+	}
 
+	/**
+	 * @param alt
+	 *            alternativve text for assistive technology
+	 */
 	public void setAltText(String alt) {
 		getElement().setAttribute("alt", alt);
 	}

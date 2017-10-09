@@ -160,6 +160,16 @@ public class MathFieldW implements MathField, IsWidget {
 		setKeyListener(wrap, keyListener);
 	}
 
+	/**
+	 * @param label
+	 *            label for assistive technology
+	 */
+	public void setAriaLabel(String label) {
+		if (wrap != null) {
+			wrap.getElement().setAttribute("aria-label", label);
+		}
+	}
+
 	private static void initTimer() {
 		if (tick == null) {
 			tick = new Timer() {

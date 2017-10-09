@@ -1903,10 +1903,17 @@ public class RadioTreeItem extends AVTreeItem
 		mf = new MathFieldW(latexItem, canvas, getLatexController(),
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
 				app.getGlobalKeyDispatcher().getFocusHandler());
+		updateEditorAriaLabel();
 		mf.setFontSize(getFontSize());
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());
 		mf.setOnBlur(getLatexController());
+	}
+
+	private void updateEditorAriaLabel() {
+		if (mf != null) {
+			mf.setAriaLabel(loc.getMenu("EnterExpression"));
+		}
 	}
 
 	@Override
@@ -2026,8 +2033,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (controls != null) {
 			controls.setLabels();
 		}
-
-
+		updateEditorAriaLabel();
 	}
 
 	@Override

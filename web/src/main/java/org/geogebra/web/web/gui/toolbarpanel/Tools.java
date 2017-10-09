@@ -209,15 +209,15 @@ public class Tools extends FlowPanel implements SetLabels, TabHandler {
 			return null;
 		}
 
-		/**
-		 * @return the last button of the category.
-		 */
-		public StandardButton getLasButton() {
-			if (toolBtnList != null && toolBtnList.size() != 0) {
-				return toolBtnList.get(toolBtnList.size() - 1);
-			}
-			return null;
-		}
+		// /**
+		// * @return the last button of the category.
+		// */
+		// public StandardButton getLasButton() {
+		// if (toolBtnList != null && toolBtnList.size() != 0) {
+		// return toolBtnList.get(toolBtnList.size() - 1);
+		// }
+		// return null;
+		// }
 
 		private void initGui() {
 			categoryLabel = new Label(
