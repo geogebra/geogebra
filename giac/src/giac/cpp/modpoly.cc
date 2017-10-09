@@ -5057,6 +5057,44 @@ namespace giac {
 	}
 	return r;
       }
+      if (s==3 && v[2]==at_newton){
+	// Newton iteration for a polynomial
+	q=evalf_double(q,1,contextptr);
+	complex<double> x,num,den;
+	if (q.type==_DOUBLE_)
+	  x=q._DOUBLE_val;
+	else {
+	  if (q.type!=_CPLX || q.subtype!=3)
+	    return gensizeerr(contextptr);
+	  x=complex<double>(q._CPLXptr->_DOUBLE_val,(q._CPLXptr+1)->_DOUBLE_val);
+	}
+	const_iterateur it=p._VECTptr->begin(),itend=p._VECTptr->end();
+	double n=itend-it-1; gen tmp;
+	for (;it!=itend;--n,++it){
+	  num *= x;
+	  if (n) den *= x;
+	  switch (it->type){
+	  case _INT_:
+	    num += it->val;
+	    den += n*it->val;
+	    break;
+	  case _DOUBLE_:
+	    num += it->_DOUBLE_val;
+	    den += n*it->_DOUBLE_val;
+	    break;
+	  case _CPLX:
+	    tmp=it->subtype==3?*it:evalf_double(*it,1,contextptr);
+	    if (tmp.type==_CPLX && tmp.subtype==3){
+	      num += complex<double>(tmp._CPLXptr->_DOUBLE_val,(tmp._CPLXptr+1)->_DOUBLE_val);
+	      den += n*complex<double>(tmp._CPLXptr->_DOUBLE_val,(tmp._CPLXptr+1)->_DOUBLE_val);
+	      break;
+	    }
+	  default:
+	    return gentypeerr(contextptr);
+	  }
+	} // end for
+       	return x-num/den;
+      } // end newton iteration
       return horner(*p._VECTptr,q);
     }
     if (s==2)

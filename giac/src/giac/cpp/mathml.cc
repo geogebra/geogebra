@@ -710,7 +710,7 @@ namespace giac {
     if (!pixons.empty()){
       sprintf(pos,"width=\"320\" height=\"240\">\n");
       pos=buffer+strlen(buffer);
-      sprintf(pos,pixons.c_str());
+      sprintf(pos,"%s",pixons.c_str());
       return buffer;
     }
     if (ortho){
