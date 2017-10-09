@@ -7020,7 +7020,7 @@ namespace giac {
       if (a.is_symb_of_sommet(at_unit)){
 	if (equalposcomp(lidnt(a),cst_pi)!=0)
 	  return inv(evalf(a,1,contextptr),contextptr);
-	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(inv(a._SYMBptr->feuille._VECTptr->front(),contextptr),inv_distrib(a._SYMBptr->feuille._VECTptr->back(),contextptr))));
+	return new_ref_symbolic(symbolic(at_unit,makenewvecteur(inv(a._SYMBptr->feuille._VECTptr->front(),contextptr),calc_mode(contextptr)==1?inv(a._SYMBptr->feuille._VECTptr->back(),contextptr):inv_distrib(a._SYMBptr->feuille._VECTptr->back(),contextptr))));
       }
       if (equalposcomp(plot_sommets,a._SYMBptr->sommet))
 	return symbolic_plot_makevecteur( a._SYMBptr->sommet,inv(a._SYMBptr->feuille,contextptr),false,contextptr);

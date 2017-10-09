@@ -1141,9 +1141,6 @@ namespace giac {
 #endif
 	if (verbose)	
 	  cerr << "// Read " << n << " entries from cache " << filename << endl;
-#if defined VISUALC || defined BESTA_OS || defined FREERTOS
-	delete [] buf;
-#endif
 	return true;
       }
       multi.push_back(buf);

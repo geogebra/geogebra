@@ -17901,8 +17901,7 @@ namespace giac {
     int s=int(m.size());
     os << "[";
     for (int i=0;i<s;++i){
-      os << m[i] ;
-      if (i==s
+      os << m[i] << " ";
     }
     return "]" << os;
   }
