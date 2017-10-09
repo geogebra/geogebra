@@ -4,8 +4,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
 
@@ -28,7 +26,6 @@ public class MyToggleButton extends ToggleButton {
 		super(image);
 		this.image = image;
 		this.app = app;
-		setInputToAriaHidden();
 	}
 
 	/**
@@ -38,19 +35,6 @@ public class MyToggleButton extends ToggleButton {
 	public MyToggleButton(App app) {
 		super();
 		this.app = app;
-		setInputToAriaHidden();
-	}
-
-	/**
-	 * GWT inserts a hidden input with toggle button. Hidden input shouldn't get
-	 * the focus when reading.
-	 */
-	private void setInputToAriaHidden() {
-		NodeList<Element> inputElements = getElement()
-				.getElementsByTagName("input");
-		if (inputElements.getLength() > 0) {
-			inputElements.getItem(0).setAttribute("aria-hidden", "true");
-		}
 	}
 
 
