@@ -1667,6 +1667,7 @@ __GGB__keysVar.xh.menu = {
     "EndProbabilityOf": ")",
     "English": "IsiNgesi",
     "EnterAppletAddress": "Faka idilesi yeWeb ka Geogebra Applet",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Faka iNaniEkhulwini",
     "EnterWebAddress": "Faka iAddress yeWeb",
     "EqualVariance": "iVariance Elinganayo",

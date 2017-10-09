@@ -1667,6 +1667,7 @@ __GGB__keysVar.et.menu = {
     "EndProbabilityOf": ")",
     "English": "Inglise keel",
     "EnterAppletAddress": "Sisestage GeoGebra apleti veebiaadress",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Sisestage protsent",
     "EnterWebAddress": "Sisestage veebiaadress",
     "EqualVariance": "V\xf5rdne dispersioon",

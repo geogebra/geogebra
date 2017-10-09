@@ -1667,6 +1667,7 @@ __GGB__keysVar.in.menu = {
     "EndProbabilityOf": ")",
     "English": "Inggris",
     "EnterAppletAddress": "Masukan Alamat Web dari Apllet GeoGebra",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Masukan Prosentase",
     "EnterWebAddress": "Masukan Alamat Web",
     "EqualVariance": "Varians Sama",

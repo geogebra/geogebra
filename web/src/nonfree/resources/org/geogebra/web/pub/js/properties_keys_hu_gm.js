@@ -1667,6 +1667,7 @@ __GGB__keysVar.hu_gm.menu = {
     "EndProbabilityOf": ")",
     "English": "English",
     "EnterAppletAddress": "GeoGebra applet webc\xedm\xe9nek megad\xe1sa",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Sz\xe1zal\xe9k megad\xe1sa",
     "EnterWebAddress": "Webc\xedm megad\xe1sa",
     "EqualVariance": "Egyenl\u0151 variancia",

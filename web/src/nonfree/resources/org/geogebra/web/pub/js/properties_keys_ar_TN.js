@@ -1667,6 +1667,7 @@ __GGB__keysVar.ar_TN.menu = {
     "EndProbabilityOf": ")",
     "English": "\u0623\u0646\u062c\u0644\u064a\u0632\u064a",
     "EnterAppletAddress": "\u0627\u062f\u062e\u0644 \u0639\u0646\u0648\u0627\u0646 \u0627\u0644\u0623\u0628\u0644\u0627\u062a",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "\u0627\u062f\u062e\u0644 \u0627\u0644\u0646\u0633\u0628\u0629",
     "EnterWebAddress": "\u0627\u062f\u062e\u0644 \u0639\u0646\u0648\u0627\u0646 \u0627\u0644\u0648\u0627\u0628",
     "EqualVariance": "\u0627\u0644\u062a\u0628\u0627\u064a\u0646",

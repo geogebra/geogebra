@@ -1667,6 +1667,7 @@ __GGB__keysVar.cy.menu = {
     "EndProbabilityOf": ")",
     "English": "Saesneg",
     "EnterAppletAddress": "Mewnbynnu Cyfeiriad yr Applet Geogebra",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Enter percentage",
     "EnterWebAddress": "Mewnbynnu'r Cyfeiriad We",
     "EqualVariance": "Amrywiant Hafal",

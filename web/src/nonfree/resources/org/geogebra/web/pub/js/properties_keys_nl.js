@@ -1667,6 +1667,7 @@ __GGB__keysVar.nl.menu = {
     "EndProbabilityOf": ")",
     "English": "Engels",
     "EnterAppletAddress": "Enter de URL van het GeoGebra applet",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Voer het percentage in",
     "EnterWebAddress": "Enter URL",
     "EqualVariance": "Gelijke variantie",

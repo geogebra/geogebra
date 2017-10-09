@@ -1667,6 +1667,7 @@ __GGB__keysVar.is.menu = {
     "EndProbabilityOf": ")",
     "English": "Enska",
     "EnterAppletAddress": "Gefi\xf0 vefsl\xf3\xf0 fyrir GeoGebru sm\xe1forrit",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Setji\xf0 inn pr\xf3sent",
     "EnterWebAddress": "Gefi\xf0 vefsl\xf3\xf0",
     "EqualVariance": "J\xf6fn dreifni",

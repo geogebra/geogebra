@@ -1667,6 +1667,7 @@ __GGB__keysVar.cs.menu = {
     "EndProbabilityOf": ")",
     "English": "Angli\u010dtina",
     "EnterAppletAddress": "Zadat webovou adresu GeoGebra appletu",
+    "EnterExpression": "Vlo\u017ete v\xfdraz nebo rovnici.",
     "EnterPercentage": "Zadejte procentn\xed pod\xedl",
     "EnterWebAddress": "Zadat webovou adresu",
     "EqualVariance": "Rovnom\u011brn\xfd rozptyl",

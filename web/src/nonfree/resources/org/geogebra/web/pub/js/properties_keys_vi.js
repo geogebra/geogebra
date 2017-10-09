@@ -1667,6 +1667,7 @@ __GGB__keysVar.vi.menu = {
     "EndProbabilityOf": ")",
     "English": "Ti\u1ebfng Anh",
     "EnterAppletAddress": "Nh\u1eadp \u0111\u1ecba ch\u1ec9 web c\u1ee7a GeoGebra Applet",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Nh\u1eadp s\u1ed1 ph\u1ea7n tr\u0103m",
     "EnterWebAddress": "Nh\u1eadp \u0111\u1ecba ch\u1ec9 trang web",
     "EqualVariance": "Ph\u01b0\u01a1ng sai b\u1eb1ng nhau",

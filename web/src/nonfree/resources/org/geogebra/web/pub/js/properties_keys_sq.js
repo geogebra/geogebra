@@ -1667,6 +1667,7 @@ __GGB__keysVar.sq.menu = {
     "EndProbabilityOf": ")",
     "English": "Anglisht",
     "EnterAppletAddress": "Fut Adresen Web te GjeoGjebra Applet",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Fut perqindje",
     "EnterWebAddress": "Fut Adresen Web",
     "EqualVariance": "Variance e Barabarte",

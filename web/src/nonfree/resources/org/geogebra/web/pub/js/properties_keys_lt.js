@@ -1667,6 +1667,7 @@ __GGB__keysVar.lt.menu = {
     "EndProbabilityOf": ")",
     "English": "Angl\u0173",
     "EnterAppletAddress": "\u012eveskite GeoGebra pateikties adres\u0105",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "\u012evesti procentus",
     "EnterWebAddress": "\u012eveskite adres\u0105",
     "EqualVariance": "Lygi dispersija",

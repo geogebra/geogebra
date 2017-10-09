@@ -1667,6 +1667,7 @@ __GGB__keysVar.lv.menu = {
     "EndProbabilityOf": ")",
     "English": "Angliski",
     "EnterAppletAddress": "Ievad\u012bt GeoGebras t\u012bkla adresi",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Ievad\u012bt procentus",
     "EnterWebAddress": "Ievadi Web adresi",
     "EqualVariance": "Vien\u0101das izmai\u0146as",

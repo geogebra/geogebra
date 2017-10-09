@@ -1667,6 +1667,7 @@ __GGB__keysVar.sk.menu = {
     "EndProbabilityOf": ")",
     "English": "Angli\u0161tina",
     "EnterAppletAddress": "Zadajte webov\xfa adresu GeoGebra apletu",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Zadajte percento",
     "EnterWebAddress": "Zadajte webov\xfa adresu",
     "EqualVariance": "Rovn\xe1 variancia",

@@ -1667,6 +1667,7 @@ __GGB__keysVar.da.menu = {
     "EndProbabilityOf": ")",
     "English": "Engelsk",
     "EnterAppletAddress": "Indtast webadressen p\xe5 appletten",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Indtast procent",
     "EnterWebAddress": "Indtast webadressen",
     "EqualVariance": "Identisk varians",

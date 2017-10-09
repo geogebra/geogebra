@@ -1667,6 +1667,7 @@ __GGB__keysVar.mr.menu = {
     "EndProbabilityOf": ")",
     "English": "\u0907\u0902\u0917\u094d\u0930\u091c\u0940",
     "EnterAppletAddress": "Enter Web Address of GeoGebra Applet",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Enter percentage",
     "EnterWebAddress": "Enter Web Address",
     "EqualVariance": "Equal Variance",

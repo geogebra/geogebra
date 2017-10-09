@@ -1667,6 +1667,7 @@ __GGB__keysVar.eu.menu = {
     "EndProbabilityOf": ")",
     "English": "Ingelesa",
     "EnterAppletAddress": "Idatzi Geogebra-aplikazioaren Web-helbidea",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Sartu ehunekoa",
     "EnterWebAddress": "Sartu Web-Helbidea",
     "EqualVariance": "Bariantza Berdina",

@@ -1667,6 +1667,7 @@ __GGB__keysVar.ro.menu = {
     "EndProbabilityOf": ")",
     "English": "Englez\u0103",
     "EnterAppletAddress": "Introduce\u021bi adresa web a applet-ului GeoGebra",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Introduce\u021bi procentaj",
     "EnterWebAddress": "Introduce\u021bi adresa web",
     "EqualVariance": "Varian\u021b\u0103 egal\u0103",

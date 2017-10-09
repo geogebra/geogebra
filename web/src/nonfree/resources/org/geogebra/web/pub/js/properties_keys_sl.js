@@ -1667,6 +1667,7 @@ __GGB__keysVar.sl.menu = {
     "EndProbabilityOf": ")",
     "English": "Angle\u0161ki",
     "EnterAppletAddress": "Vnesi spletni naslov GeoGebra apleta",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Vnos procentov",
     "EnterWebAddress": "Vnesi spletni naslov",
     "EqualVariance": "Enakovredna varianca",

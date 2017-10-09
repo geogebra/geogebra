@@ -1667,6 +1667,7 @@ __GGB__keysVar.zh_TW.menu = {
     "EndProbabilityOf": ")",
     "English": "\u82f1\u6587",
     "EnterAppletAddress": "\u8acb\u8f38\u5165 GGB \u5716\u6a94\u7684\u7db2\u5740",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "\u8f38\u5165\u767e\u5206\u6bd4",
     "EnterWebAddress": "\u8f38\u5165\u7db2\u5740",
     "EqualVariance": "Equal Variance",

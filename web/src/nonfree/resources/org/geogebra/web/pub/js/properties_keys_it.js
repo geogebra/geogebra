@@ -1667,6 +1667,7 @@ __GGB__keysVar.it.menu = {
     "EndProbabilityOf": ")",
     "English": "Inglese",
     "EnterAppletAddress": "Digitare l'indirizzo Web dell'applet di GeoGebra",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "Inserire percentuale",
     "EnterWebAddress": "Digitare l'indirizzo Web",
     "EqualVariance": "Uguale varianza",

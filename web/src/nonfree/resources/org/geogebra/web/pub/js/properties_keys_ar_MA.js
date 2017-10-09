@@ -1667,6 +1667,7 @@ __GGB__keysVar.ar_MA.menu = {
     "EndProbabilityOf": ")",
     "English": "\u0623\u0646\u062c\u0644\u064a\u0632\u064a",
     "EnterAppletAddress": "Geogebra \u0623\u062f\u062e\u0644 \u0639\u0646\u0648\u0627\u0646 \u0627\u0644\u0648\u064a\u0628 \u0644\u0644\u062a\u0637\u0628\u064a\u0642 \u0627\u0644\u0635\u063a\u064a\u0631",
+    "EnterExpression": "Enter your equation or expression here.",
     "EnterPercentage": "\u0627\u062f\u062e\u0644 \u0627\u0644\u0646\u0633\u0628\u0629",
     "EnterWebAddress": "\u0623\u062f\u062e\u0644 \u0639\u0646\u0648\u0627\u0646 \u0627\u0644\u0648\u064a\u0628",
     "EqualVariance": "\u062a\u0628\u0627\u064a\u0646",
