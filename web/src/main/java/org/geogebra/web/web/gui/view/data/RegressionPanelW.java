@@ -270,14 +270,6 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 				eqn = "";
 			}
 
-			// linear
-			else if (daModel.getRegressionMode().equals(Regression.LINEAR)) {
-
-				eqn = statDialog.getRegressionModel().getFormulaString(
-						highPrecision, true);
-			}
-
-			// nonlinear
 			else {
 				eqn = "y = "
 						+ statDialog.getRegressionModel().getFormulaString(
