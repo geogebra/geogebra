@@ -85,7 +85,7 @@ public class DataAnalysisViewD extends JPanel
 	// main GUI panels
 	private DataPanelD dataPanel;
 	private StatisticsPanel statisticsPanel;
-	private RegressionPanel regressionPanel;
+	private RegressionPanelD regressionPanel;
 	private DataDisplayPanelD dataDisplayPanel1, dataDisplayPanel2;
 
 	private JSplitPane statDataPanel, displayPanel, comboPanelSplit;
@@ -252,7 +252,7 @@ public class DataAnalysisViewD extends JPanel
 		// regression panel
 
 		if (model.isRegressionMode()) {
-			regressionPanel = new RegressionPanel(app, this);
+			regressionPanel = new RegressionPanelD(app, this);
 		}
 
 		// ===========================================
@@ -345,7 +345,7 @@ public class DataAnalysisViewD extends JPanel
 		return dataDisplayPanel2;
 	}
 
-	public RegressionPanel getRegressionPanel() {
+	public RegressionPanelD getRegressionPanel() {
 		return regressionPanel;
 	}
 

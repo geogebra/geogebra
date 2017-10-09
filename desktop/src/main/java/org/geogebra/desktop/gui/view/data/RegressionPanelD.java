@@ -34,7 +34,7 @@ import org.geogebra.desktop.main.LocalizationD;
  * 
  * @author G. Sturr
  */
-public class RegressionPanel extends JPanel
+public class RegressionPanelD extends JPanel
 		implements ActionListener, StatPanelInterface {
 	private static final long serialVersionUID = 1L;
 
@@ -65,7 +65,7 @@ public class RegressionPanel extends JPanel
 	 * @param statDialog
 	 *            invoking instance of DataAnalysisView
 	 */
-	public RegressionPanel(AppD app, DataAnalysisViewD statDialog) {
+	public RegressionPanelD(AppD app, DataAnalysisViewD statDialog) {
 
 		this.app = app;
 		this.loc = app.getLocalization();
