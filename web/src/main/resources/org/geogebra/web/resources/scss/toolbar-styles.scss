@@ -313,6 +313,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 			.showMoveBtn {
 				@extend .moveFloatingBtn;
 				opacity: 1;	 
+				visibility: visible;
 				transition: opacity 0.2s ease;
 			}
 		
@@ -320,6 +321,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				@extend .moveFloatingBtn;
 				cursor: default;
 				opacity: 0;	
+				visibility: hidden;
 				transition: opacity 0.2s ease;
 		
 				img {
