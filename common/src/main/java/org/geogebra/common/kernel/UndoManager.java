@@ -120,6 +120,7 @@ public abstract class UndoManager {
 	 * Clears undo info list and adds current state to the undo info list.
 	 */
 	public synchronized void initUndoInfo() {
+		storeUndoInfoNeededForProperties = false;
 		clearUndoInfo();
 		storeUndoInfo();
 	}
