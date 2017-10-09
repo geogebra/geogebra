@@ -14,11 +14,11 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 
 /**
  * Algorithm to compute the circumference of a
@@ -89,7 +89,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 
 		// circumference of sector
 		if (conic.isGeoConicPart()) {
-			GeoConicPart conicPart = (GeoConicPart) conic;
+			GeoConicPartND conicPart = (GeoConicPartND) conic;
 			int partType = conicPart.getConicPartType();
 			if (type == GeoConicNDConstants.CONIC_CIRCLE
 					&& partType == GeoConicNDConstants.CONIC_PART_SECTOR) {
@@ -97,7 +97,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 				 * value of sector is area: area = r*r * paramExtent / 2;
 				 * arclength = r * paramExtent; arclength = area * 2/r;
 				 */
-				double area = conicPart.getValue();
+				double area = conicPart.getParameters().getValue();
 				double r = conic.getHalfAxis(0);
 				double arclength = area * 2.0 / r;
 
@@ -106,7 +106,7 @@ public class AlgoCircumferenceConic extends AlgoElement {
 			} else if (type == GeoConicNDConstants.CONIC_CIRCLE
 					&& partType == GeoConicNDConstants.CONIC_PART_ARC) {
 				// value of arc is curved length
-				double arclength = conicPart.getValue();
+				double arclength = conicPart.getParameters().getValue();
 				double r = conic.getHalfAxis(0);
 				double angle = conicPart.getParameterExtent();
 
