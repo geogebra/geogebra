@@ -1036,6 +1036,8 @@ namespace giac {
 	return in_autoscale(f,vx,vy,vz,contextptr);
       }
     }
+    if (g.is_symb_of_sommet(at_equal) && g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()==2 && g._SYMBptr->feuille._VECTptr->front()==_GL_ORTHO && !is_zero(g._SYMBptr->feuille._VECTptr->back()))
+      return true;
     return false;
   }
 

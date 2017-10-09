@@ -3302,7 +3302,7 @@ namespace giac {
 	s="giac::makesequence(";
       vecteur::const_iterator it=args._VECTptr->begin(), itend=args._VECTptr->end();
       if (it==itend)
-	return "";
+	return "gen(vecteur(0),"+print_INT_(args.subtype)+");";
       for(int i=0;;++i){
 	s += cprint(*it,(name.type==_VECT && i<name._VECTptr->size())?name[i]:zero,contextptr);
 	++it;
@@ -3315,6 +3315,14 @@ namespace giac {
       if (name==-1) s += ")";
       if (name==1) s += ";";
       return s;
+    }
+    if (args==cst_i)
+      return "cst_i";
+    if (args.type==_FUNC){
+      string name=args.print(contextptr);
+      if (name.size()>2 && name[0]=='\'' && name[name.size()-1]=='\'')
+	name=name.substr(1,name.size()-2);
+      return "at_"+name;
     }
     if (args.type!=_SYMB)
       return args.print(contextptr);
@@ -3356,7 +3364,7 @@ namespace giac {
       int i=cpp_vartype(f);
       if (i==_VECT)
 	return cprint(f,0,contextptr)+".size()";
-      return "cpp_convert_7("+cprint(f,0,contextptr)+").size()";
+      return "cpp_convert_7("+cprint(f,0,contextptr)+",contextptr).size()";
     }
     if (u==at_at && f.type==_VECT && f._VECTptr->size()==2){
       int i=cpp_vartype(f._VECTptr->front());
@@ -3476,7 +3484,7 @@ namespace giac {
     }
     if (u==at_local)
       return cprintvars(f[0][0],false,";\n",0,contextptr)+";\n"+cprint(f[1],1,contextptr);
-    if (u==at_for && f.type==_VECT && f._VECTptr->size()==4){
+    if ( (u==at_for || u==at_pour) && f.type==_VECT && f._VECTptr->size()==4){
       string res="for(";
       res = res +cprint(f[0],0,contextptr);
       res = res +';';
@@ -3490,7 +3498,7 @@ namespace giac {
     }
     if (u==at_bloc)
       return cprint(f,1,contextptr);
-    if (u==at_ifte && f.type==_VECT && f._VECTptr->size()==3){
+    if ( (u==at_ifte || u==at_si) && f.type==_VECT && f._VECTptr->size()==3){
       string res="if(";
       res = res +cprint(f[0],0,contextptr);
       res = res +"){\n";
@@ -3530,7 +3538,7 @@ namespace giac {
     }
     else
       res = '_'+res;
-    if (u.ptr()->printsommet==printsommetasoperator || (idf && (u==at_inferieur_strict || u==at_inferieur_egal || u==at_superieur_strict || u==at_superieur_egal))){
+    if (u.ptr()->printsommet==printsommetasoperator || u==at_division || (idf && (u==at_inferieur_strict || u==at_inferieur_egal || u==at_superieur_strict || u==at_superieur_egal))){
       int rs=int(res.size());
       if (idf || (rs==2 && (res[1]=='+' || res[1]=='*'))){
 	res=u.ptr()->print(contextptr);
@@ -3555,6 +3563,9 @@ namespace giac {
 	  break;
 	case '*':
 	  res="_prod";
+	  break;
+	case '/':
+	  res="_division";
 	  break;
 	case '<':
 	  res="_inferieur_strict";

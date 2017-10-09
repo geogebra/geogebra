@@ -6875,8 +6875,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	    convt=limit(conv,xid,curt+1,0,contextptr);
 	  }
 	  else {
-	    dfx=limit(f1,xid,(curt+nextt)/2,0,contextptr);
-	    dgx=limit(g1,xid,(curt+nextt)/2,0,contextptr);
+	    gen milieut=(curt+nextt)/2;
+	    gen curxd=evalf_double(curt,1,contextptr);
+	    gen nextxd=evalf_double(nextt,1,contextptr);
+	    if (curxd.type==_DOUBLE_ && nextxd.type==_DOUBLE_){
+	      double cd=curxd._DOUBLE_val,nd=nextxd._DOUBLE_val;
+	      if (nd-cd>1e-6*(std::abs(cd)+std::abs(nd))){
+		milieut=exact((cd+nd)/2,contextptr);
+	      }
+	    }
+	    dfx=limit(f1,xid,milieut,0,contextptr);
+	    dgx=limit(g1,xid,milieut,0,contextptr);
 	    convt=limit(conv,xid,(curt+nextt)/2,0,contextptr);
 	  }
 	}
@@ -7336,6 +7345,14 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  }
 	  else {
 	    gen m=(curx+nextx)/2;
+	    gen curxd=evalf_double(curx,1,contextptr);
+	    gen nextxd=evalf_double(nextx,1,contextptr);
+	    if (curxd.type==_DOUBLE_ && nextxd.type==_DOUBLE_){
+	      double cd=curxd._DOUBLE_val,nd=nextxd._DOUBLE_val;
+	      if (nd-cd>1e-6*(std::abs(cd)+std::abs(nd))){
+		m=exact((cd+nd)/2,contextptr);
+	      }
+	    }
 	    if (in_domain(df,x,m,contextptr)){
 	      dfx=limit(f1,xid,m,0,contextptr);
 	      df2=limit(f2,xid,m,0,contextptr);
