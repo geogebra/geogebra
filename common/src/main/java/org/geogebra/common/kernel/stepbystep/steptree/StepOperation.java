@@ -400,6 +400,12 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
+	public StepNode factor(SolutionBuilder sb) {
+		cleanColors();
+		return SimplificationSteps.DEFAULT_FACTOR.apply(this, sb, new int[] { 1 });
+	}
+
+	@Override
 	public StepNode getCoefficient() {
 		if (isConstant()) {
 			return this;

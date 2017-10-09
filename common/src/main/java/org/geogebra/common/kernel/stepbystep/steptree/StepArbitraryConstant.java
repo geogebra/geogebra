@@ -101,6 +101,11 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
+	public StepNode factor(SolutionBuilder sb) {
+		return this;
+	}
+
+	@Override
 	public StepNode getCoefficient() {
 		return this;
 	}

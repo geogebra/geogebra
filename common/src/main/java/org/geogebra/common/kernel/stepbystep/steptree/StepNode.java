@@ -277,6 +277,8 @@ public abstract class StepNode {
 	 */
 	public abstract StepNode expand(SolutionBuilder sb);
 
+	public abstract StepNode factor(SolutionBuilder sb);
+
 	/**
 	 * Non-special constants are StepConstants and minus(StepConstant)s, except for
 	 * pi and e

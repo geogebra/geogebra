@@ -77,6 +77,11 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
+	public StepNode factor(SolutionBuilder sb) {
+		return this;
+	}
+
+	@Override
 	public StepNode getCoefficient() {
 		return null;
 	}

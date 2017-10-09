@@ -891,39 +891,22 @@ public class EquationSteps {
 	}
 
 	private void findRationalRoots() {
-		int degree = StepHelper.degree(LHS);
+		if (inverted) {
+			StepOperation regrouped = (StepOperation) StepNode.equal(RHS, LHS).factor(steps);
 
-		int highestOrder = Math.abs((int) StepHelper.getCoefficientValue(LHS, StepNode.power(variable, degree)));
-		int constant = Math.abs((int) (StepHelper.findConstant(LHS).getValue()));
-
-		if (-30 > highestOrder || 30 < highestOrder || -30 > constant || 30 < constant) {
-			return;
-		}
-
-		StepNode factored = new StepConstant(1);
-
-		for (int i = 1; i <= highestOrder; i++) {
-			for (int j = -constant; j <= constant; j++) {
-				StepNode solution = StepNode.divide(new StepConstant(j), new StepConstant(i)).regroup();
-				double evaluated = LHS.getValueAt(variable, solution.getValue());
-
-				while (evaluated == 0) {
-					factored = StepNode.multiply(factored, StepNode.subtract(variable, solution)).regroup();
-					LHS = StepNode.polynomialDivision(LHS, StepNode.subtract(variable, solution), variable);
-
-					evaluated = LHS.getValueAt(variable, solution.getValue());
-				}
+			if (!regrouped.equals(StepNode.equal(RHS, LHS))) {
+				RHS = regrouped.getSubTree(0);
+				LHS = regrouped.getSubTree(1);
+				solveProduct((StepOperation) RHS);
 			}
-		}
+		} else {
+			StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).factor(steps);
 
-		if (!isOne(factored)) {
-			steps.add(SolutionStepType.RATIONAL_ROOT_THEOREM);
-			steps.add(SolutionStepType.TRIAL_AND_ERROR);
-
-			LHS = StepNode.multiply(LHS, factored).regroup();
-			addStep();
-
-			solveProduct((StepOperation) LHS);
+			if (!regrouped.equals(StepNode.equal(LHS, RHS))) {
+				LHS = regrouped.getSubTree(0);
+				RHS = regrouped.getSubTree(1);
+				solveProduct((StepOperation) LHS);
+			}
 		}
 	}
 

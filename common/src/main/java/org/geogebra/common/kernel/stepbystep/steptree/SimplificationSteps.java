@@ -1381,15 +1381,17 @@ public enum SimplificationSteps {
 					result.addSubTree(currentProduct);
 				}
 
+				int colorsAtStart = colorTracker[0];
 				StepNode common = null;
 				for (int i = 0; i < commonBases.size(); i++) {
-					common = StepNode.makeFraction(common, commonBases.get(i), commonExponents.get(i));
 					if (!isEqual(commonExponents.get(i), 0)) {
 						commonBases.get(i).setColor(colorTracker[0]++);
 					}
+					common = StepNode.makeFraction(common, commonBases.get(i), commonExponents.get(i));
 				}
 
 				if (isEqual(common, 1) || isEqual(common, -1)) {
+					colorTracker[0] = colorsAtStart;
 					return so;
 				}
 
@@ -1491,10 +1493,14 @@ public enum SimplificationSteps {
 							StepOperation newSum = new StepOperation(Operation.PLUS);
 							newSum.addSubTree(first);
 							newSum.addSubTree(second);
-							newSum.addSubTree(new StepConstant(b.getValue() * b.getValue() / 4));
-							newSum.addSubTree(new StepConstant(toComplete));
 
-							colorTracker[0]++;
+							StepNode asSum = add(new StepConstant(b.getValue() * b.getValue() / 4),
+									new StepConstant(toComplete));
+							third.setColor(colorTracker[0]);
+							asSum.setColor(colorTracker[0]++);
+							newSum.addSubTree(asSum);
+
+							sb.add(SolutionStepType.REPLACE_WITH, third, asSum);
 							return newSum;
 						}
 					}
@@ -1545,11 +1551,19 @@ public enum SimplificationSteps {
 							}
 
 							first.setColor(colorTracker[0]);
+							a.setColor(colorTracker[0]);
 							((StepOperation) second).getSubTree(1).setColor(colorTracker[0]++);
 							third.setColor(colorTracker[0]);
+							b.setColor(colorTracker[0]);
 							((StepOperation) second).getSubTree(2).setColor(colorTracker[0]++);
 
 							StepNode result = negative ? power(subtract(a, b), 2) : power(add(a, b), 2);
+
+							if (negative) {
+								sb.add(SolutionStepType.BINOM_SQUARED_DIFF_FACTOR);
+							} else {
+								sb.add(SolutionStepType.BINOM_SQUARED_SUM_FACTOR);
+							}
 
 							if (so.noOfOperands() == 3) {
 								return result;
@@ -1726,6 +1740,7 @@ public enum SimplificationSteps {
 								}
 
 								colorTracker[0]++;
+								sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
 								return reorganized;
 							}
 						}
@@ -1773,6 +1788,7 @@ public enum SimplificationSteps {
 								StepOperation factored = new StepOperation(Operation.PLUS);
 
 								StepNode innerSum = add(nonTrivialProduct(j, var), -i);
+								innerSum.setColor(colorTracker[0]++);
 								for (int k = polynomialForm.length - 1; k > 0; k--) {
 									factored.addSubTree(
 											multiply(nonTrivialProduct(integerForm[k] / j, nonTrivialPower(var, k - 1)),
@@ -1780,7 +1796,7 @@ public enum SimplificationSteps {
 									integerForm[k - 1] += i * integerForm[k] / j;
 								}
 
-								colorTracker[0]++;
+								sb.add(SolutionStepType.FACTOR_FROM_PAIR, innerSum);
 								return factored;
 							}
 						}

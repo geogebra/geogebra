@@ -210,8 +210,10 @@ public enum SolutionStepType {
 	DIFFERENCE_OF_CUBES_FACTOR("DifferenceOfCubes", "Use $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$ to factor"),
 	
 	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor", "Use $a^2-b^2 \\equiv (a+b)(a-b)$ to factor"),
-	
+
 	FACTOR_COMMON("FactorOutA", "Factor out %0"),
+
+	FACTOR_FROM_PAIR("FactorOutAFromEveryPair", "Factor out %0 from every pair"),
 
 	FACTOR_MINUS("FactorMinus", "Factor out the minus sign"),
 
