@@ -35,6 +35,7 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.SetTabs;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -71,7 +72,8 @@ import com.google.gwt.user.client.ui.TreeItem;
  *
  */
 public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
-		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW {
+		OpenHandler<TreeItem>, SettingListener, ProvidesResize, PrintableW,
+		SetTabs {
 	/**
 	 * Flag for LaTeX rendering
 	 */
@@ -1196,6 +1198,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			});
 		}
+		setTabIndex(GUITabs.AV_TAB_START);
 		updateSelection();
 	}
 
@@ -2388,5 +2391,38 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private int getNextTabIndex() {
 		return GUITabs.AV_TAB_START + getItemCount();
+	}
+
+	@Override
+	public void setTabIndex(int index) {
+		int tabIndex = index;
+
+		for (int i = 0; i < this.getItemCount(); i++) {
+			TreeItem item = this.getItem(i);
+			if (item instanceof SetTabs) {
+				((SetTabs) item).setTabIndex(tabIndex);
+				tabIndex += GUITabs.AV_MAX_TABS_IN_ITEM;
+			}
+		}
+	}
+
+	@Override
+	public void clearTabIndex() {
+		setTabIndex(GUITabs.NO_TAB);
+	}
+
+	/**
+	 * Focus the first AV item.
+	 */
+	public void focusFirst() {
+		for (int i = 0; i < this.getItemCount(); i++) {
+			TreeItem item = this.getItem(i);
+			if (item instanceof RadioTreeItem) {
+				Log.debug("FOCUS first: " + item.getText());
+				((RadioTreeItem) item).focus();
+				return;
+			}
+		}
+
 	}
 }

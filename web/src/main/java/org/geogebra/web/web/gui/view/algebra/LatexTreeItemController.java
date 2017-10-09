@@ -56,7 +56,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 			return;
 		}
 
-
 		item.onEnter(false);
 		if (item.isEmpty() && item.isInputTreeItem()) {
 			item.addDummyLabel();

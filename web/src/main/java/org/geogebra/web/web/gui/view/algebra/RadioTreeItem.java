@@ -58,11 +58,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.SetTabs;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.util.Resizer;
@@ -112,7 +114,7 @@ import com.himamis.retex.renderer.share.CursorBox;
 @SuppressWarnings("javadoc")
 public class RadioTreeItem extends AVTreeItem
 		implements MathKeyboardListener, 
-		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels {
+		AutoCompleteW, RequiresResize, HasHelpButton, SetLabels, SetTabs {
 
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
@@ -187,6 +189,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	private AsyncOperation<GeoElementND> suggestionCallback;
 	protected boolean first = false;
+	private boolean tabInside = false;
 
 	public void updateOnNextRepaint() {
 		needsUpdate = true;
@@ -2381,16 +2384,6 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	/**
-	 * Sets the tab index of the item.
-	 * 
-	 * @param tabIndex
-	 *            to set.
-	 */
-	public void setTabIndex(int tabIndex) {
-		main.getElement().setTabIndex(tabIndex);
-	}
-
-	/**
 	 * 
 	 * @return the tab index of the item.
 	 */
@@ -2400,6 +2393,49 @@ public class RadioTreeItem extends AVTreeItem
 
 	public void setAltText(String alt) {
 		main.getElement().setAttribute("alt", alt);
+	}
+
+	/**
+	 * Sets the tab index of the item.
+	 * 
+	 * @param tabIndex
+	 *            to set.
+	 */
+	public void setTabIndex(int tabIndex) {
+		getElement().setTabIndex(tabIndex);
+		if (isTabInside()) {
+			controls.setTabIndex(tabIndex);
+		} else {
+			controls.clearTabIndex();
+		}
+	}
+
+	public void clearTabIndex() {
+		setTabIndex(GUITabs.NO_TAB);
+	}
+
+	/**
+	 * @return true if TAB key should go to the child widgets of the item
+	 */
+	public boolean isTabInside() {
+		return true || tabInside;
+	}
+
+	/**
+	 * Sets that TAB key should go to the child widgets of the item or not
+	 * 
+	 * @param tabInside
+	 *            to set.
+	 */
+	public void setTabInside(boolean tabInside) {
+		this.tabInside = tabInside;
+	}
+
+	/**
+	 * Move HTML focus to this element
+	 */
+	public void focus() {
+		getElement().focus();
 	}
 }
 

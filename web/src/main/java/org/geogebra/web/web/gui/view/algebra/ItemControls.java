@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.CSSAnimation;
+import org.geogebra.web.web.gui.SetTabs;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.view.algebra.AnimPanel.AnimPanelListener;
 
@@ -33,7 +34,10 @@ import com.google.gwt.user.client.ui.ToggleButton;
  *
  */
 public class ItemControls extends FlowPanel
-		implements AnimPanelListener, SetLabels {
+		implements AnimPanelListener, SetLabels, SetTabs {
+	private static final int TAB_MORE = 10;
+	private static final int TAB_ANIM = 11;
+
 	/**
 	 * 
 	 */
@@ -126,7 +130,6 @@ public class ItemControls extends FlowPanel
 
 			});
 		}
-		btnMore.setTabIndex(GUITabs.NO_TAB);
 		return btnMore;
 
 	}
@@ -457,6 +460,22 @@ public class ItemControls extends FlowPanel
 	public void setLabels() {
 		if (cmMore != null) {
 			cmMore.setLabels();
+		}
+	}
+
+	public void setTabIndex(int index) {
+		if (btnMore != null) {
+			btnMore.setTabIndex(index + TAB_MORE);
+		}
+		if (hasAnimPanel()) {
+			animPanel.setTabIndex(index + TAB_ANIM);
+		}
+	}
+
+	public void clearTabIndex() {
+		setTabIndex(GUITabs.NO_TAB);
+		if (btnMore != null) {
+			btnMore.setTabIndex(GUITabs.NO_TAB);
 		}
 	}
 }

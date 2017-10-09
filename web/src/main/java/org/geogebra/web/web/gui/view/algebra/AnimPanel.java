@@ -1,11 +1,16 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.SetTabs;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -14,6 +19,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -24,7 +30,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Animation panel for points and sliders
  *
  */
-public class AnimPanel extends FlowPanel implements ClickHandler {
+public class AnimPanel extends FlowPanel implements ClickHandler, SetTabs {
 
 	/**
 	 * Animation speeds
@@ -43,7 +49,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private FlowPanel speedPanel;
 	private AnimPanelListener listener = null;
 	private Label lblSpeedValue;
-	
+	private List<CustomButton> buttons = new ArrayList<CustomButton>();
 	/**
 	 * Callback for play button
 	 */
@@ -167,7 +173,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		ClickStartHandler.initDefaults(btnSpeedUp, false, true);
 		ClickStartHandler.initDefaults(btnSpeedDown, false, true);
 		ClickStartHandler.initDefaults(lblSpeedValue, true, true);
-
+		buttons.add(btnSpeedUp);
+		buttons.add(btnSpeedDown);
 	}
 
 	private void createPlayButton() {
@@ -206,8 +213,6 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		}
 		btnPlay.setStyleName("avPlayButton");
 
-		btnPlay.setTabIndex(-1);
-
 		ClickStartHandler.init(btnPlay, new ClickStartHandler() {
 			@Override
 			public boolean onClickStart(int x, int y, PointerEventType type,
@@ -233,6 +238,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 				onClickStart(x, y, type, false);
 			}
 		});
+		buttons.add(btnPlay);
 
 	}
 
@@ -428,5 +434,20 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		return btnPlay;
 	}
 
+	@Override
+	public void setTabIndex(int index) {
+		int tabIndex = index;
+		for (CustomButton btn : buttons) {
+			btn.setTabIndex(tabIndex);
+			tabIndex++;
+		}
+	}
+
+	@Override
+	public void clearTabIndex() {
+		for (CustomButton btn : buttons) {
+			btn.setTabIndex(GUITabs.NO_TAB);
+		}
+	}
 
 }
