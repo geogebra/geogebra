@@ -228,7 +228,7 @@ public abstract class UndoManager {
 	public void setPropertiesOccured() {
 		if (!storeUndoInfoNeededForProperties) {
 			storeUndoInfoNeededForProperties = true;
-			if (undoPossible()) {
+			if (redoPossible()) {
 				pruneStateList();
 				updateUndoActions();
 			}
