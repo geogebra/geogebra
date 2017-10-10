@@ -890,6 +890,11 @@ namespace giac {
 	    if (egal!=0)
 	      *it=symb_equal(*it,egal);
 	  }
+	  if (thetype.val==_CPLX){
+	    newid=*it=gen(theid.print(contextptr)+"_c",contextptr);
+	    if (egal!=0)
+	      *it=symb_equal(*it,egal);
+	  }
 	  v2.push_back(newid);
 	  continue;
 	}

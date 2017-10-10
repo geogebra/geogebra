@@ -3112,6 +3112,17 @@ namespace giac {
     return h._DOUBLE_val;
   }
 
+  complex<double> cpp_convert_4(const gen & g,GIAC_CONTEXT){
+    gen h=evalf_double(g,1,context0);
+    if (h.type==_DOUBLE_)
+      return h._DOUBLE_val;
+    if (h.type!=_CPLX || h.subtype!=3){
+      gensizeerr(contextptr);
+      return 0;
+    }
+    return complex<double>(h._CPLXptr->_DOUBLE_val,(h._CPLXptr+1)->_DOUBLE_val);
+  }
+
   vecteur cpp_convert_7(const gen & g,GIAC_CONTEXT){
     if (g.type!=_VECT){
       gensizeerr(contextptr);
@@ -3168,6 +3179,8 @@ namespace giac {
       return 2;
     case _DOUBLE_:
       return _DOUBLE_;
+    case _CPLX:
+      return _CPLX;
     case _VECT:
       return _VECT;
     case _STRNG:
@@ -3204,6 +3217,8 @@ namespace giac {
 	return 2;
       case 'd':
 	return _DOUBLE_;
+      case 'c':
+	return _CPLX;
       case 'v':
 	return _VECT;
       case 's':
@@ -3239,6 +3254,10 @@ namespace giac {
 	case 'd':
 	  vtype="double ";
 	  if (typeptr) *typeptr=_DOUBLE_;
+	  break;
+	case 'c':
+	  vtype="complex<double> ";
+	  if (typeptr) *typeptr=_CPLX;
 	  break;
 	case 'v':
 	  vtype="giac::vecteur ";
@@ -3319,6 +3338,10 @@ namespace giac {
     if (args==cst_i)
       return "cst_i";
     if (args.type==_FUNC){
+      if (args==at_break)
+	return "break";
+      if (args==at_continue)
+	return "continue";
       string name=args.print(contextptr);
       if (name.size()>2 && name[0]=='\'' && name[name.size()-1]=='\'')
 	name=name.substr(1,name.size()-2);
@@ -3327,6 +3350,10 @@ namespace giac {
     if (args.type!=_SYMB)
       return args.print(contextptr);
     unary_function_ptr & u=args._SYMBptr->sommet;
+    if (u==at_break)
+      return "break";
+    if (u==at_continue)
+      return "continue";
     gen f=args._SYMBptr->feuille;
     if (u==at_sto && f.type==_VECT && f._VECTptr->size()==2){
 #if 1
@@ -3641,7 +3668,7 @@ namespace giac {
       of << "}" << endl;
       of.close();
       *logptr(contextptr) << "File " << filename << " created." << endl;
-      string cmd="indent -br -brf giac_"+funcname+".cpp";
+      string cmd="indent -br -brf -l256 giac_"+funcname+".cpp";
       *logptr(contextptr) << "Running " << cmd << endl;
       int not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok)
