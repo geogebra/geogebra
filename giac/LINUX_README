@@ -5,7 +5,7 @@ Linux 14.04 and Ubuntu 16.04.
 Prerequisites
 -------------
 
-Install packages build-essential, libgmp-dev and libmpfr-dev.
+Install the packages build-essential, libgmp-dev and libmpfr-dev.
 
 Compilation and running
 -----------------------
