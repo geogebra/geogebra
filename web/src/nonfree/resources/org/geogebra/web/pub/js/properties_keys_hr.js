@@ -1824,7 +1824,7 @@ __GGB__keysVar.hr.menu = {
     "GeoGebra3DGrapher": "GeoGebra 3D grafi\u010dki kalkulator",
     "GeoGebra3DGrapher.short": "3D kalkulator",
     "GeoGebraForum": "GeoGebra Forum",
-    "GeoGebraGeometry": "Geometrijski geometrija",
+    "GeoGebraGeometry": "Geometrija",
     "GeoGebraGraphingCalculator": "GeoGebra grafi\u010dki kalkulator",
     "GeoGebraMaterials": "GeoGebra materijali",
     "GeoGebraProperties": "GeoGebra Svojstva",
