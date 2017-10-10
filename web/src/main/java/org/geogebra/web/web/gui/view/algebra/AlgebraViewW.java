@@ -2000,12 +2000,13 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	/**
 	 * Update items for new window size / pixel ratio
+	 * 
+	 * @param minWidth
+	 *            minimal width
 	 */
-	public void resize() {
+	public void resize(int minWidth) {
 		int resizedWidth = getOffsetWidth();
-
-		setWidths(resizedWidth);
-
+		setWidths(Math.max(minWidth, resizedWidth));
 		if (activeItem != null) {
 			activeItem.updateButtonPanelPosition();
 		}

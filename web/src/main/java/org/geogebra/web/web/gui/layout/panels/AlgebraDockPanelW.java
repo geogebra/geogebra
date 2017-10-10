@@ -107,7 +107,7 @@ public class AlgebraDockPanelW extends DockPanelW
 		}
 		if (getOffsetHeight() > 0) {
 			if (aview != null) {
-				aview.resize();
+				aview.resize(0);
 			}
 		}
 	}

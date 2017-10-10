@@ -197,7 +197,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			super.onResize();
 			setWidth(ToolbarPanel.this.getTabWidth() + "px");
 			if (aview != null) {
-				aview.resize();
+				aview.resize(ToolbarPanel.this.getTabWidth());
 			}
 		}
 
@@ -678,7 +678,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 						super.onEnd();
 						dockParent.addStyleName("hide-HDragger");
 						opposite.addStyleName("hiddenHDraggerRightPanel");
-						dockParent.onResize();
 					}
 				};
 

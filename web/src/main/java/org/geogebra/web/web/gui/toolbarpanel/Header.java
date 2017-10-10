@@ -6,7 +6,6 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
-import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -15,7 +14,6 @@ import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Persistable;
-import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
@@ -541,10 +539,8 @@ class Header extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void updateDraggerStyle(boolean close) {
-		ToolbarDockPanelW dockPanel = toolbarPanel.getToolbarDockPanel();
-		final DockSplitPaneW dockParent = dockPanel != null
-				? dockPanel.getParentSplitPane() : null;
-		if (dockPanel != null) {
+		DockSplitPaneW dockParent = getDockParent();
+		if (dockParent != null) {
 			if (app.isPortrait() && !close) {
 				dockParent.removeStyleName("hide-Dragger");
 				dockParent.addStyleName("moveUpDragger");
@@ -553,6 +549,11 @@ class Header extends FlowPanel implements KeyDownHandler {
 				dockParent.addStyleName("hide-Dragger");
 			}
 		}
+	}
+
+	private DockSplitPaneW getDockParent() {
+		ToolbarDockPanelW dockPanel = toolbarPanel.getToolbarDockPanel();
+		return dockPanel != null ? dockPanel.getParentSplitPane() : null;
 	}
 
 	/**
@@ -750,8 +751,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 			expandWidth(expandTo);
 			toolbarPanel.onOpen();
 		}
-		((DockPanelW) app.getGuiManager().getLayout().getDockManager()
-				.getPanel(App.VIEW_EUCLIDIAN)).onResize();
+		if (getDockParent() != null) {
+			getDockParent().onResize();
+		}
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
