@@ -77,7 +77,7 @@ gwt {
         strict = true;
         // enableClosureCompiler = true;        
         disableCastChecking = true;        
-       	// logLevel = 'SPAM';
+           // logLevel = 'SPAM';
         if (project.hasProperty("gdraft")) {
             draftCompile = true
         }
@@ -114,7 +114,7 @@ def warDirAbs = file(warDirRel).toURI()
 def outputs = ['web', 'web3d', 'webSimple', 'tablet', 'tablet3d','tabletWin']
 
 task cleanWar(type: Delete) {
-	doLast {
+    doLast {
       outputs.each { folder ->
           delete warDirRel + "/$folder"
       }
@@ -122,52 +122,59 @@ task cleanWar(type: Delete) {
 }
 
 task copyHtml {
-	description 'Generate app.html, app-release.html, graphing.html and others'
-	group 'application'
-	doLast {
-		String templateDir = "src/main/resources/org/geogebra/web/resources/html/";
-	    String html = file(templateDir+"app-template.html").text;
-	    String classicHtml = html.replace("<!--SPLASH-->", file(templateDir+"classic-splash.html").text)
-	      .replace("<!--SPLASH STYLE-->", file(templateDir+"splash-style.css").text)
-	      .replace("<!--APP NAME-->","Classic")
-	      .replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/geogebra.ico")
-	      .replace("<!--LANG-->","en");
-	    def appHtml = { raw, appID, prerelease, offline = false ->
-	    	def header = offline || appID == "whiteboard" ? "" : file(templateDir+"app-header.html").text; 
-	    	def platformSpecific = offline ? "<script src=\"platform.js\"></script>":"<!--LANGUAGE LINKS-->"
-	    	return raw.replace("<!--SPLASH-->", header + "<div class=\"startscreen\"> <div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div></div>")
-	    	.replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
-	    	.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
-	    	.replace("<!--ICON-->","//cdn.geogebra.org/apps/icons/${appID}.ico");
-	    }
-	    def english = {raw, appName ->
-	    	return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
-	        .replace("<!--APP NAME FULL-->", "GeoGebra ${appName}")
+    description 'Generate app.html, app-release.html, graphing.html and others'
+    group 'application'
+    doLast {
+        String templateDir = "src/main/resources/org/geogebra/web/resources/html/";
+        String html = file(templateDir+"app-template.html").text;
+
+        def classicHtml = { prerelease, offline ->
+            
+           def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
+           return html.replace("<!--SPLASH-->", file(templateDir + "classic-splash.html").text)
+            .replace("<!--SPLASH STYLE-->", file(templateDir + "splash-style.css").text)
+            .replace("<!--APP NAME-->", "Classic")
+            .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/geogebra.ico")
+            .replace("<!--LANG-->", "en")
+            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appOnline=${!offline};</script>" + platformSpecific);
+        }
+        def appHtml = { appID, prerelease, offline = false ->
+            def header = offline || appID == "whiteboard" ? "" : file(templateDir+"app-header.html").text; 
+            def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
+            return html.replace("<!--SPLASH-->", header + "<div class=\"startscreen\"> <div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div></div>")
+            .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
+            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
+            .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico");
+        }
+        def english = {raw, appName ->
+            return raw.replace("<!--HOME-->","Home").replace("<!--DOWNLOAD-->","Download")
+            .replace("<!--APP NAME FULL-->", "GeoGebra ${appName}")
             .replace("<!--TRY APP-->", "Try App")
-            .replace("<!--Continue-->", "Continue")
-	        .replace("<!--APP NAME-->", appName)
-	        .replace("<!--LANG-->", "en")
-	    }
-	    
-	    file("war/app-release.html").text = classicHtml;
-	    
-	    file("war/app.html").text = classicHtml.replace("<!--PLATFORM SPECIFIC CODE-->","<script>prerelease=true;</script>");
-	    
-	    file("war/graphing-template.html").text = appHtml(html, "graphing", false);
-	    file("war/geometry-template.html").text = appHtml(html, "geometry", false);
-	    file("war/whiteboard-template.html").text = appHtml(html, "whiteboard", true);
-	    file("war/graphing-offline.html").text = english(appHtml(html, "graphing", false, true), "Graphing Calculator");
-	    file("war/geometry-offline.html").text = english(appHtml(html, "geometry", false, true), "Geometry");
-	  
-	    file("war/calculator.html").text = english(appHtml(html, "calculator", true), "Scientific Calculator");
-	    
-	    file("war/graphing.html").text = english(appHtml(html, "graphing", true), "Graphing Calculator");
-	    
-	    file("war/geometry.html").text = english(appHtml(html, "geometry", true), "Geometry");
-	    
-	    file("war/3d.html").text = english(appHtml(html, "3d", true), "3D Graphing Calculator");
-	    
-	    file("war/whiteboard.html").text = english(appHtml(html, "whiteboard", true), "Whiteboard");
+            .replace("<!--CONTINUE-->", "Continue")
+            .replace("<!--APP NAME-->", appName)
+            .replace("<!--LANG-->", "en")
+        }
+        
+        file("war/app-release.html").text = classicHtml(false, false);
+        file("war/app.html").text = classicHtml(true, false);
+        file("war/app-offline.html").text = classicHtml(false, true);
+
+        file("war/graphing-template.html").text = appHtml("graphing", false);
+        file("war/geometry-template.html").text = appHtml("geometry", false);
+        file("war/3d-template.html").text = appHtml("3d", false);
+        file("war/whiteboard-template.html").text = appHtml("whiteboard", true);
+        file("war/graphing-offline.html").text = english(appHtml("graphing", false, true), "Graphing Calculator");
+        file("war/geometry-offline.html").text = english(appHtml("geometry", false, true), "Geometry");
+      
+        file("war/calculator.html").text = english(appHtml("calculator", true), "Scientific Calculator");
+        
+        file("war/graphing.html").text = english(appHtml("graphing", true), "Graphing Calculator");
+        
+        file("war/geometry.html").text = english(appHtml("geometry", true), "Geometry");
+        
+        file("war/3d.html").text = english(appHtml("3d", true), "3D Graphing Calculator");
+        
+        file("war/whiteboard.html").text = english(appHtml("whiteboard", true), "Whiteboard");
     }
 }
 
@@ -205,7 +212,7 @@ def appHtmlRel = 'app.html'
 def appHtmlAbs = file("${warDirAbs}/${appHtmlRel}").toURI()
 
 task run(dependsOn: 'deployIntoWar') {
-	group 'application'
+    group 'application'
     description 'Runs GeoGebraWeb in the default web browser'
     doLast {
         java.awt.Desktop.desktop.browse appHtmlAbs
@@ -213,7 +220,7 @@ task run(dependsOn: 'deployIntoWar') {
 }
 
 task draftRun(dependsOn: 'draftDeployIntoWar') {
-	group 'application'
+    group 'application'
     description 'Runs GeoGebraWeb draft in the default web browser'
     doLast {
         java.awt.Desktop.desktop.browse appHtmlAbs

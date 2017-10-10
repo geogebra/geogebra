@@ -3639,7 +3639,8 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public boolean isUnbundled() {
 		return !StringUtil.empty(articleElement.getDataParamAppName())
-				&& !"classic".equals(articleElement.getDataParamAppName());
+				&& !"classic".equals(articleElement.getDataParamAppName())
+				&& !"whiteboard".equals(articleElement.getDataParamAppName());
 
 	}
 
