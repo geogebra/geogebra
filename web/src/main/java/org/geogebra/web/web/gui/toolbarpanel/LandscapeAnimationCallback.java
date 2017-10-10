@@ -1,8 +1,5 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
-import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-
 /**
  * Callback for tool panel opening/closing in landscape mode
  */
@@ -41,23 +38,6 @@ public class LandscapeAnimationCallback extends HeaderAnimationCallback {
 
 	@Override
 	protected void onEnd() {
-		if (!header.isOpen()) {
-			header.expandWidth(getExpandFrom());
-			header.setHeight("100%");
-			header.toolbarPanel.updateUndoRedoPosition();
-		} else {
-			header.expandWidth(getExpandTo());
-			header.toolbarPanel.onOpen();
-		}
-		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-			public void execute() {
-				header.updateCenterSize();
-				header.showUndoRedoPanel();
-				header.updateUndoRedoPosition();
-				header.showCenter();
-			}
-		});
-
+		header.onLandscapeAnimationEnd(getExpandFrom(), getExpandTo());
 	}
 }

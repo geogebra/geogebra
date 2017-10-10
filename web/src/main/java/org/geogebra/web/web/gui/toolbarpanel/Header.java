@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -14,12 +15,15 @@ import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Persistable;
+import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel.TabIds;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -729,5 +733,35 @@ class Header extends FlowPanel implements KeyDownHandler {
 	/** Sets focus to Burger menu */
 	public void focusMenu() {
 		btnMenu.getElement().focus();
+	}
+
+	/**
+	 * @param expandFrom
+	 *            collapsed width
+	 * @param expandTo
+	 *            expanded width
+	 */
+	public void onLandscapeAnimationEnd(double expandFrom, double expandTo) {
+		if (!isOpen()) {
+			expandWidth(expandFrom);
+			setHeight("100%");
+			toolbarPanel.updateUndoRedoPosition();
+		} else {
+			expandWidth(expandTo);
+			toolbarPanel.onOpen();
+		}
+		((DockPanelW) app.getGuiManager().getLayout().getDockManager()
+				.getPanel(App.VIEW_EUCLIDIAN)).onResize();
+
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				updateCenterSize();
+				showUndoRedoPanel();
+				updateUndoRedoPosition();
+				showCenter();
+			}
+		});
+
 	}
 }
