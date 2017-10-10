@@ -173,7 +173,7 @@ public class MOWToolbar extends FlowPanel {
 	}
 
 	/**
-	 * update position of undo+redo panel
+	 * updates position of undo+redo panel
 	 */
 	private void updateUndoRedoPosition() {
 		undoRedoPanel.getElement().getStyle().setLeft(0, Unit.PX);
@@ -193,6 +193,9 @@ public class MOWToolbar extends FlowPanel {
 		}
 	}
 
+	/**
+	 * updates position of pageControlButton and zoomPanel
+	 */
 	private void updateFloatingButtonsPosition() {
 		if (!app.has(Feature.MOW_MULTI_PAGE)) {
 			return;
@@ -329,13 +332,36 @@ public class MOWToolbar extends FlowPanel {
 		pageControlButton.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
-				// TODO open Page Control Panel, hide pageControlButton, show
-				// floating + button
+				// TODO open Page Control Panel
+				// TODO hide pageControlButton
+				// hidePageControlButton();
+				// TODO show floating + button
 
 			}
 		});
 	}
 
+	/**
+	 * Hide floating page control button
+	 */
+	/*
+	 * public void hidePageControlButton() { if (pageControlButton == null) {
+	 * return; } pageControlButton.addStyleName("hidePageControlButton");
+	 * pageControlButton.removeStyleName("showPageControlButton"); }
+	 */
+
+	/**
+	 * Show floating page control button
+	 */
+	/*
+	 * public void showPageControlButton() { if (pageControlButton == null) {
+	 * return; } pageControlButton.addStyleName("showPageControlButton");
+	 * pageControlButton.removeStyleName("hidePageControlButton"); }
+	 */
+
+	/**
+	 * @return pageControlButton
+	 */
 	public StandardButton getPageControlButton() {
 		return pageControlButton;
 	}
@@ -429,6 +455,10 @@ public class MOWToolbar extends FlowPanel {
 		updateUndoRedoActions();
 	}
 
+	/**
+	 * Updates the positions of undo/redo, floating buttons (page control, zoom
+	 * panel) and toolbar
+	 */
 	public void updatePositions() {
 		updateToolbarPosition();
 		updateUndoRedoPosition();

@@ -536,6 +536,32 @@
     		background: $mow_dark;
     	}
 	}
+	.hidePageControlButton {
+		@extend .pageControlButton;
+		cursor: default;
+		opacity: 0;	
+		visibility: hidden;
+		transition: opacity 0.2s ease;
+		
+		img {
+			opacity: 0;
+		}	
+		
+		&:hover {
+			/*background-color: #666;*/
+			background-color: $selected-menuitem-background;
+			
+			img {
+				opacity: 0;	
+			}
+		}
+	}
+	.showPageControlButton {
+		@extend .pageControlButton;
+		opacity: 1;	 
+		visibility: visible;
+		transition: opacity 0.2s ease;
+	}
 }
 
 
