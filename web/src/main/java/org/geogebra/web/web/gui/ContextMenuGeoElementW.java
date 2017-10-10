@@ -230,10 +230,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					openPropertiesDialogCmd();
 				}
 			}, MainMenu.getMenuBarHtml(img,
-					app.isUnbundled() || hasWhiteboardContextMenu()
-							? loc.getMenu("Settings")
-							: loc.getMenu("Properties")),
-					loc.getMenu("Properties"));
+					loc.getMenu("Settings")),
+					loc.getMenu("Settings"));
 		}
 
 	}

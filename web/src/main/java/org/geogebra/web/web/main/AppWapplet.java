@@ -674,41 +674,37 @@ public class AppWapplet extends AppWFull {
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
 			if (isFloatingMenu()) {
+				removeFloatingMenu();
 				menuShowing = false;
-				this.remove(new Runnable() {
-					@Override
-					public void run() {
-						floatingMenuPanel.setVisible(false);
-					}
-				});
 			} else {
 				hideMenu();
 			}
 		}
 	}
 
-
-
-	private void remove(final Runnable runnable) {
+	private void removeFloatingMenu() {
 		this.updateCenterPanelAndViews();
 		floatingMenuPanel.addStyleName("animateOut");
+		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
 				floatingMenuPanel.setVisible(false);
-				runnable.run();
+				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
 			}
 		}, floatingMenuPanel.getElement(), "animateOut");
 
 	}
 
-	private void add(final Runnable runnable) {
+	private void addFloatingMenu() {
 		this.updateCenterPanelAndViews();
 		floatingMenuPanel.addStyleName("animateIn");
+		getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
-				runnable.run();
+				floatingMenuPanel.setVisible(true);
+				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
 			}
 		}, floatingMenuPanel.getElement(), "animateIn");
 
@@ -730,13 +726,7 @@ public class AppWapplet extends AppWFull {
 			frame.getMenuBar(this).getMenubar().updateMenubar();
 		}
 		if (isFloatingMenu() && menuShowing) {
-			this.add(new Runnable() {
-
-				@Override
-				public void run() {
-					floatingMenuPanel.setVisible(true);
-				}
-			});
+			this.addFloatingMenu();
 			floatingMenuPanel.setVisible(true);
 			return;
 		}

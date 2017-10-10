@@ -7,6 +7,7 @@ import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.keyboard.web.KeyboardResources;
@@ -15,6 +16,7 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.CSSAnimation;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
 import org.geogebra.web.web.gui.dialog.options.OptionsCASW;
@@ -27,6 +29,8 @@ import org.geogebra.web.web.gui.dialog.options.OptionsSpreadsheetW;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 import org.geogebra.web.web.main.AppWapplet;
 
+import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -617,8 +621,16 @@ public class PropertiesViewW extends PropertiesView
 			((AppWapplet) app).getAppletFrame().add(wrappedPanel);
 			setFloatingAttached(true);
 		}
+		final Style style = ((AppW) app).getFrameElement().getStyle();
+		style.setOverflow(Overflow.HIDDEN);
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
+		CSSAnimation.runOnAnimation(new Runnable() {
+
+			public void run() {
+				style.setOverflow(Overflow.VISIBLE);
+			}
+		}, wrappedPanel.getElement(), "animateIn");
 	}
 
 	/**
@@ -630,6 +642,22 @@ public class PropertiesViewW extends PropertiesView
 		}
 		wrappedPanel.removeStyleName("animateIn");
 		wrappedPanel.addStyleName("animateOut");
+		((AppW) app).getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
+		CSSAnimation.runOnAnimation(new Runnable() {
+
+			public void run() {
+				onMenuClose();
+			}
+		}, wrappedPanel.getElement(),
+				"animateOut");
+	}
+
+	protected void onMenuClose() {
+		app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
+		((AppWapplet) app).getAppletFrame().remove(wrappedPanel);
+		setFloatingAttached(false);
+		((AppW) app).getFrameElement().getStyle()
+				.setOverflow(Overflow.VISIBLE);
 	}
 
 	/**

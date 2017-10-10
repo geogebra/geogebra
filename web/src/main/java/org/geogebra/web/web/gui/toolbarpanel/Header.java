@@ -29,6 +29,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
+import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
@@ -199,24 +200,23 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		addAnimation();
+
 		setAnimating(true);
+		Widget headerParent = toolbarPanel.header.getParent().getParent()
+				.getParent();
 		if (isOpen()) {
 			if (app.isPortrait()) {
-				toolbarPanel.header.getParent().getParent()
-						.getParent().addStyleName("closePortrait");
+				headerParent.addStyleName("closePortrait");
 			} else {
-				toolbarPanel.header.getParent().getParent()
-						.getParent().addStyleName("closeLandscape");
+				headerParent.addStyleName("closeLandscape");
 				toolbarPanel.setLastOpenWidth(getOffsetWidth());
 			}
 			toolbarPanel.setMoveMode();
 			toolbarPanel.setClosedByUser(true);
 		} else {
-			toolbarPanel.header.getParent().getParent().getParent()
-					.removeStyleName("closePortrait");
-			toolbarPanel.header.getParent().getParent().getParent()
-					.removeStyleName("closeLandscape");
+			headerParent.removeStyleName("closePortrait");
+			headerParent.removeStyleName("closeLandscape");
+
 			toolbarPanel.setClosedByUser(false);
 		}
 
@@ -294,20 +294,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		btnAlgebra.removeStyleName("selected");
 		btnTools.addStyleName("selected");
 		toolbarPanel.setSelectedTabId(TabIds.TOOLS);
-	}
-
-	/**
-	 * add css animation
-	 */
-	public void addAnimation() {
-		// addStyleName("header-animation");
-	}
-
-	/**
-	 * remove css animation
-	 */
-	public void removeAnimation() {
-		// removeStyleName("header-animation");
 	}
 
 	private void createRightSide() {
