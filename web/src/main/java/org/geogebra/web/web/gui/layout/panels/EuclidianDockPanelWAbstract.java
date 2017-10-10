@@ -318,25 +318,22 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 
 	/**
 	 * Moves the zoom panel up for MOW toolbar
+	 * 
+	 * @param up
+	 *            true if zoom panel should move up, false if zoom panel should
+	 *            move down
 	 */
-	public void moveZoomPanelUp() {
+	public void moveZoomPanelUpOrDown(boolean up) {
 		if (!app.has(Feature.MOW_MULTI_PAGE)) {
 			return;
 		}
-		zoomPanel.getElement().getStyle().clearBottom();
-		zoomPanel.removeStyleName("hideSubmenu");
-		zoomPanel.addStyleName("showSubmenu");
-	}
-
-	/**
-	 * Moves the zoom panel down for MOW toolbar
-	 */
-	public void moveZoomPanelDown() {
-		if (!app.has(Feature.MOW_MULTI_PAGE)) {
-			return;
+		if (up) {
+			zoomPanel.removeStyleName("hideSubmenu");
+			zoomPanel.addStyleName("showSubmenu");
+		} else {
+			zoomPanel.removeStyleName("showSubmenu");
+			zoomPanel.addStyleName("hideSubmenu");
 		}
-		zoomPanel.removeStyleName("showSubmenu");
-		zoomPanel.addStyleName("hideSubmenu");
 	}
 
 	/**
@@ -350,7 +347,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			return;
 		}
 		if (add) {
-			zoomPanel.getElement().getStyle().setBottom(10, Unit.PX);
+			zoomPanel.getElement().getStyle().setBottom(0, Unit.PX);
 		} else {
 			zoomPanel.getElement().getStyle().clearBottom();
 		}

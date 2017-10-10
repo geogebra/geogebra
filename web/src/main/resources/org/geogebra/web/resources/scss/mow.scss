@@ -522,10 +522,10 @@
     	right: 10px;
     	width: 48px;
    		height: 48px;
-   		margin-bottom:10px;
+   		margin-bottom: 10px;
     	background: $mow_highlight;
     	box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
-    	transition: background-color 150ms ease 0ms;
+    	/*transition: background-color 150ms ease 0ms;*/
     	
     	img {
     		width: 24px !important;

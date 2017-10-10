@@ -59,7 +59,6 @@ public class MOWToolbar extends FlowPanel {
 	private StandardButton pageControlButton;
 
 	private final static int MAX_TOOLBAR_WIDTH = 600;
-
 	/**
 	 *
 	 * @param app
@@ -99,16 +98,12 @@ public class MOWToolbar extends FlowPanel {
 
 		addStyleName("mowToolbar");
 		// sets the horizontal position of the toolbar
-		setResponsivePosition();
-		updateUndoRedoPosition();
-		updatePageControlButtonPosition();
+
 		ClickStartHandler.initDefaults(this, true, true);
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
-				setResponsivePosition();
-				updateUndoRedoPosition();
-				updatePageControlButtonPosition();
+				updatePositions();
 			}
 		});
 	}
@@ -198,7 +193,7 @@ public class MOWToolbar extends FlowPanel {
 		}
 	}
 
-	private void updatePageControlButtonPosition() {
+	private void updateFloatingButtonsPosition() {
 		if (!app.has(Feature.MOW_MULTI_PAGE)) {
 			return;
 		}
@@ -206,7 +201,7 @@ public class MOWToolbar extends FlowPanel {
 				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 
 		if (app.getWidth() > MAX_TOOLBAR_WIDTH + 150) {
-			pageControlButton.getElement().getStyle().setBottom(10, Unit.PX);
+			pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
 			dp.setZoomPanelBottom(true);
 		} else {
 			pageControlButton.getElement().getStyle().clearBottom();
@@ -214,11 +209,11 @@ public class MOWToolbar extends FlowPanel {
 			if (isSubmenuOpen) {
 				pageControlButton.removeStyleName("hideSubmenu");
 				pageControlButton.addStyleName("showSubmenu");
-				dp.moveZoomPanelUp();
+				dp.moveZoomPanelUpOrDown(true);
 			} else {
 				pageControlButton.removeStyleName("showSubmenu");
 				pageControlButton.addStyleName("hideSubmenu");
-				dp.moveZoomPanelDown();
+				dp.moveZoomPanelUpOrDown(false);
 			}
 		}
 	}
@@ -334,7 +329,8 @@ public class MOWToolbar extends FlowPanel {
 		pageControlButton.addFastClickHandler(new FastClickHandler() {
 
 			public void onClick(Widget source) {
-				// TODO open Page Control Panel
+				// TODO open Page Control Panel, hide pageControlButton, show
+				// floating + button
 
 			}
 		});
@@ -430,9 +426,13 @@ public class MOWToolbar extends FlowPanel {
 	 * Updates the toolbar ie. undo/redo button states
 	 */
 	public void update() {
-		updateUndoRedoPosition();
 		updateUndoRedoActions();
-		updatePageControlButtonPosition();
+	}
+
+	public void updatePositions() {
+		updateToolbarPosition();
+		updateUndoRedoPosition();
+		updateFloatingButtonsPosition();
 	}
 
 	private SubMenuPanel getSubMenuForMode(int mode) {
@@ -564,13 +564,11 @@ public class MOWToolbar extends FlowPanel {
 					doShowSubmenu(visible);
 				}
 			};
-			timer.schedule(250);
+			timer.schedule(200);
 			isSubmenuOpen = false;
 		}
 		addStyleName("mowToolbar");
-		setResponsivePosition();
-		updateUndoRedoPosition();
-		updatePageControlButtonPosition();
+		updatePositions();
 	}
 
 	/**
@@ -584,7 +582,7 @@ public class MOWToolbar extends FlowPanel {
 	/**
 	 * Sets the horizontal position of the toolbar depending on screen size
 	 */
-	public void setResponsivePosition() {
+	public void updateToolbarPosition() {
 		// small screen
 		if (app.getWidth() < MAX_TOOLBAR_WIDTH) {
 			removeStyleName("BigScreen");
