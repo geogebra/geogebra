@@ -2443,5 +2443,12 @@ public class RadioTreeItem extends AVTreeItem
 	public void focus() {
 		getElement().focus();
 	}
+
+	/**
+	 * Open settings context menu for this item.
+	 */
+	public void openMoreMenu() {
+		controls.showMoreContexMenu();
+	}
 }
 

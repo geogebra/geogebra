@@ -13,6 +13,8 @@ import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -63,6 +65,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 */
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
+		focusDeferred();
 	}
 
 	private void addDuplicateItem() {
@@ -142,5 +145,13 @@ public class ContextMenuAVItemMore implements SetLabels {
 		buildGUI();
 	}
 	
+	private void focusDeferred() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				wrappedPopup.getPopupMenu().getElement().focus();
+			}
+		});
+	}
 }
 

@@ -358,4 +358,6 @@ public interface GuiManagerInterface {
 	public String getHelpURL(Help type, String pageName);
 
 	public StepGuiBuilder getStepGuiBuilder();
+
+	public void openMenuInAVFor(GeoElement geo);
 }

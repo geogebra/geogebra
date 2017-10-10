@@ -3365,4 +3365,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
+	@Override
+	public void openMenuInAVFor(GeoElement geo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

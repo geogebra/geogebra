@@ -139,8 +139,12 @@ public abstract class GlobalKeyDispatcher {
 		if (ch == '/') {
 			toggleSelectionVisibility();
 		}
-		if (ch == 13 && selection.selectedGeosSize() == 1) {
-			startEdit(geo = selection.getSelectedGeos().get(0));
+		if (selection.selectedGeosSize() == 1) {
+			if (ch == 13) {
+				startEdit(geo = selection.getSelectedGeos().get(0));
+			} else if (ch == '.') {
+				openSettingsInAV(selection.getSelectedGeos().get(0));
+			}
 		}
 		EuclidianStyleBar es = app.getActiveEuclidianView()
 				.getDynamicStyleBar();
@@ -159,6 +163,20 @@ public abstract class GlobalKeyDispatcher {
 	protected void startEdit(GeoElement geoElement) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().startEditing(geoElement);
+		}
+	}
+
+	/**
+	 * Open settings in AV
+	 * 
+	 * @param geo
+	 *            open settings of.
+	 */
+	protected void openSettingsInAV(GeoElement geo) {
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().openMenuInAVFor(geo);
+			Log.debug(
+					"[lac] open settings for " + geo.getDefinitionForEditor());
 		}
 	}
 	private void toggleSelectionVisibility() {

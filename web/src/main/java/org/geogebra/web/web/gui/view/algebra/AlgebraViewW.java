@@ -2425,4 +2425,17 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 	}
+
+	/**
+	 * Open settings menu for geo.
+	 * 
+	 * @param geo
+	 *            to open settings for.
+	 */
+	public void openMenuFor(GeoElement geo) {
+		TreeItem ti = nodeTable.get(geo);
+		if (ti instanceof RadioTreeItem) {
+			((RadioTreeItem) ti).openMoreMenu();
+		}
+	}
 }

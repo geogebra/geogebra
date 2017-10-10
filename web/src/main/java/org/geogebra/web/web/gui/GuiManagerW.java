@@ -2514,6 +2514,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			getToolbarPanelV2().focusLastElement();
 		}
 	}
+
+	/**
+	 * Open settings menu for geo element in AV.
+	 */
+	public void openMenuInAVFor(GeoElement geo) {
+		if (app.isUnbundled() && hasAlgebraView()) {
+			getAlgebraView().openMenuFor(geo);
+		}
+	}
 }
 
 
