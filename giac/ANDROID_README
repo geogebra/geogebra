@@ -1,6 +1,6 @@
 This tutorial explains how to create linux -> android-eabi, android-x86
 cross compilers and compile the giac library. The tutorial has been
-tested on Kubuntu 14.04 and Ubuntu 14.10 systems.
+tested on Kubuntu 14.04, Ubuntu 14.10 and Ubuntu 16.04 systems.
 
 Prerequisites
 -------------
