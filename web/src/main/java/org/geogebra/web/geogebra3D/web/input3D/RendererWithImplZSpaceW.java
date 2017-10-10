@@ -1,11 +1,9 @@
 package org.geogebra.web.geogebra3D.web.input3D;
 
-import org.geogebra.common.main.App;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererImplShadersW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
-import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
