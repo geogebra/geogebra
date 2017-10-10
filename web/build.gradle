@@ -130,7 +130,7 @@ task copyHtml {
 
         def classicHtml = { prerelease, offline ->
             
-           def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
+           def platformSpecific = offline ? "<!--PLATFORM SPECIFIC CODE--><script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
            return html.replace("<!--SPLASH-->", file(templateDir + "classic-splash.html").text)
             .replace("<!--SPLASH STYLE-->", file(templateDir + "splash-style.css").text)
             .replace("<!--APP NAME-->", "Classic")
