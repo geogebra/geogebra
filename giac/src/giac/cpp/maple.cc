@@ -3335,8 +3335,8 @@ namespace giac {
       if (name==1) s += ";";
       return s;
     }
-    if (args==cst_i)
-      return "cst_i";
+    if (args.type==_CPLX)
+      return "gen("+args._CPLXptr->print(contextptr)+","+(args._CPLXptr+1)->print(contextptr)+")";
     if (args.type==_FUNC){
       if (args==at_break)
 	return "break";
@@ -3355,7 +3355,7 @@ namespace giac {
     if (u==at_continue)
       return "continue";
     gen f=args._SYMBptr->feuille;
-    if (u==at_sto && f.type==_VECT && f._VECTptr->size()==2){
+    if ( (u==at_sto || u==at_array_sto) && f.type==_VECT && f._VECTptr->size()==2){
 #if 1
       int i=cpp_vartype(f[1]);
       if (!i || i==cpp_vartype(f[0]))
