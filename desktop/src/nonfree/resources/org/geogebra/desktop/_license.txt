@@ -27,7 +27,7 @@ DEVELOPERS
   * Bernard Parisse (France 2013-)
   * Csilla Solyom-Gecse (Austria 2015-)
   * Christoph Stadlbauer (Austria 2011-)
-  * Elena Tineghe (Austria 2016-)
+  * Elena Lettner (Austria 2016-)
   * Melanie Tomaschko (Austria 2011-)
 
 CONTRIBUTORS
