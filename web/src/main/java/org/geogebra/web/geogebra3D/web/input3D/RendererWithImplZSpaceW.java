@@ -125,10 +125,10 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 			return;
 		}
 
-		// give canvas position to zSpace
-		DockPanelW panel = (DockPanelW) view3D.getApplication().getGuiManager()
-				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN3D);
-		zSpace.setCanvasOffset(panel.getAbsoluteLeft(), panel.getAbsoluteTop());
+		// give canvas position to zSpace -- don't set it since zSpace beta 5
+//		DockPanelW panel = (DockPanelW) view3D.getApplication().getGuiManager()
+//				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN3D);
+//		zSpace.setCanvasOffset(panel.getAbsoluteLeft(), panel.getAbsoluteTop());
 
 		// update zSpace
 		zSpace.zspaceUpdate();
