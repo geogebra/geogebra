@@ -104,8 +104,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 		contents = new FlowPanel();
 		contents.addStyleName("contents");
 		add(contents);
-
-		createMenuButton();
+		if (app.getArticleElement().getDataParamShowMenuBar(false)) {
+			createMenuButton();
+		}
 		createRightSide();
 		createCenter();
 		addUndoRedoButtons();
@@ -250,16 +251,21 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * set labels
 	 */
 	void setLabels() {
-		btnMenu.setTitle(app.getLocalization().getMenu("Menu"));
-		btnTools.setTitle(app.getLocalization().getMenu("Tools"));
-		btnAlgebra.setTitle(
-				app.getLocalization().getMenu(app.getConfig().getAVTitle()));
-		btnClose.setTitle(
-				app.getLocalization().getMenu(isOpen() ? "Close" : "Open"));
-		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
-		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
+		setTitle(btnMenu, "Menu");
+		setTitle(btnTools,"Tools");
+		setTitle(btnAlgebra,app.getConfig().getAVTitle());
+		setTitle(btnClose, isOpen() ? "Close" : "Open");
+		setTitle(btnUndo, "Undo");
+		setTitle(btnRedo, "Redo");
 
 		setAltTexts();
+
+	}
+
+	private void setTitle(Widget btn, String avTitle) {
+		if (btn != null) {
+			btn.setTitle(app.getLocalization().getMenu(avTitle));
+		}
 
 	}
 
@@ -574,7 +580,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 			addStyleName("header-open-" + orientation);
 			btnClose.getUpFace().setImage(imgClose);
 			btnClose.setTitle(app.getLocalization().getMenu("Close"));
-			btnMenu.removeStyleName("landscapeMenuBtn");
 			if (!app.isPortrait()) {
 				clearHeight();
 				clearWidth();
@@ -583,22 +588,34 @@ class Header extends FlowPanel implements KeyDownHandler {
 			addStyleName("header-close-" + orientation);
 			btnClose.getUpFace().setImage(imgOpen);
 			btnClose.setTitle(app.getLocalization().getMenu("Open"));
+
+		}
+
+		updateMenuButtonStyle();
+
+		updateUndoRedoPosition();
+		updateUndoRedoActions();
+	}
+
+	private void updateMenuButtonStyle() {
+		if (btnMenu == null) {
+			return;
+		}
+		if (open) {
+			btnMenu.removeStyleName("landscapeMenuBtn");
+		} else {
 			if (!app.isPortrait()) {
 				btnMenu.addStyleName("landscapeMenuBtn");
 			} else {
 				btnMenu.removeStyleName("landscapeMenuBtn");
 			}
 		}
-
 		if (app.isPortrait()) {
 			btnMenu.addStyleName("portraitMenuBtn");
 		} else {
 			btnMenu.removeStyleName("portraitMenuBtn");
 		}
-
 		btnMenu.getUpFace().setImage(imgMenu);
-		updateUndoRedoPosition();
-		updateUndoRedoActions();
 	}
 
 	/**
@@ -609,13 +626,17 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (open) {
 			h = OPEN_HEIGHT;
 		} else {
-			h = getOffsetHeight() - btnMenu.getOffsetHeight()
+			h = getOffsetHeight() - getMenuButtonHeight()
 					- btnClose.getOffsetHeight() - 2 * PADDING;
 		}
 
 		if (h > 0) {
 			center.setHeight(h + "px");
 		}
+	}
+
+	private int getMenuButtonHeight() {
+		return btnMenu == null ? 0 : btnMenu.getOffsetHeight();
 	}
 
 	/**
@@ -715,7 +736,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 			return;
 		}
 		Object source = event.getSource();
-
+		if (source == null) {
+			return;
+		}
 		if (source == btnMenu) {
 			toolbarPanel.toggleMenu();
 		} else if (source == btnAlgebra) {
@@ -733,7 +756,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 
 	/** Sets focus to Burger menu */
 	public void focusMenu() {
-		btnMenu.getElement().focus();
+		if (btnMenu != null) {
+			btnMenu.getElement().focus();
+		}
 	}
 
 	/**
