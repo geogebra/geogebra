@@ -286,8 +286,12 @@ public class CAStestJSON {
 			sb.append(',');
 		}
 		ReportBuilder report = new ReportBuilder("giac.js");
+		report.callback("exports.init = ");
+		LoggingCASFactoryD.printCustomFunctions(report);
+		report.callback(";\n\n");
 		report.callback("exports.rawTest = ");
 		LoggingCASFactoryD.printResponses(report);
+		report.callback(";");
 		report.close();
 		Assert.assertEquals("SLOW,", sb.toString());
 

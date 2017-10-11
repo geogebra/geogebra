@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.cas.CASparser;
+import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
@@ -46,6 +47,23 @@ public class LoggingCASFactoryD extends CASFactory {
 					+ entry.getValue() + "\"");
 		}
 		sh.callback("}");
+	}
+
+	public static void printCustomFunctions(AsyncOperation<String> sh) {
+		sh.callback("[");
+		boolean first = true;
+		for (CustomFunctions fn : CustomFunctions.values()) {
+			if (fn == CustomFunctions.RESTART) {
+				continue;
+			}
+			if (!first) {
+				sh.callback(",\n");
+			}
+			first = false;
+			sh.callback(
+					"\"" + StringUtil.toJavaString(fn.definitionString) + "\"");
+		}
+		sh.callback("]");
 	}
 
 }
