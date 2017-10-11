@@ -131,7 +131,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			setHeight("100%");
 		}
 
-		public void setActive(boolean active, boolean animated) {
+		/**
+		 * Set tab the active one.
+		 * 
+		 * @param active
+		 *            to set.
+		 * @param fade
+		 *            if tab should fade during animation or not.
+		 */
+		public void setActive(boolean active, boolean fade) {
 			if (active) {
 				removeStyleName("tab-hidden");
 				addStyleName("tab");
@@ -139,17 +147,20 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				removeStyleName("tab");
 				addStyleName("tab-hidden");
 			}
-
-			if (animated) {
-				addStyleName("animated");
-			}
+			setFade(fade);
 		}
 		
-		public void setAnimated(boolean animated) {
-			if (animated) {
-				addStyleName("animated");
+		/**
+		 * if tab should fade during animation or not.
+		 * 
+		 * @param fade
+		 *            to set.
+		 */
+		public void setFade(boolean fade) {
+			if (fade) {
+				addStyleName("fade");
 			} else {
-				removeStyleName("animated");
+				removeStyleName("fade");
 			}
 		}
 
@@ -890,11 +901,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/**
 	 * Sets if current tab should animate or not.
 	 * 
-	 * @param animated
+	 * @param fade
 	 *            to set.
 	 */
-	public void setTabAnimation(boolean animated) {
-		tabAlgebra.setAnimated(animated);
-		tabTools.setAnimated(animated);
+	public void setTabFade(boolean fade) {
+		tabAlgebra.setFade(fade);
+		tabTools.setFade(fade);
 	}
 }

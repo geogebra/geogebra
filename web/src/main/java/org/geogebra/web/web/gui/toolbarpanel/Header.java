@@ -180,7 +180,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	protected void onAlgebraPressed() {
 		if (!open) {
-			toolbarPanel.setTabAnimation(false);
+			toolbarPanel.setTabFade(false);
 		}
 
 		toolbarPanel.openAlgebra(open);
@@ -195,7 +195,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	protected void onToolsPressed() {
 		if (!open) {
-			toolbarPanel.setTabAnimation(false);
+			toolbarPanel.setTabFade(false);
 		}
 
 		app.setKeyboardNeeded(false);
@@ -227,7 +227,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		} else {
 			headerParent.removeStyleName("closePortrait");
 			headerParent.removeStyleName("closeLandscape");
-			toolbarPanel.setTabAnimation(false);
+			toolbarPanel.setTabFade(false);
 			toolbarPanel.setClosedByUser(false);
 		}
 
