@@ -6439,8 +6439,12 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return false;
     gen a,b,v0,alpha,beta,alphacur,betacur,gof,periodecur;
     for (i=1;i<s;++i){
-      if (!v[i].is_symb_of_sommet(at_exp))
-	return false;
+      if (!v[i].is_symb_of_sommet(at_exp)){
+	if (!is_periodic(v[i]._SYMBptr->feuille,x,periodecur,contextptr))
+	  return false;
+	periode=gcd(periode,periodecur,contextptr);
+	continue;
+      }
       v0=v[i];
       gen v0arg=v0._SYMBptr->feuille;
       if (is_linear_wrt(v0arg,x,alphacur,betacur,contextptr)){ 
@@ -6534,6 +6538,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if (is_inequation(g) || g._SYMBptr->sommet==at_different || g._SYMBptr->sommet==at_equal)
       return vecteur(1,g._SYMBptr->feuille[1]);
     return res;
+  }
+
+  static gen crunch_rootof(const gen & g,GIAC_CONTEXT){
+    return has_op(g,*at_rootof)?evalf(g,1,contextptr):g;
   }
 
   int step_param_(const gen & f,const gen & g,const gen & t,gen & tmin,gen&tmax,vecteur & poi,vecteur & tvi,bool printtvi,bool exactlegende,GIAC_CONTEXT){
@@ -6945,7 +6953,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  ymax=y;
 	tvit.push_back(nextt);
 	tvif.push_back(x);
-	tvig.push_back(y);
+	tvig.push_back(crunch_rootof(y,contextptr));
 	tvidf.push_back(nothing);
 	tvidg.push_back(nothing);
 	tviconv.push_back(nothing);
@@ -6963,7 +6971,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  ymax=y;
 	tvit.push_back(nextt);
 	tvif.push_back(x);
-	tvig.push_back(y);
+	tvig.push_back(crunch_rootof(y,contextptr));
 	tvidf.push_back(nothing);
 	tvidg.push_back(nothing);
 	tviconv.push_back(nothing);
@@ -6986,16 +6994,16 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	tvig.push_back(y);
 	y=limit(f1,xid,nextt,-1,contextptr);
 	y=recursive_normal(y,contextptr);
-	tvidf.push_back(y);
+	tvidf.push_back(crunch_rootof(y,contextptr));
 	y=limit(g1,xid,nextt,-1,contextptr);
 	y=recursive_normal(y,contextptr);
-	tvidg.push_back(y);
+	tvidg.push_back(crunch_rootof(y,contextptr));
 	if (equalposcomp(infl,nextt)) y=0;
 	else {
 	  y=limit(conv,xid,nextt,-1,contextptr);
 	  y=recursive_normal(y,contextptr);
 	}
-	tviconv.push_back(y);
+	tviconv.push_back(crunch_rootof(y,contextptr));
       }
     }
     tvi=makevecteur(tvit,tvif,tvidf,tvig,tvidg,tviconv);
@@ -7095,6 +7103,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return 1;
     if (lv.size()!=1 || lv.front()!=x)
       return 0;
+    gen xval=eval(x,1,contextptr);
+    giac_assume(symb_and(symb_superieur_egal(x,xmin),symb_inferieur_egal(x,xmax)),contextptr);
     gen df=domain(f,x,0,contextptr);
     gprintf("Domain %gen",vecteur(1,df),1,contextptr);
     gen df1=domain(f,x,1,contextptr); // singular values only
@@ -7117,8 +7127,6 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     gen f1=_factor(derive(f,x,contextptr),contextptr);
     gen f2=derive(f1,x,contextptr);
 #if 1
-    gen xval=eval(x,1,contextptr);
-    giac_assume(symb_and(symb_superieur_egal(x,xmin),symb_inferieur_egal(x,xmax)),contextptr);
     int cm=calc_mode(contextptr);
     calc_mode(-38,contextptr); // avoid rootof
     gen c1=solve(f1,x,periode==0?2:0,contextptr);
@@ -7407,7 +7415,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
 	  ymax=y;
 	tvix.push_back(nextx);
-	tvif.push_back(y);
+	tvif.push_back(crunch_rootof(y,contextptr));
 	tvidf.push_back(string2gen("||",false));
 	if (do_inflex) tvidf2.push_back(string2gen("||",false));
 	y=limit(f,xid,nextx,1,contextptr);
@@ -7417,7 +7425,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
 	  ymax=y;
 	tvix.push_back(nextx);
-	tvif.push_back(y);
+	tvif.push_back(crunch_rootof(y,contextptr));
 	tvidf.push_back(string2gen("||",false));
 	if (do_inflex) tvidf2.push_back(string2gen("||",false));
       }
@@ -7429,13 +7437,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	if (!is_inf(y) && is_greater(y,ymax,contextptr))
 	  ymax=y;
 	tvix.push_back(nextx);
-	tvif.push_back(y);
+	tvif.push_back(crunch_rootof(y,contextptr));
 	y=limit(f1,xid,nextx,-1,contextptr);
 	y=recursive_normal(y,contextptr);
-	tvidf.push_back(y);
+	tvidf.push_back(crunch_rootof(y,contextptr));
 	y=limit(f2,xid,nextx,-1,contextptr);
 	y=recursive_normal(y,contextptr);
-	if (do_inflex) tvidf2.push_back(y);
+	if (do_inflex) tvidf2.push_back(crunch_rootof(y,contextptr));
       }
     }
     tvi=makevecteur(tvix,tvif,tvidf);

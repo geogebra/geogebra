@@ -7989,6 +7989,10 @@ namespace giac {
     }
     if (args.type==_VECT && args._VECTptr->size()==2 && args._VECTptr->front().type==_STRNG && args._VECTptr->back()==at_quote)
       return gen(*args._VECTptr->front()._STRNGptr,contextptr);
+    if (args.type==_VECT && !args._VECTptr->empty() && args._VECTptr->front().type==_FUNC){
+      vecteur v(args._VECTptr->begin()+1,args._VECTptr->end());
+      return symbolic(*args._VECTptr->front()._FUNCptr,gen(v,_SEQ__VECT));
+    }
     if (args.type!=_STRNG)
       return symbolic(at_expr,args);
     return eval(gen(*args._STRNGptr,contextptr),eval_level(contextptr),contextptr);
