@@ -1,10 +1,13 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
+import org.geogebra.common.main.App;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.CSSAnimation;
+import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 import org.geogebra.web.web.main.AppWapplet;
@@ -23,6 +26,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class PageControlPanel extends PersistablePanel {
 
 	private AppW app;
+	private GeoGebraFrameBoth frame;
+	private EuclidianDockPanelW dockPanel;
 	private PersistablePanel contentPanel;
 	private StandardButton closeButton;
 	private boolean isAttached = false;
@@ -34,9 +39,11 @@ public class PageControlPanel extends PersistablePanel {
 	 */
 	public PageControlPanel(AppW app) {
 		this.app = app;
+		this.frame = ((AppWapplet) app).getAppletFrame();
+		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 		if (app.isWhiteboardActive()) {
-			this.mowToolbar = ((AppWapplet) app).getAppletFrame()
-					.getMOWToorbar();
+			this.mowToolbar = frame.getMOWToorbar();
 		}
 		initGUI();
 	}
@@ -44,8 +51,7 @@ public class PageControlPanel extends PersistablePanel {
 	private void initGUI() {
 		addStyleName("pageControlPanel");
 		addCloseButton();
-		contentPanel = new PersistablePanel();
-		add(contentPanel);
+		addContentPanel();
 	}
 
 	private void addCloseButton() {
@@ -66,12 +72,17 @@ public class PageControlPanel extends PersistablePanel {
 		add(closeButton);
 	}
 
+	private void addContentPanel() {
+		contentPanel = new PersistablePanel();
+		add(contentPanel);
+	}
+
 	/**
 	 * opens the page control panel
 	 */
 	public void open() {
 		if (!isAttached) {
-			((AppWapplet) app).getAppletFrame().add(this);
+			frame.add(this);
 			isAttached = true;
 		}
 		setVisible(true);
@@ -81,6 +92,7 @@ public class PageControlPanel extends PersistablePanel {
 
 		if (app.isWhiteboardActive()) {
 			mowToolbar.hidePageControlButton();
+			dockPanel.hideZoomPanel();
 		}
 		CSSAnimation.runOnAnimation(new Runnable() {
 
@@ -118,6 +130,7 @@ public class PageControlPanel extends PersistablePanel {
 
 		if (app.isWhiteboardActive()) {
 			mowToolbar.showPageControlButton();
+			dockPanel.showZoomPanel();
 		}
 	}
 }
