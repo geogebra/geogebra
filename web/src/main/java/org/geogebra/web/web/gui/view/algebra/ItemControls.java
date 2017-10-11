@@ -162,7 +162,8 @@ public class ItemControls extends FlowPanel
 		clear();
 		buildAnimPanel();
 
-		if (!hasMoreMenu()) {
+		if (!hasMoreMenu() && (radioTreeItem.app.isRightClickEnabled()
+				|| radioTreeItem.app.showAlgebraInput())) {
 			add(getDeleteButton());
 		}
 	}
