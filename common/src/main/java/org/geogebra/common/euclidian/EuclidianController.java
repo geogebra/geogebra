@@ -8279,8 +8279,35 @@ public abstract class EuclidianController {
 		}
 	}
 
+	/**
+	 * state for selection tool over press/release
+	 */
+	private enum SelectionToolPressResult {
+		/** default state */
+		DEFAULT,
+		/** on press there were no hit */
+		EMPTY,
+		/**
+		 * on press there were one already selected geo, we want to remove it on release
+		 * except dragging occurs
+		 */
+		REMOVE,
+		/**
+		 * on press there were one not already selected geo, we add it on press and
+		 * don't want to remove it on release
+		 */
+		ADD
+	}
+
+	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
+
+	private GeoElement lastSelectionToolGeoToRemove;
+
 	final protected void handleMousePressedForMoveMode(AbstractEvent e,
 			boolean drag) {
+
+		// ensure no wrong state due to something went wrong
+		lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
 
 		// fix for meta-click to work on Mac/Linux
 		if (app.isControlDown(e)) {
@@ -8372,14 +8399,29 @@ public abstract class EuclidianController {
 			// testing needed - see GGB-1982
 			geo = chooseGeo(hits, false);
 
-			if (!selGeos.contains(geo)) {
-				// repaint done next step, no update for properties view (will
-				// display ev properties)
-				selection.clearSelectedGeos(geo == null, false);
-				selection.updateSelection(false);
-				selection.addSelectedGeo(geo, true, true);
-				// app.geoElementSelected(geo, false); // copy definiton to
-				// input bar
+			if (selGeos.contains(geo)) {
+				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
+					lastSelectionToolPressResult = SelectionToolPressResult.REMOVE;
+					lastSelectionToolGeoToRemove = geo;
+				}
+			} else {
+				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
+					if (geo == null) {
+						// selection.clearSelectedGeos(true, true);
+						lastSelectionToolPressResult = SelectionToolPressResult.EMPTY;
+					} else {
+						lastSelectionToolPressResult = SelectionToolPressResult.ADD;
+						selection.addSelectedGeo(geo, true, true);
+					}
+				} else {
+					// repaint done next step, no update for properties view (will
+					// display ev properties)
+					selection.clearSelectedGeos(geo == null, false);
+					selection.updateSelection(false);
+					selection.addSelectedGeo(geo, true, true);
+					// app.geoElementSelected(geo, false); // copy definiton to
+					// input bar
+				}
 			}
 		}
 
@@ -9699,8 +9741,13 @@ public abstract class EuclidianController {
 	protected void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
 		startCollectingMinorRepaints();
-
-		clearSelections();
+		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
+			if (mode != EuclidianConstants.MODE_SELECT) {
+				clearSelections();
+			}
+		} else {
+			clearSelections();
+		}
 
 		view.setHits(view.getSelectionRectangle());
 		Hits hits = view.getHits();
@@ -9812,7 +9859,13 @@ public abstract class EuclidianController {
 
 		default:
 			// STANDARD CASE
-			setAppSelectedGeos(hits, false);
+			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
+				if (hits != null) {
+					selection.addSelectedGeos(hits, true);
+				}
+			} else {
+				setAppSelectedGeos(hits, false);
+			}
 			app.updateSelection((hits != null));
 
 			// if alt pressed, create list of objects as string and copy to
@@ -10141,8 +10194,39 @@ public abstract class EuclidianController {
 		final boolean meta = event.isPopupTrigger() || event.isMetaDown();
 		PointerEventType type = event.getType();
 
-		if (isDraggingOccuredBeyondThreshold() && app.has(Feature.HIGHLIGT_IMPROVEMENTS)) {
-			selection.clearSelectedGeos();
+		if (isDraggingOccuredBeyondThreshold()) {
+			if (app.has(Feature.HIGHLIGT_IMPROVEMENTS)) {
+				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
+					if (mode != EuclidianConstants.MODE_SELECT) {
+						clearSelections();
+					}
+				} else {
+					clearSelections();
+				}
+			}
+		} else {
+			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
+				if (mode == EuclidianConstants.MODE_SELECT) {
+					switch (lastSelectionToolPressResult) {
+					case REMOVE:
+						selection.removeSelectedGeo(lastSelectionToolGeoToRemove, true, true);
+						lastSelectionToolGeoToRemove = null;
+						break;
+					case EMPTY:
+						selection.clearSelectedGeos(true, true);
+						break;
+					case ADD:
+					case DEFAULT:
+					default:
+						// nothing to do
+						break;
+					}
+				}
+			}
+		}
+
+		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
+			lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
 		}
 
 		if (this.doubleClickStarted && !isDraggingOccuredBeyondThreshold() && !right) {

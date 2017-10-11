@@ -4329,6 +4329,10 @@ public abstract class App implements UpdateSelection {
 		case SPEED_UP_GRID_DRAWING:
 			return prerelease;
 
+		/** MOB-1293 */
+		case SELECT_TOOL_NEW_BEHAVIOUR:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
