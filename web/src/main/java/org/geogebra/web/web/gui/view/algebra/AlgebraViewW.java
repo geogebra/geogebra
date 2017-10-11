@@ -1550,8 +1550,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// hideAlgebraInput();
 			// except it also makes this null, no problem
 			// ... or? still preferring to be safe
-			inputWidth = inputPanelLatex.getWidget().getElement()
+			if (inputPanelLatex != null
+					&& inputPanelLatex.getWidget() != null) {
+				inputWidth = inputPanelLatex.getWidget().getElement()
 					.getParentElement().getClientWidth();
+			}
 			super.removeItem(inputPanelTreeItem);
 
 			// inputPanel.removeFromParent();//?
