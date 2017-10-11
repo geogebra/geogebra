@@ -334,12 +334,21 @@ namespace giac {
     vecteur l;
     l.push_back(l); // insure a null line inside the matrix of alg_lvar
     if (has_op(e,*at_rootof)){
+      vecteur w0=lvar(e),w;
+      for (int i=0;i<w0.size();++i){
+	if (w0[i].is_symb_of_sommet(at_rootof))
+	  w.push_back(w0[i]);
+      }
       vector<const unary_function_ptr *> vu;
       vu.push_back(at_rootof); 
       vector <gen_op_context> vv;
       vv.push_back(_nop); 
       // FIXME: arg of e is two vectors, if rootof is ^, this raises a warning
-      gen er=subst(e,vu,vv,false,context0);
+      gen er=subst(w,vu,vv,false,context0);
+      if (er.type==_VECT)
+	er=subst(e,w,*er._VECTptr,false,context0);
+      else
+	er=e;
       alg_lvar(er,l);
     }
     else
