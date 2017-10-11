@@ -505,6 +505,7 @@ abstract public class ObjectSettingsModel {
                 geo.setEuclidianVisible(show);
                 geo.updateRepaint();
             }
+            app.setPropertiesOccured();
         }
     }
 
