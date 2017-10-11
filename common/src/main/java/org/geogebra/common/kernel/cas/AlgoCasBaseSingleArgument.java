@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Process a function using single argument command
@@ -68,7 +69,19 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 				f.toGeoElement()
 						.getDefinitionNoLabel(StringTemplate.defaultTemplate),
 				app.getKernel().getParser());
-		sn.regroup(sb);
+		switch (getClassName()) {
+		case Expand:
+			sn.expand(sb);
+			break;
+		case Factor:
+			sn.factor(sb);
+			break;
+		case Simplify:
+			sn.regroup(sb);
+			break;
+		default:
+			Log.warn("Not supported for steps: " + getClassName());
+		}
 
 		SolutionStep steps = sb.getSteps();
 		steps.getListOfSteps(builder);
@@ -76,7 +89,9 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 	}
 
 	public boolean canShowSteps() {
-		return getClassName() == Commands.Simplify;
+		return getClassName() == Commands.Simplify
+				|| getClassName() == Commands.Expand
+				|| getClassName() == Commands.Factor;
 	}
 
 }

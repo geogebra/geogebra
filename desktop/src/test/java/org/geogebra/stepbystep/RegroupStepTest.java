@@ -3,7 +3,6 @@ package org.geogebra.stepbystep;
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
-import org.geogebra.common.kernel.stepbystep.steptree.SimplificationSteps;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
 import org.junit.AfterClass;
@@ -128,7 +127,7 @@ public class RegroupStepTest {
 
 		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
 		StepNode sn = StepNode.getStepTree(toFactor, app.getKernel().getParser());
-		String result = SimplificationSteps.DEFAULT_FACTOR.apply(sn, sb, new int[] { 1 }).toString();
+		String result = sn.factor(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
 		steps.getListOfSteps(htmlBuilder);

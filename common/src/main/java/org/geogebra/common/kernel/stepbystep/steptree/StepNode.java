@@ -439,6 +439,16 @@ public abstract class StepNode {
 	}
 
 	/**
+	 * @param sb
+	 *            solution builder
+	 * @return factored expression
+	 */
+	public StepNode factor(SolutionBuilder sb) {
+		return SimplificationSteps.DEFAULT_FACTOR.apply(this, sb,
+				new int[] { 1 });
+	}
+
+	/**
 	 * @param s
 	 *            string to be parsed
 	 * @param parser
