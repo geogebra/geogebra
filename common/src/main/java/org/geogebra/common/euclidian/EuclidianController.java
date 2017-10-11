@@ -383,6 +383,30 @@ public abstract class EuclidianController {
 	private CoordSystemListener zoomerListener = null;
 	private MyModeChangedListener modeChangeListener = null;
 
+	/**
+	 * state for selection tool over press/release
+	 */
+	private enum SelectionToolPressResult {
+		/** default state */
+		DEFAULT,
+		/** on press there were no hit */
+		EMPTY,
+		/**
+		 * on press there were one already selected geo, we want to remove it on release
+		 * except dragging occurs
+		 */
+		REMOVE,
+		/**
+		 * on press there were one not already selected geo, we add it on press and
+		 * don't want to remove it on release
+		 */
+		ADD
+	}
+
+	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
+
+	private GeoElement lastSelectionToolGeoToRemove;
+
 	public EuclidianController(App app) {
 		this.app = app;
 		this.selection = app.getSelectionManager();
@@ -8278,30 +8302,6 @@ public abstract class EuclidianController {
 			return false;
 		}
 	}
-
-	/**
-	 * state for selection tool over press/release
-	 */
-	private enum SelectionToolPressResult {
-		/** default state */
-		DEFAULT,
-		/** on press there were no hit */
-		EMPTY,
-		/**
-		 * on press there were one already selected geo, we want to remove it on release
-		 * except dragging occurs
-		 */
-		REMOVE,
-		/**
-		 * on press there were one not already selected geo, we add it on press and
-		 * don't want to remove it on release
-		 */
-		ADD
-	}
-
-	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
-
-	private GeoElement lastSelectionToolGeoToRemove;
 
 	final protected void handleMousePressedForMoveMode(AbstractEvent e,
 			boolean drag) {
