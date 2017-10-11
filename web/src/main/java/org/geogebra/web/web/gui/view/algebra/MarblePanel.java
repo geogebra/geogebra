@@ -12,6 +12,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
+import org.geogebra.web.web.gui.layout.GUITabs;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -280,8 +281,10 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		
 		btnPlus.getUpHoveringFace().setImage(hoverImg);
 		btnPlus.getDownHoveringFace().setImage(hoverImg);
-
-			}
+		if (item.getApplication().has(Feature.TAB_ON_GUI)) {
+			btnPlus.setTabIndex(GUITabs.AV_PLUS);
+		}
+	}
  
 	/**
 	 * @return help button
@@ -348,5 +351,14 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		item.preventBlur();
 		item.requestFocus();
 		return item.showCurrentError();
+	}
+
+	/**
+	 * Focus the Plus button of AV Input.
+	 */
+	public void focusPlusButton() {
+		if (btnPlus != null) {
+			btnPlus.getElement().focus();
+		}
 	}
 }

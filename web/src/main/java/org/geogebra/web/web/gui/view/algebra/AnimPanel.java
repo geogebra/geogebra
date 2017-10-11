@@ -9,8 +9,6 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.SetTabs;
-import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -30,7 +28,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Animation panel for points and sliders
  *
  */
-public class AnimPanel extends FlowPanel implements ClickHandler, SetTabs {
+public class AnimPanel extends FlowPanel implements ClickHandler {
 
 	/**
 	 * Animation speeds
@@ -433,21 +431,4 @@ public class AnimPanel extends FlowPanel implements ClickHandler, SetTabs {
 	MyToggleButtonW getPlayButton() {
 		return btnPlay;
 	}
-
-	@Override
-	public void setTabIndex(int index) {
-		int tabIndex = index;
-		for (CustomButton btn : buttons) {
-			btn.setTabIndex(tabIndex);
-			tabIndex++;
-		}
-	}
-
-	@Override
-	public void clearTabIndex() {
-		for (CustomButton btn : buttons) {
-			btn.setTabIndex(GUITabs.NO_TAB);
-		}
-	}
-
 }

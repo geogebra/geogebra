@@ -27,4 +27,7 @@ public class GUITabs {
 	/** Tab index of floating move button in Tools tab. */
 	public static final int TOOLS_MOVE_TAB = 4900;
 
+	/** Tab index of the + button in AV Input. */
+	public static final int AV_PLUS = AV_TAB_START + 1;
+
 }
