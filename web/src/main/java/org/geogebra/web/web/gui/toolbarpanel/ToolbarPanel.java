@@ -3,15 +3,12 @@ package org.geogebra.web.web.gui.toolbarpanel;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
-import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -32,16 +29,12 @@ import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -126,7 +119,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		header.updateUndoRedoPosition();
 	}
 
-	private abstract class ToolbarTab extends ScrollPanel {
+	abstract static class ToolbarTab extends ScrollPanel {
 		public ToolbarTab() {
 			setSize("100%", "100%");
 			setAlwaysShowScrollBars(false);
@@ -162,321 +155,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		public abstract void focusFirstElement();
 		public abstract void focusLastElement();
-	}
-
-	private class AlgebraTab extends ToolbarTab {
-		SimplePanel simplep;
-		AlgebraViewW aview = null;
-
-		private int savedScrollPosition;
-
-		public AlgebraTab() {
-			if (app != null) {
-				setAlgebraView((AlgebraViewW) app.getAlgebraView());
-				aview.setInputPanel();
-			}
-		}
-
-		public void setAlgebraView(final AlgebraViewW av) {
-			if (av != aview) {
-				if (aview != null && simplep != null) {
-					simplep.remove(aview);
-					remove(simplep);
-				}
-
-				simplep = new SimplePanel(aview = av);
-				add(simplep);
-				simplep.addStyleName("algebraSimpleP");
-				addStyleName("algebraPanel");
-				addStyleName("matAvDesign");
-				addDomHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						int bt = simplep.getAbsoluteTop()
-								+ simplep.getOffsetHeight();
-						if (event.getClientY() > bt) {
-							app.getSelectionManager().clearSelectedGeos();
-							av.resetItems(true);
-						}
-					}
-				}, ClickEvent.getType());
-			}
-		}
-
-		@Override
-		public void onResize() {
-			super.onResize();
-			setWidth(ToolbarPanel.this.getTabWidth() + "px");
-			if (aview != null) {
-				aview.resize(ToolbarPanel.this.getTabWidth());
-			}
-		}
-
-		public void scrollToActiveItem() {
-
-			final RadioTreeItem item = aview == null ? null
-					: aview.getActiveTreeItem();
-			if (item == null) {
-				return;
-			}
-
-			if (item.isInputTreeItem()) {
-				Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
-					@Override
-					public void execute() {
-
-						scrollToBottom();
-					}
-				});
-				return;
-			}
-			doScrollToActiveItem();
-		}
-
-		public void saveScrollPosition() {
-			savedScrollPosition = getVerticalScrollPosition();
-		}
-
-		private void doScrollToActiveItem() {
-			final RadioTreeItem item = aview.getActiveTreeItem();
-
-			int spH = getOffsetHeight();
-
-			int top = item.getElement().getOffsetTop();
-
-			int relTop = top - savedScrollPosition;
-
-			if (spH < relTop + item.getOffsetHeight()) {
-				int pos = top + item.getOffsetHeight() - spH;
-				setVerticalScrollPosition(pos);
-			}
-		}
-
-		@Override
-		public void focusFirstElement() {
-			aview.focusFirst();
-		}
-
-		@Override
-		public void focusLastElement() {
-			aview.getInputTreeItem().getElement().focus();
-		}
-
-	}
-
-	/**
-	 * tab of tools
-	 */
-	class ToolsTab extends ToolbarTab implements TabHandler {
-	
-		/**
-		 * panel containing the tools
-		 */
-		Tools toolsPanel;
-
-		/**
-		 * button to get more tools
-		 */
-		StandardButton moreBtn;
-		
-		/**
-		 * button to get less tools
-		 */
-		StandardButton lessBtn;
-
-		/**
-		 * tab containing the tools
-		 */
-
-		private ScrollPanel sp;
-
-		/**
-		 * panel containing tools
-		 */
-		public ToolsTab() {
-			createContents();
-			handleMoreLessButtons();
-		}
-		
-		private void handleMoreLessButtons() {
-			createMoreLessButtons();
-			addMoreLessButtons();
-		}
-		
-		private void createMoreLessButtons() {
-			moreBtn = new StandardButton(
-					app.getLocalization().getMenu("Tools.More"), app);
-			moreBtn.addStyleName("moreLessBtn");
-			moreBtn.removeStyleName("button");
-			lessBtn = new StandardButton(
-					app.getLocalization().getMenu("Tools.Less"), app);
-			lessBtn.addStyleName("moreLessBtn");
-			lessBtn.removeStyleName("button");
-			moreBtn.addFastClickHandler(new FastClickHandler() {
-				
-				@Override
-				public void onClick(Widget source) {
-					onMorePressed();
-				}
-			});
-
-			lessBtn.addFastClickHandler(new FastClickHandler() {
-				
-				@Override
-				public void onClick(Widget source) {
-					onLessPressed();
-				}
-			});
-
-			if (app.has(Feature.TAB_ON_GUI)) {
-				moreBtn.addTabHandler(this);
-				lessBtn.addTabHandler(this);
-			}
-		}
-
-		/** More button handler */
-		protected void onMorePressed() {
-			ToolsetLevel level = app.getSettings().getToolbarSettings()
-					.getToolsetLevel();
-			if (level.equals(ToolsetLevel.EMPTY_CONSTRUCTION)) {
-				app.getSettings().getToolbarSettings()
-						.setToolsetLevel(ToolsetLevel.STANDARD);
-			} else if (level.equals(ToolsetLevel.STANDARD)) {
-				app.getSettings().getToolbarSettings()
-						.setToolsetLevel(ToolsetLevel.ADVANCED);
-			}
-			updateContent();
-		}
-
-		/** Less button handler */
-		protected void onLessPressed() {
-			ToolsetLevel level = app.getSettings().getToolbarSettings()
-					.getToolsetLevel();
-			AppType type = app.getSettings().getToolbarSettings().getType();
-			if (level.equals(ToolsetLevel.ADVANCED)) {
-				app.getSettings().getToolbarSettings()
-						.setToolsetLevel(ToolsetLevel.STANDARD);
-			} else if (level.equals(ToolsetLevel.STANDARD)
-					&& type.equals(AppType.GEOMETRY_CALC)) {
-				app.getSettings().getToolbarSettings()
-						.setToolsetLevel(ToolsetLevel.EMPTY_CONSTRUCTION);
-			} else {
-				app.getSettings().getToolbarSettings()
-						.setToolsetLevel(ToolsetLevel.STANDARD);
-			}
-			updateContent();
-		}
-
-		/**
-		 * add more or less button to tool panel
-		 */
-		public void addMoreLessButtons() {
-			AppType type = app.getSettings().getToolbarSettings().getType();
-			ToolsetLevel level = app.getSettings().getToolbarSettings().getToolsetLevel();
-			
-			if (type.equals(AppType.GRAPHING_CALCULATOR)) {
-				switch (level) {
-				case STANDARD:
-					toolsPanel.add(moreBtn);
-					break;
-					
-				case ADVANCED:
-					toolsPanel.add(lessBtn);
-				
-				default:
-					break;
-				}
-			} else if (type.equals(AppType.GEOMETRY_CALC)) {
-				switch (level) {
-				case EMPTY_CONSTRUCTION:
-					toolsPanel.add(moreBtn);
-					break;
-				case STANDARD:
-					toolsPanel.add(lessBtn);
-					toolsPanel.add(moreBtn);
-					break;
-					
-				case ADVANCED:
-					toolsPanel.add(lessBtn);
-				
-				default:
-					break;
-				}
-			}
-		}
-		
-		private void createContents() {
-			sp = new ScrollPanel();
-			sp.setAlwaysShowScrollBars(false);
-			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
-			sp.add(toolsPanel);
-			add(sp);
-		}
-		
-		/**
-		 * update the content of tool panel
-		 */
-		public void updateContent() {
-			toolsPanel.removeFromParent();
-			toolsPanel = new Tools((AppW) ToolbarPanel.this.app);
-			sp.clear();
-			sp.add(toolsPanel);
-			setLabels();
-			handleMoreLessButtons();
-		}
-
-		/**
-		 * Selects MODE_MOVE as mode and changes visual settings accordingly of
-		 * this.
-		 */
-		void setMoveMode() {
-			toolsPanel.setMoveMode();
-		}
-
-		/**
-		 * Changes visual settings of selected mode..
-		 * 
-		 * @param mode
-		 *            the mode will be selected
-		 */
-		void setMode(int mode) {
-			toolsPanel.setMode(mode);
-		}
-
-		@Override
-		public void onResize() {
-			super.onResize();
-			int w = getTabWidth();
-			if (w < 0) {
-				return;
-			}
-			setWidth(2 * w + "px");
-			getElement().getStyle().setLeft(w, Unit.PX);
-
-			sp.setWidth(w + "px");
-			sp.setHeight(app.getHeight() - CLOSED_HEIGHT_PORTRAIT + "px");
-			if (app.getWidth() < app.getHeight()) {
-				w = 420;
-			}
-			ToolTipManagerW.sharedInstance().setTooltipWidthOnResize(w);
-		}
-
-		@Override
-		public void focusFirstElement() {
-			toolsPanel.focusFirst();
-		}
-
-		@Override
-		public void focusLastElement() {
-			// TODO Auto-generated method stub
-
-		}
-
-		public boolean onTab(Widget source, boolean shiftDown) {
-			return false;
-		}
 	}
 
 	/**
@@ -534,8 +212,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		main = new FlowPanel();
 		sinkEvents(Event.ONCLICK);
 		main.addStyleName("main");
-		tabAlgebra = new AlgebraTab();
-		tabTools = new ToolsTab();
+		tabAlgebra = new AlgebraTab(this);
+		tabTools = new ToolsTab(this);
 		add(tabAlgebra);
 		add(tabTools);
 		addMoveBtn();
