@@ -138,7 +138,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			setHeight("100%");
 		}
 
-		public void setActive(boolean active) {
+		public void setActive(boolean active, boolean animated) {
 			if (active) {
 				removeStyleName("tab-hidden");
 				addStyleName("tab");
@@ -146,8 +146,20 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				removeStyleName("tab");
 				addStyleName("tab-hidden");
 			}
+
+			if (animated) {
+				addStyleName("animated");
+			}
 		}
 		
+		public void setAnimated(boolean animated) {
+			if (animated) {
+				addStyleName("animated");
+			} else {
+				removeStyleName("animated");
+			}
+		}
+
 		public abstract void focusFirstElement();
 		public abstract void focusLastElement();
 	}
@@ -914,23 +926,29 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	/**
 	 * Opens algebra tab.
+	 * 
+	 * @param animated
+	 *            decides if tab should animate or not.
 	 */
-	public void openAlgebra() {
+	public void openAlgebra(boolean animated) {
 		header.selectAlgebra();
 		selectedTab = tabAlgebra;
 		open();
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
 
-		tabAlgebra.setActive(true);
-		tabTools.setActive(false);
+		tabAlgebra.setActive(true, animated);
+		tabTools.setActive(false, animated);
 		hideMoveFloatingButton();
 	}
 
 	/**
 	 * Opens tools tab.
+	 * 
+	 * @param animated
+	 *            decides if tab should animate or not.
 	 */
-	public void openTools() {
+	public void openTools(boolean animated) {
 		ToolTipManagerW.hideAllToolTips();
 		header.selectTools();
 		selectedTab = tabTools;
@@ -938,8 +956,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		open();
 		main.removeStyleName("algebra");
 		main.addStyleName("tools");
-		tabAlgebra.setActive(false);
-		tabTools.setActive(true);
+		tabAlgebra.setActive(false, animated);
+		tabTools.setActive(true, animated);
 		updateMoveButton();
 
 	}
@@ -1186,8 +1204,18 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	}
 
-	/** Focus the lasst element of toolbar under header */
+	/** Focus the last element of toolbar under header */
 	public void focusLastElement() {
 		selectedTab.focusLastElement();
+	}
+
+	/**
+	 * Sets if current tab should animate or not.
+	 * 
+	 * @param animated
+	 *            to set.
+	 */
+	public void setTabAnimation(boolean animated) {
+		selectedTab.setAnimated(animated);
 	}
 }

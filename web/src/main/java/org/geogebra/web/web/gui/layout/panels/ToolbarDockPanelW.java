@@ -133,9 +133,9 @@ public class ToolbarDockPanelW extends DockPanelW {
 	public void setToolMode(boolean toolMode) {
 		if (toolbar != null) {
 			if (toolMode) {
-				toolbar.openTools();
+				toolbar.openTools(false);
 			} else {
-				toolbar.openAlgebra();
+				toolbar.openAlgebra(false);
 			}
 			toolbar.updateHeader();
 		}
