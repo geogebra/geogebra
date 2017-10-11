@@ -8,8 +8,10 @@
 	$toolbarWidth: 600px;
 	$toolbarHeight: 56px;
 	$submenuHeight: 178px;
+	$pagecontrolpanelWidth: 182px;
 	
 	$toolbar-transition: bottom 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+	$pagecontrol-transition: right 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	
 	.mowToolbar {
 		position: relative;
@@ -548,7 +550,6 @@
 		}	
 		
 		&:hover {
-			/*background-color: #666;*/
 			background-color: $selected-menuitem-background;
 			
 			img {
@@ -561,6 +562,53 @@
 		opacity: 1;	 
 		visibility: visible;
 		transition: opacity 0.2s ease;
+	}
+	
+/*****************
+*   PAGE CONTROL PANEL
+******************/
+	.pageControlPanel {
+		position: absolute;
+		top: 0px;
+		right: 0px;
+		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+		background-color: $white;
+		z-index: 500;
+		height: 100%;
+		width: $pagecontrolpanelWidth;
+    	overflow-y: auto;
+	}
+	
+	.closeButton {
+		float: right;
+   		padding: 8px;
+   		height: 24px;
+    	opacity: 0.54;
+    	cursor: pointer;
+	}
+	
+	.pageControlPanel.animateIn {
+		animation-duration: 0.25s;
+		animation-name: pCPanimateIn;
+		overflow: auto;
+	}
+			
+	@keyframes pCPanimateIn {
+		0% {right: -$pagecontrolpanelWidth; top: 0px;}
+		50% {right: -calc($pagecontrolpanelWidth/3); top: 0px;}
+		100% {right: 0px; top: 0px;}
+	}
+	
+	.pageControlPanel.animateOut {
+		animation-duration: 0.25s;
+		animation-name: pCPanimateOut;
+		overflow-y: auto;
+	}
+			
+	@keyframes pCPanimateOut {
+		0% {right: 0px; top: 0px;}
+		50% {right: -calc($pagecontrolpanelWidth*2/3); top: 0px;}
+		100% {right: -$pagecontrolpanelWidth; top: 0px;}
 	}
 }
 

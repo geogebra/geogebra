@@ -40,6 +40,7 @@ import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.web.gui.pagecontrolpanel.PageControlPanel;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
@@ -83,6 +84,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	private HeaderPanel lastBG;
 	private MOWToolbar mowToolbar;
 	private StandardButton openMenuButton;
+	private PageControlPanel pageControlPanel;
 
 	/**
 	 * @param factory
@@ -786,6 +788,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		if (app1.has(Feature.MOW_TOOLBAR)) {
 			attachMOWToolbar(app1);
 			attachOpenMenuButton();
+			if (app1.has(Feature.MOW_MULTI_PAGE)) {
+				initPageControlPanel(app1);
+			}
 			return;
 		}
 
@@ -899,6 +904,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final int eventType = DOM.eventGetType(event);
 		if (eventType == Event.ONMOUSEDOWN || eventType == Event.ONTOUCHSTART) {
 			closePopupsAndMaybeMenu(event);
+			if (app.has(Feature.MOW_MULTI_PAGE) && pageControlPanel != null) {
+				pageControlPanel.close();
+			}
 		}
 	}
 
@@ -980,4 +988,20 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.keyboardShowing = keyboardShowing;
 	}
 
+	private void initPageControlPanel(AppW app1) {
+		if (!app1.has(Feature.MOW_MULTI_PAGE)) {
+			return;
+		}
+		if (pageControlPanel == null) {
+			pageControlPanel = new PageControlPanel(app1);
+		}
+	}
+
+	/**
+	 * 
+	 * @return pageControlPanel
+	 */
+	public PageControlPanel getPageControlPanel() {
+		return pageControlPanel;
+	}
 }

@@ -13,7 +13,9 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.pagecontrolpanel.PageControlPanel;
 import org.geogebra.web.web.gui.util.PersistablePanel;
+import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -57,6 +59,7 @@ public class MOWToolbar extends FlowPanel {
 	private MyToggleButton btnRedo;
 
 	private StandardButton pageControlButton;
+	private PageControlPanel pageControlPanel;
 
 	private final static int MAX_TOOLBAR_WIDTH = 600;
 	/**
@@ -333,31 +336,44 @@ public class MOWToolbar extends FlowPanel {
 
 			public void onClick(Widget source) {
 				// TODO open Page Control Panel
-				// TODO hide pageControlButton
-				// hidePageControlButton();
+				openPageControlPanel();
 				// TODO show floating + button
-
 			}
 		});
 	}
 
 	/**
-	 * Hide floating page control button
+	 * Opens the page control panel
 	 */
-	/*
-	 * public void hidePageControlButton() { if (pageControlButton == null) {
-	 * return; } pageControlButton.addStyleName("hidePageControlButton");
-	 * pageControlButton.removeStyleName("showPageControlButton"); }
-	 */
+	public void openPageControlPanel(){
+		if(pageControlPanel == null){
+			pageControlPanel = ((AppWapplet) app).getAppletFrame()
+					.getPageControlPanel();
+		}
+		pageControlPanel.open();
+	}
 
 	/**
-	 * Show floating page control button
+	 * Hides floating page control button
 	 */
-	/*
-	 * public void showPageControlButton() { if (pageControlButton == null) {
-	 * return; } pageControlButton.addStyleName("showPageControlButton");
-	 * pageControlButton.removeStyleName("hidePageControlButton"); }
+	public void hidePageControlButton() {
+		if (pageControlButton == null) {
+			return;
+		}
+		pageControlButton.addStyleName("hidePageControlButton");
+		pageControlButton.removeStyleName("showPageControlButton");
+	}
+
+	/**
+	 * Shows floating page control button
 	 */
+	public void showPageControlButton() {
+		if (pageControlButton == null) {
+			return;
+		}
+		pageControlButton.addStyleName("showPageControlButton");
+		pageControlButton.removeStyleName("hidePageControlButton");
+	}
 
 	/**
 	 * @return pageControlButton
