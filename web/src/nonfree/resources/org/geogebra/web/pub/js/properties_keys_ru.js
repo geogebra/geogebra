@@ -1786,7 +1786,7 @@ __GGB__keysVar.ru.menu = {
     "Function.asin": "arcsin",
     "Function.asind": "asind",
     "Function.asinh": "arcsh",
-    "Function.atan": "arcctg",
+    "Function.atan": "arctg",
     "Function.atand": "atand",
     "Function.atanh": "arcth",
     "Function.conjugate": "conjugate",
