@@ -139,6 +139,7 @@ namespace giac {
   gen horner(const modpoly & p,const gen & x,environment * env,modpoly & q);
   gen horner(const modpoly & p,const fraction & f,bool simp);
   gen _horner(const gen & args,GIAC_CONTEXT);
+  std::complex<double> horner_newton(const vecteur & p,const std::complex<double> &x,GIAC_CONTEXT); // x-p(x)/p'(x)
 
   void hornerfrac(const modpoly & p,const gen &num, const gen &den,gen & res,gen & d); // res/d=p(num/den)
   // find bounds for p(interval[l,r]) with p, l and r real and exact

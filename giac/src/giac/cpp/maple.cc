@@ -3658,6 +3658,7 @@ namespace giac {
       string funcname=args.print(contextptr);
       string filename="giac_"+funcname+".cpp";
       ofstream of(filename.c_str());
+      of << "#include <giac/config.h>" << endl;
       of << "#include <giac/giac.h>" << endl;
       of << "using namespace std;" << endl;
       of << "namespace giac {" << endl;
@@ -3674,7 +3675,7 @@ namespace giac {
       if (not_ok)
 	*logptr(contextptr) << "Warning, indent not found, please install for nice output" << endl;
       cmd="c++ -I.. -I. -fPIC -DPIC -g -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
-      *logptr(contextptr) << "Running " << cmd << endl;
+      *logptr(contextptr) << "Running\n" << cmd << endl;
       not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok){
 	*logptr(contextptr) << "Unable to compile, please fix cpp file" << endl;
@@ -3684,7 +3685,7 @@ namespace giac {
       //*logptr(contextptr) << "Running " << cmd << endl;
       //not_ok=system_no_deprecation(cmd.c_str());
       cmd="cc -shared giac_"+funcname+".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"+funcname+"so.0 -o libgiac_"+funcname+".so.0.0.0";
-      *logptr(contextptr) << "Running " << cmd << endl;
+      *logptr(contextptr) << cmd << endl;
       not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok){
 	*logptr(contextptr) << "Unable to create shared library, perhaps missing libraries?" << endl;
@@ -3693,7 +3694,7 @@ namespace giac {
       //cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so.0";
       //system_no_deprecation(cmd.c_str());
       cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so";
-      *logptr(contextptr) << "Running " << cmd << endl;
+      *logptr(contextptr) << cmd << endl;
       not_ok=system_no_deprecation(cmd.c_str());
       *logptr(contextptr) << "You can now run insmod(\"" << funcname << "\")" << endl;
       return 1;
