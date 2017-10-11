@@ -179,6 +179,10 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for Algebra button.
 	 */
 	protected void onAlgebraPressed() {
+		if (!open) {
+			toolbarPanel.setTabAnimation(false);
+		}
+
 		toolbarPanel.openAlgebra(open);
 		toolbarPanel.setMoveMode();
 		app.setKeyboardNeeded(true);
@@ -190,11 +194,14 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Handler for button.
 	 */
 	protected void onToolsPressed() {
-		boolean animated = isOpen();
+		if (!open) {
+			toolbarPanel.setTabAnimation(false);
+		}
+
 		app.setKeyboardNeeded(false);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(false);
-		toolbarPanel.openTools(animated);
+		toolbarPanel.openTools(open);
 	}
 
 	/**

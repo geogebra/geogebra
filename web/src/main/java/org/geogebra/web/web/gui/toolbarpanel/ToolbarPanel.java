@@ -894,6 +894,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 *            to set.
 	 */
 	public void setTabAnimation(boolean animated) {
-		selectedTab.setAnimated(animated);
+		tabAlgebra.setAnimated(animated);
+		tabTools.setAnimated(animated);
 	}
 }
