@@ -60,8 +60,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.factories.AwtFactoryD;
-import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
+import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.geogebra3D.App3DCompanionD;
 import org.geogebra.desktop.io.MyXMLioD;
@@ -605,7 +605,7 @@ public class AppDNoGui extends App {
 
 	@Override
 	public CASFactory getCASFactory() {
-		return new CASFactoryD();
+		return new LoggingCASFactoryD();
 	}
 
 	@Override

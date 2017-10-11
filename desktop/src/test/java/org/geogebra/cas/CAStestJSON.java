@@ -30,8 +30,10 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.test.util.ReportBuilder;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -270,7 +272,6 @@ public class CAStestJSON {
 			} else {
 				app.setRounding("2");
 			}
-			Log.debug(cmd.input);
 			t(failures, cmd.input, cmd.output);
 		}
 		Assert.assertEquals(failures[0].toString(), failures[1].toString());
@@ -284,7 +285,12 @@ public class CAStestJSON {
 			sb.append(cat);
 			sb.append(',');
 		}
+		ReportBuilder report = new ReportBuilder("giac.js");
+		report.callback("exports.rawTest = ");
+		LoggingCASFactoryD.printResponses(report);
+		report.close();
 		Assert.assertEquals("SLOW,", sb.toString());
+
 	}
 
 	@Test

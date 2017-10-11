@@ -3044,7 +3044,6 @@ public class GeoCasCell extends GeoElement
 	 *            new twin GeoElement
 	 */
 	private void setTwinGeo(final GeoElement newTwinGeo) {
-		Log.debug(newTwinGeo);
 		if (newTwinGeo == null && twinGeo != null) {
 			GeoElement oldTwinGeo = twinGeo;
 			twinGeo = null;

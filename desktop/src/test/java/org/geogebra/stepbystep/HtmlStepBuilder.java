@@ -1,12 +1,7 @@
 package org.geogebra.stepbystep;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
+import org.geogebra.test.util.ReportBuilder;
 
 /**
  * Builds step-by step report for multiple testcases, separated by headings into
@@ -74,28 +69,8 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	 *            filename
 	 */
 	public void printReport(String filename) {
-		final String path = "build" + File.separator + "reports";
-		File dir = new File(path);
-		dir.mkdirs();
-		File f = new File(path + File.separator + filename);
-
-		OutputStreamWriter isw = null;
-		try {
-			isw = new OutputStreamWriter(new FileOutputStream(f));
-			isw.write(getHtml());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (isw != null) {
-			try {
-				isw.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		System.out.println("file:///" + f.getAbsolutePath());
-
+		ReportBuilder report = new ReportBuilder(filename);
+		report.callback(getHtml());
+		report.close();
 	}
 }

@@ -66,13 +66,13 @@ public abstract class CASgiacB extends CASgiac {
 
         String exp = wrapInevalfa(exp0);
 
-		Log.debug("giac evalRaw input: " + StringUtil.toJavaString(exp));
+		debug("giac evalRaw input: ", StringUtil.toJavaString(exp));
 
         Gen g = binding.createGen("caseval(" + exp + ")", context);
         g = g.eval(1, context);
         String ret = g.print(context);
 
-        Log.debug("giac evalRaw output: " + ret);
+		debug("giac evalRaw output: ", ret);
 
         if (ret != null && ret.startsWith("\"") && ret.endsWith("\"")) {
             ret = ret.substring(1, ret.length() - 1);
@@ -81,7 +81,18 @@ public abstract class CASgiacB extends CASgiac {
         return ret;
     }
 
-    private void init(String exp, long timeoutMilliseconds) {
+	/**
+	 * @param prefix
+	 *            debug prefix
+	 * @param giacString
+	 *            giac input / output
+	 */
+	protected void debug(String prefix, String giacString) {
+		Log.debug(prefix + giacString);
+
+	}
+
+	private void init(String exp, long timeoutMilliseconds) {
         CASGiacBinding binding = createBinding();
         Gen g = binding.createGen(initString, context);
         g.eval(1, context);
