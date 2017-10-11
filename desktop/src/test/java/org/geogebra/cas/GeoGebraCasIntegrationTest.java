@@ -1919,7 +1919,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void IntegralBetween_1 () {
 		t("IntegralBetween[a * sin(t), a * cos(t), t, pi / 4, pi * 5 / 4]",
-				"2 * a * sqrt(2)", "2 * sqrt(2) * a");
+				"sqrt(2) * 2 * a", "2 * a * sqrt(2)", "2 * sqrt(2) * a");
   }
 
   @Test

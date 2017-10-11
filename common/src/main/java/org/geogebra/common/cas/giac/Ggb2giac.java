@@ -379,35 +379,53 @@ public class Ggb2giac {
 		// simplify() added to improve Integral[2*exp(0.5x),0,ln(4)]
 		// check for ? for eg Integral[ln(x)-x+4,0.45,2.07]
 		// check length for eg Integral[ln(x),0.45,2.07]
-		p("Integral.3",
-				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)],[ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)],[ggbintanssimplified:=simplify(ggbintans)]],"
-						+ "when(ggbintanssimplified==undef||length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
-		p("Integral.4",
-				"[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2,%3)],[ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)],[ggbintanssimplified:=simplify(ggbintans)]],"
-						+ "when(ggbintanssimplified==undef||length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
-		p("IntegralBetween.4",
-				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),x,%2,%3)],[ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)],[ggbintanssimplified:=simplify(ggbintans)]],"
-						+ "when(ggbintanssimplified==undef||length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
-		p("IntegralBetween.5",
-				"[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),%2,%3,%4)],[ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)],[ggbintanssimplified:=simplify(ggbintans)]],"
-						+ "when(ggbintanssimplified==undef||length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)][1]");
 
-		// p("Integral.3",
-		// "[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)]],"
-		// +
-		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
-		// p("Integral.4",
-		// "[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2,%3)]],"
-		// +
-		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
-		// p("IntegralBetween.4",
-		// "[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),x,%2,%3)]],"
-		// +
-		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
-		// p("IntegralBetween.5",
-		// "[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),%2,%3,%4)]],"
-		// +
-		// "normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]");
+		// also constant factors are taken out first
+		// necessary for eg
+		// Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),0,pi/2)
+
+		String integral = "[[ggbintans:=0/0], [arg0:=REPLACEME0], [vars := lname(arg0)], [factored:=factors(arg0)],"
+
+				// for collecting constant factors
+				+ "[constant := 1],"
+
+				// variable factors
+				+ "[variable := 1],"
+
+				+ "[seq(when(!contains(lname(factored[j]),REPLACEME1),constant*=factored[j]^factored[j+1],variable*=factored[j]^factored[j+1]),j,0,length(factored)-1,2)],"
+
+				+ "[ggbintans:=constant*integrate(variable,REPLACEME1,REPLACEME2,REPLACEME3)],"
+
+				// convert {1.2,3.2} into 3.2
+				+ "[ggbintans:=when(type(ggbintans)==DOM_LIST,ggbintans[size(ggbintans)-1],ggbintans)],"
+
+				+ "[ggbintanssimplified:=simplify(ggbintans)],"
+
+				// pick shorter answer (shorter == "simpler")
+				+ "when(ggbintanssimplified==undef||length(\"\"+ggbintans)<=length(\"\"+ggbintanssimplified),regroup(ggbintans),ggbintanssimplified)"
+
+				+ "][-1]";
+
+		p("Integral.3",
+				integral.replace("REPLACEME0", "%0").replace("REPLACEME1", "x")
+						.replace("REPLACEME2", "%1")
+						.replace("REPLACEME3", "%2"));
+
+		p("Integral.4",
+				integral.replace("REPLACEME0", "%0").replace("REPLACEME1", "%1")
+						.replace("REPLACEME2", "%2")
+						.replace("REPLACEME3", "%3"));
+
+		p("IntegralBetween.4",
+				integral.replace("REPLACEME0", "%0-(%1)")
+						.replace("REPLACEME1", "x").replace("REPLACEME2", "%2")
+						.replace("REPLACEME3", "%3"));
+
+		p("IntegralBetween.5",
+				integral.replace("REPLACEME0", "%0-(%1)")
+						.replace("REPLACEME1", "%2").replace("REPLACEME2", "%3")
+						.replace("REPLACEME3", "%4"));
+
 
 		// need to wrap in coordinates() for
 		// Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10]]
