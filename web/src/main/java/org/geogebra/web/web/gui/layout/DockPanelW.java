@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.layout;
 
 import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -17,6 +16,7 @@ import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -608,10 +608,20 @@ public abstract class DockPanelW extends ResizeComposite implements
 	/** Graphics Settings button handler */
 	protected void onGraphicsSettingsPressed() {
 		int x = graphicsContextMenuBtn.getAbsoluteLeft();
-		int y = 8;
-		ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
+		final int y = 8;
+		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
 				app, x, y);
-		contextMenu.show(new GPoint(x, y));
+		contextMenu.getWrappedPopup().getPopupPanel()
+				.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+					@Override
+					public void setPosition(int offsetWidth, int offsetHeight) {
+						contextMenu.getWrappedPopup().getPopupPanel()
+								.setPopupPosition(
+										(int) app.getWidth() - offsetWidth,
+										y);
+					}
+				});
+
 	}
 
 	/**
