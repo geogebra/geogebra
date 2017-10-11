@@ -7316,7 +7316,7 @@ namespace giac {
       return status;
     if (fullreductionafter){ 
       det=M[lmax-1][c-linit+lmax-1];
-      if (status==3 || det==0){ 
+      if (status==3 || is_zero(det)){ 
 	// not Cramer like, re-reduce, 
 	pivots.clear();
 	matrice2std_matrix_gen(res,M); det=detnum=detnumsave;// this should be commented but some outputs are more complicated

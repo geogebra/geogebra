@@ -1771,8 +1771,10 @@ namespace giac {
     if (!l.empty() && l.front().type==_VECT && has_op(e,*at_rootof)){
       vecteur lve(lvar(e)),lvr;
       for (int i=0;i<lve.size();++i){
-	if (lve[i].is_symb_of_sommet(at_rootof))
+	if (lve[i].is_symb_of_sommet(at_rootof)){
 	  lvr.push_back(lve[i]);
+	  continue;
+	}
       }
       if (!lvr.empty()){
 	vector<const unary_function_ptr *> vu;
@@ -1846,7 +1848,11 @@ namespace giac {
     else
       l_size=int(l.size());
     gen num,den;
-    sym2r(e,l,l_size,num,den,contextptr);
+    bool ok=sym2r(e,l,l_size,num,den,contextptr);
+    if (!ok){
+      num=string2gen("Error in normal",false);
+      num.subtype=-1; //gensizeerr(contextptr);
+    }
     if (is_positive(-den,contextptr)) 
       return fraction(-num,-den);
     else
