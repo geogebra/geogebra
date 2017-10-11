@@ -183,6 +183,8 @@ public class ZoomPanel extends FlowPanel
 			resetStyleAfterFullscreen(container);
 			Browser.scale(scaler, app.getArticleElement().getDataParamScale(),
 					0, 0);
+			app.getArticleElement().resetScale();
+			app.recalculateEnvironments();
 		}
 
 		Browser.scale(zoomPanel.getElement(), 1, 0, 0);
