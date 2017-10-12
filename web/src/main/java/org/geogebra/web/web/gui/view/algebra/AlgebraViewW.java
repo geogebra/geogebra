@@ -1512,7 +1512,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 		}
 		showAlgebraInput(forceKeyboard);
-		if (app.has(Feature.TAB_ON_GUI)) {
+		if (app.has(Feature.TAB_ON_GUI) && inputPanelTreeItem != null) {
 			inputPanelTreeItem.getElement().setTabIndex(GUITabs.AV_TAB_START);
 		}
 
@@ -1550,8 +1550,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// hideAlgebraInput();
 			// except it also makes this null, no problem
 			// ... or? still preferring to be safe
-			if (inputPanelLatex != null
-					&& inputPanelLatex.getWidget() != null) {
+			if (inputPanelLatex != null) {
 				inputWidth = inputPanelLatex.getWidget().getElement()
 					.getParentElement().getClientWidth();
 			}
