@@ -1395,6 +1395,17 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
+	 * @param capitalCase
+	 *            string starting with uppercase
+	 * @return string starting with lowercase
+	 */
+	public static String uncapitalize(String capitalCase) {
+		// use localized version of toUpperCase(), not toUpperCase(Locale.US)
+		return (capitalCase.charAt(0) + "").toLowerCase()
+				+ capitalCase.substring(1, capitalCase.length());
+	}
+
+	/**
 	 * @param delimiter
 	 *            delimiter
 	 * @param objects

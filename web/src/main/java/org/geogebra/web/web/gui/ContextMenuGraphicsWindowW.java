@@ -388,7 +388,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			mi = new MenuItem(sb.toString(), new Command() {
 				@Override
 				public void execute() {
-					zoom(getZoomfactors()[index]);
+					zoom(getZoomfactor(index));
 				}
 			});
 			menu.addItem(mi);

@@ -1,7 +1,5 @@
 package org.geogebra.common.gui;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -26,6 +24,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTraceManager;
+
+import java.util.ArrayList;
 
 /**
  * @author gabor
@@ -593,8 +593,8 @@ public abstract class ContextMenuGeoElement {
 		this.geoLabel = geo.getLabelSimple();
 	}
 
-	public static double[] getZoomfactors() {
-		return zoomFactors;
+	public static double getZoomfactor(int index) {
+		return zoomFactors[index];
 	}
 	protected ArrayList<GeoElement> getGeos() {
 		return geos;

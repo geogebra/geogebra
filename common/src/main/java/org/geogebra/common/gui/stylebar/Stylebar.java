@@ -18,13 +18,13 @@ import java.util.List;
 
 public class Stylebar {
 
-    private final int MARGIN = 4;
+	private final static int MARGIN = 4;
 
     private App app;
     private EuclidianView euclidianView;
     private SelectionManager selectionManager;
 
-    private int stylebarHeight;
+	private int stylebarHeight;
     private int minTopPosition;
     private int maxTopPosition;
 
