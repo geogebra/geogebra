@@ -408,13 +408,13 @@ public class ViewW {
 	 *            JSON encoded ZIP file (zip.js format)
 	 */
 	public native void processJSON(String encoded) /*-{
-
 		var content = JSON.parse(encoded).archive;
-		this.@org.geogebra.web.html5.util.ViewW::prepare(I)(content.length);
-		for (var k = 0; k < content.length; k++) {
-			this.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,content[k].fileContent);
+		if (content) {
+			this.@org.geogebra.web.html5.util.ViewW::prepare(I)(content.length);
+			for (var k = 0; k < content.length; k++) {
+				this.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(content[k].fileName,content[k].fileContent);
+			}
 		}
-
 	}-*/;
 
 	public native void processJSON(JavaScriptObject zip) /*-{

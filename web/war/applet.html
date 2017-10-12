@@ -4,6 +4,15 @@
 <title>GeoGebra Dinamikus munkalap</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="gwt:property" content="locale=en">
+<style>
+body{
+font-family:sans-serif;
+}
+label{
+min-width:160px;
+display:inline-block;
+}
+</style>
 <script type="text/javascript">
 // for IE9
 if (!window.console) window.console = {};
@@ -23,24 +32,68 @@ if (!window.console.log) window.console.log = function () { };
             };
             
             var params = {
-            "showToolBar":"boolean",
-            "showMenuBar":"boolean",
-            "showAlgebraInput":"boolean",
-            "enableRightClick":["boolean", true],
+            		"appName":["select","classic","graphing","geometry","3d"],
+            		"showToolBar":"boolean",
+            		"showMenuBar":"boolean",
+            		"showAlgebraInput":"boolean",
+            		"tubeID":"text",
+            		"enableUndoRedo":"boolean",
+            		"enableRightClick":"boolean",
+            		"enableCAS":"boolean",
+            		"allowSymbolTable":"boolean",
+            		"customToolBar":"text",
+            		"shiftDragZoomEnabled":"boolean",
+            		"allowStyleBar":"boolean",
+            		"allowStyleBar":"boolean",
+            		"rounding":"text",
+            		"language":"text",            		
+            		"showToolBarHelp":"boolean",
+            		"errorDialogsActive":"boolean",
+            		"enableFileFeatures":"boolean",
+            		"showResetIcon":"boolean",
+            		"showAnimationButton":"boolean",
+            		"enableGraphing":["boolean","true"],
+            		"base64String":"text",
+            		"useBrowserForJS":"boolean",
+            		"screenshotGenerator":"boolean",
+            		"perspective":"text",
+            		"prerelease":"boolean",
+            		"border":["text","#D3D3D3"],
+            		"capturingThreshold":"boolean",
+            		"fitToScreen":"boolean",
+            		"showStartTooltip":"boolean",
+            		"country":"text",
+            		"showLogging":"boolean",
+            		"scale":"number",
+            		"enable3D":"boolean",
+            		"showAppsPicker":"boolean",
+            		"showFullscreenButton":"boolean",
+            		"marginTop":"boolean",
+            		"showZoomButtons":"boolean",
+            		"getDataClientID":"boolean",
+            		"laf":"text",
+            		"fileName":"text",
+            		"enableLabelDrags":"boolean",
+            		"showSuggestionButtons":"boolean",
+            		"app":"boolean",
+            		"jSON":"text",
+            		"id":"boolean",
             "width":["text",600],
             "height":["text",450]
             
             }
-            function decode(val){
-            	if(val == "on"){
-            		return "true";
+            function decode(el, param){
+            	if(el.type == "checkbox"){
+            		return el.checked+"";
             	}
-            	return "false";
+            	return el.value.length ? el.value : null;
             }
             function updateParams(article){
             	for(param in params){
-            		article.setAttribute("data-param-"+param,
-            		decode(document.getElementById("set"+param).value));
+            		if(decode(document.getElementById("set"+param), param)){
+	            		article.setAttribute("data-param-"+param,
+	            		decode(document.getElementById("set"+param), param));
+            		}
             	}
             	renderGGBElement(article);
             }
@@ -48,10 +101,20 @@ if (!window.console.log) window.console.log = function () { };
                 var article = document.createElement("article");
                 
             	for(param in params){
-            		var input = document.createElement("input");
+            		type = typeof params[param] == "object" ? params[param][0] : params[param];
+            		var input = document.createElement(type == "select" ? "select" : "input");
+            		if(type == "select"){
+            			for(var opt = 1;opt<params[param].length;opt++){
+            				var optVal = params[param][opt];
+            				var optTag = document.createElement("option");
+            				optTag.innerText = optVal;
+            				optTag.value=optVal;
+            				input.appendChild(optTag);
+            			}
+            		}
             		label = document.createElement("label");
             		label.innerText=param;
-            		type = typeof params[param] == "object" ? params[param][0] : params[param];
+            		
             		val = typeof params[param] == "object" ? params[param][1] : null;
             		input.type = type.replace("boolean","checkbox");
             		if(type == "boolean"){
@@ -73,25 +136,34 @@ if (!window.console.log) window.console.log = function () { };
             	
             	
             	article.className = "geogebraweb";
-            	document.body.appendChild(article);
+            	document.getElementById("parent").appendChild(article);
             	settings=location.search.substring(1).split(",");
             	for(i in settings){
             		var parts = settings[i].split(":");
-            		article.setAttribute("data-param-"+parts[0], parts[1] || "true");
+            		if(params[parts[0]]){
+	            		article.setAttribute("data-param-"+parts[0], parts[1] || "true");
+	            		if(parts[1]){
+	            			document.getElementById("set"+parts[0]).value = parts[1];
+	            		}else{
+	            			document.getElementById("set"+parts[0]).checked = true;
+	            		}
+            		}
             	}
             	
             	article.setAttribute("data-param-showLogging", "true");
             	
             	var w3d =document.createElement("script");
             	w3d.src="web3d/web3d.nocache.js";
-            	document.getElementById("parent").appendChild(w3d);
+            	document.body.appendChild(w3d);
             });
 </script>
 <script src="web3d/js/webfont.js?v=1.15"></script>
 </head>
 <body>
-    <div id="settings"></form>
-    <div style="margin-left:100px;margin-top:100px;" id="parent"><div>
+    <div id="settings" style="position:absolute;right:0;top:0"></div>
+    <div style="margin-left:100px;margin-top:100px;">
+        <div id="parent">
+        </div>
     </div>
     
  

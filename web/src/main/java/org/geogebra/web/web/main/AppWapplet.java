@@ -828,10 +828,11 @@ public class AppWapplet extends AppWFull {
 			newHeight -= frame.getKeyboardHeight();
 
 		}
-
-		this.spHeight = newHeight;
-		if (oldSplitLayoutPanel != null) {
-			oldSplitLayoutPanel.setHeight(spHeight + "px");
+		if (newHeight >= 0) {
+			this.spHeight = newHeight;
+			if (oldSplitLayoutPanel != null) {
+				oldSplitLayoutPanel.setHeight(spHeight + "px");
+			}
 		}
 	}
 
