@@ -19,14 +19,14 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public enum SimplificationSteps {
 
@@ -1733,8 +1733,9 @@ public enum SimplificationSteps {
 
 								for (int k = polynomialForm.length - 1; k > 0; k--) {
 									reorganized.addSubTree(nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
+									long coeff = i * integerForm[k] / j;
 									reorganized.addSubTree(
-											negate(nonTrivialProduct(i * integerForm[k] / j,
+											negate(nonTrivialProduct(coeff,
 													nonTrivialPower(var, k - 1))));
 									integerForm[k - 1] += i * integerForm[k] / j;
 								}
@@ -1790,8 +1791,12 @@ public enum SimplificationSteps {
 								StepNode innerSum = add(nonTrivialProduct(j, var), -i);
 								innerSum.setColor(colorTracker[0]++);
 								for (int k = polynomialForm.length - 1; k > 0; k--) {
+									long coeff = integerForm[k] / j;
 									factored.addSubTree(
-											multiply(nonTrivialProduct(integerForm[k] / j, nonTrivialPower(var, k - 1)),
+											multiply(
+													nonTrivialProduct(coeff,
+															nonTrivialPower(var,
+																	k - 1)),
 													innerSum));
 									integerForm[k - 1] += i * integerForm[k] / j;
 								}

@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian;
 
-import java.util.ArrayList;
-
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -35,6 +33,8 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+
+import java.util.ArrayList;
 
 /**
  * Class that creates geos for EuclidianController. Needed for special 3D stuff.
@@ -285,6 +285,13 @@ public class EuclidianControllerCompanion {
 		return point;
 	}
 
+	/**
+	 * @param point
+	 *            point
+	 * @param line
+	 *            line
+	 * @return line orthogonal to the given one, going through a point
+	 */
 	protected GeoElement[] orthogonal(GeoPointND point, GeoLineND line) {
 		ec.checkZooming();
 
@@ -293,15 +300,25 @@ public class EuclidianControllerCompanion {
 	}
 
 	/**
+	 * Creates point on path
 	 * 
+	 * @param label
+	 *            point label
 	 * @param forPreviewable
+	 *            whether it's for preview
 	 * @param path
+	 *            parent path
 	 * @param x
+	 *            x-coord
 	 * @param y
+	 *            y-coord
 	 * @param z
+	 *            z-coord
 	 * @param complex
+	 *            whether it's for complex number
 	 * @param coords2D
-	 * @return new point for the path
+	 *            whether to force coord type to 2D
+	 * @return new point for the pathD
 	 */
 	public GeoPointND createNewPoint(String label, boolean forPreviewable,
 			Path path, double x, double y, double z, boolean complex,
@@ -312,8 +329,8 @@ public class EuclidianControllerCompanion {
 	}
 
 	/**
-	 * 
 	 * @param segment
+	 *            segment
 	 * @return midpoint for segment
 	 */
 	protected GeoElement midpoint(GeoSegmentND segment) {
@@ -327,6 +344,7 @@ public class EuclidianControllerCompanion {
 	/**
 	 * 
 	 * @param conic
+	 *            conic curve
 	 * @return center of conic
 	 */
 	protected GeoElement midpoint(GeoConicND conic) {
@@ -750,6 +768,10 @@ public class EuclidianControllerCompanion {
 		return !ec.getApplication().has(Feature.ABSOLUTE_TEXTS);
 	}
 
+	/**
+	 * @param event
+	 *            mouse event
+	 */
 	public void setMouseLocation(AbstractEvent event) {
 		ec.setMouseLocation(event.isAltDown(), event.getX(), event.getY());
 	}

@@ -113,27 +113,7 @@ public class DrawGrid {
 		}
 
 		final double left = view.positiveAxes[0] ? xCrossPix : 0;
-		
-		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
-			// if xCrossPix less than the width of the view, grid won't be drawn
-			// to the right border at the case when the yAxis is offscreen on
-			// the right.
-			if (xCrossPix1 >= view.getWidth()) {
-				xCrossPix = view.getWidth() - Kernel.MIN_PRECISION;
-			} else {
-				// There will be some space for numbers, where grid won't be
-				// drawn, labelspace should contain the bigger width.
-				// See drawLineAvoidingLabelsH function.
-				double labelspace = (view.yLabelMaxWidthNeg > 0)
-						? view.yLabelMaxWidthNeg + 10
-						: view.yLabelMaxWidthPos + 10;
 
-				if (xCrossPix - labelspace <= 0) {
-					xCrossPix = labelspace;
-				}
-			}
-		}
-		
 		final double yAxisEnd = (view.positiveAxes[1]
 				&& yCrossPix < view.getHeight()) ? yCrossPix : view.getHeight();
 
