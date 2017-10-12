@@ -16,14 +16,25 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.himamis.retex.editor.share.util.Unicode;
 
-// Later this shall inherit from MyTextField instead of TextBox
+/**
+ * Textfield that adds degree symbol to text
+ * 
+ * Later this shall inherit from MyTextField instead of TextBox
+ */
 
 public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 		HasKeyboardTF {
-
+	/** app */
 	AppW app;
+	/** Whether dummy cursor is needed (touch devices) */
 	boolean dummyCursor = false;
 
+	/**
+	 * @param columns
+	 *            width
+	 * @param app
+	 *            app
+	 */
 	public AngleTextFieldW(int columns, AppW app) {
 		super();
 		this.app = app;
@@ -109,6 +120,9 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 		}
 	}
 
+	/**
+	 * Enable onscreen keyboard
+	 */
 	public void enableGGBKeyboard() {
 		if (!app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			return;
@@ -163,6 +177,10 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 		return cpos;
 	}
 
+	/**
+	 * @param caretPos
+	 *            position to insert dummy cursor
+	 */
 	public void addDummyCursor(int caretPos) {
 		if (dummyCursor) {
 			return;

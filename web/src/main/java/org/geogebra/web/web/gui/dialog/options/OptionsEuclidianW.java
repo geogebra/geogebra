@@ -1,7 +1,5 @@
 package org.geogebra.web.web.gui.dialog.options;
 
-import java.util.Collection;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -37,6 +35,8 @@ import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
+
+import java.util.Collection;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -378,7 +378,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIconW
 						.createAxesStyleIcon(EuclidianStyleConstants
-								.getLineStyleOptions(i), false);
+								.getLineStyleOptions(i));
 			}
 			
 			axesStylePopup = new PopupMenuButtonW(app, iconArray, -1, 1,

@@ -1,8 +1,5 @@
 package org.geogebra.web.web.euclidian;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -57,6 +54,9 @@ import org.geogebra.web.web.gui.util.PointStylePopup;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.StyleBarW2;
 import org.geogebra.web.web.main.AppWFull;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -886,8 +886,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
 			ImageOrText[] axes = new ImageOrText[4];
 			for (int i = 0; i < 4; i++) {
-				axes[i] = GeoGebraIconW.createAxesStyleIcon(
-						EuclidianView.getAxesStyle(i), true);
+				axes[i] = GeoGebraIconW.createAxesStyleIconMat(
+						EuclidianView.getAxesStyle(i));
 			}
 			btnShowAxes_new = new AxesPopup(app, axes,
 					SelectionTable.MODE_ICON);

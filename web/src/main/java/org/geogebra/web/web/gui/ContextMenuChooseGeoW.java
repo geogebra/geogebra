@@ -1,8 +1,5 @@
 package org.geogebra.web.web.gui;
 
-import java.util.ArrayList;
-import java.util.TreeSet;
-
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -11,6 +8,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
+
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -172,12 +172,14 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	private void addSelectAnotherMenu(int mode) {
 		selectAnotherMenu = new MenuBar(true);
 		MenuItem selectAnotherMenuItem;
-		Localization loc = app.getLocalization();
+		Localization localization = app.getLocalization();
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
-			selectAnotherMenuItem = new MenuItem(loc.getMenu("SelectAnother"),
+			selectAnotherMenuItem = new MenuItem(
+					localization.getMenu("SelectAnother"),
 			        selectAnotherMenu);
 		} else {
-			selectAnotherMenuItem = new MenuItem(loc.getMenu("PerformToolOn"),
+			selectAnotherMenuItem = new MenuItem(
+					localization.getMenu("PerformToolOn"),
 			        selectAnotherMenu);
 		}
 		if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {

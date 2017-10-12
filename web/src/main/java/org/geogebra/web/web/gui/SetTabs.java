@@ -10,6 +10,9 @@ public interface SetTabs {
 
 	/**
 	 * Sets the proper tab indexes for the widget.
+	 * 
+	 * @param index
+	 *            top element tab index
 	 */
 	public void setTabIndex(int index);
 
