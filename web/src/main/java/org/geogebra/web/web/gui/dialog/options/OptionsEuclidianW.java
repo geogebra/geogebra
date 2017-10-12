@@ -166,7 +166,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 		
 		void applyAxesRatio() {
-	
 			model.applyAxesRatio(parseDouble(tfAxesRatioX.getText()),
 					parseDouble(tfAxesRatioY.getText()));
 			updateView();
@@ -299,8 +298,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			indent.setStyleName("panelIndent");
 			indent.add(panel);
 			add(indent);
-	
-        }
+		}
 
 		protected void addAxesOptionsPanel() {
 
@@ -332,7 +330,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void onClick(ClickEvent event) {
 					getDialogManager().showColorChooserDialog(
 							model.getAxesColor(),
-	            		  new ColorChangeHandler() {
+							new ColorChangeHandler() {
 					
 					@Override
 					public void onForegroundSelected() {
@@ -370,7 +368,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 						}
 				});
-                }});
+				}
+			});
 			
 			// axes style
 			lineStyle = new Label(loc.getMenu("LineStyle") + ":");
@@ -411,7 +410,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					setShowAxes(cbShowAxes.getValue());
 					updateView();
 					app.storeUndoInfo();
-                }});
+				}
+			});
 			
 			cbBoldAxes.addClickHandler(new ClickHandler(){
 
@@ -419,7 +419,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				public void onClick(ClickEvent event) {
 					model.applyBoldAxes(cbBoldAxes.getValue(), cbShowAxes.getValue());
 					updateView();
-                }});
+				}
+			});
 			
 			cbAxisLabelSerif.addClickHandler(new ClickHandler() {
 
@@ -464,9 +465,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					 lineStyle, axesStylePopup));
 			axesOptionsPanel.add(LayoutUtilW.panelRow(lblAxisLabelStyle,
 					cbAxisLabelSerif, cbAxisLabelBold, cbAxisLabelItalic));
-
 		}
-
 
 		void togglePlayButton() {
 
@@ -524,7 +523,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 							.getViewID());
 					cbNavPlay.setEnabled(cbShowNavbar.getValue());
 					cbOpenConsProtocol.setEnabled(cbShowNavbar.getValue());
-                }});
+				}
+			});
 			
 			cbNavPlay.addClickHandler(new ClickHandler(){
 
@@ -825,9 +825,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 		@Override
 		public void setLabels() {
-	        axisPanel.setLabels();
-        }
-		
+			axisPanel.setLabels();
+		}
 	}
 		
 	protected class GridTab extends EuclidianTab {
@@ -980,10 +979,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
 				public void onChange(ChangeEvent event) {
-	                model.appyGridType(lbGridType.getSelectedIndex());
+					model.appyGridType(lbGridType.getSelectedIndex());
 					updateView();
 					app.storeUndoInfo();
-                }});
+				}
+			});
 			// tick intervals
 
 			cbGridManualTick = new CheckBox();
@@ -991,28 +991,29 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				@Override
 				public void onClick(ClickEvent event) {
-	                model.appyGridManualTick(cbGridManualTick.getValue());
+					model.appyGridManualTick(cbGridManualTick.getValue());
 					updateView();
-	        	}});
+				}
+			});
 			cbGridManualTick.setStyleName("checkBoxPanel");
 			ncbGridTickX = new NumberListBox(app){
 
 				@Override
-                protected void onValueChange(String value) {
+				protected void onValueChange(String value) {
 					model.applyGridTicks(ncbGridTickX.getValue(), 0);
 					updateView();
-	                
-                }};
+				}
+			};
 	
-            ncbGridTickY = new NumberListBox(app){
+			ncbGridTickY = new NumberListBox(app) {
 
 				@Override
-                protected void onValueChange(String value) {
+				protected void onValueChange(String value) {
 					model.applyGridTicks(ncbGridTickY.getValue(), 1);
 					updateView();	                
-                }};
-                
-                
+				}
+			};
+
 			// checkbox for grid labels
 			lbGridTickAngle = new ListBox();
 			
@@ -1102,7 +1103,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 					}
 					getDialogManager().showColorChooserDialog(
 							model.getGridColor(),
-	            		new ColorChangeHandler() {
+							new ColorChangeHandler() {
 						
 						@Override
 						public void onForegroundSelected() {
@@ -1175,16 +1176,16 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbShowGrid.setText(loc.getMenu("ShowGrid"));
 			lbPointCapturing.setText(loc.getMenu("PointCapturing") + ":");
 			updatePointCapturingStyleList();
-	        int idx = lbGridType.getSelectedIndex();
-	        setGridTypeLabel();
-	        lbGridType.clear();
-	        model.fillGridTypeCombo();
-	        lbGridType.setSelectedIndex(idx);
-	        
-	        idx = lbGridTickAngle.getSelectedIndex();
-	        lbGridTickAngle.clear();
-	        model.fillAngleOptions();
-	        lbGridTickAngle.setSelectedIndex(idx);
+			int idx = lbGridType.getSelectedIndex();
+			setGridTypeLabel();
+			lbGridType.clear();
+			model.fillGridTypeCombo();
+			lbGridType.setSelectedIndex(idx);
+
+			idx = lbGridTickAngle.getSelectedIndex();
+			lbGridTickAngle.clear();
+			model.fillAngleOptions();
+			lbGridTickAngle.setSelectedIndex(idx);
 			cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
 			lblGridStyle.setText(loc.getMenu("LineStyle"));
 			lblColor.setText(loc.getMenu("Color") + ":");
@@ -1196,12 +1197,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		public void addGridTypeItem(String item) {
-	        lbGridType.addItem(item);
-        }
+			lbGridType.addItem(item);
+		}
 
 		public void addAngleOptionItem(String item) {
-	       lbGridTickAngle.addItem(item);
-        }
+			lbGridTickAngle.addItem(item);
+		}
 		
 
 		public void update(GColor color, boolean isShown, boolean isBold,
@@ -1251,8 +1252,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		public void selectGridStyle(int style) {
-	        btnGridStyle.selectLineType(style);
-        }
+			btnGridStyle.selectLineType(style);
+		}
 		
 		public void updateGridColorButton(GColor color) {
 			ImageOrText content = new ImageOrText();
@@ -1263,7 +1264,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 	
 	public OptionsEuclidianW(AppW app,
-            EuclidianViewInterfaceCommon activeEuclidianView) {
+			EuclidianViewInterfaceCommon activeEuclidianView) {
 		isIniting = true;
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -1271,7 +1272,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		model = new EuclidianOptionsModel(app, view, this);
 		initGUI();
 		isIniting = false;
-    }
+	}
 
 	/**
 	 * update the view (also for model)
@@ -1291,7 +1292,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		tabPanel = new MultiRowsTabPanel();
 		addTabs();
 		updateGUI();
-	    tabPanel.selectTab(0);
+		tabPanel.selectTab(0);
 		app.setDefaultCursor();
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
 
@@ -1300,7 +1301,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				updateGUI();
 			}
 		});
-    }
+	}
 	
 	/**
 	 * add tabs
@@ -1395,28 +1396,28 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		if (!isIniting) {
 			updateGUI();
 		}
-    }
+	}
 
 	public void showCbView(boolean b) {
 		Log.warn("showCbView");
-    }
+	}
 
 	@Override
-    public void updateGUI() {
-	    model.updateProperties();
-	    setLabels();
+	public void updateGUI() {
+		model.updateProperties();
+		setLabels();
 		getGridTab().updateGUI();
-    }
+	}
 
 	@Override
-    public void updateBounds() {
-	    basicTab.updateBounds();
-    }
+	public void updateBounds() {
+		basicTab.updateBounds();
+	}
 
 	@Override
 	public Widget getWrappedPanel() {
 		return tabPanel;
-    }
+	}
 	
 	protected AutoCompleteTextFieldW getTextField() {
 		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
@@ -1449,8 +1450,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	@Override
 	public void addTooltipItem(String item) {
-	    lbTooltips.addItem(item);
-    }
+		lbTooltips.addItem(item);
+	}
 
 	@Override
 	public void addRightAngleStyleItem(String item) {
@@ -1474,30 +1475,30 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 	@Override
 	public void updateConsProtocolPanel(boolean isVisible) {
-	    basicTab.updateConsProtocolPanel(isVisible);
-    }
+		basicTab.updateConsProtocolPanel(isVisible);
+	}
 
 	@Override
 	public void updateGrid(GColor color, boolean isShown, boolean isBold,
-            int gridType) {
+			int gridType) {
 		gridTab.update(color, isShown, isBold, gridType);
-    }
+	}
 
 	@Override
 	public void showMouseCoords(boolean value) {
 		basicTab.showMouseCoords(value);
-    }
+	}
 
 	@Override
 	public void selectAxesStyle(int index) {
 	    basicTab.selectAxesStyle(index);
-    }
+	}
 
 	@Override
 	public void updateGridTicks(boolean isAutoGrid, double[] gridTicks,
-            int gridType) {
+			int gridType) {
 		gridTab.updateTicks(isAutoGrid, gridTicks, gridType);
-    }
+	}
 
 	@Override
 	public void enableLock(boolean value) {
@@ -1510,7 +1511,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			return;
 		}
 		gridTab.selectGridStyle(style);
-    }
+	}
 
 	@Override
 	public void addGridTypeItem(String item) {
@@ -1519,31 +1520,31 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 		
 		gridTab.addGridTypeItem(item);
-    }
+	}
 
 	@Override
 	public void addAngleOptionItem(String item) {
 		if (gridTab == null) {
 			return;
 		}
-	    gridTab.addAngleOptionItem(item);
+		gridTab.addAngleOptionItem(item);
 
 	}
 
 	protected void updateView() {
 		view.updateBackground();
 		updateGUI();
-    }
+	}
 
 	@Override
-    public void onResize(int height, int width) {
+	public void onResize(int height, int width) {
 		for(int i = 0; i < tabPanel.getWidgetCount(); i++) {
 			EuclidianTab tab = (EuclidianTab) tabPanel.getWidget(i);
 			if (tab != null) {
 				tab.onResize(height, width);
 			}
 		}
-    }
+	}
 
 	/**
 	 * select the correct tab

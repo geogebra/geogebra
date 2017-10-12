@@ -1,171 +1,201 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>GeoGebra Dinamikus munkalap</title>
+<title>Embedded Applet - GeoGebra</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="gwt:property" content="locale=en">
 <style>
-body{
-font-family:sans-serif;
+body {
+	font-family: sans-serif;
 }
-label{
-min-width:160px;
-display:inline-block;
+
+label {
+	min-width: 160px;
+	display: inline-block;
 }
 </style>
 <script type="text/javascript">
-// for IE9
-if (!window.console) window.console = {};
-if (!window.console.log) window.console.log = function () { };
+	// for IE9
+	if (!window.console)
+		window.console = {};
+	if (!window.console.log)
+		window.console.log = function() {
+		};
 
-            WebFontConfig = {
-                loading: function() {},
-                active: function() {},
-                inactive: function() {},
-				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
-				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
-                fontinactive: function(familyName, fvd) {},
-                custom: {
-                    families: ["geogebra-serif", "geogebra-sans-serif" ],
-                    urls: [ "web3d/css/fonts.css?v=1.15" ]
-                }
-            };
-            
-            var params = {
-            		"appName":["select","classic","graphing","geometry","3d"],
-            		"showToolBar":"boolean",
-            		"showMenuBar":"boolean",
-            		"showAlgebraInput":"boolean",
-            		"tubeID":"text",
-            		"enableUndoRedo":"boolean",
-            		"enableRightClick":"boolean",
-            		"enableCAS":"boolean",
-            		"allowSymbolTable":"boolean",
-            		"customToolBar":"text",
-            		"shiftDragZoomEnabled":"boolean",
-            		"allowStyleBar":"boolean",
-            		"allowStyleBar":"boolean",
-            		"rounding":"text",
-            		"language":"text",            		
-            		"showToolBarHelp":"boolean",
-            		"errorDialogsActive":"boolean",
-            		"enableFileFeatures":"boolean",
-            		"showResetIcon":"boolean",
-            		"showAnimationButton":"boolean",
-            		"enableGraphing":["boolean","true"],
-            		"base64String":"text",
-            		"useBrowserForJS":"boolean",
-            		"screenshotGenerator":"boolean",
-            		"perspective":"text",
-            		"prerelease":"boolean",
-            		"border":["text","#D3D3D3"],
-            		"capturingThreshold":"boolean",
-            		"fitToScreen":"boolean",
-            		"showStartTooltip":"boolean",
-            		"country":"text",
-            		"showLogging":"boolean",
-            		"scale":"number",
-            		"enable3D":"boolean",
-            		"showAppsPicker":"boolean",
-            		"showFullscreenButton":"boolean",
-            		"marginTop":"boolean",
-            		"showZoomButtons":"boolean",
-            		"getDataClientID":"boolean",
-            		"laf":"text",
-            		"fileName":"text",
-            		"enableLabelDrags":"boolean",
-            		"showSuggestionButtons":"boolean",
-            		"app":"boolean",
-            		"jSON":"text",
-            		"id":"boolean",
-            "width":["text",600],
-            "height":["text",450]
-            
-            }
-            function decode(el, param){
-            	if(el.type == "checkbox"){
-            		return el.checked+"";
-            	}
-            	return el.value.length ? el.value : null;
-            }
-            function updateParams(article){
-            	for(param in params){
-            		if(decode(document.getElementById("set"+param), param)){
-	            		article.setAttribute("data-param-"+param,
-	            		decode(document.getElementById("set"+param), param));
-            		}
-            	}
-            	renderGGBElement(article);
-            }
-            window.addEventListener("load",function(){
-                var article = document.createElement("article");
-                
-            	for(param in params){
-            		type = typeof params[param] == "object" ? params[param][0] : params[param];
-            		var input = document.createElement(type == "select" ? "select" : "input");
-            		if(type == "select"){
-            			for(var opt = 1;opt<params[param].length;opt++){
-            				var optVal = params[param][opt];
-            				var optTag = document.createElement("option");
-            				optTag.innerText = optVal;
-            				optTag.value=optVal;
-            				input.appendChild(optTag);
-            			}
-            		}
-            		label = document.createElement("label");
-            		label.innerText=param;
-            		
-            		val = typeof params[param] == "object" ? params[param][1] : null;
-            		input.type = type.replace("boolean","checkbox");
-            		if(type == "boolean"){
-            	
-            		 	input.checked = val ? "on" : "";
-            		}else{
-            			input.value = val;
-            		}
-            		input.id =input.name= "set"+param;
-            		input.addEventListener("change",function(){
-            			updateParams(article);
-            		});
-            		label.setAttribute("for","set"+param);
-            		field = document.createElement("div");
-            		field.appendChild(label);
-            		field.appendChild(input);
-            		document.getElementById("settings").appendChild(field);
-            	}
-            	
-            	
-            	article.className = "geogebraweb";
-            	document.getElementById("parent").appendChild(article);
-            	settings=location.search.substring(1).split(",");
-            	for(i in settings){
-            		var parts = settings[i].split(":");
-            		if(params[parts[0]]){
-	            		article.setAttribute("data-param-"+parts[0], parts[1] || "true");
-	            		if(parts[1]){
-	            			document.getElementById("set"+parts[0]).value = parts[1];
-	            		}else{
-	            			document.getElementById("set"+parts[0]).checked = true;
-	            		}
-            		}
-            	}
-            	
-            	article.setAttribute("data-param-showLogging", "true");
-            	
-            	var w3d =document.createElement("script");
-            	w3d.src="web3d/web3d.nocache.js";
-            	document.body.appendChild(w3d);
-            });
+	WebFontConfig = {
+		loading : function() {
+		},
+		active : function() {
+		},
+		inactive : function() {
+		},
+		fontloading : function(familyName, fvd) {
+			console.log("font fontloading: " + familyName);
+		},
+		fontactive : function(familyName, fvd) {
+			console.log("font active: " + familyName);
+		},
+		fontinactive : function(familyName, fvd) {
+		},
+		custom : {
+			families : [ "geogebra-serif", "geogebra-sans-serif" ],
+			urls : [ "web3d/css/fonts.css?v=1.15" ]
+		}
+	};
+
+	var params = {
+		"appName" : [ "select", "classic", "graphing", "geometry", "3d" ],
+		"showToolBar" : "boolean",
+		"showMenuBar" : "boolean",
+		"showAlgebraInput" : "boolean",
+		"tubeID" : "text",
+		"fileName" : "text",
+		"base64String" : "text",
+		"enableUndoRedo" : [ "boolean", true ],
+		"enableRightClick" : "boolean",
+		"allowSymbolTable" : "boolean",
+		"customToolBar" : "text",
+		"shiftDragZoomEnabled" : "boolean",
+		"allowStyleBar" : "boolean",
+		"allowStyleBar" : "boolean",
+		"rounding" : "text",
+		"language" : "text",
+		"country" : "text",
+		"showToolBarHelp" : "boolean",
+		"errorDialogsActive" : "boolean",
+		"enableFileFeatures" : [ "boolean", true ],
+		"enableGraphing" : [ "boolean", true ],
+		"enable3D" : [ "boolean", true ],
+		"enableCAS" : [ "boolean", true ],
+		"useBrowserForJS" : [ "boolean", true ],
+		"screenshotGenerator" : "boolean",
+		"perspective" : "text",
+		"prerelease" : "boolean",
+		"borderColor" : [ "text", "#D3D3D3" ],
+		"capturingThreshold" : "boolean",
+		"fitToScreen" : "boolean",
+		"showStartTooltip" : "boolean",
+		"showLogging" : "boolean",
+		"scale" : "number",
+		"showAppsPicker" : "boolean",
+		"marginTop" : "number",
+		"getDataClientID" : "boolean",
+		"laf" : "text",
+		"enableLabelDrags" : "boolean",
+		"showResetIcon" : "boolean",
+		"showAnimationButton" : "boolean",
+		"showFullscreenButton" : "boolean",
+		"showSuggestionButtons" : "boolean",
+		"showZoomButtons" : "boolean",
+		"app" : "boolean",
+		"jSON" : "text",
+		"id" : "boolean",
+		"width" : [ "text", 600 ],
+		"height" : [ "text", 450 ]
+
+	}
+	function decode(el, param) {
+		var fallback = false;
+		if(typeof params[param] == "object"){
+			fallback = params[param][1];
+		}
+		if (el.type == "checkbox") {
+			return el.checked == fallback ? null : (el.checked + "");
+		}
+		if(param == "width" || param == "height"){
+			return el.value;
+		}
+		return el.value.length && el.value != fallback ? el.value : null;
+	}
+	function updateParams(article) {
+		var url = location.protocol+"//"+location.host+location.pathname+"?"
+		for (param in params) {
+			var val = decode(document.getElementById("set" + param), param);
+			console.log(param+":"+val);
+			if (val) {
+				article.setAttribute("data-param-" + param, val);
+				if(val === "true"){
+					url += param + "&";
+				} else if(val){
+					url += param + "=" + val+ "&";
+				}
+			}else{
+				article.removeAttribute("data-param-" + param);
+			}
+		}
+		history.pushState("","",url);
+		renderGGBElement(article);
+	}
+	window.addEventListener("load", function() {
+		var article = document.createElement("article");
+
+		for (param in params) {
+			type = typeof params[param] == "object" ? params[param][0]
+					: params[param];
+			var input = document.createElement(type == "select" ? "select"
+					: "input");
+			if (type == "select") {
+				for (var opt = 1; opt < params[param].length; opt++) {
+					var optVal = params[param][opt];
+					var optTag = document.createElement("option");
+					optTag.innerText = optVal;
+					optTag.value = optVal;
+					input.appendChild(optTag);
+				}
+			}
+			label = document.createElement("label");
+			label.innerText = param;
+
+			val = typeof params[param] == "object" ? params[param][1] : null;
+			input.type = type.replace("boolean", "checkbox");
+			if (type == "boolean") {
+
+				input.checked = val ? "on" : "";
+			} else {
+				input.value = val;
+			}
+			input.id = input.name = "set" + param;
+			input.addEventListener("change", function() {
+				updateParams(article);
+			});
+			label.setAttribute("for", "set" + param);
+			field = document.createElement("div");
+			field.appendChild(label);
+			field.appendChild(input);
+			document.getElementById("settings").appendChild(field);
+		}
+
+		article.className = "geogebraweb";
+		document.getElementById("parent").appendChild(article);
+		settings = location.search.substring(1).split("&");
+		for (i in settings) {
+			var parts = settings[i].split("=");
+			if (params[parts[0]]) {
+				article.setAttribute("data-param-" + parts[0], parts[1]
+						|| "true");
+				if (parts[1]) {
+					document.getElementById("set" + parts[0]).value = parts[1];
+				} else {
+					document.getElementById("set" + parts[0]).checked = true;
+				}
+			}
+		}
+
+		article.setAttribute("data-param-showLogging", "true");
+
+		var w3d = document.createElement("script");
+		w3d.src = "web3d/web3d.nocache.js";
+		document.body.appendChild(w3d);
+	});
 </script>
 <script src="web3d/js/webfont.js?v=1.15"></script>
 </head>
 <body>
-    <div id="settings" style="position:absolute;right:0;top:0"></div>
-    <div style="margin-left:100px;margin-top:100px;">
-        <div id="parent">
-        </div>
-    </div>
-    
- 
+	<div id="settings" style="position: absolute; right: 0; top: 0"></div>
+	<div style="margin-left: 100px; margin-top: 100px;">
+		<div id="parent"></div>
+	</div>
+
+
 </body>
 </html>

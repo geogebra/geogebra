@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.gui.tooltip;
 
-import java.util.Locale;
-
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.StringUtil;
@@ -9,9 +7,13 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.CSSAnimation;
+
+import java.util.Locale;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -238,7 +240,7 @@ public final class ToolTipManagerW {
 	 *            whether keyboard is open
 	 */
 	public void showBottomInfoToolTip(String text, final String helpLinkURL,
-			ToolTipLinkType link, AppW appw, boolean kb) {
+			ToolTipLinkType link, final AppW appw, boolean kb) {
 		if (blockToolTip || appw == null) {
 			return;
 		}
@@ -352,7 +354,8 @@ public final class ToolTipManagerW {
 
 					if (!lastTipVisible
 							&& link != null) {
-						bottomInfoTipPanel.addStyleName("animateShow");
+						animateIn(appw);
+
 
 					} else {
 						bottomInfoTipPanel.getElement().getStyle().setBottom(0, Unit.PX);
@@ -371,6 +374,20 @@ public final class ToolTipManagerW {
 				&& helpURL.length() > 0) {
 				scheduleHideBottom();
 		}
+	}
+
+	private void animateIn(final AppW appw) {
+		appw.getPanel().getElement().getStyle().setOverflow(Overflow.HIDDEN);
+		bottomInfoTipPanel.addStyleName("animateShow");
+		CSSAnimation.runOnAnimation(new Runnable() {
+
+			public void run() {
+				appw.getPanel().getElement().getStyle()
+						.setOverflow(Overflow.VISIBLE);
+
+			}
+		}, bottomInfoTipPanel.getElement(), "animateShow");
+
 	}
 
 	private static int lines(String text) {
@@ -439,6 +456,7 @@ public final class ToolTipManagerW {
 
 		if (app != null && app.isUnbundled() && !keyboardVisible
 				&& linkType != null) {
+			app.getPanel().getElement().getStyle().setOverflow(Overflow.HIDDEN);
 			bottomInfoTipPanel.addStyleName("animateHide");
 			bottomInfoTipPanel.getElement().getStyle().clearBottom();
 			timer = new Timer() {
@@ -446,7 +464,8 @@ public final class ToolTipManagerW {
 				public void run() {
 					cancelTimer();
 					bottomInfoTipPanel.removeFromParent();
-
+					app.getPanel().getElement().getStyle()
+							.setOverflow(Overflow.VISIBLE);
 				}
 			};
 			timer.schedule(400);

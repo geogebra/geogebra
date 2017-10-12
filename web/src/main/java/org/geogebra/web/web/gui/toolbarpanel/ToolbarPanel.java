@@ -526,7 +526,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			boolean isSmall) {
 		if (moveBtn != null) {
 
-			int mLeft = moveBtn.getAbsoluteLeft();
+			int mLeft = moveBtn.getAbsoluteLeft()
+					- (int) ((AppW) app).getAbsLeft();
 			int mRight = mLeft + 48;
 			int ttRight = ttLeft + width;
 			if ((ttLeft < mRight && ttRight > mRight)
