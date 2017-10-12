@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GeoGebra Dinamikus munkalap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="gwt:property" content="locale=en">
+<script type="text/javascript">
+// for IE9
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function () { };
+
+            WebFontConfig = {
+                loading: function() {},
+                active: function() {},
+                inactive: function() {},
+				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
+				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
+                fontinactive: function(familyName, fvd) {},
+                custom: {
+                    families: ["geogebra-serif", "geogebra-sans-serif" ],
+                    urls: [ "web3d/css/fonts.css?v=1.15" ]
+                }
+            };
+            
+            var params = {
+            "showToolBar":"boolean",
+            "showMenuBar":"boolean",
+            "showAlgebraInput":"boolean",
+            "enableRightClick":["boolean", true],
+            "width":["text",600],
+            "height":["text",450]
+            
+            }
+            function decode(val){
+            	if(val == "on"){
+            		return "true";
+            	}
+            	return "false";
+            }
+            function updateParams(article){
+            	for(param in params){
+            		article.setAttribute("data-param-"+param,
+            		decode(document.getElementById("set"+param).value));
+            	}
+            	renderGGBElement(article);
+            }
+            window.addEventListener("load",function(){
+                var article = document.createElement("article");
+                
+            	for(param in params){
+            		var input = document.createElement("input");
+            		label = document.createElement("label");
+            		label.innerText=param;
+            		type = typeof params[param] == "object" ? params[param][0] : params[param];
+            		val = typeof params[param] == "object" ? params[param][1] : null;
+            		input.type = type.replace("boolean","checkbox");
+            		if(type == "boolean"){
+            	
+            		 	input.checked = val ? "on" : "";
+            		}else{
+            			input.value = val;
+            		}
+            		input.id =input.name= "set"+param;
+            		input.addEventListener("change",function(){
+            			updateParams(article);
+            		});
+            		label.setAttribute("for","set"+param);
+            		field = document.createElement("div");
+            		field.appendChild(label);
+            		field.appendChild(input);
+            		document.getElementById("settings").appendChild(field);
+            	}
+            	
+            	
+            	article.className = "geogebraweb";
+            	document.body.appendChild(article);
+            	settings=location.search.substring(1).split(",");
+            	for(i in settings){
+            		var parts = settings[i].split(":");
+            		article.setAttribute("data-param-"+parts[0], parts[1] || "true");
+            	}
+            	
+            	article.setAttribute("data-param-showLogging", "true");
+            	
+            	var w3d =document.createElement("script");
+            	w3d.src="web3d/web3d.nocache.js";
+            	document.getElementById("parent").appendChild(w3d);
+            });
+</script>
+<script src="web3d/js/webfont.js?v=1.15"></script>
+</head>
+<body>
+    <div id="settings"></form>
+    <div style="margin-left:100px;margin-top:100px;" id="parent"><div>
+    </div>
+    
+ 
+</body>
+</html>
