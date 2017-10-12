@@ -22,19 +22,30 @@ public class ScreenReader {
 
 
 	public static void readText(GeoElement geo0, App app) {
-		String text = geo0.getCaptionSimple();
-		if (text == null || "".equals(text)) {
-			text = geo0.getAlgebraDescriptionDefault();
+		StringBuilder sb = new StringBuilder();
+		String caption = geo0.getCaptionSimple();
+		if (caption == null || "".equals(caption)) {
+			sb.append(geo0.getAlgebraDescriptionDefault());
+		} else {
+			sb.append(caption);
 		}
 
+		if (geo0.isEuclidianShowable() && !geo0.isEuclidianVisible()) {
+			sb.append(getNotVisibleText(app));
+		}
 		// MOW-137 if selection originated in AV we don't want to move
 		// focus to EV
 		if (app.getGuiManager() == null || app.getGuiManager().getLayout()
 				.getDockManager().getFocusedViewId() == app
 						.getActiveEuclidianView().getViewID()) {
-			app.getActiveEuclidianView().readText(text);
+			app.getActiveEuclidianView().readText(sb.toString());
 		}
 
+	}
+
+	private static String getNotVisibleText(App app) {
+		Localization loc = app.getLocalization();
+		return loc.getMenu("not visible");
 	}
 
 }
