@@ -262,6 +262,15 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			// dockPanel.getElement().getStyle().setProperty("minHeight",
 			// zoomPanel.getMinHeight());
 			dockPanel.addSouth(zoomPanel, 0);
+
+		}
+	}
+
+	@Override
+	public void onResize() {
+		super.onResize();
+		if (app != null && app.has(Feature.MOW_MULTI_PAGE)) {
+			zoomPanel.getElement().getStyle().clearBottom();
 		}
 	}
 
