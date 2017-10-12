@@ -106,7 +106,7 @@ public class MOWToolbar extends FlowPanel {
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
-				updatePositions();
+				updateToolbarPosition();
 			}
 		});
 	}
@@ -179,27 +179,40 @@ public class MOWToolbar extends FlowPanel {
 	/**
 	 * updates position of pageControlButton and zoomPanel
 	 */
-	private void updateFloatingButtonsPosition() {
+	public void updateFloatingButtonsPosition() {
 		if (!app.has(Feature.MOW_MULTI_PAGE)) {
-			return;
-		}
-		EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
-				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
+			EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
+					.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 
-		if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
-			pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
-			dp.setZoomPanelBottom(true);
-		} else {
-			pageControlButton.getElement().getStyle().clearBottom();
-			dp.setZoomPanelBottom(false);
-			if (isSubmenuOpen) {
-				pageControlButton.removeStyleName("hideMowSubmenu");
-				pageControlButton.addStyleName("showMowSubmenu");
-				dp.moveZoomPanelUpOrDown(true);
+			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
+				dp.setZoomPanelBottom(true);
 			} else {
-				pageControlButton.removeStyleName("showMowSubmenu");
-				pageControlButton.addStyleName("hideMowSubmenu");
-				dp.moveZoomPanelUpOrDown(false);
+				dp.setZoomPanelBottom(false);
+				if (isSubmenuOpen) {
+					dp.moveZoomPanelUpOrDown(true);
+				} else {
+					dp.moveZoomPanelUpOrDown(false);
+				}
+			}
+		} else {
+			EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
+					.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
+
+			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
+				pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
+				dp.setZoomPanelBottom(true);
+			} else {
+				pageControlButton.getElement().getStyle().clearBottom();
+				dp.setZoomPanelBottom(false);
+				if (isSubmenuOpen) {
+					pageControlButton.removeStyleName("hideMowSubmenu");
+					pageControlButton.addStyleName("showMowSubmenu");
+					dp.moveZoomPanelUpOrDown(true);
+				} else {
+					pageControlButton.removeStyleName("showMowSubmenu");
+					pageControlButton.addStyleName("hideMowSubmenu");
+					dp.moveZoomPanelUpOrDown(false);
+				}
 			}
 		}
 	}

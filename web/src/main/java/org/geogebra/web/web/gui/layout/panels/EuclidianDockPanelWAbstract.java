@@ -2,12 +2,12 @@ package org.geogebra.web.web.gui.layout.panels;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
+import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
@@ -269,8 +269,10 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	@Override
 	public void onResize() {
 		super.onResize();
-		if (app != null && app.has(Feature.MOW_MULTI_PAGE)) {
-			zoomPanel.getElement().getStyle().clearBottom();
+		if (((AppWapplet) app).getAppletFrame().getMOWToorbar() != null
+				&& app.isWhiteboardActive()) {
+			((AppWapplet) app).getAppletFrame().getMOWToorbar()
+					.updateFloatingButtonsPosition();
 		}
 	}
 
@@ -333,9 +335,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 *            move down
 	 */
 	public void moveZoomPanelUpOrDown(boolean up) {
-		if (!app.has(Feature.MOW_MULTI_PAGE)) {
-			return;
-		}
 		if (up) {
 			zoomPanel.removeStyleName("hideMowSubmenu");
 			zoomPanel.addStyleName("showMowSubmenu");
@@ -352,9 +351,6 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 *            true if needs to be set, false if needs to be removed
 	 */
 	public void setZoomPanelBottom(boolean add) {
-		if (!app.has(Feature.MOW_MULTI_PAGE)) {
-			return;
-		}
 		if (add) {
 			zoomPanel.getElement().getStyle().setBottom(0, Unit.PX);
 		} else {

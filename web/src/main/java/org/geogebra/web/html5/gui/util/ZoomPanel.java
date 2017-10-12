@@ -71,8 +71,12 @@ public class ZoomPanel extends FlowPanel
 		this.app = (AppW) view.getApplication();
 		view.getEuclidianController().setZoomerListener(this);
 		setStyleName("zoomPanel");
-		if (app.isWhiteboardActive() && app.has(Feature.MOW_MULTI_PAGE)) {
-			addStyleName("zoomPanelMow");
+		if (app.isWhiteboardActive()) {
+			if (app.has(Feature.MOW_MULTI_PAGE)) {
+				addStyleName("zoomPanelWithPageControl");
+			} else {
+				addStyleName("zommPanelMow");
+			}
 		} else {
 			addStyleName("zoomPanelPosition");
 		}
