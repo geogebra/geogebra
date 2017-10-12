@@ -16,29 +16,16 @@ import org.geogebra.common.main.SelectionManager;
 import java.util.Collections;
 import java.util.List;
 
-public class Stylebar {
-
-	private final static int MARGIN = 4;
+public class StylebarPositioner {
 
     private App app;
     private EuclidianView euclidianView;
     private SelectionManager selectionManager;
 
-	private int stylebarHeight;
-    private int minTopPosition;
-    private int maxTopPosition;
-
-    public Stylebar(App app, EuclidianView euclidianView) {
+    public StylebarPositioner(App app, EuclidianView euclidianView) {
         this.app = app;
         this.euclidianView = euclidianView;
         selectionManager = app.getSelectionManager();
-    }
-
-    public Stylebar(App app, EuclidianView euclidianView, int stylebarHeight, int minTopPosition, int maxTopPosition) {
-        this(app, euclidianView);
-        this.stylebarHeight = stylebarHeight;
-        this.minTopPosition = minTopPosition;
-        this.maxTopPosition = maxTopPosition - 2 * MARGIN;
     }
 
     private boolean hasVisibleGeos(List<GeoElement> geoList) {
@@ -66,10 +53,16 @@ public class Stylebar {
             GRectangle2D gRectangle2D,
             boolean hasBoundingBox,
             boolean isPoint,
-            boolean isFunction) {
+            boolean isFunction,
+            int stylebarHeight,
+            int minTopPosition,
+            int maxTopPosition) {
 
+        final int MARGIN = 4;
         final int BOTTOM_MARGIN = 10 * MARGIN;
         double left, top;
+
+        maxTopPosition = maxTopPosition - 2 * MARGIN;
 
         if (gRectangle2D == null) {
             if (!isFunction || isPoint) {
@@ -115,7 +108,7 @@ public class Stylebar {
         return new GPoint((int) left, (int) top);
     }
 
-    public GPoint getPositionOnCanvas() {
+    public GPoint getPositionOnCanvas(int stylebarHeight, int minTopPosition, int maxTopPosition) {
         List<GeoElement> activeGeoList = createActiveGeoList();
 
         if (activeGeoList.size() == 0) {
@@ -129,7 +122,10 @@ public class Stylebar {
                     app.getActiveEuclidianView().getSelectionRectangle(),
                     true,
                     false,
-                    false);
+                    false,
+                    stylebarHeight,
+                    minTopPosition,
+                    maxTopPosition);
         }
 
         GeoElement geo = activeGeoList.get(0);
@@ -142,7 +138,10 @@ public class Stylebar {
                             null,
                             true,
                             false,
-                            true);
+                            true,
+                            stylebarHeight,
+                            minTopPosition,
+                            maxTopPosition);
                     if (position != null) {
                         return position;
                     }
@@ -154,7 +153,10 @@ public class Stylebar {
                             dr.getBoundsForStylebarPosition(),
                             !(dr instanceof DrawLine),
                             dr instanceof DrawPoint && activeGeoList.size() < 2,
-                            false);
+                            false,
+                            stylebarHeight,
+                            minTopPosition,
+                            maxTopPosition);
                     if (position != null) {
                         return position;
                     }
