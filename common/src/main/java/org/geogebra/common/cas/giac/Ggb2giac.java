@@ -384,10 +384,13 @@ public class Ggb2giac {
 		// necessary for eg
 		// Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),0,pi/2)
 
-		String integral = "[[ggbintans:=0/0], [arg0:=REPLACEME0], [vars := lname(arg0)], [factored:=factors(arg0)],"
+		String integralPart1 = "[[ggbintans:=0/0], [arg0:=REPLACEME0], [vars := lname(arg0)], [factored:=factors(arg0)],";
 
-				// for collecting constant factors
-				+ "[constant := 1],"
+		// make sure Integral[y^2,1,2] works
+		String integralPart2 = "[if(size(vars)==1) then factored:=subst(factored,vars[0],x) fi],";
+
+		// for collecting constant factors
+		String integralPart3 = "[constant := 1],"
 
 				// variable factors
 				+ "[variable := 1],"
@@ -407,22 +410,22 @@ public class Ggb2giac {
 				+ "][-1]";
 
 		p("Integral.3",
-				integral.replace("REPLACEME0", "%0").replace("REPLACEME1", "x")
+				(integralPart1+integralPart2+integralPart3).replace("REPLACEME0", "%0").replace("REPLACEME1", "x")
 						.replace("REPLACEME2", "%1")
 						.replace("REPLACEME3", "%2"));
 
 		p("Integral.4",
-				integral.replace("REPLACEME0", "%0").replace("REPLACEME1", "%1")
+				(integralPart1+integralPart3).replace("REPLACEME0", "%0").replace("REPLACEME1", "%1")
 						.replace("REPLACEME2", "%2")
 						.replace("REPLACEME3", "%3"));
 
 		p("IntegralBetween.4",
-				integral.replace("REPLACEME0", "%0-(%1)")
+				(integralPart1+integralPart2+integralPart3).replace("REPLACEME0", "%0-(%1)")
 						.replace("REPLACEME1", "x").replace("REPLACEME2", "%2")
 						.replace("REPLACEME3", "%3"));
 
 		p("IntegralBetween.5",
-				integral.replace("REPLACEME0", "%0-(%1)")
+				(integralPart1+integralPart3).replace("REPLACEME0", "%0-(%1)")
 						.replace("REPLACEME1", "%2").replace("REPLACEME2", "%3")
 						.replace("REPLACEME3", "%4"));
 

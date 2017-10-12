@@ -145,7 +145,7 @@ var __giac = [ {},
 { cat:"Derivative", cmd:"Derivative[Integral[sec(x)]]", result:"2(1/8((-cos(x))/sin(x)\u00B2+cos(x))/(1/sin(x)+sin(x)+2)-1/8((-cos(x))/sin(x)\u00B2+cos(x))/(1/sin(x)+sin(x)-2))|OR|2 (1 / 8 ((-cos(x)) / sin(x)\u00B2 + cos(x)) / (sin(x) + 1 / sin(x) + 2) - 1 / 8 ((-cos(x)) / sin(x)\u00B2 + cos(x)) / (sin(x) + 1 / sin(x) - 2))" },
 { cat:"Integral", cmd:"Integral[y^2]", result:"1 / 3 y\u00B3 + c_0|OR|y\u00B3/3+c_0" },
 { cat:"Integral", cmd:"Integral[x^2,1,2]", result:"7/3", notes:"" },
-{ cat:"Integral", cmd:"Integral[y^2,y,1,2]", result:"7/3", notes:"" },
+{ cat:"Integral", cmd:"Integral[y^2,1,2]", result:"7/3", notes:"" },
 { cat:"Integral", cmd:"Integral[y^2,y,1,2]", result:"7/3" },
 { cat:"IntegralBetween", cmd:"IntegralBetween[sin(x),cos(x),0,pi]", result:"2" },
 { cat:"IntegralBetween", cmd:"IntegralBetween[sin(y),cos(y),y,0,pi]", result:"2" },
@@ -2056,7 +2056,9 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),pi,3pi/2)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
 { cat:"Integral", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),3pi/2,2pi)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
 { cat:"Simplify", cmd:"Simplify(atan(3^(1/3)/sqrt(7))+5)", result:"atan(cbrt(3) / sqrt(7)) + 5" },
+//{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"atan(cbrt(3) / sqrt(7)) + 5" },
 //{ cat:"Integral", cmd:"Integral((x^4-3x)/(x^3+22x),cbrt(3),8)", result:"atan(cbrt(3) / sqrt(7)) + 5" },
+// 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"CountIf", cmd:"CountIf(x(A) < 3, A, {(0, 1), (4, 2), (2, 2)})", result:"2" },
 // Simplify(atan(3^(1/3)/sqrt(7))+5)
 // 
