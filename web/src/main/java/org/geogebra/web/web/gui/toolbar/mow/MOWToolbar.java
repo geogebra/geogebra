@@ -62,6 +62,7 @@ public class MOWToolbar extends FlowPanel {
 	private PageControlPanel pageControlPanel;
 
 	private final static int MAX_TOOLBAR_WIDTH = 600;
+	private final static int FLOATING_BTNS_WIDTH = 80;
 	/**
 	 *
 	 * @param app
@@ -100,7 +101,6 @@ public class MOWToolbar extends FlowPanel {
 		add(subMenuPanel);
 
 		addStyleName("mowToolbar");
-		// sets the horizontal position of the toolbar
 
 		ClickStartHandler.initDefaults(this, true, true);
 		Window.addResizeHandler(new ResizeHandler() {
@@ -114,6 +114,7 @@ public class MOWToolbar extends FlowPanel {
 	private void createUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();
 		undoRedoPanel.addStyleName("undoRedoPanel");
+		undoRedoPanel.addStyleName("undoRedoPositionMow");
 		addUndoButton(undoRedoPanel);
 		addRedoButton(undoRedoPanel);
 	}
@@ -176,27 +177,6 @@ public class MOWToolbar extends FlowPanel {
 	}
 
 	/**
-	 * updates position of undo+redo panel
-	 */
-	private void updateUndoRedoPosition() {
-		undoRedoPanel.getElement().getStyle().setLeft(0, Unit.PX);
-		// toolbar max width = 700 + undoRedoPanel width = 120
-		// 700+2*120 = 940
-		if (app.getWidth() > MAX_TOOLBAR_WIDTH + 240) {
-			undoRedoPanel.getElement().getStyle().setBottom(0, Unit.PX);
-		} else {
-			undoRedoPanel.getElement().getStyle().clearBottom();
-			if (isSubmenuOpen) {
-				undoRedoPanel.removeStyleName("hideSubmenu");
-				undoRedoPanel.addStyleName("showSubmenu");
-			} else {
-				undoRedoPanel.removeStyleName("showSubmenu");
-				undoRedoPanel.addStyleName("hideSubmenu");
-			}
-		}
-	}
-
-	/**
 	 * updates position of pageControlButton and zoomPanel
 	 */
 	private void updateFloatingButtonsPosition() {
@@ -206,19 +186,19 @@ public class MOWToolbar extends FlowPanel {
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
 				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 
-		if (app.getWidth() > MAX_TOOLBAR_WIDTH + 150) {
+		if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
 			pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
 			dp.setZoomPanelBottom(true);
 		} else {
 			pageControlButton.getElement().getStyle().clearBottom();
 			dp.setZoomPanelBottom(false);
 			if (isSubmenuOpen) {
-				pageControlButton.removeStyleName("hideSubmenu");
-				pageControlButton.addStyleName("showSubmenu");
+				pageControlButton.removeStyleName("hideMowSubmenu");
+				pageControlButton.addStyleName("showMowSubmenu");
 				dp.moveZoomPanelUpOrDown(true);
 			} else {
-				pageControlButton.removeStyleName("showSubmenu");
-				pageControlButton.addStyleName("hideSubmenu");
+				pageControlButton.removeStyleName("showMowSubmenu");
+				pageControlButton.addStyleName("hideMowSubmenu");
 				dp.moveZoomPanelUpOrDown(false);
 			}
 		}
@@ -477,7 +457,6 @@ public class MOWToolbar extends FlowPanel {
 	 */
 	public void updatePositions() {
 		updateToolbarPosition();
-		updateUndoRedoPosition();
 		updateFloatingButtonsPosition();
 	}
 
@@ -595,13 +574,13 @@ public class MOWToolbar extends FlowPanel {
 		if (visible) {
 			subMenuPanel.setVisible(visible);
 			if (!isSubmenuOpen) {
-				setStyleName("showSubmenu");
+				setStyleName("showMowSubmenu");
 				toggleCloseButton(true);
 			}
 			isSubmenuOpen = true;
 		} else {
 			if (isSubmenuOpen) {
-				setStyleName("hideSubmenu");
+				setStyleName("hideMowSubmenu");
 				toggleCloseButton(false);
 			}
 			Timer timer = new Timer() {
@@ -630,10 +609,22 @@ public class MOWToolbar extends FlowPanel {
 	 */
 	public void updateToolbarPosition() {
 		// small screen
-		if (app.getWidth() < MAX_TOOLBAR_WIDTH) {
-			removeStyleName("BigScreen");
-			addStyleName("SmallScreen");
-			getElement().getStyle().setLeft(0, Unit.PX);
+		if ((app.getWidth() - MAX_TOOLBAR_WIDTH) / 2 < FLOATING_BTNS_WIDTH) {
+			removeStyleName("SmallScreen");
+			addStyleName("BigScreen");
+			// floating buttons push toolbar to the left
+			getElement().getStyle().setLeft(Math.max(
+					app.getWidth() - MAX_TOOLBAR_WIDTH - FLOATING_BTNS_WIDTH,
+					0),
+					Unit.PX);
+			if (app.getWidth() < MAX_TOOLBAR_WIDTH) {
+				// toolbar gets 100% of app width, floating buttons move above
+				// toolbar
+				removeStyleName("BigScreen");
+				addStyleName("SmallScreen");
+				getElement().getStyle().setLeft(0, Unit.PX);
+			}
+
 		} // big screen
 		else {
 			removeStyleName("SmallScreen");

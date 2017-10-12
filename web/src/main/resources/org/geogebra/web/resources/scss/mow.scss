@@ -10,8 +10,9 @@
 	$submenuHeight: 178px;
 	$pagecontrolpanelWidth: 182px;
 	
-	$toolbar-transition: bottom 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+	$mowsubmenu-transition: bottom 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	$pagecontrol-transition: right 250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+	$floatingbtn-hover-transition: background-color 150ms ease 0ms;
 	
 	.mowToolbar {
 		position: relative;
@@ -105,13 +106,13 @@
 		
 	}
 	
-	.showSubmenu { 
+	.showMowSubmenu { 
 	    bottom: $submenuHeight;
-	    transition: $toolbar-transition;
+	    transition: $mowsubmenu-transition;
 	} 
-	.hideSubmenu { 
+	.hideMowSubmenu { 
 	    bottom: $toolbarHeight;
-	    transition: $toolbar-transition;
+	    transition: $mowsubmenu-transition;
 	} 
 	
 	.slideLeft {
@@ -521,13 +522,13 @@
 		cursor: pointer;
 		position: absolute;
     	border-radius: 50%;
-    	right: 10px;
+    	right: 16px;
     	width: 48px;
    		height: 48px;
-   		margin-bottom: 10px;
+   		margin-bottom: 16px;
     	background: $mow_highlight;
     	box-shadow: 0px 2px 10px rgba(0,0,0,.3), 0px 0px 1px rgba(0,0,0,.1), inset 0px 1px 0px rgba(255,255,255,.25), inset 0px -1px 0px rgba(0,0,0,.15);
-    	/*transition: background-color 150ms ease 0ms;*/
+    	transition: $floatingbtn-hover-transition, $mowsubmenu-transition;
     	
     	img {
     		width: 24px !important;
@@ -535,7 +536,7 @@
     	}
     	
     	&:hover {
-    		background: $mow_dark;
+    		background-color: $mow_dark;
     	}
 	}
 	.hidePageControlButton {
@@ -561,7 +562,7 @@
 		@extend .pageControlButton;
 		opacity: 1;	 
 		visibility: visible;
-		transition: opacity 0.2s ease;
+		transition: opacity 0.2s ease, $floatingbtn-hover-transition, $mowsubmenu-transition;
 	}
 	
 /*****************

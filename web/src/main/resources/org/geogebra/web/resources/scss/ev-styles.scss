@@ -308,7 +308,6 @@
 		cursor: default;
 		top: auto !important;
     	left: auto !important;
-    	right: 16px !important;
     	
     	.zoomPanelBtn {
     		position: relative;
@@ -368,9 +367,11 @@
 	}
 	.zoomPanelPosition {
     	bottom: 8px !important;
+    	right: 16px !important;
     }
 	.zoomPanelMow {
-		margin-bottom: 58px;
+		margin-bottom: 72px;
+		right: 22px !important;
 	}
 
 	.undoRedoPanel {
@@ -409,6 +410,10 @@
 		.hideButton {
 			display: none;
 		}
+	}
+	.undoRedoPositionMow {
+		top: 0px;
+		left: 40px;
 	}
 		.fullscreen-ipad {
 			position: absolute;

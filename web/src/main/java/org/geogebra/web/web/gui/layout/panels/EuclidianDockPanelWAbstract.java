@@ -328,11 +328,11 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			return;
 		}
 		if (up) {
-			zoomPanel.removeStyleName("hideSubmenu");
-			zoomPanel.addStyleName("showSubmenu");
+			zoomPanel.removeStyleName("hideMowSubmenu");
+			zoomPanel.addStyleName("showMowSubmenu");
 		} else {
-			zoomPanel.removeStyleName("showSubmenu");
-			zoomPanel.addStyleName("hideSubmenu");
+			zoomPanel.removeStyleName("showMowSubmenu");
+			zoomPanel.addStyleName("hideMowSubmenu");
 		}
 	}
 
