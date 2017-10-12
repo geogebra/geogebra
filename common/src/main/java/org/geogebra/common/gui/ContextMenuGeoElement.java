@@ -35,7 +35,7 @@ import java.util.ArrayList;
  */
 public abstract class ContextMenuGeoElement {
 
-	protected static final double[] zoomFactors = { 4.0, 2.0, 1.5, 1.25,
+	private static final double[] zoomFactors = { 4.0, 2.0, 1.5, 1.25,
 			1.0 / 1.25, 1.0 / 1.5, 0.5, 0.25 };
 	protected static final double[] axesRatios = { 1.0 / 1000.0, 1.0 / 500.0,
 			1.0 / 200.0, 1.0 / 100.0, 1.0 / 50.0, 1.0 / 20.0, 1.0 / 10.0,
@@ -593,9 +593,14 @@ public abstract class ContextMenuGeoElement {
 		this.geoLabel = geo.getLabelSimple();
 	}
 
-	public static double getZoomfactor(int index) {
+	public static double getZoomFactor(int index) {
 		return zoomFactors[index];
 	}
+
+	public static int getZoomFactorLength() {
+		return zoomFactors.length;
+	}
+
 	protected ArrayList<GeoElement> getGeos() {
 		return geos;
 	}

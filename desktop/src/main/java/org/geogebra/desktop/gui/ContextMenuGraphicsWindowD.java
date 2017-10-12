@@ -12,6 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui;
 
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.App;
+import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.GuiResourcesD;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,12 +26,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.App;
-import org.geogebra.desktop.main.AppD;
-import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
  *
@@ -245,8 +245,8 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		JMenuItem mi;
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < zoomFactors.length; i++) {
-			perc = (int) (zoomFactors[i] * 100.0);
+		for (int i = 0; i < getZoomFactorLength(); i++) {
+			perc = (int) (getZoomFactor(i) * 100.0);
 
 			// build text like "125%" or "75%"
 			sb.setLength(0);
@@ -258,7 +258,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 			sb.append('%');
 
 			mi = new JMenuItem(sb.toString());
-			mi.setActionCommand("" + zoomFactors[i]);
+			mi.setActionCommand("" + getZoomFactor(i));
 			mi.addActionListener(al);
 			mi.setBackground(wrappedPopup.getBackground());
 			menu.add(mi);

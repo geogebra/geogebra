@@ -371,8 +371,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		MenuItem mi;
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < zoomFactors.length; i++) {
-			perc = (int) (zoomFactors[i] * 100.0);
+		for (int i = 0; i < getZoomFactorLength(); i++) {
+			perc = (int) (getZoomFactor(i) * 100.0);
 			// build text like "125%" or "75%"
 			sb.setLength(0);
 			if ((perc <= 100) && (!separatorAdded)) {
@@ -388,7 +388,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			mi = new MenuItem(sb.toString(), new Command() {
 				@Override
 				public void execute() {
-					zoom(getZoomfactor(index));
+					zoom(getZoomFactor(index));
 				}
 			});
 			menu.addItem(mi);
