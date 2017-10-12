@@ -1,12 +1,5 @@
 package org.geogebra.web.web.gui.layout;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.TreeSet;
-
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -32,6 +25,13 @@ import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplet;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.TreeSet;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -161,9 +161,7 @@ public class DockManagerW extends DockManager {
 			for(int i = 0; i < dpData.length; ++i) {
 				updated.add(dpData[i].getViewId());
 				DockPanelW panel = getPanel(dpData[i]);
-				if(panel == null) {
-					// TODO insert error panel
-				}else{
+				if (panel != null) {
 					panel.setToolbarString(dpData[i].getToolbarString());
 					panel.setFrameBounds((Rectangle) dpData[i].getFrameBounds());
 					panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
@@ -193,7 +191,6 @@ public class DockManagerW extends DockManager {
 				}
 			}
 		}
-
 		// int panelDim;
 		
 		if(spData.length > 0) {

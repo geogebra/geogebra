@@ -56,14 +56,14 @@ public class LoadFilePresenter {
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
 		if (!tryReloadDataInStorage()) {
-			if (!"".equals((filename = view.getDataParamJSON()))) {
+			if (!"".equals(filename = view.getDataParamJSON())) {
 				processJSON(filename);
 			} else if (!""
-					.equals((base64String = view.getDataParamBase64String()))) {
+					.equals(base64String = view.getDataParamBase64String())) {
 				process(base64String);
-			} else if (!"".equals((filename = view.getDataParamFileName()))) {
+			} else if (!"".equals(filename = view.getDataParamFileName())) {
 				fetch(filename);
-			} else if (!"".equals((filename = view.getDataParamTubeID()))) {
+			} else if (!"".equals(filename = view.getDataParamTubeID())) {
 				app.openMaterial(view.getDataParamTubeID(), new Runnable() {
 
 					@Override
@@ -153,6 +153,11 @@ public class LoadFilePresenter {
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
 		String perspective = mview.getDataParamPerspective();
+		if (app.isUnbundledGraphing()) {
+			perspective = "1";
+		} else if (app.isUnbundledGeometry()) {
+			perspective = "2";
+		}
 		if (perspective.length() == 0) {
 			perspective = Location.getParameter("GeoGebraPerspective");
 		}
@@ -274,7 +279,7 @@ public class LoadFilePresenter {
 				&& app.getExam() == null && !smallScreen
 				&& !app.isWhiteboardActive()) {
 			app.showPerspectivesPopup();
-			}
+		}
 
 		app.updateRounding();
 
