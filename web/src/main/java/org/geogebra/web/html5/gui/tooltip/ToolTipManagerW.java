@@ -7,7 +7,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.CSSAnimation;
+import org.geogebra.web.html5.util.CSSAnimation;
 
 import java.util.Locale;
 

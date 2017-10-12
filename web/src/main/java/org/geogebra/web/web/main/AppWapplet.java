@@ -23,7 +23,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.web.gui.CSSAnimation;
+import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.Persistable;
 import org.geogebra.web.web.gui.app.GGWCommandLine;

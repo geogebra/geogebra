@@ -1,14 +1,5 @@
 package org.geogebra.common.main;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GBufferedImage;
@@ -93,6 +84,15 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Vector;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -4041,7 +4041,7 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-269 */
 		case MOW_MULTI_PAGE:
-			return false /* prerelease && whiteboard */;
+			return canary && whiteboard;
 
 		// **********************************************************************
 		// MOW END

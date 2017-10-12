@@ -5,7 +5,7 @@ import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.CSSAnimation;
+import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;

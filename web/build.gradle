@@ -177,6 +177,8 @@ task copyHtml {
         file("war/3d.html").text = english(appHtml("3d", true), "3D Graphing Calculator");
         
         file("war/whiteboard.html").text = english(appHtml("whiteboard", true), "Whiteboard");
+        
+        file("war/whiteboard-canary.html").text = english(appHtml("whiteboard", "\"canary\""), "Whiteboard");
     }
 }
 

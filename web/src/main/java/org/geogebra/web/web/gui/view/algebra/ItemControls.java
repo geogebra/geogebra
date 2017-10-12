@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.CSSAnimation;
 import org.geogebra.web.web.gui.view.algebra.AnimPanel.AnimPanelListener;
 
 import com.google.gwt.core.client.Scheduler;

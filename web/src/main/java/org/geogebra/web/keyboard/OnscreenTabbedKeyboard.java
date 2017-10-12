@@ -20,7 +20,7 @@ import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.CSSAnimation;
+import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
