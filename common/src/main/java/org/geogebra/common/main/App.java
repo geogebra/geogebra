@@ -4333,6 +4333,10 @@ public abstract class App implements UpdateSelection {
 		case SELECT_TOOL_NEW_BEHAVIOUR:
 			return prerelease;
 
+		/** GGB-2118 */
+		case PREVIEW_POINTS:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

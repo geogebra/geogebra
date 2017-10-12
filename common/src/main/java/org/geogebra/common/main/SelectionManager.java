@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -82,6 +83,8 @@ public class SelectionManager {
 	private boolean geoToggled = false;
 
 	private ArrayList<GeoElement> tempMoveGeoList;
+
+	private GeoElementND[] specPoints;
 
 	/**
 	 * @param kernel
@@ -845,6 +848,70 @@ public class SelectionManager {
 		}
 	}
 
+	private void updateSpecialPoints() {
+		this.getSpecPoints(selectedGeos);
+	}
+
+
+	private GeoElementND[] getSpecPoints(
+			ArrayList<GeoElement> selectedGeos2) {
+
+		if (specPoints != null) {
+			for (int i = 0; i < specPoints.length; i++) {
+				specPoints[i].remove();
+			}
+		}
+
+		if (selectedGeos2 != null && selectedGeos2.size() > 0) {
+			specPoints = getSpecPoints(selectedGeos2.get(0));
+		} else {
+			specPoints = null;
+		}
+
+		return specPoints;
+	}
+
+	private GeoElementND[] getSpecPoints(GeoElementND geo) {
+		if (!(geo instanceof GeoFunction)) {
+			return null;
+		}
+		PolyFunction poly = ((GeoFunction) geo).getFunction()
+				.expandToPolyFunction(
+						((GeoFunction) geo).getFunctionExpression(), false,
+						true);
+		GeoElementND[] geos1 = null;
+		if (poly == null || poly.getDegree() > 0) {
+			geos1 = geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
+					"Root[" + geo.getLabelSimple() + "]", false);
+		}
+		GeoElementND[] geos2;
+		if (poly == null || poly.getDegree() > 1) {
+			geos2 = geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
+					"Extremum[" + geo.getLabelSimple() + "]", true);
+		} else {
+			geos2 = geo.getKernel().getAlgebraProcessor()
+					.processAlgebraCommand("Intersect[" + geo.getLabelSimple()
+							+ "," + geo.getKernel().getLocalization()
+									.getMenu("yAxis")
+							+ "]", true);
+		}
+		if (geos1 != null && geos1.length > 0) {
+			if (geos2 != null && geos2.length > 0) {
+				GeoElementND[] ret = new GeoElementND[geos1.length
+						+ geos2.length];
+				for (int i = 0; i < geos1.length; i++) {
+					ret[i] = geos1[i];
+				}
+				for (int i = 0; i < geos2.length; i++) {
+					ret[i + geos1.length] = geos2[i];
+				}
+				return ret;
+			}
+			return geos1;
+		}
+		return geos2;
+	}
+
 	/**
 	 * Update stylebars, menubar and properties view to match selection
 	 */
@@ -860,6 +927,9 @@ public class SelectionManager {
 	 *            whether to update properties view
 	 */
 	public void updateSelection(boolean updatePropertiesView) {
+		if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
+			updateSpecialPoints();
+		}
 		listener.updateSelection(updatePropertiesView);
 	}
 
