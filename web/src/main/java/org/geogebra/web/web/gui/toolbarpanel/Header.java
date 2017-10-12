@@ -180,7 +180,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	protected void onAlgebraPressed() {
 		if (!open) {
-			toolbarPanel.setTabFade(false);
+			toolbarPanel.setFadeTabs(false);
 		}
 
 		toolbarPanel.openAlgebra(open);
@@ -195,7 +195,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	protected void onToolsPressed() {
 		if (!open) {
-			toolbarPanel.setTabFade(false);
+			toolbarPanel.setFadeTabs(false);
 		}
 
 		app.setKeyboardNeeded(false);
@@ -212,29 +212,41 @@ class Header extends FlowPanel implements KeyDownHandler {
 			app.toggleMenu();
 		}
 
-		setAnimating(true);
-		Widget headerParent = toolbarPanel.header.getParent().getParent()
-				.getParent();
 		if (isOpen()) {
-			if (app.isPortrait()) {
-				headerParent.addStyleName("closePortrait");
-			} else {
-				headerParent.addStyleName("closeLandscape");
-				toolbarPanel.setLastOpenWidth(getOffsetWidth());
-			}
-			toolbarPanel.setMoveMode();
-			toolbarPanel.setClosedByUser(true);
+			onClose();
 		} else {
-			headerParent.removeStyleName("closePortrait");
-			headerParent.removeStyleName("closeLandscape");
-			toolbarPanel.setTabFade(false);
-			toolbarPanel.setClosedByUser(false);
+			onOpen();
 		}
 
 		toolbarPanel.getFrame().showKeyBoard(false, null, true);
-		setOpen(!isOpen());
+	}
+	
+	private void onClose() {
+		setAnimating(true);
+		Widget headerParent = toolbarPanel.header.getParent().getParent()
+				.getParent();
+
+		if (app.isPortrait()) {
+			headerParent.addStyleName("closePortrait");
+		} else {
+			headerParent.addStyleName("closeLandscape");
+			toolbarPanel.setLastOpenWidth(getOffsetWidth());
+		}
+		toolbarPanel.setMoveMode();
+		toolbarPanel.setClosedByUser(true);
+		setOpen(false);
 	}
 
+	private void onOpen() {
+		if (toolbarPanel.isAlgebraViewActive()) {
+			onAlgebraPressed();
+		} else {
+			onToolsPressed();
+		}
+		updateStyle();
+		toolbarPanel.setClosedByUser(false);
+	}
+		
 	/**
 	 * Handler for Undo button.
 	 */

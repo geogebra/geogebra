@@ -119,7 +119,14 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		header.updateUndoRedoPosition();
 	}
 
+	/**
+	 * Base class for Toolbar Tabs-
+	 * 
+	 * @author Laszlo
+	 *
+	 */
 	abstract static class ToolbarTab extends ScrollPanel {
+		/** Constructor */
 		public ToolbarTab() {
 			setSize("100%", "100%");
 			setAlwaysShowScrollBars(false);
@@ -136,10 +143,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		 * 
 		 * @param active
 		 *            to set.
-		 * @param fade
-		 *            if tab should fade during animation or not.
 		 */
-		public void setActive(boolean active, boolean fade) {
+		public void setActive(boolean active) {
 			if (active) {
 				removeStyleName("tab-hidden");
 				addStyleName("tab");
@@ -147,11 +152,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				removeStyleName("tab");
 				addStyleName("tab-hidden");
 			}
-			setFade(fade);
 		}
-		
+
 		/**
-		 * if tab should fade during animation or not.
+		 * Sets if tab should fade during animation or not.
 		 * 
 		 * @param fade
 		 *            to set.
@@ -164,7 +168,14 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			}
 		}
 
+		/**
+		 * Gives the focus to the first element on tab.
+		 */
 		public abstract void focusFirstElement();
+
+		/**
+		 * Gives the focus to the last element on tab.
+		 */
 		public abstract void focusLastElement();
 	}
 
@@ -187,6 +198,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		main.add(tab);
 		tabCount++;
 	}
+
 	/**
 	 * 
 	 * @return width of one tab.
@@ -616,40 +628,43 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/**
 	 * Opens algebra tab.
 	 * 
-	 * @param animated
-	 *            decides if tab should animate or not.
+	 * @param fade
+	 *            decides if tab should fade during animation.
 	 */
-	public void openAlgebra(boolean animated) {
+	public void openAlgebra(boolean fade) {
 		header.selectAlgebra();
 		selectedTab = tabAlgebra;
 		open();
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
 
-		tabAlgebra.setActive(true, animated);
-		tabTools.setActive(false, animated);
+		tabAlgebra.setActive(true);
+		tabTools.setActive(false);
+		setFadeTabs(fade);
+
 		hideMoveFloatingButton();
 	}
 
 	/**
 	 * Opens tools tab.
 	 * 
-	 * @param animated
-	 *            decides if tab should animate or not.
+	 * @param fade
+	 *            decides if tab should fade during animation.
 	 */
-	public void openTools(boolean animated) {
+	public void openTools(boolean fade) {
 		ToolTipManagerW.hideAllToolTips();
 		header.selectTools();
 		selectedTab = tabTools;
-
 		open();
 		main.removeStyleName("algebra");
 		main.addStyleName("tools");
-		tabAlgebra.setActive(false, animated);
-		tabTools.setActive(true, animated);
+		tabAlgebra.setActive(false);
+		tabTools.setActive(true);
+		setFadeTabs(fade);
 		updateMoveButton();
 
 	}
+
 
 	/**
 	 * select tools tab
@@ -904,7 +919,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * @param fade
 	 *            to set.
 	 */
-	public void setTabFade(boolean fade) {
+	public void setFadeTabs(boolean fade) {
 		tabAlgebra.setFade(fade);
 		tabTools.setFade(fade);
 	}
