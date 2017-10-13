@@ -29,6 +29,16 @@ public class KeyboardFactory {
     }
 
     /**
+     * This method will be removed, after Feature Flag is removed.
+     * Two different flags for MOB and GGB: MOB_KEYBOARD_BOX_ICONS
+     * Use {@link #createMathKeyboard()} after Feature Flags are removed.
+     */
+    public Keyboard createMathKeyboard(boolean boxIcons) {
+        KeyboardModel model = keyboardModelFactory.createMathKeyboard(defaultButtonFactory, boxIcons);
+        return new KeyboardImpl(model, null, null);
+    }
+
+    /**
      * Creates a function keyboard with the function buttons.
      *
      * @return function keyboard

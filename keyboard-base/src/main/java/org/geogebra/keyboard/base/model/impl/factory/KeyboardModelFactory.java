@@ -21,6 +21,18 @@ public class KeyboardModelFactory {
         return mathKeyboardFactory.createMathKeyboard(buttonFactory);
     }
 
+    /**
+     * this method will be removed, after the Feature Flags are removed.
+     * Two different flags for MOB and GGB: MOB_KEYBOARD_BOX_ICONS
+     * use {@link #createMathKeyboard(ButtonFactory)} if Feature Flags are removed.
+     */
+    public KeyboardModel createMathKeyboard(ButtonFactory buttonFactory, boolean boxIcons) {
+        if (mathKeyboardFactory == null) {
+            mathKeyboardFactory = new MathKeyboardFactory();
+        }
+        return mathKeyboardFactory.createMathKeyboard(buttonFactory, boxIcons);
+    }
+
     public KeyboardModel createGreekKeyboard(ButtonFactory buttonFactory) {
         if (greekKeyboardFactory == null) {
             greekKeyboardFactory = new GreekKeyboardFactory();

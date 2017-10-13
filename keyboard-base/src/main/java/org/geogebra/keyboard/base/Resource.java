@@ -30,6 +30,8 @@ public enum Resource {
 
 	A_N,
 
+	ABS,
+
 	CAPS_LOCK,
 
 	CAPS_LOCK_ENABLED,
