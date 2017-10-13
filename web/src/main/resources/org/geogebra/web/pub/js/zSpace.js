@@ -293,6 +293,7 @@
   function mouseEvent(e, zspace) {
     // Compute the actual browser viewport offset using the mouse cursor
     // position information stored in a mouse event.
+	console.trace();
     zspace.setBrowserViewportOffset(
       e.screenX - e.clientX - window.screenX,
       e.screenY - e.clientY - window.screenY);
