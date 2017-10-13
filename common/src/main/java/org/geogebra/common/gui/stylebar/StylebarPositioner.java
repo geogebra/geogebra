@@ -61,8 +61,7 @@ public class StylebarPositioner {
         final int MARGIN = 4;
         final int BOTTOM_MARGIN = 10 * MARGIN;
         double left, top;
-
-        maxTopPosition = maxTopPosition - 2 * MARGIN;
+        int maxTopWithMargin = maxTopPosition - 2 * MARGIN;
 
         if (gRectangle2D == null) {
             if (!isFunction || isPoint) {
@@ -91,11 +90,11 @@ public class StylebarPositioner {
             top = (gRectangle2D != null ? gRectangle2D.getMaxY() : 0) + MARGIN;
         }
 
-        if (top > maxTopPosition) {
+        if (top > maxTopWithMargin) {
             if (isPoint) {
                 top = gRectangle2D.getMinY() - stylebarHeight - BOTTOM_MARGIN;
             } else {
-                top = maxTopPosition;
+                top = maxTopWithMargin;
             }
         }
 
