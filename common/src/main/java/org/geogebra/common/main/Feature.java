@@ -158,6 +158,9 @@ public enum Feature {
 	/** AND-247 */
 	AND_KILL_TOOLBAR,
 
+	/** MOB-1305 */
+	MOB_KEYBOARD_BOX_ICONS,
+
 	/** GGB-1697 */
 	AV_ITEM_DESIGN,
 

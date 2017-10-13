@@ -985,7 +985,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Translate key and then show error dialog
 	 *
-	 * @param s
+	 * @param key
 	 *            error message
 	 */
 	public void localizeAndShowError(String key) {
@@ -995,7 +995,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Show error dialog with given text
 	 *
-	 * @param s
+	 * @param localizedError
 	 *            error message
 	 */
 	public abstract void showError(String localizedError);
@@ -3984,6 +3984,10 @@ public abstract class App implements UpdateSelection {
 		// AND-364
 		case MOB_EV_SETTINGS_POPUP:
 			return prerelease;
+
+		// MOB-1305
+		case MOB_KEYBOARD_BOX_ICONS:
+			return false;
 
 		// AND-574
 		case MOB_NO_LOCK_FOR_PREVIEWABLE_IN_AND_3D:
