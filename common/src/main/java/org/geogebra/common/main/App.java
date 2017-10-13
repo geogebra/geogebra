@@ -3986,7 +3986,7 @@ public abstract class App implements UpdateSelection {
 			return prerelease;
 
 		// AND-574
-		case AND_NO_LOCK_FOR_PREVIEWABLE_3D:
+		case MOB_NO_LOCK_FOR_PREVIEWABLE_IN_AND_3D:
 			return prerelease;
 
 		// IGR-481
