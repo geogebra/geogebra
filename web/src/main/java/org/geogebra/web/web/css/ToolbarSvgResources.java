@@ -1,9 +1,11 @@
 package org.geogebra.web.web.css;
 
 import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 
 /**
  * SVG icons for toolbar
@@ -11,7 +13,7 @@ import com.google.gwt.resources.client.ClientBundle;
  * @author csilla
  *
  */
-public interface ToolbarSvgResources extends ClientBundle {
+public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 
 	ToolbarSvgResources INSTANCE = GWT.create(ToolbarSvgResources.class);
 
@@ -240,106 +242,213 @@ public interface ToolbarSvgResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_zoomout.svg")
 	SVGResource mode_zoomout_32();
 
-	/*
-	 * // 3D
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_circleaxispoint.svg") SVGResource
-	 * mode_circleaxispoint_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_circlepointradiusdirection.svg") SVGResource
-	 * mode_circlepointradiusdirection_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_cone.svg") SVGResource mode_cone_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_conify.svg") SVGResource mode_conify_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_cube.svg") SVGResource mode_cube_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_cylinder.svg") SVGResource mode_cylinder_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_extrusion.svg") SVGResource mode_extrusion_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_mirroratplane.svg") SVGResource mode_mirroratplane_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_net.svg") SVGResource mode_net_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_orthogonalplane.svg") SVGResource
-	 * mode_orthogonalplane_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_parallelplane.svg") SVGResource mode_parallelplane_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_planethreepoint.svg") SVGResource
-	 * mode_planethreepoint_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_plane.svg") SVGResource mode_plane_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_prism.svg") SVGResource mode_prism_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_pyramid.svg") SVGResource mode_pyramid_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_rotatearoundline.svg") SVGResource
-	 * mode_rotatearoundline_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_rotateview.svg") SVGResource mode_rotateview_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_sphere2.svg") SVGResource mode_sphere2_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_spherepointradius.svg") SVGResource
-	 * mode_spherepointradius_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_tetrahedron.svg") SVGResource mode_tetrahedron_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_viewinfrontof.svg") SVGResource mode_viewinfrontof_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_volume.svg") SVGResource mode_volume_32();
-	 * 
-	 * @Override
-	 * 
-	 * @Source("mode_orthogonalthreed.svg") SVGResource
-	 * mode_orthogonalthreed_32();
-	 */
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_countcells.svg")
+	SVGResource mode_countcells_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_createlistofpoints.svg")
+	SVGResource mode_createlistofpoints_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_creatematrix.svg")
+	SVGResource mode_creatematrix_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_createpolyline.svg")
+	SVGResource mode_createpolyline_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_createtable.svg")
+	SVGResource mode_createtable_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_derivative.svg")
+	SVGResource mode_derivative_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_evaluate.svg")
+	SVGResource mode_evaluate_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_expand.svg")
+	SVGResource mode_expand_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_factor.svg")
+	SVGResource mode_factor_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_integral.svg")
+	SVGResource mode_integral_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_intersectioncurve.svg")
+	SVGResource mode_intersectioncurve_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_keepinput.svg")
+	SVGResource mode_keepinput_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_maxcells.svg")
+	SVGResource mode_maxcells_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_meancells.svg")
+	SVGResource mode_meancells_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_mincells.svg")
+	SVGResource mode_mincells_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_multivarstats.svg")
+	SVGResource mode_multivarstats_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_nsolve.svg")
+	SVGResource mode_nsolve_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_numeric.svg")
+	SVGResource mode_numeric_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_onevarstats.svg")
+	SVGResource mode_onevarstats_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_solve.svg")
+	SVGResource mode_solve_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_substitute.svg")
+	SVGResource mode_substitute_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_sumcells.svg")
+	SVGResource mode_sumcells_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_twovarstats.svg")
+	SVGResource mode_twovarstats_32();
+
+
+	// 3D
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_circleaxispoint.svg")
+	SVGResource mode_circleaxispoint_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_circlepointradiusdirection.svg")
+	SVGResource mode_circlepointradiusdirection_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_cone.svg")
+	SVGResource mode_cone_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_conify.svg")
+	SVGResource mode_conify_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_cube.svg")
+	SVGResource mode_cube_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_cylinder.svg")
+	SVGResource mode_cylinder_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_extrusion.svg")
+	SVGResource mode_extrusion_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_mirroratplane.svg")
+	SVGResource mode_mirroratplane_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_net.svg")
+	SVGResource mode_net_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_orthogonalplane.svg")
+	SVGResource mode_orthogonalplane_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_parallelplane.svg")
+	SVGResource mode_parallelplane_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_planethreepoint.svg")
+	SVGResource mode_planethreepoint_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_plane.svg")
+	SVGResource mode_plane_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_prism.svg")
+	SVGResource mode_prism_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_pyramid.svg")
+	SVGResource mode_pyramid_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_rotatearoundline.svg")
+	SVGResource mode_rotatearoundline_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_rotateview.svg")
+	SVGResource mode_rotateview_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_sphere2.svg")
+	SVGResource mode_sphere2_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_spherepointradius.svg")
+	SVGResource mode_spherepointradius_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_tetrahedron.svg")
+	SVGResource mode_tetrahedron_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_viewinfrontof.svg")
+	SVGResource mode_viewinfrontof_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_volume.svg")
+	SVGResource mode_volume_32();
+
+	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_orthogonalthreed.svg")
+	SVGResource mode_orthogonalthreed_32();
+
+	// TODO replace the PNGs below
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_line.png")
+	ImageResource mode_shape_line_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_triangle.png")
+	ImageResource mode_shape_triangle_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_square.png")
+	ImageResource mode_shape_square_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle.png")
+	ImageResource mode_shape_rectangle_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle_round_edges.png")
+	ImageResource mode_shape_rectangle_round_edges_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_polygon.png")
+	ImageResource mode_shape_polygon_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_freeform.png")
+	ImageResource mode_shape_freeform_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_circle.png")
+	ImageResource mode_shape_circle_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_ellipse.png")
+	ImageResource mode_shape_ellipse_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_eraser.png")
+	ImageResource mode_eraser_32();
+
+
+	// Whiteboard
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/help.png")
+	ImageResource help_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_geogebra.png")
+	ImageResource mode_geogebra_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_photo.png")
+	ImageResource mode_photo_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_video.png")
+	ImageResource mode_video_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_audio.png")
+	ImageResource mode_audio_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_pen_white.png")
+	ImageResource mode_pen_white_32();
+
 }

@@ -16,7 +16,7 @@ public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_select.png")
-	ImageResource mode_selection_32();
+	ImageResource mode_select_32();
 
 	@Override
 	@Source("org/geogebra/common/icons_toolbar/p32/mode_angle.png")

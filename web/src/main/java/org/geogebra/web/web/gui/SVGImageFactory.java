@@ -1,9 +1,9 @@
 package org.geogebra.web.web.gui;
 
+import org.geogebra.web.web.css.ToolbarSvgResources;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
-import org.geogebra.web.web.gui.toolbar.svgimages.SvgToolbarResources;
 
 import com.google.gwt.core.shared.GWT;
 
@@ -23,7 +23,7 @@ public class SVGImageFactory implements ImageFactory {
 	@Override
 	public ToolbarResources getToolbarResources() {
 		if (tb == null) {
-			tb = GWT.create(SvgToolbarResources.class);
+			tb = GWT.create(ToolbarSvgResources.class);
 		}
 		return tb;
 
