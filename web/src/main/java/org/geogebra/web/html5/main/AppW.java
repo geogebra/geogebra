@@ -3666,6 +3666,10 @@ public abstract class AppW extends App implements SetLabels {
 		return "geometry".equals(articleElement.getDataParamAppName());
 	}
 
+	public boolean isUnbundled3D() {
+		return "3d".equals(articleElement.getDataParamAppName());
+	}
+
 	public void ensureStandardView() {
 		// only with GUI
 	}
@@ -3678,4 +3682,5 @@ public abstract class AppW extends App implements SetLabels {
 	public boolean isPortrait() {
 		return getWidth() < getHeight();
 	}
+
 }

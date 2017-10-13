@@ -157,6 +157,8 @@ public class LoadFilePresenter {
 			perspective = "1";
 		} else if (app.isUnbundledGeometry()) {
 			perspective = "2";
+		} else if (app.isUnbundled3D()) {
+			perspective = Perspective.GRAPHER_3D + "";
 		}
 		if (perspective.length() == 0) {
 			perspective = Location.getParameter("GeoGebraPerspective");

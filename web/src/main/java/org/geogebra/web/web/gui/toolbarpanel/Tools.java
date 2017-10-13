@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.Category;
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.TabHandler;
@@ -143,7 +145,15 @@ public class Tools extends FlowPanel implements SetLabels, TabHandler {
 		this.clear();
 		mToolCategorization = new ToolCategorization(app,
 				app.getSettings().getToolbarSettings().getType(), app.getSettings().getToolbarSettings().getToolsetLevel(), false);
-		mToolCategorization.resetTools();
+		String def = app.getGuiManager().getCustomToolbarDefinition();
+
+		if (app.isUnbundled3D()) {
+			def = app.getGuiManager().getLayout().getDockManager()
+					.getPanel(App.VIEW_EUCLIDIAN3D).getToolbarString();
+		}
+		mToolCategorization
+				.resetTools(def);
+
 		categories = mToolCategorization
 				.getCategories();
 		categoryPanelList = new ArrayList<Tools.CategoryPanel>();
@@ -229,6 +239,8 @@ public class Tools extends FlowPanel implements SetLabels, TabHandler {
 			ArrayList<Integer> tools = getmToolCategorization().getTools(
 					getmToolCategorization().getCategories().indexOf(category));
 			toolBtnList = new ArrayList<StandardButton>();
+			ToolBar.parseToolbarString(
+					app.getGuiManager().getToolbarDefinition());
 			for (int i = 0; i < tools.size(); i++) {
 				StandardButton btn = getButton(tools.get(i));
 				toolBtnList.add(btn);

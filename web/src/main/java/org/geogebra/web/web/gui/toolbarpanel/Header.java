@@ -118,7 +118,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void createCenter() {
-		if (app.isUnbundledGraphing()) {
+		if (!app.isUnbundledGeometry()) {
 			btnAlgebra = new MyToggleButton(
 					new Image(new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE
@@ -423,7 +423,8 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * update position of undo+redo panel
 	 */
 	public void updateUndoRedoPosition() {
-		final EuclidianView ev = ((AppW) toolbarPanel.app).getEuclidianView1();
+		final EuclidianView ev = ((AppW) toolbarPanel.app)
+				.getActiveEuclidianView();
 		if (ev != null) {
 			int evTop = ev.getAbsoluteTop() - (int) app.getAbsTop();
 			int evLeft = ev.getAbsoluteLeft() - (int) app.getAbsLeft();

@@ -83,6 +83,10 @@ public class ToolBar {
 			sb.append(" ");
 			sb.append(EuclidianConstants.MODE_MOVE_ROTATE);
 		}
+		if (app != null && app.isUnbundled()) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_SELECT);
+		}
 
 		// freehand tools in with move tool
 		sb.append(" ");
@@ -1397,17 +1401,6 @@ public class ToolBar {
 		}
 	}
 
-
-	final static private String[] split(String definition) {
-		String def2 = definition.replaceAll(",", ""); // remove comas
-		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
-		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical
-		// bars
-		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
-
-		return def2.split(" \\| "); // split by tool menus
-	}
-
 	final static public boolean isOldDefaultToolbar(String definition) {
 
 		if (definition == null) {
@@ -1468,8 +1461,18 @@ public class ToolBar {
 		return true;
 	}
 
-	final static public TreeSet<Integer> toSet(String definition) {
+	final static private String[] split(String definition) {
 		String def2 = definition.replaceAll(",", ""); // remove comas
+		def2 = def2.replaceAll("59", ""); // remove record to spreadsheet tool
+		def2 = def2.replaceAll("\\|{2,}", " \\| "); // remove double vertical
+		// bars
+		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
+
+		return def2.split(" \\| "); // split by tool menus
+	}
+
+	final static public TreeSet<Integer> toSet(String definition) {
+		String def2 = definition.replaceAll(",", " "); // remove comas
 		def2 = def2.replaceAll("\\|", " "); // remove vertical bars
 		def2 = def2.replaceAll(" {2,}", " "); // remove multiple spaces
 
