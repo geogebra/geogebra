@@ -29,20 +29,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 					String valueString = value
 							.toValueString(StringTemplate.maxPrecision);
 
-					// for aesthetical copying, it is also good to remove
-					// trailing zeroes (zero is nothing anyway):
-					int indx = valueString.indexOf(app.getKernel().getLocalization().unicodeDecimalPoint);
-					if (indx > -1) {
-						int end = valueString.length() - 1;
-						// only in this case, we should remove trailing zeroes!
-						while (valueString.charAt(end) == '0') {
-							end--;
-						}
-						if (end == indx) {
-							end--;
-						}
-						valueString = valueString.substring(0, end + 1);
-					}
+					valueString = removeTrailingZeros(valueString);
 
 					cellBufferStrLoc.append(valueString);
 				}
@@ -55,6 +42,23 @@ public class CopyPasteCutW extends CopyPasteCut {
 			}
 		}
 		return new String(cellBufferStrLoc);
+	}
+
+	private String removeTrailingZeros(String valueString) {
+		int indx = valueString
+				.indexOf(app.getKernel().getLocalization().unicodeDecimalPoint);
+		if (indx > -1) {
+			int end = valueString.length() - 1;
+			// only in this case, we should remove trailing zeroes!
+			while (valueString.charAt(end) == '0') {
+				end--;
+			}
+			if (end == indx) {
+				end--;
+			}
+			return valueString.substring(0, end + 1);
+		}
+		return valueString;
 	}
 
 	@Override

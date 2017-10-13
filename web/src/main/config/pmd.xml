@@ -83,11 +83,7 @@
 	<exclude name="PreserveStackTrace"/>
 	
 	</rule>
-	<rule ref="rulesets/java/design.xml/AvoidDeeplyNestedIfStmts">
-    <properties>
-        <property name="problemDepth" value="4"/>
-    </properties>
-  </rule>
+	
 	<rule ref="rulesets/java/basic.xml">
 		<exclude name="CollapsibleIfStatements" />
 		<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor" />	

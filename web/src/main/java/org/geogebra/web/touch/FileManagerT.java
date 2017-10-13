@@ -618,30 +618,22 @@ public class FileManagerT extends FileManager {
 					        public void onSuccess(
 					                final LightArray<EntryBase> entries) {
 
-						        for (int i = 0; i < entries.length(); i++) {
-							        if (entries.get(i).isFile()) {
-								        final FileEntry fileEntry = entries
-								                .get(i).getAsFileEntry();
-								        final String key = fileEntry.getName()
-								                .substring(
-								                        0,
-								                        fileEntry.getName()
-								                                .indexOf("."));
-												if (key.startsWith(
-														MaterialsManager.FILE_PREFIX)) {
-													int fileID = MaterialsManager
-									                .getIDFromKey(key);
-									        if (fileID >= nextFreeID) {
-										        nextFreeID = fileID + 1;
-									        }
-								        }
-							        }
-						        }
-						        cb.onSuccess(nextFreeID);
-						        nextFreeID++;
-					        }
+										for (int i = 0; i < entries
+												.length(); i++) {
+											if (entries.get(i).isFile()) {
+												final FileEntry fileEntry = entries
+														.get(i)
+														.getAsFileEntry();
+												increaseNextIdForFile(fileEntry);
+											}
+										}
+										cb.onSuccess(nextFreeID);
+										nextFreeID++;
+									}
 
-					        @Override
+
+
+									@Override
 					        public void onFailure(final FileError error) {
 						        //
 					        }
@@ -656,6 +648,17 @@ public class FileManagerT extends FileManager {
 		});
 	}
 
+	protected void increaseNextIdForFile(FileEntry fileEntry) {
+		final String key = fileEntry.getName().substring(0,
+				fileEntry.getName().indexOf("."));
+		if (key.startsWith(MaterialsManager.FILE_PREFIX)) {
+			int fileID = MaterialsManager.getIDFromKey(key);
+			if (fileID >= nextFreeID) {
+				nextFreeID = fileID + 1;
+			}
+		}
+
+	}
 	/**
 	 * create metaData.
 	 * 

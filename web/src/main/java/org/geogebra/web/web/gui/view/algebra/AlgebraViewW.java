@@ -288,16 +288,15 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			app.focusGained(this, this.getElement());
 		}
 		if (!editItem) {
-			if (event.getTypeInt() == Event.ONCLICK) {
-				// background click
-				if (!CancelEventTimer.cancelKeyboardHide()
+			// background click
+			if (event.getTypeInt() == Event.ONCLICK
+					&& !CancelEventTimer.cancelKeyboardHide()
 						&& !CancelEventTimer.cancelMouseEvent()) {
-					// maybe another focusScheduled is called, but
-					// that should not be a problem, the problem should
-					// collect blur events all along the way
-					app.getGuiManager().focusScheduled(true, true, true);
-					app.hideKeyboard();
-				}
+				// maybe another focusScheduled is called, but
+				// that should not be a problem, the problem should
+				// collect blur events all along the way
+				app.getGuiManager().focusScheduled(true, true, true);
+				app.hideKeyboard();
 			}
 			super.onBrowserEvent(event);
 		}
@@ -389,10 +388,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			 * not otherwise because editing geos while animation is running
 			 * won't work then (ticket #151).
 			 */
-			if (isEditItem()) {
-				if (item.getController().isEditing()) {
+			if (isEditItem() && item.getController().isEditing()) {
 					item.cancelEditing();
-				}
 			}
 
 		}

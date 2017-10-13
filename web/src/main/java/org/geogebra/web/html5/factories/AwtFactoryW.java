@@ -282,25 +282,31 @@ public class AwtFactoryW extends AwtFactory {
 											new Scheduler.ScheduledCommand() {
 												@Override
 												public void execute() {
-													repaintDeferred = false;
-													repaintsFromHereInProgress++;
-													((EuclidianViewW) app
-															.getEuclidianView1())
-																	.doRepaint();
-													if (app.hasEuclidianView2(
-															1)) {
-														((EuclidianViewW) app
-																.getEuclidianView2(
-																		1)).doRepaint();
-													}
-													repaintsFromHereInProgress--;
+													doRepaint(app);
 												}
+
 											});
 								}
 							}
 						});
 			}
 		}
+	}
+
+	/**
+	 * Helper method for repainting
+	 * 
+	 * @param app
+	 *            application
+	 */
+	void doRepaint(App app) {
+		repaintDeferred = false;
+		repaintsFromHereInProgress++;
+		((EuclidianViewW) app.getEuclidianView1()).doRepaint();
+		if (app.hasEuclidianView2(1)) {
+			((EuclidianViewW) app.getEuclidianView2(1)).doRepaint();
+		}
+		repaintsFromHereInProgress--;
 	}
 
 

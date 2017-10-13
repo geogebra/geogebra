@@ -409,7 +409,6 @@ public final class ArticleElement extends Element {
 
 	private native double envScale(JavaScriptObject current, String type,
 			boolean deep) /*-{
-		var current = this;
 		var sx = 1;
 		var sy = 1;
 

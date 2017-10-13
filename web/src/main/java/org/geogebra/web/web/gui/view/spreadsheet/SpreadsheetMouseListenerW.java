@@ -200,9 +200,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				// selecting the same cell should not finish editing
 				// e.g. move cursor inside cell
 			if (!isCurrentSelection(point)) {
-				if (table.getEditor() != null) {
-					table.getEditor().stopCellEditing();
-				}
 				finishEditing();
 			}
 
@@ -285,10 +282,12 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		postfix = text.substring(caretPos, text.length());
 
 		table.isDragging = true;
-
 	}
 
 	private void finishEditing() {
+		if (table.getEditor() != null) {
+			table.getEditor().stopCellEditing();
+		}
 		editor.setAllowProcessGeo(true);
 		editor.stopCellEditing();
 		editor.setAllowProcessGeo(false);

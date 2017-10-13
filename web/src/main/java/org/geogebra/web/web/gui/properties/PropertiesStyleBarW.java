@@ -122,11 +122,15 @@ public class PropertiesStyleBarW extends
 				if (DOM.eventGetType(event) == Event.ONMOUSEDOWN
 						|| DOM.eventGetType(event) == Event.ONTOUCHSTART) {
 					MenuItem item = this.getSelectedItem();
-					if (item != null) {
-						ScheduledCommand cmd = item.getScheduledCommand();
-						if (cmd != null) {
-							cmd.execute();
-						}
+					runCommand(item);
+				}
+			}
+
+			private void runCommand(MenuItem item) {
+				if (item != null) {
+					ScheduledCommand cmd = item.getScheduledCommand();
+					if (cmd != null) {
+						cmd.execute();
 					}
 				}
 			}

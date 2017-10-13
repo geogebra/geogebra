@@ -489,28 +489,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 		if (label.isPickable()) {
 			// values for picking (ignore transparent bytes)
 			ImageData data = bimg.getImageData();
-			int xmin = label.getWidth(), xmax = 0, ymin = label.getHeight(), ymax = 0;
-			for (int y = 0; y < label.getHeight(); y++) {
-				for (int x = 0; x < label.getWidth(); x++) {
-					int alpha = data.getAlphaAt(x, y);
-					if (alpha != 0) {
-						if (x < xmin) {
-							xmin = x;
-						}
-						if (x > xmax) {
-							xmax = x;
-						}
-						if (y < ymin) {
-							ymin = y;
-						}
-						if (y > ymax) {
-							ymax = y;
-						}
-					}
-				}
-			}
-			label.setPickingDimension(xmin, ymin, xmax - xmin + 1, ymax - ymin
-					+ 1);
+			updatePickingDimension(label, data);
 		}
 
 		// create texture
@@ -538,6 +517,32 @@ public class RendererImplShadersW extends RendererImplShaders {
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, null);
 
 		label.setTextureIndex(textureIndex);
+	}
+
+	private static void updatePickingDimension(DrawLabel3D label,
+			ImageData data) {
+		int xmin = label.getWidth(), xmax = 0, ymin = label.getHeight(),
+				ymax = 0;
+		for (int y = 0; y < label.getHeight(); y++) {
+			for (int x = 0; x < label.getWidth(); x++) {
+				int alpha = data.getAlphaAt(x, y);
+				if (alpha != 0) {
+					if (x < xmin) {
+						xmin = x;
+					}
+					if (x > xmax) {
+						xmax = x;
+					}
+					if (y < ymin) {
+						ymin = y;
+					}
+					if (y > ymax) {
+						ymax = y;
+					}
+				}
+			}
+		}
+		label.setPickingDimension(xmin, ymin, xmax - xmin + 1, ymax - ymin + 1);
 	}
 
 	@Override

@@ -341,16 +341,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				if (col != null) {
 					SafeHtmlBuilder sb = new SafeHtmlBuilder();
 					if (i == 0) {
-						// if cp header fixed, we must insert the popup button
-						// only in headertable
-						if (tb.getStyleName().indexOf("headerTable") > 0) {
-							sb.append(SafeHtmlUtils
-									.fromSafeConstant("<div id = \"CP_popupImage\">"));
-							sb.append(AbstractImagePrototype.create(
-									GuiResources.INSTANCE.menu_dots())
-									.getSafeHtml());
-							sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
-						}
+						insertPopup(tb, sb);
 
 					} else {
 						String headerTitle;
@@ -369,6 +360,19 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					tb.addColumn(col, sb.toSafeHtml());
 				}
 			}
+		}
+
+	}
+
+	private static void insertPopup(CellTable<RowData> tb, SafeHtmlBuilder sb) {
+		// if cp header fixed, we must insert the popup button
+		// only in headertable
+		if (tb.getStyleName().indexOf("headerTable") > 0) {
+			sb.append(SafeHtmlUtils
+					.fromSafeConstant("<div id = \"CP_popupImage\">"));
+			sb.append(AbstractImagePrototype
+					.create(GuiResources.INSTANCE.menu_dots()).getSafeHtml());
+			sb.append(SafeHtmlUtils.fromSafeConstant("</div>"));
 		}
 
 	}

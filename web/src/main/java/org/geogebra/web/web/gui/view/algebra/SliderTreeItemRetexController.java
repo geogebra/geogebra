@@ -100,14 +100,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 				&& !rightClick) {
 
 			if (minHit || maxHit) {
-				stopEdit();
-				slider.getMinMax().show();
-				if (minHit) {
-					slider.getMinMax().setMinFocus();
-				} else if (maxHit) {
-					slider.getMinMax().setMaxFocus();
-				}
-				getApp().getKernel().notifyRepaint();
+				handleMinMaxHit(minHit);
 				return true;
 			}
 		}
@@ -117,6 +110,18 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 		}
 
 		return false;
+
+	}
+
+	private void handleMinMaxHit(boolean minHit) {
+		stopEdit();
+		slider.getMinMax().show();
+		if (minHit) {
+			slider.getMinMax().setMinFocus();
+		} else {
+			slider.getMinMax().setMaxFocus();
+		}
+		getApp().getKernel().notifyRepaint();
 
 	}
 

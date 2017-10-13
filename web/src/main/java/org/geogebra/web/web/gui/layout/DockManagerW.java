@@ -1,5 +1,12 @@
 package org.geogebra.web.web.gui.layout;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.TreeSet;
+
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.gui.layout.DockManager;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -25,13 +32,6 @@ import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.main.AppWapplet;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.TreeSet;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -148,48 +148,7 @@ public class DockManagerW extends DockManager {
 	public void applyPerspective(DockSplitPaneData[] spData, DockPanelData[] dpData) {		
 		
 		if(dockPanels != null) {			
-			// hide existing external windows
-			for(DockPanelW panel : dockPanels) {
-				if(panel.isOpenInFrame() && panel.isVisible()) {
-					hide(panel);
-				}
-				
-				panel.setAlone(false);
-			}
-			TreeSet<Integer> updated = new TreeSet<Integer>();
-			// copy dock panel info settings
-			for(int i = 0; i < dpData.length; ++i) {
-				updated.add(dpData[i].getViewId());
-				DockPanelW panel = getPanel(dpData[i]);
-				if (panel != null) {
-					panel.setToolbarString(dpData[i].getToolbarString());
-					panel.setFrameBounds((Rectangle) dpData[i].getFrameBounds());
-					panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
-					panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
-					panel.setShowStyleBar(dpData[i].showStyleBar());
-					panel.setOpenInFrame(dpData[i].isOpenInFrame());
-					panel.setToolMode(dpData[i].isToolMode());
-					
-					// detach views which were visible, but are not in the new perspective
-					if(panel.isVisible() && (!dpData[i].isVisible() || dpData[i].isOpenInFrame())) {
-						app.getGuiManager().detachView(panel.getViewId());
-					}
-					
-					panel.setVisible(dpData[i].isVisible() && !dpData[i].isOpenInFrame());
-
-					if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN) {
-						((EuclidianDockPanelW)panel).reset();
-					} else if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN2) {
-						((Euclidian2DockPanelW)panel).reset();
-					}
-				}
-			}
-			for (DockPanelW dockPanel : dockPanels) {
-				if (!dockPanel.hasPlane()
-						&& !updated.contains(dockPanel.getViewId())) {
-					dockPanel.setVisible(false);
-				}
-			}
+			updatePanelsForPerspective(dpData);
 		}
 		// int panelDim;
 		
@@ -429,6 +388,55 @@ public class DockManagerW extends DockManager {
 		
 	}
 	
+	private void updatePanelsForPerspective(DockPanelData[] dpData) {
+		// hide existing external windows
+		for (DockPanelW panel : dockPanels) {
+			if (panel.isOpenInFrame() && panel.isVisible()) {
+				hide(panel);
+			}
+
+			panel.setAlone(false);
+		}
+		TreeSet<Integer> updated = new TreeSet<Integer>();
+		// copy dock panel info settings
+		for (int i = 0; i < dpData.length; ++i) {
+			updated.add(dpData[i].getViewId());
+			DockPanelW panel = getPanel(dpData[i]);
+			if (panel != null) {
+				panel.setToolbarString(dpData[i].getToolbarString());
+				panel.setFrameBounds((Rectangle) dpData[i].getFrameBounds());
+				panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
+				panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
+				panel.setShowStyleBar(dpData[i].showStyleBar());
+				panel.setOpenInFrame(dpData[i].isOpenInFrame());
+				panel.setToolMode(dpData[i].isToolMode());
+
+				// detach views which were visible, but are not in the new
+				// perspective
+				if (panel.isVisible() && (!dpData[i].isVisible()
+						|| dpData[i].isOpenInFrame())) {
+					app.getGuiManager().detachView(panel.getViewId());
+				}
+
+				panel.setVisible(
+						dpData[i].isVisible() && !dpData[i].isOpenInFrame());
+
+				if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN) {
+					((EuclidianDockPanelW) panel).reset();
+				} else if (dpData[i].getViewId() == App.VIEW_EUCLIDIAN2) {
+					((Euclidian2DockPanelW) panel).reset();
+				}
+			}
+		}
+		for (DockPanelW dockPanel : dockPanels) {
+			if (!dockPanel.hasPlane()
+					&& !updated.contains(dockPanel.getViewId())) {
+				dockPanel.setVisible(false);
+			}
+		}
+
+	}
+
 	private void setPreferredSizes(DockSplitPaneW pane, int h, int w) {
 		pane.setPreferredWidth(w, h);
 		if (pane.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
