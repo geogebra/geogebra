@@ -12,6 +12,7 @@ import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -133,7 +134,8 @@ public class GgbAPIW extends GgbAPI {
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView());
 
-		if (ev instanceof EuclidianViewW && pngExporterLoaded()) {
+		if (MyDouble.isFinite(DPI) && ev instanceof EuclidianViewW
+				&& pngExporterLoaded()) {
 			Canvas canvas = ((EuclidianViewW) ev).getExportImageCanvas(
 					exportScale, transparent);
 
@@ -367,7 +369,7 @@ public class GgbAPIW extends GgbAPI {
 
 		var base64 = 'data:image/png;base64,' + btoa(png);
 
-		console.log("base64 = " + base64);
+		//console.log("base64 = " + base64);
 
 		return base64;
 

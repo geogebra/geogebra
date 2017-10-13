@@ -34,9 +34,13 @@ function ggbOnInit(id){
     data-param-id="applet1">
     </article>
 	
+	  <input type="button" value="dpi not set" onClick="applet1.writePNGtoFile('nodpi.png', 1, false);" />
 	  <input type="button" value="72dpi" onClick="applet1.writePNGtoFile('72dpi.png', 1, false, 72);" />
 	  <input type="button" value="150dpi" onClick="applet1.writePNGtoFile('150dpi.png', 1, false, 150);" />
-	  <input type="button" value="1000dpi" onClick="applet1.writePNGtoFile('1000dpi.png', 1, false, 1000);" />
+	  <input type="button" value="300dpi" onClick="applet1.writePNGtoFile('300dpi.png', 1, false, 300);" />
+	  <input type="button" value="600dpi" onClick="applet1.writePNGtoFile('600dpi.png', 1, false, 600);" />
+	  <input type="button" value="600dpi (scale 2)" onClick="applet1.writePNGtoFile('600dpi2.png', 2, false, 600);" />
+	  <input type="button" value="600dpi (scale 3)" onClick="applet1.writePNGtoFile('600dpi3.png', 3, false, 600);" />
 
    
 </html>
