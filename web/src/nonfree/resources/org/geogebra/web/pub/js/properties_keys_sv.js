@@ -1706,7 +1706,7 @@ __GGB__keysVar.sv.menu = {
     "ExtraSmall": "Extra liten",
     "ExtraViews": "Extra vyer",
     "Extremum": "Extrempunkt",
-    "Extremum.Help": "V\xe4lj en funktion f\xf6r att hitta dess extrempunkter",
+    "Extremum.Help": "V\xe4lj en funktion",
     "ExtremumOfA": "Extrempunkt f\xf6r %0",
     "Extrusion": "Utdragning",
     "Extrusion.Help": "Drag polygon/cirkel, eller v\xe4lj polygon/cirkel och mata in h\xf6jd f\xf6r att skapa ett rakt prisma/cylinder",
