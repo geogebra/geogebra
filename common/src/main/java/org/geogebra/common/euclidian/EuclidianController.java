@@ -8407,7 +8407,6 @@ public abstract class EuclidianController {
 			} else {
 				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
 					if (geo == null) {
-						// selection.clearSelectedGeos(true, true);
 						lastSelectionToolPressResult = SelectionToolPressResult.EMPTY;
 					} else {
 						lastSelectionToolPressResult = SelectionToolPressResult.ADD;
@@ -10205,22 +10204,20 @@ public abstract class EuclidianController {
 				}
 			}
 		} else {
-			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-				if (mode == EuclidianConstants.MODE_SELECT) {
-					switch (lastSelectionToolPressResult) {
-					case REMOVE:
-						selection.removeSelectedGeo(lastSelectionToolGeoToRemove, true, true);
-						lastSelectionToolGeoToRemove = null;
-						break;
-					case EMPTY:
-						selection.clearSelectedGeos(true, true);
-						break;
-					case ADD:
-					case DEFAULT:
-					default:
-						// nothing to do
-						break;
-					}
+			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
+				switch (lastSelectionToolPressResult) {
+				case REMOVE:
+					selection.removeSelectedGeo(lastSelectionToolGeoToRemove, true, true);
+					lastSelectionToolGeoToRemove = null;
+					break;
+				case EMPTY:
+					selection.clearSelectedGeos(true, true);
+					break;
+				case ADD:
+				case DEFAULT:
+				default:
+					// nothing to do
+					break;
 				}
 			}
 		}
