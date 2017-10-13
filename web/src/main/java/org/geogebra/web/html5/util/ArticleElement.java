@@ -407,7 +407,8 @@ public final class ArticleElement extends Element {
 
 
 
-	private native double envScale(String type) /*-{
+	private native double envScale(JavaScriptObject current, String type,
+			boolean deep) /*-{
 		var current = this;
 		var sx = 1;
 		var sy = 1;
@@ -433,42 +434,16 @@ public final class ArticleElement extends Element {
 			}
 
 			current = current.parentElement;
-		} while (current);
+		} while (deep && current);
 		return type === "x" ? sx : sy;
 	}-*/;
 
-	private native double parentScale(JavaScriptObject current,
-			String type) /*-{
-		var sx = 0;
-		var sy = 0;
-		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+)\)/, style = $wnd
-				.getComputedStyle(current);
-		if (style) {
-			var transform = style.transform || style.webkitTransform
-					|| style.MozTransform || style.msTransform
-					|| style.oTransform || "";
-			var matches = transform.match(matrixRegex);
-			if (matches && matches.length) {
-
-				sx = $wnd.parseFloat(matches[1]);
-				sy = $wnd.parseFloat(matches[4]);
-			} else if (transform.indexOf("scale") === 0) {
-				var mul = $wnd.parseFloat(transform.substr(transform
-						.indexOf("(") + 1));
-				sx = mul;
-				sy = mul;
-			}
-		}
-
-		return type === "x" ? sx : sy;
-	}-*/;
-
-	public double getParentScaleX() {
-		return parentScale(this.getParentElement(), "x");
+	private double envScale(String type) {
+		return envScale(this, type, true);
 	}
 
-	public double getParentScaleY() {
-		return parentScale(this.getParentElement(), "y");
+	public double getParentScaleX() {
+		return envScale(this.getParentElement(), "x", false);
 	}
 
 	/**

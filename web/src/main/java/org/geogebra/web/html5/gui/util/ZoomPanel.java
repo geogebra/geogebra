@@ -185,7 +185,9 @@ public class ZoomPanel extends FlowPanel
 			dispatchResize();
 			Element container = scaler.getParentElement();
 			resetStyleAfterFullscreen(container);
-			Browser.scale(scaler, app.getArticleElement().getDataParamScale(),
+			Browser.scale(scaler,
+					cssScale > 0 ? cssScale
+							: app.getArticleElement().getDataParamScale(),
 					0, 0);
 			app.getArticleElement().resetScale();
 			app.recalculateEnvironments();
@@ -385,10 +387,10 @@ public class ZoomPanel extends FlowPanel
 					containerPositionBefore = "static";
 				}
 				scaler.addClassName("fullscreen");
+				cssScale = ae.getParentScaleX();
 				if (ipad) {
 					containerLeft = container.getStyle()
 							.getProperty("left");
-					cssScale = ae.getParentScaleX();
 					container.getStyle().setProperty("left", "0px");
 					scaler.addClassName("fullscreen-ipad");
 				}
