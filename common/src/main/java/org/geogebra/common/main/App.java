@@ -3989,6 +3989,10 @@ public abstract class App implements UpdateSelection {
 		case AND_NO_LOCK_FOR_PREVIEWABLE_3D:
 			return prerelease;
 
+		// IGR-481
+		case MOB_LINKS_TO_OTHER_APPS_IN_IOS:
+			return prerelease;
+
 
 		// **********************************************************************
 		// MOBILE END
