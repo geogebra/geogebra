@@ -38,6 +38,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.json.client.JSONNumber;
@@ -127,10 +128,24 @@ public class GgbAPIW extends GgbAPI {
 	public boolean writePNGtoFile(String filename, double exportScale,
 			boolean transparent, double DPI) {
 
+		String url;
+
+		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
+				.getActiveEuclidianView());
+
+		if (ev instanceof EuclidianViewW && pngExporterLoaded()) {
+			Canvas canvas = ((EuclidianViewW) ev).getExportImageCanvas(
+					exportScale, transparent);
+
+			url = getExportImageDataUrl(canvas.getCanvasElement(), DPI);
+
+		} else {
+
 		// get export image
 		// DPI ignored (desktop only)
-		String url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
+			url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
 				.getExportImageDataUrl(exportScale, transparent);
+		}
 
 		// make browser save/download PNG file
 		Browser.exportImage(url, filename);
@@ -311,6 +326,53 @@ public class GgbAPIW extends GgbAPI {
 			callback.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(b);
 		};
 	}-*/;
+
+	private native boolean pngExporterLoaded() /*-{
+		console.log("pngencoder? "
+				+ !!($wnd.CanvasTool && $wnd.CanvasTool.PngEncoder));
+		return !!($wnd.CanvasTool && $wnd.CanvasTool.PngEncoder);
+	}-*/;
+
+	private native String getExportImageDataUrl(CanvasElement canvas,
+			double dpi) /*-{
+		console.log("getExportImageDataUrl " + dpi);
+
+		// convert dots per inch into dots per metre
+		var pixelsPerM = dpi * 100 / 2.54;
+
+		var param = {
+			bitDepth : 8,
+			colourType : 2,
+			filterType : 0,
+			height : canvas.height,
+			interlaceMethod : 0,
+			phys : {
+				unit : 1,
+				x : pixelsPerM,
+				y : pixelsPerM
+			},
+			width : canvas.width
+		};
+
+		var arraylike = canvas.getContext('2d').getImageData(0, 0,
+				canvas.width, canvas.height).data;
+
+		// arraylike2array
+		var array = [], i = 0, l = arraylike.length;
+		for (; i < l; i++) {
+			array.push(arraylike[i]);
+		}
+
+		var png = new $wnd.CanvasTool.PngEncoder(array, param).convert();
+
+		var base64 = 'data:image/png;base64,' + btoa(png);
+
+		console.log("base64 = " + base64);
+
+		return base64;
+
+	}-*/;
+
 
 	/**
 	 * @param includeThumbnail

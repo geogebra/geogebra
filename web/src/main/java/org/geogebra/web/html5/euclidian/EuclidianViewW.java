@@ -319,8 +319,7 @@ public class EuclidianViewW extends EuclidianView implements
 		        && g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
 	}
 
-	@Override
-	public String getExportImageDataUrl(double scale, boolean transparency) {
+	public Canvas getExportImageCanvas(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 
@@ -334,7 +333,12 @@ public class EuclidianViewW extends EuclidianView implements
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
 		this.app.setExporting(ExportType.NONE, 1);
-		return g4copy.getCanvas().toDataUrl();
+		return g4copy.getCanvas();
+	}
+
+	@Override
+	public String getExportImageDataUrl(double scale, boolean transparency) {
+		return getExportImageCanvas(scale, transparency).toDataUrl();
 	}
 
 	public String getExportSVG(double scale, boolean transparency) {
