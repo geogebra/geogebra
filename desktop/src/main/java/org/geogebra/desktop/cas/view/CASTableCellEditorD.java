@@ -119,10 +119,17 @@ public class CASTableCellEditorD extends CASTableCell
 		getInputArea().setSelectionEnd(pos);
 	}
 
+	/**
+	 * @return caret position
+	 */
 	public int getCaretPosition() {
 		return getInputArea().getCaretPosition();
 	}
 
+	/**
+	 * @param i
+	 *            caret position
+	 */
 	public void setCaretPosition(int i) {
 		getInputArea().setCaretPosition(i);
 	}
@@ -181,7 +188,7 @@ public class CASTableCellEditorD extends CASTableCell
 	}
 
 	@Override
-	public Object getCellEditorValue(int idx) {
+	public GeoCasCell getCellEditorValue(int idx) {
 		// idx is not used in Desktop
 		return cellValue;
 	}

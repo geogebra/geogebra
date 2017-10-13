@@ -13,10 +13,15 @@ public class CASTableCellController {
 	 * the currently selected mode in the toolbar (Evaluate, Keep Input,
 	 * Numeric) and Ctrl, Alt keys.
 	 * 
-	 * @param e
-	 *            event
+	 * @param control
+	 *            whether contrrol is pressed
+	 * @param alt
+	 *            whether alt is pressed
+	 * 
 	 * @param app
 	 *            application
+	 * @param focus
+	 *            whether this was triggered by enter rather than blur
 	 */
 	public synchronized void handleEnterKey(boolean control, boolean alt,
 			App app, boolean focus) {

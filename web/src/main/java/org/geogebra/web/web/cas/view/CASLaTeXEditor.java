@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
 import org.geogebra.common.io.latex.Parser;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
@@ -180,7 +181,7 @@ public class CASLaTeXEditor extends FlowPanel
 	}
 
 	@Override
-	public Object getCellEditorValue(int index) {
+	public GeoCasCell getCellEditorValue(int index) {
 		if (table != null) {
 			return table.getGeoCasCell(index);
 		}

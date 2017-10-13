@@ -1,6 +1,7 @@
 package org.geogebra.common.cas.view;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.geos.GeoCasCell;
 
 /**
  * Interface for CAS cell editor
@@ -43,13 +44,32 @@ public interface CASTableCellEditor extends SetLabels {
 	 */
 	void clearInputText();
 
+	/**
+	 * @param string
+	 *            new content of the editor
+	 */
 	void setInput(String string);
 
-	Object getCellEditorValue(int idx);
+	/**
+	 * @param idx
+	 *            row index
+	 * @return CAS cell
+	 */
+	GeoCasCell getCellEditorValue(int idx);
 
+	/**
+	 * Start editing if it is not active
+	 */
 	void ensureEditing();
 
-	void onEnter(boolean b);
+	/**
+	 * @param explicit
+	 *            whether this came from keyboard (false: triggered by blur)
+	 */
+	void onEnter(boolean explicit);
 
+	/**
+	 * @return whether editr is currently focused
+	 */
 	boolean hasFocus();
 }

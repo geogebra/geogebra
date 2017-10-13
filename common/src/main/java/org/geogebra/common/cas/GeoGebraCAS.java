@@ -423,28 +423,27 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		boolean skipEqu = false;
 		MyList equsForArgs = new MyList(this.app.getKernel());
 		StringBuilder assumesForArgs = new StringBuilder();
-		if (args.size() == 1 && args.get(0).isExpressionNode()
-				&& "Point".equals(name)) {
-			ExpressionNode node = args.get(0);
-			if (node.isLeaf() && node.getLeft() instanceof MyList) {
-				if (((ExpressionNode) ((MyList) node.getLeft())
-						.getListElement(0)).getLeft().isNumberValue()) {
+		if (args.size() == 1 && "Point".equals(name)) {
+			ExpressionValue node = args.get(0).unwrap();
+			if (node.isLeaf() && node instanceof MyList) {
+				if (((MyList) node).getListElement(0).wrap().getLeft()
+						.isNumberValue()) {
 					sbCASCommand.append(1);
 				} else {
-					sbCASCommand.append((((MyList) node.getLeft()).size()));
+					sbCASCommand.append(((MyList) node).size());
 					argIsList = true;
 				}
 			}
 		}
 		// case solve with list of equations
 		else if ("Solve".equals(name) && args.size() == 2
-				&& args.get(0).getLeft() instanceof MyList && !varComplNeeded) {
+				&& args.get(0).unwrap() instanceof MyList && !varComplNeeded) {
 			// get list of equations from args
-			MyList listOfEqus = (MyList) args.get(0).getLeft();
+			MyList listOfEqus = (MyList) args.get(0).unwrap();
 			// case Solve[ <List of Equations>, <List of Variables> ]
-			if (args.get(1).getLeft() instanceof MyList) {
+			if (args.get(1).unwrap() instanceof MyList) {
 				// get list of parameters
-				MyList listOfVars = (MyList) args.get(1).getLeft();
+				MyList listOfVars = (MyList) args.get(1).unwrap();
 				for (int k = 0; k < listOfEqus.size(); k++) {
 					// get vars of current equation
 
@@ -483,9 +482,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				}
 			}
 			// case Solve[ <List of Equations>, <Variable> ]
-			else if (args.get(1).getLeft() instanceof GeoDummyVariable) {
+			else if (args.get(1).unwrap() instanceof GeoDummyVariable) {
 				// get parameter
-				GeoDummyVariable var = (GeoDummyVariable) args.get(1).getLeft();
+				GeoDummyVariable var = (GeoDummyVariable) args.get(1).unwrap();
 				for (int k = 0; k < listOfEqus.size(); k++) {
 					// get current equation
 					HashSet<GeoElement> varsInEqu = listOfEqus.getListElement(k)
