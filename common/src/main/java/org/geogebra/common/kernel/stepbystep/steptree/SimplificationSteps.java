@@ -19,14 +19,14 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public enum SimplificationSteps {
 
@@ -677,7 +677,7 @@ public enum SimplificationSteps {
 				long newDenominator = 1;
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
+					long currentDenominator = StepNode.getConstantDenominator(so.getSubTree(i));
 					if (currentDenominator != 0) {
 						newDenominator = lcm(newDenominator, currentDenominator);
 					}
@@ -687,7 +687,7 @@ public enum SimplificationSteps {
 					boolean wasChanged = false;
 
 					for (int i = 0; i < so.noOfOperands(); i++) {
-						long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
+						long currentDenominator = StepNode.getConstantDenominator(so.getSubTree(i));
 						if (currentDenominator != 0 && currentDenominator != newDenominator) {
 							wasChanged = true;
 
@@ -732,7 +732,7 @@ public enum SimplificationSteps {
 				List<StepNode> fractions = new ArrayList<StepNode>();
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					StepNode currentNumerator = StepNode.getNumerator(so.getSubTree(i));
-					long currentDenominator = StepNode.getDenominator(so.getSubTree(i));
+					long currentDenominator = StepNode.getConstantDenominator(so.getSubTree(i));
 
 					if (newDenominator == 0 && currentDenominator != 0 && currentDenominator != 1) {
 						newDenominator = currentDenominator;
@@ -1328,7 +1328,7 @@ public enum SimplificationSteps {
 
 				List<List<StepNode>> currentBases = new ArrayList<List<StepNode>>();
 				List<List<StepNode>> currentExponents = new ArrayList<List<StepNode>>();
-				
+
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					currentBases.add(new ArrayList<StepNode>());
 					currentExponents.add(new ArrayList<StepNode>());
@@ -1347,9 +1347,9 @@ public enum SimplificationSteps {
 							}
 						}
 					}
-					
-					for(int j = 0; j < commonBases.size(); j++) {
-						if(!found[j]) {
+
+					for (int j = 0; j < commonBases.size(); j++) {
+						if (!found[j]) {
 							commonExponents.set(j, new StepConstant(0));
 						}
 					}
@@ -1436,7 +1436,7 @@ public enum SimplificationSteps {
 				}
 
 				StepOperation factored = new StepOperation(Operation.PLUS);
-				
+
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					StepNode remainder = new StepConstant(integerParts[i].getValue() / common);
 					integerParts[i].setColor(colorTracker[0]);
@@ -1623,7 +1623,7 @@ public enum SimplificationSteps {
 						StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
 						newProduct.addSubTree(add(a, b));
 						newProduct.addSubTree(subtract(a, b));
-						
+
 						sb.add(SolutionStepType.DIFFERENCE_OF_SQUARES_FACTOR);
 						return newProduct;
 					}
@@ -1724,7 +1724,7 @@ public enum SimplificationSteps {
 
 					long constant = Math.abs(integerForm[0]);
 					long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
-					
+
 					for (long i = -constant; i <= constant; i++) {
 						for (long j = 1; j <= highestOrder; j++) {
 							if (i != 0 && constant % i == 0 && highestOrder % j == 0
@@ -1732,11 +1732,12 @@ public enum SimplificationSteps {
 								StepOperation reorganized = new StepOperation(Operation.PLUS);
 
 								for (int k = polynomialForm.length - 1; k > 0; k--) {
-									reorganized.addSubTree(nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
 									long coeff = i * integerForm[k] / j;
-									reorganized.addSubTree(
-											negate(nonTrivialProduct(coeff,
-													nonTrivialPower(var, k - 1))));
+
+									reorganized.addSubTree(nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
+									reorganized
+											.addSubTree(negate(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1))));
+
 									integerForm[k - 1] += i * integerForm[k] / j;
 								}
 
@@ -1767,10 +1768,10 @@ public enum SimplificationSteps {
 					StepNode[] polynomialForm = StepNode.convertToPolynomial(so, var);
 					long[] integerForm = new long[polynomialForm.length];
 
-					if(polynomialForm.length < 3) {
+					if (polynomialForm.length < 3) {
 						return iterateThrough(this, sn, sb, colorTracker);
 					}
-					
+
 					for (int i = 0; i < polynomialForm.length; i++) {
 						if (polynomialForm[i] == null) {
 							integerForm[i] = 0;
@@ -1793,11 +1794,8 @@ public enum SimplificationSteps {
 								for (int k = polynomialForm.length - 1; k > 0; k--) {
 									long coeff = integerForm[k] / j;
 									factored.addSubTree(
-											multiply(
-													nonTrivialProduct(coeff,
-															nonTrivialPower(var,
-																	k - 1)),
-													innerSum));
+											multiply(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)), innerSum));
+
 									integerForm[k - 1] += i * integerForm[k] / j;
 								}
 

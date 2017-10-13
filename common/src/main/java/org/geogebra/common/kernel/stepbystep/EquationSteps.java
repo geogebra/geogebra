@@ -42,8 +42,6 @@ public class EquationSteps {
 
 	private StepInterval interval;
 
-	private String solutionCase;
-
 	private ArbitraryConstantFactory constantFactory;
 
 	public EquationSteps(Kernel kernel, String LHS, String RHS, String variable) {
@@ -69,16 +67,12 @@ public class EquationSteps {
 		this.LHS = LHS;
 		this.RHS = RHS;
 
-		this.origLHS = this.LHS.deepCopy();
-		this.origRHS = this.RHS.deepCopy();
+		this.origLHS = LHS.deepCopy();
+		this.origRHS = RHS.deepCopy();
 
 		this.variable = variable;
 
 		this.constantFactory = constantFactory;
-	}
-
-	public void setCase(String s) {
-		solutionCase = s;
 	}
 
 	public void setIntermediate() {
@@ -97,14 +91,10 @@ public class EquationSteps {
 		steps = new SolutionBuilder(loc);
 		solutions = new ArrayList<StepNode>();
 
-		// I. step: regrouping
 		if (!intermediate) {
-			if (solutionCase != null && interval != null) {
+			if (interval != null) {
 				steps.add(SolutionStepType.SOLVING_IN_INTERVAL, StepNode.equal(LHS, RHS),
 						StepNode.in(variable, interval));
-				steps.levelDown();
-			} else if (solutionCase != null) {
-				steps.add(SolutionStepType.NEW_CASE, StepNode.equal(LHS, RHS));
 				steps.levelDown();
 			} else {
 				steps.add(SolutionStepType.SOLVE, StepNode.equal(LHS, RHS));
@@ -112,21 +102,29 @@ public class EquationSteps {
 			}
 		}
 
+		// I. step: regrouping
 		regroup();
 
+		// II. step: subtracting terms that are on both sides of the equation
 		StepNode common = StepHelper.getCommon(LHS, RHS);
 		if (!LHS.equals(common) || !RHS.equals(common)) {
 			addOrSubtract(common);
 		}
 
-		StepNode bothSides = StepNode.add(LHS, RHS);
+		// III. step: dealing with fractions
+		if (StepHelper.linearInInverse(LHS, RHS) != null) {
+			solveLinearInInverse();
+			return checkSolutions();
+		}
 
-		// II. step: making denominators disappear
-		if (StepHelper.shouldMultiply(bothSides)) {
+		if (StepHelper.shouldReciprocate(LHS) && StepHelper.shouldReciprocate(RHS)) {
+			reciprocate();
+		}
+
+		if (StepHelper.shouldMultiply(LHS, RHS)) {
 			commonDenominator();
 		}
 
-		// III. step: solving as a product
 		if (isZero(LHS) && RHS.isOperation(Operation.MULTIPLY)) {
 			solveProduct((StepOperation) RHS);
 			return checkSolutions();
@@ -135,8 +133,7 @@ public class EquationSteps {
 			return checkSolutions();
 		}
 
-		// IV. step: getting rid of square roots
-		bothSides = StepNode.add(LHS, RHS);
+		StepNode bothSides = StepNode.add(LHS, RHS);
 		if (StepHelper.countNonConstOperation(bothSides, Operation.NROOT) > 0) {
 			solveIrrational();
 		}
@@ -145,7 +142,6 @@ public class EquationSteps {
 		int degreeLHS = StepHelper.degree(LHS);
 		int degreeRHS = StepHelper.degree(RHS);
 
-		// Swapping sides, if necessary
 		if (degreeRHS == -1 || degreeLHS == -1) {
 			if (degreeRHS == -1 && degreeLHS != -1) {
 				swapSides();
@@ -163,18 +159,14 @@ public class EquationSteps {
 			}
 		}
 
-		// V. step: taking roots, when necessary (ax^n = constant or ay^n = bz^n, where
-		// y and z are expressions in x)
 		if (StepHelper.shouldTakeRoot(RHS, LHS)) {
 			if (takeRoot()) {
 				return checkSolutions();
 			}
 		}
 
-		// VI. step: expanding parentheses
 		simplify();
 
-		// VII. Step: equations containing absolute values
 		bothSides = StepNode.add(LHS, RHS);
 		if (StepHelper.countOperation(bothSides, Operation.ABS) > 0) {
 			if (solveAbsoluteValue()) {
@@ -182,12 +174,6 @@ public class EquationSteps {
 			}
 		}
 
-		if (StepHelper.linearInInverse(bothSides) != null) {
-			solveLinearInInverse();
-			return checkSolutions();
-		}
-
-		// II. step: checking if it's a trigonometric equation
 		if (StepHelper.containsTrigonometric(bothSides)) {
 			if (solveTrigonometric()) {
 				return checkSolutions();
@@ -201,7 +187,6 @@ public class EquationSteps {
 			return steps.getSteps();
 		}
 
-		// IX. step: solving quadratic equations
 		if (degreeDiff == 2) {
 			if (solveQuadratic()) {
 				return checkSolutions();
@@ -210,7 +195,6 @@ public class EquationSteps {
 
 		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
 
-		// VIII. step: solving linear equations
 		if (degreeDiff <= 1) {
 			solveLinear();
 			return checkSolutions();
@@ -218,20 +202,16 @@ public class EquationSteps {
 
 		subtract(RHS);
 
-		// X. step: solving equations that can be reduced to a quadratic (ax^(2n) + bx^n
-		// + c = 0)
 		if (StepHelper.canBeReducedToQuadratic(LHS, variable)) {
 			reduceToQuadratic();
 			return checkSolutions();
 		}
 
-		// XI. step: completing the cube
 		if (StepHelper.canCompleteCube(LHS, variable)) {
 			completeCube();
 			return checkSolutions();
 		}
 
-		// XII. step: finding and factoring rational roots
 		if (LHS.integerCoefficients(variable)) {
 			findRationalRoots();
 
@@ -240,7 +220,6 @@ public class EquationSteps {
 			}
 		}
 
-		// XIII. step: numeric solutions
 		numericSolutions();
 		return checkSolutions();
 	}
@@ -320,12 +299,10 @@ public class EquationSteps {
 	private void solveProduct(StepOperation product) {
 		steps.add(SolutionStepType.PRODUCT_IS_ZERO);
 
-		int caseNumber = 1;
 		for (int i = 0; i < product.noOfOperands(); i++) {
 			if (!product.getSubTree(i).isConstant()) {
 				EquationSteps es = new EquationSteps(kernel, product.getSubTree(i), new StepConstant(0), variable,
 						constantFactory);
-				es.setCase(subcase(caseNumber++));
 				steps.addAll(es.getSteps());
 				solutions.addAll(es.getSolutions());
 			}
@@ -476,9 +453,8 @@ public class EquationSteps {
 			for (int i = 0; i < tempSolutions.size(); i++) {
 				EquationSteps newCase = new EquationSteps(kernel, trigoVar, tempSolutions.get(i), variable,
 						constantFactory);
-				if (tempSolutions.size() > 1) {
-					newCase.setCase(subcase(i + 1));
-				} else {
+
+				if (tempSolutions.size() == 1) {
 					newCase.setIntermediate();
 				}
 
@@ -534,8 +510,6 @@ public class EquationSteps {
 		if (isEqual(Math.abs(constant.getValue()), 1)) {
 			steps.add(SolutionStepType.EQUATION, StepNode.equal(newLHS, firstRHS));
 			firstBranch.setIntermediate();
-		} else {
-			firstBranch.setCase(subcase(1));
 		}
 
 		steps.addAll(firstBranch.getSteps());
@@ -553,8 +527,6 @@ public class EquationSteps {
 						StepNode.subtract(StepNode.multiply(2, new StepConstant(Math.PI)), newLHS), secondRHS, variable,
 						constantFactory);
 			}
-
-			secondBranch.setCase(subcase(2));
 
 			steps.addAll(secondBranch.getSteps());
 			solutions.addAll(secondBranch.getSolutions());
@@ -677,7 +649,6 @@ public class EquationSteps {
 
 		for (int i = 1; i < roots.size(); i++) {
 			EquationSteps es = new EquationSteps(kernel, LHS, RHS, variable, constantFactory);
-			es.setCase((solutionCase == null ? "" : solutionCase) + i + ".");
 			es.setInterval(new StepInterval(roots.get(i - 1), roots.get(i), false, i != roots.size() - 1));
 
 			steps.addAll(es.getSteps());
@@ -708,7 +679,7 @@ public class EquationSteps {
 	}
 
 	private void solveLinearInInverse() {
-		StepNode inverseVar = StepHelper.linearInInverse(StepNode.add(LHS, RHS));
+		StepNode inverseVar = StepHelper.linearInInverse(LHS, RHS);
 
 		StepNode diff = StepNode.subtract(LHS, RHS).regroup();
 		StepNode constant = StepHelper.findConstant(diff);
@@ -723,10 +694,7 @@ public class EquationSteps {
 		StepNode LHSconstant = StepHelper.findConstant(LHS);
 		addOrSubtract(LHSconstant);
 
-		steps.add(SolutionStepType.RECIPROCATE_BOTH_SIDES);
-		LHS = StepNode.invert(LHS);
-		RHS = StepNode.invert(RHS);
-		addStep();
+		reciprocate();
 
 		StepNode linearCoefficient = StepHelper.findCoefficient(LHS, inverseVar);
 		multiplyOrDivide(linearCoefficient);
@@ -991,25 +959,8 @@ public class EquationSteps {
 			toMultiply.setColor(1);
 
 			if (toMultiply.isConstant()) {
-				if (LHS.isOperation(Operation.PLUS)) {
-					StepOperation newLHS = new StepOperation(Operation.PLUS);
-					for (int i = 0; i < ((StepOperation) LHS).noOfOperands(); i++) {
-						newLHS.addSubTree(StepNode.multiply(toMultiply, ((StepOperation) LHS).getSubTree(i)));
-					}
-					LHS = newLHS;
-				} else {
-					LHS = StepNode.multiply(toMultiply, LHS);
-				}
-
-				if (RHS.isOperation(Operation.PLUS)) {
-					StepOperation newRHS = new StepOperation(Operation.PLUS);
-					for (int i = 0; i < ((StepOperation) RHS).noOfOperands(); i++) {
-						newRHS.addSubTree(StepNode.multiply(toMultiply, ((StepOperation) RHS).getSubTree(i)));
-					}
-					RHS = newRHS;
-				} else {
-					RHS = StepNode.multiply(toMultiply, RHS);
-				}
+				LHS = StepHelper.multiplyByConstant(toMultiply, LHS);
+				RHS = StepHelper.multiplyByConstant(toMultiply, RHS);
 			} else {
 				LHS = StepNode.multiply(LHS, toMultiply);
 				RHS = StepNode.multiply(RHS, toMultiply);
@@ -1053,6 +1004,14 @@ public class EquationSteps {
 		} else {
 			divide(sn);
 		}
+	}
+
+	private void reciprocate() {
+		LHS = StepNode.reciprocate(LHS);
+		RHS = StepNode.reciprocate(RHS);
+
+		steps.add(SolutionStepType.RECIPROCATE_BOTH_SIDES);
+		addStep();
 	}
 
 	private void square() {
@@ -1119,10 +1078,8 @@ public class EquationSteps {
 				solutions.add(StepNode.minus(((StepOperation) RHS).getSubTree(0)));
 			} else {
 				EquationSteps positiveBranch = new EquationSteps(kernel, LHS, RHS, variable, constantFactory);
-				positiveBranch.setCase(solutionCase == null ? "1." : solutionCase + "1.");
 				EquationSteps negativeBranch = new EquationSteps(kernel, LHS, StepNode.minus(RHS), variable,
 						constantFactory);
-				negativeBranch.setCase(solutionCase == null ? "2." : solutionCase + "2.");
 
 				steps.addAll(positiveBranch.getSteps());
 				solutions.addAll(positiveBranch.getSolutions());
@@ -1151,10 +1108,6 @@ public class EquationSteps {
 		} else {
 			steps.add(SolutionStepType.EQUATION, StepNode.equal(LHS, RHS));
 		}
-	}
-
-	private String subcase(int i) {
-		return (solutionCase == null ? i + "" : solutionCase) + "." + i;
 	}
 
 	private static boolean isZero(StepNode ev) {

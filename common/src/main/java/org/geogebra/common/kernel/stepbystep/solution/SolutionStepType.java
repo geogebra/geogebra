@@ -14,9 +14,7 @@ public enum SolutionStepType {
 
 	SOLVE("Solve", "Solve: %0"),
 
-	NEW_CASE("CaseA", "Case ?: %0"),
-
-	SOLVING_IN_INTERVAL("SolvingInInterval", "Case ?: %0 when %1"),
+	SOLVING_IN_INTERVAL("SolvingInInterval", "Solve %0 when %1"),
 
 	CANT_SOLVE("CantSolve", "Cannot Solve"),
 

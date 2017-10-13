@@ -840,7 +840,7 @@ public abstract class StepNode {
 		return so;
 	}
 
-	public static StepNode invert(StepNode a) {
+	public static StepNode reciprocate(StepNode a) {
 		if (a == null) {
 			return null;
 		}
@@ -1010,15 +1010,16 @@ public abstract class StepNode {
 		return 1;
 	}
 
+
 	/**
 	 * @param sn
 	 * @return the denominator of the tree, if it's an integer. 0 otherwise
 	 */
-	public static long getDenominator(StepNode sn) {
+	public static long getConstantDenominator(StepNode sn) {
 		if (sn.nonSpecialConstant()) {
 			return 1;
 		} else if (sn.isOperation(Operation.MINUS)) {
-			return getDenominator(((StepOperation) sn).getSubTree(0));
+			return getConstantDenominator(((StepOperation) sn).getSubTree(0));
 		} else if (sn.isOperation(Operation.DIVIDE)) {
 			if (closeToAnInteger(((StepOperation) sn).getSubTree(0))
 					&& closeToAnInteger(((StepOperation) sn).getSubTree(1))) {
@@ -1040,7 +1041,7 @@ public abstract class StepNode {
 		} else if (sn.isOperation(Operation.DIVIDE)) {
 			return ((StepOperation) sn).getSubTree(0);
 		}
-		return null;
+		return sn;
 	}
 
 	/**

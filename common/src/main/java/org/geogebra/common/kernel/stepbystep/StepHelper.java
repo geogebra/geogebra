@@ -136,7 +136,7 @@ public class StepHelper {
 				StepOperation newSo = new StepOperation(so.getOperation());
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					if (getNominator(so.getSubTree(i)).equals(so.getSubTree(i))) {
+					if (StepNode.getNumerator(so.getSubTree(i)).equals(so.getSubTree(i))) {
 						newSo.addSubTree(StepNode.divide(
 								StepNode.multiply(commonDenominator, so.getSubTree(i)).regroup(), commonDenominator));
 					} else {
@@ -174,7 +174,7 @@ public class StepHelper {
 
 				StepNode newSo = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					newSo = StepNode.add(newSo, getNominator(so.getSubTree(i)));
+					newSo = StepNode.add(newSo, StepNode.getNumerator(so.getSubTree(i)));
 				}
 
 				return StepNode.divide(newSo, commonDenominator);
@@ -183,21 +183,6 @@ public class StepHelper {
 			}
 
 			return so;
-		}
-
-		return sn;
-	}
-
-	public static StepNode getNominator(StepNode sn) {
-		if (sn != null && sn.isOperation()) {
-			StepOperation so = (StepOperation) sn;
-
-			if (so.isOperation(Operation.DIVIDE)) {
-				return so.getSubTree(0);
-			}
-			if (so.isOperation(Operation.MINUS)) {
-				return StepNode.minus(getNominator(so.getSubTree(0)));
-			}
 		}
 
 		return sn;
@@ -523,9 +508,21 @@ public class StepHelper {
 		return true;
 	}
 
-	public static boolean shouldMultiply(StepNode sn) {
-		return countOperation(sn, Operation.DIVIDE) > 1
-				|| countNonConstOperation(sn, Operation.DIVIDE) == 1 && linearInInverse(sn) == null;
+	public static boolean shouldReciprocate(StepNode sn) {
+		if (sn.isOperation(Operation.DIVIDE)) {
+			StepOperation so = (StepOperation) sn;
+
+			return so.getSubTree(0).isConstant();
+		}
+
+		return sn.isConstant();
+	}
+
+	public static boolean shouldMultiply(StepNode LHS, StepNode RHS) {
+		StepNode bothSides = StepNode.equal(LHS, RHS);
+
+		return countOperation(bothSides, Operation.DIVIDE) > 1
+				|| countNonConstOperation(bothSides, Operation.DIVIDE) == 1 && linearInInverse(LHS, RHS) == null;
 	}
 
 	public static StepOperation findInverse(StepNode sn) {
@@ -548,15 +545,36 @@ public class StepHelper {
 		return null;
 	}
 
-	public static StepOperation linearInInverse(StepNode sn) {
-		StepOperation inverse = findInverse(sn);
-		int degree = degree(sn.deepCopy().replace(inverse, new StepVariable("x")));
+	public static StepOperation linearInInverse(StepNode LHS, StepNode RHS) {
+		StepNode bothSides = StepNode.add(LHS, RHS);
+		StepOperation inverse = findInverse(bothSides);
 
-		if (inverse != null && degree == 1 && sn.deepCopy().replace(inverse, inverse.getSubTree(0)).isConstant()) {
+		StepNode withVariable = bothSides.deepCopy().replace(inverse, new StepVariable("x"));
+		StepNode withConstant = bothSides.deepCopy().replace(inverse, new StepConstant(1));
+
+		if (inverse != null && degree(withVariable) == 1 && withConstant.isConstant()) {
 			return inverse;
 		}
 
 		return null;
+	}
+
+	public static StepNode multiplyByConstant(StepNode a, StepNode b) {
+		if (b.isOperation(Operation.PLUS)) {
+			StepOperation bo = (StepOperation) b;
+
+			StepOperation product = new StepOperation(Operation.PLUS);
+			for (int i = 0; i < bo.noOfOperands(); i++) {
+				if (StepNode.isNegative(bo.getSubTree(i))) {
+					product.addSubTree(StepNode.negate(StepNode.multiply(a, StepNode.negate(bo.getSubTree(i)))));
+				} else {
+					product.addSubTree(StepNode.multiply(a, bo.getSubTree(i)));
+				}
+			}
+			return product;
+		}
+
+		return StepNode.multiply(a, b);
 	}
 
 	public static int countNonConstOperation(StepNode sn, Operation operation) {
