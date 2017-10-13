@@ -3985,6 +3985,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_EV_SETTINGS_POPUP:
 			return prerelease;
 
+		// AND-574
+		case AND_NO_LOCK_FOR_PREVIEWABLE_3D:
+			return prerelease;
+
 
 		// **********************************************************************
 		// MOBILE END
