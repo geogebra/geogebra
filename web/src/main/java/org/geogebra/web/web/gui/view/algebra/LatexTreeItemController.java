@@ -203,13 +203,20 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 				// need label if we type just eg
 				// lnx
-				if (geos.length == 1 && !geos[0].isLabelSet()) {
-					geos[0].setLabel(geos[0].getDefaultLabel());
+
+				if (geos.length == 1) {
+					if (!geos[0].isLabelSet()) {
+						geos[0].setLabel(geos[0].getDefaultLabel());
+					}
+
+					if (geos[0].isGeoText()) {
+						geos[0].setEuclidianVisible(false);
+					}
+
+					app.getSelectionManager()
+							.addSelectedGeoWithSpecialPoints(geos[0]);
 				}
 
-				if (geos.length == 1 && geos[0].isGeoText()) {
-					geos[0].setEuclidianVisible(false);
-				}
 				InputHelper.updateProperties(geos,
 						app.getActiveEuclidianView(), oldStep);
 				app.setScrollToShow(false);

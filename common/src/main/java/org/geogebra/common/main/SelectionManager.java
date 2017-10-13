@@ -848,7 +848,10 @@ public class SelectionManager {
 		}
 	}
 
-	private void updateSpecialPoints() {
+	/**
+	 * Updates special points of the selected geo(s) if have any.
+	 */
+	public void updateSpecialPoints() {
 		this.getSpecPoints(selectedGeos);
 	}
 
@@ -1238,5 +1241,21 @@ public class SelectionManager {
 		if (geo != null) {
 			addSelectedGeo(geo);
 		}
+	}
+
+	/**
+	 * add geo to selection and create the selected points.
+	 * 
+	 * @param geo
+	 *            The geo element to add.
+	 */
+	public void addSelectedGeoWithSpecialPoints(GeoElementND geo) {
+		if (!kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
+			return;
+		}
+
+		clearSelectedGeos(false, false);
+		addSelectedGeo(geo, false, false);
+		updateSpecialPoints();
 	}
 }
