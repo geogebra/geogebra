@@ -469,7 +469,13 @@ public class ProverBotanasMethod {
 		 *            the polynomial to be added
 		 */
 		public void addPolynomial(PPolynomial p) {
+			if (polynomials.contains(p)) {
+				Log.debug("Ignoring existing poly " + p);
+				return;
+			}
 			polynomials.add(p);
+			int size = polynomials.size();
+			Log.debug("Adding poly #" + (size) + ": " + p);
 		}
 
 		/**
@@ -562,7 +568,7 @@ public class ProverBotanasMethod {
 
 		private void setHypotheses(GeoElement movingPoint) {
 			polynomials = new HashSet<PPolynomial>();
-			int nHypotheses = 0;
+
 			TreeSet<GeoElement> predecessors = new TreeSet<GeoElement>();
 			TreeSet<GeoElement> allPredecessors = geoStatement
 					.getAllPredecessors();
@@ -815,8 +821,6 @@ public class ProverBotanasMethod {
 								Log.debug("Hypotheses:");
 								addGeoPolys(geo, geoPolynomials);
 								for (PPolynomial p : geoPolynomials) {
-									nHypotheses++;
-									Log.debug((nHypotheses) + ". " + p);
 									if (proverSettings.captionAlgebra) {
 										geo.addCaptionBotanaPolynomial(
 												p.toTeX());
@@ -910,8 +914,6 @@ public class ProverBotanasMethod {
 					PPolynomial[] botanaPolynomials = new PPolynomial[1];
 					botanaPolynomials[0] = botanaPolynomial;
 					addGeoPolys(movingPoint, botanaPolynomials);
-					nHypotheses++;
-					Log.debug((nHypotheses) + ". " + botanaPolynomial);
 					if (proverSettings.captionAlgebra) {
 						numerical.addCaptionBotanaPolynomial(
 								botanaPolynomial.toTeX());
@@ -1249,8 +1251,6 @@ public class ProverBotanasMethod {
 				PPolynomial[] spolys = new PPolynomial[1];
 				spolys[0] = spoly;
 				addGeoPolys(geoStatement, spolys);
-				Log.debug("that is,");
-				Log.debug((k + 1) + ". " + spoly);
 				if (proverSettings.captionAlgebra) {
 					geoStatement.addCaptionBotanaPolynomial(spoly.toTeX());
 				}

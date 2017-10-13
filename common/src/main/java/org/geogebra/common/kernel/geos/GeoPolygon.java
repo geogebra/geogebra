@@ -2560,17 +2560,25 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	@Override
-	public PVariable[] getBotanaVars(GeoElementND geo) {
-		// It's OK to return null here:
-		return null;
+	public PVariable[] getBotanaVars(GeoElementND geo)
+			throws NoSymbolicParametersException {
+		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaVars(this);
+		}
+		return null; // Here maybe an exception should be thrown...?
 	}
 
 	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
-		// It's OK to return null here:
-		return null;
+		if (algoParent instanceof SymbolicParametersBotanaAlgo) {
+			return ((SymbolicParametersBotanaAlgo) algoParent)
+					.getBotanaPolynomials(this);
+		}
+		return null; // Here maybe an exception should be thrown...?
 	}
+
 
 	@Override
 	public int getMetasLength() {
