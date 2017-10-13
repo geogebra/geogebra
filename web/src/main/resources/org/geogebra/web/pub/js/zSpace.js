@@ -707,7 +707,6 @@
   }
 
   zspace.prototype.setBrowserViewportOffset = function setBrowserViewportOffset(x, y) {
-	console.trace();
     if (this.browserViewportOffset === null) {
       this.browserViewportOffset = [x, y];
     } else {
