@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -418,22 +419,17 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 		}
 
-		boolean argIsList = false;
+		// boolean argIsList = false;
 		boolean isAssumeInEqus = false;
 		boolean skipEqu = false;
 		MyList equsForArgs = new MyList(this.app.getKernel());
 		StringBuilder assumesForArgs = new StringBuilder();
+		
 		if (args.size() == 1 && "Point".equals(name)) {
-			ExpressionValue node = args.get(0).unwrap();
-			if (node.isLeaf() && node instanceof MyList) {
-				if (((MyList) node).getListElement(0).wrap().getLeft()
-						.isNumberValue()) {
-					sbCASCommand.append(1);
-				} else {
-					sbCASCommand.append(((MyList) node).size());
-					argIsList = true;
-				}
-			}
+			updateArgsAndSbForPoint(args, sbCASCommand);
+		}
+		else if (args.size() == 1 && "Area".equals(name)) {
+			updateArgsAndSbForArea(args, sbCASCommand);
 		}
 		// case solve with list of equations
 		else if ("Solve".equals(name) && args.size() == 2
@@ -570,7 +566,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		// use key as function name
 		if (translation == null) {
 			Kernel kern = app.getKernel();
-			boolean silent = kern.isSilentMode();
+
 			// convert command names x, y, z to xcoord, ycoord, ycoord to
 			// protect it in CAS
 			// see http://www.geogebra.org/trac/ticket/1440
@@ -583,20 +579,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 						sbCASCommand
 								.append(toString(args.get(0), symbolic, tpl));
 						sbCASCommand.append('[');
-
-						switch (ch) {
-						case 'x':
-						default:
-							sbCASCommand.append('0');
-							break;
-						case 'y':
-							sbCASCommand.append('1');
-							break;
-						case 'z':
-							sbCASCommand.append('2');
-							break;
-
-						}
+						sbCASCommand.append(ch - 'x');
 						sbCASCommand.append(']');
 
 						return sbCASCommand.toString();
@@ -612,33 +595,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					handled = true;
 				}
 			} else {
-				try {
-					Commands c = Commands.valueOf(name);
-					if (c != null) {
-
-						kern.setSilentMode(true);
-						StringBuilder sb = new StringBuilder(name);
-						sb.append('[');
-						for (int i = 0; i < args.size(); i++) {
-							if (i > 0) {
-								sb.append(',');
-							}
-							sb.append(args.get(i).toOutputValueString(
-									StringTemplate.defaultTemplate));
-						}
-						sb.append(']');
-						GeoElementND[] ggbResult = kern.getAlgebraProcessor()
-								.processAlgebraCommandNoExceptions(
-										sb.toString(), false);
-						kern.setSilentMode(silent);
-						if (ggbResult != null && ggbResult.length > 0
-								&& ggbResult[0] != null) {
-							return ggbResult[0].toValueString(tpl);
-						}
-					}
-				} catch (Exception e) {
-					kern.setSilentMode(silent);
-					Log.info(name + " not known command or function");
+				GeoElementND ggbResult = computeWithGGB(kern, name, args);
+				if (ggbResult != null) {
+					return ggbResult.toValueString(tpl);
 				}
 			}
 
@@ -686,11 +645,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 					i++;
 					int pos = translation.charAt(i) - '0';
 					ExpressionValue ev;
-					if (argIsList) {
-						ev = ((MyList) args.get(0).getLeft())
-								.getListElement(pos);
-						sbCASCommand.append(toString(ev, symbolic, tplToUse));
-					} else if ("Solve".equals(name)) {
+					if ("Solve".equals(name)) {
 						// case we have assumptions in equation list
 						if (isAssumeInEqus && args.size() != 3) {
 							// append list of equations
@@ -822,6 +777,81 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		}
 
 		return sbCASCommand.toString();
+	}
+
+	private static void updateArgsAndSbForPoint(ArrayList<ExpressionNode> args,
+			StringBuilder sbCASCommand) {
+		ExpressionValue node = args.get(0).unwrap();
+		if (node instanceof MyList) {
+			if (((MyList) node).getListElement(0).wrap().getLeft()
+					.isNumberValue()) {
+				sbCASCommand.append(1);
+			} else {
+				int size = ((MyList) node).size();
+				sbCASCommand.append(size);
+				args.clear();
+				for (int i = 0; i < size; i++) {
+					args.add(((MyList) node).getListElement(i).wrap());
+				}
+			}
+		}
+
+	}
+
+	private static void updateArgsAndSbForArea(ArrayList<ExpressionNode> args,
+			StringBuilder sbCASCommand) {
+		ExpressionValue node = args.get(0).unwrap();
+		if (node instanceof EquationValue) {
+			sbCASCommand.append(1);
+		} else {
+			sbCASCommand.setLength(0);
+			Log.debug(args.get(0));
+			GeoElementND newArg = computeWithGGB(args.get(0).getKernel(),
+					"Area", args);
+			args.clear();
+			args.add(newArg.wrap());
+			sbCASCommand.append("Evaluate.1");
+		}
+
+	}
+
+	private static GeoElementND computeWithGGB(Kernel kern, String name,
+			ArrayList<ExpressionNode> args) {
+		boolean silent = kern.isSilentMode();
+		try {
+			Commands c = Commands.valueOf(name);
+			if (c != null) {
+
+				kern.setSilentMode(true);
+				StringBuilder sb = new StringBuilder(name);
+				sb.append('[');
+				for (int i = 0; i < args.size(); i++) {
+					if (i > 0) {
+						sb.append(',');
+					}
+					if (args.get(i).unwrap().isGeoElement()) {
+						sb.append(((GeoElement) args.get(i).unwrap())
+								.getLabel(StringTemplate.defaultTemplate));
+					} else {
+						sb.append(args.get(i).toOutputValueString(
+							StringTemplate.maxPrecision));
+					}
+				}
+				sb.append(']');
+				GeoElementND[] ggbResult = kern.getAlgebraProcessor()
+						.processAlgebraCommandNoExceptions(sb.toString(),
+								false);
+				kern.setSilentMode(silent);
+				if (ggbResult != null && ggbResult.length > 0
+						&& ggbResult[0] != null) {
+					return ggbResult[0];
+				}
+			}
+		} catch (Exception e) {
+			kern.setSilentMode(silent);
+			Log.info(name + " not known command or function");
+		}
+		return null;
 	}
 
 	@Override

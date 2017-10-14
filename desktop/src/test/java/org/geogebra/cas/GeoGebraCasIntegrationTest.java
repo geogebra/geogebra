@@ -5073,7 +5073,14 @@ public class GeoGebraCasIntegrationTest {
 		t("f(x) := h(x)", "h(x)");
 		t("f''(x)", "h''(x)");
 		t("f'(x)", "h'(x)");
+	}
 
-
+	@Test
+	public void tOfXshouldBefFunction() {
+		t("f(x) := x^2-4", "x^(2) - 4");
+		t("t(x) := Tangent(2,f)", "4 * x - 8");
+		t("Solve(t(x)=-4)", "{x = 1}");
+		t("m := Tangent(2,f)", "y = 4 * x - 8");
+		t("Solve(m(x)=-4)", "{x = 1}");
 	}
 }
