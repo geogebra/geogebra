@@ -262,22 +262,67 @@ public abstract class StepNode {
 	/**
 	 * @return the tree, regrouped (destroys the tree, use only in assignments)
 	 */
-	public abstract StepNode regroup();
+	public StepNode regroup() {
+		return regroup(null);
+	}
 
 	/**
 	 * @param sb
 	 *            SolutionBuilder for the regroup steps
 	 * @return the tree, regrouped (destroys the tree, use only in assignments)
 	 */
-	public abstract StepNode regroup(SolutionBuilder sb);
+	public StepNode regroup(SolutionBuilder sb) {
+		if (isOperation()) {
+			cleanColors();
+			return SimplificationSteps.DEFAULT_REGROUP.apply(this, sb, new int[] { 1 });
+		}
+
+		return this;
+	}
 
 	/**
 	 * @return the tree, regrouped and expanded (destroys the tree, use only in
 	 *         assignments)
 	 */
-	public abstract StepNode expand(SolutionBuilder sb);
+	public StepNode expand() {
+		return expand(null);
+	}
+	
+	/**
+	 * @param sb
+	 *            SolutionBuilder for the expansion steps
+	 * @return the tree, regrouped and expanded (destroys the tree, use only in
+	 *         assignments)
+	 */
+	public StepNode expand(SolutionBuilder sb) {
+		if (isOperation()) {
+			cleanColors();
+			return SimplificationSteps.DEFAULT_EXPAND.apply(this, sb, new int[] { 1 });
+		}
 
-	public abstract StepNode factor(SolutionBuilder sb);
+		return this;
+	}
+
+	/**
+	 * @return the tree, factored (destroys the tree, use only in assignments)
+	 */
+	public StepNode factor() {
+		return factor(null);
+	}
+
+	/**
+	 * @param sb
+	 *            SolutionBuilder for the factoring steps
+	 * @return the tree, factored (destroys the tree, use only in assignments)
+	 */
+	public StepNode factor(SolutionBuilder sb) {
+		if (isOperation()) {
+			cleanColors();
+			return SimplificationSteps.DEFAULT_FACTOR.apply(this, sb, new int[] { 1 });
+		}
+
+		return this;
+	}
 
 	/**
 	 * Non-special constants are StepConstants and minus(StepConstant)s, except for
@@ -967,8 +1012,8 @@ public abstract class StepNode {
 	}
 
 	/**
-	 * returns the largest b-th that divides a (for example (8, 2) -> 4, (8, 3) ->
-	 * 8, (108, 2) -> 36)
+	 * returns the largest b-th power that divides a (for example (8, 2) -> 4, (8,
+	 * 3) -> 8, (108, 2) -> 36)
 	 * 
 	 * @param a
 	 *            base
@@ -1192,6 +1237,14 @@ public abstract class StepNode {
 
 	public static boolean isEqual(StepNode a, double b) {
 		return a.nonSpecialConstant() && isEqual(a.getValue(), b);
+	}
+
+	public static boolean isZero(StepNode a) {
+		return a == null || isEqual(a, 0);
+	}
+
+	public static boolean isOne(StepNode a) {
+		return a == null || isEqual(a, 1);
 	}
 
 	public static boolean isEven(double d) {

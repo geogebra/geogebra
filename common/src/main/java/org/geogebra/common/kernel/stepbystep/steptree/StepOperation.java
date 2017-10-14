@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
@@ -380,29 +379,6 @@ public class StepOperation extends StepNode {
 			so.addSubTree(getSubTree(i).deepCopy());
 		}
 		return so;
-	}
-
-	@Override
-	public StepNode regroup() {
-		return regroup(null);
-	}
-
-	@Override
-	public StepNode regroup(SolutionBuilder sb) {
-		cleanColors();
-		return SimplificationSteps.DEFAULT_REGROUP.apply(this, sb, new int[] { 1 });
-	}
-
-	@Override
-	public StepNode expand(SolutionBuilder sb) {
-		cleanColors();
-		return SimplificationSteps.DEFAULT_EXPAND.apply(this, sb, new int[] { 1 });
-	}
-
-	@Override
-	public StepNode factor(SolutionBuilder sb) {
-		cleanColors();
-		return SimplificationSteps.DEFAULT_FACTOR.apply(this, sb, new int[] { 1 });
 	}
 
 	@Override

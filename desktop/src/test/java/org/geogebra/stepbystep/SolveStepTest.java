@@ -1,5 +1,6 @@
 package org.geogebra.stepbystep;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.commands.CommandsTest;
@@ -59,9 +60,9 @@ public class SolveStepTest {
 		t("x+1/(x-1)", "2x-1", "x", 22, "0", "2");
 		t("1/(x-6)+x/(x-2)", "4/(x^2-8x+12)", "x", 31, "-1");
 		t("x/(1-x)", "(3+x)/x", "x", 18, "((-2 + (2)(nroot(7, 2))))/(4)", "((-2-(2)(nroot(7, 2))))/(4)");
-		t("((1)/(x)+1)^(2)", "((1)/(x+3)-2)^(2)", "x", 46, "((-9 + (3)(nroot(5, 2))))/(6)",
-				"((-9-(3)(nroot(5, 2))))/(6)", "((-1 + nroot(13, 2)))/(2)", "((-1-nroot(13, 2)))/(2)");
-		t("(1/x+3)^2", "6", "x", 40, "(1)/((nroot(6, 2)-3))", "(1)/((-nroot(6, 2)-3))");
+		t("((1)/(x)+1)^(2)", "((1)/(x+3)-2)^(2)", "x", 46, "((-3 + nroot(5, 2)))/(2)",
+				"((-3-nroot(5, 2)))/(2)", "((-1 + nroot(13, 2)))/(2)", "((-1-nroot(13, 2)))/(2)");
+		t("(1/x+3)^2", "6", "x", 40, "(1)/((-nroot(6, 2)-3))", "(1)/((nroot(6, 2)-3))");
 	}
 
 	@Test
@@ -194,8 +195,16 @@ public class SolveStepTest {
 		Assert.assertTrue(Math.abs(expectedSteps - countSteps(steps)) < 1000);
 		Assert.assertEquals(expectedSolutions.length, solutions.size());
 
+		String[] actualSolutions = new String[solutions.size()];
 		for (int i = 0; i < expectedSolutions.length; i++) {
-			Assert.assertEquals(expectedSolutions[i], solutions.get(i).toString());
+			actualSolutions[i] = solutions.get(i).toString();
+		}
+
+		Arrays.sort(expectedSolutions);
+		Arrays.sort(actualSolutions);
+
+		for (int i = 0; i < expectedSolutions.length; i++) {
+			Assert.assertEquals(expectedSolutions[i], actualSolutions[i]);
 		}
 	}
 

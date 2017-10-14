@@ -1725,6 +1725,10 @@ public enum SimplificationSteps {
 					long constant = Math.abs(integerForm[0]);
 					long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
 
+					if (Math.abs(constant) > 100 || Math.abs(highestOrder) > 100) {
+						return iterateThrough(this, sn, sb, colorTracker);
+					}
+
 					for (long i = -constant; i <= constant; i++) {
 						for (long j = 1; j <= highestOrder; j++) {
 							if (i != 0 && constant % i == 0 && highestOrder % j == 0
@@ -1782,6 +1786,10 @@ public enum SimplificationSteps {
 
 					long constant = Math.abs(integerForm[0]);
 					long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
+
+					if (Math.abs(constant) > 100 || Math.abs(highestOrder) > 100) {
+						return iterateThrough(this, sn, sb, colorTracker);
+					}
 
 					for (long i = -constant; i <= constant; i++) {
 						for (long j = 1; j <= highestOrder; j++) {

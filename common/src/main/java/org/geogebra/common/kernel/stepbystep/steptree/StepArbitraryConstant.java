@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
@@ -83,26 +82,6 @@ public class StepArbitraryConstant extends StepNode {
 			return value;
 		}
 		return Double.NaN;
-	}
-
-	@Override
-	public StepNode regroup(SolutionBuilder sb) {
-		return this;
-	}
-
-	@Override
-	public StepNode regroup() {
-		return this;
-	}
-
-	@Override
-	public StepNode expand(SolutionBuilder sb) {
-		return this;
-	}
-
-	@Override
-	public StepNode factor(SolutionBuilder sb) {
-		return this;
 	}
 
 	@Override

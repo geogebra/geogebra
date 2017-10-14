@@ -1,5 +1,10 @@
 package org.geogebra.common.kernel.stepbystep;
 
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEven;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isZero;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -125,20 +130,8 @@ public class EquationSteps {
 			commonDenominator();
 		}
 
-		if (isZero(LHS) && RHS.isOperation(Operation.MULTIPLY)) {
-			solveProduct((StepOperation) RHS);
-			return checkSolutions();
-		} else if (isZero(RHS) && LHS.isOperation(Operation.MULTIPLY)) {
-			solveProduct((StepOperation) LHS);
-			return checkSolutions();
-		}
-
-		StepNode bothSides = StepNode.add(LHS, RHS);
-		if (StepHelper.countNonConstOperation(bothSides, Operation.NROOT) > 0) {
-			solveIrrational();
-		}
-
-		int degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
+		// Swap the sides, if necessary. That is, LHS now always contains the higher
+		// order term. The user doesn't know about this.
 		int degreeLHS = StepHelper.degree(LHS);
 		int degreeRHS = StepHelper.degree(RHS);
 
@@ -149,42 +142,62 @@ public class EquationSteps {
 		} else if (degreeRHS > degreeLHS) {
 			swapSides();
 		} else if (degreeRHS == degreeLHS) {
-			double coeffLHS = StepHelper.getCoefficientValue(LHS.deepCopy().regroup(),
-					degreeLHS == 1 ? variable : StepNode.power(variable, degreeLHS));
-			double coeffRHS = StepHelper.getCoefficientValue(RHS.deepCopy().regroup(),
-					degreeRHS == 1 ? variable : StepNode.power(variable, degreeRHS));
+			double coeffLHS = StepHelper.getCoefficientValue(LHS, StepNode.nonTrivialPower(variable, degreeLHS));
+			double coeffRHS = StepHelper.getCoefficientValue(RHS, StepNode.nonTrivialPower(variable, degreeRHS));
 
 			if (coeffRHS > coeffLHS) {
 				swapSides();
 			}
 		}
 
+		// IV. step: factoring if possible, and solving products..
+		if (solveProduct()) {
+			return checkSolutions();
+		}
+
+		// V. step: deal with square roots
+		solveIrrational();
+
+		if (solveProduct()) {
+			return checkSolutions();
+		}
+
+		// VI. step: take root of both sides, if possible
 		if (StepHelper.shouldTakeRoot(RHS, LHS)) {
 			if (takeRoot()) {
 				return checkSolutions();
 			}
 		}
 
-		simplify();
+		// VII. step: expand all parentheses
+		expand();
 
-		bothSides = StepNode.add(LHS, RHS);
+		// VIII. step: solving absolute value equations
+		StepNode bothSides = StepNode.add(LHS, RHS);
 		if (StepHelper.countOperation(bothSides, Operation.ABS) > 0) {
 			if (solveAbsoluteValue()) {
 				return checkSolutions();
 			}
 		}
 
+		// IX. step: solving trigonometric equations
 		if (StepHelper.containsTrigonometric(bothSides)) {
 			if (solveTrigonometric()) {
 				return checkSolutions();
 			}
 		}
 
-		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
+		// X. step: dealing with simple cases: not yet implemented, linear, quadratic
+		int degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
 
 		if (degreeDiff == -1) {
 			steps.add(SolutionStepType.CANT_SOLVE);
 			return steps.getSteps();
+		}
+
+		if (degreeDiff <= 1) {
+			solveLinear();
+			return checkSolutions();
 		}
 
 		if (degreeDiff == 2) {
@@ -193,33 +206,21 @@ public class EquationSteps {
 			}
 		}
 
-		degreeDiff = StepHelper.degree(StepNode.subtract(LHS, RHS).regroup());
-
-		if (degreeDiff <= 1) {
-			solveLinear();
-			return checkSolutions();
-		}
-
 		subtract(RHS);
 
+		// XI. step: solving equations of the form ax^(2n) + bx^n + c = 0;
 		if (StepHelper.canBeReducedToQuadratic(LHS, variable)) {
 			reduceToQuadratic();
 			return checkSolutions();
 		}
 
+		// XII. step: solving equations of the form x^3 + ax^2 + (a^2 / 3)x + d = 0
 		if (StepHelper.canCompleteCube(LHS, variable)) {
 			completeCube();
 			return checkSolutions();
 		}
 
-		if (LHS.integerCoefficients(variable)) {
-			findRationalRoots();
-
-			if (solutions.size() > 0) {
-				return checkSolutions();
-			}
-		}
-
+		// XIII. step: giving numeric solutions to non-special higher order polynomials
 		numericSolutions();
 		return checkSolutions();
 	}
@@ -296,17 +297,45 @@ public class EquationSteps {
 		return steps.getSteps();
 	}
 
-	private void solveProduct(StepOperation product) {
-		steps.add(SolutionStepType.PRODUCT_IS_ZERO);
+	private boolean solveProduct() {
+		StepOperation product = null;
 
-		for (int i = 0; i < product.noOfOperands(); i++) {
-			if (!product.getSubTree(i).isConstant()) {
-				EquationSteps es = new EquationSteps(kernel, product.getSubTree(i), new StepConstant(0), variable,
-						constantFactory);
-				steps.addAll(es.getSteps());
-				solutions.addAll(es.getSolutions());
+		if (isZero(LHS) || isZero(RHS)) {
+			factor();
+			if (LHS.isOperation(Operation.MULTIPLY)) {
+				product = (StepOperation) LHS;
+			} else if (RHS.isOperation(Operation.MULTIPLY)) {
+				product = (StepOperation) RHS;
+			}
+		} else {
+			if (StepNode.subtract(LHS, RHS).factor().isOperation(Operation.MULTIPLY)) {
+				subtract(RHS);
+				factor();
+				product = (StepOperation) LHS;
+			} else if (StepNode.subtract(LHS, RHS).expand().factor().isOperation(Operation.MULTIPLY)) {
+				expand();
+				subtract(RHS);
+				factor();
+				product = (StepOperation) LHS;
 			}
 		}
+
+		if (product != null) {
+			steps.add(SolutionStepType.PRODUCT_IS_ZERO);
+
+			for (int i = 0; i < product.noOfOperands(); i++) {
+				if (!product.getSubTree(i).isConstant()) {
+					EquationSteps es = new EquationSteps(kernel, product.getSubTree(i), new StepConstant(0), variable,
+							constantFactory);
+					steps.addAll(es.getSteps());
+					solutions.addAll(es.getSolutions());
+				}
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 	private void commonDenominator() {
@@ -507,7 +536,7 @@ public class EquationSteps {
 				StepNode.multiply(StepNode.multiply(2, constantFactory.getNext()), new StepConstant(Math.PI)));
 
 		EquationSteps firstBranch = new EquationSteps(kernel, newLHS, firstRHS, variable, constantFactory);
-		if (isEqual(Math.abs(constant.getValue()), 1)) {
+		if (isEqual(constant, 1) || isEqual(constant, -1)) {
 			steps.add(SolutionStepType.EQUATION, StepNode.equal(newLHS, firstRHS));
 			firstBranch.setIntermediate();
 		}
@@ -515,7 +544,7 @@ public class EquationSteps {
 		steps.addAll(firstBranch.getSteps());
 		solutions.addAll(firstBranch.getSolutions());
 
-		if (!isEqual(Math.abs(constant.getValue()), 1)) {
+		if (!isEqual(constant, 1) && !isEqual(constant, -1)) {
 			StepNode secondRHS = StepNode.add(StepNode.apply(constant, op),
 					StepNode.multiply(StepNode.multiply(2, constantFactory.getNext()), new StepConstant(Math.PI)));
 			EquationSteps secondBranch;
@@ -601,7 +630,7 @@ public class EquationSteps {
 			RHS = StepHelper.swapAbsInTree(RHS.deepCopy(), interval, variable);
 
 			addStep();
-			simplify();
+			expand();
 			return false;
 		}
 
@@ -709,7 +738,7 @@ public class EquationSteps {
 		StepNode b = StepHelper.findCoefficient(difference, variable);
 		StepNode c = StepHelper.findConstant(difference);
 
-		if (isOne(a) && isEven(b.getValue()) && !isZero(c)) {
+		if (isOne(a) && isEven(b) && !isZero(c)) {
 			StepNode RHSConstant = StepHelper.findConstant(RHS);
 			addOrSubtract(StepNode.subtract(RHS, RHSConstant).regroup());
 
@@ -731,23 +760,10 @@ public class EquationSteps {
 
 		subtract(RHS);
 
-		StepNode discriminant = StepNode.subtract(StepNode.power(b, 2), StepNode.multiply(4, StepNode.multiply(a, c)));
-
-		if (isZero(c) || isSquare(discriminant.getValue())) {
-			LHS = LHS.regroup();
-			steps.add(SolutionStepType.FACTOR_EQUATION);
-			LHS = StepHelper.factor(LHS, kernel);
-
-			addStep();
-
-			solveProduct((StepOperation) LHS);
-			return true;
-		}
-
 		a.setColor(1);
 		b.setColor(2);
 		c.setColor(3);
-		discriminant = StepNode.subtract(StepNode.power(b, 2), StepNode.multiply(4, StepNode.multiply(a, c)));
+		StepNode discriminant = StepNode.subtract(StepNode.power(b, 2), StepNode.multiply(4, StepNode.multiply(a, c)));
 
 		// Case: default
 		{
@@ -804,7 +820,7 @@ public class EquationSteps {
 			steps.add(SolutionStepType.SQUARE_ROOT);
 
 			LHS = ((StepOperation) LHS).getSubTree(0);
-			if (!StepNode.isEqual(RHS, 0)) {
+			if (!isEqual(RHS, 0)) {
 				RHS = StepNode.root(RHS, 2);
 			}
 
@@ -858,26 +874,6 @@ public class EquationSteps {
 		nthroot(3);
 	}
 
-	private void findRationalRoots() {
-		if (inverted) {
-			StepOperation regrouped = (StepOperation) StepNode.equal(RHS, LHS).factor(steps);
-
-			if (!regrouped.equals(StepNode.equal(RHS, LHS))) {
-				RHS = regrouped.getSubTree(0);
-				LHS = regrouped.getSubTree(1);
-				solveProduct((StepOperation) RHS);
-			}
-		} else {
-			StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).factor(steps);
-
-			if (!regrouped.equals(StepNode.equal(LHS, RHS))) {
-				LHS = regrouped.getSubTree(0);
-				RHS = regrouped.getSubTree(1);
-				solveProduct((StepOperation) LHS);
-			}
-		}
-	}
-
 	private void numericSolutions() {
 		StepNode[] CASSolutions = StepHelper.getCASSolutions(LHS.toString(), "0", variable.toString(), kernel);
 
@@ -898,15 +894,27 @@ public class EquationSteps {
 		}
 	}
 
-	private void simplify() {
+	private void expand() {
 		if (inverted) {
-			StepOperation simplified = (StepOperation) StepNode.equal(RHS, LHS).expand(steps);
-			RHS = simplified.getSubTree(0);
-			LHS = simplified.getSubTree(1);
+			StepOperation expanded = (StepOperation) StepNode.equal(RHS, LHS).expand(steps);
+			RHS = expanded.getSubTree(0);
+			LHS = expanded.getSubTree(1);
 		} else {
-			StepOperation simplified = (StepOperation) StepNode.equal(LHS, RHS).expand(steps);
-			LHS = simplified.getSubTree(0);
-			RHS = simplified.getSubTree(1);
+			StepOperation expanded = (StepOperation) StepNode.equal(LHS, RHS).expand(steps);
+			LHS = expanded.getSubTree(0);
+			RHS = expanded.getSubTree(1);
+		}
+	}
+
+	private void factor() {
+		if (inverted) {
+			StepOperation regrouped = (StepOperation) StepNode.equal(RHS, LHS).factor(steps);
+			RHS = regrouped.getSubTree(0);
+			LHS = regrouped.getSubTree(1);
+		} else {
+			StepOperation regrouped = (StepOperation) StepNode.equal(LHS, RHS).factor(steps);
+			LHS = regrouped.getSubTree(0);
+			RHS = regrouped.getSubTree(1);
 		}
 	}
 
@@ -969,7 +977,7 @@ public class EquationSteps {
 			steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES, toMultiply);
 			steps.levelDown();
 			addStep();
-			simplify();
+			expand();
 			steps.levelUp();
 			addStep();
 		}
@@ -985,7 +993,7 @@ public class EquationSteps {
 			steps.add(SolutionStepType.DIVIDE_BOTH_SIDES, toDivide);
 			steps.levelDown();
 			addStep();
-			simplify();
+			expand();
 			steps.levelUp();
 			addStep();
 		}
@@ -1020,7 +1028,7 @@ public class EquationSteps {
 
 		steps.add(SolutionStepType.SQUARE_BOTH_SIDES);
 		steps.levelDown();
-		simplify();
+		expand();
 		steps.levelUp();
 		addStep();
 
@@ -1108,25 +1116,5 @@ public class EquationSteps {
 		} else {
 			steps.add(SolutionStepType.EQUATION, StepNode.equal(LHS, RHS));
 		}
-	}
-
-	private static boolean isZero(StepNode ev) {
-		return ev == null || ev.isConstant() && isEqual(ev.getValue(), 0);
-	}
-
-	private static boolean isOne(StepNode ev) {
-		return ev == null || ev.isConstant() && isEqual(ev.getValue(), 1);
-	}
-
-	private static boolean isEven(double d) {
-		return isEqual(d % 2, 0);
-	}
-
-	private static boolean isSquare(double d) {
-		return isEqual(Math.floor(Math.sqrt(d)) * Math.floor(Math.sqrt(d)), d);
-	}
-
-	private static boolean isEqual(double a, double b) {
-		return Math.abs(a - b) < 0.0000001;
 	}
 }
