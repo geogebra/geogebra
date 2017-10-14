@@ -33,9 +33,10 @@ public class InputHelper {
 			if (Korean.flattenKorean(curWord.toString()).length() < 2) {
 				return false;
 			}
-		} else if (needsThreeLetters(kernel) && curWord.length() < 3) {
-			return false;
 		} else if (curWord.length() < 2) {
+			return false;
+		} else if (needsThreeLetters(kernel) && curWord.length() == 2 && kernel.getApplication()
+						.getReverseCommand(curWord.toString()) == null) {
 			return false;
 		}
 		return kernel.lookupLabel(curWord.toString()) == null;
