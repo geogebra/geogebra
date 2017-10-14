@@ -84,7 +84,7 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 	}
 
 	@Override
-	protected void setCenterPoint(int n, double beta) {
+	protected void setCenterPoint(double beta) {
 
 		// some temp values
 		Coords m = coordsA.add(coordsB).mul(0.5);

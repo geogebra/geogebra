@@ -71,7 +71,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 	}
 
 	@Override
-	protected void setCenterPoint(int n, double beta) {
+	protected void setCenterPoint(double beta) {
 
 		double xA = ((GeoPoint) A).inhomX;
 		double yA = ((GeoPoint) A).inhomY;
@@ -152,8 +152,8 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			return botanaPolynomials;
 		}
 
-		PVariable[] varsA = new PVariable[2];
-		PVariable[] varsB = new PVariable[2];
+		PVariable[] varsA;
+		PVariable[] varsB;
 		varsA = ((SymbolicParametersBotanaAlgo) A).getBotanaVars(A);
 		varsB = ((SymbolicParametersBotanaAlgo) B).getBotanaVars(B);
 		

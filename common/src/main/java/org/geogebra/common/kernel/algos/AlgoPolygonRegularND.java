@@ -36,20 +36,26 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 public abstract class AlgoPolygonRegularND extends AlgoElement
 		implements PolygonAlgo {
 	/** first input point */
-	protected final GeoPointND A; // input
+	protected final GeoPointND A;
 	/** second input point */
 	protected final GeoPointND B;
-	protected GeoNumberValue num; // input
-
+	/** input: number of vertices */
+	protected GeoNumberValue num;
+	/** number of vertices at last compute */
 	protected int numOld = 2;
 	/** output handler */
 	protected OutputHandler<GeoPolygon> outputPolygon;
+	/** output points */
 	protected OutputHandler<GeoElement> outputPoints;
+	/** output segments */
 	protected OutputHandler<GeoElement> outputSegments;
-
+	/** center */
 	protected GeoPointND centerPoint;
+	/** angle */
 	protected MyDouble rotAngle;
-
+	/**
+	 * whether points should be labeled: depends on whether inputs are labeled
+	 */
 	protected boolean labelPointsAndSegments;
 	/** whether new segment labels should be visible */
 	boolean showNewSegmentsLabels;
@@ -73,6 +79,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 	 *            second input point
 	 * @param num
 	 *            number of vertices
+	 * @param direction
+	 *            polygon orientation in space
 	 */
 	public AlgoPolygonRegularND(Construction c, String[] labels, GeoPointND A1,
 			GeoPointND B1, GeoNumberValue num, GeoDirectionND direction) {
@@ -231,17 +239,19 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction for the new polygon
 	 * @return new GeoPolygon 2D/3D
 	 */
-	protected abstract GeoPolygon newGeoPolygon(Construction cons);
+	protected abstract GeoPolygon newGeoPolygon(Construction cons1);
 
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1
+	 *            construction for the new point
 	 * @return new GeoPoint 2D/3D
 	 */
-	protected abstract GeoElement newGeoPoint(Construction cons);
+	protected abstract GeoElement newGeoPoint(Construction cons1);
 
 	/**
 	 * set the direction (only for 3D)
@@ -287,20 +297,25 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 
 	/**
 	 * set the center point coords
-	 * 
-	 * @param n
 	 * @param beta
+	 *            internal angle
 	 */
-	protected abstract void setCenterPoint(int n, double beta);
+	protected abstract void setCenterPoint(double beta);
 
-	protected void rotatePoints(int n, double alpha) {
+	/**
+	 * @param vertices
+	 *            n
+	 * @param centralAngle
+	 *            alpha
+	 */
+	protected void rotatePoints(int vertices, double centralAngle) {
 		// now we have the center point of the polygon and
 		// the center angle alpha between two neighbouring points
 		// let's create the points by rotating A around the center point
-		for (int k = 0; k < n - 2; k++) {
+		for (int k = 0; k < vertices - 2; k++) {
 			// rotate point around center point
 			outputPoints.getElement(k).set(A);
-			rotAngle.set((k + 2) * alpha);
+			rotAngle.set((k + 2) * centralAngle);
 			rotate((GeoPointND) outputPoints.getElement(k));
 		}
 	}
@@ -315,13 +330,14 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 
 	/**
 	 * 
-	 * @param n
+	 * @param nCurrent
+	 *            current number of vertices
 	 * @return true if undefined
 	 */
-	protected boolean checkUnDefined(int n) {
-		if (n < 3 || !A.isDefined() || !B.isDefined()) {
+	protected boolean checkUnDefined(int nCurrent) {
+		if (nCurrent < 3 || !A.isDefined() || !B.isDefined()) {
 			getPoly().setUndefined();
-			numOld = n;
+			numOld = nCurrent;
 			return true;
 		}
 
@@ -351,7 +367,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 		this.alpha = Kernel.PI_2 / n; // center angle ACB
 		double beta = (Math.PI - alpha) / 2; // base angle CBA = BAC
 
-		setCenterPoint(n, beta);
+		setCenterPoint(beta);
 		rotatePoints(n, alpha);
 
 		GeoPointND[] points = new GeoPointND[n];
@@ -396,24 +412,25 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 	/**
 	 * Ensures that the pointList holds n points.
 	 * 
-	 * @param n
+	 * @param vertices
+	 *            number of vertices
 	 */
-	private void updateOutput(int n) {
+	private void updateOutput(int vertices) {
 
 		int nOld = outputPoints.size() + 2;
 
 		// App.error("nOld="+nOld+", n="+n);
 
-		if (nOld == n) {
+		if (nOld == vertices) {
 			return;
 		}
 
 		// update points and segments
-		if (n > nOld) {
+		if (vertices > nOld) {
 			showNewPointsLabels = labelPointsAndSegments
 					&& (A.isEuclidianVisible() && A.isLabelVisible()
 							|| B.isEuclidianVisible() && B.isLabelVisible());
-			outputPoints.augmentOutputSize(n - nOld, false);
+			outputPoints.augmentOutputSize(vertices - nOld, false);
 			if (labelPointsAndSegments && !labelsNeedIniting) {
 				outputPoints.updateLabels();
 			}
@@ -423,22 +440,22 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 				showNewSegmentsLabels = showNewSegmentsLabels
 						|| outputSegments.getElement(i).isLabelVisible();
 			}
-			outputSegments.augmentOutputSize(n - nOld, false);
+			outputSegments.augmentOutputSize(vertices - nOld, false);
 			if (labelPointsAndSegments && !labelsNeedIniting) {
 				outputSegments.updateLabels();
 			}
 		} else {
-			for (int i = n; i < nOld; i++) {
+			for (int i = vertices; i < nOld; i++) {
 				outputPoints.getElement(i - 2).setUndefined();
 				outputSegments.getElement(i).setUndefined();
 			}
 			// update last segment
-			if (n > 2) {
-				((GeoSegmentND) outputSegments.getElement(n - 1))
+			if (vertices > 2) {
+				((GeoSegmentND) outputSegments.getElement(vertices - 1))
 						.modifyInputPoints(
-								(GeoPointND) outputPoints.getElement(n - 3), A);
+								(GeoPointND) outputPoints.getElement(vertices - 3), A);
 			} else {
-				((GeoSegmentND) outputSegments.getElement(n - 1))
+				((GeoSegmentND) outputSegments.getElement(vertices - 1))
 						.modifyInputPoints(B, A);
 			}
 		}
