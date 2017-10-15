@@ -2056,13 +2056,15 @@ var __giac = [ {},
 { cat:"Integral", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),pi,3pi/2)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
 { cat:"Integral", cmd:"Integral(sqrt((-3*a*cos(x)^(2)*sin(x))^(2)+(3a*(sin(x))^(2)*cos(x))^(2)),3pi/2,2pi)", result:"3 / 2 abs(a)", notes:"https://help.geogebra.org/topic/problem-with-an-integral-in-cas" },
 { cat:"Simplify", cmd:"Simplify(atan(3^(1/3)/sqrt(7))+5)", result:"atan(cbrt(3) / sqrt(7)) + 5" },
-//{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"atan(cbrt(3) / sqrt(7)) + 5" },
-//{ cat:"Integral", cmd:"Integral((x^4-3x)/(x^3+22x),cbrt(3),8)", result:"atan(cbrt(3) / sqrt(7)) + 5" },
+{ cat:"Integral", cmd:"Integral((x^4-3x)/(x^3+22x),cbrt(3),8)", result:"(sqrt(22) 32 - 11sqrt(22) ln(86) - 3atan(8 / sqrt(22))) / sqrt(22) - 1 / 2 (cbrt(3)\u00B2 sqrt(22) - sqrt(22) 22 ln(cbrt(3)\u00B2 + 22) - 6atan(cbrt(3) / sqrt(22))) / sqrt(22)" },
+{ cat:"Area", cmd:"Area(x^2+y^2=r^2)", result:"r\u00B2 \u03C0" },
+{ cat:"Area", cmd:"Area(Polygon((0,0),(1,1),(1,0)))", result:"1 / 2" },
+{ cat:"Solve", cmd:"Solve((1.4)^(n-1)32=1000)", result:"{n = (ln(4) - 2ln(5) - ln(7)) / (ln(5) - ln(7))}" },
+{ cat:"Solve", cmd:"Solve(-(1.4)^(n-1)32=-1000)", result:"{n = (ln(4) - 2ln(5) - ln(7)) / (ln(5) - ln(7))}" },
+//JSONEND
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
+//{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
 //{ cat:"CountIf", cmd:"CountIf(x(A) < 3, A, {(0, 1), (4, 2), (2, 2)})", result:"2" },
-// Simplify(atan(3^(1/3)/sqrt(7))+5)
-// 
-// JSONEND
 // +c not at end { cat:"Integral", cmd:"Integral[6x^2-2x-1/x+1/x^2]", result:"2x\u00B3 - x\u00B2 - 1 / x - ln(abs(x)) + c_0" },
 
 // Solve[x<5&&x<13]
@@ -2077,6 +2079,7 @@ var __giac = [ {},
 
 // giac/ggb bugs
 var bugs = [
+{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"atan(cbrt(3) / sqrt(7)) + 5", result:"", notes:"from Integral((x^4-3x)/(x^3+22x),cbrt(3),8), gives ? currently" },
 { cat:"Substitute", cmd:"Substitute[(x\u00B2 / a\u00B2 - y\u00B2 / b\u00B2 = 1),({a = 0, b = 0})]", result:"?=1" },
 { cat: "Solve", cmd:"Solve[{t^2<=p},{p}]", result:"{p \u2265 t\u00B2}", notes:"#5521, TRAC-4161" },
 { cat:"Numeric", cmd:"Numeric[Zeta(-0.29052115829613995+ \u03AF *0.30570723126530347)]", result:"", notes:"gives answer in terms of Eta()" },
@@ -2088,7 +2091,7 @@ var bugs = [
 { cat:"Solve", cmd:"Solve[(((-30 sqrt(10) - 358) x\u00B2 + (120sqrt(10) + 1432) x + 104sqrt(10) - 745 + ((-39 sqrt(10) - 81) x + 78sqrt(10) + 162) sqrt((-26 sqrt(10) - 54) x\u00B2 + (104sqrt(10) + 216) x - 38sqrt(10) - 5)) / ((-448 sqrt(10) - 1374) x\u00B2 + (1792sqrt(10) + 5496) x - 433sqrt(10) - 1195))]", result:"{x = (6sqrt(10) sqrt(224sqrt(10) + 687) sqrt(31) + 224sqrt(10) + 22sqrt(224sqrt(10) + 687) sqrt(31) + 687) / (3sqrt(10) sqrt(224sqrt(10) + 687) sqrt(31) + 11sqrt(224sqrt(10) + 687) sqrt(31))}", notes:"#3524 should be 1 root" },
 { cat:"Integral", cmd:"Integral[abs((x - 1)\u00B2 - 1)]", result:"1/12(-3(x-3)x^2sgn(x)-sgn(2-x)((x-3)x^2sgn(x)+3x^3-9x^2+16)+3x^3-9x^2+16)", notes:"result must be continuous" },
 { cat:"Simplify", cmd:"Simplify(((((((sqrt(2))-(sqrt(3)))^(4))-(((sqrt(2))-(sqrt(3)))^(3)))-(sqrt(2)))+(sqrt(3)))-(3))", result:"-20 sqrt(2) sqrt(3) - 12sqrt(2) + 10sqrt(3) + 46", notes:"gives strange answer with tlin(), simplify again gives better result" },
-{ cat:"Integral", cmd:"Integral[1/sqrt(abs(4-x^2)),0,4]", result:"?", notes:"#3859, gives ? in JNI which is OK" },
+{ cat:"Integral", cmd:"Integral[1/sqrt(abs(4-x^2)),0,4]", result:"?", notes:"#3859, gives ? in JNI which is OK, wrong in giac.js" },
 { cat:"Expand", cmd:"Expand[a(b+c)]", result:"a b + a c", notes:"WONTFIX? #4595" },
 { cat:"Integral", cmd:"Integral[cos(x),-infinity,0]", result:"?" },
 { cat:"Limit", cmd:"limit(1/abs(x),x,0)", result:"\u221E" },
