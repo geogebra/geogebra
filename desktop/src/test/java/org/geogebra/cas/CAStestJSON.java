@@ -1188,6 +1188,11 @@ public class CAStestJSON {
 	}
 
 	@Test
+	public void testArea() {
+		testCat("Area");
+	}
+
+	@Test
 	public void testLineBisector() {
 		testCat("LineBisector");
 	}
