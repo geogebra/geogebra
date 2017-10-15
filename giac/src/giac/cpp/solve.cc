@@ -2518,9 +2518,9 @@ namespace giac {
 	  a2=-a1._SYMBptr->feuille._VECTptr->back();
 	  a1=a1._SYMBptr->feuille._VECTptr->front();
 	}
-	if (a1.is_symb_of_sommet(at_neg) && a2.is_symb_of_sommet(at_neg)){
+	if (a1.is_symb_of_sommet(at_neg)){
 	  a1=a1._SYMBptr->feuille;
-	  a2=a2._SYMBptr->feuille;
+	  a2=-a2;
 	}
 	// solve(simplify(surd((5/10),570)^(x))=(8/10))
 	if (a2.type!=_VECT && !is_zero(a2) && (!lvarx(a1,v.back()).empty() || !lvarx(a2,v.back()).empty())){

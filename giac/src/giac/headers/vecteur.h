@@ -466,6 +466,9 @@ namespace giac {
   extern const unary_function_ptr * const  at_qr ;
   matrice thrownulllines(const matrice & res);
 
+  extern const unary_function_ptr * const  at_lll_reduce ;
+  extern const unary_function_ptr * const  at_lll ;
+
   gen _cholesky(const gen & a,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_cholesky ;
   gen _svd(const gen & a,GIAC_CONTEXT);

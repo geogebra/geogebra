@@ -15765,6 +15765,10 @@ namespace giac {
   static define_unary_function_eval (__lll,&_lll,_lll_s);
   define_unary_function_ptr5( at_lll ,alias_at_lll,&__lll,0,true);
 
+  static const char _lll_reduce_s []="lll_reduce";
+  static define_unary_function_eval (__lll_reduce,&_lll,_lll_reduce_s);
+  define_unary_function_ptr5( at_lll_reduce ,alias_at_lll_reduce,&__lll_reduce,0,true);
+
   // Utilities for Hermite and Smith normal forms
   static gen rem(const gen & p,const gen & q,environment * env){
     if (is_zero(p))

@@ -2264,12 +2264,32 @@ namespace giac {
 
   gen _coeff(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_USER){
+      if (galois_field * gptr=dynamic_cast<galois_field *>(g._USERptr))
+	return gptr->a;
+    }
     if (g.type==_VECT && !g._VECTptr->empty() && 
 	(g._VECTptr->back().type==_INT_ || g._VECTptr->back().type==_DOUBLE_)){
       vecteur v=*g._VECTptr;
       is_integral(v.back());
+      if (v.back().val<0)
+	return gendimerr(contextptr);
       int n=absint(v.back().val);
       v.pop_back();
+      if (v.size()==1 && v.front().type==_USER){
+	if (galois_field * gptr=dynamic_cast<galois_field *>(v.front()._USERptr)){
+	  gen ga=gptr->a;
+	  if (ga.type==_VECT){
+	    int s=ga._VECTptr->size();
+	    if (n>=s)
+	      return 0;
+	    n=s-1-n;
+	    if (n>=0 && n<s)
+	      return ga[n];
+	  }
+	  return gendimerr(contextptr);
+	}
+      }
       return primpartcontent(gen(v,g.subtype),n,contextptr);
     }
     if (xcas_mode(contextptr)==1 && g.type==_VECT && g._VECTptr->size()==2 && g._VECTptr->back().type==_IDNT){

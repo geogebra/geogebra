@@ -11456,8 +11456,11 @@ namespace giac {
     }
     gen attribut=attributs.empty()?default_color(contextptr):attributs[0];
     gen lieu_geo;
-    if (ckgeo2d && equation2geo2d(f_orig,x,y,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,undef,ckgeo2d,contextptr))
+    if (ckgeo2d && equation2geo2d(f_orig,x,y,lieu_geo,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,undef,ckgeo2d,contextptr)){
+      if (lieu_geo.type==_VECT && lieu_geo._VECTptr->empty())
+	return gensizeerr("Unable to parametrize geometric object, perhaps depending on a parameter");
       return put_attributs(lieu_geo,attributs,contextptr);
+    }
     // make a lattice between gnuplot_xmin/gnuplot_xmax and ymin/ymax
     // find zeros of f inside each square and follow the branches
     //bool is_regular=lop(f_orig,at_abs).empty() && lop(f_orig,at_sign).empty();
