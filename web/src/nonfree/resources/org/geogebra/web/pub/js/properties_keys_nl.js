@@ -1796,7 +1796,7 @@ __GGB__keysVar.nl.menu = {
     "Function.coth": "coth",
     "Function.csc": "cosec",
     "Function.csch": "csch",
-    "Function.fractionalPart": "partieelbreuk",
+    "Function.fractionalPart": "breukgedeelte",
     "Function.freehand": "Vrije hand",
     "Function.imaginary": "im",
     "Function.nroot": "nwortel",
