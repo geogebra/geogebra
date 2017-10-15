@@ -236,7 +236,8 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			Object source = event.getSource();
 			if (source == getSortMode()) {
 				int i = getSortMode().getSelectedIndex();
-				getApp().getSettings().getAlgebra().setTreeMode(i);
+				getApp().getSettings().getAlgebra()
+						.setTreeMode(supportedModes.get(i));
 			} else if (source == getCoordStyle()) {
 				int i = getCoordStyle().getSelectedIndex();
 				getApp().getKernel().setCoordStyle(i);

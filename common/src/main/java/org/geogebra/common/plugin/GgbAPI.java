@@ -1902,7 +1902,8 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	 * <br />
 	 * Fraction will be 0 or 1 unless specified otherwise with the
 	 * ExerciseBuilder. <br />
-	 * Result will be in {@link Result},i.e: <br />
+	 * Result will be in {@link org.geogebra.common.util.Assignment.Result},i.e:
+	 * <br />
 	 * CORRECT, The assignment is CORRECT <br />
 	 * WRONG, if the assignment is WRONG and we can't tell why <br />
 	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check
