@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -164,6 +165,12 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		});
 
 		setSpeedText(this.radioTreeItem.geo.getAnimationSpeed());
+
+		if (radioTreeItem.app.has(Feature.TAB_ON_GUI)) {
+			btnSpeedUp.ignoreTab();
+			btnSpeedDown.ignoreTab();
+		}
+
 		speedPanel.add(btnSpeedDown);
 		speedPanel.add(lblSpeedValue);
 		speedPanel.add(btnSpeedUp);
@@ -198,6 +205,9 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 							MaterialDesignResources.INSTANCE.pause_purple()
 									.getSafeUri(),
 							0, 0, 24, 24, false, false)));
+			if (radioTreeItem.app.has(Feature.TAB_ON_GUI)) {
+				btnPlay.ignoreTab();
+			}
 		} else {
 			btnPlay = new MyToggleButtonW(
 				GuiResourcesSimple.INSTANCE.icons_play_circle(),

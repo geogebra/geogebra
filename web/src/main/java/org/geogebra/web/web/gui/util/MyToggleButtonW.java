@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 
 	private HandlerRegistration actionListener;
+	private boolean ignoreTab = false;
 
 	/**
 	 * @param upText
@@ -180,4 +181,32 @@ public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 		// EV
 		event.stopPropagation();
 	}
+
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		if (ignoreTab) {
+			setTabIndex(-1);
+		}
+
+	}
+
+	/**
+	 * 
+	 * @return if button should ignore tab key.
+	 */
+	public boolean isIgnoreTab() {
+		return ignoreTab;
+	}
+
+	/**
+	 * FocusWidget sets tabIndex -1 to 0 automatically for accessibility
+	 * reasons. Call this to ignore this default behavior and really ignore tab
+	 * key.
+	 * 
+	 */
+	public void ignoreTab() {
+		this.ignoreTab = true;
+	}
+
 }

@@ -15,6 +15,7 @@ public class MyToggleButton extends ToggleButton {
 
 	private App app;
 	private Image image = null;
+	private boolean ignoreTab = false;
 
 	/**
 	 * @param image
@@ -61,5 +62,31 @@ public class MyToggleButton extends ToggleButton {
 			return;
 		}
 		image.setAltText(alt);
+	}
+
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		if (ignoreTab) {
+			setTabIndex(-1);
+		}
+	}
+
+	/**
+	 * 
+	 * @return if button should ignore tab key.
+	 */
+	public boolean isIgnoreTab() {
+		return ignoreTab;
+	}
+
+	/**
+	 * FocusWidget sets tabIndex -1 to 0 automatically for accessibility
+	 * reasons. Call this to ignore this default behavior and really ignore tab
+	 * key.
+	 * 
+	 */
+	public void ignoreTab() {
+		this.ignoreTab = true;
 	}
 }

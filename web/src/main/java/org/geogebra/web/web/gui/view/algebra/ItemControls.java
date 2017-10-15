@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -43,7 +44,7 @@ public class ItemControls extends FlowPanel
 	protected PushButton btnDelete;
 
 	/** opens context menu */
-	protected ToggleButton btnMore;
+	protected MyToggleButton btnMore;
 
 	/** animation controls */
 	protected AnimPanel animPanel = null;
@@ -103,11 +104,16 @@ public class ItemControls extends FlowPanel
 	 */
 	public ToggleButton getMoreButton() {
 		if (btnMore == null) {
-			btnMore = new ToggleButton(new Image(
+			btnMore = new MyToggleButton(
+					new Image(
 					new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.more_vert_black()
 									.getSafeUri(),
-							0, 0, 24, 24, false, false)));
+									0, 0, 24, 24, false, false)),
+					radioTreeItem.app);
+
+			btnMore.ignoreTab();
+
 			btnMore.getUpHoveringFace()
 					.setImage(new Image(new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE.more_vert_purple()
