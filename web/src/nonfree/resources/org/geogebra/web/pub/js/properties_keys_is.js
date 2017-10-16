@@ -1844,6 +1844,7 @@ __GGB__keysVar.is.menu = {
     "GraphicsViewAsAsymptote": "Myndagluggi sem vigurmynd",
     "GraphicsViewForPlaneA": "S\xfdn \xe1 %0",
     "Graphing": "Teikning",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graf\xedskur vasareiknir",
     "GraphingCalculator.short": "Graf\xedskur vasar.",
     "GraphingCalculator3D.Function3D": "z=f(x,y) f\xf6ll",

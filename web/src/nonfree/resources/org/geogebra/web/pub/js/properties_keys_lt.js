@@ -1844,6 +1844,7 @@ __GGB__keysVar.lt.menu = {
     "GraphicsViewAsAsymptote": "Grafinis vaizdas kaip asimptot\u0117",
     "GraphicsViewForPlaneA": "%0 vaizdas",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

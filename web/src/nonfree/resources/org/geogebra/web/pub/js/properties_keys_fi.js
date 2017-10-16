@@ -1844,6 +1844,7 @@ __GGB__keysVar.fi.menu = {
     "GraphicsViewAsAsymptote": "Piirtoalue Asymptote-muodossa",
     "GraphicsViewForPlaneA": "%0:n n\xe4kym\xe4",
     "Graphing": "Kuvaajan piirt\xe4minen",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graafinen laskin",
     "GraphingCalculator.short": "Graafinen laskin",
     "GraphingCalculator3D.Function3D": "z=f(x,y) funktiot",

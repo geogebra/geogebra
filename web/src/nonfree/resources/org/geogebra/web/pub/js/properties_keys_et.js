@@ -1844,6 +1844,7 @@ __GGB__keysVar.et.menu = {
     "GraphicsViewAsAsymptote": "Graafikavaade Asymptote'na",
     "GraphicsViewForPlaneA": "%0 vaade",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

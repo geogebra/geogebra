@@ -1844,6 +1844,7 @@ __GGB__keysVar.cs.menu = {
     "GraphicsViewAsAsymptote": "Grafick\xfd n\xe1hled jako Asymptote",
     "GraphicsViewForPlaneA": "Pohled na %0",
     "Graphing": "Grafy",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Grafick\xfd kalkul\xe1tor",
     "GraphingCalculator.short": "Grafick\xe1 kalkula\u010dka",
     "GraphingCalculator3D.Function3D": "Funkce z=f(x,y)",

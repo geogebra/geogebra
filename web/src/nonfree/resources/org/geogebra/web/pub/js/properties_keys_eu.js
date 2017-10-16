@@ -1844,6 +1844,7 @@ __GGB__keysVar.eu.menu = {
     "GraphicsViewAsAsymptote": "Ikuspegi Grafikoa Asintota gisa",
     "GraphicsViewForPlaneA": "%0-(r)en ikuspegia",
     "Graphing": "Grafikatzea",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Kalkulagailu Grafikoa",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) funtzioak",

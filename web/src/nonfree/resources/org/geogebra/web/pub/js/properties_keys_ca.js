@@ -1844,6 +1844,7 @@ __GGB__keysVar.ca.menu = {
     "GraphicsViewAsAsymptote": "Finestra gr\xe0fica com a Asymptote",
     "GraphicsViewForPlaneA": "Finestra gr\xe0fica de %0",
     "Graphing": "Gr\xe0fics",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Calculadora gr\xe0fica",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "Funcions z=f(x,y)",

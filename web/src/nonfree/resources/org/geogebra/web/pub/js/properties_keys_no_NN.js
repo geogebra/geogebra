@@ -1844,6 +1844,7 @@ __GGB__keysVar.no_NN.menu = {
     "GraphicsViewAsAsymptote": "Grafikkfelt som Asymptote",
     "GraphicsViewForPlaneA": "Grafikkfelt for %0",
     "Graphing": "Graf",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Grafisk kalkulator",
     "GraphingCalculator.short": "Grafisk kalkulator",
     "GraphingCalculator3D.Function3D": "z=f(x,y) funksjonar",

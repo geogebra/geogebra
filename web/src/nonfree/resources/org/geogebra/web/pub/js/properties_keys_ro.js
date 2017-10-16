@@ -1844,6 +1844,7 @@ __GGB__keysVar.ro.menu = {
     "GraphicsViewAsAsymptote": "Bloc de desen pentru Asymptote",
     "GraphicsViewForPlaneA": "Vizualizare a %0",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

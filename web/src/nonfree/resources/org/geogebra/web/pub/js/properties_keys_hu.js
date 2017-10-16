@@ -1844,6 +1844,7 @@ __GGB__keysVar.hu.menu = {
     "GraphicsViewAsAsymptote": "Rajzlap Asymptote k\xf3dk\xe9nt",
     "GraphicsViewForPlaneA": "%0 s\xedkbeli n\xe9zet",
     "Graphing": "F\xfcggv\xe9ny\xe1br\xe1zol\xe1s",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Grafikus sz\xe1mol\xf3g\xe9p",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

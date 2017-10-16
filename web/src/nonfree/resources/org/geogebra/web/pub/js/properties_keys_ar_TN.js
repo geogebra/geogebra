@@ -1844,6 +1844,7 @@ __GGB__keysVar.ar_TN.menu = {
     "GraphicsViewAsAsymptote": "\u0627\u0644\u0631\u0633\u0645 \u0628\u062e\u0637 \u0645\u062a\u0642\u0627\u0631\u0628",
     "GraphicsViewForPlaneA": "\u0645\u0646\u0638\u0648\u0631 \u0644\u0640 %0",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

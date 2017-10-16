@@ -1844,6 +1844,7 @@ __GGB__keysVar.lv.menu = {
     "GraphicsViewAsAsymptote": "Grafisks Skats k\u0101 Asimptota",
     "GraphicsViewForPlaneA": "Skats %0",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

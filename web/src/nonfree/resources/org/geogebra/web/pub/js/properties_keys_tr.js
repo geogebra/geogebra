@@ -1844,6 +1844,7 @@ __GGB__keysVar.tr.menu = {
     "GraphicsViewAsAsymptote": "Asimtot olarak Grafik G\xf6r\xfcn\xfcm\xfc",
     "GraphicsViewForPlaneA": "%0'\u0131n G\xf6r\xfcn\xfcm\xfc",
     "Graphing": "Grafik \xc7izme",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Grafik \xc7izen Hesap Makinesi",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) fonksiyonlar\u0131",

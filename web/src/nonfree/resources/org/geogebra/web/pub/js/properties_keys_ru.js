@@ -1844,6 +1844,7 @@ __GGB__keysVar.ru.menu = {
     "GraphicsViewAsAsymptote": "Asymptote",
     "GraphicsViewForPlaneA": "\u0412\u0438\u0434 %0",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "\u0413\u0440\u0430\u0444\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043a\u0430\u043b\u044c\u043a\u0443\u043b\u044f\u0442\u043e\u0440",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

@@ -1844,6 +1844,7 @@ __GGB__keysVar.ko.menu = {
     "GraphicsViewAsAsymptote": "\uae30\ud558\ucc3d\uc744 Asymptote\ub85c \uc800\uc7a5",
     "GraphicsViewForPlaneA": "%0 \uae30\ud558\ucc3d",
     "Graphing": "\uadf8\ub798\ud53d \uacc4\uc0b0\uae30",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "\uadf8\ub798\ud53d \uacc4\uc0b0\uae30",
     "GraphingCalculator.short": "\uadf8\ub798\ud53d \uacc4\uc0b0\uae30",
     "GraphingCalculator3D.Function3D": "z=f(x,y) \ud568\uc218",

@@ -1844,6 +1844,7 @@ __GGB__keysVar.zh_TW.menu = {
     "GraphicsViewAsAsymptote": "\u532f\u51fa Asymptote \u6a94",
     "GraphicsViewForPlaneA": "%0 \u7684\u5e73\u9762\u5716",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "\u8a08\u7b97\u8207\u7e6a\u5716",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

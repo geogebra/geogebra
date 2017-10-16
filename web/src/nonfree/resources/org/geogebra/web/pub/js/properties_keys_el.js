@@ -1844,6 +1844,7 @@ __GGB__keysVar.el.menu = {
     "GraphicsViewAsAsymptote": "\u03a0\u03c1\u03bf\u03b2\u03bf\u03bb\u03ae \u0393\u03c1\u03b1\u03c6\u03b9\u03ba\u03ce\u03bd \u03c9\u03c2 Asymptote",
     "GraphicsViewForPlaneA": "\u03a0\u03c1\u03bf\u03b2\u03bf\u03bb\u03ae \u03c4\u03bf\u03c5/\u03c4\u03b7\u03c2  %0",
     "Graphing": "\u0393\u03c1\u03b1\u03c6\u03b9\u03ba\u03ae \u03a0\u03b1\u03c1\u03ac\u03c3\u03c4\u03b1\u03c3\u03b7",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "\u03a5\u03c0\u03bf\u03bb\u03bf\u03b3\u03b9\u03c3\u03c4\u03ae\u03c2 \u0393\u03c1\u03b1\u03c6\u03b9\u03ba\u03ce\u03bd",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "\u03a3\u03c5\u03bd\u03b1\u03c1\u03c4\u03ae\u03c3\u03b5\u03b9\u03c2 z=f(x,y)",

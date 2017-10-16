@@ -1844,6 +1844,7 @@ __GGB__keysVar.da.menu = {
     "GraphicsViewAsAsymptote": "Grafisk visning som Asymptote",
     "GraphicsViewForPlaneA": "Visning af %0",
     "Graphing": "Graf",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Grafisk regnemaskine",
     "GraphingCalculator.short": "Grafisk lommeregner",
     "GraphingCalculator3D.Function3D": "z=f(x,y) funktioner",

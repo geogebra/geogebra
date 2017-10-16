@@ -1844,6 +1844,7 @@ __GGB__keysVar.sk.menu = {
     "GraphicsViewAsAsymptote": "Geometrick\xfd vzh\u013ead ako Asymptote",
     "GraphicsViewForPlaneA": "Vzh\u013ead toho: %0",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

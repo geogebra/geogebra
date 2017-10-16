@@ -1844,6 +1844,7 @@ __GGB__keysVar.ms.menu = {
     "GraphicsViewAsAsymptote": "Paparan Grafik sebagai Asimptot",
     "GraphicsViewForPlaneA": "Paparan %0",
     "Graphing": "Pengrafan",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

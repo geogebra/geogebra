@@ -1844,6 +1844,7 @@ __GGB__keysVar.sv.menu = {
     "GraphicsViewAsAsymptote": "Ritomr\xe5de som Asymptote",
     "GraphicsViewForPlaneA": "Vy av %0",
     "Graphing": "Grafanalys",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Grafr\xe4knare",
     "GraphingCalculator.short": "Grafr\xe4knare",
     "GraphingCalculator3D.Function3D": "z=f(x,y) funktioner",

@@ -1844,6 +1844,7 @@ __GGB__keysVar.sl.menu = {
     "GraphicsViewAsAsymptote": "Pribli\u017eni grafi\u010dni izgled",
     "GraphicsViewForPlaneA": "Pogled %0",
     "Graphing": "Graf",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Grafi\u010dno ra\u010dunalo",
     "GraphingCalculator.short": "Grafi\u010dni kalkulator",
     "GraphingCalculator3D.Function3D": "Funkcije oblike z=f(x,y)",

@@ -1844,6 +1844,7 @@ __GGB__keysVar.sr.menu = {
     "GraphicsViewAsAsymptote": "Grafi\u010dki prikaz kao Asymptote",
     "GraphicsViewForPlaneA": "Prikaz za %0",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",

@@ -1844,6 +1844,7 @@ __GGB__keysVar.sq.menu = {
     "GraphicsViewAsAsymptote": "Pamja Grafikore si Asimptote",
     "GraphicsViewForPlaneA": "Pamja e %0",
     "Graphing": "Graphing",
+    "Graphing3D": "3D Graphing Calculator",
     "GraphingCalculator": "Graphing Calculator",
     "GraphingCalculator.short": "Graphing Calc",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",
