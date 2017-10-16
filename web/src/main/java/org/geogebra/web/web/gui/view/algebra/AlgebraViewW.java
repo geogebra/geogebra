@@ -2376,7 +2376,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private int getDefaultAVWidth() {
 		return (int) (app.getWidth()
-				* PerspectiveDecoder.landscapeRatio(app.getWidth()));
+				* PerspectiveDecoder.landscapeRatio(app, app.getWidth()));
 	}
 
 

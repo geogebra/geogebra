@@ -49,7 +49,6 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class DockManagerW extends DockManager {
 	private static final int PAGE_HEADER_HEIGHT = 32;
-	private static final int MIN_TOOLBAR_WIDTH = 382;
 	public static final int DEFAULT_KEYBOARD_HEIGHT = 228;
 	AppW app;
 	private LayoutW layout;
@@ -1842,9 +1841,8 @@ public class DockManagerW extends DockManager {
 		// .newExtendedBoolean(app.getWidth() < app.getHeight());
 		if (force || old != portrait) {
 			// run only if oreintation has changed;
-			final double landscape = app.isUnbundled()
-					? MIN_TOOLBAR_WIDTH / app.getWidth()
-					: PerspectiveDecoder.landscapeRatio(app.getWidth());
+			final double landscape = PerspectiveDecoder.landscapeRatio(app,
+					app.getWidth());
 
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 

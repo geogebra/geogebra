@@ -216,7 +216,7 @@ public class LoadFilePresenter {
 						}
 						if (width > 0) {
 							double ratio = PerspectiveDecoder
-									.landscapeRatio(width);
+									.landscapeRatio(app, width);
 							pd.getSplitPaneData()[0].setDivider(ratio);
 						}
 					}

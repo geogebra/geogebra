@@ -722,7 +722,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 					width = Window.getClientWidth();
 				}
 				toolbarPanel.setLastOpenWidth((int) (width
-						* PerspectiveDecoder.landscapeRatio(width)));
+						* PerspectiveDecoder.landscapeRatio(app, width)));
 			}
 		}
 	}

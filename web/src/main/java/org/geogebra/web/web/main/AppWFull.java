@@ -399,7 +399,8 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 									articleElement.getDataParamPerspective())));
 		} else {
 			p.getSplitPaneData()[0]
-					.setDivider(PerspectiveDecoder.landscapeRatio(getWidth()));
+					.setDivider(PerspectiveDecoder.landscapeRatio(this,
+							getWidth()));
 
 		}
 
