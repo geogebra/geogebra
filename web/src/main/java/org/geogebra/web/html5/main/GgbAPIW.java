@@ -330,14 +330,11 @@ public class GgbAPIW extends GgbAPI {
 	}-*/;
 
 	private native boolean pngExporterLoaded() /*-{
-		console.log("pngencoder? "
-				+ !!($wnd.CanvasTool && $wnd.CanvasTool.PngEncoder));
 		return !!($wnd.CanvasTool && $wnd.CanvasTool.PngEncoder);
 	}-*/;
 
 	private native String getExportImageDataUrl(CanvasElement canvas,
 			double dpi) /*-{
-		console.log("getExportImageDataUrl " + dpi);
 
 		// convert dots per inch into dots per metre
 		var pixelsPerM = dpi * 100 / 2.54;
