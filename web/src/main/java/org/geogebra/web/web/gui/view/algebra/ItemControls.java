@@ -14,6 +14,7 @@ import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.view.algebra.AnimPanel.AnimPanelListener;
 
 import com.google.gwt.core.client.Scheduler;
@@ -66,7 +67,9 @@ public class ItemControls extends FlowPanel
 		buildGUI();
 		if (hasMoreMenu() && radioTreeItem.geo != null) {
 			add(getMoreButton());
+			btnMore.setTabIndex(GUITabs.NO_TAB);
 		}
+		getElement().setTabIndex(GUITabs.NO_TAB);
 	}
 
 	/**
@@ -122,7 +125,6 @@ public class ItemControls extends FlowPanel
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
 			btnMore.addStyleName("more");
-
 			ClickStartHandler.init(btnMore, new ClickStartHandler(true, true) {
 
 				@Override

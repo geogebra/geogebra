@@ -13,6 +13,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -516,8 +517,10 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		@Override
 		public void onBrowserEvent(Event event) {
-			if (DOM.eventGetType(event) == Event.ONMOUSEOVER) {
-				MenuItem item = findItem(DOM.eventGetTarget(event));
+			MenuItem item = null;
+			switch (DOM.eventGetType(event)) {
+			case Event.ONMOUSEOVER:
+				item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
 					if ("true".equals(item.getElement()
 							.getAttribute("hasPopup"))) {
@@ -529,9 +532,16 @@ public class GPopupMenuW implements AttachedToDOM {
 						removeSubPopup();
 					}
 				}
+				break;
+			case Event.ONKEYDOWN:
+				char keyCode = (char) event.getKeyCode();
+				if (keyCode == KeyCodes.KEY_ESCAPE) {
+					popupPanel.hide();
+				}
+
+				break;
 			}
 			super.onBrowserEvent(event);
 		}
 	}
-
 }

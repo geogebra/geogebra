@@ -619,6 +619,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 								.setPopupPosition(
 										(int) app.getWidth() - offsetWidth,
 										y);
+						contextMenu.focusDeferred();
 					}
 				});
 

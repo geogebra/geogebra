@@ -231,7 +231,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// needed to have an element with tabindex > 0 with focus to catch
 		// keyboard events
-		this.getElement().setAttribute("tabindex", "5000");
+		this.getElement().setTabIndex(GUITabs.AV_TREE);
 		this.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		this.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		this.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
@@ -1272,8 +1272,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	final public int getInsertPosition(TreeItem parent,
 			GeoElement newGeo, SortMode mode) {
-		// label of inserted geo
-		// String newLabel = newGeo.getLabel();
 
 		// standard case: binary search
 		int left = 0;
@@ -1283,7 +1281,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		// bigger then last?
 		TreeItem node = getItem(parent, right - 1);
-		// String nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 		if (node.getUserObject() == null) {
 			if (right == 1) {
 				return 0;
@@ -1300,7 +1297,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		while (right > left) {
 			int middle = (left + right) / 2;
 			node = getItem(parent, middle);
-			// nodeLabel = ((GeoElement) node.getUserObject()).getLabel();
 			geo2 = ((GeoElement) node.getUserObject());
 
 			if (!compare(newGeo, geo2, mode)) {
@@ -1509,10 +1505,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 		}
 		showAlgebraInput(forceKeyboard);
-		if (app.has(Feature.TAB_ON_GUI) && inputPanelTreeItem != null) {
-			inputPanelTreeItem.getElement().setTabIndex(GUITabs.AV_TAB_START);
-		}
-
 	}
 
 	private RadioTreeItem createInputPanel() {

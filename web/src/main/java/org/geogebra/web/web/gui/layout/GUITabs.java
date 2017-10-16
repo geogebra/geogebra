@@ -18,16 +18,15 @@ public class GUITabs {
 	/** Start tab index of zoom buttons */
 	public static final int ZOOMPANEL_TAB_START = 3000;
 
-	/** Start tab index of algebra widgets */
-	public static final int AV_TAB_START = 4000;
-
-	/** Maximum tab count within one AV item */
-	public static final int AV_MAX_TABS_IN_ITEM = 50;
-
 	/** Tab index of floating move button in Tools tab. */
 	public static final int TOOLS_MOVE_TAB = 4900;
 
 	/** Tab index of the + button in AV Input. */
-	public static final int AV_PLUS = AV_TAB_START + 1;
+	public static final int AV_PLUS = 5500;
+
+	/**
+	 * AV Tree tab index (for keyboard events only, no tab key should go there).
+	 */
+	public static final int AV_TREE = 6000;
 
 }
