@@ -824,15 +824,17 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		for (int i = 0; i < 2; i++) {
 			ExpressionValue a1 = args.get(i).unwrap();
 			if (a1 instanceof GeoPlaneND) {
-				Command cmd = new Command(((GeoPlaneND) a1).getKernel(),
-						"Plane",
-						false);
-				cmd.addArgument(a1.wrap());
-				args.set(i, cmd.wrap());
+				args.set(i, asPlane(a1, ((GeoPlaneND) a1).getKernel()));
 			}
 		}
 		sbCASCommand.setLength(0);
 		sbCASCommand.append("Intersect.2");
+	}
+
+	private static ExpressionNode asPlane(ExpressionValue a1, Kernel kernel) {
+		Command cmd = new Command(kernel, "Plane", false);
+		cmd.addArgument(a1.wrap());
+		return cmd.wrap();
 	}
 
 	private static GeoElementND computeWithGGB(Kernel kern, String name,

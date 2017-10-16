@@ -16,7 +16,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Adjusts position of absolutely positioned elements (texts, buttons, lists,
@@ -89,7 +88,6 @@ public class LayoutAbsoluteGeos {
 	 * from file.
 	 */
 	public void reset() {
-		Log.debug("[LayoutAbsoluteGeos] reset ");
 		for (AbsoluteScreenLocateable loc : originals) {
 			ScreenLocation screenLoc = ((GeoElement) loc).getScreenLocation();
 			if (screenLoc != null) {

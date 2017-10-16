@@ -5083,4 +5083,14 @@ public class GeoGebraCasIntegrationTest {
 		t("m := Tangent(2,f)", "y = 4 * x - 8");
 		t("Solve(m(x)=-4)", "{x = 1}");
 	}
+
+	@Test
+	public void intersectShouldAcceptInputBarPlanes() {
+		in("e:x+0z=1");
+		in("f:y+z=2");
+		t("Intersect(e,f)",
+				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
+		t("Intersect(Plane(x+0z=1),Plane(y+z=2))",
+				"X = (1, 1, 1) + " + Unicode.lambda + " * (0, -1, 1)");
+	}
 }
