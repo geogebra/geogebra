@@ -892,7 +892,10 @@ public class ToolCategorization {
     }
 
     final private void addToList(ArrayList<Integer> toolList, int mode) {
-        if (availableTools == null || availableTools.contains(mode)) {
+		if (availableTools == null || availableTools.contains(mode)
+				|| (app.getSettings().getToolbarSettings().getType()
+						.equals(AppType.GRAPHER_3D)
+						&& mode == EuclidianConstants.MODE_POLYLINE)) {
             toolList.add(mode);
         }
     }
