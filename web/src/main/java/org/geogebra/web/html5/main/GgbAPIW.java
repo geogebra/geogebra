@@ -138,8 +138,11 @@ public class GgbAPIW extends GgbAPI {
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView());
 
-		if (MyDouble.isFinite(DPI) && DPI > 0 && ev instanceof EuclidianViewW
-				&& pngExporterLoaded()) {
+		if (MyDouble.isFinite(DPI) && DPI > 0 && ev instanceof EuclidianViewW) {
+
+			JavaScriptInjector
+					.inject(GuiResourcesSimple.INSTANCE.pngEncoder());
+
 			Canvas canvas = ((EuclidianViewW) ev).getExportImageCanvas(
 					exportScale, transparent);
 
@@ -337,10 +340,6 @@ public class GgbAPIW extends GgbAPI {
 		return function(b) {
 			callback.@org.geogebra.web.html5.main.StringHandler::handle(Ljava/lang/String;)(b);
 		};
-	}-*/;
-
-	private native boolean pngExporterLoaded() /*-{
-		return !!($wnd.CanvasTool && $wnd.CanvasTool.PngEncoder);
 	}-*/;
 
 	private native String getExportImageDataUrl(CanvasElement canvas,
