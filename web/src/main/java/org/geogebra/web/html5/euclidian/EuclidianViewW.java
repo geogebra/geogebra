@@ -29,6 +29,7 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.awt.PrintableW;
+import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -40,6 +41,7 @@ import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
+import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -344,6 +346,8 @@ public class EuclidianViewW extends EuclidianView implements
 	public String getExportSVG(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
+
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Svg());
 
 		JavaScriptObject ctx = getCanvas2SVG(width, height);
 
