@@ -76,6 +76,31 @@ public class ExportMenuW extends MenuBar {
 						dialogEvent("exportPNG");
 					}
 				});
+
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+				// translation not needed
+				.getSafeUri().asString(), "svg", true), true,
+				new MenuCommand(app) {
+
+					@Override
+					public void execute() {
+						hide();
+						app.toggleMenu();
+						app.getActiveEuclidianView()
+								.setSelectionRectangle(null);
+						app.getActiveEuclidianView().getEuclidianController()
+								.clearSelections();
+						String svg = "data:text/plain;charset=utf-8,"
+								+ ((EuclidianViewWInterface) app
+								.getActiveEuclidianView()).getExportSVG(1,
+										false);
+
+						app.getFileManager().showExportAsPictureDialog(svg,
+								app.getExportTitle(), "svg", "ExportAsPicture",
+								app);
+						dialogEvent("exportSVG");
+					}
+				});
 		// TODO add gif back when ready
 		// if (!app.getLAF().isTablet()) {
 		// addItem(MainMenu.getMenuBarHtml(

@@ -88,4 +88,6 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	public void updateFirstAndLast(boolean attach, boolean anyway);
 
 	public void setAltText();
+
+	public String getExportSVG(double scale, boolean transparency);
 }

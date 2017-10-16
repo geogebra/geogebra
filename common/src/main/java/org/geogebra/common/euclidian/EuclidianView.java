@@ -5747,12 +5747,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void exportPaintPre(GGraphics2D g2d, double scale,
 			boolean transparency) {
 
+		// canvas2svg library goes wrong with clipping for some reason
+		boolean useClipping = !app.getExportType().equals(ExportType.SVG)
+				|| !app.isHTML5Applet();
+
 		exportPaintPreScale(g2d, scale);
 
 		// clipping on selection rectangle
 		if (getSelectionRectangle() != null) {
 			GRectangle rect = getSelectionRectangle();
-			g2d.setClip(0, 0, (int) rect.getWidth(), (int) rect.getHeight());
+			if (useClipping) {
+				g2d.setClip(0, 0, (int) rect.getWidth(),
+						(int) rect.getHeight());
+			}
 			g2d.translate(-rect.getX(), -rect.getY());
 			// Application.debug(rect.x+" "+rect.y+" "+rect.width+"
 			// "+rect.height);
@@ -5779,11 +5786,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				int exportWidth = (int) Math.abs(x1 - x2) + 2;
 				int exportHeight = (int) Math.abs(y1 - y2) + 2;
 
-				g2d.setClip(0, 0, exportWidth, exportHeight);
+				if (useClipping) {
+					g2d.setClip(0, 0, exportWidth, exportHeight);
+				}
 				g2d.translate(-x, -y);
 			} catch (Exception e) {
 				// or take full euclidian view
-				g2d.setClip(0, 0, getWidth(), getHeight());
+				if (useClipping) {
+					g2d.setClip(0, 0, getWidth(), getHeight());
+				}
 			}
 		}
 
@@ -6073,7 +6084,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public boolean isCoordSystemTranslatedByAnimation() {
 		return coordSystemTranslatedByAnimation;
 	}
-
 
 	public abstract void readText(String text);
 
