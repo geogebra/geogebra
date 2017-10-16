@@ -45,7 +45,6 @@ public class ToolbarDockPanelW extends DockPanelW {
 
 		if (activePerspective == Perspective.GRAPHER_3D - 1) {
 			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GRAPHER_3D);
-			app.getSettings().getToolbarSettings().setToolsetLevel(ToolsetLevel.ADVANCED);
 		}
 		if (activePerspective == Perspective.GEOMETRY - 1) {
 			app.getSettings().getToolbarSettings().setType(ToolCategorization.AppType.GEOMETRY_CALC);
