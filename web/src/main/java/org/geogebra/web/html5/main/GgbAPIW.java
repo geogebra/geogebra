@@ -356,14 +356,8 @@ public class GgbAPIW extends GgbAPI {
 			width : canvas.width
 		};
 
-		var arraylike = canvas.getContext('2d').getImageData(0, 0,
-				canvas.width, canvas.height).data;
-
-		// arraylike2array
-		var array = [], i = 0, l = arraylike.length;
-		for (; i < l; i++) {
-			array.push(arraylike[i]);
-		}
+		var array = canvas.getContext('2d').getImageData(0, 0, canvas.width,
+				canvas.height).data;
 
 		var png = new $wnd.CanvasTool.PngEncoder(array, param).convert();
 
