@@ -9,8 +9,15 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Listener for MouseDown and TouchStart
+ *
+ */
 public abstract class ClickStartHandler {
-
+	/** whether to prevent default behavior */
+	boolean preventDefault = false;
+	/** whether to stop propagation */
+	boolean stopPropagation = false;
 	/**
 	 * Attaches a handler for MouseDownEvents and a TouchStartEvents to the
 	 * widget. CancelEventTimer is used to prevent duplication of events.
@@ -69,9 +76,6 @@ public abstract class ClickStartHandler {
 		 * }, TouchMoveEvent.getType());
 		 */
 	}
-
-	boolean preventDefault = false;
-	boolean stopPropagation = false;
 
 	/**
 	 * creates the base version of a ClickEventHandler.

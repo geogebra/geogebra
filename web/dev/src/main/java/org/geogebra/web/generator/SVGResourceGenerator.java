@@ -43,7 +43,6 @@ public class SVGResourceGenerator extends AbstractResourceGenerator {
 	@Override
 	public String createAssignment(TreeLogger logger, ResourceContext context,
 	        JMethod method) throws UnableToCompleteException {
-		System.out.println(method.getName());
 		// Extract the SVG name from the @Source annotation
 		URL[] resources = ResourceGeneratorUtil.findResources(logger, context,
 		        method);

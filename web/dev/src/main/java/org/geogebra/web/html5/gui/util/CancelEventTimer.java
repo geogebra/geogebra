@@ -113,20 +113,29 @@ public class CancelEventTimer {
 		avRestoreWidthEvent = System.currentTimeMillis();
 	}
 
+	/**
+	 * @return whether AV restore happened recently
+	 */
 	public static boolean cancelAVRestoreWidth() {
 		return System.currentTimeMillis()
 				- avRestoreWidthEvent < TIME_BEFORE_RESTORING_AV_WIDTH;
 	}
 
-	public static void killTouch(Widget evPanel) {
-		evPanel.addDomHandler(new TouchStartHandler() {
+	/**
+	 * Prevent default for touch up and down in given widget
+	 * 
+	 * @param panel
+	 *            widget
+	 */
+	public static void killTouch(Widget panel) {
+		panel.addDomHandler(new TouchStartHandler() {
 
 			public void onTouchStart(TouchStartEvent event) {
 				event.preventDefault();
 
 			}
 		}, TouchStartEvent.getType());
-		evPanel.addDomHandler(new TouchMoveHandler() {
+		panel.addDomHandler(new TouchMoveHandler() {
 
 			public void onTouchMove(TouchMoveEvent event) {
 				event.preventDefault();
