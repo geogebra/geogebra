@@ -428,7 +428,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (ev != null) {
 			int evTop = ev.getAbsoluteTop() - (int) app.getAbsTop();
 			int evLeft = ev.getAbsoluteLeft() - (int) app.getAbsLeft();
-			if ((evLeft == 0) && !app.isPortrait()) {
+			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}
 			int move = app.isPortrait() ? 48 : 0;

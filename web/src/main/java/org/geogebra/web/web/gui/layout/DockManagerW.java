@@ -736,13 +736,24 @@ public class DockManagerW extends DockManager {
 	}
 
 	private void setDividerLocation(DockSplitPaneW splitPane,
-	        double dividerLocation) {
-		final double dividerLoc = dividerLocation;
+			final double dividerLocation) {
 		final DockSplitPaneW sp = splitPane;
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
             public void execute() {
-				sp.setDividerLocation(dividerLoc);
+				sp.setDividerLocation(dividerLocation);
+				rootPane.deferredOnResize();
+			}
+		});
+	}
+
+	private void setDividerLocationAbs(DockSplitPaneW splitPane,
+			final int dividerLocation) {
+		final DockSplitPaneW sp = splitPane;
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+			@Override
+			public void execute() {
+				sp.setDividerLocation(dividerLocation);
 				rootPane.deferredOnResize();
 			}
 		});
@@ -1913,7 +1924,7 @@ public class DockManagerW extends DockManager {
 				ratio = ToolbarPanel.CLOSED_WIDTH_LANDSCAPE / app.getWidth();
 			}
 
-			setDividerLocation(split, ratio);
+			setDividerLocationAbs(split, (int) (ratio * app.getWidth()));
 		}
 
 		split.clear();

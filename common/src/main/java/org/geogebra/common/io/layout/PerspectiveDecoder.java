@@ -118,7 +118,7 @@ public class PerspectiveDecoder {
 	 */
 	public static double landscapeRatio(App app, double width) {
 		if (app.isUnbundled()) {
-			return MIN_TOOLBAR_WIDTH / app.getWidth();
+			// return MIN_TOOLBAR_WIDTH / app.getWidth();
 		}
 		if (width < 300) {
 			return 2.0 / 3.0;

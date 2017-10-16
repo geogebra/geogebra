@@ -348,7 +348,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		}
 		if (!this.getAppletFrame().isHeaderPanelOpen()) {
-			adjustViews(true, false);
+			adjustViews(true, isUnbundled());
 		}
 	}
 
