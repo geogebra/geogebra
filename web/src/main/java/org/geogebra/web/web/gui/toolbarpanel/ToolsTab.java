@@ -135,7 +135,9 @@ class ToolsTab extends ToolbarPanel.ToolbarTab implements TabHandler {
 		ToolsetLevel level = app.getSettings().getToolbarSettings()
 				.getToolsetLevel();
 		
-		if (type.equals(AppType.GRAPHING_CALCULATOR)) {
+		if (type.equals(AppType.GRAPHING_CALCULATOR)
+				|| (type.equals(AppType.GRAPHER_3D)
+						&& app.has(Feature.UNBUNDLED_3D_APP))) {
 			switch (level) {
 			case STANDARD:
 				toolsPanel.add(moreBtn);
