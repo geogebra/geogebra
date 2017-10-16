@@ -249,4 +249,8 @@ public class AlgebraItem {
 		return geo instanceof GeoText && !((GeoText) geo).isLaTeX()
 				&& !(geo).isTextCommand();
 	}
+
+	public static boolean shouldShowOutputButton(GeoElement geo) {
+		return isSymbolicDiffers(geo) && !isTextItem(geo);
+	}
 }
