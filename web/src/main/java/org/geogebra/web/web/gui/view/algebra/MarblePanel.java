@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.view.algebra;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -17,12 +18,16 @@ import org.geogebra.web.web.gui.layout.GUITabs;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * @author Zbynek
  */
-public class MarblePanel extends FlowPanel implements SetLabels {
+public class MarblePanel extends FlowPanel
+		implements SetLabels, KeyDownHandler {
 	
 	private Marble marble;
 	private boolean selected = false;
@@ -143,7 +148,9 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		}
 		
 		btn.setTitle(tooltip);
-		
+		if (item.app.has(Feature.TAB_ON_GUI)) {
+			btn.setAltText(tooltip);
+		}
 		if (warning && !textInput) {
 			remove(marble);
 			add(btn);
@@ -255,18 +262,8 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 				
 				@Override
 				public void onClickStart(int x, int y, PointerEventType type) {
-					if (noPlus) {
-						return;
-					}
-					
-					if (cmPlus == null) {
-						cmPlus = new ContextMenuAVPlus(item);
-					}
-					item.cancelEditing();
-					cmPlus.show(btnPlus.getAbsoluteLeft() + 16,
-							btnPlus.getAbsoluteTop() + 6);
+					onPlusPressed();
 				}
-				
 			});
 		}
 		
@@ -283,9 +280,11 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 		btnPlus.getDownHoveringFace().setImage(hoverImg);
 		if (item.getApplication().has(Feature.TAB_ON_GUI)) {
 			btnPlus.setTabIndex(GUITabs.AV_PLUS);
+			btnPlus.addKeyDownHandler(this);
+			btnPlus.setAltText(btnPlus.getTitle());
 		}
 	}
- 
+
 	/**
 	 * @return help button
 	 */
@@ -306,6 +305,20 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	 */
 	public MyToggleButton getBtnPlus() {
 		return btnPlus;
+	}
+
+	/** Plus button handler */
+	void onPlusPressed() {
+		if (noPlus) {
+			return;
+		}
+
+		if (cmPlus == null) {
+			cmPlus = new ContextMenuAVPlus(item);
+		}
+		item.cancelEditing();
+		cmPlus.show(btnPlus.getAbsoluteLeft() + 16,
+				btnPlus.getAbsoluteTop() + 6);
 	}
 
 	@Override
@@ -359,6 +372,18 @@ public class MarblePanel extends FlowPanel implements SetLabels {
 	public void focusPlusButton() {
 		if (btnPlus != null) {
 			btnPlus.getElement().focus();
+		}
+	}
+
+	public void onKeyDown(KeyDownEvent event) {
+		Object source = event.getSource();
+		int key = event.getNativeKeyCode();
+		if (source == btnPlus) {
+			if (key == KeyCodes.KEY_TAB) {
+				Log.debug("tabonplussss");
+			} else if (key == KeyCodes.KEY_ENTER || key == KeyCodes.KEY_SPACE) {
+				onPlusPressed();
+			}
 		}
 	}
 }
