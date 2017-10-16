@@ -35,15 +35,19 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 	}
 
 	private void initActions() {
-		addGraphingGeometryMenuItems("graphing", "GraphingCalculator",
+		addMenuItem("graphing", "GraphingCalculator",
 				MaterialDesignResources.INSTANCE.graphing());
-		addGraphingGeometryMenuItems("geometry", "Geometry",
+		addMenuItem("geometry", "Geometry",
 				MaterialDesignResources.INSTANCE.geometry());
-		addGraphingGeometryMenuItems("classic", "math_apps",
+		if (app.has(Feature.UNBUNDLED_3D_APP)) {
+			addMenuItem("3d", "Graphing3D",
+				MaterialDesignResources.INSTANCE.graphing3D());
+		}
+		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
 	}
 
-	private void addGraphingGeometryMenuItems(String appId,
+	private void addMenuItem(String appId,
 			String translationKey,
 			ResourcePrototype icon) {
 		StringBuilder link = new StringBuilder("https://www.geogebra.org/");

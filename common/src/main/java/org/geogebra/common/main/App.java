@@ -1,5 +1,14 @@
 package org.geogebra.common.main;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.Vector;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.awt.GBufferedImage;
@@ -84,15 +93,6 @@ import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.Vector;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -4347,6 +4347,10 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2118 */
 		case PREVIEW_POINTS:
+			return prerelease;
+
+		/** GGB-2127 */
+		case UNBUNDLED_3D_APP:
 			return prerelease;
 
 		default:

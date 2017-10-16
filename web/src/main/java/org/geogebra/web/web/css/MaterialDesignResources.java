@@ -308,6 +308,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/geometry.svg")
 	SVGResource geometry();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/graphing3D.svg")
+	SVGResource graphing3D();
+
 	@Source("org/geogebra/common/icons/png/matDesignIcons/burgerMenu/whiteboard.png")
 	ImageResource whiteboard();
 

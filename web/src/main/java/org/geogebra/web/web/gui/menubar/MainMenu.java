@@ -300,22 +300,29 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				this.menuPanel.addStyleName("menuPanel");
 			}
 		} else {
-			SVGResource icon = app.getSettings().getToolbarSettings()
-					.getType().equals(AppType.GRAPHING_CALCULATOR)
+			AppType appType = app.getSettings().getToolbarSettings().getType();
+			SVGResource icon = appType.equals(AppType.GRAPHING_CALCULATOR)
 							? MaterialDesignResources.INSTANCE.graphing()
-							: MaterialDesignResources.INSTANCE.geometry();
+					: (appType.equals(AppType.GRAPHER_3D)
+							&& app.has(Feature.UNBUNDLED_3D_APP)
+									? MaterialDesignResources.INSTANCE
+											.graphing3D()
+									: MaterialDesignResources.INSTANCE
+											.geometry());
 			logoMenu = new GMenuBar(true, "", app);
 			logoMenu.setStyleName("logoMenu");
 			this.menuPanel.add(logoMenu, getHTML(icon,
-					app.getSettings().getToolbarSettings().getType()
-							.equals(AppType.GRAPHING_CALCULATOR)
+					appType.equals(AppType.GRAPHING_CALCULATOR)
 									? app.getLocalization().getMenu(
 											"GeoGebraGraphingCalculator")
-									: app.getLocalization()
+							: appType.equals(AppType.GRAPHER_3D)
+									&& app.has(Feature.UNBUNDLED_3D_APP)
+											? app.getLocalization().getMenu(
+													"GeoGebra3DGrapher")
+											: app.getLocalization()
 											.getMenu("GeoGebraGeometry")),
 					true);
 		}
-
 	}
 
 	private void initStackPanel() {
