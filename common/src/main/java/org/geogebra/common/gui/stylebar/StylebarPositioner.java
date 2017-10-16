@@ -22,9 +22,9 @@ public class StylebarPositioner {
     private EuclidianView euclidianView;
     private SelectionManager selectionManager;
 
-    public StylebarPositioner(App app, EuclidianView euclidianView) {
+    public StylebarPositioner(App app) {
         this.app = app;
-        this.euclidianView = euclidianView;
+        this.euclidianView = app.getActiveEuclidianView();
         selectionManager = app.getSelectionManager();
     }
 
