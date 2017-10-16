@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.debug.Log;
@@ -431,6 +432,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 		else if (args.size() == 1 && "Area".equals(name)) {
 			updateArgsAndSbForArea(args, sbCASCommand);
 		}
+		else if (args.size() == 2 && "Intersect".equals(name)) {
+			updateArgsAndSbForIntersect(args, sbCASCommand);
+		}
 		// case solve with list of equations
 		else if ("Solve".equals(name) && args.size() == 2
 				&& args.get(0).unwrap() instanceof MyList && !varComplNeeded) {
@@ -813,6 +817,22 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			sbCASCommand.append("Evaluate.1");
 		}
 
+	}
+
+	private static void updateArgsAndSbForIntersect(
+			ArrayList<ExpressionNode> args, StringBuilder sbCASCommand) {
+		for (int i = 0; i < 2; i++) {
+			ExpressionValue a1 = args.get(i).unwrap();
+			if (a1 instanceof GeoPlaneND) {
+				Command cmd = new Command(((GeoPlaneND) a1).getKernel(),
+						"Plane",
+						false);
+				cmd.addArgument(a1.wrap());
+				args.set(i, cmd.wrap());
+			}
+		}
+		sbCASCommand.setLength(0);
+		sbCASCommand.append("Intersect.2");
 	}
 
 	private static GeoElementND computeWithGGB(Kernel kern, String name,
