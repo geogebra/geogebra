@@ -125,16 +125,20 @@ public class GgbAPIW extends GgbAPI {
 		view.processFileName(filename);
 	}
 
-	@Override
-	public boolean writePNGtoFile(String filename, double exportScale,
-			boolean transparent, double DPI) {
-
+	/**
+	 * 
+	 * @param exportScale
+	 * @param transparent
+	 * @param DPI
+	 * @return png as String with "data:image/png;base64," header
+	 */
+	private String getPNG(double exportScale, boolean transparent, double DPI) {
 		String url;
 
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView());
 
-		if (MyDouble.isFinite(DPI) && ev instanceof EuclidianViewW
+		if (MyDouble.isFinite(DPI) && DPI > 0 && ev instanceof EuclidianViewW
 				&& pngExporterLoaded()) {
 			Canvas canvas = ((EuclidianViewW) ev).getExportImageCanvas(
 					exportScale, transparent);
@@ -149,8 +153,15 @@ public class GgbAPIW extends GgbAPI {
 				.getExportImageDataUrl(exportScale, transparent);
 		}
 
+		return url;
+	}
+
+	@Override
+	public boolean writePNGtoFile(String filename, double exportScale,
+			boolean transparent, double DPI) {
+
 		// make browser save/download PNG file
-		Browser.exportImage(url, filename);
+		Browser.exportImage(getPNG(exportScale, transparent, DPI), filename);
 
 		return true;
 	}
@@ -168,14 +179,13 @@ public class GgbAPIW extends GgbAPI {
 								exportScale, transparent));
 			}
 		}
-		return pngBase64(
-				((EuclidianViewWInterface) app.getActiveEuclidianView())
-						.getExportImageDataUrl(exportScale, transparent));
+		return pngBase64(getPNG(exportScale, transparent, DPI));
 	}
 
 	private static String pngBase64(String pngURL) {
 		return pngURL.substring(StringUtil.pngMarker.length());
 	}
+
 	public String getLaTeXBase64(String label, boolean value) {
 		Canvas c = Canvas.createIfSupported();
 		GeoElement geo = kernel.lookupLabel(label);

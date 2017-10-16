@@ -5,17 +5,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="pngencoder.min.js"></script>
 
-<script>
-function ggbOnInit(id){
-	if(id=="applet1"){
-		function onChange(){
-			applet2.setFileJSON(applet1.getFileJSON());
-		}
-		applet1.registerAddListener(onChange);
-		applet1.registerUpdateListener(onChange);
-	}
-}
-</script>
 </head>
 
 <body>
@@ -34,13 +23,42 @@ function ggbOnInit(id){
     data-param-id="applet1">
     </article>
 	
-	  <input type="button" value="dpi not set" onClick="applet1.writePNGtoFile('nodpi.png', 1, false);" />
-	  <input type="button" value="72dpi" onClick="applet1.writePNGtoFile('72dpi.png', 1, false, 72);" />
-	  <input type="button" value="150dpi" onClick="applet1.writePNGtoFile('150dpi.png', 1, false, 150);" />
-	  <input type="button" value="300dpi" onClick="applet1.writePNGtoFile('300dpi.png', 1, false, 300);" />
-	  <input type="button" value="600dpi" onClick="applet1.writePNGtoFile('600dpi.png', 1, false, 600);" />
-	  <input type="button" value="600dpi (scale 2)" onClick="applet1.writePNGtoFile('600dpi2.png', 2, false, 600);" />
-	  <input type="button" value="600dpi (scale 3)" onClick="applet1.writePNGtoFile('600dpi3.png', 3, false, 600);" />
+	<script>
+	
+	function log(dpi, exportScale) {
+		applet1.evalCommand('text = "'+dpi+'dpi\\\\nresolution='+(500*exportScale)+'pixels"');
+	}
+	
+	function writePNGtoFile(filename, exportScale, transparent, dpi) {
+		log(dpi, exportScale);
+		applet1.writePNGtoFile(filename, exportScale, transparent, dpi);
+	}
+	
+	function getPNGBase64(exportScale, transparent, dpi, copyToClipboard) {
+		log(dpi, exportScale);
+		document.getElementById("image").src="data:image/png;base64," + applet1.getPNGBase64(exportScale, transparent, dpi, copyToClipboard);
+	
+	}
+	
+	</script>
+	
+	  <input type="button" value="dpi not set" onClick="writePNGtoFile('nodpi.png', 1, false);" />
+	  <input type="button" value="72dpi" onClick="writePNGtoFile('72dpi.png', 1, false, 72);" />
+	  <input type="button" value="150dpi" onClick="writePNGtoFile('150dpi.png', 1, false, 150);" />
+	  <input type="button" value="300dpi" onClick="writePNGtoFile('300dpi.png', 1, false, 300);" />
+	  <input type="button" value="600dpi" onClick="writePNGtoFile('600dpi.png', 1, false, 600);" />
+	  <input type="button" value="600dpi (scale 2)" onClick="writePNGtoFile('600dpi2.png', 2, false, 600);" />
+	  <input type="button" value="600dpi (scale 3)" onClick="writePNGtoFile('600dpi3.png', 3, false, 600);" />
+	  <br/>
+	  <input type="button" value="dpi not set" onClick='getPNGBase64(1, false, -1, false);' />
+	  <input type="button" value="72dpi" onClick='getPNGBase64(1, false, 72, false);' />
+	  <input type="button" value="150dpi" onClick='getPNGBase64(1, false, 150, false);' />
+	  <input type="button" value="300dpi" onClick='getPNGBase64(1, false, 300, false);' />
+	  <input type="button" value="600dpi" onClick='getPNGBase64(1, false, 600, false);' />
+	  <input type="button" value="600dpi (scale 2)" onClick='getPNGBase64(2, false, 600, false);' />
+	  <input type="button" value="600dpi (scale 3)" onClick='getPNGBase64(3, false, 600, false);' />
+		<br/>
+	  <img id="image"></img>
 
    
 </html>
