@@ -383,6 +383,11 @@ public abstract class EuclidianController {
 	private CoordSystemListener zoomerListener = null;
 	private MyModeChangedListener modeChangeListener = null;
 
+
+	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
+
+	private GeoElement lastSelectionToolGeoToRemove;
+
 	/**
 	 * state for selection tool over press/release
 	 */
@@ -402,10 +407,6 @@ public abstract class EuclidianController {
 		 */
 		ADD
 	}
-
-	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
-
-	private GeoElement lastSelectionToolGeoToRemove;
 
 	public EuclidianController(App app) {
 		this.app = app;
@@ -8418,8 +8419,6 @@ public abstract class EuclidianController {
 					selection.clearSelectedGeos(geo == null, false);
 					selection.updateSelection(false);
 					selection.addSelectedGeo(geo, true, true);
-					// app.geoElementSelected(geo, false); // copy definiton to
-					// input bar
 				}
 			}
 		}
