@@ -426,16 +426,16 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void setDynamicStylebarVisible(boolean visible) {
+	public void hideDynamicStylebar() {
 		if (!app.has(Feature.DYNAMIC_STYLEBAR)
 				|| !((AppW) app).allowStylebar()) {
 			return;
 		}
-		this.getView().getDynamicStyleBar().setVisible(visible);
+		this.getView().getDynamicStyleBar().setVisible(false);
 	}
 
 	@Override
-	protected void addDynamicStylebar(boolean isMultiSelection) {
+	protected void showDynamicStylebar(boolean isMultiSelection) {
 		getView().getDynamicStyleBar().setVisible(true);
 		getView().getDynamicStyleBar().updateStyleBar();
 	}
