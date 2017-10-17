@@ -10193,7 +10193,7 @@ public abstract class EuclidianController {
 
 		if (isDraggingOccuredBeyondThreshold()) {
 			if (!EuclidianView.usesSelectionRectangleAsInput(mode) && !right
-					&& !(app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT)) {
+					&& mode != EuclidianConstants.MODE_SELECT) {
 					clearSelections();
 			}
 		} else {
