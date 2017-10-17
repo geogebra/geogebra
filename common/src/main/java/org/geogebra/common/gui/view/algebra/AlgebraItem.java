@@ -250,7 +250,7 @@ public class AlgebraItem {
 				&& !(geo).isTextCommand();
 	}
 
-	public static boolean shouldShowOutputButton(GeoElement geo) {
+	public static boolean shouldShowSymbolicOutputButton(GeoElement geo) {
 		return isSymbolicDiffers(geo) && !isTextItem(geo);
 	}
 }
