@@ -3945,6 +3945,7 @@ public abstract class EuclidianController {
 
 		selection.clearLists();
 		view.setBoundingBox(null);
+		view.setSelectionRectangle(null);
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
 
