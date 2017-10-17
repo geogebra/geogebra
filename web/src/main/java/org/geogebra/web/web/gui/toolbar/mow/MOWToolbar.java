@@ -169,43 +169,7 @@ public class MOWToolbar extends FlowPanel {
 		panel.add(btnRedo);
 	}
 
-	/**
-	 * updates position of pageControlButton and zoomPanel
-	 */
-	public void updateFloatingButtonsPosition() {
-		EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
-				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 
-		if (!app.has(Feature.MOW_MULTI_PAGE)) {
-			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
-				dp.setZoomPanelBottom(true);
-			} else {
-				dp.setZoomPanelBottom(false);
-				if (isSubmenuOpen) {
-					dp.moveZoomPanelUpOrDown(true);
-				} else {
-					dp.moveZoomPanelUpOrDown(false);
-				}
-			}
-		} else {
-			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
-				pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
-				dp.setZoomPanelBottom(true);
-			} else {
-				pageControlButton.getElement().getStyle().clearBottom();
-				dp.setZoomPanelBottom(false);
-				if (isSubmenuOpen) {
-					pageControlButton.removeStyleName("hideMowSubmenu");
-					pageControlButton.addStyleName("showMowSubmenu");
-					dp.moveZoomPanelUpOrDown(true);
-				} else {
-					pageControlButton.removeStyleName("showMowSubmenu");
-					pageControlButton.addStyleName("hideMowSubmenu");
-					dp.moveZoomPanelUpOrDown(false);
-				}
-			}
-		}
-	}
 
 	/**
 	 * update style of undo+redo buttons
@@ -441,22 +405,6 @@ public class MOWToolbar extends FlowPanel {
 		}
 	}
 
-	/**
-	 * Updates the toolbar ie. undo/redo button states
-	 */
-	public void update() {
-		updateUndoRedoActions();
-	}
-
-	/**
-	 * Updates the positions of undo/redo, floating buttons (page control, zoom
-	 * panel) and toolbar
-	 */
-	public void updatePositions() {
-		updateToolbarPosition();
-		updateFloatingButtonsPosition();
-	}
-
 	private SubMenuPanel getSubMenuForMode(int mode) {
 		if (mode == EuclidianConstants.MODE_TEXT
 				|| mode == EuclidianConstants.MODE_IMAGE
@@ -602,6 +550,22 @@ public class MOWToolbar extends FlowPanel {
 	}
 
 	/**
+	 * Updates the toolbar ie. undo/redo button states
+	 */
+	public void update() {
+		updateUndoRedoActions();
+	}
+
+	/**
+	 * Updates the positions of undo/redo, floating buttons (page control, zoom
+	 * panel) and toolbar
+	 */
+	public void updatePositions() {
+		updateToolbarPosition();
+		updateFloatingButtonsPosition();
+	}
+
+	/**
 	 * Sets the horizontal position of the toolbar depending on screen size
 	 */
 	public void updateToolbarPosition() {
@@ -628,6 +592,44 @@ public class MOWToolbar extends FlowPanel {
 			getElement().getStyle()
 					.setLeft((app.getWidth() - MAX_TOOLBAR_WIDTH) / 2,
 					Unit.PX);
+		}
+	}
+
+	/**
+	 * updates position of pageControlButton and zoomPanel
+	 */
+	public void updateFloatingButtonsPosition() {
+		EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
+				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
+
+		if (!app.has(Feature.MOW_MULTI_PAGE)) {
+			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
+				dp.setZoomPanelBottom(true);
+			} else {
+				dp.setZoomPanelBottom(false);
+				if (isSubmenuOpen) {
+					dp.moveZoomPanelUpOrDown(true);
+				} else {
+					dp.moveZoomPanelUpOrDown(false);
+				}
+			}
+		} else {
+			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
+				pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
+				dp.setZoomPanelBottom(true);
+			} else {
+				pageControlButton.getElement().getStyle().clearBottom();
+				dp.setZoomPanelBottom(false);
+				if (isSubmenuOpen) {
+					pageControlButton.removeStyleName("hideMowSubmenu");
+					pageControlButton.addStyleName("showMowSubmenu");
+					dp.moveZoomPanelUpOrDown(true);
+				} else {
+					pageControlButton.removeStyleName("showMowSubmenu");
+					pageControlButton.addStyleName("hideMowSubmenu");
+					dp.moveZoomPanelUpOrDown(false);
+				}
+			}
 		}
 	}
 }

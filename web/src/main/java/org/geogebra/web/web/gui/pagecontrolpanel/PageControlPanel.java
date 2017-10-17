@@ -28,10 +28,10 @@ public class PageControlPanel extends PersistablePanel {
 	private AppW app;
 	private GeoGebraFrameBoth frame;
 	private EuclidianDockPanelW dockPanel;
+	private MOWToolbar mowToolbar;
 	private PersistablePanel contentPanel;
 	private StandardButton closeButton;
 	private boolean isAttached = false;
-	private MOWToolbar mowToolbar;
 
 	/**
 	 * @param app
@@ -63,7 +63,6 @@ public class PageControlPanel extends PersistablePanel {
 				app);
 		closeButton.setStyleName("closeButton");
 		closeButton.addFastClickHandler(new FastClickHandler() {
-
 			@Override
 			public void onClick(Widget source) {
 				close();
@@ -95,7 +94,6 @@ public class PageControlPanel extends PersistablePanel {
 			dockPanel.hideZoomPanel();
 		}
 		CSSAnimation.runOnAnimation(new Runnable() {
-
 			public void run() {
 				style.setOverflow(Overflow.VISIBLE);
 			}
@@ -113,12 +111,10 @@ public class PageControlPanel extends PersistablePanel {
 		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 
 		CSSAnimation.runOnAnimation(new Runnable() {
-
 			public void run() {
 				onClose();
 			}
 		}, getElement(), "animateOut");
-
 	}
 
 	/**
