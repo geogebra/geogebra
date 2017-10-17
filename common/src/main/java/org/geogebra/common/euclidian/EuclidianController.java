@@ -5872,7 +5872,7 @@ public abstract class EuclidianController {
 				selectionPreview);
 	}
 
-	protected void addDynamicStylebar(boolean isMultiSelection) {
+	protected void showDynamicStylebar(boolean isMultiSelection) {
 		// implemented in EuclidianControllerW
 	}
 
@@ -8465,10 +8465,9 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * @param visible
-	 *            whether to show
+	 * Hides the dynamic stylebar.
 	 */
-	public void setDynamicStylebarVisible(boolean visible) {
+	public void hideDynamicStylebar() {
 		// Floating stylebar not supported
 	}
 
@@ -8497,7 +8496,7 @@ public abstract class EuclidianController {
 		}
 
 		if (view.hasDynamicStyleBar()) {
-			this.setDynamicStylebarVisible(false);
+			this.hideDynamicStylebar();
 		}
 
 		if (shapeMode(mode) && !app.isRightClick(event)) {
@@ -9346,7 +9345,7 @@ public abstract class EuclidianController {
 
 	public void wrapMousePressed(AbstractEvent event) {
 		if (view.hasDynamicStyleBar() && !event.isControlDown()) {
-			this.setDynamicStylebarVisible(false);
+			this.hideDynamicStylebar();
 		}
 
 		// if we need label hit, it will be recomputed
@@ -10064,7 +10063,7 @@ public abstract class EuclidianController {
 			getResizedShape().updateGeo(event);
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!isDraggingOccuredBeyondThreshold()) {
-				addDynamicStylebar(false);
+				showDynamicStylebar(false);
 			}
 			storeUndoInfo();
 			setResizedShape(null);
@@ -10083,7 +10082,7 @@ public abstract class EuclidianController {
 					view.repaintView();
 					selection.addSelectedGeo(geo);
 					if (!isDraggingOccuredBeyondThreshold()) {
-						addDynamicStylebar(false);
+						showDynamicStylebar(false);
 					}
 				}
 
@@ -10146,7 +10145,7 @@ public abstract class EuclidianController {
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (EuclidianConstants.isMoveOrSelectionModeCompatibleWithDragging(mode, isDraggingOccuredBeyondThreshold())
 					&& !event.isRightClick()) {
-				addDynamicStylebar(event.isControlDown());
+				showDynamicStylebar(event.isControlDown());
 			}
 		}
 
@@ -10730,7 +10729,7 @@ public abstract class EuclidianController {
 			boolean shiftOrMeta, boolean alt) {
 
 		if (view.hasDynamicStyleBar()) {
-			this.setDynamicStylebarVisible(false);
+			this.hideDynamicStylebar();
 		}
 
 		if (isTextfieldHasFocus()) {

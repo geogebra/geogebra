@@ -664,7 +664,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		s.updateRepaint();
 		s.getParentAlgorithm().update();
 		this.update();
-		view.getEuclidianController().setDynamicStylebarVisible(false);
+		view.getEuclidianController().hideDynamicStylebar();
 		view.repaintView();
 	}
 
