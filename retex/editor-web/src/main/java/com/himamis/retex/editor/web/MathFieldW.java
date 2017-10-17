@@ -690,6 +690,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 				@Override
 				public void onFocus(FocusEvent event) {
+					startBlink();
 					event.stopPropagation();
 
 				}
@@ -699,6 +700,7 @@ public class MathFieldW implements MathField, IsWidget {
 
 				@Override
 				public void onBlur(BlurEvent event) {
+					instances.remove(MathFieldW.this);
 					event.stopPropagation();
 					if (onTextfieldBlur != null) {
 						onTextfieldBlur.onBlur(event);
