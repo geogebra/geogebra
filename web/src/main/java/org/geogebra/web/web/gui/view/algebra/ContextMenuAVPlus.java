@@ -58,8 +58,10 @@ public class ContextMenuAVPlus implements SetLabels {
 	private void buildGUI() {
 		wrappedPopup.clearItems();
 		addExpressionItem();
-		addTextItem();
-		addImageItem();
+		if (!app.getSettings().getToolbarSettings().is3D()) {
+			addTextItem();
+			addImageItem();
+		}
 		addHelpItem();
 	}
 

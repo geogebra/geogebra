@@ -71,4 +71,12 @@ public class ToolbarSettings extends AbstractSettings {
 	public boolean isGeometry() {
 		return this.type == AppType.GEOMETRY_CALC;
 	}
+
+	/**
+	 * @return - if app is 3dy app
+	 * 
+	 */
+	public boolean is3D() {
+		return this.type == AppType.GRAPHER_3D;
+	}
 }
