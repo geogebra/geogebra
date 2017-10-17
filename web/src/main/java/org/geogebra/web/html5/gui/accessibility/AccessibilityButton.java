@@ -65,6 +65,6 @@ public class AccessibilityButton implements AccessibilityInterface {
 	public void correctTabIndex() {
 		if (ignoreTab) {
 			button.getElement().setTabIndex(-1);
-		};
+		}
 	}
 }
