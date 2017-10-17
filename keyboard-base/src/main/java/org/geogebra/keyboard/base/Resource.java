@@ -4,43 +4,47 @@ package org.geogebra.keyboard.base;
  * The items correspond to {@link ResourceType#DEFINED_CONSTANT}.
  */
 public enum Resource {
-	POWA2,
+    POWA2,
 
-	POWAB,
+    POWAB,
 
-	EMPTY_IMAGE,
+    EMPTY_IMAGE,
 
-	BACKSPACE_DELETE,
+    BACKSPACE_DELETE,
 
-	RETURN_ENTER,
+    RETURN_ENTER,
 
-	LEFT_ARROW,
+    LEFT_ARROW,
 
-	RIGHT_ARROW,
+    RIGHT_ARROW,
 
-	LOG_10,
+    LOG_10,
 
-	LOG_B,
+    LOG_B,
 
-	POWE_X,
+    POWE_X,
 
-	POW10_X,
+    POW10_X,
 
-	N_ROOT,
+    N_ROOT,
 
-	A_N,
+    A_N,
 
-	ABS,
+    ABS,
 
-	CAPS_LOCK,
+    FLOOR,
 
-	CAPS_LOCK_ENABLED,
+    CEIL,
 
-	INTEGRAL,
+    CAPS_LOCK,
 
-	DERIVATIVE,
+    CAPS_LOCK_ENABLED,
 
-	ROOT,
+    INTEGRAL,
 
-	LANGUAGE
+    DERIVATIVE,
+
+    ROOT,
+
+    LANGUAGE
 }

@@ -60,4 +60,16 @@ public class KeyboardModelFactory {
         }
         return specialSymbolsKeyboardFactory.createSpecialSymbolsKeyboard(buttonFactory);
     }
+
+    /**
+     * this method will be removed, after the Feature Flags are removed.
+     * Two different flags for MOB and GGB: MOB_KEYBOARD_BOX_ICONS
+     * use {@link #createSpecialSymbolsKeyboard(ButtonFactory)} if Feature Flags are removed.
+     */
+    public KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory, boolean boxIcons) {
+        if (specialSymbolsKeyboardFactory == null) {
+            specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory();
+        }
+        return specialSymbolsKeyboardFactory.createSpecialSymbolsKeyboard(buttonFactory, boxIcons);
+    }
 }

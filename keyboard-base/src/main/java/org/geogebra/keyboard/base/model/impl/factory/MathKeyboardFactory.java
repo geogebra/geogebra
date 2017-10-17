@@ -24,7 +24,7 @@ class MathKeyboardFactory {
     private boolean boxIcon = false;
 
     /**
-     * This constructor will be removed if Feature Flags are removed.
+     * This method will be removed if Feature Flags are removed.
      * Two different flags for MOB and GGB: MOB_KEYBOARD_BOX_ICONS
      * Use {@link #createMathKeyboard(ButtonFactory)} if Feature Flags are removed.
      */

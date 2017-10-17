@@ -1,5 +1,11 @@
 package org.geogebra.keyboard.base.model.impl.factory;
 
+import org.geogebra.keyboard.base.Action;
+import org.geogebra.keyboard.base.Resource;
+import org.geogebra.keyboard.base.model.KeyboardModel;
+import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
+import org.geogebra.keyboard.base.model.impl.RowImpl;
+
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AMPERSAND;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.ANGLE;
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.AT;
@@ -29,19 +35,26 @@ import static org.geogebra.keyboard.base.model.impl.factory.Characters.SUBSET_OF
 import static org.geogebra.keyboard.base.model.impl.factory.Characters.UP_TACK;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantCustomButton;
+import static org.geogebra.keyboard.base.model.impl.factory.Util.addConstantInputCommandButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addCustomButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputCommandButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addLatexInputButton;
 import static org.geogebra.keyboard.base.model.impl.factory.Util.addTranslateInputCommandButton;
 
-import org.geogebra.keyboard.base.Action;
-import org.geogebra.keyboard.base.Resource;
-import org.geogebra.keyboard.base.model.KeyboardModel;
-import org.geogebra.keyboard.base.model.impl.KeyboardModelImpl;
-import org.geogebra.keyboard.base.model.impl.RowImpl;
-
 class SpecialSymbolsKeyboardFactory {
+
+    private boolean boxIcon = false;
+
+    /**
+     * This constructor will be removed if Feature Flags are removed.
+     * Two different flags for MOB and GGB: MOB_KEYBOARD_BOX_ICONS
+     * Use {@link #createSpecialSymbolsKeyboard(ButtonFactory)} if Feature Flags are removed.
+     */
+    KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory, boolean useBoxIcon) {
+        boxIcon = useBoxIcon;
+        return createSpecialSymbolsKeyboard(buttonFactory);
+    }
 
     KeyboardModel createSpecialSymbolsKeyboard(ButtonFactory buttonFactory) {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
@@ -66,18 +79,23 @@ class SpecialSymbolsKeyboardFactory {
         addInputButton(row, buttonFactory, SUBSET_OF_OR_EQUAL_TO);
         addInputButton(row, buttonFactory, ANGLE);
 
-        name.append(LEFT_FLOOR);
-        name.append("x");
-        name.append(RIGHT_FLOOR);
-		addInputCommandButton(row, buttonFactory, name.toString(),
-				LEFT_FLOOR + "", 1.0f);
+        if (boxIcon) {
+            addConstantInputCommandButton(row, buttonFactory, Resource.FLOOR, LEFT_FLOOR + "", 1.0f);
+            addConstantInputCommandButton(row, buttonFactory, Resource.CEIL, LEFT_CEILING + "", 1.0f);
+        } else {
+            name.append(LEFT_FLOOR);
+            name.append("x");
+            name.append(RIGHT_FLOOR);
+            addInputCommandButton(row, buttonFactory, name.toString(),
+                    LEFT_FLOOR + "", 1.0f);
 
-        name.setLength(0);
-        name.append(LEFT_CEILING);
-        name.append("x");
-        name.append(RIGHT_CEILING);
-		addInputCommandButton(row, buttonFactory, name.toString(),
-				LEFT_CEILING + "", 1.0f);
+            name.setLength(0);
+            name.append(LEFT_CEILING);
+            name.append("x");
+            name.append(RIGHT_CEILING);
+            addInputCommandButton(row, buttonFactory, name.toString(),
+                    LEFT_CEILING + "", 1.0f);
+        }
 
         addInputButton(row, buttonFactory, AMPERSAND);
         addInputButton(row, buttonFactory, AT);

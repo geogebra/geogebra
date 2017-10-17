@@ -1,7 +1,5 @@
 package org.geogebra.keyboard.base;
 
-import java.util.Map;
-
 import org.geogebra.keyboard.base.impl.KeyboardImpl;
 import org.geogebra.keyboard.base.model.KeyModifier;
 import org.geogebra.keyboard.base.model.KeyboardModel;
@@ -9,6 +7,8 @@ import org.geogebra.keyboard.base.model.impl.AccentModifier;
 import org.geogebra.keyboard.base.model.impl.CapsLockModifier;
 import org.geogebra.keyboard.base.model.impl.factory.ButtonFactory;
 import org.geogebra.keyboard.base.model.impl.factory.KeyboardModelFactory;
+
+import java.util.Map;
 
 /**
  * Creates {@link Keyboard} classes.
@@ -56,7 +56,7 @@ public class KeyboardFactory {
     public Keyboard createGreekKeyboard() {
         AccentModifier accentModifier = new AccentModifier();
         CapsLockModifier capsLockModifier = new CapsLockModifier();
-        ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
+        ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[]{accentModifier, capsLockModifier});
         KeyboardModel model = keyboardModelFactory.createGreekKeyboard(buttonFactory);
         return new KeyboardImpl(model, capsLockModifier, accentModifier);
     }
@@ -76,7 +76,7 @@ public class KeyboardFactory {
     public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow, Map<String, String> upperKeys) {
         AccentModifier accentModifier = new AccentModifier();
         CapsLockModifier capsLockModifier = new CapsLockModifier(upperKeys);
-        ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[] {accentModifier, capsLockModifier});
+        ButtonFactory buttonFactory = new ButtonFactory(new KeyModifier[]{accentModifier, capsLockModifier});
         KeyboardModel model = keyboardModelFactory.createLetterKeyboard(buttonFactory, topRow, middleRow, bottomRow);
         return new KeyboardImpl(model, capsLockModifier, accentModifier);
     }
@@ -85,9 +85,9 @@ public class KeyboardFactory {
      * Calls {@link #createLettersKeyboard(String, String, String, Map)} with a null
      * upper keys. In this case {@link Character#toUpperCase(char)} is used.
      */
-	public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow) {
-		return createLettersKeyboard(topRow, middleRow, bottomRow, null);
-	}
+    public Keyboard createLettersKeyboard(String topRow, String middleRow, String bottomRow) {
+        return createLettersKeyboard(topRow, middleRow, bottomRow, null);
+    }
 
     /**
      * Creates a special symbols keyboard with symbols control buttons,
@@ -97,6 +97,17 @@ public class KeyboardFactory {
      */
     public Keyboard createSpecialSymbolsKeyboard() {
         KeyboardModel model = keyboardModelFactory.createSpecialSymbolsKeyboard(defaultButtonFactory);
+        return new KeyboardImpl(model, null, null);
+    }
+
+    /**
+     * Creates a special symbols keyboard with symbols control buttons,
+     * and a button to switch to the letters keyboard.
+     *
+     * @return special symbols keyboard
+     */
+    public Keyboard createSpecialSymbolsKeyboard(boolean boxIcons) {
+        KeyboardModel model = keyboardModelFactory.createSpecialSymbolsKeyboard(defaultButtonFactory, boxIcons);
         return new KeyboardImpl(model, null, null);
     }
 }
