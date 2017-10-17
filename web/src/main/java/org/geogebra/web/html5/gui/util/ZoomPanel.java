@@ -248,6 +248,9 @@ public class ZoomPanel extends FlowPanel
 			addZoomOutButton();
 		}
 
+		if (app.has(Feature.TAB_ON_GUI)) {
+			zoomInBtn.addTabHandler(this);
+		}
 		ClickStartHandler.init(zoomPanel, new ClickStartHandler(true, true) {
 
 			@Override
@@ -533,7 +536,7 @@ public class ZoomPanel extends FlowPanel
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == getFirstButton() && shiftDown) {
-	//		app.getGlobalKeyDispatcher().focusLastGeo();
+			app.getAccessibilityManager().focusPrevious(this);
 			return true;
 		} else if (source == getLastButton() && !shiftDown) {
 			app.getGuiManager().focusToobarFirstElement();

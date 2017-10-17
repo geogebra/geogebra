@@ -43,7 +43,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GlobalKeyDispatcherW extends
         org.geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler,
         KeyDownHandler, KeyPressHandler {
-
+	private enum TabExitPoint {
+		First, Last, None
+	};
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 	private boolean keydownPreventsDefaultKeypressTAB = false;
@@ -54,6 +56,11 @@ public class GlobalKeyDispatcherW extends
 	private boolean inFocus = false;
 
 	private static boolean isHandlingTab;
+
+	/**
+	 * determines if next tab should go from geo to a GUI element.
+	 */
+	private TabExitPoint tabExitPoint = TabExitPoint.None;
 
 	/**
 	 * @return whether ctrll is pressed
@@ -568,14 +575,27 @@ public class GlobalKeyDispatcherW extends
 
 		app.getActiveEuclidianView().closeDropdowns();
 
-		if (am != null && am.hasTabModeChanged(isShiftDown)) {
-			return true;
+		if (tabExitPoint != TabExitPoint.None) {
+			if (am != null && selection.getSelectedGeos().size() == 1) {
+				GeoElement geo0 = selection.getSelectedGeos().get(0);
+				if (tabExitPoint == TabExitPoint.First && isShiftDown) {
+					selection.clearSelectedGeos();
+					am.focusPrevious(geo0);
+					tabExitPoint = TabExitPoint.None;
+					return true;
+				} else if (tabExitPoint == TabExitPoint.Last && !isShiftDown) {
+					selection.clearSelectedGeos();
+					am.focusNext(geo0);
+					tabExitPoint = TabExitPoint.None;
+					return true;
+				}
+			}
 		}
 		
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
-			if (am != null) {
-				am.setTabFromGeosToGui();
+			if (selection.isFirstGeoSelected()) {
+				tabExitPoint = TabExitPoint.First;
 			}
 			return true;
 		}
@@ -588,9 +608,7 @@ public class GlobalKeyDispatcherW extends
 				false);
 
 		if (selection.isLastGeoSelected()) {
-			if (am != null) {
-				am.setTabFromGeosToGui();
-			}
+			tabExitPoint = TabExitPoint.Last;
 		} else {
 			app.getAccessibilityManager().setTabOverGeos(true);
 

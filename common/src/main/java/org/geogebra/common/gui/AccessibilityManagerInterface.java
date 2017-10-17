@@ -32,9 +32,12 @@ public interface AccessibilityManagerInterface {
 	 */
 	public boolean isTabOverGeos();
 
+	/**
+	 * Sets if tab is on geos currently.
+	 * 
+	 * @param b
+	 *            to set.
+	 * 
+	 */
 	public void setTabOverGeos(boolean b);
-
-	public boolean hasTabModeChanged(boolean shift);
-
-	public void setTabFromGeosToGui();
 }
