@@ -443,7 +443,7 @@ public class RadioTreeItem extends AVTreeItem
 		boolean ret = outputPanel.updateValuePanel(geo, text, latex,
 				getFontSize());
 		if (app.has(Feature.AV_ITEM_DESIGN) && geo != null
-				&& AlgebraItem.isSymbolicDiffers(geo)) {
+				&& AlgebraItem.shouldShowSymbolicOutputButton(geo)) {
 			addControls();
 			AlgebraOutputPanel.createSymbolicButton(controls, geo, true);
 		}

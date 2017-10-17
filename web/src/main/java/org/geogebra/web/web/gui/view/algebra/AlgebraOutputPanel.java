@@ -145,7 +145,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 		Kernel kernel = geo1.getKernel();
 		clear();
-		if (AlgebraItem.isSymbolicDiffers(geo1)) {
+		if (AlgebraItem.shouldShowSymbolicOutputButton(geo1)) {
 			if (!kernel.getApplication().has(Feature.AV_ITEM_DESIGN)) {
 				createSymbolicButton(this, geo1, false);
 			} else {
