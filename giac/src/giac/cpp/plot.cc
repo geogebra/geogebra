@@ -11440,6 +11440,8 @@ namespace giac {
 	gen tmp=in_plotimplicit(fv[i],x,y,xmin,xmax,ymin,ymax,nxstep,nystep,eps,attributs,ckgeo2d,contextptr);
 	if (!is_undef(tmp))
 	  res=mergevecteur(res,gen2vecteur(tmp));
+	else
+	  *logptr(contextptr) << tmp << endl;
       }
       return res; // gen(res,_SEQ__VECT);
     }

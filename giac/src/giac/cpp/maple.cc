@@ -968,9 +968,14 @@ namespace giac {
     gen tmp=check_secure();
     if (is_undef(tmp)) return tmp;
     gen filename(g);
-    if (filename.type!=_STRNG)
+    string mode="w+";
+    if (g.type==_VECT && g.subtype==_SEQ__VECT && g._VECTptr->size()==2 && g._VECTptr->back().type==_STRNG){
+      filename=g._VECTptr->front();
+      mode=*g._VECTptr->back()._STRNGptr;
+    }
+    if (filename.type!=_STRNG || mode.size()>2)
       return gensizeerr();
-    FILE * f=fopen(filename._STRNGptr->c_str(),"w+");
+    FILE * f=fopen(filename._STRNGptr->c_str(),mode.c_str());
     return gen((void *) f,_FILE_POINTER);
   }
   static const char _fopen_s []="fopen";
@@ -3189,6 +3194,8 @@ namespace giac {
     if (g.type==_SYMB){
       if (g._SYMBptr->sommet==at_size)
 	return 2;
+      if (g._SYMBptr->sommet==at_abs && cpp_vartype(g._SYMBptr->feuille)==3)
+	return 2;
       vecteur v=lvar(g._SYMBptr->feuille);
       const_iterateur it=v.begin(),itend=v.end();
       int cur=-1;
@@ -3558,7 +3565,7 @@ namespace giac {
     // operators: if all vars are double or int args.print()
     // otherwise or not an operator giac::opname(,contextptr)
     string res=u.ptr()->print(contextptr);
-    bool idf=is_int_or_double(f);
+    bool idf=is_int_or_double(f) || cpp_vartype(f)==_CPLX;
     if (u==at_sin || u==at_cos || u==at_tan || u==at_asin || u==at_acos || u==at_atan || u==at_exp || u==at_ln || u==at_abs){
       if (idf)
 	return "std::"+args.print(contextptr);
@@ -3567,7 +3574,7 @@ namespace giac {
       res = '_'+res;
     if (u.ptr()->printsommet==printsommetasoperator || u==at_division || (idf && (u==at_inferieur_strict || u==at_inferieur_egal || u==at_superieur_strict || u==at_superieur_egal))){
       int rs=int(res.size());
-      if (idf || (rs==2 && (res[1]=='+' || res[1]=='*'))){
+      if ( (idf && (rs!=2 || res[1]!='^')) || (rs==2 && (res[1]=='+' || res[1]=='*' || res[1]=='>' || res[1]=='<')) || (rs==3 && (res[1]=='>' || res[1]=='<') && res[2]=='=') ){
 	res=u.ptr()->print(contextptr);
 	string sres;
 	vecteur v=gen2vecteur(f);
@@ -3602,6 +3609,9 @@ namespace giac {
 	  break;
 	case '=':
 	  res="_equal";
+	  break;
+	case '^':
+	  res="_pow";
 	  break;
 	}
       }
