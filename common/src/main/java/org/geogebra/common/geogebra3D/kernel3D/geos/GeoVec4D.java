@@ -31,9 +31,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 		Vector3DValue, Traceable, SpreadsheetTraceable {
-	public Coords v;
-
-
+	/** vector coordinates */
+	protected Coords v;
 
 	/**
 	 * @param c
@@ -46,7 +45,20 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 	}
 
 
-	/** Creates new GeoVec4D with coordinates (x,y,z,w) and label */
+	/**
+	 * Creates new GeoVec4D with coordinates (x,y,z,w) and label
+	 * 
+	 * @param c
+	 *            construction
+	 * @param x
+	 *            homogeneous x-coord
+	 * @param y
+	 *            homogeneous y-coord
+	 * @param z
+	 *            homogeneous z-coord
+	 * @param w
+	 *            homogeneous 4th coord
+	 */
 	public GeoVec4D(Construction c, double x, double y, double z, double w) {
 		this(c);
 		setCoords(x, y, z, w);
@@ -58,22 +70,44 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 		setCoords(new double[] { x, y, z, w });
 	}
 
+	/**
+	 * Set this to (x,y,0,w)
+	 * 
+	 * @param x
+	 *            homogeneous x-coord
+	 * @param y
+	 *            homogeneous y-coord
+	 * @param w
+	 *            homogeneous 4th coord
+	 */
 	public void setCoords(double x, double y, double w) {
 		setCoords(x, y, 0, w);
 	}
 
+	/**
+	 * @return homogeneous x-coord
+	 */
 	public double getX() {
 		return getCoords().get(1);
 	}
 
+	/**
+	 * @return homogeneous y-coord
+	 */
 	public double getY() {
 		return getCoords().get(2);
 	}
 
+	/**
+	 * @return homogeneous z-coord
+	 */
 	public double getZ() {
 		return getCoords().get(3);
 	}
 
+	/**
+	 * @return homogeneous 4th coord
+	 */
 	public double getW() {
 		return getCoords().get(4);
 	}
@@ -118,16 +152,30 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 		return true;
 	}
 
+	/**
+	 * @param vals
+	 *            homogeneous coordinates
+	 */
 	public void setCoords(Coords vals) {
 		setDefinition(null);
 		v.set(vals);
 	}
 
+	/**
+	 * @param vals
+	 *            homogeneous coordinates
+	 */
 	public void setCoords(double[] vals) {
 		setDefinition(null);
 		v.set(vals);
 	}
 
+	/**
+	 * Copy coords from other vector
+	 * 
+	 * @param vec
+	 *            other vector
+	 */
 	public void setCoords(GeoVec4D vec) {
 		setCoords(vec.v);
 	}
@@ -142,12 +190,20 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 		setCoords(p.getCoordsInD3());
 	}
 
+	/**
+	 * @return homogeneous coords
+	 */
 	final public Coords getCoords() {
 		return v;
 	}
 
+	/**
+	 * Add v0 to this
+	 * 
+	 * @param v0
+	 *            translation vector
+	 */
 	public void translate(Coords v0) {
-
 		v.addInside(v0);
 		setCoords(v);
 	}
