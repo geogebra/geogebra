@@ -294,7 +294,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Absolute factorization of a poly in 2 vars: return the factorization
 		 * over the extension. We assume that the poly is irreducible over Q.
 		 */
-		ABSFACT("absfact", "absfact(p):=begin local algnum; algnum:=afactorAlgNum(p); /*print(algnum,type(algnum));*/ if (type(algnum)==DOM_LIST || type(algnum)==DOM_SYMBOLIC) return factor(p,rootof(algnum)); else return p; end");
+		ABSFACT("absfact", "absfact(p):=begin local algnum; algnum:=afactorAlgNum(p); /*print(algnum,type(algnum));*/ if (type(algnum)==DOM_LIST || type(algnum)==DOM_SYMBOLIC) return factor(p,rootof(algnum)); else return p; end"),
 		/**
 		 * Examples: absfact(y^4 +2*y^2*x+14*y^2-7*x^2 +6*x+47) should return
 		 * -7*(x+(-2*sqrt(2)-1)/7*y^2+(-13*sqrt(2)-3)/7)*(x+(2*sqrt(2)-1)/7*y^2+(13*sqrt(2)-3)/7).
@@ -303,6 +303,11 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * absfact(x^2*y^2-2) should return (x*y-sqrt(2))*(x*y+sqrt(2)).
 		 * absfact(x^2*y^2+2) should return (x*y+i*sqrt(2))*(x*y-i*sqrt(2)).
 		 */
+		/**
+		 * Minimal polynomial of cos(2pi/n), see GGB-2137 for details.
+		 */
+		COS_2PI_OVER_N_MINPOLY("cos2piOverNMinpoly", "cos2piOverNMinpoly(n):=begin local j, p, q, r; p:=simplify((tchebyshev1(n)-1)/(x-1)); for j from 1 to n/2 do q:=tchebyshev1(j)-1; r:=gcd(p,q); p:=simplify(p/r); od; return factorsqrfree(primpart(p)); end");
+
 		/** function name */
 		final public String functionName;
 		/** definition string */
@@ -346,6 +351,7 @@ public abstract class CASgiac implements CASGenericInterface {
 			setDependency(GEOM_JACOBI_DET, JACOBI_DET);
 			setDependency(AFACTOR_ALG_NUM, IRRED);
 			setDependency(ABSFACT, AFACTOR_ALG_NUM);
+			setDependency(COS_2PI_OVER_N_MINPOLY, FACTOR_SQR_FREE);
 		}
 
 		/**

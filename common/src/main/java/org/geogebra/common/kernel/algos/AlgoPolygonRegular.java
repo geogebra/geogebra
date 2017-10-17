@@ -12,6 +12,12 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -24,6 +30,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.kernel.prover.polynomial.ParseException;
+import org.geogebra.common.kernel.prover.polynomial.PolynomialParser;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Creates a regular Polygon for two points and the number of vertices.
@@ -159,6 +168,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 		
 		int sides = (int) num.getDouble();
 
+		// this special case can be deleted later (TODO)
 		if (sides == 4) {
 			PVariable[] varsC = new PVariable[2];
 			varsC[0] = new PVariable(kernel);
@@ -188,9 +198,81 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			return botanaPolynomials;
 		}
 
-		// The other cases are not yet implemented.
-		throw new NoSymbolicParametersException();
+		// general case (GGB-2137)
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+		try {
+			String minpoly = cas.getCurrentCAS()
+					.evaluateRaw("cos2piOverNMinpoly(" + sides + ")");
+			Log.debug(minpoly);
+			PVariable x = new PVariable(kernel);
+			PVariable y = new PVariable(kernel);
+			PPolynomial xp = new PPolynomial(x);
+			PPolynomial yp = new PPolynomial(y);
+			minpoly = minpoly.replace("x", x.getName());
+			// Ugly way of converting the CAS computation result into PPolynomial:
+			String parsable = "[1]: [1]: _[1]=1 _[2]=" + minpoly + " [2]: 1,1";
+			HashSet<PVariable> v = new HashSet<PVariable>();
+			v.add(x);
+			TreeSet<PVariable> variables = new TreeSet<PVariable>(v);
+			Set<Set<PPolynomial>> parsed = new TreeSet<Set<PPolynomial>>();
+			try {
+				parsed = PolynomialParser.parseFactoredPolynomialSet(parsable,
+						variables);
+			} catch (ParseException e) {
+				Log.debug("Cannot parse: " + parsable);
+				throw new NoSymbolicParametersException();
+			}
+			Iterator<Set<PPolynomial>> polySet = parsed.iterator();
+			PPolynomial botanaMinpoly = new PPolynomial();
+			while (polySet.hasNext()) {
+				Set<PPolynomial> thisPolySet = polySet.next();
+				Iterator<PPolynomial> polyIt = thisPolySet.iterator();
+				while (polyIt.hasNext()) {
+					botanaMinpoly = polyIt.next();
+				}
+			}
+			// End of ugly conversion.
+			// Consider using a different method or put this into PPolynomial as a constructor.
+			
+			botanaVars = new PVariable[(sides - 2) * 2];
+			botanaPolynomials = new PPolynomial[(sides - 2) * 2 + 2];
+			botanaPolynomials[0] = botanaMinpoly;
+			// x^2+y^2=1
+			botanaPolynomials[1] = PPolynomial.sqr(xp).add(PPolynomial.sqr(yp))
+					.subtract(new PPolynomial(1));
 
+			PPolynomial a1 = new PPolynomial(varsA[0]);
+			PPolynomial b1 = new PPolynomial(varsB[0]);
+			PPolynomial a2 = new PPolynomial(varsA[1]);
+			PPolynomial b2 = new PPolynomial(varsB[1]);
+
+			for (int i = 2, j = 0, k = 2; i < sides; ++i) {
+				PVariable[] varsC = new PVariable[2];
+				varsC[0] = new PVariable(kernel);
+				varsC[1] = new PVariable(kernel);
+				botanaVars[j++] = varsC[0];
+				botanaVars[j++] = varsC[1];
+				PPolynomial c1 = new PPolynomial(varsC[0]);
+				PPolynomial c2 = new PPolynomial(varsC[1]);
+				// x*(b1-a1)-y*(b2-a2)=c1-b1
+				botanaPolynomials[k++] = xp.multiply(b1.subtract(a1))
+						.subtract(yp.multiply(b2.subtract(a2))).subtract(c1)
+						.add(b1);
+				// y*(b1-a1)+x*(b2-a2)=c2-b2
+				botanaPolynomials[k++] = yp.multiply(b1.subtract(a1))
+						.add(xp.multiply(b2.subtract(a2))).subtract(c2).add(b2);
+				// recursively the other vertices:
+				a1 = b1;
+				b1 = c1;
+				a2 = b2;
+				b2 = c2;
+			}
+			return botanaPolynomials;
+
+		} catch (Throwable e) {
+			Log.debug("Problem with computing minimal poly of cos(2pi/n)");
+			throw new NoSymbolicParametersException();
+		}
 	}
-
 }
+
