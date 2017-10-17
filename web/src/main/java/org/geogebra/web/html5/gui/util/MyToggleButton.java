@@ -4,8 +4,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.TabHandler;
-import org.geogebra.web.web.gui.accessibility.AccessibilityButton;
-import org.geogebra.web.web.gui.accessibility.AccessibilityInterface;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;

@@ -1,4 +1,4 @@
-package org.geogebra.web.web.gui.accessibility;
+package org.geogebra.web.html5.gui.accessibility;
 
 import java.util.ArrayList;
 import java.util.List;

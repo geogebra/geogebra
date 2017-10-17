@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
+import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
-import org.geogebra.web.web.gui.accessibility.AccessibilityButton;
-import org.geogebra.web.web.gui.accessibility.AccessibilityInterface;
 
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.user.client.DOM;
