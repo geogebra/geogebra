@@ -1139,16 +1139,17 @@ public class SelectionManager {
 
 	public final void clearSelection(ArrayList<?> selectionList,
 			boolean doUpdateSelection) {
-
 		// unselect
 		selectionList.clear();
 		getSelectedGeoList().clear();
 		if (doUpdateSelection) {
 			clearSelectedGeos();
 		}
-
 	}
 
+	/**
+	 * Clears all selection lists.
+	 */
 	public void clearLists() {
 		clearSelection(getSelectedNumberList(), false);
 		clearSelection(getSelectedNumberValueList(), false);
@@ -1169,7 +1170,6 @@ public class SelectionManager {
 		clearSelection(getSelectedPolyhedronList(), false);
 		clearSelection(getSelectedQuadricList(), false);
 		clearSelection(getSelectedQuadricLimitedList(), false);
-
 	}
 
 	/**
@@ -1244,7 +1244,7 @@ public class SelectionManager {
 	}
 
 	/**
-	 * add geo to selection and create the selected points.
+	 * add geo to selection with its special points.
 	 * 
 	 * @param geo
 	 *            The geo element to add.
@@ -1253,7 +1253,6 @@ public class SelectionManager {
 		if (!kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
 			return;
 		}
-
 		clearSelectedGeos(false, false);
 		addSelectedGeo(geo, false, false);
 		updateSpecialPoints();

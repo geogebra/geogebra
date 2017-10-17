@@ -60,7 +60,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (item.isEmpty() && item.isInputTreeItem()) {
 			item.addDummyLabel();
 			item.setItemWidth(item.getAV().getFullWidth());
-
 		}
 
 		if (item.getAV().isNodeTableEmpty()) {
@@ -81,6 +80,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			item.addDummyLabel();
 			return;
 		}
+
 		item.setShowInputHelpPanel(false);
 		if (item.geo == null) {
 			if (StringUtil.empty(item.getText())) {
@@ -107,6 +107,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			}
 		}, keepFocus);
 	}
+	
 	@Override
 	public void onEnter() {
 		if (isSuggesting()) {
@@ -132,7 +133,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (isSuggesting()) {
 			sug.onKeyUp();
 		}
-
 	}
 
 
@@ -152,7 +152,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public void onInsertString() {
 		getMathField().setFormula(
 				GeoGebraSerializer.reparse(getMathField().getFormula()));
-
 	}
 
 	/**
@@ -196,7 +195,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 			public void callback(GeoElementND[] geos) {
 
 				if (geos == null) {
-					// inputField.getTextBox().setFocus(true);
 					setFocus(true);
 					return;
 				}
@@ -220,11 +218,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 				InputHelper.updateProperties(geos,
 						app.getActiveEuclidianView(), oldStep);
 				app.setScrollToShow(false);
-				/**
-				 * if (!valid) { addToHistory(input, null);
-				 * addToHistory(newValueF, latexx); } else { addToHistory(input,
-				 * latexx); }
-				 */
 
 				Scheduler.get()
 						.scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -243,9 +236,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 				item.setText("");
 				item.removeOutput();
 				item.runSuggestionCallbacks(geos[0]);
-
 			}
-
 		};
 		// keepFocus==false: this was called from blur, don't use modal slider
 		// dialog
@@ -262,7 +253,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (!keepFocus) {
 			item.setFocus(false, false);
 		}
-
 	}
 
 	/**
@@ -271,7 +261,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	public void autocomplete(String text) {
 		GuiManagerW.makeKeyboardListener(retexListener, app).insertString(text);
-
 	}
 
 	/**
@@ -290,7 +279,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	/**
-	 * Coneect keyboard listener to keyboard
+	 * Connect keyboard listener to keyboard
 	 */
 	public void setOnScreenKeyboardTextField() {
 		app.getGuiManager().setOnScreenKeyboardTextField(getRetexListener());
@@ -302,7 +291,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	@Override
 	public void showKeyboard() {
 		app.showKeyboard(retexListener);
-
 	}
 	
 	/**
@@ -314,7 +302,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		if (show) {
 			app.getAppletFrame().showKeyBoard(true, retexListener, false);
 		}
-
 	}
 
 	private MathFieldW getMathField() {
@@ -341,11 +328,9 @@ public class LatexTreeItemController extends RadioTreeItemController
 			@Override
 			public void run() {
 				preventBlur=false;
-				
 			}			
 		};
 		t.schedule(200);
-
 	}
 
 	@Override
