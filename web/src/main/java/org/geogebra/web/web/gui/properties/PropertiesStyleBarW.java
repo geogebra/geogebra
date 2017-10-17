@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.properties;
 import java.util.HashMap;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.web.css.GuiResources;
@@ -91,7 +90,7 @@ public class PropertiesStyleBarW extends
 	 */
 	public void updateGUI() {
 
-		setButtonVisible(OptionType.GLOBAL, app.has(Feature.GLOBAL_SETTINGS));
+		setButtonVisible(OptionType.GLOBAL, true);
 
 		setButtonVisible(OptionType.OBJECTS,
 				app.getSelectionManager().selectedGeosSize() > 0);

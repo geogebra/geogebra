@@ -52,23 +52,7 @@ public class DrawGrid {
 
 	}
 
-	private int getNumberOfSubgrids_old(int axis) {
-		int lastSignificantDigit;
 
-		// get last significant digit
-		String temp;
-		if (view.axesNumberingDistances[axis] > 1) {
-			temp = String.valueOf((int) view.axesNumberingDistances[axis]);
-			temp = temp.replaceAll("0", "");
-		} else {
-			temp = String.valueOf(view.axesNumberingDistances[axis]);
-		}
-		lastSignificantDigit = temp.charAt(temp.length() - 1) - '0';
-
-		return lastSignificantDigit % 2 == 0 && lastSignificantDigit % 5 != 0
-				? 4 : 5;
-
-	}
 
 	// private static int brighterComponent(int comp) {
 	// double factor = 0.3;
@@ -100,9 +84,7 @@ public class DrawGrid {
 		// number of parts splitted by subgrids
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
-			n = view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
-					? 5
-					: getNumberOfSubgrids_old(1);
+			n = 5;
 			smallStep = tickStepY / n;
 			//start of subgrids
 			start = view.getYZero() % smallStep;
@@ -260,9 +242,7 @@ public class DrawGrid {
 		// number of parts splitted by subgrids
 		int n = 1;
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
-			n = view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES)
-					? 5
-					: getNumberOfSubgrids_old(0);
+			n = 5;
 			smallStep = tickStepX / n;
 			// start of subgrids
 			xAxisStart = (view.positiveAxes[0] && xCrossPix > 0)
@@ -300,8 +280,7 @@ public class DrawGrid {
 			g2.startGeneralPath();
 			g2.setColor(getBrighterColor(view.getGridColor()));
 			pix = xAxisStart;
-			for (int i = (view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES) ? 1 : 0); pix <= view
-					.getWidth(); i++) {
+			for (int i = 1; pix <= view.getWidth(); i++) {
 				if ((i - leftSubGrids - 1) % n != 0) {
 					// don't draw over main grid
 					drawVerticalGridLine(g2, pix, bottom, xCrossPix, yCrossPix);
@@ -319,8 +298,7 @@ public class DrawGrid {
 				pix += tickStepX;
 			}
 
-			for (int i = (view.getApplication().has(Feature.MINOR_GRIDLINES_FIXES) ? 1 : 0); pix <= view
-					.getWidth(); i++) {
+			for (int i = 1; pix <= view.getWidth(); i++) {
 				// don't draw the grid line x=0 if the y-axis is showing
 				// or if it's too close (eg sticky axes)
 

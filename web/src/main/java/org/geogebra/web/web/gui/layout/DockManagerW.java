@@ -1868,16 +1868,10 @@ public class DockManagerW extends DockManager {
 
 
 	/**
-	 * @param portrait
-	 *            whether the format is portrait
 	 * @param landscapeRatio
 	 *            preferred landscape ratio
 	 */
 	protected void adjustViews(double landscapeRatio) {
-		if (!app.has(Feature.ADJUST_VIEWS)) {
-			return;
-		}
-
 		DockPanelW avPanel = getPanel(App.VIEW_ALGEBRA);
 		if (avPanel == null) {
 			return;

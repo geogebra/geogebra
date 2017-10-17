@@ -4179,9 +4179,6 @@ public abstract class App implements UpdateSelection {
 			return prerelease
 			;// && Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
 
-		// GGB-1288
-		case ADJUST_VIEWS:
-			return true;
 
 		// GGB-944
 		case EXPORT_ANIMATED_PDF:
@@ -4278,10 +4275,6 @@ public abstract class App implements UpdateSelection {
 		case LATEX_ON_KEYBOARD:
 			return prerelease;
 
-		/** GGB-1948 */
-		case MINOR_GRIDLINES_FIXES:
-			return true;
-
 		/** GGB-1982 */
 		// TODO if there is no need for this feature flag more, remove "appl"
 		// parameter from MyCJButton.MyCJButton(App appl)
@@ -4291,9 +4284,6 @@ public abstract class App implements UpdateSelection {
 		case FLOATING_SETTINGS:
 			return isUnbundledOrWhiteboard() && relaunch;
 			
-		case GLOBAL_SETTINGS:
-			return relaunch;
-
 		/** GGB-2005 */
 		case TOOLTIP_DESIGN:
 			return isUnbundledOrWhiteboard() && relaunch;
@@ -4361,7 +4351,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public boolean canResize() {
-		return !isApplet() && has(Feature.ADJUST_VIEWS);
+		return !isApplet();
 	}
 
 	/**
@@ -4798,10 +4788,6 @@ public abstract class App implements UpdateSelection {
 	 * @return if screen became portrait or not.
 	 */
 	public boolean adjustViews(boolean reset, boolean force) {
-		if (!has(Feature.ADJUST_VIEWS)) {
-			return false;
-		}
-
 		if (adjustViews == null) {
 			adjustViews = new AdjustViews(this);
 		}

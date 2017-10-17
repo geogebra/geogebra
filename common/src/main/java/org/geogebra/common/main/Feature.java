@@ -65,9 +65,6 @@ public enum Feature {
 	/** GGB-1236 */
 	DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW,
 
-	/** GGB-1288 */
-	ADJUST_VIEWS,
-
 
 	/** GGB-1263 */
 	AUTOSCROLLING_SPREADSHEET,
@@ -239,9 +236,6 @@ public enum Feature {
 	/** GGB-1935 */
 	LATEX_ON_KEYBOARD,
 
-	/** GGB-1948 */
-	MINOR_GRIDLINES_FIXES,
-
 	AND_AV_ITEM_MENU,
 
 	/** GGB-1982 */
@@ -249,9 +243,6 @@ public enum Feature {
 
 	/** GGB-1985*/
 	FLOATING_SETTINGS,
-
-	/** GGB-1989*/
-	GLOBAL_SETTINGS,
 
 	AND_COMPACT_AV_OUTPUT,
 

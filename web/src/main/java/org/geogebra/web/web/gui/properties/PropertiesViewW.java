@@ -184,12 +184,10 @@ public class PropertiesViewW extends PropertiesView
 		}	
 		switch (type) {
 		case GLOBAL:
-			if (globalPanel == null && app.has(Feature.GLOBAL_SETTINGS)) {
+			if (globalPanel == null) {
 				globalPanel = new OptionsGlobalW((AppW) app);
-				return globalPanel;
-			} else if (globalPanel != null) {
-				return globalPanel;
 			}
+			return globalPanel;
 
 		case DEFAULTS:
 			if (defaultsPanel == null) {
@@ -646,13 +644,16 @@ public class PropertiesViewW extends PropertiesView
 		CSSAnimation.runOnAnimation(new Runnable() {
 
 			public void run() {
-				onMenuClose();
+				onFloatingSettingsClose();
 			}
 		}, wrappedPanel.getElement(),
 				"animateOut");
 	}
 
-	protected void onMenuClose() {
+	/**
+	 * Callback for animation in floating mode
+	 */
+	protected void onFloatingSettingsClose() {
 		app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
 		((AppWapplet) app).getAppletFrame().remove(wrappedPanel);
 		setFloatingAttached(false);
