@@ -1239,17 +1239,9 @@ public class SelectionManager {
 	}
 
 	/**
-	 * Select first geo of the construction.
-	 */
-	public void addFirstGeoSelected() {
-		GeoElement geo = kernel.getConstruction().getGeoSetLabelOrder().first();
-		if (geo != null) {
-			addSelectedGeo(geo);
-		}
-	}
-
-	/**
-	 * Select last geo of the construction.
+	 * 
+	 * 
+	 * /** Select last geo of the construction.
 	 */
 	public void addLastGeoSelected() {
 		GeoElement geo = kernel.getConstruction().getGeoSetLabelOrder().last();

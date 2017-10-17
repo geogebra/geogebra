@@ -37,6 +37,7 @@ import org.geogebra.common.euclidian.modes.ModeDelete;
 import org.geogebra.common.euclidian.modes.ModeDeleteLocus;
 import org.geogebra.common.euclidian.modes.ModeShape;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.inputfield.AutoCompleteTextField;
 import org.geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import org.geogebra.common.kernel.Construction;
@@ -128,7 +129,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
-import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -10028,9 +10028,9 @@ public abstract class EuclidianController {
 
 	public void wrapMouseReleased(AbstractEvent event) {
 		// will be reset in wrapMouseReleased
-		GlobalKeyDispatcher gpd = app.getGlobalKeyDispatcher();
-		if (gpd != null) {
-			gpd.setTabOverGeos(true);
+		AccessibilityManagerInterface am = app.getAccessibilityManager();
+		if (am != null) {
+			am.setTabOverGeos(true);
 		}
 
 		GeoPointND p = this.selPoints() == 1 ? getSelectedPointList().get(0)

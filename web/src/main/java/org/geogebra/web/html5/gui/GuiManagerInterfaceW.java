@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -126,12 +127,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void addKeyboardAutoHidePartner(GPopupPanel popup);
 
-	public void onTabModeChange(boolean tabsOnGUI, boolean lastgeo);
-
 	public void switchToolsToAV();
 
 	public void focusToobarFirstElement();
 
 	public void focusToobarLastElement();
-
 }

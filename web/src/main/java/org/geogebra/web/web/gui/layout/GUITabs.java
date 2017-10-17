@@ -13,7 +13,7 @@ public class GUITabs {
 	public static final int HEADER_TAB_START = 1000;
 
 	/** Start tab index of EV buttons (Settings) */
-	public static final int EV_TAB_START = 2000;
+	public static final int EV_SETTINGS = 2000;
 
 	/** Start tab index of zoom buttons */
 	public static final int ZOOMPANEL_TAB_START = 3000;

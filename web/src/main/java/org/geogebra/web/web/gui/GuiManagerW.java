@@ -12,6 +12,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.Editing;
 import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.gui.Layout;
@@ -191,6 +192,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	private Localization loc;
 
+	private AccessibilityManagerW accessibilityManager = null;
 	/**
 	 * 
 	 * @param app
@@ -2479,22 +2481,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
-	public void onTabModeChange(boolean tabsOnGUI, boolean lastgeo) {
-		if (tabsOnGUI) {
-			EuclidianDockPanelW dp = (EuclidianDockPanelW) getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
-			if (lastgeo) {
-				dp.focusNextGUIElement();
-			} else {
-				dp.focusLastGUIElement();
-			}
-			if (getToolbarPanelV2() != null) {
-				getToolbarPanelV2().setTabIndexes();
-			}
-		} else {
-			// TODO: switch back to geo mode.
-		}
-	}
-
 	/**
 	 * Focus last available button in EV.
 	 */
@@ -2523,6 +2509,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			getAlgebraView().openMenuFor(geo);
 		}
 	}
+
+	
 }
 
 

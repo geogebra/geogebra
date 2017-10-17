@@ -574,7 +574,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			graphicsContextMenuBtn.addStyleName("graphicsContextMenuBtn");
 			titleBarPanelContent.add(graphicsContextMenuBtn);
 			if (app.has(Feature.TAB_ON_GUI)) {
-				graphicsContextMenuBtn.setTabIndex(GUITabs.EV_TAB_START);
+				graphicsContextMenuBtn.setTabIndex(GUITabs.EV_SETTINGS);
 				graphicsContextMenuBtn.addTabHandler(this);
 			}
 			return;
@@ -1647,7 +1647,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == graphicsContextMenuBtn && !shiftDown) {
-			app.getGlobalKeyDispatcher().focusFirstGeo();
+			app.getAccessibilityManager().
+				focusNext(graphicsContextMenuBtn);
 			return true;
 		}
 

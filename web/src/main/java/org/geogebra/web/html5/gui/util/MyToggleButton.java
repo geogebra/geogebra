@@ -40,6 +40,7 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 	public MyToggleButton(App app) {
 		super();
 		this.app = app;
+		acc = new AccessibilityButton(this);
 	}
 
 

@@ -533,7 +533,7 @@ public class ZoomPanel extends FlowPanel
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == getFirstButton() && shiftDown) {
-			app.getGlobalKeyDispatcher().focusLastGeo();
+	//		app.getGlobalKeyDispatcher().focusLastGeo();
 			return true;
 		} else if (source == getLastButton() && !shiftDown) {
 			app.getGuiManager().focusToobarFirstElement();

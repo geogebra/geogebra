@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -42,14 +43,10 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GlobalKeyDispatcherW extends
         org.geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler,
         KeyDownHandler, KeyPressHandler {
-	private enum GUISwitchMode {
-		None, LastGeoToGUI, FirstGeoToGUI
-	}
 
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 	private boolean keydownPreventsDefaultKeypressTAB = false;
-	private GUISwitchMode guiSwitchMode = GUISwitchMode.None;
 
 	/**
 	 * Used if we need tab working properly
@@ -470,7 +467,7 @@ public class GlobalKeyDispatcherW extends
 				+ KeyCodes.translateGWTcode(event.getNativeKeyCode()) + " in "
 				+ getActive());
 		KeyCodes kc = KeyCodes.translateGWTcode(event.getNativeKeyCode());
-		if (app.has(Feature.TAB_ON_GUI) && !isTabOverGeos()
+		if (app.has(Feature.TAB_ON_GUI) && !app.getAccessibilityManager().isTabOverGeos()
 				&& kc == KeyCodes.TAB) {
 			event.stopPropagation();
 			return;
@@ -562,21 +559,23 @@ public class GlobalKeyDispatcherW extends
 			return true;
 		}
 
-		if (!isTabOverGeos()) {
-			Log.debug("GUI TAB");
+		AccessibilityManagerInterface am = app.getAccessibilityManager();
+		
+		if (am != null && !am.isTabOverGeos()) {
+			Log.debug("GUI TAB"); 
 			return true;
 		}
 
 		app.getActiveEuclidianView().closeDropdowns();
 
-		if (changeTabMode(isShiftDown)) {
+		if (am != null && am.hasTabModeChanged(isShiftDown)) {
 			return true;
 		}
 		
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
-			if (selection.isFirstGeoSelected()) {
-				guiSwitchMode = GUISwitchMode.FirstGeoToGUI;
+			if (am != null) {
+				am.setTabFromGeosToGui();
 			}
 			return true;
 		}
@@ -589,9 +588,11 @@ public class GlobalKeyDispatcherW extends
 				false);
 
 		if (selection.isLastGeoSelected()) {
-			guiSwitchMode = GUISwitchMode.LastGeoToGUI;
+			if (am != null) {
+				am.setTabFromGeosToGui();
+			}
 		} else {
-			setTabOverGeos(true);
+			app.getAccessibilityManager().setTabOverGeos(true);
 
 		}
 
@@ -768,15 +769,6 @@ public class GlobalKeyDispatcherW extends
 				&& e.getNativeEvent().getCharCode() > 128;
 	}
 
-	@Override
-	protected void onTabModeChange(boolean lastgeo) {
-		if (!isTabOverGeos()) {
-			selection.clearSelectedGeos();
-		}
-		((GuiManagerInterfaceW) app.getGuiManager())
-				.onTabModeChange(!isTabOverGeos(), lastgeo);
-	}
-
 	/**
 	 * @return new focus handler that unblocks keyboard features in this applet
 	 */
@@ -790,46 +782,4 @@ public class GlobalKeyDispatcherW extends
 		};
 	}
 
-	private boolean changeTabMode(boolean shift) {
-		boolean ret = false;
-		switch (guiSwitchMode) {
-		case FirstGeoToGUI:
-			if (shift) {
-				setTabOverGeos(false);
-				onTabModeChange(false);
-				ret = true;
-			}
-			break;
-		case LastGeoToGUI:
-			if (!shift) {
-				setTabOverGeos(false);
-				onTabModeChange(true);
-				ret = true;
-			}
-			break;
-		case None:
-			return false;
-		default:
-			break;
-		}
-
-		guiSwitchMode = GUISwitchMode.None;
-		return ret;
-	}
-
-	/**
-	 * focus first geo entering EV with tab.
-	 */
-	public void focusFirstGeo() {
-		setTabOverGeos(true);
-		selection.addFirstGeoSelected();
-	}
-
-	/**
-	 * focus last geo entering EV with shift + tab.
-	 */
-	public void focusLastGeo() {
-		setTabOverGeos(true);
-		selection.addLastGeoSelected();
-	}
 }

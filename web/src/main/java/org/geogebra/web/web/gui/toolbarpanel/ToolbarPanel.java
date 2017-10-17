@@ -924,4 +924,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		tabAlgebra.setFade(fade);
 		tabTools.setFade(fade);
 	}
+
+	/** Sets focus to Burger menu */
+	public void focusMenu() {
+		header.focusMenu();
+	}
 }

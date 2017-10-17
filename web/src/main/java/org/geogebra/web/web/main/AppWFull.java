@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.menubar.MenuInterface;
@@ -46,6 +47,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
+import org.geogebra.web.web.gui.AccessibilityManagerW;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
@@ -106,6 +108,8 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	private PerspectivesPopup perspectivesPopup;
 
 	private int activePerspective;
+
+	private AccessibilityManagerInterface accessibilityManager;
 	
 	/**
 	 * 
@@ -990,4 +994,11 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		}
 	}
 
+	@Override
+	public AccessibilityManagerInterface getAccessibilityManager() {
+		if (accessibilityManager == null) {
+			accessibilityManager = new AccessibilityManagerW(this);
+		}
+		return accessibilityManager;
+	}
 }

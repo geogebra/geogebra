@@ -39,7 +39,6 @@ public abstract class GlobalKeyDispatcher {
 
 	private static final double AUTOSTEPS_PER_KEY = 5;
 
-	private boolean tabOverGeos = true;
 	/** application */
 	protected final App app;
 	/** selection */
@@ -1538,40 +1537,5 @@ public abstract class GlobalKeyDispatcher {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * @return true if TAB navigates through geos, false if through GUI elements
-	 *         only.
-	 */
-	public boolean isTabOverGeos() {
-		return tabOverGeos;
-	}
-
-	/**
-	 * sets if TAB should navigate through geos or GUI elements only.
-	 * 
-	 * @param tabOverGeos
-	 *            to set.
-	 */
-	public void setTabOverGeos(boolean tabOverGeos) {
-		if (!app.has(Feature.TAB_ON_GUI)) {
-			return;
-		}
-		this.tabOverGeos = tabOverGeos;
-
-		if (!tabOverGeos) {
-			selection.clearSelectedGeos();
-		}
-	}
-
-	/**
-	 * Gives the focus to the first GUI element after tab switching.
-	 * 
-	 * @param lastgeo
-	 *            if the last geo was selected before.
-	 */
-	protected void onTabModeChange(boolean lastgeo) {
-		// overwritten to descendant
 	}
 }
