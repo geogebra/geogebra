@@ -49,6 +49,7 @@ public class LoginOperationW extends LogInOperation {
 		}
 		return false;
 	}
+
 	private native void iniNativeEvents() /*-{
 		var t = this;
 		$wnd
@@ -64,7 +65,7 @@ public class LoginOperationW extends LogInOperation {
 										t.@org.geogebra.web.web.move.ggtapi.operations.LoginOperationW::processToken(Ljava/lang/String;)(data.msg);
 									}
 								} catch (err) {
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n"+err.message);
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("error occured while logging: \n" + err.message + " " + event.data);
 								}
 							}
 						}, false);
