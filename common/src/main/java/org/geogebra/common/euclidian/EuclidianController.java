@@ -5872,7 +5872,7 @@ public abstract class EuclidianController {
 				selectionPreview);
 	}
 
-	protected void showDynamicStylebar(boolean isMultiSelection) {
+	protected void showDynamicStylebar() {
 		// implemented in EuclidianControllerW
 	}
 
@@ -10063,7 +10063,7 @@ public abstract class EuclidianController {
 			getResizedShape().updateGeo(event);
 			selection.addSelectedGeo(getResizedShape().getGeoElement());
 			if (!isDraggingOccuredBeyondThreshold()) {
-				showDynamicStylebar(false);
+				showDynamicStylebar();
 			}
 			storeUndoInfo();
 			setResizedShape(null);
@@ -10082,7 +10082,7 @@ public abstract class EuclidianController {
 					view.repaintView();
 					selection.addSelectedGeo(geo);
 					if (!isDraggingOccuredBeyondThreshold()) {
-						showDynamicStylebar(false);
+						showDynamicStylebar();
 					}
 				}
 
@@ -10145,7 +10145,7 @@ public abstract class EuclidianController {
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
 			if (EuclidianConstants.isMoveOrSelectionModeCompatibleWithDragging(mode, isDraggingOccuredBeyondThreshold())
 					&& !event.isRightClick()) {
-				showDynamicStylebar(event.isControlDown());
+				showDynamicStylebar();
 			}
 		}
 
