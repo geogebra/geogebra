@@ -177,9 +177,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 		GPoint newPos = null, nextPos;
 		boolean hasVisibleGeo = false;
 
-		for (int i = 0; i < (app
-				.has(Feature.DYNAMIC_STYLEBAR_POSITION_MULTISELECT)
-						? activeGeoList.size() : 1); i++) {
+		for (int i = 0; i < activeGeoList.size(); i++) {
 			GeoElement geo = activeGeoList.get(i);
 			// it's possible if a non visible geo is in activeGeoList, if we
 			// duplicate a geo, which has descendant.
@@ -245,7 +243,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 	public void setVisible(boolean v) {
 		// Close label popup if opened when dynamic stylebar visiblity changed
-		if (app.has(Feature.CLOSE_LABEL_DIALOG_AT_ESC) && isVisible()) {
+		if (isVisible()) {
 			closeLabelPopup();
 		}
 		super.setVisible(v);

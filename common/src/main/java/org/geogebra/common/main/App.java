@@ -4268,9 +4268,6 @@ public abstract class App implements UpdateSelection {
 		case CENTER_STANDARD_VIEW:
 			return relaunch;
 
-		case DELETE_BUTTON_BEHAVIOR_FIX:
-			return relaunch;
-
 		/** GGB-1966 */
 		case FUNCTIONS_DYNAMIC_STYLEBAR_POSITION:
 			return relaunch;
@@ -4289,16 +4286,6 @@ public abstract class App implements UpdateSelection {
 		// TODO if there is no need for this feature flag more, remove "appl"
 		// parameter from MyCJButton.MyCJButton(App appl)
 		case OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS:
-			return relaunch;
-			/** GGB-1982 */
-		case CLOSE_LABEL_DIALOG_AT_ESC:
-			return relaunch;
-
-		/** GGB-1983 */
-		case DYNAMIC_STYLEBAR_POSITION_MULTISELECT:
-			return relaunch;
-		/** GGB-1983 */
-		case DYNAMIC_STYLEBAR_MULTISELECTION_BUGS:
 			return relaunch;
 	
 		case FLOATING_SETTINGS:

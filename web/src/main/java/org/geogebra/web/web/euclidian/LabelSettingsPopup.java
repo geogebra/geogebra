@@ -8,7 +8,6 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.keyboard.web.TabbedKeyboard;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -178,9 +177,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	@Override
 	public void onClose(CloseEvent<GPopupPanel> event) {
 		model.applyNameChange(tfName.getText(), app.getErrorHandler());
-		if (!app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)) {
-			applyCheckboxes();
-		}
 	}
 	
 
@@ -226,8 +222,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 
 	@Override
 	public void update(boolean isEqualVal, boolean isEqualMode, int mode) {
-		if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
-				&& namePanel != null) {
+		if (namePanel != null) {
 			namePanel.setVisible(model.getGeosLength() == 1);
 		}
 		if (!model.isLabelVisible()) {
@@ -236,15 +231,15 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			return;
 		}
 		cmName.setChecked(
-				(!app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
-						|| isEqualVal)
+				isEqualVal
 						&& (mode == GeoElement.LABEL_NAME
+								|| mode == GeoElement.LABEL_CAPTION_VALUE
 								|| mode == GeoElement.LABEL_NAME_VALUE
 								|| mode == GeoElement.LABEL_CAPTION));
 		cmValue.setChecked(
-				(!app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)
-						|| isEqualMode)
+				isEqualMode
 						&& (mode == GeoElement.LABEL_VALUE
+								|| mode == GeoElement.LABEL_CAPTION_VALUE
 								|| mode == GeoElement.LABEL_NAME_VALUE));
 	}
 

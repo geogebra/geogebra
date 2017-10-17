@@ -1,5 +1,8 @@
 package org.geogebra.web.web.euclidian;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -54,9 +57,6 @@ import org.geogebra.web.web.gui.util.PointStylePopup;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.StyleBarW2;
 import org.geogebra.web.web.main.AppWFull;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -622,30 +622,22 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void onClick(Widget source) {
 				// force closing keyboard
 				getFrame().showKeyBoard(false, null, true);
-				if (app.has(Feature.DELETE_BUTTON_BEHAVIOR_FIX)) {
-					boolean deletePoints = true;
-					for (int i = activeGeoList.size() - 1; i >= 0; i--) {
-						if (!(activeGeoList.get(i) instanceof GeoPoint)) {
-							activeGeoList.get(i).remove();
-							deletePoints = false;
-						}
+
+				boolean deletePoints = true;
+				for (int i = activeGeoList.size() - 1; i >= 0; i--) {
+					if (!(activeGeoList.get(i) instanceof GeoPoint)) {
+						activeGeoList.get(i).remove();
+						deletePoints = false;
 					}
-					if (deletePoints) {
-						app.deleteSelectedObjects(false);
-					} else {
-						app.storeUndoInfo();
-					}
+				}
+				if (deletePoints) {
+					app.deleteSelectedObjects(false);
 				} else {
-					for (GeoElement geo : activeGeoList) {
-						geo.removeOrSetUndefinedIfHasFixedDescendent();
-					}
 					app.storeUndoInfo();
 				}
 
-				if (app.has(Feature.DYNAMIC_STYLEBAR_MULTISELECTION_BUGS)) {
-					app.getActiveEuclidianView().getEuclidianController()
+				app.getActiveEuclidianView().getEuclidianController()
 							.clearSelections();
-				}
 			}
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
