@@ -169,8 +169,6 @@ public class MOWToolbar extends FlowPanel {
 		panel.add(btnRedo);
 	}
 
-
-
 	/**
 	 * update style of undo+redo buttons
 	 */
@@ -350,13 +348,6 @@ public class MOWToolbar extends FlowPanel {
 	}
 	
 	/**
-	 * set submenu open/closed
-	 */
-	void toggleSubmenu() {
-		setSubmenuVisible(!subMenuPanel.isVisible());
-	}
-
-	/**
 	 * selects a tab and sets the indicator
 	 * 
 	 * @param source
@@ -378,6 +369,13 @@ public class MOWToolbar extends FlowPanel {
 			}
 		}
 		}
+	}
+
+	/**
+	 * set submenu open/closed
+	 */
+	void toggleSubmenu() {
+		setSubmenuVisible(!subMenuPanel.isVisible());
 	}
 
 	/**
