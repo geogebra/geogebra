@@ -1844,7 +1844,7 @@ __GGB__keysVar.pt_PT.menu = {
     "GraphicsViewAsAsymptote": "Folha Gr\xe1fica como Asymptote",
     "GraphicsViewForPlaneA": "Vista de %0",
     "Graphing": "Gr\xe1fico",
-    "Graphing3D": "3D Graphing Calculator",
+    "Graphing3D": "3D Calculadora Gr\xe1fica",
     "GraphingCalculator": "Calculadora Gr\xe1fica",
     "GraphingCalculator.short": "Calculadora Gr\xe1fica",
     "GraphingCalculator3D.Function3D": "z=f(x,y) fun\xe7\xf5es",
