@@ -37,7 +37,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 
@@ -573,8 +572,7 @@ public abstract class Drawable extends DrawableND {
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 
 			selStroke = EuclidianStatic.getStroke(
-					view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
-							&& !fromGeo.isShape() ? 2 * width + 2
+					!fromGeo.isShape() ? 2 * width + 2
 									: width + EuclidianStyleConstants.SELECTION_ADD,
 					EuclidianStyleConstants.LINE_TYPE_FULL);
 		} else if (lineType != fromGeo.getLineType()) {
@@ -609,9 +607,7 @@ public abstract class Drawable extends DrawableND {
 					objStroke.getEndCap(), objStroke.getLineJoin(),
 					objStroke.getMiterLimit(), decoStroke.getDashArray());
 			selStroke = AwtFactory.getPrototype().newBasicStroke(
-					view.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
-							? 2 * width + 2
-							: width + EuclidianStyleConstants.SELECTION_ADD,
+					2 * width + 2,
 					objStroke.getEndCap(), objStroke.getLineJoin(),
 					objStroke.getMiterLimit(), selStroke.getDashArray());
 

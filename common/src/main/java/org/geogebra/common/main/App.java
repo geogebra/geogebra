@@ -4285,9 +4285,6 @@ public abstract class App implements UpdateSelection {
 		case MINOR_GRIDLINES_FIXES:
 			return true;
 
-		case OBJECT_HIGHLIGHT:
-			return relaunch;
-
 		/** GGB-1982 */
 		// TODO if there is no need for this feature flag more, remove "appl"
 		// parameter from MyCJButton.MyCJButton(App appl)
@@ -4308,10 +4305,6 @@ public abstract class App implements UpdateSelection {
 			return isUnbundledOrWhiteboard() && relaunch;
 			
 		case GLOBAL_SETTINGS:
-			return relaunch;
-
-		/** GGB-1975 */
-		case HIGHLIGT_IMPROVEMENTS:
 			return relaunch;
 
 		/** GGB-2005 */

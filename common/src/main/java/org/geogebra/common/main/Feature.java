@@ -245,9 +245,6 @@ public enum Feature {
 	/** GGB-1948 */
 	MINOR_GRIDLINES_FIXES,
 
-	/** GGB-1917*/
-	OBJECT_HIGHLIGHT,
-
 	AND_AV_ITEM_MENU,
 
 	/** GGB-1982 */
@@ -267,9 +264,6 @@ public enum Feature {
 	GLOBAL_SETTINGS,
 
 	AND_COMPACT_AV_OUTPUT,
-
-	/** GGB-1975 */
-	HIGHLIGT_IMPROVEMENTS,
 
 	/** GGB-2005 */
 	TOOLTIP_DESIGN,

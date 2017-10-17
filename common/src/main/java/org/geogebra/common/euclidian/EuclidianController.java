@@ -1434,15 +1434,13 @@ public abstract class EuclidianController {
 	}
 
 	protected final void setHighlightedGeos(boolean highlight) {
+		if (highlight) {
+			return;
+		}
 		GeoElement geo;
 		Iterator<GeoElement> it = highlightedGeos.iterator();
 		while (it.hasNext()) {
 			geo = it.next();
-
-			if (app.has(Feature.OBJECT_HIGHLIGHT) && highlight) {
-				continue;
-			}
-
 			if (!highlight || mayHighlight(geo)) {
 				geo.setHighlighted(highlight);
 			}
@@ -10194,15 +10192,14 @@ public abstract class EuclidianController {
 		PointerEventType type = event.getType();
 
 		if (isDraggingOccuredBeyondThreshold()) {
-			if (app.has(Feature.HIGHLIGT_IMPROVEMENTS)) {
-				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-					if (mode != EuclidianConstants.MODE_SELECT) {
-						clearSelections();
-					}
-				} else {
+			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
+				if (mode != EuclidianConstants.MODE_SELECT) {
 					clearSelections();
 				}
+			} else {
+				clearSelections();
 			}
+
 		} else {
 			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
 				switch (lastSelectionToolPressResult) {
@@ -10728,9 +10725,6 @@ public abstract class EuclidianController {
 	 */
 	public boolean setJustCreatedGeosSelected() {
 		if (justCreatedGeos != null && justCreatedGeos.size() > 0) {
-			if (!app.has(Feature.OBJECT_HIGHLIGHT)) {	
-				setAppSelectedGeos(justCreatedGeos);
-			} 
 			return true;
 		}
 		return false;

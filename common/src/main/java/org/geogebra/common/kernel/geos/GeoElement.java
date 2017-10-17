@@ -1145,9 +1145,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		// selColor = getInverseColor(objColor);
 		if (color != null) {
-			int alpha = getKernel().getApplication()
-					.has(Feature.HIGHLIGT_IMPROVEMENTS)
-					&& this.getGeoClassType() != GeoClass.NUMERIC ? 51 : 100;
+			int alpha = getGeoClassType() != GeoClass.NUMERIC ? 51 : 100;
 			selColor = GColor.newColor(color.getRed(), color.getGreen(),
 					color.getBlue(), alpha);
 		}
@@ -1394,8 +1392,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *         because Show/Hide tool selected
 	 */
 	public boolean isHideShowGeo() {
-		return kernel.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
-				&& isSelected() && (kernel.getApplication()
+		return isSelected() && (kernel.getApplication()
 						.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 	}
 
@@ -6643,10 +6640,9 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	final public boolean doHighlighting() {
 		return (highlighted || selected)
-				&& (!isLocked() || isSelectionAllowed(null)) && (!kernel
-						.getApplication().has(Feature.HIGHLIGT_IMPROVEMENTS)
-						|| kernel.getApplication()
-								.getMode() != EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+				&& (!isLocked() || isSelectionAllowed(null))
+				&& (kernel.getApplication()
+						.getMode() != EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
 	}
 
 	/**
