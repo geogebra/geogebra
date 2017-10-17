@@ -9738,6 +9738,7 @@ public abstract class EuclidianController {
 	protected void processSelectionRectangle(boolean alt, boolean isControlDown,
 			boolean shift) {
 		startCollectingMinorRepaints();
+		GRectangle oldRectangle = view.getSelectionRectangle();
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
 			if (mode != EuclidianConstants.MODE_SELECT) {
 				clearSelections();
@@ -9746,7 +9747,7 @@ public abstract class EuclidianController {
 			clearSelections();
 		}
 
-		view.setHits(view.getSelectionRectangle());
+		view.setHits(oldRectangle);
 		Hits hits = view.getHits();
 
 		boolean changedKernel = false;
@@ -10192,14 +10193,9 @@ public abstract class EuclidianController {
 		PointerEventType type = event.getType();
 
 		if (isDraggingOccuredBeyondThreshold()) {
-			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
-				if (mode != EuclidianConstants.MODE_SELECT) {
+			if (!EuclidianView.usesSelectionRectangleAsInput(mode) && !right) {
 					clearSelections();
-				}
-			} else {
-				clearSelections();
 			}
-
 		} else {
 			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
 				switch (lastSelectionToolPressResult) {
