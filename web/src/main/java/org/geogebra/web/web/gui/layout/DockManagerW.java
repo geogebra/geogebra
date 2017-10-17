@@ -1908,7 +1908,7 @@ public class DockManagerW extends DockManager {
 		}
 
 		double portraitDivider = kbHeight >= appHeight ? 1
-				: (avHeight) / (appHeight - kbHeight);
+				: Math.min((avHeight) / (appHeight - kbHeight), 1);
 
 		Log.debug("portraitDivider " + portraitDivider + ","
 				+ kbHeight + "," + avHeight);

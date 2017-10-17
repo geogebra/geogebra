@@ -1,7 +1,5 @@
 package org.geogebra.web.web.javax.swing;
 
-import org.geogebra.web.web.gui.menubar.MenuCommand;
-
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -54,15 +52,11 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	}
 
 	/**
-	 * @param cmd
+	 * @param command
 	 *            - command to execute
 	 */
-	public void setCommand(MenuCommand cmd) {
-		menuItem.setCommand(cmd);
-	}
-
 	public void setCommand(Command command) {
-		menuItem.setCommand(command);
+		menuItem.setScheduledCommand(command);
 	}
 
 	@Override
