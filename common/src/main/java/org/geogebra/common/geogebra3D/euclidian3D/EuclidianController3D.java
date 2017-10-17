@@ -4300,24 +4300,21 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return true;
 		}
 
-		if (app.has(Feature.DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW)) {
-			GeoElement geoLabel = getView().getLabelHitCheckRefresh(mouseLoc,
-					event.getType());
-			if (geoLabel != null) {
+		GeoElement geoLabel = getView().getLabelHitCheckRefresh(mouseLoc,
+				event.getType());
+		if (geoLabel != null) {
+			return false;
+		}
+
+		for (GeoElement geo : hits) {
+			if (isDraggable(geo, view3D)) {
 				return false;
 			}
-
-			for (GeoElement geo : hits) {
-				if (isDraggable(geo, view3D)) {
-					return false;
-				}
-			}
-
-			// ok, let's spin the view
-			return true;
-
 		}
-		return hits.get(0) == kernel.getXOYPlane();
+
+		// ok, let's spin the view
+		return true;
+
 	}
 
 	/**

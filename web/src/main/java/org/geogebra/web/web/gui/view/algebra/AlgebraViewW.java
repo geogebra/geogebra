@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
@@ -1576,10 +1575,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 
-		if ((!app.getLocalization().getLanguage().equals("ko") || app
-				.has(Feature.KOREAN_KEYBOARD))
-				&& app.showView(App.VIEW_ALGEBRA)
-				&& !isToolMode()) {
+		if (app.showView(App.VIEW_ALGEBRA) && !isToolMode()) {
 			if (forceKeyboard) {
 				doShowKeyboard();
 			} else if (suggestKeyboard) {

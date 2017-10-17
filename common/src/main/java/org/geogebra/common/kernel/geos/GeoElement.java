@@ -2426,11 +2426,8 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return whether this is protected against deleting and editing
 	 */
 	public boolean isProtected(EventType type) {
-		if (kernel.getApplication().has(Feature.FIXED_OBJECTS_EDITABLE)) {
-			return isLocked() && this.getSpreadsheetCoords() != null
-					&& type == EventType.REMOVE;
-		}
-		return fixed;
+		return isLocked() && this.getSpreadsheetCoords() != null
+				&& type == EventType.REMOVE;
 	}
 
 	/**

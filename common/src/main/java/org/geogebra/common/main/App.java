@@ -4065,8 +4065,6 @@ public abstract class App implements UpdateSelection {
 		// *******************************************************
 		// **********************************************************************
 
-		case KOREAN_KEYBOARD:
-			return true;
 
 		// GGB-1349
 
@@ -4184,9 +4182,6 @@ public abstract class App implements UpdateSelection {
 		case EXPORT_ANIMATED_PDF:
 			return prerelease;
 
-		case DRAGGING_NON_MOVEABLE_OBJECT_SPIN_THE_VIEW:
-			return true;
-
 		case AUTOSCROLLING_SPREADSHEET:
 			return prerelease;
 
@@ -4202,12 +4197,6 @@ public abstract class App implements UpdateSelection {
 
 		case DYNAMIC_STYLEBAR:
 			return relaunch && isUnbundledOrWhiteboard();
-
-		/**
-		 * GGB-1572 Functions fixed by default
-		 */
-		case FIXED_OBJECTS_EDITABLE:
-			return true;
 
 		case AV_CONTEXT_MENU:
 			return relaunch;
