@@ -88,7 +88,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 				super.setTitle(title);
 			}
 		}
-
 	}
 
 	
@@ -182,7 +181,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (!open) {
 			toolbarPanel.setFadeTabs(false);
 		}
-
 		toolbarPanel.openAlgebra(open);
 		toolbarPanel.setMoveMode();
 		app.setKeyboardNeeded(true);
@@ -197,7 +195,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (!open) {
 			toolbarPanel.setFadeTabs(false);
 		}
-
 		app.setKeyboardNeeded(false);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(false);
@@ -211,13 +208,11 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-
 		if (isOpen()) {
 			onClose();
 		} else {
 			onOpen();
 		}
-
 		toolbarPanel.getFrame().showKeyBoard(false, null, true);
 	}
 	
@@ -225,7 +220,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		setAnimating(true);
 		Widget headerParent = toolbarPanel.header.getParent().getParent()
 				.getParent();
-
 		if (app.isPortrait()) {
 			headerParent.addStyleName("closePortrait");
 		} else {
@@ -279,14 +273,12 @@ class Header extends FlowPanel implements KeyDownHandler {
 		setTitle(btnRedo, "Redo");
 
 		setAltTexts();
-
 	}
 
 	private void setTitle(Widget btn, String avTitle) {
 		if (btn != null) {
 			btn.setTitle(app.getLocalization().getMenu(avTitle));
 		}
-
 	}
 
 	private void setAltTexts() {
@@ -409,7 +401,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 			btnMenu.addKeyDownHandler(this);
 		}
 	}
-
 
 	private void addUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();
@@ -558,7 +549,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 			toolbarPanel.updateHeight();
 		} else {
 			toolbarPanel.updateWidth();
-
 		}
 
 		toolbarPanel.showKeyboardButtonDeferred(

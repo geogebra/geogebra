@@ -130,7 +130,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		public ToolbarTab() {
 			setSize("100%", "100%");
 			setAlwaysShowScrollBars(false);
-
 		}
 
 		@Override
@@ -261,8 +260,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	int getOpenHeightInPortrait() {
 		double h = app.getHeight();
 		int kh = 0;
-		// getFrame().isKeyboardShowing()
-		// ? (int) (getFrame().getKeyboardHeight()) : 0;
 
 		if (app.isUnbundledGraphing()) {
 			return (int) (Math
@@ -271,7 +268,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 		return (int) (Math
 				.round(h * PerspectiveDecoder.portraitRatio(h, false)));
-
 	}
 
 	/**
@@ -325,7 +321,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
-			// AnimationCallback animCallback = null;
 			dockParent.addStyleName("hide-Dragger");
 			if (opposite != null) {
 				opposite.addStyleName("hiddenHDraggerRightPanel");
@@ -395,10 +390,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				};
 
 			}
-
 			dockParent.animate(OPEN_ANIM_TIME, animCallback);
 		}
-
 	}
 
 	private void setMinimumSize() {
@@ -642,7 +635,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		tabAlgebra.setActive(true);
 		tabTools.setActive(false);
 		setFadeTabs(fade);
-
 		hideMoveFloatingButton();
 	}
 
@@ -663,7 +655,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		tabTools.setActive(true);
 		setFadeTabs(fade);
 		updateMoveButton();
-
 	}
 
 
@@ -684,7 +675,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	private void open() {
-
 		if (!isOpen()) {
 			doOpen();
 		}
@@ -775,7 +765,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public double getMinVHeight() {
 		return 3 * header.getOffsetHeight();
-				
 	}
 
 	/**
@@ -874,7 +863,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void onOrientationChange() {
 		header.onOrientationChange();
-
 	}
 
 	/**
@@ -906,7 +894,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/** Focus the first element of toolbar under header */
 	public void focusFirstElement() {
 		selectedTab.focusFirstElement();
-
 	}
 
 	/** Focus the last element of toolbar under header */

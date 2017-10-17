@@ -131,6 +131,7 @@ public class ToolbarDockPanelW extends DockPanelW {
 	@Override
 	public void setToolMode(boolean toolMode) {
 		if (toolbar != null) {
+			// open with false: no fading here.
 			if (toolMode) {
 				toolbar.openTools(false);
 			} else {
