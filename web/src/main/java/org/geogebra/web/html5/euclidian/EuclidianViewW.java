@@ -1175,8 +1175,13 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	protected void drawResetIcon(GGraphics2D g) {
 		int w = getWidth();
-		((GGraphics2DW) g).getCanvas().getContext2d()
-		        .drawImage(getResetImage(), w - 24, 2);
+
+		// omit for export
+		// getContext2d() isn't supported for SVG export
+		if (!app.isExporting()) {
+			((GGraphics2DW) g).getCanvas().getContext2d()
+					.drawImage(getResetImage(), w - 24, 2);
+		}
 	}
 
 	/* needed because set the id of canvas */
