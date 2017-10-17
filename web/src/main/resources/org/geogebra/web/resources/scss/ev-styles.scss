@@ -12,7 +12,7 @@
 		margin-top: 10px;
 		margin-right: 10px;	
 		position: absolute;
-    	right: 0px;
+		right: 0px;
 			
 		img {
 			opacity: 0.54;
@@ -83,7 +83,7 @@
 				opacity: 0.7;
 			}	
 		
-			&:hover {
+			&:hover, &:focus {
 				border: $purple-default solid 1px;
 			}
 		
@@ -326,7 +326,7 @@
     			opacity: 0.54;
     		}	
     	
-    		&:hover {
+    		&:hover, &:focus {
     			/*background-color: #666;*/
     			background-color: $selected-menuitem-background;
     			
@@ -352,9 +352,9 @@
 	
 			img {
     			opacity: 0;
-    		}	
+    		}
     	
-    		&:hover {
+    		&:hover, &:focus {
     			/*background-color: #666;*/
     			background-color: $selected-menuitem-background;
     			

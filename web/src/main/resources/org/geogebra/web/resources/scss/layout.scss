@@ -80,7 +80,7 @@
 		z-index: 99999;
 	}
 	
-	.menu:hover {
+	.menu:hover, .menu:focus {
 		img {
 			opacity: 1.0;
 		}
@@ -111,7 +111,7 @@
 		}
 	}
 
-	.tabButton:hover {
+	.tabButton:hover, .tabButton:focus {
 		
 		img {
 			opacity: 1.0 !important;	

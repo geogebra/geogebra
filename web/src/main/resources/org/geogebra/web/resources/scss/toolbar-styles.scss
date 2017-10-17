@@ -32,7 +32,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				/*border-bottom: solid 2px $white;*/
 			}
 		
-			.flatButton:hover {
+			.flatButton:hover, .flatButton:focus {
 				cursor: hand;
 		
 				img { 
@@ -159,11 +159,11 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				display: table-cell;
 				top: calc(50% - 64px);
 				height: 84px !important;
-				
+
 				.tabButton {
 					margin-left: 10px !important;	
 				}
-				
+
 				.indicator {
 					display: none;
 					visibility: hidden;
@@ -308,7 +308,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 					padding: 12px;	
 				}
 			
-				&:hover {
+				&:hover, &:focus {
 					background: $purple-dark;
 				}
 			}
@@ -331,7 +331,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 					opacity: 0;
 				}	
 			
-				&:hover {
+				&:hover, &:focus {
 					/*background-color: #666;*/
 					background-color: $selected-menuitem-background;
 					
