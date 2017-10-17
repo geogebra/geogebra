@@ -1046,7 +1046,8 @@ public class EuclidianViewW extends EuclidianView implements
 	final protected void drawAnimationButtons(final GGraphics2D g2) {
 
 		// draw button in focused EV only
-		if (!drawPlayButtonInThisView() || app.isScreenshotGenerator()) {
+		if (!drawPlayButtonInThisView() || app.isScreenshotGenerator()
+				|| app.isExporting()) {
 			return;
 		}
 
@@ -1177,10 +1178,8 @@ public class EuclidianViewW extends EuclidianView implements
 		int w = getWidth();
 
 		// omit for export
-		// getContext2d() isn't supported for SVG export
 		if (!app.isExporting()) {
-			((GGraphics2DW) g).getCanvas().getContext2d()
-					.drawImage(getResetImage(), w - 24, 2);
+			((GGraphics2DW) g).drawImage(getResetImage(), w - 24, 2);
 		}
 	}
 
