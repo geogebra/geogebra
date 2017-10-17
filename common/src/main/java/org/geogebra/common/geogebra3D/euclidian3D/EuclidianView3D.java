@@ -2138,7 +2138,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * animate the view for changing scale, orientation, etc.
 	 */
 	private void animate() {
-
 		switch (animationType) {
 		default:
 			// do nothing
@@ -2238,7 +2237,6 @@ public abstract class EuclidianView3D extends EuclidianView
 			stopAnimation();
 			break;
 		}
-
 	}
 
 	@Override
