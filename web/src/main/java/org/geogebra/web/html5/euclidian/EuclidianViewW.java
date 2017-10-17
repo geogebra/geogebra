@@ -364,6 +364,28 @@ public class EuclidianViewW extends EuclidianView implements
 		return getSerializedSvg(ctx);
 	}
 
+	public void saveExportPDF(double scale, boolean transparency,
+			String filename) {
+		int width = (int) Math.floor(getExportWidth() * scale);
+		int height = (int) Math.floor(getExportHeight() * scale);
+
+		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Svg());
+
+		JavaScriptObject ctx = getCanvas2PDF(width, height);
+
+		if (ctx == null) {
+			Log.debug("canvas2PDF not found");
+			return;
+		}
+
+		g4copy = new GGraphics2DW((Context2d) ctx.cast());
+		this.app.setExporting(ExportType.SVG, scale);
+		exportPaintPre(g4copy, scale, transparency);
+		drawObjects(g4copy);
+		this.app.setExporting(ExportType.NONE, 1);
+		savePdf(ctx, filename);
+	}
+
 	private native JavaScriptObject getCanvas2SVG(double width,
 			double height) /*-{
 		if ($wnd.C2S) {
@@ -375,6 +397,39 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private native String getSerializedSvg(JavaScriptObject ctx) /*-{
 		return ctx.getSerializedSvg(true);
+	}-*/;
+
+	private native JavaScriptObject getCanvas2PDF(double width,
+			double height) /*-{
+		if ($wnd.canvas2pdf) {
+			return new $wnd.canvas2pdf.PdfContext($wnd.blobStream());
+		}
+
+		return null;
+	}-*/;
+
+	private native String savePdf(JavaScriptObject ctx, String filename) /*-{
+
+		ctx.end();
+		ctx.stream.on('finish', function() {
+			var url = ctx.stream.toBlobURL('application/pdf');
+
+			if ($wnd.navigator.msSaveBlob) {
+				// IE11
+				$wnd.navigator.msSaveBlob(blob, filename);
+			} else {
+				var a = document.createElement("a");
+				document.body.appendChild(a);
+				a.style = "display: none";
+				a.href = url;
+				a.download = "test.pdf";
+				window.setTimeout(function() {
+					a.click()
+				}, 100);
+			}
+
+		});
+
 	}-*/;
 
 	@Override

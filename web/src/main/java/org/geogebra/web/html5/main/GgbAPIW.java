@@ -1165,7 +1165,7 @@ public class GgbAPIW extends GgbAPI {
 	}-*/;
 
 	/**
-	 * GGB-1780 Experimental
+	 * GGB-1780
 	 * 
 	 * @return current construction as SVG
 	 */
@@ -1179,6 +1179,23 @@ public class GgbAPIW extends GgbAPI {
 		}
 
 		return null;
+
+	}
+
+	/**
+	 * Experimental GGB-2150
+	 * 
+	 */
+	final public void exportPDF(String filename) {
+		EuclidianView ev = app.getActiveEuclidianView();
+
+		if (ev instanceof EuclidianViewW) {
+			EuclidianViewW evw = (EuclidianViewW) ev;
+
+			evw.saveExportPDF(1, true,
+					filename == null ? "myFile.pdf" : filename);
+		}
+
 
 	}
 
