@@ -2178,7 +2178,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			updateMatrix();
 			setViewChangedByZoom();
 			setViewChangedByTranslate();
-
+			getEuclidianController().onCoordSystemChanged();
 			// euclidianController3D.setFlagMouseMoved();
 			break;
 

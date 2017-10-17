@@ -1264,7 +1264,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		coordSystemTranslatedByAnimation = true;
 		setCoordSystem(xZero, yZero + dy, getXscale(), getYscale());
 		coordSystemTranslatedByAnimation = false;
-
 	}
 	/**
 	 * Sets coord system from mouse move
@@ -1300,10 +1299,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double calcYscale = getHeight() / (ymax2 - ymin2);
 		double calcXzero = -calcXscale * xmin2;
 		double calcYzero = calcYscale * ymax2;
-
 		setCoordSystem(calcXzero, calcYzero, calcXscale, calcYscale);
 	}
-
 
 	/**
 	 * @param xZero
@@ -1319,7 +1316,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public final void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale, boolean repaint) {
-
 		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
@@ -1328,19 +1324,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
-
 		this.xZero = xZero;
 		this.yZero = yZero;
 		this.setXscale(xscale);
 		this.setYscale(yscale);
 		// setScaleRatio(yscale / xscale);
-
 		setCoordTransformIfNeeded();
-
 		// real world values
 		setXYMinMaxForSetCoordSystem();
 		setRealWorldBounds();
-
 		getEuclidianController().onCoordSystemChanged();
 		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
 		if (repaint) {
@@ -1353,7 +1345,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				// app.updateStatusLabelAxesRatio();
 			}
 		}
-
 		// tells app that set coord system occured
 		app.setCoordSystemOccured();
 	}
@@ -6086,5 +6077,4 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public abstract void readText(String text);
-
 }

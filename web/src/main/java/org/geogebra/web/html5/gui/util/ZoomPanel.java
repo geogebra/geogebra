@@ -326,10 +326,10 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private void updateHomeButton() {
-		if (app.getEuclidianView1().isCoordSystemTranslatedByAnimation()) {
+		if (app.getActiveEuclidianView().isCoordSystemTranslatedByAnimation()) {
 			return;
 		}
-		if (app.getEuclidianView1().isStandardView()) {
+		if (app.getActiveEuclidianView().isStandardView()) {
 			hideHomeButton();
 		} else {
 			showHomeButton();
