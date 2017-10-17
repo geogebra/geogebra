@@ -122,8 +122,10 @@ abstract public class RenderableElement extends TransformableElement {
 			URI uri = styleAttrib.getURIValue(getXMLBase());
 			if (uri != null) {
 				ClipPath ele = (ClipPath) diagram.getUniverse().getElement(uri);
-				clipPath = ele.getClipPathShape();
-				clipPathUnits = ele.getClipPathUnits();
+				if (ele != null) {
+					clipPath = ele.getClipPathShape();
+					clipPathUnits = ele.getClipPathUnits();
+				}
 			}
 		}
 
