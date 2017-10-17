@@ -57,10 +57,8 @@ public class MOWToolbar extends FlowPanel {
 	PersistablePanel undoRedoPanel;
 	private MyToggleButton btnUndo;
 	private MyToggleButton btnRedo;
-
 	private StandardButton pageControlButton;
 	private PageControlPanel pageControlPanel;
-
 	private final static int MAX_TOOLBAR_WIDTH = 600;
 	private final static int FLOATING_BTNS_WIDTH = 80;
 	/**
@@ -80,7 +78,6 @@ public class MOWToolbar extends FlowPanel {
 	protected void buildGUI() {
 		middlePanel = new FlowPanel();
 		middlePanel.addStyleName("middle");
-
 		rightPanel = new FlowPanel();
 		rightPanel.addStyleName("right");
 
@@ -99,7 +96,6 @@ public class MOWToolbar extends FlowPanel {
 		subMenuPanel.add(toolsMenu);
 		subMenuPanel.add(mediaMenu);
 		add(subMenuPanel);
-
 		addStyleName("mowToolbar");
 
 		ClickStartHandler.initDefaults(this, true, true);
@@ -139,10 +135,8 @@ public class MOWToolbar extends FlowPanel {
 		btnUndo.addStyleName("flatButton");
 
 		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
-
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-
 				if (app.isMenuShowing()) {
 					app.toggleMenu();
 				}
@@ -164,7 +158,6 @@ public class MOWToolbar extends FlowPanel {
 		btnRedo.addStyleName("buttonActive");
 
 		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
-
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (app.isMenuShowing()) {
@@ -180,10 +173,10 @@ public class MOWToolbar extends FlowPanel {
 	 * updates position of pageControlButton and zoomPanel
 	 */
 	public void updateFloatingButtonsPosition() {
-		if (!app.has(Feature.MOW_MULTI_PAGE)) {
-			EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
-					.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
+		EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
+				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 
+		if (!app.has(Feature.MOW_MULTI_PAGE)) {
 			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
 				dp.setZoomPanelBottom(true);
 			} else {
@@ -195,9 +188,6 @@ public class MOWToolbar extends FlowPanel {
 				}
 			}
 		} else {
-			EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
-					.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-
 			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
 				pageControlButton.getElement().getStyle().setBottom(0, Unit.PX);
 				dp.setZoomPanelBottom(true);
@@ -221,7 +211,6 @@ public class MOWToolbar extends FlowPanel {
 	 * update style of undo+redo buttons
 	 */
 	public void updateUndoRedoActions() {
-
 		if (app.getKernel().undoPossible()) {
 			btnUndo.addStyleName("buttonActive");
 			btnUndo.removeStyleName("buttonInactive");
@@ -259,7 +248,6 @@ public class MOWToolbar extends FlowPanel {
 						0, 0, 24, 24, false, false)),
 				app);
 		ClickStartHandler.init(penButton, new ClickStartHandler() {
-
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				setPenMenu();
@@ -276,7 +264,6 @@ public class MOWToolbar extends FlowPanel {
 						0, 0, 24, 24, false, false)),
 				app);
 		ClickStartHandler.init(toolsButton, new ClickStartHandler() {
-
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				setToolsMenu();
@@ -293,7 +280,6 @@ public class MOWToolbar extends FlowPanel {
 						0, 0, 24, 24, false, false)),
 				app);
 		ClickStartHandler.init(mediaButton, new ClickStartHandler() {
-
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				setMediaMenu();
@@ -309,7 +295,6 @@ public class MOWToolbar extends FlowPanel {
 				0, 0, 24, 24, false, false)), app);
 		rightPanel.add(closeButton);
 		ClickStartHandler.init(closeButton, new ClickStartHandler() {
-
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				toggleSubmenu();
@@ -326,7 +311,6 @@ public class MOWToolbar extends FlowPanel {
 				app);
 		pageControlButton.setStyleName("pageControlButton");
 		pageControlButton.addFastClickHandler(new FastClickHandler() {
-
 			public void onClick(Widget source) {
 				// TODO open Page Control Panel
 				openPageControlPanel();
@@ -637,7 +621,6 @@ public class MOWToolbar extends FlowPanel {
 				addStyleName("SmallScreen");
 				getElement().getStyle().setLeft(0, Unit.PX);
 			}
-
 		} // big screen
 		else {
 			removeStyleName("SmallScreen");
