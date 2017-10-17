@@ -59,9 +59,10 @@ public interface HasAppletProperties {
 	 */
 	public void showResetIcon(boolean show);
 
+	/**
+	 * @return callback passed to renderArticleElementWithFrame
+	 */
 	public JavaScriptObject getOnLoadCallback();
-
-
 
 	/**
 	 * @return whether keyboard is visible
@@ -83,7 +84,18 @@ public interface HasAppletProperties {
 	 */
 	public double getKeyboardHeight();
 
+	/**
+	 * Remove from DOM and prepare for garbage collection
+	 */
 	public void remove();
 
+	/**
+	 * @return whether Open / Language guis are open
+	 */
 	public boolean isHeaderPanelOpen();
+
+	/**
+	 * Update the CSS height of the article
+	 */
+	public void updateArticleHeight();
 }

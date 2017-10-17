@@ -304,6 +304,7 @@ public abstract class AppW extends App implements SetLabels {
 				headerVisible = visible;
 				onHeaderVisible();
 			}
+			getAppletFrame().updateArticleHeight();
 		}
 
 

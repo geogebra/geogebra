@@ -206,9 +206,18 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 					.setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setHeight(100, Unit.PCT);
 			RootPanel.getBodyElement().getStyle().setOverflow(Overflow.HIDDEN);
-			ae.getStyle().setHeight(100, Unit.PCT);
+			updateArticleHeight();
 		}
+	}
 
+	public void updateArticleHeight() {
+		int margin = ae.getDataParamMarginTop();
+		if (AppW.smallScreen() || margin <= 0) {
+			ae.getStyle().setHeight(100, Unit.PCT);
+		} else {
+			ae.getStyle().setProperty("height",
+					"calc(100% - " + margin + "px)");
+		}
 	}
 
 	private int computeWidth() {
@@ -620,7 +629,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	@Override
 	public void remove() {
-		this.removeFromParent();
+		removeFromParent();
 		// this does not do anything!
 		GeoGebraFrameW.getInstances()
 				.remove(

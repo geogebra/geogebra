@@ -777,6 +777,9 @@ public class GlobalKeyDispatcherW extends
 				.onTabModeChange(!isTabOverGeos(), lastgeo);
 	}
 
+	/**
+	 * @return new focus handler that unblocks keyboard features in this applet
+	 */
 	public FocusHandler getFocusHandler() {
 		return new FocusHandler() {
 
