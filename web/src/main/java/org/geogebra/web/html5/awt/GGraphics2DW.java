@@ -108,7 +108,12 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public void setImageInterpolation(boolean b) {
-		setImageInterpolationNative(canvas.getContext2d(), b);
+		// canvas.getContext2d() doesn't work with canvas2svg.js
+		try {
+			setImageInterpolationNative(canvas.getContext2d(), b);
+		} catch (Exception e) {
+			// do nothing
+		}
 	}
 
 	private native void setImageInterpolationNative(Context2d ctx, boolean b) /*-{
