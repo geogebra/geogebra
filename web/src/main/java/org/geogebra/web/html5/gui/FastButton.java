@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
+import org.geogebra.web.web.gui.accessibility.AccessibilityButton;
+import org.geogebra.web.web.gui.accessibility.AccessibilityInterface;
 
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.user.client.DOM;
@@ -42,7 +44,7 @@ import com.google.gwt.user.client.ui.CustomButton;
  * @author ashton with changes from Matthias Meisinger
  * 
  */
-public abstract class FastButton extends CustomButton {
+public abstract class FastButton extends CustomButton implements AccessibilityInterface {
 
 	// in case the same touch reaches different Buttons (f.e. TouchStart +
 	// TouchEnd open the StyleBar and MouseUp reaches the first Button on the
@@ -52,8 +54,7 @@ public abstract class FastButton extends CustomButton {
 	private int touchId;
 	private boolean isActive;
 	private List<FastClickHandler> handlers;
-	private List<TabHandler> tabHandlers;
-
+	private AccessibilityButton acc;
 	/**
 	 * New fast button
 	 */
@@ -69,7 +70,7 @@ public abstract class FastButton extends CustomButton {
 		                                               // Cancel, Change)
 
 		this.handlers = new ArrayList<FastClickHandler>();
-		this.tabHandlers = new ArrayList<TabHandler>();
+		acc = new AccessibilityButton(this);
 	}
 
 	/**
@@ -102,18 +103,6 @@ public abstract class FastButton extends CustomButton {
 	 */
 	public void addFastClickHandler(FastClickHandler handler) {
 		this.handlers.add(handler);
-	}
-
-	/**
-	 * Use this method in the same way you would use addKeyHandler for Tab keys
-	 * only.
-	 * 
-	 * @param handler
-	 *            handler
-	 * 
-	 */
-	public void addTabHandler(TabHandler handler) {
-		this.tabHandlers.add(handler);
 	}
 
 	/**
@@ -160,6 +149,11 @@ public abstract class FastButton extends CustomButton {
 			event.stopPropagation();
 			return;
 		}
+		
+		if (acc.handleBrowserEvent(event)) {
+			return;
+		}
+		
 		switch (DOM.eventGetType(event)) {
 		case Event.ONTOUCHSTART: {
 			onTouchStart(event);
@@ -192,8 +186,6 @@ public abstract class FastButton extends CustomButton {
 			char keyCode = (char) event.getKeyCode();
 			if (keyCode == ' ') {
 				onClick(event);
-			} else if (keyCode == '\t') {
-				onTab(event);
 			}
 			break;
 		case Event.ONKEYPRESS:
@@ -211,15 +203,6 @@ public abstract class FastButton extends CustomButton {
 				Log.debug(DOM.eventGetType(event) + "event failed");
 			}
 		}
-		}
-	}
-
-	private void onTab(Event event) {
-		for (TabHandler h : tabHandlers) {
-			if (h.onTab(this, event.getShiftKey())) {
-				event.stopPropagation();
-				event.preventDefault();
-			}
 		}
 	}
 
@@ -315,5 +298,15 @@ public abstract class FastButton extends CustomButton {
 		for (FastClickHandler h : this.handlers) {
 			h.onClick(this);
 		}
+	}
+	
+	@Override
+	public void addTabHandler(TabHandler handler) {
+		acc.addTabHandler(handler);
+	}
+	
+	@Override
+	public void ignoreTab() {
+		acc.ignoreTab();
 	}
 }
