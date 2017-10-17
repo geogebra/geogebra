@@ -5544,6 +5544,13 @@ public class Kernel {
 		}
 	}
 
+	public final void notifyUpdatePreviewFromView(GeoElement[] geos,
+			int viewID) {
+		if (notifyViewsActive) {
+			app.getView(viewID).updatePreviewFromInputBar(geos);
+		}
+	}
+
 	public ConstructionCompanion createConstructionCompanion(
 			Construction cons) {
 		return new ConstructionCompanion(cons);

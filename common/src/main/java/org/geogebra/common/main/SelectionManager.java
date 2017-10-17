@@ -84,7 +84,7 @@ public class SelectionManager {
 
 	private ArrayList<GeoElement> tempMoveGeoList;
 
-	private GeoElementND[] specPoints;
+	private GeoElement[] specPoints;
 
 	/**
 	 * @param kernel
@@ -856,8 +856,7 @@ public class SelectionManager {
 	}
 
 
-	private GeoElementND[] getSpecPoints(
-			ArrayList<GeoElement> selectedGeos2) {
+	private GeoElementND[] getSpecPoints(ArrayList<GeoElement> selectedGeos2) {
 
 		if (specPoints != null) {
 			for (int i = 0; i < specPoints.length; i++) {
@@ -865,10 +864,26 @@ public class SelectionManager {
 			}
 		}
 
+		specPoints = null;
+		GeoElementND[] specPoints2;
 		if (selectedGeos2 != null && selectedGeos2.size() > 0) {
-			specPoints = getSpecPoints(selectedGeos2.get(0));
-		} else {
-			specPoints = null;
+			specPoints2 = getSpecPoints(selectedGeos2.get(0));
+			if (specPoints2 != null) {
+				specPoints = new GeoElement[specPoints2.length];
+				for (int i = 0; i < specPoints2.length; i++) {
+					specPoints2[i].remove();
+					specPoints[i] = specPoints2[i].toGeoElement();
+				}
+			}
+		}
+
+		kernel.notifyUpdatePreviewFromView(specPoints,
+				App.VIEW_EUCLIDIAN);
+
+		if (specPoints != null) {
+			for (int i = 0; i < specPoints.length; i++) {
+				specPoints[i].remove();
+			}
 		}
 
 		return specPoints;
