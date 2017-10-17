@@ -22,9 +22,13 @@ public class StylebarPositioner {
     private EuclidianView euclidianView;
     private SelectionManager selectionManager;
 
+    /**
+     * @param app
+     *              The instance of the App class.
+     */
     public StylebarPositioner(App app) {
         this.app = app;
-        this.euclidianView = app.getActiveEuclidianView();
+        euclidianView = app.getActiveEuclidianView();
         selectionManager = app.getSelectionManager();
     }
 
@@ -107,6 +111,17 @@ public class StylebarPositioner {
         return new GPoint((int) left, (int) top);
     }
 
+    /**
+     * Calculates the position of the dynamic stylebar on the EuclidianView
+     * @param stylebarHeight
+     *                          The height of the stylebar.
+     * @param minTopPosition
+     *                          The minimum y position for the top of the stylebar.
+     * @param maxTopPosition
+     *                          The maximum y position for the top of the stylebar.
+     * @return
+     *          Returns a GPoint which contains the x and y coordinates for the top of the stylebar.
+     */
     public GPoint getPositionOnCanvas(int stylebarHeight, int minTopPosition, int maxTopPosition) {
         List<GeoElement> activeGeoList = createActiveGeoList();
 
