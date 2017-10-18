@@ -694,7 +694,8 @@ public class EuclidianOptionsModel {
 
 			double value = app.getKernel().getAlgebraProcessor()
 					.evaluateToDouble(text);
-
+			value = Math.PI
+					/ Math.min(360, Math.round(Math.abs(Math.PI / value)));
 			ticks[2] = value;
 			view.setGridDistances(ticks);
 		}
@@ -706,7 +707,7 @@ public class EuclidianOptionsModel {
 		double[] frac = AlgoFractionText.decimalToFraction(val,
 				Kernel.MAX_PRECISION);
 		StringBuilder sb = new StringBuilder();
-		if (frac[1] < 360) {
+		if (frac[1] < 361) {
 			if (!Kernel.isEqual(1, frac[0])) {
 				sb.append(Math.round(frac[0]));
 			}
