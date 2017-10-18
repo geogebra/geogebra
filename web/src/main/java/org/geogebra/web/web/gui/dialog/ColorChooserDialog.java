@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.dialog;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ColorChooserW;
@@ -27,9 +26,7 @@ public class ColorChooserDialog extends DialogBoxW
 	
 	public ColorChooserDialog(AppW app, final GColor originalColor, final ColorChangeHandler handler) {
 		super(false, true, null, app.getPanel(), app);
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			setOverlapFeature(true);
-		}
+
 		this.app = app;
 		this.handler = handler;
 		this.originalColor = originalColor;

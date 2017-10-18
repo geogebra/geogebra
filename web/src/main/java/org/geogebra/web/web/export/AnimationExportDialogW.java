@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.Event;
@@ -106,9 +105,6 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 	 */
 	public AnimationExportDialogW(AppW app) {
 		super(app.getPanel(), app);
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			setOverlapFeature(true);
-		}
 		this.app = app;
 		geoNumerics = new ArrayList<GeoElement>();
 		initGUI();

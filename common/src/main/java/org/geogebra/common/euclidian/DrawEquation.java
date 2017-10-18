@@ -26,9 +26,10 @@ import com.himamis.retex.renderer.share.platform.graphics.HasForegroundColor;
 import com.himamis.retex.renderer.share.platform.graphics.Image;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
+/**
+ * Cross platform helper for equation rendering
+ */
 public abstract class DrawEquation {
-
-
 
 	/**
 	 * @param app
@@ -60,6 +61,9 @@ public abstract class DrawEquation {
 			boolean serif, GColor fgColor, GColor bgColor, boolean useCache,
 			boolean updateAgain, Runnable callback);
 
+	/**
+	 * @return \newcommand definitions for GeoGebra specific commands
+	 */
 	public static StringBuilder getJLMCommands() {
 		StringBuilder initJLM = new StringBuilder();
 
@@ -103,15 +107,31 @@ public abstract class DrawEquation {
 	 * Renders LaTeX equation using JLaTeXMath
 	 * 
 	 * @param app
+	 *            application
+	 * @param geo
+	 *            geo
 	 * @param g2
+	 *            graphics
 	 * @param x
+	 *            x coordinate
 	 * @param y
+	 *            y coordinate
 	 * @param text
+	 *            text
 	 * @param font
+	 *            font
 	 * @param serif
+	 *            true for serif
 	 * @param fgColor
+	 *            foreground color
 	 * @param bgColor
-	 * @return dimension of rendered equation
+	 *            background color
+	 * @param useCache
+	 *            true to cache
+	 * @param maxWidth
+	 * @param lineSpace
+	 *            line space in centimeters
+	 * @return dimensions of result
 	 */
 	final public GDimension drawEquation(final App app, final GeoElementND geo,
 			final Graphics2DInterface g2, final int x, final int y,
@@ -263,14 +283,54 @@ public abstract class DrawEquation {
 	protected abstract Image getCachedDimensions(String text, GeoElementND geo,
 			Color fgColor, GFont font, int style, int[] ret);
 
+	/**
+	 * Initialize commands if this is the first run
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public abstract void checkFirstCall(App app);
 
+	/**
+	 * @param color
+	 *            GeoGebra color
+	 * @return LaTeX color
+	 */
 	public abstract Color convertColor(GColor color);
 
+	/**
+	 * @param app
+	 *            application
+	 * @param geo0
+	 *            element
+	 * @param text
+	 * @param font
+	 * @param serif
+	 * @return
+	 */
 	public abstract GDimension measureEquation(App app, GeoElement geo0,
-			String text, GFont font,
-			boolean serif);
+			String text, GFont font, boolean serif);
 
+	/**
+	 * @param app
+	 *            application
+	 * @param geo
+	 *            geo
+	 * @param x
+	 *            x coordinate
+	 * @param y
+	 *            y coordinate
+	 * @param text
+	 *            text
+	 * @param font
+	 *            font
+	 * @param serif
+	 *            true for serif
+	 * @param maxWidth
+	 * @param lineSpace
+	 *            line space in centimeters
+	 * @return dimensions of result
+	 */
 	final public GDimension measureEquationJLaTeXMath(final App app,
 			final GeoElement geo, final int x, final int y, final String text,
 			final GFont font, final boolean serif, final Integer maxWidth,

@@ -4079,11 +4079,6 @@ public abstract class App implements UpdateSelection {
 		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
 			return true;
 
-		/** GGB- 1501 */
-		case DIALOGS_OVERLAP_KEYBOARD:
-			// see comment at GPopupPanel.setOverlapFeature
-			return true;
-
 		// **********************************************************************
 		// KEYBOARD END
 		// *********************************************************

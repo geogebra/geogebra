@@ -38,9 +38,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 	
 	public ButtonDialogW(final AppW app, int x, int y, boolean textField) {
 		super(false, true, null, app.getPanel(), app);
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			setOverlapFeature(true);
-		}
+
 		this.app = app;
 		this.loc = app.getLocalization();
 		model = new ButtonDialogModel(app, x, y, textField);
@@ -52,15 +50,15 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.registerPopup(this);
 		}
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			this.addCloseHandler(new CloseHandler<GPopupPanel>() {
-				@Override
-				public void onClose(CloseEvent<GPopupPanel> event) {
-					app.unregisterPopup(ButtonDialogW.this);
-					app.hideKeyboard();
-				}
-			});
-		}
+
+		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> event) {
+				app.unregisterPopup(ButtonDialogW.this);
+				app.hideKeyboard();
+			}
+		});
+
 	}
 
 	private void createGUI() {

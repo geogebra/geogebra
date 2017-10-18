@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.dialog.image;
 
 import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -35,9 +34,6 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 
 	public UploadImageDialog(AppW app, int previewWidth, int previewHeight) {
 		super(app.getPanel(), app);
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			setOverlapFeature(true);
-		}
 		this.app = app;
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;

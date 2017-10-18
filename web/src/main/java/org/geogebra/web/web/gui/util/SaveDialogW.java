@@ -127,9 +127,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	 */
 	public SaveDialogW(final AppW app) {
 		super(app.getPanel(), app);
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			setOverlapFeature(true);
-		}
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.addStyleName("GeoGebraFileChooser");

@@ -843,14 +843,10 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public void centerAndResizePopups() {
-		if(!has(Feature.DIALOGS_OVERLAP_KEYBOARD)){
-			return;
-		}
 		for (int i = 0; i < popups.size(); i++) {
 			Widget w = popups.get(i);
 			if (w instanceof HasKeyboardPopup) {
 				if (w instanceof DialogBoxW) {
-					((DialogBoxW) w).setOverlapFeature(true);
 					((DialogBoxW) w)
 							.centerAndResize(this.getAppletFrame().getKeyboardHeight());
 				}

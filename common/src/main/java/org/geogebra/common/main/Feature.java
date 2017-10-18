@@ -88,9 +88,6 @@ public enum Feature {
 	/** MOW-175 */
 	MOW_CONTEXT_MENU,
 
-	/** GGB- 1501 */
-	DIALOGS_OVERLAP_KEYBOARD,
-
 	/** MOV-169 */
 	DYNAMIC_STYLEBAR,
 

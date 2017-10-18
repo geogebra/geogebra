@@ -83,9 +83,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 	 */
 	public SliderDialogW(final AppW app, int x, int y) {
 		super(false, true, null, app.getPanel(), app);
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			setOverlapFeature(true);
-		}
+
 		//super(app.getFrame(), false);
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -127,15 +125,13 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 			app.registerPopup(this);
 		}
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			this.addCloseHandler(new CloseHandler<GPopupPanel>() {
-				@Override
-				public void onClose(CloseEvent<GPopupPanel> event) {
-					app.unregisterPopup(SliderDialogW.this);
-					app.hideKeyboard();
-				}
-			});
-		}
+		this.addCloseHandler(new CloseHandler<GPopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> event) {
+				app.unregisterPopup(SliderDialogW.this);
+				app.hideKeyboard();
+			}
+		});
 	}
 
 	private void createGUI() {

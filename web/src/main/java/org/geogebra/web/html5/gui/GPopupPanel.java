@@ -186,7 +186,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	private final Panel root;
 
 	// temporary variable for checking feature flag
-	public boolean hasOverlapFeature = false;
+	public final boolean hasOverlapFeature = true;
 
 	protected App app;
 
@@ -539,14 +539,10 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 * DIALOGS_OVERLAP_KEYBOARD it can be removed and the class name setting
 	 * which in it can be moved to the constructor.
 	 */
-	public void setOverlapFeature(boolean b){
-		hasOverlapFeature = b;
-
-		if (b) {
-			if (this instanceof HasKeyboardPopup) {
-				super.getContainerElement().getFirstChildElement()
-						.addClassName("mainChild");
-			}
+	protected void addMainChildClass() {
+		if (this instanceof HasKeyboardPopup) {
+			super.getContainerElement().getFirstChildElement()
+					.addClassName("mainChild");
 		}
 	}
 

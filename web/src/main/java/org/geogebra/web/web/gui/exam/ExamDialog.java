@@ -4,7 +4,6 @@ import java.util.Date;
 
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -69,11 +68,7 @@ public class ExamDialog {
 		loc = app.getLocalization();
 		final GuiManagerInterfaceW guiManager = app.getGuiManager();
 		box = new DialogBoxKbW(false, true, null, app.getPanel(), app);
-		
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			box.setOverlapFeature(true);
-		}
-		
+
 		VerticalPanel mainWidget = new VerticalPanel();
 		FlowPanel btnPanel = new FlowPanel();
 		FlowPanel cbxPanel = new FlowPanel();

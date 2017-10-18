@@ -1,7 +1,6 @@
 package org.geogebra.web.web.export;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
@@ -68,9 +67,6 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	 */
 	public PrintPreviewW(AppW appl) {
 		super(appl.getPanel(), appl);
-		if (appl.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			setOverlapFeature(true);
-		}
 		app = appl;
 		this.loc = app.getLocalization();
 		createGUI();

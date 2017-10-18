@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.dialog;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
@@ -55,10 +54,6 @@ public class AssignmentEditDialog extends DialogBoxW implements ClickHandler {
 	public AssignmentEditDialog(App app, Assignment assignment,
 			ExerciseBuilderDialog exerciseBuilderDialog) {
 		super(false, false, null, ((AppW) app).getPanel(), app);
-
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			setOverlapFeature(true);
-		}
 		
 		this.app = (AppW) app;
 		this.loc = app.getLocalization();

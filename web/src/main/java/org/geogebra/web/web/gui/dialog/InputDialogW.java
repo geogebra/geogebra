@@ -70,9 +70,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			wrappedPopup = new DialogBoxW(false, modal, this, app.getPanel(),
 					app);
 		}
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			wrappedPopup.setOverlapFeature(true);
-		}
 	}
 
 	public InputDialogW(AppW app, String message, String title,
@@ -200,15 +197,14 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			app.registerPopup(wrappedPopup);
 		}
 
-		if (app.has(Feature.DIALOGS_OVERLAP_KEYBOARD)) {
-			wrappedPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
-				@Override
-				public void onClose(CloseEvent<GPopupPanel> event) {
-					app.unregisterPopup(wrappedPopup);
-					app.hideKeyboard();
-				}
-			});
-		}
+		wrappedPopup.addCloseHandler(new CloseHandler<GPopupPanel>() {
+			@Override
+			public void onClose(CloseEvent<GPopupPanel> event) {
+				app.unregisterPopup(wrappedPopup);
+				app.hideKeyboard();
+			}
+		});
+
 		// add key handler for ENTER if inputPanel uses a text field
 		if (inputPanel.getTextComponent() != null) {
 			inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
