@@ -88,8 +88,7 @@ public class DialogBoxW extends GDialogBox {
 			@Override
 			public void onResize(ResizeEvent event) {
 				if (DialogBoxW.this.isShowing()) {
-					if (!hasOverlapFeature
-							|| !(DialogBoxW.this instanceof HasKeyboardPopup)) {
+					if (!(DialogBoxW.this instanceof HasKeyboardPopup)) {
 						centerAndResize(0);
 					}
 				}
