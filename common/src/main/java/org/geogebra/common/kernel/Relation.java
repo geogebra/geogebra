@@ -35,7 +35,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Compares two objects, first numerically, then symbolically (when the
- * "More..." button is pressed). The original contents of this file has been
+ * "More..." button is pressed). The original content of this file has been
  * moved into RelationNumerical.java and extensively rewritten.
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>

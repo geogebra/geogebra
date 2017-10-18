@@ -226,6 +226,8 @@ public class RelationNumerical {
 		// decide what relation method can be used
 
 		// point, point, point
+		// segment, segment, segment
+		// line, line, line
 		if (a instanceof GeoPoint && b instanceof GeoPoint
 				&& c instanceof GeoPoint) {
 			return relation((GeoPoint) a, (GeoPoint) b, (GeoPoint) c);
@@ -366,7 +368,7 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoList a, GeoList b) {
 		Boolean bool = a.isEqual(b);
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
-		register(bool, RelationCommand.AreEqual, str);
+		register(bool, null, str);
 		return reports;
 	}
 
@@ -391,7 +393,7 @@ public class RelationNumerical {
 				((NumberValue) b).getDouble())) {
 
 			if (a.isEqual(b)) {
-				register(true, RelationCommand.AreEqual,
+				register(true, null,
 						equalityString((GeoElement) a, (GeoElement) b, true));
 			} else {
 				register(true, RelationCommand.AreCongruent,
