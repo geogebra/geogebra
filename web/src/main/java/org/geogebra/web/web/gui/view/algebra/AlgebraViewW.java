@@ -1964,17 +1964,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void rebuildItems() {
 		for (int i = 0; i < getItemCount(); i++) {
 			TreeItem ti = getItem(i);
-			if (ti instanceof RadioTreeItem) {
-				RadioTreeItem.as(ti).updateOnNextRepaint();
-				RadioTreeItem.as(ti).setLabels();
-			} else if (ti.getWidget() instanceof GroupHeader) {
-				ti.getWidget().getElement().getStyle()
-						.setFontSize(app.getFontSizeWeb(), Unit.PX);
-				for (int j = 0; j < ti.getChildCount(); j++) {
-					if (ti.getChild(j) instanceof RadioTreeItem) {
-						RadioTreeItem.as(ti.getChild(j))
-						.updateOnNextRepaint();
-						RadioTreeItem.as(ti).setLabels();
+			if (!updateAndSetLabels(ti)) {
+				if (ti.getWidget() instanceof GroupHeader) {
+					ti.getWidget().getElement().getStyle()
+							.setFontSize(app.getFontSizeWeb(), Unit.PX);
+					for (int j = 0; j < ti.getChildCount(); j++) {
+						updateAndSetLabels(ti.getChild(j));
 					}
 				}
 			}
@@ -1982,6 +1977,15 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		this.repaintView();
 	}
 
+
+	private static boolean updateAndSetLabels(TreeItem ti) {
+		if (ti instanceof RadioTreeItem) {
+			RadioTreeItem.as(ti).updateOnNextRepaint();
+			RadioTreeItem.as(ti).setLabels();
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Update items for new window size / pixel ratio
