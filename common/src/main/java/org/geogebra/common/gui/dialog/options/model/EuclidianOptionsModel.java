@@ -43,7 +43,6 @@ public class EuclidianOptionsModel {
 		if (view == app.getEuclidianView1()) {
 			app.getSettings().getEuclidian(1)
 					.setBackground(listener.getEuclidianBackground(1));
-
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
 				&& app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2)
@@ -699,7 +698,6 @@ public class EuclidianOptionsModel {
 			ticks[2] = value;
 			view.setGridDistances(ticks);
 		}
-
 	}
 
 	public String gridAngleToString() {

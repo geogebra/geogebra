@@ -214,7 +214,7 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			HashSet<PVariable> v = new HashSet<PVariable>();
 			v.add(x);
 			TreeSet<PVariable> variables = new TreeSet<PVariable>(v);
-			Set<Set<PPolynomial>> parsed = new TreeSet<Set<PPolynomial>>();
+			Set<Set<PPolynomial>> parsed;
 			try {
 				parsed = PolynomialParser.parseFactoredPolynomialSet(parsable,
 						variables);
