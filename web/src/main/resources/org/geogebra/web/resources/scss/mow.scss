@@ -586,6 +586,11 @@
     	opacity: 0.54;
     	cursor: pointer;
 	}
+	.contentPanel {
+		width: 100%;
+		height: calc(100% - 40px);
+		margin-top: 40px;
+	}
 	
 	.pageControlPanel.animateIn {
 		animation-duration: 0.25s;
@@ -610,6 +615,45 @@
 		50% {right: -calc($pagecontrolpanelWidth*2/3); top: 0px;}
 		100% {right: -$pagecontrolpanelWidth; top: 0px;}
 	}
+	
+/*****************
+*   PAGE PREVIEW CARD
+******************/
+	.pagePreviewCard {
+		width: 150px;
+		height: 150px;
+		margin: 16px;
+		
+		border-radius: 2px;
+   		background-color: #fff;
+   		box-shadow: 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12), 0 3px 1px -2px rgba(0,0,0,.2);
+		transition: box-shadow .25s;
+		
+		&:hover {
+			box-shadow: 0 8px 17px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
+		}
+		
+		.imagePanel {
+			width: 100%;
+			height: calc(100% * 2/3);
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: contain;
+		}
+		.titlePanel {
+			width: 100%;
+			height: calc(100% / 3);
+			border-radius: 0 0 2px 2px;
+			background-color: #f5f5f5;
+			
+			.gwt-Label {
+				font-size: 14px;
+				padding: 16px 8px;
+			}
+		}
+	}
+
+
 }
 
 

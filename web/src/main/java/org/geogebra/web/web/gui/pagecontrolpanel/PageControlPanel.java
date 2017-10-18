@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -73,6 +74,7 @@ public class PageControlPanel extends PersistablePanel {
 
 	private void addContentPanel() {
 		contentPanel = new PersistablePanel();
+		contentPanel.addStyleName("contentPanel");
 		add(contentPanel);
 	}
 
@@ -82,8 +84,12 @@ public class PageControlPanel extends PersistablePanel {
 	public void open() {
 		if (!isAttached) {
 			frame.add(this);
+			// add pages for testing
+			addPagePreviewCard(app.getActiveEuclidianView());
+			addPagePreviewCard(app.getActiveEuclidianView());
 			isAttached = true;
 		}
+		updatePreviews();
 		setVisible(true);
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
@@ -127,6 +133,21 @@ public class PageControlPanel extends PersistablePanel {
 		if (app.isWhiteboardActive()) {
 			mowToolbar.showPageControlButton();
 			dockPanel.showZoomPanel();
+		}
+	}
+
+	private void addPagePreviewCard(EuclidianView view) {
+		PagePreviewCard previewCard = new PagePreviewCard(view,
+				contentPanel.getWidgetCount());
+		contentPanel.add(previewCard);
+	}
+
+	/**
+	 * Updates the preview images
+	 */
+	public void updatePreviews() {
+		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
+			((PagePreviewCard) contentPanel.getWidget(i)).updatePreviewImage();
 		}
 	}
 }

@@ -42,6 +42,7 @@ import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.resources.JavaScriptInjector;
+import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
@@ -484,6 +485,19 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	public void doRepaint() {
 		repaintScheduler.requestAnimationFrame(repaintCallback);
+		if (app.has(Feature.MOW_MULTI_PAGE)) {
+			updatePageControlPanel();
+		}
+	}
+
+	private void updatePageControlPanel() {
+		if (((AppWapplet) app)
+				.getAppletFrame().getPageControlPanel() != null
+				&& ((AppWapplet) app)
+				.getAppletFrame().getPageControlPanel().isVisible()) {
+			((AppWapplet) app).getAppletFrame().getPageControlPanel()
+					.updatePreviews();
+		}
 	}
 
 	/**
