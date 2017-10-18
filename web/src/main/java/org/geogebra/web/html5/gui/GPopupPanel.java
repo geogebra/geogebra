@@ -185,9 +185,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 	private final Panel root;
 
-	// temporary variable for checking feature flag
-	public final boolean hasOverlapFeature = true;
-
 	protected App app;
 
 	/**
@@ -587,13 +584,9 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		Element childElement = super.getContainerElement()
 				.getFirstChildElement();
 		
-		if (hasOverlapFeature){
-			childElement.getStyle().clearHeight();
-		}
+		childElement.getStyle().clearHeight();
+
 		center(keyboardHeight);
-		if (!hasOverlapFeature){
-			return;
-		}
 
 		int paddings = 30; //TODO: get sum of top and bottom paddings
 		int maxHeight = (int) (getRootPanel().getOffsetHeight() - keyboardHeight
@@ -604,7 +597,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		}
 	}
 
-	public int center(double keyboardHeight) {
+	private int center(double keyboardHeight) {
 		boolean initiallyShowing = showing;
 		boolean initiallyAnimated = isAnimationEnabled;
 
