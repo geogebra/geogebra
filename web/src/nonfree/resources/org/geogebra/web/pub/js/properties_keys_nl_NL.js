@@ -1844,7 +1844,7 @@ __GGB__keysVar.nl_NL.menu = {
     "GraphicsViewAsAsymptote": "Tekenvenster naar programma Asymptote",
     "GraphicsViewForPlaneA": "Aanzicht van %0",
     "Graphing": "Grafieken",
-    "Graphing3D": "3D Graphing Calculator",
+    "Graphing3D": "3D Grafisch rekenmachine",
     "GraphingCalculator": "Grafisch rekentoestel",
     "GraphingCalculator.short": "Grafisch rekenmachine",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functies",
