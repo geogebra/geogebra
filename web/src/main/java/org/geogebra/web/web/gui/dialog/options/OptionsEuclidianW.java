@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.dialog.options;
 
+import java.util.Collection;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -27,6 +29,7 @@ import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.util.ComboBoxW;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.LineStylePopup;
 import org.geogebra.web.web.gui.util.MyCJButton;
@@ -35,8 +38,6 @@ import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 import org.geogebra.web.web.gui.util.PopupMenuHandler;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
-
-import java.util.Collection;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
@@ -838,7 +839,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		CheckBox cbGridManualTick;
 		NumberListBox ncbGridTickX;
 		NumberListBox ncbGridTickY;
-		ListBox lbGridTickAngle;
+		ComboBoxW cbGridTickAngle;
 		private Label gridLabel1;
 		private Label gridLabel2;
 		private Label gridLabel3;
@@ -1010,12 +1011,20 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				@Override
 				protected void onValueChange(String value) {
 					model.applyGridTicks(ncbGridTickY.getValue(), 1);
-					updateView();	                
+					updateView();
 				}
 			};
 
 			// checkbox for grid labels
-			lbGridTickAngle = new ListBox();
+			cbGridTickAngle = new ComboBoxW(app) {
+
+				@Override
+				protected void onValueChange(String value) {
+					model.applyGridTickAngle(
+							cbGridTickAngle.getValue());
+					updateView();
+				}
+			};
 			
 			FlowPanel gridTickAnglePanel = new FlowPanel();
 			gridTickAnglePanel.setStyleName("panelRow");
@@ -1038,7 +1047,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			ncbGridTickYPanel.add(gridLabel2);
 			ncbGridTickYPanel.add(ncbGridTickY);
 			ncbGridTickAnglePanel.add(gridLabel3);
-			ncbGridTickAnglePanel.add(lbGridTickAngle);
+			ncbGridTickAnglePanel.add(cbGridTickAngle);
 		
 			FlowPanel tickPanel = LayoutUtilW.panelRow(cbGridManualTick, ncbGridTickXPanel, 
 					ncbGridTickYPanel, ncbGridTickAnglePanel);
@@ -1050,13 +1059,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			typePanel.add(LayoutUtilW.panelRowIndent(
 					ncbGridTickXPanel, ncbGridTickYPanel, ncbGridTickAnglePanel));
 
-			lbGridTickAngle.addChangeHandler(new ChangeHandler(){
-				@Override
-				public void onChange(ChangeEvent event) {
-					model.applyGridTickAngle(lbGridTickAngle.getSelectedIndex());
-					updateView();
-				}
-			});
 			
 			lbGridType.addChangeHandler(new ChangeHandler(){
 				@Override
@@ -1182,10 +1184,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			model.fillGridTypeCombo();
 			lbGridType.setSelectedIndex(idx);
 
-			idx = lbGridTickAngle.getSelectedIndex();
-			lbGridTickAngle.clear();
+			idx = cbGridTickAngle.getSelectedIndex();
+			cbGridTickAngle.cleanSelection();
 			model.fillAngleOptions();
-			lbGridTickAngle.setSelectedIndex(idx);
+			cbGridTickAngle.setSelectedIndex(idx);
 			cbGridManualTick.setText(loc.getMenu("TickDistance") + ":");
 			lblGridStyle.setText(loc.getMenu("LineStyle"));
 			lblColor.setText(loc.getMenu("Color") + ":");
@@ -1201,7 +1203,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		public void addAngleOptionItem(String item) {
-			lbGridTickAngle.addItem(item);
+			cbGridTickAngle.addItem(item);
 		}
 		
 
@@ -1223,7 +1225,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 				ncbGridTickY.setVisible(true);
 				gridLabel2.setVisible(true);
-				lbGridTickAngle.setVisible(false);
+				cbGridTickAngle.setVisible(false);
 				gridLabel3.setVisible(false);
 
 				ncbGridTickX.setDoubleValue(gridTicks[0]);
@@ -1233,22 +1235,17 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			} else {
 				ncbGridTickY.setVisible(false);
 				gridLabel2.setVisible(false);
-				lbGridTickAngle.setVisible(true);
+				cbGridTickAngle.setVisible(true);
 				gridLabel3.setVisible(true);
 
 				ncbGridTickX.setDoubleValue(gridTicks[0]);
-				int val = (int) (view.getGridDistances(2) * 12 / Math.PI) - 1;
-				if (val == 5)
-				 {
-					val = 4; // handle Pi/2 problem
-				}
-				lbGridTickAngle.setSelectedIndex(val);
+				cbGridTickAngle.setValue(model.gridAngleToString());
 				gridLabel1.setText("r:");
 			}
 
 			ncbGridTickX.setEnabled(!isAutoGrid);
 			ncbGridTickY.setEnabled(!isAutoGrid);
-			lbGridTickAngle.setEnabled(!isAutoGrid);
+			cbGridTickAngle.setEnabled(!isAutoGrid);
 		}
 
 		public void selectGridStyle(int style) {

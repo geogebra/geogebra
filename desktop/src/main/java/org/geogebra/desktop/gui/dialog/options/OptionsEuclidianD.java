@@ -25,22 +25,6 @@ import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.Locale;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
@@ -65,6 +49,22 @@ import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigation
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -120,7 +120,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	private JCheckBox ckNavPlay;
 
 	private JCheckBox ckOpenConsProtocol;
-	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle, cbGridTickAngle,
+	protected JComboBox cbAxesStyle, cbGridType, cbGridStyle,
 			cbTooltips;
 
 	protected JLabel lblAxisLabelStyle;
@@ -128,7 +128,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 	private JTextField tfAxesRatioX, tfAxesRatioY;
 
 	private NumberFormat nfAxesRatio;
-	protected NumberComboBox ncbGridTickX, ncbGridTickY;
+	protected NumberComboBox ncbGridTickX, ncbGridTickY, cbGridTickAngle;
 
 	protected JTextField tfMinX, tfMaxX, tfMinY, tfMaxY;
 
@@ -460,7 +460,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		ncbGridTickY.addItemListener(this);
 
 		// checkbox for grid labels
-		cbGridTickAngle = new JComboBox();
+		cbGridTickAngle = new NumberComboBox(app, false);
 		model.fillAngleOptions();
 		cbGridTickAngle.addItemListener(this);
 
@@ -880,7 +880,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		}
 
 		else if (source == cbGridTickAngle) {
-			model.applyGridTickAngle(cbGridTickAngle.getSelectedIndex());
+			model.applyGridTickAngle(cbGridTickAngle.getValue());
 		}
 
 		view.updateBackground();
@@ -1199,12 +1199,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 			gridLabel3.setVisible(true);
 
 			ncbGridTickX.setValue(gridTicks[0]);
-			int val = (int) (view.getGridDistances(2) * 12 / Math.PI) - 1;
-			if (val == 5)
-			 {
-				val = 4; // handle Pi/2 problem
-			}
-			cbGridTickAngle.setSelectedIndex(val);
+			cbGridTickAngle.setSelectedItem(model.gridAngleToString());
 			gridLabel1.setText("r:");
 		}
 

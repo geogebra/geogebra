@@ -3,7 +3,9 @@ package org.geogebra.common.gui.dialog.options.model;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -684,18 +686,41 @@ public class EuclidianOptionsModel {
 
 	}
 
-	public void applyGridTickAngle(int value0) {
-		if (value0 >= 0) {
-			int value = value0;
+	public void applyGridTickAngle(String text) {
+		if (!"".equals(text)) {
+
 			double[] ticks = view.getGridDistances();
 			// val = 4 gives 5*PI/12, skip this and go to 6*Pi/2 = Pi/2
-			if (value == 4) {
-				value = 5;
-			}
-			ticks[2] = (value + 1) * Math.PI / 12;
+
+			double value = app.getKernel().getAlgebraProcessor()
+					.evaluateToDouble(text);
+
+			ticks[2] = value;
 			view.setGridDistances(ticks);
 		}
 
+	}
+
+	public String gridAngleToString() {
+		double val = view.getGridDistances(2) / Math.PI;
+		double[] frac = AlgoFractionText.decimalToFraction(val,
+				Kernel.MAX_PRECISION);
+		StringBuilder sb = new StringBuilder();
+		if (frac[1] < 360) {
+			if (!Kernel.isEqual(1, frac[0])) {
+				sb.append(Math.round(frac[0]));
+			}
+			sb.append(Unicode.pi);
+			if (!Kernel.isEqual(1, frac[1])) {
+				sb.append("/");
+				sb.append(Math.round(frac[1]));
+			}
+
+		} else {
+			sb.append(app.getKernel().format(view.getGridDistances(2),
+					StringTemplate.editTemplate));
+		}
+		return sb.toString();
 	}
 
 	public GColor getAxesColor() {

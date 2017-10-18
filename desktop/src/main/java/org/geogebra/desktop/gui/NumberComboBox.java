@@ -14,13 +14,13 @@ package org.geogebra.desktop.gui;
 
 import java.awt.Dimension;
 
-import javax.swing.JComboBox;
-
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.desktop.main.AppD;
+
+import javax.swing.JComboBox;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -33,11 +33,17 @@ public class NumberComboBox extends JComboBox {
 	private Kernel kernel;
 
 	public NumberComboBox(final AppD app) {
-		kernel = app.getKernel();
+		this(app, true);
 
-		addItem("1"); // pi
-		addItem(Unicode.PI_STRING); // pi
-		addItem(Unicode.PI_STRING + "/2"); // pi/2
+	}
+
+	public NumberComboBox(final AppD app, boolean prefill) {
+		kernel = app.getKernel();
+		if (prefill) {
+			addItem("1"); // pi
+			addItem(Unicode.PI_STRING); // pi
+			addItem(Unicode.PI_STRING + "/2"); // pi/2
+		}
 		setEditable(true);
 		setSelectedItem(null);
 
