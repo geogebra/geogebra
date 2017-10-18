@@ -421,10 +421,12 @@ public abstract class CASView implements Editing, SetLabels {
 		for (int i = 0; i < selRows.length; i++) {
 			GeoCasCell casCell = getConsoleTable().getGeoCasCell(selRows[i]);
 			if (casCell != null) {
-				ret.append(casCell.getLaTeXOutput());
+				ret.append(casCell.getLaTeXOutput(false));
 
-				// LaTeX linebreak
-				ret.append(" \\\\ ");
+				if (i < selRows.length - 1) {
+					// LaTeX linebreak
+					ret.append(" \\\\ ");
+				}
 
 			}
 		}

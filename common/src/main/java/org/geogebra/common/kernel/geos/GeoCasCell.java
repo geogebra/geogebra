@@ -314,6 +314,15 @@ public class GeoCasCell extends GeoElement
 	 * @return LaTeX representation of output
 	 */
 	public String getLaTeXOutput() {
+		return getLaTeXOutput(true);
+	}
+
+	/**
+	 * @param bold
+	 *            bold?
+	 * @return LaTeX representation of output
+	 */
+	public String getLaTeXOutput(boolean bold) {
 
 		if (useAsText) {
 			return "\\text{" + this.commentText.getTextString() + "}";
@@ -323,7 +332,8 @@ public class GeoCasCell extends GeoElement
 			return "";
 		} else if (latex == null) {
 			if (outputVE != null) {
-				StringBuilder sb = new StringBuilder("\\mathbf{");
+				StringBuilder sb = new StringBuilder();
+
 				// create LaTeX string
 				if (nativeOutput || !(outputVE instanceof ExpressionNode)) {
 					// #5119 use same rounding as in Algebra, but avoid 3.14 ->
@@ -339,7 +349,7 @@ public class GeoCasCell extends GeoElement
 					appendLaTeXOutputGeo(sb, geo);
 
 				}
-				sb.append("}");
+
 				latex = sb.toString();
 				// TODO Uncomment once support for latex line breaking is
 				// implemented.
@@ -347,7 +357,7 @@ public class GeoCasCell extends GeoElement
 			}
 		}
 
-		return latex;
+		return bold ? "\\mathbf{" + latex + "}" : latex;
 	}
 
 	private void appendLaTeXOutputGeo(StringBuilder sb, GeoElement geo) {

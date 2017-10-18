@@ -134,7 +134,7 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 					value.getOutput(StringTemplate.casCopyTemplate));
 
 		} else if ("copyAsLatex".equals(ac)) {
-			String latexOutput = value.getLaTeXOutput();
+			String latexOutput = value.getLaTeXOutput(false);
 			data = new StringSelection(
 					StringUtil.toLaTeXString(latexOutput, true));
 
