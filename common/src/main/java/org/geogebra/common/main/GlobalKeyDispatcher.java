@@ -264,8 +264,7 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		// set translation vector
-		if (tempVec == null)
-		 {
+		if (tempVec == null) {
 			tempVec = new Coords(4); // 4 coords for 3D
 		}
 		double xd = geo.getAnimationStep() * xdiff;
@@ -278,6 +277,10 @@ public abstract class GlobalKeyDispatcher {
 		// move objects
 		boolean moved = MoveGeos.moveObjects(geos, tempVec, null, null,
 				app.getActiveEuclidianView());
+		if (app.getActiveEuclidianView() != null) {
+			app.getActiveEuclidianView().getEuclidianController()
+				.hideDynamicStylebar();
+		}
 
 		// nothing moved
 		if (!moved) {
