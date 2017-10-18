@@ -7,6 +7,7 @@ import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
 
@@ -75,6 +76,14 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 		if (acc != null) {
 			acc.correctTabIndex();
 		}
+	}
+	
+	@Override
+	public void onBrowserEvent(Event event) {
+		if (acc != null && acc.handleBrowserEvent(event)) {
+			return;
+		}
+		super.onBrowserEvent(event);
 	}
 	
 	@Override

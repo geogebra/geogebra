@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.TabHandler;
@@ -395,7 +396,6 @@ public class MarblePanel extends FlowPanel
 			if (am == null) {
 				return false;
 			}
-			
 			if (shiftDown)  {
 				am.focusPrevious(btnPlus);
 			} else {
