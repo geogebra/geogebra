@@ -355,7 +355,6 @@ public abstract class EuclidianView3D extends EuclidianView
 		viewDirection = Coords.VZ.copyVector();
 
 		start();
-
 	}
 
 	final private static void changeCoords(CoordMatrix mat, Coords vInOut) {
@@ -2162,9 +2161,6 @@ public abstract class EuclidianView3D extends EuclidianView
 					stopAnimation();
 				}
 			}
-
-			// Application.debug("t="+t+"\nscale="+(startScale*(1-t)+endScale*t));
-
 			setScale(xScaleStart * (1 - t) + xScaleEnd * t,
 					yScaleStart * (1 - t) + yScaleEnd * t,
 					zScaleStart * (1 - t) + zScaleEnd * t);
@@ -2237,6 +2233,13 @@ public abstract class EuclidianView3D extends EuclidianView
 			stopAnimation();
 			break;
 		}
+	}
+
+	@Override
+	public boolean isZeroStandard() {
+		return (Kernel.isEqual(xZero, 0) && Kernel.isEqual(yZero, 0)
+				&& Kernel.isEqual(zZero, -1.5)
+				&& Kernel.isEqual(EuclidianView.SCALE_STANDARD, xScaleEnd));
 	}
 
 	@Override

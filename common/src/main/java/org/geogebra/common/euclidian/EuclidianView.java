@@ -5189,7 +5189,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				.startAnimation(getEuclidianController().getZoomerListener());
 	}
 
-	private boolean isZeroStandard() {
+	/**
+	 * @return true if axes are standard positioned
+	 */
+	public boolean isZeroStandard() {
 		return (Kernel.isEqual(xZero, getXZeroStandard())
 				&& Kernel.isEqual(yZero, getYZeroStandard()))
 				|| (isZeroStandardForSmallScreen()
