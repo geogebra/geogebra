@@ -906,7 +906,7 @@ public class EuclidianSettings extends AbstractSettings {
 			sbxml.append(axisNumberingDistances[i].getDouble());
 			sbxml.append("\" tickExpression=\"");
 			sbxml.append(axisNumberingDistances[i]
-					.getDefinition(StringTemplate.xmlTemplate));
+					.getLabel(StringTemplate.xmlTemplate));
 		}
 
 		// axis crossing values
