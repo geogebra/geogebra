@@ -524,7 +524,7 @@ public class ZoomPanel extends FlowPanel
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
-		int tabIndex = GUITabs.ZOOMPANEL_TAB_START;
+		int tabIndex = GUITabs.ZOOMPANEL;
 		for (StandardButton btn : buttons) {
 			if (btn != null) {
 				btn.setTabIndex(tabIndex);

@@ -10,16 +10,16 @@ public class GUITabs {
 	public static final int NO_TAB = -1;
 
 	/** Start tab index of header buttons */
-	public static final int HEADER_TAB_START = 1000;
+	public static final int MENU = 1000;
 
 	/** Start tab index of EV buttons (Settings) */
 	public static final int EV_SETTINGS = 2000;
 
 	/** Start tab index of zoom buttons */
-	public static final int ZOOMPANEL_TAB_START = 3000;
+	public static final int ZOOMPANEL = 3000;
 
 	/** Tab index of floating move button in Tools tab. */
-	public static final int TOOLS_MOVE_TAB = 4900;
+	public static final int TOOLS_MOVE = 4900;
 
 	/** Tab index of the + button in AV Input. */
 	public static final int AV_PLUS = 5500;

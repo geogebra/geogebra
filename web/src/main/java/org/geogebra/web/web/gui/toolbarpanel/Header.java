@@ -755,7 +755,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
-		int tabIndex = GUITabs.HEADER_TAB_START;
+		int tabIndex = GUITabs.MENU;
 		for (ToggleButton btn : buttons) {
 			if (btn != null) {
 				btn.setTabIndex(tabIndex);

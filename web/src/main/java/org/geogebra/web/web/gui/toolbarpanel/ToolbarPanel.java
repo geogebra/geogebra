@@ -473,7 +473,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		moveBtn.removeStyleName("hideMoveBtn");
 
 		if (app.has(Feature.TAB_ON_GUI)) {
-			moveBtn.setTabIndex(GUITabs.TOOLS_MOVE_TAB);
+			moveBtn.setTabIndex(GUITabs.TOOLS_MOVE);
 		}
 	}
 

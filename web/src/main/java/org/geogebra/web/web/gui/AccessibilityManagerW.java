@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 
 import com.google.gwt.user.client.ui.FocusWidget;
 
@@ -37,7 +38,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusNext(Object source) {
-		if (source instanceof FocusWidget) {
+		if (source instanceof ToolbarPanel) {
+			focusMenu();
+		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
 			focusNextAfterGeos();
@@ -68,9 +71,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			}
 			break;
 		case GUITabs.AV_PLUS:
+		case GUITabs.TOOLS_MOVE:
 			focusMenu();
 			break;
-		case GUITabs.HEADER_TAB_START:
+		case GUITabs.MENU:
 			break;
 		}
 	}
