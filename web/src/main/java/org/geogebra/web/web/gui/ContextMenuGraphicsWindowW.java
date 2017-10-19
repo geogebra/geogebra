@@ -524,9 +524,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		protected void initActions() {
 			addNoGridItem();
 			addMajorGridlines();
-			addMajorMinorGridlines();
-			addPolar();
-			addIsometric();
+			if (!app.getSettings().getToolbarSettings().is3D()) {
+				addMajorMinorGridlines();
+				addPolar();
+				addIsometric();
+			}
 		}
 
 		private void addIsometric() {
@@ -602,6 +604,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getSettings().getEuclidian(1).setShowGridSetting(true);
 					app.getSettings().getEuclidian(1)
 							.setGridType(EuclidianView.GRID_CARTESIAN);
+					app.getActiveEuclidianView().showGrid(true);
 					app.getActiveEuclidianView()
 							.setGridType(EuclidianView.GRID_CARTESIAN);
 					app.getActiveEuclidianView().repaintView();
@@ -623,6 +626,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView()
 							.setGridType(EuclidianView.GRID_NOT_SHOWN);
 					app.getSettings().getEuclidian(1).setShowGridSetting(false);
+					app.getActiveEuclidianView().showGrid(false);
 					app.getActiveEuclidianView().repaintView();
 					app.storeUndoInfo();
 				}
