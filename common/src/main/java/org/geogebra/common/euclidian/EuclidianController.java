@@ -383,10 +383,11 @@ public abstract class EuclidianController {
 	private CoordSystemListener zoomerListener = null;
 	private MyModeChangedListener modeChangeListener = null;
 
-
 	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
 
 	private GeoElement lastSelectionToolGeoToRemove;
+
+	private ArrayList<GeoElement> moveMultipleObjectsList;
 
 	/**
 	 * state for selection tool over press/release
@@ -6588,7 +6589,7 @@ public abstract class EuclidianController {
 		tmpCoordsL3.setY(yRW);
 		tmpCoordsL3.setZ(0);
 		MoveGeos.moveObjects(
-				companion.removeParentsOfView(getAppSelectedGeos()),
+				moveMultipleObjectsList,
 				translationVec, tmpCoordsL3, null, view);
 		if (repaint) {
 			kernel.notifyRepaint();
@@ -7124,6 +7125,31 @@ public abstract class EuclidianController {
 		if (translationVec == null) {
 			translationVec = new Coords(2);
 		}
+		// add polygon, line, etc. points to objects to move
+		if (moveMultipleObjectsList == null) {
+			moveMultipleObjectsList = new ArrayList<GeoElement>();
+		} else {
+			moveMultipleObjectsList.clear();
+		}
+		for (GeoElement geo : companion.removeParentsOfView(getAppSelectedGeos())) {
+			moveMultipleObjectsList.add(geo);
+			switch (geo.getGeoClassType()) {
+			case POLYGON:
+			case POLYGON3D:
+				for (GeoPointND point : ((GeoPolygon) geo).getPointsND()) {
+					moveMultipleObjectsList.add((GeoElement) point);
+				}
+				break;
+			case SEGMENT:
+			case SEGMENT3D:
+				moveMultipleObjectsList.add(((GeoSegmentND) geo).getStartPointAsGeoElement());
+				moveMultipleObjectsList.add(((GeoSegmentND) geo).getEndPointAsGeoElement());
+			default:
+				// nothing to do
+				break;
+			}
+		}
+
 	}
 
 	public void handleMovedElement(GeoElement geo, boolean multiple,
