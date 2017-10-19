@@ -5057,7 +5057,7 @@ namespace giac {
   // a multivariate poly with multivariate poly coeffs
   polynome splitmultivarpoly(const polynome & p,int inner_dim){
     int outer_dim=p.dim-inner_dim;
-    index_t cur_outer;
+    index_t cur_outer(outer_dim);
     polynome cur_inner(inner_dim);
     polynome res(outer_dim);
     vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();

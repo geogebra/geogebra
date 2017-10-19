@@ -7168,6 +7168,9 @@ namespace giac {
   static gen projection(const vecteur & v,int s,GIAC_CONTEXT){
     if (s==2){
       gen a=remove_at_pnt(v[0]);
+      gen af=evalf_double(a,1,contextptr);
+      if (af.type<=_REAL)
+	return gensizeerr("projection first argument must be a line/curve");
       gen b=v[1];
       if (b.type==_VECT)
 	return apply2nd(a,b,contextptr,projectionpoint);

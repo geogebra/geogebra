@@ -513,7 +513,7 @@ namespace giac {
       res += "// (Run warn_equal_in_prog(0) to disable this warning)\n";
       const_iterateur it=res1.begin(),itend=res1.end();
       for (;it!=itend;++it){
-	res += it->print(contextptr);
+	res += '\n'+it->print(contextptr);
       }
       res +="\n";
     }
@@ -989,6 +989,14 @@ namespace giac {
     }
     gen newa,newc;
     replace_keywords(a,((embedd&&c.type==_VECT)?makevecteur(c):c),newa,newc,contextptr);
+    if (python_compat(contextptr)){
+      vecteur res1,non_decl,res3,res4;
+      check_local_assign(newc,gen2vecteur(newa),res1,non_decl,res3,res4,false,contextptr);
+      if (!non_decl.empty()){
+	*logptr(contextptr) << "Auto-declared local variables : " << gen(non_decl,_SEQ__VECT) << endl;
+	newc=symb_local(non_decl,newc,contextptr);
+      }
+    }
     symbolic g=symbolic(at_program,gen(makevecteur(newa,b,newc),_SEQ__VECT));
     g=symbolic(at_sto,gen(makevecteur(g,d),_SEQ__VECT));
     if (warn)

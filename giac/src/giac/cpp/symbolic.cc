@@ -401,7 +401,7 @@ namespace giac {
     if (arg.type==_IDNT || (arg.type==_SYMB && arg._SYMBptr->sommet!=at_neg && (arg._SYMBptr->sommet!=at_exp || calc_mode(contextptr)!=1) && !arg._SYMBptr->sommet.ptr()->printsommet)){
       argpar=arg.is_symb_of_sommet(at_inv) || (arg.is_symb_of_sommet(at_exp) && abs_calc_mode(contextptr)==38);
       if (argpar) s +='(';
-      if (pui.type==_SYMB || pui.type==_FRAC){
+      if (pui.type==_SYMB || pui.type==_FRAC || pui.type==_CPLX){
 	add_print(s,arg,contextptr);
 	if (argpar) s +=')';
 #ifdef GIAC_HAS_STO_38
