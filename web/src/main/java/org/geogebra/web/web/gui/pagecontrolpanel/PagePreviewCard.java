@@ -21,7 +21,7 @@ public class PagePreviewCard extends FlowPanel {
 	private FlowPanel imagePanel;
 	private String image;
 	private FlowPanel titlePanel;
-	private Label titleLabel;
+	private Label title;
 
 	/**
 	 * @param view
@@ -43,17 +43,17 @@ public class PagePreviewCard extends FlowPanel {
 
 		titlePanel = new FlowPanel();
 		titlePanel.addStyleName("titlePanel");
-		titleLabel = new Label();
-		titlePanel.add(titleLabel);
+		title = new Label();
+		titlePanel.add(title);
 
 		add(imagePanel);
 		add(titlePanel);
 
-		addPreviewImage();
+		setPreviewImage();
 		setDefaultLabel();
 	}
 
-	private void addPreviewImage() {
+	private void setPreviewImage() {
 		image = ((EuclidianViewWInterface) view).getExportImageDataUrl(0.1,
 				false);
 
@@ -72,14 +72,21 @@ public class PagePreviewCard extends FlowPanel {
 	 */
 	public void updatePreviewImage() {
 		imagePanel.clear();
-		addPreviewImage();
+		setPreviewImage();
 	}
 
 	private void setDefaultLabel() {
-		titleLabel.setText("Page " + (pageIndex + 1));
+		title.setText("Page " + (pageIndex + 1));
 	}
 
 	/*
 	 * private void rename(String title) { titleLabel.setText(title); }
 	 */
+
+	/**
+	 * @return the page that is associated with this preview card
+	 */
+	public EuclidianView getAssociatedView() {
+		return view;
+	}
 }

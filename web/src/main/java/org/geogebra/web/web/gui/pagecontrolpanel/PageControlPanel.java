@@ -1,9 +1,11 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
@@ -31,6 +33,7 @@ public class PageControlPanel extends PersistablePanel {
 	private EuclidianDockPanelW dockPanel;
 	private MOWToolbar mowToolbar;
 	private PersistablePanel contentPanel;
+	private PagePreviewCard activePreviewCard;
 	private StandardButton closeButton;
 	private boolean isAttached = false;
 
@@ -85,11 +88,13 @@ public class PageControlPanel extends PersistablePanel {
 		if (!isAttached) {
 			frame.add(this);
 			// add pages for testing
-			addPagePreviewCard(app.getActiveEuclidianView());
-			addPagePreviewCard(app.getActiveEuclidianView());
+			addPreviewCard(app.getActiveEuclidianView());
+			addPreviewCard(app.getActiveEuclidianView());
+			addPreviewCard(app.getActiveEuclidianView());
+			addPreviewCard(app.getActiveEuclidianView());
 			isAttached = true;
 		}
-		updatePreviews();
+		updatePreview();
 		setVisible(true);
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
@@ -136,18 +141,53 @@ public class PageControlPanel extends PersistablePanel {
 		}
 	}
 
-	private void addPagePreviewCard(EuclidianView view) {
-		PagePreviewCard previewCard = new PagePreviewCard(view,
+	private void addPreviewCard(EuclidianView view) {
+		final PagePreviewCard previewCard = new PagePreviewCard(view,
 				contentPanel.getWidgetCount());
+
+		ClickStartHandler.init(previewCard, new ClickStartHandler() {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				setPageSelected(previewCard);
+			}
+		});
+
 		contentPanel.add(previewCard);
+		// set first page active
+		if (contentPanel.getWidgetCount() == 1) {
+			setPageSelected(previewCard);
+		}
 	}
 
 	/**
-	 * Updates the preview images
+	 * Sets the selected page visible and highlights the preview card
+	 * 
+	 * @param previewCard
+	 *            selected preview card
 	 */
-	public void updatePreviews() {
+	protected void setPageSelected(PagePreviewCard previewCard) {
+		deselectAllPreviewCards();
+		previewCard.addStyleName("selected");
+		activePreviewCard = previewCard;
+		// TODO set associated page visible
+	}
+
+	/**
+	 * Sets all preview cards to not selected
+	 */
+	protected void deselectAllPreviewCards() {
 		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
-			((PagePreviewCard) contentPanel.getWidget(i)).updatePreviewImage();
+			((PagePreviewCard) contentPanel.getWidget(i))
+					.removeStyleName("selected");
+		}
+	}
+
+	/**
+	 * Updates the preview image of the active preview card
+	 */
+	public void updatePreview() {
+		if (activePreviewCard != null) {
+			activePreviewCard.updatePreviewImage();
 		}
 	}
 }

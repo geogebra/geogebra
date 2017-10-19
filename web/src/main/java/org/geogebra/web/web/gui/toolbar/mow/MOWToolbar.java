@@ -552,6 +552,10 @@ public class MOWToolbar extends FlowPanel {
 	 */
 	public void update() {
 		updateUndoRedoActions();
+		if (app.has(Feature.MOW_MULTI_PAGE) && pageControlPanel != null
+				&& pageControlPanel.isVisible()) {
+			pageControlPanel.updatePreview();
+		}
 	}
 
 	/**
