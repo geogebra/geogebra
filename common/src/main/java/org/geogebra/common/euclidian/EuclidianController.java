@@ -6588,9 +6588,12 @@ public abstract class EuclidianController {
 		tmpCoordsL3.setX(xRW);
 		tmpCoordsL3.setY(yRW);
 		tmpCoordsL3.setZ(0);
-		MoveGeos.moveObjects(
-				moveMultipleObjectsList,
-				translationVec, tmpCoordsL3, null, view);
+		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
+			MoveGeos.moveObjects(moveMultipleObjectsList, translationVec, tmpCoordsL3, null, view);
+		} else {
+			MoveGeos.moveObjects(companion.removeParentsOfView(getAppSelectedGeos()), translationVec, tmpCoordsL3, null,
+					view);
+		}
 		if (repaint) {
 			kernel.notifyRepaint();
 		}
@@ -7125,31 +7128,23 @@ public abstract class EuclidianController {
 		if (translationVec == null) {
 			translationVec = new Coords(2);
 		}
-		// add polygon, line, etc. points to objects to move
-		if (moveMultipleObjectsList == null) {
-			moveMultipleObjectsList = new ArrayList<GeoElement>();
-		} else {
-			moveMultipleObjectsList.clear();
-		}
-		for (GeoElement geo : companion.removeParentsOfView(getAppSelectedGeos())) {
-			moveMultipleObjectsList.add(geo);
-			switch (geo.getGeoClassType()) {
-			case POLYGON:
-			case POLYGON3D:
-				for (GeoPointND point : ((GeoPolygon) geo).getPointsND()) {
-					moveMultipleObjectsList.add((GeoElement) point);
+		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
+			// add free input points to move list
+			if (moveMultipleObjectsList == null) {
+				moveMultipleObjectsList = new ArrayList<GeoElement>();
+			} else {
+				moveMultipleObjectsList.clear();
+			}
+			for (GeoElement geo : companion.removeParentsOfView(getAppSelectedGeos())) {
+				moveMultipleObjectsList.add(geo);
+				AlgoElement algo = geo.getParentAlgorithm();
+				if (algo != null) {
+					for (GeoPointND point : geo.getFreeInputPoints(getView())) {
+						moveMultipleObjectsList.add((GeoElement) point);
+					}
 				}
-				break;
-			case SEGMENT:
-			case SEGMENT3D:
-				moveMultipleObjectsList.add(((GeoSegmentND) geo).getStartPointAsGeoElement());
-				moveMultipleObjectsList.add(((GeoSegmentND) geo).getEndPointAsGeoElement());
-			default:
-				// nothing to do
-				break;
 			}
 		}
-
 	}
 
 	public void handleMovedElement(GeoElement geo, boolean multiple,
