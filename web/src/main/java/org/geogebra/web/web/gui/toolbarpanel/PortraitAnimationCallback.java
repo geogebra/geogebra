@@ -33,6 +33,9 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 			header.removeStyleName("header-open-portrait");
 			header.addStyleName("header-close-portrait");
 		}
+		if (header.app.getSettings().getToolbarSettings().is3D()) {
+			return;
+		}
 		EuclidianView ev = header.app.getActiveEuclidianView();
 		int d = header.isOpen() ? -1 : 1;
 
