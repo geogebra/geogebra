@@ -239,8 +239,17 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	@Override
 	public void setLabels() {
 		lblStep.setText(app.getLocalization().getMenu("Step"));
+		setAlt(tfMin, "Minimum");
+		setAlt(tfMax, "Maximum");
+		setAlt(tfStep, "Step");
+
 	}
 
+	private void setAlt(AVField fld, String key) {
+		fld.getElement().setAttribute("aria-label",
+				app.getLocalization().getMenu(key));
+
+	}
 	/**
 	 * Show the panel
 	 */

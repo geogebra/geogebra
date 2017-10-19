@@ -70,6 +70,7 @@ public class ItemControls extends FlowPanel
 			btnMore.setTabIndex(GUITabs.NO_TAB);
 		}
 		getElement().setTabIndex(GUITabs.NO_TAB);
+		setLabels();
 	}
 
 	/**
@@ -465,6 +466,12 @@ public class ItemControls extends FlowPanel
 	public void setLabels() {
 		if (cmMore != null) {
 			cmMore.setLabels();
+		}
+		if (btnMore != null) {
+			btnMore.setAltText(this.radioTreeItem.loc.getMenu("Options"));
+		}
+		if (animPanel != null) {
+			animPanel.setLabels(this.radioTreeItem.loc);
 		}
 	}
 }

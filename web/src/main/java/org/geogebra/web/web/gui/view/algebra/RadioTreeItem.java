@@ -2026,6 +2026,7 @@ public class RadioTreeItem extends AVTreeItem
 		}
 		if (hasMarblePanel()) {
 			marblePanel.setLabels();
+			marblePanel.updateIcons(errorMessage != null);
 		}
 		if (controls != null) {
 			controls.setLabels();

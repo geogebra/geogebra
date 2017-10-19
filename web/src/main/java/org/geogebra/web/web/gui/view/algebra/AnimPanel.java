@@ -6,6 +6,7 @@ import java.util.List;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
@@ -440,5 +441,17 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 */
 	MyToggleButtonW getPlayButton() {
 		return btnPlay;
+	}
+
+	/**
+	 * Update alt text according to localization
+	 * 
+	 * @param loc
+	 *            localization
+	 */
+	public void setLabels(Localization loc) {
+		btnPlay.getElement().setAttribute("aria-label",
+				loc.getMenu("Play"));
+
 	}
 }

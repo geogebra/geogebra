@@ -158,7 +158,6 @@ public class MarblePanel extends FlowPanel
 			add(btn);
 			addStyleName("error");
 			removeStyleName("help");
-
 		}
 		else if (item.getController().isEditing() || item.geo == null) {
 			remove(marble);
@@ -172,6 +171,8 @@ public class MarblePanel extends FlowPanel
 			remove(btn);
 			removeStyleName("error");
 		}
+		marble.getElement().setAttribute("aria-label",
+				item.loc.getMenu("ShowHideObject"));
 		if (!textInput) {
 			if (warning) {
 				NoDragImage warnIcon = new NoDragImage(
