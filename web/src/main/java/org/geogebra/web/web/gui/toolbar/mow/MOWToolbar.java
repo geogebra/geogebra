@@ -137,13 +137,23 @@ public class MOWToolbar extends FlowPanel {
 		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (app.isMenuShowing()) {
-					app.toggleMenu();
-				}
-				app.getGuiManager().undo();
+				onUndo();
 			}
 		});
 		panel.add(btnUndo);
+	}
+
+	/**
+	 * on undo button pressed
+	 */
+	protected void onUndo() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
+		if (app.has(Feature.MOW_MULTI_PAGE)) {
+			pageControlPanel.close();
+		}
+		app.getGuiManager().undo();
 	}
 
 	private void addRedoButton(final FlowPanel panel) {
@@ -160,13 +170,23 @@ public class MOWToolbar extends FlowPanel {
 		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (app.isMenuShowing()) {
-					app.toggleMenu();
-				}
-				app.getGuiManager().redo();
+				onRedo();
 			}
 		});
 		panel.add(btnRedo);
+	}
+
+	/**
+	 * on redo button pressed
+	 */
+	protected void onRedo() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
+		if (app.has(Feature.MOW_MULTI_PAGE)) {
+			pageControlPanel.close();
+		}
+		app.getGuiManager().redo();
 	}
 
 	/**

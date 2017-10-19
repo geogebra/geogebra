@@ -3,10 +3,7 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
-import org.geogebra.keyboard.web.KeyboardResources;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
@@ -17,8 +14,6 @@ import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Page Control Panel for navigating through multiple pages MOW-269
@@ -34,7 +29,6 @@ public class PageControlPanel extends PersistablePanel {
 	private MOWToolbar mowToolbar;
 	private PersistablePanel contentPanel;
 	private PagePreviewCard activePreviewCard;
-	private StandardButton closeButton;
 	private boolean isAttached = false;
 
 	/**
@@ -54,25 +48,7 @@ public class PageControlPanel extends PersistablePanel {
 
 	private void initGUI() {
 		addStyleName("pageControlPanel");
-		addCloseButton();
 		addContentPanel();
-	}
-
-	private void addCloseButton() {
-		closeButton = new StandardButton(
-				new ImageResourcePrototype(null,
-						KeyboardResources.INSTANCE.keyboard_close_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
-		closeButton.setStyleName("closeButton");
-		closeButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick(Widget source) {
-				close();
-			}
-		});
-		add(closeButton);
 	}
 
 	private void addContentPanel() {
@@ -164,6 +140,7 @@ public class PageControlPanel extends PersistablePanel {
 	private void removePreviewCard(PagePreviewCard previewCard) {
 		contentPanel.remove(previewCard);
 		// TODO remove associated page also
+		// update default labels
 	}
 
 	/**
