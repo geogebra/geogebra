@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -30,6 +29,8 @@ public class PagePreviewCard extends FlowPanel {
 	 *            current page index
 	 */
 	public PagePreviewCard(EuclidianView view, int pageIndex) {
+		// TODO EuclidianView is used for testing, might have to be changed when
+		// full functionality will be implemented
 		this.view = view;
 		this.pageIndex = pageIndex;
 		initGUI();
@@ -60,10 +61,6 @@ public class PagePreviewCard extends FlowPanel {
 		if (image != null && image.length() > 0) {
 			imagePanel.getElement().getStyle().setBackgroundImage(
 					"url(" + Browser.normalizeURL(image) + ")");
-		} else {
-			imagePanel.getElement().getStyle().setBackgroundImage("url("
-					+ AppResources.INSTANCE.geogebra64().getSafeUri().asString()
-					+ ")");
 		}
 	}
 

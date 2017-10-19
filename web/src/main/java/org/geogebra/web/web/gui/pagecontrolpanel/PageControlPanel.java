@@ -92,6 +92,8 @@ public class PageControlPanel extends PersistablePanel {
 			addPreviewCard(app.getActiveEuclidianView());
 			addPreviewCard(app.getActiveEuclidianView());
 			addPreviewCard(app.getActiveEuclidianView());
+			addPreviewCard(app.getActiveEuclidianView());
+			addPreviewCard(app.getActiveEuclidianView());
 			isAttached = true;
 		}
 		updatePreview();
@@ -157,6 +159,11 @@ public class PageControlPanel extends PersistablePanel {
 		if (contentPanel.getWidgetCount() == 1) {
 			setPageSelected(previewCard);
 		}
+	}
+
+	private void removePreviewCard(PagePreviewCard previewCard) {
+		contentPanel.remove(previewCard);
+		// TODO remove associated page also
 	}
 
 	/**
