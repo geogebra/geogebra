@@ -599,8 +599,18 @@ public final class ArticleElement extends Element {
 	 * @return data-param-prerelease: whether to use some beta features
 	 * @param el element
 	 */
-	public static String getDataParamPrerelease(Element el) {
-		return el.getAttribute("data-param-prerelease").trim().toLowerCase();
+	public static boolean getDataParamFitToScreen(Element el) {
+		return "true"
+				.equals(el.getAttribute("data-param-app").trim().toLowerCase())
+				|| "true".equals(el.getAttribute("data-param-fittoscreen")
+						.trim().toLowerCase());
+	}
+
+	/**
+	 * @return data-param-prerelease: whether to use some beta features
+	 */
+	public String getDataParamPrerelease() {
+		return getAttribute("data-param-prerelease").trim().toLowerCase();
 	}
 
 	/**

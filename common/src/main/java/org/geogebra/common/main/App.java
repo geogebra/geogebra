@@ -4286,7 +4286,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-20533 */
 		case TAB_ON_GUI:
-			return prerelease;
+			return true;
 
 		/** GGB-2096 */
 		case BUTTONS_HAVE_SHADOW:

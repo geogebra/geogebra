@@ -460,8 +460,8 @@ var app = document.createElement("script");
 			if(lookAndFeel){
 				e("ggw").setAttribute("data-param-laf",lookAndFeel);
 			}
-			if(location.host.indexOf("beta") == 0 || getURLparam("prerelease")){
-				setPrerelease("true");
+			if(location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease){
+				setPrerelease(prerelease || "true");
 				
 			}
 			if(location.host.indexOf("alpha") == 0){
@@ -471,10 +471,6 @@ var app = document.createElement("script");
 				codebase = "https://autotest2.geogebra.org/job/GeoGebra-autotest/lastSuccessfulBuild/artifact/web/war/";
 			}
 			if(isLocalhost()){
-				if(prerelease){
-					setPrerelease(prerelease);
-				}
-				e("ggw").setAttribute("data-param-showlogging",true);
 				codebase = "./";
 			}
 		}

@@ -260,7 +260,7 @@ public abstract class AppW extends App implements SetLabels {
 		} else {
 			this.initialPerspective = ae.getDataParamPerspective();
 		}
-		setPrerelease(ArticleElement.getDataParamPrerelease(ae));
+		setPrerelease(ae.getDataParamPrerelease());
 
 		// laf = null in webSimple
 		setUndoRedoEnabled(ae.getDataParamEnableUndoRedo()
@@ -3228,8 +3228,8 @@ public abstract class AppW extends App implements SetLabels {
 	 * 
 	 *         Remove this function if GGB-2051 released. Used only in GGB-2051
 	 */
-	public static boolean isPrerelease(Element el) {
-		String p = ArticleElement.getDataParamPrerelease(el);
+	public static boolean isPrerelease(ArticleElement el) {
+		String p = el.getDataParamPrerelease();
 		return "true".equals(p) || "canary".equals(p);
 	}
 

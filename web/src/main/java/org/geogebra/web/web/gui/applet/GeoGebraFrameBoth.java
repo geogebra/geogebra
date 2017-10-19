@@ -183,7 +183,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			GLookAndFeel laf, JavaScriptObject clb) {
 
 		GeoGebraFrameW.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(
-				factory, laf, null, AppW.isPrerelease(el)),
+				factory, laf, null, ArticleElement.getDataParamFitToScreen(el)),
 				clb);
 
 		GeoGebraFrameW.reCheckForDummies(el);
