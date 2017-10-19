@@ -239,6 +239,7 @@ class ToolsTab extends ToolbarPanel.ToolbarTab implements TabHandler {
 	}
 
 	public boolean onTab(Widget source, boolean shiftDown) {
+		app.closePopups();
 		if (source == moreBtn || source == lessBtn) {
 			app.getAccessibilityManager().focusNext(toolbarPanel);
 			return true;
