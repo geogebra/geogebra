@@ -22,11 +22,13 @@ import org.geogebra.web.web.gui.util.PersistablePanel;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -154,8 +156,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 
 		center.add(btnAlgebra);
 		if (btnTools != null) {
-			center.getElement().setInnerHTML(center.getElement().getInnerHTML()
-					+ "<div class=\"indicator\"></div>");
+			Element indicator = DOM.createDiv();
+			indicator.addClassName("indicator");
+			center.getElement().insertFirst(indicator);
 			center.add(btnTools);
 		}else{
 			center.addStyleName("singleButton");
