@@ -539,7 +539,7 @@ public class ZoomPanel extends FlowPanel
 			app.getAccessibilityManager().focusPrevious(this);
 			return true;
 		} else if (source == getLastButton() && !shiftDown) {
-			app.getGuiManager().focusToobarFirstElement();
+			app.getAccessibilityManager().focusNext(this);
 			return true;
 		}
 

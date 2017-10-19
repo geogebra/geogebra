@@ -2491,17 +2491,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		dp.focusLastZoomButton();
 	}
-	public void focusToobarFirstElement() {
-		if (getToolbarPanelV2() != null) {
-			getToolbarPanelV2().focusFirstElement();
-		}
-	}
-
-	public void focusToobarLastElement() {
-		if (getToolbarPanelV2() != null) {
-			getToolbarPanelV2().focusLastElement();
-		}
-	}
 
 	/**
 	 * Open settings menu for geo element in AV.
@@ -2511,8 +2500,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			getAlgebraView().openMenuFor(geo);
 		}
 	}
-
-	
 }
 
 

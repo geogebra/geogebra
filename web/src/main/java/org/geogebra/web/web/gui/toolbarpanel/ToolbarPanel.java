@@ -874,7 +874,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	/** Focus the first element of toolbar under header */
 	public void focusFirstElement() {
-		selectedTab.focusFirstElement();
+		if (isClosed()) {
+			header.focusMenu();
+		} else {
+			selectedTab.focusFirstElement();
+		}
 	}
 
 	/** Focus the last element of toolbar under header */

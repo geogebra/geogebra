@@ -127,8 +127,4 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void addKeyboardAutoHidePartner(GPopupPanel popup);
 
 	public void switchToolsToAV();
-
-	public void focusToobarFirstElement();
-
-	public void focusToobarLastElement();
 }

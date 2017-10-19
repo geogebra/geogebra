@@ -38,7 +38,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusNext(Object source) {
-		if (source instanceof ToolbarPanel) {
+		if (source instanceof ZoomPanel) {
+			focusToobarFirstElement();
+		} else if (source instanceof ToolbarPanel) {
 			focusMenu();
 		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
@@ -89,6 +91,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private void focusNextAfterGeos() {
+
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) gm.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		dp.focusNextGUIElement();
 		setTabOverGeos(false);
@@ -158,4 +161,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 		return false;
 	}
+
+	private void focusToobarFirstElement() {
+		if (gm.getToolbarPanelV2() != null) {
+			gm.getToolbarPanelV2().focusFirstElement();
+		}
+	}
+
 }
