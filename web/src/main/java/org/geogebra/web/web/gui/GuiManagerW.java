@@ -2396,8 +2396,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	public ToolbarPanel getToolbarPanelV2() {
 		if (app.isUnbundled()) {
-			return ((ToolbarDockPanelW)(getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)))
-					.getToolbar();
+			DockPanel avPanel = getLayout().getDockManager()
+					.getPanel(App.VIEW_ALGEBRA);
+			if (avPanel instanceof ToolbarDockPanelW) {
+				return ((ToolbarDockPanelW) (avPanel)).getToolbar();
+			}
 		}
 		
 		return null;

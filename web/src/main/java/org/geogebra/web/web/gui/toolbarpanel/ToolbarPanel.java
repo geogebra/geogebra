@@ -7,16 +7,13 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
-import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
@@ -298,17 +295,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			@Override
 			public void onClick(Widget source) {
 				setMoveMode();
-				if (!Browser.isMobile()) {
-					ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-					ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-							app.getToolTooltipHTML(
-									EuclidianConstants.MODE_MOVE),
-							((GuiManagerW) app.getGuiManager()).getTooltipURL(
-									EuclidianConstants.MODE_MOVE),
-							ToolTipLinkType.Help, (AppW) app,
-							((AppW) app).getAppletFrame().isKeyboardShowing());
-					ToolTipManagerW.sharedInstance().setBlockToolTip(true);
-				}
+				tabTools.showTooltip(EuclidianConstants.MODE_MOVE);
 			}
 		};
 		moveBtn.addFastClickHandler(moveBtnHandler);

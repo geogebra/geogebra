@@ -399,9 +399,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 					&& this.app.getActiveEuclidianView()
 							.getEuclidianController() != null) {
 				((IsEuclidianController) this.app.getActiveEuclidianView()
-						.getEuclidianController())
-			        .setActualSticky(
-			                event.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+						.getEuclidianController()).setActualSticky(
+								event.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 			}
 		}
 	}
@@ -460,8 +459,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void showToolTipBottom(int mode, ModeSetter m) {
-		if (m != ModeSetter.CAS_VIEW
- && app.showToolBarHelp()) {
+		if (m != ModeSetter.CAS_VIEW && app.showToolBarHelp()) {
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 					app.getToolTooltipHTML(mode),
 					app.getGuiManager().getTooltipURL(mode),

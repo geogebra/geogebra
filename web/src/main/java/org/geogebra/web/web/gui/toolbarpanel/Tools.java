@@ -276,18 +276,8 @@ public class Tools extends FlowPanel implements SetLabels, TabHandler {
 				@Override
 				public void onClick(Widget source) {
 					getApp().setMode(mode);
-					boolean isIpad = Window.Navigator.getUserAgent()
-							.toLowerCase().contains("ipad");
-					// allow tooltips for iPad
-					if (!Browser.isMobile() || isIpad) {
-						ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-						ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-								getApp().getToolTooltipHTML(mode),
-								getApp().getGuiManager().getTooltipURL(mode),
-								ToolTipLinkType.Help, getApp(),
-								getApp().getAppletFrame().isKeyboardShowing());
-						ToolTipManagerW.sharedInstance().setBlockToolTip(true);
-					}
+
+					showTooltip(mode);
 					getApp().updateDynamicStyleBars();
 				}
 			});
@@ -314,11 +304,36 @@ public class Tools extends FlowPanel implements SetLabels, TabHandler {
 		}
 	}
 
+	private boolean allowTooltips() {
+		// allow tooltips for iPad
+		boolean isIpad = Window.Navigator.getUserAgent().toLowerCase()
+				.contains("ipad");
+		return (!Browser.isMobile() || isIpad) && app.showToolBarHelp();
+	}
+
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == getFirstToolButton() && shiftDown) {
 			((GuiManagerW) app.getGuiManager()).focusLastButtonOnEV();
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param modeMove
+	 *            mode number
+	 */
+	public void showTooltip(int modeMove) {
+		if (allowTooltips()) {
+			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+					app.getToolTooltipHTML(modeMove),
+					((GuiManagerW) app.getGuiManager())
+							.getTooltipURL(modeMove),
+					ToolTipLinkType.Help, app,
+					app.getAppletFrame().isKeyboardShowing());
+			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+		}
+
 	}
 }

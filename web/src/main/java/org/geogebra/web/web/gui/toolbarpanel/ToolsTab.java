@@ -241,4 +241,8 @@ class ToolsTab extends ToolbarPanel.ToolbarTab implements TabHandler {
 	public boolean onTab(Widget source, boolean shiftDown) {
 		return false;
 	}
+
+	public void showTooltip(int modeMove) {
+		toolsPanel.showTooltip(modeMove);
+	}
 }
