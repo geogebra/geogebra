@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -33,8 +35,6 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-
-import java.util.ArrayList;
 
 /**
  * Class that creates geos for EuclidianController. Needed for special 3D stuff.
@@ -393,8 +393,11 @@ public class EuclidianControllerCompanion {
 	/**
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param p1
+	 *            start point
 	 * @param p2
+	 *            end point
 	 * @return segment [p1 p2] algorithm
 	 */
 	protected AlgoElement segmentAlgo(Construction cons, GeoPointND p1,
@@ -403,17 +406,39 @@ public class EuclidianControllerCompanion {
 				null, true);
 	}
 
+	/**
+	 * @param p0
+	 *            center
+	 * @param p1
+	 *            point on circle
+	 * @return circle
+	 */
 	protected GeoElement[] createCircle2(GeoPointND p0, GeoPointND p1) {
-
 		return new GeoElement[] { ec.getAlgoDispatcher().Circle(null,
 				(GeoPoint) p0, (GeoPoint) p1) };
 	}
 
+	/**
+	 * @param A
+	 *            startpoint
+	 * @param B
+	 *            endpoint
+	 * @return semicircle
+	 */
 	protected GeoElement semicircle(GeoPointND A, GeoPointND B) {
 		return ec.getAlgoDispatcher().Semicircle(null, (GeoPoint) A,
 				(GeoPoint) B);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param center
+	 *            center
+	 * @param radius
+	 *            radius
+	 * @return circle
+	 */
 	protected GeoConicND circle(Construction cons, GeoPointND center,
 			GeoNumberValue radius) {
 		AlgoCirclePointRadius algo = new AlgoCirclePointRadius(cons,
@@ -422,6 +447,13 @@ public class EuclidianControllerCompanion {
 		return algo.getCircle();
 	}
 
+	/**
+	 * @param g
+	 *            first edge
+	 * @param h
+	 *            second edge
+	 * @return angle
+	 */
 	protected GeoElement[] angularBisector(GeoLineND g, GeoLineND h) {
 		return ec.getAlgoDispatcher().AngularBisector(null, (GeoLine) g,
 				(GeoLine) h);
@@ -514,7 +546,9 @@ public class EuclidianControllerCompanion {
 	 * move plane
 	 * 
 	 * @param repaint
+	 *            whether to repaint afterwards
 	 * @param event
+	 *            mouse event
 	 */
 	protected void movePlane(boolean repaint, AbstractEvent event) {
 		// only used in 3D

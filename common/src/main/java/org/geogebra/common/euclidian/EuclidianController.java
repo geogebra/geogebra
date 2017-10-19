@@ -10557,7 +10557,7 @@ public abstract class EuclidianController {
 		initShowMouseCoords();
 		view.setShowAxesRatio(false);
 
-		if (!setJustCreatedGeosSelected()) { // first try to set just created
+		if (!hasJustCreatedGeos()) { // first try to set just created
 			// geos as selected
 			// if none, do specific stuff for properties view
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {// prevent
@@ -10706,15 +10706,10 @@ public abstract class EuclidianController {
 	}
 
 	/**
-	 * set just created geos as selected (if any)
-	 *
 	 * @return true if any just created geos
 	 */
-	public boolean setJustCreatedGeosSelected() {
-		if (justCreatedGeos != null && justCreatedGeos.size() > 0) {
-			return true;
-		}
-		return false;
+	private boolean hasJustCreatedGeos() {
+		return justCreatedGeos != null && justCreatedGeos.size() > 0;
 	}
 
 	public void wrapMouseWheelMoved(int x, int y, double delta,
