@@ -43,9 +43,6 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class GlobalKeyDispatcherW extends
         org.geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler,
         KeyDownHandler, KeyPressHandler {
-	private enum TabExitPoint {
-		First, Last, None
-	};
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 	private boolean keydownPreventsDefaultKeypressTAB = false;
@@ -57,10 +54,6 @@ public class GlobalKeyDispatcherW extends
 
 	private static boolean isHandlingTab;
 
-	/**
-	 * determines if next tab should go from geo to a GUI element.
-	 */
-	private TabExitPoint tabExitPoint = TabExitPoint.None;
 
 	/**
 	 * @return whether ctrll is pressed
@@ -567,36 +560,23 @@ public class GlobalKeyDispatcherW extends
 		}
 
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
-		
-		if (am != null && !am.isTabOverGeos()) {
-			Log.debug("GUI TAB"); 
+
+		if (am == null) {
+			return false;
+		}
+
+		if (!am.isTabOverGeos()) {
 			return true;
 		}
 
 		app.getActiveEuclidianView().closeDropdowns();
 
-		if (tabExitPoint != TabExitPoint.None) {
-			if (am != null && selection.getSelectedGeos().size() == 1) {
-				GeoElement geo0 = selection.getSelectedGeos().get(0);
-				if (tabExitPoint == TabExitPoint.First && isShiftDown) {
-					selection.clearSelectedGeos();
-					am.focusPrevious(geo0);
-					tabExitPoint = TabExitPoint.None;
-					return true;
-				} else if (tabExitPoint == TabExitPoint.Last && !isShiftDown) {
-					selection.clearSelectedGeos();
-					am.focusNext(geo0);
-					tabExitPoint = TabExitPoint.None;
-					return true;
-				}
-			}
+		if (am.isCurrentTabExitGeos(isShiftDown)) {
+			return true;
 		}
 		
 		if (isShiftDown) {
 			selection.selectLastGeo(app.getActiveEuclidianView());
-			if (selection.isFirstGeoSelected()) {
-				tabExitPoint = TabExitPoint.First;
-			}
 			return true;
 		}
 		boolean forceRet = false;
@@ -606,13 +586,6 @@ public class GlobalKeyDispatcherW extends
 
 		boolean hasNext = selection.selectNextGeo(app.getActiveEuclidianView(),
 				false);
-
-		if (selection.isLastGeoSelected()) {
-			tabExitPoint = TabExitPoint.Last;
-		} else {
-			app.getAccessibilityManager().setTabOverGeos(true);
-
-		}
 
 		return hasNext || forceRet;
 	}

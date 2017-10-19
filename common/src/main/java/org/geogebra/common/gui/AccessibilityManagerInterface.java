@@ -33,6 +33,16 @@ public interface AccessibilityManagerInterface {
 	public boolean isTabOverGeos();
 
 	/**
+	 * Determines if current tab press should exit selecting geos and go to GUI
+	 * a element.
+	 * 
+	 * @param isShiftDown
+	 *            Determines if shift key is pressed.
+	 * @return true if tab should go to GUI.
+	 */
+	public boolean isCurrentTabExitGeos(boolean isShiftDown);
+
+	/**
 	 * Sets if tab is on geos currently.
 	 * 
 	 * @param b

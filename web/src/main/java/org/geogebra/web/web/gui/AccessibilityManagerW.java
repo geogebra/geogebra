@@ -1,8 +1,10 @@
 package org.geogebra.web.web.gui;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.SelectionManager;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.GUITabs;
@@ -20,7 +22,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private GuiManagerW gm;
 	private AppW app;
 	private boolean tabOverGeos = false;
-
+	private SelectionManager selection;
 	/**
 	 * Constructor.
 	 * 
@@ -30,6 +32,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public AccessibilityManagerW(AppW app) {
 		this.app = app;
 		gm = (GuiManagerW) app.getGuiManager();
+		selection = app.getSelectionManager();
 	}
 
 	@Override
@@ -45,6 +48,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void focusPrevious(Object source) {
 		if (source instanceof ZoomPanel) {
 			focusLastGeo();
+		} else if (source instanceof EuclidianView) {
+			setTabOverGeos(true);
 		} else if (source instanceof FocusWidget) {
 			focusPreviousWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
@@ -67,7 +72,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			break;
 		case GUITabs.HEADER_TAB_START:
 			break;
-			
 		}
 	}
 
@@ -96,7 +100,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private boolean focusFirstGeo() {
 		GeoElement geo = app.getKernel().getConstruction().getGeoSetLabelOrder().first();
 		if (geo != null) {
-			app.getSelectionManager().addSelectedGeo(geo);
+			selection.addSelectedGeo(geo);
 			tabOverGeos = true;
 			return true;
 		}
@@ -107,7 +111,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		GeoElement geo = app.getKernel().getConstruction().getGeoSetLabelOrder()
 				.last();
 		if (geo != null) {
-			app.getSelectionManager().addSelectedGeo(geo);
+			selection.addSelectedGeo(geo);
 			setTabOverGeos(true);
 			return true;
 		}
@@ -127,5 +131,27 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void setTabOverGeos(boolean tabOverGeos) {
 		this.tabOverGeos = tabOverGeos;
+	}
+
+	@Override
+	public boolean isCurrentTabExitGeos(boolean isShiftDown) {
+		if (selection.getSelectedGeos().size() != 1) {
+			return false;
+		}
+		GeoElement geo = selection.getSelectedGeos().get(0);
+		boolean exitOnFirst = selection.isFirstGeoSelected() && isShiftDown;
+		boolean exitOnLast = selection.isLastGeoSelected() && !isShiftDown;
+
+		if (exitOnFirst) {
+			focusPrevious(geo);
+		} else if (exitOnLast) {
+			focusNext(geo);
+		}
+
+		if (exitOnFirst || exitOnLast) {
+			selection.clearSelectedGeos();
+			return true;
+		}
+		return false;
 	}
 }
