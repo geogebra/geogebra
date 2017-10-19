@@ -45,6 +45,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
+
+
+/**
+ * Event handlers fro AV
+ */
 public class AlgebraControllerD extends AlgebraTreeController
 		implements DragGestureListener, DragSourceListener {
 
@@ -104,6 +109,9 @@ public class AlgebraControllerD extends AlgebraTreeController
 		}
 	}
 
+	/**
+	 * Enable drag and drop
+	 */
 	protected void enableDnD() {
 		ds = new DragSource();
 		ds.createDefaultDragGestureRecognizer((AlgebraViewD) getView(),
@@ -171,12 +179,19 @@ public class AlgebraControllerD extends AlgebraTreeController
 	 */
 	static class TransferableAlgebraView implements Transferable {
 
+		/**
+		 * For dragging from AV
+		 */
 		public final DataFlavor algebraViewFlavor = new DataFlavor(
 				AlgebraViewD.class, "geoLabel list");
 		private final DataFlavor supportedFlavors[] = { algebraViewFlavor };
 
 		private ArrayList<String> geoLabelList;
 
+		/**
+		 * @param geoLabelList
+		 *            list of dragged geos
+		 */
 		public TransferableAlgebraView(ArrayList<String> geoLabelList) {
 			this.geoLabelList = geoLabelList;
 		}
@@ -212,10 +227,6 @@ public class AlgebraControllerD extends AlgebraTreeController
 				.wrapEvent(e);
 		ev.clickedGeo(geo, app.isControlDown(event));
 		event.release();
-
-		// if click created a geo, notify app to select it
-		ev.getEuclidianController().setJustCreatedGeosSelected();
-
 	}
 
 	@Override
