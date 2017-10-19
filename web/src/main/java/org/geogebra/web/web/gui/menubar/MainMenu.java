@@ -686,7 +686,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		String text3 = (enabled) ? text2 :  "<span style=\"color:gray;\">"+text2+"</span>";
 		return "<img class=\"GeoGebraMenuImage menuImg\" alt=\"" + text2
 				+ "\" src=\""
-				+ url + "\" draggable=\"false\">" + text3;
+				+ url + "\" draggable=\"false\" aria-hidden=\"true\">"
+				+ text3;
     }
 
 	
@@ -694,7 +695,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		String text = str.replace("\"", "'");
 		return "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\"" + text
 				+ "\" src=\""
-				+ url + "\" draggable=\"false\">"
+				+ url + "\" draggable=\"false\" aria-hidden=\"true\">"
 				+ text;
     }
 

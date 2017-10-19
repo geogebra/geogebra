@@ -152,6 +152,8 @@ public class TabbedKeyboard extends FlowPanel {
 			Image hoverImg = new Image(KeyboardResources.INSTANCE
 					.keyboard_close_purple().getSafeUri().asString());
 			closeButton = new CustomButton(){};
+			closeButton.getElement().setAttribute("aria-label",
+					locale.getMenu("Close"));
 			if (hasTooltips) {
 				// closeButton.getElement().setAttribute("data-title",
 				// locale.getMenu("Close"));
@@ -177,6 +179,8 @@ public class TabbedKeyboard extends FlowPanel {
 			Image hoverImg = new Image(KeyboardResources.INSTANCE
 					.keyboard_more_purple().getSafeUri().asString());
 			moreButton = new ToggleButton(img, hoverImg);
+			moreButton.getElement().setAttribute("aria-label",
+					locale.getMenu("Commands"));
 			if (hasTooltips) {
 				// moreButton.getElement().setAttribute("data-title",
 				// locale.getMenu("Commands"));

@@ -67,6 +67,7 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 		if (image == null) {
 			return;
 		}
+		getElement().setAttribute("aria-label", alt);
 		image.setAltText(alt);
 	}
 
