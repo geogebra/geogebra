@@ -14,11 +14,17 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	 * 
 	 */
 	private final ToolbarPanel toolbarPanel;
+	/** AV wrapper */
 	SimplePanel simplep;
+	/** Algebra view **/
 	AlgebraViewW aview = null;
 
 	private int savedScrollPosition;
 
+	/**
+	 * @param toolbarPanel
+	 *            parent toolbar panel
+	 */
 	public AlgebraTab(ToolbarPanel toolbarPanel) {
 		this.toolbarPanel = toolbarPanel;
 		if (this.toolbarPanel.app != null) {
@@ -27,6 +33,10 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		}
 	}
 
+	/**
+	 * @param av
+	 *            algebra view
+	 */
 	public void setAlgebraView(final AlgebraViewW av) {
 		if (av != aview) {
 			if (aview != null && simplep != null) {

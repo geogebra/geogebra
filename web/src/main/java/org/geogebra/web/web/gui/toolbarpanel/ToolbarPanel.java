@@ -645,6 +645,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 *            decides if tab should fade during animation.
 	 */
 	public void openTools(boolean fade) {
+		if (!app.showToolBar()) {
+			openAlgebra(fade);
+			return;
+		}
 		ToolTipManagerW.hideAllToolTips();
 		header.selectTools();
 		selectedTab = tabTools;
@@ -655,16 +659,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		tabTools.setActive(true);
 		setFadeTabs(fade);
 		updateMoveButton();
-	}
-
-
-	/**
-	 * select tools tab
-	 */
-	public void selectTools() {
-		header.selectTools();
-		main.removeStyleName("algebra");
-		main.addStyleName("tools");
 	}
 
 	/**

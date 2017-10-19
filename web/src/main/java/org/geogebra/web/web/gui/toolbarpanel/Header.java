@@ -141,6 +141,29 @@ class Header extends FlowPanel implements KeyDownHandler {
 			}
 		});
 
+		if (app.showToolBar()) {
+			createToolsButton();
+		}
+
+		if (app.has(Feature.TAB_ON_GUI)) {
+			btnAlgebra.addKeyDownHandler(this);
+		}
+		center = new FlowPanel();
+		center.addStyleName("center");
+		center.addStyleName("indicatorLeft");
+
+		center.add(btnAlgebra);
+		if (btnTools != null) {
+			center.getElement().setInnerHTML(center.getElement().getInnerHTML()
+					+ "<div class=\"indicator\"></div>");
+			center.add(btnTools);
+		}else{
+			center.addStyleName("singleButton");
+		}
+		contents.add(center);
+	}
+
+	private void createToolsButton() {
 		btnTools = new MyToggleButton(
 				new Image(new ImageResourcePrototype(null,
 						MaterialDesignResources.INSTANCE
@@ -158,20 +181,11 @@ class Header extends FlowPanel implements KeyDownHandler {
 						onToolsPressed();
 					}
 				});
-
 		if (app.has(Feature.TAB_ON_GUI)) {
 			btnAlgebra.addKeyDownHandler(this);
 			btnTools.addKeyDownHandler(this);
 
 		}
-		center = new FlowPanel();
-		center.addStyleName("center");
-		center.addStyleName("indicatorLeft");
-		center.getElement().setInnerHTML(center.getElement().getInnerHTML()
-				+ "<div class=\"indicator\"></div>");
-		center.add(btnAlgebra);
-		center.add(btnTools);
-		contents.add(center);
 	}
 
 	/**
@@ -267,7 +281,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	void setLabels() {
 		setTitle(btnMenu, "Menu");
 		setTitle(btnTools,"Tools");
-		setTitle(btnAlgebra,app.getConfig().getAVTitle());
+		setTitle(btnAlgebra, app.getConfig().getAVTitle());
 		setTitle(btnClose, isOpen() ? "Close" : "Open");
 		setTitle(btnUndo, "Undo");
 		setTitle(btnRedo, "Redo");
@@ -287,11 +301,16 @@ class Header extends FlowPanel implements KeyDownHandler {
 		}
 
 		imgMenu.setAltText(app.getLocalization().getMenu("Menu"));
-		btnAlgebra.setAltText(
-				app.getLocalization().getMenu(app.getConfig().getAVTitle()));
-		btnTools.setAltText(app.getLocalization().getMenu("Tools"));
-		btnUndo.setAltText(app.getLocalization().getMenu("Undo"));
-		btnRedo.setAltText(app.getLocalization().getMenu("Redo"));
+		setAltText(btnAlgebra, app.getConfig().getAVTitle());
+		setAltText(btnTools, "Tools");
+		setAltText(btnUndo, "Undo");
+		setAltText(btnRedo, "Redo");
+	}
+
+	private void setAltText(MyToggleButton btn, String string) {
+		if (btn != null) {
+			btn.setAltText(app.getLocalization().getMenu(string));
+		}
 	}
 
 	/**
@@ -301,7 +320,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 		center.removeStyleName("indicatorRight");
 		center.addStyleName("indicatorLeft");
 		btnAlgebra.addStyleName("selected");
-		btnTools.removeStyleName("selected");
+		if (btnTools != null) {
+			btnTools.removeStyleName("selected");
+		}
 		toolbarPanel.setSelectedTabId(TabIds.ALGEBRA);
 	}
 
@@ -312,7 +333,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 		center.removeStyleName("indicatorLeft");
 		center.addStyleName("indicatorRight");
 		btnAlgebra.removeStyleName("selected");
-		btnTools.addStyleName("selected");
+		if (btnTools != null) {
+			btnTools.addStyleName("selected");
+		}
 		toolbarPanel.setSelectedTabId(TabIds.TOOLS);
 	}
 
