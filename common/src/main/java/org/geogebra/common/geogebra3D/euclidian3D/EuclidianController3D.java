@@ -22,7 +22,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawIntersectionCurve3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLine3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
-import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPolyLine3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPolygon3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPolyhedron3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
