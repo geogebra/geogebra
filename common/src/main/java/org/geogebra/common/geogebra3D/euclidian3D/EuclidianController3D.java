@@ -4386,11 +4386,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected void hidePreviewForPhone() {
-		if (!(getView().getPreviewDrawable() instanceof DrawPolyLine3D)
-				&& !(getView().getPreviewDrawable() instanceof DrawPolygon3D)
-				&& !(getView().getPreviewDrawable() instanceof DrawPolyhedron3D)) {
-			getView().setPreview(null);
-		}
+		// see EuclidianView3DA.setPreview(): not setting not wanted previewables
 	}
 
 	@Override
