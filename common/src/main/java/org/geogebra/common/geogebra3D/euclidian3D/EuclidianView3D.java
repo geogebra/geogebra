@@ -2501,9 +2501,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void updatePreviewable() {
-
-		if (getCursor3DType() != PREVIEW_POINT_NONE) {
-			previewDrawable.updatePreview();
+		if (previewDrawable != null) {
+			if (getCursor3DType() != PREVIEW_POINT_NONE) {
+				previewDrawable.updatePreview();
+			}
 		}
 	}
 
