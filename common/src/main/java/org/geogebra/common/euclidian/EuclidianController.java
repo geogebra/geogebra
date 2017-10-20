@@ -10046,7 +10046,7 @@ public abstract class EuclidianController {
 	public void wrapMouseReleased(AbstractEvent event) {
 		// will be reset in wrapMouseReleased
 		AccessibilityManagerInterface am = app.getAccessibilityManager();
-		if (am != null) {
+		if (am != null && selection.getSelectedGeos().size() != 0) {
 			am.setTabOverGeos(true);
 		}
 
