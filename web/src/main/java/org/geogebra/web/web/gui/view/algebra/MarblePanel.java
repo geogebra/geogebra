@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.TabHandler;
@@ -17,6 +18,8 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -286,7 +289,7 @@ public class MarblePanel extends FlowPanel
 			btnPlus.addKeyDownHandler(this);
 			btnPlus.setAltText(btnPlus.getTitle());
 			btnPlus.addTabHandler(this);
-		}
+			}
 	}
 
 	/**
@@ -393,9 +396,6 @@ public class MarblePanel extends FlowPanel
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == btnPlus) {
 			AccessibilityManagerInterface am = item.app.getAccessibilityManager();
-			if (am == null) {
-				return false;
-			}
 			if (shiftDown)  {
 				am.focusPrevious(btnPlus);
 			} else {
