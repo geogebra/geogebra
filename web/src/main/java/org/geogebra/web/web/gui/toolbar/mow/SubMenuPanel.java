@@ -5,11 +5,13 @@ import java.util.Vector;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.app.GGWToolBar;
+import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -269,10 +271,22 @@ public abstract class SubMenuPanel extends FlowPanel
 		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
 		app.setMode(mode);
 		scrollPanel.setHorizontalScrollPosition(pos);
+		closeFloatingMenus();
 		/*
 		 * if (hasInfo()) { infoPanel.clear(); showToolTip(mode); }
 		 */
+	}
 
+	/**
+	 * Closes burger menu and page control panel
+	 */
+	public void closeFloatingMenus() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
+		if (app.has(Feature.MOW_MULTI_PAGE)) {
+			((AppWapplet) app).getAppletFrame().getPageControlPanel().close();
+		}
 	}
 
 	// @Override

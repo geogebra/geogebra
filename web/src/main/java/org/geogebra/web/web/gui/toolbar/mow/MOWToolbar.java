@@ -98,7 +98,7 @@ public class MOWToolbar extends FlowPanel {
 		add(subMenuPanel);
 		addStyleName("mowToolbar");
 
-		ClickStartHandler.initDefaults(this, true, true);
+		ClickStartHandler.initDefaults(this, false, false);
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
@@ -137,23 +137,11 @@ public class MOWToolbar extends FlowPanel {
 		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				onUndo();
+				closeFloatingMenus();
+				app.getGuiManager().undo();
 			}
 		});
 		panel.add(btnUndo);
-	}
-
-	/**
-	 * on undo button pressed
-	 */
-	protected void onUndo() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
-		if (app.has(Feature.MOW_MULTI_PAGE)) {
-			pageControlPanel.close();
-		}
-		app.getGuiManager().undo();
 	}
 
 	private void addRedoButton(final FlowPanel panel) {
@@ -170,25 +158,24 @@ public class MOWToolbar extends FlowPanel {
 		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				onRedo();
+				closeFloatingMenus();
+				app.getGuiManager().redo();
 			}
 		});
 		panel.add(btnRedo);
 	}
 
 	/**
-	 * on redo button pressed
+	 * Closes burger menu and page control panel
 	 */
-	protected void onRedo() {
+	protected void closeFloatingMenus() {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
 		if (app.has(Feature.MOW_MULTI_PAGE)) {
 			pageControlPanel.close();
 		}
-		app.getGuiManager().redo();
 	}
-
 	/**
 	 * update style of undo+redo buttons
 	 */
@@ -305,6 +292,9 @@ public class MOWToolbar extends FlowPanel {
 	 * Opens the page control panel
 	 */
 	public void openPageControlPanel(){
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
 		if(pageControlPanel == null){
 			pageControlPanel = ((AppWapplet) app).getAppletFrame()
 					.getPageControlPanel();
@@ -572,10 +562,6 @@ public class MOWToolbar extends FlowPanel {
 	 */
 	public void update() {
 		updateUndoRedoActions();
-		if (app.has(Feature.MOW_MULTI_PAGE) && pageControlPanel != null
-				&& pageControlPanel.isVisible()) {
-			pageControlPanel.updatePreview();
-		}
 	}
 
 	/**

@@ -173,6 +173,7 @@ public class PenSubMenu extends SubMenuPanel {
 		} else {
 			app.getActiveEuclidianView().getSettings().setDeleteToolSize((int) value);
 		}
+		closeFloatingMenus();
 	}
 
 	@Override
@@ -205,6 +206,7 @@ public class PenSubMenu extends SubMenuPanel {
 		} else if (source == btnCustomColor) {
 			openColorDialog();
 		}
+		closeFloatingMenus();
 	}
 
 

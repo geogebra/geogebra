@@ -886,7 +886,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
-				&& !app.isUnbundledOrWhiteboard()) {
+				&& !app.isUnbundled()) {
 			app.toggleMenu();
 		}
 	}
@@ -938,9 +938,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				app.hideKeyboard();
-				app.closePopups();
-				app.toggleMenu();
+				onMenuButtonPressed();
 			}
 		});
 
@@ -961,6 +959,18 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 		openMenuButton.addStyleName("mowOpenMenuButton");
 		add(openMenuButton);
+	}
+
+	/**
+	 * Actions performed when menu button is pressed
+	 */
+	protected void onMenuButtonPressed() {
+		app.hideKeyboard();
+		app.closePopups();
+		app.toggleMenu();
+		if (app.has(Feature.MOW_MULTI_PAGE)) {
+			pageControlPanel.close();
+		}
 	}
 
 	/**

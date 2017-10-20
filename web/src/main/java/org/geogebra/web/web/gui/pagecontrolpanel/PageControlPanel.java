@@ -110,13 +110,13 @@ public class PageControlPanel extends PersistablePanel {
 	 * handles close actions after animation
 	 */
 	protected void onClose() {
-		setVisible(false);
 		app.getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
 
 		if (app.isWhiteboardActive()) {
 			mowToolbar.showPageControlButton();
 			dockPanel.showZoomPanel();
 		}
+		setVisible(false);
 	}
 
 	private void addPreviewCard(EuclidianView view) {
@@ -137,11 +137,11 @@ public class PageControlPanel extends PersistablePanel {
 		}
 	}
 
-	private void removePreviewCard(PagePreviewCard previewCard) {
-		contentPanel.remove(previewCard);
-		// TODO remove associated page also
-		// update default labels
-	}
+	/*
+	 * private void removePreviewCard(PagePreviewCard previewCard) {
+	 * contentPanel.remove(previewCard); // TODO remove associated page also //
+	 * update default labels }
+	 */
 
 	/**
 	 * Sets the selected page visible and highlights the preview card
