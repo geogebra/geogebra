@@ -360,25 +360,30 @@ public class FillingModel extends MultipleOptionsModel {
 
 		}
 
-		if (fillType == FillType.SYMBOLS) {
-			getFillingListener().setSymbolsVisible(true);
-		} else {
-			getFillingListener().setSymbolsVisible(false);
+		getFillingListener().setSymbolsVisible(fillType == FillType.SYMBOLS);
 
-			for (int i = 0; i < getGeosLength(); i++) {
-				GeoElement geo = getGeoAt(i);
-				if (isBarChart()) {
-					if (!updateBarsFillType(geo, 1, null)) {
-						geo.setFillType(fillType);
-					}
-				} else {
-					geo.setFillType(fillType);
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			if (isBarChart()) {
+				if (!updateBarsFillType(geo, 1, null)) {
+					updateGeoFillType(geo);
 				}
-				geo.updateRepaint();
+			} else {
+				updateGeoFillType(geo);
 			}
 		}
+		kernel.notifyRepaint();
+
 		storeUndoInfo();
 		updateFillType(fillType);
+	}
+
+	private void updateGeoFillType(GeoElement geo) {
+		if (fillType == FillType.SYMBOLS && geo.getFillSymbol() == null) {
+			geo.setFillSymbol("$");
+		}
+		geo.setFillType(fillType);
+		geo.updateVisualStyle(GProperty.HATCHING);
 	}
 
 	public void applyFillingInverse(boolean value) {
@@ -403,6 +408,7 @@ public class FillingModel extends MultipleOptionsModel {
 				algo.setBarSymbol(null, i);
 				algo.setBarImage(null, i);
 			}
+			geo.updateVisualStyle(GProperty.HATCHING);
 			return false;
 		}
 		switch (type) {
@@ -449,6 +455,7 @@ public class FillingModel extends MultipleOptionsModel {
 			}
 			break;
 		}
+		geo.updateVisualStyle(GProperty.HATCHING);
 		storeUndoInfo();
 		return true;
 	}
