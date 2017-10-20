@@ -7342,6 +7342,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       tvx.push_back(plus_inf);
     }
     gen nextx=tvx.front();
+    if (!lop(nextx,at_rootof).empty())
+      nextx=re(evalf(nextx,1,contextptr),contextptr);
     vecteur tvix=makevecteur(x,nextx);
     gen y=limit(f,xid,nextx,1,contextptr),ymin(plus_inf),ymax(minus_inf);
     if (!is_inf(y) && is_greater(ymin,y,contextptr))
@@ -7356,6 +7358,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     for (int i=1;i<tvs;++i){
       gen curx=nextx,dfx,df2;
       nextx=tvx[i];
+      if (!lop(nextx,at_rootof).empty())
+	nextx=re(evalf(nextx,1,contextptr),contextptr);
       tvix.push_back(nothing);
       if (is_inf(nextx) && is_inf(curx)){
 	dfx=limit(f1,xid,0,0,contextptr);
