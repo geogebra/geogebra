@@ -187,7 +187,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (app.has(Feature.TAB_ON_GUI)) {
 			btnAlgebra.addKeyDownHandler(this);
 			btnTools.addKeyDownHandler(this);
-
 		}
 	}
 
@@ -249,6 +248,10 @@ class Header extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void onOpen() {
+		Widget headerParent = toolbarPanel.header.getParent().getParent()
+				.getParent();
+		headerParent.removeStyleName("closePortrait"); 
+		headerParent.removeStyleName("closeLandscape"); 
 		if (toolbarPanel.isAlgebraViewActive()) {
 			onAlgebraPressed();
 		} else {
@@ -759,11 +762,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 		for (ToggleButton btn : buttons) {
 			if (btn != null) {
 				btn.setTabIndex(tabIndex);
-
 				tabIndex++;
 			}
 		}
-
 		setAltTexts();
 	}
 
@@ -826,6 +827,5 @@ class Header extends FlowPanel implements KeyDownHandler {
 				showCenter();
 			}
 		});
-
 	}
 }

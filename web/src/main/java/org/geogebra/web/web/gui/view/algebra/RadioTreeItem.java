@@ -2395,10 +2395,6 @@ public class RadioTreeItem extends AVTreeItem
 		return main.getElement().getTabIndex();
 	}
 
-	public void setAltText(String alt) {
-		main.getElement().setAttribute("alt", alt);
-	}
-
 	/**
 	 * Move HTML focus to this element
 	 */

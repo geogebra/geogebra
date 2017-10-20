@@ -44,7 +44,6 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 		acc = new AccessibilityButton(this);
 	}
 
-
 	@Override
 	public void setTitle(String title) {
 		if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {

@@ -164,7 +164,6 @@ public class ZoomPanel extends FlowPanel
 						null, ZoomPanelResources.INSTANCE
 								.fullscreen_exit_black18().getSafeUri(),
 						0, 0, 18, 18, false, false));
-
 	}
 
 	/**
