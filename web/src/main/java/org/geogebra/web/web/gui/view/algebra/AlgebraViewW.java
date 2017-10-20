@@ -274,10 +274,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				//TODO: check this ----
 				break;
 			case KeyCodes.KEY_TAB:
-				if (!app.getGlobalKeyDispatcher().isFocused()) {
-					return;
-				}
-				// ----
+				event.preventDefault();
+				return;
 			}
 			break;
 		case Event.ONMOUSEDOWN:
