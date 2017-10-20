@@ -118,14 +118,21 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 	}
 
 	public void updateAxesLabels(String[] labels) {
+		boolean changed = false;
 		if (labels == null) {
 			for (int i = 0; i < mAxisModel.length; i++) {
-				mAxisModel[i].applyAxisLabel("");
+				changed = mAxisModel[i].applyAxisLabel("", false) || changed;
 			}
 		} else {
 			for (int i = 0; i < mAxisModel.length; i++) {
-				mAxisModel[i].applyAxisLabel(labels[i]);
+				changed = mAxisModel[i].applyAxisLabel(labels[i], false) || changed;
 			}
+		}
+		if (changed) {
+			view.settingsChanged(view.getSettings());
+			view.updateBounds(true, true);
+			view.updateBackground();
+			view.repaintView();
 		}
 	}
 

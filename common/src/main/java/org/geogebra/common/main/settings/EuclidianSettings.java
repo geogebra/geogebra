@@ -407,11 +407,21 @@ public class EuclidianSettings extends AbstractSettings {
 	 * change visibility of axes
 	 */
 	public boolean setShowAxis(int axis, boolean flag) {
+		boolean changed = setShowAxisNoFireSettingChanged(axis, flag);
+		if (changed) {
+			settingChanged();
+		}
+		return changed;
+	}
+
+	/*
+ * change visibility of axes
+ */
+	public boolean setShowAxisNoFireSettingChanged(int axis, boolean flag) {
 		boolean changed = flag != showAxes[axis];
 
 		if (changed) {
 			showAxes[axis] = flag;
-			settingChanged();
 		}
 		return changed;
 	}
@@ -455,6 +465,10 @@ public class EuclidianSettings extends AbstractSettings {
 	 * @param axisLabel
 	 */
 	public void setAxisLabel(int axis, String axisLabel) {
+		setAxisLabel(axis, axisLabel, true);
+	}
+
+	public boolean setAxisLabel(int axis, String axisLabel, boolean fireSettingsChanged) {
 		boolean changed = false;
 		if (StringUtil.empty(axisLabel)) {
 			changed = axesLabels[axis] != null;
@@ -464,10 +478,11 @@ public class EuclidianSettings extends AbstractSettings {
 			axesLabels[axis] = axisLabel;
 		}
 
-		if (changed) {
+		if (changed && fireSettingsChanged) {
 			settingChanged();
 		}
 
+		return changed;
 	}
 
 	public String[] getAxesLabels() {
@@ -506,11 +521,15 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public void setAxisNumberingDistance(int i, GeoNumberValue dist) {
+		setAxisNumberingDistance(i, dist, true);
+	}
+
+	public void setAxisNumberingDistance(int i, GeoNumberValue dist, boolean fireSettingChanged) {
 		axisNumberingDistances[i] = dist;
-
 		setAutomaticAxesNumberingDistance(false, i, false);
-
-		settingChanged();
+		if (fireSettingChanged) {
+			settingChanged();
+		}
 	}
 
 	public void setAutomaticAxesNumberingDistance(boolean flag, int axis,
@@ -706,11 +725,12 @@ public class EuclidianSettings extends AbstractSettings {
 
 	}
 
+	public void setAxesNumberingDistance(GeoNumberValue tickDist, int axis, boolean fireSettingChanged) {
+		setAxisNumberingDistance(axis, tickDist, fireSettingChanged);
+	}
+
 	public void setAxesNumberingDistance(GeoNumberValue tickDist, int axis) {
-
-		setAxisNumberingDistance(axis, tickDist);
-
-		settingChanged();
+		setAxesNumberingDistance(tickDist, axis, true);
 	}
 
 	public void setPreferredSize(GDimension dimension) {
@@ -731,11 +751,13 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public boolean setShowAxes(boolean flag) {
-		boolean changed = this.setShowAxis(0, flag);
-		changed = this.setShowAxis(1, flag) || changed;
-		return this.setShowAxis(2, flag) || changed;
-		// settingChanged() is called from those above
-
+		boolean changed = this.setShowAxisNoFireSettingChanged(0, flag);
+		changed = this.setShowAxisNoFireSettingChanged(1, flag) || changed;
+		changed = this.setShowAxisNoFireSettingChanged(2, flag) || changed;
+		if (changed) {
+			settingChanged();
+		}
+		return changed;
 	}
 
 	public boolean setLogAxes(boolean x, boolean y) {

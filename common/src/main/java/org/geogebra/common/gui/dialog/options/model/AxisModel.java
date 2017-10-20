@@ -66,6 +66,10 @@ public class AxisModel {
 	 * @return value computed (may be null)
 	 */
 	public GeoNumberValue applyTickDistance(String str) {
+		return applyTickDistance(str, true);
+	}
+
+	public GeoNumberValue applyTickDistance(String str, boolean fireChange) {
 		GeoNumberValue value = null;
 		final String text = str.trim();
 		if (!"".equals(text)) {
@@ -75,27 +79,29 @@ public class AxisModel {
 		if (value != null) {
 			if (app.getEuclidianView1() == view) {
 				app.getSettings().getEuclidian(1)
-						.setAxesNumberingDistance(value, axis);
+						.setAxesNumberingDistance(value, axis, fireChange);
 
 			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
 					&& app.getEuclidianView2(1) == view) {
 				app.getSettings().getEuclidian(2)
-						.setAxesNumberingDistance(value, axis);
+						.setAxesNumberingDistance(value, axis, fireChange);
 			} else if (app.hasEuclidianView3D()
 					&& app.getEuclidianView3D() == view) {
 				app.getSettings().getEuclidian(3)
-						.setAxesNumberingDistance(value, axis);
+						.setAxesNumberingDistance(value, axis, fireChange);
 
 			} else {
 				EuclidianSettings settings = view.getSettings();
 				if (settings != null) {
-					settings.setAxesNumberingDistance(value, axis);
+					settings.setAxesNumberingDistance(value, axis, fireChange);
 				} else {
 					view.setAxesNumberingDistance(value, axis);
 				}
 			}
 
-			view.updateBackground();
+			if (fireChange) {
+				view.updateBackground();
+			}
 		}
 		return value;
 	}
@@ -147,28 +153,34 @@ public class AxisModel {
 	}
 
 	public void applyTickDistance(boolean value) {
+		applyTickDistance(value, true);
+	}
+
+	public void applyTickDistance(boolean value, boolean fireChange) {
 
 		if (app.getEuclidianView1() == view) {
 			app.getSettings().getEuclidian(1)
-					.setAutomaticAxesNumberingDistance(!value, axis, true);
+					.setAutomaticAxesNumberingDistance(!value, axis, fireChange);
 
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
 				&& app.getEuclidianView2(1) == view) {
 			app.getSettings().getEuclidian(2)
-					.setAutomaticAxesNumberingDistance(!value, axis, true);
+					.setAutomaticAxesNumberingDistance(!value, axis, fireChange);
 		} else if (app.hasEuclidianView3D()
 				&& app.getEuclidianView3D() == view) {
 			app.getSettings().getEuclidian(3)
-					.setAutomaticAxesNumberingDistance(!value, axis, true);
+					.setAutomaticAxesNumberingDistance(!value, axis, fireChange);
 		} else {
 			EuclidianSettings settings = view.getSettings();
 			if (settings != null) {
-				settings.setAutomaticAxesNumberingDistance(!value, axis, true);
+				settings.setAutomaticAxesNumberingDistance(!value, axis, fireChange);
 			} else {
 				view.setAutomaticAxesNumberingDistance(!value, axis);
 			}
 		}
-		view.updateBackground();
+		if (fireChange) {
+			view.updateBackground();
+		}
 
 	}
 
@@ -199,31 +211,36 @@ public class AxisModel {
 		view.repaintView();
 	}
 
-	public void applyAxisLabel(String text) {
+	public boolean applyAxisLabel(String text) {
+		return applyAxisLabel(text, true);
+	}
 
+	public boolean applyAxisLabel(String text, boolean fireChange) {
+
+		boolean changed = false;
 		if (app.getEuclidianView1() == view) {
-			app.getSettings().getEuclidian(1).setAxisLabel(axis, text);
-
+			changed = app.getSettings().getEuclidian(1).setAxisLabel(axis, text, fireChange);
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
 				&& app.getEuclidianView2(1) == view) {
-			app.getSettings().getEuclidian(2).setAxisLabel(axis, text);
+			changed = app.getSettings().getEuclidian(2).setAxisLabel(axis, text, fireChange);
 		} else if (app.hasEuclidianView3D()
 				&& app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setAxisLabel(axis, text);
-
+			changed = app.getSettings().getEuclidian(3).setAxisLabel(axis, text, fireChange);
 		} else {
 			EuclidianSettings settings = view.getSettings();
 			if (settings != null) {
-				settings.setAxisLabel(axis, text);
+				changed = settings.setAxisLabel(axis, text, fireChange);
 			} else {
 				view.setAxisLabel(axis, text);
+				changed = true;
 			}
 		}
-
-		view.updateBounds(true, true);
-		view.updateBackground();
-		view.repaintView();
-
+		if (fireChange) {
+			view.updateBounds(true, true);
+			view.updateBackground();
+			view.repaintView();
+		}
+		return changed;
 	}
 
 	public void applyTickStyle(int type) {
