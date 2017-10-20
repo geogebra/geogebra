@@ -4535,4 +4535,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 		return super.modeTriggersUndoOnDragGeo(mode2);
 	}
+
+	protected void updatePreviewableForMouseDragged() {
+		// no need in 3D
+	}
 }

@@ -8836,12 +8836,9 @@ public abstract class EuclidianController {
 				return;
 			}
 		}
-		// update previewable
-		if (view.getPreviewDrawable() != null) {
-			view.getPreviewDrawable().updateMousePos(
-					view.toRealWorldCoordX(mouseLoc.x),
-					view.toRealWorldCoordY(mouseLoc.y));
-		}
+
+		updatePreviewableForMouseDragged();
+
 		/*
 		 * Conintuity handling
 		 *
@@ -8886,6 +8883,14 @@ public abstract class EuclidianController {
 			}
 		}
 		handleMouseDragged(true, event, startCapture);
+	}
+
+	protected void updatePreviewableForMouseDragged() {
+		if (view.getPreviewDrawable() != null) {
+			view.getPreviewDrawable().updateMousePos(
+					view.toRealWorldCoordX(mouseLoc.x),
+					view.toRealWorldCoordY(mouseLoc.y));
+		}
 	}
 
 	private void translateHitsByVector(PointerEventType type) {
