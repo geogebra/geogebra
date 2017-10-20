@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.stylebar;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -132,14 +133,18 @@ public class StylebarPositioner {
         if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
                 && app.getMode() == EuclidianConstants.MODE_SELECT) {
 
-            return getStylebarPositionForDrawable(
-                    app.getActiveEuclidianView().getSelectionRectangle(),
-                    true,
-                    false,
-                    false,
-                    stylebarHeight,
-                    minTopPosition,
-                    maxTopPosition);
+            GRectangle selectionRectangle = app.getActiveEuclidianView().getSelectionRectangle();
+
+            if (!app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) || selectionRectangle != null) {
+                return getStylebarPositionForDrawable(
+                        selectionRectangle,
+                        true,
+                        false,
+                        false,
+                        stylebarHeight,
+                        minTopPosition,
+                        maxTopPosition);
+            }
         }
 
         GeoElement geo = activeGeoList.get(0);
