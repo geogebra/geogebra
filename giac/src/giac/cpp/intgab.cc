@@ -1074,7 +1074,7 @@ namespace giac {
 	  res=0;
 	  return true;
 	}
-	if (intgab_r(g,x,a,b,rational,res,contextptr))
+	if (is_zero(A) && intgab_r(g,x,a,b,rational,res,contextptr))
 	  return true;
 	if (ieo==1){
 	  // simplify g on 0..inf
