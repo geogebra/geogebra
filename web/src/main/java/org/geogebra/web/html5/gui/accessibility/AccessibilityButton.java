@@ -28,12 +28,10 @@ public class AccessibilityButton implements AccessibilityInterface {
 		int eventGetType = DOM.eventGetType(event);
 		if (eventGetType == Event.ONKEYDOWN) {
 			char keyCode = (char) event.getKeyCode();
-			if (keyCode == ' ') {
-				//				onClick(event);
-			} else if (keyCode == '\t') {
+			if (keyCode == '\t') {
 				onTabPressed(event);
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
