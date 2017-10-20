@@ -3,9 +3,12 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
@@ -14,6 +17,9 @@ import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Page Control Panel for navigating through multiple pages MOW-269
@@ -27,8 +33,10 @@ public class PageControlPanel extends PersistablePanel {
 	private GeoGebraFrameBoth frame;
 	private EuclidianDockPanelW dockPanel;
 	private MOWToolbar mowToolbar;
+	private ScrollPanel scrollPanel;
 	private PersistablePanel contentPanel;
 	private PagePreviewCard activePreviewCard;
+	private StandardButton plusButton;
 	private boolean isAttached = false;
 
 	/**
@@ -48,13 +56,56 @@ public class PageControlPanel extends PersistablePanel {
 
 	private void initGUI() {
 		addStyleName("pageControlPanel");
+		addPlusButton();
 		addContentPanel();
 	}
 
 	private void addContentPanel() {
+		scrollPanel = new ScrollPanel();
+		scrollPanel.addStyleName("scrollPanel");
 		contentPanel = new PersistablePanel();
 		contentPanel.addStyleName("contentPanel");
-		add(contentPanel);
+		scrollPanel.add(contentPanel);
+		add(scrollPanel);
+	}
+
+	private void addPlusButton() {
+		plusButton = new StandardButton(
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.add_white()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
+		plusButton.setStyleName("mowFloatingButton");
+		plusButton.addStyleName("plusButton");
+		plusButton.addFastClickHandler(new FastClickHandler() {
+			public void onClick(Widget source) {
+				addNewPage();
+			}
+		});
+		add(plusButton);
+	}
+
+	/**
+	 * Sets plus button visible
+	 */
+	protected void showPlusButton() {
+		if (plusButton == null) {
+			return;
+		}
+		plusButton.addStyleName("showMowFloatingButton");
+		plusButton.removeStyleName("hideMowFloatingButton");
+	}
+
+	/**
+	 * Hides plus button
+	 */
+	protected void hidePlusButton() {
+		if (plusButton == null) {
+			return;
+		}
+		plusButton.addStyleName("hideMowFloatingButton");
+		plusButton.removeStyleName("showMowFloatingButton");
 	}
 
 	/**
@@ -64,12 +115,7 @@ public class PageControlPanel extends PersistablePanel {
 		if (!isAttached) {
 			frame.add(this);
 			// add pages for testing
-			addPreviewCard(app.getActiveEuclidianView());
-			addPreviewCard(app.getActiveEuclidianView());
-			addPreviewCard(app.getActiveEuclidianView());
-			addPreviewCard(app.getActiveEuclidianView());
-			addPreviewCard(app.getActiveEuclidianView());
-			addPreviewCard(app.getActiveEuclidianView());
+			addNewPage();
 			isAttached = true;
 		}
 		updatePreview();
@@ -85,6 +131,7 @@ public class PageControlPanel extends PersistablePanel {
 		CSSAnimation.runOnAnimation(new Runnable() {
 			public void run() {
 				style.setOverflow(Overflow.VISIBLE);
+				showPlusButton();
 			}
 		}, getElement(), "animateIn");
 	}
@@ -96,6 +143,7 @@ public class PageControlPanel extends PersistablePanel {
 		if (!isVisible()) {
 			return;
 		}
+		hidePlusButton();
 		addStyleName("animateOut");
 		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 
@@ -119,6 +167,15 @@ public class PageControlPanel extends PersistablePanel {
 		setVisible(false);
 	}
 
+	/**
+	 * creates a new page and associated preview card
+	 */
+	protected void addNewPage() {
+		// TODO create new page
+		// replace app.getActiveEuclidianView() with new view
+		addPreviewCard(app.getActiveEuclidianView());
+	}
+
 	private void addPreviewCard(EuclidianView view) {
 		final PagePreviewCard previewCard = new PagePreviewCard(view,
 				contentPanel.getWidgetCount());
@@ -131,10 +188,9 @@ public class PageControlPanel extends PersistablePanel {
 		});
 
 		contentPanel.add(previewCard);
-		// set first page active
-		if (contentPanel.getWidgetCount() == 1) {
-			setPageSelected(previewCard);
-		}
+		// set new page active
+		setPageSelected(previewCard);
+		scrollPanel.scrollToBottom();
 	}
 
 	/*

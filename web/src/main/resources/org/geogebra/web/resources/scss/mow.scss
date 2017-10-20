@@ -116,16 +116,19 @@
 	} 
 	
 	.slideLeft {
+		@extend .submenuScrollPanel;
 		left: 0px !important;
-    	transition: all 0.3s ease;
+    	transition: left 0.3s ease;
 	}
 	.slideCenter {
+		@extend .submenuScrollPanel;
 		left: -100% !important;
-   		transition: all 0.3s ease;
+   		transition: left 0.3s ease;
 	}
 	.slideRight {
+		@extend .submenuScrollPanel;
 		left: -200% !important;
-   		transition: all 0.3s ease;
+   		transition: left 0.3s ease;
 	}
 	
 	.BigScreen {
@@ -184,7 +187,7 @@
 *   SUBMENU
 ******************/	
 		
-	.scrollPanel {
+	.submenuScrollPanel {
 		background-color: $white;
 		position: relative;
 		display: flex;
@@ -515,9 +518,9 @@
 		}
 	}
 /*****************
-*   PAGE CONTROL BUTTON
+*   FLOATING ACTION BUTTONS
 ******************/
-	.pageControlButton{
+	.mowFloatingButton{
 		cursor: pointer;
 		position: absolute;
     	border-radius: 50%;
@@ -538,8 +541,13 @@
     		background-color: $mow_dark;
     	}
 	}
-	.hidePageControlButton {
-		@extend .pageControlButton;
+	.plusButton{
+		bottom: 0px;
+		z-index: 100;
+	}
+	
+	.hideMowFloatingButton {
+		@extend .mowFloatingButton;
 		cursor: default;
 		opacity: 0;	
 		visibility: hidden;
@@ -557,8 +565,8 @@
 			}
 		}
 	}
-	.showPageControlButton {
-		@extend .pageControlButton;
+	.showMowFloatingButton {
+		@extend .mowFloatingButton;
 		opacity: 1;	 
 		visibility: visible;
 		transition: opacity 0.2s ease, $floatingbtn-hover-transition, $mowsubmenu-transition;
@@ -577,15 +585,19 @@
 		height: 100%;
 		width: $pagecontrolpanelWidth;
 		overflow: hidden;
-	}
 	
-	.contentPanel {
-		width: 100%;
-		height: 100%;
-		overflow-x: hidden;
-		overflow-y: auto;
+		.scrollPanel{
+			height: 100%;
+			overflow-x: hidden;
+			overflow-y: auto;
+		}
+		
+		.contentPanel {
+			width: 100%;
+			height: 100%;
+			margin-bottom: 50px;
+		}
 	}
-	
 	.pageControlPanel.animateIn {
 		animation-duration: 0.25s;
 		animation-name: pCPanimateIn;
@@ -633,6 +645,7 @@
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: contain;
+			cursor: pointer;
 		}
 		.titlePanel {
 			width: 100%;
@@ -643,6 +656,7 @@
 			.gwt-Label {
 				font-size: 14px;
 				padding: 16px;
+				cursor: default;
 			}
 		}
 	}

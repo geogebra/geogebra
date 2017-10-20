@@ -904,9 +904,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		final int eventType = DOM.eventGetType(event);
 		if (eventType == Event.ONMOUSEDOWN || eventType == Event.ONTOUCHSTART) {
 			closePopupsAndMaybeMenu(event);
-			if (app.has(Feature.MOW_MULTI_PAGE) && pageControlPanel != null) {
+
+			if (app.has(Feature.MOW_MULTI_PAGE) && pageControlPanel != null
+					&& !Dom.eventTargetsElement(event,
+							pageControlPanel.getElement())) {
 				pageControlPanel.close();
 			}
+
 		}
 	}
 

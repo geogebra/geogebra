@@ -91,14 +91,14 @@ public class MOWToolbar extends FlowPanel {
 		add(LayoutUtilW.panelRow(middlePanel, rightPanel));
 
 		subMenuPanel = new FlowPanel();
-		subMenuPanel.addStyleName("scrollPanel");
+		subMenuPanel.addStyleName("submenuScrollPanel");
 		subMenuPanel.add(penMenu);
 		subMenuPanel.add(toolsMenu);
 		subMenuPanel.add(mediaMenu);
 		add(subMenuPanel);
 		addStyleName("mowToolbar");
 
-		ClickStartHandler.initDefaults(this, false, false);
+		ClickStartHandler.initDefaults(this, true, false);
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
@@ -172,7 +172,7 @@ public class MOWToolbar extends FlowPanel {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		if (app.has(Feature.MOW_MULTI_PAGE)) {
+		if (app.has(Feature.MOW_MULTI_PAGE) && pageControlPanel != null) {
 			pageControlPanel.close();
 		}
 	}
@@ -216,9 +216,10 @@ public class MOWToolbar extends FlowPanel {
 								.getSafeUri(),
 						0, 0, 24, 24, false, false)),
 				app);
-		ClickStartHandler.init(penButton, new ClickStartHandler() {
+		ClickStartHandler.init(penButton, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				closeFloatingMenus();
 				setPenMenu();
 			}
 		});
@@ -232,9 +233,10 @@ public class MOWToolbar extends FlowPanel {
 								.getSafeUri(),
 						0, 0, 24, 24, false, false)),
 				app);
-		ClickStartHandler.init(toolsButton, new ClickStartHandler() {
+		ClickStartHandler.init(toolsButton, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				closeFloatingMenus();
 				setToolsMenu();
 			}
 		});
@@ -248,9 +250,10 @@ public class MOWToolbar extends FlowPanel {
 								.getSafeUri(),
 						0, 0, 24, 24, false, false)),
 				app);
-		ClickStartHandler.init(mediaButton, new ClickStartHandler() {
+		ClickStartHandler.init(mediaButton, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				closeFloatingMenus();
 				setMediaMenu();
 			}
 		});
@@ -263,10 +266,12 @@ public class MOWToolbar extends FlowPanel {
 						.toolbar_close_portrait_black().getSafeUri(),
 				0, 0, 24, 24, false, false)), app);
 		rightPanel.add(closeButton);
-		ClickStartHandler.init(closeButton, new ClickStartHandler() {
+		ClickStartHandler.init(closeButton, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
+				closeFloatingMenus();
 				toggleSubmenu();
+
 			}
 		});
 	}
@@ -278,7 +283,7 @@ public class MOWToolbar extends FlowPanel {
 								.getSafeUri(),
 						0, 0, 24, 24, false, false),
 				app);
-		pageControlButton.setStyleName("pageControlButton");
+		pageControlButton.setStyleName("mowFloatingButton");
 		pageControlButton.addFastClickHandler(new FastClickHandler() {
 			public void onClick(Widget source) {
 				// TODO open Page Control Panel
@@ -309,8 +314,8 @@ public class MOWToolbar extends FlowPanel {
 		if (pageControlButton == null) {
 			return;
 		}
-		pageControlButton.addStyleName("hidePageControlButton");
-		pageControlButton.removeStyleName("showPageControlButton");
+		pageControlButton.addStyleName("hideMowFloatingButton");
+		pageControlButton.removeStyleName("showMowFloatingButton");
 	}
 
 	/**
@@ -320,8 +325,8 @@ public class MOWToolbar extends FlowPanel {
 		if (pageControlButton == null) {
 			return;
 		}
-		pageControlButton.addStyleName("showPageControlButton");
-		pageControlButton.removeStyleName("hidePageControlButton");
+		pageControlButton.addStyleName("showMowFloatingButton");
+		pageControlButton.removeStyleName("hideMowFloatingButton");
 	}
 
 	/**
