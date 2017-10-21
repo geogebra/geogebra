@@ -202,10 +202,6 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  declare -A FPSDATA
  declare -A CORRECT
  declare -A SCORE
- BESTTIME=""
- WORSTTIME=""
- BESTPROVER=""
- WORSTPROVER=""
  CORRECT=""
  SCORE=""
 
@@ -240,6 +236,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
     RESULTCLASS=" class=\"timeout\""
     CELLCOLOR="yellow!40"
     TIME="t/o"
+    FPS="t/o"
     elif [ "$ERRORTYPE" = 0 ]; then
      RESULTCLASS=" class=\"undefined\""
      CELLCOLOR="yellow!25"
@@ -308,36 +305,6 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   RESULTDATA[$cn]="$RESULT"
   TIMEDATA[$cn]=$TIME
   FPSDATA[$cn]=$FPS
-
-  # Storing best and worst results
-  if [ "$TIME" != "" -a "$RESULT" = "$DIRNAME" -a $j != Auto ]; then
-   # First time result
-   if [ "$BESTTIME" = "" ]; then
-    BESTTIME=$TIME
-    BESTPROVER=$c
-   else
-    # At least second time result
-    if [ "$TIME" != "t/o" ]; then
-     if [ $TIME -lt $BESTTIME ]; then
-      BESTTIME=$TIME
-      BESTPROVER=$c
-     fi
-    else
-     if [ "$WORSTTIME" = "" ]; then
-      # Exactly the second time result
-      WORSTTIME=$TIME 
-      WORSTPROVER=$c
-     else
-      if [ "$TIME" != "t/o" -a $WORSTTIME -lt $TIME ]; then
-       # More than second time result with worst current time
-       WORSTTIME=$TIME
-       WORSTPROVER=$c
-       fi # end of >2, worst current
-      fi # end of >2, not worst current
-     fi # end of >=2
-    fi # end of >=1, not best time current
-   fi # end of >=1 (all cases)
-  # echo "<td$RESULTCLASS>$RESULT</td><td$RESULTCLASS>$TIME</td>" >> $MYDIR/$HTML
   done # All provers done for this tests
 
  # Second run: summarizing data in a row and generating HTML/LaTeX/R output
@@ -359,28 +326,19 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    ALLGOOD_SUM=$((ALLGOOD_SUM+TIME))
    ALLGOOD_NO=$((ALLGOOD_NO+1))
    fi
-  SUMCLASS=""
-  SUMCLASSTEX=""
-  if [ "$WORSTPROVER" = "$c" ]; then
-   SUMCLASS="worst"
-   SUMCLASSTEX="\sl"
-   fi
-  if [ "$BESTPROVER" = "$c" ]; then
-   SUMCLASS="best"
-   SUMCLASSTEX="\bf"
-   fi
   HTMLRESULT="$RESULT"
   HTMLRESULT=`echo $RESULT | sed s/"^\([0-9]\+\),\([0-9]\+\),.*"/\\\\1x\\\\2/`
   # Change result axb into format c where c=max(a,b)-1:
   echo $HTMLRESULT | grep --silent x && HTMLRESULT=`echo $HTMLRESULT | awk -Fx '{if ($1>$2) print ($1-1); else print ($2-1)}'`
 
-  echo "<td$RESULTCLASS>$HTMLRESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$FPS</p></td>" >> $MYDIR/$HTML
+  echo "<td$RESULTCLASS>$HTMLRESULT</td><td$RESULTCLASS>$FPS</p></td>" >> $MYDIR/$HTML
   # TeX related changes
   TEXRESULT=$HTMLRESULT
   if [ "$TIME" = timeout ]; then
    TIME="t/o"
+   FPS="t/o"
    fi
-  echo "& \cellcolor{$CELLCOLOR}\textcolor{$TEXTCOLOR}{$TEXRESULT} & \cellcolor{$CELLCOLOR}{\textcolor{$TEXTCOLOR}{$SUMCLASSTEX $FPS}} " >> $MYDIR/$TEX
+  echo "& \cellcolor{$CELLCOLOR}\textcolor{$TEXTCOLOR}{$TEXRESULT} & \cellcolor{$CELLCOLOR}{\textcolor{$TEXTCOLOR}{$FPS}} " >> $MYDIR/$TEX
   done
 
  echo "</tr>" >> $MYDIR/$HTML
