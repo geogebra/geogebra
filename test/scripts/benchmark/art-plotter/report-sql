@@ -150,8 +150,8 @@ declare -A COL_R
 
 # Creating column header related data
 for c in $COLUMNS; do
- echo "<th>Result</th><th>Speed</th>" >> $MYDIR/$HTML
- echo "&R.&S." >> $MYDIR/$TEX
+ echo "<th>deg</th><th>FPS</th>" >> $MYDIR/$HTML
+ echo "&deg&FPS" >> $MYDIR/$TEX
  cn=$((cn+1))
  j=`echo $c | cut -f1 -d,`
  r=`echo $c | cut -s -f2- -d,`
@@ -182,7 +182,7 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  # Creating thumbnail:
  cd $MYDIR
  i=`find -name $t.ggb`
- TEST=`basename $i`
+ TEST=`basename "$i"`
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  # TODO: change "latest" to current revision:
@@ -197,7 +197,9 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
  declare -A RESULTDATA
  declare -A RESULTCLASSDATA
  declare -A CELLCOLORDATA
+ declare -A TEXTCOLORDATA
  declare -A TIMEDATA
+ declare -A FPSDATA
  declare -A CORRECT
  declare -A SCORE
  BESTTIME=""
@@ -226,8 +228,9 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
   ERRORTYPE=`sqlite3 sqlite3db "select errortype $FWCLAUSE"`
   RESULT=`sqlite3 sqlite3db "select result $FWCLAUSE"`
 
-  RESULTCLASS=" class=\"o7\""
-  CELLCOLOR="green!10"
+  RESULTCLASS=" class=\"o7\"" # <=0.2 FPS heavy
+  CELLCOLOR="red!60"
+  TEXTCOLOR="black!100"
   DIRNAMELENGTH=${#DIRNAME}
   if [ "$ACCEPTED" = "" ]; then
    ALLGOOD=0
@@ -250,9 +253,11 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    fi
   if [ "$ACCEPTED" = "0" ]; then
    RESULTCLASS=" class=\"error\""
-   CELLCOLOR="red!25"
+   CELLCOLOR="black!100"
+   TEXTCOLOR="black!0"
    ALLGOOD=0
    SCORE[$cn]="-1000000000000000" # -infty
+   FPS=`echo "scale=2; 1000/$TIME" | bc -q | awk '{printf "%5.2f", $0}'`
    fi
   if [ "$ACCEPTED" = "1" ]; then
    VALUE=${CORRECT[$cn]}
@@ -260,45 +265,48 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    VALUE=$((VALUE+1))
    CORRECT[$cn]=$VALUE
    SCORE[$cn]=$((SCORE+20))
+   FPS=`echo "scale=2; 1000/$TIME" | bc -q | awk '{printf "%5.2f", $0}'` # not elegant (repetition)
    if [ $TIME -lt 5000 ]; then
-    RESULTCLASS=" class=\"o6\""
+    RESULTCLASS=" class=\"o6\"" # >0.2 FPS heavy (very slow)
     CSVRESULT=1
-    CELLCOLOR="green!15"
+    CELLCOLOR="red!40"
     SCORE[$cn]=$((SCORE+70))
     fi
-   if [ $TIME -lt 1000 ]; then
+   if [ $TIME -lt 1000 ]; then # >1 FPS jerky (slow)
     RESULTCLASS=" class=\"o5\""
-    CELLCOLOR="green!20"
+    CELLCOLOR="orange!60"
     SCORE[$cn]=$((SCORE+95))
     fi
-   if [ $TIME -lt 300 ]; then
+   if [ $TIME -lt 300 ]; then # >3 FPS jerky
     RESULTCLASS=" class=\"o4\""
-    CELLCOLOR="green!30"
+    CELLCOLOR="orange!40"
     SCORE[$cn]=$((SCORE+97))
     fi
-   if [ $TIME -lt 150 ]; then
+   if [ $TIME -lt 100 ]; then # >10 FPS smooth
     RESULTCLASS=" class=\"o3\""
     CELLCOLOR="green!40"
     SCORE[$cn]=$((SCORE+98))
     fi
-   if [ $TIME -lt 50 ]; then
+   if [ $TIME -lt 50 ]; then # >20 FPS smooth (fast)
     RESULTCLASS=" class=\"o2\""
     CELLCOLOR="green!50"
     SCORE[$cn]=$((SCORE+99))
     fi
-   if [ $TIME -lt 20 ]; then
+   if [ $TIME -lt 20 ]; then # >50 FPS smooth (very fast)
     RESULTCLASS=" class=\"o1\""
     CELLCOLOR="green!60"
     SCORE[$cn]=$((SCORE+100))
     fi
    if [ $TIME -lt 5 ]; then
-    ALLGOOD=0 # this is certainly the "true" case, it would distort density plot, so we ignore it
+    ALLGOOD=0 # this is certainly some trivial case, so we ignore it
     fi
    fi
   RESULTCLASSDATA[$cn]=$RESULTCLASS
   CELLCOLORDATA[$cn]="$CELLCOLOR"
+  TEXTCOLORDATA[$cn]="$TEXTCOLOR"
   RESULTDATA[$cn]="$RESULT"
   TIMEDATA[$cn]=$TIME
+  FPSDATA[$cn]=$FPS
 
   # Storing best and worst results
   if [ "$TIME" != "" -a "$RESULT" = "$DIRNAME" -a $j != Auto ]; then
@@ -339,11 +347,13 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
 
   RESULTCLASS=${RESULTCLASSDATA[$cn]}
   CELLCOLOR=${CELLCOLORDATA[$cn]}
+  TEXTCOLOR=${TEXTCOLORDATA[$cn]}
   RESULT=${RESULTDATA[$cn]}
   if [ "$RESULT" = undefined -o "$RESULT" = "?" ]; then
    RESULT=""
    fi
   TIME=${TIMEDATA[$cn]}
+  FPS=${FPSDATA[$cn]}
   if [ "$ALLGOOD" = 1 ]; then
    ALLGOOD_SUM=$((ALLGOOD_SUM+TIME))
    ALLGOOD_NO=$((ALLGOOD_NO+1))
@@ -359,22 +369,17 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    SUMCLASSTEX="\bf"
    fi
   HTMLRESULT="$RESULT"
-  if [ "$NICEHTML" = 1 ]; then
-   TRUE=t
-   if [ $ndg = 1 ]; then
-    TRUE=""
-    fi
-   # TODO: add/modify $HTMLRESULT
-   fi
   HTMLRESULT=`echo $RESULT | sed s/"^\([0-9]\+\),\([0-9]\+\),.*"/\\\\1x\\\\2/`
-  echo "<td$RESULTCLASS>$HTMLRESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$TIME</p></td>" >> $MYDIR/$HTML
+  # Change result axb into format c where c=max(a,b):
+  echo $HTMLRESULT | grep --silent x && HTMLRESULT=`echo $HTMLRESULT | awk -Fx '{if ($1>$2) print $1; else print $2}'`
+
+  echo "<td$RESULTCLASS>$HTMLRESULT</td><td$RESULTCLASS><p class=\"$SUMCLASS\">$FPS</p></td>" >> $MYDIR/$HTML
   # TeX related changes
-  TRUE=t
   TEXRESULT=$HTMLRESULT
   if [ "$TIME" = timeout ]; then
    TIME="t/o"
    fi
-  echo "& \cellcolor{$CELLCOLOR}$TEXRESULT & \cellcolor{$CELLCOLOR}{$SUMCLASSTEX $TIME} " >> $MYDIR/$TEX
+  echo "& \cellcolor{$CELLCOLOR}\textcolor{$TEXTCOLOR}{$TEXRESULT} & \cellcolor{$CELLCOLOR}{\textcolor{$TEXTCOLOR}{$SUMCLASSTEX $FPS}} " >> $MYDIR/$TEX
   done
 
  echo "</tr>" >> $MYDIR/$HTML

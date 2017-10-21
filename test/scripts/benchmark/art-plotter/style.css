@@ -64,7 +64,7 @@ border-width: 1px;
 padding: 2px;
 border-style: inset;
 border-color: gray;
-background-color: rgba(20,170,20,0.2);
+background-color: rgba(255,0,0,0.8);
 -moz-border-radius: ;
 }
 
@@ -73,7 +73,7 @@ border-width: 1px;
 padding: 2px;
 border-style: inset;
 border-color: gray;
-background-color: rgba(20,170,20,0.3);
+background-color: rgba(255,0,0,0.6);
 -moz-border-radius: ;
 }
 
@@ -82,7 +82,7 @@ border-width: 1px;
 padding: 2px;
 border-style: inset;
 border-color: gray;
-background-color: rgba(20,170,20,0.4);
+background-color: rgba(255,192,64,0.8);
 -moz-border-radius: ;
 }
 
@@ -91,7 +91,7 @@ border-width: 1px;
 padding: 2px;
 border-style: inset;
 border-color: gray;
-background-color: rgba(20,170,20,0.5);
+background-color: rgba(255,192,64,0.6);
 -moz-border-radius: ;
 }
 
@@ -127,7 +127,8 @@ border-width: 1px;
 padding: 2px;
 border-style: inset;
 border-color: gray;
-background-color: #ffcccc;
+background-color: black;
+color: white;
 -moz-border-radius: ;
 }
 
