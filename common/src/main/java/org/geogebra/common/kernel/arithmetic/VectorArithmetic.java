@@ -99,11 +99,18 @@ public class VectorArithmetic {
 			return new ExpressionNode(kernel, exp.getLeft().deepCopy(kernel),
 					Operation.IF, computeCoord(exp.getRightTree(), i));
 		case PLUS:
-			return computeCoord(exp.getLeftTree(), i).plus(
+			if (exp.getRight().evaluatesToNDVector()) {
+				return computeCoord(exp.getLeftTree(), i).plus(
 					computeCoord(exp.getRightTree(), i));
+			}
+			return new ExpressionNode(kernel, exp, ops[i], null);
 		case MINUS:
-			return computeCoord(exp.getLeftTree(), i).subtract(
+			if (exp.getRight().evaluatesToNDVector()) {
+				return computeCoord(exp.getLeftTree(), i)
+						.subtract(
 					computeCoord(exp.getRightTree(), i));
+			}
+			return new ExpressionNode(kernel, exp, ops[i], null);
 		case MULTIPLY:
 			if (exp.getRight().evaluatesToNDVector()) {
 				ExpressionNode ret = matrixMulVector(exp, i, kernel);

@@ -1624,6 +1624,16 @@ public enum Operation {
 				}
 				return ev.illegalArgument(lt);
 			}
+			if (rt instanceof VectorValue) {
+				GeoVec2D arg = ((VectorValue) rt).getVector();
+
+				if (lt instanceof GeoSurfaceCartesianND) {
+					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
+							arg.getX(), arg.getY());
+				}
+				return ev.illegalArgument(lt);
+			}
+
 			return ev.illegalArgument(rt);
 		}
 	},

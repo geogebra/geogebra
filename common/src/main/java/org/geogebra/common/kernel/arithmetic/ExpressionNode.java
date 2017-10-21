@@ -1647,7 +1647,6 @@ public class ExpressionNode extends ValidExpression
 		if (isLeaf()) { // leaf is GeoElement or not
 			if (left != null) {
 				ret = left.toLaTeXString(symbolic, tpl);
-
 				return checkMathml(ret, tpl);
 			}
 		}

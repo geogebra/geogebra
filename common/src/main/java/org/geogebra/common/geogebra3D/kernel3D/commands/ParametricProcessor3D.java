@@ -350,7 +350,8 @@ public class ParametricProcessor3D extends ParametricProcessor {
 
 	}
 
-	private GeoElement[] processSurface(ExpressionNode exp,
+	@Override
+	protected GeoElement[] processSurface(ExpressionNode exp,
 			FunctionVariable[] fv, String label, int dim) {
 		GeoNumeric loc0 = getLocalVar(exp, fv[0]);
 		GeoNumeric loc1 = getLocalVar(exp, fv[1]);

@@ -104,9 +104,10 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[4] = arg[4] instanceof GeoNumeric)
 					&& (ok[5] = arg[5] instanceof GeoNumberValue)
 					&& (ok[6] = arg[6] instanceof GeoNumberValue)) {
-				GeoNumberValue[] coords = new GeoNumberValue[3];
+				int dim = ((VectorNDValue) arg[0]).getDimension();
+				GeoNumberValue[] coords = new GeoNumberValue[dim];
 				ExpressionNode exp = c.getArgument(0);
-				for (int i = 0; i < 3; i++) {
+				for (int i = 0; i < dim; i++) {
 					kernel.getAlgebraProcessor();
 					ExpressionNode cx = VectorArithmetic
 							.computeCoord(exp, i);
@@ -117,7 +118,7 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 				}
 				GeoElement[] ret = new GeoElement[1];
 				ret[0] = kernel.getManager3D().SurfaceCartesian3D(c.getLabel(),
-						exp, coords[0], coords[1], coords[2],
+						exp, coords,
 						(GeoNumeric) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumeric) arg[4],
 						(GeoNumberValue) arg[5], (GeoNumberValue) arg[6]);
@@ -137,9 +138,11 @@ public class CmdSurfaceCartesian3D extends CmdCurveCartesian {
 					&& (ok[7] = arg[7] instanceof GeoNumberValue)
 					&& (ok[8] = arg[8] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
+				GeoNumberValue[] coords = new GeoNumberValue[] {
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[2] };
 				ret[0] = kernel.getManager3D().SurfaceCartesian3D(c.getLabel(),
-						null, (GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2], (GeoNumeric) arg[3],
+						null, coords, (GeoNumeric) arg[3],
 						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
 						(GeoNumeric) arg[6], (GeoNumberValue) arg[7],
 						(GeoNumberValue) arg[8]);

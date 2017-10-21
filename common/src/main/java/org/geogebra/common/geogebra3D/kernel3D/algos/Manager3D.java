@@ -1148,12 +1148,12 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
-			GeoNumberValue xcoord, GeoNumberValue ycoord, GeoNumberValue zcoord,
+			GeoNumberValue[] coords,
 			GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
 			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo) {
 
 		AlgoSurfaceCartesian3D algo = new AlgoSurfaceCartesian3D(cons, label,
-				point, new GeoNumberValue[] { xcoord, ycoord, zcoord },
+				point, coords,
 				new GeoNumeric[] { uVar, vVar },
 				new GeoNumberValue[] { uFrom, vFrom },
 				new GeoNumberValue[] { uTo, vTo });

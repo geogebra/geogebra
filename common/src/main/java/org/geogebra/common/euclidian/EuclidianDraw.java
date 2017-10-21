@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.draw.DrawRay;
 import org.geogebra.common.euclidian.draw.DrawSegment;
 import org.geogebra.common.euclidian.draw.DrawSlider;
 import org.geogebra.common.euclidian.draw.DrawSlope;
+import org.geogebra.common.euclidian.draw.DrawSurface;
 import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.euclidian.draw.DrawTurtle;
 import org.geogebra.common.euclidian.draw.DrawUpperLowerSum;
@@ -68,6 +69,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.statistics.AlgoDotPlot;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -259,7 +261,11 @@ public class EuclidianDraw {
 		case VECTOR3D:
 			d = new DrawVector(ev, (GeoVectorND) geo);
 			break;
-
+		case SURFACECARTESIAN3D:
+			if (geo instanceof GeoSurfaceCartesian2D) {
+				d = new DrawSurface(ev, (GeoSurfaceCartesian2D) geo);
+			}
+			break;
 		case CONICPART:
 			d = new DrawConicPart(ev, (GeoConicPartND) geo);
 			break;

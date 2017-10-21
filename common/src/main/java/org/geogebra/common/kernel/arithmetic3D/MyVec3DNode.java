@@ -252,7 +252,7 @@ public class MyVec3DNode extends ValidExpression
 
 	@Override
 	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		return toString(tpl);
+		return toString(tpl, !symbolic);
 	}
 
 	/**

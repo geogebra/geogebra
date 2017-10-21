@@ -540,7 +540,7 @@ public interface Manager3DInterface {
 	 * ]
 	 */
 	public GeoElement SurfaceCartesian3D(String label, ExpressionNode point,
-			GeoNumberValue xcoord, GeoNumberValue ycoord, GeoNumberValue zcoord,
+			GeoNumberValue[] xcoord,
 			GeoNumeric uVar, GeoNumberValue uFrom, GeoNumberValue uTo,
 			GeoNumeric vVar, GeoNumberValue vFrom, GeoNumberValue vTo);
 

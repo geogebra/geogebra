@@ -46,7 +46,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	private double[] xyzuv;
 	private double lastHitU, lastHitV;
 	private double[] tmp = new double[2];
-	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
 	private boolean trace;
 	private boolean hasLastHitParameters = false;
 
@@ -269,12 +268,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	@Override
-	public boolean showInAlgebraView() {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		// TODO Auto-generated method stub
 		return true;
@@ -367,22 +360,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	}
 
-	// /////////////////////////
-	// LEVEL OF DETAIL
-	@Override
-	public LevelOfDetail getLevelOfDetail() {
-		return levelOfDetail;
-	}
-
-	@Override
-	public void setLevelOfDetail(LevelOfDetail lod) {
-		levelOfDetail = lod;
-	}
-
-	@Override
-	public boolean hasLevelOfDetail() {
-		return true;
-	}
 
 	// ////////////////
 	// TRACE
@@ -413,7 +390,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
 
 		if (geo.hasLevelOfDetail()) {
-			levelOfDetail = ((SurfaceEvaluable) geo).getLevelOfDetail();
+			setLevelOfDetail(((SurfaceEvaluable) geo).getLevelOfDetail());
 		}
 	}
 

@@ -227,8 +227,10 @@ public class ParametricProcessor {
 			ge.setLabel(exp.getLabel());
 			return ge.asArray();
 		}
-		if (fv.length < 2 && ev instanceof VectorValue
-				&& ((VectorValue) ev).getMode() != Kernel.COORD_COMPLEX) {
+		if (fv.length < 2 && ev instanceof VectorValue) {
+			if (((VectorValue) ev).getMode() == Kernel.COORD_COMPLEX) {
+				return complexSurface(exp, fv[0], label);
+			}
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);
 			if (exp.getOperation() == Operation.IF) {
 				ExpressionNode exp1 = exp.getRightTree();
@@ -360,6 +362,24 @@ public class ParametricProcessor {
 		throw new MyError(kernel.getApplication().getLocalization(),
 				"InvalidFunction");
 
+	}
+
+	protected GeoElement[] processSurface(ExpressionNode exp,
+			FunctionVariable[] fv, String label, int dim) {
+		return null;
+	}
+
+	private GeoElement[] complexSurface(ExpressionNode exp,
+			FunctionVariable fv, String label) {
+		FunctionVariable x = new FunctionVariable(kernel, "u");
+		FunctionVariable y = new FunctionVariable(kernel, "v");
+		ExpressionNode complex = new ExpressionNode(kernel, x, Operation.PLUS,
+				new ExpressionNode(kernel, y, Operation.MULTIPLY,
+						kernel.getImaginaryUnit()));
+		// complex.setMode(Kernel.COORD_COMPLEX);
+		ExpressionNode exp2 = exp.replace(fv, complex).wrap();
+		return processSurface(exp2,
+				new FunctionVariable[] { x, y }, label, 2);
 	}
 
 	/**

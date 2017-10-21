@@ -4242,7 +4242,7 @@ public abstract class App implements UpdateSelection {
 			return relaunch && !whiteboard;
 
 		case SURFACE_2D:
-			return false;
+			return prerelease;
 
 		case DYNAMIC_STYLEBAR_SELECTION_TOOL:
 			return relaunch;

@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Evaluatable;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.ListValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
@@ -197,11 +198,13 @@ public class FunctionParser {
 			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION,
 					myList.getListElement(0));
 		} else if (geo.isGeoSurfaceCartesian()) {
-			// vector function
-			// at this point we have eg myList={{1,2}}, so we need first element
-			// of myList
+			ExpressionValue vecArg = myList;
+			if (myList.size() == 1
+					&& !(myList.getItem(0) instanceof ListValue)) {
+				vecArg = myList.getItem(0);
+			}
 			return new ExpressionNode(kernel, geoExp, Operation.VEC_FUNCTION,
-					myList);
+					vecArg);
 		}
 		// list1(1) to get first element of list1 #1115
 		else if (list) {

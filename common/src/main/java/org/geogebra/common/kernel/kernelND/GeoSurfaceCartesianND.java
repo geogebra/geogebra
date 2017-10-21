@@ -54,6 +54,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	protected Coords bivariateVector, bivariateDelta;
 
 	protected CoordMatrix jacobian;
+	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
 
 	/**
 	 * common constructor
@@ -339,7 +340,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 				sbTemp.append("\\end{array}\\right)");
 			} else {
-				sbTemp.append(point.toLaTeXString(symbolic, tpl));
+				sbTemp.append(point.toLaTeXString(true, tpl));
 			}
 			return sbTemp.toString();
 		}
@@ -822,6 +823,26 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 */
 	public FunctionNVar[] getFunctions() {
 		return fun;
+	}
+
+	@Override
+	public LevelOfDetail getLevelOfDetail() {
+		return levelOfDetail;
+	}
+
+	@Override
+	public void setLevelOfDetail(LevelOfDetail lod) {
+		levelOfDetail = lod;
+	}
+
+	@Override
+	public boolean hasLevelOfDetail() {
+		return true;
+	}
+
+	@Override
+	public final boolean showInAlgebraView() {
+		return true;
 	}
 
 }

@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 
 /**
@@ -73,7 +74,6 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 		this.from = from;
 		this.to = to;
 		this.localVar = localVar;
-
 		// we need to create Function objects for the coord NumberValues,
 		// so let's get the expressions of xcoord and ycoord and replace
 		// the localVar by a functionVar
@@ -115,9 +115,9 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	 */
 	protected GeoSurfaceCartesianND createCurve(Construction cons,
 			ExpressionNode point, FunctionNVar[] fun) {
-		// if (fun.length == 2) {
-		// return new GeoSurfaceCartesian2D(cons, point, fun);
-		// }
+		if (fun.length == 2) {
+			return new GeoSurfaceCartesian2D(cons, point, fun);
+		}
 		return new GeoSurfaceCartesian3D(cons, point, fun);
 	}
 
