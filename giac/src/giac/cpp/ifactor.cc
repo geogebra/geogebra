@@ -383,7 +383,7 @@ namespace giac {
 
 #ifdef USE_GMP_REPLACEMENTS
   int modulo(const mpz_t & a,unsigned b){
-    if (mpz_cmp_ui(a,0)==-1){
+    if (mpz_cmp_ui(a,0)<0){
       mpz_neg(*(mpz_t *)&a,a);
       int res=modulo(a,b);
       mpz_neg(*(mpz_t *)&a,a);
@@ -1028,7 +1028,7 @@ namespace giac {
 #else
 	  param2=maxadditional;
 #endif
-	  if (mpz_cmp_ui(z1,param2)==1){
+	  if (mpz_cmp_ui(z1,param2)>0){
 	    if (debug_infolevel>6)
 	      *logptr(contextptr) << gen(z1) << gettext(" Sieve large remainder:") << endl;
 	  }

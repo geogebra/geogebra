@@ -3480,7 +3480,7 @@ namespace giac {
 	    continue;
 	  if (it->ref_count()!=1)
 	    *it=smod(*it,pi_p);
-	  if (mpz_cmp_ui(*it->_ZINTptr,0)==1){
+	  if (mpz_cmp_ui(*it->_ZINTptr,0)>0){
 	    mpz_sub(tmpz,*it->_ZINTptr,*pi_p._ZINTptr);
 	    mpz_neg(tmpz,tmpz);
 	    if (mpz_cmp(*it->_ZINTptr,tmpz)>0){
