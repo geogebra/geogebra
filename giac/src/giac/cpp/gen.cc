@@ -7694,7 +7694,7 @@ namespace giac {
       else
 	return -1;
     case _ZINT: 
-      return mpz_cmp_si(*a._ZINTptr,0);
+      return signint(mpz_cmp_si(*a._ZINTptr,0));
     case _FRAC:
       return fastsign(a._FRACptr->num,contextptr)*fastsign(a._FRACptr->den,contextptr);
     case _CPLX:

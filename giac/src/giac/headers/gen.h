@@ -1038,6 +1038,7 @@ namespace giac {
 
   int fastsign(const gen & a,GIAC_CONTEXT);   // 0 if unknown, 1 if >0, -1 if <0
   gen sign(const gen & a,GIAC_CONTEXT);
+  inline int signint(int i){ return i?(i>0?1:-1):0;}
 
   // Large tests if strictly not precised, if sign is unknown return false 
   bool is_greater(const gen & a,const gen &b,GIAC_CONTEXT);
