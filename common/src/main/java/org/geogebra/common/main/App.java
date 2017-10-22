@@ -4135,10 +4135,6 @@ public abstract class App implements UpdateSelection {
 		case CONVEX_HULL_3D:
 			return canary;
 
-		// GGB-335
-		case TOOLBAR_ON_SMALL_SCREENS:
-			return true;
-
 		case HANDWRITING:
 			return false;
 
@@ -4199,9 +4195,6 @@ public abstract class App implements UpdateSelection {
 
 		case AV_ITEM_DESIGN:
 			return relaunch || isNativeMobileAppWithNewUI();
-
-		case AV_PLUS:
-			return relaunch;
 
 		case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
 			return relaunch;

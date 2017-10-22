@@ -27,8 +27,6 @@ public enum Feature {
 
 	EXAM_TABLET,
 
-	TOOLBAR_ON_SMALL_SCREENS,
-
 	ACRA,
 
 	ANALYTICS,
@@ -136,9 +134,6 @@ public enum Feature {
 	AV_CONTEXT_MENU,
 
 	MOBILE_AV_EDITOR,
-
-	/** GGB-1662 */
-	AV_PLUS,
 
 	/** AND-247 */
 	AND_KILL_TOOLBAR,

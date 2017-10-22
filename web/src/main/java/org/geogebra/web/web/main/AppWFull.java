@@ -858,11 +858,8 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	public void closePopups() {
 		super.closePopups();
 		EuclidianStyleBarW.setCurrentPopup(null);
-		if (this.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			if (this.getToolbar() != null
-					&& this.getToolbar().isMobileToolbar()) {
-				((GGWToolBar) this.getToolbar()).getToolBar().closeAllSubmenu();
-			}
+		if (getToolbar() != null && getToolbar().isMobileToolbar()) {
+			((GGWToolBar) getToolbar()).getToolBar().closeAllSubmenu();
 		}
 	}
 

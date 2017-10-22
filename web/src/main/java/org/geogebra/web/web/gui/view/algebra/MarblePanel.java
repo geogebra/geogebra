@@ -58,8 +58,7 @@ public class MarblePanel extends FlowPanel
 
 		addStyleName("marblePanel");
 		
-		if (item.app.has(Feature.AV_PLUS) && item.getAV().isInputActive()
-				&& item.getGeo() == null) {
+		if (item.getAV().isInputActive() && item.getGeo() == null) {
 			addStyleName("plus");
 			initPlus();
 			return;
@@ -131,7 +130,7 @@ public class MarblePanel extends FlowPanel
 		}
 
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
-		if (item.app.has(Feature.AV_PLUS) && item.isInputTreeItem() ){
+		if (item.isInputTreeItem() ){
 			initPlus();
 			img = item.getText().isEmpty() ? 
 					MaterialDesignResources.INSTANCE.add_black().getSafeUri()

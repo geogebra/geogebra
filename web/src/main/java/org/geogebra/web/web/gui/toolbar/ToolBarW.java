@@ -123,14 +123,14 @@ public class ToolBarW extends FlowPanel
 		modeToggleMenus = new ArrayList<ModeToggleMenuW>();
 		addCustomModesToToolbar(menuList);
 
-		this.clear();
-		this.add(menuList);
+		clear();
+		add(menuList);
 
 		setMode(app.getMode(), ModeSetter.TOOLBAR);
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			this.setVisible(true);
-			tb.onResize();
-		}
+		
+		setVisible(true);
+		tb.onResize();
+		
 		// update();
 	}
 
@@ -222,7 +222,6 @@ public class ToolBarW extends FlowPanel
 	 * 
 	 */
 	private void addCustomModesToToolbar(UnorderedList mainUl) {
-		if(app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)){
 		Vector<ToolbarItem> toolbarVec = getToolbarVec();
 		// set toolbar
 		for (int i = 0; i < toolbarVec.size(); i++) {
@@ -236,53 +235,20 @@ public class ToolBarW extends FlowPanel
 				mainUl.add(mtm);
 			}
 		}
-		if (modeToggleMenus.size() > 0)
-		 {
+		if (modeToggleMenus.size() > 0) {
 			modeToggleMenus.get(0).setButtonTabIndex(0);
 			// end of Feature.TOOLBAR_ON_SMALL_SCREENS
-		}
-
-		} else {
-			Vector<ToolbarItem> toolbarVec = getToolbarVec();
-			// set toolbar
-			for (int i = 0; i < toolbarVec.size() && i < this.maxButtons; i++) {
-				ToolbarItem ob = toolbarVec.get(i);
-				Vector<Integer> menu = ob.getMenu();
-			 
-				if (app.isModeValid(menu.get(0).intValue())) {
-					ModeToggleMenuW mtm = createModeToggleMenu(app, menu, i);
-					mtm.setButtonTabIndex(-1);
-			 
-					modeToggleMenus.add(mtm);
-					mainUl.add(mtm);
-				}
-			}
-			 
-			for (int i = this.maxButtons; i < toolbarVec.size(); i++) {
-				ToolbarItem ob = toolbarVec.get(i);
-				Vector<Integer> menu = ob.getMenu();
-				modeToggleMenus.get(modeToggleMenus.size() - 1).addModes(menu);
-			}
-			 
-			 if (modeToggleMenus.size() > 0) {
-				modeToggleMenus.get(0).setButtonTabIndex(0);
-			} 
 		}
 	}
 
 
 	protected ModeToggleMenuW createModeToggleMenu(AppW app, Vector<Integer> menu, int order) {
-
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			// toolbarVecSize is i.e. 12 for AV, 14 for 3D
-			if (maxButtons < getToolbarVecSize() || (maxButtons < 11 && getToolbarVecSize() < 11)) {
-				isMobileToolbar = true;
-				return new ModeToggleMenuP(app, menu, this, order, submenuPanel);
-			}
-			isMobileToolbar = false;
-			return new ModeToggleMenuW(app, menu, this, order);
-
+		// toolbarVecSize is i.e. 12 for AV, 14 for 3D
+		if (maxButtons < getToolbarVecSize() || (maxButtons < 11 && getToolbarVecSize() < 11)) {
+			isMobileToolbar = true;
+			return new ModeToggleMenuP(app, menu, this, order, submenuPanel);
 		}
+		isMobileToolbar = false;
 		return new ModeToggleMenuW(app, menu, this, order);
 	}
 	
@@ -335,13 +301,11 @@ public class ToolBarW extends FlowPanel
 
 	@Override
 	public void closeAllSubmenu() {
-			for (int i = 0; i < modeToggleMenus.size(); i++) {
-				modeToggleMenus.get(i).hideMenu();
-			}
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			if (submenuPanel != null) {
-				submenuPanel.clear();
-			}
+		for (int i = 0; i < modeToggleMenus.size(); i++) {
+			modeToggleMenus.get(i).hideMenu();
+		}
+		if (submenuPanel != null) {
+			submenuPanel.clear();
 		}
 	}
 
@@ -396,37 +360,26 @@ public class ToolBarW extends FlowPanel
 			m.setMaxHeight(app.getHeight() - GLookAndFeel.TOOLBAR_OFFSET);
 		}
 
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-
-			if (getToolbarVecSize() < 11) {
-				if ((isMobileToolbar && max >= 11) || !isMobileToolbar && max < 11) {
-					this.maxButtons = max;
-					closeAllSubmenu();
-					buildGui();
-
-				}
-			}
-			// make sure gui is only rebuilt when necessary (when state changes
-			// between web view and mobile view)
-			else if ((isMobileToolbar && max >= getToolbarVecSize())
-					|| (!isMobileToolbar && max < getToolbarVecSize())) {
+		if (getToolbarVecSize() < 11) {
+			if ((isMobileToolbar && max >= 11) || !isMobileToolbar && max < 11) {
 				this.maxButtons = max;
 				closeAllSubmenu();
 				buildGui();
 
-			} else {
-				if (Math.min(max, this.getToolbarVec().size()) == this.getGroupCount()) {
-					return;
-				}
 			}
+		}
+		// make sure gui is only rebuilt when necessary (when state changes
+		// between web view and mobile view)
+		else if ((isMobileToolbar && max >= getToolbarVecSize())
+				|| (!isMobileToolbar && max < getToolbarVecSize())) {
+			this.maxButtons = max;
+			closeAllSubmenu();
+			buildGui();
 
 		} else {
-
 			if (Math.min(max, this.getToolbarVec().size()) == this.getGroupCount()) {
 				return;
 			}
-			this.maxButtons = max;
-			buildGui();
 		}
     }
 

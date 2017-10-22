@@ -122,9 +122,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		activeToolbar = viewID;
 		for(ToolBarW bar:toolbars){
 			bar.setActiveView(viewID);
-			if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-				bar.closeAllSubmenu();
-			}
+			bar.closeAllSubmenu();
 		}
 	}
 
@@ -139,19 +137,15 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		this.app = app1;
 		toolbars = new ArrayList<ToolBarW>();
 
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			submenuScrollPanel = new ScrollPanel();
-			submenuPanel = new FlowPanel();
-			submenuPanel.addStyleName("submenuPanel");
-			submenuScrollPanel.addStyleName("submenuScrollPanel");
-			submenuScrollPanel.add(submenuPanel);
+		submenuScrollPanel = new ScrollPanel();
+		submenuPanel = new FlowPanel();
+		submenuPanel.addStyleName("submenuPanel");
+		submenuScrollPanel.addStyleName("submenuScrollPanel");
+		submenuScrollPanel.add(submenuPanel);
 
-			toolBarPanel.add(submenuScrollPanel);
+		toolBarPanel.add(submenuScrollPanel);
 
-			toolBar = new ToolBarW(this, submenuPanel);
-		} else {
-			toolBar = new ToolBarW(this);
-		}
+		toolBar = new ToolBarW(this, submenuPanel);
 
 		updateClassname(app.getToolbarPosition());
 		toolBPanel = new ScrollPanel();
@@ -1268,22 +1262,20 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		if (maxButtons > 0) {
 			toolbars.get(0).setMaxButtons(maxButtons);
 		}
-		if (app.has(Feature.TOOLBAR_ON_SMALL_SCREENS)) {
-			if (toolBar.isMobileToolbar()) {
-				int tbwidth = Math.max(toolBar.getToolbarVecSize() * 45, 45);
-				toolBar.setWidth(tbwidth + "px");
-				toolBPanel.setWidth((maxButtons) * 45 + "px");
-				toolBPanel.removeStyleName("overflow");
-				toolBPanel.addStyleName("toolBPanelMobile");
-				rightButtonPanel.addStyleName("rightButtonPanelMobile");
-				setSubmenuDimensions(width);
-			} else {
-				toolBar.setWidth("");
-				toolBPanel.setWidth("");
-				toolBPanel.removeStyleName("toolBPanelMobile");
-				toolBPanel.addStyleName("overflow");
-				rightButtonPanel.removeStyleName("rightButtonPanelMobile");
-			}
+		if (toolBar.isMobileToolbar()) {
+			int tbwidth = Math.max(toolBar.getToolbarVecSize() * 45, 45);
+			toolBar.setWidth(tbwidth + "px");
+			toolBPanel.setWidth((maxButtons) * 45 + "px");
+			toolBPanel.removeStyleName("overflow");
+			toolBPanel.addStyleName("toolBPanelMobile");
+			rightButtonPanel.addStyleName("rightButtonPanelMobile");
+			setSubmenuDimensions(width);
+		} else {
+			toolBar.setWidth("");
+			toolBPanel.setWidth("");
+			toolBPanel.removeStyleName("toolBPanelMobile");
+			toolBPanel.addStyleName("overflow");
+			rightButtonPanel.removeStyleName("rightButtonPanelMobile");
 		}
 
 
