@@ -1413,6 +1413,8 @@ public class AlgebraProcessor {
 	 *            input string
 	 * @param suppressErrors
 	 *            true to suppress error messages
+	 * @param revertArbconst
+	 *            whether to replace c_1 back with arbconst(1)
 	 * @return str parsed to multivariate function
 	 */
 	public GeoFunctionNVar evaluateToFunctionNVar(String str,

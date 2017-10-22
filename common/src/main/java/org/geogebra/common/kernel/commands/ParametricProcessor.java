@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
@@ -229,6 +230,10 @@ public class ParametricProcessor {
 		}
 		if (fv.length < 2 && ev instanceof VectorValue) {
 			if (((VectorValue) ev).getMode() == Kernel.COORD_COMPLEX) {
+				if (!exp.getKernel().getApplication().has(Feature.SURFACE_2D)) {
+					throw new MyError(kernel.getApplication().getLocalization(),
+							"InvalidFunction");
+				}
 				return complexSurface(exp, fv[0], label);
 			}
 			GeoNumeric locVar = getLocalVar(exp, fv[0]);
@@ -364,6 +369,17 @@ public class ParametricProcessor {
 
 	}
 
+	/**
+	 * @param exp
+	 *            expression
+	 * @param fv
+	 *            variables
+	 * @param label
+	 *            output label
+	 * @param dim
+	 *            dimension
+	 * @return surface
+	 */
 	protected GeoElement[] processSurface(ExpressionNode exp,
 			FunctionVariable[] fv, String label, int dim) {
 		return null;
