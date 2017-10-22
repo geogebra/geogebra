@@ -1,6 +1,7 @@
 package org.geogebra.web.web.euclidian;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -168,10 +169,12 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
 				&& app.getMode() == EuclidianConstants.MODE_SELECT) {
-			setPosition(calculatePosition(
-					app.getActiveEuclidianView().getSelectionRectangle(), true,
-					false, false));
-			return;
+			GRectangle selectionRectangle = app.getActiveEuclidianView().getSelectionRectangle();
+			if (!app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) || selectionRectangle != null) {
+				setPosition(calculatePosition(selectionRectangle, true,
+						false, false));
+				return;
+			}
 		}
 
 		GPoint newPos = null, nextPos;
