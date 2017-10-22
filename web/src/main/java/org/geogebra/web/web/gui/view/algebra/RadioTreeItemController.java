@@ -112,8 +112,7 @@ public class RadioTreeItemController
 	protected boolean isMarbleHit(int x, int y, boolean rightClick) {
 		if (item.marblePanel != null
 				&& item.marblePanel.isHit(x, y)) {
-			if (app.has(Feature.AV_CONTEXT_MENU)
-					&& !Browser.isTabletBrowser() && rightClick) {
+			if (!Browser.isTabletBrowser() && rightClick) {
 
 				onRightClick(x, y);
 				return false;
@@ -584,9 +583,7 @@ public class RadioTreeItemController
 	public void handleLongTouch(int x, int y) {
 		getAV().resetItems(false);
 		
-		if (app.has(Feature.AV_CONTEXT_MENU)) {
-			onRightClick(x, y);
-		}
+		onRightClick(x, y);
 	}
 
 	private void onRightClick(int x, int y) {
@@ -715,8 +712,7 @@ public class RadioTreeItemController
 	}
 
 	public boolean isLongTouchHappened() {
-		return app.has(Feature.AV_CONTEXT_MENU) 
-				&& getLongTouchManager().isLongTouchHappened();
+		return getLongTouchManager().isLongTouchHappened();
 	}
 	
 	/** 

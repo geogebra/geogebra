@@ -4190,9 +4190,6 @@ public abstract class App implements UpdateSelection {
 		case DYNAMIC_STYLEBAR:
 			return relaunch && isUnbundledOrWhiteboard();
 
-		case AV_CONTEXT_MENU:
-			return relaunch;
-
 		case AV_ITEM_DESIGN:
 			return relaunch || isNativeMobileAppWithNewUI();
 

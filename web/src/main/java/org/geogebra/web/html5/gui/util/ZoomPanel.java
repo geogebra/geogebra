@@ -247,9 +247,6 @@ public class ZoomPanel extends FlowPanel
 			addZoomOutButton();
 		}
 
-		if (app.has(Feature.TAB_ON_GUI) && zoomInBtn != null) {
-			zoomInBtn.addTabHandler(this);
-		}
 		ClickStartHandler.init(zoomPanel, new ClickStartHandler(true, true) {
 
 			@Override
@@ -291,6 +288,9 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		zoomInBtn.addFastClickHandler(handlerZoomIn);
+		if (app.has(Feature.TAB_ON_GUI)) {
+			zoomInBtn.addTabHandler(this);
+		}
 		zoomPanel.add(zoomInBtn);
 	}
 

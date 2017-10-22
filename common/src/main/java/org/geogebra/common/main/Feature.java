@@ -130,9 +130,6 @@ public enum Feature {
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
 
-	/** GGB-1671 */
-	AV_CONTEXT_MENU,
-
 	MOBILE_AV_EDITOR,
 
 	/** AND-247 */
