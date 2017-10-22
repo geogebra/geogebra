@@ -116,17 +116,17 @@
 	} 
 	
 	.slideLeft {
-		@extend .submenuScrollPanel;
+		@extend .mowSubmenuScrollPanel;
 		left: 0px !important;
     	transition: left 0.3s ease;
 	}
 	.slideCenter {
-		@extend .submenuScrollPanel;
+		@extend .mowSubmenuScrollPanel;
 		left: -100% !important;
    		transition: left 0.3s ease;
 	}
 	.slideRight {
-		@extend .submenuScrollPanel;
+		@extend .mowSubmenuScrollPanel;
 		left: -200% !important;
    		transition: left 0.3s ease;
 	}
@@ -187,7 +187,7 @@
 *   SUBMENU
 ******************/	
 		
-	.submenuScrollPanel {
+	.mowSubmenuScrollPanel {
 		background-color: $white;
 		position: relative;
 		display: flex;

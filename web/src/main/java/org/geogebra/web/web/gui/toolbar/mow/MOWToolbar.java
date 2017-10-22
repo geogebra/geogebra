@@ -91,7 +91,7 @@ public class MOWToolbar extends FlowPanel {
 		add(LayoutUtilW.panelRow(middlePanel, rightPanel));
 
 		subMenuPanel = new FlowPanel();
-		subMenuPanel.addStyleName("submenuScrollPanel");
+		subMenuPanel.addStyleName("mowSubmenuScrollPanel");
 		subMenuPanel.add(penMenu);
 		subMenuPanel.add(toolsMenu);
 		subMenuPanel.add(mediaMenu);
