@@ -12,7 +12,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 /**
  * @author bencze The "Export Image" menu, part of the "File" menu.
  */
-public class ExportMenuW extends MenuBar {
+public class ExportMenuW extends MenuBar implements MenuBarI {
 
 	/**
 	 * Application instance
@@ -36,32 +36,38 @@ public class ExportMenuW extends MenuBar {
 			addStyleName("floating-Popup");
 		}
 
-		initActions();
+		initActions(this, app);
 	}
 
-	private void initActions() {
+	/**
+	 * @param menu
+	 *            menu
+	 * @param app
+	 *            application
+	 */
+	protected static void initActions(final MenuBarI menu, final AppW app) {
 
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "ggb", true), true,
 				new MenuCommand(app) {
 
 					@Override
 					public void doExecute() {
-						hide();
-						dialogEvent("exportGGB");
+						menu.hide();
+						dialogEvent(app, "exportGGB");
 						app.getFileManager().export(app);
 					}
 				});
 
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "png", true), true,
 				new MenuCommand(app) {
 
 					@Override
 					public void execute() {
-						hide();
+						menu.hide();
 						app.toggleMenu();
 						app.getActiveEuclidianView()
 								.setSelectionRectangle(null);
@@ -73,18 +79,18 @@ public class ExportMenuW extends MenuBar {
 
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), "png", "ExportAsPicture", app);
-						dialogEvent("exportPNG");
+						dialogEvent(app, "exportPNG");
 					}
 				});
 
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "svg", true), true,
 				new MenuCommand(app) {
 
 					@Override
 					public void execute() {
-						hide();
+						menu.hide();
 						app.toggleMenu();
 						app.getActiveEuclidianView()
 								.setSelectionRectangle(null);
@@ -98,7 +104,7 @@ public class ExportMenuW extends MenuBar {
 						app.getFileManager().showExportAsPictureDialog(svg,
 								app.getExportTitle(), "svg", "ExportAsPicture",
 								app);
-						dialogEvent("exportSVG");
+						dialogEvent(app, "exportSVG");
 					}
 				});
 		// TODO add gif back when ready
@@ -117,7 +123,7 @@ public class ExportMenuW extends MenuBar {
 		// });
 		// }
 
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "PSTricks", true), true,
 				new MenuCommand(app) {
@@ -128,17 +134,17 @@ public class ExportMenuW extends MenuBar {
 								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
 								.clearSelections();
-						hide();
+						menu.hide();
 						String url = "data:text/plain;charset=utf-8,"
 								+ app.getGgbApi().exportPSTricks();
 
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), "txt", "Export", app);
-						dialogEvent("exportPSTricks");
+						dialogEvent(app, "exportPSTricks");
 					}
 				});
 
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "PGF/TikZ", true), true,
 				new MenuCommand(app) {
@@ -149,17 +155,17 @@ public class ExportMenuW extends MenuBar {
 								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
 								.clearSelections();
-						hide();
+						menu.hide();
 						String url = "data:text/plain;charset=utf-8,"
 								+ app.getGgbApi().exportPGF();
 
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), "txt", "Export", app);
-						dialogEvent("exportPGF");
+						dialogEvent(app, "exportPGF");
 					}
 				});
 
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 				// translation not needed
 				.getSafeUri().asString(), "Asymptote", true), true,
 				new MenuCommand(app) {
@@ -170,25 +176,26 @@ public class ExportMenuW extends MenuBar {
 								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
 								.clearSelections();
-						hide();
+						menu.hide();
 						String url = "data:text/plain;charset=utf-8,"
 								+ app.getGgbApi().exportAsymptote();
 
 						app.getFileManager().showExportAsPictureDialog(url,
 								app.getExportTitle(), "txt", "Export", app);
-						dialogEvent("exportPGF");
+						dialogEvent(app, "exportPGF");
 					}
 				});
 		
 		
 		if (app.has(Feature.EXPORT_SCAD)) {
-			addItem(MainMenu.getMenuBarHtml(
+			menu.addItem(
+					MainMenu.getMenuBarHtml(
 					AppResources.INSTANCE.empty().getSafeUri().asString(),
 					"OpenSCAD", true), true,
 					new MenuCommand(app) {
 						@Override
 						public void doExecute() {
-							hide();
+							menu.hide();
 							app.setFlagForSCADexport();
 						}
 					});
@@ -199,17 +206,20 @@ public class ExportMenuW extends MenuBar {
 	/**
 	 * Fire dialog open event
 	 * 
+	 * @param app
+	 *            application to receive the evt
+	 * 
 	 * @param string
 	 *            dialog name
 	 */
-	protected void dialogEvent(String string) {
+	protected static void dialogEvent(AppW app, String string) {
 		app.dispatchEvent(new org.geogebra.common.plugin.Event(
 				EventType.OPEN_DIALOG, null, string));
 
 	}
 
 	/** hide the submenu */
-	void hide() {
+	public void hide() {
 		PopupPanel p = (PopupPanel) getParent();
 		p.hide();
 	}

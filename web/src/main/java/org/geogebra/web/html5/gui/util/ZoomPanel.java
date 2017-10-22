@@ -247,7 +247,7 @@ public class ZoomPanel extends FlowPanel
 			addZoomOutButton();
 		}
 
-		if (app.has(Feature.TAB_ON_GUI)) {
+		if (app.has(Feature.TAB_ON_GUI) && zoomInBtn != null) {
 			zoomInBtn.addTabHandler(this);
 		}
 		ClickStartHandler.init(zoomPanel, new ClickStartHandler(true, true) {
