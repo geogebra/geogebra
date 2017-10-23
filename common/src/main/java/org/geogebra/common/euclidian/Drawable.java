@@ -648,11 +648,13 @@ public abstract class Drawable extends DrawableND {
 			// use decoStroke as it is always full (not dashed/dotted etc)
 
 			if (gpaint == null) {
+
 				gpaint = getHatchingHandler().setHatching(g2, decoStroke,
 						geo.getObjectColor(), geo.getBackgroundColor(),
 						geo.getAlphaValue(), geo.getHatchingDistance(),
 						geo.getHatchingAngle(), geo.getFillType(),
 						geo.getFillSymbol(), geo.getKernel().getApplication());
+
 			}
 
 			g2.setPaint(gpaint);

@@ -13,6 +13,7 @@ import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
+import org.geogebra.common.euclidian.GPaintSVG;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.View;
@@ -248,8 +249,27 @@ public class GGraphics2DW implements GGraphics2D {
 		context.setGlobalAlpha(((GAlphaCompositeW) comp).getAlpha());
 	}
 
+	public void setPaintSVG(final GPaintSVG svgPaint, double lineWidth) {
+
+		CanvasPattern ptr = context.createPatternSVG(
+				svgPaint.getPath(), svgPaint.getStyle(), svgPaint.getWidth(),
+				svgPaint.getHeight(),
+				Math.round(svgPaint.getAngle() * 180 / Math.PI),
+				svgPaint.getFill());
+		// "stroke:black; stroke-width:1", 69.2820323028, 120);
+
+		context.setFillStyle(ptr);
+
+	}
+
 	@Override
 	public void setPaint(final GPaint paint) {
+
+		if (paint instanceof GPaintSVG) {
+			setPaintSVG((GPaintSVG) paint, context.getLineWidth());
+			return;
+		}
+
 		if (paint instanceof GColor) {
 			setColor((GColor) paint);
 		} else if (paint instanceof GGradientPaintW) {
