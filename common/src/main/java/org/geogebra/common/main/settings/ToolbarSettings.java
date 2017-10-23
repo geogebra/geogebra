@@ -73,7 +73,7 @@ public class ToolbarSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @return - if app is 3dy app
+	 * @return - if app is 3d app
 	 * 
 	 */
 	public boolean is3D() {
