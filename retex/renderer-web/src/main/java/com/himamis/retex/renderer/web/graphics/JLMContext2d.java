@@ -1,5 +1,6 @@
 package com.himamis.retex.renderer.web.graphics;
 
+import com.google.gwt.canvas.dom.client.CanvasPattern;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 /**
@@ -26,6 +27,29 @@ public class JLMContext2d extends Context2d {
 		this.fill(windingRule);
 	}-*/;
 	
+	public final native boolean isSVGCanvas() /*-{
+		return !!this.createPatternSVG;
+	}-*/;
+
+	/**
+	 * Fills the current path.
+	 */
+	public final native CanvasPattern createPatternSVG(String path,
+			String style, double width, double height, double angle,
+			String fill) /*-{
+		var svg = {
+			"path" : path,
+			"width" : width,
+			"height" : height,
+			"style" : style,
+			"angle" : angle,
+			"fill" : fill,
+		};
+		//console.log("createPatternSVG", svg);
+		return this.createPatternSVG(svg, "repeating");
+
+	}-*/;
+
 	public final native void initTransform() /*-{
 
 		if (!this) {
