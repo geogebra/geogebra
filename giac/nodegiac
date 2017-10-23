@@ -1,0 +1,4 @@
+#!/bin/sh
+FULLPATH=`readlink -f $0`
+DIRNAME=`dirname $FULLPATH`
+node $DIRNAME/nodegiac.js $*
