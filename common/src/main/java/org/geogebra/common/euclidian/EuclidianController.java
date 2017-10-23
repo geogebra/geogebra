@@ -384,9 +384,7 @@ public abstract class EuclidianController {
 	private MyModeChangedListener modeChangeListener = null;
 
 	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
-
 	private GeoElement lastSelectionToolGeoToRemove;
-
 	private ArrayList<GeoElement> moveMultipleObjectsList;
 
 	/**
