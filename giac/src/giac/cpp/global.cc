@@ -5573,8 +5573,13 @@ unsigned int ConvertUTF8toUTF16 (
 
   void convert_python(string & cur,GIAC_CONTEXT){
     bool indexshift=xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    bool instring=cur.size() && cur[0]=='"';
     for (int pos=1;pos<int(cur.size());++pos){
       char prevch=cur[pos-1],curch=cur[pos];
+      if (curch=='"' && prevch!='\\')
+	instring=!instring;
+      if (instring)
+	continue;
       if (curch==':' && (prevch=='[' || prevch==',')){
 	cur.insert(cur.begin()+pos,indexshift?'1':'0');
 	continue;
@@ -5709,11 +5714,12 @@ unsigned int ConvertUTF8toUTF16 (
 	char ch=cur[pos];
 	if (ch==' ' || ch==char(9))
 	  continue;
-	if (ch=='"'){
+	if (ch=='"' && (pos==0 || cur[pos-1]!='\\')){
 	  chkfrom=false;
 	  instring=!instring;
 	}
-	if (instring) continue;
+	if (instring)
+	  continue;
 	if (ch=='#'){
 	  cur=cur.substr(0,pos);
 	  pythonmode=true;
@@ -5737,6 +5743,10 @@ unsigned int ConvertUTF8toUTF16 (
 	    cur=cur.substr(0,pos)+cur.substr(pos+6,posdot-pos-6)+"->"+cur.substr(posdot+1,cur.size()-posdot-1);
 	  }
 	}
+      }
+      if (instring){
+	*logptr(contextptr) << "Warning: multi-line strings can not be converted from Python like syntax"<<endl;
+	return s_orig;
       }
       // detect : at end of line
       for (pos=int(cur.size())-1;pos>=0;--pos){
