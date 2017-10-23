@@ -78,6 +78,7 @@ public abstract class AlgoElement extends ConstructionElement
 	protected StringBuilder sbAE = new StringBuilder();
 	/** flag stating whether remove() on this algo was already called */
 	protected boolean removed = false;
+	protected boolean labelEnable = true;
 
 	/**
 	 * Creates new algorithm
@@ -1879,6 +1880,10 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public void resetLabels(String oldGeoLabel) {
 		LabelManager.setLabels(oldGeoLabel, getOutput());
+	}
+
+	public void setLabelEnable(boolean b) {
+		labelEnable = b;
 	}
 
 }

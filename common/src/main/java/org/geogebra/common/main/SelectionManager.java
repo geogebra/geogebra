@@ -852,7 +852,7 @@ public class SelectionManager {
 	 * Updates special points of the selected geo(s) if have any.
 	 */
 	public void updateSpecialPoints() {
-		this.getSpecPoints(selectedGeos);
+		kernel.notifyUpdatePreviewFromView(specPoints, App.VIEW_EUCLIDIAN);
 	}
 
 
@@ -871,14 +871,19 @@ public class SelectionManager {
 			if (specPoints2 != null) {
 				specPoints = new GeoElement[specPoints2.length];
 				for (int i = 0; i < specPoints2.length; i++) {
-					specPoints2[i].remove();
 					specPoints[i] = specPoints2[i].toGeoElement();
+					specPoints[i].remove();
+				}
+
+				// update special points of the selected function
+				((GeoFunction) selectedGeos2.get(0)).clearSpecPoints();
+				if (selectedGeos2.get(0).isGeoFunction()) {
+					((GeoFunction) selectedGeos2.get(0))
+							.addSpecialPoints(specPoints);
 				}
 			}
 		}
 
-		kernel.notifyUpdatePreviewFromView(specPoints,
-				App.VIEW_EUCLIDIAN);
 
 		if (specPoints != null) {
 			for (int i = 0; i < specPoints.length; i++) {
@@ -946,7 +951,7 @@ public class SelectionManager {
 	 */
 	public void updateSelection(boolean updatePropertiesView) {
 		if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
-			updateSpecialPoints();
+			getSpecPoints(selectedGeos);
 		}
 		listener.updateSelection(updatePropertiesView);
 	}
@@ -1262,6 +1267,6 @@ public class SelectionManager {
 		}
 		clearSelectedGeos(false, false);
 		addSelectedGeo(geo, false, false);
-		updateSpecialPoints();
+		getSpecPoints(selectedGeos);
 	}
 }

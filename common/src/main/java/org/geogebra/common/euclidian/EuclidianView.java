@@ -3481,6 +3481,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		drawGeometricObjects(g2);
 		drawActionObjects(g2);
 
+		app.getSelectionManager().updateSpecialPoints();
+
 		if (previewDrawable != null) {
 			previewDrawable.drawPreview(g2);
 		}

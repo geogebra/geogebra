@@ -128,6 +128,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	final private static char[] dummy2 = { ' ', ' ' };
 
 	private double[] bounds;
+	
+	ArrayList<GeoPoint> specPoints = new ArrayList<GeoPoint>();
 
 
 	private static StringBuilder sbCasCommand;
@@ -3232,6 +3234,23 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	public void setShortLHS(boolean shortLHS) {
 		this.shortLHS = shortLHS;
+	}
+
+	public void addSpecialPoints(GeoElement[] specPoints2) {
+		for (int i = 0; i < specPoints2.length; i++) {
+			specPoints.add((GeoPoint) specPoints2[i]);
+			specPoints2[i].getParentAlgorithm().setLabelEnable(false);
+		}
+	}
+
+	public void clearSpecPoints() {
+		specPoints.clear();
+	}
+
+	public void updateSpecPoints() {
+		 for (GeoPoint point : specPoints) {
+			point.getParentAlgorithm().compute();
+		 }
 	}
 
 }

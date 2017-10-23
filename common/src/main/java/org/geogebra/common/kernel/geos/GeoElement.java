@@ -4397,6 +4397,9 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public void updateRepaint(boolean dragging) {
 		updateCascade(dragging);
+		if (isGeoFunction()) {
+			((GeoFunction) this).updateSpecPoints();
+		}
 		kernel.notifyRepaint();
 	}
 
