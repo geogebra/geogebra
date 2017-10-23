@@ -3,11 +3,11 @@
   "version": "1.23.57260",
   "homepage": "https://www-fourier.ujf-grenoble.fr/~parisse/giac.html",
   "description": "Giac, a free computer algebra system",
-  "repository" : {
-    "type" : "svn",
-    "url" : "https://dev.geogebra.org/svn/trunk/geogebra/giac"
+  "repository": {
+    "type": "svn",
+    "url": "https://dev.geogebra.org/svn/trunk/geogebra/giac"
   },
-  "contributors" : [
+  "contributors": [
     "Bernard Parisse <bernard.parisse@univ-grenoble-alpes.fr>",
     "Zoltán Kovács <zoltan@geogebra.org>"
   ],
@@ -20,6 +20,17 @@
   "dependencies": {
     "bindings": "~1.2.1"
   },
-  "os": [ "linux", "darwin", "win32" ],
-  "keywords": [ "computer algebra", "math", "mathematics", "cas", "computer", "algebra" ]
+  "os": [
+    "linux",
+    "darwin",
+    "win32"
+  ],
+  "keywords": [
+    "computer algebra",
+    "math",
+    "mathematics",
+    "cas",
+    "computer",
+    "algebra"
+  ]
 }

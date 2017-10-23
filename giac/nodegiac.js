@@ -1,5 +1,33 @@
 var giac = require('bindings')('giac');
 
+var readline = require('readline');
+var rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+const args = process.argv;
+
+if (args.length > 1 && args[2] != "-m") {
+ console.log("This is a minimalist command line version of NodeGiac");
+ console.log("Enter expressions to evaluate");
+ console.log("Example: factor(x^4-1); simplify(sin(3x)/sin(x))");
+ console.log("int(1/(x^4-1)); int(1/(x^4+1)^4,x,0,inf)");
+ console.log("f(x):=sin(x^2); f'(2); f'(y)");
+ console.log("Press CTRL-D to stop");
+ }
+
+var n=1;
+
+rl.on('line', function(line){
+    // echo
+    console.log(n + ">> " + line);
+    console.log(n + "<< " + giac.evaluate(line));
+    n++;
+})
+
+/*
 console.log(giac.evaluate("expand((x+y)^3)"));
 console.log(giac.evaluate("expand((x+y)^4)"));
 console.log(giac.evaluate("2^50"));
@@ -9,6 +37,7 @@ console.log(giac.evaluate("[1]"));
 console.log(giac.evaluate("evalf(7,15)"));
 console.log(giac.evaluate("caseval(\"close geogebra\")"));
 console.log(giac.evaluate("normal(sqrt(1+i))"));
+*/
 
 /* The expected output is:
  *

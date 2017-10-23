@@ -28,14 +28,18 @@ usage() {
  echo "   -s           be silent: do not exit with error code when there is regression"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
  echo "   -j           test the JNI version (make sure running task :giac-jni:testJni first)"
+ echo "   -n           test the Node version (make sure running \"npm install\" first)"
  echo "   -h           show this help"
  exit 0
  }
 
-while getopts "t:rfhHIsj" OPT; do
+while getopts "t:rfhHIsjn" OPT; do
  case $OPT in
   j)
    MINIGIAC=../../../giac-jni/src/test/minigiac
+   ;;
+  n)
+   MINIGIAC=../../nodegiac
    ;;
   s)
    SILENT=1
