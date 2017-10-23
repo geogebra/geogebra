@@ -7136,9 +7136,15 @@ public abstract class EuclidianController {
 			for (GeoElement geo : companion.removeParentsOfView(getAppSelectedGeos())) {
 				moveMultipleObjectsList.add(geo);
 				AlgoElement algo = geo.getParentAlgorithm();
-				if (algo != null) {
+				if (algo != null) { // add input points from algo
 					for (GeoPointND point : geo.getFreeInputPoints(getView())) {
 						moveMultipleObjectsList.add((GeoElement) point);
+					}
+				} else if (geo.isGeoImage()) { // add start points for images
+					for (GeoPoint point : ((GeoImage) geo).getStartPoints()) {
+						if (point != null && view.isMoveable(point)) {
+							moveMultipleObjectsList.add(point);
+						}
 					}
 				}
 			}
