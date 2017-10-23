@@ -1844,7 +1844,7 @@ __GGB__keysVar.it.menu = {
     "GraphicsViewAsAsymptote": "Vista Grafici come Asymptote",
     "GraphicsViewForPlaneA": "Vista del %0",
     "Graphing": "Grafici",
-    "Graphing3D": "3D Graphing Calculator",
+    "Graphing3D": "Calcolatrice grafica 3D",
     "GraphingCalculator": "Calcolatrice Grafica",
     "GraphingCalculator.short": "Calc. Grafica",
     "GraphingCalculator3D.Function3D": "Funzioni z=f(x,y)",
