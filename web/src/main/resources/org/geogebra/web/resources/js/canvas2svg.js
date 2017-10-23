@@ -1167,7 +1167,6 @@
     };
     
     ctx.prototype.createPatternSVG = function (image, repetition) {
-    	console.log("createPatternSVG");
         var pattern = this.__document.createElementNS("http://www.w3.org/2000/svg", "pattern"), id = randomString(this.__ids),
             path;
         pattern.setAttribute("id", id);
@@ -1180,7 +1179,6 @@
         	pattern.setAttribute("patternTransform", "rotate("+image.angle+")");
         }
         if (image.path && image.style) {
-        	console.log("createPatternSVG2");
         	// assume SVG fill pattern
         	path = this.__document.createElementNS("http://www.w3.org/2000/svg", "path");
         	// eg
