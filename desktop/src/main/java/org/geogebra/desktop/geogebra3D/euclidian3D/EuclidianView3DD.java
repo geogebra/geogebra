@@ -123,24 +123,23 @@ public class EuclidianView3DD extends EuclidianView3D
 
 		// lines below for testing
 
-		return new RendererCheckGLVersionD(this, !app.isApplet(), RendererType.SHADER);
+		// return new RendererCheckGLVersionD(this, !app.isApplet(),
+		// RendererType.SHADER);
 
 //		 return new RendererCheckGLVersionD(this, !app.isApplet(),
 //		 RendererType.GL2);
 
 
-		// // we don't want shaders with win os < vista
-		// if (!app.isApplet() && !AppD.WINDOWS_VISTA_OR_EARLIER) {
-		// return new RendererCheckGLVersionD(this, canUseCanvas());
-		// }
-		//
-		// if (app.useShaders()) {
-		// return new RendererCheckGLVersionD(this, !app.isApplet(),
-		// RendererType.SHADER);
-		// }
-		//
-		// return new RendererCheckGLVersionD(this, canUseCanvas(),
-		// RendererType.GL2);
+		// we don't want shaders with win os < vista
+		if (!app.isApplet() && !AppD.WINDOWS_VISTA_OR_EARLIER) {
+			return new RendererCheckGLVersionD(this, canUseCanvas());
+		}
+
+		if (app.useShaders()) {
+			return new RendererCheckGLVersionD(this, !app.isApplet(), RendererType.SHADER);
+		}
+
+		return new RendererCheckGLVersionD(this, canUseCanvas(), RendererType.GL2);
 
 	}
 
