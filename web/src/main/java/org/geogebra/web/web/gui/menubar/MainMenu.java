@@ -657,6 +657,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 	}
 
+	/**
+	 * Focus a submenu (the last selected one if possible)
+	 */
 	public void focus(){
 		int index= Math.max(menuPanel.getSelectedIndex(),0);
 		if (this.menus.get(index) != null) {
@@ -664,10 +667,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 	}
 
-	public static void addSubmenuArrow(MenuBar w) {
-		addSubmenuArrow(w, false);
-	}
-
+	/**
+	 * @param w
+	 *            submenu
+	 * @param left
+	 *            arrow direction
+	 */
 	public static void addSubmenuArrow(MenuBar w, boolean left) {
 		w.addStyleName(left ? "subMenuRightSide" : "subMenuLeftSide");
 		FlowPanel arrowSubmenu = new FlowPanel();
@@ -681,6 +686,15 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		w.getElement().appendChild(arrowSubmenu.getElement());
     }
 
+	/**
+	 * @param url
+	 *            image URL
+	 * @param str
+	 *            item text
+	 * @param enabled
+	 *            whether the item is enabled (otherwise it's grayed)
+	 * @return menu item as HTML
+	 */
 	public static String getMenuBarHtml(String url, String str, boolean enabled) {
 		String text2 = str.replace("\"", "'");
 		String text3 = (enabled) ? text2 :  "<span style=\"color:gray;\">"+text2+"</span>";
@@ -688,24 +702,32 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				+ "\" src=\""
 				+ url + "\" draggable=\"false\" aria-hidden=\"true\">"
 				+ text3;
-    }
+	}
 
 	
+	/**
+	 * @param url
+	 *            image URL
+	 * @param str
+	 *            item text
+	 * @return menu item as HTML
+	 */
 	public static String getMenuBarHtml(String url, String str) {
 		String text = str.replace("\"", "'");
 		return "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\"" + text
 				+ "\" src=\""
 				+ url + "\" draggable=\"false\" aria-hidden=\"true\">"
 				+ text;
-    }
-
-	public static String getMenuBarHtmlImgLast(String str, String url) {
-		String text = str.replace("\"", "'");
-		return text + "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\""
-				+ text + "\" src=\"" + url + "\" draggable=\"false\">";
 	}
-	public static void setMenuSelected(MenuItem m, boolean visible) {
-		if (visible) {
+
+	/**
+	 * @param m
+	 *            item
+	 * @param checked
+	 *            whether it's checked
+	 */
+	public static void setMenuSelected(MenuItem m, boolean checked) {
+		if (checked) {
 			m.addStyleName("checked");
 		} else {
 			m.removeStyleName("checked");

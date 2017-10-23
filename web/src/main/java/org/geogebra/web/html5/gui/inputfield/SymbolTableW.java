@@ -45,7 +45,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	/**
 	 * Constructs a SymbolTable
 	 * 
-	 * @param app
+	 * @param appw
 	 * @param symbolStrings
 	 * @param symbolToolTips
 	 */

@@ -15,11 +15,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class ExportMenuW extends MenuBar implements MenuBarI {
 
 	/**
-	 * Application instance
-	 */
-	AppW app;
-
-	/**
 	 * Constructs the "Insert Image" menu
 	 * 
 	 * @param app
@@ -28,7 +23,6 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 	public ExportMenuW(AppW app) {
 		super(true);
 
-		this.app = app;
 		addStyleName("GeoGebraMenuBar");
 		MainMenu.addSubmenuArrow(this,
 				app.isUnbundledOrWhiteboard());

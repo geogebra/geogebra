@@ -44,20 +44,45 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		cellRangeManager = new AlgoCellRangeManager();
 	}
 
-	/**************************************************
-	 * Abstract Methods
+	/**
+	 * @return number of rows
 	 */
-
 	public abstract int getRowCount();
 
+	/**
+	 * @return number of columns
+	 */
 	public abstract int getColumnCount();
 
+	/**
+	 * @param rowCount
+	 *            number of rows
+	 */
 	public abstract void setRowCount(int rowCount);
 
+	/**
+	 * @param columnCount
+	 *            number of columns
+	 */
 	public abstract void setColumnCount(int columnCount);
 
+	/**
+	 * @param row
+	 *            row index
+	 * @param column
+	 *            column index
+	 * @return GeoElement
+	 */
 	public abstract Object getValueAt(int row, int column);
 
+	/**
+	 * @param value
+	 *            GeoElement
+	 * @param row
+	 *            row index
+	 * @param column
+	 *            column index
+	 */
 	public abstract void setValueAt(Object value, int row, int column);
 
 	/*
@@ -257,7 +282,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		}
 		highestUsedColumn = -1;
 		highestUsedRow = -1;
-		cellRangeManager.removeAll();
+		cellRangeManager.clear();
 	}
 
 	@Override

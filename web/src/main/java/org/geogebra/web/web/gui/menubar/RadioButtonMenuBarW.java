@@ -22,9 +22,12 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	final private String menubarID;
 	private ArrayList<RadioButton> radioButtons;
 	private String[] texts;
+	/** item commands */
 	String[] commands;
+	/** listener */
 	MyActionListener listener;
 	private AppW app;
+	/** action side effect */
 	Scheduler.ScheduledCommand itemSideEffect = null;
 
 	/**
@@ -99,6 +102,10 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 		}
 	}
 
+	/**
+	 * @param sc
+	 *            side effect
+	 */
 	public void registerItemSideEffect(Scheduler.ScheduledCommand sc) {
 		itemSideEffect = sc;
 	}

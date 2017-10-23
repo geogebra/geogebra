@@ -1,10 +1,11 @@
 package org.geogebra.commands;
 
 import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorLogger;
 import org.geogebra.common.util.AsyncOperation;
 import org.junit.Assert;
 
-public class TestErrorHandler implements ErrorHandler {
+public class TestErrorHandler implements ErrorHandler, ErrorLogger {
 
 	public static final ErrorHandler INSTANCE = new TestErrorHandler();
 
@@ -36,6 +37,10 @@ public class TestErrorHandler implements ErrorHandler {
 	public void resetError() {
 		// nothing to do
 
+	}
+
+	public void log(Throwable e) {
+		Assert.assertNull(e);
 	}
 
 }

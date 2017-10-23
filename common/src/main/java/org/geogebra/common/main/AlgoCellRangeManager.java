@@ -84,7 +84,10 @@ public class AlgoCellRangeManager {
 
 	}
 
-	public void removeAll() {
+	/**
+	 * CLear the algo list
+	 */
+	public void clear() {
 		if (algos != null) {
 			algos.clear();
 		}

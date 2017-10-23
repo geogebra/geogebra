@@ -10,7 +10,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  *
  */
 public class GRadioButtonMenuItem extends MenuItem {
-	
+	/** wrapped radio button */
 	GradioButtonBase base;
 	
 	/**
@@ -50,7 +50,7 @@ public class GRadioButtonMenuItem extends MenuItem {
 	 * @return the action command
 	 */
 	public String getActionCommand() {
-		return base.radio.getElement().getAttribute("data-command");
+		return base.getActionCommand();
 	}
 	
 }

@@ -6,6 +6,9 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ImageResource.ImageOptions;
 import com.google.gwt.user.client.ui.MenuBar.Resources;
 
+/**
+ * Resource class to override submenu icon
+ */
 public class MenuResources implements Resources {
 
 	@Override

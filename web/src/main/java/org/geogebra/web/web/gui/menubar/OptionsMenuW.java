@@ -19,38 +19,28 @@ import com.google.gwt.user.client.ui.MenuBar;
  */
 public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionListener{
 	
-	private AppW app;
-	
 	/**
 	 * Constructs the "Option" menu
 	 * @param app Application instance
 	 */
 	public OptionsMenuW(AppW app) {
 		super(true, "options", new MenuResources(), app);
-	    this.app = app;
 		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {
 			addStyleName("GeoGebraMenuBar");
 		}
-	    initItems();
-	}
-
-	/**
-	 * @return app
-	 */
-	protected AppW getApp() {
-		return app;
+		initItems();
 	}
 	
 	private void initItems(){
 		//"Algebra Descriptions" menu
 		// getOptionsMenu().addAlgebraDescriptionMenu(this);
-		if (!app.isWhiteboardActive()) {
+		if (!getApp().isWhiteboardActive()) {
 			getOptionsMenu().addDecimalPlacesMenu(this);
 
 		// in exam mode only "Rounding" menu needed
-		if (app.isExam()) {
+			if (getApp().isExam()) {
 			return;
 		}
 			addSeparator();
@@ -73,15 +63,16 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 
 	private void addLanguageMenu() {
-		if (!app.isExam()) {
+		if (!getApp().isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.isUnbundledOrWhiteboard()
+					getApp().isUnbundledOrWhiteboard()
 							? MaterialDesignResources.INSTANCE.language_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE
 		        .menu_icon_options_language().getSafeUri().asString(),
 					getApp().getLocalization()
-				.getMenu("Language"), true), true, new MenuCommand(app) {
+							.getMenu("Language"),
+					true), true, new MenuCommand(getApp()) {
 
 			@Override
 			public void doExecute() {
@@ -93,14 +84,12 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	
 	private void addRestoreDefaultSettingsMenu(){
 		addItem(MainMenu.getMenuBarHtml(
-				AppResources.INSTANCE.empty()
-				.getSafeUri().asString(),
+				AppResources.INSTANCE.empty().getSafeUri().asString(),
 				getApp().getLocalization().getMenu("Settings.ResetDefault"),
-				true),
-		        true, new MenuCommand(app) {
-			
-			        @Override
-			        public void doExecute() {
+				true), true, new MenuCommand(getApp()) {
+
+					@Override
+					public void doExecute() {
 						resetDefault();
 					}
 				});
@@ -114,41 +103,41 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		// reset defaults for GUI, views etc
 		// this has to be called before load XML preferences,
 		// in order to avoid overwrite
-		app.getSettings().resetSettings(app);
+		getApp().getSettings().resetSettings(getApp());
 		// for geoelement defaults, this will do nothing, so it is
 		// OK here
-		GeoGebraPreferencesW.getPref().resetPreferences(app);
+		GeoGebraPreferencesW.getPref().resetPreferences(getApp());
 		// reset default line thickness etc
-		app.getKernel().getConstruction().getConstructionDefaults()
+		getApp().getKernel().getConstruction().getConstructionDefaults()
 				.resetDefaults();
 		// reset defaults for geoelements; this will create brand
 		// new objects
 		// so the options defaults dialog should be reset later
-		app.getKernel().getConstruction().getConstructionDefaults()
+		getApp().getKernel().getConstruction().getConstructionDefaults()
 				.createDefaultGeoElements();
 		// reset the stylebar defaultGeo
-		if (app.getEuclidianView1().hasStyleBar()) {
-			app.getEuclidianView1().getStyleBar().restoreDefaultGeo();
+		if (getApp().getEuclidianView1().hasStyleBar()) {
+			getApp().getEuclidianView1().getStyleBar().restoreDefaultGeo();
 		}
-		if (app.hasEuclidianView2EitherShowingOrNot(1)
-				&& app.getEuclidianView2(1).hasStyleBar()) {
-			app.getEuclidianView2(1).getStyleBar().restoreDefaultGeo();
+		if (getApp().hasEuclidianView2EitherShowingOrNot(1)
+				&& getApp().getEuclidianView2(1).hasStyleBar()) {
+			getApp().getEuclidianView2(1).getStyleBar().restoreDefaultGeo();
 		}
 		// TODO needed to eg. update rounding, possibly too heavy
-		app.getKernel().updateConstruction();
+		getApp().getKernel().updateConstruction();
 	}
 	
 	private void addSaveSettingsMenu(){
-		if (!app.isExam()) {
+		if (!getApp().isExam()) {
 			addItem(MainMenu.getMenuBarHtml(
-					app.isUnbundled()
+					getApp().isUnbundled()
 							? MaterialDesignResources.INSTANCE.save_black()
 									.getSafeUri().asString()
 							: GuiResources.INSTANCE
 					.menu_icon_file_save().getSafeUri().asString(),
 					getApp().getLocalization()
 				.getMenu("Settings.Save"), true),
-		        true, new MenuCommand(app) {
+					true, new MenuCommand(getApp()) {
 			
 					@Override
 					public void doExecute() {
@@ -181,7 +170,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 					MenuInterface subMenu) {
 
 				if (subMenu instanceof MenuBar) {
-					if (app.isUnbundled()) {
+					if (getApp().isUnbundled()) {
 						((MenuBar) subMenu).addStyleName("matMenuBar");
 					} else {
 						((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
@@ -200,7 +189,8 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 				((GMenuBar) parentMenu).addItem(
 						getApp().getGuiManager().getMenuBarHtml(imgRes,
 								getApp().getLocalization().getMenu(key), true),
-						true, (MenuBar) subMenu, !app.isWhiteboardActive());
+						true, (MenuBar) subMenu,
+						!getApp().isWhiteboardActive());
 			}
 		});
 	}

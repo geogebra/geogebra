@@ -1,6 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.main.App;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -9,28 +9,56 @@ import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.PopupPanel;
 
+/**
+ * Menubar with some extra functionality (popups, event logging)
+ *
+ */
 public class GMenuBar extends MenuBar{
 	private int separators = 0;
 	private String menuTitle;
-	private App app;
+	private AppW app;
 
-	public GMenuBar(boolean vertical, String menuTitle, App app) {
-	    super(vertical);
+	/**
+	 * @param vertical
+	 *            vertical?
+	 * @param menuTitle
+	 *            title for event logger
+	 * @param app
+	 *            parent app
+	 */
+	public GMenuBar(boolean vertical, String menuTitle, AppW app) {
+		super(vertical);
 		this.menuTitle = menuTitle;
 		this.app = app;
 	}
 
+	/**
+	 * @param vertical
+	 *            vertical?
+	 * @param menuTitle
+	 *            title for event logger
+	 * @param menuResources
+	 *            resources
+	 * @param app
+	 *            parent app
+	 */
 	public GMenuBar(boolean vertical, String menuTitle,
-			MenuResources menuResources, App app) {
-	    super(vertical, menuResources);
+			MenuResources menuResources, AppW app) {
+		super(vertical, menuResources);
 		this.menuTitle = menuTitle;
 		this.app = app;
 	}
 
+	/**
+	 * @return whether first item is selected
+	 */
 	public boolean isFirstItemSelected(){
 		return this.getItemIndex(this.getSelectedItem()) == 0;
 	}
 
+	/**
+	 * @return whether last item is selected
+	 */
 	public boolean isLastItemSelected() {
 		return this.getItemIndex(this.getSelectedItem()) == this.getItems().size() + separators - 1;
 		
@@ -48,6 +76,13 @@ public class GMenuBar extends MenuBar{
 	/**
 	 * As far as GWT is buggy in the implementation of this, it is necessary to
 	 * have a method to correct that
+	 * 
+	 * @param itemtext
+	 *            heading text
+	 * @param textishtml
+	 *            whether to use text as HTML
+	 * @param submenupopup
+	 *            popup menu
 	 *
 	 * @param subleft
 	 *            specifies if submenu should open to the left.
@@ -91,15 +126,14 @@ public class GMenuBar extends MenuBar{
 						} else {
 							pp.addStyleName(
 									"GeoGebraMenuBar.subMenuRightSidePopup");
-
 						}
 
-						if (app.isUnbundled()) {
+						if (getApp().isUnbundled()) {
 							pp.addStyleName("floatingSubMenu");
 						}
 						pp.add(submenupopup);
-						MenuItem mi0 = ((MenuItem) ait[0]);
-						        
+						MenuItem mi0 = (MenuItem) ait[0];
+
 						int left = subleft ? mi0.getElement().getAbsoluteLeft()
 								: mi0.getElement().getAbsoluteRight() + 8;
 						int top = mi0.getElement().getAbsoluteTop();
@@ -107,16 +141,19 @@ public class GMenuBar extends MenuBar{
 
 						if (submenupopup instanceof RadioButtonMenuBarW) {
 							((RadioButtonMenuBarW) submenupopup)
-							        .registerItemSideEffect(new Scheduler.ScheduledCommand() {
-								        @Override
-										public void execute() {
-									        // this should only run if some item
-									        // is selected and clicked
-									        ait[1] = null;
-									        submenupopup.selectItem(null);
-									        pp.hide();
-								        }
-							        });
+									.registerItemSideEffect(
+											new Scheduler.ScheduledCommand() {
+												@Override
+												public void execute() {
+													// this should only run if
+													// some item
+													// is selected and clicked
+													ait[1] = null;
+													submenupopup
+															.selectItem(null);
+													pp.hide();
+												}
+											});
 						}
 
 						// TODO: more difficult to solve autoOpen
@@ -151,7 +188,17 @@ public class GMenuBar extends MenuBar{
 		return addItem(itemtext, textishtml, submenupopup, true);
 	}
 
+	/**
+	 * @return title for event logger
+	 */
 	public String getMenuTitle() {
 		return menuTitle;
+	}
+
+	/**
+	 * @return application
+	 */
+	protected AppW getApp() {
+		return app;
 	}
 }

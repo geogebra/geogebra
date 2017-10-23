@@ -21,7 +21,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	 * @param app
 	 *            application
 	 */
-	public HelpMenuW(final App app)  {
+	public HelpMenuW(final AppW app) {
 		super(true, "help", app);
 		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
@@ -44,7 +44,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 								.getSafeUri().asString()
 						: AppResources.INSTANCE.empty().getSafeUri().asString(),
 				loc.getMenu("Tutorials"), true), true,
-				new MenuCommand((AppW) app) {
+				new MenuCommand(app) {
 			
 	    	@Override
 	    	public void doExecute() {
@@ -60,7 +60,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 						: GuiResources.INSTANCE.menu_icon_help().getSafeUri()
 								.asString(),
 				loc.getMenu("Manual"), true), true,
-				new MenuCommand((AppW) app) {
+				new MenuCommand(app) {
 			
 	    	@Override
 	    	public void doExecute() {
@@ -76,11 +76,11 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 								: AppResources.INSTANCE.empty().getSafeUri()
 										.asString(),
 				loc.getMenu("GeoGebraForum"), true), true,
-				new MenuCommand((AppW) app) {
+				new MenuCommand(app) {
 			
 	    	@Override
 	    	public void doExecute() {
-						((AppW) app).getFileManager().open(
+						app.getFileManager().open(
 								GeoGebraConstants.FORUM_URL, "_blank", "");
             }
 	    });
@@ -93,11 +93,15 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 								.getSafeUri().asString()
 						: AppResources.INSTANCE.empty().getSafeUri().asString(),
 				loc.getMenu("ReportBug"), true), true,
-				new MenuCommand((AppW) app) {
+				new MenuCommand(app) {
 			
 	    	@Override
 	    	public void doExecute() {
-	    		((AppW) app).getFileManager().open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
+						app.getFileManager()
+								.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB
+										+ "&lang="
+										+ app.getLocalization().getLanguage(),
+										"_blank", "");
             }
 	    });
 		addSeparator();
@@ -109,21 +113,22 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 								: GuiResources.INSTANCE.menu_icon_help_about()
 										.getSafeUri().asString(),
 				loc.getMenu("AboutLicense"), true), true,
-				new MenuCommand((AppW) app) {
+				new MenuCommand(app) {
 	    	
 					@Override
 					public void doExecute() {
-						((AppW) app).getFileManager().open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL
+						app.getFileManager()
+								.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL
 								+ "&version=" + app.getVersionString()
 								+ "&date=" + GeoGebraConstants.BUILD_DATE,
 								"_blank",
 								"width=720,height=600,scrollbars=yes,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
 					}
 	    });
-	    if(!((AppW)app).getNetworkOperation().isOnline()){
+		if (!app.getNetworkOperation().isOnline()) {
 	    	render(false);
 	    }
-	    ((AppW)app).getNetworkOperation().getView().add(this);
+		app.getNetworkOperation().getView().add(this);
 	    // TODO: This item has no localization entry yet.
 	    //addItem("About / Team", new Command() {
 		//	public void execute() {

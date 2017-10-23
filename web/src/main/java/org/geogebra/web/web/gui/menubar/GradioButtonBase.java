@@ -19,15 +19,19 @@ public class GradioButtonBase {
 	 * panel to hold the button and the menu's html
 	 */
 	FlowPanel itemPanel;
+	private String command;
 
 	/**
-	 * @param html Html of the menu
-	 * @param cmd 
+	 * @param html
+	 *            Html of the menu
+	 * @param cmd
+	 *            command associated with this item
 	 * @param groupName
+	 *            group name
 	 */
 	public GradioButtonBase(String html, String cmd, String groupName) {
 		radio = new RadioButton(groupName);
-		radio.getElement().setAttribute("data-command", cmd);
+		command = cmd;
 		itemPanel = new FlowPanel();
 		itemPanel.add(radio);
 		itemPanel.add(new HTML(html));
@@ -37,17 +41,24 @@ public class GradioButtonBase {
 	 * @return gets the safe html of the menuitem
 	 */
 	public SafeHtml getSafeHtml() {
-	   return new SafeHtml() {
-		
-		/**
-		 * 
-		 */
-        private static final long serialVersionUID = 1L;
+		return new SafeHtml() {
 
-		@Override
-		public String asString() {
-			return itemPanel.getElement().getInnerHTML();
-		}
-	};
-    }
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public String asString() {
+				return itemPanel.getElement().getInnerHTML();
+			}
+		};
+	}
+
+	/**
+	 * @return command associated with this radio item
+	 */
+	public String getActionCommand() {
+		return command;
+	}
 }

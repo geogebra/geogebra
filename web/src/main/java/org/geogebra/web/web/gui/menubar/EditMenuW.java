@@ -14,10 +14,6 @@ import org.geogebra.web.web.gui.images.AppResources;
 public class EditMenuW extends GMenuBar {
 
 	/**
-	 * Application instance
-	 */
-	final AppW app;
-	/**
 	 * Reference to selection manager
 	 */
 	final SelectionManager selection;
@@ -31,9 +27,8 @@ public class EditMenuW extends GMenuBar {
 	 */
 	public EditMenuW(AppW app) {
 		super(true, "edit", new MenuResources(), app);
-		this.app = app;
 		this.loc = app.getLocalization();
-		this.selection = app.getSelectionManager();
+		this.selection = getApp().getSelectionManager();
 		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {
@@ -52,11 +47,11 @@ public class EditMenuW extends GMenuBar {
 		 * selected
 		 */
 		int layer = selection.getSelectedLayer();
-		boolean justCreated = !(app.getActiveEuclidianView()
+		boolean justCreated = !(getApp().getActiveEuclidianView()
 		        .getEuclidianController().getJustCreatedGeos().isEmpty());
 		boolean haveSelection = !selection.getSelectedGeos().isEmpty();
 		clearItems();
-		if (app.isUndoRedoEnabled()) {
+		if (getApp().isUndoRedoEnabled()) {
 			addUndoRedo();
 			// separator
 			addSeparator();
@@ -68,7 +63,7 @@ public class EditMenuW extends GMenuBar {
 		addPropertiesItem();
 		addSeparator();
 		addSelectAllItem(noIcon);
-		if (!app.isUnbundledOrWhiteboard()) {
+		if (!getApp().isUnbundledOrWhiteboard()) {
 			addSelectCurrentLayer(noIcon);
 			addDescentdantsItem(noIcon);
 			addPredecessorsItem(noIcon);
@@ -77,7 +72,7 @@ public class EditMenuW extends GMenuBar {
 				// invert selection menu
 				addItem(MainMenu.getMenuBarHtml(noIcon,
 					loc.getMenu("InvertSelection"), true), true,
-			        new MenuCommand(app) {
+						new MenuCommand(getApp()) {
 
 				        @Override
 				        public void doExecute() {
@@ -99,7 +94,7 @@ public class EditMenuW extends GMenuBar {
 
 	private void addShowHideLabelsItem(String noIcon) {
 		addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("ShowHideLabels"),
-				true), true, new MenuCommand(app) {
+				true), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -110,7 +105,7 @@ public class EditMenuW extends GMenuBar {
 
 	private void addShowHideItem(String noIcon) {
 		addItem(MainMenu.getMenuBarHtml(noIcon, loc.getMenu("ShowHide"), true),
-				true, new MenuCommand(app) {
+				true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
@@ -121,35 +116,36 @@ public class EditMenuW extends GMenuBar {
 
 	private void addDeleteItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundledOrWhiteboard()
+				getApp().isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.delete_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_edit_delete()
 								.getSafeUri().asString(),
-				loc.getMenu("Delete"), true), true, new MenuCommand(app) {
+				loc.getMenu("Delete"), true), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
-						app.deleteSelectedObjects(false);
+						getApp().deleteSelectedObjects(false);
 					}
 				});
 	}
 
 	private void addPasteItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundledOrWhiteboard()
+				getApp().isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.paste_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_edit_paste()
 								.getSafeUri().asString(),
-				loc.getMenu("Paste"), true), true, new MenuCommand(app) {
+				loc.getMenu("Paste"), true), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
-						if (!app.getCopyPaste().isEmpty()) {
-							app.setWaitCursor();
-							app.getCopyPaste().pasteFromXML(app, false);
-							app.setDefaultCursor();
+						if (!getApp().getCopyPaste().isEmpty()) {
+							getApp().setWaitCursor();
+							getApp().getCopyPaste().pasteFromXML(getApp(),
+									false);
+							getApp().setDefaultCursor();
 						}
 					}
 				});
@@ -158,15 +154,16 @@ public class EditMenuW extends GMenuBar {
 	private void addSelectAllItem(String noIcon) {
 		// select all menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundledOrWhiteboard()
+				getApp().isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.select_all_black()
 								.getSafeUri().asString()
 						: noIcon,
-				loc.getMenu("SelectAll"), true), true, new MenuCommand(app) {
+				loc.getMenu("SelectAll"), true), true,
+				new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
-						if (!app.getKernel().isEmpty()) {
+						if (!getApp().getKernel().isEmpty()) {
 							selection.selectAll(-1);
 						}
 					}
@@ -178,7 +175,7 @@ public class EditMenuW extends GMenuBar {
 			// select ancestors menu
 			addItem(MainMenu.getMenuBarHtml(noIcon,
 					loc.getMenu("SelectAncestors"), true), true,
-					new MenuCommand(app) {
+					new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {
@@ -193,7 +190,7 @@ public class EditMenuW extends GMenuBar {
 			// select descendants menu
 			addItem(MainMenu.getMenuBarHtml(noIcon,
 					loc.getMenu("SelectDescendants"), true), true,
-					new MenuCommand(app) {
+					new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {
@@ -204,10 +201,11 @@ public class EditMenuW extends GMenuBar {
 	}
 
 	private void addSelectCurrentLayer(String noIcon) {
-		if (selection.getSelectedLayer() >= 0 && app.getMaxLayerUsed() > 0) {
+		if (selection.getSelectedLayer() >= 0
+				&& getApp().getMaxLayerUsed() > 0) {
 			addItem(MainMenu.getMenuBarHtml(noIcon,
 					loc.getMenu("SelectCurrentLayer"), true), true,
-					new MenuCommand(app) {
+					new MenuCommand(getApp()) {
 
 						@Override
 						public void doExecute() {
@@ -224,20 +222,20 @@ public class EditMenuW extends GMenuBar {
 
 	private void addPropertiesItem() {
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundledOrWhiteboard()
+				getApp().isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.gere().getSafeUri()
 								.asString()
 						: GuiResources.INSTANCE.menu_icon_options().getSafeUri()
 								.asString(),
-				!app.getKernel().isEmpty() ? loc.getMenu("Properties")
-						: app.isUnbundledOrWhiteboard()
+				!getApp().getKernel().isEmpty() ? loc.getMenu("Properties")
+						: getApp().isUnbundledOrWhiteboard()
 								? loc.getMenu("Settings")
 								: loc.getMenu("Options") + " ...",
-				true), true, new MenuCommand(app) {
+				true), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
-						app.getDialogManager()
+						getApp().getDialogManager()
 								.showPropertiesDialog(OptionType.OBJECTS, null);
 					}
 				});
@@ -245,23 +243,23 @@ public class EditMenuW extends GMenuBar {
 
 	private void addCopy() {
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundledOrWhiteboard()
+				getApp().isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.copy_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE.menu_icon_edit_copy()
 								.getSafeUri().asString(),
-				loc.getMenu("Copy"), true), true, new MenuCommand(app) {
+				loc.getMenu("Copy"), true), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void doExecute() {
 						if (!selection.getSelectedGeos().isEmpty()) {
-							app.setWaitCursor();
-							app.getCopyPaste().copyToXML(app,
+							getApp().setWaitCursor();
+							getApp().getCopyPaste().copyToXML(getApp(),
 									selection.getSelectedGeos(), false);
-							initActions(); // app.updateMenubar(); - it's
+							initActions(); // getApp().updateMenubar(); - it's
 											// needn't to
 											// update the all menubar here
-							app.setDefaultCursor();
+							getApp().setDefaultCursor();
 						}
 					}
 				});
@@ -270,33 +268,33 @@ public class EditMenuW extends GMenuBar {
 	private void addUndoRedo() {
 		// undo menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundledOrWhiteboard()
+				getApp().isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.
 								undo_black().getSafeUri().asString()
 						: GuiResources.INSTANCE
 				.menu_icon_edit_undo().getSafeUri().asString(),
-				loc.getMenu("Undo"), true), true, new MenuCommand(app) {
+				loc.getMenu("Undo"), true), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void execute() {
-						if (app.getKernel().undoPossible()) {
-							app.getGuiManager().undo();
+						if (getApp().getKernel().undoPossible()) {
+							getApp().getGuiManager().undo();
 						}
 					}
 				});
 		// redo menu
 		addItem(MainMenu.getMenuBarHtml(
-				app.isUnbundledOrWhiteboard()
+				getApp().isUnbundledOrWhiteboard()
 						? MaterialDesignResources.INSTANCE.redo_black()
 								.getSafeUri().asString()
 						: GuiResources.INSTANCE
 				.menu_icon_edit_redo().getSafeUri().asString(),
-				loc.getMenu("Redo"), true), true, new MenuCommand(app) {
+				loc.getMenu("Redo"), true), true, new MenuCommand(getApp()) {
 
 					@Override
 					public void execute() {
-						if (app.getKernel().redoPossible()) {
-							app.getGuiManager().redo();
+						if (getApp().getKernel().redoPossible()) {
+							getApp().getGuiManager().redo();
 						}
 					}
 				});
@@ -306,7 +304,7 @@ public class EditMenuW extends GMenuBar {
 	 * Make sure next update() rebuilds the UI
 	 */
 	public void invalidate(){
-		if (app.isMenuShowing()) {
+		if (getApp().isMenuShowing()) {
 			this.valid = true;
 			this.initActions();
 		} else {
