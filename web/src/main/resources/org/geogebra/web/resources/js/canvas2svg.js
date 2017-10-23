@@ -4,9 +4,10 @@
  *
  *  Licensed under the MIT license:
  *  http://www.opensource.org/licenses/mit-license.php
- *  
- *  https://raw.githubusercontent.com/mudcube/canvas2svg/c7bd3747891909ba897e03ee8ff6b1a3c03e6338/canvas2svg.js
  *
+ *  https://raw.githubusercontent.com/mudcube/canvas2svg/c7bd3747891909ba897e03ee8ff6b1a3c03e6338/canvas2svg.js
+ *  + changes made for GeoGebra
+ *  
  *  Author:
  *  Kerry Liu
  *
@@ -370,10 +371,11 @@
                     //pattern
                     if (value.__ctx) {
                         //copy over defs
-                        while(value.__ctx.__defs.childNodes.length) {
-                            id = value.__ctx.__defs.childNodes[0].getAttribute("id");
+						var len = value.__ctx.__defs.childNodes.length;
+						for (var i = 0 ; i < len ; i++) {
+                            id = value.__ctx.__defs.childNodes[i].getAttribute("id");
                             this.__ids[id] = id;
-                            this.__defs.appendChild(value.__ctx.__defs.childNodes[0]);
+                            this.__defs.appendChild(value.__ctx.__defs.childNodes[i]);
                         }
                     }
                     currentElement.setAttribute(style.apply, format("url(#{id})", {id:value.__root.getAttribute("id")}));
@@ -757,9 +759,12 @@
     /**
      * Sets fill properties on the current element
      */
-    ctx.prototype.fill = function () {
+    ctx.prototype.fill = function (fillRule) {
         if (this.__currentElement.nodeName === "path") {
             this.__currentElement.setAttribute("paint-order", "stroke fill markers");
+            if (fillRule == "evenodd") {
+            	this.__currentElement.setAttribute("fill-rule", "evenodd");
+            } 
         }
         this.__applyCurrentDefaultPath();
         this.__applyStyleToCurrentElement("fill");
@@ -1160,6 +1165,37 @@
             parent.appendChild(svgImage);
         }
     };
+    
+    ctx.prototype.createPatternSVG = function (image, repetition) {
+    	console.log("createPatternSVG");
+        var pattern = this.__document.createElementNS("http://www.w3.org/2000/svg", "pattern"), id = randomString(this.__ids),
+            path;
+        pattern.setAttribute("id", id);
+        pattern.setAttribute("width", image.width);
+        pattern.setAttribute("height", image.height);
+        pattern.setAttribute("patternUnits", "userSpaceOnUse");
+        // eg patternTransform="rotate(35)"
+        // don't need to include for undefined or zero!
+        if (image.angle) {
+        	pattern.setAttribute("patternTransform", "rotate("+image.angle+")");
+        }
+        if (image.path && image.style) {
+        	console.log("createPatternSVG2");
+        	// assume SVG fill pattern
+        	path = this.__document.createElementNS("http://www.w3.org/2000/svg", "path");
+        	// eg
+        	//path.setAttribute("d", "M34.64101615137754,40.0L34.64101615137754,80.0L0.0,100.0L0.0,120.0M34.64101615137754,80.0L69.28203230275508,100.0L69.28203230275508,120.0M0.0,0.0L0.0,20.0L34.64101615137754,40.0L69.28203230275508,20.0L69.28203230275508,0.0")
+        	path.setAttribute("d", image.path);
+        	// eg
+        	//path.setAttribute("style", "stroke:black; stroke-width:1");
+        	path.setAttribute("style", image.style);
+        	path.setAttribute("fill", image.fill);
+        	pattern.appendChild(path);
+        	this.__defs.appendChild(pattern);
+        }
+        return new CanvasPattern(pattern, this);
+    };
+
 
     /**
      * Generates a pattern tag
