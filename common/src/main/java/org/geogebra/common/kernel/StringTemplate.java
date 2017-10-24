@@ -2995,4 +2995,21 @@ public class StringTemplate implements ExpressionNodeConstants {
 				: rightSquareBracket();
 	}
 
+	public String squared() {
+		String squared;
+		switch (getStringType()) {
+		case LATEX:
+			squared = "^{2}";
+			break;
+
+		case GIAC:
+			squared = "^2";
+			break;
+
+		default:
+			squared = "\u00b2";
+		}
+		return squared;
+	}
+
 }

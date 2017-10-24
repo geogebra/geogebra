@@ -109,8 +109,10 @@ public class AnimationSpeedModel extends MultipleOptionsModel {
 			geo.setAnimationSpeedObject(value);
 			geo.updateCascade();
 		}
+		if (kernel.getAnimatonManager() != null) {
+			kernel.getAnimatonManager().updateNeedToShowAnimationButton();
+		}
 
-		kernel.udpateNeedToShowAnimationButton();
 		kernel.notifyRepaint();
 		storeUndoInfo();
 

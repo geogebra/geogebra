@@ -4292,7 +4292,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2118 */
 		case PREVIEW_POINTS:
-			return false;
+			return prerelease;
 
 		/** GGB-2127 */
 		case UNBUNDLED_3D_APP:

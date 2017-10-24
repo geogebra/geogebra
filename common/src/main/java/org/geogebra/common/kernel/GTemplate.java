@@ -12,4 +12,9 @@ public class GTemplate {
 	public StringTemplate getTemplate() {
 		return tpl;
 	}
+
+	public Kernel getKernel() {
+		return kernel;
+	}
+
 }

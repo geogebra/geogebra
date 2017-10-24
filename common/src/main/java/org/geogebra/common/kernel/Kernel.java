@@ -368,6 +368,8 @@ public class Kernel {
 	/**
 	 * @param app
 	 *            Application
+	 * @param factory
+	 *            element factory
 	 */
 	public Kernel(App app, GeoFactory factory) {
 		this(factory);
@@ -601,27 +603,42 @@ public class Kernel {
 	// public abstract ColorAdapter getColorAdapter(int red, int green, int
 	// blue);
 
-	/*
+	/**
 	 * If the data-param-showAnimationButton parameter for applet is false, be
 	 * sure not to show the animation button. In this case the value of
 	 * showAnimationButton is false, otherwise true.
+	 * 
+	 * @param showAB
+	 *            animation button parameter
 	 */
 	public void setShowAnimationButton(boolean showAB) {
 		showAnimationButton = showAB;
 	}
 
+	/**
+	 * @return whether animation is running
+	 */
 	final public boolean isAnimationRunning() {
 		return animationManager != null && animationManager.isRunning();
 	}
 
+	/**
+	 * @return whether animation is paused
+	 */
 	final public boolean isAnimationPaused() {
 		return animationManager != null && animationManager.isPaused();
 	}
 
+	/**
+	 * @return current frame rate
+	 */
 	final public double getFrameRate() {
 		return animationManager.getFrameRate();
 	}
 
+	/**
+	 * @return whether animation button is needed
+	 */
 	final public boolean needToShowAnimationButton() {
 		if (!showAnimationButton) {
 			return false;
@@ -630,16 +647,16 @@ public class Kernel {
 				&& animationManager.needToShowAnimationButton();
 	}
 
-	final public void udpateNeedToShowAnimationButton() {
-		if (animationManager != null) {
-			animationManager.updateNeedToShowAnimationButton();
-		}
-
-	}
-
 	/*
 	 * ******************************************* Methods for MyXMLHandler
 	 * *******************************************
+	 */
+	/**
+	 * @param geo
+	 *            element
+	 * @param attrs
+	 *            coordinates from XML
+	 * @return whether this worked without exception
 	 */
 	public boolean handleCoords(GeoElement geo,
 			LinkedHashMap<String, String> attrs) {
@@ -960,6 +977,10 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * @param otherKernel
+	 *            other kernel
+	 */
 	public void setConstructionDefaults(Kernel otherKernel) {
 		getConstruction().getConstructionDefaults().setConstructionDefaults(
 				otherKernel.getConstruction().getConstructionDefaults());
@@ -1917,23 +1938,6 @@ public class Kernel {
 		}
 	}
 
-	public static String squared(StringTemplate tpl) {
-		String squared;
-		switch (tpl.getStringType()) {
-		case LATEX:
-			squared = "^{2}";
-			break;
-
-		case GIAC:
-			squared = "^2";
-			break;
-
-		default:
-			squared = "\u00b2";
-		}
-		return squared;
-	}
-
 	/**
 	 * y = a (x + h)^2 + k
 	 * 
@@ -1959,7 +1963,7 @@ public class Kernel {
 		sbBuildVertexformEquation.append(formatCoeff(a, tpl));
 		if (h == 0) {
 			sbBuildVertexformEquation.append(vars[3]);
-			sbBuildVertexformEquation.append(squared(tpl));
+			sbBuildVertexformEquation.append(tpl.squared());
 		} else {
 			sbBuildVertexformEquation.append("(");
 			sbBuildVertexformEquation.append(vars[3]);
@@ -1968,7 +1972,7 @@ public class Kernel {
 			sbBuildVertexformEquation.append(' ');
 			sbBuildVertexformEquation.append(format(Math.abs(h), tpl));
 			sbBuildVertexformEquation.append(")");
-			sbBuildVertexformEquation.append(squared(tpl));
+			sbBuildVertexformEquation.append(tpl.squared());
 		}
 		if (k != 0) {
 			sbBuildVertexformEquation.append(" ");
@@ -1978,8 +1982,16 @@ public class Kernel {
 		return sbBuildVertexformEquation;
 	}
 
-	/*
+	/**
 	 * 4p(y-k) = (x-h)^2
+	 * 
+	 * @param numbers
+	 *            coefficients
+	 * @param vars
+	 *            variables
+	 * @param tpl
+	 *            output template
+	 * @return string builder
 	 */
 	public final StringBuilder buildConicformEquation(double[] numbers,
 			String[] vars, StringTemplate tpl) {
@@ -2010,7 +2022,7 @@ public class Kernel {
 		sbBuildConicformEquation.append(formatCoeff(p4, tpl) + "(" + var2 + " "
 				+ sign(-k) + " " + format(Math.abs(k), tpl) + ") = " + "("
 				+ var1 + " " + sign(-h) + " " + format(Math.abs(h), tpl) + ")"
-				+ squared(tpl));
+				+ tpl.squared());
 		return sbBuildConicformEquation;
 	}
 
@@ -2932,8 +2944,8 @@ public class Kernel {
 	}
 
 	/**
-	 * Returns whether unkown variables are resolved as GeoDummyVariable
-	 * objects.
+	 * @return whether unkown variables are resolved as GeoDummyVariable
+	 *         objects.
 	 * 
 	 * @see #setSilentMode(boolean)
 	 */
@@ -2948,6 +2960,7 @@ public class Kernel {
 	 *            arbitrary constant
 	 * @return result string (null possible)
 	 * @throws Throwable
+	 *             on CAS error
 	 */
 	public String evaluateGeoGebraCAS(String casString,
 			MyArbitraryConstant arbconst) throws Throwable {
@@ -2958,8 +2971,16 @@ public class Kernel {
 	/**
 	 * Evaluates an expression in GeoGebraCAS syntax.
 	 * 
+	 * @param exp
+	 *            input
+	 * @param arbconst
+	 *            arbitrary constant handler
+	 * @param tpl
+	 *            output template
+	 * 
 	 * @return result string (null possible)
 	 * @throws Throwable
+	 *             on CAS error
 	 */
 	final public String evaluateGeoGebraCAS(String exp,
 			MyArbitraryConstant arbconst, StringTemplate tpl) throws Throwable {
@@ -2971,8 +2992,14 @@ public class Kernel {
 	 * evaluations is used. Make sure to only use this method when exp only
 	 * includes values and no (used) variable names.
 	 * 
+	 * @param exp
+	 *            input
+	 * @param arbconst
+	 *            arbitrary constant handler
+	 * 
 	 * @return result string (null possible)
 	 * @throws Throwable
+	 *             on CAS error
 	 */
 	final public String evaluateCachedGeoGebraCAS(String exp,
 			MyArbitraryConstant arbconst) throws Throwable {
