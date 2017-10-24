@@ -56,7 +56,10 @@ public class HTML5Export {
 		sb.append("\"scale\":1,\n");
 		sb.append("\"disableAutoScale\":false,\n");
 		sb.append("\"clickToLoad\":false,\n");
-
+		sb.append("\"appName\":\"" + app.getVersion().getAppName() + "\",\n");
+		sb.append("\"showSuggestionButtons\":true,\n");
+		sb.append("\"buttonRounding\":0.7,\n");
+		sb.append("\"buttonShadows\":false,\n");
 		sb.append(
 				"\"language\":\"" + app.getLocalization().getLanguage()
 						+ "\",\n");
