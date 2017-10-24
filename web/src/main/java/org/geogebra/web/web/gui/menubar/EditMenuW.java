@@ -223,7 +223,7 @@ public class EditMenuW extends GMenuBar {
 	private void addPropertiesItem() {
 		addItem(MainMenu.getMenuBarHtml(
 				getApp().isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.gere().getSafeUri()
+						? MaterialDesignResources.INSTANCE.gear().getSafeUri()
 								.asString()
 						: GuiResources.INSTANCE.menu_icon_options().getSafeUri()
 								.asString(),

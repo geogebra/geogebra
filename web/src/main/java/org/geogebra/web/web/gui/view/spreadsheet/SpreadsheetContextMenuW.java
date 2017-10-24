@@ -313,7 +313,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		case Properties:
 			if (isNewDesign) {
 				im = new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.gere().getSafeUri(), 0,
+						MaterialDesignResources.INSTANCE.gear().getSafeUri(), 0,
 						0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.view_properties16();
@@ -322,7 +322,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		case SpreadsheetOptions:
 			if (isNewDesign) {
 				im = new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.gere().getSafeUri(), 0,
+						MaterialDesignResources.INSTANCE.gear().getSafeUri(), 0,
 						0, 24, 24, false, false);
 			} else {
 				im = AppResources.INSTANCE.view_properties16();

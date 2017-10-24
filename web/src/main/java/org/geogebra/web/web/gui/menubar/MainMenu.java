@@ -243,11 +243,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		} else {
 			settingsMenu = new GMenuBar(true, "", app);
 			this.menuPanel.add(settingsMenu,
-					getHTML(MaterialDesignResources.INSTANCE.gere(),
+					getHTML(MaterialDesignResources.INSTANCE.gear(),
 							app.getLocalization().getMenu("Settings")),
 					true);
 			menuTitles.add("Settings");
-			menuImgs.add(MaterialDesignResources.INSTANCE.gere());
+			menuImgs.add(MaterialDesignResources.INSTANCE.gear());
 			languageMenu = new GMenuBar(true, "", app);
 			this.menuPanel.add(languageMenu,
 					getHTML(MaterialDesignResources.INSTANCE.language_black(),

@@ -224,7 +224,7 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource menu_black_border();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
-	SVGResource gere();
+	SVGResource gear();
 
 	// @Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/gridSVG.svg")
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/point_capturing.svg")

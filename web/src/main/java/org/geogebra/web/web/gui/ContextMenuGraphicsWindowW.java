@@ -246,7 +246,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	protected void addMiProperties(String name, final OptionType type) {
 		String img;
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
-			img = MaterialDesignResources.INSTANCE.gere().getSafeUri()
+			img = MaterialDesignResources.INSTANCE.gear().getSafeUri()
 					.asString();
 		} else {
 			img = AppResources.INSTANCE.view_properties16().getSafeUri().asString();
