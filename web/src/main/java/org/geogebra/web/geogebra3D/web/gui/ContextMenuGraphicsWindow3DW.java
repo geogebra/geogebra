@@ -20,7 +20,6 @@ import com.google.gwt.user.client.ui.MenuItem;
  *
  */
 public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
-
 	/**
 	 * constructor
 	 * 
@@ -40,6 +39,10 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 	}
 
 	private void buildGUI() {
+		if (app.isUnbundled()) {
+			buildGUI3DUnbundled();
+			return;
+		}
 		if (hasWhiteboardContextMenu()) {
 			addPasteItem();
 		} else {
@@ -49,6 +52,11 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		addZoomMenu();
 		addShowAllObjectsViewMenuItem();
 		addStandardViewMenuItem();
+		addMiProperties("GraphicsView3D", OptionType.EUCLIDIAN3D);
+	}
+
+	private void buildGUI3DUnbundled() {
+		addShowAllObjectsViewMenuItem();
 		addMiProperties("GraphicsView3D", OptionType.EUCLIDIAN3D);
 	}
 
@@ -149,7 +157,6 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		cbShowPlane.setSelected(((Kernel3D) app.getKernel()).getXOYPlane()
 		        .isPlateVisible());
 		getWrappedPopup().addItem(cbShowPlane);
-
 	}
 
 	@Override
