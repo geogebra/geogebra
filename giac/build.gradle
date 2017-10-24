@@ -455,7 +455,9 @@ model {
                     linker.args '-lgmp', '-lmpfr', '-lpthread', '-dynamiclib'
                     linker.args '-framework', 'Accelerate'
                     linker.args '-framework', 'CoreFoundation'
-                    linker.args '-o', 'build/binaries/javagiacSharedLibrary/osx_amd64/libjavagiac.jnilib' // TODO: find a more elegant way
+                    def path = 'build/binaries/javagiacSharedLibrary/osx_amd64/'
+                    mkdir(path)
+                    linker.args '-o', "$path/libjavagiac.jnilib" // TODO: find a more elegant way
                 }
             }
         }
