@@ -13,6 +13,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
+import org.geogebra.web.geogebra3D.web.gui.ContextMenuGraphicsWindow3DW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -609,8 +610,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 	protected void onGraphicsSettingsPressed() {
 		int x = graphicsContextMenuBtn.getAbsoluteLeft();
 		final int y = 8;
-		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
-				app, x, y);
+		boolean is3D = app.getSettings().getToolbarSettings().is3D();
+		final ContextMenuGraphicsWindowW contextMenu = is3D
+				? new ContextMenuGraphicsWindow3DW(app, x, y)
+				: new ContextMenuGraphicsWindowW(app, x, y);
 		contextMenu.getWrappedPopup().getPopupPanel()
 				.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 					@Override

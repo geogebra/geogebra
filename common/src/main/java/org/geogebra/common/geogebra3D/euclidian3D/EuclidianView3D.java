@@ -5026,8 +5026,8 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void updateBackground() {
 		// make sure axis number formats are up to date
 		setAxesIntervals(getZscale(), 2);
-
 		super.updateBackground();
+		kernel.notifyRepaint();
 	}
 
 }
