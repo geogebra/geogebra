@@ -646,7 +646,6 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void toggleMenu() {
-
 		if (!this.menuShowing) {
 			this.menuShowing = true;
 			boolean needsUpdate = menuInited;
@@ -804,7 +803,18 @@ public class AppWapplet extends AppWFull {
 		super.closePopups();
 		if (isUnbundledOrWhiteboard()) {
 			hideMenu();
+			closePageControlPanel();
 		}
+	}
+
+	/**
+	 * Closes the page control panel
+	 */
+	public void closePageControlPanel() {
+		if (!has(Feature.MOW_MULTI_PAGE)) {
+			return;
+		}
+		frame.getPageControlPanel().close();
 	}
 
 	/**

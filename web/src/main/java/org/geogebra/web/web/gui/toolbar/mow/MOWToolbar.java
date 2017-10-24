@@ -105,6 +105,12 @@ public class MOWToolbar extends FlowPanel {
 				updateToolbarPosition();
 			}
 		});
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				closeFloatingMenus();
+			}
+		});
 	}
 
 	private void createUndoRedoButtons() {
