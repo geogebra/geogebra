@@ -2134,7 +2134,7 @@ namespace giac {
       }
       if (stdloop){
 	const context * cur=contextptr;
-	sym_tab::iterator it,itend;
+	sym_tab::iterator it=cur->tabptr->end(),itend=it;
 	for (;cur->previous;cur=cur->previous){
 	  it=cur->tabptr->find(index._IDNTptr->id_name);
 	  itend=cur->tabptr->end();

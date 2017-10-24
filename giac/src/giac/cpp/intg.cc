@@ -2314,8 +2314,8 @@ namespace giac {
     gen e(e_orig);
     // Additional check: atan/asin in degree/grad
     if (angle_mode(contextptr)){
-      if (has_op(e,*at_asin)|| has_op(e,*at_atan))
-	return gensizeerr("Inverse trigonometric functions are supported in radian mode only.");
+      if (has_op(e,*at_asin)|| has_op(e,*at_atan) || has_op(e,*at_acos))
+	return undeferr("Inverse trigonometric functions are supported in radian mode only.");
     }
     // Step -3: replace when by piecewise
     e=when2piecewise(e,contextptr);

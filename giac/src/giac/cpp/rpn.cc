@@ -4453,9 +4453,21 @@ namespace giac {
     if (g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return gensizeerr(contextptr);
+    gen res= g._VECTptr->front();
+    gen angle=g._VECTptr->back();
+    if (angle.is_symb_of_sommet(at_unit)){
+      gen f=angle._SYMBptr->feuille;
+      gen f0=f[0],f1=f[1];
+      if (f1==(gen("_deg",contextptr)._SYMBptr->feuille)[1])
+	return res*exp(cst_i*f0*cst_pi/gen(180),contextptr);
+      if (f1==(gen("_grad",contextptr)._SYMBptr->feuille)[1])
+	return res*exp(cst_i*f0*cst_pi/gen(200),contextptr);
+      if (f1==(gen("_rad",contextptr)._SYMBptr->feuille)[1])
+	return res*exp(cst_i*f0,contextptr);
+    }
 #ifdef GIAC_HAS_STO_38
-    gen angle=evalf(g._VECTptr->back(),1,contextptr);
-    gen res= evalf(g._VECTptr->front(),1,contextptr);
+    angle=evalf(angle,1,contextptr);
+    res= evalf(res,1,contextptr);
     if (angle.type==_FLOAT_ && res.type==_FLOAT_)
       {
 	HP_Real a, r, s, c;
@@ -4477,8 +4489,6 @@ namespace giac {
       res=res*exp(cst_i*angle,contextptr);
     }
 #else
-    gen angle=g._VECTptr->back();
-    gen res= g._VECTptr->front();
     res=res*(cos(angle,contextptr)+cst_i*sin(angle,contextptr));
 #endif
     if (res.type==_CPLX){
