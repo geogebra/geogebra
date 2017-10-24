@@ -4,7 +4,9 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
+import org.geogebra.web.geogebra3D.web.gui.ContextMenuGraphicsWindow3DW;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 
@@ -16,14 +18,12 @@ import com.google.gwt.user.client.ui.Widget;
  * Dock panel for 3D
  */
 public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
-
 	/**
 	 * default width of this panel
 	 */
 	public static final int DEFAULT_WIDTH = 480;
 	/** the inner panel */
 	EuclidianPanel euclidianpanel;
-
 
 	/**
 	 * constructor
@@ -41,13 +41,9 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		        4, // menu order
 		        '3' // ctrl-shift-3
 		);
-
-
 		this.app = (AppW) app;
 		this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);
-
-		// this.app = app;
 	}
 
 	@Override
@@ -75,6 +71,25 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 			return super.loadStyleBar();
 		}
 		return (Widget) getEuclidianView().getStyleBar();
+	}
+
+	@Override
+	protected void onGraphicsSettingsPressed() {
+		int x = graphicsContextMenuBtn.getAbsoluteLeft();
+		final int y = 8;
+		final ContextMenuGraphicsWindow3DW contextMenu = new ContextMenuGraphicsWindow3DW(
+				app, x, y);
+		contextMenu.getWrappedPopup().getPopupPanel()
+				.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+					@Override
+					public void setPosition(int offsetWidth, int offsetHeight) {
+						contextMenu.getWrappedPopup().getPopupPanel()
+								.setPopupPosition(
+										(int) getApp().getWidth() - offsetWidth,
+										y);
+						contextMenu.focusDeferred();
+					}
+				});
 	}
 
 	@Override

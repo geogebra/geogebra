@@ -622,7 +622,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 						contextMenu.focusDeferred();
 					}
 				});
-
 	}
 
 	/**
