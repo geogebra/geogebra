@@ -13,6 +13,8 @@ var giac = require('bindings')('giac');
 console.log(giac.evaluate("expand((x+y)^3)"));
 ```
 
+See also the file [nodegiac.js](nodegiac.js) for a minimalist command line version of Giac.
+
 ## Supported platforms ##
 
 * Linux
