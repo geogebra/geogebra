@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -58,6 +59,7 @@ public class PageControlPanel extends PersistablePanel {
 		addStyleName("mowPageControlPanel");
 		addPlusButton();
 		addContentPanel();
+		setVisible(false);
 	}
 
 	private void addContentPanel() {
@@ -143,6 +145,7 @@ public class PageControlPanel extends PersistablePanel {
 		if (!isVisible()) {
 			return;
 		}
+		Log.printStacktrace("closepagecontrol");
 		hidePlusButton();
 		addStyleName("animateOut");
 		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
