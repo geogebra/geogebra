@@ -86,6 +86,7 @@ public class PageControlPanel extends PersistablePanel {
 			}
 		});
 		add(plusButton);
+		hidePlusButton();
 	}
 
 	/**

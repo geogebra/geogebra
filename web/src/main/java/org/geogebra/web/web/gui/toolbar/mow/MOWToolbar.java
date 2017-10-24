@@ -297,6 +297,7 @@ public class MOWToolbar extends FlowPanel {
 				// TODO show floating + button
 			}
 		});
+		showPageControlButton();
 	}
 
 	/**

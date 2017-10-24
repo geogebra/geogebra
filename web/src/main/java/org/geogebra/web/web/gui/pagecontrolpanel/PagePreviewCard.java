@@ -55,7 +55,7 @@ public class PagePreviewCard extends FlowPanel {
 	}
 
 	private void setPreviewImage() {
-		image = ((EuclidianViewWInterface) view).getExportImageDataUrl(0.1,
+		image = ((EuclidianViewWInterface) view).getExportImageDataUrl(0.2,
 				false);
 
 		if (image != null && image.length() > 0) {
