@@ -37,13 +37,13 @@ public class PagePreviewCard extends FlowPanel {
 	}
 
 	private void initGUI() {
-		addStyleName("pagePreviewCard");
+		addStyleName("mowPagePreviewCard");
 
 		imagePanel = new FlowPanel();
-		imagePanel.addStyleName("imagePanel");
+		imagePanel.addStyleName("mowImagePanel");
 
 		titlePanel = new FlowPanel();
-		titlePanel.addStyleName("titlePanel");
+		titlePanel.addStyleName("mowTitlePanel");
 		title = new Label();
 		titlePanel.add(title);
 

@@ -55,16 +55,16 @@ public class PageControlPanel extends PersistablePanel {
 	}
 
 	private void initGUI() {
-		addStyleName("pageControlPanel");
+		addStyleName("mowPageControlPanel");
 		addPlusButton();
 		addContentPanel();
 	}
 
 	private void addContentPanel() {
 		scrollPanel = new ScrollPanel();
-		scrollPanel.addStyleName("scrollPanel");
+		scrollPanel.addStyleName("mowPageControlScrollPanel");
 		contentPanel = new PersistablePanel();
-		contentPanel.addStyleName("contentPanel");
+		contentPanel.addStyleName("mowPageControlContentPanel");
 		scrollPanel.add(contentPanel);
 		add(scrollPanel);
 	}
@@ -77,7 +77,7 @@ public class PageControlPanel extends PersistablePanel {
 						0, 0, 24, 24, false, false),
 				app);
 		plusButton.setStyleName("mowFloatingButton");
-		plusButton.addStyleName("plusButton");
+		plusButton.addStyleName("mowPlusButton");
 		plusButton.addFastClickHandler(new FastClickHandler() {
 			public void onClick(Widget source) {
 				addNewPage();
