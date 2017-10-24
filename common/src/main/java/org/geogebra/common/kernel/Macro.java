@@ -680,11 +680,10 @@ public class Macro {
 		sb.append("[ ");
 
 		// input types
-		sb.append('<');
-		sb.append(macroInput[0].translatedTypeString());
-		sb.append('>');
-		for (int i = 1; i < macroInput.length; ++i) {
-			sb.append(", ");
+		for (int i = 0; i < macroInput.length; ++i) {
+			if (i > 0) {
+				sb.append(", ");
+			}
 			sb.append('<');
 			sb.append(macroInput[i].translatedTypeString());
 			sb.append('>');
