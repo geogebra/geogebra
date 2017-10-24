@@ -439,11 +439,11 @@ public class HatchingHandler {
 		if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)) {
 
 			// rectangle
-			svgMoveTo(0, yInt / 2);
-			svgLineTo(2 * xInt, yInt / 2);
+			svgMoveTo(0, yInt / 2.0);
+			svgLineTo(2 * xInt, yInt / 2.0);
 			svgLineTo(2 * xInt, yInt * 1.5);
 			svgLineTo(0, yInt * 1.5);
-			svgLineTo(0, yInt / 2);
+			svgLineTo(0, yInt / 2.0);
 
 			// whiskers above and below
 			svgDrawLine(xInt, 0, xInt, yInt / 2);
@@ -453,22 +453,22 @@ public class HatchingHandler {
 
 			// rect.setRect(xInt/2, 0, xInt/2, 1.5 * yInt);
 			// g2d.draw(rect);
-			svgMoveTo(xInt / 2, 0);
+			svgMoveTo(xInt / 2.0, 0);
 			svgLineTo(1.5 * xInt, 0);
 			svgLineTo(1.5 * xInt, 2 * yInt);
-			svgLineTo(xInt / 2, 2 * yInt);
-			svgLineTo(xInt / 2, 0);
+			svgLineTo(xInt / 2.0, 2 * yInt);
+			svgLineTo(xInt / 2.0, 0);
 
-			svgDrawLine(0, yInt, xInt / 2, yInt);
+			svgDrawLine(0, yInt, xInt / 2.0, yInt);
 			svgDrawLine(xInt * 1.5, yInt, 2 * xInt, yInt);
 		} else if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
 			svgDrawLine(0, yInt, xInt, 0);
-			svgDrawLine(xInt / 2, yInt / 2, xInt, yInt);
+			svgDrawLine(xInt / 2.0, yInt / 2.0, xInt, yInt);
 			// avoid missing pixels bottom-left
 			svgDrawLine(-xInt, yInt, xInt, -yInt);
 		} else {
 			svgDrawLine(0, 0, xInt, yInt);
-			svgDrawLine(xInt / 2, yInt / 2, 0, yInt);
+			svgDrawLine(xInt / 2.0, yInt / 2.0, 0, yInt);
 			// avoid missing pixels bottom-right
 			svgDrawLine(0, -yInt, 2 * xInt, yInt);
 
