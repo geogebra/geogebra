@@ -262,7 +262,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		double h = app.getHeight();
 		int kh = 0;
 
-		if (app.isUnbundledGraphing()) {
+		if (app.isUnbundledGraphing() || ((AppW) app).isUnbundled3D()) {
 			return (int) (Math
 					.round(h * PerspectiveDecoder.portraitRatio(h, true))) + kh;
 		}

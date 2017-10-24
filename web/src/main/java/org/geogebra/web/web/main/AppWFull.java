@@ -396,11 +396,21 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
 
 		}
+
+		if (isUnbundled3D()) {
+			p = Layout.getDefaultPerspectives(Perspective.GRAPHER_3D - 1);
+
+		}
+
 		if (isPortrait()) {
 			p.getSplitPaneData()[0]
 					.setDivider(PerspectiveDecoder.portraitRatio(getHeight(),
-							isUnbundledGraphing() || "1".equals(
-									articleElement.getDataParamPerspective())));
+							isUnbundledGraphing() || isUnbundled3D()
+									|| "1".equals(
+											articleElement
+													.getDataParamPerspective())
+									|| "T".equals(articleElement
+											.getDataParamPerspective())));
 		} else {
 			p.getSplitPaneData()[0]
 					.setDivider(PerspectiveDecoder.landscapeRatio(this,

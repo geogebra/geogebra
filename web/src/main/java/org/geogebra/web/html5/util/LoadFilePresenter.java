@@ -194,7 +194,8 @@ public class LoadFilePresenter {
 				Perspective pd = PerspectiveDecoder.decode(perspective,
 				        app.getKernel().getParser(),
 						ToolBar.getAllToolsNoMacros(true, app.isExam(), app));
-				if ("1".equals(perspective) || "2".equals(perspective)) {
+				if ("1".equals(perspective) || "2".equals(perspective)
+						|| "5".equals(perspective)) {
 
 					if (app.isPortrait()) {
 						int height = app.getArticleElement()
@@ -205,7 +206,8 @@ public class LoadFilePresenter {
 						if (height > 0) {
 							double ratio = PerspectiveDecoder
 									.portraitRatio(height,
-											app.isUnbundledGraphing());
+											app.isUnbundledGraphing()
+													|| app.isUnbundled3D());
 							pd.getSplitPaneData()[0].setDivider(ratio);
 						}
 
