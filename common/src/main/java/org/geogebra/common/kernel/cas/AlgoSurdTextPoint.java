@@ -21,6 +21,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Algorithm for SurdText(Point)
  *
@@ -59,10 +61,13 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		text.setLaTeX(true, false);
 
 		text.setIsTextCommand(true); // stop editing as text
-		try {
-			text.setStartPoint(p, 0);
-		} catch (CircularDefinitionException e) {
-			// should never happen
+
+		if (p.isLabelSet()) {
+			try {
+				text.setStartPoint(p, 0);
+			} catch (CircularDefinitionException e) {
+				// should never happen
+			}
 		}
 
 		setInputOutput();
@@ -91,9 +96,16 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 
 	@Override
 	public final void compute() {
+		boolean complex = p.getMode() == Kernel.COORD_COMPLEX;
+
 		if (input[0].isDefined()) {
+
+
 			sbp.setLength(0);
-			sbp.append(" \\left( ");
+
+			if (!complex) {
+				sbp.append(" \\left( ");
+			}
 
 			int coordMode = p.getMode();
 			if (coordMode == Kernel.COORD_CARTESIAN_3D
@@ -106,23 +118,25 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 				Coords coords = p.getInhomCoordsInD3();
 				if (Kernel.isZero(coords.getZ())) {
 					// z==0 so 2D coords
-					append2dCoords(coords);
+					append2dCoords(coords, false);
 				} else {
 					// z!=0 so 3D coords
 					append3dCoords(coords);
 				}
 			} else {
 				Coords coords = p.getInhomCoordsInD2();
-				append2dCoords(coords);
+				append2dCoords(coords, complex);
 			}
 
-			sbp.append(" \\right) ");
+			if (!complex) {
+				sbp.append(" \\right) ");
+			}
 
 			text.setTextString(sbp.toString());
 			text.setLaTeX(true, false);
 
 		} else {
-			text.setUndefined();
+			text.setTextString(complex ? "?" : "(?,?)");
 		}
 	}
 
@@ -134,10 +148,81 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 		append(coords.getZ());
 	}
 
-	private void append2dCoords(Coords coords) {
-		append(coords.getX());
-		sbp.append(" , ");
-		append(coords.getY());
+	private void append2dCoords(Coords coords, boolean complex) {
+		double x = coords.getX();
+		double y = coords.getY();
+
+		StringBuilder sb = new StringBuilder();
+		PSLQappendQuadratic(sb, x, text.getStringTemplate());
+
+		String xStr = sb.toString();
+
+		sb.setLength(0);
+		PSLQappendQuadratic(sb, y, text.getStringTemplate());
+
+		String yStr = sb.toString();
+
+		boolean bracketsNeeded = bracketsNeeded(yStr);
+
+		if (complex) {
+
+			// no "+" and only "-" is at start
+			if (!yStr.contains("+") && yStr.lastIndexOf("-") == 0) {
+				sbp.append(xStr);
+				sbp.append("-");
+				if (bracketsNeeded) {
+					sbp.append("\\left(");
+				}
+				sbp.append(yStr.substring(1));
+				if (bracketsNeeded) {
+					sbp.append("\\right)");
+				}
+				sbp.append(Unicode.IMAGINARY);
+
+			} else {
+				sbp.append(xStr);
+				sbp.append("+");
+				if (bracketsNeeded) {
+					sbp.append("\\left(");
+				}
+				sbp.append(yStr);
+				if (bracketsNeeded) {
+					sbp.append("\\right)");
+				}
+				sbp.append(Unicode.IMAGINARY);
+
+			}
+
+		} else {
+			append(coords.getX());
+			sbp.append(" , ");
+			append(coords.getY());
+		}
+	}
+
+	private static boolean bracketsNeeded(String str0) {
+		
+		String str = str0.trim();
+
+		// everything surrounded in \frac{...}
+		if (str.startsWith("\\frac{") && str.endsWith("}")) {
+			return false;
+		}
+		
+		// -sqrt(2) but not -sqrt(2)+1
+		if (str.lastIndexOf("+") < 1 && str.lastIndexOf("-") < 1) {
+			return false;
+		}
+
+		// eg 1 + sqrt(2)
+		// or -1 + sqrt(2)
+		// -sqrt(2) gets brackets, 
+		if (str.contains("+") || str.contains("-")) {
+			return true;
+		}
+
+
+		return false;
 	}
 
 	private void append(double value) {
