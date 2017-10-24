@@ -22,7 +22,7 @@ public interface GeoGebraConstants {
 		DESKTOP("d", "classic"),
 
 		/** GeoGebra Graphing Calculator */
-		ANDROID_NATIVE_GRAPHING("a", "gc"),
+		ANDROID_NATIVE_GRAPHING("a", "graphing"),
 
 		ANDROID_NATIVE_3D("a", "3D"),
 
@@ -32,9 +32,9 @@ public interface GeoGebraConstants {
 
 		ANDROID_WEBVIEW_EXAM("aw", "exam"),
 
-		IOS_NATIVE("i", "gc"),
+		IOS_NATIVE("i", "graphing"),
 
-		IOS_GEOMETRY("i", "geo"),
+		IOS_GEOMETRY("i", "geometry"),
 
 		IOS_WEBVIEW("iw", "classic"),
 
@@ -48,13 +48,13 @@ public interface GeoGebraConstants {
 
 		WEB_FOR_BROWSER_SIMPLE("w", "simple"),
 
-		WEB_GRAPHING("w", "gc"),
+		WEB_GRAPHING("w", "graphing"),
 
-		WEB_GEOMETRY("w", "gc"),
+		WEB_GEOMETRY("w", "graphing"),
 
-		WEB_GRAPHING_OFFLINE("offline", "gc"),
+		WEB_GRAPHING_OFFLINE("offline", "graphing"),
 
-		WEB_GEOMETRY_OFFLINE("offline", "geo"),
+		WEB_GEOMETRY_OFFLINE("offline", "geometry"),
 
 		SMART("smart", "classic"),
 
