@@ -36,6 +36,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		this.px = px;
 		this.py = py;
 		setTitle(loc.getMenu("GraphicsView3D"));
+		buildGUI();
 	}
 
 	private void buildGUI() {
@@ -103,7 +104,6 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	@Override
 	protected void addAxesAndGridCheckBoxes() {
-
 		// checkboxes for axes and grid
 		// AXES
 		String img;
