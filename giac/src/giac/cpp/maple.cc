@@ -3449,7 +3449,7 @@ namespace giac {
 	  core ="return "+heads+"(contextptr);";
 	else {
 #if 1
-	  core = "return "+heads+"(cpp_convert_"+print_INT_(convert)+"(g,contextptr),contextptr);";
+	  core = "return "+heads+"(cpp_convert_"+print_INT_(cpp_vartype(f[0]._VECTptr->front()))+"(g,contextptr),contextptr);";
 #else
 	  switch (convert){
 	  case 0:
@@ -3616,6 +3616,14 @@ namespace giac {
 	}
       }
     }
+    if (u==at_increment || u==at_decrement){
+      if (f.type!=_VECT &&  is_int_or_double(f)){
+	return cprint(f,0,contextptr)+(u==at_increment?"++":"--");
+      }
+      if (f.type==_VECT && f._VECTptr->size()==2 && is_int_or_double(f._VECTptr->front()) && is_int_or_double(f._VECTptr->back()) ){
+	return cprint(f._VECTptr->front(),0,contextptr)+(u==at_increment?"+=":"-=")+cprint(f._VECTptr->back(),0,contextptr);
+      }
+    }
     if (u==at_same || u==at_different || u==at_and || u==at_ou ){
       return cprint(args._SYMBptr->feuille[0],-1,contextptr)+u.ptr()->s+cprint(args._SYMBptr->feuille[1],-1,contextptr);
     }
@@ -3642,11 +3650,13 @@ namespace giac {
 
   gen _cprint(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    int x=xcas_mode(contextptr);
+    int x=xcas_mode(contextptr),l=language(contextptr);
     xcas_mode(0,contextptr);
+    language(2,contextptr);
     gen args_evaled=eval(args,1,contextptr);
     string s=cprint(args_evaled,args,contextptr);
     xcas_mode(x,contextptr);
+    language(l,contextptr);
     return string2gen(s,false);
   }
   static const char _cprint_s []="cprint";
@@ -3660,15 +3670,17 @@ namespace giac {
     gen tmp=check_secure();
     if (is_undef(tmp)) return tmp;
     if (args.type==_IDNT){
-      int x=xcas_mode(contextptr);
+      int x=xcas_mode(contextptr),l=language(contextptr);
       xcas_mode(0,contextptr);
+      language(2,contextptr);
       gen args_evaled=eval(args,1,contextptr);
       string s=cprint(args_evaled,args,contextptr);
+      language(l,contextptr);
       xcas_mode(x,contextptr);
       string funcname=args.print(contextptr);
       string filename="giac_"+funcname+".cpp";
       ofstream of(filename.c_str());
-      of << "// -*- mode:c++; compile-command:\" c++ -I.. -I. -fPIC -DPIC -g -c giac_" << funcname << ".cpp -o giac_" << funcname << ".lo && cc -shared giac_"<<funcname<<".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"<<funcname<<"so.0 -o libgiac_"<<funcname<<".so.0.0.0 && ln -sf libgiac_"<<funcname<<".so.0.0.0 libgiac_"<<funcname<<".so\" -*-" << endl;
+      of << "// -*- mode:c++; compile-command:\" c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_" << funcname << ".cpp -o giac_" << funcname << ".lo && cc -shared giac_"<<funcname<<".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"<<funcname<<"so.0 -o libgiac_"<<funcname<<".so.0.0.0 && ln -sf libgiac_"<<funcname<<".so.0.0.0 libgiac_"<<funcname<<".so\" -*-" << endl;
       of << "#include <giac/config.h>" << endl;
       of << "#include <giac/giac.h>" << endl;
       of << "using namespace std;" << endl;
@@ -3685,7 +3697,7 @@ namespace giac {
       int not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok)
 	*logptr(contextptr) << "Warning, indent not found, please install for nice output" << endl;
-      cmd="c++ -I.. -I. -fPIC -DPIC -g -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
+      cmd="c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
       *logptr(contextptr) << "Running\n" << cmd << endl;
       not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok){
