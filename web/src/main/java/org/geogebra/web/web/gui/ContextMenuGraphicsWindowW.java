@@ -174,7 +174,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		gridSubMenu.update();
 	}
 
-	private void addSnapToGridMenuItem() {
+	/**
+	 * add snap to grid menu item
+	 */
+	public void addSnapToGridMenuItem() {
 		String img = MaterialDesignResources.INSTANCE.snap_to_grid()
 				.getSafeUri().asString();
 		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
@@ -204,7 +207,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addItem(snapToGrid);
 	}
 
-	private void addAxesMenuItem() {
+	public void addAxesMenuItem() {
 		String img = MaterialDesignResources.INSTANCE.axes_black()
 					.getSafeUri().asString();
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
