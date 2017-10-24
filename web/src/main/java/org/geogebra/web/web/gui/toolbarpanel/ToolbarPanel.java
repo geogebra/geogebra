@@ -40,6 +40,10 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
+	private static final int MIN_ROWS_WITHOUT_KEYBOARD = 5;
+
+	private static final int MIN_ROWS_WITH_KEYBOARD = 3;
+
 	private static final int HDRAGGER_WIDTH = 8;
 
 	private static final int OPEN_ANIM_TIME = 200;
@@ -745,7 +749,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * @return The height that AV should have minimally in portrait mode.
 	 */
 	public double getMinVHeight() {
-		return 3 * header.getOffsetHeight();
+		int rows = getFrame().isKeyboardShowing() ? MIN_ROWS_WITH_KEYBOARD
+				: MIN_ROWS_WITHOUT_KEYBOARD;
+		return rows * header.getOffsetHeight();
 	}
 
 	/**
