@@ -97,7 +97,7 @@ public class HatchingHandler {
 		int xInt = (int) Math.abs(Math.round((x)));
 		int yInt = (int) Math.abs(Math.round((y)));
 		if (angle == 0 // horizontal
-				|| Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
+				|| Kernel.isEqual(Kernel.PI_HALF, angle, 10E-8)) { // vertical
 
 			xInt = (int) dist;
 			yInt = xInt;
@@ -451,10 +451,10 @@ public class HatchingHandler {
 			svgLineTo(0, yInt / 2.0);
 
 			// whiskers above and below
-			svgDrawLine(xInt, 0, xInt, yInt / 2);
+			svgDrawLine(xInt, 0, xInt, yInt / 2.0);
 			svgDrawLine(xInt, yInt * 1.5, xInt, yInt * 2);
 
-		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
+		} else if (Kernel.isEqual(Kernel.PI_HALF, angle, 10E-8)) {
 
 			// rect.setRect(xInt/2, 0, xInt/2, 1.5 * yInt);
 			// g2d.draw(rect);
