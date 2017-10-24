@@ -524,11 +524,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		protected void initActions() {
 			addNoGridItem();
 			addMajorGridlines();
-			if (!app.getSettings().getToolbarSettings().is3D()) {
-				addMajorMinorGridlines();
-				addPolar();
-				addIsometric();
-			}
+			addMajorMinorGridlines();
+			addPolar();
+			addIsometric();
 		}
 
 		private void addIsometric() {
