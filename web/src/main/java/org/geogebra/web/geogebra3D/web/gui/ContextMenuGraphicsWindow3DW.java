@@ -33,23 +33,50 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 	 */
 	public ContextMenuGraphicsWindow3DW(final AppW app, double px, double py) {
 		super(app);
-
 		this.px = px;
 		this.py = py;
-
 		setTitle(loc.getMenu("GraphicsView3D"));
+	}
 
+	private void buildGUI() {
 		if (hasWhiteboardContextMenu()) {
 			addPasteItem();
 		} else {
 			addAxesAndGridCheckBoxes();
 			addNavigationBar();
-
 		}
-
-
 		addZoomMenu();
+		addShowAllObjectsViewMenuItem();
+		addStandardViewMenuItem();
+		addMiProperties("GraphicsView3D", OptionType.EUCLIDIAN3D);
+	}
 
+	private void addStandardViewMenuItem() {
+		String img;
+		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
+			img = AppResources.INSTANCE.standard_view20().getSafeUri()
+					.asString();
+		} else if (app.isUnbundled()) {
+			img = MaterialDesignResources.INSTANCE.home_black().getSafeUri()
+					.asString();
+		} else {
+			img = AppResources.INSTANCE.empty().getSafeUri().asString();
+		}
+		MenuItem miStandardView = new MenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("StandardView")),
+				true,
+				new Command() {
+
+			        @Override
+					public void execute() {
+						((EuclidianView3DW) app.getEuclidianView3D())
+								.setStandardView(true);
+			        }
+		        });
+		wrappedPopup.addItem(miStandardView);
+	}
+
+	private void addShowAllObjectsViewMenuItem() {
 		String img;
 		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
 			img = AppResources.INSTANCE.show_all_objects20().getSafeUri()
@@ -60,7 +87,6 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		} else {
 			img = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
-
 		MenuItem miShowAllObjectsView = new MenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")),
 				true,
@@ -72,35 +98,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			        }
 
 		        });
-
 		wrappedPopup.addItem(miShowAllObjectsView);
-
-		String img2;
-		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
-			img2 = AppResources.INSTANCE.standard_view20().getSafeUri()
-					.asString();
-		} else if (app.isUnbundled()) {
-			img2 = MaterialDesignResources.INSTANCE.home_black().getSafeUri()
-					.asString();
-		} else {
-			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
-		}
-
-		MenuItem miStandardView = new MenuItem(
-				MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")),
-				true,
-				new Command() {
-
-			        @Override
-					public void execute() {
-						((EuclidianView3DW) app.getEuclidianView3D())
-								.setStandardView(true);
-			        }
-		        });
-
-		wrappedPopup.addItem(miStandardView);
-
-		addMiProperties("GraphicsView3D", OptionType.EUCLIDIAN3D);
 	}
 
 	@Override
