@@ -3166,7 +3166,7 @@ namespace giac {
       if (g._SYMBptr->sommet==at_size)
 	return 2;
       vecteur v=lvar(g._SYMBptr->feuille);
-      return is_int_or_double(v);
+      return is_int_or_double(v); // this assumes that the function has the same type as the arguments
     }
     if (g.type!=_VECT)
       return 0;
@@ -3565,14 +3565,16 @@ namespace giac {
     // operators: if all vars are double or int args.print()
     // otherwise or not an operator giac::opname(,contextptr)
     string res=u.ptr()->print(contextptr);
-    bool idf=is_int_or_double(f) || cpp_vartype(f)==_CPLX;
+    int idf0=is_int_or_double(f);
+    bool idf= idf0 || cpp_vartype(f)==_CPLX;
     if (u==at_sin || u==at_cos || u==at_tan || u==at_asin || u==at_acos || u==at_atan || u==at_exp || u==at_ln || u==at_abs){
       if (idf)
 	return "std::"+args.print(contextptr);
     }
     else
       res = '_'+res;
-    if (u.ptr()->printsommet==printsommetasoperator || u==at_division || (idf && (u==at_inferieur_strict || u==at_inferieur_egal || u==at_superieur_strict || u==at_superieur_egal))){
+    if (u.ptr()->printsommet==printsommetasoperator || u==at_division || 
+	(idf0 && (u==at_inferieur_strict || u==at_inferieur_egal || u==at_superieur_strict || u==at_superieur_egal))){
       int rs=int(res.size());
       if ( (idf && (rs!=2 || res[1]!='^')) || (rs==2 && (res[1]=='+' || res[1]=='*' || res[1]=='>' || res[1]=='<')) || (rs==3 && (res[1]=='>' || res[1]=='<') && res[2]=='=') ){
 	res=u.ptr()->print(contextptr);
@@ -3685,6 +3687,7 @@ namespace giac {
       of << "#include <giac/giac.h>" << endl;
       of << "using namespace std;" << endl;
       of << "namespace giac {" << endl;
+      of << "inline bool operator <= (const gen & a,const gen &b){ return is_greater(b,a,giac::context0); }\ninline bool operator >= (const gen & a,const gen &b){ return is_greater(a,b,giac::context0); }" <<endl;
       of << s << endl;
       of << "const string _"+funcname+"_s(\""+funcname+"\");" << endl;
       of << "unary_function_eval __"+funcname+"(0,&_"+funcname+",_"+funcname+"_s);" << endl;
