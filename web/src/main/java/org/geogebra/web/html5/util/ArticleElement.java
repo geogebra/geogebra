@@ -2,6 +2,7 @@ package org.geogebra.web.html5.util;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.factories.CASFactory;
@@ -441,6 +442,9 @@ public final class ArticleElement extends Element {
 		return envScale(this, type, true);
 	}
 
+	/**
+	 * @return get CSS scale of parent element
+	 */
 	public double getParentScaleX() {
 		return envScale(this.getParentElement(), "x", false);
 	}
@@ -545,7 +549,8 @@ public final class ArticleElement extends Element {
 	 */
 	public String getDataParamAppName() {
 		String ret = this.getAttribute("data-param-appname");
-		return ret == null || ret.length() < 1 ? "classic" : ret;
+		return ret == null || ret.length() < 1 ? "classic"
+				: ret.toLowerCase(Locale.US);
 	}
 
 	/**

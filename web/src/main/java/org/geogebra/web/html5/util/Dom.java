@@ -5,12 +5,17 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.user.client.DOM;
 
-public class Dom extends DOM {
-
+/**
+ * Helper methods for finding DOM elements
+ */
+public class Dom {
+	private Dom() {
+		// no public constructor
+	}
 	/**
 	 * @param className
+	 *            class name
 	 * @return NodeList of elements found by className
 	 */
 	public static native NodeList<Element> getElementsByClassName(
@@ -20,6 +25,7 @@ public class Dom extends DOM {
 
 	/**
 	 * @param selector
+	 *            CSS selector
 	 * @return Nodelist of elements found by the selector
 	 */
 	public static native NodeList<Element> querySelectorAll(String selector) /*-{
@@ -28,6 +34,7 @@ public class Dom extends DOM {
 
 	/**
 	 * @param className
+	 *            class name
 	 * @return first Element found by selector className
 	 */
 	public static native Element querySelector(String className) /*-{
@@ -38,6 +45,7 @@ public class Dom extends DOM {
 	 * @param elem
 	 *            the root element
 	 * @param className
+	 *            className
 	 * @return first Element found by selector className
 	 */
 	public static native Element querySelectorForElement(JavaScriptObject elem,
