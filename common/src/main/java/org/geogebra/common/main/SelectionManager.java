@@ -852,7 +852,7 @@ public class SelectionManager {
 	 * Updates special points of the selected geo(s) if have any.
 	 */
 	public void updateSpecialPoints() {
-		kernel.notifyUpdatePreviewFromView(specPoints, App.VIEW_EUCLIDIAN);
+		kernel.notifyUpdateSpecPointsPreview(specPoints, App.VIEW_EUCLIDIAN);
 	}
 
 

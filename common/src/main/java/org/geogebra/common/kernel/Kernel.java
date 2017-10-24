@@ -5578,6 +5578,13 @@ public class Kernel {
 		}
 	}
 
+	public final void notifyUpdateSpecPointsPreview(GeoElement[] geos,
+			int viewID) {
+		if (notifyViewsActive) {
+			app.getEuclidianView1().updateSpecPointFromInputBar(geos);
+		}
+	}
+
 	public ConstructionCompanion createConstructionCompanion(
 			Construction cons) {
 		return new ConstructionCompanion(cons);

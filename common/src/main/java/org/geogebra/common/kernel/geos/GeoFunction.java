@@ -3236,6 +3236,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		this.shortLHS = shortLHS;
 	}
 
+	/**
+	 * Adds special points for a function
+	 * 
+	 * @param specPoints2
+	 *            special points of the function
+	 */
 	public void addSpecialPoints(GeoElement[] specPoints2) {
 		for (int i = 0; i < specPoints2.length; i++) {
 			specPoints.add((GeoPoint) specPoints2[i]);
@@ -3243,14 +3249,21 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		}
 	}
 
+	/**
+	 * Clears special points of a function
+	 */
 	public void clearSpecPoints() {
 		specPoints.clear();
 	}
 
+	/**
+	 * Recomputes the coordinates of the special points.
+	 */
 	public void updateSpecPoints() {
 		 for (GeoPoint point : specPoints) {
 			point.getParentAlgorithm().compute();
 		 }
+		kernel.getApplication().getSelectionManager().updateSpecialPoints();
 	}
 
 }

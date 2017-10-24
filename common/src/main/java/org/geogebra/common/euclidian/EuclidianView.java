@@ -494,6 +494,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	protected double lockedAxesRatio = -1;
 	private boolean updateBackgroundOnNextRepaint;
+	
+	private GeoElement[] specPoints;
+	
 
 	/** @return line types */
 	public static final Integer[] getLineTypes() {
@@ -1902,6 +1905,23 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 
+	/**
+	 * Updates the special points of a function.
+	 * 
+	 * @param geos
+	 *            special points
+	 */
+	public void updateSpecPointFromInputBar(GeoElement[] geos) {
+		if (specPoints != null) {
+			for (GeoElement geo : specPoints) {
+				remove(geo);
+			}
+		}
+		specPoints = geos;
+
+		repaintForPreviewFromInputBar();
+	}
+
 	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (previewFromInputBarGeos != null) {
@@ -1911,12 +1931,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		previewFromInputBarGeos = geos;
 
-		boolean needsRepaint = false;
-		if (previewFromInputBarGeos != null) {
-			for (GeoElement geo : previewFromInputBarGeos) {
-				needsRepaint = createAndAddDrawable(geo) || needsRepaint;
-			}
-		}
 		repaintForPreviewFromInputBar();
 	}
 
@@ -1924,6 +1938,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Repaint for input preview, overridden in 3D
 	 */
 	protected void repaintForPreviewFromInputBar() {
+		boolean needsRepaint = false;
+		if (previewFromInputBarGeos != null) {
+			for (GeoElement geo : previewFromInputBarGeos) {
+				needsRepaint = createAndAddDrawable(geo) || needsRepaint;
+			}
+		}
+
+		if (specPoints != null) {
+			for (GeoElement geo : specPoints) {
+				needsRepaint = createAndAddDrawable(geo) || needsRepaint;
+			}
+		}
 		repaint();
 	}
 
@@ -3480,10 +3506,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		drawGeometricObjects(g2);
 		drawActionObjects(g2);
-
-		if (app.has(Feature.PREVIEW_POINTS)) {
-			app.getSelectionManager().updateSpecialPoints();
-		}
 
 		if (previewDrawable != null) {
 			previewDrawable.drawPreview(g2);
