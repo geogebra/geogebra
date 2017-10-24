@@ -31,6 +31,7 @@ public class HatchingHandler {
 	private GBufferedImage subImage = null;
 	private GGeneralPath path;
 	private GRectangle rect;
+	private String svgPath = "";
 
 	/**
 	 * 
@@ -606,8 +607,6 @@ public class HatchingHandler {
 		return getSvgPath();
 
 	}
-
-	private String svgPath = "";
 
 	private void svgReset() {
 		svgPath = "";

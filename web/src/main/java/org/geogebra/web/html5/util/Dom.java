@@ -9,7 +9,7 @@ import com.google.gwt.dom.client.NodeList;
 /**
  * Helper methods for finding DOM elements
  */
-public class Dom {
+public final class Dom {
 	private Dom() {
 		// no public constructor
 	}
