@@ -410,7 +410,9 @@ public abstract class DialogManager {
 				if (!success) {
 					handler.showError(
 							app.getLocalization().getError("NumberExpected"));
-					cb.callback(false);
+					if (cb != null) {
+						cb.callback(false);
+					}
 					return;
 				}
 
