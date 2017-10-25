@@ -234,6 +234,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	
 	private void onClose() {
 		setAnimating(true);
+		removeOrientationStyles();
 		Widget headerParent = toolbarPanel.header.getParent().getParent()
 				.getParent();
 		if (app.isPortrait()) {
@@ -248,19 +249,24 @@ class Header extends FlowPanel implements KeyDownHandler {
 	}
 
 	private void onOpen() {
-		Widget headerParent = toolbarPanel.header.getParent().getParent()
-				.getParent();
-		headerParent.removeStyleName("closePortrait"); 
-		headerParent.removeStyleName("closeLandscape"); 
+		removeOrientationStyles();
 		if (toolbarPanel.isAlgebraViewActive()) {
 			onAlgebraPressed();
 		} else {
 			onToolsPressed();
 		}
+		setOpen(true);
 		updateStyle();
 		toolbarPanel.setClosedByUser(false);
 	}
-		
+
+	private void removeOrientationStyles() {
+		Widget headerParent = toolbarPanel.header.getParent().getParent()
+				.getParent();
+		headerParent.removeStyleName("closePortrait");
+		headerParent.removeStyleName("closeLandscape");
+	}
+
 	/**
 	 * Handler for Undo button.
 	 */
