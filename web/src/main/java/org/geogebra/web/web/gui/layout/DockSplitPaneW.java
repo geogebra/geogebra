@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -660,8 +661,8 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		this.forcedLayout = forcedLayout;
 	}
 
-	public boolean isCenter(Widget widget) {
-		LayoutData data = (LayoutData) widget.getLayoutData();
+	public boolean isCenter(IsWidget widget) {
+		LayoutData data = (LayoutData) widget.asWidget().getLayoutData();
 		return data.direction == Direction.CENTER;
 
 	}

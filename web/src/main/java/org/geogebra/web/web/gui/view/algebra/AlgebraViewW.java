@@ -36,9 +36,8 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.GUITabs;
-import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
-import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.animation.client.AnimationScheduler;
@@ -1180,11 +1179,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				public void execute() {
 
 					inputPanelLatex.updateButtonPanelPosition();
-					if (app.isUnbundled()) {
-						getToolbarDockPanel().scrollAVToBottom();
-					} else {
-						getAlgebraDockPanel().scrollToBottom();
-					}
+					getAlgebraDockPanel().scrollAVToBottom();
+
 				}
 			});
 		}
@@ -1588,7 +1584,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private boolean isToolMode() {
 		return app.isUnbundled()
-				&& this.getToolbarDockPanel().isToolMode();
+				&& getAlgebraDockPanel().isToolMode();
 	}
 
 	private void doShowKeyboard() {
@@ -1779,11 +1775,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		if (app.isUnbundled()) {
-			getToolbarDockPanel().saveAVScrollPosition();
-		} else {
-			getAlgebraDockPanel().saveScrollPosition();
-		}
+		getAlgebraDockPanel().saveAVScrollPosition();
 
 		if (!geo.isPointOnPath() && !geo.isPointInRegion()) {
 			if ((!geo.isIndependent() && !(geo.getParentAlgorithm() instanceof AlgoCurveCartesian))
@@ -2231,10 +2223,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 * @return the max item width.
 	 */
 	public int getFullWidth() {
-		if (app.isUnbundled()) {
-			return getToolbarDockPanel().getOffsetWidth();
-		}
 		int avWidth = getAlgebraDockPanel().getInnerWidth();
+		if (app.isUnbundled()) {
+			return avWidth;
+		}
 		return maxItemWidth < avWidth ? avWidth : maxItemWidth;
 	}
 
@@ -2249,7 +2241,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 
-		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+		AlgebraPanelInterface avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW splitPane = avDockPanel.getParentSplitPane();
 		if (splitPane == null || splitPane
 				.getOrientation() == SwingConstants.VERTICAL_SPLIT
@@ -2260,7 +2252,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		final int w = width;
 
-		splitPane.setWidgetSize(avDockPanel, w);
+		splitPane.setWidgetSize(avDockPanel.asWidget(), w);
 		avDockPanel.deferredOnResize();
 	}
 
@@ -2279,7 +2271,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			return;
 		}
 		int w = userWidth;
-		AlgebraDockPanelW avDockPanel = getAlgebraDockPanel();
+		AlgebraPanelInterface avDockPanel = getAlgebraDockPanel();
 		DockSplitPaneW avParent = getAlgebraDockPanel().getParentSplitPane();
 		if (avParent == null || userWidth == 0 || avParent
 						.getOrientation() == SwingConstants.VERTICAL_SPLIT) {
@@ -2289,7 +2281,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// normally the "center" orientation should be handled by the
 		// VERTICAL_SPLIT check above
 		if (!avParent.isCenter(avDockPanel)) {
-			avParent.setWidgetSize(avDockPanel, w);
+			avParent.setWidgetSize(avDockPanel.asWidget(), w);
 			avDockPanel.deferredOnResize();
 		}
 
@@ -2298,18 +2290,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * @return algebra dock panel
 	 */
-	AlgebraDockPanelW getAlgebraDockPanel() {
-		return (AlgebraDockPanelW) app.getGuiManager().getLayout()
+	AlgebraPanelInterface getAlgebraDockPanel() {
+		return (AlgebraPanelInterface) app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 	}
 
-	/**
-	 * @return toolbar dock panel
-	 */
-	ToolbarDockPanelW getToolbarDockPanel() {
-		return (ToolbarDockPanelW) app.getGuiManager().getLayout()
-				.getDockManager().getPanel(App.VIEW_ALGEBRA);
-	}
 
 	/**
 	 * @return whether active element is the input row

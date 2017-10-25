@@ -1,24 +1,46 @@
 package org.geogebra.web.web.gui.layout.panels;
 
-import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 
-public interface AlgebraPanelInterface {
-	void setAlgebraView(final AlgebraViewW av);
+import com.google.gwt.user.client.ui.IsWidget;
 
-	void scrollTo(int position);
+public interface AlgebraPanelInterface extends IsWidget {
 
-	/**
-	 * scrolls to the bottom of the panel
-	 */
-	void scrollToBottom();
+	void scrollAVToBottom();
+	// void setAlgebraView(final AlgebraViewW av);
+	//
+	// void scrollTo(int position);
+	//
+	// /**
+	// * scrolls to the bottom of the panel
+	// */
+	// void scrollToBottom();
+	//
+	// /**
+	// * Scroll to the item that is selected.
+	// */
+	// void scrollToActiveItem();
+	//
+	// /**
+	// * Saves the current scroll position of the dock panel.
+	// */
+	// void saveScrollPosition();
 
-	/**
-	 * Scroll to the item that is selected.
-	 */
+	DockSplitPaneW getParentSplitPane();
+
+	void saveAVScrollPosition();
+
+	void deferredOnResize();
+
+	int getInnerWidth();
+
+	boolean isToolMode();
+
 	void scrollToActiveItem();
 
-	/**
-	 * Saves the current scroll position of the dock panel.
-	 */
-	void saveScrollPosition();
+	MathKeyboardListener updateKeyboardListener(
+			MathKeyboardListener mathKeyboardListener);
+
+	int getOffsetHeight();
 }

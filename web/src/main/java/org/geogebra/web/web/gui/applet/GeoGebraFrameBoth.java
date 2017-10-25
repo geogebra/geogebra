@@ -37,9 +37,8 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
-import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.web.gui.pagecontrolpanel.PageControlPanel;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
@@ -306,13 +305,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		Timer timer = new Timer() {
 			@Override
 			public void run() {
-				// onResize();
-				// dockPanel.onResize();
-				if (app.isUnbundled()) {
-					scrollToInputFieldInToolbar();
-				} else {
-					scrollToInputField();
-				}
+
+				scrollToInputField();
+
 			}
 		};
 		timer.schedule(0);
@@ -438,7 +433,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	void scrollToInputField() {
 		if (app.showAlgebraInput()
 				&& app.getInputPosition() == InputPosition.algebraView) {
-			AlgebraDockPanelW dp = (AlgebraDockPanelW) (app.getGuiManager()
+			AlgebraPanelInterface dp = (AlgebraPanelInterface) (app
+					.getGuiManager()
 					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
 
 			dp.scrollToActiveItem();
@@ -460,19 +456,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 
 	}
 
-	/**
-	 * Scroll to the input-field, if the input-field is in the algebraView.
-	 */
-	void scrollToInputFieldInToolbar() {
-		if (app.showAlgebraInput()
-				&& app.getInputPosition() == InputPosition.algebraView) {
-			ToolbarDockPanelW dp = (ToolbarDockPanelW) (app.getGuiManager()
-					.getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA));
-
-			dp.getToolbar().scrollToActiveItem();
-
-		}
-	}
 	@Override
 	public boolean showKeyBoard(boolean show, MathKeyboardListener textField,
 			boolean forceShow) {

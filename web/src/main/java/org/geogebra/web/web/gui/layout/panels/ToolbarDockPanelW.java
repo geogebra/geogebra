@@ -18,7 +18,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Laszlo Gal
  *
  */
-public class ToolbarDockPanelW extends DockPanelW {
+public class ToolbarDockPanelW extends DockPanelW
+		implements AlgebraPanelInterface {
 
 
 	private ToolbarPanel toolbar;
@@ -150,6 +151,16 @@ public class ToolbarDockPanelW extends DockPanelW {
 	public void setLabels() {
 		if (toolbar != null) {
 			toolbar.setLabels();
+		}
+	}
+
+	public int getInnerWidth() {
+		return getOffsetWidth();
+	}
+
+	public void scrollToActiveItem() {
+		if (toolbar != null) {
+			toolbar.scrollToActiveItem();
 		}
 	}
 

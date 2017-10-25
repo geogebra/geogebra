@@ -64,7 +64,6 @@ public class AlgebraDockPanelW extends DockPanelW
 		return aview.getStyleBar(true);
 	}
 
-	@Override
 	public void setAlgebraView(final AlgebraViewW av) {
 		if (av != aview) {
 			if (aview != null && simplep != null) {
@@ -117,7 +116,6 @@ public class AlgebraDockPanelW extends DockPanelW
 		return getResources().menu_icon_algebra();
 	}
 
-	@Override
 	public void scrollTo(int position) {
 		if (this.algebrap != null) {
 			this.algebrap.setVerticalScrollPosition(position);
@@ -125,7 +123,7 @@ public class AlgebraDockPanelW extends DockPanelW
 	}
 
 	@Override
-	public void scrollToBottom(){
+	public void scrollAVToBottom() {
 		if (this.algebrap != null) {
 			this.algebrap.scrollToBottom();
 		}
@@ -181,7 +179,7 @@ public class AlgebraDockPanelW extends DockPanelW
 	 * Saves the current scroll position of the dock panel.
 	 */
 	@Override
-	public void saveScrollPosition() {
+	public void saveAVScrollPosition() {
 		savedScrollPosition = algebrap.getVerticalScrollPosition();
 	}
 
@@ -203,10 +201,15 @@ public class AlgebraDockPanelW extends DockPanelW
 		}
 	}
 
+	@Override
 	public int getInnerWidth() {
 		if (simplep == null) {
 			return super.getOffsetWidth();
 		}
 		return simplep.getOffsetWidth();
+	}
+
+	public boolean isToolMode() {
+		return false;
 	}
 }

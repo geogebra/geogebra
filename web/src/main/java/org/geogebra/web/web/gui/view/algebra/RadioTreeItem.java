@@ -64,7 +64,7 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
-import org.geogebra.web.web.gui.layout.panels.ToolbarDockPanelW;
+import org.geogebra.web.web.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.web.gui.util.Resizer;
 import org.geogebra.web.web.main.AppWFull;
 
@@ -1465,8 +1465,8 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
-	protected ToolbarDockPanelW getToolbarDockPanel() {
-		return (ToolbarDockPanelW) app.getGuiManager().getLayout()
+	protected AlgebraPanelInterface getToolbarDockPanel() {
+		return (AlgebraPanelInterface) app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 
 	}
@@ -1964,9 +1964,7 @@ public class RadioTreeItem extends AVTreeItem
 		mf.setFocus(focus);
 
 		int kH = (int) (app.getAppletFrame().getKeyboardHeight());
-		int h = app.isUnbundled()
-				? getToolbarDockPanel().getOffsetHeight()
-				: getAlgebraDockPanel().getOffsetHeight();
+		int h = getToolbarDockPanel().getOffsetHeight();
 		if (h < kH) {
 			app.adjustViews(true, false);
 		}

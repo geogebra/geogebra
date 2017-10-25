@@ -416,19 +416,6 @@ public class ItemControls extends FlowPanel
 
 			@Override
 			public void execute() {
-				// ScrollPanel algebraPanel = ((AlgebraDockPanelW)
-				// radioTreeItem.app
-				// .getGuiManager().getLayout().getDockManager()
-				// .getPanel(App.VIEW_ALGEBRA)).getAbsolutePanel();
-				// int scrollPos = algebraPanel.getHorizontalScrollPosition();
-
-				// extra margin if vertical scrollbar is visible.
-				// int sw = Browser.isTabletBrowser() ? 0
-				// : RadioTreeItem.BROWSER_SCROLLBAR_WIDTH;
-				// int margin = radioTreeItem.getAV().getOffsetHeight()
-				// + getOffsetHeight() > algebraPanel.getOffsetHeight()
-				// ? sw : 0;
-
 				int right = 0;
 				int itemWidth = radioTreeItem.getItemWidth();
 				int avWidth = radioTreeItem.getAV().getOffsetWidth();
