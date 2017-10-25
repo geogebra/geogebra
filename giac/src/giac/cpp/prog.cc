@@ -992,6 +992,13 @@ namespace giac {
     if (python_compat(contextptr)){
       vecteur res1,non_decl,res3,res4;
       check_local_assign(newc,gen2vecteur(newa),res1,non_decl,res3,res4,false,contextptr);
+      int rs=int(non_decl.size());
+      for (int i=0;i<rs;i++){
+	if (is_constant_idnt(non_decl[i])){
+	  non_decl.erase(non_decl.begin()+i);
+	  --i; --rs;
+	}
+      }
       if (!non_decl.empty()){
 	*logptr(contextptr) << "Auto-declared local variables : " << gen(non_decl,_SEQ__VECT) << endl;
 	newc=symb_local(non_decl,newc,contextptr);
