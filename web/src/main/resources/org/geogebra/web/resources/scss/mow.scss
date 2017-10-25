@@ -598,7 +598,6 @@
 			height: 100%;
 			overflow-x: hidden;
 			overflow-y: auto;
-			scroll-behavior: smooth;
 		}
 		
 		.mowPageControlContentPanel {
@@ -636,14 +635,13 @@
 ******************/
 	.mowPagePreviewCard {
 		margin: 16px;
-		
 		border-radius: 2px;
    		background-color: #fff;
    		box-shadow: 0 2px 2px 0 $black-14, 0 1px 5px 0 $black-12, 0 3px 1px -2px $black-2;
-		transition: box-shadow .25s;
 		
 		&:hover {
 			box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
+			transition: box-shadow .25s;
 		}
 				
 		.mowImagePanel {
@@ -670,7 +668,6 @@
 	.mowPagePreviewCard.selected {
 		box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
 	}
-
 }
 
 
