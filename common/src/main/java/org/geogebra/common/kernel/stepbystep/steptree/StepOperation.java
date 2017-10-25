@@ -7,65 +7,98 @@ import java.util.List;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
-public class StepOperation extends StepNode {
-	private List<StepNode> subtrees;
+public class StepOperation extends StepExpression {
+	private List<StepExpression> subtrees;
 	private Operation operation;
 
 	public StepOperation(Operation op) {
 		operation = op;
-		subtrees = new ArrayList<StepNode>();
+		subtrees = new ArrayList<StepExpression>();
+	}
+
+	public int noOfOperands() {
+		return subtrees.size();
+	}
+
+	public StepExpression getSubTree(int index) {
+		return subtrees.get(index);
+	}
+
+	public Operation getOperation() {
+		return operation;
+	}
+
+	public void addSubTree(StepExpression sn) {
+		if (sn != null) {
+			if (isOperation(Operation.PLUS) && sn.isOperation(Operation.PLUS)) {
+				for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
+					addSubTree(((StepOperation) sn).getSubTree(i));
+				}
+			} else if (isOperation(Operation.MULTIPLY) && sn.isOperation(Operation.MULTIPLY)) {
+				for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
+					addSubTree(((StepOperation) sn).getSubTree(i));
+				}
+			} else {
+				subtrees.add(sn);
+			}
+		}
 	}
 
 	@Override
-	public boolean equals(StepNode sn) {
-		if (sn != null && sn.isOperation()) {
-			StepOperation copyOfThis = (StepOperation) this.deepCopy();
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((operation == null) ? 0 : operation.hashCode());
+		result = prime * result + ((subtrees == null) ? 0 : subtrees.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof StepOperation) {
+			StepOperation so = (StepOperation) obj;
+
+			if (so.operation != operation) {
+				return false;
+			}
+
+			StepOperation copyOfThis = this.deepCopy();
 			copyOfThis.sort();
-			StepOperation copyOfThat = (StepOperation) sn.deepCopy();
+			StepOperation copyOfThat = so.deepCopy();
 			copyOfThat.sort();
 
 			return copyOfThis.exactEquals(copyOfThat);
 		}
 
-		return exactEquals(sn);
+		return false;
 	}
 
 	private void sort() {
 		for (int i = 0; i < noOfOperands(); i++) {
-			if (getSubTree(i).isOperation()) {
+			if (getSubTree(i) instanceof StepOperation) {
 				((StepOperation) getSubTree(i)).sort();
 			}
 		}
 
 		if (isOperation(Operation.PLUS) || isOperation(Operation.MULTIPLY)) {
-			subtrees.sort(new Comparator<StepNode>() {
-				public int compare(StepNode arg0, StepNode arg1) {
+			subtrees.sort(new Comparator<StepExpression>() {
+				public int compare(StepExpression arg0, StepExpression arg1) {
 					return arg0.compareTo(arg1);
 				}
 			});
 		}
 	}
 
-	private boolean exactEquals(StepNode sn) {
-		if (sn != null && sn.isOperation(operation) && ((StepOperation) sn).noOfOperands() == noOfOperands()) {
+	private boolean exactEquals(StepOperation so) {
+		if (so.noOfOperands() == noOfOperands()) {
 			for (int i = 0; i < noOfOperands(); i++) {
-				if (!((StepOperation) sn).getSubTree(i).equals(getSubTree(i))) {
+				if (!so.getSubTree(i).equals(getSubTree(i))) {
 					return false;
 				}
 			}
 			return true;
 		}
 		return false;
-	}
-
-	@Override
-	public boolean isOperation() {
-		return true;
-	}
-
-	@Override
-	public boolean isOperation(Operation op) {
-		return operation == op;
 	}
 
 	@Override
@@ -88,33 +121,6 @@ public class StepOperation extends StepNode {
 		}
 
 		return true;
-	}
-
-	@Override
-	public int getPriority() {
-		switch (operation) {
-		case PLUS:
-		case MINUS:
-			return 1;
-		case MULTIPLY:
-		case DIVIDE:
-			return 2;
-		case POWER:
-		case NROOT:
-		case ABS:
-			return 3;
-		case SIN:
-		case COS:
-		case TAN:
-		case CSC:
-		case SEC:
-		case COT:
-		case ARCSIN:
-		case ARCCOS:
-		case ARCTAN:
-			return 4;
-		}
-		return 0;
 	}
 
 	@Override
@@ -168,7 +174,7 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
-	public double getValueAt(StepNode variable, double replaceWith) {
+	public double getValueAt(StepVariable variable, double replaceWith) {
 		switch (operation) {
 		case PLUS:
 			double s = 0;
@@ -208,8 +214,6 @@ public class StepOperation extends StepNode {
 	@Override
 	public String toString() {
 		switch (operation) {
-		case EQUAL_BOOLEAN:
-			return subtrees.get(0).toString() + " = " + subtrees.get(1).toString();
 		case IS_ELEMENT_OF:
 			return subtrees.get(0) + " in " + subtrees.get(1);
 		case PLUS:
@@ -228,7 +232,7 @@ public class StepOperation extends StepNode {
 			ss.append(")");
 			return ss.toString();
 		case MINUS:
-			if (subtrees.get(0).getPriority() == 1) {
+			if (subtrees.get(0).isOperation(Operation.PLUS) || subtrees.get(0).isOperation(Operation.MINUS)) {
 				return "-(" + subtrees.get(0).toString() + ")";
 			}
 			return "-" + subtrees.get(0).toString();
@@ -279,8 +283,6 @@ public class StepOperation extends StepNode {
 
 	private String convertToString(Localization loc, boolean colored) {
 		switch (operation) {
-		case EQUAL_BOOLEAN:
-			return subtrees.get(0).toLaTeXString(loc, colored) + " = " + subtrees.get(1).toLaTeXString(loc, colored);
 		case IS_ELEMENT_OF:
 			return subtrees.get(0).toLaTeXString(loc, colored) + " \\in " + subtrees.get(1).toLaTeXString(loc, colored);
 		case PLUS:
@@ -296,12 +298,12 @@ public class StepOperation extends StepNode {
 			}
 			return ss.toString();
 		case MINUS:
-			if (subtrees.get(0).getPriority() == 1) {
+			if (subtrees.get(0).isOperation(Operation.PLUS) || subtrees.get(0).isOperation(Operation.MINUS)) {
 				return "-\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)";
 			}
 			return "-" + subtrees.get(0).toLaTeXString(loc, colored);
 		case PLUSMINUS:
-			if (subtrees.get(0).getPriority() == 1) {
+			if (subtrees.get(0).isOperation(Operation.PLUS) || subtrees.get(0).isOperation(Operation.MINUS)) {
 				return "\\pm\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)";
 			}
 			return "\\pm" + subtrees.get(0).toLaTeXString(loc, colored);
@@ -314,8 +316,8 @@ public class StepOperation extends StepNode {
 					sp.append(" ");
 				}
 
-				boolean parantheses = subtrees.get(i).getPriority() < getPriority()
-						&& !subtrees.get(i).isOperation(Operation.MINUS) || (i != 0 && isNegative(subtrees.get(i)));
+				boolean parantheses = subtrees.get(i).isOperation(Operation.PLUS)
+						&& !subtrees.get(i).isOperation(Operation.MINUS) || (i != 0 && subtrees.get(i).isNegative());
 
 				if (parantheses) {
 					sp.append("\\left(");
@@ -330,7 +332,8 @@ public class StepOperation extends StepNode {
 			return "\\frac{" + subtrees.get(0).toLaTeXString(loc, colored) + "}{"
 					+ subtrees.get(1).toLaTeXString(loc, colored) + "}";
 		case POWER:
-			if (subtrees.get(0).getPriority() <= 3) {
+			if (subtrees.get(0).isNegative()
+					|| (subtrees.get(0) instanceof StepOperation && !subtrees.get(0).isOperation(Operation.NROOT))) {
 				return "\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)^{"
 						+ subtrees.get(1).toLaTeXString(loc, colored) + "}";
 			}
@@ -359,20 +362,19 @@ public class StepOperation extends StepNode {
 		return "";
 	}
 
-	private static boolean requiresPlus(StepNode a) {
-		return !(a instanceof StepConstant && a.getValue() < 0) && !a.isOperation(Operation.MINUS)
-				&& !a.isOperation(Operation.PLUSMINUS)
+	private static boolean requiresPlus(StepExpression a) {
+		return !a.isNegative() && !a.isOperation(Operation.PLUSMINUS)
 				&& (!a.isOperation(Operation.MULTIPLY) || requiresPlus(((StepOperation) a).getSubTree(0)));
 	}
 
-	private static boolean requiresDot(StepNode a, StepNode b) {
+	private static boolean requiresDot(StepExpression a, StepExpression b) {
 		return (a.nonSpecialConstant() && b.nonSpecialConstant())
 				|| (a instanceof StepVariable && b.nonSpecialConstant()) || (a instanceof StepVariable && a.equals(b))
 				|| (b.isOperation(Operation.POWER) && requiresDot(a, ((StepOperation) b).getSubTree(0)));
 	}
 
 	@Override
-	public StepNode deepCopy() {
+	public StepOperation deepCopy() {
 		StepOperation so = new StepOperation(operation);
 		so.color = color;
 		for (int i = 0; i < noOfOperands(); i++) {
@@ -382,7 +384,7 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
-	public StepNode getCoefficient() {
+	public StepExpression getCoefficient() {
 		if (isConstant()) {
 			return this;
 		}
@@ -400,7 +402,7 @@ public class StepOperation extends StepNode {
 			}
 			return coefficient;
 		} else if (isOperation(Operation.MINUS)) {
-			StepNode coefficient = getSubTree(0).getCoefficient();
+			StepExpression coefficient = getSubTree(0).getCoefficient();
 			if (coefficient == null) {
 				return new StepConstant(-1);
 			}
@@ -413,7 +415,7 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
-	public StepNode getVariable() {
+	public StepExpression getVariable() {
 		if (isConstant()) {
 			return null;
 		}
@@ -438,10 +440,12 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
-	public StepNode getIntegerCoefficient() {
+	public StepExpression getIntegerCoefficient() {
 		switch (operation) {
+		case PLUSMINUS:
+			return getSubTree(0).getIntegerCoefficient();
 		case MINUS:
-			StepNode sm = getSubTree(0).getIntegerCoefficient();
+			StepExpression sm = getSubTree(0).getIntegerCoefficient();
 			if (sm == null) {
 				return new StepConstant(-1);
 			}
@@ -467,8 +471,10 @@ public class StepOperation extends StepNode {
 	}
 
 	@Override
-	public StepNode getNonInteger() {
+	public StepExpression getNonInteger() {
 		switch (operation) {
+		case PLUSMINUS:
+			return apply(getSubTree(0).getNonInteger(), Operation.PLUSMINUS);
 		case MINUS:
 			return getSubTree(0).getNonInteger();
 		case MULTIPLY:
@@ -487,33 +493,5 @@ public class StepOperation extends StepNode {
 			return divide(getSubTree(0).getNonInteger(), getSubTree(1).getNonInteger());
 		}
 		return this;
-	}
-
-	public void addSubTree(StepNode sn) {
-		if (sn != null) {
-			if (isOperation(Operation.PLUS) && sn.isOperation(Operation.PLUS)) {
-				for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
-					addSubTree(((StepOperation) sn).getSubTree(i));
-				}
-			} else if (isOperation(Operation.MULTIPLY) && sn.isOperation(Operation.MULTIPLY)) {
-				for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
-					addSubTree(((StepOperation) sn).getSubTree(i));
-				}
-			} else {
-				subtrees.add(sn);
-			}
-		}
-	}
-
-	public int noOfOperands() {
-		return subtrees.size();
-	}
-
-	public StepNode getSubTree(int index) {
-		return subtrees.get(index);
-	}
-
-	public Operation getOperation() {
-		return operation;
 	}
 }

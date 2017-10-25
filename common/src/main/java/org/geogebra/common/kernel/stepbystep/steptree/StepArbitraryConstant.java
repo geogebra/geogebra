@@ -1,9 +1,8 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.plugin.Operation;
 
-public class StepArbitraryConstant extends StepNode {
+public class StepArbitraryConstant extends StepExpression {
 
 	public enum ConstantType {
 		INTEGER, REAL
@@ -32,28 +31,29 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
-	public boolean equals(StepNode sn) {
-		if (sn instanceof StepArbitraryConstant) {
-			return ((StepArbitraryConstant) sn).label.equals(label) && ((StepArbitraryConstant) sn).index == index;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + index;
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof StepArbitraryConstant) {
+			return ((StepArbitraryConstant) obj).label.equals(label) && ((StepArbitraryConstant) obj).index == index;
 		}
+
 		return false;
 	}
 
 	@Override
-	public StepNode deepCopy() {
+	public StepArbitraryConstant deepCopy() {
 		StepArbitraryConstant sac = new StepArbitraryConstant(label, index, type);
 		sac.setColor(color);
 		return sac;
-	}
-
-	@Override
-	public boolean isOperation() {
-		return false;
-	}
-
-	@Override
-	public boolean isOperation(Operation op) {
-		return false;
 	}
 
 	@Override
@@ -67,51 +67,38 @@ public class StepArbitraryConstant extends StepNode {
 	}
 
 	@Override
-	public int getPriority() {
-		return 5;
-	}
-
-	@Override
 	public double getValue() {
 		return Double.NaN;
 	}
 
 	@Override
-	public double getValueAt(StepNode variable, double value) {
-		if (equals(variable)) {
-			return value;
-		}
+	public double getValueAt(StepVariable variable, double value) {
 		return Double.NaN;
 	}
 
 	@Override
-	public StepNode getCoefficient() {
+	public StepExpression getCoefficient() {
 		return this;
 	}
 
 	@Override
-	public StepNode getVariable() {
+	public StepExpression getVariable() {
 		return null;
 	}
 
 	@Override
-	public StepNode getIntegerCoefficient() {
+	public StepExpression getIntegerCoefficient() {
 		return null;
 	}
 
 	@Override
-	public StepNode getNonInteger() {
+	public StepExpression getNonInteger() {
 		return this;
 	}
 
 	@Override
 	public String toString() {
 		return label + index;
-	}
-
-	@Override
-	public String toLaTeXString(Localization loc) {
-		return toLaTeXString(loc, false);
 	}
 
 	@Override

@@ -1,27 +1,29 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.plugin.Operation;
 
 public class StepInterval extends StepNode {
 
-	private StepNode leftBound;
-	private StepNode rightBound;
+	private StepExpression leftBound;
+	private StepExpression rightBound;
 	private boolean leftClosed;
 	private boolean rightClosed;
 
-	public StepInterval(StepNode leftBound, StepNode rightBound, boolean leftClosed, boolean rightClosed) {
+	public final static StepInterval R = new StepInterval(new StepConstant(Double.NEGATIVE_INFINITY),
+			new StepConstant(Double.POSITIVE_INFINITY), false, false);
+
+	public StepInterval(StepExpression leftBound, StepExpression rightBound, boolean leftClosed, boolean rightClosed) {
 		this.leftBound = leftBound;
 		this.rightBound = rightBound;
 		this.leftClosed = leftClosed;
 		this.rightClosed = rightClosed;
 	}
 
-	public StepNode getLeftBound() {
+	public StepExpression getLeftBound() {
 		return leftBound;
 	}
 
-	public StepNode getRightBound() {
+	public StepExpression getRightBound() {
 		return rightBound;
 	}
 
@@ -33,7 +35,7 @@ public class StepInterval extends StepNode {
 		return rightClosed;
 	}
 
-	public boolean contains(StepNode sn) {
+	public boolean contains(StepExpression sn) {
 		if (sn.isConstant()) {
 			double value = sn.getValue();
 			double leftBoundValue = leftBound.getValue();
@@ -54,9 +56,20 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
-	public boolean equals(StepNode sn) {
-		if (sn instanceof StepInterval) {
-			StepInterval si = (StepInterval) sn;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((leftBound == null) ? 0 : leftBound.hashCode());
+		result = prime * result + (leftClosed ? 1231 : 1237);
+		result = prime * result + ((rightBound == null) ? 0 : rightBound.hashCode());
+		result = prime * result + (rightClosed ? 1231 : 1237);
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof StepInterval) {
+			StepInterval si = (StepInterval) obj;
 			return si.leftClosed == leftClosed && si.rightClosed == rightClosed && si.leftBound.equals(leftBound)
 					&& si.rightBound.equals(rightBound);
 		}
@@ -64,65 +77,10 @@ public class StepInterval extends StepNode {
 	}
 
 	@Override
-	public StepNode deepCopy() {
+	public StepInterval deepCopy() {
 		StepInterval si = new StepInterval(leftBound, rightBound, leftClosed, rightClosed);
 		si.setColor(color);
 		return si;
-	}
-
-	@Override
-	public boolean isOperation() {
-		return false;
-	}
-
-	@Override
-	public boolean isOperation(Operation op) {
-		return false;
-	}
-
-	@Override
-	public boolean isConstant() {
-		return false;
-	}
-
-	@Override
-	public boolean canBeEvaluated() {
-		return false;
-	}
-
-	@Override
-	public int getPriority() {
-		return 5;
-	}
-
-	@Override
-	public double getValue() {
-		return Double.NaN;
-	}
-
-	@Override
-	public double getValueAt(StepNode variable, double value) {
-		return Double.NaN;
-	}
-
-	@Override
-	public StepNode getCoefficient() {
-		return null;
-	}
-
-	@Override
-	public StepNode getVariable() {
-		return this;
-	}
-
-	@Override
-	public StepNode getIntegerCoefficient() {
-		return null;
-	}
-
-	@Override
-	public StepNode getNonInteger() {
-		return this;
 	}
 
 	@Override

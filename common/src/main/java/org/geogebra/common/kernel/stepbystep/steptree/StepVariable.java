@@ -1,9 +1,8 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.plugin.Operation;
 
-public class StepVariable extends StepNode {
+public class StepVariable extends StepExpression {
 	private String label;
 
 	public StepVariable(String label) {
@@ -11,25 +10,24 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public boolean equals(StepNode sn) {
-		return sn != null && sn.toString().equals(label);
+	public int hashCode() {
+		return label.hashCode();
 	}
 
 	@Override
-	public StepNode deepCopy() {
+	public boolean equals(Object obj) {
+		if (obj instanceof StepVariable) {
+			return ((StepVariable) obj).label.equals(label);
+		}
+
+		return false;
+	}
+
+	@Override
+	public StepVariable deepCopy() {
 		StepVariable sv = new StepVariable(label);
 		sv.setColor(color);
 		return sv;
-	}
-
-	@Override
-	public boolean isOperation() {
-		return false;
-	}
-
-	@Override
-	public boolean isOperation(Operation op) {
-		return false;
 	}
 
 	@Override
@@ -43,17 +41,12 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public int getPriority() {
-		return 5;
-	}
-
-	@Override
 	public double getValue() {
 		return Double.NaN;
 	}
 
 	@Override
-	public double getValueAt(StepNode variable, double replaceWith) {
+	public double getValueAt(StepVariable variable, double replaceWith) {
 		if (equals(variable)) {
 			return replaceWith;
 		}
@@ -61,12 +54,12 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public StepNode getCoefficient() {
+	public StepExpression getCoefficient() {
 		return null;
 	}
 
 	@Override
-	public StepNode getVariable() {
+	public StepExpression getVariable() {
 		return this;
 	}
 
@@ -76,17 +69,12 @@ public class StepVariable extends StepNode {
 	}
 
 	@Override
-	public StepNode getNonInteger() {
+	public StepExpression getNonInteger() {
 		return this;
 	}
 
 	@Override
 	public String toString() {
-		return label;
-	}
-
-	@Override
-	public String toLaTeXString(Localization loc) {
 		return label;
 	}
 

@@ -11,7 +11,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
-import org.geogebra.common.kernel.stepbystep.EquationSteps;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 
 /**
  * Use Solve cas command from AV
@@ -177,11 +179,13 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	 *            step UI builder
 	 */
 	public void getSteps(StepGuiBuilder builder) {
-		String[] equation = equations.getDefinitionNoLabel(StringTemplate.defaultTemplate).split("=");	
+		StepEquation se = new StepEquation(equations.getDefinitionNoLabel(StringTemplate.defaultTemplate),
+				kernel.getParser());
 
-		EquationSteps sbss = new EquationSteps(kernel, equation[0], equation[1], "x");
+		SolutionBuilder sb = new SolutionBuilder(kernel.getLocalization());
+		se.solve(new StepVariable("x"), sb);
 
-		sbss.getSteps().getListOfSteps(builder);
+		sb.getSteps().getListOfSteps(builder);
 	}
 
 	public boolean canShowSteps() {

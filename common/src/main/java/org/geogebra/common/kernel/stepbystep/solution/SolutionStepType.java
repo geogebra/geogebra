@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
@@ -69,12 +70,14 @@ public enum SolutionStepType {
 	NTH_ROOT("TakeNthRoot", "Take %0 root of both sides") {
 		@Override
 		public String getDefaultText(Localization loc, StepNode[] parameters) {
-			return loc.getMenuLaTeX(getKey(), getDefault(), loc.getOrdinalNumber((int) parameters[0].getValue()));
+			String ordinal = loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
+			return loc.getMenuLaTeX(getKey(), getDefault(), ordinal);
 		}
 
 		@Override
 		public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
-			return loc.getMenuLaTeX(getKey(), getDefault(), loc.getOrdinalNumber((int) parameters[0].getValue()));
+			String ordinal = loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
+			return loc.getMenuLaTeX(getKey(), getDefault(), ordinal);
 		}
 	},
 

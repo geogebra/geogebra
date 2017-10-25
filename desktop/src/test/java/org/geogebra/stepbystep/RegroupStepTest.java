@@ -3,6 +3,7 @@ package org.geogebra.stepbystep;
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
 import org.junit.AfterClass;
@@ -53,7 +54,6 @@ public class RegroupStepTest {
 		r("nroot(5, 2)*nroot(2, 2)", "nroot(10, 2)");
 		r("nroot(2, 2)*nroot(3, 3)", "nroot(72, 6)");
 		r("(x-y)/(sqrt(x)-sqrt(y))", "(nroot(x, 2) + nroot(y, 2))");
-		r("2x+1+3x+2 = x+x+1+1", "((5)(x) + 3) = ((2)(x) + 2)");
 		r("1/3+1/2", "(5)/(6)");
 		r("nroot(1, 2)", "1");
 		r("nroot(-1, 3)", "-1");
@@ -91,7 +91,7 @@ public class RegroupStepTest {
 		htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
 
 		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
-		StepNode sn = StepNode.getStepTree(toRegroup, app.getKernel().getParser());
+		StepExpression sn = (StepExpression) StepNode.getStepTree(toRegroup, app.getKernel().getParser());
 		String result = sn.regroup(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
@@ -109,7 +109,7 @@ public class RegroupStepTest {
 		htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
 
 		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
-		StepNode sn = StepNode.getStepTree(toExpand, app.getKernel().getParser());
+		StepExpression sn = (StepExpression) StepNode.getStepTree(toExpand, app.getKernel().getParser());
 		String result = sn.expand(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
@@ -127,7 +127,7 @@ public class RegroupStepTest {
 		htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
 
 		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
-		StepNode sn = StepNode.getStepTree(toFactor, app.getKernel().getParser());
+		StepExpression sn = (StepExpression) StepNode.getStepTree(toFactor, app.getKernel().getParser());
 		String result = sn.factor(sb).toString();
 
 		SolutionStep steps = sb.getSteps();

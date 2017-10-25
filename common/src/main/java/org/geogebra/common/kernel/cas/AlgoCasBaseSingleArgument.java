@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
@@ -46,8 +47,8 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 	 * @param info
 	 *            evaluation flags
 	 */
-	public AlgoCasBaseSingleArgument(Construction cons, String label,
-			CasEvaluableFunction f, Commands cmd, EvalInfo info) {
+	public AlgoCasBaseSingleArgument(Construction cons, String label, CasEvaluableFunction f, Commands cmd,
+			EvalInfo info) {
 		super(cons, label, f, cmd, info);
 	}
 
@@ -65,10 +66,8 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 		App app = kernel.getApplication();
 
 		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
-		StepNode sn = StepNode.getStepTree(
-				f.toGeoElement()
-						.getDefinitionNoLabel(StringTemplate.defaultTemplate),
-				app.getKernel().getParser());
+		StepExpression sn = (StepExpression) StepNode.getStepTree(
+				f.toGeoElement().getDefinitionNoLabel(StringTemplate.defaultTemplate), app.getKernel().getParser());
 		switch (getClassName()) {
 		case Expand:
 			sn.expand(sb);
@@ -89,8 +88,7 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 	}
 
 	public boolean canShowSteps() {
-		return getClassName() == Commands.Simplify
-				|| getClassName() == Commands.Expand
+		return getClassName() == Commands.Simplify || getClassName() == Commands.Expand
 				|| getClassName() == Commands.Factor;
 	}
 

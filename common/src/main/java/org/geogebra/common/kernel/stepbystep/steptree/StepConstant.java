@@ -3,9 +3,8 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import java.text.DecimalFormat;
 
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.plugin.Operation;
 
-public class StepConstant extends StepNode {
+public class StepConstant extends StepExpression {
 	private double value;
 
 	public StepConstant(double value) {
@@ -13,25 +12,24 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public boolean equals(StepNode sn) {
-		return sn instanceof StepConstant && isEqual(sn.getValue(), value);
+	public int hashCode() {
+		return Double.hashCode(value);
 	}
 
 	@Override
-	public StepNode deepCopy() {
+	public boolean equals(Object obj) {
+		if (obj instanceof StepConstant) {
+			return isEqual(((StepConstant) obj).value, value);
+		}
+
+		return false;
+	}
+
+	@Override
+	public StepConstant deepCopy() {
 		StepConstant sc = new StepConstant(value);
 		sc.setColor(color);
 		return sc;
-	}
-
-	@Override
-	public boolean isOperation() {
-		return false;
-	}
-
-	@Override
-	public boolean isOperation(Operation op) {
-		return false;
 	}
 
 	@Override
@@ -45,32 +43,27 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public int getPriority() {
-		return 5;
-	}
-
-	@Override
 	public double getValue() {
 		return value;
 	}
 
 	@Override
-	public double getValueAt(StepNode variable, double replaceWith) {
+	public double getValueAt(StepVariable variable, double replaceWith) {
 		return value;
 	}
 
 	@Override
-	public StepNode getCoefficient() {
+	public StepExpression getCoefficient() {
 		return this;
 	}
 
 	@Override
-	public StepNode getVariable() {
+	public StepExpression getVariable() {
 		return null;
 	}
 
 	@Override
-	public StepConstant getIntegerCoefficient() {
+	public StepExpression getIntegerCoefficient() {
 		if (nonSpecialConstant()) {
 			return this;
 		}
@@ -78,7 +71,7 @@ public class StepConstant extends StepNode {
 	}
 
 	@Override
-	public StepNode getNonInteger() {
+	public StepExpression getNonInteger() {
 		if (nonSpecialConstant()) {
 			return null;
 		}
@@ -100,11 +93,6 @@ public class StepConstant extends StepNode {
 			return "inf";
 		}
 		return new DecimalFormat("#0.##").format(value);
-	}
-
-	@Override
-	public String toLaTeXString(Localization loc) {
-		return toLaTeXString(loc, false);
 	}
 
 	@Override
