@@ -16,6 +16,8 @@ import java.util.HashSet;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.StringUtil;
 
+import com.himamis.retex.editor.share.input.Character;
+
 /**
  * Construction for macros.
  */
@@ -145,7 +147,7 @@ public class MacroConstruction extends Construction {
 
 		// try upper case version for spreadsheet label like a1
 		if (autoCreate) {
-			if (StringUtil.isLetter(label1.charAt(0)) // starts with letter
+			if (Character.isLetter(label1.charAt(0)) // starts with letter
 					&& StringUtil.isDigit(label1.charAt(label1.length() - 1))) // ends
 																				// with
 																				// digit

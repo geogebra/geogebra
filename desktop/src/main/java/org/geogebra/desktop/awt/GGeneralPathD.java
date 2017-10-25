@@ -14,7 +14,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class GGeneralPathD implements GGeneralPath, GShapeD {
 
-	private GeneralPath impl = new GeneralPath();
+	private final GeneralPath impl;
 
 	public GGeneralPathD(GeneralPath g) {
 		impl = g;

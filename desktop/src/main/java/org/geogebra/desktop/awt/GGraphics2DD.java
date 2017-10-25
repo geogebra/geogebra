@@ -346,9 +346,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void fill(GShape shape) {
-
 		impl.fill(GGenericShapeD.getAwtShape(shape));
-
 	}
 
 	@Override
