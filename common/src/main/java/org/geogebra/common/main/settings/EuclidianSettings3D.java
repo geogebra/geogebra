@@ -270,7 +270,6 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	 * toggle visibility of the plane
 	 */
 	public void togglePlane() {
-
 		showPlate = !showPlate;
 		settingChanged();
 

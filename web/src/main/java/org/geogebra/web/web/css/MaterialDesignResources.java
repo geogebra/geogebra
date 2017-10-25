@@ -36,6 +36,9 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource text_italic_black();
 
 	// context menu icon resources
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/plane_black.svg")
+	SVGResource plane_black();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/contextMenu/ic_more_vert_black_24px.svg")
 	SVGResource more_vert_black();
 

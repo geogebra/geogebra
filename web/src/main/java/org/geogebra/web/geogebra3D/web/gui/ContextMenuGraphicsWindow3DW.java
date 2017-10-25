@@ -1,7 +1,9 @@
 package org.geogebra.web.geogebra3D.web.gui;
 
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.main.AppW;
@@ -11,6 +13,7 @@ import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
+import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -57,9 +60,37 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	private void buildGUI3DUnbundled() {
 		super.addAxesMenuItem();
+		addPlaneMenuItem();
 		super.addSnapToGridMenuItem();
 		addShowAllObjectsViewMenuItem();
 		addMiProperties("GraphicsView3D", OptionType.EUCLIDIAN3D);
+	}
+
+	private void addPlaneMenuItem() {
+		String img = MaterialDesignResources.INSTANCE.plane_black().getSafeUri()
+				.asString();
+		final GCheckmarkMenuItem showPlane = new GCheckmarkMenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowPlane")),
+				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
+						.asString(),
+				((Kernel3D) app.getKernel()).getXOYPlane().isPlateVisible());
+		showPlane.setCommand(new Command() {
+			@Override
+			public void execute() {
+				boolean isPlaneVisible = ((EuclidianView3D) app
+						.getActiveEuclidianView())
+								.getShowPlane();
+				((EuclidianView3DW) app.getActiveEuclidianView())
+						.setShowPlane(!isPlaneVisible);
+				((EuclidianSettings3D) app.getSettings()
+						.getEuclidianForView(app.getActiveEuclidianView(), app))
+								.setShowPlate(!isPlaneVisible);
+				showPlane.setChecked(!isPlaneVisible);
+				app.getActiveEuclidianView().repaintView();
+				app.storeUndoInfo();
+			}
+		});
+		wrappedPopup.addItem(showPlane);
 	}
 
 	private void addStandardViewMenuItem() {
