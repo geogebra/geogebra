@@ -657,11 +657,24 @@
 			width: 100%;
 			border-radius: 0 0 2px 2px;
 			background-color: #f5f5f5;
+			display: flex;
 			
 			.gwt-Label {
 				font-size: 14px;
 				padding: 16px;
 				cursor: default;
+			}
+			.mowMoreButton {
+				width: 24px;
+				height: 24px;
+				padding: 13.5px;
+				right: 16px;
+   				position: absolute;
+				opacity: 0.54;
+				
+				&:hover {
+					opacity: 0.85;
+				}
 			}
 		}
 	}
