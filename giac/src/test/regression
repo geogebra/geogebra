@@ -83,7 +83,7 @@ if [ "$REGRESSION" = 1 ]; then
  echo 0 > $SAVEDIR/.bad
  fi
 
-find -name '*.in' | while read IN; do
+find . -name '*.in' | while read IN; do
  OUT=`dirname $IN`/`basename $IN .in`.out
  if [ "$REGRESSION" = 1 -o "$OVERWRITE" = 1 -o ! -f $OUT ]; then
   IGNORE=0
