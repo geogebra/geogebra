@@ -60,6 +60,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	private void buildGUI3DUnbundled() {
 		super.addAxesMenuItem();
+		addGridMenuItem();
 		addPlaneMenuItem();
 		super.addSnapToGridMenuItem();
 		addShowAllObjectsViewMenuItem();
@@ -91,6 +92,29 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			}
 		});
 		wrappedPopup.addItem(showPlane);
+	}
+
+	private void addGridMenuItem() {
+		String img = MaterialDesignResources.INSTANCE.grid_black().getSafeUri()
+				.asString();
+		final GCheckmarkMenuItem showGrid = new GCheckmarkMenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowGrid")),
+				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
+						.asString(),
+				((Kernel3D) app.getKernel()).getXOYPlane().isGridVisible());
+		showGrid.setCommand(new Command() {
+			@Override
+			public void execute() {
+				boolean isGridVisible = ((EuclidianView3D) app
+						.getActiveEuclidianView()).getShowGrid();
+				((EuclidianView3D) app.getActiveEuclidianView())
+						.showGrid(!isGridVisible);
+				showGrid.setChecked(!isGridVisible);
+				app.getActiveEuclidianView().repaintView();
+				app.storeUndoInfo();
+			}
+		});
+		wrappedPopup.addItem(showGrid);
 	}
 
 	private void addStandardViewMenuItem() {
@@ -145,7 +169,6 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 
 	@Override
 	protected void addAxesAndGridCheckBoxes() {
-		// checkboxes for axes and grid
 		// AXES
 		String img;
 		if (hasWhiteboardContextMenu()) {

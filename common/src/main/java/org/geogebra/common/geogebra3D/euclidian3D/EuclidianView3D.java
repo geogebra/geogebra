@@ -3472,9 +3472,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * toggle the visibility of xOy grid
 	 */
 	public void toggleGrid() {
-
 		getSettings().showGrid(!getShowGrid());
-
 	}
 
 	public GeoPlane3DConstant getxOyPlane() {
@@ -3920,9 +3918,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public boolean showGrid(boolean selected) {
-
 		return setShowGrid(selected);
-
 	}
 
 	@Override
