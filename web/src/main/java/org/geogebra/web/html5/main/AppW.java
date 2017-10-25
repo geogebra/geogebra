@@ -348,9 +348,7 @@ public abstract class AppW extends App implements SetLabels {
 			getGuiManager().updateFullscreen();
 
 		}
-		if (!this.getAppletFrame().isHeaderPanelOpen()) {
-			adjustViews(true, isUnbundled());
-		}
+
 	}
 
 	@Override

@@ -542,33 +542,41 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     return null;
   }
 
-  private void insertSplitter(Widget widget, Widget before) {
-    assert getChildren().size() > 0 : "Can't add a splitter before any children";
+	private void insertSplitter(Widget widget, Widget before) {
+		assert getChildren()
+				.size() > 0 : "Can't add a splitter before any children";
 
-    LayoutData layout = (LayoutData) widget.getLayoutData();
-    Splitter splitter = null;
-    switch (getResolvedDirection(layout.direction)) {
-      case WEST:
-        splitter = new HSplitter(widget, false, this);
-        break;
-      case EAST:
-        splitter = new HSplitter(widget, true, this);
-        break;
-      case NORTH:
-        splitter = new VSplitter(widget, false, this);
-        break;
-      case SOUTH:
-        splitter = new VSplitter(widget, true, this);
-        break;
-      default:
-        assert false : "Unexpected direction";
-    }
+		LayoutData layout = (LayoutData) widget.getLayoutData();
+		Splitter splitter = null;
+		String cssdir = "x";
+		switch (getResolvedDirection(layout.direction)) {
+		case WEST:
+			cssdir = "y";
+			splitter = new HSplitter(widget, false, this);
+			break;
+		case EAST:
+			cssdir = "y";
+			splitter = new HSplitter(widget, true, this);
+			break;
+		case NORTH:
+			splitter = new VSplitter(widget, false, this);
+			break;
+		case SOUTH:
+			splitter = new VSplitter(widget, true, this);
+			break;
+		default:
+			assert false : "Unexpected direction";
+		}
 
-    super.insert(splitter, layout.direction, splitterSize, before);
-    LayoutData layoutData = (LayoutData) splitter.getLayoutData();
-    splitter.impl.splitterInsertedIntoLayer(layoutData.layer);
-  }
-  
+		super.insert(splitter, layout.direction, splitterSize, before);
+
+		LayoutData layoutData = (LayoutData) splitter.getLayoutData();
+		splitter.impl.splitterInsertedIntoLayer(layoutData.layer);
+		Element parentDiv = splitter.getElement().getParentElement();
+		parentDiv.setAttribute("style", parentDiv.getAttribute("style")
+				+ ";overflow-" + cssdir + ":hidden !important");
+	}
+
   void assertIsChild(Widget widget) {
 	    assert (widget == null) || (widget.getParent() == this) : "The specified widget is not a child of this panel";
 	  }
