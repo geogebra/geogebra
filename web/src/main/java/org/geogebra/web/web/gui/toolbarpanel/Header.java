@@ -110,7 +110,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 		}
 		createRightSide();
 		createCenter();
-		addUndoRedoButtons();
+		if (app.isUndoRedoEnabled()) {
+			addUndoRedoButtons();
+		}
 		setLabels();
 		ClickStartHandler.initDefaults(this, true, true);
 		buttons = Arrays.asList(btnMenu, btnAlgebra, btnTools, btnClose,
@@ -451,13 +453,14 @@ class Header extends FlowPanel implements KeyDownHandler {
 	public void updateUndoRedoPosition() {
 		final EuclidianView ev = ((AppW) toolbarPanel.app)
 				.getActiveEuclidianView();
-		if (ev != null) {
+		if (ev != null && undoRedoPanel != null) {
 			int evTop = ev.getAbsoluteTop() - (int) app.getAbsTop();
 			int evLeft = ev.getAbsoluteLeft() - (int) app.getAbsLeft();
+			Log.debug(evLeft + "UNDO");
 			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}
-			int move = app.isPortrait() ? 48 : 0;
+			int move = app.isPortrait() && app.showMenuBar() ? 48 : 0;
 			undoRedoPanel.getElement().getStyle().setTop(evTop, Unit.PX);
 			undoRedoPanel.getElement().getStyle().setLeft(evLeft + move,
 					Unit.PX);
@@ -468,7 +471,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Show the undo/redo panel.
 	 */
 	public void showUndoRedoPanel() {
-		undoRedoPanel.removeStyleName("hidden");
+		if (undoRedoPanel != null) {
+			undoRedoPanel.removeStyleName("hidden");
+		}
 	}
 
 
@@ -476,7 +481,9 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Hide the entire undo/redo panel (eg. during animation).
 	 */
 	public void hideUndoRedoPanel() {
-		undoRedoPanel.addStyleName("hidden");
+		if (undoRedoPanel != null) {
+			undoRedoPanel.addStyleName("hidden");
+		}
 	}
 
 	/**
@@ -497,6 +504,13 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * update style of undo+redo buttons
 	 */
 	public void updateUndoRedoActions() {
+		if (undoRedoPanel == null) {
+			if (app.isUndoRedoEnabled()) {
+				addUndoRedoButtons();
+			} else {
+				return;
+			}
+		}
 		if (toolbarPanel.app.getKernel().undoPossible()) {
 			btnUndo.addStyleName("buttonActive");
 			btnUndo.removeStyleName("buttonInactive");

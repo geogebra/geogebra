@@ -3229,6 +3229,12 @@ public class Kernel {
 		return getViewBoundsForGeo(geo)[5];
 	}
 
+	/**
+	 * Notify all construction elements depending on certain property
+	 * 
+	 * @param prop
+	 *            EV property that changed
+	 */
 	public void notifyEuclidianViewCE(EVProperty prop) {
 		if (macroManager != null) {
 			macroManager.notifyEuclidianViewCE(prop);

@@ -1842,7 +1842,7 @@ public class DockManagerW extends DockManager {
 			avPanel.onResize();
 		}
 
-		if (!app.canResize() || panelsMoved) {
+		if ((!app.canResize() && !force) || panelsMoved) {
 			return;
 		}
 		calculateKeyboardHeight();
