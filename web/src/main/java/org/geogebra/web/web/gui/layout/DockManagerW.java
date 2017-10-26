@@ -16,7 +16,6 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -45,11 +44,12 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Class responsible to manage the whole docking area of the window.
  * 
- * @author Florian Sonner
+ * Based on desktop implementation by Florian Sonner
  */
 public class DockManagerW extends DockManager {
-	private static final int PAGE_HEADER_HEIGHT = 32;
+	/** default keyboard height */
 	public static final int DEFAULT_KEYBOARD_HEIGHT = 228;
+	/** application */
 	AppW app;
 	private LayoutW layout;
 	private double kbHeight = 0;
@@ -66,7 +66,7 @@ public class DockManagerW extends DockManager {
 	/**
 	 * The root split pane.
 	 */
-	private DockSplitPaneW rootPane;
+	DockSplitPaneW rootPane;
 	
 	/**
 	 * The dock panel which has the focus at the moment.
@@ -93,6 +93,7 @@ public class DockManagerW extends DockManager {
 	
 	/**
 	 * @param layout
+	 *            app layout
 	 */
 	public DockManagerW(LayoutW layout) {
 		this.layout = layout;
@@ -100,26 +101,14 @@ public class DockManagerW extends DockManager {
 		
 		dockPanels = new ArrayList<DockPanelW>();
 		showDockPanelListener=new ArrayList<ShowDockPanelListener>();
-		
-		
-		
-		//if(!app.isApplet()) {
-		//	app.setGlassPane(glassPane);
-		//}
-		
-		// register focus changes
-	//	try {
-	//		Toolkit.getDefaultToolkit().addAWTEventListener(this , AWTEvent.MOUSE_EVENT_MASK);
-	//		hasFullFocusSystem = true;
-	//	} catch(Exception e) {
-	//		hasFullFocusSystem = false;
-	//	}
 	}
 	
 	/**
-	 * Register a new dock panel. Use Layout::registerPanel() as public interface.
+	 * Register a new dock panel. Use Layout::registerPanel() as public
+	 * interface.
 	 * 
 	 * @param dockPanel
+	 *            new panel
 	 */
 	public void registerPanel(DockPanelW dockPanel) {
 		dockPanels.add(dockPanel);
@@ -137,12 +126,15 @@ public class DockManagerW extends DockManager {
 	}
 	
 	/**
-	 * Apply a certain perspective by arranging the dock panels in the requested order.
+	 * Apply a certain perspective by arranging the dock panels in the requested
+	 * order.
 	 * 
 	 * @param spData
+	 *            split panes
 	 * @param dpData
+	 *            panels
 	 * 
-	 * @see LayoutD#applyPerspective(geogebra.io.layout.Perspective)
+	 * @see LayoutW#applyPerspective(org.geogebra.common.io.layout.Perspective)
 	 */
 	public void applyPerspective(DockSplitPaneData[] spData, DockPanelData[] dpData) {		
 		
@@ -554,6 +546,7 @@ public class DockManagerW extends DockManager {
 	 * Start the drag'n'drop process of a DockPanel.
 	 * 
 	 * @param panel
+	 *            dragged panel
 	 */
 	public void drag(DockPanelW panel) {
 		// Do not allow docking in case this is the last view
@@ -579,6 +572,7 @@ public class DockManagerW extends DockManager {
 	 * location.
 	 * 
 	 * @param dndState
+	 *            state
 	 */
 	public void drop(DnDState dndState) {
 	
@@ -763,29 +757,27 @@ public class DockManagerW extends DockManager {
 	 * Show a DockPanel identified by its ID.
 	 * 
 	 * @param viewId
+	 *            view ID
 	 */
 	public void show(int viewId) {
 		show(getPanel(viewId));
 	}
 	
 	/**
-	 * Show a DockPanel where it was displayed the last time - either in the main window
-	 * or in a separate frame. 
+	 * Show a DockPanel where it was displayed the last time - either in the
+	 * main window or in a separate frame.
 	 * 
-	 * The location of the DockPanel in the main window is given by the definition string
-	 * stored in DockPanelInfo.getEmbeddedDef().
-	 * A definition string can be read like a list of directions, where numbers
-	 * represents the four directions we can go:
+	 * The location of the DockPanel in the main window is given by the
+	 * definition string stored in DockPanelInfo.getEmbeddedDef(). A definition
+	 * string can be read like a list of directions, where numbers represents
+	 * the four directions we can go:
 	 * 
-	 * 0: Top
-	 * 1: Right
-	 * 2: Bottom
-	 * 3: Left 
+	 * 0: Top 1: Right 2: Bottom 3: Left
 	 * 
-	 * A definition string like "0,3,2" is read by the program this way:
-	 * - Go to the top (=0) container of the root pane.
-	 * - Go to the container at the left (=3) of the current container.
-	 * - Insert the DockPanel at the bottom (=2) of the current container.
+	 * A definition string like "0,3,2" is read by the program this way: - Go to
+	 * the top (=0) container of the root pane. - Go to the container at the
+	 * left (=3) of the current container. - Insert the DockPanel at the bottom
+	 * (=2) of the current container.
 	 * 
 	 * Note that the program differs between the top & left and bottom & right
 	 * position while the DockSplitPane just differs between a left and right
@@ -793,15 +785,15 @@ public class DockManagerW extends DockManager {
 	 * 
 	 * As the layout of the panels is changed frequently and may be completely
 	 * different if the DockPanel is inserted again, the algorithm ignores all
-	 * directions which are not existing anymore in order to get the best possible
-	 * result.
-	 * Using the example from above, the second direction ("3") may be
-	 * ignored if the top container of the root pane isn't divided anymore or the
-	 * orientation of the container was changed. The algorithm will continue with 
-	 * "2" and will insert the DockPanel at the bottom of the top container 
-	 * of the root pane.
+	 * directions which are not existing anymore in order to get the best
+	 * possible result. Using the example from above, the second direction ("3")
+	 * may be ignored if the top container of the root pane isn't divided
+	 * anymore or the orientation of the container was changed. The algorithm
+	 * will continue with "2" and will insert the DockPanel at the bottom of the
+	 * top container of the root pane.
 	 * 
-	 * @param panel 
+	 * @param panel
+	 *            panel
 	 */
 	public void show(DockPanelW panel) {
 		
@@ -1038,6 +1030,9 @@ public class DockManagerW extends DockManager {
 	 * Hide a dock panel identified by the view ID.
 	 * 
 	 * @param viewId
+	 *            vew ID
+	 * @param isPermanent
+	 *            permanent?
 	 * @return true if succeeded to hide the panel
 	 */
 	public boolean hide(int viewId, boolean isPermanent) {
@@ -1048,6 +1043,7 @@ public class DockManagerW extends DockManager {
 	 * Hide a dock panel permanently.
 	 * 
 	 * @param panel
+	 *            panel
 	 * @return true if succeeded to hide the panel
 	 */
 	public boolean hide(DockPanelW panel) {
@@ -1092,7 +1088,11 @@ public class DockManagerW extends DockManager {
 	 * Hide a dock panel.
 	 * 
 	 * @param panel
-	 * @param isPermanent If this change is permanent.
+	 *            panel
+	 * @param isPermanent
+	 *            If this change is permanent.
+	 * @param fromDrop
+	 *            whether it was dropped
 	 * @return true if it succeeded to hide the panel
 	 */
 	public boolean hide(DockPanelW panel, boolean isPermanent, boolean fromDrop) {
@@ -1387,13 +1387,14 @@ public class DockManagerW extends DockManager {
 
 
 	/**
-	 * Changes the focused panel to the dock panel with ID viewId. 
-	 * Uses {@link DockManagerW#setFocusedPanel(DockPanel)} internally 
-	 * but adds some validation checks. 
+	 * Changes the focused panel to the dock panel with ID viewId. Uses
+	 * {@link DockManagerW#setFocusedPanel(DockPanel)} internally but adds some
+	 * validation checks.
 	 * 
-	 * @param viewId 
-	 * @return true if focus was changed, false if the requested dock panel does 
-	 * 			not exist or is invisible at the moment  
+	 * @param viewId
+	 *            view ID
+	 * @return true if focus was changed, false if the requested dock panel does
+	 *         not exist or is invisible at the moment
 	 */
 	@Override
     public boolean setFocusedPanel(int viewId) {
@@ -1634,17 +1635,6 @@ public class DockManagerW extends DockManager {
 	}
 	
 	/**
-	 * Change the toolbar mode for all toolbars in external frames.
-	 * 
-	 * @param mode
-	 */
-	public void setToolbarMode(int mode) {
-//		for(DockPanelW panel : dockPanels) {
-		//	panel.setToolbarMode(mode);
-//		}
-	}
-	
-	/**
 	 * Update the fonts in all dock panels.
 	 */
 	public void updateFonts() {
@@ -1658,31 +1648,6 @@ public class DockManagerW extends DockManager {
 	}
 	
 	/**
-	 * Scale the split panes based upon the given X and Y scale. This is used to keep relative
-	 * dimensions of the split panes if the user is switching between applet and frame mode. 
-	 * 
-	 * @param scaleX
-	 * @param scaleY
-	 */
-	public void scale(double scaleX, double scaleY) {
-		scale(scaleX, scaleY, rootPane);
-	}
-	
-	private void scale(double scaleX, double scaleY, DockSplitPaneW splitPane) {
-		splitPane.setDividerLocation((int) (splitPane.getDividerLocation()
-				* (splitPane.getOrientation() == SwingConstants.VERTICAL_SPLIT
-						? scaleX : scaleY)));
-		
-		if(splitPane.getLeftComponent() != null && splitPane.getLeftComponent() instanceof DockSplitPaneW) {
-			scale(scaleX, scaleY, (DockSplitPaneW)splitPane.getLeftComponent());
-		}
-		
-		if(splitPane.getRightComponent() != null && splitPane.getRightComponent() instanceof DockSplitPaneW) {
-			scale(scaleX, scaleY, (DockSplitPaneW)splitPane.getRightComponent());
-		}
-	}
-	
-	/**
 	 * @return GeoGebraLayout instance
 	 */
 	public LayoutW getLayout() {
@@ -1690,17 +1655,9 @@ public class DockManagerW extends DockManager {
 	}
 	
 	/**
-	 * @return The glass pane which is used to draw the preview rectangle if the user dragged
-	 * a DockPanel.
-	 */
-	//public DockGlassPane getGlassPane() {
-	//	return glassPane;
-	// }
-	
-	/**
 	 * 
-	 * @param viewId constant VIEW_EUCLIDIAN, VIEW_ALGEBRA, or VIEW_FOR_PLANE
-	 * @param plane plane when for euclidian view for plane
+	 * @param dpData
+	 *            data containing view ID and plane for euclidian view for plane
 	 * @return a DockPanel
 	 */
 	public DockPanelW getPanel(DockPanelData dpData)
@@ -1728,6 +1685,7 @@ public class DockManagerW extends DockManager {
 	 * Use the constants VIEW_EUCLIDIAN, VIEW_ALGEBRA etc. as viewId.
 	 * 
 	 * @param viewId
+	 *            view ID
 	 * @return The panel associated to the viewId
 	 */
 	@Override
@@ -1785,10 +1743,18 @@ public class DockManagerW extends DockManager {
 	}
 
 	
+	/**
+	 * @param l
+	 *            listener
+	 */
 	public void addShowDockPanelListener(ShowDockPanelListener l){
 		showDockPanelListener.add(l);
 	}
 
+	/**
+	 * @param drag
+	 *            whether to enable dragging
+	 */
 	public void enableDragging(boolean drag) {
 		for (int i = 0; i < getPanels().length; i++) {
 			getPanels()[i].enableDragging(drag);
@@ -1802,6 +1768,12 @@ public class DockManagerW extends DockManager {
 		}
     }
 
+	/**
+	 * In most cases keyboard goes to focused panel, but if focus is in EV or
+	 * lost, other panel must be chosen
+	 * 
+	 * @return panel that should get keyboard
+	 */
 	public DockPanelW getPanelForKeyboard() {
 		DockPanelW panel = getFocusedPanel();
 
@@ -1829,6 +1801,9 @@ public class DockManagerW extends DockManager {
 		return num;
 	}
 	
+	/**
+	 * @return app
+	 */
 	public AppW getApp() {
 		return app;
 	}

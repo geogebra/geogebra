@@ -4570,11 +4570,12 @@ public abstract class EuclidianController {
 				// get nearest radial gridline angle
 				double angle = Math.atan2(yRW, xRW);
 				double angleOffset = angle % view.getGridDistances(2);
-				if (angleOffset < (view.getGridDistances(2) / 2)) {
-					angle = angle - angleOffset;
-				} else {
-					angle = (angle - angleOffset) + view.getGridDistances(2);
+				if (angleOffset > (view.getGridDistances(2) / 2)) {
+					angleOffset -= view.getGridDistances(2);
+				} else if (angleOffset < -(view.getGridDistances(2) / 2)) {
+					angleOffset += view.getGridDistances(2);
 				}
+				angle = angle - angleOffset;
 
 				// get grid point
 				double x1 = r2 * Math.cos(angle);
@@ -4582,12 +4583,14 @@ public abstract class EuclidianController {
 
 				// if |X - XRW| < gridInterval * pointCapturingPercentage then
 				// take the grid point
-				double a1 = Math.abs(x1 - xRW);
-				double b1 = Math.abs(y1 - yRW);
+				double a1 = Math.abs(r - r2);
+				double b1 = Math.abs(r * angleOffset);
 
-				if ((a1 < (view.getGridDistances(0) * pointCapturingPercentage))
-						&& (b1 < (view.getGridDistances(1)
-								* pointCapturingPercentage))) {
+				if (pointCapturingPercentage > 0.5
+						|| ((a1 < (view.getGridDistances(0)
+								* pointCapturingPercentage))
+						&& (b1 < (view.getGridDistances(0)
+										* pointCapturingPercentage)))) {
 					xRW = x1 - getTransformCoordsOffset(0);
 					yRW = y1 - getTransformCoordsOffset(1);
 				} else {
@@ -7531,7 +7534,6 @@ public abstract class EuclidianController {
 
 				transformCoordsOffset[0] = vX - xRW;
 				transformCoordsOffset[1] = vY - yRW;
-
 			}
 
 			setStartPointLocation();
@@ -7781,7 +7783,6 @@ public abstract class EuclidianController {
 					runScriptsIfNeeded(movedGeoElement);
 				}
 			}
-
 		}
 
 		// image
