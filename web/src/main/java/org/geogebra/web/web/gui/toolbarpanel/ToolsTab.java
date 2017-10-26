@@ -217,7 +217,8 @@ class ToolsTab extends ToolbarPanel.ToolbarTab implements TabHandler {
 		getElement().getStyle().setLeft(w, Unit.PX);
 
 		sp.setWidth(w + "px");
-		double height = app.getHeight() - ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
+		double height = (app.isPortrait() ? toolbarPanel.getOffsetHeight() : app.getHeight())
+				- ToolbarPanel.CLOSED_HEIGHT_PORTRAIT;
 		if (height >= 0) {
 			sp.setHeight(height + "px");
 		}
