@@ -13,6 +13,7 @@ import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
+import org.geogebra.common.gui.dialog.options.model.CenterImageModel;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel.IColorObjectListener;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -312,6 +313,10 @@ public class OptionsTab extends FlowPanel {
 		if (m instanceof AbsoluteScreenLocationModel) {
 			return new CheckboxPanel("AbsoluteScreenLocation",
 					app.getLocalization(), (AbsoluteScreenLocationModel) m);
+		}
+		if (m instanceof CenterImageModel) {
+			return new CheckboxPanel("CenterImage",
+					app.getLocalization(), (CenterImageModel) m);
 		}
 		if (m instanceof CoordsModel) {
 			return new CoordsPanel((CoordsModel) m, app);

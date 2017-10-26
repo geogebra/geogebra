@@ -16,6 +16,7 @@ import org.geogebra.common.gui.dialog.options.model.AnimationSpeedModel;
 import org.geogebra.common.gui.dialog.options.model.AuxObjectModel;
 import org.geogebra.common.gui.dialog.options.model.BackgroundImageModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
+import org.geogebra.common.gui.dialog.options.model.CenterImageModel;
 import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel;
 import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import org.geogebra.common.gui.dialog.options.model.ColorObjectModel;
@@ -1379,7 +1380,8 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		tab = makeOptionsTab("Properties.Position");
 		tab.addModel(new StartPointModel(app))
 				.addModel(new CornerPointsModel(app))
-				.addModel(new AbsoluteScreenLocationModel(app));
+				.addModel(new AbsoluteScreenLocationModel(app))
+				.addModel(new CenterImageModel(null, app));
 		return tab;
 	}
 

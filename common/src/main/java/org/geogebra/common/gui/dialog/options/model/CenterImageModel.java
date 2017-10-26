@@ -1,0 +1,32 @@
+package org.geogebra.common.gui.dialog.options.model;
+
+import org.geogebra.common.kernel.geos.GeoImage;
+import org.geogebra.common.main.App;
+
+public class CenterImageModel extends BooleanOptionModel {
+
+	public CenterImageModel(IBooleanOptionListener listener, App app) {
+		super(listener, app);
+		// TODO Auto-generated constructor stub
+	}
+
+	private GeoImage getImageAt(int index) {
+		return (GeoImage) getGeoAt(index);
+	}
+
+	@Override
+	public boolean getValueAt(int index) {
+		return getImageAt(index).isCentered();
+	}
+
+	@Override
+	public void apply(int index, boolean value) {
+		getImageAt(index).setCentered(value);
+	}
+
+	@Override
+	protected boolean isValidAt(int index) {
+		return getGeoAt(index) instanceof GeoImage;
+	}
+
+}
