@@ -276,5 +276,9 @@ public enum Feature {
 	UNBUNDLED_3D_APP,
 
 	/** AND-617 */
-	MOB_INPUT_CONTEXT_MENU
+	MOB_INPUT_CONTEXT_MENU,
+
+	/** GGB-2169 */
+	CENTER_IMAGE
 }
+

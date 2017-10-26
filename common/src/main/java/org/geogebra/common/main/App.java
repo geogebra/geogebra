@@ -4294,11 +4294,15 @@ public abstract class App implements UpdateSelection {
 
             /** GGB-2118 */
             case PREVIEW_POINTS:
-                return prerelease;
+            	return prerelease;
 
-            /** GGB-2127 */
+		/** GGB-2127 */
             case UNBUNDLED_3D_APP:
-                return prerelease;
+            	return prerelease;
+
+		/** GGB-2169 */
+            case CENTER_IMAGE:
+            	return prerelease;
 
             default:
                 Log.debug("missing case in Feature: " + f);

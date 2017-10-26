@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -61,7 +62,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	// coords is the 2d result array for (x, y); n is 0, 1, or 2
 	private double[] tempCoords = new double[2];
 	private ArrayList<GeoPointND> al = null;
-
+	private boolean centered = false;
 	/**
 	 * Creates new image
 	 * 
@@ -1082,6 +1083,58 @@ public class GeoImage extends GeoElement implements Locateable,
 			final boolean substituteNumbers) {
 		// assume LaTeX
 		return toLaTeXString(true, null);
+	}
+
+	/**
+	 * 
+	 * @return if image is centered.
+	 */
+	public boolean isCentered() {
+		if (!getKernel().getApplication().has(Feature.CENTER_IMAGE)) {
+			return false;
+		}
+		return centered;
+	}
+
+	public void setCentered(boolean centered) {
+		if (!getKernel().getApplication().has(Feature.CENTER_IMAGE)) {
+			return;
+		}
+
+		this.centered = centered;
+		if (centered) {
+			center();
+		}
+
+	}
+
+	private void center() {
+		App app = getKernel().getApplication();
+		if (!app.has(Feature.CENTER_IMAGE)) {
+			return;
+		}
+
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+
+		GeoPoint p = corners[0];
+		GeoPoint p1 = corners[1];
+
+		double x1 = ev.getXmax() - (p.x - ev.getXmin());
+		double y2 = ev.getYmax() - (p.y - ev.getYmin());
+
+		p1.setCoords(x1, p.y, 1);
+		p1.update();
+
+		GeoPoint p2 = new GeoPoint(getKernel().getConstruction(), p.x,
+				y2, 1);
+		p2.update();
+
+		setCorner(p1, 1);
+		setCorner(p2, 2);
+
+		update();
+
+		ev.repaintView();
 	}
 
 }
