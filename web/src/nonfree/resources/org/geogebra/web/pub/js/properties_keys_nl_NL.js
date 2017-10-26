@@ -2585,7 +2585,7 @@ __GGB__keysVar.nl_NL.menu = {
     "ShowOnlineHelp": "Toon Online Help",
     "ShowOnlyBreakpoints": "Enkel stoppunten tonen",
     "ShowOutliers": "Toon uitschieters",
-    "ShowPlane": "Show Plane",
+    "ShowPlane": "Toon vlak",
     "ShowPlot2": "Toon tweede grafiek",
     "ShowResetIcon": "Pictogram om constructie te herstarten tonen",
     "ShowRowHeader": "Toon koppen van rijen",
