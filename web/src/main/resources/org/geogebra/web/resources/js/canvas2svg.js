@@ -1204,6 +1204,7 @@
         pattern.setAttribute("id", id);
         pattern.setAttribute("width", image.width);
         pattern.setAttribute("height", image.height);
+        pattern.setAttribute("patternUnits", "userSpaceOnUse");
         if (image.nodeName === "CANVAS" || image.nodeName === "IMG") {
             img = this.__document.createElementNS("http://www.w3.org/2000/svg", "image");
             img.setAttribute("width", image.width);
