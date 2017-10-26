@@ -138,7 +138,7 @@ public class AlgebraDockPanelW extends DockPanelW
 	}
 
 	public MathKeyboardListener updateKeyboardListener(MathKeyboardListener ml) {
-		if (aview.getInputTreeItem() != ml) {
+		if (aview == null || aview.getInputTreeItem() != ml) {
 			return ml;
 		}
 

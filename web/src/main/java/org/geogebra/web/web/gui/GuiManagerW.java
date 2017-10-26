@@ -687,9 +687,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		int borderThickness = ((AppW) app).getArticleElement()
 				.getBorderThickness();
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
-			final Widget root = getLayout().getRootComponent();
+			final DockSplitPaneW root = getLayout().getRootComponent();
 			root.setPixelSize(root.getOffsetWidth() + widthChanged,
 					root.getOffsetHeight() + heightChanged);
+			root.onResize();
 		} else {
 			geogebraFrame.getStyle().setProperty("height",
 					height - borderThickness + "px");
@@ -708,8 +709,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			toolbarPanel.setToolbarWidth(width);
 		}
 		((AppWFull) app).updateMenuHeight();
-		 // update view sizes
-		((AppW) app).updateViewSizes();
+		// NB updateViewSizes not needed after root.onResize
 		((AppW) app).recalculateEnvironments();
 		app.setPreferredSize(
 				AwtFactory.getPrototype().newDimension(width, height));

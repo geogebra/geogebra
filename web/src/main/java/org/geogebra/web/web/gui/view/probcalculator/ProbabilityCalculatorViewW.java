@@ -855,16 +855,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		int width = mainSplitPane.getOffsetWidth()
 				- ((ProbabilityTableW) getTable()).getWrappedPanel().getOffsetWidth()
 				- 5;
+		int height = probCalcPanel.getOffsetHeight() - 20;
 		if (width > 0) {
 			getPlotPanel().setPreferredSize(new GDimensionW(width,
-					PlotPanelEuclidianViewW.DEFAULT_HEIGHT));
+					Math.min(Math.max(100, height - 120),
+							PlotPanelEuclidianViewW.DEFAULT_HEIGHT)));
 			getPlotPanel().repaintView();
 			getPlotPanel().getEuclidianController().calculateEnvironment();
 			controlPanel.setWidth(width + "px");
 			plotPanelPlus.setWidth(width + "px");
 		}
 
-		int height = probCalcPanel.getOffsetHeight() - 20;
+
 		if (height > 0) {
 			((ProbabilityTableW) getTable()).getWrappedPanel()
 					.setPixelSize(((ProbabilityTableW) getTable()).getStatTable()

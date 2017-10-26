@@ -1806,9 +1806,7 @@ public class DockManagerW extends DockManager {
 		DockPanelW panel = getFocusedPanel();
 
 		if (panel == null || (panel.getViewId() != App.VIEW_ALGEBRA && panel.getViewId() != App.VIEW_CAS
-				&& (!app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)
-						|| (panel.getViewId() != App.VIEW_SPREADSHEET && panel
-								.getViewId() != App.VIEW_PROBABILITY_CALCULATOR)))) {
+				&& panel.getViewId() != App.VIEW_SPREADSHEET && panel					.getViewId() != App.VIEW_PROBABILITY_CALCULATOR)) {
 			panel = getPanel(App.VIEW_ALGEBRA);
 			if (!panel.isVisible()) {
 				panel = getPanel(App.VIEW_CAS);
