@@ -1348,6 +1348,7 @@ __GGB__keysVar.nl_NL.menu = {
     "CasTimeout": "CAS time-out (in seconden)",
     "Categories": "Categorie\xebn",
     "CellAisNotDefined": "Cel %0 is niet gedefini\xeberd",
+    "CenterImage": "Afbeelding centreren",
     "CenterOfA": "Middelpunt van %0",
     "CentroidOfA": "Zwaartepunt van %0",
     "CheckBoxTitle": "Aanvinkvakje om objecten te tonen/verbergen",

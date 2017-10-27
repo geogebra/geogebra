@@ -1348,6 +1348,7 @@ __GGB__keysVar.vi.menu = {
     "CasTimeout": "CAS ng\u1eebng (t\xednh theo gi\xe2y)",
     "Categories": "Categories",
     "CellAisNotDefined": "\xd4 %0 ch\u01b0a \u0111\u01b0\u1ee3c \u0111\u1ecbnh ngh\u0129a",
+    "CenterImage": "Center Image",
     "CenterOfA": "T\xe2m c\u1ee7a %0",
     "CentroidOfA": "Tr\u1ecdng t\xe2m c\u1ee7a %0",
     "CheckBoxTitle": "T\u1ea1o Check Box \u0111\u1ec3 hi\u1ec3n th\u1ecb/gi\u1ea5u h\xecnh th\u1ec3",

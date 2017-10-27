@@ -1348,6 +1348,7 @@ __GGB__keysVar.in.menu = {
     "CasTimeout": "CAS berakhir (dalam detik)",
     "Categories": "Categories",
     "CellAisNotDefined": "Sel %0 tidak terdefinisi",
+    "CenterImage": "Center Image",
     "CenterOfA": "Pusat dari %0",
     "CentroidOfA": "Titik berat dari %0",
     "CheckBoxTitle": "Check Box to Show/Hide Objects",

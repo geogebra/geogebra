@@ -1348,6 +1348,7 @@ __GGB__keysVar.sk.menu = {
     "CasTimeout": "CAS \u010das vypr\u0161al (v sekund\xe1ch)",
     "Categories": "Categories",
     "CellAisNotDefined": "Bunka %0 nie je definovan\xe1",
+    "CenterImage": "Center Image",
     "CenterOfA": "Stred %0",
     "CentroidOfA": "\u0164a\u017eisko toho: %0",
     "CheckBoxTitle": "Za\u010diarkavacie pol\xed\u010dko na zobrazenie a skrytie objektov",

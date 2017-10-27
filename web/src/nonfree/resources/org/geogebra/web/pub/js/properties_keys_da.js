@@ -1348,6 +1348,7 @@ __GGB__keysVar.da.menu = {
     "CasTimeout": "CAS timeout (i sekunder)",
     "Categories": "Kategorier",
     "CellAisNotDefined": "Celle %0 er ikke defineret",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0s centrum",
     "CentroidOfA": "%0s tyngdepunkt",
     "CheckBoxTitle": "Klikboks til at vise/skjule Objekter",

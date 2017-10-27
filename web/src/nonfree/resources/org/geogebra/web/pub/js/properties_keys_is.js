@@ -1348,6 +1348,7 @@ __GGB__keysVar.is.menu = {
     "CasTimeout": "CAS t\xedmalokun (\xed sek\xfandum)",
     "Categories": "Flokkar",
     "CellAisNotDefined": "Reitur %0 er ekki skilgreindur",
+    "CenterImage": "Center Image",
     "CenterOfA": "Mi\xf0ja %0",
     "CentroidOfA": "\xdeungami\xf0ja %0",
     "CheckBoxTitle": "G\xe1treitur til a\xf0 s\xfdna/fela hluti",

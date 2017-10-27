@@ -1348,6 +1348,7 @@ __GGB__keysVar.tl.menu = {
     "CasTimeout": "Pagkaubos ng oras ng CAS (sa mga segundo)",
     "Categories": "Categories",
     "CellAisNotDefined": "Walang kahulugan ang Cell %0",
+    "CenterImage": "Center Image",
     "CenterOfA": "Gitna ng %0",
     "CentroidOfA": "Sentroyd ng %0",
     "CheckBoxTitle": "Check Box to Show/Hide Objects",

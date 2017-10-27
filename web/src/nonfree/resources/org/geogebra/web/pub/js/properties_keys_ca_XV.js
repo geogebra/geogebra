@@ -1348,6 +1348,7 @@ __GGB__keysVar.ca_XV.menu = {
     "CasTimeout": "CAS Temps d'espera (en segons)",
     "Categories": "Categories",
     "CellAisNotDefined": "La cel\xb7la %0 no est\xe0 definida",
+    "CenterImage": "Center Image",
     "CenterOfA": "Centre de %0",
     "CentroidOfA": "Centroide de %0",
     "CheckBoxTitle": "Casella de control per a mostrar/amagar objectes",

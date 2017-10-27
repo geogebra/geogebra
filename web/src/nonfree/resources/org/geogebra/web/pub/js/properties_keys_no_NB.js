@@ -1348,6 +1348,7 @@ __GGB__keysVar.no_NB.menu = {
     "CasTimeout": "CAS-Timeout (i sekund)",
     "Categories": "Kategorier",
     "CellAisNotDefined": "Celle %0 er ikke definert",
+    "CenterImage": "Center Image",
     "CenterOfA": "Sentrum i %0",
     "CentroidOfA": "Tyngdepunkt for %0",
     "CheckBoxTitle": "Avkrysningsboks for \xe5 vise/skjule objekt",

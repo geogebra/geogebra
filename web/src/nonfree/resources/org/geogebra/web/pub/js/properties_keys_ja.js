@@ -1348,6 +1348,7 @@ __GGB__keysVar.ja.menu = {
     "CasTimeout": "CAS \u30bf\u30a4\u30e0\u30a2\u30a6\u30c8\uff08\u79d2\uff09",
     "Categories": "Categories",
     "CellAisNotDefined": "\u30bb\u30eb %0 \u306f\u672a\u5b9a\u7fa9\u3067\u3059",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0 \u306e\u4e2d\u5fc3",
     "CentroidOfA": "%0 \u306e\u91cd\u5fc3",
     "CheckBoxTitle": "Check Box to Show/Hide Objects\n\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u306e\u8868\u793a\uff0f\u975e\u8868\u793a\u306e\u30c1\u30a7\u30c3\u30af\u30dc\u30c3\u30af\u30b9",

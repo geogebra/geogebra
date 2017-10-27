@@ -1348,6 +1348,7 @@ __GGB__keysVar.bs.menu = {
     "CasTimeout": "CAS vremensko ograni\u010denje (u sekundama)",
     "Categories": "Categories",
     "CellAisNotDefined": "\u0106elija %0 nije definirana",
+    "CenterImage": "Center Image",
     "CenterOfA": "Centar od %0",
     "CentroidOfA": "Te\u017ei\u0161te od %0",
     "CheckBoxTitle": "Izborni okvir za Prika\u017ei/Sakrij figuru",

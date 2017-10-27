@@ -1348,6 +1348,7 @@ __GGB__keysVar.zh_CN.menu = {
     "CasTimeout": "\u8fd0\u7b97\u8d85\u65f6\u8bbe\u5b9a(\u5355\u4f4d\uff1a\u79d2)",
     "Categories": "\u7c7b\u522b",
     "CellAisNotDefined": "\u5355\u5143\u683c %0 \u672a\u5b9a\u4e49",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0 \u7684\u4e2d\u5fc3",
     "CentroidOfA": "%0 \u7684\u91cd\u5fc3",
     "CheckBoxTitle": "\u590d\u9009\u6846_\u663e\u793a/\u9690\u85cf\u5bf9\u8c61\u7fa4",

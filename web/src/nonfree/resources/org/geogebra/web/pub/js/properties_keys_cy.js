@@ -1348,6 +1348,7 @@ __GGB__keysVar.cy.menu = {
     "CasTimeout": "Terfynnir CAS (mewn eiliadau)",
     "Categories": "Categories",
     "CellAisNotDefined": "Nid yw cell %0 wedi ei diffinio",
+    "CenterImage": "Center Image",
     "CenterOfA": "Canol %0",
     "CentroidOfA": "Craidd %0",
     "CheckBoxTitle": "Blwch Britho i Ddangos/Cuddio Gwrthrychau",

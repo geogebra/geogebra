@@ -1348,6 +1348,7 @@ __GGB__keysVar.si.menu = {
     "CasTimeout": "\u0db8\u0ddd\u0dc3\u0dca\u0dad\u0dbb \u0dad\u0dd3\u0dbb\u0dd4 \u0d85\u0db1\u0dd4\u0db8\u0dad \u0d9a\u0dbb\u0db1\u0dc0\u0dcf",
     "Categories": "Categories",
     "CellAisNotDefined": "%0 \u0d9a\u0dd4\u0da7\u0dd2\u0dba \u0d85\u0dbb\u0dca\u0dae \u0daf\u0d9a\u0dca\u0dc0\u0dcf \u0db1\u0dd0\u0dad",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0 \u0dc4\u0dd2 \u0d9a\u0dda\u0db1\u0dca\u0daf\u0dca\u0dbb\u0dba",
     "CentroidOfA": "%0 \u0dc4\u0dd2 \u0db8\u0db0\u0dca\u0dba\u0dba",
     "CheckBoxTitle": "Check Box to Show/Hide Objects",

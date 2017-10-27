@@ -1348,6 +1348,7 @@ __GGB__keysVar.et.menu = {
     "CasTimeout": "CASi ajal\xf5pp (sekundites)",
     "Categories": "Categories",
     "CellAisNotDefined": "Lahter %0 ei ole defineeritud",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0 keskpunkt",
     "CentroidOfA": "%0 raskuskese",
     "CheckBoxTitle": "M\xe4rkeruut objektide n\xe4itamiseks/peitmiseks",

@@ -1348,6 +1348,7 @@ __GGB__keysVar.ko.menu = {
     "CasTimeout": "CAS \uc2dc\uac04 \ucd08\uacfc(\ucd08)",
     "Categories": "\uce74\ud14c\uace0\ub9ac",
     "CellAisNotDefined": "\uc140 %0 \uc774(\uac00) \uc815\uc758\ub418\uc9c0 \uc54a\uc74c",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0 \uc758 \uc911\uc2ec",
     "CentroidOfA": "%0 \uc758 \ubb34\uac8c\uc911\uc2ec",
     "CheckBoxTitle": "\ub300\uc0c1\uc744 \ubcf4\uc774\uac70\ub098 \uac10\ucd94\uae30 \uc704\ud55c \uccb4\ud06c\uc0c1\uc790",

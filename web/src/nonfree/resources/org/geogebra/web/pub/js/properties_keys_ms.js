@@ -1348,6 +1348,7 @@ __GGB__keysVar.ms.menu = {
     "CasTimeout": "Tamat masa CAS (dalam saat)",
     "Categories": "Categories",
     "CellAisNotDefined": "Sel %0 tidak ditakrifkan",
+    "CenterImage": "Center Image",
     "CenterOfA": "Pusat bagi %0",
     "CentroidOfA": "Sentroid bagi %0",
     "CheckBoxTitle": "Kotak Pilihan untuk Tunjuk/Sembunyi Objek-objek",

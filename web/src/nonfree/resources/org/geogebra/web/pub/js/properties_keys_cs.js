@@ -1348,6 +1348,7 @@ __GGB__keysVar.cs.menu = {
     "CasTimeout": "CAS \u010dasov\xe1 prodleva (v sekund\xe1ch)",
     "Categories": "Kategorie",
     "CellAisNotDefined": "Bu\u0148ka %0 nen\xed definov\xe1na",
+    "CenterImage": "Center Image",
     "CenterOfA": "St\u0159ed %0",
     "CentroidOfA": "T\u011b\u017ei\u0161t\u011b %0",
     "CheckBoxTitle": "Za\u0161krt\xe1vac\xed pol\xed\u010dko pro skryt\xed / zobrazen\xed objektu",

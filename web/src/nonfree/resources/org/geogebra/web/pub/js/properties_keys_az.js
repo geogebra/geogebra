@@ -1348,6 +1348,7 @@ __GGB__keysVar.az.menu = {
     "CasTimeout": "CAS Timeout (in seconds)",
     "Categories": "Categories",
     "CellAisNotDefined": "Cell %0 is not defined",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0 m\u0259rk\u0259zi",
     "CentroidOfA": "Centroid of %0",
     "CheckBoxTitle": "Check Box to Show/Hide Objects",

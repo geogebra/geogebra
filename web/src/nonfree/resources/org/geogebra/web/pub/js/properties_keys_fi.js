@@ -1348,6 +1348,7 @@ __GGB__keysVar.fi.menu = {
     "CasTimeout": "CAS aikakatkaisu (sekunteina)",
     "Categories": "Kategoriat",
     "CellAisNotDefined": "Solua %0 ei ole m\xe4\xe4ritelty.",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0:n keskus",
     "CentroidOfA": "%0:n painopiste",
     "CheckBoxTitle": "Valintaruutu N\xe4yt\xe4/Piilota objekti",

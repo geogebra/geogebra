@@ -1348,6 +1348,7 @@ __GGB__keysVar.lt.menu = {
     "CasTimeout": "CAS dirbo per ilgai (sec)",
     "Categories": "Categories",
     "CellAisNotDefined": "%0 langelis neapibr\u0117\u017etas",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0 centras",
     "CentroidOfA": "%0 centroid\u0117",
     "CheckBoxTitle": "Pa\u017eym\u0117kite nor\u0117dami rodyti/sl\u0117pti objektus",

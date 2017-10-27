@@ -1348,6 +1348,7 @@ __GGB__keysVar.sl.menu = {
     "CasTimeout": "Prekinitev SSR (v sekundah)",
     "Categories": "Kategorije",
     "CellAisNotDefined": "Celica %0 ni definirana",
+    "CenterImage": "Center Image",
     "CenterOfA": "Sredi\u0161\u010de %0",
     "CentroidOfA": "Te\u017ei\u0161\u010de %0",
     "CheckBoxTitle": "Status prikaza/skrivanja objektov",

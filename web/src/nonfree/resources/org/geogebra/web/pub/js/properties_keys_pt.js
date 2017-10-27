@@ -1348,6 +1348,7 @@ __GGB__keysVar.pt.menu = {
     "CasTimeout": "Tempo de Espera do CAS (em segundos)",
     "Categories": "Categories",
     "CellAisNotDefined": "A c\xe9lula %0 n\xe3o est\xe1 definida",
+    "CenterImage": "Center Image",
     "CenterOfA": "Centro de %0",
     "CentroidOfA": "Baricentro de %0",
     "CheckBoxTitle": "Caixa para Exibir/Esconder Objetos",

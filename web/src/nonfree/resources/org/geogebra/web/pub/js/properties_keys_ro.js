@@ -1348,6 +1348,7 @@ __GGB__keysVar.ro.menu = {
     "CasTimeout": "CAS timeout(\xeen secunde)",
     "Categories": "Categories",
     "CellAisNotDefined": "Celula %0 nu este definit\u0103",
+    "CenterImage": "Center Image",
     "CenterOfA": "Centrul lui %0",
     "CentroidOfA": "Centroid de %0",
     "CheckBoxTitle": "Bifa\u021bi caseta de obiecte Arata /Ascunde",

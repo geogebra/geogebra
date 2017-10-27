@@ -1348,6 +1348,7 @@ __GGB__keysVar.eo.menu = {
     "CasTimeout": "KAS-eltempi\u011do (en sekundoj)",
     "Categories": "Categories",
     "CellAisNotDefined": "\u0108elo %0 ne estas difinita",
+    "CenterImage": "Center Image",
     "CenterOfA": "Centro de %0",
     "CentroidOfA": "Pezocentro de %0",
     "CheckBoxTitle": "Check Box to Show/Hide Objects",

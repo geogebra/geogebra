@@ -1348,6 +1348,7 @@ __GGB__keysVar.it.menu = {
     "CasTimeout": "Durata CAS (in secondi)",
     "Categories": "Categorie",
     "CellAisNotDefined": "La cella %0 non \xe8 definita",
+    "CenterImage": "Centra l'immagine",
     "CenterOfA": "Centro di %0",
     "CentroidOfA": "Baricentro di %0",
     "CheckBoxTitle": "Casella di controllo per mostrare/nascondere oggetti",

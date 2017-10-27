@@ -1348,6 +1348,7 @@ __GGB__keysVar.gl.menu = {
     "CasTimeout": "Tempo de espera de CAS (en segundos)",
     "Categories": "Categories",
     "CellAisNotDefined": "Cela %0 non definida",
+    "CenterImage": "Center Image",
     "CenterOfA": "Centro de %0",
     "CentroidOfA": "Centroide de %0",
     "CheckBoxTitle": "Caixa de Control para Amosar/Ocultar Obxectos",

@@ -1348,6 +1348,7 @@ __GGB__keysVar.eu.menu = {
     "CasTimeout": "CAS Itxaroteko denbora (segundotan)",
     "Categories": "Categories",
     "CellAisNotDefined": "%0 gelaxka ez dago definituta",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0-(r)en zentroa",
     "CentroidOfA": "%0-(r)en zentroidea",
     "CheckBoxTitle": "Objektuak erakusteko/ezkutatzeko kontrol-laukia",

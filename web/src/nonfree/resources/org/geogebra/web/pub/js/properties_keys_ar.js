@@ -1348,6 +1348,7 @@ __GGB__keysVar.ar.menu = {
     "CasTimeout": "\u0645\u0651\u062f\u0629 \u0627\u0644\u062d\u0633\u0627\u0628 \u0627\u0644\u062d\u0631\u0641\u064a \u0628\u0627\u0644\u062b\u0627\u0646\u064a\u0629",
     "Categories": "Categories",
     "CellAisNotDefined": "\u0627\u0644\u062e\u0627\u0646\u0629 %0 \u063a\u064a\u0631 \u0645\u0639\u0631\u0651\u0641\u0629",
+    "CenterImage": "Center Image",
     "CenterOfA": "\u0645\u0631\u0643\u0632 %0",
     "CentroidOfA": "\u0645\u0631\u0643\u0632 \u062b\u0642\u0644 %0",
     "CheckBoxTitle": "Check Box to Show/Hide Objects",

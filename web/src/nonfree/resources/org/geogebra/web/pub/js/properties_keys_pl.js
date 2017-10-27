@@ -1348,6 +1348,7 @@ __GGB__keysVar.pl.menu = {
     "CasTimeout": "CAS Pozosta\u0142o czasu (w sekundach)",
     "Categories": "Kategorie",
     "CellAisNotDefined": "Kom\xf3rka %0 jest niezdefiniowana",
+    "CenterImage": "Center Image",
     "CenterOfA": "\u015arodek %0",
     "CentroidOfA": "\u015arodek ci\u0119\u017cko\u015bci %0",
     "CheckBoxTitle": "Pole wyboru Poka\u017c/Ukryj obiekty",

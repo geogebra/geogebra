@@ -1348,6 +1348,7 @@ __GGB__keysVar.lv.menu = {
     "CasTimeout": "CAS laiks beidzies (sekund\u0113s)",
     "Categories": "Categories",
     "CellAisNotDefined": "\u0160\u016bna %0 nav defin\u0113ta",
+    "CenterImage": "Center Image",
     "CenterOfA": "Centrs %0",
     "CentroidOfA": "Centro\u012bda %0",
     "CheckBoxTitle": "Uzspied uz r\u016bt\u0146as, lai par\u0101d\u012btu/pasl\u0113ptu objektu",

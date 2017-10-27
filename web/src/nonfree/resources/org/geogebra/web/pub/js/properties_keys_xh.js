@@ -1348,6 +1348,7 @@ __GGB__keysVar.xh.menu = {
     "CasTimeout": "IsipheloSexesha seCAS (ingemizuzwana)",
     "Categories": "Amacandelo",
     "CellAisNotDefined": "Igumbi u %0 alinantsingiselo",
+    "CenterImage": "Center Image",
     "CenterOfA": "Umbindi ka %0",
     "CentroidOfA": "iCentroid ka %0",
     "CheckBoxTitle": "Klikha icheckbox uku Bonisa/Fihla izinto",

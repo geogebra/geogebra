@@ -1348,6 +1348,7 @@ __GGB__keysVar.en_GB.menu = {
     "CasTimeout": "CAS Timeout (in seconds)",
     "Categories": "Categories",
     "CellAisNotDefined": "Cell %0 is not defined",
+    "CenterImage": "Centre Image",
     "CenterOfA": "Center of %0",
     "CentroidOfA": "Centroid of %0",
     "CheckBoxTitle": "Check Box to Show/Hide Objects",

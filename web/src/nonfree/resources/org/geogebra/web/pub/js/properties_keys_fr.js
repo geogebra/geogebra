@@ -1348,6 +1348,7 @@ __GGB__keysVar.fr.menu = {
     "CasTimeout": "CAS D\xe9lai (en secondes)",
     "Categories": "Cat\xe9gories",
     "CellAisNotDefined": "Cellule %0 non d\xe9finie",
+    "CenterImage": "Centrer Image",
     "CenterOfA": "Centre de %0",
     "CentroidOfA": "Centre de gravit\xe9 de %0",
     "CheckBoxTitle": "Bo\xeeteS\xe9lection",

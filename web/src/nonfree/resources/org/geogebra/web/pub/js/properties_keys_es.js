@@ -1348,6 +1348,7 @@ __GGB__keysVar.es.menu = {
     "CasTimeout": "Permanencia del CAS (en segundos)",
     "Categories": "Categor\xedas",
     "CellAisNotDefined": "Celda %0 no definida",
+    "CenterImage": "Center Image",
     "CenterOfA": "Centro de %0",
     "CentroidOfA": "Centroide de %0",
     "CheckBoxTitle": "Visibilidad de objetos",

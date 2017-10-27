@@ -1348,6 +1348,7 @@ __GGB__keysVar.hu.menu = {
     "CasTimeout": "Id\u0151 t\xfall\xe9p\xe9s",
     "Categories": "Categories",
     "CellAisNotDefined": "%0 cella nem defini\xe1lt",
+    "CenterImage": "Center Image",
     "CenterOfA": "%0 k\xf6z\xe9ppontja",
     "CentroidOfA": "%0 s\xfalypontja",
     "CheckBoxTitle": "Jel\xf6l\u0151n\xe9gyzet objektumok mutat\xe1s\xe1hoz/rejt\xe9s\xe9hez",

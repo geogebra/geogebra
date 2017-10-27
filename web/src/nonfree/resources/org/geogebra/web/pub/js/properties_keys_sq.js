@@ -1348,6 +1348,7 @@ __GGB__keysVar.sq.menu = {
     "CasTimeout": "CAS Mbarim Kohe (ne sekonda)",
     "Categories": "Categories",
     "CellAisNotDefined": "Qeliza %0 jo e Percaktuar",
+    "CenterImage": "Center Image",
     "CenterOfA": "Qendra e %0",
     "CentroidOfA": "Centroidi i %0",
     "CheckBoxTitle": "Check Box to Show/Hide Objects",
