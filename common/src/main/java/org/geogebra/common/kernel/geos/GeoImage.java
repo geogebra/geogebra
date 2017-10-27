@@ -308,10 +308,11 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * 
 	 * @param p
 	 *            corner point
-	 * @param number
+	 * @param number0
 	 *            0, 1 or 2 (first, second and fourth corner)
 	 */
-	public void setCorner(GeoPointND p, int number) {
+	public void setCorner(GeoPointND p, int number0) {
+		int number = isCentered() ? 3 : number0;
 		// macro output uses initStartPoint() only
 		if (isAlgoMacroOutput()) {
 			return;
@@ -1116,6 +1117,11 @@ public class GeoImage extends GeoElement implements Locateable,
 		this.centered = centered;
 		if (centered) {
 			center();
+		} else {
+			if (corners[3] != null) {
+				corners[3].remove();
+				corners[3] = null;
+			}
 		}
 		setCornersVisible(!centered);
 		updateRepaint();
@@ -1126,8 +1132,17 @@ public class GeoImage extends GeoElement implements Locateable,
 		if (!app.has(Feature.CENTER_IMAGE)) {
 			return;
 		}
+		GeoPoint p = corners[0];
+		GeoPoint c = corners[3];
+		if (c == null) {
+			c = new GeoPoint(p);
+			corners[3] = c;
+			c.setLabel(p.getLabelSimple() + "_c");
+			c.addView(App.VIEW_EUCLIDIAN);
+			c.getLocateableList().registerLocateable(this);
+		}
 
-		corners[3] = new GeoPoint(corners[0]);
+		corners[3].setEuclidianVisible(true);
 		corners[3].update();
 	}
 
