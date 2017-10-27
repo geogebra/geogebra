@@ -109,9 +109,10 @@ public final class DrawImage extends Drawable {
 
 		// RELATIVE SCREEN POSITION
 		else {
-			GeoPoint A = geoImage.getCorner(0);
-			GeoPoint B = geoImage.getCorner(1);
-			GeoPoint D = geoImage.getCorner(2);
+			boolean center = geoImage.isCentered();
+			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
+			GeoPoint B = center ? null : geoImage.getCorner(1);
+			GeoPoint D = center ? null : geoImage.getCorner(2);
 			double ax = 0;
 			double ay = 0;
 			if (A != null) {
@@ -127,6 +128,7 @@ public final class DrawImage extends Drawable {
 			at.setTransform(view.getCoordTransform()); // last transform: real
 														// world
 														// -> screen
+
 			at.translate(ax, ay); // translate to first corner A
 
 			if (B == null) {
@@ -187,8 +189,13 @@ public final class DrawImage extends Drawable {
 				}
 			}
 
-			// move image up so that A becomes lower left corner
-			at.translate(0, -height);
+			if (geoImage.isCentered()) {
+				// move image to the center
+				at.translate(-width / 2, -height / 2);
+			} else {
+				// move image up so that A becomes lower left corner
+				at.translate(0, -height);
+			}
 			labelRectangle.setBounds(0, 0, width, height);
 
 			// calculate bounding box for isInside

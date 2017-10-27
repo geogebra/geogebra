@@ -82,8 +82,13 @@ public class GeoImage extends GeoElement implements Locateable,
 		// setAlgebraVisible(false); // don't show in algebra view
 		setAuxiliaryObject(true);
 
-		// three corners of the image: first, second and fourth
-		corners = new GeoPoint[3];
+		if (kernel.getApplication().has(Feature.CENTER_IMAGE)) {
+			// three corners of the image: first, second, fourth and the center
+			corners = new GeoPoint[4];
+		} else {
+			// three corners of the image: first, second and fourth
+			corners = new GeoPoint[3];
+		}
 
 		kernel.getApplication().images.add(this);
 		defined = true;
@@ -1110,40 +1115,10 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		this.centered = centered;
 		if (centered) {
-			saveCorners();
 			center();
-		} else {
-			restoreCorners();
 		}
-
-		update();
-		getKernel().getApplication().getActiveEuclidianView().repaintView();
-
-	}
-
-	private void saveCorners() {
-		if (originalCorners == null) {
-			originalCorners = new GeoPoint[3];
-		}
-
-		for (int i = 0; i < corners.length; i++) {
-			GeoPoint p = corners[i];
-			originalCorners[i] = p != null ? new GeoPoint(p) : null;
-		}
-	}
-
-	private void restoreCorners() {
-		for (int i = 0; i < originalCorners.length; i++) {
-			GeoPoint p = originalCorners[i];
-			if (p != null) {
-				if (corners[i] != null) {
-					corners[i].setCoords(p);
-				}
-				corners[i].update();
-			} else {
-				corners[i] = null;
-			}
-		}
+		setCornersVisible(!centered);
+		updateRepaint();
 	}
 
 	private void center() {
@@ -1152,23 +1127,18 @@ public class GeoImage extends GeoElement implements Locateable,
 			return;
 		}
 
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		corners[3] = new GeoPoint(corners[0]);
+		corners[3].update();
+	}
 
-		GeoPoint p = corners[0];
-		GeoPoint p1 = corners[1];
-
-		double x1 = ev.getXmax() - (p.x - ev.getXmin());
-		double y2 = ev.getYmax() - (p.y - ev.getYmin());
-
-		p1.setCoords(x1, p.y, 1);
-		p1.update();
-
-		GeoPoint p2 = new GeoPoint(getKernel().getConstruction(), p.x,
-				y2, 1);
-		p2.update();
-
-		setCorner(p1, 1);
-		setCorner(p2, 2);
+	private void setCornersVisible(boolean b) {
+		for (int i = 0; i < 3; i++) {
+			GeoPoint p = corners[i];
+			if (p != null) {
+				p.setEuclidianVisible(b);
+				p.update();
+			}
+		}
 	}
 
 }
