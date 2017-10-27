@@ -2079,7 +2079,7 @@ namespace giac {
 	}
       }
       else {
-	if ( (!test || res.empty() || *it!=x ) && contains(*it,x))
+	if ( (!test || res.empty() || *it!=x ) && contains(*it,x) && !equalposcomp(res,*it))
 	  res.push_back(*it);
       }
     }
