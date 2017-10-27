@@ -2,6 +2,7 @@ package org.geogebra.io.latex;
 
 import java.text.Normalizer;
 
+import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.io.latex.BracketsAdapter;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.io.latex.ParseException;
@@ -366,9 +367,18 @@ public class SerializeLaTeX {
 	}
 
 	@Test
+	public void testEditorUnicode() {
+		testEditor(CommandsTest.unicode("x/sqrt(x^2+4)"),
+				CommandsTest.unicode("x/sqrt(x^2+4)"));
+		testEditor("x/(" + Unicode.EULER_STRING + "^x+1)",
+				"x/(" + Unicode.EULER_STRING + "^x+1)");
+	}
+
+	@Test
 	public void testEditor() {
 		testEditor("sqrt(x/2)",
 				"sqrt(x/2)");
+
 		testEditor("1+2+3-4", "1+2+3-4");
 		testEditor("12345", "12345");
 		testEditor("1/2/3/4", "1/2/3/4");

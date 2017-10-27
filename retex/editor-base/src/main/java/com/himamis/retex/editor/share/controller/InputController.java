@@ -992,7 +992,6 @@ public class InputController {
 					handled = true;
 				}
 			}
-
 		}
 
 		if (!handled) {

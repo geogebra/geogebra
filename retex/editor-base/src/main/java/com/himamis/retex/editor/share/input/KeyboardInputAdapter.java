@@ -51,9 +51,13 @@ public class KeyboardInputAdapter {
 		adapters.add(new StringInput(Unicode.SUPERSCRIPT_2 + "") {
             @Override
             public void commit(MathFieldInternal mfi, String input) {
-                typeCharacter(mfi, '^');
-                typeCharacter(mfi, '2');
-                CursorController.nextCharacter(mfi.getEditorState());
+				if (mfi.getInputController().getCreateFrac()) {
+					typeCharacter(mfi, '^');
+					typeCharacter(mfi, '2');
+					CursorController.nextCharacter(mfi.getEditorState());
+				} else {
+					typeCharacter(mfi, Unicode.SUPERSCRIPT_2);
+				}
             }
         });
 		adapters.add(new StringInput(Unicode.SQUARE_ROOT + "") {

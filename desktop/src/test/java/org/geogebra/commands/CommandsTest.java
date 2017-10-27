@@ -1333,7 +1333,7 @@ public class CommandsTest extends Assert{
 				get("F").toValueString(StringTemplate.testTemplate));
 	}
 
-	static String unicode(String theSpline) {
+	public static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.SUPERSCRIPT_2 + "")
 				.replace("^3", Unicode.SUPERSCRIPT_3 + "")
 				.replace("deg", Unicode.DEGREE_STRING);
