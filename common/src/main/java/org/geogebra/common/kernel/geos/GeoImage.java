@@ -364,6 +364,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		// absolute screen position should be deactivated
 		setAbsoluteScreenLocActive(false);
 		updateHasAbsoluteLocation();
+		if (isCentered() && number == 0) {
+			setCenterPoint(corners[0]);
+		}
 	}
 
 	/**
@@ -1116,32 +1119,29 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		this.centered = centered;
 		if (centered) {
-			center();
+			setCenterPoint(corners[0]);
 		} else {
-			if (corners[3] != null) {
-				corners[3].remove();
-				corners[3] = null;
-			}
+			clearCenterPoint();
 		}
 		setCornersVisible(!centered);
 		updateRepaint();
 	}
 
-	private void center() {
-		App app = getKernel().getApplication();
-		if (!app.has(Feature.CENTER_IMAGE)) {
+	private void clearCenterPoint() {
+		if (corners[3] == null) {
 			return;
 		}
-		GeoPoint p = corners[0];
-		GeoPoint c = corners[3];
-		if (c == null) {
-			c = new GeoPoint(p);
-			corners[3] = c;
-			c.setLabel(p.getLabelSimple() + "_c");
-			c.addView(App.VIEW_EUCLIDIAN);
-			c.getLocateableList().registerLocateable(this);
-		}
 
+		corners[3].remove();
+		corners[3] = null;
+	}
+
+	private void setCenterPoint(GeoPoint p) {
+		GeoPoint c = new GeoPoint(p);
+		corners[3] = c;
+		c.setLabel(p.getLabelSimple() + "_c");
+		c.addView(App.VIEW_EUCLIDIAN);
+		c.getLocateableList().registerLocateable(this);
 		corners[3].setEuclidianVisible(true);
 		corners[3].update();
 	}
