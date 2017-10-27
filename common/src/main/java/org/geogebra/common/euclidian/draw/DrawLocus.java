@@ -25,9 +25,11 @@ import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.util.debug.Log;
 
@@ -70,11 +72,18 @@ public class DrawLocus extends Drawable {
 			return;
 		}
 
-		if (geo.getParentAlgorithm() instanceof AlgoLocusEquation) {
+		AlgoElement algo = geo.getParentAlgorithm();
+		if (algo instanceof AlgoLocusEquation) {
 			AlgoLocusEquation ale = (AlgoLocusEquation) geo
 					.getParentAlgorithm();
 			if (ale.resetFingerprint(geo.getKernel(), false)) {
 				ale.update();
+			}
+		}
+		if (algo instanceof AlgoEnvelope) {
+			AlgoEnvelope ae = (AlgoEnvelope) geo.getParentAlgorithm();
+			if (ae.resetFingerprint(geo.getKernel(), false)) {
+				ae.update();
 			}
 		}
 

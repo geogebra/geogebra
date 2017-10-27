@@ -7,6 +7,7 @@ import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
 import org.geogebra.common.cas.singularws.SingularWebService;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -33,6 +34,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	private GeoElement[] efficientInput;
 	private GeoElement[] standardInput;
 	private String efficientInputFingerprint;
+	private long myPrecision = 0;
 
 	/**
 	 * Constructor.
@@ -130,8 +132,46 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		// TODO: consider moving setInputOutput() out from compute()
 
 		efficientInputFingerprint = fingerprint(efficientInput);
+		myPrecision = kernel.precision();
 	}
 
+	/**
+	 * Reset fingerprint to force recomputing the envelope if the precision has
+	 * dramatically changed. This is a copy-paste version of
+	 * AlgoLocusEquation.resetFingerprint().
+	 * 
+	 * @param k
+	 *            kernel
+	 * @param force
+	 *            reset the fingerprint even if the precision has not changed
+	 * 
+	 * @return true if the fingerprint was reset
+	 */
+	public boolean resetFingerprint(Kernel k, boolean force) {
+		long kernelPrecision = k.precision();
+		double precisionRatio = (double) myPrecision / kernelPrecision;
+		if (precisionRatio > 5 || precisionRatio < 0.2 || force) {
+			Log.debug("myPrecision=" + myPrecision + " kernelPrecision="
+					+ kernelPrecision + " precisionRatio=" + precisionRatio);
+			efficientInputFingerprint = null;
+			myPrecision = kernelPrecision;
+			return true;
+		}
+		return false;
+
+	}
+
+	/*
+	 * We use a very hacky way to avoid drawing locus equation when the curve is
+	 * not changed. To achieve that, we create a fingerprint of the current
+	 * coordinates or other important parameters of the efficient input. (It
+	 * contains only those inputs which are relevant in computing the curve,
+	 * hence if they are not changed, the curve will not be recomputed.) The
+	 * fingerprint function should eventually be improved. Here we assume that
+	 * the input objects are always in the same order (that seems sensible) and
+	 * the obtained algebraic description changes iff the object does. This may
+	 * not be the case if rounding/precision is not as presumed.
+	 */
 	private static String fingerprint(GeoElement[] input) {
 		StringBuilder ret = new StringBuilder();
 		int size = input.length;
@@ -159,6 +199,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	public void compute() {
 		if (!kernel.getGeoGebraCAS().getCurrentCAS().isLoaded()) {
 			efficientInputFingerprint = null;
+			myPrecision = 0;
 			return;
 		}
 		String efficientInputFingerprintPrev = efficientInputFingerprint;
