@@ -72,7 +72,11 @@ class MetaModelSymbols {
 		operators.add(createOperator(";"));
 
         operators.add(createOperator("percent", "\\%", '%'));
-        operators.add(createOperator("dollar", "\\$", '$'));
+
+		// GGB-2178 want $ to behave like a letter
+		// so don't want this here
+		// operators.add(createOperator("dollar", "\\$", '$'));
+
         operators.add(createOperator("times", "\\times", '*'));
         operators.add(createOperator("div", "\\div", '/'));
 		operators.add(
