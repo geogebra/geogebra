@@ -5250,8 +5250,10 @@ unsigned int ConvertUTF8toUTF16 (
       map_charptr_gen::const_iterator i = lexer_functions().find(s);
       if (i!=lexer_functions().end())
 	return false;
-      if (doing_insmod)
+      if (doing_insmod){
+	if (debug_infolevel) CERR << "insmod register " << s << endl;
 	registered_lexer_functions().push_back(user_function(s,parser_token));
+      }
       if (!builtin_lexer_functions_sorted){
 #ifndef STATIC_BUILTIN_LEXER_FUNCTIONS
 #ifdef NSPIRE_NEWLIB
@@ -5267,6 +5269,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  builtin_lexer_functions_begin()[builtin_lexer_functions_number].second.subtype=parser_token-256;
 	builtin_lexer_functions_number++;
 #endif
+	if (debug_infolevel) CERR << "insmod register builtin " << s << endl;
       }
       else {
 	lexer_functions()[s] = gen(u);
@@ -5274,6 +5277,7 @@ unsigned int ConvertUTF8toUTF16 (
 	  lexer_functions()[s].subtype=T_UNARY_OP-256;
 	else
 	  lexer_functions()[s].subtype=parser_token-256;
+	if (debug_infolevel) CERR << "insmod register lexer_functions " << s << endl;	
       }
       // If s is a library function name (with ::), update the library
       int ss=int(strlen(s)),j=0;
@@ -5422,8 +5426,10 @@ unsigned int ConvertUTF8toUTF16 (
 	res.subtype=pp.first->subtype;
 	return pp.first->return_value;
       }
+      // CERR << "lexer_functions search " << ts << endl;
       map_charptr_gen::const_iterator i = lexer_functions().find(ts.c_str());
       if (i!=lexer_functions().end()){
+	// CERR << "lexer_functions found " << ts << endl;
 	if (i->second.subtype==T_TO-256)
 	  res=plus_one;
 	else

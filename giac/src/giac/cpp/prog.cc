@@ -6000,6 +6000,12 @@ namespace giac {
       return _insmod(string2gen(args.print(contextptr),false),contextptr);
     if (args.type!=_STRNG)
       return _xport(args,contextptr);
+#ifdef __APPLE__
+    string suffix=".dylib";
+#else
+    string suffix=".so";
+#endif
+    size_t sl=suffix.size();
 #ifdef HAVE_LIBDL
     string libname=*args._STRNGptr;
     if (libname.empty())
@@ -6011,15 +6017,15 @@ namespace giac {
       gen pwd=_pwd(0,contextptr);
       if (pwd.type==_STRNG){
 	string libname1 = *pwd._STRNGptr+'/'+libname;
-	if (libname1.size()<3 || libname1.substr(libname1.size()-3,3)!=".so")
-	  libname1 += ".so";
+	if (libname1.size()<sl || libname1.substr(libname1.size()-sl,sl)!=suffix)
+	  libname1 += suffix;
 	if (is_file_available(libname1.c_str()))
 	  libname=libname1;
       }
     }
 #ifndef WIN32
-    if (libname.size()<3 || libname.substr(libname.size()-3,3)!=".so")
-      libname += ".so";
+    if (libname.size()<sl || libname.substr(libname.size()-sl,sl)!=suffix)
+      libname += suffix;
 #endif
     modules_tab::const_iterator i = giac_modules_tab.find(libname);
     if (i!=giac_modules_tab.end())

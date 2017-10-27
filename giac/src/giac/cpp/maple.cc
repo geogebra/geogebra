@@ -3682,7 +3682,11 @@ namespace giac {
       string funcname=args.print(contextptr);
       string filename="giac_"+funcname+".cpp";
       ofstream of(filename.c_str());
+#ifdef __APPLE__
+      of << "// -*- mode:c++; compile-command:\" c++ -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dynamiclib giac_" << funcname << ".cpp -o libgiac_" << funcname << ".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac \" -*-" << endl;
+#else
       of << "// -*- mode:c++; compile-command:\" c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_" << funcname << ".cpp -o giac_" << funcname << ".lo && cc -shared giac_"<<funcname<<".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"<<funcname<<"so.0 -o libgiac_"<<funcname<<".so.0.0.0 && ln -sf libgiac_"<<funcname<<".so.0.0.0 libgiac_"<<funcname<<".so\" -*-" << endl;
+#endif
       of << "#include <giac/config.h>" << endl;
       of << "#include <giac/giac.h>" << endl;
       of << "using namespace std;" << endl;
@@ -3695,12 +3699,18 @@ namespace giac {
       of << "}" << endl;
       of.close();
       *logptr(contextptr) << "File " << filename << " created." << endl;
-      string cmd="indent -br -brf -l256 giac_"+funcname+".cpp";
+      string cmd="indent -br -brf -l256 giac_"+funcname+".cpp"; int not_ok;
+#ifndef __APPLE__
       *logptr(contextptr) << "Running " << cmd << endl;
-      int not_ok=system_no_deprecation(cmd.c_str());
+      not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok)
 	*logptr(contextptr) << "Warning, indent not found, please install for nice output" << endl;
+#endif
+#ifdef __APPLE__
+      cmd="g++ -dynamiclib -I/Applications/usr/include -I.. -I. -fPIC -DPIC -g -O2 -dy giac_"+funcname+".cpp -o libgiac_"+funcname+".dylib -L/Applications/usr/lib -L/Applications/usr/64/local/lib -lgiac";
+#else
       cmd="c++ -I.. -I. -fPIC -DPIC -g -O2 -c giac_"+funcname+".cpp -o giac_"+funcname+".lo";
+#endif
       *logptr(contextptr) << "Running\n" << cmd << endl;
       not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok){
@@ -3710,7 +3720,8 @@ namespace giac {
       //cmd="ln -sf giac_"+funcname+".lo giac_"+funcname+".o";
       //*logptr(contextptr) << "Running " << cmd << endl;
       //not_ok=system_no_deprecation(cmd.c_str());
-      cmd="cc -shared giac_"+funcname+".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"+funcname+"so.0 -o libgiac_"+funcname+".so.0.0.0";
+#ifndef __APPLE__
+      cmd="cc -shared giac_"+funcname+".lo -lgiac -lc -Wl,-soname -Wl,libgiac_"+funcname+".so.0 -o libgiac_"+funcname+".so.0.0.0";
       *logptr(contextptr) << cmd << endl;
       not_ok=system_no_deprecation(cmd.c_str());
       if (not_ok){
@@ -3722,6 +3733,7 @@ namespace giac {
       cmd="ln -sf libgiac_"+funcname+".so.0.0.0 libgiac_"+funcname+".so";
       *logptr(contextptr) << cmd << endl;
       not_ok=system_no_deprecation(cmd.c_str());
+#endif
       *logptr(contextptr) << "You can now run insmod(\"" << funcname << "\")" << endl;
       return 1;
     }
