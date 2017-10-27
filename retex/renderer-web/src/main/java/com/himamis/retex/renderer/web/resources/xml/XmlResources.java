@@ -259,4 +259,13 @@ public interface XmlResources extends ClientBundle {
 	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/xml/TeXSymbols.xml")
 	public TextResource TeXSymbols();
 
+	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/font/jlm_cmss10.js")
+	public TextResource jlm_cmss10();
+
+	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/font/jlm_cmsy10.js")
+	public TextResource jlm_cmsy10();
+
+	@Source("com/himamis/retex/renderer/web/jlatexmath/resources/font/jlm_cmex10.js")
+	public TextResource jlm_cmex10();
+
 }

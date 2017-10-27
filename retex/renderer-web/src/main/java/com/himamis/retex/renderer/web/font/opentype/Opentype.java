@@ -52,9 +52,11 @@ import com.google.gwt.core.client.Callback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.ScriptInjector;
+import com.google.gwt.resources.client.TextResource;
 import com.himamis.retex.renderer.web.font.FontLoaderWrapper;
 import com.himamis.retex.renderer.web.font.FontW;
 import com.himamis.retex.renderer.web.resources.js.JsResources;
+import com.himamis.retex.renderer.web.resources.xml.XmlResources;
 
 public class Opentype implements FontLoaderWrapper {
 
@@ -156,6 +158,14 @@ public class Opentype implements FontLoaderWrapper {
 	private void loadJavascriptFont(String path0, final String familyName) {
 		String path = path0.substring(0, path0.length() - 3);
 		path = path + "js";
+		if (checkPreloadNative(familyName,
+				XmlResources.INSTANCE.jlm_cmss10())
+				|| checkPreloadNative(familyName,
+						XmlResources.INSTANCE.jlm_cmsy10())
+				|| checkPreloadNative(familyName,
+						XmlResources.INSTANCE.jlm_cmex10())) {
+			return;
+		}
 
 		ScriptInjector.fromUrl(path).setWindow(ScriptInjector.TOP_WINDOW)
 				.setRemoveTag(true)
@@ -168,14 +178,24 @@ public class Opentype implements FontLoaderWrapper {
 
 					@Override
 					public void onSuccess(Void result) {
-						nativeParseFont(familyName);
+						nativeParseFont(familyName, false);
 					}
 				}).inject();
 	}
 
-	private native void nativeParseFont(String familyName) /*-{
+	private boolean checkPreloadNative(String familyName,
+			TextResource resource) {
+		if (resource.getName().equals(familyName)) {
+			ScriptInjector.fromString(resource.getText()).inject();
+			nativeParseFont(familyName, true);
+			return true;
+		}
+		return false;
+	}
+
+	private native void nativeParseFont(String familyName, boolean frame) /*-{
 		var that = this;
-		var base64EncodedData = $wnd.__JLM_GWT_FONTS__[familyName];
+		var base64EncodedData = (frame ? window : $wnd).__JLM_GWT_FONTS__[familyName];
 		var decodedArrayBuffer = that.@com.himamis.retex.renderer.web.font.opentype.Opentype::base64ToArrayBuffer(Ljava/lang/String;)(base64EncodedData)
 		var font = opentype.parse(decodedArrayBuffer);
 		if (!font.supported) {
