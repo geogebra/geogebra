@@ -24,7 +24,7 @@ void Evaluate(const v8::FunctionCallbackInfo<Value>& args) {
     line_out = giac::print(giac::eval(g,&ct),&ct);
     }
   catch (runtime_error & err) {
-    line_out = err.what();
+    line_out = std::string("ERROR: ") + err.what();
     }
 
   Handle<Value> line_out_v8 = String::NewFromUtf8( isolate, line_out.c_str() );
