@@ -137,15 +137,9 @@ public class KeyboardInputAdapter {
 		boolean oldCreateFrac = mMathFieldInternal.getInputController()
 				.getCreateFrac();
 		mMathFieldInternal.getInputController().setCreateFrac(false);
-        StringBuilder stringBuilder = new StringBuilder(1);
         for (int i = 0; i < text.length(); i++) {
-			char c = text.charAt(i);
-			if (KeyboardInputAdapter.isValidChar(c)) {
-                stringBuilder.setLength(0);
-                stringBuilder.append(c);
-                KeyboardInputAdapter.onKeyboardInput(mMathFieldInternal,
-                        stringBuilder.toString());
-            }
+			KeyboardInputAdapter.onKeyboardInput(mMathFieldInternal,
+					text.charAt(i) + "");
 		}
 		mMathFieldInternal.getInputController().setCreateFrac(oldCreateFrac);
 		mMathFieldInternal.onInsertString();
@@ -173,23 +167,6 @@ public class KeyboardInputAdapter {
     public static void onCommandInput(MathFieldInternal mathFieldInternal, String commandName) {
         commandAdapter.commit(mathFieldInternal, commandName);
         mathFieldInternal.update();
-    }
-
-    /**
-     * @param c
-     * @return true if this char can be handled
-     */
-    static final public boolean isValidChar(char c) {
-        for (int i = 0; i < allowedCharacterCategories.length; i++) {
-            if (Character.charIsTypeOf(c, allowedCharacterCategories[i])) {
-                return true;
-            }
-        }
-
-        // needs check:
-        // ENCLOSING_MARK, CURRENCY_SYMBOL, OTHER_SYMBOL, INITIAL_QUOTE_PUNCTUATION, FINAL_QUOTE_PUNCTUATION
-
-		return true;
     }
 
 }
