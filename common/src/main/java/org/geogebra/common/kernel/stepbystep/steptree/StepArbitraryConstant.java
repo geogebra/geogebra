@@ -63,17 +63,17 @@ public class StepArbitraryConstant extends StepExpression {
 
 	@Override
 	public boolean canBeEvaluated() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public double getValue() {
-		return Double.NaN;
+		return 0;
 	}
 
 	@Override
 	public double getValueAt(StepVariable variable, double value) {
-		return Double.NaN;
+		return 0;
 	}
 
 	@Override

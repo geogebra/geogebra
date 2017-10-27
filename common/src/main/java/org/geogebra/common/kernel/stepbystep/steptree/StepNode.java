@@ -408,12 +408,16 @@ public abstract class StepNode {
 		return isEqual(d % 2, 0);
 	}
 
-	public static boolean isEven(StepExpression sn) {
-		return sn.canBeEvaluated() && isEqual(sn.getValue() % 2, 0);
+	public static boolean isEven(StepExpression se) {
+		return se.canBeEvaluated() && isEven(se.getValue());
 	}
 
 	public static boolean isOdd(double d) {
 		return isEqual(d % 2, 1);
+	}
+
+	public static boolean isOdd(StepExpression se) {
+		return se.canBeEvaluated() && isOdd(se.getValue());
 	}
 
 	public static long gcd(long a, long b) {

@@ -152,7 +152,9 @@ public enum SolutionStepType {
 
 	REGROUP_PRODUCTS("RegroupProducts", "Regroup products: "),
 
-	SQUARE_MINUS("SquareMinus", "Squaring a minus makes it positive"),
+	EVEN_POWER_NEGATIVE("EvenPowerNegative", "An even power of a negative number is a positive"),
+
+	ODD_POWER_NEGATIVE("OddPowerNegative", "An odd power of a negative number is a negative"),
 
 	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power by: "),
 
@@ -211,6 +213,10 @@ public enum SolutionStepType {
 	DIFFERENCE_OF_CUBES_FACTOR("DifferenceOfCubes", "Use $a^3 - b^3 = (a - b)(a^2 + ab + b^2)$ to factor"),
 	
 	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor", "Use $a^2-b^2 \\equiv (a+b)(a-b)$ to factor"),
+
+	BINOM_CUBED_SUM_FACTOR("BinomCubed", "Use $a^3 + 3a^2b + 3ab^2 + b^3 \\equiv (a+b)^3$ to expand"),
+
+	BINOM_CUBED_DIFF_FACTOR("BinomCubed", "Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to expand"),
 
 	FACTOR_COMMON("FactorOutA", "Factor out %0"),
 

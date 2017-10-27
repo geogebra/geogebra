@@ -13,7 +13,6 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -297,7 +296,8 @@ public enum EquationSteps implements SolveStepGenerator {
 
 				StepExpression newLHS = subtract(se.getLHS(), add(StepHelper.findVariable(se.getLHS(), sineSquared),
 						StepHelper.findVariable(se.getLHS(), cosineSquared))).regroup();
-				StepExpression newRHS = add(se.getLHS(), multiply(coeffSineSquared, add(sineSquared, cosineSquared)));
+				StepExpression newRHS = subtract(se.getRHS(),
+						multiply(coeffSineSquared, add(sineSquared, cosineSquared)));
 
 				se.modify(newLHS, newRHS);
 				se.regroup(steps);
@@ -328,7 +328,14 @@ public enum EquationSteps implements SolveStepGenerator {
 				bothSides = subtract(se.getLHS(), se.getRHS()).regroup();
 			}
 
+			Log.error(se.getLHS() + " LHS");
+			Log.error(se.getRHS() + " RHS");
+
 			if (se.getLHS().isConstant() && se.getRHS().isConstant()) {
+
+				if (isEqual(se.getLHS().getValue(), se.getRHS().getValue())) {
+					return new StepSet(StepInterval.R);
+				}
 				return new StepSet();
 			}
 
@@ -391,7 +398,11 @@ public enum EquationSteps implements SolveStepGenerator {
 	SOLVE_SIMPLE_TRIGONOMETRIC {
 		@Override
 		public StepNode apply(StepEquation se, StepVariable variable, SolutionBuilder steps) {
-			StepOperation trigoVar = (StepOperation) se.getRHS();
+			if (!se.getLHS().isTrigonometric() || !se.getRHS().isConstant()) {
+				return se;
+			}
+
+			StepOperation trigoVar = (StepOperation) se.getLHS();
 
 			if (!se.getRHS().canBeEvaluated() && trigoVar.getOperation() != Operation.TAN) {
 				return new StepSet();
@@ -550,7 +561,16 @@ public enum EquationSteps implements SolveStepGenerator {
 				tempSolutions.addAll(tempEq.solve(variable, null));
 			}
 
-			List<StepExpression> roots = Arrays.asList((StepExpression[]) tempSolutions.getElements());
+			Log.error(tempSolutions.getElements().length + "  AAAA");
+			for (StepNode sn : tempSolutions.getElements()) {
+				Log.error(" AAAAA " + sn);
+			}
+
+			List<StepExpression> roots = new ArrayList<StepExpression>();
+			for(StepNode sn : tempSolutions.getElements()) {
+				roots.add((StepExpression) sn);
+			}
+			
 			Collections.sort(roots, new Comparator<StepExpression>() {
 				@Override
 				public int compare(StepExpression s1, StepExpression s2) {
@@ -731,7 +751,7 @@ public enum EquationSteps implements SolveStepGenerator {
 	COMPLETE_CUBE {
 		@Override
 		public StepNode apply(StepEquation se, StepVariable variable, SolutionBuilder steps) {
-			if (!StepHelper.canCompleteCube(subtract(se.getRHS(), se.getLHS()), variable)) {
+			if (!StepHelper.canCompleteCube(subtract(se.getLHS(), se.getRHS()), variable)) {
 				return se;
 			}
 
@@ -762,11 +782,13 @@ public enum EquationSteps implements SolveStepGenerator {
 		} else if (solutions.size() > 1) {
 			steps.add(SolutionStepType.SOLUTIONS, solutions);
 		}
-		
+
 		if (se.getRestriction() != null || se.getUndefinedPoints() != null || se.shouldCheck()) {
 			steps.add(SolutionStepType.CHECK_VALIDITY);
 			steps.levelDown();
 		}
+
+		Log.error(solutions.getElements().length + "beginning");
 
 		for (StepNode sol : solutions.getElements()) {
 			if (sol instanceof StepExpression) {
@@ -782,6 +804,9 @@ public enum EquationSteps implements SolveStepGenerator {
 						solutions.remove(sol);
 					}
 				} else {
+					Log.error(solution.toString());
+					Log.error(solution.getValue() + "  VAL");
+
 					if (se.isValid(variable, solution.getValue())) {
 						steps.add(SolutionStepType.VALID_SOLUTION, new StepEquation(variable, solution));
 					} else {
@@ -792,6 +817,8 @@ public enum EquationSteps implements SolveStepGenerator {
 			}
 
 		}
+
+		Log.error(solutions.getElements().length + "end");
 
 		return solutions;
 	}

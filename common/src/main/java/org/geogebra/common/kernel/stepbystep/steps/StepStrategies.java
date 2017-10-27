@@ -20,7 +20,7 @@ public class StepStrategies {
 				RegroupSteps.DISTRIBUTE_MINUS, RegroupSteps.ELIMINATE_OPPOSITES, RegroupSteps.DOUBLE_MINUS,
 				RegroupSteps.SIMPLIFY_FRACTIONS, RegroupSteps.COMMON_FRACTION,
 				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT, RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.REGROUP_SUMS,
-				RegroupSteps.ADD_FRACTIONS, RegroupSteps.SQUARE_MINUSES, RegroupSteps.RATIONALIZE_DENOMINATORS };
+				RegroupSteps.ADD_FRACTIONS, RegroupSteps.POWER_OF_NEGATIVE, RegroupSteps.RATIONALIZE_DENOMINATORS };
 
 		StepNode result = sn;
 		String old = null, current = null;
@@ -51,9 +51,9 @@ public class StepStrategies {
 
 	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb) {
 		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] { FactorSteps.FACTOR_COMMON,
-				FactorSteps.FACTOR_INTEGER, FactorSteps.COMPLETING_THE_SQUARE, FactorSteps.FACTOR_BINOM_SQUARED,
-				FactorSteps.FACTOR_BINOM_SQUARED, FactorSteps.FACTOR_USING_FORMULA, FactorSteps.REORGANIZE_POLYNOMIAL,
-				FactorSteps.FACTOR_POLYNOMIAL };
+				FactorSteps.FACTOR_INTEGER, FactorSteps.COMPLETING_THE_SQUARE, FactorSteps.FACTOR_BINOM_CUBED,
+				FactorSteps.FACTOR_BINOM_SQUARED, FactorSteps.FACTOR_BINOM_SQUARED, FactorSteps.FACTOR_USING_FORMULA,
+				FactorSteps.REORGANIZE_POLYNOMIAL, FactorSteps.FACTOR_POLYNOMIAL };
 
 		StepNode result = sn;
 		String old = null, current = null;
@@ -108,26 +108,14 @@ public class StepStrategies {
 	}
 
 	public static StepNode defaultSolve(StepEquation se, StepVariable variable, SolutionBuilder sb) {
-		SolveStepGenerator[] strategy = {
-				EquationSteps.REGROUP,
-				EquationSteps.SUBTRACT_COMMON,
-				EquationSteps.PLUSMINUS,
-				EquationSteps.RECIPROCATE_EQUATION,
-				EquationSteps.SOLVE_LINEAR_IN_INVERSE,
-				EquationSteps.COMMON_DENOMINATOR,
-				EquationSteps.SOLVE_LINEAR,
-				EquationSteps.TAKE_ROOT,
-				EquationSteps.SOLVE_PRODUCT,
-				EquationSteps.EXPAND,
-				EquationSteps.SOLVE_QUADRATIC,
-				EquationSteps.COMPLETE_CUBE,
-				EquationSteps.REDUCE_TO_QUADRATIC,
-				EquationSteps.SOLVE_ABSOLUTE_VALUE,
-				EquationSteps.SOLVE_IRRATIONAL,
-				EquationSteps.SOLVE_TRIGONOMETRIC,
-				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC
-		};
-		
+		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON, EquationSteps.PLUSMINUS,
+				EquationSteps.RECIPROCATE_EQUATION, EquationSteps.SOLVE_LINEAR_IN_INVERSE,
+				EquationSteps.COMMON_DENOMINATOR, EquationSteps.SOLVE_LINEAR, EquationSteps.TAKE_ROOT,
+				EquationSteps.SOLVE_PRODUCT, EquationSteps.EXPAND, EquationSteps.SOLVE_QUADRATIC,
+				EquationSteps.COMPLETE_CUBE, EquationSteps.REDUCE_TO_QUADRATIC, EquationSteps.SOLVE_ABSOLUTE_VALUE,
+				EquationSteps.SOLVE_IRRATIONAL, EquationSteps.SOLVE_TRIGONOMETRIC,
+				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC };
+
 		return implementSolveStrategy(se, variable, sb, strategy);
 	}
 
@@ -136,10 +124,13 @@ public class StepStrategies {
 		final boolean printDebug = true;
 		final int maxRun = 10;
 
+		SolutionBuilder accumulator = sb == null ? new SolutionBuilder(null) : sb;
+
 		SolutionBuilder changes = new SolutionBuilder(sb == null ? null : sb.getLocalization());
 		StepNode origSn = se, newSn;
 
-		sb.add(SolutionStepType.SOLVE, se);
+		accumulator.add(SolutionStepType.SOLVE, se);
+		accumulator.levelDown();
 		for (int j = 0; j < maxRun; j++) {
 			boolean changed = false;
 			for (int i = 0; i < strategy.length && !changed; i++) {
@@ -155,12 +146,13 @@ public class StepStrategies {
 				}
 
 				if (newSn instanceof StepSet) {
-					sb.addAll(changes.getSteps());
-					return EquationSteps.checkSolutions(se, (StepSet) newSn, variable, sb);
+					accumulator.addAll(changes.getSteps());
+					accumulator.levelUp();
+					return EquationSteps.checkSolutions(se, (StepSet) newSn, variable, accumulator);
 				}
 
 				if (changes.getSteps().getSubsteps() != null) {
-					sb.addAll(changes.getSteps());
+					accumulator.addAll(changes.getSteps());
 					newSn.cleanColors();
 					origSn = newSn;
 					changes.reset();
@@ -204,7 +196,7 @@ public class StepStrategies {
 
 			StepExpression newLHS = (StepExpression) step.apply(se.getLHS(), sb, colorTracker);
 			StepExpression newRHS = (StepExpression) step.apply(se.getRHS(), sb, colorTracker);
-			
+
 			se.modify(newLHS, newRHS);
 
 			return se;

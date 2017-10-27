@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public enum FactorSteps implements SimplificationStepGenerator {
 
@@ -310,6 +311,50 @@ public enum FactorSteps implements SimplificationStepGenerator {
 						}
 
 						return newSum;
+					}
+				}
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+		}
+	},
+
+	FACTOR_BINOM_CUBED {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+			if (sn instanceof StepOperation) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.noOfOperands() == 4) {
+					StepExpression aCube = null, bCube = null;
+
+					for (int i = 0; i < 4; i++) {
+						if (so.getSubTree(i).isCube() && aCube == null && !so.getSubTree(i).isNegative()) {
+							aCube = so.getSubTree(i);
+						} else if (so.getSubTree(i).isCube() && bCube == null) {
+							bCube = so.getSubTree(i);
+						}
+					}
+
+					if (aCube == null || bCube == null) {
+						return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+					}
+
+					StepExpression a = aCube.getCubeRoot();
+					StepExpression b = bCube.getCubeRoot();
+
+					StepExpression expanded = power(add(a, b), 3).expand();
+
+					Log.error(expanded + "   AAAAAAAAAAA");
+
+					if (isEqual(subtract(so, expanded).regroup(), 0)) {
+						if (b.isNegative()) {
+							sb.add(SolutionStepType.BINOM_CUBED_DIFF_FACTOR);
+						} else {
+							sb.add(SolutionStepType.BINOM_CUBED_SUM_FACTOR);
+						}
+
+						return power(add(a, b), 3);
 					}
 				}
 			}

@@ -207,6 +207,12 @@ public class StepOperation extends StepExpression {
 			return Math.cos(subtrees.get(0).getValueAt(variable, replaceWith));
 		case TAN:
 			return Math.tan(subtrees.get(0).getValueAt(variable, replaceWith));
+		case ARCSIN:
+			return Math.asin(subtrees.get(0).getValueAt(variable, replaceWith));
+		case ARCCOS:
+			return Math.acos(subtrees.get(0).getValueAt(variable, replaceWith));
+		case ARCTAN:
+			return Math.atan(subtrees.get(0).getValueAt(variable, replaceWith));
 		}
 		return Double.NaN;
 	}

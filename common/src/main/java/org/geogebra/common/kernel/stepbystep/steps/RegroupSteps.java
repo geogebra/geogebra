@@ -969,19 +969,27 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	SQUARE_MINUSES {
+	POWER_OF_NEGATIVE {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
 			if (sn.isOperation(Operation.POWER)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(1).getValue() == 2) {
-					if (so.getSubTree(0).isOperation(Operation.MINUS)) {
-						StepExpression result = power(((StepOperation) so.getSubTree(0)).getSubTree(0), 2);
+				if (so.getSubTree(0).isNegative()) {
+					if (isEven(so.getSubTree(1))) {
+						StepExpression result = power(so.getSubTree(0).negate(), so.getSubTree(1));
 
 						so.setColor(colorTracker[0]);
 						result.setColor(colorTracker[0]);
-						sb.add(SolutionStepType.SQUARE_MINUS, colorTracker[0]++);
+						sb.add(SolutionStepType.EVEN_POWER_NEGATIVE, colorTracker[0]++);
+
+						return result;
+					} else if (isOdd(so.getSubTree(1))) {
+						StepExpression result = power(so.getSubTree(0).negate(), so.getSubTree(1)).negate();
+
+						so.setColor(colorTracker[0]);
+						result.setColor(colorTracker[0]);
+						sb.add(SolutionStepType.ODD_POWER_NEGATIVE, colorTracker[0]++);
 
 						return result;
 					}

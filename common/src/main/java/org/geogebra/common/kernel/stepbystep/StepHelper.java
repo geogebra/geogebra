@@ -452,6 +452,11 @@ public class StepHelper {
 					getAbsoluteValues(absoluteValues, so.getSubTree(i));
 				}
 			}
+		} else if (sn instanceof StepEquation) {
+			StepEquation se = (StepEquation) sn;
+			
+			getAbsoluteValues(absoluteValues, se.getLHS());
+			getAbsoluteValues(absoluteValues, se.getRHS());
 		}
 	}
 
@@ -649,6 +654,10 @@ public class StepHelper {
 				}
 			}
 			return false;
+		} else if (sn instanceof StepEquation) {
+			StepEquation se = (StepEquation) sn;
+
+			return containsTrigonometric(se.getLHS()) || containsTrigonometric(se.getRHS());
 		}
 
 		return false;

@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public class StepEquation extends StepNode {
 
@@ -86,6 +87,10 @@ public class StepEquation extends StepNode {
 	}
 
 	public boolean isValid(StepVariable var, double val) {
+		Log.error(LHS.getValueAt(var, val) + " ");
+		Log.error(RHS + " SAD");
+		Log.error(RHS.getValueAt(var, val) + " ");
+
 		return isEqual(LHS.getValueAt(var, val), RHS.getValueAt(var, val));
 	}
 
@@ -122,7 +127,7 @@ public class StepEquation extends StepNode {
 	}
 
 	public StepArbitraryConstant getNextArbInt() {
-		return new StepArbitraryConstant("k", arbConstTracker++, StepArbitraryConstant.ConstantType.INTEGER);
+		return new StepArbitraryConstant("k", ++arbConstTracker, StepArbitraryConstant.ConstantType.INTEGER);
 	}
 
 	public StepSet solve(StepVariable sv, SolutionBuilder sb) {
