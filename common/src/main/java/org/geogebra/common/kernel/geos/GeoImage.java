@@ -44,6 +44,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	// private String imageFileName = ""; // image file
 	private GeoPoint[] corners; // corners of the image
+	private GeoPoint[] originalCorners; // corners before centering the image
 	// private BufferedImage image;
 	/** width in pixels */
 	protected int pixelWidth;
@@ -1086,7 +1087,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	/**
-	 * 
 	 * @return if image is centered.
 	 */
 	public boolean isCentered() {
@@ -1096,6 +1096,13 @@ public class GeoImage extends GeoElement implements Locateable,
 		return centered;
 	}
 
+	/**
+	 * Sets image centered/uncentered. Calling it with false restores the
+	 * original position.
+	 * 
+	 * @param centered
+	 *            to set.
+	 */
 	public void setCentered(boolean centered) {
 		if (!getKernel().getApplication().has(Feature.CENTER_IMAGE)) {
 			return;
@@ -1103,9 +1110,40 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		this.centered = centered;
 		if (centered) {
+			saveCorners();
 			center();
+		} else {
+			restoreCorners();
 		}
 
+		update();
+		getKernel().getApplication().getActiveEuclidianView().repaintView();
+
+	}
+
+	private void saveCorners() {
+		if (originalCorners == null) {
+			originalCorners = new GeoPoint[3];
+		}
+
+		for (int i = 0; i < corners.length; i++) {
+			GeoPoint p = corners[i];
+			originalCorners[i] = p != null ? new GeoPoint(p) : null;
+		}
+	}
+
+	private void restoreCorners() {
+		for (int i = 0; i < originalCorners.length; i++) {
+			GeoPoint p = originalCorners[i];
+			if (p != null) {
+				if (corners[i] != null) {
+					corners[i].setCoords(p);
+				}
+				corners[i].update();
+			} else {
+				corners[i] = null;
+			}
+		}
 	}
 
 	private void center() {
@@ -1131,10 +1169,6 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		setCorner(p1, 1);
 		setCorner(p2, 2);
-
-		update();
-
-		ev.repaintView();
 	}
 
 }
