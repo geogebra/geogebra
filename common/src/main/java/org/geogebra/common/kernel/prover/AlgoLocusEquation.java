@@ -329,7 +329,26 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			 * also in general, not only for linear polys.
 			 */
 			sb.append(
-					"proc point_to_0circle(ideal l) { if (size(l)==1) {return(l[1]);} if (size(l)==2) {return((l[1])^2+(l[2])^2));} return 1; }; ");
+					"proc point_to_0circle(ideal l) { if (size(l)==1) {return(l[1]);} ");
+			// Handle only one special case:
+			// sb.append("if (size(l)==2 { return((l[1])^2+(l[2])^2)); } ");
+			// Handle more general cases:
+			sb.append("if (size(l)>1) { ring r=basering; LIB \"solve.lib\"; ")
+					.append("string s=\"def R=solve([\"+string(l[1]); ")
+					.append(" int ii; for (ii=2; ii<=size(l); ii++) { s=s+\",\" + string(l[ii]); } s=s+\"],16,0,30,\\\"nodisplay\\\");\";")
+					.append(" ring rr=0,(").append(varx).append(",")
+					.append(vary)
+					.append("),dp; execute(s); setring(R); ")
+					.append(" poly p=1; for (ii=1; ii<=size(SOL); ii++) {p=p*((10^2*var(1)-int(10^2*SOL[ii][1]))^2+(10^2*var(2)-int(10^2*SOL[ii][2]))^2);} ")
+					.append(" string ps=\"poly pp=\" + string(p); setring(r); execute(ps); return(pp); } ");
+			// For some explanations see
+			// https://www.singular.uni-kl.de/Manual/4-0-3/sing_1753.htm#SEC1828
+			// This is just an example implementation and it does not have
+			// flexible
+			// precision (see the numbers 16,30 and 10^2 in the code above).
+			// FIXME
+
+			sb.append("return 1; }; ");
 			sb.append("LIB \"").append(locusLib).append(".lib\";ring r=(0,")
 					.append(vars)
 					.append("),(")
@@ -352,7 +371,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 			sb.append("if(size(l)==0){print(\"{{1,1,1},{1,1,1,1}}\");exit;}")
 					.append("poly pp=1; ideal ii; int i; int j=1; poly c; for (i=1; i<=size(l); i++)")
 					.append("{ if ((string(l[i][3][2])==\"Normal\") || (string(l[i][3][2])==\"Accumulation\")) { c=point_to_0circle(l[i][1]); pp=pp*c; ii[j]=c; j++; } }")
-					.append("string s=string(pp);string si=\"ideal iii=\"+string(ii); int sl=size(s);if(sl==1){print(\"{{1,1,1},{1,1,1,1}}\");exit;}string pg=\"poly p=\"+s[2,sl-2];")
+					.append("string s=string(pp);string si=\"ideal iii=cleardenom(\"+string(ii)+\")\"; int sl=size(s);if(sl==1){print(\"{{1,1,1},{1,1,1,1}}\");exit;} ")
+					.append("string pg=\"poly p=cleardenom(\"+s[2,sl-2]+\")\";")
 					.append("ring rr=0,(").append(vars)
 					.append("),dp;execute(pg);execute(si);")
 					.append("string out=sprintf(\"{{%s,%s,%s},{\",size(coeffs(p,")
