@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 
-public abstract class StepExpression extends StepNode {
+public abstract class StepExpression extends StepNode implements Comparable<StepExpression> {
 
 	@Override
 	public abstract StepExpression deepCopy();

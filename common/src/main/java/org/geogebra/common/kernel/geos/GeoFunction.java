@@ -128,8 +128,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	final private static char[] dummy2 = { ' ', ' ' };
 
 	private double[] bounds;
-	
-	ArrayList<GeoPoint> specPoints = new ArrayList<GeoPoint>();
+
+	private ArrayList<GeoPoint> specPoints = new ArrayList<GeoPoint>();
 
 
 	private static StringBuilder sbCasCommand;
