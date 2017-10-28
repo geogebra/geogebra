@@ -308,84 +308,157 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		if (singularWS != null && singularWS.isAvailable()) {
 
 			String locusLib = singularWS.getLocusLib();
+			String locusStatement;
+			if (singularWS.getLocusLib()
+					.equals("/home/singularws/grobcov-20170620")) {
+				locusStatement = "list l=locus(I);\n";
+			} else {
+				locusStatement = "def Gp=grobcov(I);list l="
+						+ singularWS.getLocusCommand() + "(Gp);\n";
+			}
+			
+			// This is a very painful way for maintaining the code.
+			// Consider implementing loadTextFile in App instead. TODO
+			String functions = ""
+					+ "// Functions used in Singular                                                                                           \n"
+					+ "// Author: Zoltan Kovacs <zoltan@geogebra.org>                                                                          \n"
+					+ "                                                                                                                        \n"
+					+ "// Farey algorithm to find best rational approximation for 0<x<=1 with at most denominator N.                           \n"
+					+ "// The result is the list of the numerator and the denomimnator.                                                        \n"
+					+ "// https://www.johndcook.com/blog/2010/10/20/best-rational-approximation/                                               \n"
+					+ "proc fareyAlgo(number x, int N) {                                                                                       \n"
+					+ "  number a,b,c,d,mediant;                                                                                               \n"
+					+ "  a=0; b=1; c=1; d=1;                                                                                                   \n"
+					+ "  while (b <= N and d <= N) {                                                                                           \n"
+					+ "    if (x==1) { return (list(1,1)); }                                                                                   \n"
+					+ "    mediant=(a+c)/(b+d);                                                                                                \n"
+					+ "    if (x==mediant) {                                                                                                   \n"
+					+ "      if (b + d <= N) { return (list(a+c,b+d)); }                                                                       \n"
+					+ "      else {                                                                                                            \n"
+					+ "        if (d>b) { return (list(c,d)); }                                                                                \n"
+					+ "        else { return (list(a,b)); }                                                                                    \n"
+					+ "        }                                                                                                               \n"
+					+ "      }                                                                                                                 \n"
+					+ "    else {                                                                                                              \n"
+					+ "      if (x>mediant) { a=a+c; b=b+d; }                                                                                  \n"
+					+ "      else { c=a+c; d=b+d; }                                                                                            \n"
+					+ "      }                                                                                                                 \n"
+					+ "    }                                                                                                                   \n"
+					+ "  if (b>N) { return (list(c,d)); }                                                                                      \n"
+					+ "  else { return (list(a,b)); }                                                                                          \n"
+					+ "  }                                                                                                                     \n"
+					+ "                                                                                                                        \n"
+					+ "// Sign of number x                                                                                                     \n"
+					+ "proc sgn(number x) {                                                                                                    \n"
+					+ "  if (x<0) { return (-1); }                                                                                             \n"
+					+ "  if (x>0) { return (1); }                                                                                              \n"
+					+ "  return (0);                                                                                                           \n"
+					+ "  }                                                                                                                     \n"
+					+ "                                                                                                                        \n"
+					+ "// Compute a good rational approximation for n with precision prec (which is a big integer).                            \n"
+					+ "// The result is a rational as string.                                                                                  \n"
+					+ "proc number2rational(number n, int prec) {                                                                              \n"
+					+ "  if (n==0) { return (\"0\"); }                                                                                         \n"
+					+ "  int nom=sgn(n);                                                                                                       \n"
+					+ "  while (absValue(n)>1) { nom = nom * 2; n = n / 2; }                                                                   \n"
+					+ "  list f=fareyAlgo(absValue(n),prec);                                                                                   \n"
+					+ "  int g=gcd(nom*int(f[1]),int(f[2]));                                                                                   \n"
+					+ "  return (string(nom*f[1]/g)+\"/\"+string(f[2]/g));                                                                     \n"
+					+ "  }                                                                                                                     \n"
+					+ "                                                                                                                        \n"
+					+ "// Create a polynomial to desribe a 0 dimensional ideal geometrically.                                                  \n"
+					+ "// It constructs a ring R of complex numbers by using solve.lib and                                                     \n"
+					+ "// converts the real numbers to rationals. Also another ring rrr is constructed                                         \n"
+					+ "// over the integers and the parameter variables (they are for the final locus).                                        \n"
+					+ "// The result is a poly as string.                                                                                      \n"
+					+ "proc point_to_0circle(ideal l, int prec) {                                                                              \n"
+					+ "  if (size(l)==1) {return(string(l[1]));}                                                                               \n"
+					+ "  if (size(l)>1) {                                                                                                      \n"
+					+ "    ring r=basering;                                                                                                    \n"
+					+ "    string s=\"def R=solve([\"+string(l[1]);                                                                            \n"
+					+ "    int ii;                                                                                                             \n"
+					+ "    for (ii=2; ii<=size(l); ii++) { s=s+\",\" + string(l[ii]); }                                                        \n"
+					+ "    s=s+\"],\\\"nodisplay\\\");\";                                                                                      \n"
+					+ "    string ringdef=\"ring rrr=0,(\"+parstr(1)+\",\"+parstr(2)+\"),dp\";                                                 \n"
+					+ "    execute(ringdef);                                                                                                   \n"
+					+ "    execute(s);                                                                                                         \n"
+					+ "    setring R;                                                                                                          \n"
+					+ "    string ps=\"poly pp=1\";                                                                                            \n"
+					+ "    for (ii=1; ii<=size(SOL); ii++) {                                                                                   \n"
+					+ "      ps = ps + \"*((\" + string(var(1)) + \"-(\" + number2rational(SOL[ii][1],prec) + \"))^2+(\"                       \n"
+					+ "              + string(var(2)) + \"-(\" + number2rational(SOL[ii][2],prec) + \"))^2)\";                                 \n"
+					+ "      }                                                                                                                 \n"
+					+ "    setring rrr;                                                                                                        \n"
+					+ "    execute(ps);                                                                                                        \n"
+					+ "    pp=cleardenom(pp);                                                                                                  \n"
+					+ "    return(string(pp));                                                                                                 \n"
+					+ "    }                                                                                                                   \n"
+					+ "  return 1;                                                                                                             \n"
+					+ "}                                                                                                                       \n"
+					+ "                                                                                                                        \n"
+					+ "proc impossible() { return (\"{{1,1,1},{1,1,1,1}}\"); }                                                                 \n"
+					+ "                                                                                                                        \n"
+					+ "proc locusequ(ideal I, int prec) {                                                                                      \n"
+					+ "  short=0;                                                                                                              \n"
+					// + " list l=locus(I); \n"
+					+ locusStatement
+					+ "  if (size(l)==0) {print (impossible()); return; }                                                                      \n"
+					+ "  poly pp, c;                                                                                                           \n"
+					+ "  ideal ii;                                                                                                             \n"
+					+ "  int i, j;                                                                                                             \n"
+					+ "  j=1;                                                                                                                  \n"
+					+ "  pp=1;                                                                                                                 \n"
+					+ "  string cx;                                                                                                            \n"
+					+ "  for (i=1; i<=size(l); i++) {                                                                                          \n"
+					+ "    if ((string(l[i][3][2])==\"Normal\") || (string(l[i][3][2])==\"Accumulation\")) {                                   \n"
+					+ "      cx=\"c=\"+point_to_0circle(l[i][1],prec);                                                                         \n"
+					+ "      execute(cx);                                                                                                      \n"
+					+ "      pp=pp*c;                                                                                                          \n"
+					+ "      ii[j]=c;                                                                                                          \n"
+					+ "      j++;                                                                                                              \n"
+					+ "      }                                                                                                                 \n"
+					+ "    }                                                                                                                   \n"
+					+ "  string s=string(pp);                                                                                                  \n"
+					+ "  string si=\"ideal iii=\"+string(ii);                                                                                  \n"
+					+ "  int sl=size(s);                                                                                                       \n"
+					+ "  if (sl==1) { print (impossible()); return; }                                                                          \n"
+					+ "  string pg=\"poly p=\"+s[2,sl-2];                                                                                      \n"
+					+ "  string vv1=parstr(1);                                                                                                 \n"
+					+ "  string vv2=parstr(2);                                                                                                 \n"
+					+ "  string rrx=\"ring rr=0,(\"+vv1+\",\"+vv2+\"),dp\";                                                                    \n"
+					+ "  execute(rrx);                                                                                                         \n"
+					+ "  execute(pg);                                                                                                          \n"
+					+ "  execute(si);                                                                                                          \n"
+					+ "  string out;                                                                                                           \n"
+					+ "  string outx=\"out=sprintf(\\\"{{%s,%s,%s},{\\\",size(coeffs(p,\"+vv1+\")),size(coeffs(p,\"+vv2+\")),\"                \n"
+					+ "    + \"coeffs(coeffs(p,\"+vv1+\"),\"+vv2+\"))\";                                                                       \n"
+					+ "  execute(outx);                                                                                                        \n"
+					+ "  int iiis=size(iii);                                                                                                   \n"
+					+ "  out=out+sprintf(\"%s,\",iiis);                                                                                        \n"
+					+ "  for (i=1; i<=iiis; i++) {                                                                                             \n"
+					+ "    outx=\"out=out+sprintf(\\\"%s,%s,%s\\\",size(coeffs(iii[i],\"+vv1+\")),size(coeffs(iii[i],\"+vv2+\")),\"            \n"
+					+ "      + \"coeffs(coeffs(iii[i],\"+vv1+\"),\"+vv2+\"))\";                                                                \n"
+					+ "    execute(outx);                                                                                                      \n"
+					+ "    if (i<iiis) { out=out+\",\"; }                                                                                      \n"
+					+ "    }                                                                                                                   \n"
+					+ "  sprintf(\"%s}}\", out);                                                                                               \n"
+					+ "  }                                                                                                                     \n"
+					+ "                                                                                                                        \n"
+					+ "LIB \"solve.lib\";                                                                                                      \n"
+					+ "// LIB \"/home/singularws/grobcov-20170620.lib\";                                                                       \n";
 
 			/*
-			 * Constructing the Singular script. This code contains a modified
-			 * version of Francisco Botana's locusdgto() and envelopeto()
-			 * procedures in the grobcov library. I.e. we no longer use these
-			 * two commands, but locusto(), locus() and locusdg() only. We use
-			 * one single Singular call instead of two (as above for Giac).
-			 * Computation of the Jacobian is maybe slower here.
-			 * 
-			 * At the moment this code is here for backward compatibility only.
-			 * It is not used in the web version and can be invoked only by
-			 * forcing SingularWS on startup. TODO: Consider implementing
-			 * Singular's grobcov library in Giac---it may produce better
-			 * envelopes.
+			 * Calling the above functions at entry point locusequ():
 			 */
-
-			/*
-			 * Convert v1-a,v2-b type ideals to (v1-a)^2+(v2-b)^2. This works
-			 * also in general, not only for linear polys.
-			 */
-			sb.append(
-					"proc point_to_0circle(ideal l) { if (size(l)==1) {return(l[1]);} ");
-			// Handle only one special case:
-			// sb.append("if (size(l)==2 { return((l[1])^2+(l[2])^2)); } ");
-			// Handle more general cases:
-			sb.append("if (size(l)>1) { ring r=basering; LIB \"solve.lib\"; ")
-					.append("string s=\"def R=solve([\"+string(l[1]); ")
-					.append(" int ii; for (ii=2; ii<=size(l); ii++) { s=s+\",\" + string(l[ii]); } s=s+\"],16,0,30,\\\"nodisplay\\\");\";")
-					.append(" ring rr=0,(").append(varx).append(",")
-					.append(vary)
-					.append("),dp; execute(s); setring(R); ")
-					.append(" poly p=1; for (ii=1; ii<=size(SOL); ii++) {p=p*((10^2*var(1)-int(10^2*SOL[ii][1]))^2+(10^2*var(2)-int(10^2*SOL[ii][2]))^2);} ")
-					.append(" string ps=\"poly pp=\" + string(p); setring(r); execute(ps); return(pp); } ");
-			// For some explanations see
-			// https://www.singular.uni-kl.de/Manual/4-0-3/sing_1753.htm#SEC1828
-			// This is just an example implementation and it does not have
-			// flexible
-			// precision (see the numbers 16,30 and 10^2 in the code above).
-			// FIXME
-
-			sb.append("return 1; }; ");
-			sb.append("LIB \"").append(locusLib).append(".lib\";ring r=(0,")
+			sb.append(functions).append("LIB \"").append(locusLib)
+					.append(".lib\";\n");
+			sb.append("ring r=(0,")
 					.append(vars)
 					.append("),(")
 					.append(elimVars)
-					.append("),dp;")
-					.append("short=0;ideal I=")
-					.append(polys).append(";");
-			if (singularWS.getLocusLib()
-					.equals("/home/singularws/grobcov-20170620")) {
-				sb.append("list l=locus(I);");
-			} else {
-				sb.append("def Gp=grobcov(I);list l=")
-					.append(singularWS.getLocusCommand());
-				sb.append("(Gp);");
-			}
-			/*
-			 * If Gp is an empty list, then there is no locus, so that we return
-			 * 0=-1.
-			 */
-			sb.append("if(size(l)==0){print(\"{{1,1,1},{1,1,1,1}}\");exit;}")
-					.append("poly pp=1; ideal ii; int i; int j=1; poly c; for (i=1; i<=size(l); i++)")
-					.append("{ if ((string(l[i][3][2])==\"Normal\") || (string(l[i][3][2])==\"Accumulation\")) { c=point_to_0circle(l[i][1]); pp=pp*c; ii[j]=c; j++; } }")
-					.append("string s=string(pp);string si=\"ideal iii=\"+string(ii); int sl=size(s);if(sl==1){print(\"{{1,1,1},{1,1,1,1}}\");exit;} ")
-					.append("string pg=\"poly p=cleardenom(\"+s[2,sl-2]+\")\";")
-					.append("ring rr=0,(").append(vars)
-					.append("),dp;execute(pg);execute(si);")
-					.append("string out=sprintf(\"{{%s,%s,%s},{\",size(coeffs(p,")
-					.append(varx).append(")),size(coeffs(p,").append(vary)
-					.append(")),").append("coeffs(coeffs(p,").append(varx)
-					.append("),").append(vary).append("));");
-			sb.append(
-					"int iiis=size(iii);out=out+sprintf(\"%s,\",iiis);for (i=1; i<=iiis; i++)")
-					.append("{out=out+sprintf(\"%s,%s,%s\",size(coeffs(iii[i],")
-					.append(varx).append(")),size(coeffs(iii[i],").append(vary)
-					.append(")),coeffs(coeffs(iii[i],").append(varx)
-					.append("),").append(vary).append("));");
-			sb.append("if (i<iiis) {out=out+\",\";} } sprintf(\"%s}}\", out);");
+					.append("),dp;\n");
+			sb.append("ideal I=").append(polys).append(";\n");
+			sb.append("locusequ(I,").append(PRECISION).append(");\n");
 
 			Log.trace("Input to singular: " + sb);
 			String result;
