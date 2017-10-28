@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 //import java.awt.Color;
 
@@ -35,9 +34,6 @@ public class MyButton implements Observer {
 
 	private final static int margin = 10;
 	private final static int minSize = 24;
-
-	// corner arc size as fraction of button's width
-	private final static double arcSizefraction = 0.1;
 
 	private GFont font;
 	private boolean pressed, draggedOrContext;
@@ -222,14 +218,14 @@ public class MyButton implements Observer {
 		
 
 		int arcSize = (int) Math
-				.round(Math.min(getWidth(), getHeight()) * arcSizefraction);
+				.round(Math.min(getWidth(), getHeight()) * geoButton.getKernel()
+						.getApplication().getButtonRouding());
 		
 		int shadowSize = 0;
 
 		// fill background
 
-		if (geoButton.getKernel().getApplication()
-				.has(Feature.BUTTONS_HAVE_SHADOW)) {
+		if (geoButton.getKernel().getApplication().getButtonShadows()) {
 			shadowSize = (int) (getHeight() * 0.1);
 			g.setPaint(paint.slightlyDarker());
 			g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1,

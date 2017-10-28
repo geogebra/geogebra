@@ -110,6 +110,14 @@ public class ViewW {
 		return ((ArticleElement) container).getDataParamShowResetIcon();
 	}
 
+	public boolean getDataParamButtonShadows() {
+		return ((ArticleElement) container).getDataParamButtonShadows();
+	}
+
+	public double getDataParamButtonRounding() {
+		return ((ArticleElement) container).getDataParamButtonRounding();
+	}
+
 	public boolean getDataParamShowAnimationButton() {
 		return ((ArticleElement) container).getDataParamShowAnimationButton();
 	}

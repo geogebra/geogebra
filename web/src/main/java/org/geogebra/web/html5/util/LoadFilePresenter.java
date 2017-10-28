@@ -130,6 +130,8 @@ public class LoadFilePresenter {
 		app.setShiftDragZoomEnabled(view.getDataParamShiftDragZoomEnabled()
 		        || view.getDataParamApp());
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
+		app.setButtonShadows(view.getDataParamButtonShadows());
+		app.setButtonRounding(view.getDataParamButtonRounding());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
 		if (!specialPerspective) {
 			app.updateToolBar();

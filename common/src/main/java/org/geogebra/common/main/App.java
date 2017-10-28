@@ -55,6 +55,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.kernel.View;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.CommandsConstants;
@@ -400,6 +401,8 @@ public abstract class App implements UpdateSelection {
 	private AdjustScreen adjustScreen2 = null;
 	private long ceIDcounter = 1;
 	private int nextVariableID = 1;
+	private boolean buttonShadows = true;
+	private double buttonRounding = 0.2;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -4280,10 +4283,6 @@ public abstract class App implements UpdateSelection {
             case TAB_ON_GUI:
                 return true;
 
-            /** GGB-2096 */
-            case BUTTONS_HAVE_SHADOW:
-                return prerelease;
-
             /** MOB-1278 */
             case SPEED_UP_GRID_DRAWING:
                 return true;
@@ -5019,4 +5018,45 @@ public abstract class App implements UpdateSelection {
 	public AccessibilityManagerInterface getAccessibilityManager() {
 		return null;
 	}
+
+	/**
+	 * GGB-2171
+	 * 
+	 * @param b
+	 *            set whether buttons have shadows
+	 */
+	public void setButtonShadows(boolean b) {
+		this.buttonShadows = b;
+	}
+
+	/**
+	 * GGB-2171
+	 * 
+	 * @param percent
+	 *            set how rounded buttons are
+	 */
+	public void setButtonRounding(double percent) {
+		this.buttonRounding = (!MyDouble.isFinite(percent) || percent < 0
+				|| percent > 1) ? 0.2 : percent;
+
+	}
+
+	/**
+	 * GGB-2171
+	 * 
+	 * @return how rounded buttons are
+	 */
+	public double getButtonRouding() {
+		return buttonRounding;
+	}
+
+	/**
+	 * GGB-2171
+	 * 
+	 * @return whether buttons have shadows
+	 */
+	public boolean getButtonShadows() {
+		return buttonShadows;
+	}
+
 }

@@ -523,7 +523,7 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * @return wheter focus prevented (use in multiple applets)
+	 * @return whether focus prevented (use in multiple applets)
 	 */
 	public boolean preventFocus() {
 		return getBoolDataParam("preventFocus", false);
@@ -566,6 +566,32 @@ public final class ArticleElement extends Element {
 			ret = Double.parseDouble(scale);
 		} catch (Throwable t) {
 			Log.warn("Invalid scale");
+		}
+		return ret;
+
+	}
+
+	/**
+	 * @return whether focus prevented (use in multiple applets)
+	 */
+	public boolean getDataParamButtonShadows() {
+		return getBoolDataParam("buttonShadows", false);
+	}
+
+	/**
+	 * @return data-param-buttonRounding: the parameter for how rounded buttons
+	 *         are (0-1)
+	 */
+	public double getDataParamButtonRounding() {
+		String rounding = this.getAttribute("data-param-buttonRounding");
+		if (rounding.length() < 1) {
+			return 1;
+		}
+		double ret = 1;
+		try {
+			ret = Double.parseDouble(rounding);
+		} catch (Throwable t) {
+			Log.warn("Invalid buttonRounding");
 		}
 		return ret;
 
