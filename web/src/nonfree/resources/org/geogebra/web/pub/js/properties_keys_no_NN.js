@@ -372,7 +372,7 @@ __GGB__keysVar.no_NN.command = {
     "Function.Syntax3D": "[ <Liste med tal> ]\n[ <Funksjon>, <Start>, <slutt> ]\n[ <Uttrykk>, <Parametervariabel 1>, <Start>, <Slutt>, <Parametervariabel 2>, <Start>, <Slutt> ]",
     "Function.SyntaxCAS": "[ <Funksjon>, <Start>, <Slutt> ]",
     "FutureValue": "FramtidigVerdi",
-    "FutureValue.Syntax": "[ <Rate>, <Tal p\xe5 periodar>, <Betaling>, <Novedi>, <Type (valfritt)> ]",
+    "FutureValue.Syntax": "[ <Rate>, <Tal p\xe5 periodar>, <Betaling>, <Noverdi>, <Type (valfritt)> ]",
     "GCD": "SFD",
     "GCD.Syntax": "[ <Liste med punkt> ]\n[ <Tal>, <Tal> ]",
     "GCD.SyntaxCAS": "[ <Liste med tal> ]\n[ <Liste med polynom> ]\n[ <Tal>, <Tal> ]\n[ <Polynom>, <Polynom> ]",
