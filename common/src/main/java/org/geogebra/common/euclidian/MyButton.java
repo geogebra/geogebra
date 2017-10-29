@@ -202,7 +202,7 @@ public class MyButton implements Observer {
 		if (bg == null) {
 			bg = GColor.WHITE;
 		}
-		
+
 		GColor paint;
 
 		// change background color on mouse click
@@ -215,12 +215,10 @@ public class MyButton implements Observer {
 		} else {
 			paint = bg;
 		}
-		
 
-		int arcSize = (int) Math
-				.round(Math.min(getWidth(), getHeight()) * geoButton.getKernel()
-						.getApplication().getButtonRouding());
-		
+		int arcSize = (int) Math.round(Math.min(getWidth(), getHeight())
+				* geoButton.getKernel().getApplication().getButtonRouding());
+
 		int shadowSize = 0;
 
 		// fill background
@@ -234,9 +232,8 @@ public class MyButton implements Observer {
 
 		g.setPaint(paint);
 		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1,
-				geoButton.getHeight() - 1-shadowSize, arcSize, arcSize);
-		
-		
+				geoButton.getHeight() - 1 - shadowSize, arcSize, arcSize);
+
 		// change border on mouseover
 		if (isSelected()) {
 			// default button design
