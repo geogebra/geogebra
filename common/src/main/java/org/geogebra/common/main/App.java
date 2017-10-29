@@ -5037,7 +5037,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setButtonRounding(double percent) {
 		this.buttonRounding = (!MyDouble.isFinite(percent) || percent < 0
-				|| percent > 1) ? 0.2 : percent;
+				|| percent > 0.9) ? 0.2 : percent;
 
 	}
 

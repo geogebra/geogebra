@@ -585,9 +585,9 @@ public final class ArticleElement extends Element {
 	public double getDataParamButtonRounding() {
 		String rounding = this.getAttribute("data-param-buttonRounding");
 		if (rounding.length() < 1) {
-			return 1;
+			return 0.2;
 		}
-		double ret = 1;
+		double ret = 0.2;
 		try {
 			ret = Double.parseDouble(rounding);
 		} catch (Throwable t) {
