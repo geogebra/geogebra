@@ -1668,7 +1668,7 @@ __GGB__keysVar.ca_XV.menu = {
     "EndProbabilityOf": ")",
     "English": "Angl\xe9s",
     "EnterAppletAddress": "Introdu\xefu l\u2019adre\xe7a de la miniaplicaci\xf3 del GeoGebra",
-    "EnterExpression": "Enter your equation or expression here.",
+    "EnterExpression": "Entreu aqu\xed l'expressi\xf3 o equaci\xf3 .",
     "EnterPercentage": "Introdu\xefu el percentatge",
     "EnterWebAddress": "Introdu\xefu l\u2019adre\xe7a del web",
     "EqualVariance": "Vari\xe0ncia igual",
