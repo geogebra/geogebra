@@ -205,7 +205,7 @@ public class PerspectiveDecoder {
 			String code = ((Variable) expr)
 					.getName(StringTemplate.defaultTemplate);
 			if (viewCodes.get(code) != null) {
-				viewCodes.get(code).setVisible(true);
+				viewCodes.get(code).makeVisible();
 				viewCodes.get(code).setLocation(
 						panelPath.length() > 0 ? panelPath.substring(1) : "");
 				panelList.add(viewCodes.get(code));

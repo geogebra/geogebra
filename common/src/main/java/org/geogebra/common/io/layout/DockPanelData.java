@@ -318,11 +318,11 @@ final public class DockPanelData {
 	}
 
 	/**
-	 * @param visible
-	 *            whether this panel should be visible
+	 * Make sure this is visible in the main frame
 	 */
-	public void setVisible(boolean visible) {
-		isVisible = visible;
+	public void makeVisible() {
+		isVisible = true;
+		this.openInFrame = false;
 	}
 
 	/**
