@@ -420,7 +420,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			return;
 		}
 
-		dockPanel = new MyDockLayoutPanel(Style.Unit.PX);
+		dockPanel = new MyDockLayoutPanel();
 		initWidget(dockPanel);
 	}
 
@@ -704,10 +704,16 @@ public abstract class DockPanelW extends ResizeComposite implements
 				&& app.getArticleElement().getDataParamEnableRightClick();
 	}
 
+	/**
+	 * @return whether reset icon should be shown in this panel (only EV1/2, 3D)
+	 */
 	protected boolean needsResetIcon() {
 		return false;
 	}
 
+	/**
+	 * @return pixel height; physical or preferred when not visible
+	 */
 	public int getComponentInteriorHeight() {
 		if (dockPanel != null) {
 			int h = (int) dockPanel.getCenterHeight();
@@ -719,6 +725,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return 0;
 	}
 
+	/**
+	 * @return pixel width; physical or preferred when not visible
+	 */
 	public int getComponentInteriorWidth() {
 		if (dockPanel != null) {
 			int w = (int) dockPanel.getCenterWidth();
@@ -736,8 +745,11 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * extend DockPanelW itself
 	 */
 	public static class MyDockLayoutPanel extends DockLayoutPanel {
-		public MyDockLayoutPanel(Unit unit) {
-			super(unit);
+		/**
+		 * Create new dock panel
+		 */
+		public MyDockLayoutPanel() {
+			super(Style.Unit.PX);
 			addStyleName("ggbdockpanelhack");
 		}
 
@@ -801,12 +813,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if (componentPanel == null) {
 			return;
 		}
-
-		updateLabels();
-	}
-
-	public void updateLabels() {
-		//TODO implement or delete
 	}
 
 	/**

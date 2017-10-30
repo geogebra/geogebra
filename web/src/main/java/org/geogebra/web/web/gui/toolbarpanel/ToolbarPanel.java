@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.MyModeChangedListener;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
@@ -322,7 +323,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (dockPanel != null) {
 			final Widget opposite = dockParent.getOpposite(dockPanel);
 			dockParent.addStyleName("hide-Dragger");
-			if (opposite != null) {
+			if (opposite != null && dockParent
+					.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 				opposite.addStyleName("hiddenHDraggerRightPanel");
 			}
 		}
@@ -860,6 +862,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void onOrientationChange() {
 		header.onOrientationChange();
+		hideDragger();
 	}
 
 	/**

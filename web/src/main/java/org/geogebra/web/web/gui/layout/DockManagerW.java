@@ -160,6 +160,7 @@ public class DockManagerW extends DockManager {
 			// cascade the split panes
 			if (rootPane != null) {
 				Widget rootPaneParent = rootPane.getParent();
+				String styles = rootPane.getStyleName();
 				if (rootPaneParent != null) {
 					if (rootPaneParent instanceof VerticalPanel) {
 						rootPane.clear();
@@ -179,6 +180,7 @@ public class DockManagerW extends DockManager {
 					rootPane.clear();
 					rootPane = splitPanes[0];
 				}
+				rootPane.setStyleName(styles);
 			} else {
 				rootPane = splitPanes[0];
 			}
@@ -1594,7 +1596,7 @@ public class DockManagerW extends DockManager {
 	@Override
     public void setLabels() {
 		for(DockPanelW panel : dockPanels) {
-			panel.updateLabels();
+			panel.setLabels();
 		}
 		
 		for(DockPanelW panel : dockPanels) {
