@@ -59,6 +59,7 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
+import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
@@ -608,9 +609,6 @@ public class AlgebraProcessor {
 		}
 	}
 
-	// G.Sturr 2010-7-5
-	// added 'allowErrorDialog' flag to handle the case of unquoted text
-	// entries in the spreadsheet
 	/**
 	 * @param cmd
 	 *            string to process
@@ -631,6 +629,32 @@ public class AlgebraProcessor {
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
 				new EvalInfo(!cons.isSuppressLabelsActive(), true)
 						.withSliders(autoCreateSliders),
+				callback0);
+	}
+
+	/**
+	 * @param cmd
+	 *            string to process
+	 * @param storeUndo
+	 *            true to make undo step
+	 * @param handler
+	 *            decides how to handle exceptions
+	 * @param autoCreateSliders
+	 *            whether to show a popup for undefined variables
+	 * @param addDegree
+	 *            whether to allow automatically adding degree eg sin(15) ->
+	 *            sin(15deg)
+	 * @param callback0
+	 *            callback after the geos are created
+	 * @return resulting geos
+	 */
+	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
+			final String cmd, final boolean storeUndo,
+			final ErrorHandler handler, boolean autoCreateSliders,
+			boolean addDegree, final AsyncOperation<GeoElementND[]> callback0) {
+		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
+				new EvalInfo(!cons.isSuppressLabelsActive(), true)
+						.withSliders(autoCreateSliders).addDegree(addDegree),
 				callback0);
 	}
 
@@ -930,8 +954,6 @@ public class AlgebraProcessor {
 			}
 			String cmd = input == null
 					? parsed.toString(StringTemplate.defaultTemplate) : input;
-			Log.debug(parsed);
-			Log.debug(input + " MAY BE CAS");
 			if (parsed != null && parsed.unwrap() instanceof Command) {
 				Command c = (Command) parsed.unwrap();
 				if ("Rename".equals(c.getName())) {
@@ -1038,7 +1060,6 @@ public class AlgebraProcessor {
 			if (lhs != null) {
 				ggb = lhs.getGroup(1) + "(x)=" + lhs.getGroup(2);
 			}
-			Log.debug(ggb);
 			ret = this.processAlgebraCommandNoExceptionHandling(ggb, storeUndo,
 					handler, autoCreateSliders, callback0);
 		} catch (Throwable t) {
@@ -1919,9 +1940,16 @@ public class AlgebraProcessor {
 	 * @throws CircularDefinitionException
 	 *             if circular definition occurs
 	 */
-	public final GeoElement[] doProcessValidExpression(final ValidExpression ve,
+	public final GeoElement[] doProcessValidExpression(
+			final ValidExpression ve2,
 			EvalInfo info) throws MyError, CircularDefinitionException {
 		GeoElement[] ret = null;
+
+		ExpressionValue ve = ve2;
+
+		if (info.autoAddDegree()) {
+			ve = ve2.traverse(DegreeReplacer.getReplacer(kernel));
+		}
 
 		if (ve instanceof ExpressionNode) {
 			ret = processExpressionNode((ExpressionNode) ve, info);
@@ -3328,9 +3356,6 @@ public class AlgebraProcessor {
 		}
 		if (ret instanceof Equation) {
 			return (Equation) ret;
-		}
-		if (geoConic.isDefined()) {
-			Log.debug(geoConic.toValueString(StringTemplate.maxPrecision));
 		}
 
 		return new Equation(kernel, new ExpressionNode(kernel, Double.NaN),

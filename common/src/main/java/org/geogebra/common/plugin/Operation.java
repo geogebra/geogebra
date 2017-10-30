@@ -1895,6 +1895,26 @@ public enum Operation {
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param op
+	 *            function
+	 * @return true if it's a trig function that takes degrees as input ie not
+	 *         inverse, not hyperbolic
+	 */
+	public static boolean isTrigDegrees(Operation op) {
+		switch (op) {
+		case SIN:
+		case COS:
+		case TAN:
+		case CSC:
+		case SEC:
+		case COT:
+			return true;
+		}
+		return false;
+	}
+
 	public abstract ExpressionValue handle(ExpressionNodeEvaluator ev,
 			ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX);

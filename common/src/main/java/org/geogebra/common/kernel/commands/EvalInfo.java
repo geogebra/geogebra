@@ -14,6 +14,7 @@ public class EvalInfo {
 	private boolean simplifyIntegers = true;
 	private boolean useCAS = true;
 	private boolean autocreateSliders = true;
+	private boolean autoAddDegree = true;
 	private boolean fractions = false;
 
 	/**
@@ -173,6 +174,20 @@ public class EvalInfo {
 	}
 
 	/**
+	 * @param addDegree
+	 *            whether this may automatically add degree symbol
+	 * @return derived eval info
+	 */
+	public EvalInfo addDegree(boolean addDegree) {
+		if (addDegree == autoAddDegree) {
+			return this;
+		}
+		EvalInfo ret = copy();
+		ret.autoAddDegree = addDegree;
+		return ret;
+	}
+
+	/**
 	 * @param symbFractions
 	 *            whether to show symbolic fractionss
 	 * @return derived eval info
@@ -191,6 +206,10 @@ public class EvalInfo {
 	 */
 	public boolean isFractions() {
 		return fractions;
+	}
+
+	public boolean autoAddDegree() {
+		return autoAddDegree;
 	}
 
 }

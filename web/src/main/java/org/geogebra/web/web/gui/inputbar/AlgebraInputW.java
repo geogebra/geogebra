@@ -72,7 +72,6 @@ public class AlgebraInputW extends FlowPanel
 	 */
 	public void init(AppW app1) {
 		this.app = app1;
-		//AG I dont think we need this app.removeTraversableKeys(this);
 		addStyleName("AlgebraInput");
 
 		if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
@@ -98,8 +97,6 @@ public class AlgebraInputW extends FlowPanel
 		inputField.getTextBox().addBlurHandler(this);
 
 		inputField.addHistoryPopup(app.getInputPosition() == InputPosition.top);
-
-		//AG updateFonts()
 
 		updateIcons(false);
 		//new Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
@@ -345,7 +342,8 @@ public class AlgebraInputW extends FlowPanel
 			app.getKernel()
 					.getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid, explicit), true, callback);
+							getErrorHandler(valid, explicit), true,
+							app.has(Feature.AUTO_ADD_DEGREE), callback);
 
 
 		} catch (Exception ee) {

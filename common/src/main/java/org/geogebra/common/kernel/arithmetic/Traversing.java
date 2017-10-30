@@ -18,6 +18,9 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Traversing objects are allowed to traverse through an Equation, MyList,
@@ -165,6 +168,61 @@ public interface Traversing {
 		public static CommandReplacer getReplacer(Kernel kernel, boolean cas) {
 			replacer.kernel = kernel;
 			replacer.cas = cas;
+			return replacer;
+		}
+	}
+
+	/**
+	 * Replaces sin(15) with sing(15deg)
+	 *
+	 */
+	public class DegreeReplacer implements Traversing {
+		private Kernel kernel;
+		private static DegreeReplacer replacer = new DegreeReplacer();
+
+		@Override
+		public ExpressionValue process(ExpressionValue ev) {
+			Log.debug(ev.getClass() + " " + ev.toString());
+			if (ev instanceof ExpressionNode) {
+				ExpressionNode en = (ExpressionNode) ev;
+
+				Operation op = en.getOperation();
+				if (Operation.isTrigDegrees(op)) {
+					ExpressionValue arg = en.getLeft();
+					Log.debug("arg: " + arg.getClass() + "");
+					if (arg.isLeaf() && arg.isConstant()
+							&& !Kernel.isInteger(
+									arg.evaluateDouble() / Math.PI)) {
+						Log.debug("constant");
+
+						ExpressionNode argDegrees = new ExpressionNode(kernel,
+								arg, Operation.MULTIPLY,
+								new MySpecialDouble(kernel, Math.PI / 180.0,
+										Unicode.DEGREE_CHAR + ""));
+
+						return new ExpressionNode(kernel, argDegrees,
+								op, null);
+					}
+
+					if (arg instanceof Variable) {
+
+					}
+				}
+
+			}
+			return ev;
+		}
+
+		/**
+		 * @param kernel
+		 *            kernel in which resulting variables live (also needed to
+		 *            check which commands are valid)
+		 * @param cas
+		 *            whether this is for CAS
+		 * @return replacer
+		 */
+		public static DegreeReplacer getReplacer(Kernel kernel) {
+			replacer.kernel = kernel;
 			return replacer;
 		}
 	}

@@ -276,6 +276,9 @@ public enum Feature {
 	MOB_INPUT_CONTEXT_MENU,
 
 	/** GGB-2169 */
-	CENTER_IMAGE
+	CENTER_IMAGE,
+
+	/** GGB-2183 hange sin(15) -> sin(15deg) */
+	AUTO_ADD_DEGREE
 }
 

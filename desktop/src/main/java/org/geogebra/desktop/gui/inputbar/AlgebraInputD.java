@@ -36,6 +36,7 @@ import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -432,7 +433,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid, explicit), true,
+							getErrorHandler(valid, explicit), true, app.has(Feature.AUTO_ADD_DEGREE),
 							new InputBarCallback(app, inputField, input,
 									app.getKernel().getConstructionStep()));
 

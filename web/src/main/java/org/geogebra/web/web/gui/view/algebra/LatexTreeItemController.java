@@ -246,7 +246,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 			err.resetError();
 		}
 		EvalInfo info = new EvalInfo(true, true).withSliders(true)
-				.withFractions(true);
+				.withFractions(true)
+				.addDegree(app.has(Feature.AUTO_ADD_DEGREE));
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true, err,
 						info, callback);

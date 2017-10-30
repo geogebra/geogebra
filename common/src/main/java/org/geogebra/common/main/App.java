@@ -4303,6 +4303,11 @@ public abstract class App implements UpdateSelection {
             case CENTER_IMAGE:
             	return prerelease;
 
+		/** GGB-2183 */
+		case AUTO_ADD_DEGREE:
+			return prerelease
+					&& getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE;
+
             default:
                 Log.debug("missing case in Feature: " + f);
                 return false;
