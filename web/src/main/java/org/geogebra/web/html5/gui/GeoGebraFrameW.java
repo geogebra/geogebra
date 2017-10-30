@@ -53,6 +53,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static SpanElement firstDummy = null;
 	private static SpanElement lastDummy = null;
+	/** Tab index for graphics */
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
 	private static HashMap<String, AppW> articleMap = new HashMap<String, AppW>();
@@ -68,8 +69,14 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	private JavaScriptObject onLoadCallback = null;
 
-	/** Creates new GeoGebraFrame 
-	 * @param mainTag TODO*/
+	/**
+	 * Creates new GeoGebraFrame
+	 * 
+	 * @param laf
+	 *            look and feel
+	 * @param mainTag
+	 *            TODO
+	 */
 	public GeoGebraFrameW(GLookAndFeelI laf, boolean mainTag) {
 		super(mainTag ? "main" : DivElement.TAG);
 		this.laf = laf;
@@ -102,6 +109,11 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return articleMap;
 	}
 
+	/**
+	 * @param el
+	 *            ArticleElement to be used as dummy parent, if it's the last
+	 *            one
+	 */
 	public static void reCheckForDummies(Element el) {
 
 		if ((firstDummy != null) && (lastDummy != null)) {
@@ -386,6 +398,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
+	/**
+	 * Splash screen callback
+	 */
 	public void runAsyncAfterSplash() {
 		final GeoGebraFrameW inst = this;
 		final ArticleElement articleElement = this.ae;
@@ -421,6 +436,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// });
 	}
 
+	/**
+	 * @param articleElement
+	 *            article
+	 * @param app
+	 *            app
+	 */
 	public static void handleLoadFile(ArticleElement articleElement, AppW app) {
 		ViewW view = new ViewW(articleElement, app);
 		ViewW.fileLoader.setView(view);
@@ -466,6 +487,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// do nothing
 	}
 
+	/**
+	 * @return number of existing frames
+	 */
 	public static int getInstanceCount() {
 		return instances.size();
 	}
@@ -609,7 +633,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		inst.createSplash(article);
 		RootPanel root = RootPanel.get(article.getId());
 		if (root != null) {
-			RootPanel.get(article.getId()).add(inst);
+			root.add(inst);
 		} else {
 			Log.error("Cannot find article with ID " + article.getId());
 		}

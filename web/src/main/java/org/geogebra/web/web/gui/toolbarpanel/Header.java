@@ -454,8 +454,10 @@ class Header extends FlowPanel implements KeyDownHandler {
 		final EuclidianView ev = ((AppW) toolbarPanel.app)
 				.getActiveEuclidianView();
 		if (ev != null && undoRedoPanel != null) {
-			int evTop = ev.getAbsoluteTop() - (int) app.getAbsTop();
-			int evLeft = ev.getAbsoluteLeft() - (int) app.getAbsLeft();
+			double evTop = (ev.getAbsoluteTop() - (int) app.getAbsTop())
+					/ app.getArticleElement().getScaleY();
+			double evLeft = (ev.getAbsoluteLeft() - (int) app.getAbsLeft())
+					/ app.getArticleElement().getScaleX();
 			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}
