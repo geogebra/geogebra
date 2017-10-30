@@ -1702,6 +1702,7 @@ __GGB__keysVar.am.menu = {
     "ExportAsPicture": "\u12a5\u1295\u12f0 \u1225\u12d5\u120d \u120b\u12ad",
     "ExportAsWebpage": "Export as Webpage",
     "ExportTextAsShapes": "\u133d\u1211\u134d \u12a5\u1295\u12f0 \u1245\u122d\u133e\u127d \u120b\u12ad",
+    "Expression": "Expression",
     "ExtendedForm": "\u12e8\u1270\u122b\u12d8\u1218 \u1245\u133d",
     "ExtraLarge": "\u1260\u1323\u121d \u1275\u120d\u1245",
     "ExtraSmall": "\u12e8\u1260\u1208\u1320 \u12a0\u1290\u1235\u1270\u129b",

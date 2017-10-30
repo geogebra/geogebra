@@ -1702,6 +1702,7 @@ __GGB__keysVar.ar_MA.menu = {
     "ExportAsPicture": "\u062a\u0635\u062f\u064a\u0631 \u0643\u0640\u0635\u0648\u0631\u0629",
     "ExportAsWebpage": "\u062a\u0635\u062f\u064a\u0631  \u0643\u0635\u0641\u062d\u0629 \u0648\u0627\u0628",
     "ExportTextAsShapes": "\u062a\u0635\u062f\u064a\u0631 \u0627\u0644\u0646\u0635 \u0643\u0635\u0648\u0631\u0629",
+    "Expression": "Expression",
     "ExtendedForm": "\u0634\u0643\u0644 \u0645\u0645\u062f\u062f",
     "ExtraLarge": "\u0643\u0628\u064a\u0631 \u062c\u062f\u0627",
     "ExtraSmall": "\u0635\u0641\u064a\u0631 \u062c\u062f\u0627",

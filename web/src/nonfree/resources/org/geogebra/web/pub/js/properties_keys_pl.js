@@ -1702,6 +1702,7 @@ __GGB__keysVar.pl.menu = {
     "ExportAsPicture": "Eksportuj jako obraz",
     "ExportAsWebpage": "Eksportuj jako stron\u0119 internetow\u0105",
     "ExportTextAsShapes": "Exportuj tekst jako kszta\u0142t",
+    "Expression": "Expression",
     "ExtendedForm": "Forma rozszerzona",
     "ExtraLarge": "Bardzo du\u017cy",
     "ExtraSmall": "Bardzo ma\u0142y",

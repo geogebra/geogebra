@@ -1702,6 +1702,7 @@ __GGB__keysVar.in.menu = {
     "ExportAsPicture": "Ekspor sebagai Gambar",
     "ExportAsWebpage": "Ekspor sebagai Halaman Web",
     "ExportTextAsShapes": "Ekspor Teks sebagai Bentuk-bentuk",
+    "Expression": "Expression",
     "ExtendedForm": "Bentuk Tambahan",
     "ExtraLarge": "XL (Sangat Besar)",
     "ExtraSmall": "XS (Sangat Kecil)",

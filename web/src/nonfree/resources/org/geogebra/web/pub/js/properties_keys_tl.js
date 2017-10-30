@@ -1702,6 +1702,7 @@ __GGB__keysVar.tl.menu = {
     "ExportAsPicture": "I-export bilang Larawan",
     "ExportAsWebpage": "I-export bilang Webpage",
     "ExportTextAsShapes": "I-export ang teksto bilang mga hugis",
+    "Expression": "Expression",
     "ExtendedForm": "Pinahabang porma",
     "ExtraLarge": "",
     "ExtraSmall": "Sobrang Liit",

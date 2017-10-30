@@ -1702,6 +1702,7 @@ __GGB__keysVar.lt.menu = {
     "ExportAsPicture": "Eksportuoti kaip paveiksliuk\u0105",
     "ExportAsWebpage": "Eksportuoti kaip tinklalap\u012f",
     "ExportTextAsShapes": "Eksportuoti tekst\u0105 kaip formas",
+    "Expression": "Expression",
     "ExtendedForm": "Prapl\u0117sti form\u0105",
     "ExtraLarge": "Itin didelis",
     "ExtraSmall": "Itin ma\u017eas",

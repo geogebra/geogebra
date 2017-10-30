@@ -1702,6 +1702,7 @@ __GGB__keysVar.ro.menu = {
     "ExportAsPicture": "Export ca imagine",
     "ExportAsWebpage": "Export ca pagin\u0103 web",
     "ExportTextAsShapes": "Export text din forme",
+    "Expression": "Expression",
     "ExtendedForm": "Extins din",
     "ExtraLarge": "Deosebit de mare",
     "ExtraSmall": "Deosebit de mic",

@@ -1702,6 +1702,7 @@ __GGB__keysVar.et.menu = {
     "ExportAsPicture": "Ekspordi pildina",
     "ExportAsWebpage": "Ekspordi veebilehena",
     "ExportTextAsShapes": "Ekspordi tekst kujundina",
+    "Expression": "Expression",
     "ExtendedForm": "Laiendatud kuju",
     "ExtraLarge": "Eriti suur",
     "ExtraSmall": "Eriti v\xe4ike",

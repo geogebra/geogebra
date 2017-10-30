@@ -1702,6 +1702,7 @@ __GGB__keysVar.mr.menu = {
     "ExportAsPicture": "Export as Picture",
     "ExportAsWebpage": "\u0935\u0947\u092c \u092a\u0947\u091c \u092c\u0928\u0935\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940 \u092a\u093e\u0920\u0935\u093e",
     "ExportTextAsShapes": "\u092e\u091c\u0915\u0942\u0930\u093e\u0932\u093e \u0906\u0915\u093e\u0930 (shapes) \u092c\u0928\u0935\u0923\u094d\u092f\u093e\u0938\u093e\u0920\u0940 \u092a\u093e\u0920\u0935\u093e",
+    "Expression": "Expression",
     "ExtendedForm": "Extended form",
     "ExtraLarge": "Extra Large",
     "ExtraSmall": "Extra Small",

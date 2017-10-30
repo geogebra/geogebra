@@ -1702,6 +1702,7 @@ __GGB__keysVar.tr.menu = {
     "ExportAsPicture": "Resim olarak Aktar",
     "ExportAsWebpage": "Web sayfas\u0131 olarak Aktar",
     "ExportTextAsShapes": "\u015eekilleri Metin olarak Aktar",
+    "Expression": "Expression",
     "ExtendedForm": "Geni\u015fletilmi\u015f bi\xe7im",
     "ExtraLarge": "Ekstra B\xfcy\xfck",
     "ExtraSmall": "Ekstra K\xfc\xe7\xfck",

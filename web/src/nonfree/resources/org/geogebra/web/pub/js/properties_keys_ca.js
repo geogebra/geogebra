@@ -1702,6 +1702,7 @@ __GGB__keysVar.ca.menu = {
     "ExportAsPicture": "Exporta com a imatge",
     "ExportAsWebpage": "Exporta com a p\xe0gina web",
     "ExportTextAsShapes": "Exporta text com a imatge",
+    "Expression": "Expression",
     "ExtendedForm": "Formulari desplegat",
     "ExtraLarge": "Extra gran",
     "ExtraSmall": "Extra petit",

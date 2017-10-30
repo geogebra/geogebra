@@ -1702,6 +1702,7 @@ __GGB__keysVar.ja.menu = {
     "ExportAsPicture": "\u753b\u50cf\u3068\u3057\u3066\u30a8\u30af\u30b9\u30dd\u30fc\u30c8",
     "ExportAsWebpage": "\u30a6\u30a7\u30d6\u30da\u30fc\u30b8\u3068\u3057\u3066\u30a8\u30af\u30b9\u30dd\u30fc\u30c8",
     "ExportTextAsShapes": "\u30c6\u30ad\u30b9\u30c8\u3092\u30b7\u30a7\u30a4\u30d7\u3068\u3057\u3066\u30a8\u30af\u30b9\u30dd\u30fc\u30c8",
+    "Expression": "Expression",
     "ExtendedForm": "Extended form",
     "ExtraLarge": "\u5de8\u5927",
     "ExtraSmall": "\u5fae\u5c0f",

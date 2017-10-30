@@ -1702,6 +1702,7 @@ __GGB__keysVar.xh.menu = {
     "ExportAsPicture": "Thumela njengoMfanekiso",
     "ExportAsWebpage": "Thumela njenge Webpage",
     "ExportTextAsShapes": "Thumela njengee Shapes",
+    "Expression": "Expression",
     "ExtendedForm": "Itsalwe ku",
     "ExtraLarge": "Extra Large",
     "ExtraSmall": "Extra Small",

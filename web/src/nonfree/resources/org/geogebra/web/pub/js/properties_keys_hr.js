@@ -1702,6 +1702,7 @@ __GGB__keysVar.hr.menu = {
     "ExportAsPicture": "Izvoz kao slika",
     "ExportAsWebpage": "Izvoz kao web-stranica",
     "ExportTextAsShapes": "Izvoz teksta kao oblik",
+    "Expression": "Expression",
     "ExtendedForm": "Pro\u0161ireni oblik",
     "ExtraLarge": "Najve\u0107e",
     "ExtraSmall": "Najmanje",

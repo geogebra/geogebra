@@ -1702,6 +1702,7 @@ __GGB__keysVar.sl.menu = {
     "ExportAsPicture": "Izvoz kot slika",
     "ExportAsWebpage": "Izvoz kot spletno stran",
     "ExportTextAsShapes": "Izvoz teksta",
+    "Expression": "Expression",
     "ExtendedForm": "Raz\u0161irjena oblika",
     "ExtraLarge": "Posebej velika",
     "ExtraSmall": "Posebej majhna",

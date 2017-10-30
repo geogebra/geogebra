@@ -1702,6 +1702,7 @@ __GGB__keysVar.eu.menu = {
     "ExportAsPicture": "Esportatu Irudi gisa",
     "ExportAsWebpage": "Esportatu Web orrialde gisa",
     "ExportTextAsShapes": "Esportatu testua irudi gisa",
+    "Expression": "Expression",
     "ExtendedForm": "Inprimaki hedatua",
     "ExtraLarge": "Estra Handia",
     "ExtraSmall": "Estra Txikia",

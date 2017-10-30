@@ -1702,6 +1702,7 @@ __GGB__keysVar.ta.menu = {
     "ExportAsPicture": "Export as Picture",
     "ExportAsWebpage": "\u0b87\u0ba3\u0bc8\u0baf\u0baa\u0bcd\u0baa\u0b95\u0bcd\u0b95\u0bae\u0bbe\u0b95 \u0b8f\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0ba4\u0bbf \u0b9a\u0bc6\u0baf\u0bcd\u0b95",
     "ExportTextAsShapes": "\u0b89\u0bb0\u0bc8\u0baf\u0bc8 \u0bb5\u0b9f\u0bbf\u0bb5\u0b99\u0bcd\u0b95\u0bb3\u0bbe\u0b95 \u0b8f\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0ba4\u0bbf \u0b9a\u0bc6\u0baf\u0bcd\u0b95",
+    "Expression": "Expression",
     "ExtendedForm": "Extended form",
     "ExtraLarge": "Extra Large",
     "ExtraSmall": "Extra Small",

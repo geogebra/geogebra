@@ -1702,6 +1702,7 @@ __GGB__keysVar.sq.menu = {
     "ExportAsPicture": "Eksporto si Figure",
     "ExportAsWebpage": "Eksportim si Faqe Internet",
     "ExportTextAsShapes": "Eksportim Teksti si Forma",
+    "Expression": "Expression",
     "ExtendedForm": "Forme e zgjatuar",
     "ExtraLarge": "Teper e Madhe",
     "ExtraSmall": "Teper e Vogel",

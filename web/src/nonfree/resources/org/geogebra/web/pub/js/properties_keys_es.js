@@ -1702,6 +1702,7 @@ __GGB__keysVar.es.menu = {
     "ExportAsPicture": "Exportar como imagen",
     "ExportAsWebpage": "Exportar como p\xe1gina Web",
     "ExportTextAsShapes": "Exportar textos como figuras",
+    "Expression": "Expression",
     "ExtendedForm": "Forma desarrollada",
     "ExtraLarge": "Extra grande",
     "ExtraSmall": "Extra reducido",

@@ -1702,6 +1702,7 @@ __GGB__keysVar.sv.menu = {
     "ExportAsPicture": "Exportera som bild",
     "ExportAsWebpage": "Exportera som Webbsida",
     "ExportTextAsShapes": "Exportera text som figurer",
+    "Expression": "Expression",
     "ExtendedForm": "Ut\xf6kad form",
     "ExtraLarge": "Extra stor",
     "ExtraSmall": "Extra liten",

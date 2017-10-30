@@ -1702,6 +1702,7 @@ __GGB__keysVar.hu_gm.menu = {
     "ExportAsPicture": "Export\xe1l\xe1s k\xe9pk\xe9nt",
     "ExportAsWebpage": "Export\xe1l\xe1s weblapk\xe9nt",
     "ExportTextAsShapes": "Sz\xf6veg export\xe1l\xe1sa alakzatokk\xe9nt",
+    "Expression": "Expression",
     "ExtendedForm": "Kiterjesztett alak",
     "ExtraLarge": "Extra nagy",
     "ExtraSmall": "Extra kicsi",

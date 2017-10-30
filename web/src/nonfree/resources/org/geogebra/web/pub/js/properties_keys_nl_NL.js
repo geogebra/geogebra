@@ -1702,6 +1702,7 @@ __GGB__keysVar.nl_NL.menu = {
     "ExportAsPicture": "Export als afbeelding",
     "ExportAsWebpage": "Exporteer als webpagina",
     "ExportTextAsShapes": "Exporteren van tekst als vormen",
+    "Expression": "Expression",
     "ExtendedForm": "Uitgebreid formulier",
     "ExtraLarge": "Extra groot",
     "ExtraSmall": "Extra klein",

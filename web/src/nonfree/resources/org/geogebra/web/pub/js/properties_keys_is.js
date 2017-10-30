@@ -1702,6 +1702,7 @@ __GGB__keysVar.is.menu = {
     "ExportAsPicture": "Flytja \xfat sem mynd",
     "ExportAsWebpage": "Flytja \xfat sem vefs\xed\xf0u",
     "ExportTextAsShapes": "Flytja texta \xfat sem form",
+    "Expression": "Expression",
     "ExtendedForm": "\xdatv\xedkka\xf0 form",
     "ExtraLarge": "St\xe6rst",
     "ExtraSmall": "Minnst",

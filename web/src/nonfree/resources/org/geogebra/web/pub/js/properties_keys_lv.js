@@ -1702,6 +1702,7 @@ __GGB__keysVar.lv.menu = {
     "ExportAsPicture": "Eksport\u0113t k\u0101 Att\u0113lu",
     "ExportAsWebpage": "Eksport\u0113t k\u0101 Weblapu",
     "ExportTextAsShapes": "Tekstu izteikt fig\u016br\u0101s",
+    "Expression": "Expression",
     "ExtendedForm": "Izteikts no",
     "ExtraLarge": "\u013boti liels",
     "ExtraSmall": "\u013boti mazs",

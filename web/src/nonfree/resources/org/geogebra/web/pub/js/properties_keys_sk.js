@@ -1702,6 +1702,7 @@ __GGB__keysVar.sk.menu = {
     "ExportAsPicture": "Exportova\u0165 ako obr\xe1zok",
     "ExportAsWebpage": "Exportova\u0165 ako webov\xfa str\xe1nku",
     "ExportTextAsShapes": "Exportova\u0165 text ako \xfatvar",
+    "Expression": "Expression",
     "ExtendedForm": "Roz\u0161\xedren\xe9 z",
     "ExtraLarge": "extra ve\u013ek\xe9",
     "ExtraSmall": "extra mal\xe9",

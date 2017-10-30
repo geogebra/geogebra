@@ -1702,6 +1702,7 @@ __GGB__keysVar.de_AT.menu = {
     "ExportAsPicture": "Export als Bild",
     "ExportAsWebpage": "Export als Webseite",
     "ExportTextAsShapes": "Exportiere Text als Linienz\xfcge",
+    "Expression": "Expression",
     "ExtendedForm": "Erweiterte Form",
     "ExtraLarge": "Extra gro\xdf",
     "ExtraSmall": "Extra klein",

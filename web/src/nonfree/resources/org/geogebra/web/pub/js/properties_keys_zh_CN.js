@@ -1702,6 +1702,7 @@ __GGB__keysVar.zh_CN.menu = {
     "ExportAsPicture": "\u5bfc\u51fa\u56fe\u7247",
     "ExportAsWebpage": "\u5bfc\u51fa\u7f51\u9875",
     "ExportTextAsShapes": "\u6587\u672c\u5bfc\u51fa\u4e3a\u77e2\u91cf\u56fe\u5f62",
+    "Expression": "Expression",
     "ExtendedForm": "\u5c55\u5f00\u5f62\u5f0f",
     "ExtraLarge": "\u8d85\u5927",
     "ExtraSmall": "\u8d85\u5c0f",

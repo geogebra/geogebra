@@ -1702,6 +1702,7 @@ __GGB__keysVar.ko.menu = {
     "ExportAsPicture": "\uadf8\ub9bc\uc73c\ub85c \ub0b4\ubcf4\ub0b4\uae30",
     "ExportAsWebpage": "\uc6f9\ud398\uc774\uc9c0\ub85c \ub0b4\ubcf4\ub0b4\uae30",
     "ExportTextAsShapes": "\ud14d\uc2a4\ud2b8\ub97c Shapes\ub85c \ub0b4\ubcf4\ub0b4\uae30",
+    "Expression": "Expression",
     "ExtendedForm": "\ud655\uc7a5\ub41c \ud3fc",
     "ExtraLarge": "\uac00\uc7a5 \ud06c\uac8c",
     "ExtraSmall": "\uac00\uc7a5 \uc791\uac8c",

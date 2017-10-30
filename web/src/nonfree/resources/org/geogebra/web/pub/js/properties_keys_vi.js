@@ -1702,6 +1702,7 @@ __GGB__keysVar.vi.menu = {
     "ExportAsPicture": "Xu\u1ea5t b\u1ea3n sang d\u1ea1ng \u1ea3nh",
     "ExportAsWebpage": "Xu\u1ea5t th\xe0nh webpage",
     "ExportTextAsShapes": "Xu\u1ea5t v\u0103n b\u1ea3n th\xe0nh h\xecnh v\u1ebd",
+    "Expression": "Expression",
     "ExtendedForm": "D\u1ea1ng m\u1edf r\u1ed9ng",
     "ExtraLarge": "L\u1edbn h\u01a1n",
     "ExtraSmall": "Nh\u1ecf h\u01a1n",

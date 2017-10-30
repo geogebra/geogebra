@@ -1702,6 +1702,7 @@ __GGB__keysVar.gl.menu = {
     "ExportAsPicture": "Exporta como imaxe gr\xe1fica",
     "ExportAsWebpage": "Exportar como p\xe1xina web",
     "ExportTextAsShapes": "Exportar texto como figuras",
+    "Expression": "Expression",
     "ExtendedForm": "Formulario estendido",
     "ExtraLarge": "Extra grande",
     "ExtraSmall": "Extra reducido",

@@ -1702,6 +1702,7 @@ __GGB__keysVar.cs.menu = {
     "ExportAsPicture": "Exportovat jako obr\xe1zek",
     "ExportAsWebpage": "Exportovat jako webovou str\xe1nku",
     "ExportTextAsShapes": "Exportovat text jako obrazce",
+    "Expression": "Expression",
     "ExtendedForm": "Roz\u0161\xed\u0159en\xe1 podoba",
     "ExtraLarge": "Extra velk\xfd",
     "ExtraSmall": "Extra mal\xfd",

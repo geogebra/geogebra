@@ -1702,6 +1702,7 @@ __GGB__keysVar.eo.menu = {
     "ExportAsPicture": "Export as Picture",
     "ExportAsWebpage": "Export as Webpage",
     "ExportTextAsShapes": "Export Text as Shapes",
+    "Expression": "Expression",
     "ExtendedForm": "Extended form",
     "ExtraLarge": "Tre granda",
     "ExtraSmall": "Tre malgranda",

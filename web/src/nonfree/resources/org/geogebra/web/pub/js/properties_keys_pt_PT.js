@@ -1702,6 +1702,7 @@ __GGB__keysVar.pt_PT.menu = {
     "ExportAsPicture": "Folha Gr\xe1fica como Imagem",
     "ExportAsWebpage": "Exportar como p\xe1gina Web",
     "ExportTextAsShapes": "Exportar Texto como Formas",
+    "Expression": "Expression",
     "ExtendedForm": "Forma estendida",
     "ExtraLarge": "Extra Grande",
     "ExtraSmall": "Extra Pequeno",

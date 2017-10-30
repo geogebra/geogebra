@@ -1702,6 +1702,7 @@ __GGB__keysVar.fi.menu = {
     "ExportAsPicture": "Vie: Piirtoalue kuvana",
     "ExportAsWebpage": "Vie Web-sivuna",
     "ExportTextAsShapes": "Vie teksti piirroksena",
+    "Expression": "Expression",
     "ExtendedForm": "Laajennettu muoto",
     "ExtraLarge": "Eritt\xe4in suuri",
     "ExtraSmall": "Eritt\xe4in pieni",

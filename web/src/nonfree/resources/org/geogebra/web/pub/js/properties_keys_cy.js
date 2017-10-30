@@ -1702,6 +1702,7 @@ __GGB__keysVar.cy.menu = {
     "ExportAsPicture": "Allforio fel Llun",
     "ExportAsWebpage": "Allfudo fel gwe-dudalen",
     "ExportTextAsShapes": "Allfudo'r testun fel siapiau",
+    "Expression": "Expression",
     "ExtendedForm": "Ffurf Estunedig",
     "ExtraLarge": "Mawr Iawn",
     "ExtraSmall": "Bach Iawn",
