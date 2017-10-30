@@ -1949,6 +1949,9 @@ public class AlgebraProcessor {
 
 		if (info.autoAddDegree()) {
 			ve = ve2.traverse(DegreeReplacer.getReplacer(kernel));
+			if (ve instanceof ValidExpression) {
+				((ValidExpression) ve).setLabels(ve2.getLabels());
+			}
 		}
 
 		if (ve instanceof ExpressionNode) {
