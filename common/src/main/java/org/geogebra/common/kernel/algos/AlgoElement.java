@@ -1237,12 +1237,10 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		int length = getInputLengthForCommandDescription();
-		if (!tpl.isPrintLocalizedCommandNames()) {
-			sbAE.append(tpl.leftSquareBracket());
-		} else {
-			sbAE.append(tpl.leftBracket());
-		}
-		// input legth is 0 for ConstructionStep[]
+
+		sbAE.append(tpl.leftCommandBracket());
+
+		// input length is 0 for ConstructionStep[]
 		if (length > 0) {
 			sbAE.append(getInput(0).getLabel(tpl));
 		}
@@ -1250,11 +1248,9 @@ public abstract class AlgoElement extends ConstructionElement
 			sbAE.append(", ");
 			appendCheckVector(sbAE, getInput(i), tpl);
 		}
-		if (!tpl.isPrintLocalizedCommandNames()) {
-			sbAE.append(tpl.rightSquareBracket());
-		} else {
-			sbAE.append(tpl.rightBracket());
-		}
+
+		sbAE.append(tpl.rightCommandBracket());
+
 		return sbAE.toString();
 
 	}

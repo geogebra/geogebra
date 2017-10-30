@@ -2990,9 +2990,22 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return '\"';
 	}
 
-	public Object rightCommandBracket() {
+	/**
+	 * 
+	 * @return ")" or, for XML, "]"
+	 */
+	public String rightCommandBracket() {
 		return isPrintLocalizedCommandNames() ? rightBracket()
 				: rightSquareBracket();
+	}
+
+	/**
+	 * 
+	 * @return "(" or, for XML, "["
+	 */
+	public String leftCommandBracket() {
+		return isPrintLocalizedCommandNames() ? leftBracket()
+				: leftSquareBracket();
 	}
 
 	public String squared() {
