@@ -326,6 +326,14 @@ final public class DockPanelData {
 	}
 
 	/**
+	 * @param visible
+	 *            whether this should be visible
+	 */
+	public void setVisible(boolean visible) {
+		this.isVisible = visible;
+	}
+
+	/**
 	 * @param s
 	 *            comma separated list of left/right/top/bottom a.k.a. 1,2,3,4
 	 */
