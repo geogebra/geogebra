@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -172,7 +173,7 @@ public interface Traversing {
 	}
 
 	/**
-	 * Replaces sin(15) with sing(15deg)
+	 * Replaces sin(15) with sing(15deg) GGB-2183
 	 *
 	 */
 	public class DegreeReplacer implements Traversing {
@@ -186,7 +187,8 @@ public interface Traversing {
 
 				Operation op = en.getOperation();
 				if (Operation.isTrigDegrees(op)) {
-					ExpressionValue arg = en.getLeft();
+					ExpressionValue arg = en.getLeft().unwrap();
+					Log.debug("arg " + arg.toString() + " " + arg.getClass());
 					if (arg.isLeaf() && arg.isConstant() && !Kernel
 							.isInteger(arg.evaluateDouble() / Math.PI)) {
 
@@ -213,6 +215,59 @@ public interface Traversing {
 		 * @return replacer
 		 */
 		public static DegreeReplacer getReplacer(Kernel kernel) {
+			replacer.kernel = kernel;
+			return replacer;
+		}
+	}
+
+	/**
+	 * Replaces sin(x) with sing(x deg) GGB-2183
+	 *
+	 */
+	public class DegreeVariableReplacer implements Traversing {
+		private Kernel kernel;
+		private static DegreeVariableReplacer replacer = new DegreeVariableReplacer();
+
+		@Override
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof ExpressionNode) {
+				ExpressionNode en = (ExpressionNode) ev;
+
+				Operation op = en.getOperation();
+				if (Operation.isTrigDegrees(op)) {
+					ExpressionValue arg = en.getLeft().unwrap();
+
+					if (arg instanceof FunctionVariable) {
+
+						// change sin(x) to sin(x deg)
+						FunctionVariable fv = (FunctionVariable) arg;
+
+						if ("x".equals(fv.getSetVarString())) {
+							return new ExpressionNode(kernel,
+									new ExpressionNode(kernel, fv,
+											Operation.MULTIPLY,
+											new MySpecialDouble(kernel,
+													Math.PI / 180.0,
+													Unicode.DEGREE_CHAR + "")),
+									op, null);
+						}
+					}
+
+				}
+
+			}
+			return ev;
+		}
+
+		/**
+		 * @param kernel
+		 *            kernel in which resulting variables live (also needed to
+		 *            check which commands are valid)
+		 * @param cas
+		 *            whether this is for CAS
+		 * @return replacer
+		 */
+		public static DegreeVariableReplacer getReplacer(Kernel kernel) {
 			replacer.kernel = kernel;
 			return replacer;
 		}

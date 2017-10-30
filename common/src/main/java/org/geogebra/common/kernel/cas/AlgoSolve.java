@@ -5,15 +5,20 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.Traversing.DegreeVariableReplacer;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Use Solve cas command from AV
@@ -76,6 +81,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 			if (arbconst.hasBlocked()) {
 				solutions.clear();
 				solutions.setUndefined();
+				Log.debug("arbconst.hasBlocked()");
 				return;
 			}
 
@@ -136,12 +142,36 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	}
 
 	private static void printCAS(GeoElement equations2, StringBuilder sb) {
+
+		String definition;
+
 		if (equations2.getDefinition() != null) {
-			sb.append(equations2.getDefinition()
-					.toValueString(StringTemplate.prefixedDefault));
+			definition = equations2.getDefinition()
+					.toValueString(StringTemplate.prefixedDefault);
 		} else {
-			sb.append(equations2.toValueString(StringTemplate.prefixedDefault));
+			definition = equations2.toValueString(StringTemplate.prefixedDefault);
 		}
+
+		if (equations2.getKernel().getApplication()
+				.has(Feature.AUTO_ADD_DEGREE)) {
+
+			try {
+				ExpressionValue ve = equations2.getKernel().getParser()
+						.parseGeoGebraExpression(definition);
+
+				ve = ve.traverse(DegreeVariableReplacer
+						.getReplacer(equations2.getKernel()));
+				Log.debug("changing " + definition + " to "
+						+ ve.toString(StringTemplate.giacTemplate));
+				sb.append(ve.toString(StringTemplate.giacTemplate));
+				return;
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		sb.append(definition);
+
 	}
 
 	@Override
