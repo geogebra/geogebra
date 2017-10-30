@@ -307,14 +307,17 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		SingularWebService singularWS = kernel.getApplication().getSingularWS();
 		if (singularWS != null && singularWS.isAvailable()) {
 
+			String subindex;
 			String locusLib = singularWS.getLocusLib();
 			String locusStatement;
 			if (singularWS.getLocusLib()
 					.equals("/home/singularws/grobcov-20170620")) {
 				locusStatement = "list l=locus(I);\n";
+				subindex = "[2]";
 			} else {
 				locusStatement = "def Gp=grobcov(I);list l="
 						+ singularWS.getLocusCommand() + "(Gp);\n";
+				subindex = "";
 			}
 			
 			// This is a very painful way for maintaining the code.
@@ -359,20 +362,20 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					+ "// The result is a rational as string.                                                                                  \n"
 					+ "proc number2rational(number n, int prec) {                                                                              \n"
 					+ "  if (n==0) { return (\"0\"); }                                                                                         \n"
-					+ "  int nom=sgn(n);                                                                                                       \n"
-					+ "  while (absValue(n)>1) { nom = nom * 2; n = n / 2; }                                                                   \n"
+					+ "  int num=sgn(n);                                                                                                       \n"
+					+ "  while (absValue(n)>1) { num = num * 2; n = n / 2; }                                                                   \n"
 					+ "  list f=fareyAlgo(absValue(n),prec);                                                                                   \n"
-					+ "  int g=gcd(nom*int(f[1]),int(f[2]));                                                                                   \n"
-					+ "  return (string(nom*f[1]/g)+\"/\"+string(f[2]/g));                                                                     \n"
+					+ "  int g=gcd(num*int(f[1]),int(f[2]));                                                                                   \n"
+					+ "  return (string(num*f[1]/g)+\"/\"+string(f[2]/g));                                                                     \n"
 					+ "  }                                                                                                                     \n"
 					+ "                                                                                                                        \n"
 					+ "// Create a polynomial to desribe a 0 dimensional ideal geometrically.                                                  \n"
 					+ "// It constructs a ring R of complex numbers by using solve.lib and                                                     \n"
 					+ "// converts the real numbers to rationals. Also another ring rrr is constructed                                         \n"
 					+ "// over the integers and the parameter variables (they are for the final locus).                                        \n"
-					+ "// The result is a poly as string.                                                                                      \n"
+					+ "// The result is a list of \"poly as string\".                                                                          \n"
 					+ "proc point_to_0circle(ideal l, int prec) {                                                                              \n"
-					+ "  if (size(l)==1) {return(string(l[1]));}                                                                               \n"
+					+ "  if (size(l)==1) {return(list(l[1]));}                                                                                 \n"
 					+ "  if (size(l)>1) {                                                                                                      \n"
 					+ "    ring r=basering;                                                                                                    \n"
 					+ "    string s=\"def R=solve([\"+string(l[1]);                                                                            \n"
@@ -383,39 +386,53 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					+ "    execute(ringdef);                                                                                                   \n"
 					+ "    execute(s);                                                                                                         \n"
 					+ "    setring R;                                                                                                          \n"
-					+ "    string ps=\"poly pp=1\";                                                                                            \n"
+					+ "    string ps=\"list pp=\";                                                                                             \n"
 					+ "    for (ii=1; ii<=size(SOL); ii++) {                                                                                   \n"
-					+ "      ps = ps + \"*((\" + string(var(1)) + \"-(\" + number2rational(SOL[ii][1],prec) + \"))^2+(\"                       \n"
+					+ "      ps = ps + \"cleardenom((\" + string(var(1)) + \"-(\" + number2rational(SOL[ii][1],prec) + \"))^2+(\"              \n"
 					+ "              + string(var(2)) + \"-(\" + number2rational(SOL[ii][2],prec) + \"))^2)\";                                 \n"
+					+ "      if (ii<size(SOL)) { ps = ps + \",\"; }                                                                            \n"
 					+ "      }                                                                                                                 \n"
 					+ "    setring rrr;                                                                                                        \n"
-					+ "    execute(ps);                                                                                                        \n"
-					+ "    pp=cleardenom(pp);                                                                                                  \n"
+					+ "    execute(ps)                                                                                                         \n"
 					+ "    return(string(pp));                                                                                                 \n"
 					+ "    }                                                                                                                   \n"
-					+ "  return 1;                                                                                                             \n"
+					+ "  return list(1);                                                                                                       \n"
 					+ "}                                                                                                                       \n"
 					+ "                                                                                                                        \n"
 					+ "proc impossible() { return (\"{{1,1,1},{1,1,1,1}}\"); }                                                                 \n"
+					+ "                                                                                                                        \n"
+					+ "proc flattenCoeffs(poly p, string vv1, string vv2) {                                                                    \n"
+					+ "  string outx=\"string out=sprintf(\\\"%s,%s,%s\\\",size(coeffs(p,\"+vv1+\")),size(coeffs(p,\"+vv2+\")),\"              \n"
+					+ "    + \"coeffs(coeffs(p,\"+vv1+\"),\"+vv2+\"))\";                                                                       \n"
+					+ "  execute(outx);                                                                                                        \n"
+					+ "  return (out);                                                                                                         \n"
+					+ "  }                                                                                                                     \n"
 					+ "                                                                                                                        \n"
 					+ "proc locusequ(ideal I, int prec) {                                                                                      \n"
 					+ "  short=0;                                                                                                              \n"
 					// + " list l=locus(I); \n"
 					+ locusStatement
 					+ "  if (size(l)==0) {print (impossible()); return; }                                                                      \n"
-					+ "  poly pp, c;                                                                                                           \n"
+					+ "  poly pp;                                                                                                              \n"
 					+ "  ideal ii;                                                                                                             \n"
-					+ "  int i, j;                                                                                                             \n"
+					+ "  int i, j, jj;                                                                                                         \n"
 					+ "  j=1;                                                                                                                  \n"
 					+ "  pp=1;                                                                                                                 \n"
+					+ "  list c;                                                                                                               \n"
 					+ "  string cx;                                                                                                            \n"
 					+ "  for (i=1; i<=size(l); i++) {                                                                                          \n"
-					+ "    if ((string(l[i][3][2])==\"Normal\") || (string(l[i][3][2])==\"Accumulation\")) {                                   \n"
+
+					+ "    if ((string(l[i][3]" + subindex
+					+ ")==\"Normal\") || (string(l[i][3]" + subindex
+					+ ")==\"Accumulation\")) {         \n"
+
 					+ "      cx=\"c=\"+point_to_0circle(l[i][1],prec);                                                                         \n"
 					+ "      execute(cx);                                                                                                      \n"
-					+ "      pp=pp*c;                                                                                                          \n"
-					+ "      ii[j]=c;                                                                                                          \n"
-					+ "      j++;                                                                                                              \n"
+					+ "      for (jj=1; jj<=size(c); jj++) {                                                                                   \n"
+					+ "        pp=pp*c[jj];                                                                                                    \n"
+					+ "        ii[j]=c[jj];                                                                                                    \n"
+					+ "        j++;                                                                                                            \n"
+					+ "        }                                                                                                               \n"
 					+ "      }                                                                                                                 \n"
 					+ "    }                                                                                                                   \n"
 					+ "  string s=string(pp);                                                                                                  \n"
@@ -429,16 +446,11 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					+ "  execute(rrx);                                                                                                         \n"
 					+ "  execute(pg);                                                                                                          \n"
 					+ "  execute(si);                                                                                                          \n"
-					+ "  string out;                                                                                                           \n"
-					+ "  string outx=\"out=sprintf(\\\"{{%s,%s,%s},{\\\",size(coeffs(p,\"+vv1+\")),size(coeffs(p,\"+vv2+\")),\"                \n"
-					+ "    + \"coeffs(coeffs(p,\"+vv1+\"),\"+vv2+\"))\";                                                                       \n"
-					+ "  execute(outx);                                                                                                        \n"
+					+ "  string out=sprintf(\"{{%s},{\",flattenCoeffs(p,vv1,vv2));                                                             \n"
 					+ "  int iiis=size(iii);                                                                                                   \n"
 					+ "  out=out+sprintf(\"%s,\",iiis);                                                                                        \n"
 					+ "  for (i=1; i<=iiis; i++) {                                                                                             \n"
-					+ "    outx=\"out=out+sprintf(\\\"%s,%s,%s\\\",size(coeffs(iii[i],\"+vv1+\")),size(coeffs(iii[i],\"+vv2+\")),\"            \n"
-					+ "      + \"coeffs(coeffs(iii[i],\"+vv1+\"),\"+vv2+\"))\";                                                                \n"
-					+ "    execute(outx);                                                                                                      \n"
+					+ "    out=out+flattenCoeffs(iii[i],vv1,vv2);                                                                              \n"
 					+ "    if (i<iiis) { out=out+\",\"; }                                                                                      \n"
 					+ "    }                                                                                                                   \n"
 					+ "  sprintf(\"%s}}\", out);                                                                                               \n"
