@@ -96,7 +96,7 @@ public class GuiManager3DW extends GuiManagerW {
 
 			@Override
 			public void execute() {
-				// toggle axes
+				// toggle grid
 				((EuclidianView3DW) getApp().getEuclidianView3D()).toggleGrid();
 				// getApp().getEuclidianView().repaint();
 				getApp().storeUndoInfo();
@@ -114,7 +114,7 @@ public class GuiManager3DW extends GuiManagerW {
 
 			@Override
 			public void execute() {
-				// toggle axes
+				// toggle plane
 				((EuclidianView3DW) getApp().getEuclidianView3D())
 				        .getSettings().togglePlane();
 				// getApp().getEuclidianView().repaint();
