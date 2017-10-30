@@ -248,6 +248,10 @@ class ToolsTab extends ToolbarPanel.ToolbarTab implements TabHandler {
 		return false;
 	}
 
+	/**
+	 * @param modeMove
+	 *            mode ID
+	 */
 	public void showTooltip(int modeMove) {
 		toolsPanel.showTooltip(modeMove);
 	}

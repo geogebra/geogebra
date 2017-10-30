@@ -300,12 +300,19 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			
 			@Override
 			public void onClick(Widget source) {
-				setMoveMode();
-				tabTools.showTooltip(EuclidianConstants.MODE_MOVE);
+				moveBtnClicked();
 			}
 		};
 		moveBtn.addFastClickHandler(moveBtnHandler);
 
+	}
+
+	/**
+	 * Handler for move floating button
+	 */
+	protected void moveBtnClicked() {
+		setMoveMode();
+		tabTools.showTooltip(EuclidianConstants.MODE_MOVE);
 	}
 
 	private void hideDragger() {

@@ -9,13 +9,13 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * Algebra tab of tool panel
+ */
 class AlgebraTab extends ToolbarPanel.ToolbarTab {
-	/**
-	 * 
-	 */
+
 	private final ToolbarPanel toolbarPanel;
-	/** AV wrapper */
-	SimplePanel simplep;
+	private SimplePanel simplep;
 	/** Algebra view **/
 	AlgebraViewW aview = null;
 
@@ -53,14 +53,24 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
 				@Override
 				public void onClick(ClickEvent event) {
-					int bt = simplep.getAbsoluteTop()
-							+ simplep.getOffsetHeight();
-					if (event.getClientY() > bt) {
-						AlgebraTab.this.toolbarPanel.app.getSelectionManager().clearSelectedGeos();
-						av.resetItems(true);
-					}
+					emptyAVclicked(av, event.getClientY());
 				}
 			}, ClickEvent.getType());
+		}
+	}
+
+	/**
+	 * @param av
+	 *            algebra view
+	 * @param y
+	 *            y-offset of the click
+	 */
+	protected void emptyAVclicked(AlgebraViewW av, int y) {
+		int bt = simplep.getAbsoluteTop() + simplep.getOffsetHeight();
+		if (y > bt) {
+			AlgebraTab.this.toolbarPanel.app.getSelectionManager()
+					.clearSelectedGeos();
+			av.resetItems(true);
 		}
 	}
 
@@ -98,6 +108,9 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 		doScrollToActiveItem();
 	}
 
+	/**
+	 * Save scroll position
+	 */
 	public void saveScrollPosition() {
 		savedScrollPosition = getVerticalScrollPosition();
 	}
