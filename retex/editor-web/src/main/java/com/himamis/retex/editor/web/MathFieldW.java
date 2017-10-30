@@ -47,6 +47,7 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -252,7 +253,7 @@ public class MathFieldW implements MathField, IsWidget {
 			@Override
 			public void onKeyPress(KeyPressEvent event) {
 				// don't kill Ctrl+V or write V
-				if (event.isControlKeyDown() && (event.getCharCode() == 'v'
+				if (controlDown(event) && (event.getCharCode() == 'v'
 						|| event.getCharCode() == 'V') || leftAltDown) {
 
 					event.stopPropagation();
@@ -394,9 +395,21 @@ public class MathFieldW implements MathField, IsWidget {
 	protected int getModifiers(
 			com.google.gwt.event.dom.client.KeyEvent<?> event) {
 		return (event.isShiftKeyDown() ? KeyEvent.SHIFT_MASK : 0)
-				+ (event.isControlKeyDown() || rightAltDown ? KeyEvent.CTRL_MASK
+				+ (controlDown(event) || rightAltDown ? KeyEvent.CTRL_MASK
 						: 0)
 				+ (event.isAltKeyDown() ? KeyEvent.ALT_MASK : 0);
+	}
+
+	/**
+	 * @param event
+	 *            browser keyboard event
+	 * @return MacOS: whether meta is down; other os: whether Ctrl is down
+	 */
+	boolean controlDown(
+			com.google.gwt.event.dom.client.KeyEvent<?> event) {
+		return Navigator.getUserAgent().contains("Macintosh")
+				|| Navigator.getUserAgent().contains("Mac OS")
+						? event.isMetaKeyDown() : event.isControlKeyDown();
 	}
 
 	protected char getChar(NativeEvent nativeEvent) {
