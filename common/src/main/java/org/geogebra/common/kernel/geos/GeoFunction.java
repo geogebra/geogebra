@@ -3263,7 +3263,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		 for (GeoPoint point : specPoints) {
 			point.getParentAlgorithm().compute();
 		 }
-		kernel.getApplication().getSelectionManager().updateSpecialPoints();
+		kernel.getApplication().getSelectionManager().updateSpecialPoints(null);
 	}
 
 }
