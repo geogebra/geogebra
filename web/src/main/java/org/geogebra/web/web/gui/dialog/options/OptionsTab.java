@@ -48,6 +48,7 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -1371,11 +1372,11 @@ public class OptionsTab extends FlowPanel {
 		}
 	}
 
-	private static class ImageCornerPanel extends ComboBoxPanel {
+	private static class ImageCorner extends ComboBoxPanel {
 
-		private ImageCornerModel model;
-		private Localization localization;
-		public ImageCornerPanel(int cornerIdx, AppW app) {
+		protected ImageCornerModel model;
+		protected Localization localization;
+		public ImageCorner(int cornerIdx, AppW app) {
 			super(app, "CornerModel");
 			this.localization = app.getLocalization();
 			model = new ImageCornerModel(app);
@@ -1416,16 +1417,34 @@ public class OptionsTab extends FlowPanel {
 			getComboBox().setValue(item);
 		}
 	}
+	
+	private static class ImageCenter extends ImageCorner {
+
+		public ImageCenter(AppW app) {
+			super(GeoImage.CENTER_INDEX, app);
+		}
+		
+		public void setIcon(ImageResource res) {
+			// No icon for center point.
+		}
+		@Override
+		public void setLabels() {
+			super.setLabels();
+			if (model.isCenter()) {
+				getLabel().setText(localization.getMenu("Center:"));
+			}
+		}
+	}
 
 	/**
 	 * position of corner panel
 	 */
 	static class CornerPointsPanel extends OptionPanel {
 
-		private ImageCornerPanel corner1;
-		private ImageCornerPanel corner2;
-		private ImageCornerPanel corner4;
-		private ImageCornerPanel center;
+		private ImageCorner corner1;
+		private ImageCorner corner2;
+		private ImageCorner corner4;
+		private ImageCenter center;
 
 		/**
 		 * @param model
@@ -1436,10 +1455,10 @@ public class OptionsTab extends FlowPanel {
 		public CornerPointsPanel(CornerPointsModel model, AppW app) {
 			model.setListener(this);
 			setModel(model);
-			corner1 = new ImageCornerPanel(0, app);
-			corner2 = new ImageCornerPanel(1, app);
-			corner4 = new ImageCornerPanel(2, app);
-			center = new ImageCornerPanel(GeoImage.CENTER_INDEX, app);
+			corner1 = new ImageCorner(0, app);
+			corner2 = new ImageCorner(1, app);
+			corner4 = new ImageCorner(2, app);
+			center = app.has(Feature.CENTER_IMAGE) ? new ImageCenter(app): null;
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.add(corner1.getWidget());
 			mainPanel.add(corner2.getWidget());
@@ -1456,6 +1475,9 @@ public class OptionsTab extends FlowPanel {
 			corner1.setLabels();
 			corner2.setLabels();
 			corner4.setLabels();
+			if (center != null) {
+				center.setLabels();
+			}
 		}
 
 		@Override
@@ -1467,7 +1489,9 @@ public class OptionsTab extends FlowPanel {
 			boolean result = corner1.updatePanel(geos) != null;
 			result = corner2.updatePanel(geos) != null || result;
 			result = corner4.updatePanel(geos) != null || result;
-			center.updatePanel(geos);
+			if (center != null) {
+				center.updatePanel(geos);
+			}
 			return result ? this : null;
 		}
 	}
