@@ -261,71 +261,96 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		protected void initActions() {
 			addOrthographicProjection();
 			addPerspectiveProjection();
+			addGlassesProjection();
+			addObliqueProjection();
 		}
 
 		private void addOrthographicProjection() {
-			String text = app.getLocalization()
-					.getMenu("stylebar.OrthographicProjection");
-			String img = MaterialDesignResources.INSTANCE
-					.projection_orthographic().getSafeUri().asString();
-			boolean isSelected = false;
-			if (app.getActiveEuclidianView().isEuclidianView3D()) {
-				isSelected = ((EuclidianView3DW) app.getActiveEuclidianView())
-						.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC;
-			}
-			addItem(MainMenu.getMenuBarHtml(img, text), isSelected, new Command() {
-
-				@Override
-				public void execute() {
-							((EuclidianSettings3D) app.getSettings()
-									.getEuclidianForView(
-											app.getActiveEuclidianView(),
-											app)).setProjection(
-											EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
-							if (app.getActiveEuclidianView()
-									.isEuclidianView3D()) {
-								((EuclidianView3DW) app
-										.getActiveEuclidianView())
-												.setProjection(
-														EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
-							}
-					app.getActiveEuclidianView().repaintView();
-					app.storeUndoInfo();
-				}
-			});
+			addProjectionMenuItemForType(
+					EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
 		}
 
 		private void addPerspectiveProjection() {
-			String text = app.getLocalization()
-					.getMenu("stylebar.PerspectiveProjection");
-			String img = MaterialDesignResources.INSTANCE
-					.projection_perspective().getSafeUri().asString();
-			boolean isSelected = false;
-			if (app.getActiveEuclidianView().isEuclidianView3D()) {
-				isSelected = ((EuclidianView3DW) app.getActiveEuclidianView())
-						.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE;
+			addProjectionMenuItemForType(
+					EuclidianView3D.PROJECTION_PERSPECTIVE);
+		}
+
+		private void addGlassesProjection() {
+			addProjectionMenuItemForType(EuclidianView3D.PROJECTION_GLASSES);
+		}
+
+		private void addObliqueProjection() {
+			addProjectionMenuItemForType(EuclidianView3D.PROJECTION_OBLIQUE);
+		}
+
+		/**
+		 * @param projectionType
+		 *            type of projection
+		 */
+		public void addProjectionMenuItemForType(final int projectionType) {
+			String text = "", img = "";
+			switch (projectionType) {
+			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
+				text = "stylebar.OrthographicProjection";
+				img = MaterialDesignResources.INSTANCE.projection_orthographic()
+						.getSafeUri().asString();
+				break;
+			case EuclidianView3D.PROJECTION_PERSPECTIVE:
+				text = "stylebar.PerspectiveProjection";
+				img = MaterialDesignResources.INSTANCE.projection_perspective()
+						.getSafeUri().asString();
+				break;
+			case EuclidianView3D.PROJECTION_GLASSES:
+				text = "stylebar.GlassesProjection";
+				img = MaterialDesignResources.INSTANCE.projection_glasses()
+						.getSafeUri().asString();
+				break;
+			case EuclidianView3D.PROJECTION_OBLIQUE:
+				text = "stylebar.ObliqueProjection";
+				img = MaterialDesignResources.INSTANCE.projection_oblique()
+						.getSafeUri().asString();
+			default:
+				break;
 			}
-			addItem(MainMenu.getMenuBarHtml(img, text), isSelected,
-					new Command() {
+			boolean isSelected = isProjectionType(projectionType);
+			addItem(MainMenu.getMenuBarHtml(img,
+					app.getLocalization().getMenu(text)),
+					isSelected, new Command() {
 
 						@Override
 						public void execute() {
-							((EuclidianSettings3D) app.getSettings()
-									.getEuclidianForView(
-											app.getActiveEuclidianView(),
-											app)).setProjection(
-											EuclidianView3D.PROJECTION_PERSPECTIVE);
-							if (app.getActiveEuclidianView()
-									.isEuclidianView3D()) {
-								((EuclidianView3DW) app
-										.getActiveEuclidianView())
-												.setProjection(
-														EuclidianView3D.PROJECTION_PERSPECTIVE);
-							}
-							app.getActiveEuclidianView().repaintView();
-							app.storeUndoInfo();
+							setProjectionType(projectionType);
 						}
 					});
+		}
+
+		/**
+		 * @param projectionType
+		 *            - projection type
+		 * @return true if is parameter projection type
+		 */
+		public boolean isProjectionType(int projectionType) {
+			if (app.getActiveEuclidianView().isEuclidianView3D()) {
+				return ((EuclidianView3DW) app.getActiveEuclidianView())
+						.getProjection() == projectionType;
+			}
+			return false;
+		}
+
+		/**
+		 * @param projectionType
+		 *            - type of projection
+		 */
+		public void setProjectionType(int projectionType) {
+			((EuclidianSettings3D) app.getSettings()
+					.getEuclidianForView(app.getActiveEuclidianView(), app))
+							.setProjection(projectionType);
+			if (app.getActiveEuclidianView().isEuclidianView3D()) {
+				((EuclidianView3DW) app.getActiveEuclidianView())
+						.setProjection(projectionType);
+			}
+			app.getActiveEuclidianView().repaintView();
+			app.storeUndoInfo();
 		}
 
 		@Override
