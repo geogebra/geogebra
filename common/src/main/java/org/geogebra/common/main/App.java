@@ -5041,9 +5041,16 @@ public abstract class App implements UpdateSelection {
 	 *            set how rounded buttons are
 	 */
 	public void setButtonRounding(double percent) {
-		this.buttonRounding = (!MyDouble.isFinite(percent) || percent < 0
-				|| percent > 0.9) ? 0.2 : percent;
 
+		if (!MyDouble.isFinite(percent)) {
+			this.buttonRounding = 0.2;
+		} else if (percent < 0) {
+			this.buttonRounding = 0;
+		} else if (percent > 0.9) {
+			this.buttonRounding = 0.9;
+		} else {
+			this.buttonRounding = percent;
+		}
 	}
 
 	/**
