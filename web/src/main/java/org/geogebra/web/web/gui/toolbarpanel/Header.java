@@ -456,7 +456,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (ev != null && undoRedoPanel != null) {
 			int evTop = ev.getAbsoluteTop() - (int) app.getAbsTop();
 			int evLeft = ev.getAbsoluteLeft() - (int) app.getAbsLeft();
-			Log.debug(evLeft + "UNDO");
 			if ((evLeft <= 0) && !app.isPortrait()) {
 				return;
 			}

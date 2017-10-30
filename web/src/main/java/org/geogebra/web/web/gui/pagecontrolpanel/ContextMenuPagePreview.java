@@ -77,6 +77,10 @@ public class ContextMenuPagePreview implements SetLabels {
 
 	}
 
+	public FlowPanel getRenamePanel() {
+		return renamePanel;
+	}
+
 	protected void onEnter() {
 		card.rename(textField.getText());
 	}

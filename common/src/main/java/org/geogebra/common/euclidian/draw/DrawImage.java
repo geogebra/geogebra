@@ -191,7 +191,7 @@ public final class DrawImage extends Drawable {
 
 			if (geoImage.isCentered()) {
 				// move image to the center
-				at.translate(-width / 2, -height / 2);
+				at.translate(-width / 2.0, -height / 2.0);
 			} else {
 				// move image up so that A becomes lower left corner
 				at.translate(0, -height);
