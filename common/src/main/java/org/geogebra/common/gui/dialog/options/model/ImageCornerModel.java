@@ -48,6 +48,13 @@ public class ImageCornerModel extends MultipleGeosModel {
 		return (GeoImage) getObjectAt(index);
 	}
 
+	/**
+	 * 
+	 * @return if this point is the center point.
+	 */
+	public boolean isCenter() {
+		return cornerIdx == GeoImage.CENTER_INDEX;
+	}
 	@Override
 	protected void apply(int index, int value) {
 		// Not used
@@ -81,9 +88,9 @@ public class ImageCornerModel extends MultipleGeosModel {
 		Object geo = getObjectAt(index);
 		if (geo instanceof GeoImage) {
 			GeoImage img = (GeoImage) geo;
-			if (img.isAbsoluteScreenLocActive() || !img.isIndependent()
-					|| (img.isCentered()
-							&& cornerIdx != GeoImage.CENTER_INDEX)) {
+			if ((img.isAbsoluteScreenLocActive() || !img.isIndependent())
+					|| (!img.isCentered() && isCenter())
+					|| (img.isCentered() && !isCenter())) {
 				return false;
 			}
 

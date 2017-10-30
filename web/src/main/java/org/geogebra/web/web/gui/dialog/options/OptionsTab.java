@@ -46,6 +46,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.awt.GDimensionW;
@@ -1402,8 +1403,12 @@ public class OptionsTab extends FlowPanel {
 		@Override
 		public void setLabels() {
 			super.setLabels();
-			String strLabelStart = localization.getMenu("CornerPoint");
-			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
+			if (model.isCenter()) {
+				getLabel().setText(localization.getMenu("Center:"));
+			} else {
+				String strLabelStart = localization.getMenu("CornerPoint");
+				getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
+			}
 		}
 
 		@Override
@@ -1420,6 +1425,7 @@ public class OptionsTab extends FlowPanel {
 		private ImageCornerPanel corner1;
 		private ImageCornerPanel corner2;
 		private ImageCornerPanel corner4;
+		private ImageCornerPanel center;
 
 		/**
 		 * @param model
@@ -1433,10 +1439,12 @@ public class OptionsTab extends FlowPanel {
 			corner1 = new ImageCornerPanel(0, app);
 			corner2 = new ImageCornerPanel(1, app);
 			corner4 = new ImageCornerPanel(2, app);
+			center = new ImageCornerPanel(GeoImage.CENTER_INDEX, app);
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.add(corner1.getWidget());
 			mainPanel.add(corner2.getWidget());
 			mainPanel.add(corner4.getWidget());
+			mainPanel.add(center.getWidget());
 			setWidget(mainPanel);
 			corner1.setIcon(AppResources.INSTANCE.corner1());
 			corner2.setIcon(AppResources.INSTANCE.corner2());
@@ -1459,6 +1467,7 @@ public class OptionsTab extends FlowPanel {
 			boolean result = corner1.updatePanel(geos) != null;
 			result = corner2.updatePanel(geos) != null || result;
 			result = corner4.updatePanel(geos) != null || result;
+			center.updatePanel(geos);
 			return result ? this : null;
 		}
 	}
