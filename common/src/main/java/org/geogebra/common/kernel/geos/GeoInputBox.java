@@ -227,6 +227,10 @@ public class GeoInputBox extends GeoButton {
 			defineText = "\"" + defineText + "\"";
 		} else if (linkedGeo.isGeoPoint()) {
 			if (((GeoPointND) linkedGeo).getMode() == Kernel.COORD_COMPLEX) {
+
+				// make sure user can enter regular "i"
+				defineText = defineText.replace('i', Unicode.IMAGINARY);
+
 				// z=2 doesn't work for complex numbers (parses to
 				// GeoNumeric)
 				defineText = defineText + "+0" + Unicode.IMAGINARY;
