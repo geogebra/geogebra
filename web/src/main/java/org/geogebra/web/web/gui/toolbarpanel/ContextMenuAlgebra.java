@@ -75,7 +75,7 @@ public class ContextMenuAlgebra implements SetLabels {
 						app.getKernel().updateConstruction();
 								update();
 					}
-						});
+						}, false);
 			}
 		}
 
@@ -119,7 +119,7 @@ public class ContextMenuAlgebra implements SetLabels {
 						app.getSettings().getAlgebra().setTreeMode(sortMode);
 						update();
 					}
-				});
+				}, false);
 			}
 		}
 

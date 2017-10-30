@@ -132,7 +132,7 @@ public class ContextMenuTools implements SetLabels {
 						toolbarPanel.getTabTools().updateContent();
 						update();
 					}
-				});
+				},false);
 			}
 		}
 

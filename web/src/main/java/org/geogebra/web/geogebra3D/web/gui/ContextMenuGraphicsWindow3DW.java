@@ -321,7 +321,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 						public void execute() {
 							setProjectionType(projectionType);
 						}
-					});
+					}, true);
 		}
 
 		/**

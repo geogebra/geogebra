@@ -50,10 +50,16 @@ public abstract class CheckMarkSubMenu {
 	 *            if checkmark should be shown or not
 	 * @param command
 	 *            to execute when selected.
+	 * @param withImg
+	 *            true if menu item does have img
 	 */
-	public void addItem(String text, boolean selected, Command command) {
+	public void addItem(String text, boolean selected, Command command,
+			boolean withImg) {
 		GCheckmarkMenuItem cm = new GCheckmarkMenuItem(text, checkmarkUrl,
 				selected, command);
+		if (withImg) {
+			cm.getMenuItem().addStyleName("withImg");
+		}
 		wrappedPopup.addItem(cm.getMenuItem());
 		items.add(cm);
 		parentMenu.addItem(cm.getMenuItem());

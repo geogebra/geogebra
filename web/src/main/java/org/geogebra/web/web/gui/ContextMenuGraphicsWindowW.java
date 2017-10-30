@@ -549,7 +549,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView().repaintView();
 					app.storeUndoInfo();
 				}
-			});
+			}, false);
 		}
 
 		private void addPolar() {
@@ -569,7 +569,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView().repaintView();
 					app.storeUndoInfo();
 				}
-			});
+			}, false);
 		}
 
 		private void addMajorMinorGridlines() {
@@ -590,7 +590,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView().repaintView();
 					app.storeUndoInfo();
 				}
-			});
+			}, false);
 		}
 
 		private void addMajorGridlines() {
@@ -611,7 +611,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView().repaintView();
 					app.storeUndoInfo();
 				}
-			});
+			}, false);
 		}
 
 		private void addNoGridItem() {
@@ -631,7 +631,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					app.getActiveEuclidianView().repaintView();
 					app.storeUndoInfo();
 				}
-			});
+			}, false);
 		}
 
 
