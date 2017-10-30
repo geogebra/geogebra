@@ -315,8 +315,7 @@ public class OptionsTab extends FlowPanel {
 					app.getLocalization(), (AbsoluteScreenLocationModel) m);
 		}
 		if (m instanceof CenterImageModel) {
-			return new CheckboxPanel("CenterImage",
-					app.getLocalization(), (CenterImageModel) m);
+			return new CenterImagePanel((CenterImageModel) m, app, this);
 		}
 		if (m instanceof CoordsModel) {
 			return new CoordsPanel((CoordsModel) m, app);
@@ -1551,6 +1550,22 @@ public class OptionsTab extends FlowPanel {
 		}
 	} // CoordsPanel
 
+	private static class CenterImagePanel extends CheckboxPanel {
+
+		private OptionsTab tab;
+		CenterImageModel model;
+		public CenterImagePanel(CenterImageModel model, AppW app, OptionsTab tab) {
+			super("CenterImage", app.getLocalization(), model);
+			this.tab = tab;
+			this.model = model;
+		}
+		
+		@Override
+		public void onChecked() {
+			tab.updateGUI(model.getGeos());
+		}
+		
+	}
 	private static class LineEqnPanel extends ListBoxPanel {
 
 		public LineEqnPanel(LineEqnModel model, AppW app) {
@@ -1596,4 +1611,5 @@ public class OptionsTab extends FlowPanel {
 	public Localization getLoc() {
 		return loc;
 	}
+	
 }

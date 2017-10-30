@@ -41,7 +41,8 @@ import org.geogebra.common.util.StringUtil;
 public class GeoImage extends GeoElement implements Locateable,
 		AbsoluteScreenLocateable, PointRotateable, Mirrorable, Translateable,
 		Dilateable, MatrixTransformable, Transformable {
-
+	/** Index of the center in corners array */
+	public static final int CENTER_INDEX = 3;
 	// private String imageFileName = ""; // image file
 	private GeoPoint[] corners; // corners of the image
 	// private BufferedImage image;
@@ -1127,26 +1128,26 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	private void clearCenterPoint() {
-		if (corners[3] == null) {
+		if (corners[CENTER_INDEX] == null) {
 			return;
 		}
 
-		corners[3].remove();
-		corners[3] = null;
+		corners[CENTER_INDEX].remove();
+		corners[CENTER_INDEX] = null;
 	}
 
 	private void setCenterPoint(GeoPoint p) {
 		GeoPoint c = new GeoPoint(p);
-		corners[3] = c;
+		corners[CENTER_INDEX] = c;
 		c.setLabel(p.getLabelSimple() + "_c");
 		c.addView(App.VIEW_EUCLIDIAN);
 		c.getLocateableList().registerLocateable(this);
-		corners[3].setEuclidianVisible(true);
-		corners[3].update();
+		corners[CENTER_INDEX].setEuclidianVisible(true);
+		corners[CENTER_INDEX].update();
 	}
 
 	private void setCornersVisible(boolean b) {
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < CENTER_INDEX; i++) {
 			GeoPoint p = corners[i];
 			if (p != null) {
 				p.setEuclidianVisible(b);

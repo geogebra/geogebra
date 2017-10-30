@@ -10,7 +10,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 
 public class CheckboxPanel extends OptionPanel implements
-		IBooleanOptionListener {
+		IBooleanOptionListener, ClickHandler {
 	private final CheckBox checkbox;
 	private final String titleId;
 	private Localization loc;
@@ -28,13 +28,7 @@ public class CheckboxPanel extends OptionPanel implements
 		setWidget(getCheckbox());
 		this.titleId = title;
 
-		getCheckbox().addClickHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				((BooleanOptionModel) getModel()).applyChanges(getCheckbox()
-						.getValue());
-			}
-		});
+		getCheckbox().addClickHandler(this);
 
 	}
 
@@ -50,5 +44,15 @@ public class CheckboxPanel extends OptionPanel implements
 
 	public CheckBox getCheckbox() {
 		return checkbox;
+	}
+	@Override
+	public void onClick(ClickEvent event) {
+		((BooleanOptionModel) getModel()).applyChanges(getCheckbox()
+				.getValue());
+		onChecked();
+	}
+	
+	/** Override this to do stuff after setting checkbox */
+	public void onChecked() {		
 	}
 }

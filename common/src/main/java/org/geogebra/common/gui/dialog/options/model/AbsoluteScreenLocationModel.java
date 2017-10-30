@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 
 public class AbsoluteScreenLocationModel extends BooleanOptionModel {
@@ -67,7 +68,8 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 		if (geo instanceof AbsoluteScreenLocateable) {
 			AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
 			if (!absLoc.isAbsoluteScreenLocateable() || geo.isGeoBoolean()
-					|| geo instanceof Furniture) {
+					|| geo instanceof Furniture || (geo instanceof GeoImage
+							&& ((GeoImage) geo).isCentered())) {
 				return false;
 			}
 		} else if (!geo.isPinnable()) {
