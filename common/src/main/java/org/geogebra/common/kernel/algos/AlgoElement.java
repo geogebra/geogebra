@@ -1267,21 +1267,19 @@ public abstract class AlgoElement extends ConstructionElement
 					.getClassName() == Commands.Vector) {
 				needsWrapping = false;
 			}
-			String vectorCommand = "Vector[";
-			if (tpl.isPrintLocalizedCommandNames()) {
-				// want it translated eg for redefine dialog
-				vectorCommand = getLoc().getCommand("Vector")
-						+ tpl.leftBracket();
-			}
 
 			if (needsWrapping) {
-				sb.append(vectorCommand);
-			}
-			sb.append(cmd);
-			if (needsWrapping) {
 				sb.append(tpl.isPrintLocalizedCommandNames()
-						? tpl.rightBracket() : ']');
+						? getLoc().getCommand("Vector") : "Vector");
+				sb.append(tpl.leftCommandBracket());
 			}
+
+			sb.append(cmd);
+
+			if (needsWrapping) {
+				sb.append(tpl.rightCommandBracket());
+			}
+
 		} else {
 			sb.append(cmd);
 		}
