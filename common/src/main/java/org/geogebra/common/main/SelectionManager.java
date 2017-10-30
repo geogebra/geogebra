@@ -1,7 +1,9 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -851,14 +853,13 @@ public class SelectionManager {
 	/**
 	 * Updates special points of the selected geo(s) if have any.
 	 */
-	public void updateSpecialPoints() {
-		getSpecPoints();
+	public void updateSpecialPoints(GeoElement[] geos) {
+		getSpecPoints(geos);
 		kernel.notifyUpdateSpecPointsPreview(specPoints, App.VIEW_EUCLIDIAN);
 	}
 
 
-	private GeoElementND[] getSpecPoints() {
-
+	private GeoElementND[] getSpecPoints(GeoElement[] geos0) {
 		if (specPoints != null) {
 			for (int i = 0; i < specPoints.length; i++) {
 				specPoints[i].remove();
@@ -867,8 +868,11 @@ public class SelectionManager {
 
 		specPoints = null;
 		GeoElementND[] specPoints2;
-		if (selectedGeos != null && selectedGeos.size() > 0) {
-			specPoints2 = getSpecPoints(selectedGeos.get(0));
+		List<GeoElement> geos = (geos0 == null) ? selectedGeos
+				: Arrays.asList(geos0);
+
+		if (geos != null && geos.size() > 0) {
+			specPoints2 = getSpecPoints(geos.get(0));
 			if (specPoints2 != null) {
 				specPoints = new GeoElement[specPoints2.length];
 				for (int i = 0; i < specPoints2.length; i++) {
@@ -877,10 +881,13 @@ public class SelectionManager {
 				}
 
 				// update special points of the selected function
-				((GeoFunction) selectedGeos.get(0)).clearSpecPoints();
-				if (selectedGeos.get(0).isGeoFunction()) {
-					((GeoFunction) selectedGeos.get(0))
-							.addSpecialPoints(specPoints);
+				if (selectedGeos != null && selectedGeos.size() > 0) {
+					((GeoFunction) selectedGeos.get(0)).clearSpecPoints();
+					if (geos.get(0).isGeoFunction()) {
+						((GeoFunction) geos.get(0))
+								.addSpecialPoints(specPoints);
+					}
+
 				}
 			}
 		}
@@ -952,7 +959,7 @@ public class SelectionManager {
 	 */
 	public void updateSelection(boolean updatePropertiesView) {
 		if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
-			this.updateSpecialPoints();
+			this.updateSpecialPoints(null);
 		}
 		listener.updateSelection(updatePropertiesView);
 	}
@@ -1268,6 +1275,5 @@ public class SelectionManager {
 		}
 		clearSelectedGeos(false, false);
 		addSelectedGeo(geo, false, false);
-		getSpecPoints();
 	}
 }
