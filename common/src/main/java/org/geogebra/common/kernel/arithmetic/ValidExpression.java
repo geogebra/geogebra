@@ -441,7 +441,6 @@ public abstract class ValidExpression
 	 */
 	protected static String print(ExpressionValue x2, boolean values,
 			StringTemplate tpl) {
-		Log.debug(x2 + "," + values);
 		if (values) {
 			return x2.toValueString(tpl);
 		}

@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -911,17 +912,19 @@ public class SelectionManager {
 						((GeoFunction) geo).getFunctionExpression(), false,
 						true);
 		GeoElementND[] geos1 = null;
+		String label = geo.getLabel(StringTemplate.defaultTemplate);
 		if (poly == null || poly.getDegree() > 0) {
 			geos1 = geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-					"Root[" + geo.getLabelSimple() + "]", false);
+					"Root[" + label + "]",
+					false);
 		}
 		GeoElementND[] geos2;
 		if (poly == null || poly.getDegree() > 1) {
 			geos2 = geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-					"Extremum[" + geo.getLabelSimple() + "]", true);
+					"Extremum[" + label + "]", true);
 		} else {
 			geos2 = geo.getKernel().getAlgebraProcessor()
-					.processAlgebraCommand("Intersect[" + geo.getLabelSimple()
+					.processAlgebraCommand("Intersect[" + label
 							+ "," + geo.getKernel().getLocalization()
 									.getMenu("yAxis")
 							+ "]", true);
