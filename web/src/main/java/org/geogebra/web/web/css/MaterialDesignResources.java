@@ -251,6 +251,12 @@ public interface MaterialDesignResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/axes_black.svg")
 	SVGResource axes_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/projection_orthographic_black.svg")
+	SVGResource projection_orthographic();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/projection_perspective_black.svg")
+	SVGResource projection_perspective();
+
 	// Toolbar resoures
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_more_vert_white_24px.svg")

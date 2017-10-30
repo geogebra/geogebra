@@ -12,8 +12,10 @@ import org.geogebra.web.web.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
+import org.geogebra.web.web.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
+import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -62,9 +64,28 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		super.addAxesMenuItem();
 		addGridMenuItem();
 		addPlaneMenuItem();
+		addProjectionMenuItem();
 		super.addSnapToGridMenuItem();
 		addShowAllObjectsViewMenuItem();
 		addMiProperties("GraphicsView3D", OptionType.EUCLIDIAN3D);
+	}
+
+	private void addProjectionMenuItem() {
+		String htmlString = MainMenu
+				.getMenuBarHtml(
+						MaterialDesignResources.INSTANCE
+								.projection_orthographic()
+								.getSafeUri().asString(),
+						loc.getMenu("Projection"));
+		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
+				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
+						.asString(),
+				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
+						.asString(),
+				false, null);
+		wrappedPopup.addItem(ci.getMenuItem(), false);
+		ProjectionSubmenu projSubMenu = new ProjectionSubmenu(ci);
+		projSubMenu.update();
 	}
 
 	private void addPlaneMenuItem() {
@@ -220,6 +241,96 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		app.zoom(px, py, zoomFactor);
 		if (app.getActiveEuclidianView().isEuclidianView3D()) {
 			((EuclidianView3DW) app.getActiveEuclidianView()).doRepaint();
+		}
+	}
+
+	/**
+	 * @author csilla expand/collapse submenu for projection types in 3D
+	 *
+	 */
+	public class ProjectionSubmenu extends CheckMarkSubMenu {
+		/**
+		 * @param parentMenu
+		 *            - parent menu item
+		 */
+		public ProjectionSubmenu(GCollapseMenuItem parentMenu) {
+			super(getWrappedPopup(), parentMenu);
+		}
+
+		@Override
+		protected void initActions() {
+			addOrthographicProjection();
+			addPerspectiveProjection();
+		}
+
+		private void addOrthographicProjection() {
+			String text = app.getLocalization()
+					.getMenu("stylebar.OrthographicProjection");
+			String img = MaterialDesignResources.INSTANCE
+					.projection_orthographic().getSafeUri().asString();
+			boolean isSelected = false;
+			if (app.getActiveEuclidianView().isEuclidianView3D()) {
+				isSelected = ((EuclidianView3DW) app.getActiveEuclidianView())
+						.getProjection() == EuclidianView3D.PROJECTION_ORTHOGRAPHIC;
+			}
+			addItem(MainMenu.getMenuBarHtml(img, text), isSelected, new Command() {
+
+				@Override
+				public void execute() {
+							((EuclidianSettings3D) app.getSettings()
+									.getEuclidianForView(
+											app.getActiveEuclidianView(),
+											app)).setProjection(
+											EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
+							if (app.getActiveEuclidianView()
+									.isEuclidianView3D()) {
+								((EuclidianView3DW) app
+										.getActiveEuclidianView())
+												.setProjection(
+														EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
+							}
+					app.getActiveEuclidianView().repaintView();
+					app.storeUndoInfo();
+				}
+			});
+		}
+
+		private void addPerspectiveProjection() {
+			String text = app.getLocalization()
+					.getMenu("stylebar.PerspectiveProjection");
+			String img = MaterialDesignResources.INSTANCE
+					.projection_perspective().getSafeUri().asString();
+			boolean isSelected = false;
+			if (app.getActiveEuclidianView().isEuclidianView3D()) {
+				isSelected = ((EuclidianView3DW) app.getActiveEuclidianView())
+						.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE;
+			}
+			addItem(MainMenu.getMenuBarHtml(img, text), isSelected,
+					new Command() {
+
+						@Override
+						public void execute() {
+							((EuclidianSettings3D) app.getSettings()
+									.getEuclidianForView(
+											app.getActiveEuclidianView(),
+											app)).setProjection(
+											EuclidianView3D.PROJECTION_PERSPECTIVE);
+							if (app.getActiveEuclidianView()
+									.isEuclidianView3D()) {
+								((EuclidianView3DW) app
+										.getActiveEuclidianView())
+												.setProjection(
+														EuclidianView3D.PROJECTION_PERSPECTIVE);
+							}
+							app.getActiveEuclidianView().repaintView();
+							app.storeUndoInfo();
+						}
+					});
+		}
+
+		@Override
+		public void update() {
+			// do nothing now
 		}
 	}
 
