@@ -1931,7 +1931,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		previewFromInputBarGeos = geos;
 
-		repaintForPreviewFromInputBar();
+		if (app.has(Feature.PREVIEW_POINTS)) {
+			app.getSelectionManager().updateSpecialPoints();
+		} else {
+			repaintForPreviewFromInputBar();
+		}
 	}
 
 	/**
