@@ -45,6 +45,7 @@ label {
 
 	var params = {
 		"appName" : [ "select", "classic", "graphing", "geometry", "3d","whiteboard" ],
+		"perspective" : "text",
 		"showToolBar" : "boolean",
 		"showMenuBar" : "boolean",
 		"showAlgebraInput" : "boolean",
@@ -68,8 +69,7 @@ label {
 		"enable3D" : [ "boolean", true ],
 		"enableCAS" : [ "boolean", true ],
 		"useBrowserForJS" : [ "boolean", true ],
-		"screenshotGenerator" : "boolean",
-		"perspective" : "text",
+		"screenshotGenerator" : "boolean",		
 		"prerelease" : "boolean",
 		"borderColor" : [ "text", "#D3D3D3" ],
 		"capturingThreshold" : "number",
@@ -86,6 +86,8 @@ label {
 		"showSuggestionButtons" : ["boolean",true],
 		"showFullscreenButton" : "boolean",
 		"showZoomButtons" : "boolean",
+		"buttonShadows": "boolean",
+		"buttonRounding": "number",
 		"app" : "boolean",
 		"jSON" : "text",
 		"id" : "text",
@@ -190,7 +192,7 @@ label {
 <script src="web3d/js/webfont.js?v=1.15"></script>
 </head>
 <body>
-	<div id="settings" style="position: absolute; right: 0; top: 0"></div>
+	<div id="settings" style="position: absolute; right: 0; top: 0;max-height:100%;overflow-y:auto"></div>
 	<div style="margin-left: 100px; margin-top: 100px;">
 		<div id="parent"></div>
 	</div>
