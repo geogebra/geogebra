@@ -221,7 +221,7 @@ public interface Traversing {
 	}
 
 	/**
-	 * Replaces sin(x) with sing(x deg) GGB-2183
+	 * Replaces sin(x) with sin(x deg) GGB-2183 eg Solve(sin(x)=1/2)
 	 *
 	 */
 	public class DegreeVariableReplacer implements Traversing {
@@ -234,25 +234,23 @@ public interface Traversing {
 				ExpressionNode en = (ExpressionNode) ev;
 
 				Operation op = en.getOperation();
-				if (Operation.isTrigDegrees(op)) {
-					ExpressionValue arg = en.getLeft().unwrap();
+				ExpressionValue arg;
 
-					if (arg instanceof FunctionVariable) {
+				if (Operation.isTrigDegrees(op) && (arg = en.getLeft()
+						.unwrap()) instanceof FunctionVariable) {
 
-						// change sin(x) to sin(x deg)
-						FunctionVariable fv = (FunctionVariable) arg;
+					FunctionVariable fv = (FunctionVariable) arg;
 
-						if ("x".equals(fv.getSetVarString())) {
+					// change sin(x) to sin(x deg)
+					if ("x".equals(fv.getSetVarString())) {
 
-							MySpecialDouble degree = new MySpecialDouble(kernel,
-									Math.PI / 180.0, Unicode.DEGREE_CHAR + "");
+						MySpecialDouble degree = new MySpecialDouble(kernel,
+								Math.PI / 180.0, Unicode.DEGREE_CHAR + "");
 
-							ExpressionNode xDegrees = new ExpressionNode(kernel,
-									fv, Operation.MULTIPLY, degree);
+						ExpressionNode xDegrees = new ExpressionNode(kernel, fv,
+								Operation.MULTIPLY, degree);
 
-							return new ExpressionNode(kernel, xDegrees, op,
-									null);
-						}
+						return new ExpressionNode(kernel, xDegrees, op, null);
 					}
 
 				}
