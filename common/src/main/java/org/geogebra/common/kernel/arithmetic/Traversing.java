@@ -243,13 +243,15 @@ public interface Traversing {
 						FunctionVariable fv = (FunctionVariable) arg;
 
 						if ("x".equals(fv.getSetVarString())) {
-							return new ExpressionNode(kernel,
-									new ExpressionNode(kernel, fv,
-											Operation.MULTIPLY,
-											new MySpecialDouble(kernel,
-													Math.PI / 180.0,
-													Unicode.DEGREE_CHAR + "")),
-									op, null);
+
+							MySpecialDouble degree = new MySpecialDouble(kernel,
+									Math.PI / 180.0, Unicode.DEGREE_CHAR + "");
+
+							ExpressionNode xDegrees = new ExpressionNode(kernel,
+									fv, Operation.MULTIPLY, degree);
+
+							return new ExpressionNode(kernel, xDegrees, op,
+									null);
 						}
 					}
 
