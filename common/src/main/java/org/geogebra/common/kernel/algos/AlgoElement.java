@@ -1266,20 +1266,25 @@ public abstract class AlgoElement extends ConstructionElement
 			StringTemplate tpl) {
 		String cmd = geo.getLabel(tpl);
 		if (geo.isGeoVector()) {
-			String vectorCommand = "Vector(";
+			boolean needsWrapping = !geo.isLabelSet();
+			if (geo.getParentAlgorithm() != null && geo.getParentAlgorithm()
+					.getClassName() == Commands.Vector) {
+				needsWrapping = false;
+			}
+			String vectorCommand = "Vector[";
 			if (tpl.isPrintLocalizedCommandNames()) {
 				// want it translated eg for redefine dialog
-				vectorCommand = getLoc().getCommand("Vector") + "(";
+				vectorCommand = getLoc().getCommand("Vector")
+						+ tpl.leftBracket();
 			}
-			boolean needsWrapping = !geo.isLabelSet()
-					&& !cmd.startsWith(vectorCommand);
 
 			if (needsWrapping) {
 				sb.append(vectorCommand);
 			}
 			sb.append(cmd);
 			if (needsWrapping) {
-				sb.append(tpl.isPrintLocalizedCommandNames() ? ')' : ']');
+				sb.append(tpl.isPrintLocalizedCommandNames()
+						? tpl.rightBracket() : ']');
 			}
 		} else {
 			sb.append(cmd);
@@ -1552,14 +1557,14 @@ public abstract class AlgoElement extends ConstructionElement
 				// ensure a vector stays a vector!
 				// eg g:X = (-5, 5) + t (4, -3)
 				if (inputGeo.isGeoVector() && !inputGeo.isLabelSet()
-						&& !cmd.startsWith("Vector(")) {
+						&& !cmd.startsWith("Vector[")) {
 					// add Vector[ ] command around argument
 					// to make sure that this really becomes a vector again
 					// eg g:X = (-5, 5) + t (4, -3)
-					sb.append("Vector("); // in XML, so don't want this
+					sb.append("Vector["); // in XML, so don't want this
 											// translated
 					sb.append(cmd);
-					sb.append(")");
+					sb.append("]");
 				} else {
 					// standard case
 					sb.append(cmd);
