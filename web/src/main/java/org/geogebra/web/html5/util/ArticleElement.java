@@ -343,7 +343,7 @@ public final class ArticleElement extends Element {
 			return fallback;
 		}
 		try{
-			return Integer.parseInt(val, 10);
+			return (int) Math.round(Double.parseDouble(val));
 		} catch (Exception e) {
 			Log.warn("Invalid value of " + string + ":" + val);
 		}

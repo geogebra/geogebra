@@ -68,7 +68,7 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 	protected void emptyAVclicked(AlgebraViewW av, int y) {
 		int bt = simplep.getAbsoluteTop() + simplep.getOffsetHeight();
 		if (y > bt) {
-			AlgebraTab.this.toolbarPanel.app.getSelectionManager()
+			this.toolbarPanel.app.getSelectionManager()
 					.clearSelectedGeos();
 			av.resetItems(true);
 		}
