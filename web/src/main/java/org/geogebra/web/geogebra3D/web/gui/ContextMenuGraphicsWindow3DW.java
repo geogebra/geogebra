@@ -96,22 +96,11 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
 				((Kernel3D) app.getKernel()).getXOYPlane().isPlateVisible());
-		showPlane.setCommand(new Command() {
-			@Override
-			public void execute() {
-				boolean isPlaneVisible = ((EuclidianView3D) app
-						.getActiveEuclidianView())
-								.getShowPlane();
-				((EuclidianView3DW) app.getActiveEuclidianView())
-						.setShowPlane(!isPlaneVisible);
-				((EuclidianSettings3D) app.getSettings()
-						.getEuclidianForView(app.getActiveEuclidianView(), app))
-								.setShowPlate(!isPlaneVisible);
-				showPlane.setChecked(!isPlaneVisible);
-				app.getActiveEuclidianView().repaintView();
-				app.storeUndoInfo();
-			}
-		});
+		showPlane.setCommand(
+				((GuiManager3DW) app.getGuiManager()).getShowPlane3DAction());
+		showPlane.setChecked(
+				((Kernel3D) app.getKernel()).getXOYPlane()
+						.isPlateVisible());
 		wrappedPopup.addItem(showPlane);
 	}
 
@@ -123,18 +112,10 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
 				((Kernel3D) app.getKernel()).getXOYPlane().isGridVisible());
-		showGrid.setCommand(new Command() {
-			@Override
-			public void execute() {
-				boolean isGridVisible = ((EuclidianView3D) app
-						.getActiveEuclidianView()).getShowGrid();
-				((EuclidianView3D) app.getActiveEuclidianView())
-						.showGrid(!isGridVisible);
-				showGrid.setChecked(!isGridVisible);
-				app.getActiveEuclidianView().repaintView();
-				app.storeUndoInfo();
-			}
-		});
+		showGrid.setCommand(
+				((GuiManager3DW) app.getGuiManager()).getShowGrid3DAction());
+		showGrid.setChecked(
+				((Kernel3D) app.getKernel()).getXOYPlane().isGridVisible());
 		wrappedPopup.addItem(showGrid);
 	}
 
