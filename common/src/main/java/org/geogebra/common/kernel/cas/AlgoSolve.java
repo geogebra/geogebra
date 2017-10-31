@@ -212,10 +212,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		StepEquation se = new StepEquation(equations.getDefinitionNoLabel(StringTemplate.defaultTemplate),
 				kernel.getParser());
 
-		SolutionBuilder sb = new SolutionBuilder(kernel.getLocalization());
+		SolutionBuilder sb = new SolutionBuilder();
 		se.solve(new StepVariable("x"), sb);
 
-		sb.getSteps().getListOfSteps(builder);
+		sb.getSteps().getListOfSteps(builder, kernel.getLocalization());
 	}
 
 	public boolean canShowSteps() {

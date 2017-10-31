@@ -1,10 +1,10 @@
 package org.geogebra.common.kernel.stepbystep;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
 
@@ -756,28 +757,7 @@ public class StepHelper {
 		return x.getValueAt(variable, evaluateAt.getValue()) < 0;
 	}
 
-	public static boolean isValidSolution(StepExpression LHS, StepExpression RHS, StepExpression solution,
-			StepVariable variable, Kernel kernel) {
-		StepExpression denominators = getCommonDenominator(StepNode.add(LHS, RHS));
-
-		if (denominators != null && !denominators.isConstant()) {
-			if (isEqual(denominators.getValueAt(variable, solution.getValue()), 0)) {
-				return false;
-			}
-		}
-
-		String casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + variable + " = " + solution + ")";
-		String withAssumptions = getAssumptions(StepNode.add(LHS, StepNode.add(RHS, solution)), casCommand);
-
-		try {
-			String result = kernel.evaluateCachedGeoGebraCAS(withAssumptions, null);
-			return "true".equals(result);
-		} catch (Throwable e) {
-			return false;
-		}
-	}
-
-	private static String getAssumptions(StepExpression sn, String s) {
+	public static String getAssumptions(StepExpression sn, String s) {
 		if (sn instanceof StepArbitraryConstant) {
 			return "AssumeInteger(" + sn.toString() + ", " + s + ")";
 		} else if (sn instanceof StepOperation) {
@@ -808,25 +788,17 @@ public class StepHelper {
 		return Math.abs(a - b) < 0.00000001;
 	}
 
-	public static StepExpression[] getCASSolutions(String LHS, String RHS, String variable, Kernel kernel) {
-		try {
-			String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + LHS + " = " + RHS + ", " + variable + ")", null);
-			MyList solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
+	public static StepSet getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel) throws Throwable {
+		String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + se + ", " + variable + ")", null);
+		MyList solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
 
-			StepExpression[] sn = new StepExpression[solutionList.getLength()];
+		StepSet solutions = new StepSet();
 
-			for (int i = 0; i < solutionList.getLength(); i++) {
-				sn[i] = (StepExpression) StepNode.convertExpression(solutionList.getListElement(i));
-			}
-
-			return sn;
-		} catch (ParseException e) {
-			e.printStackTrace();
-		} catch (Throwable e) {
-			e.printStackTrace();
+		for (int i = 0; i < solutionList.getLength(); i++) {
+			solutions.addElement(StepNode.convertExpression(solutionList.getListElement(i)));
 		}
 
-		return null;
+		return solutions;
 	}
 
 	public static int degree(StepNode sn) {
@@ -909,6 +881,38 @@ public class StepHelper {
 	}
 
 	public static StepExpression LCM(StepExpression a, StepExpression b) {
-		return StepNode.multiply(a, b);
+		StepExpression aFactored = a.factor();
+		StepExpression bFactored = b.factor();
+
+		List<StepExpression> aBases = new ArrayList<StepExpression>();
+		List<StepExpression> aExponents = new ArrayList<StepExpression>();
+		List<StepExpression> bBases = new ArrayList<StepExpression>();
+		List<StepExpression> bExponents = new ArrayList<StepExpression>();
+
+		StepExpression.getBasesAndExponents(aFactored, null, aBases, aExponents);
+		StepExpression.getBasesAndExponents(bFactored, null, bBases, bExponents);
+		
+		for (int i = 0; i < aBases.size(); i++) {
+			for (int j = 0; j < bBases.size(); j++) {
+				if (aBases.get(i).equals(bBases.get(j))) {
+					if (aExponents.get(i).getValue() < bExponents.get(j).getValue()) {
+						aExponents.set(i, new StepConstant(0));
+					} else {
+						bExponents.set(j, new StepConstant(0));
+					}
+				}
+			}
+		}
+
+		StepExpression result = null;
+
+		for (int i = 0; i < aBases.size(); i++) {
+			result = StepExpression.makeFraction(result, aBases.get(i), aExponents.get(i));
+		}
+		for (int i = 0; i < aBases.size(); i++) {
+			result = StepExpression.makeFraction(result, bBases.get(i), bExponents.get(i));
+		}
+
+		return result;
 	}
 }

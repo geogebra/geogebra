@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.commands.CommandsTest;
+import org.geogebra.common.kernel.stepbystep.CASConflictException;
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
@@ -92,10 +94,10 @@ public class SolveStepTest {
 	@Test
 	public void irrationalEquations() {
 		t("sqrt(3x+1)", "x+1", "x", 22, "0", "1");
-		t("sqrt(3x+1)", "x+1+sqrt(2x+3)", "x", 24);
+		t("sqrt(3x+1)", "x+1+sqrt(2x+3)", "x", 24, "fail");
 		t("2x+10", "x+1+sqrt(5x-4)", "x", 16);
 		t("sqrt(3x-4)", "sqrt(4x-3)", "x", 14);
-		t("sqrt(x)+sqrt(x+1)+sqrt(x+2)", "2", "x", 33);
+		t("sqrt(x)+sqrt(x+1)+sqrt(x+2)", "2", "x", 33, "fail");
 		t("sqrt(x)+1", "sqrt(x+1)+sqrt(x+2)+1", "x", 27);
 		t("sqrt(x-1)", "sqrt(x)", "x", 9);
 		t("sqrt(1+sqrt(1+sqrt(x)))", "10", "x", 20, "96040000");
@@ -132,7 +134,7 @@ public class SolveStepTest {
 		t("x^4+2x+3", "2x+2", "x", 9);
 		t("2x^5+2x+3", "2x+67", "x", 15, "2");
 		t("x^4+4x^2+2", "0", "x", 30);
-		t("x^4+x^3+4x^2+2", "0", "x", 4);
+		t("x^4+x^3+4x^2+2", "0", "x", 4, "fail");
 		t("x^6+4x^3+2", "0", "x", 36, "nroot((nroot(2, 2)-2), 3)", "nroot((-nroot(2, 2)-2), 3)");
 		t("((x+1)^4+1)^2", "6", "x", 33, "(nroot((nroot(6, 2)-1), 4)-1)", "(-nroot((nroot(6, 2)-1), 4)-1)");
 		t("((1+x)^(2)+1)^(2)+1", "10", "x", 36, "(nroot(2, 2)-1)", "(-nroot(2, 2)-1)");
@@ -166,7 +168,7 @@ public class SolveStepTest {
 		t("sqrt(1+sqrt(1+sqrt(1+x)))", "10", "x", 22, "96039999");
 		t("sqrt(1+sqrt(1+sqrt(1+sqrt(1+x))))", "10", "x", 22, "9223681407920000");
 
-		t("sqrt(x+sqrt(x+sqrt(x+1)))", "10", "x", 22);
+		t("sqrt(x+sqrt(x+sqrt(x+1)))", "10", "x", 22, "fail");
 
 		// TODO: problem with accuracy
 		// t("x^2", "12345678987654321", "x", 22, "-111111111", "111111111");
@@ -191,11 +193,31 @@ public class SolveStepTest {
 		StepExpression _LHS = (StepExpression) StepNode.getStepTree(LHS, app.getKernel().getParser());
 		StepExpression _RHS = (StepExpression) StepNode.getStepTree(RHS, app.getKernel().getParser());
 		StepVariable var = new StepVariable(variable);
-		
-		SolutionBuilder steps = new SolutionBuilder(app.getLocalization());
-		StepNode[] solutions = new StepEquation(_LHS, _RHS).solve(var, steps)
-				.getElements();
-		steps.getSteps().getListOfSteps(htmlBuilder);
+
+		SolutionBuilder steps = new SolutionBuilder();
+
+		StepNode[] solutions = new StepNode[0];
+
+		try {
+			solutions = new StepEquation(_LHS, _RHS).solveAndCompareToCAS(app.getKernel(), var, steps).getElements();
+		} catch (SolveFailedException e) {
+			htmlBuilder.addHeading("Failed: ", 4);
+			e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+
+			Assert.assertArrayEquals(expectedSolutions, new String[] { "fail" });
+			return;
+		} catch (CASConflictException e) {
+			htmlBuilder.addHeading("CAS conflict: ", 4);
+			e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
+
+			Assert.assertArrayEquals(expectedSolutions, new String[] { "CASfail" });
+			return;
+		} catch (Throwable e) {
+			e.printStackTrace();
+			Assert.fail();
+		}
+
+		steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
 
 		Assert.assertTrue(Math.abs(expectedSteps - countSteps(steps.getSteps())) < 1000);
 		Assert.assertEquals(expectedSolutions.length, solutions.length);
@@ -208,9 +230,7 @@ public class SolveStepTest {
 		Arrays.sort(expectedSolutions);
 		Arrays.sort(actualSolutions);
 
-		for (int i = 0; i < expectedSolutions.length; i++) {
-			Assert.assertEquals(expectedSolutions[i], actualSolutions[i]);
-		}
+		Assert.assertArrayEquals(expectedSolutions, actualSolutions);
 	}
 
 	private int countSteps(SolutionStep s) {

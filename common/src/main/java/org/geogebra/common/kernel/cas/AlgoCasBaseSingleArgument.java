@@ -65,7 +65,7 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 	public void getSteps(StepGuiBuilder builder) {
 		App app = kernel.getApplication();
 
-		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
+		SolutionBuilder sb = new SolutionBuilder();
 		StepExpression sn = (StepExpression) StepNode.getStepTree(
 				f.toGeoElement().getDefinitionNoLabel(StringTemplate.defaultTemplate), app.getKernel().getParser());
 		switch (getClassName()) {
@@ -83,7 +83,7 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 		}
 
 		SolutionStep steps = sb.getSteps();
-		steps.getListOfSteps(builder);
+		steps.getListOfSteps(builder, app.getLocalization());
 
 	}
 

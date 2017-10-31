@@ -4,18 +4,13 @@ import java.util.List;
 import java.util.Stack;
 
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.main.Localization;
 
 public class SolutionBuilder {
-	private Localization loc;
-
 	private Stack<SolutionStep> previousSteps;
 	private SolutionStep currentStep;
 	private SolutionStep lastStep;
 
-	public SolutionBuilder(Localization loc) {
-		this.loc = loc;
-
+	public SolutionBuilder() {
 		previousSteps = new Stack<SolutionStep>();
 		add(SolutionStepType.WRAPPER);
 	}
@@ -33,10 +28,6 @@ public class SolutionBuilder {
 		return currentStep;
 	}
 
-	public Localization getLocalization() {
-		return loc;
-	}
-
 	/**
 	 * Creates a new solution step and adds it to the tree
 	 * 
@@ -46,7 +37,7 @@ public class SolutionBuilder {
 	 *            color assigned to the SolutionStep
 	 */
 	public void add(SolutionStepType type, int color) {
-		add(new SolutionStep(loc, type, color));
+		add(new SolutionStep(type, color));
 	}
 
 	/**
@@ -58,7 +49,7 @@ public class SolutionBuilder {
 	 *            StepNode arguments of the SolutionStep
 	 */
 	public void add(SolutionStepType type, StepNode... arguments) {
-		add(new SolutionStep(loc, type, arguments));
+		add(new SolutionStep(type, arguments));
 	}
 
 	/**

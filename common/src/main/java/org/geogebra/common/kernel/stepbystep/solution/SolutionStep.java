@@ -8,9 +8,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.Localization;
 
 public class SolutionStep {
-
-	private Localization loc;
-
 	/**
 	 * The color of the solution step is either contained in the parameters
 	 * themselves, or - when there is no parameter, but there is still need for a
@@ -24,9 +21,7 @@ public class SolutionStep {
 
 	private List<SolutionStep> substeps;
 
-	public SolutionStep(Localization loc, SolutionStepType type, StepNode... parameters) {
-		this.loc = loc;
-
+	public SolutionStep(SolutionStepType type, StepNode... parameters) {
 		this.type = type;
 		this.parameters = new StepNode[parameters.length];
 		for (int i = 0; i < parameters.length; i++) {
@@ -34,9 +29,7 @@ public class SolutionStep {
 		}
 	}
 
-	public SolutionStep(Localization loc, SolutionStepType type, int color) {
-		this.loc = loc;
-
+	public SolutionStep(SolutionStepType type, int color) {
 		this.type = type;
 		this.color = color;
 	}
@@ -46,7 +39,7 @@ public class SolutionStep {
 	 * 
 	 * @return default text, formatted using LaTeX
 	 */
-	public String getDefault() {
+	public String getDefault(Localization loc) {
 		return type.getDefaultText(loc, parameters);
 	}
 
@@ -55,7 +48,7 @@ public class SolutionStep {
 	 * 
 	 * @return colored text, formatted using LaTeX
 	 */
-	public String getColored() {
+	public String getColored(Localization loc) {
 		return type.getDetailedText(loc, color, parameters);
 	}
 
@@ -65,24 +58,24 @@ public class SolutionStep {
 	 * @param builder
 	 *            StepGuiBuilder to use (different for the web and for the tests)
 	 */
-	public void getListOfSteps(StepGuiBuilder builder) {
+	public void getListOfSteps(StepGuiBuilder builder, Localization loc) {
 		if (substeps != null && type == SolutionStepType.WRAPPER) {
 			for (int i = 0; i < substeps.size(); i++) {
-				(substeps.get(i)).getListOfSteps(builder);
+				(substeps.get(i)).getListOfSteps(builder, loc);
 			}
 		} else if (substeps != null && type == SolutionStepType.SUBSTEP_WRAPPER) {
-			builder.addLatexRow(getColored());
+			builder.addLatexRow(getColored(loc));
 
 			for (int i = 0; i < substeps.size(); i++) {
-				(substeps.get(i)).getListOfSteps(builder);
+				(substeps.get(i)).getListOfSteps(builder, loc);
 			}
 		} else {
-			builder.addLatexRow(getColored());
+			builder.addLatexRow(getColored(loc));
 
 			if (substeps != null) {
 				builder.startGroup();
 				for (int i = 0; i < substeps.size(); i++) {
-					(substeps.get(i)).getListOfSteps(builder);
+					(substeps.get(i)).getListOfSteps(builder, loc);
 				}
 				builder.endGroup();
 			}

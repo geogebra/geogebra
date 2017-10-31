@@ -1,13 +1,14 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.parser.Parser;
+import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public class StepEquation extends StepNode {
 
@@ -83,14 +84,13 @@ public class StepEquation extends StepNode {
 			return "\\fgcolor{" + getColorHex() + "}{" + toLaTeXString(loc, false) + "}";
 		}
 
+		if (flipped) {
+			return LHS.toLaTeXString(loc, colored) + " = " + RHS.toLaTeXString(loc, colored);
+		}
 		return RHS.toLaTeXString(loc, colored) + " = " + LHS.toLaTeXString(loc, colored);
 	}
 
 	public boolean isValid(StepVariable var, double val) {
-		Log.error(LHS.getValueAt(var, val) + " ");
-		Log.error(RHS + " SAD");
-		Log.error(RHS.getValueAt(var, val) + " ");
-
 		return isEqual(LHS.getValueAt(var, val), RHS.getValueAt(var, val));
 	}
 
@@ -132,6 +132,27 @@ public class StepEquation extends StepNode {
 
 	public StepSet solve(StepVariable sv, SolutionBuilder sb) {
 		return (StepSet) StepStrategies.defaultSolve(this, sv, sb);
+	}
+
+	public StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb) throws Throwable {
+		StepSet solutions = solve(sv, sb);
+
+		for (StepNode solution : solutions) {
+			if (solution instanceof StepExpression) {
+				String casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution + ")";
+				String withAssumptions = StepHelper.getAssumptions(add((StepExpression) solution, add(LHS, RHS)),
+						casCommand);
+
+				String result = kernel.evaluateCachedGeoGebraCAS(withAssumptions, null);
+
+				if (!"true".equals(result)) {
+					StepSet CASSolutions = StepHelper.getCASSolutions(this, sv, kernel);
+					throw new CASConflictException(sb.getSteps(), solutions, CASSolutions);
+				}
+			}
+		}
+
+		return solutions;
 	}
 
 	public StepEquation regroup() {

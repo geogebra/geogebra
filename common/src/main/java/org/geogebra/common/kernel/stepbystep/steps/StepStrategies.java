@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
@@ -71,7 +72,7 @@ public class StepStrategies {
 		final boolean printDebug = true;
 
 		int[] colorTracker = new int[] { 1 };
-		SolutionBuilder changes = new SolutionBuilder(sb == null ? null : sb.getLocalization());
+		SolutionBuilder changes = new SolutionBuilder();
 
 		StepNode origSn = sn, newSn;
 
@@ -122,46 +123,58 @@ public class StepStrategies {
 	public static StepNode implementSolveStrategy(StepEquation se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy) {
 		final boolean printDebug = true;
-		final int maxRun = 10;
 
-		SolutionBuilder accumulator = sb == null ? new SolutionBuilder(null) : sb;
+		SolutionBuilder changes = new SolutionBuilder();
 
-		SolutionBuilder changes = new SolutionBuilder(sb == null ? null : sb.getLocalization());
-		StepNode origSn = se, newSn;
+		if (sb != null) {
+			sb.add(SolutionStepType.SOLVE, se);
+			sb.levelDown();
+		}
 
-		accumulator.add(SolutionStepType.SOLVE, se);
-		accumulator.levelDown();
-		for (int j = 0; j < maxRun; j++) {
+		StepEquation origSe = se.deepCopy();
+		StepNode result = se;
+		String old = null, current = null;
+		do {
 			boolean changed = false;
 			for (int i = 0; i < strategy.length && !changed; i++) {
-				Log.error(strategy[i] + "");
-				newSn = strategy[i].apply((StepEquation) origSn.deepCopy(), variable, changes);
-
 				if (printDebug) {
 					if (changes.getSteps().getSubsteps() != null) {
 						Log.error("changed at " + strategy[i]);
-						Log.error("from: " + origSn);
-						Log.error("to: " + newSn);
+						Log.error("from: " + old);
+						Log.error("to: " + result);
 					}
 				}
+				
+				result = defaultRegroup(result, sb);
+				result = strategy[i].apply((StepEquation) result.deepCopy(), variable, changes);
+				
+				if (changes.getSteps().getSubsteps() != null || result instanceof StepSet) {
+					if (sb != null) {
+						sb.addAll(changes.getSteps());
+					}
 
-				if (newSn instanceof StepSet) {
-					accumulator.addAll(changes.getSteps());
-					accumulator.levelUp();
-					return EquationSteps.checkSolutions(se, (StepSet) newSn, variable, accumulator);
-				}
-
-				if (changes.getSteps().getSubsteps() != null) {
-					accumulator.addAll(changes.getSteps());
-					newSn.cleanColors();
-					origSn = newSn;
+					result.cleanColors();
 					changes.reset();
 					changed = true;
 				}
 			}
+
+			old = current;
+			current = result.toString();
+		} while (!(result instanceof StepSet) && !current.equals(old));
+		
+		if (result instanceof StepSet) {
+			StepSet finalSolutions = EquationSteps.checkSolutions(origSe, (StepSet) result, variable, changes);
+			
+			if (sb != null) {
+				sb.levelDown();
+				sb.addAll(changes.getSteps());
+			}
+			
+			return finalSolutions;
 		}
 
-		return new StepSet();
+		throw new SolveFailedException(sb.getSteps());
 	}
 
 	public static StepNode iterateThrough(SimplificationStepGenerator step, StepNode sn, SolutionBuilder sb,

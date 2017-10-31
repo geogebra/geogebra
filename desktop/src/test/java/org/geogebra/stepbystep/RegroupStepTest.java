@@ -92,12 +92,12 @@ public class RegroupStepTest {
 		}
 		htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
 
-		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
+		SolutionBuilder sb = new SolutionBuilder();
 		StepExpression sn = (StepExpression) StepNode.getStepTree(toRegroup, app.getKernel().getParser());
 		String result = sn.regroup(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
-		steps.getListOfSteps(htmlBuilder);
+		steps.getListOfSteps(htmlBuilder, app.getLocalization());
 
 		Assert.assertEquals(expectedResult, result);
 	}
@@ -110,12 +110,12 @@ public class RegroupStepTest {
 		}
 		htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
 
-		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
+		SolutionBuilder sb = new SolutionBuilder();
 		StepExpression sn = (StepExpression) StepNode.getStepTree(toExpand, app.getKernel().getParser());
 		String result = sn.expand(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
-		steps.getListOfSteps(htmlBuilder);
+		steps.getListOfSteps(htmlBuilder, app.getLocalization());
 
 		Assert.assertEquals(expectedResult, result);
 	}
@@ -128,12 +128,12 @@ public class RegroupStepTest {
 		}
 		htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
 
-		SolutionBuilder sb = new SolutionBuilder(app.getLocalization());
+		SolutionBuilder sb = new SolutionBuilder();
 		StepExpression sn = (StepExpression) StepNode.getStepTree(toFactor, app.getKernel().getParser());
 		String result = sn.factor(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
-		steps.getListOfSteps(htmlBuilder);
+		steps.getListOfSteps(htmlBuilder, app.getLocalization());
 
 		Assert.assertEquals(expectedResult, result);
 	}

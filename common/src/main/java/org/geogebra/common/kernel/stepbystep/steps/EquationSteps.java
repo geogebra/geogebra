@@ -29,7 +29,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public enum EquationSteps implements SolveStepGenerator {
 
@@ -191,7 +190,6 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			if (product != null) {
 				steps.add(SolutionStepType.PRODUCT_IS_ZERO);
-				Log.error(product.toString());
 				StepSet solutions = new StepSet();
 
 				for (int i = 0; i < product.noOfOperands(); i++) {
@@ -327,9 +325,6 @@ public enum EquationSteps implements SolveStepGenerator {
 				se.square(steps);
 				bothSides = subtract(se.getLHS(), se.getRHS()).regroup();
 			}
-
-			Log.error(se.getLHS() + " LHS");
-			Log.error(se.getRHS() + " RHS");
 
 			if (se.getLHS().isConstant() && se.getRHS().isConstant()) {
 
@@ -561,11 +556,6 @@ public enum EquationSteps implements SolveStepGenerator {
 				tempSolutions.addAll(tempEq.solve(variable, null));
 			}
 
-			Log.error(tempSolutions.getElements().length + "  AAAA");
-			for (StepNode sn : tempSolutions.getElements()) {
-				Log.error(" AAAAA " + sn);
-			}
-
 			List<StepExpression> roots = new ArrayList<StepExpression>();
 			for(StepNode sn : tempSolutions.getElements()) {
 				roots.add((StepExpression) sn);
@@ -788,8 +778,6 @@ public enum EquationSteps implements SolveStepGenerator {
 			steps.levelDown();
 		}
 
-		Log.error(solutions.getElements().length + "beginning");
-
 		for (StepNode sol : solutions.getElements()) {
 			if (sol instanceof StepExpression) {
 				StepExpression solution = (StepExpression) sol;
@@ -804,9 +792,6 @@ public enum EquationSteps implements SolveStepGenerator {
 						solutions.remove(sol);
 					}
 				} else {
-					Log.error(solution.toString());
-					Log.error(solution.getValue() + "  VAL");
-
 					if (se.isValid(variable, solution.getValue())) {
 						steps.add(SolutionStepType.VALID_SOLUTION, new StepEquation(variable, solution));
 					} else {
@@ -817,8 +802,6 @@ public enum EquationSteps implements SolveStepGenerator {
 			}
 
 		}
-
-		Log.error(solutions.getElements().length + "end");
 
 		return solutions;
 	}

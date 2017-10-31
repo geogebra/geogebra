@@ -1182,7 +1182,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			RegroupSteps[] fractionAddition = new RegroupSteps[] { EXPAND_FRACTIONS, ADD_NUMERATORS, REGROUP_PRODUCTS,
 					REGROUP_SUMS, SIMPLIFY_FRACTIONS };
 
-			SolutionBuilder tempSteps = new SolutionBuilder(sb.getLocalization());
+			SolutionBuilder tempSteps = new SolutionBuilder();
 			int[] tempTracker = new int[] { 1 };
 			StepNode tempTree = sn.deepCopy();
 
@@ -1190,14 +1190,17 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			ADD_NUMERATORS.apply(tempTree, tempSteps, tempTracker);
 
 			if (tempTracker[0] > 1) {
-				SolutionBuilder additionSteps = new SolutionBuilder(sb.getLocalization());
+				SolutionBuilder additionSteps = new SolutionBuilder();
 
 				StepNode newSn = StepStrategies.implementStrategy(sn, additionSteps, fractionAddition);
 
-				sb.add(SolutionStepType.ADD_FRACTIONS);
-				sb.levelDown();
-				sb.addAll(additionSteps.getSteps());
-				sb.levelUp();
+				if (sb != null) {
+					sb.add(SolutionStepType.ADD_FRACTIONS);
+					sb.levelDown();
+					sb.addAll(additionSteps.getSteps());
+					sb.levelUp();
+				}
+
 				colorTracker[0]++;
 
 				return newSn;
@@ -1215,21 +1218,23 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					SIMPLE_ROOTS, REGROUP_PRODUCTS, REGROUP_SUMS, ExpandSteps.EXPAND_DENOMINATORS, FACTOR_SQUARE,
 					SIMPLIFY_POWERS_AND_ROOTS, SIMPLIFY_FRACTIONS };
 
-			SolutionBuilder tempSteps = new SolutionBuilder(sb.getLocalization());
+			SolutionBuilder tempSteps = new SolutionBuilder();
 			int[] tempTracker = new int[] { 1 };
 			StepNode tempTree = sn.deepCopy();
 
 			RATIONALIZE_DENOMINATOR.apply(tempTree, tempSteps, tempTracker);
 
 			if (tempTracker[0] > 1) {
-				SolutionBuilder rationalizationSteps = new SolutionBuilder(sb.getLocalization());
+				SolutionBuilder rationalizationSteps = new SolutionBuilder();
 
 				StepNode newSn = StepStrategies.implementStrategy(sn, rationalizationSteps, denominatorRationalization);
 
-				sb.add(SolutionStepType.RATIONALIZE_DENOMINATOR);
-				sb.levelDown();
-				sb.addAll(rationalizationSteps.getSteps());
-				sb.levelUp();
+				if (sb != null) {
+					sb.add(SolutionStepType.RATIONALIZE_DENOMINATOR);
+					sb.levelDown();
+					sb.addAll(rationalizationSteps.getSteps());
+					sb.levelUp();
+				}
 
 				colorTracker[0]++;
 				return newSn;

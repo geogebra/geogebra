@@ -2,11 +2,12 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.geogebra.common.main.Localization;
 
-public class StepSet extends StepNode {
+public class StepSet extends StepNode implements Iterable<StepNode> {
 
 	private Set<StepNode> elements;
 
@@ -55,6 +56,10 @@ public class StepSet extends StepNode {
 	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
 		return null;
+	}
+
+	public Iterator iterator() {
+		return elements.iterator();
 	}
 
 }
