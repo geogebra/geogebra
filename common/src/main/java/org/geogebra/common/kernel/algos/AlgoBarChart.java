@@ -1229,8 +1229,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	 */
 	private void loadDistributionLists(int first, int last,
 			IntegerDistribution dist) throws Exception {
-		boolean oldSuppress = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
 		if (list1 == null) {
 			list1 = new GeoList(cons);
 		} else {
@@ -1255,7 +1253,6 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				list2.addNumber(prob, this);
 			}
 		}
-		cons.setSuppressLabelCreation(oldSuppress);
 	}
 
 	// ======================================================

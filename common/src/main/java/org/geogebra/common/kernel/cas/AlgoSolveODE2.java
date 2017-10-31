@@ -168,13 +168,9 @@ public class AlgoSolveODE2 extends AlgoElement {
 			double[] y1 = interpolator.getInterpolatedState();
 			// System.out.println(t + " " + y[0]+ " "+y[1]);
 
-			boolean oldState = cons1.isSuppressLabelsActive();
-			cons1.setSuppressLabelCreation(true);
-
 			// g.add(new GeoPoint(cons, null, t, y[0], 1.0));
 			al.add(new MyPoint(t, y1[0], SegmentType.LINE_TO));
 
-			cons1.setSuppressLabelCreation(oldState);
 		}
 	};
 
