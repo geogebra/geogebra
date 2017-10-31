@@ -60,7 +60,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.roots.RealRootUtil;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
@@ -129,9 +128,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	final private static char[] dummy2 = { ' ', ' ' };
 
 	private double[] bounds;
-
-	private ArrayList<GeoPoint> specPoints = new ArrayList<GeoPoint>();
-
 
 	private static StringBuilder sbCasCommand;
 	/**
@@ -2507,10 +2503,6 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public void update(boolean dragging) {
 
 		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
-		if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
-			// when we move the function needed to update
-			updateSpecPoints();
-		}
 		kernel.notifyUpdate(this);
 	}
 
@@ -3239,35 +3231,4 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public void setShortLHS(boolean shortLHS) {
 		this.shortLHS = shortLHS;
 	}
-
-	/**
-	 * Adds special points for a function
-	 * 
-	 * @param specPoints2
-	 *            special points of the function
-	 */
-	public void addSpecialPoints(GeoElement[] specPoints2) {
-		for (int i = 0; i < specPoints2.length; i++) {
-			specPoints.add((GeoPoint) specPoints2[i]);
-			specPoints2[i].getParentAlgorithm().setLabelEnable(false);
-		}
-	}
-
-	/**
-	 * Clears special points of a function
-	 */
-	public void clearSpecPoints() {
-		specPoints.clear();
-	}
-
-	/**
-	 * Recomputes the coordinates of the special points.
-	 */
-	public void updateSpecPoints() {
-		 for (GeoPoint point : specPoints) {
-			point.getParentAlgorithm().compute();
-		 }
-		kernel.getApplication().getSelectionManager().updateSpecialPoints(null);
-	}
-
 }

@@ -6362,12 +6362,16 @@ public abstract class EuclidianController {
 		}
 
 		if (repaint) {
+			if (app.has(Feature.PREVIEW_POINTS)) {
+				app.getSelectionManager().updateSpecialPoints(null);
+			}
 			// GGB-1249 fast dragging of CAS functions
 			movedGeoFunction.updateRepaint(true);
 		} else {
 			movedGeoFunction.updateCascade();
 		}
 	}
+
 
 	protected final void moveBoolean(boolean repaint) {
 		// movedGeoBoolean.setAbsoluteScreenLoc( oldLoc.x +

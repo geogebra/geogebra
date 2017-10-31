@@ -880,16 +880,6 @@ public class SelectionManager {
 					specPoints[i] = specPoints2[i].toGeoElement();
 					specPoints[i].remove();
 				}
-
-				// update special points of the selected function
-				if (selectedGeos != null && selectedGeos.size() > 0) {
-					((GeoFunction) selectedGeos.get(0)).clearSpecPoints();
-					if (geos.get(0).isGeoFunction()) {
-						((GeoFunction) geos.get(0))
-								.addSpecialPoints(specPoints);
-					}
-
-				}
 			}
 		}
 
