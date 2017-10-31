@@ -4,18 +4,27 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.Localization;
 
+/**
+ * Helper class for processing CAS input
+ */
 public class CASCellProcessor {
 
 	private Localization localization;
 
+	/**
+	 * @param loc
+	 *            localization
+	 */
 	public CASCellProcessor(Localization loc) {
 		this.localization = loc;
 	}
+	
 	/**
 	 * Fixes common input errors and returns the corrected input String.
 	 * 
 	 * @param input
-	 * @return
+	 *            CAS input
+	 * @return fixed input
 	 */
 	public String fixInputErrors(String input) {
 		String inputTrim = input.trim();
@@ -36,6 +45,15 @@ public class CASCellProcessor {
 		return inputTrim;
 	}
 
+	/**
+	 * @param cellValue
+	 *            cas cell
+	 * @param selRowInput
+	 *            input
+	 * @param staticReferenceFound
+	 *            whether static reference (#) was used
+	 * @return fixed input
+	 */
 	public String fixInput(GeoCasCell cellValue, String selRowInput,
 			boolean staticReferenceFound) {
 		String evalText = null;

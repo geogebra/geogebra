@@ -4,6 +4,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.main.AppW;
@@ -291,6 +292,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				img = MaterialDesignResources.INSTANCE.projection_oblique()
 						.getSafeUri().asString();
 			default:
+				Log.warn("Unknown projection:" + projectionType);
 				break;
 			}
 			boolean isSelected = isProjectionType(projectionType);

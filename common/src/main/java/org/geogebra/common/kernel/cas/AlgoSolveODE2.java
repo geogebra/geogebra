@@ -155,11 +155,8 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 	private StepHandler stepHandler = new StepHandler() {
 
-		private Construction cons1 = kernel.getConstruction();
-
 		public void init(double t0, double[] y0, double t) {
 			Log.error("unimplemented");
-
 		}
 
 		@Override
@@ -170,7 +167,6 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 			// g.add(new GeoPoint(cons, null, t, y[0], 1.0));
 			al.add(new MyPoint(t, y1[0], SegmentType.LINE_TO));
-
 		}
 	};
 

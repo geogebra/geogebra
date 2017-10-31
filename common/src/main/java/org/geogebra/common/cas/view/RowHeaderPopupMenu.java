@@ -4,8 +4,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
 public class RowHeaderPopupMenu {
-
+	/** application */
 	protected final App app;
+	/** localization */
 	protected final Localization loc;
 
 	protected RowHeaderPopupMenu(App app) {

@@ -11,11 +11,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 
+/**
+ * Draws 2D parametric surface
+ * 
+ * @author Zbynek
+ */
 public class DrawSurface extends Drawable {
 
 	private GeoSurfaceCartesian2D surface;
 	private GeneralPathClippedForCurvePlotter gp;
 
+	/**
+	 * @param ev
+	 *            view
+	 * @param geo
+	 *            surface
+	 */
 	public DrawSurface(EuclidianView ev, GeoSurfaceCartesian2D geo) {
 		this.view = ev;
 		this.surface = geo;
