@@ -14,7 +14,7 @@ public class EvalInfo {
 	private boolean simplifyIntegers = true;
 	private boolean useCAS = true;
 	private boolean autocreateSliders = true;
-	private boolean autoAddDegree = true;
+	private boolean autoAddDegree = false;
 	private boolean fractions = false;
 
 	/**
