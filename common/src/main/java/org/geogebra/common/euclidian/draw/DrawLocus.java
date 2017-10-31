@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation oflocus
@@ -142,11 +141,23 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	protected final void drawTrace(GGraphics2D g2) {
+		drawLocus(g2);
+	}
+
+	private void drawLocus(GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
 			g2.draw(gp);
+
+			if (geo.isFillable() && geo.isFilled()) {
+
+				// fill using default/hatching/image as appropriate
+				fill(g2, (geo.isInverseFill() ? getShape() : gp));
+			}
+
 		}
+
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
@@ -187,23 +198,7 @@ public class DrawLocus extends Drawable {
 			}
 
 			// draw locus
-			g2.setPaint(getObjectColor());
-			g2.setStroke(objStroke);
-			g2.draw(gp);
-
-			if (geo.isFillable() && geo.isFilled()) {
-				try {
-
-					fill(g2, (geo.isInverseFill() ? getShape() : gp)); // fill
-																		// using
-																		// default/hatching/image
-																		// as
-																		// appropriate
-
-				} catch (Exception e) {
-					Log.error(e.getMessage());
-				}
-			}
+			drawLocus(g2);
 
 			// label
 			if (labelVisible) {
