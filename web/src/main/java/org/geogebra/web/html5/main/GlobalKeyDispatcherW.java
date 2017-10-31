@@ -524,7 +524,7 @@ public class GlobalKeyDispatcherW extends
 
 			// printActiveElement();
 
-		} else if (inFocus && preventBrowserCtrl(kc)
+		} else if (inFocus && preventBrowserCtrl(kc, event.isShiftKeyDown())
 				&& event.isControlKeyDown()) {
 			event.preventDefault();
 		}
@@ -539,8 +539,9 @@ public class GlobalKeyDispatcherW extends
 				+ $doc.activeElement.className : "?";
 	}-*/;
 
-	private static boolean preventBrowserCtrl(KeyCodes kc) {
-		return kc == KeyCodes.S || kc == KeyCodes.O;
+	private static boolean preventBrowserCtrl(KeyCodes kc, boolean shift) {
+		return kc == KeyCodes.S || kc == KeyCodes.O
+				|| (kc == KeyCodes.D && shift);
 	}
 
 	// public static native void printActiveElement() /*-{
