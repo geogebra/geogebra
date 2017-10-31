@@ -1132,6 +1132,9 @@ public class GeoImage extends GeoElement implements Locateable,
 			return;
 		}
 
+		String lblCorner1 = corners[CENTER_INDEX].getLabelSimple();
+		corners[0].setLabel(lblCorner1);
+		corners[0].update();
 		corners[CENTER_INDEX].remove();
 		corners[CENTER_INDEX] = null;
 	}
@@ -1139,7 +1142,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	private void setCenterPoint(GeoPoint p) {
 		GeoPoint c = new GeoPoint(p);
 		corners[CENTER_INDEX] = c;
-		c.setLabel(p.getLabelSimple() + "_c");
+		String lblCenter = p.getLabelSimple();
+		p.setLabel("");
+		c.setLabel(lblCenter);
 		c.addView(App.VIEW_EUCLIDIAN);
 		c.getLocateableList().registerLocateable(this);
 		corners[CENTER_INDEX].setEuclidianVisible(true);
