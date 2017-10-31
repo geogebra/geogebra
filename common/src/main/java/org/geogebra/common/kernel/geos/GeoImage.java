@@ -184,6 +184,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		// interpolation settings
 		interpolate = img.interpolate;
 		defined = img.defined;
+		if (img.centered) {
+			setCentered(true);
+		}
 	}
 
 	@Override
@@ -364,9 +367,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		// absolute screen position should be deactivated
 		setAbsoluteScreenLocActive(false);
 		updateHasAbsoluteLocation();
-		if (isCentered() && number == 0) {
-			setCenterPoint(corners[0]);
-		}
+
 	}
 
 	/**
@@ -1119,36 +1120,22 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		this.centered = centered;
 		if (centered) {
-			setCenterPoint(corners[0]);
+			center();
 		} else {
-			clearCenterPoint();
+			uncenter();
 		}
 		setCornersVisible(!centered);
 		updateRepaint();
 	}
 
-	private void clearCenterPoint() {
-		if (corners[CENTER_INDEX] == null) {
-			return;
-		}
-
-		String lblCorner1 = corners[CENTER_INDEX].getLabelSimple();
-		corners[0].setLabel(lblCorner1);
-		corners[0].update();
-		corners[CENTER_INDEX].remove();
-		corners[CENTER_INDEX] = null;
+	private void center() {
+		corners[CENTER_INDEX] = corners[0];
+		corners[0] = null;
 	}
 
-	private void setCenterPoint(GeoPoint p) {
-		GeoPoint c = new GeoPoint(p);
-		corners[CENTER_INDEX] = c;
-		String lblCenter = p.getLabelSimple();
-		p.setLabel("");
-		c.setLabel(lblCenter);
-		c.addView(App.VIEW_EUCLIDIAN);
-		c.getLocateableList().registerLocateable(this);
-		corners[CENTER_INDEX].setEuclidianVisible(true);
-		corners[CENTER_INDEX].update();
+	private void uncenter() {
+		corners[0] = corners[CENTER_INDEX];
+		corners[CENTER_INDEX] = null;
 	}
 
 	private void setCornersVisible(boolean b) {
