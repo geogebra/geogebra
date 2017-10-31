@@ -2,12 +2,13 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 public class CenterImageModel extends BooleanOptionModel {
-
+	private boolean centered;
 	public CenterImageModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
-		// TODO Auto-generated constructor stub
+		centered = app.has(Feature.CENTER_IMAGE);
 	}
 
 	private GeoImage getImageAt(int index) {
@@ -26,7 +27,7 @@ public class CenterImageModel extends BooleanOptionModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		return getGeoAt(index) instanceof GeoImage;
+		return centered && getGeoAt(index) instanceof GeoImage;
 	}
 
 }
