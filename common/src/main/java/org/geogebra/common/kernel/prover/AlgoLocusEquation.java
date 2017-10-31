@@ -375,7 +375,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 					+ "// over the integers and the parameter variables (they are for the final locus).                                        \n"
 					+ "// The result is a list of \"poly as string\".                                                                          \n"
 					+ "proc point_to_0circle(ideal l, int prec) {                                                                              \n"
-					+ "  if (size(l)==1) {return(list(l[1]));}                                                                                 \n"
+					+ "  if (size(l)==1) {return(string(list(l[1])));}                                                                                 \n"
 					+ "  if (size(l)>1) {                                                                                                      \n"
 					+ "    ring r=basering;                                                                                                    \n"
 					+ "    string s=\"def R=solve([\"+string(l[1]);                                                                            \n"
