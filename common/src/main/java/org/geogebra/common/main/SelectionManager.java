@@ -903,13 +903,13 @@ public class SelectionManager {
 		GeoElementND[] geos2;
 		if (poly == null || poly.getDegree() > 1) {
 			geos2 = geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-					"Extremum[" + label + "]", true);
+					"Extremum[" + label + "]", false);
 		} else {
 			geos2 = geo.getKernel().getAlgebraProcessor()
 					.processAlgebraCommand("Intersect[" + label
 							+ "," + geo.getKernel().getLocalization()
 									.getMenu("yAxis")
-							+ "]", true);
+							+ "]", false);
 		}
 		if (geos1 != null && geos1.length > 0) {
 			if (geos2 != null && geos2.length > 0) {
