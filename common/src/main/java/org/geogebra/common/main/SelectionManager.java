@@ -861,12 +861,6 @@ public class SelectionManager {
 
 
 	private GeoElementND[] getSpecPoints(GeoElement[] geos0) {
-		if (specPoints != null) {
-			for (int i = 0; i < specPoints.length; i++) {
-				specPoints[i].remove();
-			}
-		}
-
 		specPoints = null;
 		GeoElementND[] specPoints2;
 		List<GeoElement> geos = (geos0 == null) ? selectedGeos
@@ -882,14 +876,6 @@ public class SelectionManager {
 				}
 			}
 		}
-
-
-		if (specPoints != null) {
-			for (int i = 0; i < specPoints.length; i++) {
-				specPoints[i].remove();
-			}
-		}
-
 		return specPoints;
 	}
 
