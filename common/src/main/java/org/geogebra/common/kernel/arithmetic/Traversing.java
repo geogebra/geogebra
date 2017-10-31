@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -188,9 +187,10 @@ public interface Traversing {
 				Operation op = en.getOperation();
 				if (Operation.isTrigDegrees(op)) {
 					ExpressionValue arg = en.getLeft().unwrap();
-					Log.debug("arg " + arg.toString() + " " + arg.getClass());
+					// Log.debug("arg " + arg.toString() + " " + arg.getClass()
+					// + " " + arg.evaluateDouble());
 					if (arg.isLeaf() && arg.isConstant() && !Kernel
-							.isInteger(arg.evaluateDouble() / Math.PI)) {
+							.isInteger(180 * arg.evaluateDouble() / Math.PI)) {
 
 						ExpressionNode argDegrees = new ExpressionNode(kernel,
 								arg, Operation.MULTIPLY,
