@@ -5,10 +5,10 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 
 public class CenterImageModel extends BooleanOptionModel {
-	private boolean centered;
+	private boolean centerImage;
 	public CenterImageModel(IBooleanOptionListener listener, App app) {
 		super(listener, app);
-		centered = app.has(Feature.CENTER_IMAGE);
+		centerImage = app.has(Feature.CENTER_IMAGE);
 	}
 
 	private GeoImage getImageAt(int index) {
@@ -27,7 +27,7 @@ public class CenterImageModel extends BooleanOptionModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		return centered && getGeoAt(index) instanceof GeoImage;
+		return centerImage && getGeoAt(index) instanceof GeoImage;
 	}
 
 }

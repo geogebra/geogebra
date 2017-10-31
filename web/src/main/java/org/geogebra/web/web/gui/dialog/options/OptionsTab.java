@@ -1463,7 +1463,9 @@ public class OptionsTab extends FlowPanel {
 			mainPanel.add(corner1.getWidget());
 			mainPanel.add(corner2.getWidget());
 			mainPanel.add(corner4.getWidget());
-			mainPanel.add(center.getWidget());
+			if (center != null) {
+				mainPanel.add(center.getWidget());
+			}
 			setWidget(mainPanel);
 			corner1.setIcon(AppResources.INSTANCE.corner1());
 			corner2.setIcon(AppResources.INSTANCE.corner2());
