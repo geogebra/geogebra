@@ -1124,13 +1124,15 @@ public class GeoImage extends GeoElement implements Locateable,
 		} else {
 			uncenter();
 		}
-		setCornersVisible(!centered);
 		updateRepaint();
 	}
 
 	private void center() {
+		removeCorner(1);
+		removeCorner(2);
 		corners[CENTER_INDEX] = corners[0];
 		corners[0] = null;
+
 	}
 
 	private void uncenter() {
@@ -1138,14 +1140,13 @@ public class GeoImage extends GeoElement implements Locateable,
 		corners[CENTER_INDEX] = null;
 	}
 
-	private void setCornersVisible(boolean b) {
-		for (int i = 0; i < CENTER_INDEX; i++) {
-			GeoPoint p = corners[i];
-			if (p != null) {
-				p.setEuclidianVisible(b);
-				p.update();
-			}
+	private void removeCorner(int idx) {
+		if (corners[idx] == null) {
+			return;
 		}
+		setCorner(null, idx);
+		corners[idx].remove();
+		kernel.notifyRemove(corners[idx]);
 	}
 
 }
