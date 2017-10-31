@@ -3932,6 +3932,12 @@ public abstract class EuclidianController {
 		startCollectingMinorRepaints();
 
 		selection.clearLists();
+		clearSelectionsKeepLists(repaint, updateSelection);
+		stopCollectingMinorRepaints();
+	}
+
+	private void clearSelectionsKeepLists(boolean repaint,
+			boolean updateSelection) {
 		view.setBoundingBox(null);
 		view.setSelectionRectangle(null);
 		view.repaint();
@@ -3943,8 +3949,6 @@ public abstract class EuclidianController {
 
 		// clear highlighting
 		refreshHighlighting(null, false); // this may call repaint
-
-		stopCollectingMinorRepaints();
 	}
 
 	public final void clearSelected() {
@@ -10220,7 +10224,7 @@ public abstract class EuclidianController {
 		if (isDraggingOccuredBeyondThreshold()) {
 			if (!EuclidianView.usesSelectionRectangleAsInput(mode) && !right
 					&& mode != EuclidianConstants.MODE_SELECT) {
-					clearSelections();
+				clearSelectionsKeepLists(true, true);
 			}
 		} else {
 			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
