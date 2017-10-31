@@ -162,8 +162,8 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 				ve = ve.traverse(DegreeVariableReplacer
 						.getReplacer(equations2.getKernel()));
 				Log.debug("changing " + definition + " to "
-						+ ve.toString(StringTemplate.giacTemplate));
-				sb.append(ve.toString(StringTemplate.giacTemplate));
+						+ ve.toString(StringTemplate.prefixedDefault));
+				sb.append(ve.toString(StringTemplate.prefixedDefault));
 				return;
 			} catch (ParseException e) {
 				e.printStackTrace();
