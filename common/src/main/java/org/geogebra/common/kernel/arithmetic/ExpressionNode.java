@@ -1786,12 +1786,11 @@ public class ExpressionNode extends ValidExpression
 				if (tpl.getStringType().isGiac()) {
 					// brackets needed round FIRST argument for eg
 					// $1==$2 where $1=y=9 and $2=y=9
-					sb.append(
-							"when(" + CustomFunctions.IS_ZERO + "(simplify((");
+					sb.append(CustomFunctions.IS_ZERO + "(simplify((");
 					tpl.append(sb, leftStr, left, operation);
 					sb.append(")-(");
 					tpl.append(sb, rightStr, right, operation);
-					sb.append("))),true,false)");
+					sb.append(")))");
 				} else {
 
 					tpl.infixBinary(sb, left, right, operation, leftStr,
