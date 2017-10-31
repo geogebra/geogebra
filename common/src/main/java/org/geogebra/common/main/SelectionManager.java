@@ -862,20 +862,26 @@ public class SelectionManager {
 
 	private GeoElementND[] getSpecPoints(GeoElement[] geos0) {
 		specPoints = null;
-		GeoElementND[] specPoints2;
 		List<GeoElement> geos = (geos0 == null) ? selectedGeos
 				: Arrays.asList(geos0);
 
-		if (geos != null && geos.size() > 0) {
-			specPoints2 = getSpecPoints(geos.get(0));
-			if (specPoints2 != null) {
-				specPoints = new GeoElement[specPoints2.length];
-				for (int i = 0; i < specPoints2.length; i++) {
-					specPoints[i] = specPoints2[i].toGeoElement();
+		if (geos!=null){
+			ArrayList<GeoElementND> specPoints0 = new ArrayList<GeoElementND>();
+			for(int i = 0; i<geos.size(); i++){
+				GeoElementND[] sp = getSpecPoints(geos.get(i));
+				if (sp != null) {
+					specPoints0.addAll(Arrays.asList(sp));
+				}
+			}
+			if (specPoints0.size() > 0) {
+				specPoints = new GeoElement[specPoints0.size()];
+				for (int i = 0; i < specPoints0.size(); i++) {
+					specPoints[i] = specPoints0.get(i).toGeoElement();
 					specPoints[i].remove();
 				}
 			}
 		}
+
 		return specPoints;
 	}
 
