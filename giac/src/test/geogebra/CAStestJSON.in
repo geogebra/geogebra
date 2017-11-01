@@ -1,15 +1,3 @@
-caseval("init geogebra")
-errorfractionalPart(x):=sign(x)*(abs(x)-floor(abs(x)))
-is3dpoint(x):=when(size(x[1])==3 && subtype(x[1])==20,true,false)
-xcoord(a):=when(type(a)==DOM_IDENT,xcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][0],real(a[1])),when(a[0]=='=',coeff(a[1]-a[2],x,1),a[0])))
-ycoord(a):=when(type(a)==DOM_IDENT,ycoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][1],im(a[1])),when(a[0]=='=',coeff(a[1]-a[2],y,1),a[1])))
-zcoord(a):=when(type(a)==DOM_IDENT,zcoordsymb(a),when(a[0]=='pnt',when(is3dpoint(a),a[1][2],0),when(length(a)<3 && a[0] != '=',0,when(a[0]=='=',coeff(a[1]-a[2],z,1),a[2]))))
-degasin(x):=normal(asin(x)/pi*180)*unicode0176u
-degacos(x):=normal(acos(x)/pi*180)*unicode0176u
-degatan(x):=normal(atan(x)/pi*180)*unicode0176u
-degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u
-ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x))
-ggb_is_zero(x):=when(x==0,true,when(type(x)=='DOM_LIST',max(flatten({x,0}))==min(flatten({x,0}))&&min(flatten({x,0}))==0,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,false)))
 when((ggbtmpvarT'=(-((12/100)))*(ggbtmpvarT))[0]=='=',normal(map(desolve(ggbtmpvarT'=(-((12/100)))*(ggbtmpvarT),ggbtmpvart,ggbtmpvarT),(type(ggbtmpvarT)==DOM_IDENT)?(x->ggbtmpvarT=x):(x->y=x))[0]),normal(map(desolve(y'=ggbtmpvarT'=(-((12/100)))*(ggbtmpvarT),ggbtmpvart,ggbtmpvarT),(type(ggbtmpvarT)==DOM_IDENT)?(x->ggbtmpvarT=x):(x->y=x))[0]))
 when((y'=(y)*((2)-(y)))[0]=='=', when (size(lname(y'=(y)*((2)-(y))) intersect [x]) == 0 && size(lname(y'=(y)*((2)-(y))) intersect [y]) == 1 && size(lname(y'=(y)*((2)-(y))) minus [y]) > 0,normal(map(desolve(y'=(y)*((2)-(y)),x,y),x->y=x)[0]),normal(map(desolve(y'=(y)*((2)-(y))),x->y=x)[0])),normal(map(desolve(y'=y'=(y)*((2)-(y))),x->y=x)[0]))
 when((y'=(2)*(y))[0]=='=', when (size(lname(y'=(2)*(y)) intersect [x]) == 0 && size(lname(y'=(2)*(y)) intersect [y]) == 1 && size(lname(y'=(2)*(y)) minus [y]) > 0,normal(map(desolve(y'=(2)*(y),x,y),x->y=x)[0]),normal(map(desolve(y'=(2)*(y)),x->y=x)[0])),normal(map(desolve(y'=y'=(2)*(y)),x->y=x)[0]))
@@ -75,7 +63,7 @@ simplify(binomial(ggbtmpvarn,(ggbtmpvarn)-(1)))
 [[ggbderivarg0:=(ggbtmpvarf(x))*(ggbtmpvarg(x))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[[ggbderiv2arg0:=sin((2)*(ggbtmpvart))],[ggbderiv2arg1:=2]],when(type(ggbderiv2arg1)==DOM_INT,regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname(sin((2)*(ggbtmpvart)))[0],x),ggbderiv2arg1)),regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))][1]
 [[ggbderivarg0:=sec(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
-[[ggbderivarg0:=(x)*(igamma(ggbtmpvara, x,1))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
+caseval([[ggbderivarg0:=(x)*(igamma(ggbtmpvara, x,1))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1])
 [[ggbderivarg0:=Si(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=sinh(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=Beta(x, 2)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
@@ -727,7 +715,6 @@ simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))
 when ( type(simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0) == DOM_SYMBOLIC && type(x) == DOM_SYMBOLIC , (assume(x),solve(simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0,x))[size(assume(x),solve(simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0,x))-1] , when ( type(simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0) == DOM_IDENT && type(x) == DOM_SYMBOLIC && simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0 == 'x', (assume(x),solve(simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0=0,x))[size(assume(x),solve(simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0=0,x))-1] ,when ( size(x) == 1,flatten1(ggbsort(normal([op(solve(simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0,x))]))),ggbsort(normal([op(solve(simplify(regroup((1)/(((((x)^(2))+(x))-(1))/((x)-(1)))))=0,x))])) ) ) )
 [[ggbnumans:=[[ggblimvans:=?],[ggblimvans:=limit(((((x)^(2))+(x))-(1))/((x)-(1)),x,1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,evalf(ggbnumans),evalf(regroup(normal(ggbnumans))))][1]
 when ( type(((x)^(2) > 9 && x  <  0)) == DOM_SYMBOLIC && type(x) == DOM_SYMBOLIC , (assume(x),solve(((x)^(2) > 9 && x  <  0),x))[size(assume(x),solve(((x)^(2) > 9 && x  <  0),x))-1] , when ( type(((x)^(2) > 9 && x  <  0)) == DOM_IDENT && type(x) == DOM_SYMBOLIC && ((x)^(2) > 9 && x  <  0) == 'x', (assume(x),solve(((x)^(2) > 9 && x  <  0)=0,x))[size(assume(x),solve(((x)^(2) > 9 && x  <  0)=0,x))-1] ,when ( size(x) == 1,flatten1(ggbsort(normal([op(solve(((x)^(2) > 9 && x  <  0),x))]))),ggbsort(normal([op(solve(((x)^(2) > 9 && x  <  0),x))])) ) ) )
-poisson_icdf(5,rand(0,1))
 convert(factor((normal(coordinates(midpoint(point(ggbtmpvara,ggbtmpvarb),point(ggbtmpvarc,ggbtmpvard)))))),25)
 convert(factor((normal(coordinates(midpoint(point(1,2),point(3,4)))))),25)
 [[ggbrightarg0:={((ggbtmpvara)^(2))+((ggbtmpvarb)^(2))=(ggbtmpvarc)^(2), (x)+(2)=((3)*(x))+(1)}],when(type(ggbrightarg0)==DOM_LIST,map(ggbrightarg0,right),right(ggbrightarg0))][1]
@@ -744,7 +731,6 @@ normal(regroup(-diff((x)+((2)*(y)),x)/diff((x)+((2)*(y)),y)))
 normal(regroup(-diff(((x)+(y))+(5),x)/diff(((x)+(y))+(5),y)))
 if false=true then exp(-(10))*sum ((10)^k/k!,k,0,floor(8)) else normal((10)^(8)/factorial(floor(8))*exp(-10)) fi
 if true=true then exp(-(10))*sum ((10)^k/k!,k,0,floor(8)) else normal((10)^(8)/factorial(floor(8))*exp(-10)) fi
-[[ggbranarg0:=2],ggbranarg0+rand(3-(ggbranarg0)+1)][1]
 rectangular2polar((1)+((2)*(i)))
 rectangular2polar((1)+(i))
 normal(product((3)*(ggbtmpvarp),ggbtmpvarp,1,10))
@@ -904,7 +890,6 @@ ggbsort([[ggbnsans:=evalf(sin(x)=(x)+((1/10)))],[ggbnsans:=when(type(ggbnsans)==
 ggbsort([[ggbnsans:=evalf(cos(x)=x)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],ggbnsans][3],[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],ggbnsans][3])],ggbnsans][2])
 ggbsort([[ggbnsans:=evalf(sin(x))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],ggbnsans][3],[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],ggbnsans][3])],ggbnsans][2])
 igamma(6/2,3/2,1)
-randnorm(3,4)
 [[[ggbbinarg0:=10], [ggbbinarg1:=(2/10)], [ggbbinarg2:=seq(round(2),round(5),1)]],when(type(ggbbinarg2)==DOM_LIST,sum(seq(binomial(ggbbinarg0,ggbbinarg2[j],ggbbinarg1),j,0,length(ggbbinarg2)-1)),undef)][1]
 [[[ggbbinarg0:=3], [ggbbinarg1:=(9/10)], [ggbbinarg2:=1]],if true=true then binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2) else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]
 [[[ggbbinarg0:=20], [ggbbinarg1:=(1)/(2)], [ggbbinarg2:=3]],if true=true then binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2) else binomial(ggbbinarg0,ggbbinarg2,ggbbinarg1) fi][1]
@@ -1561,11 +1546,6 @@ isprime(10)
 isprime(2)
 isprime(-(10))
 isprime(((2)^(65))-(1))
-randperm({1, 22, 333, 4444, 55555, 666666, 7777777})
-flatten1(seq(rand(1,{1, 4, 5, 5, 5, 6, 7}),j,1,2))
-[[[ggbsamarg0:={1, 4, 6, 7}],[ggbsamarg1:=2]],if false=true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]
-[[[ggbsamarg0:={1, 2, 3, 4, 5, 6, 7}],[ggbsamarg1:=7]],if true=true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]
-flatten1(seq(rand(1,{1, 2, 3, 4}),j,1,4))
 transpose({{ggbtmpvara, ggbtmpvarb}, {ggbtmpvarc, ggbtmpvard}})
 transpose({{1, 2, 3}, {4, 5, 6}, {7, 8, 9}})
 transpose({{1, 2, 3}, {4, 5, -(1)}, {4, 5, 2}})
@@ -1574,7 +1554,6 @@ transpose({{1, 2, 3}, {4, 5, -(1)}, {4, 5, 2}})
 [op(set[op({1, x, x, 1, ggbtmpvara})])]
 when( (type((ggbtmpvaru)*(x)  <  ggbtmpvara) == DOM_SYMBOLIC || type((ggbtmpvaru)*(x)  <  ggbtmpvara) == DOM_LIST) && (type(x) == DOM_IDENT || type(x) == DOM_LIST) , (assume(ggbtmpvaru > 0),assume(ggbtmpvara > 0),solve((ggbtmpvaru)*(x)  <  ggbtmpvara,x))[size(assume(ggbtmpvaru > 0),assume(ggbtmpvara > 0),solve((ggbtmpvaru)*(x)  <  ggbtmpvara,x))-1] , ? )
 when( (type((ggbtmpvaru)*(x)  <  ggbtmpvara) == DOM_SYMBOLIC || type((ggbtmpvaru)*(x)  <  ggbtmpvara) == DOM_LIST) && (type(x) == DOM_IDENT || type(x) == DOM_LIST) , (assume(ggbtmpvaru > 0),solve((ggbtmpvaru)*(x)  <  ggbtmpvara,x))[size(assume(ggbtmpvaru > 0),solve((ggbtmpvaru)*(x)  <  ggbtmpvara,x))-1] , ? )
-binomial_icdf(10,(5/10),rand(0,1))
 [[[ggbevalarg:=(when(is3dpoint(point(1,2,3)),ggbvect[xcoord(point(1,2,3)),ycoord(point(1,2,3)),zcoord(point(1,2,3))],when((point(1,2,3))[0]=='pnt',ggbvect[xcoord(point(1,2,3)),ycoord(point(1,2,3))],when(im(point(1,2,3))==ggbvect[0,0],point(1,2,3),ggbvect[re(point(1,2,3)),im(point(1,2,3))]))))*(when(is3dpoint(point(4,5,6)),ggbvect[xcoord(point(4,5,6)),ycoord(point(4,5,6)),zcoord(point(4,5,6))],when((point(4,5,6))[0]=='pnt',ggbvect[xcoord(point(4,5,6)),ycoord(point(4,5,6))],when(im(point(4,5,6))==ggbvect[0,0],point(4,5,6),ggbvect[re(point(4,5,6)),im(point(4,5,6))]))))],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]], when(length(""+ggbevalans)<=length(""+ggbevalans2),ggbevalans,ggbevalans2)][1]
 [[[ggbcrossarg0:=when(is3dpoint(point(1,2,3)),ggbvect[xcoord(point(1,2,3)),ycoord(point(1,2,3)),zcoord(point(1,2,3))],when((point(1,2,3))[0]=='pnt',ggbvect[xcoord(point(1,2,3)),ycoord(point(1,2,3))],when(im(point(1,2,3))==ggbvect[0,0],point(1,2,3),ggbvect[re(point(1,2,3)),im(point(1,2,3))])))], [ggbcrossarg1:=when(is3dpoint(point(4,5,6)),ggbvect[xcoord(point(4,5,6)),ycoord(point(4,5,6)),zcoord(point(4,5,6))],when((point(4,5,6))[0]=='pnt',ggbvect[xcoord(point(4,5,6)),ycoord(point(4,5,6))],when(im(point(4,5,6))==ggbvect[0,0],point(4,5,6),ggbvect[re(point(4,5,6)),im(point(4,5,6))])))]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]
 [[[ggbevalarg:=(when(is3dpoint(point(1,2,3)),ggbvect[xcoord(point(1,2,3)),ycoord(point(1,2,3)),zcoord(point(1,2,3))],when((point(1,2,3))[0]=='pnt',ggbvect[xcoord(point(1,2,3)),ycoord(point(1,2,3))],when(im(point(1,2,3))==ggbvect[0,0],point(1,2,3),ggbvect[re(point(1,2,3)),im(point(1,2,3))]))))/(5)],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]], when(length(""+ggbevalans)<=length(""+ggbevalans2),ggbevalans,ggbevalans2)][1]
@@ -1614,8 +1593,6 @@ when(is3dpoint(point(point(1,2,3)+point(4,5,6))),ggbvect[xcoord(point(point(1,2,
 [[[ggbevalarg:=[[[ggbcrossarg0:=point(1,2)], [ggbcrossarg1:=point(3,4,0)]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]],[ggbevalans:=regroup(normal(ggbevalarg))],[ggbevalans2:=regroup(ggbevalarg)]], when(length(""+ggbevalans)<=length(""+ggbevalans2),ggbevalans,ggbevalans2)][1]
 [[ggblinearg0:=point(1,2)],[ggblinearg1:=when(is3dpoint(point(3,4)),ggbvect[xcoord(point(3,4)),ycoord(point(3,4)),zcoord(point(3,4))],when((point(3,4))[0]=='pnt',ggbvect[xcoord(point(3,4)),ycoord(point(3,4))],when(im(point(3,4))==ggbvect[0,0],point(3,4),ggbvect[re(point(3,4)),im(point(3,4))])))],when(is3dpoint(ggblinearg0),when(is3dpoint(ggblinearg1),regroup(equation(cat("y=",ggblinearg0,"+λ*",point(xcoord(ggblinearg1-ggblinearg0),ycoord(ggblinearg1-ggblinearg0),zcoord(ggblinearg1-ggblinearg0))))),equation(cat("y=",ggblinearg0,"+λ*",point(ggblinearg1[0],ggblinearg1[1],when(size(ggblinearg1) == 3,ggblinearg1[2],0))))),regroup(equation(line(ggblinearg0,ggblinearg1))))][2]
 [[[ggbcrossarg0:=when(is3dpoint(point(1,2,3)),ggbvect[xcoord(point(1,2,3)),ycoord(point(1,2,3)),zcoord(point(1,2,3))],when((point(1,2,3))[0]=='pnt',ggbvect[xcoord(point(1,2,3)),ycoord(point(1,2,3))],when(im(point(1,2,3))==ggbvect[0,0],point(1,2,3),ggbvect[re(point(1,2,3)),im(point(1,2,3))])))], [ggbcrossarg1:=when(is3dpoint(point(4,5)),ggbvect[xcoord(point(4,5)),ycoord(point(4,5)),zcoord(point(4,5))],when((point(4,5))[0]=='pnt',ggbvect[xcoord(point(4,5)),ycoord(point(4,5))],when(im(point(4,5))==ggbvect[0,0],point(4,5),ggbvect[re(point(4,5)),im(point(4,5))])))]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]
-randpoly(10,y,-(10),10)
-randpoly(10,x,-(10),10)
 [[ggblimvans:=?],[ggblimvans:=limit((-(1))/(x),x,0,1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
 [[ggblimvans:=?],[ggblimvans:=limit((1)/(x),x,0,1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
 [[ggblimvans:=?],[ggblimvans:=limit(when(x > 1,(x)^(2),(-(2))*(x)),x,1,1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
@@ -1703,7 +1680,6 @@ seq(seq(ggbtmpvari,ggbtmpvari,1,ggbtmpvarj),ggbtmpvarj,1,5)
 seq((ggbtmpvari)^(2),ggbtmpvari,1,10)
 seq((x)^(ggbtmpvari),ggbtmpvari,1,10)
 seq(round((32/10)),round(-(2)),1)
-seq(seq([[ggbranarg0:=0],ggbranarg0+rand(5-(ggbranarg0)+1)][1],ggbtmpvari,1,5),ggbtmpvarj,1,5)
 seq((ggbtmpvari)^(2),ggbtmpvari,1,10,(1)/(2))
 when(round((6/10))<1,{},seq(1,round((6/10)),1))
 seq(round(-((32/10))),round((32/10)),1)
@@ -1716,4 +1692,3 @@ when(round(1)<1,{},seq(1,round(1),1))
 [[ggbvars:=lname(5)],[ggbvar:=when(size(ggbvars)==0,x,ggbvars[0])], when(ggbvar>=0 && ggbvar<=1, 5, undef)][2]
 [[ggbvars:=lname(sin(x))],[ggbvar:=when(size(ggbvars)==0,x,ggbvars[0])], when(ggbvar>=0 && ggbvar<=(2)*(pi), sin(x), undef)][2]
 [[ggbvars:=lname(sin(ggbtmpvarp))],[ggbvar:=when(size(ggbvars)==0,x,ggbvars[0])], when(ggbvar>=0 && ggbvar<=(2)*(pi), sin(ggbtmpvarp), undef)][2]
-rand(1,{4, 5})[0]
