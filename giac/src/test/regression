@@ -71,6 +71,8 @@ while getopts "tT:rfhHIsjn" OPT; do
  esac
 done
 
+export MINIGIAC # for the awk script below (intelligent diff)
+
 # Put name of the filters into $@
 shift $((OPTIND-1))
 
@@ -123,21 +125,42 @@ find $FOLDER -name '*.in' | while read IN; do
     mkdir -p `dirname $SAVEDIR/$OUT`
     fi
    if [ "$REGRESSION" = 1 ]; then
+    TESTOK=1
     diff -u $OUT $SAVEDIR/$OUT > $SAVEDIR/$OUT.diff
     if [ -s $SAVEDIR/$OUT.diff ]; then
-     BAD=`cat $SAVEDIR/.bad`
-     BAD=$((BAD+1))
-     echo $BAD > $SAVEDIR/.bad
-     log "Regression found in $OUT:"
-     cat $SAVEDIR/$OUT.diff
-    else
+    # intelligent diff (via giac)
+     diff $OUT $SAVEDIR/$OUT | awk '{
+      if ($1=="<") { inline = $2; inres = substr($0,3+length($2)+1); }
+      else if ($1==">") { outline = $2; outres = substr($0,3+length($2)+1);
+       cascommand = inres "==" outres
+       syscommand = ENVIRON["MINIGIAC"] " -m"
+       "echo \"" cascommand "\" | " syscommand " 2>&1 | tail -1" | getline check
+       if (check!="1<< true") {
+        print ed;
+        print "< " inline " " inres;
+        print "---";
+        print "> " outline " " outres;
+        }
+       }
+      else if ($1!="---") { ed = $0; }
+     }' > $SAVEDIR/$OUT-2.diff
+     if [ -s $SAVEDIR/$OUT-2.diff ]; then
+      BAD=`cat $SAVEDIR/.bad`
+      BAD=$((BAD+1))
+      echo $BAD > $SAVEDIR/.bad
+      log "Regression found in $OUT:"
+      cat $SAVEDIR/$OUT-2.diff
+      TESTOK=0
+      fi # regression found
+     fi # intelligent diff
+    if [ "$TESTOK" = 1 ]; then
      GOOD=`cat $SAVEDIR/.good`
      GOOD=$((GOOD+1))
      echo $GOOD > $SAVEDIR/.good
      rm $SAVEDIR/$OUT $SAVEDIR/$OUT.diff # cleaning up
-     fi
-    fi
-   fi
+     fi # test ok
+    fi # regression test run
+   fi # test should not be ignored
   fi
  done
 
