@@ -2144,11 +2144,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return > for this string type
 	 */
 	public String greaterSign() {
-		if (hasType(StringType.LATEX)) {
-			if (isInsertLineBreaks()) {
-				return "\\-\\gt";
-			}
-			return "\\gt";
+		if (hasType(StringType.LATEX) && isInsertLineBreaks()) {
+			return "\\->";
 		}
 		return ">";
 	}
@@ -2157,11 +2154,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return < for this string type
 	 */
 	public String lessSign() {
-		if (hasType(StringType.LATEX)) {
-			if (isInsertLineBreaks()) {
-				return "\\-\\lt";
-			}
-			return "\\lt";
+		if (hasType(StringType.LATEX) && isInsertLineBreaks()) {
+			return "\\-<";
 		}
 		return "<";
 	}
