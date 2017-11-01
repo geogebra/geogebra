@@ -134,17 +134,18 @@ find $FOLDER -name '*.in' | while read IN; do
       else if ($1==">") { outline = $2; outres = substr($0,3+length($2)+1);
        cascommand = "caseval(\\\"init geogebra\\\");\nsort(" inres ")==sort(" outres ")";
        giaccommand = ENVIRON["MINIGIAC"] " -m";
-       system("/bin/echo -e \"" cascommand "\" > /tmp/regression.tmp")
-       syscommand = giaccommand " 2>&1 </tmp/regression.tmp | tail -1";
+       system("/bin/echo -e \"" cascommand "\" > /tmp/giac.in");
+       system(giaccommand " 2>&1 </tmp/giac.in >/tmp/giac.out");
+       syscommand = "tail -1 /tmp/giac.out";
        syscommand | getline check;
        close(syscommand);
-       syscommand("rm /tmp/regression.tmp");
-       if (index(check,"true")==0) {
+       if (index(check,"2<< true")==0) {
         print ed;
         print "< " inline " " inres;
         print "---";
         print "> " outline " " outres;
         }
+       system("rm /tmp/giac.in /tmp/giac.out");
        }
       else if ($1!="---") { ed = $0; }
      }' > $SAVEDIR/$OUT-2.diff
