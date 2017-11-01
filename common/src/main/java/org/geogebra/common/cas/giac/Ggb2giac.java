@@ -919,8 +919,12 @@ public class Ggb2giac {
 		p("Min.N",
 				"[[ggbminarg:=%],when(type(ggbminarg)==DOM_LIST,when(type((ggbminarg)[0])==DOM_LIST,?,min(ggbminarg)),?)][1]");
 		p("MixedNumber.1", "propfrac(%0)");
+
+		// need to use %0, %1 repeatedly (not using an intermediate variable)
+		// see GGB-2184
+		// eg Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Mod.2",
-				"[[[ggbmodarg0:=%0],[ggbmodarg1:=%1]],if type(ggbmodarg0)==DOM_INT&&type(ggbmodarg1)==DOM_INT then irem(ggbmodarg0,ggbmodarg1) else rem(ggbmodarg0,ggbmodarg1,x) fi][1]");
+				"when(lname(%0)==lname(%1) && lname(%0)!={}, rem(%0,%1,x), irem(%0,%1))");
 		p("NextPrime.1", "nextprime(%0)");
 		p("NIntegral.3", "gaussquad(%%0,%%1,%%2)");
 		p("NIntegral.4", "gaussquad(%%0,%%1,%%2,%%3)");
@@ -1201,8 +1205,10 @@ public class Ggb2giac {
 		// don't work
 		// Sum[Sum[x+2y,x,1,3],y,2,4]
 		// expand added for Sum[2+3(n-1),n,1,n]
+		// quote() needed for GGB-2184
+		// Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Sum.4",
-				"expand(subst(sum(subst(%0,%1,ggbsumvar@1),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
+				"expand(subst(sum(subst(quote(%0),%1,ggbsumvar@1),ggbsumvar@1,%2,%3),ggbsumvar@1,%1))");
 
 		// svd = singular value decomposition
 		// svd(M)=[U,S,V]
