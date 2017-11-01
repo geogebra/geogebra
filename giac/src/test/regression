@@ -134,9 +134,11 @@ find $FOLDER -name '*.in' | while read IN; do
       else if ($1==">") { outline = $2; outres = substr($0,3+length($2)+1);
        cascommand = "caseval(\\\"init geogebra\\\");\nsort(" inres ")==sort(" outres ")";
        giaccommand = ENVIRON["MINIGIAC"] " -m";
-       syscommand = "/bin/echo -e \"" cascommand "\" | " giaccommand " 2>&1 | tail -1";
+       system("/bin/echo -e \"" cascommand "\" > /tmp/regression.tmp")
+       syscommand = giaccommand " 2>&1 </tmp/regression.tmp | tail -1";
        syscommand | getline check;
        close(syscommand);
+       syscommand("rm /tmp/regression.tmp");
        if (index(check,"true")==0) {
         print ed;
         print "< " inline " " inres;
