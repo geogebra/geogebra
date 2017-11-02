@@ -32,7 +32,7 @@ public class SingularWebService {
 	private boolean fastConn;
 
 	private final static String[] SINGULAR_LIB_GROBCOVs = {
-			"/home/singularws/grobcov-20170620",
+			// "/home/singularws/grobcov-20170620",
 			"grobcov",
 			"grobcovG",
 			"grobcovF2m", "grobcovC1", "grobcovC0" };
