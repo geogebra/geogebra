@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles rotated texts
@@ -140,9 +139,7 @@ public class AlgoRotateText extends AlgoElement {
 		if (!latex) {
 			sbuilder.append("\\text{ ");
 			// eg change \n to \cr
-			Log.error("before = " + s);
 			s = StringUtil.convertToLaTeX(s);
-			Log.error("after  = " + s);
 		}
 		sbuilder.append(s);
 		if (!latex) {
