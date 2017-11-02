@@ -1026,6 +1026,9 @@ public class InputController {
 			} else if (meta.isOperator("" + ch)) {
 				newOperator(editorState, ch);
 				handled = true;
+			} else if (ch == 3 || ch == 22) {
+				// invisible characters on MacOS
+				handled = true;
 			} else if (meta.isSymbol("" + ch)) {
 				newSymbol(editorState, ch);
 				handled = true;

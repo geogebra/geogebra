@@ -31,7 +31,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.himamis.retex.editor.share.util.Unicode;
-import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Web implementation of onscreen keyboard
@@ -82,7 +81,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	
 	@Override
 	public void show() {
-		FactoryProvider.getInstance().debug("Keyboard wanted");
 		this.keyboardWanted = true;
 		checkLanguage();
 		setVisible(true);
