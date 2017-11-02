@@ -195,7 +195,9 @@ public class SliderPanel extends JPanel
 		tLabels[0].setText(loc.getMenu("min") + ":");
 		tLabels[1].setText(loc.getMenu("max") + ":");
 		tLabels[2].setText(loc.getMenu("Width") + ":");
-		tLabels[3].setText(loc.getMenu("Size") + ":");
+		if (tLabels.length > 3) {
+			tLabels[3].setText(loc.getMenu("Size") + ":");
+		}
 
 		model.setLabelForWidthUnit();
 
