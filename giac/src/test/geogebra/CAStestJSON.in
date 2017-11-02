@@ -96,7 +96,6 @@ ggbtmpvarf(x)
 [[ggbderivarg0:=Gamma(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=exp(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=(x)*(fractionalPart(x))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
-comment("[[ggbderivarg0:=(x)*(Beta(ggbtmpvara, ggbtmpvarb, x,1))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]")
 [[ggbderivarg0:=coth(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=erf(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
 [[ggbderivarg0:=point(ggbtmpvart,sin(ggbtmpvart))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]
@@ -429,7 +428,6 @@ igamma((7),(9)/(8),1)
 [[ggblimvans:=?],[ggblimvans:=limit((3)^(ggbtmpvarn),inf)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
 [[ggblimvans:=?],[ggblimvans:=limit((1)/(ggbtmpvark),ggbtmpvark,0)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
 [[ggblimvans:=?],[ggblimvans:=limit((exp(x))-((x)^(2)),inf)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
-[[ggblimvans:=?],[ggblimvans:=limit((((2)*(sin(x)))+(1))/((sin(x))+(1)),inf)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
 [[ggblimvans:=?],[ggblimvans:=limit(cos(x),inf)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
 [[ggblimvans:=?],[ggblimvans:=limit((sin(x))*(exp(x)),x,inf)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
 [[ggblimvans:=?],[ggblimvans:=limit((sin(x))/(x),0)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]
