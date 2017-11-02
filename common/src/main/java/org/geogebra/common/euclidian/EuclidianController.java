@@ -3939,7 +3939,6 @@ public abstract class EuclidianController {
 	private void clearSelectionsKeepLists(boolean repaint,
 			boolean updateSelection) {
 		view.setBoundingBox(null);
-		view.setSelectionRectangle(null);
 		view.repaint();
 		selection.clearSelectedGeos(repaint, updateSelection);
 
@@ -3954,6 +3953,11 @@ public abstract class EuclidianController {
 	public final void clearSelected() {
 		selection.clearLists();
 		view.repaintView();
+	}
+	
+	public void clearSelectionAndRectangle() {
+		clearSelections();
+		view.setSelectionRectangle(null);
 	}
 
 	final protected boolean attachDetach(Hits hits, boolean selPreview) {

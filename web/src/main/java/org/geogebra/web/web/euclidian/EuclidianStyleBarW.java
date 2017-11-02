@@ -637,7 +637,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				}
 
 				app.getActiveEuclidianView().getEuclidianController()
-							.clearSelections();
+							.clearSelectionAndRectangle();
 			}
 		};
 		btnDelete.addFastClickHandler(btnDelHandler);
