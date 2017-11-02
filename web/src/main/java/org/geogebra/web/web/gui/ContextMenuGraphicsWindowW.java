@@ -207,7 +207,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		wrappedPopup.addItem(snapToGrid);
 	}
 
-	public void addAxesMenuItem() {
+	/**
+	 * add axes menu item with check mark
+	 */
+	protected void addAxesMenuItem() {
 		String img = MaterialDesignResources.INSTANCE.axes_black()
 					.getSafeUri().asString();
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(

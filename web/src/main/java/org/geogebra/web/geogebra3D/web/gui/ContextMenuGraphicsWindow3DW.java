@@ -270,7 +270,8 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		 *            type of projection
 		 */
 		public void addProjectionMenuItemForType(final int projectionType) {
-			String text = "", img = "";
+			String text = "";
+			String img = "";
 			switch (projectionType) {
 			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
 				text = "stylebar.OrthographicProjection";
