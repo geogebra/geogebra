@@ -95,6 +95,7 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -3444,6 +3445,11 @@ public class MyXMLHandler implements DocHandler {
 				if (casMap != null && geo instanceof CasEvaluableFunction) {
 					((CasEvaluableFunction) geo).updateCASEvalMap(casMap);
 				}
+
+				if (app.has(Feature.CENTER_IMAGE) && geo.isGeoImage()
+						&& ((GeoImage) geo).isCentered()) {
+					((GeoImage) geo).setCentered(true);
+				}
 				casMap = null;
 				constMode = MODE_CONSTRUCTION;
 			}
@@ -3787,6 +3793,9 @@ public class MyXMLHandler implements DocHandler {
 					break;
 				} else if ("isShape".equals(eName)) {
 					ok = handleIsShape(attrs);
+					break;
+				} else if ("centered".equals(eName)) {
+					ok = handleCentered(attrs);
 					break;
 				}
 
@@ -4876,6 +4885,19 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
+	private boolean handleCentered(LinkedHashMap<String, String> attrs) {
+		if (!(geo.isGeoImage())) {
+			Log.error("wrong element type for <centered>: " + geo.getClass());
+			return false;
+		}
+
+		try {
+			((GeoImage) geo).setCentered(parseBoolean(attrs.get("val")));
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
 	private boolean handleInterpolate(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoImage())) {
 			Log.error(

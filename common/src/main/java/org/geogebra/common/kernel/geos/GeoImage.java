@@ -571,6 +571,11 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		// locateion of image
+
+		if (isCentered()) {
+			sb.append("\t<centered val=\"true\"/>\n");
+		}
+
 		if (hasAbsoluteScreenLocation) {
 			sb.append(getXMLabsScreenLoc());
 		} else {
