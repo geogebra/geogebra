@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 public class SliderModel extends OptionsModel {
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
@@ -23,6 +24,8 @@ public class SliderModel extends OptionsModel {
 		void setMaxText(final String text);
 
 		void setWidthText(final String text);
+
+		void setBlobSizeText(final String text);
 
 		void setWidthUnitText(final String text);
 
@@ -66,6 +69,7 @@ public class SliderModel extends OptionsModel {
 		boolean equalMax = true;
 		boolean equalMin = true;
 		boolean equalWidth = true;
+		boolean equalBlobSize = true;
 		boolean equalSliderFixed = true;
 		boolean random = true;
 		boolean equalSliderHorizontal = true;
@@ -91,6 +95,10 @@ public class SliderModel extends OptionsModel {
 			}
 			if (!Kernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth())) {
 				equalWidth = false;
+			}
+			if (!Kernel.isEqual(num0.getSliderBlobSize(),
+					temp.getSliderBlobSize())) {
+				equalBlobSize = false;
 			}
 			if (num0.isSliderFixed() != temp.isSliderFixed()) {
 				equalSliderFixed = false;
@@ -151,6 +159,11 @@ public class SliderModel extends OptionsModel {
 			}
 		} else {
 			listener.setMaxText("");
+		}
+		if (equalBlobSize
+				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+			listener.setBlobSizeText(
+					kernel.format(num0.getSliderBlobSize(), highPrecision));
 		}
 
 		setLabelForWidthUnit();
@@ -246,6 +259,15 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			num.setSliderWidth(value);
+			num.updateRepaint();
+		}
+		storeUndoInfo();
+	}
+
+	public void applyBlobSize(double value) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoNumeric num = getNumericAt(i);
+			num.setSliderBlobSize(value);
 			num.updateRepaint();
 		}
 		storeUndoInfo();

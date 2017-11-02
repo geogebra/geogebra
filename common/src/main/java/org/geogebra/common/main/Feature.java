@@ -279,6 +279,9 @@ public enum Feature {
 	CENTER_IMAGE,
 
 	/** GGB-2183 hange sin(15) -> sin(15deg) */
-	AUTO_ADD_DEGREE
+	AUTO_ADD_DEGREE,
+
+	/** GGB-2170 for k12 */
+	SLIDER_STYLE_OPTIONS
 }
 

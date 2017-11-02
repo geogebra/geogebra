@@ -51,10 +51,10 @@ public class DrawSlider extends Drawable {
 	// private GeoPointND P;
 
 	// now hard-coded
-	final private static int pointSize = 5;
-	final private static int diameter = 2 * pointSize + 1;
-	final private static int HIGHLIGHT_OFFSET = pointSize / 2 + 1;
-	final private static int hightlightDiameter = diameter
+	private static int diameter = 2 * GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE + 1;
+	private static int HIGHLIGHT_OFFSET = GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE
+			/ 2 + 1;
+	private static int hightlightDiameter = diameter
 			+ 2 * HIGHLIGHT_OFFSET;
 
 	// for dot and selection
@@ -150,7 +150,7 @@ public class DrawSlider extends Drawable {
 				updatePoint(coordsRW[0], coordsRW[1] + widthRW * param);
 				if (labelVisible) {
 					this.xLabel += 5;
-					this.yLabel += 2 * pointSize + 4;
+					this.yLabel += 2 * number.getSliderBlobSize() + 4;
 				}
 				this.line.setLine(coordsScreen[0], coordsScreen[1],
 						coordsScreen[0], coordsScreen[1] - widthScreen);
@@ -306,9 +306,12 @@ public class DrawSlider extends Drawable {
 		// convert to screen
 		view.toScreenCoords(coords);
 
-		double xUL = (coords[0] - pointSize);
-		double yUL = (coords[1] - pointSize);
+		double xUL = (coords[0] - number.getSliderBlobSize());
+		double yUL = (coords[1] - number.getSliderBlobSize());
 
+		diameter = 2 * (int) number.getSliderBlobSize() + 1;
+		HIGHLIGHT_OFFSET = (int) number.getSliderBlobSize() / 2 + 1;
+		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
 		if (xUL + diameter < 0 || xUL > view.getWidth() || yUL + diameter < 0
@@ -329,7 +332,7 @@ public class DrawSlider extends Drawable {
 		if (labelVisible) {
 			labelDesc = geo.getLabelDescription();
 			xLabel = (int) Math.round(coords[0] + 4);
-			yLabel = (int) Math.round(yUL - pointSize);
+			yLabel = (int) Math.round(yUL - number.getSliderBlobSize());
 			addLabelOffsetEnsureOnScreen(view.getFontPoint());
 		}
 	}

@@ -83,6 +83,8 @@ public class GeoNumeric extends GeoElement
 	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
 	/** default slider width in pixels */
 	public final static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
+	/** default slider blob size */
+	public final static int DEFAULT_SLIDER_BLOB_SIZE = 5;
 	/**
 	 * Default width of angle slider in pixels
 	 * 
@@ -116,6 +118,7 @@ public class GeoNumeric extends GeoElement
 	private NumberValue intervalMax;
 	private double sliderWidth = this instanceof GeoAngle
 			? DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE : DEFAULT_SLIDER_WIDTH_PIXEL;
+	private double sliderBlobSize = DEFAULT_SLIDER_BLOB_SIZE;
 	private SliderPosition sliderPos;
 	private boolean sliderFixed = false;
 	private boolean sliderHorizontal = true;
@@ -961,6 +964,21 @@ public class GeoNumeric extends GeoElement
 	}
 
 	/**
+	 * Changes slider blob size in pixels
+	 * 
+	 * @param blobSize
+	 *            slider blob size in pixels
+	 */
+	public final void setSliderBlobSize(double blobSize) {
+		if (blobSize > 0 && !Double.isInfinite(blobSize)) {
+			// if (getOrigSliderWidth() == null) {
+			// setOrigSliderWidth(blobSize);
+			// }
+		}
+		sliderBlobSize = blobSize;
+	}
+
+	/**
 	 * Sets the location of the slider for this number.
 	 * 
 	 * @param x
@@ -1012,6 +1030,15 @@ public class GeoNumeric extends GeoElement
 	 */
 	public final double getSliderWidth() {
 		return sliderWidth;
+	}
+
+	/**
+	 * Returns slider blob size
+	 * 
+	 * @return slider blob size
+	 */
+	public double getSliderBlobSize() {
+		return sliderBlobSize;
 	}
 
 	/**

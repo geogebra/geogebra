@@ -40,6 +40,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private SliderModel model;
 	private AngleTextFieldW tfMin, tfMax;
 	private AutoCompleteTextFieldW tfWidth;
+	private AutoCompleteTextFieldW tfBlobSize;
+	private Label blobSizeLabel;
 	private Label minLabel;
 	private Label maxLabel;
 	private Label widthLabel;
@@ -174,14 +176,20 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			}
 		});
 
+		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
+			createBlobSizeTextField(app);
+		}
+
 		maxLabel = new Label();
 		minLabel = new Label();
 		widthLabel = new Label();
 		widthUnitLabel = new Label();
+		blobSizeLabel = new Label();
 		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
 			maxLabel.setStyleName("coloredLabel");
 			minLabel.setStyleName("coloredLabel");
 			widthLabel.setStyleName("coloredLabel");
+			blobSizeLabel.setStyleName("coloredLabel");
 		}
 
 		FlowPanel minPanel = new FlowPanel();
@@ -208,6 +216,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		}
 
 		sliderPanel.add(widthPanel);
+		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
+			FlowPanel blobSizePanel = new FlowPanel();
+			blobSizePanel.setStyleName("sliderWidthPanel");
+			blobSizePanel.add(blobSizeLabel);
+			blobSizePanel.add(tfBlobSize);
+			sliderPanel.add(blobSizePanel);
+		}
 
 		// add increment to intervalPanel
 		stepPanel = new AnimationStepPanelW(app);
@@ -221,6 +236,28 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		setLabels();
 	}
 
+	private void createBlobSizeTextField(AppW app) {
+		tfBlobSize = new AutoCompleteTextFieldW(8, app);
+		tfBlobSize.removeSymbolTable();
+		tfBlobSize.addKeyHandler(new KeyHandler() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					applyBlobSize();
+				}
+			}
+		});
+		tfBlobSize.enableGGBKeyboard();
+		tfBlobSize.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				applyBlobSize();
+			}
+		});
+	}
+
 	@Override
 	public OptionPanel updatePanel(Object[] geos) {
 		stepPanel.updatePanel(geos);
@@ -230,17 +267,19 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 	protected void applyMin() {
 		model.applyMin(getNumberFromInput(tfMin.getText().trim()));
-
 	}
 
 	protected void applyMax() {
 		model.applyMax(getNumberFromInput(tfMax.getText().trim()));
-
 	}
 
 	protected void applyWidth() {
 		model.applyWidth(getNumberFromInput(tfWidth.getText().trim()).getDouble());
+	}
 
+	protected void applyBlobSize() {
+		model.applyBlobSize(
+				getNumberFromInput(tfBlobSize.getText().trim()).getDouble());
 	}
 
 	private void initPanels() {
@@ -294,6 +333,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		minLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("min") : loc.getMenu("min") +  ":");
 		maxLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("max") :loc.getMenu("max") + ":");
 		widthLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("Width"):loc.getMenu("Width") + ":");
+		blobSizeLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
+				? loc.getMenu("Blob Size") : loc.getMenu("Blob Size") + ":");
 
 		model.setLabelForWidthUnit();
 
@@ -329,6 +370,11 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	@Override
 	public void setWidthText(String text) {
 		tfWidth.setText(text);
+	}
+
+	@Override
+	public void setBlobSizeText(String text) {
+		tfBlobSize.setText(text);
 	}
 
 	@Override

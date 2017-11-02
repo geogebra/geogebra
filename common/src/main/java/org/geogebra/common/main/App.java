@@ -4308,6 +4308,10 @@ public abstract class App implements UpdateSelection {
 			return prerelease
 					&& getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE;
 
+		/** GGB-2170 */
+		case SLIDER_STYLE_OPTIONS:
+			return false;
+
             default:
                 Log.debug("missing case in Feature: " + f);
                 return false;
