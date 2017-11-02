@@ -115,28 +115,32 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            point to show popup
 	 */
 	public final void show(GPoint p) {
-		int top = (int) (p.getY() - (app.getPanel().getAbsoluteTop()
-				/ app.getArticleElement().getScaleY()));
-		int left = (int) (p.getX() - (app.getPanel().getAbsoluteLeft()
-				/ app.getArticleElement().getScaleX()));
+		double yOffset =  app.getPanel().getAbsoluteTop()
+				/ getScaleY();
+		double xOffset = app.getPanel().getAbsoluteLeft()
+				/ getScaleX();
+		int top = (int) (p.getY() - yOffset);
+		int left = (int) (p.getX() - xOffset);
 		boolean newPoz = false;
 		showAtPoint(left, top);
-		if (left + popupPanel.getOffsetWidth()
-		        * app.getArticleElement().getScaleX() > Window.getClientWidth()
-		        + Window.getScrollLeft()) {
-			left = Window.getClientWidth() - popupPanel.getOffsetWidth()
-			        + Window.getScrollLeft();
+		if ((p.getX() + popupPanel.getOffsetWidth())
+				* getScaleX() > Window.getClientWidth()
+						+ Window.getScrollLeft()) {
+			left = (int) ((Window.getClientWidth() + Window.getScrollLeft())
+					/ getScaleX() - xOffset
+					- popupPanel.getOffsetWidth());
 			newPoz = true;
 		}
-		if (top + popupPanel.getOffsetHeight()
-		        * app.getArticleElement().getScaleY() > Window
-		        .getClientHeight() + Window.getScrollTop()) {
-			top = Window.getClientHeight() - popupPanel.getOffsetHeight()
-			        + Window.getScrollTop();
+		if ((p.getY() + popupPanel.getOffsetHeight())
+				* getScaleY() > Window.getClientHeight()
+						+ Window.getScrollTop()) {
+			top = (int) (((Window.getClientHeight() + Window.getScrollTop()))
+					/ getScaleY() - yOffset
+					- popupPanel.getOffsetHeight());
 			newPoz = true;
 		}
 
-		if (newPoz || !Kernel.isEqual(1, app.getArticleElement().getScaleX())) {
+		if (newPoz || !Kernel.isEqual(1, getScaleX())) {
 			popupPanel.setPopupPosition(left, top);
 			// App.debug(left + "x" + top);
 		}
@@ -167,10 +171,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	public void show(Canvas c, int x, int y) {
 		show(new GPoint(
-		        (int) (c.getAbsoluteLeft()
-						/ app.getArticleElement().getScaleX()
-						+ x),
-		        (int) (c.getAbsoluteTop() / app.getArticleElement().getScaleY() + y)));
+				(int) (c.getAbsoluteLeft() / getScaleX() + x),
+				(int) (c.getAbsoluteTop() / getScaleY() + y)));
 	}
 
 	/**
@@ -343,10 +345,14 @@ public class GPopupMenuW implements AttachedToDOM {
 							xCord = getLeftSubPopupXCord();
 						}
 					}
-					yCord = Math.min(
-							newItem.getAbsoluteTop()
-									- getApp().getPanel().getAbsoluteTop(),
-					        Window.getClientHeight() - getSubPopupHeight());
+					yCord = (int) Math.min(
+							(newItem.getAbsoluteTop()
+									- getApp().getPanel().getAbsoluteTop())
+									/ getScaleY(),
+							(Window.getClientHeight() + Window.getScrollTop()
+									- getApp().getPanel().getAbsoluteTop())
+									/ getScaleY()
+									- getSubPopupHeight());
 					subPopup.showAtPoint(xCord, yCord);
 				}
 			};
@@ -367,6 +373,14 @@ public class GPopupMenuW implements AttachedToDOM {
 		popupMenuSize++;
 
 		item.addStyleName("gPopupMenu_item");
+	}
+
+	protected double getScaleY() {
+		return app.getArticleElement().getScaleY();
+	}
+
+	protected double getScaleX() {
+		return app.getArticleElement().getScaleX();
 	}
 
 	/**
@@ -410,8 +424,9 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	public int getLeftSubPopupXCord() {
 		int xCord;
-		xCord = popupPanel.getAbsoluteLeft() - getSubPopupWidth()
-				- app.getPanel().getAbsoluteLeft();
+		xCord = (int) ((popupPanel.getAbsoluteLeft()
+				- app.getPanel().getAbsoluteLeft())
+				/ getScaleX() - getSubPopupWidth());
 		return xCord;
 	}
 
@@ -423,10 +438,10 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @return submenu's left position in pixels
 	 */
 	public int getRightSubPopupXCord() {
-		return popupPanel.getAbsoluteLeft()
-		        + (int) (popupPanel.getOffsetWidth() * app.getArticleElement()
-						.getScaleX())
-				- app.getPanel().getAbsoluteLeft();
+		return (int) ((popupPanel.getAbsoluteLeft()
+				- app.getPanel().getAbsoluteLeft())
+				/ getScaleX()
+				+ popupPanel.getOffsetWidth());
 	}
 
 	/**
