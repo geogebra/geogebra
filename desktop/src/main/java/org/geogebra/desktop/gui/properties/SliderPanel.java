@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.AngleTextField;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
@@ -49,6 +50,7 @@ public class SliderPanel extends JPanel
 	private SliderModel model;
 	private AngleTextField tfMin, tfMax;
 	private JTextField tfWidth;
+	private JTextField tfBlobSize;
 	private JTextField[] tfields;
 	private JLabel[] tLabels;
 	private JLabel lbWidthUnit;
@@ -95,12 +97,17 @@ public class SliderPanel extends JPanel
 		tfMin = new AngleTextField(6, app);
 		tfMax = new AngleTextField(6, app);
 		tfWidth = new MyTextFieldD(app, 4);
+		tfBlobSize = new MyTextFieldD(app, 4);
 		lbWidthUnit = new JLabel("");
-		tfields = new MyTextFieldD[3];
-		tLabels = new JLabel[3];
+		int n = app.has(Feature.SLIDER_STYLE_OPTIONS) ? 4 : 3;
+		tfields = new MyTextFieldD[n];
+		tLabels = new JLabel[n];
 		tfields[0] = tfMin;
 		tfields[1] = tfMax;
 		tfields[2] = tfWidth;
+		if (n > 3) {
+			tfields[3] = tfBlobSize;
+		}
 		int numPairs = tLabels.length;
 
 		// add textfields
@@ -188,6 +195,7 @@ public class SliderPanel extends JPanel
 		tLabels[0].setText(loc.getMenu("min") + ":");
 		tLabels[1].setText(loc.getMenu("max") + ":");
 		tLabels[2].setText(loc.getMenu("Width") + ":");
+		tLabels[3].setText(loc.getMenu("Size") + ":");
 
 		model.setLabelForWidthUnit();
 
@@ -275,6 +283,8 @@ public class SliderPanel extends JPanel
 			model.applyMax(value);
 		} else if (source == tfWidth) {
 			model.applyWidth(value.getDouble());
+		} else if (source == tfBlobSize) {
+			model.applyBlobSize(value.getDouble());
 		}
 
 		if (propPanel != null) {
@@ -366,5 +376,9 @@ public class SliderPanel extends JPanel
 	@Override
 	public void setWidthUnitText(String text) {
 		lbWidthUnit.setText(text);
+	}
+
+	public void setBlobSizeText(String text) {
+		tfBlobSize.setText(text);
 	}
 }
