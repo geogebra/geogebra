@@ -15,6 +15,18 @@ package org.geogebra.common.util;
 import org.geogebra.common.util.debug.Log;
 
 public class Util {
+
+	/**
+	 * used when value is needed through a callback
+	 */
+	static final public class Wrap<T> {
+		public T value;
+
+		public Wrap(T value) {
+			this.value = value;
+		}
+	}
+
 	/** available font sizes (will be reused in OptionsAdvanced) */
 	final private static int[] MENU_FONT_SIZES = { 12, 14, 16, 18, 20, 24, 28,
 			32, 48 };
