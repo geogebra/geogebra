@@ -63,8 +63,6 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 					public void execute() {
 						menu.hide();
 						app.toggleMenu();
-						app.getActiveEuclidianView()
-								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
 								.clearSelections();
 						String url = ((EuclidianViewWInterface) app
@@ -86,8 +84,6 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 					public void execute() {
 						menu.hide();
 						app.toggleMenu();
-						app.getActiveEuclidianView()
-								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
 								.clearSelections();
 						String svg = "data:text/plain;charset=utf-8,"
@@ -145,10 +141,8 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 
 					@Override
 					public void execute() {
-						app.getActiveEuclidianView()
-								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelections();
+								.clearSelectionAndRectangle();
 						menu.hide();
 						String url = "data:text/plain;charset=utf-8,"
 								+ app.getGgbApi().exportPGF();
@@ -166,10 +160,8 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 
 					@Override
 					public void execute() {
-						app.getActiveEuclidianView()
-								.setSelectionRectangle(null);
 						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelections();
+								.clearSelectionAndRectangle();
 						menu.hide();
 						String url = "data:text/plain;charset=utf-8,"
 								+ app.getGgbApi().exportAsymptote();
