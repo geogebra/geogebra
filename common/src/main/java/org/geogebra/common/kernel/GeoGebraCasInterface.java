@@ -97,6 +97,8 @@ public interface GeoGebraCasInterface {
 	 * @return result string in GeoGebra syntax (null possible)
 	 * @throws CASException
 	 *             if there is a timeout or the expression cannot be evaluated
+	 *             Note: all other throwables are caught inside and converted to
+	 *             CASException
 	 */
 	public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant arbConst,
 			StringTemplate tpl, Kernel kernel) throws CASException;

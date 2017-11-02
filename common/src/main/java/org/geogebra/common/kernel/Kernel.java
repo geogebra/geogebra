@@ -2979,11 +2979,12 @@ public class Kernel {
 	 *            output template
 	 * 
 	 * @return result string (null possible)
-	 * @throws Throwable
+	 * @throws CASException
 	 *             on CAS error
 	 */
 	final public String evaluateGeoGebraCAS(String exp,
-			MyArbitraryConstant arbconst, StringTemplate tpl) throws Throwable {
+			MyArbitraryConstant arbconst, StringTemplate tpl)
+			throws CASException {
 		return evaluateGeoGebraCAS(exp, false, arbconst, tpl);
 	}
 
@@ -2998,11 +2999,11 @@ public class Kernel {
 	 *            arbitrary constant handler
 	 * 
 	 * @return result string (null possible)
-	 * @throws Throwable
+	 * @throws CASException
 	 *             on CAS error
 	 */
 	final public String evaluateCachedGeoGebraCAS(String exp,
-			MyArbitraryConstant arbconst) throws Throwable {
+			MyArbitraryConstant arbconst) throws CASException {
 		return evaluateGeoGebraCAS(exp, true, arbconst,
 				StringTemplate.numericNoLocal);
 	}
@@ -3017,7 +3018,8 @@ public class Kernel {
 	 * @throws Throwable
 	 */
 	private String evaluateGeoGebraCAS(String exp, boolean useCaching,
-			MyArbitraryConstant arbconst, StringTemplate tpl) throws Throwable {
+			MyArbitraryConstant arbconst, StringTemplate tpl)
+			throws CASException {
 		String result = null;
 		if (useCaching && hasCasCache()) {
 			result = getCasCache().get(exp);
