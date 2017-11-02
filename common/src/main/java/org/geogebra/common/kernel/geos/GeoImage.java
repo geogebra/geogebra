@@ -321,7 +321,7 @@ public class GeoImage extends GeoElement implements Locateable,
 			return;
 		}
 
-		if (corners[0] == null && number > 0) {
+		if (corners[0] == null && number > 0 && number < CENTER_INDEX) {
 			return;
 		}
 
