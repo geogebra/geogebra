@@ -1930,7 +1930,7 @@ public class AlgebraProcessor {
 	/**
 	 * Processes valid expression
 	 * 
-	 * @param ve
+	 * @param ve2
 	 *            expression to process
 	 * @param info
 	 *            flags for processing

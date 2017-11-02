@@ -210,8 +210,6 @@ public interface Traversing {
 		 * @param kernel
 		 *            kernel in which resulting variables live (also needed to
 		 *            check which commands are valid)
-		 * @param cas
-		 *            whether this is for CAS
 		 * @return replacer
 		 */
 		public static DegreeReplacer getReplacer(Kernel kernel) {
@@ -263,8 +261,6 @@ public interface Traversing {
 		 * @param kernel
 		 *            kernel in which resulting variables live (also needed to
 		 *            check which commands are valid)
-		 * @param cas
-		 *            whether this is for CAS
 		 * @return replacer
 		 */
 		public static DegreeVariableReplacer getReplacer(Kernel kernel) {

@@ -120,7 +120,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		int left = (int) (p.getX() - (app.getPanel().getAbsoluteLeft()
 				/ app.getArticleElement().getScaleX()));
 		boolean newPoz = false;
-		showAtPoint(new GPoint(left, top));
+		showAtPoint(left, top);
 		if (left + popupPanel.getOffsetWidth()
 		        * app.getArticleElement().getScaleX() > Window.getClientWidth()
 		        + Window.getScrollLeft()) {
@@ -147,11 +147,13 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * place for the popup menu. (Maybe some details of the popup menu won't be
 	 * visible.)
 	 * 
-	 * @param p
-	 *            point to show popup
+	 * @param x
+	 *            x-coord to show popup
+	 * @param y
+	 *            y-coord to show popup
 	 */
-	public void showAtPoint(GPoint p) {
-		popupPanel.setPopupPosition(p.getX(), p.getY());
+	public final void showAtPoint(int x, int y) {
+		popupPanel.setPopupPosition(x, y);
 		popupPanel.show();
 	}
 
@@ -345,7 +347,7 @@ public class GPopupMenuW implements AttachedToDOM {
 							newItem.getAbsoluteTop()
 									- getApp().getPanel().getAbsoluteTop(),
 					        Window.getClientHeight() - getSubPopupHeight());
-					subPopup.showAtPoint(new GPoint(xCord, yCord));
+					subPopup.showAtPoint(xCord, yCord);
 				}
 			};
 			newItem.setScheduledCommand(itemCommand);
