@@ -136,7 +136,7 @@ import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.properties.AnimationSpeedPanel;
 import org.geogebra.desktop.gui.properties.AnimationStepPanel;
-import org.geogebra.desktop.gui.properties.SliderPanel;
+import org.geogebra.desktop.gui.properties.SliderPanelD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.SpringUtilities;
@@ -205,7 +205,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private AnimationStepPanel animStepPanel;
 	private TextfieldSizePanel textFieldSizePanel;
 	private AnimationSpeedPanel animSpeedPanel;
-	private SliderPanel sliderPanel;
+	private SliderPanelD sliderPanel;
 	private SlopeTriangleSizePanel slopeTriangleSizePanel;
 	private StartPointPanel startPointPanel;
 	private CornerPointsPanel cornerPointsPanel;
@@ -278,7 +278,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 		allowReflexAnglePanel = new AllowReflexAnglePanel();
 
-		sliderPanel = new SliderPanel(app, this, false, true);
+		sliderPanel = new SliderPanelD(app, this, false, true);
 		showObjectPanel = new ShowObjectPanel();
 		selectionAllowed = new SelectionAllowedPanel();
 		showTrimmedIntersectionLines = new ShowTrimmedIntersectionLines();

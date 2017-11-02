@@ -39,7 +39,7 @@ import org.geogebra.desktop.main.AppD;
  * 
  * @author Markus Hohenwarter
  */
-public class SliderPanel extends JPanel
+public class SliderPanelD extends JPanel
 		implements ActionListener, FocusListener, UpdateablePropertiesPanel,
 		SetLabels, UpdateFonts, ISliderOptionsListener {
 	/**
@@ -68,7 +68,7 @@ public class SliderPanel extends JPanel
 
 	private final Localization loc;
 
-	public SliderPanel(AppD app, PropertiesPanelD propPanel,
+	public SliderPanelD(AppD app, PropertiesPanelD propPanel,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.app = app;
 		this.loc = app.getLocalization();
