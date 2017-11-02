@@ -1137,7 +1137,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	private void uncenter() {
 		corners[0] = corners[CENTER_INDEX];
-		corners[CENTER_INDEX] = null;
+		for (int i = 1; i < 4; i++) {
+			corners[i] = null;
+		}
 	}
 
 	private void removeCorner(int idx) {

@@ -1416,6 +1416,13 @@ public class OptionsTab extends FlowPanel {
 		public void setSelectedItem(String item) {
 			getComboBox().setValue(item);
 		}
+
+		@Override
+		public OptionPanel updatePanel(Object[] geos) {
+			getComboBox().setValue("");
+			return super.updatePanel(geos);
+		}
+
 	}
 	
 	private static class ImageCenter extends ImageCorner {
