@@ -4,7 +4,9 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.view.spreadsheet.MyTableW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetViewW;
 
@@ -157,6 +159,14 @@ public class SpreadsheetDockPanelW extends NavigableDockPanelW {
 			return getResources().settings();
 		}
 		return getResources().styleBar_spreadsheetView();
+	}
+
+	@Override
+	public MathKeyboardListener getKeyboardListener() {
+		MathKeyboardListener ml = ((MyTableW) this.sview.getSpreadsheetTable())
+				.getEditor()
+				.getTextfield();
+		return ml;
 	}
 
 }

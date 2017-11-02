@@ -81,6 +81,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	private boolean keyboardEnabled = true;
 	private boolean scrollToShow = false;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	private SpreadsheetKeyListenerW sskl;
 
 	/******************************************************
 	 * Construct spreadsheet view as a split panel. Left panel holds file tree
@@ -143,7 +144,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		buildSpreadsheet();
 
 		spreadsheetWrapper = new AdvancedFocusPanel(spreadsheet);
-		SpreadsheetKeyListenerW sskl = new SpreadsheetKeyListenerW(app, table);
+		sskl = new SpreadsheetKeyListenerW(app, table);
 		spreadsheetWrapper.addDomHandler(sskl, KeyDownEvent.getType());
 		spreadsheetWrapper.addDomHandler(sskl, KeyPressEvent.getType());
 		spreadsheetWrapper.addPasteHandler(sskl);
@@ -1275,5 +1276,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	@Override
 	public void setKeyboardEnabled(boolean b) {
 		keyboardEnabled = b;
+	}
+
+	public void letterOrDigitTyped() {
+		this.sskl.letterOrDigitTyped();
 	}
 }

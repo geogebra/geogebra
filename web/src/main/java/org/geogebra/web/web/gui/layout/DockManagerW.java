@@ -1778,18 +1778,19 @@ public class DockManagerW extends DockManager {
 	 */
 	public DockPanelW getPanelForKeyboard() {
 		DockPanelW panel = getFocusedPanel();
-
-		if (panel == null || (panel.getViewId() != App.VIEW_ALGEBRA && panel.getViewId() != App.VIEW_CAS
-				&& panel.getViewId() != App.VIEW_SPREADSHEET && panel					.getViewId() != App.VIEW_PROBABILITY_CALCULATOR)) {
-			panel = getPanel(App.VIEW_ALGEBRA);
-			if (!panel.isVisible()) {
-				panel = getPanel(App.VIEW_CAS);
-				if (!panel.isVisible()) {
-					panel = getPanel(App.VIEW_ALGEBRA);
-				}
+		int[] keyboardViews = new int[] { App.VIEW_ALGEBRA, App.VIEW_CAS,
+				App.VIEW_SPREADSHEET, App.VIEW_PROBABILITY_CALCULATOR };
+		int firstVisible = 0;
+		for (int panelId : keyboardViews) {
+			if (panel != null && panelId == panel.getViewId()) {
+				return panel;
+			}
+			if (firstVisible == 0 && getPanel(panelId).isVisible()) {
+				firstVisible = panelId;
 			}
 		}
-		return panel;
+
+		return getPanel(firstVisible);
 	}
 
 	@Override

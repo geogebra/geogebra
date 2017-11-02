@@ -163,7 +163,7 @@ public abstract class Layout implements SettingListener {
 
 		// Table & Graphics - spreadsheet and euclidian view
 		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", 0.2,
+		spData[0] = new DockSplitPaneData("", 0.45,
 				SwingConstants.HORIZONTAL_SPLIT);
 
 		dpData = new DockPanelData[6];

@@ -504,6 +504,9 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		                 // begins
 
 		// check if cell fixed
+		if (table.getSelectedRow() < 0 || table.getSelectedColumn() < 0) {
+			table.setInitialCellSelection(0, 0);
+		}
 		Object o = model.getValueAt(table.getSelectedRow(),
 		        table.getSelectedColumn());
 		if (o instanceof GeoElement) {

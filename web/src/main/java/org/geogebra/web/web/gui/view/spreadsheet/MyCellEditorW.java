@@ -10,6 +10,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.KeyEventsHandler;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -77,6 +78,18 @@ public class MyCellEditorW implements BaseCellEditor {
 		keyListener = new SpreadsheetCellEditorKeyListener(false);
 		autoCompleteTextField = new AutoCompleteTextFieldW(0,
 		        (AppW) kernel.getApplication(), false, keyListener, false);
+		autoCompleteTextField.addInsertHandler(new InsertHandler() {
+
+			public void onInsert(String text) {
+				if (!editing) {
+					String current = autoCompleteTextField.getText();
+				((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
+						.letterOrDigitTyped();
+					autoCompleteTextField.setText(current);
+				}
+
+			}
+		});
 		autoCompleteTextField.setAutoComplete(enableAutoComplete);
 		autoCompleteTextField.setStyleName("SpreadsheetEditorCell");
 		editorPanel.add(autoCompleteTextField);
@@ -526,7 +539,7 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	}
 
-	public Widget getTextfield() {
+	public AutoCompleteTextFieldW getTextfield() {
 		return autoCompleteTextField;
 	}
 	
