@@ -46,6 +46,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 		this.input = str;
 		this.validation = validation;
 		if (StringUtil.emptyTrim(str)) {
+			Log.debug("empty");
 			validInput = "";
 			maxLength = DEFAULT_MAX_LENGTH;
 			return;
@@ -103,7 +104,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 	@Override
 	public void run() {
 		cleanOldSliders();
-		if (input.length() == 0) {
+		if (StringUtil.emptyTrim(input)) {
 			if (validation != null) {
 				validation.resetError();
 			}

@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.TabHandler;
@@ -117,11 +118,11 @@ public class MarblePanel extends FlowPanel
 	 * @param warning
 	 *            whether warning triangle should be visible
 	 */
-	public void updateIcons(boolean warning) {	
+	public void updateIcons(boolean warning) {
 		MyToggleButton btn = null;
 		String tooltip="";
 		boolean textInput = item.getController().isInputAsText();
-		noPlus = !item.getText().isEmpty();
+		noPlus = !StringUtil.emptyTrim(item.getText());
 		if (textInput && !item.isInputTreeItem()
 				&& item.getController().isEditing()) {
 			addStyleName("text");
@@ -132,7 +133,8 @@ public class MarblePanel extends FlowPanel
 		String img = GuiResources.INSTANCE.icon_help().getSafeUri().asString();
 		if (item.isInputTreeItem() ){
 			initPlus();
-			img = item.getText().isEmpty() ? 
+			img = StringUtil.emptyTrim(item.getText())
+					? 
 					MaterialDesignResources.INSTANCE.add_black().getSafeUri()
 							.asString()
 				: AppResources.INSTANCE.empty().getSafeUri().asString();
