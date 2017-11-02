@@ -132,7 +132,7 @@ find $FOLDER -name '*.in' | while read IN; do
      diff $OUT $SAVEDIR/$OUT | awk '{
       if ($1=="<") { inline = $2; inres = substr($0,3+length($2)+1); inresq=inres; gsub("\"","\\\"",inresq); }
       else if ($1==">") { outline = $2; outres = substr($0,3+length($2)+1); outresq=outres; gsub("\"","\\\"",outresq);
-       cascommand = "caseval(\\\"init geogebra\\\");\nsort(" inresq ")==sort(" outresq ")";
+       cascommand = "caseval(\\\"init geogebra\\\");\n(ggbsort(" inresq ")==ggbsort(" outresq ")) or (sort(" inresq ")==sort(" outresq "))";
        giaccommand = ENVIRON["MINIGIAC"] " -m";
        "mktemp" | getline giacin;
        close("mktemp");

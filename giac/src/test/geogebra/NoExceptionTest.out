@@ -100,45 +100,39 @@
 50<< cos(x)
 51>> caseval(regroup(regroup(diff(sin(x),x,0))))
 51<< sin(x)
-52>> caseval(regroup(normal(y=when(type(point(?,?))==DOM_LIST,desolve([-(x),y(xcoord(point(?,?)[0]))=ycoord(point(?,?)[0]),y(xcoord(point(?,?)[1]))=ycoord(point(?,?)[1])],x,y),desolve(when((-(x))[0]=='=',-(x),y'=-(x)),x,y,point(?,?)))[0])))
-52<< "GIAC_ERROR: Index outside range : 0, vector size is 0, syntax compatibility mode xcas
- Error: Invalid dimension"
-53>> caseval(regroup([[ggbnumans:=[[ggbfacans:=(x)^(2)],[if type(ggbfacans)==DOM_INT then calc_mode(0); ggbfacans:=ifactors(ggbfacans); calc_mode(1); else ggbfacans:=factors(ggbfacans); fi],matrix(dim(ggbfacans)/2,2,ggbfacans)][2]],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,evalf(ggbnumans),evalf(regroup(normal(ggbnumans))))][1]))
-53<< {{x,2.0}}
-54>> caseval(regroup(regroup(diff(sin(x),x,1))))
-54<< cos(x)
-55>> caseval(regroup(regroup(diff(cos(x),x,1))))
-55<< -sin(x)
-56>> caseval(regroup(regroup(integrate(sin(x),x))))
-56<< -cos(x)+c_2
-57>> caseval(regroup(when(is_polynomial(sin(x),x),coeff(sin(x),x),{})))
-57<< {}
-58>> caseval(regroup([[[ggbtrigarg:=sin((x)+(y))], [ggbsin:=tcollectsin(normal(ggbtrigarg))], [ggbcos:=tcollect(normal(ggbtrigarg))], [ggbtan:=tcollect(normal(tan2sincos(ggbtrigarg)))], [ggbsinlen:=length(""+ggbsin)],[ggbcoslen:=length(""+ggbcos)],[ggbtanlen:=length(""+ggbtan)]],when(ggbcoslen<=ggbsinlen && ggbcoslen<=ggbtanlen,ggbcos,when(ggbsinlen<=ggbtanlen,ggbsin,ggbtan))][1]))
+52>> caseval(regroup([[ggbnumans:=[[ggbfacans:=(x)^(2)],[if type(ggbfacans)==DOM_INT then calc_mode(0); ggbfacans:=ifactors(ggbfacans); calc_mode(1); else ggbfacans:=factors(ggbfacans); fi],matrix(dim(ggbfacans)/2,2,ggbfacans)][2]],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,evalf(ggbnumans),evalf(regroup(normal(ggbnumans))))][1]))
+52<< {{x,2.0}}
+53>> caseval(regroup(regroup(diff(sin(x),x,1))))
+53<< cos(x)
+54>> caseval(regroup(regroup(diff(cos(x),x,1))))
+54<< -sin(x)
+55>> caseval(regroup(regroup(integrate(sin(x),x))))
+55<< -cos(x)+c_2
+56>> caseval(regroup(when(is_polynomial(sin(x),x),coeff(sin(x),x),{})))
+56<< {}
+57>> caseval(regroup([[[ggbtrigarg:=sin((x)+(y))], [ggbsin:=tcollectsin(normal(ggbtrigarg))], [ggbcos:=tcollect(normal(ggbtrigarg))], [ggbtan:=tcollect(normal(tan2sincos(ggbtrigarg)))], [ggbsinlen:=length(""+ggbsin)],[ggbcoslen:=length(""+ggbcos)],[ggbtanlen:=length(""+ggbtan)]],when(ggbcoslen<=ggbsinlen && ggbcoslen<=ggbtanlen,ggbcos,when(ggbsinlen<=ggbtanlen,ggbsin,ggbtan))][1]))
+57<< sin(x+y)
+58>> caseval(regroup([[[ggbtrigarg0:=sin((x)+(y))],[ggbtrigarg1:=sin(x)]],when(ggbtrigarg1[0]=='sin',tcollectsin(normal(ggbtrigarg0)),when(ggbtrigarg1[0]=='tan',tcollect(normal(tan2sincos(ggbtrigarg0))),tcollect(normal(ggbtrigarg0))))][1]))
 58<< sin(x+y)
-59>> caseval(regroup([[[ggbtrigarg0:=sin((x)+(y))],[ggbtrigarg1:=sin(x)]],when(ggbtrigarg1[0]=='sin',tcollectsin(normal(ggbtrigarg0)),when(ggbtrigarg1[0]=='tan',tcollect(normal(tan2sincos(ggbtrigarg0))),tcollect(normal(ggbtrigarg0))))][1]))
-59<< sin(x+y)
-60>> caseval(regroup(1))
-60<< 1
-61>> caseval(regroup([[ff:=""],[aa:=eliminate([1+v10*v9+v10*v8+v10^2*v9*v8],revlist([v10]))],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=("["+(ii+1)+"]: [1]:  unicode95uunicode91u1]=1");cc:=factors(aa[ii]);dd:=size(cc);for jj from 0 to dd-1 by 2 do ff+=("  unicode95uunicode91u"+(jj/2+2)+"]="+cc[jj]); od; ff+=(" [2]: "+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(","+cc[kk]);od;od],[if(ff=="") begin ff:=[0] end],ff][5]))
-61<< {0}
-62>> caseval(regroup(regroup(diff(sin(x),x,0))))
-62<< sin(x)
-63>> caseval(regroup(when((-(x))[0]=='=', when (size(lname(-(x)) intersect [x]) == 0 && size(lname(-(x)) intersect [y]) == 1 && size(lname(-(x)) minus [y]) > 0,normal(map(desolve(-(x),x,y),x->y=x)[0]),normal(map(desolve(-(x)),x->y=x)[0])),normal(map(desolve(y'=-(x)),x->y=x)[0]))))
-63<< y=(-1/2*x^2+c_0)
-64>> caseval(regroup(normal(y=when(type(point(?,?))==DOM_LIST,desolve([-(x),y(xcoord(point(?,?)[0]))=ycoord(point(?,?)[0]),y(xcoord(point(?,?)[1]))=ycoord(point(?,?)[1])],x,y),desolve(when((-(x))[0]=='=',-(x),y'=-(x)),x,y,point(?,?)))[0])))
-64<< "GIAC_ERROR: Index outside range : 0, vector size is 0, syntax compatibility mode xcas
- Error: Invalid dimension"
-65>> caseval(regroup(when(is_polynomial(sin(x),x),coeff(sin(x),x),{})))
-65<< {}
-66>> caseval(regroup(tan2sincos(trigexpand(sin((x)+(y))))))
-66<< sin(x)*cos(y)+sin(y)*cos(x)
-67>> caseval(regroup([[ggbtrigarg0:=sin((x)+(y))],when((sin(x))[0]=='tan', trigexpand(ggbtrigarg0),tan2sincos(trigexpand(ggbtrigarg0)))][1]))
-67<< sin(x)*cos(y)+sin(y)*cos(x)
+59>> caseval(regroup(1))
+59<< 1
+60>> caseval(regroup([[ff:=""],[aa:=eliminate([1+v10*v9+v10*v8+v10^2*v9*v8],revlist([v10]))],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=("["+(ii+1)+"]: [1]:  unicode95uunicode91u1]=1");cc:=factors(aa[ii]);dd:=size(cc);for jj from 0 to dd-1 by 2 do ff+=("  unicode95uunicode91u"+(jj/2+2)+"]="+cc[jj]); od; ff+=(" [2]: "+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(","+cc[kk]);od;od],[if(ff=="") begin ff:=[0] end],ff][5]))
+60<< {0}
+61>> caseval(regroup(regroup(diff(sin(x),x,0))))
+61<< sin(x)
+62>> caseval(regroup(when((-(x))[0]=='=', when (size(lname(-(x)) intersect [x]) == 0 && size(lname(-(x)) intersect [y]) == 1 && size(lname(-(x)) minus [y]) > 0,normal(map(desolve(-(x),x,y),x->y=x)[0]),normal(map(desolve(-(x)),x->y=x)[0])),normal(map(desolve(y'=-(x)),x->y=x)[0]))))
+62<< y=(-1/2*x^2+c_0)
+63>> caseval(regroup(when(is_polynomial(sin(x),x),coeff(sin(x),x),{})))
+63<< {}
+64>> caseval(regroup(tan2sincos(trigexpand(sin((x)+(y))))))
+64<< sin(x)*cos(y)+sin(y)*cos(x)
+65>> caseval(regroup([[ggbtrigarg0:=sin((x)+(y))],when((sin(x))[0]=='tan', trigexpand(ggbtrigarg0),tan2sincos(trigexpand(ggbtrigarg0)))][1]))
+65<< sin(x)*cos(y)+sin(y)*cos(x)
+66>> caseval(regroup(when(is_polynomial(sin(x),x),coeff(sin(x),x),{})))
+66<< {}
+67>> caseval(regroup([[ggbnumans:=[[ggblimvans:=?],[ggblimvans:=limit(sin(x),x,17)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,50),evalf(regroup(normal(ggbnumans)),50))][1]))
+67<< -0.96139749187955685726163694486915609849206725405894
 68>> caseval(regroup(when(is_polynomial(sin(x),x),coeff(sin(x),x),{})))
 68<< {}
-69>> caseval(regroup([[ggbnumans:=[[ggblimvans:=?],[ggblimvans:=limit(sin(x),x,17)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,50),evalf(regroup(normal(ggbnumans)),50))][1]))
-69<< -0.96139749187955685726163694486915609849206725405894
-70>> caseval(regroup(when(is_polynomial(sin(x),x),coeff(sin(x),x),{})))
-70<< {}
-71>> caseval(regroup(normal(regroup(-diff(((x)^(2))+((y)^(2)),x)/diff(((x)^(2))+((y)^(2)),y)))))
-71<< -x/y
+69>> caseval(regroup(normal(regroup(-diff(((x)^(2))+((y)^(2)),x)/diff(((x)^(2))+((y)^(2)),y)))))
+69<< -x/y

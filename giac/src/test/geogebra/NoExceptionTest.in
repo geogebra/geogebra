@@ -37,7 +37,6 @@ tan2sincos(trigexpand(sin((x)+(y))))
 regroup(diff(sin(x),x,41))
 regroup(diff(sin(x),x,45))
 regroup(diff(sin(x),x,0))
-normal(y=when(type(point(?,?))==DOM_LIST,desolve([-(x),y(xcoord(point(?,?)[0]))=ycoord(point(?,?)[0]),y(xcoord(point(?,?)[1]))=ycoord(point(?,?)[1])],x,y),desolve(when((-(x))[0]=='=',-(x),y'=-(x)),x,y,point(?,?)))[0])
 [[ggbnumans:=[[ggbfacans:=(x)^(2)],[if type(ggbfacans)==DOM_INT then calc_mode(0); ggbfacans:=ifactors(ggbfacans); calc_mode(1); else ggbfacans:=factors(ggbfacans); fi],matrix(dim(ggbfacans)/2,2,ggbfacans)][2]],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,evalf(ggbnumans),evalf(regroup(normal(ggbnumans))))][1]
 regroup(diff(sin(x),x,1))
 regroup(diff(cos(x),x,1))
@@ -49,7 +48,6 @@ when(is_polynomial(sin(x),x),coeff(sin(x),x),{})
 [[ff:=""],[aa:=eliminate([1+v10*v9+v10*v8+v10^2*v9*v8],revlist([v10]))],[bb:=size(aa)],[for ii from 0 to bb-1 do ff+=("["+(ii+1)+"]: [1]:  unicode95uunicode91u1]=1");cc:=factors(aa[ii]);dd:=size(cc);for jj from 0 to dd-1 by 2 do ff+=("  unicode95uunicode91u"+(jj/2+2)+"]="+cc[jj]); od; ff+=(" [2]: "+cc[1]);for kk from 1 to dd-1 by 2 do ff+=(","+cc[kk]);od;od],[if(ff=="") begin ff:=[0] end],ff][5]
 regroup(diff(sin(x),x,0))
 when((-(x))[0]=='=', when (size(lname(-(x)) intersect [x]) == 0 && size(lname(-(x)) intersect [y]) == 1 && size(lname(-(x)) minus [y]) > 0,normal(map(desolve(-(x),x,y),x->y=x)[0]),normal(map(desolve(-(x)),x->y=x)[0])),normal(map(desolve(y'=-(x)),x->y=x)[0]))
-normal(y=when(type(point(?,?))==DOM_LIST,desolve([-(x),y(xcoord(point(?,?)[0]))=ycoord(point(?,?)[0]),y(xcoord(point(?,?)[1]))=ycoord(point(?,?)[1])],x,y),desolve(when((-(x))[0]=='=',-(x),y'=-(x)),x,y,point(?,?)))[0])
 when(is_polynomial(sin(x),x),coeff(sin(x),x),{})
 tan2sincos(trigexpand(sin((x)+(y))))
 [[ggbtrigarg0:=sin((x)+(y))],when((sin(x))[0]=='tan', trigexpand(ggbtrigarg0),tan2sincos(trigexpand(ggbtrigarg0)))][1]
