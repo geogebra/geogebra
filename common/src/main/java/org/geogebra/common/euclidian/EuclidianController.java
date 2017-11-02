@@ -6698,8 +6698,11 @@ public abstract class EuclidianController {
 						controlDown);
 			}
 			break;
-		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECT:
+			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
+				break;
+			}
+		case EuclidianConstants.MODE_MOVE:
 		case EuclidianConstants.MODE_SELECTION_LISTENER:
 			// handle selection click
 			setViewHits(type);
