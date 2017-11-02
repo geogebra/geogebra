@@ -11,6 +11,6 @@ if [ "$BUILD_NUMBER" = "" ]; then
 MYDIR=`pwd $0`
 cd $MYDIR
 ./runtests-sql -r
-./report-sql
+./report-sql -d 40 # 35 is the longest currently, for the TeX output it is good to know the exact file name
 
 # Run ./check-sums after this.
