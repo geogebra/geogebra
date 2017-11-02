@@ -880,6 +880,7 @@ public class SelectionManager {
 				for (int i = 0; i < specPoints0.size(); i++) {
 					specPoints[i] = specPoints0.get(i).toGeoElement();
 					specPoints[i].remove();
+					specPoints[i].setSelectionAllowed(false);
 				}
 			}
 		}
