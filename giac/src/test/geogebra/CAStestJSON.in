@@ -1647,7 +1647,7 @@ nextprime(99)
 [[ggbnumans:=Beta(2, 3, (5/10),1)],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,13),evalf(regroup(normal(ggbnumans)),13))][1]
 [[ggbnumans:=pi],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,evalf(ggbnumans),evalf(regroup(normal(ggbnumans))))][1]
 [[ggbnumans:=Beta(2, (1)/(2), (1)/(2),1)],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,13),evalf(regroup(normal(ggbnumans)),13))][1]
-[[ggbnumans:=surd(3,2100000)^(26778293)],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,evalf(ggbnumans),evalf(regroup(normal(ggbnumans))))][1]
+[[ggbnumans:=[[ggbnumans:=surd(3,2100000)^(26778293)],when(dim(lname(ggbnumans))==0||lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,20),normal(evalf(regroup(ggbnumans),20)))][1]],when(dim(lname(ggbnumans))==0||lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,13),normal(evalf(regroup(ggbnumans),13)))][1]
 [[ggbnumans:=[[ggblimvans:=?],[ggblimvans:=limit((((tan(x))^(2))*((1)-(sin(x))))/(x),(157079632/100000000))], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,30),evalf(regroup(normal(ggbnumans)),30))][1]
 [[ggbnumans:=(3)^(700)],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,5),evalf(regroup(normal(ggbnumans)),5))][1]
 [[ggbnumans:=Beta(2, 3, (5/10))],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,13),evalf(regroup(normal(ggbnumans)),13))][1]
