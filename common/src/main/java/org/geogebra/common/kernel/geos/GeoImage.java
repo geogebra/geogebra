@@ -712,7 +712,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            number of the corner point (1, 2, 3 or 4)
 	 */
 	public void calculateCornerPoint(GeoPoint result, int n) {
-		if (hasAbsoluteScreenLocation) {
+		if (hasAbsoluteScreenLocation || centered) {
 			result.setUndefined();
 			return;
 		}
