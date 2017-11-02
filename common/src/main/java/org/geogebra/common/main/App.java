@@ -1146,10 +1146,9 @@ public abstract class App implements UpdateSelection {
 			}
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
-			getActiveEuclidianView().getEuclidianController().clearSelections();
+			getActiveEuclidianView().getEuclidianController().clearSelectionAndRectangle();
 			storeUndoInfoAndStateForModeStarting();
 		}
-
 	}
 
 	public ArrayList<GeoElement> getJustCreatedGeos() {
