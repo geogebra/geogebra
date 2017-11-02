@@ -188,8 +188,7 @@ public class AlgoLaTeX extends AlgoElement {
 				if (geoToShow.isGeoText()) {
 					// needed for eg Text commands eg FormulaText[Text[
 					text.setTextString(((GeoText) geo).getTextString());
-				} else if (geoToShow.isGeoCasCell()
-						&& geoToShow.isIndependent() && ((GeoCasCell) geoToShow)
+				} else if (geoToShow.isGeoCasCell() && ((GeoCasCell) geoToShow)
 								.getOutputValidExpression() != null) {
 					text.setTextString(
 							((GeoCasCell) geoToShow).getOutputValidExpression()
