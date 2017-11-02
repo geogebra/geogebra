@@ -11,6 +11,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
+import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -905,11 +907,10 @@ public class SelectionManager {
 			geos2 = geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
 					"Extremum[" + label + "]", false);
 		} else {
-			geos2 = geo.getKernel().getAlgebraProcessor()
-					.processAlgebraCommand("Intersect[" + label
-							+ "," + geo.getKernel().getLocalization()
-									.getMenu("yAxis")
-							+ "]", false);
+			AlgoRootsPolynomial algo = new AlgoIntersectPolynomialLine(
+					kernel.getConstruction(), (GeoFunction) geo,
+					kernel.getConstruction().getYAxis());
+			geos2 = algo.getOutput();
 		}
 		if (geos1 != null && geos1.length > 0) {
 			if (geos2 != null && geos2.length > 0) {
