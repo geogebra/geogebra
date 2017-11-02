@@ -565,37 +565,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		}
 	}
 
-	private boolean viewHasKeyboard() {
-		int focusedView = app.getGuiManager().getLayout().getDockManager()
-				.getFocusedViewId();
-		if (focusedView == App.VIEW_ALGEBRA || focusedView == App.VIEW_CAS
-				|| focusedView == App.VIEW_PROBABILITY_CALCULATOR
-				|| focusedView == App.VIEW_SPREADSHEET) {
-			return true;
-		}
-		return false;
-	}
-
 	@Override
 	public void refreshKeyboard() {
 		if (isKeyboardShowing()) {
 			final VirtualKeyboardW keyBoard = getOnScreenKeyboard(null);
 			if (app.isKeyboardNeeded()) {
 				ensureKeyboardDeferred();
-				if (app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
-					if (viewHasKeyboard()) {
-						add(keyBoard);
-					} else {
-						showKeyboardButton(null);
-						remove(keyBoard);
-						this.setKeyboardShowing(false);
-						keyboardHeight = 0;
-						app.updateSplitPanelHeight();
-
-					}
-				} else {
-					add(keyBoard);
-				}
+				add(keyBoard);
 			} else {
 				removeKeyboard(null);
 				if (this.showKeyboardButton != null) {
@@ -606,6 +582,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			if (app != null && app.isKeyboardNeeded() && appNeedsKeyboard()) {
 				if (!app.isStartedWithFile()
 						&& !app.getArticleElement().preventFocus()) {
+					if (app.getGuiManager().isKeyboardClosedByUser()) {
+						ensureKeyboardEditing();
+						return;
+					}
 					setKeyboardShowing(true);
 					app.invokeLater(new Runnable() {
 

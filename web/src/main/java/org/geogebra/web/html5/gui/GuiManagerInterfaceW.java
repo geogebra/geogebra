@@ -127,4 +127,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void addKeyboardAutoHidePartner(GPopupPanel popup);
 
 	public void switchToolsToAV();
+
+	public boolean isKeyboardClosedByUser();
 }

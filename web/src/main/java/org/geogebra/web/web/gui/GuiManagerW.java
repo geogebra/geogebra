@@ -2500,6 +2500,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			getAlgebraView().openMenuFor(geo);
 		}
 	}
+
+	public boolean isKeyboardClosedByUser() {
+		return this.onScreenKeyboard != null
+				&& !this.onScreenKeyboard.shouldBeShown();
+	}
 }
 
 
