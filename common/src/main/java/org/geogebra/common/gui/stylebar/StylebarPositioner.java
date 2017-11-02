@@ -164,6 +164,25 @@ public class StylebarPositioner {
                     if (position != null) {
                         return position;
                     }
+                } else {
+                    // with select tool, it happens that first selected geo is a function, and then
+                    // the user select another geo (e.g. a point). Then we still want to show style bar.
+                    if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && app.getMode() == EuclidianConstants.MODE_SELECT) {
+                        Drawable dr = (Drawable) euclidianView.getDrawableND(geo);
+                        if (dr != null) {
+                            GPoint position = getStylebarPositionForDrawable(
+                                    dr.getBoundsForStylebarPosition(),
+                                    !(dr instanceof DrawLine),
+                                    false,
+                                    true,
+                                    stylebarHeight,
+                                    minTopPosition,
+                                    maxTopPosition);
+                            if (position != null) {
+                                return position;
+                            }
+                        }
+                    }
                 }
             } else {
                 Drawable dr = (Drawable) euclidianView.getDrawableND(geo);
