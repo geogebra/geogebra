@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
@@ -712,18 +713,18 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            number of the corner point (1, 2, 3 or 4)
 	 */
 	public void calculateCornerPoint(GeoPoint result, int n) {
-		if (hasAbsoluteScreenLocation || centered) {
+		if (hasAbsoluteScreenLocation) {
 			result.setUndefined();
 			return;
 		}
 
-		if (corners[0] == null) {
+		if (corners[0] == null && !centered) {
 			initTempPoints();
 		}
 
 		switch (n) {
 		case 1: // get A
-			result.setCoords(corners[0]);
+			result.setCoords(getCornerA());
 			break;
 
 		case 2: // get B
@@ -750,8 +751,23 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
+	private GeoPoint getCornerA() {
+		if (!centered) {
+			return corners[0];
+		}
+
+		EuclidianView ev = kernel.getApplication().getEuclidianView1();
+		GeoPoint c = corners[CENTER_INDEX];
+		double x = ev.toScreenCoordX(c.x) - pixelWidth / 2;
+		double y = ev.toScreenCoordY(c.y) + pixelHeight / 2;
+
+		GeoPoint p = new GeoPoint(cons);
+		p.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y), 1.0);
+		return p;
+	}
+
 	private void getInternalCornerPointCoords(double[] coords, int n) {
-		GeoPoint A = corners[0];
+		GeoPoint A = getCornerA();
 		GeoPoint B = corners[1];
 		GeoPoint D = corners[2];
 
