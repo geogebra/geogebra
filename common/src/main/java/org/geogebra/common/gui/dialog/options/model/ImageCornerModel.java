@@ -68,7 +68,8 @@ public class ImageCornerModel extends MultipleGeosModel {
 			newLoc = kernel.getAlgebraProcessor().evaluateToPoint(strLoc,
 					handler, true);
 		}
-		if (newLoc == null) {
+		if (newLoc == null
+				&& (cornerIdx == 0 || !StringUtil.emptyTrim(strLoc))) {
 			return;
 		}
 		for (int i = 0; i < getGeosLength(); i++) {

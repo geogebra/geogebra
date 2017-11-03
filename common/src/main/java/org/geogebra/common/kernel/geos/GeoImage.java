@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.AwtFactory;
@@ -185,9 +184,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		// interpolation settings
 		interpolate = img.interpolate;
 		defined = img.defined;
-		if (img.centered) {
-			setCentered(true);
-		}
+		centered = img.centered;
 	}
 
 	@Override
@@ -759,10 +756,9 @@ public class GeoImage extends GeoElement implements Locateable,
 			return corners[0].inhomX;
 		}
 
-		EuclidianView ev = kernel.getApplication().getEuclidianView1();
 		GeoPoint c = corners[CENTER_INDEX];
 		if (c != null) { // may be null while loading file
-			return ev.toRealWorldCoordX(ev.toScreenCoordX(c.inhomX) - pixelWidth / 2);
+			return c.inhomX - pixelWidth / 2 / kernel.getXscale();
 		}
 		return 0;
 	}
@@ -772,11 +768,9 @@ public class GeoImage extends GeoElement implements Locateable,
 			return corners[0].inhomY;
 		}
 
-		EuclidianView ev = kernel.getApplication().getEuclidianView1();
 		GeoPoint c = corners[CENTER_INDEX];
 		if (c != null) { // may be null while loading file
-			return ev.toRealWorldCoordY(
-					ev.toScreenCoordY(c.inhomY) + pixelHeight / 2);
+			return c.inhomY - pixelHeight / 2 / kernel.getYscale();
 		}
 		return 0;
 	}
@@ -858,6 +852,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		calculateCornerPoint(tempPoints[0], 1);
 		calculateCornerPoint(tempPoints[1], 2);
 		calculateCornerPoint(tempPoints[2], 4);
+		centered = false;
 		return true;
 	}
 

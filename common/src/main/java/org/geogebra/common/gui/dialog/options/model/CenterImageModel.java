@@ -28,7 +28,8 @@ public class CenterImageModel extends BooleanOptionModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		return centerImage && getGeoAt(index) instanceof GeoImage;
+		return centerImage && getGeoAt(index) instanceof GeoImage
+				&& getGeoAt(index).isIndependent();
 	}
 
 }
