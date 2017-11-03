@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
@@ -625,6 +624,16 @@ class Header extends FlowPanel implements KeyDownHandler {
 		return dockPanel != null ? dockPanel.getParentSplitPane() : null;
 	}
 
+	private void removeOpenStyles() {
+		removeStyleName("header-open-portrait");
+		removeStyleName("header-open-landscape");
+	}
+
+	private void removeCloseStyles() {
+		removeStyleName("header-close-portrait");
+		removeStyleName("header-close-landscape");
+	}
+
 	/**
 	 * update style of toolbar
 	 */
@@ -632,14 +641,11 @@ class Header extends FlowPanel implements KeyDownHandler {
 		if (isAnimating()) {
 			return;
 		}
-		toolbarPanel.updateStyle();
-		removeStyleName("header-open-portrait");
-		removeStyleName("header-close-portrait");
-		removeStyleName("header-open-landscape");
-		removeStyleName("header-close-landscape");
+
 		updateButtonImages();
 		String orientation = app.isPortrait() ? "portrait" : "landscape";
 		if (open) {
+			removeCloseStyles();
 			addStyleName("header-open-" + orientation);
 			btnClose.getUpFace().setImage(imgClose);
 			btnClose.setTitle(app.getLocalization().getMenu("Close"));
@@ -648,6 +654,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 				clearWidth();
 			}
 		} else {
+			removeOpenStyles();
 			addStyleName("header-close-" + orientation);
 			btnClose.getUpFace().setImage(imgOpen);
 			btnClose.setTitle(app.getLocalization().getMenu("Open"));
@@ -658,6 +665,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 
 		updateUndoRedoPosition();
 		updateUndoRedoActions();
+		toolbarPanel.updateStyle();
 	}
 
 	private void updateMenuButtonStyle() {
@@ -751,8 +759,8 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Called when app changes orientation.
 	 */
 	public void onOrientationChange() {
-		Log.debug("ORIENTATION: "
-				+ (app.isPortrait() ? "portrait" : "landscape"));
+		removeOpenStyles();
+		removeCloseStyles();
 		if (app.isPortrait()) {
 			clearWidth();
 			clearHeight();
