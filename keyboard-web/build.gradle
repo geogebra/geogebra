@@ -7,6 +7,7 @@ targetCompatibility = 1.7
 evaluationDependsOn(':keyboard-base')
 evaluationDependsOn(':common')
 evaluationDependsOn(':web:dev')
+evaluationDependsOn(':renderer-web')
 
 buildscript {
     dependencies {
@@ -24,7 +25,7 @@ dependencies{
 }
 def kbModule = 'org.geogebra.keyboard.KeyboardWeb'
 gwt {
-    gwtVersion = '2.8.0'
+    gwtVersion = project(':renderer-web').gwtCompilerVersion
 
     
     modules = [kbModule]    

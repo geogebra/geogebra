@@ -4,7 +4,7 @@ buildscript {
     }
 }
 
-
+ext.gwtCompilerVersion = '2.8.2'
 
 apply plugin: 'gwt'
 apply plugin: 'java'
@@ -15,7 +15,7 @@ targetCompatibility = 1.6
 
 gwt {
 	maxHeapSize = '2000M'
-	gwtVersion '2.8.1'
+	gwtVersion = gwtCompilerVersion
 	// only compilable module
 	modules 'com.himamis.retex.renderer.JLaTeXMathGWTExportedLibrary'
 	devModules 'com.himamis.retex.renderer.JLaTeXMathGWTDev'
@@ -29,9 +29,9 @@ evaluationDependsOn ':renderer-base'
 dependencies {
 	compile project(':renderer-base')
 	compile files(project(':renderer-base').sourceSets.main.java.srcDirs)
-	compile 'com.google.gwt:gwt-dev:2.8.1'
-	compile 'com.google.gwt:gwt-user:2.8.1'
-	testCompile 'com.google.gwt:gwt-user:2.8.1'
+	compile "com.google.gwt:gwt-dev:$gwtCompilerVersion"
+	compile "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	testCompile "com.google.gwt:gwt-user:$gwtCompilerVersion"
 	testCompile 'junit:junit:4.12'
 }
 

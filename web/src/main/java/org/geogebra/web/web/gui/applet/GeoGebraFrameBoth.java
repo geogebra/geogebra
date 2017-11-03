@@ -2,9 +2,8 @@ package org.geogebra.web.web.gui.applet;
 
 import java.util.ArrayList;
 
-import javax.swing.SwingConstants;
-
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;

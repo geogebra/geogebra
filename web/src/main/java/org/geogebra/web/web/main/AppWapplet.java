@@ -1,7 +1,5 @@
 package org.geogebra.web.web.main;
 
-import javax.swing.SwingConstants;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
@@ -9,6 +7,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
+import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
