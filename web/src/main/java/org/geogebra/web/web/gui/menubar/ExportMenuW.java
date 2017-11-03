@@ -24,8 +24,7 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 		super(true);
 
 		addStyleName("GeoGebraMenuBar");
-		MainMenu.addSubmenuArrow(this,
-				app.isUnbundledOrWhiteboard());
+		MainMenu.addSubmenuArrow(this, app.isUnbundledOrWhiteboard());
 		if (app.isUnbundled()) {
 			addStyleName("floating-Popup");
 		}
@@ -41,67 +40,56 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 	 */
 	protected static void initActions(final MenuBarI menu, final AppW app) {
 
-		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				// translation not needed
-				.getSafeUri().asString(), "ggb", true), true,
-				new MenuCommand(app) {
+		menu.addItem(menuText("ggb"), true, new MenuCommand(app) {
 
-					@Override
-					public void doExecute() {
-						menu.hide();
-						dialogEvent(app, "exportGGB");
-						app.getFileManager().export(app);
-					}
-				});
+			@Override
+			public void doExecute() {
+				menu.hide();
+				dialogEvent(app, "exportGGB");
+				app.getFileManager().export(app);
+			}
+		});
 
-		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				// translation not needed
-				.getSafeUri().asString(), "png", true), true,
-				new MenuCommand(app) {
+		menu.addItem(menuText("png"), true, new MenuCommand(app) {
 
-					@Override
-					public void execute() {
-						menu.hide();
-						app.toggleMenu();
-						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelections();
-						String url = ((EuclidianViewWInterface) app
-								.getActiveEuclidianView())
-										.getExportImageDataUrl(1.0, false);
+			@Override
+			public void execute() {
+				menu.hide();
+				app.toggleMenu();
+				app.getActiveEuclidianView().getEuclidianController()
+						.clearSelections();
+				String url = ((EuclidianViewWInterface) app
+						.getActiveEuclidianView()).getExportImageDataUrl(1.0,
+								false);
 
-						app.getFileManager().showExportAsPictureDialog(url,
-								app.getExportTitle(), "png", "ExportAsPicture", app);
-						dialogEvent(app, "exportPNG");
-					}
-				});
+				app.getFileManager().showExportAsPictureDialog(url,
+						app.getExportTitle(), "png", "ExportAsPicture", app);
+				dialogEvent(app, "exportPNG");
+			}
+		});
 
-		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				// translation not needed
-				.getSafeUri().asString(), "svg", true), true,
-				new MenuCommand(app) {
+		menu.addItem(menuText("svg"), true, new MenuCommand(app) {
 
-					@Override
-					public void execute() {
-						menu.hide();
-						app.toggleMenu();
-						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelections();
-						String svg = "data:text/plain;charset=utf-8,"
-								+ ((EuclidianViewWInterface) app
+			@Override
+			public void execute() {
+				menu.hide();
+				app.toggleMenu();
+				app.getActiveEuclidianView().getEuclidianController()
+						.clearSelections();
+				String svg = "data:text/plain;charset=utf-8,"
+						+ ((EuclidianViewWInterface) app
 								.getActiveEuclidianView()).getExportSVG(1,
 										false);
 
-						app.getFileManager().showExportAsPictureDialog(svg,
-								app.getExportTitle(), "svg", "ExportAsPicture",
-								app);
-						dialogEvent(app, "exportSVG");
-					}
-				});
+				app.getFileManager().showExportAsPictureDialog(svg,
+						app.getExportTitle(), "svg", "ExportAsPicture", app);
+				dialogEvent(app, "exportSVG");
+			}
+		});
 		// TODO add gif back when ready
 		// if (!app.getLAF().isTablet()) {
-		// addItem(MainMenu.getMenuBarHtml(
-		// AppResources.INSTANCE.empty().getSafeUri().asString(),
-		// app.getLocalization().getMenu("AnimatedGIF"), true), true,
+		// addItem(menuText(
+		// app.getLocalization().getMenu("AnimatedGIF")), true,
 		// new MenuCommand(app) {
 		// @Override
 		// public void doExecute() {
@@ -113,80 +101,71 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 		// });
 		// }
 
-		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				// translation not needed
-				.getSafeUri().asString(), "PSTricks", true), true,
-				new MenuCommand(app) {
+		menu.addItem(menuText("PSTricks"), true, new MenuCommand(app) {
 
-					@Override
-					public void execute() {
-						app.getActiveEuclidianView()
-								.setSelectionRectangle(null);
-						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelections();
-						menu.hide();
-						String url = "data:text/plain;charset=utf-8,"
-								+ app.getGgbApi().exportPSTricks();
+			@Override
+			public void execute() {
+				app.getActiveEuclidianView().setSelectionRectangle(null);
+				app.getActiveEuclidianView().getEuclidianController()
+						.clearSelections();
+				menu.hide();
+				String url = "data:text/plain;charset=utf-8,"
+						+ app.getGgbApi().exportPSTricks();
 
-						app.getFileManager().showExportAsPictureDialog(url,
-								app.getExportTitle(), "txt", "Export", app);
-						dialogEvent(app, "exportPSTricks");
-					}
-				});
+				app.getFileManager().showExportAsPictureDialog(url,
+						app.getExportTitle(), "txt", "Export", app);
+				dialogEvent(app, "exportPSTricks");
+			}
+		});
 
-		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				// translation not needed
-				.getSafeUri().asString(), "PGF/TikZ", true), true,
-				new MenuCommand(app) {
+		menu.addItem(menuText("PGF/TikZ"), true, new MenuCommand(app) {
 
-					@Override
-					public void execute() {
-						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelectionAndRectangle();
-						menu.hide();
-						String url = "data:text/plain;charset=utf-8,"
-								+ app.getGgbApi().exportPGF();
+			@Override
+			public void execute() {
+				app.getActiveEuclidianView().getEuclidianController()
+						.clearSelectionAndRectangle();
+				menu.hide();
+				String url = "data:text/plain;charset=utf-8,"
+						+ app.getGgbApi().exportPGF();
 
-						app.getFileManager().showExportAsPictureDialog(url,
-								app.getExportTitle(), "txt", "Export", app);
-						dialogEvent(app, "exportPGF");
-					}
-				});
+				app.getFileManager().showExportAsPictureDialog(url,
+						app.getExportTitle(), "txt", "Export", app);
+				dialogEvent(app, "exportPGF");
+			}
+		});
 
-		menu.addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-				// translation not needed
-				.getSafeUri().asString(), "Asymptote", true), true,
-				new MenuCommand(app) {
+		menu.addItem(menuText("Asymptote"), true, new MenuCommand(app) {
 
-					@Override
-					public void execute() {
-						app.getActiveEuclidianView().getEuclidianController()
-								.clearSelectionAndRectangle();
-						menu.hide();
-						String url = "data:text/plain;charset=utf-8,"
-								+ app.getGgbApi().exportAsymptote();
+			@Override
+			public void execute() {
+				app.getActiveEuclidianView().getEuclidianController()
+						.clearSelectionAndRectangle();
+				menu.hide();
+				String url = "data:text/plain;charset=utf-8,"
+						+ app.getGgbApi().exportAsymptote();
 
-						app.getFileManager().showExportAsPictureDialog(url,
-								app.getExportTitle(), "txt", "Export", app);
-						dialogEvent(app, "exportPGF");
-					}
-				});
-		
-		
+				app.getFileManager().showExportAsPictureDialog(url,
+						app.getExportTitle(), "txt", "Export", app);
+				dialogEvent(app, "exportPGF");
+			}
+		});
+
 		if (app.has(Feature.EXPORT_SCAD)) {
-			menu.addItem(
-					MainMenu.getMenuBarHtml(
-					AppResources.INSTANCE.empty().getSafeUri().asString(),
-					"OpenSCAD", true), true,
-					new MenuCommand(app) {
-						@Override
-						public void doExecute() {
-							menu.hide();
-							app.setFlagForSCADexport();
-						}
-					});
+			menu.addItem(menuText("OpenSCAD"), true, new MenuCommand(app) {
+				@Override
+				public void doExecute() {
+					menu.hide();
+					app.setFlagForSCADexport();
+				}
+			});
 		}
 
+	}
+
+	private static String menuText(String string) {
+		return MainMenu.getMenuBarHtml(
+				AppResources.INSTANCE.empty().getSafeUri().asString(), string,
+				true);
 	}
 
 	/**
