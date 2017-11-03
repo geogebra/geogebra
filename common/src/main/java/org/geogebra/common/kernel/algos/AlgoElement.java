@@ -1881,6 +1881,12 @@ public abstract class AlgoElement extends ConstructionElement
 		LabelManager.setLabels(oldGeoLabel, getOutput());
 	}
 
+	/**
+	 * Enable or disable adding label
+	 * 
+	 * @param b
+	 *            true if enabled
+	 */
 	public void setLabelEnable(boolean b) {
 		labelEnable = b;
 	}

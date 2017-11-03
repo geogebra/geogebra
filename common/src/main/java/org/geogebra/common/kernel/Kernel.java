@@ -5579,13 +5579,6 @@ public class Kernel {
 		}
 	}
 
-	public final void notifyUpdatePreviewFromView(GeoElement[] geos,
-			int viewID) {
-		if (notifyViewsActive) {
-			app.getView(viewID).updatePreviewFromInputBar(geos);
-		}
-	}
-
 	public final void notifyUpdateSpecPointsPreview(GeoElement[] geos,
 			int viewID) {
 		if (notifyViewsActive) {
