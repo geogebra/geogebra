@@ -1912,7 +1912,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			super.setLabels();
 
 			if (model.isCenter()) {
-				getLabel().setText(loc.getMenu("Center") + ":");
+				getLabel().setText(loc.getCommand("Center") + ":");
 			} else {
 				String strLabelStart = loc.getMenu("CornerPoint");
 				getLabel().setText(
@@ -1977,22 +1977,23 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 				return null;
 			}
 			if (center.updatePanel(geos) != null) {
-				corner0.setVisible(false);
-				corner1.setVisible(false);
-				corner2.setVisible(false);
-				center.setVisible(true);
+				showCenter(true);
 				return this;
 			}
 			if (corner0.updatePanel(geos) == null) {
 				return null;
 			}
-			corner0.setVisible(true);
-			corner1.setVisible(true);
-			corner2.setVisible(true);
-			center.setVisible(false);
+			showCenter(false);
 			corner1.updatePanel(geos);
 			corner2.updatePanel(geos);
 			return this;
+		}
+
+		private void showCenter(boolean b) {
+			corner0.setVisible(!b);
+			corner1.setVisible(!b);
+			corner2.setVisible(!b);
+			center.setVisible(b);
 		}
 
 		@Override

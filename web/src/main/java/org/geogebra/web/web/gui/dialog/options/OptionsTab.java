@@ -1439,7 +1439,7 @@ public class OptionsTab extends FlowPanel {
 		public void setLabels() {
 			super.setLabels();
 			if (model.isCenter()) {
-				getLabel().setText(localization.getMenu("Center") + ":");
+				getLabel().setText(localization.getCommand("Center") + ":");
 			}
 		}
 	}

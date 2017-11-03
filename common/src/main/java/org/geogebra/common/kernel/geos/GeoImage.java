@@ -724,7 +724,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		switch (n) {
 		case 1: // get A
-			result.setCoords(getCornerA());
+			result.setCoords(getCornerAx(), getCornerAy(), 1);
 			break;
 
 		case 2: // get B
@@ -737,8 +737,8 @@ public class GeoImage extends GeoElement implements Locateable,
 			double[] d = new double[2];
 			getInternalCornerPointCoords(b, 1);
 			getInternalCornerPointCoords(d, 2);
-			result.setCoords(d[0] + b[0] - getCornerA().inhomX,
-					d[1] + b[1] - getCornerA().inhomY, 1.0);
+			result.setCoords(d[0] + b[0] - getCornerAx(),
+					d[1] + b[1] - getCornerAy(), 1.0);
 			break;
 
 		case 4: // get D
@@ -751,24 +751,35 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
-	private GeoPoint getCornerA() {
+	private double getCornerAx() {
 		if (!centered) {
-			return corners[0];
+			return corners[0].inhomX;
 		}
 
 		EuclidianView ev = kernel.getApplication().getEuclidianView1();
 		GeoPoint c = corners[CENTER_INDEX];
-		GeoPoint p = new GeoPoint(cons);
 		if (c != null) { // may be null while loading file
-			double x = ev.toScreenCoordX(c.x) - pixelWidth / 2;
-			double y = ev.toScreenCoordY(c.y) + pixelHeight / 2;
-			p.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y), 1.0);
+			return ev.toScreenCoordX(c.inhomX) - pixelWidth / 2;
 		}
-		return p;
+		return 0;
+	}
+
+	private double getCornerAy() {
+		if (!centered) {
+			return corners[0].inhomY;
+		}
+
+		EuclidianView ev = kernel.getApplication().getEuclidianView1();
+		GeoPoint c = corners[CENTER_INDEX];
+		if (c != null) { // may be null while loading file
+			return ev.toScreenCoordX(c.inhomY) - pixelHeight / 2;
+		}
+		return 0;
 	}
 
 	private void getInternalCornerPointCoords(double[] coords, int n) {
-		GeoPoint A = getCornerA();
+		double ax = getCornerAx();
+		double ay = getCornerAy();
 		GeoPoint B = corners[1];
 		GeoPoint D = corners[2];
 
@@ -784,8 +795,8 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		switch (n) {
 		case 0: // get A
-			coords[0] = A.inhomX;
-			coords[1] = A.inhomY;
+			coords[0] = ax;
+			coords[1] = ay;
 			break;
 
 		case 1: // get B
@@ -795,15 +806,15 @@ public class GeoImage extends GeoElement implements Locateable,
 			} else { // B is not defined
 				if (D == null) {
 					// B and D are not defined
-					coords[0] = A.inhomX + width / xscale;
-					coords[1] = A.inhomY;
+					coords[0] = ax + width / xscale;
+					coords[1] = ay;
 				} else {
 					// D is defined, B isn't
-					double nx = D.inhomY - A.inhomY;
-					double ny = A.inhomX - D.inhomX;
+					double nx = D.inhomY - ay;
+					double ny = ax - D.inhomX;
 					double factor = width / height;
-					coords[0] = A.inhomX + factor * nx;
-					coords[1] = A.inhomY + factor * ny;
+					coords[0] = ax + factor * nx;
+					coords[1] = ay + factor * ny;
 				}
 			}
 			break;
@@ -815,15 +826,15 @@ public class GeoImage extends GeoElement implements Locateable,
 			} else { // D is not defined
 				if (B == null) {
 					// B and D are not defined
-					coords[0] = A.inhomX;
-					coords[1] = A.inhomY + height / yscale;
+					coords[0] = ax;
+					coords[1] = ay + height / yscale;
 				} else {
 					// B is defined, D isn't
-					double nx = A.inhomY - B.inhomY;
-					double ny = B.inhomX - A.inhomX;
+					double nx = ay - B.inhomY;
+					double ny = B.inhomX - ax;
 					double factor = height / width;
-					coords[0] = A.inhomX + factor * nx;
-					coords[1] = A.inhomY + factor * ny;
+					coords[0] = ax + factor * nx;
+					coords[1] = ay + factor * ny;
 				}
 			}
 			break;
@@ -1164,7 +1175,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	}
 
 	private void removeCorner(int idx) {
-		if (corners[idx] == null) {
+		if (corners[idx] == null || corners[idx].hasChildren()) {
 			return;
 		}
 		setCorner(null, idx);
