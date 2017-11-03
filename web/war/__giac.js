@@ -2072,8 +2072,8 @@ var __giac = [ {},
 { cat:"Sum", cmd:"Sum(If(floor(k/2)==k/2,k,0),k,0,10)", result:"30", notes:"GGB-2184" },
 { cat:"Sum", cmd:"Sum(If(round(k/2)==k/2,k,0),k,0,10)", result:"30", notes:"GGB-2184" },
 { cat:"Sum", cmd:"Sum(If(ceil(k/2)==k/2,k,0),k,0,10)", result:"30", notes:"GGB-2184" },
-{ cat:"Evaluate", cmd:"Evaluate[s/(sqrt(2+sqrt(4-s^2)))-sqrt(2-sqrt(4-s^2))]", result:"-sqrt(-sqrt(-s\u00B2 + 4) + 2) + s / sqrt(sqrt(-s\u00B2 + 4) + 2)", notes:"GGB-327 sometimes gives 0" },
 { cat:"Evaluate", cmd:"Evaluate[(sqrt(1 + x) * sqrt(1 - x)) - sqrt(1 - x^(2))]", result:"0", notes:"TRAC-5527" },
+{ cat:"Solve", cmd:"Solve[{4=a*(2)^n,13.5=a*3^n},{a,n}]", result:"{{a = 1 / 2, n = 3}}", notes:"TRAC-5530" },
 //JSONEND
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
@@ -2204,6 +2204,7 @@ var problems = [
 
 { cat:"PROBLEM", cmd:"Solve[x cos(y) exp(x) -y exp(x) sin(y)=-1/exp(1)]", result:"" },
 { cat:"PROBLEM", cmd:"Integrate(sin(asin(cos(acos(log(tan(atan(log10(log2((abs(floor(ceiling(round(sinh(asinh(cosh(acosh(tanh(atanh(x)))))))))))))))))))),x)", result:"" },
+{ cat:"PROBLEM", cmd:"Evaluate[s/(sqrt(2+sqrt(4-s^2)))-sqrt(2-sqrt(4-s^2))]", result:"-sqrt(-sqrt(-s\u00B2 + 4) + 2) + s / sqrt(sqrt(-s\u00B2 + 4) + 2)", notes:"GGB-327 freezes giac.js" },
 
 // 
 
