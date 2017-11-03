@@ -5,13 +5,18 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.DegreeVariableReplacer;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -59,6 +64,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	@Override
 	public void compute() {
 		boolean symbolic = solutions.size() < 1 || solutions.isSymbolicMode();
+		boolean trig = false;
 		StringBuilder sb = new StringBuilder(type.getCommand());
 		sb.append('[');
 		if (equations instanceof GeoList) {
@@ -67,11 +73,11 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 				if (i != 0) {
 					sb.append(',');
 				}
-				printCAS(((GeoList) equations).get(i), sb);
+				trig = printCAS(((GeoList) equations).get(i), sb) || trig;
 			}
 			sb.append("}");
 		} else {
-			printCAS(equations, sb);
+			trig = printCAS(equations, sb) || trig;
 		}
 		sb.append("]");
 		try {
@@ -100,7 +106,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 			} else {
 				solutions.set(raw);
 			}
-			showUserForm(solutions);
+			showUserForm(solutions, trig);
 			if (type == Commands.Solutions && symbolic) {
 				solutions.setSymbolicMode(true, false);
 			}
@@ -125,52 +131,88 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		return true;
 	}
 
-	private void showUserForm(GeoList solutions2) {
+	private void showUserForm(GeoList solutions2, boolean trig) {
 		for (int i = 0; i < solutions2.size(); i++) {
-			if (solutions2.get(i) instanceof GeoLine) {
-				((GeoLine) solutions2.get(i)).setMode(GeoLine.EQUATION_USER);
+
+			GeoElement el = solutions2.get(i);
+			if (el instanceof GeoLine) {
+				((GeoLine) el).setMode(GeoLine.EQUATION_USER);
 			}
-			if (solutions2.get(i) instanceof GeoPlaneND) {
-				((GeoPlaneND) solutions2.get(i)).setMode(GeoLine.EQUATION_USER);
+			if (el instanceof GeoPlaneND) {
+				((GeoPlaneND) el).setMode(GeoLine.EQUATION_USER);
 			}
 
-			if (solutions2.get(i) instanceof GeoList) {
-				showUserForm((GeoList) solutions2.get(i));
+			if (el instanceof GeoList) {
+				showUserForm((GeoList) el, trig);
+
 			}
+			else if (trig) {
+				ExpressionValue def = el.getDefinition().unwrap();
+
+				if (def instanceof Equation) {
+					ExpressionValue rhs = ((Equation) def).getRHS().unwrap();
+					makeAngle(rhs);
+				}
+				if (el instanceof GeoNumeric) {
+					GeoAngle copy = new GeoAngle(cons);
+					copy.set(el);
+					solutions2.setListElement(i, copy);
+				}
+			}
+		}
+		solutions2.setSymbolicMode(true, false);
+
+	}
+
+	private void makeAngle(ExpressionValue rhs) {
+		if (rhs instanceof MyDouble) {
+			((MyDouble) rhs).setAngle();
+			return;
+		}
+		if (rhs.isExpressionNode()) {
+			rhs.traverse(new Traversing() {
+
+				public ExpressionValue process(ExpressionValue ev) {
+					if (ev instanceof MyDouble && MyDouble.exactEqual(Math.PI,
+							ev.evaluateDouble())) {
+						MyDouble angle = new MyDouble(kernel, Math.PI);
+						angle.setAngle();
+						return angle;
+					}
+					return ev;
+				}
+
+			});
 		}
 
 	}
 
-	private static void printCAS(GeoElement equations2, StringBuilder sb) {
+	private static boolean printCAS(GeoElement equations2, StringBuilder sb) {
 
 		String definition;
+		ExpressionValue definitionObject = null;
 
 		if (equations2.getDefinition() != null) {
-			definition = equations2.getDefinition()
+			definitionObject = equations2.getDefinition();
+			definition = definitionObject
 					.toValueString(StringTemplate.prefixedDefault);
 		} else {
 			definition = equations2.toValueString(StringTemplate.prefixedDefault);
-		}
-
-		if (equations2.getKernel().getApplication()
-				.has(Feature.AUTO_ADD_DEGREE)) {
-
 			try {
-				ExpressionValue ve = equations2.getKernel().getParser()
+				definitionObject = equations2.getKernel().getParser()
 						.parseGeoGebraExpression(definition);
-
-				ve = ve.traverse(DegreeVariableReplacer
-						.getReplacer(equations2.getKernel()));
-				Log.debug("changing " + definition + " to "
-						+ ve.toString(StringTemplate.prefixedDefault));
-				sb.append(ve.toString(StringTemplate.prefixedDefault));
-				return;
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
-		
 		sb.append(definition);
+		if (equations2.getKernel().getApplication()
+				.has(Feature.AUTO_ADD_DEGREE)) {
+			return definitionObject.inspect(DegreeVariableReplacer
+					.getReplacer(equations2.getKernel()));
+		}
+		return false;
+		
 
 	}
 

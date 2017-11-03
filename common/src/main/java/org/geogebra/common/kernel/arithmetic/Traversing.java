@@ -222,12 +222,12 @@ public interface Traversing {
 	 * Replaces sin(x) with sin(x deg) GGB-2183 eg Solve(sin(x)=1/2)
 	 *
 	 */
-	public class DegreeVariableReplacer implements Traversing {
+	public class DegreeVariableReplacer implements Inspecting {
 		private Kernel kernel;
 		private static DegreeVariableReplacer replacer = new DegreeVariableReplacer();
 
 		@Override
-		public ExpressionValue process(ExpressionValue ev) {
+		public boolean check(ExpressionValue ev) {
 			if (ev instanceof ExpressionNode) {
 				ExpressionNode en = (ExpressionNode) ev;
 
@@ -241,20 +241,13 @@ public interface Traversing {
 
 					// change sin(x) to sin(x deg)
 					if ("x".equals(fv.getSetVarString())) {
-
-						MySpecialDouble degree = new MySpecialDouble(kernel,
-								Math.PI / 180.0, Unicode.DEGREE_CHAR + "");
-
-						ExpressionNode xDegrees = new ExpressionNode(kernel, fv,
-								Operation.MULTIPLY, degree);
-
-						return new ExpressionNode(kernel, xDegrees, op, null);
+						return true;
 					}
 
 				}
 
 			}
-			return ev;
+			return false;
 		}
 
 		/**
