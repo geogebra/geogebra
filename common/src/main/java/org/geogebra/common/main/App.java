@@ -4301,7 +4301,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2169 */
             case CENTER_IMAGE:
-            	return prerelease;
+			return true;
 
 		/** GGB-2183 */
 		case AUTO_ADD_DEGREE:

@@ -7,6 +7,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -50,14 +51,15 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 	protected void initMenu() {
 		// insert above
 		JMenuItem item5 = new JMenuItem(loc.getMenu("InsertAbove"));
-		item5.setIcon(((AppD) app).getEmptyIcon());
+		Icon emptyIcon = ((AppD) app).getEmptyIcon();
+		item5.setIcon(emptyIcon);
 		item5.setActionCommand("insertAbove");
 		item5.addActionListener(this);
 		rowHeaderPopupMenu.add(item5);
 
 		// insert below
 		JMenuItem item6 = new JMenuItem(loc.getMenu("InsertBelow"));
-		item6.setIcon(((AppD) app).getEmptyIcon());
+		item6.setIcon(emptyIcon);
 		item6.setActionCommand("insertBelow");
 		item6.addActionListener(this);
 		rowHeaderPopupMenu.add(item6);
@@ -67,7 +69,7 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		int[] selRows = rowHeader.getSelectedIndices();
 		String strRows = getDeleteString(selRows);
 		JMenuItem item7 = new JMenuItem(strRows);
-		item7.setIcon(((AppD) app).getEmptyIcon());
+		item7.setIcon(emptyIcon);
 		item7.setActionCommand("delete");
 		item7.addActionListener(this);
 		rowHeaderPopupMenu.add(item7);
@@ -75,7 +77,7 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 		// handle cell as Textcell
 		cbUseAsText = new JCheckBoxMenuItem(loc.getMenu("CasCellUseAsText"));
 		cbUseAsText.setActionCommand("useAsText");
-		cbUseAsText.setIcon(((AppD) app).getEmptyIcon());
+		cbUseAsText.setIcon(emptyIcon);
 		int[] selRows2 = rowHeader.getSelectedIndices();
 		if (selRows2.length != 0) {
 			GeoCasCell casCell = table.getGeoCasCell(selRows2[0]);
@@ -86,7 +88,7 @@ public class RowHeaderPopupMenuD extends RowHeaderPopupMenu
 
 		// copy selected rows as LaTeX
 		JMenuItem latexItem = new JMenuItem(loc.getMenu("CopyAsLaTeX"));
-		latexItem.setIcon(((AppD) app).getEmptyIcon());
+		latexItem.setIcon(emptyIcon);
 		latexItem.setActionCommand("copyAsLaTeX");
 		latexItem.addActionListener(this);
 		rowHeaderPopupMenu.add(latexItem);

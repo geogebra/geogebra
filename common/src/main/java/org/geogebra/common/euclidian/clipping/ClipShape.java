@@ -97,6 +97,15 @@ public class ClipShape {
 		 * This makes a cubic curve to based on xf and yf that ranges from
 		 * [t0,t1]. So this takes a little subset of the curves if [t0,t1] is
 		 * smaller than [0,1].
+		 * 
+		 * @param xf
+		 *            x-function
+		 * @param yf
+		 *            y-function
+		 * @param t0
+		 *            start parameter
+		 * @param t1
+		 *            end parameter
 		 */
 		public void curveTo(Function xf, Function yf, double t0, double t1) {
 			flush(); // flush out lines
@@ -283,6 +292,13 @@ public class ClipShape {
 
 		/**
 		 * Use the 3 control points of a bezier quadratic
+		 * 
+		 * @param x0
+		 *            f(0)
+		 * @param x1
+		 *            f(0.5)
+		 * @param x2
+		 *            f(1)
 		 */
 		public void define(double x0, double x1, double x2) {
 			a = x0 - 2 * x1 + x2;

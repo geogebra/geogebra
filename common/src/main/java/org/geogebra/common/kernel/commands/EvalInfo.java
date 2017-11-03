@@ -208,6 +208,9 @@ public class EvalInfo {
 		return fractions;
 	}
 
+	/**
+	 * @return whether to replace eg 45 with 45deg
+	 */
 	public boolean autoAddDegree() {
 		return autoAddDegree;
 	}

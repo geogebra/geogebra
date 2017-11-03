@@ -141,7 +141,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	private void initTempPoints() {
 		if (tempPoints == null) {
 			// temp corner points for transformations and absolute location
-			tempPoints = new GeoPoint[3];
+			tempPoints = new GeoPoint[4];
 			for (int i = 0; i < tempPoints.length; i++) {
 				tempPoints[i] = new GeoPoint(cons);
 			}
@@ -462,6 +462,9 @@ public class GeoImage extends GeoElement implements Locateable,
 			return false;
 		}
 		for (int i = 0; i < corners.length; i++) {
+			if (i == 3) {
+				return true;
+			}
 			if (corners[i] != null && !corners[i].isDefined()) {
 				return false;
 			}
