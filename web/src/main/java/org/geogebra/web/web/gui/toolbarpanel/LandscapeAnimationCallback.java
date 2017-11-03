@@ -22,7 +22,7 @@ public class LandscapeAnimationCallback extends HeaderAnimationCallback {
 	@Override
 	protected void onStart() {
 		header.hideUndoRedoPanel();
-		header.hideCenter();
+		header.hideButons();
 		if (header.isOpen()) {
 			header.setHeight(OPEN_HEIGHT + "px");
 		}

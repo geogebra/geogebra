@@ -488,17 +488,19 @@ class Header extends FlowPanel implements KeyDownHandler {
 	}
 
 	/**
-	 * Show center panel.
+	 * Show buttons (tabs, close) of the header.
 	 */
-	public void showCenter() {
+	public void showButtons() {
 		center.removeStyleName("hidden");
+		rightSide.removeStyleName("hidden");
 	}
 
 	/**
-	 * Hide center buttons (eg. during animation).
+	 * Hide buttons (eg. during animation).
 	 */
-	public void hideCenter() {
+	public void hideButons() {
 		center.addStyleName("hidden");
+		rightSide.addStyleName("hidden");
 	}
 
 	/**
@@ -845,7 +847,8 @@ class Header extends FlowPanel implements KeyDownHandler {
 				updateCenterSize();
 				showUndoRedoPanel();
 				updateUndoRedoPosition();
-				showCenter();
+				showButtons();
+				resize();
 			}
 		});
 	}
