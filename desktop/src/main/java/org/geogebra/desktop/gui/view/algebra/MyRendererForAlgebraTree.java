@@ -189,6 +189,14 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	private static ImageIcon joinIcons(ImageIcon leftIcon,
 			ImageIcon rightIcon) {
 
+		if (leftIcon == null) {
+			return rightIcon;
+		}
+
+		if (rightIcon == null) {
+			return leftIcon;
+		}
+
 		int w1 = leftIcon.getIconWidth();
 		int w2 = rightIcon.getIconWidth();
 		int h1 = leftIcon.getIconHeight();
