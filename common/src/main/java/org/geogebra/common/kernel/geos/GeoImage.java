@@ -458,11 +458,13 @@ public class GeoImage extends GeoElement implements Locateable,
 		if (!defined) {
 			return false;
 		}
+		if (centered) {
+			return corners[CENTER_INDEX] != null
+					&& corners[CENTER_INDEX].isDefined();
+		}
 		for (int i = 0; i < corners.length; i++) {
-			if (i == 3) {
-				return true;
-			}
-			if (corners[i] != null && !corners[i].isDefined()) {
+			if (corners[i] != null && !corners[i].isDefined()
+					&& i != CENTER_INDEX) {
 				return false;
 			}
 		}
@@ -1058,7 +1060,9 @@ public class GeoImage extends GeoElement implements Locateable,
 			double a11, double a12, double a20, double a21, double a22) {
 
 		// http://forum.geogebra.org/viewtopic.php?f=8&t=38230
-		initTempPoints();
+		if (!initTransformPoints()) {
+			return;
+		}
 
 		for (int i = 0; i < corners.length; i++) {
 			GeoVec2D vec = tempPoints[i].getVector();
