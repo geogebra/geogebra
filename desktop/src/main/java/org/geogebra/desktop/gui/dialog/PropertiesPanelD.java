@@ -1976,7 +1976,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			if (geos == null) {
 				return null;
 			}
-			if (center.updatePanel(geos) != null) {
+			if (center != null && center.updatePanel(geos) != null) {
 				showCenter(true);
 				return this;
 			}
@@ -1993,7 +1993,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			corner0.setVisible(!b);
 			corner1.setVisible(!b);
 			corner2.setVisible(!b);
-			center.setVisible(b);
+			if (center != null) {
+				center.setVisible(b);
+			}
 		}
 
 		@Override
