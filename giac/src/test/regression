@@ -129,19 +129,23 @@ find $FOLDER -name '*.in' | while read IN; do
     diff -U 1 $OUT $SAVEDIR/$OUT > $SAVEDIR/$OUT.diff
     if [ -s $SAVEDIR/$OUT.diff ]; then
     # intelligent diff (via $MINIGIAC)
+    # consider using a more elegant way (e.g. a function) to test equality (maybe some checks can be omitted)
      diff $OUT $SAVEDIR/$OUT | awk '{
       if ($1=="<") { inline = $2; inres = substr($0,3+length($2)+1); inresq=inres; gsub("\"","\\\"",inresq); }
       else if ($1==">") { outline = $2; outres = substr($0,3+length($2)+1); outresq=outres; gsub("\"","\\\"",outresq);
-       cascommand = "caseval(\\\"init geogebra\\\");\n(ggbsort(" inresq ")==ggbsort(" outresq ")) or (sort(" inresq ")==sort(" outresq "))";
-       giaccommand = ENVIRON["MINIGIAC"] " -m";
-       "mktemp" | getline giacin;
-       close("mktemp");
-       "mktemp" | getline giacout;
-       close("mktemp");
-       system("/bin/echo -e \"" cascommand "\" > " giacin);
-       syscommand = giaccommand " <" giacin " >" giacout;
-       system(syscommand);
-       regression = system("grep true " giacout);
+       regression=0;
+       if (index(tolower(inres),"error")==0 || index(tolower(outres),"error")==0) {
+        cascommand = "caseval(\\\"init geogebra\\\");\n(ggbsort(" inresq ")==ggbsort(" outresq ")) or (sort(" inresq ")==sort(" outresq ")) or (simplify(" inresq ")==simplify(" outresq ")) or (sort(op(" inresq ")==sort(op(" outresq "))))";
+        giaccommand = ENVIRON["MINIGIAC"] " -m";
+        "mktemp" | getline giacin;
+        close("mktemp");
+        "mktemp" | getline giacout;
+        close("mktemp");
+        system("/bin/echo -e \"" cascommand "\" > " giacin);
+        syscommand = giaccommand " <" giacin " >" giacout;
+        system(syscommand);
+        regression = system("grep true " giacout);
+        }
        if (regression == 1) {
         print "ID:" ed;
         print "ID:< " inline " " inres;
