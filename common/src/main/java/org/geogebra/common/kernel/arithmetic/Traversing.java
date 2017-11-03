@@ -223,7 +223,6 @@ public interface Traversing {
 	 *
 	 */
 	public class DegreeVariableReplacer implements Inspecting {
-		private Kernel kernel;
 		private static DegreeVariableReplacer replacer = new DegreeVariableReplacer();
 
 		@Override
@@ -243,9 +242,7 @@ public interface Traversing {
 					if ("x".equals(fv.getSetVarString())) {
 						return true;
 					}
-
 				}
-
 			}
 			return false;
 		}
@@ -257,7 +254,6 @@ public interface Traversing {
 		 * @return replacer
 		 */
 		public static DegreeVariableReplacer getReplacer(Kernel kernel) {
-			replacer.kernel = kernel;
 			return replacer;
 		}
 	}
