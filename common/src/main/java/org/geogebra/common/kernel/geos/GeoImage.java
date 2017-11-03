@@ -737,8 +737,8 @@ public class GeoImage extends GeoElement implements Locateable,
 			double[] d = new double[2];
 			getInternalCornerPointCoords(b, 1);
 			getInternalCornerPointCoords(d, 2);
-			result.setCoords(d[0] + b[0] - corners[0].inhomX,
-					d[1] + b[1] - corners[0].inhomY, 1.0);
+			result.setCoords(d[0] + b[0] - getCornerA().inhomX,
+					d[1] + b[1] - getCornerA().inhomY, 1.0);
 			break;
 
 		case 4: // get D
@@ -1153,7 +1153,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		removeCorner(2);
 		corners[CENTER_INDEX] = corners[0];
 		corners[0] = null;
-
 	}
 
 	private void uncenter() {
@@ -1170,6 +1169,6 @@ public class GeoImage extends GeoElement implements Locateable,
 		setCorner(null, idx);
 		corners[idx].remove();
 		kernel.notifyRemove(corners[idx]);
+		corners[idx] = null;
 	}
-
 }
