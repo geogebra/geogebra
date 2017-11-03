@@ -64,6 +64,7 @@ import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel;
 import org.geogebra.common.gui.dialog.options.model.BooleanOptionModel.IBooleanOptionListener;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ButtonSizeModel.IButtonSizeListener;
+import org.geogebra.common.gui.dialog.options.model.CenterImageModel;
 import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel;
 import org.geogebra.common.gui.dialog.options.model.ColorFunctionModel.IColorFunctionListener;
 import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
@@ -117,11 +118,13 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -213,6 +216,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private ScriptEditPanel scriptEditPanel;
 	private BackgroundImagePanel bgImagePanel;
 	private AbsoluteScreenLocationPanel absScreenLocPanel;
+	private AbsoluteScreenLocationPanel centerImagePanel;
 	private ListsAsComboBoxPanel comboBoxPanel;
 	// private ShowView2D showView2D;
 	private ShowConditionPanel showConditionPanel;
@@ -307,7 +311,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		animatingPanel = new AnimatingPanel();
 		fixPanel = new FixPanel();
 		checkBoxFixPanel = new CheckBoxFixPanel();
-		absScreenLocPanel = new AbsoluteScreenLocationPanel();
+		absScreenLocPanel = new AbsoluteScreenLocationPanel(
+				"AbsoluteScreenLocation", new AbsoluteScreenLocationModel(app));
+		centerImagePanel = new AbsoluteScreenLocationPanel("CenterImage",
+				new CenterImageModel(app));
 		comboBoxPanel = new ListsAsComboBoxPanel();
 		// showView2D = new ShowView2D();
 		auxPanel = new AuxiliaryObjectPanel();
@@ -491,6 +498,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			positionTabList.add(cornerPointsPanel);
 
 			positionTabList.add(absScreenLocPanel);
+			positionTabList.add(centerImagePanel);
 
 			positionTab = new TabPanel(positionTabList);
 			tabPanelList.add(positionTab);
@@ -594,6 +602,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		animSpeedPanel.setLabels();
 		slopeTriangleSizePanel.setLabels();
 		absScreenLocPanel.setLabels();
+		centerImagePanel.setLabels();
 		comboBoxPanel.setLabels();
 		// showView2D.setLabels();
 		sliderPanel.setLabels();
@@ -674,6 +683,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		animStepPanel.updateFonts();
 		animSpeedPanel.updateFonts();
 		slopeTriangleSizePanel.updateFonts();
+		centerImagePanel.updateFonts();
 		absScreenLocPanel.updateFonts();
 		comboBoxPanel.updateFonts();
 		// showView2D.updateFonts();
@@ -931,7 +941,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			comboBox.removeAllItems();
 			getModel().fillModes(loc);
-			comboBox.setSelectedIndex(selectedIndex);
+			if (selectedIndex < comboBox.getItemCount()) {
+				comboBox.setSelectedIndex(selectedIndex);
+			}
 			comboBox.addActionListener(this);
 		}
 
@@ -1477,10 +1489,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		 */
 		private static final long serialVersionUID = 1L;
 
-		public AbsoluteScreenLocationPanel() {
-			super("AbsoluteScreenLocation");
-			AbsoluteScreenLocationModel model = new AbsoluteScreenLocationModel(
-					app);
+		public AbsoluteScreenLocationPanel(String key,
+				BooleanOptionModel model) {
+			super(key);
 			model.setListener(this);
 			setModel(model);
 			app.setFlowLayoutOrientation(this);
@@ -1869,8 +1880,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			model.setCornerIdx(cornerIdx);
 			setModel(model);
 			comboBox.setEditable(true);
-
-			getLabel().setIcon(app.getScaledIcon(cornerIcon(cornerIdx)));
+			ImageResourceD res = cornerIcon(cornerIdx);
+			if (res != null) {
+				getLabel().setIcon(app.getScaledIcon(res));
+			}
 		}
 
 		ImageResourceD cornerIcon(int idx) {
@@ -1897,9 +1910,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		@Override
 		public void setLabels() {
 			super.setLabels();
-			String strLabelStart = loc.getMenu("CornerPoint");
-			getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
 
+			if (model.isCenter()) {
+				getLabel().setText(loc.getMenu("Center") + ":");
+			} else {
+				String strLabelStart = loc.getMenu("CornerPoint");
+				getLabel().setText(
+						strLabelStart + " " + model.getCornerNumber() + ":");
+			}
 		}
 
 	}
@@ -1914,17 +1932,23 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private ImageCornerPanel corner0;
 		private ImageCornerPanel corner1;
 		private ImageCornerPanel corner2;
+		private ImageCornerPanel center;
 
 		public CornerPointsPanel() {
 			corner0 = new ImageCornerPanel(0);
 			corner1 = new ImageCornerPanel(1);
 			corner2 = new ImageCornerPanel(2);
+			if (app.has(Feature.CENTER_IMAGE)) {
+				center = new ImageCornerPanel(GeoImage.CENTER_INDEX);
+			}
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			add(corner0);
 			add(corner1);
 			add(corner2);
-
+			if (center != null) {
+				add(center);
+			}
 		}
 
 		@Override
@@ -1932,6 +1956,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			corner0.updateFonts();
 			corner1.updateFonts();
 			corner2.updateFonts();
+			if (center != null) {
+				center.updateFonts();
+			}
 		}
 
 		@Override
@@ -1939,14 +1966,30 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			corner0.setLabels();
 			corner1.setLabels();
 			corner2.setLabels();
+			if (center != null) {
+				center.setLabels();
+			}
 		}
 
 		@Override
 		public JPanel updatePanel(Object[] geos) {
-			if (geos == null || corner0.updatePanel(geos) == null) {
+			if (geos == null) {
 				return null;
 			}
-
+			if (center.updatePanel(geos) != null) {
+				corner0.setVisible(false);
+				corner1.setVisible(false);
+				corner2.setVisible(false);
+				center.setVisible(true);
+				return this;
+			}
+			if (corner0.updatePanel(geos) == null) {
+				return null;
+			}
+			corner0.setVisible(true);
+			corner1.setVisible(true);
+			corner2.setVisible(true);
+			center.setVisible(false);
 			corner1.updatePanel(geos);
 			corner2.updatePanel(geos);
 			return this;

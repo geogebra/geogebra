@@ -1381,7 +1381,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		tab.addModel(new StartPointModel(app))
 				.addModel(new CornerPointsModel(app))
 				.addModel(new AbsoluteScreenLocationModel(app))
-				.addModel(new CenterImageModel(null, app));
+				.addModel(new CenterImageModel(app));
 		return tab;
 	}
 

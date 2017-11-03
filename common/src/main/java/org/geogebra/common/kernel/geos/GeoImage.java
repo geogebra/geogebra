@@ -758,11 +758,12 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		EuclidianView ev = kernel.getApplication().getEuclidianView1();
 		GeoPoint c = corners[CENTER_INDEX];
-		double x = ev.toScreenCoordX(c.x) - pixelWidth / 2;
-		double y = ev.toScreenCoordY(c.y) + pixelHeight / 2;
-
 		GeoPoint p = new GeoPoint(cons);
-		p.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y), 1.0);
+		if (c != null) { // may be null while loading file
+			double x = ev.toScreenCoordX(c.x) - pixelWidth / 2;
+			double y = ev.toScreenCoordY(c.y) + pixelHeight / 2;
+			p.setCoords(ev.toRealWorldCoordX(x), ev.toRealWorldCoordY(y), 1.0);
+		}
 		return p;
 	}
 

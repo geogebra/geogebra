@@ -6,8 +6,9 @@ import org.geogebra.common.main.Feature;
 
 public class CenterImageModel extends BooleanOptionModel {
 	private boolean centerImage;
-	public CenterImageModel(IBooleanOptionListener listener, App app) {
-		super(listener, app);
+
+	public CenterImageModel(App app) {
+		super(null, app);
 		centerImage = app.has(Feature.CENTER_IMAGE);
 	}
 

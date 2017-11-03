@@ -1408,7 +1408,8 @@ public class OptionsTab extends FlowPanel {
 				getLabel().setText(localization.getMenu("Center:"));
 			} else {
 				String strLabelStart = localization.getMenu("CornerPoint");
-				getLabel().setText(strLabelStart + model.getCornerNumber() + ":");
+				getLabel().setText(
+						strLabelStart + " " + model.getCornerNumber() + ":");
 			}
 		}
 
@@ -1438,7 +1439,7 @@ public class OptionsTab extends FlowPanel {
 		public void setLabels() {
 			super.setLabels();
 			if (model.isCenter()) {
-				getLabel().setText(localization.getMenu("Center:"));
+				getLabel().setText(localization.getMenu("Center") + ":");
 			}
 		}
 	}
