@@ -4314,6 +4314,10 @@ public abstract class App implements UpdateSelection {
 		case RELATIVE_POSITION_FURNITURE:
 			return prerelease;
 
+		/** MOB-1310 */
+		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
+			return prerelease;
+
             default:
                 Log.debug("missing case in Feature: " + f);
                 return false;

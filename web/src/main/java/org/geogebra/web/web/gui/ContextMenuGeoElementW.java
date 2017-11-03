@@ -446,10 +446,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 	private void addShowObjectItem() {
 		GCheckBoxMenuItem cbItem;
-		if (!app.isUnbundledOrWhiteboard()
-				&& getGeo().isEuclidianShowable()
-				&& getGeo().getShowObjectCondition() == null
-				&& (!getGeo().isGeoBoolean() || getGeo().isIndependent())) {
+		if (!app.isUnbundledOrWhiteboard() && getGeo().isEuclidianToggleable()) {
 			cbItem = new GCheckBoxMenuItem(
 					MainMenu.getMenuBarHtml(
 							AppResources.INSTANCE.mode_showhideobject_16()

@@ -2317,6 +2317,13 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * @return true if user can toggle euclidian visibility
+	 */
+	final public boolean isEuclidianToggleable() {
+		return isEuclidianShowable() && getShowObjectCondition() == null && (!isGeoBoolean() || isIndependent());
+	}
+
+	/**
 	 * @return true if showable in AV
 	 */
 	public boolean isAlgebraShowable() {

@@ -512,9 +512,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			JCheckBoxMenuItem cbItem;
 
 			// show object
-			if (getGeo().isEuclidianShowable()
-					&& getGeo().getShowObjectCondition() == null
-					&& (!getGeo().isGeoBoolean() || getGeo().isIndependent())) {
+			if (getGeo().isEuclidianToggleable()) {
 				cbItem = new JCheckBoxMenuItem(loc.getMenu("ShowObject"));
 				cbItem.setIcon(((AppD) app)
 						.getScaledIcon(GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF));

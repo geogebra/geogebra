@@ -911,7 +911,7 @@ public abstract class EuclidianController {
 
 		} else {
 			boolean clear = !EuclidianConstants.isMoveOrSelectionMode(mode)
-					|| !EuclidianConstants.isMoveOrSelectionMode(newMode);
+					|| !EuclidianConstants.keepSelectionWhenSet(newMode, app);
 			if (!temporaryMode && clear) {
 				selection.clearSelectedGeos(false);
 				resetMovedGeoPoint();
@@ -11019,6 +11019,15 @@ public abstract class EuclidianController {
 			if (view != kernel.getLastAttachedEV()) {
 				return previewDrawable;
 			}
+			if (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE)) {
+				// toggle currently selected geos visibility
+				for (GeoElement geo : selection.getSelectedGeos()) {
+					if (geo.isEuclidianToggleable()) {
+						geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
+					}
+				}
+				selection.clearSelectedGeos(false, false);
+			}
 			// select all hidden objects
 			Iterator<GeoElement> it = kernel.getConstruction()
 					.getGeoSetConstructionOrder().iterator();
@@ -11031,10 +11040,12 @@ public abstract class EuclidianController {
 								|| geo instanceof BooleanValue)
 								&& geo.isIndependent())) {
 					geo.setEuclidianVisible(true);
-					selection.addSelectedGeo(geo);
+					selection.addSelectedGeo(geo, false, false);
 					geo.updateRepaint();
 				}
 			}
+			kernel.notifyRepaint();
+			selection.updateSelection();
 			break;
 
 		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:

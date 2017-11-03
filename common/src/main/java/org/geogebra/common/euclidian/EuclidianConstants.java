@@ -1,5 +1,7 @@
 package org.geogebra.common.euclidian;
 
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -866,6 +868,20 @@ public final class EuclidianConstants {
 	 */
 	static public boolean isMoveOrSelectionMode(int mode) {
 		return mode == MODE_MOVE || mode == MODE_SELECT;
+	}
+
+	/**
+	 * @param mode
+	 *            mode number
+	 * @param app
+	 *            temp parameter to remove (TODO)
+	 * @return whether mode is MOVE or SELECT
+	 */
+	static public boolean keepSelectionWhenSet(int mode, App app) {
+		return isMoveOrSelectionMode(mode)
+				|| (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE) && (mode == MODE_SHOW_HIDE_OBJECT));
+		// TODO remove app parameter when SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE
+		// released
 	}
 
 	/**
