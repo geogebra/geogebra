@@ -248,7 +248,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private ArrayList<GeoElement> hitPointOrBoundary, hitFilling, hitLabel;
 
 	// Map (geo, drawable) for GeoElements and Drawables
-	private HashMap<GeoElement, DrawableND> DrawableMap = new HashMap<GeoElement, DrawableND>(
+	private HashMap<GeoElement, DrawableND> drawableMap = new HashMap<GeoElement, DrawableND>(
 			500);
 
 	private ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
@@ -1804,7 +1804,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public void rename(GeoElement geo) {
-		Object d = DrawableMap.get(geo);
+		Object d = drawableMap.get(geo);
 		if (d != null) {
 			((Drawable) d).update();
 			repaint();
@@ -1813,7 +1813,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void update(GeoElement geo) {
-		DrawableND d = DrawableMap.get(geo);
+		DrawableND d = drawableMap.get(geo);
 
 		if (d != null) {
 			if (d instanceof DrawImage) {
@@ -1834,7 +1834,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		} else if (drawableNeeded(geo) && geosWaiting.contains(geo)) {
 			geosWaiting.remove(geo);
 			add(geo);
-			d = DrawableMap.get(geo);
+			d = drawableMap.get(geo);
 			if (d != null) {
 				d.setNeedsUpdate(true);
 				repaint();
@@ -1904,6 +1904,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return false;
 	}
 
+	private boolean createPreviewDrawable(GeoElement geo) {
+		if (drawableMap.containsKey(geo)) {
+			return false;
+		}
+		return createAndAddDrawable(geo);
+	}
 
 	/**
 	 * Updates the special points of a function.
@@ -1946,13 +1952,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		boolean needsRepaint = false;
 		if (previewFromInputBarGeos != null) {
 			for (GeoElement geo : previewFromInputBarGeos) {
-				needsRepaint = createAndAddDrawable(geo) || needsRepaint;
+				needsRepaint = createPreviewDrawable(geo) || needsRepaint;
 			}
 		}
 
 		if (specPoints != null) {
 			for (GeoElement geo : specPoints) {
-				needsRepaint = createAndAddDrawable(geo) || needsRepaint;
+				needsRepaint = createPreviewDrawable(geo) || needsRepaint;
 			}
 		}
 		repaint();
@@ -1986,7 +1992,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void remove(GeoElement geo) {
 		this.geosWaiting.remove(geo);
-		Drawable d = (Drawable) DrawableMap.get(geo);
+		Drawable d = (Drawable) drawableMap.get(geo);
 		int layer = geo.getLayer();
 		if (d == null) {
 			return;
@@ -1999,7 +2005,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		allDrawableList.remove(d);
 
-		DrawableMap.remove(geo);
+		drawableMap.remove(geo);
 		if (geo.isGeoPoint()) {
 			stickyPointList.remove(geo);
 		}
@@ -2279,7 +2285,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return drawable for the given GeoElement.
 	 */
 	protected final DrawableND getDrawable(GeoElement geo) {
-		return DrawableMap.get(geo);
+		return drawableMap.get(geo);
 	}
 
 	@Override
@@ -2351,7 +2357,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected DrawableND createDrawable(GeoElement geo) {
 		DrawableND d = newDrawable(geo);
 		if (d != null) {
-			DrawableMap.put(geo, d);
+			drawableMap.put(geo, d);
 			if (geo.isGeoPoint()) {
 				stickyPointList.add((GeoPointND) geo);
 			}
@@ -2414,7 +2420,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	final public DrawableND getDrawableFor(GeoElementND geo) {
-		return DrawableMap.get(geo);
+		return drawableMap.get(geo);
 	}
 
 	@Override
@@ -2589,8 +2595,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void changeLayer(GeoElement geo, int oldlayer, int newlayer) {
-		drawLayers[oldlayer].remove((Drawable) DrawableMap.get(geo));
-		drawLayers[newlayer].add((Drawable) DrawableMap.get(geo));
+		drawLayers[oldlayer].remove((Drawable) drawableMap.get(geo));
+		drawLayers[newlayer].add((Drawable) drawableMap.get(geo));
 	}
 
 	/**
@@ -4382,7 +4388,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Reset lists of drawables
 	 */
 	protected void resetLists() {
-		DrawableMap.clear();
+		drawableMap.clear();
 		stickyPointList.clear();
 		allDrawableList.clear();
 		bgImageList.clear();
