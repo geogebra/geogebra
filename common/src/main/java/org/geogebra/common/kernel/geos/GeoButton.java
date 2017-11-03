@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
@@ -41,6 +42,7 @@ public class GeoButton extends GeoElement
 	private int height = 30;
 
 	private Observer observer;
+	private SliderPosition startPoint;
 
 	// original positions and widths
 	// set once (if null)
@@ -106,7 +108,7 @@ public class GeoButton extends GeoElement
 	}
 
 	@Override
-	public boolean isGeoButton() {
+	public final boolean isGeoButton() {
 		return true;
 	}
 
@@ -160,7 +162,7 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public boolean isAbsoluteScreenLocActive() {
-		return true;
+		return startPoint == null;
 	}
 
 	@Override
@@ -189,7 +191,18 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
-		// do nothing
+		EuclidianView ev = kernel.getApplication().getActiveEuclidianView();
+		if (flag && startPoint != null) {
+			labelOffsetX = ev.toScreenCoordX(startPoint.x);
+			labelOffsetY = ev.toScreenCoordX(startPoint.y);
+
+			startPoint = null;
+		}
+		else if (!flag) {
+			startPoint = new SliderPosition();
+			startPoint.x = ev.toRealWorldCoordX(labelOffsetX);
+			startPoint.y = ev.toRealWorldCoordY(labelOffsetY);
+		}
 	}
 
 	@Override
@@ -435,6 +448,10 @@ public class GeoButton extends GeoElement
 	@Override
 	final public boolean isAlgebraViewEditable() {
 		return !isIndependent();
+	}
+
+	public SliderPosition getStartPoint() {
+		return startPoint;
 	}
 
 }

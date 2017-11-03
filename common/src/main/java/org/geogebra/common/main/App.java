@@ -4311,6 +4311,8 @@ public abstract class App implements UpdateSelection {
 		/** GGB-2170 */
 		case SLIDER_STYLE_OPTIONS:
 			return false;
+		case RELATIVE_POSITION_FURNITURE:
+			return prerelease;
 
             default:
                 Log.debug("missing case in Feature: " + f);

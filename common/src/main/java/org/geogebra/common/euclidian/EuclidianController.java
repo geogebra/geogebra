@@ -7887,7 +7887,7 @@ public abstract class EuclidianController {
 			return false;
 		}
 		GeoButton button = (GeoButton) geo;
-		return (!button.isTextField() && ((temporaryMode
+		return (!button.isGeoInputBox() && ((temporaryMode
 				&& app.isRightClickEnabled() || !button.isLocked()
 				|| app.getMode() == EuclidianConstants.MODE_BUTTON_ACTION)));
 	}

@@ -45,7 +45,7 @@ public class StartPointModel extends MultipleGeosModel {
 
 		}
 
-		GeoElement p = (GeoElement) geo0.getStartPoint();
+		GeoPointND p = geo0.getStartPoint();
 		if (equalLocation && p != null) {
 			getListener().setSelectedIndex(0);
 		} else {
