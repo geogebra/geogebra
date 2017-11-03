@@ -191,7 +191,12 @@ public class SelectionManager {
 
 			if (updateSelection) {
 				updateSelection();
+			} else {
+				if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
+					this.updateSpecialPoints(null);
+				}
 			}
+
 			kernel.getApplication().getEventDispatcher()
 					.dispatchEvent(EventType.DESELECT, null);
 		}
