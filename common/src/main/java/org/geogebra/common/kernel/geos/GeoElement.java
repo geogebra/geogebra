@@ -2427,7 +2427,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public boolean isProtected(EventType type) {
 		return isLocked() && this.getSpreadsheetCoords() != null
-				&& type == EventType.REMOVE;
+				&& (type == EventType.REMOVE || !(this instanceof GeoFunction));
 	}
 
 	/**
