@@ -1550,8 +1550,21 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		ExpressionNode left = fun1.getFunctionExpression().getCopy(kernel);
 		ExpressionNode right = fun2.getFunctionExpression().getCopy(kernel);
 
-		ExpressionNode sum = new ExpressionNode(fun1.getKernel(),
-				left.replace(x1, x), op, right.replace(x2, x));
+		ExpressionNode sum;
+
+		// improvement for
+		// Sum(Shuffle({Polynomial(a x^2), Polynomial(b x), Polynomial(c)}))
+		// to give "x^2" not "0 + x^2"
+		if (left.isConstant()
+				&& MyDouble.exactEqual(left.evaluateDouble(), 0)) {
+			sum = right.replace(x2, x).wrap();
+		} else if (right.isConstant()
+				&& MyDouble.exactEqual(right.evaluateDouble(), 0)) {
+			sum = left.replace(x1, x).wrap();
+		} else {
+			sum = new ExpressionNode(fun1.getKernel(), left.replace(x1, x), op,
+					right.replace(x2, x));
+		}
 
 		Function f = new Function(sum, x);
 
