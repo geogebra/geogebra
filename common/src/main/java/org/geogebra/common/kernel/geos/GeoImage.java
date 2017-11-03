@@ -762,7 +762,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		EuclidianView ev = kernel.getApplication().getEuclidianView1();
 		GeoPoint c = corners[CENTER_INDEX];
 		if (c != null) { // may be null while loading file
-			return ev.toScreenCoordX(c.inhomX) - pixelWidth / 2;
+			return ev.toRealWorldCoordX(ev.toScreenCoordX(c.inhomX) - pixelWidth / 2);
 		}
 		return 0;
 	}
@@ -775,7 +775,8 @@ public class GeoImage extends GeoElement implements Locateable,
 		EuclidianView ev = kernel.getApplication().getEuclidianView1();
 		GeoPoint c = corners[CENTER_INDEX];
 		if (c != null) { // may be null while loading file
-			return ev.toScreenCoordX(c.inhomY) - pixelHeight / 2;
+			return ev.toRealWorldCoordY(
+					ev.toScreenCoordY(c.inhomY) + pixelHeight / 2);
 		}
 		return 0;
 	}
