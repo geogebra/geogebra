@@ -16,6 +16,9 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Spreadsheet settings
+ */
 public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
         SetLabels {
 
@@ -33,8 +36,6 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 	/**
 	 * @param app
 	 *            app
-	 * @param spreadsheetView
-	 *            spreadsheet view
 	 */
 	public OptionsSpreadsheetW(AppW app) {
 		this.app = app;

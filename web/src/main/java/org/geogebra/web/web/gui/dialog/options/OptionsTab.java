@@ -160,7 +160,7 @@ public class OptionsTab extends FlowPanel {
 	/**
 	 * @param geos
 	 *            list of selected geos
-	 * @return
+	 * @return whether this panel is needed
 	 */
 	public boolean update(Object[] geos) {
 		boolean enabled = updateGUI(geos);
@@ -174,7 +174,12 @@ public class OptionsTab extends FlowPanel {
 		return enabled;
 	}
 
-	private boolean updateGUI(Object[] geos) {
+	/**
+	 * @param geos
+	 *            construction elements
+	 * @return whether this panel is needed
+	 */
+	boolean updateGUI(Object[] geos) {
 		boolean enabled = false;
 		if (focused) {
 			this.updated = true;
@@ -357,8 +362,9 @@ public class OptionsTab extends FlowPanel {
 		 * @param model0
 		 *            model
 		 * @param app
-		 *            application
-		 *            true if default
+		 *            application true if default
+		 * @param isDefaults
+		 *            whether this is for defaults: not used in web
 		 */
 		public ColorPanel(ColorObjectModel model0, App app,
 				boolean isDefaults) {
@@ -506,7 +512,7 @@ public class OptionsTab extends FlowPanel {
 		/**
 		 * @param geo0
 		 *            geoElement
-		 * @return
+		 * @return whether this is a barchart
 		 */
 		public boolean updateChooserFromBarChart(GeoElement geo0) {
 			AlgoBarChart algo = model.getAlgoBarChart();
@@ -1432,6 +1438,7 @@ public class OptionsTab extends FlowPanel {
 			super(GeoImage.CENTER_INDEX, app);
 		}
 		
+		@Override
 		public void setIcon(ImageResource res) {
 			// No icon for center point.
 		}
