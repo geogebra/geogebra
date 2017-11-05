@@ -11077,6 +11077,17 @@ public abstract class EuclidianController {
 			selection.updateSelection();
 			break;
 
+		case EuclidianConstants.MODE_DELETE:
+			// do the following only once, from last EuclidianView
+			// prevent clearSelections() from a next EV would break it all
+			if (view != kernel.getLastAttachedEV()) {
+				return previewDrawable;
+			}
+			if (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE)) {
+				app.deleteSelectedObjects(false);
+			}
+			break;
+
 		default:
 			// macro mode?
 			if (mode1 >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
