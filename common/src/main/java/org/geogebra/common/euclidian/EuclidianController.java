@@ -11057,6 +11057,26 @@ public abstract class EuclidianController {
 			rotationCenter = null; // this will be the active geo template
 			break;
 
+		case EuclidianConstants.MODE_SHOW_HIDE_LABEL:
+			// do the following only once, from last EuclidianView
+			// prevent clearSelections() from a next EV would break it all
+			if (view != kernel.getLastAttachedEV()) {
+				return previewDrawable;
+			}
+			if (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE)) {
+				// toggle currently selected geos visibility
+				for (GeoElement geo : selection.getSelectedGeos()) {
+					if (geo.isLabelShowable()) {
+						geo.setLabelVisible(!geo.isLabelVisible());
+						geo.updateRepaint();
+					}
+				}
+				selection.clearSelectedGeos(false, false);
+			}
+			kernel.notifyRepaint();
+			selection.updateSelection();
+			break;
+
 		default:
 			// macro mode?
 			if (mode1 >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {

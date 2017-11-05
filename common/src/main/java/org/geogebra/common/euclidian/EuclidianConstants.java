@@ -879,7 +879,8 @@ public final class EuclidianConstants {
 	 */
 	static public boolean keepSelectionWhenSet(int mode, App app) {
 		return isMoveOrSelectionMode(mode)
-				|| (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE) && (mode == MODE_SHOW_HIDE_OBJECT));
+				|| (app.has(Feature.SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE) 
+						&& (mode == MODE_SHOW_HIDE_OBJECT || mode == MODE_SHOW_HIDE_LABEL));
 		// TODO remove app parameter when SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE
 		// released
 	}
