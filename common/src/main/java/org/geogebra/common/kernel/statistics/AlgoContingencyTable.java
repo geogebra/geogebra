@@ -454,28 +454,32 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 		String split = "&";
 
-		String rowHeader = getLoc().getMenuDefault("DegreesOfFreedom.short",
-				"df") + split + Unicode.chi + "" + Unicode.SUPERSCRIPT_2 + split
-				+ getLoc().getMenuDefault("PValue", "P");
-		String degFreedom = kernel.format(
-				(rowValues.length - 1) * (colValues.length - 1),
-				StringTemplate.numericDefault);
-		String secondRow = degFreedom + split
-				+ result.get(1).toValueString(StringTemplate.numericDefault)
-				+ split
-				+ result.get(0).toValueString(StringTemplate.numericDefault);
 
 		sb.append("\\\\ ");
+
 		appendText(sb,
 				getLoc().getMenuDefault("ChiSquaredTest", "ChiSquared Test"));
 		sb.append("\\\\");
 
-		sb.append("\\begin{array}{|l|l|l|l|}");
+		sb.append("\\begin{array}{|r|r|r|r|}");
 		sb.append(" \\hline ");
-		sb.append(rowHeader);
+		sb.append(getLoc().getMenuDefault("DegreesOfFreedom.short", "df"));
+		sb.append(split);
+		appendText(sb, Unicode.chi + "" + Unicode.SUPERSCRIPT_2);
+		sb.append(split);
+		appendText(sb, getLoc().getMenuDefault("PValue", "P"));
+
 		sb.append("\\\\");
 		sb.append("\\hline ");
-		sb.append(secondRow);
+
+		sb.append(kernel.format((rowValues.length - 1) * (colValues.length - 1),
+				StringTemplate.numericDefault));
+
+		sb.append(split);
+		sb.append(result.get(1).toValueString(StringTemplate.numericDefault));
+		sb.append(split);
+		sb.append(result.get(0).toValueString(StringTemplate.numericDefault));
+
 		sb.append("\\\\");
 		sb.append("\\hline ");
 		sb.append("\\end{array}");
