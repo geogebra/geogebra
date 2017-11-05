@@ -2187,7 +2187,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Octahedron": "\u6b63\u516b\u9762\u4f53",
     "Off": "\u5173\u95ed",
     "Offline": "\u79bb\u7ebf",
-    "OldExpression": "\u65e7\u8868\u8fbe\u5f0f",
+    "OldExpression": "\u539f\u8868\u8fbe\u5f0f",
     "OmitGreen": "\u5ffd\u7565\u7eff\u8272",
     "On": "\u5f00\u542f",
     "OnClick": "\u5355\u51fb\u65f6",
