@@ -465,9 +465,10 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 				+ split
 				+ result.get(0).toValueString(StringTemplate.numericDefault);
 
-		sb.append("\\\\ \\text{");
-		sb.append(getLoc().getMenuDefault("ChiSquaredTest", "ChiSquared Test"));
-		sb.append("}\\\\");
+		sb.append("\\\\ ");
+		appendText(sb,
+				getLoc().getMenuDefault("ChiSquaredTest", "ChiSquared Test"));
+		sb.append("\\\\");
 
 		sb.append("\\begin{array}{|l|l|l|l|}");
 		sb.append(" \\hline ");
@@ -484,9 +485,9 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	private void beginTable() {
 		tableSb.append("\\begin{array}{|l");
 		for (int i = 0; i < colValues.length - 1; i++) {
-			tableSb.append("|l");
+			tableSb.append("|r");
 		}
-		tableSb.append("|l||l|}"); // extra column for margin
+		tableSb.append("|r||r|}"); // extra column for margin
 
 	}
 
@@ -499,7 +500,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 		if (header == null) {
 			sb.append("\\;");
 		} else {
-			sb.append(header);
+			appendText(sb, header);
 		}
 		endCell(sb);
 
@@ -510,7 +511,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 				sb.append("\\;");
 
 			} else if ("colValue".equals(type)) {
-				sb.append(colValues[colIndex]);
+				appendText(sb, colValues[colIndex]);
 
 			} else if ("count".equals(type)) {
 				sb.append(freqValues[rowIndex][colIndex]);
@@ -551,7 +552,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 			sb.append(rowSum[rowIndex]);
 
 		} else if ("colValue".equals(type)) {
-			sb.append(getLoc().getMenu("Total"));
+			appendText(sb, getLoc().getMenu("Total"));
 
 		} else if ("|".equals(type)) {
 			x = 100.0 * rowSum[rowIndex] / totalSum;
@@ -564,6 +565,13 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 			sb.append("\\;");
 		}
 		endRow(sb, lineBelow);
+	}
+
+	private void appendText(StringBuilder sb, String str) {
+		sb.append("\\text{");
+		sb.append(str);
+		sb.append("}");
+
 	}
 
 	private static void startRow(StringBuilder sb, boolean lineAbove) {
