@@ -359,37 +359,37 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 		// table header
 		addTableRow(tableSb, -1,
-				handleSpecialChar(getLoc().getMenu("Frequency")), "colValue",
+				handleText(getLoc().getMenu("Frequency")), "colValue",
 				lastRow == 0);
 
 		if (showRowPercent) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(
+					handleText(
 							getLoc().getMenuDefault("RowPercent", "Row %")),
 					"blank",
 					lastRow == 1);
 		}
 		if (showColPercent) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(getLoc().getMenuDefault("ColumnPercent",
+					handleText(getLoc().getMenuDefault("ColumnPercent",
 							"Column %")),
 					"blank", lastRow == 2);
 		}
 		if (showTotalPercent) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(
+					handleText(
 							getLoc().getMenuDefault("TotalPercent", "Total %")),
 					"blank", lastRow == 3);
 		}
 		if (showExpected) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(getLoc().getMenuDefault("ExpectedCount",
+					handleText(getLoc().getMenuDefault("ExpectedCount",
 							"Expected Count")),
 					"blank", lastRow == 4);
 		}
 		if (showChi) {
 			addTableRow(tableSb, 0,
-					handleSpecialChar(
+					handleText(
 							getLoc().getMenuDefault("ChiSquaredContribution",
 									Unicode.Chi + "" + Unicode.SUPERSCRIPT_2
 											+ " Contribution")),
@@ -598,8 +598,8 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 	}
 
-	private static String handleSpecialChar(String s) {
-		return s.replaceAll(" ", "\\\\;");
+	private static String handleText(String s) {
+		return "\\text{" + s + "}";
 	}
 
 }
