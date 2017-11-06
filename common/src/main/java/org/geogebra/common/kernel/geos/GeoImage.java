@@ -64,6 +64,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	private double[] tempCoords = new double[2];
 	private ArrayList<GeoPointND> al = null;
 	private boolean centered = false;
+
 	/**
 	 * Creates new image
 	 * 
@@ -832,7 +833,7 @@ public class GeoImage extends GeoElement implements Locateable,
 					// B is defined, D isn't
 					double nx = ay - B.inhomY;
 					double ny = B.inhomX - ax;
-					double factor = height / width;
+					double factor = pixelHeight / width;
 					coords[0] = ax + factor * nx;
 					coords[1] = ay + factor * ny;
 				}
