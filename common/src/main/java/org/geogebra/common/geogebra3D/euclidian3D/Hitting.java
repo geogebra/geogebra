@@ -44,7 +44,8 @@ public class Hitting {
 	protected int threshold;
 	private boolean clippedValuesUpdated;
 
-	public double x0, y0, z0, x1, y1, z1, vx, vy, vz, squareNorm;
+	public double x0, y0, z0, x1, y1, z1;
+	private double vx, vy, vz, squareNorm;
 
 	private double[] minmax;
 
@@ -226,5 +227,33 @@ public class Hitting {
 	 */
 	public boolean isSphere() {
 		return false;
+	}
+
+	/**
+	 * @return norm^2
+	 */
+	public double getSquareNorm() {
+		return squareNorm;
+	}
+
+	/**
+	 * @return x1 - x0
+	 */
+	public double getVx() {
+		return vx;
+	}
+
+	/**
+	 * @return y1 - y0
+	 */
+	public double getVy() {
+		return vy;
+	}
+
+	/**
+	 * @return z1 - z0
+	 */
+	public double getVz() {
+		return vz;
 	}
 }

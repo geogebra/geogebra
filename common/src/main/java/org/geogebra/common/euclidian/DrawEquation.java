@@ -55,6 +55,10 @@ public abstract class DrawEquation {
 	 *            background color
 	 * @param useCache
 	 *            true to cache
+	 * @param updateAgain
+	 *            TODO always false
+	 * @param callback
+	 *            callbak for complete render (needed if font loading is async)
 	 * @return dimensions of result
 	 */
 	public abstract GDimension drawEquation(App app, GeoElementND geo,
@@ -130,6 +134,7 @@ public abstract class DrawEquation {
 	 * @param useCache
 	 *            true to cache
 	 * @param maxWidth
+	 *            width for multiline align
 	 * @param lineSpace
 	 *            line space in centimeters
 	 * @return dimensions of result
@@ -227,6 +232,24 @@ public abstract class DrawEquation {
 		return AwtFactory.getPrototype().newDimension(width, height);
 	}
 
+	/**
+	 * @param text
+	 *            LaTeX
+	 * @param fgColor
+	 *            text color
+	 * @param font
+	 *            font
+	 * @param style
+	 *            combines TeXFormula.BOLD, TeXFormula.ITALIC,
+	 *            TeXFormula.SANSSERIF
+	 * @param maxWidth
+	 *            width for aligned multirow
+	 * @param lineSpace
+	 *            space between lines
+	 * @param app
+	 *            application
+	 * @return rendered LaTeX
+	 */
 	public TeXIcon createIcon(String text, Color fgColor, GFont font, int style,
 			Integer maxWidth, Double lineSpace, App app) {
 		checkFirstCall(app);
@@ -286,6 +309,22 @@ public abstract class DrawEquation {
 		return icon;
 	}
 
+	/**
+	 * @param text
+	 *            LaTeX
+	 * @param geo
+	 *            element
+	 * @param fgColor
+	 *            text color
+	 * @param font
+	 *            font
+	 * @param style
+	 *            combines TeXFormula.BOLD, TeXFormula.ITALIC,
+	 *            TeXFormula.SANSSERIF
+	 * @param ret
+	 *            dimension return array
+	 * @return cached image
+	 */
 	protected abstract Image getCachedDimensions(String text, GeoElementND geo,
 			Color fgColor, GFont font, int style, int[] ret);
 
@@ -310,9 +349,12 @@ public abstract class DrawEquation {
 	 * @param geo0
 	 *            element
 	 * @param text
+	 *            LaTeX
 	 * @param font
+	 *            font
 	 * @param serif
-	 * @return
+	 *            whether to use serif font
+	 * @return equation size
 	 */
 	public abstract GDimension measureEquation(App app, GeoElement geo0,
 			String text, GFont font, boolean serif);
@@ -333,6 +375,7 @@ public abstract class DrawEquation {
 	 * @param serif
 	 *            true for serif
 	 * @param maxWidth
+	 *            width for alignment
 	 * @param lineSpace
 	 *            line space in centimeters
 	 * @return dimensions of result

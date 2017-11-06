@@ -56,14 +56,6 @@ import com.google.gwt.user.client.ui.Widget;
  * Full-featured GeoGebra instance that needs part of the screen only.
  */
 public class AppWapplet extends AppWFull {
-
-
-
-	// Event flow operations - are these needed in AppWapplet?
-
-	// private LogInOperation loginOperation;
-
-
 	private int spWidth;
 	private int spHeight;
 	private boolean menuShowing = false;
