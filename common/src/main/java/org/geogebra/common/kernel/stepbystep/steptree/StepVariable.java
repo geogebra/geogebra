@@ -31,8 +31,12 @@ public class StepVariable extends StepExpression {
 	}
 
 	@Override
-	public boolean isConstant() {
-		return false;
+	public boolean isConstantIn(StepVariable sv) {
+		if (sv == null) {
+			return false;
+		}
+
+		return !equals(sv);
 	}
 
 	@Override
@@ -54,13 +58,21 @@ public class StepVariable extends StepExpression {
 	}
 
 	@Override
-	public StepExpression getCoefficient() {
-		return null;
+	public StepExpression getCoefficientIn(StepVariable sv) {
+		if (sv == null) {
+			return null;
+		}
+
+		return equals(sv) ? null : this;
 	}
 
 	@Override
-	public StepExpression getVariable() {
-		return this;
+	public StepExpression getVariableIn(StepVariable sv) {
+		if (sv == null) {
+			return this;
+		}
+
+		return equals(sv) ? this : null;
 	}
 
 	@Override

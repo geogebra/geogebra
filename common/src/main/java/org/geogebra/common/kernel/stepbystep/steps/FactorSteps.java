@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 public enum FactorSteps implements SimplificationStepGenerator {
 
@@ -344,8 +343,6 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					StepExpression b = bCube.getCubeRoot();
 
 					StepExpression expanded = power(add(a, b), 3).expand();
-
-					Log.error(expanded + "   AAAAAAAAAAA");
 
 					if (isEqual(subtract(so, expanded).regroup(), 0)) {
 						if (b.isNegative()) {

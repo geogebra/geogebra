@@ -52,30 +52,42 @@ public class SolutionStep {
 		return type.getDetailedText(loc, color, parameters);
 	}
 
+	public void getListOfSteps(StepGuiBuilder builder, Localization loc) {
+		getListOfSteps(builder, loc, true);
+	}
+
 	/**
 	 * Builds the solution tree using a StepGuiBuilder
 	 * 
 	 * @param builder
 	 *            StepGuiBuilder to use (different for the web and for the tests)
 	 */
-	public void getListOfSteps(StepGuiBuilder builder, Localization loc) {
+	public void getListOfSteps(StepGuiBuilder builder, Localization loc, boolean detailed) {
 		if (substeps != null && type == SolutionStepType.WRAPPER) {
 			for (int i = 0; i < substeps.size(); i++) {
-				(substeps.get(i)).getListOfSteps(builder, loc);
+				(substeps.get(i)).getListOfSteps(builder, loc, true);
 			}
 		} else if (substeps != null && type == SolutionStepType.SUBSTEP_WRAPPER) {
-			builder.addLatexRow(getColored(loc));
-
-			for (int i = 0; i < substeps.size(); i++) {
-				(substeps.get(i)).getListOfSteps(builder, loc);
+			builder.startDefault();
+			for (int i = 1; i < substeps.size(); i++) {
+				(substeps.get(i)).getListOfSteps(builder, loc, false);
 			}
+			builder.switchToDetailed();
+			for (int i = 0; i < substeps.size(); i++) {
+				(substeps.get(i)).getListOfSteps(builder, loc, true);
+			}
+			builder.endDetailed();
 		} else {
-			builder.addLatexRow(getColored(loc));
+			if (detailed) {
+				builder.addLatexRow(getColored(loc));
+			} else {
+				builder.addLatexRow(getDefault(loc));
+			}
 
 			if (substeps != null) {
 				builder.startGroup();
 				for (int i = 0; i < substeps.size(); i++) {
-					(substeps.get(i)).getListOfSteps(builder, loc);
+					(substeps.get(i)).getListOfSteps(builder, loc, true);
 				}
 				builder.endGroup();
 			}

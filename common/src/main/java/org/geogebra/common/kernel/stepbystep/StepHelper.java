@@ -3,8 +3,10 @@ package org.geogebra.common.kernel.stepbystep;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
@@ -788,9 +790,14 @@ public class StepHelper {
 		return Math.abs(a - b) < 0.00000001;
 	}
 
-	public static StepSet getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel) throws Throwable {
+	public static StepSet getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel) throws CASException {
 		String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + se + ", " + variable + ")", null);
-		MyList solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
+		MyList solutionList = null;
+		try {
+			solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
 		StepSet solutions = new StepSet();
 

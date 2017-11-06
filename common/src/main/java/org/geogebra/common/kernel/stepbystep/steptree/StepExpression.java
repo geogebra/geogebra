@@ -79,7 +79,11 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * 
 	 * @return whether this expression contains variables
 	 */
-	public abstract boolean isConstant();
+	public boolean isConstant() {
+		return isConstantIn(null);
+	}
+
+	public abstract boolean isConstantIn(StepVariable sv);
 
 	/**
 	 * It guarantees that getValue() returns a non-NaN value. Except when division,
@@ -107,12 +111,20 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return the non-variable coefficient of the tree (ex: 3 sqrt(3) x -> 3
 	 *         sqrt(3))
 	 */
-	public abstract StepExpression getCoefficient();
+	public StepExpression getCoefficient() {
+		return getCoefficientIn(null);
+	}
 
 	/**
 	 * @return the variable part of the tree (ex: 3 x (1/sqrt(x)) -> x (1/sqrt(x)))
 	 */
-	public abstract StepExpression getVariable();
+	public StepExpression getVariable() {
+		return getVariableIn(null);
+	}
+
+	public abstract StepExpression getCoefficientIn(StepVariable sv);
+
+	public abstract StepExpression getVariableIn(StepVariable sv);
 
 	/**
 	 * @return the StepConstant coefficient of the tree (ex: 3 sqrt(3) -> 3)
@@ -262,6 +274,10 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return isOperation(Operation.ARCSIN) || isOperation(Operation.ARCCOS) || isOperation(Operation.ARCTAN);
 	}
 
+	public boolean isNaturalLog() {
+		return isOperation(Operation.LOG) && ((StepOperation) this).getSubTree(0).equals(StepConstant.E);
+	}
+
 	/**
 	 * @return the tree, regrouped (destroys the tree, use only in assignments)
 	 */
@@ -319,6 +335,18 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	public StepExpression factor(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
 			return (StepExpression) StepStrategies.defaultFactor(this, sb);
+		}
+
+		return this;
+	}
+
+	public StepExpression differentiate() {
+		return differentiate(null);
+	}
+
+	public StepExpression differentiate(SolutionBuilder sb) {
+		if (this instanceof StepOperation) {
+			return (StepExpression) StepStrategies.defaultDifferentiate(this, sb);
 		}
 
 		return this;
@@ -620,7 +648,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			denominator = null;
 		}
 
-		if (exponent.getValue() >= 0) {
+		if (!exponent.canBeEvaluated() || exponent.getValue() >= 0) {
 			if (!isEqual(exponent.getValue(), 1) && closeToAnInteger(1 / exponent.getValue())) {
 				nominator = nonTrivialProduct(nominator, root(base, 1 / exponent.getValue()));
 			} else {
@@ -696,7 +724,10 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			return ((StepOperation) this).getSubTree(0);
 		}
 		if (isOperation(Operation.MULTIPLY) && ((StepOperation) this).getSubTree(0).isNegative()) {
-			StepExpression so = ((StepOperation) this).getSubTree(0).negate();
+			StepExpression so = null;
+			if (!isEqual(((StepOperation) this).getSubTree(0), -1)) {
+				so = ((StepOperation) this).getSubTree(0).negate();
+			}
 			for (int i = 1; i < ((StepOperation) this).noOfOperands(); i++) {
 				so = multiply(so, ((StepOperation) this).getSubTree(i));
 			}

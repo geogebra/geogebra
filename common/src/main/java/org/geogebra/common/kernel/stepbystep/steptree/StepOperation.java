@@ -2,12 +2,13 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
-public class StepOperation extends StepExpression {
+public class StepOperation extends StepExpression implements Iterable<StepExpression> {
 	private List<StepExpression> subtrees;
 	private Operation operation;
 
@@ -42,6 +43,11 @@ public class StepOperation extends StepExpression {
 				subtrees.add(sn);
 			}
 		}
+	}
+
+	@Override
+	public Iterator<StepExpression> iterator() {
+		return subtrees.iterator();
 	}
 
 	@Override
@@ -102,9 +108,9 @@ public class StepOperation extends StepExpression {
 	}
 
 	@Override
-	public boolean isConstant() {
+	public boolean isConstantIn(StepVariable sv) {
 		for (int i = 0; i < subtrees.size(); i++) {
-			if (!subtrees.get(i).isConstant()) {
+			if (!subtrees.get(i).isConstantIn(sv)) {
 				return false;
 			}
 		}
@@ -270,6 +276,10 @@ public class StepOperation extends StepExpression {
 		case ARCCOS:
 		case ARCTAN:
 			return operation.toString().toLowerCase() + "(" + subtrees.get(0).toString() + ")";
+		case DIFF:
+			return "d/d" + subtrees.get(1).toString() + "(" + subtrees.get(0).toString() + ")";
+		case LOG:
+			return "log_(" + subtrees.get(0).toString() + ")(" + subtrees.get(1).toString() + ")";
 		}
 		return "";
 	}
@@ -364,6 +374,26 @@ public class StepOperation extends StepExpression {
 		case ARCTAN:
 			return "\\" + loc.getFunction(operation.toString().toLowerCase()) + "\\left("
 					+ subtrees.get(0).toLaTeXString(loc, colored) + "\\right)";
+		case LOG:
+			if (isNaturalLog()) {
+				return "\\ln \\left(" + subtrees.get(1).toLaTeXString(loc, colored) + "\\right)";
+			}
+			return "\\log_{" + subtrees.get(0).toLaTeXString(loc, colored) + "} \\left("
+					+ subtrees.get(1).toLaTeXString(loc, colored) + "\\right)";
+		case DIFF:
+			StringBuilder sb = new StringBuilder();
+			sb.append("\\frac{d}{d");
+			sb.append(subtrees.get(1).toLaTeXString(loc, colored));
+			sb.append("}");
+			if (subtrees.get(0).isOperation(Operation.PLUS)) {
+				sb.append("\\left(");
+			}
+			sb.append(subtrees.get(0).toLaTeXString(loc, colored));
+			if (subtrees.get(0).isOperation(Operation.PLUS)) {
+				sb.append("\\right)");
+			}
+			return sb.toString();
+			
 		}
 		return "";
 	}
@@ -390,15 +420,15 @@ public class StepOperation extends StepExpression {
 	}
 
 	@Override
-	public StepExpression getCoefficient() {
-		if (isConstant()) {
+	public StepExpression getCoefficientIn(StepVariable sv) {
+		if (isConstantIn(sv)) {
 			return this;
 		}
 
 		if (isOperation(Operation.MULTIPLY)) {
 			StepOperation coefficient = new StepOperation(Operation.MULTIPLY);
 			for (int i = 0; i < noOfOperands(); i++) {
-				coefficient.addSubTree(getSubTree(i).getCoefficient());
+				coefficient.addSubTree(getSubTree(i).getCoefficientIn(sv));
 			}
 			if (coefficient.noOfOperands() == 0) {
 				return null;
@@ -408,7 +438,7 @@ public class StepOperation extends StepExpression {
 			}
 			return coefficient;
 		} else if (isOperation(Operation.MINUS)) {
-			StepExpression coefficient = getSubTree(0).getCoefficient();
+			StepExpression coefficient = getSubTree(0).getCoefficientIn(sv);
 			if (coefficient == null) {
 				return new StepConstant(-1);
 			}
@@ -421,15 +451,15 @@ public class StepOperation extends StepExpression {
 	}
 
 	@Override
-	public StepExpression getVariable() {
-		if (isConstant()) {
+	public StepExpression getVariableIn(StepVariable sv) {
+		if (isConstantIn(sv)) {
 			return null;
 		}
 
 		if (isOperation(Operation.MULTIPLY)) {
 			StepOperation variable = new StepOperation(Operation.MULTIPLY);
 			for (int i = 0; i < noOfOperands(); i++) {
-				variable.addSubTree(getSubTree(i).getVariable());
+				variable.addSubTree(getSubTree(i).getVariableIn(sv));
 			}
 			if (variable.noOfOperands() == 0) {
 				return null;
@@ -439,7 +469,7 @@ public class StepOperation extends StepExpression {
 			}
 			return variable;
 		} else if (isOperation(Operation.MINUS)) {
-			return getSubTree(0).getVariable();
+			return getSubTree(0).getVariableIn(sv);
 		}
 
 		return this;
@@ -500,4 +530,5 @@ public class StepOperation extends StepExpression {
 		}
 		return this;
 	}
+
 }

@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
@@ -134,7 +135,7 @@ public class StepEquation extends StepNode {
 		return (StepSet) StepStrategies.defaultSolve(this, sv, sb);
 	}
 
-	public StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb) throws Throwable {
+	public StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb) throws CASException {
 		StepSet solutions = solve(sv, sb);
 
 		for (StepNode solution : solutions) {

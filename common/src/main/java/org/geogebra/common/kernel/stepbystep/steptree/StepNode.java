@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import java.util.Set;
 
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -15,6 +16,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 public abstract class StepNode {
 
@@ -113,6 +115,9 @@ public abstract class StepNode {
 	 */
 	public static StepNode convertExpression(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
+			Log.error(ev.toString());
+			Log.error(((ExpressionNode) ev).getOperation().toString());
+
 			switch (((ExpressionNode) ev).getOperation()) {
 			case NO_OPERATION:
 				return convertExpression(((ExpressionNode) ev).getLeft());
@@ -132,6 +137,19 @@ public abstract class StepNode {
 				return add(left, StepNode.minus(right));
 			case ABS:
 				return abs((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()));
+			case LOGB:
+				left = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+				right = (StepExpression) convertExpression(((ExpressionNode) ev).getRight());
+				return logarithm(left, right);
+			case LOG:
+				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+				return logarithm(StepConstant.E, arg);
+			case LOG10:
+				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+				return logarithm(new StepConstant(10), arg);
+			case LOG2:
+				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+				return logarithm(new StepConstant(2), arg);
 			case MULTIPLY:
 				if (((ExpressionNode) ev).getLeft().isConstant()
 						&& ((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
@@ -143,6 +161,9 @@ public abstract class StepNode {
 				so.addSubTree((StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
 				return so;
 			}
+		}
+		if (ev instanceof Command) {
+			Log.error(((Command) ev).getName());
 		}
 		if (ev instanceof Equation) {
 			StepNode LHS = convertExpression(((Equation) ev).getLHS());
@@ -328,6 +349,10 @@ public abstract class StepNode {
 		return divide(a, new StepConstant(b));
 	}
 
+	public static StepExpression divide(double a, StepExpression b) {
+		return divide(new StepConstant(a), b);
+	}
+
 	public static StepExpression divide(double a, double b) {
 		return divide(new StepConstant(a), new StepConstant(b));
 	}
@@ -368,6 +393,24 @@ public abstract class StepNode {
 		return root(a, new StepConstant(b));
 	}
 
+	public static StepExpression logarithm(StepExpression a, StepExpression b) {
+		if (a == null) {
+			return null;
+		}
+		if (b == null) {
+			return a.deepCopy();
+		}
+
+		StepOperation so = new StepOperation(Operation.LOG);
+		so.addSubTree(a.deepCopy());
+		so.addSubTree(b.deepCopy());
+		return so;
+	}
+
+	public static StepExpression logarithm(double a, StepExpression b) {
+		return logarithm(new StepConstant(a), b);
+	}
+
 	public static StepExpression abs(StepExpression a) {
 		if (a == null) {
 			return null;
@@ -385,6 +428,14 @@ public abstract class StepNode {
 
 		StepOperation so = new StepOperation(op);
 		so.addSubTree(a.deepCopy());
+		return so;
+	}
+
+	public static StepExpression differentiate(StepExpression a, StepVariable b) {
+		StepOperation so = new StepOperation(Operation.DIFF);
+		so.addSubTree(a.deepCopy());
+		so.addSubTree(b.deepCopy());
+
 		return so;
 	}
 

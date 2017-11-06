@@ -7,6 +7,9 @@ import org.geogebra.common.main.Localization;
 public class StepConstant extends StepExpression {
 	private double value;
 
+	public static final StepConstant PI = new StepConstant(Math.PI);
+	public static final StepConstant E = new StepConstant(Math.E);
+
 	public StepConstant(double value) {
 		this.value = value;
 	}
@@ -33,7 +36,7 @@ public class StepConstant extends StepExpression {
 	}
 
 	@Override
-	public boolean isConstant() {
+	public boolean isConstantIn(StepVariable sv) {
 		return true;
 	}
 
@@ -53,12 +56,12 @@ public class StepConstant extends StepExpression {
 	}
 
 	@Override
-	public StepExpression getCoefficient() {
+	public StepExpression getCoefficientIn(StepVariable sv) {
 		return this;
 	}
 
 	@Override
-	public StepExpression getVariable() {
+	public StepExpression getVariableIn(StepVariable sv) {
 		return null;
 	}
 
@@ -103,7 +106,7 @@ public class StepConstant extends StepExpression {
 		if (isEqual(value, Math.PI)) {
 			return "\\pi";
 		} else if (isEqual(value, Math.E)) {
-			return "\\e";
+			return "e";
 		} else if (Double.isNaN(value)) {
 			return "NaN";
 		} else if (Double.isInfinite(value)) {

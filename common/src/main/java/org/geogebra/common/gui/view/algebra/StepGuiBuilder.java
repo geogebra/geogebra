@@ -11,4 +11,10 @@ public interface StepGuiBuilder {
 	public void startGroup();
 
 	public void endGroup();
+
+	public void startDefault();
+
+	public void switchToDetailed();
+
+	public void endDetailed();
 }

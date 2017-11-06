@@ -57,7 +57,7 @@ public class StepArbitraryConstant extends StepExpression {
 	}
 
 	@Override
-	public boolean isConstant() {
+	public boolean isConstantIn(StepVariable sv) {
 		return true;
 	}
 
@@ -77,12 +77,12 @@ public class StepArbitraryConstant extends StepExpression {
 	}
 
 	@Override
-	public StepExpression getCoefficient() {
+	public StepExpression getCoefficientIn(StepVariable sv) {
 		return this;
 	}
 
 	@Override
-	public StepExpression getVariable() {
+	public StepExpression getVariableIn(StepVariable sv) {
 		return null;
 	}
 

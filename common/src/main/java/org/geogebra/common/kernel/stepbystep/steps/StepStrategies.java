@@ -68,6 +68,27 @@ public class StepStrategies {
 		return result;
 	}
 
+	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb) {
+		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+				DifferentiationSteps.CONSTANT_COEFFICIENT, DifferentiationSteps.DIFFERENTIATE_SUM,
+				DifferentiationSteps.CONSTANT_COEFFICIENT, DifferentiationSteps.DIFFERENTIATE_FRACTION,
+				DifferentiationSteps.DIFFERENTIATE_POLYNOMIAL, DifferentiationSteps.DIFFERENTIATE_EXPONENTIAL,
+				DifferentiationSteps.DIFFERENTIATE_PRODUCT, DifferentiationSteps.DIFFERENTIATE_ROOT,
+				DifferentiationSteps.DIFFERENTIATE_TRIGO, DifferentiationSteps.DIFFERENTIATE_LOG,
+				DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO };
+
+		StepNode result = sn;
+		String old = null, current = null;
+		do {
+			result = defaultRegroup(result, sb);
+			result = implementStrategy(result, sb, defaultStrategy);
+			old = current;
+			current = result.toString();
+		} while (!current.equals(old));
+
+		return result;
+	}
+
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy) {
 		final boolean printDebug = true;
 
@@ -144,10 +165,10 @@ public class StepStrategies {
 						Log.error("to: " + result);
 					}
 				}
-				
+
 				result = defaultRegroup(result, sb);
 				result = strategy[i].apply((StepEquation) result.deepCopy(), variable, changes);
-				
+
 				if (changes.getSteps().getSubsteps() != null || result instanceof StepSet) {
 					if (sb != null) {
 						sb.addAll(changes.getSteps());
@@ -162,15 +183,15 @@ public class StepStrategies {
 			old = current;
 			current = result.toString();
 		} while (!(result instanceof StepSet) && !current.equals(old));
-		
+
 		if (result instanceof StepSet) {
 			StepSet finalSolutions = EquationSteps.checkSolutions(origSe, (StepSet) result, variable, changes);
-			
+
 			if (sb != null) {
 				sb.levelDown();
 				sb.addAll(changes.getSteps());
 			}
-			
+
 			return finalSolutions;
 		}
 
