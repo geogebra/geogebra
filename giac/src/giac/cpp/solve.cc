@@ -465,7 +465,7 @@ namespace giac {
 	}
 	if (is_inf(l) || n.type!=_IDNT || n.print(contextptr).substr(0,2)!="n_" || !is_linear_wrt(expr,n,a,b,contextptr)){
 	  *logptr(contextptr) << gettext("Warning: unable to find ") <<n << gettext(" integer solutions for ") << expr << ">=" << l << gettext(" and <=") << m << gettext(", answer may be wrong.\nIf you are computing an integral with exact boundaries, replace by approx. boundaries") << endl;
-	  v=vecteur(1,undef);
+	  if (v.size()!=1) v=vecteur(1,undef);
 	  return;
 	}
 	newv.pop_back();
