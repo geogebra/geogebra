@@ -1712,10 +1712,6 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public double distanceToPath(PathOrPoint path1) {
-		if (path1.isGeoPoint()) {
-			return distance((GeoPointND) path1);
-		}
-
 		if (tmpCoordsOld == null) {
 			tmpCoordsOld = new Coords(4);
 		}
