@@ -3641,6 +3641,12 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (is_equal(args))
       return apply_to_equal(args,_factor,contextptr);
+    if (args.type==_VECT && args._VECTptr->size()==2 && is_equal(args._VECTptr->front())){
+      gen x=args._VECTptr->back();
+      gen a=_left(args._VECTptr->front(),contextptr);
+      gen b=_right(args._VECTptr->front(),contextptr);
+      return symb_equal(_factor(makesequence(a,x),contextptr),_factor(makesequence(b,x),contextptr));
+    }
     gen var,res;
     if (args.type!=_VECT && is_algebraic_program(args,var,res))
       return symbolic(at_program,makesequence(var,0,_factor(res,contextptr)));

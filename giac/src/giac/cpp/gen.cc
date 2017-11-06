@@ -11704,9 +11704,11 @@ namespace giac {
       return s+("e"+print_INT_(ndigits));
     }
     sprintfdouble(s,form.c_str(),d);
-    // 1073741824=2^30
+    // 1073741824=2^30, fixme always try with a .0 for large numbers if longfloat not available?
     if (sf 
+#if 1 // def HAVE_LIBMPFR
 	|| d>=1073741824 || d<=-1073741824
+#endif
 	)
       return s;
     for (int i=0;s[i];++i){
