@@ -605,7 +605,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				}
 			}
 
-			if (eConsumed) {
+			if (eConsumed || point == null) {
 				return;
 			}
 
@@ -626,7 +626,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		} else {
 			// MOVE, NO DRAG
 
-			if (table.isEditing()) {
+			if (table.isEditing() || point == null) {
 				return;
 			}
 
