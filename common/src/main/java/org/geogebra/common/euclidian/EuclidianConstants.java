@@ -875,7 +875,7 @@ public final class EuclidianConstants {
 	 *            mode number
 	 * @param app
 	 *            temp parameter to remove (TODO)
-	 * @return whether mode is MOVE or SELECT
+	 * @return true if mode does NOT clear selection when set
 	 */
 	static public boolean keepSelectionWhenSet(int mode, App app) {
 		return isMoveOrSelectionMode(mode)
