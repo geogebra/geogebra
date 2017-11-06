@@ -173,6 +173,9 @@ public class GeoLine3D extends GeoCoordSys1D {
 				sbToString.append(kernel.format(coords1.getZ(), tpl));
 				sbToString.append(") + ");
 				sbToString.append(parameter);
+				if (tpl.hasCASType()) {
+					sbToString.append("*");
+				}
 				sbToString.append(" (");
 				sbToString.append(kernel.format(coords2.getX(), tpl));
 				sbToString.append(", ");
@@ -196,6 +199,9 @@ public class GeoLine3D extends GeoCoordSys1D {
 		sbToString.append(kernel.format(O.get(3), tpl));
 		sbToString.append(") + ");
 		sbToString.append(parameter);
+		if (tpl.hasCASType()) {
+			sbToString.append("*");
+		}
 		sbToString.append(" (");
 		sbToString.append(kernel.format(V.get(1), tpl));
 		sbToString.append(", ");
