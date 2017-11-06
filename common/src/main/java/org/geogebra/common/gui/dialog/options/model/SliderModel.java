@@ -109,10 +109,10 @@ public class SliderModel extends OptionsModel {
 					temp.getSliderBlobSize())) {
 				equalBlobSize = false;
 			}
-			if (!(num0.getObjectColor() == temp.getObjectColor())) {
+			if (num0.getObjectColor() != temp.getObjectColor()) {
 				equalBlobColor = false;
 			}
-			if (!(num0.getBackgroundColor() == temp.getBackgroundColor())) {
+			if (num0.getBackgroundColor() != temp.getBackgroundColor()) {
 				equalLineColor = false;
 			}
 			if (num0.isSliderFixed() != temp.isSliderFixed()) {
@@ -184,7 +184,7 @@ public class SliderModel extends OptionsModel {
 				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
 			listener.setBlobColor(num0.getObjectColor());
 		}
-		if (equalBlobColor
+		if (equalLineColor
 				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
 			listener.setLineColor(num0.getBackgroundColor());
 		}
