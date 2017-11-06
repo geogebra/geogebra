@@ -194,7 +194,7 @@ public abstract class DrawEquation {
 						font.getSize() + 3, convertColor(GColor.BLACK),
 						convertColor(GColor.WHITE));
 
-				Log.warn("latex syntax error " + text + " " + e.getMessage());
+				Log.warn("latex syntax error\n" + text + "\n" + e.getMessage());
 
 			} catch (Exception e2) {
 
@@ -204,7 +204,8 @@ public abstract class DrawEquation {
 						font.getSize() + 3, convertColor(GColor.BLACK),
 						convertColor(GColor.WHITE));
 
-				Log.error("serious latex error " + text + " " + e.getMessage());
+				Log.error(
+						"serious latex error\n" + text + "\n" + e.getMessage());
 
 			}
 		}
