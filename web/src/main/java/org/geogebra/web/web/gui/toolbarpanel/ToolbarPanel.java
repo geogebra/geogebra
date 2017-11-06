@@ -58,7 +58,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public static final int CLOSED_HEIGHT_PORTRAIT = 56;
 
 	/** Application */
-	App app;
+	AppW app;
 
 	/**
 	 * Tab ids.
@@ -187,7 +187,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * @param app
 	 *            .
 	 */
-	public ToolbarPanel(App app) {
+	public ToolbarPanel(AppW app) {
 		this.app = app;
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
@@ -233,7 +233,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private void initGUI() {
 		clear();
 		addStyleName("toolbar");
-		header = new Header(this, (AppW) app);
+		header = new Header(this, app);
 		add(header);
 		main = new FlowPanel();
 		sinkEvents(Event.ONCLICK);
@@ -251,7 +251,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	@Override
 	public void onBrowserEvent(Event event) {
 		if (DOM.eventGetType(event) == Event.ONCLICK
-				&& ((AppW) app).isMenuShowing()) {
+				&& app.isMenuShowing()) {
 			toggleMenu();
 		}
 		super.onBrowserEvent(event);
@@ -265,7 +265,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		double h = app.getHeight();
 		int kh = 0;
 
-		if (app.isUnbundledGraphing() || ((AppW) app).isUnbundled3D()) {
+		if (app.isUnbundledGraphing() || app.isUnbundled3D()) {
 			return (int) (Math
 					.round(h * PerspectiveDecoder.portraitRatio(h, true))) + kh;
 		}
@@ -431,7 +431,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			}
 
 			dockParent.animate(OPEN_ANIM_TIME,
-					new PortraitAnimationCallback(header) {
+					new PortraitAnimationCallback(header, app) {
 						@Override
 						protected void onEnd() {
 							super.onEnd();
@@ -523,7 +523,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (moveBtn != null) {
 
 			int mLeft = moveBtn.getAbsoluteLeft()
-					- (int) ((AppW) app).getAbsLeft();
+					- (int) app.getAbsLeft();
 			int mRight = mLeft + 48;
 			int ttRight = ttLeft + width;
 			if ((ttLeft < mRight && ttRight > mRight)
@@ -619,7 +619,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * Opens and closes Burger Menu
 	 */
 	void toggleMenu() {
-		((AppW) app).toggleMenu();
+		app.toggleMenu();
 	}
 
 	/**

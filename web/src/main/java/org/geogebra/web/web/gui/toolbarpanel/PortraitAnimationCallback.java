@@ -1,6 +1,9 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.web.html5.main.AppW;
+
+import com.google.gwt.dom.client.Style.Overflow;
 
 /**
  * Callback for tool panel opening/closing in portrait mode
@@ -8,17 +11,23 @@ import org.geogebra.common.euclidian.EuclidianView;
 public class PortraitAnimationCallback extends HeaderAnimationCallback {
 
 
+	private AppW app;
+
 	/**
 	 * @param header
 	 *            header panel
+	 * @param app
+	 *            application
 	 */
-	public PortraitAnimationCallback(Header header) {
+	public PortraitAnimationCallback(Header header, AppW app) {
 		super(header, 0, 0);
+		this.app = app;
 
 	}
 
 	@Override
 	protected void onStart() {
+		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		if (header.isOpen()) {
 			header.removeStyleName("header-close-portrait");
 			header.addStyleName("header-open-portrait");
@@ -29,6 +38,7 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 
 	@Override
 	protected void onEnd() {
+		app.getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
 		if (!header.isOpen()) {
 			header.removeStyleName("header-open-portrait");
 			header.addStyleName("header-close-portrait");

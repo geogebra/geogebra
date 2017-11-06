@@ -450,8 +450,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * update position of undo+redo panel
 	 */
 	public void updateUndoRedoPosition() {
-		final EuclidianView ev = ((AppW) toolbarPanel.app)
-				.getActiveEuclidianView();
+		final EuclidianView ev = toolbarPanel.app.getActiveEuclidianView();
 		if (ev != null && undoRedoPanel != null) {
 			double evTop = (ev.getAbsoluteTop() - (int) app.getAbsTop())
 					/ app.getArticleElement().getScaleY();
