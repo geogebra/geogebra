@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.renderer.share.TeXConstants;
@@ -194,7 +195,9 @@ public abstract class DrawEquation {
 						font.getSize() + 3, convertColor(GColor.BLACK),
 						convertColor(GColor.WHITE));
 
-				Log.warn("latex syntax error\n" + text + "\n" + e.getMessage());
+				// toJavaString() to help diagnose non-printable characters
+				Log.warn("latex syntax error\n" + text + "\n"
+						+ StringUtil.toJavaString(e.getMessage()));
 
 			} catch (Exception e2) {
 
@@ -204,8 +207,10 @@ public abstract class DrawEquation {
 						font.getSize() + 3, convertColor(GColor.BLACK),
 						convertColor(GColor.WHITE));
 
+				// toJavaString() to help diagnose non-printable characters
 				Log.error(
-						"serious latex error\n" + text + "\n" + e.getMessage());
+						"serious latex error\n" + text + "\n"
+								+ StringUtil.toJavaString(e.getMessage()));
 
 			}
 		}
