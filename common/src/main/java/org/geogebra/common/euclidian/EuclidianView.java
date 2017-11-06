@@ -304,7 +304,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH,
 			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH,
 			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST,
-			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST };
+			EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST,
+			EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE };
 
 
 	private final static int[] axesStyles = { EuclidianStyleConstants.NO_AXES,

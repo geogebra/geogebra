@@ -470,7 +470,11 @@ public final class DrawPoint extends Drawable {
 				g2.draw(circle);
 				break;
 
-			// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+			case EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE:
+				g2.setPaint(geo.getObjectColor());
+				g2.fill(circle);
+				break;
+
 			default:
 				// draw a dot
 				g2.setPaint(geo.getObjectColor());
