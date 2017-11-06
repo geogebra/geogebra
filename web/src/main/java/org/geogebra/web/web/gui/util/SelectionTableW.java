@@ -102,7 +102,10 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	private void setBorderStyleForCells() {
 		for (int i = 0; i < this.getRowCount(); i++) {
 			for (int j = 0; j < this.getColumnCount(); j++) {
-				this.getWidget(i, j).addStyleName("border");
+				Widget widget = this.getWidget(i, j);
+				if (widget != null) {
+					widget.addStyleName("border");
+				}
 			}
 		}
 	}

@@ -56,7 +56,9 @@ public class ImageOrText {
 	 *            svg resource
 	 */
 	public void setSvgRes(SVGResource res) {
-		setUrl(res.getSafeUri().asString());
+		if (res != null) {
+			setUrl(res.getSafeUri().asString());
+		}
 	}
 
 	/**
@@ -64,7 +66,9 @@ public class ImageOrText {
 	 *            resource
 	 */
 	public void setResource(ImageResource res) {
-		setUrl(res.getSafeUri().asString());
+		if (res != null) {
+			setUrl(res.getSafeUri().asString());
+		}
 	}
 
 	/**
