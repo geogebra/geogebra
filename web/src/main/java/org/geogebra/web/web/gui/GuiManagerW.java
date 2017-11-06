@@ -2472,6 +2472,21 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				}
 			}
 
+			public void startDefault() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void switchToDetailed() {
+				// TODO Auto-generated method stub
+
+			}
+
+			public void endDetailed() {
+				// TODO Auto-generated method stub
+
+			}
+
 		};
 
 	}
