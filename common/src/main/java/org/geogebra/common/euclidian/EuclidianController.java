@@ -11024,6 +11024,7 @@ public abstract class EuclidianController {
 				for (GeoElement geo : selection.getSelectedGeos()) {
 					if (geo.isEuclidianToggleable()) {
 						geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
+						geo.updateRepaint();
 					}
 				}
 				selection.clearSelectedGeos(false, false);
