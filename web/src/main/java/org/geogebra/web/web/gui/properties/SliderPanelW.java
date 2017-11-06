@@ -49,6 +49,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private AutoCompleteTextFieldW tfBlobSize;
 	private MyCJButton blobColorChooserBtn;
 	private Label blobColorLbl;
+	private MyCJButton lineColorChooserBtn;
+	private Label lineColorLbl;
 	private Label blobSizeLabel;
 	private Label minLabel;
 	private Label maxLabel;
@@ -186,6 +188,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
 			createBlobSizeTextField(app);
 			createBlobColorChooserBtn(app);
+			createLineColorChooserBtn(app);
 		}
 
 		maxLabel = new Label();
@@ -194,6 +197,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		widthUnitLabel = new Label();
 		blobSizeLabel = new Label();
 		blobColorLbl = new Label();
+		lineColorLbl = new Label();
 		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
 			maxLabel.setStyleName("coloredLabel");
 			minLabel.setStyleName("coloredLabel");
@@ -233,6 +237,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			sliderPanel.add(blobSizePanel);
 			sliderPanel.add(
 					LayoutUtilW.panelRow(blobColorLbl, blobColorChooserBtn));
+			sliderPanel.add(
+					LayoutUtilW.panelRow(lineColorLbl, lineColorChooserBtn));
 		}
 
 		// add increment to intervalPanel
@@ -254,7 +260,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	private void createBlobColorChooserBtn(final AppW app) {
 		blobColorChooserBtn = new MyCJButton(app);
-		updateBlobColorButton(model.getBlobColor());
+		updateBlobOrLineColorButton(model.getBlobColor(), true);
 		blobColorChooserBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -272,7 +278,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 							@Override
 							public void onColorChange(GColor color) {
 										getModel().applyBlobColor(color);
-								updateBlobColorButton(color);
+										updateBlobOrLineColorButton(color,
+												true);
 							}
 
 							@Override
@@ -299,14 +306,67 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		});
 	}
 
+	private void createLineColorChooserBtn(final AppW app) {
+		lineColorChooserBtn = new MyCJButton(app);
+		updateBlobOrLineColorButton(model.getLineColor(), false);
+		lineColorChooserBtn.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				((DialogManagerW) app.getDialogManager())
+						.showColorChooserDialog(getModel().getLineColor(),
+								new ColorChangeHandler() {
+
+									@Override
+									public void onForegroundSelected() {
+										// do nothing
+									}
+
+									@Override
+									public void onColorChange(GColor color) {
+										getModel().applyLineColor(color);
+										updateBlobOrLineColorButton(color,
+												false);
+									}
+
+									@Override
+									public void onClearBackground() {
+										// do nothing
+									}
+
+									@Override
+									public void onBackgroundSelected() {
+										// do nothing
+									}
+
+									@Override
+									public void onAlphaChange() {
+										// do nothing
+									}
+
+									@Override
+									public void onBarSelected() {
+										// do nothing
+									}
+								});
+			}
+		});
+	}
+
 	/**
 	 * @param color
 	 *            of blob shown as selected
+	 * @param isBlob
+	 *            true if blob (false for line)
 	 */
-	public void updateBlobColorButton(GColor color) {
+	public void updateBlobOrLineColorButton(GColor color, boolean isBlob) {
 		ImageOrText content = new ImageOrText();
-		content.setBgColor(color);
-		blobColorChooserBtn.setIcon(content);
+		content.setBgColor(color == null ? GColor.BLACK : color);
+		if (isBlob) {
+			blobColorChooserBtn.setIcon(content);
+		} else {
+			lineColorChooserBtn.setIcon(content);
+		}
 	}
 
 	private void createBlobSizeTextField(AppW app) {
@@ -338,6 +398,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		avPanel.updatePanel(geos);
 		return super.updatePanel(geos);
 	}
+
 	protected void applyMin() {
 		model.applyMin(getNumberFromInput(tfMin.getText().trim()));
 	}
@@ -406,6 +467,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		blobSizeLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
 				? loc.getMenu("Blob Size") : loc.getMenu("Blob Size") + ":");
 		blobColorLbl.setText(loc.getMenu("Blob Color") + ":");
+		lineColorLbl.setText(loc.getMenu("Lines Color") + ":");
 		model.setLabelForWidthUnit();
 		stepPanel.setLabels();
 		speedPanel.setLabels();
@@ -476,5 +538,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		applyMin();
 		applyMax();
 		applyWidth();
+		applyBlobSize();
+	}
+
+	public void setBlobColor(GColor color) {
+		updateBlobOrLineColorButton(color, true);
+	}
+
+	public void setLineColor(GColor color) {
+		updateBlobOrLineColorButton(color, false);
 	}
 }

@@ -19,6 +19,7 @@ public class SliderModel extends OptionsModel {
 	private boolean widthUnit;
 	private boolean includeRandom;
 	private GColor blobColor;
+	private GColor lineColor;
 
 	public interface ISliderOptionsListener extends PropertyListener {
 		void setMinText(final String text);
@@ -28,6 +29,10 @@ public class SliderModel extends OptionsModel {
 		void setWidthText(final String text);
 
 		void setBlobSizeText(final String text);
+
+		void setBlobColor(final GColor color);
+
+		void setLineColor(final GColor color);
 
 		void setWidthUnitText(final String text);
 
@@ -72,6 +77,8 @@ public class SliderModel extends OptionsModel {
 		boolean equalMin = true;
 		boolean equalWidth = true;
 		boolean equalBlobSize = true;
+		boolean equalBlobColor = true;
+		boolean equalLineColor = true;
 		boolean equalSliderFixed = true;
 		boolean random = true;
 		boolean equalSliderHorizontal = true;
@@ -101,6 +108,12 @@ public class SliderModel extends OptionsModel {
 			if (!Kernel.isEqual(num0.getSliderBlobSize(),
 					temp.getSliderBlobSize())) {
 				equalBlobSize = false;
+			}
+			if (!(num0.getObjectColor() == temp.getObjectColor())) {
+				equalBlobColor = false;
+			}
+			if (!(num0.getBackgroundColor() == temp.getBackgroundColor())) {
+				equalLineColor = false;
 			}
 			if (num0.isSliderFixed() != temp.isSliderFixed()) {
 				equalSliderFixed = false;
@@ -166,6 +179,14 @@ public class SliderModel extends OptionsModel {
 				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
 			listener.setBlobSizeText(
 					kernel.format(num0.getSliderBlobSize(), highPrecision));
+		}
+		if (equalBlobColor
+				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+			listener.setBlobColor(num0.getObjectColor());
+		}
+		if (equalBlobColor
+				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+			listener.setLineColor(num0.getBackgroundColor());
 		}
 
 		setLabelForWidthUnit();
@@ -293,8 +314,32 @@ public class SliderModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
+	/**
+	 * @return color of blob
+	 */
 	public GColor getBlobColor() {
 		return blobColor == null ? GColor.BLACK : blobColor;
+	}
+
+	/**
+	 * @return color of line
+	 */
+	public GColor getLineColor() {
+		return lineColor == null ? GColor.BLACK : lineColor;
+	}
+
+	/**
+	 * @param color
+	 *            of line
+	 */
+	public void applyLineColor(GColor color) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoNumeric num = getNumericAt(i);
+			num.setBackgroundColor(color);
+			num.updateRepaint();
+		}
+		lineColor = color;
+		storeUndoInfo();
 	}
 
 	public boolean isIncludeRandom() {

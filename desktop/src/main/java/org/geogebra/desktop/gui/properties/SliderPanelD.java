@@ -19,6 +19,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.UpdateFonts;
 import org.geogebra.common.gui.dialog.options.model.SliderModel;
@@ -382,5 +383,13 @@ public class SliderPanelD extends JPanel
 
 	public void setBlobSizeText(String text) {
 		tfBlobSize.setText(text);
+	}
+
+	public void setBlobColor(GColor color) {
+		// TODO implement desktop
+	}
+
+	public void setLineColor(GColor color) {
+		// TODO implement desktop
 	}
 }
