@@ -3029,6 +3029,16 @@ namespace giac {
     }
     v=w;
   }
+
+  gen assumeeval(const gen & x,GIAC_CONTEXT){
+    if (x.type!=_IDNT)
+      return x.eval(1,contextptr);
+    gen evaled;
+    if (x._IDNTptr->in_eval(1,x,evaled,contextptr,true))
+      return evaled;
+    return x;
+  }
+
 #ifndef USE_GMP_REPLACEMENTS
   // small utility for ggb floats looking like fractions
   void ggb_num_coeff(gen & g){
@@ -3154,7 +3164,7 @@ namespace giac {
 	v.pop_back();
       }
       else {
-	gen xval=x.eval(1,contextptr);
+	gen xval=assumeeval(x,contextptr);
 	gen a(v[2]),b(v[3]);
 	if (evalf_double(a,1,contextptr).type==_DOUBLE_ && evalf_double(b,1,contextptr).type==_DOUBLE_){
 	  bool neg=false;
@@ -3457,7 +3467,7 @@ namespace giac {
     bool desordonne=false;
 #ifdef NO_STDEXCEPT
     if (ordonne){
-      gen xval=x.eval(1,contextptr);
+      gen xval=assumeeval(x,contextptr);
       giac_assume(symb_and(symb_superieur_egal(x,borne_inf),symb_inferieur_egal(x,borne_sup)),contextptr);
       primitive=eval(primitive,1,contextptr);
       sto(xval,x,contextptr);
@@ -3465,7 +3475,7 @@ namespace giac {
     }
     else {
       if ( (desordonne=is_greater(borne_inf,borne_sup,contextptr) )){
-	gen xval=x.eval(1,contextptr);
+	gen xval=assumeeval(x,contextptr);
 	giac_assume(symb_and(symb_superieur_egal(x,borne_sup),symb_inferieur_egal(x,borne_inf)),contextptr);
 	sto(xval,x,contextptr);
 	res=limit(primitive,*x._IDNTptr,borne_sup,1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,-1,contextptr) ;
@@ -3476,7 +3486,7 @@ namespace giac {
 #else
     try {
       if (ordonne){
-	gen xval=x.eval(1,contextptr);
+	gen xval=assumeeval(x,contextptr);
 	giac_assume(symb_and(symb_superieur_egal(x,borne_inf),symb_inferieur_egal(x,borne_sup)),contextptr);
 	primitive=eval(primitive,1,contextptr);
 	sto(xval,x,contextptr);
@@ -3486,7 +3496,7 @@ namespace giac {
       }
       else {
 	if ( (desordonne=is_greater(borne_inf,borne_sup,contextptr) )){
-	  gen xval=x.eval(1,contextptr);
+	  gen xval=assumeeval(x,contextptr);
 	  giac_assume(symb_and(symb_superieur_egal(x,borne_sup),symb_inferieur_egal(x,borne_inf)),contextptr);
 	  sto(xval,x,contextptr);
 	  res=limit(primitive,*x._IDNTptr,borne_sup,1,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,-1,contextptr) ;
@@ -3513,7 +3523,7 @@ namespace giac {
     else {
       if ((is_inf(borne_inf) || evalf_double(borne_inf,1,contextptr).type==_DOUBLE_)
 	  && (is_inf(borne_sup) || evalf_double(borne_sup,1,contextptr).type==_DOUBLE_)){
-	gen xval=x.eval(1,contextptr);
+	gen xval=assumeeval(x,contextptr);
 	if (is_greater(borne_sup,borne_inf,contextptr))
 	  giac_assume(symb_and(symb_superieur_egal(x,borne_inf),symb_inferieur_egal(x,borne_sup)),contextptr);
 	else
