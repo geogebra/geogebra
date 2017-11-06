@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.CommandsConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
@@ -1336,7 +1337,10 @@ public abstract class Localization {
 			// Log.debug(c.name() + " " + cInternal + " " + toTest + " "
 			// + internalName);
 
-			if (toTest.equals(cInternal)
+			// check for Commands.TABLE_ENGLISH to avoid
+			// InfiniteCone -> ConeInfinite
+			if (c.getTable() != CommandsConstants.TABLE_ENGLISH
+					&& toTest.equals(cInternal)
 					&& !c.name().equals(cInternal.toString())) {
 				Log.debug(
 						"English name for " + internalName + " is " + c.name());
