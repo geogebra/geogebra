@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -146,11 +145,9 @@ public class PageControlPanel extends PersistablePanel {
 		if (!isVisible()) {
 			return;
 		}
-		Log.printStacktrace("closepagecontrol");
 		hidePlusButton();
 		addStyleName("animateOut");
 		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
-
 		CSSAnimation.runOnAnimation(new Runnable() {
 			public void run() {
 				onClose();
@@ -183,14 +180,12 @@ public class PageControlPanel extends PersistablePanel {
 	private void addPreviewCard(EuclidianView view) {
 		final PagePreviewCard previewCard = new PagePreviewCard(view,
 				contentPanel.getWidgetCount());
-
 		ClickStartHandler.init(previewCard, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				setPageSelected(previewCard);
 			}
 		});
-
 		contentPanel.add(previewCard);
 		// set new page active
 		setPageSelected(previewCard);
