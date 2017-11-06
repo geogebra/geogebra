@@ -10137,7 +10137,9 @@ namespace giac {
     unary_function_ptr & u=b._SYMBptr->sommet;
     if (a!=at_random){
       f=b._SYMBptr->feuille;
-      vecteur v(gen2vecteur(f));
+      vecteur v(1,f);
+      if (f.type==_VECT && f.subtype==_SEQ__VECT)
+	v=*f._VECTptr;
       if (v.empty())
 	f=a;
       else {

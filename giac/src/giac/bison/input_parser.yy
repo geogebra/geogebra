@@ -268,7 +268,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| T_MOINS exp %prec T_NEG38	{ 
 					if ($2==unsigned_inf)
 						$$ = minus_inf;
-					else { if ($2.type==_INT_) $$=(-$2.val); else $$=symbolic(at_neg,$2); }
+					else { if ($2.type==_INT_) $$=(-$2.val); else { if ($2.type==_DOUBLE_) $$=(-$2._DOUBLE_val); else $$=symbolic(at_neg,$2); } }
 				}
 	| T_NEG38 exp 	{ 
 					if ($2==unsigned_inf)

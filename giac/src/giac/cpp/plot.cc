@@ -4952,7 +4952,14 @@ namespace giac {
 	sol.push_back(v[3]);
 	// find smallest 
 	const_iterateur it=sol.begin(),itend=sol.end();
-	gen distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr),cur_distance2;
+	gen distance2_found=undef,cur_distance2;
+#ifdef NO_STDEXCEPT
+	distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr);
+#else
+	try {
+	  distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr),cur_distance2;
+	} catch (std::runtime_error) {}
+#endif
 	if (is_undef(distance2_found))
 	  distance2_found=plus_inf;
 	for (;it!=itend;++it){

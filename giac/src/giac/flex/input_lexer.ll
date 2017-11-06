@@ -996,13 +996,13 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 	      break;
 	  }
 	  if (instring){
-	    if (s[i]=='"')
+	    if (s[i]=='"'&& (i==0 || s[i-1]!='\\'))
 	      instring=false;
 	  }
 	  else {
 	    switch (s[i]){
 	    case '"':
-	      instring=true;
+	      instring=i==0 || s[i-1]!='\\';
 	      break;
 	    case '(':
 	      ++np;
