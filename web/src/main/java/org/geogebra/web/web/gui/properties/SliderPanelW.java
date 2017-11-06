@@ -538,7 +538,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		applyMin();
 		applyMax();
 		applyWidth();
-		applyBlobSize();
+		if (kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+			applyBlobSize();
+		}
 	}
 
 	public void setBlobColor(GColor color) {
