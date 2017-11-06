@@ -69,6 +69,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private CheckboxPanel avPanel;
 	private Localization loc;
 
+	/**
+	 * @param app
+	 *            application
+	 * @param useTabbedPane
+	 *            true if used tabbed pane
+	 * @param includeRandom
+	 *            true if include random
+	 */
 	public SliderPanelW(final AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
 		this.loc = app.getLocalization();
@@ -96,7 +104,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 			@Override
 			public void onClick(ClickEvent event) {
-				model.applyFixed(cbSliderFixed.getValue());
+				getModel().applyFixed(getCbSliderFixed().getValue());
 
 			}});
 		positionPanel.add(cbSliderFixed);
@@ -106,7 +114,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 			@Override
 			public void onClick(ClickEvent event) {
-				model.applyRandom(cbRandom.getValue());
+				getModel().applyRandom(getCbRandom().getValue());
 
 			}});
 		positionPanel.add(cbRandom);
@@ -117,7 +125,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			@Override
 			public void onChange(ChangeEvent event) {
 				getModel()
-						.applyDirection(lbSliderHorizontal.getSelectedIndex());
+						.applyDirection(
+								getLbSliderHorizontal().getSelectedIndex());
 
 			}});
 
@@ -399,14 +408,23 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		return super.updatePanel(geos);
 	}
 
+	/**
+	 * apply min value
+	 */
 	protected void applyMin() {
 		model.applyMin(getNumberFromInput(tfMin.getText().trim()));
 	}
 
+	/**
+	 * apply max value
+	 */
 	protected void applyMax() {
 		model.applyMax(getNumberFromInput(tfMax.getText().trim()));
 	}
 
+	/**
+	 * apply width of slider (line length)
+	 */
 	protected void applyWidth() {
 		model.applyWidth(getNumberFromInput(tfWidth.getText().trim()).getDouble());
 	}
@@ -447,6 +465,27 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		mainPanel.add(avPanel.getWidget());
 
 		setWidget(mainPanel);
+	}
+
+	/**
+	 * @return list of slider labels
+	 */
+	public ListBox getLbSliderHorizontal() {
+		return lbSliderHorizontal;
+	}
+
+	/**
+	 * @return slider fixed check box
+	 */
+	public CheckBox getCbSliderFixed() {
+		return cbSliderFixed;
+	}
+
+	/**
+	 * @return slider random check box
+	 */
+	public CheckBox getCbRandom() {
+		return cbRandom;
 	}
 
 	@Override
@@ -529,6 +568,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		widthUnitLabel.setText(text);
 	}
 
+	/**
+	 * @param geoResult
+	 *            result geoElement
+	 */
 	public void applyAll(GeoElement geoResult) {
 		Object geos[] =  {geoResult};
 		model.setGeos(geos);
