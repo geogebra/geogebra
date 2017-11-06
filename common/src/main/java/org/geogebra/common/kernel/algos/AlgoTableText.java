@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GFont;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
@@ -554,6 +555,15 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			GColor col = geo1.getObjectColor();
 			GColor bgCol = geo1.getBackgroundColor();
+			
+			String stylePre="";
+			String stylePost="";
+			
+			int fontStyle = 0;
+			
+			if (geo1 instanceof TextProperties) {
+				fontStyle = ((TextProperties) geo1).getFontStyle();
+			}
 
 			// check isLabelSet() so that eg TableText[{{1, 2, 3}}] isn't green
 			if (GColor.BLACK.equals(col) || !geo1.isLabelSet()) {
@@ -581,8 +591,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			String text1 = geo1.toLaTeXString(false, tpl);
 			if (geo1.isGeoText() && !((GeoText) geo1).isLaTeX()) {
 				text1 = text1.replace("$", "\\dollar");
-
 			}
+			
 
 			switch (justification1) {
 			default:
@@ -644,13 +654,48 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 			) {
 
-				sb.append("\\text{"); // preserve spaces
-				sb.append(text1);
-				sb.append("}");
+				switch (fontStyle) {
+				default:
+					stylePre = "\text{";
+					stylePost = "}";
+					break;
+				case GFont.BOLD:
+					stylePre = ("\\textbf{");
+					stylePost = "}";
+					break;
+				case GFont.ITALIC:
+					stylePre = ("\\textit{");
+					stylePost = "}";
+					break;
+				case GFont.BOLD + GFont.ITALIC:
+					stylePre = ("\\textit{\\textbf{");
+					stylePost = "}}";
+					break;
+				}
 
 			} else {
-				sb.append(text1);
+				switch (fontStyle) {
+				default:
+					// do nothing
+					break;
+				case GFont.BOLD:
+					stylePre = ("\\mathbf{");
+					stylePost = "}";
+					break;
+				case GFont.ITALIC:
+					stylePre = ("\\mathit{");
+					stylePost = "}";
+					break;
+				case GFont.BOLD + GFont.ITALIC:
+					stylePre = ("\\mathit{\\mathbf{");
+					stylePost = "}}";
+					break;
+				}
 			}
+
+			sb.append(stylePre);
+			sb.append(text1);
+			sb.append(stylePost);
 
 			if (col != null) {
 				sb.append('}');
