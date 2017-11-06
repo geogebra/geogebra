@@ -564,27 +564,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 		if (!asPreference) {
 
-			// column widths
-			HashMap<Integer, Integer> widthMap1 = getWidthMap();
-			for (Entry<Integer, Integer> entry : widthMap1.entrySet()) {
-				Integer col = entry.getKey();
-				int colWidth = entry.getValue();
-				if (colWidth != preferredColumnWidth()) {
-					sb.append("\t<spreadsheetColumn id=\"" + col + "\" width=\""
-							+ colWidth + "\"/>\n");
-				}
-			}
-
-			// row heights
-			HashMap<Integer, Integer> heightMap1 = getHeightMap();
-			for (Entry<Integer, Integer> entry : heightMap1.entrySet()) {
-				Integer row = entry.getKey();
-				int rowHeight = entry.getValue();
-				if (rowHeight != preferredRowHeight()) {
-					sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
-							+ rowHeight + "\"/>\n");
-				}
-			}
+			getWidthsAndHeightsXML(sb);
 
 			// initial selection
 
@@ -679,6 +659,31 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 
 		sb.append("</spreadsheetView>\n");
+
+	}
+
+	public void getWidthsAndHeightsXML(StringBuilder sb) {
+		// column widths
+		HashMap<Integer, Integer> widthMap1 = getWidthMap();
+		for (Entry<Integer, Integer> entry : widthMap1.entrySet()) {
+			Integer col = entry.getKey();
+			int colWidth = entry.getValue();
+			if (colWidth != preferredColumnWidth()) {
+				sb.append("\t<spreadsheetColumn id=\"" + col + "\" width=\""
+						+ colWidth + "\"/>\n");
+			}
+		}
+
+		// row heights
+		HashMap<Integer, Integer> heightMap1 = getHeightMap();
+		for (Entry<Integer, Integer> entry : heightMap1.entrySet()) {
+			Integer row = entry.getKey();
+			int rowHeight = entry.getValue();
+			if (rowHeight != preferredRowHeight()) {
+				sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
+						+ rowHeight + "\"/>\n");
+			}
+		}
 
 	}
 

@@ -851,7 +851,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 		for (int row = oldRowCount; row < tableModel.getRowCount(); ++row) {
 			setRowHeight(row, app.getSettings().getSpreadsheet()
-			        .preferredRowHeight());
+					.preferredRowHeight());
 		}
 
 		rowHeader.updateRowCount();
@@ -1814,6 +1814,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	// Keep column widths of table and column header in sync
 	public void setColumnWidth(int column, int width) {
+		setColumnWidthSilent(column, width);
+		this.view.settings().getWidthMap().put(column, width);
+
+	}
+
+	void setColumnWidthSilent(int column, int width) {
 		int width2 = width;
 
 		// TODO : check if this minimum width is valid,
@@ -1865,22 +1871,27 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	// Keep row heights of table and row header in sync
 	public void setRowHeight(final int row, final int rowHeight) {
+		setRowHeight(row, rowHeight, true);
+	}
+
+	protected void setRowHeight(final int row, final int rowHeight,
+			final boolean updateSettings) {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
-
+				minimumRowHeight = dummyTable.getCellFormatter()
+						.getElement(0, 0).getOffsetHeight();
+				int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
 				setRowHeightCallback(row, rowHeight);
+				if (updateSettings) {
+					view.settings().getHeightMap().put(row, rowHeight2);
+				}
 			}
 		});
 	}
 
-	protected void setRowHeightCallback(int row, int rowHeight) {
-		minimumRowHeight = dummyTable.getCellFormatter().getElement(0, 0)
-				.getOffsetHeight();
-
-		int rowHeight2 = Math.max(rowHeight, minimumRowHeight);
-
+	protected void setRowHeightCallback(int row, int rowHeight2) {
 		if (row >= 0) {
 			ssGrid.getRowFormatter().getElement(row).getStyle()
 					.setHeight(rowHeight2, Style.Unit.PX);

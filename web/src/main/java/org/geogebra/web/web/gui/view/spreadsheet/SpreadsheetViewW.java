@@ -526,28 +526,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		if (!asPreference) {
 
-			// column widths
-			for (int col = 1; col < table.getColumnCount(); col++) {
-				int colWidth = table.getColumnWidth(col - 1);
-				// if (colWidth != DEFAULT_COLUMN_WIDTH)
-				if (colWidth != table.preferredColumnWidth) {
-					sb.append("\t<spreadsheetColumn id=\"" + (col - 1)
-					        + "\" width=\"" + colWidth + "\"/>\n");
-				}
-			}
-
-			// row heights
-			for (int row = 1; row < table.getRowCount(); row++) {
-				int rowHeight = table.getGrid().getRowFormatter()
-				        .getElement(row).getOffsetHeight();
-				if (rowHeight != table.minimumRowHeight
-				// FIXME: temporarily, otherwise
-				// table.getRowHeight()
-				) {
-					sb.append("\t<spreadsheetRow id=\"" + row + "\" height=\""
-					        + rowHeight + "\"/>\n");
-				}
-			}
+			settings().getWidthsAndHeightsXML(sb);
 
 			// initial selection
 			sb.append("\t<selection ");
@@ -693,9 +672,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		for (int col = 0; col < table.getColumnCount(); ++col) {
 			if (widthMap.containsKey(col)) {
-				table.setColumnWidth(col, widthMap.get(col));
+				table.setColumnWidthSilent(col, widthMap.get(col));
 			} else {
-				table.setColumnWidth(col, prefWidth);
+				table.setColumnWidthSilent(col, prefWidth);
 			}
 		}
 	}
@@ -712,7 +691,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		Log.debug("height map size: " + heightMap.size());
 		for (int row = 0; row < table.getRowCount(); ++row) {
 			if (heightMap.containsKey(row)) {
-				table.setRowHeight(row, heightMap.get(row));
+				table.setRowHeight(row, heightMap.get(row), false);
 			}
 		}
 	}
