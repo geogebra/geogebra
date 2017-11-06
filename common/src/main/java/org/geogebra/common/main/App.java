@@ -4311,6 +4311,8 @@ public abstract class App implements UpdateSelection {
 		/** GGB-2170 */
 		case SLIDER_STYLE_OPTIONS:
 			return false;
+
+		/** GGB-2187 */
 		case RELATIVE_POSITION_FURNITURE:
 			return prerelease;
 
@@ -4318,9 +4320,9 @@ public abstract class App implements UpdateSelection {
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
 			return prerelease;
 
-            default:
-                Log.debug("missing case in Feature: " + f);
-                return false;
+		default:
+			Log.debug("missing case in Feature: " + f);
+			return false;
 
         }
     }
