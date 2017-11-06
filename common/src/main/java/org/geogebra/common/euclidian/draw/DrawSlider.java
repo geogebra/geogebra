@@ -29,6 +29,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.Feature;
 
 /**
  * 
@@ -177,10 +178,13 @@ public class DrawSlider extends Drawable {
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			// horizontal line
-			g2.setPaint(geo.getSelColor());
+			g2.setPaint(geo.getKernel().getApplication()
+					.has(Feature.SLIDER_STYLE_OPTIONS)
+							? geo.getBackgroundColor() : geo.getSelColor());
 			g2.setStroke(objStroke);
 			g2.drawStraightLine(line.getP1().getX(), line.getP1().getY(),
 					line.getP2().getX(), line.getP2().getY());
+			g2.setPaint(geo.getSelColor());
 			if (geo.doHighlighting()) {
 				g2.fill(circleHighlight);
 				g2.setStroke(borderStroke);

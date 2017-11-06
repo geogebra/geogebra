@@ -1,7 +1,9 @@
 package org.geogebra.web.web.gui.properties;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
+import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.SliderModel;
 import org.geogebra.common.gui.dialog.options.model.SliderModel.ISliderOptionsListener;
 import org.geogebra.common.kernel.Kernel;
@@ -11,10 +13,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
+import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.dialog.options.CheckboxPanel;
 import org.geogebra.web.web.gui.dialog.options.model.ExtendedAVModel;
+import org.geogebra.web.web.gui.util.MyCJButton;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -41,6 +47,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private AngleTextFieldW tfMin, tfMax;
 	private AutoCompleteTextFieldW tfWidth;
 	private AutoCompleteTextFieldW tfBlobSize;
+	private MyCJButton blobColorChooserBtn;
+	private Label blobColorLbl;
 	private Label blobSizeLabel;
 	private Label minLabel;
 	private Label maxLabel;
@@ -58,8 +66,6 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	private CheckboxPanel avPanel;
 	private Localization loc;
-
-	
 
 	public SliderPanelW(final AppW app,
 			boolean useTabbedPane, boolean includeRandom) {
@@ -108,7 +114,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 			@Override
 			public void onChange(ChangeEvent event) {
-				model.applyDirection(lbSliderHorizontal.getSelectedIndex());
+				getModel()
+						.applyDirection(lbSliderHorizontal.getSelectedIndex());
 
 			}});
 
@@ -178,6 +185,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
 			createBlobSizeTextField(app);
+			createBlobColorChooserBtn(app);
 		}
 
 		maxLabel = new Label();
@@ -185,6 +193,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		widthLabel = new Label();
 		widthUnitLabel = new Label();
 		blobSizeLabel = new Label();
+		blobColorLbl = new Label();
 		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
 			maxLabel.setStyleName("coloredLabel");
 			minLabel.setStyleName("coloredLabel");
@@ -222,6 +231,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			blobSizePanel.add(blobSizeLabel);
 			blobSizePanel.add(tfBlobSize);
 			sliderPanel.add(blobSizePanel);
+			sliderPanel.add(
+					LayoutUtilW.panelRow(blobColorLbl, blobColorChooserBtn));
 		}
 
 		// add increment to intervalPanel
@@ -234,6 +245,68 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		animationPanel.add(speedPanel.getWidget());
 		initPanels();
 		setLabels();
+	}
+
+	@Override
+	public SliderModel getModel() {
+		return model;
+	}
+
+	private void createBlobColorChooserBtn(final AppW app) {
+		blobColorChooserBtn = new MyCJButton(app);
+		updateBlobColorButton(model.getBlobColor());
+		blobColorChooserBtn.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				((DialogManagerW) app.getDialogManager())
+						.showColorChooserDialog(
+								getModel().getBlobColor(),
+						new ColorChangeHandler() {
+
+							@Override
+							public void onForegroundSelected() {
+								// do nothing
+							}
+
+							@Override
+							public void onColorChange(GColor color) {
+										getModel().applyBlobColor(color);
+								updateBlobColorButton(color);
+							}
+
+							@Override
+							public void onClearBackground() {
+								// do nothing
+							}
+
+							@Override
+							public void onBackgroundSelected() {
+								// do nothing
+							}
+
+							@Override
+							public void onAlphaChange() {
+								// do nothing
+							}
+
+							@Override
+							public void onBarSelected() {
+								// do nothing
+							}
+						});
+			}
+		});
+	}
+
+	/**
+	 * @param color
+	 *            of blob shown as selected
+	 */
+	public void updateBlobColorButton(GColor color) {
+		ImageOrText content = new ImageOrText();
+		content.setBgColor(color);
+		blobColorChooserBtn.setIcon(content);
 	}
 
 	private void createBlobSizeTextField(AppW app) {
@@ -277,6 +350,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		model.applyWidth(getNumberFromInput(tfWidth.getText().trim()).getDouble());
 	}
 
+	/**
+	 * apply blob size
+	 */
 	protected void applyBlobSize() {
 		model.applyBlobSize(
 				getNumberFromInput(tfBlobSize.getText().trim()).getDouble());
@@ -316,34 +392,24 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	public void setLabels() {
 		cbSliderFixed.setText(loc.getMenu("fixed"));
 		cbRandom.setText(loc.getMenu("Random"));
-
 		String[] comboStr = { loc.getMenu("horizontal"),
 				loc.getMenu("vertical") };
-
 		int selectedIndex = lbSliderHorizontal.getSelectedIndex();
 		lbSliderHorizontal.clear();
-
 		for (int i = 0; i < comboStr.length; ++i) {
 			lbSliderHorizontal.addItem(comboStr[i]);
 		}
-
 		lbSliderHorizontal.setSelectedIndex(selectedIndex);
-
-
 		minLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("min") : loc.getMenu("min") +  ":");
 		maxLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("max") :loc.getMenu("max") + ":");
 		widthLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("Width"):loc.getMenu("Width") + ":");
 		blobSizeLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
 				? loc.getMenu("Blob Size") : loc.getMenu("Blob Size") + ":");
-
+		blobColorLbl.setText(loc.getMenu("Blob Color") + ":");
 		model.setLabelForWidthUnit();
-
-
 		stepPanel.setLabels();
 		speedPanel.setLabels();
-
 		avPanel.setLabels();
-
 	}
 
 	private NumberValue getNumberFromInput(final String inputText) {
@@ -353,7 +419,6 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
 					false);
 		}
-
 		return value;
 	}
 

@@ -1,5 +1,6 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -17,6 +18,7 @@ public class SliderModel extends OptionsModel {
 	private Kernel kernel;
 	private boolean widthUnit;
 	private boolean includeRandom;
+	private GColor blobColor;
 
 	public interface ISliderOptionsListener extends PropertyListener {
 		void setMinText(final String text);
@@ -264,6 +266,10 @@ public class SliderModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
+	/**
+	 * @param value
+	 *            blob size in px
+	 */
 	public void applyBlobSize(double value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
@@ -271,6 +277,24 @@ public class SliderModel extends OptionsModel {
 			num.updateRepaint();
 		}
 		storeUndoInfo();
+	}
+
+	/**
+	 * @param color
+	 *            of blob
+	 */
+	public void applyBlobColor(GColor color) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoNumeric num = getNumericAt(i);
+			num.setObjColor(color);
+			num.updateRepaint();
+		}
+		blobColor = color;
+		storeUndoInfo();
+	}
+
+	public GColor getBlobColor() {
+		return blobColor == null ? GColor.BLACK : blobColor;
 	}
 
 	public boolean isIncludeRandom() {
