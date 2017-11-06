@@ -14,7 +14,6 @@ import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
@@ -200,7 +199,7 @@ public class PropertiesStyleBarW extends
 	 *            button
 	 */
 	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
-		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
+		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		switch (type) {
 		case GLOBAL:
 			ImgResourceHelper.setIcon(
@@ -251,7 +250,7 @@ public class PropertiesStyleBarW extends
 	 * @return icon URL
 	 */
 	protected String getTypeIcon(OptionType type) {
-		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
+		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		switch (type) {
 		case GLOBAL:
 			return MaterialDesignResources.INSTANCE.gear().getSafeUri()

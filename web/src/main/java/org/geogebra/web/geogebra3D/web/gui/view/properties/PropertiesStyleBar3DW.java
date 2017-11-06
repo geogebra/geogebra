@@ -11,7 +11,6 @@ import org.geogebra.web.web.gui.properties.PropertiesStyleBarW;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 
 /**
@@ -38,8 +37,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
 		switch (type) {
 		case EUCLIDIAN3D :
-			PerspectiveResources pr = ((ImageFactory) GWT
-			        .create(ImageFactory.class)).getPerspectiveResources();
+			PerspectiveResources pr = ImageFactory.getPerspectiveResources();
 			ImgResourceHelper.setIcon(app.getSettings().getToolbarSettings().is3D()
 					? new ImageResourcePrototype(null,
 									MaterialDesignResources.INSTANCE
@@ -48,8 +46,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 							: pr.menu_icon_graphics3D(), btn);
 			break;
 		case EUCLIDIAN_FOR_PLANE :
-			pr = ((ImageFactory) GWT
-			        .create(ImageFactory.class)).getPerspectiveResources();
+			pr = ImageFactory.getPerspectiveResources();
 			ImgResourceHelper.setIcon(pr.menu_icon_graphics_extra(), btn);
 			break;
 		default:
@@ -62,14 +59,13 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	protected String getTypeIcon(OptionType type) {
 		switch (type) {
 		case EUCLIDIAN3D:
-			PerspectiveResources pr = ((ImageFactory) GWT
-			        .create(ImageFactory.class)).getPerspectiveResources();
+			PerspectiveResources pr = ImageFactory.getPerspectiveResources();
 			return ImgResourceHelper
 					.safeURI(app.getSettings().getToolbarSettings().is3D()
 							? MaterialDesignResources.INSTANCE.graphing3D()
 							: pr.menu_icon_graphics3D());
 		case EUCLIDIAN_FOR_PLANE:
-			pr = ((ImageFactory) GWT.create(ImageFactory.class))
+			pr = ImageFactory
 					.getPerspectiveResources();
 			return ImgResourceHelper.safeURI(pr.menu_icon_graphics_extra());
 		default:

@@ -38,7 +38,6 @@ import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
@@ -1538,7 +1537,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	protected PerspectiveResources getResources(){
-		return ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
+		return ImageFactory.getPerspectiveResources();
 	}
 
 	public void addToToolbar(int mode) {

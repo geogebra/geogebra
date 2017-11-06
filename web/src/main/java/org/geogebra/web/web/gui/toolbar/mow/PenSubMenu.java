@@ -22,7 +22,6 @@ import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
 import org.geogebra.web.web.gui.util.PenPreview;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
@@ -77,7 +76,7 @@ public class PenSubMenu extends SubMenuPanel {
 		penPanel.addStyleName("penPanel");
 		pen = createButton(EuclidianConstants.MODE_PEN);
 		// pen gets a separate icon here so it can show the selected color
-		ToolbarResources pr = ((ImageFactory) GWT.create(ImageFactory.class)).getToolbarResources();
+		ToolbarResources pr = ImageFactory.getToolbarResources();
 		NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(pr.mode_pen_white_32()), 32);
 		im.addStyleName("opacityFixForOldIcons");
 		pen.getUpFace().setImage(im);

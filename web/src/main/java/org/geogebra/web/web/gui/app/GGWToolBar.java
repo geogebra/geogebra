@@ -29,7 +29,6 @@ import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.TextDecoration;
@@ -53,8 +52,8 @@ import com.google.gwt.user.client.ui.Widget;
 public class GGWToolBar extends Composite implements RequiresResize,
 		ToolBarInterface, SetLabels {
 
-	static private ToolbarResources myIconResourceBundle = ((ImageFactory) GWT
-			.create(ImageFactory.class)).getToolbarResources();
+	static private ToolbarResources myIconResourceBundle = ImageFactory
+			.getToolbarResources();
 	
 
 	private ArrayList<ToolBarW> toolbars;
@@ -193,7 +192,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 	//undo-redo buttons
 	private void addUndoPanel(){
-		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
+		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
 
 
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32, app);
@@ -521,8 +520,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
 				app.getArticleElement().getDataParamApp()){
-			PerspectiveResources pr = ((ImageFactory) GWT
-					.create(ImageFactory.class)).getPerspectiveResources();
+			PerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		this.menuBarShowing = true;
 			// openMenuButton = new StandardButton(pr.button_open_menu(), null,
 			// 32);

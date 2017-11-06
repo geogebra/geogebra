@@ -13,7 +13,6 @@ import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.main.AppWFull;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -77,8 +76,7 @@ public class PerspectivesPopup {
 	}
 
 	private void setLabels() {
-		PerspectiveResources pr = ((ImageFactory) GWT
-				.create(ImageFactory.class)).getPerspectiveResources();
+		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		contentPanel.clear();
 		addPerspective(0, pr.menu_icon_algebra24());
 		addPerspective(1, pr.menu_icon_geometry24());

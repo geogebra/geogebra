@@ -9,7 +9,6 @@ import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -81,8 +80,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	private void createPanelsToolbar() {
 		buttons = new FlowPanel();
 		buttons.setStyleName("panelRow");
-		PerspectiveResources pr = ((ImageFactory) GWT
-		        .create(ImageFactory.class)).getPerspectiveResources();
+		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		final MyToggleButtonW btnGeneral = new MyToggleButtonW(new NoDragImage(
 				ImgResourceHelper.safeURI(pr.menu_icon_graphics()), 24));
 		buttons.add(btnGeneral);

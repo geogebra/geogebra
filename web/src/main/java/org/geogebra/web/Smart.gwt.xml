@@ -2,10 +2,6 @@
 <module rename-to='web'>
   <inherits name="org.geogebra.web.Web3D" />
 
-  <replace-with class="org.geogebra.web.web.gui.SVGImageFactory">
-    <when-type-is class="org.geogebra.web.web.gui.ImageFactory" />    
-  </replace-with>
-
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>

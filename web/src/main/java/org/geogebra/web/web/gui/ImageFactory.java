@@ -1,20 +1,36 @@
 package org.geogebra.web.web.gui;
 
+import org.geogebra.web.web.css.ToolbarSvgResources;
 import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 
-/**
- * Abstract factory for image resources
- *
- */
-public interface ImageFactory {
-	/**
-	 * @return resources for toolbar
-	 */
-	public ToolbarResources getToolbarResources();
+import com.google.gwt.core.shared.GWT;
 
-	/**
-	 * @return resources for menu and stylebar
-	 */
-	public PerspectiveResources getPerspectiveResources();
+/**
+ * Provides access to PNG image resources
+ * 
+ * @author Zbynek
+ */
+
+public class ImageFactory {
+	private static ToolbarResources tb;
+	private static PerspectiveResources pr;
+
+	public static ToolbarResources getToolbarResources() {
+		if (tb == null) {
+			tb = GWT.create(ToolbarSvgResources.class);
+		}
+		return tb;
+
+	}
+
+	public static PerspectiveResources getPerspectiveResources() {
+		if (pr == null) {
+			pr = GWT.create(SvgPerspectiveResources.class);
+		}
+		return pr;
+
+	}
+
 }

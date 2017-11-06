@@ -2,13 +2,12 @@ package org.geogebra.web.web.gui.images;
 
 import org.geogebra.web.web.gui.ImageFactory;
 
-import com.google.gwt.core.shared.GWT;
 import com.google.gwt.resources.client.ResourcePrototype;
 
 @SuppressWarnings("javadoc")
 public interface PerspectiveResources {
-	final static PerspectiveResources INSTANCE = ((ImageFactory) GWT
-			.create(ImageFactory.class)).getPerspectiveResources();
+	final static PerspectiveResources INSTANCE = ImageFactory
+			.getPerspectiveResources();
 	
 	ResourcePrototype menu_icon_algebra();
 
