@@ -633,7 +633,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT
 				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT)
 				&& !"".equals(value) && !"-".equals(value)
-				&& last != '.' && last != '0') {
+				&& last != '.') {
 			doTextFieldActionPerformed();
 		}
     }
