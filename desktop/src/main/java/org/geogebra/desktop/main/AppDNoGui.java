@@ -1,6 +1,7 @@
 package org.geogebra.desktop.main;
 
 import java.awt.Font;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -64,6 +65,7 @@ import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.LoggingCASFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.geogebra3D.App3DCompanionD;
+import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
@@ -71,6 +73,7 @@ import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.util.GTimerD;
+import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.LoggerD;
 import org.geogebra.desktop.util.Normalizer;
 import org.geogebra.desktop.util.StringUtilD;
@@ -235,7 +238,7 @@ public class AppDNoGui extends App {
 	@Override
 	public ImageManager getImageManager() {
 		// TODO Auto-generated method stub
-		return null;
+		return new ImageManagerD();
 	}
 
 	@Override
@@ -272,8 +275,9 @@ public class AppDNoGui extends App {
 	@Override
 	public MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		// TODO Auto-generated method stub
-		return null;
+		System.err.println(new File(filename).exists());
+		MyImageD im = ImageManagerD.getExternalImage(filename);
+		return im;
 	}
 
 	@Override

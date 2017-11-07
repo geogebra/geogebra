@@ -28,6 +28,7 @@ import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.PixelGrabber;
+import java.io.File;
 import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
@@ -36,9 +37,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
-import org.geogebra.desktop.main.AppD;
 
 /**
  * An ImageManager provides methods for loading images and icons for a JFrame.
@@ -63,6 +64,11 @@ public class ImageManagerD extends ImageManager {
 	public ImageManagerD(Component comp) {
 		toolKit = Toolkit.getDefaultToolkit();
 		tracker = new MediaTracker(comp);
+	}
+
+	public ImageManagerD() {
+		toolKit = Toolkit.getDefaultToolkit();
+		// for test code only
 	}
 
 	public void clearAllImages() {
@@ -355,8 +361,8 @@ public class ImageManagerD extends ImageManager {
 	public String createImage(ImageResourceD res, App app) {
 		Image im = getImageResource(res);
 		BufferedImage image = ImageManagerD.toBufferedImage(im);
-		String fileName = ((AppD) app).createImage(new MyImageD(image),
-				"tool.png");
+		String fileName = createImage(new MyImageD(image),
+				"tool.png", app);
 		return fileName;
 	}
 
@@ -398,5 +404,84 @@ public class ImageManagerD extends ImageManager {
 
 	public int getMaxIconSize() {
 		return maxIconSize;
+	}
+
+	public String createImage(MyImageD image, String imageFileName, App app) {
+		String fileName = imageFileName;
+		MyImageD img = image;
+		try {
+			String zip_directory = img.getMD5();
+
+			String fn = fileName;
+			int index = fileName.lastIndexOf(File.separator);
+			if (index != -1) {
+				fn = fn.substring(index + 1, fn.length()); // filename without
+			}
+			// path
+			fn = Util.processFilename(fn);
+
+			// filename will be of form
+			// "a04c62e6a065b47476607ac815d022cc/filename.ext"
+			fileName = zip_directory + "/" + fn;
+
+			/*
+			 * 
+			 * // write and reload image to make sure we can save it // without
+			 * problems ByteArrayOutputStream os = new ByteArrayOutputStream();
+			 * getXMLio().writeImageToStream(os, fileName, img); os.flush();
+			 * ByteArrayInputStream is = new
+			 * ByteArrayInputStream(os.toByteArray());
+			 * 
+			 * // reload the image img = ImageIO.read(is); is.close();
+			 * os.close();
+			 * 
+			 * 
+			 * 
+			 * setDefaultCursor(); if (img == null) {
+			 * showError("LoadFileFailed"); return null; }
+			 */
+			// make sure this filename is not taken yet
+			MyImageD oldImg = ImageManagerD.getExternalImage(fileName);
+			if (oldImg != null) {
+				// image with this name exists already
+				if ((oldImg.getWidth() == img.getWidth())
+						&& (oldImg.getHeight() == img.getHeight())) {
+					// same size and filename => we consider the images as equal
+					return fileName;
+				}
+				// same name but different size: change filename
+				// this bit of code should now be
+				// redundant as it
+				// is near impossible for the filename to be the same unless
+				// the files are the same
+				int n = 0;
+				do {
+					n++;
+					int pos = fileName.lastIndexOf('.');
+					String firstPart = pos > 0 ? fileName.substring(0, pos)
+							: "";
+					String extension = pos < fileName.length()
+							? fileName.substring(pos) : "";
+					fileName = firstPart + n + extension;
+				} while (ImageManagerD.getExternalImage(fileName) != null);
+			}
+
+			addExternalImage(fileName, img);
+
+			return fileName;
+		} catch (Exception e) {
+			app.setDefaultCursor();
+			e.printStackTrace();
+			app.localizeAndShowError("LoadFileFailed");
+			return null;
+		} catch (java.lang.OutOfMemoryError t) {
+			Log.debug("Out of memory");
+			System.gc();
+			app.setDefaultCursor();
+			// t.printStackTrace();
+			// TODO change to OutOfMemoryError
+			app.localizeAndShowError("LoadFileFailed");
+			return null;
+		}
 	}
 }

@@ -2,11 +2,13 @@ package org.geogebra.commands;
 
 import java.util.Locale;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -15,6 +17,8 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageManagerD;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -1322,6 +1326,30 @@ public class CommandsTest extends Assert{
 		((GeoNumeric) get("b")).setSymbolicMode(true,
 				true);
 		t("b", "2.7148917443812293");
+	}
+
+	@Test
+	public void imgCorner() {
+		GeoImage img = new GeoImage(app.getKernel().getConstruction());
+		String fn = ((ImageManagerD) app.getImageManager())
+				.createImage(GuiResourcesD.BAR_GRAPH, app);
+		img.setImageFileName(fn);
+		app.getImageManager().setCornersFromSelection(img, app);
+		img.setLabel("picT");
+		img.getCorner(0).setCoords(0, 0, 1);
+		img.getCorner(1).setCoords(10, 0, 1);
+		img.getCorner(1).updateCascade();
+		t("Corner(picT,1)", "(0, 0)", StringTemplate.defaultTemplate);
+		t("Corner(picT,2)", "(10, 0)", StringTemplate.defaultTemplate);
+		t("Corner(picT,3)", "(10, 10)", StringTemplate.defaultTemplate);
+		t("Corner(picT,4)", "(0, 10)", StringTemplate.defaultTemplate);
+		EuclidianView view = app.getActiveEuclidianView();
+		view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale(),
+				view.getYscale() * 2);
+		t("Corner(picT,1)", "(0, 0)", StringTemplate.defaultTemplate);
+		t("Corner(picT,2)", "(10, 0)", StringTemplate.defaultTemplate);
+		t("Corner(picT,3)", "(10, 10)", StringTemplate.defaultTemplate);
+		t("Corner(picT,4)", "(0, 10)", StringTemplate.defaultTemplate);
 	}
 
 	@Test
