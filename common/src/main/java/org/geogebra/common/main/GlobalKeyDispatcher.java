@@ -6,7 +6,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianController;
-import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
@@ -145,10 +144,9 @@ public abstract class GlobalKeyDispatcher {
 				openSettingsInAV(selection.getSelectedGeos().get(0));
 			}
 		}
-		EuclidianStyleBar es = app.getActiveEuclidianView()
-				.getDynamicStyleBar();
-		if (es != null) {
-			es.setVisible(false);
+		// don't instantiate: could steal focus
+		if (app.getActiveEuclidianView().hasDynamicStyleBar()) {
+			app.getActiveEuclidianView().getDynamicStyleBar().setVisible(false);
 		}
 		return false;
 	}

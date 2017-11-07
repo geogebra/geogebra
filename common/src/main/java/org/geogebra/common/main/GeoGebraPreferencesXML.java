@@ -19,6 +19,8 @@ public class GeoGebraPreferencesXML {
 	private static int defaultWindowY = 600;
 
 	/**
+	 * @param app
+	 *            application
 	 * @return defaults as XML
 	 */
 	public static String getXML(App app) {
@@ -106,17 +108,29 @@ public class GeoGebraPreferencesXML {
 				+ "<scripting blocked=\"false\"/>" + "</geogebra>";
 	}
 
-	public static void setDefaultFontSize(int i) {
-		defaultFontSize = i;
+	/**
+	 * @param fontSize
+	 *            font size
+	 */
+	public static void setDefaultFontSize(int fontSize) {
+		defaultFontSize = fontSize;
 
 	}
 
-	public static void setDefaultWindowX(int i) {
-		defaultWindowX = i;
+	/**
+	 * @param width
+	 *            window width
+	 */
+	public static void setDefaultWindowX(int width) {
+		defaultWindowX = width;
 	}
 
-	public static void setDefaultWindowY(int i) {
-		defaultWindowY = i;
+	/**
+	 * @param height
+	 *            whindow height
+	 */
+	public static void setDefaultWindowY(int height) {
+		defaultWindowY = height;
 
 	}
 
