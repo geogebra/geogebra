@@ -557,7 +557,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 			return Double.NaN;
 		}
 
-		int start = 0;
+		int start = 1;
 		int end = n;
 
 		// find (approx) start and end
