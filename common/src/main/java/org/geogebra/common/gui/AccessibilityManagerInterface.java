@@ -1,5 +1,7 @@
 package org.geogebra.common.gui;
 
+import org.geogebra.common.kernel.geos.GeoElement;
+
 /**
  * 
  * @author Laszlo
@@ -50,4 +52,6 @@ public interface AccessibilityManagerInterface {
 	 * 
 	 */
 	public void setTabOverGeos(boolean b);
+
+	public void focusGeo(GeoElement geo);
 }

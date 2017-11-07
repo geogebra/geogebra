@@ -11,38 +11,35 @@ import com.google.gwt.resources.client.ResourcePrototype;
  * Contains the real views and also the "extensions"
  */
 public class Views {
-
-
-
-
+	/** Properties of a view type */
 	public static enum ViewType {
 		/**
-		 * 
+		 * Algebra
 		 */
 		ALGEBRA(App.VIEW_ALGEBRA, "AlgebraWindow", SvgPerspectiveResources.INSTANCE
 				.menu_icon_algebra24()),
 		/**
-		 * 
+		 * Graphics
 		 */
 		GRAPHICS(App.VIEW_EUCLIDIAN, "DrawingPad", SvgPerspectiveResources.INSTANCE
 				.menu_icon_graphics24()),
 		/**
-		 * 
+		 * Graphics 2
 		 */
 		GRAPHICS_2(App.VIEW_EUCLIDIAN2, "DrawingPad2", SvgPerspectiveResources.INSTANCE
 				.menu_icon_graphics224()),
 		/**
-		 * 
+		 * 3D Graphics
 		 */
 		GRAPHICS_3D(App.VIEW_EUCLIDIAN3D, "GraphicsView3D",
 				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D24()),
 		/**
-		 * 
+		 * Spreadsheet
 		 */
 		SPREADSHEET(App.VIEW_SPREADSHEET, "Spreadsheet", SvgPerspectiveResources.INSTANCE
 				.menu_icon_spreadsheet24()),
 		/**
-		 * 
+		 * CAS
 		 */
 		CAS(App.VIEW_CAS, "CAS", SvgPerspectiveResources.INSTANCE.menu_icon_cas24()),
 		/**
@@ -51,7 +48,7 @@ public class Views {
 		PROBABILITY(App.VIEW_PROBABILITY_CALCULATOR, "ProbabilityCalculator",
 				SvgPerspectiveResources.INSTANCE.menu_icon_probability24()),
 		/**
-		 * 
+		 * Construction Protocol
 		 */
 		CONSTRUCTION_PROTOCOL(App.VIEW_CONSTRUCTION_PROTOCOL,
 				"ConstructionProtocol", SvgPerspectiveResources.INSTANCE

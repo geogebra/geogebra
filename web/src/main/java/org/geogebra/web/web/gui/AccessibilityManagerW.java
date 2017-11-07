@@ -168,4 +168,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 
+	public void focusGeo(GeoElement geo) {
+		if (geo != null) {
+			app.getSelectionManager().addSelectedGeo(geo);
+			setTabOverGeos(true);
+			app.getActiveEuclidianView().requestFocus();
+		}
+	}
+
 }

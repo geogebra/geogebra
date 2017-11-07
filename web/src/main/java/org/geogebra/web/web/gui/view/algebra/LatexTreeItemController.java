@@ -338,6 +338,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public boolean onEscape() {
 		if (item.geo != null || StringUtil.empty(item.getText())) {
 			onBlur(null);
+			app.getAccessibilityManager().focusGeo(item.geo);
+
 			return true;
 		}
 		return false;
