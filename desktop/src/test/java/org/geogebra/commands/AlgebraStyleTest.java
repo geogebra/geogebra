@@ -400,6 +400,57 @@ public class AlgebraStyleTest extends Assert {
 		deg("sin(deg)", "0.01745");
 		deg("sin(1deg)", "0.01745");
 		deg("sin(pi/180)", "0.01745");
+		deg("sin(0.001)", "0.00002");
+		deg("cos(45)", "0.70711");
+		deg("cos(45deg)", "0.70711");
+		deg("tan(45)", "1");
+		deg("tan(45deg)", "1");
+		deg("sin(45)", "0.70711");
+		deg("sin(45deg)", "0.70711");
+		deg("sec(45)", "1.41421");
+		deg("sec(45deg)", "1.41421");
+		deg("csc(45)", "1.41421");
+		deg("cot(45deg)", "1");
+		deg("cot(45)", "1");
+		deg("sin(45+pi)", "-0.8509");
+
+		// not degrees
+		deg("sin(12+13)", "-0.13235");
+		deg("sin(12deg+13deg)", "0.42262");
+
+		deg("sin(4named45d)", "0");
+		deg("sin(40deg)", "0.64279");
+		deg("sin(40deg deg)", "0.01218");
+		deg("sin(40deg deg deg)", "0.00021");
+		deg("sin(40/deg)", "-0.99923");
+		deg("sin(1/deg)", "0.67952");
+		deg("sin(deg)", "0.01745");
+		deg("sin(40deg/deg)", "0.74511");
+		deg("sin(1+deg)", "0.85077");
+		deg("sin(1)+cos(2)+tan(3)", "1.06925");
+		deg("sin(1deg)+cos(2deg)+tan(3deg)", "1.06925");
+		deg("sin(1)+sin(pi)", "0.01745");
+		deg("sin(1deg)+sin(pi)", "0.01745");
+		deg("sin(pi deg)", "0.0548");
+		deg("sin(40)/cos(50)", "1");
+		deg("sin(40deg)/cos(50)", "1");
+		deg("sin(40)/cos(50deg)", "1");
+		deg("sin(40deg)/cos(50deg)", "1");
+		deg("sin(x)=1/2", "sin(x) = 1 / 2");
+		deg("sin(x deg)=1/2", "sin(x" + Unicode.DEGREE_CHAR + ") = 1 / 2");
+		deg("sin(30)=x/2", "x = 1");
+		deg("sin(37)=x/2", "x = 1.20363");
+		deg("sin(30)=2/x", "sin(30" + Unicode.DEGREE_CHAR + ") = 2 / x");
+		deg("sin(asin(0.5))", "0.5");
+		deg("sin(asin(0.5deg))", "0.00873");
+		deg("sin(45.00001)", "0.70711");
+		deg("sin(45.00001deg)", "0.70711");
+		deg("sin(45.1)", "0.70834");
+		deg("sin(45.1deg)", "0.70834");
+		deg("sin(22.5)", "0.38268");
+		deg("sin(22.5deg)", "0.38268");
+		deg("sin((1,2))", "0.01746 + 0.03491" + Unicode.IMAGINARY);
+		deg("sin((1deg,2))", "0.0003 + 0.03491" + Unicode.IMAGINARY);
 	}
 
 
