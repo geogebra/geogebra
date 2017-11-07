@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui;
 
 import org.geogebra.web.web.css.ToolbarSvgResources;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
 import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 
@@ -15,7 +14,7 @@ import com.google.gwt.core.shared.GWT;
 
 public class ImageFactory {
 	private static ToolbarResources tb;
-	private static PerspectiveResources pr;
+	private static SvgPerspectiveResources pr;
 
 	public static ToolbarResources getToolbarResources() {
 		if (tb == null) {
@@ -25,7 +24,7 @@ public class ImageFactory {
 
 	}
 
-	public static PerspectiveResources getPerspectiveResources() {
+	public static SvgPerspectiveResources getPerspectiveResources() {
 		if (pr == null) {
 			pr = GWT.create(SvgPerspectiveResources.class);
 		}

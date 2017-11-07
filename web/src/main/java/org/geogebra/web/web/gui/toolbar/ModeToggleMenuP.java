@@ -10,7 +10,7 @@ import org.geogebra.web.html5.gui.util.ListItem;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.HumanInputEvent;
@@ -62,7 +62,7 @@ public class ModeToggleMenuP extends ModeToggleMenuW
 	}
 
 	private void addBackButton() {
-		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		back = new StandardButton(pr.menu_header_back(), null, 32, app);
 		back.addStyleName("submenuBack");
 		back.addFastClickHandler(new FastClickHandler() {

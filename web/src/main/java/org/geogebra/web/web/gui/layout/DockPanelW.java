@@ -32,7 +32,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
 import org.geogebra.web.web.gui.util.StyleBarW;
 import org.geogebra.web.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
@@ -1536,7 +1536,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return false;
 	}
 
-	protected PerspectiveResources getResources(){
+	protected SvgPerspectiveResources getResources() {
 		return ImageFactory.getPerspectiveResources();
 	}
 

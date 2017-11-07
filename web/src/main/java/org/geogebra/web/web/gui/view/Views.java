@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.view;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 
@@ -19,42 +19,42 @@ public class Views {
 		/**
 		 * 
 		 */
-		ALGEBRA(App.VIEW_ALGEBRA, "AlgebraWindow", PerspectiveResources.INSTANCE
+		ALGEBRA(App.VIEW_ALGEBRA, "AlgebraWindow", SvgPerspectiveResources.INSTANCE
 				.menu_icon_algebra24()),
 		/**
 		 * 
 		 */
-		GRAPHICS(App.VIEW_EUCLIDIAN, "DrawingPad", PerspectiveResources.INSTANCE
+		GRAPHICS(App.VIEW_EUCLIDIAN, "DrawingPad", SvgPerspectiveResources.INSTANCE
 				.menu_icon_graphics24()),
 		/**
 		 * 
 		 */
-		GRAPHICS_2(App.VIEW_EUCLIDIAN2, "DrawingPad2", PerspectiveResources.INSTANCE
+		GRAPHICS_2(App.VIEW_EUCLIDIAN2, "DrawingPad2", SvgPerspectiveResources.INSTANCE
 				.menu_icon_graphics224()),
 		/**
 		 * 
 		 */
 		GRAPHICS_3D(App.VIEW_EUCLIDIAN3D, "GraphicsView3D",
-				PerspectiveResources.INSTANCE.menu_icon_graphics3D24()),
+				SvgPerspectiveResources.INSTANCE.menu_icon_graphics3D24()),
 		/**
 		 * 
 		 */
-		SPREADSHEET(App.VIEW_SPREADSHEET, "Spreadsheet", PerspectiveResources.INSTANCE
+		SPREADSHEET(App.VIEW_SPREADSHEET, "Spreadsheet", SvgPerspectiveResources.INSTANCE
 				.menu_icon_spreadsheet24()),
 		/**
 		 * 
 		 */
-		CAS(App.VIEW_CAS, "CAS", PerspectiveResources.INSTANCE.menu_icon_cas24()),
+		CAS(App.VIEW_CAS, "CAS", SvgPerspectiveResources.INSTANCE.menu_icon_cas24()),
 		/**
 		 * 
 		 */
 		PROBABILITY(App.VIEW_PROBABILITY_CALCULATOR, "ProbabilityCalculator",
-				PerspectiveResources.INSTANCE.menu_icon_probability24()),
+				SvgPerspectiveResources.INSTANCE.menu_icon_probability24()),
 		/**
 		 * 
 		 */
 		CONSTRUCTION_PROTOCOL(App.VIEW_CONSTRUCTION_PROTOCOL,
-				"ConstructionProtocol", PerspectiveResources.INSTANCE
+				"ConstructionProtocol", SvgPerspectiveResources.INSTANCE
 						.menu_icon_construction_protocol24());
 
 		private int id;

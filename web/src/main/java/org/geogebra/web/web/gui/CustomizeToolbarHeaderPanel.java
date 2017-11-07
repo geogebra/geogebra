@@ -5,7 +5,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
@@ -80,7 +80,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	private void createPanelsToolbar() {
 		buttons = new FlowPanel();
 		buttons.setStyleName("panelRow");
-		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		final MyToggleButtonW btnGeneral = new MyToggleButtonW(new NoDragImage(
 				ImgResourceHelper.safeURI(pr.menu_icon_graphics()), 24));
 		buttons.add(btnGeneral);

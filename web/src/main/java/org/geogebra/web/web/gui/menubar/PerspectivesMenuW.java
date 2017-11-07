@@ -9,7 +9,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -43,7 +43,7 @@ public class PerspectivesMenuW extends GMenuBar {
     }
 
 	private void initActions() {
-		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		addPerspective(0, pr.menu_icon_algebra24());
 		addPerspective(3, pr.menu_icon_cas24());
 		addPerspective(1, pr.menu_icon_geometry24());

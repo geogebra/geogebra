@@ -6,7 +6,7 @@ import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.properties.PropertiesStyleBarW;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
@@ -37,7 +37,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
 		switch (type) {
 		case EUCLIDIAN3D :
-			PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+			SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 			ImgResourceHelper.setIcon(app.getSettings().getToolbarSettings().is3D()
 					? new ImageResourcePrototype(null,
 									MaterialDesignResources.INSTANCE
@@ -59,7 +59,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	protected String getTypeIcon(OptionType type) {
 		switch (type) {
 		case EUCLIDIAN3D:
-			PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+			SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 			return ImgResourceHelper
 					.safeURI(app.getSettings().getToolbarSettings().is3D()
 							? MaterialDesignResources.INSTANCE.graphing3D()

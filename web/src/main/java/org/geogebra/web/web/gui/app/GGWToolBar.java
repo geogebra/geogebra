@@ -22,7 +22,7 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.toolbar.ToolBarW;
 import org.geogebra.web.web.gui.toolbar.ToolbarSubmenuP;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
@@ -192,7 +192,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 	//undo-redo buttons
 	private void addUndoPanel(){
-		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 
 
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32, app);
@@ -520,7 +520,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
 				app.getArticleElement().getDataParamApp()){
-			PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+			SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		this.menuBarShowing = true;
 			// openMenuButton = new StandardButton(pr.button_open_menu(), null,
 			// 32);

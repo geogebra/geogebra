@@ -9,7 +9,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
-import org.geogebra.web.web.gui.images.PerspectiveResources;
+import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
@@ -199,7 +199,7 @@ public class PropertiesStyleBarW extends
 	 *            button
 	 */
 	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
-		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		switch (type) {
 		case GLOBAL:
 			ImgResourceHelper.setIcon(
@@ -250,7 +250,7 @@ public class PropertiesStyleBarW extends
 	 * @return icon URL
 	 */
 	protected String getTypeIcon(OptionType type) {
-		PerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		switch (type) {
 		case GLOBAL:
 			return MaterialDesignResources.INSTANCE.gear().getSafeUri()
