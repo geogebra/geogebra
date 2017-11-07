@@ -475,7 +475,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	protected void applyLineThickness() {
 		model.applyLineThickness(
 				getNumberFromInput(tfLineThickness.getText().trim())
-						.getDouble());
+						.getDouble() * 2);
 	}
 
 	private void initPanels() {
