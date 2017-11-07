@@ -25,6 +25,8 @@ import org.geogebra.common.util.debug.Log;
  *
  */
 public abstract class Layout implements SettingListener {
+	private static final double PORTRAIT_DIVIDER = 0.45;
+
 	/**
 	 * Perspectives used by current file (usually only "tmp")
 	 */
@@ -94,15 +96,7 @@ public abstract class Layout implements SettingListener {
 		// "1,1",
 		// 500);
 
-		spData = new DockSplitPaneData[1];
-		if (app.isPortrait()) {
-			spData[0] = new DockSplitPaneData("", 0.45,
-					SwingConstants.VERTICAL_SPLIT);
-
-		} else {
-			spData[0] = new DockSplitPaneData("", AVpercent,
-				SwingConstants.HORIZONTAL_SPLIT);
-		}
+		spData = getSPData(app, AVpercent);
 
 		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
 				app.isExam(), app);
@@ -234,9 +228,7 @@ public abstract class Layout implements SettingListener {
 			i++;
 		}
 
-		spData = new DockSplitPaneData[1];
-		spData[0] = new DockSplitPaneData("", AVpercent,
-				SwingConstants.HORIZONTAL_SPLIT);
+		spData = getSPData(app, AVpercent);
 
 		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
 			// algebra & 3D graphics
@@ -248,7 +240,7 @@ public abstract class Layout implements SettingListener {
 			dpData[1] = new DockPanelData(App.VIEW_ALGEBRA, null, true, false,
 					false,
 					AwtFactory.getPrototype().newRectangle(100, 100, 250, 400),
-					"3", 200);
+					app.isPortrait() ? "1" : "3", 200);
 			dpData[2] = new DockPanelData(App.VIEW_SPREADSHEET, null, false,
 					false, false,
 					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
@@ -264,7 +256,7 @@ public abstract class Layout implements SettingListener {
 			dpData[0] = new DockPanelData(App.VIEW_EUCLIDIAN3D, null, true,
 					false, false,
 					AwtFactory.getPrototype().newRectangle(100, 100, 600, 400),
-					"1", 500);
+					app.isPortrait() ? "3" : "1", 500);
 			// dpData[5] = new DockPanelData(App.VIEW_PYTHON, null, false,
 			// false, false, AwtFactory.getPrototype().newRectangle(100, 100,
 			// 600,
@@ -630,4 +622,17 @@ public abstract class Layout implements SettingListener {
 	 */
 	public abstract DockManager getDockManager();
 
+	private static DockSplitPaneData[] getSPData(App app, double avPercent) {
+		DockSplitPaneData[] spData = new DockSplitPaneData[1];
+		if (app.isPortrait()) {
+			spData[0] = new DockSplitPaneData("", PORTRAIT_DIVIDER,
+					SwingConstants.VERTICAL_SPLIT);
+
+		} else {
+			spData[0] = new DockSplitPaneData("", avPercent,
+					SwingConstants.HORIZONTAL_SPLIT);
+		}
+		return spData;
+
+	}
 }
