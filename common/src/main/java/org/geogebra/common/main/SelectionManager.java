@@ -919,6 +919,7 @@ public class SelectionManager {
 			} else {
 				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(
 						kernel.getConstruction(), null, (GeoFunction) geo);
+				kernel.getConstruction().removeFromAlgorithmList(algo);
 				geos1 = algo.getRootPoints();
 			}
 		}
@@ -934,12 +935,14 @@ public class SelectionManager {
 			} else {
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(
 						kernel.getConstruction(), null, (GeoFunction) geo);
+				kernel.getConstruction().removeFromAlgorithmList(algo);
 				geos2 = algo.getRootPoints();
 			}
 		} else {
 			AlgoRootsPolynomial algo = new AlgoIntersectPolynomialLine(
 					kernel.getConstruction(), (GeoFunction) geo,
 					kernel.getConstruction().getYAxis());
+			kernel.getConstruction().removeFromAlgorithmList(algo);
 			geos2 = algo.getOutput();
 		}
 		if (geos1 != null && geos1.length > 0) {
