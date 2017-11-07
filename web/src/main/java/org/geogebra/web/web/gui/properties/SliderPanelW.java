@@ -47,11 +47,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private AngleTextFieldW tfMin, tfMax;
 	private AutoCompleteTextFieldW tfWidth;
 	private AutoCompleteTextFieldW tfBlobSize;
+	private AutoCompleteTextFieldW tfLineThickness;
 	private MyCJButton blobColorChooserBtn;
 	private Label blobColorLbl;
 	private MyCJButton lineColorChooserBtn;
 	private Label lineColorLbl;
 	private Label blobSizeLabel;
+	private Label lineThicknessLabel;
 	private Label minLabel;
 	private Label maxLabel;
 	private Label widthLabel;
@@ -198,6 +200,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			createBlobSizeTextField(app);
 			createBlobColorChooserBtn(app);
 			createLineColorChooserBtn(app);
+			createLineThicknessTextField(app);
 		}
 
 		maxLabel = new Label();
@@ -207,11 +210,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		blobSizeLabel = new Label();
 		blobColorLbl = new Label();
 		lineColorLbl = new Label();
+		lineThicknessLabel = new Label();
 		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
 			maxLabel.setStyleName("coloredLabel");
 			minLabel.setStyleName("coloredLabel");
 			widthLabel.setStyleName("coloredLabel");
 			blobSizeLabel.setStyleName("coloredLabel");
+			lineThicknessLabel.setStyleName("coloredLabel");
 		}
 
 		FlowPanel minPanel = new FlowPanel();
@@ -248,6 +253,11 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 					LayoutUtilW.panelRow(blobColorLbl, blobColorChooserBtn));
 			sliderPanel.add(
 					LayoutUtilW.panelRow(lineColorLbl, lineColorChooserBtn));
+			FlowPanel lineThicknessPanel = new FlowPanel();
+			lineThicknessPanel.setStyleName("sliderWidthPanel");
+			lineThicknessPanel.add(lineThicknessLabel);
+			lineThicknessPanel.add(tfLineThickness);
+			sliderPanel.add(lineThicknessPanel);
 		}
 
 		// add increment to intervalPanel
@@ -265,6 +275,28 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	@Override
 	public SliderModel getModel() {
 		return model;
+	}
+
+	private void createLineThicknessTextField(AppW app) {
+		tfLineThickness = new AutoCompleteTextFieldW(8, app);
+		tfLineThickness.removeSymbolTable();
+		tfLineThickness.addKeyHandler(new KeyHandler() {
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					applyLineThickness();
+				}
+			}
+		});
+		tfLineThickness.enableGGBKeyboard();
+		tfLineThickness.addBlurHandler(new BlurHandler() {
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				applyLineThickness();
+			}
+		});
 	}
 
 	private void createBlobColorChooserBtn(final AppW app) {
@@ -437,6 +469,15 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				getNumberFromInput(tfBlobSize.getText().trim()).getDouble());
 	}
 
+	/**
+	 * apply line thickness
+	 */
+	protected void applyLineThickness() {
+		model.applyLineThickness(
+				getNumberFromInput(tfLineThickness.getText().trim())
+						.getDouble());
+	}
+
 	private void initPanels() {
 		FlowPanel mainPanel = new FlowPanel();
 
@@ -507,6 +548,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				? loc.getMenu("Blob Size") : loc.getMenu("Blob Size") + ":");
 		blobColorLbl.setText(loc.getMenu("Blob Color") + ":");
 		lineColorLbl.setText(loc.getMenu("Lines Color") + ":");
+		lineThicknessLabel.setText(loc.getMenu("Thickness") + ":");
 		model.setLabelForWidthUnit();
 		stepPanel.setLabels();
 		speedPanel.setLabels();
@@ -541,6 +583,11 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	@Override
 	public void setBlobSizeText(String text) {
 		tfBlobSize.setText(text);
+	}
+
+	@Override
+	public void setLineThicknessSizeText(String text) {
+		tfLineThickness.setText(text);
 	}
 
 	@Override
@@ -583,6 +630,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		applyWidth();
 		if (kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
 			applyBlobSize();
+			applyLineThickness();
 		}
 	}
 

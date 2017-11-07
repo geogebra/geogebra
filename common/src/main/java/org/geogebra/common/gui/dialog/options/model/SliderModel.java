@@ -30,6 +30,8 @@ public class SliderModel extends OptionsModel {
 
 		void setBlobSizeText(final String text);
 
+		void setLineThicknessSizeText(String text);
+
 		void setBlobColor(final GColor color);
 
 		void setLineColor(final GColor color);
@@ -46,7 +48,6 @@ public class SliderModel extends OptionsModel {
 
 		@Override
 		Object updatePanel(Object[] geos2);
-
 	}
 
 	public SliderModel(App app, ISliderOptionsListener listener) {
@@ -76,6 +77,7 @@ public class SliderModel extends OptionsModel {
 		boolean equalMax = true;
 		boolean equalMin = true;
 		boolean equalWidth = true;
+		boolean equalLineThickness = true;
 		boolean equalBlobSize = true;
 		boolean equalBlobColor = true;
 		boolean equalLineColor = true;
@@ -104,6 +106,10 @@ public class SliderModel extends OptionsModel {
 			}
 			if (!Kernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth())) {
 				equalWidth = false;
+			}
+			if (!Kernel.isEqual(num0.getLineThickness(),
+					temp.getLineThickness())) {
+				equalLineThickness = false;
 			}
 			if (!Kernel.isEqual(num0.getSliderBlobSize(),
 					temp.getSliderBlobSize())) {
@@ -187,6 +193,11 @@ public class SliderModel extends OptionsModel {
 		if (equalLineColor
 				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
 			listener.setLineColor(num0.getBackgroundColor());
+		}
+		if (equalLineThickness
+				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
+			listener.setLineThicknessSizeText(
+					kernel.format(num0.getLineThickness(), highPrecision));
 		}
 
 		setLabelForWidthUnit();
@@ -295,6 +306,19 @@ public class SliderModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
 			num.setSliderBlobSize(value);
+			num.updateRepaint();
+		}
+		storeUndoInfo();
+	}
+
+	/**
+	 * @param value
+	 *            line thickness in px
+	 */
+	public void applyLineThickness(double value) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoNumeric num = getNumericAt(i);
+			num.setLineThickness((int) Math.round(value));
 			num.updateRepaint();
 		}
 		storeUndoInfo();

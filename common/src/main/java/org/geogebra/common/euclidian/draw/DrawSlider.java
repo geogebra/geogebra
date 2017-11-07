@@ -110,7 +110,6 @@ public class DrawSlider extends Drawable {
 				coordsScreen[1] = number.getSliderY() - 1;
 				coordsRW[0] = view.toRealWorldCoordX(coordsScreen[0]);
 				coordsRW[1] = view.toRealWorldCoordY(coordsScreen[1]);
-
 				widthScreen = number.getSliderWidth();
 				widthRW = horizontal ? widthScreen * view.getInvXscale()
 						: widthScreen * view.getInvYscale();
@@ -119,7 +118,6 @@ public class DrawSlider extends Drawable {
 				coordsRW[1] = number.getSliderY();
 				coordsScreen[0] = view.toScreenCoordXd(coordsRW[0]);
 				coordsScreen[1] = view.toScreenCoordYd(coordsRW[1]);
-
 				widthRW = number.getSliderWidth();
 				widthScreen = horizontal ? widthRW * view.getXscale()
 						: widthRW * view.getYscale();
@@ -139,15 +137,12 @@ public class DrawSlider extends Drawable {
 					this.xLabel -= 15;
 					this.yLabel -= 5;
 				}
-
 				// horizontal line
 				this.line.setLine(coordsScreen[0], coordsScreen[1],
 						coordsScreen[0] + widthScreen, coordsScreen[1]);
-
 			}
 			// vertical slider
 			else {
-
 				updatePoint(coordsRW[0], coordsRW[1] + widthRW * param);
 				if (labelVisible) {
 					this.xLabel += 5;
@@ -156,12 +151,16 @@ public class DrawSlider extends Drawable {
 				this.line.setLine(coordsScreen[0], coordsScreen[1],
 						coordsScreen[0], coordsScreen[1] - widthScreen);
 				// vertical line
-
 			}
 
-			// now hard-coded
-			number.setLineThickness(10);
-			updateStrokes(number, 10);
+			if (number.getKernel().getApplication()
+					.has(Feature.SLIDER_STYLE_OPTIONS)) {
+				updateStrokes(number, number.getLineThickness());
+			} else {
+				// now hard-coded
+				number.setLineThickness(10);
+				updateStrokes(number, 10);
+			}
 		}
 	}
 

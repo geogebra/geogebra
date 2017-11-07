@@ -291,6 +291,8 @@ public class OptionsMenuD extends BaseMenu
 									GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL);
 							slider.setSliderBlobSize(
 									GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
+							slider.setLineThickness(
+									GeoNumeric.DEFAULT_SLIDER_THICKNESS);
 							slider.updateRepaint();
 						}
 					}

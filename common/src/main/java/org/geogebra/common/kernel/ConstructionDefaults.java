@@ -574,7 +574,9 @@ public class ConstructionDefaults {
 		number.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		number.setAlphaValue(DEFAULT_NUMBER_ALPHA);
 		number.setDefaultGeoType(DEFAULT_NUMBER);
-		number.setLineThickness(GeoNumeric.DEFAULT_THICKNESS);
+		number.setLineThickness(
+				number.isSlider() ? GeoNumeric.DEFAULT_SLIDER_THICKNESS
+						: GeoNumeric.DEFAULT_THICKNESS);
 		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL);
 		number.setSliderBlobSize(GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 		number.setSliderFixed(true);

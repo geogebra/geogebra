@@ -392,4 +392,8 @@ public class SliderPanelD extends JPanel
 	public void setLineColor(GColor color) {
 		// TODO implement desktop
 	}
+
+	public void setLineThicknessSizeText(String text) {
+		// TODO implement desktop
+	}
 }
