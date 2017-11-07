@@ -828,7 +828,7 @@ public class GeoImage extends GeoElement implements Locateable,
 				if (B == null) {
 					// B and D are not defined
 					coords[0] = ax;
-					coords[1] = ay + height / yscale;
+					coords[1] = ay + pixelHeight / yscale;
 				} else {
 					// B is defined, D isn't
 					double nx = ay - B.inhomY;
