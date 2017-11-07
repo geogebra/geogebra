@@ -1837,11 +1837,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
 		g2.setPaint(bgColor);
-		g2.fillRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+		g2.fillRoundRect(left, top, width, height - 3, BOX_ROUND,
+				BOX_ROUND);
 
 		// TF Rectangle
 		g2.setPaint(GColor.LIGHT_GRAY);
-		g2.drawRoundRect(left, top, width, height, BOX_ROUND, BOX_ROUND);
+		g2.drawRoundRect(left, top, width, height - 3, BOX_ROUND,
+				BOX_ROUND);
 
 	}
 
