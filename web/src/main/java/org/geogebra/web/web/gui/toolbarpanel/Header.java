@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
+
 /**
  * header of toolbar
  *
@@ -59,6 +60,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 	private MyToggleButton btnUndo;
 	private MyToggleButton btnRedo;
 	private boolean animating = false;
+	private boolean lastOrientation;
 	/**
 	 * height in open state
 	 */
@@ -117,6 +119,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		buttons = Arrays.asList(btnMenu, btnAlgebra, btnTools, btnClose,
 				btnUndo, btnRedo);
 		setTabIndexes();
+		lastOrientation = app.isPortrait();
 	}
 
 	private void createCenter() {
@@ -758,8 +761,18 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Called when app changes orientation.
 	 */
 	public void onOrientationChange() {
-		removeOpenStyles();
-		removeCloseStyles();
+		if (lastOrientation != app.isPortrait()) {
+			removeOpenStyles();
+			removeCloseStyles();
+		} else if (open) {
+			removeCloseStyles();
+		} else {
+			removeOpenStyles();
+		}
+		updateStyle();
+
+		lastOrientation = app.isPortrait();
+
 		if (app.isPortrait()) {
 			clearWidth();
 			clearHeight();
