@@ -135,7 +135,7 @@ public final class DrawImage extends Drawable {
 				// we only have corner A
 				if (D == null) {
 					// use original pixel width and heigt of image
-					at.scale(view.getInvXscale(), -view.getInvXscale());
+					at.scale(view.getInvXscale(), -view.getInvYscale());
 				}
 				// we have corners A and D
 				else {
