@@ -163,7 +163,6 @@ flatten1(coordinates({{1, 0}, {2, 0}}))
 ({{ggbtmpvara, ggbtmpvarb, ggbtmpvarc}, {ggbtmpvard, ggbtmpvare, ggbtmpvarf}})[2 - 1,3 - 1]
 ((({{1, 2}})*({{1, 2}, {3, 4}}))*({{1}, {2}}))[1 - 1,1 - 1]
 [[[ggbelarg0:=((4)*((x)^(2)))*(y)], [ggbelarg1:=2]],when(type(ggbelarg0)==DOM_LIST,(ggbelarg0)[ggbelarg1-1],when(ggbelarg1>0,(ggbelarg0)[ggbelarg1],?))][1]
-[[[ggbelarg0:=(((x)^(3))+((x)*(y)))+(3)], [ggbelarg1:=4]],when(type(ggbelarg0)==DOM_LIST,(ggbelarg0)[ggbelarg1-1],when(ggbelarg1>0,(ggbelarg0)[ggbelarg1],?))][1]
 [[[ggbelarg0:=(((x)^(3))+((x)*(y)))+(3)], [ggbelarg1:=-(1)]],when(type(ggbelarg0)==DOM_LIST,(ggbelarg0)[ggbelarg1-1],when(ggbelarg1>0,(ggbelarg0)[ggbelarg1],?))][1]
 (({{1, 2}, {3, 4}})*({{1}, {2}}))[1 - 1,1 - 1]
 [[[ggbelarg0:=(((x)^(3))+((x)*(y)))+(3)], [ggbelarg1:=1]],when(type(ggbelarg0)==DOM_LIST,(ggbelarg0)[ggbelarg1-1],when(ggbelarg1>0,(ggbelarg0)[ggbelarg1],?))][1]
