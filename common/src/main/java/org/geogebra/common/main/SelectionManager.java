@@ -868,7 +868,7 @@ public class SelectionManager {
 	 */
 	public void updateSpecialPoints(GeoElement[] geos) {
 		getSpecPoints(geos);
-		kernel.notifyUpdateSpecPointsPreview(specPoints, App.VIEW_EUCLIDIAN);
+		kernel.notifyUpdateSpecPointsPreviewOnEV(specPoints);
 	}
 
 

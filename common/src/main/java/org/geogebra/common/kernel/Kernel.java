@@ -5579,10 +5579,9 @@ public class Kernel {
 		}
 	}
 
-	public final void notifyUpdateSpecPointsPreview(GeoElement[] geos,
-			int viewID) {
+	public final void notifyUpdateSpecPointsPreviewOnEV(GeoElement[] geos) {
 		if (notifyViewsActive) {
-			app.getEuclidianView1().updateSpecPointFromInputBar(geos);
+			app.getActiveEuclidianView().updateSpecPointFromInputBar(geos);
 		}
 	}
 
