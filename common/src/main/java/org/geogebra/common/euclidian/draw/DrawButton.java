@@ -22,6 +22,7 @@ import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.SliderPosition;
 import org.geogebra.common.main.App;
 
 /**
@@ -79,9 +80,10 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		if (geoButton.getStartPoint() != null) {
-			xLabel = view.toScreenCoordX(geoButton.getStartPoint().x);
-			yLabel = view.toScreenCoordY(geoButton.getStartPoint().y);
+		SliderPosition c = geoButton.getStartPoint();
+		if (c != null) {
+			xLabel = view.toScreenCoordX(c.x);
+			yLabel = view.toScreenCoordY(c.y);
 		}
 		labelRectangle.setBounds(xLabel, yLabel, myButton.getWidth(),
 					myButton.getHeight());
@@ -92,7 +94,6 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 
 	@Override
 	public void draw(GGraphics2D g2) {
-
 		if (isVisible) {
 			myButton.setSelected(geo.doHighlighting());
 			myButton.paintComponent(g2, geoButton.getFontSizeMultiplier(),

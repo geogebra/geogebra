@@ -271,8 +271,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
-		if (geoInputBox.getStartPoint() != null) {
-			SliderPosition c = geoInputBox.getStartPoint();
+		SliderPosition c = geoInputBox.getStartPoint();
+		if (c != null) {
 			xLabel = view.toScreenCoordX(c.x);
 			yLabel = view.toScreenCoordY(c.y);
 		}

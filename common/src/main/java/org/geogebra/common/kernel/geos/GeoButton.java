@@ -174,6 +174,9 @@ public class GeoButton extends GeoElement
 	public void setAbsoluteScreenLoc(int x, int y) {
 		labelOffsetX = x;
 		labelOffsetY = y;
+		if (startPoint != null) {
+			updateRelLocation(kernel.getApplication().getActiveEuclidianView());
+		}
 		if (!hasScreenLocation()) {
 			setScreenLocation(x, y);
 		}
@@ -193,16 +196,33 @@ public class GeoButton extends GeoElement
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		EuclidianView ev = kernel.getApplication().getActiveEuclidianView();
 		if (flag && startPoint != null) {
-			labelOffsetX = ev.toScreenCoordX(startPoint.x);
-			labelOffsetY = ev.toScreenCoordX(startPoint.y);
+			updateAbsLocation(ev);
 
 			startPoint = null;
 		}
 		else if (!flag) {
 			startPoint = new SliderPosition();
-			startPoint.x = ev.toRealWorldCoordX(labelOffsetX);
-			startPoint.y = ev.toRealWorldCoordY(labelOffsetY);
+			updateRelLocation(ev);
 		}
+	}
+
+	/**
+	 * Update absolute location according to relative location in given view
+	 * (when rel. position active)
+	 * 
+	 * @param ev
+	 *            view
+	 */
+	public void updateAbsLocation(EuclidianView ev) {
+		if (startPoint != null) {
+			labelOffsetX = ev.toScreenCoordX(startPoint.x);
+			labelOffsetY = ev.toScreenCoordY(startPoint.y);
+		}
+	}
+
+	private void updateRelLocation(EuclidianView ev) {
+		startPoint.x = ev.toRealWorldCoordX(labelOffsetX);
+		startPoint.y = ev.toRealWorldCoordY(labelOffsetY);
 	}
 
 	@Override
@@ -459,6 +479,9 @@ public class GeoButton extends GeoElement
 		return !isIndependent();
 	}
 
+	/**
+	 * @return relative position
+	 */
 	public SliderPosition getStartPoint() {
 		return startPoint;
 	}

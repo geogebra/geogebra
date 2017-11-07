@@ -139,6 +139,7 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -7772,13 +7773,17 @@ public abstract class EuclidianController {
 			if ((temporaryMode || textFieldSelected || buttonSelected
 					|| (moveSelected && app.isRightClickEnabled()))) {
 				// ie Button Mode is really selected
-
 				movedGeoButton = (Furniture) movedGeoElement;
 				// move button
 				moveMode = MOVE_BUTTON;
 				startLoc = mouseLoc;
+				if (movedGeoButton instanceof GeoButton) {
+					((GeoButton) movedGeoButton).updateAbsLocation(view);
+				}
 				oldLoc.x = movedGeoButton.getAbsoluteScreenLocX();
 				oldLoc.y = movedGeoButton.getAbsoluteScreenLocY();
+				Log.debug(mouseLoc);
+				Log.debug(oldLoc);
 
 				// part of snap to grid code
 				setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x),
