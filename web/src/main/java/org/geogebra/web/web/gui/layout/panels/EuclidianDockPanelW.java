@@ -6,10 +6,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements EuclidianPanelWAbstract{
@@ -39,7 +41,9 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 
 		if (app1 != null && app1.has(Feature.DYNAMIC_STYLEBAR)) {
-			setViewImage(getResources().settings());
+			setViewImage(new ImageResourcePrototype(null,
+					MaterialDesignResources.INSTANCE.gear().getSafeUri(), 0, 0,
+					24, 24, false, false));
 		} else {
 			setViewImage(getResources().styleBar_graphicsView());
 		}
