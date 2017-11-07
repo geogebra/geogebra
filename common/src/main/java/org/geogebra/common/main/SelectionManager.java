@@ -10,8 +10,10 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
-import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
+import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
+import org.geogebra.common.kernel.algos.AlgoRoots;
 import org.geogebra.common.kernel.algos.AlgoRootsPolynomial;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -859,7 +861,10 @@ public class SelectionManager {
 	}
 
 	/**
-	 * Updates special points of the selected geo(s) if have any.
+	 * Updates the special points of the geos.
+	 * 
+	 * @param geos
+	 *            geos which special points will be updated
 	 */
 	public void updateSpecialPoints(GeoElement[] geos) {
 		getSpecPoints(geos);
@@ -902,16 +907,35 @@ public class SelectionManager {
 						((GeoFunction) geo).getFunctionExpression(), false,
 						true);
 		GeoElementND[] geos1 = null;
-		String label = geo.getLabel(StringTemplate.defaultTemplate);
 		if (poly == null || poly.getDegree() > 0) {
-			geos1 = geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-					"Root[" + label + "]",
-					false);
+			if (!((GeoFunction) geo).isPolynomialFunction(true)
+					&& geo.isDefined()) {
+				EuclidianViewInterfaceCommon view = kernel.getApplication()
+						.getActiveEuclidianView();
+
+				AlgoRoots algo = new AlgoRoots(kernel.getConstruction(), null,
+						(GeoFunction) geo, view);
+				geos1 = algo.getRootPoints();
+			} else {
+				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(
+						kernel.getConstruction(), null, (GeoFunction) geo);
+				geos1 = algo.getRootPoints();
+			}
 		}
-		GeoElementND[] geos2;
+		GeoElementND[] geos2 = null;
 		if (poly == null || poly.getDegree() > 1) {
-			geos2 = geo.getKernel().getAlgebraProcessor().processAlgebraCommand(
-					"Extremum[" + label + "]", false);
+			if (!((GeoFunction) geo).isPolynomialFunction(true)) {
+				EuclidianViewInterfaceCommon view = this.kernel.getApplication()
+						.getActiveEuclidianView();
+				AlgoExtremumMulti algo = new AlgoExtremumMulti(
+						kernel.getConstruction(), null, (GeoFunction) geo,
+						view);
+				geos2 = algo.getExtremumPoints();
+			} else {
+				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(
+						kernel.getConstruction(), null, (GeoFunction) geo);
+				geos2 = algo.getRootPoints();
+			}
 		} else {
 			AlgoRootsPolynomial algo = new AlgoIntersectPolynomialLine(
 					kernel.getConstruction(), (GeoFunction) geo,
