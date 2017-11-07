@@ -108,10 +108,18 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			g2.draw(circle);
 			break;
 
-		// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-		default:
-			// draw a dot
+		case EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE:
+			// filled circle
 			g2.fill(circle);
+			g2.setStroke(borderStroke);
+			g2.draw(circle);
+			break;
+
+		default:
+			// circle with gray middle
+			g2.setPaint(Color.LIGHT_GRAY);
+			g2.fill(circle);
+			g2.setPaint(Color.BLACK);
 			g2.setStroke(borderStroke);
 			g2.draw(circle);
 		}
