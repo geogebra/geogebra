@@ -1528,7 +1528,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 			break;
 		default:
 			// check for 1 at left
-			if (ExpressionNode.isEqualString(left, 1, !valueForm)) {
+			if (ExpressionNode.isEqualString(left, 1, !valueForm)
+					&& !Unicode.DEGREE_STRING.equals(rightStr)) {
 				append(sb, rightStr, right, operation);
 				break;
 			}

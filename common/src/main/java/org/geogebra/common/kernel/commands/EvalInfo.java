@@ -109,6 +109,8 @@ public class EvalInfo {
 		ret.simplifyIntegers = this.simplifyIntegers;
 		ret.useCAS = this.useCAS;
 		ret.autocreateSliders = this.autocreateSliders;
+		ret.autoAddDegree = this.autoAddDegree;
+		ret.fractions = this.fractions;
 		return ret;
 	}
 

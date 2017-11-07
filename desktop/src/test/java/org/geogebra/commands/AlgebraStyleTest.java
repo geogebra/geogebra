@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -367,6 +368,38 @@ public class AlgebraStyleTest extends Assert {
 		String rhs = getGeo("c").getLaTeXDescriptionRHS(false,
 				StringTemplate.editorTemplate);
 		assertEquals("Cone((0, 0, 0), (0, 0, 1), 5)", rhs);
+	}
+
+	private static void deg(String def, String expect) {
+		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
+				false,
+				TestErrorHandler.INSTANCE,
+				new EvalInfo(true, true).addDegree(true), null);
+		String res = geo[0]
+						.toValueString(StringTemplate.editTemplate);
+		Assert.assertEquals(expect, res);
+	}
+
+	/** GGB-2183 */
+	@Test
+	public void autoFixDegree() {
+		deg("tan(45)", "1");
+		deg("named45d:=45deg", "45" + Unicode.DEGREE_CHAR);
+		deg("tan(named45d)", "1");
+		deg("named45:=45", "45");
+		deg("tan(named45)", "1.61978");
+		deg("tan(30+15)", "1.61978");
+		deg("sin(22.5)-(1 / 2 * sqrt((-sqrt(2)) + 2))", "0");
+		deg("sin(22.5deg)-(1 / 2 * sqrt((-sqrt(2)) + 2))", "0");
+		deg("sin(22.5" + Unicode.DEGREE_STRING
+				+ ")-(1 / 2 * sqrt((-sqrt(2)) + 2))", "0");
+		deg("(tan(30)+tan(15))/(1-tan(30)*tan(15))", "1");
+		deg("Derivative(sin(30)*x+sin(x))", "1 / 2 (2cos(x) + 1)");
+		deg("sin(x)", "sin(x)");
+		deg("sin(pi)", "0");
+		deg("sin(deg)", "0.01745");
+		deg("sin(1deg)", "0.01745");
+		deg("sin(pi/180)", "0.01745");
 	}
 
 

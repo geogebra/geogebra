@@ -3978,11 +3978,10 @@ public class ExpressionNode extends ValidExpression
 			boolean symbolic) {
 		if (ev.isLeaf() && (ev instanceof NumberValue)) {
 			// function variables need to be kept
+			// special doubles like pi, degree, rad need to be kept
 			if (ev instanceof FunctionVariable
-					|| ev instanceof GeoDummyVariable) {
-				return false;
-			} else if (ev instanceof MySpecialDouble) {
-				// special doubles like pi, degree, rad need to be kept
+					|| ev instanceof GeoDummyVariable
+					|| ev instanceof MySpecialDouble) {
 				return false;
 			}
 
