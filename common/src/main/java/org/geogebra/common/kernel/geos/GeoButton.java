@@ -207,7 +207,9 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public void setRealWorldLoc(double x, double y) {
-		// do nothing
+		startPoint = new SliderPosition();
+		startPoint.x = x;
+		startPoint.y = y;
 	}
 
 	/**
@@ -310,6 +312,13 @@ public class GeoButton extends GeoElement
 		if (isFixedSize()) {
 			sb.append("\t<dimensions width=\"" + width + "\" height=\"" + height
 					+ "\" />\n");
+		}
+		if (!isAbsoluteScreenLocActive()) {
+			sb.append("\t<relativeScreenLocation x=\"");
+			sb.append(startPoint.x);
+			sb.append("\" y=\"");
+			sb.append(startPoint.y);
+			sb.append("\"/>");
 		}
 	}
 

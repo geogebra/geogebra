@@ -581,7 +581,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		if (hasAbsoluteScreenLocation) {
-			sb.append(getXMLabsScreenLoc());
+			getXMLabsScreenLoc(sb);
 		} else {
 			// store location of corners
 			for (int i = 0; i < corners.length; i++) {
@@ -599,15 +599,12 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	}
 
-	private String getXMLabsScreenLoc() {
-		StringBuilder sb = new StringBuilder();
-
+	private void getXMLabsScreenLoc(StringBuilder sb) {
 		sb.append("\t<absoluteScreenLocation x=\"");
 		sb.append(screenX);
 		sb.append("\" y=\"");
 		sb.append(screenY);
 		sb.append("\"/>");
-		return sb.toString();
 	}
 
 	private String getCornerPointXML(int number) {

@@ -3694,7 +3694,7 @@ public class MyXMLHandler implements DocHandler {
 					ok = handleAllowReflexAngle(attrs);
 					break;
 				} else if ("absoluteScreenLocation".equals(eName)) {
-					ok = handleAbsoluteScreenLocation(attrs);
+					ok = handleAbsoluteScreenLocation(attrs, true);
 					break;
 				} else if ("angleStyle".equals(eName)) {
 					ok = handleAngleStyle(attrs);
@@ -3864,7 +3864,11 @@ public class MyXMLHandler implements DocHandler {
 				 * should not be needed else if ("pathParameter".equals(eName))
 				 * { ok = handlePathParameter(attrs); break; }
 				 */
-
+			case 'r':
+				if ("relativeScreenLocation".equals(eName)) {
+					ok = handleAbsoluteScreenLocation(attrs, false);
+					break;
+				}
 			case 's':
 				if ("show".equals(eName)) {
 					ok = handleShow(attrs);
@@ -4957,7 +4961,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleAbsoluteScreenLocation(
-			LinkedHashMap<String, String> attrs) {
+			LinkedHashMap<String, String> attrs, boolean absolute) {
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
 			Log.error("wrong element type for <absoluteScreenLocation>: "
 					+ geo.getClass());
@@ -4966,10 +4970,15 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			AbsoluteScreenLocateable absLoc = (AbsoluteScreenLocateable) geo;
-			int x = Integer.parseInt(attrs.get("x"));
-			int y = Integer.parseInt(attrs.get("y"));
-			absLoc.setAbsoluteScreenLoc(x, y);
-			absLoc.setAbsoluteScreenLocActive(true);
+			double x = Double.parseDouble(attrs.get("x"));
+			double y = Double.parseDouble(attrs.get("y"));
+			if (absolute) {
+				absLoc.setAbsoluteScreenLoc((int) x, (int) y);
+				absLoc.setAbsoluteScreenLocActive(true);
+			} else {
+				absLoc.setRealWorldLoc(x, y);
+			}
+
 			return true;
 		} catch (RuntimeException e) {
 			return false;
