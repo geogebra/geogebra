@@ -13,6 +13,7 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
  *
  * 
  */
+@SuppressWarnings("deprecation")
 public class RateFunction implements DifferentiableUnivariateFunction {
 
 	private double n;

@@ -18,6 +18,9 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
+/**
+ * Computes union of two sets (lists)
+ */
 public class AlgoUnion extends AlgoElement {
 
 	private GeoList inputList; // input
@@ -25,7 +28,15 @@ public class AlgoUnion extends AlgoElement {
 	private GeoList outputList; // output
 	private int size, size2;
 
-	public AlgoUnion(Construction cons, String label, GeoList inputList,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            first list
+	 * @param inputList2
+	 *            second list
+	 */
+	public AlgoUnion(Construction cons, GeoList inputList,
 			GeoList inputList2) {
 		super(cons);
 
@@ -36,7 +47,6 @@ public class AlgoUnion extends AlgoElement {
 
 		setInputOutput();
 		compute();
-		outputList.setLabel(label);
 	}
 
 	@Override
@@ -56,6 +66,9 @@ public class AlgoUnion extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return union of lists
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}
@@ -84,8 +97,13 @@ public class AlgoUnion extends AlgoElement {
 		}
 	}
 
-	/*
+	/**
 	 * checks not already in list
+	 * 
+	 * @param outputList
+	 *            output list
+	 * @param geo
+	 *            new element
 	 */
 	protected static void addToOutputList(GeoList outputList, GeoElement geo) {
 		boolean alreadyInOutputList = false;

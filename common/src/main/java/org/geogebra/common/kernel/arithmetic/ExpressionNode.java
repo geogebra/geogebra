@@ -3429,7 +3429,6 @@ public class ExpressionNode extends ValidExpression
 			sb.append(tpl.rightBracket());
 			break;
 		case DIFF:
-			Log.printStacktrace("DIFF" + right);
 			// we only serialize this temporarily during GIAC parsing, so only
 			// default template needed
 			// GIAC template added for safety

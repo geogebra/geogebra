@@ -33,9 +33,8 @@ public class CmdUnique extends CommandProcessor {
 		case 1:
 			if (arg[0].isGeoList()) {
 
-				AlgoUnique algo = new AlgoUnique(cons, c.getLabel(),
-						(GeoList) arg[0]);
-
+				AlgoUnique algo = new AlgoUnique(cons, (GeoList) arg[0]);
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

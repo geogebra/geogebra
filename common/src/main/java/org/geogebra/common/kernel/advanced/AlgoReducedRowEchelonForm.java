@@ -35,6 +35,7 @@ public class AlgoReducedRowEchelonForm extends AlgoElement {
 	 * Creates new reduced echelon form algo
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
 	 *            label for result
 	 * @param inputList

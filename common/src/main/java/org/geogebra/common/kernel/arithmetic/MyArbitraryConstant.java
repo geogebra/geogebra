@@ -341,7 +341,7 @@ public class MyArbitraryConstant {
 			return en;
 		}
 
-		private ExpressionValue handleSpecialCase(ExpressionNode en) {
+		private static ExpressionValue handleSpecialCase(ExpressionNode en) {
 			if (en.getOperation() == Operation.PLUS
 					|| en.getOperation() == Operation.MINUS) {
 				if (isMultipleOfArbconst(en.getRight())) {
@@ -396,11 +396,6 @@ public class MyArbitraryConstant {
 				return false;
 			}
 		}
-		return false;
-	}
-
-	public boolean hasBlocked() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

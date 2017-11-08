@@ -69,10 +69,12 @@ public class AlgoVerticalText extends AlgoElement {
 	 *            label for output
 	 * @param args
 	 *            input text
+	 * @param position
+	 *            corner
 	 */
 	public AlgoVerticalText(Construction cons, String label, GeoText args,
-			GeoPointND p) {
-		this(cons, args, p);
+			GeoPointND position) {
+		this(cons, args, position);
 		text.setLabel(label);
 	}
 
@@ -83,12 +85,14 @@ public class AlgoVerticalText extends AlgoElement {
 	 *            construction
 	 * @param args
 	 *            input text
+	 * @param position
+	 *            corner
 	 */
-	public AlgoVerticalText(Construction cons, GeoText args, GeoPointND p) {
+	public AlgoVerticalText(Construction cons, GeoText args, GeoPointND position) {
 		super(cons);
 
 		this.args = args;
-		this.startPoint = p;
+		this.startPoint = position;
 
 		text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text

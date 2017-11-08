@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Use Solve cas command from AV
@@ -86,12 +85,6 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 			arbconst.startBlocking();
 			String solns = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
 					arbconst);
-			if (arbconst.hasBlocked()) {
-				solutions.clear();
-				solutions.setUndefined();
-				Log.debug("arbconst.hasBlocked()");
-				return;
-			}
 
 			GeoList raw = kernel.getAlgebraProcessor().evaluateToList(solns);
 			// if we re-evaluate something with arbconst, it will only have
@@ -176,7 +169,6 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 				public ExpressionValue process(ExpressionValue ev) {
 					if (ev instanceof ExpressionNode){
 						ExpressionNode en = ev.wrap();
-						Log.debug(en);
 						if(en.getOperation() == Operation.MULTIPLY && MyDouble
 							.exactEqual(Math.PI,
 									en.getRight().evaluateDouble())) {

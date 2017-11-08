@@ -36,9 +36,9 @@ public class CmdUnion extends CommandProcessor {
 
 			if (arg[0].isGeoList() && arg[1].isGeoList()) {
 
-				AlgoUnion algo = new AlgoUnion(cons, c.getLabel(),
+				AlgoUnion algo = new AlgoUnion(cons,
 						(GeoList) arg[0], (GeoList) arg[1]);
-
+				algo.getResult().setLabel(c.getLabel());
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()) {

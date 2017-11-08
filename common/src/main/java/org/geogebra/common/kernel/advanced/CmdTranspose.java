@@ -20,8 +20,9 @@ public class CmdTranspose extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoTranspose algo = new AlgoTranspose(cons, a, b);
+	final protected GeoElement doCommand(String label, GeoList b) {
+		AlgoTranspose algo = new AlgoTranspose(cons, b);
+		algo.getResult().setLabel(label);
 		return algo.getResult();
 	}
 

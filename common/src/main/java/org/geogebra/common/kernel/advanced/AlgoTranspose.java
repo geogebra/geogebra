@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
 /**
- * Reverse a list. Adapted from AlgoSort
+ * Transpose a list. Adapted from AlgoSort
  * 
  * @author Michael Borcherds
  * @version 16-02-2008
@@ -30,7 +30,13 @@ public class AlgoTranspose extends AlgoElement {
 	private GeoList inputList; // input
 	private GeoList outputList; // output
 
-	public AlgoTranspose(Construction cons, String label, GeoList inputList) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param inputList
+	 *            matrix
+	 */
+	public AlgoTranspose(Construction cons, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 
@@ -38,7 +44,6 @@ public class AlgoTranspose extends AlgoElement {
 
 		setInputOutput();
 		compute();
-		outputList.setLabel(label);
 	}
 
 	@Override
@@ -56,6 +61,9 @@ public class AlgoTranspose extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return transposed list
+	 */
 	public GeoList getResult() {
 		return outputList;
 	}

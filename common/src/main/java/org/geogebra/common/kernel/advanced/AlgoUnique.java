@@ -27,6 +27,9 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.statistics.FrequencyGgb;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * Removes duplicate entries from list
+ */
 public class AlgoUnique extends AlgoElement {
 
 	private GeoList dataList; // input
@@ -34,11 +37,12 @@ public class AlgoUnique extends AlgoElement {
 
 	private Frequency f;
 
-	public AlgoUnique(Construction cons, String label, GeoList dataList) {
-		this(cons, dataList);
-		uniqueList.setLabel(label);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param dataList
+	 *            data
+	 */
 	public AlgoUnique(Construction cons, GeoList dataList) {
 		super(cons);
 		this.dataList = dataList;
@@ -70,6 +74,9 @@ public class AlgoUnique extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return filtered list
+	 */
 	public GeoList getResult() {
 		return uniqueList;
 	}
