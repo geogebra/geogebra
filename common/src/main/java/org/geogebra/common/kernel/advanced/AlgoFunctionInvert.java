@@ -387,7 +387,13 @@ public class AlgoFunctionInvert extends AlgoElement {
 				}
 
 				break;
-
+			case IF:
+				ExpressionValue inv = invert(right, oldFV, x, kernel);
+				newRoot = new ExpressionNode(kernel,
+						left.wrap().replace(oldFV, inv), Operation.IF,
+						inv.deepCopy(kernel));
+				root = null;
+				break;
 			default: // eg ABS, CEIL etc
 				// AbstractApplication.debug("failed at"+ ((ExpressionNode)
 				// root).getOperation().toString());
