@@ -864,7 +864,7 @@ public class CmdIntersect extends CommandProcessor {
 	}
 
 	/**
-	 * Intersects f and g in interfal [left,right] numerically
+	 * Intersects f and g in interval [left,right] numerically
 	 */
 	final private GeoPoint[] IntersectFunctions(String[] labels, GeoFunction f,
 			GeoFunction g, GeoNumberValue left, GeoNumberValue right) {
