@@ -41,7 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
-	private static final int VSHADOW_OFFSET = 6;
+	private static final int VSHADOW_OFFSET = 4;
 
 	private static final int MIN_ROWS_WITHOUT_KEYBOARD = 5;
 
@@ -426,6 +426,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			} else {
 				dockParent.setWidgetSize(evPanel,
 						app.getHeight() - header.getOffsetHeight()
+								- app.getArticleElement().getBorderThickness()
 								- VSHADOW_OFFSET);
 				dockParent.addStyleName("hide-VDragger");
 			}
