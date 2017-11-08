@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Inequality.IneqType;
+import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.ArbconstReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CopyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariablePolyReplacer;
 import org.geogebra.common.kernel.arithmetic3D.MyVec3DNode;
@@ -598,7 +599,7 @@ public class FunctionNVar extends ValidExpression
 				resultFun = lookupCasEvalMap(casString);
 				if (resultFun != null) {
 					resultFun.getExpression().traverse(
-							Traversing.ArbconstReplacer.getReplacer(arbconst));
+							ArbconstReplacer.getReplacer(arbconst));
 					// System.out.println("caching worked: " + casString +
 					// " -> " + resultFun);
 					return resultFun;

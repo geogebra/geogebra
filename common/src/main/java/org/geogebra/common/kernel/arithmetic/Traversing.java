@@ -923,68 +923,7 @@ public interface Traversing {
 
 	}
 
-	/**
-	 * Replaces arbconst(), arbint(), arbcomplex() by auxiliary numerics
-	 */
-	public class ArbconstReplacer implements Traversing {
-		private MyArbitraryConstant arbconst;
-		private static ArbconstReplacer replacer = new ArbconstReplacer();
 
-		@Override
-		public ExpressionValue process(ExpressionValue ev) {
-			if (!ev.isExpressionNode()) {
-				return ev;
-			}
-
-			ExpressionNode en = (ExpressionNode) ev;
-
-			if (arbconst != null && arbconst.isBlocking(en.getOperation())) {
-				return new MyDouble(en.getKernel(), Double.NaN);
-			}
-			if (en.getOperation() == Operation.MULTIPLY) {
-				if (en.getLeft() != null && en.getLeftTree()
-						.getOperation() == Operation.ARBCONST) {
-					GeoNumeric newLeft = arbconst.nextConst(
-							en.getLeftTree().getLeft().evaluateDouble());
-					newLeft.setValue(1);
-					newLeft.update();
-					en.getRight().traverse(this);
-					en.setLeft(newLeft);
-				}
-				if (en.getRight() != null && en.getRightTree()
-						.getOperation() == Operation.ARBCONST) {
-					GeoNumeric newRight = arbconst.nextConst(
-							en.getRightTree().getLeft().evaluateDouble());
-					newRight.setValue(1);
-					newRight.update();
-					en.getLeft().traverse(this);
-					en.setRight(newRight);
-				}
-				return en;
-			}
-			if (en.getOperation() == Operation.ARBCONST) {
-				return arbconst.nextConst(en.getLeft().evaluateDouble());
-			}
-			if (en.getOperation() == Operation.ARBINT) {
-				return arbconst.nextInt(en.getLeft().evaluateDouble());
-			}
-			if (en.getOperation() == Operation.ARBCOMPLEX) {
-				return arbconst.nextComplex(en.getLeft().evaluateDouble());
-			}
-			return en;
-		}
-
-		/**
-		 * @param arbconst
-		 *            arbitrary constant handler
-		 * @return replacer
-		 */
-		public static ArbconstReplacer getReplacer(
-				MyArbitraryConstant arbconst) {
-			replacer.arbconst = arbconst;
-			return replacer;
-		}
-	}
 
 	/**
 	 * Replaces powers by roots or vice versa

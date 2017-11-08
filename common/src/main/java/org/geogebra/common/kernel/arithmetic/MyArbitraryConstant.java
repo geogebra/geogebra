@@ -33,7 +33,6 @@ public class MyArbitraryConstant {
 	private ConstructionElement ce;
 	private int position = 0;
 	private boolean blocking;
-	private boolean blocked;
 
 	/**
 	 * Creates new arbitrary constant handler
@@ -284,33 +283,125 @@ public class MyArbitraryConstant {
 	}
 
 	/**
-	 * Switch to blocking mode where no arb constants are produced and and only
-	 * reported (see {@link MyArbitraryConstant#hasBlocked()} )
+	 * Switch to blocking mode where no arb constants are treated as 0
 	 */
 	public void startBlocking() {
 		this.blocking = true;
-		this.blocked = false;
 	}
 
 	/**
-	 * @return whether a forbidden op was encountered since last setBlocking
+	 * Replaces arbconst(), arbint(), arbcomplex() by auxiliary numerics
 	 */
-	public boolean hasBlocked() {
-		return blocked;
+	public static class ArbconstReplacer implements Traversing {
+		private MyArbitraryConstant arbconst;
+		private static ArbconstReplacer replacer = new ArbconstReplacer();
+
+		@Override
+		public ExpressionValue process(ExpressionValue ev) {
+			if (!ev.isExpressionNode()) {
+				return ev;
+			}
+
+			ExpressionNode en = (ExpressionNode) ev;
+
+			if (arbconst != null && arbconst.blocking) {
+				return handleSpecialCase(en);
+
+			}
+			if (en.getOperation() == Operation.MULTIPLY) {
+				if (en.getLeft() != null && en.getLeftTree()
+						.getOperation() == Operation.ARBCONST) {
+					GeoNumeric newLeft = arbconst.nextConst(
+							en.getLeftTree().getLeft().evaluateDouble());
+					newLeft.setValue(1);
+					newLeft.update();
+					en.getRight().traverse(this);
+					en.setLeft(newLeft);
+				}
+				if (en.getRight() != null && en.getRightTree()
+						.getOperation() == Operation.ARBCONST) {
+					GeoNumeric newRight = arbconst.nextConst(
+							en.getRightTree().getLeft().evaluateDouble());
+					newRight.setValue(1);
+					newRight.update();
+					en.getLeft().traverse(this);
+					en.setRight(newRight);
+				}
+				return en;
+			}
+			if (en.getOperation() == Operation.ARBCONST) {
+				return arbconst.nextConst(en.getLeft().evaluateDouble());
+			}
+			if (en.getOperation() == Operation.ARBINT) {
+				return arbconst.nextInt(en.getLeft().evaluateDouble());
+			}
+			if (en.getOperation() == Operation.ARBCOMPLEX) {
+				return arbconst.nextComplex(en.getLeft().evaluateDouble());
+			}
+			return en;
+		}
+
+		private ExpressionValue handleSpecialCase(ExpressionNode en) {
+			if (en.getOperation() == Operation.PLUS
+					|| en.getOperation() == Operation.MINUS) {
+				if (isMultipleOfArbconst(en.getRight())) {
+					return en.getLeft();
+				}
+				if (isMultipleOfArbconst(en.getLeft())) {
+					ExpressionValue ret = en.getRight();
+					if (en.getOperation() == Operation.MINUS) {
+						ret = new ExpressionNode(en.getKernel(),
+								new MyDouble(en.getKernel(), -1),
+								Operation.MULTIPLY, ret);
+					}
+					return ret;
+				}
+			} else if (isMultipleOfArbconst(en)) {
+				return new MyDouble(en.getKernel(), 0);
+			}
+			return en;
+		}
+
+		/**
+		 * @param arbconst
+		 *            arbitrary constant handler
+		 * @return replacer
+		 */
+		public static ArbconstReplacer getReplacer(
+				MyArbitraryConstant arbconst) {
+			replacer.arbconst = arbconst;
+			return replacer;
+		}
 	}
 
 	/**
-	 * @param op
-	 *            operation
-	 * @return whether this operation was blocked
+	 * @param right
+	 *            expression
+	 * @return whether expression is a/b*arbconst() in some arrangement
 	 */
-	public boolean isBlocking(Operation op) {
-		if (op == Operation.ARBINT || op == Operation.ARBCONST
-				|| op == Operation.ARBCOMPLEX) {
-			blocked = true;
-			return blocking;
+	public static boolean isMultipleOfArbconst(ExpressionValue right) {
+		if (right.isExpressionNode()) {
+			ExpressionNode en = right.wrap();
+			switch (en.getOperation()) {
+			case ARBCONST:
+			case ARBCOMPLEX:
+			case ARBINT:
+				return true;
+			case MULTIPLY:
+				return isMultipleOfArbconst(en.getLeft())
+						|| isMultipleOfArbconst(en.getRight());
+			case DIVIDE:
+				return isMultipleOfArbconst(en.getLeft());
+			default:
+				return false;
+			}
 		}
 		return false;
-
 	}
+
+	public boolean hasBlocked() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

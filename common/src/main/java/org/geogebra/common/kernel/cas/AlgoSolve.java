@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -23,6 +24,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -151,7 +153,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 				if (def instanceof Equation) {
 					ExpressionValue rhs = ((Equation) def).getRHS().unwrap();
-					makeAngle(rhs);
+					((Equation) def).setRHS(makeAngle(rhs).wrap());
 				}
 				if (el instanceof GeoNumeric) {
 					GeoAngle copy = new GeoAngle(cons);
@@ -164,27 +166,33 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 	}
 
-	private void makeAngle(ExpressionValue rhs) {
+	private ExpressionValue makeAngle(ExpressionValue rhs) {
 		if (rhs instanceof MyDouble) {
 			((MyDouble) rhs).setAngle();
-			return;
 		}
-		if (rhs.isExpressionNode()) {
-			rhs.traverse(new Traversing() {
+		else if (rhs.isExpressionNode()) {
+			return rhs.traverse(new Traversing() {
 
 				public ExpressionValue process(ExpressionValue ev) {
-					if (ev instanceof MyDouble && MyDouble.exactEqual(Math.PI,
-							ev.evaluateDouble())) {
-						MyDouble angle = new MyDouble(kernel, Math.PI);
-						angle.setAngle();
-						return angle;
+					if (ev instanceof ExpressionNode){
+						ExpressionNode en = ev.wrap();
+						Log.debug(en);
+						if(en.getOperation() == Operation.MULTIPLY && MyDouble
+							.exactEqual(Math.PI,
+									en.getRight().evaluateDouble())) {
+							MyDouble angle = new MyDouble(kernel,
+									en.getLeft().evaluateDouble() * Math.PI);
+							angle.setAngle();
+							return angle;
+
+						}
 					}
 					return ev;
 				}
 
 			});
 		}
-
+		return rhs;
 	}
 
 	private static boolean printCAS(GeoElement equations2, StringBuilder sb) {

@@ -1221,16 +1221,16 @@ public class CommandsTest extends Assert{
 		t("Solve[ x^2=-1 ]", "{}");
 		t("Solve[ x=x ]", "{x = x}");
 		t("Solve[ erf(x)=0.5 ]", "?");
-		t("r=Solve[ sin(x)=0 ]", "?");
-		t("r2=Solve[ {sin(x)=0, x=y} ]", "?");
-		t("UpdateConstruction[]", new String[0]);
-		Assert.assertEquals("\\text{undefined}", get("r")
-				.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate)
-				.trim());
-		Assert.assertEquals("\\text{undefined}", get("r2")
-				.getLaTeXDescriptionRHS(true, StringTemplate.latexTemplate)
-				.trim());
+		tdeg("r=Solve[ sin(x)=0 ]", "{x = 0*deg}");
+		tdeg("r2=Solve[ {sin(x)=0, x=y} ]", "{{x = 0*deg, y = 0*deg}}");
+		tdeg("r=Solve[ cos(x)=1/sqrt(2) ]", "{x = (-45*deg), x = 45*deg}");
+		tdeg("r2=Solve[ {cos(x)=1/2, x=y} ]",
+				"{{x = 60*deg, y = 60*deg}, {x = (-60*deg), y = (-60*deg)}}");
+	}
 
+	private static void tdeg(String string, String string2) {
+		t(string, string2.replace("deg", Unicode.DEGREE_STRING));
+		
 	}
 
 	@Test

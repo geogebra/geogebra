@@ -89,4 +89,6 @@ public interface AutoCompleteTextField
 
 	public String getCommand();
 
+	boolean isVisible();
+
 }
