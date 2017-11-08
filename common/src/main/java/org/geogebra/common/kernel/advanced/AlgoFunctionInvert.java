@@ -390,7 +390,8 @@ public class AlgoFunctionInvert extends AlgoElement {
 			case IF:
 				ExpressionValue inv = invert(right, oldFV, x, kernel);
 				newRoot = new ExpressionNode(kernel,
-						left.wrap().replace(oldFV, inv), Operation.IF,
+						left.deepCopy(kernel).wrap().replace(oldFV, inv),
+						Operation.IF,
 						inv.deepCopy(kernel));
 				root = null;
 				break;

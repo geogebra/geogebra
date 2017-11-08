@@ -1030,7 +1030,7 @@ public class CommandsTest extends Assert{
 	public void cmdInvert() {
 		t("Invert[ {{1,1},{0,2}} ]", "{{1, -0.5}, {0, 0.5}}");
 		t("Invert[ sin(x) ]", "asin(x)");
-		t("Invert[If[x>1,x^3+1] ]", "If[x - 1 > 1, x - 1]");
+		t("Invert[If[x>1,x^3+1] ]", "If[cbrt(x - 1) > 1, cbrt(x - 1)]");
 		app.getSettings().getCasSettings().setEnabled(false);
 		app.getKernel().getAlgebraProcessor().reinitCommands();
 		t("Invert[ sin(x) ]", "NInvert[sin(x)]");

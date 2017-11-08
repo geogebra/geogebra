@@ -3376,7 +3376,7 @@ public abstract class AppW extends App implements SetLabels {
 		GeoNumeric geo;
 
 		protected ReaderTimer() {
-			// TODO Auto-generated constructor stub
+			// make protected
 		}
 
 		@Override
@@ -3392,7 +3392,9 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void readLater(GeoNumeric geo) {
-		if (has(Feature.READ_OBJECT_NAME_AT_SELECTING)) {
+		if (!kernel.getConstruction().isFileLoading()
+				&& (!articleElement.preventFocus()
+						|| getGlobalKeyDispatcher().isFocused())) {
 			if (readerTimer == null) {
 				readerTimer = new ReaderTimer();
 			}

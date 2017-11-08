@@ -69,12 +69,6 @@ public enum Feature {
 
 	MOBILE_CACHE_FEATURED,
 
-
-	/**
-	 * GGB-1374
-	 */
-	READ_OBJECT_NAME_AT_SELECTING,
-
 	/**
 	 * GGB-1398 + GGB-1529
 	 */

@@ -4186,10 +4186,6 @@ public abstract class App implements UpdateSelection {
             case AUTOSCROLLING_SPREADSHEET:
                 return prerelease;
 
-		/* GGB-1374, GGB-1849 */
-            case READ_OBJECT_NAME_AT_SELECTING:
-                return true;
-
             case ERASER:
                 return prerelease;
 
