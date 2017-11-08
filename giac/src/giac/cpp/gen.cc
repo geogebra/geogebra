@@ -8699,7 +8699,7 @@ namespace giac {
       return symb_at(makesequence(*this,i));
     if (type==_FUNC){
       if (*this==at_ln){
-	i=i+(xcas_mode(contextptr)!=0);
+	i=i+array_start(contextptr); // (xcas_mode(contextptr)!=0);
 	return inv(ln(i,contextptr),contextptr)*(*this);
       }
       if (*this==at_maple_root){
@@ -8716,7 +8716,7 @@ namespace giac {
     }
     if (i<0) i+=_VECTptr->size();
     if (unsigned(i)>=_VECTptr->size()){
-      if (xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38)
+      if (array_start(contextptr))//(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38)
 	++i;
       return gendimerr(gettext("Index outside range : ")+ print_INT_(i)+", vector size is "+print_INT_(int(_VECTptr->size()))
 #ifndef GIAC_HAS_STO_38
@@ -11736,7 +11736,7 @@ namespace giac {
     if (lv.size()!=ps)
       return gendimerr(contextptr);
     for (unsigned i=0;i<ps;++i){
-      res.push_back(symb_interval(pv[i]+(xcas_mode(contextptr)!=0),lv[i]+(xcas_mode(contextptr)!=0)));
+      res.push_back(symb_interval(pv[i]+array_start(contextptr),lv[i]+array_start(contextptr))); // res.push_back(symb_interval(pv[i]+(xcas_mode(contextptr)!=0),lv[i]+(xcas_mode(contextptr)!=0)));
       if (lv[i].type!=_INT_ || pv[i].type!=_INT_ || lv[i].val<pv[i].val)
 	return gendimerr(contextptr);
       indexes[i]=(lv[i]-pv[i]).val+1;
@@ -11779,7 +11779,7 @@ namespace giac {
     gen_map::const_iterator it=m.begin(),itend=m.end();
     for (;it!=itend;){
       gen bb=it->first;
-      if (bb.type!=_STRNG && (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38)){
+      if (bb.type!=_STRNG && array_start(contextptr)){
 	if (bb.type==_VECT)
 	  bb=bb+vecteur(bb._VECTptr->size(),plus_one);
 	else

@@ -663,6 +663,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 
   bool & python_compat(GIAC_CONTEXT);
   void python_compat(bool b,GIAC_CONTEXT);
+  int array_start(GIAC_CONTEXT);
 
   int & calc_mode(GIAC_CONTEXT);
   int abs_calc_mode(GIAC_CONTEXT);

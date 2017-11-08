@@ -599,7 +599,7 @@ namespace giac {
       else
 	break;
     }
-    if (xcas_mode(contextptr))
+    if (array_start(contextptr))
       --c;
     return (i==ss);
   }
@@ -638,7 +638,7 @@ namespace giac {
 	// CERR << "absolute cell "<< a << " " << b <<endl;
 	if (b.type!=_INT_)
 	  continue;
-	if (xcas_mode(contextptr))
+	if (array_start(contextptr))
 	  r=b.val-1;
 	else
 	  r=b.val;
@@ -696,7 +696,7 @@ namespace giac {
     }
     else 
       i=v.front()._VECTptr->front().val+printcell_current_row(contextptr);
-    if (xcas_mode(contextptr))
+    if (array_start(contextptr))
       ++i;
     if (i<0)
       return debut+print_INT_(i);
@@ -14876,7 +14876,7 @@ namespace giac {
 	    if (IPIV[i-1]!=i)
 	      swapgen(P[i-1],P[IPIV[i-1]-1]);
 	  }
-	  if (!xcas_mode(contextptr)){
+	  if (array_start(contextptr)){
 	    for (int i=0;i<mn;++i)
 	      P[i] -= 1;
 	  }
@@ -14900,7 +14900,7 @@ namespace giac {
 	  if (IPIV[i-1]!=i)
 	    swapgen(P[i-1],P[IPIV[i-1]-1]);
 	}
-	if (!xcas_mode(contextptr)){
+	if (array_start(contextptr)){
 	  for (int i=0;i<mn;++i)
 	    P[i] -= 1;
 	}
@@ -14946,7 +14946,7 @@ namespace giac {
     // Giac LU decomposition
     if (!mlu(*args._VECTptr,P,L,U,contextptr))
       return gendimerr(contextptr);
-    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
+    if (array_start(contextptr)){ //xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       int s=int(P.size());
       for (int i=0;i<s;++i){
 	P[i]=P[i]+1;

@@ -43,7 +43,7 @@ namespace giac {
     vector<int>::const_iterator it=v.begin(),itend=v.end();
     vecteur res;
     res.reserve(itend-it);
-    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
+    if (array_start(contextptr)){ //(xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       for (;it!=itend;++it)
 	res.push_back(*it+1);
     }
@@ -69,7 +69,7 @@ namespace giac {
     vecteur::const_iterator it=v.begin(),itend=v.end();
     vector<int> res;
     res.reserve(itend-it);
-    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
+    if (array_start(contextptr)){ //(xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       for (;it!=itend;++it)
 	if ((*it).type==_INT_) 
 	  res.push_back((*it).val-1);
@@ -321,7 +321,7 @@ namespace giac {
     for (int j=0;j<n;j++){ if (p[j].type!=_INT_){return(false);}}
      
     for (int j=0;j<n;j++){
-      if (xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) 
+      if (array_start(contextptr)) //xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) 
 	p1[j]=p[j].val-1; 
       else 
 	p1[j]=p[j].val;
@@ -362,7 +362,7 @@ namespace giac {
     vector<int> c2(n1);
     c1=c2;
     for (int j=0;j<n1;j++){
-      if (xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) 
+      if (array_start(contextptr))//xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38) 
 	c1[j]=c[j].val-1; 
       else 
 	c1[j]=c[j].val;
@@ -1551,7 +1551,7 @@ namespace giac {
     vecteur l(n); 
     for (int k=0;k<n;k++){
       for (int j=0;j<n;j++){
-	if (p[k]==j+(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38)) {
+	if (p[k]==j+array_start(contextptr)) {
 	  l[j]=1;
 	} else {
 	  l[j]=0;

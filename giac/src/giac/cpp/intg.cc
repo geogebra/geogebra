@@ -3034,7 +3034,7 @@ namespace giac {
     if (x.type!=_IDNT)
       return x.eval(1,contextptr);
     gen evaled;
-    if (x._IDNTptr->in_eval(1,x,evaled,contextptr,true))
+    if (x._IDNTptr->in_eval(1,x,evaled,contextptr))
       return evaled;
     return x;
   }
@@ -3043,7 +3043,7 @@ namespace giac {
     if (xval==x 
 	// || (xval.type==_VECT && xval.subtype==_ASSUME__VECT && xval._VECTptr->size()==1 && xval._VECTptr->front().val==_SYMB)
 	)
-      _purge(x,contextptr);
+      purgenoassume(x,contextptr);
     else
       sto(xval,x,contextptr);
   }

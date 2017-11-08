@@ -1429,6 +1429,13 @@ extern "C" void Sleep(unsigned int miliSecond);
       _calc_mode_=b;
   }
 
+  int array_start(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr){
+      return (!contextptr->globalptr->_python_compat_ && (contextptr->globalptr->_xcas_mode_ || absint(contextptr->globalptr->_calc_mode_)==38))?1:0;
+    }
+    return (!_python_compat_ && (_xcas_mode_ || absint(_calc_mode_)==38))?1:0;
+  }
+
   std::string autoname(GIAC_CONTEXT){
     std::string res;
     if (contextptr && contextptr->globalptr )
@@ -5578,7 +5585,7 @@ unsigned int ConvertUTF8toUTF16 (
   }
 
   void convert_python(string & cur,GIAC_CONTEXT){
-    bool indexshift=xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    bool indexshift=array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     bool instring=cur.size() && cur[0]=='"';
     for (int pos=1;pos<int(cur.size());++pos){
       char prevch=cur[pos-1],curch=cur[pos];

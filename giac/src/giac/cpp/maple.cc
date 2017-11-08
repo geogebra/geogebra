@@ -497,7 +497,7 @@ namespace giac {
     for (int i=0;i<ml;++i)
       m[i]=*m[i]._VECTptr; // create a copy of the matrix
     int l=v[1].val,c=v[2].val;
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); // xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     l -= shift ;
     c -= shift ;
     if (l<0 || l>=ml || c<0 || c>=mc)
@@ -595,7 +595,7 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return gensizeerr();
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     gen indice=g._VECTptr->back();
     if (indice.is_symb_of_sommet(at_interval) && indice._SYMBptr->feuille.type==_VECT)
       indice=symbolic(at_interval,indice._SYMBptr->feuille-gen(shift)*vecteur(indice._SYMBptr->feuille._VECTptr->size(),1));
@@ -615,7 +615,7 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return gensizeerr();
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     gen indice=g._VECTptr->back();
     if (indice.is_symb_of_sommet(at_interval) && indice._SYMBptr->feuille.type==_VECT)
       indice=symbolic(at_interval,indice._SYMBptr->feuille-gen(shift)*vecteur(indice._SYMBptr->feuille._VECTptr->size(),1));
@@ -1112,7 +1112,7 @@ namespace giac {
       interval=symb_interval(interval,interval);
     if (!ckmatrix(gm) || !interval.is_symb_of_sommet(at_interval) || (f=interval._SYMBptr->feuille).type!=_VECT || f._VECTptr->size()!=2 || !is_integral(fa=f._VECTptr->front()) || !is_integral(fb=f._VECTptr->back()) )
       return gentypeerr();
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int a=fa.val-shift,b=fb.val-shift,s;
     matrice m=*gm._VECTptr;
     if (!isrow)
@@ -3002,7 +3002,7 @@ namespace giac {
     int nindexes=1;
     gen initv(vecteur(0));
     vecteur & init = *initv._VECTptr;
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     for (int i=0;i<s;++i){
       if (args[i].is_symb_of_sommet(at_interval)){
 	gen & f =args[i]._SYMBptr->feuille;

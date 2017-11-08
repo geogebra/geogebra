@@ -2876,7 +2876,7 @@ namespace giac {
     }
     int s=int(v.size());
     if (interval.type==_INT_){
-      int i=interval.val-(xcas_mode(contextptr)!=0);
+      int i=interval.val-array_start(contextptr); //-(xcas_mode(contextptr)!=0);
       if (i==-1 && g.type==_SYMB)
 	return g._SYMBptr->sommet;
       if (i<0 || i>=s)
@@ -2890,7 +2890,7 @@ namespace giac {
       int i=w.front().val,j=w.back().val;
       if (i>j)
 	return gen(vecteur(0),_SEQ__VECT);
-      if (xcas_mode(contextptr)){
+      if (array_start(contextptr)){
 	--i;
 	--j;
       }
@@ -2970,7 +2970,7 @@ namespace giac {
 	  w.front()=rec.front();
 	else {
 	  int i=rec.front().val;
-	  if (i>=0 && xcas_mode(contextptr))
+	  if (i>=0 && array_start(contextptr))
 	    --i;
 	  if (i<0)
 	    i += int(res.size());
@@ -2984,7 +2984,7 @@ namespace giac {
       if (w.front().type!=_INT_)
 	continue;
       int i=w.front().val;
-      if (i>=0 && xcas_mode(contextptr))
+      if (i>=0 && array_start(contextptr))
 	--i;
       /*
       if (i==-1){
@@ -4004,14 +4004,14 @@ namespace giac {
     string chaine=*feuille._STRNGptr;
     int s=int(chaine.size());
     if ( (xcas_mode(contextptr)==1) || (xcas_mode(contextptr)==1+_DECALAGE)){
-        string res("# ");
-        for (int i=0;i<s;++i){
-            if ((i==s-1)||(chaine[i]!='\n'))
-                res +=chaine[i];
-            else
-                res += indent(contextptr)+"# ";
-        }
-        return res;
+      string res("# ");
+      for (int i=0;i<s;++i){
+	if ((i==s-1)||(chaine[i]!='\n'))
+	  res +=chaine[i];
+	else
+	  res += indent(contextptr)+"# ";
+      }
+      return res;
     }
     int l=int(chaine.find_first_of('\n'));
     if ((l<0)|| (l>=s))
@@ -4358,7 +4358,7 @@ namespace giac {
     if ( (debut_i.type!=_INT_) || (fin_i.type!=_INT_) || (debut_j.type!=_INT_) || (fin_j.type!=_INT_) )
       return gensizeerr(gettext("Boundaries not integer"));
     int di=debut_i.val,fi=fin_i.val,dj=debut_j.val,fj=fin_j.val;
-    if (abs_calc_mode(contextptr)==38 || xcas_mode(contextptr)){
+    if (array_start(contextptr)){
       ++di; ++fi; ++dj; ++fj;
     }
     int stepi=1,stepj=1;
@@ -7284,7 +7284,7 @@ namespace giac {
     int i=equalposcomp(*v[1]._VECTptr,v[0]);
     if (s==3){
       gen tmpsto;
-      if (xcas_mode(contextptr))
+      if (array_start(contextptr))
 	tmpsto=sto(i,v[2],contextptr);
       else
 	tmpsto=sto(i-1,v[2],contextptr);
@@ -7634,7 +7634,7 @@ namespace giac {
     if (!f.is_symb_of_sommet(at_program))
       return gen(vecteur(l,vecteur(c,f)),_MATRIX__VECT);
     vecteur res(l);
-    int decal=(xcas_mode(contextptr)!=0);
+    int decal=array_start(contextptr); //(xcas_mode(contextptr)!=0);
     for (int i=decal;i<l+decal;++i){
       vecteur tmp(c);
       for (int j=decal;j<c+decal;++j)

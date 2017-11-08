@@ -414,8 +414,8 @@ namespace giac {
       return symbolic(at_suppress,args);
     vecteur & v=*args._VECTptr;
     if (v.size()==3 && v[1].type==_INT_ && v[2].type==_INT_){
-      int i1=v[1].val-(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
-      int i2=v[2].val-(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+      int i1=v[1].val-array_start(contextptr); //(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+      int i2=v[2].val-array_start(contextptr); //(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
       if (i1 >i2 || i1<0 || i2 < 0)
 	return gendimerr(contextptr);
       if (v[0].type==_VECT){
@@ -447,7 +447,7 @@ namespace giac {
       }
     }
     if (i.type==_INT_ )
-      ii=i.val-(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+      ii=i.val-array_start(contextptr); //(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
     if (l.type==_STRNG){
       string res;
       string & s=*l._STRNGptr;
@@ -490,7 +490,7 @@ namespace giac {
     gen i=v[1];
     if (!is_integral(i) || i.type!=_INT_) 
       return gensizeerr(contextptr);
-    int ii=i.val-(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
+    int ii=i.val-array_start(contextptr); //(xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38);
     if (v[0].type==_VECT){
       vecteur w=*v[0]._VECTptr;
       if (ii<0 || ii>int(w.size()))
@@ -6172,9 +6172,8 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     matrice M;
     if (!is_stochastic(g,M,contextptr))
       return gensizeerr("Not a stochastic matrix!");
-    int shift=0;
-    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38)
-      shift=1;
+    int shift=array_start(contextptr); //0;
+    //if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38) shift=1;
     vector<unsigned> start(v1.size());
     for (unsigned i=0;i<v1.size();++i){
       int pos=v1[i].val-shift;
@@ -6265,7 +6264,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if (v.size()!=2)
       return gensizeerr(contextptr);
     const gen a=v.front();
-    int shift=xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38;
+    int shift=array_start(contextptr); //xcas_mode(contextptr)>0 || abs_calc_mode(contextptr)==38;
     if (a.type==_STRNG){
       if (v.back().type!=_STRNG)
 	return gensizeerr(contextptr);

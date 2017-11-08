@@ -1077,7 +1077,7 @@ namespace giac {
     vecteur v(gen2vecteur(g));
     if (v.size()<2 || v[0].type!=_STRNG || v[1].type!=_STRNG)
       return gensizeerr(contextptr);
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int debut=shift;
     if (v.size()>2 && v[2].type==_INT_)
       debut=v[2].val;
@@ -1172,7 +1172,7 @@ namespace giac {
       v=*g._VECTptr;
     if (v.size()<2 || v[1].type!=_INT_)
       return g;
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int debut=v[1].val-shift;
     int nbre=RAND_MAX;
     if (v.size()>2 && v[2].type==_INT_)
@@ -1726,7 +1726,7 @@ namespace giac {
     if (v.size()!=3 || !ckmatrix(v[1]) || v[2].type!=_INT_ )
       return gentypeerr(contextptr);
     int s=int(v[1]._VECTptr->size());
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l=v[2].val-shift;
     if (l<0 || l>=s)
       return gendimerr(contextptr);
@@ -1756,7 +1756,7 @@ namespace giac {
     if (!ckmatrix(v[1]) || v[2].type!=_INT_ || v[3].type!=_INT_)
       return gentypeerr(contextptr);
     int s=int(v[1]._VECTptr->size());
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l1=v[2].val-shift,l2=v[3].val-shift;
     if (l1<0 || l1>=s || l2<0 || l2>=s)
       return gendimerr(contextptr);
@@ -1786,7 +1786,7 @@ namespace giac {
     if (!ckmatrix(v[0]) || v[1].type!=_INT_ || v[2].type!=_INT_)
       return gentypeerr(contextptr);
     int s=int(v[0]._VECTptr->size());
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l1=v[1].val-shift,l2=v[2].val-shift;
     if (l1<0 || l1>=s || l2<0 || l2>=s)
       return gendimerr(contextptr);
@@ -1816,7 +1816,7 @@ namespace giac {
     if (!ckmatrix(v[0]) || v[1].type!=_INT_ || v[2].type!=_INT_)
       return gentypeerr(contextptr);
     int s=int(v[0]._VECTptr->size());
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l1=v[1].val-shift,l2=v[2].val-shift;
     if (l1<0 || l1>=s || l2<0 || l2>=s)
       return gendimerr(contextptr);
@@ -1949,7 +1949,7 @@ namespace giac {
       return gentypeerr(contextptr);
     int lignedeb=1,colonnedeb=1,lignefin=1,colonnefin=1;
     mdims(*v[0]._VECTptr,lignefin,colonnefin);
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     if (v.size()>2 && v[1].is_symb_of_sommet(at_interval)){
       gen f = v[1]._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2){

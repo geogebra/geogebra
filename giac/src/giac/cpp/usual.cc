@@ -5221,7 +5221,7 @@ namespace giac {
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
       return string(sommetstr)+('('+gen2string(feuille,format,contextptr)+')');
     vecteur & v=*feuille._VECTptr;
-    if (v.back().type!=_STRNG && (xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)==38)){
+    if (v.back().type!=_STRNG && array_start(contextptr)){ //(xcas_mode(contextptr) > 0 || abs_calc_mode(contextptr)==38)){
       gen indice;
       if (v.back().type==_VECT)
 	indice=v.back()+vecteur(v.size(),plus_one);
@@ -5241,7 +5241,7 @@ namespace giac {
     return printasat_(feuille,sommetstr,1,contextptr);
   }
   symbolic symb_at(const gen & a,const gen & b,GIAC_CONTEXT){
-    if (xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
+    if (array_start(contextptr)){ //xcas_mode(contextptr) || abs_calc_mode(contextptr)==38){
       gen bb;
       if (b.type==_VECT)
 	bb=b-vecteur(b._VECTptr->size(),plus_one);
@@ -5319,7 +5319,7 @@ namespace giac {
 	if (f.type==_VECT && f._VECTptr->size()==2){
 	  vecteur & w=*f._VECTptr;
 	  gen bb=w.front();
-	  if ((xcas_mode(contextptr) || abs_calc_mode(contextptr)==38)){
+	  if (array_start(contextptr)){ //(xcas_mode(contextptr) || abs_calc_mode(contextptr)==38)){
 	    if (bb.type==_VECT)
 	      bb=bb-vecteur(bb._VECTptr->size(),plus_one);
 	    else

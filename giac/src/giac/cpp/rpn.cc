@@ -1386,7 +1386,7 @@ namespace giac {
     if (w.front()._VECTptr->size()!=v[1]._VECTptr->size())
       return gendimerr(contextptr);
     int s=int(w.size());
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     int l2=v[2].val-shift;
     if (l2<0 || l2>s)
       return gendimerr(contextptr);
@@ -1527,7 +1527,7 @@ namespace giac {
 	return gendimerr(contextptr);
       if (ckmatrix(v[0]))
 	return _subMat(gen(makevecteur(v[0],v[1],v[2]),_SEQ__VECT),contextptr);
-      int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+      int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
       if (v[0].type==_VECT && v[1].type==_INT_ && v[2].type==_INT_){
 	vecteur & w =*v[0]._VECTptr;
 	int v2=v[1].val-shift, v3=v[2].val-shift;
@@ -1543,7 +1543,7 @@ namespace giac {
     v[3]=_floor(v[3],contextptr);
     if (ckmatrix(v[1]))
       return sto(_subMat(gen(makevecteur(v[1],v[2],v[3]),_SEQ__VECT),contextptr),v0,contextptr);
-    int shift = xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    int shift = array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
     if (v[1].type==_VECT && v[2].type==_INT_ && v[3].type==_INT_){
       vecteur & w =*v[1]._VECTptr;
       int v2=v[2].val-shift, v3=v[3].val-shift;
