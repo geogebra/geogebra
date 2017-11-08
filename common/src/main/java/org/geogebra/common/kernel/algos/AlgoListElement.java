@@ -248,7 +248,10 @@ public class AlgoListElement extends AlgoElement {
 					return;
 				}
 			}
-
+			if (!(current instanceof GeoList)) { // not deep enough
+				element.setUndefined();
+				return;
+			}
 			GeoList list = (GeoList) current;
 
 			if (m >= 0 && m < list.size()) {
