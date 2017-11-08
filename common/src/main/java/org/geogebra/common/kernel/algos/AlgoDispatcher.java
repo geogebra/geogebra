@@ -1262,6 +1262,11 @@ public class AlgoDispatcher {
 		return point;
 	}
 
+	private boolean isConditionalFunction(GeoFunction f) {
+		return (f.getFunctionExpression() != null && Operation.IF
+				.equals(f.getFunctionExpression().getOperation()));
+	}
+
 	private boolean isConditionalPolynomial(GeoFunction f) {
 		if (f.getFunctionExpression() != null && Operation.IF
 				.equals(f.getFunctionExpression().getOperation())) {
@@ -1278,18 +1283,33 @@ public class AlgoDispatcher {
 	 * line l
 	 */
 	final public GeoPoint[] IntersectPolynomialLine(String[] labels,
-			GeoFunction f, GeoLine l, GeoPoint pref) {
+			GeoFunction f, GeoLine line, GeoPoint initPoint) {
+
 		// TODO decide polynomial when CAS not loaded ?
 		if (isConditionalPolynomial(f)) {
 				AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
-						cons, labels, f, l);
+					cons, labels, f, line);
 				GeoPoint[] g = algo.getRootPoints();
 				return g;
 		}
+
+		if (isConditionalFunction(f)) {
+			GeoPoint A = initPoint;
+			if (A == null) {
+				A = new GeoPoint(cons);
+				A.setZero();
+			}
+			AlgoIntersectFunctionsNewton algo = new AlgoIntersectFunctionsNewton(
+					cons, labels[0], f, line.getGeoFunction(), A);
+			GeoPoint g = algo.getRootPoint();
+			GeoPoint[] ret = { g };
+			return ret;
+		}
+
 		if (!f.isPolynomialFunction(false)) {
 
 			// dummy point
-			GeoPoint A = pref;
+			GeoPoint A = initPoint;
 			if (A == null) {
 				A = new GeoPoint(cons);
 				A.setZero();
@@ -1297,13 +1317,13 @@ public class AlgoDispatcher {
 			// we must check that getLabels() didn't return null
 			String label = labels == null ? null : labels[0];
 			AlgoIntersectFunctionLineNewton algo = new AlgoIntersectFunctionLineNewton(
-					cons, label, f, l, A);
+					cons, label, f, line, A);
 			GeoPoint[] ret = { algo.getIntersectionPoint() };
 			return ret;
 
 		}
 
-		AlgoIntersectPolynomialLine algo = getIntersectionAlgorithm(f, l);
+		AlgoIntersectPolynomialLine algo = getIntersectionAlgorithm(f, line);
 		algo.setPrintedInXML(true);
 		algo.setLabels(labels);
 		GeoPoint[] points = algo.getIntersectionPoints();

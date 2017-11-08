@@ -62,7 +62,7 @@ public class InputHelper {
 		if (geos == null) {
 			return;
 		}
-		if (geos.length > 0
+		if (geos.length > 0 && geos[0] != null
 				&& geos[0].getKernel().getConstructionStep() <= oldStep) {
 			return;
 		}

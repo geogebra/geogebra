@@ -26,15 +26,17 @@ public class InputBarCallback extends AsyncOperation<GeoElementND[]> {
 
 	@Override
 	public void callback(GeoElementND[] geos) {
+
 		// need label if we type just eg
 		// lnx
-		if (geos != null && geos.length == 1 && !geos[0].isLabelSet()) {
+		if (geos != null && geos.length == 1 && geos[0] != null
+				&& !geos[0].isLabelSet()) {
 			geos[0].setLabel(geos[0].getDefaultLabel());
 		}
 
 		// set first outputs (same geo class) as selected geos (for
 		// properties view)
-		if (geos != null && geos.length > 0) {
+		if (geos != null && geos.length > 0 && geos[0] != null) {
 			ArrayList<GeoElement> list = new ArrayList<GeoElement>();
 			// add first output
 			GeoElementND geo = geos[0];
