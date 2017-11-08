@@ -2079,6 +2079,8 @@ var __giac = [ {},
 { cat:"Factor", cmd:"Factor(x^2+x=x^2-1)", result:"x (x + 1) = (x - 1) (x + 1)" },
 { cat:"Solve", cmd:"Solve((n^2)*(x/n)^ln(x)=x^2,x)", result:"{x = n, x = \u212F\u00B2}" },
 { cat:"Solve", cmd:"Solve((n^2)*(x/n)^log(10,x)=x^2,x,n>0)", result:"{x = 100, x = n}" },
+{ cat:"Simplify", cmd:"Simplify(ℯ^(((-sqrt((4 * log(10)^(2)) - ((8 * log(10)) * log(n)) + ((4 * log(10)) * log(n)) + log(n)^(2))) + (2 * log(10)) + log(n)) / 2))", result:"n" },
+{ cat:"Simplify", cmd:"Simplify(ℯ^((sqrt((4 * log(10)^(2)) - ((8 * log(10)) * log(n)) + ((4 * log(10)) * log(n)) + log(n)^(2)) + (2 * log(10)) + log(n)) / 2))", result:"100" },
 //JSONEND
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
