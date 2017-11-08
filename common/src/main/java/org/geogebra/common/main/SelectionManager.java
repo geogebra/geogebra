@@ -919,7 +919,8 @@ public class SelectionManager {
 						.getActiveEuclidianView();
 
 				AlgoRoots algo = new AlgoRoots(kernel.getConstruction(), null,
-						(GeoFunction) geo, view);
+						(GeoFunction) geo, view.getXminObject(),
+						view.getXmaxObject(), false);
 				geos1 = algo.getRootPoints();
 			} else {
 				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(

@@ -49,7 +49,7 @@ public class CmdRoots extends CommandProcessor {
 
 				AlgoRoots algo = new AlgoRoots(cons, c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], true);
 
 				GeoElement[] ret = algo.getRootPoints();
 				return ret;

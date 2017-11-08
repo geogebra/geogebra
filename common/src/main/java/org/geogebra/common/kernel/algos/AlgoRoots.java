@@ -64,9 +64,10 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 * Computes "all" Roots of f in &lt;l,r&gt; TYPE_ROOTS
 	 */
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
-			GeoNumberValue left, GeoNumberValue right) {
+			GeoNumberValue left, GeoNumberValue right, boolean labelEnabled) {
 		// Ancestor gets first function for points!
-		super(cons, labels, !cons.isSuppressLabelsActive(), function);
+		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(),
+				function);
 		this.f0 = function;
 		this.left = left;
 		this.right = right;
@@ -85,7 +86,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	public AlgoRoots(Construction cons, String[] labels, GeoFunction function,
 			EuclidianViewInterfaceCommon view) {
 		this(cons, labels, function, view.getXminObject(),
-				view.getXmaxObject());
+				view.getXmaxObject(), true);
 
 		// updates the area that is visible
 		cons.registerEuclidianViewCE(this);
