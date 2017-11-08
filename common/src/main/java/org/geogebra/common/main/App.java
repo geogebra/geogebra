@@ -4309,8 +4309,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2183 */
 		case AUTO_ADD_DEGREE:
-			return prerelease
-					&& getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE;
+			return getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE;
 
 		/** GGB-2170 */
 		case SLIDER_STYLE_OPTIONS:
