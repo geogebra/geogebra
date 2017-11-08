@@ -26,8 +26,8 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 
 	public AlgoExtremumPolynomial(Construction cons, String[] labels,
-			GeoFunction f) {
-		super(cons, labels, f);
+			GeoFunction f, boolean labelEnabled) {
+		super(cons, labels, f, labelEnabled);
 
 		// Application.debug("AlgoExtremumPolynomial: " + f + ", " + f.cons);
 		// Iterator it = f.getVariables().iterator();

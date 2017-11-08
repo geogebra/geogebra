@@ -11950,7 +11950,7 @@ public abstract class EuclidianController {
 			if (function.isPolynomialFunction(false)) {
 				// calculates all extremum points (e.g. x^2)
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
-						null, function);
+						null, function, true);
 				return algo.getExtremumPoints();
 			}
 
@@ -12043,7 +12043,7 @@ public abstract class EuclidianController {
 			if (function.isPolynomialFunction(true)) {
 				// calculates all root points (e.g. x^2 - 1)
 				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, null,
-						function);
+						function, true);
 				return algo.getRootPoints();
 			}
 

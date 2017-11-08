@@ -97,7 +97,7 @@ public class CmdExtremum extends CommandProcessor {
 		}
 
 		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
-				c.getLabels(), f);
+				c.getLabels(), f, true);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
 	}

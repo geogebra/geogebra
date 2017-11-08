@@ -27,7 +27,7 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 
 	public AlgoTurningPointPolynomial(Construction cons, String[] labels,
 			GeoFunction f) {
-		super(cons, labels, f);
+		super(cons, labels, f, true);
 	}
 
 	@Override

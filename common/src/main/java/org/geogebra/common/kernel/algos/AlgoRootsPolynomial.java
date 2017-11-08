@@ -66,8 +66,9 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * Computes all roots of f
 	 */
 	public AlgoRootsPolynomial(Construction cons, String[] labels,
-			GeoFunction f) {
-		this(cons, labels, !cons.isSuppressLabelsActive(), f, null, null);
+			GeoFunction f, boolean labelEnabled) {
+		this(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(), f,
+				null, null);
 	}
 
 	/**

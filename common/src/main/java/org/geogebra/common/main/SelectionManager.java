@@ -923,7 +923,7 @@ public class SelectionManager {
 				geos1 = algo.getRootPoints();
 			} else {
 				AlgoRootsPolynomial algo = new AlgoRootsPolynomial(
-						kernel.getConstruction(), null, (GeoFunction) geo);
+						kernel.getConstruction(), null, (GeoFunction) geo, false);
 				kernel.getConstruction().removeFromAlgorithmList(algo);
 				geos1 = algo.getRootPoints();
 			}
@@ -939,7 +939,8 @@ public class SelectionManager {
 				geos2 = algo.getExtremumPoints();
 			} else {
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(
-						kernel.getConstruction(), null, (GeoFunction) geo);
+						kernel.getConstruction(), null, (GeoFunction) geo,
+						false);
 				kernel.getConstruction().removeFromAlgorithmList(algo);
 				geos2 = algo.getRootPoints();
 			}

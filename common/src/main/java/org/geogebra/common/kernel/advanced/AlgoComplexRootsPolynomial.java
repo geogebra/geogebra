@@ -16,7 +16,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 
 	public AlgoComplexRootsPolynomial(Construction cons, String[] labels,
 			GeoFunction f) {
-		super(cons, labels, f);
+		super(cons, labels, f, true);
 	}
 
 	@Override

@@ -110,7 +110,7 @@ public class CmdRoot extends CommandProcessor {
 		}
 
 		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(),
-				f);
+				f, true);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
 	}

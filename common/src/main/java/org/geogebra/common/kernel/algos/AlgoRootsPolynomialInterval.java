@@ -42,7 +42,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	 */
 	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
 			GeoFunction f) {
-		super(cons, labels, f);
+		super(cons, labels, f, true);
 	}
 
 	/**

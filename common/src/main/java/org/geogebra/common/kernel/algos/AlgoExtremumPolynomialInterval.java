@@ -38,7 +38,7 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 	 */
 	public AlgoExtremumPolynomialInterval(Construction cons, String[] labels,
 			GeoFunction f) {
-		super(cons, labels, f);
+		super(cons, labels, f, true);
 	}
 
 	@Override
