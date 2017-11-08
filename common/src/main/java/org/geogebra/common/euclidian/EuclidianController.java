@@ -6916,7 +6916,7 @@ public abstract class EuclidianController {
 					&& (hits.size() >= 1)) {
 				setCursorForTranslateView(hits);
 			} else {
-				setDragCursor();
+				setCursorForProccessMouseMoveHit();
 			}
 		}
 
@@ -6994,6 +6994,10 @@ public abstract class EuclidianController {
 			view.repaintView();
 		}
 		stopCollectingMinorRepaints();
+	}
+
+	protected void setCursorForProccessMouseMoveHit() {
+		setDragCursor();
 	}
 
 	protected void setCursorForTranslateViewNoHit() {

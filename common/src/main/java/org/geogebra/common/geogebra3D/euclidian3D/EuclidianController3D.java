@@ -4535,4 +4535,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void updatePreviewableForMouseDragged() {
 		// no need in 3D
 	}
+
+	@Override
+	protected void setCursorForProccessMouseMoveHit() {
+		setHitCursor();
+	}
 }
