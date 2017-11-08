@@ -880,12 +880,7 @@ public class SelectionManager {
 		if (geos!=null){
 			ArrayList<GeoElementND> specPoints0 = new ArrayList<GeoElementND>();
 			for(int i = 0; i<geos.size(); i++){
-				boolean suppressLabelCreation = kernel.getConstruction()
-						.isSuppressLabelsActive();
-				kernel.getConstruction().setSuppressLabelCreation(true);
 				GeoElementND[] sp = getSpecPoints(geos.get(i));
-				kernel.getConstruction()
-						.setSuppressLabelCreation(suppressLabelCreation);
 				if (sp != null) {
 					specPoints0.addAll(Arrays.asList(sp));
 				}
