@@ -446,8 +446,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
 
 		if (fbTextures == null || fbTextures.isEmpty()) {
-			setCurrentGeometryHasNoTexture();
-			glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+			disableTextureBuffer();
 			return;
 		}
 
@@ -462,6 +461,11 @@ public abstract class RendererImplShaders extends RendererImpl {
 		vertexAttribPointerGlobal(GLSL_ATTRIB_TEXTURE, 2);
 
 		glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
+	}
+
+	public void disableTextureBuffer() {
+		setCurrentGeometryHasNoTexture();
+		glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
 	@Override

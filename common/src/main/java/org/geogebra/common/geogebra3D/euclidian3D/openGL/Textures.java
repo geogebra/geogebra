@@ -67,7 +67,7 @@ public class Textures {
 
 	static private int TEXTURES_NUMBER = FADING + 1;
 
-	private Renderer renderer;
+	protected Renderer renderer;
 
 	/**
 	 * default constructor

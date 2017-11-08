@@ -80,5 +80,10 @@ public class RendererWnoWebGL extends RendererWithImplW {
 		// no webGL context here...
 	}
 
+	@Override
+	public void createDummyTexture() {
+		// no webGL context here...
+	}
+
 
 }

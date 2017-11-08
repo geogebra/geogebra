@@ -344,4 +344,10 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	protected abstract boolean checkFramebufferStatus();
 
+	/**
+	 * create a dummy texture to please the GL shader language, that needs something
+	 * correct to be bound on texture 0
+	 */
+	abstract public void createDummyTexture();
+
 }

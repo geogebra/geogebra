@@ -312,6 +312,8 @@ public class ManagerShadersElementsGlobalBuffer
 			r.loadColorBuffer(getColors(), getLength());
 			if (r.areTexturesEnabled()) {
 				r.loadTextureBuffer(getTextures(), getLength());
+			} else {
+				r.disableTextureBuffer();
 			}
 			r.loadIndicesBuffer(arrayI, indicesLength);
 			r.draw(getType(), indicesLength);

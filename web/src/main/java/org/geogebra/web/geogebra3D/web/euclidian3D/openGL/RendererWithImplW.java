@@ -5,6 +5,8 @@ import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
@@ -123,6 +125,10 @@ public class RendererWithImplW extends RendererWithImpl implements
 		}
 	}
 
+	@Override
+	protected Textures newTextures() {
+		return new TexturesShaders(this);
+	}
 
 	@Override
 	public void textureImage2D(int sizeX, int sizeY, byte[] buf) {

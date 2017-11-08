@@ -608,8 +608,13 @@ public class RendererImplGL2 extends RendererImpl
 
 	@Override
 	public void loadTextureBuffer(GLBuffer fbTextures, int length) {
-		// TODO Auto-generated method stub
+		// not needed here
 
+	}
+
+	@Override
+	public void disableTextureBuffer() {
+		// not needed here
 	}
 
 	@Override
@@ -940,6 +945,11 @@ public class RendererImplGL2 extends RendererImpl
 	protected boolean checkFramebufferStatus() {
 		return getGL().glCheckFramebufferStatus(
 				GL.GL_FRAMEBUFFER) == GL.GL_FRAMEBUFFER_COMPLETE;
+	}
+
+	@Override
+	public void createDummyTexture() {
+		// only needed for shaders
 	}
 
 }

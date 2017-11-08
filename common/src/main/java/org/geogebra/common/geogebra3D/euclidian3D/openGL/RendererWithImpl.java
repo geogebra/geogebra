@@ -296,6 +296,11 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
+	final public void disableTextureBuffer() {
+		rendererImpl.disableTextureBuffer();
+	}
+
+	@Override
 	final public void loadVertexBuffer(GLBuffer fbVertices, int length) {
 		rendererImpl.loadVertexBuffer(fbVertices, length);
 
@@ -765,5 +770,10 @@ public abstract class RendererWithImpl extends Renderer
 
 	protected void setRendererImpl(RendererImpl rendererImpl) {
 		this.rendererImpl = rendererImpl;
+	}
+
+	@Override
+	public void createDummyTexture() {
+		rendererImpl.createDummyTexture();
 	}
 }

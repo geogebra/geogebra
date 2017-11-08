@@ -492,17 +492,32 @@ public class RendererImplShadersW extends RendererImplShaders {
 			updatePickingDimension(label, data);
 		}
 
+		int textureIndex = createAlphaTexture(label.getTextureIndex(), image, bimg);
+		label.setTextureIndex(textureIndex);
+	}
+
+	/**
+	 * create alpha texture from image
+	 * 
+	 * @param index
+	 *            reusable index
+	 * @param image
+	 *            image
+	 * @param bimg
+	 *            buffered image
+	 * @return new index if needed
+	 */
+	public int createAlphaTexture(int index, ImageElement image, GBufferedImageW bimg) {
+
 		// create texture
 		WebGLTexture texture;
 
-		int textureIndex = label.getTextureIndex();
-
-		if (textureIndex == -1) {
-			textureIndex = texturesArray.size();
+		if (index == -1) {
+			index = texturesArray.size();
 			texture = glContext.createTexture();
 			texturesArray.add(texture);
 		} else {
-			texture = texturesArray.get(textureIndex);
+			texture = texturesArray.get(index);
 		}
 
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
@@ -514,9 +529,12 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
 
-		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, null);
+		return index;
+	}
 
-		label.setTextureIndex(textureIndex);
+	@Override
+	public void createDummyTexture() {
+		createAlphaTexture(-1, null, new GBufferedImageW(2, 2, 1));
 	}
 
 	private static void updatePickingDimension(DrawLabel3D label,

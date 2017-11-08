@@ -16,6 +16,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -461,9 +463,16 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 	@Override
 	public void textureImage2D(int sizeX, int sizeY, byte[] buf) {
-		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_ALPHA, sizeX, sizeY, 0,
-				GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE, ByteBuffer.wrap(buf));
+		getGL().glTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_ALPHA, sizeX, sizeY, 0, GL.GL_ALPHA, GL.GL_UNSIGNED_BYTE,
+				ByteBuffer.wrap(buf));
+	}
 
+	@Override
+	protected Textures newTextures() {
+		if (getType() == RendererType.SHADER) {
+			return new TexturesShaders(this);
+		}
+		return new Textures(this);
 	}
 
 	@Override

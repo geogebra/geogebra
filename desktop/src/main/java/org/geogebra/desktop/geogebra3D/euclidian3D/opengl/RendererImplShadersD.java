@@ -564,4 +564,9 @@ public class RendererImplShadersD extends RendererImplShaders {
 		glUseProgram(0);
 	}
 
+	@Override
+	public void createDummyTexture() {
+		// TODO: implement it?
+	}
+
 }

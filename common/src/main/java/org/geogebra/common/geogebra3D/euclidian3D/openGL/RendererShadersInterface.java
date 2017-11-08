@@ -16,6 +16,8 @@ public interface RendererShadersInterface {
 
 	public void loadTextureBuffer(GLBuffer fbTextures, int length);
 
+	public void disableTextureBuffer();
+
 	public void loadVertexBuffer(GLBuffer fbVertices, int length);
 
 	public void loadIndicesBuffer(GLBufferIndices arrayI, int length);

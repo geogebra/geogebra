@@ -171,8 +171,16 @@ public abstract class Renderer {
 		this.type = type;
 
 		// textures
-		textures = new Textures(this);
+		textures = newTextures();
 
+	}
+
+	/**
+	 * 
+	 * @return new Textures object
+	 */
+	protected Textures newTextures() {
+		return new Textures(this);
 	}
 
 	/**
@@ -2216,5 +2224,11 @@ public abstract class Renderer {
 	protected void setExportType(ExportType type) {
 		exportType = type;
 	}
+
+	/**
+	 * create a dummy texture to please the GL shader language, that needs something
+	 * correct to be bound on texture 0
+	 */
+	abstract public void createDummyTexture();
 
 }
