@@ -512,12 +512,13 @@ public class RendererImplShadersW extends RendererImplShaders {
 		// create texture
 		WebGLTexture texture;
 
-		if (index == -1) {
-			index = texturesArray.size();
+		int newIndex = index;
+		if (newIndex == -1) {
+			newIndex = texturesArray.size();
 			texture = glContext.createTexture();
 			texturesArray.add(texture);
 		} else {
-			texture = texturesArray.get(index);
+			texture = texturesArray.get(newIndex);
 		}
 
 		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
@@ -529,7 +530,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
 
-		return index;
+		return newIndex;
 	}
 
 	@Override
