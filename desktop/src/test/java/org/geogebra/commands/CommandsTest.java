@@ -1240,7 +1240,8 @@ public class CommandsTest extends Assert{
 				StringTemplate.defaultTemplate);
 		t("Solutions[ 5x=4 ]", "{4 / 5}");
 		t("Solutions[ sin(x)=1/2 ]",
-				"{" + Unicode.pi + " / 6, 5" + Unicode.pi + " / 6}",
+				"{30" + Unicode.DEGREE_CHAR + ", 150" + Unicode.DEGREE_CHAR
+						+ "}",
 				StringTemplate.defaultTemplate);
 	}
 
@@ -1250,7 +1251,8 @@ public class CommandsTest extends Assert{
 				StringTemplate.defaultTemplate);
 		t("NSolutions[ 5x=4 ]", "{0.8}");
 		t("NSolutions[ sin(x)=1/2 ]",
-				"{0.52, 2.62}",
+				"{30" + Unicode.DEGREE_CHAR + ", 150" + Unicode.DEGREE_CHAR
+						+ "}",
 				StringTemplate.defaultTemplate);
 
 	}
@@ -1261,9 +1263,12 @@ public class CommandsTest extends Assert{
 				StringTemplate.editTemplate);
 		t("NSolve[ x^2=-1 ]", "{}");
 		t("NSolve[ erf(x)=0.5 ]", "{x = 0.47694}", StringTemplate.editTemplate);
-		t("NSolve[ sin(x)=0 ]", "{x = 0, x = 3.14159}",
+		t("NSolve[ sin(x)=0 ]",
+				"{x = 0" + Unicode.DEGREE_CHAR + ", x = 180"
+						+ Unicode.DEGREE_CHAR + "}",
 				StringTemplate.editTemplate);
-		t("NSolve[ {sin(x)=0, x=y} ]", "{{x = 0, y = 0}}");
+		t("NSolve[ {sin(x)=0, x=y} ]", "{{x = 0*" + Unicode.DEGREE_CHAR
+				+ ", y = 0*" + Unicode.DEGREE_CHAR + "}}");
 	}
 
 	@Test
