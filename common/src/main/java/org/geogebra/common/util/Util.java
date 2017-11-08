@@ -24,10 +24,18 @@ public class Util {
 	 * used when value is needed through a callback
 	 */
 	static final public class Wrap<T> {
-		public T value;
+		private T value;
 
 		public Wrap(T value) {
 			this.value = value;
+		}
+
+		public void set(T value) {
+			this.value = value;
+		}
+
+		public T get() {
+			return value;
 		}
 	}
 
