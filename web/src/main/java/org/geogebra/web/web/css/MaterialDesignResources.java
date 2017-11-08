@@ -136,8 +136,12 @@ public interface MaterialDesignResources extends ClientBundle {
 
 	// POINTS
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_full.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_filled.svg")
 	SVGResource point_full();
+
+	// this used to be the icon for point_full(), that has a new one now
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_full.svg")
+	SVGResource point_no_outline();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/stylingbar_point_empty.svg")
 	SVGResource point_empty();

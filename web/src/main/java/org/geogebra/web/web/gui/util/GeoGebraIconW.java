@@ -39,7 +39,7 @@ public class GeoGebraIconW extends BasicIcons {
 			matIcons.point_cross(), matIcons.point_diamond(),
 			matIcons.point_diamond_empty(), matIcons.point_up(),
 			matIcons.point_down(), matIcons.point_right(),
-			matIcons.point_left(), matIcons.point_full() };
+			matIcons.point_left(), matIcons.point_no_outline() };
 
 	/*
 	 * private static ImageResource[] lineStyleIcons = { LafIcons.line_solid(),
