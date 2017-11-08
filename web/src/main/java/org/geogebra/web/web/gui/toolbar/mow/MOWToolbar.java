@@ -21,6 +21,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -82,9 +83,7 @@ public class MOWToolbar extends FlowPanel {
 		rightPanel.addStyleName("right");
 
 		createUndoRedoButtons();
-		// midddle buttons open submenus
-		createMiddleButtons();
-		createCloseButton();
+		createToolbarButtons();
 		if (app.has(Feature.MOW_MULTI_PAGE)) {
 			createPageControlButton();
 		}
@@ -201,10 +200,21 @@ public class MOWToolbar extends FlowPanel {
 		}
 	}
 
-	private void createMiddleButtons() {
-		createPenButton();
-		createToolsButton();
-		createMediaButton();
+	private void createToolbarButtons() {
+		penMenu = new PenSubMenu(app);
+		penButton = createButton(
+				MaterialDesignResources.INSTANCE.mow_pen_panel().getSafeUri(),
+				penMenu);
+
+		toolsMenu = new ToolsSubMenu(app);
+		toolsButton = createButton(
+				MaterialDesignResources.INSTANCE.mow_tools_panel().getSafeUri(),
+				toolsMenu);
+
+		mediaMenu = new MediaSubMenu(app);
+		mediaButton = createButton(
+				MaterialDesignResources.INSTANCE.mow_media_panel().getSafeUri(),
+				mediaMenu);
 
 		middlePanel.addStyleName("indicatorLeft");
 		middlePanel.getElement()
@@ -213,73 +223,28 @@ public class MOWToolbar extends FlowPanel {
 		middlePanel.add(penButton);
 		middlePanel.add(toolsButton);
 		middlePanel.add(mediaButton);
-	}
 
-	private void createPenButton() {
-		penButton = new MyToggleButton(new Image(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.mow_pen_panel()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)),
-				app);
-		ClickStartHandler.init(penButton, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				closeFloatingMenus();
-				setPenMenu();
-			}
-		});
-		penMenu = new PenSubMenu(app);
-	}
-
-	private void createToolsButton() {
-		toolsButton = new MyToggleButton(new Image(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.mow_tools_panel()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)),
-				app);
-		ClickStartHandler.init(toolsButton, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				closeFloatingMenus();
-				setToolsMenu();
-			}
-		});
-		toolsMenu = new ToolsSubMenu(app);
-	}
-
-	private void createMediaButton() {
-		mediaButton = new MyToggleButton(new Image(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.mow_media_panel()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)),
-				app);
-		ClickStartHandler.init(mediaButton, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				closeFloatingMenus();
-				setMediaMenu();
-			}
-		});
-		mediaMenu = new MediaSubMenu(app);
-	}
-
-	private void createCloseButton() {
-		closeButton = new MyToggleButton(new Image(new ImageResourcePrototype(
-				null, MaterialDesignResources.INSTANCE
-						.toolbar_close_portrait_black().getSafeUri(),
-				0, 0, 24, 24, false, false)), app);
+		closeButton = createButton(MaterialDesignResources.INSTANCE
+				.toolbar_close_portrait_black().getSafeUri(), null);
 		rightPanel.add(closeButton);
-		ClickStartHandler.init(closeButton, new ClickStartHandler(true, true) {
+	}
+
+	private MyToggleButton createButton(SafeUri iconUri,
+			final SubMenuPanel submenu) {
+		final MyToggleButton button = new MyToggleButton(
+				new Image(
+				new ImageResourcePrototype(null,
+						iconUri,
+						0, 0, 24, 24, false, false)),
+				app);
+		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				closeFloatingMenus();
-				toggleSubmenu();
-
+				setMenu(button, submenu);
 			}
 		});
+		return button;
 	}
 
 	private void createPageControlButton() {
@@ -344,29 +309,27 @@ public class MOWToolbar extends FlowPanel {
 	}
 
 	/**
-	 * set current Menu to Pen Menu, toggle Close Button and set CSS to selected
+	 * set current Menu, toggle Close Button and set CSS to selected
+	 * 
+	 * @param button
+	 *            the button that was pressed
+	 * @param submenu
+	 *            submenu associated with the button
 	 */
-	void setPenMenu() {
-		setCurrentMenu(penMenu);
-		selectButton(penButton);
+	protected void setMenu(MyToggleButton button, SubMenuPanel submenu) {
+		if (submenu == null) {
+			toggleSubmenu();
+		} else {
+			setCurrentMenu(submenu);
+			selectButton(button);
+		}
 	}
 
 	/**
-	 * set current Menu to Tools Menu, toggle Close Button and set CSS to
-	 * selected
+	 * set submenu open/closed
 	 */
-	void setToolsMenu() {
-		setCurrentMenu(toolsMenu);
-		selectButton(toolsButton);
-	}
-
-	/**
-	 * set current Menu to Media Menu, toggle Close Button and set CSS to
-	 * selected
-	 */
-	void setMediaMenu() {
-		setCurrentMenu(mediaMenu);
-		selectButton(mediaButton);
+	private void toggleSubmenu() {
+		setSubmenuVisible(!subMenuPanel.isVisible());
 	}
 	
 	/**
@@ -391,13 +354,6 @@ public class MOWToolbar extends FlowPanel {
 			}
 		}
 		}
-	}
-
-	/**
-	 * set submenu open/closed
-	 */
-	void toggleSubmenu() {
-		setSubmenuVisible(!subMenuPanel.isVisible());
 	}
 
 	/**

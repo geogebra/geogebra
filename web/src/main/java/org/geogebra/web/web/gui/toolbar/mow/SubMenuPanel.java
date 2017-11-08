@@ -221,9 +221,6 @@ public abstract class SubMenuPanel extends FlowPanel
 		if (imageNeedsOpacity(mode)) {
 			im.addStyleName("opacityFixForOldIcons");
 		}
-		if (mode == EuclidianConstants.MODE_IMAGE) {
-			im.addStyleName("icon24_padding");
-		}
 		StandardButton button = new StandardButton(null, "", 32, app);
 		button.getUpFace().setImage(im);
 		button.addFastClickHandler(this);
