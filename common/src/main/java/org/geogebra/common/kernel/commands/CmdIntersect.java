@@ -656,12 +656,13 @@ public class CmdIntersect extends CommandProcessor {
 			arg = resArgs(c);
 			// Function - Function in interval [a,b]
 			// Polynomial - Polynomial with index of point
-			if ((ok[0] = (arg[0].isGeoFunction()))
-					&& (ok[1] = (arg[1].isGeoFunction()))
+			if ((ok[0] = (arg[0].isGeoFunctionable()))
+					&& (ok[1] = (arg[1].isGeoFunctionable()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue))) {
 				GeoElement[] ret = IntersectFunctions(c.getLabels(),
-						(GeoFunction) arg[0], (GeoFunction) arg[1],
+						((GeoFunctionable) arg[0]).getGeoFunction(),
+						((GeoFunctionable) arg[1]).getGeoFunction(),
 						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
 				return ret;
 				// intersection of curves with starting point for iteration
