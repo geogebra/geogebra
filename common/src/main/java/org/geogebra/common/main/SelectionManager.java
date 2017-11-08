@@ -935,7 +935,7 @@ public class SelectionManager {
 						.getActiveEuclidianView();
 				AlgoExtremumMulti algo = new AlgoExtremumMulti(
 						kernel.getConstruction(), null, (GeoFunction) geo,
-						view);
+						view.getXminObject(), view.getXmaxObject(), false);
 				geos2 = algo.getExtremumPoints();
 			} else {
 				AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(

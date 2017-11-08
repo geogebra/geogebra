@@ -55,7 +55,7 @@ public class CmdExtremum extends CommandProcessor {
 				AlgoExtremumMulti algo = new AlgoExtremumMulti(cons,
 						c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], true);
 				return algo.getExtremumPoints();
 			}
 

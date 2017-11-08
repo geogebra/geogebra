@@ -64,8 +64,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 	/** Computes "all" Extremums of f in &lt;l,r&gt; */
 	public AlgoExtremumMulti(Construction cons, String[] labels,
-			GeoFunction function, GeoNumberValue left, GeoNumberValue right) {
-		super(cons, labels, !cons.isSuppressLabelsActive(), function); // set
+			GeoFunction function, GeoNumberValue left, GeoNumberValue right, boolean labelEnabled) {
+		super(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(),
+				function); // set
 																		// f,g,l
 																		// null
 		this.f1 = function;
@@ -91,7 +92,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	public AlgoExtremumMulti(Construction cons, String[] labels,
 			GeoFunction function, EuclidianViewInterfaceCommon view) {
 		this(cons, labels, function, view.getXminObject(),
-				view.getXmaxObject());
+				view.getXmaxObject(), true);
 
 		// updates the area that is visible
 		cons.registerEuclidianViewCE(this);
