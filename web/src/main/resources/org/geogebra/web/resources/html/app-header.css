@@ -4,6 +4,7 @@
 	background-color: rgb(255,255,255);
     padding: 4px;
     user-select: none;
+    height: 24px;
 }
 .GeoGebraHeader .appName{
 	padding-left: 12px;

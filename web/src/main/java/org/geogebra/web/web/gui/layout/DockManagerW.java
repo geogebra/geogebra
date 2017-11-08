@@ -1880,8 +1880,6 @@ public class DockManagerW extends DockManager {
 		double portraitDivider = kbHeight >= appHeight ? 1
 				: Math.min((avHeight) / (appHeight - kbHeight), 1);
 
-		Log.debug("portraitDivider " + portraitDivider + ","
-				+ kbHeight + "," + avHeight);
 		if (app.isPortrait()) {
 			if (toolbar != null && toolbar.isClosed()) {
 				closePortrait(split, toolbar);
@@ -1946,15 +1944,18 @@ public class DockManagerW extends DockManager {
 			return;
 		}
 
-		double height = app.getArticleElement().getDataParamHeight();
+		double height = app.getArticleElement().getDataParamHeight()
+				- app.getArticleElement().getBorderThickness();
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			height = Window.getClientHeight();
-		} else if (AppW.smallScreen()) {
-			height += app.getArticleElement().getDataParamMarginTop();
+			if (!AppW.smallScreen()) {
+				height -= app.getArticleElement().getDataParamMarginTop();
+			}
 		}
 
-		double ratio = 1 - (ToolbarPanel.CLOSED_HEIGHT_PORTRAIT / height);
-		setDividerLocation(split, ratio);
+		setDividerLocationAbs(split,
+				(int) height - ToolbarPanel.CLOSED_HEIGHT_PORTRAIT
+						- ToolbarPanel.VSHADOW_OFFSET);
 	}
 
 	private void calculateKeyboardHeight() {
