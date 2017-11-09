@@ -4313,7 +4313,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2170 */
 		case SLIDER_STYLE_OPTIONS:
-			return false;
+			return prerelease;
 
 		/** GGB-2187 */
 		case RELATIVE_POSITION_FURNITURE:

@@ -43,9 +43,6 @@ public class EuclidianStyleBarStatic {
 	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos,
 			boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
-
-		AbsoluteScreenLocateable geoASL;
-
 		App app = geos.get(0).getKernel().getApplication();
 
 		// workaround to make sure pin icon disappears
@@ -61,7 +58,6 @@ public class EuclidianStyleBarStatic {
 						"applyFixPosition() called with a geo with label not set: "
 								+ geo.getLabelSimple());
 				continue;
-
 			}
 
 			// put again labelled geo into selection
@@ -138,9 +134,6 @@ public class EuclidianStyleBarStatic {
 				Log.debug("not pinnable");
 				return null;
 			}
-
-			// app.addSelectedGeo(geo);
-
 		}
 
 		app.getSelectionManager().updateSelection();

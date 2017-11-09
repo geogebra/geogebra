@@ -155,6 +155,9 @@ public class MOWToolbar extends FlowPanel {
 				case PAGECONTROL:
 					openPageControlPanel();
 					break;
+				case DEFAULT:
+					//only close menus
+					break;
 				}
 			}
 		};

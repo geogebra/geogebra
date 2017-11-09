@@ -1007,11 +1007,6 @@ public class RadioTreeItem extends AVTreeItem
 			if (geo != null) {
 				LayoutUtilW.replace(content, canvas, latexItem);
 			}
-
-		}
-		if (success && typeChanged()) {
-			av.remove(geo);
-			av.add(geo);
 		}
 
 		if (!latex && !this.isInputTreeItem() && getPlainTextItem() != null
@@ -1026,7 +1021,7 @@ public class RadioTreeItem extends AVTreeItem
 
 	}
 
-	private boolean typeChanged() {
+	protected boolean typeChanged() {
 		return (isSliderItem() != SliderTreeItemRetex.match(geo))
 				|| (isCheckBoxItem() != CheckboxTreeItem.match(geo));
 	}
@@ -2240,6 +2235,10 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void doUpdate() {
+		if (typeChanged()) {
+			av.remove(geo);
+			av.add(geo);
+		}
 		if (mf != null) {
 			mf.setEnabled(false);
 		}

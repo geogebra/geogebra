@@ -197,6 +197,10 @@ public class SliderTreeItemRetex extends RadioTreeItem
 			// called from super constructor, ignore
 			return;
 		}
+		if (typeChanged()) {
+			av.remove(geo);
+			av.add(geo);
+		}
 		setNeedsUpdate(false);
 		marblePanel.update();
 		controls.updateAnimPanel();
