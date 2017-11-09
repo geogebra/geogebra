@@ -12,11 +12,19 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
+/**
+ * Touch handler for SMART plugiin to deal with specific mouse/touch events
+ *
+ */
 public class SmartTouchHandler implements TouchStartHandler, TouchEndHandler,
 		TouchMoveHandler {
 	private final EuclidianControllerW ec;
 	private Touch t1, t2;
 
+	/**
+	 * @param ec
+	 *            euclidian controller
+	 */
 	public SmartTouchHandler(EuclidianControllerW ec) {
 		this.ec = ec;
 	}

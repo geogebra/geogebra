@@ -14,7 +14,7 @@ import com.google.gwt.resources.client.ImageResource;
  *
  */
 public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
-
+	/** singleton instance */
 	ToolbarSvgResources INSTANCE = GWT.create(ToolbarSvgResources.class);
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_angle.svg")

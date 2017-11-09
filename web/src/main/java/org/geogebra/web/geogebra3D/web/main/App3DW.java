@@ -1,6 +1,5 @@
 package org.geogebra.web.geogebra3D.web.main;
 
-import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Kernel;
@@ -10,19 +9,12 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.EuclidianController3DWnoWebGL;
 import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.EuclidianView3DWnoWebGL;
-import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianControllerFor3DW;
-import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianViewFor3DW;
-import org.geogebra.web.geogebra3D.web.gui.GuiManager3DW;
 import org.geogebra.web.geogebra3D.web.input3D.EuclidianControllerInput3DW;
 import org.geogebra.web.geogebra3D.web.input3D.EuclidianViewInput3DW;
 import org.geogebra.web.geogebra3D.web.input3D.InputZSpace3DW;
 import org.geogebra.web.geogebra3D.web.input3D.ZSpaceGwt;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.main.GDevice;
 
 /**
  * @author mathieu
@@ -31,43 +23,6 @@ import org.geogebra.web.web.main.GDevice;
 public class App3DW {
 
 	static private boolean useZSpace = false;
-
-
-	/**
-	 * 
-	 * @param this_app
-	 * @return new Gui manager
-	 */
-	static final protected GuiManagerW newGuiManager(AppW this_app,
-	        GDevice device) {
-		return new GuiManager3DW(this_app, device);
-	}
-
-	/**
-	 * 
-	 * @param evPanel
-	 * @param ec
-	 * @param id
-	 * @param settings
-	 * @return new euclidian view
-	 */
-	static final public EuclidianViewW newEuclidianView(
-	        EuclidianPanelWAbstract evPanel, EuclidianController ec,
-			int id,
-	        EuclidianSettings settings) {
-		return new EuclidianViewFor3DW(evPanel, ec, id,
-		        settings);
-	}
-
-	/**
-	 * 
-	 * @param kernel
-	 * @return new euclidian controller
-	 */
-	static final public EuclidianController newEuclidianController(Kernel kernel) {
-		return new EuclidianControllerFor3DW(kernel);
-
-	}
 
 	/**
 	 * 
@@ -96,6 +51,8 @@ public class App3DW {
 	 * 
 	 * @param ec
 	 *            controller for 3D view
+	 * @param settings
+	 *            euclidian settings
 	 * @return new 3D view
 	 */
 	static final public EuclidianView3DW newEuclidianView3DW(

@@ -14,6 +14,8 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
+import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianControllerFor3DW;
+import org.geogebra.web.geogebra3D.web.euclidianFor3D.EuclidianViewFor3DW;
 import org.geogebra.web.geogebra3D.web.gui.GuiManager3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
@@ -26,6 +28,7 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
 
+/** 3D applet */
 public class AppWapplet3D extends AppWapplet {
 	private EuclidianView3DW euclidianView3D;
 	private EuclidianController3DW euclidianController3D;
@@ -71,7 +74,7 @@ public class AppWapplet3D extends AppWapplet {
 
 	@Override
 	protected GuiManagerW newGuiManager() {
-		return App3DW.newGuiManager(this, getDevice());
+		return new GuiManager3DW(this, device);
 	}
 
 
@@ -132,12 +135,12 @@ public class AppWapplet3D extends AppWapplet {
 	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
 			EuclidianController ec, boolean[] evShowAxes, boolean evShowGrid,
 	        int id, EuclidianSettings evSettings) {
-		return App3DW.newEuclidianView(evPanel, ec, id, evSettings);
+		return new EuclidianViewFor3DW(evPanel, ec, id, evSettings);
 	}
 
 	@Override
 	public EuclidianController newEuclidianController(Kernel kernel1) {
-		return App3DW.newEuclidianController(kernel1);
+		return new EuclidianControllerFor3DW(kernel);
 
 	}
 
