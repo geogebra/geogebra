@@ -1811,7 +1811,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (((AppD) app).getCurrentFile() != null) {
 			if (!((AppD) app).getCurrentFile().canWrite()
 					&& ((AppD) app).getCurrentFile().isHidden()) {
-				app.setCurrentFile(null);
+				app.resetCurrentFile();
 				((AppD) app).setCurrentPath(null);
 			}
 		}
@@ -1830,7 +1830,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		boolean success = ((AppD) app).saveGeoGebraFile(file);
 		if (success) {
-			app.setCurrentFile(file);
+			((AppD) app).setCurrentFile(file);
 		}
 		return success;
 	}

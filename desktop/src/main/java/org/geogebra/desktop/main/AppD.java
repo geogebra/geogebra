@@ -1375,13 +1375,12 @@ public class AppD extends App implements KeyEventDispatcher {
 		currentPath = file;
 	}
 
-	@Override
-	public void setCurrentFile(Object file) {
+	public void setCurrentFile(File file) {
 		if (currentFile == file) {
 			return;
 		}
 
-		currentFile = (File) file;
+		currentFile = file;
 		if (currentFile != null) {
 			currentPath = currentFile.getParentFile();
 			addToFileList(currentFile);
@@ -5412,5 +5411,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		return url;
 	}
 
+	@Override
+	public void resetCurrentFile() {
+		setCurrentFile(null);
+	}
 
 }

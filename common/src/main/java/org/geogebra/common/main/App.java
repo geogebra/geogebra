@@ -4638,20 +4638,20 @@ public abstract class App implements UpdateSelection {
 
 			kernel.initUndoInfo();
 			setSaved();
-			setCurrentFile(null);
+			resetCurrentFile();
 			// command list may have changed due to macros
 			updateCommandDictionary();
 
 			hideDockBarPopup();
 			return true;
 		} catch (Exception err) {
-			setCurrentFile(null);
+			resetCurrentFile();
 			err.printStackTrace();
 			return false;
 		}
 	}
 
-	abstract public void setCurrentFile(Object file);
+	abstract public void resetCurrentFile();
 
 	protected void hideDockBarPopup() {
 		// only used in desktop

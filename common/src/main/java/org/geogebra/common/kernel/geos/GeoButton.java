@@ -157,7 +157,7 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public double getRealWorldLocY() {
-		return startPoint == null ? 0 : startPoint.x;
+		return startPoint == null ? 0 : startPoint.y;
 	}
 
 	@Override

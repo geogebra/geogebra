@@ -384,7 +384,7 @@ public class AppDNoGui extends App {
 			return;
 		}
 		if (clearAll) {
-			setCurrentFile(null);
+			resetCurrentFile();
 		}
 
 		try {
@@ -689,7 +689,7 @@ public class AppDNoGui extends App {
 	}
 
 	@Override
-	public void setCurrentFile(Object file) {
+	public void resetCurrentFile() {
 		// TODO Auto-generated method stub
 
 	}
