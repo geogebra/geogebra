@@ -160,7 +160,7 @@ public class PerspectivesPopup {
 		// HorizontalPanel perspective = new HorizontalPanel();
 
 		// icon
-		rowPanel.add(new Image(ImgResourceHelper.safeURI(icon)));
+		rowPanel.add(new NoDragImage(ImgResourceHelper.safeURI(icon), 24));
 		// perspective label
 		Label label = new Label(app.getLocalization().getMenu(menuID));
 		label.addStyleName("perspectivesLabel");

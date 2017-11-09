@@ -127,59 +127,56 @@ public interface SvgPerspectiveResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/menu_icons/menu_view_whiteboard.svg")
 	SVGResource menu_icon_whiteboard();
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_algebra.png")
-	ImageResource menu_icon_algebra24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_algebra.svg")
+	SVGResource menu_icon_algebra24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/perspectives_geometry.png")
-	ImageResource menu_icon_geometry24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics.svg")
+	SVGResource menu_icon_geometry24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_cas.png")
-	ImageResource menu_icon_cas24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_cas.svg")
+	SVGResource menu_icon_cas24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_graphics.png")
-	ImageResource menu_icon_graphics24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics.svg")
+	SVGResource menu_icon_graphics24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_graphics2.png")
-	ImageResource menu_icon_graphics224();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics2.svg")
+	SVGResource menu_icon_graphics224();
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_graphics_extra.png")
-	ImageResource menu_icon_graphics_extra24();
-
-
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_spreadsheet.png")
-	ImageResource menu_icon_spreadsheet24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_graphics_extra.svg")
+	SVGResource menu_icon_graphics_extra24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/perspectives_algebra_3Dgraphics.png")
-	ImageResource menu_icon_graphics3D24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_spreadsheet.svg")
+	SVGResource menu_icon_spreadsheet24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_construction_protocol.png")
-	ImageResource menu_icon_construction_protocol24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/perspectives_algebra_3Dgraphics.svg")
+	SVGResource menu_icon_graphics3D24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_probability.png")
-	ImageResource menu_icon_probability24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_construction_protocol.svg")
+	SVGResource menu_icon_construction_protocol24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_whiteboard.png")
-	ImageResource menu_icon_whiteboard24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_probability.svg")
+	SVGResource menu_icon_probability24();
 
 
-	@Source("org/geogebra/common/icons/png/web/menu_icons24/menu_view_exam.png")
-	ImageResource menu_icon_exam24();
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_whiteboard.svg")
+	SVGResource menu_icon_whiteboard24();
+
+
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_exam.svg")
+	SVGResource menu_icon_exam24();
 
 	// StyleBar
 
 	@Source("org/geogebra/common/icons/png24x24/settings.png")
 	ImageResource settings();
-
-	@Source("org/geogebra/common/icons/png/web/menu_icons/back_right.png")
-	ImageResource back_right();
 
 	@Source("org/geogebra/common/menu_header/p32/menu_back.png")
 	ImageResource menu_header_back();
