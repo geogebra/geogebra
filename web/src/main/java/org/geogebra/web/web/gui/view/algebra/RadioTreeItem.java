@@ -2235,14 +2235,15 @@ public class RadioTreeItem extends AVTreeItem
 	}
 
 	protected void doUpdate() {
-		if (typeChanged()) {
-			av.remove(geo);
-			av.add(geo);
-		}
 		if (mf != null) {
 			mf.setEnabled(false);
 		}
 		setNeedsUpdate(false);
+		if (typeChanged()) {
+			av.remove(geo);
+			av.add(geo);
+			return;
+		}
 		if (hasMarblePanel()) {
 			marblePanel.update();
 		}
