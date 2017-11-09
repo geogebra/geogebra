@@ -293,7 +293,7 @@ public class SliderModel extends OptionsModel {
 	public void applyWidth(double value) {
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoNumeric num = getNumericAt(i);
-			num.setSliderWidth(value);
+			num.setSliderWidth(value, true);
 			num.updateRepaint();
 		}
 		storeUndoInfo();

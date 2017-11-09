@@ -951,12 +951,13 @@ public class GeoNumeric extends GeoElement
 	 * 
 	 * @param width
 	 *            slider width in pixels
+	 * @param fromUser
+	 *            whether this is triggered by user (and should override
+	 *            original width)
 	 */
-	public final void setSliderWidth(double width) {
-		if (width > 0 && !Double.isInfinite(width)) {
-			if (getOrigSliderWidth() == null) {
-				setOrigSliderWidth(width);
-			}
+	public final void setSliderWidth(double width, boolean fromUser) {
+		if (width > 0 && !Double.isInfinite(width) && fromUser) {
+			setOrigSliderWidth(width);
 		}
 		sliderWidth = width;
 	}
@@ -1748,7 +1749,7 @@ public class GeoNumeric extends GeoElement
 		num.setAutoStep(defaultAngleOrNum.isAutoStep());
 		num.setAbsoluteScreenLocActive(true);
 		num.setAnimationType(defaultNum.getAnimationType());
-		num.setSliderWidth(defaultAngleOrNum.getSliderWidth());
+		num.setSliderWidth(defaultAngleOrNum.getSliderWidth(), true);
 		num.setRandom(defaultNum.isRandom());
 		num.setLineThickness(DEFAULT_SLIDER_THICKNESS);
 		num.setDrawable(false, false);

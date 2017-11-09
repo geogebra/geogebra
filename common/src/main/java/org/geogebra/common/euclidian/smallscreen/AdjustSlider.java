@@ -99,7 +99,7 @@ public class AdjustSlider extends AdjustWidget {
 
 		if (width > view.getViewWidth() || width != origWidth) {
 			width = Math.round(origWidth * ratio);
-			number.setSliderWidth(width);
+			number.setSliderWidth(width, false);
 		}
 		number.setSliderLocation(x, y, true);
 	}

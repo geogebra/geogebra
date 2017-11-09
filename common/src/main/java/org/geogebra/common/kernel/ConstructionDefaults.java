@@ -577,7 +577,7 @@ public class ConstructionDefaults {
 		number.setLineThickness(
 				number.isSlider() ? GeoNumeric.DEFAULT_SLIDER_THICKNESS
 						: GeoNumeric.DEFAULT_THICKNESS);
-		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL);
+		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL, true);
 		number.setSliderBlobSize(GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 		number.setSliderFixed(true);
 		defaultGeoElements.put(DEFAULT_NUMBER, number);
@@ -606,7 +606,7 @@ public class ConstructionDefaults {
 		// can't do this here for sliders as it affects Angle[A,B,C] too
 		// see GeoNumeric.setSliderFromDefault()
 		// angle.setLineThickness(GeoNumeric.DEFAULT_THICKNESS);
-		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE);
+		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE, true);
 		angle.setLineTypeHidden(
 				EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
 		if (cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)

@@ -288,7 +288,8 @@ public class OptionsMenuD extends BaseMenu
 							slider.setLineThickness(
 									GeoNumeric.DEFAULT_SLIDER_THICKNESS);
 							slider.setSliderWidth(
-									GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL);
+									GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL,
+									true);
 							slider.setSliderBlobSize(
 									GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 							slider.setLineThickness(

@@ -4603,7 +4603,8 @@ public class MyXMLHandler implements DocHandler {
 				num.setSliderLocation(x, y, true);
 			}
 
-			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")));
+			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")),
+					true);
 			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
 			num.setShowExtendedAV(parseBoolean(attrs.get("showAlgebra")));
 

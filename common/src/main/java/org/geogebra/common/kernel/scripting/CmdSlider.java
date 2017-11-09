@@ -80,7 +80,7 @@ public class CmdSlider extends CommandProcessor {
 			slider.setAnimationSpeedObject((GeoNumberValue) arg[3]);
 		}
 		if (n > 4) {
-			slider.setSliderWidth(((GeoNumberValue) arg[4]).getDouble());
+			slider.setSliderWidth(((GeoNumberValue) arg[4]).getDouble(), true);
 		}
 		if (n > 6) {
 			slider.setSliderHorizontal(((BooleanValue) arg[6]).getBoolean());
