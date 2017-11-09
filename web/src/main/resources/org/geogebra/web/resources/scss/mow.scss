@@ -13,7 +13,7 @@
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
 	$floatingbtn-hover-transition: background-color 0.15s;
-	$floatingbtn-appear-transition: width 0.2s, height 0.2s, right 0.2s, margin-bottom 0.2s;
+	$floatingbtn-appear-transition: width 0.2s, height 0.2s, right 0.2s, margin-bottom 0.2s, visibility 0.2s;
 	$floatingbtn-img-appear-transition: width 0.2s, height 0.2s, padding 0.2s;
 	
 	.mowToolbar {
@@ -548,6 +548,7 @@
 		height: 0px !important;
 		right: 40px;
 		margin-bottom: 40px;
+		visibility: hidden;
 		transition: $floatingbtn-appear-transition;
 		
 		img {
@@ -563,6 +564,7 @@
    		height: 48px;
    		right: 16px;
 		margin-bottom: 16px;
+		visibility: visible;
 		transition: $floatingbtn-hover-transition, $floatingbtn-appear-transition, $mowsubmenu-transition;
 		
 		img {
@@ -674,11 +676,6 @@
 	}
 	.mowPagePreviewCard.selected {
 		box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
-	}
-	.mowCardContextMenu {
-		.gwt-MenuItem {
-			min-width: 100px !important;
-		}
 	}
 }
 
