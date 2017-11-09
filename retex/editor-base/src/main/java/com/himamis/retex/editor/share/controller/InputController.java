@@ -388,9 +388,23 @@ public class InputController {
 	 * @param meta
 	 *            character
 	 */
-	public static void newCharacter(EditorState editorState,
+	public void newCharacter(EditorState editorState,
 			MetaCharacter meta) {
+		MathComponent last = editorState.getCurrentField()
+				.getArgument(editorState.getCurrentOffset() - 1);
+
+		if (last instanceof MathCharacter) {
+			MetaCharacter merge = metaModel
+					.merge(((MathCharacter) last).toString(), meta);
+			if (merge != null) {
+				editorState.getCurrentField().setArgument(
+						editorState.getCurrentOffset() - 1,
+						new MathCharacter(merge));
+				return;
+			}
+		}
 		editorState.addArgument(new MathCharacter(meta));
+
 	}
 
 	/**
