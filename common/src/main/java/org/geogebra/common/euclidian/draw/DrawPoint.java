@@ -628,12 +628,6 @@ public final class DrawPoint extends Drawable {
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	/**
 	 * Draw a point with given size and style for preview.
 	 * 

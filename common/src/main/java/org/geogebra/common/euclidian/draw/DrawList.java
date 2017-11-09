@@ -282,12 +282,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public GeoElement getGeoElement() {
 		return geo;
 	}

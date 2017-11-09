@@ -152,12 +152,12 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public double getRealWorldLocX() {
-		return 0;
+		return startPoint == null ? 0 : startPoint.x;
 	}
 
 	@Override
 	public double getRealWorldLocY() {
-		return 0;
+		return startPoint == null ? 0 : startPoint.x;
 	}
 
 	@Override
@@ -334,11 +334,11 @@ public class GeoButton extends GeoElement
 					+ "\" />\n");
 		}
 		if (!isAbsoluteScreenLocActive()) {
-			sb.append("\t<relativeScreenLocation x=\"");
+			sb.append("\t<startPoint x=\"");
 			sb.append(startPoint.x);
 			sb.append("\" y=\"");
 			sb.append(startPoint.y);
-			sb.append("\"/>");
+			sb.append("\" z=\"1\"/>");
 		}
 	}
 
@@ -364,7 +364,7 @@ public class GeoButton extends GeoElement
 
 	@Override
 	public boolean isPinnable() {
-		return false;
+		return true;
 	}
 
 	/**

@@ -285,10 +285,4 @@ public class DrawLocus extends Drawable {
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -276,10 +276,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 			xLabel = view.toScreenCoordX(c.x);
 			yLabel = view.toScreenCoordY(c.y);
 		}
-		labelRectangle.setBounds(xLabel, yLabel,
-					getPreferredSize().getWidth(),
-					getPreferredSize().getHeight());
-
+		labelRectangle.setBounds(xLabel, yLabel, getPreferredSize().getWidth(),
+				getPreferredSize().getHeight());
 
 		getBox().setBounds(labelRectangle);
 	}
@@ -540,11 +538,4 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

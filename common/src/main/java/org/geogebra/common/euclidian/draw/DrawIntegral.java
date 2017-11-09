@@ -231,10 +231,4 @@ public class DrawIntegral extends Drawable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
 }

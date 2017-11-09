@@ -2057,18 +2057,6 @@ public class DrawConic extends Drawable implements Previewable {
 
 	}
 
-	/**
-	 * update bounding box construction
-	 */
-	@Override
-	public void updateBoundingBox() {
-		if (getBoundingBox().getRectangle() == null) {
-			if (geo.isShape() && getBounds() != null) {
-				boundingBox.setRectangle(getBounds());
-			}
-		}
-	}
-
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {

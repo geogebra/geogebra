@@ -349,12 +349,6 @@ public class DrawSlider extends Drawable {
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	// private void setPointSize(int pointSize) {
 	// if (this.pointSize != pointSize) {
 	// diameter = 2 * pointSize;

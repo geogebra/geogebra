@@ -34,24 +34,7 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 		if (getObjectAt(index) instanceof AbsoluteScreenLocateable) {
 
 			AbsoluteScreenLocateable geo = getAbsoluteScreenLocateable(index);
-			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-			if (value) {
-				// convert real world to screen coords
-				int x = ev.toScreenCoordX(geo.getRealWorldLocX());
-				int y = ev.toScreenCoordY(geo.getRealWorldLocY());
-				if (!geo.isAbsoluteScreenLocActive()) {
-					geo.setAbsoluteScreenLoc(x, y);
-				}
-			} else {
-				// convert screen coords to real world
-				double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
-				double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
-				if (geo.isAbsoluteScreenLocActive()) {
-					geo.setRealWorldLoc(x, y);
-				}
-			}
-			geo.setAbsoluteScreenLocActive(value);
-			geo.toGeoElement().updateRepaint();
+			setAbsolute(geo, value, app.getActiveEuclidianView());
 		} else if (getGeoAt(index).isPinnable()) {
 			ArrayList<GeoElement> al = new ArrayList<GeoElement>();
 			al.add(getGeoAt(index));
@@ -62,6 +45,28 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 					app.getActiveEuclidianView());
 		}
 		storeUndoInfo();
+	}
+
+	public static void setAbsolute(AbsoluteScreenLocateable geo,
+			boolean value, EuclidianViewInterfaceCommon ev) {
+		if (value) {
+			// convert real world to screen coords
+			int x = ev.toScreenCoordX(geo.getRealWorldLocX());
+			int y = ev.toScreenCoordY(geo.getRealWorldLocY());
+			if (!geo.isAbsoluteScreenLocActive()) {
+				geo.setAbsoluteScreenLoc(x, y);
+			}
+		} else {
+			// convert screen coords to real world
+			double x = ev.toRealWorldCoordX(geo.getAbsoluteScreenLocX());
+			double y = ev.toRealWorldCoordY(geo.getAbsoluteScreenLocY());
+			if (geo.isAbsoluteScreenLocActive()) {
+				geo.setRealWorldLoc(x, y);
+			}
+		}
+		geo.setAbsoluteScreenLocActive(value);
+		geo.updateRepaint();
+
 	}
 
 	@Override

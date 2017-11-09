@@ -494,18 +494,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		return super.getShape();
 	}
 
-	/**
-	 * update bounding box construction
-	 */
-	@Override
-	public void updateBoundingBox() {
-		if (getBoundingBox().getRectangle() == null) {
-			if (geo.isShape() && getBounds() != null) {
-				boundingBox.setRectangle(getBounds());
-			}
-		}
-	}
-
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {

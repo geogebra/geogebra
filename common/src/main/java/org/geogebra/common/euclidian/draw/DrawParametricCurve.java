@@ -468,10 +468,4 @@ public class DrawParametricCurve extends Drawable {
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

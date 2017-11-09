@@ -649,10 +649,4 @@ public class DrawConicPart extends Drawable implements Previewable {
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

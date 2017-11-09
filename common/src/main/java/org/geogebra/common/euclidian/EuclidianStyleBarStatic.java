@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.gui.dialog.options.model.AbsoluteScreenLocationModel;
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
@@ -98,26 +99,8 @@ public class EuclidianStyleBarStatic {
 
 			} else if (geo instanceof AbsoluteScreenLocateable
 					&& !geo.isGeoList()) {
-				geoASL = (AbsoluteScreenLocateable) geo;
-				if (flag) {
-					// convert real world to screen coords
-					int x = ev.toScreenCoordX(geoASL.getRealWorldLocX());
-					int y = ev.toScreenCoordY(geoASL.getRealWorldLocY());
-					if (!geoASL.isAbsoluteScreenLocActive()) {
-						geoASL.setAbsoluteScreenLoc(x, y);
-					}
-				} else {
-					// convert screen coords to real world
-					double x = ev
-							.toRealWorldCoordX(geoASL.getAbsoluteScreenLocX());
-					double y = ev
-							.toRealWorldCoordY(geoASL.getAbsoluteScreenLocY());
-					if (geoASL.isAbsoluteScreenLocActive()) {
-						geoASL.setRealWorldLoc(x, y);
-					}
-				}
-				geoASL.setAbsoluteScreenLocActive(flag);
-				geo.updateRepaint();
+				AbsoluteScreenLocationModel
+						.setAbsolute((AbsoluteScreenLocateable) geo, flag, ev);
 
 			} else if (geo.isPinnable()) {
 				Kernel kernelA = app.getKernel();

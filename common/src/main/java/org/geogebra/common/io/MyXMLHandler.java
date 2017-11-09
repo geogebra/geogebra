@@ -3864,11 +3864,6 @@ public class MyXMLHandler implements DocHandler {
 				 * should not be needed else if ("pathParameter".equals(eName))
 				 * { ok = handlePathParameter(attrs); break; }
 				 */
-			case 'r':
-				if ("relativeScreenLocation".equals(eName)) {
-					ok = handleAbsoluteScreenLocation(attrs, false);
-					break;
-				}
 			case 's':
 				if ("show".equals(eName)) {
 					ok = handleShow(attrs);
@@ -5152,6 +5147,9 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean handleStartPoint(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof Locateable)) {
+			if (geo instanceof GeoButton) {
+				return handleAbsoluteScreenLocation(attrs, false);
+			}
 			Log.error("wrong element type for <startPoint>: " + geo.getClass());
 			return false;
 		}

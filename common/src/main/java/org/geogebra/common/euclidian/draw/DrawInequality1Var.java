@@ -396,9 +396,4 @@ public class DrawInequality1Var extends Drawable {
 	public BoundingBox getBoundingBox() {
 		return null;
 	}
-
-	@Override
-	public void updateBoundingBox() {
-		// do nothing
-	}
 }

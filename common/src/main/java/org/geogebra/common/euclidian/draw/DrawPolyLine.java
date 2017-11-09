@@ -481,11 +481,4 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

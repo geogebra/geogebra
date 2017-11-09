@@ -1619,10 +1619,4 @@ public final class DrawDropDownList extends CanvasDrawable
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

@@ -411,10 +411,4 @@ public final class DrawImage extends Drawable {
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

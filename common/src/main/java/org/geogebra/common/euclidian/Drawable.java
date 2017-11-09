@@ -165,11 +165,6 @@ public abstract class Drawable extends DrawableND {
 	 */
 	public abstract BoundingBox getBoundingBox();
 
-	/**
-	 * update bounding box construction
-	 */
-	public abstract void updateBoundingBox();
-
 	@Override
 	public double getxLabel() {
 		return xLabel;

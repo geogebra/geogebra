@@ -18,7 +18,6 @@ import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.MyButton;
-import org.geogebra.common.euclidian.RemoveNeeded;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -30,7 +29,7 @@ import org.geogebra.common.main.App;
  * 
  * @author Markus Hohenwarter
  */
-public final class DrawButton extends Drawable implements RemoveNeeded {
+public final class DrawButton extends Drawable {
 
 	private GeoButton geoButton;
 
@@ -86,8 +85,7 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 			yLabel = view.toScreenCoordY(c.y);
 		}
 		labelRectangle.setBounds(xLabel, yLabel, myButton.getWidth(),
-					myButton.getHeight());
-
+				myButton.getHeight());
 
 		myButton.setBounds(labelRectangle);
 	}
@@ -99,14 +97,6 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 			myButton.paintComponent(g2, geoButton.getFontSizeMultiplier(),
 					true);
 		}
-	}
-
-	/**
-	 * Removes button from view again
-	 */
-	@Override
-	public void remove() {
-		// ((EuclidianView)view).remove(myButton);
 	}
 
 	/**
@@ -150,10 +140,4 @@ public final class DrawButton extends Drawable implements RemoveNeeded {
 	public BoundingBox getBoundingBox() {
 		return null;
 	}
-
-	@Override
-	public void updateBoundingBox() {
-		//
-	}
-
 }

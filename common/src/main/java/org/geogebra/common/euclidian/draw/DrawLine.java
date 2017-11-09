@@ -802,12 +802,6 @@ public class DrawLine extends Drawable implements Previewable {
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 	/**
 	 * @return whether this is visible
 	 */

@@ -612,31 +612,6 @@ public class DrawSegment extends Drawable implements Previewable {
 		isVisible = true;
 	}
 
-	/**
-	 * update bounding box construction
-	 */
-	@Override
-	public void updateBoundingBox() {
-		if (getBoundingBox().getRectangle() == null) {
-			if (geo.isShape() && getBounds() != null) {
-				boundingBox.setRectangle(getBounds());
-				// for segment only two handler
-				boundingBox.getHandlers().get(0).setFrameFromCenter(
-						line.getX1(),
-						line.getY1(), line.getX1() + 5, line.getY1() + 5);
-				boundingBox.getHandlers().get(1).setFrameFromCenter(
-						line.getX2(), line.getY2(), line.getX2() + 5,
-						line.getY2() + 5);
-				// handler for rotation
-				// boundingBox.getHandlers().get(2).setFrameFromCenter(
-				// (getBounds().getMinX() + getBounds().getMaxX()) / 2,
-				// getBounds().getMaxY() + 15,
-				// (getBounds().getMinX() + getBounds().getMaxX()) / 2 + 3,
-				// getBounds().getMaxY() + 15 + 3);
-			}
-		}
-	}
-
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {

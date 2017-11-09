@@ -431,12 +431,6 @@ public class DrawTurtle extends Drawable {
 		return null;
 	}
 
-	@Override
-	public void updateBoundingBox() {
-		// TODO Auto-generated method stub
-		
-	}
-
 	/**
 	 * Draw turtle shapes.
 	 * 
