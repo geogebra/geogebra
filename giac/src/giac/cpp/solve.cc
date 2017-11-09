@@ -6092,12 +6092,40 @@ namespace giac {
     if (convertapprox)
       eq=*exact(evalf(eq,1,contextptr),contextptr)._VECTptr;
     // check rational
-    for (it=var.begin();it!=itend;++it){
+    int varn=0;
+    for (it=var.begin();it!=itend;++it,++varn){
       if (it->type!=_IDNT) // should not occur!
 	return vecteur(1,gensizeerr(gettext("Bad var ")+it->print(contextptr)));
       vecteur l(rlvarx(eq,*it));
-      if (l.size()>1)
+      if (l.size()>1){
+	l=lvarx(eq,*it);
+	if (l.size()==1){
+	  // solve with respect to l[0] then extract *it
+	  gen newvar=l.front();
+	  gen tmpeq=subst(eq,newvar,*it,false,contextptr);
+	  if (tmpeq.type==_VECT){
+	    vecteur res0=gsolve(*tmpeq._VECTptr,var,complexmode,0,contextptr);
+	    // solve newvar=varn-th component of each solution in res
+	    vecteur res;
+	    int i=0;
+	    for (;i<int(res0.size());++i){
+	      gen cur=res0[i];
+	      if (cur.type!=_VECT || cur._VECTptr->size()<varn)
+		break;
+	      vecteur curv=*cur._VECTptr;
+	      gen val=curv[varn];
+	      vecteur resval=solve(newvar-val,*it,complexmode,contextptr);
+	      for (int j=0;j<int(resval.size());++j){
+		curv[varn]=resval[j];
+		res.push_back(curv);
+	      }
+	    }
+	    if (i==res0.size())
+	      return res;
+	  }
+	}
 	return vecteur(1,gensizeerr(gen(l).print(contextptr)+gettext(" is not rational w.r.t. ")+it->print(contextptr)));
+      }
     }
     int varsize=int(var.size());
 #if 1 // trying with rational univariate rep., assuming radical ideal of dim 0
