@@ -299,6 +299,19 @@ public class SliderModel extends OptionsModel {
 		storeUndoInfo();
 	}
 
+	public void applyTransparency(int value) {
+		for (int i = 0; i < getGeosLength(); i++) {
+			GeoNumeric num = getNumericAt(i);
+			GColor lineCol = num.getBackgroundColor() == null ? GColor.BLACK
+					: num.getBackgroundColor();
+			GColor colorWithTransparency = GColor.newColor(lineCol.getRed(),
+					lineCol.getGreen(), lineCol.getBlue(), value * 255 / 100);
+			num.setBackgroundColor(colorWithTransparency);
+			num.updateRepaint();
+		}
+		storeUndoInfo();
+	}
+
 	/**
 	 * @param value
 	 *            blob size in px

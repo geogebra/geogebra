@@ -179,7 +179,8 @@ public class DrawSlider extends Drawable {
 			// horizontal line
 			g2.setPaint(geo.getKernel().getApplication()
 					.has(Feature.SLIDER_STYLE_OPTIONS)
-							? geo.getBackgroundColor() == null ? GColor.BLACK
+							? geo.getBackgroundColor() == null
+									? geo.getSelColor()
 									: geo.getBackgroundColor()
 							: geo.getSelColor());
 			g2.setStroke(objStroke);

@@ -15,6 +15,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.Slider;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -48,6 +49,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private AutoCompleteTextFieldW tfWidth;
 	private AutoCompleteTextFieldW tfBlobSize;
 	private AutoCompleteTextFieldW tfLineThickness;
+	private Slider sliderTransparency;
+	private Label transpValueLabel;
+	private Label transparencyLabel;
 	private MyCJButton blobColorChooserBtn;
 	private Label blobColorLbl;
 	private MyCJButton lineColorChooserBtn;
@@ -199,6 +203,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
 			createBlobSizeTextField(app);
 			createBlobColorChooserBtn(app);
+			createTransparencySlider();
 			createLineColorChooserBtn(app);
 			createLineThicknessTextField(app);
 		}
@@ -211,6 +216,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		blobColorLbl = new Label();
 		lineColorLbl = new Label();
 		lineThicknessLabel = new Label();
+		transparencyLabel = new Label();
 		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
 			maxLabel.setStyleName("coloredLabel");
 			minLabel.setStyleName("coloredLabel");
@@ -258,6 +264,12 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			lineThicknessPanel.add(lineThicknessLabel);
 			lineThicknessPanel.add(tfLineThickness);
 			sliderPanel.add(lineThicknessPanel);
+			FlowPanel transparencySliderPanel = new FlowPanel();
+			transparencySliderPanel.setStyleName("panelRow");
+			transparencySliderPanel.add(transparencyLabel);
+			transparencySliderPanel.add(sliderTransparency);
+			transparencySliderPanel.add(transpValueLabel);
+			sliderPanel.add(transparencySliderPanel);
 		}
 
 		// add increment to intervalPanel
@@ -275,6 +287,25 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	@Override
 	public SliderModel getModel() {
 		return model;
+	}
+
+	private void createTransparencySlider() {
+		sliderTransparency = new Slider(0, 100);
+		sliderTransparency.setMajorTickSpacing(25);
+		sliderTransparency.setMinorTickSpacing(5);
+		sliderTransparency.setValue(40);
+		transpValueLabel = new Label();
+		transpValueLabel
+				.setText(sliderTransparency.getValue().toString() + "%");
+		sliderTransparency.addChangeHandler(new ChangeHandler() {
+			
+			public void onChange(ChangeEvent event) {
+				int sliderValue = getSliderTransparency().getValue();
+				getTranspValueLabel()
+						.setText(String.valueOf(sliderValue) + "%");
+				applyTransparency();
+			}
+		});
 	}
 
 	private void createLineThicknessTextField(AppW app) {
@@ -402,10 +433,15 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	 */
 	public void updateBlobOrLineColorButton(GColor color, boolean isBlob) {
 		ImageOrText content = new ImageOrText();
-		content.setBgColor(color == null ? GColor.BLACK : color);
 		if (isBlob) {
+			content.setBgColor(color == null ? GColor.BLACK : color);
 			blobColorChooserBtn.setIcon(content);
 		} else {
+			GColor lineCol = color == null ? GColor.BLACK : color;
+			GColor colorWithTransparency = GColor.newColor(lineCol.getRed(),
+					lineCol.getGreen(), lineCol.getBlue(),
+					getSliderTransparency().getValue() * 255 / 100);
+			content.setBgColor(colorWithTransparency);
 			lineColorChooserBtn.setIcon(content);
 		}
 	}
@@ -459,6 +495,14 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	 */
 	protected void applyWidth() {
 		model.applyWidth(getNumberFromInput(tfWidth.getText().trim()).getDouble());
+	}
+
+	/**
+	 * apply width of slider (line length)
+	 */
+	protected void applyTransparency() {
+		model.applyTransparency(sliderTransparency.getValue());
+		model.updateProperties();
 	}
 
 	/**
@@ -529,6 +573,20 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		return cbRandom;
 	}
 
+	/**
+	 * @return label of transparency value
+	 */
+	public Label getTranspValueLabel() {
+		return transpValueLabel;
+	}
+
+	/**
+	 * @return slider for transparency
+	 */
+	public Slider getSliderTransparency() {
+		return sliderTransparency;
+	}
+
 	@Override
 	public void setLabels() {
 		cbSliderFixed.setText(loc.getMenu("fixed"));
@@ -548,7 +606,12 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 				? loc.getMenu("Blob Size") : loc.getMenu("Blob Size") + ":");
 		blobColorLbl.setText(loc.getMenu("Blob Color") + ":");
 		lineColorLbl.setText(loc.getMenu("Lines Color") + ":");
-		lineThicknessLabel.setText(loc.getMenu("Thickness") + ":");
+		lineThicknessLabel
+				.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
+						? loc.getMenu("Thickness")
+						: loc.getMenu("Thickness") + ":");
+		transparencyLabel
+				.setText(loc.getMenu("Line Transparency") + ":");
 		model.setLabelForWidthUnit();
 		stepPanel.setLabels();
 		speedPanel.setLabels();
