@@ -5,12 +5,11 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.pagecontrolpanel.PageControlPanel;
@@ -21,7 +20,6 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
-import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -39,29 +37,60 @@ public class MOWToolbar extends FlowPanel {
 	 * application
 	 */
 	AppW app;
-	private MyToggleButton closeButton;
-	private MyToggleButton penButton;
-	private MyToggleButton toolsButton;
-	private MyToggleButton mediaButton;
+	/**
+	 * opens/closes toolbar
+	 */
+	protected MyToggleButton closeButton;
+	/**
+	 * opens pen submenu
+	 */
+	protected MyToggleButton penButton;
+	/**
+	 * opens tool submenu
+	 */
+	protected MyToggleButton toolsButton;
+	/**
+	 * opens media submenu
+	 */
+	protected MyToggleButton mediaButton;
 	private FlowPanel middlePanel;
 	private FlowPanel rightPanel;
 	private SubMenuPanel currentMenu = null;
-	private SubMenuPanel penMenu;
-	private SubMenuPanel toolsMenu;
-	private SubMenuPanel mediaMenu;
+	/**
+	 * pen submenu
+	 */
+	protected SubMenuPanel penMenu;
+	/**
+	 * tools submenu
+	 */
+	protected SubMenuPanel toolsMenu;
+	/**
+	 * media submenu
+	 */
+	protected SubMenuPanel mediaMenu;
 	private FlowPanel subMenuPanel;
 	private boolean isSubmenuOpen;
 	private int currentMode = -1;
 	/**
 	 * panel containing undo and redo
 	 */
-	PersistablePanel undoRedoPanel;
-	private MyToggleButton btnUndo;
-	private MyToggleButton btnRedo;
-	private StandardButton pageControlButton;
+	private PersistablePanel undoRedoPanel;
+	/**
+	 * undo button
+	 */
+	protected MyToggleButton btnUndo;
+	/**
+	 * redo button
+	 */
+	protected MyToggleButton btnRedo;
+	private MyToggleButton pageControlButton;
 	private PageControlPanel pageControlPanel;
 	private final static int MAX_TOOLBAR_WIDTH = 600;
 	private final static int FLOATING_BTNS_WIDTH = 80;
+
+	private enum ButtonType {
+		UNDO, REDO, CLOSE, PEN, TOOLS, MEDIA, PAGECONTROL, DEFAULT
+	}
 	/**
 	 *
 	 * @param app
@@ -87,181 +116,128 @@ public class MOWToolbar extends FlowPanel {
 		if (app.has(Feature.MOW_MULTI_PAGE)) {
 			createPageControlButton();
 		}
+		createSubmenus();
 		add(LayoutUtilW.panelRow(middlePanel, rightPanel));
-
-		subMenuPanel = new FlowPanel();
-		subMenuPanel.addStyleName("mowSubmenuScrollPanel");
-		subMenuPanel.add(penMenu);
-		subMenuPanel.add(toolsMenu);
-		subMenuPanel.add(mediaMenu);
-		add(subMenuPanel);
 		addStyleName("mowToolbar");
 
 		ClickStartHandler.initDefaults(this, true, false);
+		ClickStartHandler.init(this, getClickStartHandler(ButtonType.DEFAULT));
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(ResizeEvent event) {
 				updateToolbarPosition();
 			}
 		});
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+	}
+
+	private void createSubmenus() {
+		subMenuPanel = new FlowPanel();
+		subMenuPanel.addStyleName("mowSubmenuScrollPanel");
+		penMenu = new PenSubMenu(app);
+		toolsMenu = new ToolsSubMenu(app);
+		mediaMenu = new MediaSubMenu(app);
+		subMenuPanel.add(penMenu);
+		subMenuPanel.add(toolsMenu);
+		subMenuPanel.add(mediaMenu);
+		add(subMenuPanel);
+	}
+
+	private static ImageResourcePrototype getIcon(SVGResource resource) {
+		return new ImageResourcePrototype(null,
+				resource.getSafeUri(),
+		0, 0, 24, 24, false, false);
+	}
+	
+	private ClickStartHandler getClickStartHandler(final ButtonType b) {
+		ClickStartHandler handler = new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				closeFloatingMenus();
+				if (b != ButtonType.PAGECONTROL) {
+					closeFloatingMenus();
+				}
+				switch (b) {
+				case UNDO:
+					app.getGuiManager().undo();
+					break;
+				case REDO:
+					app.getGuiManager().redo();
+					break;
+				case CLOSE:
+					toggleSubmenu();
+					break;
+				case PEN:
+					setMenu(penButton, penMenu);
+					break;
+				case TOOLS:
+					setMenu(toolsButton, toolsMenu);
+					break;
+				case MEDIA:
+					setMenu(mediaButton, mediaMenu);
+					break;
+				case PAGECONTROL:
+					openPageControlPanel();
+					break;
+				}
 			}
-		});
+		};
+		return handler;
+	}
+
+	private MyToggleButton createButton(SVGResource resource, ButtonType type,
+			String tooltip, FlowPanel parent) {
+		MyToggleButton button = new MyToggleButton(new Image(getIcon(resource)),
+				app);
+		ClickStartHandler.init(button, getClickStartHandler(type));
+		button.setTitle(app.getLocalization().getMenu(tooltip));
+		if (parent != null) {
+			parent.add(button);
+		}
+		return button;
 	}
 
 	private void createUndoRedoButtons() {
 		undoRedoPanel = new PersistablePanel();
 		undoRedoPanel.addStyleName("undoRedoPanel");
 		undoRedoPanel.addStyleName("undoRedoPositionMow");
-		addUndoButton(undoRedoPanel);
-		addRedoButton(undoRedoPanel);
-	}
 
-	/**
-	 * get the undo/redo panel
-	 * 
-	 * @return undo/redo panel
-	 */
-	public PersistablePanel getUndoRedoButtons() {
-		return undoRedoPanel;
-	}
-
-	private void addUndoButton(final FlowPanel panel) {
-		btnUndo = new MyToggleButton(
-				new Image(new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.undo_border()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)),
-				app);
-		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
+		btnUndo = createButton(MaterialDesignResources.INSTANCE.undo_border(),
+				ButtonType.UNDO, "Undo", undoRedoPanel);
 		btnUndo.addStyleName("flatButton");
 
-		ClickStartHandler.init(btnUndo, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				closeFloatingMenus();
-				app.getGuiManager().undo();
-			}
-		});
-		panel.add(btnUndo);
-	}
-
-	private void addRedoButton(final FlowPanel panel) {
-		btnRedo = new MyToggleButton(
-				new Image(new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.redo_border()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)),
-				app);
-		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
+		btnRedo = createButton(MaterialDesignResources.INSTANCE.redo_border(),
+				ButtonType.REDO, "Redo", undoRedoPanel);
 		btnRedo.addStyleName("flatButton");
 		btnRedo.addStyleName("buttonActive");
-
-		ClickStartHandler.init(btnRedo, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				closeFloatingMenus();
-				app.getGuiManager().redo();
-			}
-		});
-		panel.add(btnRedo);
-	}
-
-	/**
-	 * Closes burger menu and page control panel
-	 */
-	protected void closeFloatingMenus() {
-		if (app.isMenuShowing()) {
-			app.toggleMenu();
-		}
-		if (app.has(Feature.MOW_MULTI_PAGE) && pageControlPanel != null) {
-			pageControlPanel.close();
-		}
-	}
-	/**
-	 * update style of undo+redo buttons
-	 */
-	public void updateUndoRedoActions() {
-		if (app.getKernel().undoPossible()) {
-			btnUndo.addStyleName("buttonActive");
-			btnUndo.removeStyleName("buttonInactive");
-		} else {
-			btnUndo.removeStyleName("buttonActive");
-			btnUndo.addStyleName("buttonInactive");
-		}
-
-		if (app.getKernel().redoPossible()) {
-			btnRedo.removeStyleName("hideButton");
-		} else {
-			btnRedo.addStyleName("hideButton");
-		}
 	}
 
 	private void createToolbarButtons() {
-		penMenu = new PenSubMenu(app);
-		penButton = createButton(
-				MaterialDesignResources.INSTANCE.mow_pen_panel().getSafeUri(),
-				penMenu);
-
-		toolsMenu = new ToolsSubMenu(app);
-		toolsButton = createButton(
-				MaterialDesignResources.INSTANCE.mow_tools_panel().getSafeUri(),
-				toolsMenu);
-
-		mediaMenu = new MediaSubMenu(app);
-		mediaButton = createButton(
-				MaterialDesignResources.INSTANCE.mow_media_panel().getSafeUri(),
-				mediaMenu);
-
 		middlePanel.addStyleName("indicatorLeft");
 		middlePanel.getElement()
 				.setInnerHTML(middlePanel.getElement().getInnerHTML()
 						+ "<div class=\"indicator\"></div>");
-		middlePanel.add(penButton);
-		middlePanel.add(toolsButton);
-		middlePanel.add(mediaButton);
+
+		penButton = createButton(
+				MaterialDesignResources.INSTANCE.mow_pen_panel(),
+				ButtonType.PEN, "Pen", middlePanel);
+
+		toolsButton = createButton(
+				MaterialDesignResources.INSTANCE.mow_tools_panel(),
+				ButtonType.TOOLS, "Tools", middlePanel);
+
+		mediaButton = createButton(
+				MaterialDesignResources.INSTANCE.mow_media_panel(),
+				ButtonType.MEDIA, "ToolCategory.Media", middlePanel);
 
 		closeButton = createButton(MaterialDesignResources.INSTANCE
-				.toolbar_close_portrait_black().getSafeUri(), null);
-		rightPanel.add(closeButton);
-	}
-
-	private MyToggleButton createButton(SafeUri iconUri,
-			final SubMenuPanel submenu) {
-		final MyToggleButton button = new MyToggleButton(
-				new Image(
-				new ImageResourcePrototype(null,
-						iconUri,
-						0, 0, 24, 24, false, false)),
-				app);
-		ClickStartHandler.init(button, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				closeFloatingMenus();
-				setMenu(button, submenu);
-			}
-		});
-		return button;
+				.toolbar_close_portrait_black(), ButtonType.CLOSE, "Open",
+				rightPanel);
 	}
 
 	private void createPageControlButton() {
-		pageControlButton = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.mow_page_control()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
+		pageControlButton = createButton(
+				MaterialDesignResources.INSTANCE.mow_page_control(),
+				ButtonType.PAGECONTROL, "PageControl", null);
 		pageControlButton.setStyleName("mowFloatingButton");
-		pageControlButton.addFastClickHandler(new FastClickHandler() {
-			public void onClick(Widget source) {
-				// TODO open Page Control Panel
-				openPageControlPanel();
-				// TODO show floating + button
-			}
-		});
 		showPageControlButton();
 	}
 
@@ -304,8 +280,20 @@ public class MOWToolbar extends FlowPanel {
 	/**
 	 * @return pageControlButton
 	 */
-	public StandardButton getPageControlButton() {
+	public MyToggleButton getPageControlButton() {
 		return pageControlButton;
+	}
+
+	/**
+	 * Closes burger menu and page control panel
+	 */
+	protected void closeFloatingMenus() {
+		if (app.isMenuShowing()) {
+			app.toggleMenu();
+		}
+		if (app.has(Feature.MOW_MULTI_PAGE) && pageControlPanel != null) {
+			pageControlPanel.close();
+		}
 	}
 
 	/**
@@ -317,21 +305,45 @@ public class MOWToolbar extends FlowPanel {
 	 *            submenu associated with the button
 	 */
 	protected void setMenu(MyToggleButton button, SubMenuPanel submenu) {
-		if (submenu == null) {
-			toggleSubmenu();
-		} else {
 			setCurrentMenu(submenu);
 			selectButton(button);
-		}
 	}
 
 	/**
 	 * set submenu open/closed
 	 */
-	private void toggleSubmenu() {
+	protected void toggleSubmenu() {
 		setSubmenuVisible(!subMenuPanel.isVisible());
 	}
 	
+	/**
+	 * get the undo/redo panel
+	 * 
+	 * @return undo/redo panel
+	 */
+	public PersistablePanel getUndoRedoButtons() {
+		return undoRedoPanel;
+	}
+
+	/**
+	 * update style of undo+redo buttons
+	 */
+	public void updateUndoRedoActions() {
+		if (app.getKernel().undoPossible()) {
+			btnUndo.addStyleName("buttonActive");
+			btnUndo.removeStyleName("buttonInactive");
+		} else {
+			btnUndo.removeStyleName("buttonActive");
+			btnUndo.addStyleName("buttonInactive");
+		}
+
+		if (app.getKernel().redoPossible()) {
+			btnRedo.removeStyleName("hideButton");
+		} else {
+			btnRedo.addStyleName("hideButton");
+		}
+	}
+
 	/**
 	 * selects a tab and sets the indicator
 	 * 
@@ -364,20 +376,18 @@ public class MOWToolbar extends FlowPanel {
 	 * 
 	 */
 	public void toggleCloseButton(boolean toggle) {
-		Image upFace = new Image(new ImageResourcePrototype(
-				null, MaterialDesignResources.INSTANCE
-						.toolbar_open_portrait_black().getSafeUri(),
-				0, 0, 24, 24, false, false));
+		Image upFace = new Image(getIcon(MaterialDesignResources.INSTANCE
+				.toolbar_open_portrait_black()));
 		upFace.getElement().setAttribute("draggable", "false");
-		Image downFace = new Image(new ImageResourcePrototype(
-				null, MaterialDesignResources.INSTANCE
-						.toolbar_close_portrait_black().getSafeUri(),
-				0, 0, 24, 24, false, false));
+		Image downFace = new Image(getIcon(MaterialDesignResources.INSTANCE
+				.toolbar_close_portrait_black()));
 		downFace.getElement().setAttribute("draggable", "false");
 		if (toggle) {
 			closeButton.getUpFace().setImage(downFace);
+			closeButton.setTitle(app.getLocalization().getMenu("Close"));
 		} else {
 			closeButton.getUpFace().setImage(upFace);
+			closeButton.setTitle(app.getLocalization().getMenu("Open"));
 		}
 	}
 
