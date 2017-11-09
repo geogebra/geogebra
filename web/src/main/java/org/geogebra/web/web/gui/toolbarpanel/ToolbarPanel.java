@@ -90,7 +90,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 	};
 
-	private ToolbarTab selectedTab;
 	/**
 	 * Selects MODE_MOVE as mode and changes visual settings accordingly of
 	 * this.
@@ -171,16 +170,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				removeStyleName("fade");
 			}
 		}
-
-		/**
-		 * Gives the focus to the first element on tab.
-		 */
-		public abstract void focusFirstElement();
-
-		/**
-		 * Gives the focus to the last element on tab.
-		 */
-		public abstract void focusLastElement();
 	}
 
 	/**
@@ -491,7 +480,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		moveBtn.removeStyleName("hideMoveBtn");
 
 		if (app.has(Feature.TAB_ON_GUI)) {
-			moveBtn.setTabIndex(GUITabs.TOOLS_MOVE);
+			moveBtn.setTabIndex(GUITabs.NO_TAB);
 		}
 	}
 
@@ -632,7 +621,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void openAlgebra(boolean fade) {
 		header.selectAlgebra();
-		selectedTab = tabAlgebra;
 		open();
 		main.addStyleName("algebra");
 		main.removeStyleName("tools");
@@ -656,7 +644,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		}
 		ToolTipManagerW.hideAllToolTips();
 		header.selectTools();
-		selectedTab = tabTools;
 		open();
 		main.removeStyleName("algebra");
 		main.addStyleName("tools");
@@ -891,20 +878,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public void setTabIndexes() {
 		header.setTabIndexes();
-	}
-
-	/** Focus the first element of toolbar under header */
-	public void focusFirstElement() {
-		if (isClosed()) {
-			header.focusMenu();
-		} else {
-			selectedTab.focusFirstElement();
-		}
-	}
-
-	/** Focus the last element of toolbar under header */
-	public void focusLastElement() {
-		selectedTab.focusLastElement();
 	}
 
 	/**

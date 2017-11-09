@@ -5,7 +5,6 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLeve
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -17,7 +16,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * tab of tools
  */
-class ToolsTab extends ToolbarPanel.ToolbarTab implements TabHandler {
+class ToolsTab extends ToolbarPanel.ToolbarTab {
 
 	/**
 	 * 
@@ -87,11 +86,6 @@ class ToolsTab extends ToolbarPanel.ToolbarTab implements TabHandler {
 				onLessPressed();
 			}
 		});
-
-		if (app.has(Feature.TAB_ON_GUI)) {
-			moreBtn.addTabHandler(this);
-			lessBtn.addTabHandler(this);
-		}
 	}
 
 	/** More button handler */
@@ -226,26 +220,6 @@ class ToolsTab extends ToolbarPanel.ToolbarTab implements TabHandler {
 			w = 420;
 		}
 		ToolTipManagerW.sharedInstance().setTooltipWidthOnResize(w);
-	}
-
-	@Override
-	public void focusFirstElement() {
-		toolsPanel.focusFirst();
-	}
-
-	@Override
-	public void focusLastElement() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public boolean onTab(Widget source, boolean shiftDown) {
-		app.closePopups();
-		if (source == moreBtn || source == lessBtn) {
-			app.getAccessibilityManager().focusNext(toolbarPanel);
-			return true;
-		}
-		return false;
 	}
 
 	/**

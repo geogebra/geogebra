@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
@@ -9,7 +8,6 @@ import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 
 import com.google.gwt.user.client.ui.FocusWidget;
 
@@ -39,65 +37,48 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void focusNext(Object source) {
 		if (source instanceof ZoomPanel) {
-			focusToobarFirstElement();
-		} else if (source instanceof ToolbarPanel) {
-			focusMenu();
+			focusFirstGeo();
 		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
-			focusNextAfterGeos();
+			focusMenu();
 		}
 	}
 	
 	@Override
 	public void focusPrevious(Object source) {
 		if (source instanceof ZoomPanel) {
-			focusLastGeo();
-		} else if (source instanceof EuclidianView) {
-			setTabOverGeos(true);
-		} else if (source instanceof FocusWidget) {
-			focusPreviousWidget((FocusWidget) source);
-		} else if (source instanceof GeoElement) {
-			focusPreviousBeforeGeos();
-		}
+			focusSettings();
+		} 
 	}
 	
 
 	private void focusNextWidget(FocusWidget source) {
 		switch (source.getTabIndex()) {
-		case GUITabs.EV_SETTINGS:
-			if (!app.getKernel().getConstruction().isEmpty()) {
-				focusFirstGeo();
-			} else {
-				focusNextAfterGeos();
-			}
+		case GUITabs.SETTINGS:
+			focusZoom();
 			break;
-		case GUITabs.AV_PLUS:
-		case GUITabs.TOOLS_MOVE:
-			focusMenu();
+		case GUITabs.AV_INPUT:
+			focusFirstGeo();
 			break;
 		case GUITabs.MENU:
 			break;
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void focusPreviousWidget(FocusWidget source) {
-		if (source.getTabIndex() == GUITabs.AV_PLUS) {
-			EuclidianDockPanelW dp = (EuclidianDockPanelW) gm.getLayout()
-					.getDockManager().getPanel(App.VIEW_EUCLIDIAN);
-			dp.focusLastZoomButton();
-			setTabOverGeos(true);
-		}
+		// TODO: does this needed?
 	}
 
-	private void focusNextAfterGeos() {
+	private void focusZoom() {
 
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) gm.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		dp.focusNextGUIElement();
 		setTabOverGeos(false);
 	}
 
-	private void focusPreviousBeforeGeos() {
+	private void focusSettings() {
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) gm.getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		dp.focusLastGUIElement();
@@ -114,6 +95,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
+	@SuppressWarnings("unused")
 	private boolean focusLastGeo() {
 		GeoElement geo = app.getKernel().getConstruction().getGeoSetLabelOrder()
 				.last();
@@ -160,12 +142,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return true;
 		}
 		return false;
-	}
-
-	private void focusToobarFirstElement() {
-		if (gm.getToolbarPanelV2() != null) {
-			gm.getToolbarPanelV2().focusFirstElement();
-		}
 	}
 
 	public void focusGeo(GeoElement geo) {

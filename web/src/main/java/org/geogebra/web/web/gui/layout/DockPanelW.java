@@ -573,7 +573,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			graphicsContextMenuBtn.addStyleName("graphicsContextMenuBtn");
 			titleBarPanelContent.add(graphicsContextMenuBtn);
 			if (app.has(Feature.TAB_ON_GUI)) {
-				graphicsContextMenuBtn.setTabIndex(GUITabs.EV_SETTINGS);
+				graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
 				graphicsContextMenuBtn.addTabHandler(this);
 			}
 			return;

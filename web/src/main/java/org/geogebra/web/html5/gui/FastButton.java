@@ -309,4 +309,12 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 	public void ignoreTab() {
 		acc.ignoreTab();
 	}
+
+	@Override
+	protected void onAttach() {
+		super.onAttach();
+		if (acc != null) {
+			acc.correctTabIndex();
+		}
+	}
 }

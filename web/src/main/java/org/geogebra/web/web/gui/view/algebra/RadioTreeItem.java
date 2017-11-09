@@ -63,6 +63,7 @@ import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
+import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.web.gui.util.Resizer;
@@ -2321,6 +2322,7 @@ public class RadioTreeItem extends AVTreeItem
 		getWidget().addStyleName("latexEditor");
 		content.addStyleName("noPreview");
 		renderLatex("", false);
+		content.getElement().setTabIndex(GUITabs.AV_INPUT);
 		return this;
 	}
 

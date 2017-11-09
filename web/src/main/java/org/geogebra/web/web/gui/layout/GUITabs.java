@@ -9,24 +9,33 @@ public class GUITabs {
 	/** It means that widget is not tab-able */
 	public static final int NO_TAB = -1;
 
-	/** Start tab index of header buttons */
-	public static final int MENU = 1000;
+	/** Tab index of the AV input row */
+	public static final int AV_INPUT = 1000;
 
-	/** Start tab index of EV buttons (Settings) */
-	public static final int EV_SETTINGS = 2000;
+	// Here comes the AV Cells.
 
-	/** Start tab index of zoom buttons */
-	public static final int ZOOMPANEL = 3000;
+	/** Tab index of header buttons */
+	public static final int MENU = 4000;
 
-	/** Tab index of floating move button in Tools tab. */
-	public static final int TOOLS_MOVE = 4900;
+	/** Tab index of header close button */
+	public static final int HEADER_CLOSE = 4001;
 
-	/** Tab index of the + button in AV Input. */
-	public static final int AV_PLUS = 5500;
+	/** Tab index of undo button */
+	public static final int UNDO = 4002;
+
+	/** Tab index of redo button */
+	public static final int REDO = 4003;
+
+	/** Tab index of settings button */
+	public static final int SETTINGS = 4004;
+
+	/** Tab index of zoom panel */
+	public static final int ZOOM = 4005;
+
+	// Then back to first element of AV.
 
 	/**
-	 * AV Tree tab index (for keyboard events only, no tab key should go there).
+	 * AV Tree tab index (for keyboard events only, no tab key should go there.
 	 */
 	public static final int AV_TREE = 6000;
-
 }

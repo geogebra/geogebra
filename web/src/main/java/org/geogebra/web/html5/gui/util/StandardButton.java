@@ -175,4 +175,5 @@ public class StandardButton extends FastButton {
 		getElement().setAttribute("aria-label", altText);
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
+
 }

@@ -129,15 +129,4 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			setVerticalScrollPosition(pos);
 		}
 	}
-
-	@Override
-	public void focusFirstElement() {
-		aview.focusFirst();
-	}
-
-	@Override
-	public void focusLastElement() {
-		aview.getInputTreeItem().getElement().focus();
-	}
-
 }

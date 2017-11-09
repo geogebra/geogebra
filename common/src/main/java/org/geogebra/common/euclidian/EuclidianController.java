@@ -6730,6 +6730,10 @@ public abstract class EuclidianController {
 							app.updateSelection(false);
 						}
 					} else if (hit.isGeoBoolean()) {
+						if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
+								&& mode == EuclidianConstants.MODE_SELECT) {
+							return false;
+						}
 						GeoBoolean bool = (GeoBoolean) (hits.get(0));
 						if (!isCheckboxFixed(bool)) { // otherwise changed on
 							// mouse
@@ -6766,6 +6770,10 @@ public abstract class EuclidianController {
 	}
 
 	protected void hitCheckBox(GeoBoolean bool) {
+		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)
+				&& mode == EuclidianConstants.MODE_SELECT) {
+			return;
+		}
 		bool.setValue(!bool.getBoolean());
 		this.checkboxChangeOccured = true;
 		this.checkBoxOrButtonJustHitted = true;

@@ -1,8 +1,5 @@
 package org.geogebra.web.web.gui.toolbarpanel;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
@@ -74,7 +71,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
-	private List<ToggleButton> buttons = null;
 	private class PersistableToggleButton extends ToggleButton
 			implements Persistable {
 
@@ -116,8 +112,6 @@ class Header extends FlowPanel implements KeyDownHandler {
 		}
 		setLabels();
 		ClickStartHandler.initDefaults(this, true, true);
-		buttons = Arrays.asList(btnMenu, btnAlgebra, btnTools, btnClose,
-				btnUndo, btnRedo);
 		setTabIndexes();
 		lastOrientation = app.isPortrait();
 	}
@@ -152,8 +146,10 @@ class Header extends FlowPanel implements KeyDownHandler {
 		}
 
 		if (app.has(Feature.TAB_ON_GUI)) {
-			btnAlgebra.addKeyDownHandler(this);
+			btnAlgebra.ignoreTab();
+			btnTools.ignoreTab();
 		}
+
 		center = new FlowPanel();
 		center.addStyleName("center");
 		center.addStyleName("indicatorLeft");
@@ -801,13 +797,16 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
-		int tabIndex = GUITabs.MENU;
-		for (ToggleButton btn : buttons) {
-			if (btn != null) {
-				btn.setTabIndex(tabIndex);
-				tabIndex++;
-			}
+		btnMenu.setTabIndex(GUITabs.MENU);
+		btnClose.setTabIndex(GUITabs.HEADER_CLOSE);
+		if (btnUndo != null) {
+			btnUndo.setTabIndex(GUITabs.UNDO);
 		}
+
+		if (btnRedo != null) {
+			btnRedo.setTabIndex(GUITabs.REDO);
+		}
+
 		setAltTexts();
 	}
 
