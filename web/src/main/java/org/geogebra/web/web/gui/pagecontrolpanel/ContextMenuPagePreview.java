@@ -72,6 +72,7 @@ public class ContextMenuPagePreview implements SetLabels {
 		Label name = new Label(loc.getMenu("Title") + ":");
 		textField = InputPanelW.newTextComponent(app);
 		textField.setAutoComplete(false);
+		textField.setText(card.getTitleText().getText());
 		
 		textField.addFocusListener(new FocusListenerW(this) {
 			@Override

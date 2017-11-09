@@ -149,8 +149,15 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 *            title of page to set
 	 */
 	public void rename(String text) {
-		this.title.setText(text);
+		title.setText(text);
 		isTitleSet = true;
+	}
+
+	/**
+	 * @return title
+	 */
+	public Label getTitleText() {
+		return title;
 	}
 
 	/**
