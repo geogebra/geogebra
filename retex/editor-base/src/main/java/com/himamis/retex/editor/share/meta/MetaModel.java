@@ -27,7 +27,7 @@
  */
 package com.himamis.retex.editor.share.meta;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import java.util.HashMap;
 
 /**
  * Distinction between operators, core functions and functions is based on
@@ -65,6 +65,7 @@ public class MetaModel {
 	private ListMetaGroup arrayGroup;
 	private ListMetaGroup generalFunctionGroup;
 	private ListMetaGroup operatorGroup;
+	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<String, MetaCharacter>();
 	private ListMetaGroup symbolGroup;
 
     public MetaModel() {
@@ -78,6 +79,10 @@ public class MetaModel {
 
 		operatorGroup = symbols.createOperators(); // operators/operators
 		symbolGroup = symbols.createSymbols(); // symbols/symbols
+		for (MetaComponent operator : this.operatorGroup.getComponents()) {
+			mergeLookup.put(((MetaSymbol) operator).getCasName(),
+					(MetaCharacter) operator);
+		}
     }
 
 	private static MetaArray getMetaArray(ListMetaGroup metaGroup,
@@ -312,14 +317,15 @@ public class MetaModel {
         return isArrayCloseKey;
     }
 
-	public MetaCharacter merge(String a, MetaCharacter b) {
-		String mergeName = a + b.getUnicode();
-		if ("<=".equals(mergeName)) {
-			return getOperator(Unicode.LESS_EQUAL + "");
-		}
-		if (">=".equals(mergeName)) {
-			return getOperator(Unicode.LESS_EQUAL + "");
-		}
-		return null;
+	/**
+	 * @param prefix
+	 *            prefix
+	 * @param symbol
+	 *            last added symbol
+	 * @return a single character merged from prefix and symbol,
+	 */
+	public MetaCharacter merge(String prefix, MetaCharacter symbol) {
+		String mergeName = prefix + symbol.getUnicode();
+		return mergeLookup.get(mergeName);
 	}
 }

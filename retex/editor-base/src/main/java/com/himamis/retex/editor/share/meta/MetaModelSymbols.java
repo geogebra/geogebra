@@ -87,9 +87,9 @@ class MetaModelSymbols {
 
         operators.add(createOperator("neg", "!", "\\neg", '!'));
 		operators
-				.add(createOperator("vee", "|", "\\vee", Unicode.OR));
+				.add(createOperator("vee", "||", "\\vee", Unicode.OR));
 		operators.add(
-				createOperator("wedge", "&", "\\wedge", Unicode.AND));
+				createOperator("wedge", "&&", "\\wedge", Unicode.AND));
 		operators.add(createOperator("implication", "->", "\\implies",
 				Unicode.IMPLIES));
 
