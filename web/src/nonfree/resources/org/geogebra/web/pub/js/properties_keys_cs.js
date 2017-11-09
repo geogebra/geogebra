@@ -2230,6 +2230,7 @@ __GGB__keysVar.cs.menu = {
     "OverwriteFile": "Chcete p\u0159epsat tento soubor?",
     "PGFExport.Grayscale": "Odst\xedny \u0161edi",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "P\xe1rov\xfd t-test",
     "Parabola": "Parabola",
     "Parabola.Help": "bod a \u0159\xedd\xedc\xed p\u0159\xedmka",

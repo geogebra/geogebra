@@ -2230,6 +2230,7 @@ __GGB__keysVar.eu.menu = {
     "OverwriteFile": "Gainidatzi nahi duzu fitxategi hau?",
     "PGFExport.Grayscale": "Grisen eskala",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "T Parekatzailea",
     "Parabola": "Parabola",
     "Parabola.Help": "Fokua eta zuzentzailea",

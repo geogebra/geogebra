@@ -2230,6 +2230,7 @@ __GGB__keysVar.pt_PT.menu = {
     "OverwriteFile": "Quer substituir este ficheiro?",
     "PGFExport.Grayscale": "Cinzento",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Teste T emparelhado",
     "Parabola": "Par\xe1bola",
     "Parabola.Help": "Selecione ponto e a diretriz",

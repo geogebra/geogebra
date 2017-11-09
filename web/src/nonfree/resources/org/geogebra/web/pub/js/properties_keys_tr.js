@@ -2230,6 +2230,7 @@ __GGB__keysVar.tr.menu = {
     "OverwriteFile": "Bu dosyan\u0131n \xfczerine yazmak istiyor musunuz?",
     "PGFExport.Grayscale": "Gri \xf6l\xe7ek",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "\xc7iftli T",
     "Parabola": "Parabol",
     "Parabola.Help": "\xd6nce noktay\u0131 sonra do\u011frultman\u0131 se\xe7in",

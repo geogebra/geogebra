@@ -2230,6 +2230,7 @@ __GGB__keysVar.zh_CN.menu = {
     "OverwriteFile": "\u4f60\u8981\u8986\u76d6\u6b64\u6587\u4ef6\u5417?",
     "PGFExport.Grayscale": "\u7070\u9636",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "\u6210\u5bf9T\u68c0\u9a8c",
     "Parabola": "\u629b\u7269\u7ebf",
     "Parabola.Help": "\u9009\u5b9a\u7126\u70b9, \u518d\u9009\u62e9\u51c6\u7ebf",

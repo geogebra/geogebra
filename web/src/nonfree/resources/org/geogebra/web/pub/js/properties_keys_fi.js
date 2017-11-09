@@ -2230,6 +2230,7 @@ __GGB__keysVar.fi.menu = {
     "OverwriteFile": "Haluatko korvata t\xe4m\xe4n tiedoston?",
     "PGFExport.Grayscale": "Harmaas\xe4vy",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Parittainen T",
     "Parabola": "Paraabeli",
     "Parabola.Help": "Valitse polttopiste ja johtosuora.",

@@ -2230,6 +2230,7 @@ __GGB__keysVar.ms.menu = {
     "OverwriteFile": "Adakah anda ingin tulis ganti fail ini?",
     "PGFExport.Grayscale": "Skala Kelabu",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "T Berpasangan",
     "Parabola": "Parabola",
     "Parabola.Help": "Pilih titik dan direktriks",

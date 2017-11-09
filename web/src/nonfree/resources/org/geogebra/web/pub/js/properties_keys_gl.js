@@ -2230,6 +2230,7 @@ __GGB__keysVar.gl.menu = {
     "OverwriteFile": "Desexa sobrescribir este ficheiro?",
     "PGFExport.Grayscale": "Escala de grises",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Pareador T",
     "Parabola": "Par\xe1bola",
     "Parabola.Help": "Escoller o punto e a directriz",

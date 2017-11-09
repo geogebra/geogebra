@@ -2230,6 +2230,7 @@ __GGB__keysVar.bs.menu = {
     "OverwriteFile": "\u017delite li zamijeniti postoje\u0107u datoteku?",
     "PGFExport.Grayscale": "Siva skala",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Uparen T",
     "Parabola": "Parabola",
     "Parabola.Help": "Ozna\u010dite ta\u010dku i direktrisu",

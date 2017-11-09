@@ -2230,6 +2230,7 @@ __GGB__keysVar.xh.menu = {
     "OverwriteFile": "Ingaba ufuna ukubhala ngaphezu kwalefayile?",
     "PGFExport.Grayscale": "iGrayscale",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Paired T",
     "Parabola": "iParabola",
     "Parabola.Help": "Khetha ichaphaza nedirectrix",

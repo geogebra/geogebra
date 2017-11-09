@@ -2230,6 +2230,7 @@ __GGB__keysVar.pt.menu = {
     "OverwriteFile": "Voc\xea deseja substituir este arquivo?",
     "PGFExport.Grayscale": "Tons de Cinza",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "T Emparelhado",
     "Parabola": "Par\xe1bola",
     "Parabola.Help": "Selecione primeiro o foco e, depois, a diretriz",

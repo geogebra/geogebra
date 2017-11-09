@@ -2230,6 +2230,7 @@ __GGB__keysVar.sv.menu = {
     "OverwriteFile": "Vill du skriva \xf6ver denna fil?",
     "PGFExport.Grayscale": "Gr\xe5skala",
     "PValue": "p",
+    "PageControl": "Page Overview",
     "PairedT": "Parvisa T",
     "Parabola": "Parabel",
     "Parabola.Help": "V\xe4lj punkt och d\xe4refter styrlinje (direktris)",

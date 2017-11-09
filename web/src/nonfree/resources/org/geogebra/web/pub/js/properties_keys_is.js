@@ -2230,6 +2230,7 @@ __GGB__keysVar.is.menu = {
     "OverwriteFile": "Viltu skrifa yfir \xfeessa skr\xe1?",
     "PGFExport.Grayscale": "Gr\xe1skali",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Para\xf0 T",
     "Parabola": "Fleygbogi",
     "Parabola.Help": "Velji\xf0 punkt og st\xfdril\xednu",

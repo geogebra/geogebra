@@ -2230,6 +2230,7 @@ __GGB__keysVar.pl.menu = {
     "OverwriteFile": "Czy chcesz nadpisa\u0107 ten plik?",
     "PGFExport.Grayscale": "Skala szaro\u015bci",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Test T dla pr\xf3b zale\u017cnych",
     "Parabola": "Parabola",
     "Parabola.Help": "Wybierz punkt, potem kierownic\u0119",

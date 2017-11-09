@@ -2230,6 +2230,7 @@ __GGB__keysVar.es_UY.menu = {
     "OverwriteFile": "\xbfReescribir este archivo?",
     "PGFExport.Grayscale": "Escala de grises",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "T apareada",
     "Parabola": "Par\xe1bola",
     "Parabola.Help": "Selecciona un punto, luego la directriz",

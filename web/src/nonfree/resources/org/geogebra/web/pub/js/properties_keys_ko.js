@@ -2230,6 +2230,7 @@ __GGB__keysVar.ko.menu = {
     "OverwriteFile": "\uc774 \ud30c\uc77c\uc744 \ub36e\uc5b4\uc4f0\uc2dc\uaca0\uc2b5\ub2c8\uae4c?",
     "PGFExport.Grayscale": "\uadf8\ub808\uc774\uc2a4\ucf00\uc77c",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "\uc30d\uc758 T\ubd84\ud3ec",
     "Parabola": "\ud3ec\ubb3c\uc120",
     "Parabola.Help": "\uc810\uacfc \uc900\uc120\uc744 \uc120\ud0dd\ud558\uc138\uc694.",

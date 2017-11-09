@@ -2230,6 +2230,7 @@ __GGB__keysVar.de.menu = {
     "OverwriteFile": "M\xf6chten Sie diese Datei \xfcberschreiben?",
     "PGFExport.Grayscale": "Graustufen",
     "PValue": "P",
+    "PageControl": "Seiten\xfcbersicht",
     "PairedT": "Gepaarte T",
     "Parabola": "Parabel",
     "Parabola.Help": "W\xe4hle den Brennpunkt, dann die Leitlinie",

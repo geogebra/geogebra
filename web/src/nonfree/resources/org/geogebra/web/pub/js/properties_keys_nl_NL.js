@@ -2230,6 +2230,7 @@ __GGB__keysVar.nl_NL.menu = {
     "OverwriteFile": "Wil je dit bestand overschrijven?",
     "PGFExport.Grayscale": "Grijswaarde",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Geconjugeerde T",
     "Parabola": "Parabool",
     "Parabola.Help": "Selecteer een punt en de richtlijn",

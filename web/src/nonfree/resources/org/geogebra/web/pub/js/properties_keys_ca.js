@@ -2230,6 +2230,7 @@ __GGB__keysVar.ca.menu = {
     "OverwriteFile": "Voleu sobreescriure aquest fitxer?",
     "PGFExport.Grayscale": "Escala de grisos",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Prova T per a dades aparellades",
     "Parabola": "Par\xe0bola",
     "Parabola.Help": "Seleccioneu el focus i la directriu",

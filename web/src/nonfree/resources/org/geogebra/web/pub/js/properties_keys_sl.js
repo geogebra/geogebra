@@ -2230,6 +2230,7 @@ __GGB__keysVar.sl.menu = {
     "OverwriteFile": "Datoteka s tem imenom \u017ee obstaja. Jo naj prepi\u0161emi s trenutno?",
     "PGFExport.Grayscale": "Lestvica sivin",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Primerjalni T",
     "Parabola": "Parabola",
     "Parabola.Help": "Izberi to\u010dko in vodnico",

@@ -2230,6 +2230,7 @@ __GGB__keysVar.sk.menu = {
     "OverwriteFile": "Chcete prep\xedsa\u0165 tento s\xfabor?",
     "PGFExport.Grayscale": "Siv\xe1",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "p\xe1rovan\xfd T",
     "Parabola": "Parabola",
     "Parabola.Help": "Zadaj ohnisko a ur\u010duj\xfacu priamku!",

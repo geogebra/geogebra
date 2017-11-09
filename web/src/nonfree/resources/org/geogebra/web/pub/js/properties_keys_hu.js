@@ -2230,6 +2230,7 @@ __GGB__keysVar.hu.menu = {
     "OverwriteFile": "Fel\xfcl akarod \xedrni ezt a f\xe1jlt?",
     "PGFExport.Grayscale": "Sz\xfcrke\xe1rnyalatos",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "P\xe1ros T pr\xf3ba",
     "Parabola": "Parabola",
     "Parabola.Help": "F\xf3kuszpont \xe9s vez\xe9regyenes",

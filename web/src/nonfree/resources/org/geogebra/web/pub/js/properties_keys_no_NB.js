@@ -2230,6 +2230,7 @@ __GGB__keysVar.no_NB.menu = {
     "OverwriteFile": "Vil du overskrive fila?",
     "PGFExport.Grayscale": "Gr\xe5tone",
     "PValue": "P",
+    "PageControl": "Page Overview",
     "PairedT": "Paret T",
     "Parabola": "Parabel",
     "Parabola.Help": "Velg punkt og deretter styrelinje",
