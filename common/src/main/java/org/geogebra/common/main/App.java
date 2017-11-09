@@ -4651,7 +4651,9 @@ public abstract class App implements UpdateSelection {
 		}
 	}
 
-	abstract public void resetCurrentFile();
+	public void resetCurrentFile() {
+		//
+	}
 
 	protected void hideDockBarPopup() {
 		// only used in desktop
