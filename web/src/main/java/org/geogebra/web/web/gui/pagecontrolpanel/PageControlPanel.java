@@ -174,16 +174,19 @@ public class PageControlPanel extends PersistablePanel {
 	protected void addNewPage() {
 		// TODO create new page
 		// replace app.getActiveEuclidianView() with new view
-		addPreviewCard(app.getActiveEuclidianView());
+		int slideNumber = app.addSlide();
+		addPreviewCard(app.getActiveEuclidianView(), slideNumber);
+		app.loadSlide(slideNumber);
 	}
 
-	private void addPreviewCard(EuclidianView view) {
+	private void addPreviewCard(EuclidianView view, final int slideNumber) {
 		final PagePreviewCard previewCard = new PagePreviewCard(view,
 				contentPanel.getWidgetCount());
 		ClickStartHandler.init(previewCard, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				setPageSelected(previewCard);
+				app.loadSlide(slideNumber);
 			}
 		});
 		contentPanel.add(previewCard);

@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -209,7 +208,7 @@ public class GgbAPIW extends GgbAPI {
 
 	public void getGGB(final boolean includeThumbnail,
 			final JavaScriptObject callback) {
-		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
+		GgbFile archiveContent = createArchiveContent(includeThumbnail);
 		final boolean oldWorkers = setWorkerURL(zipJSworkerURL(), false);
 		final JavaScriptObject arch = prepareToEntrySet(archiveContent);
 		getGGBZipJs(arch, callback, nativeCallback(new StringHandler() {
@@ -248,7 +247,7 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback
 	 */
 	public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
-		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
+		GgbFile archiveContent = createArchiveContent(includeThumbnail);
 
 		getBase64ZipJs(prepareToEntrySet(archiveContent), callback,
 				zipJSworkerURL(), false);
@@ -256,14 +255,14 @@ public class GgbAPIW extends GgbAPI {
 
 	public void getMacrosBase64(boolean includeThumbnail,
 			JavaScriptObject callback) {
-		Map<String, String> archiveContent = createMacrosArchive();
+		GgbFile archiveContent = createMacrosArchive();
 
 		getBase64ZipJs(prepareToEntrySet(archiveContent), callback,
 				zipJSworkerURL(), false);
 	}
 
 	public JavaScriptObject getFileJSON(boolean includeThumbnail) {
-		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
+		GgbFile archiveContent = createArchiveContent(includeThumbnail);
 
 		return prepareToEntrySet(archiveContent);
 	}
@@ -294,7 +293,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public String getBase64(boolean includeThumbnail) {
 		StoreString storeString = new StoreString();
-		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
+		GgbFile archiveContent = createArchiveContent(includeThumbnail);
 		JavaScriptObject jso = prepareToEntrySet(archiveContent);
 		if (Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
@@ -381,8 +380,8 @@ public class GgbAPIW extends GgbAPI {
 	 *            whether to include thumbnail
 	 * @return
 	 */
-	public HashMap<String, String> createArchiveContent(boolean includeThumbnail) {
-		HashMap<String, String> archiveContent = new HashMap<String, String>();
+	public GgbFile createArchiveContent(boolean includeThumbnail) {
+		GgbFile archiveContent = new GgbFile();
 		boolean isSaving = getKernel().isSaving();
 		// return getNativeBase64(includeThumbnail);
 		getKernel().setSaving(true);
@@ -444,8 +443,8 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @return archive with macros + icons
 	 */
-	public HashMap<String, String> createMacrosArchive() {
-		HashMap<String, String> archiveContent = new HashMap<String, String>();
+	public GgbFile createMacrosArchive() {
+		GgbFile archiveContent = new GgbFile();
 		writeMacroImages(archiveContent);
 		String macroXml = getApplication().getMacroXMLorEmpty();
 		if (!"".equals(macroXml)) {

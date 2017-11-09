@@ -168,6 +168,8 @@ public abstract class AppW extends App implements SetLabels {
 	private final LocalizationW loc;
 	private ImageManagerW imageManager;
 	private GgbFile currentFile = null;
+	private ArrayList<GgbFile> slides = null;
+	private int activeSlide = -1;
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private int localID = -1;
@@ -3677,6 +3679,34 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public boolean isPortrait() {
 		return getWidth() < getHeight();
+	}
+
+	public void loadSlide(int i) {
+		if (slides == null) {
+			return;
+		}
+
+		slides.set(activeSlide, getGgbApi().createArchiveContent(false));
+
+		activeSlide = i;
+		try {
+			if (slides.get(i).isEmpty()) {
+				fileNew();
+			} else {
+				loadGgbFile(slides.get(i));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public int addSlide() {
+		if (slides == null) {
+			slides = new ArrayList<GgbFile>();
+			activeSlide = 0;
+		}
+		slides.add(new GgbFile());
+		return slides.size() - 1;
 	}
 
 }
