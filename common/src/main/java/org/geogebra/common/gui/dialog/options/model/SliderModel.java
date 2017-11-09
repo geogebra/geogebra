@@ -197,7 +197,8 @@ public class SliderModel extends OptionsModel {
 		if (equalLineThickness
 				&& kernel.getApplication().has(Feature.SLIDER_STYLE_OPTIONS)) {
 			listener.setLineThicknessSizeText(
-					kernel.format(num0.getLineThickness() / 2, highPrecision));
+					kernel.format(num0.getLineThickness() / 2.0,
+							highPrecision));
 		}
 
 		setLabelForWidthUnit();

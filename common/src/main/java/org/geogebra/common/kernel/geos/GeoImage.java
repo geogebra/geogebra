@@ -758,7 +758,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		GeoPoint c = corners[CENTER_INDEX];
 		if (c != null) { // may be null while loading file
-			return c.inhomX - pixelWidth / 2 / kernel.getXscale();
+			return c.inhomX - pixelWidth / 2.0 / kernel.getXscale();
 		}
 		return 0;
 	}
@@ -770,7 +770,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		GeoPoint c = corners[CENTER_INDEX];
 		if (c != null) { // may be null while loading file
-			return c.inhomY - pixelHeight / 2 / kernel.getYscale();
+			return c.inhomY - pixelHeight / 2.0 / kernel.getYscale();
 		}
 		return 0;
 	}

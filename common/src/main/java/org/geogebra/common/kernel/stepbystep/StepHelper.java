@@ -798,7 +798,9 @@ public class StepHelper {
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-
+		if (solutionList == null) {
+			return null;
+		}
 		StepSet solutions = new StepSet();
 
 		for (int i = 0; i < solutionList.getLength(); i++) {
