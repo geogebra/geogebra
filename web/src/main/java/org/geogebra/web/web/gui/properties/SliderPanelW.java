@@ -310,7 +310,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			public void onChange(ChangeEvent event) {
 				int sliderValue = getSliderTransparency().getValue();
 				getTranspValueLabel()
-						.setText(String.valueOf(sliderValue) + "%");
+						.setText(sliderValue + "%");
 				applyTransparency();
 			}
 		});
@@ -340,7 +340,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	private void createBlobColorChooserBtn(final AppW app) {
 		blobColorChooserBtn = new MyCJButton(app);
-		updateBlobOrLineColorButton(model.getBlobColor(), true);
+		updateBlobOrLineColorButton(model.getBlobColor(),
+				true);
 		blobColorChooserBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -386,9 +387,17 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		});
 	}
 
+	public GColor getColorWithOpacity(GColor color) {
+		GColor lineCol = color == null ? GColor.BLACK : color;
+		return GColor.newColor(lineCol.getRed(),
+				lineCol.getGreen(), lineCol.getBlue(),
+				getSliderTransparency().getValue() * 255 / 100);
+	}
+
 	private void createLineColorChooserBtn(final AppW app) {
 		lineColorChooserBtn = new MyCJButton(app);
-		updateBlobOrLineColorButton(model.getLineColor(), false);
+		updateBlobOrLineColorButton(getColorWithOpacity(model.getLineColor()),
+				false);
 		lineColorChooserBtn.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -404,8 +413,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 									@Override
 									public void onColorChange(GColor color) {
-										getModel().applyLineColor(color);
-										updateBlobOrLineColorButton(color,
+										getModel().applyLineColor(
+												getColorWithOpacity(color));
+										updateBlobOrLineColorButton(
+												getColorWithOpacity(color),
 												false);
 									}
 
@@ -441,15 +452,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	 */
 	public void updateBlobOrLineColorButton(GColor color, boolean isBlob) {
 		ImageOrText content = new ImageOrText();
+		content.setBgColor(color == null ? GColor.BLACK : color);
 		if (isBlob) {
-			content.setBgColor(color == null ? GColor.BLACK : color);
 			blobColorChooserBtn.setIcon(content);
 		} else {
-			GColor lineCol = color == null ? GColor.BLACK : color;
-			GColor colorWithTransparency = GColor.newColor(lineCol.getRed(),
-					lineCol.getGreen(), lineCol.getBlue(),
-					getSliderTransparency().getValue() * 255 / 100);
-			content.setBgColor(colorWithTransparency);
+			if (color == null) {
+				content.setBgColor(getColorWithOpacity(color));
+			}
 			lineColorChooserBtn.setIcon(content);
 		}
 	}
