@@ -15,7 +15,6 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
-import org.geogebra.web.web.gui.layout.GUITabs;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.FocusEvent;
@@ -283,7 +282,7 @@ public class MarblePanel extends FlowPanel
 		btnPlus.getUpHoveringFace().setImage(hoverImg);
 		btnPlus.getDownHoveringFace().setImage(hoverImg);
 		if (item.getApplication().has(Feature.TAB_ON_GUI)) {
-			btnPlus.setTabIndex(GUITabs.NO_TAB);
+			btnPlus.ignoreTab();
 			btnPlus.addKeyDownHandler(this);
 			btnPlus.setAltText(btnPlus.getTitle());
 			btnPlus.addTabHandler(this);

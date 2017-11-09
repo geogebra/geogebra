@@ -284,6 +284,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		moveBtn.setStyleName("moveFloatingBtn");
 		// moveMoveBtnDown style added for moveBtn to fix the position on tablet
 		// too
+		moveBtn.ignoreTab();
+
 		moveBtn.addStyleName("moveMoveBtnDown");
 		main.add(moveBtn);
 		hideMoveFloatingButton();

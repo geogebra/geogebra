@@ -71,6 +71,8 @@ class ToolsTab extends ToolbarPanel.ToolbarTab {
 				app.getLocalization().getMenu("Tools.Less"), app);
 		lessBtn.addStyleName("moreLessBtn");
 		lessBtn.removeStyleName("button");
+		moreBtn.ignoreTab();
+		lessBtn.ignoreTab();
 		moreBtn.addFastClickHandler(new FastClickHandler() {
 			
 			@Override
