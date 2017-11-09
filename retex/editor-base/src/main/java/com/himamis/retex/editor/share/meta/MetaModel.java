@@ -27,6 +27,8 @@
  */
 package com.himamis.retex.editor.share.meta;
 
+import com.himamis.retex.editor.share.util.Unicode;
+
 /**
  * Distinction between operators, core functions and functions is based on
  * visual aspects of math elements rather than based on mathematical analogy.
@@ -309,4 +311,15 @@ public class MetaModel {
 				.getCloseKey() == key;
         return isArrayCloseKey;
     }
+
+	public MetaCharacter merge(String a, MetaCharacter b) {
+		String mergeName = a + b.getUnicode();
+		if ("<=".equals(mergeName)) {
+			return getOperator(Unicode.LESS_EQUAL + "");
+		}
+		if (">=".equals(mergeName)) {
+			return getOperator(Unicode.LESS_EQUAL + "");
+		}
+		return null;
+	}
 }
