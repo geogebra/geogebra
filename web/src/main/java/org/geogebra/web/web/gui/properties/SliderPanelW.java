@@ -52,6 +52,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private Slider sliderTransparency;
 	private Label transpValueLabel;
 	private Label transparencyLabel;
+	private Label blobSizeUnitLabel;
+	private Label lineThicknessUnitLabel;
 	private MyCJButton blobColorChooserBtn;
 	private Label blobColorLbl;
 	private MyCJButton lineColorChooserBtn;
@@ -217,6 +219,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		lineColorLbl = new Label();
 		lineThicknessLabel = new Label();
 		transparencyLabel = new Label();
+		lineThicknessUnitLabel = new Label("px");
+		blobSizeUnitLabel = new Label("px");
 		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
 			maxLabel.setStyleName("coloredLabel");
 			minLabel.setStyleName("coloredLabel");
@@ -253,6 +257,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			FlowPanel blobSizePanel = new FlowPanel();
 			blobSizePanel.setStyleName("sliderWidthPanel");
 			blobSizePanel.add(blobSizeLabel);
+			tfBlobSize.add(blobSizeUnitLabel);
+			blobSizeUnitLabel.setStyleName("unitLabel");
 			blobSizePanel.add(tfBlobSize);
 			sliderPanel.add(blobSizePanel);
 			sliderPanel.add(
@@ -262,6 +268,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			FlowPanel lineThicknessPanel = new FlowPanel();
 			lineThicknessPanel.setStyleName("sliderWidthPanel");
 			lineThicknessPanel.add(lineThicknessLabel);
+			tfLineThickness.add(lineThicknessUnitLabel);
+			lineThicknessUnitLabel.setStyleName("unitLabel");
 			lineThicknessPanel.add(tfLineThickness);
 			sliderPanel.add(lineThicknessPanel);
 			FlowPanel transparencySliderPanel = new FlowPanel();
