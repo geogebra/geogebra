@@ -4008,6 +4008,10 @@ public abstract class App implements UpdateSelection {
 			case MOB_TRANSPARENT_STATUS_BAR_IN_EXAM_MODE:
 				return prerelease;
 
+			// MOB-1319
+			case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
+				return prerelease;
+
             // **********************************************************************
             // MOBILE END
             // *********************************************************
