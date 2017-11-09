@@ -32,6 +32,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	private String image;
 	private FlowPanel titlePanel;
 	private Label title;
+	private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
 
 	private ContextMenuPagePreview contextMenu = null;
@@ -89,9 +90,32 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		setPreviewImage();
 	}
 
-	private void setDefaultLabel() {
-		title.setText(loc.getMenu("page") + " " + (pageIndex + 1));
+	/**
+	 * get the index of the page
+	 * 
+	 * @return page index
+	 */
+	public int getPageIndex() {
+		return pageIndex;
 	}
+
+	/**
+	 * set index of page
+	 * 
+	 * @param index
+	 *            new index
+	 */
+	public void setPageIndex(int index) {
+		pageIndex = index;
+		setDefaultLabel();
+	}
+
+	private void setDefaultLabel() {
+		if (!isTitleSet) {
+		title.setText(loc.getMenu("page") + " " + (pageIndex + 1));
+		}
+	}
+
 	private void addMoreButton(){
 		if (moreBtn == null) {
 			moreBtn = new MyToggleButton(
@@ -110,25 +134,33 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 								0, 0, 24, 24, false, false)));
 		moreBtn.addStyleName("mowMoreButton");
 		ClickStartHandler.init(moreBtn, new ClickStartHandler(true, true) {
-
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				showContexMenu();
 			}
-
 		});
 		titlePanel.add(moreBtn);
 	}
 	
-	public void rename(String title) {
-		this.title.setText(title);
+	/**
+	 * rename title of page
+	 * 
+	 * @param text
+	 *            title of page to set
+	 */
+	public void rename(String text) {
+		this.title.setText(text);
+		isTitleSet = true;
 	}
 
+	/**
+	 * show context menu of preview card
+	 */
 	protected void showContexMenu() {
 		if (contextMenu == null) {
 			contextMenu = new ContextMenuPagePreview(app, this);
 		}
-		contextMenu.show(moreBtn.getAbsoluteLeft(), moreBtn.getAbsoluteTop() - 8);
+		contextMenu.show(getAbsoluteLeft(), getAbsoluteTop() + 170);
 	}
 	
 	/**

@@ -192,12 +192,26 @@ public class PageControlPanel extends PersistablePanel {
 		scrollPanel.scrollToBottom();
 	}
 
-	/*
-	 * private void removePreviewCard(PagePreviewCard previewCard) {
-	 * contentPanel.remove(previewCard); // TODO remove associated page also //
-	 * update default labels }
+	/**
+	 * remove preview card and associated view
+	 * 
+	 * @param previewCard
+	 *            the card to be removed
 	 */
+	public void removePreviewCard(PagePreviewCard previewCard) {
+		contentPanel.remove(previewCard);
+		// TODO remove associated page also
+		updateDefaultLabels();
+	}
 
+	private void updateDefaultLabels() {
+		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
+			PagePreviewCard card = (PagePreviewCard) contentPanel.getWidget(i);
+			if (card.getPageIndex() != i) {
+				card.setPageIndex(i);
+			}
+		}
+	}
 	/**
 	 * Sets the selected page visible and highlights the preview card
 	 * 

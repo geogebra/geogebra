@@ -33,55 +33,33 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class MOWToolbar extends FlowPanel {
-	/**
-	 * application
-	 */
+	/** application */
 	AppW app;
-	/**
-	 * opens/closes toolbar
-	 */
+	/** opens/closes toolbar */
 	protected MyToggleButton closeButton;
-	/**
-	 * opens pen submenu
-	 */
+	/** opens pen submenu */
 	protected MyToggleButton penButton;
-	/**
-	 * opens tool submenu
-	 */
+	/** opens tool submenu */
 	protected MyToggleButton toolsButton;
-	/**
-	 * opens media submenu
-	 */
+	/** opens media submenu */
 	protected MyToggleButton mediaButton;
 	private FlowPanel middlePanel;
 	private FlowPanel rightPanel;
 	private SubMenuPanel currentMenu = null;
-	/**
-	 * pen submenu
-	 */
+	/** pen submenu */
 	protected SubMenuPanel penMenu;
-	/**
-	 * tools submenu
-	 */
+	/** tools submenu */
 	protected SubMenuPanel toolsMenu;
-	/**
-	 * media submenu
-	 */
+	/** media submenu */
 	protected SubMenuPanel mediaMenu;
 	private FlowPanel subMenuPanel;
 	private boolean isSubmenuOpen;
 	private int currentMode = -1;
-	/**
-	 * panel containing undo and redo
-	 */
+	/** panel containing undo and redo */
 	private PersistablePanel undoRedoPanel;
-	/**
-	 * undo button
-	 */
+	/** undo button */
 	protected MyToggleButton btnUndo;
-	/**
-	 * redo button
-	 */
+	/** redo button */
 	protected MyToggleButton btnRedo;
 	private MyToggleButton pageControlButton;
 	private PageControlPanel pageControlPanel;

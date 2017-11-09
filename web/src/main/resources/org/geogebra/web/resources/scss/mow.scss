@@ -657,6 +657,8 @@
 			.gwt-Label {
 				font-size: 14px;
 				padding: 16px;
+				width: 138px;
+ 				overflow: hidden;
 				cursor: default;
 			}
 			.mowMoreButton {
@@ -676,6 +678,59 @@
 	}
 	.mowPagePreviewCard.selected {
 		box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
+	}
+	/*****************
+*   PAGE PREVIEW CARD CONTEXT MENU
+******************/
+	.mowCardContextMenu {
+		padding: 8px 8px;
+    	width: 188px;
+    	
+    	.panelRow {
+    			height: 32px !important;
+    			display: flex;
+    			
+    			img {
+					width: 24px !important;
+				    height: 24px !important;
+				    padding: 2px;
+				   	opacity: 0.54;
+				}
+    			.gwt-Label {
+    				line-height: 30px;
+    				cursor: default;
+				}
+    			.AutoCompleteTextFieldW {
+    				width: 134px;
+    				margin: 0px !important;
+    				border-radius: 2px;	
+    				
+    				.TextField {
+    					padding: 2px;
+   						padding-left: 8px;
+   						margin-bottom: 2px;
+    					border: none;
+    					border-bottom: 1px solid $tool-border;
+    					background: transparent;
+    					box-shadow: none;
+    					border-radius: 0px !important;
+    				}
+    			}
+    		}
+		.mowMenuRow{
+			cursor: pointer;
+			
+			.gwt-Label {
+	 			cursor: pointer;
+			}
+			&:hover {
+				background-color: $selected-menuitem-background;
+				color: $black;
+				img {
+					opacity: 0.87;
+				}
+			}
+		}
 	}
 }
 
