@@ -167,7 +167,7 @@ public abstract class AppW extends App implements SetLabels {
 	private GgbAPIW ggbapi;
 	private final LocalizationW loc;
 	private ImageManagerW imageManager;
-	private HashMap<String, String> currentFile = null;
+	private GgbFile currentFile = null;
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private int localID = -1;
@@ -716,7 +716,7 @@ public abstract class AppW extends App implements SetLabels {
 		return super.getReverseCommand(command);
 	}
 
-	public void loadGgbFile(HashMap<String, String> archiveContent)
+	public void loadGgbFile(GgbFile archiveContent)
 	        throws Exception {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		
@@ -749,13 +749,11 @@ public abstract class AppW extends App implements SetLabels {
 		getImageManager().reset();
 	}
 
-	@SuppressWarnings("unchecked")
-	private void loadFile(HashMap<String, String> archiveContent)
+	private void loadFile(GgbFile archiveContent)
 	        throws Exception {
 		beforeLoadFile();
 
-		HashMap<String, String> archive = (HashMap<String, String>) archiveContent
-		        .clone();
+		GgbFile archive = archiveContent.duplicate();
 
 		// Handling of construction and macro file
 		String construction = archive.remove(MyXMLio.XML_FILE);
@@ -902,20 +900,17 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void setCurrentFile(Object file) {
+	public void setCurrentFile(GgbFile file) {
 		if (currentFile == file) {
 			return;
 		}
 
-		currentFile = (HashMap<String, String>) file;
+		currentFile = file;
+	}
 
-
-		// if (!isIniting() && isUsingFullGui()) {
-		// updateTitle();
-		// getGuiManager().updateMenuWindow();
-		// }
+	@Override
+	public void resetCurrentFile() {
+		setCurrentFile(null);
 	}
 
 

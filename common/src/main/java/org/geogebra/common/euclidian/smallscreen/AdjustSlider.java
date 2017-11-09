@@ -111,7 +111,7 @@ public class AdjustSlider extends AdjustWidget {
 
 	private void adjustToRight() {
 		if (x + width > view.getViewWidth()) {
-			x = view.getViewWidth() - width - MARGIN_X;
+			x = Math.max(0, view.getViewWidth() - width - MARGIN_X);
 		}
 
 		int maxY = view.getViewHeight() - AdjustSlider.MARGIN_Y;

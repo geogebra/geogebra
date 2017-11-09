@@ -20,6 +20,7 @@ import org.geogebra.web.geogebra3D.web.gui.GuiManager3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
@@ -150,7 +151,7 @@ public class AppWapplet3D extends AppWapplet {
 	}
 
 	@Override
-	public void setCurrentFile(Object file) {
+	public void setCurrentFile(GgbFile file) {
 		super.setCurrentFile(file);
 		if (this.isEuclidianView3Dinited()) {
 			((EuclidianView3DW) getEuclidianView3D())

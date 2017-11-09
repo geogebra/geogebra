@@ -1,7 +1,5 @@
 package org.geogebra.web.html5.util;
 
-import java.util.HashMap;
-
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import org.geogebra.common.move.ggtapi.models.AjaxCallback;
@@ -9,6 +7,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbAPIW;
+import org.geogebra.web.html5.main.GgbFile;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -16,7 +15,7 @@ import com.google.gwt.dom.client.NodeList;
 
 public class ViewW {
 
-	private HashMap<String, String> archiveContent;
+	private GgbFile archiveContent;
 	private int zippedLength = 0;
 
 	private Element container;
@@ -187,7 +186,7 @@ public class ViewW {
 		Log.debug("end unzipping" + System.currentTimeMillis());
 	}
 
-	public void maybeLoadFile(HashMap<String, String> archiveCont) {
+	public void maybeLoadFile(GgbFile archiveCont) {
 		archiveContent = archiveCont;
 		maybeLoadFile();
 	}
@@ -396,14 +395,14 @@ public class ViewW {
 	}-*/;
 
 	private String prepareFileReading() {
-		archiveContent = new HashMap<String, String>();
+		archiveContent = new GgbFile();
 		String workerUrls = GgbAPIW.zipJSworkerURL();
 		Log.debug("start unzipping" + System.currentTimeMillis());
 		return workerUrls;
 	}
 
 	private void prepare(int t) {
-		archiveContent = new HashMap<String, String>();
+		archiveContent = new GgbFile();
 		this.zippedLength = t;
 	}
 
