@@ -57,6 +57,7 @@ public class PointStylePopup extends PopupMenuButtonW
 			boolean isTealBorder) {
 		super(app, data, rows, columns, mode, hasTable, hasSlider, null,
 				isTealBorder);
+		getMyPopup().addStyleName("pointSizeSlider");
 	    this.model = model;
 		euclidian3D = false;
     }
