@@ -25,8 +25,12 @@ public class AriaHelper {
 				ui.getElement().setAttribute("data-title", title);
 			}
 		} else {
-			ui.setTitle(title);
+			// copy of default implementation to avoid stack overflow
+			if (title == null || title.length() == 0) {
+				ui.getElement().removeAttribute("title");
+			} else {
+				ui.getElement().setAttribute("title", title);
+			}
 		}
-
 	}
 }
