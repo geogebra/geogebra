@@ -628,7 +628,8 @@ public class FormulaEditor extends View implements MathField {
         return mFormulaPreviewTeXIcon != null;
     }
     
-    public void onTab(){
-    	//TODO mark this as override
+    @Override
+    public void tab(){
+
     }
 }
