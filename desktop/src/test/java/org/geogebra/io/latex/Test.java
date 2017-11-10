@@ -103,11 +103,6 @@ public class Test {
 				// TODO Auto-generated method stub
 				return false;
 			}
-
-			public void onTab() {
-				// TODO Auto-generated method stub
-
-			}
 		});
 		JFrame frame = new JFrame();
 		frame.setPreferredSize(new Dimension(200, 200));
