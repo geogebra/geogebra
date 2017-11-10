@@ -1957,12 +1957,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 
+		needsRepaint = createPreviewsForSpecsPoints() || needsRepaint;
+
+		if (needsRepaint) {
+			repaint();
+		}
+	}
+
+	/**
+	 * create previews for special points if needed
+	 * 
+	 * @return true if at least one preview was created
+	 */
+	protected boolean createPreviewsForSpecsPoints() {
+		boolean needsRepaint = false;
 		if (specPoints != null) {
 			for (GeoElement geo : specPoints) {
 				needsRepaint = createPreviewDrawable(geo) || needsRepaint;
 			}
 		}
-		repaint();
+		return needsRepaint;
 	}
 
 	private boolean drawableNeeded(GeoElement geo) {

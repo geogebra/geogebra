@@ -556,10 +556,11 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	@Override
-	protected void repaintForPreviewFromInputBar() {
-		setWaitForUpdate();
-		repaintView();
+	protected boolean createPreviewsForSpecsPoints() {
+		// not implemented yet
+		return false;
 	}
+
 
 	/**
 	 * add the geo now
