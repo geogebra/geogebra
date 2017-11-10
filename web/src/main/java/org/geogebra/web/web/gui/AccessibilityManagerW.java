@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui;
 
 import org.geogebra.common.gui.AccessibilityManagerInterface;
+import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.SelectionManager;
@@ -8,6 +9,7 @@ import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
 
 import com.google.gwt.user.client.ui.FocusWidget;
 
@@ -36,7 +38,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusNext(Object source) {
-		if (source instanceof ZoomPanel) {
+		if (source instanceof LatexTreeItemController) {
+			focusFirstGeo();
+		} else if (source instanceof ZoomPanel) {
 			focusFirstGeo();
 		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
@@ -86,7 +90,13 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	private boolean focusFirstGeo() {
-		GeoElement geo = app.getKernel().getConstruction().getGeoSetLabelOrder().first();
+		Construction cons = app.getKernel().getConstruction();
+		if (cons.isEmpty()) {
+			focusMenu();
+			return false;
+		}
+
+		GeoElement geo = cons.getGeoSetLabelOrder().first();
 		if (geo != null) {
 			selection.addSelectedGeo(geo);
 			tabOverGeos = true;

@@ -18,4 +18,7 @@ public interface MathFieldListener {
 	public void onInsertString();
 
 	public boolean onEscape();
+
+	public void onTab();
+	
 }

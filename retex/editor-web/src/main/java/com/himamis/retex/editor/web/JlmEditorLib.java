@@ -27,25 +27,21 @@ public class JlmEditorLib extends JlmLib {
 					@Override
 					public void onKeyTyped() {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
 					public void onCursorMove() {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
 					public void onDownKeyPressed() {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
 					public void onUpKeyPressed() {
 						// TODO Auto-generated method stub
-
 					}
 
 					@Override
@@ -56,12 +52,16 @@ public class JlmEditorLib extends JlmLib {
 					@Override
 					public void onInsertString() {
 						// TODO Auto-generated method stub
-
 					}
 
 					public boolean onEscape() {
 						// TODO Auto-generated method stub
 						return false;
+					}
+
+					@Override
+					public void onTab() {
+						// TODO Auto-generated method stub
 					}
 				}, false, null);
 		fld.requestViewFocus();

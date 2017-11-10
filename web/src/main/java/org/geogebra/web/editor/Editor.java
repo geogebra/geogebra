@@ -132,4 +132,8 @@ public class Editor implements EntryPoint, MathFieldListener {
 		return false;
 	}
 
+	public void onTab() {
+		// TODO Auto-generated method stub
+	}
+
 }

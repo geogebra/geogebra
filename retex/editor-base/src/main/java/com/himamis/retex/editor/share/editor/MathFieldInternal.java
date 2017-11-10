@@ -627,5 +627,10 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		}
 
 	}
-
+	
+	public void onTab() {
+		if (listener != null) {
+			listener.onTab();
+		}
+	}
 }

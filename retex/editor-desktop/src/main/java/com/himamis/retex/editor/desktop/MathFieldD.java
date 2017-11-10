@@ -237,4 +237,10 @@ public class MathFieldD extends JLabel implements MathField {
 		return this.mathFieldInternal;
 	}
 
+	@Override
+	public void tab() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

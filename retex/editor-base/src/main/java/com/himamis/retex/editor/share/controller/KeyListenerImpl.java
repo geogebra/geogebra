@@ -95,7 +95,9 @@ public class KeyListenerImpl {
 			return false;
 		case JavaKeyCodes.VK_TAB:
 			if (!InputController.trySelectNext(editorState)) {
-				InputController.trySelectFirst(editorState);
+				if (!InputController.trySelectFirst(editorState)) {
+					onTab();
+				};
 			}
 			return true;
 		default:
@@ -104,8 +106,11 @@ public class KeyListenerImpl {
         }
     }
 
+	public void onTab() {
+		inputController.handleTab();
+	}
+
 	public boolean onKeyTyped(char ch) {
 		return inputController.handleChar(editorState, ch);
 	}
-
 }

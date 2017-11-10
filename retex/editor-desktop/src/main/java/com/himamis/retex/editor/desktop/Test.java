@@ -36,7 +36,6 @@ import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.Korean;
 import com.himamis.retex.editor.share.model.MathSequence;
-import com.himamis.retex.editor.share.util.AltKeys;
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
 import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
@@ -59,31 +58,26 @@ public class Test  {
 			@Override
 			public void onEnter() {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void onKeyTyped() {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void onCursorMove() {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void onDownKeyPressed() {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void onUpKeyPressed() {
 				// TODO Auto-generated method stub
-
 			}
 
 			@Override
@@ -100,6 +94,12 @@ public class Test  {
 			public boolean onEscape() {
 				// TODO Auto-generated method stub
 				return false;
+			}
+
+			@Override
+			public void onTab() {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 

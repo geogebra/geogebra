@@ -402,4 +402,8 @@ public class CASLaTeXEditor extends FlowPanel
 		return app;
 	}
 
+	public void onTab() {
+		// TODO Auto-generated method stub
+	}
+
 }

@@ -1137,6 +1137,12 @@ public class InputController {
 		}
 	}
 
+	public void handleTab() {
+		if (mathField != null) {
+			mathField.tab();
+		}
+	}
+	
 	public static MathSequence getSelectionText(EditorState editorState) {
 		if (editorState.getSelectionStart() != null) {
 			MathContainer parent = editorState.getSelectionStart().getParent();

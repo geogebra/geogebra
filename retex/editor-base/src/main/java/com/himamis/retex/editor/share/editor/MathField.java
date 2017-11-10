@@ -77,6 +77,8 @@ public interface MathField {
 	void paste();
 
 	void copy();
+	
+	void tab();
 
 	boolean useCustomPaste();
 }

@@ -344,4 +344,14 @@ public class LatexTreeItemController extends RadioTreeItemController
 		}
 		return false;
 	}
+
+	public void onTab() {
+		onEnter(false, false);
+		if (item.isEmpty() && item.isInputTreeItem()) {
+			item.addDummyLabel();
+			item.setItemWidth(item.getAV().getFullWidth());
+		}
+		app.hideKeyboard();
+		app.getAccessibilityManager().focusNext(this);
+	}
 }

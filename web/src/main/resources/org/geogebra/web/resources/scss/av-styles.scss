@@ -2,7 +2,10 @@
 $duration: 0.2s;
 
 .GeoGebraFrame {	
-	.matMenu.gwt-PopupPanel {
+	div:focus {
+		border: 2px solid red;	
+	}
+		.matMenu.gwt-PopupPanel {
 		
 		background-color: $white;
 		padding: 8px 0px 8px 0px;

@@ -407,7 +407,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 									|| "1".equals(
 											articleElement
 													.getDataParamPerspective())
-									|| "T".equals(articleElement
+									|| "5".equals(articleElement
 											.getDataParamPerspective())));
 		} else {
 			p.getSplitPaneData()[0]

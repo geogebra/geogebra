@@ -856,4 +856,9 @@ public class MathFieldW implements MathField, IsWidget {
 		this.scale = scaleX;
 	}
 
+	@Override
+	public void tab() {
+		mathFieldInternal.onTab();
+	}
+
 }
