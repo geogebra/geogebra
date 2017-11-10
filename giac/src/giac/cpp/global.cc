@@ -175,7 +175,7 @@ namespace giac {
 #endif
 
 #if defined VISUALC || defined BESTA_OS
-#ifndef FREERTOS
+#if !defined FREERTOS && !defined HAVE_LIBMPIR 
   int R_OK=4;
 #endif
   int access(const char *path, int mode ){

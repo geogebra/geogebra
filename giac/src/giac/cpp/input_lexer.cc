@@ -4025,7 +4025,7 @@ YY_RULE_SETUP
     double d=evalf_double(*yylval,1,context0)._DOUBLE_val;
     if (d<0 && interv>1)
       --interv;
-    double tmp=std::floor(std::log(std::abs(d))/std::log(10));
+    double tmp=std::floor(std::log(std::abs(d))/std::log(10.0));
     tmp=(std::pow(10.,1+tmp-interv));
     *yylval=eval(gen(makevecteur(d-tmp,d+tmp),_INTERVAL__VECT),1,context0);
   }
@@ -5291,6 +5291,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	int nfunc=builtin_lexer_functions_number;
 	if (debug_infolevel==-2 || debug_infolevel==-4 || debug_infolevel==-5){
 	  CERR << "Writing " << nfunc << " in static_lexer.h and static_extern.h "<< endl;
+	  CERR << "Check at_FP->at_FRAC, at_IP->at_INT, at_lgamma->at_lower_incomplete_gamma, at_is_inside->at_est_dans, at_regroup->at_regrouper, at_ugamma->at_upper_incomplete_gamma, at_∡ -> at_polar_complex, at_LINEAR? -> at_IS_LINEAR" << endl;
 	  /*
 	  ofstream static_add_ll("static_add.ll");
 	  for (int i=0;i<nfunc;i++){
@@ -5372,6 +5373,10 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 		break;
 	    }
 	    continue;
+	  }
+	  if (!instring && i>=2 && ( (s[i-2]=='-' && s[i-1]=='-') || (s[i-2]=='+' && s[i-1]=='+') ) && (s[i]=='.'|| (s[i]>='0' && s[i]<='9')) ){
+	    s[i-2]='+';
+	    s[i-1]=' ';
 	  }
 	  if (!instring && i && s[i]=='*' && s[i-1]=='/'){
 	    // skip comment 

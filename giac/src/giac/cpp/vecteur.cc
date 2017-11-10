@@ -1638,7 +1638,7 @@ namespace giac {
   void rand_1(vector<giac_double> & z){
     int n=int(z.size());
     for (int i=0;i<n;i++){
-      z[i]=(rand()<=RAND_MAX/2)?1:-1;
+      z[i]=(std::rand()<=RAND_MAX/2)?1:-1;
     }
   }
 

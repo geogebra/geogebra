@@ -28,7 +28,7 @@ using namespace std;
 #include <stdio.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
-#ifndef NSPIRE
+#if !defined(NSPIRE) && !defined(__VISUALC__) // #ifndef NSPIRE
 #include <dirent.h>
 #ifndef __MINGW_H
 #include <pwd.h>
