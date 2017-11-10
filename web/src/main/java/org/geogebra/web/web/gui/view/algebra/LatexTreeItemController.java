@@ -347,7 +347,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 	public void onTab() {
 		onEnter(false, false);
-		if (item.isEmpty() && item.isInputTreeItem()) {
+		if (item.isInputTreeItem()) {
 			item.addDummyLabel();
 			item.setItemWidth(item.getAV().getFullWidth());
 		}

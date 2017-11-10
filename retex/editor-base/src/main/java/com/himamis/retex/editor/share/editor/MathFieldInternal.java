@@ -211,8 +211,9 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				return true;
 			}
 		}
+		boolean tab = keyEvent.getKeyCode() == JavaKeyCodes.VK_TAB;
 		boolean handled = keyListener.onKeyPressed(keyEvent);
-        if (handled) {
+        if (handled && !tab) {
             update();
 			if (!arrow && listener != null) {
 				listener.onKeyTyped();
