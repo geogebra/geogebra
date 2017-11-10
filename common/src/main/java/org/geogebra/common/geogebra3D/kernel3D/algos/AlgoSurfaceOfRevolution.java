@@ -181,10 +181,12 @@ public class AlgoSurfaceOfRevolution extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[line == null ? 2 : 3];
+		input = new GeoElement[3];
 		input[0] = path.toGeoElement();
 		input[1] = (GeoElement) angle;
-		if (line != null) {
+		if (line == null) {
+			input[2] = kernel.getXAxis();
+		} else {
 			input[2] = line.toGeoElement();
 		}
 		setOnlyOutput(surface);
