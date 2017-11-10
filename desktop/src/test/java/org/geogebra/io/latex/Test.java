@@ -99,9 +99,14 @@ public class Test {
 
 			}
 
+			@Override
 			public boolean onEscape() {
-				// TODO Auto-generated method stub
 				return false;
+			}
+
+			@Override
+			public void onTab() {
+				// nothing to do
 			}
 		});
 		JFrame frame = new JFrame();

@@ -54,12 +54,13 @@ public class JlmEditorLib extends JlmLib {
 						// TODO Auto-generated method stub
 					}
 
+					@Override
 					public boolean onEscape() {
 						// TODO Auto-generated method stub
 						return false;
 					}
 
-					// @Override
+					@Override
 					public void onTab() {
 						// TODO Auto-generated method stub
 					}
