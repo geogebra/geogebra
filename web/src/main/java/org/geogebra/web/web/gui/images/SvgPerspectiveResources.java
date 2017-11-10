@@ -154,7 +154,7 @@ public interface SvgPerspectiveResources extends ClientBundle {
 	SVGResource menu_icon_spreadsheet24();
 
 
-	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/perspectives_algebra_3Dgraphics.svg")
+	@Source("org/geogebra/common/icons/svg/web/menuIconsTransparent/menu_view_3d.svg")
 	SVGResource menu_icon_graphics3D24();
 
 
