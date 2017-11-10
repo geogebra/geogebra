@@ -1172,6 +1172,8 @@ public class GeoPolyhedron extends GeoElement3D
 			segment.setLineThickness(th);
 			segment.updateVisualStyle(GProperty.LINE_STYLE);
 		}
+
+		updateVisualStyle(GProperty.LINE_STYLE);
 	}
 
 	@Override
@@ -2145,6 +2147,11 @@ public class GeoPolyhedron extends GeoElement3D
 			GeoSegmentND segment) {
 		coords.setAdd3(coords, segment.getStartInhomCoords());
 		coords.setAdd3(coords, segment.getEndInhomCoords());
+	}
+
+	@Override
+	public int getMinimumLineThickness() {
+		return 0;
 	}
 
 }

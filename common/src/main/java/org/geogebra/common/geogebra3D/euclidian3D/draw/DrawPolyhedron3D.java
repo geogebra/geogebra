@@ -17,6 +17,7 @@ import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPyramid
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -197,25 +198,28 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
 
-		PlotterBrush brush = renderer.getGeometryManager().getBrush();
-		brush.start(getReusableGeometryIndex());
-		brush.setThickness(poly.getLineThickness(),
-				(float) getView3D().getScale());
+		int thickness = poly.getLineThickness();
+		if (thickness == 0) {
+			setGeometryIndex(-1);
+		} else {
+			PlotterBrush brush = renderer.getGeometryManager().getBrush();
+			brush.start(getReusableGeometryIndex());
+			brush.setThickness(thickness, (float) getView3D().getScale());
 
-		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
-				.getPolygonsLinked()) {
-			// draw segments for polygons that have no label
-			if (p.isEuclidianVisible() && !p.isLabelSet()) {
-				for (GeoSegmentND seg : p.getSegments()) {
-					drawSegment(brush, seg);
+			for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygonsLinked()) {
+				// draw segments for polygons that have no label
+				if (p.isEuclidianVisible() && !p.isLabelSet()) {
+					for (GeoSegmentND seg : p.getSegments()) {
+						drawSegment(brush, seg);
+					}
 				}
 			}
-		}
-		for (GeoSegmentND seg : poly.getSegments()) {
-			drawSegment(brush, seg);
-		}
+			for (GeoSegmentND seg : poly.getSegments()) {
+				drawSegment(brush, seg);
+			}
 
-		setGeometryIndex(brush.end());
+			setGeometryIndex(brush.end());
+		}
 
 	}
 
@@ -506,6 +510,15 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 		exportToPrinter3D.export(polygon, vertices, getGeoElement().getObjectColor(), getGeoElement().getAlphaValue());
 
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		super.setWaitForUpdateVisualStyle(prop);
+		if (prop == GProperty.LINE_STYLE) {
+			// also update for line width (e.g when translated)
+			setWaitForUpdate();
+		}
 	}
 
 }

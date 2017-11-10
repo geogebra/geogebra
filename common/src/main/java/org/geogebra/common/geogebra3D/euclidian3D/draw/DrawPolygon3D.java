@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
 import org.geogebra.common.kernel.geos.FromMeta;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -309,17 +310,21 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	private void updateOutline(Renderer renderer, Coords[] vertices,
 			int length) {
 
-		PlotterBrush brush = renderer.getGeometryManager().getBrush();
-		brush.start(getReusableGeometryIndex());
-		brush.setThickness(getGeoElement().getLineThickness(),
-				(float) getView3D().getScale());
-		for (int i = 0; i < length - 1; i++) {
+		int thickness = getGeoElement().getLineThickness();
+		if (thickness == 0) {
+			setGeometryIndex(-1);
+		} else {
+			PlotterBrush brush = renderer.getGeometryManager().getBrush();
+			brush.start(getReusableGeometryIndex());
+			brush.setThickness(thickness, (float) getView3D().getScale());
+			for (int i = 0; i < length - 1; i++) {
+				brush.setAffineTexture(0.5f, 0.25f);
+				brush.segment(vertices[i], vertices[i + 1]);
+			}
 			brush.setAffineTexture(0.5f, 0.25f);
-			brush.segment(vertices[i], vertices[i + 1]);
+			brush.segment(vertices[length - 1], vertices[0]);
+			setGeometryIndex(brush.end());
 		}
-		brush.setAffineTexture(0.5f, 0.25f);
-		brush.segment(vertices[length - 1], vertices[0]);
-		setGeometryIndex(brush.end());
 
 	}
 
@@ -667,6 +672,15 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
 		if (isVisible()) {
 			exportToPrinter3D.export((GeoPolygon) getGeoElement(), vertices, null, getGeoElement().getAlphaValue());
+		}
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		super.setWaitForUpdateVisualStyle(prop);
+		if (prop == GProperty.LINE_STYLE) {
+			// also update for line width (e.g when translated)
+			setWaitForUpdate();
 		}
 	}
 
