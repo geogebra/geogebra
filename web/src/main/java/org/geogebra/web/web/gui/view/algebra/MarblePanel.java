@@ -5,9 +5,9 @@ import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.TabHandler;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -327,13 +327,7 @@ public class MarblePanel extends FlowPanel
 
 	@Override
 	public void setTitle(String title) {
-		if (item.getApplication().has(Feature.TOOLTIP_DESIGN)
-				&& !Browser.isMobile()) {
-			getElement().removeAttribute("title");
-			getElement().setAttribute("data-title", title);
-		} else {
-			super.setTitle(title);
-		}
+		AriaHelper.setTitle(this, title, item.app);
 	}
 
 	/**

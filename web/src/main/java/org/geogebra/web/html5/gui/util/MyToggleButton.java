@@ -1,8 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
@@ -46,14 +44,7 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 
 	@Override
 	public void setTitle(String title) {
-		if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
-			getElement().removeAttribute("title");
-			if (!"".equals(title)) {
-				getElement().setAttribute("data-title", title);
-			}
-		} else {
-			super.setTitle(title);
-		}
+		AriaHelper.setTitle(this, title, app);
 	}
 
 	/**

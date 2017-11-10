@@ -4,7 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
@@ -80,12 +80,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 
 		@Override
 		public void setTitle(String title) {
-			if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
-				getElement().removeAttribute("title");
-				getElement().setAttribute("data-title", title);
-			} else {
-				super.setTitle(title);
-			}
+			AriaHelper.setTitle(this, title, app);
 		}
 	}
 

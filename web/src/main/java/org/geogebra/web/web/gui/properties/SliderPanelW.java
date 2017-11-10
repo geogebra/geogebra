@@ -457,7 +457,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			blobColorChooserBtn.setIcon(content);
 		} else {
 			if (color == null) {
-				content.setBgColor(getColorWithOpacity(color));
+				content.setBgColor(getColorWithOpacity(null));
 			}
 			lineColorChooserBtn.setIcon(content);
 		}

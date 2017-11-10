@@ -1,8 +1,7 @@
 package org.geogebra.web.web.gui.properties;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -45,11 +44,6 @@ public class PropertiesButton extends MenuItem {
 
 	@Override
 	public void setTitle(String title) {
-		if (getApp().has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
-			getElement().removeAttribute("title");
-			getElement().setAttribute("data-title", title);
-		} else {
-			super.setTitle(title);
-		}
+		AriaHelper.setTitle(this, title, app);
 	}
 }
