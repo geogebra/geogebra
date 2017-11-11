@@ -690,6 +690,24 @@ namespace giac {
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=3) )
       return string(sommetstr)+('('+feuille.print(contextptr)+')');
     string res;
+    bool python=python_compat(contextptr) && !debug_ptr(contextptr)->debug_mode;
+    if (python){
+      int & ind=debug_ptr(contextptr)->indent_spaces;
+      vecteur & v =*feuille._VECTptr;
+      res = string(ind,' ')+"def rename_me(";
+      if (v[0].type==_VECT && v[0].subtype==_SEQ__VECT && v[0]._VECTptr->size()==1)
+	res += v[0]._VECTptr->front().print(contextptr);
+      else
+	res += v[0].print(contextptr);
+      res += "):\n";
+      ind += 4;
+      if (v[2].is_symb_of_sommet(at_bloc) || v[2].is_symb_of_sommet(at_local))
+	res += v[2].print(contextptr);
+      else
+	res += string(ind,' ')+v[2].print(contextptr)+'\n';
+      ind -= 4;
+      return res;
+    }
     bool calc38=abs_calc_mode(contextptr)==38;
     if (!calc38){
       if (xcas_mode(contextptr)==3)
@@ -1326,6 +1344,19 @@ namespace giac {
       return "{"+feuille.print(contextptr)+";}";
     const_iterateur it=feuille._VECTptr->begin(),itend=feuille._VECTptr->end();
     string res("{");
+    bool python=python_compat(contextptr) && !debug_ptr(contextptr)->debug_mode;
+    if (python){
+      int & ind=debug_ptr(contextptr)->indent_spaces;
+      res="\n";
+      for (;it!=itend;++it){
+	string add=it->print(contextptr);
+	if (add.size() && add[0]=='\n' && res.size() && res[res.size()-1]=='\n')
+	  res += add.substr(1,add.size()-1)+'\n';
+	else
+	  res += string(ind,' ')+add+'\n';
+      }
+      return res;
+    }
     if (xcas_mode(contextptr)>0){
       if (xcas_mode(contextptr)==3)
 	res="";
@@ -1438,6 +1469,19 @@ namespace giac {
     bool calc38=abs_calc_mode(contextptr)==38;
     const_iterateur it=feuille._VECTptr->begin();//,itend=feuille._VECTptr->end();
     string res(calc38?"IF ":"if ");
+    bool python=python_compat(contextptr) && !debug_ptr(contextptr)->debug_mode;
+    if (python){
+      int & ind=debug_ptr(contextptr)->indent_spaces;
+      res = '\n'+string(ind,' ')+"if "+it->print(contextptr)+" :\n";
+      ind += 4;
+      ++it;
+      res += string(ind,' ')+it->print(contextptr);
+      ++it;
+      if (it->type!=_INT_)
+	res += '\n'+string(ind-4,' ')+"else :\n"+string(ind,' ')+it->print(contextptr);
+      ind -= 4;
+      return res;
+    }
     if (xcas_mode(contextptr)==3)
       res="If ";
     if (calc38 || xcas_mode(contextptr)>0)
@@ -1743,6 +1787,19 @@ namespace giac {
     const_iterateur it=feuille._VECTptr->begin();//,itend=feuille._VECTptr->end();
     string res;
     gen inc(from_increment(*(it+2)));
+    bool python=python_compat(contextptr) && !debug_ptr(contextptr)->debug_mode;
+    if (python){
+      int & ind=debug_ptr(contextptr)->indent_spaces;
+      if (it->type!=_INT_) res += '\n'+string(ind,' ')+it->print(contextptr)+'\n';
+      res += string(ind,' ')+"while " + (it+1)->print(contextptr)+" :";
+      if (!(it+3)->is_symb_of_sommet(at_bloc))
+	res += '\n';
+      ind += 4;
+      res += (it+3)->print(contextptr);
+      if ((it+2)->type!=_INT_) res += string(ind,' ')+(it+2)->print(contextptr);      
+      ind -=4;
+      return res;
+    }
     if (is_integer(*it) && is_integer(*(it+2))){
       ++it;
       if (is_one(*it) && (it+2)->is_symb_of_sommet(at_bloc)){
@@ -2480,6 +2537,14 @@ namespace giac {
     protection_level=protect;
     return true;
   }
+  
+  static string printaslocalvars(const gen &loc,GIAC_CONTEXT){
+    gen locals(loc);
+    if (locals._VECTptr->size()==1)
+      return locals._VECTptr->front().print(contextptr);
+    locals.subtype=_SEQ__VECT;
+    return locals.print(contextptr);
+  }
 
   static string printaslocal(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
@@ -2493,6 +2558,22 @@ namespace giac {
 	locals=gen2vecteur(f);
 	globals=gen2vecteur(b);
       }
+    }
+    bool python=python_compat(contextptr) && !debug_ptr(contextptr)->debug_mode;
+    if (python){
+      int & ind=debug_ptr(contextptr)->indent_spaces;
+      if (!locals._VECTptr->empty())
+	res += string(ind,' ')+"local "+printaslocalvars(locals,contextptr)+"\n";
+      if (!globals._VECTptr->empty())
+	res += string(ind,' ')+"global "+printaslocalvars(globals,contextptr)+"\n";
+      ++it;
+      if (it->is_symb_of_sommet(at_bloc)){
+	if (res.size() && res[res.size()-1]=='\n') res=res.substr(0,res.size()-1);
+	res += it->print(contextptr)+'\n';
+      }
+      else
+	res += string(ind,' ')+it->print(contextptr)+'\n';
+      return res;
     }
     if (!locals._VECTptr->empty()){
       res += indent(contextptr);
@@ -2508,12 +2589,7 @@ namespace giac {
 	else
 	  res += "{ local ";
       }
-      if (locals._VECTptr->size()==1)
-	res += locals._VECTptr->front().print(contextptr);
-      else {
-	locals.subtype=_SEQ__VECT;
-	res += locals.print(contextptr);
-      }
+      res += printaslocalvars(locals,contextptr);
       if (xcas_mode(contextptr)!=3)
 	res +=';';
     }
@@ -2531,12 +2607,7 @@ namespace giac {
 	else
 	  res += " global ";
       }
-      if (globals._VECTptr->size()==1)
-	res += globals._VECTptr->front().print(contextptr);
-      else {
-	globals.subtype=_SEQ__VECT;
-	res += globals.print(contextptr);
-      }
+      res += printaslocalvars(globals,contextptr);
       if (xcas_mode(contextptr)!=3)
 	res +=';';      
     }
