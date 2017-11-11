@@ -1629,6 +1629,85 @@ namespace giac {
     }
   }
 
+  gen rationalize(const gen & g,const gen & x,GIAC_CONTEXT){
+    gen expr=g;
+    vecteur lv(lvarx(expr,x));
+    int s=int(lv.size());
+    if (s==1)
+      return expr;
+    expr=hyp2exp(expr,contextptr); // was halftan_hyp2exp, changed for solve(sin(2x)=sin(x))
+    lv=lvarx(expr,x);
+    s=int(lv.size());
+    if (s==1)
+      return expr;
+    gen tmp;
+    if (lv.size()==2 && lv[0].type==_SYMB && lv[1].type==_SYMB && lv[0]._SYMBptr->feuille==lv[1]._SYMBptr->feuille)
+      tmp=expr;
+    else
+      tmp=_texpand(expr,contextptr);
+    vecteur tmplv=lvarx(tmp,x);
+    if (tmplv.size()==2 && tmplv[0].type==_SYMB && tmplv[1].type==_SYMB && tmplv[0]._SYMBptr->feuille==tmplv[1]._SYMBptr->feuille){
+      gen a,b,c,d;
+      if (is_linear_wrt(tmp,tmplv[0],a,b,contextptr) && is_zero(derive(a,x,contextptr)) && is_linear_wrt(b,tmplv[1],c,d,contextptr) && is_zero(derive(c,x,contextptr)) && is_zero(derive(d,x,contextptr))){
+	// tmp=a*tmplv[0]+c*tmplv[1]+d
+	if (tmplv[0]._SYMBptr->sommet==at_sin && tmplv[1]._SYMBptr->sommet==at_cos){
+	  // a*sin(x)+c*cos(x)=C*sin(x+phi) where exp(i*phi)=a+i*c;
+	  gen phi=arg(halftan(a+cst_i*c,contextptr),contextptr);
+	  tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
+	}
+	if (tmplv[0]._SYMBptr->sommet==at_cos && tmplv[1]._SYMBptr->sommet==at_sin){
+	  // a*cos(x)+c*sin(x)=C*sin(x+phi) where exp(i*phi)=c+i*a;
+	  gen phi=arg(halftan(c+cst_i*a,contextptr),contextptr);
+	  tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
+	}
+      }
+      else {
+	if (is_linear_wrt(tmp,tmplv[1],a,b,contextptr) && is_zero(derive(a,x,contextptr)) && is_linear_wrt(b,tmplv[0],c,d,contextptr) && is_zero(derive(c,x,contextptr)) && is_zero(derive(d,x,contextptr))){
+	  // tmp=a*tmplv[0]+c*tmplv[1]+d
+	  if (tmplv[1]._SYMBptr->sommet==at_sin && tmplv[0]._SYMBptr->sommet==at_cos){
+	    // a*sin(x)+c*cos(x)=C*sin(x+phi) where exp(i*phi)=a+i*c;
+	    gen phi=arg(halftan(a+cst_i*c,contextptr),contextptr);
+	    tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[1]._SYMBptr->feuille+phi,contextptr)+d;
+	  }
+	  if (tmplv[1]._SYMBptr->sommet==at_cos && tmplv[0]._SYMBptr->sommet==at_sin){
+	    // a*cos(x)+c*sin(x)=C*sin(x+phi) where exp(i*phi)=c+i*a;
+	    gen phi=arg(halftan(c+cst_i*a,contextptr),contextptr);
+	    tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[1]._SYMBptr->feuille+phi,contextptr)+d;
+	  }
+	}
+      }
+    }
+    if (lvarx(tmp,x).size()==1)
+      expr=tmp;
+    else {
+      gen tmp1=_trigtan(tmp,contextptr);
+      if (lvarx(tmp1,x).size()==1)
+	tmp=tmp1;
+      else
+	tmp=halftan(tmp,contextptr);
+      // change made on 6 dec 2014 for solve(-e^x*(-cos(x)+sin(x)),x);
+      int tmps=int(lvarx(tmp,x).size());
+      if (tmps==1)
+	expr=tmp;
+      else {
+	tmp=_lncollect((tmps<s?tmp:expr),contextptr);
+	int s1=int(lvarx(tmp,x).size());
+	if (s1<s){
+	  // Note: we are checking solutions numerically later
+	  *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
+	  expr=tmp;
+	  s=s1;
+	}
+	// code added 11 october 2015 for solve(2^(3*x-1)+2^(6*x-2)-2^(3*x+3)-(4^(3*x-2))=0);
+	tmp=_tsimplify(tmps<s?tmp:expr,contextptr);
+	if (int(lvarx(tmp,x).size())<s){
+	  expr=tmp;
+	}
+      }
+    }
+    return expr;
+  }
+
   static vecteur solve_numeric_check(const gen & e,const gen & x,const vecteur & sol,GIAC_CONTEXT){
     if (is_undef(sol))
       return sol;
@@ -1797,80 +1876,7 @@ namespace giac {
       }
       return res;
     }
-    vecteur lv(lvarx(expr,x));
-    int s=int(lv.size());
-    if (s>1){
-      expr=hyp2exp(expr,contextptr); // was halftan_hyp2exp, changed for solve(sin(2x)=sin(x))
-      lv=lvarx(expr,x);
-      s=int(lv.size());
-      if (s>1){
-	gen tmp;
-	if (lv.size()==2 && lv[0].type==_SYMB && lv[1].type==_SYMB && lv[0]._SYMBptr->feuille==lv[1]._SYMBptr->feuille)
-	  tmp=expr;
-	else
-	  tmp=_texpand(expr,contextptr);
-	vecteur tmplv=lvarx(tmp,x);
-	if (tmplv.size()==2 && tmplv[0].type==_SYMB && tmplv[1].type==_SYMB && tmplv[0]._SYMBptr->feuille==tmplv[1]._SYMBptr->feuille){
-	  gen a,b,c,d;
-	  if (is_linear_wrt(tmp,tmplv[0],a,b,contextptr) && is_zero(derive(a,x,contextptr)) && is_linear_wrt(b,tmplv[1],c,d,contextptr) && is_zero(derive(c,x,contextptr)) && is_zero(derive(d,x,contextptr))){
-	    // tmp=a*tmplv[0]+c*tmplv[1]+d
-	    if (tmplv[0]._SYMBptr->sommet==at_sin && tmplv[1]._SYMBptr->sommet==at_cos){
-	      // a*sin(x)+c*cos(x)=C*sin(x+phi) where exp(i*phi)=a+i*c;
-	      gen phi=arg(halftan(a+cst_i*c,contextptr),contextptr);
-	      tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
-	    }
-	    if (tmplv[0]._SYMBptr->sommet==at_cos && tmplv[1]._SYMBptr->sommet==at_sin){
-	      // a*cos(x)+c*sin(x)=C*sin(x+phi) where exp(i*phi)=c+i*a;
-	      gen phi=arg(halftan(c+cst_i*a,contextptr),contextptr);
-	      tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[0]._SYMBptr->feuille+phi,contextptr)+d;
-	    }
-	  }
-	  else {
-	    if (is_linear_wrt(tmp,tmplv[1],a,b,contextptr) && is_zero(derive(a,x,contextptr)) && is_linear_wrt(b,tmplv[0],c,d,contextptr) && is_zero(derive(c,x,contextptr)) && is_zero(derive(d,x,contextptr))){
-	    // tmp=a*tmplv[0]+c*tmplv[1]+d
-	      if (tmplv[1]._SYMBptr->sommet==at_sin && tmplv[0]._SYMBptr->sommet==at_cos){
-		// a*sin(x)+c*cos(x)=C*sin(x+phi) where exp(i*phi)=a+i*c;
-		gen phi=arg(halftan(a+cst_i*c,contextptr),contextptr);
-		tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[1]._SYMBptr->feuille+phi,contextptr)+d;
-	      }
-	      if (tmplv[1]._SYMBptr->sommet==at_cos && tmplv[0]._SYMBptr->sommet==at_sin){
-		// a*cos(x)+c*sin(x)=C*sin(x+phi) where exp(i*phi)=c+i*a;
-		gen phi=arg(halftan(c+cst_i*a,contextptr),contextptr);
-		tmp=sqrt(a*a+c*c,contextptr)*sin(tmplv[1]._SYMBptr->feuille+phi,contextptr)+d;
-	      }
-	    }
-	  }
-	}
-	if (lvarx(tmp,x).size()==1)
-	  expr=tmp;
-	else {
-	  gen tmp1=_trigtan(tmp,contextptr);
-	  if (lvarx(tmp1,x).size()==1)
-	    tmp=tmp1;
-	  else
-	    tmp=halftan(tmp,contextptr);
-	  // change made on 6 dec 2014 for solve(-e^x*(-cos(x)+sin(x)),x);
-	  int tmps=int(lvarx(tmp,x).size());
-	  if (tmps==1)
-	    expr=tmp;
-	  else {
-	    tmp=_lncollect((tmps<s?tmp:expr),contextptr);
-	    int s1=int(lvarx(tmp,x).size());
-	    if (s1<s){
-	      // Note: we are checking solutions numerically later
-	      *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
-	      expr=tmp;
-	      s=s1;
-	    }
-	    // code added 11 october 2015 for solve(2^(3*x-1)+2^(6*x-2)-2^(3*x+3)-(4^(3*x-2))=0);
-	    tmp=_tsimplify(tmps<s?tmp:expr,contextptr);
-	    if (int(lvarx(tmp,x).size())<s){
-	      expr=tmp;
-	    }
-	  }
-	}
-      }
-    }
+    expr=rationalize(expr,x,contextptr);
     // Checking for fractional power
     //vecteur surd1,surd2; // ggb 4089
     //surd2pow(expr,surd1,surd2,contextptr);
@@ -1952,7 +1958,7 @@ namespace giac {
       purgenoassume(assumedvars,contextptr);
       return res;
     }
-    lv=lvarx(expr,x);
+    vecteur lv=lvarx(expr,x);
     if (lv.size()>1){
       gen tmp=factor(simplify(expr,contextptr),false,contextptr);
       if (is_undef(tmp))
@@ -2073,7 +2079,7 @@ namespace giac {
     if (setcplx)
       complex_mode(false,contextptr);
     lv=lvarx(expr,x);
-    s=int(lv.size());
+    int s=int(lv.size());
     if (s==1 && lv[0].is_symb_of_sommet(at_tan) && expr.is_symb_of_sommet(at_prod) && expr._SYMBptr->feuille.type==_VECT){
       // remove denominator if limit!=0
       gen etan=limit(subst(expr,lv[0],x,false,contextptr),x,plus_inf,-1,contextptr);
@@ -6098,30 +6104,34 @@ namespace giac {
 	return vecteur(1,gensizeerr(gettext("Bad var ")+it->print(contextptr)));
       vecteur l(rlvarx(eq,*it));
       if (l.size()>1){
-	l=lvarx(eq,*it);
-	if (l.size()==1){
-	  // solve with respect to l[0] then extract *it
-	  gen newvar=l.front();
-	  gen tmpeq=subst(eq,newvar,*it,false,contextptr);
-	  if (tmpeq.type==_VECT){
-	    vecteur res0=gsolve(*tmpeq._VECTptr,var,complexmode,0,contextptr);
-	    // solve newvar=varn-th component of each solution in res
-	    vecteur res;
-	    int i=0;
-	    for (;i<int(res0.size());++i){
-	      gen cur=res0[i];
-	      if (cur.type!=_VECT || cur._VECTptr->size()<varn)
-		break;
-	      vecteur curv=*cur._VECTptr;
-	      gen val=curv[varn];
-	      vecteur resval=solve(newvar-val,*it,complexmode,contextptr);
-	      for (int j=0;j<int(resval.size());++j){
-		curv[varn]=resval[j];
-		res.push_back(curv);
+	gen tmp=rationalize(eq,*it,contextptr);
+	if (tmp.type==_VECT){
+	  eq=*tmp._VECTptr;
+	  l=lvarx(eq,*it);
+	  if (l.size()==1){
+	    // solve with respect to l[0] then extract *it
+	    gen newvar=l.front();
+	    gen tmpeq=subst(eq,newvar,*it,false,contextptr);
+	    if (tmpeq.type==_VECT){
+	      vecteur res0=gsolve(*tmpeq._VECTptr,var,complexmode,0,contextptr);
+	      // solve newvar=varn-th component of each solution in res
+	      vecteur res;
+	      int i=0;
+	      for (;i<int(res0.size());++i){
+		gen cur=res0[i];
+		if (cur.type!=_VECT || cur._VECTptr->size()<varn)
+		  break;
+		vecteur curv=*cur._VECTptr;
+		gen val=curv[varn];
+		vecteur resval=solve(newvar-val,*it,complexmode,contextptr);
+		for (int j=0;j<int(resval.size());++j){
+		  curv[varn]=resval[j];
+		  res.push_back(curv);
+		}
 	      }
+	      if (i==res0.size())
+		return res;
 	    }
-	    if (i==res0.size())
-	      return res;
 	  }
 	}
 	return vecteur(1,gensizeerr(gen(l).print(contextptr)+gettext(" is not rational w.r.t. ")+it->print(contextptr)));

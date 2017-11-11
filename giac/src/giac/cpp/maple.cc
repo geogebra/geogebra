@@ -2519,6 +2519,7 @@ namespace giac {
       n=gen(identificateur("rsolve_n"));
     }
     int fs=int(fv.size());
+    if (dim<fs) return gensizeerr(contextptr);
     int add=dim-fs;
     if (f.type!=_VECT && !fv1){
       f=vecteur(x._VECTptr->end()-add,x._VECTptr->end());
