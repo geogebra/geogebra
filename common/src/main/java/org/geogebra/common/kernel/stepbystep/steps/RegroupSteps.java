@@ -579,14 +579,15 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 				return so;
 			} else if (sn instanceof StepEquation) {
-				StepEquation se = ((StepEquation) sn).deepCopy();
+				StepEquation se = (StepEquation) sn;
 
 				StepExpression newLHS = (StepExpression) apply(se.getLHS(), sb, colorTracker, integer);
 				StepExpression newRHS = (StepExpression) apply(se.getRHS(), sb, colorTracker, integer);
 
-				se.modify(newLHS, newRHS);
+				StepEquation result = se.deepCopy();
+				result.modify(newLHS, newRHS);
 
-				return se;
+				return result;
 			}
 
 			return sn;

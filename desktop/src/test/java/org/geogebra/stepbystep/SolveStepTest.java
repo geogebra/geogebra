@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.commands.CommandsTest;
+import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -212,7 +213,7 @@ public class SolveStepTest {
 
 			Assert.assertArrayEquals(expectedSolutions, new String[] { "CASfail" });
 			return;
-		} catch (Throwable e) {
+		} catch (CASException e) {
 			e.printStackTrace();
 			Assert.fail();
 		}

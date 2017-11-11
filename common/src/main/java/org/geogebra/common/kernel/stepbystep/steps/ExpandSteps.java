@@ -189,14 +189,15 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 			}
 			return toReturn;
 		} else if (sn instanceof StepEquation) {
-			StepEquation se = ((StepEquation) sn).deepCopy();
+			StepEquation se = (StepEquation) sn;
 
 			StepExpression newLHS = (StepExpression) expandProducts(se.getLHS(), sb, colorTracker, all);
 			StepExpression newRHS = (StepExpression) expandProducts(se.getRHS(), sb, colorTracker, all);
 
-			se.modify(newLHS, newRHS);
+			StepEquation result = se.deepCopy();
+			result.modify(newLHS, newRHS);
 
-			return se;
+			return result;
 		}
 
 		return sn;

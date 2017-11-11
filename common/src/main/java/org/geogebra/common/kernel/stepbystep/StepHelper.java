@@ -791,23 +791,21 @@ public class StepHelper {
 	}
 
 	public static StepSet getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel) throws CASException {
-		String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + se + ", " + variable + ")", null);
-		MyList solutionList = null;
 		try {
-			solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
+			String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + se + ", " + variable + ")", null);
+			MyList solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
+
+			StepSet solutions = new StepSet();
+
+			for (int i = 0; i < solutionList.getLength(); i++) {
+				solutions.addElement(StepNode.convertExpression(solutionList.getListElement(i)));
+			}
+
+			return solutions;
 		} catch (ParseException e) {
 			e.printStackTrace();
+			return new StepSet();
 		}
-		if (solutionList == null) {
-			return null;
-		}
-		StepSet solutions = new StepSet();
-
-		for (int i = 0; i < solutionList.getLength(); i++) {
-			solutions.addElement(StepNode.convertExpression(solutionList.getListElement(i)));
-		}
-
-		return solutions;
 	}
 
 	public static int degree(StepNode sn) {

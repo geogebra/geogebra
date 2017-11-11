@@ -180,9 +180,9 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepExpression result = new StepConstant(1);
 
 					so.getSubTree(0).setColor(colorTracker[0]);
-					result.setColor(colorTracker[0]++);
+					result.setColor(colorTracker[0]);
 
-					sb.add(SolutionStepType.DIFF_VARIABLE);
+					sb.add(SolutionStepType.DIFF_VARIABLE, colorTracker[0]++);
 
 					return result;
 				}
@@ -230,15 +230,15 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepExpression exponent = power.getSubTree(1);
 
 					if (base.equals(StepConstant.E)) {
-						power.setColor(colorTracker[0]++);
+						power.setColor(colorTracker[0]);
 						
 						StepExpression result = power;
 
 						if (exponent.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E);
+							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E, colorTracker[0]++);
 						} else {
 							result = multiply(result, differentiate(exponent, variable));
-							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E_CHAIN);
+							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E_CHAIN, colorTracker[0]++);
 						}
 
 						return result;
@@ -323,13 +323,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 						StepExpression result = divide(1, argument);
 
 						logarithm.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]++);
+						result.setColor(colorTracker[0]);
 
 						if (argument.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_NATURAL_LOG);
+							sb.add(SolutionStepType.DIFF_NATURAL_LOG, colorTracker[0]++);
 						} else {
 							result = multiply(result, differentiate(argument, variable));
-							sb.add(SolutionStepType.DIFF_NATURAL_LOG_CHAIN);
+							sb.add(SolutionStepType.DIFF_NATURAL_LOG_CHAIN, colorTracker[0]++);
 						}
 
 						return result;

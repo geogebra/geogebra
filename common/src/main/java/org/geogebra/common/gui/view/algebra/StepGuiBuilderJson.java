@@ -67,4 +67,9 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 
 	}
 
+	public void linebreak() {
+		// TODO Auto-generated method stub
+
+	}
+
 }

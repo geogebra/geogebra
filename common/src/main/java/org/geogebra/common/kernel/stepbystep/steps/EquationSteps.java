@@ -764,43 +764,31 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	public static StepSet checkSolutions(StepEquation se, StepSet solutions, StepVariable variable,
 			SolutionBuilder steps) {
+
 		if (solutions.size() == 0) {
 			steps.add(SolutionStepType.NO_REAL_SOLUTION);
 			return solutions;
 		} else if (solutions.size() == 1) {
-			steps.add(SolutionStepType.SOLUTION, solutions);
+			steps.add(SolutionStepType.SOLUTION, solutions.getElements());
 		} else if (solutions.size() > 1) {
-			steps.add(SolutionStepType.SOLUTIONS, solutions);
+			steps.add(SolutionStepType.SOLUTIONS, solutions.getElements());
+		}
+
+		SolutionBuilder temp = new SolutionBuilder();
+		for (StepNode sol : solutions.getElements()) {
+			if (sol instanceof StepExpression) {
+				StepExpression solution = (StepExpression) sol;
+
+				if (!se.checkSolution(solution, variable, temp)) {
+					solutions.remove(solution);
+				}
+			}
 		}
 
 		if (se.getRestriction() != null || se.getUndefinedPoints() != null || se.shouldCheck()) {
 			steps.add(SolutionStepType.CHECK_VALIDITY);
 			steps.levelDown();
-		}
-
-		for (StepNode sol : solutions.getElements()) {
-			if (sol instanceof StepExpression) {
-				StepExpression solution = (StepExpression) sol;
-
-				if (se.getRestriction() != null) {
-					if (se.getRestriction().contains(solution)) {
-						steps.add(SolutionStepType.VALID_SOLUTION_ABS, new StepEquation(variable, solution),
-								se.getRestriction());
-					} else {
-						steps.add(SolutionStepType.INVALID_SOLUTION_ABS, new StepEquation(variable, solution),
-								se.getRestriction());
-						solutions.remove(sol);
-					}
-				} else {
-					if (se.isValid(variable, solution.getValue())) {
-						steps.add(SolutionStepType.VALID_SOLUTION, new StepEquation(variable, solution));
-					} else {
-						steps.add(SolutionStepType.INVALID_SOLUTION, new StepEquation(variable, solution));
-						solutions.remove(sol);
-					}
-				}
-			}
-
+			steps.addAll(temp.getSteps());
 		}
 
 		return solutions;

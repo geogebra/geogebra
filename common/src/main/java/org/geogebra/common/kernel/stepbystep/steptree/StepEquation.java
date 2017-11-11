@@ -161,6 +161,7 @@ public class StepEquation extends StepNode {
 	}
 
 	public StepEquation regroup(SolutionBuilder sb) {
+		cleanColors();
 		StepEquation temp = (StepEquation) StepStrategies.defaultRegroup(this, sb);
 
 		LHS = temp.getLHS();
@@ -174,6 +175,7 @@ public class StepEquation extends StepNode {
 	}
 
 	public StepEquation expand(SolutionBuilder sb) {
+		cleanColors();
 		StepEquation temp = (StepEquation) StepStrategies.defaultExpand(this, sb);
 
 		LHS = temp.getLHS();
@@ -187,6 +189,7 @@ public class StepEquation extends StepNode {
 	}
 
 	public StepEquation factor(SolutionBuilder sb) {
+		cleanColors();
 		StepEquation temp = (StepEquation) StepStrategies.defaultFactor(this, sb);
 
 		LHS = temp.getLHS();
@@ -211,6 +214,8 @@ public class StepEquation extends StepNode {
 			LHS = add(LHS, toAdd);
 			RHS = add(RHS, toAdd);
 
+			steps.add(SolutionStepType.WRAPPER);
+			steps.levelDown();
 			steps.add(SolutionStepType.ADD_TO_BOTH_SIDES, toAdd);
 			steps.levelDown();
 			addStep(steps);
@@ -218,6 +223,7 @@ public class StepEquation extends StepNode {
 			regroup(steps);
 			steps.levelUp();
 			addStep(steps);
+			steps.levelUp();
 		}
 	}
 
@@ -228,6 +234,8 @@ public class StepEquation extends StepNode {
 			LHS = subtract(LHS, toSubtract);
 			RHS = subtract(RHS, toSubtract);
 
+			steps.add(SolutionStepType.WRAPPER);
+			steps.levelDown();
 			steps.add(SolutionStepType.SUBTRACT_FROM_BOTH_SIDES, toSubtract);
 			steps.levelDown();
 			addStep(steps);
@@ -235,6 +243,7 @@ public class StepEquation extends StepNode {
 			regroup(steps);
 			steps.levelUp();
 			addStep(steps);
+			steps.levelUp();
 		}
 	}
 
@@ -262,6 +271,8 @@ public class StepEquation extends StepNode {
 				RHS = multiply(RHS, toMultiply);
 			}
 
+			steps.add(SolutionStepType.WRAPPER);
+			steps.levelDown();
 			steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES, toMultiply);
 			steps.levelDown();
 			addStep(steps);
@@ -269,6 +280,7 @@ public class StepEquation extends StepNode {
 			expand(steps);
 			steps.levelUp();
 			addStep(steps);
+			steps.levelUp();
 		}
 	}
 
@@ -279,6 +291,8 @@ public class StepEquation extends StepNode {
 			LHS = divide(LHS, toDivide);
 			RHS = divide(RHS, toDivide);
 
+			steps.add(SolutionStepType.WRAPPER);
+			steps.levelDown();
 			steps.add(SolutionStepType.DIVIDE_BOTH_SIDES, toDivide);
 			steps.levelDown();
 			addStep(steps);
@@ -286,9 +300,10 @@ public class StepEquation extends StepNode {
 			expand(steps);
 			steps.levelUp();
 			addStep(steps);
+			steps.levelUp();
 		}
 	}
-
+	
 	public void multiplyOrDivide(StepExpression se, SolutionBuilder steps) {
 		if (se == null) {
 			return;
@@ -308,14 +323,19 @@ public class StepEquation extends StepNode {
 		LHS = StepExpression.reciprocate(LHS);
 		RHS = StepExpression.reciprocate(RHS);
 
+		steps.add(SolutionStepType.WRAPPER);
+		steps.levelDown();
 		steps.add(SolutionStepType.RECIPROCATE_BOTH_SIDES);
 		addStep(steps);
+		steps.levelUp();
 	}
 
 	public void square(SolutionBuilder steps) {
 		LHS = power(LHS, 2);
 		RHS = power(RHS, 2);
 
+		steps.add(SolutionStepType.WRAPPER);
+		steps.levelDown();
 		steps.add(SolutionStepType.SQUARE_BOTH_SIDES);
 		steps.levelDown();
 		addStep(steps);
@@ -323,6 +343,7 @@ public class StepEquation extends StepNode {
 		expand(steps);
 		steps.levelUp();
 		addStep(steps);
+		steps.levelUp();
 
 		shouldCheckSolutions = true;
 	}
@@ -353,7 +374,32 @@ public class StepEquation extends StepNode {
 		LHS = LHS.replace(from, to);
 		RHS = RHS.replace(from, to);
 
+		steps.add(SolutionStepType.WRAPPER);
+		steps.levelDown();
 		steps.add(SolutionStepType.REPLACE_WITH, from, to);
 		addStep(steps);
+		steps.levelUp();
+	}
+
+	public boolean checkSolution(StepExpression solution, StepVariable variable, SolutionBuilder steps) {
+		if (restriction != null) {
+			if (restriction.contains(solution)) {
+				steps.add(SolutionStepType.VALID_SOLUTION_ABS, new StepEquation(variable, solution),
+						restriction);
+			} else {
+				steps.add(SolutionStepType.INVALID_SOLUTION_ABS, new StepEquation(variable, solution),
+						restriction);
+				return false;
+			}
+		} else {
+			if (isValid(variable, solution.getValue())) {
+				steps.add(SolutionStepType.VALID_SOLUTION, new StepEquation(variable, solution));
+			} else {
+				steps.add(SolutionStepType.INVALID_SOLUTION, new StepEquation(variable, solution));
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

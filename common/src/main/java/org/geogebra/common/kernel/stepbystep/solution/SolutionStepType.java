@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
+import java.util.List;
+
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -7,11 +9,11 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
 public enum SolutionStepType {
-	WRAPPER("", ""),
+	WRAPPER("", "%0"),
 
 	SUBSTEP_WRAPPER("", ""),
 
-	EQUATION("", ""),
+	EQUATION("", "%0"),
 
 	SOLVE("Solve", "Solve: %0"),
 
@@ -39,7 +41,7 @@ public enum SolutionStepType {
 		}
 
 		@Override
-		public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
+		public String getDetailedText(Localization loc, List<Integer> color, StepNode[] parameters) {
 			StringBuilder serializedColored = new StringBuilder();
 			for (int i = 0; i < parameters.length; i++) {
 				if (i != 0) {
@@ -47,7 +49,7 @@ public enum SolutionStepType {
 				}
 				serializedColored.append(parameters[i].toLaTeXString(loc, true));
 			}
-			return loc.getMenuLaTeX(getKey(), getDefault(), serializedColored.toString()) + colorText(color);
+			return loc.getMenuLaTeX(getKey(), getDetailed(), serializedColored.toString()) + colorText(color);
 		}
 	},
 
@@ -75,9 +77,9 @@ public enum SolutionStepType {
 		}
 
 		@Override
-		public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
+		public String getDetailedText(Localization loc, List<Integer> color, StepNode[] parameters) {
 			String ordinal = loc.getOrdinalNumber((int) ((StepExpression) parameters[0]).getValue());
-			return loc.getMenuLaTeX(getKey(), getDefault(), ordinal);
+			return loc.getMenuLaTeX(getKey(), getDetailed(), ordinal);
 		}
 	},
 
@@ -156,9 +158,9 @@ public enum SolutionStepType {
 
 	ODD_POWER_NEGATIVE("OddPowerNegative", "An odd power of a negative number is a negative"),
 
-	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power by: "),
+	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power by: %0"),
 
-	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power by: "),
+	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power by: %0"),
 
 	EVALUATE_POWER("EvaluatePower", "Evaluate power"),
 
@@ -188,10 +190,10 @@ public enum SolutionStepType {
 
 	FACTOR_SQUARE("FactorSquare", "Factor out the perfect square"),
 
-	EXPAND_SUM_TIMES_SUM("ExpandSumTimesSum",
+	EXPAND_SUM_TIMES_SUM("ExpandSumTimesSum", "Expand product",
 			"Multiply everything in the first parentheses with everything in the second parentheses"),
 
-	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum",
+	EXPAND_SIMPLE_TIMES_SUM("ExpandSimpleTimesSum", "Expand product",
 			"Multiply %0 with everything in the parentheses"),
 
 	BINOM_SQUARED_SUM("BinomSquaredSum", "Use $(a+b)^2 \\equiv a^2 + 2ab + b^2$ to expand"),
@@ -241,7 +243,7 @@ public enum SolutionStepType {
 		}
 
 		@Override
-		public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
+		public String getDetailedText(Localization loc, List<Integer> color, StepNode[] parameters) {
 			StringBuilder serializedDefault = new StringBuilder();
 			for (int i = 0; i < parameters.length - 2; i++) {
 				if (i != 0) {
@@ -250,7 +252,7 @@ public enum SolutionStepType {
 				serializedDefault.append(parameters[i].toLaTeXString(loc, true));
 			}
 
-			return loc.getMenuLaTeX(getKey(), getDefault(), serializedDefault.toString(),
+			return loc.getMenuLaTeX(getKey(), getDetailed(), serializedDefault.toString(),
 					parameters[parameters.length - 2].toLaTeXString(loc, true),
 					parameters[parameters.length - 1].toLaTeXString(loc, true));
 		}
@@ -273,89 +275,127 @@ public enum SolutionStepType {
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function"),
 
-	DIFF_SUM("DIFF_SUM", "DIFF_SUM"),
+	DIFF_SUM("SumRule", "Use the sum rule",
+			"\\frac{d}{dx} \\left[f(x) + g(x)\\right] = \\frac{d}{dx}f(x) + \\frac{d}{dx}g(x)"),
 
-	DIFF_CONSTANT("DIFF_CONSTANT", "DIFF_CONSTANT"),
+	DIFF_CONSTANT("ConstantRule", "The derivative of a constant is zero"),
 
-	DIFF_CONSTANT_COEFFICIENT("DIFF_CONSTANT_COEFFICIENT", "DIFF_CONSTANT_COEFFICIENT"),
+	DIFF_CONSTANT_COEFFICIENT("ConstantCoefficientRule", "Use the constant factor rule",
+			"\\frac{d}{dx} \\left[k \\cdot f(x) \\right] = k \\cdot \\frac{d}{dx} f(x)"),
 
-	DIFF_PRODUCT("DIFF_PRODUCT", "DIFF_PRODUCT"),
+	DIFF_PRODUCT("ProductRule", "Use the product rule",
+			"\\frac{d}{dx}\\left[f(x) \\cdot g(x)\\right] = \\frac{d}{dx} f(x) \\cdot g(x) + f(x) \\cdot \\frac{d}{dx} g(x)"),
 
-	DIFF_FRACTION("DIFF_FRACTION", "DIFF_FRACTION"),
+	DIFF_FRACTION("QuotientRule", "Use the quotient rule",
+			"\\frac{d}{dx} \\frac{f(x)}{g(x)} = \\frac{\\frac{d}{dx} f(x) \\cdot g(x) - f(x) \\cdot \\frac{d}{dx} g(x)}{(g(x))^2}"),
 
-	DIFF_VARIABLE("DIFF_VARIABLE", "DIFF_VARIABLE"),
+	DIFF_VARIABLE("DifferentiateVariable", "Use the power rule", "\\frac{d}{dx} x = 1"),
 
-	DIFF_POWER("DIFF_POWER", "DIFF_POWER"),
+	DIFF_POWER("PowerRule", "Use the power rule", "\\frac{d}{dx} x^n = n x^{n-1}"),
 
-	DIFF_EXPONENTIAL_E("DIFF_EXPONENTIAL_E", "DIFF_EXPONENTIAL_E"),
+	DIFF_EXPONENTIAL_E("ExponentialRuleE", "Use the exponential rule", "\\frac{d}{dx} e^x = e^x"),
 
-	DIFF_EXPONENTIAL("DIFF_EXPONENTIAL", "DIFF_EXPONENTIAL"),
+	DIFF_EXPONENTIAL("ExponentialRule", "Use the exponential rule", "\\frac{d}{dx} a^x = \\ln(a) a^x"),
 
-	DIFF_ROOT("DIFF_ROOT", "DIFF_ROOT"),
+	DIFF_ROOT("RootRule", "Use the root rule", "\\frac{d}{dx} \\sqrt[n]{x} = \\frac{1}{n \\sqrt[n]{x^{n-1}}}"),
 
-	DIFF_LOG("DIFF_LOG", "DIFF_LOG"),
+	DIFF_LOG("LogRule", "Use the log rule",
+			"\\frac{d}{dx} \\( \\log_{a} \\left(x\\right) \\) = \\frac{1}{\\ln(a) \\cdot x}"),
 
-	DIFF_NATURAL_LOG("DIFF_NATURAL_LOG", "DIFF_NATURAL_LOG"),
+	DIFF_NATURAL_LOG("NaturalLogRule", "Use the log rule", "\\frac{d}{dx} \\ln(x) = \\frac{1}{x}"),
 
-	DIFF_SIN("DIFF_SIN", "DIFF_SIN"),
+	DIFF_SIN("SinRule", "Use the rules of trigonometric functions", "\\frac{d}{dx} sin(x) = cos(x)"),
 
-	DIFF_COS("DIFF_COS", "DIFF_COS"),
+	DIFF_COS("CosRule", "Use the rules of trigonometric funtions", "\\frac{d}{dx} cos(x) = -sin(x)"),
 
-	DIFF_TAN("DIFF_TAN", "DIFF_TAN"),
+	DIFF_TAN("TanRule", "Use the rules of trigonometric funtions", "\\frac{d}{dx} tan(x) = \\frac{1}{cos^2(x)}"),
 
-	DIFF_ARCSIN("DIFF_ARCSIN", "DIFF_ARCSIN"),
+	DIFF_ARCSIN("ArcsinRule", "Use the rules of inverse trigonometric funtions",
+			"\\frac{d}{dx} arcsin(x) = \\frac{1}{\\sqrt{1-x^2}}"),
 
-	DIFF_ARCCOS("DIFF_ARCCOS", "DIFF_ARCCOS"),
+	DIFF_ARCCOS("ArccosRule", "Use the rules of inverse trigonometric funtions",
+			"\\frac{d}{dx} arccos(x) = -\\frac{1}{\\sqrt{1-x^2}}"),
 
-	DIFF_ARCTAN("DIFF_ARCTAN", "DIFF_ARCTAN"),
+	DIFF_ARCTAN("ArctanRule", "Use the rules of inverse trigonometric funtions",
+			"\\frac{d}{dx} arctan(x) = \\frac{1}{x^2+1}"),
 
-	DIFF_POWER_CHAIN("DIFF_POWER_CHAIN", "DIFF_POWER_CHAIN"),
+	DIFF_POWER_CHAIN("PowerRuleChain", "Use the power rule",
+			"\\frac{d}{dx} (u(x))^n = n (u(x))^{n-1} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_EXPONENTIAL_E_CHAIN("DIFF_EXPONENTIAL_E_CHAIN", "DIFF_EXPONENTIAL_E_CHAIN"),
+	DIFF_EXPONENTIAL_E_CHAIN("ExponentialRuleEChain", "Use the exponential rule",
+			"\\frac{d}{dx} a^{u(x)} = \\ln(a) a^{u(x)} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_EXPONENTIAL_CHAIN("DIFF_EXPONENTIAL_CHAIN", "DIFF_EXPONENTIAL_CHAIN"),
+	DIFF_EXPONENTIAL_CHAIN("ExponentialRuleChain", "Use the exponential rule",
+			"\\frac{d}{dx} e^{u(x)} = e^{u(x)} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_ROOT_CHAIN("DIFF_ROOT_CHAIN", "DIFF_ROOT_CHAIN"),
+	DIFF_ROOT_CHAIN("RootRuleChain", "Use the root rule",
+			"\\frac{d}{dx} \\sqrt[n]{u(x)} = \\frac{1}{n \\sqrt[n]{(u(x))^{n-1}}} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_LOG_CHAIN("DIFF_LOG_CHAIN", "DIFF_LOG_CHAIN"),
+	DIFF_LOG_CHAIN("LogRuleChain", "Use the log rule",
+			"\\frac{d}{dx} \\log_{a}(u(x)) = \\frac{1}{\\ln(a) \\cdot u(x)} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_NATURAL_LOG_CHAIN("DIFF_NATURAL_LOG_CHAIN", "DIFF_NATURAL_LOG_CHAIN"),
+	DIFF_NATURAL_LOG_CHAIN("NaturalLogRuleChain", "Use the log rule",
+			"\\frac{d}{dx} \\ln(u(x)) = \\frac{1}{u(x)} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_SIN_CHAIN("DIFF_SIN_CHAIN", "DIFF_SIN_CHAIN"),
+	DIFF_SIN_CHAIN("SinRuleChain", "Use the rules of trigonometric funtions",
+			"\\frac{d}{dx} sin(u(x)) = cos(u(x)) \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_COS_CHAIN("DIFF_COS_CHAIN", "DIFF_COS_CHAIN"),
+	DIFF_COS_CHAIN("CosRuleChain", "Use the rules of trigonometric funtions",
+			"\\frac{d}{dx} cos(u(x)) = -sin(u(x)) \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_TAN_CHAIN("DIFF_TAN_CHAIN", "DIFF_TAN_CHAIN"),
+	DIFF_TAN_CHAIN("TanRuleChain", "Use the rules of trigonometric funtions",
+			"\\frac{d}{dx} tan(u(x)) = \\frac{1}{cos^2(u(x))} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_ARCSIN_CHAIN("DIFF_ARCSIN_CHAIN", "DIFF_ARCSIN_CHAIN"),
+	DIFF_ARCSIN_CHAIN("ArcsinRuleChain", "Use the rules of inverse trigonometric funtions",
+			"\\frac{d}{dx} arcsin(u(x)) = \\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_ARCCOS_CHAIN("DIFF_ARCCOS_CHAIN", "DIFF_ARCCOS_CHAIN"),
+	DIFF_ARCCOS_CHAIN("ArccosRuleChain", "Use the rules of inverse trigonometric funtions",
+			"\\frac{d}{dx} arccos(u(x)) = -\\frac{1}{\\sqrt{1-(u(x))^2}} \\cdot \\frac{d}{dx} u(x)"),
 
-	DIFF_ARCTAN_CHAIN("DIFF_ARCTAN_CHAIN", "DIFF_ARCTAN_CHAIN");
+	DIFF_ARCTAN_CHAIN("ArctanRuleChain", "Use the rules of inverse trigonometric funtions",
+			"\\frac{d}{dx} arctan(u(x)) = \\frac{1}{(u(x))^2+1} \\cdot \\frac{d}{dx} u(x)");
 
 	private final String keyText;
 	private final String defaultText;
+	private final String detailedText;
 
-	SolutionStepType(String keyText, String defaultText) {
+	SolutionStepType(String keyText, String defaultText, String detailedText) {
 		this.keyText = keyText;
 		this.defaultText = defaultText;
+		this.detailedText = detailedText;
+	}
+
+	SolutionStepType(String keyText, String defaultText) {
+		this(keyText, defaultText, defaultText);
+	}
+
+	public String getKey() {
+		return keyText;
+	}
+
+	public String getDefault() {
+		return defaultText;
+	}
+
+	public String getDetailed() {
+		return detailedText;
 	}
 
 	public String getDefaultText(Localization loc, StepNode[] parameters) {
 		if (parameters == null) {
-			return loc.getMenuLaTeX(getKey(), getDefault());
+			return loc.getMenuLaTeX(keyText, defaultText);
 		}
 
 		String[] serializedDefault = new String[parameters.length];
 		for (int i = 0; i < parameters.length; i++) {
 			serializedDefault[i] = parameters[i].toLaTeXString(loc, false);
 		}
-		return loc.getMenuLaTeX(getKey(), getDefault(), serializedDefault);
+		return loc.getMenuLaTeX(keyText, defaultText, serializedDefault);
 	}
 
-	public String getDetailedText(Localization loc, int color, StepNode[] parameters) {
+	public String getDetailedText(Localization loc, List<Integer> color, StepNode[] parameters) {
 		if (parameters == null) {
-			return loc.getMenuLaTeX(getKey(), getDefault()) + colorText(color);
+			return loc.getMenuLaTeX(keyText, detailedText) + colorText(color);
 		}
 
 		String[] serializedColored = new String[parameters.length];
@@ -363,11 +403,23 @@ public enum SolutionStepType {
 			serializedColored[i] = parameters[i].toLaTeXString(loc, true);
 		}
 
-		return loc.getMenuLaTeX(getKey(), getDefault(), serializedColored) + colorText(color);
+		return loc.getMenuLaTeX(keyText, detailedText, serializedColored) + colorText(color);
 	}
 
-	public static String colorText(int color) {
-		return color == 0 ? "" : "\\fgcolor{" + getColorHex(color) + "}{\\;\\bullet}";
+	public static String colorText(List<Integer> colors) {
+		if (colors == null) {
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder("\\;");
+		for (Integer color : colors) {
+			if (color != 0) {
+				sb.append("\\fgcolor{");
+				sb.append(getColorHex(color));
+				sb.append("}{\\,\\bullet}");
+			}
+		}
+		return sb.toString();
 	}
 
 	private static String getColorHex(int color) {
@@ -385,13 +437,5 @@ public enum SolutionStepType {
 		default:
 			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
 		}
-	}
-
-	public String getKey() {
-		return keyText;
-	}
-
-	public String getDefault() {
-		return defaultText;
 	}
 }

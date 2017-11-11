@@ -17,7 +17,7 @@ public class SolutionStep {
 
 	private SolutionStepType type;
 	private StepNode[] parameters;
-	private int color;
+	private List<Integer> colors;
 
 	private List<SolutionStep> substeps;
 
@@ -31,7 +31,9 @@ public class SolutionStep {
 
 	public SolutionStep(SolutionStepType type, int color) {
 		this.type = type;
-		this.color = color;
+		this.colors = new ArrayList<Integer>();
+
+		colors.add(color);
 	}
 
 	/**
@@ -49,7 +51,7 @@ public class SolutionStep {
 	 * @return colored text, formatted using LaTeX
 	 */
 	public String getColored(Localization loc) {
-		return type.getDetailedText(loc, color, parameters);
+		return type.getDetailedText(loc, colors, parameters);
 	}
 
 	public void getListOfSteps(StepGuiBuilder builder, Localization loc) {
@@ -69,9 +71,9 @@ public class SolutionStep {
 			}
 		} else if (substeps != null && type == SolutionStepType.SUBSTEP_WRAPPER) {
 			builder.startDefault();
-			for (int i = 1; i < substeps.size(); i++) {
-				(substeps.get(i)).getListOfSteps(builder, loc, false);
-			}
+			substeps.get(1).getListOfSteps(builder, loc, false);
+			substeps.get(substeps.size() - 1).getListOfSteps(builder, loc, false);
+
 			builder.switchToDetailed();
 			for (int i = 0; i < substeps.size(); i++) {
 				(substeps.get(i)).getListOfSteps(builder, loc, true);
@@ -88,6 +90,9 @@ public class SolutionStep {
 				builder.startGroup();
 				for (int i = 0; i < substeps.size(); i++) {
 					(substeps.get(i)).getListOfSteps(builder, loc, true);
+					if (i != substeps.size() - 1) {
+						builder.linebreak();
+					}
 				}
 				builder.endGroup();
 			}
@@ -104,6 +109,17 @@ public class SolutionStep {
 		if (s != null) {
 			if (substeps == null) {
 				substeps = new ArrayList<SolutionStep>();
+			}
+
+			if (type == SolutionStepType.SUBSTEP_WRAPPER) {
+				for (int i = 1; i < substeps.size(); i++) {
+					if (s.type == substeps.get(i).type) {
+						if (s.colors != null) {
+							substeps.get(i).colors.addAll(s.colors);
+						}
+						return;
+					}
+				}
 			}
 
 			substeps.add(s);

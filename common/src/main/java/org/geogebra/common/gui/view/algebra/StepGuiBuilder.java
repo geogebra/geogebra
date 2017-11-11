@@ -17,4 +17,6 @@ public interface StepGuiBuilder {
 	public void switchToDetailed();
 
 	public void endDetailed();
+
+	public void linebreak();
 }

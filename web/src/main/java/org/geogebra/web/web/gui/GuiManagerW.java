@@ -2472,6 +2472,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				}
 			}
 
+			public void linebreak() {
+				// TODO Auto-generated method stub
+
+			}
+
 			public void startDefault() {
 				// TODO Auto-generated method stub
 
@@ -2486,7 +2491,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				// TODO Auto-generated method stub
 
 			}
-
 		};
 
 	}

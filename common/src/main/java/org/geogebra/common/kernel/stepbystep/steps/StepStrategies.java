@@ -110,9 +110,15 @@ public class StepStrategies {
 
 			if (colorTracker[0] > 1) {
 				if (sb != null) {
-					sb.add(SolutionStepType.SUBSTEP_WRAPPER);
-					sb.levelDown();
-					sb.add(SolutionStepType.EQUATION, origSn.deepCopy());
+					if (strategy[i] == RegroupSteps.ADD_FRACTIONS
+							|| strategy[i] == RegroupSteps.RATIONALIZE_DENOMINATORS) {
+						sb.add(SolutionStepType.WRAPPER);
+						sb.levelDown();
+					} else {
+						sb.add(SolutionStepType.SUBSTEP_WRAPPER);
+						sb.levelDown();
+						sb.add(SolutionStepType.EQUATION, origSn.deepCopy());
+					}
 					sb.addAll(changes.getSteps());
 					sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
 					sb.levelUp();
@@ -166,7 +172,6 @@ public class StepStrategies {
 					}
 				}
 
-				result = defaultRegroup(result, sb);
 				result = strategy[i].apply((StepEquation) result.deepCopy(), variable, changes);
 
 				if (changes.getSteps().getSubsteps() != null || result instanceof StepSet) {
@@ -188,7 +193,7 @@ public class StepStrategies {
 			StepSet finalSolutions = EquationSteps.checkSolutions(origSe, (StepSet) result, variable, changes);
 
 			if (sb != null) {
-				sb.levelDown();
+				sb.levelUp();
 				sb.addAll(changes.getSteps());
 			}
 
@@ -226,14 +231,15 @@ public class StepStrategies {
 
 			return toReturn;
 		} else if (sn instanceof StepEquation) {
-			StepEquation se = ((StepEquation) sn).deepCopy();
+			StepEquation se = (StepEquation) sn;
 
 			StepExpression newLHS = (StepExpression) step.apply(se.getLHS(), sb, colorTracker);
 			StepExpression newRHS = (StepExpression) step.apply(se.getRHS(), sb, colorTracker);
 
-			se.modify(newLHS, newRHS);
+			StepEquation result = se.deepCopy();
+			result.modify(newLHS, newRHS);
 
-			return se;
+			return result;
 		}
 
 		return sn;

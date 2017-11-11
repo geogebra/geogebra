@@ -51,6 +51,9 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	private int groupCnt;
 	private int alternativeCnt;
 
+	private boolean addDefaultButton;
+	private boolean addDetailedButton;
+
 	public void addPlainRow(String equations) {
 		// TODO Auto-generated method stub
 
@@ -61,6 +64,18 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 				+ indent
 				+ "em\" data-content=\"" + equations + "\">" + equations
 				+ "</canvas>\n");
+
+		if (addDefaultButton) {
+			sb.append("<canvas class='latex' onclick=\"switch_to_detailed('" + alternativeCnt
+					+ "');\" data-content='\\Xi'>\\Xi</canvas>\n");
+			addDefaultButton = false;
+		}
+
+		if (addDetailedButton) {
+			sb.append("<canvas class='latex' onclick=\"switch_to_default('" + alternativeCnt
+					+ "');\" data-content='\\Xi'>\\Xi</canvas>\n");
+			addDetailedButton = false;
+		}
 
 	}
 
@@ -74,35 +89,37 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 		groupCnt++;
 		
 		sb.append("<canvas class='latex' id='button" + groupCnt + "' onclick=\"toggle_visibility('" + groupCnt
-				+ "');\" data-content='\\Delta'>\\Delta</canvas>\n");
+				+ "');\" data-content='\\nabla'>\\nabla</canvas>\n");
 		
-		sb.append("<div id='group" + groupCnt + "'>");
+		sb.append("<span style='display: none' id='group" + groupCnt + "'>");
 	}
 
 
 	public void endGroup() {
 		indent--;
 
-		sb.append("</div>");
+		sb.append("</span>");
 	}
 
 	public void startDefault() {
 		alternativeCnt++;
 
-		sb.append("<div id = 'default" + alternativeCnt + "' >");
-		sb.append("<canvas class='latex' onclick=\"switch_to_detailed('" + alternativeCnt
-				+ "');\" data-content='\\Xi'>\\Xi</canvas>\n");
+		sb.append("<span id = 'default" + alternativeCnt + "' >");
+		addDefaultButton = true;
 	}
 
 	public void switchToDetailed() {
-		sb.append("</div>");
-		sb.append("<div id = 'detailed" + alternativeCnt + "' style='display: none'>");
-		sb.append("<canvas class='latex' onclick=\"switch_to_default('" + alternativeCnt
-				+ "');\" data-content='\\Xi'>\\Xi</canvas>\n");
+		sb.append("</span>");
+		sb.append("<span id = 'detailed" + alternativeCnt + "' style='display: none'>");
+		addDetailedButton = true;
 	}
 
 	public void endDetailed() {
-		sb.append("</div>");
+		sb.append("</span>");
+	}
+
+	public void linebreak() {
+		sb.append("<br>");
 	}
 
 	/**
