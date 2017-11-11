@@ -1399,14 +1399,6 @@ extern "C" void Sleep(unsigned int miliSecond);
       _pl()._initialisation_done_=b;
   }
 
-  static std::string & _autoname_(){
-#ifdef GIAC_HAS_STO_38
-    static string * ans = new string("GA");
-#else
-    static string * ans = new string("A");
-#endif
-    return *ans;
-  }
   static int _calc_mode_=0; 
   int & calc_mode(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -1419,6 +1411,14 @@ extern "C" void Sleep(unsigned int miliSecond);
       return absint(contextptr->globalptr->_calc_mode_);
     else
       return absint(_calc_mode_);
+  }
+  static std::string & _autoname_(){
+#ifdef GIAC_HAS_STO_38
+    static string * ans = new string("GA");
+#else
+    static string * ans = new string("A");
+#endif
+    return *ans;
   }
   void calc_mode(int b,GIAC_CONTEXT){
     if ( (b==38 || b==-38) && strcmp(_autoname_().c_str(),"GA")<0)
@@ -1478,6 +1478,26 @@ extern "C" void Sleep(unsigned int miliSecond);
       contextptr->globalptr->_autosimplify_=s;
     else
       _autosimplify_()=s;
+    return s;
+  }
+
+  static std::string & _lastprog_name_(){
+    static string * ans = new string("lastprog");
+    return *ans;
+  }
+  std::string lastprog_name(GIAC_CONTEXT){
+    std::string res;
+    if (contextptr && contextptr->globalptr )
+      res=contextptr->globalptr->_lastprog_name_;
+    else
+      res=_lastprog_name_();
+    return res;
+  }
+  std::string lastprog_name(const std::string & s,GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      contextptr->globalptr->_lastprog_name_=s;
+    else
+      _lastprog_name_()=s;
     return s;
   }
 
@@ -3384,6 +3404,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_series_variable_name_=_series_variable_name_;
      ptr->globalptr->_series_default_order_=_series_default_order_;
      ptr->globalptr->_autosimplify_=_autosimplify_();
+     ptr->globalptr->_lastprog_name_=_lastprog_name_();
      ptr->globalptr->_angle_mode_=_angle_mode_;
      ptr->globalptr->_variables_are_files_=_variables_are_files_;
      ptr->globalptr->_bounded_function_no_=_bounded_function_no_;
@@ -3816,6 +3837,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     _autoname_="A";
 #endif
     _autosimplify_="regroup";
+    _lastprog_name_="lastprog";
     _format_double_="";
 #ifdef HAVE_LIBPTHREAD
     _mutexptr = new pthread_mutex_t;
@@ -6032,6 +6054,8 @@ unsigned int ConvertUTF8toUTF16 (
     delete &symbolic_rootof_list();
     delete &proot_list();
     delete &galoisconj_list();
+    delete &_autoname_();
+    delete &_lastprog_name_();
     return 0;
   }
 

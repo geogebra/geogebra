@@ -1914,8 +1914,11 @@ namespace giac {
       if (!g._IDNTptr->in_eval(level-1,g,evaled,contextptr))
 	return false;
     }
-    if ( evaled.type!=_VECT || evaled.subtype!=_ASSUME__VECT )
+    if ( evaled.type!=_VECT || evaled.subtype!=_ASSUME__VECT ){
+      if (evaled.is_symb_of_sommet(at_program))
+	lastprog_name(g._IDNTptr->id_name,contextptr);
       return true;
+    }
     return check_not_assume(g,evaled,false,contextptr);
   }
 

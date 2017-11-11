@@ -694,7 +694,7 @@ namespace giac {
     if (python){
       int & ind=debug_ptr(contextptr)->indent_spaces;
       vecteur & v =*feuille._VECTptr;
-      res = string(ind,' ')+"def rename_me(";
+      res = string(ind,' ')+"def "+lastprog_name(contextptr)+"(";
       if (v[0].type==_VECT && v[0].subtype==_SEQ__VECT && v[0]._VECTptr->size()==1)
 	res += v[0]._VECTptr->front().print(contextptr);
       else

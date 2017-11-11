@@ -1652,7 +1652,7 @@ namespace giac {
 
   gen _int(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    if (xcas_mode(contextptr)==3)
+    if (xcas_mode(contextptr)==3 || python_compat(contextptr))
       return _floor(evalf(g,1,contextptr),contextptr);
     else
       return _integrate(g,contextptr);

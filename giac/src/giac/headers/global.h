@@ -587,6 +587,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     std::string _autoname_;
     std::string _format_double_;
     std::string _autosimplify_;
+    std::string _lastprog_name_;
     std::vector<logo_turtle> _turtle_stack_; 
     double _total_time_;
     void * _evaled_table_;
@@ -753,6 +754,9 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 
   bool & rpn_mode(GIAC_CONTEXT);
   void rpn_mode(bool b,GIAC_CONTEXT);
+
+  std::string lastprog_name(GIAC_CONTEXT);
+  std::string lastprog_name(const std::string & b,GIAC_CONTEXT);
 
   logo_turtle & turtle(GIAC_CONTEXT);
   std::vector<logo_turtle> & turtle_stack(GIAC_CONTEXT);
