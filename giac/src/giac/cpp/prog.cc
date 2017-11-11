@@ -2563,7 +2563,7 @@ namespace giac {
     if (python){
       int & ind=debug_ptr(contextptr)->indent_spaces;
       if (!locals._VECTptr->empty())
-	res += string(ind,' ')+"local "+printaslocalvars(locals,contextptr)+"\n";
+	res += string(ind,' ')+"# local "+printaslocalvars(locals,contextptr)+"\n";
       if (!globals._VECTptr->empty())
 	res += string(ind,' ')+"global "+printaslocalvars(globals,contextptr)+"\n";
       ++it;
@@ -2571,8 +2571,15 @@ namespace giac {
 	if (res.size() && res[res.size()-1]=='\n') res=res.substr(0,res.size()-1);
 	res += it->print(contextptr)+'\n';
       }
-      else
-	res += string(ind,' ')+it->print(contextptr)+'\n';
+      else {
+	if (it->type==_VECT){
+	  const_iterateur jt=it->_VECTptr->begin(),jtend=it->_VECTptr->end();
+	  for (;jt!=jtend;++jt)
+	    res += string(ind,' ')+jt->print(contextptr)+'\n';
+	}
+	else
+	  res += string(ind,' ')+it->print(contextptr)+'\n';
+      }
       return res;
     }
     if (!locals._VECTptr->empty()){

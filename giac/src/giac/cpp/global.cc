@@ -5756,7 +5756,11 @@ unsigned int ConvertUTF8toUTF16 (
 	if (instring)
 	  continue;
 	if (ch=='#'){
-	  cur=cur.substr(0,pos);
+	  // workaround to declare local variables
+	  if (cur.size()>pos+8 && (cur.substr(pos,8)=="# local " || cur.substr(pos,7)=="#local "))
+	    cur.erase(cur.begin()+pos);
+	  else
+	    cur=cur.substr(0,pos);
 	  pythonmode=true;
 	  break;
 	}
