@@ -2384,7 +2384,7 @@ namespace giac {
   static define_unary_function_eval2_index (143,__for,&_for,_for_s,&printasfor);
   define_unary_function_ptr5( at_for ,alias_at_for,&__for,_QUOTE_ARGUMENTS,0);
 
-  // returns level or -1 on error
+  // returns level or -RAND_MAX on error
   int bind(const vecteur & vals_,const vecteur & vars_,context * & contextptr){
     vecteur vals(vals_),vars(vars_);
 #if 1
@@ -2460,10 +2460,48 @@ namespace giac {
       else
 	tmp=*jt;
       if (tmp.type==_IDNT){
+	const char * name=tmp._IDNTptr->id_name;
+	int bl=strlen(name);
+	gen a=*it;
+	if (name[bl-2]=='_'){
+	  switch (name[bl-1]){
+	  case 'd':
+	    if (a.type!=_INT_ && a.type!=_DOUBLE_ && a.type!=_FRAC){
+	      *logptr(contextptr) << gettext("Unable to convert to float ")+a.print(contextptr) << endl;
+	      return -RAND_MAX;
+	    }
+	    break;
+	  case 'i': case 'l':
+	    if (a.type==_DOUBLE_ && a._DOUBLE_val<=RAND_MAX && a._DOUBLE_val>=-RAND_MAX){
+	      int i=int(a._DOUBLE_val);
+	      if (i!=a._DOUBLE_val)
+		*logptr(contextptr) << gettext("Converting ") << a._DOUBLE_val << gettext(" to integer ") << i << endl;
+	      a=i;
+	    }
+	    else{
+	      if (a.type!=_INT_){
+		if (a.type!=_ZINT || mpz_sizeinbase(*a._ZINTptr,2)>62){
+		  *logptr(contextptr) << gettext("Unable to convert to integer ")+a.print(contextptr) << endl;
+		  return -RAND_MAX;
+		}
+	      }
+	    }
+	    break;
+	  case 'v':
+	    if (a.type!=_VECT){
+	      *logptr(contextptr) << gettext("Unable to convert to vector ")+a.print(contextptr) << endl;
+	      return -RAND_MAX;
+	    }
+	    break;
+	  case 's':
+	    if (a.type!=_STRNG)
+	      a=string2gen(a.print(contextptr),false);
+	  }
+	}
 	if (contextptr)
-	  (*contextptr->tabptr)[tmp._IDNTptr->id_name]=globalize(*it);
+	  (*contextptr->tabptr)[tmp._IDNTptr->id_name]=globalize(a);
 	else
-	  tmp._IDNTptr->push(protection_level,globalize(*it));
+	  tmp._IDNTptr->push(protection_level,globalize(a));
       }
       else {
 	if (tmp.type==_FUNC){

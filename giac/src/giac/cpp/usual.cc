@@ -3376,7 +3376,7 @@ namespace giac {
 	if (name[bl-2]=='_'){
 	  switch (name[bl-1]){
 	  case 'd':
-	    if (a.type!=_INT_ && a.type!=_DOUBLE_)
+	    if (a.type!=_INT_ && a.type!=_DOUBLE_ && a.type!=_FRAC)
 	      return gensizeerr(gettext("Unable to convert to float ")+a.print(contextptr));
 	    break;
 	  case 'i': case 'l':
