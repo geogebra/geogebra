@@ -3377,19 +3377,23 @@ namespace giac {
 	  switch (name[bl-1]){
 	  case 'd':
 	    if (a.type!=_INT_ && a.type!=_DOUBLE_)
-	      return gensizeerr("Unable to coerce to double "+a.print(contextptr));
+	      return gensizeerr(gettext("Unable to convert to float ")+a.print(contextptr));
 	    break;
 	  case 'i': case 'l':
-	    if (a.type==_DOUBLE_ && a._DOUBLE_val<=RAND_MAX && a._DOUBLE_val>=-RAND_MAX)
-	      return sto(int(a._DOUBLE_val),b,in_place,contextptr);
+	    if (a.type==_DOUBLE_ && a._DOUBLE_val<=RAND_MAX && a._DOUBLE_val>=-RAND_MAX){
+	      int i=int(a._DOUBLE_val);
+	      if (i!=a._DOUBLE_val)
+		*logptr(contextptr) << gettext("Converting ") << a._DOUBLE_val << gettext(" to integer ") << i << endl;
+	      return sto(i,b,in_place,contextptr);
+	    }
 	    if (a.type!=_INT_){
 	      if (a.type!=_ZINT || mpz_sizeinbase(*a._ZINTptr,2)>62)
-		return gensizeerr("Unable to coerce to integer "+a.print(contextptr));
+		return gensizeerr(gettext("Unable to convert to integer ")+a.print(contextptr));
 	    }
 	    break;
 	  case 'v':
 	    if (a.type!=_VECT)
-	      return gensizeerr("Unable to convert to vector "+a.print(contextptr));
+	      return gensizeerr(gettext("Unable to convert to vector ")+a.print(contextptr));
 	    break;
 	  case 's':
 	    if (a.type!=_STRNG)
