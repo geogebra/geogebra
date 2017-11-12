@@ -656,7 +656,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 				switch (fontStyle) {
 				default:
-					stylePre = "\text{";
+					stylePre = "\\text{";
 					stylePost = "}";
 					break;
 				case GFont.BOLD:
