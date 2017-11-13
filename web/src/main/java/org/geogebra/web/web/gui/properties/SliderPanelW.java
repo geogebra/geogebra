@@ -56,6 +56,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private MyCJButton blobColorChooserBtn;
 	private Label blobColorLbl;
 	private MyCJButton lineColorChooserBtn;
+	private Label pointStyleTitleLbl;
+	private Label lineStyleTitleLbl;
 	private Label lineColorLbl;
 	private Label blobSizeLabel;
 	private Label lineThicknessLabel;
@@ -70,6 +72,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private AnimationSpeedPanelW speedPanel;
 	private Kernel kernel;
 	private FlowPanel intervalPanel, sliderPanel, animationPanel;
+	private FlowPanel widthPanel;
+	private FlowPanel sliderStylePanel;
 	private boolean useTabbedPane;
 
 
@@ -101,6 +105,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		positionPanel.setStyleName("optionsPanel");
 		sliderPanel.add(positionPanel);
 		animationPanel = new FlowPanel();
+		sliderStylePanel = new FlowPanel();
 
 		avPanel = new CheckboxPanel("ShowSliderInAlgebraView",
 				app.getLocalization(), new ExtendedAVModel(null, app));
@@ -220,6 +225,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		transparencyLabel = new Label();
 		lineThicknessUnitLabel = new Label("px");
 		blobSizeUnitLabel = new Label("px");
+		pointStyleTitleLbl = new Label();
+		lineStyleTitleLbl = new Label();
 		if (kernel.getApplication().has(Feature.DIALOG_DESIGN)) {
 			maxLabel.setStyleName("coloredLabel");
 			minLabel.setStyleName("coloredLabel");
@@ -238,7 +245,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		maxPanel.add(tfMax);
 		intervalPanel.add(maxPanel);
 
-		FlowPanel widthPanel = new FlowPanel();
+		widthPanel = new FlowPanel();
 		widthPanel.setStyleName("optionsPanel");
 		widthPanel.setStyleName("sliderWidthPanel");
 		widthPanel.add(widthLabel);
@@ -250,32 +257,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		if (!app.has(Feature.DIALOG_DESIGN)) {
 			widthPanel.add(widthUnitLabel);
 		}
-
-		sliderPanel.add(widthPanel);
-		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
-			FlowPanel blobSizePanel = new FlowPanel();
-			blobSizePanel.setStyleName("sliderWidthPanel");
-			blobSizePanel.add(blobSizeLabel);
-			tfBlobSize.add(blobSizeUnitLabel);
-			blobSizeUnitLabel.setStyleName("unitLabel");
-			blobSizePanel.add(tfBlobSize);
-			sliderPanel.add(blobSizePanel);
-			sliderPanel.add(
-					LayoutUtilW.panelRow(blobColorLbl, blobColorChooserBtn));
-			sliderPanel.add(
-					LayoutUtilW.panelRow(lineColorLbl, lineColorChooserBtn));
-			FlowPanel lineThicknessPanel = new FlowPanel();
-			lineThicknessPanel.setStyleName("sliderWidthPanel");
-			lineThicknessPanel.add(lineThicknessLabel);
-			tfLineThickness.add(lineThicknessUnitLabel);
-			lineThicknessUnitLabel.setStyleName("unitLabel");
-			lineThicknessPanel.add(tfLineThickness);
-			sliderPanel.add(lineThicknessPanel);
-			FlowPanel transparencySliderPanel = new FlowPanel();
-			transparencySliderPanel.setStyleName("optionsPanel");
-			transparencySliderPanel.add(transparencyLabel);
-			transparencySliderPanel.add(sliderTransparency);
-			sliderPanel.add(transparencySliderPanel);
+		if (!app.has(Feature.SLIDER_STYLE_OPTIONS)) {
+			sliderPanel.add(widthPanel);
+		} else {
+			createSliderStylePanel(app);
 		}
 
 		// add increment to intervalPanel
@@ -286,13 +271,62 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		speedPanel = new AnimationSpeedPanelW(app);
 		speedPanel.setPartOfSliderPanel();
 		animationPanel.add(speedPanel.getWidget());
-		initPanels();
+		initPanels(app);
 		setLabels();
 	}
 
 	@Override
 	public SliderModel getModel() {
 		return model;
+	}
+
+	private void createPointStylePanel(AppW app) {
+		FlowPanel blobSizePanel = new FlowPanel();
+		blobSizePanel.setStyleName("sliderWidthPanel");
+		blobSizePanel.add(blobSizeLabel);
+		if (app.isUnbundled()) {
+			tfBlobSize.add(blobSizeUnitLabel);
+		}
+		blobSizeUnitLabel.setStyleName("unitLabel");
+		blobSizePanel.add(tfBlobSize);
+		if (!app.isUnbundled()) {
+			blobSizePanel.add(blobSizeUnitLabel);
+		}
+		sliderStylePanel.add(blobSizePanel);
+		sliderStylePanel
+				.add(LayoutUtilW.panelRow(blobColorLbl, blobColorChooserBtn));
+	}
+
+	private void createLineStylePanel(AppW app) {
+		sliderStylePanel.add(widthPanel);
+		FlowPanel lineThicknessPanel = new FlowPanel();
+		lineThicknessPanel.setStyleName("sliderWidthPanel");
+		lineThicknessPanel.add(lineThicknessLabel);
+		if (app.isUnbundled()) {
+			tfLineThickness.add(lineThicknessUnitLabel);
+		}
+		lineThicknessUnitLabel.setStyleName("unitLabel");
+		lineThicknessPanel.add(tfLineThickness);
+		if (!app.isUnbundled()) {
+			lineThicknessPanel.add(lineThicknessUnitLabel);
+		}
+		sliderStylePanel.add(lineThicknessPanel);
+		sliderStylePanel
+				.add(LayoutUtilW.panelRow(lineColorLbl, lineColorChooserBtn));
+		FlowPanel transparencySliderPanel = new FlowPanel();
+		transparencySliderPanel.setStyleName("optionsPanel");
+		transparencySliderPanel.add(transparencyLabel);
+		transparencySliderPanel.add(sliderTransparency);
+		sliderStylePanel.add(transparencySliderPanel);
+	}
+
+	private void createSliderStylePanel(AppW app) {
+		pointStyleTitleLbl.addStyleName("panelTitle");
+		sliderStylePanel.add(pointStyleTitleLbl);
+		createPointStylePanel(app);
+		lineStyleTitleLbl.addStyleName("panelTitle");
+		sliderStylePanel.add(lineStyleTitleLbl);
+		createLineStylePanel(app);
 	}
 
 	private void createTransparencySlider() {
@@ -536,7 +570,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 						.getDouble() * 2);
 	}
 
-	private void initPanels() {
+	private void initPanels(AppW app) {
 		FlowPanel mainPanel = new FlowPanel();
 
 		// put together interval, slider options, animation panels
@@ -545,7 +579,6 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			tabPanel.add(intervalPanel, loc.getMenu("Interval"));
 			tabPanel.add(sliderPanel, loc.getMenu("Slider"));
 			tabPanel.add(animationPanel, loc.getMenu("Animation"));
-
 			mainPanel.add(tabPanel);
 			tabPanel.selectTab(0);
 		} else { // no tabs
@@ -556,13 +589,18 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			//					.getPlain("Slider")));
 			//			animationPanel.setBorder(BorderFactory.createTitledBorder(app
 			//					.getPlain("Animation")));
+			
 			mainPanel.add(intervalPanel);
 			mainPanel.add(sliderPanel);
 			mainPanel.add(animationPanel);
+			if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
+				mainPanel.add(avPanel.getWidget());
+				mainPanel.add(sliderStylePanel);
+			}
 		}
-
-		mainPanel.add(avPanel.getWidget());
-
+		if (!app.has(Feature.SLIDER_STYLE_OPTIONS)) {
+			mainPanel.add(avPanel.getWidget());
+		}
 		setWidget(mainPanel);
 	}
 
@@ -595,6 +633,8 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	@Override
 	public void setLabels() {
+		pointStyleTitleLbl.setText(loc.getMenu("PointStyle"));
+		lineStyleTitleLbl.setText(loc.getMenu("LineStyle"));
 		cbSliderFixed.setText(loc.getMenu("fixed"));
 		cbRandom.setText(loc.getMenu("Random"));
 		String[] comboStr = { loc.getMenu("horizontal"),
@@ -609,9 +649,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		maxLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("max") :loc.getMenu("max") + ":");
 		widthLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("Width"):loc.getMenu("Width") + ":");
 		blobSizeLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
-				? loc.getMenu("Blob Size") : loc.getMenu("Blob Size") + ":");
-		blobColorLbl.setText(loc.getMenu("Blob Color") + ":");
-		lineColorLbl.setText(loc.getMenu("Lines Color") + ":");
+				? loc.getMenu("Size") : loc.getMenu("Size") + ":");
+		blobColorLbl.setText(loc.getMenu("Color") + ":");
+		lineColorLbl.setText(loc.getMenu("Color") + ":");
 		lineThicknessLabel
 				.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
 						? loc.getMenu("Thickness")
