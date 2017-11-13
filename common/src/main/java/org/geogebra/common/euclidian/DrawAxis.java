@@ -889,7 +889,7 @@ public class DrawAxis {
 		g2.drawStringStroke(text, x, y);
 
 		g2.setColor(view.axesColor);
-		g2.drawString(text, (int) (x), (int) y);
+		g2.drawString(text, x, y);
 
 	}
 
