@@ -11,6 +11,9 @@ import com.google.gwt.user.client.ui.UIObject;
  */
 public class AriaHelper {
 	/**
+	 * Avoid setting title (so that screen reader only reads the image alt) Set
+	 * aria-label for desktop screen reader and data-title for visual tooltips.
+	 * 
 	 * @param ui
 	 *            UI element
 	 * @param title
@@ -20,17 +23,11 @@ public class AriaHelper {
 	 */
 	public static void setTitle(UIObject ui, String title, App app) {
 		if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
-			ui.getElement().removeAttribute("title");
 			if (!"".equals(title)) {
 				ui.getElement().setAttribute("data-title", title);
 			}
-		} else {
-			// copy of default implementation to avoid stack overflow
-			if (title == null || title.length() == 0) {
-				ui.getElement().removeAttribute("title");
-			} else {
-				ui.getElement().setAttribute("title", title);
-			}
 		}
+		ui.getElement().removeAttribute("title");
+		ui.getElement().setAttribute("aria-label", title);
 	}
 }
