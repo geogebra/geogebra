@@ -227,14 +227,16 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 			@Override
 			public void run() {
 				DockPanelW dp = ((DockManagerW) getGuiManager().getLayout().getDockManager()).getPanelForKeyboard();
-				if (dp != null && dp.getKeyboardListener() != null) {
+				MathKeyboardListener listener = getGuiManager()
+						.getKeyboardListener(dp);
+				if (listener != null) {
 					// dp.getKeyboardListener().setFocus(true);
-					dp.getKeyboardListener().ensureEditing();
-					dp.getKeyboardListener().setFocus(true, true);
+					listener.ensureEditing();
+					listener.setFocus(true, true);
 					if (isKeyboardNeeded()
 							&& (getExam() == null || getExam().getStart() > 0)) {
 						getAppletFrame().showKeyBoard(true,
-								dp.getKeyboardListener(), true);
+								listener, true);
 					}
 				}
 				if (!isKeyboardNeeded()) {

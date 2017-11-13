@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -129,4 +130,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public void switchToolsToAV();
 
 	public boolean isKeyboardClosedByUser();
+
+	public MathKeyboardListener getKeyboardListener(DockPanel panel);
 }

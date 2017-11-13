@@ -173,10 +173,17 @@ public class CASTableCellW extends VerticalPanel {
 		return casCell;
 	}
 
+	/**
+	 * Update font from geo
+	 */
 	public void setFont() {
 		setFont(casCell.getGeoText().getFontStyle());
 	}
 
+	/**
+	 * @param fontStyle
+	 *            font style
+	 */
 	public void setFont(int fontStyle) {
 		if (inputPanel != null) {
 			if ((fontStyle & GFont.BOLD) != 0) {

@@ -9,6 +9,7 @@ import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.ExamEnvironmentW;
 import org.geogebra.web.web.css.GuiResources;
@@ -289,9 +290,10 @@ public class ExamDialog {
 		guiManager.updateMenubar();
 		guiManager.resetMenu();
 		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager()).getPanelForKeyboard();
-		if (dp != null && dp.getKeyboardListener().needsAutofocus()) {
+		MathKeyboardListener listener = guiManager.getKeyboardListener(dp);
+		if (listener != null && listener.needsAutofocus()) {
 
-			app.showKeyboard(dp.getKeyboardListener(), true);
+			app.showKeyboard(listener, true);
 		}
 		if (box != null) {
 			box.hide();

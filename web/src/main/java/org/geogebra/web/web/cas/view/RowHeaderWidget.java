@@ -41,10 +41,13 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		return handler;
 	}
 
-	public void setLabel(String text) {
-		((Label) (getWidget(0))).setText(text);
+	public void setLabel(int number) {
+		((Label) (getWidget(0))).setText(number + "");
 	}
 
+	/**
+	 * @return index in view (starts with 0)
+	 */
 	public int getIndex() {
 		return Integer.parseInt(((Label) (getWidget(0))).getText()) - 1;
 	}
@@ -66,10 +69,19 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 
 	}
 
+	/**
+	 * Handler for marble
+	 */
 	protected static class MarbleClickHandler implements ClickHandler {
 		private GeoCasCell cell;
 		private RowHeaderWidget rowHeaderWidget;
 
+		/**
+		 * @param cell
+		 *            cas cell
+		 * @param rowHeaderWidget
+		 *            row header
+		 */
 		protected MarbleClickHandler(GeoCasCell cell,
 		        RowHeaderWidget rowHeaderWidget) {
 			this.cell = cell;

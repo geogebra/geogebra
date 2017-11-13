@@ -71,8 +71,8 @@ public class ShowKeyboardButton extends SimplePanel {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				DockPanelW panel = dm.getPanelForKeyboard();
-				final MathKeyboardListener mathKeyboardListener = panel
-						.getKeyboardListener();
+				final MathKeyboardListener mathKeyboardListener = app
+						.getGuiManager().getKeyboardListener(panel);
 						
 				if (app.has(Feature.KEYBOARD_BEHAVIOUR)
 						&& (panel instanceof AlgebraPanelInterface)) {

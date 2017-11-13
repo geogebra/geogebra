@@ -141,7 +141,7 @@ public class CASTableW extends Grid implements CASTable {
 		RowHeaderWidget nextHeader;
 		for (int i = from; i < getRowCount(); i++) {
 			nextHeader = (RowHeaderWidget) this.getWidget(i, COL_CAS_HEADER);
-			nextHeader.setLabel(i + 1 + "");
+			nextHeader.setLabel(i + 1);
 		}
 	}
 

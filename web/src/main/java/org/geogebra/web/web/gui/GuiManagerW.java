@@ -2524,6 +2524,18 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return this.onScreenKeyboard != null
 				&& !this.onScreenKeyboard.shouldBeShown();
 	}
+
+	public MathKeyboardListener getKeyboardListener(DockPanel panel) {
+		MathKeyboardListener ml = null;
+		if(panel instanceof DockPanelW){
+			ml = ((DockPanelW) panel).getKeyboardListener();
+		}
+		if (ml == null && app.showAlgebraInput()
+				&& app.getInputPosition() != InputPosition.algebraView) {
+			return getAlgebraInput().getTextField();
+		} 
+		return ml;
+	}
 }
 
 

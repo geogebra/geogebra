@@ -31,7 +31,6 @@ import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.app.ShowKeyboardButton;
-import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
@@ -660,18 +659,13 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	protected void ensureKeyboardEditing() {
 		DockManagerW dm = (DockManagerW) app.getGuiManager().getLayout()
 				.getDockManager();
-		MathKeyboardListener ml = dm.getPanelForKeyboard()
-				.getKeyboardListener();
+		MathKeyboardListener ml = app.getGuiManager()
+				.getKeyboardListener(dm.getPanelForKeyboard());
 		dm.setFocusedPanel(dm.getPanelForKeyboard());
-		if (ml == null && app.showAlgebraInput()
-				&& app.getInputPosition() != InputPosition.algebraView) {
-			((GuiManagerW) app.getGuiManager()).setOnScreenKeyboardTextField(
-					((AlgebraInputW) app.getGuiManager().getAlgebraInput())
-							.getTextField());
-		} else {
-			((GuiManagerW) app.getGuiManager())
+
+		((GuiManagerW) app.getGuiManager())
 					.setOnScreenKeyboardTextField(ml);
-		}
+
 		if (ml != null) {
 			ml.setFocus(true, true);
 			ml.ensureEditing();
