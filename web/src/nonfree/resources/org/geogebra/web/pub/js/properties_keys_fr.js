@@ -2534,7 +2534,7 @@ __GGB__keysVar.fr.menu = {
     "Serif": "S\xe9rif",
     "SetClasssesManually": "D\xe9finir les classes \xe0 la main",
     "SetToCurrentLocation": "Dans le r\xe9pertoire actuel",
-    "Settings": "Param\xe8tres",
+    "Settings": "Propri\xe9t\xe9s",
     "Settings.ResetDefault": "Configuration par d\xe9faut",
     "Settings.Save": "Sauvegarder la configuration",
     "SeveralVersionsOfA": "Noter qu'il y a plusieurs versions de : %0",
