@@ -140,7 +140,7 @@ public class StandardButton extends FastButton {
 	 * @param icon
 	 *            - icon
 	 */
-	public void setIcon(final ImageResource icon) {
+	public void setIcon(final ResourcePrototype icon) {
 		setIconAndLabel(icon, this.label, this.width);
 	}
 	

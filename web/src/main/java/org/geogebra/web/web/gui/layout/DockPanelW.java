@@ -46,7 +46,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
@@ -927,7 +926,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR) && toggleStyleBarButton != null) {
 			if (!showStyleBar) {
-				toggleStyleBarButton.setIcon((ImageResource) viewImage);
+				toggleStyleBarButton.setIcon(viewImage);
 			}
 		}
 
