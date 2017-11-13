@@ -4605,6 +4605,8 @@ public class MyXMLHandler implements DocHandler {
 
 			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")),
 					true);
+			num.setSliderBlobSize(
+					StringUtil.parseDouble(attrs.get("blobSize")));
 			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
 			num.setShowExtendedAV(parseBoolean(attrs.get("showAlgebra")));
 

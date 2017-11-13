@@ -866,6 +866,9 @@ public class GeoNumeric extends GeoElement
 
 		sb.append(" width=\"");
 		sb.append(sliderWidth);
+		sb.append("\"");
+		sb.append(" blobSize=\"");
+		sb.append(sliderBlobSize);
 		if (sliderPos != null) {
 			sb.append("\" x=\"");
 			sb.append(sliderPos.x);
