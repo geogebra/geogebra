@@ -69,6 +69,8 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testDiv() {
+		checkCannon("1/n^2", "(1)/(n^(2))");
+		checkCannon("1/n_2", "(1)/(n_{2})");
 		checkCannon("1/2", "(1)/(2)");
 		checkCannon("1/2+3", "(1)/(2)+3");
 		checkCannon("1/ ( 2)", "(1)/(2)");

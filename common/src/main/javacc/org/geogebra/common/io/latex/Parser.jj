@@ -178,7 +178,7 @@ void mathAtomOrPower(MathContainer currentField) : {
     |
         (          (mathAtomCharacter(currentField))+ (arrayParantheses(currentField))?
           )
-    ) (power(currentField) | superscript(currentField))?
+    ) (power(currentField) | superscript(currentField) | subscript(currentField))?
 }
 
 void superscript(MathContainer currentField) :
