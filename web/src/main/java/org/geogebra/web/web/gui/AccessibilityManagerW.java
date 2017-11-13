@@ -53,32 +53,37 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	public void focusPrevious(Object source) {
 		if (source instanceof ZoomPanel) {
 			focusSettings();
-		} 
+		} else if (source instanceof FocusWidget) {
+			focusPreviousWidget((FocusWidget) source);
+		} else if (source instanceof GeoElement) {
+			focusMenu();
+		}
 	}
 	
 
 	private void focusNextWidget(FocusWidget source) {
 		switch (source.getTabIndex()) {
 		case GUITabs.SETTINGS:
-			focusZoom();
-			break;
-		case GUITabs.AV_INPUT:
-			focusFirstGeo();
+			focusZoom(true);
 			break;
 		case GUITabs.MENU:
 			break;
 		}
 	}
 
-	@SuppressWarnings("unused")
 	private void focusPreviousWidget(FocusWidget source) {
-		// TODO: does this needed?
+		if (source.getTabIndex() == GUITabs.MENU) {
+			focusZoom(false);
+		}
 	}
 
-	private void focusZoom() {
-
+	private void focusZoom(boolean first) {
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) gm.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
-		dp.focusNextGUIElement();
+		if (first) {
+			dp.focusNextGUIElement();
+		} else {
+			dp.focusLastZoomButton();
+		}
 		setTabOverGeos(false);
 	}
 
@@ -99,7 +104,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		GeoElement geo = cons.getGeoSetLabelOrder().first();
 		if (geo != null) {
 			selection.addSelectedGeo(geo);
-			tabOverGeos = true;
+			setTabOverGeos(true);
 			return true;
 		}
 		return false;
@@ -140,7 +145,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		GeoElement geo = selection.getSelectedGeos().get(0);
 		boolean exitOnFirst = selection.isFirstGeoSelected() && isShiftDown;
 		boolean exitOnLast = selection.isLastGeoSelected() && !isShiftDown;
-
 		if (exitOnFirst) {
 			focusPrevious(geo);
 		} else if (exitOnLast) {

@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
@@ -28,7 +29,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.GWTKeycodes;
 
@@ -37,7 +37,7 @@ import com.himamis.retex.editor.share.util.GWTKeycodes;
  * header of toolbar
  *
  */
-class Header extends FlowPanel implements KeyDownHandler {
+class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private PersistableToggleButton btnMenu;
 	private MyToggleButton btnAlgebra;
 	private MyToggleButton btnTools;
@@ -71,11 +71,12 @@ class Header extends FlowPanel implements KeyDownHandler {
 	 */
 	final ToolbarPanel toolbarPanel;
 	private static final int PADDING = 12;
-	private class PersistableToggleButton extends ToggleButton
+
+	private class PersistableToggleButton extends MyToggleButton
 			implements Persistable {
 
 		public PersistableToggleButton(Image image) {
-			super(image);
+			super(image, app);
 		}
 
 		@Override
@@ -428,7 +429,7 @@ class Header extends FlowPanel implements KeyDownHandler {
 		});
 
 		if (app.has(Feature.TAB_ON_GUI)) {
-			btnMenu.addKeyDownHandler(this);
+			btnMenu.addTabHandler(this);
 		}
 	}
 
@@ -865,5 +866,13 @@ class Header extends FlowPanel implements KeyDownHandler {
 				resize();
 			}
 		});
+	}
+
+	public boolean onTab(Widget source, boolean shiftDown) {
+		if (source == btnMenu && shiftDown) {
+			app.getAccessibilityManager().focusPrevious(btnMenu);
+			return true;
+		}
+		return false;
 	}
 }
