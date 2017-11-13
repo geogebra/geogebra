@@ -864,7 +864,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		scaleMatrix.set(3, 3, getZscale());
 	}
 
-	protected void updateTranslationMatrix() {
+	public void updateTranslationMatrix() {
 		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			translationMatrixWithScale.set(1, 4, getXZero() * getXscale());
 			translationMatrixWithScale.set(2, 4, getYZero() * getYscale());
@@ -899,7 +899,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		return rotationMatrix;
 	}
 
-	protected void setGlobalMatrices() {
+	public void setGlobalMatrices() {
 
 		if (app.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
 			mWithoutScale.setMul(rotationMatrix, translationMatrixWithScale);
@@ -931,7 +931,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
-	protected void updateUndoTranslationMatrix() {
+	public void updateUndoTranslationMatrix() {
 		undoTranslationMatrix.set(1, 4, -getXZero());
 		undoTranslationMatrix.set(2, 4, -getYZero());
 		undoTranslationMatrix.set(3, 4, -getZZero());
@@ -4284,21 +4284,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void centerView(GeoPointND point) {
-
-		Coords p = point.getInhomCoordsInD3();
-
-		setXZero(-p.getX());
-		setYZero(-p.getY());
-		setZZero(-p.getZ());
-		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
-
-		// update the view
-		updateTranslationMatrix();
-		updateUndoTranslationMatrix();
-		setGlobalMatrices();
-
-		setViewChangedByTranslate();
-		setWaitForUpdate();
+		animator.centerView(point);
 	}
 
 	public double getMaxBendSpeedSurface() {
