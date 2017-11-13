@@ -579,8 +579,10 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void updateCenterPanel() {
-
 		buildApplicationPanel();
+		if (oldSplitLayoutPanel == null) {
+			return; // simple GUI: avoid NPE
+		}
 		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
 		// we need relative position to make sure the menubar / toolbar are not
 		// hidden

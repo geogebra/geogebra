@@ -118,7 +118,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.export.pstricks.GeoGebraToPgf;
@@ -270,7 +269,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	private static LinkedList<File> fileList = new LinkedList<File>();
 	protected File currentPath, currentImagePath, currentFile = null;
 
-	/** maximum number of files to (save &amp;) show in File &rarr; Recent submenu */
+	/**
+	 * maximum number of files to (save &amp;) show in File &rarr; Recent
+	 * submenu
+	 */
 	public static final int MAX_RECENT_FILES = 8;
 
 	// ==============================================================
@@ -280,8 +282,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	private ResourceBundle rbmenuEnglish;
 
 	private final LocalizationD loc;
-
-
 
 	// ==============================================================
 	// APPLET fields
@@ -349,8 +349,6 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private GgbAPID ggbapi = null;
 	private SpreadsheetTableModelD tableModel;
-
-
 
 	// ==============================================================
 	// MISC FLAGS
@@ -682,7 +680,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * Sets the look and feel.
 	 * 
 	 * @param isSystemLAF
-	 *            true &rarr; set system LAF, false &rarr; set cross-platform LAF
+	 *            true &rarr; set system LAF, false &rarr; set cross-platform
+	 *            LAF
 	 */
 	public static void setLAF(boolean isSystemLAF) {
 		try {
@@ -1548,12 +1547,10 @@ public class AppD extends App implements KeyEventDispatcher {
 						success = loadXML(url, isMacroFile);
 
 						// check if full GUI is necessary
-						if (success && !isMacroFile) {
-							if (!isUsingFullGui()) {
-								if (showConsProtNavigation()
-										|| !isJustEuclidianVisible()) {
-									useFullGui = true;
-								}
+						if (success && !isMacroFile && !isUsingFullGui()) {
+							if (showConsProtNavigation()
+									|| !isJustEuclidianVisible()) {
+								useFullGui = true;
 							}
 						}
 					} else if (lowerCase.startsWith("base64://")) {
@@ -1563,12 +1560,10 @@ public class AppD extends App implements KeyEventDispatcher {
 								.decode(fileArgument.substring(9));
 						success = loadXML(zipFile);
 
-						if (success && !isMacroFile) {
-							if (!isUsingFullGui()) {
-								if (showConsProtNavigation()
-										|| !isJustEuclidianVisible()) {
-									useFullGui = true;
-								}
+						if (success && !isMacroFile && !isUsingFullGui()) {
+							if (showConsProtNavigation()
+									|| !isJustEuclidianVisible()) {
+								useFullGui = true;
 							}
 						}
 					} else if (ext.equals(FileExtensions.HTM)
@@ -1594,7 +1589,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	/**
-	 * loads an html file with &lt;param name="ggbBase64" value="UEsDBBQACAAI..."&gt;
+	 * loads an html file with &lt;param name="ggbBase64"
+	 * value="UEsDBBQACAAI..."&gt;
 	 * 
 	 * @param file
 	 *            html file
@@ -1867,7 +1863,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		return (EuclidianViewD) getGuiManager().getEuclidianView2(idx);
 	}
 
-
 	@Override
 	public boolean hasEuclidianView2EitherShowingOrNot(int idx) {
 		return (guiManager != null)
@@ -2055,8 +2050,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	public ImageIcon getToolBarImage(String modeText, Color borderColor) {
 
 		ImageIcon icon = imageManager.getImageIcon(
-				imageManager.getToolImageResource(modeText),
-				borderColor, Color.WHITE);
+				imageManager.getToolImageResource(modeText), borderColor,
+				Color.WHITE);
 
 		/*
 		 * mathieu 2010-04-10 see ImageManager3D.getImageResourceGeoGebra() if
@@ -2223,8 +2218,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		BufferedReader br = null;
 		try {
 			InputStream is = AppD.class.getResourceAsStream(s);
-			br = new BufferedReader(
-					new InputStreamReader(is, Charsets.UTF_8));
+			br = new BufferedReader(new InputStreamReader(is, Charsets.UTF_8));
 			String thisLine;
 			while ((thisLine = br.readLine()) != null) {
 				sb.append(thisLine);
@@ -2255,7 +2249,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		Toolkit.getDefaultToolkit().getSystemClipboard()
 				.setContents(new StringSelection(text), null);
 	}
-
 
 	@Override
 	public void copyBase64ToClipboard() {
@@ -2767,10 +2760,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			applicationSplitPane
 					.setRightComponent((getGuiManager()).getInputHelpPanel());
 			if (applicationSplitPane.getLastDividerLocation() <= 0) {
-				applicationSplitPane.setLastDividerLocation(
-						applicationSplitPane.getWidth()
+				applicationSplitPane
+						.setLastDividerLocation(applicationSplitPane.getWidth()
 								- (((GuiManagerD) getGuiManager()))
-								.getInputHelpPanelMinimumWidth());
+										.getInputHelpPanelMinimumWidth());
 			}
 			applicationSplitPane.setDividerLocation(
 					applicationSplitPane.getLastDividerLocation());
@@ -3155,8 +3148,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (guiManager != null) {
 			for (int i = 0; i < guiManager.getEuclidianViewCount(); i++) {
 				if (guiManager.hasEuclidianView2EitherShowingOrNot(i)) {
-					((EuclidianViewInterfaceCommon) guiManager
-							.getEuclidianView2(i))
+					guiManager.getEuclidianView2(i)
 									.setCursor(EuclidianCursor.DEFAULT);
 				}
 			}
@@ -4170,9 +4162,7 @@ public class AppD extends App implements KeyEventDispatcher {
 						public void run() {
 							// TODO investigate why this freezes Firefox
 							// sometimes
-							JOptionPane.showConfirmDialog(
-									mainComp,
-									msgDisplay,
+							JOptionPane.showConfirmDialog(mainComp, msgDisplay,
 									GeoGebraConstants.APPLICATION_NAME + " - "
 											+ getLocalization()
 													.getError("Error"),
@@ -4374,8 +4364,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		// and output on the original stdout
 		// stdout.println("Hello on old stdout");
 	}
-
-
 
 	/*
 	 * gets a String from the clipboard
@@ -5365,7 +5353,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		SwingUtilities.invokeLater(runnable);
 
 	}
-	
+
 	@Override
 	public GeoGebraToPstricks newGeoGebraToPstricks() {
 		return new GeoGebraToPstricksD(this);
@@ -5382,10 +5370,10 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public void setPrintPreview(PrintPreviewD printPreviewD) {
-		printPreview = printPreviewD;		
+		printPreview = printPreviewD;
 	}
-	
-	public PrintPreviewD getPrintPreview(){
+
+	public PrintPreviewD getPrintPreview() {
 		return printPreview;
 	}
 
@@ -5395,6 +5383,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @return url converted to a data URI if possible. If not, returns the URL
 	 *         unaltered
 	 */
+	@Override
 	protected String convertImageToDataURIIfPossible(String url) {
 
 		// hard-code in desktop
