@@ -78,14 +78,17 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 	public void animate() {
 		double t = (view3D.getApplication().getMillisecondTime() - animatedRotTimeStart) * 0.001;
 		t *= t;
-		// t+=0.2; //starting at 1/4
+		boolean ending = false;
 		if (t >= 1) {
 			t = 1;
-			end();
+			ending = true;
 		}
 		view3D.setRotXYinDegrees(aOld * (1 - t) + aNew * t, bOld * (1 - t) + bNew * t);
 		view3D.updateMatrix();
 		view3D.setViewChangedByRotate();
+		if (ending) {
+			end();
+		}
 	}
 
 

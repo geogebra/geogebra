@@ -65,10 +65,10 @@ public class EuclidianView3DAnimationRotationOneStep extends EuclidianView3DAnim
 	}
 
 	public void animate() {
-		end();
 		view3D.setRotXYinDegrees(aNew, bNew);
 		view3D.updateMatrix();
 		view3D.setViewChangedByRotate();
+		end();
 	}
 
 }

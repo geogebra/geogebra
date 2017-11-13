@@ -51,7 +51,7 @@ public abstract class EuclidianView3DAnimation {
 	 * end animation
 	 */
 	public void end() {
-		animator.stopAnimation();
+		animator.endAnimation();
 	}
 
 }

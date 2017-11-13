@@ -30,16 +30,17 @@ abstract public class EuclidianView3DAnimationScaleAbstract extends EuclidianVie
 
 	public void animate() {
 		double t;
+		boolean ending = false;
 		if (animatedScaleTimeFactor == 0) {
 			t = 1;
-			end();
+			ending = true;
 		} else {
 			t = (view3D.getApplication().getMillisecondTime() - animatedScaleTimeStart) * animatedScaleTimeFactor;
 			t += 0.2; // starting at 1/4
 
 			if (t >= 1) {
 				t = 1;
-				end();
+				ending = true;
 			}
 		}
 		view3D.setScale(xScaleStart * (1 - t) + xScaleEnd * t, yScaleStart * (1 - t) + yScaleEnd * t,
@@ -54,6 +55,9 @@ abstract public class EuclidianView3DAnimationScaleAbstract extends EuclidianVie
 		view3D.setViewChangedByTranslate();
 		view3D.getEuclidianController().onCoordSystemChanged();
 
+		if (ending) {
+			end();
+		}
 	}
 
 }

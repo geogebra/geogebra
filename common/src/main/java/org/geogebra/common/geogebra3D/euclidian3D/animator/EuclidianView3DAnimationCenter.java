@@ -47,7 +47,6 @@ public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 		view3D.setGlobalMatrices();
 
 		view3D.setViewChangedByTranslate();
-
 		end();
 	}
 

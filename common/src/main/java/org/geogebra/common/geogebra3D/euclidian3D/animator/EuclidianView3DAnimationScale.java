@@ -9,21 +9,25 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScaleAbstract {
 
-	private double newScale;
-
 	/**
 	 * 
 	 * @param view3D
 	 * @param animator
-	 * @param newScale
 	 */
-	public EuclidianView3DAnimationScale(EuclidianView3D view3D, EuclidianView3DAnimator animator, double newScale) {
+	public EuclidianView3DAnimationScale(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
 		super(view3D, animator);
-		this.newScale = newScale;
 	}
 
 	public void setupForStart() {
+		// nothing to do
+	}
 
+	/**
+	 * 
+	 * @param newScale
+	 *            new scale
+	 */
+	public void set(double newScale) {
 		xScaleStart = view3D.getXscale();
 		yScaleStart = view3D.getYscale();
 		zScaleStart = view3D.getZscale();

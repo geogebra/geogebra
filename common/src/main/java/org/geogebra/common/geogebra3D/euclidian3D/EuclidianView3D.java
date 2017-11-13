@@ -876,7 +876,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	}
 
-	protected void updateRotationAndScaleMatrices() {
+	public void updateRotationAndScaleMatrices() {
 
 		// rotations
 		updateRotationMatrix();
@@ -989,9 +989,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	public Coords getEyePosition() {
 		return eyePosition;
 	}
-
-	// ////////////////////////////////////
-	// picking
 
 	public void shiftRotAboutZ(double da) {
 		setRotXYinDegrees(aOld + da, bOld);

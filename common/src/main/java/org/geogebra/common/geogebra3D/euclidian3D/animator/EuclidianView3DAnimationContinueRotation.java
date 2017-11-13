@@ -9,7 +9,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimat
  */
 public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAnimation {
 
-	private double animatedRotSpeed, animatedRotTimeStart;
+	private double animatedRotSpeed, animatedRotTimeStart, aOld, bOld;
 
 	/**
 	 * 
@@ -36,7 +36,8 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 
 	public void setupForStart() {
 		animatedRotTimeStart += view3D.getApplication().getMillisecondTime();
-		view3D.rememberOrigins();
+		aOld = view3D.getAngleA();
+		bOld = view3D.getAngleB();
 	}
 
 	public AnimationType getType() {
@@ -45,7 +46,10 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 
 	public void animate() {
 		double da = (view3D.getApplication().getMillisecondTime() - animatedRotTimeStart) * animatedRotSpeed;
-		view3D.shiftRotAboutZ(da);
+		view3D.setRotXYinDegrees(aOld + da, bOld);
+		view3D.updateRotationAndScaleMatrices();
+		view3D.setGlobalMatrices();
+		view3D.setViewChangedByRotate();
 	}
 
 }
