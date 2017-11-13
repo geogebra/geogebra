@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
@@ -8461,6 +8462,8 @@ public abstract class EuclidianController {
 						lastSelectionToolPressResult = SelectionToolPressResult.ADD;
 						selection.addSelectedGeo(geo, true, true);
 					}
+				} else if (app.has(Feature.PREVIEW_POINTS) && mode == EuclidianConstants.MODE_MOVE && isSpecialPreviewPointFound(hits)) {
+					showSpecialPointPopup(getPreviewSpecialPointHits(hits));
 				} else {
 					// repaint done next step, no update for properties view (will
 					// display ev properties)
@@ -8511,6 +8514,41 @@ public abstract class EuclidianController {
 		handleMovedElement(geo, selGeos.size() > 1, e.getType());
 
 		view.repaintView();
+	}
+
+	/**
+	 * @param hits
+	 *         Contains the GeoElements where the user clicked/tapped
+	 * @return whether there is any GeoPoint in the hits which is a preview Special point or not
+	 */
+	private boolean isSpecialPreviewPointFound(Hits hits) {
+		List<GeoElement> selectedPreviewPoints = app.getSelectionManager().getSelectedPreviewPoints();
+
+		if (selectedPreviewPoints != null) {
+			for (GeoElement hit : hits) {
+				if (selectedPreviewPoints.contains(hit)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * @param hits
+	 *         Contains the GeoElements where the user clicked/tapped
+	 * @return List of the hitted preview special points
+	 */
+	private ArrayList<GeoElement> getPreviewSpecialPointHits(Hits hits) {
+		List<GeoElement> selectedPreviewPoints = app.getSelectionManager().getSelectedPreviewPoints();
+		ArrayList<GeoElement> previewPointHits = new ArrayList<GeoElement>();
+
+		for (GeoElement hit : hits) {
+			if (selectedPreviewPoints.contains(hit)) {
+				previewPointHits.add(hit);
+			}
+		}
+		return previewPointHits;
 	}
 
 	/**
@@ -12295,4 +12333,17 @@ public abstract class EuclidianController {
 
 	}
 
+	/**
+	 * Show popup when user clicks on the preview Special Point in EV
+	 */
+	protected void showSpecialPointPopup(ArrayList<GeoElement> previewPoints) {
+		// Should be implemented in subclass
+	}
+
+	/**
+	 * Hide preview point popup
+	 */
+	protected void hideSpecialPointPopup() {
+		// Should be implemented in subclass
+	}
 }

@@ -1133,6 +1133,13 @@ public class SelectionManager {
 		return tempMoveGeoList;
 	}
 
+	/**
+	 * @return the List of Preview points of the currently selected functions or null if there is none
+	 */
+	public List<GeoElement> getSelectedPreviewPoints() {
+		return specPoints == null ? null : Arrays.asList(specPoints);
+	}
+
 	public <T> int addToSelectionList(ArrayList<T> selectionList, T geo,
 			int max) {
 		if (geo == null) {
