@@ -75,7 +75,7 @@ public class AppWapplet3D extends AppWapplet {
 
 	@Override
 	protected GuiManagerW newGuiManager() {
-		return new GuiManager3DW(this, device);
+		return new GuiManager3DW(this, getDevice());
 	}
 
 
