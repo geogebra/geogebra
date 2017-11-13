@@ -5,6 +5,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.user.client.ui.UIObject;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Helper class for accessibility methods
@@ -29,5 +30,9 @@ public class AriaHelper {
 		}
 		ui.getElement().removeAttribute("title");
 		ui.getElement().setAttribute("aria-label", title);
+	}
+
+	public static void hide(Widget moveBtn) {
+		moveBtn.getElement().setAttribute("aria-hidden", "true");
 	}
 }

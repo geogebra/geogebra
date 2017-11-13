@@ -12,6 +12,7 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.ToolbarSvgResources;
@@ -190,6 +191,7 @@ public class Tools extends FlowPanel implements SetLabels {
 			categoryLabel = new Label(
 					getmToolCategorization().getLocalizedHeader(category));
 			add(categoryLabel);
+			AriaHelper.hide(categoryLabel);
 
 			toolsPanel = new FlowPanel();
 			toolsPanel.addStyleName("categoryPanel");
@@ -220,6 +222,7 @@ public class Tools extends FlowPanel implements SetLabels {
 			final StandardButton btn = new StandardButton(
 					GGWToolBar.getImageURLNotMacro(toolSvgRes, mode), null,
 					size, getApp());
+			AriaHelper.hide(btn);
 			btn.setTitle(getApp().getLocalization()
 					.getMenu(EuclidianConstants.getModeText(mode)));
 

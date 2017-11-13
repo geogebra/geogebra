@@ -49,9 +49,17 @@ public class LabelManager {
 		return true;
 	}
 
+	/**
+	 * @param label
+	 *            label
+	 * @param kernel
+	 *            kernel
+	 * @return whether label can be parsed, is not reserved name and does not
+	 *         start with $
+	 */
 	public static boolean isValidLabel(String label, Kernel kernel) {
 
-		if (checkName(null, label) == false) {
+		if (!checkName(null, label)) {
 			return false;
 		}
 

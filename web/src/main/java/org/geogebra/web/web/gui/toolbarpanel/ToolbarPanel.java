@@ -10,6 +10,7 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -281,6 +282,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 								.getSafeUri(),
 						0, 0, 24, 24, false, false),
 				app);
+		AriaHelper.hide(moveBtn);
 		moveBtn.setStyleName("moveFloatingBtn");
 		// moveMoveBtnDown style added for moveBtn to fix the position on tablet
 		// too
