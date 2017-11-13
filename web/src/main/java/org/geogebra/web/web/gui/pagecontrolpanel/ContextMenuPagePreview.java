@@ -119,7 +119,7 @@ public class ContextMenuPagePreview implements SetLabels {
 	 * execute delete action
 	 */
 	protected void onDelete() {
-		frame.getPageControlPanel().removePreviewCard(card);
+		frame.getPageControlPanel().removePage(card.getPageIndex());
 		wrappedPopup.hide();
 	}
 

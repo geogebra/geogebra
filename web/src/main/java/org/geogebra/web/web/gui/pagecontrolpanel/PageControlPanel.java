@@ -115,9 +115,8 @@ public class PageControlPanel extends PersistablePanel {
 	 */
 	public void open() {
 		if (!isAttached) {
-			frame.add(this);
-			// add pages for testing
 			addNewPage();
+			frame.add(this);
 			isAttached = true;
 		}
 		updatePreview();
@@ -172,42 +171,64 @@ public class PageControlPanel extends PersistablePanel {
 	 * creates a new page and associated preview card
 	 */
 	protected void addNewPage() {
-		// TODO create new page
-		// replace app.getActiveEuclidianView() with new view
 		int slideNumber = app.addSlide();
 		addPreviewCard(app.getActiveEuclidianView(), slideNumber);
-		app.loadSlide(slideNumber);
+		loadPage(slideNumber);
 	}
 
 	private void addPreviewCard(EuclidianView view, final int slideNumber) {
 		final PagePreviewCard previewCard = new PagePreviewCard(view,
-				contentPanel.getWidgetCount());
+				slideNumber);
 		ClickStartHandler.init(previewCard, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				setPageSelected(previewCard);
-				app.loadSlide(slideNumber);
+				loadPage(previewCard.getPageIndex());
 			}
 		});
 		contentPanel.add(previewCard);
-		// set new page active
-		setPageSelected(previewCard);
 		scrollPanel.scrollToBottom();
+	}
+
+	/**
+	 * load existing page
+	 * 
+	 * @param index
+	 *            index of page to load
+	 */
+	protected void loadPage(int index) {
+		setCardSelected((PagePreviewCard) contentPanel.getWidget(index));
+		app.loadSlide(index);
+		updatePreview();
 	}
 
 	/**
 	 * remove preview card and associated view
 	 * 
-	 * @param previewCard
-	 *            the card to be removed
+	 * @param index
+	 *            index of page to be removed
+	 * 
 	 */
-	public void removePreviewCard(PagePreviewCard previewCard) {
-		contentPanel.remove(previewCard);
-		// TODO remove associated page also
-		updateDefaultLabels();
+	public void removePage(int index) {
+		int i = index;
+		if (app.getSlidesAmount() > 1) {
+			if (index == 0) {
+				// TODO handle deleting of first page -some bug here
+				i++;
+			} else {
+				i--;
+			}
+			loadPage(i);
+			app.removeSlide(index);
+			contentPanel.remove(index);
+
+		} else {
+			// TODO handle deleting of page if it's the only one
+		}
+		updateIndizes();
+		updatePreview();
 	}
 
-	private void updateDefaultLabels() {
+	private void updateIndizes() {
 		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
 			PagePreviewCard card = (PagePreviewCard) contentPanel.getWidget(i);
 			if (card.getPageIndex() != i) {
@@ -221,11 +242,10 @@ public class PageControlPanel extends PersistablePanel {
 	 * @param previewCard
 	 *            selected preview card
 	 */
-	protected void setPageSelected(PagePreviewCard previewCard) {
+	protected void setCardSelected(PagePreviewCard previewCard) {
 		deselectAllPreviewCards();
 		previewCard.addStyleName("selected");
 		activePreviewCard = previewCard;
-		// TODO set associated page visible
 	}
 
 	/**

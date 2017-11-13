@@ -3709,4 +3709,14 @@ public abstract class AppW extends App implements SetLabels {
 		return slides.size() - 1;
 	}
 
+	public void removeSlide(int index) {
+		if (slides == null || index >= slides.size()) {
+			return;
+		}
+		slides.remove(index);
+	}
+
+	public int getSlidesAmount() {
+		return slides.size();
+	}
 }
