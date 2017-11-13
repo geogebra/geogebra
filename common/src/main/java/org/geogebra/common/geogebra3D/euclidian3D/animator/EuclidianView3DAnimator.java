@@ -20,13 +20,7 @@ public class EuclidianView3DAnimator {
 	private EuclidianView3DAnimation animation;
 	private EuclidianView3DAnimationMouseMove animationMouse;
 	private EuclidianView3DAnimationAxisScale animationAxis;
-
-	private double xZeroOld, yZeroOld, zZeroOld;
-	private double xScaleStart, yScaleStart, zScaleStart;
-	private double xScaleEnd, yScaleEnd, zScaleEnd;
-	private double screenTranslateAndScaleDX, screenTranslateAndScaleDY, screenTranslateAndScaleDZ;
-
-	private Coords tmpCoords1 = new Coords(4);
+	private EuclidianView3DAnimationScreenScale animationScreenScale;
 
 	private AnimationType animationType = AnimationType.OFF;
 
@@ -39,21 +33,16 @@ public class EuclidianView3DAnimator {
 		this.view3D = view3D;
 		animationMouse = new EuclidianView3DAnimationMouseMove(view3D, this);
 		animationAxis = new EuclidianView3DAnimationAxisScale(view3D, this);
+		animationScreenScale = new EuclidianView3DAnimationScreenScale(view3D, this);
 	}
 
 	/**
 	 * Store values before animation
 	 */
 	public void rememberOrigins() {
-		xZeroOld = view3D.getXZero();
-		yZeroOld = view3D.getYZero();
-		zZeroOld = view3D.getZZero();
-		xScaleStart = view3D.getXscale();
-		yScaleStart = view3D.getYscale();
-		zScaleStart = view3D.getZscale();
-
 		animationMouse.rememberOrigins();
 		animationAxis.rememberOrigins();
+		animationScreenScale.rememberOrigins();
 	}
 
 	/**
@@ -226,21 +215,7 @@ public class EuclidianView3DAnimator {
 	 * animate the view for changing scale, orientation, etc.
 	 */
 	public void animate() {
-		if (animationType == AnimationType.SCREEN_TRANSLATE_AND_SCALE) {
-			view3D.setXZero(xZeroOld + screenTranslateAndScaleDX);
-			view3D.setYZero(yZeroOld + screenTranslateAndScaleDY);
-			view3D.setZZero(zZeroOld + screenTranslateAndScaleDZ);
-			view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());
-			view3D.setScale(xScaleEnd, yScaleEnd, zScaleEnd);
-			view3D.updateMatrix();
-			view3D.setViewChangedByZoom();
-			view3D.setViewChangedByTranslate();
-			view3D.setWaitForUpdate();
-
-			stopAnimation();
-		} else {
-			animation.animate();
-		}
+		animation.animate();
 	}
 
 	/**
@@ -252,32 +227,8 @@ public class EuclidianView3DAnimator {
 	 *            scale factor
 	 */
 	public void screenTranslateAndScale(double dx, double dy, double scaleFactor) {
-
-		// dx and dy are translation in screen coords
-		// dx moves along "visible left-right" axis on xOy plane
-		// dy moves along "visible front-back" axis on xOy plane
-		// or z-axis if this one "visibly" more than sqrt(2)*front-back axis
-		tmpCoords1.set(Coords.VX);
-		view3D.toSceneCoords3D(tmpCoords1);
-		screenTranslateAndScaleDX = tmpCoords1.getX() * dx;
-		screenTranslateAndScaleDY = tmpCoords1.getY() * dx;
-
-		tmpCoords1.set(Coords.VY);
-		view3D.toSceneCoords3D(tmpCoords1);
-		double z = tmpCoords1.getZ() * view3D.getScale();
-		if (z > 0.85) {
-			screenTranslateAndScaleDZ = tmpCoords1.getZ() * (-dy);
-		} else if (z < 0.45) {
-			screenTranslateAndScaleDX += tmpCoords1.getX() * (-dy);
-			screenTranslateAndScaleDY += tmpCoords1.getY() * (-dy);
-			screenTranslateAndScaleDZ = 0;
-		} else {
-			screenTranslateAndScaleDZ = 0;
-		}
-
-		xScaleEnd = xScaleStart * scaleFactor;
-		yScaleEnd = yScaleStart * scaleFactor;
-		zScaleEnd = zScaleStart * scaleFactor;
+		animationScreenScale.set(dx, dy, scaleFactor);
+		animation = animationScreenScale;
 		animationType = AnimationType.SCREEN_TRANSLATE_AND_SCALE;
 	}
 
