@@ -16,12 +16,26 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 	private double screenTranslateAndScaleDX, screenTranslateAndScaleDY, screenTranslateAndScaleDZ;
 	private Coords tmpCoords1 = new Coords(4);
 
+	/**
+	 * 
+	 * @param view3D
+	 * @param animator
+	 */
 	public EuclidianView3DAnimationScreenScale(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
 
 		super(view3D, animator);
 
 	}
 
+	/**
+	 * 
+	 * @param dx
+	 *            translation x in screen coordinates
+	 * @param dy
+	 *            translation y in screen coordinates
+	 * @param scaleFactor
+	 *            scale factor
+	 */
 	public void set(double dx, double dy, double scaleFactor) {
 
 		// dx and dy are translation in screen coords
@@ -52,8 +66,10 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 		zScaleEnd = zScaleStart * scaleFactor;
 	}
 
+	/**
+	 * store values at start
+	 */
 	public void rememberOrigins() {
-
 		xZeroOld = view3D.getXZero();
 		yZeroOld = view3D.getYZero();
 		zZeroOld = view3D.getZZero();
