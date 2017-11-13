@@ -1876,7 +1876,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	protected void setRowHeight(final int row, final int rowHeight,
 			final boolean updateSettings) {
-
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -1997,8 +1996,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	/**
 	 * Enlarge the row and/or column of a cell to fit the cell's preferred size.
+	 * Note: this is just temporary (e.g. dynamic LaTeX), do NOT update settings
 	 */
-	public void setPreferredCellSize(int row, int col, boolean adjustWidth,
+	private void setPreferredCellSize(int row, int col, boolean adjustWidth,
 	        boolean adjustHeight) {
 
 		// in table model coordinates
@@ -2030,7 +2030,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			int rowHeight2 = resultHeight;
 			// if (rowHeight2 < minimumRowHeight)
 			// rowHeight2 = minimumRowHeight;
-			setRowHeight(row, rowHeight2);
+			setRowHeight(row, rowHeight2, false);
 		}
 
 	}
