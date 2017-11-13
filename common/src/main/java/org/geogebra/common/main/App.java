@@ -4012,6 +4012,10 @@ public abstract class App implements UpdateSelection {
 			case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
 				return prerelease;
 
+			// MOB-1313
+			case MOB_STANDARD_VIEW_BUTTON_3D:
+				return prerelease;
+
             // **********************************************************************
             // MOBILE END
             // *********************************************************
