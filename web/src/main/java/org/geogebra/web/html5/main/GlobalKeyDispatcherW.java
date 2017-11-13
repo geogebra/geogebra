@@ -470,6 +470,10 @@ public class GlobalKeyDispatcherW extends
 		if (app.has(Feature.TAB_ON_GUI) && !app.getAccessibilityManager().isTabOverGeos()
 				&& kc == KeyCodes.TAB) {
 			event.stopPropagation();
+			if (app.getKernel().getConstruction().isEmpty()) {
+				event.preventDefault();
+				app.getAccessibilityManager().focusMenu();
+			}
 			return;
 		}
 

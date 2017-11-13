@@ -56,24 +56,20 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		} else if (source instanceof FocusWidget) {
 			focusPreviousWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
-			focusMenu();
+			focusZoom(false);
 		}
 	}
 	
 
 	private void focusNextWidget(FocusWidget source) {
-		switch (source.getTabIndex()) {
-		case GUITabs.SETTINGS:
+		if (source.getTabIndex() == GUITabs.SETTINGS) {
 			focusZoom(true);
-			break;
-		case GUITabs.MENU:
-			break;
 		}
 	}
 
 	private void focusPreviousWidget(FocusWidget source) {
 		if (source.getTabIndex() == GUITabs.MENU) {
-			focusZoom(false);
+			focusLastGeo();
 		}
 	}
 
@@ -105,18 +101,17 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return true;
 	}
 
-	@SuppressWarnings("unused")
 	private boolean focusLastGeo() {
-		GeoElement geo = app.getKernel().getConstruction().getGeoSetLabelOrder()
-				.last();
-		if (geo != null) {
-			selection.addSelectedGeo(geo);
-			setTabOverGeos(true);
-			return true;
+		Construction cons = app.getKernel().getConstruction();
+		if (cons.isEmpty()) {
+			focusZoom(false);
+			return false;
 		}
-		return false;
+
+		focusGeo(cons.getGeoSetLabelOrder().last());
+		return true;
 	}
-	
+
 	@Override
 	public void focusMenu() {
 		gm.getToolbarPanelV2().focusMenu();
@@ -160,5 +155,4 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			app.getActiveEuclidianView().requestFocus();
 		}
 	}
-
 }
