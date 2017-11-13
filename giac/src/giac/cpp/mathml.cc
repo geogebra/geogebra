@@ -923,6 +923,52 @@ namespace giac {
     return res;
   }
   
+  // Trace de courbes
+  // un point sur 2 sert de point de contr??le
+  // on peut sophistiquer
+  static string svg_bezier_curve(gen g, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){ 
+    string x="x", y="y";
+    int i;
+    string s= "<path ";
+    if (attr.ie){
+      double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
+      s = s+"stroke-width=\""+print_DOUBLE_(thickness,5);
+    }
+    else
+      s = s+"vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width);
+    if (attr.fill_polygon)
+      s = s+"\" fill=\""+color_string(attr)+"\" d=\"M";
+    else
+      s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" d=\"M";
+    g=evalf(g,1,contextptr);
+    vecteur v=*(g._VECTptr);
+    for (i=0 ; i<signed(v.size()) ; i++){
+      s=s+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr)+" ";
+      if (i%2==0)
+	s=s+"Q ";
+      else
+	s=s+", ";
+    }
+    i--;
+    if (i%2==0)
+      s=s+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr)+" ,  "+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr);
+    if (i%2==1)
+      s=s+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr)+" ";
+    s=s+"\" />\n ";
+    // on ??crit la l??gende
+    //recherche d'un point dans le cadre pour ancrer la l??gende
+    for (i=0 ; i<signed(v.size()) ; i++){
+      if (is_positive(re(v[i],contextptr)-xmin,contextptr) 
+	  && is_positive(im(v[i],contextptr)-ymin,contextptr)
+	  && is_positive(xmax-re(v[i],contextptr),contextptr) 
+	  && is_positive(ymax-im(v[i],contextptr),contextptr) ){
+	s = s+svg_text(v[i],legende,attr,xmin,xmax,ymin,ymax,contextptr);
+	break;
+      }
+    }
+    return s;
+  }
+
   static string svg_circle(const gen & diameter0, const gen & diameter1, const gen & angle1,const gen & angle2,svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     string s="";
     gen center=evalf_double(_evalc((diameter0+diameter1)/2,contextptr),1,contextptr);
@@ -943,6 +989,28 @@ namespace giac {
     double a2=evalf_double(angle2,1,contextptr)._DOUBLE_val+rot;
     if (a2<a1) std::swap(a1,a2);
     bool arc=std::abs(a2-a1-2*M_PI)>1e-4;
+    if (arc){ // bezier curve is safer...
+      int n=100;
+      vecteur v; v.reserve(n+1);
+      complex<double> c(cx,cy);
+      complex<double> ca=std::exp(complex<double>(0,a1));
+      if (attr.fill_polygon){
+	for (int i=0;i<n/2;++i){
+	  v.push_back(gen(c+(2*i*r)/n*ca));
+	}
+      }
+      for (int i=0;i<=n;++i){
+	double theta=a1+i*(a2-a1)/n;
+	v.push_back(gen(c+r*std::exp(complex<double>(0,theta))));
+      }
+      if (attr.fill_polygon){
+	ca=std::exp(complex<double>(0,a2));
+	for (int i=n/2-1;i>=0;--i){
+	  v.push_back(gen(c+(2*i*r)/n*ca));
+	}
+      }
+      return svg_bezier_curve(v,attr,legende,xmin,xmax,ymin,ymax,contextptr);
+    }
     s= string(arc?"<path ":"<circle ");
     if (attr.ie){
       // COUT << xmin << " " << xmax << " " << ymin << " " << ymax << " " << svg_epaisseur1 << " " << attr.width << endl;
@@ -1132,52 +1200,6 @@ namespace giac {
     }
     s = s+re(evalf(v[i],1,contextptr),contextptr).print(contextptr)+" "+im(evalf(v[i],1,contextptr),contextptr).print(contextptr)+"\" /> ";
     s = s+svg_text(v[i],name,attr,xmin,xmax,ymin,ymax,contextptr);
-    return s;
-  }
-
-  // Trace de courbes
-  // un point sur 2 sert de point de contr??le
-  // on peut sophistiquer
-  static string svg_bezier_curve(gen g, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){ 
-    string x="x", y="y";
-    int i;
-    string s= "<path ";
-    if (attr.ie){
-      double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
-      s = s+"stroke-width=\""+print_DOUBLE_(thickness,5);
-    }
-    else
-      s = s+"vector-effect=\"non-scaling-stroke\"  stroke-width=\""+print_INT_(attr.width);
-    if (attr.fill_polygon)
-      s = s+"\" fill=\""+color_string(attr)+"\" d=\"M";
-    else
-      s = s+"\" stroke=\""+color_string(attr)+"\" fill=\"none\" d=\"M";
-    g=evalf(g,1,contextptr);
-    vecteur v=*(g._VECTptr);
-    for (i=0 ; i<signed(v.size()) ; i++){
-      s=s+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr)+" ";
-      if (i%2==0)
-	s=s+"Q ";
-      else
-	s=s+", ";
-    }
-    i--;
-    if (i%2==0)
-      s=s+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr)+" ,  "+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr);
-    if (i%2==1)
-      s=s+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr)+" ";
-    s=s+"\" />\n ";
-    // on ??crit la l??gende
-    //recherche d'un point dans le cadre pour ancrer la l??gende
-    for (i=0 ; i<signed(v.size()) ; i++){
-      if (is_positive(re(v[i],contextptr)-xmin,contextptr) 
-	  && is_positive(im(v[i],contextptr)-ymin,contextptr)
-	  && is_positive(xmax-re(v[i],contextptr),contextptr) 
-	  && is_positive(ymax-im(v[i],contextptr),contextptr) ){
-	s = s+svg_text(v[i],legende,attr,xmin,xmax,ymin,ymax,contextptr);
-	break;
-      }
-    }
     return s;
   }
 
