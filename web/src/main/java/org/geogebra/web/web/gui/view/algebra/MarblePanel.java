@@ -1,12 +1,10 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
@@ -23,13 +21,12 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Zbynek
  */
 public class MarblePanel extends FlowPanel
-		implements SetLabels, KeyDownHandler, TabHandler {
+		implements SetLabels, KeyDownHandler {
 	
 	private Marble marble;
 	private boolean selected = false;
@@ -285,8 +282,7 @@ public class MarblePanel extends FlowPanel
 			btnPlus.ignoreTab();
 			btnPlus.addKeyDownHandler(this);
 			btnPlus.setAltText(btnPlus.getTitle());
-			btnPlus.addTabHandler(this);
-			}
+		}
 	}
 
 	/**
@@ -381,19 +377,5 @@ public class MarblePanel extends FlowPanel
 				onPlusPressed();
 			}
 		}
-	}
-
-	@Override
-	public boolean onTab(Widget source, boolean shiftDown) {
-		if (source == btnPlus) {
-			AccessibilityManagerInterface am = item.app.getAccessibilityManager();
-			if (shiftDown)  {
-				am.focusPrevious(btnPlus);
-			} else {
-				am.focusNext(btnPlus);
-			}
-			return true;
-		}
-		return false;
 	}
 }

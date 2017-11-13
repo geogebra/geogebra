@@ -101,13 +101,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return false;
 		}
 
-		GeoElement geo = cons.getGeoSetLabelOrder().first();
-		if (geo != null) {
-			selection.addSelectedGeo(geo);
-			setTabOverGeos(true);
-			return true;
-		}
-		return false;
+		focusGeo(cons.getGeoSetLabelOrder().first());
+		return true;
 	}
 
 	@SuppressWarnings("unused")
