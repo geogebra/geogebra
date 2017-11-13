@@ -45,18 +45,13 @@ public class DrawSlider extends Drawable {
 	private double[] coordsScreen = new double[2];
 	// private GeoPoint geoPoint;
 	// private DrawPointSlider drawPoint;
-
-	// used by getSelectionDiamaterMin()
-	private static final int SELECTION_RADIUS_MIN = 12;
-
 	// private GeoPointND P;
-
-	// now hard-coded
 	private static int diameter = 2 * GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE + 1;
 	private static int HIGHLIGHT_OFFSET = GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE
 			/ 2 + 1;
 	private static int hightlightDiameter = diameter
 			+ 2 * HIGHLIGHT_OFFSET;
+	private static int lineThickness = GeoNumeric.DEFAULT_SLIDER_THICKNESS;
 
 	// for dot and selection
 	private GEllipse2DDouble circle = AwtFactory.getPrototype()
@@ -155,6 +150,7 @@ public class DrawSlider extends Drawable {
 
 			if (number.getKernel().getApplication()
 					.has(Feature.SLIDER_STYLE_OPTIONS)) {
+				lineThickness = number.getLineThickness();
 				updateStrokes(number, number.getLineThickness());
 			} else {
 				// now hard-coded
@@ -237,7 +233,7 @@ public class DrawSlider extends Drawable {
 	 * @return true iff the movable point was hit
 	 */
 	final public boolean hitPoint(int x, int y, int hitThreshold) {
-		int r = hitThreshold + SELECTION_RADIUS_MIN;
+		int r = hitThreshold + diameter + 1;
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
@@ -260,11 +256,11 @@ public class DrawSlider extends Drawable {
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
 	public boolean hitSlider(int x, int y, int hitThreshold) {
+		int r = (hitThreshold + lineThickness) / 2 - 2;
 		// changed: we want click on fixed slider to increment/decrement the
 		// slider a bit
 		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);
-		return line.intersects(x - hitThreshold, y - hitThreshold,
-				2 * hitThreshold, 2 * hitThreshold);
+		return line.intersects(x - r, y - r, 2 * r, 2 * r);
 	}
 
 	@Override
