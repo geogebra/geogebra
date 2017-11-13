@@ -561,11 +561,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 */
 	String getHTMLExpand(SVGResource img, String s) {
 		return "<img src=\"" + img.getSafeUri().asString()
-				+ "\" draggable=\"false\"><span>"
+				+ "\" draggable=\"false\" aria-hidden=\"true\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>"
 				+ "<img src=\"" + MaterialDesignResources.INSTANCE
 						.expand_black().getSafeUri().asString()
-				+ "\" class=\"expandImg\" draggable=\"false\">";
+				+ "\" class=\"expandImg\" draggable=\"false\" aria-label=\"expand\" role=\"button\">";
 	}
 
 	/**
@@ -577,11 +577,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 */
 	String getHTMLCollapse(SVGResource img, String s) {
 		return "<img src=\"" + img.getSafeUri().asString()
-				+ "\" draggable=\"false\"><span>"
+				+ "\" draggable=\"false\" aria-hidden=\"true\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>" + "<img src=\""
 				+ MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString()
-				+ "\" class=\"collapseImg\" draggable=\"false\">";
+				+ "\" class=\"collapseImg\" draggable=\"false\" aria-label=\"collapse\" role=\"button\">";
 	}
 
 	private String getExpandCollapseHTML(SVGResource img, String s) {

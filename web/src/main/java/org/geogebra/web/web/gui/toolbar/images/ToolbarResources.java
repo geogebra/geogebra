@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.toolbar.images;
 
+import org.geogebra.web.resources.SVGResource;
+
 import com.google.gwt.resources.client.ResourcePrototype;
 
 @SuppressWarnings("javadoc")
@@ -236,7 +238,7 @@ public interface ToolbarResources {
 	ResourcePrototype mode_semicircle_32();
 
 	
-	ResourcePrototype mode_showcheckbox_32();
+	SVGResource mode_showcheckbox_32();
 
 	
 	ResourcePrototype mode_showhidelabel_32();
@@ -269,7 +271,7 @@ public interface ToolbarResources {
 	ResourcePrototype mode_textfieldaction_32();
 	
 	
-	ResourcePrototype mode_tool_32();	
+	SVGResource mode_tool_32();
 
 	
 	ResourcePrototype mode_translatebyvector_32();

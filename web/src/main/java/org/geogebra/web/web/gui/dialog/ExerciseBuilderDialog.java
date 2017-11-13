@@ -17,6 +17,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.BoolAssignment;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -29,7 +30,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.AttachEvent;
 import com.google.gwt.event.logical.shared.AttachEvent.Handler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
 import com.google.gwt.user.client.ui.Button;
@@ -198,7 +198,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 		int row = (insertrow <= assignmentsTable.getRowCount()) ? assignmentsTable
 				.insertRow(insertrow) : insertrow;
 
-		Image icon = new Image();
+		Image icon = new NoDragImage("", 32);
 		icon.setUrl(getIconFile(assignment.getIconFileName()));
 		assignmentsTable.setWidget(row, j++, icon);
 		assignmentsTable.setWidget(row, j++,
@@ -403,8 +403,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 	 */
 	SafeUri getIconFile(String fileName) {
 		if (BoolAssignment.class.getSimpleName().equals(fileName)) {
-			return ((ImageResource) GGWToolBar.getMyIconResourceBundle()
-					.mode_showcheckbox_32()).getSafeUri();
+			return GGWToolBar.getMyIconResourceBundle().mode_showcheckbox_32()
+					.getSafeUri();
 		} else if (!fileName.isEmpty()) {
 			String imageURL = ((AppW) app).getImageManager()
 					.getExternalImageSrc(
@@ -413,8 +413,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 				return UriUtils.fromString(imageURL);
 			}
 		}
-		return ((ImageResource) GGWToolBar.getMyIconResourceBundle()
-				.mode_tool_32()).getSafeUri();
+		return GGWToolBar.getMyIconResourceBundle().mode_tool_32().getSafeUri();
 	}
 
 	@Override
@@ -476,7 +475,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 			ArrayList<Assignment> parts = exercise.getParts();
 			for (int j = 0; j < parts.size(); j++, i++) {
 				final Assignment assignment = parts.get(j);
-				Image icon = new Image();
+				Image icon = new NoDragImage("", 32);
 				icon.setUrl(getIconFile(assignment.getIconFileName()));
 				k = 0;
 				checkAssignmentsTable.setWidget(i, k++, icon);
