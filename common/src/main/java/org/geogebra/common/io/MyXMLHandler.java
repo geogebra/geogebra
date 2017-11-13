@@ -4433,6 +4433,11 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handlePointSize(LinkedHashMap<String, String> attrs) {
+		if (geo.isGeoNumeric()) {
+			((GeoNumeric) geo).setSliderBlobSize(
+					StringUtil.parseDouble(attrs.get("val")));
+			return true;
+		}
 		if (!(geo instanceof PointProperties)) {
 			Log.debug("wrong element type for <pointSize>: " + geo.getClass());
 			return false;
@@ -4605,8 +4610,6 @@ public class MyXMLHandler implements DocHandler {
 
 			num.setSliderWidth(StringUtil.parseDouble(attrs.get("width")),
 					true);
-			num.setSliderBlobSize(
-					StringUtil.parseDouble(attrs.get("pointSize")));
 			num.setSliderFixed(parseBoolean(attrs.get("fixed")));
 			num.setShowExtendedAV(parseBoolean(attrs.get("showAlgebra")));
 
