@@ -1,6 +1,7 @@
-package org.geogebra.common.geogebra3D.euclidian3D;
+package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -212,7 +213,7 @@ public class EuclidianView3DAnimator {
 			Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
 			view3D.toSceneCoords3D(v);
 
-			if (view3D.cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
+			if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
 				v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection(), tmpCoords1);
 				view3D.setXZero(xZeroOld + tmpCoords1.getX());
 				view3D.setYZero(yZeroOld + tmpCoords1.getY());

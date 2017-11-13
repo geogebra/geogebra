@@ -24,7 +24,8 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
-import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DAnimator.AnimationType;
+import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator;
+import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAngle3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAxis3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
@@ -1995,6 +1996,13 @@ public abstract class EuclidianView3D extends EuclidianView
 		return cursor3D;
 	}
 
+	/**
+	 * @return the point used for cursor on xOy plane
+	 */
+	public GeoPoint3D getCursorOnXOYPlane() {
+		return cursorOnXOYPlane;
+	}
+
 	// ///////////////////////////////////////////////////
 	//
 	// CURSOR
@@ -3556,15 +3564,15 @@ public abstract class EuclidianView3D extends EuclidianView
 	// PROJECTION (ORTHO/PERSPECTIVE/...)
 	// ///////////////////////////////////////////////
 
-	protected void setViewChangedByZoom() {
+	public void setViewChangedByZoom() {
 		viewChangedByZoom = true;
 	}
 
-	protected void setViewChangedByTranslate() {
+	public void setViewChangedByTranslate() {
 		viewChangedByTranslate = true;
 	}
 
-	protected void setViewChangedByRotate() {
+	public void setViewChangedByRotate() {
 		viewChangedByRotate = true;
 	}
 
