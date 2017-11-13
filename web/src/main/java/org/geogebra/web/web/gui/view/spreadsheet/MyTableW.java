@@ -1927,7 +1927,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		scroller.syncTableTop();
 	}
 
-	public void setRowHeight(final int rowHeight) {
+	public void setRowHeight(final int rowHeight,
+			final boolean updateSettings) {
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 			@Override
@@ -1947,7 +1948,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				}
 
 				if (view != null) {
-					// view.updatePreferredRowHeight(rowHeight2);
+					view.updatePreferredRowHeight(rowHeight2);
 				}
 
 			}
@@ -2715,7 +2716,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void updateFonts() {
-		setRowHeight(0);
+		setRowHeight(0, false);
 		resetRowHeights();
 		renderSelection();
 	}

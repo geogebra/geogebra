@@ -746,7 +746,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			if (table.minSelectionRow != -1 && table.maxSelectionRow != -1
 			        && (table.maxSelectionRow - table.minSelectionRow > 0)) {
 				if (table.isSelectAll()) {
-					table.setRowHeight(rowHeight);
+					table.setRowHeight(rowHeight, true);
 				} else {
 					for (int row = table.minSelectionRow; row <= table.maxSelectionRow; row++) {
 						// App.debug("set row height row/height: " + row + " / "
