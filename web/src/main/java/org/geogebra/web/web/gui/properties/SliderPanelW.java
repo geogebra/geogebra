@@ -15,7 +15,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
-import org.geogebra.web.html5.gui.util.Slider;
+import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.AngleTextFieldW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -49,8 +49,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private AutoCompleteTextFieldW tfWidth;
 	private AutoCompleteTextFieldW tfBlobSize;
 	private AutoCompleteTextFieldW tfLineThickness;
-	private Slider sliderTransparency;
-	private Label transpValueLabel;
+	private SliderPanel sliderTransparency;
 	private Label transparencyLabel;
 	private Label blobSizeUnitLabel;
 	private Label lineThicknessUnitLabel;
@@ -273,10 +272,9 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			lineThicknessPanel.add(tfLineThickness);
 			sliderPanel.add(lineThicknessPanel);
 			FlowPanel transparencySliderPanel = new FlowPanel();
-			transparencySliderPanel.setStyleName("panelRow");
+			transparencySliderPanel.setStyleName("optionsPanel");
 			transparencySliderPanel.add(transparencyLabel);
 			transparencySliderPanel.add(sliderTransparency);
-			transparencySliderPanel.add(transpValueLabel);
 			sliderPanel.add(transparencySliderPanel);
 		}
 
@@ -298,19 +296,13 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	}
 
 	private void createTransparencySlider() {
-		sliderTransparency = new Slider(0, 100);
+		sliderTransparency = new SliderPanel(0, 100);
 		sliderTransparency.setMajorTickSpacing(25);
 		sliderTransparency.setMinorTickSpacing(5);
 		sliderTransparency.setValue(40);
-		transpValueLabel = new Label();
-		transpValueLabel
-				.setText(sliderTransparency.getValue().toString() + "%");
 		sliderTransparency.addChangeHandler(new ChangeHandler() {
 			
 			public void onChange(ChangeEvent event) {
-				int sliderValue = getSliderTransparency().getValue();
-				getTranspValueLabel()
-						.setText(sliderValue + "%");
 				applyTransparency();
 			}
 		});
@@ -387,6 +379,11 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		});
 	}
 
+	/**
+	 * @param color
+	 *            basic color
+	 * @return basic color with opacity
+	 */
 	public GColor getColorWithOpacity(GColor color) {
 		GColor lineCol = color == null ? GColor.BLACK : color;
 		return GColor.newColor(lineCol.getRed(),
@@ -589,18 +586,10 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	public CheckBox getCbRandom() {
 		return cbRandom;
 	}
-
-	/**
-	 * @return label of transparency value
-	 */
-	public Label getTranspValueLabel() {
-		return transpValueLabel;
-	}
-
 	/**
 	 * @return slider for transparency
 	 */
-	public Slider getSliderTransparency() {
+	public SliderPanel getSliderTransparency() {
 		return sliderTransparency;
 	}
 
@@ -628,7 +617,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 						? loc.getMenu("Thickness")
 						: loc.getMenu("Thickness") + ":");
 		transparencyLabel
-				.setText(loc.getMenu("Line Transparency") + ":");
+				.setText(loc.getMenu("LineOpacity") + ":");
 		model.setLabelForWidthUnit();
 		stepPanel.setLabels();
 		speedPanel.setLabels();
