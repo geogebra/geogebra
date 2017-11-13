@@ -6,6 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 
@@ -65,10 +66,12 @@ class ToolsTab extends ToolbarPanel.ToolbarTab {
 	private void createMoreLessButtons() {
 		moreBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.More"), app);
+		AriaHelper.hide(moreBtn);
 		moreBtn.addStyleName("moreLessBtn");
 		moreBtn.removeStyleName("button");
 		lessBtn = new StandardButton(
 				app.getLocalization().getMenu("Tools.Less"), app);
+		AriaHelper.hide(lessBtn);
 		lessBtn.addStyleName("moreLessBtn");
 		lessBtn.removeStyleName("button");
 		moreBtn.ignoreTab();
