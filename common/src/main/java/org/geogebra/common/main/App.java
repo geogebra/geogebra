@@ -4323,6 +4323,10 @@ public abstract class App implements UpdateSelection {
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
 			return prerelease;
 
+		/** GGB-2208 FromBase() and ToBase() commands in CAS */
+		case CAS_FROM_TO_BASE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

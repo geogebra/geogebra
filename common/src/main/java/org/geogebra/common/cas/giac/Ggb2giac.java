@@ -1233,6 +1233,13 @@ public class Ggb2giac {
 		// Numeric[TDistribution[4,2],15] doesn't work with this
 		// "1/2+(Beta(%0/2,1/2,1,1)-Beta(%0/2,1/2,%0/(%0+(%1)^2
 		// ),1))* sign(%1)/2");
+
+		// eg ToBase(10^23,2)
+		if (app.has(Feature.CAS_FROM_TO_BASE)) {
+			p("ToBase.2",
+					"[[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+ggblist[k]); od], ggbans][-1]");
+		}
+
 		p("ToComplex.1",
 				"[[ggbtcans:=?],[ggbtcans:=%0],[ggbtype:=type(evalf(ggbtcans))],"
 						+
