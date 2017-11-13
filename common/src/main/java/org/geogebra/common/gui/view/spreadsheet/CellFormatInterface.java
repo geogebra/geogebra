@@ -17,4 +17,7 @@ public interface CellFormatInterface {
 	void shiftFormats(int startIndex, int shiftAmount,
 			CellRangeProcessor.Direction direction);
 
+	void setFormat(GPoint coords, int formatBgcolor, Object o);
+
+
 }

@@ -1,7 +1,9 @@
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.StringUtil;
 
@@ -32,7 +34,7 @@ public class LabelManager {
 		}
 
 		name = StringUtil.toLowerCaseUS(name);
-		if (geo.isGeoFunction()) {
+		if (geo != null && geo.isGeoFunction()) {
 			if (geo.getKernel().getApplication().getParserFunctions()
 					.isReserved(name)) {
 				return false;
@@ -40,7 +42,22 @@ public class LabelManager {
 		}
 
 		// $1 is a valid label for CAS cells, not other geos
-		if (name.charAt(0) == '$' && !geo.isGeoCasCell()) {
+		if (name.charAt(0) == '$' && (geo == null || !geo.isGeoCasCell())) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public static boolean isValidLabel(String label, Kernel kernel) {
+
+		if (checkName(null, label) == false) {
+			return false;
+		}
+
+		try {
+			kernel.getAlgebraProcessor().parseLabel(label);
+		} catch (ParseException e) {
 			return false;
 		}
 

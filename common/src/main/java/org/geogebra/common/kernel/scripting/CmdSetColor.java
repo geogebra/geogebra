@@ -1,7 +1,11 @@
 package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.awt.GColor;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.view.spreadsheet.CellFormat;
+import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -12,7 +16,9 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.util.StringUtil;
@@ -40,22 +46,22 @@ public class CmdSetColor extends CmdScripting {
 		EvalInfo argInfo = new EvalInfo(false);
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		GeoElement[] arg;
+		GeoElement[] arg = null;
 
 		// SetBackgroundColor["red"]
 		if (background && n == 1) {
 
 			ExpressionNode en = c.getArgument(0);
+
 			ExpressionValue ev = en.evaluate(StringTemplate.defaultTemplate);
 
 			String color = ev.toString(StringTemplate.defaultTemplate);
 
 			try {
 
-				color = StringUtil.removeSpaces(color.replace("\"", ""));
 				// lookup Color
 				GColor col = GeoGebraColorConstants.getGeogebraColor(app,
-						color);
+						trim(color));
 
 				// SetBackgroundColor("none") is NOT OK
 				if (col == null) {
@@ -108,7 +114,35 @@ public class CmdSetColor extends CmdScripting {
 		}
 
 		if (n == 2) {
-			// adapted from resArgs()
+			// not using resArgs as we need to cope with eg
+			// SetBackgroundColor(A1,red)
+			// when neither A1 nor red are defined geos.
+
+			String label = c.getArgument(0)
+					.toString(StringTemplate.defaultTemplate);
+			String color = StringUtil.removeSpaces(
+					c.getArgument(1).toString(StringTemplate.defaultTemplate));
+
+			if (kernel.lookupLabel(label) == null
+					&& LabelManager.isValidLabel(label, kernel)
+					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
+
+				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+
+				SpreadsheetViewInterface spreadsheet = kernel.getApplication()
+						.getGuiManager().getSpreadsheetView();
+				CellFormatInterface formatHandler = spreadsheet
+						.getSpreadsheetTable().getCellFormatHandler();
+
+
+				GColor bgCol = GeoGebraColorConstants.getGeogebraColor(app,
+						trim(color));
+
+				formatHandler.setFormat(coords, CellFormat.FORMAT_BGCOLOR,
+						bgCol);
+
+				return null;
+			}
 
 			ExpressionNode[] args = c.getArguments();
 			arg = new GeoElement[args.length];
@@ -129,8 +163,6 @@ public class CmdSetColor extends CmdScripting {
 						args[1].toString(StringTemplate.defaultTemplate));
 			}
 			cons.setSuppressLabelCreation(oldMacroMode);
-		} else {
-			arg = resArgs(c);
 		}
 
 		switch (n) {
@@ -142,14 +174,13 @@ public class CmdSetColor extends CmdScripting {
 
 			try {
 
-				String color = StringUtil
-						.removeSpaces(((GeoText) arg[1]).getTextString());
+				String color = ((GeoText) arg[1]).getTextString();
 				// lookup Color
 				// HashMap<String, Color> colors = app.getColorsHashMap();
 				// Color col = colors.get(color);
 
 				GColor col = GeoGebraColorConstants.getGeogebraColor(app,
-						color);
+						trim(color));
 
 
 				// SetBackgroundColor(text1, "none") is OK
@@ -173,6 +204,34 @@ public class CmdSetColor extends CmdScripting {
 			}
 
 		case 4:
+
+			String label = c.getArgument(0)
+					.toString(StringTemplate.defaultTemplate);
+			double r = c.getArgument(1).evaluateDouble();
+			double g = c.getArgument(2).evaluateDouble();
+			double b = c.getArgument(3).evaluateDouble();
+
+			// SetBackgroundColor(A1,1,1,0)
+			// for empty cell
+			if (kernel.lookupLabel(label) == null
+					&& LabelManager.isValidLabel(label, kernel)
+					&& GeoElementSpreadsheet.isSpreadsheetLabel(label)) {
+
+				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
+
+				SpreadsheetViewInterface spreadsheet = kernel.getApplication()
+						.getGuiManager().getSpreadsheetView();
+				CellFormatInterface formatHandler = spreadsheet
+						.getSpreadsheetTable().getCellFormatHandler();
+
+				GColor bgCol = GColor.newColor(r, g, b);
+
+				formatHandler.setFormat(coords, CellFormat.FORMAT_BGCOLOR,
+						bgCol);
+
+				return null;
+			}
+
 			boolean[] ok = new boolean[n];
 			arg = resArgs(c);
 			if ((ok[1] = arg[1] instanceof NumberValue)
@@ -208,6 +267,11 @@ public class CmdSetColor extends CmdScripting {
 		default:
 			throw argNumErr(c);
 		}
+	}
+
+	/** remove quotes and spaces */
+	private String trim(String color) {
+		return StringUtil.removeSpaces(color.replace("\"", ""));
 	}
 
 	private void setViewBackground(GColor col) {
