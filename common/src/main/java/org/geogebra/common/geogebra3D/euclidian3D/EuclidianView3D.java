@@ -24,6 +24,7 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.euclidian3D.Mouse3DEvent;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DAnimator.AnimationType;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAngle3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawAxis3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawClippingCube3D;
@@ -231,8 +232,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double a = ANGLE_ROT_OZ;
 	private double b = ANGLE_ROT_XOY;// angles (in degrees)
 
-	// animation
-	private double aNew, bNew;
 	/**
 	 * direction of view
 	 */
@@ -251,28 +250,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private GeoPoint3D cursor3D;
 	private int cursor3DType = PREVIEW_POINT_NONE;
 	private EuclidianCursor cursor = EuclidianCursor.DEFAULT;
-	/** starting and ending scales */
-	private double xScaleEnd, yScaleEnd, zScaleStart, zScaleEnd;
-	/** velocity of animated scaling */
-	private double animatedScaleTimeFactor;
-	/** starting time for animated scale */
-	private double animatedScaleTimeStart;
-	/** x start of animated scale */
-	private double animatedScaleStartX;
-	/** y start of animated scale */
-	private double animatedScaleStartY;
-	/** z start of animated scale */
-	private double animatedScaleStartZ;
-	/** x end of animated scale */
-	private double animatedScaleEndX;
-	/** y end of animated scale */
-	private double animatedScaleEndY;
-	/** z end of animated scale */
-	private double animatedScaleEndZ;
-	/** speed for animated rotation */
-	private double animatedRotSpeed;
-	/** starting time for animated rotation */
-	private double animatedRotTimeStart;
 	private CoordMatrix4x4 scaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 undoScaleMatrix = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 translationMatrixWithScale = CoordMatrix4x4
@@ -305,19 +282,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	private double fontScale = 1;
 	private EuclidianView3DCompanion companion3D;
 
-	private int mouseMoveDX, mouseMoveDY, mouseMoveMode;
-
-	private double axisScaleFactor, axisScaleOld;
-	private int axisScaleMode;
-
-	private AnimationType animationType = AnimationType.OFF;
 
 	private CoordMatrix4x4 cursorMatrix = new CoordMatrix4x4();
 	private Coords cursorNormal = new Coords(3);
-
-	private double screenTranslateAndScaleDX;
-	private double screenTranslateAndScaleDY;
-	private double screenTranslateAndScaleDZ;
 
 	private Coords startPos;
 
@@ -325,6 +292,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	private boolean doExportToPrinter3D = false;
 	private ExportToPrinter3D exportToPrinter;
+
+	private EuclidianView3DAnimator animator;
 
 	/**
 	 * common constructor
@@ -347,6 +316,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		// Log.printStacktrace("");
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
+
+		animator = new EuclidianView3DAnimator(this);
 
 		startPos = new Coords(4);
 		startPos.setW(1);
@@ -1085,83 +1056,15 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	@Override
 	final public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
-		mouseMoveDX = dx;
-		mouseMoveDY = dy;
-		mouseMoveMode = mode;
-		animationType = AnimationType.MOUSE_MOVE;
+		animator.setCoordSystemFromMouseMove(dx, dy, mode);
 	}
 
-	final private void processSetCoordSystemFromMouseMove() {
-		switch (mouseMoveMode) {
-		default:
-			// do nothing
-			break;
-		case EuclidianController.MOVE_ROTATE_VIEW:
-			setRotXYinDegrees(aOld - mouseMoveDX, bOld + mouseMoveDY);
-			updateMatrix();
-			setViewChangedByRotate();
-			setWaitForUpdate();
-			break;
-		case EuclidianController.MOVE_VIEW:
-			Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
-			toSceneCoords3D(v);
-
-			if (cursorOnXOYPlane.getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-				v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY,
-						getViewDirection(), tmpCoords1);
-				setXZero(xZeroOld + tmpCoords1.getX());
-				setYZero(yZeroOld + tmpCoords1.getY());
-			} else {
-				v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY,
-						tmpCoords1);
-				setZZero(zZeroOld + tmpCoords1.getZ());
-			}
-			getSettings().updateOriginFromView(getXZero(), getYZero(),
-					getZZero());
-			updateMatrix();
-			setViewChangedByTranslate();
-			setWaitForUpdate();
-			break;
-		}
-	}
 
 	final public void setCoordSystemFromAxisScale(double factor,
 			double scaleOld, int mode) {
-		axisScaleFactor = factor;
-		axisScaleOld = scaleOld;
-		axisScaleMode = mode;
-		animationType = AnimationType.AXIS_SCALE;
+		animator.setCoordSystemFromAxisScale(factor, scaleOld, mode);
 	}
 
-	final private void processSetCoordSystemFromAxisScale() {
-
-		switch (axisScaleMode) {
-		default:
-			// do nothing
-			break;
-		case EuclidianController.MOVE_X_AXIS:
-			setXZero(xZeroOld / axisScaleFactor);
-			getSettings().setXscaleValue(axisScaleFactor * axisScaleOld);
-			break;
-		case EuclidianController.MOVE_Y_AXIS:
-			setYZero(yZeroOld / axisScaleFactor);
-			getSettings().setYscaleValue(axisScaleFactor * axisScaleOld);
-			break;
-		case EuclidianController.MOVE_Z_AXIS:
-			setZZero(zZeroOld / axisScaleFactor);
-			getSettings().setZscaleValue(axisScaleFactor * axisScaleOld);
-			break;
-
-		}
-
-		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
-
-		updateMatrix();
-		setViewChangedByTranslate();
-		setViewChangedByZoom();
-		setWaitForUpdate();
-
-	}
 
 	/*
 	 * TODO interaction - note : methods are called by
@@ -1368,7 +1271,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * set the all-axis scale
 	 */
-	final private void setScale(double xscale, double yscale, double zscale) {
+	final public void setScale(double xscale, double yscale, double zscale) {
 		getSettings().setXscaleValue(xscale);
 		getSettings().setYscaleValue(yscale);
 		getSettings().setZscaleValue(zscale);
@@ -1384,12 +1287,13 @@ public abstract class EuclidianView3D extends EuclidianView
 		aOld = a;
 		bOld = b;
 		zZeroOld = getZZero();
-		zScaleStart = getZscale();
+
+		animator.rememberOrigins();
 	}
 
 	public void updateAnimation() {
 		if (isAnimated()) {
-			animate();
+			animator.animate();
 			setWaitForUpdate();
 		}
 	}
@@ -1769,7 +1673,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	/** tells if the view is under animation */
 	public boolean isAnimated() {
-		return animationType != AnimationType.OFF;
+		return animator.getAnimationType() != AnimationType.OFF;
 	}
 
 	/**
@@ -1779,14 +1683,14 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public boolean isRotAnimated() {
 		return isRotAnimatedContinue()
-				|| animationType == AnimationType.ROTATION;
+				|| animator.getAnimationType() == AnimationType.ROTATION;
 	}
 
 	/**
 	 * @return true if there is a continue rotation animation
 	 */
 	public boolean isRotAnimatedContinue() {
-		return animationType == AnimationType.CONTINUE_ROTATION;
+		return animator.getAnimationType() == AnimationType.CONTINUE_ROTATION;
 	}
 
 	/**
@@ -1891,83 +1795,16 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setAnimatedCoordSystem(double x0, double y0, int steps,
 			boolean storeUndo) {
 
-		setAnimatedCoordSystem(XZERO_SCENE_STANDARD, YZERO_SCENE_STANDARD,
+		animator.setAnimatedCoordSystem(XZERO_SCENE_STANDARD, YZERO_SCENE_STANDARD,
 				ZZERO_SCENE_STANDARD, SCALE_STANDARD, steps);
 	}
 
-	private void setAnimatedCoordSystem(double x, double y, double z,
-			double newScale, int steps) {
-
-		rememberOrigins();
-		animatedScaleStartX = getXZero();
-		animatedScaleStartY = getYZero();
-		animatedScaleStartZ = getZZero();
-
-		animatedScaleEndX = x;
-		animatedScaleEndY = y;
-		animatedScaleEndZ = z;
-
-		animatedScaleTimeStart = app.getMillisecondTime();
-		xScaleEnd = newScale;
-		yScaleEnd = newScale;
-		zScaleEnd = newScale;
-		animationType = AnimationType.ANIMATED_SCALE;
-
-		animatedScaleTimeFactor = 0.0003 * steps;
-
-	}
 
 	@Override
 	public void setAnimatedCoordSystem(double ox, double oy, double f,
 			double newScale, int steps, boolean storeUndo) {
 
-		rememberOrigins();
-		animatedScaleStartX = getXZero();
-		animatedScaleStartY = getYZero();
-		animatedScaleStartZ = getZZero();
-
-		Coords v;
-		if (getCursor3DType() == PREVIEW_POINT_NONE) { // use cursor only if on
-			// point/path/region or
-			// xOy plane
-			v = new Coords(-animatedScaleStartX, -animatedScaleStartY,
-					-animatedScaleStartZ, 1); // takes center of the scene for
-			// fixed point
-		} else {
-			v = cursor3D.getInhomCoords();
-			// Log.debug("\n"+v);
-			if (!v.isDefined()) {
-				v = new Coords(-animatedScaleStartX, -animatedScaleStartY,
-						-animatedScaleStartZ, 1); // takes center of the scene
-				// for fixed point
-			}
-		}
-
-		// Application.debug(v);
-
-		double factor = getXscale() / newScale;
-
-		animatedScaleEndX = -v.getX()
-				+ (animatedScaleStartX + v.getX()) * factor;
-		animatedScaleEndY = -v.getY()
-				+ (animatedScaleStartY + v.getY()) * factor;
-		animatedScaleEndZ = -v.getZ()
-				+ (animatedScaleStartZ + v.getZ()) * factor;
-
-		// Application.debug("mouse = ("+ox+","+oy+")"+"\nscale end =
-		// ("+animatedScaleEndX+","+animatedScaleEndY+")"+"\nZero =
-		// ("+animatedScaleStartX+","+animatedScaleStartY+")");
-
-		animatedScaleTimeStart = app.getMillisecondTime();
-		xScaleEnd = xScaleStart / factor;
-		yScaleEnd = yScaleStart / factor;
-		zScaleEnd = zScaleStart / factor;
-		animationType = AnimationType.ANIMATED_SCALE;
-
-		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve
-		// it
-
-		// this.storeUndo = storeUndo;
+		animator.setAnimatedCoordSystem(ox, oy, f, newScale, steps, storeUndo);
 	}
 
 	/**
@@ -1980,38 +1817,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            speed of rotation
 	 */
 	public void setRotContinueAnimation(double delay, double rotSpeed) {
-		// Log.debug("delay=" + delay + ", rotSpeed=" + rotSpeed);
-
-		if (Double.isNaN(rotSpeed)) {
-			Log.error("NaN values for setRotContinueAnimation");
-			stopAnimation();
-			return;
-		}
-
-		double rotSpeed2 = rotSpeed;
-		// if last drag occured more than 200ms ago, then no animation
-		if (delay > 200) {
-			return;
-		}
-
-		// if speed is too small, no animation
-		if (Math.abs(rotSpeed2) < 0.01) {
-			stopAnimation();
-			return;
-		}
-
-		// if speed is too large, use max speed
-		if (rotSpeed2 > 0.1) {
-			rotSpeed2 = 0.1;
-		} else if (rotSpeed2 < -0.1) {
-			rotSpeed2 = -0.1;
-		}
-		this.getSettings().setRotSpeed(0);
-		animationType = AnimationType.CONTINUE_ROTATION;
-		animatedRotSpeed = -rotSpeed2;
-		animatedRotTimeStart = app.getMillisecondTime() - delay;
-		bOld = b;
-		aOld = a;
+		animator.setRotContinueAnimation(delay, rotSpeed);
 	}
 
 	@Override
@@ -2071,176 +1877,19 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setRotAnimation(double aN, double bN, boolean checkSameValues,
 			boolean animated) {
-
-		if (Double.isNaN(aN) || Double.isNaN(bN)) {
-			Log.error("NaN values for setRotAnimation");
-			return;
-		}
-
-		// app.storeUndoInfo();
-
-		animationType = animated ? AnimationType.ROTATION
-				: AnimationType.ROTATION_NO_ANIMATION;
-		aOld = this.a % 360;
-		bOld = this.b % 360;
-
-		aNew = aN;
-		bNew = bN;
-
-		// if (aNew,bNew)=(0degrees,90degrees), then change it to
-		// (90degrees,90degrees) to have correct
-		// xOy orientation
-		if (Kernel.isEqual(aNew, 0, Kernel.STANDARD_PRECISION) && Kernel
-				.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
-			aNew = -90;
-		}
-
-		// looking for the smallest path
-		if (aOld - aNew > 180) {
-			aOld -= 360;
-		} else if (aOld - aNew < -180) {
-			aOld += 360;
-		}
-
-		if (checkSameValues) {
-			if (Kernel.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION)) {
-				if (Kernel.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)) {
-					if (!Kernel.isEqual(Math.abs(bNew), 90,
-							Kernel.STANDARD_PRECISION)) {
-						aNew += 180;
-					}
-					bNew *= -1;
-					// Application.debug("ici");
-				}
-			}
-		}
-
-		if (bOld > 180) {
-			bOld -= 360;
-		}
-
-		animatedRotTimeStart = app.getMillisecondTime();
-
+		animator.setRotAnimation(aN, bN, checkSameValues, animated);
 	}
 
 	/**
 	 * stops the animations
 	 */
 	public void stopAnimation() {
-		animationType = AnimationType.OFF;
-	}
-
-	private enum AnimationType {
-		OFF, ANIMATED_SCALE, SCALE, CONTINUE_ROTATION, ROTATION, ROTATION_NO_ANIMATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
-	}
-
-	/**
-	 * animate the view for changing scale, orientation, etc.
-	 */
-	private void animate() {
-		switch (animationType) {
-		default:
-			// do nothing
-			break;
-		case SCALE:
-			setScale(animatedScaleEndX, animatedScaleEndY, animatedScaleEndZ);
-			updateMatrix();
-			stopAnimation();
-			break;
-		case ANIMATED_SCALE:
-			double t;
-			if (animatedScaleTimeFactor == 0) {
-				t = 1;
-				stopAnimation();
-			} else {
-				t = (app.getMillisecondTime() - animatedScaleTimeStart)
-						* animatedScaleTimeFactor;
-				t += 0.2; // starting at 1/4
-
-				if (t >= 1) {
-					t = 1;
-					stopAnimation();
-				}
-			}
-			setScale(xScaleStart * (1 - t) + xScaleEnd * t,
-					yScaleStart * (1 - t) + yScaleEnd * t,
-					zScaleStart * (1 - t) + zScaleEnd * t);
-			setXZero(animatedScaleStartX * (1 - t) + animatedScaleEndX * t);
-			setYZero(animatedScaleStartY * (1 - t) + animatedScaleEndY * t);
-			setZZero(animatedScaleStartZ * (1 - t) + animatedScaleEndZ * t);
-			getSettings().updateOriginFromView(getXZero(), getYZero(),
-					getZZero());
-
-			updateMatrix();
-			setViewChangedByZoom();
-			setViewChangedByTranslate();
-			getEuclidianController().onCoordSystemChanged();
-			// euclidianController3D.setFlagMouseMoved();
-			break;
-
-		case CONTINUE_ROTATION:
-			double da = (app.getMillisecondTime() - animatedRotTimeStart)
-					* animatedRotSpeed;
-
-			shiftRotAboutZ(da);
-			break;
-
-		case ROTATION:
-			t = (app.getMillisecondTime() - animatedRotTimeStart) * 0.001;
-			t *= t;
-			// t+=0.2; //starting at 1/4
-
-			if (t >= 1) {
-				t = 1;
-				stopAnimation();
-			}
-
-			setRotXYinDegrees(aOld * (1 - t) + aNew * t,
-					bOld * (1 - t) + bNew * t);
-
-			updateMatrix();
-			setViewChangedByRotate();
-			break;
-
-		case ROTATION_NO_ANIMATION:
-			stopAnimation();
-			setRotXYinDegrees(aNew, bNew);
-			updateMatrix();
-			setViewChangedByRotate();
-			break;
-
-		case SCREEN_TRANSLATE_AND_SCALE:
-			setXZero(xZeroOld + screenTranslateAndScaleDX);
-			setYZero(yZeroOld + screenTranslateAndScaleDY);
-			setZZero(zZeroOld + screenTranslateAndScaleDZ);
-			getSettings().updateOriginFromView(getXZero(), getYZero(),
-					getZZero());
-			setScale(xScaleEnd, yScaleEnd, zScaleEnd);
-			updateMatrix();
-			setViewChangedByZoom();
-			setViewChangedByTranslate();
-			setWaitForUpdate();
-
-			stopAnimation();
-			break;
-
-		case MOUSE_MOVE:
-			processSetCoordSystemFromMouseMove();
-			stopAnimation();
-			break;
-
-		case AXIS_SCALE:
-			processSetCoordSystemFromAxisScale();
-			stopAnimation();
-			break;
-		}
+		animator.stopAnimation();
 	}
 
 	@Override
 	public boolean isZeroStandard() {
-		return (Kernel.isEqual(xZero, 0) && Kernel.isEqual(yZero, 0)
-				&& Kernel.isEqual(zZero, -1.5)
-				&& Kernel.isEqual(EuclidianView.SCALE_STANDARD, xScaleEnd));
+		return Kernel.isEqual(xZero, 0) && Kernel.isEqual(yZero, 0) && Kernel.isEqual(zZero, -1.5);
 	}
 
 	@Override
@@ -2329,42 +1978,12 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void zoom(double px, double py, double zoomFactor, int steps,
 			boolean storeUndo) {
-
-		animatedScaleEndX = getXscale() * zoomFactor;
-		animatedScaleEndY = getYscale() * zoomFactor;
-		animatedScaleEndZ = getZscale() * zoomFactor;
-		animationType = AnimationType.SCALE;
-
+		animator.zoom(px, py, zoomFactor, steps, storeUndo);
 	}
 	
 	@Override
 	public void zoomAxesRatio(double zoomFactorY, double zoomFactorZ) {
-
-		rememberOrigins();
-		animatedScaleStartX = getXZero();
-		animatedScaleStartY = getYZero();
-		animatedScaleStartZ = getZZero();
-
-		animatedScaleEndX = animatedScaleStartX;
-		animatedScaleEndY = animatedScaleStartY;
-		animatedScaleEndZ = animatedScaleStartZ;
-
-		animatedScaleTimeStart = app.getMillisecondTime();
-		
-		xScaleEnd = getXscale();
-		if (Double.isNaN(zoomFactorY) || Kernel.isGreaterEqual(0, zoomFactorY)) {
-			yScaleEnd = getYscale();
-		} else {
-			yScaleEnd = getXscale() * zoomFactorY;
-		}
-		if (Double.isNaN(zoomFactorZ) || Kernel.isGreaterEqual(0, zoomFactorZ)) {
-			zScaleEnd = getZscale();
-		} else {
-			zScaleEnd = getXscale() * zoomFactorZ;
-		}
-		animationType = AnimationType.ANIMATED_SCALE;
-		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve
-
+		animator.zoomAxesRatio(zoomFactorY, zoomFactorZ);
 	}
 
 	/**
@@ -4632,7 +4251,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		double y = -(boundsMin2.getY() + boundsMax2.getY()) / 2;
 		double z = -(boundsMin2.getZ() + boundsMax2.getZ()) / 2;
 
-		setAnimatedCoordSystem(x, y, z, scale, steps);
+		animator.setAnimatedCoordSystem(x, y, z, scale, steps);
 
 	}
 
@@ -4753,33 +4372,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void screenTranslateAndScale(double dx, double dy,
 			double scaleFactor) {
-
-		// dx and dy are translation in screen coords
-		// dx moves along "visible left-right" axis on xOy plane
-		// dy moves along "visible front-back" axis on xOy plane
-		// or z-axis if this one "visibly" more than sqrt(2)*front-back axis
-		tmpCoords1.set(Coords.VX);
-		toSceneCoords3D(tmpCoords1);
-		screenTranslateAndScaleDX = tmpCoords1.getX() * dx;
-		screenTranslateAndScaleDY = tmpCoords1.getY() * dx;
-
-		tmpCoords1.set(Coords.VY);
-		toSceneCoords3D(tmpCoords1);
-		double z = tmpCoords1.getZ() * getScale();
-		if (z > 0.85) {
-			screenTranslateAndScaleDZ = tmpCoords1.getZ() * (-dy);
-		} else if (z < 0.45) {
-			screenTranslateAndScaleDX += tmpCoords1.getX() * (-dy);
-			screenTranslateAndScaleDY += tmpCoords1.getY() * (-dy);
-			screenTranslateAndScaleDZ = 0;
-		} else {
-			screenTranslateAndScaleDZ = 0;
-		}
-
-		xScaleEnd = xScaleStart * scaleFactor;
-		yScaleEnd = yScaleStart * scaleFactor;
-		zScaleEnd = zScaleStart * scaleFactor;
-		animationType = AnimationType.SCREEN_TRANSLATE_AND_SCALE;
+		animator.screenTranslateAndScale(dx, dy, scaleFactor);
 	}
 
 	@Override
@@ -4794,10 +4387,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	public void stopScreenTranslateAndScale() {
-		if (animationType == AnimationType.SCREEN_TRANSLATE_AND_SCALE) {
-			animationType = AnimationType.OFF;
-		}
-
+		animator.stopScreenTranslateAndScale();
 	}
 
 	@Override
@@ -5025,6 +4615,22 @@ public abstract class EuclidianView3D extends EuclidianView
 		setAxesIntervals(getZscale(), 2);
 		super.updateBackground();
 		kernel.notifyRepaint();
+	}
+
+	/**
+	 * 
+	 * @return angle around Oz
+	 */
+	public double getAngleA() {
+		return a;
+	}
+
+	/**
+	 * 
+	 * @return xOy plane tilting
+	 */
+	public double getAngleB() {
+		return b;
 	}
 
 }
