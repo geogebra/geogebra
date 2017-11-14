@@ -131,7 +131,7 @@ public class EuclidianView3DAnimator {
 	 * @param mode
 	 *            scale mode
 	 */
-	final public void setCoordSystemFromAxisScale(double factor, double scaleOld, int mode) {
+	synchronized final public void setCoordSystemFromAxisScale(double factor, double scaleOld, int mode) {
 		animation = animationAxis;
 		animationAxis.set(factor, scaleOld, mode);
 	}
@@ -204,7 +204,7 @@ public class EuclidianView3DAnimator {
 	/**
 	 * animate the view for changing scale, orientation, etc.
 	 */
-	public void animate() {
+	synchronized public void animate() {
 		animation.animate();
 	}
 
@@ -216,7 +216,7 @@ public class EuclidianView3DAnimator {
 	 * @param scaleFactor
 	 *            scale factor
 	 */
-	public void screenTranslateAndScale(double dx, double dy, double scaleFactor) {
+	synchronized public void screenTranslateAndScale(double dx, double dy, double scaleFactor) {
 		animationScreenScale.set(dx, dy, scaleFactor);
 		animation = animationScreenScale;
 	}
