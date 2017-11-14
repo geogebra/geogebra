@@ -1237,7 +1237,7 @@ public class Ggb2giac {
 		// eg ToBase(10^23,2)
 		if (app.has(Feature.CAS_FROM_TO_BASE)) {
 			p("ToBase.2",
-					"[[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+ggblist[k]); od], ggbans][-1]");
+					"ggbText(\"\"+[[lookuplist:={\"0\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"A\",\"B\",\"C\",\"D\",\"E\",\"F\",\"G\",\"H\",\"I\",\"J\",\"K\",\"L\",\"M\",\"N\",\"O\",\"P\",\"Q\",\"R\",\"S\",\"T\",\"U\",\"V\",\"W\",\"X\",\"Y\",\"Z\"}],[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+lookuplist(ggblist[k]+1)); od], ggbans][-1]+\"_{%1}\")");
 		}
 
 		p("ToComplex.1",

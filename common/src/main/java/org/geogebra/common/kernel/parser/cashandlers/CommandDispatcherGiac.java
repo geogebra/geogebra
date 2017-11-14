@@ -140,6 +140,9 @@ public class CommandDispatcherGiac {
 		/** If[] */
 		piecewise(Operation.IF_ELSE),
 
+		/** to return text from Giac eg from ToBase() "1010011_{2}" */
+		ggbText(Operation.NO_OPERATION),
+
 		/**
 		 * eg hyperplan({3,5,-1},point[0,0,-37/10])
 		 */
@@ -281,6 +284,15 @@ public class CommandDispatcherGiac {
 							Operation.POLYGAMMA, args.getItem(0));
 				}
 				break;
+
+
+			case ggbText:
+				if (args.getLength() == 1) {
+					return args.getItem(0).wrap();
+				}
+
+				throw new CASException("Giac: bad number of args for text(): "
+						+ args.getLength());
 
 			case point:
 				switch (args.getLength()) {
