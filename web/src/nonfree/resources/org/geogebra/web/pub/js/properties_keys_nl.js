@@ -719,7 +719,7 @@ __GGB__keysVar.nl.command = {
     "RandomNormal": "ToevalsgetalNormaal",
     "RandomNormal.Syntax": "[ <Gemiddelde>, <Standaardafwijking> ]",
     "RandomPointIn": "ToevalspuntIn",
-    "RandomPointIn.Syntax": "[ <Veelhoek> ]\n[ <Lijst met punten> ]\n[ <xMin>, <xMax>, <yMin>, <yMax> ]",
+    "RandomPointIn.Syntax": "[ <Regio> ]\n[ <Lijst met punten> ]\n[ <xMin>, <xMax>, <yMin>, <yMax> ]",
     "RandomPoisson": "ToevalsgetalPoisson",
     "RandomPoisson.Syntax": "[ <Gemiddelde> ]",
     "RandomPolynomial": "Toevalsveelterm",
