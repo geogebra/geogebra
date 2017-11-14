@@ -321,8 +321,6 @@ public class RadioTreeItemController
 		if (item.isInputTreeItem()) {
 			event.preventDefault();
 		}
-		int x = EventUtil.getTouchOrClickClientX(event);
-		int y = EventUtil.getTouchOrClickClientY(event);
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0),
 				ZeroOffset.instance);
@@ -339,10 +337,9 @@ public class RadioTreeItemController
 		} else {
 			if (getAV().getInputTreeItem() != null) {
 				getAV().getInputTreeItem().getController().stopEdit();
-
 			}
-
 		}
+
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
 				ZeroOffset.instance);
 
@@ -363,8 +360,6 @@ public class RadioTreeItemController
 		}
 		// Do NOT prevent default, kills scrolling on touch
 		// event.preventDefault();
-
-
 		handleAVItem(event);
 
 		onPointerDown(wrappedEvent);
@@ -400,7 +395,6 @@ public class RadioTreeItemController
 		// .getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
 		// updateSelection(event.isControlDown(), event.isShiftDown());
 		// }
-
 	}
 
 	/**
@@ -512,9 +506,7 @@ public class RadioTreeItemController
 
 	protected void showKeyboard() {
 		item.showKeyboard();
-
 	}
-
 
 	private void editOnTap(boolean active, MouseEvent<?> event) {
 
@@ -526,7 +518,6 @@ public class RadioTreeItemController
 		if (!markForEdit) {
 			return false;
 		}
-
 
 		markForEdit = false;
 		boolean enable = true;
@@ -551,7 +542,6 @@ public class RadioTreeItemController
 		}
 
 		return true;
-
 	}
 
 	public LongTouchManager getLongTouchManager() {
@@ -570,7 +560,6 @@ public class RadioTreeItemController
 		}
 		markForEdit = true;
 		return true;
-
 	}
 
 	private void onRightClick(int x, int y) {
@@ -663,7 +652,6 @@ public class RadioTreeItemController
 			} else if (continous) {
 				getAV().updateSelection();
 			}
-
 		}
 	}
 
@@ -725,7 +713,6 @@ public class RadioTreeItemController
 		return inputAsText || (item.geo != null
 				&& item.geo.isGeoText()
 				&& !((GeoText) item.geo).isTextCommand());
-
 	}
 }
 
