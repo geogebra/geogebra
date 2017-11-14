@@ -9,7 +9,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 
 public enum SolutionStepType {
-	WRAPPER("", "%0"),
+	WRAPPER("", ""),
+
+	GROUP_WRAPPER("", ""),
 
 	SUBSTEP_WRAPPER("", ""),
 
@@ -216,9 +218,9 @@ public enum SolutionStepType {
 	
 	DIFFERENCE_OF_SQUARES_FACTOR("DifferenceOfSquaresFactor", "Use $a^2-b^2 \\equiv (a+b)(a-b)$ to factor"),
 
-	BINOM_CUBED_SUM_FACTOR("BinomCubed", "Use $a^3 + 3a^2b + 3ab^2 + b^3 \\equiv (a+b)^3$ to expand"),
+	BINOM_CUBED_SUM_FACTOR("BinomCubed", "Use $a^3 + 3a^2b + 3ab^2 + b^3 \\equiv (a+b)^3$ to factor"),
 
-	BINOM_CUBED_DIFF_FACTOR("BinomCubed", "Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to expand"),
+	BINOM_CUBED_DIFF_FACTOR("BinomCubed", "Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to factor"),
 
 	FACTOR_COMMON("FactorOutA", "Factor out %0"),
 
@@ -274,6 +276,8 @@ public enum SolutionStepType {
 	POLYNOMIAL_DIVISION("DivideAByBToGetC", "Divide %0 by %1 to get %2"),
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function"),
+
+	DIFFERENTIATE("Derivate", "Derivate %0"),
 
 	DIFF_SUM("SumRule", "Use the sum rule",
 			"\\frac{d}{dx} \\left[f(x) + g(x)\\right] = \\frac{d}{dx}f(x) + \\frac{d}{dx}g(x)"),

@@ -1,14 +1,12 @@
 package org.geogebra.stepbystep;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
@@ -41,135 +39,136 @@ public class SolveStepTest {
 
 	@Test
 	public void linearEquation() {
-		t("x", "1/(sqrt(2)-1) + 1/(sqrt(2)+1)", "x", 1, "(2)(nroot(2, 2))");
-		t("(4x-3)/(2 + 3)", "1-x", "x", 17, "(8)/(9)");
-		t("1-2x", "2x+8", "x", 12, "(-7)/(4)");
-		t("(2x-5)/12", "(-x)/4-5/3", "x", 15, "-3");
-		t("x/x", "0", "x", 5);
-		t("2x+1", "x-2", "x", 9, "-3");
-		t("3x+4", "-x-1", "x", 12, "(-5)/(4)");
-		t("3x+4", "3x+4", "x", 6, "R");
-		t("3x+4", "3x+3", "x", 9);
-		t("x-2", "sqrt(3)", "x", 6, "(nroot(3, 2) + 2)");
-		t("x-2", "sqrt(12)-2*sqrt(3)", "x", 8, "2");
+		t("x", "1/(sqrt(2)-1) + 1/(sqrt(2)+1)", "x", "(2)(nroot(2, 2))");
+		t("(4x-3)/(2 + 3)", "1-x", "x", "(8)/(9)");
+		t("1-2x", "2x+8", "x", "(-7)/(4)");
+		t("(2x-5)/12", "(-x)/4-5/3", "x", "-3");
+		t("x/x", "0", "x");
+		t("2x+1", "x-2", "x", "-3");
+		t("3x+4", "-x-1", "x", "(-5)/(4)");
+		t("3x+4", "3x+4", "x", "R");
+		t("3x+4", "3x+3", "x");
+		t("x-2", "sqrt(3)", "x", "(nroot(3, 2) + 2)");
+		t("x-2", "sqrt(12)-2*sqrt(3)", "x", "2");
 	}
 
 	@Test
 	public void rationalEquations() {
-		t("1/x", "2/3", "x", 20, "(3)/(2)");
-		t("1/x", "2/(3x-1)", "x", 20, "1");
-		t("1/x", "4x", "x", 17, "(1)/(2)", "-(1)/(2)");
-		t("1/(1+x)-2x/(2+x)", "7", "x", 20, "((-22 + (2)(nroot(13, 2))))/(18)", "((-22-(2)(nroot(13, 2))))/(18)");
-		t("1/x-1/(x+1)", "3", "x", 20, "((-3 + nroot(21, 2)))/(6)", "((-3-nroot(21, 2)))/(6)");
-		t("x-1/x", "2x", "x", 9);
-		t("9", "x/3-x/4", "x", 6, "108");
-		t("x+1/(x-1)", "2x-1", "x", 22, "0", "2");
-		t("1/(x-6)+x/(x-2)", "4/(x^2-8x+12)", "x", 31, "-1");
-		t("x/(1-x)", "(3+x)/x", "x", 18, "((-2 + (2)(nroot(7, 2))))/(4)", "((-2-(2)(nroot(7, 2))))/(4)");
-		t("((1)/(x)+1)^(2)", "((1)/(x+3)-2)^(2)", "x", 46, "((-9 + (3)(nroot(5, 2))))/(6)",
+		t("1/x", "2/3", "x", "(3)/(2)");
+		t("1/x", "2/(3x-1)", "x", "1");
+		t("1/x", "4x", "x", "(1)/(2)", "-(1)/(2)");
+		t("1/(1+x)-2x/(2+x)", "7", "x", "((-22 + (2)(nroot(13, 2))))/(18)", "((-22-(2)(nroot(13, 2))))/(18)");
+		t("1/x-1/(x+1)", "3", "x", "((-3 + nroot(21, 2)))/(6)", "((-3-nroot(21, 2)))/(6)");
+		t("x-1/x", "2x", "x");
+		t("9", "x/3-x/4", "x", "108");
+		t("x+1/(x-1)", "2x-1", "x", "0", "2");
+		t("1/(x-6)+x/(x-2)", "4/(x^2-8x+12)", "x", "-1");
+		t("x/(1-x)", "(3+x)/x", "x", "((-2 + (2)(nroot(7, 2))))/(4)", "((-2-(2)(nroot(7, 2))))/(4)");
+		t("((1)/(x)+1)^(2)", "((1)/(x+3)-2)^(2)", "x", "((-9 + (3)(nroot(5, 2))))/(6)",
 				"((-9-(3)(nroot(5, 2))))/(6)", "((-1 + nroot(13, 2)))/(2)", "((-1-nroot(13, 2)))/(2)");
-		t("(1/x+3)^2", "6", "x", 40, "(1)/((-nroot(6, 2)-3))", "(1)/((nroot(6, 2)-3))");
+		t("(1/x+3)^2", "6", "x", "(1)/((-nroot(6, 2)-3))", "(1)/((nroot(6, 2)-3))");
 	}
 
 	@Test
 	public void productEquations() {
-		t("0", "(x-6)(x+1)", "x", 14, "6", "-1");
-		t("0", "(x^2-3x-8)(x+5)", "x", 15, "((3 + nroot(41, 2)))/(2)", "((3-nroot(41, 2)))/(2)", "-5");
+		t("0", "(x-6)(x+1)", "x", "6", "-1");
+		t("0", "(x^2-3x-8)(x+5)", "x", "((3 + nroot(41, 2)))/(2)", "((3-nroot(41, 2)))/(2)", "-5");
 	}
 
 	@Test
 	public void quadraticEquations() {
-		t("x^2+4", "4x", "x", 16, "2");
-		t("x^2+3x+1", "x-1", "x", 8);
-		t("x-1", "x^2+3x+1", "x", 8);
-		t("x^2+4x+1", "0", "x", 23, "(nroot(3, 2)-2)", "(-nroot(3, 2)-2)");
-		t("x^2-6x+9", "(x-3)^2", "x", 8, "R");
-		t("(x-5)^2", "x^2", "x", 24, "(5)/(2)");
-		t("3x^2+3x+3", "x^2-x-2", "x", 10);
-		t("(x-2)^2-x^2", "-x^2", "x", 14, "2");
-		t("(x+1)(x+2)", "(2x+3)(x+4)", "x", 28, "(nroot(6, 2)-4)", "(-nroot(6, 2)-4)");
+		t("x^2+4", "4x", "x", "2");
+		t("x^2+3x+1", "x-1", "x");
+		t("x-1", "x^2+3x+1", "x");
+		t("x^2+4x+1", "0", "x", "(nroot(3, 2)-2)", "(-nroot(3, 2)-2)");
+		t("x^2-6x+9", "(x-3)^2", "x", "R");
+		t("(x-5)^2", "x^2", "x", "(5)/(2)");
+		t("3x^2+3x+3", "x^2-x-2", "x");
+		t("(x-2)^2-x^2", "-x^2", "x", "2");
+		t("(x+1)(x+2)", "(2x+3)(x+4)", "x", "(nroot(6, 2)-4)", "(-nroot(6, 2)-4)");
 		// TODO: multiply both sides by (-1) first
-		t("-x^2-x+1", "0", "x", 7, "((-1-nroot(5, 2)))/(2)", "((-1 + nroot(5, 2)))/(2)");
+		t("-x^2-x+1", "0", "x", "((-1-nroot(5, 2)))/(2)", "((-1 + nroot(5, 2)))/(2)");
 	}
 
 	@Test
 	public void irrationalEquations() {
-		t("sqrt(3x+1)", "x+1", "x", 22, "0", "1");
-		t("sqrt(3x+1)", "x+1+sqrt(2x+3)", "x", 24, "fail");
-		t("2x+10", "x+1+sqrt(5x-4)", "x", 16);
-		t("sqrt(3x-4)", "sqrt(4x-3)", "x", 14);
-		t("sqrt(x)+sqrt(x+1)+sqrt(x+2)", "2", "x", 33, "fail");
-		t("sqrt(x)+1", "sqrt(x+1)+sqrt(x+2)+1", "x", 27);
-		t("sqrt(x-1)", "sqrt(x)", "x", 9);
-		t("sqrt(1+sqrt(1+sqrt(x)))", "10", "x", 20, "96040000");
-		t("sqrt(1+ sqrt(1+ sqrt(1+ sqrt(x))))", "5", "x", 26, "109312229376");
-		t("sqrt(1+sqrt(x))", "10", "x", 14, "9801");
-		t("1+ sqrt(1+ sqrt(1+ sqrt(x)))", "5", "x", 23, "50176");
+		t("sqrt(3x+1)", "x+1", "x", "0", "1");
+		t("sqrt(3x+1)", "x+1+sqrt(2x+3)", "x", "fail");
+		t("2x+10", "x+1+sqrt(5x-4)", "x");
+		t("sqrt(3x-4)", "sqrt(4x-3)", "x");
+		t("sqrt(x)+sqrt(x+1)+sqrt(x+2)", "2", "x", "fail");
+		t("sqrt(x)+1", "sqrt(x+1)+sqrt(x+2)+1", "x");
+		t("sqrt(x-1)", "sqrt(x)", "x");
+		t("sqrt(1+sqrt(1+sqrt(x)))", "10", "x", "96040000");
+		t("sqrt(1+ sqrt(1+ sqrt(1+ sqrt(x))))", "5", "x", "109312229376");
+		t("sqrt(1+sqrt(x))", "10", "x", "9801");
+		t("1+ sqrt(1+ sqrt(1+ sqrt(x)))", "5", "x", "50176");
 
 	}
 
 	@Test
 	public void absoluteValueEquations() {
-		t("4*|2x-10|-3", "7*|x+1|+|5x-4|+2+x", "x", 79, "(-38)/(3)", "(32)/(21)");
-		t("|x|-5", "0", "x", 8, "5", "-5");
-		t("|x|-5", "|x-2|", "x", 36);
+		t("4*|2x-10|-3", "7*|x+1|+|5x-4|+2+x", "x", "(-38)/(3)", "(32)/(21)");
+		t("|x|-5", "0", "x", "5", "-5");
+		t("|x|-5", "|x-2|", "x");
+		t("|3-x|", "3-x", "x", "(-inf,3]");
 	}
 
 	@Test
 	public void cubicEquations() {
-		t("x^3+1", "4", "x", 9, "nroot(3, 3)");
-		t("x^3+3x^2+3x+2", "0", "x", 14, "-2");
-		t("x^3-6x^2+12x+13", "0", "x", 14, "(-nroot(21, 3) + 2)");
-		t("x^3 - 6 x^2 + 11 x - 6", "0", "x", 22, "1", "2", "3");
-		t("x^3 - (29 x^2)/12 + (37 x)/24 - 1/4", "0", "x", 25, "(1)/(4)", "(2)/(3)", "(3)/(2)");
-		t("x^3 + 3 x^2 - 7 x + 3", "0", "x", 34, "1", "(-nroot(7, 2)-2)", "(nroot(7, 2)-2)");
-		t("x^3", "sqrt(2) - 2", "x", 6, "nroot((nroot(2, 2)-2), 3)");
-		t("x^3+2", "0", "x", 9, "-nroot(2, 3)");
-		t("x^3", "sqrt(1/8)", "x", 10, "(nroot(2, 2))/(2)");
-		t("x^3 - 6 x^2 + 11 x - 6", "0", "x", 30, "1", "2", "3");
+		t("x^3+1", "4", "x", "nroot(3, 3)");
+		t("x^3+3x^2+3x+2", "0", "x", "-2");
+		t("x^3-6x^2+12x+13", "0", "x", "(-nroot(21, 3) + 2)");
+		t("x^3 - 6 x^2 + 11 x - 6", "0", "x", "1", "2", "3");
+		t("x^3 - (29 x^2)/12 + (37 x)/24 - 1/4", "0", "x", "(1)/(4)", "(2)/(3)", "(3)/(2)");
+		t("x^3 + 3 x^2 - 7 x + 3", "0", "x", "1", "(-nroot(7, 2)-2)", "(nroot(7, 2)-2)");
+		t("x^3", "sqrt(2) - 2", "x", "nroot((nroot(2, 2)-2), 3)");
+		t("x^3+2", "0", "x", "-nroot(2, 3)");
+		t("x^3", "sqrt(1/8)", "x", "(nroot(2, 2))/(2)");
+		t("x^3 - 6 x^2 + 11 x - 6", "0", "x", "1", "2", "3");
 	}
 
 	@Test
 	public void higherOrderEquations() {
-		t("x^4+2x+3", "2x+19", "x", 14, "2", "-2");
-		t("x^4+2x+3", "2x+2", "x", 9);
-		t("2x^5+2x+3", "2x+67", "x", 15, "2");
-		t("x^4+4x^2+2", "0", "x", 30);
-		t("x^4+x^3+4x^2+2", "0", "x", 4, "fail");
-		t("x^6+4x^3+2", "0", "x", 36, "nroot((nroot(2, 2)-2), 3)", "nroot((-nroot(2, 2)-2), 3)");
-		t("((x+1)^4+1)^2", "6", "x", 33, "(nroot((nroot(6, 2)-1), 4)-1)", "(-nroot((nroot(6, 2)-1), 4)-1)");
-		t("((1+x)^(2)+1)^(2)+1", "10", "x", 36, "(nroot(2, 2)-1)", "(-nroot(2, 2)-1)");
+		t("x^4+2x+3", "2x+19", "x", "2", "-2");
+		t("x^4+2x+3", "2x+2", "x");
+		t("2x^5+2x+3", "2x+67", "x", "2");
+		t("x^4+4x^2+2", "0", "x");
+		t("x^4+x^3+4x^2+2", "0", "x", "fail");
+		t("x^6+4x^3+2", "0", "x", "nroot((nroot(2, 2)-2), 3)", "nroot((-nroot(2, 2)-2), 3)");
+		t("((x+1)^4+1)^2", "6", "x", "(nroot((nroot(6, 2)-1), 4)-1)", "(-nroot((nroot(6, 2)-1), 4)-1)");
+		t("((1+x)^(2)+1)^(2)+1", "10", "x", "(nroot(2, 2)-1)", "(-nroot(2, 2)-1)");
 	}
 
 	@Test
 	public void trigonometricEquations() {
-		t("3+2sin(x)", "sin(x)-1", "x", 10);
-		t("1/2+2sin(x)", "sin(x)+1", "x", 23, "((pi)/(6) + (2)(k1)(pi))", "(((5)(pi))/(6) + (-2)(k2)(pi))");
-		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", 31, "(((pi)/(6) + (2)(k1)(pi)-1))/(3)",
+		t("3+2sin(x)", "sin(x)-1", "x");
+		t("1/2+2sin(x)", "sin(x)+1", "x", "((pi)/(6) + (2)(k1)(pi))", "(((5)(pi))/(6) + (-2)(k2)(pi))");
+		t("1/2+2sin(3x+1)", "sin(3x+1)+1", "x", "(((pi)/(6) + (2)(k1)(pi)-1))/(3)",
 				"((((5)(pi))/(6) + (-2)(k2)(pi)-1))/(3)");
-		t("(sin(2x+1))^2+1/2", "1", "x", 59, "(((pi)/(4) + (2)(k1)(pi)-1))/(2)",
+		t("(sin(2x+1))^2+1/2", "1", "x", "(((pi)/(4) + (2)(k1)(pi)-1))/(2)",
 				"((((3)(pi))/(4) + (-2)(k2)(pi)-1))/(2)", "((-(pi)/(4) + (2)(k1)(pi)-1))/(2)",
 				"((((5)(pi))/(4) + (-2)(k2)(pi)-1))/(2)");
-		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x", 31, "(((pi)/(3) + (2)(k1)(pi)-1))/(3)",
+		t("1/2+2cos(3x+1)", "cos(3x+1)+1", "x", "(((pi)/(3) + (2)(k1)(pi)-1))/(3)",
 				"((((5)(pi))/(3) + (-2)(k2)(pi)-1))/(3)");
-		t("3+2tan(x)", "tan(x)-1", "x", 10, "(arctan(-4) + (k1)(pi))");
-		t("2(sin(x))^2+(cos(x))^2+cos(x)", "1", "x", 31, "(arccos(((1-nroot(5, 2)))/(2)) + (2)(k1)(pi))",
+		t("3+2tan(x)", "tan(x)-1", "x", "(arctan(-4) + (k1)(pi))");
+		t("2(sin(x))^2+(cos(x))^2+cos(x)", "1", "x", "(arccos(((1-nroot(5, 2)))/(2)) + (2)(k1)(pi))",
 				"((2)(pi)-arccos(((1-nroot(5, 2)))/(2))-(2)(k2)(pi))");
-		t("2(cos(x))^2+(sin(x))^2+sin(x)", "1", "x", 31, "(arcsin(((1-nroot(5, 2)))/(2)) + (2)(k1)(pi))",
+		t("2(cos(x))^2+(sin(x))^2+sin(x)", "1", "x", "(arcsin(((1-nroot(5, 2)))/(2)) + (2)(k1)(pi))",
 				"(pi-arcsin(((1-nroot(5, 2)))/(2))-(2)(k2)(pi))");
-		t("2(cos(x))^2+2(sin(x))^2", "2", "x", 8, "R");
-		t("sin(x)+cos(x)", "1", "x", 54, "((pi)/(2) + (2)(k1)(pi))", "(2)(k1)(pi)");
+		t("2(cos(x))^2+2(sin(x))^2", "2", "x", "R");
+		t("sin(x)+cos(x)", "1", "x", "((pi)/(2) + (2)(k1)(pi))", "(2)(k1)(pi)");
 	}
 
 	@Test
 	public void extremeNested() {
-		t("(((x+1)^2+1)^2+1)^2", "10", "x", 48, "(nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)",
+		t("(((x+1)^2+1)^2+1)^2", "10", "x", "(nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)",
 				"(-nroot((nroot((nroot(10, 2)-1), 2)-1), 2)-1)");
 
-		t("sqrt(1+sqrt(1+sqrt(1+x)))", "10", "x", 22, "96039999");
-		t("sqrt(1+sqrt(1+sqrt(1+sqrt(1+x))))", "10", "x", 22, "9223681407920000");
+		t("sqrt(1+sqrt(1+sqrt(1+x)))", "10", "x", "96039999");
+		t("sqrt(1+sqrt(1+sqrt(1+sqrt(1+x))))", "10", "x", "9223681407920000");
 
-		t("sqrt(x+sqrt(x+sqrt(x+1)))", "10", "x", 22, "fail");
+		t("sqrt(x+sqrt(x+sqrt(x+1)))", "10", "x", "fail");
 
 		// TODO: problem with accuracy
 		// t("x^2", "12345678987654321", "x", 22, "-111111111", "111111111");
@@ -183,7 +182,7 @@ public class SolveStepTest {
 
 	}
 
-	public void t(String LHS, String RHS, String variable, int expectedSteps, String... expectedSolutions) {
+	public void t(String LHS, String RHS, String variable, String... expectedSolutions) {
 		if (needsHeading) {
 			Throwable t = new Throwable();
 			htmlBuilder.addHeading(t.getStackTrace()[1].getMethodName(), 1);
@@ -220,7 +219,6 @@ public class SolveStepTest {
 
 		steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
 
-		Assert.assertTrue(Math.abs(expectedSteps - countSteps(steps.getSteps())) < 1000);
 		Assert.assertEquals(expectedSolutions.length, solutions.length);
 
 		String[] actualSolutions = new String[solutions.length];
@@ -232,21 +230,6 @@ public class SolveStepTest {
 		Arrays.sort(actualSolutions);
 
 		Assert.assertArrayEquals(expectedSolutions, actualSolutions);
-	}
-
-	private int countSteps(SolutionStep s) {
-		int x = 1;
-		List<SolutionStep> substeps = s.getSubsteps();
-
-		if (substeps == null) {
-			return x;
-		}
-
-		for (int i = 0; i < substeps.size(); i++) {
-			x += countSteps(substeps.get(i));
-		}
-
-		return x;
 	}
 
 	@Before

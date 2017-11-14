@@ -65,7 +65,10 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			if (diff.isConstant()) {
 				if (isZero(diff)) {
-					return new StepSet(StepInterval.R);
+					if (se.getRestriction() == null) {
+						return new StepSet(StepInterval.R);
+					}
+					return new StepSet(se.getRestriction());
 				}
 
 				return new StepSet();
@@ -538,8 +541,6 @@ public enum EquationSteps implements SolveStepGenerator {
 				se.addOrSubtract(nonAbsolute, steps);
 				return se;
 			} else if (absNum == 2 && (isZero(nonAbsDiff))) {
-				StepExpression nonAbsolute = StepHelper.getNon(se.getLHS(), Operation.ABS);
-				se.addOrSubtract(nonAbsolute, steps);
 				if (StepHelper.countNonConstOperation(se.getLHS(), Operation.ABS) == 2) {
 					StepExpression oneAbs = StepHelper.getOne(se.getLHS(), Operation.ABS);
 					se.addOrSubtract(oneAbs, steps);
@@ -586,7 +587,9 @@ public enum EquationSteps implements SolveStepGenerator {
 	PLUSMINUS {
 		@Override
 		public StepNode apply(StepEquation se, StepVariable variable, SolutionBuilder steps) {
-			if (se.getLHS().isOperation(Operation.ABS) || se.getRHS().isOperation(Operation.ABS)) {
+			if (se.getLHS().isOperation(Operation.ABS) && se.getRHS().isOperation(Operation.ABS)
+					|| se.getRHS().isOperation(Operation.ABS) && se.getLHS().isConstant()
+					|| se.getLHS().isOperation(Operation.ABS) && se.getRHS().isConstant()) {
 				steps.add(SolutionStepType.RESOLVE_ABSOLUTE_VALUES);
 
 				if (se.getLHS().isOperation(Operation.ABS)) {
@@ -606,6 +609,10 @@ public enum EquationSteps implements SolveStepGenerator {
 			if (se.getRHS().isOperation(Operation.PLUSMINUS)) {
 				StepExpression underPM = ((StepOperation) se.getRHS()).getSubTree(0);
 				
+				if (underPM.isConstant() && se.getLHS().equals(variable)) {
+					return new StepSet(underPM, underPM.negate());
+				}
+
 				StepEquation positiveBranch = new StepEquation(se.getLHS(), underPM);
 				StepEquation negativeBranch = new StepEquation(se.getLHS(), underPM.negate());
 
@@ -683,6 +690,9 @@ public enum EquationSteps implements SolveStepGenerator {
 				return new StepSet();
 			}
 
+			steps.add(SolutionStepType.GROUP_WRAPPER);
+			steps.levelDown();
+
 			if (root == 2 && se.getRHS().isConstant()) {
 				steps.add(SolutionStepType.SQUARE_ROOT);
 
@@ -692,12 +702,12 @@ public enum EquationSteps implements SolveStepGenerator {
 				} else {
 					se.modify(underSquare, StepNode.apply(root(se.getRHS(), 2), Operation.PLUSMINUS));
 				}
-
-				se.addStep(steps);
-				return se;
+			} else {
+				se.nthroot(root, steps);
 			}
 
-			se.nthroot(root, steps);
+			se.addStep(steps);
+			steps.levelUp();
 			return se;
 		}
 	},
@@ -751,12 +761,9 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression toComplete = subtract(constant, power(divide(quadratic, 3), 3)).regroup();
 
 			steps.add(SolutionStepType.COMPLETE_THE_CUBE);
-
 			se.addOrSubtract(toComplete, steps);
-			se.factor(steps);
 
-			se.nthroot(3, steps);
-			se.regroup(steps);
+			se.factor(steps);
 
 			return se;
 		}

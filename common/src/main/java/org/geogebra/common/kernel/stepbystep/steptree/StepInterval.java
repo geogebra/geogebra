@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.Localization;
 
 public class StepInterval extends StepNode {
@@ -115,19 +116,11 @@ public class StepInterval extends StepNode {
 			return "\\mathbb{R}";
 		}
 		StringBuilder sb = new StringBuilder();
-		if (leftClosed) {
-			sb.append("\\left[");
-		} else {
-			sb.append("\\left(");
-		}
+		sb.append(loc.intervalStartBracket(leftClosed, StringTemplate.latexTemplate));
 		sb.append(leftBound.toLaTeXString(loc, colored));
 		sb.append(",");
 		sb.append(rightBound.toLaTeXString(loc, colored));
-		if (rightClosed) {
-			sb.append("\\right]");
-		} else {
-			sb.append("\\right)");
-		}
+		sb.append(loc.intervalEndBracket(rightClosed, StringTemplate.latexTemplate));
 		return sb.toString();
 	}
 

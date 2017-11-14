@@ -21,8 +21,13 @@ public class StepConstant extends StepExpression {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof StepConstant) {
-			return isEqual(((StepConstant) obj).value, value);
+		if (obj instanceof StepExpression) {
+			StepExpression se = (StepExpression) obj;
+			if (se.nonSpecialConstant()) {
+				return isEqual(se.getValue(), value);
+			} else if (se instanceof StepConstant) {
+				return isEqual(((StepConstant) obj).value, value);
+			}
 		}
 
 		return false;

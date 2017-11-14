@@ -77,6 +77,10 @@ public class StepStrategies {
 				DifferentiationSteps.DIFFERENTIATE_TRIGO, DifferentiationSteps.DIFFERENTIATE_LOG,
 				DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO };
 
+		if (sb != null) {
+			sb.add(SolutionStepType.DIFFERENTIATE, sn);
+		}
+
 		StepNode result = sn;
 		String old = null, current = null;
 		do {
@@ -90,7 +94,7 @@ public class StepStrategies {
 	}
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		int[] colorTracker = new int[] { 1 };
 		SolutionBuilder changes = new SolutionBuilder();
@@ -112,7 +116,7 @@ public class StepStrategies {
 				if (sb != null) {
 					if (strategy[i] == RegroupSteps.ADD_FRACTIONS
 							|| strategy[i] == RegroupSteps.RATIONALIZE_DENOMINATORS) {
-						sb.add(SolutionStepType.WRAPPER);
+						sb.add(SolutionStepType.GROUP_WRAPPER);
 						sb.levelDown();
 					} else {
 						sb.add(SolutionStepType.SUBSTEP_WRAPPER);
@@ -154,6 +158,8 @@ public class StepStrategies {
 		SolutionBuilder changes = new SolutionBuilder();
 
 		if (sb != null) {
+			sb.add(SolutionStepType.GROUP_WRAPPER);
+			sb.levelDown();
 			sb.add(SolutionStepType.SOLVE, se);
 			sb.levelDown();
 		}
@@ -195,6 +201,7 @@ public class StepStrategies {
 			if (sb != null) {
 				sb.levelUp();
 				sb.addAll(changes.getSteps());
+				sb.levelUp();
 			}
 
 			return finalSolutions;

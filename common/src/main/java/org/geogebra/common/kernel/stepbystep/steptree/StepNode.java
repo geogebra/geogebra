@@ -115,9 +115,6 @@ public abstract class StepNode {
 	 */
 	public static StepNode convertExpression(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
-			Log.error(ev.toString());
-			Log.error(((ExpressionNode) ev).getOperation().toString());
-
 			switch (((ExpressionNode) ev).getOperation()) {
 			case NO_OPERATION:
 				return convertExpression(((ExpressionNode) ev).getLeft());

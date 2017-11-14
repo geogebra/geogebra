@@ -86,9 +86,9 @@ public class StepEquation extends StepNode {
 		}
 
 		if (flipped) {
-			return LHS.toLaTeXString(loc, colored) + " = " + RHS.toLaTeXString(loc, colored);
+			return RHS.toLaTeXString(loc, colored) + " = " + LHS.toLaTeXString(loc, colored);
 		}
-		return RHS.toLaTeXString(loc, colored) + " = " + LHS.toLaTeXString(loc, colored);
+		return LHS.toLaTeXString(loc, colored) + " = " + RHS.toLaTeXString(loc, colored);
 	}
 
 	public boolean isValid(StepVariable var, double val) {
@@ -214,7 +214,7 @@ public class StepEquation extends StepNode {
 			LHS = add(LHS, toAdd);
 			RHS = add(RHS, toAdd);
 
-			steps.add(SolutionStepType.WRAPPER);
+			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
 			steps.add(SolutionStepType.ADD_TO_BOTH_SIDES, toAdd);
 			steps.levelDown();
@@ -234,7 +234,7 @@ public class StepEquation extends StepNode {
 			LHS = subtract(LHS, toSubtract);
 			RHS = subtract(RHS, toSubtract);
 
-			steps.add(SolutionStepType.WRAPPER);
+			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
 			steps.add(SolutionStepType.SUBTRACT_FROM_BOTH_SIDES, toSubtract);
 			steps.levelDown();
@@ -253,9 +253,9 @@ public class StepEquation extends StepNode {
 		}
 
 		if (se.isNegative()) {
-			add(se.negate(), steps);
+			add(se.negate().deepCopy(), steps);
 		} else {
-			subtract(se, steps);
+			subtract(se.deepCopy(), steps);
 		}
 	}
 
@@ -271,7 +271,7 @@ public class StepEquation extends StepNode {
 				RHS = multiply(RHS, toMultiply);
 			}
 
-			steps.add(SolutionStepType.WRAPPER);
+			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
 			steps.add(SolutionStepType.MULTIPLY_BOTH_SIDES, toMultiply);
 			steps.levelDown();
@@ -291,7 +291,7 @@ public class StepEquation extends StepNode {
 			LHS = divide(LHS, toDivide);
 			RHS = divide(RHS, toDivide);
 
-			steps.add(SolutionStepType.WRAPPER);
+			steps.add(SolutionStepType.GROUP_WRAPPER);
 			steps.levelDown();
 			steps.add(SolutionStepType.DIVIDE_BOTH_SIDES, toDivide);
 			steps.levelDown();
@@ -310,12 +310,12 @@ public class StepEquation extends StepNode {
 		}
 
 		if (se.canBeEvaluated() && isEqual(se.getValue(), -1)) {
-			multiply(se, steps);
+			multiply(se.deepCopy(), steps);
 		} else if (se.isOperation(Operation.DIVIDE)) {
 			StepOperation so = (StepOperation) se;
 			multiply(StepNode.divide(so.getSubTree(1), so.getSubTree(0)), steps);
 		} else {
-			divide(se, steps);
+			divide(se.deepCopy(), steps);
 		}
 	}
 
@@ -323,7 +323,7 @@ public class StepEquation extends StepNode {
 		LHS = StepExpression.reciprocate(LHS);
 		RHS = StepExpression.reciprocate(RHS);
 
-		steps.add(SolutionStepType.WRAPPER);
+		steps.add(SolutionStepType.GROUP_WRAPPER);
 		steps.levelDown();
 		steps.add(SolutionStepType.RECIPROCATE_BOTH_SIDES);
 		addStep(steps);
@@ -334,7 +334,7 @@ public class StepEquation extends StepNode {
 		LHS = power(LHS, 2);
 		RHS = power(RHS, 2);
 
-		steps.add(SolutionStepType.WRAPPER);
+		steps.add(SolutionStepType.GROUP_WRAPPER);
 		steps.levelDown();
 		steps.add(SolutionStepType.SQUARE_BOTH_SIDES);
 		steps.levelDown();
@@ -374,7 +374,7 @@ public class StepEquation extends StepNode {
 		LHS = LHS.replace(from, to);
 		RHS = RHS.replace(from, to);
 
-		steps.add(SolutionStepType.WRAPPER);
+		steps.add(SolutionStepType.GROUP_WRAPPER);
 		steps.levelDown();
 		steps.add(SolutionStepType.REPLACE_WITH, from, to);
 		addStep(steps);

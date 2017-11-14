@@ -345,13 +345,18 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					StepExpression expanded = power(add(a, b), 3).expand();
 
 					if (isEqual(subtract(so, expanded).regroup(), 0)) {
+						StepExpression result = power(add(a, b), 3);
+
+						so.setColor(colorTracker[0]);
+						result.setColor(colorTracker[0]);
+
 						if (b.isNegative()) {
-							sb.add(SolutionStepType.BINOM_CUBED_DIFF_FACTOR);
+							sb.add(SolutionStepType.BINOM_CUBED_DIFF_FACTOR, colorTracker[0]++);
 						} else {
-							sb.add(SolutionStepType.BINOM_CUBED_SUM_FACTOR);
+							sb.add(SolutionStepType.BINOM_CUBED_SUM_FACTOR, colorTracker[0]++);
 						}
 
-						return power(add(a, b), 3);
+						return result;
 					}
 				}
 			}

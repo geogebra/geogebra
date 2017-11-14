@@ -1209,20 +1209,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	public String leftBracket() {
-		/*
-		 * if (stringType.equals(StringType.LATEX)) return " \\left( "; else if
-		 * (stringType.equals(StringType.LIBRE_OFFICE)) return " left ( "; else
-		 * return "(";
-		 */
 		return left() + "(";
 	}
 
 	public String rightBracket() {
-		/*
-		 * if (stringType.equals(StringType.LATEX)) return " \\right)"; else if
-		 * (stringType.equals(StringType.LIBRE_OFFICE)) return " right )"; else
-		 * return ")";
-		 */
 		return right() + ")";
 	}
 
@@ -1232,6 +1222,50 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public String rightSquareBracket() {
 		return right() + "]";
+	}
+
+	/**
+	 * Used for French and Hungarian open intervals (StepByStep)
+	 * 
+	 * @return left ]
+	 */
+	public String invertedLeftSquareBracket() {
+		return left() + "]";
+	}
+
+	/**
+	 * Used for French and Hungarian open intervals (StepByStep)
+	 * 
+	 * @return right [
+	 */
+	public String invertedRightSquareBracket() {
+		return right() + "[";
+	}
+
+	/**
+	 * Used for Czech closed intervals (StepByStep)
+	 * 
+	 * @return left <
+	 */
+	public String leftAngleBracket() {
+		if (stringType.equals(StringType.LATEX)) {
+			return " \\left \\langle";
+		}
+
+		return "\u3008";
+	}
+
+	/**
+	 * Used for Czech closed intervals (StepByStep)
+	 * 
+	 * @return right >
+	 */
+	public String rightAngleBracket() {
+		if (stringType.equals(StringType.LATEX)) {
+			return " \\right \\rangle";
+		}
+
+		return "\u3009";
 	}
 
 	private String right() {

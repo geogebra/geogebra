@@ -741,6 +741,51 @@ public abstract class Localization {
 	}
 
 	/**
+	 * Prime notation ()' vs Leibniz notation d/dx for derivatives
+	 * 
+	 * @return whether to use prime notation
+	 */
+	public boolean primeNotation() {
+		return !Locale.ENGLISH.equals(getLocale());
+	}
+
+	public String intervalStartBracket(boolean closed, StringTemplate template) {
+		String lang = getLanguage();
+
+		if (closed) {
+			if ("cz".equals(lang)) {
+				return template.leftAngleBracket();
+			}
+
+			return template.leftSquareBracket();
+		}
+
+		if ("hu".equals(lang) || "fr".equals(lang)) {
+			return template.invertedLeftSquareBracket();
+		}
+
+		return template.leftBracket();
+	}
+
+	public String intervalEndBracket(boolean closed, StringTemplate template) {
+		String lang = getLanguage();
+
+		if (closed) {
+			if ("cz".equals(lang)) {
+				return template.rightAngleBracket();
+			}
+
+			return template.rightSquareBracket();
+		}
+
+		if ("hu".equals(lang) || "fr".equals(lang)) {
+			return template.invertedRightSquareBracket();
+		}
+
+		return template.rightBracket();
+	}
+
+	/**
 	 * @return rounding menu items
 	 */
 	public String[] getRoundingMenu() {

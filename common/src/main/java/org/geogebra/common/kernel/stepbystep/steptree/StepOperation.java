@@ -382,6 +382,15 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 					+ subtrees.get(1).toLaTeXString(loc, colored) + "\\right)";
 		case DIFF:
 			StringBuilder sb = new StringBuilder();
+
+			if (loc.primeNotation()) {
+				sb.append("\\left(");
+				sb.append(subtrees.get(0).toLaTeXString(loc, colored));
+				sb.append("\\right)");
+				sb.append("'");
+				return sb.toString();
+			}
+
 			sb.append("\\frac{d}{d");
 			sb.append(subtrees.get(1).toLaTeXString(loc, colored));
 			sb.append("}");
