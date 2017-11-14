@@ -842,7 +842,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 				&& !Dom.eventTargetsElement(event, ggwMenuBar.getElement())
 				&& !Dom.eventTargetsElement(event, getToolbarMenuElement())
 				&& !getGlassPane().isDragInProgress()
-				&& !app.isUnbundled()) {
+				&& !app.isUnbundled() && lastBG == null) {
 			app.toggleMenu();
 		}
 	}
