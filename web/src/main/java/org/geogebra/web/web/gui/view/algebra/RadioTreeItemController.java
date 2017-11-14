@@ -29,7 +29,6 @@ import org.geogebra.web.html5.event.ZeroOffset;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
-import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.html5.util.sliderPanel.SliderWJquery;
@@ -76,8 +75,7 @@ public class RadioTreeItemController
 		implements ClickHandler, DoubleClickHandler, MouseDownHandler,
 		MouseUpHandler,
 		MouseMoveHandler,
-		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler,
-		LongTouchHandler {
+		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler {
 
 	private static final int VERTICAL_PADDING = 20;
 	protected AppWFull app;
@@ -320,12 +318,11 @@ public class RadioTreeItemController
 
 		markForEdit = false;
 
-		if (item.isInputTreeItem() || item.isSliderItem()) {
+		if (item.isInputTreeItem()) {
 			event.preventDefault();
 		}
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
-		getLongTouchManager().rescheduleTimerIfRunning(this, x, y);
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0),
 				ZeroOffset.instance);
@@ -357,9 +354,7 @@ public class RadioTreeItemController
 			return;
 		}
 
-		if (!isMarbleHit(x, y, false)) {
-			getLongTouchManager().scheduleTimer(this, x, y);
-		} else {
+		if (isMarbleHit(x, y, false)) {
 			getLongTouchManager().cancelTimer();
 		}
 
@@ -576,14 +571,6 @@ public class RadioTreeItemController
 		markForEdit = true;
 		return true;
 
-	}
-
-
-	@Override
-	public void handleLongTouch(int x, int y) {
-		getAV().resetItems(false);
-		
-		onRightClick(x, y);
 	}
 
 	private void onRightClick(int x, int y) {

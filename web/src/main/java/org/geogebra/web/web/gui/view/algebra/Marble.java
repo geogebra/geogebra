@@ -57,10 +57,7 @@ public class Marble extends SimplePanel
 			public boolean onClickStart(int x, int y, PointerEventType type,
 					boolean right) {
 				if (type == PointerEventType.TOUCH) {
-					if (isLongTouchHappened()) {
-						gc.getController().handleLongTouch(x, y);
-					}
-					
+
 					return false;
 				}
 				if (right) {
@@ -73,16 +70,8 @@ public class Marble extends SimplePanel
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (type == PointerEventType.TOUCH) {
-					if (isLongTouchHappened()) {
-						gc.getController().handleLongTouch(x, y);
-					} else {
 						toggleVisibility();
-					}
 				}
-			}
-
-			private boolean isLongTouchHappened() {
-				return gc.getController().isLongTouchHappened();
 			}
 		});
 	}

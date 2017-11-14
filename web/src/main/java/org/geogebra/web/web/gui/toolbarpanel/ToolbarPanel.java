@@ -235,7 +235,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		add(tabTools);
 		addMoveBtn();
 		add(main);
-		ClickStartHandler.initDefaults(main, true, true);
+		ClickStartHandler.initDefaults(main, false, true);
 		hideDragger();
 	}
 
