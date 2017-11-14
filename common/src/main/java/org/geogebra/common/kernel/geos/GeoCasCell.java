@@ -880,6 +880,7 @@ public class GeoCasCell extends GeoElement
 			}
 		}
 
+		// TRAC-1523 GGB-2208
 		// FromBase["101",2] should still go to CAS
 		useGeoGebraFallback = useGeoGebraFallback
 				|| (!input.contains("FromBase")
