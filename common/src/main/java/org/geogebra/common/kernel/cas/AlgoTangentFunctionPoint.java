@@ -232,12 +232,18 @@ public class AlgoTangentFunctionPoint extends AlgoElement
 			algoFitPoly.compute();
 
 			GeoFunction fun = (GeoFunction) algoFitPoly.getOutput(0);
-			FunctionVariable fv = fun.getFunction().getFunctionVariable();
-			ExpressionValue derivFit = fun.getFunction().derivative(fv, kernel);
 
-			fv.set(a);
+			if (fun.getFunction() != null) {
+				FunctionVariable fv = fun.getFunction().getFunctionVariable();
+				ExpressionValue derivFit = fun.getFunction().derivative(fv,
+						kernel);
 
-			slope = derivFit.evaluateDouble();
+				fv.set(a);
+
+				slope = derivFit.evaluateDouble();
+			} else {
+				slope = Double.NaN;
+			}
 
 		} else {
 			// calc the tangent;
