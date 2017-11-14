@@ -209,11 +209,14 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		PRIM_POLY("primpoly", "primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
 
+		/** version of inString() but returns "undef" not "-1" when not found */
 		GGB_IN_STRING("ggbinString",
 				"ggbinString(x,y):=begin local ret; ret := inString(x,y); if (ret == -1) return undef; else return ret; end"),
 
+		/** index of object in list. Gives "undef" when not found */
 		INDEX_OF("indexOf",
 				"indexOf(x, mylist):=begin local ii; for ii from 0 to length(mylist)-1 do if (mylist[ii] == x) begin print(ii); return ii; end; od; return undef; end"),
+
 		/**
 		 * Compute squarefree factorization of the input poly p. Strange why
 		 * sommet(-x)!='-' (so we do an ugly hack here, FIXME)
