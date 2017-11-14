@@ -128,6 +128,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		latexCanvas.setStyleName("daRegEquation");
 		eqnPanel.add(latexCanvas);
 		ScrollPanel scroller = new ScrollPanel();
+		scroller.addStyleName("daEquationScrollPane");
 		scroller.add(eqnPanel);
 
 		// prediction panel

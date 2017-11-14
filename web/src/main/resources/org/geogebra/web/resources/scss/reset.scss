@@ -39,8 +39,11 @@ $slider-diameter:15px;
 		box-sizing:initial;
 		text-shadow: initial;
 	}
+	select {
+		display:initial;
+	}
 	div {
-	box-sizing:initial;
+		box-sizing:initial;
 	}
 	input[type="checkbox"] {
 		position: initial;
