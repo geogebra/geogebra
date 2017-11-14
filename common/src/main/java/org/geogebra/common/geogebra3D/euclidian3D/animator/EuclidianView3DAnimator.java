@@ -70,7 +70,8 @@ public class EuclidianView3DAnimator {
 	 * @param steps
 	 * @param storeUndo
 	 */
-	public void setAnimatedCoordSystem(double ox, double oy, double f, double newScale, int steps, boolean storeUndo) {
+	synchronized public void setAnimatedCoordSystem(double ox, double oy, double f, double newScale, int steps,
+			boolean storeUndo) {
 		stopAnimation();
 		animation = animationScale;
 		animationScale.set(newScale);
@@ -117,7 +118,7 @@ public class EuclidianView3DAnimator {
 	 * @param mode
 	 *            mouse move mode
 	 */
-	public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
+	synchronized public void setCoordSystemFromMouseMove(int dx, int dy, int mode) {
 		animation = animationMouse;
 		animationMouse.set(dx, dy, mode);
 	}
@@ -257,7 +258,7 @@ public class EuclidianView3DAnimator {
 	 * 
 	 * @return animation type
 	 */
-	public AnimationType getAnimationType() {
+	synchronized public AnimationType getAnimationType() {
 		if (animation != null) {
 			return animation.getType();
 		}
