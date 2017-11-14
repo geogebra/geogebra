@@ -1240,7 +1240,7 @@ public class Ggb2giac {
 			String lookupList = "\"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\"";
 			p("ToBase.2",
 					"ggbText(\"\"+[[lookuplist:=" + lookupList
-							+ "],[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+lookuplist[ggblist[k]]); od], ggbans][-1]+\"_{%1}\")");
+							+ "],[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+lookuplist(ggblist[k]+1)); od], ggbans][-1]+\"_{%1}\")");
 
 			p("FromBase.2",
 					"[[frombasearg0:=\"\"+%0],[frombasearg1:=%1],[lookuplist:="
