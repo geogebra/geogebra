@@ -646,6 +646,10 @@ public class AppWapplet extends AppWFull {
 				frame.getMenuBar(this).init(this);
 				this.menuInited = true;
 			}
+			frame.getMenuBar(this).getMenubar().getElement()
+					.getFirstChildElement().getFirstChildElement()
+					.getFirstChildElement()
+					.setAttribute("aria-expanded", "true");
 			if (isFloatingMenu()) {
 				toggleFloatingMenu(needsUpdate);
 				return;
@@ -665,6 +669,10 @@ public class AppWapplet extends AppWFull {
 			getGuiManager().updateStyleBarPositions(true);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
+			frame.getMenuBar(this).getMenubar().asWidget().getElement()
+					.getFirstChildElement().getFirstChildElement()
+					.getFirstChildElement()
+					.setAttribute("aria-expanded", "false");
 			if (isFloatingMenu()) {
 				removeFloatingMenu();
 				menuShowing = false;
