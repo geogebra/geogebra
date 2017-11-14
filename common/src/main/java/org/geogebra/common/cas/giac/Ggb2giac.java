@@ -1240,12 +1240,12 @@ public class Ggb2giac {
 			String lookupList = "\"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ\"";
 			p("ToBase.2",
 					"ggbText(\"\"+[[lookuplist:=" + lookupList
-							+ "],[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+lookuplist(ggblist[k]+1)); od], ggbans][-1]+\"_{%1}\")");
+							+ "[0..%1-1]],[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+lookuplist(ggblist[k]+1)); od], ggbans][-1]+\"_{%1}\")");
 
 			p("FromBase.2",
 					"[[frombasearg0:=\"\"+%0],[frombasearg1:=%1],[lookuplist:="
 							+ lookupList
-							+ "],[convert(seq(inString(lookuplist,frombasearg0[ii]),ii,length(frombasearg0)-1,0,-1),base,frombasearg1)]][-1][0]");
+							+ "[0..%1-1]],[convert(seq(ggbinString(lookuplist,frombasearg0[ii]),ii,length(frombasearg0)-1,0,-1),base,frombasearg1)]][-1][0]");
 
 			p("IndexOf.2", "indexOf(%0,%1)+1");
 

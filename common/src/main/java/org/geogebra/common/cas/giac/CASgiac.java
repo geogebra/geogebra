@@ -208,6 +208,10 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * temporary fix for primpart also):
 		 */
 		PRIM_POLY("primpoly", "primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
+
+		GGB_IN_STRING("ggbinString",
+				"ggbinString(x,y):=begin local ret; ret := inString(x,y); if (ret == -1) return undef; else return ret; end"),
+
 		INDEX_OF("indexOf",
 				"indexOf(x, mylist):=begin local ii; for ii from 0 to length(mylist)-1 do if (mylist[ii] == x) begin print(ii); return ii; end; od; return undef; end"),
 		/**
