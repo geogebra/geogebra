@@ -315,8 +315,12 @@ namespace giac {
 	make_free_variable(K,contextptr,false,k,0);
 	// make_free_variable(g,contextptr,true,k,K);
 	if (v[1].type==_SYMB){
-	  gen P=_e2r(makesequence(v[1],v[2]),contextptr);;
+	  gen P=_e2r(makesequence(v[1],v[2]),contextptr);
 	  if (P.type==_VECT){
+	    vecteur vmin; // not used
+	    int res=is_irreducible_primitive(*P._VECTptr,v[0],vmin,false,contextptr);
+	    if (res==0)
+	      return gensizeerr("Polynomial "+v[1].print(contextptr)+" is not irreducible modulo "+v[0].print(contextptr));
 	    fieldvalue=galois_field(v[0],P,v[2],undef);
 	  }
 	}
