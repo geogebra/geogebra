@@ -1791,8 +1791,11 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setAnimatedCoordSystem(double x0, double y0, int steps,
-			boolean storeUndo) {
+									   boolean storeUndo) {
+		setAnimatedCoordSystem(steps);
+	}
 
+	private void setAnimatedCoordSystem(int steps) {
 		animator.setAnimatedCoordSystem(XZERO_SCENE_STANDARD, YZERO_SCENE_STANDARD,
 				ZZERO_SCENE_STANDARD, SCALE_STANDARD, steps);
 	}
@@ -1887,7 +1890,11 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public boolean isZeroStandard() {
-		return Kernel.isEqual(xZero, 0) && Kernel.isEqual(yZero, 0) && Kernel.isEqual(zZero, -1.5);
+		return Kernel.isEqual(xZero, XZERO_SCENE_STANDARD)
+				&& Kernel.isEqual(yZero, YZERO_SCENE_STANDARD)
+				&& Kernel.isEqual(zZero, ZZERO_SCENE_STANDARD)
+				&& Kernel.isEqual(a, ANGLE_ROT_OZ)
+				&& Kernel.isEqual(b, ANGLE_ROT_XOY);
 	}
 
 	@Override
@@ -4622,6 +4629,31 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public double getAngleB() {
 		return b;
+	}
+
+
+	@Override
+	public void setStandardView(boolean storeUndo) {
+		if (app.has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
+			setAnimatedCoordSystem(STANDARD_VIEW_STEPS);
+			setRotAnimation(ANGLE_ROT_OZ, ANGLE_ROT_XOY, false);
+			if (storeUndo) {
+				getApplication().storeUndoInfo();
+			}
+		} else {
+			super.setStandardView(storeUndo);
+		}
+	}
+
+
+	public boolean isStandardView() {
+		if (app.has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
+			return isZeroStandard()
+					&& Kernel.isEqual(getXscale(), SCALE_STANDARD)
+					&& Kernel.isEqual(getYscale(), SCALE_STANDARD)
+					&& Kernel.isEqual(getZscale(), SCALE_STANDARD);
+		}
+		return super.isStandardView();
 	}
 
 }

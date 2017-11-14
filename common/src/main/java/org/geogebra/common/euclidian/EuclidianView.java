@@ -135,6 +135,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public static final double XZERO_STANDARD = 215; // needs to be positive
 	/** default screen y-coord of origin */
 	public static final double YZERO_STANDARD = 315; // needs to be positive
+	/**
+	 * steps to set back to standard view
+	 */
+	protected static final int STANDARD_VIEW_STEPS = 15;
+
 	// or use volatile image
 	// protected int drawMode = DRAW_MODE_BACKGROUND_IMAGE;
 	/** background image */
@@ -5305,7 +5310,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			axesRatioZoomer.startAnimation(
 					getEuclidianController().getZoomerListener());
 		} else {
-			setAnimatedCoordSystem(xzero, yzero, 15, false);
+			setAnimatedCoordSystem(xzero, yzero, STANDARD_VIEW_STEPS, false);
 		}
 		if (storeUndo) {
 			getApplication().storeUndoInfo();
