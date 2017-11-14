@@ -4656,4 +4656,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		return super.isStandardView();
 	}
 
+	@Override
+	protected void onCoordSystemChangedFromSetCoordSystem() {
+		// not needed for 3D: animator handles it
+	}
+
+
 }

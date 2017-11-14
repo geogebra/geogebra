@@ -53,7 +53,6 @@ abstract public class EuclidianView3DAnimationScaleAbstract extends EuclidianVie
 		view3D.updateMatrix();
 		view3D.setViewChangedByZoom();
 		view3D.setViewChangedByTranslate();
-		view3D.getEuclidianController().onCoordSystemChanged();
 
 		if (ending) {
 			end();

@@ -1341,7 +1341,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// real world values
 		setXYMinMaxForSetCoordSystem();
 		setRealWorldBounds();
-		getEuclidianController().onCoordSystemChanged();
+        onCoordSystemChangedFromSetCoordSystem();
 		// if (drawMode == DRAW_MODE_BACKGROUND_IMAGE)
 		if (repaint) {
 			updateBackgroundOnNextRepaint = true;
@@ -1356,6 +1356,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// tells app that set coord system occured
 		app.setCoordSystemOccured();
 	}
+
+    /**
+     * notify controller that coordinate system has changed from setCoordSystem()
+     */
+	protected void onCoordSystemChangedFromSetCoordSystem() {
+        getEuclidianController().onCoordSystemChanged();
+    }
 
 	/**
 	 * If the background was marked for update (axes changed), repaint it
