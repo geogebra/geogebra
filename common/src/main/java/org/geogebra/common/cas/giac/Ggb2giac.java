@@ -1236,8 +1236,19 @@ public class Ggb2giac {
 
 		// eg ToBase(10^23,2)
 		if (app.has(Feature.CAS_FROM_TO_BASE)) {
+
+			String lookupList = "{\"0\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"A\",\"B\",\"C\",\"D\",\"E\",\"F\",\"G\",\"H\",\"I\",\"J\",\"K\",\"L\",\"M\",\"N\",\"O\",\"P\",\"Q\",\"R\",\"S\",\"T\",\"U\",\"V\",\"W\",\"X\",\"Y\",\"Z\"}";
 			p("ToBase.2",
-					"ggbText(\"\"+[[lookuplist:={\"0\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\",\"A\",\"B\",\"C\",\"D\",\"E\",\"F\",\"G\",\"H\",\"I\",\"J\",\"K\",\"L\",\"M\",\"N\",\"O\",\"P\",\"Q\",\"R\",\"S\",\"T\",\"U\",\"V\",\"W\",\"X\",\"Y\",\"Z\"}],[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+lookuplist(ggblist[k]+1)); od], ggbans][-1]+\"_{%1}\")");
+					"ggbText(\"\"+[[lookuplist:=" + lookupList
+							+ "],[ggblist:=convert(round(%0),base,when(%1>=2,round(%1),?))],[ggbans:=\"\"] [for k from length(ggblist)-1 to 0 step -1 do ggbans:=ggbans+(\"\"+lookuplist(ggblist[k]+1)); od], ggbans][-1]+\"_{%1}\")");
+
+			p("FromBase.2",
+					"[[frombasearg0:=\"\"+%0],[frombasearg1:=%1],[lookuplist:="
+							+ lookupList
+							+ "],[convert(seq(indexOf(frombasearg0[ii],lookuplist),ii,length(frombasearg0)-1,0,-1),base,frombasearg1)]][-1][0]");
+
+			p("IndexOf.2", "indexOf(%0,%1)+1");
+
 		}
 
 		p("ToComplex.1",

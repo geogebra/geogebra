@@ -880,8 +880,10 @@ public class GeoCasCell extends GeoElement
 			}
 		}
 
+		// FromBase["101",2] should still go to CAS
 		useGeoGebraFallback = useGeoGebraFallback
-				|| ve.inspect(Inspecting.textFinder);
+				|| (!input.contains("FromBase")
+						&& ve.inspect(Inspecting.textFinder));
 
 		// get all used GeoElement variables
 		// check for function

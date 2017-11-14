@@ -208,6 +208,8 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * temporary fix for primpart also):
 		 */
 		PRIM_POLY("primpoly", "primpoly(x):=begin local pps,ii; if (x==[0]) return [0]; pps:=[]; for ii from 0 to size(x)-1 do pps[ii]:=primpart(x[ii],lvar(x[ii])); od return pps end"),
+		INDEX_OF("indexOf",
+				"indexOf(x, mylist):=begin local ii; for ii from 0 to length(mylist)-1 do if (mylist[ii] == x) begin print(ii); return ii; end; od; return undef; end"),
 		/**
 		 * Compute squarefree factorization of the input poly p. Strange why
 		 * sommet(-x)!='-' (so we do an ugly hack here, FIXME)
