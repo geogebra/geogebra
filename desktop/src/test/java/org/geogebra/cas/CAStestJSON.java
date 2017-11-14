@@ -1292,4 +1292,19 @@ public class CAStestJSON {
 		testCat("Translate");
 	}
 
+	@Test
+	public void testFromBase() {
+		testCat("FromBase");
+	}
+
+	@Test
+	public void testToBase() {
+		testCat("ToBase");
+	}
+
+	@Test
+	public void testIndexOf() {
+		testCat("IndexOf");
+	}
+
 }
