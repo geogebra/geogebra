@@ -10,7 +10,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.util.AdvancedFocusPanel;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
@@ -290,9 +289,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			int cellRow = point.getY();
 
 			if (cellRow >= 0) {
-				GRectangle r = table.getCellRect(cellRow, 0, true);
-				// App.debug("cell row = " + cellRow + " p.y = " + p.y +
-				// "   r.y = " + r.getY() + "r.height = " + r.getHeight());
+				GRectangle r = table.getCellRect(cellRow, 0, true, false);
 				// near row bottom ?
 				if (p.y < r.getY() + boundary) {
 					resizeRow = cellRow - 1;
@@ -650,12 +647,13 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		// Show resize cursor when mouse is over a row boundary
 		HumanInputEvent<?> event = e.getWrappedEvent();
 		GPoint p = new GPoint(
-				EventUtil.getTouchOrClickClientX(event),
-				EventUtil.getTouchOrClickClientY(event));
+				SpreadsheetMouseListenerW.getAbsoluteX(event, app),
+				SpreadsheetMouseListenerW.getAbsoluteY(event, app));
 		int r = this.getResizingRow(p, getBoundary(e.getType()));
 		if (r >= 0 && !getCursor().equals(Style.Cursor.ROW_RESIZE.getCssName())) {
 			setRowResizeCursor();
-		} else if (!getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
+		} else if (r < 0
+				&& !getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
 			setDefaultCursor();
 		}
 

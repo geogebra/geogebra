@@ -12,7 +12,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
@@ -264,7 +263,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			// test if mouse is 3 pixels from column boundary
 			int cellColumn = point.getX();
 			if (cellColumn >= 0) {
-				GRectangle r = table.getCellRect(0, cellColumn, true);
+				GRectangle r = table.getCellRect(0, cellColumn, true, false);
 				// near column left ?
 				if (p.x < r.getX() + boundary) {
 					resizeColumn = cellColumn - 1;
@@ -511,12 +510,14 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		// Show resize cursor when mouse is over a row boundary
 		HumanInputEvent<?> event = e.getWrappedEvent();
 		GPoint p = new GPoint(
-				EventUtil.getTouchOrClickClientX(event),
-				EventUtil.getTouchOrClickClientY(event));
+				SpreadsheetMouseListenerW.getAbsoluteX(event, app),
+				SpreadsheetMouseListenerW.getAbsoluteY(event, app));
 		int r = this.getResizingColumn(p, getBoundary(e.getType()));
+
 		if (r >= 0 && !getCursor().equals(Style.Cursor.COL_RESIZE.getCssName())) {
 			setColumnResizeCursor();
-		} else if (!getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
+		} else if (r < 0
+				&& !getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
 			setDefaultCursor();
 		}
 		// DRAG

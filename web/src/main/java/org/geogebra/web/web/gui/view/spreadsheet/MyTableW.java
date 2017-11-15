@@ -1569,16 +1569,20 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return new GPoint(indexX, indexY);
 	}
 
+	public GRectangle getCellRect(int row, int column, boolean spacing) {
+		return getCellRect(row, column, spacing, true);
+	}
 	/**
 	 * @param spacing
 	 *            whether to include border -- TODO unused
 	 */
-	public GRectangle getCellRect(int row, int column, boolean spacing) {
-		GPoint min = getPixel(column, row, true);
+	public GRectangle getCellRect(int row, int column, boolean spacing,
+			boolean offset) {
+		GPoint min = getPixel(column, row, true, offset);
 		if (min == null) {
 			return null;
 		}
-		GPoint max = getPixel(column, row, false);
+		GPoint max = getPixel(column, row, false, offset);
 		if (max == null) {
 			return null;
 		}
