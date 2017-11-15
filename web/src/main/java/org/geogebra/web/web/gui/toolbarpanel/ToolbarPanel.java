@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -183,7 +184,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		app.getActiveEuclidianView().getEuclidianController()
 				.setModeChangeListener(this);
 		initGUI();
-
 		initClickStartHandler();
 	}
 
@@ -210,10 +210,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			@Override
 			public void onClickStart(final int x, final int y,
 					PointerEventType type) {
-
 				app.getActiveEuclidianView().getEuclidianController()
 						.closePopups(x, y, type);
-
 			}
 		});
 	}
@@ -255,12 +253,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	int getOpenHeightInPortrait() {
 		double h = app.getHeight();
 		int kh = 0;
-
 		if (app.isUnbundledGraphing() || app.isUnbundled3D()) {
 			return (int) (Math
 					.round(h * PerspectiveDecoder.portraitRatio(h, true))) + kh;
 		}
-
 		return (int) (Math
 				.round(h * PerspectiveDecoder.portraitRatio(h, false)));
 	}
@@ -287,7 +283,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		// moveMoveBtnDown style added for moveBtn to fix the position on tablet
 		// too
 		moveBtn.ignoreTab();
-
 		moveBtn.addStyleName("moveMoveBtnDown");
 		main.add(moveBtn);
 		hideMoveFloatingButton();
@@ -299,7 +294,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			}
 		};
 		moveBtn.addFastClickHandler(moveBtnHandler);
-
 	}
 
 	/**
@@ -342,7 +336,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (!header.isOpen()) {
 			return;
 		}
-
 		header.setOpen(false);
 	}
 
@@ -353,7 +346,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (app.isPortrait()) {
 			return;
 		}
-
 		final ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		final DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
@@ -363,12 +355,10 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			dockParent.addStyleName("hide-Dragger");
 			opposite.addStyleName("hiddenHDraggerRightPanel");
 			if (header.isOpen()) {
-
 				dockParent.setWidgetSize(dockPanel,
 						getLastOpenWidth().intValue());
 				animCallback = new LandscapeAnimationCallback(header,
 						CLOSED_WIDTH_LANDSCAPE, getLastOpenWidth());
-
 			} else {
 				lastOpenWidth = getOffsetWidth();
 				dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
@@ -384,7 +374,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 						opposite.addStyleName("hiddenHDraggerRightPanel");
 					}
 				};
-
 			}
 			dockParent.animate(OPEN_ANIM_TIME, animCallback);
 		}
@@ -396,10 +385,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				? dockPanel.getParentSplitPane() : null;
 		if (dockPanel != null) {
 			dockParent.setWidgetMinSize(dockPanel, CLOSED_WIDTH_LANDSCAPE);
-
 		}
-
 	}
+
 	/**
 	 * updates panel height according to its state in portrait mode.
 	 */
@@ -407,11 +395,9 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (!app.isPortrait()) {
 			return;
 		}
-
 		ToolbarDockPanelW dockPanel = getToolbarDockPanel();
 		final DockSplitPaneW dockParent = dockPanel != null
 				? dockPanel.getParentSplitPane() : null;
-
 		if (dockPanel != null) {
 			Widget evPanel = dockParent.getOpposite(dockPanel);
 			if (header.isOpen()) {
@@ -434,9 +420,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 						}
 					});
 		}
-
 	}
-
 
 	/**
 	 * @return algebra dock panel
@@ -479,10 +463,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (moveBtn == null) {
 			return;
 		}
-
 		moveBtn.addStyleName("showMoveBtn");
 		moveBtn.removeStyleName("hideMoveBtn");
-
 		if (app.has(Feature.TAB_ON_GUI)) {
 			moveBtn.setTabIndex(GUITabs.NO_TAB);
 		}
@@ -495,10 +477,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		if (moveBtn == null) {
 			return;
 		}
-
 		moveBtn.addStyleName("hideMoveBtn");
 		moveBtn.removeStyleName("showMoveBtn");
-
 		if (app.has(Feature.TAB_ON_GUI)) {
 			moveBtn.setTabIndex(GUITabs.NO_TAB);
 		}
@@ -516,7 +496,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	public boolean moveMoveFloatingButtonUpWithTooltip(int ttLeft, int width,
 			boolean isSmall) {
 		if (moveBtn != null) {
-
 			int mLeft = moveBtn.getAbsoluteLeft()
 					- (int) app.getAbsLeft();
 			int mRight = mLeft + 48;
@@ -576,6 +555,13 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	GeoGebraFrameBoth getFrame() {
 		return ((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame());
+	}
+
+	/**
+	 * @return burger menu btn
+	 */
+	public MyToggleButton getBurgerMenuBtn() {
+		return header.getMenuBtn();
 	}
 
 	/**
@@ -711,7 +697,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			main.removeStyleName("hidden");
 		} else {
 			main.addStyleName("hidden");
-
 		}
 	}
 
@@ -798,7 +783,6 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 				&& tabAlgebra.aview.getInputTreeItem() != ml) {
 			return ml;
 		}
-
 		// if no retex editor yet
 		if (!(ml instanceof RadioTreeItem)) {
 			return ml;

@@ -298,6 +298,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						true);
 			} else {
 				this.menuPanel.addStyleName("menuPanel");
+
 			}
 		} else {
 			AppType appType = app.getSettings().getToolbarSettings().getType();

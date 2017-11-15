@@ -37,6 +37,7 @@ import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
@@ -646,10 +647,6 @@ public class AppWapplet extends AppWFull {
 				frame.getMenuBar(this).init(this);
 				this.menuInited = true;
 			}
-			frame.getMenuBar(this).getMenubar().getElement()
-					.getFirstChildElement().getFirstChildElement()
-					.getFirstChildElement()
-					.setAttribute("aria-expanded", "true");
 			if (isFloatingMenu()) {
 				toggleFloatingMenu(needsUpdate);
 				return;
@@ -669,15 +666,23 @@ public class AppWapplet extends AppWFull {
 			getGuiManager().updateStyleBarPositions(true);
 			frame.getMenuBar(this).getMenubar().dispatchOpenEvent();
 		} else {
-			frame.getMenuBar(this).getMenubar().asWidget().getElement()
-					.getFirstChildElement().getFirstChildElement()
-					.getFirstChildElement()
-					.setAttribute("aria-expanded", "false");
 			if (isFloatingMenu()) {
 				removeFloatingMenu();
 				menuShowing = false;
+				updateMenuBtnStatus();
 			} else {
 				hideMenu();
+			}
+		}
+	}
+
+	private void updateMenuBtnStatus() {
+		if (getGuiManager() instanceof GuiManagerW) {
+			ToolbarPanel toolbarPanel = ((GuiManagerW) getGuiManager())
+					.getToolbarPanelV2();
+			if (toolbarPanel != null) {
+				toolbarPanel.getBurgerMenuBtn().getElement()
+						.setAttribute("aria-expanded", "false");
 			}
 		}
 	}

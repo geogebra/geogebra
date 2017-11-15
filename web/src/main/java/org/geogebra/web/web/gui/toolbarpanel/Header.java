@@ -409,6 +409,13 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		imgClose.setAltText(app.getLocalization().getMenu("Close"));
 	}
 
+	/**
+	 * @return burger menu btn
+	 */
+	public PersistableToggleButton getMenuBtn() {
+		return btnMenu;
+	}
+
 	private void createMenuButton() {
 		ImageResource menuImgRec = new ImageResourcePrototype(null,
 				MaterialDesignResources.INSTANCE.toolbar_menu_black()
@@ -417,17 +424,16 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
 		btnMenu.addStyleName("flatButton");
 		btnMenu.addStyleName("menu");
-
+		btnMenu.getElement().setAttribute("aria-expanded", "false");
 		toolbarPanel.getFrame().add(btnMenu);
-
 		ClickStartHandler.init(btnMenu, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				toolbarPanel.toggleMenu();
+				getMenuBtn().getElement().setAttribute("aria-expanded", "true");
 			}
 		});
-
 		if (app.has(Feature.TAB_ON_GUI)) {
 			btnMenu.addTabHandler(this);
 		}
