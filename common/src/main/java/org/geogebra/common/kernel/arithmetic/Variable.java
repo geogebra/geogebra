@@ -185,7 +185,10 @@ public class Variable extends ValidExpression {
 		}
 		int[] exponents = new int[] { 0, 0, 0, 0, 0 };
 		int i;
-		GeoElement geo2 = null;
+		ExpressionValue geo2 = getProduct(name, kernel);
+		if (geo2 != null) {
+			return geo2;
+		}
 		String nameNoX = name;
 		int degPower = 0;
 		while (nameNoX.length() > 0 && (geo2 == null)
@@ -222,7 +225,9 @@ public class Variable extends ValidExpression {
 							arg);
 				}
 			}
-
+			if (geo2 == null) {
+				geo2 = getProduct(nameNoX, kernel);
+			}
 			if (geo2 != null) {
 				break;
 			}
@@ -234,6 +239,9 @@ public class Variable extends ValidExpression {
 			nameNoX = nameNoX.substring(chop);
 			if (i + 1 >= chop) {
 				geo2 = kernel.lookupLabel(nameNoX);
+				if (geo2 == null) {
+					geo2 = getProduct(nameNoX, kernel);
+				}
 			}
 			if (geo2 != null) {
 				break;
@@ -250,6 +258,40 @@ public class Variable extends ValidExpression {
 		return exponents[4] == 0 && degPower == 0 ? powers.multiply(geo2)
 				: powers.multiply(geo2)
 						.multiply(piDegTo(exponents[4], degPower, kernel));
+	}
+
+	private static ExpressionNode getProduct(String label, Kernel cons) {
+		int length = label.length();
+		if (length == 3 && label.charAt(2) == '\'') {
+			return product(cons, label.charAt(0) + "",
+					label.charAt(1) + "'");
+
+		} else if (length == 3 && label.charAt(1) == '\'') {
+			return product(cons, label.charAt(0) + "'",
+					label.charAt(2) + "");
+
+		} else if (length == 4 && label.charAt(1) == '\''
+				&& label.charAt(3) == '\'') {
+			return product(cons, label.charAt(0) + "'",
+					label.charAt(2) + "'");
+
+		} else if (length == 2) {
+			return product(cons, label.charAt(0) + "",
+					label.charAt(1) + "");
+
+		}
+		return null;
+	}
+
+	private static ExpressionNode product(Kernel kernel,
+			String string, String string2) {
+		GeoElement el1 = kernel.lookupLabel(string);
+		GeoElement el2 = kernel.lookupLabel(string2);
+		if (el1 != null && el2 != null && el1.isNumberValue()
+				&& el2.isNumberValue()) {
+			return el1.wrap().multiplyR(el2);
+		}
+		return null;
 	}
 
 	private static ExpressionNode xyzPiDegPower(Kernel kernel, int[] exponents,

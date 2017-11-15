@@ -1307,6 +1307,15 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void testProduct() {
+		t("a=1", "1");
+		t("b=1", "1");
+		t("ab+1", "2");
+		t("ab" + Unicode.pi + "+1", "4.14159",
+				StringTemplate.editTemplate);
+	}
+
+	@Test
 	public void expandFunctionsLine() {
 		t("f(x,y)=2x+0y", "(2 * x) + (0 * y)");
 		t("g(x,y)=0x+3y", "(0 * x) + (3 * y)");

@@ -15,7 +15,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.algos.AlgoCasBase;
-import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.algos.AlgoDistancePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoJoinPointsSegment;
@@ -25,7 +24,6 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.cas.AlgoUsingTempCASalgo;
@@ -54,7 +52,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -2754,23 +2751,23 @@ public class Construction {
 		// expression like AB, autocreate AB=Distance[A,B] or AB = A * B
 		// according to whether A,B are points or numbers
 		if (length == 3 && label.charAt(2) == '\'') {
-			createdGeo = distanceOrProduct(label.charAt(0) + "",
+			createdGeo = distance(label.charAt(0) + "",
 					label.charAt(1) + "'");
 			fix = false;
 
 		} else if (length == 3 && label.charAt(1) == '\'') {
-			createdGeo = distanceOrProduct(label.charAt(0) + "'",
+			createdGeo = distance(label.charAt(0) + "'",
 					label.charAt(2) + "");
 			fix = false;
 
 		} else if (length == 4 && label.charAt(1) == '\''
 				&& label.charAt(3) == '\'') {
-			createdGeo = distanceOrProduct(label.charAt(0) + "'",
+			createdGeo = distance(label.charAt(0) + "'",
 					label.charAt(2) + "'");
 			fix = false;
 
 		} else if (length == 2) {
-			createdGeo = distanceOrProduct(label.charAt(0) + "",
+			createdGeo = distance(label.charAt(0) + "",
 					label.charAt(1) + "");
 			fix = false;
 
@@ -2811,7 +2808,7 @@ public class Construction {
 		return createdGeo.toGeoElement();
 	}
 
-	private GeoNumberValue distanceOrProduct(String string, String string2) {
+	private GeoNumberValue distance(String string, String string2) {
 		GeoElement geo1 = kernel.lookupLabel(string);
 		if (geo1 != null && geo1.isGeoPoint()) {
 			GeoElement geo2 = kernel.lookupLabel(string2);
@@ -2820,15 +2817,6 @@ public class Construction {
 						(GeoPointND) geo1, (GeoPointND) geo2);
 				return dist.getDistance();
 
-			}
-		} else if (geo1 instanceof NumberValue) {
-			GeoElement geo2 = kernel.lookupLabel(string2);
-			if (geo2 instanceof NumberValue) {
-				ExpressionNode node = new ExpressionNode(kernel, geo1,
-						Operation.MULTIPLY, geo2);
-				AlgoDependentNumber algo = new AlgoDependentNumber(this, node,
-						false);
-				return algo.getNumber();
 			}
 		}
 		return null;
