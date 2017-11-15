@@ -7049,8 +7049,8 @@ namespace giac {
       vecteur vb=*bf._VECTptr;
       vb[0]=symetrie_droite(w,v[0],vb[0],contextptr);
       if (vb.size()==3 && vb[2]-vb[1]!=cst_two_pi){
-	vb[1] += cst_pi;
-	vb[2] += cst_pi;
+	vb[1] = -vb[1];
+	vb[2] = -vb[2];
       }
       bf=gen(vb,bf.subtype);
       b=symbolic(at_cercle,bf);
