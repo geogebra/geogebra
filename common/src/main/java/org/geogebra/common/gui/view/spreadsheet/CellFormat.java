@@ -1092,4 +1092,20 @@ public class CellFormat implements CellFormatInterface {
 		return ((int)value & (1 << position)) != 0;
 	}
 
+	/**
+	 * @param alignment
+	 * @return "l", "c" or "r" for left/center/right
+	 */
+	public static char getAlignmentString(int alignment) {
+		switch (alignment) {
+		default:
+		case CellFormat.ALIGN_LEFT:
+			return 'l';
+		case CellFormat.ALIGN_CENTER:
+			return 'c';
+		case CellFormat.ALIGN_RIGHT:
+			return 'r';
+		}
+	}
+
 }

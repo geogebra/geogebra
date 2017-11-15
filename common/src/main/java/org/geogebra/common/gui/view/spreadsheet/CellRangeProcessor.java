@@ -1064,7 +1064,11 @@ public class CellRangeProcessor {
 			text.append("TableText[");
 			text.append(createMatrixExpression(column1, column2, row1, row2,
 					copyByValue, transpose));
-			text.append(",\"|_\"]");
+			text.append(",\"|_]");
+			// formatting eg "lcr"
+			text.append(getAlignmentString(column1, column2, row1, row2,
+					transpose));
+			text.append("\"]");
 
 			// Application.debug(text);
 			geos = app.getKernel().getAlgebraProcessor()
@@ -1079,6 +1083,59 @@ public class CellRangeProcessor {
 			return geos[0];
 		}
 		return null;
+	}
+
+	/*
+	 * return string like "llcr" for the alignment of each column (row)
+	 * 
+	 * just take alignment from first cell in each column (row)
+	 * 
+	 */
+	private String getAlignmentString(int column1, int column2, int row1,
+			int row2, boolean transpose) {
+
+		SpreadsheetViewInterface spreadsheet = app.getKernel().getApplication()
+				.getGuiManager().getSpreadsheetView();
+		CellFormatInterface formatHandler = spreadsheet.getSpreadsheetTable()
+				.getCellFormatHandler();
+
+		StringBuilder sb = new StringBuilder();
+
+		if (!transpose) {
+
+			for (int i = column1; i <= column2; ++i) {
+
+				Object alignment = formatHandler.getCellFormat(i, row1,
+						CellFormat.FORMAT_ALIGN);
+
+				int alignmentI = CellFormat.ALIGN_LEFT;
+
+				if (alignment instanceof Integer) {
+					alignmentI = (Integer) alignment;
+				}
+
+				sb.append(CellFormat.getAlignmentString(alignmentI));
+
+			}
+
+		} else {
+			for (int i = row1; i <= row2; ++i) {
+				Object alignment = formatHandler.getCellFormat(column1, i,
+						CellFormat.FORMAT_ALIGN);
+
+				int alignmentI = CellFormat.ALIGN_LEFT;
+
+				if (alignment instanceof Integer) {
+					alignmentI = (Integer) alignment;
+				}
+
+				sb.append(CellFormat.getAlignmentString(alignmentI));
+			}
+		}
+
+		Log.error(sb.toString());
+
+		return sb.toString();
 	}
 
 	// ===================================================
