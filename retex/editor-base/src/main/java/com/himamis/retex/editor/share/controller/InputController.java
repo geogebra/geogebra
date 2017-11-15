@@ -1137,9 +1137,9 @@ public class InputController {
 		}
 	}
 
-	public void handleTab() {
+	public void handleTab(boolean shiftDown) {
 		if (mathField != null) {
-			mathField.tab();
+			mathField.tab(shiftDown);
 		}
 	}
 	

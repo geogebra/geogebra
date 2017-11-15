@@ -96,7 +96,7 @@ public class KeyListenerImpl {
 		case JavaKeyCodes.VK_TAB:
 			if (!InputController.trySelectNext(editorState)) {
 				if (!InputController.trySelectFirst(editorState)) {
-					onTab();
+					onTab((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0);
 				};
 			}
 			return true;
@@ -106,8 +106,8 @@ public class KeyListenerImpl {
         }
     }
 
-	public void onTab() {
-		inputController.handleTab();
+	public void onTab(boolean shiftDown) {
+		inputController.handleTab(shiftDown);
 	}
 
 	public boolean onKeyTyped(char ch) {

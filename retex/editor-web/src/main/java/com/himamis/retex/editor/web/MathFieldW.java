@@ -857,8 +857,8 @@ public class MathFieldW implements MathField, IsWidget {
 	}
 
 	@Override
-	public void tab() {
-		mathFieldInternal.onTab();
+	public void tab(boolean shiftDown) {
+		mathFieldInternal.onTab(shiftDown);
 	}
 
 }
