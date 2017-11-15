@@ -12,11 +12,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Traveling Salesman with euclidian metric
+ *
+ */
 public class AlgoTravelingSalesman extends AlgoDiscrete {
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            points
+	 */
 	public AlgoTravelingSalesman(Construction cons, String label,
 			GeoList inputList) {
-		super(cons, label, inputList, null);
+		super(cons, label, inputList);
 	}
 
 	@Override

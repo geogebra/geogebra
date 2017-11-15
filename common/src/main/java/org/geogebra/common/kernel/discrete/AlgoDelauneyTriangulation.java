@@ -19,12 +19,23 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * DelauneyTriangulation command
+ */
 public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 	private static Comparator<MyLine> lineComparator;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            point list
+	 */
 	public AlgoDelauneyTriangulation(Construction cons, String label,
 			GeoList inputList) {
-		super(cons, label, inputList, null);
+		super(cons, label, inputList);
 	}
 
 	@Override
@@ -115,9 +126,9 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 		}
 	}
 
-	/*
-	 * comparator used to eliminate duplicate objects (TreeSet deletes
-	 * duplicates ie those that return 0)
+	/**
+	 * @return comparator used to eliminate duplicate objects (TreeSet deletes
+	 *         duplicates ie those that return 0)
 	 */
 	public static Comparator<MyLine> getComparator() {
 		if (lineComparator == null) {

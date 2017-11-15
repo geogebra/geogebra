@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
-import org.geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * 
@@ -29,18 +28,26 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  */
 
 public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
-
-	protected GeoList inputList; // input
-	private GeoNumeric percentage; // input
-	protected GeoLocus locus; // output
+	/** input points */
+	protected GeoList inputList;
+	/** output locus */
+	protected GeoLocus locus;
+	/** locus points */
 	protected ArrayList<MyPoint> al;
+	/** number of points */
 	protected int size;
 
-	public AlgoDiscrete(Construction cons, String label, GeoList inputList,
-			GeoNumeric percentage) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            points
+	 */
+	public AlgoDiscrete(Construction cons, String label, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
-		this.percentage = percentage;
 
 		locus = new GeoLocus(cons);
 
@@ -51,16 +58,17 @@ public abstract class AlgoDiscrete extends AlgoElement implements GraphAlgo {
 
 	@Override
 	protected void setInputOutput() {
-		input = new GeoElement[percentage == null ? 1 : 2];
+		input = new GeoElement[1];
 		input[0] = inputList;
-		if (percentage != null) {
-			input[1] = percentage;
-		}
+
 
 		setOnlyOutput(locus);
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return locus
+	 */
 	public GeoLocus getResult() {
 		return locus;
 	}

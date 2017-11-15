@@ -20,8 +20,12 @@ import edu.uci.ics.jung.graph.Forest;
 import edu.uci.ics.jung.graph.UndirectedSparseMultigraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
+/**
+ * Minimum spanning tree algo
+ */
 public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 
+	/** number of edges */
 	protected int edgeCount;
 
 	private static Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
@@ -31,9 +35,17 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 		}
 	};
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            points
+	 */
 	public AlgoMinimumSpanningTree(Construction cons, String label,
 			GeoList inputList) {
-		super(cons, label, inputList, null);
+		super(cons, label, inputList);
 	}
 
 	@Override
@@ -72,7 +84,9 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 					nodes.put(p2, node2);
 				}
 
-				g.addEdge(new MyLink(p1.distance(p2), node1, node2), node1,
+				g.addEdge(
+						new MyLink(p1.distance(p2), node1, node2, edgeCount++),
+						node1,
 						node2, EdgeType.UNDIRECTED);
 
 			}
@@ -110,13 +124,29 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 
 	}
 
-	class MyLink {
-		protected MyNode n1, n2;
+	/** Graph edge */
+	static class MyLink {
+		/** start point */
+		protected MyNode n1;
+		/** end point */
+		protected MyNode n2;
+		/** length */
 		double weight;
+		/** identifier */
 		int id;
 
-		public MyLink(double weight, MyNode n1, MyNode n2) {
-			this.id = edgeCount++; // This is defined in the outer class.
+		/**
+		 * @param weight
+		 *            length
+		 * @param n1
+		 *            start point
+		 * @param n2
+		 *            end point
+		 * @param id
+		 *            identifier
+		 */
+		public MyLink(double weight, MyNode n1, MyNode n2, int id) {
+			this.id = id; // This is defined in the outer class.
 			this.weight = weight;
 			this.n1 = n1;
 			this.n2 = n2;

@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.discrete.AlgoMinimumSpanningTree.MyLink;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -22,15 +23,32 @@ import edu.uci.ics.jung.algorithms.shortestpath.DijkstraShortestPath;
 import edu.uci.ics.jung.graph.SparseMultigraph;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
+/**
+ * Shortest path in graph
+ */
 public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
+	private GeoPointND start;
+	private GeoPointND end;
+	private GeoList inputList;
+	private GeoLocus locus;
+	private GeoBoolean weighted;
+	private ArrayList<MyPoint> al;
+	private int edgeCount = 0;
 
-	GeoPointND start, end;
-	GeoList inputList;
-	GeoLocus locus;
-	GeoBoolean weighted;
-	protected ArrayList<MyPoint> al;
-	protected int edgeCount = 0;
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            set of vertices
+	 * @param start
+	 *            start point
+	 * @param end
+	 *            end point
+	 * @param weighted
+	 *            whether to use Euclidian length
+	 */
 	public AlgoShortestDistance(Construction cons, String label,
 			GeoList inputList, GeoPointND start, GeoPointND end,
 			GeoBoolean weighted) {
@@ -60,6 +78,9 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting locus (shortest path)
+	 */
 	public GeoLocus getResult() {
 		return locus;
 	}
@@ -126,7 +147,9 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 				}
 
 				// add edge to graph
-				g.addEdge(new MyLink(seg.getLength(), node1, node2), node1,
+				g.addEdge(
+						new MyLink(seg.getLength(), node1, node2, edgeCount++),
+						node1,
 						node2, EdgeType.UNDIRECTED);
 
 			}
@@ -196,30 +219,9 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 			}
 
 			al.add(pt);
-
 		}
 
 		locus.setPoints(al);
 		locus.setDefined(true);
-
 	}
-
-	class MyLink {
-		protected MyNode n1, n2;
-		double weight;
-		int id;
-
-		public MyLink(double weight, MyNode n1, MyNode n2) {
-			this.id = edgeCount++; // This is defined in the outer class.
-			this.weight = weight;
-			this.n1 = n1;
-			this.n2 = n2;
-		}
-
-		@Override
-		public String toString() { // Always good for debugging
-			return "Edge" + id;
-		}
-	}
-
 }

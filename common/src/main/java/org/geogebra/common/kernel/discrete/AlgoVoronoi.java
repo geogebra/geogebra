@@ -18,11 +18,22 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Voronoi diagram
+ */
 public class AlgoVoronoi extends AlgoDiscrete {
 	private static Comparator<GPoint2D> pointComparator;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param inputList
+	 *            points
+	 */
 	public AlgoVoronoi(Construction cons, String label, GeoList inputList) {
-		super(cons, label, inputList, null);
+		super(cons, label, inputList);
 	}
 
 	@Override
@@ -152,9 +163,9 @@ public class AlgoVoronoi extends AlgoDiscrete {
 
 	}
 
-	/*
-	 * comparator used to eliminate duplicate objects (TreeSet deletes
-	 * duplicates ie those that return 0)
+	/**
+	 * @return comparator used to eliminate duplicate objects (TreeSet deletes
+	 *         duplicates ie those that return 0)
 	 */
 	public static Comparator<GPoint2D> getPointComparator() {
 		if (pointComparator == null) {
