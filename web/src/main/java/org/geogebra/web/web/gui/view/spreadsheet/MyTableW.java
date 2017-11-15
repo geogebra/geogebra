@@ -24,17 +24,14 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTableModel;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.ggbjdk.java.awt.DefaultBasicStroke;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -68,42 +65,43 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * HTML5 implementation of spreadsheet table
+ */
 @SuppressWarnings("javadoc")
 public class MyTableW implements /* FocusListener, */MyTable {
 
 	private int tableMode = MyTable.TABLE_MODE_STANDARD;
-
+	/** dot for rectangle selection */
 	public static final int DOT_SIZE = 6;
-	public static final int LINE_THICKNESS1 = 3;
-	public static final int LINE_THICKNESS2 = 2;
-	public static final GColor SELECTED_BACKGROUND_COLOR = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR;
-	public static final GColor SELECTED_BACKGROUND_COLOR_HEADER = GeoGebraColorConstants
-			.TABLE_SELECTED_BACKGROUND_COLOR_HEADER;
-	public static final GColor BACKGROUND_COLOR_HEADER = GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER;
-	public static final GColor TABLE_GRID_COLOR = GeoGebraColorConstants.GRAY2;
-	public static final GColor HEADER_GRID_COLOR = GeoGebraColorConstants.GRAY4;
+
+	/** Selection rectangle color */
 	public static final GColor SELECTED_RECTANGLE_COLOR = GColor.BLUE;
 
-	final static double dash1[] = { 2.0 };
-	final static GBasicStrokeW dashed = new GBasicStrokeW(3.0,
-			DefaultBasicStroke.CAP_BUTT, DefaultBasicStroke.JOIN_MITER, 10.0,
-			dash1);
+	// final static double dash1[] = { 2.0 };
+	// final static GBasicStrokeW dashed = new GBasicStrokeW(3.0,
+	// DefaultBasicStroke.CAP_BUTT, DefaultBasicStroke.JOIN_MITER, 10.0,
+	// dash1);
 
 	protected Kernel kernel;
+	/** application */
 	protected AppW app;
 	private MyCellEditorW editor;
 
-
+	/** copy/paste utility */
 	public CopyPasteCut copyPasteCut;
 
 	// protected SpreadsheetColumnControllerW.ColumnHeaderRenderer
 	// columnHeaderRenderer;
 	// protected SpreadsheetRowHeaderW.RowHeaderRenderer rowHeaderRenderer;
-
+	/** view */
 	protected SpreadsheetViewW view;
+	/** table model */
 	protected SpreadsheetTableModel tableModel;
+	/** cell processor */
 	private CellRangeProcessor crProcessor;
 	// private MyTableColumnModelListener columnModelListener;
+	/** Cell renderer */
 	MyCellRendererW defaultTableCellRenderer;
 
 	private CellFormatInterface formatHandler;
@@ -597,6 +595,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
+	/**
+	 * @return wrapping panel
+	 */
 	public AbsolutePanel getGridPanel() {
 		return gridPanel;
 	}
@@ -666,10 +667,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return kernel;
 	}
 
+	/**
+	 * @return table model
+	 */
 	public SpreadsheetTableModel getModel() {
 		return tableModel;
 	}
 
+	/**
+	 * @return GWT widget
+	 */
 	public Grid getTableImpl() {
 		return ssGrid;
 	}
@@ -1374,10 +1381,17 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		return isSelectAll;
 	}
 
+	/**
+	 * @param isSelectAll
+	 *            whether all cells are selected
+	 */
 	public void setSelectAll(boolean isSelectAll) {
 		this.isSelectAll = isSelectAll;
 	}
 
+	/**
+	 * @return selected column indices
+	 */
 	public ArrayList<Integer> getSelectedColumnsList() {
 
 		ArrayList<Integer> columns = new ArrayList<Integer>();
@@ -1947,7 +1961,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					}
 				}
 
-				if (view != null) {
+				if (view != null && updateSettings) {
 					view.updatePreferredRowHeight(rowHeight2);
 				}
 

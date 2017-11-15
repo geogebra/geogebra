@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.MyImageW;
@@ -33,6 +34,9 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Cell content renderer
+ */
 public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 
 	// ggb fields
@@ -55,8 +59,11 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	 * Constructor
 	 * 
 	 * @param app
+	 *            application
 	 * @param view
+	 *            view
 	 * @param formatHandler
+	 *            formatter
 	 */
 	public MyCellRendererW(AppW app, SpreadsheetViewW view,
 			MyTableW table, CellFormat formatHandler) {
@@ -287,7 +294,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 				if (bgColor != null) {
 					bgColor = bgColor.darker();
 				} else {
-					bgColor = MyTableW.SELECTED_BACKGROUND_COLOR;
+					bgColor = GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR;
 				}
 			}
 		}
