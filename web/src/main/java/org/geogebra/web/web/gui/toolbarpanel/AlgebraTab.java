@@ -132,10 +132,17 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 
 	/**
 	 * Give focus to AV Input.
+	 * 
+	 * @return if focusing was successful.
 	 */
-	public void focusInput() {
+	public boolean focusInput() {
 		RadioTreeItem input = aview.getInputTreeItem();
+		if (input == null || !input.isVisible()) {
+			return false;
+		}
+
 		input.getLatexController().stopEdit();
 		input.ensureEditing();
+		return true;
 	}
 }

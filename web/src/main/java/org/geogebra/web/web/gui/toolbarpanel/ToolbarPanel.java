@@ -884,10 +884,12 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		header.focusMenu();
 	}
 
-	/** Sets focus to AV Input */
-	public void focusInput() {
-		if (isAlgebraViewActive()) {
-			tabAlgebra.focusInput();
-		}
+	/**
+	 * Sets focus to AV Input
+	 * 
+	 * @return if input can be focused.
+	 */
+	public boolean focusInput() {
+		return isAlgebraViewActive() && tabAlgebra.focusInput();
 	}
 }

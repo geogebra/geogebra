@@ -45,20 +45,25 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (source instanceof LatexTreeItemController) {
 			focusMenu();
 		} else if (source instanceof ZoomPanel) {
-			if (gm.getToolbarPanelV2().isAlgebraViewActive()) {
-				focusFirstGeo();
-			} else {
-				focusMenu();
+			if (!focusFirstGeo()) {
+				focusInputAsNext();
 			}
 		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
-			focusInput();
+			focusInputAsNext();
 		}
 	}
 	
-	private void focusInput() {
-		gm.getToolbarPanelV2().focusInput();
+	private boolean focusInput() {
+		return gm.getToolbarPanelV2().focusInput();
+	}
+
+	private void focusInputAsNext() {
+		if (!focusInput()) {
+			focusMenu();
+		}
+
 	}
 
 	@Override
@@ -96,7 +101,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 
 		if (source.getTabIndex() == GUITabs.MENU) {
-			focusInput();
+			if (!focusInput()) {
+				if (!focusLastGeo()) {
+					focusZoom(false);
+				}
+			}
 		}
 	}
 
@@ -120,7 +129,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private boolean focusFirstGeo() {
 		Construction cons = app.getKernel().getConstruction();
 		if (cons.isEmpty()) {
-			focusInput();
 			return false;
 		}
 
@@ -131,7 +139,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private boolean focusLastGeo() {
 		Construction cons = app.getKernel().getConstruction();
 		if (cons.isEmpty()) {
-			focusZoom(false);
 			return false;
 		}
 
