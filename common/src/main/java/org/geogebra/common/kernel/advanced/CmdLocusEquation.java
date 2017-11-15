@@ -102,7 +102,6 @@ public class CmdLocusEquation extends CommandProcessor {
 		}
 		AlgoLocusEquation algo = new AlgoLocusEquation(cons, locusPoint,
 				movingPoint);
-		cons.addToConstructionList(algo, true);
 		GeoImplicit poly = algo.getPoly();
 
 		poly.setLabel(label);

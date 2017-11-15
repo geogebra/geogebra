@@ -140,30 +140,34 @@ public abstract class CommandProcessor {
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
+		GeoElement[] result;
 
-		// resolve arguments to get GeoElements
-		ExpressionNode[] arg = c.getArguments();
-		// name of replace variable of "x"/"y"
-		EvalInfo argInfo = info.withLabels(false);
-		String[] newXYZ = replaceXYarguments(arg);
-		GeoElement[] result = new GeoElement[arg.length];
+		try {
+			// resolve arguments to get GeoElements
+			ExpressionNode[] arg = c.getArguments();
+			// name of replace variable of "x"/"y"
+			EvalInfo argInfo = info.withLabels(false);
+			String[] newXYZ = replaceXYarguments(arg);
+			result = new GeoElement[arg.length];
 
-		for (int i = 0; i < arg.length; ++i) {
-			// resolve variables in argument expression
-			arg[i].resolveVariables(argInfo);
+			for (int i = 0; i < arg.length; ++i) {
+				// resolve variables in argument expression
+				arg[i].resolveVariables(argInfo);
 
-			// resolve i-th argument and get GeoElements
-			// use only first resolved argument object for result
-			result[i] = resArg(arg[i], argInfo)[0];
-		}
-
-		// remove added variables from construction
-		if (newXYZ != null) {
-			for (int i = 0; i < 3; i++) {
-				cons.removeLocalVariable(newXYZ[i]);
+				// resolve i-th argument and get GeoElements
+				// use only first resolved argument object for result
+				result[i] = resArg(arg[i], argInfo)[0];
 			}
+
+			// remove added variables from construction
+			if (newXYZ != null) {
+				for (int i = 0; i < 3; i++) {
+					cons.removeLocalVariable(newXYZ[i]);
+				}
+			}
+		} finally {
+			cons.setSuppressLabelCreation(oldMacroMode);
 		}
-		cons.setSuppressLabelCreation(oldMacroMode);
 		return result;
 	}
 
