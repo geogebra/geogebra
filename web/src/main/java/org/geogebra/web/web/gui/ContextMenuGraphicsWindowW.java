@@ -71,7 +71,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			setTitle(loc.getMenu("DrawingPad"));
 		}
 		if (app.isUnbundledOrWhiteboard()) {
-			addAxesMenuItem();
+			addAxesMenuItem(1);
 			addGridMenuItem();
 			addSnapToGridMenuItem();
 			addClearTraceMenuItem();
@@ -209,24 +209,29 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 	/**
 	 * add axes menu item with check mark
+	 * 
+	 * @param settingsID
+	 *            id of EuclidianSettings
 	 */
-	protected void addAxesMenuItem() {
+	protected void addAxesMenuItem(final int settingsID) {
 		String img = MaterialDesignResources.INSTANCE.axes_black()
 					.getSafeUri().asString();
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAxes")),
 				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
 						.asString(),
-				app.getSettings().getEuclidian(1).getShowAxis(0)
-						&& app.getSettings().getEuclidian(1).getShowAxis(1));
+				app.getSettings().getEuclidian(settingsID).getShowAxis(0)
+						&& app.getSettings().getEuclidian(settingsID)
+								.getShowAxis(1));
 		showAxes.setCommand(new Command() {
 			@Override
 			public void execute() {
-				boolean axisShown = app.getSettings().getEuclidian(1)
+				boolean axisShown = app.getSettings().getEuclidian(settingsID)
 						.getShowAxis(0)
-						&& app.getSettings().getEuclidian(1).getShowAxis(1);
-				app.getSettings().getEuclidian(1).setShowAxes(!axisShown);
-				app.getActiveEuclidianView().setShowAxis(!axisShown);
+						&& app.getSettings().getEuclidian(settingsID)
+								.getShowAxis(1);
+				app.getSettings().getEuclidian(settingsID)
+						.setShowAxes(!axisShown);
 				showAxes.setChecked(!axisShown);
 				app.getActiveEuclidianView().repaintView();
 				app.storeUndoInfo();

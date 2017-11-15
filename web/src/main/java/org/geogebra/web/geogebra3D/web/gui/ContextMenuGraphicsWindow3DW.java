@@ -62,7 +62,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 	}
 
 	private void buildGUI3DUnbundled() {
-		super.addAxesMenuItem();
+		super.addAxesMenuItem(3);
 		addPlaneMenuItem();
 		addGridMenuItem();
 		addProjectionMenuItem();
