@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.Persistable;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
@@ -27,6 +28,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
@@ -113,21 +115,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void createCenter() {
+		SVGResource img;
 		if (!app.isUnbundledGeometry()) {
-			btnAlgebra = new MyToggleButton(
-					new Image(new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE
-							.toolbar_algebra_graphing().getSafeUri(),
-					0, 0, 24, 24, false, false)),
-					app);
+			img = MaterialDesignResources.INSTANCE.toolbar_algebra_graphing();
 		} else {
-			btnAlgebra = new MyToggleButton(
-					new Image(new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE
-									.toolbar_algebra_geometry().getSafeUri(),
-							0, 0, 24, 24, false, false)),
-				app);
+			img = MaterialDesignResources.INSTANCE.toolbar_algebra_geometry();
 		}
+		btnAlgebra = new MyToggleButton(new Image(new ImageResourcePrototype(
+				null, img.getSafeUri(), 0, 0, 24, 24, false, false)), app);
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -142,8 +137,12 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 
 		if (app.has(Feature.TAB_ON_GUI)) {
-			btnAlgebra.ignoreTab();
-			btnTools.ignoreTab();
+			if (btnAlgebra != null) {
+				btnAlgebra.ignoreTab();
+			}
+			if (btnTools != null) {
+				btnTools.ignoreTab();
+			}
 		}
 
 		center = new FlowPanel();
@@ -800,17 +799,19 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * Sets tab order for header buttons.
 	 */
 	public void setTabIndexes() {
-		btnMenu.setTabIndex(GUITabs.MENU);
-		btnClose.setTabIndex(GUITabs.HEADER_CLOSE);
-		if (btnUndo != null) {
-			btnUndo.setTabIndex(GUITabs.UNDO);
-		}
-
-		if (btnRedo != null) {
-			btnRedo.setTabIndex(GUITabs.REDO);
-		}
+		tabIndex(btnMenu, GUITabs.MENU);
+		tabIndex(btnClose, GUITabs.HEADER_CLOSE);
+		tabIndex(btnUndo, GUITabs.UNDO);
+		tabIndex(btnRedo, GUITabs.REDO);
 
 		setAltTexts();
+	}
+
+	private void tabIndex(CustomButton btn, int index) {
+		if (btn != null) {
+			btn.setTabIndex(index);
+		}
+
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
