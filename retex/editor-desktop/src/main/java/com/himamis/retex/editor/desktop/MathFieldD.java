@@ -238,7 +238,7 @@ public class MathFieldD extends JLabel implements MathField {
 	}
 
 	@Override
-	public void tab() {
+	public void tab(boolean shiftDown) {
 		// TODO Auto-generated method stub
 		
 	}
