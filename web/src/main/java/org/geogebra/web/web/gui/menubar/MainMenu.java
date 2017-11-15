@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.menubar;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -41,17 +40,19 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  * 
  */
-public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, BooleanRenderable {
-	
+public class MainMenu extends FlowPanel
+		implements MainMenuI, EventRenderable, BooleanRenderable {
+
 	/**
 	 * Appw app
 	 */
-	/*private MenuItem signIn;
-	private SignedInMenuW signedIn;
-	private MenuItem signedInMenu;*/
-	
+	/*
+	 * private MenuItem signIn; private SignedInMenuW signedIn; private MenuItem
+	 * signedInMenu;
+	 */
+
 	AppW app;
-	
+
 	/**
 	 * Panel with menus
 	 */
@@ -119,7 +120,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();
-		if(app.enableFileFeatures()){
+		if (app.enableFileFeatures()) {
 			this.createFileMenu();
 		}
 		if (app.isUnbundledOrWhiteboard()) {
@@ -127,7 +128,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 
 		boolean enableGraph = !exam || app.enableGraphing();
-		if (enableGraph){
+		if (enableGraph) {
 			this.createPerspectivesMenu();
 			this.createEditMenu();
 			this.createViewMenu();
@@ -143,7 +144,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			if (app.enableFileFeatures()) {
 				menus.add(fileMenu);
 			}
-			
+
 			menus.add(editMenu);
 			if (app.isUnbundledOrWhiteboard()) {
 				menus.add(downloadMenu);
@@ -157,7 +158,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			menus.add(toolsMenu);
 			menus.add(helpMenu);
 
-			
 			if (app.enableFileFeatures()) {
 				menus.add(signInMenu);
 			}
@@ -168,17 +168,15 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 		menuTitles.clear();
 		menuImgs.clear();
-		
+
 		initKeyListener();
 		initStackPanel();
 		initLogoMenu();
 
-		if(app.enableFileFeatures()){	
+		if (app.enableFileFeatures()) {
 			if (app.isUnbundledOrWhiteboard()) {
-				this.menuPanel.add(fileMenu,
-						getHTMLCollapse(
-								MaterialDesignResources.INSTANCE
-										.insert_file_black(),
+				this.menuPanel.add(fileMenu, getHTMLCollapse(
+						MaterialDesignResources.INSTANCE.insert_file_black(),
 						"File"), true);
 				// fileMenu.getElement().removeClassName("collapse");
 				// fileMenu.getElement().addClassName("expand");
@@ -187,8 +185,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						MaterialDesignResources.INSTANCE.insert_file_black());
 			} else {
 				this.menuPanel.add(fileMenu,
-						getHTML(GuiResources.INSTANCE.menu_icon_file(),
-								"File"),
+						getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"),
 						true);
 			}
 		}
@@ -201,36 +198,36 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						true);
 			} else {
 				this.menuPanel.add(editMenu,
-						getHTML(GuiResources.INSTANCE.menu_icon_edit(),
-								"Edit"),
-					true);
+						getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"),
+						true);
 			}
 
 			if (app.isUnbundledOrWhiteboard()) {
-				this.menuPanel.add(downloadMenu, getExpandCollapseHTML(
-						MaterialDesignResources.INSTANCE.file_download_black(),
-						"DownloadAs"), true);
+				this.menuPanel
+						.add(downloadMenu,
+								getExpandCollapseHTML(
+										MaterialDesignResources.INSTANCE
+												.file_download_black(),
+										"DownloadAs"),
+								true);
 				this.menuPanel.add(perspectiveMenuUnbundled,
-						getExpandCollapseHTML(
-								MaterialDesignResources.INSTANCE
-										.geogebra_black(),
-								"Apps"),
+						getExpandCollapseHTML(MaterialDesignResources.INSTANCE
+								.geogebra_black(), "Apps"),
 						true);
 			} else {
-				this.menuPanel
-					.add(perspectivesMenu,
-								getHTML(GuiResources.INSTANCE
-												.menu_icon_perspectives(),
-										"Perspectives"),
-							true);
+				this.menuPanel.add(perspectivesMenu,
+						getHTML(GuiResources.INSTANCE.menu_icon_perspectives(),
+								"Perspectives"),
+						true);
 			}
 
 			if (!app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(viewMenu,
 						getHTML(app.isUnbundled()
 								? MaterialDesignResources.INSTANCE.home_black()
-							: GuiResources.INSTANCE.menu_icon_view(), "View"),
-					true);
+								: GuiResources.INSTANCE.menu_icon_view(),
+								"View"),
+						true);
 			}
 
 		}
@@ -239,13 +236,14 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.menuPanel.add(optionsMenu,
 					getHTML(GuiResources.INSTANCE.menu_icon_options(),
 							"Options"),
-				true);
+					true);
 		} else {
 			settingsMenu = new GMenuBar(true, "", app);
-			this.menuPanel.add(settingsMenu,
-					getHTML(MaterialDesignResources.INSTANCE.gear(),
-							app.getLocalization().getMenu("Settings")),
-					true);
+			this.menuPanel
+					.add(settingsMenu,
+							getHTML(MaterialDesignResources.INSTANCE.gear(),
+									app.getLocalization().getMenu("Settings")),
+							true);
 			menuTitles.add("Settings");
 			menuImgs.add(MaterialDesignResources.INSTANCE.gear());
 			languageMenu = new GMenuBar(true, "", app);
@@ -258,30 +256,31 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 		if (!app.getLAF().isSmart() && enableGraph
 				&& !app.isUnbundledOrWhiteboard()) {
-			this.menuPanel.add(toolsMenu,
-					getHTML(app.isUnbundled()
-							? MaterialDesignResources.INSTANCE.tools_black()
-							: GuiResources.INSTANCE.menu_icon_tools(), "Tools"),
+			this.menuPanel.add(
+					toolsMenu, getHTML(
+							app.isUnbundled()
+									? MaterialDesignResources.INSTANCE
+											.tools_black()
+									: GuiResources.INSTANCE.menu_icon_tools(),
+							"Tools"),
 					true);
 		}
 		if (!exam) {
 			if (app.isUnbundledOrWhiteboard()) {
 				this.menuPanel.add(helpMenu, getExpandCollapseHTML(
-								MaterialDesignResources.INSTANCE
-								.icon_help_black(),
+						MaterialDesignResources.INSTANCE.icon_help_black(),
 						"Help"), true);
 			} else {
 				this.menuPanel.add(helpMenu,
-						getHTML(GuiResources.INSTANCE.menu_icon_help(),
-								"Help"),
-					true);
+						getHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"),
+						true);
 			}
-			if(app.getNetworkOperation().isOnline()){
+			if (app.getNetworkOperation().isOnline()) {
 				render(true);
 			}
 			app.getNetworkOperation().getView().add(this);
 		}
-	    this.add(menuPanel);	    
+		this.add(menuPanel);
 	}
 
 	private void initLogoMenu() {
@@ -303,24 +302,20 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		} else {
 			AppType appType = app.getSettings().getToolbarSettings().getType();
 			SVGResource icon = appType.equals(AppType.GRAPHING_CALCULATOR)
-							? MaterialDesignResources.INSTANCE.graphing()
+					? MaterialDesignResources.INSTANCE.graphing()
 					: (appType.equals(AppType.GRAPHER_3D)
-							&& app.has(Feature.UNBUNDLED_3D_APP)
-									? MaterialDesignResources.INSTANCE
-											.graphing3D()
-									: MaterialDesignResources.INSTANCE
-											.geometry());
+							? MaterialDesignResources.INSTANCE.graphing3D()
+							: MaterialDesignResources.INSTANCE.geometry());
 			logoMenu = new GMenuBar(true, "", app);
 			logoMenu.setStyleName("logoMenu");
 			this.menuPanel.add(logoMenu, getHTML(icon,
 					appType.equals(AppType.GRAPHING_CALCULATOR)
-									? app.getLocalization().getMenu(
-											"GeoGebraGraphingCalculator")
+							? app.getLocalization()
+									.getMenu("GeoGebraGraphingCalculator")
 							: appType.equals(AppType.GRAPHER_3D)
-									&& app.has(Feature.UNBUNDLED_3D_APP)
-											? app.getLocalization().getMenu(
-													"GeoGebra3DGrapher")
-											: app.getLocalization()
+									? app.getLocalization()
+											.getMenu("GeoGebra3DGrapher")
+									: app.getLocalization()
 											.getMenu("GeoGebraGeometry")),
 					true);
 		}
@@ -330,8 +325,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		this.menuPanel = new StackPanel() {
 			@Override
 			public void showStack(int index) {
-				if (app.isUnbundledOrWhiteboard()
-						&& index == 0) {
+				if (app.isUnbundledOrWhiteboard() && index == 0) {
 					super.showStack(1);
 				} else {
 					super.showStack(index);
@@ -347,8 +341,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					}
 				}
 				dispatchOpenEvent();
-				if (app.isUnbundledOrWhiteboard()
-						&& index == 0) {
+				if (app.isUnbundledOrWhiteboard() && index == 0) {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(1)), false);
 				} else {
@@ -427,9 +420,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			// violator pattern from
 			// https://code.google.com/archive/p/google-web-toolkit/issues/1188
 			private native void closeAll(StackPanel stackPanel) /*-{
-		          stackPanel.@com.google.gwt.user.client.ui.StackPanel::setStackVisible(IZ)(stackPanel. @com.google.gwt.user.client.ui.StackPanel::visibleStack, false);
-		          stackPanel.@com.google.gwt.user.client.ui.StackPanel::visibleStack = -1; 
-		     }-*/;
+																stackPanel.@com.google.gwt.user.client.ui.StackPanel::setStackVisible(IZ)(stackPanel. @com.google.gwt.user.client.ui.StackPanel::visibleStack, false);
+																stackPanel.@com.google.gwt.user.client.ui.StackPanel::visibleStack = -1; 
+																}-*/;
 
 			private int findDividerIndex(Element elemSource) {
 				Element elem = elemSource;
@@ -503,24 +496,24 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	@Override
 	public void render(boolean online) {
-		if(!app.enableFileFeatures()){
+		if (!app.enableFileFeatures()) {
 			return;
 		}
 		if (online && app.getLoginOperation().isLoggedIn()) {
 			loggedIn = true;
 			addUserMenu();
-		} else if(online){
+		} else if (online) {
 			addSignInMenu();
 		} else {
 			loggedIn = false;
-			if(this.signInMenu != null){
+			if (this.signInMenu != null) {
 				this.menuPanel.remove(this.signInMenu);
 			}
-			if(this.userMenu != null){
+			if (this.userMenu != null) {
 				this.menuPanel.remove(this.userMenu);
 			}
 		}
-    }
+	}
 
 	private void createUserMenu() {
 		this.userMenu = new GMenuBar(true, "user", app);
@@ -534,25 +527,26 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						app.isUnbundledOrWhiteboard()
 								? MaterialDesignResources.INSTANCE
 										.signout_black().getSafeUri().asString()
-								: GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri()
-								.asString(),
+								: GuiResources.INSTANCE.menu_icon_sign_out()
+										.getSafeUri().asString(),
 						app.getLocalization().getMenu("SignOut"), true),
 				true, new MenuCommand(app) {
 
-			@Override
-            public void doExecute() {
-				app.getLoginOperation().performLogOut();
-			}
-		});
-    }
+					@Override
+					public void doExecute() {
+						app.getLoginOperation().performLogOut();
+					}
+				});
+	}
 
 	private String getHTML(ResourcePrototype img, String s) {
-		//return  "<img src=\""+img.getSafeUri().asString()+"\" /><span style= \"font-size:80% \"  >" + s + "</span>";
+		// return "<img src=\""+img.getSafeUri().asString()+"\" /><span style=
+		// \"font-size:80% \" >" + s + "</span>";
 		return "<img src=\"" + ImgResourceHelper.safeURI(img)
 				+ "\" draggable=\"false\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>";
 	}
-	
+
 	/**
 	 * @param img
 	 *            - menu item img
@@ -563,9 +557,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	String getHTMLExpand(SVGResource img, String s) {
 		return "<img src=\"" + img.getSafeUri().asString()
 				+ "\" draggable=\"false\" aria-hidden=\"true\"><span>"
-				+ app.getLocalization().getMenu(s) + "</span>"
-				+ "<img src=\"" + MaterialDesignResources.INSTANCE
-						.expand_black().getSafeUri().asString()
+				+ app.getLocalization().getMenu(s) + "</span>" + "<img src=\""
+				+ MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
+						.asString()
 				+ "\" class=\"expandImg\" draggable=\"false\" aria-label=\"expand\" role=\"button\">";
 	}
 
@@ -607,13 +601,13 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private void createEditMenu() {
 		editMenu = new EditMenuW(app);
 	}
-	
+
 	private void createViewMenu() {
 		if (!app.isUnbundled()) {
 			viewMenu = new ViewMenuW(app);
 		}
 	}
-	
+
 	private void createHelpMenu() {
 		helpMenu = new HelpMenuW(app);
 	}
@@ -627,33 +621,30 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 
 	private EditMenuW getEditMenu() {
-	    return editMenu;
-    }
-
+		return editMenu;
+	}
 
 	/**
 	 * Update all submenus that depend on file content
 	 */
 	public void updateMenubar() {
-		if(app.hasOptionsMenu()){
+		if (app.hasOptionsMenu()) {
 			app.getOptionsMenu(null).update();
 		}
-		if(viewMenu != null){
+		if (viewMenu != null) {
 			viewMenu.update();
 		}
 
 		if (this.getEditMenu() != null) {
 			getEditMenu().update();
 		}
-    }
-	
-
+	}
 
 	/**
 	 * Update on selection change
 	 */
 	public void updateSelection() {
-		if(this.getEditMenu()!=null){
+		if (this.getEditMenu() != null) {
 			getEditMenu().invalidate();
 		}
 	}
@@ -661,8 +652,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	/**
 	 * Focus a submenu (the last selected one if possible)
 	 */
-	public void focus(){
-		int index= Math.max(menuPanel.getSelectedIndex(),0);
+	public void focus() {
+		int index = Math.max(menuPanel.getSelectedIndex(), 0);
 		if (this.menus.get(index) != null) {
 			this.menus.get(index).focus();
 		}
@@ -685,7 +676,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 						.getSafeUri().asString());
 		arrowSubmenu.add(arrow);
 		w.getElement().appendChild(arrowSubmenu.getElement());
-    }
+	}
 
 	/**
 	 * @param url
@@ -696,16 +687,16 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	 *            whether the item is enabled (otherwise it's grayed)
 	 * @return menu item as HTML
 	 */
-	public static String getMenuBarHtml(String url, String str, boolean enabled) {
+	public static String getMenuBarHtml(String url, String str,
+			boolean enabled) {
 		String text2 = str.replace("\"", "'");
-		String text3 = (enabled) ? text2 :  "<span style=\"color:gray;\">"+text2+"</span>";
+		String text3 = (enabled) ? text2
+				: "<span style=\"color:gray;\">" + text2 + "</span>";
 		return "<img class=\"GeoGebraMenuImage menuImg\" alt=\"" + text2
-				+ "\" src=\""
-				+ url + "\" draggable=\"false\" aria-hidden=\"true\">"
-				+ text3;
+				+ "\" src=\"" + url
+				+ "\" draggable=\"false\" aria-hidden=\"true\">" + text3;
 	}
 
-	
 	/**
 	 * @param url
 	 *            image URL
@@ -716,9 +707,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	public static String getMenuBarHtml(String url, String str) {
 		String text = str.replace("\"", "'");
 		return "<img class=\"menuImg\" width=\"16\" height=\"16\" alt=\"" + text
-				+ "\" src=\""
-				+ url + "\" draggable=\"false\" aria-hidden=\"true\">"
-				+ text;
+				+ "\" src=\"" + url
+				+ "\" draggable=\"false\" aria-hidden=\"true\">" + text;
 	}
 
 	/**
@@ -734,21 +724,24 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			m.removeStyleName("checked");
 		}
 	}
-	
+
 	/**
 	 * sets the height of the menu
-	 * @param height int
+	 * 
+	 * @param height
+	 *            int
 	 */
 	public void updateHeight(int height) {
 		this.setHeight(height + "px");
-    }
+	}
 
 	@Override
 	public void renderEvent(final BaseEvent event) {
-		if(!app.enableFileFeatures()){
+		if (!app.enableFileFeatures()) {
 			return;
 		}
-		if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
+		if (event instanceof LoginEvent
+				&& ((LoginEvent) event).isSuccessful()) {
 			if (loggedIn) {
 				this.menuPanel.remove(this.userMenu);
 			}
@@ -764,16 +757,18 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		}
 	}
 
-    private void addSignInMenu() {
-		this.menuPanel.add(this.signInMenu,
-				getHTML(app.isUnbundledOrWhiteboard()
-						? MaterialDesignResources.INSTANCE.signin_black()
-						: GuiResources.INSTANCE.menu_icon_sign_in(),
+	private void addSignInMenu() {
+		this.menuPanel
+				.add(this.signInMenu,
+						getHTML(app.isUnbundledOrWhiteboard()
+								? MaterialDesignResources.INSTANCE
+										.signin_black()
+								: GuiResources.INSTANCE.menu_icon_sign_in(),
 						app.getLocalization().getMenu("SignIn")),
 				true);
-    }
+	}
 
-    private void addUserMenu() {
+	private void addUserMenu() {
 		if (app.isUnbundledOrWhiteboard()) {
 			this.menuPanel.add(this.userMenu,
 					getExpandCollapseHTML(
@@ -781,14 +776,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 							app.getLoginOperation().getUserName()),
 					true);
 		} else {
-			this.menuPanel
-				.add(this.userMenu,
-							getHTML(GuiResources.INSTANCE
-									.menu_icon_signed_in_f(),
-									app.getLoginOperation().getUserName()),
-						true);
+			this.menuPanel.add(this.userMenu,
+					getHTML(GuiResources.INSTANCE.menu_icon_signed_in_f(),
+							app.getLoginOperation().getUserName()),
+					true);
 		}
-    }
+	}
 
 	/**
 	 * Inform client listener about opening the menu
@@ -802,9 +795,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			if (index < 0 || index > menus.size() - 1) {
 				index = 0;
 			}
-			app.dispatchEvent(new org.geogebra.common.plugin.Event(
-					EventType.OPEN_MENU, null,
-					menus.get(index).getMenuTitle()));
+			app.dispatchEvent(
+					new org.geogebra.common.plugin.Event(EventType.OPEN_MENU,
+							null, menus.get(index).getMenuTitle()));
 		}
 	}
 

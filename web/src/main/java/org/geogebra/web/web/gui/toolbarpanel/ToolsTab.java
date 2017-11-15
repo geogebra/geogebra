@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.toolbarpanel;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLevel;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
@@ -135,8 +134,7 @@ class ToolsTab extends ToolbarPanel.ToolbarTab {
 				.getToolsetLevel();
 		
 		if (type.equals(AppType.GRAPHING_CALCULATOR)
-				|| (type.equals(AppType.GRAPHER_3D)
-						&& app.has(Feature.UNBUNDLED_3D_APP))) {
+				|| type.equals(AppType.GRAPHER_3D)) {
 			switch (level) {
 			case STANDARD:
 				toolsPanel.add(moreBtn);

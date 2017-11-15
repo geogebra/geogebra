@@ -4325,7 +4325,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2187 */
 		case RELATIVE_POSITION_FURNITURE:
-			return prerelease;
+			return true;
 
 		/** MOB-1310 */
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
