@@ -629,7 +629,7 @@ public class FormulaEditor extends View implements MathField {
     }
     
     @Override
-    public void tab(){
+    public void tab(boolean shift){
 
     }
 }
