@@ -436,6 +436,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		});
 		if (app.has(Feature.TAB_ON_GUI)) {
 			btnMenu.addTabHandler(this);
+			btnMenu.addKeyDownHandler(this);
 		}
 	}
 

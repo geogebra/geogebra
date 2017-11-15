@@ -345,13 +345,17 @@ public class LatexTreeItemController extends RadioTreeItemController
 		return false;
 	}
 
-	public void onTab() {
+	public void onTab(boolean shiftDown) {
 		onEnter(false, false);
 		if (item.isInputTreeItem()) {
 			item.addDummyLabel();
 			item.setItemWidth(item.getAV().getFullWidth());
 		}
 		app.hideKeyboard();
-		app.getAccessibilityManager().focusNext(this);
+		if (shiftDown) {
+			app.getAccessibilityManager().focusPrevious(this);
+		} else {
+			app.getAccessibilityManager().focusNext(this);
+		}
 	}
 }

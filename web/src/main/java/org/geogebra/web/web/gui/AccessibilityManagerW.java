@@ -67,7 +67,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return;
 		}
 
-		if (source instanceof ZoomPanel) {
+		if (source instanceof LatexTreeItemController) {
+			focusLastGeo();
+		} else if (source instanceof ZoomPanel) {
 			focusSettings();
 		} else if (source instanceof FocusWidget) {
 			focusPreviousWidget((FocusWidget) source);
@@ -92,8 +94,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return;
 		}
 
+
 		if (source.getTabIndex() == GUITabs.MENU) {
-			focusLastGeo();
+			focusInput();
 		}
 	}
 
