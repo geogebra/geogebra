@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 /**
@@ -68,6 +67,10 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 				// Log.debug("c length = " + length);
 			}
 
+			public void setColorsEmpty() {
+				bufferManager.setColorsBuffer();
+			}
+
 		}
 
 	}
@@ -103,7 +106,6 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void drawCurves(Renderer renderer) {
 		if (bufferManager.getLength() > 0) {
-			renderer.setColor(GColor.ORANGE);
 			bufferManager.draw((RendererShadersInterface) renderer);
 		}
 	}

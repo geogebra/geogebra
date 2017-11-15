@@ -246,6 +246,13 @@ public class ManagerShaders extends Manager {
 		}
 
 		/**
+		 * set color to empty
+		 */
+		public void setColorsEmpty() {
+			// not used here
+		}
+
+		/**
 		 * 
 		 * @return texture buffer
 		 */
@@ -476,6 +483,8 @@ public class ManagerShaders extends Manager {
 		public void setColors(ArrayList<Double> colors, int length) {
 			if (length == 4 * currentGeometry.getLength()) {
 				currentGeometry.setColors(colors, length);
+			} else {
+				currentGeometry.setColorsEmpty();
 			}
 		}
 

@@ -5,7 +5,18 @@ import java.util.HashMap;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 
+/**
+ * manager for packing buffers
+ */
 public class GLBufferManager {
+
+	private int currentIndex;
+	private BufferSegment currentBufferSegment, currentBufferSegmentForIndices;
+	private GLBuffer vertexBuffer, normalBuffer, colorBuffer;
+	private GLBufferIndices curvesIndices;
+	private int totalLength, indicesLength;
+	private HashMap<Integer, BufferSegment> bufferSegments, bufferSegmentsForIndices;
+	private int indicesIndex;
 
 	private class BufferSegment {
 		public int offset;
@@ -17,22 +28,19 @@ public class GLBufferManager {
 		}
 	}
 
-	private int currentIndex;
-	private BufferSegment currentBufferSegment, currentBufferSegmentForIndices;
-	private GLBuffer vertexBuffer, normalBuffer;
-	private GLBufferIndices curvesIndices;
-	private int totalLength, indicesLength;
-	private HashMap<Integer, BufferSegment> bufferSegments, bufferSegmentsForIndices;
-	private int indicesIndex;
-
+	/**
+	 * constructor
+	 */
 	public GLBufferManager() {
 		vertexBuffer = GLFactory.getPrototype().newBuffer();
 		normalBuffer = GLFactory.getPrototype().newBuffer();
+		colorBuffer = GLFactory.getPrototype().newBuffer();
 		curvesIndices = GLFactory.getPrototype().newBufferIndices();
 
-		int size1 = 2000, size2 = size1;
-		vertexBuffer.allocate(size1);
-		normalBuffer.allocate(size1);
+		int size1 = 2000, size2 = size1 * 3;
+		vertexBuffer.allocate(size1 * 3);
+		normalBuffer.allocate(size1 * 3);
+		colorBuffer.allocate(size1 * 4);
 		curvesIndices.allocate(size2);
 
 
@@ -40,30 +48,72 @@ public class GLBufferManager {
 		bufferSegmentsForIndices = new HashMap<Integer, GLBufferManager.BufferSegment>();
 	}
 
+	/**
+	 * set current geometry index
+	 * 
+	 * @param index
+	 *            index
+	 */
 	public void setCurrentIndex(int index) {
 		currentIndex = index;
 	}
 
+	/**
+	 * 
+	 * @return length
+	 */
 	public int getLength() {
 		return totalLength;
 	}
 
+	/**
+	 * 
+	 * @param array
+	 *            array
+	 * @param length
+	 *            length to set
+	 */
 	public void setVertexBuffer(ArrayList<Double> array, int length) {
 		currentBufferSegment = bufferSegments.get(currentIndex);
 		if (currentBufferSegment == null) {
-			currentBufferSegment = new BufferSegment(totalLength, length);
+			int l = length / 3;
+			currentBufferSegment = new BufferSegment(totalLength, l);
 			bufferSegments.put(currentIndex, currentBufferSegment);
-			totalLength += length;
-			vertexBuffer.setLimit(totalLength);
-			normalBuffer.setLimit(totalLength);
+			totalLength += l;
+			vertexBuffer.setLimit(totalLength * 3);
+			normalBuffer.setLimit(totalLength * 3);
+			colorBuffer.setLimit(totalLength * 4);
 		}
-		vertexBuffer.set(array, currentBufferSegment.offset, length);
+		vertexBuffer.set(array, currentBufferSegment.offset * 3, currentBufferSegment.length * 3);
 	}
 
+	/**
+	 * 
+	 * @param array
+	 *            array
+	 * @param length
+	 *            length to set
+	 */
 	public void setNormalBuffer(ArrayList<Double> array, int length) {
-		normalBuffer.set(array, currentBufferSegment.offset, length);
+		normalBuffer.set(array, currentBufferSegment.offset * 3, currentBufferSegment.length * 3);
 	}
 
+	/**
+	 * set colors buffer
+	 */
+	public void setColorsBuffer() {
+		colorBuffer.set(1f, currentBufferSegment.offset * 4, currentBufferSegment.length, 4);
+		colorBuffer.set(0f, currentBufferSegment.offset * 4 + 1, currentBufferSegment.length, 4);
+		colorBuffer.set(0f, currentBufferSegment.offset * 4 + 2, currentBufferSegment.length, 4);
+		colorBuffer.set(1f, currentBufferSegment.offset * 4 + 3, currentBufferSegment.length, 4);
+	}
+
+	/**
+	 * set indices
+	 * 
+	 * @param size
+	 *            size to set
+	 */
 	public void setIndices(int size) {
 		currentBufferSegmentForIndices = bufferSegmentsForIndices.get(currentIndex);
 		if (currentBufferSegmentForIndices == null) {
@@ -90,19 +140,25 @@ public class GLBufferManager {
 	}
 
 	private void putToIndices(int index) {
-		curvesIndices.put(indicesIndex, (short) (currentBufferSegment.offset / 3 + index));
+		curvesIndices.put(indicesIndex, (short) (currentBufferSegment.offset + index));
 		indicesIndex++;
 	}
 
+	/**
+	 * draw
+	 * 
+	 * @param r
+	 *            renderer
+	 */
 	public void draw(RendererShadersInterface r) {
 
 		vertexBuffer.rewind();
 		normalBuffer.rewind();
 		curvesIndices.rewind();
 
-		r.loadVertexBuffer(vertexBuffer, totalLength);
-		r.loadNormalBuffer(normalBuffer, totalLength);
-		r.loadColorBuffer(null, 0);
+		r.loadVertexBuffer(vertexBuffer, totalLength * 3);
+		r.loadNormalBuffer(normalBuffer, totalLength * 3);
+		r.loadColorBuffer(colorBuffer, totalLength * 4);
 		// if (r.areTexturesEnabled()) {
 		// r.loadTextureBuffer(getTextures(), getLength());
 		// } else {

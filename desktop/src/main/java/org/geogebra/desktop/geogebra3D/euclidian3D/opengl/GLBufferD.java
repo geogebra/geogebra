@@ -91,6 +91,12 @@ public class GLBufferD implements GLBuffer {
 		}
 	}
 
+	public void set(float value, int offset, int length, int step) {
+		for (int i = 0; i < length; i++) {
+			impl.put(i * step + offset, value);
+		}
+	}
+
 	@Override
 	public int capacity() {
 		return currentLength;

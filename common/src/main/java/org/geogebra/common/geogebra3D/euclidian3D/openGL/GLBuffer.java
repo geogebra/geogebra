@@ -66,6 +66,21 @@ public interface GLBuffer {
 	public void set(ArrayList<Double> array, int offset, int length);
 
 	/**
+	 * set this values starting from offset, length times, with step between each
+	 * indices
+	 * 
+	 * @param value
+	 *            value
+	 * @param offset
+	 *            start offset
+	 * @param length
+	 *            length to copy
+	 * @param step
+	 *            step
+	 */
+	public void set(float value, int offset, int length, int step);
+
+	/**
 	 * 
 	 * @return capacity
 	 */
