@@ -96,8 +96,8 @@ public class Test  {
 				return false;
 			}
 
-			//@Override
-			public void onTab() {
+			@Override
+			public void onTab(boolean shiftDown) {
 				// TODO Auto-generated method stub
 				
 			}
