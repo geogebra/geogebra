@@ -105,7 +105,7 @@ public class Test {
 			}
 
 			@Override
-			public void onTab() {
+			public void onTab(boolean shiftDown) {
 				// nothing to do
 			}
 		});
