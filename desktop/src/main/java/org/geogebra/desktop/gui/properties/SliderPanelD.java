@@ -52,9 +52,12 @@ public class SliderPanelD extends JPanel
 	private AngleTextField tfMin, tfMax;
 	private JTextField tfWidth;
 	private JTextField tfBlobSize;
+	private JTextField tfLineThickness;
 	private JTextField[] tfields;
 	private JLabel[] tLabels;
 	private JLabel lbWidthUnit;
+	private JLabel lblBlobSizeUnit;
+	private JLabel lblLineThicknessUnit;
 	private JCheckBox cbSliderFixed, cbRandom;
 	private JComboBox coSliderHorizontal;
 
@@ -64,6 +67,7 @@ public class SliderPanelD extends JPanel
 	private Kernel kernel;
 	private PropertiesPanelD propPanel;
 	private JPanel intervalPanel, sliderPanel, animationPanel;
+	private JPanel pointSliderStylePanel, lineSliderStylePanel;
 	private boolean useTabbedPane;
 	private boolean actionPerforming;
 
@@ -82,6 +86,10 @@ public class SliderPanelD extends JPanel
 		intervalPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		sliderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		animationPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		pointSliderStylePanel = new JPanel(
+				new FlowLayout(FlowLayout.LEFT, 5, 5));
+		lineSliderStylePanel = new JPanel(
+				new FlowLayout(FlowLayout.LEFT, 5, 5));
 
 		cbSliderFixed = new JCheckBox("", true);
 		cbSliderFixed.addActionListener(this);
@@ -99,15 +107,19 @@ public class SliderPanelD extends JPanel
 		tfMax = new AngleTextField(6, app);
 		tfWidth = new MyTextFieldD(app, 4);
 		tfBlobSize = new MyTextFieldD(app, 4);
+		tfLineThickness = new MyTextFieldD(app, 4);
 		lbWidthUnit = new JLabel("");
-		int n = app.has(Feature.SLIDER_STYLE_OPTIONS) ? 4 : 3;
+		lblBlobSizeUnit = new JLabel("px");
+		lblLineThicknessUnit = new JLabel("px");
+		int n = app.has(Feature.SLIDER_STYLE_OPTIONS) ? 5 : 3;
 		tfields = new MyTextFieldD[n];
 		tLabels = new JLabel[n];
 		tfields[0] = tfMin;
-		tfields[1] = tfMax;
+		tfields[1] = tfMax; 
 		tfields[2] = tfWidth;
 		if (n > 3) {
 			tfields[3] = tfBlobSize;
+			tfields[4] = tfLineThickness;
 		}
 		int numPairs = tLabels.length;
 
@@ -121,15 +133,31 @@ public class SliderPanelD extends JPanel
 			textField.addActionListener(this);
 			textField.addFocusListener(this);
 			p.add(textField);
-			if (i == 2) {
+			switch (i) {
+			case 2:
 				p.add(lbWidthUnit);
+				break;
+			case 3:
+				p.add(lblBlobSizeUnit);
+				break;
+			case 4:
+				p.add(lblLineThicknessUnit);
+				break;
+			default:
+				break;
 			}
 			p.setAlignmentX(Component.LEFT_ALIGNMENT);
 
 			if (i < 2) {
 				intervalPanel.add(p);
-			} else {
+			} else if (!app.has(Feature.SLIDER_STYLE_OPTIONS)) {
 				sliderPanel.add(p);
+			} else {
+				if (i == 2) {
+					lineSliderStylePanel.add(p);
+				} else {
+					pointSliderStylePanel.add(p);
+				}
 			}
 		}
 
@@ -169,6 +197,16 @@ public class SliderPanelD extends JPanel
 			add(sliderPanel);
 			add(Box.createVerticalStrut(5));
 			add(animationPanel);
+			if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
+				pointSliderStylePanel.setBorder(BorderFactory
+						.createTitledBorder(loc.getMenu("PointStyle")));
+				lineSliderStylePanel.setBorder(BorderFactory
+						.createTitledBorder(loc.getMenu("LineStyle")));
+				add(Box.createVerticalStrut(5));
+				add(pointSliderStylePanel);
+				add(Box.createVerticalStrut(5));
+				add(lineSliderStylePanel);
+			}
 		}
 	}
 
@@ -198,6 +236,7 @@ public class SliderPanelD extends JPanel
 		tLabels[2].setText(loc.getMenu("Width") + ":");
 		if (tLabels.length > 3) {
 			tLabels[3].setText(loc.getMenu("Size") + ":");
+			tLabels[4].setText(loc.getMenu("Thickness") + ":");
 		}
 
 		model.setLabelForWidthUnit();
@@ -288,6 +327,8 @@ public class SliderPanelD extends JPanel
 			model.applyWidth(value.getDouble());
 		} else if (source == tfBlobSize) {
 			model.applyBlobSize(value.getDouble());
+		} else if (source == tfLineThickness) {
+			model.applyLineThickness(value.getDouble() * 2);
 		}
 
 		if (propPanel != null) {
@@ -394,6 +435,6 @@ public class SliderPanelD extends JPanel
 	}
 
 	public void setLineThicknessSizeText(String text) {
-		// TODO implement desktop
+		tfLineThickness.setText(text);
 	}
 }
