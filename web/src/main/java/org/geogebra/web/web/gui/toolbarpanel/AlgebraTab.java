@@ -129,4 +129,13 @@ class AlgebraTab extends ToolbarPanel.ToolbarTab {
 			setVerticalScrollPosition(pos);
 		}
 	}
+
+	/**
+	 * Give focus to AV Input.
+	 */
+	public void focusInput() {
+		RadioTreeItem input = aview.getInputTreeItem();
+		input.getLatexController().stopEdit();
+		input.ensureEditing();
+	}
 }

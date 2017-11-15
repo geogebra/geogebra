@@ -38,19 +38,35 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusNext(Object source) {
+		if (app.isMenuShowing()) {
+			return;
+		}
+
 		if (source instanceof LatexTreeItemController) {
-			focusFirstGeo();
+			focusMenu();
 		} else if (source instanceof ZoomPanel) {
-			focusFirstGeo();
+			if (gm.getToolbarPanelV2().isAlgebraViewActive()) {
+				focusFirstGeo();
+			} else {
+				focusMenu();
+			}
 		} else if (source instanceof FocusWidget) {
 			focusNextWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
-			focusMenu();
+			focusInput();
 		}
 	}
 	
+	private void focusInput() {
+		gm.getToolbarPanelV2().focusInput();
+	}
+
 	@Override
 	public void focusPrevious(Object source) {
+		if (app.isMenuShowing()) {
+			return;
+		}
+
 		if (source instanceof ZoomPanel) {
 			focusSettings();
 		} else if (source instanceof FocusWidget) {
@@ -62,12 +78,20 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	
 
 	private void focusNextWidget(FocusWidget source) {
+		if (app.isMenuShowing()) {
+			return;
+		}
+
 		if (source.getTabIndex() == GUITabs.SETTINGS) {
 			focusZoom(true);
 		}
 	}
 
 	private void focusPreviousWidget(FocusWidget source) {
+		if (app.isMenuShowing()) {
+			return;
+		}
+
 		if (source.getTabIndex() == GUITabs.MENU) {
 			focusLastGeo();
 		}
@@ -93,7 +117,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private boolean focusFirstGeo() {
 		Construction cons = app.getKernel().getConstruction();
 		if (cons.isEmpty()) {
-			focusMenu();
+			focusInput();
 			return false;
 		}
 
