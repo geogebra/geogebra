@@ -4015,6 +4015,10 @@ public abstract class App implements UpdateSelection {
 			// MOB-1313
 			case MOB_STANDARD_VIEW_BUTTON_3D:
 				return prerelease;
+				
+			// MOB-1361
+			case MOB_PACK_ALL_SEGMENTS_3D:
+			return false;
 
             // **********************************************************************
             // MOBILE END

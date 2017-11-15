@@ -3,12 +3,14 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class for drawing segments
@@ -103,6 +105,18 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		enlargeBounds(min, max, boundsMin, boundsMax);
+	}
+
+	protected void updateForItSelf(Coords p1, Coords p2) {
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
+					.setIsPacking(true);
+		}
+		super.updateForItSelf(p1, p2);
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
+					.setIsPacking(false);
+		}
 	}
 
 }

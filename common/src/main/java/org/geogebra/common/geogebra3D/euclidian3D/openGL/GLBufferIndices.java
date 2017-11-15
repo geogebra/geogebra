@@ -33,6 +33,16 @@ public interface GLBufferIndices {
 	public void put(short value);
 
 	/**
+	 * put value at current buffer position
+	 * 
+	 * @param index
+	 *            index
+	 * @param value
+	 *            value
+	 */
+	public void put(int index, short value);
+
+	/**
 	 * 
 	 * @return value at current buffer position
 	 */

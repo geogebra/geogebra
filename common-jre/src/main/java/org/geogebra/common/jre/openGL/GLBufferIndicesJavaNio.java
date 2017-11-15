@@ -61,6 +61,11 @@ public class GLBufferIndicesJavaNio implements GLBufferIndices {
 	}
 
 	@Override
+	public void put(int index, short value) {
+		impl.put(index, value);
+	}
+
+	@Override
 	public short get() {
 		return impl.get();
 	}

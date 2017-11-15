@@ -116,7 +116,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 	 * @param p1
 	 * @param p2
 	 */
-	final protected void updateForItSelf(Coords p1, Coords p2) {
+	protected void updateForItSelf(Coords p1, Coords p2) {
 
 		// TODO prevent too large values
 		setStartEndPoints(p1, p2);

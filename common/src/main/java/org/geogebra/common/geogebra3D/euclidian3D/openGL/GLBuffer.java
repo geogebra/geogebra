@@ -56,6 +56,16 @@ public interface GLBuffer {
 	public void set(ArrayList<Double> array, int length);
 
 	/**
+	 * @param array
+	 *            values array
+	 * @param offset
+	 *            start offset
+	 * @param length
+	 *            length to copy
+	 */
+	public void set(ArrayList<Double> array, int offset, int length);
+
+	/**
 	 * 
 	 * @return capacity
 	 */

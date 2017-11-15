@@ -39,7 +39,7 @@ public class DrawList3D extends Drawable3D {
 		super(view3D, geo);
 		drawables = new DrawList3DArray(view3D, this);
 		this.geoList = geo;
-		drawable3DLists = new Drawable3DListsForDrawList3D();
+		drawable3DLists = new Drawable3DListsForDrawList3D(view3D);
 
 		setPickingType(PickingType.POINT_OR_CURVE);
 	}

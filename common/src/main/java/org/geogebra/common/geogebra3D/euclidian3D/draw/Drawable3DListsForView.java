@@ -13,8 +13,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class Drawable3DListsForView extends Drawable3DLists {
 
-	private EuclidianView3D view3D;
-
 	/**
 	 * constructor
 	 * 
@@ -22,9 +20,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	 *            3D view
 	 */
 	public Drawable3DListsForView(EuclidianView3D view3D) {
-		super();
-
-		this.view3D = view3D;
+		super(view3D);
 	}
 
 

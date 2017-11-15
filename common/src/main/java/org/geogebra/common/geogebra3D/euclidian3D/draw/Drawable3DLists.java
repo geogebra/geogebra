@@ -4,13 +4,16 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 
 /**
  * Class to list the 3D drawables for EuclidianView3D
@@ -20,6 +23,10 @@ import org.geogebra.common.kernel.geos.GeoElement;
  *
  */
 public class Drawable3DLists {
+
+	/** 3D view */
+	protected EuclidianView3D view3D;
+
 	/** lists of Drawable3D */
 	protected Drawable3DList[] lists;
 
@@ -47,8 +54,8 @@ public class Drawable3DLists {
 	 * 
 	 * @param view3D
 	 */
-	public Drawable3DLists() {
-
+	public Drawable3DLists(EuclidianView3D view3D) {
+		this.view3D = view3D;
 		lists = new Drawable3DList[Drawable3D.DRAW_TYPE_MAX];
 		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++) {
 			lists[i] = new Drawable3DList();
@@ -328,9 +335,18 @@ public class Drawable3DLists {
 		// curves
 		// TODO if there's no surfaces, no hidden part has to be drawn
 		// if(!lists[Drawable3D.DRAW_TYPE_SURFACES].isEmpty())
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES]
-				.iterator(); d.hasNext();) {
-			d.next().drawHidden(renderer);
+		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.getGeoElement().isGeoSegment()) {
+					d3d.drawHidden(renderer);
+				}
+			}
+		}
+		else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
+				d.next().drawHidden(renderer);
+			}
 		}
 
 		if (containsClippedCurves()) {
@@ -443,9 +459,18 @@ public class Drawable3DLists {
 	public void draw(Renderer renderer) {
 
 		// curves
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES]
-				.iterator(); d.hasNext();) {
-			d.next().drawOutline(renderer);
+		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.getGeoElement().isGeoSegment()) {
+					d3d.drawOutline(renderer);
+				}
+			}
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer);
+		} else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
+				d.next().drawOutline(renderer);
+			}
 		}
 
 		if (containsClippedCurves()) {

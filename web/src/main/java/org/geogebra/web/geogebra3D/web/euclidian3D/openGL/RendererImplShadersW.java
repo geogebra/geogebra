@@ -10,8 +10,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.GpuBlacklist;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
@@ -334,9 +336,11 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	@Override
 	public Manager createManager() {
+		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			return new ManagerShadersElementsGlobalBufferPacking(renderer, view3D);
+		}
 		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);
 	}
-
 
 	@Override
 	protected void glUniform1i(Object location, int value) {

@@ -15,11 +15,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppD;
@@ -357,6 +359,9 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	public Manager createManager() {
+		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			return new ManagerShadersElementsGlobalBufferPacking(renderer, view3D);
+		}
 		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);
 	}
 

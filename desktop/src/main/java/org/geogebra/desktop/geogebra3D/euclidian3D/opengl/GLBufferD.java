@@ -85,6 +85,12 @@ public class GLBufferD implements GLBuffer {
 		setLimit(length);
 	}
 
+	public void set(ArrayList<Double> array, int offset, int length) {
+		for (int i = 0; i < length; i++) {
+			impl.put(i + offset, array.get(i).floatValue());
+		}
+	}
+
 	@Override
 	public int capacity() {
 		return currentLength;

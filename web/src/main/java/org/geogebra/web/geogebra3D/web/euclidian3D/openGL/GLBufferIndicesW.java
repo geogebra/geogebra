@@ -61,6 +61,14 @@ public class GLBufferIndicesW implements GLBufferIndices {
 	}
 
 	@Override
+	public void put(int index, short value) {
+		if (impl == null) {
+			return;
+		}
+		impl.set(index, value);
+	}
+
+	@Override
 	public short get() {
 		short ret = (short) impl.get(index);
 		index++;

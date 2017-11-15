@@ -87,9 +87,10 @@ public class ManagerShaders extends Manager {
 		/**
 		 * type of primitives
 		 */
-		private Type type;
+		protected Type type;
 
-		private GLBuffer v, n, t, c;
+		@SuppressWarnings("javadoc")
+		protected GLBuffer v, n, t, c;
 
 		private int length;
 
@@ -101,11 +102,17 @@ public class ManagerShaders extends Manager {
 		 */
 		public Geometry(Type type) {
 			this.type = type;
+			setBuffers();
+		}
+
+		/**
+		 * set the buffers
+		 */
+		protected void setBuffers() {
 			this.v = GLFactory.getPrototype().newBuffer();
 			this.n = GLFactory.getPrototype().newBuffer();
 			this.t = GLFactory.getPrototype().newBuffer();
 			this.c = GLFactory.getPrototype().newBuffer();
-
 		}
 
 		/**
@@ -325,6 +332,8 @@ public class ManagerShaders extends Manager {
 	@SuppressWarnings("serial")
 	public class GeometriesSet extends ArrayList<Geometry> {
 
+		protected int index;
+
 		protected Geometry currentGeometry;
 
 		private int currentGeometryIndex;
@@ -333,6 +342,10 @@ public class ManagerShaders extends Manager {
 
 		public GeometriesSet() {
 			reset();
+		}
+
+		public void setIndex(int index) {
+			this.index = index;
 		}
 
 		/**
@@ -497,6 +510,8 @@ public class ManagerShaders extends Manager {
 			currentGeometriesSet.reset();
 			// Log.debug("reuse : " + index);
 		}
+
+		currentGeometriesSet.setIndex(index);
 
 		return index;
 	}

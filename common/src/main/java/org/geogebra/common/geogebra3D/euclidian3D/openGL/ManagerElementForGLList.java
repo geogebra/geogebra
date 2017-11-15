@@ -214,6 +214,11 @@ public class ManagerElementForGLList extends Manager {
 		}
 
 		@Override
+		public void put(int index, short value) {
+			put(value);
+		}
+
+		@Override
 		public short get() {
 			// TODO Auto-generated method stub
 			return 0;

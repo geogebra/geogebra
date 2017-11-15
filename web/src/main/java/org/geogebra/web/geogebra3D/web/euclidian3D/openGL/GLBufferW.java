@@ -92,6 +92,12 @@ public class GLBufferW implements GLBuffer {
 		setLimit(length);
 	}
 
+	public void set(ArrayList<Double> array, int offset, int length) {
+		for (int i = 0; i < length; i++) {
+			impl.set(i + offset, array.get(i));
+		}
+	}
+
 	@Override
 	public int capacity() {
 		return currentLength;
