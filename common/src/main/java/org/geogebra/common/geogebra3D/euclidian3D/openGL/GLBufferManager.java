@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 
 /**
@@ -100,12 +101,19 @@ public class GLBufferManager {
 
 	/**
 	 * set colors buffer
+	 * 
+	 * @param color
+	 *            color
 	 */
-	public void setColorsBuffer() {
-		colorBuffer.set(1f, currentBufferSegment.offset * 4, currentBufferSegment.length, 4);
-		colorBuffer.set(0f, currentBufferSegment.offset * 4 + 1, currentBufferSegment.length, 4);
-		colorBuffer.set(0f, currentBufferSegment.offset * 4 + 2, currentBufferSegment.length, 4);
-		colorBuffer.set(1f, currentBufferSegment.offset * 4 + 3, currentBufferSegment.length, 4);
+	public void setColorBuffer(GColor color) {
+		int offset = currentBufferSegment.offset * 4;
+		colorBuffer.set((float) color.getRed() / 255, offset, currentBufferSegment.length, 4);
+		offset++;
+		colorBuffer.set((float) color.getGreen() / 255, offset, currentBufferSegment.length, 4);
+		offset++;
+		colorBuffer.set((float) color.getBlue() / 255, offset, currentBufferSegment.length, 4);
+		offset++;
+		colorBuffer.set((float) color.getAlpha() / 255, offset, currentBufferSegment.length, 4);
 	}
 
 	/**

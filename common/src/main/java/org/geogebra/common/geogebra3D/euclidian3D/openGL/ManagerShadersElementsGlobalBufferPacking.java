@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 /**
@@ -12,14 +13,25 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 	private GLBufferManager bufferManager;
 	private boolean isPacking;
+	private GColor currentColor;
 
 	private class GeometriesSetElementsGlobalBufferPacking extends GeometriesSetElementsGlobalBuffer {
 
 		private static final long serialVersionUID = 1L;
+		private GColor color;
+
+		/**
+		 * constructor
+		 * 
+		 * @param color
+		 */
+		public GeometriesSetElementsGlobalBufferPacking(GColor color) {
+			this.color = color;
+		}
 
 		@Override
 		protected Geometry newGeometry(Type type) {
-			return new GeometryElementsGlobalBufferPacking(type, index);
+			return new GeometryElementsGlobalBufferPacking(type, index, color);
 		}
 
 		@Override
@@ -34,10 +46,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		public class GeometryElementsGlobalBufferPacking extends Geometry {
 
 			private int index;
+			private GColor color;
 
-			public GeometryElementsGlobalBufferPacking(Type type, int index) {
+			public GeometryElementsGlobalBufferPacking(Type type, int index, GColor color) {
 				super(type);
 				this.index = index;
+				this.color = color;
 			}
 
 			protected void setBuffers() {
@@ -68,7 +82,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			}
 
 			public void setColorsEmpty() {
-				bufferManager.setColorsBuffer();
+				bufferManager.setColorBuffer(color);
 			}
 
 		}
@@ -93,7 +107,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	protected GeometriesSet newGeometriesSet() {
 		if (isPacking) {
-			return new GeometriesSetElementsGlobalBufferPacking();
+			return new GeometriesSetElementsGlobalBufferPacking(currentColor);
 		}
 		return super.newGeometriesSet();
 	}
@@ -117,6 +131,16 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void setIsPacking(boolean isPacking) {
 		this.isPacking = isPacking;
+	}
+
+	/**
+	 * set the current color in use
+	 * 
+	 * @param color
+	 *            color
+	 */
+	public void setCurrentColor(GColor color) {
+		this.currentColor = color;
 	}
 
 }

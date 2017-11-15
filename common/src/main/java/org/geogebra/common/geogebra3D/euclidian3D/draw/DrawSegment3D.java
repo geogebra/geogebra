@@ -111,6 +111,8 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
 			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
 					.setIsPacking(true);
+			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
+					.setCurrentColor(color[0]);
 		}
 		super.updateForItSelf(p1, p2);
 		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
