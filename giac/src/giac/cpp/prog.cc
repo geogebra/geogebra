@@ -913,6 +913,11 @@ namespace giac {
 	    if (egal!=0)
 	      *it=symb_equal(*it,egal);
 	  }
+	  if (thetype.val==_FRAC){
+	    newid=*it=gen(theid.print(contextptr)+"_f",contextptr);
+	    if (egal!=0)
+	      *it=symb_equal(*it,egal);
+	  }
 	  v2.push_back(newid);
 	  continue;
 	}
@@ -2471,6 +2476,9 @@ namespace giac {
 	      return -RAND_MAX;
 	    }
 	    break;
+	  case 'f':
+	    if (a.type==_FRAC)
+	      break;
 	  case 'i': case 'l':
 	    if (a.type==_DOUBLE_ && a._DOUBLE_val<=RAND_MAX && a._DOUBLE_val>=-RAND_MAX){
 	      int i=int(a._DOUBLE_val);

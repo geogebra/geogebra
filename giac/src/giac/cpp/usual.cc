@@ -3379,6 +3379,9 @@ namespace giac {
 	    if (a.type!=_INT_ && a.type!=_DOUBLE_ && a.type!=_FRAC)
 	      return gensizeerr(gettext("Unable to convert to float ")+a.print(contextptr));
 	    break;
+	  case 'f':
+	    if (a.type==_FRAC)
+	      break;
 	  case 'i': case 'l':
 	    if (a.type==_DOUBLE_ && a._DOUBLE_val<=RAND_MAX && a._DOUBLE_val>=-RAND_MAX){
 	      int i=int(a._DOUBLE_val);

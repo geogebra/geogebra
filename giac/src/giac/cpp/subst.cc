@@ -2505,7 +2505,8 @@ namespace giac {
 	  return quotesubst(g,vabs2,vabs,contextptr);
 	}
       }
-      return recursive_normal(trigcos(g,contextptr),contextptr); 
+      g=recursive_normal(trigcos(g,contextptr),contextptr); 
+      return quotesubst(g,vabs2,vabs,contextptr);
     }
     gen reg,img;
     reim(g,reg,img,contextptr);
