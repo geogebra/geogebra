@@ -61,7 +61,7 @@ public class JlmEditorLib extends JlmLib {
 					}
 
 					@Override
-					public void onTab() {
+					public void onTab(boolean shiftDown) {
 						// TODO Auto-generated method stub
 					}
 				}, false, null);
