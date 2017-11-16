@@ -95,7 +95,7 @@ var translation = {};
 		}
 		if(name && window.history && window.history.pushState && name != "picker" && location.host.indexOf("geogebra") >= 0 &&
 				location.href.indexOf("?") < 0 && !location.pathname.match(/\/.*\/.+/) && !isLocalhost()){
-			var unbundled = name == "graphing" || name == "geometry" || name == "whiteboard";
+			var unbundled = name == "graphing" || name == "geometry" || name == "whiteboard" || name == "3d";
 			if(name != "classic" && (location.pathname.indexOf("classic") > 0 || !unbundled)){
 				name = "classic/" + name;
 			}
@@ -216,6 +216,9 @@ var translation = {};
 		}
 		if(window.appID === "geometry"){
 			changeMetaTitle(props.menu["Geometry"]  || "Geometry");
+		}
+		if(window.appID === "3D"){
+			changeMetaTitle(props.menu["Graphing3D"]  || "3D Graphing Calculator");
 		}
 		if(!window.appID && !getPerspective()){
 			changeMetaTitle(props.menu["math_apps"]  || "GeoGebra Classic");
