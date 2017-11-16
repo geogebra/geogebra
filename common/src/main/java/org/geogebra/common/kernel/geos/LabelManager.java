@@ -29,7 +29,7 @@ public class LabelManager {
 			return true;
 		}
 
-		if (name.startsWith(CopyPaste.labelPrefix)) {
+		if (name.isEmpty() || name.startsWith(CopyPaste.labelPrefix)) {
 			return false;
 		}
 
