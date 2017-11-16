@@ -28,6 +28,7 @@ public class PerspectiveDecoder {
 	private static final double GEOMETRY_PORTRAIT_RATIO = 0.6;
 	private static final int INPUT_ROW_HEIGHT = 80;
 	private static final int AV_ROWS_IN_PORTRAIT = 5;
+	private static final double MIN_TOOLBAR_WIDTH = 380;
 
 
 	private static Map<String, DockPanelData> viewCodes = new HashMap<String, DockPanelData>();
@@ -118,18 +119,10 @@ public class PerspectiveDecoder {
 	 * @return prefered ratio of left panel for AV perspective
 	 */
 	public static double landscapeRatio(App app, double width) {
-		if (app.isUnbundled()) {
-			// return MIN_TOOLBAR_WIDTH / app.getWidth();
+		if (width < MIN_TOOLBAR_WIDTH) {
+			return 1;
 		}
-		if (width < 300) {
-			return 2.0 / 3.0;
-		}
-		if (width < 600) {
-			return 200 / width;
-		}
-
-		return 100 / width + 1 / 6.0;
-
+		return MIN_TOOLBAR_WIDTH / width;
 	}
 
 	/**
