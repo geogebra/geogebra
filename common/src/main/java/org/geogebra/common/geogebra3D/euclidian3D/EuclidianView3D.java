@@ -4603,6 +4603,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 	}
 
+	@Override
 	protected boolean needsZoomerForStandardRatio() {
 		return false; // not needed in 3D
 	}
@@ -4646,6 +4647,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 
+	@Override
 	public boolean isStandardView() {
 		if (app.has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
 			return isZeroStandard()

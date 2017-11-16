@@ -25,6 +25,10 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 	private EuclidianView3D view3D;
 	private boolean isStereoBuffered = false;
 
+	/**
+	 * @param view
+	 *            view
+	 */
 	public EuclidianView3DCompanion(EuclidianView view) {
 		super(view);
 	}

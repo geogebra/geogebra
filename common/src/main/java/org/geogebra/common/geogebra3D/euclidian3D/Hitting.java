@@ -44,7 +44,18 @@ public class Hitting {
 	protected int threshold;
 	private boolean clippedValuesUpdated;
 
-	public double x0, y0, z0, x1, y1, z1;
+	/** start point x */
+	public double x0;
+	/** start point y */
+	public double y0;
+	/** start point z */
+	public double z0;
+	/** end point x */
+	public double x1;
+	/** end point y */
+	public double y1;
+	/** end point z */
+	public double z1;
 	private double vx, vy, vz, squareNorm;
 
 	private double[] minmax;

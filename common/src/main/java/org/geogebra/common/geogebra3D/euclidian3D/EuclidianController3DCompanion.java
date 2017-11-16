@@ -166,6 +166,10 @@ public class EuclidianController3DCompanion
 		}
 	}
 
+	/**
+	 * @param movedGeoPoint3D
+	 *            moved point
+	 */
 	public void moveAlongZAxis(GeoPointND movedGeoPoint3D) {
 		// along
 		// z-axis
@@ -518,6 +522,16 @@ public class EuclidianController3DCompanion
 		return false;
 	}
 
+	/**
+	 * Updates point moving plane from new point coords
+	 * 
+	 * @param coords
+	 *            current point position
+	 * @param movedGeoPoint
+	 *            moved point
+	 * @param currentPlane
+	 *            point moving plane
+	 */
 	protected void updateMovedGeoPointStartValues(Coords coords,
 			GeoPointND movedGeoPoint, CoordMatrix4x4 currentPlane) {
 		if (!movedGeoPoint.isPointOnPath() && !movedGeoPoint.hasRegion()) {
@@ -539,6 +553,14 @@ public class EuclidianController3DCompanion
 		return false;
 	}
 
+	/**
+	 * Update willing coords from mouse location
+	 * 
+	 * @param point
+	 *            point
+	 * @param mouseLoc
+	 *            mouse location
+	 */
 	protected void setMouseOrigin(GeoPoint3D point, GPoint mouseLoc) {
 		// Michael Borcherds
 		// move mouse fast, sometimes get mouseLoc = null
@@ -553,6 +575,9 @@ public class EuclidianController3DCompanion
 		point.setWillingCoords(o);
 	}
 
+	/**
+	 * @return the 3D view
+	 */
 	protected EuclidianView3D getView() {
 		return (EuclidianView3D) ec.getView();
 	}
