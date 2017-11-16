@@ -4,7 +4,6 @@ package org.geogebra.web.web.gui.util;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.web.html5.gui.util.BasicIcons;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.GuiResources;
@@ -16,7 +15,7 @@ import com.google.gwt.resources.client.ImageResource;
 /**
  * icon resources (point style, line style, etc.)
  */
-public class GeoGebraIconW extends BasicIcons {
+public class GeoGebraIconW {
 
 	private static StyleBarResources LafIcons = StyleBarResources.INSTANCE;
 	private static MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
