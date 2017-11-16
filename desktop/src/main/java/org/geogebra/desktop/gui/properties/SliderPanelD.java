@@ -183,12 +183,12 @@ public class SliderPanelD extends JPanel
 			}
 		}
 		lblBlobColor = new JLabel(loc.getMenu("Color") + ":");
-		lblBlobColor.setLabelFor(btnBlobColor);
 		btnBlobColor = new JButton("\u2588");
+		lblBlobColor.setLabelFor(btnBlobColor);
 		btnBlobColor.addActionListener(this);
 		lblLineColor = new JLabel(loc.getMenu("Color") + ":");
-		lblLineColor.setLabelFor(btnLineColor);
 		btnLineColor = new JButton("\u2588");
+		lblLineColor.setLabelFor(btnLineColor);
 		btnLineColor.addActionListener(this);
 		if (app.has(Feature.SLIDER_STYLE_OPTIONS)) {
 			btnLineColor.setForeground(GColorD

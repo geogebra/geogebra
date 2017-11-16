@@ -19,7 +19,7 @@ public class GLBufferManager {
 	private HashMap<Integer, BufferSegment> bufferSegments, bufferSegmentsForIndices;
 	private int indicesIndex;
 
-	private class BufferSegment {
+	private static class BufferSegment {
 		public int offset;
 		public int length;
 
