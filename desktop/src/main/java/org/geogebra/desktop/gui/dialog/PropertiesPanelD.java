@@ -2808,12 +2808,10 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		@Override
 		public void setLabels() {
 			Localization loc1 = app.getLocalization();
-			thicknessPanel.setBorder(
-BorderFactory.createTitledBorder(loc1
-					.getMenu("Thickness")));
+			thicknessPanel.setBorder(BorderFactory
+					.createTitledBorder(loc1.getMenu("Thickness")));
 			opacityPanel.setBorder(BorderFactory
-.createTitledBorder(loc1
-					.getMenu("LineOpacity")));
+					.createTitledBorder(loc1.getMenu("LineOpacity")));
 
 			dashLabel.setText(loc1.getMenu("LineStyle") + ":");
 		}
