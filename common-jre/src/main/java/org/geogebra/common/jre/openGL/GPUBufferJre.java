@@ -1,8 +1,11 @@
-package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
+package org.geogebra.common.jre.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
 
-public class GPUBufferD implements GPUBuffer {
+/**
+ * Wrapper for GPU buffer
+ */
+public class GPUBufferJre implements GPUBuffer {
 
 	private Integer impl;
 

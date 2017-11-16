@@ -21,6 +21,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
 import org.geogebra.common.jre.openGL.GLBufferJre;
+import org.geogebra.common.jre.openGL.GPUBufferJre;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJre;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Charsets;
@@ -191,11 +192,11 @@ public class RendererImplShadersD extends RendererImplShaders {
 		vboHandles = new int[5];
 		jogl.getGL2ES2().glGenBuffers(5, vboHandles, 0);
 
-		vboColors = new GPUBufferD();
-		vboVertices = new GPUBufferD();
-		vboNormals = new GPUBufferD();
-		vboTextureCoords = new GPUBufferD();
-		vboIndices = new GPUBufferD();
+		vboColors = new GPUBufferJre();
+		vboVertices = new GPUBufferJre();
+		vboNormals = new GPUBufferJre();
+		vboTextureCoords = new GPUBufferJre();
+		vboIndices = new GPUBufferJre();
 		vboColors.set(vboHandles[GLSL_ATTRIB_COLOR]);
 		vboVertices.set(vboHandles[GLSL_ATTRIB_POSITION]);
 		vboNormals.set(vboHandles[GLSL_ATTRIB_NORMAL]);
@@ -229,7 +230,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	final protected void bindBuffer(int bufferType, GPUBuffer buffer) {
-		jogl.getGL2ES2().glBindBuffer(bufferType, ((GPUBufferD) buffer).get());
+		jogl.getGL2ES2().glBindBuffer(bufferType, ((GPUBufferJre) buffer).get());
 	}
 
 	@Override

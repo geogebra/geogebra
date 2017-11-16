@@ -1,19 +1,15 @@
-package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
+package org.geogebra.common.jre.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
-import org.geogebra.common.jre.openGL.GLBufferJre;
-import org.geogebra.common.jre.openGL.GLBufferIndicesJre;
 
 /**
  * GL factory for desktop
- * 
- * @author mathieu
  *
  */
-public class GLFactoryD extends GLFactory {
+public class GLFactoryJre extends GLFactory {
 
 	@Override
 	final public GLBuffer newBuffer() {
@@ -22,7 +18,7 @@ public class GLFactoryD extends GLFactory {
 
 	@Override
 	final public GPUBuffer newGPUBuffer() {
-		return new GPUBufferD();
+		return new GPUBufferJre();
 	}
 
 	@Override

@@ -51,6 +51,7 @@ import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.main.App3DCompanion;
 import org.geogebra.common.gui.layout.DockManager;
+import org.geogebra.common.jre.openGL.GLFactoryJre;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.main.App;
@@ -61,7 +62,6 @@ import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianController3DD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.GLFactoryD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import org.geogebra.desktop.geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.EuclidianControllerHand3D;
@@ -733,7 +733,7 @@ public class App3D extends AppD {
 		super.initFactories();
 
 		if (GLFactory.getPrototype() == null) {
-			GLFactory.setPrototypeIfNull(new GLFactoryD());
+			GLFactory.setPrototypeIfNull(new GLFactoryJre());
 		}
 	}
 
