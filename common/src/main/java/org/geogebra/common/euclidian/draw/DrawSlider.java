@@ -46,12 +46,8 @@ public class DrawSlider extends Drawable {
 	// private GeoPoint geoPoint;
 	// private DrawPointSlider drawPoint;
 	// private GeoPointND P;
-	private static int diameter = 2 * GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE + 1;
-	private static int HIGHLIGHT_OFFSET = GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE
-			/ 2 + 1;
-	private static int hightlightDiameter = diameter
-			+ 2 * HIGHLIGHT_OFFSET;
-	private static int lineThickness = GeoNumeric.DEFAULT_SLIDER_THICKNESS;
+	private int diameter = 2 * GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE + 1;
+	private int lineThickness = GeoNumeric.DEFAULT_SLIDER_THICKNESS;
 
 	// for dot and selection
 	private GEllipse2DDouble circle = AwtFactory.getPrototype()
@@ -61,7 +57,7 @@ public class DrawSlider extends Drawable {
 	private GEllipse2DDouble circleHighlight = AwtFactory.getPrototype()
 			.newEllipse2DDouble();
 
-	private static GBasicStroke borderStroke = EuclidianStatic
+	private static final GBasicStroke borderStroke = EuclidianStatic
 			.getDefaultStroke();
 
 	private double[] coords = new double[2];
@@ -312,8 +308,8 @@ public class DrawSlider extends Drawable {
 		double yUL = (coords[1] - number.getSliderBlobSize());
 
 		diameter = 2 * (int) number.getSliderBlobSize() + 1;
-		HIGHLIGHT_OFFSET = (int) number.getSliderBlobSize() / 2 + 1;
-		hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
+		int HIGHLIGHT_OFFSET = (int) number.getSliderBlobSize() / 2 + 1;
+		int hightlightDiameter = diameter + 2 * HIGHLIGHT_OFFSET;
 		// circle might be needed at least for tracing
 		circle.setFrame(xUL, yUL, diameter, diameter);
 		if (xUL + diameter < 0 || xUL > view.getWidth() || yUL + diameter < 0
