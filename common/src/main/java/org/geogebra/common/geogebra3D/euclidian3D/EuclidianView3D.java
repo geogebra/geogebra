@@ -4169,6 +4169,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		setProjection(evs.getProjection());
 
 		updateMatrix();
+		getEuclidianController().onCoordSystemChanged();
 		setViewChanged();
 		setWaitForUpdate();
 		if (evs.getRotSpeed() > 0) {
