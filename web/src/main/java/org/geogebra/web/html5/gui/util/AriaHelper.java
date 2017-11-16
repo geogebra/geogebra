@@ -32,7 +32,13 @@ public class AriaHelper {
 		ui.getElement().setAttribute("aria-label", title);
 	}
 
-	public static void hide(Widget moveBtn) {
-		moveBtn.getElement().setAttribute("aria-hidden", "true");
+	/**
+	 * Adds aria-hidden to given element
+	 * 
+	 * @param widget
+	 *            widget to be hidden
+	 */
+	public static void hide(Widget widget) {
+		widget.getElement().setAttribute("aria-hidden", "true");
 	}
 }
