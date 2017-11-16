@@ -38,7 +38,7 @@ public class GLBufferManager {
 		colorBuffer = GLFactory.getPrototype().newBuffer();
 		curvesIndices = GLFactory.getPrototype().newBufferIndices();
 
-		int size1 = 2000, size2 = size1 * 3;
+		int size1 = Short.MAX_VALUE, size2 = size1 * 3;
 		vertexBuffer.allocate(size1 * 3);
 		normalBuffer.allocate(size1 * 3);
 		colorBuffer.allocate(size1 * 4);

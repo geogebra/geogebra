@@ -342,6 +342,7 @@ public class Drawable3DLists {
 					d3d.drawHidden(renderer);
 				}
 			}
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer);
 		}
 		else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
