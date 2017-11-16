@@ -64,12 +64,12 @@ public class LabelManager {
 		}
 
 		try {
-			kernel.getAlgebraProcessor().parseLabel(label);
+			// parseLabel for "A B" returns "A", check equality
+			return label.trim()
+					.equals(kernel.getAlgebraProcessor().parseLabel(label));
 		} catch (ParseException e) {
 			return false;
 		}
-
-		return true;
 	}
 
 	/**

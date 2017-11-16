@@ -2,6 +2,7 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 
@@ -33,7 +34,8 @@ public class NameValueModel extends ShowLabelModel {
 	public void setGeos(Object[] geos) {
 		super.setGeos(geos);
 		nameModel.setGeos(geos);
-		setForceCaption(!getGeoAt(0).getLabel(StringTemplate.defaultTemplate)
+		setForceCaption(!getGeoAt(0)
+				.getLabel(StringTemplate.defaultTemplate)
 				.equals(getGeoAt(0).getCaption(StringTemplate.defaultTemplate)));
 
 	}
@@ -55,7 +57,8 @@ public class NameValueModel extends ShowLabelModel {
 	 */
 	public void applyNameChange(final String name, ErrorHandler handler) {
 		if (isForceCaption() || (kernel.lookupLabel(name) != null
-				&& kernel.lookupLabel(name) != nameModel.getCurrentGeo())) {
+				&& kernel.lookupLabel(name) != nameModel.getCurrentGeo())
+				|| !LabelManager.isValidLabel(name, kernel)) {
 			nameModel.applyCaptionChange(name);
 			setForceCaption(true);
 		} else {

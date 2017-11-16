@@ -4,6 +4,7 @@ import org.geogebra.commands.CommandsTest;
 import org.geogebra.commands.TestErrorHandler;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel;
 import org.geogebra.common.gui.dialog.options.model.NameValueModel.INameValueListener;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.junit.Assert;
@@ -107,6 +108,22 @@ public class NameModelTest {
 		Assert.assertEquals("R", r.getLabelSimple());
 	}
 
+	@Test
+	public void invalidLabelShouldSetCaption() {
+		GeoPoint r = makePoint("R");
+
+		model.setGeos(new Object[] { r });
+		model.updateProperties();
+		model.applyNameChange("P Q", new TestErrorHandler());
+		Assert.assertEquals("R", r.getLabelSimple());
+		Assert.assertEquals("P Q",
+				r.getCaption(StringTemplate.defaultTemplate));
+		model.applyNameChange("!!!", new TestErrorHandler());
+		Assert.assertEquals("R", r.getLabelSimple());
+		Assert.assertEquals("!!!",
+				r.getCaption(StringTemplate.defaultTemplate));
+
+	}
 	@Before
 	public void cleanup() {
 		app.getKernel().clearConstruction(true);
