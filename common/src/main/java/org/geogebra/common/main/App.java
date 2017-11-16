@@ -4187,7 +4187,7 @@ public abstract class App implements UpdateSelection {
 
             // GGB-334, TRAC-3401
             case ADJUST_WIDGETS:
-                return prerelease
+			return false
                         ;// && Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
 
 
