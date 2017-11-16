@@ -879,9 +879,11 @@ public class GeoNumeric extends GeoElement
 		sb.append("\" showAlgebra=\"");
 		sb.append(isShowingExtendedAV());
 		sb.append("\"/>\n");
-		sb.append("\t<pointSize val=\"");
-		sb.append(sliderBlobSize);
-		sb.append("\"/>\n");
+		if (sliderBlobSize != DEFAULT_SLIDER_BLOB_SIZE) {
+			sb.append("\t<pointSize val=\"");
+			sb.append(sliderBlobSize);
+			sb.append("\"/>\n");
+		}
 	}
 
 	@Override
