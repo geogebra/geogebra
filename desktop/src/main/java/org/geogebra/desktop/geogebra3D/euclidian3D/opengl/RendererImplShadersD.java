@@ -20,6 +20,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererImplShaders;
 import org.geogebra.common.geogebra3D.main.FragmentShader;
 import org.geogebra.common.geogebra3D.main.VertexShader;
+import org.geogebra.common.jre.openGL.GLBufferJavaNio;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.Charsets;
@@ -265,7 +266,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 	@Override
 	protected void glBufferData(int numBytes, GLBuffer fb) {
 		jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes,
-				((GLBufferD) fb).getBuffer(), RendererJogl.GL_STREAM_DRAW);
+				((GLBufferJavaNio) fb).getBuffer(), RendererJogl.GL_STREAM_DRAW);
 
 	}
 

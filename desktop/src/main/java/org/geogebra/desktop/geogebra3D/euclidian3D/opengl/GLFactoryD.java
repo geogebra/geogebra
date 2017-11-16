@@ -4,6 +4,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GPUBuffer;
+import org.geogebra.common.jre.openGL.GLBufferJavaNio;
 import org.geogebra.common.jre.openGL.GLBufferIndicesJavaNio;
 
 /**
@@ -16,7 +17,7 @@ public class GLFactoryD extends GLFactory {
 
 	@Override
 	final public GLBuffer newBuffer() {
-		return new GLBufferD();
+		return new GLBufferJavaNio();
 	}
 
 	@Override
