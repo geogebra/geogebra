@@ -649,6 +649,7 @@ public class AppWapplet extends AppWFull {
 			}
 			if (isFloatingMenu()) {
 				toggleFloatingMenu(needsUpdate);
+				updateMenuBtnStatus(true);
 				return;
 			}
 			this.splitPanelWrapper.add(frame.getMenuBar(this));
@@ -669,20 +670,19 @@ public class AppWapplet extends AppWFull {
 			if (isFloatingMenu()) {
 				removeFloatingMenu();
 				menuShowing = false;
-				updateMenuBtnStatus();
+				updateMenuBtnStatus(false);
 			} else {
 				hideMenu();
 			}
 		}
 	}
 
-	private void updateMenuBtnStatus() {
+	private void updateMenuBtnStatus(boolean expanded) {
 		if (getGuiManager() instanceof GuiManagerW) {
 			ToolbarPanel toolbarPanel = ((GuiManagerW) getGuiManager())
 					.getToolbarPanelV2();
 			if (toolbarPanel != null) {
-				toolbarPanel.getBurgerMenuBtn().getElement()
-						.setAttribute("aria-expanded", "false");
+				toolbarPanel.markMenuAsExpanded(expanded);
 			}
 		}
 	}
@@ -765,7 +765,6 @@ public class AppWapplet extends AppWFull {
 		if (this.isFloatingMenu()) {
 			this.toggleMenu();
 		} else {
-
 			this.oldSplitLayoutPanel.setPixelSize(
 					this.oldSplitLayoutPanel.getOffsetWidth()
 							+ GLookAndFeel.MENUBAR_WIDTH,

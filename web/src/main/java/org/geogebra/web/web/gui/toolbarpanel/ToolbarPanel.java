@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
-import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -558,10 +557,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	}
 
 	/**
-	 * @return burger menu btn
+	 * @param expanded
+	 *            whether menu is open
 	 */
-	public MyToggleButton getBurgerMenuBtn() {
-		return header.getMenuBtn();
+	public void markMenuAsExpanded(boolean expanded) {
+		header.markMenuAsExpanded(expanded);
 	}
 
 	/**

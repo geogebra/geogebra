@@ -47,7 +47,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	private boolean open = true;
 	private Image imgClose;
 	private Image imgOpen;
-
 	private Image imgMenu;
 	private FlowPanel contents;
 	private FlowPanel center;
@@ -409,10 +408,15 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	/**
-	 * @return burger menu btn
+	 * @param expanded
+	 *            whether menu is expanded
 	 */
-	public PersistableToggleButton getMenuBtn() {
-		return btnMenu;
+	public void markMenuAsExpanded(boolean expanded) {
+		if (btnMenu != null) {
+			btnMenu.getElement().setAttribute("aria-expanded",
+					String.valueOf(expanded));
+			btnMenu.getElement().removeAttribute("aria-pressed");
+		}
 	}
 
 	private void createMenuButton() {
@@ -423,14 +427,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		btnMenu = new PersistableToggleButton(new Image(menuImgRec));
 		btnMenu.addStyleName("flatButton");
 		btnMenu.addStyleName("menu");
-		btnMenu.getElement().setAttribute("aria-expanded", "false");
+
 		toolbarPanel.getFrame().add(btnMenu);
+		markMenuAsExpanded(false);
 		ClickStartHandler.init(btnMenu, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				toolbarPanel.toggleMenu();
-				getMenuBtn().getElement().setAttribute("aria-expanded", "true");
 			}
 		});
 		if (app.has(Feature.TAB_ON_GUI)) {
@@ -807,7 +811,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		setAltTexts();
 	}
 
-	private void tabIndex(CustomButton btn, int index) {
+	private static void tabIndex(CustomButton btn, int index) {
 		if (btn != null) {
 			btn.setTabIndex(index);
 		}
