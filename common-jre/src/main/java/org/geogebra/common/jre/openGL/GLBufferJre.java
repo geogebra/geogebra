@@ -9,13 +9,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
  * buffers for openGL
  *
  */
-public class GLBufferJavaNio implements GLBuffer {
+public class GLBufferJre implements GLBuffer {
 	private FloatBuffer impl;
 
 	/**
 	 * constructor from float array
 	 */
-	public GLBufferJavaNio() {
+	public GLBufferJre() {
 		isEmpty = true;
 	}
 

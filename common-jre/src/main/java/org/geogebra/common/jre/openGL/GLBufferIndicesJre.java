@@ -10,7 +10,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
  * @author Mathieu
  *
  */
-public class GLBufferIndicesJavaNio implements GLBufferIndices {
+public class GLBufferIndicesJre implements GLBufferIndices {
 	private ShortBuffer impl;
 	private boolean isEmpty;
 
@@ -18,7 +18,7 @@ public class GLBufferIndicesJavaNio implements GLBufferIndices {
 	/**
 	 * constructor from float array
 	 */
-	public GLBufferIndicesJavaNio() {
+	public GLBufferIndicesJre() {
 		isEmpty = true;
 	}
 
