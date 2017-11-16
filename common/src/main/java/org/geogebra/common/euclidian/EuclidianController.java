@@ -388,6 +388,7 @@ public abstract class EuclidianController {
 	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
 	private GeoElement lastSelectionToolGeoToRemove;
 	private ArrayList<GeoElement> moveMultipleObjectsList;
+	private boolean shouldHideStylebar = false;
 
 	/**
 	 * state for selection tool over press/release
@@ -8464,6 +8465,7 @@ public abstract class EuclidianController {
 					}
 				} else if (app.has(Feature.PREVIEW_POINTS) && mode == EuclidianConstants.MODE_MOVE && isSpecialPreviewPointFound(hits)) {
 					showSpecialPointPopup(getPreviewSpecialPointHits(hits));
+					shouldHideStylebar = true;
 				} else {
 					// repaint done next step, no update for properties view (will
 					// display ev properties)
@@ -10260,6 +10262,10 @@ public abstract class EuclidianController {
 			this.pointerUpCallback = null;
 		}
 
+		if (app.has(Feature.DYNAMIC_STYLEBAR) && app.has(Feature.PREVIEW_POINTS) && shouldHideStylebar) {
+			hideDynamicStylebar();
+			shouldHideStylebar = false;
+		}
 	}
 
 	/**
