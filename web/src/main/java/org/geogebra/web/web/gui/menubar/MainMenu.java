@@ -248,14 +248,14 @@ public class MainMenu extends FlowPanel
 									app.getLocalization().getMenu("Settings")),
 							true);
 			menuTitles.add("Settings");
-			menuImgs.add(MaterialDesignResources.INSTANCE.gear());
+			menuImgs.add(null);
 			languageMenu = new GMenuBar(true, "", app);
 			this.menuPanel.add(languageMenu,
 					getHTML(MaterialDesignResources.INSTANCE.language_black(),
 							app.getLocalization().getMenu("Language")),
 					true);
 			menuTitles.add("Language");
-			menuImgs.add(MaterialDesignResources.INSTANCE.language_black());
+			menuImgs.add(null);
 			languageMenu.addTabHandler(this);
 			settingsMenu.addTabHandler(this);
 		}
@@ -335,7 +335,9 @@ public class MainMenu extends FlowPanel
 					super.showStack(1);
 				} else {
 					super.showStack(index);
-					if (app.isUnbundledOrWhiteboard()) {
+					if (app.isUnbundledOrWhiteboard()
+							&& menuImgs.size() > index - 1
+							&& menuImgs.get(index - 1) != null) {
 						setStackText(index,
 								getHTMLCollapse(menuImgs.get(index - 1),
 										menuTitles.get(index - 1)),
@@ -350,7 +352,7 @@ public class MainMenu extends FlowPanel
 				if (app.isUnbundledOrWhiteboard() && index == 0) {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(1)), false);
-				} else {
+				} else if (index < menus.size()) {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(index)), false);
 				}
