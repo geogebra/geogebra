@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.menubar;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -11,6 +10,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.StackPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Sidebar menu for SMART
@@ -42,7 +43,7 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  */
 public class MainMenu extends FlowPanel
-		implements MainMenuI, EventRenderable, BooleanRenderable {
+		implements MainMenuI, EventRenderable, BooleanRenderable, TabHandler {
 
 	/**
 	 * Appw app
@@ -455,51 +456,23 @@ public class MainMenu extends FlowPanel
 			final int next = (i + 1) % menus.size();
 			final int previous = (i - 1 + menus.size()) % menus.size();
 			final int index = i;
+			menus.get(i).addTabHandler(this);
 			this.menus.get(i).addDomHandler(new KeyDownHandler() {
 
 				@Override
 				public void onKeyDown(KeyDownEvent event) {
 					int keyCode = event.getNativeKeyCode();
-					boolean tab = false;
-					if (app.has(Feature.TAB_ON_GUI)
-							&& keyCode == KeyCodes.KEY_A) {
-						event.stopPropagation();
-						event.preventDefault();
-						tab = true;
-					}
 					// First / last below are not intuitive -- note that default
 					// handler of
 					// down skipped already from last to first
-					GMenuBar item = menus.get(index);
-					if (keyCode == KeyCodes.KEY_DOWN
-							|| (tab && !event.isShiftKeyDown())) {
-
-						if (tab) {
-							if (item.isLastItemSelected()) {
-								menuPanel.showStack(next + 1);
-								menus.get(next).focus();
-							} else {
-								item.moveSelectionDown();
-							}
-							return;
-						}
+					if (keyCode == KeyCodes.KEY_DOWN) {
 						if (menus.get(index).isFirstItemSelected()) {
 							menuPanel.showStack(next);
 							menus.get(next).focus();
 						}
 
 					} else
-					if (keyCode == KeyCodes.KEY_UP
-							|| (tab && event.isShiftKeyDown())) {
-						if (tab) {
-							if (menus.get(index).isFirstItemSelected()) {
-								menuPanel.showStack(previous + 1);
-								menus.get(previous).focus();
-							} else {
-								menus.get(index).moveSelectionUp();
-							}
-							return;
-						}
+					if (keyCode == KeyCodes.KEY_UP) {
 
 						if (menus.get(index).isLastItemSelected()) {
 							menuPanel.showStack(previous);
@@ -836,6 +809,29 @@ public class MainMenu extends FlowPanel
 
 	public void focusFirst() {
 		menus.get(0).focus();
+	}
+
+	public boolean onTab(Widget source, boolean shiftDown) {
+		GMenuBar item = (GMenuBar) source;
+		int stackIdx = menuPanel.getSelectedIndex();
+		int menuIdx = menus.indexOf(item);
+		if (shiftDown) {
+			if (item.isFirstItemSelected()) {
+				menuPanel.showStack(stackIdx - 1);
+				menus.get(menuIdx - 1).focus();
+			} else {
+				item.moveSelectionUp();
+			}
+			return true;
+		}
+
+		if (item.isLastItemSelected()) {
+			menuPanel.showStack(stackIdx + 1);
+			menus.get(menuIdx + 1).focus();
+		} else {
+			item.moveSelectionDown();
+		}
+		return true;
 	}
 
 }

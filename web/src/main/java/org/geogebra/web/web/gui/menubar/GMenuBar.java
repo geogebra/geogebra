@@ -1,9 +1,17 @@
 package org.geogebra.web.web.gui.menubar;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
@@ -17,6 +25,7 @@ public class GMenuBar extends MenuBar{
 	private int separators = 0;
 	private String menuTitle;
 	private AppW app;
+	private List<TabHandler> tabHandlers;
 
 	/**
 	 * @param vertical
@@ -30,6 +39,8 @@ public class GMenuBar extends MenuBar{
 		super(vertical);
 		this.menuTitle = menuTitle;
 		this.app = app;
+		tabHandlers = new ArrayList<TabHandler>();
+
 	}
 
 	/**
@@ -47,6 +58,18 @@ public class GMenuBar extends MenuBar{
 		super(vertical, menuResources);
 		this.menuTitle = menuTitle;
 		this.app = app;
+		tabHandlers = new ArrayList<TabHandler>();
+
+	}
+
+	/**
+	 * Adds a handler for TAB key.
+	 * 
+	 * @param handler
+	 *            to add.
+	 */
+	public void addTabHandler(TabHandler handler) {
+		tabHandlers.add(handler);
 	}
 
 	/**
@@ -200,5 +223,29 @@ public class GMenuBar extends MenuBar{
 	 */
 	protected AppW getApp() {
 		return app;
+	}
+
+	@Override
+	public void onBrowserEvent(Event event) {
+		int eventGetType = DOM.eventGetType(event);
+		if (eventGetType == Event.ONKEYDOWN) {
+			{
+				int keyCode = event.getKeyCode();
+				if (keyCode == KeyCodes.KEY_TAB && hasTabHandlers()) {
+					event.preventDefault();
+					event.stopPropagation();
+					for (TabHandler handler : tabHandlers) {
+						handler.onTab(this, event.getShiftKey());
+					}
+					return;
+				}
+			}
+			super.onBrowserEvent(event);
+		}
+
+	}
+
+	private boolean hasTabHandlers() {
+		return app.has(Feature.TAB_ON_GUI) && !tabHandlers.isEmpty();
 	}
 }
