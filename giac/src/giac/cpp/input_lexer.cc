@@ -3094,7 +3094,7 @@ index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;
 case 231:
 YY_RULE_SETUP
 #line 531 "input_lexer.ll"
-index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){ (*yylval)=gen(at_PERCENT); return T_UNARY_OP_38; } if (xcas_mode(yyextra)==3 || calc_mode(yyextra)==1) { (*yylval)=gen(at_pourcent); return T_FACTORIAL; } if (xcas_mode(yyextra)==1) { (*yylval)=symbolic(at_ans,vecteur(0)); return T_NUMBER; }  if (xcas_mode(yyextra)) (*yylval)=gen(at_irem,2); else (*yylval)=0; return T_MOD;
+index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){ (*yylval)=gen(at_PERCENT); return T_UNARY_OP_38; } if (xcas_mode(yyextra)==3 || calc_mode(yyextra)==1) { (*yylval)=gen(at_pourcent); return T_FACTORIAL; } if (xcas_mode(yyextra)==1) { (*yylval)=symbolic(at_ans,vecteur(0)); return T_NUMBER; }  if (xcas_mode(yyextra) || python_compat(yyextra)) (*yylval)=gen(at_irem,2); else (*yylval)=0; return T_MOD;
 	YY_BREAK
 case 232:
 YY_RULE_SETUP

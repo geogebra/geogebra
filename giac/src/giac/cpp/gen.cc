@@ -13254,8 +13254,8 @@ namespace giac {
       return _MODptr->print(contextptr)+" %% "+(*(_MODptr+1)).print(contextptr);
 #else
       if ( (_MODptr->type==_SYMB && _MODptr->_SYMBptr->sommet!=at_pow) || (_MODptr->type==_VECT && _MODptr->subtype==_SEQ__VECT) )
-	return "("+_MODptr->print(contextptr)+") % "+(*(_MODptr+1)).print(contextptr);
-      return _MODptr->print(contextptr)+" % "+(*(_MODptr+1)).print(contextptr);
+	return "("+_MODptr->print(contextptr)+")"+(python_compat(contextptr)?" mod ":" % ")+(*(_MODptr+1)).print(contextptr);
+      return _MODptr->print(contextptr)+(python_compat(contextptr)?" mod ":" % ")+(*(_MODptr+1)).print(contextptr);
 #endif
     case _FRAC:
       return print_FRAC(*this,contextptr);

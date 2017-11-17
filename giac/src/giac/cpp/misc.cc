@@ -1684,7 +1684,10 @@ namespace giac {
   // synonyms
   gen _float(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return evalf(g,1,contextptr);
+    gen g_=g;
+    if (g.type==_STRNG)
+      g_=gen(*g._STRNGptr,contextptr);
+    return evalf(g_,1,contextptr);
   }
   static const char _float_s []="float";
   static define_unary_function_eval (__float,&_float,_float_s);
