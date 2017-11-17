@@ -256,6 +256,7 @@ namespace giac {
 
   extern const unary_function_ptr * const  at_find ;
   gen _find(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_add_autosimplify;
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
