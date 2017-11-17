@@ -4321,7 +4321,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2170 */
 		case SLIDER_STYLE_OPTIONS:
-			return prerelease;
+			return true;
 
 		/** GGB-2187 */
 		case RELATIVE_POSITION_FURNITURE:
