@@ -3,6 +3,8 @@ package org.geogebra.web.web.gui.app;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -63,8 +65,19 @@ public class GGWMenuBar extends Composite {
 	 * Focus the menu
 	 */
 	public void focus() {
-		menubar.focus();
+		menubar.focusFirst();
+	}
 
+	/**
+	 * Focus menu in the deferred way.
+	 */
+	public void focusDeferred() {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			public void execute() {
+				focus();
+			}
+		});
 	}
 
 	/**

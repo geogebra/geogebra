@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.menubar;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -348,6 +349,7 @@ public class MainMenu extends FlowPanel
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(index)), false);
 				}
+
 			}
 
 			@Override
@@ -414,6 +416,7 @@ public class MainMenu extends FlowPanel
 						showStack(index);
 					}
 				}
+
 				super.onBrowserEvent(event);
 			}
 
@@ -457,17 +460,47 @@ public class MainMenu extends FlowPanel
 				@Override
 				public void onKeyDown(KeyDownEvent event) {
 					int keyCode = event.getNativeKeyCode();
+					boolean tab = false;
+					if (app.has(Feature.TAB_ON_GUI)
+							&& keyCode == KeyCodes.KEY_A) {
+						event.stopPropagation();
+						event.preventDefault();
+						tab = true;
+					}
 					// First / last below are not intuitive -- note that default
 					// handler of
 					// down skipped already from last to first
-					if (keyCode == KeyCodes.KEY_DOWN) {
+					GMenuBar item = menus.get(index);
+					if (keyCode == KeyCodes.KEY_DOWN
+							|| (tab && !event.isShiftKeyDown())) {
+
+						if (tab) {
+							if (item.isLastItemSelected()) {
+								menuPanel.showStack(next + 1);
+								menus.get(next).focus();
+							} else {
+								item.moveSelectionDown();
+							}
+							return;
+						}
 						if (menus.get(index).isFirstItemSelected()) {
 							menuPanel.showStack(next);
 							menus.get(next).focus();
 						}
 
-					}
-					if (keyCode == KeyCodes.KEY_UP) {
+					} else
+					if (keyCode == KeyCodes.KEY_UP
+							|| (tab && event.isShiftKeyDown())) {
+						if (tab) {
+							if (menus.get(index).isFirstItemSelected()) {
+								menuPanel.showStack(previous + 1);
+								menus.get(previous).focus();
+							} else {
+								menus.get(index).moveSelectionUp();
+							}
+							return;
+						}
+
 						if (menus.get(index).isLastItemSelected()) {
 							menuPanel.showStack(previous);
 							menus.get(previous).focus();
@@ -799,6 +832,10 @@ public class MainMenu extends FlowPanel
 					new org.geogebra.common.plugin.Event(EventType.OPEN_MENU,
 							null, menus.get(index).getMenuTitle()));
 		}
+	}
+
+	public void focusFirst() {
+		menus.get(0).focus();
 	}
 
 }

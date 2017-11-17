@@ -26,6 +26,7 @@ import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.Persistable;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
+import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
@@ -479,10 +480,20 @@ public class AppWapplet extends AppWFull {
 	}
 
 	private class FloatingMenuPanel extends FlowPanel {
+		private GGWMenuBar menu;
+
 		public FloatingMenuPanel() {
 			addStyleName("floatingMenu");
-			add(getAppletFrame().getMenuBar(AppWapplet.this));
+			menu = getAppletFrame().getMenuBar(AppWapplet.this);
+			add(menu);
 			
+		}
+
+		/**
+		 * focus in deferred way.
+		 */
+		public void focusDeferred() {
+			menu.focusDeferred();
 		}
 	}
 
@@ -710,6 +721,7 @@ public class AppWapplet extends AppWFull {
 			public void run() {
 				floatingMenuPanel.setVisible(true);
 				getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
+				floatingMenuPanel.focusDeferred();
 			}
 		}, floatingMenuPanel.getElement(), "animateIn");
 
@@ -733,10 +745,15 @@ public class AppWapplet extends AppWFull {
 		if (isFloatingMenu() && menuShowing) {
 			this.addFloatingMenu();
 			floatingMenuPanel.setVisible(true);
+
 			return;
 		}
-		floatingMenuPanel.add(getAppletFrame().getMenuBar(this));
+		final GGWMenuBar menubar = getAppletFrame().getMenuBar(this);
+		floatingMenuPanel.add(menubar);
 		floatingMenuPanel.setVisible(menuShowing);
+		if (has(Feature.TAB_ON_GUI) && menuShowing) {
+			menubar.focusDeferred();
+		}
 		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
 	}
 
