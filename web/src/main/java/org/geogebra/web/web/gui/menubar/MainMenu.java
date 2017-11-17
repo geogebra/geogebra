@@ -110,6 +110,7 @@ public class MainMenu extends FlowPanel
 			this.addStyleName("menubarSMART");
 		}
 		signInMenu = new GMenuBar(true, "signin", app);
+		signInMenu.addTabHandler(this);
 		// leftSide = app.isWhiteboardActive() || app.isUnbundled();
 		this.app = app;
 		init();
@@ -255,6 +256,8 @@ public class MainMenu extends FlowPanel
 					true);
 			menuTitles.add("Language");
 			menuImgs.add(MaterialDesignResources.INSTANCE.language_black());
+			languageMenu.addTabHandler(this);
+			settingsMenu.addTabHandler(this);
 		}
 		if (!app.getLAF().isSmart() && enableGraph
 				&& !app.isUnbundledOrWhiteboard()) {
@@ -269,6 +272,7 @@ public class MainMenu extends FlowPanel
 		}
 		if (!exam) {
 			if (app.isUnbundledOrWhiteboard()) {
+				helpMenu.addTabHandler(this);
 				this.menuPanel.add(helpMenu, getExpandCollapseHTML(
 						MaterialDesignResources.INSTANCE.icon_help_black(),
 						"Help"), true);
@@ -602,6 +606,7 @@ public class MainMenu extends FlowPanel
 	private void createPerspectivesMenu() {
 		perspectivesMenu = new PerspectivesMenuW(app);
 		perspectiveMenuUnbundled = new PerspectivesMenuUnbundledW(app);
+		perspectiveMenuUnbundled.addTabHandler(this);
 	}
 
 	private void createEditMenu() {
@@ -776,6 +781,7 @@ public class MainMenu extends FlowPanel
 
 	private void addUserMenu() {
 		if (app.isUnbundledOrWhiteboard()) {
+			userMenu.addTabHandler(this);
 			this.menuPanel.add(this.userMenu,
 					getExpandCollapseHTML(
 							MaterialDesignResources.INSTANCE.person_black(),
