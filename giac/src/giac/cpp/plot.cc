@@ -5851,6 +5851,12 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(gen2vecteur(args));
     int vs=int(v.size());
+    if (vs==1 && args.type==_STRNG){
+      v.push_back(0);
+      v.push_back(identificateur("_input_"));
+      v.push_back(0);
+      ++vs;
+    }
     if (vs>1)
       v[1]=eval(v[1],contextptr);
     gen res;

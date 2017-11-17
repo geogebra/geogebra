@@ -5775,6 +5775,15 @@ unsigned int ConvertUTF8toUTF16 (
 	  }
 	}
 	chkfrom=false;
+	// import * as ** -> **:=*
+	if (ch=='i' && pos+6<int(cur.size()) && cur.substr(pos,6)=="import"){
+	  int posi=cur.find(" as ");
+	  if (posi>pos+5 && posi<int(cur.size())){
+	    cur=cur.substr(posi+4,cur.size()-posi-4)+":="+cur.substr(7,posi-7);
+	    pythonmode=true;
+	    break;	    
+	  }
+	}
 	if (ch=='l' && pos+6<int(cur.size()) && cur.substr(pos,6)=="lambda" && instruction_at(cur,pos,6)){
 	  int posdot=cur.find(':',pos);
 	  if (posdot>pos+7 && posdot<int(cur.size())-1 && cur[posdot+1]!='=' && cur[posdot+1]!=';'){

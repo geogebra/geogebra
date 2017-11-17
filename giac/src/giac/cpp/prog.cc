@@ -8040,6 +8040,9 @@ namespace giac {
     if (it==itend)
       return __click.op(args,contextptr);
     gen res;
+    if (args.type==_STRNG){
+      return __click.op(args,contextptr);
+    }
     for (;it!=itend;++it){
       if (it->type==_IDNT || it->is_symb_of_sommet(at_at) || it->is_symb_of_sommet(at_of)){
 	if (textinput)
@@ -10255,6 +10258,8 @@ namespace giac {
     if (ws!=2)
       return gensizeerr(contextptr);
     gen a=w[0],b=w[1];
+    if (a.type==_IDNT)
+      a=eval(a,1,contextptr);
     if (b.type!=_SYMB)
       return _prod(eval(g,eval_level(contextptr),contextptr),contextptr);
     gen f=b;
