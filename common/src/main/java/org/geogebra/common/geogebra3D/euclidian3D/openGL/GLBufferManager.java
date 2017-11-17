@@ -13,7 +13,7 @@ public class GLBufferManager {
 
 	private int currentIndex;
 	private BufferSegment currentBufferSegment, currentBufferSegmentForIndices;
-	private GLBuffer vertexBuffer, normalBuffer, colorBuffer;
+	private GLBuffer vertexBuffer, normalBuffer, textureBuffer, colorBuffer;
 	private GLBufferIndices curvesIndices;
 	private int totalLength, indicesLength;
 	private HashMap<Integer, BufferSegment> bufferSegments, bufferSegmentsForIndices;
@@ -35,12 +35,14 @@ public class GLBufferManager {
 	public GLBufferManager() {
 		vertexBuffer = GLFactory.getPrototype().newBuffer();
 		normalBuffer = GLFactory.getPrototype().newBuffer();
+		textureBuffer = GLFactory.getPrototype().newBuffer();
 		colorBuffer = GLFactory.getPrototype().newBuffer();
 		curvesIndices = GLFactory.getPrototype().newBufferIndices();
 
 		int size1 = Short.MAX_VALUE, size2 = size1 * 3;
 		vertexBuffer.allocate(size1 * 3);
 		normalBuffer.allocate(size1 * 3);
+		textureBuffer.allocate(size1 * 2);
 		colorBuffer.allocate(size1 * 4);
 		curvesIndices.allocate(size2);
 
@@ -61,14 +63,6 @@ public class GLBufferManager {
 
 	/**
 	 * 
-	 * @return length
-	 */
-	public int getLength() {
-		return totalLength;
-	}
-
-	/**
-	 * 
 	 * @param array
 	 *            array
 	 * @param length
@@ -83,6 +77,7 @@ public class GLBufferManager {
 			totalLength += l;
 			vertexBuffer.setLimit(totalLength * 3);
 			normalBuffer.setLimit(totalLength * 3);
+			textureBuffer.setLimit(totalLength * 2);
 			colorBuffer.setLimit(totalLength * 4);
 		}
 		vertexBuffer.set(array, currentBufferSegment.offset * 3, currentBufferSegment.length * 3);
@@ -97,6 +92,17 @@ public class GLBufferManager {
 	 */
 	public void setNormalBuffer(ArrayList<Double> array, int length) {
 		normalBuffer.set(array, currentBufferSegment.offset * 3, currentBufferSegment.length * 3);
+	}
+
+	/**
+	 * 
+	 * @param array
+	 *            array
+	 * @param length
+	 *            length to set
+	 */
+	public void setTextureBuffer(ArrayList<Double> array, int length) {
+		textureBuffer.set(array, currentBufferSegment.offset * 2, currentBufferSegment.length * 2);
 	}
 
 	/**
@@ -157,21 +163,30 @@ public class GLBufferManager {
 	 * 
 	 * @param r
 	 *            renderer
+	 * @param hidden
+	 *            if hidden
 	 */
-	public void draw(RendererShadersInterface r) {
+	public void draw(RendererShadersInterface r, boolean hidden) {
+
+		if (totalLength == 0) {
+			return;
+		}
 
 		vertexBuffer.rewind();
 		normalBuffer.rewind();
 		curvesIndices.rewind();
 
+		((TexturesShaders) r.getTextures()).setPackedDash();
+		r.setDashTexture(hidden ? Textures.DASH_PACKED_HIDDEN : Textures.DASH_PACKED);
+
 		r.loadVertexBuffer(vertexBuffer, totalLength * 3);
 		r.loadNormalBuffer(normalBuffer, totalLength * 3);
 		r.loadColorBuffer(colorBuffer, totalLength * 4);
-		// if (r.areTexturesEnabled()) {
-		// r.loadTextureBuffer(getTextures(), getLength());
-		// } else {
-		r.disableTextureBuffer();
-		// }
+		if (r.areTexturesEnabled()) {
+			r.loadTextureBuffer(textureBuffer, totalLength * 2);
+		} else {
+			r.disableTextureBuffer();
+		}
 		r.loadIndicesBuffer(curvesIndices, indicesLength);
 		r.draw(Type.TRIANGLES, indicesLength);
 

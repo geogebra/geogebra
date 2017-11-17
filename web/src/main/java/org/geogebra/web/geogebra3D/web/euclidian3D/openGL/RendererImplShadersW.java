@@ -22,6 +22,7 @@ import org.geogebra.web.html5.gawt.GBufferedImageW;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
+import com.googlecode.gwtgl.array.Uint8Array;
 import com.googlecode.gwtgl.binding.WebGLFramebuffer;
 import com.googlecode.gwtgl.binding.WebGLProgram;
 import com.googlecode.gwtgl.binding.WebGLRenderbuffer;
@@ -98,7 +99,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 		fragShader = getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
 				ShaderProvider.getFragmentShader(needsSmallFragmentShader,
-						true));
+						true, view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)));
 		vertShader = getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
 				ShaderProvider.getVertexShader(needsSmallFragmentShader, true));
@@ -532,6 +533,36 @@ public class RendererImplShadersW extends RendererImplShaders {
 				WebGLRenderingContext.RGBA, WebGLRenderingContext.RGBA,
 				WebGLRenderingContext.UNSIGNED_BYTE, data);
 
+		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
+
+		return newIndex;
+	}
+
+	/**
+	 * 
+	 * @param sizeX
+	 * @param sizeY
+	 * @param buf
+	 * @return a texture for alpha channel
+	 */
+	public int createAlphaTexture(int sizeX, int sizeY, byte[] buf) {
+
+		// create texture
+		WebGLTexture texture;
+
+		int newIndex = texturesArray.size();
+		texture = glContext.createTexture();
+		texturesArray.add(texture);
+
+		// create array with alpha channel
+		Uint8Array array = Uint8Array.create(buf.length * 4);
+		for (int i = 0; i < buf.length; i++) {
+			array.set(i * 4 + 3, buf[i]);
+		}
+		
+		glContext.bindTexture(WebGLRenderingContext.TEXTURE_2D, texture);
+		glContext.texImage2D(WebGLRenderingContext.TEXTURE_2D, 0, WebGLRenderingContext.RGBA, sizeX, sizeY, 0,
+				WebGLRenderingContext.RGBA, WebGLRenderingContext.UNSIGNED_BYTE, array);
 		glContext.generateMipmap(WebGLRenderingContext.TEXTURE_2D);
 
 		return newIndex;

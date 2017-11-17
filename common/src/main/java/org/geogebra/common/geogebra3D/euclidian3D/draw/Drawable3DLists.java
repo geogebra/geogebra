@@ -342,7 +342,7 @@ public class Drawable3DLists {
 					d3d.drawHidden(renderer);
 				}
 			}
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer);
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, true);
 		}
 		else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
@@ -467,7 +467,7 @@ public class Drawable3DLists {
 					d3d.drawOutline(renderer);
 				}
 			}
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer);
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, false);
 		} else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
 				d.next().drawOutline(renderer);

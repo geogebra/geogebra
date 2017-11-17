@@ -126,6 +126,11 @@ public class RendererWithImplW extends RendererWithImpl implements
 	}
 
 	@Override
+	public int createAlphaTexture(int sizeX, int sizeY, byte[] buf) {
+		return ((RendererImplShadersW) getRendererImpl()).createAlphaTexture(sizeX, sizeY, buf);
+	}
+
+	@Override
 	protected Textures newTextures() {
 		return new TexturesShaders(this);
 	}

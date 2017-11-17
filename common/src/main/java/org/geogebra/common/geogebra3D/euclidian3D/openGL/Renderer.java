@@ -1996,6 +1996,15 @@ public abstract class Renderer {
 
 	/**
 	 * 
+	 * @param sizeX
+	 * @param sizeY
+	 * @param buf
+	 * @return a texture for alpha channel
+	 */
+	abstract public int createAlphaTexture(int sizeX, int sizeY, byte[] buf);
+
+	/**
+	 * 
 	 * @param val
 	 * @return first power of 2 greater than val
 	 */

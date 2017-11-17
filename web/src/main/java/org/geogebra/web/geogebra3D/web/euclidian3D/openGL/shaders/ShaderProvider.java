@@ -13,15 +13,20 @@ public class ShaderProvider {
 	 *            says if we need a small fragment shader
 	 * @param shiny
 	 *            says if we use specular light to get it shiny
+	 * @param packed
+	 *            says if we use packed buffers
 	 * @return Fragment shader
 	 */
 	public static String getFragmentShader(boolean needsSmallFragmentShader,
-			boolean shiny) {
+			boolean shiny, boolean packed) {
 		if (needsSmallFragmentShader) {
 			return Shaders.INSTANCE.fragmentShaderSmaller().getText();
 		}
 
 		if (shiny) {
+			if (packed) {
+				return FragmentShader.getFragmentShaderShinyForPacking(0.2f, true);
+			}
 			return FragmentShader.getFragmentShaderShiny(0.2f, true);
 		}
 

@@ -447,6 +447,10 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 			removeTexture(textureIndex);
 		}
 
+		return createAlphaTexture(sizeX, sizeY, buf);
+	}
+
+	public int createAlphaTexture(int sizeX, int sizeY, byte[] buf) {
 		enableTextures2D();
 
 		int[] index = new int[1];

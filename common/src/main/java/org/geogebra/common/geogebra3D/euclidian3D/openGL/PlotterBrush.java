@@ -311,10 +311,10 @@ public class PlotterBrush implements PathPlotter {
 		switch (textureTypeX) {
 		case TEXTURE_ID:
 		default:
-			manager.texture(pos, 0);
+			manager.texture(pos);
 			break;
 		case TEXTURE_CONSTANT_0:
-			manager.texture(0, 0);
+			manager.texture(0);
 			break;
 		case TEXTURE_AFFINE:
 			// float factor = (int) (TEXTURE_AFFINE_FACTOR*length*scale); //TODO
@@ -326,15 +326,14 @@ public class PlotterBrush implements PathPlotter {
 			} else {
 				factor = TEXTURE_AFFINE_FACTOR * length * scale;
 			}
-			manager.texture(factor * (pos - texturePosZero) + textureValZero,
-					0);
+			manager.texture(factor * (pos - texturePosZero) + textureValZero);
 			break;
 		case TEXTURE_LINEAR:
 			if (manager.getView3D().getApplication()
 					.has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
-				manager.texture(TEXTURE_AFFINE_FACTOR * pos, 0);
+				manager.texture(TEXTURE_AFFINE_FACTOR * pos);
 			} else {
-				manager.texture(TEXTURE_AFFINE_FACTOR * scale * pos, 0);
+				manager.texture(TEXTURE_AFFINE_FACTOR * scale * pos);
 			}
 			break;
 

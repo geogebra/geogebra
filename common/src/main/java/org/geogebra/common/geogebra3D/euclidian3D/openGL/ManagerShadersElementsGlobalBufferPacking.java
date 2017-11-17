@@ -14,6 +14,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	private GLBufferManager bufferManager;
 	private boolean isPacking;
 	private GColor currentColor;
+	private int currentTextureType;
 
 	private class GeometriesSetElementsGlobalBufferPacking extends GeometriesSetElementsGlobalBuffer {
 
@@ -75,6 +76,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 			public void setTextures(ArrayList<Double> array, int length) {
 				// Log.debug("t length = " + length);
+				bufferManager.setTextureBuffer(array, length);
 			}
 
 			public void setColors(ArrayList<Double> array, int length) {
@@ -117,11 +119,11 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 * 
 	 * @param renderer
 	 *            renderer
+	 * @param hidden
+	 *            if hidden
 	 */
-	public void drawCurves(Renderer renderer) {
-		if (bufferManager.getLength() > 0) {
-			bufferManager.draw((RendererShadersInterface) renderer);
-		}
+	public void drawCurves(Renderer renderer, boolean hidden) {
+		bufferManager.draw((RendererShadersInterface) renderer, hidden);
 	}
 
 	/**
@@ -141,6 +143,21 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void setCurrentColor(GColor color) {
 		this.currentColor = color;
+	}
+
+	protected void texture(double x) {
+		texture(x, currentTextureType);
+	}
+
+	/**
+	 * set the current line type
+	 * 
+	 * @param lineType
+	 *            line type
+	 * @param lineTypeHidden
+	 */
+	public void setCurrentLineType(int lineType, int lineTypeHidden) {
+		this.currentTextureType = Textures.getDashIdFromLineType(lineType, lineTypeHidden);
 	}
 
 }

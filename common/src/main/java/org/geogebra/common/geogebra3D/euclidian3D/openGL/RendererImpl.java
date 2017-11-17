@@ -350,4 +350,8 @@ public abstract class RendererImpl implements RendererShadersInterface {
 	 */
 	abstract public void createDummyTexture();
 
+	public Textures getTextures() {
+		return renderer.getTextures();
+	}
+
 }

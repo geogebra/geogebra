@@ -8,6 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * implementation for renderer using shaders
@@ -385,8 +386,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		} else {
 			enableTextures();
 			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
-			glUniform1fv(dashValuesLocation, 4,
-					DASH_SHADERS_VALUES[index - 1]);
+			if (index <= DASH_SHADERS_VALUES.length) {
+				glUniform1fv(dashValuesLocation, 4, DASH_SHADERS_VALUES[index - 1]);
+			}
 		}
 	}
 

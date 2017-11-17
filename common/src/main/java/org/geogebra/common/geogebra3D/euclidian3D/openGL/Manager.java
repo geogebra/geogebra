@@ -505,6 +505,16 @@ abstract public class Manager {
 	abstract protected void texture(double x, double y);
 
 	/**
+	 * creates a texture at coordinate (x)
+	 * 
+	 * @param x
+	 *            x coord
+	 */
+	protected void texture(double x) {
+		texture(x, 0);
+	}
+
+	/**
 	 * creates a color (r,g,b)
 	 * 
 	 * @param r
