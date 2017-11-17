@@ -20,11 +20,13 @@ public class EuclidianView3DAnimationRotationOneStep extends EuclidianView3DAnim
 	 * @param aN
 	 * @param bN
 	 * @param checkSameValues
+	 * @param storeUndo
+	 *            if undo will be stored at the end
 	 */
 	public EuclidianView3DAnimationRotationOneStep(EuclidianView3D view3D, EuclidianView3DAnimator animator, double aN,
-			double bN, boolean checkSameValues) {
+			double bN, boolean checkSameValues, boolean storeUndo) {
 
-		super(view3D, animator);
+		super(view3D, animator, storeUndo);
 		this.checkSameValues = checkSameValues;
 		aNew = aN;
 		bNew = bN;

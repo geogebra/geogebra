@@ -148,8 +148,10 @@ public class EuclidianView3DAnimator {
 	 *            toggle orientation if same values
 	 * @param animated
 	 *            if animated
+	 * @param storeUndo
+	 *            if undo will be stored at the end
 	 */
-	public void setRotAnimation(double aN, double bN, boolean checkSameValues, boolean animated) {
+	public void setRotAnimation(double aN, double bN, boolean checkSameValues, boolean animated, boolean storeUndo) {
 
 		if (Double.isNaN(aN) || Double.isNaN(bN)) {
 			Log.error("NaN values for setRotAnimation");
@@ -157,9 +159,9 @@ public class EuclidianView3DAnimator {
 		}
 
 		if (animated) {
-			addAnimation(new EuclidianView3DAnimationRotation(view3D, this, aN, bN, checkSameValues));
+			addAnimation(new EuclidianView3DAnimationRotation(view3D, this, aN, bN, checkSameValues, storeUndo));
 		} else {
-			addAnimation(new EuclidianView3DAnimationRotationOneStep(view3D, this, aN, bN, checkSameValues));
+			addAnimation(new EuclidianView3DAnimationRotationOneStep(view3D, this, aN, bN, checkSameValues, storeUndo));
 		}
 
 	}

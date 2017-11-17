@@ -1878,7 +1878,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public void setRotAnimation(double aN, double bN, boolean checkSameValues,
 			boolean animated) {
-		animator.setRotAnimation(aN, bN, checkSameValues, animated);
+		animator.setRotAnimation(aN, bN, checkSameValues, animated, false);
 	}
 
 	/**
@@ -4638,10 +4638,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setStandardView(boolean storeUndo) {
 		if (app.has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
 			setAnimatedCoordSystem(STANDARD_VIEW_STEPS);
-			setRotAnimation(ANGLE_ROT_OZ, ANGLE_ROT_XOY, false);
-			if (storeUndo) {
-				getApplication().storeUndoInfo();
-			}
+			animator.setRotAnimation(ANGLE_ROT_OZ, ANGLE_ROT_XOY, false, true, storeUndo);
 		} else {
 			super.setStandardView(storeUndo);
 		}

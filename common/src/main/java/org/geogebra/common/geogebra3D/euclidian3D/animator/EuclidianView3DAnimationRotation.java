@@ -22,11 +22,12 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 	 * @param aN
 	 * @param bN
 	 * @param checkSameValues
+	 * @param storeUndo
 	 */
 	public EuclidianView3DAnimationRotation(EuclidianView3D view3D, EuclidianView3DAnimator animator, double aN,
-			double bN, boolean checkSameValues) {
+			double bN, boolean checkSameValues, boolean storeUndo) {
 
-		super(view3D, animator);
+		super(view3D, animator, storeUndo);
 		this.checkSameValues = checkSameValues;
 
 		aNew = aN;

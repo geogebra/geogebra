@@ -18,6 +18,20 @@ public abstract class EuclidianView3DAnimation {
 	 */
 	protected EuclidianView3DAnimator animator;
 
+	private boolean storeUndo;
+
+	/**
+	 * constructor
+	 *
+	 * @param view3D
+	 *            3D view
+	 * @param animator
+	 *            3D view animator
+	 */
+	public EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
+		this(view3D, animator, false);
+	}
+
 	/**
 	 * constructor
 	 * 
@@ -25,10 +39,13 @@ public abstract class EuclidianView3DAnimation {
 	 *            3D view
 	 * @param animator
 	 *            3D view animator
+	 * @param storeUndo
+	 *            if undo point will be stored at the end
 	 */
-	public EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
+	public EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator, boolean storeUndo) {
 		this.view3D = view3D;
 		this.animator = animator;
+		this.storeUndo = storeUndo;
 	}
 
 	/**
@@ -51,6 +68,9 @@ public abstract class EuclidianView3DAnimation {
 	 * end animation
 	 */
 	public void end() {
+		if (storeUndo) {
+			view3D.getApplication().storeUndoInfo();
+		}
 		animator.endAnimation();
 	}
 
