@@ -400,6 +400,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		// parentAlgorithm is set to null in some cases (see below)
 		for (int i = 0; i < points.length; i++) {
 			points[i].setParentAlgorithm(this);
+			points[i].setUseVisualDefaults(false);
 		}
 
 		if (points.length > number) {

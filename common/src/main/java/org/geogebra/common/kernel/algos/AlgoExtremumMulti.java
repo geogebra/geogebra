@@ -277,7 +277,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 	@Override
 	protected void initPoints(int number) {
 		super.initPoints(number);
-
+		for (int i = 0; i < points.length; i++) {
+			points[i].setUseVisualDefaults(false);
+		}
 		if (points.length > number) {
 
 			// count points with dependent elements
