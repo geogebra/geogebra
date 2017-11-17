@@ -99,6 +99,9 @@ namespace giac {
   gen equaltosto(const gen & g,GIAC_CONTEXT){
     if (!eval_equaltosto(contextptr))
       return g;
+    if (g.is_symb_of_sommet(at_add_autosimplify)){
+      return symbolic(g._SYMBptr->sommet,equaltosto(g._SYMBptr->feuille,contextptr));
+    }
     if (is_equal(g)){
       vecteur v=*g._SYMBptr->feuille._VECTptr;
       gen a;

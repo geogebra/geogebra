@@ -2147,7 +2147,7 @@ namespace giac {
   static define_unary_function_eval (__gammad_icdf,&_gammad_icdf,_gammad_icdf_s);
   define_unary_function_ptr5( at_gammad_icdf ,alias_at_gammad_icdf,&__gammad_icdf,0,true);
 
-  gen _uniform(const gen & g,GIAC_CONTEXT){
+  gen uniform(const gen & g,bool ckpython,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type!=_VECT)
       return 1;
@@ -2155,17 +2155,26 @@ namespace giac {
     int s=int(v.size());
     if (s==0)
       return symbolic(at_uniformd,makesequence(0,1));
-    if (s==2)
+    if (s==2){
+      if (ckpython)
+	return v[0]+(giac_rand(contextptr)/(rand_max2+1.0))*(v[1]-v[0]);
       return symbolic(at_uniformd,makesequence(v[0],v[1]));
+    }
     if (s==3)
       return inv(v[1]-v[0],contextptr);
     return gensizeerr(contextptr);
   }
+  gen _uniform(const gen & g,GIAC_CONTEXT){
+    return uniform(g,true,contextptr);
+  }
   static const char _uniform_s []="uniform";
   static define_unary_function_eval (__uniform,&_uniform,_uniform_s);
   define_unary_function_ptr5( at_uniform ,alias_at_uniform,&__uniform,0,true);
+  gen _uniformd(const gen & g,GIAC_CONTEXT){
+    return uniform(g,false,contextptr);
+  }
   static const char _uniformd_s []="uniformd";
-  static define_unary_function_eval (__uniformd,&_uniform,_uniformd_s);
+  static define_unary_function_eval (__uniformd,&_uniformd,_uniformd_s);
   define_unary_function_ptr5( at_uniformd ,alias_at_uniformd,&__uniformd,0,true);
 
   gen _uniform_cdf(const gen & g,GIAC_CONTEXT){

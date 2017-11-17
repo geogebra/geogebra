@@ -15408,8 +15408,6 @@ namespace giac {
       history_in(&C).push_back(g);
       // COUT << "hin " << g << endl;
     }
-    if (g.is_symb_of_sommet(at_equal))
-      g=eval(equaltosto(g,&C),1,&C);
     g=protecteval(g,1,&C);
     if (push){
       history_out(&C).push_back(g);
