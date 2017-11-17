@@ -240,8 +240,8 @@ public class GMenuBar extends MenuBar{
 					return;
 				}
 			}
-			super.onBrowserEvent(event);
 		}
+		super.onBrowserEvent(event);
 
 	}
 
