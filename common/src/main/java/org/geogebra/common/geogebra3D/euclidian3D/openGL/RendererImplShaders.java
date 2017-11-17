@@ -8,7 +8,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
 
 /**
  * implementation for renderer using shaders
