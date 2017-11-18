@@ -5900,6 +5900,13 @@ unsigned int ConvertUTF8toUTF16 (
       char ch;
       while ((ch=s[s.size()-1])==';' || (ch=='\n'))
 	s=s.substr(0,s.size()-1);
+      // replace ;) by )
+      for (int i=s.size()-1;i>=2;--i){
+	if (s[i]==')' && s[i-1]=='\n' && s[i-2]==';'){
+	  s.erase(s.begin()+i-2);
+	  break;
+	}
+      }
       if (s.size()>10 && s.substr(s.size()-9,9)=="ffunction")
 	s += ":;";
       else

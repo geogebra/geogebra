@@ -1016,8 +1016,12 @@ namespace giac {
     gen newa,newc;
     replace_keywords(a,((embedd&&c.type==_VECT)?makevecteur(c):c),newa,newc,contextptr);
     if (python_compat(contextptr)){
-      vecteur res1,non_decl,res3,res4;
-      check_local_assign(newc,gen2vecteur(newa),res1,non_decl,res3,res4,false,contextptr);
+      vecteur res1,non_decl,res3,res4,Newa=gen2vecteur(newa);
+      for (int i=0;i<int(Newa.size());++i){
+	if (Newa[i].is_symb_of_sommet(at_equal))
+	  Newa[i]=Newa[i]._SYMBptr->feuille[0];
+      }
+      check_local_assign(newc,Newa,res1,non_decl,res3,res4,false,contextptr);
       int rs=int(non_decl.size());
       for (int i=0;i<rs;i++){
 	if (is_constant_idnt(non_decl[i])){
@@ -5641,6 +5645,20 @@ namespace giac {
   static const char _maple_mode_s []="maple_mode";
   static define_unary_function_eval (__maple_mode,&_xcas_mode,_maple_mode_s);
   define_unary_function_ptr5( at_maple_mode ,alias_at_maple_mode,&__maple_mode,0,true);
+  gen _python_compat(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+    gen args(g);
+    if (g.type==_DOUBLE_)
+      args=int(g._DOUBLE_val);    
+    if (args.type!=_INT_)
+      return python_compat(contextptr);
+    int p=python_compat(contextptr);
+    python_compat(contextptr)=args.val ;
+    return p;
+  }
+  static const char _python_compat_s []="python_compat";
+  static define_unary_function_eval (__python_compat,&_python_compat,_python_compat_s);
+  define_unary_function_ptr5( at_python_compat ,alias_at_python_compat,&__python_compat,0,true);
 
   gen giac_eval_level(const gen & g,GIAC_CONTEXT){
     gen args(g);
