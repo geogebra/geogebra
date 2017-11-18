@@ -9,7 +9,10 @@ var rl = readline.createInterface({
 
 const args = process.argv;
 
+var mini = true;
+
 if (args.length > 1 && args[2] != "-m") {
+ mini = false;
  console.log("This is a minimalist command line version of NodeGiac");
  console.log("Enter expressions to evaluate");
  console.log("Example: factor(x^4-1); simplify(sin(3x)/sin(x))");
@@ -23,7 +26,9 @@ var n=1;
 rl.on('line', function(line){
     // echo
     console.log(n + ">> " + line);
-    console.log(n + "<< " + giac.evaluate(line));
+    var ans = giac.evaluate(line);
+    if (mini) ans = ans.replace(/\n/g, "\\n");
+    console.log(n + "<< " + ans);
     n++;
 })
 
