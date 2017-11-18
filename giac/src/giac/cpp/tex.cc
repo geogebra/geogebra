@@ -994,15 +994,16 @@ namespace giac {
       vecteur v;
       if (g._SYMBptr->feuille.type==_VECT && g._SYMBptr->feuille._VECTptr->size()>=3){
 	v=*g._SYMBptr->feuille._VECTptr;
-	gen delta=v[2]-v[1];
-	v=makevecteur(c-r*exp(cst_i*(v[1]-0.1*delta),contextptr),
-		      c-r*exp(cst_i*v[1],contextptr),
-		      c-r*exp(cst_i*(3*v[1]+v[2])/gen(4),contextptr),
-		      c-r*exp(cst_i*(v[1]+v[2])/gen(2),contextptr),
-		      c-r*exp(cst_i*(v[1]+3*v[2])/gen(4),contextptr),
-		      c-r*exp(cst_i*v[2],contextptr),
-		      c-r*exp(cst_i*(v[2]+0.1*delta),contextptr)); 
-	// FIXME? centre_rayon returns (a-b)/2 for rayon instead of (b-a)/2...
+	gen v2=evalf_double(v[2],1,contextptr);
+	gen v1=evalf_double(v[1],1,contextptr);
+	gen delta=v2-v1;
+	v=makevecteur(c+r*exp(cst_i*(v1-0.1*delta),contextptr),
+		      c+r*exp(cst_i*v1,contextptr),
+		      c+r*exp(cst_i*(3*v1+v2)/gen(4),contextptr),
+		      c+r*exp(cst_i*(v1+v2)/gen(2),contextptr),
+		      c+r*exp(cst_i*(v1+3*v2)/gen(4),contextptr),
+		      c+r*exp(cst_i*v2,contextptr),
+		      c+r*exp(cst_i*(v2+0.1*delta),contextptr)); 
       }
       else
 	v=makevecteur(c-r,c+r,c-cst_i*r,c+cst_i*r);
