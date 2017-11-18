@@ -91,11 +91,13 @@ public interface GeoGebraConstants {
 				suffix.append("-prerelease");
 			}
 
+			// everything except old Java desktop version should be version
+			// 6.0.x.x
 			switch (this) {
-			case WEB_FOR_DESKTOP:
+			default:
 				// change 5.0.274.0 to 6.0.274.0
 				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
-			default:
+			case DESKTOP:
 				return VERSION_STRING + "-" + suffix;
 
 			}
