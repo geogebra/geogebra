@@ -29,3 +29,5 @@
 ./gbasis/isogonals3.in
 ./gbasis/theorem-3-tangent-to-ellipse.in
 ./gbasis/translate-by-vector3.in
+./geogebra/electron-rawTest-infeasible1.in
+./geogebra/electron-rawTest-infeasible2.in

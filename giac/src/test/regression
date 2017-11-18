@@ -35,7 +35,7 @@ usage() {
  exit 0
  }
 
-while getopts "tT:rfhHIsjn" OPT; do
+while getopts "t:T:rfhHIsjn" OPT; do
  case $OPT in
   j)
    MINIGIAC=../../../giac-jni/src/test/minigiac
@@ -96,10 +96,10 @@ find $FOLDER -name '*.in' | while read IN; do
  if [ "$REGRESSION" = 1 -o "$OVERWRITE" = 1 -o ! -f $OUT ]; then
   IGNORE=0
   if [ "$INFEASIBLE" = 0 ]; then
-   grep --silent ^$IN infeasible.txt && IGNORE=1
+   grep -F --silent $IN infeasible.txt && IGNORE=1
    fi
   if [ "$HEAVY" = 0 ]; then
-   grep --silent ^$IN heavy.txt && IGNORE=1
+   grep -F --silent $IN heavy.txt && IGNORE=1
    fi
   if [ "$IGNORE" = 0 ]; then
    DATE=`date +%T`

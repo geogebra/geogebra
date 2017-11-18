@@ -147,7 +147,7 @@
 74>> caseval(regroup(simplify(binomial(ggbtmpvarn,(ggbtmpvarn)-(1)))))
 74<< ggbtmpvarn
 75>> caseval(regroup([[ggbderivarg0:=(ggbtmpvarf(x))*(ggbtmpvarg(x))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]))
-75<< diff(ggbtmpvarf(x),x)*ggbtmpvarg(x)+diff(ggbtmpvarg(x),x)*ggbtmpvarf(x)
+75<< ggbtmpvarf(x)*diff(ggbtmpvarg(x),x)+ggbtmpvarg(x)*diff(ggbtmpvarf(x),x)
 76>> caseval(regroup([[[ggbderiv2arg0:=sin((2)*(ggbtmpvart))],[ggbderiv2arg1:=2]],when(type(ggbderiv2arg1)==DOM_INT,regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname(sin((2)*(ggbtmpvart)))[0],x),ggbderiv2arg1)),regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))][1]))
 76<< -4*sin(2*ggbtmpvart)
 77>> caseval(regroup([[ggbderivarg0:=sec(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]))
@@ -167,7 +167,7 @@
 84>> caseval(regroup([[ggbderivarg0:=exp((2)*(x))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]))
 84<< 2*ℯ^(2*x)
 85>> caseval(regroup([[ggbderivarg0:=(ggbtmpvarg(sin(x)))*(ggbtmpvarf(x))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]))
-85<< diff(ggbtmpvarf(x),x)*ggbtmpvarg(sin(x))+ggbtmpvarf(x)*(ggbtmpvarg')(sin(x))*cos(x)
+85<< ggbtmpvarg(sin(x))*diff(ggbtmpvarf(x),x)+ggbtmpvarf(x)*(ggbtmpvarg')(sin(x))*cos(x)
 86>> caseval(regroup([[[ggbderiv2arg0:=(log(x))*(sign(x))],[ggbderiv2arg1:=x]],when(type(ggbderiv2arg1)==DOM_INT,regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname((log(x))*(sign(x)))[0],x),ggbderiv2arg1)),regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))][1]))
 86<< sign(x)/x
 87>> caseval(regroup([[ggbderivarg0:=asinh(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]))
@@ -255,7 +255,7 @@
 128>> caseval(regroup([[[ggbderiv2arg0:=(x)*(y)],[ggbderiv2arg1:=x]],when(type(ggbderiv2arg1)==DOM_INT,regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname((x)*(y))[0],x),ggbderiv2arg1)),regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))][1]))
 128<< y
 129>> caseval(regroup([[ggbderivarg0:=ggbtmpvarg(ggbtmpvarg(ggbtmpvarg(ggbtmpvarg(x))))], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]))
-129<< diff(ggbtmpvarg(x),x)*(ggbtmpvarg')(ggbtmpvarg(x))*(ggbtmpvarg')(ggbtmpvarg(ggbtmpvarg(x)))*(ggbtmpvarg')(ggbtmpvarg(ggbtmpvarg(ggbtmpvarg(x))))
+129<< (ggbtmpvarg')(ggbtmpvarg(x))*(ggbtmpvarg')(ggbtmpvarg(ggbtmpvarg(x)))*(ggbtmpvarg')(ggbtmpvarg(ggbtmpvarg(ggbtmpvarg(x))))*diff(ggbtmpvarg(x),x)
 130>> caseval(regroup([[ggbderivarg0:=csc(x)], regroup(diff(ggbderivarg0, when(length(lname(ggbderivarg0))==0,x,when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]))
 130<< -cos(x)/sin(x)^2
 131>> caseval(regroup([[[ggbderiv2arg0:=y=(1)/(y)],[ggbderiv2arg1:=y]],when(type(ggbderiv2arg1)==DOM_INT,regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname(y=(1)/(y))[0],x),ggbderiv2arg1)),regroup(diff(ggbderiv2arg0,ggbderiv2arg1)))][1]))
@@ -2429,7 +2429,7 @@
 1215>> caseval(regroup([[ggbinterans:=0/0],[ggbinarg0:=((4)*(x))-(y)=3],[ggbinarg1:=(x)+(y)=1],[ggbinterans:=normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1)))],[ggbinterans:=when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans)))],ggbinterans][5]))
 1215<< {(4/5,1/5)}
 1216>> caseval(regroup([[ggbinterans:=0/0],[ggbinarg0:=((x)^(2))+((2)*((y)^(2)))=1],[ggbinarg1:=((2)*((x)^(2)))+((y)^(2))=1],[ggbinterans:=normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1)))],[ggbinterans:=when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans)))],ggbinterans][5]))
-1216<< {(1/sqrt(3),1/sqrt(3)),(-1/sqrt(3),-1/sqrt(3)),(-1/sqrt(3),1/sqrt(3)),(1/sqrt(3),-1/sqrt(3))}
+1216<< {(-1/sqrt(3),1/sqrt(3)),(1/sqrt(3),-1/sqrt(3)),(-1/sqrt(3),-1/sqrt(3)),(1/sqrt(3),1/sqrt(3))}
 1217>> caseval(regroup([[ggbinterans:=0/0],[ggbinarg0:=(x)+(y)=1],[ggbinarg1:=(x)-(y)=2],[ggbinterans:=normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1)))],[ggbinterans:=when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans)))],ggbinterans][5]))
 1217<< {(3/2,-1/2)}
 1218>> caseval(regroup([[ggbinterans:=0/0],[ggbinarg0:=equation(plotparam([ggbtmpvart,(ggbtmpvart)^(2)],ggbtmpvart,0,2))],[ggbinarg1:=equation(plotparam([ggbtmpvart,(1)-(ggbtmpvart)],ggbtmpvart,0,2))],[ggbinterans:=normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1)))],[ggbinterans:=when(ggbinterans=={},ggbinterans,when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans)))],ggbinterans][5]))
@@ -2677,7 +2677,7 @@
 1339>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((1)/(x),-(1),1)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1339<< ?
 1340>> caseval(regroup(regroup(integrate((1)/(normal(ggbabs(x))),x))))
-1340<< ln(x)/sign(x)+c_14
+1340<< -ln(-x)+c_14
 1341>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(-(2)),x,-(3),2)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1341<< +infinity
 1342>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)/(((x)^(2))-(1)),-(3),-(1))]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
@@ -2705,7 +2705,7 @@
 1353>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(3),-inf,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1353<< ?
 1354>> caseval(regroup(regroup(integrate((1)/(x)))))
-1354<< ln(x)+c_19
+1354<< ln(-x)+c_19
 1355>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(3),-inf,0)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1355<< -infinity
 1356>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((pi)*((x)^(4)),1,2)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
