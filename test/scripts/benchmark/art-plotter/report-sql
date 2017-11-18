@@ -326,10 +326,28 @@ for t in `sqlite3 sqlite3db "select distinct testcase from tests where build_num
    ALLGOOD_SUM=$((ALLGOOD_SUM+TIME))
    ALLGOOD_NO=$((ALLGOOD_NO+1))
    fi
-  HTMLRESULT="$RESULT"
-  HTMLRESULT=`echo $RESULT | sed s/"^\([0-9]\+\),\([0-9]\+\),.*"/\\\\1x\\\\2/`
-  # Change result axb into format c where c=max(a,b)-1:
-  echo $HTMLRESULT | grep --silent x && HTMLRESULT=`echo $HTMLRESULT | awk -Fx '{if ($1>$2) print ($1-1); else print ($2-1)}'`
+
+  # Find the degree of the polynomial:
+  if [ "$RESULT" != "" ]; then
+   HTMLRESULT=`echo "result = [$RESULT]
+sy = result[0]
+sx = result[1]
+def m(x,y):
+    if x > sx or y > sy or x < 1 or y < 1:
+        return 0
+    return result[1+(sx*(y-1))+x]
+
+for i in range(sx+sy,0,-1):
+    for j in range(0,i+1):
+        if m(i-j,j) != 0:
+            print(i-2)
+            exit()
+
+print(0)
+# actually it might be -inf" | python`
+  else
+   HTMLRESULT=""
+   fi
 
   echo "<td$RESULTCLASS>$HTMLRESULT</td><td$RESULTCLASS>$FPS</p></td>" >> $MYDIR/$HTML
   # TeX related changes
