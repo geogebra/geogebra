@@ -4141,7 +4141,7 @@ public abstract class App implements UpdateSelection {
 
             // GGB-776
             case ABSOLUTE_TEXTS:
-                return prerelease;
+			return false;
 
             // TRAC-4845
             case LOG_AXES:
