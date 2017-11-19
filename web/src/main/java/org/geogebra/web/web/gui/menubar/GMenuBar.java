@@ -229,16 +229,14 @@ public class GMenuBar extends MenuBar{
 	public void onBrowserEvent(Event event) {
 		int eventGetType = DOM.eventGetType(event);
 		if (eventGetType == Event.ONKEYDOWN) {
-			{
-				int keyCode = event.getKeyCode();
-				if (keyCode == KeyCodes.KEY_TAB && hasTabHandlers()) {
-					event.preventDefault();
-					event.stopPropagation();
-					for (TabHandler handler : tabHandlers) {
-						handler.onTab(this, event.getShiftKey());
-					}
-					return;
+			int keyCode = event.getKeyCode();
+			if (keyCode == KeyCodes.KEY_TAB && hasTabHandlers()) {
+				event.preventDefault();
+				event.stopPropagation();
+				for (TabHandler handler : tabHandlers) {
+					handler.onTab(this, event.getShiftKey());
 				}
+				return;
 			}
 		}
 		super.onBrowserEvent(event);

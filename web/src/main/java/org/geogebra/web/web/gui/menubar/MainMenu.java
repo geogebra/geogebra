@@ -820,26 +820,29 @@ public class MainMenu extends FlowPanel
 	}
 
 	public boolean onTab(Widget source, boolean shiftDown) {
-		GMenuBar item = (GMenuBar) source;
-		int stackIdx = menuPanel.getSelectedIndex();
-		int menuIdx = menus.indexOf(item);
-		if (shiftDown) {
-			if (item.isFirstItemSelected()) {
-				menuPanel.showStack(stackIdx - 1);
-				menus.get(menuIdx - 1).focus();
+		if (source instanceof GMenuBar) {
+			GMenuBar item = (GMenuBar) source;
+			int stackIdx = menuPanel.getSelectedIndex();
+			int menuIdx = menus.indexOf(item);
+			if (shiftDown) {
+				if (item.isFirstItemSelected()) {
+					menuPanel.showStack(stackIdx - 1);
+					menus.get(menuIdx - 1).focus();
+				} else {
+					item.moveSelectionUp();
+				}
+				return true;
+			}
+
+			if (item.isLastItemSelected()) {
+				menuPanel.showStack(stackIdx + 1);
+				menus.get(menuIdx + 1).focus();
 			} else {
-				item.moveSelectionUp();
+				item.moveSelectionDown();
 			}
 			return true;
 		}
-
-		if (item.isLastItemSelected()) {
-			menuPanel.showStack(stackIdx + 1);
-			menus.get(menuIdx + 1).focus();
-		} else {
-			item.moveSelectionDown();
-		}
-		return true;
+		return false;
 	}
 
 }
