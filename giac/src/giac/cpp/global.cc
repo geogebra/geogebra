@@ -3243,9 +3243,10 @@ extern "C" void Sleep(unsigned int miliSecond);
       giac::debug_infolevel=atoi(getenv("GIAC_DEBUG"));
       CERR << "// Setting debug_infolevel to " << giac::debug_infolevel << endl;
     }
-    if (getenv("GIAC_PRINTPROG")){
+    if (getenv("GIAC_PRINTPROG")){ 
+      // force print of prog at parse, 256 for python compat mode print
       giac::printprog=atoi(getenv("GIAC_PRINTPROG"));
-      CERR << "// Setting printprog to " << giac::debug_infolevel << endl;
+      CERR << "// Setting printprog to " << giac::printprog << endl;
     }
     string s;
     if (getenv("LANG"))
@@ -5822,12 +5823,44 @@ unsigned int ConvertUTF8toUTF16 (
 	int progpos=cur.find("else");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
+	  if (stack.size()>1){ 
+	    int indent=stack[stack.size()-1].decal;
+	    if (ws<indent){
+	      // remove last \n and add explicit endbloc delimiters from stack
+	      int ss=s.size();
+	      bool nl= ss && s[ss-1]=='\n';
+	      if (nl)
+		s=s.substr(0,ss-1);
+	      while (stack.size()>1 && stack[stack.size()-1].decal>ws){
+		s += ' '+stack.back().endbloc+';';
+		stack.pop_back();
+	      }
+	      if (nl)
+		s += '\n';
+	    }
+	  }
 	  s += cur.substr(0,pos)+"\n";
 	  continue;
 	}
 	progpos=cur.find("elif");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,4)){
 	  pythonmode=true;
+	  if (stack.size()>1){ 
+	    int indent=stack[stack.size()-1].decal;
+	    if (ws<indent){
+	      // remove last \n and add explicit endbloc delimiters from stack
+	      int ss=s.size();
+	      bool nl= ss && s[ss-1]=='\n';
+	      if (nl)
+		s=s.substr(0,ss-1);
+	      while (stack.size()>1 && stack[stack.size()-1].decal>ws){
+		s += ' '+stack.back().endbloc+';';
+		stack.pop_back();
+	      }
+	      if (nl)
+		s += '\n';
+	    }
+	  }
 	  cur=cur.substr(0,pos);
 	  convert_python(cur,contextptr);
 	  s += cur+" then\n";

@@ -417,11 +417,11 @@ namespace giac {
   gen _prod(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_prod ;
 
-  string printasand(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
-  string texprintasand(const gen & g,const char * s,GIAC_CONTEXT);
+  std::string printasand(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
+  std::string texprintasand(const gen & g,const char * s,GIAC_CONTEXT);
 
-  string printasor(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
-  string texprintasor(const gen & g,const char * s,GIAC_CONTEXT);
+  std::string printasor(const gen & feuille,const char * sommetstr,GIAC_CONTEXT);
+  std::string texprintasor(const gen & g,const char * s,GIAC_CONTEXT);
 
   symbolic symb_pow(const gen & a,const gen & b);
   std::string cprintaspow(const gen & feuille,const char * sommetstr_orig,GIAC_CONTEXT);

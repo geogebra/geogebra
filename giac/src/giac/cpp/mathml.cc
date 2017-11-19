@@ -995,8 +995,8 @@ namespace giac {
       complex<double> c(cx,cy);
       complex<double> ca=std::exp(complex<double>(0,a1));
       if (attr.fill_polygon){
-	for (int i=0;i<n/2;++i){
-	  v.push_back(gen(c+(2*i*r)/n*ca));
+	for (double i=0;i<n/2;++i){
+	  v.push_back(gen(c+(2.0*i*r)/double(n)*ca));
 	}
       }
       for (int i=0;i<=n;++i){
@@ -1005,8 +1005,8 @@ namespace giac {
       }
       if (attr.fill_polygon){
 	ca=std::exp(complex<double>(0,a2));
-	for (int i=n/2-1;i>=0;--i){
-	  v.push_back(gen(c+(2*i*r)/n*ca));
+	for (double i=n/2-1;i>=0;--i){
+	  v.push_back(gen(c+(2.0*i*r)/double(n)*ca));
 	}
       }
       return svg_bezier_curve(v,attr,legende,xmin,xmax,ymin,ymax,contextptr);

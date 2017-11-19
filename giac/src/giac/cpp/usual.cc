@@ -3025,15 +3025,16 @@ namespace giac {
       else 
 	return v.front().print(contextptr)+" => "+v.back().print(contextptr);
     }
+    string stos=python_compat(contextptr)?"=":":=";
 #ifndef GIAC_HAS_STO_38
     if (v.back().is_symb_of_sommet(at_of) && feuille.subtype!=_SORTED__VECT){
       gen f=v.back()._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2){
-	return f._VECTptr->front().print(contextptr)+"[["+f._VECTptr->back().print(contextptr)+"]] := " + v.front().print(contextptr);
+	return f._VECTptr->front().print(contextptr)+"[["+f._VECTptr->back().print(contextptr)+"]] "+stos+" "+ v.front().print(contextptr);
       }
     }
 #endif
-    string s(v.back().print(contextptr)+":=");
+    string s(v.back().print(contextptr)+stos);
     if (v.front().type==_SEQ__VECT)
       return s+"("+v.front().print(contextptr)+")";
     else
@@ -5668,6 +5669,8 @@ namespace giac {
     return symbolic(at_equal,gen(makevecteur(a,b),_SEQ__VECT));
   }
   static string printasequal(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
+    if (python_compat(contextptr))
+      return "equal("+feuille.print(contextptr)+")";
 #ifdef GIAC_HAS_STO_38
     return printsommetasoperator(feuille," = ",contextptr);
 #else
