@@ -217,6 +217,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern int history_begin_level;
 
   extern int debug_infolevel; // ==0 normal value
+  extern int printprog; // ==0 normal value, used to force program print at parse
   // >0 log some informations
   // <0 for internal use
   // ==-1:
@@ -543,7 +544,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     bool _atan_tan_no_floor_;
     bool _keep_acosh_asinh_;
     bool _keep_algext_;
-    bool _python_compat_;
+    int _python_compat_;
     int _angle_mode_;
     int _bounded_function_no_;
     int _series_flags_; // 1= full simplify, 2=1 for truncation, bit3=atan does not rewrite sin/cos to tan, bit4=no back conversion, bit5=write<<1,1>> with series_variable_name, bit 6=write O() instead of order_size, bit7= 1 diff in subst does not variable substitution
@@ -662,8 +663,8 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   int & xcas_mode(GIAC_CONTEXT);
   void xcas_mode(int b,GIAC_CONTEXT);
 
-  bool & python_compat(GIAC_CONTEXT);
-  void python_compat(bool b,GIAC_CONTEXT);
+  int & python_compat(GIAC_CONTEXT);
+  void python_compat(int b,GIAC_CONTEXT);
   int array_start(GIAC_CONTEXT);
 
   int & calc_mode(GIAC_CONTEXT);

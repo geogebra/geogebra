@@ -277,6 +277,14 @@ namespace giac {
     }
   }
 
+  static string printaslocalvars(const gen &loc,GIAC_CONTEXT){
+    gen locals(loc);
+    if (locals._VECTptr->size()==1)
+      return locals._VECTptr->front().print(contextptr);
+    locals.subtype=_SEQ__VECT;
+    return locals.print(contextptr);
+  }
+
   void debug_print(const gen & e,vector<string>  & v,GIAC_CONTEXT){
     if (e.type!=_SYMB){
       v.push_back(indent2(contextptr)+e.print(contextptr));
@@ -303,7 +311,18 @@ namespace giac {
     if (u==at_local){
       string s(indent2(contextptr));
       s += is38?"LOCAL ":"local ";
-      s += f._VECTptr->front().print(contextptr);
+      gen local_global=f._VECTptr->front(),locals(gen2vecteur(local_global)),globals(vecteur(0));
+      if (local_global.type==_VECT && local_global._VECTptr->size()==2){ 
+	gen f=local_global._VECTptr->front(),b=local_global._VECTptr->back();
+	if (f.type!=_IDNT){
+	  locals=gen2vecteur(f);
+	  globals=gen2vecteur(b);
+	}
+      }
+      if (globals._VECTptr->empty())
+	s += printaslocalvars(locals,contextptr);
+      else
+	s += local_global.print(contextptr);
       v.push_back(s);
       debug_ptr(contextptr)->indent_spaces += 2;
       f=f._VECTptr->back();
@@ -689,6 +708,36 @@ namespace giac {
     return gensizeerr(gettext("Proc Parameters"));
   }
 
+  static string remove_empty_lines(const string & s){
+    // return s;
+    string res;
+    int ss=int(s.size()),ns=0;
+    bool blank=true;
+    for (int i=0;i<ss;++i){
+      char ch=s[i];
+      if (!blank){
+	res += ch;
+	if (ch=='\n'){
+	  ns=0;
+	  blank=true;
+	}
+	continue;
+      }
+      if (ch=='\n'){
+	ns=0;
+	continue;
+      }
+      if (ch!=' '){
+	blank=false;
+	res += string(ns,' ')+ch;
+	ns=0;
+	continue;
+      }
+      ++ns;
+    }
+    return res;
+  }
+
   static string printasprogram(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=3) )
       return string(sommetstr)+('('+feuille.print(contextptr)+')');
@@ -709,7 +758,8 @@ namespace giac {
       else
 	res += string(ind,' ')+v[2].print(contextptr)+'\n';
       ind -= 4;
-      return res;
+      // remove empty lines in res
+      return remove_empty_lines(res);
     }
     bool calc38=abs_calc_mode(contextptr)==38;
     if (!calc38){
@@ -1049,6 +1099,17 @@ namespace giac {
 	  *logptr(contextptr) << gettext("Warning: Local variables shadow function arguments ") << inters << endl;
 	}
       }
+    }
+    if (printprog){
+      int p=python_compat(contextptr);
+      python_compat(printprog/256,contextptr);
+      if (g.sommet==at_sto){
+	lastprog_name(g.feuille[1].print(contextptr),contextptr);
+	COUT << g.feuille[0].print(contextptr) <<endl;	
+      }
+      else
+	COUT << g <<endl;
+      python_compat(p,contextptr);
     }
     return g;
   }
@@ -1803,12 +1864,12 @@ namespace giac {
     if (python){
       int & ind=debug_ptr(contextptr)->indent_spaces;
       if (it->type!=_INT_) res += '\n'+string(ind,' ')+it->print(contextptr)+'\n';
-      res += string(ind,' ')+"while " + (it+1)->print(contextptr)+" :";
+      res += '\n'+string(ind,' ')+"while " + (it+1)->print(contextptr)+" :";
       if (!(it+3)->is_symb_of_sommet(at_bloc))
 	res += '\n';
       ind += 4;
-      res += (it+3)->print(contextptr);
-      if ((it+2)->type!=_INT_) res += string(ind,' ')+(it+2)->print(contextptr);      
+      res += string(ind,' ')+(it+3)->print(contextptr);
+      if ((it+2)->type!=_INT_) res += '\n'+string(ind,' ')+(it+2)->print(contextptr);      
       ind -=4;
       return res;
     }
@@ -2591,14 +2652,6 @@ namespace giac {
     return true;
   }
   
-  static string printaslocalvars(const gen &loc,GIAC_CONTEXT){
-    gen locals(loc);
-    if (locals._VECTptr->size()==1)
-      return locals._VECTptr->front().print(contextptr);
-    locals.subtype=_SEQ__VECT;
-    return locals.print(contextptr);
-  }
-
   static string printaslocal(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
       return string(sommetstr)+('('+feuille.print(contextptr)+')');

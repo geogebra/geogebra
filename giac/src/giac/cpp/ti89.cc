@@ -2824,7 +2824,7 @@ namespace giac {
 
   // French structure keywords
   static string printassialorssinon(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if (xcas_mode(contextptr)==3)
+    if (xcas_mode(contextptr)==3 || python_compat(contextptr))
       return printasifte(feuille,sommetstr,contextptr);
     int l=language(contextptr);
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=3) )
@@ -2877,7 +2877,7 @@ namespace giac {
   define_unary_function_ptr5( at_sinon ,alias_at_sinon,&__sinon,_QUOTE_ARGUMENTS,T_ELSE);
   
   static string printaspour(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
-    if (xcas_mode(contextptr)==3)
+    if (xcas_mode(contextptr)==3 || python_compat(contextptr))
       return printasfor(feuille,sommetstr,contextptr);
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=4) )
       return string(sommetstr)+('('+feuille.print(contextptr)+')');
@@ -3013,11 +3013,11 @@ namespace giac {
   define_unary_function_ptr5( at_tantque ,alias_at_tantque,&__tantque,_QUOTE_ARGUMENTS,T_MUPMAP_WHILE);
 
   static const char _et_s[]="et";
-  static define_unary_function_eval_quoted (__et,&_and,_et_s);
+  static define_unary_function_eval4 (__et,&_and,_et_s,&printasand,&texprintasand);
   define_unary_function_ptr5( at_et ,alias_at_et,&__et,_QUOTE_ARGUMENTS,T_AND_OP);
 
   static const char _oufr_s[]="ou";
-  static define_unary_function_eval_quoted (__oufr,&_ou,_oufr_s);
+  static define_unary_function_eval4 (__oufr,&_ou,_oufr_s,&printasor,&texprintasor);
   define_unary_function_ptr5( at_oufr ,alias_at_oufr,&__oufr,_QUOTE_ARGUMENTS,T_AND_OP);
 
   static const char _non_s[]="non";

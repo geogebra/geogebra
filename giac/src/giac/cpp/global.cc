@@ -540,15 +540,15 @@ extern "C" void Sleep(unsigned int miliSecond);
       _integer_mode_=b;
   }
 
-  static bool _python_compat_=false;
-  bool & python_compat(GIAC_CONTEXT){
+  static int _python_compat_=false;
+  int & python_compat(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_python_compat_;
     else
       return _python_compat_;
   }
 
-  void python_compat(bool b,GIAC_CONTEXT){
+  void python_compat(int b,GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       contextptr->globalptr->_python_compat_=b;
     else
@@ -1670,6 +1670,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   int debug_infolevel=0;
 #endif
+  int printprog=0;
 #if defined __APPLE__ || defined VISUALC || defined __MINGW_H || defined BESTA_OS || defined NSPIRE || defined NSPIRE_NEWLIB
   int threads=1;
 #else
@@ -3241,6 +3242,10 @@ extern "C" void Sleep(unsigned int miliSecond);
     if (getenv("GIAC_DEBUG")){
       giac::debug_infolevel=atoi(getenv("GIAC_DEBUG"));
       CERR << "// Setting debug_infolevel to " << giac::debug_infolevel << endl;
+    }
+    if (getenv("GIAC_PRINTPROG")){
+      giac::printprog=atoi(getenv("GIAC_PRINTPROG"));
+      CERR << "// Setting printprog to " << giac::debug_infolevel << endl;
     }
     string s;
     if (getenv("LANG"))
