@@ -148,7 +148,8 @@ public class GeoLine3D extends GeoCoordSys1D {
 		}
 
 		AlgoElement algo = getParentAlgorithm();
-
+		Coords O = coordsys.getOrigin();// TODO inhom coords
+		Coords V = coordsys.getVx();
 		if (algo instanceof AlgoLinePoint) {
 			AlgoLinePoint algoLP = (AlgoLinePoint) algo;
 
@@ -160,36 +161,14 @@ public class GeoLine3D extends GeoCoordSys1D {
 				// for Line[ A, u ]
 
 				GeoPointND pt = (GeoPointND) geos[0];
-				Coords coords1 = pt.getInhomCoordsInD3();
+				O = pt.getInhomCoordsInD3();
 				GeoVectorND vec = (GeoVectorND) geos[1];
 
-				Coords coords2 = vec.getCoordsInD3();
-
-				sbToString.append("X = (");
-				sbToString.append(kernel.format(coords1.getX(), tpl));
-				sbToString.append(", ");
-				sbToString.append(kernel.format(coords1.getY(), tpl));
-				sbToString.append(", ");
-				sbToString.append(kernel.format(coords1.getZ(), tpl));
-				sbToString.append(") + ");
-				sbToString.append(parameter);
-				if (tpl.hasCASType()) {
-					sbToString.append("*");
-				}
-				sbToString.append(" (");
-				sbToString.append(kernel.format(coords2.getX(), tpl));
-				sbToString.append(", ");
-				sbToString.append(kernel.format(coords2.getY(), tpl));
-				sbToString.append(", ");
-				sbToString.append(kernel.format(coords2.getZ(), tpl));
-				sbToString.append(")");
-
-				return sbToString;
+				V = vec.getCoordsInD3();
 			}
 		}
 
-		Coords O = coordsys.getOrigin();// TODO inhom coords
-		Coords V = coordsys.getVx();
+
 
 		sbToString.append("X = (");
 		sbToString.append(kernel.format(O.get(1), tpl));

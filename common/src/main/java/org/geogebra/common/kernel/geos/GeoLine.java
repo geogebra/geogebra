@@ -43,6 +43,7 @@ import org.geogebra.common.kernel.algos.TangentAlgo;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
@@ -2032,6 +2033,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			}
 		}
 
+	}
+
+	public ExpressionValue evaluateCurve(double t) {
+		double[] P = new double[2];
+		getInhomPointOnLine(P);
+		return new GeoVec2D(kernel, P[0] + t * y, P[1] - t * x);
 	}
 
 }

@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoLinePoint;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -13,6 +14,7 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -26,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 
 /**
@@ -981,4 +984,29 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		// no general line type in 3D
 	}
 
+	public ExpressionValue evaluateCurve(double t) {
+		Coords O = coordsys.getOrigin();// TODO inhom coords, also copied from
+										// toString
+		Coords V = coordsys.getVx();
+		if (getParentAlgorithm() instanceof AlgoLinePoint) {
+			AlgoLinePoint algoLP = (AlgoLinePoint) getParentAlgorithm();
+
+			GeoElement[] geos = algoLP.getInput();
+
+			if (geos[0].isGeoPoint() && geos[1].isGeoVector()) {
+
+				// use original coordinates for displaying, not normalized form
+				// for Line[ A, u ]
+
+				GeoPointND pt = (GeoPointND) geos[0];
+				O = pt.getInhomCoordsInD3();
+				GeoVectorND vec = (GeoVectorND) geos[1];
+
+				V = vec.getCoordsInD3();
+			}
+		}
+		Geo3DVec ret = new Geo3DVec(kernel, O.get(1) + t * V.get(1),
+				O.get(2) + t * V.get(2), O.get(3) + t * V.get(3));
+		return ret;
+	}
 }

@@ -591,14 +591,13 @@ public class ExpressionNode extends ValidExpression
 			if (right.isExpressionNode()) {
 				evalToVector = ((ExpressionNode) right)
 						.shouldEvaluateToGeoVector();
+			} else if (right.isNumberValue()) {
+				evalToVector = operation != Operation.VEC_FUNCTION;
 			} else if (right.isGeoElement()) {
 				GeoElement geo = (GeoElement) right;
-				evalToVector = geo.isGeoVector() || geo.isNumberValue();
-			} else if (right.isNumberValue()) {
-				evalToVector = true;
+				evalToVector = geo.isGeoVector();
 			}
 		}
-
 		return evalToVector;
 	}
 

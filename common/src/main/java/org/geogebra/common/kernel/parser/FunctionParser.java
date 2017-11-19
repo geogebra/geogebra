@@ -191,7 +191,8 @@ public class FunctionParser {
 		} else if (geo instanceof GeoFunctionNVar) {
 			return new ExpressionNode(kernel, geoExp, Operation.FUNCTION_NVAR,
 					myList);
-		} else if (geo.isGeoCurveCartesian()) {
+		} else if (geo.isGeoCurveCartesian()
+				|| (geo.isGeoLine() && geo.isGeoElement3D())) {
 			// vector function
 			// at this point we have eg myList={{1,2}}, so we need first element
 			// of myList

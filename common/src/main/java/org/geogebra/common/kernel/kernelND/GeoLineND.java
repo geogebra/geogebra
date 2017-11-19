@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
 /**
  * @author mathieu
@@ -205,5 +206,12 @@ public interface GeoLineND extends GeoDirectionND {
 
 	/** set to general equation */
 	public void setToGeneral();
+
+	/**
+	 * @param t
+	 *            parameter
+	 * @return value at given parameter as vector
+	 */
+	public ExpressionValue evaluateCurve(double t);
 
 }
