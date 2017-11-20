@@ -227,6 +227,11 @@ public class GMenuBar extends MenuBar{
 
 	@Override
 	public void onBrowserEvent(Event event) {
+		if (!app.has(Feature.TAB_ON_MENU)) {
+			super.onBrowserEvent(event);
+			return;
+		}
+
 		int eventGetType = DOM.eventGetType(event);
 		if (eventGetType == Event.ONKEYDOWN) {
 			int keyCode = event.getKeyCode();
@@ -244,6 +249,6 @@ public class GMenuBar extends MenuBar{
 	}
 
 	private boolean hasTabHandlers() {
-		return app.has(Feature.TAB_ON_GUI) && !tabHandlers.isEmpty();
+		return !tabHandlers.isEmpty();
 	}
 }

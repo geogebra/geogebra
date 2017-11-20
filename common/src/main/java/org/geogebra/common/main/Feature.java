@@ -245,7 +245,7 @@ public enum Feature {
 	/** AND-465 */
 	MOB_DYNAMIC_SYLEBAR,
 
-	/** GGB-20533 */
+	/** GGB-2053 */
 	TAB_ON_GUI,
 
 	/** MOB-1278 */
@@ -297,6 +297,9 @@ public enum Feature {
 	MOB_STANDARD_VIEW_BUTTON_3D,
 
 	/** MOB-1361 */
-	MOB_PACK_ALL_SEGMENTS_3D
+	MOB_PACK_ALL_SEGMENTS_3D,
+
+	/** GGB-2204 */
+	TAB_ON_MENU
 }
 
