@@ -3990,7 +3990,7 @@ public abstract class App implements UpdateSelection {
 
                 // AND-364
             case MOB_EV_SETTINGS_POPUP:
-                return true;
+                return prerelease;
 
             // MOB-1305
             case MOB_KEYBOARD_BOX_ICONS:
