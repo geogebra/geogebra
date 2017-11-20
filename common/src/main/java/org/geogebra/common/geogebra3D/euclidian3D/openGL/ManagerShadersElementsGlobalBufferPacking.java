@@ -20,6 +20,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 		private static final long serialVersionUID = 1L;
 		private GColor color;
+		private int index;
 
 		/**
 		 * constructor
@@ -30,9 +31,13 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			this.color = color;
 		}
 
+		public void setIndex(int index) {
+			this.index = index;
+		}
+
 		@Override
 		protected Geometry newGeometry(Type type) {
-			return new GeometryElementsGlobalBufferPacking(type, index, color);
+			return new GeometryElementsGlobalBufferPacking(type, index, currentGeometryIndex, color);
 		}
 
 		@Override
@@ -47,11 +52,13 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		public class GeometryElementsGlobalBufferPacking extends Geometry {
 
 			private int index;
+			private int geometryIndex;
 			private GColor color;
 
-			public GeometryElementsGlobalBufferPacking(Type type, int index, GColor color) {
+			public GeometryElementsGlobalBufferPacking(Type type, int index, int geometryIndex, GColor color) {
 				super(type);
 				this.index = index;
+				this.geometryIndex = geometryIndex;
 				this.color = color;
 			}
 
@@ -65,7 +72,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 			public void setVertices(ArrayList<Double> array, int length) {
 				// Log.debug("v length = " + length);
-				bufferManager.setCurrentIndex(index);
+				bufferManager.setCurrentIndex(index, geometryIndex);
 				bufferManager.setVertexBuffer(array, length);
 			}
 

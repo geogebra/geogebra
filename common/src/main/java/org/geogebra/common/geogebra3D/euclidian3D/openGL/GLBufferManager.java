@@ -1,7 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.TreeMap;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
@@ -11,13 +11,69 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
  */
 public class GLBufferManager {
 
-	private int currentIndex;
+	private Index currentIndex;
 	private BufferSegment currentBufferSegment, currentBufferSegmentForIndices;
 	private GLBuffer vertexBuffer, normalBuffer, textureBuffer, colorBuffer;
 	private GLBufferIndices curvesIndices;
 	private int totalLength, indicesLength;
-	private HashMap<Integer, BufferSegment> bufferSegments, bufferSegmentsForIndices;
+	private TreeMap<Index, BufferSegment> bufferSegments, bufferSegmentsForIndices;
 	private int indicesIndex;
+
+	private static class Index implements Comparable<Index> {
+		private int indexForSet, indexForGeometry;
+
+		/**
+		 * simple constructor
+		 */
+		public Index() {
+			// nothing done
+		}
+
+		/**
+		 * create a copy
+		 * 
+		 * @param index
+		 *            index
+		 */
+		public Index(Index index) {
+			this.indexForSet = index.indexForSet;
+			this.indexForGeometry = index.indexForGeometry;
+		}
+
+		/**
+		 * set indices
+		 * 
+		 * @param forSet
+		 *            index for set
+		 * @param forGeometry
+		 *            index for geometry
+		 */
+		public void set(int forSet, int forGeometry) {
+			this.indexForSet = forSet;
+			this.indexForGeometry = forGeometry;
+		}
+
+		@Override
+		public int compareTo(Index o) {
+			if (indexForSet < o.indexForSet) {
+				return -1;
+			}
+			if (indexForSet > o.indexForSet) {
+				return 1;
+			}
+			if (indexForGeometry < o.indexForGeometry) {
+				return -1;
+			}
+			if (indexForGeometry > o.indexForGeometry) {
+				return 1;
+			}
+			return 0;
+		}
+
+		public String toString() {
+			return indexForSet + ", " + indexForGeometry;
+		}
+	}
 
 	private static class BufferSegment {
 		public int offset;
@@ -33,6 +89,7 @@ public class GLBufferManager {
 	 * constructor
 	 */
 	public GLBufferManager() {
+		currentIndex = new Index();
 		vertexBuffer = GLFactory.getPrototype().newBuffer();
 		normalBuffer = GLFactory.getPrototype().newBuffer();
 		textureBuffer = GLFactory.getPrototype().newBuffer();
@@ -47,18 +104,20 @@ public class GLBufferManager {
 		curvesIndices.allocate(size2);
 
 
-		bufferSegments = new HashMap<Integer, GLBufferManager.BufferSegment>();
-		bufferSegmentsForIndices = new HashMap<Integer, GLBufferManager.BufferSegment>();
+		bufferSegments = new TreeMap<Index, GLBufferManager.BufferSegment>();
+		bufferSegmentsForIndices = new TreeMap<Index, GLBufferManager.BufferSegment>();
 	}
 
 	/**
-	 * set current geometry index
+	 * set current geometry set and geometry indices
 	 * 
 	 * @param index
-	 *            index
+	 *            geometry set index
+	 * @param geometryIndex
+	 *            geometry index
 	 */
-	public void setCurrentIndex(int index) {
-		currentIndex = index;
+	public void setCurrentIndex(int index, int geometryIndex) {
+		currentIndex.set(index, geometryIndex);
 	}
 
 	/**
@@ -73,7 +132,7 @@ public class GLBufferManager {
 		if (currentBufferSegment == null) {
 			int l = length / 3;
 			currentBufferSegment = new BufferSegment(totalLength, l);
-			bufferSegments.put(currentIndex, currentBufferSegment);
+			bufferSegments.put(new Index(currentIndex), currentBufferSegment);
 			totalLength += l;
 			vertexBuffer.setLimit(totalLength * 3);
 			normalBuffer.setLimit(totalLength * 3);
@@ -133,7 +192,7 @@ public class GLBufferManager {
 		if (currentBufferSegmentForIndices == null) {
 			int length = 3 * 2 * size * PlotterBrush.LATITUDES;
 			currentBufferSegmentForIndices = new BufferSegment(indicesLength, length);
-			bufferSegmentsForIndices.put(currentIndex, currentBufferSegmentForIndices);
+			bufferSegmentsForIndices.put(new Index(currentIndex), currentBufferSegmentForIndices);
 			indicesLength += length;
 			indicesIndex = currentBufferSegmentForIndices.offset;
 			curvesIndices.setLimit(indicesLength);

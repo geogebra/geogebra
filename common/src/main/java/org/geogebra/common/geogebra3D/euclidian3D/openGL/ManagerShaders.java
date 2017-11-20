@@ -339,11 +339,9 @@ public class ManagerShaders extends Manager {
 	@SuppressWarnings("serial")
 	public class GeometriesSet extends ArrayList<Geometry> {
 
-		protected int index;
-
 		protected Geometry currentGeometry;
 
-		private int currentGeometryIndex;
+		protected int currentGeometryIndex;
 
 		private int geometriesLength;
 
@@ -352,7 +350,7 @@ public class ManagerShaders extends Manager {
 		}
 
 		public void setIndex(int index) {
-			this.index = index;
+			// no need here
 		}
 
 		/**

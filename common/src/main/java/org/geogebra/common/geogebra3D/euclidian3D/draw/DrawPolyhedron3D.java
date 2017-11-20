@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -196,6 +197,13 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	private void updateOutline(Renderer renderer) {
 
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			ManagerShadersElementsGlobalBufferPacking manager = (ManagerShadersElementsGlobalBufferPacking) getView3D()
+					.getRenderer().getGeometryManager();
+			manager.setIsPacking(true);
+			manager.setCurrentColor(color[0]);
+			manager.setCurrentLineType(getGeoElement().getLineType(), getGeoElement().getLineTypeHidden());
+		}
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
 
 		int thickness = poly.getLineThickness();
@@ -219,6 +227,11 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			}
 
 			setGeometryIndex(brush.end());
+		}
+
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
+					.setIsPacking(false);
 		}
 
 	}
