@@ -298,7 +298,7 @@ public class FragmentShader {
 				+ "return;\n"
 				+ "}\n "
 				
-				// // dash packed hidden
+				// dash packed hidden
 				+ "if (textureType == 15) { // TEXTURE_TYPE_DASH + DASH_PACKED_HIDDEN = 4 + 11;\n"
 				+ "y = (float(int(coordTexture.y) / " + Textures.DASH_ID_LENGTH + ") + 0.5) / "
 				+ TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
