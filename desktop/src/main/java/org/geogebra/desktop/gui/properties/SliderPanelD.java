@@ -383,13 +383,11 @@ public class SliderPanelD extends JPanel
 		actionPerforming = true;
 		String inputText = source.getText().trim();
 		boolean emptyString = "".equals(inputText);
-
 		NumberValue value = new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
 			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
 					false);
 		}
-
 		if (source == tfMin) {
 			model.applyMin(value);
 		} else if (source == tfMax) {
@@ -397,11 +395,19 @@ public class SliderPanelD extends JPanel
 		} else if (source == tfWidth) {
 			model.applyWidth(value.getDouble());
 		} else if (source == tfBlobSize) {
-			model.applyBlobSize(value.getDouble());
+			double blob = value.getDouble() <= 0 ? 1 : value.getDouble();
+			model.applyBlobSize(blob);
+			if (Kernel.isEqual(blob, 1)) {
+				tfBlobSize.setText(String.valueOf(1));
+			}
 		} else if (source == tfLineThickness) {
-			model.applyLineThickness(value.getDouble() * 2);
+			double thickness = value.getDouble() * 2 <= 0 ? 2
+					: value.getDouble() * 2;
+			model.applyLineThickness(thickness);
+			if (Kernel.isEqual(thickness, 2)) {
+				tfLineThickness.setText(String.valueOf(1));
+			}
 		}
-
 		if (propPanel != null) {
 			propPanel.updateSelection(model.getGeos());
 		} else {

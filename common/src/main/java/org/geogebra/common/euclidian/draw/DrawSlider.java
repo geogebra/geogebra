@@ -229,7 +229,8 @@ public class DrawSlider extends Drawable {
 	 * @return true iff the movable point was hit
 	 */
 	final public boolean hitPoint(int x, int y, int hitThreshold) {
-		int r = hitThreshold + diameter + 1;
+		int r = hitThreshold
+				+ Math.max(diameter, GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
@@ -252,7 +253,8 @@ public class DrawSlider extends Drawable {
 	 * @return true if the slider line was hit, false for fixed sliders
 	 */
 	public boolean hitSlider(int x, int y, int hitThreshold) {
-		int r = (hitThreshold + lineThickness) / 2 - 2;
+		int r = hitThreshold
+				+ Math.max(lineThickness, GeoNumeric.DEFAULT_SLIDER_THICKNESS);
 		// changed: we want click on fixed slider to increment/decrement the
 		// slider a bit
 		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);

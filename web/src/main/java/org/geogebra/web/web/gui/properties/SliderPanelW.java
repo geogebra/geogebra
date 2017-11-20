@@ -557,17 +557,28 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	 * apply blob size
 	 */
 	protected void applyBlobSize() {
-		model.applyBlobSize(
-				getNumberFromInput(tfBlobSize.getText().trim()).getDouble());
+		double blob = getNumberFromInput(tfBlobSize.getText().trim())
+				.getDouble() <= 0 ? 1
+						: getNumberFromInput(tfBlobSize.getText().trim())
+								.getDouble();
+		model.applyBlobSize(blob);
+		if (Kernel.isEqual(blob, 1)) {
+			tfBlobSize.setText(String.valueOf(1));
+		}
 	}
 
 	/**
 	 * apply line thickness
 	 */
 	protected void applyLineThickness() {
-		model.applyLineThickness(
-				getNumberFromInput(tfLineThickness.getText().trim())
-						.getDouble() * 2);
+		double thickness = getNumberFromInput(tfLineThickness.getText().trim())
+				.getDouble() * 2 <= 0 ? 2
+						: getNumberFromInput(tfLineThickness.getText().trim())
+								.getDouble() * 2;
+		model.applyLineThickness(thickness);
+		if (Kernel.isEqual(thickness, 2)) {
+			tfLineThickness.setText(String.valueOf(1));
+		}
 	}
 
 	private void initPanels(AppW app) {

@@ -975,11 +975,8 @@ public class GeoNumeric extends GeoElement
 	 */
 	public final void setSliderBlobSize(double blobSize) {
 		if (blobSize > 0 && !Double.isInfinite(blobSize)) {
-			// if (getOrigSliderWidth() == null) {
-			// setOrigSliderWidth(blobSize);
-			// }
+			sliderBlobSize = blobSize;
 		}
-		sliderBlobSize = blobSize;
 	}
 
 	/**
