@@ -492,7 +492,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return current surface index if reusable (if no trace)
 	 */
-	final protected int getReusableGeometryIndex() {
+	protected int getReusableGeometryIndex() {
 		if (hasTrace()) {
 			return NOT_REUSABLE_INDEX;
 		}

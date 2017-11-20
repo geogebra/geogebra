@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
@@ -21,6 +22,7 @@ import org.geogebra.common.main.Feature;
  */
 public class DrawSegment3D extends DrawCoordSys1D {
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	private LinkedList<Integer> traces;
 
 	/**
 	 * Common constructor
@@ -143,6 +145,41 @@ public class DrawSegment3D extends DrawCoordSys1D {
 			removeFromGL();
 		}
 		super.disposePreview();
+	}
+
+	protected int getReusableGeometryIndex() {
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			int index = getGeometryIndex();
+			if (hasTrace()) {
+				if (index != NOT_REUSABLE_INDEX) {
+					if (traces == null) {
+						traces = new LinkedList<Integer>();
+					}
+					traces.add(index);
+				}
+				return NOT_REUSABLE_INDEX;
+			}
+			return index;
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	protected void recordTrace() {
+		if (!getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			super.recordTrace();
+		}
+	}
+
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			if (traces != null) {
+				while (!traces.isEmpty()) {
+					doRemoveGeometryIndex(traces.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
 	}
 
 }
