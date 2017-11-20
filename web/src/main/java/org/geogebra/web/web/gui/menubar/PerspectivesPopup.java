@@ -4,7 +4,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.GuiResources;
@@ -160,7 +159,7 @@ public class PerspectivesPopup {
 		// HorizontalPanel perspective = new HorizontalPanel();
 
 		// icon
-		rowPanel.add(new NoDragImage(ImgResourceHelper.safeURI(icon), 24));
+		rowPanel.add(new NoDragImage(icon, 24, 24));
 		// perspective label
 		Label label = new Label(app.getLocalization().getMenu(menuID));
 		label.addStyleName("perspectivesLabel");

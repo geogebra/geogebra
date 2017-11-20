@@ -20,6 +20,7 @@ public class StandardButton extends FastButton {
 	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
+	private int height = -1;
 	private NoDragImage btnImage;
 
 	/**
@@ -30,7 +31,7 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final ImageResource icon, App app) {
 		this.app = app;
-		setIconAndLabel(icon, null, icon.getWidth());
+		setIconAndLabel(icon, null, icon.getWidth(), icon.getHeight());
 	}
 
 	/**
@@ -41,7 +42,7 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final String label, App app) {
 		this.app = app;
-		setIconAndLabel(null, label, -1);
+		setIconAndLabel(null, label, -1, -1);
 	}
 
 	/**
@@ -56,17 +57,35 @@ public class StandardButton extends FastButton {
 	 */
 	public StandardButton(final ResourcePrototype icon, final String label, int width, App app) {
 		this.app = app;
-		setIconAndLabel(icon, label, width);
+		setIconAndLabel(icon, label, width, -1);
 	}
 
-	private void setIconAndLabel(final ResourcePrototype image, final String label, int width) {
+	/**
+	 * @param icon
+	 *            - img of button
+	 * @param label
+	 *            - text of button
+	 * @param width
+	 *            - width of button
+	 * @param height
+	 *            icon height
+	 * @param app
+	 *            - application
+	 */
+	public StandardButton(final ResourcePrototype icon, final String label,
+			int width, int height, App app) {
+		this.app = app;
+		setIconAndLabel(icon, label, width, height);
+	}
+
+	private void setIconAndLabel(final ResourcePrototype image,
+			final String label, int width, int height) {
 		this.width = width;
+		this.height = height;
 		this.icon = image;
 		this.label = label;
 		if (image != null) {
-			btnImage = new NoDragImage(
-					ImgResourceHelper.safeURI(image),
-					width);
+			btnImage = new NoDragImage(image, width, height);
 			if (label == null) {
 				getUpFace().setImage(btnImage);
 			} else {
@@ -87,7 +106,7 @@ public class StandardButton extends FastButton {
 	@Override
 	public void setText(String text) {
 		this.label = text;
-		setIconAndLabel(this.icon, text, this.width);
+		setIconAndLabel(this.icon, text, this.width, this.height);
 	}
 
 	@Override
@@ -126,7 +145,7 @@ public class StandardButton extends FastButton {
 	 *            - set text of button
 	 */
 	public void setLabel(final String label) {
-		setIconAndLabel(this.icon, label, this.width);
+		setIconAndLabel(this.icon, label, this.width, this.height);
 	}
 
 	/**
@@ -141,7 +160,7 @@ public class StandardButton extends FastButton {
 	 *            - icon
 	 */
 	public void setIcon(final ResourcePrototype icon) {
-		setIconAndLabel(icon, this.label, this.width);
+		setIconAndLabel(icon, this.label, this.width, this.height);
 	}
 	
 	@Override

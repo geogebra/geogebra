@@ -577,7 +577,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			
 			
 				openSearchButton = new StandardButton(
-						pr.menu_header_open_search(), null, 32, app);
+						pr.menu_header_open_search(), null, 32, 32, app);
 				openSearchButton.getUpFace().setImage(
 						getImage(pr.menu_header_open_search(), 32));
 				openSearchButton.getUpHoveringFace().setImage(
@@ -624,7 +624,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	 * @return image wrapped in no-dragging widget
 	 */
 	public NoDragImage getImage(ResourcePrototype uri, int width) {
-		return new NoDragImage(ImgResourceHelper.safeURI(uri), width);
+		return new NoDragImage(uri, width, width);
 	}
 
 	/**

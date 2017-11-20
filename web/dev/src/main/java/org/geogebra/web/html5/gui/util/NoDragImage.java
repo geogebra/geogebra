@@ -1,5 +1,9 @@
 package org.geogebra.web.html5.gui.util;
 
+import org.geogebra.web.resources.SVGResource;
+
+import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Image;
 
 /**
@@ -18,6 +22,14 @@ public class NoDragImage extends Image {
 		this.setWidth(width + "px");
 	}
 
+	public NoDragImage(ResourcePrototype uri, int width, int height) {
+		this(safeURI(uri));
+		this.setWidth(width + "px");
+		if (height > 0) {
+			this.setHeight(height + "px");
+		}
+	}
+
 	/**
 	 * @param uri
 	 *            URI
@@ -25,5 +37,21 @@ public class NoDragImage extends Image {
 	public NoDragImage(String uri) {
 		super(uri);
 		this.getElement().setAttribute("draggable", "false");
+	}
+
+	/**
+	 * 
+	 * @param res
+	 *            SVG or PNG resource
+	 * @return safe URI
+	 */
+	public static String safeURI(ResourcePrototype res) {
+		if (res instanceof ImageResource) {
+			return ((ImageResource) res).getSafeUri().asString();
+		}
+		if (res instanceof SVGResource) {
+			return ((SVGResource) res).getSafeUri().asString();
+		}
+		return "";
 	}
 }

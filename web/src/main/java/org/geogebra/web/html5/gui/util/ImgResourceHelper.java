@@ -1,8 +1,5 @@
 package org.geogebra.web.html5.gui.util;
 
-import org.geogebra.web.resources.SVGResource;
-
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 
 /**
@@ -33,13 +30,7 @@ public class ImgResourceHelper {
 	 * @return safe URI
 	 */
 	public static String safeURI(ResourcePrototype res) {
-		if (res instanceof ImageResource) {
-			return ((ImageResource) res).getSafeUri().asString();
-		}
-		if (res instanceof SVGResource) {
-			return ((SVGResource) res).getSafeUri().asString();
-		}
-		return "";
+		return NoDragImage.safeURI(res);
 	}
 
 

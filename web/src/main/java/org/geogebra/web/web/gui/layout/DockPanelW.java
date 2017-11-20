@@ -578,7 +578,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			return;
 		}
 		toggleStyleBarButton = new StandardButton(getToggleImage(false), null,
-				32, app);
+				32, 24, app);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 
 

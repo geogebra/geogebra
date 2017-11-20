@@ -114,7 +114,8 @@ public class ImageOrText {
 			        .setBackgroundImage("url(" + url + ")");
 			if (bgSize > 0) {
 				button.getElement().getStyle()
-				        .setProperty("backgroundSize", bgSize + "px");
+						.setProperty("backgroundSize",
+								bgSize + "px " + bgSize + "px");
 			}
 			if (text != null) {
 				button.addStyleName("textIconButton");
