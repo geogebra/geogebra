@@ -519,7 +519,8 @@ public final class DrawPoint extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		int r = getSelectionThreshold(hitThreshold);
+		int r = Math.max(pointSize,
+				getSelectionThreshold(hitThreshold));
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
