@@ -4661,5 +4661,17 @@ public abstract class EuclidianView3D extends EuclidianView
 		// not needed for 3D: animator handles it
 	}
 
-
+	@Override
+	public void setSettingsToStandardView() {
+		EuclidianSettings3D settings = getSettings();
+		if (settings == null) {
+			setStandardView(false);
+		} else {
+			settings.setStandardView();
+			// settings should have been reset before
+			settingsChanged(settings);
+			// reset rendering
+			reset();
+		}
+	}
 }

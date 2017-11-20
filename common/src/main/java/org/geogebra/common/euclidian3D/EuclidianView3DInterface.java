@@ -205,4 +205,15 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 */
 	public void zoomAxesRatio(double zoomFactorY, double zoomFactorZ);
 
+	/**
+	 * Keeps the zoom, but makes sure the bound objects are free. This is necessary
+	 * in File->New because there might have been dynamic xmin bounds
+	 */
+	public void resetXYMinMaxObjects();
+
+	/**
+	 * set the settings to standard view position, orientation, scaling
+	 */
+	public void setSettingsToStandardView();
+
 }

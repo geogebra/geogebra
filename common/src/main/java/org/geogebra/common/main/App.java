@@ -3011,6 +3011,10 @@ public abstract class App implements UpdateSelection {
 			getEuclidianView2(1).resetXYMinMaxObjects();
 			getEuclidianView2(1).setSelectionRectangle(null);
 		}
+		if (hasEuclidianView3D()) {
+			getEuclidianView3D().resetXYMinMaxObjects();
+			getEuclidianView3D().setSettingsToStandardView();
+		}
 		if (kernel.getConstruction() != null) {
 			kernel.getConstruction().setIgnoringNewTypes(false);
 		}

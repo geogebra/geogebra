@@ -371,11 +371,10 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		return true;
 	}
 
-	@Override
-	protected void resetNoFire() {
-
-		super.resetNoFire();
-
+	/**
+	 * set orientation, position, scaling to standard view
+	 */
+	public void setStandardView() {
 		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
 		zZero = EuclidianView3D.ZZERO_SCENE_STANDARD;
@@ -389,6 +388,14 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		maxScale = EuclidianView.SCALE_STANDARD;
 
 		yAxisVertical = false;
+	}
+
+	@Override
+	protected void resetNoFire() {
+
+		super.resetNoFire();
+		setStandardView();
+
 		useLight = true;
 
 		clippingReduction = 1;
