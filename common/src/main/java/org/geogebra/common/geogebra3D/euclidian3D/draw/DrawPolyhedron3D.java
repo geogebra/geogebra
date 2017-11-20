@@ -532,6 +532,13 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			// also update for line width (e.g when translated)
 			setWaitForUpdate();
 		}
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			if (prop == GProperty.COLOR) {
+				updateColors();
+				((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
+						.updateColor(color[0], getGeometryIndex());
+			}
+		}
 	}
 
 }

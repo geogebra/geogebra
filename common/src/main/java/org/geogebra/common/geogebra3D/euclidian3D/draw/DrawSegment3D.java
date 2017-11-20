@@ -7,6 +7,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsG
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
@@ -119,6 +120,21 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
 			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
 					.setIsPacking(false);
+		}
+	}
+
+	@Override
+	public void setWaitForUpdateVisualStyle(GProperty prop) {
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			if (prop == GProperty.COLOR) {
+				updateColors();
+				((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
+						.updateColor(color[0], getGeometryIndex());
+			} else {
+				super.setWaitForUpdateVisualStyle(prop);
+			}
+		} else {
+			super.setWaitForUpdateVisualStyle(prop);
 		}
 	}
 

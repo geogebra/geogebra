@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 import java.util.TreeMap;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 /**
@@ -349,7 +350,15 @@ public class ManagerShaders extends Manager {
 			reset();
 		}
 
-		public void setIndex(int index) {
+		/**
+		 * set index and color
+		 * 
+		 * @param index
+		 *            index
+		 * @param color
+		 *            color
+		 */
+		public void setIndex(int index, GColor color) {
 			// no need here
 		}
 
@@ -517,8 +526,6 @@ public class ManagerShaders extends Manager {
 			currentGeometriesSet.reset();
 			// Log.debug("reuse : " + index);
 		}
-
-		currentGeometriesSet.setIndex(index);
 
 		return index;
 	}

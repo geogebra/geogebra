@@ -182,6 +182,25 @@ public class GLBufferManager {
 	}
 
 	/**
+	 * update color for all geometries from geometry set index
+	 * 
+	 * @param index
+	 *            geometry set index
+	 * @param geometriesLength
+	 *            geometries length for this set
+	 * @param color
+	 *            new color
+	 */
+	public void updateColor(int index, int geometriesLength, GColor color) {
+		for (int i = 0; i < geometriesLength; i++) {
+			currentIndex.set(index, i);
+			currentBufferSegment = bufferSegments.get(currentIndex);
+			setColorBuffer(color);
+		}
+
+	}
+
+	/**
 	 * set indices
 	 * 
 	 * @param size

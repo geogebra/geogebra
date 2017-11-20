@@ -18,6 +18,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 	private class GeometriesSetElementsGlobalBufferPacking extends GeometriesSetElementsGlobalBuffer {
 
+		private ManagerShadersElementsGlobalBufferPacking manager;
 		private static final long serialVersionUID = 1L;
 		private GColor color;
 		private int index;
@@ -27,22 +28,56 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 * 
 		 * @param color
 		 */
-		public GeometriesSetElementsGlobalBufferPacking(GColor color) {
+		public GeometriesSetElementsGlobalBufferPacking(ManagerShadersElementsGlobalBufferPacking manager,
+				GColor color) {
+			this.manager = manager;
 			this.color = color;
 		}
 
-		public void setIndex(int index) {
+		public void setIndex(int index, GColor color) {
 			this.index = index;
+			this.color = color;
+		}
+
+		/**
+		 * 
+		 * @return geometry set index
+		 */
+		public int getIndex() {
+			return index;
 		}
 
 		@Override
 		protected Geometry newGeometry(Type type) {
-			return new GeometryElementsGlobalBufferPacking(type, index, currentGeometryIndex, color);
+			return new GeometryElementsGlobalBufferPacking(this, type, currentGeometryIndex);
 		}
 
 		@Override
 		public void bindGeometry(int size, TypeElement type) {
-			bufferManager.setIndices(size);
+			manager.getBufferManager().setIndices(size);
+		}
+
+		/**
+		 * update all geometries color for this set
+		 * 
+		 * @param color
+		 *            color
+		 */
+		public void updateColor(GColor color) {
+			this.color = color;
+			manager.getBufferManager().updateColor(index, getGeometriesLength(), color);
+		}
+
+		public GColor getColor() {
+			return color;
+		}
+
+		/**
+		 * 
+		 * @return geometry manager
+		 */
+		public ManagerShadersElementsGlobalBufferPacking getManager() {
+			return manager;
 		}
 
 		/**
@@ -51,15 +86,14 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 */
 		public class GeometryElementsGlobalBufferPacking extends Geometry {
 
-			private int index;
 			private int geometryIndex;
-			private GColor color;
+			private GeometriesSetElementsGlobalBufferPacking geometrySet;
 
-			public GeometryElementsGlobalBufferPacking(Type type, int index, int geometryIndex, GColor color) {
+			public GeometryElementsGlobalBufferPacking(GeometriesSetElementsGlobalBufferPacking geometrySet, Type type,
+					int geometryIndex) {
 				super(type);
-				this.index = index;
+				this.geometrySet = geometrySet;
 				this.geometryIndex = geometryIndex;
-				this.color = color;
 			}
 
 			protected void setBuffers() {
@@ -72,18 +106,18 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 			public void setVertices(ArrayList<Double> array, int length) {
 				// Log.debug("v length = " + length);
-				bufferManager.setCurrentIndex(index, geometryIndex);
-				bufferManager.setVertexBuffer(array, length);
+				geometrySet.getManager().getBufferManager().setCurrentIndex(geometrySet.getIndex(), geometryIndex);
+				geometrySet.getManager().getBufferManager().setVertexBuffer(array, length);
 			}
 
 			public void setNormals(ArrayList<Double> array, int length) {
 				// Log.debug("n length = " + length);
-				bufferManager.setNormalBuffer(array, length);
+				geometrySet.getManager().getBufferManager().setNormalBuffer(array, length);
 			}
 
 			public void setTextures(ArrayList<Double> array, int length) {
 				// Log.debug("t length = " + length);
-				bufferManager.setTextureBuffer(array, length);
+				geometrySet.getManager().getBufferManager().setTextureBuffer(array, length);
 			}
 
 			public void setColors(ArrayList<Double> array, int length) {
@@ -91,7 +125,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			}
 
 			public void setColorsEmpty() {
-				bufferManager.setColorBuffer(color);
+				geometrySet.getManager().getBufferManager().setColorBuffer(geometrySet.getColor());
 			}
 
 		}
@@ -116,7 +150,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	protected GeometriesSet newGeometriesSet() {
 		if (isPacking) {
-			return new GeometriesSetElementsGlobalBufferPacking(currentColor);
+			return new GeometriesSetElementsGlobalBufferPacking(this, currentColor);
 		}
 		return super.newGeometriesSet();
 	}
@@ -152,6 +186,21 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		this.currentColor = color;
 	}
 
+	/**
+	 * update geometry color
+	 * 
+	 * @param color
+	 *            new color
+	 * @param index
+	 *            geometry index (for set)
+	 */
+	public void updateColor(GColor color, int index) {
+		GeometriesSet geometrySet = getGeometrySet(index);
+		if (geometrySet != null) {
+			((GeometriesSetElementsGlobalBufferPacking) geometrySet).updateColor(color);
+		}
+	}
+
 	protected void texture(double x) {
 		texture(x, currentTextureType);
 	}
@@ -165,6 +214,21 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void setCurrentLineType(int lineType, int lineTypeHidden) {
 		this.currentTextureType = Textures.getDashIdFromLineType(lineType, lineTypeHidden);
+	}
+
+	@Override
+	public int startNewList(int old) {
+		int index = super.startNewList(old);
+		currentGeometriesSet.setIndex(index, currentColor);
+		return index;
+	}
+
+	/**
+	 * 
+	 * @return buffer manager
+	 */
+	public GLBufferManager getBufferManager() {
+		return bufferManager;
 	}
 
 }
