@@ -3990,11 +3990,11 @@ public abstract class App implements UpdateSelection {
 
                 // AND-364
             case MOB_EV_SETTINGS_POPUP:
-                return prerelease;
+                return true;
 
             // MOB-1305
             case MOB_KEYBOARD_BOX_ICONS:
-                return prerelease;
+                return true;
 
             // AND-574
             case MOB_NO_LOCK_FOR_PREVIEWABLE_IN_AND_3D:
@@ -4002,11 +4002,11 @@ public abstract class App implements UpdateSelection {
 
             // IGR-481
             case MOB_LINKS_TO_OTHER_APPS_IN_IOS:
-                return prerelease;
+                return true;
 
 			// AND-617
             case MOB_INPUT_CONTEXT_MENU:
-                return prerelease;
+                return true;
 
 			// IGR-373
 			case MOB_TRANSPARENT_STATUS_BAR_IN_EXAM_MODE:
