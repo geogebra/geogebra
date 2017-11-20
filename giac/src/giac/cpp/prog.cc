@@ -748,9 +748,9 @@ namespace giac {
       vecteur & v =*feuille._VECTptr;
       res = string(ind,' ')+"def "+lastprog_name(contextptr)+"(";
       if (v[0].type==_VECT && v[0].subtype==_SEQ__VECT && v[0]._VECTptr->size()==1)
-	res += v[0]._VECTptr->front().print(contextptr);
+	res += equaltosto(v[0]._VECTptr->front(),contextptr).print(contextptr);
       else
-	res += v[0].print(contextptr);
+	res += equaltosto(v[0],contextptr).print(contextptr);
       res += "):\n";
       ind += 4;
       if (v[2].is_symb_of_sommet(at_bloc) || v[2].is_symb_of_sommet(at_local))
@@ -1042,6 +1042,7 @@ namespace giac {
 #endif
     if (warn){
       *logptr(contextptr) << gettext("// Parsing ") << d << endl;
+      lastprog_name(d.print(contextptr),contextptr);
       if (c.is_symb_of_sommet(at_derive))
 	*logptr(contextptr) << gettext("Warning, defining a derivative function should be done with function_diff or unapply: ") << c << endl;
        if (c.type==_SYMB && c._SYMBptr->sommet!=at_local && c._SYMBptr->sommet!=at_bloc && c._SYMBptr->sommet!=at_when && c._SYMBptr->sommet!=at_for && c._SYMBptr->sommet!=at_ifte){
@@ -1788,10 +1789,10 @@ namespace giac {
 
   static string printaswhen(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     bool b=calc_mode(contextptr)==38;
-    if (b || xcas_mode(contextptr)||feuille.type!=_VECT || feuille._VECTptr->size()!=3)
+    if (b || xcas_mode(contextptr)|| feuille.type!=_VECT || feuille._VECTptr->size()!=3)
       return (b?"IFTE":sommetstr)+("("+feuille.print(contextptr)+")");
     vecteur & v=*feuille._VECTptr;
-    if (calc_mode(contextptr)==1){
+    if (calc_mode(contextptr)==1 || python_compat(contextptr)){
 #if 0
       string s="If["+v[0].print(contextptr)+","+v[1].print(contextptr);
       if (!is_undef(v[2]))
@@ -2354,8 +2355,12 @@ namespace giac {
       }
       else {
 	for (;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunused-value"
 	     idx?*idx!=stop:((for_in && test.val)?set_for_in(counter,for_in,for_in_v,for_in_s,index_name,newcontextptr):for_test(test,testf,eval_lev,newcontextptr));
-	     ++counter,idx?*idx+=step:((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)){
+	     ++counter,idx?*idx+=step:((test.val && increment.type)?increment.eval(eval_lev,newcontextptr).val:0)
+#pragma clang diagnostic pop
+	     ){
 	  if (interrupted || (testf.type!=_INT_ && is_undef(testf)))
 	    break;
 	  dbgptr_current_instruction=save_current_instruction;

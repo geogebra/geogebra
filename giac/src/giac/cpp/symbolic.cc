@@ -404,11 +404,15 @@ namespace giac {
       if (pui.type==_SYMB || pui.type==_FRAC || pui.type==_CPLX){
 	add_print(s,arg,contextptr);
 	if (argpar) s +=')';
+	if (python_compat(contextptr))
+	  s += "**";
+	else {
 #ifdef GIAC_HAS_STO_38
-	s += '^';
+	  s += '^';
 #else
-	s += __pow.s;
+	  s += __pow.s;
 #endif
+	}
 	s += '(';
 	add_print(s,pui,contextptr);
 	s += ')';

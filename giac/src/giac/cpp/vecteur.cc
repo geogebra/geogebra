@@ -4350,7 +4350,7 @@ namespace giac {
 	    if (it->type==_INT_){
 	      if (jt->type==_INT_){
 		longlong x=longlong(it->val)*jt->val;
-#if defined x86_64 && !defined(WIN64) //fred
+#if defined x86_64 && !defined(WIN64) && !defined USE_GMP_REPLACEMENTS//fred
 		if (x>=0)
 		  mpz_add_ui(*tmp._ZINTptr,*tmp._ZINTptr,x);
 		else
@@ -7433,10 +7433,15 @@ namespace giac {
       res.resize(itend-it);
       int * jt=&res.front();
       for (;it!=itend;++it,++jt){
-	if (it->type==_MOD)
-	  *jt=it->_MODptr->val;
-	else
+	int t=it->type;
+	if (t==0)
 	  *jt=it->val; 
+	else {
+	  if (t==_MOD)
+	    *jt=it->_MODptr->val;
+	  else
+	    *jt=it->to_int(); 
+	}
       }
       return;
     }

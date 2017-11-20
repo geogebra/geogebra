@@ -628,6 +628,8 @@ namespace giac {
       return "magenta";
     case _CYAN:
       return "cyan";
+    case 7:
+      return "white";
     }
     int r,g,b;
     if (color>=0x100 && color<0x17e)

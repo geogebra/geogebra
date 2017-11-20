@@ -1725,7 +1725,8 @@ namespace giac {
       }
       if (!is_equal(*it))
 	continue;
-      gen & opt=it->_SYMBptr->feuille;
+      gen opt=it->_SYMBptr->feuille;
+      opt=eval(opt,1,contextptr);
       if (opt.type!=_VECT || opt._VECTptr->size()!=2)
 	continue;
       gen opt1=opt._VECTptr->front(),opt2=opt._VECTptr->back().eval(1,0);
