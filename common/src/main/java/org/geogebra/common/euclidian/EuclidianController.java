@@ -389,6 +389,7 @@ public abstract class EuclidianController {
 	private GeoElement lastSelectionToolGeoToRemove;
 	private ArrayList<GeoElement> moveMultipleObjectsList;
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<GeoElement>();
+	private Hits topHits;
 
 	/**
 	 * state for selection tool over press/release
@@ -8433,22 +8434,22 @@ public abstract class EuclidianController {
 		} else {
 			moveableList = viewHits;
 		}
-		Hits hits = moveableList.getTopHits();
+		topHits = moveableList.getTopHits();
 
 		// make sure that eg line takes precedence over a polygon (in the same
 		// layer)
-		hits.removePolygonsIfNotOnlyCS2D();
+		topHits.removePolygonsIfNotOnlyCS2D();
 
 		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
 		// if object was chosen before, take it now!
-		if ((selGeos.size() == 1) && !hits.isEmpty()
-				&& hits.contains(selGeos.get(0))) {
+		if ((selGeos.size() == 1) && !topHits.isEmpty()
+				&& topHits.contains(selGeos.get(0))) {
 			// object was chosen before: take it
 			geo = selGeos.get(0);
 		} else {
 			// choose out of hits
 			// testing needed - see GGB-1982
-			geo = chooseGeo(hits, false);
+			geo = chooseGeo(topHits, false);
 
 			if (selGeos.contains(geo)) {
 				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
@@ -8463,8 +8464,8 @@ public abstract class EuclidianController {
 						lastSelectionToolPressResult = SelectionToolPressResult.ADD;
 						selection.addSelectedGeo(geo, true, true);
 					}
-				} else if (app.has(Feature.PREVIEW_POINTS) && mode == EuclidianConstants.MODE_MOVE && isSpecialPreviewPointFound(hits)) {
-					previewPointHits = getPreviewSpecialPointHits(hits);
+				} else if (app.has(Feature.PREVIEW_POINTS) && mode == EuclidianConstants.MODE_MOVE && isSpecialPreviewPointFound(topHits)) {
+					previewPointHits = getPreviewSpecialPointHits(topHits);
 				} else {
 					// repaint done next step, no update for properties view (will
 					// display ev properties)
