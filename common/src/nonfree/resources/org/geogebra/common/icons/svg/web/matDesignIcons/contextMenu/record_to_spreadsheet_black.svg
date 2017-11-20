@@ -1,1 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g id="record_to_spreadsheet"><path d="M4,4V20a2,2,0,0,0,2,2H18a2,2,0,0,0,2-2V4a2,2,0,0,0-2-2H6A2,2,0,0,0,4,4ZM6,4h5V8H6Zm0,6h5v4H6ZM6,20V16h5v4Zm12,0H13V16h5Zm0-6H13V10h5Zm0-6H13V4h5Z"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"><path d="M4 4v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2zm2 0h5v4H6zm0 6h5v4H6zm0 10v-4h5v4zm12 0h-5v-4h5zm0-6h-5v-4h5zm0-6h-5V4h5z"/></svg>

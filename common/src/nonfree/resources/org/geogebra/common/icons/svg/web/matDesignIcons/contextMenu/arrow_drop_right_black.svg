@@ -1,12 +1,1 @@
-<svg width="24.000000000000004" height="24.000000000000004" xmlns="http://www.w3.org/2000/svg">
-
- <g>
-  <title>background</title>
-  <rect fill="none" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
- </g>
- <g>
-  <title>Layer 1</title>
-  <path transform="rotate(-90 12.000000000000002,12.5) " id="svg_1" d="m7,10l5,5l5,-5l-10,0z"/>
-  <path id="svg_2" fill="none" d="m0,0l24,0l0,24l-24,0l0,-24z"/>
- </g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path fill="none" d="M-1-1h582v402H-1z"/><path d="M9.5 17.5l5-5-5-5v10z"/><path fill="none" d="M0 0h24v24H0V0z"/></svg>
