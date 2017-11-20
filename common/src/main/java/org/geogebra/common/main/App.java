@@ -4295,7 +4295,7 @@ public abstract class App implements UpdateSelection {
             case GEO_AV_DESCRIPTION:
                 return relaunch;
 
-		/** GGB-2033 */
+		/** GGB-2053 */
             case TAB_ON_GUI:
                 return true;
 
@@ -4338,6 +4338,9 @@ public abstract class App implements UpdateSelection {
 		/** GGB-2208 FromBase() and ToBase() commands in CAS */
 		case CAS_FROM_TO_BASE:
 			return true;
+
+		case HELP_AND_SHORTCUTS:
+			return prerelease;
 
 		/** GGB-2204 */
 		case TAB_ON_MENU:

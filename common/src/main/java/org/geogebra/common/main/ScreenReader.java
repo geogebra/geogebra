@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 public class ScreenReader {
@@ -30,6 +31,19 @@ public class ScreenReader {
 		if (geo0.isEuclidianShowable() && !geo0.isEuclidianVisible()) {
 			sb.append(getNotVisibleText(app));
 		}
+
+		
+		if (app.has(Feature.HELP_AND_SHORTCUTS) && geo0.isEuclidianShowable()) {
+			if (app.getGuiManager().showView(App.VIEW_ALGEBRA)
+					|| ((GuiManager) app.getGuiManager())
+							.isAlgebraTabActive()) {
+				//TODO ggbtrans key
+				sb.append(" press Shift + / to set geo "
+						+ ((geo0.isEuclidianVisible()) ? "in" : "")
+						+ "visible");
+			}
+		}
+
 		// MOW-137 if selection originated in AV we don't want to move
 		// focus to EV
 		if (app.getGuiManager() == null || app.getGuiManager().getLayout()

@@ -299,6 +299,9 @@ public enum Feature {
 	/** MOB-1361 */
 	MOB_PACK_ALL_SEGMENTS_3D,
 
+	/** GGB-2203 */
+	HELP_AND_SHORTCUTS,
+
 	/** GGB-2204 */
 	TAB_ON_MENU
 }

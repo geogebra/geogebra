@@ -922,4 +922,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return null;
 	}
 
+	/**
+	 * @return true if algebra tab is active on new toolbar
+	 */
+	public boolean isAlgebraTabActive() {
+		return false;
+	}
+
 }
