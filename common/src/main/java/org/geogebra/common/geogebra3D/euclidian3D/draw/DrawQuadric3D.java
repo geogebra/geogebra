@@ -108,6 +108,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			// do nothing
 			break;
 		case GeoQuadricNDConstants.QUADRIC_LINE:
+			initDrawLine((GeoQuadric3D) getGeoElement());
 			drawLine.drawGeometryHidden(renderer);
 			break;
 		}
@@ -121,6 +122,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				// do nothing
 				break;
 			case GeoQuadricNDConstants.QUADRIC_LINE:
+				initDrawLine((GeoQuadric3D) getGeoElement());
 				drawLine.drawOutline(renderer);
 				break;
 			}
@@ -1227,6 +1229,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_LINE) {
+			initDrawLine(quadric);
 			if (drawLine.hit(hitting)) {
 				setZPick(drawLine.getZPickNear(), drawLine.getZPickFar());
 				setPickingType(PickingType.POINT_OR_CURVE);
