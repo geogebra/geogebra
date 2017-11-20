@@ -72,6 +72,14 @@ public class GLBufferManager {
 			return 0;
 		}
 
+		public boolean equals(Object o) {
+			if (!(o instanceof Index)) {
+				return false;
+			}
+			Index index = (Index) o;
+			return indexForSet == index.indexForSet && indexForGeometry == index.indexForGeometry;
+		}
+
 		public String toString() {
 			return indexForSet + ", " + indexForGeometry;
 		}
