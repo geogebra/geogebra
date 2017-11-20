@@ -2874,6 +2874,9 @@ public abstract class EuclidianController {
 			if (selSegments() == 0) {
 				addSelectedConic(hits, 1, false, selPreview); // conic needed
 			}
+			if (selSegments() == 0 && selConics() == 0) {
+				addSelectedPolygon(hits, 1, false, selPreview); // conic needed
+			}
 		}
 
 		GeoElement[] ret = { null };
@@ -2896,6 +2899,12 @@ public abstract class EuclidianController {
 			GeoConicND[] conics = getSelectedConicsND();
 			checkZooming();
 			ret[0] = companion.midpoint(conics[0]);
+			return ret;
+		} else if (selPolygons() == 1) {
+			// fetch the selected polygon
+			GeoPolygon[] polys = getSelectedPolygons();
+			checkZooming();
+			ret[0] = companion.centroid(polys[0]);
 			return ret;
 		}
 		return null;
@@ -9386,13 +9395,24 @@ public abstract class EuclidianController {
 			break;
 
 		case EuclidianConstants.MODE_ANGLE_FIXED:
-		case EuclidianConstants.MODE_MIDPOINT:
 			// hits = view.getHits(mouseLoc);
 			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			if (hits.isEmpty() || (!hits.get(0).isGeoSegment()
 					&& !hits.get(0).isGeoConic())) {
+				createNewPoint(hits, false, false, true);
+			}
+			break;
+
+		case EuclidianConstants.MODE_MIDPOINT:
+			// hits = view.getHits(mouseLoc);
+			setViewHits(type);
+			hits = view.getHits();
+			hits.removePolygons();
+			if (hits.isEmpty() || (!hits.get(0).isGeoSegment()
+					&& !hits.get(0).isGeoConic()
+					&& !hits.get(0).isGeoPolygon())) {
 				createNewPoint(hits, false, false, true);
 			}
 			break;

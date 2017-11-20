@@ -25,14 +25,32 @@ public class AlgoCentroidPolygon extends AlgoElement {
 	private GeoPolygon p; // input
 	private GeoPointND centroid; // output
 
+	/**
+	 * @param cons
+	 *            Construction
+	 * @param label
+	 *            Label
+	 * @param p
+	 *            Polygon
+	 */
 	public AlgoCentroidPolygon(Construction cons, String label, GeoPolygon p) {
+		this(cons, p);
+		centroid.setLabel(label);
+	}
+
+	/**
+	 * @param cons
+	 *            Construction
+	 * @param p
+	 *            Polygon
+	 */
+	public AlgoCentroidPolygon(Construction cons, GeoPolygon p) {
 		super(cons);
 		this.p = p;
 		centroid = p.newGeoPoint(cons);
 		setInputOutput(); // for AlgoElement
 
 		compute();
-		centroid.setLabel(label);
 	}
 
 	@Override

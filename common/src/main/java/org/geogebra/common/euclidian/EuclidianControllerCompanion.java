@@ -342,6 +342,17 @@ public class EuclidianControllerCompanion {
 	}
 
 	/**
+	 * @param geoPolygon
+	 *            Polygon
+	 * @return Polygon's Centroid
+	 */
+	public GeoElement centroid(GeoPolygon geoPolygon) {
+		GeoElement centroid = ec.getAlgoDispatcher().centroid(geoPolygon);
+		centroid.setLabel(null);
+		return centroid;
+	}
+
+	/**
 	 * 
 	 * @param conic
 	 *            conic curve

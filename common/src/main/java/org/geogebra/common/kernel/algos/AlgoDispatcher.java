@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.TransformMirror;
 import org.geogebra.common.kernel.TransformRotate;
 import org.geogebra.common.kernel.TransformTranslate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.advanced.AlgoCentroidPolygon;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -2206,6 +2207,18 @@ public class AlgoDispatcher {
 	public AlgoVertexPolygon newAlgoVertexPolygon(Construction cons,
 			String[] labels, GeoPoly p) {
 		return new AlgoVertexPolygon(cons, labels, p);
+	}
+
+	/**
+	 * 
+	 * @param geoPolygon
+	 *            Polygon
+	 * @return Polygon's Centroid
+	 */
+	public GeoElement centroid(GeoPolygon geoPolygon) {
+		AlgoCentroidPolygon algo = new AlgoCentroidPolygon(cons, geoPolygon);
+		GeoPointND centroid = algo.getPoint();
+		return (GeoElement) centroid;
 	}
 
 }

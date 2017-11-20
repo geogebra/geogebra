@@ -368,10 +368,8 @@ public class Hits extends ArrayList<GeoElement> {
 		return ret;
 	}
 
-	// replaces EuclidianView . final public ArrayList getHits(Point p, boolean
-	// includePolygons) {
 	/**
-	 * removes all polygons
+	 * removes all polygons if there are other types of geo
 	 */
 	final public void removePolygons() {
 
