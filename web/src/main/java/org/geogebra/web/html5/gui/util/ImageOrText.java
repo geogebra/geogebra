@@ -110,13 +110,13 @@ public class ImageOrText {
 	 */
 	public void applyToLabel(Label button) {
 		if (url != null) {
-			button.getElement().getStyle()
-			        .setBackgroundImage("url(" + url + ")");
 			if (bgSize > 0) {
 				button.getElement().getStyle()
 						.setProperty("backgroundSize",
 								bgSize + "px " + bgSize + "px");
 			}
+			button.getElement().getStyle()
+					.setBackgroundImage("url(" + url + ")");
 			if (text != null) {
 				button.addStyleName("textIconButton");
 			} else if (className != null) {
