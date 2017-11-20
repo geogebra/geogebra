@@ -458,8 +458,10 @@ public class FunctionNVar extends ValidExpression
 			return evaluateBoolean(vals) ? 1 : 0;
 		}
 		// NumberValue
-		for (int i = 0; i < fVars.length; i++) {
-			fVars[i].set(vals[i]);
+		if (fVars != null) {
+			for (int i = 0; i < fVars.length; i++) {
+				fVars[i].set(vals[i]);
+			}
 		}
 		return expression.evaluateDouble();
 	}
