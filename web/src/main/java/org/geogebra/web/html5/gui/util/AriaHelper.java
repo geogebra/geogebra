@@ -24,9 +24,7 @@ public class AriaHelper {
 	 */
 	public static void setTitle(UIObject ui, String title, App app) {
 		if (app.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()) {
-			if (!"".equals(title)) {
-				ui.getElement().setAttribute("data-title", title);
-			}
+			ui.getElement().setAttribute("data-title", title);
 		}
 		ui.getElement().removeAttribute("title");
 		ui.getElement().setAttribute("aria-label", title);

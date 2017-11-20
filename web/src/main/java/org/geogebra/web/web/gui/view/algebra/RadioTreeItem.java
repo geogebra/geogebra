@@ -1896,16 +1896,20 @@ public class RadioTreeItem extends AVTreeItem
 		mf = new MathFieldW(latexItem, canvas, getLatexController(),
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
 				app.getGlobalKeyDispatcher().getFocusHandler());
-		updateEditorAriaLabel();
+		updateEditorAriaLabel("");
 		mf.setFontSize(getFontSize());
 		mf.setPixelRatio(app.getPixelRatio());
 		mf.setScale(app.getArticleElement().getScaleX());
 		mf.setOnBlur(getLatexController());
 	}
 
-	private void updateEditorAriaLabel() {
+	private void updateEditorAriaLabel(String text) {
 		if (mf != null) {
-			mf.setAriaLabel(loc.getMenu("EnterExpression"));
+			if (!StringUtil.emptyTrim(text)) {
+				mf.setAriaLabel(text);
+			} else {
+				mf.setAriaLabel(loc.getMenu("EnterExpression"));
+			}
 		}
 	}
 
@@ -2006,6 +2010,7 @@ public class RadioTreeItem extends AVTreeItem
 		try {
 			formula = parser.parse(text0);
 			mf.setFormula(formula);
+			updateEditorAriaLabel(text0);
 		} catch (ParseException e) {
 			Log.warn("Problem parsing: " + text0);
 			e.printStackTrace();
@@ -2025,7 +2030,7 @@ public class RadioTreeItem extends AVTreeItem
 		if (controls != null) {
 			controls.setLabels();
 		}
-		updateEditorAriaLabel();
+		updateEditorAriaLabel(getText());
 	}
 
 	@Override
@@ -2051,6 +2056,9 @@ public class RadioTreeItem extends AVTreeItem
 		updatePreview();
 		popupSuggestions();
 		onCursorMove();
+		if (mf != null) {
+			updateEditorAriaLabel(getText());
+		}
 	}
 
 	/**
