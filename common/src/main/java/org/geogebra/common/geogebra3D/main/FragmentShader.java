@@ -228,6 +228,8 @@ public class FragmentShader {
 				+ "void main (void) \n"
 
 				+ "{ \n"
+				// this occurs when buffer parts have been "removed"
+				+ "if (varying_Color.a < 0.0) {\n" + "discard;" + "}\n"
 
 				+ "float x, y;\n"
 				+ "if (enableClipPlanes == 1  // clip the scene\n"

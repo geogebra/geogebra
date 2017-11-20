@@ -411,12 +411,21 @@ public class ManagerShadersElementsGlobalBuffer
 
 	@Override
 	protected void removeGeometrySet(int index) {
-		GeometriesSetElementsGlobalBuffer set = (GeometriesSetElementsGlobalBuffer) geometriesSetList
-				.remove(index);
+		GeometriesSet set = removeGeometrySetFromList(index);
 		if (set != null) {
-			set.removeBuffers();
+			((GeometriesSetElementsGlobalBuffer) set).removeBuffers();
 		}
-		// Log.debug("removeGeometrySet : " + index);
+	}
+
+	/**
+	 * remove geometry set corresponding to index
+	 * 
+	 * @param index
+	 *            geometry set index
+	 * @return geometry set corresponding to index (if exists)
+	 */
+	protected GeometriesSet removeGeometrySetFromList(int index) {
+		return geometriesSetList.remove(index);
 	}
 
 	@Override

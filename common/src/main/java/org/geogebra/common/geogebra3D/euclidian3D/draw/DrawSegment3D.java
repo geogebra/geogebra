@@ -138,4 +138,11 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		}
 	}
 
+	public void disposePreview() {
+		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+			removeFromGL();
+		}
+		super.disposePreview();
+	}
+
 }

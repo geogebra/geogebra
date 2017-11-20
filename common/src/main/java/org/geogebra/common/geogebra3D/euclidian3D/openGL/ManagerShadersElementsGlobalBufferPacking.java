@@ -11,6 +11,11 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
  */
 public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersElementsGlobalBuffer {
 
+	/**
+	 * alpha value for invisible parts
+	 */
+	static final public float ALPHA_INVISIBLE_VALUE = -1f;
+
 	private GLBufferManager bufferManager;
 	private boolean isPacking;
 	private GColor currentColor;
@@ -229,6 +234,18 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public GLBufferManager getBufferManager() {
 		return bufferManager;
+	}
+
+	@Override
+	protected void removeGeometrySet(int index) {
+		GeometriesSet set = removeGeometrySetFromList(index);
+		if (set != null) {
+			if (set instanceof GeometriesSetElementsGlobalBufferPacking) {
+				bufferManager.remove(index, set.getGeometriesLength());
+			} else {
+				((GeometriesSetElementsGlobalBuffer) set).removeBuffers();
+			}
+		}
 	}
 
 }
