@@ -9399,7 +9399,7 @@ namespace giac {
 	    mpz_submul_ui(e->z,*itb->_ZINTptr,-ita->val);
 	}
 	else {
-#ifdef INT128
+#if defined INT128 && !defined USE_GMP_REPLACEMENTS
 	  longlong tmp=longlong(ita->val)*(itb->val);
 	  if (tmp>0)
 	    mpz_add_ui(e->z,e->z,tmp);

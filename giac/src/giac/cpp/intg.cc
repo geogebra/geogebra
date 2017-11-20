@@ -3067,6 +3067,22 @@ namespace giac {
     mpz_clear(t);
   }
 #endif
+
+#ifdef NO_STDEXCEPT
+  inline gen protect_integrate(const gen & args,GIAC_CONTEXT){
+    return _integrate(args,contextptr);
+  }
+#else
+  gen protect_integrate(const gen & args,GIAC_CONTEXT){
+    gen res;
+    try {
+      res=_integrate(args,contextptr);
+    } catch (std::runtime_error & err){
+      res=string2gen(err.what(),false);
+    }
+    return res;
+  }
+#endif
   // "unary" version
   gen _integrate(const gen & args,GIAC_CONTEXT){
     if (complex_variables(contextptr))
@@ -3204,14 +3220,14 @@ namespace giac {
 	  }
 	  giac_assume(symb_and(symb_superieur_egal(x,a),symb_inferieur_egal(x,b)),contextptr);
 	  v.push_back(at_assume);
-	  gen res=_integrate(gen(v,_SEQ__VECT),contextptr);
+	  gen res=protect_integrate(gen(v,_SEQ__VECT),contextptr);
 	  restorepurge(xval,x,contextptr);
 	  return neg?-res:res;
 	}
 	if (is_greater(b,a,contextptr)){
 	  giac_assume(symb_and(symb_superieur_egal(x,a),symb_inferieur_egal(x,b)),contextptr);
 	  v.push_back(at_assume);
-	  gen res=_integrate(gen(v,_SEQ__VECT),contextptr);
+	  gen res=protect_integrate(gen(v,_SEQ__VECT),contextptr);
 	  restorepurge(xval,x,contextptr);
 	  return res;
 	}
@@ -3219,7 +3235,7 @@ namespace giac {
 	  if (is_greater(a,b,contextptr)){
 	    giac_assume(symb_and(symb_superieur_egal(x,b),symb_inferieur_egal(x,a)),contextptr);
 	    v.push_back(at_assume);
-	    gen res=_integrate(gen(v,_SEQ__VECT),contextptr);
+	    gen res=protect_integrate(gen(v,_SEQ__VECT),contextptr);
 	    restorepurge(xval,x,contextptr);
 	    return res;
 	  }
