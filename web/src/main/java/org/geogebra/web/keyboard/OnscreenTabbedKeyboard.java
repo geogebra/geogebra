@@ -1,11 +1,6 @@
 package org.geogebra.web.keyboard;
 
-import org.geogebra.common.awt.GColor;
-import org.geogebra.common.awt.GDimension;
-import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.event.PointerEventType;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.MyMath;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.web.ButtonHandler;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -14,7 +9,6 @@ import org.geogebra.keyboard.web.KeyBoardButtonFunctionalBase;
 import org.geogebra.keyboard.web.KeyboardListener;
 import org.geogebra.keyboard.web.KeyboardListener.ArrowType;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -26,11 +20,9 @@ import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
 import org.geogebra.web.web.gui.util.VirtualKeyboardGUI;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Web implementation of onscreen keyboard
@@ -336,43 +328,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		}
 		helpPanel.updateGUI(maxOffsetHeight, 1);
 		helpPopup.show();
-
-	}
-
-	@Override
-	public KeyBoardButtonBase createLatexButton(String latex, GFont font,
-			String fallback, ButtonHandler handler) {
-
-		Canvas c = Canvas.createIfSupported();
-
-		GGraphics2DW g2 = new GGraphics2DW(c);
-
-		String dottedText = latex.replace('w', Unicode.DOTTED_SQUARE);
-		GDimension d = drawLatex(g2, dottedText, font, Integer.MIN_VALUE,
-				Integer.MIN_VALUE);
-
-		int width = (int) MyMath.nextMultiple(d.getWidth(), 2);
-		int height = (int) MyMath.nextMultiple(d.getHeight(), 2);
-		c.setCoordinateSpaceWidth(width);
-		c.setCoordinateSpaceHeight(height);
-
-		drawLatex(g2, dottedText, font, 0, 0);
-		// g2.setColor(GColor.RED);
-		// g2.drawRect(0, 0, d.getWidth(), d.getHeight());
-
-		KeyBoardButtonFunctionalBase btn = new KeyBoardButtonFunctionalBase(c,
-				fallback, handler);
-		btn.addStyleName("latex");
-		return btn;
-	}
-
-	private GDimension drawLatex(GGraphics2DW g2, String latex,
-			GFont font, int x, int y) {
-		App app1 = getApp();
-		return app1.getDrawEquation().drawEquation(app1, null, g2, x, y, latex,
-				font, false,
-				GColor.BLACK, GColor.WHITE, false, false, null);
-
 	}
 
 	@Override

@@ -207,9 +207,6 @@ public enum Feature {
 	/** AND-479*/
 	MOB_EXAM_MODE,
 
-	/** GGB-1935 */
-	LATEX_ON_KEYBOARD,
-
 	AND_AV_ITEM_MENU,
 
 	/** GGB-1982 */

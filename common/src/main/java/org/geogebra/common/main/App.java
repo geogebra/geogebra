@@ -4272,9 +4272,6 @@ public abstract class App implements UpdateSelection {
             case ARROW_OUTPUT_PREFIX:
                 return true;
 
-            case LATEX_ON_KEYBOARD:
-                return prerelease;
-
             /** GGB-1982 */
             // TODO if there is no need for this feature flag more, remove "appl"
             // parameter from MyCJButton.MyCJButton(App appl)
