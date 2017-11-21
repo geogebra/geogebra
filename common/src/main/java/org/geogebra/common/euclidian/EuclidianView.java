@@ -1564,10 +1564,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		gridType = type;
 	}
 
-	/*
-	 * void setScaleRatio(double scaleRatio) { this.scaleRatio = scaleRatio; }
-	 */
-
 	/**
 	 * TODO check whether this is what we want
 	 * 
@@ -1575,10 +1571,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            minima and maxima
 	 */
 	public void setXYMinMax(double[][] minMax) {
-		xmin = (minMax[0][0]);
-		xmax = (minMax[0][1]);
-		ymin = (minMax[1][0]);
-		ymax = (minMax[1][1]);
+		xmin = minMax[0][0];
+		xmax = minMax[0][1];
+		ymin = minMax[1][0];
+		ymax = minMax[1][1];
 	}
 
 	protected void setRealWorldBounds() {

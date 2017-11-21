@@ -7,12 +7,12 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewCompanion;
-import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -40,6 +40,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 		setAxesColor(GColor.BLACK);
 		setGridColor(GColor.GRAY);
 		ec.setView(this);
+		settings.addListener(this);
 	}
 
 	@Override

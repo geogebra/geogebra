@@ -207,9 +207,9 @@ public class CmdSetColor extends CmdScripting {
 
 			String label = c.getArgument(0)
 					.toString(StringTemplate.defaultTemplate);
-			double r = c.getArgument(1).evaluateDouble();
-			double g = c.getArgument(2).evaluateDouble();
-			double b = c.getArgument(3).evaluateDouble();
+			GeoElement r = resArg(c.getArgument(1), argInfo)[0];
+			GeoElement g = resArg(c.getArgument(2), argInfo)[0];
+			GeoElement b = resArg(c.getArgument(3), argInfo)[0];
 
 			// SetBackgroundColor(A1,1,1,0)
 			// for empty cell
@@ -224,7 +224,8 @@ public class CmdSetColor extends CmdScripting {
 				CellFormatInterface formatHandler = spreadsheet
 						.getSpreadsheetTable().getCellFormatHandler();
 
-				GColor bgCol = GColor.newColor(r, g, b);
+				GColor bgCol = GColor.newColor(r.evaluateDouble(),
+						g.evaluateDouble(), b.evaluateDouble());
 
 				formatHandler.setFormat(coords, CellFormat.FORMAT_BGCOLOR,
 						bgCol);

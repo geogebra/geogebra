@@ -2,6 +2,7 @@ package org.geogebra.commands;
 
 import java.util.Locale;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
@@ -13,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.main.AppDNoGui;
@@ -1374,6 +1376,48 @@ public class CommandsTest extends Assert{
 		((FunctionalNVar) get("F")).setSecret(null);
 		Assert.assertEquals("-cos(x) - (-cos(t - x))",
 				get("F").toValueString(StringTemplate.testTemplate));
+	}
+
+	@Test
+	public void cmdSetColor() {
+		t("A=(0,0,1)", "(0, 0, 1)");
+		t("SetColor[ A, \"lime\" ]", new String[0]);
+		Assert.assertEquals(GeoGebraColorConstants.LIME.toString(),
+				get("A").getObjectColor().toString());
+		t("SetColor[ A, 1, 0, 0 ]", new String[0]);
+		Assert.assertEquals(GColor.RED.toString(),
+				get("A").getObjectColor().toString());
+		t("SetColor[ A, x(A), y(A), z(A) ]", new String[0]);
+		Assert.assertEquals(GColor.BLUE.toString(),
+				get("A").getObjectColor().toString());
+
+	}
+
+	@Test
+	public void cmdSetBackgroundColor() {
+		t("txt=\"GeoGebra Rocks\"", "GeoGebra Rocks");
+		t("A=(0,0,1)", "(0, 0, 1)");
+		t("SetBackgroundColor[ \"red\" ]", new String[0]);
+		Assert.assertEquals(
+				app.getActiveEuclidianView().getBackgroundCommon().toString(),
+				GColor.RED.toString());
+		t("SetBackgroundColor[ 1, 1, 1 ]", new String[0]);
+		Assert.assertEquals(
+				app.getActiveEuclidianView().getBackgroundCommon().toString(),
+				GColor.WHITE.toString());
+		t("SetBackgroundColor[ x(A), y(A), z(A) ]", new String[0]);
+		Assert.assertEquals(
+				app.getActiveEuclidianView().getBackgroundCommon().toString(),
+				GColor.BLUE.toString());
+		t("SetBackgroundColor[ txt, \"lime\" ]", new String[0]);
+		Assert.assertEquals(GeoGebraColorConstants.LIME.toString(),
+				get("txt").getBackgroundColor().toString());
+		t("SetBackgroundColor[ txt, 0, 1, 0 ]", new String[0]);
+		Assert.assertEquals(GColor.GREEN.toString(),
+				get("txt").getBackgroundColor().toString());
+		t("SetBackgroundColor[ txt, x(A), y(A), z(A) ]", new String[0]);
+		Assert.assertEquals(GColor.BLUE.toString(),
+				get("txt").getBackgroundColor().toString());
 	}
 
 	public static String unicode(String theSpline) {

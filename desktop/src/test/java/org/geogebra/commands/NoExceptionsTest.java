@@ -1739,22 +1739,8 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdSetBackgroundColor() {
-		t("SetBackgroundColor[ \"red\" ]");
-		t("SetBackgroundColor[ red, green, blue ]");
-		t("SetBackgroundColor[ obj, \"lime\" ]");
-		t("SetBackgroundColor[ obj, red, green, blue ]");
-	}
-
-	@Test
 	public void cmdSetCaption() {
 		t("SetCaption[ obj, txt ]");
-	}
-
-	@Test
-	public void cmdSetColor() {
-		t("SetColor[ obj, \"lime\" ]");
-		t("SetColor[ obj, red, green, blue ]");
 	}
 
 	@Test
