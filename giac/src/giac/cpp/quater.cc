@@ -258,8 +258,18 @@ namespace giac {
       v.push_back(args);
     }
     else {
-      if (args.type!=_VECT)
+      if (args.type!=_VECT){
+	vecteur lv=lvar(args);
+	if (!lv.empty()){
+	  gen tmp=_e2r(makesequence(args,lv[0]),contextptr),modulo;
+	  if (tmp.type==_VECT){
+	    if (has_mod_coeff(tmp,modulo)){
+	      return _galois_field(makesequence(modulo,args),contextptr);
+	    }
+	  }
+	}
 	return galois_field(args,true,contextptr);
+      }
       v=*args._VECTptr;
     }
     int s=int(v.size());
@@ -315,7 +325,7 @@ namespace giac {
 	make_free_variable(K,contextptr,false,k,0);
 	// make_free_variable(g,contextptr,true,k,K);
 	if (v[1].type==_SYMB){
-	  gen P=_e2r(makesequence(v[1],v[2]),contextptr);
+	  gen P=unmod(_e2r(makesequence(v[1],v[2]),contextptr));
 	  if (P.type==_VECT){
 	    vecteur vmin; // not used
 	    int res=is_irreducible_primitive(*P._VECTptr,v[0],vmin,false,contextptr);
@@ -360,13 +370,16 @@ namespace giac {
       v[3]=_e2r(makesequence(v[3],xid),contextptr); // ok
     if (v[1].type!=_VECT)
       v[1]=_e2r(makesequence(v[1],xid),contextptr); // ok
+    v[1]=unmod(v[1]);
     if (v[1].type!=_VECT)
       return gensizeerr();
-    int res=is_irreducible_primitive(*v[1]._VECTptr,v[0],vmin,primitive,contextptr);
-    if (!res)
-      return gensizeerr(gettext("Not irreducible or not primitive polynomial")+args.print());
-    if (res==2)
-      *logptr(contextptr) << gettext("Warning ") << symb_horner(*v[1]._VECTptr,xid) << gettext(" is irreducible but not primitive. You could use ") << symb_horner(vmin,xid) << gettext(" instead ") << endl;
+    if (is_undef(v[3])){
+      int res=is_irreducible_primitive(*v[1]._VECTptr,v[0],vmin,primitive,contextptr);
+      if (!res)
+	return gensizeerr(gettext("Not irreducible or not primitive polynomial")+args.print());
+      if (res==2)
+	*logptr(contextptr) << gettext("Warning ") << symb_horner(*v[1]._VECTptr,xid) << gettext(" is irreducible but not primitive. You could use ") << symb_horner(vmin,xid) << gettext(" instead ") << endl;
+    }
     return galois_field(v[0],v[1],v[2],v[3]);
   }
   static define_unary_function_eval (__galois_field,&giac::_galois_field,_galois_field_s);
@@ -389,7 +402,7 @@ namespace giac {
 	return x._VECTptr->back().print()+"("+r2e(a,xid,contextptr).print()+")";      
       }
     }
-    return string(_galois_field_s)+"("+p.print()+","+r2e(P,xid,contextptr).print()+","+x.print()+","+r2e(a,xid,contextptr).print()+")";
+    return string(_galois_field_s)+"("+p.print()+","+r2e(unmod(P),xid,contextptr).print()+","+x.print()+","+r2e(a,xid,contextptr).print()+")";
     this->dbgprint(); // not reached, it's for the debugger
     return "";
   }

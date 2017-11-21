@@ -7352,10 +7352,11 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       ymin=y;
     if (!is_inf(y) && is_greater(y,ymax,contextptr))
       ymax=y;
-    vecteur tvif=makevecteur(symb_equal(y__IDNT_e,f),y);
+    gen yof=y__IDNT_e; // symb_of(y__IDNT_e,x); // 
+    vecteur tvif=makevecteur(symb_equal(yof,f),y);
     gen nothing=string2gen(" ",false);
-    vecteur tvidf=makevecteur(symb_equal(symbolic(at_derive,y__IDNT_e),f1),limit(f1,xid,nextx,1,contextptr));
-    vecteur tvidf2=makevecteur(symbolic(at_derive,symbolic(at_derive,y__IDNT_e)),limit(f2,xid,nextx,1,contextptr));
+    vecteur tvidf=makevecteur(symb_equal(symbolic(at_derive,yof),f1),limit(f1,xid,nextx,1,contextptr));
+    vecteur tvidf2=makevecteur(symbolic(at_derive,symbolic(at_derive,yof)),limit(f2,xid,nextx,1,contextptr));
     int tvs=int(tvx.size());
     for (int i=1;i<tvs;++i){
       gen curx=nextx,dfx,df2;
