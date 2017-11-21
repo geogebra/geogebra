@@ -143,7 +143,10 @@ public class GLBufferManager {
 			vertexBuffer.set(vertexArray, offset * 3, length * 3);
 			normalBuffer.set(normalArray, offset * 3, length * 3);
 			textureBuffer.set(textureArray, offset * 2, length * 2);
+			setColor(color, offset, length);
+		}
 
+		public void setColor(GColor color, int offset, int length) {
 			int colorOffset = offset * 4;
 			colorBuffer.set((float) color.getRed() / 255, colorOffset, length, 4);
 			colorOffset++;
@@ -261,7 +264,7 @@ public class GLBufferManager {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			currentBufferPack = currentBufferSegment.bufferPack;
-			setColorBuffer(color);
+			currentBufferPack.setColor(color, currentBufferSegment.elementsOffset, currentBufferSegment.elementsLength);
 		}
 	}
 
