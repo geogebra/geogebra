@@ -10337,8 +10337,11 @@ namespace giac {
     if (ws!=2)
       return gensizeerr(contextptr);
     gen a=w[0],b=w[1];
-    if (a.type==_IDNT)
-      a=eval(a,1,contextptr);
+    if (a.type==_IDNT){
+      gen tmp=eval(a,1,contextptr);
+      if (tmp.type==_FUNC)
+	a=tmp;
+    }
     if (b.type!=_SYMB)
       return _prod(eval(g,eval_level(contextptr),contextptr),contextptr);
     gen f=b;
