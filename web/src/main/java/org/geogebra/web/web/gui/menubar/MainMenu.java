@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.menubar;
 import java.util.ArrayList;
 
 import org.geogebra.common.gui.toolcategorization.ToolCategorization.AppType;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
@@ -155,10 +156,10 @@ public class MainMenu extends FlowPanel
 			menus.add(perspectivesMenu);
 			if (!app.isUnbundledOrWhiteboard()) {
 				menus.add(viewMenu);
+				menus.add(optionsMenu);
+				menus.add(toolsMenu);
 			}
 
-			menus.add(optionsMenu);
-			menus.add(toolsMenu);
 			menus.add(helpMenu);
 
 			if (app.enableFileFeatures()) {
@@ -401,10 +402,7 @@ public class MainMenu extends FlowPanel
 										getHTMLExpand(menuImgs.get(index - 1),
 												menuTitles.get(index - 1)),
 										true);
-								menus.get(index - 1).getElement()
-										.removeClassName("expand");
-								menus.get(index - 1).getElement()
-										.addClassName("collapse");
+								setCollapseStyles(index);
 							}
 							return;
 						}
@@ -415,16 +413,21 @@ public class MainMenu extends FlowPanel
 									menuTitles
 											.get(this.getSelectedIndex() - 1)),
 									true);
-							menus.get(getSelectedIndex() - 1).getElement()
-									.removeClassName("expand");
-							menus.get(getSelectedIndex() - 1).getElement()
-									.addClassName("collapse");
+
+							setCollapseStyles(getSelectedIndex());
 						}
 						showStack(index);
 					}
 				}
 
 				super.onBrowserEvent(event);
+			}
+
+			private void setCollapseStyles(int index) {
+				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
+						: menus.get(index - 1);
+				mi.getElement().removeClassName("expand");
+				mi.getElement().addClassName("collapse");
 			}
 
 			// violator pattern from
@@ -815,6 +818,9 @@ public class MainMenu extends FlowPanel
 		}
 	}
 
+	/**
+	 * Focuses the first item of the Main Menu
+	 */
 	public void focusFirst() {
 		menus.get(0).focus();
 	}
@@ -823,11 +829,11 @@ public class MainMenu extends FlowPanel
 		if (source instanceof GMenuBar) {
 			GMenuBar item = (GMenuBar) source;
 			int stackIdx = menuPanel.getSelectedIndex();
-			int menuIdx = menus.indexOf(item);
 			if (shiftDown) {
-				if (item.isFirstItemSelected()) {
+				if (item.isFirstItemSelected() || item.isEmpty()) {
+					GMenuBar mi = getMenuAt(stackIdx - 1);
 					menuPanel.showStack(stackIdx - 1);
-					menus.get(menuIdx - 1).focus();
+					mi.selectLastItem();
 				} else {
 					item.moveSelectionUp();
 				}
@@ -835,8 +841,15 @@ public class MainMenu extends FlowPanel
 			}
 
 			if (item.isLastItemSelected()) {
-				menuPanel.showStack(stackIdx + 1);
-				menus.get(menuIdx + 1).focus();
+				int nextIdx = stackIdx + 1;
+				if (nextIdx < menuPanel.getWidgetCount()) {
+					GMenuBar mi = getMenuAt(nextIdx);
+					menuPanel.showStack(nextIdx);
+
+					mi.focus();
+
+				}
+
 			} else {
 				item.moveSelectionDown();
 			}
@@ -845,4 +858,19 @@ public class MainMenu extends FlowPanel
 		return false;
 	}
 
+	/**
+	 * Gets the menu at given id from StackPanel
+	 * 
+	 * @param stackIdx
+	 *            the index
+	 * @return the widget at given index if it is GMenubar instance or null
+	 *         otherwise.
+	 */
+	GMenuBar getMenuAt(int stackIdx) {
+		Widget w = menuPanel.getWidget(stackIdx);
+		if (w instanceof GMenuBar) {
+			return (GMenuBar) w;
+		}
+		return null;
+	}
 }

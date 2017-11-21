@@ -156,7 +156,6 @@ public class GMenuBar extends MenuBar{
 						}
 						pp.add(submenupopup);
 						MenuItem mi0 = (MenuItem) ait[0];
-
 						int left = subleft ? mi0.getElement().getAbsoluteLeft()
 								: mi0.getElement().getAbsoluteRight() + 8;
 						int top = mi0.getElement().getAbsoluteTop();
@@ -250,5 +249,23 @@ public class GMenuBar extends MenuBar{
 
 	private boolean hasTabHandlers() {
 		return !tabHandlers.isEmpty();
+	}
+
+	/**
+	 * 
+	 * @return true if menu has no items.
+	 */
+	public boolean isEmpty() {
+		return getItems().isEmpty();
+	}
+
+	/**
+	 * Selects the last menu item.
+	 */
+	public void selectLastItem() {
+		List<MenuItem> list = getItems();
+		if (!list.isEmpty()) {
+			selectItem(list.get(list.size() - 1));
+		}
 	}
 }
