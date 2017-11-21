@@ -1,6 +1,5 @@
 package org.geogebra.common.main;
 
-import org.geogebra.common.gui.GuiManager;
 import org.geogebra.common.kernel.geos.GeoElement;
 
 public class ScreenReader {
@@ -34,13 +33,15 @@ public class ScreenReader {
 
 		
 		if (app.has(Feature.HELP_AND_SHORTCUTS) && geo0.isEuclidianShowable()) {
-			if (app.getGuiManager().showView(App.VIEW_ALGEBRA)
-					|| ((GuiManager) app.getGuiManager())
-							.isAlgebraTabActive()) {
-				//TODO ggbtrans key
-				sb.append(" press Shift + / to set geo "
-						+ ((geo0.isEuclidianVisible()) ? "in" : "")
-						+ "visible");
+			if (app.getGuiManager() != null
+					&& app.getGuiManager().hasAlgebraView()) {
+				if (geo0.isEuclidianVisible()) {
+					sb.append(app.getLocalization()
+							.getMenu("shiftSlashSetInVisible"));
+				} else {
+					sb.append(app.getLocalization()
+							.getMenu("shiftSlashSetVisible"));
+				}
 			}
 		}
 
