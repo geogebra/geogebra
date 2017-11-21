@@ -1384,6 +1384,10 @@ public class CommandsTest extends Assert{
 		t("SetColor[ A, \"lime\" ]", new String[0]);
 		Assert.assertEquals(GeoGebraColorConstants.LIME.toString(),
 				get("A").getObjectColor().toString());
+		t("SetColor[ A, If(x(A)>0,\"yellow\",\"orange\") ]", new String[0]);
+		Assert.assertEquals(GColor.ORANGE.toString(),
+				get("A").getObjectColor().toString());
+		t("SetColor[ A1, If(x(A)>0,\"yellow\",\"orange\") ]", new String[0]);
 		t("SetColor[ A, 1, 0, 0 ]", new String[0]);
 		Assert.assertEquals(GColor.RED.toString(),
 				get("A").getObjectColor().toString());
@@ -1418,6 +1422,9 @@ public class CommandsTest extends Assert{
 		t("SetBackgroundColor[ txt, x(A), y(A), z(A) ]", new String[0]);
 		Assert.assertEquals(GColor.BLUE.toString(),
 				get("txt").getBackgroundColor().toString());
+		t("SetBackgroundColor[ A1, If(x(A)>0,\"yellow\",\"orange\") ]",
+				new String[0]);
+		t("SetBackgroundColor[ A1, 0, 1, 1 ]", new String[0]);
 	}
 
 	public static String unicode(String theSpline) {

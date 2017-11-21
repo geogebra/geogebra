@@ -373,7 +373,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	@Override
 	public CellFormatInterface getCellFormatHandler() {
 		if (formatHandler == null) {
-			formatHandler = new CellFormat(this);
+			formatHandler = new CellFormat(this, app);
 		}
 		return formatHandler;
 	}

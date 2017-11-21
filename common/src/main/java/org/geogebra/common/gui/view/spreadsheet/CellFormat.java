@@ -98,10 +98,10 @@ public class CellFormat implements CellFormatInterface {
 	 * 
 	 * @param table
 	 */
-	public CellFormat(MyTableInterface table) {
+	public CellFormat(MyTableInterface table, App app) {
 
 		this.table = table;
-		app = table.getApplication();
+		this.app = app;
 
 		// Create instances of the format hash maps
 		formatMapArray = new MyHashMap[formatCount];
@@ -512,7 +512,9 @@ public class CellFormat implements CellFormatInterface {
 		doSetFormat(crList, formatType, value);
 
 		setCellFormatString();
-		table.repaint();
+		if (table != null) {
+			table.repaint();
+		}
 
 	}
 
@@ -521,7 +523,7 @@ public class CellFormat implements CellFormatInterface {
 		HashMap<GPoint, Object> formatTable = formatMapArray[formatType];
 
 		// handle select all case first, then exit
-		if (table.isSelectAll() && value == null) {
+		if (table != null && table.isSelectAll() && value == null) {
 			formatTable.clear();
 			return;
 		}
@@ -608,7 +610,9 @@ public class CellFormat implements CellFormatInterface {
 			cellFormatString = sb.toString();
 		}
 
-		table.updateCellFormat(cellFormatString);
+		if (table != null) {
+			table.updateCellFormat(cellFormatString);
+		}
 	}
 
 	/**

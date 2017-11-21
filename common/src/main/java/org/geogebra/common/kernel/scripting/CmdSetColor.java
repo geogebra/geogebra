@@ -5,7 +5,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
@@ -129,10 +128,8 @@ public class CmdSetColor extends CmdScripting {
 
 				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
-				SpreadsheetViewInterface spreadsheet = kernel.getApplication()
-						.getGuiManager().getSpreadsheetView();
-				CellFormatInterface formatHandler = spreadsheet
-						.getSpreadsheetTable().getCellFormatHandler();
+				CellFormatInterface formatHandler = kernel.getApplication()
+						.getSpreadsheetTableModel().getCellFormat();
 
 
 				GColor bgCol = GeoGebraColorConstants.getGeogebraColor(app,
@@ -219,10 +216,8 @@ public class CmdSetColor extends CmdScripting {
 
 				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
-				SpreadsheetViewInterface spreadsheet = kernel.getApplication()
-						.getGuiManager().getSpreadsheetView();
-				CellFormatInterface formatHandler = spreadsheet
-						.getSpreadsheetTable().getCellFormatHandler();
+				CellFormatInterface formatHandler = kernel.getApplication()
+						.getSpreadsheetTableModel().getCellFormat();
 
 				GColor bgCol = GColor.newColor(r.evaluateDouble(),
 						g.evaluateDouble(), b.evaluateDouble());
