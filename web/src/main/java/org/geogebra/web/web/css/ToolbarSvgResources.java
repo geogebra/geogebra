@@ -5,6 +5,7 @@ import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
+import com.google.gwt.resources.client.ImageResource;
 
 /**
  * SVG icons for toolbar
@@ -424,6 +425,14 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 
 
 	// Whiteboard
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/help.png")
+	ImageResource help_32();
+
+	@Override
+	@Source("org/geogebra/common/icons_toolbar/p32/mode_photo.png")
+	ImageResource mode_photo_32();
 
 	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_geogebra_black.svg")
