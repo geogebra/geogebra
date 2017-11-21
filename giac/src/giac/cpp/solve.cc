@@ -2520,6 +2520,8 @@ namespace giac {
       if (is_equal(arg1) && arg1._SYMBptr->feuille.type==_VECT){
 	gen a1=arg1._SYMBptr->feuille[0];
 	gen a2=arg1._SYMBptr->feuille[1];
+	if (a1.is_symb_of_sommet(at_program) || a2.is_symb_of_sommet(at_program))
+	  return gensizeerr(contextptr);
 	if (a2==0 && a1.is_symb_of_sommet(at_plus) && a1._SYMBptr->feuille._VECTptr->size()==2){
 	  a2=-a1._SYMBptr->feuille._VECTptr->back();
 	  a1=a1._SYMBptr->feuille._VECTptr->front();
@@ -2563,6 +2565,8 @@ namespace giac {
 #endif
     }
     arg1=apply(arg1,equal2diff);
+    if (arg1.is_symb_of_sommet(at_program))
+      return gensizeerr(contextptr);
     arg1=subst(arg1,undef,identificateur("undef_"),true,contextptr);
     vecteur _res=solve(arg1,v.back(),isolate_mode,contextptr);
     if (_res.empty() || _res.front().type==_STRNG || is_undef(_res))
