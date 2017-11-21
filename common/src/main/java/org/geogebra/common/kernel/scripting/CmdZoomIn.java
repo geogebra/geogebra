@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.scripting;
 
+import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Kernel;
@@ -67,12 +68,22 @@ public class CmdZoomIn extends CmdScripting {
 					throw argErr(app, c, arg[i]);
 				}
 			}
-			EuclidianSettings evs = app.getActiveEuclidianView().getSettings();
+
+			EuclidianView view = app.getActiveEuclidianView();
+			EuclidianSettings evs = view.getSettings();
+
+			// eg ZoomIn(a, a, -4, 4)
 			evs.setXminObject((GeoNumeric) arg[0], false);
 			evs.setXmaxObject((GeoNumeric) arg[2], false);
 			evs.setYminObject((GeoNumeric) arg[1], false);
 			evs.setYmaxObject((GeoNumeric) arg[3], true);
-			app.getActiveEuclidianView().repaintView();
+
+			// eg ZoomIn(-5, 5, -4, 4)
+			view.setRealWorldCoordSystem(arg[0].evaluateDouble(),
+					arg[1].evaluateDouble(), arg[2].evaluateDouble(),
+					arg[3].evaluateDouble());
+
+			view.repaintView();
 			// don't return the args: don't need to delete them in case they are
 			// dynamic
 			return new GeoElement[0];
