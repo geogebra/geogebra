@@ -657,6 +657,11 @@ public class ConstructionProtocolView {
 		}
 
 		@Override
+		public void updateHighlight(GeoElement geo) {
+			// nothing to do here
+		}
+
+		@Override
 		public void updateAuxiliaryObject(GeoElement geo) {
 			// TODO Auto-generated method stub
 

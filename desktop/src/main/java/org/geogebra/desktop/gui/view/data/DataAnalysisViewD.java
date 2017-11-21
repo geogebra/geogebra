@@ -586,6 +586,11 @@ public class DataAnalysisViewD extends JPanel
 	}
 
 	@Override
+	public void updateHighlight(GeoElement geo) {
+		// nothing to do here
+	}
+
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}

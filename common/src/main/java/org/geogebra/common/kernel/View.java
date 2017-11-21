@@ -63,6 +63,14 @@ public interface View {
 	public void updateVisualStyle(GeoElement geo, GProperty prop);
 
 	/**
+	 * Notify this view about geo with updated highlighting
+	 * 
+	 * @param geo
+	 *            updated geo
+	 */
+	public void updateHighlight(GeoElement geo);
+
+	/**
 	 * Notify this view about updated auxiliary geo
 	 * 
 	 * @param geo

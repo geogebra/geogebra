@@ -435,6 +435,11 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	@Override
+	public void updateHighlight(GeoElement geo) {
+		// nothing to do here
+	}
+
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// TODO
 	}

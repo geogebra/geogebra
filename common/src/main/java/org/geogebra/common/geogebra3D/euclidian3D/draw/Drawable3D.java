@@ -1068,13 +1068,19 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * sets the color for drawing and alpha value
 	 */
-	protected void setHighlightingColor() {
+	final protected void setHighlightingColor() {
+		setDrawingColor(getColor());
+	}
 
+	/**
+	 * 
+	 * @return current color (may be highlighted)
+	 */
+	final protected GColor getColor() {
 		if (doHighlighting()) {
-			setDrawingColor(color[1]);
-		} else {
-			setDrawingColor(color[0]);
+			return color[1];
 		}
+		return color[0];
 	}
 
 	/**

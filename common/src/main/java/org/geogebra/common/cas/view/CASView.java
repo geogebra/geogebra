@@ -336,6 +336,11 @@ public abstract class CASView implements Editing, SetLabels {
 		update(geo);
 	}
 
+	@Override
+	public void updateHighlight(GeoElement geo) {
+		// nothing to do here
+	}
+
 	/**
 	 * Process currently selected cell using the given command and parameters,
 	 * e.g. "Integral", [ "x" ]

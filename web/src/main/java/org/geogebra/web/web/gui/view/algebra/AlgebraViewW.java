@@ -1724,6 +1724,11 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
+	public void updateHighlight(GeoElement geo) {
+		// nothing to do here
+	}
+
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		if (geos != null) {
 			if (geos.length > 0) {

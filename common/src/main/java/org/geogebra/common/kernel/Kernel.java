@@ -4125,6 +4125,14 @@ public class Kernel {
 		}
 	}
 
+	public final void notifyUpdateHightlight(GeoElement geo) {
+		if (notifyViewsActive) {
+			for (View view : views) {
+				view.updateHighlight(geo);
+			}
+		}
+	}
+
 	public final void notifyUpdateAuxiliaryObject(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (View view : views) {

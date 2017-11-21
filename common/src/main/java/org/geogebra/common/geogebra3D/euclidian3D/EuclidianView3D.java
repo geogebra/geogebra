@@ -4674,4 +4674,14 @@ public abstract class EuclidianView3D extends EuclidianView
 			reset();
 		}
 	}
+
+	@Override
+	public void updateHighlight(GeoElement geo) {
+		if (geo.hasDrawable3D()) {
+			Drawable3D d = drawable3DMap.get(geo);
+			if (d != null) {
+				d.setWaitForUpdateVisualStyle(GProperty.COLOR);
+			}
+		}
+	}
 }

@@ -150,6 +150,11 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
+	public void updateHighlight(GeoElement geo) {
+		// nothing to do here
+	}
+
+	@Override
 	public void updatePreviewFromInputBar(GeoElement[] geos) {
 		// not used
 	}

@@ -115,7 +115,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 			ManagerShadersElementsGlobalBufferPacking manager = (ManagerShadersElementsGlobalBufferPacking) getView3D()
 					.getRenderer().getGeometryManager();
 			manager.setIsPacking(true);
-			manager.setCurrentColor(color[0]);
+			manager.setCurrentColor(getColor());
 			manager.setCurrentLineType(getGeoElement().getLineType(), getGeoElement().getLineTypeHidden());
 		}
 		super.updateForItSelf(p1, p2);
@@ -131,7 +131,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 			if (prop == GProperty.COLOR) {
 				updateColors();
 				((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
-						.updateColor(color[0], getGeometryIndex());
+						.updateColor(getColor(), getGeometryIndex());
 			} else {
 				super.setWaitForUpdateVisualStyle(prop);
 			}

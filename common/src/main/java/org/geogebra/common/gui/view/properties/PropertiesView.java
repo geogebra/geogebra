@@ -508,4 +508,9 @@ public abstract class PropertiesView implements View {
 		this.attached = attached;
 	}
 
+	@Override
+	public void updateHighlight(GeoElement geo) {
+		// nothing to do here
+	}
+
 }

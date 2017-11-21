@@ -1689,6 +1689,11 @@ public abstract class ProbabilityCalculatorView
 		update(geo);
 	}
 
+	@Override
+	public void updateHighlight(GeoElement geo) {
+		// nothing to do here
+	}
+
 	public void attachView() {
 		// clearView();
 		// kernel.notifyAddAll(this);

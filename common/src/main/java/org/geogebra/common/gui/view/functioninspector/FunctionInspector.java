@@ -361,4 +361,9 @@ public abstract class FunctionInspector
 		this.kernel = kernel;
 	}
 
+	@Override
+	public void updateHighlight(GeoElement geo) {
+		// nothing to do here
+	}
+
 }
