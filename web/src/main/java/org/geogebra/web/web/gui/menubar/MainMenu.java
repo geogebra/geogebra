@@ -30,6 +30,7 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
+import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -339,10 +340,11 @@ public class MainMenu extends FlowPanel
 					if (app.isUnbundledOrWhiteboard()
 							&& menuImgs.size() > index - 1
 							&& menuImgs.get(index - 1) != null) {
+						String ariaLabel = menuTitles.get(index - 1);
 						setStackText(index,
 								getHTMLCollapse(menuImgs.get(index - 1),
 										menuTitles.get(index - 1)),
-								true);
+								ariaLabel, true);
 						menus.get(index - 1).getElement()
 								.removeClassName("collapse");
 						menus.get(index - 1).getElement()
@@ -401,7 +403,7 @@ public class MainMenu extends FlowPanel
 								setStackText(index,
 										getHTMLExpand(menuImgs.get(index - 1),
 												menuTitles.get(index - 1)),
-										true);
+										menuTitles.get(index - 1), false);
 								setCollapseStyles(index);
 							}
 							return;
@@ -456,8 +458,26 @@ public class MainMenu extends FlowPanel
 				return -1;
 			}
 
-		};
+			public void setStackText(int index, @IsSafeHtml String text,
+					String ariaLabel, boolean expand) {
+				if (index >= getWidgetCount()) {
+					return;
+				}
 
+				Element b = getElement().getFirstChildElement();
+				Element tdWrapper = DOM.getChild(DOM.getChild(b, index * 2),
+						0);
+				Element headerElem = DOM.getFirstChild(tdWrapper);
+
+				headerElem.setInnerHTML(text);
+
+				headerElem.setTabIndex(1);
+				headerElem.setAttribute("role", "menu");
+				headerElem.setAttribute("aria-label", ariaLabel);
+				headerElem.setAttribute("aria-expanded", expand + "");
+				headerElem.focus();
+			}
+		};
 	}
 
 	private void initKeyListener() {
@@ -497,7 +517,6 @@ public class MainMenu extends FlowPanel
 				}
 			}, KeyDownEvent.getType());
 		}
-
 	}
 
 	/**
