@@ -59,7 +59,7 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 		yScaleEnd = yScaleStart / factor;
 		zScaleEnd = zScaleStart / factor;
 
-		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve it
+		animatedScaleTimeFactor = ANIMATION_DURATION;
 
 	}
 }

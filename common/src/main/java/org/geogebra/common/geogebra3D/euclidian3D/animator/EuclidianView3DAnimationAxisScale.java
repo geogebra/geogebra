@@ -57,22 +57,21 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 
 	public void animate() {
 		switch (axisScaleMode) {
-		default:
-			// do nothing
-			break;
-		case EuclidianController.MOVE_X_AXIS:
-			view3D.setXZero(xZeroOld / axisScaleFactor);
-			view3D.getSettings().setXscaleValue(axisScaleFactor * axisScaleOld);
-			break;
-		case EuclidianController.MOVE_Y_AXIS:
-			view3D.setYZero(yZeroOld / axisScaleFactor);
-			view3D.getSettings().setYscaleValue(axisScaleFactor * axisScaleOld);
-			break;
-		case EuclidianController.MOVE_Z_AXIS:
-			view3D.setZZero(zZeroOld / axisScaleFactor);
-			view3D.getSettings().setZscaleValue(axisScaleFactor * axisScaleOld);
-			break;
-
+			case EuclidianController.MOVE_X_AXIS:
+				view3D.setXZero(xZeroOld / axisScaleFactor);
+				view3D.getSettings().setXscaleValue(axisScaleFactor * axisScaleOld);
+				break;
+			case EuclidianController.MOVE_Y_AXIS:
+				view3D.setYZero(yZeroOld / axisScaleFactor);
+				view3D.getSettings().setYscaleValue(axisScaleFactor * axisScaleOld);
+				break;
+			case EuclidianController.MOVE_Z_AXIS:
+				view3D.setZZero(zZeroOld / axisScaleFactor);
+				view3D.getSettings().setZscaleValue(axisScaleFactor * axisScaleOld);
+				break;
+			default:
+				// do nothing
+				break;
 		}
 
 		view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());

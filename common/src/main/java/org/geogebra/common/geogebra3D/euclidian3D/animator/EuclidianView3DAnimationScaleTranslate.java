@@ -8,6 +8,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
  */
 public class EuclidianView3DAnimationScaleTranslate extends EuclidianView3DAnimationScaleAbstract {
 
+	private static final double STEPS_TO_TIME_FACTOR = 0.0003;
+
 	/**
 	 * 
 	 * @param view3D 3D view
@@ -27,7 +29,7 @@ public class EuclidianView3DAnimationScaleTranslate extends EuclidianView3DAnima
 		xScaleEnd = newScale;
 		yScaleEnd = newScale;
 		zScaleEnd = newScale;
-		animatedScaleTimeFactor = 0.0003 * steps;
+		animatedScaleTimeFactor = STEPS_TO_TIME_FACTOR * steps;
 	}
 
 	public void setupForStart() {

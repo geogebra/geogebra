@@ -10,6 +10,9 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimation {
 
+	private static final double Z_MIN_FOR_TRANSLATE_Z = 0.85;
+	private static final double Z_MAX_FOR_TRANSLATE_XY = 0.45;
+
 	private double xZeroOld, yZeroOld, zZeroOld;
 	private double xScaleStart, yScaleStart, zScaleStart;
 	private double xScaleEnd, yScaleEnd, zScaleEnd;
@@ -22,9 +25,7 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 	 * @param animator animator
 	 */
 	EuclidianView3DAnimationScreenScale(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
-
 		super(view3D, animator);
-
 	}
 
 	/**
@@ -50,16 +51,15 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 		tmpCoords1.set(Coords.VY);
 		view3D.toSceneCoords3D(tmpCoords1);
 		double z = tmpCoords1.getZ() * view3D.getScale();
-		if (z > 0.85) {
+		if (z > Z_MIN_FOR_TRANSLATE_Z) {
 			screenTranslateAndScaleDZ = tmpCoords1.getZ() * (-dy);
-		} else if (z < 0.45) {
+		} else if (z < Z_MAX_FOR_TRANSLATE_XY) {
 			screenTranslateAndScaleDX += tmpCoords1.getX() * (-dy);
 			screenTranslateAndScaleDY += tmpCoords1.getY() * (-dy);
 			screenTranslateAndScaleDZ = 0;
 		} else {
 			screenTranslateAndScaleDZ = 0;
 		}
-
 
 		xScaleEnd = xScaleStart * scaleFactor;
 		yScaleEnd = yScaleStart * scaleFactor;
@@ -95,7 +95,6 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 		view3D.updateMatrix();
 		view3D.setViewChangedByZoom();
 		view3D.setViewChangedByTranslate();
-
 		end();
 	}
 

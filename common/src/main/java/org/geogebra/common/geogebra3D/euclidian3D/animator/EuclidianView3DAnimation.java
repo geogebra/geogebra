@@ -10,6 +10,11 @@ import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimat
 public abstract class EuclidianView3DAnimation {
 
 	/**
+	 * it will take about 1/2s to achieve
+	 */
+	static final double ANIMATION_DURATION = 0.005;
+
+	/**
 	 * 3D view
 	 */
 	protected EuclidianView3D view3D;
@@ -28,7 +33,7 @@ public abstract class EuclidianView3DAnimation {
 	 * @param animator
 	 *            3D view animator
 	 */
-	public EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
+	EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
 		this(view3D, animator, false);
 	}
 
@@ -42,7 +47,7 @@ public abstract class EuclidianView3DAnimation {
 	 * @param storeUndo
 	 *            if undo point will be stored at the end
 	 */
-	public EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator, boolean storeUndo) {
+	EuclidianView3DAnimation(EuclidianView3D view3D, EuclidianView3DAnimator animator, boolean storeUndo) {
 		this.view3D = view3D;
 		this.animator = animator;
 		this.storeUndo = storeUndo;

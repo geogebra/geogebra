@@ -39,7 +39,7 @@ public class EuclidianView3DAnimationZoom extends EuclidianView3DAnimationScaleA
 		yScaleEnd = yScaleStart * zoomFactor;
 		zScaleEnd = zScaleStart * zoomFactor;
 
-		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve
+		animatedScaleTimeFactor = ANIMATION_DURATION;
 	}
 
 }

@@ -22,11 +22,8 @@ public class EuclidianView3DAnimationAxesRatio extends EuclidianView3DAnimationS
 			double zoomFactorY, double zoomFactorZ) {
 
 		super(view3D, animator);
-
-		// zoomAxesRatio - 3
 		this.zoomFactorY = zoomFactorY;
 		this.zoomFactorZ = zoomFactorZ;
-
 	}
 
 	public void setupForStart() {
@@ -54,7 +51,7 @@ public class EuclidianView3DAnimationAxesRatio extends EuclidianView3DAnimationS
 		} else {
 			zScaleEnd = xScaleStart * zoomFactorZ;
 		}
-		animatedScaleTimeFactor = 0.005; // it will take about 1/2s to achieve
+		animatedScaleTimeFactor = ANIMATION_DURATION;
 
 	}
 

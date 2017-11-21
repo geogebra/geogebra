@@ -14,6 +14,7 @@ abstract public class EuclidianView3DAnimationScaleAbstract extends EuclidianVie
 			animatedScaleTimeStart, animatedScaleStartX, animatedScaleStartY, animatedScaleStartZ, animatedScaleEndX,
 			animatedScaleEndY, animatedScaleEndZ;
 
+	private static final double TIME_SHIFT = 0.2;
 
 	/**
 	 * 
@@ -36,7 +37,7 @@ abstract public class EuclidianView3DAnimationScaleAbstract extends EuclidianVie
 			ending = true;
 		} else {
 			t = (view3D.getApplication().getMillisecondTime() - animatedScaleTimeStart) * animatedScaleTimeFactor;
-			t += 0.2; // starting at 1/4
+			t += TIME_SHIFT;
 
 			if (t >= 1) {
 				t = 1;

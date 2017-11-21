@@ -64,30 +64,30 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 
 	public void animate() {
 		switch (mouseMoveMode) {
-		default:
-			// do nothing
-			break;
-		case EuclidianController.MOVE_ROTATE_VIEW:
-			view3D.setRotXYinDegrees(aOld - mouseMoveDX, bOld + mouseMoveDY);
-			view3D.updateMatrix();
-			view3D.setViewChangedByRotate();
-			break;
-		case EuclidianController.MOVE_VIEW:
-			Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
-			view3D.toSceneCoords3D(v);
+			case EuclidianController.MOVE_ROTATE_VIEW:
+				view3D.setRotXYinDegrees(aOld - mouseMoveDX, bOld + mouseMoveDY);
+				view3D.updateMatrix();
+				view3D.setViewChangedByRotate();
+				break;
+			case EuclidianController.MOVE_VIEW:
+				Coords v = new Coords(mouseMoveDX, -mouseMoveDY, 0, 0);
+				view3D.toSceneCoords3D(v);
 
-			if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
-				v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection(), tmpCoords1);
-				view3D.setXZero(xZeroOld + tmpCoords1.getX());
-				view3D.setYZero(yZeroOld + tmpCoords1.getY());
-			} else {
-				v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
-				view3D.setZZero(zZeroOld + tmpCoords1.getZ());
-			}
-			view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());
-			view3D.updateMatrix();
-			view3D.setViewChangedByTranslate();
-			break;
+				if (view3D.getCursorOnXOYPlane().getRealMoveMode() == GeoPointND.MOVE_MODE_XY) {
+					v.projectPlaneThruVIfPossible(CoordMatrix4x4.IDENTITY, view3D.getViewDirection(), tmpCoords1);
+					view3D.setXZero(xZeroOld + tmpCoords1.getX());
+					view3D.setYZero(yZeroOld + tmpCoords1.getY());
+				} else {
+					v.projectPlaneInPlaneCoords(CoordMatrix4x4.IDENTITY, tmpCoords1);
+					view3D.setZZero(zZeroOld + tmpCoords1.getZ());
+				}
+				view3D.getSettings().updateOriginFromView(view3D.getXZero(), view3D.getYZero(), view3D.getZZero());
+				view3D.updateMatrix();
+				view3D.setViewChangedByTranslate();
+				break;
+			default:
+				// do nothing
+				break;
 		}
 		end();
 	}

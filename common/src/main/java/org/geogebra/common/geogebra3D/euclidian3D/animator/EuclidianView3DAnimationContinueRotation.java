@@ -9,6 +9,8 @@ import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimat
  */
 public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAnimation {
 
+	private static final double MAX_ROT_SPEED = 0.1;
+
 	private double animatedRotSpeed, animatedRotTimeStart, aOld, bOld;
 
 	/**
@@ -24,10 +26,10 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 		super(view3D, animator);
 		double rotSpeed2 = rotSpeed;
 		// if speed is too large, use max speed
-		if (rotSpeed2 > 0.1) {
-			rotSpeed2 = 0.1;
-		} else if (rotSpeed2 < -0.1) {
-			rotSpeed2 = -0.1;
+		if (rotSpeed2 > MAX_ROT_SPEED) {
+			rotSpeed2 = MAX_ROT_SPEED;
+		} else if (rotSpeed2 < -MAX_ROT_SPEED) {
+			rotSpeed2 = -MAX_ROT_SPEED;
 		}
 		view3D.getSettings().setRotSpeed(0);
 		animatedRotSpeed = -rotSpeed2;
