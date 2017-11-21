@@ -6,6 +6,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -19,6 +20,8 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -29,7 +32,8 @@ import com.google.gwt.user.client.ui.Label;
  * @author Alicia Hofstaetter
  *
  */
-public class ContextMenuPagePreview implements SetLabels {
+public class ContextMenuPagePreview
+		implements SetLabels, CloseHandler<GPopupPanel> {
 
 	/** visible component */
 	protected GPopupMenuW wrappedPopup;
@@ -64,6 +68,7 @@ public class ContextMenuPagePreview implements SetLabels {
 
 		addRenameItem();
 		addDeleteItem();
+		wrappedPopup.getPopupPanel().addCloseHandler(this);
 	}
 
 	private void addRenameItem() {
@@ -97,6 +102,11 @@ public class ContextMenuPagePreview implements SetLabels {
 	protected void onEnter() {
 		card.rename(textField.getText());
 		wrappedPopup.hide();
+	}
+
+	@Override
+	public void onClose(CloseEvent<GPopupPanel> event) {
+		card.rename(textField.getText());
 	}
 
 	private void addDeleteItem() {
