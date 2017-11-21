@@ -436,7 +436,14 @@ public class ImageGraphics2D extends PixelGraphics2D {
 		writer.setOutput(ios);
 		writer.write(null, new IIOImage(image, null, null), param);
 		writer.dispose();
-		ios.close();
+
+		// fix for strange NPE when exporting PDF with an image
+		try {
+			ios.close();
+		} catch (Exception e) {
+			System.err.println("FreeHEP: error closing " + e.getMessage());
+			e.printStackTrace();
+		}
 	}
 
 	public static ImageWriter getPreferredImageWriter(String format) {
