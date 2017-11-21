@@ -409,13 +409,13 @@ public interface MaterialDesignResources extends ClientBundle {
 	SVGResource person_black();
 
 	// MOW resources
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_gesture_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_gesture_white_24px.svg")
 	SVGResource mow_pen_panel();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/tools_tab_black.svg")
 	SVGResource mow_tools_panel();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_attach_file_black_24px.svg")
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_attach_file_white_24px.svg")
 	SVGResource mow_media_panel();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_view_module_white_24px.svg")

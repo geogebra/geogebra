@@ -202,7 +202,7 @@ public class MOWToolbar extends FlowPanel {
 				ButtonType.PEN, "Pen", middlePanel);
 
 		toolsButton = createButton(
-				MaterialDesignResources.INSTANCE.mow_tools_panel(),
+				MaterialDesignResources.INSTANCE.toolbar_tools(),
 				ButtonType.TOOLS, "Tools", middlePanel);
 
 		mediaButton = createButton(
@@ -210,7 +210,7 @@ public class MOWToolbar extends FlowPanel {
 				ButtonType.MEDIA, "ToolCategory.Media", middlePanel);
 
 		closeButton = createButton(MaterialDesignResources.INSTANCE
-				.toolbar_close_portrait_black(), ButtonType.CLOSE, "Open",
+				.toolbar_close_portrait_white(), ButtonType.CLOSE, "Open",
 				rightPanel);
 	}
 
@@ -358,10 +358,10 @@ public class MOWToolbar extends FlowPanel {
 	 */
 	public void toggleCloseButton(boolean toggle) {
 		Image upFace = new Image(getIcon(MaterialDesignResources.INSTANCE
-				.toolbar_open_portrait_black()));
+				.toolbar_open_portrait_white()));
 		upFace.getElement().setAttribute("draggable", "false");
 		Image downFace = new Image(getIcon(MaterialDesignResources.INSTANCE
-				.toolbar_close_portrait_black()));
+				.toolbar_close_portrait_white()));
 		downFace.getElement().setAttribute("draggable", "false");
 		if (toggle) {
 			closeButton.getUpFace().setImage(downFace);
