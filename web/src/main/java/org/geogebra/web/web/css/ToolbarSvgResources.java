@@ -5,7 +5,6 @@ import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
-import com.google.gwt.resources.client.ImageResource;
 
 /**
  * SVG icons for toolbar
@@ -383,72 +382,63 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	@Source("org/geogebra/web/web/gui/toolbar/svgimages/mode_orthogonalthreed.svg")
 	SVGResource mode_orthogonalthreed_32();
 
-	// TODO replace the PNGs below
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_line.png")
-	ImageResource mode_shape_line_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_line_black.svg")
+	SVGResource mode_shape_line_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_triangle.png")
-	ImageResource mode_shape_triangle_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_triangle_black.svg")
+	SVGResource mode_shape_triangle_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_square.png")
-	ImageResource mode_shape_square_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_square_black.svg")
+	SVGResource mode_shape_square_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle.png")
-	ImageResource mode_shape_rectangle_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rectangle_black.svg")
+	SVGResource mode_shape_rectangle_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_rectangle_round_edges.png")
-	ImageResource mode_shape_rectangle_round_edges_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_rounded_rectangle_black.svg")
+	SVGResource mode_shape_rectangle_round_edges_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_polygon.png")
-	ImageResource mode_shape_polygon_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_polygon_black.svg")
+	SVGResource mode_shape_polygon_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_freeform.png")
-	ImageResource mode_shape_freeform_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_freeform_black.svg")
+	SVGResource mode_shape_freeform_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_circle.png")
-	ImageResource mode_shape_circle_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_circle_black.svg")
+	SVGResource mode_shape_circle_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_shape_ellipse.png")
-	ImageResource mode_shape_ellipse_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_shape_ellipse_black.svg")
+	SVGResource mode_shape_ellipse_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_eraser.png")
-	ImageResource mode_eraser_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser_black.svg")
+	SVGResource mode_eraser_32();
 
 
 	// Whiteboard
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/help.png")
-	ImageResource help_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_geogebra_black.svg")
+	SVGResource mode_geogebra_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_geogebra.png")
-	ImageResource mode_geogebra_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video_black.svg")
+	SVGResource mode_video_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_photo.png")
-	ImageResource mode_photo_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio_black.svg")
+	SVGResource mode_audio_32();
 
 	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_video.png")
-	ImageResource mode_video_32();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_audio.png")
-	ImageResource mode_audio_32();
-
-	@Override
-	@Source("org/geogebra/common/icons_toolbar/p32/mode_pen_white.png")
-	ImageResource mode_pen_white_32();
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen_white.svg")
+	SVGResource mode_pen_white_32();
 
 }
