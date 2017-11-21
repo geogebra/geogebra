@@ -1805,7 +1805,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	public void setAnimatedCoordSystem(double ox, double oy, double f,
 			double newScale, int steps, boolean storeUndo) {
 
-		animator.setAnimatedCoordSystem(ox, oy, f, newScale, steps, storeUndo);
+		animator.setAnimatedCoordSystem(newScale);
 	}
 
 	/**
@@ -1983,7 +1983,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void zoom(double px, double py, double zoomFactor, int steps,
 			boolean storeUndo) {
-		animator.zoom(px, py, zoomFactor, steps, storeUndo);
+		animator.zoom(zoomFactor);
 	}
 	
 	@Override

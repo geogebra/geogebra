@@ -12,11 +12,11 @@ public class EuclidianView3DAnimationZoom extends EuclidianView3DAnimationScaleA
 	
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
-	 * @param zoomFactor
+	 * @param view3D 3D view
+	 * @param animator animator
+	 * @param zoomFactor zoom factor
 	 */
-	public EuclidianView3DAnimationZoom(EuclidianView3D view3D, EuclidianView3DAnimator animator, double zoomFactor) {
+	EuclidianView3DAnimationZoom(EuclidianView3D view3D, EuclidianView3DAnimator animator, double zoomFactor) {
 		super(view3D, animator);
 		this.zoomFactor = zoomFactor;
 	}

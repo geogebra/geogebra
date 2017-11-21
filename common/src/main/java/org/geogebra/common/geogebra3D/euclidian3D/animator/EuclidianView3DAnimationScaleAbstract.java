@@ -10,17 +10,17 @@ import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimat
 abstract public class EuclidianView3DAnimationScaleAbstract extends EuclidianView3DAnimation {
 
 	@SuppressWarnings("javadoc")
-	protected double xScaleStart, yScaleStart, zScaleStart, xScaleEnd, yScaleEnd, zScaleEnd, animatedScaleTimeFactor,
+	double xScaleStart, yScaleStart, zScaleStart, xScaleEnd, yScaleEnd, zScaleEnd, animatedScaleTimeFactor,
 			animatedScaleTimeStart, animatedScaleStartX, animatedScaleStartY, animatedScaleStartZ, animatedScaleEndX,
 			animatedScaleEndY, animatedScaleEndZ;
 
 
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
+	 * @param view3D 3D view
+	 * @param animator animator
 	 */
-	public EuclidianView3DAnimationScaleAbstract(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
+	EuclidianView3DAnimationScaleAbstract(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
 		super(view3D, animator);
 	}
 

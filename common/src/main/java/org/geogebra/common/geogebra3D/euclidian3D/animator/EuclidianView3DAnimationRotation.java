@@ -17,14 +17,14 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
-	 * @param aN
-	 * @param bN
-	 * @param checkSameValues
-	 * @param storeUndo
+	 * @param view3D 3D view
+	 * @param animator animator
+	 * @param aN new angle around Oz
+	 * @param bN new xOy plane tilting
+	 * @param checkSameValues if we want to check when new values are equal to current
+	 * @param storeUndo if undo should be stored at the end of animation
 	 */
-	public EuclidianView3DAnimationRotation(EuclidianView3D view3D, EuclidianView3DAnimator animator, double aN,
+	EuclidianView3DAnimationRotation(EuclidianView3D view3D, EuclidianView3DAnimator animator, double aN,
 			double bN, boolean checkSameValues, boolean storeUndo) {
 
 		super(view3D, animator, storeUndo);

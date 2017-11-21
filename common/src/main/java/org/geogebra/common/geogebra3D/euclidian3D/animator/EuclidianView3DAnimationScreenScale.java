@@ -18,10 +18,10 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
+	 * @param view3D 3D view
+	 * @param animator animator
 	 */
-	public EuclidianView3DAnimationScreenScale(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
+	EuclidianView3DAnimationScreenScale(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
 
 		super(view3D, animator);
 

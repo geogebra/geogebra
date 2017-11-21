@@ -13,12 +13,12 @@ public class EuclidianView3DAnimationContinueRotation extends EuclidianView3DAni
 
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
-	 * @param delay
-	 * @param rotSpeed
+	 * @param view3D 3D view
+	 * @param animator animator
+	 * @param delay delay occurring between user interaction and animation start
+	 * @param rotSpeed rotation speed
 	 */
-	public EuclidianView3DAnimationContinueRotation(EuclidianView3D view3D, EuclidianView3DAnimator animator,
+	EuclidianView3DAnimationContinueRotation(EuclidianView3D view3D, EuclidianView3DAnimator animator,
 			double delay, double rotSpeed) {
 
 		super(view3D, animator);

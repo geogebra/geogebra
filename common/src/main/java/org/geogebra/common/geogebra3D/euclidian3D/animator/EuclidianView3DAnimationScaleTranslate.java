@@ -10,15 +10,15 @@ public class EuclidianView3DAnimationScaleTranslate extends EuclidianView3DAnima
 
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param newScale
-	 * @param steps
+	 * @param view3D 3D view
+	 * @param animator animator
+	 * @param x translation in x
+	 * @param y translation in y
+	 * @param z translation in z
+	 * @param newScale new scale
+	 * @param steps steps for animation
 	 */
-	public EuclidianView3DAnimationScaleTranslate(EuclidianView3D view3D, EuclidianView3DAnimator animator, double x, double y,
+	EuclidianView3DAnimationScaleTranslate(EuclidianView3D view3D, EuclidianView3DAnimator animator, double x, double y,
 			double z, double newScale, int steps) {
 		super(view3D, animator);
 		animatedScaleEndX = x;

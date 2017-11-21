@@ -52,26 +52,20 @@ public class EuclidianView3DAnimator {
 
 	/**
 	 * 
-	 * @param x
-	 * @param y
-	 * @param z
-	 * @param newScale
-	 * @param steps
+	 * @param x translation in x
+	 * @param y translation in y
+	 * @param z translation in z
+	 * @param newScale new scale
+	 * @param steps animation steps
 	 */
 	public void setAnimatedCoordSystem(double x, double y, double z, double newScale, int steps) {
 		addAnimation(new EuclidianView3DAnimationScaleTranslate(view3D, this, x, y, z, newScale, steps));
 	}
 
 	/**
-	 * @param ox
-	 * @param oy
-	 * @param f
-	 * @param newScale
-	 * @param steps
-	 * @param storeUndo
+	 * @param newScale new scale
 	 */
-	synchronized public void setAnimatedCoordSystem(double ox, double oy, double f, double newScale, int steps,
-			boolean storeUndo) {
+	synchronized public void setAnimatedCoordSystem(double newScale) {
 		stopAnimation();
 		animation = animationScale;
 		animationScale.set(newScale);
@@ -167,28 +161,20 @@ public class EuclidianView3DAnimator {
 	}
 
 	/**
-	 * Zooms around fixed point (px, py)
-	 * 
-	 * @param px
-	 *            x coordinate
-	 * @param py
-	 *            y coordinate
+	 * Zooms
+	 *
 	 * @param zoomFactor
 	 *            zoom factor
-	 * @param steps
-	 *            steps
-	 * @param storeUndo
-	 *            if needs to store undo info
 	 */
-	public void zoom(double px, double py, double zoomFactor, int steps, boolean storeUndo) {
+	public void zoom(double zoomFactor) {
 		addAnimation(new EuclidianView3DAnimationZoom(view3D, this, zoomFactor));
 	}
 
 	/**
 	 * zoom y & z axes ratio regarding x axis
 	 * 
-	 * @param zoomFactorY
-	 * @param zoomFactorZ
+	 * @param zoomFactorY zoom factor (y over x)
+	 * @param zoomFactorZ zoom factor (z over x)
 	 */
 	public void zoomAxesRatio(double zoomFactorY, double zoomFactorZ) {
 		addAnimation(new EuclidianView3DAnimationAxesRatio(view3D, this, zoomFactorY, zoomFactorZ));
@@ -248,7 +234,7 @@ public class EuclidianView3DAnimator {
 	/**
 	 * ends the current animation
 	 */
-	synchronized public void endAnimation() {
+	synchronized void endAnimation() {
 		if (view3D.getApplication().has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
 			view3D.getEuclidianController().onCoordSystemChanged();
 		}

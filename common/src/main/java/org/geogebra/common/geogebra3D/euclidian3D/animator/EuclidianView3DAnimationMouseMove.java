@@ -20,10 +20,10 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
+	 * @param view3D 3D view
+	 * @param animator animator
 	 */
-	public EuclidianView3DAnimationMouseMove(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
+	EuclidianView3DAnimationMouseMove(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
 		super(view3D, animator);
 	}
 

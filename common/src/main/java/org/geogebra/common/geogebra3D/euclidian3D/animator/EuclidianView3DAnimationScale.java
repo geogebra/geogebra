@@ -11,10 +11,10 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
+	 * @param view3D 3D view
+	 * @param animator animator
 	 */
-	public EuclidianView3DAnimationScale(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
+	EuclidianView3DAnimationScale(EuclidianView3D view3D, EuclidianView3DAnimator animator) {
 		super(view3D, animator);
 	}
 

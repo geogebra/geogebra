@@ -14,12 +14,12 @@ public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 
 	/**
 	 * 
-	 * @param view3D
-	 * @param animator
+	 * @param view3D 3D view
+	 * @param animator animator
 	 * @param p
 	 *            point to center about
 	 */
-	public EuclidianView3DAnimationCenter(EuclidianView3D view3D, EuclidianView3DAnimator animator, Coords p) {
+	EuclidianView3DAnimationCenter(EuclidianView3D view3D, EuclidianView3DAnimator animator, Coords p) {
 
 		super(view3D, animator);
 		xEnd = -p.getX();
