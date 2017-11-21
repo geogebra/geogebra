@@ -2407,12 +2407,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public boolean isAlgebraTabActive() {
-		return (getToolbarPanelV2() != null
-				&& getToolbarPanelV2().isAlgebraViewActive());
-	}
-
-	@Override
 	public void switchToolsToAV() {
 		if (app.isUnbundled()) {
 			((ToolbarDockPanelW) (getLayout().getDockManager()
