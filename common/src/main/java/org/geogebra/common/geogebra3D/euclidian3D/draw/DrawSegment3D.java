@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -112,16 +112,14 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	protected void updateForItSelf(Coords p1, Coords p2) {
 		if (shouldBePacked()) {
-			ManagerShadersElementsGlobalBufferPacking manager = (ManagerShadersElementsGlobalBufferPacking) getView3D()
-					.getRenderer().getGeometryManager();
+			Manager manager = getView3D().getRenderer().getGeometryManager();
 			manager.setIsPacking(true);
 			manager.setCurrentColor(getColor());
 			manager.setCurrentLineType(getGeoElement().getLineType(), getGeoElement().getLineTypeHidden());
 		}
 		super.updateForItSelf(p1, p2);
 		if (shouldBePacked()) {
-			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
-					.setIsPacking(false);
+			getView3D().getRenderer().getGeometryManager().setIsPacking(false);
 		}
 	}
 
@@ -130,8 +128,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		if (shouldBePacked()) {
 			if (prop == GProperty.COLOR) {
 				updateColors();
-				((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
-						.updateColor(getColor(), getGeometryIndex());
+				getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
 			} else {
 				super.setWaitForUpdateVisualStyle(prop);
 			}
@@ -148,7 +145,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	protected int getReusableGeometryIndex() {
-		if (shouldBePacked()) {
+		if (managerPackBuffers() && shouldBePacked()) {
 			int index = getGeometryIndex();
 			if (hasTrace()) {
 				if (index != NOT_REUSABLE_INDEX) {
@@ -165,13 +162,13 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	protected void recordTrace() {
-		if (!shouldBePacked()) {
+		if (!(managerPackBuffers() && shouldBePacked())) {
 			super.recordTrace();
 		}
 	}
 
 	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (shouldBePacked()) {
+		if (managerPackBuffers() && shouldBePacked()) {
 			if (traces != null) {
 				while (!traces.isEmpty()) {
 					doRemoveGeometryIndex(traces.pop());
@@ -185,5 +182,9 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	protected boolean shouldBePacked() {
 		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D) && !createdByDrawList();
+	}
+
+	private boolean managerPackBuffers() {
+		return getView3D().getRenderer().getGeometryManager().packBuffers();
 	}
 }

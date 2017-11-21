@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
@@ -839,4 +840,52 @@ abstract public class Manager {
 		scalerXYZ = view3D;
 	}
 
+	/**
+	 * @return true if it packs the buffers
+	 */
+	public boolean packBuffers() {
+		return false;
+	}
+
+	/**
+	 * set flag that manager is actually packing (temporary code)
+	 * 
+	 * @param isPacking
+	 */
+	public void setIsPacking(boolean isPacking) {
+		// not needed here
+	}
+
+	/**
+	 * set the current color in use
+	 * 
+	 * @param color
+	 *            color
+	 */
+	public void setCurrentColor(GColor color) {
+		// not needed here
+	}
+
+	/**
+	 * set the current line type
+	 * 
+	 * @param lineType
+	 *            line type
+	 * @param lineTypeHidden
+	 */
+	public void setCurrentLineType(int lineType, int lineTypeHidden) {
+		// not needed here
+	}
+
+	/**
+	 * update geometry color
+	 * 
+	 * @param color
+	 *            new color
+	 * @param index
+	 *            geometry index (for set)
+	 */
+	public void updateColor(GColor color, int index) {
+		// not needed here
+	}
 }

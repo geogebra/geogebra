@@ -6,7 +6,7 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -198,8 +198,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	private void updateOutline(Renderer renderer) {
 
 		if (shouldBePacked()) {
-			ManagerShadersElementsGlobalBufferPacking manager = (ManagerShadersElementsGlobalBufferPacking) getView3D()
-					.getRenderer().getGeometryManager();
+			Manager manager = getView3D().getRenderer().getGeometryManager();
 			manager.setIsPacking(true);
 			manager.setCurrentColor(getColor());
 			manager.setCurrentLineType(getGeoElement().getLineType(), getGeoElement().getLineTypeHidden());
@@ -230,8 +229,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 		if (shouldBePacked()) {
-			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
-					.setIsPacking(false);
+			getView3D().getRenderer().getGeometryManager().setIsPacking(false);
 		}
 
 	}
@@ -535,8 +533,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		if (shouldBePacked()) {
 			if (prop == GProperty.COLOR) {
 				updateColors();
-				((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
-						.updateColor(getColor(), getGeometryIndex());
+				getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
 			}
 		}
 	}

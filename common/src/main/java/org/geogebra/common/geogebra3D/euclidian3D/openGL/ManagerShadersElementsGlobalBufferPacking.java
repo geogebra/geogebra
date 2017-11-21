@@ -31,7 +31,11 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		/**
 		 * constructor
 		 * 
+		 * @param manager
+		 *            geometry manager
+		 * 
 		 * @param color
+		 *            color
 		 */
 		public GeometriesSetElementsGlobalBufferPacking(ManagerShadersElementsGlobalBufferPacking manager,
 				GColor color) {
@@ -172,33 +176,17 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		bufferManager.draw((RendererShadersInterface) renderer, hidden);
 	}
 
-	/**
-	 * set flag that manager is actually packing (temporary code)
-	 * 
-	 * @param isPacking
-	 */
+	@Override
 	public void setIsPacking(boolean isPacking) {
 		this.isPacking = isPacking;
 	}
 
-	/**
-	 * set the current color in use
-	 * 
-	 * @param color
-	 *            color
-	 */
+	@Override
 	public void setCurrentColor(GColor color) {
 		this.currentColor = color;
 	}
 
-	/**
-	 * update geometry color
-	 * 
-	 * @param color
-	 *            new color
-	 * @param index
-	 *            geometry index (for set)
-	 */
+	@Override
 	public void updateColor(GColor color, int index) {
 		GeometriesSet geometrySet = getGeometrySet(index);
 		if (geometrySet != null) {
@@ -206,17 +194,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		}
 	}
 
+	@Override
 	protected void texture(double x) {
 		texture(x, currentTextureType);
 	}
 
-	/**
-	 * set the current line type
-	 * 
-	 * @param lineType
-	 *            line type
-	 * @param lineTypeHidden
-	 */
+	@Override
 	public void setCurrentLineType(int lineType, int lineTypeHidden) {
 		this.currentTextureType = Textures.getDashIdFromLineType(lineType, lineTypeHidden);
 	}
@@ -246,6 +229,11 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 				((GeometriesSetElementsGlobalBuffer) set).removeBuffers();
 			}
 		}
+	}
+
+	@Override
+	public boolean packBuffers() {
+		return true;
 	}
 
 }

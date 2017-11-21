@@ -4026,7 +4026,7 @@ public abstract class App implements UpdateSelection {
 				
 			// MOB-1361
 			case MOB_PACK_ALL_SEGMENTS_3D:
-			return false;
+				return prerelease;
 
             // **********************************************************************
             // MOBILE END

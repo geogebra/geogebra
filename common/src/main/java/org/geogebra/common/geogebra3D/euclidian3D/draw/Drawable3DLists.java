@@ -13,7 +13,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 
 /**
  * Class to list the 3D drawables for EuclidianView3D
@@ -335,7 +334,7 @@ public class Drawable3DLists {
 		// curves
 		// TODO if there's no surfaces, no hidden part has to be drawn
 		// if(!lists[Drawable3D.DRAW_TYPE_SURFACES].isEmpty())
-		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (renderer.getGeometryManager().packBuffers()) {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
@@ -343,8 +342,7 @@ public class Drawable3DLists {
 				}
 			}
 			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, true);
-		}
-		else {
+		} else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
 				d.next().drawHidden(renderer);
 			}
@@ -460,7 +458,7 @@ public class Drawable3DLists {
 	public void draw(Renderer renderer) {
 
 		// curves
-		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (renderer.getGeometryManager().packBuffers()) {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
 				Drawable3D d3d = d.next();
 				if (!d3d.shouldBePacked()) {
