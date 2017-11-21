@@ -1683,7 +1683,11 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public final void showError(MyError e) {
+		if (isWhiteboardActive()) {
+			return;
+		}
 		String command = e.getcommandName();
+		Log.debug("command: " + command);
 		String message = e.getLocalizedMessage();
 		if (command == null) {
 			showErrorDialog(message);
