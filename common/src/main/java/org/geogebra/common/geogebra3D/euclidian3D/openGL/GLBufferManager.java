@@ -101,7 +101,6 @@ public class GLBufferManager {
 		private int totalLength, indicesLength;
 
 		private static int elementsSize = Short.MAX_VALUE + 1;
-		// private static int elementsSize = 432;
 		private static int indicesSize = elementsSize * 3;
 
 		/**
