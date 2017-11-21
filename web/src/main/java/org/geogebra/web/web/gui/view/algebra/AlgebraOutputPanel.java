@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
@@ -92,13 +93,13 @@ public class AlgebraOutputPanel extends FlowPanel {
 		}
 		if (btnSymbolic == null) {
 			if (swap) {
-				btnSymbolic = new MyToggleButtonW( new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.modeToggleSymbolic()
-						.getSafeUri(),
-				0, 0, 24, 24, false, false), new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.modeToggleNumeric()
-						.getSafeUri(),
-								0, 0, 24, 24, false, false));
+				btnSymbolic = new MyToggleButtonW(
+						new NoDragImage(MaterialDesignResources.INSTANCE
+								.modeToggleSymbolic(), 24, 24),
+						new NoDragImage(
+								MaterialDesignResources.INSTANCE
+										.modeToggleNumeric(),
+								24, 24));
 			} else {
 				btnSymbolic = new MyToggleButtonW(
 						GuiResourcesSimple.INSTANCE.modeToggleSymbolic(),
