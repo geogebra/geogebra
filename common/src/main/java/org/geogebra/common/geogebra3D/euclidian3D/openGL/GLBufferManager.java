@@ -24,7 +24,7 @@ public class GLBufferManager {
 	private int elementsLength;
 	private GColor color;
 
-	private class Index implements Comparable<Index> {
+	static private class Index implements Comparable<Index> {
 		private int v1, v2;
 
 		/**
@@ -75,12 +75,16 @@ public class GLBufferManager {
 			return v1 == index.v1 && v2 == index.v2;
 		}
 
+		public int hashCode() {
+			return 0; // we don't use it in hash table etc.
+		}
+
 		public String toString() {
 			return v1 + ", " + v2;
 		}
 	}
 
-	private class BufferSegment {
+	static private class BufferSegment {
 		private int elementsOffset, elementsLength;
 		private int indicesOffset, indicesLength;
 		private BufferPack bufferPack;
