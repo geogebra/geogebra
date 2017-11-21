@@ -2577,7 +2577,7 @@
 1289>> caseval(regroup(regroup(integrate(((((z)*((ggbtmpvarr)^(2)))*((2)/((ggbtmpvarh)^(2))))*(((2)*(z))-(ggbtmpvarh)))*(surd((z)*((ggbtmpvarh)-(z)),2)^(1)),z))))
 1289<< 2*ggbtmpvarr^2*((-ί)/64*ggbtmpvarh^4*ln((-ggbtmpvarh-2*sqrt(z*(ggbtmpvarh-z)))/(ggbtmpvarh-2*z)+ί)+ί/64*ggbtmpvarh^4*ln((-ggbtmpvarh-2*sqrt(z*(ggbtmpvarh-z)))/(ggbtmpvarh-2*z)-ί)+2*sqrt(z*(ggbtmpvarh-z))*(-1/64*ggbtmpvarh^3+z*(-1/96*ggbtmpvarh^2+z*(-5/24*ggbtmpvarh+1/4*z))))/ggbtmpvarh^2+c_3
 1290>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(tan(x),-inf,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
-1290<< "GIAC_ERROR: Limit probably undefined, algorithm unable to handle -sin(<<1,-1>>)/cos(<<1,-1>>) Error: Bad Argument Value"
+1290<< "Limit probably undefined, algorithm unable to handle -sin(<<1,-1>>)/cos(<<1,-1>>) Error: Bad Argument Value"
 1291>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(3),0,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1291<< +infinity
 1292>> caseval(regroup(regroup(integrate(normal(ggbabs(x)),x))))
@@ -2605,7 +2605,7 @@
 1303>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((1)/(ggbtmpvara),ggbtmpvara,0,ggbtmpvart)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1303<< +infinity
 1304>> caseval(regroup([[ggblaparg0:=(1)/((1)+((ggbtmpvars)^(2)))],when(lname(ggblaparg0)[0]=ggbtmpvars, ilaplace(ggblaparg0, ggbtmpvars, ggbtmpvart), ilaplace(ggblaparg0, lname(ggblaparg0)[0]))][1]))
-1304<< 1/(2*ί)*ℯ^(ί*ggbtmpvart)+1/(-2*ί)*ℯ^((-ί)*ggbtmpvart)
+1304<< sin(ggbtmpvart)
 1305>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((-(x))*(exp(((-(1))/(2))*((x)^(2)))),0,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1305<< -1
 1306>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(1),0,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
@@ -2613,7 +2613,7 @@
 1307>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(exp(-((x)^(2))),0,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1307<< 1/2*sqrt(pi)
 1308>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(tan(x),-inf,0)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
-1308<< "GIAC_ERROR: Limit probably undefined, algorithm unable to handle -sin(<<1,-1>>)/cos(<<1,-1>>) Error: Bad Argument Value"
+1308<< "Limit probably undefined, algorithm unable to handle -sin(<<1,-1>>)/cos(<<1,-1>>) Error: Bad Argument Value"
 1309>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(exp(x),0,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1309<< +infinity
 1310>> caseval(regroup(regroup(integrate(((x)+(1))^(10)))))
@@ -2677,7 +2677,7 @@
 1339>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((1)/(x),-(1),1)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1339<< ?
 1340>> caseval(regroup(regroup(integrate((1)/(normal(ggbabs(x))),x))))
-1340<< -ln(-x)+c_14
+1340<< ln(abs(x))/sign(x)+c_14
 1341>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(-(2)),x,-(3),2)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1341<< +infinity
 1342>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)/(((x)^(2))-(1)),-(3),-(1))]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
@@ -2693,7 +2693,7 @@
 1347>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(4),-inf,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1347<< +infinity
 1348>> caseval(regroup([[ggblaparg0:=(1)/((1)+((ggbtmpvart)^(2)))],when(lname(ggblaparg0)[0]=ggbtmpvars, ilaplace(ggblaparg0, ggbtmpvars, ggbtmpvart), ilaplace(ggblaparg0, lname(ggblaparg0)[0]))][1]))
-1348<< 1/(2*ί)*ℯ^(ί*ggbtmpvart)+1/(-2*ί)*ℯ^((-ί)*ggbtmpvart)
+1348<< sin(ggbtmpvart)
 1349>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(sin(x),-inf,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1349<< bounded_function(40)-bounded_function(42)
 1350>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((1)/((x)^(2)),-(1),1)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
@@ -2705,7 +2705,7 @@
 1353>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(3),-inf,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1353<< ?
 1354>> caseval(regroup(regroup(integrate((1)/(x)))))
-1354<< ln(-x)+c_19
+1354<< ln(abs(x))+c_19
 1355>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(3),-inf,0)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1355<< -infinity
 1356>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((pi)*((x)^(4)),1,2)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
@@ -2715,7 +2715,7 @@
 1358>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(exp(x),-inf,0)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1358<< 1
 1359>> caseval(regroup(ilaplace((1)/(((ggbtmpvars)^(2))+(1)), ggbtmpvars, ggbtmpvart)))
-1359<< 1/(2*ί)*ℯ^(ί*ggbtmpvart)+1/(-2*ί)*ℯ^((-ί)*ggbtmpvart)
+1359<< sin(ggbtmpvart)
 1360>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(exp(-((x)^(2))),-inf,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1360<< sqrt(pi)
 1361>> caseval(regroup([[ggblaparg0:=sin(ggbtmpvars)],when(lname(ggblaparg0)[0]=ggbtmpvart, laplace(ggblaparg0, ggbtmpvart, ggbtmpvars), laplace(ggblaparg0, lname(ggblaparg0)[0]))][1]))
@@ -2725,13 +2725,13 @@
 1363>> caseval(regroup(regroup(integrate((1)/(surd(x,3))))))
 1363<< 3/2*x*surd(x,-3)+c_20
 1364>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(log(x),-inf,0)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
-1364<< "GIAC_ERROR: ln of unsigned or minus infinity Error: Bad Argument Value"
+1364<< "ln of unsigned or minus infinity Error: Bad Argument Value"
 1365>> caseval(regroup([[ggblaparg0:=sin(ggbtmpvart)],when(lname(ggblaparg0)[0]=ggbtmpvart, laplace(ggblaparg0, ggbtmpvart, ggbtmpvars), laplace(ggblaparg0, lname(ggblaparg0)[0]))][1]))
 1365<< 1/(ggbtmpvars^2+1)
 1366>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((1)/(((((x)+(1))*((x)+(2)))*((x)+(3)))*((x)+(4))),-((15/10)),-((16/10)))]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1366<< -5/6*ln(2)-1/2*ln(3)+1/6*ln(5)+1/2*ln(7)
 1367>> caseval(regroup(ilaplace((1)/((1)+((ggbtmpvart)^(2))), ggbtmpvart)))
-1367<< 1/(2*ί)*ℯ^(ί*ggbtmpvart)+1/(-2*ί)*ℯ^((-ί)*ggbtmpvart)
+1367<< sin(ggbtmpvart)
 1368>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((x)^(1),-inf,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1368<< ?
 1369>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((sin(x))/(x),0,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
@@ -2743,11 +2743,11 @@
 1372>> caseval(regroup(regroup(integrate(sqrt(x)))))
 1372<< 2/3*sqrt(x)*x+c_22
 1373>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate(log(x),-inf,inf)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
-1373<< "GIAC_ERROR: ln of unsigned or minus infinity Error: Bad Argument Value"
+1373<< "ln of unsigned or minus infinity Error: Bad Argument Value"
 1374>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((1)/(((((x)+(1))*((x)+(2)))*((x)+(3)))*((x)+(4))),-((15/10)),-((25/10)))]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
 1374<< ?
 1375>> caseval(regroup(regroup(integrate(sec(x)))))
-1375<< 2*(1/8*ln(sin(x)+1/sin(x)+2)-1/8*ln(sin(x)+1/sin(x)-2))+c_23
+1375<< 2*(1/8*ln(abs(sin(x)+1/sin(x)+2))-1/8*ln(abs(sin(x)+1/sin(x)-2)))+c_23
 1376>> caseval(regroup(regroup(integrate((cos(x))/(x)))))
 1376<< Ci(x)+c_24
 1377>> caseval(regroup([[[ggbintans:=0/0],[ggbintans:=integrate((surd((2)*(pi),2)^(-(1)))*(exp(((-(1))/(2))*((x)^(2)))),-inf,0)]],normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],simplify(ggbintans)))][1]))
@@ -2831,9 +2831,9 @@
 1416>> caseval(regroup([with_sqrt(0),[ggbfacans:=((x)^(2))-((y)^(2))],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]))
 1416<< (x+y)*(x-y)
 1417>> caseval(regroup([with_sqrt(0),[ggbfacans:=(((-(ggbtmpvark))*((x)^(2)))+(((4)*(ggbtmpvark))*(x)))+((x)^(3))],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]))
-1417<< -x*(-x^2+ggbtmpvark*x-4*ggbtmpvark)
+1417<< x*(x^2-ggbtmpvark*x+4*ggbtmpvark)
 1418>> caseval(regroup([with_sqrt(0),[ggbfacans:=(((-(ggbtmpvark))*((x)^(2)))+(((4)*(ggbtmpvark))*(x)))+((x)^(3))],[ggbfacans:=factor(ggbfacans,x)],with_sqrt(1),ggbfacans][4]))
-1418<< -x*(-x^2+ggbtmpvark*x-4*ggbtmpvark)
+1418<< x*(x^2-ggbtmpvark*x+4*ggbtmpvark)
 1419>> caseval(regroup([with_sqrt(0),[ggbfacans:=(((36)*((ggbtmpvarr)^(2)))+(((24)*(ggbtmpvarr))*(ggbtmpvart)))+((4)*((ggbtmpvart)^(2)))],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]))
 1419<< 4*(3*ggbtmpvarr+ggbtmpvart)^2
 1420>> caseval(regroup([with_sqrt(0),[ggbfacans:=(((x)^(2))+(x))-(6)],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]))
@@ -2841,7 +2841,7 @@
 1421>> caseval(regroup([with_sqrt(0),[ggbfacans:=42],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]))
 1421<< 42
 1422>> caseval(regroup([with_sqrt(0),[ggbfacans:=((((x)^(3))-((x)^(2)))-((4)*(x)))-(6)],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]))
-1422<< (x-3)*(x+1+ί)*(x+1-ί)
+1422<< (x-3)*(x^2+2*x+2)
 1423>> caseval(regroup([with_sqrt(0),[ggbfacans:=((x)^(2))-((35/10))],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]))
 1423<< 1/2*(2*x^2-7)
 1424>> caseval(regroup([with_sqrt(0),[ggbfacans:=((((ggbtmpvara)^(2))-(((2)*(ggbtmpvara))*(ggbtmpvarb)))+((ggbtmpvarb)^(2)))^(2)],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]))
@@ -2949,7 +2949,7 @@
 1475>> caseval(regroup(median({1, 1, 8, 8})))
 1475<< 4.5
 1476>> caseval(regroup([[ggin:=point((ggbtmpvark)+(1),(ggbtmpvark)+(1),(ggbtmpvark)+(1))],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25),when(ggin[0]='pnt' && size(ggin[1])==3,normal(unitV(ggin)),convert(unitV([real(ggin[1]),im(ggin[1])]),25))))],ggbuvans][2]))
-1476<< (sqrt(3)/3,sqrt(3)/3,sqrt(3)/3)
+1476<< ((sqrt(3)*ggbtmpvark+sqrt(3))/(3*abs(ggbtmpvark+1)),(sqrt(3)*ggbtmpvark+sqrt(3))/(3*abs(ggbtmpvark+1)),(sqrt(3)*ggbtmpvark+sqrt(3))/(3*abs(ggbtmpvark+1)))
 1477>> caseval(regroup([[ggin:={1, 2}],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25),when(ggin[0]='pnt' && size(ggin[1])==3,normal(unitV(ggin)),convert(unitV([real(ggin[1]),im(ggin[1])]),25))))],ggbuvans][2]))
 1477<< {1/sqrt(5),2/sqrt(5)}
 1478>> caseval(regroup([[ggin:=point((ggbtmpvark)+(1),(ggbtmpvark)+(1))],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25),when(ggin[0]='pnt' && size(ggin[1])==3,normal(unitV(ggin)),convert(unitV([real(ggin[1]),im(ggin[1])]),25))))],ggbuvans][2]))
@@ -2975,7 +2975,7 @@
 1488>> caseval(regroup([[ggbnumans:=ggbsort([[ggbnsans:=evalf(((13)^((x)+(1)))-((2)*((13)^(x)))=((1)/(5))*((5)^(x)))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left(x=-(4)[j]),j,0,dim(x=-(4))-1)],[ggbnsans:=fsolve(ggbnsans,x=-(4))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type(x=-(4))==DOM_LIST,left(x=-(4)[0]),left(x=-(4)))],[ggbnsans:=fsolve(ggbnsans,x=-(4))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],evalf(ggbnumans,11),evalf(regroup(normal(ggbnumans)),11))][1]))
 1488<< {x=-4.1939143755}
 1489>> caseval(regroup(ggbsort([[ggbnsans:=evalf(((ggbtmpvara)^(4))+((34)*((ggbtmpvara)^(3)))=34)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left(ggbtmpvara[j]),j,0,dim(ggbtmpvara)-1)],[ggbnsans:=fsolve(ggbnsans,ggbtmpvara)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type(ggbtmpvara)==DOM_LIST,left(ggbtmpvara[0]),left(ggbtmpvara))],[ggbnsans:=fsolve(ggbnsans,ggbtmpvara)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
-1489<< {ggbtmpvara=-34.00086498588,ggbtmpvara=0.9904738885574,ggbtmpvara=(-0.4948044513368+0.8745059183145*ί),ggbtmpvara=(-0.4948044513368-0.8745059183145*ί)}
+1489<< {ggbtmpvara=-34.00086498588,ggbtmpvara=0.9904738885574}
 1490>> caseval(regroup(ggbsort([[ggbnsans:=evalf((x)^(2)=((((436/10))^(2))+(((784/10))^(2)))-((((2)*((436/10)))*((784/10)))*(cos(((1375/10))*(pi/180)))))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(regroup(ggbnsans),ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
 1490<< {x=-114.4023678407,x=0.1144023678407E3}
 1491>> caseval(regroup(ggbsort([[ggbnsans:=evalf({(pi)/(x)=cos((x)-((2)*(y))), ((2)*(y))-(pi)=sin(x)})],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left({x=3, y=(15/10)}[j]),j,0,dim({x=3, y=(15/10)})-1)],[ggbnsans:=fsolve(ggbnsans,{x=3, y=(15/10)})],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type({x=3, y=(15/10)})==DOM_LIST,left({x=3, y=(15/10)}[0]),left({x=3, y=(15/10)}))],[ggbnsans:=fsolve(ggbnsans,{x=3, y=(15/10)})],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
@@ -2995,7 +2995,7 @@
 1498>> caseval(regroup(ggbsort([[ggbnsans:=evalf((ggbtmpvarc)+((100)*(10))=(ggbtmpvarc)*(((11/10))^(10)))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left(ggbtmpvarc[j]),j,0,dim(ggbtmpvarc)-1)],[ggbnsans:=fsolve(ggbnsans,ggbtmpvarc)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type(ggbtmpvarc)==DOM_LIST,left(ggbtmpvarc[0]),left(ggbtmpvarc))],[ggbnsans:=fsolve(ggbnsans,ggbtmpvarc)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
 1498<< {ggbtmpvarc=627.4539488251}
 1499>> caseval(regroup(ggbsort([[ggbnsans:=evalf((1300)+((100)*(10))=(1000)*((ggbtmpvara)^(10)))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left(ggbtmpvara[j]),j,0,dim(ggbtmpvara)-1)],[ggbnsans:=fsolve(ggbnsans,ggbtmpvara)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type(ggbtmpvara)==DOM_LIST,left(ggbtmpvara[0]),left(ggbtmpvara))],[ggbnsans:=fsolve(ggbnsans,ggbtmpvara)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
-1499<< {ggbtmpvara=-1.086857942899,ggbtmpvara=1.086857942899,ggbtmpvara=(0.8792865462769+0.6388390701731*ί),ggbtmpvara=(0.8792865462769-0.6388390701731*ί),ggbtmpvara=(0.3358575748273+1.033663328881*ί),ggbtmpvara=(0.3358575748273-1.033663328881*ί),ggbtmpvara=(-0.3358575748273+1.033663328881*ί),ggbtmpvara=(-0.3358575748273-1.033663328881*ί),ggbtmpvara=(-0.8792865462769+0.6388390701731*ί),ggbtmpvara=(-0.8792865462769-0.6388390701731*ί)}
+1499<< {ggbtmpvara=-1.086857942899,ggbtmpvara=1.086857942899}
 1500>> caseval(regroup(ggbsort([[ggbnsans:=evalf(sin(x))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left(x=4[j]),j,0,dim(x=4)-1)],[ggbnsans:=fsolve(ggbnsans,x=4)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type(x=4)==DOM_LIST,left(x=4[0]),left(x=4))],[ggbnsans:=fsolve(ggbnsans,x=4)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
 1500<< {x=3.14159265359}
 1501>> caseval(regroup(ggbsort([[ggbnsans:=evalf(((214/10))*((x)^((631/1000)))=40)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left(x=(27/10)[j]),j,0,dim(x=(27/10))-1)],[ggbnsans:=fsolve(ggbnsans,x=(27/10))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type(x=(27/10))==DOM_LIST,left(x=(27/10)[0]),left(x=(27/10)))],[ggbnsans:=fsolve(ggbnsans,x=(27/10))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
@@ -3007,7 +3007,7 @@
 1504>> caseval(regroup(ggbsort([[ggbnsans:=evalf(when((-(4) <= x && x <= 5),(x)-(1),when((5  <  x && x <= 7),((2)*(x))-(7),undef))=-(4))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(regroup(ggbnsans),ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
 1504<< {x=-3.0}
 1505>> caseval(regroup(ggbsort([[ggbnsans:=evalf(sin(x))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(regroup(ggbnsans),ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
-1505<< {x=-0.0,x=3.14159265359}
+1505<< {x=0.0,x=3.14159265359}
 1506>> caseval(regroup(ggbsort([[ggbnsans:=evalf({3=(ggbtmpvarc)*((ggbtmpvara)^(5)), 3=(ggbtmpvarc)*((ggbtmpvara)^(4))})],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left({ggbtmpvara, ggbtmpvarc}[j]),j,0,dim({ggbtmpvara, ggbtmpvarc})-1)],[ggbnsans:=fsolve(ggbnsans,{ggbtmpvara, ggbtmpvarc})],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type({ggbtmpvara, ggbtmpvarc})==DOM_LIST,left({ggbtmpvara, ggbtmpvarc}[0]),left({ggbtmpvara, ggbtmpvarc}))],[ggbnsans:=fsolve(ggbnsans,{ggbtmpvara, ggbtmpvarc})],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
 1506<< {ggbtmpvara=1.0,ggbtmpvarc=3.0}
 1507>> caseval(regroup(ggbsort([[ggbnsans:=evalf((((-(1))/(2))*(erf((((-(x))*(sqrt(2)))+((400)*(sqrt(2))))/(24))))+((1)/(2))=(19)/(20))],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,[[ggbvars:=seq(left(x=419[j]),j,0,dim(x=419)-1)],[ggbnsans:=fsolve(ggbnsans,x=419)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],[[ggbvars:=when(type(x=419)==DOM_LIST,left(x=419[0]),left(x=419))],[ggbnsans:=fsolve(ggbnsans,x=419)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],ggbnsans][2])))
