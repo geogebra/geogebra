@@ -197,11 +197,11 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	private void updateOutline(Renderer renderer) {
 
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			ManagerShadersElementsGlobalBufferPacking manager = (ManagerShadersElementsGlobalBufferPacking) getView3D()
 					.getRenderer().getGeometryManager();
 			manager.setIsPacking(true);
-			manager.setCurrentColor(color[0]);
+			manager.setCurrentColor(getColor());
 			manager.setCurrentLineType(getGeoElement().getLineType(), getGeoElement().getLineTypeHidden());
 		}
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
@@ -229,7 +229,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			setGeometryIndex(brush.end());
 		}
 
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
 					.setIsPacking(false);
 		}
@@ -532,13 +532,18 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			// also update for line width (e.g when translated)
 			setWaitForUpdate();
 		}
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			if (prop == GProperty.COLOR) {
 				updateColors();
 				((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
-						.updateColor(color[0], getGeometryIndex());
+						.updateColor(getColor(), getGeometryIndex());
 			}
 		}
+	}
+
+	@Override
+	protected boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D) && !createdByDrawList();
 	}
 
 }

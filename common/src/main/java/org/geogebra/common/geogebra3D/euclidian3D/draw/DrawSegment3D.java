@@ -111,7 +111,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	protected void updateForItSelf(Coords p1, Coords p2) {
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			ManagerShadersElementsGlobalBufferPacking manager = (ManagerShadersElementsGlobalBufferPacking) getView3D()
 					.getRenderer().getGeometryManager();
 			manager.setIsPacking(true);
@@ -119,7 +119,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 			manager.setCurrentLineType(getGeoElement().getLineType(), getGeoElement().getLineTypeHidden());
 		}
 		super.updateForItSelf(p1, p2);
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
 					.setIsPacking(false);
 		}
@@ -127,7 +127,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			if (prop == GProperty.COLOR) {
 				updateColors();
 				((ManagerShadersElementsGlobalBufferPacking) getView3D().getRenderer().getGeometryManager())
@@ -141,14 +141,14 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	public void disposePreview() {
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			removeFromGL();
 		}
 		super.disposePreview();
 	}
 
 	protected int getReusableGeometryIndex() {
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			int index = getGeometryIndex();
 			if (hasTrace()) {
 				if (index != NOT_REUSABLE_INDEX) {
@@ -165,13 +165,13 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	protected void recordTrace() {
-		if (!getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (!shouldBePacked()) {
 			super.recordTrace();
 		}
 	}
 
 	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (shouldBePacked()) {
 			if (traces != null) {
 				while (!traces.isEmpty()) {
 					doRemoveGeometryIndex(traces.pop());
@@ -182,4 +182,8 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		}
 	}
 
+	@Override
+	protected boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D) && !createdByDrawList();
+	}
 }

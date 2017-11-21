@@ -338,7 +338,7 @@ public class Drawable3DLists {
 		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
 				Drawable3D d3d = d.next();
-				if (!d3d.getGeoElement().isGeoSegment() && !d3d.getGeoElement().isGeoPolyhedron()) {
+				if (!d3d.shouldBePacked()) {
 					d3d.drawHidden(renderer);
 				}
 			}
@@ -463,7 +463,7 @@ public class Drawable3DLists {
 		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
 				Drawable3D d3d = d.next();
-				if (!d3d.getGeoElement().isGeoSegment() && !d3d.getGeoElement().isGeoPolyhedron()) {
+				if (!d3d.shouldBePacked()) {
 					d3d.drawOutline(renderer);
 				}
 			}

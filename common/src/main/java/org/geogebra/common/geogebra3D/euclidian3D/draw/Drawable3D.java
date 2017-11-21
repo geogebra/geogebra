@@ -1702,4 +1702,13 @@ public abstract class Drawable3D extends DrawableND {
 	public void addLastTrace() {
 		getTrace().addLastTraceIndex();
 	}
+
+	/**
+	 * Temporary code while still mixing packed/unpacked buffers
+	 * 
+	 * @return true if it should be packed
+	 */
+	protected boolean shouldBePacked() {
+		return false;
+	}
 }
