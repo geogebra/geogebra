@@ -164,11 +164,11 @@ public class GLBufferManager {
 			vertexBuffer.rewind();
 			normalBuffer.rewind();
 			curvesIndices.rewind();
-			r.loadVertexBuffer(vertexBuffer, totalLength * 3);
-			r.loadNormalBuffer(normalBuffer, totalLength * 3);
-			r.loadColorBuffer(colorBuffer, totalLength * 4);
+			r.loadVertexBuffer(vertexBuffer, totalLength);
+			r.loadNormalBuffer(normalBuffer, totalLength);
+			r.loadColorBuffer(colorBuffer, totalLength);
 			if (r.areTexturesEnabled()) {
-				r.loadTextureBuffer(textureBuffer, totalLength * 2);
+				r.loadTextureBuffer(textureBuffer, totalLength);
 			} else {
 				r.disableTextureBuffer();
 			}
