@@ -327,6 +327,7 @@ public class MainMenu extends FlowPanel
 											.getMenu("GeoGebraGeometry")),
 					true);
 		}
+
 	}
 
 	private void initStackPanel() {
@@ -464,7 +465,7 @@ public class MainMenu extends FlowPanel
 			}
 
 			public void setStackText(int index, @IsSafeHtml String text,
-					String ariaLabel, boolean expand) {
+					String ariaLabel, Boolean expand) {
 				if (index >= getWidgetCount()) {
 					return;
 				}
@@ -479,9 +480,21 @@ public class MainMenu extends FlowPanel
 				tdWrapper.setTabIndex(1);
 				tdWrapper.setAttribute("role", "menu");
 				tdWrapper.setAttribute("aria-label", ariaLabel);
-				tdWrapper.setAttribute("aria-expanded", expand + "");
+				if (expand != null) {
+					tdWrapper.setAttribute("aria-expanded", expand.toString());
+				}
 
 			}
+
+			@Override
+			public void add(Widget w, @IsSafeHtml String stackText,
+					boolean asHTML) {
+				add(w);
+				int index = getWidgetCount() - 1;
+				setStackText(index, stackText, getMenuAt(index).getMenuTitle(),
+						null);
+			}
+
 		};
 	}
 
