@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
@@ -43,84 +42,36 @@ public class CmdSetColor extends CmdScripting {
 	protected GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		EvalInfo argInfo = new EvalInfo(false);
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-		GeoElement[] arg = null;
+
+		GeoElement target;
 
 		// SetBackgroundColor["red"]
 		if (background && n == 1) {
-
-			ExpressionNode en = c.getArgument(0);
-
-			ExpressionValue ev = en.evaluate(StringTemplate.defaultTemplate);
-
-			String color = ev.toString(StringTemplate.defaultTemplate);
-
-			try {
-
-				// lookup Color
-				GColor col = GeoGebraColorConstants.getGeogebraColor(app,
-						trim(color));
-
-				// SetBackgroundColor("none") is NOT OK
-				if (col == null) {
-					throw argErr(app, c, ev);
-				}
-
-				setViewBackground(col);
-
-				return null;
-
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw argErr(app, c, ev);
-			}
-
+			GColor col = fromText(c, 0);
+			setViewBackground(col);
+			return null;
 		}
 
 		// SetBackgroundColor[0,1,0]
 		if (background && n == 3) {
-
-			GeoElement[] args = resArgs(c);
-			GeoElement enR = args[0];
-			GeoElement enG = args[1];
-			GeoElement enB = args[2];
-			double redD = enR.evaluateDouble();
-			double greenD = enG.evaluateDouble();
-			double blueD = enB.evaluateDouble();
-
-			if (Double.isNaN(redD) || Double.isInfinite(redD)) {
-				throw argErr(app, c,
-						enR.evaluate(StringTemplate.defaultTemplate));
-			}
-			if (Double.isNaN(greenD) || Double.isInfinite(greenD)) {
-				throw argErr(app, c,
-						enG.evaluate(StringTemplate.defaultTemplate));
-			}
-			if (Double.isNaN(blueD) || Double.isInfinite(blueD)) {
-				throw argErr(app, c,
-						enB.evaluate(StringTemplate.defaultTemplate));
-			}
-
-			int red = MyDouble.normalize0to255(redD);
-			int green = MyDouble.normalize0to255(greenD);
-			int blue = MyDouble.normalize0to255(blueD);
-
-			GColor col = GColor.newColor(red, green, blue);
+			GColor col = fromRGB(c, 0);
 			setViewBackground(col);
 			return null;
-
 		}
 
-		if (n == 2) {
-			// not using resArgs as we need to cope with eg
-			// SetBackgroundColor(A1,red)
-			// when neither A1 nor red are defined geos.
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+		c.getArgument(0).resolveVariables(argInfo);
+		target = resArg(c.getArgument(0), argInfo)[0];
+		cons.setSuppressLabelCreation(oldMacroMode);
 
+
+		switch (n) {
+		case 2:
+
+			GColor col = fromText(c, 1);
 			String label = c.getArgument(0)
 					.toString(StringTemplate.defaultTemplate);
-			String color = StringUtil.removeSpaces(
-					c.getArgument(1).toString(StringTemplate.defaultTemplate));
 
 			if (kernel.lookupLabel(label) == null
 					&& LabelManager.isValidLabel(label, kernel)
@@ -131,82 +82,30 @@ public class CmdSetColor extends CmdScripting {
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat();
 
-
-				GColor bgCol = GeoGebraColorConstants.getGeogebraColor(app,
-						trim(color));
-
 				formatHandler.setFormat(coords, CellFormat.FORMAT_BGCOLOR,
-						bgCol);
+						col);
 
 				return null;
 			}
-
-			ExpressionNode[] args = c.getArguments();
-			arg = new GeoElement[args.length];
-
-			// resolve first argument
-			args[0].resolveVariables(argInfo);
-			arg[0] = resArg(args[0], argInfo)[0];
-
 			try {
-				// resolve second argument
-				args[1].resolveVariables(argInfo);
-				arg[1] = resArg(args[1], argInfo)[0];
-			} catch (Error e) {
-				// if there's a problem with the second argument, just wrap in
-				// quotes in case it's a color
-				// eg SetColor[A,blue] rather than SetColor[A,"blue"]
-				arg[1] = new GeoText(cons,
-						args[1].toString(StringTemplate.defaultTemplate));
-			}
-			cons.setSuppressLabelCreation(oldMacroMode);
-		}
-
-		switch (n) {
-		case 2:
-
-			if (!arg[1].isGeoText()) {
-				throw argErr(app, c, arg[1]);
-			}
-
-			try {
-
-				String color = ((GeoText) arg[1]).getTextString();
-				// lookup Color
-				// HashMap<String, Color> colors = app.getColorsHashMap();
-				// Color col = colors.get(color);
-
-				GColor col = GeoGebraColorConstants.getGeogebraColor(app,
-						trim(color));
-
-
-				// SetBackgroundColor(text1, "none") is OK
-				if (col == null && !background) {
-					throw argErr(app, c, arg[1]);
-				}
-
 				if (background) {
-					arg[0].setBackgroundColor(col);
+					target.setBackgroundColor(col);
 				} else {
-					arg[0].setObjColor(col);
+					target.setObjColor(col);
 				}
 
-				arg[0].updateRepaint();
-
-				return arg;
-
+				target.updateRepaint();
+				return target.asArray();
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw argErr(app, c, arg[0]);
+				throw argErr(app, c, target);
 			}
 
 		case 4:
 
-			String label = c.getArgument(0)
+			label = c.getArgument(0)
 					.toString(StringTemplate.defaultTemplate);
-			GeoElement r = resArg(c.getArgument(1), argInfo)[0];
-			GeoElement g = resArg(c.getArgument(2), argInfo)[0];
-			GeoElement b = resArg(c.getArgument(3), argInfo)[0];
+			col = fromRGB(c, 1);
 
 			// SetBackgroundColor(A1,1,1,0)
 			// for empty cell
@@ -219,54 +118,85 @@ public class CmdSetColor extends CmdScripting {
 				CellFormatInterface formatHandler = kernel.getApplication()
 						.getSpreadsheetTableModel().getCellFormat();
 
-				GColor bgCol = GColor.newColor(r.evaluateDouble(),
-						g.evaluateDouble(), b.evaluateDouble());
 
 				formatHandler.setFormat(coords, CellFormat.FORMAT_BGCOLOR,
-						bgCol);
+						col);
 
 				return null;
 			}
 
-			boolean[] ok = new boolean[n];
-			arg = resArgs(c);
-			if ((ok[1] = arg[1] instanceof NumberValue)
-					&& (ok[2] = arg[2] instanceof NumberValue)
-					&& (ok[3] = arg[3] instanceof NumberValue)) {
 
-				int red = MyDouble
-						.normalize0to255(((NumberValue) arg[1]).getDouble());
-				int green = MyDouble
-						.normalize0to255(((NumberValue) arg[2]).getDouble());
-				int blue = MyDouble
-						.normalize0to255(((NumberValue) arg[3]).getDouble());
-
-				if (background) {
-					arg[0].setBackgroundColor(
-							GColor.newColor(red, green, blue));
-				} else {
-					arg[0].setObjColor(GColor.newColor(red, green, blue));
-				}
-
-				arg[0].updateRepaint();
-
-				return arg;
-
-			} else if (!ok[1]) {
-				throw argErr(app, c, arg[1]);
-			} else if (!ok[2]) {
-				throw argErr(app, c, arg[2]);
+			if (background) {
+				target.setBackgroundColor(col);
 			} else {
-				throw argErr(app, c, arg[3]);
+				target.setObjColor(col);
 			}
+
+			target.updateRepaint();
+
+			return target.asArray();
+
+
 
 		default:
 			throw argNumErr(c);
 		}
 	}
 
+	private GColor fromRGB(Command c, int offset) {
+		EvalInfo argInfo = new EvalInfo(false);
+		GeoElement r = resArg(c.getArgument(offset), argInfo)[0];
+		GeoElement g = resArg(c.getArgument(offset + 1), argInfo)[0];
+		GeoElement b = resArg(c.getArgument(offset + 2), argInfo)[0];
+		int red, blue, green;
+		if (r instanceof NumberValue) {
+			red = MyDouble.normalize0to255(((NumberValue) r).getDouble());
+		} else {
+			throw argErr(app, c, r);
+		}
+		if (g instanceof NumberValue) {
+			green = MyDouble.normalize0to255(((NumberValue) g).getDouble());
+		} else {
+			throw argErr(app, c, g);
+		}
+		if (b instanceof NumberValue) {
+			blue = MyDouble.normalize0to255(((NumberValue) b).getDouble());
+		} else {
+			throw argErr(app, c, b);
+		}
+		return GColor.newColor(red, green, blue);
+	}
+
+	private GColor fromText(Command c, int offset) {
+		EvalInfo argInfo = new EvalInfo(false);
+		ExpressionNode[] args = c.getArguments();
+		GeoElement color;
+		try {
+			// resolve second argument
+			boolean oldMacroMode = cons.isSuppressLabelsActive();
+			cons.setSuppressLabelCreation(true);
+			args[offset].resolveVariables(argInfo);
+			color = resArg(args[offset], argInfo)[0];
+			cons.setSuppressLabelCreation(oldMacroMode);
+		} catch (Error e) {
+			// if there's a problem with the second argument, just wrap in
+			// quotes in case it's a color
+			// eg SetColor[A,blue] rather than SetColor[A,"blue"]
+			color = new GeoText(cons,
+					args[offset].toString(StringTemplate.defaultTemplate));
+		}
+		if (!color.isGeoText()) {
+			throw argErr(app, c, color);
+		}
+		GColor ret = GeoGebraColorConstants.getGeogebraColor(app,
+				trim(color.toValueString(StringTemplate.defaultTemplate)));
+		if (ret == null && !background) {
+			throw argErr(app, c, color);
+		}
+		return ret;
+	}
 	/** remove quotes and spaces */
-	private String trim(String color) {
+	private static String trim(String color) {
 		return StringUtil.removeSpaces(color.replace("\"", ""));
 	}
 

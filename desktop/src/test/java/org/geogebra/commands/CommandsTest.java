@@ -1384,16 +1384,18 @@ public class CommandsTest extends Assert{
 		t("SetColor[ A, \"lime\" ]", new String[0]);
 		Assert.assertEquals(GeoGebraColorConstants.LIME.toString(),
 				get("A").getObjectColor().toString());
-		t("SetColor[ A, If(x(A)>0,\"yellow\",\"orange\") ]", new String[0]);
+		t("SetColor[ A, \"orange\"^z(A) ]", new String[0]);
 		Assert.assertEquals(GColor.ORANGE.toString(),
 				get("A").getObjectColor().toString());
-		t("SetColor[ A1, If(x(A)>0,\"yellow\",\"orange\") ]", new String[0]);
+		t("SetColor[ A1, \"orange\"^z(A) ]", new String[0]);
 		t("SetColor[ A, 1, 0, 0 ]", new String[0]);
 		Assert.assertEquals(GColor.RED.toString(),
 				get("A").getObjectColor().toString());
 		t("SetColor[ A, x(A), y(A), z(A) ]", new String[0]);
 		Assert.assertEquals(GColor.BLUE.toString(),
 				get("A").getObjectColor().toString());
+		Assert.assertEquals("A,A1",
+				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
 
 	}
 
@@ -1409,6 +1411,11 @@ public class CommandsTest extends Assert{
 		Assert.assertEquals(
 				app.getActiveEuclidianView().getBackgroundCommon().toString(),
 				GColor.WHITE.toString());
+		t("SetBackgroundColor[ \"orange\"^z(A) ]",
+				new String[0]);
+		Assert.assertEquals(
+				app.getActiveEuclidianView().getBackgroundCommon().toString(),
+				GColor.ORANGE.toString());
 		t("SetBackgroundColor[ x(A), y(A), z(A) ]", new String[0]);
 		Assert.assertEquals(
 				app.getActiveEuclidianView().getBackgroundCommon().toString(),
@@ -1422,9 +1429,11 @@ public class CommandsTest extends Assert{
 		t("SetBackgroundColor[ txt, x(A), y(A), z(A) ]", new String[0]);
 		Assert.assertEquals(GColor.BLUE.toString(),
 				get("txt").getBackgroundColor().toString());
-		t("SetBackgroundColor[ A1, If(x(A)>0,\"yellow\",\"orange\") ]",
+		t("SetBackgroundColor[ A1, \"orange\"^z(A) ]",
 				new String[0]);
 		t("SetBackgroundColor[ A1, 0, 1, 1 ]", new String[0]);
+		Assert.assertEquals("txt,A,A1",
+				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
 	}
 
 	public static String unicode(String theSpline) {
