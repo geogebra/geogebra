@@ -43,7 +43,7 @@ public class ViewMenuW extends GMenuBar {
 	 *            The App instance
 	 */
 	public ViewMenuW(AppW application) {
-		super(true, "view", application);
+		super("view", application);
 		this.app = application;
 		if (app.isUnbundled()) {
 			addStyleName("matStackPanelNoOpacity");

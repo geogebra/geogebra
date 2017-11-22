@@ -24,7 +24,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	 * @param app Application instance
 	 */
 	public OptionsMenuW(AppW app) {
-		super(true, "options", new MenuResources(), app);
+		super("options", new MenuResources(), app);
 		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {
@@ -163,10 +163,10 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			@Override
 			public void addMenuItem(MenuInterface parentMenu, String key,
 					boolean asHtml, MenuInterface subMenu) {
-				addMenuItem((MenuBar) parentMenu, key, subMenu);
+				addMenuItem((GMenuBar) parentMenu, key, subMenu);
 			}
 
-			private void addMenuItem(MenuBar parentMenu, String key,
+			private void addMenuItem(GMenuBar parentMenu, String key,
 					MenuInterface subMenu) {
 
 				if (subMenu instanceof MenuBar) {

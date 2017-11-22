@@ -35,8 +35,8 @@ public class GMenuBar extends MenuBar{
 	 * @param app
 	 *            parent app
 	 */
-	public GMenuBar(boolean vertical, String menuTitle, AppW app) {
-		super(vertical);
+	public GMenuBar(String menuTitle, AppW app) {
+		super(true);
 		this.menuTitle = menuTitle;
 		this.app = app;
 		tabHandlers = new ArrayList<TabHandler>();
@@ -53,9 +53,9 @@ public class GMenuBar extends MenuBar{
 	 * @param app
 	 *            parent app
 	 */
-	public GMenuBar(boolean vertical, String menuTitle,
+	public GMenuBar(String menuTitle,
 			MenuResources menuResources, AppW app) {
-		super(vertical, menuResources);
+		super(true, menuResources);
 		this.menuTitle = menuTitle;
 		this.app = app;
 		tabHandlers = new ArrayList<TabHandler>();

@@ -60,7 +60,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	public GPopupMenuW(AppW app) {
 		this.app = app;
 		popupPanel = new GPopupPanel(app.getPanel(), app);
-		popupMenu = new PopupMenuBar(true, app);
+		popupMenu = new PopupMenuBar(app);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
 
@@ -481,7 +481,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	/**
 	 * @return popup menu
 	 */
-	public MenuBar getPopupMenu() {
+	public GMenuBar getPopupMenu() {
 		return popupMenu;
 	}
 
@@ -526,8 +526,8 @@ public class GPopupMenuW implements AttachedToDOM {
 
 	private class PopupMenuBar extends GMenuBar {
 
-		public PopupMenuBar(boolean vertical, AppW app1) {
-			super(vertical, "", app1);
+		public PopupMenuBar(AppW app1) {
+			super("", app1);
 		}
 
 		private MenuItem findItem(Element hItem) {

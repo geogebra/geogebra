@@ -22,7 +22,7 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable{
 	 *            application
 	 */
 	public HelpMenuW(final AppW app) {
-		super(true, "help", app);
+		super("help", app);
 		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {

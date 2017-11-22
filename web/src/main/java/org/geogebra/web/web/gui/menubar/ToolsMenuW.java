@@ -25,7 +25,7 @@ public class ToolsMenuW extends GMenuBar {
 	 */
 	public ToolsMenuW(AppW application) {
 
-		super(true, "tools", application);
+		super("tools", application);
 		this.app = application;
 		if (app.isUnbundled()) {
 			addStyleName("matStackPanel");

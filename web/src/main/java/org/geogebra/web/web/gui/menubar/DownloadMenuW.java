@@ -11,7 +11,7 @@ public class DownloadMenuW extends GMenuBar implements MenuBarI {
 	 *            application
 	 */
 	public DownloadMenuW(final AppW app) {
-		super(true, "DownloadAs", app);
+		super("DownloadAs", app);
 		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanel");
 		} else {

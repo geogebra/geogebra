@@ -111,7 +111,7 @@ public class MainMenu extends FlowPanel
 		if (!app.isUnbundledOrWhiteboard()) {
 			this.addStyleName("menubarSMART");
 		}
-		signInMenu = new GMenuBar(true, "signin", app);
+		signInMenu = new GMenuBar("signin", app);
 		signInMenu.addTabHandler(this);
 		// leftSide = app.isWhiteboardActive() || app.isUnbundled();
 		this.app = app;
@@ -243,7 +243,7 @@ public class MainMenu extends FlowPanel
 							"Options"),
 					true);
 		} else {
-			settingsMenu = new GMenuBar(true, "", app);
+			settingsMenu = new GMenuBar("", app);
 			this.menuPanel
 					.add(settingsMenu,
 							getHTML(MaterialDesignResources.INSTANCE.gear(),
@@ -251,7 +251,7 @@ public class MainMenu extends FlowPanel
 							true);
 			menuTitles.add("Settings");
 			menuImgs.add(null);
-			languageMenu = new GMenuBar(true, "", app);
+			languageMenu = new GMenuBar("", app);
 			this.menuPanel.add(languageMenu,
 					getHTML(MaterialDesignResources.INSTANCE.language_black(),
 							app.getLocalization().getMenu("Language")),
@@ -296,7 +296,7 @@ public class MainMenu extends FlowPanel
 			if (app.isWhiteboardActive()) {
 				ImageResource icon = MaterialDesignResources.INSTANCE
 						.whiteboard();
-				logoMenu = new GMenuBar(true, "", app);
+				logoMenu = new GMenuBar("", app);
 				logoMenu.setStyleName("logoMenu");
 				this.menuPanel.add(logoMenu,
 						getHTML(icon,
@@ -314,7 +314,7 @@ public class MainMenu extends FlowPanel
 					: (appType.equals(AppType.GRAPHER_3D)
 							? MaterialDesignResources.INSTANCE.graphing3D()
 							: MaterialDesignResources.INSTANCE.geometry());
-			logoMenu = new GMenuBar(true, "", app);
+			logoMenu = new GMenuBar("", app);
 			logoMenu.setStyleName("logoMenu");
 			this.menuPanel.add(logoMenu, getHTML(icon,
 					appType.equals(AppType.GRAPHING_CALCULATOR)
@@ -568,7 +568,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void createUserMenu() {
-		this.userMenu = new GMenuBar(true, "user", app);
+		this.userMenu = new GMenuBar("user", app);
 		if (app.isUnbundledOrWhiteboard()) {
 			this.userMenu.addStyleName("matStackPanel");
 		} else {

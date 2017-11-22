@@ -19,7 +19,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 		 * @param app application
 		 */
 	public PerspectivesMenuUnbundledW(AppW app) {
-		super(true, "apps", app);
+		super("apps", app);
 		this.app = app;
 		if (app.isUnbundledOrWhiteboard()) {
 			addStyleName("matStackPanelNoOpacity");
