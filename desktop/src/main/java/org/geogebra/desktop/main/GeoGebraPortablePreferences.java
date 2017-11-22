@@ -264,11 +264,10 @@ public class GeoGebraPortablePreferences extends GeoGebraPreferencesD {
 
 		if (!(app.is3D())) // TODO: implement it in Application3D!
 		{
-			StringBuilder sb2d = new StringBuilder();
-			StringBuilder sb3d = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			app.getKernel().getConstruction().getConstructionDefaults()
-					.getDefaultsXML(sb2d, sb3d);
-			String objectPrefsXML = sb2d.toString();
+					.getDefaultsXML(sb);
+			String objectPrefsXML = sb.toString();
 
 			set(XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
 		}

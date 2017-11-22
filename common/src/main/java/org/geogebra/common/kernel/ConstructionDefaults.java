@@ -1208,6 +1208,22 @@ public class ConstructionDefaults {
 	}
 
 	/**
+	 * save construction defaults
+	 * 
+	 * @param sb
+	 *            string for all geos
+	 */
+	public void getDefaultsXML(StringBuilder sb) {
+		MyXMLio.addXMLHeader(sb);
+		MyXMLio.addGeoGebraHeader(sb, true, null, cons.getApplication().getVersion());
+		sb.append("<defaults>\n");
+		for (GeoElement geo : defaultGeoElements.values()) {
+			geo.getXML(false, sb);
+		}
+		sb.append("</defaults>\n</geogebra>");
+	}
+
+	/**
 	 * @param otherDefaults
 	 *            template defaults (from template file)
 	 */

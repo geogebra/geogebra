@@ -61,11 +61,10 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 		stockStore = Storage.getLocalStorageIfSupported();
 		if (stockStore != null) {
 			stockStore.setItem(XML_USER_PREFERENCES, xml);
-			StringBuilder sb2d = new StringBuilder();
-			StringBuilder sb3d = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			app.getKernel().getConstruction().getConstructionDefaults()
-					.getDefaultsXML(sb2d, sb3d);
-			String objectPrefsXML = sb2d.toString();
+					.getDefaultsXML(sb);
+			String objectPrefsXML = sb.toString();
 			stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, objectPrefsXML);
 		}
 	}
