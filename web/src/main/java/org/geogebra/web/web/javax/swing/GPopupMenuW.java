@@ -369,7 +369,10 @@ public class GPopupMenuW implements AttachedToDOM {
 			td.setInnerSafeHtml(
 					AbstractImagePrototype.create(imgRes).getSafeHtml());
 			newItem.getElement().setAttribute("colspan", "1");
-			DOM.appendChild((Element) newItem.getElement().getParentNode(), td);
+			if (newItem.getElement().getParentNode() != null) {
+				DOM.appendChild((Element) newItem.getElement().getParentNode(),
+						td);
+			}
 		}
 		popupMenuSize++;
 

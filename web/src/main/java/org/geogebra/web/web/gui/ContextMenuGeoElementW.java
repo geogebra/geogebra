@@ -58,7 +58,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	/**
 	 * popup menu
 	 */
-	protected GPopupMenuW wrappedPopup;
+	protected final GPopupMenuW wrappedPopup;
 	/**
 	 * localization
 	 */
