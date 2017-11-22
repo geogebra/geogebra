@@ -10,6 +10,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
+import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
 import org.geogebra.common.kernel.algos.AlgoExtremumPolynomial;
 import org.geogebra.common.kernel.algos.AlgoIntersectPolynomialLine;
@@ -93,11 +94,7 @@ public class SelectionManager {
 
 	private GeoElement[] specPoints;
 	/** Special points for preview points */
-	private AlgoRoots algoRoots;
-	private AlgoRootsPolynomial algoRootsPolynomial;
-	private AlgoExtremumMulti algoExtremumMulti;
-	private AlgoExtremumPolynomial algoExtremumPolynomial;
-	private AlgoRootsPolynomial algoPolynomialLine;
+	private List<AlgoElement> specPointAlgos = new ArrayList<AlgoElement>();
 
 	/**
 	 * @param kernel
@@ -879,6 +876,7 @@ public class SelectionManager {
 
 
 	private GeoElementND[] getSpecPoints(GeoElement[] geos0) {
+		specPointAlgos.clear();
 		specPoints = null;
 		List<GeoElement> geos = (geos0 == null) ? selectedGeos
 				: Arrays.asList(geos0);
@@ -918,15 +916,17 @@ public class SelectionManager {
 				EuclidianViewInterfaceCommon view = kernel.getApplication()
 						.getActiveEuclidianView();
 
-				algoRoots = new AlgoRoots(kernel.getConstruction(), null,
+				AlgoRoots algoRoots = new AlgoRoots(kernel.getConstruction(), null,
 						(GeoFunction) geo, view.getXminObject(),
 						view.getXmaxObject(), false);
 				geos1 = algoRoots.getRootPoints();
+				specPointAlgos.add(algoRoots);
 			} else {
-				algoRootsPolynomial = new AlgoRootsPolynomial(
+				AlgoRootsPolynomial algoRootsPolynomial = new AlgoRootsPolynomial(
 						kernel.getConstruction(), null, (GeoFunction) geo, false);
 				kernel.getConstruction().removeFromAlgorithmList(algoRootsPolynomial);
 				geos1 = algoRootsPolynomial.getRootPoints();
+				specPointAlgos.add(algoRootsPolynomial);
 			}
 		}
 		GeoElementND[] geos2 = null;
@@ -934,23 +934,26 @@ public class SelectionManager {
 			if (!((GeoFunction) geo).isPolynomialFunction(true)) {
 				EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 						.getActiveEuclidianView();
-				algoExtremumMulti = new AlgoExtremumMulti(
+				AlgoExtremumMulti algoExtremumMulti = new AlgoExtremumMulti(
 						kernel.getConstruction(), null, (GeoFunction) geo,
 						view.getXminObject(), view.getXmaxObject(), false);
 				geos2 = algoExtremumMulti.getExtremumPoints();
+				specPointAlgos.add(algoExtremumMulti);
 			} else {
-				algoExtremumPolynomial = new AlgoExtremumPolynomial(
+				AlgoExtremumPolynomial algoExtremumPolynomial = new AlgoExtremumPolynomial(
 						kernel.getConstruction(), null, (GeoFunction) geo,
 						false);
 				kernel.getConstruction().removeFromAlgorithmList(algoExtremumPolynomial);
 				geos2 = algoExtremumPolynomial.getRootPoints();
+				specPointAlgos.add(algoExtremumPolynomial);
 			}
 		} else {
-			algoPolynomialLine = new AlgoIntersectPolynomialLine(
+			AlgoIntersectPolynomialLine algoPolynomialLine = new AlgoIntersectPolynomialLine(
 					kernel.getConstruction(), (GeoFunction) geo,
 					kernel.getConstruction().getYAxis());
 			kernel.getConstruction().removeFromAlgorithmList(algoPolynomialLine);
 			geos2 = algoPolynomialLine.getOutput();
+			specPointAlgos.add(algoPolynomialLine);
 		}
 		if (geos1 != null && geos1.length > 0) {
 			if (geos2 != null && geos2.length > 0) {
