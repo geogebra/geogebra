@@ -134,7 +134,10 @@ find $FOLDER -name '*.in' | while read IN; do
       if ($1=="<") { inline = $2; inres = substr($0,3+length($2)+1); inresq=inres; gsub("\"","\\\"",inresq); }
       else if ($1==">") { outline = $2; outres = substr($0,3+length($2)+1); outresq=outres; gsub("\"","\\\"",outresq);
        regression=0;
-       if (index(tolower(inres),"error")==0 || index(tolower(outres),"error")==0) {
+       if (index(tolower(inres),"error")==0 && index(tolower(outres),"error")>0) {
+        regression = 1;
+        }
+       else if (index(tolower(inres),"error")==0 || index(tolower(outres),"error")==0) {
         cascommand = "caseval(\\\"init geogebra\\\");\n(ggbsort(" inresq ")==ggbsort(" outresq ")) or (sort(" inresq ")==sort(" outresq ")) or (simplify(" inresq ")==simplify(" outresq ")) or (sort(op(" inresq ")==sort(op(" outresq "))))";
         giaccommand = ENVIRON["MINIGIAC"] " -m";
         "mktemp" | getline giacin;
