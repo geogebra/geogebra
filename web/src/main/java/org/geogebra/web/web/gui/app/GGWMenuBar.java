@@ -7,7 +7,7 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * Wrap MainMenu in composite
@@ -15,14 +15,14 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
  */
 public class GGWMenuBar extends Composite {
 	
-	private HorizontalPanel ggbmenubarwrapper;
+	private FlowPanel ggbmenubarwrapper;
 	private MainMenu menubar;
 
 	/**
 	 * Create new menu wrapper
 	 */
 	public GGWMenuBar() {
-		ggbmenubarwrapper = new HorizontalPanel();
+		ggbmenubarwrapper = new FlowPanel();
 		ggbmenubarwrapper.addStyleName("ggbmenubarwrapper");
 		initWidget(ggbmenubarwrapper);
 		
