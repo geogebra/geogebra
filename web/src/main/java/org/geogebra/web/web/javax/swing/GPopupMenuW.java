@@ -6,6 +6,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.menubar.GMenuBar;
 import org.geogebra.web.web.html5.AttachedToDOM;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -59,7 +60,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	public GPopupMenuW(AppW app) {
 		this.app = app;
 		popupPanel = new GPopupPanel(app.getPanel(), app);
-		popupMenu = new PopupMenuBar(true);
+		popupMenu = new PopupMenuBar(true, app);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
 
@@ -375,10 +376,16 @@ public class GPopupMenuW implements AttachedToDOM {
 		item.addStyleName("gPopupMenu_item");
 	}
 
+	/**
+	 * @return app scale (vertical)
+	 */
 	protected double getScaleY() {
 		return app.getArticleElement().getScaleY();
 	}
 
+	/**
+	 * @return app scale (horizontal)
+	 */
 	protected double getScaleX() {
 		return app.getArticleElement().getScaleX();
 	}
@@ -517,10 +524,10 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 	}
 
-	private class PopupMenuBar extends MenuBar {
+	private class PopupMenuBar extends GMenuBar {
 
-		public PopupMenuBar(boolean vertical) {
-			super(vertical);
+		public PopupMenuBar(boolean vertical, AppW app1) {
+			super(vertical, "", app1);
 		}
 
 		private MenuItem findItem(Element hItem) {

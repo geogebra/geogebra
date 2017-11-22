@@ -125,7 +125,6 @@ public class GCollapseMenuItem {
 	 * Expand submenu
 	 */
 	public void expand() {
-
 		expanded = true;
 		for (MenuItem mi : items) {
 			mi.addStyleName("gwt-MenuItem");
