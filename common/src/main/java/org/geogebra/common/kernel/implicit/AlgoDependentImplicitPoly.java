@@ -121,7 +121,9 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		geoElement.doRemove();
 		geoElement = newElem;
 		setInputOutput();
-		geoElement.setLabel(label);
+		if (label != null) {
+			geoElement.setLabel(label);
+		}
 	}
 
 	/**
