@@ -345,10 +345,7 @@ public class MainMenu extends FlowPanel
 								getHTMLCollapse(menuImgs.get(index - 1),
 										menuTitles.get(index - 1)),
 								ariaLabel, true);
-						menus.get(index - 1).getElement()
-								.removeClassName("collapse");
-						menus.get(index - 1).getElement()
-								.addClassName("expand");
+						setExpandStyles(index);
 					}
 				}
 				dispatchOpenEvent();
@@ -365,7 +362,8 @@ public class MainMenu extends FlowPanel
 			@Override
 			public void onBrowserEvent(Event event) {
 
-				if (!app.isExam() && DOM.eventGetType(event) == Event.ONCLICK) {
+				int eventType = DOM.eventGetType(event);
+				if (!app.isExam() && eventType == Event.ONCLICK) {
 					Element target = DOM.eventGetTarget(event);
 					int index = findDividerIndex(target);
 					// check if SignIn was clicked
@@ -425,6 +423,13 @@ public class MainMenu extends FlowPanel
 				super.onBrowserEvent(event);
 			}
 
+			private void setExpandStyles(int index) {
+				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
+						: menus.get(index - 1);
+				mi.getElement().removeClassName("collapse");
+				mi.getElement().addClassName("expand");
+			}
+
 			private void setCollapseStyles(int index) {
 				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
 						: menus.get(index - 1);
@@ -471,11 +476,11 @@ public class MainMenu extends FlowPanel
 
 				headerElem.setInnerHTML(text);
 
-				headerElem.setTabIndex(1);
-				headerElem.setAttribute("role", "menu");
-				headerElem.setAttribute("aria-label", ariaLabel);
-				headerElem.setAttribute("aria-expanded", expand + "");
-				headerElem.focus();
+				tdWrapper.setTabIndex(1);
+				tdWrapper.setAttribute("role", "menu");
+				tdWrapper.setAttribute("aria-label", ariaLabel);
+				tdWrapper.setAttribute("aria-expanded", expand + "");
+
 			}
 		};
 	}
