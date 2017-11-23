@@ -256,8 +256,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 	}
 
-	private static ImageResource getSubMenuIcon(boolean isRTL,
-			boolean isNewDesign) {
+	private static ImageResource getSubMenuIcon(boolean isRTL) {
 		return isRTL
 					? new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE
@@ -354,8 +353,7 @@ public class GPopupMenuW implements AttachedToDOM {
 
 			// adding arrow for the menuitem
 			ImageResource imgRes = getSubMenuIcon(
-					app.getLocalization().isRightToLeftReadingOrder(),
-					app.isUnbundled());
+					app.getLocalization().isRightToLeftReadingOrder());
 			if (newItem.getElement().getParentNode() != null) {
 				Element td = DOM.createTD();
 				td.setAttribute("vAlign", "middle");

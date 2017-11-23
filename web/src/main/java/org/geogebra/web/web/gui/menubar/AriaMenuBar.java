@@ -156,21 +156,21 @@ public class AriaMenuBar extends Widget {
 			// TODOFocusPanel.impl.focus(getElement());
 			// Fire an item's command when the user clicks on it.
 			if (item != null) {
-				doItemAction(item, true, true);
+				doItemAction(item);
 			}
 			break;
 		}
 
 		case Event.ONMOUSEOVER: {
 			if (item != null) {
-				itemOver(item, true);
+				itemOver(item);
 			}
 			break;
 		}
 
 		case Event.ONMOUSEOUT: {
 			if (item != null) {
-				itemOver(null, false);
+				itemOver(null);
 			}
 			break;
 		}
@@ -235,7 +235,8 @@ public class AriaMenuBar extends Widget {
 		}
 		return null;
 	}
-	private void doItemAction(MenuItem item, boolean b, boolean c) {
+
+	private void doItemAction(MenuItem item) {
 		final ScheduledCommand cmd = item.getScheduledCommand();
 		Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
 			@Override
@@ -245,7 +246,8 @@ public class AriaMenuBar extends Widget {
 		});
 
 	}
-	private void itemOver(MenuItem item, boolean focus) {
+
+	private void itemOver(MenuItem item) {
 		selectItem(item);
 		// if (item != null) {
 		// if ((shownChildMenu != null) || (parentMenu != null) || autoOpen) {

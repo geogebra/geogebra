@@ -27,8 +27,6 @@ public class GMenuBar extends AriaMenuBar {
 	private List<TabHandler> tabHandlers;
 
 	/**
-	 * @param vertical
-	 *            vertical?
 	 * @param menuTitle
 	 *            title for event logger
 	 * @param app
@@ -39,26 +37,6 @@ public class GMenuBar extends AriaMenuBar {
 		this.menuTitle = menuTitle;
 		this.app = app;
 		tabHandlers = new ArrayList<TabHandler>();
-
-	}
-
-	/**
-	 * @param vertical
-	 *            vertical?
-	 * @param menuTitle
-	 *            title for event logger
-	 * @param menuResources
-	 *            resources
-	 * @param app
-	 *            parent app
-	 */
-	public GMenuBar(String menuTitle,
-			MenuResources menuResources, AppW app) {
-		super();
-		this.menuTitle = menuTitle;
-		this.app = app;
-		tabHandlers = new ArrayList<TabHandler>();
-
 	}
 
 	/**
@@ -203,6 +181,15 @@ public class GMenuBar extends AriaMenuBar {
 		return (MenuItem) ait[0];
 	}
 
+	/**
+	 * @param itemtext
+	 *            item content
+	 * @param textishtml
+	 *            whether to treat text as html
+	 * @param submenupopup
+	 *            submenu
+	 * @return the menu item
+	 */
 	public MenuItem addItem(String itemtext, boolean textishtml,
 			final MenuBar submenupopup) {
 		return addItem(itemtext, textishtml, submenupopup, true);
