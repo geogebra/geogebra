@@ -17,7 +17,9 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	static final public float ALPHA_INVISIBLE_VALUE = -1f;
 
-	private GLBufferManager bufferManagerCurves, bufferManagerSurfaces, currentBufferManager;
+	private GLBufferManagerCurves bufferManagerCurves;
+	private GLBufferManagerSurfaces bufferManagerSurfaces;
+	private GLBufferManager currentBufferManager;
 	private GColor currentColor;
 	private int currentTextureType;
 
@@ -62,7 +64,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 		@Override
 		public void bindGeometry(int size, TypeElement type) {
-			bufferManager.setIndices(size);
+			bufferManager.setIndices(size, type);
 		}
 
 		/**
@@ -117,27 +119,24 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			}
 
 			public void setVertices(ArrayList<Double> array, int length) {
-				// Log.debug("v length = " + length);
 				geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(), geometryIndex);
 				geometrySet.getBufferManager().setVertexBuffer(array, length);
 			}
 
 			public void setNormals(ArrayList<Double> array, int length) {
-				// Log.debug("n length = " + length);
 				geometrySet.getBufferManager().setNormalBuffer(array, length);
 			}
 
 			public void setTextures(ArrayList<Double> array, int length) {
-				// Log.debug("t length = " + length);
 				geometrySet.getBufferManager().setTextureBuffer(array, length);
 			}
 
 			public void setTexturesEmpty() {
-				// Log.debug("set textures empty");
+				// not implemented yet
 			}
 
 			public void setColors(ArrayList<Double> array, int length) {
-				// Log.debug("c length = " + length);
+				// not implemented yet
 			}
 
 			public void setColorsEmpty() {
@@ -159,8 +158,8 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	public ManagerShadersElementsGlobalBufferPacking(Renderer renderer,
 			EuclidianView3D view3d) {
 		super(renderer, view3d);
-		bufferManagerCurves = new GLBufferManager();
-		bufferManagerSurfaces = new GLBufferManager();
+		bufferManagerCurves = new GLBufferManagerCurves();
+		bufferManagerSurfaces = new GLBufferManagerSurfaces();
 		currentBufferManager = null;
 	}
 
@@ -182,6 +181,16 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void drawCurves(Renderer renderer, boolean hidden) {
 		bufferManagerCurves.draw((RendererShadersInterface) renderer, hidden);
+	}
+
+	/**
+	 * draw surfaces
+	 * 
+	 * @param renderer
+	 *            renderer
+	 */
+	public void drawSurfaces(Renderer renderer) {
+		bufferManagerSurfaces.draw((RendererShadersInterface) renderer);
 	}
 
 	@Override
@@ -226,6 +235,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	public int startPolygons(Drawable3D d) {
 		if (d.shouldBePacked()) {
 			currentBufferManager = bufferManagerSurfaces;
+			this.currentColor = d.getSurfaceColor();
 		}
 		return super.startPolygons(d);
 	}
@@ -234,7 +244,6 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	public void endPolygons(Drawable3D d) {
 		super.endPolygons(d);
 		if (d.shouldBePacked()) {
-			// return super.startPolygons(d);
 			endPacking();
 		}
 	}

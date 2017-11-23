@@ -683,4 +683,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 	}
 
+	// @Override
+	// public boolean shouldBePacked() {
+	// return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) &&
+	// !createdByDrawList();
+	// }
+
 }

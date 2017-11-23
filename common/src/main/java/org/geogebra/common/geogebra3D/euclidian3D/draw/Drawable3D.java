@@ -1097,14 +1097,19 @@ public abstract class Drawable3D extends DrawableND {
 	 * sets the color of surface for drawing and alpha value
 	 */
 	protected void setSurfaceHighlightingColor() {
-
-		if (doHighlighting()) {
-			setDrawingColor(surfaceColor[1]);
-		} else {
-			setDrawingColor(surfaceColor[0]);
-		}
+		setDrawingColor(getSurfaceColor());
 	}
 
+	/**
+	 * 
+	 * @return current surface color (may be highlighted)
+	 */
+	public GColor getSurfaceColor() {
+		if (doHighlighting()) {
+			return surfaceColor[1];
+		}
+		return surfaceColor[0];
+	}
 
 
 	protected void updateColors() {

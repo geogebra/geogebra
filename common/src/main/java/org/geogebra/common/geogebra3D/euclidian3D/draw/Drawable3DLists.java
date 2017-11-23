@@ -302,9 +302,19 @@ public class Drawable3DLists {
 	 */
 	public void drawNotTransparentSurfacesClosed(Renderer renderer) {
 
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
-				.iterator(); d.hasNext();) {
-			d.next().drawNotTransparentSurface(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d
+					.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.shouldBePacked()) {
+					d3d.drawNotTransparentSurface(renderer);
+				}
+			}
+		} else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d
+					.hasNext();) {
+				d.next().drawNotTransparentSurface(renderer);
+			}
 		}
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]
 				.iterator(); d.hasNext();) {
@@ -397,6 +407,7 @@ public class Drawable3DLists {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawTransp(renderer);
 				}
+				((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfaces(renderer);
 			}
 		} else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
@@ -419,9 +430,19 @@ public class Drawable3DLists {
 	 */
 	public void drawTranspClosedNotCurved(Renderer renderer) {
 
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
-				.iterator(); d.hasNext();) {
-			d.next().drawTransp(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d
+					.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.shouldBePacked()) {
+					d3d.drawTransp(renderer);
+				}
+			}
+		} else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d
+					.hasNext();) {
+				d.next().drawTransp(renderer);
+			}
 		}
 
 		// lists
@@ -608,9 +629,17 @@ public class Drawable3DLists {
 	 */
 	public void drawClosedSurfacesForHiding(Renderer renderer) {
 
-		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED]
-				.iterator(); d.hasNext();) {
-			d.next().drawHiding(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) {
+				Drawable3D d3d = d.next();
+				if (!d3d.shouldBePacked()) {
+					d3d.drawHiding(renderer);
+				}
+			}
+		} else {
+			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED].iterator(); d.hasNext();) {
+				d.next().drawHiding(renderer);
+			}
 		}
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]
 				.iterator(); d.hasNext();) {

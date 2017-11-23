@@ -6,11 +6,12 @@ import java.util.TreeMap;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
  * manager for packing buffers
  */
-public class GLBufferManager {
+abstract class GLBufferManager {
 
 	private Index currentIndex;
 	private Index currentLengths;
@@ -21,6 +22,7 @@ public class GLBufferManager {
 	private BufferPack currentBufferPack;
 	private ArrayList<BufferPack> bufferPackList;
 	private ArrayList<Double> vertexArray, normalArray, textureArray;
+	private boolean oneNormal;
 	private int elementsLength;
 	private GColor color;
 
@@ -141,11 +143,17 @@ public class GLBufferManager {
 			indicesBuffer.setLimit(this.indicesLength);
 		}
 
-		public void setElements(ArrayList<Double> vertexArray, ArrayList<Double> normalArray,
+		public void setElements(ArrayList<Double> vertexArray, ArrayList<Double> normalArray, boolean oneNormal,
 				ArrayList<Double> textureArray,
 				GColor color, int offset, int length) {
 			vertexBuffer.set(vertexArray, offset * 3, length * 3);
-			normalBuffer.set(normalArray, offset * 3, length * 3);
+			if (oneNormal) {
+				for (int i = 0; i < 3; i++) {
+					normalBuffer.set(normalArray.get(i).floatValue(), offset * 3 + i, length, 3);
+				}
+			} else {
+				normalBuffer.set(normalArray, offset * 3, length * 3);
+			}
 			if (textureArray == null) {
 				textureBuffer.set(0, offset * 2, length * 2, 1);
 			} else {
@@ -239,6 +247,7 @@ public class GLBufferManager {
 	 */
 	public void setNormalBuffer(ArrayList<Double> array, int length) {
 		normalArray = array;
+		oneNormal = length == 3;
 	}
 
 	/**
@@ -324,16 +333,36 @@ public class GLBufferManager {
 	}
 
 	/**
+	 * 
+	 * @param size
+	 *            geometry size
+	 * @return indices length for this size
+	 */
+	abstract protected int calculateIndicesLength(int size);
+
+	/**
+	 * put indices to buffer
+	 * 
+	 * @param size
+	 *            geometry size
+	 * @param type
+	 *            element type
+	 */
+	abstract protected void putIndices(int size, TypeElement type);
+
+	/**
 	 * set indices
 	 * 
 	 * @param size
 	 *            size to set
+	 * @param type
+	 *            element type
 	 */
-	public void setIndices(int size) {
+	public void setIndices(int size, TypeElement type) {
 		// get buffer segment and pack
 		currentBufferSegment = bufferSegments.get(currentIndex);
 		if (currentBufferSegment == null) {
-			int indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
+			int indicesLength = calculateIndicesLength(size);
 			currentLengths.set(elementsLength, indicesLength);
 			// try to reuse available segment
 			currentBufferSegment = getAvailableSegment(currentLengths, availableSegments);
@@ -350,25 +379,13 @@ public class GLBufferManager {
 
 			// set indices
 			indicesIndex = currentBufferSegment.indicesOffset;
-			for (int k = 0; k < size; k++) {
-				for (int i = 0; i < PlotterBrush.LATITUDES; i++) {
-					int iNext = (i + 1) % PlotterBrush.LATITUDES;
-					// first triangle
-					putToIndices(i + k * PlotterBrush.LATITUDES);
-					putToIndices(i + (k + 1) * PlotterBrush.LATITUDES);
-					putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
-					// second triangle
-					putToIndices(i + k * PlotterBrush.LATITUDES);
-					putToIndices(iNext + (k + 1) * PlotterBrush.LATITUDES);
-					putToIndices(iNext + k * PlotterBrush.LATITUDES);
-				}
-			}
+			putIndices(size, type);
 		} else {
 			currentBufferPack = currentBufferSegment.bufferPack;
 		}
 
 		// set elements
-		currentBufferPack.setElements(vertexArray, normalArray, textureArray, color,
+		currentBufferPack.setElements(vertexArray, normalArray, oneNormal, textureArray, color,
 				currentBufferSegment.elementsOffset,
 				currentBufferSegment.elementsLength);
 
@@ -378,22 +395,24 @@ public class GLBufferManager {
 		textureArray = null;
 	}
 
-	private void putToIndices(int index) {
+	/**
+	 * put index in indices buffer, using current buffer pack and segment
+	 * 
+	 * @param index
+	 *            index to write
+	 */
+	protected void putToIndices(int index) {
 		currentBufferPack.indicesBuffer.put(indicesIndex, (short) (currentBufferSegment.elementsOffset + index));
 		indicesIndex++;
 	}
 
 	/**
-	 * draw
+	 * draw buffer packs
 	 * 
 	 * @param r
 	 *            renderer
-	 * @param hidden
-	 *            if hidden
 	 */
-	public void draw(RendererShadersInterface r, boolean hidden) {
-		((TexturesShaders) r.getTextures()).setPackedDash();
-		r.setDashTexture(hidden ? Textures.DASH_PACKED_HIDDEN : Textures.DASH_PACKED);
+	protected void drawBufferPacks(RendererShadersInterface r) {
 		for (BufferPack bufferPack : bufferPackList) {
 			if (bufferPack.elementsLength > 0) {
 				bufferPack.draw(r);
