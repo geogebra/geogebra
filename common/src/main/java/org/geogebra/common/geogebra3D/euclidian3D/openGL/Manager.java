@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
@@ -221,9 +222,12 @@ abstract public class Manager {
 	/**
 	 * start drawing polygons
 	 * 
+	 * @param d
+	 *            3D drawable
+	 * 
 	 * @return geometry index for the polygons
 	 */
-	abstract public int startPolygons(int old);
+	abstract public int startPolygons(Drawable3D d);
 
 
 	/**
@@ -302,8 +306,11 @@ abstract public class Manager {
 
 	/**
 	 * end the polygons
+	 * 
+	 * @param d
+	 *            3D drawable
 	 */
-	abstract public void endPolygons();
+	abstract public void endPolygons(Drawable3D d);
 
 	// ///////////////////////////////////////////
 	// DRAWING METHODS
@@ -848,32 +855,23 @@ abstract public class Manager {
 	}
 
 	/**
-	 * set flag that manager is actually packing (temporary code)
-	 * 
-	 * @param isPacking
-	 */
-	public void setIsPacking(boolean isPacking) {
-		// not needed here
-	}
-
-	/**
-	 * set the current color in use
+	 * set manager in packing mode for curves
 	 * 
 	 * @param color
 	 *            color
-	 */
-	public void setCurrentColor(GColor color) {
-		// not needed here
-	}
-
-	/**
-	 * set the current line type
-	 * 
 	 * @param lineType
 	 *            line type
 	 * @param lineTypeHidden
 	 */
-	public void setCurrentLineType(int lineType, int lineTypeHidden) {
+	public void setPackCurve(GColor color, int lineType, int lineTypeHidden) {
+		// not needed here
+	}
+
+	/**
+	 * set manager off packing mode
+	 * 
+	 */
+	public void endPacking() {
 		// not needed here
 	}
 

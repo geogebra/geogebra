@@ -146,7 +146,11 @@ public class GLBufferManager {
 				GColor color, int offset, int length) {
 			vertexBuffer.set(vertexArray, offset * 3, length * 3);
 			normalBuffer.set(normalArray, offset * 3, length * 3);
-			textureBuffer.set(textureArray, offset * 2, length * 2);
+			if (textureArray == null) {
+				textureBuffer.set(0, offset * 2, length * 2, 1);
+			} else {
+				textureBuffer.set(textureArray, offset * 2, length * 2);
+			}
 			setColor(color, offset, length);
 		}
 

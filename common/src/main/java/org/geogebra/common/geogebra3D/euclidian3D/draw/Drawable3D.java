@@ -513,7 +513,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return current surface index if reusable (if no trace)
 	 */
-	final protected int getReusableSurfaceIndex() {
+	final public int getReusableSurfaceIndex() {
 		if (hasTrace()) {
 			return NOT_REUSABLE_INDEX;
 		}
@@ -1708,7 +1708,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return true if it should be packed
 	 */
-	protected boolean shouldBePacked() {
+	public boolean shouldBePacked() {
 		return false;
 	}
 }

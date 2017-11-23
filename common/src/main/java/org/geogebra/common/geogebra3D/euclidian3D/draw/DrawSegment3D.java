@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -112,14 +111,12 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	protected void updateForItSelf(Coords p1, Coords p2) {
 		if (shouldBePacked()) {
-			Manager manager = getView3D().getRenderer().getGeometryManager();
-			manager.setIsPacking(true);
-			manager.setCurrentColor(getColor());
-			manager.setCurrentLineType(getGeoElement().getLineType(), getGeoElement().getLineTypeHidden());
+			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
+					getGeoElement().getLineTypeHidden());
 		}
 		super.updateForItSelf(p1, p2);
 		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setIsPacking(false);
+			getView3D().getRenderer().getGeometryManager().endPacking();
 		}
 	}
 
@@ -180,7 +177,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	}
 
 	@Override
-	protected boolean shouldBePacked() {
+	public boolean shouldBePacked() {
 		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
 	}
 

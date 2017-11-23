@@ -1302,15 +1302,6 @@ public abstract class Renderer {
 		resetMatrix();
 	}
 
-	public int startPolygons(int old) {
-
-		return geometryManager.startPolygons(old);
-	}
-
-
-	public void endPolygons() {
-		geometryManager.endPolygons();
-	}
 
 	/*
 	 * draws the text s

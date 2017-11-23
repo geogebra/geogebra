@@ -218,11 +218,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		// surface
-		int index = renderer.startPolygons(getReusableSurfaceIndex());
+		int index = renderer.getGeometryManager().startPolygons(this);
 
 		drawPolygon(renderer, polygon, vertices, pointLength);
 
-		renderer.endPolygons();
+		renderer.getGeometryManager().endPolygons(this);
 
 		setSurfaceIndex(index);
 
@@ -355,8 +355,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 					// surface
 					PolygonTriangulation pt = polygon.getPolygonTriangulation();
 					if (pt.getMaxPointIndex() > 2) {
-						int index = renderer
-								.startPolygons(getReusableSurfaceIndex());
+						int index = renderer.getGeometryManager().startPolygons(this);
 						Coords n = polygon.getMainDirection();
 
 						// check if the polygon is convex
@@ -370,7 +369,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 									verticesLength);
 						}
 
-						renderer.endPolygons();
+						renderer.getGeometryManager().endPolygons(this);
 
 						setSurfaceIndex(index);
 					}

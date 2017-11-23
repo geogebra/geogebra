@@ -6,6 +6,7 @@ import java.util.TreeMap;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 
 /**
  * 
@@ -580,17 +581,14 @@ public class ManagerShaders extends Manager {
 	// ///////////////////////////////////////////
 
 	@Override
-	public int startPolygons(int old) {
-
-		int index = startNewList(old);
-
+	public int startPolygons(Drawable3D d) {
+		int index = startNewList(d.getReusableSurfaceIndex());
 		return index;
-
 	}
 
 
 	@Override
-	public void endPolygons() {
+	public void endPolygons(Drawable3D d) {
 		endList();
 	}
 

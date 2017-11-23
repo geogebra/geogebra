@@ -3,6 +3,7 @@ package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 import javax.media.opengl.GL2;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.util.debug.Log;
 
@@ -97,7 +98,7 @@ public class ManagerGLList extends ManagerD {
 	// ///////////////////////////////////////////
 
 	@Override
-	public int startPolygons(int old) {
+	public int startPolygons(Drawable3D d) {
 
 		// generates a new list
 		int ret = genLists(1);
@@ -115,7 +116,7 @@ public class ManagerGLList extends ManagerD {
 	}
 
 	@Override
-	public void endPolygons() {
+	public void endPolygons(Drawable3D d) {
 		getJogl().getGL2().glEndList();
 	}
 

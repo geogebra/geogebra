@@ -6,7 +6,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
@@ -182,7 +181,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	}
 
 	private void updateSurface(Renderer renderer) {
-		int index = renderer.startPolygons(getReusableSurfaceIndex());
+		int index = renderer.getGeometryManager().startPolygons(this);
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement())
 				.getPolygonsLinked()) {
 			drawPolygon(renderer, p);
@@ -190,7 +189,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		for (GeoPolygon p : ((GeoPolyhedron) getGeoElement()).getPolygons()) {
 			drawPolygon(renderer, p);
 		}
-		renderer.endPolygons();
+		renderer.getGeometryManager().endPolygons(this);
 
 		setSurfaceIndex(index);
 	}
@@ -198,10 +197,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	private void updateOutline(Renderer renderer) {
 
 		if (shouldBePacked()) {
-			Manager manager = getView3D().getRenderer().getGeometryManager();
-			manager.setIsPacking(true);
-			manager.setCurrentColor(getColor());
-			manager.setCurrentLineType(getGeoElement().getLineType(), getGeoElement().getLineTypeHidden());
+			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
+					getGeoElement().getLineTypeHidden());
 		}
 		GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
 
@@ -229,7 +226,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 
 		if (shouldBePacked()) {
-			getView3D().getRenderer().getGeometryManager().setIsPacking(false);
+			getView3D().getRenderer().getGeometryManager().endPacking();
 		}
 
 	}
@@ -538,9 +535,10 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		}
 	}
 
-	@Override
-	protected boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
-	}
+	// @Override
+	// public boolean shouldBePacked() {
+	// return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) &&
+	// !createdByDrawList();
+	// }
 
 }

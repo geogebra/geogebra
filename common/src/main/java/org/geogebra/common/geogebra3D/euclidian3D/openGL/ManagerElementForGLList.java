@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
@@ -87,7 +88,7 @@ public class ManagerElementForGLList extends Manager {
 	}
 
 	@Override
-	public int startPolygons(int old) {
+	public int startPolygons(Drawable3D d) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
@@ -98,7 +99,7 @@ public class ManagerElementForGLList extends Manager {
 	}
 
 	@Override
-	public void endPolygons() {
+	public void endPolygons(Drawable3D d) {
 		// TODO Auto-generated method stub
 
 	}
