@@ -68,12 +68,23 @@ public class ScreenReader {
 			}
 
 			if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSliderable()) {
-				if (((GeoNumeric) geo0).isAnimating()) {
+				GeoNumeric geoNum = (GeoNumeric) geo0;
+				if (geoNum.isAnimating()) {
 					sb.append(app.getLocalization()
 							.getMenu("PressSpaceStopAnimation"));
 				} else {
 					sb.append(app.getLocalization()
 							.getMenu("PressSpaceStartAnimation"));
+				}
+
+				if (geoNum.getIntervalMax() != geoNum.getValue()) {
+					sb.append(
+							app.getLocalization().getMenu("PressUpToIncrease"));
+				}
+
+				if (geoNum.getIntervalMin() != geoNum.getValue()) {
+					sb.append(app.getLocalization()
+							.getMenu("PressDownToDecrease"));
 				}
 			}
 		}
