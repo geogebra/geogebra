@@ -33,33 +33,27 @@ $duration: 0.2s;
 				padding-left: 0px !important;
 			}
 			
-			.checkMarkMenuItem {
+			.checkMarkMenuItem, .collapseMenuItem {
 				.gwt-HTML {				
-					padding-top: 5px;
-   					padding-bottom: 0px;
+					padding: 0px 8px;
 				}
 			
 				.checkImg {
 					margin-right: 6px;
-	    		 	padding-bottom: 6px;
-    				padding-top: 6px;
-    				padding-right: 0px;
-				}
-			}
-		
-			.collapseMenuItem { 
-				.gwt-HTML {
-					padding: 4px;	
+					padding-bottom: 6px;
+					padding-top: 2px;
+					padding-right: 0px;
 				}
 			
 				.expandImg, .collapseImg {
-					padding: 6px;	
+					padding: 6px;
+					padding-top: 2px;
 				}
 			
 			}
 			
 			 span.gwt-CheckBox.matCheckBox { 
-	 	        padding-left: 16px; 
+				padding-left: 16px; 
 			}
 		}
 		
@@ -94,11 +88,10 @@ $duration: 0.2s;
 			width: 24px !important;
 			height: 24px !important;
 			position: absolute;
-			margin-left: -40px;	
-			margin-top: -2px;
+			margin-left: -40px;
 			opacity: 0.54;
 		}
-		
+
 		.subMenuIcon {
 			padding-right: 0px;
 
