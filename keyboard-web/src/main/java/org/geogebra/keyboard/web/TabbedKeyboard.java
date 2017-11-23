@@ -20,11 +20,8 @@ import org.geogebra.keyboard.base.model.Row;
 import org.geogebra.keyboard.base.model.WeightedButton;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
-import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CustomButton;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -471,8 +468,6 @@ public class TabbedKeyboard extends FlowPanel {
 
 	private KeyBoardButtonBase makeButton(WeightedButton wb, ButtonHandler b) {
 		switch (wb.getResourceType()) {
-
-
 		case TRANSLATION_MENU_KEY:
 			if (wb.getResourceName().equals("Translate.currency")) {
 				return new KeyBoardButtonBase(Language.getCurrency(keyboardLocale.toString()),
@@ -596,7 +591,11 @@ public class TabbedKeyboard extends FlowPanel {
 							button.getActionName(), bh)
 					: new KeyBoardButtonBase("a^2", "^2", bh);
 		} else if (resourceName.equals(Resource.POWAB.name())) {
-			return new KeyBoardButtonBase("a^b", "a^x", bh);
+			return isBoxIcon
+					? new KeyBoardButtonFunctionalBase(
+							KeyboardResources.INSTANCE.xPower().getSafeUri(),
+							button.getActionName(), bh)
+					: new KeyBoardButtonBase("a^b", "a^x", bh);
 		}
 		else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
 			return new KeyBoardButtonFunctionalBase(
@@ -634,11 +633,20 @@ public class TabbedKeyboard extends FlowPanel {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.derivative(),
 					button.getActionName(), bh);
+		} else if (resourceName.equals(Resource.ABS.name()) && isBoxIcon) {
+			return new KeyBoardButtonFunctionalBase(
+					KeyboardResources.INSTANCE.abs().getSafeUri(),
+					button.getActionName(),
+					bh);
 		}
 		if (resourceName.equals(Resource.ROOT.name())) {
-			return new KeyBoardButtonFunctionalBase(
-					KeyboardResources.INSTANCE.sqrt(),
-					button.getActionName(), bh);
+			return isBoxIcon
+					? new KeyBoardButtonFunctionalBase(
+							KeyboardResources.INSTANCE.sqrt().getSafeUri(),
+							button.getActionName(), bh)
+					: new KeyBoardButtonFunctionalBase(
+							KeyboardResources.INSTANCE.sqrtPng(),
+							button.getActionName(), bh);
 		}
 		if (resourceName.equals(KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS)) {
 			return new KeyBoardButtonFunctionalBase(KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS, bh, Action.SWITCH_TO_SPECIAL_SYMBOLS);
@@ -647,13 +655,9 @@ public class TabbedKeyboard extends FlowPanel {
 			return new KeyBoardButtonFunctionalBase("ABC", bh, Action.SWITCH_TO_ABC);
 		}
 
+
 		return new KeyBoardButtonBase(button.getActionName(),
 				button.getActionName(), bh);
-	}
-
-	private ImageResource getImageResource(SVGResource svg) {
-		return new ImageResourcePrototype(null, svg.getSafeUri(), 0, 0, 10, 10,
-				false, false);
 	}
 
 	/**

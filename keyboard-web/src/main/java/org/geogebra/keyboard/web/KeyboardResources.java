@@ -78,6 +78,9 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/keyboard/ic_keyboard_black_24px.svg")
 	SVGResource keyboard_show_material();
 
+	@Source("org/geogebra/common/icons/png/keyboard/sqrt.png")
+	ImageResource sqrtPng();
+
 	@Source("org/geogebra/keyboard/css/keyboard-styles.scss")
 	SassResource keyboardStyle();
 
@@ -96,10 +99,15 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/nroot.png")
 	ImageResource nroot();
 
-	@Source("org/geogebra/common/icons/png/keyboard/sqrt.png")
-	ImageResource sqrt();
-
 	@Source("org/geogebra/common/icons/svg/web/keyboard/square.svg")
 	SVGResource square();
 
+	@Source("org/geogebra/common/icons/svg/web/keyboard/x_power.svg")
+	SVGResource xPower();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/sqrt.svg")
+	SVGResource sqrt();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/abs.svg")
+	SVGResource abs();
 }
