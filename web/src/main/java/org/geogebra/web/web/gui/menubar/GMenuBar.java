@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
 
@@ -123,7 +122,6 @@ public class GMenuBar extends AriaMenuBar {
 			public void execute() {
 
 				if (ait[0] != null) {
-					Log.debug("OPEN");
 					selectItem((MenuItem) ait[0]);
 					// Note that another menu item might have an open popup
 					// here, with a different submenupopup, and that disappears
@@ -205,7 +203,6 @@ public class GMenuBar extends AriaMenuBar {
 		return (MenuItem) ait[0];
 	}
 
-	@Override
 	public MenuItem addItem(String itemtext, boolean textishtml,
 			final MenuBar submenupopup) {
 		return addItem(itemtext, textishtml, submenupopup, true);

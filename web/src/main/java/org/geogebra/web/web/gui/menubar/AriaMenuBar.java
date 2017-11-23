@@ -25,10 +25,10 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -37,6 +37,7 @@ public class AriaMenuBar extends Widget {
 	private MenuItem selectedItem;
 	private HashMap<MenuItem, Element> domItems = new HashMap<MenuItem, Element>();
 	private ArrayList<MenuItem> allItems = new ArrayList<MenuItem>();
+	private boolean autoOpen;
 
 	public AriaMenuBar() {
 		setElement(Document.get().createULElement());
@@ -114,18 +115,22 @@ public class AriaMenuBar extends Widget {
 		return allItems;
 	}
 
-	public void moveSelectionDown() {
+	public boolean moveSelectionDown() {
 		int next = allItems.indexOf(selectedItem) + 1;
 		if (next < allItems.size()) {
 			selectItem(allItems.get(next));
+			return true;
 		}
+		return false;
 	}
 
-	public void moveSelectionUp() {
+	public boolean moveSelectionUp() {
 		int next = allItems.indexOf(selectedItem) - 1;
 		if (next >= 0 && next < allItems.size()) {
 			selectItem(allItems.get(next));
+			return true;
 		}
+		return false;
 	}
 
 	public void addSeparator() {
@@ -135,15 +140,12 @@ public class AriaMenuBar extends Widget {
 		getElement().appendChild(li);
 	}
 
-	public void setAutoOpen(boolean b) {
-		// TODO Auto-generated method stub
-
+	public void setAutoOpen(boolean autoOpen) {
+		this.autoOpen = autoOpen;
 	}
 
-	public MenuItem addItem(String itemtext, boolean textishtml,
-			MenuBar submenupopup) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean isAutoOpen() {
+		return autoOpen;
 	}
 
 	@Override
@@ -179,10 +181,9 @@ public class AriaMenuBar extends Widget {
 		}
 
 		case Event.ONKEYDOWN: {
-			// int keyCode = event.getKeyCode();
-			// boolean isRtl = LocaleInfo.getCurrentLocale().isRTL();
-			// keyCode = KeyCodes.maybeSwapArrowKeysForRtl(keyCode, isRtl);
-			// switch (keyCode) {
+			int keyCode = event.getKeyCode();
+			// TODO: KeyCodes.maybeSwapArrowKeysForRtl(
+			switch (keyCode) {
 			// case KeyCodes.KEY_LEFT:
 			// moveToPrevItem();
 			// eatEvent(event);
@@ -191,18 +192,18 @@ public class AriaMenuBar extends Widget {
 			// moveToNextItem();
 			// eatEvent(event);
 			// break;
-			// case KeyCodes.KEY_UP:
-			// moveSelectionUp();
-			// eatEvent(event);
-			// break;
-			// case KeyCodes.KEY_DOWN:
-			// moveSelectionDown();
-			// eatEvent(event);
-			// break;
-			// case KeyCodes.KEY_ESCAPE:
-			// closeAllParentsAndChildren();
-			// eatEvent(event);
-			// break;
+			case KeyCodes.KEY_UP:
+				if (moveSelectionUp()) {
+					eatEvent(event);
+				}
+				break;
+			case KeyCodes.KEY_DOWN:
+				if (moveSelectionDown()) {
+					eatEvent(event);
+				}
+				break;
+			default:
+				break;
 			// case KeyCodes.KEY_TAB:
 			// closeAllParentsAndChildren();
 			// break;
@@ -212,12 +213,17 @@ public class AriaMenuBar extends Widget {
 			// eatEvent(event);
 			// }
 			// break;
-			// } // end switch(keyCode)
+			} // end switch(keyCode)
 
 			break;
 		} // end case Event.ONKEYDOWN
 		} // end switch (DOM.eventGetType(event))
 		super.onBrowserEvent(event);
+	}
+
+	private void eatEvent(Event event) {
+		event.stopPropagation();
+		event.preventDefault();
 	}
 
 	private MenuItem findItem(
