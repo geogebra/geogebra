@@ -32,17 +32,27 @@ public class ScreenReader {
 		}
 
 		
-		if (app.has(Feature.HELP_AND_SHORTCUTS) && geo0.isEuclidianShowable()) {
-			if (app.getGuiManager() != null
-					&& app.getGuiManager().hasAlgebraView()
-					&& !geo0.isGeoInputBox()) {
-				if (geo0.isEuclidianVisible()) {
-					sb.append(app.getLocalization()
-							.getMenu("PressSlashToShow"));
-				} else {
-					sb.append(app.getLocalization()
-							.getMenu("PressSlashToHide"));
+		if (app.has(Feature.HELP_AND_SHORTCUTS)) {
+			if (geo0.isEuclidianShowable()) {
+				if (app.getGuiManager() != null
+						&& app.getGuiManager().hasAlgebraView()
+						&& !geo0.isGeoInputBox()) {
+					if (geo0.isEuclidianVisible()) {
+						sb.append(app.getLocalization()
+								.getMenu("PressSlashToHide"));
+					} else {
+						sb.append(app.getLocalization()
+								.getMenu("PressSlashToShow"));
+					}
 				}
+			}
+
+			if (geo0.isGeoButton()
+					|| geo0.isGeoLocus()) {
+				sb.append(app.getLocalization()
+						.getMenu("PressEnterToOpenSettings"));
+			} else if (!geo0.isGeoInputBox()) {
+				sb.append(app.getLocalization().getMenu("PressEnterToEdit"));
 			}
 		}
 
