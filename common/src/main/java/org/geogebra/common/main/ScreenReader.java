@@ -34,13 +34,14 @@ public class ScreenReader {
 		
 		if (app.has(Feature.HELP_AND_SHORTCUTS) && geo0.isEuclidianShowable()) {
 			if (app.getGuiManager() != null
-					&& app.getGuiManager().hasAlgebraView()) {
+					&& app.getGuiManager().hasAlgebraView()
+					&& !geo0.isGeoInputBox()) {
 				if (geo0.isEuclidianVisible()) {
 					sb.append(app.getLocalization()
-							.getMenu("shiftSlashSetInVisible"));
+							.getMenu("PressSlashToShow"));
 				} else {
 					sb.append(app.getLocalization()
-							.getMenu("shiftSlashSetVisible"));
+							.getMenu("PressSlashToHide"));
 				}
 			}
 		}
