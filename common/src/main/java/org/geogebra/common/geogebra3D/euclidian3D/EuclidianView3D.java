@@ -3430,7 +3430,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 
 	public void updateDrawables(Drawable3DListsForView drawables3D) {
-		drawables3D.updateAll();
+		drawables3D.updateAll(renderer);
 	}
 
 	public void updateOtherDrawables() {

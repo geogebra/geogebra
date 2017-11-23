@@ -29,6 +29,8 @@ public class Drawable3DLists {
 	/** lists of Drawable3D */
 	protected Drawable3DList[] lists;
 
+	private boolean waitForReset = false;
+
 	protected static class Drawable3DList extends ArrayList<Drawable3D> {
 
 		private static final long serialVersionUID = 1L;
@@ -165,15 +167,18 @@ public class Drawable3DLists {
 
 	// private boolean isUpdatingAll = false;
 
-	/** update all 3D objects */
-	public void updateAll() {
+	/**
+	 * update all 3D objects
+	 * 
+	 * @param renderer
+	 *            openGL renderer
+	 */
+	public void updateAll(Renderer renderer) {
 
-		/*
-		 * if (isUpdatingAll){ Application.printStacktrace("is already updating"
-		 * ); return; }
-		 * 
-		 * isUpdatingAll = true;
-		 */
+		if (waitForReset) {
+			waitForReset = false;
+			renderer.getGeometryManager().reset();
+		}
 
 		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++) {
 			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();) {
@@ -187,9 +192,13 @@ public class Drawable3DLists {
 
 	}
 
-	/** says all have to be reset */
+	/**
+	 * says all have to be reset
+	 * 
+	 */
 	public void resetAllDrawables() {
 
+		waitForReset = true;
 		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++) {
 			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();) {
 				d.next().setWaitForReset();

@@ -175,6 +175,16 @@ public class GLBufferManager {
 			r.loadIndicesBuffer(curvesIndices, indicesLength);
 			r.draw(Type.TRIANGLES, indicesLength);
 		}
+
+		public void reset() {
+			totalLength = 0;
+			indicesLength = 0;
+			vertexBuffer.setLimit(0);
+			normalBuffer.setLimit(0);
+			colorBuffer.setLimit(0);
+			textureBuffer.setLimit(0);
+			curvesIndices.setLimit(0);
+		}
 	}
 
 	/**
@@ -384,5 +394,17 @@ public class GLBufferManager {
 				bufferPack.draw(r);
 			}
 		}
+	}
+
+	/**
+	 * reset buffers
+	 */
+	public void reset() {
+		availableSegments.clear();
+		bufferSegments.clear();
+		for (BufferPack bufferPack : bufferPackList) {
+			bufferPack.reset();
+		}
+
 	}
 }

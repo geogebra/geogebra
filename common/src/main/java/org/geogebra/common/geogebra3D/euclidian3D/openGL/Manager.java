@@ -888,4 +888,12 @@ abstract public class Manager {
 	public void updateColor(GColor color, int index) {
 		// not needed here
 	}
+
+	/**
+	 * reset geometries
+	 */
+	public void reset() {
+		// not needed here
+	}
+
 }

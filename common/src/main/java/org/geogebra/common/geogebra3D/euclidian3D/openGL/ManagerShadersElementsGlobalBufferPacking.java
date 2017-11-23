@@ -236,4 +236,9 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		return true;
 	}
 
+	@Override
+	public void reset() {
+		bufferManager.reset();
+	}
+
 }
