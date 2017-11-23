@@ -18,6 +18,9 @@ public class EuclidianView3DAnimator {
 		OFF, ANIMATED_SCALE, CONTINUE_ROTATION, ROTATION, ROTATION_NO_ANIMATION, TRANSLATION, SCREEN_TRANSLATE_AND_SCALE, MOUSE_MOVE, AXIS_SCALE
 	}
 
+	static final private double ROTATION_CONTINUE_MAX_DELAY = 200;
+	static final private double ROTATION_CONTINUE_MIN_ROT_SPEED = 0.01;
+
 	private EuclidianView3D view3D;
 	private LinkedList<EuclidianView3DAnimation> animationList;
 	private EuclidianView3DAnimation animation;
@@ -89,12 +92,12 @@ public class EuclidianView3DAnimator {
 		}
 
 		// if last drag occured more than 200ms ago, then no animation
-		if (delay > 200) {
+		if (delay > ROTATION_CONTINUE_MAX_DELAY) {
 			return;
 		}
 
 		// if speed is too small, no animation
-		if (Math.abs(rotSpeed) < 0.01) {
+		if (Math.abs(rotSpeed) < ROTATION_CONTINUE_MIN_ROT_SPEED) {
 			stopAnimation();
 			return;
 		}
