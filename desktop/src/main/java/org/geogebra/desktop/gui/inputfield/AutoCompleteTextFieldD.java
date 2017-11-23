@@ -868,7 +868,8 @@ public class AutoCompleteTextFieldD extends MathTextField
 		if (bracketIndex == -1) {
 			bracketIndex = command.indexOf('(');
 		}
-		if (bracketIndex > -1 && after.startsWith("[")) {
+		if (bracketIndex > -1
+				&& (after.startsWith("[") || after.startsWith("("))) {
 			// probably already have some arguments
 			// eg user is just changing the command name
 			command = command.substring(0, bracketIndex);
@@ -886,10 +887,10 @@ public class AutoCompleteTextFieldD extends MathTextField
 			setCaretPosition(start + bracketIndex + 1);
 			return true;
 		}
-		if (command.indexOf("[]") > -1) {
+		if (command.indexOf("()") > -1) {
 			// eg GetTime[]
 			bracketIndex += 2;
-		} else if (command.indexOf("[ ]") > -1) {
+		} else if (command.indexOf("( )") > -1) {
 			// eg GetTime[ ]
 			bracketIndex += 3;
 		}
