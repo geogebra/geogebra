@@ -59,14 +59,18 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param svg
 	 * @param feedback
 	 * @param handler
+	 * @param addSupSyle
 	 */
 	public KeyBoardButtonFunctionalBase(SafeUri svg, String feedback,
-			ButtonHandler handler) {
+			ButtonHandler handler, boolean addSupSyle) {
 		super(handler);
 		this.image = new Image(new ImageResourcePrototype(null,
 				svg, 0, 0, 24, 24, false, false));
 		this.feedback = feedback;
 		this.add(this.image);
+		if (addSupSyle) {
+			this.addStyleName("sup");
+		}
 	}
 
 	/**
