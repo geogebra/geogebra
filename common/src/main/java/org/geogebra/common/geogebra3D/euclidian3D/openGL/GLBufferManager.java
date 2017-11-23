@@ -91,7 +91,7 @@ public class GLBufferManager {
 
 		public BufferSegment(BufferPack bufferPack, int elementsLength, int indicesLength) {
 			this.bufferPack = bufferPack;
-			elementsOffset = bufferPack.totalLength;
+			elementsOffset = bufferPack.elementsLength;
 			indicesOffset = bufferPack.indicesLength;
 			this.elementsLength = elementsLength;
 			this.indicesLength = indicesLength;
@@ -101,8 +101,8 @@ public class GLBufferManager {
 
 	private static class BufferPack {
 		private GLBuffer vertexBuffer, normalBuffer, textureBuffer, colorBuffer;
-		private GLBufferIndices curvesIndices;
-		private int totalLength, indicesLength;
+		private GLBufferIndices indicesBuffer;
+		private int elementsLength, indicesLength;
 
 		private static int elementsSize = Short.MAX_VALUE + 1;
 		private static int indicesSize = elementsSize * 3;
@@ -116,28 +116,29 @@ public class GLBufferManager {
 			normalBuffer = GLFactory.getPrototype().newBuffer();
 			textureBuffer = GLFactory.getPrototype().newBuffer();
 			colorBuffer = GLFactory.getPrototype().newBuffer();
-			curvesIndices = GLFactory.getPrototype().newBufferIndices();
+			indicesBuffer = GLFactory.getPrototype().newBufferIndices();
 			vertexBuffer.allocate(elementsSize * 3);
 			normalBuffer.allocate(elementsSize * 3);
 			textureBuffer.allocate(elementsSize * 2);
 			colorBuffer.allocate(elementsSize * 4);
-			curvesIndices.allocate(indicesSize);
-			totalLength = 0;
+			indicesBuffer.allocate(indicesSize);
+			elementsLength = 0;
 			indicesLength = 0;
 		}
 
 		public boolean canAdd(int elementsLength, int indicesLength) {
-			return totalLength + elementsLength < elementsSize && this.indicesLength + indicesLength < indicesSize;
+			return this.elementsLength + elementsLength < elementsSize
+					&& this.indicesLength + indicesLength < indicesSize;
 		}
 
 		public void addToLength(int elementsLength, int indicesLength) {
-			totalLength += elementsLength;
-			vertexBuffer.setLimit(totalLength * 3);
-			normalBuffer.setLimit(totalLength * 3);
-			textureBuffer.setLimit(totalLength * 2);
-			colorBuffer.setLimit(totalLength * 4);
+			this.elementsLength += elementsLength;
+			vertexBuffer.setLimit(this.elementsLength * 3);
+			normalBuffer.setLimit(this.elementsLength * 3);
+			textureBuffer.setLimit(this.elementsLength * 2);
+			colorBuffer.setLimit(this.elementsLength * 4);
 			this.indicesLength += indicesLength;
-			curvesIndices.setLimit(this.indicesLength);
+			indicesBuffer.setLimit(this.indicesLength);
 		}
 
 		public void setElements(ArrayList<Double> vertexArray, ArrayList<Double> normalArray,
@@ -163,27 +164,27 @@ public class GLBufferManager {
 		public void draw(RendererShadersInterface r) {
 			vertexBuffer.rewind();
 			normalBuffer.rewind();
-			curvesIndices.rewind();
-			r.loadVertexBuffer(vertexBuffer, totalLength);
-			r.loadNormalBuffer(normalBuffer, totalLength);
-			r.loadColorBuffer(colorBuffer, totalLength);
+			indicesBuffer.rewind();
+			r.loadVertexBuffer(vertexBuffer, elementsLength);
+			r.loadNormalBuffer(normalBuffer, elementsLength);
+			r.loadColorBuffer(colorBuffer, elementsLength);
 			if (r.areTexturesEnabled()) {
-				r.loadTextureBuffer(textureBuffer, totalLength);
+				r.loadTextureBuffer(textureBuffer, elementsLength);
 			} else {
 				r.disableTextureBuffer();
 			}
-			r.loadIndicesBuffer(curvesIndices, indicesLength);
+			r.loadIndicesBuffer(indicesBuffer, indicesLength);
 			r.draw(Type.TRIANGLES, indicesLength);
 		}
 
 		public void reset() {
-			totalLength = 0;
+			elementsLength = 0;
 			indicesLength = 0;
 			vertexBuffer.setLimit(0);
 			normalBuffer.setLimit(0);
 			colorBuffer.setLimit(0);
 			textureBuffer.setLimit(0);
-			curvesIndices.setLimit(0);
+			indicesBuffer.setLimit(0);
 		}
 	}
 
@@ -374,7 +375,7 @@ public class GLBufferManager {
 	}
 
 	private void putToIndices(int index) {
-		currentBufferPack.curvesIndices.put(indicesIndex, (short) (currentBufferSegment.elementsOffset + index));
+		currentBufferPack.indicesBuffer.put(indicesIndex, (short) (currentBufferSegment.elementsOffset + index));
 		indicesIndex++;
 	}
 
@@ -390,7 +391,7 @@ public class GLBufferManager {
 		((TexturesShaders) r.getTextures()).setPackedDash();
 		r.setDashTexture(hidden ? Textures.DASH_PACKED_HIDDEN : Textures.DASH_PACKED);
 		for (BufferPack bufferPack : bufferPackList) {
-			if (bufferPack.totalLength > 0) {
+			if (bufferPack.elementsLength > 0) {
 				bufferPack.draw(r);
 			}
 		}
