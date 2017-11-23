@@ -181,7 +181,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	@Override
 	protected boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D) && !createdByDrawList();
+		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
 	}
 
 	private boolean managerPackBuffers() {

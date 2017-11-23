@@ -540,7 +540,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	protected boolean shouldBePacked() {
-		return getView3D().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D) && !createdByDrawList();
+		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
 	}
 
 }

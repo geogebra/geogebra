@@ -99,7 +99,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 		fragShader = getShader(
 				WebGLRenderingContext.FRAGMENT_SHADER,
 				ShaderProvider.getFragmentShader(needsSmallFragmentShader,
-						true, view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)));
+						true, view3D.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)));
 		vertShader = getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
 				ShaderProvider.getVertexShader(needsSmallFragmentShader, true));
@@ -337,7 +337,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	@Override
 	public Manager createManager() {
-		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (view3D.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
 			return new ManagerShadersElementsGlobalBufferPacking(renderer, view3D);
 		}
 		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);

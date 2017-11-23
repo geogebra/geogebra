@@ -49,7 +49,7 @@ public class TexturesShaders extends Textures {
 	public void init() {
 		renderer.createDummyTexture();
 
-		if (renderer.getView().getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (renderer.getView().getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
 			// packed dashing
 			int length = DESCRIPTIONS_LENGTH * DESCRIPTIONS_LENGTH;
 			byte[] bytes = new byte[length];

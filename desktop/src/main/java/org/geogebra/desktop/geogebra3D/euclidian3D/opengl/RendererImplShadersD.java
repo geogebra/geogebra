@@ -73,7 +73,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 		String vertexShaderString, fragmentShaderString;
 
 		vertexShaderString = VertexShader.getVertexShaderShiny(false);
-		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (view3D.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
 			fragmentShaderString = FragmentShader.getFragmentShaderShinyForPacking(0.2f, false);
 		} else {
 			fragmentShaderString = FragmentShader.getFragmentShaderShiny(0.2f, false);
@@ -362,7 +362,7 @@ public class RendererImplShadersD extends RendererImplShaders {
 
 	@Override
 	public Manager createManager() {
-		if (view3D.getApplication().has(Feature.MOB_PACK_ALL_SEGMENTS_3D)) {
+		if (view3D.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
 			return new ManagerShadersElementsGlobalBufferPacking(renderer, view3D);
 		}
 		return new ManagerShadersElementsGlobalBuffer(renderer, view3D);
