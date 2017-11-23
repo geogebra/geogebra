@@ -4,7 +4,6 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.menubar.GMenuBar;
 import org.geogebra.web.web.html5.AttachedToDOM;
@@ -25,7 +24,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -221,9 +219,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * add vertical separator
 	 */
 	public void addVerticalSeparator() {
-		MenuItemSeparator separator = new MenuItemSeparator();
-		separator.getElement().getFirstChildElement().setClassName("Separator");
-		popupMenu.addSeparator(separator);
+		popupMenu.addSeparator();
 	}
 
 	private void addHideCommandFor(MenuItem item) {
@@ -262,8 +258,7 @@ public class GPopupMenuW implements AttachedToDOM {
 
 	private static ImageResource getSubMenuIcon(boolean isRTL,
 			boolean isNewDesign) {
-		if (isNewDesign) {
-			return isRTL
+		return isRTL
 					? new ImageResourcePrototype(null,
 							MaterialDesignResources.INSTANCE
 									.arrow_drop_left_black().getSafeUri(),
@@ -272,9 +267,7 @@ public class GPopupMenuW implements AttachedToDOM {
 							MaterialDesignResources.INSTANCE
 									.arrow_drop_right_black().getSafeUri(),
 							0, 0, 24, 24, false, false);
-		}
-		return isRTL ? GuiResources.INSTANCE.menuBarSubMenuIconRTL()
-		        : GuiResources.INSTANCE.menuBarSubMenuIconLTR();
+
 	}
 
 	// public void addItem(final MenuItem item) {
@@ -347,7 +340,7 @@ public class GPopupMenuW implements AttachedToDOM {
 						}
 					}
 					yCord = (int) Math.min(
-							(newItem.getAbsoluteTop()
+							(popupMenu.getAbsoluteTop(newItem)
 									- getApp().getPanel().getAbsoluteTop())
 									/ getScaleY(),
 							(Window.getClientHeight() + Window.getScrollTop()
@@ -360,18 +353,20 @@ public class GPopupMenuW implements AttachedToDOM {
 			newItem.setScheduledCommand(itemCommand);
 
 			// adding arrow for the menuitem
-			Element td = DOM.createTD();
-			td.setAttribute("vAlign", "middle");
-			td.addClassName("subMenuIcon");
 			ImageResource imgRes = getSubMenuIcon(
 					app.getLocalization().isRightToLeftReadingOrder(),
 					app.isUnbundled());
-			td.setInnerSafeHtml(
-					AbstractImagePrototype.create(imgRes).getSafeHtml());
-			newItem.getElement().setAttribute("colspan", "1");
 			if (newItem.getElement().getParentNode() != null) {
+				Element td = DOM.createTD();
+				td.setAttribute("vAlign", "middle");
+				td.addClassName("subMenuIcon");
+				td.setInnerSafeHtml(
+						AbstractImagePrototype.create(imgRes).getSafeHtml());
+				newItem.getElement().setAttribute("colspan", "1");
 				DOM.appendChild((Element) newItem.getElement().getParentNode(),
 						td);
+			} else {
+				popupMenu.appendSubmenu(newItem, imgRes);
 			}
 		}
 		popupMenuSize++;
@@ -565,5 +560,9 @@ public class GPopupMenuW implements AttachedToDOM {
 			}
 			super.onBrowserEvent(event);
 		}
+	}
+
+	public void addStyleName(MenuItem item, String className) {
+		popupMenu.addStyleName(item, className);
 	}
 }

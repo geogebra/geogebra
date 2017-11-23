@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
 
@@ -14,14 +15,13 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * Menubar with some extra functionality (popups, event logging)
  *
  */
-public class GMenuBar extends MenuBar{
+public class GMenuBar extends AriaMenuBar {
 	private int separators = 0;
 	private String menuTitle;
 	private AppW app;
@@ -36,7 +36,7 @@ public class GMenuBar extends MenuBar{
 	 *            parent app
 	 */
 	public GMenuBar(String menuTitle, AppW app) {
-		super(true);
+		super();
 		this.menuTitle = menuTitle;
 		this.app = app;
 		tabHandlers = new ArrayList<TabHandler>();
@@ -55,7 +55,7 @@ public class GMenuBar extends MenuBar{
 	 */
 	public GMenuBar(String menuTitle,
 			MenuResources menuResources, AppW app) {
-		super(true, menuResources);
+		super();
 		this.menuTitle = menuTitle;
 		this.app = app;
 		tabHandlers = new ArrayList<TabHandler>();
@@ -88,12 +88,12 @@ public class GMenuBar extends MenuBar{
     }
 	
 	@Override
-	public MenuItemSeparator addSeparator(){
+	public void addSeparator() {
 		if (app.isUnbundledOrWhiteboard()) {
-			return null;
+			return;
 		}
 		this.separators  ++;
-		return super.addSeparator();
+		super.addSeparator();
 	}
 
 	/**
@@ -123,6 +123,7 @@ public class GMenuBar extends MenuBar{
 			public void execute() {
 
 				if (ait[0] != null) {
+					Log.debug("OPEN");
 					selectItem((MenuItem) ait[0]);
 					// Note that another menu item might have an open popup
 					// here, with a different submenupopup, and that disappears
@@ -156,9 +157,9 @@ public class GMenuBar extends MenuBar{
 						}
 						pp.add(submenupopup);
 						MenuItem mi0 = (MenuItem) ait[0];
-						int left = subleft ? mi0.getElement().getAbsoluteLeft()
-								: mi0.getElement().getAbsoluteRight() + 8;
-						int top = mi0.getElement().getAbsoluteTop();
+						int left = getAbsoluteHorizontalPos(mi0, subleft);
+						int top = getAbsoluteTop(mi0);
+
 						pp.setPopupPosition(left, top);
 
 						if (submenupopup instanceof RadioButtonMenuBarW) {

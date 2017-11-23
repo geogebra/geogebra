@@ -56,7 +56,10 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 	
 	private boolean focusInput() {
-		return gm.getToolbarPanelV2().focusInput();
+		if (gm.getToolbarPanelV2() != null) {
+			return gm.getToolbarPanelV2().focusInput();
+		}
+		return false;
 	}
 
 	private void focusInputAsNext() {
@@ -148,7 +151,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusMenu() {
-		gm.getToolbarPanelV2().focusMenu();
+		if (gm.getToolbarPanelV2() != null) {
+			gm.getToolbarPanelV2().focusMenu();
+		}
 	}
 
 	@Override

@@ -18,15 +18,18 @@ package org.geogebra.web.web.gui.menubar;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.NoDragImage;
+
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.MenuItemSeparator;
 import com.google.gwt.user.client.ui.Widget;
 
 /**Accessible alternative to MenuBar*/
@@ -39,10 +42,13 @@ public class AriaMenuBar extends Widget {
 		setElement(Document.get().createULElement());
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
 				| Event.ONFOCUS | Event.ONKEYDOWN);
+		getElement().setAttribute("role", "menubar");
+		getElement().setTabIndex(0);
+		addStyleName("gwt-MenuBar");
+		addStyleName("gwt-MenuBar-vertical");
 	}
 
 	public MenuItem addItem(MenuItem a) {
-		a.getScheduledCommand();
 		Element li = DOM.createElement("LI");
 		li.setInnerHTML(a.getElement().getInnerHTML());
 		li.setClassName("gwt-MenuItem listMenuItem");
@@ -70,8 +76,7 @@ public class AriaMenuBar extends Widget {
 	}
 
 	public void focus() {
-		// TODO Auto-generated method stub
-
+		getElement().focus();
 	}
 
 	protected MenuItem getSelectedItem() {
@@ -90,17 +95,18 @@ public class AriaMenuBar extends Widget {
 
 	public void selectItem(MenuItem item) {
 		if (selectedItem != null) {
-			domItems.get(selectedItem).addClassName("subMenuIcon-selected");
+			domItems.get(selectedItem).removeClassName("gwt-MenuItem-selected");
 		}
 		this.selectedItem = item;
 		if (item != null) {
-			domItems.get(item).addClassName("subMenuIcon-selected");
+			domItems.get(item).addClassName("gwt-MenuItem-selected");
 		}
 	}
 
 	public void clearItems() {
 		allItems.clear();
 		domItems.clear();
+		getElement().removeAllChildren();
 		selectItem(null);
 	}
 
@@ -122,11 +128,11 @@ public class AriaMenuBar extends Widget {
 		}
 	}
 
-	public MenuItemSeparator addSeparator() {
-		return new MenuItemSeparator();
-	}
-
-	public void addSeparator(MenuItemSeparator sep) {
+	public void addSeparator() {
+		Element li = DOM.createElement("LI");
+		li.setClassName("menuSeparator");
+		li.setAttribute("role", "presentation");
+		getElement().appendChild(li);
 	}
 
 	public void setAutoOpen(boolean b) {
@@ -240,5 +246,28 @@ public class AriaMenuBar extends Widget {
 		// doItemAction(item, false, focusOnHover);
 		// }
 		// }
+	}
+
+	public void appendSubmenu(MenuItem newItem, ImageResource imgRes) {
+		Element li = domItems.get(newItem);
+		NoDragImage img = new NoDragImage(imgRes, 20, 20);
+		AriaHelper.hide(img);
+		img.addStyleName("submenuArrow");
+		li.appendChild(img.getElement());
+
+	}
+
+	public int getAbsoluteTop(MenuItem mi0) {
+		return domItems.get(mi0).getAbsoluteTop();
+	}
+
+	protected int getAbsoluteHorizontalPos(MenuItem mi0, boolean subleft) {
+		return subleft ? domItems.get(mi0).getAbsoluteLeft()
+				: domItems.get(mi0).getAbsoluteRight() + 8;
+	}
+
+	public void addStyleName(MenuItem item, String className) {
+		domItems.get(item).addClassName(className);
+
 	}
 }

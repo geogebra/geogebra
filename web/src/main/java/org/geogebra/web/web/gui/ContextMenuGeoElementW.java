@@ -1391,12 +1391,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}
 					}
 				});
-		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
-			title.addStyleName("no-hover");
-		} else {
-			title.addStyleName("menuTitle");
-		}
 		wrappedPopup.addItem(title);
+		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
+			wrappedPopup.addStyleName(title, "no-hover");
+		} else {
+			wrappedPopup.addStyleName(title, "menuTitle");
+		}
 		if (!hasWhiteboardContextMenu()) {
 			wrappedPopup.addSeparator();
 		}

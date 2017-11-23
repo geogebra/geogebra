@@ -878,6 +878,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	public boolean onTab(Widget source, boolean shiftDown) {
+		Log.debug(shiftDown);
 		if (source instanceof GMenuBar) {
 			GMenuBar item = (GMenuBar) source;
 			int stackIdx = menuPanel.getSelectedIndex();
