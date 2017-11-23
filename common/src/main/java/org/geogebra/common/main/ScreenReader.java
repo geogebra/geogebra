@@ -48,7 +48,7 @@ public class ScreenReader {
 			}
 
 			if (geo0.isGeoButton()
-					|| geo0.isGeoLocus()) {
+					|| geo0.isGeoLocusStroke()) {
 				sb.append(app.getLocalization()
 						.getMenu("PressEnterToOpenSettings"));
 			} else if (!geo0.isGeoInputBox()) {

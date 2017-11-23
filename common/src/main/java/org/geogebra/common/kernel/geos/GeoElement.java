@@ -6711,6 +6711,13 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * @return true for strokes
+	 */
+	public boolean isGeoLocusStroke() {
+		return false;
+	}
+
+	/**
 	 * @return true if this is using visual defaults
 	 */
 	public final boolean isUseVisualDefaults() {

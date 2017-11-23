@@ -167,4 +167,9 @@ public class GeoLocusStroke extends GeoLocus
 	public boolean isAlgebraDuplicateable() {
 		return false;
 	}
+
+	@Override
+	public boolean isGeoLocusStroke() {
+		return true;
+	}
 }
