@@ -11,6 +11,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -496,6 +497,20 @@ public class MainMenu extends FlowPanel
 			}
 
 		};
+
+		menuPanel.addDomHandler(new KeyDownHandler() {
+
+			public void onKeyDown(KeyDownEvent event) {
+				int key = event.getNativeKeyCode();
+				GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
+				if (key == KeyCodes.KEY_TAB && mi != null) {
+					Log.debug("TAB on " + mi.getMenuTitle());
+					onTab(mi, event.isShiftKeyDown());
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}
+		}, KeyDownEvent.getType());
 	}
 
 	private void initKeyListener() {
@@ -885,6 +900,8 @@ public class MainMenu extends FlowPanel
 
 					mi.focus();
 
+				} else {
+					app.getAccessibilityManager().focusMenu();
 				}
 
 			} else {
@@ -904,7 +921,9 @@ public class MainMenu extends FlowPanel
 	 *         otherwise.
 	 */
 	GMenuBar getMenuAt(int stackIdx) {
-		Widget w = menuPanel.getWidget(stackIdx);
+		
+		int idx = stackIdx > -1 && stackIdx < menuPanel.getWidgetCount() ?stackIdx:0; 
+		Widget w = menuPanel.getWidget(idx);
 		if (w instanceof GMenuBar) {
 			return (GMenuBar) w;
 		}
