@@ -808,7 +808,7 @@ public class GeoNumeric extends GeoElement
 	 * 
 	 * @return true iff slider is possible
 	 */
-	protected boolean isSliderable() {
+	public boolean isSliderable() {
 		return isIndependent()
 				&& (isIntervalMinActive() || isIntervalMaxActive());
 	}

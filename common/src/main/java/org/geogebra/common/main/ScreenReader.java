@@ -1,6 +1,8 @@
 package org.geogebra.common.main;
 
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 
 public class ScreenReader {
 
@@ -53,6 +55,26 @@ public class ScreenReader {
 						.getMenu("PressEnterToOpenSettings"));
 			} else if (!geo0.isGeoInputBox()) {
 				sb.append(app.getLocalization().getMenu("PressEnterToEdit"));
+			}
+			
+			if (geo0.isGeoBoolean()){
+				if(((GeoBoolean)geo0).getBoolean()){
+					sb.append(app.getLocalization()
+							.getMenu("PressSpaceCheckboxOff"));
+				} else {
+					sb.append(app.getLocalization()
+							.getMenu("PressSpaceCheckboxOn"));
+				}
+			}
+
+			if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSliderable()) {
+				if (((GeoNumeric) geo0).isAnimating()) {
+					sb.append(app.getLocalization()
+							.getMenu("PressSpaceStopAnimation"));
+				} else {
+					sb.append(app.getLocalization()
+							.getMenu("PressSpaceStartAnimation"));
+				}
 			}
 		}
 
