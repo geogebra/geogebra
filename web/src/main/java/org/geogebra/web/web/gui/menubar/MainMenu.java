@@ -66,7 +66,6 @@ public class MainMenu extends FlowPanel
 	private FileMenuW fileMenu;
 	private DownloadMenuW downloadMenu;
 	private HelpMenuW helpMenu;
-	private OptionsMenuW optionsMenu;
 	private ToolsMenuW toolsMenu;
 	private EditMenuW editMenu;
 
@@ -158,7 +157,7 @@ public class MainMenu extends FlowPanel
 			menus.add(perspectivesMenu);
 			if (!app.isUnbundledOrWhiteboard()) {
 				menus.add(viewMenu);
-				menus.add(optionsMenu);
+				menus.add(settingsMenu);
 				menus.add(toolsMenu);
 			}
 
@@ -170,7 +169,7 @@ public class MainMenu extends FlowPanel
 
 		} else {
 			this.menus.add(fileMenu);
-			this.menus.add(optionsMenu);
+			this.menus.add(settingsMenu);
 		}
 		menuTitles.clear();
 		menuImgs.clear();
@@ -239,12 +238,11 @@ public class MainMenu extends FlowPanel
 		}
 
 		if (!app.isUnbundledOrWhiteboard()) {
-			this.menuPanel.add(optionsMenu,
+			this.menuPanel.add(settingsMenu,
 					getHTML(GuiResources.INSTANCE.menu_icon_options(),
-							"Options"),
+							app.getLocalization().getMenu("Settings")),
 					true);
 		} else {
-			settingsMenu = new GMenuBar("", app);
 			this.menuPanel
 					.add(settingsMenu,
 							getHTML(MaterialDesignResources.INSTANCE.gear(),
@@ -681,7 +679,7 @@ public class MainMenu extends FlowPanel
 	}
 
 	private void createOptionsMenu() {
-		optionsMenu = new OptionsMenuW(app);
+		settingsMenu = new GMenuBar("settings", app);
 	}
 
 	private void createToolsMenu() {

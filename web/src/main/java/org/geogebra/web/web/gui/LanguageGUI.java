@@ -6,6 +6,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.dialog.options.OptionsGlobalW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -135,30 +136,8 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				app.getLAF().storeLanguage(current.localeGWT);
-				if (app.getLoginOperation().isLoggedIn()) {
-					app.getLoginOperation()
-					        .getGeoGebraTubeAPI()
-					        .setUserLanguage(
-					                current.localeGWT,
-					                app.getLoginOperation().getModel()
-					                        .getLoginToken());
-				}
+				OptionsGlobalW.switchLanguage(current.localeGWT, app);
 
-				app.setUnsaved();
-
-				// On changing language from LTR/RTL the page will
-				// reload.
-				// The current workspace will be saved, and load
-				// back after page reloading.
-				// Otherwise only the language will change, and the
-				// setting related with language.
-
-				// TODO change direction if Localization
-				// .rightToLeftReadingOrder(current.localeGWT) !=
-				// app.getLocalization().rightToLeftReadingOrder
-
-				app.setLanguage(current.localeGWT);
 				LanguageGUI.this.setActiveLabel(label);
 				LanguageGUI.this.close();
 			}

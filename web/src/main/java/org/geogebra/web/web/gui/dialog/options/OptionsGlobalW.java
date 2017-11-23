@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.dialog.options;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -56,6 +58,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 * font size combo box
 		 */
 		ListBox fontSizeList;
+		private Label lblLanguage;
+		ListBox languageList;
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
 
@@ -81,6 +85,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLabelsWithComboBox() {
+			addLanguageItem();
 			addRoundingItem();
 			addLabelingItem();
 			addFontItem();
@@ -176,6 +181,34 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			}
 		}
 
+		private void addLanguageItem() {
+			lblLanguage = new Label(
+					app.getLocalization().getMenu("Language") + ":");
+			languageList = new ListBox();
+			optionsPanel
+					.add(LayoutUtilW.panelRowIndent(lblLanguage, languageList));
+			languageList.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					String fontStr = languageList
+							.getValue(languageList.getSelectedIndex());
+					switchLanguage(fontStr, app);
+				}
+			});
+		}
+
+
+		void setLanguageInComboBox() {
+			String font = app.getLocalization().getLocaleStr();
+			for (int i = 0; i < languageList.getItemCount(); i++) {
+				if (languageList.getValue(i).startsWith(String.valueOf(font))) {
+					languageList.setSelectedIndex(i);
+					return;
+				}
+			}
+		}
+
 		/**
 		 * select labeling style stored in app
 		 */
@@ -259,6 +292,8 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			setLabelingInComboBox();
 			updateFontSizeList();
 			setFontSizeInComboBox();
+			updateLanguageList();
+			setLanguageInComboBox();
 		}
 
 		private void updateFontSizeList() {
@@ -267,6 +302,16 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					.menuFontSizesLength(); i++) {
 				fontSizeList.addItem(
 						org.geogebra.common.util.Util.menuFontSizes(i) + " pt");
+			}
+		}
+
+		private void updateLanguageList() {
+			languageList.clear();
+			for (Language l : Language.values()) {
+				if (!l.fullyTranslated && app.has(Feature.ALL_LANGUAGES)) {
+					continue;
+				}
+				languageList.addItem(l.name, l.localeGWT);
 			}
 		}
 
@@ -349,11 +394,37 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			updateLabelingList();
 			lblFontSize.setText(app.getLocalization().getMenu("FontSize") + ":");
 			updateFontSizeList();
+			lblLanguage
+					.setText(app.getLocalization().getMenu("Language") + ":");
 			saveSettingsBtn
 					.setText(app.getLocalization().getMenu("Settings.Save"));
 			restoreSettingsBtn
 					.setText(app.getLocalization().getMenu("RestoreSettings"));
 		}
+	}
+
+	public static void switchLanguage(String fontStr, AppW app) {
+		app.getLAF().storeLanguage(fontStr);
+		if (app.getLoginOperation().isLoggedIn()) {
+			app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(
+					fontStr,
+					app.getLoginOperation().getModel().getLoginToken());
+		}
+
+		app.setUnsaved();
+
+		// On changing language from LTR/RTL the page will
+		// reload.
+		// The current workspace will be saved, and load
+		// back after page reloading.
+		// Otherwise only the language will change, and the
+		// setting related with language.
+
+		// TODO change direction if Localization
+		// .rightToLeftReadingOrder(current.localeGWT) !=
+		// app.getLocalization().rightToLeftReadingOrder
+
+		app.setLanguage(fontStr);
 	}
 
 	/**
