@@ -300,6 +300,9 @@ public enum Feature {
 	HELP_AND_SHORTCUTS,
 
 	/** GGB-2204 */
-	TAB_ON_MENU
+	TAB_ON_MENU,
+
+	/** GGB-2100 */
+	KEYBOARD_BOX_ICON
 }
 

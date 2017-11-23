@@ -4,6 +4,8 @@ import org.geogebra.keyboard.base.Action;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
+import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 
 /**
@@ -51,7 +53,20 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.image = new Image(image);
 		this.feedback = feedback;
 		this.add(this.image);
+	}
 
+	/**
+	 * @param svg
+	 * @param feedback
+	 * @param handler
+	 */
+	public KeyBoardButtonFunctionalBase(SafeUri svg, String feedback,
+			ButtonHandler handler) {
+		super(handler);
+		this.image = new Image(new ImageResourcePrototype(null,
+				svg, 0, 0, 24, 24, false, false));
+		this.feedback = feedback;
+		this.add(this.image);
 	}
 
 	/**

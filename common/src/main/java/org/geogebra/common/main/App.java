@@ -4347,6 +4347,10 @@ public abstract class App implements UpdateSelection {
 		case TAB_ON_MENU:
 			return prerelease;
 
+		/** GGB-2100 */
+		case KEYBOARD_BOX_ICON:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

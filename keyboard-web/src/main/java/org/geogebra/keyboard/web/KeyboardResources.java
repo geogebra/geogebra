@@ -99,4 +99,7 @@ public interface KeyboardResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/keyboard/sqrt.png")
 	ImageResource sqrt();
 
+	@Source("org/geogebra/common/icons/svg/web/keyboard/square.svg")
+	SVGResource square();
+
 }
