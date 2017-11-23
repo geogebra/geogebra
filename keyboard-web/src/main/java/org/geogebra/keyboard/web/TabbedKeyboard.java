@@ -606,22 +606,42 @@ public class TabbedKeyboard extends FlowPanel {
 					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
 					Action.CAPS_LOCK);
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
-			return new KeyBoardButtonBase("10^x", "10^", bh);
+			return isBoxIcon
+					? new KeyBoardButtonFunctionalBase(
+							KeyboardResources.INSTANCE.ten_power().getSafeUri(),
+							button.getActionName(), bh)
+					: new KeyBoardButtonBase("10^x", "10^", bh);
 		} else if (resourceName.equals(Resource.POWE_X.name())) {
-			return new KeyBoardButtonBase("e^x",
+			return isBoxIcon
+					? new KeyBoardButtonFunctionalBase(
+							KeyboardResources.INSTANCE.e_power().getSafeUri(),
+							button.getActionName(), bh)
+					: new KeyBoardButtonBase("e^x",
 					Unicode.EULER_STRING + "^", bh);
 		}
 		else if (resourceName.equals(Resource.LOG_10.name())) {
 			return new KeyBoardButtonBase("log_10", "log10", bh);
 		}
 		else if (resourceName.equals(Resource.LOG_B.name())) {
-			return new KeyBoardButtonBase("log_b", "log_", bh);
+			return isBoxIcon
+					? new KeyBoardButtonFunctionalBase(
+							KeyboardResources.INSTANCE.log().getSafeUri(),
+							button.getActionName(), bh)
+					: new KeyBoardButtonBase("log_b", "log_", bh);
 		}
 		else if (resourceName.equals(Resource.A_N.name())) {
-			return new KeyBoardButtonBase("a_n", "_", bh);
+			return isBoxIcon
+					? new KeyBoardButtonFunctionalBase(
+							KeyboardResources.INSTANCE.a_index().getSafeUri(),
+							button.getActionName(), bh)
+					: new KeyBoardButtonBase("a_n", "_", bh);
 		}
 		else if (resourceName.equals(Resource.N_ROOT.name())) {
-			return new KeyBoardButtonFunctionalBase(
+			return isBoxIcon
+					? new KeyBoardButtonFunctionalBase(
+							KeyboardResources.INSTANCE.n_root().getSafeUri(),
+							button.getActionName(), bh)
+					: new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.nroot(), button.getActionName(),
 					bh);
 		}

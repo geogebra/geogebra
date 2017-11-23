@@ -110,4 +110,19 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/abs.svg")
 	SVGResource abs();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/log.svg")
+	SVGResource log();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/e_power.svg")
+	SVGResource e_power();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/ten_power.svg")
+	SVGResource ten_power();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/n_root.svg")
+	SVGResource n_root();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/a_index.svg")
+	SVGResource a_index();
 }
