@@ -234,7 +234,6 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	public void endPolygons(Drawable3D d) {
 		super.endPolygons(d);
 		if (d.shouldBePacked()) {
-			Log.debug("end: " + d.getGeoElement());
 			// return super.startPolygons(d);
 			endPacking();
 		}
