@@ -100,7 +100,7 @@ public class FragmentShader {
 
 			+ "} \n" + "";
 
-	final public static String getFragmentShader(boolean isHTML5) {
+	public static String getFragmentShader(boolean isHTML5) {
 
 		if (!isHTML5) {
 			return regular;
@@ -110,7 +110,7 @@ public class FragmentShader {
 
 	}
 
-	final public static String getFragmentShaderShiny(float shine,
+	public static String getFragmentShaderShiny(float shine,
 			boolean isHTML5) {
 
 		String header = isHTML5 ? fragmentHeaderHTML5 : fragmentHeaderDesktop;
@@ -212,7 +212,7 @@ public class FragmentShader {
 
 	}
 
-	final public static String getFragmentShaderShinyForPacking(float shine, boolean isHTML5) {
+	public static String getFragmentShaderShinyForPacking(float shine, boolean isHTML5) {
 
 		String header = isHTML5 ? fragmentHeaderHTML5 : fragmentHeaderDesktop;
 
@@ -291,12 +291,12 @@ public class FragmentShader {
 				
 				// dash packed
 				+ "if (textureType == 14) { // TEXTURE_TYPE_DASH + DASH_PACKED = 4 + 10;\n"
-				+ "y = (mod(coordTexture.y, " + Textures.DASH_ID_LENGTH + ".0) + 0.5) / "
+				+ "y = (coordTexture.y -  float((int(coordTexture.y) / " + Textures.DASH_ID_LENGTH + ") * " + Textures.DASH_ID_LENGTH + ") + 0.5) / "
 				+ TexturesShaders.DESCRIPTIONS_LENGTH + ".0;\n"
 				+ "vec4 textureDash = texture2D(Texture0, vec2(coordTexture.x, y));\n"
 				+ "if (textureDash.a < 0.5){\n"
 				+ "  discard; // don't write\n" + "  }\n"
-				+ "gl_FragColor = color;\n" 
+				+ "gl_FragColor = color;\n"
 				+ "return;\n"
 				+ "}\n "
 				
