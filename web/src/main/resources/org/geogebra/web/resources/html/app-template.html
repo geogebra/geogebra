@@ -395,6 +395,23 @@ var app = document.createElement("script");
 	}
 
 	function mobileStartscreen(codebaseFn){
+		var link = false;
+		var androidLinks = {"geometry":"https://play.google.com/store/apps/details?id=org.geogebra.android.geometry",
+				"graphing":"https://play.google.com/store/apps/details?id=org.geogebra.android",
+				"3d":"https://play.google.com/store/apps/details?id=org.geogebra.android.g3d"};
+		var iosLinks = {"graphing":"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204",
+				"geometry":"https://itunes.apple.com/us/app/geogebra-geometry-calculator/id1232591335"};
+		
+		if(/iPhone|iPad|iPod/i
+			.test(window.navigator.userAgent)){
+			link = iosLinks[window.appID];			
+		}
+		else {
+			link = androidLinks[window.appID];
+		}
+		if(!link){
+			return false;
+		}
 		var nameText = c("appName").innerText;
 		var appName = document.createElement("H1");
 		appName.innerText = nameText;
@@ -413,21 +430,12 @@ var app = document.createElement("script");
 			tryApp.style.opacity = 0;
 			insertScript(codebaseFn());
 		});
-		var androidLinks = {"geometry":"https://play.google.com/store/apps/details?id=org.geogebra.android.geometry",
-				"graphing":"https://play.google.com/store/apps/details?id=org.geogebra.android"};
-		var iosLinks = {"graphing":"https://itunes.apple.com/us/app/geogebra-graphing-calculator/id1146717204",
-				"geometry":"https://itunes.apple.com/us/app/geogebra-geometry-calculator/id1232591335"};
 		
-		if(/iPhone|iPad|iPod/i
-			.test(window.navigator.userAgent)){
-			tryApp.href = iosLinks[window.appID];
-		}
-		else {
-			tryApp.href = androidLinks[window.appID];
-		}
 		tryApp.className = "tryApp";
 		tryApp.target = "_blank";
 		tryApp.rel = "noreferrer noopener";
+		tryApp.href = link;
+		return true;
 	}
 
 	function checkLogin(){
@@ -443,8 +451,7 @@ var app = document.createElement("script");
 		var skipAppsPicker = getURLparam("command") || getURLparam("state") || getURLparam("filename");
 		if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
 				.test(window.navigator.userAgent) && c("appName") && !skipAppsPicker && !location.pathname.match(/lti/)){
-			mobileStartscreen(function(){return codebase;});
-			wait = true;
+			wait = mobileStartscreen(function(){return codebase;});
 		}
 		
 		function resizeStart(){
