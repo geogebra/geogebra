@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -26,6 +27,7 @@ public class GCollapseMenuItem {
 	private String text;
 	private Image imgExpand;
 	private Image imgCollapse;
+	private AriaMenuBar mb;
 	/**
 	 * @param text
 	 *            Title
@@ -41,8 +43,9 @@ public class GCollapseMenuItem {
 	public GCollapseMenuItem(String text, String expandUrl,
 			String collapseUrl,
 			boolean expanded,
-			final ScheduledCommand cmd) {
+			final ScheduledCommand cmd, AriaMenuBar mb) {
 		this.text = text;
+		this.mb = mb;
 		imgExpand = new NoDragImage(expandUrl);
 		imgExpand.setStyleName("expandImg");
 		imgCollapse = new NoDragImage(collapseUrl);
@@ -115,9 +118,9 @@ public class GCollapseMenuItem {
 	public void collapse() {
 		expanded = false;
 		for (MenuItem mi : items) {
-			mi.removeStyleName("gwt-MenuItem");
-			mi.addStyleName("collapsed");
-			mi.removeStyleName("expanded");
+			mb.removeStyleName(mi, "gwt-MenuItem");
+			mb.addStyleName(mi, "collapsed");
+			mb.removeStyleName(mi, "expanded");
 		}
 	}
 
@@ -127,9 +130,9 @@ public class GCollapseMenuItem {
 	public void expand() {
 		expanded = true;
 		for (MenuItem mi : items) {
-			mi.addStyleName("gwt-MenuItem");
-			mi.addStyleName("expanded");
-			mi.removeStyleName("collapsed");
+			mb.addStyleName(mi, "gwt-MenuItem");
+			mb.addStyleName(mi, "expanded");
+			mb.removeStyleName(mi, "collapsed");
 		}
 	}
 

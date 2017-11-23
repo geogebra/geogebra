@@ -268,6 +268,9 @@ public class AriaMenuBar extends Widget {
 
 	public void addStyleName(MenuItem item, String className) {
 		domItems.get(item).addClassName(className);
+	}
 
+	public void removeStyleName(MenuItem item, String className) {
+		domItems.get(item).removeClassName(className);
 	}
 }

@@ -215,8 +215,8 @@ public class ContextMenuAlgebra implements SetLabels {
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, cmdReposition);
-		wrappedPopup.addItem(ci.getMenuItem(), false);
+				false, cmdReposition, wrappedPopup.getPopupMenu());
+		wrappedPopup.addItem(ci.getMenuItem());
 		subDescription = new DescriptionSubMenu(ci);
 		subDescription.update();
 
@@ -233,7 +233,7 @@ public class ContextMenuAlgebra implements SetLabels {
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, cmdReposition);
+				false, cmdReposition, wrappedPopup.getPopupMenu());
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		subSort = new SortSubMenu(ci);
 		subSort.update();

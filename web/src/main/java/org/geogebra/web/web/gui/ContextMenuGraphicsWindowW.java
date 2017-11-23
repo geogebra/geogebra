@@ -168,7 +168,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, null);
+				false, null, wrappedPopup.getPopupMenu());
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		GridSubmenu gridSubMenu = new GridSubmenu(ci);
 		gridSubMenu.update();
