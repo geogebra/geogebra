@@ -173,6 +173,10 @@ abstract class GLBufferManager {
 			colorBuffer.set((float) color.getAlpha() / 255, colorOffset, length, 4);
 		}
 
+		public void setAlpha(int alpha, int offset, int length) {
+			colorBuffer.set((float) alpha / 255, offset * 4 + 3, length, 4);
+		}
+
 		public void draw(RendererShadersInterface r) {
 			vertexBuffer.rewind();
 			normalBuffer.rewind();
@@ -292,6 +296,26 @@ abstract class GLBufferManager {
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			currentBufferPack = currentBufferSegment.bufferPack;
 			currentBufferPack.setColor(color, currentBufferSegment.elementsOffset, currentBufferSegment.elementsLength);
+		}
+	}
+
+	/**
+	 * update visibility for all geometries from geometry set index
+	 * 
+	 * @param index
+	 *            geometry set index
+	 * @param geometriesLength
+	 *            geometries length for this set
+	 * @param visible
+	 *            if visible
+	 */
+	public void updateVisibility(int index, int geometriesLength, boolean visible) {
+		int alpha = visible ? color.getAlpha() : -1;
+		for (int i = 0; i < geometriesLength; i++) {
+			currentIndex.set(index, i);
+			currentBufferSegment = bufferSegments.get(currentIndex);
+			currentBufferPack = currentBufferSegment.bufferPack;
+			currentBufferPack.setAlpha(alpha, currentBufferSegment.elementsOffset, currentBufferSegment.elementsLength);
 		}
 	}
 

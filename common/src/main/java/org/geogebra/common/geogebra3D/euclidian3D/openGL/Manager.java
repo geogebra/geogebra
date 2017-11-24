@@ -888,6 +888,18 @@ abstract public class Manager {
 	}
 
 	/**
+	 * update geometry visibility
+	 * 
+	 * @param visible
+	 *            if visible
+	 * @param index
+	 *            geometry index (for set)
+	 */
+	public void updateVisibility(boolean visible, int index) {
+		// not needed here
+	}
+
+	/**
 	 * reset geometries
 	 */
 	public void reset() {

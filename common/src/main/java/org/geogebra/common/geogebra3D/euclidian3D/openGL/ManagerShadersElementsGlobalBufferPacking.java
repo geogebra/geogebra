@@ -78,6 +78,17 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			bufferManager.updateColor(index, getGeometriesLength(), color);
 		}
 
+		/**
+		 * update all geometries visibility for this set
+		 * 
+		 * @param visible
+		 *            if visible
+		 */
+		public void updateVisibility(boolean visible) {
+			bufferManager.updateVisibility(index, getGeometriesLength(), visible);
+
+		}
+
 		public GColor getColor() {
 			return color;
 		}
@@ -205,6 +216,14 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		GeometriesSet geometrySet = getGeometrySet(index);
 		if (geometrySet != null) {
 			((GeometriesSetElementsGlobalBufferPacking) geometrySet).updateColor(color);
+		}
+	}
+
+	@Override
+	public void updateVisibility(boolean visible, int index) {
+		GeometriesSet geometrySet = getGeometrySet(index);
+		if (geometrySet != null) {
+			((GeometriesSetElementsGlobalBufferPacking) geometrySet).updateVisibility(visible);
 		}
 	}
 
