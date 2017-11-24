@@ -309,17 +309,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		imgMenu.setAltText(app.getLocalization().getMenu("Menu"));
 		setAltText(btnAlgebra, app.getConfig().getAVTitle());
 		setAltText(btnTools, "Tools");
-		if (app.has(Feature.HELP_AND_SHORTCUTS)) {
-			setAltText(btnUndo,
-					"Undo " + app.getLocalization().getMenu("undoShortcut"));
-			setAltText(btnRedo,
-					"Redo " + app.getLocalization().getMenu("redoShortcut"));
+		setAltText(btnUndo, "Undo");
+		setAltText(btnRedo, "Redo");
 
-		} else {
-			setAltText(btnUndo, "Undo");
-			setAltText(btnRedo, "Redo");
-
-		}
 	}
 
 	private void setAltText(MyToggleButton btn, String string) {
