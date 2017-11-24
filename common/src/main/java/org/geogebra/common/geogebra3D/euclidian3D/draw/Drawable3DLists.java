@@ -605,6 +605,7 @@ public class Drawable3DLists {
 				if (!d3d.shouldBePacked()) {
 					d3d.drawHiding(renderer);
 				}
+				((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfaces(renderer);
 			}
 		} else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
