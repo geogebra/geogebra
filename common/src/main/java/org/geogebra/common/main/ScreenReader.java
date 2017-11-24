@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.plugin.EventType;
 
 public class ScreenReader {
 
@@ -88,7 +89,8 @@ public class ScreenReader {
 				}
 			}
 
-			if (geo0.canHaveClickScript()) {
+			if (geo0.getScript(EventType.CLICK) != null
+					&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
 				sb.append("PressSpaceToRunScript");
 			}
 
