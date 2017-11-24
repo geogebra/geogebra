@@ -9,6 +9,7 @@ import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
 
 import com.google.gwt.user.client.ui.FocusWidget;
@@ -193,6 +194,12 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			app.getSelectionManager().addSelectedGeo(geo);
 			setTabOverGeos(true);
 			app.getActiveEuclidianView().requestFocus();
+		} else {
+			ToolbarPanel tp = ((GuiManagerW) app.getGuiManager())
+					.getToolbarPanelV2();
+			if (tp != null) {
+				tp.focusMenu();
+			}
 		}
 	}
 }
