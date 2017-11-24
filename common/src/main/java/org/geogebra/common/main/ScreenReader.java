@@ -13,7 +13,7 @@ public class ScreenReader {
 			GeoElement geo0 = app.getSelectionManager().getSelectedGeos()
 					.get(0);
 			// do not steal focus from input box
-			if (geo0.isGeoInputBox()) {
+			if (geo0.isGeoInputBox() && !app.has(Feature.HELP_AND_SHORTCUTS)) {
 				return;
 			}
 			readText(geo0, app);
@@ -50,7 +50,7 @@ public class ScreenReader {
 				}
 			}
 
-			if (geo0.isGeoButton()
+			if (geo0.isGeoButton() && !geo0.isGeoInputBox()
 					|| geo0.isGeoLocusStroke()) {
 				sb.append(app.getLocalization()
 						.getMenu("PressEnterToOpenSettings"));

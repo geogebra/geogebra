@@ -391,7 +391,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 *            translation vector (ignored if endPos given)
 	 * @param endPosition
 	 *            end position
-	 * @return whethe move happened
+	 * @return whether move happened
 	 */
 	public boolean movePoint(Coords rwTransVec, Coords endPosition);
 
