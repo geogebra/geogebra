@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.Label;
  * 
  */
 public class StandardButton extends FastButton {
-	
+
 	private App app;
 	private ResourcePrototype icon;
 	private String label;
@@ -55,7 +55,8 @@ public class StandardButton extends FastButton {
 	 * @param app
 	 *            - application
 	 */
-	public StandardButton(final ResourcePrototype icon, final String label, int width, App app) {
+	public StandardButton(final ResourcePrototype icon, final String label,
+			int width, App app) {
 		this.app = app;
 		setIconAndLabel(icon, label, width, -1);
 	}
@@ -112,25 +113,21 @@ public class StandardButton extends FastButton {
 	@Override
 	public void onHoldPressDownStyle() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onHoldPressOffStyle() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onDisablePressStyle() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onEnablePressStyle() {
 		// TODO Auto-generated method stub
-
 	}
 
 	/**
@@ -162,13 +159,13 @@ public class StandardButton extends FastButton {
 	public void setIcon(final ResourcePrototype icon) {
 		setIconAndLabel(icon, this.label, this.width, this.height);
 	}
-	
+
 	@Override
-    @Deprecated
-    /**
-     * Use addFastClickHandler instead
-     */
-	public HandlerRegistration addClickHandler(ClickHandler c){
+	@Deprecated
+	/**
+	 * Use addFastClickHandler instead
+	 */
+	public HandlerRegistration addClickHandler(ClickHandler c) {
 		return null;
 	}
 
@@ -187,5 +184,4 @@ public class StandardButton extends FastButton {
 		getElement().setAttribute("aria-label", altText);
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
-
 }
