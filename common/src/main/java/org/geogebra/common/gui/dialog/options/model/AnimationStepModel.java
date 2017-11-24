@@ -87,13 +87,13 @@ public class AnimationStepModel extends OptionsModel {
 		NumberValue value = text.length() == 0 ? null
 				: app.getKernel().getAlgebraProcessor().evaluateToNumeric(text,
 						ErrorHelper.silent());
-		boolean isNaN = value == null || Double.isNaN(value.getDouble());
+		boolean notDefined = value == null || Double.isNaN(value.getDouble());
 
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
 			if (geo.isGeoNumeric()) {
-				((GeoNumeric) geo).setAutoStep(isNaN);
-				if (!isNaN) {
+				((GeoNumeric) geo).setAutoStep(notDefined);
+				if (!notDefined) {
 					geo.setAnimationStep(value);
 				}
 			} else if (value != null) {

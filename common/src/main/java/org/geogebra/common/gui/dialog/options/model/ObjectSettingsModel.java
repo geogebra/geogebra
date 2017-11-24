@@ -429,11 +429,11 @@ abstract public class ObjectSettingsModel {
             return;
         }
         double step = app.getKernel().getAlgebraProcessor().evaluateToDouble(increment);
-        boolean isNaN = Double.isNaN(step);
+        boolean notDefined = Double.isNaN(step);
 
         for (GeoElement geo : geoElementsList) {
             geo.setAnimationStep(step);
-            setSliderAutoStep(geo, isNaN);
+            setSliderAutoStep(geo, notDefined);
         }
 
         app.setPropertiesOccured();
