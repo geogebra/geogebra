@@ -126,6 +126,9 @@ public class DrawSegment3D extends DrawCoordSys1D {
 			if (prop == GProperty.COLOR) {
 				updateColors();
 				getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
+				if (!isVisible()) {
+					getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
+				}
 			} else if (prop == GProperty.VISIBLE) {
 				getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible(), getGeometryIndex());
 			} else {
