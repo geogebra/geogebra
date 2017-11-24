@@ -982,11 +982,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdIntersect() {
-		// TODO -- cover more cases here
-	}
-
-	@Test
 	public void cmdIntersection() {
 		t("Intersection[ list1, list1 ]");
 	}

@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -86,7 +87,9 @@ public class AlgoFunctionInvert extends AlgoElement {
 			g.setUndefined();
 			return;
 		}
-
+		root = AlgoDependentFunction
+				.expandFunctionDerivativeNodes(root.deepCopy(kernel), true)
+				.wrap();
 		FunctionVariable oldFV = f.getFunction().getFunctionVariable();
 
 		// make sure sin(y) inverts to arcsin(y)
@@ -357,7 +360,6 @@ public class AlgoFunctionInvert extends AlgoElement {
 				}
 
 				break;
-
 			case MINUS:
 			case DIVIDE:
 				if ((fvLeft = left.contains(oldFV))
@@ -388,11 +390,14 @@ public class AlgoFunctionInvert extends AlgoElement {
 
 				break;
 			case IF:
-				ExpressionValue inv = invert(right, oldFV, x, kernel);
+				ExpressionNode inv = invert(right, oldFV, x, kernel);
+				if (inv == null) {
+					return null;
+				}
+				inv = inv.replace(x, newRoot).wrap();
 				newRoot = new ExpressionNode(kernel,
-						left.deepCopy(kernel).wrap().replace(oldFV, inv),
-						Operation.IF,
-						inv.deepCopy(kernel));
+						left.wrap().deepCopy(kernel).replace(oldFV, inv),
+						Operation.IF, inv.deepCopy(kernel));
 				root = null;
 				break;
 			default: // eg ABS, CEIL etc

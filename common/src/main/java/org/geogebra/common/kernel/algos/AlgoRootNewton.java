@@ -18,7 +18,10 @@ import org.apache.commons.math3.analysis.solvers.NewtonSolver;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
+import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
+import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -26,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Finds one real root of a function with newtons method. The first derivative
@@ -183,8 +187,17 @@ public class AlgoRootNewton extends AlgoIntersectAbstract {
 		} catch (RuntimeException e) {
 			//
 		}
-
-
+		FunctionVariable x = new FunctionVariable(kernel);
+		ExpressionNode inv = AlgoFunctionInvert.invert(fun.getExpression(),
+				fun.getFunctionVariable(), x, kernel);
+		Log.debug(inv);
+		x.set(0);
+		if (inv != null) {
+			root = inv.evaluateDouble();
+			if (checkRoot(fun, root)) {
+				return root;
+			}
+		}
 		// neither Brent nor Newton worked
 		return Double.NaN;
 	}

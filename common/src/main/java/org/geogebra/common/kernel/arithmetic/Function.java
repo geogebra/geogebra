@@ -973,7 +973,9 @@ public class Function extends FunctionNVar
 		// build expression f - line: f(x) + a/b x + c/b
 		ExpressionNode temp;
 		// f(x) + a/b * x
-		if (coeffX > 0) {
+		if (MyDouble.exactEqual(coeffX, 0)) {
+			temp = f.expression;
+		} else if (coeffX > 0) {
 			temp = new ExpressionNode(f.kernel, f.expression, Operation.PLUS,
 					new ExpressionNode(f.kernel, new MyDouble(f.kernel, coeffX),
 							Operation.MULTIPLY, f.fVars[0]));

@@ -44,10 +44,10 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 	@Override
 	public final void compute() {
 		if (f.isDefined()) {
-			ExpressionNode polyExpression = (ExpressionNode) f
-					.getFunctionExpression().getRight();
-			ExpressionNode condExpression = (ExpressionNode) f
-					.getFunctionExpression().getLeft();
+			ExpressionNode polyExpression = f.getFunctionExpression().getRight()
+					.wrap();
+			ExpressionNode condExpression = f.getFunctionExpression().getLeft()
+					.wrap();
 			if (yValFunction == null
 					|| yValFunction.getExpression() != polyExpression
 					|| interval.getFunctionExpression() != condExpression) {

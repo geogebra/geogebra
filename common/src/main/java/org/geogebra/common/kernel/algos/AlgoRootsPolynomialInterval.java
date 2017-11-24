@@ -110,10 +110,10 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	}
 
 	private void updateIntervalFun() {
-		ExpressionNode polyExpression = (ExpressionNode) f
-				.getFunctionExpression().getRight();
-		ExpressionNode condExpression = (ExpressionNode) f
-				.getFunctionExpression().getLeft();
+		ExpressionNode polyExpression = f.getFunctionExpression().getRight()
+				.wrap();
+		ExpressionNode condExpression = f.getFunctionExpression().getLeft()
+				.wrap();
 		if (intervalFun == null
 				|| intervalFun.getFunctionExpression() != polyExpression
 				|| interval.getExpression() != condExpression) {
