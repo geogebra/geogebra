@@ -87,6 +87,14 @@ public class ScreenReader {
 							.getMenu("PressDownToDecrease"));
 				}
 			}
+
+			if (geo0.canHaveClickScript()) {
+				sb.append("PressSpaceToRunScript");
+			}
+
+			if (geo0.isGeoPoint()) {
+				sb.append("PressArrowToMove");
+			}
 		}
 
 		// MOW-137 if selection originated in AV we don't want to move
