@@ -770,7 +770,7 @@ public class GlobalKeyDispatcherW extends
 	 */
 	public FocusHandler getFocusHandler() {
 		return new FocusHandler() {
-
+			@Override
 			public void onFocus(FocusEvent event) {
 				GlobalKeyDispatcherW.this.setFocused(true);
 

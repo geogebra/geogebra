@@ -147,7 +147,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	
 	private void focusDeferred() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
+			@Override
 			public void execute() {
 				wrappedPopup.getPopupMenu().getElement().focus();
 			}

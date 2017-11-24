@@ -187,6 +187,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		return false;
 	}
 
+	@Override
 	public void focusGeo(GeoElement geo) {
 		if (geo != null) {
 			app.getSelectionManager().addSelectedGeo(geo);

@@ -440,14 +440,17 @@ public class EuclidianControllerW extends EuclidianController implements
 		getView().getDynamicStyleBar().updateStyleBar();
 	}
 
+	@Override
 	public void onPointerEventMove(PointerEvent event) {
 		mtg.onMouseMoveNow(event, System.currentTimeMillis(), true);
 	}
 
+	@Override
 	public void onPointerEventEnd(PointerEvent event) {
 		mtg.onPointerEventEnd(event);
 	}
 
+	@Override
 	public MouseTouchGestureControllerW getOffsets() {
 		return mtg;
 	}

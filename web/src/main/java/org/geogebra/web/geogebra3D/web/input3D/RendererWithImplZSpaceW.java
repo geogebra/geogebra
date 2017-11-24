@@ -54,6 +54,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 						}
 					}
 
+					@Override
 					public void cancel() {
 						canceled = true;
 
@@ -71,6 +72,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 				}
 			}
 
+			@Override
 			public void cancel() {
 				canceled = true;
 

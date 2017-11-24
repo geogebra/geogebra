@@ -75,7 +75,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	@Override
 	public void deferredOnResize() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
+			@Override
 			public void execute() {
 				toolbar.resize();
 			}
@@ -98,6 +98,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	 *            the litstener
 	 * @return the updated listener;
 	 */
+	@Override
 	public MathKeyboardListener updateKeyboardListener(MathKeyboardListener ml) {
 		if (toolbar.isAlgebraViewActive()) {
 			return toolbar.updateKeyboardListener(ml);
@@ -116,6 +117,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	/**
 	 * Saves the scroll position of algebra view
 	 */
+	@Override
 	public void saveAVScrollPosition() {
 		toolbar.saveAVScrollPosition();
 	}
@@ -123,6 +125,7 @@ public class ToolbarDockPanelW extends DockPanelW
 	/**
 	 * Scrolls Algebra View to the bottom.
 	 */
+	@Override
 	public void scrollAVToBottom() {
 		if (toolbar != null) {
 			toolbar.scrollAVToBottom();
@@ -143,6 +146,7 @@ public class ToolbarDockPanelW extends DockPanelW
 		this.toolMode = toolMode;
 	}
 
+	@Override
 	public boolean isToolMode() {
 		return toolMode;
 	}
@@ -154,10 +158,12 @@ public class ToolbarDockPanelW extends DockPanelW
 		}
 	}
 
+	@Override
 	public int getInnerWidth() {
 		return getOffsetWidth();
 	}
 
+	@Override
 	public void scrollToActiveItem() {
 		if (toolbar != null) {
 			toolbar.scrollToActiveItem();

@@ -184,6 +184,7 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 	}
 
 	/** hide the submenu */
+	@Override
 	public void hide() {
 		PopupPanel p = (PopupPanel) getParent();
 		p.hide();

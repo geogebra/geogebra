@@ -127,11 +127,13 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 	}
 
+	@Override
 	public boolean onEscape() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void onTab(boolean shiftDown) {
 		// TODO Auto-generated method stub
 	}

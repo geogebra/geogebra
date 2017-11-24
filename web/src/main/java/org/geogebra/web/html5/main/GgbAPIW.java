@@ -212,7 +212,7 @@ public class GgbAPIW extends GgbAPI {
 		final boolean oldWorkers = setWorkerURL(zipJSworkerURL(), false);
 		final JavaScriptObject arch = prepareToEntrySet(archiveContent);
 		getGGBZipJs(arch, callback, nativeCallback(new StringHandler() {
-
+			@Override
 			public void handle(String s) {
 				if (oldWorkers && !isUsingWebWorkers()) {
 					Log.warn(
@@ -611,7 +611,7 @@ public class GgbAPIW extends GgbAPI {
 			String workerUrls, boolean sync) {
 		final boolean oldWorkers = setWorkerURL(workerUrls, sync);
 		getBase64ZipJs(arch, clb, nativeCallback(new StringHandler() {
-
+			@Override
 			public void handle(String s) {
 				if (oldWorkers && !isUsingWebWorkers()) {
 					Log.warn(

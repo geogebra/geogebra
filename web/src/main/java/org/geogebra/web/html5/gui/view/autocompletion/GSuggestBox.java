@@ -148,6 +148,7 @@ public class GSuggestBox extends Composite
 	private final SuggestionDisplay display;
 	private final ValueBoxBase<String> box;
 	private final Callback callback = new Callback() {
+		@Override
 		public void onSuggestionsReady(Request request, Response response) {
 			// If disabled while request was in-flight, drop it
 			if (!isEnabled()) {
@@ -161,6 +162,7 @@ public class GSuggestBox extends Composite
 		}
 	};
 	private final SuggestionCallback suggestionCallback = new SuggestionCallback() {
+		@Override
 		public void onSuggestionSelected(Suggestion suggestion) {
 			box.setFocus(true);
 			setNewSelection(suggestion);
@@ -391,6 +393,7 @@ public class GSuggestBox extends Composite
 			suggestionPopup.hide();
 		}
 
+		@Override
 		public boolean isAnimationEnabled() {
 			return suggestionPopup.isAnimationEnabled();
 		}
@@ -410,6 +413,7 @@ public class GSuggestBox extends Composite
 			return suggestionPopup.isShowing();
 		}
 
+		@Override
 		public void setAnimationEnabled(boolean enable) {
 			suggestionPopup.setAnimationEnabled(enable);
 		}
@@ -433,6 +437,7 @@ public class GSuggestBox extends Composite
 		 *            the uiObject used for positioning, or null to position
 		 *            relative to the suggest box
 		 */
+		@Override
 		public void setPositionRelativeTo(UIObject uiObject) {
 			positionRelativeTo = uiObject;
 		}
@@ -584,6 +589,7 @@ public class GSuggestBox extends Composite
 				final SuggestionMenuItem menuItem = new SuggestionMenuItem(
 						curSuggestion, isDisplayStringHTML);
 				menuItem.setScheduledCommand(new ScheduledCommand() {
+					@Override
 					public void execute() {
 						callback.onSuggestionSelected(curSuggestion);
 					}
@@ -709,7 +715,7 @@ public class GSuggestBox extends Composite
 		public SuggestionMenuItem(Suggestion suggestion, boolean asHTML) {
 			super(suggestion.getDisplayString(), asHTML,
 					new ScheduledCommand() {
-
+						@Override
 						public void execute() {
 							// TODO Auto-generated method stub
 
@@ -833,6 +839,7 @@ public class GSuggestBox extends Composite
 	 * @deprecated use {@link #getTextBox}().addChangeHandler instead
 	 */
 	@Deprecated
+	@Override
 	public void addChangeListener(final ChangeListener listener) {
 		ListenerWrapper.WrappedLogicalChangeListener.add(box, listener)
 				.setSource(this);
@@ -847,6 +854,7 @@ public class GSuggestBox extends Composite
 	 * @deprecated use {@link #getTextBox}().addClickHandler instead
 	 */
 	@Deprecated
+	@Override
 	public void addClickListener(final ClickListener listener) {
 		ListenerWrapper.WrappedClickListener legacy = ListenerWrapper.WrappedClickListener
 				.add(box, listener);
@@ -864,6 +872,7 @@ public class GSuggestBox extends Composite
 	 *             instead
 	 */
 	@Deprecated
+	@Override
 	public void addFocusListener(final FocusListener listener) {
 		ListenerWrapper.WrappedFocusListener focus = ListenerWrapper.WrappedFocusListener
 				.add(box, listener);
@@ -875,27 +884,33 @@ public class GSuggestBox extends Composite
 	 *             {@link #addKeyPressHandler} instead
 	 */
 	@Deprecated
+	@Override
 	public void addKeyboardListener(KeyboardListener listener) {
 		ListenerWrapper.WrappedKeyboardListener.add(this, listener);
 	}
 
+	@Override
 	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
 		return addDomHandler(handler, KeyDownEvent.getType());
 	}
 
+	@Override
 	public HandlerRegistration addKeyPressHandler(KeyPressHandler handler) {
 		return addDomHandler(handler, KeyPressEvent.getType());
 	}
 
+	@Override
 	public HandlerRegistration addKeyUpHandler(KeyUpHandler handler) {
 		return addDomHandler(handler, KeyUpEvent.getType());
 	}
 
+	@Override
 	public HandlerRegistration addSelectionHandler(
 			SelectionHandler<Suggestion> handler) {
 		return addHandler(handler, SelectionEvent.getType());
 	}
 
+	@Override
 	public HandlerRegistration addValueChangeHandler(
 			ValueChangeHandler<String> handler) {
 		return addHandler(handler, ValueChangeEvent.getType());
@@ -904,6 +919,7 @@ public class GSuggestBox extends Composite
 	/**
 	 * Returns a {@link TakesValueEditor} backed by the SuggestBox.
 	 */
+	@Override
 	public LeafValueEditor<String> asEditor() {
 		if (editor == null) {
 			editor = TakesValueEditor.of(this);
@@ -941,10 +957,12 @@ public class GSuggestBox extends Composite
 		return oracle;
 	}
 
+	@Override
 	public int getTabIndex() {
 		return box.getTabIndex();
 	}
 
+	@Override
 	public String getText() {
 		return box.getText();
 	}
@@ -963,6 +981,7 @@ public class GSuggestBox extends Composite
 		return (TextBoxBase) box;
 	}
 
+	@Override
 	public String getValue() {
 		return box.getValue();
 	}
@@ -998,6 +1017,7 @@ public class GSuggestBox extends Composite
 	 *             instead
 	 */
 	@Deprecated
+	@Override
 	public boolean isAnimationEnabled() {
 		return display.isAnimationEnabledImpl();
 	}
@@ -1017,6 +1037,7 @@ public class GSuggestBox extends Composite
 	 *
 	 * @return <code>true</code> if the widget is enabled
 	 */
+	@Override
 	public boolean isEnabled() {
 		return box.isEnabled();
 	}
@@ -1046,6 +1067,7 @@ public class GSuggestBox extends Composite
 	 *             instead
 	 */
 	@Deprecated
+	@Override
 	public void removeChangeListener(ChangeListener listener) {
 		ListenerWrapper.WrappedChangeListener.remove(box, listener);
 	}
@@ -1056,6 +1078,7 @@ public class GSuggestBox extends Composite
 	 *             instead
 	 */
 	@Deprecated
+	@Override
 	public void removeClickListener(ClickListener listener) {
 		ListenerWrapper.WrappedClickListener.remove(box, listener);
 	}
@@ -1066,6 +1089,7 @@ public class GSuggestBox extends Composite
 	 *             instead
 	 */
 	@Deprecated
+	@Override
 	public void removeFocusListener(FocusListener listener) {
 		ListenerWrapper.WrappedFocusListener.remove(this, listener);
 	}
@@ -1076,10 +1100,12 @@ public class GSuggestBox extends Composite
 	 *             instead
 	 */
 	@Deprecated
+	@Override
 	public void removeKeyboardListener(KeyboardListener listener) {
 		ListenerWrapper.WrappedKeyboardListener.remove(this, listener);
 	}
 
+	@Override
 	public void setAccessKey(char key) {
 		box.setAccessKey(key);
 	}
@@ -1094,6 +1120,7 @@ public class GSuggestBox extends Composite
 	 *             instead
 	 */
 	@Deprecated
+	@Override
 	public void setAnimationEnabled(boolean enable) {
 		display.setAnimationEnabledImpl(enable);
 	}
@@ -1116,6 +1143,7 @@ public class GSuggestBox extends Composite
 	 *            <code>true</code> to enable the widget, <code>false</code> to
 	 *            disable it
 	 */
+	@Override
 	public void setEnabled(boolean enabled) {
 		box.setEnabled(enabled);
 		if (!enabled) {
@@ -1123,6 +1151,7 @@ public class GSuggestBox extends Composite
 		}
 	}
 
+	@Override
 	public void setFocus(boolean focused) {
 		box.setFocus(focused);
 	}
@@ -1155,18 +1184,22 @@ public class GSuggestBox extends Composite
 		getSuggestionDisplay().setPopupStyleNameImpl(style);
 	}
 
+	@Override
 	public void setTabIndex(int index) {
 		box.setTabIndex(index);
 	}
 
+	@Override
 	public void setText(String text) {
 		box.setText(text);
 	}
 
+	@Override
 	public void setValue(String newValue) {
 		box.setValue(newValue);
 	}
 
+	@Override
 	public void setValue(String value, boolean fireEvents) {
 		box.setValue(value, fireEvents);
 	}
@@ -1199,7 +1232,7 @@ public class GSuggestBox extends Composite
 	private void addEventsToTextBox() {
 		class TextBoxEvents implements KeyDownHandler, KeyUpHandler,
 				ValueChangeHandler<String> {
-
+			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				switch (event.getNativeKeyCode()) {
 				case KeyCodes.KEY_DOWN:
@@ -1229,11 +1262,13 @@ public class GSuggestBox extends Composite
 				}
 			}
 
+			@Override
 			public void onKeyUp(KeyUpEvent event) {
 				// After every user key input, refresh the popup's suggestions.
 				refreshSuggestions();
 			}
 
+			@Override
 			public void onValueChange(ValueChangeEvent<String> event) {
 				delegateEvent(GSuggestBox.this, event);
 			}

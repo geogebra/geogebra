@@ -222,6 +222,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		}
 	}
 
+	@Override
 	public void updateArticleHeight() {
 		int margin = ae.getDataParamMarginTop();
 		if (AppW.smallScreen() || margin <= 0) {

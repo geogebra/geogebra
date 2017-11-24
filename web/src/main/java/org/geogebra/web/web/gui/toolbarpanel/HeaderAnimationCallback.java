@@ -40,6 +40,7 @@ public abstract class HeaderAnimationCallback implements AnimationCallback {
 		diff = new Double(expandTo - expandFrom);
 	}
 
+	@Override
 	public void onLayout(Layer layer, double progress) {
 		if (diff == null) {
 			return;
@@ -69,6 +70,7 @@ public abstract class HeaderAnimationCallback implements AnimationCallback {
 	 */
 	public abstract void tick(double progress);
 
+	@Override
 	public void onAnimationComplete() {
 		header.setAnimating(false);
 		header.updateStyle();

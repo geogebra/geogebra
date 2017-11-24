@@ -2414,6 +2414,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 	}
 
+	@Override
 	public void updateFullscreen() {
 		((EuclidianDockPanelWAbstract) layout.getDockManager()
 				.getPanel(App.VIEW_EUCLIDIAN)).updateFullscreen();
@@ -2430,6 +2431,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			private TreeItem item;
 			private TreeItem child = null;
 
+			@Override
 			public void addLatexRow(String equations) {
 				Canvas c = DrawEquationW.paintOnCanvas(gn, equations, null,
 						app.getFontSizeWeb());
@@ -2446,10 +2448,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			}
 
+			@Override
 			public void addPlainRow(String equations) {
 				addWidget(new Label(equations));
 			}
 
+			@Override
 			public void show() {
 				DialogBoxW box = new DialogBoxW(true, false, null,
 						getApp().getPanel(), app);
@@ -2459,6 +2463,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				box.center();
 			}
 
+			@Override
 			public void startGroup() {
 				if (child == null || tree.getItemCount() == 1) {
 					return;
@@ -2466,30 +2471,31 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				item = child;
 			}
 
+			@Override
 			public void endGroup() {
 				if (item != null) {
 					item = item.getParentItem();
 				}
 			}
 
+			@Override
 			public void linebreak() {
 				// TODO Auto-generated method stub
-
 			}
 
+			@Override
 			public void startDefault() {
 				// TODO Auto-generated method stub
-
 			}
 
+			@Override
 			public void switchToDetailed() {
 				// TODO Auto-generated method stub
-
 			}
 
+			@Override
 			public void endDetailed() {
 				// TODO Auto-generated method stub
-
 			}
 		};
 
@@ -2514,17 +2520,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	/**
 	 * Open settings menu for geo element in AV.
 	 */
+	@Override
 	public void openMenuInAVFor(GeoElement geo) {
 		if (app.isUnbundled() && hasAlgebraView()) {
 			getAlgebraView().openMenuFor(geo);
 		}
 	}
 
+	@Override
 	public boolean isKeyboardClosedByUser() {
 		return this.onScreenKeyboard != null
 				&& !this.onScreenKeyboard.shouldBeShown();
 	}
 
+	@Override
 	public MathKeyboardListener getKeyboardListener(DockPanel panel) {
 		MathKeyboardListener ml = null;
 		if(panel instanceof DockPanelW){

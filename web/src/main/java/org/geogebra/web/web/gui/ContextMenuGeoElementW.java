@@ -1539,7 +1539,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		}
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
+			@Override
 			public void execute() {
 				wrappedPopup.getPopupMenu().getElement().focus();
 			}

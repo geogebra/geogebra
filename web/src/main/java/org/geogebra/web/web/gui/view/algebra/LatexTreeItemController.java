@@ -345,6 +345,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 		return false;
 	}
 
+	@Override
 	public void onTab(boolean shiftDown) {
 		onEnter(false, false);
 		if (item.isInputTreeItem()) {

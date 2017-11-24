@@ -19,10 +19,12 @@ public class AppConfigGeometry implements AppConfig {
 
 	}
 
+	@Override
 	public String getAVTitle() {
 		return "Steps";
 	}
 
+	@Override
 	public int getLineDisplayStyle() {
 		return -1;
 	}

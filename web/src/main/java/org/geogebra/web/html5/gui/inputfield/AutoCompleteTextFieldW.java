@@ -1920,6 +1920,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		AutoCompleteTextFieldW.showSymbolButtonFocused = showSymbolButtonFocused;
 	}
 
+	@Override
 	public App getApplication() {
 		return app;
 	}

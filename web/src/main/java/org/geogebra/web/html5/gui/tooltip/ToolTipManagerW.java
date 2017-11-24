@@ -1,5 +1,7 @@
 package org.geogebra.web.html5.gui.tooltip;
 
+import java.util.Locale;
+
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.StringUtil;
@@ -8,8 +10,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
-
-import java.util.Locale;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
@@ -380,7 +380,7 @@ public final class ToolTipManagerW {
 		appw.getPanel().getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		bottomInfoTipPanel.addStyleName("animateShow");
 		CSSAnimation.runOnAnimation(new Runnable() {
-
+			@Override
 			public void run() {
 				appw.getPanel().getElement().getStyle()
 						.setOverflow(Overflow.VISIBLE);

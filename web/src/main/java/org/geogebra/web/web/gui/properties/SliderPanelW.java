@@ -335,7 +335,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		sliderTransparency.setMinorTickSpacing(5);
 		sliderTransparency.setValue(40);
 		sliderTransparency.addChangeHandler(new ChangeHandler() {
-			
+			@Override
 			public void onChange(ChangeEvent event) {
 				applyTransparency();
 			}
@@ -754,10 +754,12 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 		}
 	}
 
+	@Override
 	public void setBlobColor(GColor color) {
 		updateBlobOrLineColorButton(color, true);
 	}
 
+	@Override
 	public void setLineColor(GColor color) {
 		updateBlobOrLineColorButton(color, false);
 	}

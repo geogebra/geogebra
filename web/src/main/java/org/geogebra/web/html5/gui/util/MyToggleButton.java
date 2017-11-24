@@ -53,6 +53,7 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 	 * @param alt
 	 *            to set
 	 */
+	@Override
 	public void setAltText(String alt) {
 		if (image == null) {
 			return;

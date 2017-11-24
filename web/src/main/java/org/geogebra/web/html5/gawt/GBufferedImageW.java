@@ -185,6 +185,7 @@ public class GBufferedImageW implements GBufferedImage {
 		// nothing to flush
 	}
 
+	@Override
 	public String getBase64() {
 		return img.getSrc();
 	}

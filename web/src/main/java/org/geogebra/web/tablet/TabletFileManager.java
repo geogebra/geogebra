@@ -69,10 +69,12 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	protected void getFiles(final MaterialFilter filter) {	
 		final int callbackParent = addNewCallback(new MyCallback() {
+			@Override
 			public void onSuccess(Object result){
 				int length = (Integer) result;
 				for (int i = 0; i < length; i++){
 					int callback = addNewCallback(new MyCallback() {
+						@Override
 						public void onSuccess(Object result){
 							try {
 								String[] resultStrings = (String[]) result;										
@@ -96,6 +98,8 @@ public class TabletFileManager extends FileManagerT {
 								e.printStackTrace();
 							}
 						}
+
+						@Override
 						public void onFailure(Object result){
 							// not needed
 						}
@@ -103,6 +107,8 @@ public class TabletFileManager extends FileManagerT {
 					getMetaDataNative(i, callback, getId());
 				}
 			}
+
+			@Override
 			public void onFailure(Object result){
 				// not needed
 			}
@@ -148,10 +154,13 @@ public class TabletFileManager extends FileManagerT {
 	public void openMaterial(final Material material) {
 		String fileName = getFileKey(material);
 		int callback = addNewCallback(new MyCallback() {
+			@Override
 			public void onSuccess(Object result){
 				material.setBase64((String) result);
 				doOpenMaterial(material);
 			}
+
+			@Override
 			public void onFailure(Object result){
 				// not needed
 			}
@@ -181,10 +190,13 @@ public class TabletFileManager extends FileManagerT {
 		int callback;
 		if (cb != null){
 			callback = addNewCallback(new MyCallback() {
+				@Override
 				public void onSuccess(Object result){
 					saveFileMaterial.setLocalID((Integer) result);
 					cb.onSaved(saveFileMaterial, true);
 				}
+
+				@Override
 				public void onFailure(Object result){
 					cb.onError();
 				}
@@ -213,11 +225,13 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
 		final int callbackParent = addNewCallback(new MyCallback() {
+			@Override
 			public void onSuccess(Object result){
 				int length = (Integer) result;
 				setNotSyncedFileCount(length, events);
 				for (int i = 0; i < length; i++){
 					int callback = addNewCallback(new MyCallback() {
+						@Override
 						public void onSuccess(Object result){
 							try {
 								String[] resultStrings = (String[]) result;										
@@ -231,6 +245,8 @@ public class TabletFileManager extends FileManagerT {
 								e.printStackTrace();
 							}
 						}
+
+						@Override
 						public void onFailure(Object result){
 							// not needed
 							ignoreNotSyncedFile(events);
@@ -239,6 +255,8 @@ public class TabletFileManager extends FileManagerT {
 					getMetaDataNative(i, callback, getId());
 				}
 			}
+
+			@Override
 			public void onFailure(Object result){
 				// not needed
 			}
@@ -250,10 +268,13 @@ public class TabletFileManager extends FileManagerT {
 	@Override
 	public void upload(final Material mat) {
 		int callback = addNewCallback(new MyCallback() {
+			@Override
 			public void onSuccess(Object result){
 				mat.setBase64((String) result);
 				doUpload(mat);
 			}
+
+			@Override
 			public void onFailure(Object result){
 				// not needed
 			}
@@ -372,10 +393,13 @@ public class TabletFileManager extends FileManagerT {
 		}
 
 		int callback = addNewCallback(new MyCallback() {
+			@Override
 			public void onSuccess(Object result){
 				removeFile(mat);
 				onSuccess.run();
 			}
+
+			@Override
 			public void onFailure(Object result){
 				// not needed
 			}

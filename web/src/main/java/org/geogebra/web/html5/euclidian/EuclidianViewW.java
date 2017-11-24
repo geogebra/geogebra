@@ -343,6 +343,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return getExportImageCanvas(scale, transparency).toDataUrl();
 	}
 
+	@Override
 	public String getExportSVG(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);

@@ -177,6 +177,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		return view;
 	}
 
+	@Override
 	public void setLabels() {
 		if (moreBtn != null) {
 			moreBtn.setAltText(loc.getMenu("Options"));

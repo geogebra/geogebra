@@ -361,14 +361,17 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	}
 
+	@Override
 	public void onPointerEventMove(PointerEvent event) {
 		mtg.onMouseMoveNow(event, System.currentTimeMillis(), true);
 	}
 
+	@Override
 	public void onPointerEventEnd(PointerEvent event) {
 		mtg.onPointerEventEnd(event);
 	}
 
+	@Override
 	public MouseTouchGestureControllerW getOffsets() {
 		return mtg;
 	}

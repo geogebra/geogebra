@@ -202,6 +202,7 @@ public class SliderWJquery extends FocusWidget
 
 	}
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.stopPropagation();
 		event.preventDefault();

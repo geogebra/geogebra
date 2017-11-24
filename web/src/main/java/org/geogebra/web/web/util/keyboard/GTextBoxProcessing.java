@@ -137,6 +137,7 @@ public class GTextBoxProcessing implements KeyboardListener {
 		return field;
 	}
 
+	@Override
 	public void onKeyboardClosed() {
 		// TODO Auto-generated method stub
 

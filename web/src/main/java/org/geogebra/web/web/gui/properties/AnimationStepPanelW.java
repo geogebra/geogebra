@@ -58,7 +58,7 @@ implements ITextFieldListener {
 			}});
 
 		tfAnimStep.addBlurHandler(new BlurHandler() {
-			
+			@Override
 			public void onBlur(BlurEvent event) {
 				doActionPerformed();
 			}

@@ -80,7 +80,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 			});
 
 		textArea.addBlurHandler(new BlurHandler() {
-
+			@Override
 			public void onBlur(BlurEvent event) {
 				applyScript();
 			}

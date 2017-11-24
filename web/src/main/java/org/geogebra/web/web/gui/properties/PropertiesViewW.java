@@ -624,7 +624,7 @@ public class PropertiesViewW extends PropertiesView
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
 		CSSAnimation.runOnAnimation(new Runnable() {
-
+			@Override
 			public void run() {
 				style.setOverflow(Overflow.VISIBLE);
 			}
@@ -642,7 +642,7 @@ public class PropertiesViewW extends PropertiesView
 		wrappedPanel.addStyleName("animateOut");
 		((AppW) app).getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		CSSAnimation.runOnAnimation(new Runnable() {
-
+			@Override
 			public void run() {
 				onFloatingSettingsClose();
 			}

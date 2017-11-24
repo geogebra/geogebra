@@ -152,7 +152,7 @@ public class PenSubMenu extends SubMenuPanel {
 		slider.add(preview);
 		sizePanel.add(slider);
 		slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
-
+			@Override
 			public void onValueChange(ValueChangeEvent<Double> event) {
 				sliderValueChanged(event.getValue());
 			}
@@ -379,11 +379,12 @@ public class PenSubMenu extends SubMenuPanel {
 			DialogManagerW dm = (DialogManagerW) (app.getDialogManager());
 			GColor originalColor = penGeo.getObjectColor();
 			dm.showColorChooserDialog(originalColor, new ColorChangeHandler() {
-
+				@Override
 				public void onForegroundSelected() {
 					// do nothing here
 				}
 
+				@Override
 				public void onColorChange(GColor color) {
 					penGeo.setObjColor(color);
 					setPenIconColor(color.toString());
@@ -392,18 +393,22 @@ public class PenSubMenu extends SubMenuPanel {
 					getPreview().update();
 				}
 
+				@Override
 				public void onClearBackground() {
 					// do nothing
 				}
 
+				@Override
 				public void onBarSelected() {
 					// do nothing
 				}
 
+				@Override
 				public void onBackgroundSelected() {
 					// do nothing
 				}
 
+				@Override
 				public void onAlphaChange() {
 					// do nothing
 				}

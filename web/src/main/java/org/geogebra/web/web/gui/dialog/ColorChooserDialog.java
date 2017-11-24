@@ -128,6 +128,7 @@ public class ColorChooserDialog extends DialogBoxW
 	    this.handler = handler;
     }
 
+	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		if (source == btnOk) {

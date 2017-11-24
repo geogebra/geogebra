@@ -97,6 +97,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 		return 0;
 	}
 
+	@Override
 	public boolean isHeaderPanelOpen() {
 		return false;
 	}

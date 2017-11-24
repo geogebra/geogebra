@@ -117,6 +117,7 @@ public class ContextMenuPagePreview
 		deletePanel.addStyleName("mowMenuRow");
 
 		deletePanel.addDomHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				onDelete();
 			}
@@ -133,6 +134,7 @@ public class ContextMenuPagePreview
 		wrappedPopup.hide();
 	}
 
+	@Override
 	public void setLabels() {
 		initGUI();
 	}
@@ -156,7 +158,7 @@ public class ContextMenuPagePreview
 
 	private void focusDeferred() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
+			@Override
 			public void execute() {
 				wrappedPopup.getPopupMenu().getElement().focus();
 			}

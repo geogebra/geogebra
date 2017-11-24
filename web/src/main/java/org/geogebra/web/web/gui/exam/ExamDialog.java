@@ -187,7 +187,7 @@ public class ExamDialog {
 			btnOk.addStyleName("ExamTabletStartButton");
 		}
 		app.invokeLater(new Runnable() {
-
+			@Override
 			public void run() {
 				box.center();
 

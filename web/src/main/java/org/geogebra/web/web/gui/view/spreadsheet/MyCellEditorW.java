@@ -79,7 +79,7 @@ public class MyCellEditorW implements BaseCellEditor {
 		autoCompleteTextField = new AutoCompleteTextFieldW(0,
 		        (AppW) kernel.getApplication(), false, keyListener, false);
 		autoCompleteTextField.addInsertHandler(new InsertHandler() {
-
+			@Override
 			public void onInsert(String text) {
 				if (!editing) {
 					String current = autoCompleteTextField.getText();

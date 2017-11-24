@@ -73,7 +73,7 @@ public class GGWMenuBar extends Composite {
 	 */
 	public void focusDeferred() {
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
+			@Override
 			public void execute() {
 				focus();
 			}

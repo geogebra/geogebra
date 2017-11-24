@@ -435,6 +435,7 @@ public class ItemControls extends FlowPanel
 		return this.radioTreeItem.getController();
 	}
 
+	@Override
 	public void onPlay(boolean show) {
 		if (btnMore == null) {
 			return;
@@ -450,6 +451,7 @@ public class ItemControls extends FlowPanel
 
 	}
 
+	@Override
 	public void setLabels() {
 		if (cmMore != null) {
 			cmMore.setLabels();

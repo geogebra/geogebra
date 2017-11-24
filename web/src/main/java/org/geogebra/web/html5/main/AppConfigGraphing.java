@@ -20,10 +20,12 @@ public class AppConfigGraphing implements AppConfig {
 
 	}
 
+	@Override
 	public String getAVTitle() {
 		return "Algebra";
 	}
 
+	@Override
 	public int getLineDisplayStyle() {
 		return GeoLine.EQUATION_EXPLICIT;
 	}

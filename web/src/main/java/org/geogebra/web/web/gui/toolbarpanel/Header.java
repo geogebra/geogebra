@@ -827,6 +827,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	}
 
+	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		int key = event.getNativeKeyCode();
 		if (key != GWTKeycodes.KEY_ENTER && key != GWTKeycodes.KEY_SPACE) {
@@ -878,7 +879,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		}
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
-
+			@Override
 			public void execute() {
 				updateCenterSize();
 				showUndoRedoPanel();
@@ -889,6 +890,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		});
 	}
 
+	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == btnMenu && shiftDown) {
 			app.getAccessibilityManager().focusPrevious(btnMenu);

@@ -647,7 +647,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
                 }});
 			
 			rightAngleStyleListBox.addChangeHandler(new ChangeHandler() {
-
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyRightAngleStyle(
 							rightAngleStyleListBox.getSelectedIndex());

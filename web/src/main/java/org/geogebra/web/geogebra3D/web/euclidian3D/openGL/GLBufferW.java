@@ -92,12 +92,14 @@ public class GLBufferW implements GLBuffer {
 		setLimit(length);
 	}
 
+	@Override
 	public void set(ArrayList<Double> array, int offset, int length) {
 		for (int i = 0; i < length; i++) {
 			impl.set(i + offset, array.get(i));
 		}
 	}
 
+	@Override
 	public void set(float value, int offset, int length, int step) {
 		for (int i = 0; i < length; i++) {
 			impl.set(i * step + offset, value);

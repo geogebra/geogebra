@@ -83,6 +83,7 @@ public class CASLaTeXEditor extends FlowPanel
 
 	}
 
+	@Override
 	public void onBlur(BlurEvent event) {
 		// autocommitting empty text produces $1
 		if (!isSuggesting()) {
@@ -389,19 +390,23 @@ public class CASLaTeXEditor extends FlowPanel
 
 	}
 
+	@Override
 	public boolean onEscape() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public boolean hasFocus() {
 		return mf.hasFocus();
 	}
 
+	@Override
 	public App getApplication() {
 		return app;
 	}
 
+	@Override
 	public void onTab(boolean shiftDown) {
 		// TODO Auto-generated method stub
 	}

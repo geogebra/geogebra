@@ -99,10 +99,9 @@ public final class MyImageW implements MyImage {
 		return img;
 	}
 
+	@Override
 	public String toLaTeXStringBase64() {
-
 		if (!isSVG()) {
-
 			return "\\imagebasesixtyfour{" + getWidth() + "}{" + getHeight()
 					+ "}{" + img.getSrc() + "}";
 		}

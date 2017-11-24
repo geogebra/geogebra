@@ -95,7 +95,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			}
 
 			menuButton.addFastClickHandler(new FastClickHandler() {
-
+				@Override
 				public void onClick(Widget source) {
 					// close keyboard first to avoid perspective mess
 					app.hideKeyboard();

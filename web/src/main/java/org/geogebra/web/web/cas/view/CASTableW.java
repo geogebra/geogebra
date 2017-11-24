@@ -477,6 +477,7 @@ public class CASTableW extends Grid implements CASTable {
 		return this.editor != null;
 	}
 
+	@Override
 	public boolean keepEditing(boolean failure, int rowNum) {
 		if (failure) {
 			Widget widget = getWidget(rowNum, COL_CAS_CELLS_WEB);

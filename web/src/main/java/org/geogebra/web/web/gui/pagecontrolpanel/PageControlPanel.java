@@ -80,6 +80,7 @@ public class PageControlPanel extends PersistablePanel {
 		plusButton.setStyleName("mowFloatingButton");
 		plusButton.addStyleName("mowPlusButton");
 		plusButton.addFastClickHandler(new FastClickHandler() {
+			@Override
 			public void onClick(Widget source) {
 				addNewPage();
 			}
@@ -130,6 +131,7 @@ public class PageControlPanel extends PersistablePanel {
 			dockPanel.hideZoomPanel();
 		}
 		CSSAnimation.runOnAnimation(new Runnable() {
+			@Override
 			public void run() {
 				style.setOverflow(Overflow.VISIBLE);
 				showPlusButton();
@@ -148,6 +150,7 @@ public class PageControlPanel extends PersistablePanel {
 		addStyleName("animateOut");
 		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		CSSAnimation.runOnAnimation(new Runnable() {
+			@Override
 			public void run() {
 				onClose();
 			}

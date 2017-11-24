@@ -178,6 +178,7 @@ public class StandardButton extends FastButton {
 	 * @param altText
 	 *            - alt text
 	 */
+	@Override
 	public void setAltText(String altText) {
 		btnImage.getElement().setAttribute("alt", altText);
 		btnImage.getElement().setAttribute("role", "button");

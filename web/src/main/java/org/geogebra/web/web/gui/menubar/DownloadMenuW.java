@@ -20,7 +20,7 @@ public class DownloadMenuW extends GMenuBar implements MenuBarI {
 		ExportMenuW.initActions(this, app);
 	}
 
-
+	@Override
 	public void hide() {
 		// no hiding needed
 	}

@@ -369,6 +369,7 @@ public class MarblePanel extends FlowPanel
 		}
 	}
 
+	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		Object source = event.getSource();
 		int key = event.getNativeKeyCode();

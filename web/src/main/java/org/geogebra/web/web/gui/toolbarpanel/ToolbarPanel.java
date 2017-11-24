@@ -85,7 +85,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	private TabIds selectedTabId;
 	private boolean closedByUser = false;
 	private ScheduledCommand deferredOnRes = new ScheduledCommand() {
-
+		@Override
 		public void execute() {
 			resize();
 		}

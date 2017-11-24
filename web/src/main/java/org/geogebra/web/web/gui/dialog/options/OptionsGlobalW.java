@@ -441,18 +441,22 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		app.setDefaultCursor();
 	}
 
+	@Override
 	public void updateGUI() {
 		globalTab.updateGUI();
 	}
 
+	@Override
 	public Widget getWrappedPanel() {
 		return tabPanel;
 	}
 
+	@Override
 	public void onResize(int height, int width) {
 		globalTab.onResize(height, width);
 	}
 
+	@Override
 	public MultiRowsTabPanel getTabPanel() {
 		return null;
 	}

@@ -497,7 +497,7 @@ public class MainMenu extends FlowPanel
 		};
 
 		menuPanel.addDomHandler(new KeyDownHandler() {
-
+			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int key = event.getNativeKeyCode();
 				GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
@@ -875,6 +875,7 @@ public class MainMenu extends FlowPanel
 		menus.get(0).focus();
 	}
 
+	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		Log.debug(shiftDown);
 		if (source instanceof GMenuBar) {

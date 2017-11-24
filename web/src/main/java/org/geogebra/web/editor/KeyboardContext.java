@@ -40,16 +40,19 @@ public class KeyboardContext implements HasKeyboard {
 						: (i == 2 ? "aAsSdDfFgGhHjJkKlL''" : "zZxXcCvVbBnNmM");
 			}
 
+			@Override
 			public String getMenu(String string) {
 				return string.replace("Function.", "");
 			}
 
+			@Override
 			public String getCommand(String string) {
 				return string;
 			}
 		};
 	}
 
+	@Override
 	public boolean needsSmallKeyboard() {
 		// TODO Auto-generated method stub
 		return false;
@@ -59,6 +62,7 @@ public class KeyboardContext implements HasKeyboard {
 		return true;
 	}
 
+	@Override
 	public void updateCenterPanelAndViews() {
 		// TODO Auto-generated method stub
 

@@ -328,6 +328,7 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		algebraTab.updateAngleUnit();
 	}
 
+	@Override
 	public void updateGUI() {
 		algebraTab.updateGUI();
 	}

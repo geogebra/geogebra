@@ -238,6 +238,7 @@ public class CASViewW extends CASView implements PrintableW {
 		maybeOpenKeyboard(false);
 	}
 
+	@Override
 	public void resetItems(boolean unselectAll) {
 		this.getConsoleTable().getEditor().onEnter(false);
 	}

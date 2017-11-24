@@ -137,6 +137,7 @@ public class AlgebraDockPanelW extends DockPanelW
 		return ((AlgebraViewW) app.getAlgebraView()).getActiveTreeItem();
 	}
 
+	@Override
 	public MathKeyboardListener updateKeyboardListener(MathKeyboardListener ml) {
 		if (aview == null || aview.getInputTreeItem() != ml) {
 			return ml;
@@ -209,6 +210,7 @@ public class AlgebraDockPanelW extends DockPanelW
 		return simplep.getOffsetWidth();
 	}
 
+	@Override
 	public boolean isToolMode() {
 		return false;
 	}

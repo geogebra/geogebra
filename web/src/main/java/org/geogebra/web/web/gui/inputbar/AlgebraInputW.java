@@ -572,14 +572,17 @@ public class AlgebraInputW extends FlowPanel
 		return this.btnHelpToggle;
 	}
 
+	@Override
 	public void setError(String msg) {
 		updateIcons(msg != null);
 	}
 
+	@Override
 	public void setCommandError(String command) {
 		updateIcons(true);
 	}
 
+	@Override
 	public void setUndefinedVariables(String vars) {
 		// TODO Auto-generated method stub
 

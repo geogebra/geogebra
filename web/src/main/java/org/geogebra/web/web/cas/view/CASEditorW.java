@@ -43,5 +43,6 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	 * @param explicit
 	 *            whether enter was really pressed (false for just blur)
 	 */
+	@Override
 	public void onEnter(boolean explicit);
 }

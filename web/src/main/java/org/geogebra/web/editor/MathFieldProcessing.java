@@ -181,6 +181,7 @@ public class MathFieldProcessing implements KeyboardListener {
 		return mf;
 	}
 
+	@Override
 	public void onKeyboardClosed() {
 		// TODO Auto-generated method stub
 

@@ -746,6 +746,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		return new ExportToPrinter3DW(this, renderer);
 	}
 
+	@Override
 	public String getExportSVG(double scale, boolean transparency) {
 		return "";
 	}
