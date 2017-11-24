@@ -19,5 +19,6 @@ public interface CellFormatInterface {
 
 	void setFormat(GPoint coords, int formatBgcolor, Object o);
 
+	void setTable(MyTableInterface table);
 
 }

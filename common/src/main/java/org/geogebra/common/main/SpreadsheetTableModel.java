@@ -3,7 +3,7 @@ package org.geogebra.common.main;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
@@ -33,6 +33,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	 * updates to the cell range lists as cells are added or removed
 	 */
 	private AlgoCellRangeManager cellRangeManager;
+	private CellFormatInterface formatHandler;
 
 	/***************************************************
 	 * Constructor
@@ -340,14 +341,13 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 
 	}
 
-	public CellFormatInterface getCellFormat() {
-		if (app.getGuiManager() == null) {
-			return new CellFormat(null, app);
+	public CellFormatInterface getCellFormat(MyTableInterface table) {
+		if (formatHandler == null) {
+			formatHandler = new CellFormat(table, app);
+		} else if (table != null) {
+			formatHandler.setTable(table);
 		}
-		SpreadsheetViewInterface spreadsheet = app
-				.getGuiManager().getSpreadsheetView();
-		return spreadsheet.getSpreadsheetTable()
-				.getCellFormatHandler();
+		return formatHandler;
 
 	}
 }

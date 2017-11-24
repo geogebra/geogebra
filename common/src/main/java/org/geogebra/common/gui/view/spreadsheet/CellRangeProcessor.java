@@ -1093,7 +1093,7 @@ public class CellRangeProcessor {
 			int row2, boolean transpose) {
 
 		CellFormatInterface formatHandler = app.getSpreadsheetTableModel()
-				.getCellFormat();
+				.getCellFormat(table);
 
 		StringBuilder sb = new StringBuilder();
 

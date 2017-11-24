@@ -35,7 +35,6 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.gui.view.spreadsheet.CellFormat;
 import org.geogebra.common.gui.view.spreadsheet.CellFormatInterface;
 import org.geogebra.common.gui.view.spreadsheet.CellRange;
 import org.geogebra.common.gui.view.spreadsheet.CellRangeProcessor;
@@ -95,8 +94,6 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	protected DefaultTableModel tableModel;
 	private CellRangeProcessor crProcessor;
 	private MyTableColumnModelListener columnModelListener;
-
-	private CellFormat formatHandler;
 
 	/**
 	 * All currently selected cell ranges are held in this list. Cell ranges are
@@ -372,10 +369,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	 */
 	@Override
 	public CellFormatInterface getCellFormatHandler() {
-		if (formatHandler == null) {
-			formatHandler = new CellFormat(this, app);
-		}
-		return formatHandler;
+		return app.getSpreadsheetTableModel().getCellFormat(this);
 	}
 
 	/**

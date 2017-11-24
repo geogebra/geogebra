@@ -80,7 +80,7 @@ public class CmdSetColor extends CmdScripting {
 				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
 				CellFormatInterface formatHandler = kernel.getApplication()
-						.getSpreadsheetTableModel().getCellFormat();
+						.getSpreadsheetTableModel().getCellFormat(null);
 
 				formatHandler.setFormat(coords, CellFormat.FORMAT_BGCOLOR,
 						col);
@@ -116,7 +116,7 @@ public class CmdSetColor extends CmdScripting {
 				GPoint coords = GeoElementSpreadsheet.spreadsheetIndices(label);
 
 				CellFormatInterface formatHandler = kernel.getApplication()
-						.getSpreadsheetTableModel().getCellFormat();
+						.getSpreadsheetTableModel().getCellFormat(null);
 
 
 				formatHandler.setFormat(coords, CellFormat.FORMAT_BGCOLOR,

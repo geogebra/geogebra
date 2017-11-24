@@ -104,17 +104,12 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	/** Cell renderer */
 	MyCellRendererW defaultTableCellRenderer;
 
-	private CellFormatInterface formatHandler;
-
-
 	/**
 	 * All currently selected cell ranges are held in this list. Cell ranges are
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
 	public ArrayList<CellRange> selectedCellRanges;
-
-
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
@@ -704,10 +699,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	@Override
 	public CellFormatInterface getCellFormatHandler() {
-		if (formatHandler == null) {
-			formatHandler = new CellFormat(this, app);
-		}
-		return formatHandler;
+		return app.getSpreadsheetTableModel().getCellFormat(this);
 	}
 
 	/**

@@ -1112,4 +1112,9 @@ public class CellFormat implements CellFormatInterface {
 		}
 	}
 
+	@Override
+	public void setTable(MyTableInterface table) {
+		this.table = table;
+	}
+
 }
