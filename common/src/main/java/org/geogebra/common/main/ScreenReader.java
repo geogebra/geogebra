@@ -92,8 +92,9 @@ public class ScreenReader {
 				sb.append("PressSpaceToRunScript");
 			}
 
-			if (geo0.isGeoPoint()) {
-				sb.append("PressArrowToMove");
+			if (geo0.isGeoPoint() && (geo0.isIndependent()
+					|| geo0.isPointOnPath() || geo0.isPointInRegion())) {
+				sb.append("PressArrowsToMove");
 			}
 		}
 
