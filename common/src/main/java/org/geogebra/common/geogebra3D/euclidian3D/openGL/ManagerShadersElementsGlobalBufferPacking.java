@@ -18,7 +18,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	static final public float ALPHA_INVISIBLE_VALUE = -1f;
 
 	private GLBufferManagerCurves bufferManagerCurves;
-	private GLBufferManagerSurfaces bufferManagerSurfaces;
+	private GLBufferManagerSurfaces bufferManagerSurfaces, bufferManagerSurfacesClosed;
 	private GLBufferManager currentBufferManager;
 	private GColor currentColor;
 	private int currentTextureType;
@@ -171,6 +171,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		super(renderer, view3d);
 		bufferManagerCurves = new GLBufferManagerCurves();
 		bufferManagerSurfaces = new GLBufferManagerSurfaces();
+		bufferManagerSurfacesClosed = new GLBufferManagerSurfaces();
 		currentBufferManager = null;
 	}
 
@@ -202,6 +203,16 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public void drawSurfaces(Renderer renderer) {
 		bufferManagerSurfaces.draw((RendererShadersInterface) renderer);
+	}
+
+	/**
+	 * draw closed surfaces
+	 * 
+	 * @param renderer
+	 *            renderer
+	 */
+	public void drawSurfacesClosed(Renderer renderer) {
+		bufferManagerSurfacesClosed.draw((RendererShadersInterface) renderer);
 	}
 
 	@Override
@@ -248,12 +259,17 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	public void reset() {
 		bufferManagerCurves.reset();
 		bufferManagerSurfaces.reset();
+		bufferManagerSurfacesClosed.reset();
 	}
 
 	@Override
 	public int startPolygons(Drawable3D d) {
 		if (d.shouldBePacked()) {
-			currentBufferManager = bufferManagerSurfaces;
+			if (d.addedFromClosedSurface()) {
+				currentBufferManager = bufferManagerSurfacesClosed;
+			} else {
+				currentBufferManager = bufferManagerSurfaces;
+			}
 			this.currentColor = d.getSurfaceColor();
 		}
 		return super.startPolygons(d);

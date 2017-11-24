@@ -160,6 +160,11 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
+	@Override
+	public boolean addedFromClosedSurface() {
+		return surfaceDrawTypeAdded == DRAW_TYPE_CLOSED_SURFACES_NOT_CURVED;
+	}
+
 	private void updateVertices(GeoPolygon polygon, int pointLength) {
 
 		if (vertices.length < pointLength) {

@@ -58,6 +58,16 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		}
 	}
 
+	@Override
+	protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			if (getView3D().viewChangedByZoom()) {
+				// will be updated if visible again
+				setWaitForUpdate();
+			}
+		}
+	}
+
 	// //////////////////////////////
 	// Previewable interface
 

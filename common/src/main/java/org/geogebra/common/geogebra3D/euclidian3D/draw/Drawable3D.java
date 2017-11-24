@@ -277,6 +277,13 @@ public abstract class Drawable3D extends DrawableND {
 	// update
 
 	/**
+	 * update for view when not visible
+	 */
+	protected void updateForViewNotVisible() {
+		// not implemented by default
+	}
+
+	/**
 	 * update this according to the {@link GeoElement3D}
 	 *
 	 */
@@ -284,41 +291,39 @@ public abstract class Drawable3D extends DrawableND {
 	public void update() {
 
 		clearTraceForViewChanged();
+		if (isVisible()) {
+			if (waitForUpdateVisualStyle || waitForUpdate) {
+				updateColors();
+				setLabelWaitForUpdate();
+				waitForUpdateVisualStyle = false;
+			}
 
-		boolean isVisible = isVisible();
-
-		if ((waitForUpdateVisualStyle || waitForUpdate) && isVisible) {
-			updateColors();
-			setLabelWaitForUpdate();
-			waitForUpdateVisualStyle = false;
-		}
-
-		if (isVisible) {
 			updateForView();
-		}
 
-		if (waitForUpdate && isVisible) {
-			if (updateForItSelf()) {
-				recordTrace();
-				waitForUpdate = false;
-			} else {
-				// we need a new repaint after current one to refine the
-				// drawable (used DrawSurface3DOld)
-				getView3D().waitForNewRepaint();
+			if (waitForUpdate) {
+				if (updateForItSelf()) {
+					recordTrace();
+					waitForUpdate = false;
+				} else {
+					// we need a new repaint after current one to refine the
+					// drawable (used DrawSurface3DOld)
+					getView3D().waitForNewRepaint();
+				}
+				setLabelWaitForUpdate();// TODO remove that
 			}
-			setLabelWaitForUpdate();// TODO remove that
-		}
 
-		if (isLabelVisible()) {
-			if (labelWaitForUpdate) {
-				updateLabel();
-				updateLabelPosition();
-				labelWaitForUpdate = false;
-			} else if (getView3D().viewChanged()) {
-				updateLabelPosition();
+			if (isLabelVisible()) {
+				if (labelWaitForUpdate) {
+					updateLabel();
+					updateLabelPosition();
+					labelWaitForUpdate = false;
+				} else if (getView3D().viewChanged()) {
+					updateLabelPosition();
+				}
 			}
+		} else {
+			updateForViewNotVisible();
 		}
-
 		waitForReset = false;
 	}
 
@@ -1714,6 +1719,14 @@ public abstract class Drawable3D extends DrawableND {
 	 * @return true if it should be packed
 	 */
 	public boolean shouldBePacked() {
+		return false;
+	}
+
+	/**
+	 * 
+	 * @return true if was created for closed surface (e.g. cube)
+	 */
+	public boolean addedFromClosedSurface() {
 		return false;
 	}
 }

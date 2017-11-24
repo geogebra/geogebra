@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.kernel.StringTemplate;
@@ -368,7 +367,6 @@ public class Drawable3DLists {
 					d3d.drawHidden(renderer);
 				}
 			}
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, true);
 		} else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
 				d.next().drawHidden(renderer);
@@ -408,7 +406,6 @@ public class Drawable3DLists {
 					d3d.drawTransp(renderer);
 				}
 			}
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfaces(renderer);
 		} else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
 				d.next().drawTransp(renderer);
@@ -511,7 +508,6 @@ public class Drawable3DLists {
 					d3d.drawOutline(renderer);
 				}
 			}
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, false);
 		} else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CURVES].iterator(); d.hasNext();) {
 				d.next().drawOutline(renderer);
@@ -606,7 +602,6 @@ public class Drawable3DLists {
 					d3d.drawHiding(renderer);
 				}
 			}
-			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfaces(renderer);
 		} else {
 			for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_SURFACES].iterator(); d.hasNext();) {
 				d.next().drawHiding(renderer);

@@ -1,6 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBufferPacking;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.kernel.Matrix.Coords;
 
@@ -41,26 +42,29 @@ public class Drawable3DListsForView extends Drawable3DLists {
 
 	@Override
 	public void drawHiddenTextured(Renderer renderer) {
-
 		super.drawHiddenTextured(renderer);
 		view3D.drawHidden(renderer);
-
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, true);
+		}
 	}
 
 	@Override
 	public void drawTransp(Renderer renderer) {
-
 		super.drawTransp(renderer);
 		view3D.drawTransp(renderer);
-
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfaces(renderer);
+		}
 	}
 
 	@Override
 	public void draw(Renderer renderer) {
-
 		super.draw(renderer);
 		view3D.draw(renderer);
-
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawCurves(renderer, false);
+		}
 	}
 
 	@Override
@@ -73,10 +77,11 @@ public class Drawable3DListsForView extends Drawable3DLists {
 
 	@Override
 	public void drawSurfacesForHiding(Renderer renderer) {
-
 		super.drawSurfacesForHiding(renderer);
 		view3D.drawHiding(renderer);
-
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfaces(renderer);
+		}
 	}
 
 
@@ -95,6 +100,21 @@ public class Drawable3DListsForView extends Drawable3DLists {
 					d.enlargeBounds(min, max);
 				}
 			}
+		}
+	}
+
+	@Override
+	public void drawClosedSurfacesForHiding(Renderer renderer) {
+		super.drawClosedSurfacesForHiding(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfacesClosed(renderer);
+		}
+	}
+
+	public void drawTranspClosedNotCurved(Renderer renderer) {
+		super.drawTranspClosedNotCurved(renderer);
+		if (renderer.getGeometryManager().packBuffers()) {
+			((ManagerShadersElementsGlobalBufferPacking) renderer.getGeometryManager()).drawSurfacesClosed(renderer);
 		}
 	}
 

@@ -14,13 +14,26 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 
 	@Override
 	protected void putIndices(int size, TypeElement type) {
-		short k = 1;
-		short zero = 0;
-		while (k < size - 1) {
-			putToIndices(zero);
-			putToIndices(k);
-			k++;
-			putToIndices(k);
+		if (type == TypeElement.FAN_DIRECT) {
+			short k = 1;
+			short zero = 0;
+			while (k < size - 1) {
+				putToIndices(zero);
+				putToIndices(k);
+				k++;
+				putToIndices(k);
+			}
+		} else { // type == TypeElement.FAN_INDIRECT
+			short k2 = 2;
+			short k = 1;
+			short zero = 0;
+			while (k < size - 1) {
+				putToIndices(zero);
+				putToIndices(k2);
+				putToIndices(k);
+				k++;
+				k2++;
+			}
 		}
 	}
 

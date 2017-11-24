@@ -294,6 +294,16 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	}
 
 	@Override
+	protected void updateForViewNotVisible() {
+		if (shouldBePacked()) {
+			if (getView3D().viewChangedByZoom()) {
+				// will be updated if visible again
+				setWaitForUpdate();
+			}
+		}
+	}
+
+	@Override
 	public void updatePreview() {
 
 		if (previewBasisIsFinished) {
@@ -531,8 +541,22 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			if (prop == GProperty.COLOR) {
 				updateColors();
 				getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
+				getView3D().getRenderer().getGeometryManager().updateColor(getSurfaceColor(), getSurfaceIndex());
+				if (!isVisible()) {
+					getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
+					getView3D().getRenderer().getGeometryManager().updateVisibility(false, getSurfaceIndex());
+				}
+			} else if (prop == GProperty.VISIBLE) {
+				boolean isVisible = isVisible();
+				getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getGeometryIndex());
+				getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getSurfaceIndex());
 			}
 		}
+	}
+
+	@Override
+	public boolean addedFromClosedSurface() {
+		return true;
 	}
 
 	// @Override
