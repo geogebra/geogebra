@@ -361,7 +361,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	@Override
 	public CellRangeProcessor getCellRangeProcessor() {
 		if (crProcessor == null) {
-			crProcessor = new CellRangeProcessor(this);
+			crProcessor = new CellRangeProcessor(this, app);
 		}
 		return crProcessor;
 	}

@@ -48,14 +48,12 @@ public class CellRangeProcessor {
 	private Construction cons;
 	private SpreadsheetTableModel tableModel;
 
-	public CellRangeProcessor(MyTable table) {
-
+	public CellRangeProcessor(MyTable table, App app) {
 		this.table = table;
-		app = table.getKernel().getApplication();
+		this.app = app;
 		loc = app.getLocalization();
 		tableModel = app.getSpreadsheetTableModel();
-		cons = table.getKernel().getConstruction();
-
+		cons = app.getKernel().getConstruction();
 	}
 
 	/**
@@ -1064,12 +1062,12 @@ public class CellRangeProcessor {
 			text.append("TableText[");
 			text.append(createMatrixExpression(column1, column2, row1, row2,
 					copyByValue, transpose));
-			text.append(",\"|_]");
+			text.append(",\"|_");
 			// formatting eg "lcr"
 			text.append(getAlignmentString(column1, column2, row1, row2,
 					transpose));
 			text.append("\"]");
-
+			Log.debug(text);
 			// Application.debug(text);
 			geos = app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptions(text.toString(), false);
@@ -1094,46 +1092,21 @@ public class CellRangeProcessor {
 	private String getAlignmentString(int column1, int column2, int row1,
 			int row2, boolean transpose) {
 
-		SpreadsheetViewInterface spreadsheet = app.getKernel().getApplication()
-				.getGuiManager().getSpreadsheetView();
-		CellFormatInterface formatHandler = spreadsheet.getSpreadsheetTable()
-				.getCellFormatHandler();
+		CellFormatInterface formatHandler = app.getSpreadsheetTableModel()
+				.getCellFormat();
 
 		StringBuilder sb = new StringBuilder();
 
 		if (!transpose) {
-
 			for (int i = column1; i <= column2; ++i) {
-
-				Object alignment = formatHandler.getCellFormat(i, row1,
-						CellFormat.FORMAT_ALIGN);
-
-				int alignmentI = CellFormat.ALIGN_LEFT;
-
-				if (alignment instanceof Integer) {
-					alignmentI = (Integer) alignment;
-				}
-
-				sb.append(CellFormat.getAlignmentString(alignmentI));
-
+				sb.append(alignmentChar(i, row1, formatHandler));
 			}
 
 		} else {
 			for (int i = row1; i <= row2; ++i) {
-				Object alignment = formatHandler.getCellFormat(column1, i,
-						CellFormat.FORMAT_ALIGN);
-
-				int alignmentI = CellFormat.ALIGN_LEFT;
-
-				if (alignment instanceof Integer) {
-					alignmentI = (Integer) alignment;
-				}
-
-				sb.append(CellFormat.getAlignmentString(alignmentI));
+				sb.append(alignmentChar(column1, i, formatHandler));
 			}
 		}
-
-		Log.error(sb.toString());
 
 		return sb.toString();
 	}
@@ -1141,6 +1114,20 @@ public class CellRangeProcessor {
 	// ===================================================
 	// Insert Rows/Columns
 	// ===================================================
+
+	private static char alignmentChar(int col, int row1,
+			CellFormatInterface formatHandler) {
+		Object alignment = formatHandler.getCellFormat(col, row1,
+				CellFormat.FORMAT_ALIGN);
+
+		int alignmentI = CellFormat.ALIGN_LEFT;
+
+		if (alignment instanceof Integer) {
+			alignmentI = (Integer) alignment;
+		}
+
+		return CellFormat.getAlignmentString(alignmentI);
+	}
 
 	public enum Direction {
 		/** left */
