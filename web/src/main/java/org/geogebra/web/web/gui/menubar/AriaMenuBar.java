@@ -24,6 +24,9 @@ public class AriaMenuBar extends Widget {
 	private ArrayList<MenuItem> allItems = new ArrayList<MenuItem>();
 	private boolean autoOpen;
 
+	/**
+	 * Create new accessible menu
+	 */
 	public AriaMenuBar() {
 		setElement(Document.get().createULElement());
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
@@ -34,16 +37,21 @@ public class AriaMenuBar extends Widget {
 		addStyleName("gwt-MenuBar-vertical");
 	}
 
-	public MenuItem addItem(MenuItem a) {
+	/**
+	 * @param item
+	 *            menu item
+	 * @return the item
+	 */
+	public MenuItem addItem(MenuItem item) {
 		Element li = DOM.createElement("LI");
-		li.setInnerHTML(a.getElement().getInnerHTML());
+		li.setInnerHTML(item.getElement().getInnerHTML());
 		li.setClassName("gwt-MenuItem listMenuItem");
 		li.setAttribute("role", "menuitem");
 		li.setTabIndex(0);
 		getElement().appendChild(li);
-		allItems.add(a);
-		domItems.put(a, li);
-		return a;
+		allItems.add(item);
+		domItems.put(item, li);
+		return item;
 	}
 
 	/**
@@ -62,16 +70,25 @@ public class AriaMenuBar extends Widget {
 		return addItem(new MenuItem(text, asHTML, cmd));
 	}
 
+	/**
+	 * Focus the whole menu
+	 */
 	public void focus() {
 		getElement().focus();
 	}
 
+	/**
+	 * @return selected item (may be null)
+	 */
 	protected MenuItem getSelectedItem() {
 		return this.selectedItem;
 	}
 
 	/**
 	 * Get the index of a {@link MenuItem}.
+	 * 
+	 * @param item
+	 *            item we are looking for
 	 *
 	 * @return the index of the item, or -1 if it is not contained by this
 	 *         MenuBar
@@ -80,17 +97,26 @@ public class AriaMenuBar extends Widget {
 		return allItems.indexOf(item);
 	}
 
+	/**
+	 * Mark item as selected and move focus to it
+	 * 
+	 * @param item
+	 *            item to be selected
+	 */
 	public void selectItem(MenuItem item) {
 		if (selectedItem != null) {
-			domItems.get(selectedItem).removeClassName("gwt-MenuItem-selected");
+			removeStyleName(selectedItem, "gwt-MenuItem-selected");
 		}
 		this.selectedItem = item;
-		if (item != null) {
+		if (item != null && domItems.get(item) != null) {
 			domItems.get(item).addClassName("gwt-MenuItem-selected");
 			domItems.get(item).focus();
 		}
 	}
 
+	/**
+	 * Remove all items
+	 */
 	public void clearItems() {
 		allItems.clear();
 		domItems.clear();
@@ -98,10 +124,18 @@ public class AriaMenuBar extends Widget {
 		selectItem(null);
 	}
 
+	/**
+	 * @return list of all items
+	 */
 	public ArrayList<MenuItem> getItems() {
 		return allItems;
 	}
 
+	/**
+	 * Set next item as selected
+	 * 
+	 * @return whether it was possible
+	 */
 	public boolean moveSelectionDown() {
 		int next = allItems.indexOf(selectedItem) + 1;
 		if (next < allItems.size()) {
@@ -111,6 +145,11 @@ public class AriaMenuBar extends Widget {
 		return false;
 	}
 
+	/**
+	 * Set previous item as selected
+	 * 
+	 * @return whether it was possible
+	 */
 	public boolean moveSelectionUp() {
 		int next = allItems.indexOf(selectedItem) - 1;
 		if (next >= 0 && next < allItems.size()) {
@@ -120,6 +159,9 @@ public class AriaMenuBar extends Widget {
 		return false;
 	}
 
+	/**
+	 * Add separator item
+	 */
 	public void addSeparator() {
 		Element li = DOM.createElement("LI");
 		li.setClassName("menuSeparator");
@@ -127,10 +169,17 @@ public class AriaMenuBar extends Widget {
 		getElement().appendChild(li);
 	}
 
+	/**
+	 * @param autoOpen
+	 *            whether submenu should open on mouseover
+	 */
 	public void setAutoOpen(boolean autoOpen) {
 		this.autoOpen = autoOpen;
 	}
 
+	/**
+	 * @return whether submenu should open on mouseover
+	 */
 	public boolean isAutoOpen() {
 		return autoOpen;
 	}
@@ -208,7 +257,7 @@ public class AriaMenuBar extends Widget {
 		super.onBrowserEvent(event);
 	}
 
-	private void eatEvent(Event event) {
+	private static void eatEvent(Event event) {
 		event.stopPropagation();
 		event.preventDefault();
 	}
@@ -223,7 +272,7 @@ public class AriaMenuBar extends Widget {
 		return null;
 	}
 
-	private void doItemAction(MenuItem item) {
+	private static void doItemAction(MenuItem item) {
 		final ScheduledCommand cmd = item.getScheduledCommand();
 		Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
 			@Override
@@ -243,6 +292,12 @@ public class AriaMenuBar extends Widget {
 		// }
 	}
 
+	/**
+	 * @param newItem
+	 *            item with submenu
+	 * @param imgRes
+	 *            submenu arrow icon
+	 */
 	public void appendSubmenu(MenuItem newItem, ImageResource imgRes) {
 		Element li = domItems.get(newItem);
 		NoDragImage img = new NoDragImage(imgRes, 20, 20);
@@ -252,20 +307,56 @@ public class AriaMenuBar extends Widget {
 
 	}
 
-	public int getAbsoluteTop(MenuItem mi0) {
-		return domItems.get(mi0).getAbsoluteTop();
+	/**
+	 * @param item
+	 *            item
+	 * @return absolute top of the item
+	 */
+	public int getAbsoluteTop(MenuItem item) {
+		return domItems.get(item) == null ? 0
+				: domItems.get(item).getAbsoluteTop();
 	}
 
-	protected int getAbsoluteHorizontalPos(MenuItem mi0, boolean subleft) {
-		return subleft ? domItems.get(mi0).getAbsoluteLeft()
-				: domItems.get(mi0).getAbsoluteRight() + 8;
+	/**
+	 * @param item
+	 *            item
+	 * @param subleft
+	 *            whether submenu icon is on the left
+	 * @return horizontal coordinate of menu
+	 */
+	protected int getAbsoluteHorizontalPos(MenuItem item, boolean subleft) {
+		if (domItems.get(item) == null) {
+			return 0;
+		}
+		return subleft ? domItems.get(item).getAbsoluteLeft()
+				: domItems.get(item).getAbsoluteRight() + 8;
 	}
 
+	/**
+	 * Adds a class name to element representing given item
+	 * 
+	 * @param item
+	 *            item to be changed
+	 * @param className
+	 *            CSS class name
+	 */
 	public void addStyleName(MenuItem item, String className) {
-		domItems.get(item).addClassName(className);
+		if (domItems.get(item) != null) {
+			domItems.get(item).addClassName(className);
+		}
 	}
 
+	/**
+	 * Removes a class name of element representing given item
+	 * 
+	 * @param item
+	 *            item to be changed
+	 * @param className
+	 *            CSS class name
+	 */
 	public void removeStyleName(MenuItem item, String className) {
-		domItems.get(item).removeClassName(className);
+		if (domItems.get(item) != null) {
+			domItems.get(item).removeClassName(className);
+		}
 	}
 }
