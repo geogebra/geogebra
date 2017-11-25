@@ -118,7 +118,7 @@ public class AriaStackPanel extends ComplexPanel
 		// ul1.setInnerHTML(w.getElement().getInnerHTML());
 		// li.appendChild(ul1);
 		Element content = DOM.createElement("DIV");
-
+		content.setTabIndex(0);
 		items.add(beforeIndex, w);
 		content.appendChild(w.getElement());
 		contents.add(content);
@@ -309,6 +309,11 @@ public class AriaStackPanel extends ComplexPanel
 		Element content = contents.get(index);
 		setStyleName(header, DEFAULT_ITEM_STYLENAME + "-selected", visible);
 		UIObject.setVisible(content, visible);
+		int nextIdx = index + 1;
+		if (nextIdx < headers.size()) {
+			setStyleName(headers.get(nextIdx),
+					DEFAULT_ITEM_STYLENAME + "below-selected", visible);
+		}
 	}
 
 	private void updateIndicesFrom(int beforeIndex) {
@@ -318,6 +323,7 @@ public class AriaStackPanel extends ComplexPanel
 		} else {
 			setStyleName(header, DEFAULT_ITEM_STYLENAME + "-first", false);
 		}
+
 	}
 
 	/** Close all stacks */
