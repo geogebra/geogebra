@@ -187,6 +187,7 @@ public class AriaMenuBar extends Widget {
 	@Override
 	public void onBrowserEvent(Event event) {
 		MenuItem item = findItem(DOM.eventGetTarget(event));
+
 		switch (DOM.eventGetType(event)) {
 		case Event.ONCLICK: {
 			// TODOFocusPanel.impl.focus(getElement());

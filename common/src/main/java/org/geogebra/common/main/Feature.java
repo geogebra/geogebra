@@ -302,6 +302,9 @@ public enum Feature {
 	/** GGB-2204 */
 	TAB_ON_MENU,
 
+	/** GGB-2204 */
+	ARIA_MENU,
+
 	/** GGB-2100 */
 	KEYBOARD_BOX_ICON
 }

@@ -48,6 +48,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class MainMenu extends FlowPanel
 		implements MainMenuI, EventRenderable, BooleanRenderable, TabHandler {
 
+	class MyStackPanel extends StackPanel implements StackPanelInterface {
+
+	}
 	/**
 	 * Appw app
 	 */
@@ -61,7 +64,7 @@ public class MainMenu extends FlowPanel
 	/**
 	 * Panel with menus
 	 */
-	StackPanel menuPanel;
+	StackPanelInterface menuPanel;
 	private ViewMenuW viewMenu;
 	private FileMenuW fileMenu;
 	private DownloadMenuW downloadMenu;
@@ -175,7 +178,11 @@ public class MainMenu extends FlowPanel
 		menuImgs.clear();
 
 		initKeyListener();
-		initStackPanel();
+		if (app.has(Feature.ARIA_MENU)) {
+			initAriaStackPanel();
+		} else {
+			initStackPanel();
+		}
 		initLogoMenu();
 
 		if (app.enableFileFeatures()) {
@@ -287,7 +294,7 @@ public class MainMenu extends FlowPanel
 			}
 			app.getNetworkOperation().getView().add(this);
 		}
-		this.add(menuPanel);
+		this.add((Widget) menuPanel);
 	}
 
 	private void initLogoMenu() {
@@ -329,8 +336,158 @@ public class MainMenu extends FlowPanel
 
 	}
 
-	private void initStackPanel() {
-		this.menuPanel = new StackPanel() {
+	private void initAriaStackPanel() {
+		this.menuPanel = new AriaStackPanel() {
+			@Override
+			public void showStack(int index) {
+				if (app.isUnbundledOrWhiteboard() && index == 0) {
+					super.showStack(1);
+				} else {
+					super.showStack(index);
+					if (app.isUnbundledOrWhiteboard()
+							&& menuImgs.size() > index - 1
+							&& menuImgs.get(index - 1) != null) {
+						String ariaLabel = menuTitles.get(index - 1);
+						setStackText(index,
+								getHTMLCollapse(menuImgs.get(index - 1),
+										menuTitles.get(index - 1)),
+								ariaLabel, true);
+						setExpandStyles(index);
+					}
+				}
+				dispatchOpenEvent();
+				if (app.isUnbundledOrWhiteboard() && index == 0) {
+					app.getGuiManager().setDraggingViews(
+							isViewDraggingMenu(menus.get(1)), false);
+				} else if (index < menus.size()) {
+					app.getGuiManager().setDraggingViews(
+							isViewDraggingMenu(menus.get(index)), false);
+				}
+
+			}
+
+			@Override
+			public void onBrowserEvent(Event event) {
+
+				int eventType = DOM.eventGetType(event);
+				if (!app.isExam() && eventType == Event.ONCLICK) {
+					Element target = DOM.eventGetTarget(event);
+					int index = findDividerIndex(target);
+
+					// check if SignIn was clicked
+					// if we are offline, the last item is actually Help
+					if (app.getNetworkOperation().isOnline()
+							&& !app.getLoginOperation().isLoggedIn()
+							&& index >= 0
+							&& this.getWidget(index) == signInMenu) {
+						((SignInButton) app.getLAF().getSignInButton(app))
+								.login();
+						app.toggleMenu();
+						return;
+					} else if (index >= 0) {
+						if (this.getWidget(index) == logoMenu) {
+							app.toggleMenu();
+							return;
+						}
+						if (this.getWidget(index) == settingsMenu) {
+							app.getDialogManager().showPropertiesDialog(
+									OptionType.GLOBAL, null);
+							app.toggleMenu();
+							return;
+						}
+						if (this.getWidget(index) == languageMenu) {
+							app.showLanguageGUI();
+							return;
+						}
+					}
+
+					if (index != -1) {
+
+						if (index == this.getSelectedIndex()) {
+							closeAll();
+							if (app.isUnbundledOrWhiteboard()) {
+								setStackText(index,
+										getHTMLExpand(menuImgs.get(index - 1),
+												menuTitles.get(index - 1)),
+										menuTitles.get(index - 1), false);
+								setCollapseStyles(index);
+							}
+							return;
+						}
+						if (app.isUnbundledOrWhiteboard()
+								&& this.getSelectedIndex() > 0) {
+							setStackText(this.getSelectedIndex(), getHTMLExpand(
+									menuImgs.get(this.getSelectedIndex() - 1),
+									menuTitles
+											.get(this.getSelectedIndex() - 1)),
+									true);
+
+							setCollapseStyles(getSelectedIndex());
+						}
+						showStack(index);
+					} else {
+						int idx = getContentIndex(target);
+						Widget content = getWidget(idx);
+
+						if (content != null) {
+							content.onBrowserEvent(event);
+						}
+					}
+				}
+				super.onBrowserEvent(event);
+			}
+
+
+			private void setExpandStyles(int index) {
+				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
+						: menus.get(index - 1);
+				mi.getElement().removeClassName("collapse");
+				mi.getElement().addClassName("expand");
+			}
+
+			private void setCollapseStyles(int index) {
+				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
+						: menus.get(index - 1);
+				mi.getElement().removeClassName("expand");
+				mi.getElement().addClassName("collapse");
+			}
+
+			// violator pattern from
+			// https://code.google.com/archive/p/google-web-toolkit/issues/1188
+
+			public void setStackText(int index, @IsSafeHtml String text,
+					String ariaLabel, Boolean expand) {
+				super.setStackText(index, text);
+			}
+
+			@Override
+			public void add(Widget w, @IsSafeHtml String stackText,
+					boolean asHTML) {
+				add(w);
+				int index = getWidgetCount() - 1;
+				setStackText(index, stackText, getMenuAt(index).getMenuTitle(),
+						null);
+			}
+
+		};
+
+		menuPanel.addDomHandler(new KeyDownHandler() {
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				int key = event.getNativeKeyCode();
+				GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
+				if (key == KeyCodes.KEY_TAB && mi != null) {
+					Log.debug("TAB on " + mi.getMenuTitle());
+					onTab(mi, event.isShiftKeyDown());
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}
+		}, KeyDownEvent.getType());
+	}
+
+private void initStackPanel() {
+		this.menuPanel = new MyStackPanel() {
 			@Override
 			public void showStack(int index) {
 				if (app.isUnbundledOrWhiteboard() && index == 0) {
