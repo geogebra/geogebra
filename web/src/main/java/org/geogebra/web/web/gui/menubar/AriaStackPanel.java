@@ -312,7 +312,7 @@ public class AriaStackPanel extends ComplexPanel
 		int nextIdx = index + 1;
 		if (nextIdx < headers.size()) {
 			setStyleName(headers.get(nextIdx),
-					DEFAULT_ITEM_STYLENAME + "below-selected", visible);
+					DEFAULT_ITEM_STYLENAME + "-below-selected", visible);
 		}
 	}
 
