@@ -282,14 +282,16 @@ public class AriaStackPanel extends ComplexPanel
 		return items.size();
 	}
 
-	protected int findDividerIndex(Element elem) {
-		String expando = elem.getPropertyString("__index");
-		if (expando == null) {
-			expando = elem.getParentElement().getPropertyString("__index");
-		}
-		if (expando != null) {
-			int index = headers.indexOf(elem);
-			return index;
+	protected int findDividerIndex(Element target) {
+		Element elem = target;
+		String expando = null;
+		while (elem != null) {
+			expando = elem.getPropertyString("__index");
+			if (expando != null) {
+				int index = headers.indexOf(elem);
+				return index;
+			}
+			elem = elem.getParentElement();
 		}
 		return -1;
 	}
