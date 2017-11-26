@@ -51,6 +51,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param stackText
 	 *            the header text associated with this widget
 	 */
+	@Override
 	@SuppressIsSafeHtmlCastCheck
 	public void add(Widget w, String stackText) {
 		add(w, stackText, false);
@@ -65,6 +66,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param stackHtml
 	 *            the header html associated with this widget
 	 */
+	@Override
 	public void add(Widget w, SafeHtml stackHtml) {
 		add(w, stackHtml.asString(), true);
 
@@ -81,6 +83,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param asHTML
 	 *            <code>true</code> to treat the specified text as HTML
 	 */
+	@Override
 	public void add(Widget w, @IsSafeHtml String stackText, boolean asHTML) {
 		add(w);
 		items.add(w);
@@ -92,6 +95,7 @@ public class AriaStackPanel extends ComplexPanel
 	 *
 	 * @return selected child
 	 */
+	@Override
 	public int getSelectedIndex() {
 		return visibleStack;
 	}
@@ -100,6 +104,7 @@ public class AriaStackPanel extends ComplexPanel
 		insert(asWidgetOrNull(w), beforeIndex);
 	}
 
+	@Override
 	public void insert(Widget w, int beforeIndex) {
 		// header
 		Element li = DOM.createElement("LI");
@@ -170,6 +175,7 @@ public class AriaStackPanel extends ComplexPanel
 		return remove(getWidget(index), index);
 	}
 
+	@Override
 	public boolean remove(Widget child) {
 		return remove(child, getWidgetIndex(child));
 	}
@@ -186,6 +192,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param text
 	 *            the text to be associated with it
 	 */
+	@Override
 	@SuppressIsSafeHtmlCastCheck
 	public void setStackText(int index, String text) {
 		setStackText(index, text, false);
@@ -199,6 +206,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param html
 	 *            the html to be associated with it
 	 */
+	@Override
 	public void setStackText(int index, SafeHtml html) {
 		setStackText(index, html.asString(), true);
 	}
@@ -213,6 +221,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param asHTML
 	 *            <code>true</code> to treat the specified text as HTML
 	 */
+	@Override
 	public void setStackText(int index, @IsSafeHtml String text,
 			boolean asHTML) {
 		if (index >= getWidgetCount()) {
@@ -227,6 +236,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param index
 	 *            the index of the child to be shown
 	 */
+	@Override
 	public void showStack(int index) {
 		if ((index >= getWidgetCount()) || (index < 0)
 				|| (index == visibleStack)) {
@@ -252,6 +262,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param styleName
 	 *            the name of the class to add
 	 */
+	@Override
 	public void addHeaderStyleName(int index, String styleName) {
 		if (index >= getWidgetCount()) {
 			return;
@@ -269,6 +280,7 @@ public class AriaStackPanel extends ComplexPanel
 	 * @param styleName
 	 *            the name of the class to remove
 	 */
+	@Override
 	public void removeHeaderStyleName(int index, String styleName) {
 		if (index >= getWidgetCount()) {
 			return;

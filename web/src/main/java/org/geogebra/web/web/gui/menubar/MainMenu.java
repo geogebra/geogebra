@@ -48,9 +48,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class MainMenu extends FlowPanel
 		implements MainMenuI, EventRenderable, BooleanRenderable, TabHandler {
 
-	class MyStackPanel extends StackPanel implements StackPanelInterface {
-
-	}
 	/**
 	 * Appw app
 	 */
@@ -103,6 +100,10 @@ public class MainMenu extends FlowPanel
 	 */
 	GMenuBar languageMenu;
 	private boolean loggedIn = false;
+
+	class MyStackPanel extends StackPanel implements StackPanelInterface {
+		// only adds interface
+	}
 
 	/**
 	 * Constructs the menubar
