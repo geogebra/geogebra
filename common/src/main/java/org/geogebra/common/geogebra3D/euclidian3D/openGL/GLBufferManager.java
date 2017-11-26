@@ -105,6 +105,7 @@ abstract class GLBufferManager {
 	}
 
 	private static class BufferPack {
+		private GLBufferManager manager;
 		private GLBuffer vertexBuffer, normalBuffer, textureBuffer, colorBuffer;
 		private GLBufferIndices indicesBuffer;
 		private int elementsLength, indicesLength;
@@ -113,10 +114,10 @@ abstract class GLBufferManager {
 		private static int indicesSize = elementsSize * 3;
 
 		/**
-		 * creates a new buffer pack, using approx. 4MB (8 bytes per float * 32768 * 15
-		 * = 3,932,160)
+		 * creates a new buffer pack, using approx. 2MB (4 bytes per float * 32768 * 15)
 		 */
-		public BufferPack() {
+		public BufferPack(GLBufferManager manager) {
+			this.manager = manager;
 			vertexBuffer = GLFactory.getPrototype().newBuffer();
 			normalBuffer = GLFactory.getPrototype().newBuffer();
 			textureBuffer = GLFactory.getPrototype().newBuffer();
@@ -146,23 +147,23 @@ abstract class GLBufferManager {
 			indicesBuffer.setLimit(this.indicesLength);
 		}
 
-		public void setElements(ArrayList<Double> vertexArray, ArrayList<Double> normalArray, boolean oneNormal,
-				ArrayList<Double> textureArray,
-				GColor color, int offset, int length) {
-			vertexBuffer.set(vertexArray, offset * 3, length * 3);
-			if (oneNormal) {
+		public void setElements() {
+			int offset = manager.currentBufferSegment.elementsOffset;
+			int length = manager.currentBufferSegment.elementsLength;
+			vertexBuffer.set(manager.vertexArray, offset * 3, length * 3);
+			if (manager.oneNormal) {
 				for (int i = 0; i < 3; i++) {
-					normalBuffer.set(normalArray.get(i).floatValue(), offset * 3 + i, length, 3);
+					normalBuffer.set(manager.normalArray.get(i).floatValue(), offset * 3 + i, length, 3);
 				}
 			} else {
-				normalBuffer.set(normalArray, offset * 3, length * 3);
+				normalBuffer.set(manager.normalArray, offset * 3, length * 3);
 			}
-			if (textureArray == null) {
+			if (manager.textureArray == null) {
 				textureBuffer.set(0, offset * 2, length * 2, 1);
 			} else {
-				textureBuffer.set(textureArray, offset * 2, length * 2);
+				textureBuffer.set(manager.textureArray, offset * 2, length * 2);
 			}
-			setColor(color, offset, length);
+			setColor(manager.color, offset, length);
 		}
 
 		public void setColor(GColor color, int offset, int length) {
@@ -212,7 +213,7 @@ abstract class GLBufferManager {
 	 */
 	public GLBufferManager() {
 		currentIndex = new Index();
-		currentBufferPack = new BufferPack();
+		currentBufferPack = new BufferPack(this);
 		bufferPackList = new ArrayList<GLBufferManager.BufferPack>();
 		bufferPackList.add(currentBufferPack);
 
@@ -395,7 +396,7 @@ abstract class GLBufferManager {
 			currentBufferSegment = getAvailableSegment(currentLengths, availableSegments);
 			if (currentBufferSegment == null) {
 				if (!currentBufferPack.canAdd(elementsLength, indicesLength)) {
-					currentBufferPack = new BufferPack();
+					currentBufferPack = new BufferPack(this);
 					bufferPackList.add(currentBufferPack);
 				}
 				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength, indicesLength);
@@ -412,9 +413,7 @@ abstract class GLBufferManager {
 		}
 
 		// set elements
-		currentBufferPack.setElements(vertexArray, normalArray, oneNormal, textureArray, color,
-				currentBufferSegment.elementsOffset,
-				currentBufferSegment.elementsLength);
+		currentBufferPack.setElements();
 
 		// release arrays
 		vertexArray = null;
