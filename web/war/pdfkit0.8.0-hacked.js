@@ -219,7 +219,7 @@ PDFDocument = (function(_super) {
     this.options = options != null ? options : {};
     PDFDocument.__super__.constructor.apply(this, arguments);
     this.version = 1.3;
-    this.compress = (_ref = this.options.compress) != null ? _ref : true;
+    this.compress = false;//(_ref = this.options.compress) != null ? _ref : true;
     this._pageBuffer = [];
     this._pageBufferStart = 0;
     this._offsets = [];
