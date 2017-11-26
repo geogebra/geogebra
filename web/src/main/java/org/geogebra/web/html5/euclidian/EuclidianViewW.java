@@ -380,7 +380,7 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		g4copy = new GGraphics2DW((Context2d) ctx.cast());
-		this.app.setExporting(ExportType.SVG, scale);
+		this.app.setExporting(ExportType.PDF_EMBEDFONTS, scale);
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
 		this.app.setExporting(ExportType.NONE, 1);
