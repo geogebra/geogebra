@@ -426,7 +426,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				GCheckBoxMenuItem columnItem = new GCheckBoxMenuItem(
 						data.columns[j].getTranslatedTitle(), com, true, app);
 				columnItem.setForceCheckbox(true);
-				columnItem.setSelected(data.columns[j].isVisible());
+				columnItem.setSelected(data.columns[j].isVisible(),
+						popupMenu.getPopupMenu());
 				popupMenu.addItem(columnItem);
 			}
 		}
@@ -442,13 +443,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					public void execute() {
 						showOnlyBreakpointsAction();
 						miShowOnlyBreakpoints.setSelected(app.getKernel()
-								.getConstruction().showOnlyBreakpoints());
+								.getConstruction().showOnlyBreakpoints(),
+								popupMenu.getPopupMenu());
 					}
 
 				}, true, app);
 		miShowOnlyBreakpoints.setForceCheckbox(true);
 		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction()
-				.showOnlyBreakpoints());
+				.showOnlyBreakpoints(), popupMenu.getPopupMenu());
 		popupMenu.addItem(miShowOnlyBreakpoints);
 
 	}

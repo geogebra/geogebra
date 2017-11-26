@@ -360,4 +360,10 @@ public class AriaMenuBar extends Widget {
 			domItems.get(item).removeClassName(className);
 		}
 	}
+
+	public void update(MenuItem item, String html) {
+		if (domItems.get(item) != null) {
+			domItems.get(item).setInnerHTML(html);
+		}
+	}
 }

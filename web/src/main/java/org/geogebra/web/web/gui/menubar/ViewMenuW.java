@@ -123,7 +123,8 @@ public class ViewMenuW extends GMenuBar {
 									.resizePanels();
 						}
 						inputBarItem.setSelected(app
-								.getInputPosition() != InputPosition.algebraView);
+								.getInputPosition() != InputPosition.algebraView,
+								ViewMenuW.this);
 
 						Timer timer = new Timer() {
 							@Override
@@ -171,7 +172,8 @@ public class ViewMenuW extends GMenuBar {
 											App.VIEW_DATA_COLLECTION),
 									App.VIEW_DATA_COLLECTION);
 							dataCollection.setSelected(app.getGuiManager()
-									.showView(App.VIEW_DATA_COLLECTION));
+									.showView(App.VIEW_DATA_COLLECTION),
+									ViewMenuW.this);
 							app.toggleMenu();
 						}
 					}, true, app);
@@ -202,7 +204,8 @@ public class ViewMenuW extends GMenuBar {
 					((AlgebraViewW) app.getAlgebraView()).setDefaultUserWidth();
 				}
 				app.getGuiManager().setShowView(!shown, e.getID());
-				newItem.setSelected(app.getGuiManager().showView(e.getID()));
+				newItem.setSelected(app.getGuiManager().showView(e.getID()),
+						ViewMenuW.this);
 				// reset activePerspective so that no perspective is
 				// highlighted in apps picker when view is customized
 				app.setActivePerspective(-1);
@@ -229,15 +232,15 @@ public class ViewMenuW extends GMenuBar {
 		for (Entry<Integer, GCheckBoxMenuItem> entry : this.items.entrySet()) {
 			int viewID = entry.getKey();
 			entry.getValue().setSelected(
-					app.getGuiManager().showView(viewID));
+					app.getGuiManager().showView(viewID), this);
 		}
 		boolean linearInput = app.showAlgebraInput()
 				&& app.getInputPosition() != InputPosition.algebraView;
-		inputBarItem.setSelected(linearInput);
-		consProtNav.setSelected(app.showConsProtNavigation());
+		inputBarItem.setSelected(linearInput, this);
+		consProtNav.setSelected(app.showConsProtNavigation(), this);
 		if (app.has(Feature.DATA_COLLECTION)) {
 			dataCollection.setSelected(app.getGuiManager().showView(
-					App.VIEW_DATA_COLLECTION));
+					App.VIEW_DATA_COLLECTION), this);
 		}
 	}
 }

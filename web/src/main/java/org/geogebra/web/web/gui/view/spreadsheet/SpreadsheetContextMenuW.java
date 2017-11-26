@@ -145,7 +145,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html, selected,
 				nonSelected,
 				getCommand(cmdString), true, app);
-		cbItem.setSelected(isSelected);
+		cbItem.setSelected(isSelected, popup.getPopupMenu());
 		popup.addItem(cbItem);
 	}
 
@@ -163,7 +163,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 
 		GCheckBoxMenuItem cbItem = new GCheckBoxMenuItem(html,
 				getCommand(cmdString), true, app);
-		cbItem.setSelected(isSelected);
+		cbItem.setSelected(isSelected, popup.getPopupMenu());
 		popup.addItem(cbItem);
 	}
 
@@ -182,9 +182,6 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		MenuItem menuItem = new MenuItem(html, true, subMenu);
 
 		popup.addItem(menuItem);
-		if (app.isUnbundled()) {
-
-		}
 		return menuItem;
 	}
 

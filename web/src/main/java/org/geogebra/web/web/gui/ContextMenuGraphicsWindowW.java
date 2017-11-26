@@ -436,7 +436,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					((AppW) app).getGuiManager().getShowAxesAction(), true,
 					app);
 			cbMenuItem.setSelected(app.getActiveEuclidianView().getShowXaxis()
-					&& (app.getActiveEuclidianView().getShowYaxis()));
+					&& (app.getActiveEuclidianView().getShowYaxis()),
+					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbMenuItem);
 		} else {
 			GCheckmarkMenuItem checkmarkMenuItem = new GCheckmarkMenuItem(
@@ -460,7 +461,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {
 			GCheckBoxMenuItem cbShowGrid = new GCheckBoxMenuItem(htmlString,
 				((AppW) app).getGuiManager().getShowGridAction(), true, app);
-			cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid());
+			cbShowGrid.setSelected(app.getActiveEuclidianView().getShowGrid(),
+					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbShowGrid);
 		} else {
 			GCheckmarkMenuItem checkmarkMenuItem = new GCheckmarkMenuItem(
@@ -494,7 +496,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		GCheckBoxMenuItem cbShowConstructionStep = new GCheckBoxMenuItem(
 				htmlString, showConstructionStepCommand, true, app);
 		cbShowConstructionStep.setSelected(app.showConsProtNavigation(app
-				.getActiveEuclidianView().getViewID()));
+				.getActiveEuclidianView().getViewID()),
+				wrappedPopup.getPopupMenu());
 		wrappedPopup.addItem(cbShowConstructionStep);
 
 		wrappedPopup.addSeparator();

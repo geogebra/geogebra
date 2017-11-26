@@ -2,6 +2,7 @@ package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -93,9 +94,15 @@ public class GCheckBoxMenuItem {
 
 	public void setCommand(ScheduledCommand cmd) {
 		menuItem = new MenuItem(itemPanel.toString(), true, cmd);
-
 	}
-	public void setSelected(boolean sel) {
+
+	/**
+	 * @param sel
+	 *            whether this should be selected
+	 * @param menu
+	 *            parent menu to update
+	 */
+	public void setSelected(boolean sel, AriaMenuBar menu) {
 		selected = sel;
 		if (textSelected != null) {
 			setText(sel ? textSelected : textNonSelected);
@@ -107,8 +114,11 @@ public class GCheckBoxMenuItem {
 		} else {
 			checkBox.setValue(sel);
 		}
-
-		menuItem.setHTML(itemPanel.toString());
+		String html = itemPanel.toString();
+		menuItem.setHTML(html);
+		if (menu != null) {
+			menu.update(menuItem, html);
+		}
 	}
 
 	private boolean isToggleMenu() {

@@ -282,7 +282,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}
 					}, true, app);
 			cbItem.setSelected(((Animatable) getGeo()).isAnimating()
-					&& app.getKernel().getAnimatonManager().isRunning());
+					&& app.getKernel().getAnimatonManager().isRunning(),
+					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 		}
 
@@ -302,7 +303,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							showObjectAuxiliaryCmd();
 						}
 					}, true, app);
-			cbItem.setSelected(getGeo().isAuxiliaryObject());
+			cbItem.setSelected(getGeo().isAuxiliaryObject(),
+					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 
 		}
@@ -357,7 +359,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								}
 							}, true, app);
 				}
-				cbItem.setSelected(getGeo().getSpreadsheetTrace());
+				cbItem.setSelected(getGeo().getSpreadsheetTrace(),
+						wrappedPopup.getPopupMenu());
 				wrappedPopup.addItem(cbItem);
 			}
 		}
@@ -389,7 +392,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								traceCmd();
 							}
 						}, true, app);
-				cbItem.setSelected(isTracing());
+				cbItem.setSelected(isTracing(), wrappedPopup.getPopupMenu());
 				wrappedPopup.addItem(cbItem);
 			} else if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
@@ -416,7 +419,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								traceCmd();
 							}
 						}, true, app);
-				cbItem.setSelected(((Traceable) getGeo()).getTrace());
+				cbItem.setSelected(((Traceable) getGeo()).getTrace(),
+						wrappedPopup.getPopupMenu());
 				wrappedPopup.addItem(cbItem);
 			}
 		}
@@ -438,7 +442,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							showLabelCmd();
 						}
 					}, true, app);
-			cbItem.setSelected(isLabelShown());
+			cbItem.setSelected(isLabelShown(), wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 		}
 
@@ -459,7 +463,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							showObjectCmd();
 						}
 					}, true, app);
-			cbItem.setSelected(getGeo().isSetEuclidianVisible());
+			cbItem.setSelected(getGeo().isSetEuclidianVisible(),
+					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 
 		}
@@ -497,7 +502,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}, true, app);
 			}
 
-			cbItem.setSelected(getGeo().isLocked());
+			cbItem.setSelected(getGeo().isLocked(),
+					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 		} else if (getGeo().isGeoNumeric()) {
 			final GeoNumeric num = (GeoNumeric) getGeo();
@@ -529,7 +535,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							}, true, app);
 				}
 
-				cbItem.setSelected(num.isSliderFixed());
+				cbItem.setSelected(num.isSliderFixed(),
+						wrappedPopup.getPopupMenu());
 				wrappedPopup.addItem(cbItem);
 			}
 		} else if (getGeo().isGeoBoolean()) {
@@ -546,7 +553,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 							fixCheckboxCmd();
 						}
 					}, true, app);
-			cbItem.setSelected(((GeoBoolean) getGeo()).isCheckboxFixed());
+			cbItem.setSelected(((GeoBoolean) getGeo()).isCheckboxFixed(),
+					wrappedPopup.getPopupMenu());
 			wrappedPopup.addItem(cbItem);
 		}
 
@@ -693,7 +701,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 								pinCmd(pinned);
 							}
 						}, true, app);
-				cbItem.setSelected(pinned);
+				cbItem.setSelected(pinned, wrappedPopup.getPopupMenu());
 				wrappedPopup.addItem(cbItem);
 			} else if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
@@ -775,7 +783,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						MainMenu.getMenuBarHtml(img, ""),
 						loc.getMenu("UnfixObject"), loc.getMenu("FixObject"),
 						cmd, true, app);
-				mi.setSelected(getGeo().isLocked());
+				mi.setSelected(getGeo().isLocked(),
+						wrappedPopup.getPopupMenu());
 				wrappedPopup.addItem(mi);
 			} else if (!app.isUnbundledOrWhiteboard()) {
 				addAction(cmd, MainMenu.getMenuBarHtml(img, label), label);
@@ -1007,7 +1016,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						}, true, app);
 			}
 
-			cbItem.setSelected(pinned);
+			cbItem.setSelected(pinned, wrappedPopup.getPopupMenu());
 
 			wrappedPopup.addItem(cbItem);
 

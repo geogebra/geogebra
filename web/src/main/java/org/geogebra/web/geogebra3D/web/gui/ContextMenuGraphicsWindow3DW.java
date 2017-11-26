@@ -184,7 +184,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				((GuiManager3DW) app.getGuiManager()).getShowAxes3DAction(),
 				true, app);
 		cbShowAxes.setSelected(((EuclidianView3DW) app.getEuclidianView3D())
-		        .axesAreAllVisible());
+				.axesAreAllVisible(), wrappedPopup.getPopupMenu());
 		getWrappedPopup().addItem(cbShowAxes);
 
 		// GRID
@@ -199,7 +199,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				((GuiManager3DW) app.getGuiManager()).getShowGrid3DAction(),
 				true, app);
 		cbShowGrid.setSelected(((Kernel3D) app.getKernel()).getXOYPlane()
-		        .isGridVisible());
+				.isGridVisible(), wrappedPopup.getPopupMenu());
 		getWrappedPopup().addItem(cbShowGrid);
 
 		// PLANE
@@ -214,7 +214,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				((GuiManager3DW) app.getGuiManager()).getShowPlane3DAction(),
 				true, app);
 		cbShowPlane.setSelected(((Kernel3D) app.getKernel()).getXOYPlane()
-		        .isPlateVisible());
+				.isPlateVisible(), wrappedPopup.getPopupMenu());
 		getWrappedPopup().addItem(cbShowPlane);
 	}
 
