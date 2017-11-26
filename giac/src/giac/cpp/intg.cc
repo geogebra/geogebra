@@ -198,6 +198,7 @@ namespace giac {
       else
 	non_constant.push_back(*it);
     }
+    // if (contains(plus_constant,x)) plus_constant=ratnormal(plus_constant,contextptr);
   }
 
   void decompose_prod(const vecteur & arg,const gen & x,vecteur & non_constant,gen & prod_constant,bool signcst,GIAC_CONTEXT){
@@ -213,6 +214,7 @@ namespace giac {
       else
 	non_constant.push_back(*it);
     }
+    // if (contains(prod_constant,x)) prod_constant=ratnormal(prod_constant,contextptr);
   }
 
   gen extract_cst(gen & u,const gen & x,GIAC_CONTEXT){

@@ -372,7 +372,7 @@ exp	: T_NUMBER		{$$ = $1;}
             if (v.size()>=2) f=makesequence(v.front(),v[1]-1);
             if (v.size()==3) inc=v[2];
           }
-          if (inc.type==_INT_  && f.type==_VECT && f._VECTptr->size()==2 && (rg || ($4.is_symb_of_sommet(at_interval) 
+          if (inc.type==_INT_  && inc.val!=0 && f.type==_VECT && f._VECTptr->size()==2 && (rg || ($4.is_symb_of_sommet(at_interval) 
 	  // && f._VECTptr->front().type==_INT_ && f._VECTptr->back().type==_INT_ 
 	  )))
             $$=symbolic(*$1._FUNCptr,makevecteur(symb_sto(f._VECTptr->front(),$2),inc.val>0?symb_inferieur_egal($2,f._VECTptr->back()):symb_superieur_egal($2,f._VECTptr->back()),symb_sto(symb_plus($2,inc),$2),symb_bloc($6)));

@@ -8374,6 +8374,10 @@ namespace giac {
   static define_unary_function_eval2_quoted (__DelVar,&_purge,_DelVar_s,&printastifunction);
   define_unary_function_ptr5( at_DelVar ,alias_at_DelVar,&__DelVar,_QUOTE_ARGUMENTS,T_RETURN);
 
+  static const char _del_s []="del";
+  static define_unary_function_eval2_quoted (__del,&_purge,_del_s,&printastifunction);
+  define_unary_function_ptr5( at_del ,alias_at_del,&__del,_QUOTE_ARGUMENTS,T_RETURN);
+
   gen _Row(const gen & g,GIAC_CONTEXT){
     if (interactive_op_tab && interactive_op_tab[6])
       return interactive_op_tab[6](g,contextptr);

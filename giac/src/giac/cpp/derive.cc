@@ -1076,7 +1076,7 @@ namespace giac {
 	  if (is_zero(resi))
 	    continue;
 	  if (!res[i].is_symb_of_sommet(at_and)){
-	    res[i]=symbolic(at_and,makesequence(res[i],tmp));
+	    res[i]=symbolic(at_and,makesequence(res[i],tmp[j]));
 	    continue;
 	  }
 	  vecteur v=gen2vecteur(res[i]._SYMBptr->feuille);

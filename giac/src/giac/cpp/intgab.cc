@@ -1233,6 +1233,8 @@ namespace giac {
     if (!has_evalf(gm,gabd,1,contextptr) || is_zero(gabd))
       gm=simplify(gm,contextptr);
     if (is_constant_wrt(g,x,contextptr)){
+      if (contains(g,x))
+	g=ratnormal(g,contextptr);
       res=g*(b-a);
       return true;
     }

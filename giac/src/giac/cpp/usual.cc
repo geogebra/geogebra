@@ -7832,7 +7832,8 @@ namespace giac {
     if (is_positive(-x,contextptr)){
       if (is_integer(x))
 	return unsigned_inf;
-      return Psi(ratnormal(1-x,contextptr),contextptr)-cst_pi/tan(cst_pi*x,contextptr);
+      if (!is_positive(x,contextptr)) // check added for HP for Σ(1/x,x,a,b)
+	return Psi(ratnormal(1-x,contextptr),contextptr)-cst_pi/tan(cst_pi*x,contextptr);
     }
     if (x==plus_inf)
       return x;

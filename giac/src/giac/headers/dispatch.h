@@ -557,6 +557,21 @@ namespace giac {
     _LP_SIMPLEX = 119,                // lp_simplex
     _LP_INTERIOR_POINT = 120,         // lp_interiorpoint
     _LP_INITIAL_POINT = 121 ,          // lp_initialpoint
+    _LP_MAX_CUTS = 122,            // lp_maxcuts            option
+    _LP_GAP_TOLERANCE = 123,       // lp_gaptolerance       option
+    _LP_NODESELECT = 124,          // lp_nodeselect         option
+    _LP_VARSELECT = 125,           // lp_varselect          option
+    _LP_FIRSTFRACTIONAL = 126,     // lp_firstfractional    value
+    _LP_LASTFRACTIONAL = 127,      // lp_lastfractional     value
+    _LP_MOSTFRACTIONAL = 128,      // lp_mostfractional     value
+    _LP_PSEUDOCOST = 129,          // lp_pseudocost         value
+    _LP_DEPTHFIRST = 130,          // lp_depthfirst         value
+    _LP_BREADTHFIRST = 131,        // lp_breadthfirst       value
+    _LP_BEST_PROJECTION = 132,     // lp_bestprojection     value
+    _LP_HYBRID = 133,              // lp_hybrid             value
+    _LP_ITERATION_LIMIT = 134,     // lp_iterationlimit     option
+    _LP_TIME_LIMIT = 135,          // lp_timelimit          option
+    _LP_VERBOSE =136,             // lp_verbose            option
   };
 	
   enum mupad_operator {

@@ -10450,6 +10450,14 @@ namespace giac {
     normalize=false;
     vecteur v(*args._VECTptr);
     int s = int(v.size());
+    if (s && v[0].is_symb_of_sommet(at_equal)){
+      // accept plotfield(y'=f(t,y),...) instead of plotfield(f(t,y),...)
+      gen f=v[0]._SYMBptr->feuille;
+      if (f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->front().type==_INT_){
+	*logptr(contextptr) << "Warning, replacing plotfield of " << v[0] << " by " << f._VECTptr->back() << endl;
+	v[0]=f._VECTptr->back(); 
+      }
+    }
     for (int i=0;i<s;++i){
       if (v[i]==at_normalize){
 	normalize=true;
