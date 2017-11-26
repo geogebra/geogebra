@@ -646,7 +646,8 @@ public abstract class Path2D implements Shape {
          * @see        java.lang.Cloneable
          * @since      1.6
          */
-        public final Object duplicate() {
+		@Override
+		public final Object duplicate() {
             // Note: It would be nice to have this return Path2D
             // but one of our subclasses (GeneralPath) needs to
             // offer "public Object clone()" for backwards
