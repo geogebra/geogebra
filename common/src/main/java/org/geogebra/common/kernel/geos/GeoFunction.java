@@ -3156,6 +3156,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	}
 
+	@Override
 	public void setSecret(AlgoElement algo) {
 		if (getFunction() != null) {
 			getFunction().setSecret(algo);
@@ -3222,6 +3223,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	/**
 	 * from GeoLocusable interface
 	 */
+	@Override
 	public int getPointLength() {
 		return ((AlgoFunctionFreehand) getParentAlgorithm()).getPointLength();
 	}
@@ -3229,10 +3231,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	/**
 	 * from GeoLocusable interface
 	 */
+	@Override
 	public ArrayList<MyPoint> getPoints() {
 		return ((AlgoFunctionFreehand) getParentAlgorithm()).getPoints();
 	}
 
+	@Override
 	public boolean isShortLHS() {
 		return this.shortLHS;
 	}
@@ -3241,6 +3245,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @param shortLHS
 	 *            whether lhs should be just f: y= instead of f(x)=
 	 */
+	@Override
 	public void setShortLHS(boolean shortLHS) {
 		this.shortLHS = shortLHS;
 	}

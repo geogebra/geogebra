@@ -27,11 +27,4 @@ public interface Translateable extends GeoElementND {
 	 *            translation vector
 	 */
 	public void translate(Coords v);
-
-	/**
-	 * Returns true if the element is translateable
-	 * 
-	 * @return true
-	 */
-	public boolean isTranslateable();
 }

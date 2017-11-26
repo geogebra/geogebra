@@ -251,6 +251,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		return new PPolynomial(result);
 	}
 
+	@Override
 	public int compareTo(PPolynomial poly) {
 		if (this==poly){
 			return 0;

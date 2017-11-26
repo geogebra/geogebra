@@ -210,6 +210,7 @@ public class GeoImplicitCurve3D extends GeoImplicitCurve
 		return translateZ;
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 		setUndefined();
 		// TODO Auto-generated method stub

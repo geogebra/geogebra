@@ -1997,6 +1997,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return toStringMode == GeoLine.EQUATION_USER && getDefinition() != null;
 	}
 
+	@Override
 	public String[] getEquationVariables() {
 		ArrayList<String> usedVars = new ArrayList<String>();
 		if (!MyDouble.exactEqual(x, 0)) {
@@ -2035,6 +2036,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	}
 
+	@Override
 	public ExpressionValue evaluateCurve(double t) {
 		double[] P = new double[2];
 		getInhomPointOnLine(P);

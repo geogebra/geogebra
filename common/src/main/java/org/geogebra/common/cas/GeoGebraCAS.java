@@ -87,6 +87,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	/**
 	 * Initializes underlying CAS
 	 */
+	@Override
 	public synchronized void initCurrentCAS() {
 		if (cas == null) {
 			setCurrentCAS();

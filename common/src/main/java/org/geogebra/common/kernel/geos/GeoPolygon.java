@@ -801,6 +801,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 *            index
 	 * @return i-th pointt
 	 */
+	@Override
 	final public GeoPointND getPointND(int i) {
 		return points[i];
 	}

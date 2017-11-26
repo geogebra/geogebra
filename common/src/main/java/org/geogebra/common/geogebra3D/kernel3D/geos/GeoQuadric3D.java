@@ -1973,6 +1973,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	// SURFACE (u,v)->(x,y,z) INTERFACE
 	// ///////////////////////////////////////
 
+	@Override
 	public void evaluatePoint(double u, double v, Coords point) {
 
 		switch (type) {
@@ -3516,6 +3517,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// implemented in GeoQuadric3DPart
 	}
 
+	@Override
 	public String[] getEquationVariables() {
 		ArrayList<String> vars = new ArrayList<String>();
 		if (!MyDouble.exactEqual(matrix[0], 0)

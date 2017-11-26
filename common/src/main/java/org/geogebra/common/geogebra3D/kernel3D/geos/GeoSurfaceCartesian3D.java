@@ -313,6 +313,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	 * @param p
 	 *            point
 	 */
+	@Override
 	public void evaluatePoint(double u, double v, Coords p) {
 		tmp[0] = u;
 		tmp[1] = v;
@@ -737,24 +738,22 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 
 	}
 
+	@Override
 	public void mirror(GeoLineND line) {
 		SurfaceTransform.mirror(fun, kernel, line);
-
 	}
 
+	@Override
 	public void mirror(GeoCoordSys2D plane) {
 		SurfaceTransform.mirror(fun, kernel, plane);
-
 	}
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
-
 		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 		SurfaceTransform.rotate(fun, kernel, r, S, tmpMatrix4x4);
-
 	}
 
 	@Override

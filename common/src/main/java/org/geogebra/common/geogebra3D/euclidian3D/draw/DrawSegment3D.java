@@ -119,6 +119,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 
+	@Override
 	protected void updateForItSelf(Coords p1, Coords p2) {
 		if (shouldBePacked()) {
 			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
@@ -149,6 +150,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		}
 	}
 
+	@Override
 	public void disposePreview() {
 		if (shouldBePacked()) {
 			removeFromGL();
@@ -156,6 +158,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		super.disposePreview();
 	}
 
+	@Override
 	protected int getReusableGeometryIndex() {
 		if (managerPackBuffers() && shouldBePacked()) {
 			int index = getGeometryIndex();
@@ -173,12 +176,14 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		return super.getReusableGeometryIndex();
 	}
 
+	@Override
 	protected void recordTrace() {
 		if (!(managerPackBuffers() && shouldBePacked())) {
 			super.recordTrace();
 		}
 	}
 
+	@Override
 	protected void clearTraceForViewChangedByZoomOrTranslate() {
 		if (managerPackBuffers() && shouldBePacked()) {
 			if (traces != null) {

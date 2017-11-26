@@ -117,9 +117,9 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 		return super.getDefinition(tpl);
 	}
 
+	@Override
 	public void setShortSyntax(boolean b) {
 		this.shortSyntax = b;
-
 	}
 
 }

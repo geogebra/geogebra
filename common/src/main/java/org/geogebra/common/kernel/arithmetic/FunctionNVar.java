@@ -1480,10 +1480,12 @@ public class FunctionNVar extends ValidExpression
 
 	}
 
+	@Override
 	public boolean isShortLHS() {
 		return shortLHS;
 	}
 
+	@Override
 	public void setShortLHS(boolean b) {
 		this.shortLHS = b;
 	}

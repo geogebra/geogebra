@@ -10,6 +10,7 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 
 	private StringBuilder sb = new StringBuilder();
 	
+	@Override
 	public void addPlainRow(String s) {
 
 		if (sb.length() > 0) {
@@ -22,6 +23,7 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 		
 	}
 
+	@Override
 	public void addLatexRow(String s) {
 		if (sb.length() > 0) {
 			sb.append(',');
@@ -33,6 +35,7 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 		
 	}
 
+	@Override
 	public void show() {
 		// not needed
 	}
@@ -42,31 +45,37 @@ public class StepGuiBuilderJson implements StepGuiBuilder {
 		return "[" + sb.toString() + "]";
 	}
 
+	@Override
 	public void startGroup() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void endGroup() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void startDefault() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void switchToDetailed() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void endDetailed() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void linebreak() {
 		// TODO Auto-generated method stub
 

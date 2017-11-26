@@ -12,6 +12,7 @@ import org.geogebra.common.plugin.Operation;
  */
 public class CoordComputer implements Traversing {
 
+	@Override
 	public ExpressionValue process(ExpressionValue ev) {
 		if (ev instanceof ExpressionNode) {
 			ExpressionNode en = ev.wrap();

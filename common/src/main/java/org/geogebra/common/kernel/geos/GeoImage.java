@@ -1105,10 +1105,12 @@ public class GeoImage extends GeoElement implements Locateable,
 		return ValueType.VOID;
 	}
 
+	@Override
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
 		return pixelWidth;
 	}
 
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return pixelHeight;
 	}

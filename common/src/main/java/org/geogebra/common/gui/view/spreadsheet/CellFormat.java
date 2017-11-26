@@ -482,6 +482,7 @@ public class CellFormat implements CellFormatInterface {
 	/**
 	 * Add a format value to a single cell.
 	 */
+	@Override
 	public void setFormat(GPoint cell, int formatType, Object formatValue) {
 		ArrayList<CellRange> crList = new ArrayList<CellRange>();
 		crList.add(new CellRange(app, cell.x, cell.y));

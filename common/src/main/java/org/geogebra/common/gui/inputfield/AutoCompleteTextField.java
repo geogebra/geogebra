@@ -38,15 +38,8 @@ public interface AutoCompleteTextField
 	// java.awt.Component
 	void setFocusable(boolean b);
 
-	// javax.swing.text.JTextComponent
-	void setEditable(boolean b);
-
 	// javax.swing.JComponent
 	void requestFocus();
-
-	void setVisible(boolean b);
-
-	void setColumns(int length);
 
 	void addFocusListener(FocusListener focusListener);
 

@@ -185,7 +185,8 @@ public abstract class CASgiacB extends CASgiac {
 	 */
     protected abstract void callEvaluateFunction(Runnable evaluateFunction) throws Throwable;
 
-    public boolean externalCAS() {
+	@Override
+	public boolean externalCAS() {
         return true;
     }
 }

@@ -58,6 +58,7 @@ public class AlgoDynamicCoordinates3D extends AlgoDynamicCoordinates
 		setDependencies(); // done by AlgoElement
 	}
 
+	@Override
 	public GeoPointND getPoint() {
 		return M;
 	}

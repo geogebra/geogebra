@@ -652,6 +652,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 
+	@Override
 	public String[] getEquationVariables() {
 		ArrayList<String> vars = new ArrayList<String>();
 		if (!MyDouble.exactEqual(matrix[0], 0)

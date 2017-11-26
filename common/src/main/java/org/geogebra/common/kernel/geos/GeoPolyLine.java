@@ -447,6 +447,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	 *            index
 	 * @return i-th vertex
 	 */
+	@Override
 	public GeoPointND getPointND(int i) {
 		return points[i];
 	}

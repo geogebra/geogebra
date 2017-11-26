@@ -118,6 +118,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 * @param e
 		 *            focus event
 		 */
+		@Override
 		public void focusGained(GFocusEvent e) {
 			if (!isSelectedForInput()) {
 				return;
@@ -133,6 +134,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		 * @param e
 		 *            focus event
 		 */
+		@Override
 		public void focusLost(GFocusEvent e) {
 			if (!isSelectedForInput()) {
 				return;

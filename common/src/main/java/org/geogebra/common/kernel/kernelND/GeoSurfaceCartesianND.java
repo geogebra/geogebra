@@ -174,6 +174,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 * @param geo
 	 *            Element to be replaced
 	 */
+	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 
 		for (int i = 0; i < fun.length; i++) {
@@ -304,6 +305,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	 *            string template
 	 * @return symbolic string representation
 	 */
+	@Override
 	public String toSymbolicString(StringTemplate tpl) {
 		if (isDefined()) {
 			StringBuilder sbTemp = new StringBuilder(80);
@@ -772,6 +774,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 		dilate(new MyDouble(kernel, -1.0), Q);
 	}
 
+	@Override
 	public void dilate(NumberValue ratio, Coords P) {
 		translate(P.mul(-1));
 		for (int i = 0; i < 3; i++) {
@@ -783,22 +786,20 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	}
 
+	@Override
 	public void translate(Coords v) {
-
 		// current expressions
 		for (int i = 0; i < 3; i++) {
 			ExpressionNode expr = fun[i].deepCopy(kernel).getExpression();
 			ExpressionNode trans = expr.plus(v.get(i + 1));
 			fun[i].setExpression(trans);
 		}
-
 	}
 
 	@Override
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
 			boolean symbolic, MyArbitraryConstant arbconst) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

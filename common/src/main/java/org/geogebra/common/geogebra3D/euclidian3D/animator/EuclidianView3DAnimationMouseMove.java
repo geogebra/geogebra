@@ -54,14 +54,17 @@ public class EuclidianView3DAnimationMouseMove extends EuclidianView3DAnimation 
 		mouseMoveMode = mode;
 	}
 
+	@Override
 	public void setupForStart() {
 		// nothing to do
 	}
 
+	@Override
 	public AnimationType getType() {
 		return AnimationType.MOUSE_MOVE;
 	}
 
+	@Override
 	public void animate() {
 		switch (mouseMoveMode) {
 			case EuclidianController.MOVE_ROTATE_VIEW:

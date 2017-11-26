@@ -30,6 +30,7 @@ public class EuclidianView3DAnimationRotationOneStep extends EuclidianView3DAnim
 		bNew = bN;
 	}
 
+	@Override
 	public void setupForStart() {
 		// if (aNew,bNew)=(0degrees,90degrees), then change it to
 		// (90degrees,90degrees) to have correct
@@ -60,10 +61,12 @@ public class EuclidianView3DAnimationRotationOneStep extends EuclidianView3DAnim
 		}
 	}
 
+	@Override
 	public AnimationType getType() {
 		return AnimationType.ROTATION_NO_ANIMATION;
 	}
 
+	@Override
 	public void animate() {
 		view3D.setRotXYinDegrees(aNew, bNew);
 		view3D.updateMatrix();

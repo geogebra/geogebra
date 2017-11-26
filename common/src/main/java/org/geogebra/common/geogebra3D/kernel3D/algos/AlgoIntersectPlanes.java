@@ -178,6 +178,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		return super.getDefinition(tpl);
 	}
 
+	@Override
 	public void setShortSyntax(boolean b) {
 		this.shortSyntax = b;
 	}

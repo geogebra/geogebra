@@ -1082,6 +1082,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return geo.toValueString(StringTemplate.latexTemplate);
 	}
 
+	@Override
 	public void evalLaTeX(String input, int mode) {
 		app.getDrawEquation().checkFirstCall(app);
 		TeXFormula tf = new TeXFormula();
@@ -2181,6 +2182,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// TODO Auto-generated method stub
 	}
 
+	@Override
 	public boolean isTracing(String objName) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		return geo != null && geo.getTrace();

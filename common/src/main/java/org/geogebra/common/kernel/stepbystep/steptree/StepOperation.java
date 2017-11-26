@@ -88,6 +88,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 		if (isOperation(Operation.PLUS) || isOperation(Operation.MULTIPLY)) {
 			subtrees.sort(new Comparator<StepExpression>() {
+				@Override
 				public int compare(StepExpression arg0, StepExpression arg1) {
 					return arg0.compareTo(arg1);
 				}

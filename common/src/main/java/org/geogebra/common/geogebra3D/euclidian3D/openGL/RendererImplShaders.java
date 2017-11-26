@@ -464,6 +464,7 @@ public abstract class RendererImplShaders extends RendererImpl {
 		glEnableVertexAttribArray(GLSL_ATTRIB_TEXTURE);
 	}
 
+	@Override
 	public void disableTextureBuffer() {
 		setCurrentGeometryHasNoTexture();
 		glDisableVertexAttribArray(GLSL_ATTRIB_TEXTURE);

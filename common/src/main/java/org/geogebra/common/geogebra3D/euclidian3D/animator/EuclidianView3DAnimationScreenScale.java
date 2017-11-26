@@ -78,14 +78,17 @@ public class EuclidianView3DAnimationScreenScale extends EuclidianView3DAnimatio
 		zScaleStart = view3D.getZscale();
 	}
 
+	@Override
 	public void setupForStart() {
 		// nothing to do
 	}
 
+	@Override
 	public AnimationType getType() {
 		return AnimationType.SCREEN_TRANSLATE_AND_SCALE;
 	}
 
+	@Override
 	public void animate() {
 		view3D.setXZero(xZeroOld + screenTranslateAndScaleDX);
 		view3D.setYZero(yZeroOld + screenTranslateAndScaleDY);

@@ -1037,6 +1037,7 @@ public class GeoImplicitSurface extends GeoElement3D
 		return kernel.getAlgebraProcessor().parseEquation(this);
 	}
 
+	@Override
 	public String[] getEquationVariables() {
 		ArrayList<String> vars = new ArrayList<String>();
 		for (FunctionVariable var : expression.getFunctionVariables()) {

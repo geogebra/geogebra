@@ -166,6 +166,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		else if (rhs.isExpressionNode()) {
 			return rhs.traverse(new Traversing() {
 
+				@Override
 				public ExpressionValue process(ExpressionValue ev) {
 					if (ev instanceof ExpressionNode){
 						ExpressionNode en = ev.wrap();
@@ -250,6 +251,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	 * @param builder
 	 *            step UI builder
 	 */
+	@Override
 	public void getSteps(StepGuiBuilder builder) {
 		StepEquation se = new StepEquation(equations.getDefinitionNoLabel(StringTemplate.defaultTemplate),
 				kernel.getParser());
@@ -260,6 +262,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		sb.getSteps().getListOfSteps(builder, kernel.getLocalization());
 	}
 
+	@Override
 	public boolean canShowSteps() {
 		return true;
 	}

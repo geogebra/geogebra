@@ -6598,6 +6598,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return is geo created with shape tool
 	 */
+	@Override
 	public boolean isShape() {
 		return false;
 	}
@@ -6641,6 +6642,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @param flag
 	 *            true to make this highlighted
 	 */
+	@Override
 	final public void setHighlighted(final boolean flag) {
 		if (kernel.getApplication().has(Feature.MOB_PACK_BUFFERS_3D)) {
 			if (flag != highlighted) {

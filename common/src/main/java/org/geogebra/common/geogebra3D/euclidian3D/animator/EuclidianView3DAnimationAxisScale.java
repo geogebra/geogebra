@@ -47,14 +47,17 @@ public class EuclidianView3DAnimationAxisScale extends EuclidianView3DAnimation 
 		axisScaleMode = mode;
 	}
 
+	@Override
 	public void setupForStart() {
 		// nothing to do
 	}
 
+	@Override
 	public AnimationType getType() {
 		return AnimationType.AXIS_SCALE;
 	}
 
+	@Override
 	public void animate() {
 		switch (axisScaleMode) {
 			case EuclidianController.MOVE_X_AXIS:

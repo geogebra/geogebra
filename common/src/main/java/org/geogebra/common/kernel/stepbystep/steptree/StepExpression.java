@@ -21,6 +21,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return 0, if the two trees are equal, 1, if this has a higher priority, -1,
 	 *         if lower
 	 */
+	@Override
 	public int compareTo(StepExpression sn) {
 		int a = getSortingPriority(this);
 		int b = getSortingPriority(sn);

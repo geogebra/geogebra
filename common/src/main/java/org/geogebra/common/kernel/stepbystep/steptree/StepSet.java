@@ -58,6 +58,7 @@ public class StepSet extends StepNode implements Iterable<StepNode> {
 		return null;
 	}
 
+	@Override
 	public Iterator iterator() {
 		return elements.iterator();
 	}

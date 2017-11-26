@@ -1992,10 +1992,12 @@ public class GeoNumeric extends GeoElement
 		return "x";
 	}
 
+	@Override
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
 		return 0;
 	}
 
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return 0;
 	}

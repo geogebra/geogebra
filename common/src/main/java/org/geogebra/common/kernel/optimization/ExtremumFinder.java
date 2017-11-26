@@ -106,6 +106,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 	 *            3.0e-8.)
 	 *
 	 */
+	@Override
 	final public double findMaximum(double a, double b,
 			UnivariateFunction maxfunction, double tol) {
 		NegativeRealRootFunction minfunc = new NegativeRealRootFunction(
@@ -143,6 +144,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 	 * @return minimum position
 	 *
 	 */
+	@Override
 	final public double findMinimum(double a0, double b0,
 			UnivariateFunction minclass, double tol) {
 		double a = a0;

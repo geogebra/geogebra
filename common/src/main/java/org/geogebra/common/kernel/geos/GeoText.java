@@ -1432,10 +1432,12 @@ public class GeoText extends GeoElement
 		totalHeight = height;
 	}
 
+	@Override
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
 		return totalWidth;
 	}
 
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return totalHeight;
 	}

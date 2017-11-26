@@ -271,6 +271,7 @@ public abstract class App3DCompanion extends AppCompanion {
 		return viewId++;
 	}
 	
+	@Override
 	public void setFlagForSCADexport() {
 		app.getEuclidianView3D().setFlagForSCADexport();
 	}

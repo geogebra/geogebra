@@ -1419,6 +1419,7 @@ public class GeoFunctionNVar extends GeoElement
 		return false;
 	}
 
+	@Override
 	public boolean isShortLHS() {
 		return this.shortLHS;
 	}
@@ -1427,10 +1428,12 @@ public class GeoFunctionNVar extends GeoElement
 	 * @param shortLHS
 	 *            whether lhs should be just f: y= instead of f(x)=
 	 */
+	@Override
 	public void setShortLHS(boolean shortLHS) {
 		this.shortLHS = shortLHS;
 	}
 
+	@Override
 	public void setSecret(AlgoElement algo) {
 		if (getFunction() != null) {
 			getFunction().setSecret(algo);

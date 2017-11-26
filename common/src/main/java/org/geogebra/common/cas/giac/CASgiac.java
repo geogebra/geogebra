@@ -683,6 +683,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		ve = ve.traverse(new Traversing() {
 
+			@Override
 			public ExpressionValue process(ExpressionValue ev) {
 				if (ev instanceof MyVecNDNode
 						&& ((MyVecNDNode) ev).isCASVector()) {

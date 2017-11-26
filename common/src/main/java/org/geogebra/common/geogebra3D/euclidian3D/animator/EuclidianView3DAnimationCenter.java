@@ -27,14 +27,17 @@ public class EuclidianView3DAnimationCenter extends EuclidianView3DAnimation {
 		zEnd = -p.getZ();
 	}
 
+	@Override
 	public void setupForStart() {
 		// nothing to do
 	}
 
+	@Override
 	public AnimationType getType() {
 		return AnimationType.TRANSLATION;
 	}
 
+	@Override
 	public void animate() {
 		view3D.setXZero(xEnd);
 		view3D.setYZero(yEnd);

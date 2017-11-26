@@ -47,6 +47,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	public static int MOVE_MODE_TOOL_DEFAULT = 3;
 
 	/** @return whether this point has changeable numbers as coordinates */
+	@Override
 	public boolean hasChangeableCoordParentNumbers();
 
 	/**

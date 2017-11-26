@@ -783,6 +783,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	private boolean rhsHasLists() {
 		Inspecting check = new Inspecting() {
 
+			@Override
 			public boolean check(ExpressionValue v) {
 				if (!v.isExpressionNode()) {
 					return false;
@@ -841,6 +842,7 @@ public class Equation extends ValidExpression implements EquationValue {
 
 	}
 
+	@Override
 	public String[] getEquationVariables() {
 		// TODO Auto-generated method stub
 		return new String[0];

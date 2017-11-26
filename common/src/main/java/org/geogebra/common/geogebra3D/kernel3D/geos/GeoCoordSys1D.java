@@ -984,6 +984,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		// no general line type in 3D
 	}
 
+	@Override
 	public ExpressionValue evaluateCurve(double t) {
 		Coords O = coordsys.getOrigin();// TODO inhom coords, also copied from
 										// toString

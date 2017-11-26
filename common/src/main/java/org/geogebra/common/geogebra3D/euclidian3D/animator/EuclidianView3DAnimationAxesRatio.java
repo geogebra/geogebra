@@ -26,6 +26,7 @@ public class EuclidianView3DAnimationAxesRatio extends EuclidianView3DAnimationS
 		this.zoomFactorZ = zoomFactorZ;
 	}
 
+	@Override
 	public void setupForStart() {
 		animatedScaleStartX = view3D.getXZero();
 		animatedScaleStartY = view3D.getYZero();

@@ -47,26 +47,31 @@ public class DrawSurface extends Drawable {
 			this.fixed = fixed;
 		}
 
+		@Override
 		public double getMinParameter() {
 			// TODO Auto-generated method stub
 			return -10;
 		}
 
+		@Override
 		public double getMaxParameter() {
 			// TODO Auto-generated method stub
 			return -10;
 		}
 
+		@Override
 		public double[] newDoubleArray() {
 			// TODO Auto-generated method stub
 			return new double[2];
 		}
 
+		@Override
 		public double distanceMax(double[] p1, double[] p2) {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 
+		@Override
 		public void evaluateCurve(double t, double[] out) {
 			double u = val, v = t;
 			if (fixed) {
@@ -78,26 +83,31 @@ public class DrawSurface extends Drawable {
 
 		}
 
+		@Override
 		public double[] getDefinedInterval(double a, double b) {
 			// TODO Auto-generated method stub
 			return new double[] { a, b };
 		}
 
+		@Override
 		public boolean getTrace() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean isClosedPath() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public boolean isFunctionInX() {
 			// TODO Auto-generated method stub
 			return false;
 		}
 
+		@Override
 		public GeoElement toGeoElement() {
 			// TODO Auto-generated method stub
 			return surface;

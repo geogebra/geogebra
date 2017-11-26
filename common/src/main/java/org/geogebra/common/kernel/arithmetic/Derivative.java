@@ -420,6 +420,7 @@ public class Derivative {
 
 	private static Inspecting checkCoordOperations = new Inspecting() {
 
+		@Override
 		public boolean check(ExpressionValue v) {
 			return v.isExpressionNode()
 					&& (((ExpressionNode) v).getOperation() == Operation.XCOORD

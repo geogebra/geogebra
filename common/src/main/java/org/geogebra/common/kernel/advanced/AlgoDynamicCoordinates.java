@@ -113,6 +113,7 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		return true;
 	}
 
+	@Override
 	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (botanaVars != null) {
 			return botanaVars;
@@ -124,6 +125,7 @@ public class AlgoDynamicCoordinates extends AlgoElement
 		return botanaVars;
 	}
 
+	@Override
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		return null;

@@ -18,6 +18,7 @@ public class EuclidianView3DAnimationScale extends EuclidianView3DAnimationScale
 		super(view3D, animator);
 	}
 
+	@Override
 	public void setupForStart() {
 		// nothing to do
 	}

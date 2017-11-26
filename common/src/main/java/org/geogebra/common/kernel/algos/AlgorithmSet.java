@@ -407,6 +407,7 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 		}
 	}
 
+	@Override
 	public Iterator<AlgoElement> iterator() {
 		return getIterator();
 	}

@@ -4583,6 +4583,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		return clippingCubeDrawable;
 	}
 	
+	@Override
 	public void setFlagForSCADexport() {
 		doExportToPrinter3D = true;
 	}

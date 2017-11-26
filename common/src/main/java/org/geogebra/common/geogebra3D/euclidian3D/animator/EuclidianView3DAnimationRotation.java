@@ -34,6 +34,7 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 		bNew = bN;
 	}
 
+	@Override
 	public void setupForStart() {
 		aOld = view3D.getAngleA() % 360;
 		bOld = view3D.getAngleB() % 360;
@@ -72,10 +73,12 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 		animatedRotTimeStart = view3D.getApplication().getMillisecondTime();
 	}
 
+	@Override
 	public AnimationType getType() {
 		return AnimationType.ROTATION;
 	}
 
+	@Override
 	public void animate() {
 		double t = (view3D.getApplication().getMillisecondTime() - animatedRotTimeStart) * 0.001;
 		t *= t;

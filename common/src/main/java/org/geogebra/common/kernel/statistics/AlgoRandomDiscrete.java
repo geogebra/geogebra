@@ -116,6 +116,7 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 		randomDiscrete.setValue(result);
 	}
 
+	@Override
 	public void setRandomValue(double d) {
 		for (int i = 0; i < values.size(); i++) {
 			if (Kernel.isEqual(values.get(i).evaluateDouble(), d)) {

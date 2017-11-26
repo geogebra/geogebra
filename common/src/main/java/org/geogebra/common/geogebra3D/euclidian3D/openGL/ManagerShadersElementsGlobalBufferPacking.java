@@ -44,6 +44,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			this.bufferManager = bufferManager;
 		}
 
+		@Override
 		public void setIndex(int index, GColor color) {
 			this.index = index;
 			this.color = color;
@@ -101,6 +102,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			return bufferManager;
 		}
 
+		@Override
 		public void removeBuffers() {
 			bufferManager.remove(index, getGeometriesLength());
 		}
@@ -121,35 +123,43 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 				this.geometryIndex = geometryIndex;
 			}
 
+			@Override
 			protected void setBuffers() {
 				// no internal buffer needed here
 			}
 
+			@Override
 			public void setType(Type type) {
 				this.type = type;
 			}
 
+			@Override
 			public void setVertices(ArrayList<Double> array, int length) {
 				geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(), geometryIndex);
 				geometrySet.getBufferManager().setVertexBuffer(array, length);
 			}
 
+			@Override
 			public void setNormals(ArrayList<Double> array, int length) {
 				geometrySet.getBufferManager().setNormalBuffer(array, length);
 			}
 
+			@Override
 			public void setTextures(ArrayList<Double> array, int length) {
 				geometrySet.getBufferManager().setTextureBuffer(array, length);
 			}
 
+			@Override
 			public void setTexturesEmpty() {
 				// not implemented yet
 			}
 
+			@Override
 			public void setColors(ArrayList<Double> array, int length) {
 				// not implemented yet
 			}
 
+			@Override
 			public void setColorsEmpty() {
 				geometrySet.getBufferManager().setColorBuffer(geometrySet.getColor());
 			}

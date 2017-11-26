@@ -86,12 +86,14 @@ public class ExtreumumFinderBrent implements ExtremumFinderI {
 		return ret;
 	}
 
+	@Override
 	public double findMinimum(double left, double right,
 			UnivariateFunction distFun, double minPrecision) {
 		return findMinOrMax(left, right, distFun, minPrecision,
 				GoalType.MINIMIZE);
 	}
 
+	@Override
 	public double findMaximum(double left, double right,
 			UnivariateFunction distFun, double minPrecision) {
 		return findMinOrMax(left, right, distFun, minPrecision,

@@ -522,6 +522,7 @@ public class GeoPlane3D extends GeoElement3D
 		return coordsys.getNormal();
 	}
 
+	@Override
 	public void evaluatePoint(double u, double v, Coords point) {
 		coordsys.getPointForDrawing(u, v, point);
 	}
@@ -924,6 +925,7 @@ public class GeoPlane3D extends GeoElement3D
 		return true;
 	}
 
+	@Override
 	public String[] getEquationVariables() {
 		ArrayList<String> usedVars = new ArrayList<String>();
 		if (!MyDouble.exactEqual(getCoordSys().getEquationVector().getX(), 0)) {
@@ -939,6 +941,7 @@ public class GeoPlane3D extends GeoElement3D
 		return usedVars.toArray(new String[0]);
 	}
 
+	@Override
 	public void setMode(int stringMode) {
 		this.toStringMode = stringMode;
 	}

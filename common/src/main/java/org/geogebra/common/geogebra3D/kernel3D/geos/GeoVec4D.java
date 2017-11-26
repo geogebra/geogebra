@@ -134,6 +134,7 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 	 * @param mode
 	 *            new coord style
 	 */
+	@Override
 	public void setMode(int mode) {
 		toStringMode = mode;
 	}
@@ -143,6 +144,7 @@ public abstract class GeoVec4D extends GeoElement3D implements GeoCoords4D,
 	 * 
 	 * @return coord style
 	 */
+	@Override
 	public int getMode() {
 		return toStringMode;
 	}

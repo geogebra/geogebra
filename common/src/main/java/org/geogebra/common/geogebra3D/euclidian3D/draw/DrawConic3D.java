@@ -641,6 +641,7 @@ public class DrawConic3D extends Drawable3DCurves
 	// FUNCTION2VAR INTERFACE
 	// /////////////////////////////////
 
+	@Override
 	public void evaluatePoint(double u, double v, Coords point) {
 		GeoConicND conic1 = (GeoConicND) getGeoElement();
 		double r = conic1.getLineThickness() / getView3D().getScale() * 1.5;

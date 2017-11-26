@@ -485,12 +485,14 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return getMyBoolean();
 	}
 
+	@Override
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
 		return (int) (32 + StringUtil.getPrototype().estimateLength(
 				getCaption(StringTemplate.defaultTemplate),
 				ev.getApplication().getFontCanDisplay(label)));
 	}
 
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return 32;
 	}

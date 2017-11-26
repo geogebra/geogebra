@@ -180,6 +180,7 @@ public class DrawPoint3D extends Drawable3DCurves
 	// FUNCTION2VAR INTERFACE
 	// /////////////////////////////////
 
+	@Override
 	public void evaluatePoint(double u, double v, Coords point) {
 		GeoPointND geoPoint = (GeoPointND) getGeoElement();
 		double r = geoPoint.getPointSize() / getView3D().getScale() * 1.5;

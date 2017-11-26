@@ -180,12 +180,13 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 		}
 	}
 
+	@Override
 	public int getPointsLength() {
 		return points.length;
 	}
 
+	@Override
 	public GeoPoint getPointCopy(int i) {
 		return (GeoPoint) points[i].copyInternal(cons);
 	}
-
 }

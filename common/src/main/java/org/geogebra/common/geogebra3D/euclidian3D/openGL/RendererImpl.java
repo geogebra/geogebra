@@ -88,6 +88,7 @@ public abstract class RendererImpl implements RendererShadersInterface {
 
 	public abstract void enableDash();
 
+	@Override
 	public abstract void setDashTexture(int index);
 
 	public abstract void setLabelOrigin(float[] origin);
@@ -350,6 +351,7 @@ public abstract class RendererImpl implements RendererShadersInterface {
 	 */
 	abstract public void createDummyTexture();
 
+	@Override
 	public Textures getTextures() {
 		return renderer.getTextures();
 	}

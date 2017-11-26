@@ -62,6 +62,7 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 		}
 	}
 
+	@Override
 	public void getSteps(StepGuiBuilder builder) {
 		App app = kernel.getApplication();
 
@@ -87,6 +88,7 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase implements HasSteps {
 
 	}
 
+	@Override
 	public boolean canShowSteps() {
 		return getClassName() == Commands.Simplify || getClassName() == Commands.Expand
 				|| getClassName() == Commands.Factor;

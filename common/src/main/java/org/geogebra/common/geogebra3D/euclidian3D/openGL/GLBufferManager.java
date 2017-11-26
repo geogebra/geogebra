@@ -69,6 +69,7 @@ abstract class GLBufferManager {
 			return 0;
 		}
 
+		@Override
 		public boolean equals(Object o) {
 			if (!(o instanceof Index)) {
 				return false;
@@ -77,10 +78,12 @@ abstract class GLBufferManager {
 			return v1 == index.v1 && v2 == index.v2;
 		}
 
+		@Override
 		public int hashCode() {
 			return 0; // we don't use it in hash table etc.
 		}
 
+		@Override
 		public String toString() {
 			return v1 + ", " + v2;
 		}

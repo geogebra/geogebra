@@ -1141,6 +1141,7 @@ public class Function extends FunctionNVar
 	 * 
 	 * @return real root function
 	 */
+	@Override
 	public UnivariateFunction derivative() {
 		Function deriv = getDerivativeNoFractions(1, true);
 		if (deriv == null) {

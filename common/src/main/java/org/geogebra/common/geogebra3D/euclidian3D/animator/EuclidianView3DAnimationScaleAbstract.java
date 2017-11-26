@@ -25,10 +25,12 @@ abstract public class EuclidianView3DAnimationScaleAbstract extends EuclidianVie
 		super(view3D, animator);
 	}
 
+	@Override
 	public AnimationType getType() {
 		return AnimationType.ANIMATED_SCALE;
 	}
 
+	@Override
 	public void animate() {
 		double t;
 		boolean ending = false;

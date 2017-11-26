@@ -481,6 +481,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		openHelp(page, Help.GENERIC);
 	}
 
+	@Override
 	final public View getConstructionProtocolData() {
 		ConstructionProtocolView view = getConstructionProtocolView();
 		if (view != null) {
@@ -755,6 +756,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	}
 
 
+	@Override
 	final public String getHelpURL(final Help type, String pageName) {
 		// try to get help for given language
 		// eg http://www.geogebra.org/help/en_GB/cmd/FitLogistic
@@ -918,6 +920,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	}
 
+	@Override
 	public StepGuiBuilder getStepGuiBuilder() {
 		return null;
 	}

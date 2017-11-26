@@ -168,6 +168,7 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 		return sgnC * sgnD < 0;
 	}
 
+	@Override
 	public GeoPointND getTangentPoint(GeoElement geo, GeoLine line) {
 		if (geo == c) {
 			return line.getStartPoint();

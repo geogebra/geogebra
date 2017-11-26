@@ -32,6 +32,7 @@ public class EuclidianView3DAnimationScaleTranslate extends EuclidianView3DAnima
 		animatedScaleTimeFactor = STEPS_TO_TIME_FACTOR * steps;
 	}
 
+	@Override
 	public void setupForStart() {
 		xScaleStart = view3D.getXscale();
 		yScaleStart = view3D.getYscale();

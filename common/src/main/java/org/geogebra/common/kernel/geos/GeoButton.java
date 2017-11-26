@@ -466,10 +466,12 @@ public class GeoButton extends GeoElement
 	/**
 	 * @return total screen width, overridden in GeoInputBox
 	 */
+	@Override
 	public int getTotalWidth(EuclidianViewInterfaceCommon ev) {
 		return getWidth();
 	}
 
+	@Override
 	public int getTotalHeight(EuclidianViewInterfaceCommon ev) {
 		return getHeight();
 	}

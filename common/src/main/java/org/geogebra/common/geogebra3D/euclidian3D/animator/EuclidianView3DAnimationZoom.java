@@ -21,6 +21,7 @@ public class EuclidianView3DAnimationZoom extends EuclidianView3DAnimationScaleA
 		this.zoomFactor = zoomFactor;
 	}
 
+	@Override
 	public void setupForStart() {
 		animatedScaleStartX = view3D.getXZero();
 		animatedScaleStartY = view3D.getYZero();
