@@ -568,8 +568,8 @@ public class GGraphics2DW implements GGraphics2D {
 		// clip to overwrite
 		// in this case we don't want to double-clip something so let's
 		// restore the context
-		context.restoreTransform();
-		context.saveTransform();
+		// context.restoreTransform();
+		// context.saveTransform();
 		context.clip();
 	}
 
