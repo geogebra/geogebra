@@ -100,6 +100,7 @@ public class MainMenu extends FlowPanel
 	GMenuBar languageMenu;
 	private boolean loggedIn = false;
 
+	/** Add insterface to stack panel */
 	class MyStackPanel extends StackPanel implements StackPanelInterface {
 		// only adds interface
 	}
@@ -455,6 +456,12 @@ public class MainMenu extends FlowPanel
 			// violator pattern from
 			// https://code.google.com/archive/p/google-web-toolkit/issues/1188
 
+			/**
+			 * @param ariaLabel
+			 *            for compatibility with AriaStackPanel
+			 * @param expand
+			 *            for compatibility with AriaStackPanel
+			 */
 			public void setStackText(int index, @IsSafeHtml String text,
 					String ariaLabel, Boolean expand) {
 				super.setStackText(index, text);

@@ -100,8 +100,14 @@ public class AriaStackPanel extends ComplexPanel
 		return visibleStack;
 	}
 
-	public void insert(IsWidget w, int beforeIndex) {
-		insert(asWidgetOrNull(w), beforeIndex);
+	/**
+	 * @param widget
+	 *            widget
+	 * @param beforeIndex
+	 *            index
+	 */
+	public void insert(IsWidget widget, int beforeIndex) {
+		insert(asWidgetOrNull(widget), beforeIndex);
 	}
 
 	@Override
@@ -294,6 +300,11 @@ public class AriaStackPanel extends ComplexPanel
 		return items.size();
 	}
 
+	/**
+	 * @param target
+	 *            DOM element
+	 * @return item that's parent of given element
+	 */
 	protected int findDividerIndex(Element target) {
 		Element elem = target;
 		String expando = null;
@@ -344,6 +355,11 @@ public class AriaStackPanel extends ComplexPanel
 		visibleStack = -1;
 	}
 
+	/**
+	 * @param target
+	 *            event target
+	 * @return index of parent element
+	 */
 	public int getContentIndex(Element target) {
 		return target.getParentElement().getPropertyInt("__index");
 	}

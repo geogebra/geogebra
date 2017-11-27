@@ -267,6 +267,9 @@ public class AriaMenuBar extends Widget {
 
 	private static void doItemAction(AriaMenuItem item) {
 		final ScheduledCommand cmd = item.getScheduledCommand();
+		if (!item.isEnabled()) {
+			return;
+		}
 		Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
@@ -311,6 +314,9 @@ public class AriaMenuBar extends Widget {
 				: item.getElement().getAbsoluteRight() + 8;
 	}
 
+	/**
+	 * Remove currently open submenu from DOM
+	 */
 	public void removeSubPopup() {
 		// needs override
 	}
