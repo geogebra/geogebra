@@ -311,7 +311,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		setAltText(btnTools, "Tools");
 		setAltText(btnUndo, "Undo");
 		setAltText(btnRedo, "Redo");
-
 	}
 
 	private void setAltText(MyToggleButton btn, String string) {
