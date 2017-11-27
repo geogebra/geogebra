@@ -13,7 +13,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * Menubar with some extra functionality (popups, event logging)
@@ -92,7 +91,8 @@ public class GMenuBar extends AriaMenuBar {
 
 		// this works, but it is still different from addItem in
 		// not following mouse movement, only following mouse clicks, etc
-		final Object[] ait = new Object[2];
+		final Object[] ait = new Object[1];
+		final AppW app1 = app;
 		ait[1] = null;// means the popup assigned to this MenuItem
 		ait[0] = addItem(itemtext, textishtml, new ScheduledCommand() {
 			@Override
@@ -105,9 +105,9 @@ public class GMenuBar extends AriaMenuBar {
 					// because its popuppanel is modal, but its ait[1]
 					// variable still remains filled, so it is necessary to
 					// check it here, and make it null if necessary
-					if ((ait[1] != null) && (ait[1] instanceof PopupPanel)
-					        && !((PopupPanel) ait[1]).isShowing()
-					        && !((PopupPanel) ait[1]).isAttached()) {
+					if ((ait[1] != null) && (ait[1] instanceof GPopupPanel)
+							&& !((GPopupPanel) ait[1]).isShowing()
+							&& !((GPopupPanel) ait[1]).isAttached()) {
 						// but here we should exclude the case where the same
 						// menuitem is clicked as the present one!!
 						ait[1] = null;
@@ -116,7 +116,7 @@ public class GMenuBar extends AriaMenuBar {
 					if (ait[1] == null) {
 						// popuppanel still not present
 						final GPopupPanel pp = new GPopupPanel(true, false,
-								app.getPanel(), app);
+								app1.getPanel(), app1);
 						pp.addAutoHidePartner(
 								((AriaMenuItem) ait[0]).getElement());
 						submenupopup.addStyleName(subleft ? "subMenuLeftSide2"
@@ -135,11 +135,11 @@ public class GMenuBar extends AriaMenuBar {
 						pp.add(submenupopup);
 						AriaMenuItem mi0 = (AriaMenuItem) ait[0];
 						int left = (int) ((getAbsoluteHorizontalPos(mi0,
-								subleft) - (int) app.getAbsLeft())
-								/ app.getArticleElement().getScaleX());
+								subleft) - (int) app1.getAbsLeft())
+								/ app1.getArticleElement().getScaleX());
 						int top = (int) ((mi0.getAbsoluteTop()
-								- app.getAbsTop())
-								/ app.getArticleElement().getScaleY());
+								- app1.getAbsTop())
+								/ app1.getArticleElement().getScaleY());
 
 						pp.setPopupPosition(left, top);
 
@@ -170,8 +170,8 @@ public class GMenuBar extends AriaMenuBar {
 					} else {
 						submenupopup.selectItem(null);
 
-						if (ait[1] instanceof PopupPanel) {
-							((PopupPanel) ait[1]).hide();
+						if (ait[1] instanceof GPopupPanel) {
+							((GPopupPanel) ait[1]).hide();
 						}
 
 						// if popuppanel is present, it will be hidden

@@ -4,10 +4,7 @@
  
 .GeoGebraFrame {
 	display:block;
-.listMenuItem{
-		box-sizing:border-box;		
-		list-style: none;
-	}
+
 	button {
 		border: none;
 		background: none;
@@ -111,7 +108,7 @@
 	}
 
 	&.minWidth > div {
-		overflow-x: auto !important;	
+		overflow-x: auto !important;
 	}
 	/* end */
 
@@ -122,7 +119,7 @@
 		border: #DCDCDC solid 1px;
 		background: #FFFFFF;
 		padding: 4px 5px;
-		color: #666666;	
+		color: #666666;
 		border-radius: 5px;
 		box-sizing: border-box;
 		-moz-box-sizing: border-box;
@@ -198,14 +195,14 @@
 
 	/* Pop-up Exam Mode Dialog */
 	.ExamCheckboxPanel {
-		margin: 10px 20px;	
+		margin: 10px 20px;
 	}
 
 	.examCheckbox{
 		line-height:2em;
 		display: block;
 	}
-	
+
 	.boxsize {
 		width: 340px;
 		max-width: 100%;
@@ -214,7 +211,7 @@
 	.ExamTabletBoxsize {
 	/*	width: 150px;
 		height: 150px; */
-	
+
     /*margin-top: 30%;*/
 	}
 
@@ -229,7 +226,7 @@
 	.ExamTabletStartButton {
 		margin: 30px 0px 10px 0px !important;
 	}
-	
+
 	.examScrollPanel{
 		overflow: auto;
 		min-height: 100px;
@@ -238,11 +235,11 @@
 		/*margin: 0px 10px 10px 10px;*/
 		padding: 0px 10px 10px 5px;
 	}
-	
+
 	.examMessagePanel{
 		margin-right:30px;
 	}
-	
+
 	.examInfo {
 		margin-left: 5px;
 		cursor: pointer;
@@ -398,6 +395,11 @@
 		opacity: 0.26 !important;
 	}
 
+	.listMenuItem{
+		box-sizing:border-box;
+		list-style: none;
+	}
+
 	.gwt-MenuBar-horizontal .gwt-MenuItemSeparator {
 		width: 1px;
 		padding: 0px;
@@ -405,70 +407,72 @@
 		border: 0px;
 		background: white;
 	}
-	
+
 	.gwt-MenuBar-horizontal .gwt-MenuItemSeparator .menuSeparatorInner {
 		width: 1px;
 		height: 1px;
 		background: white;
 	}
-	
+
 	.gwt-MenuBarPopup {
 		margin: 0px 0px 0px 3px;
 		z-index: 100;
 	}
-	
+
 	.gwt-PasswordTextBox {
 		padding: 5px 4px;
 		border: 1px solid #ccc;
 		border-top: 1px solid #999;
 		font-size: 100%;
 	}
-	
+
 	.gwt-PasswordTextBox-readonly {
 		color: #888;
 	}
-	
+
 	.gwt-PopupPanel {
 		border-radius: 10px;
 		padding: 5px;
 		background-color: rgba(255, 255, 255, 0.9);
 		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		z-index: 500;
-	}
-	
-	.gwt-PopupPanel.loadinganimation {
+		&.loadinganimation {
 		background-color: rgba(255, 255, 255, 0);
-		box-shadow: none;
-		border-color: transparent;
+			box-shadow: none;
+			border-color: transparent;
+		}
+		&.subMenuLeftSidePopup{
+			box-shadow:none;
+		}
 	}
-	
+
 	.gwt-DecoratedPopupPanel .popupContent {
-		
+
 	}
-	
+
 	.gwt-DecoratedPopupPanel .popupMiddleCenter {
 		padding: 3px;
 		background: #f1f1f1;
 	}
-	
+
 	.gwt-DecoratedPopupPanel .popupTopLeftInner {
 		width: 6px;
 		height: 5px;
 		zoom: 1;
 	}
-	
+
 	.gwt-DecoratedPopupPanel .popupTopRightInner {
 		width: 6px;
 		height: 5px;
 		zoom: 1;
 	}
-	
+
 	.gwt-DecoratedPopupPanel .popupBottomLeftInner {
 		width: 6px;
 		height: 6px;
 		zoom: 1;
 	}
-	
+
 	.gwt-DecoratedPopupPanel .popupBottomRightInner {
 		width: 6px;
 		height: 6px;
@@ -481,50 +485,50 @@
 		filter: ~'alpha(opacity = 70)';
 		z-index: 100;
 	}
-	
+
 	.gwt-RadioButton-disabled {
 		color: #888;
 	}
-	
+
 	.hasRichTextToolbar {
 		border: 0px;
 	}
-	
+
 	.gwt-RichTextToolbar {
 		background: #e3e8f3 url(images/hborder.png) repeat-x 0px -2003px;
 		border-bottom: 1px solid #BBBBBB;
 		padding: 3px;
 		margin: 0px;
 	}
-	
+
 	.gwt-RichTextToolbar .gwt-PushButton-up {
 		padding: 0px 1px 0px 0px;
 		margin-right: 4px;
 		margin-bottom: 4px;
 		border-width: 1px;
 	}
-	
+
 	.gwt-RichTextToolbar .gwt-PushButton-up-hovering {
 		margin-right: 4px;
 		margin-bottom: 4px;
 		padding: 0px 1px 0px 0px;
 		border-width: 1px;
 	}
-	
+
 	.gwt-RichTextToolbar .gwt-PushButton-down {
 		margin-right: 4px;
 		margin-bottom: 4px;
 		padding: 0px 0px 0px 1px;
 		border-width: 1px;
 	}
-	
+
 	.gwt-RichTextToolbar .gwt-PushButton-down-hovering {
 		margin-right: 4px;
 		margin-bottom: 4px;
 		padding: 0px 0px 0px 1px;
 		border-width: 1px;
 	}
-	
+
 	.gwt-RichTextToolbar .gwt-ToggleButton-up {
 		margin-right: 4px;
 		margin-bottom: 4px;
@@ -532,28 +536,28 @@
 		border: 1px solid #bbb;
 		border-bottom: 1px solid #a0a0a0;
 	}
-	
+
 	.gwt-RichTextToolbar .gwt-ToggleButton-up-hovering {
 		margin-right: 4px;
 		margin-bottom: 4px;
 		padding: 0px 1px 0px 0px;
 		border-width: 1px;
 	}
-	
+
 	.gwt-RichTextToolbar .gwt-ToggleButton-down {
 		margin-right: 4px;
 		margin-bottom: 4px;
 		padding: 0px 0px 0px 1px;
 		border-width: 1px;
 	}
-	
+
 	.gwt-RichTextToolbar .gwt-ToggleButton-down-hovering {
 		margin-right: 4px;
 		margin-bottom: 4px;
 		padding: 0px 0px 0px 1px;
 		border-width: 1px;
 	}
-	
+
 	.gwt-StackPanel .gwt-StackPanelItem {
 		cursor: pointer;
 		cursor: hand;
@@ -566,54 +570,54 @@
 	.gwt-StackPanel .gwt-StackPanelItem:hover {
 		background: #EFEFEF;
 	}
-	
+
 	.gwt-StackPanel .gwt-StackPanelItem-selected {
 		background: #EFEFEF;
 	}
-	
+
 	.gwt-StackPanel .gwt-StackPanelItem img {
 		float: left;
 		margin-right: 10px;
 	}
-	
+
 	.gwt-StackPanel .gwt-StackPanelContent {
 		background: #FFFFFF;
 	}
-	
+
 	.gwt-DecoratedStackPanel {
 		border-bottom: 1px solid #bbbbbb;
 	}
-	
+
 	.gwt-DecoratedStackPanel .gwt-StackPanelContent {
 		border: 1px solid #bbbbbb;
 		border-bottom: 0px;
 		background: white;
 		padding: 2px 2px 10px 5px;
 	}
-	
+
 	.gwt-DecoratedStackPanel .gwt-StackPanelItem {
 		cursor: pointer;
 		cursor: hand;
 	}
-	
+
 	.gwt-DecoratedStackPanel .stackItemTopLeft, .gwt-DecoratedStackPanel .stackItemTopRight	{
 		height: 6px;
 		width: 6px;
 		zoom: 1;
 	}
-	
+
 	.gwt-DecoratedStackPanel .stackItemTopLeft {
 		border-left: 1px solid #bbbbbb;
 		background: #d3def6 url(images/corner.png) no-repeat 0px -49px;
 		-background: #d3def6 url(images/corner_ie6.png) no-repeat 0px -49px;
 	}
-	
+
 	.gwt-DecoratedStackPanel .stackItemTopRight {
 		border-right: 1px solid #bbbbbb;
 		background: #d3def6 url(images/corner.png) no-repeat -6px -49px;
 		-background: #d3def6 url(images/corner_ie6.png) no-repeat -6px -49px;
 	}
-	
+
 	.gwt-DecoratedStackPanel .stackItemTopLeftInner,.gwt-DecoratedStackPanel .stackItemTopRightInner
 		{
 		width: 1px;
@@ -633,28 +637,28 @@
 		width: 1px;
 		height: 1px;
 	}
-	
+
 	.gwt-DecoratedStackPanel .stackItemMiddleRight {
 		background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
 		border-right: 1px solid #bbbbbb;
 	}
-	
+
 	.gwt-DecoratedStackPanel .stackItemMiddleCenter {
 		font-weight: bold;
 		font-size: 1.3em;
 		background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
 	}
-	
+
 	.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopRight,.gwt-DecoratedStackPanel .gwt-StackPanelItem-first .stackItemTopLeft	{
 		border: 0px;
 		background-color: white;
 	}
-	
+
 	.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopLeft,.gwt-DecoratedStackPanel .gwt-StackPanelItem-below-selected .stackItemTopRight
 		{
 		background-color: white;
 	}
-	
+
 	input[type="text"].gwt-SuggestBox {
 		padding: 2px;
 		/*width: 96%;*/
@@ -668,12 +672,12 @@
 		background-color: rgba(255, 255, 255, 0.9);
 		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	}
-	
+
 	.gwt-SuggestBoxPopup .item {
 		padding: 5px 5px;
 		cursor: default;
 	}
-	
+
 	.gwt-SuggestBoxPopup .item-selected {
 		color: #6666FF;
 	}
@@ -685,7 +689,7 @@
 		cursor: pointer;
 		cursor: hand;
 	}
-	
+
 	.TextToggleButton.gwt-ToggleButton-up-hovering,
 	.MyToggleButton.gwt-ToggleButton-up-hovering,.MyCanvasButton:hover {
 		/*color: #6666FF;*/
@@ -693,7 +697,7 @@
 		cursor: pointer;
 		cursor: hand;
 	}
-	
+
 	.TextToggleButton.gwt-ToggleButton-up-disabled,.TextToggleButton.gwt-ToggleButton-down-disabled,
 	.button-up-disabled,.MyToggleButton.gwt-ToggleButton-up-disabled,.MyToggleButton.gwt-ToggleButton-down-disabled,
 	.MyCanvasButton.disabled
@@ -704,37 +708,37 @@
 		filter: ~'alpha(opacity = 50)';
 		/* background: none !important; */
 	}
-	
+
 	.MyCanvasButton.disabled:hover {
 		border: #DCDCDC solid 1px;
 	}
-	
+
 	.MyCanvasButton.gereBtn {
 		img {
 			padding: 2px;
 		}
 	}
-	
-	
+
+
 	.TextToggleButton.gwt-ToggleButton-up-disabled:focus, .TextToggleButton.gwt-ToggleButton-down-disabled:focus,
 	.button-up-disabled:focus ,.MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus
 		{
 		outline: none;
 	}
-	
+
 	.TextToggleButton.gwt-ToggleButton-up-disabled:active, .TextToggleButton.gwt-ToggleButton-down-disabled:active,
 	.button-up-disabled:active ,.MyToggleButton.gwt-ToggleButton-up-disabled:active, .MyToggleButton.gwt-ToggleButton-down-disabled:active {
 		border: 1px solid #6161FF;
 	}
-	
-	
+
+
 	.gwt-Tree .gwt-TreeItem {
 		margin: 0px;
 		white-space: nowrap;
 		cursor: hand;
 		cursor: pointer;
 	}
-	
+
 	.gwt-TreeItem .gwt-RadioButton input,.gwt-TreeItem .gwt-CheckBox input {
 		margin-left: 0px;
 	}
@@ -742,7 +746,7 @@
 	.gwt-StackLayoutPanel {
 		border-bottom: 1px solid #bbbbbb;
 	}
-	
+
 	.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader {
 		cursor: pointer;
 		cursor: hand;
@@ -753,31 +757,31 @@
 		border-bottom: 0px;
 		background: #d3def6 url(images/hborder.png) repeat-x 0px -989px;
 	}
-	
+
 	.gwt-StackLayoutPanel .gwt-StackLayoutPanelHeader-hovering {
 		background: #d3def6;
 	}
-	
+
 	.gwt-StackLayoutPanel .gwt-StackLayoutPanelContent {
 		border: 1px solid #bbbbbb;
 		border-bottom: 0px;
 		background: white;
 		padding: 2px 2px 10px 5px;
 	}
-	
+
 	.gwt-TabLayoutPanel {
 		background-color: #F8F8F8;
 	}
-	
+
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTabs,.gwt-TabBar {
 		border-bottom: 1px solid #DCDCDC;
 	}
-	
+
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,.gwt-TabBar .gwt-TabBarItem {
 		position: relative;
 		bottom: -1px;
 	}
-	
+
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab,.gwt-TabBar .gwt-TabBarItem {
 		margin-right: 4px;
 		padding: 4px 8px;
@@ -792,15 +796,15 @@
 		box-sizing: border-box;
 		-moz-box-sizing: border-box;
 	}
-	
+
 	.gwt-TabBarItem div.gwt-Label {
 		margin: 0px;
 	}
-	
+
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab img {
 		height: 15px;
 	}
-	
+
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelTab-selected,.gwt-TabBar .gwt-TabBarItem-selected
 		{
 		cursor: default;
@@ -808,11 +812,11 @@
 		color: #6666FF;
 		border-bottom: 1px solid white;
 	}
-	
+
 	.gwt-TabBar .gwt-TabBarItem-disabled {
 		display: none;
 	}
-	
+
 	.gwt-TabLayoutPanel .gwt-TabLayoutPanelContent,
 	.gwt-TabPanelBottom,
 	.objectPropertiesPanel {
@@ -851,62 +855,62 @@
 	.gwt-DecoratedTabBar .gwt-TabBarFirst {
 		width: 5px; /* first tab distance from the left */
 	}
-	
+
 	.gwt-DecoratedTabBar .gwt-TabBarRest {
-		
+
 	}
-	
+
 	.gwt-DecoratedTabBar .gwt-TabBarItem {
 		border-collapse: collapse;
 		margin-left: 4px;
 	}
-	
+
 	.gwt-DecoratedTabBar .tabTopCenter {
 		padding: 0px;
 		background: #8E8E8E;
 	}
-	
+
 	.gwt-DecoratedTabBar .tabTopLeft,.gwt-DecoratedTabBar .tabTopRight {
 		padding: 0px;
 		zoom: 1;
 	}
-	
+
 	.gwt-DecoratedTabBar .tabTopLeftInner,.gwt-DecoratedTabBar .tabTopRightInner
 		{
 		width: 3px;
 		height: 3px;
 	}
-	
+
 	.gwt-DecoratedTabBar .tabTopLeft {
 		background: url(images/circles.png) no-repeat 0px 0px;
 		-background: url(images/circles_ie6.png) no-repeat 0px 0px;
 	}
-	
+
 	.gwt-DecoratedTabBar .tabTopRight {
 		background: url(images/circles.png) no-repeat -3px 0px;
 		-background: url(images/circles_ie6.png) no-repeat -3px 0px;
 	}
-	
+
 	* html .gwt-DecoratedTabBar .tabTopLeftInner,* html .gwt-DecoratedTabBar .tabTopRightInner
 		{
 		width: 3px;
 		height: 3px;
 		overflow: hidden;
 	}
-	
+
 	.gwt-DecoratedTabBar .tabMiddleLeft,.gwt-DecoratedTabBar .tabMiddleRight
 		{
 		width: 3px;
 		padding: 0px;
 		background: #8E8E8E;
 	}
-	
+
 	.gwt-DecoratedTabBar .tabMiddleLeftInner,.gwt-DecoratedTabBar .tabMiddleRightInner
 		{
 		width: 1px;
 		height: 1px;
 	}
-	
+
 	.gwt-DecoratedTabBar .tabMiddleCenter {
 		padding: 0px 5px 4px 5px;
 		cursor: pointer;
@@ -916,33 +920,33 @@
 		text-align: center;
 		background: #8E8E8E;
 	}
-	
+
 	.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopCenter {
 		background: #fff;
 	}
-	
+
 	.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopLeft {
 		background: url(images/circles.png) no-repeat -6px 0px;
 		-background: url(images/circles_ie6.png) no-repeat -6px 0px;
 	}
-	
+
 	.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabTopRight {
 		background: url(images/circles.png) no-repeat -9px 0px;
 		-background: url(images/circles_ie6.png) no-repeat -9px 0px;
 	}
-	
+
 	.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleLeft,
 	.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleRight {
 		background: #fff;
 	}
-	
+
 	.gwt-DecoratedTabBar .gwt-TabBarItem-selected .tabMiddleCenter {
 		cursor: default;
 		background: #fff;
 		color: #333;
 		font-weight: bold;
 	}
-	
+
 	.gwt-DecoratedTabBar .gwt-TabBarItem-disabled .tabMiddleCenter {
 		cursor: default;
 		color: #999999;
@@ -977,19 +981,19 @@
 		border-left: 1px solid #C6C6C6;
 		border-right: 1px solid #C6C6C6;
 	}
-	
+
 	.gwt-SplitLayoutPanel-HDragger.disabled:ACTIVE  {
 		background: #F8F8F8;
 		border-left: 1px solid #DCDCDC;
 		border-right: 1px solid #DCDCDC;
 	}
-	
+
 	.gwt-SplitLayoutPanel-VDragger:ACTIVE {
 		background:#6161FF;
 		border-top: 1px solid #C6C6C6;
 		border-bottom: 1px solid #C6C6C6;
 	}
-	
+
 	/* Selector used for android chrome */
 	.gwt-SplitLayoutPanel-Dragger-ACTIVE  {
 		background:#6161FF;
@@ -1028,7 +1032,7 @@
 		border-color: #D3D3D3;
 	}
 
-	
+
 
 /*not let user select the canvas*/
 	canvas {
@@ -1054,48 +1058,48 @@
 	.cursor_wait {
 		cursor: wait;
 	}
-	
+
 	.cursor_default {
 		cursor: crosshair;
 	}
-	
+
 	.cursor_hit {
 		cursor: default;
 	}
-	
+
 	.cursor_drag {
 		cursor: pointer;
 		cursor: hand;
 	}
-	
+
 	.cursor_resizeXAxis {
 		cursor: e-resize;
 	}
-	
+
 	.cursor_resizeYAxis {
 		cursor: n-resize;
 	}
-	
+
 	.cursor_resizeNESW {
 		cursor: nesw-resize;
 	}
-	
+
 	.cursor_resizeNWSE {
 		cursor: nwse-resize;
 	}
-	
+
 	.cursor_resizeEW {
 		cursor: ew-resize;
 	}
-	
+
 	.cursor_resizeNS {
 		cursor: ns-resize;
 	} 
-	
+
 	.cursor_move {
 		cursor: move;
 	}
-	
+
 	.cursor_transparent{
 		cursor:none;
 	}
@@ -1103,7 +1107,7 @@
 		cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAALVBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADBoCg+AAAADnRSTlMAYO8wzxCfQL9wUIDfr1kQlREAAACPSURBVCjPY6AIsPZpogqEaO1LQFHgZMD4DEWBMgODXAKKAgYGiBKEAqgShAKgklcIBRA6A6EALoBQgNCCUCAngKbgIdUU+CmjKVB3MkAzAaIHYQJIDEUBSBBZAUQUpoAhyQAiDFPAcBqqEaaA4QaEmicAEzBKgLoBBpjVYG6AK0kvL68EKkAo0Xv37h1CAQB40SYtoJu+TAAAAABJRU5ErkJggg==
 	) 0 31, crosshair;
 	}
-	
+
 	.cursor_pen{
 		cursor: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgBAMAAACBVGfHAAAAKlBMVEUAAAAzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMzMjZDADAAAADXRSTlMAYJ/vML9AEN/PUCBwo5BZ4wAAAGZJREFUKM9jQAFL1VH5jFctC1AEZBWcp6MouMTAYoQssAXIC0VWcNFZgekWsgm9Ika6AsgmMF10vohiBYOuCIoCBgaO26gKGHTRFDBdHFXAgK6A4RpUAUIATQHDnTRUBQx376IqAAB3TCfI3I+0DAAAAABJRU5ErkJggg==
 		) 0 31, crosshair;
@@ -1118,23 +1122,23 @@
 	.gwt-MenuBar-vertical .mi_no_image {
 		padding-left: 45px;
 	}
-	
+
 	.gwt-MenuBar-vertical .mi_no_image_new {
 		padding-left: 25px;
 	}
-	
+
 	.gwt-MenuBar-vertical .mi_with_image {
 		padding-left: 21px;
 	}
-	
+
 	.gwt-MenuItem {
 		white-space: nowrap;
 	}
-	
+
 	.gPopupMenu_item .gwt-HTML {
 		margin-top: 2px;
 	}
-	
+
 	.gPopupMenu_item img, .gwt-MenuItem img {
 		vertical-align: top;
 		width: 20px !important;
@@ -1145,47 +1149,50 @@
 		right:0;
 		padding-right:4px;
 	}
-	
+
 	.menuSeparator{
 		background-color: #dcdcdc;
 		height: 2px;
 		width:100%;
 		list-style: none;
 	}
-	
+	.menuPanel .menuSeparator{
+		height: 1px;
+	}
+
 	.menuImg{
 		padding-right: 4px;
 	}
-			
+
 	.contextMenu {
 		padding-left: 21px;
 	}
-	
+
 	.contextMenu img {
 		opacity: 0.54;
 	}
-	
+
 	.contextMenuSubmenu{
 		margin-left: 10px;
 		margin-right: 10px;
 		}
-		
+
 	.avPlusButton {
 		left:2px;
 	}
-	
+
 	.mioMenu.gwt-PopupPanel {
 			padding: 8px 0px 8px 0px;
 			border-radius: 2px;
 			min-width: 182px;
-		
+
 			.gwt-MenuItem {
 				height: 32px;
 				min-width: 182px;
 				cursor: pointer; 
 				padding-left: 64px;
 			}
-			
+
 			.gwt-MenuItem:hover {
 				background-color: #eeeeee;
 				img {
@@ -1194,7 +1201,7 @@
 				}
 				color: black;
 			}
-			
+
 			.gwt-MenuItem-disabled,
 			.gwt-MenuItem-disabled:hover {
 				img {
@@ -1204,12 +1211,12 @@
 				color: black;
 				opacity: 0.38;
 			}
-			
+
 			img {
 				width: 24px !important;
 				height: 24px !important;
 				position: absolute;
-				margin-left: -40px;	
+				margin-left: -40px;
 				opacity: 0.54;
 				filter: alpha(opacity=54); /* For IE8 and earlier */
 			}
@@ -1221,16 +1228,16 @@
 	.closeButtonPanel {
 		padding: 7px;
 	}
-	
+
 	.ButtonPopupMenu {
 		outline: 0 none;
 	}
-	
+
 	.ButtonPopupMenu .panelRow2{
 		padding-bottom: 8px;
 		padding-top: 4px;
 	}
-	
+
 	.ButtonPopupMenu div:focus {
 		border: 1px solid transparent;
 	}
@@ -1241,7 +1248,7 @@
 		bottom: auto !important;
 		max-width:100%;
 	}
-	
+
 
 	.TitleBarPanel-open {
 		left: 0px !important;
@@ -1264,7 +1271,7 @@
 		background-color: rgba(255, 255, 255, 0.9);
 		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	}
-	
+
 	.TitleBarPanel .toggleStyleBar {
 		border: none;
 		position: absolute;
@@ -1284,22 +1291,22 @@
 		padding-left: 5px;
 		opacity: 0.54;
 	}
-	
+
 	.TitleBarPanel .toggleStyleBar.dataAnalysisToggleButton {
 		padding-top: 0px;
 	}
-	
-	
-	
+
+
+
 	.TitleBarPanel .dragPanel {
 		padding-top: 1px;
 	}
-	
+
 	.TitleBarLabel { /*font-size: 10px;*/ /*font-size: 100%;*/
 		/*font-weight: bold;*/
-		
+
 	}
-	
+
 	.StyleBarPanel { /*margin: auto 0;
 		margin-top: 0px;
 		height: 42px;
@@ -1307,8 +1314,8 @@
 		/*display: inline-block;*/
 		padding-left: 31px;
 	}
-	
-	
+
+
 	.StyleBarPanel_ { /*margin: auto 0;
 		margin-top: 0px;
 		height: 42px;
@@ -1317,12 +1324,12 @@
 		float: left;
 		margin-left: -4px;
 	}
-	
-	
+
+
 	.StyleBar {
-		
+
 	}
-	
+
 	.DynamicStyleBar{
 		position: absolute;
 	    border-radius: 2px;
@@ -1336,12 +1343,12 @@
 		border: none !important;
 		opacity: 0.6;
 	}
-	
+
 	.Separator {
 		height: 1px;
 		background-color: #DCDCDC;
 	}
-	
+
 	.CloseButton {
 		padding: 5px;
 		margin: 0px;
@@ -1353,7 +1360,7 @@
 	    padding: 4px !important;
 	    margin-right: 5px;
 	}
-	
+
 	.DockGlassPane,
 	.TitleBarPanel {
 		cursor: pointer;
@@ -1369,14 +1376,14 @@
 		-o-user-select: none;
 		user-select: none;
 	}
-	
+
 	.VerticalSeparator {
 		margin: 0px 2px 0px 5px;
 		width: 1px;
 		background-color: #DCDCDC;
 	}
-	
-	
+
+
 	.TextToggleButton,
 	.MyToggleButton,
 	.MyCanvasButton {
@@ -1396,7 +1403,7 @@
 		padding: 4px; /* more padding for the missing border*/
 		margin-right: 15px;
 	}
-	
+
 	.MyCanvasButton-rightaligned {
 		float: right;
 	}
@@ -1421,12 +1428,12 @@
 		line-height: 22px;
 		font-size: 22px;
 	}
-	
+
 	.btnBold .html-face {
 		font-weight: bold;
 		color: #999999;
 	}
-	
+
 	.btnItalic .html-face {
 		font-style: italic;
 		color: #999999;
@@ -1457,30 +1464,30 @@
 		height: 24px;
 		width: 24px;
 	}
-	
+
 	.SelectionTable .gwt-Label.border:hover,.SelectionTable .gwt-Label.border:active,.SelectionTable .gwt-Label.border.selected {
 		background-color: transparent !important;
 		border: 1px solid #6161FF;
 	}
-	
+
 	.gwt-Label.border {
 		border-radius: 5px;
 		border: #DCDCDC solid 1px;
 		height: 24px;
 		width: 24px;
 	}
-	
+
 	.gwt-Label.textIconButton {
 		background-position: center left;
 		padding-left: 28px;
 		border: none;
 		text-align: left;
 	}
-	
+
 	.gwt-Label.textIconButton:hover,.gwt-Label.textIconButton:active {
 		background-color: none;
 	}
-	
+
 	.SelectionTable {
 		border-collapse:collapse;
 		td {
@@ -1492,12 +1499,12 @@
 			height: 24px;
 			width: 24px;
 		}
-		
+
 		.plusButton {
 			text-align: center;
 			font-size: larger;
 		}
-		
+
 		a {
 			text-decoration: none;
 			color: #666666;
@@ -1510,7 +1517,7 @@
 			{
 			background-color: #CCCCFF;
 		}
-		
+
 		 .gwt-Label.selected {
 			color: #6161FF;
 		}
@@ -1519,13 +1526,13 @@
 		padding-top: 1px;
 		padding-left: 1px;
 	}
-	
+
 	/**
 	 * The view buttons for these stylebars should take all the remaining place
 	 * so that they will be right aligned
 	 */
-	
-	
+
+
 	.CASStyleBar td:last-child {
 		width: 100%;
 	}
@@ -1620,7 +1627,7 @@
 		box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		z-index: 1000;
 	}
-	
+
 	.toolTipHTML {
 		font-size: 80%;
 	}
@@ -1636,14 +1643,14 @@
 		position: absolute;
 		color: #FFFFFF;
 	}
-	
+
 	.infoTooltip .infoText {
 		padding: 5px 50px;
 		display: inline-block;
 		cursor: default;
 		color: #FFFFFF;
 	}
-	
+
 	.infoTooltip .manualLink {
 		border-left: 1px solid #FFFFFF;
 		padding: 10px 20px;
@@ -1662,7 +1669,7 @@
 		table-layout: auto;
 		white-space: nowrap;
 	}
-	
+
 	.AVmenuListContainer .AVmenuListContent {
 		z-index: 250;
 		padding-top: 3px !important;
@@ -1673,7 +1680,7 @@
 		padding:0px;
 		margin:0px;
 	}
-	
+
 	.AVmenuListContainer .AVmenuListContent li {
 		white-space: nowrap;
 		list-style-type: none;
@@ -1682,26 +1689,26 @@
 		text-align: left;
 		cursor: pointer;
 	}
-	
+
 	.AVmenuListContainer .AVmenuListContent li:hover,
 	.AVmenuListContainer .AVmenuListContent li:focus {
 		color: #333333;
 		background-color: #CCCCFF;
 	}
-	
-	
+
+
 	.AVmenuListContainer .AVmenuListContent img {
 		float: left;
 		padding-left: 5px;
 		padding-right: 5px;
 		display: inline;
 	}
-	
-	
+
+
 	.AVmenuListContainer .AVmenuListContent .gwt-Label {
 		display: inline;
 	}
-	
+
 	.gwt-MenuBar-horizontal .toolbarItemSeparator {
 		width: 5px;
 		padding: 0px;
@@ -1709,7 +1716,7 @@
 		border: 0px;
 		background: none;
 	}
-	
+
 	.toolbar_menuitem_label {
 		position: relative;
 		vertical-align: middle;
@@ -1717,21 +1724,21 @@
 		margin-right: 5px;
 		font-size: 80%;
 	}
-	
+
 	.captionPanel td {
 		vertical-align: middle;
 	}
-	
+
 	.tdForCaptionLabel {
 		vertical-align: middle;
 	}
-	
+
 	.buttonPanel {
 		margin: auto;
 	}
-	
-	
-	
+
+
+
 	/*#####################################################################################
 	###       DIALOGS
 	#####################################################################################*/
@@ -1740,12 +1747,12 @@
 	.gwt-DialogBox {
 		z-index: 501;
 		/*box-shadow: 1px 1px 6px 1px #666666;*/
-	
+
 		background-color: rgba(255,255,255,0.9);
 		border-radius: 10px;
 
 		box-shadow: 0px 0px 2px 1px rgba(102,102,102,0.3);
-	
+
 		padding: 15px;
 	}
 
@@ -1757,7 +1764,7 @@
 		padding-bottom: 5px;
 		color: #333333;
 		border-bottom: 1px solid #DCDCDC;
-		margin-bottom: 15px;	
+		margin-bottom: 15px;
 	}
 
 	.dialogContent {
@@ -1792,7 +1799,7 @@
 	.dialogContent .gwt-CheckBox {
 		margin-right: 10px;
 	}
-	
+
 	.DialogButtonPanel {
 		text-align: right;
 		padding-top: 10px;
@@ -1800,12 +1807,12 @@
 		min-width: 250px;
 		max-width:100%;
 	}
-	
+
 	.DialogButtonPanel button {
 		margin-left: 5px;
 	}
-	
-	
+
+
 	.DialogBox .gwt-Button,
 	.DialogBox .saveButton {
 		background-color: #6161FF;
@@ -1874,7 +1881,7 @@
 		width: 131px;
 		top: 106px;
 	}
-	
+
 	.cancelSaveButton {
 		position: absolute;
 		top: 10px;
@@ -1882,7 +1889,7 @@
 		cursor: pointer;
 		cursor: hand;
 	}
-	
+
 	/* .GeoGebraFileChooser .buttonPanel .saveButton,
 	.GeoGebraFileChooser .buttonPanel .saveButton.button-up-disabled {
 		background-color: #6161FF !important;
@@ -1894,16 +1901,16 @@
 		width: 500px;
 		height: 255px;
 	}
-	.GeoGebraLinkPanel {	
+	.GeoGebraLinkPanel {
 		height: 100%;
-		
+
 	}
-	.GeoGebraCopyLinkPanel img {	
+	.GeoGebraCopyLinkPanel img {
 		margin-top: 10px;
 		margin-left: 5px;
 		margin-bottom: 10px;
 	}
-	
+
 	.GeoGebraIconPanel {
 		display: block;
 	}
@@ -1917,60 +1924,60 @@
 		resize: none;
 		width: 100%;
 	}
-	
+
 	.GeoGebraImagePanel{
 		height: 100%;
 	}
-	
-	
+
+
 	/*-------- RECOVER AUTO SAVED DIALOG ------------*/
-	
+
 	.RecoverAutoSavedDialog .buttonPanel {
 		float: right;
 	}
-	
+
 	.RecoverAutoSavedDialog {
 		max-width: 500px;
 	}
-	
+
 	/*-------- SLIDER DIALOG ------------------------*/
 	.dialogContent .sliderIntervalPanel div,
 	.dialogContent .sliderWidthPanel div {
 		margin-right: 10px;
 		display: inline-block;
 	}
-	
-	
+
+
 	.dialogContent .sliderIntervalPanel .gwt-Label {
 		display: block;
 	}
-	
+
 	.dialogContent .sliderWidthPanel .gwt-Label {
 		padding-top: 7px;
 	}
-	
+
 	.dialogContent .sliderPanelWidget {
 		min-width: 400px;
 		margin-top: 10px;
 	}
-	
+
 	.sliderDialog .dialogContent .gwt-TabPanelBottom {
 		min-height: 150px;
 		margin-bottom: 15px;
 		padding-left: 15px;
 		padding-right: 15px;
 	}
-	
+
 	/* ----------- BUTTON DIALOG -------------*/
 	.buttonDialog .dialogContent {
 		min-width: 400px;
 	}
-	
+
 	.buttonDialog .scriptArea {
 		width: 100%;
 		height: 200px;
 	}
-	
+
 	/* ------------ IMAGE DIALOG -------------*/
 	.GeoGebraPopup.image .dialogContent .gwt-Label {
 		cursor: pointer;
@@ -1978,119 +1985,119 @@
 	.GeoGebraPopup.image .dialogContent .gwt-Label.gwt-Label-highlighted {
 		cursor: default;
 	}
-	
+
 	/* Touch */
 	.GeoGebraPopup.image .inputPanel {
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: cover;
 	}
-	
+
 	/* ----------- TOOLCREATION DIALOG -------------*/
 	.toolCreationDialog .dialogContent {
 		min-width: 400px;
 	}
-	
+
 	/*========= End Dialogs ===========*/
-	
-	
+
+
 	/*========= FileChooser ===========*/
 	.GeoGebraFileChooser .titlePanel {
 		width: 100%;
 		padding: 5px;
 	}
-	
+
 	.GeoGebraFileChooser .titlePanel input {
 		float: right;
 		min-width: 450px;
 	}
-	
-	
+
+
 	.GeoGebraFileChooser .titlePanel .gwt-Label {
 		padding-right: 10px;
 	}
-	
-	
+
+
 	.GeoGebraFileChooser .descriptionPanel {
 		width: 100%;
 		padding: 5px;
 	}
-	
+
 	.GeoGebraFileChooser .descriptionPanel textarea {
 		float: right;
 		min-width: 450px;
 	}
-	
+
 	.GeoGebraFileChooser .descriptionPanel .gwt-Label {
 		padding-right: 10px;
 	}
-	
+
 	.GeoGebraFileChooser .radioButtonPanel {
 		text-align: center;
 		padding-bottom: 10px;
 		padding-top: 3px;
 	}
-	
+
 	.GeoGebraFileChooser .radioButtonPanel .gwt-RadioButton {
 		padding: 10px;
 	}
-	
+
 	.GeoGebraFileChooser .buttonPanel {
 		/* padding: 5px; */
 		float: right;
 	}
-	
+
 	.GeoGebraFileChooser .buttonPanel button {
 		float: right;
 		margin-left: 5px;
 	}
-	
+
 	.GeoGebraFileChooser .buttonPanel a {
 		float: right;
 		margin-left: 5px;
 	}
-	
+
 	.GoogleFileDescriptors {
 		font-size: 80%;
 	}
-	
+
 	.GoogleFileDescriptors .fileLabel {
 		padding-right: 3px;
 		font-weight: bold;
 	}
-	
+
 	.GoogleFileDescriptors .fileName {
 		text-decoration: underline;
 	}
-	
+
 	/*.RadioButtonMenuItem {
 		font-size: 80%;
 	}*/
 	.linkDownload {
 		font: -webkit-small-control;
 	}
-	
-	
-	
+
+
+
 	.downloadGGB_label {
 		margin: 5px;
 	}
-	
+
 	.menuTitle {
 		font-weight: bold;
 	}
-	
+
 	.filesPanel {
 		width: 100%;
 		padding: 20px;
 		position: relative;
 	}
-	
+
 	.filesPanel .spinner {
 		top: 50%;
 		padding-top: 150px;
 	}
-	
+
 	.ggbfilelink {
 		display: block;
 		text-decoration: underline;
@@ -2099,22 +2106,22 @@
 		background: white url("images/ggb-logo-16x16-white.png") no-repeat left
 			center;
 	}
-	
+
 	.ggbfilelink.selected,.ggbfilelink:hover {
 		background-color: #E3E8F3;
 	}
-	
+
 	.GeoGebraFileChooser {
 		font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
 	}
-	
+
 	.GeoGebraFileChooser .buttonPanel .save,.GeoGebraFileChooser .buttonPanel .cancel
 		{
 		width: 60px;
 		text-align: center;
 		margin: auto;
 	}
-	
+
 	/*========= End FileChooser ===========*/
 	/*#####################################################################################
 	###       CAS
@@ -2123,7 +2130,7 @@
 		width: 100%;
 		border-collapse: collapse;
 	}
-	
+
 	.CAS_commentLabel {
 		display: inline;
 		vertical-align:middle;
@@ -2131,51 +2138,51 @@
 		padding-left: 5px;
 		padding-right: 5px;
 	}
-	
+
 	.CAS_outputPanel {
 		position: relative;
 	}
-	
+
 	.CAS_outputPanel canvas{
 		display: inline;
 		vertical-align: middle;
 	}
-	
+
 	.CAS_outputPanel {
 		position: relative;
 	}
-	
+
 	.CAS_inputPanel {
 		padding: 5px;
 		overflow: hidden;
 		height: 100%;
 	}
-	
+
 	.CAS-table>tbody>tr>td {
 		border-bottom: 1px solid #DCDCDC;
 	}
-	
+
 	.CAS-table .AutoCompleteTextFieldW {
 		margin: 4px;
 	}
-	
+
 	.cas_header {
 		width: 1px;
 		height: 2.5em;
 		background-color: #F8F8F8;
 	}
-	
+
 	.cas_header.selected {
 		background-color: #CCCCFF;
 		color: #333333;
 	}
-	
+
 	.cas_header table td {
 		text-align: center;
 		padding-left: 2px;
 		padding-right: 2px;
 	}
-	
+
 	.CAS_substitute_editTextCell input[type="text"],.cas_sub_editTextCell select
 		{
 		width: 100%;
@@ -2183,16 +2190,16 @@
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 	}
-	
+
 	.CAS_table_first_row_selected {
 		background-color:white;
 		position:relative;
 		z-index:20;
 	}
-	
+
 	.CAS_subDialog {
 	}
-	
+
 	.CAS_subDialog .gwt-Button {
 		width: 40px;
 		margin: 3px;
@@ -2230,36 +2237,36 @@
 		display: inline;
 		padding: 0px 8px;
 	}
-	
+
 	.consProtNav .gwt-PushButton {
 		padding: 0px 6px;
 		display: inline-block;
 		vertical-align: text-top;
 	}
-	
+
 	.consProtNav img.gwt-Image {
 		vertical-align: middle;
 		draggable: false;
 	}
-	
+
 	.consProtNav button.gwt-Button {
 		margin: 5px;
 		background: #FFFFFF;
 		border: 1px solid #CDCDCD;
 		box-shadow: none;
 	}
-	
-	
-	
+
+
+
 	.consProtNav button:hover {
 		border-color: #9999FF;
 	}
-	
+
 	.consProtNav button.gwt-Button:active, 
 	&.Tablet .consProtNav button.gwt-Button:active {
 		border: 1px solid #6666FF !important;
 	}
-	
+
 	/* no border-color for touch */
 	&.Tablet .consProtNav button.gwt-Button:hover {
 		border: 1px solid #CDCDCD;
@@ -2294,7 +2301,7 @@
 	&.Tablet .consProtNav button.navbar_btOpenWindow.consProtIsOpen {
 		border-color: #6666FF;
 	}
-	
+
 	.ggbSpinner{
 		max-width:60px;
 	}
@@ -2302,7 +2309,7 @@
 	/*#####################################################################################
 	###       Data collection
 	#####################################################################################*/
-	
+
 	/* View - Settings */
 	.dataCollectionView .closeButtonPanel {
 	 	position: absolute;
@@ -2312,125 +2319,125 @@
 	 	cursor: pointer;
 	 	cursor: hand;
 	}
-	
+
 	.dataCollectionView .gwt-Label {
 		cursor: default;
 	}
-	
+
 	.dataCollectionView .gwt-TabLayoutPanel {
 		  height: 100%;
 	}
-	
+
 	.dataCollectionView .panelTitle {
 		  margin-bottom: 10px;
 		  margin-top: 10px;
 		  height: 20px;
 	}
-	
+
 	/** CONNECTION */
 	.dataCollectionView .connection .panelIndent .gwt-TextBox {
 		float: left;
 	 	width: 80px;
 	}
-	
+
 	.dataCollectionView .connectButton {
 		margin-left: 20px;
 	 	float: left;
 	}
-	
+
 	.dataCollectionView .connectButton:hover {
 	 	border: 1px solid #6666ff;
 	 	cursor: pointer;
 	 	cursor: hand;
 	}
-	
+
 	.dataCollectionView .connectButton.gwt-ToggleButton-down {
 		border-color: #DCDCDC !important;
 	}
-	
+
 	.dataCollectionView .sharingCodePanel {
-		padding-bottom: 0px;	
+		padding-bottom: 0px;
 	}
-	
+
 	.dataCollectionView .appIdTextBox {
 		text-transform: uppercase;
 	}
-	
+
 	/** SETTINGS */
-	
+
 	.dataCollectionView .panelIndent {
 		display: inline-block;
 	}
-	
+
 	.dataCollectionView .panelIndent .gwt-Label {
 		float: left;
 	 	padding-top: 5px;
 	 	padding-right: 15px;
 	}
-	
+
 	.dataCollectionView .collapse {
 		float: right;
 		padding-top: 2px;
 		cursor: pointer;
 		cursor: hand;
 	}
-	
+
 	.dataCollectionView .panelTitle .gwt-Label {
 		float: left;
 		padding-top: 2px;
 	}
-	
+
 	.dataCollectionView .rowContainer {
 		display: inline-block;
 	 	width: 100%;
 	 	padding-bottom: 5px;
 	}
-	
+
 	.dataCollectionView .gwt-ListBox {
 		float: left;
 		height: 31px;
 		min-width: 80px;
 	}
-	
+
 	.dataCollectionView .gwt-TextBox.disabled {
 		opacity: 0.5;
 		pointer-events: none;
 	}
-	
+
 	.dataCollectionView .sensorOnOffButton {
 		float: left;
 	 	padding-right: 5px;
 	}
-	
+
 	/*#####################################################################################
 	###       CONSTRUCTION PROTOCOL
 	#####################################################################################*/
-	
+
 	.cpTable {
 		width: 100%
 	}
-	
+
 	.cpTable th:FIRST-CHILD, .cpTable td:FIRST-CHILD{
 		max-width: 35px;
 		min-width: 35px;
 	}
-	
+
 	.cpTable .isDragging {
 		background: #CCCCFF;
 		cursor: move;
 	}
-	
+
 	.cpTable input[type="text"]{
 		width: 100%;
 	}
-	
+
 	.cpScrollPanel {
 		width: 100%;
 		height: 90%;
 		cursor: default;
 		background-color: #FFFFFF;
 	}
-	
+
 	.cpTable thead th {
 		text-shadow: none;
 		color: #666666;
@@ -2443,17 +2450,17 @@
 		padding-right: 2px;
 		font-weight: normal;
 	}
-	
+
 	.cpScrollPanel tbody tr:hover {
 		background: #CCCCFF;
 		cursor: move;
 	}
-	
+
 	.cpScrollPanel tbody tr {
 		background-color: transparent;
 		opacity: 0.9;
 	}
-	
+
 	.cpTable td {
 		border: none;
 		border-bottom: 1px solid #DDDDDD;
@@ -2461,66 +2468,66 @@
 		padding-left: 2px;
 	 	padding-right: 2px;
 	}
-	
+
 	.cpScrollPanel tbody tr td:FIRST-CHILD {
 		background-color: #f8f8f8;
 		text-align: center;
 	}
-	
+
 	.cpTable input[type="text"]{
 		background-color:transparent;
 		border: none;
 		box-shadow: none;
 	}
-	
+
 	.cpUpperRightCorner{
 		width: 15px;
 		background-color: #F8F8F8;
 	}
-	
+
 	.headerTable tbody{
 		display: none;
 	}
-	
+
 	.overflowYScroll{
 		overflow-y: scroll;
 		overflow-x: hidden;
 	}
-	
+
 	.hiddenheader{
 		position: relative;
 		top: -30px;
 	}
-	
+
 	.hiddenheader thead{
 		visibility: hidden;
 	}
-	
+
 	.cpPanel{
 		display: flex;
 		flex-direction: column;
 	}
-	
+
 	.cpPanel .cpScrollPanel{
 		flex-grow: 1;
 		/*overflow-x: hidden !important;*/
 		overflow-y: auto !important;
 	}
-	
+
 	.outerScrollPanel{
 		/*overflow-y: hidden !important;*/
 		overflow: hidden !important;
 	}
-	
+
 	.outerScrollPanel > div{
 		height: 100%;
 	}
-	
+
 	/*needed for vertical scrolling*/
 	.cpScrollPanel div, .cpPanel{
 		height: 100%;
 	}
-	
+
 	.cpHeaderHolderPanel{
 		background-color: #F8F8F8;
 		overflow: hidden !important;
@@ -2530,8 +2537,8 @@
 	.dummyDragElem div {
 		padding: 10px 15px 10px 15px;
 	}
-	
-	
+
+
 	/*=========== Construction protocol end =============*/
 	/*#####################################################################################
 	###       TEXT EDITOR
@@ -2542,28 +2549,28 @@
 		width: 380px;
 		height: 100px;
 	}
-	
+
 	.textEditorAdvancedPanel {
 		width: 380px;
 		height: 180px;
 	}
-	
+
 	.textEditorDisclosurePanelContent {
 		margin: 0px;
 		padding: 0px;
 		border: none;
 		font-size: 80%;
 	}
-	
+
 	.textEditorDisclosurePanelHeader { /*font-size: 80%;*/
 		margin-bottom: 3px;
 	}
-	
+
 	.ggb-btnClearAVInput{
 		position: absolute;
 		right: 5px;
 	}
-	
+
 	/* ========== Text Editor end ============ */
 	/*#####################################################################################
 	###      INPUT HELP
@@ -2574,20 +2581,20 @@
 		line-height: 100%;
 		padding: 10px 4px;
 	}
-	
+
 	.inputHelp-treeItem {
 		padding: 0px 8px;
 		font-weight: bold
 	}
-	
+
 	.inputHelp-leaf {
 		font-weight: normal;
 	}
-	
+
 	.inputHelp-leaf:hover {
 		background: #CCCCFF;
 	}
-	
+
 	.inputHelp-detailPanelTitle {
 		width: 100%;
 		/*font-size: 85%; */
@@ -2596,7 +2603,7 @@
 		border-bottom: 1px solid lightgray;
 		cursor: default;
 	}
-	
+
 	.inputHelp-cmdSyntax {
 		/*font-size: 85%; */
 		margin: 4px;
@@ -2608,9 +2615,9 @@
 		cursor: hand;
 		cursor: pointer;
 	}
-	
-	
-	
+
+
+
 	.inputHelp-CAScmdSyntax {
 		font-style: italic;
 		color: darkred;
@@ -2620,7 +2627,7 @@
 		font-size: 100%;
 		margin: 3px;
 	}
-	
+
 	.inputHelp-CancelBtn {
 		font-size: 110%;
 		margin: 3px;
@@ -2639,57 +2646,57 @@
 		border: none;
 		box-shadow: none;
 	}
-	
+
 	.inputHelp-headerCAS {
 		font-style: italic;
 		color: darkred;
 		text-decoration: underline;
 	}
-	
+
 	.inputHelp-functionTable {
 		/*font-size: 85%; */
 		padding: 10px;
 		cursor: pointer;
 	}
-	
+
 	.inputHelp-functionTable td {
 		padding: 0px 4px;
 		line-height: 160%;
 		white-space: nowrap;
 	}
-	
+
 	.inputHelp-toggleButton {
 		background: none;
 		text-decoration: none;
 		border: none;
 	}
-	
+
 	.algebraHelpButton{
 		display: inline-block;
 		padding: 1px 3px 0px 5px;
 	}
-	
+
 	.algebraHelpButton img{
 		width: 24px;
-		padding: 15px 2px 0px 0px;	
+		padding: 15px 2px 0px 0px;
 	}
-	
+
 	.AVHelpDetailScroller {
 		max-height: 500px;
 	}
-	
-	
+
+
 	/* ========== Input Help  end ============ */
 	/* first td of heading table should have width: 0% */
-	
-	
-	
+
+
+
 	.elemHeading {
 		border-bottom: 1px solid #EDEDED;
 		position: relative;
 		z-index: 3;
 	}
-	
+
 	.elemHeadingName {
 		padding: 15px 10px 10px 40px;
 	}
@@ -2698,7 +2705,7 @@
 	&.Tablet .gwt-InlineHTML {
 		font-size: 115%;
 	}
-	
+
 	.elemHeadingDummy {
 		padding: 10px 10px 10px 0px;
 		cursor: default;
@@ -2710,7 +2717,7 @@
 		left: 10px;
 	}
 
-	
+
 
 	.marble {
 		height: 18px;
@@ -2718,7 +2725,7 @@
 		background-color: #6161FF;
 		border: 1px solid #000000;
 		border-radius: 18px;
-	
+
 		position: relative;
 		top: 50%;
 		margin-top: -10px;
@@ -2730,7 +2737,7 @@
 		background-color: #6161FF;
 		border: 1px solid #CCCCFF;
 	}
-	
+
 	label {
 		display: inline;
 		font-weight: normal;
@@ -2762,10 +2769,10 @@
 	/* Colors will be overwritten in java code
 	** see: org.geogebra.web.web.gui.view.algebra.Marble.java
 	*/
-	
-	
-	
-	
+
+
+
+
 	.imageCorner {
 		background-repeat: no-repeat;
 		align: left;
@@ -2779,7 +2786,7 @@
 		box-sizing: border-box;
 		position: relative;
 	}
-	
+
 	.AutoCompleteTextFieldW .TextField {
 		display: inline-block;
 		box-sizing: border-box;
@@ -2802,7 +2809,7 @@
 		border-color: #DCDCDC;
 	}
 
-	.scrollableTextBox{	
+	.scrollableTextBox{
 		width: 100%;
 		display: inline-block;
 	}
@@ -3017,7 +3024,7 @@
 		padding-right: 8px;
 		box-sizing: border-box;
 	}
-	
+
 	.settingsBtn {
 		min-width: 160px;
 	}
@@ -3027,7 +3034,7 @@
 		height: 100%;
 		display: flex;
 		flex-flow: column;
-		
+
 		.optionsSlider {
 			display: flex;
 		}
@@ -3222,7 +3229,7 @@
 		border: 2px inset #555555 !important;
 	}
 
-	.propertiesTab .gwt-TabPanelBottom {	
+	.propertiesTab .gwt-TabPanelBottom {
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
@@ -3591,24 +3598,24 @@
 	.languageGUI>div {
 		overflow: auto !important;
 	}
-	
+
 	.languageGUI .contentPanel {
 		padding: 15px 20px;
 		box-sizing: border-box;
 		-moz-box-sizing: border-box;
 	}
-	
+
 	.languageGUI .contentPanel .gwt-Label {
 		float: left;
 		width: 350px;
 		line-height: 30px;
 		cursor: pointer;
 	}
-	
+
 	.languageGUI .contentPanel .gwt-Label:hover, .languageGUI .activeLanguage {
 		color: #6666FF;
 	}
-	
+
 	.languageGUI:last-child{
 		background-color: white;
 	}
@@ -3617,7 +3624,7 @@
 		border: 2px #6666FF solid;
 		border-radius: 5px;
 	}
-	
+
 	.bookDecoration {
 		background-image:
 			url(https://www.geogebra.org/images/book-icon-small.png);
@@ -3639,7 +3646,7 @@
 		left: 115px;
 		top: 85px;
 	}
-	
+
 	/* make sure dummy canvas does not force a scrollbar */
 	.dummyParent {
 		position: absolute;
@@ -3654,84 +3661,84 @@
 	.functionInspectorMainPanel {
 		background-color: #f8f8f8;
 	}
-	
+
 	.functionInspectorMainPanel .gwt-TabPanelBottom {
 		height: 100%;
 		padding-right: 0px;
 	}
-	
+
 	.functionInspectorMainPanel .propertiesTab {
 		padding-right: 0px;
 	}
-	
+
 	.functionInspectorMainPanel .panelRow>.panelRow {
 		float: right;
 		top: 32px;
 		right: 15px;
 		position: relative;
 	}
-	
+
 	.functionInspectorMainPanel img.gwt-Image {
 		vertical-align: middle;
 	}
-	
+
 	.functionInspectorMainPanel>.panelRow .gwt-Label {
 		padding: 10px;
 		font-size: 115%;
 	}
-	
+
 	.functionInspectorMainPanel .panelRowIndent .MyToggleButton {
 		/* bigger buttons needed, because of wrong size of images */
 		width: 30px;
-		height: 30px;	
+		height: 30px;
 	}
-	
+
 	.inspectorTable {
 		border-collapse: collapse;
 		min-width: 200px;
 	}
-	
+
 	.inspectorTable tr {
 		background-color: white;
 	}
-	
+
 	.inspectorTable tr.selected, 
 	.inspectorTable tr:hover {
 		background-color: #CCCCFF;
 	}
-	
+
 	.inspectorTable td {
 		border: 1px solid;
 		padding: 5px;
 		min-width: 105px;
 		height: 18px;
 	}
-	
+
 	.inspectorTableHeader,.inspectorTableHeader:hover {
 		background-color: #CCCCCC;
 		color: #666666;
 		font-weight: bold;
 	}
-	
+
 	.inspectorTableData {
 		min-width: 50px;
 	}
-	
+
 	.inspectorTableEditor {
 		width: 50px;
 	}
-	
+
 	.functionInspectorToolButtons {
 		float: right;
 	}
-	
+
 	/* Spreadseet tools */
 	.createObjectsPreview {
 		min-width: 200px;
 		vertical-align: top;
 		height: 110px;
 	}
-	
+
 	.createObjectsScrollArea {
 		width: 100%;
 		height: 100%;
@@ -3746,13 +3753,13 @@
 		margin: 0px;
 		width: 600px;
 	}
-	
+
 	.GGWToolbar-opened {
 		width: 85px;
 	}
-	
-	
-	
+
+
+
 	.phoneMenu {
 		margin-left: 0px;
 		border-left: none;
@@ -3766,58 +3773,58 @@
 		width: 100%;
 		height: 100%;
 	}
-	
-	
+
+
 	.dataAnalysisPanel {
 		width: 100%;
 		height: 100%;
 	}
-	
+
 	.daOptionButtons {
 		width: 100px;
 	}
-	
+
 	.daImagePanel,
 	.daPlotPanel {
 		width: 100%;
 		height: 100%;
 	}
-	
+
 	.daEquationScrollPane{
 		padding:5px;
 		max-width:500px;
 	}
-	
+
 	.daOptionsTabPanel {
 		width: 505px;
 	}
 	.daScrollPanel {
 		height: 300px;
 	}
-	
+
 	.frequencyTable table {
 		width: 100%;
 		border: 1px solid;
 		border-collapse: collapse;
 	}
-	
+
 	.frequencyTable table td,
 	.frequencyTable table th,
 	.frequencyTable table tr {
 		border: 1px dotted;
 	}
-	
+
 	.frequencyTable table .headercell {
 		background-color: #acacac;
 		color: #545454;
 		font-weight: bold;
 	}
-	
+
 	.spFrequencyTable {
 		width: 100%;
-		height: 150px;	
+		height: 150px;
 	}
-	
+
 	.daMultiVarStatistics{
 		overflow:auto;
 	}
@@ -3829,15 +3836,15 @@
 		border: 1px solid;
 		border-collapse: collapse;
 	}
-	
+
 	.daMainSplit {
 		width: 100%;
 		height: 100%;
 	}
-	
+
 	.daData {
 	}
-	
+
 	.daData table {
 		width: 100%;
 		min-width: 100px;
@@ -3845,7 +3852,7 @@
 		border: 1px solid;
 		border-collapse: collapse;
 	}
-	
+
 	.daRegressionData table {
 		width: 100%;
 		min-width: 200px;
@@ -3870,7 +3877,7 @@
 	.daStatistics table tr {
 		border: 1px dotted;
 	}
-	
+
 	.daTwoVarInference table tr td:first-child,
 	.daANNOVA table tr td:first-child,
 	.daData table tr td:first-child,
@@ -3880,7 +3887,7 @@
 		color: #545454;
 		font-weight: bold;
 	}
-	
+
 	.daTwoVarInference table tr:first-child,
 	.daTwoVarInference table tr td:first-child,
 	.daANNOVA table tr:first-child,
@@ -3892,16 +3899,16 @@
 		color: #545454;
 		font-weight: bold;
 	}
-	
+
 	.daTwoVarInference table tr:first-child,
 	.daTwoVarInference table tr td:first-child {
 		width: 180px;
 	}
-	
+
 	.daTwoVarInference table tr td:first-child .gwt-ListBox {
 		background: #acacac;
 	}
-	
+
 	.daRegressionData table tr td:first-child {
 		width: 60px;
 		background-color: #acacac;
@@ -3911,25 +3918,25 @@
 	.comboSplitLayout .panelRow {
 		vertical-align: top;
 	}
-	
+
 	.dataDisplayMain {
-		min-width: 1000px;	
+		min-width: 1000px;
 	}
-	
+
 	.dataDisplayMain .panelRow >*{
 		margin: 0px 0px 0px 0px; 
 	}
-	
+
 	.daRegressionPanel {
 		width: 100%;
 		min-height: 50px;
 	} 
-	
+
 	.daRegEquation {
 		width: 100%;
 		color: red;
 	} 
-	
+
 	.daSwapXYButton {
 		width: 48px;
 		height: 24px;
@@ -3948,8 +3955,8 @@
 	   padding-left: 2em;
 	   text-indent: -1em;
 	 }
-	
-	
+
+
 	/* ########################################
 	   ###       CUSTOMIZE TOOLBAR GUI      ###
 	   ######################################## */
@@ -3958,7 +3965,7 @@
 		float: left;
 		padding: 20px 0px 0px 20px;
 	 }
-	
+
 	 
 	 .allToolsPanel {
 		padding: 20px 0px 0px 20px;
@@ -3970,12 +3977,12 @@
 		padding-left: 5px;
 		margin-left: 20px;
 	}
-	
+
 	.usedToolsPanel:first-child,
 	.allToolsPanel:first-child {
 		overflow-y: hidden;
 	}
-	
+
 	.usedToolsPanel .panelTitle, .allToolsPanel .panelTitle {
 		cursor: default;
 	}
@@ -3996,7 +4003,7 @@
 		/*border-top: 1px solid;*/
 		border-top-color: #6161FF;
 	 }
-	
+
 	.insertAfterLeaf { 
 		width: 99%;
 	 	/*border-bottom: 1px solid;*/
@@ -4008,7 +4015,7 @@
 		/*border-top: 5px solid;*/
 		border-top-color: #6161FF; 
 	 }
-	
+
 	.insertAfterBranch { 
 		/*border-bottom: 5px solid;  */
 		border-bottom-color: #6161FF;
@@ -4019,7 +4026,7 @@
 		cursor: hand;
 		padding-left: 5px;
 	}
-	
+
 	.customizableToolbarItem:hover {
 		background-color: #CCCCFF;
 	}
@@ -4047,72 +4054,72 @@
 	   ########################################
 	   ###   END OF CUSTOMIZE TOOLBAR GUI   ###
 	   ######################################## */
-	
+
 	/*
 	   ########################################
 	   ###       MANAGE TOOLS DIALOG        ###
 	   ######################################## */
-	
+
 	.manageToolsList {
-		display: block;	
+		display: block;
 	}
-	
-	
-	
-	
+
+
+
+
 	.manageToolsList >* {
 		display: inline-block;
 		vertical-align: middle;
 		margin: 3px 10px 3px 0px;
 	}
-	
+
 	.manageToolsList .gwt-ListBox {
 		width: 600px;
 	}
-	
+
 	.manageToolsList .gwt-Button {
 		display: block;
 	}
-	
+
 	/*
 	   ########################################
 	   ###    END OF MANAGE TOOLS DIALOG    ###
 	   ######################################## */
-	
+
 	.popupSliderLabel,
 	.ggbFavorite{
 		float:right;
 	}
-	
-	
-	
+
+
+
 	.red {
 		background:red;
 	}
-	
+
 	/* make sure popup glass pane hides KB button too*/
 	div.openKeyboardButton{
 		z-index:99;
 	}
-	
+
 	div.openKeyboardButton{
-		bottom: 5px;	
+		bottom: 5px;
 	} 
 	 
 	div.SymbolTablePopup, div.providersPopup{
 		z-index:501;
 	}
-	
+
 	.deleteAlgebra {
 		margin: 0px;
 	}
-	
+
 	.deleteAlgebra {
 		float:right;
 	}
-	
+
 	/* AV Extensions */ 
-	
+
 	/*.avSelectedRow .gwt-TreeItem-selected {
 		background: #CCCCFF;
 	}*/
@@ -4124,11 +4131,11 @@
 		-moz-box-sizing: border-box;
 		-webkit-box-sizing: border-box;
 	}
-	
+
 	.avItemContent img {
 		vertical-align: middle;
 	}
-	
+
 	.avItemContent .avSliderSpeedControlPanel {
 		height: 21px;
 		margin-right: 0px;
@@ -4136,22 +4143,22 @@
 	.avItemContent .avSliderSpeedControlPanel > * {
 		margin-right: 7px;
 	}
-	
+
 	.avSliderValue  {
 	    padding: 0px !important;
 		width: 100%;
 	}
-	
+
 	.avSliderValue .avPlainTextItem {
 		padding-top: 10px; 
 		padding-bottom: 5px; 
 		width: 100%;
 	}
-	
+
 	.avSpeedButton {
 		display: inline;
 		cursor: pointer;
-		
+
 		width: 24px;
 	}
 	.avSpeedButton.hidden {
@@ -4159,19 +4166,19 @@
 		overflow: hidden;
 		padding: 0px;
 	}
-	
+
 	.avPlayButton {
 		height: 24px;
 		border: none;
 		outline: none;
 		cursor: pointer;
 	}
-	
+
 	.avSpeedButton > * {
 		/* height is wrong otherwise */
 		float: left;
 	}
-	
+
 	.AlgebraViewObjectStylebar .speedValue {
 		display: inline-block;
 		width: 40px;
@@ -4182,16 +4189,16 @@
 		overflow: hidden;
 		height: 19px;
 	}
-	
+
 	.AlgebraViewObjectStylebar .speedValue.hidden {
 		width: 0px;
 		padding: 0px;
 	}
-	
+
 	.AlgebraViewObjectStylebar .speedValue:hover {
 		color: #6161FF;
 	}
-	
+
 	.slideIn {
 		-moz-transition: width 0.5s ease;
 	    -ms-transition: width 0.5s ease;
@@ -4199,53 +4206,53 @@
 		-webkit-transition: width 0.5s ease; /* Safari */
 	    transition: width 0.5s ease;
 	}
-	
+
 	/* Options Slider */
-	
+
 	.avItemContent {
 		padding-left: 40px;
 	}
-	
+
 	.penSubMenu .optionsSlider .gwt-Label,
 	.avItemContent .optionsSlider .gwt-Label {
 		margin: 0px;
 		display: inline-block;
 	}
-	
+
 	.penSubMenu .optionsSlider .gwt-Label:first-child,
 	.avItemContent .optionsSlider .gwt-Label:first-child {
 		padding-right: 15px;
 	}
-	
+
 	.penSubMenu .optionsSlider .gwt-Label:last-child,
 	.avItemContent .optionsSlider .gwt-Label:last-child {
 		padding-left: 15px;
 	}
-	
+
 	.penSubMenu .optionsSlider .ui-slider,
 	.avItemContent .optionsSlider .ui-slider {
 		margin: 0px;
 	}
-	
+
 	/*.avItemContent .optionsSlider .ui-slider.ui-slider-horizontal.ui-widget.ui-widget-content.ui-corner-all*/
 	.penSubMenu .optionsSlider .ui-slider,
 	.avItemContent .optionsSlider .ui-slider {
 		background: none;
 		border: none;
-		
+
 		/* overwrite background-color with real color of the slider */
 		background-color: rgba(0, 0, 0, 0.4);
-		
+
 		/* white outline for better contrast */
 		box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.4);
 	}
-	
+
 	.penSubMenu .optionsSlider .ui-slider-horizontal,
 	.avItemContent .optionsSlider .ui-slider-horizontal {
 		height: 5px;
 		display: inline-block;
 	}
-	
+
 	.penSubMenu .optionsSlider .ui-state-default,
 	.penSubMenu .optionsSlider .ui-widget-content .ui-state-default,
 	.penSubMenu .optionsSlider .ui-widget-header .ui-state-default,
@@ -4259,7 +4266,7 @@
 		-moz-background-clip: padding;     /* Firefox 3.6 */
 	 	-webkit-background-clip: padding;  /* Safari 4? Chrome 6? */
 	 	background-clip: padding-box;      /* Firefox 4, Safari 5, Opera 10, IE 9 */
-		
+
 		/* white outline for better contrast */
 		box-shadow: 0px 0px 1px 1px rgba(255, 255, 255, 0.4);
 	}
@@ -4284,7 +4291,7 @@
 	.avItemContent .optionsSlider .ui-widget-header .ui-state-active {
 		border-width: 6px;
 	}
-	
+
 	.penSubMenu .optionsSlider .ui-slider .ui-slider-handle, 
 	.avItemContent .optionsSlider .ui-slider .ui-slider-handle {
 		width: 12px;
@@ -4293,23 +4300,21 @@
 		background-image:none;
 		border-radius: 12px;
 	}
-	
+
 	.penSubMenu .optionsSlider .ui-slider .ui-slider-handle span, 
 	.avItemContent .optionsSlider .ui-slider .ui-slider-handle span {
 		width: 10px;
 		height: 10px;
 		position: absolute;
-		
 		border-radius: 10px;
-		
 		border: 1px solid #000000;
 	}
-	
+
 	.avItemContent .optionsSlider .ui-slider-horizontal .ui-slider-handle {
 		top: -6px;
 		margin-left: -9px;
 	}
-	
+
 	.penSubMenu .optionsSlider .ui-slider-horizontal .ui-slider-handle.ui-state-hover,
 	.penSubMenu .optionsSlider .ui-slider-horizontal .ui-slider-handle.ui-state-focus,
 	.penSubMenu .optionsSlider .ui-slider-horizontal .ui-slider-handle.ui-state-active,
@@ -4320,11 +4325,11 @@
 		top: -9px;
 		margin-left: -12px;
 	}
-	
+
 	.marbleHidden {
 		visibility: hidden;
 	}
-	
+
 	.minMaxPanel>* {
 		margin: 0px;
 	}
@@ -4332,8 +4337,7 @@
 		margin-left: 5px;
 		margin-right: 5px;
 	}
-	
-	
+
 	.ggbScreenshot .InputTreeItem{
 		overflow-x:hidden;
 	}
@@ -4348,7 +4352,7 @@
 	    border-top: 1px solid #dcdcdc;
 	    overflow: hidden
 	}
-	
+
 	.stepTree {
 		td:first-child{
 			width:30px;
@@ -4379,9 +4383,9 @@
 	    text-align: left;
 		cursor: pointer;
 		display: block;
-		
+
 	}
-	
+
 	.perspectivesRow img{
 		padding-right: 10px;
 		padding-left: 5px;
@@ -4389,7 +4393,7 @@
 	.perspectivesLabel{
 		 margin-top: 3px;
 	} 
-	
+
 	.perspectiveHighlighted{
 		background-color: #F0F0FF;
 	}
@@ -4415,15 +4419,13 @@
 	.upperBorder div{
 		padding-top: 0px;
 	}
-	
-	
-	
+
 	 .floatingMenu .gwt-StackPanel ul.matStackPanel li.gwt-MenuItem.listMenuItem {
-		padding-top:8px;		
+		padding-top:8px;
 	}
 	.matMenu.gwt-PopupPanel .gwt-MenuItem.listMenuItem{
 		line-height:24px;
 		padding-top:4px;
 	}
-	
+
 }

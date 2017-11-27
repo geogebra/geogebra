@@ -8,6 +8,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.web.gui.images.AppResources;
@@ -227,8 +228,9 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 	}
 
 	/**
-	 * @author csilla expand/collapse submenu for projection types in 3D
-	 *
+	 * expand/collapse submenu for projection types in 3D
+	 * 
+	 * @author csilla
 	 */
 	public class ProjectionSubmenu extends CheckMarkSubMenu {
 		/**
@@ -269,35 +271,32 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		 * @param projectionType
 		 *            type of projection
 		 */
-		public void addProjectionMenuItemForType(final int projectionType) {
+		private void addProjectionMenuItemForType(final int projectionType) {
 			String text = "";
-			String img = "";
+			SVGResource img = null;
 			switch (projectionType) {
 			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
 				text = "stylebar.OrthographicProjection";
-				img = MaterialDesignResources.INSTANCE.projection_orthographic()
-						.getSafeUri().asString();
+				img = MaterialDesignResources.INSTANCE
+						.projection_orthographic();
 				break;
 			case EuclidianView3D.PROJECTION_PERSPECTIVE:
 				text = "stylebar.PerspectiveProjection";
-				img = MaterialDesignResources.INSTANCE.projection_perspective()
-						.getSafeUri().asString();
+				img = MaterialDesignResources.INSTANCE.projection_perspective();
 				break;
 			case EuclidianView3D.PROJECTION_GLASSES:
 				text = "stylebar.GlassesProjection";
-				img = MaterialDesignResources.INSTANCE.projection_glasses()
-						.getSafeUri().asString();
+				img = MaterialDesignResources.INSTANCE.projection_glasses();
 				break;
 			case EuclidianView3D.PROJECTION_OBLIQUE:
 				text = "stylebar.ObliqueProjection";
-				img = MaterialDesignResources.INSTANCE.projection_oblique()
-						.getSafeUri().asString();
+				img = MaterialDesignResources.INSTANCE.projection_oblique();
 			default:
 				Log.warn("Unknown projection:" + projectionType);
-				break;
+				return;
 			}
 			boolean isSelected = isProjectionType(projectionType);
-			addItem(MainMenu.getMenuBarHtml(img,
+			addItem(MainMenu.getMenuBarHtml(img.getSafeUri().asString(),
 					app.getLocalization().getMenu(text)),
 					isSelected, new Command() {
 

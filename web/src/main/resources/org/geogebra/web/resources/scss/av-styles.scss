@@ -9,10 +9,11 @@ $duration: 0.2s;
 		border-radius: 2px;
 		min-width: 192px;
 		
-		.withImg.gPopupMenu_item.gwt-MenuItem.expanded {
+		.withImg.gPopupMenu_item.gwt-MenuItem.expanded, .withImg.gPopupMenu_item.listMenuItem.collapsed {
 			.checkMarkMenuItem {
-				.gwt-HTML {			
-					left: 12px;	
+				.gwt-HTML {	
+					left: 12px;
+					padding-right: 40px;
 					.menuImg {
 						left: 12px;	
 					}
