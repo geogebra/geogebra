@@ -23,7 +23,6 @@ import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -340,7 +339,7 @@ public class GPopupMenuW implements AttachedToDOM {
 						}
 					}
 					yCord = (int) Math.min(
-							(popupMenu.getAbsoluteTop(newItem)
+							(newItem.getAbsoluteTop()
 									- getApp().getPanel().getAbsoluteTop())
 									/ getScaleY(),
 							(Window.getClientHeight() + Window.getScrollTop()
@@ -356,18 +355,9 @@ public class GPopupMenuW implements AttachedToDOM {
 			ImageResource imgRes = getSubMenuIcon(
 					app.getLocalization().isRightToLeftReadingOrder());
 			popupMenu.setParentMenu(this);
-			if (newItem.getElement().getParentNode() != null) {
-				Element td = DOM.createTD();
-				td.setAttribute("vAlign", "middle");
-				td.addClassName("subMenuIcon");
-				td.setInnerSafeHtml(
-						AbstractImagePrototype.create(imgRes).getSafeHtml());
-				newItem.getElement().setAttribute("colspan", "1");
-				DOM.appendChild((Element) newItem.getElement().getParentNode(),
-						td);
-			} else {
-				popupMenu.appendSubmenu(newItem, imgRes);
-			}
+
+			popupMenu.appendSubmenu(newItem, imgRes);
+
 		}
 		popupMenuSize++;
 
@@ -574,7 +564,4 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 	}
 
-	public void addStyleName(AriaMenuItem item, String className) {
-		popupMenu.addStyleName(item, className);
-	}
 }

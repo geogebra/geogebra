@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.menubar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -20,7 +19,6 @@ import com.google.gwt.user.client.ui.Widget;
 /**Accessible alternative to MenuBar*/
 public class AriaMenuBar extends Widget {
 	private AriaMenuItem selectedItem;
-	private HashMap<AriaMenuItem, Element> domItems = new HashMap<AriaMenuItem, Element>();
 	private ArrayList<AriaMenuItem> allItems = new ArrayList<AriaMenuItem>();
 	private boolean autoOpen;
 
@@ -45,7 +43,6 @@ public class AriaMenuBar extends Widget {
 	public AriaMenuItem addItem(AriaMenuItem item) {
 		getElement().appendChild(item.getElement());
 		allItems.add(item);
-		domItems.put(item, item.getElement());
 		return item;
 	}
 
@@ -101,12 +98,12 @@ public class AriaMenuBar extends Widget {
 	 */
 	public void selectItem(AriaMenuItem item) {
 		if (selectedItem != null) {
-			removeStyleName(selectedItem, "gwt-MenuItem-selected");
+			selectedItem.removeStyleName("gwt-MenuItem-selected");
 		}
 		this.selectedItem = item;
-		if (item != null && domItems.get(item) != null) {
-			domItems.get(item).addClassName("gwt-MenuItem-selected");
-			domItems.get(item).focus();
+		if (item != null) {
+			item.addStyleName("gwt-MenuItem-selected");
+			item.getElement().focus();
 		}
 	}
 
@@ -115,7 +112,6 @@ public class AriaMenuBar extends Widget {
 	 */
 	public void clearItems() {
 		allItems.clear();
-		domItems.clear();
 		getElement().removeAllChildren();
 		selectItem(null);
 	}
@@ -261,9 +257,9 @@ public class AriaMenuBar extends Widget {
 
 	private AriaMenuItem findItem(
 			Element eventTarget) {
-		for (AriaMenuItem it : allItems) {
-			if (domItems.get(it).isOrHasChild(eventTarget)) {
-				return it;
+		for (AriaMenuItem item : allItems) {
+			if (item.getElement().isOrHasChild(eventTarget)) {
+				return item;
 			}
 		}
 		return null;
@@ -297,21 +293,10 @@ public class AriaMenuBar extends Widget {
 	 *            submenu arrow icon
 	 */
 	public void appendSubmenu(AriaMenuItem newItem, ImageResource imgRes) {
-		Element li = domItems.get(newItem);
 		NoDragImage img = new NoDragImage(imgRes, 20, 20);
 		AriaHelper.hide(img);
 		img.addStyleName("submenuArrow");
-		li.appendChild(img.getElement());
-	}
-
-	/**
-	 * @param item
-	 *            item
-	 * @return absolute top of the item
-	 */
-	public int getAbsoluteTop(AriaMenuItem item) {
-		return domItems.get(item) == null ? 0
-				: domItems.get(item).getAbsoluteTop();
+		newItem.getElement().appendChild(img.getElement());
 	}
 
 	/**
@@ -322,39 +307,8 @@ public class AriaMenuBar extends Widget {
 	 * @return horizontal coordinate of menu
 	 */
 	protected int getAbsoluteHorizontalPos(AriaMenuItem item, boolean subleft) {
-		if (domItems.get(item) == null) {
-			return 0;
-		}
-		return subleft ? domItems.get(item).getAbsoluteLeft()
-				: domItems.get(item).getAbsoluteRight() + 8;
-	}
-
-	/**
-	 * Adds a class name to element representing given item
-	 * 
-	 * @param item
-	 *            item to be changed
-	 * @param className
-	 *            CSS class name
-	 */
-	public void addStyleName(AriaMenuItem item, String className) {
-		if (domItems.get(item) != null) {
-			domItems.get(item).addClassName(className);
-		}
-	}
-
-	/**
-	 * Removes a class name of element representing given item
-	 * 
-	 * @param item
-	 *            item to be changed
-	 * @param className
-	 *            CSS class name
-	 */
-	public void removeStyleName(AriaMenuItem item, String className) {
-		if (domItems.get(item) != null) {
-			domItems.get(item).removeClassName(className);
-		}
+		return subleft ? item.getElement().getAbsoluteLeft()
+				: item.getElement().getAbsoluteRight() + 8;
 	}
 
 	public void removeSubPopup() {

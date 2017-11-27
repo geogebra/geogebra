@@ -118,9 +118,9 @@ public class GCollapseMenuItem {
 	public void collapse() {
 		expanded = false;
 		for (AriaMenuItem mi : items) {
-			mb.removeStyleName(mi, "gwt-MenuItem");
-			mb.addStyleName(mi, "collapsed");
-			mb.removeStyleName(mi, "expanded");
+			mi.removeStyleName("gwt-MenuItem");
+			mi.addStyleName("collapsed");
+			mi.removeStyleName("expanded");
 		}
 	}
 
@@ -130,9 +130,9 @@ public class GCollapseMenuItem {
 	public void expand() {
 		expanded = true;
 		for (AriaMenuItem mi : items) {
-			mb.addStyleName(mi, "gwt-MenuItem");
-			mb.addStyleName(mi, "expanded");
-			mb.removeStyleName(mi, "collapsed");
+			mi.addStyleName("gwt-MenuItem");
+			mi.addStyleName("expanded");
+			mi.removeStyleName("collapsed");
 		}
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
 
@@ -114,7 +115,8 @@ public class GMenuBar extends AriaMenuBar {
 
 					if (ait[1] == null) {
 						// popuppanel still not present
-						final PopupPanel pp = new PopupPanel(true, false);
+						final GPopupPanel pp = new GPopupPanel(true, false,
+								app.getPanel(), app);
 						pp.addAutoHidePartner(
 								((AriaMenuItem) ait[0]).getElement());
 						submenupopup.addStyleName(subleft ? "subMenuLeftSide2"
@@ -132,8 +134,12 @@ public class GMenuBar extends AriaMenuBar {
 						}
 						pp.add(submenupopup);
 						AriaMenuItem mi0 = (AriaMenuItem) ait[0];
-						int left = getAbsoluteHorizontalPos(mi0, subleft);
-						int top = getAbsoluteTop(mi0);
+						int left = (int) ((getAbsoluteHorizontalPos(mi0,
+								subleft) - (int) app.getAbsLeft())
+								/ app.getArticleElement().getScaleX());
+						int top = (int) ((mi0.getAbsoluteTop()
+								- app.getAbsTop())
+								/ app.getArticleElement().getScaleY());
 
 						pp.setPopupPosition(left, top);
 
@@ -178,20 +184,6 @@ public class GMenuBar extends AriaMenuBar {
 		});
 
 		return (AriaMenuItem) ait[0];
-	}
-
-	/**
-	 * @param itemtext
-	 *            item content
-	 * @param textishtml
-	 *            whether to treat text as html
-	 * @param submenupopup
-	 *            submenu
-	 * @return the menu item
-	 */
-	public AriaMenuItem addItem(String itemtext, boolean textishtml,
-			final AriaMenuBar submenupopup) {
-		return addItem(itemtext, textishtml, submenupopup, true);
 	}
 
 	/**
