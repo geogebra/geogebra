@@ -536,20 +536,21 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		if (prop == GProperty.LINE_STYLE) {
 			// also update for line width (e.g when translated)
 			setWaitForUpdate();
-		}
-		if (shouldBePacked()) {
-			if (prop == GProperty.COLOR) {
-				updateColors();
-				getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
-				getView3D().getRenderer().getGeometryManager().updateColor(getSurfaceColor(), getSurfaceIndex());
-				if (!isVisible()) {
-					getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
-					getView3D().getRenderer().getGeometryManager().updateVisibility(false, getSurfaceIndex());
+		} else {
+			if (shouldBePacked()) {
+				if (prop == GProperty.COLOR) {
+					updateColors();
+					getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
+					getView3D().getRenderer().getGeometryManager().updateColor(getSurfaceColor(), getSurfaceIndex());
+					if (!isVisible()) {
+						getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
+						getView3D().getRenderer().getGeometryManager().updateVisibility(false, getSurfaceIndex());
+					}
+				} else if (prop == GProperty.VISIBLE) {
+					boolean isVisible = isVisible();
+					getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getGeometryIndex());
+					getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getSurfaceIndex());
 				}
-			} else if (prop == GProperty.VISIBLE) {
-				boolean isVisible = isVisible();
-				getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getGeometryIndex());
-				getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getSurfaceIndex());
 			}
 		}
 	}
@@ -559,10 +560,9 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		return true;
 	}
 
-	// @Override
-	// public boolean shouldBePacked() {
-	// return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) &&
-	// !createdByDrawList();
-	// }
+	@Override
+	public boolean shouldBePacked() {
+		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
+	}
 
 }

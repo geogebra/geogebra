@@ -18,6 +18,7 @@ public class ManagerShadersElementsGlobalBuffer
 
 	private GLBufferIndices curvesIndices, fanDirectIndices, fanIndirectIndices;
 	private int curvesIndicesSize, fanDirectIndicesSize, fanIndirectIndicesSize;
+	private GLBufferIndices bufferIndicesForDrawTriangleFans;
 
 	private boolean indicesDone = false;
 	private TypeElement oldType = TypeElement.NONE;
@@ -476,23 +477,50 @@ public class ManagerShadersElementsGlobalBuffer
 			size += triFan.size() - 1;
 		}
 
-		GLBufferIndices arrayI = getCurrentGeometryIndices(size * 3);
+		setIndicesForDrawTriangleFans(size);
 
 		for (TriangleFan triFan : triFanList) {
 			short apex = (short) triFan.getApexPoint();
 			short current = (short) triFan.getVertexIndex(0);
 			for (int i = 1; i < triFan.size(); i++) {
-				arrayI.put(apex);
-				arrayI.put(current);
+				putToIndicesForDrawTriangleFans(apex);
+				putToIndicesForDrawTriangleFans(current);
 				current = (short) triFan.getVertexIndex(i);
-				arrayI.put(current);
+				putToIndicesForDrawTriangleFans(current);
 			}
 		}
 
-		arrayI.rewind();
+		rewindIndicesForDrawTriangleFans();
 
 		// end
 		endGeometry(3 * size, TypeElement.SURFACE);
+	}
+
+	/**
+	 * set indices reference when drawing triangle fans
+	 * 
+	 * @param size
+	 *            number of triangles
+	 */
+	protected void setIndicesForDrawTriangleFans(int size) {
+		bufferIndicesForDrawTriangleFans = getCurrentGeometryIndices(size * 3);
+	}
+
+	/**
+	 * put new index to indices buffer
+	 * 
+	 * @param index
+	 *            index
+	 */
+	protected void putToIndicesForDrawTriangleFans(short index) {
+		bufferIndicesForDrawTriangleFans.put(index);
+	}
+
+	/**
+	 * rewind indices buffer
+	 */
+	protected void rewindIndicesForDrawTriangleFans() {
+		bufferIndicesForDrawTriangleFans.rewind();
 	}
 
 }

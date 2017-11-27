@@ -22,6 +22,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	private GLBufferManager currentBufferManager;
 	private GColor currentColor;
 	private int currentTextureType;
+	private ReusableArrayList<Short> indices;
 
 	private class GeometriesSetElementsGlobalBufferPacking extends GeometriesSetElementsGlobalBuffer {
 
@@ -180,8 +181,8 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			EuclidianView3D view3d) {
 		super(renderer, view3d);
 		bufferManagerCurves = new GLBufferManagerCurves();
-		bufferManagerSurfaces = new GLBufferManagerSurfaces();
-		bufferManagerSurfacesClosed = new GLBufferManagerSurfaces();
+		bufferManagerSurfaces = new GLBufferManagerSurfaces(this);
+		bufferManagerSurfacesClosed = new GLBufferManagerSurfaces(this);
 		currentBufferManager = null;
 	}
 
@@ -296,6 +297,32 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	public void endPacking() {
 		currentBufferManager = null;
+	}
+
+	@Override
+	protected void setIndicesForDrawTriangleFans(int size) {
+		if (indices == null) {
+			indices = new ReusableArrayList<Short>(size);
+		}
+		indices.setLength(0);
+	}
+
+	@Override
+	protected void putToIndicesForDrawTriangleFans(short index) {
+		indices.addValue(index);
+	}
+
+	@Override
+	protected void rewindIndicesForDrawTriangleFans() {
+		// nothing to do
+	}
+
+	/**
+	 * 
+	 * @return current indices
+	 */
+	public ReusableArrayList<Short> getIndices() {
+		return indices;
 	}
 
 }

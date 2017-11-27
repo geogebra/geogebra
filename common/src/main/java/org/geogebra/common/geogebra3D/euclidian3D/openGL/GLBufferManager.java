@@ -15,7 +15,8 @@ abstract class GLBufferManager {
 
 	private Index currentIndex;
 	private Index currentLengths;
-	private BufferSegment currentBufferSegment;
+	/** current buffer segment */
+	protected BufferSegment currentBufferSegment;
 	private TreeMap<Index, BufferSegment> bufferSegments;
 	private int indicesIndex;
 	private TreeMap<Index, LinkedList<BufferSegment>> availableSegments;
@@ -89,11 +90,27 @@ abstract class GLBufferManager {
 		}
 	}
 
-	static private class BufferSegment {
+	/**
+	 * segment in buffer for a geometry element
+	 *
+	 */
+	static class BufferSegment {
 		private int elementsOffset, elementsLength;
 		private int indicesOffset, indicesLength;
 		private BufferPack bufferPack;
+		/** element type */
+		TypeElement type;
 
+		/**
+		 * constructor
+		 * 
+		 * @param bufferPack
+		 *            buffer pack
+		 * @param elementsLength
+		 *            elements length
+		 * @param indicesLength
+		 *            indices length
+		 */
 		public BufferSegment(BufferPack bufferPack, int elementsLength, int indicesLength) {
 			this.bufferPack = bufferPack;
 			elementsOffset = bufferPack.elementsLength;
@@ -115,6 +132,9 @@ abstract class GLBufferManager {
 
 		/**
 		 * creates a new buffer pack, using approx. 2MB (4 bytes per float * 32768 * 15)
+		 * 
+		 * @param manager
+		 *            geometries manager
 		 */
 		public BufferPack(GLBufferManager manager) {
 			this.manager = manager;
@@ -335,20 +355,23 @@ abstract class GLBufferManager {
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.remove(currentIndex);
-			currentBufferPack = currentBufferSegment.bufferPack;
-			setAlphaToTransparent();
-			addAvailableSegment(currentBufferSegment, availableSegments);
+			addCurrentToAvailableSegments();
 		}
 	}
 
-	private void addAvailableSegment(BufferSegment segment, TreeMap<Index, LinkedList<BufferSegment>> availableList) {
-		currentLengths.set(segment.elementsLength, segment.indicesLength);
-		LinkedList<BufferSegment> list = availableList.get(currentLengths);
+	/**
+	 * add current buffer segment to available list
+	 */
+	protected void addCurrentToAvailableSegments() {
+		currentBufferPack = currentBufferSegment.bufferPack;
+		setAlphaToTransparent();
+		currentLengths.set(currentBufferSegment.elementsLength, currentBufferSegment.indicesLength);
+		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
 		if (list == null) {
 			list = new LinkedList<GLBufferManager.BufferSegment>();
-			availableList.put(currentLengths, list);
+			availableSegments.put(new Index(currentLengths), list);
 		}
-		list.add(segment);
+		list.add(currentBufferSegment);
 	}
 
 
@@ -364,9 +387,11 @@ abstract class GLBufferManager {
 	 * 
 	 * @param size
 	 *            geometry size
+	 * @param type
+	 *            element type
 	 * @return indices length for this size
 	 */
-	abstract protected int calculateIndicesLength(int size);
+	abstract protected int calculateIndicesLength(int size, TypeElement type);
 
 	/**
 	 * put indices to buffer
@@ -379,6 +404,23 @@ abstract class GLBufferManager {
 	abstract protected void putIndices(int size, TypeElement type);
 
 	/**
+	 * 
+	 * @param indicesLength
+	 *            indices length
+	 * @param type
+	 *            element type
+	 * @return true if we can't reuse the same buffer segment
+	 */
+	protected boolean currentBufferSegmentDoesNotFit(int indicesLength, TypeElement type) {
+		if (elementsLength != currentBufferSegment.elementsLength
+				|| indicesLength != currentBufferSegment.indicesLength) {
+			addCurrentToAvailableSegments();
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * set indices
 	 * 
 	 * @param size
@@ -389,10 +431,10 @@ abstract class GLBufferManager {
 	public void setIndices(int size, TypeElement type) {
 		// get buffer segment and pack
 		currentBufferSegment = bufferSegments.get(currentIndex);
-		if (currentBufferSegment == null) {
-			int indicesLength = calculateIndicesLength(size);
-			currentLengths.set(elementsLength, indicesLength);
+		int indicesLength = calculateIndicesLength(size, type);
+		if (currentBufferSegment == null || currentBufferSegmentDoesNotFit(indicesLength, type)) {
 			// try to reuse available segment
+			currentLengths.set(elementsLength, indicesLength);
 			currentBufferSegment = getAvailableSegment(currentLengths, availableSegments);
 			if (currentBufferSegment == null) {
 				if (!currentBufferPack.canAdd(elementsLength, indicesLength)) {
@@ -402,6 +444,7 @@ abstract class GLBufferManager {
 				currentBufferSegment = new BufferSegment(currentBufferPack, elementsLength, indicesLength);
 				currentBufferPack.addToLength(elementsLength, indicesLength);
 			}
+			currentBufferSegment.type = type;
 			bufferSegments.put(new Index(currentIndex), currentBufferSegment);
 			currentBufferPack = currentBufferSegment.bufferPack;
 

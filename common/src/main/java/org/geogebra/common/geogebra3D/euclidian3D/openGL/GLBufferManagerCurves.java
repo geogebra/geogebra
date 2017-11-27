@@ -8,7 +8,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
 public class GLBufferManagerCurves extends GLBufferManager {
 
 	@Override
-	protected int calculateIndicesLength(int size) {
+	protected int calculateIndicesLength(int size, TypeElement type) {
 		return 3 * 2 * size * PlotterBrush.LATITUDES;
 	}
 

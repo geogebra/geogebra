@@ -41,11 +41,13 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	public boolean doHighlighting() {
 
-		// if the segments depends on a polygon (or polyhedron), look at the
-		// poly' highlighting
-		GeoElement meta = ((GeoSegmentND) getGeoElement()).getMetas()[0];
-		if (meta != null && meta.doHighlighting()) {
-			return true;
+		if (!shouldBePacked()) {
+			// if the segments depends on a polygon (or polyhedron), look at the
+			// poly' highlighting
+			GeoElement meta = ((GeoSegmentND) getGeoElement()).getMetas()[0];
+			if (meta != null && meta.doHighlighting()) {
+				return true;
+			}
 		}
 
 		return super.doHighlighting();
