@@ -306,6 +306,9 @@ public enum Feature {
 	ARIA_MENU,
 
 	/** GGB-2100 */
-	KEYBOARD_BOX_ICON
+	KEYBOARD_BOX_ICON,
+
+	/** AND-637 */
+	MOB_GGB_KEYBOARD_IN_SETTINGS,
 }
 

@@ -24,6 +24,7 @@ import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
+import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.event.KeyListener;
 import com.himamis.retex.editor.share.meta.MetaModel;
 import com.himamis.retex.editor.share.model.MathComponent;
@@ -44,16 +45,20 @@ import com.himamis.retex.renderer.share.platform.graphics.Insets;
 import java.util.ArrayList;
 import java.util.Collections;
 
+@SuppressWarnings({"ClassWithTooManyFields", "ClassWithTooManyMethods", "OverlyComplexClass", "OverlyCoupledClass"})
 public class FormulaEditor extends View implements MathField {
 
     private final static int CURSOR_MARGIN = 5;
     // tolerance for cursor color
     private final static int CURSOR_TOLERANCE = 10;
+    public static final int DEFAULT_SIZE = 20;
+
+    @SuppressWarnings({"PublicField", "StaticNonFinalField"})
     public static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
     private TeXIcon mTeXIcon;
     private Graphics2DA mGraphics;
-    private float mSize = 20;
+    private float mSize = DEFAULT_SIZE;
     private int mBackgroundColor = Color.TRANSPARENT;
     private ColorA mForegroundColor = new ColorA(Color.BLACK);
     private int mType = TeXFormula.SERIF;
@@ -61,14 +66,13 @@ public class FormulaEditor extends View implements MathField {
     private float mScale;
     private float mMinHeight;
     private Parser mParser;
-    private int iconWidth;
+    private int mIconWidth;
     private Canvas mHiddenCanvas;
     private Bitmap mHiddenBitmap;
     private int mHiddenBitmapW = -1;
     private int mHiddenBitmapH = -1;
     private int mShiftX = 0;
 
-    private String mFormulaPreviewText;
     private TeXIcon mFormulaPreviewTeXIcon;
 
     public FormulaEditor(Context context) {
@@ -88,7 +92,7 @@ public class FormulaEditor extends View implements MathField {
         init();
     }
 
-    public void debug(String message) {
+    public void debug(@SuppressWarnings("unused") String message) {
         //System.out.println(message);
     }
 
@@ -104,7 +108,7 @@ public class FormulaEditor extends View implements MathField {
                 defStyleAttr, 0);
 
         try {
-            mSize = a.getFloat(R.styleable.FormulaEditor_fe_size, 20);
+            mSize = a.getFloat(R.styleable.FormulaEditor_fe_size, DEFAULT_SIZE);
             mBackgroundColor = a.getColor(R.styleable.FormulaEditor_fe_backgroundColor, Color.TRANSPARENT);
             mForegroundColor = new ColorA(a.getColor(R.styleable.FormulaEditor_fe_foregroundColor, Color.BLACK));
             mText = a.getString(R.styleable.FormulaEditor_fe_text);
@@ -176,9 +180,8 @@ public class FormulaEditor extends View implements MathField {
     }
 
     public void setPreviewText(String text) {
-        mFormulaPreviewText = text;
         if (text != null) {
-            TeXFormula texFormula = new TeXFormula(mFormulaPreviewText);
+            TeXFormula texFormula = new TeXFormula(text);
             mFormulaPreviewTeXIcon = texFormula.new TeXIconBuilder().setSize(mSize * mScale).setType(mType)
                     .setStyle(TeXConstants.STYLE_DISPLAY).build();
             mFormulaPreviewTeXIcon.setInsets(createInsetsFromPadding());
@@ -226,7 +229,7 @@ public class FormulaEditor extends View implements MathField {
         // used in AlgebraInput
     }
 
-    public void afterKeyTyped(com.himamis.retex.editor.share.event.KeyEvent keyEvent) {
+    public void afterKeyTyped(KeyEvent keyEvent) {
         // used in FormulaInput
     }
 
@@ -262,7 +265,6 @@ public class FormulaEditor extends View implements MathField {
         final int heightSize = MeasureSpec.getSize(heightMeasureSpec);
 
         int width;
-        int height;
 
         if (widthMode == MeasureSpec.EXACTLY) {
             width = widthSize;
@@ -272,6 +274,7 @@ public class FormulaEditor extends View implements MathField {
             width = desiredWidth;
         }
 
+        int height;
         if (heightMode == MeasureSpec.EXACTLY) {
             height = heightSize;
         } else if (heightMode == MeasureSpec.AT_MOST) {
@@ -286,9 +289,9 @@ public class FormulaEditor extends View implements MathField {
     @Override
     protected void onDraw(Canvas canvas) {
         if (hasFocus() || mFormulaPreviewTeXIcon == null) {
-            drawShifted(canvas, getShiftX());
+            drawShifted(canvas, mShiftX);
         } else {
-            drawShiftedWithTexIcon(canvas, getShiftX(), mFormulaPreviewTeXIcon);
+            drawShiftedWithTexIcon(canvas, mShiftX, mFormulaPreviewTeXIcon);
         }
     }
 
@@ -308,6 +311,7 @@ public class FormulaEditor extends View implements MathField {
         // draw background
         canvas.drawColor(mBackgroundColor);
 
+        //noinspection MagicNumber
         int y = Math.round((getMeasuredHeight() - teXIcon.getIconHeight()) / 2.0f);
         // draw latex
         mGraphics.setCanvas(canvas);
@@ -335,6 +339,7 @@ public class FormulaEditor extends View implements MathField {
 
     }
 
+    @SuppressWarnings({"OverlyComplexMethod", "OverlyLongMethod"})
     protected int calcCursorX() {
 
         int inputBarWidth = getWidth();
@@ -346,13 +351,13 @@ public class FormulaEditor extends View implements MathField {
 
         debug("mShiftX: " + mShiftX + ", inputBarWidth:" + inputBarWidth);
 
-        iconWidth = mTeXIcon.getIconWidth();
+        mIconWidth = mTeXIcon.getIconWidth();
         int iconHeight = mTeXIcon.getIconHeight();
 
         // check if last shift is not too long
         // (e.g. if new formula is shorter)
-        if (iconWidth + mShiftX < inputBarWidth) {
-            mShiftX = inputBarWidth - iconWidth;
+        if (mIconWidth + mShiftX < inputBarWidth) {
+            mShiftX = inputBarWidth - mIconWidth;
             if (mShiftX > 0) {
                 mShiftX = 0;
             }
@@ -360,24 +365,24 @@ public class FormulaEditor extends View implements MathField {
         }
 
         // find cursor (red pixels) and ensure is visible in view
-        if (iconWidth > mHiddenBitmapW || iconHeight > mHiddenBitmapH) {
-            mHiddenBitmap = Bitmap.createBitmap(iconWidth, iconHeight,
+        if (mIconWidth > mHiddenBitmapW || iconHeight > mHiddenBitmapH) {
+            mHiddenBitmap = Bitmap.createBitmap(mIconWidth, iconHeight,
                     Bitmap.Config.ARGB_8888);
             mHiddenCanvas = new Canvas(mHiddenBitmap);
-            mHiddenBitmapW = iconWidth;
+            mHiddenBitmapW = mIconWidth;
             mHiddenBitmapH = iconHeight;
             debug("==== new Bitmap");
         } else {
             mHiddenCanvas.drawColor(Color.BLACK);
         }
         drawShifted(mHiddenCanvas, 0);
-        int[] pix = new int[iconWidth * iconHeight];
-        mHiddenBitmap.getPixels(pix, 0, iconWidth, 0, 0, iconWidth, iconHeight);
+        int[] pix = new int[mIconWidth * iconHeight];
+        mHiddenBitmap.getPixels(pix, 0, mIconWidth, 0, 0, mIconWidth, iconHeight);
         int pixRed = 0;
         int cursorRed = 0;
         int index = 0;
         for (int y = 0; y < iconHeight; y++) {
-            for (int x = 0; x < iconWidth; x++) {
+            for (int x = 0; x < mIconWidth; x++) {
                 int color = pix[index];
                 int red = Color.red(color);
                 if (red > GraphicsFactory.CURSOR_RED - CURSOR_TOLERANCE
@@ -432,8 +437,8 @@ public class FormulaEditor extends View implements MathField {
 
         mShiftX -= dx;
         int inputBarWidth = getWidth();
-        if (iconWidth + mShiftX < inputBarWidth) {
-            mShiftX = inputBarWidth - iconWidth;
+        if (mIconWidth + mShiftX < inputBarWidth) {
+            mShiftX = inputBarWidth - mIconWidth;
         }
         if (mShiftX > 0) {
             mShiftX = 0;
@@ -461,13 +466,17 @@ public class FormulaEditor extends View implements MathField {
     public boolean showKeyboard() {
         InputMethodManager imm = (InputMethodManager) getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
+        if (imm != null) {
+            imm.showSoftInput(this, InputMethodManager.SHOW_FORCED);
+        }
         return true;
     }
 
     public void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(getWindowToken(), 0);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(getWindowToken(), 0);
+        }
     }
 
     public void showCopyPasteButtons() {
@@ -582,8 +591,10 @@ public class FormulaEditor extends View implements MathField {
         editorState.setCurrentOffset(currentOffset);
     }
 
+    @SuppressWarnings("InstanceVariableNamingConvention")
     static class FormulaEditorState extends BaseSavedState {
 
+        @SuppressWarnings("InnerClassTooDeeplyNested")
         public static final Parcelable.Creator<FormulaEditorState> CREATOR =
                 new Parcelable.Creator<FormulaEditorState>() {
                     public FormulaEditorState createFromParcel(Parcel in) {
@@ -599,13 +610,14 @@ public class FormulaEditor extends View implements MathField {
         ArrayList<Integer> currentPath;
         Integer currentOffset;
 
-        public FormulaEditorState(Parcelable superState) {
+        FormulaEditorState(Parcelable superState) {
             super(superState);
         }
 
-        public FormulaEditorState(Parcel source) {
+        FormulaEditorState(Parcel source) {
             super(source);
-            rootComponent = (MathSequence) source.readValue(null);
+            rootComponent = (MathSequence) source.readValue(getClass().getClassLoader());
+            //noinspection unchecked
             currentPath = source.readArrayList(Integer.class.getClassLoader());
             currentOffset = source.readInt();
         }
@@ -620,6 +632,7 @@ public class FormulaEditor extends View implements MathField {
 
     }
 
+    @SuppressWarnings("InstanceMethodNamingConvention")
     protected boolean appHasFeatureAND_KILL_TOOLBAR() {
         return false;
     }
@@ -629,7 +642,7 @@ public class FormulaEditor extends View implements MathField {
     }
     
     @Override
-    public void tab(boolean shift){
+    public void tab(boolean shiftDown){
 
     }
 }

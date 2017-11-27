@@ -4012,6 +4012,10 @@ public abstract class App implements UpdateSelection {
             case MOB_INPUT_CONTEXT_MENU:
                 return true;
 
+			// AND-637
+			case MOB_GGB_KEYBOARD_IN_SETTINGS:
+				return prerelease;
+
 			// IGR-373
 			case MOB_TRANSPARENT_STATUS_BAR_IN_EXAM_MODE:
 				return prerelease;
