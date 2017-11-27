@@ -3,8 +3,7 @@ package org.geogebra.keyboard.web;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
 /**
- * interface for classes that can receive input from the
- * {@link OnScreenKeyBoardBase}
+ * interface for classes that can receive input from the {@link TabbedKeyboard}
  */
 public interface KeyboardListener {
 	/**
@@ -19,13 +18,6 @@ public interface KeyboardListener {
 		 * right arrow
 		 */
 		right
-	}
-	
-	/**
-	 * 
-	 */
-	enum State {
-		empty, autoCompleteTextField, gTextBox, equationEditorListener, inputTreeItem, other;
 	}
 
 	/** ASCII */

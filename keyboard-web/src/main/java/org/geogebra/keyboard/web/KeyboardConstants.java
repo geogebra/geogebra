@@ -4,7 +4,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 /**
  * Contains Strings which are used for the {@link KeyBoardButtonBase buttons} of
- * the {@link KBBase}
+ * the {@link TabbedKeyboard}
  */
 public class KeyboardConstants {
 	/** a to the power of 2 */

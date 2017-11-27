@@ -1,11 +1,11 @@
 package org.geogebra.keyboard.web;
 
 import org.geogebra.keyboard.base.Action;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
-import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.Image;
 
 /**
@@ -72,11 +72,11 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 * @param addSupSyle
 	 *            - true if add sup style
 	 */
-	public KeyBoardButtonFunctionalBase(SafeUri svg, String feedback,
+	public KeyBoardButtonFunctionalBase(SVGResource svg, String feedback,
 			ButtonHandler handler, boolean addSupSyle) {
 		super(handler);
 		this.image = new Image(new ImageResourcePrototype(null,
-				svg, 0, 0, 24, 24, false, false));
+				svg.getSafeUri(), 0, 0, 24, 24, false, false));
 		this.feedback = feedback;
 		this.add(this.image);
 		if (addSupSyle) {

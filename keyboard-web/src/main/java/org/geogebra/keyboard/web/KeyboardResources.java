@@ -11,6 +11,7 @@ import com.google.gwt.resources.client.TextResource;
 /**
  * image and style resources of keyboard
  */
+@SuppressWarnings("javadoc")
 public interface KeyboardResources extends ClientBundle {
 
 	KeyboardResources INSTANCE = GWT.create(KeyboardResources.class);
