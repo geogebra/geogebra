@@ -25,6 +25,8 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
@@ -40,8 +42,6 @@ import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
@@ -114,7 +114,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private Label lblTitleX, lblTitleY;
 	private AutoCompleteTextFieldW fldTitleX, fldTitleY;
 	private FrequencyTablePanelW frequencyTable;
-	private MenuBar btnExport;
+	private AriaMenuBar btnExport;
 	private AutoCompleteTextFieldW fldNumClasses;
 
 	private DataAnalysisModel daModel;
@@ -184,7 +184,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		});
 
 		// create export button
-		btnExport = new MenuBar();
+		btnExport = new AriaMenuBar();
 
 		// create control panel
 		if (hasControlPanel) {
@@ -455,8 +455,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	}
 
 	private void createExportMenu() {
-		MenuBar menu = new MenuBar(true);
-		MenuItem miToGraphich = new MenuItem(loc.getMenu("CopyToGraphics"),
+		AriaMenuBar menu = new AriaMenuBar();
+		AriaMenuItem miToGraphich = new AriaMenuItem(
+				loc.getMenu("CopyToGraphics"), false,
 		        new Command() {
 
 			        @Override
@@ -468,8 +469,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 		menu.addItem(miToGraphich);
 
 		if(app.getLAF().copyToClipboardSupported()){
-			MenuItem miAsPicture = new MenuItem(
-					loc.getMenu("ExportAsPicture"),
+			AriaMenuItem miAsPicture = new AriaMenuItem(
+					loc.getMenu("ExportAsPicture"), false,
 			        new Command() {
 
 				        @Override
@@ -482,7 +483,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		String image = "<img src=\""
 				+ GuiResources.INSTANCE.menu_icons_file_export().getSafeUri()
 						.asString() + "\" >";
-		btnExport.addItem(image, true, menu);
+		btnExport.addItem(new AriaMenuItem(image, true, menu));
 	
 	}
 	// ==============================================

@@ -48,14 +48,18 @@ public class AriaMenuItem extends SimplePanel {
 		getElement().setTabIndex(0);
 	}
 
-	private void setContent(String text, boolean asHTML) {
+	/**
+	 * @param text
+	 *            content
+	 * @param asHTML
+	 *            whether to parse it as HTML
+	 */
+	public void setContent(String text, boolean asHTML) {
 		if (asHTML) {
 			getElement().setInnerHTML(text);
 		} else {
 			getElement().setInnerText(text);
 		}
-
-
 	}
 
 	/**

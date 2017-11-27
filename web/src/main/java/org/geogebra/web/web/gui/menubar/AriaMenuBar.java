@@ -13,7 +13,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Widget;
 
 /**Accessible alternative to MenuBar*/
@@ -21,6 +20,7 @@ public class AriaMenuBar extends Widget {
 	private AriaMenuItem selectedItem;
 	private ArrayList<AriaMenuItem> allItems = new ArrayList<AriaMenuItem>();
 	private boolean autoOpen;
+	private boolean focusOnHover;
 
 	/**
 	 * Create new accessible menu
@@ -56,7 +56,7 @@ public class AriaMenuBar extends Widget {
 	 *            <code>true</code> to treat the specified text as html
 	 * @param cmd
 	 *            the command to be fired
-	 * @return the {@link MenuItem} object created
+	 * @return the {@link AriaMenuItem} object created
 	 */
 	public AriaMenuItem addItem(String text, boolean asHTML,
 			ScheduledCommand cmd) {
@@ -78,7 +78,7 @@ public class AriaMenuBar extends Widget {
 	}
 
 	/**
-	 * Get the index of a {@link MenuItem}.
+	 * Get the index of a {@link AriaMenuItem}.
 	 * 
 	 * @param item
 	 *            item we are looking for
@@ -279,7 +279,7 @@ public class AriaMenuBar extends Widget {
 
 	}
 
-	private void itemOver(AriaMenuItem item) {
+	protected void itemOver(AriaMenuItem item) {
 		selectItem(item);
 		removeSubPopup();
 		if (item != null
@@ -319,5 +319,9 @@ public class AriaMenuBar extends Widget {
 	 */
 	public void removeSubPopup() {
 		// needs override
+	}
+
+	public void setFocusOnHoverEnabled(boolean b) {
+		this.focusOnHover = b;
 	}
 }

@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.layout.DockPanel;
-import org.geogebra.common.gui.menubar.MenuInterface;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.spreadsheet.CopyPasteCut;
 import org.geogebra.common.gui.view.spreadsheet.DataImport;
@@ -45,7 +44,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ViewW;
-import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 import org.geogebra.web.web.gui.AccessibilityManagerW;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
@@ -57,7 +55,6 @@ import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.exam.ExamDialog;
-import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -76,12 +73,10 @@ import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -708,26 +703,6 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	public DockGlassPaneW getGlassPane() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	private void addMenuItem(MenuBar parentMenu, String key,
-			MenuInterface subMenu) {
-
-		if (subMenu instanceof MenuBar) {
-			((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
-		}
-		ImageResource imgRes = AppResources.INSTANCE.empty();
-
-		if ("Labeling".equals(key)) {
-			imgRes = AppResources.INSTANCE.mode_showhidelabel_16();
-		}
-		if ("FontSize".equals(key)) {
-			imgRes = GuiResources.INSTANCE.menu_icon_options_font_size();
-		}
-		parentMenu.addItem(
-				getGuiManager().getMenuBarHtml(imgRes,
-						getLocalization().getMenu(key), true),
-				true, (MenuBar) subMenu);
 	}
 
 	@Override

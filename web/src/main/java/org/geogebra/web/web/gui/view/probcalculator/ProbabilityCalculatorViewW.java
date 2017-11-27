@@ -19,6 +19,8 @@ import org.geogebra.web.html5.gui.util.ListBoxApi;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.web.css.GuiResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.view.data.PlotPanelEuclidianViewW;
 import org.geogebra.web.web.main.FileManagerW;
@@ -44,8 +46,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -94,7 +94,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private MyTabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboProbHandler, comboDistributionHandler;
-	private MenuBar btnExport;
+	private AriaMenuBar btnExport;
 	private MyToggleButtonW btnNormalOverlay;
 	
 	/**
@@ -1103,13 +1103,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	private void createExportMenu() {
 
-		btnExport = new MenuBar();
+		btnExport = new AriaMenuBar();
 		btnExport.addStyleName("btnExport");
 
-		MenuBar menu = new MenuBar(true);
+		AriaMenuBar menu = new AriaMenuBar();
 
 		if (!getApp().isApplet()) {
-			MenuItem miToGraphich = new MenuItem(loc.getMenu("CopyToGraphics"),
+			AriaMenuItem miToGraphich = new AriaMenuItem(
+					loc.getMenu("CopyToGraphics"), false,
 				new Command() {
 
 						@Override
@@ -1122,8 +1123,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		menu.addItem(miToGraphich);
 		}
 		if (((AppW) app).getLAF().copyToClipboardSupported()) {
-			MenuItem miAsPicture = new MenuItem(
-					loc.getMenu("ExportAsPicture"), new Command() {
+			AriaMenuItem miAsPicture = new AriaMenuItem(
+					loc.getMenu("ExportAsPicture"), false, new Command() {
 
 						@Override
 						public void execute() {
@@ -1142,7 +1143,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				+ GuiResources.INSTANCE.prob_calc_export().getSafeUri()
 						.asString()
 				+ "\" >";
-		btnExport.addItem(image, true, menu);
+		btnExport.addItem(new AriaMenuItem(image, true, menu));
 		btnExport.removeStyleName("gwt-MenuBar");
 		btnExport.addStyleName("gwt-ToggleButton");
 		btnExport.addStyleName("MyToggleButton");

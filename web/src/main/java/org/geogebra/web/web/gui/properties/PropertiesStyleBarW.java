@@ -10,6 +10,8 @@ import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
@@ -19,8 +21,6 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * @author gabor
@@ -47,9 +47,9 @@ public class PropertiesStyleBarW extends
 	private FlowPanel wrappedPanel;
 	//private PopupMenuButton btnOption;
 	/** maps options to buttons */
-	private HashMap<OptionType, MenuItem> buttonMap;
+	private HashMap<OptionType, AriaMenuItem> buttonMap;
 
-	private MenuItem currentButton;
+	private AriaMenuItem currentButton;
 
 	/**
 	 * @param propertiesView
@@ -111,7 +111,7 @@ public class PropertiesStyleBarW extends
 
 	
 	private void buildGUI() {
-		final MenuBar toolbar = new MenuBar(true) {
+		final AriaMenuBar toolbar = new AriaMenuBar() {
 			@Override
 			public void onBrowserEvent(Event event) {
 				super.onBrowserEvent(event);
@@ -119,12 +119,12 @@ public class PropertiesStyleBarW extends
 				// want execute on first click
 				if (DOM.eventGetType(event) == Event.ONMOUSEDOWN
 						|| DOM.eventGetType(event) == Event.ONTOUCHSTART) {
-					MenuItem item = this.getSelectedItem();
+					AriaMenuItem item = this.getSelectedItem();
 					runCommand(item);
 				}
 			}
 
-			private void runCommand(MenuItem item) {
+			private void runCommand(AriaMenuItem item) {
 				if (item != null) {
 					ScheduledCommand cmd = item.getScheduledCommand();
 					if (cmd != null) {
@@ -138,7 +138,7 @@ public class PropertiesStyleBarW extends
 		toolbar.sinkEvents(Event.ONMOUSEDOWN | Event.ONTOUCHSTART);
 		toolbar.setFocusOnHoverEnabled(false);
 		
-		buttonMap = new HashMap<OptionType, MenuItem>();
+		buttonMap = new HashMap<OptionType, AriaMenuItem>();
 		
 		for (final OptionType type : OptionTypesImpl) {
 			if (typeAvailable(type)){

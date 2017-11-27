@@ -8,6 +8,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.GCheckBoxMenuItem;
 import org.geogebra.web.web.gui.menubar.GRadioButtonMenuItem;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
@@ -19,8 +21,6 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RadioButton;
 
 /**
@@ -30,8 +30,8 @@ import com.google.gwt.user.client.ui.RadioButton;
 public class ProbabilityCalculatorStyleBarW extends
 		ProbabilityCalculatorStyleBar implements ValueChangeHandler<Boolean> {
 	
-	private MenuBar wrappedToolbar;
-	private MenuItem btnRounding;
+	private AriaMenuBar wrappedToolbar;
+	private AriaMenuItem btnRounding;
 	private MyMenuBar roundingPopup;
 	private GCheckBoxMenuItem btnLineGraph;
 	private GCheckBoxMenuItem btnStepGraph;
@@ -48,7 +48,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	 */
 	public ProbabilityCalculatorStyleBarW(App app, ProbabilityCalculatorViewW probCalc) {
 		super(app, probCalc);
-		this.wrappedToolbar = new MenuBar();
+		this.wrappedToolbar = new AriaMenuBar();
 		this.wrappedToolbar.addStyleName("ProbabilityCalculatorStyleBarW");
 		
 
@@ -63,7 +63,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	 */
 	public void setLabels() {
 		Localization loc = getApp().getLocalization();
-		btnRounding.setText(loc.getMenu("Rounding"));
+		btnRounding.setContent(loc.getMenu("Rounding"), false);
 		// btnExport.setTitle(loc.getMenu("Export"));
 		btnLineGraph.setTitle(loc.getMenu("LineGraph"));
 
@@ -163,7 +163,8 @@ public class ProbabilityCalculatorStyleBarW extends
 	private void buildOptionsButton() {
 	    roundingPopup = createRoundingPopup();
 	    Image img = new Image(AppResources.INSTANCE.triangle_down());
-	    btnRounding = new MenuItem(img.getElement().getInnerHTML(), true, roundingPopup);
+		btnRounding = new AriaMenuItem(img.getElement().getInnerHTML(), true,
+				roundingPopup);
 	    
 	    updateMenuDecimalPlaces(roundingPopup);
 	    
@@ -213,7 +214,7 @@ public class ProbabilityCalculatorStyleBarW extends
 		return menu;
 	}
 
-	private void addRadioButtonMenuItems(MenuBar menu,
+	private void addRadioButtonMenuItems(AriaMenuBar menu,
             ValueChangeHandler<Boolean> al,
             String[] items, String[] actionCommands, int selectedPos) {
 		GRadioButtonMenuItem mi;
@@ -323,7 +324,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	    
     }
 	
-	private static class MyMenuBar extends MenuBar {
+	private static class MyMenuBar extends AriaMenuBar {
 		
 		public Object[] getMenuItems() {
 			return super.getItems().toArray();
@@ -334,7 +335,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	/**
 	 * @return the toolbar wrapped to this stylebar
 	 */
-	public MenuBar getWrappedToolBar() {
+	public AriaMenuBar getWrappedToolBar() {
 		return wrappedToolbar;
 	}
 

@@ -8,6 +8,8 @@ import org.geogebra.web.html5.gui.GDecoratedPopupPanel;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 
 /*
  * Copyright 2009 Google Inc.
@@ -56,8 +58,6 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.KeyboardListener;
 import com.google.gwt.user.client.ui.ListenerWrapper;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MultiWordSuggestOracle;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -383,7 +383,7 @@ public class GSuggestBox extends Composite
 		 * Construct a new {@link DefaultSuggestionDisplay}.
 		 */
 		public DefaultSuggestionDisplay(Panel panel, App app) {
-			suggestionMenu = new SuggestionMenu(true);
+			suggestionMenu = new SuggestionMenu();
 			suggestionPopup = createPopup(panel, app);
 			suggestionPopup.setWidget(decorateSuggestionList(suggestionMenu));
 		}
@@ -486,7 +486,7 @@ public class GSuggestBox extends Composite
 			if (!isSuggestionListShowing()) {
 				return null;
 			}
-			MenuItem item = suggestionMenu.doGetSelectedItem();
+			AriaMenuItem item = suggestionMenu.doGetSelectedItem();
 			return item == null ? null
 					: ((SuggestionMenuItem) item).getSuggestion();
 		}
@@ -505,7 +505,7 @@ public class GSuggestBox extends Composite
 		 *
 		 * @return the suggestions menu
 		 */
-		protected MenuBar getSuggestionMenu() {
+		protected AriaMenuBar getSuggestionMenu() {
 			return suggestionMenu;
 		}
 
@@ -646,17 +646,17 @@ public class GSuggestBox extends Composite
 	 * Additional methods in SuggestionMenu provide information about the number
 	 * of items in the menu, and the index of the currently selected item.
 	 */
-	public static class SuggestionMenu extends MenuBar {
+	public static class SuggestionMenu extends AriaMenuBar {
 
-		public SuggestionMenu(boolean vertical) {
-			super(vertical);
+		public SuggestionMenu() {
+			super();
 			// Make sure that CSS styles specified for the default Menu classes
 			// do not affect this menu
 			setStyleName("");
 			setFocusOnHoverEnabled(false);
 		}
 
-		public MenuItem doGetSelectedItem() {
+		public AriaMenuItem doGetSelectedItem() {
 			return getSelectedItem();
 		}
 
@@ -672,7 +672,7 @@ public class GSuggestBox extends Composite
 		public int getSelectedItemIndex() {
 			// The index of the currently selected item can only be
 			// obtained if the menu is showing.
-			MenuItem selectedItem = getSelectedItem();
+			AriaMenuItem selectedItem = getSelectedItem();
 			if (selectedItem != null) {
 				return getItems().indexOf(selectedItem);
 			}
@@ -689,15 +689,11 @@ public class GSuggestBox extends Composite
 		 *            index
 		 */
 		public void selectItem(int index) {
-			List<MenuItem> items = getItems();
+			List<AriaMenuItem> items = getItems();
 			if (index > -1 && index < items.size()) {
-				doItemOver(items.get(index), false);
+				itemOver(items.get(index));
 			}
 		}
-
-		private native void doItemOver(MenuItem menuItem, boolean b) /*-{
-			this.@com.google.gwt.user.client.ui.MenuBar::itemOver(Lcom/google/gwt/user/client/ui/MenuItem;Z)(menuItem, b);
-		}-*/;
 	}
 
 	/**
@@ -706,7 +702,7 @@ public class GSuggestBox extends Composite
 	 * text of each menu item is derived from the display string of a Suggestion
 	 * object, and each item stores a reference to its Suggestion object.
 	 */
-	private static class SuggestionMenuItem extends MenuItem {
+	private static class SuggestionMenuItem extends AriaMenuItem {
 
 		private static final String STYLENAME_DEFAULT = "item";
 

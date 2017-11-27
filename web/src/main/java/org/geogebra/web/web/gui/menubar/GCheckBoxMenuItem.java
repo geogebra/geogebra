@@ -10,7 +10,6 @@ import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * @author gabor
@@ -18,7 +17,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  * Menuitem that uses checkbox
  *
  */
-public class GCheckBoxMenuItem extends MenuItem {
+public class GCheckBoxMenuItem extends AriaMenuItem {
 
 	private FlowPanel panel;
 	/**
@@ -35,10 +34,10 @@ public class GCheckBoxMenuItem extends MenuItem {
 	 *            creates a new GCheckbox menuitem
 	 */
 	public GCheckBoxMenuItem(SafeHtml html) {
-	    super(html);
-	    initGui(html, true);
-	    
-    }
+		super(html.asString(), true, (ScheduledCommand) null);
+		initGui(html, true);
+
+	}
 	
 	private void initGui(SafeHtml html, boolean showCheckbox) {
 		addStyleName("GCheckBoxMenuItem");
@@ -53,17 +52,7 @@ public class GCheckBoxMenuItem extends MenuItem {
 	           setSelected(event.getValue());
             }
 		});
-		this.setScheduledCommand(new ScheduledCommand() {
-			
-			@Override
-			public void execute() {
-				if (valueChangeHandler != null) {
-					checkbox.setValue(!checkbox.getValue());
-					valueChangeHandler.onValueChange(new MyValueChangeEvent(checkbox.getValue()));
-				}
-				setSelected(checkbox.getValue());
-			}
-		});
+
 	    panel = new FlowPanel();
 	    if (showCheckbox) {
 	    	panel.add(checkbox);
@@ -73,13 +62,15 @@ public class GCheckBoxMenuItem extends MenuItem {
 	}
 
 	/**
-	 * @param html menuItems html
-	 * @param showCheckbox wether to show checkbox
+	 * @param html
+	 *            menuItems html
+	 * @param showCheckbox
+	 *            wether to show checkbox
 	 */
 	public GCheckBoxMenuItem(SafeHtml html, boolean showCheckbox) {
-	    super(html);
-	    initGui(html, showCheckbox);
-    }
+		super(html.asString(), true, (ScheduledCommand) null);
+		initGui(html, showCheckbox);
+	}
 
 	/**
 	 * @param selected wether the checbox selected or not

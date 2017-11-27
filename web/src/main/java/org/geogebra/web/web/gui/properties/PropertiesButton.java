@@ -2,15 +2,15 @@ package org.geogebra.web.web.gui.properties;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Button for properties stylebar
  *
  */
-public class PropertiesButton extends MenuItem {
+public class PropertiesButton extends AriaMenuItem {
 
 	private App app;
 

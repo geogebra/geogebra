@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.menubar;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * @author gabor
@@ -9,7 +9,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  * Menu type for radiobutton things.
  *
  */
-public class GRadioButtonMenuItem extends MenuItem {
+public class GRadioButtonMenuItem extends AriaMenuItem {
 	/** wrapped radio button */
 	GradioButtonBase base;
 	
@@ -23,7 +23,7 @@ public class GRadioButtonMenuItem extends MenuItem {
 	}
 	
 	private GRadioButtonMenuItem(GradioButtonBase gradio) {
-	   super(gradio.getSafeHtml());
+		super(gradio.getSafeHtml().asString(), true, (ScheduledCommand) null);
 	   base = gradio;
 	}
 
@@ -34,7 +34,7 @@ public class GRadioButtonMenuItem extends MenuItem {
 	 */
 	public void setSelected(boolean sel){
 		base.radio.setValue(sel);
-		setHTML(base.getSafeHtml());
+		setHTML(base.getSafeHtml().asString());
 	}
 
 	/**

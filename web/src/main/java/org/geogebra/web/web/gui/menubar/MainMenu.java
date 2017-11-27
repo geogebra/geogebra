@@ -35,7 +35,6 @@ import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -947,7 +946,7 @@ private void initStackPanel() {
 	 * @param checked
 	 *            whether it's checked
 	 */
-	public static void setMenuSelected(MenuItem m, boolean checked) {
+	public static void setMenuSelected(AriaMenuItem m, boolean checked) {
 		if (checked) {
 			m.addStyleName("checked");
 		} else {
