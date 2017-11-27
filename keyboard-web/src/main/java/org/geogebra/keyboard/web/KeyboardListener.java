@@ -7,23 +7,33 @@ import org.geogebra.web.html5.gui.util.KeyboardLocale;
  * {@link OnScreenKeyBoardBase}
  */
 public interface KeyboardListener {
-	
 	/**
 	 * arrow keys of the keyboard
 	 */
 	public enum ArrowType {
+		/**
+		 * left arrow
+		 */
 		left,
+		/**
+		 * right arrow
+		 */
 		right
 	}
 	
+	/**
+	 * 
+	 */
 	enum State {
 		empty, autoCompleteTextField, gTextBox, equationEditorListener, inputTreeItem, other;
 	}
 
 	/** ASCII */
 	public static final int BACKSPACE = 8;
+	/**
+	 * enter
+	 */
 	public static final int ENTER = '\r'; // 13;
-
 	/**
 	 * Focus/Blur the text field
 	 * 
@@ -63,22 +73,41 @@ public interface KeyboardListener {
 	 */
 	void scrollCursorIntoView();
 
+	/**
+	 * @return false
+	 */
 	boolean resetAfterEnter();
 
 	/**
 	 * change language specific notations
-	 * 
-	 * @param loc
+	 * @param localization
+	 *            localization
 	 */
 	void updateForNewLanguage(KeyboardLocale localization);
 
+	/**
+	 * @param text
+	 *            true if text
+	 */
 	public void setKeyBoardModeText(boolean text);
 
+	/**
+	 * @return true if spreadsheet view
+	 */
 	public boolean isSVCell();
 
+	/**
+	 * end editing
+	 */
 	void endEditing();
 
+	/**
+	 * @return process field
+	 */
 	Object getField();
 
+	/**
+	 * on keyboard closed
+	 */
 	void onKeyboardClosed();
 }

@@ -4,8 +4,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 
 /**
  * Keyboard modes
- * 
- * @author bencze
  */
 public enum KeyboardMode {
 	/**
@@ -21,7 +19,6 @@ public enum KeyboardMode {
 	 */
 	SPECIAL_CHARS(ExpressionNodeConstants.strPERPENDICULAR
 	        + ExpressionNodeConstants.strAND + "%");
-
 	private String internalName;
 
 	KeyboardMode(String internalName) {

@@ -17,14 +17,18 @@ public class KeyPanelBase extends VerticalPanel {
 	private Keyboard layout;
 
 	/**
+	 * @param keyBoardLayout
+	 *            {@link Keyboard}
 	 */
-	public KeyPanelBase(Keyboard layout) {
-		rows = new ArrayList<HorizontalPanel>();
-		buttons = new ArrayList<KeyBoardButtonBase>();
-		this.layout = layout;
+	public KeyPanelBase(Keyboard keyBoardLayout) {
+		rows = new ArrayList<>();
+		buttons = new ArrayList<>();
+		this.layout = keyBoardLayout;
 	}
 
-
+	/**
+	 * empty constructor
+	 */
 	public KeyPanelBase() {
 		this(null);
 	}
@@ -48,9 +52,13 @@ public class KeyPanelBase extends VerticalPanel {
 		buttons.add(button);
 	}
 
-	public void reset(Keyboard layout) {
+	/**
+	 * @param keyboardLayout
+	 *            {@link Keyboard}
+	 */
+	public void reset(Keyboard keyboardLayout) {
 		clear();
-		this.layout = layout;
+		this.layout = keyboardLayout;
 		rows.clear();
 		buttons.clear();
 	}
@@ -69,6 +77,9 @@ public class KeyPanelBase extends VerticalPanel {
 		return this.rows;
 	}
 
+	/**
+	 * @return keyboard layout
+	 */
 	public Keyboard getLayout() {
 		return layout;
 	}

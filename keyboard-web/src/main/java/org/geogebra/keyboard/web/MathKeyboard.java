@@ -3,6 +3,9 @@ package org.geogebra.keyboard.web;
 
 import com.google.gwt.core.client.EntryPoint;
 
+/**
+ * math keyboard
+ */
 public class MathKeyboard implements EntryPoint {
 	public void onModuleLoad() {
 		// TabbedKeyboard tb = new TabbedKeyboard();
@@ -17,6 +20,4 @@ public class MathKeyboard implements EntryPoint {
 		// RootPanel.get().addStyleName("GeoGebraFrame");
 		// StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 	}
-
-
 }

@@ -8,6 +8,9 @@ import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.TextResource;
 
+/**
+ * image and style resources of keyboard
+ */
 public interface KeyboardResources extends ClientBundle {
 
 	KeyboardResources INSTANCE = GWT.create(KeyboardResources.class);

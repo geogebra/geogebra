@@ -17,17 +17,14 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class KeyBoardButtonBase extends SimplePanel {
 
 	private String caption;
-
 	/**
 	 * the feedback that is returned when the button is clicked
 	 */
 	protected String feedback;
-
 	/**
 	 * the label that is displayed on the button
 	 */
 	protected Label label;
-
 	/**
 	 * @param caption
 	 *            text of the button
@@ -47,15 +44,13 @@ public class KeyBoardButtonBase extends SimplePanel {
 
 	// https://codepoints.net/search?gc=Mn
 	// these Thai characters need a placeholder added to display nicely
-	private String checkThai(String str) {
+	private static String checkThai(String str) {
 		if ("\u0E31\u0E33\u0E34\u0E35\u0E36\u0E37\u0E38\u0E39\u0E3A\u0E47\u0E48\u0E49\u0E4A\u0E4B\u0E4C\u0E4D"
 				.indexOf(str) > -1) {
 			return "\u25CC" + str;
 		}
-
 		return str;
 	}
-
 
 	/**
 	 * @param caption
@@ -72,7 +67,6 @@ public class KeyBoardButtonBase extends SimplePanel {
 			"duration" : 100
 		});
 		$wnd.Waves.initialized = true;
-
 		$wnd.Waves.attach(element);
 	}-*/;
 
@@ -89,7 +83,6 @@ public class KeyBoardButtonBase extends SimplePanel {
 				handler.onClick(KeyBoardButtonBase.this, type);
 			}
 		});
-
 		// only used for preventDefault and stopPropagation
 		ClickEndHandler.init(this, new ClickEndHandler(true, true) {
 			@Override
@@ -98,7 +91,6 @@ public class KeyBoardButtonBase extends SimplePanel {
 			}
 		});
 		addStyleName("KeyBoardButton");
-
 		if (handler.hasTouchFeedback()) {
 			this.addStyleName("waves-effect");
 			this.addStyleName("waves-keyboard");
@@ -122,11 +114,9 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 */
 	public void setCaption(String caption, String feedback1) {
 		this.caption = caption;
-
 		if (feedback1 != null) {
 			this.feedback = feedback1;
 		}
-
 		if (caption.length() > 1 && caption.indexOf('^') > -1) {
 			int index = caption.indexOf('^');
 			this.label.setText(caption.substring(0, index));

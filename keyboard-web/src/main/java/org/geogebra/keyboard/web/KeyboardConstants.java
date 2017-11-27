@@ -7,7 +7,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * the {@link KBBase}
  */
 public class KeyboardConstants {
-
 	/** a to the power of 2 */
 	public static final String A_SQUARE = "a" + Unicode.SUPERSCRIPT_2;
 	/** a to the power of x */
@@ -18,6 +17,4 @@ public class KeyboardConstants {
 	public static final String FLOOR = "" + Unicode.LFLOOR + "x" + Unicode.RFLOOR;
 	/** left ceil x right ceil */
 	public static final String CEIL = "" + Unicode.LCEIL + "x" + Unicode.RCEIL;
-	
-
 }

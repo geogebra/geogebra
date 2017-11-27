@@ -22,7 +22,6 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	// public enum Action {
 	// ENTER, BACKSPACE, SHIFT, ARROW_LEFT, ARROW_RIGHT, SWITCH_KEYBOARD;
 	// }
-	
 	private Image image;
 	private Action action;
 
@@ -47,6 +46,14 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.addStyleName("waves-light");
 	}
 
+	/**
+	 * @param image
+	 *            {@link ImageResource}
+	 * @param feedback
+	 *            - inserted text
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
 	public KeyBoardButtonFunctionalBase(ImageResource image,
 			String feedback, ButtonHandler handler) {
 		super(handler);
@@ -57,9 +64,13 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 
 	/**
 	 * @param svg
+	 *            - svg resource
 	 * @param feedback
+	 *            - text is inserted
 	 * @param handler
+	 *            {@link ClickHandler}
 	 * @param addSupSyle
+	 *            - true if add sup style
 	 */
 	public KeyBoardButtonFunctionalBase(SafeUri svg, String feedback,
 			ButtonHandler handler, boolean addSupSyle) {

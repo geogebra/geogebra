@@ -1,7 +1,9 @@
 package org.geogebra.keyboard.web;
 
+/**
+ * keyboard localization
+ */
 public class KeyboardLocalization {
-
 	/**
 	 * get translations for the onScreenKeyboard-buttons
 	 * 
@@ -34,5 +36,4 @@ public class KeyboardLocalization {
 		}
 
 	}-*/;
-
 }
