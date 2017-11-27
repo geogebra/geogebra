@@ -52,7 +52,18 @@ public class GCheckBoxMenuItem extends AriaMenuItem {
 	           setSelected(event.getValue());
             }
 		});
+		this.setScheduledCommand(new ScheduledCommand() {
 
+			@Override
+			public void execute() {
+				if (valueChangeHandler != null) {
+					checkbox.setValue(!checkbox.getValue());
+					valueChangeHandler.onValueChange(
+							new MyValueChangeEvent(checkbox.getValue()));
+				}
+				setSelected(checkbox.getValue());
+			}
+		});
 	    panel = new FlowPanel();
 	    if (showCheckbox) {
 	    	panel.add(checkbox);
