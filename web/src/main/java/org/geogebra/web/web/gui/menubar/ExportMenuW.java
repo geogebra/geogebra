@@ -6,13 +6,12 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * @author bencze The "Export Image" menu, part of the "File" menu.
  */
-public class ExportMenuW extends MenuBar implements MenuBarI {
+public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 
 	/**
 	 * Constructs the "Insert Image" menu
@@ -21,7 +20,7 @@ public class ExportMenuW extends MenuBar implements MenuBarI {
 	 *            Application instance
 	 */
 	public ExportMenuW(AppW app) {
-		super(true);
+		super();
 
 		addStyleName("GeoGebraMenuBar");
 		MainMenu.addSubmenuArrow(this, app.isUnbundledOrWhiteboard());

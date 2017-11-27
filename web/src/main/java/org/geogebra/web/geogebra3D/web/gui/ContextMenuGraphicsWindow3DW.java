@@ -12,6 +12,7 @@ import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ContextMenuGraphicsWindowW;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
@@ -19,7 +20,6 @@ import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
 import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * @author mathieu
@@ -131,7 +131,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		} else {
 			img = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
-		MenuItem miStandardView = new MenuItem(
+		AriaMenuItem miStandardView = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("StandardView")),
 				true,
 				new Command() {
@@ -156,7 +156,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		} else {
 			img = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
-		MenuItem miShowAllObjectsView = new MenuItem(
+		AriaMenuItem miShowAllObjectsView = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")),
 				true,
 				new Command() {

@@ -35,7 +35,6 @@ import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -889,7 +888,7 @@ private void initStackPanel() {
 	 * @param left
 	 *            arrow direction
 	 */
-	public static void addSubmenuArrow(MenuBar w, boolean left) {
+	public static void addSubmenuArrow(AriaMenuBar w, boolean left) {
 		w.addStyleName(left ? "subMenuRightSide" : "subMenuLeftSide");
 		FlowPanel arrowSubmenu = new FlowPanel();
 		arrowSubmenu.addStyleName("arrowSubmenu");

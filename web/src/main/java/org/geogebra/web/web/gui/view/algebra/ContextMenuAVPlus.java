@@ -8,13 +8,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.images.StyleBarResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Class for Plus menu for AV Input to select input method (expression, text or
@@ -68,7 +68,8 @@ public class ContextMenuAVPlus implements SetLabels {
 	private void addExpressionItem() {
 		String img = StyleBarResources.INSTANCE.description().getSafeUri()
 				.asString();
-		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Expression"), true), true,
 				new Command() {
 					
@@ -86,7 +87,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		String img = MaterialDesignResources.INSTANCE.icon_quote_black()
 				.getSafeUri()
 				.asString();
-		MenuItem mi = new MenuItem(
+		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("Text"), true), true,
 				new Command() {
 					
@@ -104,7 +105,7 @@ public class ContextMenuAVPlus implements SetLabels {
 		String img = MaterialDesignResources.INSTANCE.insert_photo_black()
 				.getSafeUri()
 				.asString();
-		MenuItem mi = new MenuItem(
+		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("Image"), true), true,
 				new Command() {
 					
@@ -124,7 +125,8 @@ public class ContextMenuAVPlus implements SetLabels {
 		String img = MaterialDesignResources.INSTANCE.icon_help_black()
 				.getSafeUri()
 		.asString();
-		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img, loc.getMenu("Help"), true),
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Help"), true),
 				true, new Command() {
 					
 					@Override

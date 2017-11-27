@@ -54,6 +54,7 @@ public interface StackPanelInterface extends InsertPanel {
 
 	public void onBrowserEvent(Event event);
 
+	@Override
 	public boolean remove(int index);
 
 	/**

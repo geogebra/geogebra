@@ -9,15 +9,14 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.RadioButton;
 
 /**
  * An implementation of a radio button menu bar. 
  * @author judit
  */
-public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
+public class RadioButtonMenuBarW extends AriaMenuBar
+		implements RadioButtonMenuBar {
 
 	final private String menubarID;
 	private ArrayList<RadioButton> radioButtons;
@@ -39,7 +38,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	 *            {@code true} if menu needs an arrow for a submenu
 	 */
 	public RadioButtonMenuBarW(AppW application, boolean arrow) {
-		super(true);
+		super();
 
 		menubarID = DOM.createUniqueId();
 		radioButtons = new ArrayList<RadioButton>();
@@ -56,7 +55,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 
 	}
 
-	private MenuItem addItem(String text, Command com, boolean selected) {
+	private AriaMenuItem addItem(String text, Command com, boolean selected) {
 		RadioButton radioButton = new RadioButton(menubarID, text, true);		
 		radioButton.setValue(selected);
 		radioButton.addStyleName("RadioButtonMenuItem");
@@ -129,7 +128,7 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	 * 
 	 * @return MenuItem the selected item
 	 */
-	public MenuItem getSelectedItemPublic() {
+	public AriaMenuItem getSelectedItemPublic() {
 		return getSelectedItem();
 	}
 }

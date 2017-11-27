@@ -1,5 +1,8 @@
 package org.geogebra.web.web.gui;
 
+import java.util.ArrayList;
+import java.util.TreeSet;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -8,16 +11,13 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
-
-import java.util.ArrayList;
-import java.util.TreeSet;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Menu for choosing geos
@@ -36,7 +36,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 	private ArrayList<GeoElement> selectedGeos;
 	private GPoint location;
-	private MenuBar selectAnotherMenu;
+	private AriaMenuBar selectAnotherMenu;
 	private ArrayList<GeoElement> tmpAnotherMenuItemList;
 
 	/**
@@ -142,7 +142,8 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		}
 
 		GeoAction chooser = new GeoAction(geo);
-		MenuItem mi = new MenuItem(getDescription(geo, false), true, chooser);
+		AriaMenuItem mi = new AriaMenuItem(getDescription(geo, false), true,
+				chooser);
 		DOM.setEventListener(mi.getElement(), new MyMouseOverListener(geo));
 		DOM.sinkEvents(mi.getElement(), Event.ONMOUSEOVER);
 
@@ -170,16 +171,16 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	}
 
 	private void addSelectAnotherMenu(int mode) {
-		selectAnotherMenu = new MenuBar(true);
-		MenuItem selectAnotherMenuItem;
+		selectAnotherMenu = new AriaMenuBar();
+		AriaMenuItem selectAnotherMenuItem;
 		Localization localization = app.getLocalization();
 		if (EuclidianConstants.isMoveOrSelectionMode(mode)) {
-			selectAnotherMenuItem = new MenuItem(
-					localization.getMenu("SelectAnother"),
+			selectAnotherMenuItem = new AriaMenuItem(
+					localization.getMenu("SelectAnother"), false,
 			        selectAnotherMenu);
 		} else {
-			selectAnotherMenuItem = new MenuItem(
-					localization.getMenu("PerformToolOn"),
+			selectAnotherMenuItem = new AriaMenuItem(
+					localization.getMenu("PerformToolOn"), false,
 			        selectAnotherMenu);
 		}
 		if (!app.isUnbundled() && !hasWhiteboardContextMenu()) {

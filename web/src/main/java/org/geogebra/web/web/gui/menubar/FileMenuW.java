@@ -23,7 +23,6 @@ import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
 
-import com.google.gwt.user.client.ui.MenuItem;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
@@ -31,10 +30,10 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
-	private MenuItem shareItem;
+	private AriaMenuItem shareItem;
 	/** clear construction and reset GUI */
 	Runnable newConstruction;
-	private MenuItem printItem;
+	private AriaMenuItem printItem;
 	private Localization loc;
 	
 	/**
@@ -233,7 +232,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 					true, new ExportMenuW(getApp()), true);
 		}
 		if (getApp().getLAF().printSupported()) {
-			printItem = new MenuItem(
+			printItem = new AriaMenuItem(
 					MainMenu.getMenuBarHtml(
 							getApp().isUnbundledOrWhiteboard()
 							? MaterialDesignResources.INSTANCE.print_black()

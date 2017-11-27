@@ -11,6 +11,7 @@ import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
@@ -18,7 +19,6 @@ import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Algebra tab 3-dot menu.
@@ -243,7 +243,8 @@ public class ContextMenuAlgebra implements SetLabels {
 		String img = MaterialDesignResources.INSTANCE.gear()
 				.getSafeUri()
 				.asString();
-		MenuItem mi = new MenuItem(MainMenu.getMenuBarHtml(img,
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Settings"), true), true,
 				new Command() {
 					

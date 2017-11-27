@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Adds a menu item with a checkmark on its end.
@@ -20,8 +20,8 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 public class GCollapseMenuItem {
 
-	private MenuItem menuItem;
-	private List<MenuItem> items;
+	private AriaMenuItem menuItem;
+	private List<AriaMenuItem> items;
 	private FlowPanel itemPanel;
 	private boolean expanded;
 	private String text;
@@ -51,10 +51,10 @@ public class GCollapseMenuItem {
 		imgCollapse = new NoDragImage(collapseUrl);
 		imgCollapse.addStyleName("collapseImg");
 
-		items = new ArrayList<MenuItem>();
+		items = new ArrayList<AriaMenuItem>();
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("collapseMenuItem");
-		menuItem = new MenuItem(itemPanel.toString(), true,
+		menuItem = new AriaMenuItem(itemPanel.toString(), true,
 				new ScheduledCommand() {
 
 					@Override
@@ -93,7 +93,7 @@ public class GCollapseMenuItem {
 	 * 
 	 * @return The standard menu item with checkmark.
 	 */
-	public MenuItem getMenuItem() {
+	public AriaMenuItem getMenuItem() {
 		return menuItem;
 	}
 
@@ -117,7 +117,7 @@ public class GCollapseMenuItem {
 	 */
 	public void collapse() {
 		expanded = false;
-		for (MenuItem mi : items) {
+		for (AriaMenuItem mi : items) {
 			mb.removeStyleName(mi, "gwt-MenuItem");
 			mb.addStyleName(mi, "collapsed");
 			mb.removeStyleName(mi, "expanded");
@@ -129,7 +129,7 @@ public class GCollapseMenuItem {
 	 */
 	public void expand() {
 		expanded = true;
-		for (MenuItem mi : items) {
+		for (AriaMenuItem mi : items) {
 			mb.addStyleName(mi, "gwt-MenuItem");
 			mb.addStyleName(mi, "expanded");
 			mb.removeStyleName(mi, "collapsed");
@@ -141,7 +141,7 @@ public class GCollapseMenuItem {
 	 * @param item
 	 *            to add.
 	 */
-	public void addItem(MenuItem item) {
+	public void addItem(AriaMenuItem item) {
 		items.add(item);
 	}
 }

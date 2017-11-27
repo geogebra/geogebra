@@ -19,9 +19,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**Accessible alternative to MenuBar*/
 public class AriaMenuBar extends Widget {
-	private MenuItem selectedItem;
-	private HashMap<MenuItem, Element> domItems = new HashMap<MenuItem, Element>();
-	private ArrayList<MenuItem> allItems = new ArrayList<MenuItem>();
+	private AriaMenuItem selectedItem;
+	private HashMap<AriaMenuItem, Element> domItems = new HashMap<AriaMenuItem, Element>();
+	private ArrayList<AriaMenuItem> allItems = new ArrayList<AriaMenuItem>();
 	private boolean autoOpen;
 
 	/**
@@ -42,15 +42,10 @@ public class AriaMenuBar extends Widget {
 	 *            menu item
 	 * @return the item
 	 */
-	public MenuItem addItem(MenuItem item) {
-		Element li = DOM.createElement("LI");
-		li.setInnerHTML(item.getElement().getInnerHTML());
-		li.setClassName("gwt-MenuItem listMenuItem");
-		li.setAttribute("role", "menuitem");
-		li.setTabIndex(0);
-		getElement().appendChild(li);
+	public AriaMenuItem addItem(AriaMenuItem item) {
+		getElement().appendChild(item.getElement());
 		allItems.add(item);
-		domItems.put(item, li);
+		domItems.put(item, item.getElement());
 		return item;
 	}
 
@@ -66,8 +61,9 @@ public class AriaMenuBar extends Widget {
 	 *            the command to be fired
 	 * @return the {@link MenuItem} object created
 	 */
-	public MenuItem addItem(String text, boolean asHTML, ScheduledCommand cmd) {
-		return addItem(new MenuItem(text, asHTML, cmd));
+	public AriaMenuItem addItem(String text, boolean asHTML,
+			ScheduledCommand cmd) {
+		return addItem(new AriaMenuItem(text, asHTML, cmd));
 	}
 
 	/**
@@ -80,7 +76,7 @@ public class AriaMenuBar extends Widget {
 	/**
 	 * @return selected item (may be null)
 	 */
-	protected MenuItem getSelectedItem() {
+	protected AriaMenuItem getSelectedItem() {
 		return this.selectedItem;
 	}
 
@@ -93,7 +89,7 @@ public class AriaMenuBar extends Widget {
 	 * @return the index of the item, or -1 if it is not contained by this
 	 *         MenuBar
 	 */
-	public int getItemIndex(MenuItem item) {
+	public int getItemIndex(AriaMenuItem item) {
 		return allItems.indexOf(item);
 	}
 
@@ -103,7 +99,7 @@ public class AriaMenuBar extends Widget {
 	 * @param item
 	 *            item to be selected
 	 */
-	public void selectItem(MenuItem item) {
+	public void selectItem(AriaMenuItem item) {
 		if (selectedItem != null) {
 			removeStyleName(selectedItem, "gwt-MenuItem-selected");
 		}
@@ -127,7 +123,7 @@ public class AriaMenuBar extends Widget {
 	/**
 	 * @return list of all items
 	 */
-	public ArrayList<MenuItem> getItems() {
+	public ArrayList<AriaMenuItem> getItems() {
 		return allItems;
 	}
 
@@ -186,7 +182,7 @@ public class AriaMenuBar extends Widget {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		MenuItem item = findItem(DOM.eventGetTarget(event));
+		AriaMenuItem item = findItem(DOM.eventGetTarget(event));
 
 		switch (DOM.eventGetType(event)) {
 		case Event.ONCLICK: {
@@ -263,9 +259,9 @@ public class AriaMenuBar extends Widget {
 		event.preventDefault();
 	}
 
-	private MenuItem findItem(
+	private AriaMenuItem findItem(
 			Element eventTarget) {
-		for(MenuItem it: allItems){
+		for (AriaMenuItem it : allItems) {
 			if (domItems.get(it).isOrHasChild(eventTarget)) {
 				return it;
 			}
@@ -273,7 +269,7 @@ public class AriaMenuBar extends Widget {
 		return null;
 	}
 
-	private static void doItemAction(MenuItem item) {
+	private static void doItemAction(AriaMenuItem item) {
 		final ScheduledCommand cmd = item.getScheduledCommand();
 		Scheduler.get().scheduleFinally(new Scheduler.ScheduledCommand() {
 			@Override
@@ -284,13 +280,14 @@ public class AriaMenuBar extends Widget {
 
 	}
 
-	private void itemOver(MenuItem item) {
+	private void itemOver(AriaMenuItem item) {
 		selectItem(item);
-		// if (item != null) {
-		// if ((shownChildMenu != null) || (parentMenu != null) || autoOpen) {
-		// doItemAction(item, false, focusOnHover);
-		// }
-		// }
+		removeSubPopup();
+		if (item != null
+				&& "true".equals(item.getElement().getAttribute("hasPopup"))
+				&& autoOpen) {
+			doItemAction(item);
+		}
 	}
 
 	/**
@@ -299,13 +296,12 @@ public class AriaMenuBar extends Widget {
 	 * @param imgRes
 	 *            submenu arrow icon
 	 */
-	public void appendSubmenu(MenuItem newItem, ImageResource imgRes) {
+	public void appendSubmenu(AriaMenuItem newItem, ImageResource imgRes) {
 		Element li = domItems.get(newItem);
 		NoDragImage img = new NoDragImage(imgRes, 20, 20);
 		AriaHelper.hide(img);
 		img.addStyleName("submenuArrow");
 		li.appendChild(img.getElement());
-
 	}
 
 	/**
@@ -313,7 +309,7 @@ public class AriaMenuBar extends Widget {
 	 *            item
 	 * @return absolute top of the item
 	 */
-	public int getAbsoluteTop(MenuItem item) {
+	public int getAbsoluteTop(AriaMenuItem item) {
 		return domItems.get(item) == null ? 0
 				: domItems.get(item).getAbsoluteTop();
 	}
@@ -325,7 +321,7 @@ public class AriaMenuBar extends Widget {
 	 *            whether submenu icon is on the left
 	 * @return horizontal coordinate of menu
 	 */
-	protected int getAbsoluteHorizontalPos(MenuItem item, boolean subleft) {
+	protected int getAbsoluteHorizontalPos(AriaMenuItem item, boolean subleft) {
 		if (domItems.get(item) == null) {
 			return 0;
 		}
@@ -341,7 +337,7 @@ public class AriaMenuBar extends Widget {
 	 * @param className
 	 *            CSS class name
 	 */
-	public void addStyleName(MenuItem item, String className) {
+	public void addStyleName(AriaMenuItem item, String className) {
 		if (domItems.get(item) != null) {
 			domItems.get(item).addClassName(className);
 		}
@@ -355,15 +351,13 @@ public class AriaMenuBar extends Widget {
 	 * @param className
 	 *            CSS class name
 	 */
-	public void removeStyleName(MenuItem item, String className) {
+	public void removeStyleName(AriaMenuItem item, String className) {
 		if (domItems.get(item) != null) {
 			domItems.get(item).removeClassName(className);
 		}
 	}
 
-	public void update(MenuItem item, String html) {
-		if (domItems.get(item) != null) {
-			domItems.get(item).setInnerHTML(html);
-		}
+	public void removeSubPopup() {
+		// needs override
 	}
 }

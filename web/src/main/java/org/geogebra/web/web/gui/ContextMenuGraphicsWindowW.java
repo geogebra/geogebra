@@ -11,6 +11,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.gui.menubar.RadioButtonMenuBarW;
 import org.geogebra.web.web.javax.swing.CheckMarkSubMenu;
@@ -21,8 +23,6 @@ import org.geogebra.web.web.javax.swing.GCollapseMenuItem;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * euclidian view/graphics view context menu
@@ -83,7 +83,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	private void addClearTraceMenuItem() {
 		String imgClearTrace = MaterialDesignResources.INSTANCE.refresh_black()
 				.getSafeUri().asString();
-		MenuItem miClearTrace = new MenuItem(MainMenu.getMenuBarHtml(imgClearTrace, loc.getMenu("ClearTrace")), true,
+		AriaMenuItem miClearTrace = new AriaMenuItem(MainMenu.getMenuBarHtml(
+				imgClearTrace, loc.getMenu("ClearTrace")), true,
 				new Command() {
 			        @Override
 					public void execute() {
@@ -101,7 +102,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			img = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
-		MenuItem miShowAllObjectsView = new MenuItem(MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")), true,
+		AriaMenuItem miShowAllObjectsView = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAllObjects")),
+				true,
 				new Command() {
 
 			        @Override
@@ -116,7 +119,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			img2 = AppResources.INSTANCE.empty().getSafeUri().asString();
 		}
-		MenuItem miStandardView = new MenuItem(MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")), true,
+		AriaMenuItem miStandardView = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img2, loc.getMenu("StandardView")),
+				true,
 				new Command() {
 
 			        @Override
@@ -130,9 +135,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			RadioButtonMenuBar yaxisMenu = new RadioButtonMenuBarW(
 					(AppW) this.app, false);
 			addAxesRatioItems(yaxisMenu);
-			MenuItem mi = new MenuItem(
+			AriaMenuItem mi = new AriaMenuItem(
 					loc.getMenu("xAxis") + " : " + loc.getMenu("yAxis"), true,
-					(MenuBar) yaxisMenu);
+					(AriaMenuBar) yaxisMenu);
 			mi.addStyleName("mi_no_image_new");
 			if (!app.isUnbundled()) {
 				wrappedPopup.addItem(mi);
@@ -263,7 +268,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			img = AppResources.INSTANCE.view_properties16().getSafeUri().asString();
 		}
 
-		MenuItem miProperties = new MenuItem(MainMenu.getMenuBarHtml(img,
+		AriaMenuItem miProperties = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img,
 				app.isUnbundled() || hasWhiteboardContextMenu()
 						? loc.getMenu("Settings")
 						: loc.getMenu(name) + " ..."),
@@ -356,7 +362,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 */
 	protected void addZoomMenu() {
 		// zoom for both axes
-		MenuBar zoomMenu = new MenuBar(true);
+		AriaMenuBar zoomMenu = new AriaMenuBar();
 		String img;
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			img = MaterialDesignResources.INSTANCE.zoom_in_black().getSafeUri()
@@ -364,7 +370,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			img = AppResources.INSTANCE.zoom16().getSafeUri().asString();
 		}
-		MenuItem zoomMenuItem = new MenuItem(
+		AriaMenuItem zoomMenuItem = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img,
 				loc.getMenu("Zoom")), true, zoomMenu);
 		if (!hasWhiteboardContextMenu()) {
@@ -377,9 +383,9 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 	}
 
-	private void addZoomItems(MenuBar menu) {
+	private void addZoomItems(AriaMenuBar menu) {
 		int perc;
-		MenuItem mi;
+		AriaMenuItem mi;
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < getZoomFactorLength(); i++) {
@@ -396,7 +402,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			// TODO: it is terrible, should be used ONE listener for each
 			// menuItem, this kills the memory, if GWT changes this
 			// get it right!
-			mi = new MenuItem(sb.toString(), new Command() {
+			mi = new AriaMenuItem(sb.toString(), false, new Command() {
 				@Override
 				public void execute() {
 					zoom(getZoomFactor(index));

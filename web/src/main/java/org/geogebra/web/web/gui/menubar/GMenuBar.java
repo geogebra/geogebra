@@ -12,8 +12,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
@@ -88,8 +86,8 @@ public class GMenuBar extends AriaMenuBar {
 	 *            specifies if submenu should open to the left.
 	 * @return MenuItem
 	 */
-	public MenuItem addItem(String itemtext, boolean textishtml,
-			final MenuBar submenupopup, final boolean subleft) {
+	public AriaMenuItem addItem(String itemtext, boolean textishtml,
+			final AriaMenuBar submenupopup, final boolean subleft) {
 
 		// this works, but it is still different from addItem in
 		// not following mouse movement, only following mouse clicks, etc
@@ -100,7 +98,7 @@ public class GMenuBar extends AriaMenuBar {
 			public void execute() {
 
 				if (ait[0] != null) {
-					selectItem((MenuItem) ait[0]);
+					selectItem((AriaMenuItem) ait[0]);
 					// Note that another menu item might have an open popup
 					// here, with a different submenupopup, and that disappears
 					// because its popuppanel is modal, but its ait[1]
@@ -117,7 +115,8 @@ public class GMenuBar extends AriaMenuBar {
 					if (ait[1] == null) {
 						// popuppanel still not present
 						final PopupPanel pp = new PopupPanel(true, false);
-						pp.addAutoHidePartner(((MenuItem)ait[0]).getElement());
+						pp.addAutoHidePartner(
+								((AriaMenuItem) ait[0]).getElement());
 						submenupopup.addStyleName(subleft ? "subMenuLeftSide2"
 								: "subMenuRightSide2");
 						submenupopup.selectItem(null);
@@ -132,7 +131,7 @@ public class GMenuBar extends AriaMenuBar {
 							pp.addStyleName("floatingSubMenu");
 						}
 						pp.add(submenupopup);
-						MenuItem mi0 = (MenuItem) ait[0];
+						AriaMenuItem mi0 = (AriaMenuItem) ait[0];
 						int left = getAbsoluteHorizontalPos(mi0, subleft);
 						int top = getAbsoluteTop(mi0);
 
@@ -178,7 +177,7 @@ public class GMenuBar extends AriaMenuBar {
 			}
 		});
 
-		return (MenuItem) ait[0];
+		return (AriaMenuItem) ait[0];
 	}
 
 	/**
@@ -190,8 +189,8 @@ public class GMenuBar extends AriaMenuBar {
 	 *            submenu
 	 * @return the menu item
 	 */
-	public MenuItem addItem(String itemtext, boolean textishtml,
-			final MenuBar submenupopup) {
+	public AriaMenuItem addItem(String itemtext, boolean textishtml,
+			final AriaMenuBar submenupopup) {
 		return addItem(itemtext, textishtml, submenupopup, true);
 	}
 
@@ -250,7 +249,7 @@ public class GMenuBar extends AriaMenuBar {
 	 * Selects the last menu item.
 	 */
 	public void selectLastItem() {
-		List<MenuItem> list = getItems();
+		List<AriaMenuItem> list = getItems();
 		if (!list.isEmpty()) {
 			selectItem(list.get(list.size() - 1));
 		}

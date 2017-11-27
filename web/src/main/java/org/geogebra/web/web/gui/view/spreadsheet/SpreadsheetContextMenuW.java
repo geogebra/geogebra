@@ -7,6 +7,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
@@ -14,8 +16,6 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Subclass of SpreadsheetContextMenu, implements the spreadsheet context menu
@@ -57,7 +57,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	@Override
 	public void setTitle(String str) {
 
-		MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(
+		AriaMenuItem title = new AriaMenuItem(MainMenu.getMenuBarHtml(
 		        AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 		        true, new Command() {
 			        @Override
@@ -117,8 +117,8 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 					getIconUrl(cmdString, app.isUnbundled()), text);
 		}
 
-		MenuItem mi;
-		mi = new MenuItem(html, true, getCommand(cmdString));
+		AriaMenuItem mi;
+		mi = new AriaMenuItem(html, true, getCommand(cmdString));
 		if (!hasWhiteboardContextMenu()) {
 			mi.addStyleName("mi_with_image");
 		}
@@ -168,7 +168,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	}
 
 	@Override
-	public MenuItem addSubMenu(String text, String cmdString) {
+	public AriaMenuItem addSubMenu(String text, String cmdString) {
 
 		String html;
 		if (hasWhiteboardContextMenu() && !app.isUnbundled()) {
@@ -178,8 +178,8 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 					getIconUrl(cmdString, app.isUnbundled()), text);
 		}
 
-		MenuBar subMenu = new MenuBar(true);
-		MenuItem menuItem = new MenuItem(html, true, subMenu);
+		AriaMenuBar subMenu = new AriaMenuBar();
+		AriaMenuItem menuItem = new AriaMenuItem(html, true, subMenu);
 
 		popup.addItem(menuItem);
 		return menuItem;
@@ -198,11 +198,11 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 					text);
 		}
 
-		MenuItem mi = new MenuItem(html, true, getCommand(cmdString));
+		AriaMenuItem mi = new AriaMenuItem(html, true, getCommand(cmdString));
 		mi.addStyleName("mi_with_image");
 		mi.setEnabled(enabled);
 
-		((MenuItem) menu).getSubMenu().addItem(mi);
+		((AriaMenuItem) menu).getSubMenu().addItem(mi);
 
 	}
 

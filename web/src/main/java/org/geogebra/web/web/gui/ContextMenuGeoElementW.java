@@ -33,6 +33,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.images.AppResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.html5.AttachedToDOM;
 import org.geogebra.web.web.javax.swing.GCheckBoxMenuItem;
@@ -43,8 +45,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * @author gabor
@@ -64,10 +64,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 */
 	protected Localization loc;
 	// private MenuItem mnuCopy;
-	private MenuItem mnuCut;
+	private AriaMenuItem mnuCut;
 	// private MenuItem mnuDuplicate;
-	private MenuItem mnuPaste;
-	private MenuItem mnuDelete;
+	private AriaMenuItem mnuPaste;
+	private AriaMenuItem mnuDelete;
 
 	/**
 	 * Creates new context menu
@@ -1339,15 +1339,15 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            text of menu item
 	 * @return new menu item
 	 */
-	protected MenuItem addAction(Command action, String html, String text) {
-		MenuItem mi;
+	protected AriaMenuItem addAction(Command action, String html, String text) {
+		AriaMenuItem mi;
 		if (html != null) {
-			mi = new MenuItem(html, true, action);
+			mi = new AriaMenuItem(html, true, action);
 			if (!hasWhiteboardContextMenu()) {
 				mi.addStyleName("mi_with_image"); // TEMP
 			}
 		} else {
-			mi = new MenuItem(text, action);
+			mi = new AriaMenuItem(text, false, action);
 			mi.addStyleName("mi_no_image"); // TEMP
 		}
 
@@ -1364,15 +1364,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 * @param subMenu
 	 *            sub menu
 	 */
-	protected void addSubmenuAction(String html, String text, MenuBar subMenu) {
-		MenuItem mi;
+	protected void addSubmenuAction(String html, String text,
+			AriaMenuBar subMenu) {
+		AriaMenuItem mi;
 		if (html != null) {
-			mi = new MenuItem(html, true, subMenu);
+			mi = new AriaMenuItem(html, true, subMenu);
 			if (!hasWhiteboardContextMenu()) {
 				mi.addStyleName("mi_with_image"); // TEMP
 			}
 		} else {
-			mi = new MenuItem(text, true, subMenu);
+			mi = new AriaMenuItem(text, true, subMenu);
 			mi.addStyleName("mi_no_image"); // TEMP
 		}
 
@@ -1386,7 +1387,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 	 *            title of menu (first menu item)
 	 */
 	protected void setTitle(String str) {
-		MenuItem title = new MenuItem(MainMenu.getMenuBarHtml(
+		AriaMenuItem title = new AriaMenuItem(MainMenu.getMenuBarHtml(
 				AppResources.INSTANCE.empty().getSafeUri().asString(), str),
 				true, new Command() {
 
@@ -1452,12 +1453,12 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		getWrappedPopup().removeFromDOM();
 	}
 
-	private MenuBar getLabelSubMenu() {
+	private AriaMenuBar getLabelSubMenu() {
 		String[] labels = { loc.getMenu("stylebar.Hidden"), loc.getMenu("Name"),
 				loc.getMenu("NameAndValue"), loc.getMenu("Value"),
 				loc.getMenu("Caption") };
 
-		MenuBar mnu = new MenuBar(true);
+		AriaMenuBar mnu = new AriaMenuBar();
 		// mnu.addStyleName("gwt-PopupPanel");
 		// mnu.addStyleName("contextMenuSubmenu");
 		GeoElement geos[] = { getGeo() };
@@ -1465,7 +1466,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		model.setGeos(geos);
 		for (int i = 0; i < labels.length; i++) {
 			final int idx = i;
-			MenuItem mi = new MenuItem(
+			AriaMenuItem mi = new AriaMenuItem(
 					MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 							.getSafeUri().asString(), labels[i]),
 					true, new Command() {
@@ -1485,7 +1486,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		return mnu;
 	}
 
-	private MenuBar getAngleSubMenu() {
+	private AriaMenuBar getAngleSubMenu() {
 		String[] angleIntervals = new String[GeoAngle.getIntervalMinListLength()
 				- 1];
 		for (int i = 0; i < GeoAngle.getIntervalMinListLength() - 1; i++) {
@@ -1494,7 +1495,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 					GeoAngle.getIntervalMaxList(i));
 		}
 
-		MenuBar mnu = new MenuBar(true);
+		AriaMenuBar mnu = new AriaMenuBar();
 		// mnu.addStyleName("gwt-PopupPanel");
 		// mnu.addStyleName("contextMenuSubmenu");
 		GeoElement geos[] = { getGeo() };
@@ -1503,7 +1504,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 		for (int i = 0; i < angleIntervals.length; i++) {
 			final int idx = i;
-			MenuItem mi = new MenuItem(
+			AriaMenuItem mi = new AriaMenuItem(
 					MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 							.getSafeUri().asString(), angleIntervals[i]),
 					true, new Command() {

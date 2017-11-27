@@ -13,6 +13,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.ToolCreationDialogW;
 import org.geogebra.web.web.gui.dialog.ToolManagerDialogW;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;
@@ -21,7 +22,6 @@ import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Algebra tab 3-dot menu.
@@ -169,7 +169,7 @@ public class ContextMenuTools implements SetLabels {
 	}
 
 	private void addItem(String text, ScheduledCommand cmd) {
-		MenuItem mi = new MenuItem(text, true, cmd);
+		AriaMenuItem mi = new AriaMenuItem(text, true, cmd);
 		wrappedPopup.addItem(mi);
 	}
 	private void addToolManageItems() {

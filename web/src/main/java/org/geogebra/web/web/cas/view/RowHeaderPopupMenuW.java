@@ -4,12 +4,12 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.view.spreadsheet.CopyPasteCutW;
 import org.geogebra.web.web.html5.AttachedToDOM;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * The one popup menu used in web CAS
@@ -43,7 +43,8 @@ public class RowHeaderPopupMenuW extends
 	private void initMenu() {
 		// "Insert Above" menuitem
 		boolean canSystemCopy = CopyPasteCutW.checkClipboardSupported();
-		MenuItem miCopyInput = new MenuItem(loc.getMenu("CopyInput"),
+		AriaMenuItem miCopyInput = new AriaMenuItem(loc.getMenu("CopyInput"),
+				false,
 				new ScheduledCommand() {
 					@Override
 					public void execute() {
@@ -53,7 +54,7 @@ public class RowHeaderPopupMenuW extends
 		rowHeaderPopupMenu.addItem(miCopyInput);
 		miCopyInput.addStyleName("mi_no_image");
 
-		MenuItem miPaste = new MenuItem(loc.getMenu("Paste"),
+		AriaMenuItem miPaste = new AriaMenuItem(loc.getMenu("Paste"), false,
 				new ScheduledCommand() {
 					@Override
 					public void execute() {
@@ -64,7 +65,9 @@ public class RowHeaderPopupMenuW extends
 		rowHeaderPopupMenu.addSeparator();
 		miPaste.addStyleName("mi_no_image");
 
-		MenuItem miInsertAbove = new MenuItem(loc.getMenu("InsertAbove"),
+		AriaMenuItem miInsertAbove = new AriaMenuItem(
+				loc.getMenu("InsertAbove"),
+				false,
 		        new ScheduledCommand() {
 			        @Override
 					public void execute() {
@@ -75,7 +78,8 @@ public class RowHeaderPopupMenuW extends
 		miInsertAbove.addStyleName("mi_no_image");
 
 		// "Insert Below" menuitem
-		MenuItem miInsertBelow = new MenuItem(loc.getMenu("InsertBelow"),
+		AriaMenuItem miInsertBelow = new AriaMenuItem(
+				loc.getMenu("InsertBelow"), false,
 		        new ScheduledCommand() {
 			        @Override
 					public void execute() {
@@ -87,7 +91,8 @@ public class RowHeaderPopupMenuW extends
 
 		int[] selRows = table.getSelectedRows();
 		String strRows = getDeleteString(selRows);
-		MenuItem miDelete = new MenuItem(strRows, new ScheduledCommand() {
+		AriaMenuItem miDelete = new AriaMenuItem(strRows, false,
+				new ScheduledCommand() {
 			@Override
 			public void execute() {
 				actionPerformed(CellAction.DELETE);
@@ -98,7 +103,8 @@ public class RowHeaderPopupMenuW extends
 
 		rowHeaderPopupMenu.addSeparator();
 
-		MenuItem miUseAsText = new MenuItem(loc.getMenu("CasCellUseAsText"),
+		AriaMenuItem miUseAsText = new AriaMenuItem(
+				loc.getMenu("CasCellUseAsText"), false,
 		        new ScheduledCommand() {
 			        @Override
 					public void execute() {
@@ -111,7 +117,7 @@ public class RowHeaderPopupMenuW extends
 
 		if (canSystemCopy) {
 
-			MenuItem copyItem = new MenuItem(loc.getMenu("Copy"),
+			AriaMenuItem copyItem = new AriaMenuItem(loc.getMenu("Copy"), false,
 					new ScheduledCommand() {
 						@Override
 						public void execute() {
@@ -121,7 +127,8 @@ public class RowHeaderPopupMenuW extends
 			rowHeaderPopupMenu.addItem(copyItem);
 			copyItem.addStyleName("mi_no_image");
 
-			MenuItem latexItem = new MenuItem(loc.getMenu("CopyAsLaTeX"),
+			AriaMenuItem latexItem = new AriaMenuItem(
+					loc.getMenu("CopyAsLaTeX"), false,
 				new ScheduledCommand() {
 					@Override
 					public void execute() {

@@ -3,19 +3,19 @@ package org.geogebra.web.web.javax.swing;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GCheckBoxMenuItem {
 
 	CheckBox checkBox;
-	MenuItem menuItem;
+	AriaMenuItem menuItem;
 	HorizontalPanel itemPanel;
 
 	// true if menu has no checkbox, but ON/OFF label.
@@ -93,7 +93,7 @@ public class GCheckBoxMenuItem {
 	}
 
 	public void setCommand(ScheduledCommand cmd) {
-		menuItem = new MenuItem(itemPanel.toString(), true, cmd);
+		menuItem = new AriaMenuItem(itemPanel.toString(), true, cmd);
 	}
 
 	/**
@@ -116,9 +116,6 @@ public class GCheckBoxMenuItem {
 		}
 		String html = itemPanel.toString();
 		menuItem.setHTML(html);
-		if (menu != null) {
-			menu.update(menuItem, html);
-		}
 	}
 
 	private boolean isToggleMenu() {
@@ -133,7 +130,7 @@ public class GCheckBoxMenuItem {
 		return isToggleMenu() ? selected : checkBox.getValue();
 	}
 
-	public MenuItem getMenuItem() {
+	public AriaMenuItem getMenuItem() {
 		return menuItem;
 	}
 

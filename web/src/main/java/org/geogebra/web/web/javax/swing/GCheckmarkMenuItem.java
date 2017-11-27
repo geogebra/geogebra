@@ -1,8 +1,9 @@
 package org.geogebra.web.web.javax.swing;
 
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
+
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Adds a menu item with a checkmark on its end.
@@ -12,7 +13,7 @@ import com.google.gwt.user.client.ui.MenuItem;
  */
 public class GCheckmarkMenuItem extends GCheckMarkPanel {
 
-	private MenuItem menuItem;
+	private AriaMenuItem menuItem;
 
 	/**
 	 * @param text
@@ -47,7 +48,7 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	 * 
 	 * @return The standard menu item with checkmark.
 	 */
-	public MenuItem getMenuItem() {
+	public AriaMenuItem getMenuItem() {
 		return menuItem;
 	}
 
@@ -61,12 +62,11 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 
 	@Override
 	protected void createContents() {
-		menuItem = new MenuItem(itemPanel.toString(), true, getCmd());
+		menuItem = new AriaMenuItem(itemPanel.toString(), true, getCmd());
 	}
 
 	@Override
 	protected void updateContents() {
 		menuItem.setHTML(itemPanel.toString());
-
 	}
 }

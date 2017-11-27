@@ -5,6 +5,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.menubar.AriaMenuBar;
+import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.GMenuBar;
 import org.geogebra.web.web.html5.AttachedToDOM;
 
@@ -22,8 +24,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -85,7 +85,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @param app
 	 *            application
 	 */
-	public GPopupMenuW(MenuBar mb, AppW app) {
+	public GPopupMenuW(AriaMenuBar mb, AppW app) {
 		popupPanel = new GPopupPanel(app.getPanel(), app);
 		popupPanel.add(mb);
 		if (app.isUnbundledOrWhiteboard()) {
@@ -222,8 +222,8 @@ public class GPopupMenuW implements AttachedToDOM {
 		popupMenu.addSeparator();
 	}
 
-	private void addHideCommandFor(MenuItem item) {
-		MenuBar submenu = item.getSubMenu();
+	private void addHideCommandFor(AriaMenuItem item) {
+		AriaMenuBar submenu = item.getSubMenu();
 		if (submenu == null) {
 			final ScheduledCommand oldCmd = item.getScheduledCommand();
 			ScheduledCommand cmd = new ScheduledCommand() {
@@ -279,7 +279,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @param item
 	 *            to add to popup menu
 	 */
-	public void addItem(final MenuItem item) {
+	public void addItem(final AriaMenuItem item) {
 		addItem(item, true);
 	}
 
@@ -298,8 +298,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * @param autoHide
 	 *            true if auto hide
 	 */
-	public void addItem(final MenuItem item, boolean autoHide) {
-		final MenuBar subMenu = item.getSubMenu();
+	public void addItem(final AriaMenuItem item, boolean autoHide) {
+		final AriaMenuBar subMenu = item.getSubMenu();
 		if (autoHide) {
 			addHideCommandFor(item);
 		}
@@ -311,7 +311,8 @@ public class GPopupMenuW implements AttachedToDOM {
 			// In this way we can set this popup panel's position easily.
 			String itemHTML = item.getHTML();
 			ScheduledCommand itemCommand = null;
-			final MenuItem newItem = new MenuItem(itemHTML, true, itemCommand);
+			final AriaMenuItem newItem = new AriaMenuItem(itemHTML, true,
+					itemCommand);
 			newItem.setStyleName(item.getStyleName());
 			newItem.getElement().setAttribute("hasPopup", "true");
 			popupMenu.addItem(newItem);
@@ -354,6 +355,7 @@ public class GPopupMenuW implements AttachedToDOM {
 			// adding arrow for the menuitem
 			ImageResource imgRes = getSubMenuIcon(
 					app.getLocalization().isRightToLeftReadingOrder());
+			popupMenu.setParentMenu(this);
 			if (newItem.getElement().getParentNode() != null) {
 				Element td = DOM.createTD();
 				td.setAttribute("vAlign", "middle");
@@ -464,7 +466,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            command
 	 */
 	public void addItem(String s, ScheduledCommand c) {
-		addItem(new MenuItem(s, c));
+		addItem(new AriaMenuItem(s, false, c));
 	}
 
 	/**
@@ -522,12 +524,24 @@ public class GPopupMenuW implements AttachedToDOM {
 
 	private class PopupMenuBar extends GMenuBar {
 
+		private GPopupMenuW selectListener;
+
 		public PopupMenuBar(AppW app1) {
 			super("", app1);
 		}
 
-		private MenuItem findItem(Element hItem) {
-			for (MenuItem item : getItems()) {
+		public void setParentMenu(GPopupMenuW gPopupMenuW) {
+			this.selectListener = gPopupMenuW;
+		}
+
+		@Override
+		public void removeSubPopup() {
+			if (selectListener != null) {
+				selectListener.removeSubPopup();
+			}
+		}
+		private AriaMenuItem findItem(Element hItem) {
+			for (AriaMenuItem item : getItems()) {
 				if (item.getElement().isOrHasChild(hItem)) {
 					return item;
 				}
@@ -538,7 +552,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		@Override
 		public void onBrowserEvent(Event event) {
 			if (DOM.eventGetType(event) == Event.ONMOUSEOVER) {
-				MenuItem item = findItem(DOM.eventGetTarget(event));
+				AriaMenuItem item = findItem(DOM.eventGetTarget(event));
 				if (item != null) {
 					if ("true".equals(
 							item.getElement().getAttribute("hasPopup"))) {
@@ -560,7 +574,7 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 	}
 
-	public void addStyleName(MenuItem item, String className) {
+	public void addStyleName(AriaMenuItem item, String className) {
 		popupMenu.addStyleName(item, className);
 	}
 }

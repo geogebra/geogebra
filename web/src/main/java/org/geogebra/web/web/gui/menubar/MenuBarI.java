@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.menubar;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * Shared interface for export and download menu
@@ -24,7 +23,7 @@ public interface MenuBarI {
 	 *            callback
 	 * @return menu item
 	 */
-	public MenuItem addItem(@IsSafeHtml String text, boolean asHTML,
+	public AriaMenuItem addItem(@IsSafeHtml String text, boolean asHTML,
 			ScheduledCommand cmd);
 
 }
