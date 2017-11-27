@@ -579,4 +579,40 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
 	}
 
+	@Override
+	public int getReusableSurfaceIndex() {
+		if (managerPackBuffers() && shouldBePacked()) {
+			return addToTracesPackingBuffer(getSurfaceIndex());
+		}
+		return super.getReusableSurfaceIndex();
+	}
+
+	@Override
+	protected int getReusableGeometryIndex() {
+		if (managerPackBuffers() && shouldBePacked()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!(managerPackBuffers() && shouldBePacked())) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (managerPackBuffers() && shouldBePacked()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
+		}
+	}
+
 }
