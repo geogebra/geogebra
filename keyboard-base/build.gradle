@@ -1,4 +1,10 @@
 apply plugin: 'java'
+apply plugin: 'pmd'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
+pmd {
+     ignoreFailures = true
+     ruleSets = []
+     ruleSetFiles = files("src/main/config/pmd.xml")
+}

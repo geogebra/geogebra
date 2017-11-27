@@ -2,8 +2,6 @@ package org.geogebra.web.html5.gui.util;
 
 import java.util.ArrayList;
 
-import org.geogebra.web.html5.gui.util.NoDragImage;
-
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
@@ -278,6 +276,10 @@ public class AriaMenuBar extends Widget {
 
 	}
 
+	/**
+	 * @param item
+	 *            item mouse is hovering over
+	 */
 	protected void itemOver(AriaMenuItem item) {
 		selectItem(item);
 		removeSubPopup();
@@ -320,7 +322,18 @@ public class AriaMenuBar extends Widget {
 		// needs override
 	}
 
-	public void setFocusOnHoverEnabled(boolean b) {
-		this.focusOnHover = b;
+	/**
+	 * @param focusOnHover
+	 *            whether mouseover should select items
+	 */
+	public void setFocusOnHoverEnabled(boolean focusOnHover) {
+		this.focusOnHover = focusOnHover;		
+	}
+
+	/**
+	 * @return whether mouseover should select items
+	 */
+	public boolean getFocusOnHover() {
+		return focusOnHover;
 	}
 }

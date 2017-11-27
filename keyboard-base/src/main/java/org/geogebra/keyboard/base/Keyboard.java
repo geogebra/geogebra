@@ -1,7 +1,5 @@
 package org.geogebra.keyboard.base;
 
-import java.util.HashMap;
-
 import org.geogebra.keyboard.base.listener.KeyboardObserver;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 
