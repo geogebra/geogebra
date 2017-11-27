@@ -2,7 +2,7 @@ package org.geogebra.web.web.gui.properties;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.util.AriaHelper;
-import org.geogebra.web.web.gui.menubar.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 
 import com.google.gwt.user.client.Command;
 

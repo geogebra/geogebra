@@ -9,11 +9,11 @@ import org.geogebra.common.gui.toolcategorization.ToolCategorization.ToolsetLeve
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.dialog.ToolCreationDialogW;
 import org.geogebra.web.web.gui.dialog.ToolManagerDialogW;
-import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.CheckMarkSubMenu;
 import org.geogebra.web.web.javax.swing.GCheckmarkMenuItem;

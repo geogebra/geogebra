@@ -10,9 +10,9 @@ import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.util.AriaMenuBar;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.menubar.AriaMenuBar;
-import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;

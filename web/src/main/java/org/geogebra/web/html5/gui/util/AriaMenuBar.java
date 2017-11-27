@@ -1,8 +1,7 @@
-package org.geogebra.web.web.gui.menubar;
+package org.geogebra.web.html5.gui.util;
 
 import java.util.ArrayList;
 
-import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 
 import com.google.gwt.core.client.Scheduler;

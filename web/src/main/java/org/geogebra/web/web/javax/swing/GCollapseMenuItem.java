@@ -3,9 +3,9 @@ package org.geogebra.web.web.javax.swing;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.web.html5.gui.util.AriaMenuBar;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
-import org.geogebra.web.web.gui.menubar.AriaMenuBar;
-import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;

@@ -6,10 +6,10 @@ import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.util.AriaMenuBar;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.StyleBarResources;
-import org.geogebra.web.web.gui.menubar.AriaMenuBar;
-import org.geogebra.web.web.gui.menubar.AriaMenuItem;
 import org.geogebra.web.web.gui.menubar.GCheckBoxMenuItem;
 import org.geogebra.web.web.gui.menubar.GRadioButtonMenuItem;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
