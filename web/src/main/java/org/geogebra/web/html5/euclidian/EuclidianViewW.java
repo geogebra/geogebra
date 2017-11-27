@@ -343,7 +343,6 @@ public class EuclidianViewW extends EuclidianView implements
 		return getExportImageCanvas(scale, transparency).toDataUrl();
 	}
 
-	@Override
 	public String getExportSVG(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
@@ -365,7 +364,7 @@ public class EuclidianViewW extends EuclidianView implements
 		return getSerializedSvg(ctx);
 	}
 
-	public void saveExportPDF(double scale, boolean transparency,
+	public String saveExportPDF(double scale, boolean transparency,
 			String filename) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
@@ -376,15 +375,15 @@ public class EuclidianViewW extends EuclidianView implements
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
-			return;
+			return "";
 		}
 
 		g4copy = new GGraphics2DW((Context2d) ctx.cast());
-		this.app.setExporting(ExportType.PDF_EMBEDFONTS, scale);
+		this.app.setExporting(ExportType.PDF_HTML5, scale);
 		exportPaintPre(g4copy, scale, transparency);
 		drawObjects(g4copy);
 		this.app.setExporting(ExportType.NONE, 1);
-		savePdf(ctx, filename);
+		return getPDF(ctx);
 	}
 
 	private native JavaScriptObject getCanvas2SVG(double width,
@@ -403,10 +402,16 @@ public class EuclidianViewW extends EuclidianView implements
 	private native JavaScriptObject getCanvas2PDF(double width,
 			double height) /*-{
 		if ($wnd.canvas2pdf) {
-			return new $wnd.canvas2pdf.PdfContext($wnd.blobStream());
+			return new $wnd.canvas2pdf.PdfContext(width, height);
 		}
 
 		return null;
+	}-*/;
+
+	private native String getPDF(JavaScriptObject pdfcontext) /*-{
+
+		return pdfcontext.getPDFbase64();
+
 	}-*/;
 
 	private native String savePdf(JavaScriptObject ctx, String filename) /*-{

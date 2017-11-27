@@ -4635,10 +4635,11 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public enum ExportType {
-		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, EPS, EMF, PNG, PNG_BRAILLE, SVG, PRINTING;
+		NONE, PDF_TEXTASSHAPES, PDF_EMBEDFONTS, PDF_HTML5, EPS, EMF, PNG, PNG_BRAILLE, SVG, PRINTING;
 
 		public char getAxisMinusSign() {
 			switch (this) {
+			case PDF_HTML5:
 			case PDF_EMBEDFONTS:
 			case PNG_BRAILLE:
 				return '-';

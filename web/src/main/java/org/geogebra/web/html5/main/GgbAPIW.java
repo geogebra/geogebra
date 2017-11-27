@@ -1185,15 +1185,17 @@ public class GgbAPIW extends GgbAPI {
 	 * Experimental GGB-2150
 	 * 
 	 */
-	final public void exportPDF(String filename) {
+	final public String exportPDF(String filename) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
 
-			evw.saveExportPDF(1, true,
+			return evw.saveExportPDF(1, true,
 					filename == null ? "myFile.pdf" : filename);
 		}
+
+		return "";
 
 
 	}
