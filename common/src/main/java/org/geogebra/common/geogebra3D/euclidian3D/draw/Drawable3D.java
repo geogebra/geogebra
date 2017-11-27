@@ -147,6 +147,10 @@ public abstract class Drawable3D extends DrawableND {
 	/** says if it has to be updated */
 	private boolean waitForUpdate;
 	private boolean waitForUpdateVisualStyle = true;
+	private boolean waitForUpdateColor = false;
+	private boolean waitForUpdateVisibility = false;
+	/** geometries have been set visible */
+	protected boolean geometriesSetVisible;
 
 	/** says if the label has to be updated */
 	private boolean labelWaitForUpdate;
@@ -304,12 +308,24 @@ public abstract class Drawable3D extends DrawableND {
 				if (updateForItSelf()) {
 					recordTrace();
 					waitForUpdate = false;
+					waitForUpdateColor = false;
+					waitForUpdateVisibility = false;
+					geometriesSetVisible = true;
 				} else {
 					// we need a new repaint after current one to refine the
 					// drawable (used DrawSurface3DOld)
 					getView3D().waitForNewRepaint();
 				}
 				setLabelWaitForUpdate();// TODO remove that
+			}
+
+			if (waitForUpdateColor) {
+				updateGeometriesColor();
+				waitForUpdateColor = false;
+				waitForUpdateVisibility = false;
+			} else if (waitForUpdateVisibility) {
+				updateGeometriesVisibility();
+				waitForUpdateVisibility = false;
 			}
 
 			if (isLabelVisible()) {
@@ -463,12 +479,37 @@ public abstract class Drawable3D extends DrawableND {
 		setWaitForUpdate();
 	}
 
-	/**
-	 * wait for reset color
-	 */
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
 		waitForUpdateVisualStyle = true;
+	}
+
+	/**
+	 * wait for update color
+	 */
+	protected void setWaitForUpdateColor() {
+		waitForUpdateColor = true;
+	}
+
+	/**
+	 * update color
+	 */
+	protected void updateGeometriesColor() {
+		// not implemented here
+	}
+
+	/**
+	 * wait for update visibility
+	 */
+	protected void setWaitForUpdateVisibility() {
+		waitForUpdateVisibility = true;
+	}
+
+	/**
+	 * update visibility
+	 */
+	protected void updateGeometriesVisibility() {
+		// not implemented here
 	}
 
 	protected void removeGeometryIndex(int index) {

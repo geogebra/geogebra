@@ -67,6 +67,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 				// will be updated if visible again
 				setWaitForUpdate();
 			}
+			updateGeometriesVisibility();
 		}
 	}
 
@@ -137,18 +138,32 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
 		if (shouldBePacked()) {
 			if (prop == GProperty.COLOR) {
-				updateColors();
-				getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
-				if (!isVisible()) {
-					getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
-				}
+				setWaitForUpdateColor();
 			} else if (prop == GProperty.VISIBLE) {
-				getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible(), getGeometryIndex());
+				setWaitForUpdateVisibility();
 			} else {
 				super.setWaitForUpdateVisualStyle(prop);
 			}
 		} else {
 			super.setWaitForUpdateVisualStyle(prop);
+		}
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateColors();
+		getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
+		if (!isVisible()) {
+			getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
+		}
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible(), getGeometryIndex());
+			geometriesSetVisible = isVisible;
 		}
 	}
 

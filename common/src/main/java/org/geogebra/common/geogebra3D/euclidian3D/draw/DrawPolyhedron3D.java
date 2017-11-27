@@ -300,6 +300,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 				// will be updated if visible again
 				setWaitForUpdate();
 			}
+			updateGeometriesVisibility();
 		}
 	}
 
@@ -539,19 +540,32 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 		} else {
 			if (shouldBePacked()) {
 				if (prop == GProperty.COLOR) {
-					updateColors();
-					getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
-					getView3D().getRenderer().getGeometryManager().updateColor(getSurfaceColor(), getSurfaceIndex());
-					if (!isVisible()) {
-						getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
-						getView3D().getRenderer().getGeometryManager().updateVisibility(false, getSurfaceIndex());
-					}
+					setWaitForUpdateColor();
 				} else if (prop == GProperty.VISIBLE) {
-					boolean isVisible = isVisible();
-					getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getGeometryIndex());
-					getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getSurfaceIndex());
+					setWaitForUpdateVisibility();
 				}
 			}
+		}
+	}
+
+	@Override
+	protected void updateGeometriesColor() {
+		updateColors();
+		getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
+		getView3D().getRenderer().getGeometryManager().updateColor(getSurfaceColor(), getSurfaceIndex());
+		if (!isVisible()) {
+			getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
+			getView3D().getRenderer().getGeometryManager().updateVisibility(false, getSurfaceIndex());
+		}
+	}
+
+	@Override
+	protected void updateGeometriesVisibility() {
+		boolean isVisible = isVisible();
+		if (geometriesSetVisible != isVisible) {
+			getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getGeometryIndex());
+			getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getSurfaceIndex());
+			geometriesSetVisible = isVisible;
 		}
 	}
 
