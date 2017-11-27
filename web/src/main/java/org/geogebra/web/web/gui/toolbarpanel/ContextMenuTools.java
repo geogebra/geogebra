@@ -161,7 +161,7 @@ public class ContextMenuTools implements SetLabels {
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, cmdReposition, wrappedPopup.getPopupMenu());
+				false, cmdReposition);
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		subToolFilter = new ToolFilterSubMenu(ci);
 		subToolFilter.update();

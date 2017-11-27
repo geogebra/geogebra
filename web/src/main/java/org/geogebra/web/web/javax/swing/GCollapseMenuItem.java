@@ -3,7 +3,6 @@ package org.geogebra.web.web.javax.swing;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 
@@ -27,7 +26,6 @@ public class GCollapseMenuItem {
 	private String text;
 	private Image imgExpand;
 	private Image imgCollapse;
-	private AriaMenuBar mb;
 	/**
 	 * @param text
 	 *            Title
@@ -43,9 +41,8 @@ public class GCollapseMenuItem {
 	public GCollapseMenuItem(String text, String expandUrl,
 			String collapseUrl,
 			boolean expanded,
-			final ScheduledCommand cmd, AriaMenuBar mb) {
+			final ScheduledCommand cmd) {
 		this.text = text;
-		this.mb = mb;
 		imgExpand = new NoDragImage(expandUrl);
 		imgExpand.setStyleName("expandImg");
 		imgCollapse = new NoDragImage(collapseUrl);

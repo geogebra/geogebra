@@ -84,7 +84,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, null, wrappedPopup.getPopupMenu());
+				false, null);
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		ProjectionSubmenu projSubMenu = new ProjectionSubmenu(ci);
 		projSubMenu.update();
