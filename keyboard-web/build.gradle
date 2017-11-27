@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'gwt-compiler'
+apply plugin: 'pmd'
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
@@ -56,4 +57,10 @@ gwt {
 // http://discuss.gradle.org/t/javadoc-generation-failed-with-vaadin-dependency/2502/12
 javadoc {
     options.addStringOption("sourcepath", "")
+}
+
+pmd {
+     ignoreFailures = true
+     ruleSets = []
+     ruleSetFiles = files("src/main/config/pmd.xml")
 }
