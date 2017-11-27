@@ -536,6 +536,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		updatePreview();
 
 		super.disposePreview();
+		if (shouldBePacked()) {
+			removePreviewFromGL();
+		}
 
 		// dispose segments
 		if (segments != null) {

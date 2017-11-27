@@ -1308,6 +1308,17 @@ public abstract class Drawable3D extends DrawableND {
 		label.removeFromGL();
 	}
 
+	/**
+	 * remove preview from GL geometries (used when pack buffers)
+	 */
+	protected void removePreviewFromGL() {
+		if (shouldBePacked()) {
+			removeFromGL();
+			geomIndex = NOT_REUSABLE_INDEX;
+			surfaceIndex = NOT_REUSABLE_INDEX;
+		}
+	}
+
 	// ////////////////////////////
 	// FOR PREVIEWABLE INTERFACE
 

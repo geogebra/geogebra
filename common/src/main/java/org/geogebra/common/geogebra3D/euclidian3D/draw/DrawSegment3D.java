@@ -168,7 +168,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	public void disposePreview() {
 		if (shouldBePacked()) {
-			removeFromGL();
+			removePreviewFromGL();
 		}
 		super.disposePreview();
 	}
