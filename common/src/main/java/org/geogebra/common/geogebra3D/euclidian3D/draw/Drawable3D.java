@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
@@ -190,6 +191,9 @@ public abstract class Drawable3D extends DrawableND {
 	private PickingType lastPickingType = PickingType.POINT_OR_CURVE;
 	/** alpha value for rendering transparency */
 	private int alpha = 255;
+
+	/** simple traces stack used for packed buffers */
+	protected LinkedList<Integer> tracesPackingBuffer;
 
 
 	// constants for picking : have to be from 0 to DRAW_PICK_ORDER_MAX-1,
@@ -559,7 +563,7 @@ public abstract class Drawable3D extends DrawableND {
 	 * 
 	 * @return current surface index if reusable (if no trace)
 	 */
-	final public int getReusableSurfaceIndex() {
+	public int getReusableSurfaceIndex() {
 		if (hasTrace()) {
 			return NOT_REUSABLE_INDEX;
 		}
@@ -1769,5 +1773,33 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	public boolean addedFromClosedSurface() {
 		return false;
+	}
+
+	/**
+	 * 
+	 * @return true if manager packs the buffers
+	 */
+	protected boolean managerPackBuffers() {
+		return getView3D().getRenderer().getGeometryManager().packBuffers();
+	}
+
+	/**
+	 * add index to traces (for packed buffer)
+	 * 
+	 * @param index
+	 *            index
+	 * @return index or NOT_REUSABLE_INDEX
+	 */
+	protected int addToTracesPackingBuffer(int index) {
+		if (hasTrace()) {
+			if (index != NOT_REUSABLE_INDEX) {
+				if (tracesPackingBuffer == null) {
+					tracesPackingBuffer = new LinkedList<Integer>();
+				}
+				tracesPackingBuffer.add(index);
+			}
+			return NOT_REUSABLE_INDEX;
+		}
+		return index;
 	}
 }

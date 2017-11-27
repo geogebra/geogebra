@@ -315,6 +315,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	private void updateOutline(Renderer renderer, Coords[] vertices,
 			int length) {
 
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().setPackCurve(getColor(), getGeoElement().getLineType(),
+					getGeoElement().getLineTypeHidden());
+		}
 		int thickness = getGeoElement().getLineThickness();
 		if (thickness == 0) {
 			setGeometryIndex(-1);
@@ -329,6 +333,9 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			brush.setAffineTexture(0.5f, 0.25f);
 			brush.segment(vertices[length - 1], vertices[0]);
 			setGeometryIndex(brush.end());
+		}
+		if (shouldBePacked()) {
+			getView3D().getRenderer().getGeometryManager().endPacking();
 		}
 
 	}
@@ -725,6 +732,42 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getGeometryIndex());
 			getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getSurfaceIndex());
 			geometriesSetVisible = isVisible;
+		}
+	}
+
+	@Override
+	public int getReusableSurfaceIndex() {
+		if (managerPackBuffers() && shouldBePacked()) {
+			return addToTracesPackingBuffer(getSurfaceIndex());
+		}
+		return super.getReusableSurfaceIndex();
+	}
+
+	@Override
+	protected int getReusableGeometryIndex() {
+		if (managerPackBuffers() && shouldBePacked()) {
+			return addToTracesPackingBuffer(getGeometryIndex());
+		}
+		return super.getReusableGeometryIndex();
+	}
+
+	@Override
+	protected void recordTrace() {
+		if (!(managerPackBuffers() && shouldBePacked())) {
+			super.recordTrace();
+		}
+	}
+
+	@Override
+	protected void clearTraceForViewChangedByZoomOrTranslate() {
+		if (managerPackBuffers() && shouldBePacked()) {
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
+				}
+			}
+		} else {
+			super.clearTraceForViewChangedByZoomOrTranslate();
 		}
 	}
 

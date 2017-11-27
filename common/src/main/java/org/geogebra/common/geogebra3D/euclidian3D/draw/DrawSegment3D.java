@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.euclidian3D.draw;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
@@ -21,7 +20,6 @@ import org.geogebra.common.main.Feature;
  */
 public class DrawSegment3D extends DrawCoordSys1D {
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
-	private LinkedList<Integer> traces;
 
 	/**
 	 * Common constructor
@@ -178,17 +176,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	protected int getReusableGeometryIndex() {
 		if (managerPackBuffers() && shouldBePacked()) {
-			int index = getGeometryIndex();
-			if (hasTrace()) {
-				if (index != NOT_REUSABLE_INDEX) {
-					if (traces == null) {
-						traces = new LinkedList<Integer>();
-					}
-					traces.add(index);
-				}
-				return NOT_REUSABLE_INDEX;
-			}
-			return index;
+			return addToTracesPackingBuffer(getGeometryIndex());
 		}
 		return super.getReusableGeometryIndex();
 	}
@@ -203,9 +191,9 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	protected void clearTraceForViewChangedByZoomOrTranslate() {
 		if (managerPackBuffers() && shouldBePacked()) {
-			if (traces != null) {
-				while (!traces.isEmpty()) {
-					doRemoveGeometryIndex(traces.pop());
+			if (tracesPackingBuffer != null) {
+				while (!tracesPackingBuffer.isEmpty()) {
+					doRemoveGeometryIndex(tracesPackingBuffer.pop());
 				}
 			}
 		} else {
@@ -218,7 +206,4 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		return getView3D().getApplication().has(Feature.MOB_PACK_BUFFERS_3D) && !createdByDrawList();
 	}
 
-	private boolean managerPackBuffers() {
-		return getView3D().getRenderer().getGeometryManager().packBuffers();
-	}
 }
