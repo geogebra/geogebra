@@ -115,6 +115,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private void createCenter() {
 		SVGResource img;
+		if (!app.showToolBar() || !app.enableGraphing()) {
+			return;
+		}
 		if (!app.isUnbundledGeometry()) {
 			img = MaterialDesignResources.INSTANCE.toolbar_algebra_graphing();
 		} else {
@@ -131,9 +134,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			}
 		});
 
-		if (app.showToolBar()) {
+
 			createToolsButton();
-		}
+
 
 		if (app.has(Feature.TAB_ON_GUI)) {
 			if (btnAlgebra != null) {
@@ -323,12 +326,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * Switch to algebra panel
 	 */
 	void selectAlgebra() {
+		if (center == null) {
+			return;
+		}
 		center.removeStyleName("indicatorRight");
 		center.addStyleName("indicatorLeft");
 		btnAlgebra.addStyleName("selected");
-		if (btnTools != null) {
-			btnTools.removeStyleName("selected");
-		}
+		btnTools.removeStyleName("selected");
+
 		toolbarPanel.setSelectedTabId(TabIds.ALGEBRA);
 	}
 
@@ -336,12 +341,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * Switch to tools panel
 	 */
 	void selectTools() {
+		if (center == null) {
+			return;
+		}
 		center.removeStyleName("indicatorLeft");
 		center.addStyleName("indicatorRight");
 		btnAlgebra.removeStyleName("selected");
-		if (btnTools != null) {
-			btnTools.addStyleName("selected");
-		}
+		btnTools.addStyleName("selected");
+
 		toolbarPanel.setSelectedTabId(TabIds.TOOLS);
 	}
 
@@ -374,37 +381,35 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private void updateButtonImages() {
 		if (app.isPortrait()) {
-			imgOpen.setResource(new ImageResourcePrototype(null,
+			setResource(imgOpen,
 					MaterialDesignResources.INSTANCE
-							.toolbar_open_portrait_white().getSafeUri(),
-					0, 0, 24, 24, false, false));
-			imgClose.setResource(new ImageResourcePrototype(null,
+							.toolbar_open_portrait_white());
+			setResource(imgClose,
 					MaterialDesignResources.INSTANCE
-							.toolbar_close_portrait_white().getSafeUri(),
-					0, 0, 24, 24, false, false));
-			imgMenu.setResource(new ImageResourcePrototype(null,
-					MaterialDesignResources.INSTANCE.menu_black_border()
-					.getSafeUri(),
-					0, 0, 24, 24, false, false));
+							.toolbar_close_portrait_white());
+			setResource(imgMenu,
+					MaterialDesignResources.INSTANCE.menu_black_border());
 		} else {
-			imgOpen.setResource(new ImageResourcePrototype(null,
+			setResource(imgOpen,
 					MaterialDesignResources.INSTANCE
-							.toolbar_open_landscape_white().getSafeUri(),
-					0, 0, 24, 24, false, false));
-			imgClose.setResource(new ImageResourcePrototype(null,
+							.toolbar_open_landscape_white());
+			setResource(imgClose,
 					MaterialDesignResources.INSTANCE
-							.toolbar_close_landscape_white().getSafeUri(),
-					0, 0, 24, 24, false, false));
-			ImageResource menuImgRec = new ImageResourcePrototype(null,
-					MaterialDesignResources.INSTANCE.toolbar_menu_white()
-							.getSafeUri(),
-					0, 0, 24, 24, false, false);
-			imgMenu.setResource(
-					menuImgRec);
+							.toolbar_close_landscape_white());
+			setResource(imgMenu,
+					MaterialDesignResources.INSTANCE.toolbar_menu_white());
 		}
 
 		imgOpen.setAltText(app.getLocalization().getMenu("Open"));
 		imgClose.setAltText(app.getLocalization().getMenu("Close"));
+	}
+
+	private static void setResource(Image img, SVGResource svg) {
+		if (img != null) {
+			img.setResource(new ImageResourcePrototype(
+				null, svg.getSafeUri(),
+				0, 0, 24, 24, false, false));
+		}
 	}
 
 	/**
@@ -705,7 +710,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 					- btnClose.getOffsetHeight() - 2 * PADDING;
 		}
 
-		if (h > 0) {
+		if (h > 0 && center != null) {
 			center.setHeight(h + "px");
 		}
 	}
