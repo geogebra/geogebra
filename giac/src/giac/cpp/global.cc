@@ -5686,6 +5686,8 @@ unsigned int ConvertUTF8toUTF16 (
       return s_orig;
     bool pythonmode=false;
     for (first=0;first<sss;){
+      if (first==0 && s_orig[0]=='#')
+	break;
       int pos=s_orig.find(":]");
       if (pos>=0 && pos<sss){
 	pythonmode=true;

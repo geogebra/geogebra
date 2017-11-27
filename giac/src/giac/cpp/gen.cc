@@ -426,6 +426,9 @@ namespace giac {
 #endif // NO_STDEXCEPT
 
   gen undeferr(const string & s){
+#ifdef EMCC
+    CERR << s << endl;
+#endif
 #ifdef NSPIRE
     sleep(1);
 #else
@@ -435,7 +438,7 @@ namespace giac {
     usleep(1000);
 #endif
 #endif
-#ifndef NO_STDEXCEPT
+#if !defined NO_STDEXCEPT && !defined EMCC
     if (debug_infolevel!=-5)
       throw(std::runtime_error(s));
 #endif

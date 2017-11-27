@@ -1001,7 +1001,7 @@ namespace giac {
 	  excluded=mergevecteur(excluded,gen2vecteur(_solve(makesequence(symb_equal(gf[0],0),x),contextptr)));
 	  continue;
 	}
-	if (is_greater(gf[1],0,contextptr))
+	if (is_constant_wrt(gf[1],x,contextptr) && is_greater(gf[1],0,contextptr))
 	  eqs.push_back(symb_superieur_egal(gf[0],0));
 	else
 	  eqs.push_back(symb_superieur_strict(gf[0],0));
