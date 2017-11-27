@@ -7,15 +7,7 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
 public class StepHelper {
@@ -58,8 +50,6 @@ public class StepHelper {
 	/**
 	 * @param sn
 	 *            expression tree to traverse
-	 * @param kernel
-	 *            GeoGebra kernel (used for CAS)
 	 * @return lowest common denominator of the expression
 	 */
 	public static StepExpression getCommonDenominator(StepExpression sn) {
@@ -74,19 +64,7 @@ public class StepHelper {
 				StepExpression denominator = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					StepExpression newDenominator = getCommonDenominator(so.getSubTree(i));
-					if (newDenominator != null) {
-						if (denominator == null) {
-							denominator = newDenominator;
-						} else if (StepNode.closeToAnInteger(denominator.getValue())
-								&& StepNode.closeToAnInteger(newDenominator.getValue())) {
-							long a = (long) denominator.getValue();
-							long b = (long) newDenominator.getValue();
-							long denominatorValue = (a * b) / StepNode.gcd(a, b);
-							denominator = new StepConstant(denominatorValue);
-						} else {
-							denominator = LCM(denominator, newDenominator);
-						}
-					}
+					denominator = LCM(denominator, newDenominator);
 				}
 				return denominator;
 			}
@@ -251,14 +229,13 @@ public class StepHelper {
 			} else if (so.isOperation(Operation.MINUS)) {
 				return StepNode.minus(getOne(so, op));
 			} else if (so.isOperation(Operation.PLUS)) {
-				StepExpression root = null;
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					root = getOne(so.getSubTree(i), op);
+					StepExpression root = getOne(so.getSubTree(i), op);
 					if (root != null) {
 						return root;
 					}
 				}
-				return root;
+				return null;
 			}
 		}
 		return null;
@@ -455,8 +432,8 @@ public class StepHelper {
 					getAbsoluteValues(absoluteValues, so.getSubTree(i));
 				}
 			}
-		} else if (sn instanceof StepEquation) {
-			StepEquation se = (StepEquation) sn;
+		} else if (sn instanceof StepSolvable) {
+			StepSolvable se = (StepSolvable) sn;
 			
 			getAbsoluteValues(absoluteValues, se.getLHS());
 			getAbsoluteValues(absoluteValues, se.getRHS());
@@ -492,15 +469,9 @@ public class StepHelper {
 		StepExpression quadratic = findCoefficient(sn, StepNode.power(variable, 2));
 		StepExpression linear = findCoefficient(sn, variable);
 
-		if (!isOne(cubic)) {
-			return false;
-		}
+		return isOne(cubic) &&
+				isEqual(StepNode.power(quadratic, 2).getValue(), StepNode.multiply(3, linear).getValue());
 
-		if (isEqual(StepNode.power(quadratic, 2).getValue(), StepNode.multiply(3, linear).getValue())) {
-			return true;
-		}
-
-		return false;
 	}
 
 	public static boolean canBeReducedToQuadratic(StepExpression sn, StepExpression variable) {
@@ -532,7 +503,7 @@ public class StepHelper {
 		return sn.isConstant();
 	}
 
-	public static boolean shouldMultiply(StepEquation se) {
+	public static boolean shouldMultiply(StepSolvable se) {
 		return countOperation(se, Operation.DIVIDE) > 1
 				|| countNonConstOperation(se, Operation.DIVIDE) == 1 && linearInInverse(se) == null;
 	}
@@ -552,8 +523,8 @@ public class StepHelper {
 				}
 			}
 			return null;
-		} else if (sn instanceof StepEquation) {
-			StepEquation se = (StepEquation) sn;
+		} else if (sn instanceof StepSolvable) {
+			StepSolvable se = (StepSolvable) sn;
 
 			StepOperation temp = findInverse(se.getLHS());
 			if (temp != null) {
@@ -566,12 +537,12 @@ public class StepHelper {
 		return null;
 	}
 
-	public static StepOperation linearInInverse(StepEquation se) {
+	public static StepOperation linearInInverse(StepSolvable se) {
 		StepOperation inverse = findInverse(se);
 
-		StepEquation withVariable = se.deepCopy();
+		StepSolvable withVariable = se.deepCopy();
 		withVariable.replace(inverse, new StepVariable("x"));
-		StepEquation withConstant = se.deepCopy();
+		StepSolvable withConstant = se.deepCopy();
 		withConstant.replace(inverse, new StepConstant(1));
 
 		if (inverse != null && degree(withVariable) == 1 && degree(withConstant) == 0) {
@@ -612,8 +583,8 @@ public class StepHelper {
 				operations += countNonConstOperation(so.getSubTree(i), operation);
 			}
 			return operations;
-		} else if (sn instanceof StepEquation) {
-			StepEquation se = (StepEquation) sn;
+		} else if (sn instanceof StepSolvable) {
+			StepSolvable se = (StepSolvable) sn;
 
 			return countNonConstOperation(se.getLHS(), operation) + countNonConstOperation(se.getRHS(), operation);
 		}
@@ -634,8 +605,8 @@ public class StepHelper {
 				operations += countOperation(so.getSubTree(i), operation);
 			}
 			return operations;
-		} else if (sn instanceof StepEquation) {
-			StepEquation se = (StepEquation) sn;
+		} else if (sn instanceof StepSolvable) {
+			StepSolvable se = (StepSolvable) sn;
 			
 			return countOperation(se.getLHS(), operation) + countOperation(se.getRHS(), operation);
 		}
@@ -657,8 +628,8 @@ public class StepHelper {
 				}
 			}
 			return false;
-		} else if (sn instanceof StepEquation) {
-			StepEquation se = (StepEquation) sn;
+		} else if (sn instanceof StepSolvable) {
+			StepSolvable se = (StepSolvable) sn;
 
 			return containsTrigonometric(se.getLHS()) || containsTrigonometric(se.getRHS());
 		}
@@ -706,23 +677,6 @@ public class StepHelper {
 		}
 
 		return null;
-	}
-
-	public static boolean isProduct(StepExpression sn) {
-		if (sn.isOperation(Operation.MULTIPLY)) {
-			StepOperation so = (StepOperation) sn;
-
-			int nonConstMultiplicands = 0;
-			for (int i = 0; i < so.noOfOperands() && nonConstMultiplicands < 2; i++) {
-				if (!so.getSubTree(i).isConstant()) {
-					nonConstMultiplicands++;
-				}
-			}
-
-			return nonConstMultiplicands > 1;
-		}
-
-		return false;
 	}
 
 	public static StepExpression swapAbsInTree(StepExpression sn, StepInterval si, StepVariable variable) {
@@ -813,9 +767,9 @@ public class StepHelper {
 			return 1;
 		} else if (sn instanceof StepConstant || sn instanceof StepArbitraryConstant) {
 			return 0;
-		} else if (sn instanceof StepEquation) {
-			int degreeLHS = degree(((StepEquation) sn).getLHS());
-			int degreeRHS = degree(((StepEquation) sn).getRHS());
+		} else if (sn instanceof StepSolvable) {
+			int degreeLHS = degree(((StepSolvable) sn).getLHS());
+			int degreeRHS = degree(((StepSolvable) sn).getRHS());
 			
 			if (degreeLHS == -1 || degreeRHS == -1) {
 				return -1;
@@ -887,9 +841,15 @@ public class StepHelper {
 		return -1;
 	}
 
-	public static StepExpression LCM(StepExpression a, StepExpression b) {
+	private static StepExpression LCMGCD(StepExpression a, StepExpression b, boolean isLCM) {
 		StepExpression aFactored = a.factor();
 		StepExpression bFactored = b.factor();
+
+		StepExpression integerA = aFactored.getIntegerCoefficient();
+		StepExpression integerB = bFactored.getIntegerCoefficient();
+
+		aFactored = aFactored.getNonInteger();
+		bFactored = bFactored.getNonInteger();
 
 		List<StepExpression> aBases = new ArrayList<StepExpression>();
 		List<StepExpression> aExponents = new ArrayList<StepExpression>();
@@ -898,14 +858,21 @@ public class StepHelper {
 
 		StepExpression.getBasesAndExponents(aFactored, null, aBases, aExponents);
 		StepExpression.getBasesAndExponents(bFactored, null, bBases, bExponents);
-		
+
+		boolean[] foundA = new boolean[aBases.size()];
+		boolean[] foundB = new boolean[bBases.size()];
+
 		for (int i = 0; i < aBases.size(); i++) {
 			for (int j = 0; j < bBases.size(); j++) {
 				if (aBases.get(i).equals(bBases.get(j))) {
-					if (aExponents.get(i).getValue() < bExponents.get(j).getValue()) {
+					boolean less = aExponents.get(i).getValue() < bExponents.get(j).getValue();
+
+					if (less && isLCM || !less && !isLCM) {
 						aExponents.set(i, new StepConstant(0));
+						foundB[j] = true;
 					} else {
 						bExponents.set(j, new StepConstant(0));
+						foundA[i] = true;
 					}
 				}
 			}
@@ -913,13 +880,45 @@ public class StepHelper {
 
 		StepExpression result = null;
 
-		for (int i = 0; i < aBases.size(); i++) {
-			result = StepExpression.makeFraction(result, aBases.get(i), aExponents.get(i));
+		if (integerA != null && integerB != null) {
+			if (isLCM) {
+				result = new StepConstant(StepNode.lcm(integerA, integerB));
+			} else {
+				result = new StepConstant(StepNode.lcm(integerA, integerB));
+			}
 		}
+
 		for (int i = 0; i < aBases.size(); i++) {
-			result = StepExpression.makeFraction(result, bBases.get(i), bExponents.get(i));
+			if (isLCM || foundA[i]) {
+				result = StepExpression.makeFraction(result, aBases.get(i), aExponents.get(i));
+			}
+		}
+		for (int i = 0; i < bBases.size(); i++) {
+			if (isLCM || foundB[i]) {
+				result = StepExpression.makeFraction(result, bBases.get(i), bExponents.get(i));
+			}
 		}
 
 		return result;
+	}
+
+	public static StepExpression LCM(StepExpression a, StepExpression b) {
+		if (isZero(a)) {
+			return b;
+		}
+
+		if (isZero(b)) {
+			return a;
+		}
+
+		return LCMGCD(a, b, true);
+	}
+
+	public static StepExpression GCD(StepExpression a, StepExpression b) {
+		if (isZero(a) || isZero(b)) {
+			return null;
+		}
+
+		return LCMGCD(a, b, false);
 	}
 }

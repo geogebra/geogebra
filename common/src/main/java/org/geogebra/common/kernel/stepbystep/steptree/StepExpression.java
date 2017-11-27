@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 
@@ -144,8 +145,9 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return whether the current node is a nonSpecialConstant
 	 */
 	public boolean nonSpecialConstant() {
-		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E)
-				|| isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).nonSpecialConstant();
+		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E) &&
+				!Double.isInfinite(getValue()) || isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0)
+				.nonSpecialConstant();
 	}
 
 	/**
@@ -191,8 +193,8 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		if (isPolynomial(this)) {
 			StepExpression[] coefficients = convertToPolynomial(this, sv);
 
-			for (int i = 0; i < coefficients.length; i++) {
-				if (coefficients[i] != null && !coefficients[i].isInteger()) {
+			for (StepExpression coefficient : coefficients) {
+				if (coefficient != null && !coefficient.isInteger()) {
 					return false;
 				}
 			}
@@ -335,7 +337,15 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 */
 	public StepExpression factor(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
-			return (StepExpression) StepStrategies.defaultFactor(this, sb);
+			return (StepExpression) StepStrategies.defaultFactor(this, sb, new RegroupTracker());
+		}
+
+		return this;
+	}
+
+	public StepExpression factorEquation(SolutionBuilder sb) {
+		if (this instanceof StepOperation) {
+			return (StepExpression) StepStrategies.defaultFactor(this, sb, new RegroupTracker(true, true));
 		}
 
 		return this;
@@ -610,8 +620,10 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			}
 		}
 
-		bases.add(sn);
-		exponents.add(currentExp == null ? new StepConstant(1) : currentExp);
+		if (sn != null) {
+			bases.add(sn);
+			exponents.add(currentExp == null ? new StepConstant(1) : currentExp);
+		}
 	}
 
 	public static StepExpression reciprocate(StepExpression a) {
@@ -712,10 +724,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	/**
 	 * Tries to negate the subtree. Basically, it removes the starting minus, if
 	 * there is one.
-	 * 
-	 * @param sn
-	 *            tree to negate
-	 * @return -sn
+	 * @return -this
 	 */
 	public StepExpression negate() {
 		if (nonSpecialConstant()) {

@@ -3,12 +3,8 @@ package org.geogebra.common.kernel.stepbystep.steps;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
-import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 public class StepStrategies {
@@ -20,11 +16,12 @@ public class StepStrategies {
 				RegroupSteps.FACTOR_SQUARE, RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS, RegroupSteps.ELIMINATE_OPPOSITES,
 				RegroupSteps.DISTRIBUTE_MINUS, RegroupSteps.ELIMINATE_OPPOSITES, RegroupSteps.DOUBLE_MINUS,
 				RegroupSteps.SIMPLIFY_FRACTIONS, RegroupSteps.COMMON_FRACTION,
-				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT, RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.REGROUP_SUMS,
-				RegroupSteps.ADD_FRACTIONS, RegroupSteps.POWER_OF_NEGATIVE, RegroupSteps.RATIONALIZE_DENOMINATORS };
+				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT, RegroupSteps.MULTIPLY_NEGATIVES,
+				RegroupSteps.REGROUP_SUMS, RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.ADD_FRACTIONS,
+				RegroupSteps.POWER_OF_NEGATIVE, RegroupSteps.RATIONALIZE_DENOMINATORS };
 
 		StepNode result = sn;
-		String old = null, current = null;
+		String old, current = null;
 		do {
 			result = implementStrategy(result, sb, defaultStrategy);
 			old = current;
@@ -39,7 +36,7 @@ public class StepStrategies {
 				ExpandSteps.EXPAND_PRODUCTS };
 
 		StepNode result = sn;
-		String old = null, current = null;
+		String old, current = null;
 		do {
 			result = defaultRegroup(result, sb);
 			result = implementStrategy(result, sb, expandStrategy);
@@ -50,17 +47,17 @@ public class StepStrategies {
 		return result;
 	}
 
-	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb) {
+	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] { FactorSteps.FACTOR_COMMON,
 				FactorSteps.FACTOR_INTEGER, FactorSteps.COMPLETING_THE_SQUARE, FactorSteps.FACTOR_BINOM_CUBED,
 				FactorSteps.FACTOR_BINOM_SQUARED, FactorSteps.FACTOR_BINOM_SQUARED, FactorSteps.FACTOR_USING_FORMULA,
-				FactorSteps.REORGANIZE_POLYNOMIAL, FactorSteps.FACTOR_POLYNOMIAL };
+				FactorSteps.REORGANIZE_POLYNOMIAL, FactorSteps.FACTOR_POLYNOMIAL, FactorSteps.FACTOR_COMMON };
 
 		StepNode result = sn;
-		String old = null, current = null;
+		String old, current = null;
 		do {
 			result = defaultRegroup(result, sb);
-			result = implementStrategy(result, sb, defaultStrategy);
+			result = implementStrategy(result, sb, defaultStrategy, tracker);
 			old = current;
 			current = result.toString();
 		} while (!current.equals(old));
@@ -82,7 +79,7 @@ public class StepStrategies {
 		}
 
 		StepNode result = sn;
-		String old = null, current = null;
+		String old, current = null;
 		do {
 			result = defaultRegroup(result, sb);
 			result = implementStrategy(result, sb, defaultStrategy);
@@ -93,29 +90,28 @@ public class StepStrategies {
 		return result;
 	}
 
-	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy) {
+	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
+											 RegroupTracker tracker) {
 		final boolean printDebug = false;
 
-		int[] colorTracker = new int[] { 1 };
 		SolutionBuilder changes = new SolutionBuilder();
-
 		StepNode origSn = sn, newSn;
 
-		for (int i = 0; i < strategy.length; i++) {
-			newSn = strategy[i].apply(origSn, changes, colorTracker);
+		for (SimplificationStepGenerator simplificationStep : strategy) {
+			newSn = simplificationStep.apply(origSn, changes, tracker);
 
 			if (printDebug) {
-				if (colorTracker[0] > 1) {
-					Log.error("changed at " + strategy[i]);
+				if (tracker.wasChanged()) {
+					Log.error("changed at " + simplificationStep);
 					Log.error("from: " + origSn);
 					Log.error("to: " + newSn);
 				}
 			}
 
-			if (colorTracker[0] > 1) {
+			if (tracker.wasChanged()) {
 				if (sb != null) {
-					if (strategy[i] == RegroupSteps.ADD_FRACTIONS
-							|| strategy[i] == RegroupSteps.RATIONALIZE_DENOMINATORS) {
+					if (simplificationStep == RegroupSteps.ADD_FRACTIONS
+							|| simplificationStep == RegroupSteps.RATIONALIZE_DENOMINATORS) {
 						sb.add(SolutionStepType.GROUP_WRAPPER);
 						sb.levelDown();
 					} else {
@@ -129,9 +125,9 @@ public class StepStrategies {
 				}
 
 				newSn.cleanColors();
-				colorTracker[0] = 1;
 			}
 
+			tracker.resetTracker();
 			changes.reset();
 			origSn = newSn;
 		}
@@ -139,46 +135,62 @@ public class StepStrategies {
 		return origSn;
 	}
 
-	public static StepNode defaultSolve(StepEquation se, StepVariable variable, SolutionBuilder sb) {
-		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON, EquationSteps.PLUSMINUS,
-				EquationSteps.RECIPROCATE_EQUATION, EquationSteps.SOLVE_LINEAR_IN_INVERSE,
-				EquationSteps.COMMON_DENOMINATOR, EquationSteps.SOLVE_LINEAR, EquationSteps.TAKE_ROOT,
-				EquationSteps.SOLVE_PRODUCT, EquationSteps.EXPAND, EquationSteps.SOLVE_QUADRATIC,
+	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy) {
+		return implementStrategy(sn, sb, strategy, new RegroupTracker());
+	}
+
+	public static StepNode defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb) {
+		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON, EquationSteps.FACTOR,
+				EquationSteps.SOLVE_PRODUCT, EquationSteps.PLUSMINUS, EquationSteps.RECIPROCATE_EQUATION,
+				EquationSteps.SOLVE_LINEAR_IN_INVERSE,
+				EquationSteps.COMMON_DENOMINATOR, EquationSteps.SOLVE_LINEAR, EquationSteps.TAKE_ROOT, EquationSteps.EXPAND, EquationSteps.SOLVE_QUADRATIC,
 				EquationSteps.COMPLETE_CUBE, EquationSteps.REDUCE_TO_QUADRATIC, EquationSteps.SOLVE_ABSOLUTE_VALUE,
 				EquationSteps.SOLVE_IRRATIONAL, EquationSteps.SOLVE_TRIGONOMETRIC,
 				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC };
 
-		return implementSolveStrategy(se, variable, sb, strategy);
+		return implementSolveStrategy(se, sv, sb, strategy);
 	}
 
-	public static StepNode implementSolveStrategy(StepEquation se, StepVariable variable, SolutionBuilder sb,
+	public static StepNode defaultInequalitySolve(StepInequality se, StepVariable sv, SolutionBuilder sb) {
+		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON,
+				EquationSteps.SOLVE_LINEAR, EquationSteps.EXPAND
+		};
+
+		return implementSolveStrategy(se, sv, sb, strategy);
+	}
+
+	public static StepNode implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 
 		if (sb != null) {
 			sb.add(SolutionStepType.GROUP_WRAPPER);
 			sb.levelDown();
-			sb.add(SolutionStepType.SOLVE, se);
+
+			if (se.getRestriction().equals(StepInterval.R)) {
+				sb.add(SolutionStepType.SOLVE, se);
+			} else {
+				sb.add(SolutionStepType.SOLVE_IN, se, se.getRestriction());
+			}
+
 			sb.levelDown();
 		}
 
-		StepEquation origSe = se.deepCopy();
 		StepNode result = se;
 		String old = null, current = null;
 		do {
 			boolean changed = false;
 			for (int i = 0; i < strategy.length && !changed; i++) {
+				result = strategy[i].apply((StepSolvable) result.deepCopy(), variable, changes);
+
 				if (printDebug) {
-					if (changes.getSteps().getSubsteps() != null) {
+					if (changes.getSteps() != null) {
 						Log.error("changed at " + strategy[i]);
-						Log.error("from: " + old);
 						Log.error("to: " + result);
 					}
 				}
-
-				result = strategy[i].apply((StepEquation) result.deepCopy(), variable, changes);
 
 				if (changes.getSteps().getSubsteps() != null || result instanceof StepSet) {
 					if (sb != null) {
@@ -196,7 +208,7 @@ public class StepStrategies {
 		} while (!(result instanceof StepSet) && !current.equals(old));
 
 		if (result instanceof StepSet) {
-			StepSet finalSolutions = EquationSteps.checkSolutions(origSe, (StepSet) result, variable, changes);
+			StepSet finalSolutions = EquationSteps.checkSolutions(se, (StepSet) result, variable, changes);
 
 			if (sb != null) {
 				sb.levelUp();
@@ -211,16 +223,20 @@ public class StepStrategies {
 	}
 
 	public static StepNode iterateThrough(SimplificationStepGenerator step, StepNode sn, SolutionBuilder sb,
-			int[] colorTracker) {
+			RegroupTracker tracker) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
 
-			int colorsAtStart = colorTracker[0];
+			int colorsAtStart = tracker.getColorTracker();
 
 			StepOperation toReturn = null;
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				StepExpression a = (StepExpression) step.apply(so.getSubTree(i), sb, colorTracker);
-				if (toReturn == null && colorTracker[0] > colorsAtStart) {
+				if (so.isOperation(Operation.DIVIDE) && i == 1) {
+					tracker.setDenominator();
+				}
+
+				StepExpression a = (StepExpression) step.apply(so.getSubTree(i), sb, tracker);
+				if (toReturn == null && tracker.getColorTracker() > colorsAtStart) {
 					toReturn = new StepOperation(so.getOperation());
 
 					for (int j = 0; j < i; j++) {
@@ -237,13 +253,13 @@ public class StepStrategies {
 			}
 
 			return toReturn;
-		} else if (sn instanceof StepEquation) {
-			StepEquation se = (StepEquation) sn;
+		} else if (sn instanceof StepSolvable) {
+			StepSolvable se = (StepSolvable) sn;
 
-			StepExpression newLHS = (StepExpression) step.apply(se.getLHS(), sb, colorTracker);
-			StepExpression newRHS = (StepExpression) step.apply(se.getRHS(), sb, colorTracker);
+			StepExpression newLHS = (StepExpression) step.apply(se.getLHS(), sb, tracker);
+			StepExpression newRHS = (StepExpression) step.apply(se.getRHS(), sb, tracker);
 
-			StepEquation result = se.deepCopy();
+			StepSolvable result = se.deepCopy();
 			result.modify(newLHS, newRHS);
 
 			return result;

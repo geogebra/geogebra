@@ -323,7 +323,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			if (subtrees.get(0).isOperation(Operation.PLUS) || subtrees.get(0).isOperation(Operation.MINUS)) {
 				return "\\pm\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)";
 			}
-			return "\\pm" + subtrees.get(0).toLaTeXString(loc, colored);
+			return "\\pm " + subtrees.get(0).toLaTeXString(loc, colored);
 		case MULTIPLY:
 			StringBuilder sp = new StringBuilder();
 			for (int i = 0; i < subtrees.size(); i++) {

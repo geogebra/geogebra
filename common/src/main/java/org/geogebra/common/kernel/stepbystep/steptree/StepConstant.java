@@ -10,6 +10,9 @@ public class StepConstant extends StepExpression {
 	public static final StepConstant PI = new StepConstant(Math.PI);
 	public static final StepConstant E = new StepConstant(Math.E);
 
+	public static final StepConstant NEG_INF = new StepConstant(Double.NEGATIVE_INFINITY);
+	public static final StepConstant POS_INF = new StepConstant(Double.POSITIVE_INFINITY);
+
 	public StepConstant(double value) {
 		this.value = value;
 	}
@@ -26,6 +29,11 @@ public class StepConstant extends StepExpression {
 			if (se.nonSpecialConstant()) {
 				return isEqual(se.getValue(), value);
 			} else if (se instanceof StepConstant) {
+				if (Double.isInfinite(se.getValue()) && Double.isInfinite(getValue()) &&
+						(se.getValue() > 0 == getValue() > 0)) {
+					return true;
+				}
+
 				return isEqual(((StepConstant) obj).value, value);
 			}
 		}

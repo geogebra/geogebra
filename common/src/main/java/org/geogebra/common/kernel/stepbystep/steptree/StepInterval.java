@@ -96,7 +96,7 @@ public class StepInterval extends StepNode {
 			sb.append("(");
 		}
 		sb.append(leftBound.toString());
-		sb.append(",");
+		sb.append(", ");
 		sb.append(rightBound.toString());
 		if (rightClosed) {
 			sb.append("]");

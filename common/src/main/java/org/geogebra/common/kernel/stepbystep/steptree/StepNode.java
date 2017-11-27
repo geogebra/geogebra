@@ -58,9 +58,9 @@ public abstract class StepNode {
 			for (int i = 0; i < ((StepOperation) this).noOfOperands(); i++) {
 				((StepOperation) this).getSubTree(i).setColor(color);
 			}
-		} else if (this instanceof StepEquation) {
-			((StepEquation) this).getLHS().setColor(color);
-			((StepEquation) this).getRHS().setColor(color);
+		} else if (this instanceof StepSolvable) {
+			((StepSolvable) this).getLHS().setColor(color);
+			((StepSolvable) this).getRHS().setColor(color);
 		}
 	}
 
@@ -178,9 +178,7 @@ public abstract class StepNode {
 
 	/**
 	 * Iterates through the tree searching for StepVariables
-	 * 
-	 * @param sn
-	 *            tree to search
+	 *
 	 * @param variableList
 	 *            set of variables found in the tree
 	 */
@@ -440,6 +438,10 @@ public abstract class StepNode {
 		return gcd(Math.round(a.getValue()), Math.round(b.getValue()));
 	}
 
+	public static long lcm(StepExpression a, StepExpression b) {
+		return lcm(Math.round(a.getValue()), Math.round(b.getValue()));
+	}
+
 	public static boolean isEqual(StepExpression a, double b) {
 		return a.nonSpecialConstant() && isEqual(a.getValue(), b);
 	}
@@ -472,6 +474,7 @@ public abstract class StepNode {
 		if (b == 0) {
 			return a;
 		}
+
 		return gcd(b, a % b);
 	}
 
@@ -488,6 +491,10 @@ public abstract class StepNode {
 
 	public static boolean closeToAnInteger(double d) {
 		return Math.abs(Math.round(d) - d) < 0.0000001;
+	}
+
+	public static boolean closeToAnInteger(StepExpression se) {
+		return se.canBeEvaluated() && closeToAnInteger(se.getValue());
 	}
 
 }

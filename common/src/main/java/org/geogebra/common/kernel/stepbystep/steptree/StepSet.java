@@ -54,6 +54,20 @@ public class StepSet extends StepNode implements Iterable<StepNode> {
 	}
 
 	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+
+		for (StepNode sn : this) {
+			sb.append(sn.toString());
+			sb.append(", ");
+		}
+
+		sb.append("}");
+		return sb.toString();
+	}
+
+	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
 		return null;
 	}

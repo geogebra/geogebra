@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Stack;
 
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 
 public class SolutionBuilder {
 	private Stack<SolutionStep> previousSteps;
@@ -66,6 +67,10 @@ public class SolutionBuilder {
 		}
 
 		lastStep = newStep;
+	}
+
+	public void add(StepSolvable ss) {
+		add(SolutionStepType.EQUATION, ss);
 	}
 
 	/**

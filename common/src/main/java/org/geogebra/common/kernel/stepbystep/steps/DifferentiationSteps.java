@@ -23,7 +23,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 	
 	DIFFERENTIATE_SUM {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 				
@@ -33,7 +33,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 					StepOperation result = new StepOperation(Operation.PLUS);
 					for(StepExpression subtree : sum) {
-						subtree.setColor(colorTracker[0]++);
+						subtree.setColor(tracker.incColorTracker());
 						result.addSubTree(differentiate(subtree, variable));
 					}
 
@@ -43,13 +43,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 			
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 	
 	DIFFERENTIATE_CONSTANT {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -59,21 +59,21 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				if (toDifferentiate.isConstantIn(variable)) {
 					StepConstant result = new StepConstant(1);
 
-					toDifferentiate.setColor(colorTracker[0]);
-					result.setColor(colorTracker[0]++);
+					toDifferentiate.setColor(tracker.getColorTracker());
+					result.setColor(tracker.incColorTracker());
 					sb.add(SolutionStepType.DIFF_CONSTANT);
 
 					return result;
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	CONSTANT_COEFFICIENT {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 				
@@ -84,7 +84,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepExpression constantCoefficient = product.getCoefficientIn(variable);
 					
 					if (constantCoefficient != null) {
-						constantCoefficient.setColor(colorTracker[0]++);
+						constantCoefficient.setColor(tracker.incColorTracker());
 						StepExpression nonConstant = product.getVariableIn(variable);
 
 						StepExpression result = multiply(constantCoefficient, differentiate(nonConstant, variable));
@@ -96,13 +96,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	DIFFERENTIATE_PRODUCT {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -121,8 +121,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 						secondPart = ((StepOperation) secondPart).getSubTree(0);
 					}
 
-					firstPart.setColor(colorTracker[0]++);
-					secondPart.setColor(colorTracker[0]++);
+					firstPart.setColor(tracker.incColorTracker());
+					secondPart.setColor(tracker.incColorTracker());
 
 					StepOperation result = new StepOperation(Operation.PLUS);
 					result.addSubTree(multiply(firstPart, differentiate(secondPart, variable)));
@@ -134,13 +134,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 			
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	DIFFERENTIATE_FRACTION {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -151,8 +151,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepExpression numerator = fraction.getSubTree(0);
 					StepExpression denominator = fraction.getSubTree(1);
 					
-					numerator.setColor(colorTracker[0]++);
-					denominator.setColor(colorTracker[0]++);
+					numerator.setColor(tracker.incColorTracker());
+					denominator.setColor(tracker.incColorTracker());
 					
 					StepExpression resultNumerator = subtract(
 							multiply(differentiate(numerator, variable), denominator),
@@ -166,23 +166,23 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	DIFFERENTIATE_POLYNOMIAL {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.getSubTree(0).equals(so.getSubTree(1))) {
 					StepExpression result = new StepConstant(1);
 
-					so.getSubTree(0).setColor(colorTracker[0]);
-					result.setColor(colorTracker[0]);
+					so.getSubTree(0).setColor(tracker.getColorTracker());
+					result.setColor(tracker.getColorTracker());
 
-					sb.add(SolutionStepType.DIFF_VARIABLE, colorTracker[0]++);
+					sb.add(SolutionStepType.DIFF_VARIABLE, tracker.incColorTracker());
 
 					return result;
 				}
@@ -195,8 +195,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepExpression exponent = power.getSubTree(1);
 
 					if (exponent.isConstantIn(variable)) {
-						base.setColor(colorTracker[0]++);
-						exponent.setColor(colorTracker[0]++);
+						base.setColor(tracker.incColorTracker());
+						exponent.setColor(tracker.incColorTracker());
 
 						StepExpression result = multiply(exponent, nonTrivialPower(base, exponent.getValue() - 1));
 
@@ -212,13 +212,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	DIFFERENTIATE_EXPONENTIAL {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -230,22 +230,22 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepExpression exponent = power.getSubTree(1);
 
 					if (base.equals(StepConstant.E)) {
-						power.setColor(colorTracker[0]);
+						power.setColor(tracker.getColorTracker());
 						
 						StepExpression result = power;
 
 						if (exponent.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E, colorTracker[0]++);
+							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E, tracker.incColorTracker());
 						} else {
 							result = multiply(result, differentiate(exponent, variable));
-							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E_CHAIN, colorTracker[0]++);
+							sb.add(SolutionStepType.DIFF_EXPONENTIAL_E_CHAIN, tracker.incColorTracker());
 						}
 
 						return result;
 					}
 
-					base.setColor(colorTracker[0]++);
-					exponent.setColor(colorTracker[0]++);
+					base.setColor(tracker.incColorTracker());
+					exponent.setColor(tracker.incColorTracker());
 
 					if (base.isConstantIn(variable)) {
 						StepExpression result = multiply(logarithm(Math.E, base), power);
@@ -268,13 +268,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	DIFFERENTIATE_ROOT {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -285,8 +285,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					StepExpression base = root.getSubTree(0);
 					StepExpression exponent = root.getSubTree(1);
 					
-					base.setColor(colorTracker[0]++);
-					exponent.setColor(colorTracker[0]++);
+					base.setColor(tracker.incColorTracker());
+					exponent.setColor(tracker.incColorTracker());
 
 					StepExpression result = divide(1,
 							multiply(exponent, root(nonTrivialPower(base, exponent.getValue() - 1), exponent)));
@@ -302,13 +302,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	DIFFERENTIATE_LOG {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -322,21 +322,21 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					if (logarithm.isNaturalLog()) {
 						StepExpression result = divide(1, argument);
 
-						logarithm.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]);
+						logarithm.setColor(tracker.getColorTracker());
+						result.setColor(tracker.getColorTracker());
 
 						if (argument.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_NATURAL_LOG, colorTracker[0]++);
+							sb.add(SolutionStepType.DIFF_NATURAL_LOG, tracker.incColorTracker());
 						} else {
 							result = multiply(result, differentiate(argument, variable));
-							sb.add(SolutionStepType.DIFF_NATURAL_LOG_CHAIN, colorTracker[0]++);
+							sb.add(SolutionStepType.DIFF_NATURAL_LOG_CHAIN, tracker.incColorTracker());
 						}
 
 						return result;
 					}
 
-					base.setColor(colorTracker[0]++);
-					argument.setColor(colorTracker[0]++);
+					base.setColor(tracker.incColorTracker());
+					argument.setColor(tracker.incColorTracker());
 					
 					StepExpression result = divide(1, multiply(logarithm(StepConstant.E, base), argument));
 
@@ -351,13 +351,13 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	DIFFERENTIATE_TRIGO {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -372,25 +372,25 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 						result = StepNode.apply(argument, Operation.COS);
 
 						if (argument.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_SIN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_SIN, tracker.getColorTracker());
 						} else {
-							sb.add(SolutionStepType.DIFF_SIN_CHAIN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_SIN_CHAIN, tracker.getColorTracker());
 						}
 					} else if (trigo.isOperation(Operation.COS)) {
 						result = minus(StepNode.apply(argument, Operation.SIN));
 
 						if (argument.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_COS, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_COS, tracker.getColorTracker());
 						} else {
-							sb.add(SolutionStepType.DIFF_COS_CHAIN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_COS_CHAIN, tracker.getColorTracker());
 						}
 					} else if(trigo.isOperation(Operation.TAN)) {
 						result = divide(1, power(StepNode.apply(argument, Operation.COS), 2));
 
 						if (argument.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_TAN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_TAN, tracker.getColorTracker());
 						} else {
-							sb.add(SolutionStepType.DIFF_TAN_CHAIN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_TAN_CHAIN, tracker.getColorTracker());
 						}
 					}
 
@@ -399,21 +399,21 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					}
 
 					if (result != null) {
-						trigo.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]++);
+						trigo.setColor(tracker.getColorTracker());
+						result.setColor(tracker.incColorTracker());
 
 						return result;
 					}
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
 
 	DIFFERENTIATE_INVERSE_TRIGO {
 		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker) {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
@@ -428,25 +428,25 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 						result = divide(1, root(subtract(1, power(argument, 2)), 2));
 
 						if (argument.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_ARCSIN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_ARCSIN, tracker.getColorTracker());
 						} else {
-							sb.add(SolutionStepType.DIFF_ARCSIN_CHAIN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_ARCSIN_CHAIN, tracker.getColorTracker());
 						}
 					} else if (trigo.isOperation(Operation.ARCCOS)) {
 						result = minus(divide(1, root(subtract(1, power(argument, 2)), 2)));
 
 						if (argument.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_ARCCOS, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_ARCCOS, tracker.getColorTracker());
 						} else {
-							sb.add(SolutionStepType.DIFF_ARCCOS_CHAIN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_ARCCOS_CHAIN, tracker.getColorTracker());
 						}
 					} else if (trigo.isOperation(Operation.ARCTAN)) {
 						result = divide(1, StepNode.add(power(argument, 2), 1));
 
 						if (argument.equals(variable)) {
-							sb.add(SolutionStepType.DIFF_ARCTAN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_ARCTAN, tracker.getColorTracker());
 						} else {
-							sb.add(SolutionStepType.DIFF_ARCTAN_CHAIN, colorTracker[0]);
+							sb.add(SolutionStepType.DIFF_ARCTAN_CHAIN, tracker.getColorTracker());
 						}
 					}
 					
@@ -457,15 +457,15 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 
 					if (result != null) {
-						trigo.setColor(colorTracker[0]);
-						result.setColor(colorTracker[0]++);
+						trigo.setColor(tracker.getColorTracker());
+						result.setColor(tracker.incColorTracker());
 
 						return result;
 					}
 				}
 			}
 
-			return StepStrategies.iterateThrough(this, sn, sb, colorTracker);
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	}
 }

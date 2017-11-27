@@ -5,5 +5,5 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 
 public interface SimplificationStepGenerator {
 
-	public StepNode apply(StepNode sn, SolutionBuilder sb, int[] colorTracker);
+	StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker);
 }

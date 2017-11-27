@@ -19,6 +19,8 @@ public enum SolutionStepType {
 
 	SOLVE("Solve", "Solve: %0"),
 
+	SOLVE_IN("SolveIn", "Solve %0 in %1"),
+
 	SOLVING_IN_INTERVAL("SolvingInInterval", "Solve %0 when %1"),
 
 	CANT_SOLVE("CantSolve", "Cannot Solve"),
@@ -154,7 +156,15 @@ public enum SolutionStepType {
 
 	MULTIPLIED_BY_ZERO("MultipliedByZero", "Anything multiplied by zero is zero"),
 
-	REGROUP_PRODUCTS("RegroupProducts", "Regroup products: "),
+	REGROUP_PRODUCTS("RegroupProducts", "Regroup products"),
+
+	MULTIPLIED_BY_ONE("MultipliedByOne", "Regroup products", "Any expression multiplied by one is itself"),
+
+	EVEN_NUMBER_OF_NEGATIVES("EvenNumberOfNegative", "Multiply negatives",
+			"Multiplying an even number of negative numbers gives a positive"),
+
+	ODD_NUMBER_OF_NEGATIVES("OddNumberOfNegative", "Multiply negatives",
+			"Multiplying an odd number of negative numbers gives a negative"),
 
 	EVEN_POWER_NEGATIVE("EvenPowerNegative", "An even power of a negative number is a positive"),
 
