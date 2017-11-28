@@ -535,7 +535,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				return se;
 			}
 
-			ArrayList<StepExpression> absoluteValues = new ArrayList<StepExpression>();
+			ArrayList<StepExpression> absoluteValues = new ArrayList<>();
 			StepHelper.getAbsoluteValues(absoluteValues, se);
 
 			StepSet tempSolutions = new StepSet();
@@ -544,7 +544,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				tempSolutions.addAll(tempEq.solve(variable, null));
 			}
 
-			List<StepExpression> roots = new ArrayList<StepExpression>();
+			List<StepExpression> roots = new ArrayList<>();
 			for(StepNode sn : tempSolutions.getElements()) {
 				roots.add((StepExpression) sn);
 			}

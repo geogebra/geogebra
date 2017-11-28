@@ -31,7 +31,7 @@ public class SolutionStep {
 
 	public SolutionStep(SolutionStepType type, int color) {
 		this.type = type;
-		this.colors = new ArrayList<Integer>();
+		this.colors = new ArrayList<>();
 
 		colors.add(color);
 	}
@@ -75,8 +75,8 @@ public class SolutionStep {
 			}
 			return;
 		case GROUP_WRAPPER:
-			for (int i = 0; i < substeps.size(); i++) {
-				(substeps.get(i)).getListOfSteps(builder, loc, true);
+			for (SolutionStep substep : substeps) {
+				substep.getListOfSteps(builder, loc, true);
 			}
 			return;
 		case SUBSTEP_WRAPPER:
@@ -85,8 +85,8 @@ public class SolutionStep {
 			substeps.get(substeps.size() - 1).getListOfSteps(builder, loc, false);
 
 			builder.switchToDetailed();
-			for (int i = 0; i < substeps.size(); i++) {
-				(substeps.get(i)).getListOfSteps(builder, loc, true);
+			for (SolutionStep substep : substeps) {
+				substep.getListOfSteps(builder, loc, true);
 			}
 			builder.endDetailed();
 			return;
@@ -119,7 +119,7 @@ public class SolutionStep {
 	public void addSubStep(SolutionStep s) {
 		if (s != null) {
 			if (substeps == null) {
-				substeps = new ArrayList<SolutionStep>();
+				substeps = new ArrayList<>();
 			}
 
 			if (type == SolutionStepType.SUBSTEP_WRAPPER) {

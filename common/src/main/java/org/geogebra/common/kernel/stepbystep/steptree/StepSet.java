@@ -12,7 +12,7 @@ public class StepSet extends StepNode implements Iterable<StepNode> {
 	private Set<StepNode> elements;
 
 	public StepSet(StepNode... elements) {
-		this.elements = new HashSet<StepNode>(Arrays.asList(elements));
+		this.elements = new HashSet<>(Arrays.asList(elements));
 	}
 
 	public StepNode[] getElements() {

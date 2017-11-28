@@ -393,7 +393,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 *         toConvert = sum(returned[i] * var^i)
 	 */
 	public static StepExpression[] convertToPolynomial(StepExpression toConvert, StepVariable var) {
-		List<StepExpression> poli = new ArrayList<StepExpression>();
+		List<StepExpression> poli = new ArrayList<>();
 
 		StepExpression temp = StepHelper.findConstant(toConvert);
 		poli.add(temp);
@@ -501,8 +501,8 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return result, if polynomial division was successful, null otherwise
 	 */
 	public static StepExpression tryToDivide(StepExpression a, StepExpression b) {
-		Set<StepVariable> listA = new HashSet<StepVariable>();
-		Set<StepVariable> listB = new HashSet<StepVariable>();
+		Set<StepVariable> listA = new HashSet<>();
+		Set<StepVariable> listB = new HashSet<>();
 
 		a.getListOfVariables(listA);
 		b.getListOfVariables(listB);
@@ -756,11 +756,6 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	public boolean isNegative() {
 		return (nonSpecialConstant() && getValue() < 0) || isOperation(Operation.MINUS)
 				|| isOperation(Operation.MULTIPLY) && ((StepOperation) this).getSubTree(0).isNegative();
-	}
-
-	public static boolean closeToAnInteger(StepExpression sn) {
-		return (sn != null && sn.isOperation(Operation.MINUS) && closeToAnInteger(((StepOperation) sn).getSubTree(0)))
-				|| sn instanceof StepConstant && closeToAnInteger(sn.getValue());
 	}
 
 	public static Operation getInverse(Operation op) {

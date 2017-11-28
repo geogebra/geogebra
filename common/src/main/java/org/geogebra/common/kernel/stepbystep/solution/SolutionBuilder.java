@@ -12,7 +12,7 @@ public class SolutionBuilder {
 	private SolutionStep lastStep;
 
 	public SolutionBuilder() {
-		previousSteps = new Stack<SolutionStep>();
+		previousSteps = new Stack<>();
 		add(SolutionStepType.WRAPPER);
 	}
 
@@ -80,10 +80,10 @@ public class SolutionBuilder {
 	 *            wrapper of substeps to add
 	 */
 	public void addAll(SolutionStep s) {
-		List<SolutionStep> ss = s.getSubsteps();
-		if (ss != null) {
-			for (int i = 0; i < ss.size(); i++) {
-				currentStep.addSubStep(ss.get(i));
+		List<SolutionStep> substeps = s.getSubsteps();
+		if (substeps != null) {
+			for (SolutionStep substep : substeps) {
+				currentStep.addSubStep(substep);
 			}
 		}
 	}
@@ -108,7 +108,7 @@ public class SolutionBuilder {
 	 * many are needed
 	 */
 	public void reset() {
-		previousSteps = new Stack<SolutionStep>();
+		previousSteps = new Stack<>();
 		currentStep = lastStep = null;
 		add(SolutionStepType.WRAPPER);
 	}

@@ -19,79 +19,77 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 	EXPAND_PRODUCTS {
 		@Override 
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn instanceof StepOperation && tracker.getDenominatorSetting()) {
+			if (sn.isOperation(Operation.MULTIPLY) && tracker.getDenominatorSetting()) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.MULTIPLY)) {
-					StepExpression firstMultiplicand = null;
-					StepOperation secondMultiplicand = null; // must be a sum
-					StepExpression remaining = null;
+				StepExpression firstMultiplicand = null;
+				StepOperation secondMultiplicand = null; // must be a sum
+				StepExpression remaining = null;
 
-					for (int i = 0; i < so.noOfOperands(); i++) {
-						if (firstMultiplicand == null
-								&& (secondMultiplicand != null || !so.getSubTree(i).isOperation(Operation.PLUS))) {
-							firstMultiplicand = so.getSubTree(i);
-						} else if (secondMultiplicand == null && so.getSubTree(i).isOperation(Operation.PLUS)) {
-							secondMultiplicand = (StepOperation) so.getSubTree(i);
-						} else {
-							remaining = multiply(remaining, so.getSubTree(i));
-						}
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (firstMultiplicand == null
+							&& (secondMultiplicand != null || !so.getSubTree(i).isOperation(Operation.PLUS))) {
+						firstMultiplicand = so.getSubTree(i);
+					} else if (secondMultiplicand == null && so.getSubTree(i).isOperation(Operation.PLUS)) {
+						secondMultiplicand = (StepOperation) so.getSubTree(i);
+					} else {
+						remaining = multiply(remaining, so.getSubTree(i));
 					}
+				}
 
-					if (firstMultiplicand != null && secondMultiplicand != null) {
-						StepOperation product = new StepOperation(Operation.PLUS);
+				if (firstMultiplicand != null && secondMultiplicand != null) {
+					StepOperation product = new StepOperation(Operation.PLUS);
 
-						if (firstMultiplicand.isOperation(Operation.PLUS)
-								&& StepHelper.countOperation(secondMultiplicand, Operation.DIVIDE) == 0) {
-							StepOperation firstMultiplicandS = (StepOperation) firstMultiplicand;
+					if (firstMultiplicand.isOperation(Operation.PLUS)
+							&& StepHelper.countOperation(secondMultiplicand, Operation.DIVIDE) == 0) {
+						StepOperation firstMultiplicandS = (StepOperation) firstMultiplicand;
 
-							if (firstMultiplicandS.noOfOperands() == 2 && secondMultiplicand.noOfOperands() == 2
-									&& firstMultiplicandS.getSubTree(0).equals(secondMultiplicand.getSubTree(0))
-									&& firstMultiplicandS.getSubTree(1).equals(secondMultiplicand.getSubTree(1).negate())) {
-								firstMultiplicandS.getSubTree(0).setColor(tracker.getColorTracker());
-								secondMultiplicand.getSubTree(0).setColor(tracker.incColorTracker());
-								firstMultiplicandS.getSubTree(1).setColor(tracker.getColorTracker());
-								secondMultiplicand.getSubTree(1).setColor(tracker.incColorTracker());
+						if (firstMultiplicandS.noOfOperands() == 2 && secondMultiplicand.noOfOperands() == 2
+								&& firstMultiplicandS.getSubTree(0).equals(secondMultiplicand.getSubTree(0))
+								&& firstMultiplicandS.getSubTree(1).equals(secondMultiplicand.getSubTree(1).negate())) {
+							firstMultiplicandS.getSubTree(0).setColor(tracker.getColorTracker());
+							secondMultiplicand.getSubTree(0).setColor(tracker.incColorTracker());
+							firstMultiplicandS.getSubTree(1).setColor(tracker.getColorTracker());
+							secondMultiplicand.getSubTree(1).setColor(tracker.incColorTracker());
 
-								product.addSubTree(power(firstMultiplicandS.getSubTree(0), 2));
-								if (firstMultiplicandS.getSubTree(1).isNegative()) {
-									product.addSubTree(minus(power(firstMultiplicandS.getSubTree(1).negate(), 2)));
-								} else {
-									product.addSubTree(minus(power(firstMultiplicandS.getSubTree(1), 2)));
-								}
-
-								sb.add(SolutionStepType.DIFFERENCE_OF_SQUARES);
+							product.addSubTree(power(firstMultiplicandS.getSubTree(0), 2));
+							if (firstMultiplicandS.getSubTree(1).isNegative()) {
+								product.addSubTree(minus(power(firstMultiplicandS.getSubTree(1).negate(), 2)));
 							} else {
-								for (int i = 0; i < firstMultiplicandS.noOfOperands(); i++) {
-									firstMultiplicandS.getSubTree(i).setColor(tracker.incColorTracker());
-								}
-								for (int i = 0; i < secondMultiplicand.noOfOperands(); i++) {
-									secondMultiplicand.getSubTree(i).setColor(tracker.incColorTracker());
-								}
-
-								for (int i = 0; i < firstMultiplicandS.noOfOperands(); i++) {
-									for (int j = 0; j < secondMultiplicand.noOfOperands(); j++) {
-										product.addSubTree(multiply(firstMultiplicandS.getSubTree(i),
-												secondMultiplicand.getSubTree(j)));
-									}
-								}
-
-								sb.add(SolutionStepType.EXPAND_SUM_TIMES_SUM);
+								product.addSubTree(minus(power(firstMultiplicandS.getSubTree(1), 2)));
 							}
+
+							sb.add(SolutionStepType.DIFFERENCE_OF_SQUARES);
 						} else {
-							firstMultiplicand.setColor(tracker.incColorTracker());
+							for (int i = 0; i < firstMultiplicandS.noOfOperands(); i++) {
+								firstMultiplicandS.getSubTree(i).setColor(tracker.incColorTracker());
+							}
 							for (int i = 0; i < secondMultiplicand.noOfOperands(); i++) {
 								secondMultiplicand.getSubTree(i).setColor(tracker.incColorTracker());
 							}
 
-							for (int i = 0; i < secondMultiplicand.noOfOperands(); i++) {
-								product.addSubTree(multiply(firstMultiplicand, secondMultiplicand.getSubTree(i)));
+							for (int i = 0; i < firstMultiplicandS.noOfOperands(); i++) {
+								for (int j = 0; j < secondMultiplicand.noOfOperands(); j++) {
+									product.addSubTree(multiply(firstMultiplicandS.getSubTree(i),
+											secondMultiplicand.getSubTree(j)));
+								}
 							}
-							sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, firstMultiplicand);
+
+							sb.add(SolutionStepType.EXPAND_SUM_TIMES_SUM);
+						}
+					} else {
+						firstMultiplicand.setColor(tracker.incColorTracker());
+						for (int i = 0; i < secondMultiplicand.noOfOperands(); i++) {
+							secondMultiplicand.getSubTree(i).setColor(tracker.incColorTracker());
 						}
 
-						return multiply(product, remaining);
+						for (int i = 0; i < secondMultiplicand.noOfOperands(); i++) {
+							product.addSubTree(multiply(firstMultiplicand, secondMultiplicand.getSubTree(i)));
+						}
+						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, firstMultiplicand);
 					}
+
+					return multiply(product, remaining);
 				}
 			}
 			
@@ -102,7 +100,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 	EXPAND_POWERS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn instanceof StepOperation && !((StepOperation) sn).isOperation(Operation.ABS)) {
+			if (sn instanceof StepOperation && !sn.isOperation(Operation.ABS)) {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.isOperation(Operation.POWER) && so.getSubTree(0).isOperation(Operation.PLUS)

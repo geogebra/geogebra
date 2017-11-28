@@ -34,13 +34,13 @@ public enum FactorSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				List<StepExpression> commonBases = new ArrayList<StepExpression>();
-				List<StepExpression> commonExponents = new ArrayList<StepExpression>();
+				List<StepExpression> commonBases = new ArrayList<>();
+				List<StepExpression> commonExponents = new ArrayList<>();
 
 				StepExpression.getBasesAndExponents(so.getSubTree(0), null, commonBases, commonExponents);
 
-				List<List<StepExpression>> currentBases = new ArrayList<List<StepExpression>>();
-				List<List<StepExpression>> currentExponents = new ArrayList<List<StepExpression>>();
+				List<List<StepExpression>> currentBases = new ArrayList<>();
+				List<List<StepExpression>> currentExponents = new ArrayList<>();
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					currentBases.add(new ArrayList<StepExpression>());
@@ -464,7 +464,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 
-				Set<StepVariable> variableSet = new HashSet<StepVariable>();
+				Set<StepVariable> variableSet = new HashSet<>();
 				so.getListOfVariables(variableSet);
 
 				StepVariable var = null;
@@ -530,7 +530,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				Set<StepVariable> variableSet = new HashSet<StepVariable>();
+				Set<StepVariable> variableSet = new HashSet<>();
 				so.getListOfVariables(variableSet);
 
 				StepVariable var = null;
@@ -587,5 +587,5 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
-	};
+	}
 }

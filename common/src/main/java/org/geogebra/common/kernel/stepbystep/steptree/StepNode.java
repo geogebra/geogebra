@@ -493,8 +493,9 @@ public abstract class StepNode {
 		return Math.abs(Math.round(d) - d) < 0.0000001;
 	}
 
-	public static boolean closeToAnInteger(StepExpression se) {
-		return se.canBeEvaluated() && closeToAnInteger(se.getValue());
+	public static boolean closeToAnInteger(StepExpression sn) {
+		return (sn != null && sn.isOperation(Operation.MINUS) && closeToAnInteger(((StepOperation) sn).getSubTree(0)))
+				|| sn instanceof StepConstant && closeToAnInteger(sn.getValue());
 	}
 
 }

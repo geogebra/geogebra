@@ -851,10 +851,10 @@ public class StepHelper {
 		aFactored = aFactored.getNonInteger();
 		bFactored = bFactored.getNonInteger();
 
-		List<StepExpression> aBases = new ArrayList<StepExpression>();
-		List<StepExpression> aExponents = new ArrayList<StepExpression>();
-		List<StepExpression> bBases = new ArrayList<StepExpression>();
-		List<StepExpression> bExponents = new ArrayList<StepExpression>();
+		List<StepExpression> aBases = new ArrayList<>();
+		List<StepExpression> aExponents = new ArrayList<>();
+		List<StepExpression> bBases = new ArrayList<>();
+		List<StepExpression> bExponents = new ArrayList<>();
 
 		StepExpression.getBasesAndExponents(aFactored, null, aBases, aExponents);
 		StepExpression.getBasesAndExponents(bFactored, null, bBases, bExponents);
@@ -884,7 +884,7 @@ public class StepHelper {
 			if (isLCM) {
 				result = new StepConstant(StepNode.lcm(integerA, integerB));
 			} else {
-				result = new StepConstant(StepNode.lcm(integerA, integerB));
+				result = new StepConstant(StepNode.gcd(integerA, integerB));
 			}
 		}
 

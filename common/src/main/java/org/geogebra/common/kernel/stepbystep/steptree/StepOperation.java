@@ -14,7 +14,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	public StepOperation(Operation op) {
 		operation = op;
-		subtrees = new ArrayList<StepExpression>();
+		subtrees = new ArrayList<>();
 	}
 
 	public int noOfOperands() {
@@ -110,8 +110,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	@Override
 	public boolean isConstantIn(StepVariable sv) {
-		for (int i = 0; i < subtrees.size(); i++) {
-			if (!subtrees.get(i).isConstantIn(sv)) {
+		for (StepExpression subtree : subtrees) {
+			if (!subtree.isConstantIn(sv)) {
 				return false;
 			}
 		}
@@ -121,8 +121,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	@Override
 	public boolean canBeEvaluated() {
-		for (int i = 0; i < subtrees.size(); i++) {
-			if (!subtrees.get(i).canBeEvaluated()) {
+		for (StepExpression subtree : subtrees) {
+			if (!subtree.canBeEvaluated()) {
 				return false;
 			}
 		}
@@ -135,16 +135,16 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		switch (operation) {
 		case PLUS:
 			double s = 0;
-			for (int i = 0; i < subtrees.size(); i++) {
-				s += subtrees.get(i).getValue();
+			for (StepExpression subtree : subtrees) {
+				s += subtree.getValue();
 			}
 			return s;
 		case MINUS:
 			return -subtrees.get(0).getValue();
 		case MULTIPLY:
 			double p = 1;
-			for (int i = 0; i < subtrees.size(); i++) {
-				p *= subtrees.get(i).getValue();
+			for (StepExpression subtree : subtrees) {
+				p *= subtree.getValue();
 			}
 			return p;
 		case DIVIDE:
@@ -185,16 +185,16 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		switch (operation) {
 		case PLUS:
 			double s = 0;
-			for (int i = 0; i < subtrees.size(); i++) {
-				s += subtrees.get(i).getValueAt(variable, replaceWith);
+			for (StepExpression subtree : subtrees) {
+				s += subtree.getValueAt(variable, replaceWith);
 			}
 			return s;
 		case MINUS:
 			return -subtrees.get(0).getValueAt(variable, replaceWith);
 		case MULTIPLY:
 			double p = 1;
-			for (int i = 0; i < subtrees.size(); i++) {
-				p *= subtrees.get(i).getValueAt(variable, replaceWith);
+			for (StepExpression subtree : subtrees) {
+				p *= subtree.getValueAt(variable, replaceWith);
 			}
 			return p;
 		case DIVIDE:
@@ -253,9 +253,9 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			return "pm(" + subtrees.get(0).toString() + ")";
 		case MULTIPLY:
 			StringBuilder sp = new StringBuilder();
-			for (int i = 0; i < subtrees.size(); i++) {
+			for (StepExpression subtree : subtrees) {
 				sp.append("(");
-				sp.append(subtrees.get(i).toString());
+				sp.append(subtree.toString());
 				sp.append(")");
 			}
 			return sp.toString();

@@ -32,11 +32,8 @@ public class StepVariable extends StepExpression {
 
 	@Override
 	public boolean isConstantIn(StepVariable sv) {
-		if (sv == null) {
-			return false;
-		}
+		return sv != null && !equals(sv);
 
-		return !equals(sv);
 	}
 
 	@Override
