@@ -94,12 +94,8 @@ public class OpentypeFontWrapper implements FontWrapper {
 		path.stroke = null;
 		path.strokeWidth = 1;
 
-		// reset the path before to ensure that the previous drawing doesn't interfere with this one
 		ctx.beginPath();
-
 		path.draw(ctx);
-
-		// reset the path, so that the following calls to stroke() and fill() will not draw again the character
-		ctx.beginPath();
+		ctx.fill();
 	}-*/;
 }
