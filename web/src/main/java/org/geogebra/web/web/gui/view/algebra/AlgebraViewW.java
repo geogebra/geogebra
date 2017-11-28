@@ -211,12 +211,12 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 	private void initGUI(AlgebraControllerW algCtrl) {
 		// add listener
-		this.addDomHandler(algCtrl, MouseDownEvent.getType());
-		this.addDomHandler(algCtrl, MouseMoveEvent.getType());
-		this.addDomHandler(algCtrl,
+		addDomHandler(algCtrl, MouseDownEvent.getType());
+		addDomHandler(algCtrl, MouseMoveEvent.getType());
+		addDomHandler(algCtrl,
 				TouchStartEvent.getType());
-		this.addDomHandler(algCtrl, TouchEndEvent.getType());
-		this.addDomHandler(algCtrl, TouchMoveEvent.getType());
+		addDomHandler(algCtrl, TouchEndEvent.getType());
+		addDomHandler(algCtrl, TouchMoveEvent.getType());
 
 		// initializes the tree model, important to set tree mode first to avoid
 		// inf. loop #3651
@@ -229,18 +229,17 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		// needed to have an element with tabindex > 0 with focus to catch
 		// keyboard events
-		this.getElement().setTabIndex(GUITabs.AV_TREE);
-		this.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
-		this.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
-		this.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
-
-		this.setFocus(true);
+		getElement().setTabIndex(GUITabs.AV_TREE);
+		addKeyDownHandler(this.app.getGlobalKeyDispatcher());
+		addKeyUpHandler(this.app.getGlobalKeyDispatcher());
+		addKeyPressHandler(this.app.getGlobalKeyDispatcher());
+		if (!app.getArticleElement().preventFocus()) {
+			setFocus(true);
+		}
 
 		// Initialize settings and register listener
 		app.getSettings().getAlgebra().addListener(this);
-
 		settingsChanged(app.getSettings().getAlgebra());
-
 	}
 
 	@Override
