@@ -94,8 +94,6 @@ public class OpentypeFontWrapper implements FontWrapper {
 		path.stroke = null;
 		path.strokeWidth = 1;
 
-		ctx.beginPath();
 		path.draw(ctx);
-		ctx.fill();
 	}-*/;
 }

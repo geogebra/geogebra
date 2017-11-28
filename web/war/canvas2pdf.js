@@ -156,9 +156,12 @@
 
         Object.defineProperty(this, 'fillStyle', {
             get: function() {
-                return _this.doc.fillColor();
+                return this.fillColor;
             },
             set: function(value) {
+            	
+            	this.fillColor = value;
+            	
                 var color = fixColor(value);
                 _this.doc.fillColor(color.c, color.a);
             }
