@@ -4358,7 +4358,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2100 */
 		case KEYBOARD_BOX_ICON:
-			return prerelease;
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);
