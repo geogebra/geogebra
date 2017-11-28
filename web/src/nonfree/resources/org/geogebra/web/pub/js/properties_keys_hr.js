@@ -1503,7 +1503,7 @@ __GGB__keysVar.hr.menu = {
     "CreateSlidersForA": "Izradi kliza\u010d(e) za: %0",
     "CreateTable": "Tablica",
     "CreateTable.Help": "Odaberite \u0107elije pa kliknite na gumb alata",
-    "CreateYourOwn": "GeoGebra klasi\u010dna",
+    "CreateYourOwn": "Klasi\u010dna GeoGebra",
     "CreatingAnimatedGIF": "Izra\u0111uje se GIF animacija:",
     "CrossAt": "Ishodi\u0161te",
     "Ctrl": "Ctrl",
