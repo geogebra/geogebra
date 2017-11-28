@@ -1146,6 +1146,7 @@
         } else if (image.nodeName === "CANVAS" || image.nodeName === "IMG") {
             //canvas or image
             svgImage = this.__createElement("image");
+            svgImage.setAttribute("opacity", this.globalAlpha || 1);
             svgImage.setAttribute("width", dw);
             svgImage.setAttribute("height", dh);
             svgImage.setAttribute("preserveAspectRatio", "none");
