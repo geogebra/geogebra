@@ -29,6 +29,13 @@ public interface AccessibilityManagerInterface {
 	public void focusMenu();
 
 	/**
+	 * Focus algebra input
+	 * 
+	 * @return algebra input fucused
+	 */
+	public boolean focusInput();
+
+	/**
 	 * 
 	 * @return true if tab is currently on EV geo elements.
 	 */

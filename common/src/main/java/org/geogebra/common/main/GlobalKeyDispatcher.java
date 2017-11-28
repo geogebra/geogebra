@@ -389,6 +389,14 @@ public abstract class GlobalKeyDispatcher {
 				consumed = true;
 			}
 			break;
+
+		case X:
+			if(isAltDown){
+				boolean inputfocused = app.getAccessibilityManager()
+						.focusInput();
+				consumed = true;
+				break;
+			}
 		}
 
 		/*
