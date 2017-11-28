@@ -170,9 +170,6 @@ public abstract class Renderer {
 		// type
 		this.type = type;
 
-		// textures
-		textures = newTextures();
-
 	}
 
 	/**
@@ -2033,6 +2030,7 @@ public abstract class Renderer {
 
 		initShaders();
 
+		textures = newTextures();
 		geometryManager = createManager();
 
 		// GL_LIGHT0 & GL_LIGHT1
