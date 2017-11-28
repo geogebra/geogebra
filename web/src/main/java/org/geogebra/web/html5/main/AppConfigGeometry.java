@@ -29,4 +29,9 @@ public class AppConfigGeometry implements AppConfig {
 		return -1;
 	}
 
+	@Override
+	public String getAppTitle() {
+		return "Perspective.Geometry";
+	}
+
 }

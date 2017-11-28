@@ -1250,11 +1250,14 @@ public class EuclidianViewW extends EuclidianView implements
 		if (alt == null) {
 			alt = app.getKernel().lookupLabel("altText");
 		}
+		String key = app.getConfig().getAppTitle();
+
+		String altStr = app.getLocalization().getMenu(key);
 		if (alt instanceof GeoText) {
-			String altStr = ((GeoText) alt).getTextString();
-			if (g2p.setAltText(altStr)) {
-				this.readText(altStr);
-			}
+			altStr = ((GeoText) alt).getTextString();
+		}
+		if (g2p.setAltText(altStr)) {
+			this.readText(altStr);
 		}
 
 	}

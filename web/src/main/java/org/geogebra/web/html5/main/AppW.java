@@ -2172,6 +2172,7 @@ public abstract class AppW extends App implements SetLabels {
 		kernel.setViewsLabels();
 		// }
 		updateCommandDictionary();
+		setAltText();
 	}
 
 	@Override

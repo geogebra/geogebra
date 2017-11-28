@@ -30,4 +30,9 @@ public class AppConfigGraphing implements AppConfig {
 		return GeoLine.EQUATION_EXPLICIT;
 	}
 
+	@Override
+	public String getAppTitle() {
+		return "GraphingCalculator";
+	}
+
 }
