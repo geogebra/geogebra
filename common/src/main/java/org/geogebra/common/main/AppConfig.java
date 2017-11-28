@@ -10,4 +10,6 @@ public interface AppConfig {
 
 	public int getLineDisplayStyle();
 
+	public String getAppTitle();
+
 }

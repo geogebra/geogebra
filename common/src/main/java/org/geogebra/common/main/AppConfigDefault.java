@@ -19,4 +19,8 @@ public class AppConfigDefault implements AppConfig {
 		return -1;
 	}
 
+	public String getAppTitle() {
+		return "math_apps";
+	}
+
 }
