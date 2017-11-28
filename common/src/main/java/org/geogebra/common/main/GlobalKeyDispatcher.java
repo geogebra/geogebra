@@ -392,7 +392,7 @@ public abstract class GlobalKeyDispatcher {
 
 		case X:
 			if(isAltDown){
-				boolean inputfocused = app.getAccessibilityManager()
+				app.getAccessibilityManager()
 						.focusInput();
 				consumed = true;
 				break;
