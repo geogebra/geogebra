@@ -104,8 +104,8 @@ public class DrawGrid {
 		if (view.getApplication().has(Feature.MINOR_GRIDLINES)
 				&& view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
 			// draw main grid
-			g2.startGeneralPath();
 			g2.setColor(view.getGridColor());
+			g2.startGeneralPath();
 			double startGrid = start + topSubGrids * tickStepY / n;
 			pix = startGrid;
 			for (int j = 0; pix <= yAxisEnd; j++) {
@@ -115,8 +115,8 @@ public class DrawGrid {
 			g2.endAndDrawGeneralPath();
 
 			// draw sub grid
-			g2.startGeneralPath();
 			g2.setColor(getBrighterColor(view.getGridColor()));
+			g2.startGeneralPath();
 			pix = start;
 			for (int j = 0; pix <= yAxisEnd; j++) {
 				if ((j - topSubGrids - 1) % n != 0) {
