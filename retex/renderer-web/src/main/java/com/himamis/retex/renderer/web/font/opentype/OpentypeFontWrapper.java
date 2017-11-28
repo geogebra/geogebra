@@ -83,7 +83,6 @@ public class OpentypeFontWrapper implements FontWrapper {
 		arr[2] = glyph.xMax;
 
 		arr[3] = glyph.yMax;
-		$wnd.console.log(arr);
 	}-*/;
 
 	private native void drawGlyphNative(String c, int x, int y, int size, Context2d ctx) /*-{
