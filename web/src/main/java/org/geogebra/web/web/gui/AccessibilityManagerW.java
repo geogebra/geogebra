@@ -56,6 +56,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		}
 	}
 	
+	@Override
 	public boolean focusInput() {
 		if (gm.getToolbarPanelV2() != null) {
 			return gm.getToolbarPanelV2().focusInput();

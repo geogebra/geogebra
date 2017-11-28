@@ -163,8 +163,10 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 	// Event handlers
 	// ==========================================
 
+	/**
+	 * Update the UI
+	 */
 		public void updateGUI() {
-
 			if (getStatCalc().getSelectedProcedure() == Procedure.CHISQ_TEST) {
 				cbColumns.setVisible(true);
 				lblColumns.setVisible(true);
@@ -180,7 +182,6 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 				ckChiDiff.setVisible(false);
 
 				cbColumns.setSelectedIndex(0);
-
 			}
 
 			getSc().setChiSqData(Integer.parseInt(cbRows.getValue(cbRows.getSelectedIndex())),
@@ -265,7 +266,6 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 					cell[getSc().rows + 1][c + 1].setLabelText(4,
 							getStatCalc().format(100 * getSc().columnSum[c] / getSc().total));
 				}
-
 			}
 
 			// bottom right corner
@@ -273,7 +273,6 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 				cell[getSc().rows + 1][getSc().columns + 1].setLabelText(0,
 						getStatCalc().format(getSc().total));
 			}
-
 		}
 	    
 	    
