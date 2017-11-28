@@ -32,8 +32,7 @@ public class AccessibilityButton implements AccessibilityInterface {
 				onTabPressed(event);
 				return true;
 			}
-			if (keyCode == 'X' && event.getAltKey() == true
-					&& event.getCtrlKey() == true) {
+			if (keyCode == 'X' && event.getAltKey() && event.getCtrlKey()) {
 				focusInput();
 				event.preventDefault();
 				return true;
@@ -72,6 +71,7 @@ public class AccessibilityButton implements AccessibilityInterface {
 		}
 	}
 
+	@Override
 	public void focusInput() {
 		if (button instanceof AccessibilityInterface) {
 			((AccessibilityInterface) button).focusInput();

@@ -110,6 +110,7 @@ public class StandardButton extends FastButton {
 		setIconAndLabel(this.icon, text, this.width, this.height);
 	}
 
+	@Override
 	public void focusInput() {
 		app.getAccessibilityManager().focusInput();
 	}
