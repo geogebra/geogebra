@@ -365,12 +365,18 @@ public class EuclidianViewW extends EuclidianView implements
 		return getSerializedSvg(ctx);
 	}
 
-	public String saveExportPDF(double scale, boolean transparency,
-			String filename) {
+	/**
+	 * @param scale
+	 *            scale
+	 * @param transparency
+	 *            transparency
+	 * @return PDF as a base64 String
+	 */
+	public String getExportPDF(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 
-		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Svg());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
 
 		JavaScriptObject ctx = getCanvas2PDF(width, height);
 

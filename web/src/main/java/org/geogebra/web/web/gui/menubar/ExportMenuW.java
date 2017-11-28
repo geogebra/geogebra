@@ -86,6 +86,22 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				dialogEvent(app, "exportSVG");
 			}
 		});
+		menu.addItem(menuText("pdf"), true, new MenuCommand(app) {
+
+			@Override
+			public void execute() {
+				menu.hide();
+				app.toggleMenu();
+				app.getActiveEuclidianView().getEuclidianController()
+						.clearSelections();
+				String pdf = ((EuclidianViewWInterface) app
+						.getActiveEuclidianView()).getExportPDF(1, false);
+
+				app.getFileManager().showExportAsPictureDialog(pdf,
+						app.getExportTitle(), "pdf", "ExportAsPicture", app);
+				dialogEvent(app, "exportPDF");
+			}
+		});
 		// TODO add gif back when ready
 		// if (!app.getLAF().isTablet()) {
 		// addItem(menuText(

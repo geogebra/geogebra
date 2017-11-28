@@ -751,4 +751,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		return "";
 	}
 
+	public String getExportPDF(double scale, boolean transparency) {
+		return "";
+	}
+
 }

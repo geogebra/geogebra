@@ -925,8 +925,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportSVG()();
 		};
 
-		api.exportPDF = function(filename) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPDF(Ljava/lang/String;)(filename + "");
+		api.exportPDF = function() {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPDF()();
 		};
 
 		api.exportPSTricks = function() {
