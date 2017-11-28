@@ -168,7 +168,7 @@ public class MarblePanel extends FlowPanel
 			remove(btn);
 			removeStyleName("error");
 		}
-		marble.getElement().setAttribute("aria-label",
+		AriaHelper.setLabel(marble,
 				item.loc.getMenu("ShowHideObject"));
 		if (!textInput) {
 			if (warning) {

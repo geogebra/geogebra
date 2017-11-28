@@ -28,6 +28,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.PrintableW;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
@@ -1434,6 +1435,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		if (inputPanelLatex != null && inputPanelLatex.hasHelpPopup()) {
 			app.getGuiManager().getInputHelpPanel().setLabels();
 		}
+		AriaHelper.setLabel(this,
+				app.getLocalization().getMenu("Algebra"));
 	}
 
 	@Override

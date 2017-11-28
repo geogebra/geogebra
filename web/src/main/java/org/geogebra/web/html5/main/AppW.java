@@ -2172,6 +2172,10 @@ public abstract class AppW extends App implements SetLabels {
 		kernel.setViewsLabels();
 		// }
 		updateCommandDictionary();
+		String key = getConfig().getAppTitle();
+
+		getArticleElement().setAttribute("aria-label",
+				getLocalization().getMenu(key));
 		setAltText();
 	}
 

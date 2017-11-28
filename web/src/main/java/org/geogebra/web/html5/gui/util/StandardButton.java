@@ -186,7 +186,7 @@ public class StandardButton extends FastButton {
 	public void setAltText(String altText) {
 		btnImage.getElement().setAttribute("alt", altText);
 		btnImage.getElement().setAttribute("role", "button");
-		getElement().setAttribute("aria-label", altText);
+		AriaHelper.setLabel(this, altText);
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
 }

@@ -39,4 +39,14 @@ public class AriaHelper {
 	public static void hide(Widget widget) {
 		widget.getElement().setAttribute("aria-hidden", "true");
 	}
+
+	/**
+	 * @param uiObject
+	 *            element
+	 * @param label
+	 *            localized string
+	 */
+	public static void setLabel(UIObject uiObject, String label) {
+		uiObject.getElement().setAttribute("aria-label", label);
+	}
 }

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.AdvancedFlowPanel;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.web.gui.view.algebra.SliderTreeItemInterface.CancelListener;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -246,9 +247,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	}
 
 	private void setAlt(AVField fld, String key) {
-		fld.getElement().setAttribute("aria-label",
-				app.getLocalization().getMenu(key));
-
+		AriaHelper.setLabel(fld, app.getLocalization().getMenu(key));
 	}
 	/**
 	 * Show the panel

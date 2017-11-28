@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -450,8 +451,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	 *            localization
 	 */
 	public void setLabels(Localization loc) {
-		btnPlay.getElement().setAttribute("aria-label",
-				loc.getMenu("Play"));
+		AriaHelper.setLabel(btnPlay, loc.getMenu("Play"));
 
 	}
 }
