@@ -220,7 +220,7 @@ public class ItemControls extends FlowPanel
 	 */
 	private static boolean animPanelFits(GeoElement geo) {
 		if(geo instanceof GeoNumeric){
-			return ((GeoNumeric) geo).isShowingExtendedAV();
+			return SliderTreeItemRetex.match(geo);
 		}
 		return geo.getKernel()
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
