@@ -2249,7 +2249,7 @@ public class RadioTreeItem extends AVTreeItem
 		setNeedsUpdate(false);
 		if (typeChanged()) {
 			av.remove(geo);
-			av.add(geo);
+			((AlgebraViewW) av).add(geo, -1, false);
 			return;
 		}
 		if (hasMarblePanel()) {

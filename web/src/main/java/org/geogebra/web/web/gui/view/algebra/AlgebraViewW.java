@@ -1124,10 +1124,18 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	 */
 	@Override
 	public void add(GeoElement geo) {
-		add(geo, -1);
+		add(geo, -1, true);
 	}
 
-	private void add(GeoElement geo, int forceLayer) {
+	/**
+	 * @param geo
+	 *            element
+	 * @param forceLayer
+	 *            layer or -1 to use layer from geo
+	 * @param scroll
+	 *            whether we may scroll down
+	 */
+	protected void add(GeoElement geo, int forceLayer, boolean scroll) {
 		if (!this.isAttachedToKernel()) {
 			return;
 		}
@@ -1170,7 +1178,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			parent.setState(true);
 		}
 
-		if (inputPanelLatex != null) {
+		if (inputPanelLatex != null && scroll) {
 			inputPanelLatex.styleScrollBox();
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -1198,7 +1206,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				removeFromLayer(oldLayer);
 			}
 
-			this.add(g, newLayer);
+			this.add(g, newLayer, false);
 
 		}
 	}
