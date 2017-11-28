@@ -4318,7 +4318,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2127 */
             case UNBUNDLED_3D_APP:
-            	return prerelease;
+			return true;
 
 		/** GGB-2169 */
             case CENTER_IMAGE:
