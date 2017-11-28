@@ -20,6 +20,7 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
@@ -877,7 +878,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				sn.setColor(tracker.getColorTracker());
 				result.setColor(tracker.getColorTracker());
 
-				if (negativeCount % 2 == 1) {
+				if (MyDouble.isOdd(negativeCount)) {
 					sb.add(SolutionStepType.ODD_NUMBER_OF_NEGATIVES, tracker.incColorTracker());
 					return minus(result);
 				}
