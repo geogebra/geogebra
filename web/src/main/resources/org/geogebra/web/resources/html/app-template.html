@@ -17,6 +17,7 @@ var latestVersion="5.0.374.0";
 var module = "web3d";
 var lookAndFeel = "";
 var prerelease = false;
+var debug = false;
 var startDelay = 0;
 var marginTop = 0;
 var analyticsVersion = 'V'+latestVersion;
@@ -382,6 +383,10 @@ var app = document.createElement("script");
 		e("ggw").setAttribute("data-param-showlogging",true);
 	}
 	
+	function setDebug(debugParam){
+		e("ggw").setAttribute("data-param-showlogging",debugParam);
+	}
+	
 	function getPerspective(){
 		if(getURLparam("perspective")){
 			return getURLparam("perspective");			
@@ -472,6 +477,10 @@ var app = document.createElement("script");
 			}
 			if(location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease){
 				setPrerelease(prerelease || "true");
+				
+			}
+			if(getURLparam("debug") || debug){
+				setDebug(true);
 				
 			}
 			if(location.host.indexOf("alpha") == 0){
