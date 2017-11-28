@@ -924,11 +924,11 @@ PDFPage.prototype.beginPath = function() {
     this.pdfStream.addText(this.lineCap + " J " + this.lineJoin + " j " + (this.lineWidth | 1) + " w " + this.fillColor + " rg " + this.strokeColor + " RG ");
 };
 PDFPage.prototype.setStrokeColor = function(color, alpha) {
-    this.strokeColor = color;
+    this.strokeColor = color || "0 0 0";
     this.alpha = alpha;
 };
 PDFPage.prototype.setFillColor = function(color, alpha) {
-    this.fillColor = color;
+    this.fillColor = color || "0 0 0";
     this.alpha = alpha;
 };
 PDFPage.prototype.closePath = function() {
