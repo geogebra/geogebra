@@ -284,7 +284,7 @@ public class AriaStackPanel extends ComplexPanel
 
 	@Override
 	public int getWidgetCount() {
-		return items.size();
+		return headers.size();
 	}
 
 	/**
@@ -311,6 +311,7 @@ public class AriaStackPanel extends ComplexPanel
 		boolean removed = super.remove(child);
 		headers.remove(index);
 		contents.remove(index);
+		items.remove(index);
 		return removed;
 	}
 

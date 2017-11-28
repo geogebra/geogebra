@@ -410,7 +410,8 @@ public class MainMenu extends FlowPanel
 
 						if (index == this.getSelectedIndex()) {
 							closeAll();
-							if (app.isUnbundledOrWhiteboard()) {
+							if (app.isUnbundledOrWhiteboard()
+									&& index < getWidgetCount()) {
 								setStackText(index,
 										getHTMLExpand(menuImgs.get(index - 1),
 												menuTitles.get(index - 1)),
@@ -420,7 +421,8 @@ public class MainMenu extends FlowPanel
 							return;
 						}
 						if (app.isUnbundledOrWhiteboard()
-								&& this.getSelectedIndex() > 0) {
+								&& this.getSelectedIndex() > 0
+								&& getSelectedIndex() < getWidgetCount() - 1) {
 							setStackText(this.getSelectedIndex(), getHTMLExpand(
 									menuImgs.get(this.getSelectedIndex() - 1),
 									menuTitles
@@ -1048,7 +1050,6 @@ public class MainMenu extends FlowPanel
 				if (nextIdx < menuPanel.getWidgetCount()) {
 					menuPanel.showStack(nextIdx);
 					focusStack(nextIdx);
-
 				} else {
 					app.getAccessibilityManager().focusMenu();
 				}
