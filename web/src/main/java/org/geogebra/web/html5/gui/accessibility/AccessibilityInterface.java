@@ -31,4 +31,9 @@ public interface AccessibilityInterface {
 	 */
 	public void setAltText(String text);
 
+	/**
+	 * Focus algebra input
+	 */
+	public void focusInput();
+
 }

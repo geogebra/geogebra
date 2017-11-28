@@ -1,10 +1,12 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -45,6 +47,10 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 	@Override
 	public void setTitle(String title) {
 		AriaHelper.setTitle(this, title, app);
+	}
+
+	public void focusInput() {
+		app.getAccessibilityManager().focusInput();
 	}
 
 	/**

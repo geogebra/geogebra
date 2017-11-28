@@ -32,6 +32,12 @@ public class AccessibilityButton implements AccessibilityInterface {
 				onTabPressed(event);
 				return true;
 			}
+			if (keyCode == 'X' && event.getAltKey() == true
+					&& event.getCtrlKey() == true) {
+				focusInput();
+				event.preventDefault();
+				return true;
+			}
 		}
 		return false;
 	}
@@ -64,5 +70,12 @@ public class AccessibilityButton implements AccessibilityInterface {
 		if (ignoreTab) {
 			button.getElement().setTabIndex(-1);
 		}
+	}
+
+	public void focusInput() {
+		if (button instanceof AccessibilityInterface) {
+			((AccessibilityInterface) button).focusInput();
+		}
+
 	}
 }
