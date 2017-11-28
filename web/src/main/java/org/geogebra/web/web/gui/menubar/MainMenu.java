@@ -11,7 +11,6 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.laf.MainMenuI;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
@@ -324,8 +323,8 @@ public class MainMenu extends FlowPanel
 							: MaterialDesignResources.INSTANCE.geometry());
 			logoMenu = new GMenuBar("", app);
 			logoMenu.setStyleName("logoMenu");
-			this.menuPanel.add(logoMenu, getHTML(icon,
-					appType.equals(AppType.GRAPHING_CALCULATOR)
+			this.menuPanel.add(logoMenu,
+					getHTML(icon, appType.equals(AppType.GRAPHING_CALCULATOR)
 							? app.getLocalization()
 									.getMenu("GeoGebraGraphingCalculator")
 							: appType.equals(AppType.GRAPHER_3D)
@@ -372,9 +371,13 @@ public class MainMenu extends FlowPanel
 			public void onBrowserEvent(Event event) {
 
 				int eventType = DOM.eventGetType(event);
-				if (!app.isExam() && eventType == Event.ONCLICK) {
-					Element target = DOM.eventGetTarget(event);
-					int index = findDividerIndex(target);
+				Element target = DOM.eventGetTarget(event);
+				int index = findDividerIndex(target);
+				if (!app.isExam() && eventType == Event.ONMOUSEOUT) {
+					if (index != getSelectedIndex()) {
+						getMenuAt(getSelectedIndex()).selectItem(null);
+					}
+				} else if (!app.isExam() && eventType == Event.ONCLICK) {
 
 					// check if SignIn was clicked
 					// if we are offline, the last item is actually Help
@@ -411,7 +414,7 @@ public class MainMenu extends FlowPanel
 								setStackText(index,
 										getHTMLExpand(menuImgs.get(index - 1),
 												menuTitles.get(index - 1)),
-										menuTitles.get(index - 1), false);
+										menuTitles.get(index - 1), true);
 								setCollapseStyles(index);
 							}
 							return;
@@ -422,18 +425,11 @@ public class MainMenu extends FlowPanel
 									menuImgs.get(this.getSelectedIndex() - 1),
 									menuTitles
 											.get(this.getSelectedIndex() - 1)),
-									true);
+									false);
 
 							setCollapseStyles(getSelectedIndex());
 						}
 						showStack(index);
-					} else {
-						int idx = getContentIndex(target);
-						Widget content = getWidget(idx);
-
-						if (content != null) {
-							content.onBrowserEvent(event);
-						}
 					}
 				}
 				super.onBrowserEvent(event);
@@ -454,18 +450,16 @@ public class MainMenu extends FlowPanel
 				mi.getElement().addClassName("collapse");
 			}
 
-			// violator pattern from
-			// https://code.google.com/archive/p/google-web-toolkit/issues/1188
-
 			/**
 			 * @param ariaLabel
 			 *            for compatibility with AriaStackPanel
-			 * @param expand
+			 * @param expanded
 			 *            for compatibility with AriaStackPanel
 			 */
 			public void setStackText(int index, @IsSafeHtml String text,
-					String ariaLabel, Boolean expand) {
+					String ariaLabel, Boolean expanded) {
 				super.setStackText(index, text);
+				setAriaLabel(index, ariaLabel, expanded);
 			}
 
 			@Override
@@ -476,7 +470,6 @@ public class MainMenu extends FlowPanel
 				setStackText(index, stackText, getMenuAt(index).getMenuTitle(),
 						null);
 			}
-
 		};
 
 		menuPanel.addDomHandler(new KeyDownHandler() {
@@ -485,7 +478,6 @@ public class MainMenu extends FlowPanel
 				int key = event.getNativeKeyCode();
 				GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
 				if (key == KeyCodes.KEY_TAB && mi != null) {
-					Log.debug("TAB on " + mi.getMenuTitle());
 					onTab(mi, event.isShiftKeyDown());
 					event.preventDefault();
 					event.stopPropagation();
@@ -494,7 +486,7 @@ public class MainMenu extends FlowPanel
 		}, KeyDownEvent.getType());
 	}
 
-private void initStackPanel() {
+	private void initStackPanel() {
 		this.menuPanel = new MyStackPanel() {
 			@Override
 			public void showStack(int index) {
@@ -521,7 +513,6 @@ private void initStackPanel() {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(index)), false);
 				}
-
 			}
 
 			@Override
@@ -559,7 +550,6 @@ private void initStackPanel() {
 					}
 
 					if (index != -1) {
-
 						if (index == this.getSelectedIndex()) {
 							closeAll(this);
 							if (app.isUnbundledOrWhiteboard()) {
@@ -667,7 +657,6 @@ private void initStackPanel() {
 				int key = event.getNativeKeyCode();
 				GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
 				if (key == KeyCodes.KEY_TAB && mi != null) {
-					Log.debug("TAB on " + mi.getMenuTitle());
 					onTab(mi, event.isShiftKeyDown());
 					event.preventDefault();
 					event.stopPropagation();
@@ -696,9 +685,7 @@ private void initStackPanel() {
 							menus.get(next).focus();
 						}
 
-					} else
-					if (keyCode == KeyCodes.KEY_UP) {
-
+					} else if (keyCode == KeyCodes.KEY_UP) {
 						if (menus.get(index).isLastItemSelected()) {
 							menuPanel.showStack(previous);
 							menus.get(previous).focus();
@@ -990,8 +977,8 @@ private void initStackPanel() {
 
 	private void addSignInMenu() {
 		this.menuPanel
-				.add(this.signInMenu,
-						getHTML(app.isUnbundledOrWhiteboard()
+				.add(this.signInMenu, getHTML(
+						app.isUnbundledOrWhiteboard()
 								? MaterialDesignResources.INSTANCE
 										.signin_black()
 								: GuiResources.INSTANCE.menu_icon_sign_in(),
@@ -1042,7 +1029,6 @@ private void initStackPanel() {
 
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
-		Log.debug(shiftDown);
 		if (source instanceof GMenuBar) {
 			GMenuBar item = (GMenuBar) source;
 			int stackIdx = menuPanel.getSelectedIndex();
@@ -1060,10 +1046,8 @@ private void initStackPanel() {
 			if (item.isLastItemSelected()) {
 				int nextIdx = stackIdx + 1;
 				if (nextIdx < menuPanel.getWidgetCount()) {
-					GMenuBar mi = getMenuAt(nextIdx);
 					menuPanel.showStack(nextIdx);
-
-					mi.focus();
+					focusStack(nextIdx);
 
 				} else {
 					app.getAccessibilityManager().focusMenu();
@@ -1077,6 +1061,14 @@ private void initStackPanel() {
 		return false;
 	}
 
+	private void focusStack(int index) {
+		if (menuPanel instanceof AriaStackPanel) {
+			((AriaStackPanel) menuPanel).focusHeader(index);
+		} else {
+			getMenuAt(index).focus();
+		}
+	}
+
 	/**
 	 * Gets the menu at given id from StackPanel
 	 * 
@@ -1086,7 +1078,6 @@ private void initStackPanel() {
 	 *         otherwise.
 	 */
 	GMenuBar getMenuAt(int stackIdx) {
-		
 		int idx = stackIdx > -1 && stackIdx < menuPanel.getWidgetCount() ?stackIdx:0; 
 		Widget w = menuPanel.getWidget(idx);
 		if (w instanceof GMenuBar) {

@@ -15,6 +15,12 @@ import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * List implementation of GWT StackPanel with aria support.
+ * 
+ * @author Zbynek, Laszlo
+ *
+ */
 public class AriaStackPanel extends ComplexPanel
 		implements StackPanelInterface {
 	private static final String DEFAULT_STYLENAME = "gwt-StackPanel";
@@ -114,9 +120,7 @@ public class AriaStackPanel extends ComplexPanel
 	public void insert(Widget w, int beforeIndex) {
 		// header
 		Element li = DOM.createElement("LI");
-		// li.setClassName("gwt-StackPanelItem listMenuItem");
 		li.setAttribute("role", "menuitem");
-
 		getElement().appendChild(li);
 
 		Element button = DOM.createElement("button");
@@ -125,16 +129,13 @@ public class AriaStackPanel extends ComplexPanel
 
 		headers.add(button);
 
-		// UListElement ul1 = Document.get().createULElement();
-		// ul1.setInnerHTML(w.getElement().getInnerHTML());
-		// li.appendChild(ul1);
 		Element content = DOM.createElement("DIV");
 		content.setTabIndex(0);
 		items.add(beforeIndex, w);
 		content.appendChild(w.getElement());
 		contents.add(content);
 		li.appendChild(content);
-		// DOM indices are 2x logical indices; 2 dom elements per stack item
+		li.setTabIndex(0);
 		ul.appendChild(li);
 
 		// header styling
@@ -150,7 +151,6 @@ public class AriaStackPanel extends ComplexPanel
 		setStyleName(content, DEFAULT_STYLENAME + "Content", true);
 		content.setPropertyString("height", "100%");
 
-
 		// Correct visible stack for new location.
 		if (visibleStack == -1) {
 			showStack(0);
@@ -163,18 +163,6 @@ public class AriaStackPanel extends ComplexPanel
 			setStackVisible(visibleStack, true);
 		}
 	}
-
-	// @Override
-	// public void onBrowserEvent(Event event) {
-	// if (DOM.eventGetType(event) == Event.ONCLICK) {
-	// Element target = DOM.eventGetTarget(event);
-	// int index = findDividerIndex(target);
-	// if (index != -1) {
-	// showStack(index);
-	// }
-	// }
-	// super.onBrowserEvent(event);
-	// }
 
 	@Override
 	public boolean remove(int index) {
@@ -292,7 +280,6 @@ public class AriaStackPanel extends ComplexPanel
 			return;
 		}
 		headers.get(index).removeClassName(styleName);
-
 	}
 
 	@Override
@@ -346,13 +333,30 @@ public class AriaStackPanel extends ComplexPanel
 		} else {
 			setStyleName(header, DEFAULT_ITEM_STYLENAME + "-first", false);
 		}
-
 	}
 
 	/** Close all stacks */
 	public void closeAll() {
 		setStackVisible(visibleStack, false);
 		visibleStack = -1;
+	}
+
+	@Override
+	public void onBrowserEvent(Event event) {
+		int eventType = DOM.eventGetType(event);
+
+		Element target = DOM.eventGetTarget(event);
+		int index = findDividerIndex(target);
+		if (eventType == Event.ONMOUSEOVER) {
+			int idx = getContentIndex(target);
+			Widget content = getWidget(idx);
+			if (index > 0) {
+				headers.get(index).focus();
+			} else if (content != null) {
+				content.onBrowserEvent(event);
+			}
+		}
+		super.onBrowserEvent(event);
 	}
 
 	/**
@@ -364,5 +368,38 @@ public class AriaStackPanel extends ComplexPanel
 		return target.getParentElement().getPropertyInt("__index");
 	}
 
+	/**
+	 * Sets the label that screen reader reads to the stack at particular index.
+	 * 
+	 * @param index
+	 *            of the stack.
+	 * @param label
+	 *            to set.
+	 * @param expanded
+	 *            determines if stack is expanded or collapsed.
+	 */
+	protected void setAriaLabel(int index, String label, Boolean expanded) {
+		if (index < 0 || index > headers.size()) {
+			return;
+		}
+		Element head = headers.get(index);
+		head.setAttribute("alt", label);
+		if (expanded != null) {
+			head.setAttribute("aria-expanded", expanded.toString());
+		}
+	}
+
+	/**
+	 * Move focus to the header of the stack at given index
+	 * 
+	 * @param index
+	 *            Stack index to move focus to.
+	 */
+	public void focusHeader(int index) {
+		if (index < 0 || index > headers.size()) {
+			return;
+		}
+		headers.get(index).focus();
+	}
 }
 

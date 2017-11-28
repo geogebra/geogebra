@@ -4353,8 +4353,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2204 */
 		case ARIA_MENU:
-			return false;
-		// return prerelease;
+			return prerelease;
 
 		/** GGB-2100 */
 		case KEYBOARD_BOX_ICON:
