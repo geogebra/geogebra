@@ -49,7 +49,6 @@ public class GBufferedImageW implements GBufferedImage {
 			c2d.setStrokeStyle(CssColor.make("rgba(255,255,255,1.0)"));
 			c2d.setFillStyle(CssColor.make("rgba(255,255,255,1.0)"));
 			c2d.fillRect(0, 0, width, height);
-			c2d.fill();
 			// c2d.setStrokeStyle(fss);
 			// c2d.setFillStyle(fsf);
 		}
