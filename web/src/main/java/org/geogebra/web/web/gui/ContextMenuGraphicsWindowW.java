@@ -543,90 +543,36 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		@Override
 		protected void initActions() {
 			addNoGridItem();
-			addMajorGridlines();
-			addMajorMinorGridlines();
-			addPolar();
-			addIsometric();
+			addGridItem("Grid.Major", EuclidianView.GRID_CARTESIAN);
+			addGridItem("Grid.MajorAndMinor",
+					EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
+			addGridItem("Polar", EuclidianView.GRID_POLAR);
+			addGridItem("Isometric", EuclidianView.GRID_ISOMETRIC);
 		}
 
-		private void addIsometric() {
-			String text = app.getLocalization().getMenu("Isometric");
+		/**
+		 * @param gridType
+		 *            new grid type
+		 */
+		protected void setGridType(int gridType) {
+			app.getSettings().getEuclidian(1).setShowGridSetting(
+					gridType != EuclidianView.GRID_NOT_SHOWN);
+			app.getSettings().getEuclidian(1).setGridType(gridType);
+			app.getActiveEuclidianView().setGridType(gridType);
+			app.getActiveEuclidianView().repaintView();
+			app.storeUndoInfo();
+		}
+
+		private void addGridItem(String key, final int gridType) {
+			String text = app.getLocalization().getMenu(key);
 			boolean isSelected = app.getSettings().getEuclidian(1)
-					.getGridType() == EuclidianView.GRID_ISOMETRIC
+					.getGridType() == gridType
 					&& app.getSettings().getEuclidian(1).getShowGrid();
 			addItem(text, isSelected, new Command() {
 
 				@Override
 				public void execute() {
-					app.getSettings().getEuclidian(1).setShowGridSetting(true);
-					app.getSettings().getEuclidian(1)
-							.setGridType(EuclidianView.GRID_ISOMETRIC);
-					app.getActiveEuclidianView()
-							.setGridType(EuclidianView.GRID_ISOMETRIC);
-					app.getActiveEuclidianView().repaintView();
-					app.storeUndoInfo();
-				}
-			}, false);
-		}
-
-		private void addPolar() {
-			String text = app.getLocalization().getMenu("Polar");
-			boolean isSelected = app.getSettings().getEuclidian(1)
-					.getGridType() == EuclidianView.GRID_POLAR
-					&& app.getSettings().getEuclidian(1).getShowGrid();
-			addItem(text, isSelected, new Command() {
-
-				@Override
-				public void execute() {
-					app.getSettings().getEuclidian(1).setShowGridSetting(true);
-					app.getSettings().getEuclidian(1)
-							.setGridType(EuclidianView.GRID_POLAR);
-					app.getActiveEuclidianView()
-							.setGridType(EuclidianView.GRID_POLAR);
-					app.getActiveEuclidianView().repaintView();
-					app.storeUndoInfo();
-				}
-			}, false);
-		}
-
-		private void addMajorMinorGridlines() {
-			String text = app.getLocalization().getMenu("Grid.MajorAndMinor");
-			boolean isSelected = app.getSettings().getEuclidian(1)
-					.getGridType() == EuclidianView.GRID_CARTESIAN_WITH_SUBGRID
-					&& app.getSettings().getEuclidian(1).getShowGrid();
-			addItem(text, isSelected, new Command() {
-
-				@Override
-				public void execute() {
-					app.getSettings().getEuclidian(1).setShowGridSetting(true);
-					app.getSettings().getEuclidian(1)
-							.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
-					app.getActiveEuclidianView().showGrid(true);
-					app.getActiveEuclidianView()
-							.setGridType(EuclidianView.GRID_CARTESIAN_WITH_SUBGRID);
-					app.getActiveEuclidianView().repaintView();
-					app.storeUndoInfo();
-				}
-			}, false);
-		}
-
-		private void addMajorGridlines() {
-			String text = app.getLocalization().getMenu("Grid.Major");
-			boolean isSelected = app.getSettings().getEuclidian(1)
-					.getGridType() == EuclidianView.GRID_CARTESIAN
-					&& app.getSettings().getEuclidian(1).getShowGrid();
-			addItem(text, isSelected, new Command() {
-
-				@Override
-				public void execute() {
-					app.getSettings().getEuclidian(1).setShowGridSetting(true);
-					app.getSettings().getEuclidian(1)
-							.setGridType(EuclidianView.GRID_CARTESIAN);
-					app.getActiveEuclidianView().showGrid(true);
-					app.getActiveEuclidianView()
-							.setGridType(EuclidianView.GRID_CARTESIAN);
-					app.getActiveEuclidianView().repaintView();
-					app.storeUndoInfo();
+					setGridType(gridType);
 				}
 			}, false);
 		}
@@ -639,18 +585,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 
 				@Override
 				public void execute() {
-					app.getSettings().getEuclidian(1)
-							.setGridType(EuclidianView.GRID_NOT_SHOWN);
-					app.getActiveEuclidianView()
-							.setGridType(EuclidianView.GRID_NOT_SHOWN);
-					app.getSettings().getEuclidian(1).setShowGridSetting(false);
-					app.getActiveEuclidianView().showGrid(false);
-					app.getActiveEuclidianView().repaintView();
-					app.storeUndoInfo();
+					setGridType(EuclidianView.GRID_NOT_SHOWN);
 				}
 			}, false);
 		}
-
 
 		@Override
 		public void update() {
