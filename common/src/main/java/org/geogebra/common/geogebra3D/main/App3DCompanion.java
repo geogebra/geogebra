@@ -135,7 +135,7 @@ public abstract class App3DCompanion extends AppCompanion {
 
 		super.resetFonts();
 
-		if (app.getGuiManager() != null && app.showView(App.VIEW_EUCLIDIAN3D)) {
+		if (app.isEuclidianView3Dinited()) {
 			((EuclidianView) app.getEuclidianView3D()).updateFonts();
 		}
 
