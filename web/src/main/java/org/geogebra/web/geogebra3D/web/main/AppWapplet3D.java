@@ -1,6 +1,7 @@
 package org.geogebra.web.geogebra3D.web.main;
 
 import org.geogebra.common.euclidian.EuclidianController;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
@@ -190,4 +191,11 @@ public class AppWapplet3D extends AppWapplet {
 	public void ggwGraphicsView3DDimChanged(int width, int height) {
 		App3DW.ggwGraphicsView3DDimChanged(this, width, height);
 	}
+
+	@Override
+	public boolean isEuclidianView3D(EuclidianViewInterfaceCommon view) {
+		// euclidianView3D might be null
+		return view != null && view == euclidianView3D;
+	}
+
 }
