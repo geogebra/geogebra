@@ -6,7 +6,6 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -218,16 +217,17 @@ public class AriaMenuBar extends Widget {
 			// moveToNextItem();
 			// eatEvent(event);
 			// break;
-			case KeyCodes.KEY_UP:
-				if (moveSelectionUp()) {
-					eatEvent(event);
-				}
-				break;
-			case KeyCodes.KEY_DOWN:
-				if (moveSelectionDown()) {
-					eatEvent(event);
-				}
-				break;
+			// case KeyCodes.KEY_UP:
+			// if (moveSelectionUp()) {
+			//
+			// eatEvent(event);
+			// }
+			// break;
+			// case KeyCodes.KEY_DOWN:
+			// if (moveSelectionDown()) {
+			// eatEvent(event);
+			// }
+			// break;
 			default:
 				break;
 			// case KeyCodes.KEY_TAB:

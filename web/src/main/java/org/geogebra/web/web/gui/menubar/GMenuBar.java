@@ -240,6 +240,16 @@ public class GMenuBar extends AriaMenuBar {
 	}
 
 	/**
+	 * Selects the first menu item.
+	 */
+	public void selectFirstItem() {
+		List<AriaMenuItem> list = getItems();
+		if (!list.isEmpty()) {
+			selectItem(list.get(0));
+		}
+	}
+
+	/**
 	 * Selects the last menu item.
 	 */
 	public void selectLastItem() {

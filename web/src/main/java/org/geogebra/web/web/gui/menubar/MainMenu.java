@@ -45,7 +45,8 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class MainMenu extends FlowPanel
-		implements MainMenuI, EventRenderable, BooleanRenderable, TabHandler {
+		implements MainMenuI, EventRenderable, BooleanRenderable, TabHandler,
+		KeyDownHandler {
 
 	/**
 	 * Appw app
@@ -178,10 +179,11 @@ public class MainMenu extends FlowPanel
 		menuTitles.clear();
 		menuImgs.clear();
 
-		initKeyListener();
 		if (app.has(Feature.ARIA_MENU)) {
+			// initAriaKeyListener();
 			initAriaStackPanel();
 		} else {
+			initKeyListener();
 			initStackPanel();
 		}
 		initLogoMenu();
@@ -474,18 +476,10 @@ public class MainMenu extends FlowPanel
 			}
 		};
 
-		menuPanel.addDomHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				int key = event.getNativeKeyCode();
-				GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
-				if (key == KeyCodes.KEY_TAB && mi != null) {
-					onTab(mi, event.isShiftKeyDown());
-					event.preventDefault();
-					event.stopPropagation();
-				}
-			}
-		}, KeyDownEvent.getType());
+		menuPanel.addDomHandler(this, KeyDownEvent.getType());
+		for (GMenuBar menu : menus) {
+			menu.addDomHandler(this, KeyDownEvent.getType());
+		}
 	}
 
 	private void initStackPanel() {
@@ -666,6 +660,14 @@ public class MainMenu extends FlowPanel
 			}
 		}, KeyDownEvent.getType());
 	}
+
+	// private void initAriaKeyListener() {
+	// for (GMenuBar menu : menus) {
+	// // menu.addTabHandler(this);
+	// menu.addDomHandler(this, KeyDownEvent.getType());
+	// }
+	//
+	// }
 
 	private void initKeyListener() {
 		for (int i = 0; i < menus.size(); i++) {
@@ -1032,30 +1034,12 @@ public class MainMenu extends FlowPanel
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source instanceof GMenuBar) {
-			GMenuBar item = (GMenuBar) source;
-			int stackIdx = menuPanel.getSelectedIndex();
+			GMenuBar submenu = (GMenuBar) source;
+
 			if (shiftDown) {
-				if (item.isFirstItemSelected() || item.isEmpty()) {
-					GMenuBar mi = getMenuAt(stackIdx - 1);
-					menuPanel.showStack(stackIdx - 1);
-					mi.selectLastItem();
-				} else {
-					item.moveSelectionUp();
-				}
-				return true;
-			}
-
-			if (item.isLastItemSelected()) {
-				int nextIdx = stackIdx + 1;
-				if (nextIdx < menuPanel.getWidgetCount()) {
-					menuPanel.showStack(nextIdx);
-					focusStack(nextIdx);
-				} else {
-					app.getAccessibilityManager().focusMenu();
-				}
-
+				selectPreviousItem(submenu);
 			} else {
-				item.moveSelectionDown();
+				selectNextItem(submenu);
 			}
 			return true;
 		}
@@ -1066,7 +1050,47 @@ public class MainMenu extends FlowPanel
 		if (menuPanel instanceof AriaStackPanel) {
 			((AriaStackPanel) menuPanel).focusHeader(index);
 		} else {
-			getMenuAt(index).focus();
+			GMenuBar mi = getMenuAt(index);
+			mi.selectFirstItem();
+			mi.focus();
+
+		}
+	}
+
+	/**
+	 * Selects the next item of the menu.
+	 * 
+	 * @param menu
+	 *            to select in.
+	 */
+	void selectNextItem(GMenuBar menu) {
+		if (menu.isLastItemSelected() || menu.isEmpty()) {
+			int nextIdx = menuPanel.getSelectedIndex() + 1;
+			if (nextIdx < menuPanel.getWidgetCount()) {
+				menuPanel.showStack(nextIdx);
+				focusStack(nextIdx);
+			} else {
+				app.getAccessibilityManager().focusMenu();
+			}
+		} else {
+			menu.moveSelectionDown();
+		}
+	}
+
+	/**
+	 * Selects the previous item of the menu.
+	 * 
+	 * @param menu
+	 *            to select in.
+	 */
+	void selectPreviousItem(GMenuBar menu) {
+		if (menu.isFirstItemSelected() || menu.isEmpty()) {
+			int prevIdx = menuPanel.getSelectedIndex() - 1;
+			GMenuBar mi = getMenuAt(prevIdx);
+			menuPanel.showStack(prevIdx);
+			mi.selectLastItem();
+		} else {
+			menu.moveSelectionUp();
 		}
 	}
 
@@ -1085,5 +1109,20 @@ public class MainMenu extends FlowPanel
 			return (GMenuBar) w;
 		}
 		return null;
+	}
+
+	public void onKeyDown(KeyDownEvent event) {
+		int key = event.getNativeKeyCode();
+		GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
+		if (key == KeyCodes.KEY_TAB && mi != null) {
+			onTab(mi, event.isShiftKeyDown());
+			event.preventDefault();
+			event.stopPropagation();
+		} else if (key == KeyCodes.KEY_UP) {
+			selectPreviousItem(mi);
+		} else if (key == KeyCodes.KEY_DOWN) {
+			selectNextItem(mi);
+
+		}
 	}
 }
