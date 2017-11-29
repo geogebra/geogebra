@@ -69,7 +69,7 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 		                                               // all (Start, End,
 		                                               // Cancel, Change)
 
-		this.handlers = new ArrayList<FastClickHandler>();
+		this.handlers = new ArrayList<>();
 		acc = new AccessibilityButton(this);
 	}
 

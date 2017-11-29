@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**Accessible alternative to MenuBar*/
 public class AriaMenuBar extends Widget {
 	private AriaMenuItem selectedItem;
-	private ArrayList<AriaMenuItem> allItems = new ArrayList<AriaMenuItem>();
+	private ArrayList<AriaMenuItem> allItems = new ArrayList<>();
 	private boolean autoOpen;
 	private boolean focusOnHover;
 

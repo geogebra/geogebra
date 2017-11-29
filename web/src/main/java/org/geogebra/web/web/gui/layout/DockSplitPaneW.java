@@ -531,7 +531,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 
 		public TreeReader(AppW app) {
 			this.app = app;
-			splitPaneInfo = new ArrayList<DockSplitPaneData>();
+			splitPaneInfo = new ArrayList<>();
 		}
 
 		public DockSplitPaneData[] getInfo(DockSplitPaneW rootPane) {

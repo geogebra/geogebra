@@ -43,7 +43,7 @@ public class RadioButtonMenuBarW extends AriaMenuBar
 		super();
 
 		menubarID = DOM.createUniqueId();
-		radioButtons = new ArrayList<RadioButton>();
+		radioButtons = new ArrayList<>();
 		app = application;
 
 		if (app.isUnbundled()) {

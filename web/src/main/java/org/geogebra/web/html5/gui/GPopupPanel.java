@@ -553,7 +553,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	public void addAutoHidePartner(Element partner) {
 		assert partner != null : "partner cannot be null";
 		if (autoHidePartners == null) {
-			autoHidePartners = new ArrayList<Element>();
+			autoHidePartners = new ArrayList<>();
 		}
 		autoHidePartners.add(partner);
 	}

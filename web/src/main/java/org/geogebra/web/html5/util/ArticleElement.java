@@ -674,7 +674,7 @@ public final class ArticleElement extends Element {
 	public static ArrayList<ArticleElement> getGeoGebraMobileTags() {
 		NodeList<Element> nodes = Dom
 				.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
-		ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
+		ArrayList<ArticleElement> articleNodes = new ArrayList<>();
 		for (int i = 0; i < nodes.getLength(); i++) {
 			ArticleElement ae = ArticleElement.as(nodes.getItem(i));
 			ae.initID(i);

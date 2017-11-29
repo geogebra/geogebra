@@ -45,7 +45,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
         EventRenderable, OpenFileListener, BrowseViewI {
 	/** children that need resizing */
-	protected final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
+	protected final List<ResizeListener> resizeListeners = new ArrayList<>();
 	private BrowseHeaderPanel header;
 	/** pane with materials */
 	protected MaterialListPanel materialListPanel;

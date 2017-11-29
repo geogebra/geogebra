@@ -177,7 +177,7 @@ public class InputSuggestions implements HasSuggestions {
 		if (commands == null) {
 			return null;
 		}
-		ArrayList<String> syntaxes = new ArrayList<String>();
+		ArrayList<String> syntaxes = new ArrayList<>();
 		for (String cmd : commands) {
 
 			String cmdInt = app.getInternalCommand(cmd);

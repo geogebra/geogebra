@@ -110,7 +110,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			maxRow = row;
 			setCapacity(maxCol * maxRow);
 			this.title = "";
-			palette = new ArrayList<GColor>();
+			palette = new ArrayList<>();
 			currentCol = -1;
 			currentRow = -1;
 			setSelectedCol(-1);
@@ -360,7 +360,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 
 		public RecentTable(int x, int y, int col, int row) {
 			super(x, y, col, row, null);
-			entries = new ArrayList<Entry>();
+			entries = new ArrayList<>();
 
 		}
 		

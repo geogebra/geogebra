@@ -133,7 +133,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		this.inited = true;
 		this.app = app1;
-		toolbars = new ArrayList<ToolBarW>();
+		toolbars = new ArrayList<>();
 
 		submenuScrollPanel = new ScrollPanel();
 		submenuPanel = new FlowPanel();

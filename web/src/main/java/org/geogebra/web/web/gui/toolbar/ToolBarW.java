@@ -119,7 +119,7 @@ public class ToolBarW extends FlowPanel
 
 		menuList = new UnorderedList();
 		menuList.getElement().addClassName("toolbar_mainItem");
-		modeToggleMenus = new ArrayList<ModeToggleMenuW>();
+		modeToggleMenus = new ArrayList<>();
 		addCustomModesToToolbar(menuList);
 
 		clear();

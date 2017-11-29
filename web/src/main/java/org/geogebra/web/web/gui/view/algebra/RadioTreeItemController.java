@@ -590,7 +590,7 @@ public class RadioTreeItemController
 			} else {// select only this object and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
-				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> temp = new ArrayList<>();
 				temp.add(geo);
 
 				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, item.av,

@@ -372,6 +372,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 *            transparency
 	 * @return PDF as a base64 String
 	 */
+	@Override
 	public String getExportPDF(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);

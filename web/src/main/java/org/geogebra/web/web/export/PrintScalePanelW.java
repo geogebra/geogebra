@@ -31,7 +31,7 @@ public class PrintScalePanelW extends FlowPanel {
 
 	// private boolean noAction = false;
 	/** for each field remember if update handller is running */
-	HashMap<TextBox, Boolean> handlers = new HashMap<TextBox, Boolean>();
+	HashMap<TextBox, Boolean> handlers = new HashMap<>();
 
 	/**
 	 * Scale modes TODO move to common?

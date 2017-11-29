@@ -447,7 +447,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	}
 
 	private ArrayList<Widget> cmdSyntaxHTML() {
-		ArrayList<Widget> ret = new ArrayList<Widget>();
+		ArrayList<Widget> ret = new ArrayList<>();
 
 		// internal name of selected command
 		String cmd = app.getReverseCommand(getSelectedCommand());
@@ -541,7 +541,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	private ArrayList<Widget> functionTableHTML() {
 		String[][] f = TableSymbols.getTranslatedFunctionsGrouped(app);
-		ArrayList<Widget> ret = new ArrayList<Widget>();
+		ArrayList<Widget> ret = new ArrayList<>();
 		// sb.append("<table>");
 		
 		for (int i = 0; i < f.length; i++) {

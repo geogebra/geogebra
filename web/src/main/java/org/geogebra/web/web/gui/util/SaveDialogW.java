@@ -109,7 +109,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private FlowPanel buttonPanel;
 	private ListBox listBox;
 	private MaterialType saveType;
-	private ArrayList<Material.Provider> supportedProviders = new ArrayList<Material.Provider>();
+	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
 	private Visibility defaultVisibility = Visibility.Private;
 	private Localization loc;
 

@@ -35,7 +35,7 @@ public class LayoutW extends Layout implements SettingListener {
 	public LayoutW(App app) {
 		initializeDefaultPerspectives(app, 0.2);
 
-		this.perspectives = new ArrayList<Perspective>(
+		this.perspectives = new ArrayList<>(
 				getDefaultPerspectivesLength());
 	}
 

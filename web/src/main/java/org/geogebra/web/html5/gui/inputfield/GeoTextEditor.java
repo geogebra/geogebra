@@ -411,7 +411,7 @@ public class GeoTextEditor extends RichTextArea {
 		if (!initialized && dynamicList != null) {
 			return dynamicList;
 		}
-		ArrayList<DynamicTextElement> list = new ArrayList<DynamicTextElement>();
+		ArrayList<DynamicTextElement> list = new ArrayList<>();
 		getDynamicTextListRecursive(list, getBody());
 		return list;
 	}

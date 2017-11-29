@@ -78,7 +78,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		GeoElement geoSelected = selectedGeos.get(0);
 
 		// add geos
-		metas = new TreeSet<GeoElement>();
+		metas = new TreeSet<>();
 
 		// first collect geos in tmp list
 		addGeosToTmpAnotherMenuItemList(metas, geos, geoSelected);
@@ -97,7 +97,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 	private void addGeosToTmpAnotherMenuItemList(TreeSet<GeoElement> metaElements,
 			ArrayList<GeoElement> geos, GeoElement geoSelected) {
-		tmpAnotherMenuItemList = new ArrayList<GeoElement>();
+		tmpAnotherMenuItemList = new ArrayList<>();
 
 		for (GeoElement geo1 : geos) {
 			// do not add xoy plane or selected geo

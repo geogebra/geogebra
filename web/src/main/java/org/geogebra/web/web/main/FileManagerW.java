@@ -39,7 +39,7 @@ public class FileManagerW extends FileManager {
 	/** locale storage */
 	Storage stockStore = Storage.getLocalStorageIfSupported();
 	private int freeBytes = -1;
-	private TreeSet<Integer> offlineIDs = new TreeSet<Integer>();
+	private TreeSet<Integer> offlineIDs = new TreeSet<>();
 
 	/**
 	 * @param app
@@ -146,7 +146,7 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
-		ArrayList<String> keys = new ArrayList<String>();
+		ArrayList<String> keys = new ArrayList<>();
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			keys.add(this.stockStore.key(i));
 		}

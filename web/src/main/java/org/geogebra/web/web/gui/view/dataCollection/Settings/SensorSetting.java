@@ -48,13 +48,13 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 */
 	FlowPanel dataValues;
 	/** the listBoxes */
-	private ArrayList<GeoListBox> listBoxes = new ArrayList<GeoListBox>();
+	private ArrayList<GeoListBox> listBoxes = new ArrayList<>();
 
 	/**
 	 * the label and string of the caption for translations after changing the
 	 * language
 	 */
-	protected HashMap<Label, String> rowCaptions = new HashMap<Label, String>();
+	protected HashMap<Label, String> rowCaptions = new HashMap<>();
 	/** application */
 	protected AppW app;
 	private DataCollectionView view;

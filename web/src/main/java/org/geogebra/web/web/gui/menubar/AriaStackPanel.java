@@ -29,9 +29,9 @@ public class AriaStackPanel extends ComplexPanel
 
 	private int visibleStack = -1;
 	private UListElement ul;
-	private ArrayList<Widget> items = new ArrayList<Widget>();
-	private ArrayList<Element> headers = new ArrayList<Element>();
-	private ArrayList<Element> contents = new ArrayList<Element>();
+	private ArrayList<Widget> items = new ArrayList<>();
+	private ArrayList<Element> headers = new ArrayList<>();
+	private ArrayList<Element> contents = new ArrayList<>();
 
 	/**
 	 * Creates an empty stack panel.

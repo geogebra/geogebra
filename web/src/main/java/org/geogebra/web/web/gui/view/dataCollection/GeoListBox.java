@@ -46,7 +46,7 @@ public class GeoListBox extends ListBox {
 	}
 
 	private Types type;
-	private ArrayList<GeoElement> items = new ArrayList<GeoElement>();
+	private ArrayList<GeoElement> items = new ArrayList<>();
 	private SensorSetting sensor;
 	private final int nextFreeGeoListBoxIndex;
 	private AppW app;
@@ -144,7 +144,7 @@ public class GeoListBox extends ListBox {
 	 */
 	@Override
 	public void clear() {
-		this.items = new ArrayList<GeoElement>();
+		this.items = new ArrayList<>();
 		this.dataCollectionSettings.removeMappedGeo(this.type);
 		super.clear();
 		addDefaultEntries();

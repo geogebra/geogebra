@@ -127,8 +127,8 @@ public class DockGlassPaneW extends AbsolutePanel implements
 
 		// cache the absolute bounds of all DockPanels
 		dockPanels = dockManager.getPanels();
-		ArrayList<DockPanelW> dockPanelsList = new ArrayList<DockPanelW>();
-		ArrayList<Rectangle> bounds = new ArrayList<Rectangle>();
+		ArrayList<DockPanelW> dockPanelsList = new ArrayList<>();
+		ArrayList<Rectangle> bounds = new ArrayList<>();
 		Rectangle tmpRect;
 
 		for (int i = 0; i < dockPanels.length; ++i) {

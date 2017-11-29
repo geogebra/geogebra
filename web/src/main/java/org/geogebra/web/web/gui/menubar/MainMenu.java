@@ -79,11 +79,11 @@ public class MainMenu extends FlowPanel
 	/**
 	 * text list of menu items
 	 */
-	ArrayList<String> menuTitles = new ArrayList<String>();
+	ArrayList<String> menuTitles = new ArrayList<>();
 	/**
 	 * img list of menu items
 	 */
-	ArrayList<SVGResource> menuImgs = new ArrayList<SVGResource>();
+	ArrayList<SVGResource> menuImgs = new ArrayList<>();
 	private GMenuBar userMenu;
 	/** sign in menu */
 	final GMenuBar signInMenu;
@@ -146,7 +146,7 @@ public class MainMenu extends FlowPanel
 		if (enableGraph) {
 			this.createToolsMenu();
 		}
-		this.menus = new ArrayList<GMenuBar>();
+		this.menus = new ArrayList<>();
 		if (!exam) {
 			this.createHelpMenu();
 			this.createUserMenu();
@@ -1092,6 +1092,7 @@ public class MainMenu extends FlowPanel
 		return null;
 	}
 
+	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		int key = event.getNativeKeyCode();
 		GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());

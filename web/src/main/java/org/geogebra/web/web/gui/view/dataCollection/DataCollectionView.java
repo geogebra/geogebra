@@ -70,13 +70,13 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	private FlowPanel dataCollectionTab;
 
 	/** GeoElements that are available and not used from another sensor */
-	ArrayList<GeoElement> availableObjects = new ArrayList<GeoElement>();
+	ArrayList<GeoElement> availableObjects = new ArrayList<>();
 	/** list of all used GeoElements */
-	private ArrayList<GeoElement> usedObjects = new ArrayList<GeoElement>();
+	private ArrayList<GeoElement> usedObjects = new ArrayList<>();
 
 	/** panel with the available sensors */
 	private FlowPanel sensorSettings;
-	private ArrayList<SensorSetting> sensors = new ArrayList<SensorSetting>();
+	private ArrayList<SensorSetting> sensors = new ArrayList<>();
 
 	/** panels which are shown or hidden depending on connection-status */
 	private FlowPanel connectionStatusPanel;
@@ -568,7 +568,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 *         GeoElement
 	 */
 	public HashMap<Types, GeoElement> getActivedSensors() {
-		HashMap<Types, GeoElement> activeSensors = new HashMap<Types, GeoElement>();
+		HashMap<Types, GeoElement> activeSensors = new HashMap<>();
 
 		for (SensorSetting setting : this.sensors) {
 			if (setting.isOn()) {

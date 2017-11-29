@@ -27,7 +27,7 @@ public class PointStylePopup extends PopupMenuButtonW
 		
 		PointStylePopup.mode = mode;
 		
-		pointStyleMap = new HashMap<Integer, Integer>();
+		pointStyleMap = new HashMap<>();
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleMap.put(EuclidianView.getPointStyle(i), i);
 		}

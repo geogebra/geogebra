@@ -184,8 +184,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 
 		TreeSet<GeoElement> ts = app.getKernel().getConstruction()
 		        .getGeoSetLabelOrder();
-		ArrayList<String> list = new ArrayList<String>();
-		ArrayList<GColor> colors = new ArrayList<GColor>();
+		ArrayList<String> list = new ArrayList<>();
+		ArrayList<GColor> colors = new ArrayList<>();
 
 		// first possibility : create empty box
 		list.add(loc.getMenu("EmptyBox"));

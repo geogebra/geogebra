@@ -33,7 +33,7 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public final class MyDictionary {
 
-	private static Map<String, MyDictionary> cache = new HashMap<String, MyDictionary>();
+	private static Map<String, MyDictionary> cache = new HashMap<>();
 	private JavaScriptObject dict;
 
 	private String label;
@@ -132,7 +132,7 @@ public final class MyDictionary {
 	 * @return the Dictionary set
 	 */
 	public Set<String> keySet() {
-		HashSet<String> s = new HashSet<String>();
+		HashSet<String> s = new HashSet<>();
 		addKeys(s);
 		return s;
 	}
@@ -148,7 +148,7 @@ public final class MyDictionary {
 	 * @return the values
 	 */
 	public Collection<String> values() {
-		ArrayList<String> s = new ArrayList<String>();
+		ArrayList<String> s = new ArrayList<>();
 		addValues(s);
 		return s;
 	}

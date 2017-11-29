@@ -12,7 +12,7 @@ public class Frequency {
 	/** time in ms to keep the last received data */
 	private final static int TIME_TO_KEEP = 1000;
 	
-	private ArrayList<Double> timestamps = new ArrayList<Double>();
+	private ArrayList<Double> timestamps = new ArrayList<>();
 	private Types type;
 	private int frequency;
 	private DataCollection data;
@@ -44,7 +44,7 @@ public class Frequency {
 	}
 
 	private void removeOldValues() {
-		ArrayList<Double> x = new ArrayList<Double>();
+		ArrayList<Double> x = new ArrayList<>();
 		for (int i = timestamps.size() - 1; i >= 0; i--) {
 			if (timestamps.get(i) > timestamps.get(timestamps.size() - 1)
 					- TIME_TO_KEEP) {

@@ -7,7 +7,7 @@ import org.geogebra.common.util.debug.Log;
 public final class KeyEventW
 		extends org.geogebra.common.euclidian.event.KeyEvent {
 
-	private static final LinkedList<KeyEventW> pool = new LinkedList<KeyEventW>();
+	private static final LinkedList<KeyEventW> pool = new LinkedList<>();
 	private com.google.gwt.event.dom.client.KeyPressEvent event;
 
 	private KeyEventW(com.google.gwt.event.dom.client.KeyPressEvent e) {

@@ -387,7 +387,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (geo == null) {
 			return;
 		}
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		list.add(geo.isLabelSet() ? geo.getLabelSimple() : "\""
 		        + geo.getLaTeXAlgebraDescription(true,
 		                StringTemplate.latexTemplate) + "\"");

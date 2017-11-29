@@ -77,7 +77,7 @@ public class App3DCompanionW extends App3DCompanion {
 	public void storeViewCreators() {
 
 		if (panelForPlaneList == null) {
-			panelForPlaneList = new ArrayList<EuclidianDockPanelForPlaneW>();
+			panelForPlaneList = new ArrayList<>();
 		} else {
 			panelForPlaneList.clear();
 		}

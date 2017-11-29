@@ -44,7 +44,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	private void addContent() {
 		fp.setStyleName("contentPanel");
 
-		labels = new ArrayList<Label>();
+		labels = new ArrayList<>();
 		cols = estimateCols((int) app.getWidth());
 		for (Language l : Language.values()) {
 			if (!l.fullyTranslated && app.has(Feature.ALL_LANGUAGES)) {

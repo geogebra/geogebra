@@ -356,7 +356,7 @@ public class CASTableW extends Grid implements CASTable {
 		for (int i = 0; i < getRowCount(); i++) {
 			markRowSelected(i, false);
 		}
-		TreeSet<Integer> newSelectedRows = new TreeSet<Integer>();
+		TreeSet<Integer> newSelectedRows = new TreeSet<>();
 		// add old rows
 		for (int i = 0; i < selectedRows.length; i++) {
 			newSelectedRows.add(selectedRows[i]);

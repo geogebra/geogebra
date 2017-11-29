@@ -44,7 +44,7 @@ public class TabletFileManager extends FileManagerT {
 
 	@Override
 	protected void init(){
-		callbacks = new TreeMap<Integer, MyCallback>();
+		callbacks = new TreeMap<>();
 		exportJavascriptMethods();
 	}
 

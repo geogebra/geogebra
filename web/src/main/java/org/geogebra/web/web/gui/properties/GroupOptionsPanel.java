@@ -34,7 +34,7 @@ public class GroupOptionsPanel implements IOptionPanel {
 		titleLabel.setStyleName("panelTitle");
 		group.setStyleName("optionsPanelIndent");
 		
-		panels = new ArrayList<IOptionPanel>();
+		panels = new ArrayList<>();
 		setTitleLabel();
 	}
 

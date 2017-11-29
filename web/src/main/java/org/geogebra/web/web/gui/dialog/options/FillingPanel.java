@@ -398,7 +398,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private void createImagePanel() {
 		imagePanel = new FlowPanel();
 		btnPanel = new FlowPanel();
-		iconList = new ArrayList<ImageResource>();
+		iconList = new ArrayList<>();
 		iconList.add(null); // for delete
 		GuiResourcesSimple res = GuiResourcesSimple.INSTANCE;
 		iconList.add(res.icons_fillings_arrow_big_down());
@@ -414,7 +414,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		iconList.add(res.icons_fillings_cancel());
 
-		iconNameList = new ArrayList<String>();
+		iconNameList = new ArrayList<>();
 		for (ImageResource ir : iconList) {
 
 			iconNameList.add(ir != null ? ir.getName() : "");

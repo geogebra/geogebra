@@ -36,7 +36,7 @@ public abstract class CheckMarkSubMenu {
 		// addStyleName("GeoGebraMenuBar");
 		// addStyleName("floating-Popup");
 		// addStyleName("dotSubMenu");
-		items = new ArrayList<GCheckmarkMenuItem>();
+		items = new ArrayList<>();
 		initActions();
 		parentMenu.collapse();
 	}

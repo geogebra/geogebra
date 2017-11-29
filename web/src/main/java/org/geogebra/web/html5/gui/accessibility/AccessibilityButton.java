@@ -16,7 +16,7 @@ public class AccessibilityButton implements AccessibilityInterface {
 	
 	public AccessibilityButton(CustomButton button) {
 		this.button = button;
-		tabHandlers = new ArrayList<TabHandler>();
+		tabHandlers = new ArrayList<>();
 	}
 	
 	@Override

@@ -740,7 +740,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 				@Override
 				public void execute() {
-					ArrayList<GeoElement> geoArray = new ArrayList<GeoElement>();
+					ArrayList<GeoElement> geoArray = new ArrayList<>();
 					geoArray.add(geo);
 					EuclidianStyleBarStatic.applyFixObject(geoArray,
 							!geo.isLocked(), app.getActiveEuclidianView());
@@ -763,7 +763,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 					@Override
 					public void execute() {
-						ArrayList<GeoElement> geoArray = new ArrayList<GeoElement>();
+						ArrayList<GeoElement> geoArray = new ArrayList<>();
 						geoArray.add(geo);
 						EuclidianStyleBarStatic.applyFixObject(geoArray,
 								!geo.isLocked(), app.getActiveEuclidianView());

@@ -8,6 +8,8 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 
+import com.google.gwt.http.client.URL;
+
 public class ExportToPrinter3DW extends ExportToPrinter3D {
 	
 	private StringBuilder sb = new StringBuilder();
@@ -34,7 +36,7 @@ public class ExportToPrinter3DW extends ExportToPrinter3D {
 		getFormat().getScriptEnd(sb);
 		Log.debug(sb.toString());
 		String url = "data:text/plain;charset=utf-8,"
-				+ encodeURIComponent(sb.toString());
+				+ URL.encodePathSegment(sb.toString());
 
 		AppW app = (AppW) view.getApplication();
 		app.dispatchEvent(new org.geogebra.common.plugin.Event(
@@ -42,9 +44,5 @@ public class ExportToPrinter3DW extends ExportToPrinter3D {
 		app.getFileManager().showExportAsPictureDialog(url,
 				app.getExportTitle(), "jscad", "Export", app);
 	}
-	
-	public static native String encodeURIComponent(String component) /*-{
-		return encodeURIComponent(component);
-	}-*/;
 
 }

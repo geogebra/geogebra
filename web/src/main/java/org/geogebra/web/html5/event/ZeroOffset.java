@@ -7,8 +7,8 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 public class ZeroOffset implements HasOffsets {
 
 	public static final ZeroOffset instance = new ZeroOffset();
-	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
-	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
+	private LinkedList<PointerEvent> mousePool = new LinkedList<>();
+	private LinkedList<PointerEvent> touchPool = new LinkedList<>();
 
 	@Override
 	public LinkedList<PointerEvent> getMouseEventPool() {

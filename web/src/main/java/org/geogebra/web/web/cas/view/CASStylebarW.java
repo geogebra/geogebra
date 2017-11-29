@@ -57,7 +57,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		super(app, App.VIEW_CAS);
 		this.loc = app.getLocalization();
 		this.casView = view;
-		this.selectedRows = new ArrayList<GeoElement>();
+		this.selectedRows = new ArrayList<>();
 		initGUI();
 		setTooltips();
 		addStyleName("CASStyleBar");

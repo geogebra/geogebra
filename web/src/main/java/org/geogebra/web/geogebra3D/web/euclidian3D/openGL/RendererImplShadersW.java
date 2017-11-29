@@ -41,7 +41,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	final static private int GL_TYPE_DRAW_TO_BUFFER = WebGLRenderingContext.STREAM_DRAW;
 	private WebGLRenderingContext glContext;
-	private ArrayList<WebGLTexture> texturesArray = new ArrayList<WebGLTexture>();
+	private ArrayList<WebGLTexture> texturesArray = new ArrayList<>();
 
 	/**
 	 * Constructor

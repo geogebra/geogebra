@@ -19,7 +19,7 @@ public class LineStylePopup extends PopupMenuButtonW  {
 	 */
 	public static HashMap<Integer, Integer> createLineStyleMap() {
 		Integer styleCount = LineStyleModel.getStyleCount();
-		HashMap<Integer, Integer> lineStyleMap0 = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> lineStyleMap0 = new HashMap<>();
 		for (int i = 0; i < styleCount; i++) {
 			lineStyleMap0.put(LineStyleModel.getStyleAt(i), i);
 		}

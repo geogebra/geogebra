@@ -39,7 +39,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	/**
 	 * list of all shown {@link MaterialListElement materials}
 	 */
-	protected List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
+	protected List<MaterialListElement> materials = new ArrayList<>();
 	private MaterialCallback userMaterialsCB;
 	private MaterialCallback ggtMaterialsCB;
 	/** last call of scroll handler */
@@ -402,7 +402,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 * remove users materials from {@link MaterialListPanel}
 	 */
 	public void removeUsersMaterials() {
-		final List<Material> delete = new ArrayList<Material>();
+		final List<Material> delete = new ArrayList<>();
 	    for (final MaterialListElement elem : this.materials) {
 	    	if (elem.isOwnMaterial) {
 	    		delete.add(elem.getMaterial());

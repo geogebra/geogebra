@@ -20,7 +20,7 @@ import com.google.gwt.user.client.Window;
 public class WebsocketLogger extends SensorLogger {
 
 	private WebSocketConnection connection = null;
-	private ArrayList<WebSocketListener> listeners = new ArrayList<WebSocketListener>();
+	private ArrayList<WebSocketListener> listeners = new ArrayList<>();
 	private String websocket_url;
 
 	public WebsocketLogger(Kernel kernel) {

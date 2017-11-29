@@ -39,7 +39,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	PopupMenuButtonW treeModeButton;
 	PopupMenuButtonW descriptionButton;
 	/** list of all supported {@link SortMode modes} */
-	ArrayList<SortMode> supportedModes = new ArrayList<SortMode>();
+	ArrayList<SortMode> supportedModes = new ArrayList<>();
 
 	private GeoElement selectedEntry;
 	/** localization */
@@ -304,7 +304,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	protected void handleEventHandlers(Object source) {
 		needUndo = false;
 
-		ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> targetGeos = new ArrayList<>();
 
 		if (selectedEntry != null) {
 			targetGeos.add(selectedEntry);

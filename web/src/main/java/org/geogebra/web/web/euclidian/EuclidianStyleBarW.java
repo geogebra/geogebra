@@ -148,7 +148,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		cons = app.getKernel().getConstruction();
 		// init handling of default geos
 		createDefaultMap();
-		defaultGeos = new ArrayList<GeoElement>();
+		defaultGeos = new ArrayList<>();
 
 		initGUI();
 		isIniting = false;
@@ -265,7 +265,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// These are either the selected geos or the current default geo.
 		// Each button uses this list to update its gui and set visibility
 		// -----------------------------------------------------
-		activeGeoList = new ArrayList<GeoElement>();
+		activeGeoList = new ArrayList<>();
 
 		// -----------------------------------------------------
 		// MODE_MOVE case: load activeGeoList with all selected geos
@@ -419,7 +419,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				// tool
 				geos = activeGeoList.toArray();
 			} else {
-				ArrayList<GeoElement> geoList = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> geoList = new ArrayList<>();
 				for (GeoElement geo0 : activeGeoList) {
 					if (geo0.isEuclidianVisible()) {
 						geoList.add(geo0);
@@ -1669,7 +1669,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected void handleEventHandlers(Object source) {
 		needUndo = false;
 
-		ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> targetGeos = new ArrayList<>();
 		targetGeos.addAll(ec.getJustCreatedGeos());
 		if (!EuclidianConstants.isMoveOrSelectionMode(mode)) {
 			targetGeos.addAll(defaultGeos);

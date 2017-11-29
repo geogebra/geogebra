@@ -101,7 +101,7 @@ public class ContextMenuAlgebra implements SetLabels {
 		@Override
 		protected void initActions() {
 			if (supportedModes == null) {
-				supportedModes = new ArrayList<SortMode>();
+				supportedModes = new ArrayList<>();
 			}
 
 			supportedModes.clear();

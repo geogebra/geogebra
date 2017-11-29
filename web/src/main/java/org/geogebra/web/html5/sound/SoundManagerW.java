@@ -18,7 +18,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 
 	private AppW app;
 	private boolean mp3active=true;
-	private Map<String,Element> urlToAudio = new HashMap<String,Element>();
+	private Map<String, Element> urlToAudio = new HashMap<>();
 	/**
 	 * @param app
 	 *            App

@@ -23,7 +23,7 @@ public class DataCollection implements WebSocketListener {
 	private WebsocketLogger sensorLogger;
 	private DataCollectionView dataView;
 	private AppW app;
-	private ArrayList<Frequency> frequencies = new ArrayList<Frequency>();
+	private ArrayList<Frequency> frequencies = new ArrayList<>();
 
 	/**
 	 * 

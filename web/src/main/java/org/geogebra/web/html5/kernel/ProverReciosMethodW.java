@@ -69,7 +69,7 @@ public class ProverReciosMethodW extends AbstractProverReciosMethod {
 
 			if (as != null) {
 				// use Botana's method
-				HashMap<PVariable, BigInteger> substitutions = new HashMap<PVariable, BigInteger>();
+				HashMap<PVariable, BigInteger> substitutions = new HashMap<>();
 				for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
 
 					PVariable v = entry.getKey();

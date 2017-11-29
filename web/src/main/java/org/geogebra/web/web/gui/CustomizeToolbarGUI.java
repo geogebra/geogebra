@@ -899,7 +899,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	public void buildUsedTools(String toolbarDefinition) {
 		toolTree.clear();
 		if (usedTools == null) {
-			usedTools = new Vector<Integer>();
+			usedTools = new Vector<>();
 		}
 		usedTools.clear();
 

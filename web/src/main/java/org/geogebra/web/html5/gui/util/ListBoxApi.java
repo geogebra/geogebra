@@ -36,7 +36,7 @@ public class ListBoxApi {
 	 * @return List of selected String items
 	 */
 	public static List<String> getSelection(ListBox lb) {
-		List<String> sel = new ArrayList<String>();
+		List<String> sel = new ArrayList<>();
 		for (int i = 0; i < lb.getItemCount(); i++) {
 			if (lb.isItemSelected(i)) {
 				sel.add(lb.getItemText(i));
@@ -51,7 +51,7 @@ public class ListBoxApi {
 	 * @return List of selected indexes
 	 */
 	public static List<Integer> getSelectionIndexes(ListBox lb) {
-		List<Integer> sel = new ArrayList<Integer>();
+		List<Integer> sel = new ArrayList<>();
 		for (int i = 0; i < lb.getItemCount(); i++) {
 			if (lb.isItemSelected(i)) {
 				sel.add(i);

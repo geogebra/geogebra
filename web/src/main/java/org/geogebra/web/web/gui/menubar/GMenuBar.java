@@ -36,7 +36,7 @@ public class GMenuBar extends AriaMenuBar {
 		super();
 		this.menuTitle = menuTitle;
 		this.app = app;
-		tabHandlers = new ArrayList<TabHandler>();
+		tabHandlers = new ArrayList<>();
 	}
 
 	/**
@@ -198,6 +198,7 @@ public class GMenuBar extends AriaMenuBar {
 	/**
 	 * @return application
 	 */
+	@Override
 	protected AppW getApp() {
 		return app;
 	}

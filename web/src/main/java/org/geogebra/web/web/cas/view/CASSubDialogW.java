@@ -91,7 +91,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
 		initData(cell);
 
-		table = new CellTable<SubstituteValue>();
+		table = new CellTable<>();
 		// do not refresh the headers and footers every time the data is updated
 		table.setAutoHeaderRefreshDisabled(true);
 		table.setAutoFooterRefreshDisabled(true);
@@ -133,7 +133,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	}
 
 	private void fillTableColumns() {
-		ListDataProvider<SubstituteValue> dataProvider = new ListDataProvider<CASSubDialog.SubstituteValue>();
+		ListDataProvider<SubstituteValue> dataProvider = new ListDataProvider<>();
 		dataProvider.addDataDisplay(table);
 		list = dataProvider.getList();
 		for (int i = 0; i < data.size(); i++) {
@@ -241,7 +241,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		for (int i = 0; i < list.size(); i++) {
 			Vector<String> vec = data.get(i);
 			if (vec == null) {
-				vec = new Vector<String>();
+				vec = new Vector<>();
 				vec.setSize(2);
 				data.set(i, vec);
 			}

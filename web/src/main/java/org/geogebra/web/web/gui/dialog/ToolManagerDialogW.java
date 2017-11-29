@@ -78,7 +78,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	private static class MacroListBox extends ListBox {
 		List<Macro> macros;
 		public MacroListBox() {
-			macros = new ArrayList<Macro>();
+			macros = new ArrayList<>();
 		}
 
 		private static String getMacroText(Macro macro) {
@@ -132,11 +132,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			for (int i = 0; i < getItemCount(); i++) {
 				if (isItemSelected(i)) {
 					if (sel == null) {
-						sel = new ArrayList<Macro>();
+						sel = new ArrayList<>();
 					}
 					sel.add(getMacro(i));
 				}
-
 			}
 
 			return sel;

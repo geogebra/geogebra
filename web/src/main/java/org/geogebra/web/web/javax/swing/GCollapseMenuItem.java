@@ -48,7 +48,7 @@ public class GCollapseMenuItem {
 		imgCollapse = new NoDragImage(collapseUrl);
 		imgCollapse.addStyleName("collapseImg");
 
-		items = new ArrayList<AriaMenuItem>();
+		items = new ArrayList<>();
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("collapseMenuItem");
 		menuItem = new AriaMenuItem(itemPanel.toString(), true,

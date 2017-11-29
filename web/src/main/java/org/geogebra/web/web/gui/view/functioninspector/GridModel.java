@@ -66,8 +66,8 @@ public class GridModel {
 		columnCount = col;
 		rowCount = 0;
 		this.listener = listener;
-		headers = new ArrayList<String>();
-		data = new ArrayList<List<DataCell>>();
+		headers = new ArrayList<>();
+		data = new ArrayList<>();
 		editCell = null;
 	}         
 
@@ -125,7 +125,7 @@ public class GridModel {
 	}
 	
 	public void addAsRow(List<String> values) {
-		List<DataCell> row = new ArrayList<DataCell>();
+		List<DataCell> row = new ArrayList<>();
 		for (Object value: values)  {
 			row.add(new DataCell(value, false));
 		}
@@ -155,7 +155,7 @@ public class GridModel {
 	}
 
 	private List<DataCell> newRowCells() {
-		ArrayList<DataCell> cells = new ArrayList<DataCell>();
+		ArrayList<DataCell> cells = new ArrayList<>();
 		for (int col=0; col < columnCount; col++) {
 			cells.add(new DataCell(null, false));
 		}

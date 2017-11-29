@@ -54,7 +54,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		super(app);
 		rowNum = rows;
 		colNum = columns;
-		defaultTableModel = new ArrayList<Object>(rows * columns);
+		defaultTableModel = new ArrayList<>(rows * columns);
 		for (int i = 0; i < rows * columns; i++) {
 			defaultTableModel.add(null);
 		}

@@ -1,11 +1,5 @@
 package org.geogebra.web.html5.util;
 
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
-import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
-import org.geogebra.common.util.Charsets;
-import org.geogebra.common.util.StringUtil;
-import org.junit.Test;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
@@ -13,11 +7,17 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.TreeSet;
 
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.util.Charsets;
+import org.geogebra.common.util.StringUtil;
+import org.junit.Test;
+
 public class ArticleTest {
 	@Test
 	public void documentedParameters() {
 		Method[] mtds = ArticleElement.class.getMethods();
-		TreeSet<String> documented = new TreeSet<String>();
+		TreeSet<String> documented = new TreeSet<>();
 		for (Method mtd : mtds) {
 			if (mtd.getName().contains("Data")) {
 				documented.add(StringUtil.uncapitalize(

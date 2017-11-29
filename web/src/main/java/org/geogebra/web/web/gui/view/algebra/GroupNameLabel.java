@@ -61,7 +61,7 @@ public class GroupNameLabel extends Label
 	@Override
 	public void onClick(ClickEvent evt) {
 		Object uo;
-		ArrayList<GeoElement> groupedGeos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> groupedGeos = new ArrayList<>();
 		for (int i = 0; i < par.getChildCount(); i++) {
 			//par.getChild(i).setSelected(true);
 			uo = par.getChild(i).getUserObject();

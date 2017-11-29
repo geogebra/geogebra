@@ -191,7 +191,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	private final GLookAndFeelI laf;
 
-	protected ArrayList<Widget> popups = new ArrayList<Widget>();
+	protected ArrayList<Widget> popups = new ArrayList<>();
 	private boolean justClosedPopup = false;
 	// protected GeoGebraFrame frame = null;
 
@@ -212,7 +212,7 @@ public abstract class AppW extends App implements SetLabels {
 	WebsocketLogger webSocketLogger = null;
 	private boolean keyboardNeeded;
 	private String externalPath;
-	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<ViewsChangedListener>();
+	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
 	private NetworkOperation networkOperation;
 
@@ -223,11 +223,11 @@ public abstract class AppW extends App implements SetLabels {
 	private boolean allowSymbolTables = true;
 	private boolean allowStyleBar = true;
 	private TimerSystemW timers;
-	HashMap<String, String> revTranslateCommandTable = new HashMap<String, String>();
-	private ArrayList<FileLoadListener> fileLoadListeners = new ArrayList<FileLoadListener>();
+	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
+	private ArrayList<FileLoadListener> fileLoadListeners = new ArrayList<>();
 	private Runnable closeBroserCallback;
 	private Runnable insertImageCallback;
-	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<MouseTouchGestureControllerW>();
+	private ArrayList<MouseTouchGestureControllerW> euclidianHandlers = new ArrayList<>();
 
 	Timer timeruc = new Timer() {
 		@Override
@@ -3707,7 +3707,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	public int addSlide() {
 		if (slides == null) {
-			slides = new ArrayList<GgbFile>();
+			slides = new ArrayList<>();
 			activeSlide = 0;
 		}
 		slides.add(new GgbFile());

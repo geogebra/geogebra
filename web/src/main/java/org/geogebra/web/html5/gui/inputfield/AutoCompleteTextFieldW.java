@@ -330,7 +330,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		curWord = new StringBuilder();
 
 		historyIndex = 0;
-		history = new ArrayList<String>(50);
+		history = new ArrayList<>(50);
 
 		completions = null;
 
@@ -511,7 +511,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		if (commands == null) {
 			return null;
 		}
-		ArrayList<String> syntaxes = new ArrayList<String>();
+		ArrayList<String> syntaxes = new ArrayList<>();
 		for (String cmd : commands) {
 
 			String cmdInt = app.getInternalCommand(cmd);
@@ -1869,7 +1869,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void autocomplete(String s) {
 		getTextField().setText(s);
-		ArrayList<String> arr = new ArrayList<String>();
+		ArrayList<String> arr = new ArrayList<>();
 		arr.add(s);
 		validateAutoCompletion(0, arr);
 	}

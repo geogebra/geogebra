@@ -129,8 +129,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected int leadSelectionColumn = -1;
 
 	// Used for rendering headers with ctrl-select
-	protected HashSet<Integer> selectedColumnSet = new HashSet<Integer>();
-	protected HashSet<Integer> selectedRowSet = new HashSet<Integer>();
+	protected HashSet<Integer> selectedColumnSet = new HashSet<>();
+	protected HashSet<Integer> selectedRowSet = new HashSet<>();
 
 	private int selectionType = MyTableInterface.CELL_SELECT;
 
@@ -159,7 +159,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public HashSet<GPoint> cellResizeHeightSet;
 	public HashSet<GPoint> cellResizeWidthSet;
 
-	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<GPoint>();
+	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
 	private boolean doRecordRowHeights = true;
 
 	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
@@ -170,7 +170,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public static int minusRowHeight = 2; // 12;
 	public static int minusColumnWidth = 2; // 14;
 
-	private HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<GPoint, GeoElement>();
+	private HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<>();
 	private boolean allowEditing = false;
 
 	private SpreadsheetModeProcessor spredsheetModeProcessor;
@@ -235,8 +235,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		createFloatingElements();
 		createGUI();
 
-		cellResizeHeightSet = new HashSet<GPoint>();
-		cellResizeWidthSet = new HashSet<GPoint>();
+		cellResizeHeightSet = new HashSet<>();
+		cellResizeWidthSet = new HashSet<>();
 
 		for (int i = 0; i < getColumnCount(); ++i) {
 			// TODO//getColumnModel().getColumn(i).setHeaderRenderer(headerRenderer);
@@ -258,7 +258,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// setDefaultEditor(Object.class, editor);
 
 		// initialize selection fields
-		selectedCellRanges = new ArrayList<CellRange>();
+		selectedCellRanges = new ArrayList<>();
 		selectedCellRanges.add(new CellRange(app));
 
 		selectionType = MyTableInterface.CELL_SELECT;
@@ -1065,7 +1065,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// TODO if (changedAnchor && !isEditing()) view.updateFormulaBar();
 
 		// update the geo selection list
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> list = new ArrayList<>();
 		for (int i = 0; i < selectedCellRanges.size(); i++) {
 			list.addAll(0, (selectedCellRanges.get(i)).toGeoList());
 		}
@@ -1386,7 +1386,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 */
 	public ArrayList<Integer> getSelectedColumnsList() {
 
-		ArrayList<Integer> columns = new ArrayList<Integer>();
+		ArrayList<Integer> columns = new ArrayList<>();
 
 		for (CellRange cr : this.selectedCellRanges) {
 			for (int c = cr.getMinColumn(); c <= cr.getMaxColumn(); ++c) {
@@ -1639,7 +1639,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
 			if (geo.isGeoButton() || geo.isGeoImage()) {
-				ArrayList<GeoElement> sel = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> sel = new ArrayList<>();
 				sel.add(geo);
 				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
 						sel);

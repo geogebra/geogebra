@@ -137,7 +137,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	 * OPen object settings
 	 */
 	protected void openSettings() {
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> list = new ArrayList<>();
 		list.add(item.geo);
 		app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, list);
 

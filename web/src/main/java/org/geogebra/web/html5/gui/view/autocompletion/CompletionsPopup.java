@@ -66,7 +66,7 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 	}
 	
 	private static List<MultiWordSuggestion> convertToFormattedSuggestions(String query, List<String> candidates) {
-		List<MultiWordSuggestion> suggestions = new ArrayList<MultiWordSuggestion>();
+		List<MultiWordSuggestion> suggestions = new ArrayList<>();
 		for (int i = 0; i < candidates.size(); i++) {
 			String candidate = candidates.get(i);
 			

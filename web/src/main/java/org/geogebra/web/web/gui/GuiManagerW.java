@@ -155,7 +155,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private AlgebraControllerW algebraController;
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
-	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<EuclidianViewW>();
+	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<>();
 	protected BrowseViewI browseGUI;
 	protected LayoutW layout;
 	protected boolean uploadWaiting;

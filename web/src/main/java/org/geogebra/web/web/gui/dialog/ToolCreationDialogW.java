@@ -335,7 +335,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 			callHandler();
 			hide();
 		} else {
-			ArrayList<Integer> selIndices = new ArrayList<Integer>();
+			ArrayList<Integer> selIndices = new ArrayList<>();
 			switch (selectedTab) {
 			default:
 				// do nothing
@@ -357,7 +357,7 @@ public class ToolCreationDialogW extends DialogBoxW implements
 				}
 				break;
 			case 1:
-				selIndices = new ArrayList<Integer>();
+				selIndices = new ArrayList<>();
 				if (inputLB.getSelectedIndex() >= 0) {
 					for (int i = 0; i < inputLB.getItemCount(); i++) {
 						if (inputLB.isItemSelected(i)) {

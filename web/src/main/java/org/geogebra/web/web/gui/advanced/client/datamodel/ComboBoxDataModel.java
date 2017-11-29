@@ -33,16 +33,16 @@ import com.google.gwt.core.client.GWT;
  */
 public class ComboBoxDataModel implements ListDataModel {
 	/** a list of item IDs where each item is instance of <code>String</code> */
-	private List<String> itemIds = new ArrayList<String>();
+	private List<String> itemIds = new ArrayList<>();
 	/**
 	 * a map of items where each item is pair of <code>String</code> ID and
 	 * <code>Object</code> value
 	 */
-	private Map<String, Object> items = new HashMap<String, Object>();
+	private Map<String, Object> items = new HashMap<>();
 	/** a selected item ID */
 	private String selectedId;
 	/** {@link org.gwt.advanced.client.datamodel.ListModelListener}s */
-	private List<ListModelListener> listeners = new ArrayList<ListModelListener>();
+	private List<ListModelListener> listeners = new ArrayList<>();
 
 	/** {@inheritDoc} */
 	@Override
@@ -73,7 +73,7 @@ public class ComboBoxDataModel implements ListDataModel {
 			return;
 		}
 
-		Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
+		Map<String, Integer> itemIndexes = new LinkedHashMap<>();
 		for (Map.Entry<String, Object> entry : newItems.entrySet()) {
 			addInternally(entry.getKey(), entry.getValue());
 			itemIndexes.put(entry.getKey(),
@@ -102,7 +102,7 @@ public class ComboBoxDataModel implements ListDataModel {
 	/** {@inheritDoc} */
 	@Override
 	public void remove(String... ids) {
-		Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
+		Map<String, Integer> itemIndexes = new LinkedHashMap<>();
 		for (String id : ids) {
 			int index = removeInternally(id);
 			itemIndexes.put(id, index);
@@ -115,7 +115,7 @@ public class ComboBoxDataModel implements ListDataModel {
 	/** {@inheritDoc} */
 	@Override
 	public void remove(int... indexes) {
-		Map<String, Integer> itemIndexes = new LinkedHashMap<String, Integer>();
+		Map<String, Integer> itemIndexes = new LinkedHashMap<>();
 		for (int index : indexes) {
 			if (isIndexValid(index)) {
 				String id = getItemIds().get(index);

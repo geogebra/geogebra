@@ -71,8 +71,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private int deltaSum = 0;
 	private int moveCounter = 0;
 	private boolean dragModeIsRightClick = false;
-	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
-	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
+	private LinkedList<PointerEvent> mousePool = new LinkedList<>();
+	private LinkedList<PointerEvent> touchPool = new LinkedList<>();
 	private boolean comboboxFocused;
 	private boolean euclidianOffsetsInited = false;
 	/**

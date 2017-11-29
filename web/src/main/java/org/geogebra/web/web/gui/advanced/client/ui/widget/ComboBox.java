@@ -769,7 +769,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	 */
 	protected ListPopupPanel<T> getListPanel() {
 		if (listPanel == null) {
-			listPanel = new ListPopupPanel<T>(this, getApp());
+			listPanel = new ListPopupPanel<>(this, getApp());
 		}
 		return listPanel;
 	}
@@ -919,7 +919,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 		 */
 		protected Set<Object> getFocuses() {
 			if (focuses == null) {
-				focuses = new HashSet<Object>();
+				focuses = new HashSet<>();
 			}
 			return focuses;
 		}

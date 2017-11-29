@@ -86,8 +86,8 @@ public class Views {
 		}
 	}
 
-	final private static ArrayList<ViewType> views = new ArrayList<ViewType>();
-	final private static ArrayList<ViewType> extensions = new ArrayList<ViewType>();
+	final private static ArrayList<ViewType> views = new ArrayList<>();
+	final private static ArrayList<ViewType> extensions = new ArrayList<>();
 	static {
 		views.add(ViewType.ALGEBRA);
 		views.add(ViewType.CAS);
@@ -117,7 +117,7 @@ public class Views {
 	 * @return list of the "real" views and the "view-extension"
 	 */
 	public static ArrayList<ViewType> getAll() {
-		ArrayList<ViewType> all = new ArrayList<ViewType>();
+		ArrayList<ViewType> all = new ArrayList<>();
 		all.addAll(views);
 		all.addAll(extensions);
 		return all;

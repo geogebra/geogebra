@@ -108,7 +108,7 @@ public class ContextMenuTools implements SetLabels {
 		@Override
 		protected void initActions() {
 			if (supportedLevels == null) {
-				supportedLevels = new ArrayList<ToolsetLevel>();
+				supportedLevels = new ArrayList<>();
 			}
 
 			supportedLevels.clear();

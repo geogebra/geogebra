@@ -89,7 +89,7 @@ public class DockManagerW extends DockManager {
 	private List<ShowDockPanelListener> showDockPanelListener;
 	private boolean panelsMoved;
 	
-	private TreeSet<Integer> viewsInPerspective = new TreeSet<Integer>();
+	private TreeSet<Integer> viewsInPerspective = new TreeSet<>();
 	
 	/**
 	 * @param layout
@@ -99,8 +99,8 @@ public class DockManagerW extends DockManager {
 		this.layout = layout;
 		this.app = layout.getApplication();
 		
-		dockPanels = new ArrayList<DockPanelW>();
-		showDockPanelListener=new ArrayList<ShowDockPanelListener>();
+		dockPanels = new ArrayList<>();
+		showDockPanelListener = new ArrayList<>();
 	}
 	
 	/**
@@ -147,8 +147,8 @@ public class DockManagerW extends DockManager {
 			DockSplitPaneW[] splitPanes = new DockSplitPaneW[spData.length];
 
 			// hm should mean 
-			HashMap<DockSplitPaneW, Integer> spw = new HashMap<DockSplitPaneW, Integer>();
-			HashMap<DockSplitPaneW, Integer> sph = new HashMap<DockSplitPaneW, Integer>();
+			HashMap<DockSplitPaneW, Integer> spw = new HashMap<>();
+			HashMap<DockSplitPaneW, Integer> sph = new HashMap<>();
 
 			// construct the split panes
 			for(int i = 0; i < spData.length; ++i) {
@@ -390,7 +390,7 @@ public class DockManagerW extends DockManager {
 
 			panel.setAlone(false);
 		}
-		TreeSet<Integer> updated = new TreeSet<Integer>();
+		TreeSet<Integer> updated = new TreeSet<>();
 		// copy dock panel info settings
 		for (int i = 0; i < dpData.length; ++i) {
 			updated.add(dpData[i].getViewId());

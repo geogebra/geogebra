@@ -210,7 +210,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		 */
 		exportToEVAction = new ScheduledCommand() {
 			
-			private HashMap<String, Object> value = new HashMap<String, Object>();
+			private HashMap<String, Object> value = new HashMap<>();
 			
 			public Object getValue(String key) {
 				return value.get(key);

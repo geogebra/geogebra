@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public abstract class GeoGebraFrameW extends FlowPanel implements
         HasAppletProperties {
 
-	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<GeoGebraFrameW>();
+	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 
 
 
@@ -56,7 +56,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	/** Tab index for graphics */
 	public static final int GRAPHICS_VIEW_TABINDEX = 10000;
 
-	private static HashMap<String, AppW> articleMap = new HashMap<String, AppW>();
+	private static HashMap<String, AppW> articleMap = new HashMap<>();
 	/** Article element */
 	public ArticleElement ae;
 

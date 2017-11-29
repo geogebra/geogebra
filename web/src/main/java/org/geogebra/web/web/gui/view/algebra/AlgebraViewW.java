@@ -145,7 +145,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
 
-	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(
+	private HashMap<GeoElement, TreeItem> nodeTable = new HashMap<>(
 			500);
 
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
@@ -483,7 +483,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		if (collapsedNodes == null) {
-			collapsedNodes = new ArrayList<Integer>();
+			collapsedNodes = new ArrayList<>();
 		} else {
 			collapsedNodes.clear();
 		}
@@ -588,7 +588,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 		if (this.collapsedNodes == null) {
-			this.collapsedNodes = new ArrayList<Integer>();
+			this.collapsedNodes = new ArrayList<>();
 		} else {
 			this.collapsedNodes.clear();
 		}
@@ -778,7 +778,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			if (rootType == null) {
 				rootType = new AVTreeItem();
 				// setUserObject(rootType, "");
-				typeNodesMap = new HashMap<String, TreeItem>(5);
+				typeNodesMap = new HashMap<>(5);
 
 			}
 
@@ -798,7 +798,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			// don't re-init anything
 			if (rootLayer == null) {
 				rootLayer = new AVTreeItem();
-				layerNodesMap = new HashMap<Integer, TreeItem>(10);
+				layerNodesMap = new HashMap<>(10);
 			}
 
 			// always try to remove the auxiliary node
@@ -1784,7 +1784,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		// open Object Properties for eg GeoImages
 		// also for GeoPenStroke
 		if (!geo.isAlgebraViewEditable()) {
-			ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> geos = new ArrayList<>();
 			geos.add(geo);
 			app.getDialogManager().showPropertiesDialog(geos);
 			return;

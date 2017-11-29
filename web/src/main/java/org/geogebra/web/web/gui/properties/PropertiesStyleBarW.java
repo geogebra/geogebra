@@ -143,7 +143,7 @@ public class PropertiesStyleBarW extends
 		toolbar.sinkEvents(Event.ONMOUSEDOWN | Event.ONTOUCHSTART);
 		toolbar.setFocusOnHoverEnabled(false);
 		
-		buttonMap = new HashMap<OptionType, AriaMenuItem>();
+		buttonMap = new HashMap<>();
 		
 		for (final OptionType type : OptionTypesImpl) {
 			if (typeAvailable(type)){

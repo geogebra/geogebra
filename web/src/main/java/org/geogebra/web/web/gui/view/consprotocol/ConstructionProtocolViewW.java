@@ -100,7 +100,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		app.getGuiManager().registerConstructionProtocolView(this);
 
-		table = new CellTable<RowData>();
+		table = new CellTable<>();
 		table.addStyleName("cpTable");
 				
 //		first attempt with flextable
@@ -136,7 +136,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	}
 	
 	private void addHeader() {
-		headerTable = new CellTable<RowData>();
+		headerTable = new CellTable<>();
 		headerTable.addStyleName("headerTable");
 		headerTable.addStyleName("cpTable");
 
@@ -1009,7 +1009,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 */
 	private void addTable(final FlowPanel printPanel, final double scaledWidth,
 			String stylename, int w) {
-		final CellTable<RowData> previewTable = new CellTable<RowData>();
+		final CellTable<RowData> previewTable = new CellTable<>();
 		// width of table in pixel
 		addColumnsForTable(previewTable);
 		previewTable.addStyleName(stylename);

@@ -155,7 +155,7 @@ public class Tools extends FlowPanel implements SetLabels {
 
 		categories = mToolCategorization
 				.getCategories();
-		categoryPanelList = new ArrayList<Tools.CategoryPanel>();
+		categoryPanelList = new ArrayList<>();
 		for (int i = 0; i < categories.size(); i++) {
 			CategoryPanel catPanel = new CategoryPanel(categories.get(i));
 			categoryPanelList.add(catPanel);
@@ -197,7 +197,7 @@ public class Tools extends FlowPanel implements SetLabels {
 			toolsPanel.addStyleName("categoryPanel");
 			ArrayList<Integer> tools = getmToolCategorization().getTools(
 					getmToolCategorization().getCategories().indexOf(category));
-			toolBtnList = new ArrayList<StandardButton>();
+			toolBtnList = new ArrayList<>();
 			ToolBar.parseToolbarString(
 					app.getGuiManager().getToolbarDefinition());
 			for (int i = 0; i < tools.size(); i++) {

@@ -20,16 +20,16 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class ImageManagerW extends ImageManager {
 
-	private HashMap<String, ImageElement> externalImageTable = new HashMap<String, ImageElement>();
-	private HashMap<String, String> externalImageSrcs = new HashMap<String, String>();
+	private HashMap<String, ImageElement> externalImageTable = new HashMap<>();
+	private HashMap<String, String> externalImageSrcs = new HashMap<>();
 	private boolean preventAuxImage;
 	protected int imagesLoaded = 0;
 	private String construction, defaults2d, defaults3d, macros;
 	private MyXMLio myXMLio;
 
 	public void reset() {
-		externalImageTable = new HashMap<String, ImageElement>();
-		externalImageSrcs = new HashMap<String, String>();
+		externalImageTable = new HashMap<>();
+		externalImageSrcs = new HashMap<>();
 		imagesLoaded = 0;
 		construction = null;
 		macros = null;

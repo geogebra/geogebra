@@ -263,7 +263,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 			run.run();
 		} else {
 			if (waitingForLocalization == null) {
-				waitingForLocalization = new ArrayList<Runnable>();
+				waitingForLocalization = new ArrayList<>();
 			}
 			waitingForLocalization.add(run);
 		}

@@ -26,7 +26,7 @@ public class ViewMenuW extends GMenuBar {
 	/**
 	 * Menuitem with checkbox for show algebra view
 	 */
-	HashMap<Integer, GCheckBoxMenuItem> items = new HashMap<Integer, GCheckBoxMenuItem>();
+	HashMap<Integer, GCheckBoxMenuItem> items = new HashMap<>();
 	/** app */
 	AppW app;
 	/** item for input */
