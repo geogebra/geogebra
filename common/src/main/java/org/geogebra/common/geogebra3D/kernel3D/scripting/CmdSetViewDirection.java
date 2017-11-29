@@ -30,6 +30,11 @@ public class CmdSetViewDirection extends CmdScripting {
 
 	@Override
 	protected final GeoElement[] perform(Command c) throws MyError {
+
+		if (!app.isEuclidianView3Dinited()) {
+			return new GeoElement[0];
+		}
+
 		int n = c.getArgumentNumber();
 
 		if (n > 2) {
