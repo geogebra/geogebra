@@ -754,8 +754,11 @@ public abstract class RendererWithImpl extends Renderer
 
 	@Override
 	protected void needExportImage(double scale, int w, int h) {
-
-		rendererImpl.needExportImage(scale, w, h);
+		if (rendererImpl != null) {
+			rendererImpl.needExportImage(scale, w, h);
+		} else {
+			Log.error("rendererImpl null in needExportImage()");
+		}
 
 	}
 
