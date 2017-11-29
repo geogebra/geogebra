@@ -206,41 +206,6 @@ public class AriaMenuBar extends Widget {
 		}
 
 		case Event.ONKEYDOWN: {
-			int keyCode = event.getKeyCode();
-			// TODO: KeyCodes.maybeSwapArrowKeysForRtl(
-			switch (keyCode) {
-			// case KeyCodes.KEY_LEFT:
-			// moveToPrevItem();
-			// eatEvent(event);
-			// break;
-			// case KeyCodes.KEY_RIGHT:
-			// moveToNextItem();
-			// eatEvent(event);
-			// break;
-			// case KeyCodes.KEY_UP:
-			// if (moveSelectionUp()) {
-			//
-			// eatEvent(event);
-			// }
-			// break;
-			// case KeyCodes.KEY_DOWN:
-			// if (moveSelectionDown()) {
-			// eatEvent(event);
-			// }
-			// break;
-			default:
-				break;
-			// case KeyCodes.KEY_TAB:
-			// closeAllParentsAndChildren();
-			// break;
-			// case KeyCodes.KEY_ENTER:
-			// if (!selectFirstItemIfNoneSelected()) {
-			// doItemAction(selectedItem, true, true);
-			// eatEvent(event);
-			// }
-			// break;
-			} // end switch(keyCode)
-
 			break;
 		} // end case Event.ONKEYDOWN
 		} // end switch (DOM.eventGetType(event))
