@@ -198,7 +198,7 @@ public class DrawTurtle extends Drawable {
 			updateStrokes(turtle);
 
 			if (pathList == null) {
-				pathList = new ArrayList<PartialPath>();
+				pathList = new ArrayList<>();
 			} else {
 				pathList.clear();
 			}

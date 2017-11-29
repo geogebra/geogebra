@@ -32,8 +32,8 @@ public class MacroManager {
 	 * 
 	 */
 	public MacroManager() {
-		macroMap = new HashMap<String, Macro>();
-		macroList = new ArrayList<Macro>();
+		macroMap = new HashMap<>();
+		macroList = new ArrayList<>();
 	}
 
 	/**

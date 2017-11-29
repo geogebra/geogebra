@@ -69,7 +69,7 @@ public class ClipShape {
 	static class ClippedPath {
 		/** path */
 		final GGeneralPath g;
-		private Stack<double[]> uncommittedPoints = new Stack<double[]>();
+		private Stack<double[]> uncommittedPoints = new Stack<>();
 		private double initialX, initialY;
 
 		/**
@@ -351,6 +351,16 @@ public class ClipShape {
 			return a + "*t*t*t+" + b + "*t*t+" + c + "*t+" + d;
 		}
 
+		/**
+		 * @param x0
+		 *            f(0)
+		 * @param x1
+		 *            f(1/3)
+		 * @param x2
+		 *            f(2/3)
+		 * @param x3
+		 *            f(1)
+		 */
 		public void define(double x0, double x1, double x2, double x3) {
 			a = -x0 + 3 * x1 - 3 * x2 + x3;
 			b = 3 * x0 - 6 * x1 + 3 * x2;

@@ -200,8 +200,11 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	
 	/**
 	 * zoom y & z axes ratio regarding x axis
+	 * 
 	 * @param zoomFactorY
+	 *            y:x ratio
 	 * @param zoomFactorZ
+	 *            z:x ratio
 	 */
 	public void zoomAxesRatio(double zoomFactorY, double zoomFactorZ);
 

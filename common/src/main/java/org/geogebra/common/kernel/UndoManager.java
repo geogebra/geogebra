@@ -41,7 +41,7 @@ public abstract class UndoManager {
 	public UndoManager(Construction cons) {
 		construction = cons;
 		app = cons.getApplication();
-		undoInfoList = new LinkedList<AppState>();
+		undoInfoList = new LinkedList<>();
 	}
 
 	/**

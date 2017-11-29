@@ -49,7 +49,7 @@ public class Macro {
 	private String[] macroInputLabels, macroOutputLabels;
 	private Test[] inputTypes;
 	private Integer viewId = null;
-	private LinkedList<AlgoElement> usingAlgos = new LinkedList<AlgoElement>();
+	private LinkedList<AlgoElement> usingAlgos = new LinkedList<>();
 	private boolean copyCaptions;
 
 	/**
@@ -214,7 +214,7 @@ public class Macro {
 		// 6) create a new macro-construction from this XML representation
 
 		// 1) create the set of all parents of this macro's output objects
-		TreeSet<GeoElement> outputParents = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> outputParents = new TreeSet<>();
 		for (int i = 0; i < output.length; i++) {
 			output[i].addPredecessorsToSet(outputParents, false);
 
@@ -234,8 +234,8 @@ public class Macro {
 			}
 		}
 		// 2) and 3) get intersection of inputChildren and outputParents
-		TreeSet<ConstructionElement> macroConsOrigElements = new TreeSet<ConstructionElement>();
-		TreeSet<Long> usedAlgoIds = new TreeSet<Long>();
+		TreeSet<ConstructionElement> macroConsOrigElements = new TreeSet<>();
+		TreeSet<Long> usedAlgoIds = new TreeSet<>();
 		Iterator<GeoElement> it = outputParents.iterator();
 		while (it.hasNext()) {
 			GeoElement outputParent = it.next();
@@ -789,7 +789,7 @@ public class Macro {
 	 * @return list of geos created using this macro
 	 */
 	public ArrayList<GeoElement> getDependentGeos() {
-		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> geos = new ArrayList<>();
 		Iterator<AlgoElement> curr = usingAlgos.iterator();
 		while (curr.hasNext()) {
 			AlgoElement algo = curr.next();

@@ -60,7 +60,7 @@ public class ModeShape {
 	protected GGeneralPath polygon = AwtFactory.getPrototype()
 			.newGeneralPath();
 	private AlgoElement algo = null;
-	private ArrayList<GPoint> pointListFreePoly = new ArrayList<GPoint>();
+	private ArrayList<GPoint> pointListFreePoly = new ArrayList<>();
 
 	/**
 	 * @param view

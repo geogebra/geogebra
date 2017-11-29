@@ -392,7 +392,7 @@ public class ConstructionDefaults {
 	 * Fills the list of default geos
 	 */
 	public void createDefaultGeoElements() {
-		defaultGeoElements = new HashMap<Integer, GeoElement>();
+		defaultGeoElements = new HashMap<>();
 
 		// free point
 		GeoPoint freePoint = new GeoPoint(cons);

@@ -62,8 +62,8 @@ public class SystemOfEquationsSolver {
 	final public int solveSystemOfQuadraticEquations(double eqn1[],
 			double eqn2[], double[][] res, double eps) {
 
-		ArrayList<Double> xs = new ArrayList<Double>();
-		ArrayList<Double> ys = new ArrayList<Double>();
+		ArrayList<Double> xs = new ArrayList<>();
+		ArrayList<Double> ys = new ArrayList<>();
 
 		if (eqn1[0] == 0 || eqn2[0] == 0 || eqn1[2] == 0 || eqn2[2] == 0) {
 			return -1;

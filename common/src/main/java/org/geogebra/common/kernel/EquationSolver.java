@@ -713,7 +713,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 		// sort by real part & remove duplicates
 
-		TreeSet<Complex> sortedSet = new TreeSet<Complex>(getComparatorReal());
+		TreeSet<Complex> sortedSet = new TreeSet<>(getComparatorReal());
 
 		for (int i = 0; i < complexRoots.length; i++) {
 			sortedSet.add(complexRoots[i]);

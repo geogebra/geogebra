@@ -49,7 +49,7 @@ public class DrawInequality extends Drawable {
 	private Drawable max;
 	private double minBound = -1000000;
 	private Drawable min;
-	private ArrayList<Pair<Map<Double, Drawable>>> orBounds = new ArrayList<Pair<Map<Double, Drawable>>>();
+	private ArrayList<Pair<Map<Double, Drawable>>> orBounds = new ArrayList<>();
 	private GeneralPathClipped[] gpAxis;
 
 	/**
@@ -161,19 +161,19 @@ public class DrawInequality extends Drawable {
 				if (!left.orBounds.isEmpty()) {
 					orBounds.addAll(left.orBounds);
 				}
-				Map<Double, Drawable> minEntry = new HashMap<Double, Drawable>();
+				Map<Double, Drawable> minEntry = new HashMap<>();
 				if (left.min == null) {
 					minEntry.put(left.minBound, null);
 				} else {
 					minEntry.put(left.minBound, left.min);
 				}
-				Map<Double, Drawable> maxEntry = new HashMap<Double, Drawable>();
+				Map<Double, Drawable> maxEntry = new HashMap<>();
 				if (left.max == null) {
 					maxEntry.put(left.maxBound, null);
 				} else {
 					maxEntry.put(left.maxBound, left.max);
 				}
-				Pair<Map<Double, Drawable>> pair = new Pair<Map<Double, Drawable>>(
+				Pair<Map<Double, Drawable>> pair = new Pair<>(
 						minEntry, maxEntry);
 				orBounds.add(pair);
 			}
@@ -243,19 +243,19 @@ public class DrawInequality extends Drawable {
 						((DrawInequality1Var) right.max).ignoreLines();
 					}
 				}
-				Map<Double, Drawable> minEntry = new HashMap<Double, Drawable>();
+				Map<Double, Drawable> minEntry = new HashMap<>();
 				if (right.min == null) {
 					minEntry.put(right.minBound, null);
 				} else {
 					minEntry.put(right.minBound, right.min);
 				}
-				Map<Double, Drawable> maxEntry = new HashMap<Double, Drawable>();
+				Map<Double, Drawable> maxEntry = new HashMap<>();
 				if (right.max == null) {
 					maxEntry.put(right.maxBound, null);
 				} else {
 					maxEntry.put(right.maxBound, right.max);
 				}
-				Pair<Map<Double, Drawable>> pair = new Pair<Map<Double, Drawable>>(
+				Pair<Map<Double, Drawable>> pair = new Pair<>(
 						minEntry, maxEntry);
 				orBounds.add(pair);
 			} else {
@@ -398,7 +398,7 @@ public class DrawInequality extends Drawable {
 		if ((geo instanceof GeoFunction) && ((GeoFunction) geo).showOnAxis()
 				&& !"y".equals(((GeoFunction) geo)
 						.getVarString(StringTemplate.defaultTemplate))) {
-			TreeSet<Double> zeros = new TreeSet<Double>();
+			TreeSet<Double> zeros = new TreeSet<>();
 			((GeoFunction) geo).getIneqs().getZeros(zeros);
 			// radius of the dots
 			double radius = geo.getLineThickness()
@@ -436,7 +436,7 @@ public class DrawInequality extends Drawable {
 			minBound = -1000000;
 			max = null;
 			min = null;
-			orBounds = new ArrayList<Pair<Map<Double, Drawable>>>();
+			orBounds = new ArrayList<>();
 			update2();
 			if (maxBound < minBound) {
 				if (max != null) {

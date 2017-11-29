@@ -210,7 +210,7 @@ public abstract class App implements UpdateSelection {
 	 * this to hide reset icon from EV)
 	 */
 	public boolean runningInFrame = false;
-	public Vector<GeoImage> images = new Vector<GeoImage>();
+	public Vector<GeoImage> images = new Vector<>();
 	/**
 	 * Whether AV should show auxiliary objects stored here rather than in
 	 * algebra view so that it can be set without creating an AV (compatibility
@@ -314,7 +314,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	protected boolean showMenuBar = true;
 	protected String uniqueId;
-	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<Perspective>();
+	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<>();
 	/**
 	 * whether toolbar should be visible
 	 */
@@ -366,7 +366,7 @@ public abstract class App implements UpdateSelection {
 	private boolean useBrowserForJavaScript = true;
 	private EventDispatcher eventDispatcher;
 	private int[] versionArray = null;
-	private List<SavedStateListener> savedListeners = new ArrayList<SavedStateListener>();
+	private List<SavedStateListener> savedListeners = new ArrayList<>();
 	private Macro macro;
 	private int labelingStyle = ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY;
 	/**
@@ -3558,7 +3558,7 @@ public abstract class App implements UpdateSelection {
 
 	private void setShowConstProtNavigationNeedsUpdate(int id, boolean flag) {
 		if (showConstProtNavigationNeedsUpdate == null) {
-			showConstProtNavigationNeedsUpdate = new HashMap<Integer, Boolean>();
+			showConstProtNavigationNeedsUpdate = new HashMap<>();
 		}
 		Boolean update = showConstProtNavigationNeedsUpdate.get(id);
 		if (update == null || update != flag) {
@@ -3613,7 +3613,7 @@ public abstract class App implements UpdateSelection {
 	public void setShowConstructionProtocolNavigation(boolean flag, int id) {
 
 		if (showConsProtNavigation == null) {
-			showConsProtNavigation = new HashMap<Integer, Boolean>();
+			showConsProtNavigation = new HashMap<>();
 		} else {
 			if ((flag == showConsProtNavigation(id))
 					&& (!getShowCPNavNeedsUpdate(id))) {
@@ -3797,7 +3797,7 @@ public abstract class App implements UpdateSelection {
 
 	public void registerOpenFileListener(OpenFileListener o) {
 		if (openFileListener == null) {
-			this.openFileListener = new ArrayList<OpenFileListener>();
+			this.openFileListener = new ArrayList<>();
 		}
 		this.openFileListener.add(o);
 	}
@@ -4958,7 +4958,7 @@ public abstract class App implements UpdateSelection {
 
 	public void addToLastCommandsSelectedFromHelp(String commandName) {
 		if (mLastCommandsSelectedFromHelp == null) {
-			mLastCommandsSelectedFromHelp = new ArrayList<String>();
+			mLastCommandsSelectedFromHelp = new ArrayList<>();
 		}
 		// remove if already in it
 		mLastCommandsSelectedFromHelp.remove(commandName);

@@ -26,7 +26,7 @@ public class BoundingBox {
 	 * Make new bounding box
 	 */
 	public BoundingBox() {
-		handlers = new ArrayList<GEllipse2DDouble>();
+		handlers = new ArrayList<>();
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class BoundingBox {
 
 	private void createHandlers() {
 		if (handlers == null) {
-			handlers = new ArrayList<GEllipse2DDouble>();
+			handlers = new ArrayList<>();
 		}
 
 		handlers.clear();

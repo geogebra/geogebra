@@ -165,7 +165,7 @@ public class Kernel {
 	// changes to the Kernel
 	// (add, remove, update)
 	/** List of attached views */
-	protected ArrayList<View> views = new ArrayList<View>();
+	protected ArrayList<View> views = new ArrayList<>();
 	private boolean addingPolygon = false;
 	private GeoElement newPolygon;
 	private ArrayList<GeoElement> deleteList;
@@ -390,7 +390,7 @@ public class Kernel {
 	protected Kernel(GeoFactory factory) {
 		nf = FormatFactory.getPrototype().getNumberFormat(2);
 		sf = FormatFactory.getPrototype().getScientificFormat(5, 16, false);
-		this.deleteList = new ArrayList<GeoElement>();
+		this.deleteList = new ArrayList<>();
 		this.geoFactory = factory;
 	}
 
@@ -3108,7 +3108,7 @@ public class Kernel {
 	 */
 	public MaxSizeHashMap<String, String> getCasCache() {
 		if (ggbCasCache == null) {
-			ggbCasCache = new MaxSizeHashMap<String, String>(
+			ggbCasCache = new MaxSizeHashMap<>(
 					GEOGEBRA_CAS_CACHE_SIZE);
 		}
 		return ggbCasCache;
@@ -3901,7 +3901,7 @@ public class Kernel {
 	 */
 	public void registerRenameListenerAlgo(AlgoElement algo) {
 		if (renameListenerAlgos == null) {
-			renameListenerAlgos = new ArrayList<AlgoElement>();
+			renameListenerAlgos = new ArrayList<>();
 		}
 
 		if (!renameListenerAlgos.contains(algo)) {
@@ -5242,10 +5242,10 @@ public class Kernel {
 
 		clearCasCache();
 		cons.recomputeCASalgos();
-		TreeSet<GeoElement> treeset = new TreeSet<GeoElement>(
+		TreeSet<GeoElement> treeset = new TreeSet<>(
 				getConstruction().getGeoSetWithCasCellsConstructionOrder());
 
-		ArrayList<GeoElement> al = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> al = new ArrayList<>();
 
 		Iterator<GeoElement> it = treeset.iterator();
 
@@ -5631,9 +5631,9 @@ public class Kernel {
 	 * the moving point on the dependency graph of the construction.
 	 */
 	public boolean validLocus(GeoPointND locusPoint, GeoPointND movingPoint) {
-		HashSet<GeoElement> mPChildren = new HashSet<GeoElement>();
+		HashSet<GeoElement> mPChildren = new HashSet<>();
 		mPChildren.addAll(movingPoint.getAllChildren());
-		HashSet<GeoElement> lPParents = new HashSet<GeoElement>();
+		HashSet<GeoElement> lPParents = new HashSet<>();
 		lPParents.addAll(((GeoElement) locusPoint).getAllPredecessors());
 		mPChildren.retainAll(lPParents);
 		Log.debug("Elements between mover and tracer: " + mPChildren);

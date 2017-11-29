@@ -461,7 +461,7 @@ public class DrawAxis {
 		// number should be fitted at the edge. So numbers will be draw after
 		// iteration only, and because of this, they will be saved in "numbers"
 		// arraylist
-		ArrayList<TickNumber> numbers = new ArrayList<TickNumber>();
+		ArrayList<TickNumber> numbers = new ArrayList<>();
 
 		for (; pix >= maxY; rw += view.axesNumberingDistances[1], pix -= axesStep, labelno++) {
 			if (pix >= maxY && pix < yAxisEnd + 1) {

@@ -330,7 +330,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	final public void removeSegmentsFromPolygons() {
 
-		ArrayList<GeoSegmentND> toRemove = new ArrayList<GeoSegmentND>();
+		ArrayList<GeoSegmentND> toRemove = new ArrayList<>();
 
 		Iterator<GeoElement> it = this.iterator();
 		while (it.hasNext()) {
@@ -340,7 +340,6 @@ public class Hits extends ArrayList<GeoElement> {
 				for (int k = 0; k < sides.length; k++) {
 					toRemove.add(sides[k]);
 				}
-
 			}
 		}
 

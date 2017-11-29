@@ -191,7 +191,7 @@ public class DrawParametricCurve extends Drawable {
 
 	private void updatePointwise() {
 		if (points == null) {
-			points = new ArrayList<GPoint2D>();
+			points = new ArrayList<>();
 		}
 
 		diag1 = AwtFactory.getPrototype().newLine2D();

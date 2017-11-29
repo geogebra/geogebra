@@ -50,7 +50,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private double[] coords = new double[2];
 	private ArrayList<? extends GeoPointND> points;
 	// list of single points created by pen
-	private ArrayList<GPoint2D> pointList = new ArrayList<GPoint2D>();
+	private ArrayList<GPoint2D> pointList = new ArrayList<>();
 	private boolean startPointAdded = false;
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
 

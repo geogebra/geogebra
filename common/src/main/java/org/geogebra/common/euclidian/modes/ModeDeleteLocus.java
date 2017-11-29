@@ -27,20 +27,27 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Delete mode controller for locus based penstrokes
+ */
 public class ModeDeleteLocus extends ModeDelete {
 	private EuclidianView view;
 	private EuclidianController ec;
 	private boolean objDeleteMode = false, penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
-	private ArrayList<List<MyPoint>> newDataAndRealPoint = new ArrayList<List<MyPoint>>();
+	private ArrayList<List<MyPoint>> newDataAndRealPoint = new ArrayList<>();
 	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
 			100);
 
+	/**
+	 * @param view
+	 *            EV
+	 */
 	public ModeDeleteLocus(EuclidianView view) {
 		super(view);
 		this.ec = view.getEuclidianController();
 		this.view = view;
-		this.interPoints = new ArrayList<GPoint2D>();
+		this.interPoints = new ArrayList<>();
 	}
 
 	@Override
@@ -259,9 +266,9 @@ public class ModeDeleteLocus extends ModeDelete {
 	private void deleteUnnecessaryUndefPoints(List<MyPoint> dataPoints,
 			List<MyPoint> realPoints) {
 		newDataAndRealPoint.clear();
-		ArrayList<MyPoint> dataPointList = new ArrayList<MyPoint>(
+		ArrayList<MyPoint> dataPointList = new ArrayList<>(
 				dataPoints.size());
-		ArrayList<MyPoint> realPointList = new ArrayList<MyPoint>(
+		ArrayList<MyPoint> realPointList = new ArrayList<>(
 				realPoints.size());
 		int i = 1;
 		while (i < dataPoints.size()) {
@@ -289,7 +296,7 @@ public class ModeDeleteLocus extends ModeDelete {
 			List<MyPoint> dataPoints, List<MyPoint> realPoints, int newSize,
 			int i, int indexInter1, int indexUndef, int indexInter2,
 			double[] realCoords) {
-		ArrayList<List<MyPoint>> dataAndRealPoint = new ArrayList<List<MyPoint>>();
+		ArrayList<List<MyPoint>> dataAndRealPoint = new ArrayList<>();
 		MyPoint[] newDataPoints = Arrays.copyOf(
 				dataPoints.toArray(new MyPoint[0]),
 				dataPoints.size() + newSize);
@@ -433,7 +440,7 @@ public class ModeDeleteLocus extends ModeDelete {
 	public ArrayList<GPoint2D> getAllIntersectionPoint(MyPoint point1,
 			MyPoint point2,
 			GRectangle rectangle) {
-		ArrayList<GPoint2D> interPointList = new ArrayList<GPoint2D>();
+		ArrayList<GPoint2D> interPointList = new ArrayList<>();
 		// intersection points
 		GPoint2D topInter = getTopIntersectionPoint(point1, point2, rectangle);
 		if (topInter != null) {

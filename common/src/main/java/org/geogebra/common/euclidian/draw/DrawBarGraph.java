@@ -89,8 +89,8 @@ public class DrawBarGraph extends Drawable {
 		drawType = algo.getDrawType();
 
 		if (algo.hasPoints()) {
-			pts = new ArrayList<GeoPoint>();
-			drawPoints = new ArrayList<DrawPoint>();
+			pts = new ArrayList<>();
+			drawPoints = new ArrayList<>();
 			updatePointLists();
 		}
 	}
@@ -277,7 +277,7 @@ public class DrawBarGraph extends Drawable {
 
 	private void initHatchingHandlerArray() {
 		if (hatchingHandlers == null) {
-			hatchingHandlers = new ArrayList<HatchingHandler>();
+			hatchingHandlers = new ArrayList<>();
 
 		}
 

@@ -204,7 +204,7 @@ public final class DrawDropDownList extends CanvasDrawable
 
 		public DrawOptions(EuclidianView view) {
 			this.viewOpt = view;
-			items = new ArrayList<DrawDropDownList.DrawOptions.OptionItem>();
+			items = new ArrayList<>();
 			hovered = null;
 			hoverColor = GColor.LIGHT_GRAY;
 		}

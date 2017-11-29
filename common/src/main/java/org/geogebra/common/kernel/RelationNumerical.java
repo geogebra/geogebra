@@ -171,7 +171,7 @@ public class RelationNumerical {
 			}
 		};
 
-		TreeSet<Report> sortedReports = new TreeSet<Report>(myComparator);
+		TreeSet<Report> sortedReports = new TreeSet<>(myComparator);
 		sortedReports.addAll(reports);
 		return sortedReports;
 	}
@@ -192,7 +192,7 @@ public class RelationNumerical {
 		app = kernel.getApplication();
 		loc = app.getLocalization();
 		cons = kernel.getConstruction();
-		reports = new HashSet<Report>();
+		reports = new HashSet<>();
 	}
 
 	/**

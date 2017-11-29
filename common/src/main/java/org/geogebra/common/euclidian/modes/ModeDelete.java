@@ -25,23 +25,38 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Delete mode controller for polyline based penstrokes
+ */
 public class ModeDelete {
 	private EuclidianView view;
 	private EuclidianController ec;
 	private boolean objDeleteMode = false, penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
-	private ArrayList<GeoPointND[]> newDataAndRealPoint = new ArrayList<GeoPointND[]>();
+	private ArrayList<GeoPointND[]> newDataAndRealPoint = new ArrayList<>();
 	private AlgorithmSet as = null;
 	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
 			100);
 
+	/**
+	 * @param view
+	 *            EV
+	 */
 	public ModeDelete(EuclidianView view) {
 		this.ec = view.getEuclidianController();
 		this.view = view;
-		this.interPoints = new ArrayList<GPoint2D>();
+		this.interPoints = new ArrayList<>();
 	}
 
 
+	/**
+	 * @param e
+	 *            mouse event
+	 * @param deleteSize
+	 *            delete square size
+	 * @param forceOnlyStrokes
+	 *            whether to only delete strokes
+	 */
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {
@@ -219,9 +234,9 @@ public class ModeDelete {
 	private void deleteUnnecessaryUndefPoints(GeoPointND[] dataPoints,
 			GeoPointND[] realPoints) {
 		newDataAndRealPoint.clear();
-		ArrayList<GeoPointND> dataPointList = new ArrayList<GeoPointND>(
+		ArrayList<GeoPointND> dataPointList = new ArrayList<>(
 				dataPoints.length);
-		ArrayList<GeoPointND> realPointList = new ArrayList<GeoPointND>(
+		ArrayList<GeoPointND> realPointList = new ArrayList<>(
 				realPoints.length);
 		int i = 1;
 		while (i < dataPoints.length) {
@@ -251,7 +266,7 @@ public class ModeDelete {
 			GeoPointND[] dataPoints, GeoPointND[] realPoints, int newSize,
 			int i, int indexInter1, int indexUndef, int indexInter2,
 			double[] realCoords) {
-		ArrayList<GeoPointND[]> dataAndRealPoint = new ArrayList<GeoPointND[]>();
+		ArrayList<GeoPointND[]> dataAndRealPoint = new ArrayList<>();
 		GeoPointND[] newDataPoints = Arrays.copyOf(dataPoints,
 				dataPoints.length + newSize);
 		GeoPointND[] newRealPoints = Arrays.copyOf(realPoints,
@@ -400,7 +415,7 @@ public class ModeDelete {
 	public ArrayList<GPoint2D> getAllIntersectionPoint(GeoPointND point1,
 			GeoPointND point2,
 			GRectangle rectangle) {
-		ArrayList<GPoint2D> interPointList = new ArrayList<GPoint2D>();
+		ArrayList<GPoint2D> interPointList = new ArrayList<>();
 		// intersection points
 		GPoint2D topInter = getTopIntersectionPoint(point1, point2, rectangle);
 		if (topInter != null) {
@@ -528,6 +543,10 @@ public class ModeDelete {
 		return coords;
 	}
 
+	/**
+	 * @param type
+	 *            event type
+	 */
 	public void mousePressed(PointerEventType type) {
 		this.objDeleteMode = false;
 		this.penDeleteMode = false;

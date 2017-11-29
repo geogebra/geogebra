@@ -34,7 +34,7 @@ public class AnimationManager implements GTimerListener {
 	 * list containing all {@link TimerListener} that will receive notifications
 	 * when the timer is started or stopped
 	 */
-	protected ArrayList<TimerListener> listener = new ArrayList<TimerListener>();
+	protected ArrayList<TimerListener> listener = new ArrayList<>();
 	private GTimer timer;
 
 	private TreeSet<AlgoElement> tempSet;
@@ -45,8 +45,8 @@ public class AnimationManager implements GTimerListener {
 	 */
 	public AnimationManager(Kernel kernel2) {
 		this.kernel = kernel2;
-		animatedGeos = new ArrayList<GeoElement>();
-		changedGeos = new ArrayList<GeoElementND>();
+		animatedGeos = new ArrayList<>();
+		changedGeos = new ArrayList<>();
 		timer = kernel.getApplication().newTimer(this,
 				1000 / MAX_ANIMATION_FRAME_RATE);
 	}
@@ -198,7 +198,7 @@ public class AnimationManager implements GTimerListener {
 
 	private TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<>();
 		}
 		return tempSet;
 	}

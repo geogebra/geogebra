@@ -250,7 +250,7 @@ public abstract class EuclidianController {
 	protected Coords translationVec;
 	protected Hits tempArrayList = new Hits();
 	protected Hits highlightedGeos = new Hits();
-	protected ArrayList<GeoElement> justCreatedGeos = new ArrayList<GeoElement>();
+	protected ArrayList<GeoElement> justCreatedGeos = new ArrayList<>();
 	protected boolean temporaryMode = false;
 	protected boolean dontClearSelection = false;
 	protected boolean draggingOccured = false;
@@ -286,7 +286,7 @@ public abstract class EuclidianController {
 
 	// private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
 	protected int previousPointCapturing;
-	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<GeoPointND>();
+	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<>();
 	protected GPoint startLoc;
 	protected GPoint lastMouseLoc;
 	protected GPoint oldLoc = new GPoint();
@@ -388,7 +388,7 @@ public abstract class EuclidianController {
 	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
 	private GeoElement lastSelectionToolGeoToRemove;
 	private ArrayList<GeoElement> moveMultipleObjectsList;
-	protected ArrayList<GeoElement> previewPointHits = new ArrayList<GeoElement>();
+	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private Hits topHits;
 
 	/**
@@ -644,9 +644,9 @@ public abstract class EuclidianController {
 				geo.remove();
 			}
 		} else {
-			pastePreviewSelected = new ArrayList<GeoElement>();
+			pastePreviewSelected = new ArrayList<>();
 		}
-		pastePreviewSelectedAndDependent = new ArrayList<GeoElement>();
+		pastePreviewSelectedAndDependent = new ArrayList<>();
 		pastePreviewSelectedAndDependent.addAll(getAppSelectedGeos());
 
 		GeoElement geo;
@@ -792,7 +792,7 @@ public abstract class EuclidianController {
 					}
 				}
 			}
-			persistentStickyPointList = new ArrayList<GeoPointND>();
+			persistentStickyPointList = new ArrayList<>();
 			persistentStickyPointList.addAll(view.getStickyPointList());
 
 			setPastePreviewPosition();
@@ -3707,7 +3707,7 @@ public abstract class EuclidianController {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
 				GeoPointND point = getSelectedPointsND()[0];
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> ret = new ArrayList<>();
 				checkZooming();
 
 				for (int i = 0; i < geos.length; i++) {
@@ -3771,7 +3771,7 @@ public abstract class EuclidianController {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
 				GeoLineND line = getSelectedLinesND()[0];
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> ret = new ArrayList<>();
 				checkZooming();
 
 				for (int i = 0; i < geos.length; i++) {
@@ -3827,7 +3827,7 @@ public abstract class EuclidianController {
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
 				GeoConic circle = getSelectedCircles()[0];
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> ret = new ArrayList<>();
 				checkZooming();
 
 				for (int i = 0; i < geos.length; i++) {
@@ -4201,7 +4201,7 @@ public abstract class EuclidianController {
 					GeoPointND[] ab = getSelectedPointsND();
 					vec = (GeoVectorND) vector(ab[0], ab[1]);
 				}
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> ret = new ArrayList<>();
 				for (int i = 0; i < geos.length; i++) {
 					if (geos[i] != vec) {
 						if ((geos[i] instanceof Translateable)
@@ -7172,7 +7172,7 @@ public abstract class EuclidianController {
 		if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR)) {
 			// add free input points to move list
 			if (moveMultipleObjectsList == null) {
-				moveMultipleObjectsList = new ArrayList<GeoElement>();
+				moveMultipleObjectsList = new ArrayList<>();
 			} else {
 				moveMultipleObjectsList.clear();
 			}
@@ -7225,7 +7225,7 @@ public abstract class EuclidianController {
 		// geo with changeable coord parent numbers
 		if (movedGeoElement.hasChangeableCoordParentNumbers()) {
 			movedGeoElement.recordChangeableCoordParentNumbers(view);
-			translateableGeos = new ArrayList<GeoElement>();
+			translateableGeos = new ArrayList<>();
 			translateableGeos.add(movedGeoElement);
 			return true;
 		}
@@ -7372,7 +7372,7 @@ public abstract class EuclidianController {
 					|| movedGeoElement.isGeoVector()
 					|| movedGeoElement instanceof GeoLocusStroke) {
 				if (translateableGeos == null) {
-					translateableGeos = new ArrayList<GeoElement>();
+					translateableGeos = new ArrayList<>();
 				} else {
 					translateableGeos.clear();
 				}
@@ -7594,19 +7594,19 @@ public abstract class EuclidianController {
 			}
 
 			if (tempDependentPointX == null) {
-				tempDependentPointX = new ArrayList<Double>();
+				tempDependentPointX = new ArrayList<>();
 			} else {
 				tempDependentPointX.clear();
 			}
 
 			if (tempDependentPointY == null) {
-				tempDependentPointY = new ArrayList<Double>();
+				tempDependentPointY = new ArrayList<>();
 			} else {
 				tempDependentPointY.clear();
 			}
 
 			if (moveDependentPoints == null) {
-				moveDependentPoints = new ArrayList<GeoPoint>();
+				moveDependentPoints = new ArrayList<>();
 			} else {
 				moveDependentPoints.clear();
 			}
@@ -7689,7 +7689,7 @@ public abstract class EuclidianController {
 			if (translationVec == null) {
 				translationVec = new Coords(2);
 			}
-			translateableGeos = new ArrayList<GeoElement>(1);
+			translateableGeos = new ArrayList<>(1);
 			translateableGeos.add(movedGeoElement);
 			setStartPointLocation(xRW, yRW);
 			moveMode = MOVE_STROKE;
@@ -8552,7 +8552,7 @@ public abstract class EuclidianController {
 	 */
 	private ArrayList<GeoElement> getPreviewSpecialPointHits(Hits hits) {
 		List<GeoElement> selectedPreviewPoints = app.getSelectionManager().getSelectedPreviewPoints();
-		ArrayList<GeoElement> previewPointHits = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 
 		for (GeoElement hit : hits) {
 			if (selectedPreviewPoints.contains(hit)) {
@@ -10426,7 +10426,7 @@ public abstract class EuclidianController {
 					}
 				}
 			}
-			persistentStickyPointList = new ArrayList<GeoPointND>();
+			persistentStickyPointList = new ArrayList<>();
 
 			pastePreviewSelected = null;
 			pastePreviewSelectedAndDependent = null;
@@ -10812,7 +10812,7 @@ public abstract class EuclidianController {
 						if (geo == null) {
 							showDrawingPadPopup(mouseLoc);
 						} else {
-							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+							ArrayList<GeoElement> geos = new ArrayList<>();
 							geos.add(geo);
 							showPopupMenuChooseGeo(geos, hits);
 						}
@@ -10828,7 +10828,7 @@ public abstract class EuclidianController {
 					if (geo == null) {
 						showDrawingPadPopup(mouseLoc);
 					} else {
-						ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+						ArrayList<GeoElement> geos = new ArrayList<>();
 						geos.add(geo);
 						showPopupMenuChooseGeo(geos, hits);
 					}
@@ -12004,7 +12004,7 @@ public abstract class EuclidianController {
 					&& view.getHits().containsGeoPoint()) {
 				firstSelectedPoint = (GeoPointND) view.getHits()
 						.getFirstHit(Test.GEOPOINTND);
-				ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
+				ArrayList<GeoPointND> list = new ArrayList<>();
 				list.add(firstSelectedPoint);
 				this.view.setPreview(view.createPreviewConic(this.mode, list));
 			}
@@ -12362,6 +12362,9 @@ public abstract class EuclidianController {
 
 	/**
 	 * Show popup when user clicks on the preview Special Point in EV
+	 * 
+	 * @param previewPoints
+	 *            preview points
 	 */
 	protected void showSpecialPointPopup(ArrayList<GeoElement> previewPoints) {
 		// Should be implemented in subclass

@@ -68,7 +68,7 @@ public class DrawPointPlot extends Drawable {
 
 	private void init() {
 		algo = geo.getParentAlgorithm();
-		drawPoints = new ArrayList<DrawPoint>();
+		drawPoints = new ArrayList<>();
 		updatePointLists();
 	}
 

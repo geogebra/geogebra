@@ -66,11 +66,11 @@ import com.himamis.retex.editor.share.input.Character;
 public class Construction {
 	private ConstructionCompanion companion;
 	/** maps arbconst indices to related numbers */
-	public Map<Integer, GeoNumeric> constsM = new TreeMap<Integer, GeoNumeric>();
+	public Map<Integer, GeoNumeric> constsM = new TreeMap<>();
 	/** maps arbint indices to related numbers */
-	public Map<Integer, GeoNumeric> intsM = new TreeMap<Integer, GeoNumeric>();
+	public Map<Integer, GeoNumeric> intsM = new TreeMap<>();
 	/** maps arbcomplex indices to related numbers */
-	public Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<Integer, GeoNumeric>();
+	public Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<>();
 
 	/**
 	 * used to keep track if file is 3D or just 2D
@@ -79,7 +79,7 @@ public class Construction {
 	 * loaded)
 	 * 
 	 */
-	private TreeSet<GeoClass> usedGeos = new TreeSet<GeoClass>();
+	private TreeSet<GeoClass> usedGeos = new TreeSet<>();
 
 	// list of Macro commands used in this construction
 	// TODO: specify type once Macro is ported
@@ -138,16 +138,16 @@ public class Construction {
 	private TreeSet<GeoElement> geoSetLabelOrder;
 	private TreeSet<GeoElement> geoSetWithCasCells;
 	// table of arbitraryConstants with casTable row key
-	private HashMap<Integer, MyArbitraryConstant> arbitraryConsTable = new HashMap<Integer, MyArbitraryConstant>();
+	private HashMap<Integer, MyArbitraryConstant> arbitraryConsTable = new HashMap<>();
 
 	// list of random numbers or lists
 	private TreeSet<GeoElement> randomElements;
 	/** algo set currently updated by GeoElement.updateDependentObjects() */
 	private AlgorithmSet algoSetCurrentlyUpdated;
 
-	private final TreeSet<String> casDummies = new TreeSet<String>();
+	private final TreeSet<String> casDummies = new TreeSet<>();
 
-	private ArrayList<AlgoElement> casAlgos = new ArrayList<AlgoElement>();
+	private ArrayList<AlgoElement> casAlgos = new ArrayList<>();
 
 	/**
 	 * Table for (label, GeoCasCell) pairs, contains global variables used in
@@ -181,7 +181,7 @@ public class Construction {
 
 	private GeoElement outputGeo;
 
-	private TreeSet<String> registredFV = new TreeSet<String>();
+	private TreeSet<String> registredFV = new TreeSet<>();
 
 	private boolean fileLoading;
 	private boolean casCellUpdate = false;
@@ -211,15 +211,15 @@ public class Construction {
 
 		companion = kernel.createConstructionCompanion(this);
 
-		ceList = new ArrayList<ConstructionElement>();
-		algoList = new ArrayList<AlgoElement>();
+		ceList = new ArrayList<>();
+		algoList = new ArrayList<>();
 		step = -1;
 
-		geoSetConsOrder = new TreeSet<GeoElement>();
-		geoSetWithCasCells = new TreeSet<GeoElement>();
-		geoSetLabelOrder = new TreeSet<GeoElement>(new LabelComparator());
-		geoSetsTypeMap = new HashMap<GeoClass, TreeSet<GeoElement>>();
-		euclidianViewCE = new ArrayList<EuclidianViewCE>();
+		geoSetConsOrder = new TreeSet<>();
+		geoSetWithCasCells = new TreeSet<>();
+		geoSetLabelOrder = new TreeSet<>(new LabelComparator());
+		geoSetsTypeMap = new HashMap<>();
+		euclidianViewCE = new ArrayList<>();
 
 		if (parentConstruction != null) {
 			consDefaults = parentConstruction.getConstructionDefaults();
@@ -230,7 +230,7 @@ public class Construction {
 		setIgnoringNewTypes(true);
 		initAxis();
 		setIgnoringNewTypes(false);
-		geoTable = new HashMap<String, GeoElement>(200);
+		geoTable = new HashMap<>(200);
 		initGeoTables();
 	}
 
@@ -633,7 +633,7 @@ public class Construction {
 	 */
 	final public void addLocalVariable(String varname, GeoElement geo) {
 		if (localVariableTable == null) {
-			localVariableTable = new HashMap<String, GeoElement>();
+			localVariableTable = new HashMap<>();
 		}
 		localVariableTable.put(varname, geo);
 		geo.setLocalVariableLabel(varname);
@@ -745,7 +745,7 @@ public class Construction {
 			AlgoElement algo = algoList.get(i);
 			if (algo.wantsConstructionProtocolUpdate()) {
 				if (updateAlgos == null) {
-					updateAlgos = new ArrayList<AlgoElement>();
+					updateAlgos = new ArrayList<>();
 				}
 				updateAlgos.add(algo);
 			}
@@ -1155,7 +1155,7 @@ public class Construction {
 	 */
 	public void addRandomGeo(GeoElement num) {
 		if (randomElements == null) {
-			randomElements = new TreeSet<GeoElement>();
+			randomElements = new TreeSet<>();
 		}
 		randomElements.add(num);
 		num.setRandomGeo(true);
@@ -1230,7 +1230,7 @@ public class Construction {
 			// loop
 			// eg Polygon[A,B,RandomBetween[4,5]]
 			// http://www.geogebra.org/forum/viewtopic.php?p=56618
-			ArrayList<AlgoElement> tempList = new ArrayList<AlgoElement>(
+			ArrayList<AlgoElement> tempList = new ArrayList<>(
 					algoList);
 
 			// update all algorithms
@@ -1500,7 +1500,7 @@ public class Construction {
 	public void startCollectingRedefineCalls() {
 		collectRedefineCalls = true;
 		if (redefineMap == null) {
-			redefineMap = new HashMap<GeoElement, GeoElement>();
+			redefineMap = new HashMap<>();
 		}
 		redefineMap.clear();
 	}
@@ -1547,7 +1547,7 @@ public class Construction {
 		if (oldGeo.getDefinition(StringTemplate.maxPrecision)
 				.equals(newGeo.getDefinition(StringTemplate.maxPrecision))
 				&& oldGeo.getParentAlgorithm() != null) {
-			ArrayList<AlgoElement> ae = new ArrayList<AlgoElement>();
+			ArrayList<AlgoElement> ae = new ArrayList<>();
 			ae.add(oldGeo.getParentAlgorithm());
 
 			// make sure typing a=random() twice updates OK
@@ -2045,7 +2045,7 @@ public class Construction {
 	}
 
 	private TreeSet<GeoElement> createTypeSet(GeoClass type) {
-		TreeSet<GeoElement> typeSet = new TreeSet<GeoElement>(
+		TreeSet<GeoElement> typeSet = new TreeSet<>(
 				new LabelComparator());
 		geoSetsTypeMap.put(type, typeSet);
 		return typeSet;
@@ -2088,7 +2088,7 @@ public class Construction {
 		}
 
 		if (geoCasCellTable == null) {
-			geoCasCellTable = new HashMap<String, GeoCasCell>();
+			geoCasCellTable = new HashMap<>();
 		}
 		geoCasCellTable.put(label, geoCasCell);
 	}
@@ -2492,7 +2492,7 @@ public class Construction {
 	 */
 	protected boolean updateConstructionOrder(GeoCasCell casCell) {
 		// collect all predecessors of casCell
-		TreeSet<GeoElement> allPred = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> allPred = new TreeSet<>();
 		if (casCell.getGeoElementVariables() != null) {
 			for (GeoElement directInput : casCell.getGeoElementVariables()) {
 				allPred.addAll(directInput.getAllPredecessors());
@@ -2903,7 +2903,7 @@ public class Construction {
 	 */
 	final public TreeSet<GeoElement> getGeoSetNameDescriptionOrder() {
 		// sorted set of geos
-		TreeSet<GeoElement> sortedSet = new TreeSet<GeoElement>(
+		TreeSet<GeoElement> sortedSet = new TreeSet<>(
 				new NameDescriptionComparator());
 
 		// get all GeoElements from construction and sort them
@@ -3012,7 +3012,7 @@ public class Construction {
 	 */
 	public final void addUsedMacro(Macro macro) {
 		if (usedMacros == null) {
-			usedMacros = new ArrayList<Macro>();
+			usedMacros = new ArrayList<>();
 		}
 		usedMacros.add(macro);
 	}
@@ -3344,14 +3344,14 @@ public class Construction {
 	 * @return a copy of the set of all geo labels that are currently being used
 	 */
 	public Set<String> getAllGeoLabels() {
-		return new HashSet<String>(geoTable.keySet());
+		return new HashSet<>(geoTable.keySet());
 	}
 
 	/**
 	 * @return a copy of the set of all labels that are currently being used
 	 */
 	public Set<String> getAllLabels() {
-		Set<String> ret = new HashSet<String>(getAllGeoLabels());
+		Set<String> ret = new HashSet<>(getAllGeoLabels());
 		if (geoCasCellTable != null) {
 			ret.addAll(geoCasCellTable.keySet());
 		}
@@ -3475,7 +3475,7 @@ public class Construction {
 	 */
 	public void registerCorner5(EuclidianViewCE algo) {
 		if (this.corner5Algos == null) {
-			this.corner5Algos = new ArrayList<EuclidianViewCE>();
+			this.corner5Algos = new ArrayList<>();
 		}
 		this.corner5Algos.add(algo);
 	}
@@ -3487,7 +3487,7 @@ public class Construction {
 	 */
 	public void registerCorner11(EuclidianViewCE algo) {
 		if (this.corner11Algos == null) {
-			this.corner11Algos = new ArrayList<EuclidianViewCE>();
+			this.corner11Algos = new ArrayList<>();
 		}
 		this.corner11Algos.add(algo);
 	}
@@ -3511,7 +3511,7 @@ public class Construction {
 	 */
 	public void addLaTeXGeo(GeoElement geo) {
 		if (latexGeos == null) {
-			latexGeos = new ArrayList<GeoElement>();
+			latexGeos = new ArrayList<>();
 		}
 		this.latexGeos.add(geo);
 

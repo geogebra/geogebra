@@ -36,7 +36,7 @@ public class MacroConstruction extends Construction {
 	public MacroConstruction(MacroKernel kernel) {
 		super(kernel, kernel.getParentKernel().getConstruction());
 		parentCons = kernel.getParentKernel().getConstruction();
-		reservedLabels = new HashSet<String>();
+		reservedLabels = new HashSet<>();
 		// allow using reserved function names in marco constructions
 		super.setFileLoading(true);
 	}
