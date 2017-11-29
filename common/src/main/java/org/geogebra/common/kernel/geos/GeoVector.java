@@ -649,7 +649,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		if (startPoint == null && waitingForStartPoint) {
 			// remember waiting points
 			if (waitingPointSet == null) {
-				waitingPointSet = new HashSet<GeoPointND>();
+				waitingPointSet = new HashSet<>();
 			}
 			waitingPointSet.add(P);
 			return;

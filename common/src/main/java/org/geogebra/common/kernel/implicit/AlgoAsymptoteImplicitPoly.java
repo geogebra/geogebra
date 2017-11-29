@@ -147,7 +147,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 			}
 		}
 
-		ArrayList<double[]> homogenPolys = new ArrayList<double[]>();
+		ArrayList<double[]> homogenPolys = new ArrayList<>();
 		homogenPolys.add(Cloner.clone(roots));
 
 		int n = solver.polynomialRoots(roots, false);
@@ -164,7 +164,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		for (int i = 0; i < n; i++) {
 			if (!Kernel.isEqual(last, roots[i])) {
 				int r = Integer.MAX_VALUE;
-				ArrayList<Double> p = new ArrayList<Double>();
+				ArrayList<Double> p = new ArrayList<>();
 				double[] divisor = new double[] { -roots[i], 1 };
 				double rk = Double.NaN;
 				for (int k = 0; k <= r; k++) {
@@ -239,7 +239,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		double[] pk = homogenPolys.get(0);
 		if (PolynomialUtils.getDegree(pk) < deg) {
 			int r = Integer.MAX_VALUE;
-			ArrayList<Double> p = new ArrayList<Double>();
+			ArrayList<Double> p = new ArrayList<>();
 			for (int k = 0; k <= r; k++) {
 				if (homogenPolys.size() > k) {
 					pk = homogenPolys.get(k);

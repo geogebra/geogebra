@@ -1544,7 +1544,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			int n) {
 
 		int root = (int) (Math.sqrt(n) + 1);
-		List<Coords> out = new ArrayList<Coords>();
+		List<Coords> out = new ArrayList<>();
 		if (xMin >= xMax || yMin >= yMax) {
 			// empty intersecting rectangle
 			return out;
@@ -1973,7 +1973,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public void throughPoints(GeoList points) {
-		ArrayList<GeoPoint> p = new ArrayList<GeoPoint>();
+		ArrayList<GeoPoint> p = new ArrayList<>();
 		for (int i = 0; i < points.size(); i++) {
 			p.add((GeoPoint) points.get(i));
 		}
@@ -2420,7 +2420,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public String[] getEquationVariables() {
-		ArrayList<String> vars = new ArrayList<String>();
+		ArrayList<String> vars = new ArrayList<>();
 		for (FunctionVariable var : expression.getFunctionVariables()) {
 			if (expression.getFunctionExpression().contains(var)) {
 				vars.add(var.toString(StringTemplate.defaultTemplate));

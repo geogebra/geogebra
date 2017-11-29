@@ -1699,7 +1699,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	@Override
 	public final void addPointOnLine(GeoPointND p) {
 		if (pointsOnLine == null) {
-			pointsOnLine = new ArrayList<GeoPoint>();
+			pointsOnLine = new ArrayList<>();
 		}
 
 		if (!pointsOnLine.contains(p)) {
@@ -1999,7 +1999,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	@Override
 	public String[] getEquationVariables() {
-		ArrayList<String> usedVars = new ArrayList<String>();
+		ArrayList<String> usedVars = new ArrayList<>();
 		if (!MyDouble.exactEqual(x, 0)) {
 			usedVars.add("x");
 		}

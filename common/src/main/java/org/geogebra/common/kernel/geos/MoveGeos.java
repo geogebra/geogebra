@@ -36,10 +36,10 @@ public class MoveGeos {
 			final Coords rwTransVec, final Coords endPosition,
 			final Coords viewDirection, EuclidianView view) {
 		if (moveObjectsUpdateList == null) {
-			moveObjectsUpdateList = new ArrayList<GeoElement>();
+			moveObjectsUpdateList = new ArrayList<>();
 		}
 		ArrayList<GeoElement> geos = geosToMove;
-		final ArrayList<GeoElement> geos2 = new ArrayList<GeoElement>();
+		final ArrayList<GeoElement> geos2 = new ArrayList<>();
 
 		// remove duplicates, eg drag Circle[A,A]
 		for (int i = 0; i < geos.size(); i++) {

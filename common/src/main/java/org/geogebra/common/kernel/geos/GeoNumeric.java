@@ -1239,7 +1239,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void registerMinMaxListener(GeoNumeric geo) {
 		if (minMaxListeners == null) {
-			minMaxListeners = new ArrayList<GeoNumeric>();
+			minMaxListeners = new ArrayList<>();
 		}
 		minMaxListeners.add(geo);
 	}
@@ -1253,7 +1253,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void unregisterMinMaxListener(GeoNumeric geo) {
 		if (minMaxListeners == null) {
-			minMaxListeners = new ArrayList<GeoNumeric>();
+			minMaxListeners = new ArrayList<>();
 		}
 		minMaxListeners.remove(geo);
 	}
@@ -1632,7 +1632,7 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void addEVSizeListener(EuclidianViewInterfaceSlim ev) {
 		if (evListeners == null) {
-			evListeners = new ArrayList<EuclidianViewInterfaceSlim>();
+			evListeners = new ArrayList<>();
 		}
 
 		if (!evListeners.contains(ev)) {

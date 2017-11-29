@@ -1364,7 +1364,7 @@ public class CoordMatrix {
 	 */
 	static final public void pivot(double[][] matrix, PivotAbstract psr) {
 		int size = matrix.length;
-		ArrayList<Integer> stack = new ArrayList<Integer>();
+		ArrayList<Integer> stack = new ArrayList<>();
 		for (int i = size - 1; i >= 0; i--) {
 			stack.add(i);
 		}

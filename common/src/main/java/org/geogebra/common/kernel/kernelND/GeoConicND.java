@@ -1261,7 +1261,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public final void addPointOnConic(GeoPointND pt) {
 		if (pointsOnConic == null) {
-			pointsOnConic = new ArrayList<GeoPointND>();
+			pointsOnConic = new ArrayList<>();
 		}
 
 		if (!pointsOnConic.contains(pt)) {
@@ -4269,7 +4269,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	public void addMeta(GeoElement limitedQuadric) {
 		if (metas == null) {
-			metas = new TreeSet<GeoElement>();
+			metas = new TreeSet<>();
 		}
 
 		metas.add(limitedQuadric);

@@ -152,7 +152,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (setDefaults) {
 			setConstructionDefaults(); // init visual settings
 		}
-		surfaceEvaluables = new TreeSet<SurfaceEvaluable>();
+		surfaceEvaluables = new TreeSet<>();
 
 	}
 
@@ -216,7 +216,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 */
 	public GeoFunction(Construction c, Function f, boolean simplifyInt) {
 		super(c);
-		surfaceEvaluables = new TreeSet<SurfaceEvaluable>();
+		surfaceEvaluables = new TreeSet<>();
 		fun = f;
 		// setConstructionDefaults is called from initFunction
 		initFunction(simplifyInt);
@@ -1588,7 +1588,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public static FunctionNVar operationSymb(Operation op, FunctionalNVar lt,
 			FunctionalNVar rt) {
 		Kernel kernel = lt.getFunction().getKernel();
-		TreeSet<String> varNames = new TreeSet<String>();
+		TreeSet<String> varNames = new TreeSet<>();
 		for (int i = 0; i < lt.getFunction().getVarNumber(); i++) {
 			varNames.add(lt.getFunction().getVarString(i,
 					StringTemplate.defaultTemplate));
@@ -1597,7 +1597,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			varNames.add(rt.getFunction().getVarString(i,
 					StringTemplate.defaultTemplate));
 		}
-		HashMap<String, FunctionVariable> varmap = new HashMap<String, FunctionVariable>();
+		HashMap<String, FunctionVariable> varmap = new HashMap<>();
 		for (String name : varNames) {
 			varmap.put(name, new FunctionVariable(kernel, name));
 		}
@@ -1686,12 +1686,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			ExpressionValue ev, boolean right) {
 		ExpressionValue nv = ev;
 		Kernel kernel = fun1.getFunction().getKernel();
-		TreeSet<String> varNames = new TreeSet<String>();
+		TreeSet<String> varNames = new TreeSet<>();
 		for (int i = 0; i < fun1.getFunction().getVarNumber(); i++) {
 			varNames.add(fun1.getFunction().getVarString(i,
 					StringTemplate.defaultTemplate));
 		}
-		HashMap<String, FunctionVariable> varmap = new HashMap<String, FunctionVariable>();
+		HashMap<String, FunctionVariable> varmap = new HashMap<>();
 		for (String name : varNames) {
 			varmap.put(name, new FunctionVariable(kernel, name));
 		}
@@ -2665,8 +2665,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			sbLaTeX.append(" \\right)");
 
 		} else {
-			ArrayList<ExpressionNode> cases = new ArrayList<ExpressionNode>();
-			ArrayList<Bounds> conditions = new ArrayList<Bounds>();
+			ArrayList<ExpressionNode> cases = new ArrayList<>();
+			ArrayList<Bounds> conditions = new ArrayList<>();
 			boolean complete = collectCases(expr, cases, conditions,
 					new Bounds());
 

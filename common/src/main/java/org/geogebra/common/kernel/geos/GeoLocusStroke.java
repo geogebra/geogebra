@@ -75,7 +75,7 @@ public class GeoLocusStroke extends GeoLocus
 
 	@Override
 	public ArrayList<MyPoint> getPointsWithoutControl() {
-		ArrayList<MyPoint> points = new ArrayList<MyPoint>();
+		ArrayList<MyPoint> points = new ArrayList<>();
 		for (MyPoint pt : getPoints()) {
 			if (pt.getSegmentType() != SegmentType.CONTROL) {
 				// also ignore third point added to simple segment

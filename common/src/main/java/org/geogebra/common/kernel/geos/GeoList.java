@@ -144,8 +144,8 @@ public class GeoList extends GeoElement
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
-		geoList = new ArrayList<GeoElement>(size);
-		cacheList = new ArrayList<GeoElementND>(size);
+		geoList = new ArrayList<>(size);
+		cacheList = new ArrayList<>(size);
 		setEuclidianVisible(false);
 		// don't add here, see GGB-264
 		// setBackgroundColor(GColor.WHITE);
@@ -1067,7 +1067,7 @@ public class GeoList extends GeoElement
 	 */
 	public void registerColorFunctionListener(final GeoElement geo) {
 		if (colorFunctionListener == null) {
-			colorFunctionListener = new ArrayList<GeoElement>();
+			colorFunctionListener = new ArrayList<>();
 		}
 		colorFunctionListener.add(geo);
 	}
@@ -2013,7 +2013,7 @@ public class GeoList extends GeoElement
 	@Override
 	public ArrayList<GeoPointND> getFreeInputPoints(
 			final EuclidianViewInterfaceSlim view) {
-		final ArrayList<GeoPointND> al = new ArrayList<GeoPointND>();
+		final ArrayList<GeoPointND> al = new ArrayList<>();
 
 		for (int i = 0; i < geoList.size(); i++) {
 			final GeoElement geo = geoList.get(i);

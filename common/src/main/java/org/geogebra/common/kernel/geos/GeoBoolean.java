@@ -117,7 +117,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	 */
 	public void registerConditionListener(GeoElement geo) {
 		if (condListenersShowObject == null) {
-			condListenersShowObject = new ArrayList<GeoElement>();
+			condListenersShowObject = new ArrayList<>();
 		}
 		condListenersShowObject.add(geo);
 	}

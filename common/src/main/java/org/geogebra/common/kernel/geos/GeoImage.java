@@ -1029,7 +1029,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		if (al == null) {
-			al = new ArrayList<GeoPointND>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}

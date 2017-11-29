@@ -1340,7 +1340,7 @@ public class GeoText extends GeoElement
 	public void updateVisualStyle(GProperty prop) {
 		super.updateVisualStyle(prop);
 		if (prop == GProperty.FONT) {
-			ArrayList<AlgoElement> algosTextCorner = new ArrayList<AlgoElement>();
+			ArrayList<AlgoElement> algosTextCorner = new ArrayList<>();
 			for (AlgoElement algo : getAlgorithmList()) {
 				if (algo instanceof AlgoTextCorner) {
 					algosTextCorner.add(algo);

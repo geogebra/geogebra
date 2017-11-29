@@ -12,12 +12,30 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.plugin.GeoClass;
 
+/**
+ * 2D surface f(u,v)=(u+v,u-v)
+ * 
+ * @author Zbynek
+ *
+ */
 public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 
+	/**
+	 * @param c
+	 *            construction
+	 */
 	public GeoSurfaceCartesian2D(Construction c) {
 		super(c);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param point
+	 *            expression as point
+	 * @param fun
+	 *            expression as list of function
+	 */
 	public GeoSurfaceCartesian2D(Construction cons, ExpressionNode point,
 			FunctionNVar[] fun) {
 		super(cons, point, fun);

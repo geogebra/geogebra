@@ -146,7 +146,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			}
 			if (equation.isFunctionDependent()) {
 				// boolean functionChanged=false;
-				Set<FunctionNVar> functions = new HashSet<FunctionNVar>();
+				Set<FunctionNVar> functions = new HashSet<>();
 				addAllFunctionalDescendents(this, functions,
 						new TreeSet<AlgoElement>());
 
@@ -328,7 +328,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	protected void setInputOutput() {
 		if (input == null) {
 			input = geoElement.getDefinition().getGeoElementVariables();
-			dependentFromFunctions = new HashSet<FunctionNVar>();
+			dependentFromFunctions = new HashSet<>();
 			addAllFunctionalDescendents(this, dependentFromFunctions,
 					new TreeSet<AlgoElement>());
 		}

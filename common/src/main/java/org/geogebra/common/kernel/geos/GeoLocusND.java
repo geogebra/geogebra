@@ -74,7 +74,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
-		myPointList = new ArrayList<T>(500);
+		myPointList = new ArrayList<>(500);
 	}
 
 	@Override
@@ -140,7 +140,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	@SuppressWarnings("unchecked")
 	public ArrayList<T> getPointsWithoutControl() {
 		if (poitsWithoutControl == null) {
-			poitsWithoutControl = new ArrayList<T>();
+			poitsWithoutControl = new ArrayList<>();
 			for (MyPoint t : myPointList) {
 				if (t.getSegmentType() != SegmentType.CONTROL) {
 					poitsWithoutControl.add((T) t.copy());
@@ -476,7 +476,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	@Override
 	final public PathMover createPathMover() {
-		return new PathMoverLocus<T>(this);
+		return new PathMoverLocus<>(this);
 	}
 
 	@Override

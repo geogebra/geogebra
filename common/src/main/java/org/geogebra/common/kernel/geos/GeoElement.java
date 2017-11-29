@@ -583,7 +583,7 @@ public abstract class GeoElement extends ConstructionElement
 						.getActiveEuclidianView()) != null)
 				&& (kernel.getApplication().getActiveEuclidianView()
 						.getViewID() != App.VIEW_EUCLIDIAN)) {
-			viewFlags = new ArrayList<Integer>();
+			viewFlags = new ArrayList<>();
 			viewFlags.add(ev.getViewID());
 
 			// if ev isn't Graphics or Graphics 2, then also add 1st 2D
@@ -2374,7 +2374,7 @@ public abstract class GeoElement extends ConstructionElement
 	@Override
 	final public ArrayList<AlgoElement> getAlgorithmList() {
 		if (algorithmList == null) {
-			algorithmList = new ArrayList<AlgoElement>();
+			algorithmList = new ArrayList<>();
 		}
 		return algorithmList;
 	}
@@ -4294,7 +4294,7 @@ public abstract class GeoElement extends ConstructionElement
 			final ArrayList<Locateable> geos, Construction cons) {
 		// build update set of all algorithms in construction element order
 		// clear temp set
-		final TreeSet<AlgoElement> tempSet1 = new TreeSet<AlgoElement>();
+		final TreeSet<AlgoElement> tempSet1 = new TreeSet<>();
 
 		final int size = geos.size();
 		for (int i = 0; i < size; i++) {
@@ -4471,7 +4471,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public final HashSet<GeoElement> getVariables() {
-		final HashSet<GeoElement> ret = new HashSet<GeoElement>();
+		final HashSet<GeoElement> ret = new HashSet<>();
 		ret.add(this);
 		return ret;
 	}
@@ -4496,7 +4496,7 @@ public abstract class GeoElement extends ConstructionElement
 				final GeoNumeric num = (GeoNumeric) geo;
 				if (num.isRandomGeo() && !num.isLabelSet()) {
 					if (randNumbers == null) {
-						randNumbers = new ArrayList<GeoNumeric>();
+						randNumbers = new ArrayList<>();
 					}
 					randNumbers.add(num);
 				}
@@ -4513,7 +4513,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return all predecessors of this geo
 	 */
 	public TreeSet<GeoElement> getAllPredecessors() {
-		final TreeSet<GeoElement> set = new TreeSet<GeoElement>();
+		final TreeSet<GeoElement> set = new TreeSet<>();
 		addPredecessorsToSet(set, false);
 		set.remove(this);
 		return set;
@@ -4561,7 +4561,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return set of all predecessor that can be randomized
 	 */
 	public TreeSet<GeoElement> getAllRandomizablePredecessors() {
-		final TreeSet<GeoElement> set = new TreeSet<GeoElement>();
+		final TreeSet<GeoElement> set = new TreeSet<>();
 		addRandomizablePredecessorsToSet(set);
 		return set;
 	}
@@ -4648,7 +4648,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	final public TreeSet<GeoElement> getAllChildren() {
-		final TreeSet<GeoElement> set = new TreeSet<GeoElement>();
+		final TreeSet<GeoElement> set = new TreeSet<>();
 		if (algoUpdateSet != null) {
 			final Iterator<AlgoElement> it = algoUpdateSet.getIterator();
 			while (it.hasNext()) {
@@ -6846,7 +6846,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>(algoComparator);
+			tempSet = new TreeSet<>(algoComparator);
 		}
 		return tempSet;
 	}
@@ -6974,7 +6974,7 @@ public abstract class GeoElement extends ConstructionElement
 			// update number right now
 			ArrayList<GeoElement> tempMoveObjectList2 = tempMoveObjectList1;
 			if (tempMoveObjectList1 == null) {
-				tempMoveObjectList2 = new ArrayList<GeoElement>();
+				tempMoveObjectList2 = new ArrayList<>();
 			}
 			tempMoveObjectList2.add(number);
 			updateCascade(tempMoveObjectList2, getTempSet(), false);
@@ -7412,7 +7412,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public void setVisibility(final int viewId, final boolean setVisible) {
 		if (this.viewFlags == null) {
-			this.viewFlags = new ArrayList<Integer>();
+			this.viewFlags = new ArrayList<>();
 		}
 		if (setVisible) {
 			if (!viewFlags.contains(viewId)) {
@@ -7493,7 +7493,7 @@ public abstract class GeoElement extends ConstructionElement
 			return;
 		}
 		if (this.viewFlags == null) {
-			this.viewFlags = new ArrayList<Integer>();
+			this.viewFlags = new ArrayList<>();
 		} else {
 			viewFlags.clear();
 		}
@@ -7509,7 +7509,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (viewFlags == null) {
 			return null;
 		}
-		final List<Integer> list = new ArrayList<Integer>();
+		final List<Integer> list = new ArrayList<>();
 		list.addAll(viewFlags);
 		// Collections.copy(list, viewFlags);
 		return list;
@@ -7894,7 +7894,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public void storeClone() {
 		if (tempClone == null) {
-			tempClone = new Stack<GeoElement>();
+			tempClone = new Stack<>();
 		}
 
 		tempClone.push(copy());
@@ -7977,7 +7977,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	protected void resetSpreadsheetColumnHeadings() {
 		if (spreadsheetColumnHeadings == null) {
-			spreadsheetColumnHeadings = new ArrayList<GeoText>();
+			spreadsheetColumnHeadings = new ArrayList<>();
 		} else {
 			spreadsheetColumnHeadings.clear();
 		}

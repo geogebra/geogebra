@@ -599,7 +599,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	final public ArrayList<NumberValue> getCoordParentNumbers() {
 		// init changeableCoordNumbers
 		if (changeableCoordNumbers == null) {
-			changeableCoordNumbers = new ArrayList<NumberValue>(2);
+			changeableCoordNumbers = new ArrayList<>(2);
 			AlgoElement parentAlgo = getParentAlgorithm();
 
 			// dependent point of form P = (a, b)
@@ -1868,7 +1868,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<>();
 		}
 		return tempSet;
 	}
@@ -2457,9 +2457,9 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	public void setIncidenceList(ArrayList<GeoElement> list) {
 		if (list == null) {
-			incidenceList = new ArrayList<GeoElement>();
+			incidenceList = new ArrayList<>();
 		} else {
-			incidenceList = new ArrayList<GeoElement>(list);
+			incidenceList = new ArrayList<>(list);
 		}
 	}
 
@@ -2467,7 +2467,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * initialize incidenceList
 	 */
 	public void createIncidenceList() {
-		incidenceList = new ArrayList<GeoElement>();
+		incidenceList = new ArrayList<>();
 	}
 
 	/**

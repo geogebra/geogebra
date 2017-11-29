@@ -140,7 +140,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		}
 
 		if (valPairs == null) {
-			valPairs = new LinkedList<double[]>();
+			valPairs = new LinkedList<>();
 		} else {
 			valPairs.clear();
 		}
@@ -666,7 +666,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 	 */
 	public void addSolutionHint(GeoPoint point) {
 		if (hints == null) {
-			hints = new ArrayList<GeoPoint>();
+			hints = new ArrayList<>();
 		}
 		hints.add(point);
 	}

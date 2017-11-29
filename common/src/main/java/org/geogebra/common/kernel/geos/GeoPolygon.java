@@ -494,7 +494,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		// check array zand euclidian visibility
 		if (segmentsArray == null) {
-			segmentsArray = new ArrayList<GeoSegmentND>();
+			segmentsArray = new ArrayList<>();
 		}
 		if (segmentsArray.size() < 1) {
 			euclidianVisible = isEuclidianVisible();
@@ -719,7 +719,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	protected void setPointsLength(int polyLength, GeoPointND[] template) {
 
 		if (pointsArray == null) {
-			pointsArray = new ArrayList<GeoPoint>();
+			pointsArray = new ArrayList<>();
 		}
 
 		// augment array size if array < polyLength
@@ -2083,8 +2083,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		 */
 
 		// remove same successive points
-		ArrayList<Double> xList = new ArrayList<Double>();
-		ArrayList<Double> yList = new ArrayList<Double>();
+		ArrayList<Double> xList = new ArrayList<>();
+		ArrayList<Double> yList = new ArrayList<>();
 		double x0 = getPointX(0);
 		double y0 = getPointY(0);
 		xList.add(x0);
@@ -2606,7 +2606,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public void addMeta(GeoElement polyhedron) {
 		if (metas == null) {
-			metas = new TreeSet<GeoElement>();
+			metas = new TreeSet<>();
 		}
 
 		metas.add(polyhedron);

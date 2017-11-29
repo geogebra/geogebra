@@ -163,7 +163,7 @@ public class GeoCasCell extends GeoElement
 		commentText = new GeoText(c, "");
 		twinGeo = null;
 		// setGeoText(commentText);
-		substList = new ArrayList<Vector<String>>();
+		substList = new ArrayList<>();
 	}
 
 	/**
@@ -848,7 +848,7 @@ public class GeoCasCell extends GeoElement
 		}
 
 		// get all command names
-		HashSet<Command> commands = new HashSet<Command>();
+		HashSet<Command> commands = new HashSet<>();
 		ve.traverse(CommandCollector.getCollector(commands));
 		if (commands.isEmpty()) {
 			commands = null;
@@ -1105,14 +1105,14 @@ public class GeoCasCell extends GeoElement
 
 	private TreeSet<String> getInVars() {
 		if (invars == null) {
-			invars = new TreeSet<String>();
+			invars = new TreeSet<>();
 		}
 		return invars;
 	}
 
 	private TreeSet<String> getFunctionVars() {
 		if (functionvars == null) {
-			functionvars = new TreeSet<String>();
+			functionvars = new TreeSet<>();
 		}
 		return functionvars;
 	}
@@ -1170,7 +1170,7 @@ public class GeoCasCell extends GeoElement
 		}
 
 		// list to collect geo variables
-		TreeSet<GeoElement> geoVars = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> geoVars = new TreeSet<>();
 
 		// go through all variables
 		for (String varLabel : inputVars) {
@@ -1606,7 +1606,7 @@ public class GeoCasCell extends GeoElement
 		if (ve instanceof ExpressionNode
 				&& ((ExpressionNode) ve).getLeft() instanceof MyList
 				&& ((ExpressionNode) ve).getRight() == null) {
-			ArrayList<ExpressionValue> results = new ArrayList<ExpressionValue>();
+			ArrayList<ExpressionValue> results = new ArrayList<>();
 			for (int i = 0; i < ((MyList) ((ExpressionNode) ve).getLeft())
 					.getLength(); i++) {
 				boolean isComplex = ((MyList) ((ExpressionNode) ve).getLeft())
@@ -1722,10 +1722,10 @@ public class GeoCasCell extends GeoElement
 				e.printStackTrace();
 			}
 		} else {
-			HashSet<FunctionVariable> fVarSet = new HashSet<FunctionVariable>();
+			HashSet<FunctionVariable> fVarSet = new HashSet<>();
 			if (isFunctionProducingCommand()) {
 				((ExpressionNode) outputVE).setForceFunction();
-				TreeSet<String> varSet = new TreeSet<String>(
+				TreeSet<String> varSet = new TreeSet<>(
 						new Comparator<String>() {
 							@Override
 							public int compare(String o1, String o2) {
@@ -2630,7 +2630,7 @@ public class GeoCasCell extends GeoElement
 		 * equation/expression in the first parameter
 		 */
 		/* Ticket #3563 */
-		Set<String> set = new TreeSet<String>(new Comparator<String>() {
+		Set<String> set = new TreeSet<>(new Comparator<String>() {
 			@Override
 			public int compare(String o1, String o2) {
 				if (o1.equals(o2)) {
@@ -3664,12 +3664,12 @@ public class GeoCasCell extends GeoElement
 	 */
 	private ArrayList<Vector<String>> getSubstListFromSubstComment(
 			String evalCommentStr) {
-		substList = new ArrayList<Vector<String>>();
+		substList = new ArrayList<>();
 
 		String[] splitComment = evalCommentStr.split(",");
 		for (int i = 0; i < splitComment.length; i++) {
 			String[] currSubstPair = splitComment[i].split("=");
-			Vector<String> substRow = new Vector<String>(2);
+			Vector<String> substRow = new Vector<>(2);
 			substRow.add(currSubstPair[0]);
 			substRow.add(currSubstPair[1]);
 			substList.add(substRow);

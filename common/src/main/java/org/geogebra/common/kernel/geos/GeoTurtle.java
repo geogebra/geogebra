@@ -86,7 +86,7 @@ public class GeoTurtle extends GeoPoint {
 	 */
 	public GeoTurtle(Construction c) {
 		super(c);
-		cmdList = new ArrayList<TurtleCommand>();
+		cmdList = new ArrayList<>();
 
 		// TODO: put this in default construction?
 		this.setObjColor(GColor.GRAY);

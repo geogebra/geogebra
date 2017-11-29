@@ -372,7 +372,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 	 */
 	public ArrayList<GeoPoint> getPointsOnCurve(int n, double startInterval,
 			double endInterval) {
-		ArrayList<GeoPoint> pointList = new ArrayList<GeoPoint>();
+		ArrayList<GeoPoint> pointList = new ArrayList<>();
 
 		double step = (endInterval - startInterval) / (n + 1);
 
