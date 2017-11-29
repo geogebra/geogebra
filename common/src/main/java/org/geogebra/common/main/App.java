@@ -2315,7 +2315,9 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void addToViews3D(GeoElement geo) {
 		geo.addViews3D();
-		getEuclidianView3D().add(geo);
+		if (isEuclidianView3Dinited()) {
+			getEuclidianView3D().add(geo);
+		}
 	}
 
 	/**
