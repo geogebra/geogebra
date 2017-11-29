@@ -20,7 +20,6 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilder;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
@@ -831,15 +830,15 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		StringBuilder customToolBar = new StringBuilder("");
 		String oldToolbar = initial;
-		String toolbar3D = "";
-		if (app.isEuclidianView3Dinited()) {
-			DockPanel dockPanel = getLayout().getDockManager()
-					.getPanel(App.VIEW_EUCLIDIAN3D);
-			toolbar3D = dockPanel.getToolbarString();
-			if (toolbar3D == null) {
-				toolbar3D = getToolbarDefinition();
-			}
-		}
+		// String toolbar3D = "";
+		// if (app.isEuclidianView3Dinited()) {
+		// DockPanel dockPanel = getLayout().getDockManager()
+		// .getPanel(App.VIEW_EUCLIDIAN3D);
+		// toolbar3D = dockPanel.getToolbarString();
+		// if (toolbar3D == null) {
+		// toolbar3D = getToolbarDefinition();
+		// }
+		// }
 
 		for (int i = 0; i < macroCount; i++) {
 			Macro macro = kernel.getMacro(i);
