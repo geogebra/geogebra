@@ -3,8 +3,10 @@ package org.geogebra.web.web.javax.swing;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -77,11 +79,7 @@ public class GCollapseMenuItem {
 		itemPanel.add(new HTML(text));
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
 		menuItem.setHTML(itemPanel.toString());
-		if (expanded) {
-			expand();
-		} else {
-			collapse();
-		}
+		updateItems();
 	}
 
 
@@ -112,24 +110,11 @@ public class GCollapseMenuItem {
 	/**
 	 * Collapse submenu
 	 */
-	public void collapse() {
-		expanded = false;
+	public void updateItems() {
 		for (AriaMenuItem mi : items) {
-			mi.removeStyleName("gwt-MenuItem");
-			mi.addStyleName("collapsed");
-			mi.removeStyleName("expanded");
-		}
-	}
-
-	/**
-	 * Expand submenu
-	 */
-	public void expand() {
-		expanded = true;
-		for (AriaMenuItem mi : items) {
-			mi.addStyleName("gwt-MenuItem");
-			mi.addStyleName("expanded");
-			mi.removeStyleName("collapsed");
+			Dom.toggleClass(mi, "gwt-MenuItem", expanded);
+			Dom.toggleClass(mi, "expanded", "collapsed", expanded);
+			AriaHelper.setHidden(mi, !expanded);
 		}
 	}
 

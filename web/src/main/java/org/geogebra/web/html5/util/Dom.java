@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.user.client.ui.UIObject;
 
 /**
  * Helper methods for finding DOM elements
@@ -67,6 +68,26 @@ public final class Dom {
 			return element.isOrHasChild(Element.as(target));
 		}
 		return false;
+	}
+
+	public static void toggleClass(UIObject ui, String className, boolean add) {
+		if (add) {
+			ui.getElement().addClassName(className);
+		} else {
+			ui.getElement().removeClassName(className);
+		}
+	}
+
+	public static void toggleClass(UIObject ui, String classTrue,
+			String classFalse, boolean add) {
+		if (add) {
+			ui.getElement().addClassName(classTrue);
+			ui.getElement().removeClassName(classFalse);
+		} else {
+			ui.getElement().removeClassName(classTrue);
+			ui.getElement().addClassName(classFalse);
+
+		}
 	}
 
 }

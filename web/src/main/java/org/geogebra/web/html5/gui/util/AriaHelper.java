@@ -5,7 +5,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 
 import com.google.gwt.user.client.ui.UIObject;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Helper class for accessibility methods
@@ -36,8 +35,20 @@ public class AriaHelper {
 	 * @param widget
 	 *            widget to be hidden
 	 */
-	public static void hide(Widget widget) {
+	public static void hide(UIObject widget) {
 		widget.getElement().setAttribute("aria-hidden", "true");
+	}
+
+	/**
+	 * Adds aria-hidden to given element
+	 * 
+	 * @param widget
+	 *            widget to be hidden
+	 * @param hidden
+	 *            whether to hide it
+	 */
+	public static void setHidden(UIObject widget, boolean hidden) {
+		widget.getElement().setAttribute("aria-hidden", String.valueOf(hidden));
 	}
 
 	/**

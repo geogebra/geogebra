@@ -38,7 +38,7 @@ public abstract class CheckMarkSubMenu {
 		// addStyleName("dotSubMenu");
 		items = new ArrayList<>();
 		initActions();
-		parentMenu.collapse();
+		parentMenu.setExpanded(false);
 	}
 
 	/**
