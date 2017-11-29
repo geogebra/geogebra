@@ -272,7 +272,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 					}
 				}
 
-				Log.debug(processedUrlString);
+				// Log.debug(processedUrlString);
 				// success = loadURL_GGB(processedUrlString);
 				app.getGgbApi().openFile(processedUrlString);
 
@@ -839,7 +839,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 			if (toolbar3D == null) {
 				toolbar3D = getToolbarDefinition();
 			}
-			Log.debug("[CT] 3D toolbar: " + toolbar3D);
 		}
 
 		for (int i = 0; i < macroCount; i++) {
@@ -853,8 +852,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 			// || toolbar3D.contains(String.valueOf(macroMode));
 			// Log.debug(
 			// "[CT] macro: " + macro.getToolName() + " is 3D: " + tool3d);
-			Log.debug("[CT] macroViewId: " + macroViewId + " activeViewId: "
-					+ activeViewId);
 
 			if (macro.isShowInToolBar()
 					&& !(oldToolbar.contains(String.valueOf(macroMode)))
