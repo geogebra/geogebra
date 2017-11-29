@@ -57,11 +57,6 @@ public class AppWapplet3D extends AppWapplet {
 	}
 
 	@Override
-	public boolean hasEuclidianView3D() {
-		return true;
-	}
-
-	@Override
 	public EuclidianView3DInterface getEuclidianView3D() {
 		// Window.alert("getEuclidianView3D()");
 		if (this.euclidianView3D == null) {

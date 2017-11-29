@@ -1247,13 +1247,13 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract EuclidianView getActiveEuclidianView();
 
-	/**
-	 * @return whether 3D view was initialized
-	 */
 	public boolean hasEuclidianView3D() {
 		return false;
 	}
 
+	/**
+	 * @return whether 3D view was initialized
+	 */
 	public boolean isEuclidianView3Dinited() {
 		return false;
 	}

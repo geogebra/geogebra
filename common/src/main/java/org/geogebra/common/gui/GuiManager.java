@@ -832,7 +832,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 		StringBuilder customToolBar = new StringBuilder("");
 		String oldToolbar = initial;
 		String toolbar3D = "";
-		if (app.hasEuclidianView3D()) {
+		if (app.isEuclidianView3Dinited()) {
 			DockPanel dockPanel = getLayout().getDockManager()
 					.getPanel(App.VIEW_EUCLIDIAN3D);
 			toolbar3D = dockPanel.getToolbarString();

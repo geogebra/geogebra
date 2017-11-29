@@ -1257,7 +1257,8 @@ public class DockManagerW extends DockManager {
 			toolbarID = App.VIEW_EUCLIDIAN;
 		} else if (app.hasEuclidianView2(1) && app.getEuclidianView2(1).isShowing()) {
 			toolbarID = App.VIEW_EUCLIDIAN2;
-		} else if (app.hasEuclidianView3D() && app.showView(App.VIEW_EUCLIDIAN3D)) {
+		} else if (app.isEuclidianView3Dinited()
+				&& app.showView(App.VIEW_EUCLIDIAN3D)) {
 			toolbarID = App.VIEW_EUCLIDIAN3D;
 			// what else can it be??
 		} else if (guiManager.hasProbabilityCalculator()

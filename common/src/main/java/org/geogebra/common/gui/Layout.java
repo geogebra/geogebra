@@ -497,7 +497,7 @@ public abstract class Layout implements SettingListener {
 					&& app.getEuclidianView2(1) == ev) {
 				changed |= app.getSettings().getEuclidian(2)
 						.showGrid(perspective.getShowGrid());
-			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
+			} else if (app.isEuclidianView3D(ev)) {
 				changed |= app.getSettings().getEuclidian(3)
 						.showGrid(perspective.getShowGrid());
 			} else {

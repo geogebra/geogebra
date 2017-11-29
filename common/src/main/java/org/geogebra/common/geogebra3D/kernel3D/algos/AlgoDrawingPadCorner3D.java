@@ -65,7 +65,7 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 		App app = cons.getApplication();
 
 		if (evNum != null && is3D(evNum)) {
-			if (!app.hasEuclidianView3D() || !corner.isGeoElement3D()) {
+			if (!app.isEuclidianView3Dinited() || !corner.isGeoElement3D()) {
 				corner.setUndefined();
 				return;
 			}

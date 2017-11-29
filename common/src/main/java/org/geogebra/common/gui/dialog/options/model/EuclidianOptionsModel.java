@@ -514,8 +514,7 @@ public class EuclidianOptionsModel {
 						&& app.getEuclidianView2(1) == view) {
 					app.getSettings().getEuclidian(2).setXminObject(minMax,
 							true);
-				} else if (app.hasEuclidianView3D()
-						&& app.getEuclidianView3D() == view) {
+				} else if (app.isEuclidianView3D(view)) {
 					app.getSettings().getEuclidian(3).setXminObject(minMax,
 							true);
 
@@ -537,8 +536,7 @@ public class EuclidianOptionsModel {
 						&& app.getEuclidianView2(1) == view) {
 					app.getSettings().getEuclidian(2).setYminObject(minMax,
 							true);
-				} else if (app.hasEuclidianView3D()
-						&& app.getEuclidianView3D() == view) {
+				} else if (app.isEuclidianView3D(view)) {
 					app.getSettings().getEuclidian(3).setYminObject(minMax,
 							true);
 

@@ -500,11 +500,6 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	public boolean hasEuclidianView3D() {
-		return true;
-	}
-
-	@Override
 	public boolean isEuclidianView3Dinited() {
 		return this.euclidianView3D != null;
 	}
