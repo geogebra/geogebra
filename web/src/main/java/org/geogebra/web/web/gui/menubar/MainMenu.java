@@ -117,7 +117,6 @@ public class MainMenu extends FlowPanel
 			this.addStyleName("menubarSMART");
 		}
 		signInMenu = new GMenuBar("signin", app);
-		signInMenu.addTabHandler(this);
 		// leftSide = app.isWhiteboardActive() || app.isUnbundled();
 		this.app = app;
 		init();
@@ -180,7 +179,6 @@ public class MainMenu extends FlowPanel
 		menuImgs.clear();
 
 		if (app.has(Feature.ARIA_MENU)) {
-			// initAriaKeyListener();
 			initAriaStackPanel();
 		} else {
 			initKeyListener();
@@ -193,8 +191,6 @@ public class MainMenu extends FlowPanel
 				this.menuPanel.add(fileMenu, getHTMLCollapse(
 						MaterialDesignResources.INSTANCE.insert_file_black(),
 						"File"), true);
-				// fileMenu.getElement().removeClassName("collapse");
-				// fileMenu.getElement().addClassName("expand");
 				menuTitles.add("File");
 				menuImgs.add(
 						MaterialDesignResources.INSTANCE.insert_file_black());
@@ -244,7 +240,6 @@ public class MainMenu extends FlowPanel
 								"View"),
 						true);
 			}
-
 		}
 
 		if (!app.isUnbundledOrWhiteboard()) {
@@ -267,8 +262,6 @@ public class MainMenu extends FlowPanel
 					true);
 			menuTitles.add("Language");
 			menuImgs.add(null);
-			languageMenu.addTabHandler(this);
-			settingsMenu.addTabHandler(this);
 		}
 		if (!app.getLAF().isSmart() && enableGraph
 				&& !app.isUnbundledOrWhiteboard()) {
@@ -283,7 +276,6 @@ public class MainMenu extends FlowPanel
 		}
 		if (!exam) {
 			if (app.isUnbundledOrWhiteboard()) {
-				helpMenu.addTabHandler(this);
 				this.menuPanel.add(helpMenu, getExpandCollapseHTML(
 						MaterialDesignResources.INSTANCE.icon_help_black(),
 						"Help"), true);
@@ -366,12 +358,10 @@ public class MainMenu extends FlowPanel
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(index)), false);
 				}
-
 			}
 
 			@Override
 			public void onBrowserEvent(Event event) {
-
 				int eventType = DOM.eventGetType(event);
 				Element target = DOM.eventGetTarget(event);
 				int index = findDividerIndex(target);
@@ -806,7 +796,6 @@ public class MainMenu extends FlowPanel
 	private void createPerspectivesMenu() {
 		perspectivesMenu = new PerspectivesMenuW(app);
 		perspectiveMenuUnbundled = new PerspectivesMenuUnbundledW(app);
-		perspectiveMenuUnbundled.addTabHandler(this);
 	}
 
 	private void createEditMenu() {
@@ -981,7 +970,6 @@ public class MainMenu extends FlowPanel
 
 	private void addUserMenu() {
 		if (app.isUnbundledOrWhiteboard()) {
-			userMenu.addTabHandler(this);
 			this.menuPanel.add(this.userMenu,
 					getExpandCollapseHTML(
 							MaterialDesignResources.INSTANCE.person_black(),
@@ -1027,8 +1015,9 @@ public class MainMenu extends FlowPanel
 
 			if (shiftDown) {
 				selectPreviousItem(submenu);
-			} else {
-				selectNextItem(submenu);
+			} else if (!selectNextItem(submenu)) {
+				app.toggleMenu();
+				app.getAccessibilityManager().focusMenu();
 			}
 			return true;
 		}
@@ -1051,19 +1040,22 @@ public class MainMenu extends FlowPanel
 	 * 
 	 * @param menu
 	 *            to select in.
+	 * @return true if the next item is not the same as it is already selected.
+	 * 
 	 */
-	void selectNextItem(GMenuBar menu) {
+	boolean selectNextItem(GMenuBar menu) {
 		if (menu.isLastItemSelected() || menu.isEmpty()) {
 			int nextIdx = menuPanel.getSelectedIndex() + 1;
 			if (nextIdx < menuPanel.getWidgetCount()) {
 				menuPanel.showStack(nextIdx);
 				focusStack(nextIdx);
 			} else {
-				app.getAccessibilityManager().focusMenu();
+				return false;
 			}
 		} else {
 			menu.moveSelectionDown();
 		}
+		return true;
 	}
 
 	/**
