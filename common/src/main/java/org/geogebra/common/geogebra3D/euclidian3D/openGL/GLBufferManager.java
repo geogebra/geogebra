@@ -338,8 +338,11 @@ abstract class GLBufferManager {
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
-			currentBufferPack = currentBufferSegment.bufferPack;
-			currentBufferPack.setAlpha(alpha, currentBufferSegment.elementsOffset, currentBufferSegment.elementsLength);
+			if (currentBufferSegment != null) { // this may happen after undo from DrawIntersectionCurve3D
+				currentBufferPack = currentBufferSegment.bufferPack;
+				currentBufferPack.setAlpha(alpha, currentBufferSegment.elementsOffset,
+						currentBufferSegment.elementsLength);
+			}
 		}
 	}
 
