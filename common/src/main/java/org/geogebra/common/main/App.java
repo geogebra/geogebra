@@ -21,6 +21,7 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -2329,7 +2330,9 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void removeFromViews3D(GeoElement geo) {
 		geo.removeViews3D();
-		getEuclidianView3D().remove(geo);
+		if (isEuclidianView3Dinited()) {
+			getEuclidianView3D().remove(geo);
+		}
 	}
 
 	public abstract void setXML(String string, boolean b);
@@ -5132,7 +5135,7 @@ public abstract class App implements UpdateSelection {
 	 *            view
 	 * @return true if it's 3D
 	 */
-	public boolean isEuclidianView3D(EuclidianView view) {
+	public boolean isEuclidianView3D(EuclidianViewInterfaceCommon view) {
 		return false;
 	}
 

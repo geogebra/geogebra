@@ -912,7 +912,7 @@ public class CopyPaste {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
 				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN);
-			} else if (ev == app.getEuclidianView3D()) {
+			} else if (app.isEuclidianView3D(ev)) {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
 				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN3D);

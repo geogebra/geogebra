@@ -433,7 +433,8 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private EuclidianViewWInterface getViewForThumbnail() {
-		if (app.hasEuclidianView3D() && app.showView(App.VIEW_EUCLIDIAN3D)) {
+		if (app.isEuclidianView3Dinited()
+				&& app.showView(App.VIEW_EUCLIDIAN3D)) {
 			return (EuclidianViewWInterface) app.getEuclidianView3D();
 		}
 		return ((EuclidianViewWInterface) app.getActiveEuclidianView());

@@ -42,6 +42,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian3D.Input3DConstants;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
@@ -523,7 +524,7 @@ public class App3D extends AppD {
 	 * @return true if it's 3D
 	 */
 	@Override
-	public boolean isEuclidianView3D(EuclidianView view) {
+	public boolean isEuclidianView3D(EuclidianViewInterfaceCommon view) {
 		// euclidianView3D might be null
 		return view != null && view == euclidianView3D;
 	}

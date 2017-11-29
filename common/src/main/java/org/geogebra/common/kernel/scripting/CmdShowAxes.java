@@ -75,7 +75,7 @@ public class CmdShowAxes extends CmdScripting {
 				}
 				break;
 			case 3:
-				if (app.hasEuclidianView3D()) {
+				if (app.isEuclidianView3Dinited()) {
 					ev = app.getEuclidianView3D();
 				}
 				break;

@@ -548,7 +548,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				viewIdx = 1; 
 			} else if (app.hasEuclidianView2EitherShowingOrNot(1) && view == app.getEuclidianView2(1)) {
 				viewIdx = 2;
-			} else if (app.hasEuclidianView3D() && view == app.getEuclidianView3D()) {
+			} else if (app.isEuclidianView3D(view)) {
 				viewIdx = 3;
 			}	
 			model.applyBackgroundColor(viewIdx, color);

@@ -368,7 +368,7 @@ public class Settings {
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
 				&& app.getEuclidianView2(1) == ev) {
 			return getEuclidian(2);
-		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
+		} else if (app.isEuclidianView3D(ev)) {
 			return getEuclidian(3);
 		} else if (ev.isViewForPlane()) {
 			return ev.getSettings();
