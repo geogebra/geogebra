@@ -3930,10 +3930,6 @@ public abstract class App implements UpdateSelection {
             case MOBILE_LOCAL_SAVE:
                 return true;
 
-            // AND-217
-            case MOBILE_AV_EDITOR:
-                return isNativeMobileAppWithNewUI();
-
             // MOB-788
             case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
                 return false;

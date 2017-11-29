@@ -124,8 +124,6 @@ public enum Feature {
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
 
-	MOBILE_AV_EDITOR,
-
 	/** AND-247 */
 	AND_KILL_TOOLBAR,
 
