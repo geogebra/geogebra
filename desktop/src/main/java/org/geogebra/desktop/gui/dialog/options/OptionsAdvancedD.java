@@ -819,7 +819,6 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 			// eg want "Norwegian", not "Norwegian (Bokmal)" etc
 			languages[i + 1] = loc1.getDisplayLanguage(Locale.ENGLISH);
-			Log.debug(languages[i + 1]);
 			if ("engb".equals(languages[i + 1])) {
 				languages[i + 1] = Language.getDisplayName("enGB");
 			}
