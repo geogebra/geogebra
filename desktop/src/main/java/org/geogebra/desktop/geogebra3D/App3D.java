@@ -515,6 +515,19 @@ public class App3D extends AppD {
 		}
 	}
 
+	/**
+	 * check is view is 3D WITHOUT creating 3D View
+	 * 
+	 * @param view
+	 *            view
+	 * @return true if it's 3D
+	 */
+	@Override
+	public boolean isEuclidianView3D(EuclidianView view) {
+		// euclidianView3D might be null
+		return view != null && view == euclidianView3D;
+	}
+
 	// ///////////////////////////////
 	// GUI
 	// ///////////////////////////////

@@ -5125,4 +5125,15 @@ public abstract class App implements UpdateSelection {
 		return buttonShadows;
 	}
 
+	/**
+	 * check is view is 3D WITHOUT creating 3D View
+	 * 
+	 * @param view
+	 *            view
+	 * @return true if it's 3D
+	 */
+	public boolean isEuclidianView3D(EuclidianView view) {
+		return false;
+	}
+
 }
