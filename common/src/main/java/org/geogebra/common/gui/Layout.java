@@ -483,7 +483,7 @@ public abstract class Layout implements SettingListener {
 					&& app.getEuclidianView2(1) == ev) {
 				changed |= app.getSettings().getEuclidian(2).setShowAxes(
 						perspective.getShowAxes(), perspective.getShowAxes());
-			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
+			} else if (app.isEuclidianView3D(ev)) {
 				changed |= app.getSettings().getEuclidian(3)
 						.setShowAxes(perspective.getShowAxes());
 			} else {

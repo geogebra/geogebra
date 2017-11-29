@@ -2557,7 +2557,7 @@ public abstract class App implements UpdateSelection {
 			}
 		}
 
-		if (hasEuclidianView3D() && isEuclidianView3Dinited()
+		if (isEuclidianView3Dinited()
 				&& getEuclidianView3D().hasStyleBar()) {
 			getEuclidianView3D().getStyleBar().reinit();
 		}
@@ -3018,7 +3018,7 @@ public abstract class App implements UpdateSelection {
 			getEuclidianView2(1).resetXYMinMaxObjects();
 			getEuclidianView2(1).setSelectionRectangle(null);
 		}
-		if (hasEuclidianView3D()) {
+		if (isEuclidianView3Dinited()) {
 			getEuclidianView3D().resetXYMinMaxObjects();
 			getEuclidianView3D().setSettingsToStandardView();
 		}

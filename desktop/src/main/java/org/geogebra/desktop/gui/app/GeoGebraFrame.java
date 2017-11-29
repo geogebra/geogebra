@@ -1078,8 +1078,7 @@ public class GeoGebraFrame extends JFrame
 						// if 3D view exists, assume that we should export
 						// that
 						// (only PNG supported right now for 3D)
-						if (app.isEuclidianView3Dinited()
-								&& app.hasEuclidianView3D()) {
+						if (app.isEuclidianView3Dinited()) {
 
 							if ("png".equals(extension)) {
 								Log.debug("exporting 3D View");

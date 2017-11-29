@@ -492,8 +492,7 @@ public class EuclidianOptionsModel {
 						&& app.getEuclidianView2(1) == view) {
 					app.getSettings().getEuclidian(2).setYmaxObject(minMax,
 							true);
-				} else if (app.hasEuclidianView3D()
-						&& app.getEuclidianView3D() == view) {
+				} else if (app.isEuclidianView3D(view)) {
 					app.getSettings().getEuclidian(3).setYmaxObject(minMax,
 							true);
 

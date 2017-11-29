@@ -219,8 +219,7 @@ public class AxisModel {
 		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
 				&& app.getEuclidianView2(1) == view) {
 			changed = app.getSettings().getEuclidian(2).setAxisLabel(axis, text, fireChange);
-		} else if (app.hasEuclidianView3D()
-				&& app.getEuclidianView3D() == view) {
+		} else if (app.isEuclidianView3D(view)) {
 			changed = app.getSettings().getEuclidian(3).setAxisLabel(axis, text, fireChange);
 		} else {
 			EuclidianSettings settings = view.getSettings();
