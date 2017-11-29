@@ -1105,6 +1105,12 @@ public class MainMenu extends FlowPanel
 			selectPreviousItem(mi);
 		} else if (key == KeyCodes.KEY_DOWN) {
 			selectNextItem(mi);
+		} else if (key == KeyCodes.KEY_X && event.isAltKeyDown()
+				&& event.isControlKeyDown()) {
+			app.getAccessibilityManager().focusInput(true);
+			event.preventDefault();
+			event.stopPropagation();
+			app.hideMenu();
 		}
 	}
 }
