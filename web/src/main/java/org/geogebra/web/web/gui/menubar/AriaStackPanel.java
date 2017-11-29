@@ -348,7 +348,7 @@ public class AriaStackPanel extends ComplexPanel
 
 		Element target = DOM.eventGetTarget(event);
 		int index = findDividerIndex(target);
-		if (eventType == Event.ONMOUSEOVER) {
+		if (eventType == Event.ONMOUSEOVER || eventType == Event.ONKEYDOWN) {
 			int idx = getContentIndex(target);
 			Widget content = getWidget(idx);
 			if (index > 0) {

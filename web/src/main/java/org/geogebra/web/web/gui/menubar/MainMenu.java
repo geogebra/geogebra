@@ -477,9 +477,6 @@ public class MainMenu extends FlowPanel
 		};
 
 		menuPanel.addDomHandler(this, KeyDownEvent.getType());
-		for (GMenuBar menu : menus) {
-			menu.addDomHandler(this, KeyDownEvent.getType());
-		}
 	}
 
 	private void initStackPanel() {
@@ -660,14 +657,6 @@ public class MainMenu extends FlowPanel
 			}
 		}, KeyDownEvent.getType());
 	}
-
-	// private void initAriaKeyListener() {
-	// for (GMenuBar menu : menus) {
-	// // menu.addTabHandler(this);
-	// menu.addDomHandler(this, KeyDownEvent.getType());
-	// }
-	//
-	// }
 
 	private void initKeyListener() {
 		for (int i = 0; i < menus.size(); i++) {
@@ -1114,6 +1103,7 @@ public class MainMenu extends FlowPanel
 	public void onKeyDown(KeyDownEvent event) {
 		int key = event.getNativeKeyCode();
 		GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
+
 		if (key == KeyCodes.KEY_TAB && mi != null) {
 			onTab(mi, event.isShiftKeyDown());
 			event.preventDefault();
@@ -1122,7 +1112,6 @@ public class MainMenu extends FlowPanel
 			selectPreviousItem(mi);
 		} else if (key == KeyCodes.KEY_DOWN) {
 			selectNextItem(mi);
-
 		}
 	}
 }
