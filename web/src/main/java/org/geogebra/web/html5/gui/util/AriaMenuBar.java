@@ -2,10 +2,13 @@ package org.geogebra.web.html5.gui.util;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.main.App;
+
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -206,10 +209,33 @@ public class AriaMenuBar extends Widget {
 		}
 
 		case Event.ONKEYDOWN: {
+			int keyCode = event.getKeyCode();
+			switch (keyCode) {
+			case KeyCodes.KEY_X:
+				if (event.getAltKey() && event.getCtrlKey()) {
+					App app = getApp();
+					if (app != null) {
+						app.getAccessibilityManager().focusInput(true);
+					}
+					eatEvent(event);
+				}
+				break;
+			default:
+				break;
+			}
+
 			break;
 		} // end case Event.ONKEYDOWN
 		} // end switch (DOM.eventGetType(event))
 		super.onBrowserEvent(event);
+	}
+
+	/**
+	 * @return application
+	 */
+	protected App getApp() {
+		// overwritten is subclasses
+		return null;
 	}
 
 	private static void eatEvent(Event event) {

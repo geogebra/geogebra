@@ -132,6 +132,11 @@ public class PropertiesStyleBarW extends
 					}
 				}
 			}
+
+			@Override
+			protected App getApp() {
+				return app;
+			}
 		};
 		
 		toolbar.setStyleName("menuProperties");	
