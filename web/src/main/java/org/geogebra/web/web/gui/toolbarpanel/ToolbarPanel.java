@@ -887,9 +887,15 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	/**
 	 * Sets focus to AV Input
 	 * 
+	 * @param force
+	 *            force to open AV tab if not active
+	 * 
 	 * @return if input can be focused.
 	 */
-	public boolean focusInput() {
+	public boolean focusInput(boolean force) {
+		if (force) {
+			this.openAlgebra(true);
+		}
 		return isAlgebraViewActive() && tabAlgebra.focusInput();
 	}
 }

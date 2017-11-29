@@ -33,7 +33,7 @@ public class AccessibilityButton implements AccessibilityInterface {
 				return true;
 			}
 			if (keyCode == 'X' && event.getAltKey() && event.getCtrlKey()) {
-				focusInput();
+				focusInput(true);
 				event.preventDefault();
 				return true;
 			}
@@ -72,9 +72,9 @@ public class AccessibilityButton implements AccessibilityInterface {
 	}
 
 	@Override
-	public void focusInput() {
+	public void focusInput(boolean force) {
 		if (button instanceof AccessibilityInterface) {
-			((AccessibilityInterface) button).focusInput();
+			((AccessibilityInterface) button).focusInput(force);
 		}
 
 	}

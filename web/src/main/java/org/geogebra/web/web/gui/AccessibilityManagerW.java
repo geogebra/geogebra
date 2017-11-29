@@ -57,15 +57,15 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 	
 	@Override
-	public boolean focusInput() {
+	public boolean focusInput(boolean force) {
 		if (gm.getToolbarPanelV2() != null) {
-			return gm.getToolbarPanelV2().focusInput();
+			return gm.getToolbarPanelV2().focusInput(force);
 		}
 		return false;
 	}
 
 	private void focusInputAsNext() {
-		if (!focusInput()) {
+		if (!focusInput(false)) {
 			focusMenu();
 		}
 
@@ -106,7 +106,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 
 		if (source.getTabIndex() == GUITabs.MENU) {
-			if (!focusInput()) {
+			if (!focusInput(false)) {
 				if (!focusLastGeo()) {
 					focusZoom(false);
 				}

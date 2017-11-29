@@ -31,9 +31,12 @@ public interface AccessibilityManagerInterface {
 	/**
 	 * Focus algebra input
 	 * 
-	 * @return algebra input fucused
+	 * @param force
+	 *            force to open AV tab if not active
+	 * 
+	 * @return algebra input focused
 	 */
-	public boolean focusInput();
+	public boolean focusInput(boolean force);
 
 	/**
 	 * 

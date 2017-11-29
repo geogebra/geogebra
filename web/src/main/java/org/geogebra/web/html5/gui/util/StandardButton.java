@@ -111,8 +111,8 @@ public class StandardButton extends FastButton {
 	}
 
 	@Override
-	public void focusInput() {
-		app.getAccessibilityManager().focusInput();
+	public void focusInput(boolean force) {
+		app.getAccessibilityManager().focusInput(force);
 	}
 
 	@Override
