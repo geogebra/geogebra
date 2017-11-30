@@ -3947,9 +3947,6 @@ public abstract class App implements UpdateSelection {
             case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
                 return true; // 5.0.376
 
-            case MOB_TOOLSET_LEVELS:
-                return isNativeMobileAppWithNewUI();
-
             case AND_TRANSPARENT_STATUSBAR:
                 return isNativeMobileAppWithNewUI();
 
@@ -5021,13 +5018,8 @@ public abstract class App implements UpdateSelection {
 		}
 
 		//Needed temporary, until the toolset levels are not implemented on iOS too
-		if (has(Feature.MOB_TOOLSET_LEVELS)) {
-			getSettings().getToolbarSettings().setType(type);
-			return new ToolCategorization(this, type, getSettings().getToolbarSettings().getToolsetLevel(),
-					isPhoneApp);
-		}
-
-		return new ToolCategorization(this, type, ToolsetLevel.ADVANCED,
+		getSettings().getToolbarSettings().setType(type);
+		return new ToolCategorization(this, type, getSettings().getToolbarSettings().getToolsetLevel(),
 				isPhoneApp);
 	}
 	
