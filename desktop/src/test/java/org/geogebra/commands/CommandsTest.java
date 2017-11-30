@@ -1438,6 +1438,12 @@ public class CommandsTest extends Assert{
 				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
 	}
 
+	@Test
+	public void testPointsFromList() {
+		t("Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
+				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");
+	}
+
 	public static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.SUPERSCRIPT_2 + "")
 				.replace("^3", Unicode.SUPERSCRIPT_3 + "")

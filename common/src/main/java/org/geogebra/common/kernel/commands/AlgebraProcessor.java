@@ -3000,7 +3000,8 @@ public class AlgebraProcessor {
 
 				// add to list
 				geoElements.add(geo);
-				if (geo.isLabelSet() || !geo.isIndependent()) {
+				if (geo.isLabelSet() || geo.isLocalVariable()
+						|| !geo.isIndependent()) {
 					isIndependent = false;
 				}
 			}
