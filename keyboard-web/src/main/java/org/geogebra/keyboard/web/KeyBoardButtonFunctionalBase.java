@@ -61,9 +61,11 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 *            {@link ClickHandler}
 	 */
 	public KeyBoardButtonFunctionalBase(ImageResource image,
-			String feedback, ButtonHandler handler) {
+			String feedback, ButtonHandler handler, Localization loc,
+			String altText) {
 		super(handler);
 		this.image = new Image(image);
+		this.image.setAltText(loc.getMenu(altText));
 		this.feedback = feedback;
 		this.add(this.image);
 	}

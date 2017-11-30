@@ -627,18 +627,19 @@ public class TabbedKeyboard extends FlowPanel {
 			return isBoxIcon
 					? new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.n_root(),
-							button.getActionName(), bh, false, loc, "")
+							button.getActionName(), bh, false, loc,
+							"RootAltText")
 					: new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.nroot(),
-							button.getActionName(), bh);
+							button.getActionName(), bh, loc, "RootAltText");
 		} else if (resourceName.equals(Resource.INTEGRAL.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.integral(),
-					button.getActionName(), bh);
+					button.getActionName(), bh, loc, "Integral");
 		} else if (resourceName.equals(Resource.DERIVATIVE.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.derivative(),
-					button.getActionName(), bh);
+					button.getActionName(), bh, loc, "Derivative");
 		} else if (resourceName.equals(Resource.ABS.name()) && isBoxIcon) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.abs(),
@@ -660,7 +661,8 @@ public class TabbedKeyboard extends FlowPanel {
 							"SquareRootAltText")
 					: new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.sqrtPng(),
-							button.getActionName(), bh);
+							button.getActionName(), bh, loc,
+							"SquareRootAltText");
 		}
 		if (KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS.equals(resourceName)) {
 			return new KeyBoardButtonFunctionalBase(
