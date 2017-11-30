@@ -397,8 +397,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 			} else if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 						MainMenu.getMenuBarHtml(img, loc.getMenu("ShowTrace")),
-						MaterialDesignResources.INSTANCE.check_black()
-								.getSafeUri().asString(),
+						MaterialDesignResources.INSTANCE.check_black(),
 						isTracing());
 				Command cmdTrace = new Command() {
 
@@ -707,8 +706,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 						MainMenu.getMenuBarHtml(img,
 								loc.getMenu("PinToScreen")),
-						MaterialDesignResources.INSTANCE.check_black()
-								.getSafeUri().asString(),
+						MaterialDesignResources.INSTANCE.check_black(),
 						pinned);
 				Command cmdPin = new Command() {
 					
@@ -756,8 +754,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 						.asString();
 				final GCheckmarkMenuItem cmItem = new GCheckmarkMenuItem(
 						MainMenu.getMenuBarHtml(img, loc.getMenu("FixObject")),
-						MaterialDesignResources.INSTANCE.check_black()
-								.getSafeUri().asString(),
+						MaterialDesignResources.INSTANCE.check_black(),
 						geo.isLocked());
 				Command cmdLock = new Command() {
 

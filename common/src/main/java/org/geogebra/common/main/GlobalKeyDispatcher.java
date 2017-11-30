@@ -93,7 +93,7 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	protected TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<>();
 		}
 		return tempSet;
 	}

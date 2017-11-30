@@ -257,6 +257,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	public void hideMenu() {
 		setMenuShown(false);
 		popupPanel.hide();
+		hide();
 	}
 
 	private static ImageResource getSubMenuIcon(boolean isRTL) {

@@ -96,8 +96,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				.asString();
 		final GCheckmarkMenuItem showPlane = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowPlane")),
-				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
-						.asString(),
+				MaterialDesignResources.INSTANCE.check_black(),
 				((Kernel3D) app.getKernel()).getXOYPlane().isPlateVisible());
 		showPlane.setCommand(
 				((GuiManager3DW) app.getGuiManager()).getShowPlane3DAction());
@@ -112,8 +111,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 				.asString();
 		final GCheckmarkMenuItem showGrid = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowGrid")),
-				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
-						.asString(),
+				MaterialDesignResources.INSTANCE.check_black(),
 				((Kernel3D) app.getKernel()).getXOYPlane().isGridVisible());
 		showGrid.setCommand(
 				((GuiManager3DW) app.getGuiManager()).getShowGrid3DAction());

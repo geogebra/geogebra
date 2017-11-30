@@ -1,6 +1,7 @@
 package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.Command;
@@ -25,7 +26,7 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	 * @param cmd
 	 *            The command to run.
 	 */
-	public GCheckmarkMenuItem(String text, String checkUrl,
+	public GCheckmarkMenuItem(String text, SVGResource checkUrl,
 			boolean checked,
 			final ScheduledCommand cmd) {
 		super(text, checkUrl, checked, cmd);
@@ -39,7 +40,7 @@ public class GCheckmarkMenuItem extends GCheckMarkPanel {
 	 * @param checked
 	 *            initial value.
 	 */
-	public GCheckmarkMenuItem(String text, String checkUrl,
+	public GCheckmarkMenuItem(String text, SVGResource checkUrl,
 			boolean checked) {
 		super(text, checkUrl, checked, null);
 	}

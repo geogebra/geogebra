@@ -188,8 +188,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 				.getSafeUri().asString();
 		final GCheckmarkMenuItem snapToGrid = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("SnapToGrid")),
-				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
-						.asString(),
+				MaterialDesignResources.INSTANCE.check_black(),
 				app.getSettings().getEuclidian(1)
 						.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 		snapToGrid.setCommand(new Command() {
@@ -224,8 +223,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 					.getSafeUri().asString();
 		final GCheckmarkMenuItem showAxes = new GCheckmarkMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("ShowAxes")),
-				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
-						.asString(),
+				MaterialDesignResources.INSTANCE.check_black(),
 				app.getSettings().getEuclidian(settingsID).getShowAxis(0)
 						&& app.getSettings().getEuclidian(settingsID)
 								.getShowAxis(1));
@@ -449,8 +447,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			GCheckmarkMenuItem checkmarkMenuItem = new GCheckmarkMenuItem(
 				htmlString,
-				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
-						.asString(),
+					MaterialDesignResources.INSTANCE.check_black(),
 				true, ((AppW) app).getGuiManager().getShowAxesAction());
 
 			checkmarkMenuItem
@@ -474,8 +471,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		} else {
 			GCheckmarkMenuItem checkmarkMenuItem = new GCheckmarkMenuItem(
 					htmlString,
-					MaterialDesignResources.INSTANCE.check_black().getSafeUri()
-							.asString(),
+					MaterialDesignResources.INSTANCE.check_black(),
 					true, ((AppW) app).getGuiManager().getShowGridAction());
 
 			checkmarkMenuItem

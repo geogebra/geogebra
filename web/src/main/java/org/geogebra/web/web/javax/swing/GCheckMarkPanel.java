@@ -1,6 +1,7 @@
 package org.geogebra.web.web.javax.swing;
 
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -31,12 +32,12 @@ public abstract class GCheckMarkPanel {
 	 * @param cmd
 	 *            The command to run.
 	 */
-	public GCheckMarkPanel(String text, String checkUrl,
+	public GCheckMarkPanel(String text, SVGResource checkUrl,
 			boolean checked,
 			final ScheduledCommand cmd) {
 		this.setText(text);
 		this.setCmd(cmd);
-		checkImg = new NoDragImage(checkUrl);
+		checkImg = new NoDragImage(checkUrl, 24, 24);
 		checkImg.addStyleName("checkImg");
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("checkMarkMenuItem");

@@ -3,6 +3,7 @@ package org.geogebra.web.web.javax.swing;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.user.client.Command;
@@ -13,7 +14,7 @@ import com.google.gwt.user.client.Command;
  */
 public abstract class CheckMarkSubMenu {
 	private List<GCheckmarkMenuItem> items;
-	private String checkmarkUrl;
+	private SVGResource checkmarkUrl;
 	/**
 	 * parent menu item of this
 	 */
@@ -29,8 +30,7 @@ public abstract class CheckMarkSubMenu {
 			GCollapseMenuItem parentMenu) {
 		this.parentMenu = parentMenu;
 		// super(true, "", app);
-		checkmarkUrl = MaterialDesignResources.INSTANCE.check_black()
-				.getSafeUri().asString();
+		checkmarkUrl = MaterialDesignResources.INSTANCE.check_black();
 		// addStyleName("GeoGebraMenuBar");
 		// addStyleName("floating-Popup");
 		// addStyleName("dotSubMenu");

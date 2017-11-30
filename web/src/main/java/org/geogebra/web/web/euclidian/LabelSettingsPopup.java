@@ -142,11 +142,10 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			}
 		};
 		cmName = new GCheckMarkLabel("", MaterialDesignResources.INSTANCE
-				.check_black().getSafeUri().asString(), true, nameValueCmd);
+				.check_black(), true, nameValueCmd);
 
 		cmValue = new GCheckMarkLabel("",
-				MaterialDesignResources.INSTANCE.check_black().getSafeUri()
-						.asString(),
+				MaterialDesignResources.INSTANCE.check_black(),
 				true, nameValueCmd);
 
 		boolean isSelectionMode = app.getActiveEuclidianView()
