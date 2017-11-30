@@ -620,7 +620,6 @@ public abstract class RendererWithImpl extends Renderer
 		// picking objects
 		for (IntersectionCurve intersectionCurve : curves) {
 			Drawable3D d = intersectionCurve.drawable;
-			d.updateForHitting(); // we may need an update
 			if (!d.hit(hitting)
 					|| d.getPickingType() != PickingType.POINT_OR_CURVE) { // we
 																			// assume
