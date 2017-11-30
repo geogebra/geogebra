@@ -153,9 +153,6 @@ public enum Feature {
 	/** GGB-1881 */
 	MINOR_GRIDLINES,
 
-	/** AND-423 */
-	AND_SPEED_UP_AV,
-
 	/** GGB-1916 */
 	DEFAULT_OBJECT_STYLES,
 	
