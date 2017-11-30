@@ -5,8 +5,6 @@ import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.text.InputType;
 import android.util.AttributeSet;
 import android.view.View;
@@ -500,24 +498,6 @@ public class FormulaEditor extends View implements MathField {
         return mMathFieldInternal;
     }
 
-    @Override
-    protected Parcelable onSaveInstanceState() {
-        if (appHasFeatureAND_KILL_TOOLBAR()) { // TODO remove all the method when feature is done
-            return super.onSaveInstanceState();
-        }
-
-        Parcelable superState = super.onSaveInstanceState();
-        FormulaEditorState state = new FormulaEditorState(superState);
-
-        EditorState editorState = getEditorState();
-
-        state.currentOffset = editorState.getCurrentOffset();
-        state.currentPath = getCurrentPath(editorState.getCurrentField());
-        state.rootComponent = editorState.getRootComponent();
-
-        return state;
-    }
-
     public ArrayList<Integer> getCurrentPath(MathComponent component) {
         ArrayList<Integer> currentPath = new ArrayList<>();
         getPath(component, currentPath);
@@ -533,33 +513,6 @@ public class FormulaEditor extends View implements MathField {
             path.add(index);
             getPath(container, path);
         }
-    }
-
-    @Override
-    public void onRestoreInstanceState(Parcelable state) {
-        if (appHasFeatureAND_KILL_TOOLBAR()) { // TODO remove all the method when feature is done
-            super.onRestoreInstanceState(state);
-            return;
-        }
-
-        if (!(state instanceof FormulaEditorState)) {
-            super.onRestoreInstanceState(state);
-            return;
-        }
-
-        FormulaEditorState formulaEditorState = (FormulaEditorState) state;
-        super.onRestoreInstanceState(formulaEditorState.getSuperState());
-
-        // Set the formula
-        MathFormula mathFormula = MathFormula.newFormula(sMetaModel);
-        mathFormula.setRootComponent(formulaEditorState.rootComponent);
-        mMathFieldInternal.setFormula(mathFormula);
-
-        // Change the editor state
-        EditorState editorState = getEditorState();
-        editorState.setRootComponent(formulaEditorState.rootComponent);
-        editorState.setCurrentField(getCurrentField(formulaEditorState.rootComponent, formulaEditorState.currentPath));
-        editorState.setCurrentOffset(formulaEditorState.currentOffset);
     }
 
     private MathSequence getCurrentField(MathSequence root, ArrayList<Integer> currentPath) {
@@ -589,52 +542,6 @@ public class FormulaEditor extends View implements MathField {
         editorState.setRootComponent(rootComponent);
         editorState.setCurrentField(getCurrentField(rootComponent, currentPath));
         editorState.setCurrentOffset(currentOffset);
-    }
-
-    @SuppressWarnings("InstanceVariableNamingConvention")
-    static class FormulaEditorState extends BaseSavedState {
-
-        @SuppressWarnings("InnerClassTooDeeplyNested")
-        public static final Parcelable.Creator<FormulaEditorState> CREATOR =
-                new Parcelable.Creator<FormulaEditorState>() {
-                    public FormulaEditorState createFromParcel(Parcel in) {
-                        return new FormulaEditorState(in);
-                    }
-
-                    public FormulaEditorState[] newArray(int size) {
-                        return new FormulaEditorState[size];
-                    }
-                };
-
-        MathSequence rootComponent;
-        ArrayList<Integer> currentPath;
-        Integer currentOffset;
-
-        FormulaEditorState(Parcelable superState) {
-            super(superState);
-        }
-
-        FormulaEditorState(Parcel source) {
-            super(source);
-            rootComponent = (MathSequence) source.readValue(getClass().getClassLoader());
-            //noinspection unchecked
-            currentPath = source.readArrayList(Integer.class.getClassLoader());
-            currentOffset = source.readInt();
-        }
-
-        @Override
-        public void writeToParcel(Parcel out, int flags) {
-            super.writeToParcel(out, flags);
-            out.writeValue(rootComponent);
-            out.writeList(currentPath);
-            out.writeInt(currentOffset);
-        }
-
-    }
-
-    @SuppressWarnings("InstanceMethodNamingConvention")
-    protected boolean appHasFeatureAND_KILL_TOOLBAR() {
-        return false;
     }
 
     protected boolean hasPreview() {

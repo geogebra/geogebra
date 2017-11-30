@@ -124,9 +124,6 @@ public enum Feature {
 	/** MOW-88 */
 	MOW_DIRECT_FORMULA_CONVERSION,
 
-	/** AND-247 */
-	AND_KILL_TOOLBAR,
-
 	/** MOB-1305 */
 	MOB_KEYBOARD_BOX_ICONS,
 
