@@ -1,5 +1,6 @@
 package org.geogebra.keyboard.web;
 
+import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.Action;
 import org.geogebra.web.resources.SVGResource;
 
@@ -34,12 +35,17 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 *            {@link ClickHandler}
 	 * @param action
 	 *            {@link Action}
+	 * @param loc
+	 *            localization
+	 * @param altText
+	 *            alternate text for icon
 	 */
 	public KeyBoardButtonFunctionalBase(ImageResource image,
 			ButtonHandler handler,
-	        Action action) {
+			Action action, Localization loc, String altText) {
 		super(handler);
 		this.image = new Image(image);
+		this.image.setAltText(loc.getMenu(altText));
 		this.action = action;
 		this.add(this.image);
 		addStyleName("colored");

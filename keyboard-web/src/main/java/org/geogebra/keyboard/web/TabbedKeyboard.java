@@ -557,23 +557,24 @@ public class TabbedKeyboard extends FlowPanel {
 	private KeyBoardButtonBase functionButton(WeightedButton button,
 			ButtonHandler bh) {
 		boolean isBoxIcon = ((App) app).has(Feature.KEYBOARD_BOX_ICON);
+		Localization loc = ((App) app).getLocalization();
 		String resourceName = button.getResourceName();
 		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_enter_black(), bh,
-					Action.RETURN_ENTER);
+					Action.RETURN_ENTER, loc, "EnterAltText");
 		} else if (resourceName.equals(Resource.BACKSPACE_DELETE.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_backspace(), bh,
-					Action.BACKSPACE_DELETE);
+					Action.BACKSPACE_DELETE, loc, "BackspaceAltText");
 		} else if (resourceName.equals(Resource.LEFT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowLeft_black(), bh,
-					Action.LEFT_CURSOR);
+					Action.LEFT_CURSOR, loc, "LeftArrowAltText");
 		} else if (resourceName.equals(Resource.RIGHT_ARROW.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_arrowRight_black(), bh,
-					Action.RIGHT_CURSOR);
+					Action.RIGHT_CURSOR, loc, "RightArrowAltText");
 		} else if (resourceName.equals(Resource.POWA2.name())) {
 			return isBoxIcon
 					? new KeyBoardButtonFunctionalBase(
@@ -589,11 +590,11 @@ public class TabbedKeyboard extends FlowPanel {
 		} else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shift(), bh,
-					Action.CAPS_LOCK);
+					Action.CAPS_LOCK, loc, "");
 		} else if (resourceName.equals(Resource.CAPS_LOCK_ENABLED.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
-					Action.CAPS_LOCK);
+					Action.CAPS_LOCK, loc, "");
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
 			return isBoxIcon
 					? new KeyBoardButtonFunctionalBase(
