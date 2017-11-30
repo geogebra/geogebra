@@ -1301,7 +1301,8 @@ public class AlgoDispatcher {
 				A.setZero();
 			}
 			AlgoIntersectFunctionsNewton algo = new AlgoIntersectFunctionsNewton(
-					cons, labels[0], f, line.getGeoFunction(), A);
+					cons, labels == null ? null : labels[0], f,
+					line.getGeoFunction(), A);
 			GeoPoint g = algo.getRootPoint();
 			GeoPoint[] ret = { g };
 			return ret;
