@@ -3944,9 +3944,6 @@ public abstract class App implements UpdateSelection {
             case AND_GEOMETRY_IN_MATH_APPS_MENU:
                 return true; // 5.0.376
 
-            case MOB_SELECT_TOOL:
-                return isNativeMobileAppWithNewUI();
-
             case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
                 return true; // 5.0.376
 
