@@ -101,7 +101,7 @@ public class MainMenu extends FlowPanel
 	GMenuBar languageMenu;
 	private boolean loggedIn = false;
 
-	/** Add insterface to stack panel */
+	/** Add interface to stack panel */
 	class MyStackPanel extends StackPanel implements StackPanelInterface {
 		// only adds interface
 	}
@@ -188,12 +188,9 @@ public class MainMenu extends FlowPanel
 
 		if (app.enableFileFeatures()) {
 			if (app.isUnbundledOrWhiteboard()) {
-				this.menuPanel.add(fileMenu, getHTMLCollapse(
+				this.menuPanel.add(fileMenu, getExpandCollapseHTML(
 						MaterialDesignResources.INSTANCE.insert_file_black(),
 						"File"), true);
-				menuTitles.add("File");
-				menuImgs.add(
-						MaterialDesignResources.INSTANCE.insert_file_black());
 			} else {
 				this.menuPanel.add(fileMenu,
 						getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"),
@@ -250,18 +247,17 @@ public class MainMenu extends FlowPanel
 		} else {
 			this.menuPanel
 					.add(settingsMenu,
-							getHTML(MaterialDesignResources.INSTANCE.gear(),
+							getSingleMenuHTML(
+									MaterialDesignResources.INSTANCE.gear(),
 									app.getLocalization().getMenu("Settings")),
 							true);
-			menuTitles.add("Settings");
-			menuImgs.add(null);
-			languageMenu = new GMenuBar("", app);
+
+			languageMenu = new GMenuBar("Language", app);
 			this.menuPanel.add(languageMenu,
-					getHTML(MaterialDesignResources.INSTANCE.language_black(),
+					getSingleMenuHTML(
+							MaterialDesignResources.INSTANCE.language_black(),
 							app.getLocalization().getMenu("Language")),
 					true);
-			menuTitles.add("Language");
-			menuImgs.add(null);
 		}
 		if (!app.getLAF().isSmart() && enableGraph
 				&& !app.isUnbundledOrWhiteboard()) {
@@ -339,15 +335,8 @@ public class MainMenu extends FlowPanel
 					super.showStack(1);
 				} else {
 					super.showStack(index);
-					if (app.isUnbundledOrWhiteboard()
-							&& menuImgs.size() > index - 1
-							&& menuImgs.get(index - 1) != null) {
-						String ariaLabel = menuTitles.get(index - 1);
-						setStackText(index,
-								getHTMLCollapse(menuImgs.get(index - 1),
-										menuTitles.get(index - 1)),
-								ariaLabel, true);
-						setExpandStyles(index);
+					if (app.isUnbundledOrWhiteboard()) {
+						setStackTextCollapsed(index, true);
 					}
 				}
 				dispatchOpenEvent();
@@ -358,6 +347,32 @@ public class MainMenu extends FlowPanel
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(index)), false);
 				}
+			}
+
+			private void setStackTextCollapsed(int index, boolean collapse) {
+				if (index < 0 || index > menuImgs.size()) {
+					return;
+				}
+
+				SVGResource img = menuImgs.get(index - 1);
+				GMenuBar menu = getMenuAt(index);
+				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
+						+ menu.getMenuTitle().substring(1);
+
+				if (menu == settingsMenu || menu == languageMenu) {
+					setStackText(index, getHTML(img, title), title,
+							collapse);
+					return;
+				}
+				setStackText(index, getHTMLCollapse(img, title), title,
+						collapse);
+
+				if (collapse) {
+					setCollapseStyles(index);
+				} else {
+					setExpandStyles(index);
+				}
+
 			}
 
 			@Override
@@ -399,29 +414,15 @@ public class MainMenu extends FlowPanel
 					}
 
 					if (index != -1) {
-
-						if (index == this.getSelectedIndex()) {
+						if (index == getSelectedIndex()) {
 							closeAll();
-							if (app.isUnbundledOrWhiteboard()
-									&& index < getWidgetCount()) {
-								setStackText(index,
-										getHTMLExpand(menuImgs.get(index - 1),
-												menuTitles.get(index - 1)),
-										menuTitles.get(index - 1), true);
-								setCollapseStyles(index);
+							if (app.isUnbundledOrWhiteboard()) {
+								setStackTextCollapsed(index, true);
 							}
 							return;
 						}
-						if (app.isUnbundledOrWhiteboard()
-								&& this.getSelectedIndex() > 0
-								&& getSelectedIndex() < getWidgetCount() - 1) {
-							setStackText(this.getSelectedIndex(), getHTMLExpand(
-									menuImgs.get(this.getSelectedIndex() - 1),
-									menuTitles
-											.get(this.getSelectedIndex() - 1)),
-									false);
-
-							setCollapseStyles(getSelectedIndex());
+						if (app.isUnbundledOrWhiteboard()) {
+							setStackTextCollapsed(getSelectedIndex(), false);
 						}
 						showStack(index);
 					}
@@ -739,9 +740,14 @@ public class MainMenu extends FlowPanel
 				});
 	}
 
-	private String getHTML(ResourcePrototype img, String s) {
-		// return "<img src=\""+img.getSafeUri().asString()+"\" /><span style=
-		// \"font-size:80% \" >" + s + "</span>";
+	/**
+	 * @param img
+	 *            - menu item image
+	 * @param s
+	 *            - menu item title
+	 * @return html code for a single menu item
+	 */
+	String getHTML(ResourcePrototype img, String s) {
 		return "<img src=\"" + ImgResourceHelper.safeURI(img)
 				+ "\" draggable=\"false\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>";
@@ -749,10 +755,10 @@ public class MainMenu extends FlowPanel
 
 	/**
 	 * @param img
-	 *            - menu item img
+	 *            - menu item image
 	 * @param s
 	 *            - menu item title
-	 * @return html code for menu item
+	 * @return html code for an expandable menu item
 	 */
 	String getHTMLExpand(SVGResource img, String s) {
 		return "<img src=\"" + img.getSafeUri().asString()
@@ -771,7 +777,7 @@ public class MainMenu extends FlowPanel
 	 * @return html code for menu item
 	 */
 	String getHTMLCollapse(SVGResource img, String s) {
-		return "<img src=\"" + img.getSafeUri().asString()
+		return "<img src=\"" + (img == null ? "-" : img.getSafeUri().asString())
 				+ "\" draggable=\"false\" aria-hidden=\"true\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>" + "<img src=\""
 				+ MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
@@ -783,6 +789,12 @@ public class MainMenu extends FlowPanel
 		menuTitles.add(s);
 		menuImgs.add(img);
 		return getHTMLExpand(img, s);
+	}
+
+	private String getSingleMenuHTML(SVGResource img, String s) {
+		menuTitles.add(s);
+		menuImgs.add(img);
+		return getHTML(img, s);
 	}
 
 	private void createFileMenu() {
