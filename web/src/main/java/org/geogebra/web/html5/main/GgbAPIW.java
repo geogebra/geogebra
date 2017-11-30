@@ -137,7 +137,9 @@ public class GgbAPIW extends GgbAPI {
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView());
 
-		if (MyDouble.isFinite(DPI) && DPI > 0 && ev instanceof EuclidianViewW) {
+		// TODO: PNGEncoder not working for transparent images
+		if (MyDouble.isFinite(DPI) && DPI > 0 && ev instanceof EuclidianViewW
+				&& !transparent) {
 
 			JavaScriptInjector
 					.inject(GuiResourcesSimple.INSTANCE.pngEncoder());
@@ -150,7 +152,7 @@ public class GgbAPIW extends GgbAPI {
 		} else {
 
 		// get export image
-		// DPI ignored (desktop only)
+			// DPI ignored
 			url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
 				.getExportImageDataUrl(exportScale, transparent);
 		}
