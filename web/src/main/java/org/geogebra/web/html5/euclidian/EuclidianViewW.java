@@ -1260,11 +1260,12 @@ public class EuclidianViewW extends EuclidianView implements
 		String altStr = app.getLocalization().getMenu("DrawingPad");
 		if (alt instanceof GeoText) {
 			altStr = ((GeoText) alt).getTextString();
+			if (g2p.setAltText(altStr)) {
+				this.readText(altStr);
+			}
+		} else {
+			g2p.setAltText(altStr);
 		}
-		if (g2p.setAltText(altStr)) {
-			this.readText(altStr);
-		}
-
 	}
 
 	@Override
