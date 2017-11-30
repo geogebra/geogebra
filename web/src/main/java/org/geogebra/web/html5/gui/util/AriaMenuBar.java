@@ -224,8 +224,7 @@ public class AriaMenuBar extends Widget {
 
 		case Event.ONKEYDOWN: {
 			int keyCode = event.getKeyCode();
-			switch (keyCode) {
-			case KeyCodes.KEY_X:
+			if (keyCode == KeyCodes.KEY_X) {
 				if (event.getAltKey() && event.getCtrlKey()) {
 					App app = getApp();
 					if (app != null) {
@@ -233,11 +232,11 @@ public class AriaMenuBar extends Widget {
 					}
 					eatEvent(event);
 				}
-				break;
-			default:
-				break;
+			} else if (keyCode == KeyCodes.KEY_ENTER) {
+				if (item != null) {
+					doItemAction(item);
+				}
 			}
-
 			break;
 		} // end case Event.ONKEYDOWN
 		} // end switch (DOM.eventGetType(event))
