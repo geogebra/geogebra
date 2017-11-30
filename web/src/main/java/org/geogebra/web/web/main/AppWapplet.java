@@ -764,8 +764,13 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void updateMenuHeight() {
 		if (menuShowing) {
-			frame.getMenuBar(this).setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
-					this.oldSplitLayoutPanel.getOffsetHeight());
+			int h = this.oldSplitLayoutPanel.getOffsetHeight();
+			if (!isFloatingMenu()) {
+				frame.getMenuBar(this).setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
+						h);
+			} else {
+				frame.getMenuBar(this).setHeight(h + "px");
+			}
 		}
 
 	}

@@ -13,8 +13,6 @@ import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import org.geogebra.web.html5.util.MyDictionary;
 import org.geogebra.web.resources.StyleInjector;
 
-import com.google.gwt.user.client.ui.RootPanel;
-
 /**
  * JSON based localization for Web
  *
@@ -281,11 +279,12 @@ public final class LocalizationW extends Localization
 		updateLanguageFlags(lang);
 
 		// For styling on Firefox. (Mainly for rtl-languages.)
-		if (rightToLeftReadingOrder) {
-			RootPanel.getBodyElement().setAttribute("dir", "rtl");
-		} else {
-			RootPanel.getBodyElement().setAttribute("dir", "ltr");
-		}
+		// TODO set RTL to the correct element when ready
+		// if (rightToLeftReadingOrder) {
+		// RootPanel.getBodyElement().setAttribute("dir", "rtl");
+		// } else {
+		// RootPanel.getBodyElement().setAttribute("dir", "ltr");
+		// }
 		StyleInjector
 				.inject(rightToLeftReadingOrder ? GuiResourcesSimple.INSTANCE
 						.generalStyleRTL() : GuiResourcesSimple.INSTANCE
