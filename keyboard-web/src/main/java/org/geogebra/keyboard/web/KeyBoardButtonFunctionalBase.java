@@ -77,12 +77,18 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 *            {@link ClickHandler}
 	 * @param addSupSyle
 	 *            - true if add sup style
+	 * @param loc
+	 *            localization
+	 * @param altText
+	 *            alternate text for icon
 	 */
 	public KeyBoardButtonFunctionalBase(SVGResource svg, String feedback,
-			ButtonHandler handler, boolean addSupSyle) {
+			ButtonHandler handler, boolean addSupSyle, Localization loc,
+			String altText) {
 		super(handler);
 		this.image = new Image(new ImageResourcePrototype(null,
 				svg.getSafeUri(), 0, 0, 24, 24, false, false));
+		this.image.setAltText(loc.getMenu(altText));
 		this.feedback = feedback;
 		this.add(this.image);
 		if (addSupSyle) {
