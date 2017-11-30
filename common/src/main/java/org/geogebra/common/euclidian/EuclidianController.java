@@ -10284,9 +10284,28 @@ public abstract class EuclidianController {
 
 		if (app.has(Feature.DYNAMIC_STYLEBAR) && app.has(Feature.PREVIEW_POINTS) && previewPointHits!=null && !previewPointHits.isEmpty()) {
 			hideDynamicStylebar();
+			highlightPreviewPoint(previewPointHits.get(0));
 			showSpecialPointPopup(previewPointHits);
 			previewPointHits.clear();
 		}
+	}
+
+	/**
+	 * It is highlighting the currently hit preview point, and at the same time removing the highlight
+	 * from the previously hit preview point (if there was any)
+	 *
+	 * @param geoElement preview point to highlight
+	 */
+	private void highlightPreviewPoint(GeoElement geoElement){
+		if(app.getSelectionManager().getSelectedPreviewPoints() == null) {
+			return;
+		}
+
+		for (GeoElement geo : app.getSelectionManager().getSelectedPreviewPoints()) {
+			geo.setHighlighted(false);
+		}
+		geoElement.setHighlighted(true);
+		geoElement.updateRepaint();
 	}
 
 	/**
