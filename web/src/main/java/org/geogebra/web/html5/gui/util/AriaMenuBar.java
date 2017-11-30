@@ -18,6 +18,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class AriaMenuBar extends Widget {
 	private AriaMenuItem selectedItem;
 	private ArrayList<AriaMenuItem> allItems = new ArrayList<>();
+	private ArrayList<AriaMenuBar> submenus = new ArrayList<>();
 	private boolean autoOpen;
 	private boolean focusOnHover;
 
@@ -43,6 +44,13 @@ public class AriaMenuBar extends Widget {
 		getElement().appendChild(item.getElement());
 		allItems.add(item);
 		return item;
+	}
+
+	public void addMenu(AriaMenuBar item) {
+		Element li = Document.get().createLIElement();
+		li.appendChild(item.getElement());
+		getElement().appendChild(li);
+		submenus.add(item);
 	}
 
 	/**
@@ -111,6 +119,7 @@ public class AriaMenuBar extends Widget {
 	 */
 	public void clearItems() {
 		allItems.clear();
+		submenus.clear();
 		getElement().removeAllChildren();
 		selectItem(null);
 	}
@@ -178,7 +187,12 @@ public class AriaMenuBar extends Widget {
 	@Override
 	public void onBrowserEvent(Event event) {
 		AriaMenuItem item = findItem(DOM.eventGetTarget(event));
-
+		for (AriaMenuBar submenu : submenus) {
+			if (item != null) {
+				break;
+			}
+			item = submenu.findItem(DOM.eventGetTarget(event));
+		}
 		switch (DOM.eventGetType(event)) {
 		case Event.ONCLICK: {
 			// TODOFocusPanel.impl.focus(getElement());

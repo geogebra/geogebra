@@ -231,8 +231,7 @@ public class GPopupMenuW implements AttachedToDOM {
 					if (oldCmd != null) {
 						oldCmd.execute();
 					}
-					setMenuShown(false);
-					popupPanel.hide();
+					hideMenu();
 				}
 			};
 			item.setScheduledCommand(cmd);
@@ -253,6 +252,11 @@ public class GPopupMenuW implements AttachedToDOM {
 				}
 			}, ClickEvent.getType());
 		}
+	}
+
+	public void hideMenu() {
+		setMenuShown(false);
+		popupPanel.hide();
 	}
 
 	private static ImageResource getSubMenuIcon(boolean isRTL) {

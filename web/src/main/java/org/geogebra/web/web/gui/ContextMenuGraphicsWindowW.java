@@ -173,10 +173,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, null);
+				false, wrappedPopup);
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		GridSubmenu gridSubMenu = new GridSubmenu(ci);
 		gridSubMenu.update();
+		ci.attachToParent();
 	}
 
 	/**
@@ -537,7 +538,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		 *            - parent menu item
 		 */
 		public GridSubmenu(GCollapseMenuItem parentMenu) {
-			super(wrappedPopup, parentMenu);
+			super(parentMenu);
 		}
 
 		@Override
@@ -561,6 +562,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			app.getActiveEuclidianView().setGridType(gridType);
 			app.getActiveEuclidianView().repaintView();
 			app.storeUndoInfo();
+			wrappedPopup.hideMenu();
 		}
 
 		private void addGridItem(String key, final int gridType) {

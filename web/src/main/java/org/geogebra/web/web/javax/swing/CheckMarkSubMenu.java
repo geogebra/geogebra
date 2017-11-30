@@ -12,7 +12,6 @@ import com.google.gwt.user.client.Command;
  *
  */
 public abstract class CheckMarkSubMenu {
-	private GPopupMenuW wrappedPopup;
 	private List<GCheckmarkMenuItem> items;
 	private String checkmarkUrl;
 	/**
@@ -26,9 +25,8 @@ public abstract class CheckMarkSubMenu {
 	 * @param parentMenu
 	 *            - parent of wrappedPopup
 	 */
-	public CheckMarkSubMenu(GPopupMenuW wrappedPopup,
+	public CheckMarkSubMenu(
 			GCollapseMenuItem parentMenu) {
-		this.wrappedPopup = wrappedPopup;
 		this.parentMenu = parentMenu;
 		// super(true, "", app);
 		checkmarkUrl = MaterialDesignResources.INSTANCE.check_black()
@@ -38,7 +36,6 @@ public abstract class CheckMarkSubMenu {
 		// addStyleName("dotSubMenu");
 		items = new ArrayList<>();
 		initActions();
-		parentMenu.setExpanded(false);
 	}
 
 	/**
@@ -60,7 +57,7 @@ public abstract class CheckMarkSubMenu {
 		if (withImg) {
 			cm.getMenuItem().addStyleName("withImg");
 		}
-		wrappedPopup.addItem(cm.getMenuItem());
+		// wrappedPopup.addItem(cm.getMenuItem());
 		items.add(cm);
 		parentMenu.addItem(cm.getMenuItem());
 	}

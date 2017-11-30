@@ -1,9 +1,7 @@
 package org.geogebra.web.web.javax.swing;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.Dom;
@@ -22,12 +20,14 @@ import com.google.gwt.user.client.ui.Image;
 public class GCollapseMenuItem {
 
 	private AriaMenuItem menuItem;
-	private List<AriaMenuItem> items;
+	private AriaMenuBar items;
 	private FlowPanel itemPanel;
 	private boolean expanded;
 	private String text;
 	private Image imgExpand;
 	private Image imgCollapse;
+	private GPopupMenuW parentMenu;
+	
 	/**
 	 * @param text
 	 *            Title
@@ -37,31 +37,29 @@ public class GCollapseMenuItem {
 	 *            image of collapse
 	 * @param expanded
 	 *            initial value.
-	 * @param cmd
+	 * @param wrappedPopup
 	 *            The command to run.
 	 */
 	public GCollapseMenuItem(String text, String expandUrl,
 			String collapseUrl,
 			boolean expanded,
-			final ScheduledCommand cmd) {
+			final GPopupMenuW wrappedPopup) {
 		this.text = text;
 		imgExpand = new NoDragImage(expandUrl);
 		imgExpand.setStyleName("expandImg");
 		imgCollapse = new NoDragImage(collapseUrl);
 		imgCollapse.addStyleName("collapseImg");
 
-		items = new ArrayList<>();
+		items = new AriaMenuBar();
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("collapseMenuItem");
+		this.parentMenu = wrappedPopup;
 		menuItem = new AriaMenuItem(itemPanel.toString(), true,
 				new ScheduledCommand() {
 
 					@Override
 					public void execute() {
 						toggle();
-						if (cmd != null) {
-							cmd.execute();
-						}
 					}
 				});
 		setExpanded(expanded);
@@ -79,10 +77,18 @@ public class GCollapseMenuItem {
 		itemPanel.add(new HTML(text));
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
 		menuItem.setHTML(itemPanel.toString());
+		if (items.getElement().getParentElement() != null) {
+				items.getElement().getParentElement().getStyle()
+					.setProperty("listStyle", "none");
+
+		}
 		updateItems();
 	}
 
-
+	public void attachToParent() {
+		parentMenu.getPopupMenu().addMenu(items);
+		setExpanded(false);
+	}
 
 	/**
 	 * 
@@ -111,10 +117,11 @@ public class GCollapseMenuItem {
 	 * Collapse submenu
 	 */
 	public void updateItems() {
-		for (AriaMenuItem mi : items) {
+		for (AriaMenuItem mi : items.getItems()) {
 			Dom.toggleClass(mi, "gwt-MenuItem", expanded);
 			Dom.toggleClass(mi, "expanded", "collapsed", expanded);
 			AriaHelper.setHidden(mi, !expanded);
+			mi.getElement().setTabIndex(expanded ? 0 : -1);
 		}
 	}
 
@@ -124,6 +131,10 @@ public class GCollapseMenuItem {
 	 *            to add.
 	 */
 	public void addItem(AriaMenuItem item) {
-		items.add(item);
+		items.addItem(item);
+	}
+
+	public AriaMenuBar getItems() {
+		return items;
 	}
 }

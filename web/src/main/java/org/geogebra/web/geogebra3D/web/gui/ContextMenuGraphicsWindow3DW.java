@@ -84,10 +84,11 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
-				false, null);
+				false, wrappedPopup);
 		wrappedPopup.addItem(ci.getMenuItem(), false);
 		ProjectionSubmenu projSubMenu = new ProjectionSubmenu(ci);
 		projSubMenu.update();
+		ci.attachToParent();
 	}
 
 	private void addPlaneMenuItem() {
@@ -238,7 +239,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		 *            - parent menu item
 		 */
 		public ProjectionSubmenu(GCollapseMenuItem parentMenu) {
-			super(getWrappedPopup(), parentMenu);
+			super(parentMenu);
 		}
 
 		@Override
@@ -334,6 +335,7 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 			}
 			app.getActiveEuclidianView().repaintView();
 			app.storeUndoInfo();
+			getWrappedPopup().hideMenu();
 		}
 
 		@Override
