@@ -172,8 +172,6 @@ public enum Feature {
 
 	CENTER_STANDARD_VIEW,
 
-	AND_MOVE_FAB,
-
 	SURFACE_2D,
 
 	/** GGB-1970*/
