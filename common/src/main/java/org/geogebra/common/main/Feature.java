@@ -144,9 +144,6 @@ public enum Feature {
 	/** AND-174 */
 	AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION,
 
-	/** MOB-1241 */
-	MOB_INPUT_BAR_SOLVE,
-
 	/** GGB-1876 */
 	DOUBLE_ROUND_BRACKETS,
 
