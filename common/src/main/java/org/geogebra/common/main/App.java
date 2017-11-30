@@ -3947,9 +3947,6 @@ public abstract class App implements UpdateSelection {
             case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
                 return true; // 5.0.376
 
-            case AND_COMPACT_AV_OUTPUT:
-                return isNativeMobileAppWithNewUI();
-
             // AND-465: dependent on the MOB_EV_SETTINGS_POPUP feature
             case MOB_DYNAMIC_SYLEBAR:
 

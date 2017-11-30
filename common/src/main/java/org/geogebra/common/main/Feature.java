@@ -183,8 +183,6 @@ public enum Feature {
 	/** GGB-1985*/
 	FLOATING_SETTINGS,
 
-	AND_COMPACT_AV_OUTPUT,
-
 	/** GGB-2005 */
 	TOOLTIP_DESIGN,
 
