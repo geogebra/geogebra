@@ -140,9 +140,6 @@ public enum Feature {
 	STORE_IMAGES_ON_APPS_PICKER,
 
 	EXPORT_SCAD,
-
-	/** AND-343 */
-	AND_SNACKBAR,
 	
 	/** MOB-1227 */
 	MOB_SELECT_TOOL,
