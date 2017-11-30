@@ -135,6 +135,8 @@ public class GeoPolyhedron extends GeoElement3D
 
 	private StringBuilder sbToString = new StringBuilder(50);
 
+	private boolean childrenLabelsSet = false;
+
 	/**
 	 * constructor
 	 * 
@@ -2152,6 +2154,14 @@ public class GeoPolyhedron extends GeoElement3D
 	@Override
 	public int getMinimumLineThickness() {
 		return 0;
+	}
+
+	public void setChildrenLabelsSet(boolean flag) {
+		childrenLabelsSet = flag;
+	}
+
+	public boolean getChildrenLabelsSet() {
+		return childrenLabelsSet;
 	}
 
 }

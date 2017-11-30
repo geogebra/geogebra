@@ -168,6 +168,10 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	@Override
 	protected boolean updateForItSelf() {
 
+		if (((GeoPolyhedron) getGeoElement()).getChildrenLabelsSet()) {
+			return true;
+		}
+
 		Renderer renderer = getView3D().getRenderer();
 
 		// outline
@@ -274,6 +278,10 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	protected void updateForView() {
+
+		if (((GeoPolyhedron) getGeoElement()).getChildrenLabelsSet()) {
+			return;
+		}
 
 		if (getView3D().viewChangedByZoom()) {
 

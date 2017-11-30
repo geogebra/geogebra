@@ -52,6 +52,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 
 		outputPolyhedron.adjustOutputSize(1);
 		polyhedron = getPolyhedron();
+		polyhedron.setChildrenLabelsSet(true);
 
 		outputPoints = createOutputPointsHandler();
 		createOutputPolygons();
