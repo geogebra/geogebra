@@ -591,22 +591,24 @@ public class TabbedKeyboard extends FlowPanel {
 		} else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shift(), bh,
-					Action.CAPS_LOCK, loc, "");
+					Action.CAPS_LOCK, loc, "CapsLockUnactiveAltText");
 		} else if (resourceName.equals(Resource.CAPS_LOCK_ENABLED.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
-					Action.CAPS_LOCK, loc, "");
+					Action.CAPS_LOCK, loc, "CapsLockActiveAltText");
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
 			return isBoxIcon
 					? new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.ten_power(),
-							button.getActionName(), bh, false, loc, "")
+							button.getActionName(), bh, false, loc,
+							"PowTenAltText")
 					: new KeyBoardButtonBase("10^x", "10^", bh);
 		} else if (resourceName.equals(Resource.POWE_X.name())) {
 			return isBoxIcon
 					? new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.e_power(),
-							button.getActionName(), bh, false, loc, "")
+							button.getActionName(), bh, false, loc,
+							"PowEAltText")
 					: new KeyBoardButtonBase("e^x", Unicode.EULER_STRING + "^",
 							bh);
 		} else if (resourceName.equals(Resource.LOG_10.name())) {
@@ -615,13 +617,13 @@ public class TabbedKeyboard extends FlowPanel {
 			return isBoxIcon
 					? new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.log(),
-							"log_", bh, true, loc, "")
+							"log_", bh, true, loc, "LogBAltText")
 					: new KeyBoardButtonBase("log_b", "log_", bh);
 		} else if (resourceName.equals(Resource.A_N.name())) {
 			return isBoxIcon
 					? new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.a_index(),
-							"_", bh, false, loc, "")
+							"_", bh, false, loc, "SubscriptAltText")
 					: new KeyBoardButtonBase("a_n", "_", bh);
 		} else if (resourceName.equals(Resource.N_ROOT.name())) {
 			return isBoxIcon
