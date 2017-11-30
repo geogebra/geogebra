@@ -164,7 +164,7 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	}
 
 	@Override
-	protected void updateColors() {
+	public void updateColors() {
 		// no colors
 	}
 }

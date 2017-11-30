@@ -19,6 +19,7 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 		implements Previewable {
 
 	private ArrayList<Drawable3D> drawables;
+	private boolean drawablesVisibility;
 
 	/**
 	 * Common constructor
@@ -75,6 +76,28 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 
 		return true;
 
+	}
+
+	/**
+	 * set the drawables visibility (needed for buffer packing)
+	 * 
+	 * @param visible
+	 *            if visible
+	 */
+	public void setDrawablesVisibility(boolean visible) {
+		drawablesVisibility = visible;
+	}
+
+	/**
+	 * update the drawables geometries visibility (needed for buffer packing)
+	 * 
+	 */
+	public void updateDrawablesVisibility() {
+		for (Drawable3D d : drawables) {
+			if (d.shouldBePacked()) {
+				d.setGeometriesVisibility(drawablesVisibility);
+			}
+		}
 	}
 
 	@Override
@@ -139,7 +162,18 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		for (Drawable3D d : drawables) {
-			d.addToDrawable3DLists(lists);
+			if (!d.shouldBePacked()) {
+				d.addToDrawable3DLists(lists);
+			}
+		}
+	}
+
+	@Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists) {
+		for (Drawable3D d : drawables) {
+			if (!d.shouldBePacked()) {
+				d.removeFromDrawable3DLists(lists);
+			}
 		}
 	}
 

@@ -723,8 +723,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
 		getView3D().getRenderer().getGeometryManager().updateColor(getSurfaceColor(), getSurfaceIndex());
 		if (!isVisible()) {
-			getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
-			getView3D().getRenderer().getGeometryManager().updateVisibility(false, getSurfaceIndex());
+			setGeometriesVisibility(false);
 		}
 	}
 
@@ -732,10 +731,15 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	protected void updateGeometriesVisibility() {
 		boolean isVisible = isVisible();
 		if (geometriesSetVisible != isVisible) {
-			getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getGeometryIndex());
-			getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible, getSurfaceIndex());
-			geometriesSetVisible = isVisible;
+			setGeometriesVisibility(isVisible);
 		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible, getGeometryIndex());
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible, getSurfaceIndex());
+		geometriesSetVisible = visible;
 	}
 
 	@Override

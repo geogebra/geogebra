@@ -68,7 +68,7 @@ public class DrawConic3D extends Drawable3DCurves
 	}
 
 	@Override
-	protected void updateColors() {
+	public void updateColors() {
 		updateAlpha();
 		setColorsOutlined();
 	}

@@ -152,7 +152,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		updateColors();
 		getView3D().getRenderer().getGeometryManager().updateColor(getColor(), getGeometryIndex());
 		if (!isVisible()) {
-			getView3D().getRenderer().getGeometryManager().updateVisibility(false, getGeometryIndex());
+			setGeometriesVisibility(false);
 		}
 	}
 
@@ -160,9 +160,14 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	protected void updateGeometriesVisibility() {
 		boolean isVisible = isVisible();
 		if (geometriesSetVisible != isVisible) {
-			getView3D().getRenderer().getGeometryManager().updateVisibility(isVisible(), getGeometryIndex());
-			geometriesSetVisible = isVisible;
+			setGeometriesVisibility(isVisible);
 		}
+	}
+
+	@Override
+	protected void setGeometriesVisibility(boolean visible) {
+		getView3D().getRenderer().getGeometryManager().updateVisibility(visible, getGeometryIndex());
+		geometriesSetVisible = visible;
 	}
 
 	@Override

@@ -94,7 +94,7 @@ public abstract class Drawable3DSurfaces extends Drawable3D {
 	}
 
 	@Override
-	protected void updateColors() {
+	public void updateColors() {
 		updateAlpha();
 		setColorsOutlined();
 	}

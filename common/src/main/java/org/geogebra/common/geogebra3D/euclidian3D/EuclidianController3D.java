@@ -2868,7 +2868,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		for (GeoElement geo : ret) {
 			DrawSegment3D d = new DrawSegment3D(view3D, (GeoSegmentND) geo);
 			drawSegments.add(d);
-			processIntersectionCurve(A, B, geo, drawSegments);
+			processIntersectionCurve(A, B, geo, drawSegments, d);
 		}
 
 		getKernel().setSilentMode(oldSilentMode);
@@ -2895,7 +2895,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (geo instanceof GeoPolygon3D) {
 				DrawPolygon3D d = new DrawPolygon3D(view3D, (GeoPolygon3D) geo);
 				drawPolygons.add(d);
-				processIntersectionCurve(A, polyhedron, geo, drawPolygons);
+				processIntersectionCurve(A, polyhedron, geo, drawPolygons, d);
 			} else {
 				goAhead = false;
 			}
@@ -2958,6 +2958,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 		intersectionCurveList.add(new IntersectionCurve(A, B, d));
 	}
 
+	private void processIntersectionCurve(GeoElement A, GeoElement B, GeoElement intersection, Drawable3D d,
+			Drawable3D child) {
+		processIntersectionCurve(A, B, intersection, d);
+		child.updateColors();
+	}
+
 	private static GeoElement getMetaIfJustOne(GeoElement geo) {
 		if (geo instanceof FromMeta) {
 			if (geo.getMetasLength() == 1) {
@@ -2983,6 +2989,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 				resultedGeo = d.getGeoElement();
 				resultedIntersectionCurve = intersectionCurve;
 				zNear = d.getZPickNear();
+			}
+			if (d instanceof DrawIntersectionCurve3D) {
+				((DrawIntersectionCurve3D) d).setDrawablesVisibility(false);
 			}
 		}
 
@@ -3051,6 +3060,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// }
 
 		if (hits.size() == 0) {
+			view3D.setPreview(null);
 			return;
 		}
 
@@ -3075,6 +3085,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 								&& getMetaIfJustOne(hits.get(
 										1)) == resultedIntersectionCurve.geo1))) {
 			addToGoodHits(hits.get(0));
+			view3D.setPreview(null);
 			return;
 		}
 
@@ -3083,9 +3094,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 		addToGoodHits(hits.get(0));
 		addToGoodHits(hits.get(1));
 
+		if (resultedIntersectionCurve.drawable instanceof DrawIntersectionCurve3D) {
+			((DrawIntersectionCurve3D) resultedIntersectionCurve.drawable).setDrawablesVisibility(true);
+		}
 		view3D.setPreview((Previewable) resultedIntersectionCurve.drawable);
-		// resultedGeo.setIsPickable(false);
-
 	}
 
 	final private void addToGoodHits(GeoElement geo) {
@@ -4087,6 +4099,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void updateOwnDrawablesNow() {
 		for (IntersectionCurve intersectionCurve : intersectionCurveList) {
 			intersectionCurve.drawable.update();
+			if (intersectionCurve.drawable instanceof DrawIntersectionCurve3D) {
+				((DrawIntersectionCurve3D) intersectionCurve.drawable).updateDrawablesVisibility();
+			}
 		}
 	}
 

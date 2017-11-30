@@ -13,7 +13,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing 1D coord sys (lines, segments, ...)
@@ -334,7 +333,6 @@ public abstract class DrawJoinPoints extends Drawable3DCurves
 				tmp = new double[4];
 			}
 			if (endPoint == null || startPoint == null) {
-				Log.debug("Segment without endpoints?" + this.hashCode());
 				return false;
 			}
 			CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin,

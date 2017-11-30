@@ -516,6 +516,16 @@ public abstract class Drawable3D extends DrawableND {
 		// not implemented here
 	}
 
+	/**
+	 * set geomeotry visibility
+	 * 
+	 * @param visible
+	 *            geometry visibility flag
+	 */
+	protected void setGeometriesVisibility(boolean visible) {
+		// not implemented here
+	}
+
 	protected void removeGeometryIndex(int index) {
 		if (!waitForReset) {
 			if (!hasTrace()) {
@@ -1162,7 +1172,10 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 
-	protected void updateColors() {
+	/**
+	 * update drawable colors
+	 */
+	public void updateColors() {
 		setColors(alpha, color);
 	}
 

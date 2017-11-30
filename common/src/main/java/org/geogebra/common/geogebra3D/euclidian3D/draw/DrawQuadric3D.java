@@ -200,7 +200,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
-	protected void updateColors() {
+	public void updateColors() {
 		super.updateColors();
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
