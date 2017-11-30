@@ -806,7 +806,7 @@ public abstract class CommandProcessor {
 			int length, GeoClass type) {
 		Construction cons = kernel.getConstruction();
 		boolean correctType = true;
-		ArrayList<GeoElement> geoElementList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> geoElementList = new ArrayList<>();
 		for (int i = 0; i < length; i++) {
 			if (type.equals(GeoClass.DEFAULT)
 					|| args[i].getGeoClassType() == type) {
@@ -858,7 +858,7 @@ public abstract class CommandProcessor {
 
 		double step = (end - start) / (size - 1);
 
-		ArrayList<GeoElement> geoElementList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> geoElementList = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			GeoPoint p = new GeoPoint(cons, start + i * step,
 					((NumberValue) list.get(2 + i)).getDouble(), 1.0);

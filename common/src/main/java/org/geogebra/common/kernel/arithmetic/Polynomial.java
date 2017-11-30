@@ -28,7 +28,7 @@ import org.geogebra.common.util.debug.HasDebugString;
 
 public class Polynomial implements HasDebugString {
 
-	private ArrayList<Term> terms = new ArrayList<Term>();
+	private ArrayList<Term> terms = new ArrayList<>();
 	private Kernel kernel;
 
 	/**
@@ -189,7 +189,7 @@ public class Polynomial implements HasDebugString {
 	 *            factor
 	 */
 	private void multiply(Polynomial e, Equation equ, boolean keepFraction) {
-		ArrayList<Term> temp = new ArrayList<Term>();
+		ArrayList<Term> temp = new ArrayList<>();
 		int i, j;
 		Term ti, newTerm;
 
@@ -329,7 +329,7 @@ public class Polynomial implements HasDebugString {
 		String vars;
 		int i, j, len;
 
-		list = new ArrayList<Term>(); // for the simplified terms
+		list = new ArrayList<>(); // for the simplified terms
 		t = terms.toArray(); // copy term references to array
 		len = t.length;
 
@@ -544,7 +544,7 @@ public class Polynomial implements HasDebugString {
 	}
 
 	private HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> temp, vars = new HashSet<GeoElement>();
+		HashSet<GeoElement> temp, vars = new HashSet<>();
 		Iterator<Term> i = terms.iterator();
 		while (i.hasNext()) {
 			temp = i.next().getCoefficient().getVariables();

@@ -439,8 +439,8 @@ public interface Traversing {
 	 *
 	 */
 	public class VariableReplacer implements Traversing {
-		private List<String> vars = new ArrayList<String>();
-		private List<ExpressionValue> newObjs = new ArrayList<ExpressionValue>();
+		private List<String> vars = new ArrayList<>();
+		private List<ExpressionValue> newObjs = new ArrayList<>();
 		private int replacements;
 		private Kernel kernel;
 		private static VariableReplacer replacer = new VariableReplacer();
@@ -544,8 +544,8 @@ public interface Traversing {
 	 * Replaces GeoNumerics with given expression
 	 */
 	public class GeoNumericReplacer implements Traversing {
-		private List<GeoNumeric> geoNums = new ArrayList<GeoNumeric>();
-		private List<ExpressionValue> newExps = new ArrayList<ExpressionValue>();
+		private List<GeoNumeric> geoNums = new ArrayList<>();
+		private List<ExpressionValue> newExps = new ArrayList<>();
 		private int replacements;
 		private Kernel kernel;
 		private static GeoNumericReplacer replacer = new GeoNumericReplacer();
@@ -653,7 +653,7 @@ public interface Traversing {
 	public class SpreadsheetVariableRenamer implements Traversing {
 		private int dx;
 		private int dy;
-		private ArrayList<Variable> variables = new ArrayList<Variable>();
+		private ArrayList<Variable> variables = new ArrayList<>();
 
 		/**
 		 * Renames Spreadsheet Variables with new name according to offset
@@ -812,8 +812,8 @@ public interface Traversing {
 	 */
 	public class CollectUndefinedVariables implements Traversing {
 
-		private TreeSet<String> tree = new TreeSet<String>();
-		private TreeSet<String> localTree = new TreeSet<String>();
+		private TreeSet<String> tree = new TreeSet<>();
+		private TreeSet<String> localTree = new TreeSet<>();
 
 		/**
 		 * 
@@ -901,7 +901,7 @@ public interface Traversing {
 	 */
 	public class CollectFunctionVariables implements Traversing {
 
-		private ArrayList<FunctionVariable> al = new ArrayList<FunctionVariable>();
+		private ArrayList<FunctionVariable> al = new ArrayList<>();
 
 		/**
 		 * 

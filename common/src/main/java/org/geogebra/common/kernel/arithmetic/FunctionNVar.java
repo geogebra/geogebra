@@ -68,7 +68,7 @@ public class FunctionNVar extends ValidExpression
 	private ExpressionNode casEvalExpression;
 	private String casEvalStringSymbolic;
 
-	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
+	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
 
 	/**
@@ -670,7 +670,7 @@ public class FunctionNVar extends ValidExpression
 	 */
 	protected MaxSizeHashMap<String, FunctionNVar> getCasEvalMap() {
 		if (casEvalMap == null) {
-			casEvalMap = new MaxSizeHashMap<String, FunctionNVar>(
+			casEvalMap = new MaxSizeHashMap<>(
 					MAX_CAS_EVAL_MAP_SIZE);
 		}
 		return casEvalMap;
@@ -1345,7 +1345,7 @@ public class FunctionNVar extends ValidExpression
 			return;
 		}
 		FunctionVariable[] newVars = new FunctionVariable[length];
-		TreeSet<String> usedNames = new TreeSet<String>();
+		TreeSet<String> usedNames = new TreeSet<>();
 		for (int i = 0; i < fVars.length; i++) {
 			newVars[i] = fVars[i];
 			usedNames.add(fVars[i].toString(StringTemplate.defaultTemplate));

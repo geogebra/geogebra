@@ -1,11 +1,10 @@
-package org.geogebra.web.html5.main;
+package org.geogebra.common.main.settings;
 
 import org.geogebra.common.io.layout.DockPanelData;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppConfig;
 
-public class AppConfigGraphing implements AppConfig {
+public class AppConfigGeometry implements AppConfig {
 
 	@Override
 	public void adjust(DockPanelData dp) {
@@ -22,17 +21,17 @@ public class AppConfigGraphing implements AppConfig {
 
 	@Override
 	public String getAVTitle() {
-		return "Algebra";
+		return "Steps";
 	}
 
 	@Override
 	public int getLineDisplayStyle() {
-		return GeoLine.EQUATION_EXPLICIT;
+		return -1;
 	}
 
 	@Override
 	public String getAppTitle() {
-		return "GraphingCalculator";
+		return "Perspective.Geometry";
 	}
 
 }

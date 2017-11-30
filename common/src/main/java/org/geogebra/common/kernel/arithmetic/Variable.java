@@ -360,7 +360,7 @@ public class Variable extends ValidExpression {
 
 	@Override
 	public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> ret = new HashSet<GeoElement>();
+		HashSet<GeoElement> ret = new HashSet<>();
 		ret.add(resolve(true));
 		return ret;
 	}

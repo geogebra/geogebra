@@ -116,7 +116,7 @@ public class CmdFunction extends CommandProcessor {
 							cons, intervalFun, false);
 					GeoFunction intervalGeo = intervalAlgo.getFunction();
 
-					ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();
+					ArrayList<GeoFunction> conditions = new ArrayList<>();
 					conditions.add(intervalGeo);
 					mayUseIndependent = false;
 

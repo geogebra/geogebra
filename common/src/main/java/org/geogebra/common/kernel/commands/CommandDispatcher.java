@@ -246,7 +246,7 @@ public abstract class CommandDispatcher {
 		macroProc = new MacroProcessor(kernel);
 
 		// external commands: visible to users
-		cmdTable = new HashMap<String, CommandProcessor>(500);
+		cmdTable = new HashMap<>(500);
 
 		for (Commands comm : Commands.values()) {
 			cmdTable.put(comm.name(), null);

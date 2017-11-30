@@ -2900,7 +2900,7 @@ public class AlgebraProcessor {
 	 * @return function or nvar function
 	 */
 	public FunctionNVar makeFunctionNVar(ExpressionNode n) {
-		Set<String> fvSet = new TreeSet<String>();
+		Set<String> fvSet = new TreeSet<>();
 		FVarCollector fvc = FVarCollector.getCollector(fvSet);
 		n.traverse(fvc);
 		if (fvSet.size() == 1) {
@@ -2983,7 +2983,7 @@ public class AlgebraProcessor {
 		if (!n.hasOperations() || n.isConstant()) {
 
 			// PROCESS list items to generate a list of geoElements
-			ArrayList<GeoElement> geoElements = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> geoElements = new ArrayList<>();
 			boolean isIndependent = true;
 
 			// make sure we don't create any labels for the list elements

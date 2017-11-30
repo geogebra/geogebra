@@ -52,7 +52,7 @@ public class Command extends ValidExpression
 		implements ReplaceChildrenByValues, GetItem {
 
 	// list of arguments
-	private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
+	private ArrayList<ExpressionNode> args = new ArrayList<>();
 	private String name; // internal command name (in English)
 
 	private Kernel kernel;
@@ -652,7 +652,7 @@ public class Command extends ValidExpression
 
 	@Override
 	public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> set = new HashSet<GeoElement>();
+		HashSet<GeoElement> set = new HashSet<>();
 		int size = args.size();
 		for (int i = 0; i < size; i++) {
 			Set<GeoElement> s = args.get(i).getVariables();

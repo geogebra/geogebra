@@ -156,7 +156,7 @@ public class AlgoSolveODE extends AlgoElement {
 
 		// g.clear();
 		if (al == null) {
-			al = new ArrayList<MyPoint>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}

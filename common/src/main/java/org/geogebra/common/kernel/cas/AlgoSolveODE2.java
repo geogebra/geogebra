@@ -120,7 +120,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 		// g.clear();
 		if (al == null) {
-			al = new ArrayList<MyPoint>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}

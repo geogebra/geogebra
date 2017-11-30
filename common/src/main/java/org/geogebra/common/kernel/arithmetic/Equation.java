@@ -49,7 +49,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	private ArrayList<ExpressionValue> variableDegrees = null;
 	private boolean isPolynomial = true;
 
-	private static ArrayList<ExpressionNode> undecided = new ArrayList<ExpressionNode>();
+	private static ArrayList<ExpressionNode> undecided = new ArrayList<>();
 
 
 	/**
@@ -679,7 +679,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	 */
 	public void addVariableDegree(ExpressionValue gn) {
 		if (this.variableDegrees == null) {
-			this.variableDegrees = new ArrayList<ExpressionValue>();
+			this.variableDegrees = new ArrayList<>();
 		}
 		this.variableDegrees.add(gn);
 	}

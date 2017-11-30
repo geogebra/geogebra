@@ -26,9 +26,8 @@ public class MyArbitraryConstant {
 	/** arbitrary complex number */
 	public static final int ARB_COMPLEX = 2;
 
-	private ArrayList<GeoNumeric> consts = new ArrayList<GeoNumeric>(),
-			ints = new ArrayList<GeoNumeric>(),
-			complexNumbers = new ArrayList<GeoNumeric>();
+	private ArrayList<GeoNumeric> consts = new ArrayList<>(),
+			ints = new ArrayList<>(), complexNumbers = new ArrayList<>();
 
 	private ConstructionElement ce;
 	private int position = 0;
@@ -290,6 +289,13 @@ public class MyArbitraryConstant {
 	}
 
 	/**
+	 * @return whether this replaces +2kp with 0
+	 */
+	protected boolean isBlocking() {
+		return blocking;
+	}
+
+	/**
 	 * Replaces arbconst(), arbint(), arbcomplex() by auxiliary numerics
 	 */
 	public static class ArbconstReplacer implements Traversing {
@@ -304,7 +310,7 @@ public class MyArbitraryConstant {
 
 			ExpressionNode en = (ExpressionNode) ev;
 
-			if (arbconst != null && arbconst.blocking) {
+			if (arbconst != null && arbconst.isBlocking()) {
 				return handleSpecialCase(en);
 
 			}

@@ -114,8 +114,8 @@ public class CmdIf extends CommandProcessor {
 		arg = resArgs(c, info);
 		if (arg[0] instanceof GeoBoolean) {
 			// standard case: simple boolean condition
-			ArrayList<GeoBoolean> cond = new ArrayList<GeoBoolean>();
-			ArrayList<GeoElement> alternatives = new ArrayList<GeoElement>();
+			ArrayList<GeoBoolean> cond = new ArrayList<>();
+			ArrayList<GeoElement> alternatives = new ArrayList<>();
 			for (int i = 0; i < n - 1; i += 2) {
 				if (arg[i] instanceof GeoBoolean) {
 					cond.add((GeoBoolean) arg[i]);
@@ -136,8 +136,8 @@ public class CmdIf extends CommandProcessor {
 		// DO NOT change instanceof here (see
 		// GeoFunction.isGeoFunctionable())
 
-		ArrayList<FunctionalNVar> conditions = new ArrayList<FunctionalNVar>();
-		ArrayList<FunctionalNVar> functions = new ArrayList<FunctionalNVar>();
+		ArrayList<FunctionalNVar> conditions = new ArrayList<>();
+		ArrayList<FunctionalNVar> functions = new ArrayList<>();
 		int vars = 1;
 		for (int i = 0; i < n - 1; i += 2) {
 			if (arg[i] instanceof FunctionalNVar
@@ -192,8 +192,8 @@ public class CmdIf extends CommandProcessor {
 		EvalInfo argInfo = info.withLabels(false);
 		boolean oldFlag = kernel.getConstruction().isSuppressLabelsActive();
 		kernel.getConstruction().setSuppressLabelCreation(true);
-		ArrayList<FunctionalNVar> conditions = new ArrayList<FunctionalNVar>();
-		ArrayList<FunctionalNVar> functions = new ArrayList<FunctionalNVar>();
+		ArrayList<FunctionalNVar> conditions = new ArrayList<>();
+		ArrayList<FunctionalNVar> functions = new ArrayList<>();
 
 		int n = c.getArgumentNumber();
 		int vars = varName.length;

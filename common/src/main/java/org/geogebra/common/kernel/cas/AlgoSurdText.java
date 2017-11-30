@@ -325,8 +325,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		if (list != null) {
 
-			ArrayList<Double> values = new ArrayList<Double>();
-			ArrayList<String> names = new ArrayList<String>();
+			ArrayList<Double> values = new ArrayList<>();
+			ArrayList<String> names = new ArrayList<>();
 
 			for (int i = 0; i < list.size(); i++) {
 				double x = list.get(i).evaluateDouble();
@@ -1291,7 +1291,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			this.lessScale1 = lessScale_input;
 			this.n = n;
 			this.err = err;
-			result = new ArrayList<IntRelation>();
+			result = new ArrayList<>();
 
 			int digitsNeeded = (int) Math.ceil(-Math.log10(err));
 			// int digitsAllocated = lessScale;

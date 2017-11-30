@@ -1976,7 +1976,7 @@ public class ExpressionNode extends ValidExpression
 				MathmlTemplate.mathml(sb, "<vectorproduct/>", leftStr,
 						rightStr);
 			} else if (stringType.isGiac()) {
-				ArrayList<ExpressionNode> crossArg = new ArrayList<ExpressionNode>();
+				ArrayList<ExpressionNode> crossArg = new ArrayList<>();
 				crossArg.add(left.wrap());
 				crossArg.add(right.wrap());
 				sb.append(kernel.getGeoGebraCAS()
@@ -5556,7 +5556,7 @@ public class ExpressionNode extends ValidExpression
 			return left.getVariables();
 		}
 		if (isConditional()) {
-			return new HashSet<GeoElement>();
+			return new HashSet<>();
 		}
 		HashSet<GeoElement> leftVars = left.getVariables();
 		HashSet<GeoElement> rightVars = right.getVariables();
@@ -5912,9 +5912,9 @@ public class ExpressionNode extends ValidExpression
 	 * @return list of factors without power
 	 */
 	public ArrayList<ExpressionNode> getFactorsWithoutPow() {
-		ArrayList<ExpressionNode> factors = new ArrayList<ExpressionNode>();
+		ArrayList<ExpressionNode> factors = new ArrayList<>();
 		collectFactors(factors);
-		ArrayList<ExpressionNode> factorsWithoutPow = new ArrayList<ExpressionNode>(
+		ArrayList<ExpressionNode> factorsWithoutPow = new ArrayList<>(
 				factors.size());
 		if (!factors.isEmpty()) {
 			for (int i = 0; i < factors.size(); i++) {

@@ -102,7 +102,7 @@ public class ParametricProcessor {
 
 		ValidExpression ve = ve0;
 
-		TreeSet<GeoNumeric> num = new TreeSet<GeoNumeric>();
+		TreeSet<GeoNumeric> num = new TreeSet<>();
 		ap.replaceUndefinedVariables(ve, num, new String[] { varName, "X" });// Iteration[a+1,
 		// a,
 		// {1},4]

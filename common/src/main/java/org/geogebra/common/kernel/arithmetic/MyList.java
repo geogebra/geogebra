@@ -74,7 +74,7 @@ public class MyList extends ValidExpression
 	 */
 	public MyList(Kernel kernel, int size) {
 		this.kernel = kernel;
-		listElements = new ArrayList<ExpressionValue>(size);
+		listElements = new ArrayList<>(size);
 	}
 
 	/**
@@ -419,7 +419,7 @@ public class MyList extends ValidExpression
 	}
 
 	private void expand() {
-		ArrayList<ExpressionValue> expElements = new ArrayList<ExpressionValue>();
+		ArrayList<ExpressionValue> expElements = new ArrayList<>();
 
 		for (int i = 0; i < listElements.size(); i++) {
 			AlgoElement algo = null;
@@ -464,7 +464,7 @@ public class MyList extends ValidExpression
 		if (tempNode.containsFreeFunctionVariable(null)) {
 			FunctionNVar toProc = kernel.getAlgebraProcessor()
 					.makeFunctionNVar(tempNode.deepCopy(kernel));
-			Set<String> fvSet = new TreeSet<String>();
+			Set<String> fvSet = new TreeSet<>();
 			FVarCollector fvc = FVarCollector.getCollector(fvSet);
 			tempNode.traverse(fvc);
 
@@ -912,7 +912,7 @@ public class MyList extends ValidExpression
 
 	@Override
 	public HashSet<GeoElement> getVariables() {
-		HashSet<GeoElement> varSet = new HashSet<GeoElement>();
+		HashSet<GeoElement> varSet = new HashSet<>();
 		int size = listElements.size();
 		for (int i = 0; i < size; i++) {
 			HashSet<GeoElement> s = listElements.get(i).getVariables();

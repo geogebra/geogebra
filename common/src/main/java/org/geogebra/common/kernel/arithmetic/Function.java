@@ -461,7 +461,7 @@ public class Function extends FunctionNVar
 			factorParentExp = expression;
 
 			if (symbolicPolyFactorList == null) {
-				symbolicPolyFactorList = new LinkedList<PolyFunction>();
+				symbolicPolyFactorList = new LinkedList<>();
 			} else {
 				symbolicPolyFactorList.clear();
 			}
@@ -492,7 +492,7 @@ public class Function extends FunctionNVar
 	private LinkedList<PolyFunction> getNumericPolynomialFactors(
 			boolean rootFindingSimplification, boolean avoidCAS) {
 		if (numericPolyFactorList == null) {
-			numericPolyFactorList = new LinkedList<PolyFunction>();
+			numericPolyFactorList = new LinkedList<>();
 		} else {
 			numericPolyFactorList.clear();
 		}

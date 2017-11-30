@@ -52,7 +52,7 @@ public abstract class ValidExpression
 
 	private void initLabels() {
 		if (labels == null) {
-			labels = new Vector<String>();
+			labels = new Vector<>();
 		}
 	}
 
