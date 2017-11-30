@@ -145,7 +145,7 @@ public class StatTableModel {
 	}
 
 	public ArrayList<Stat> getStatList() {
-		ArrayList<Stat> list = new ArrayList<Stat>();
+		ArrayList<Stat> list = new ArrayList<>();
 
 		if (getListener().isViewValid()) {
 			return list;

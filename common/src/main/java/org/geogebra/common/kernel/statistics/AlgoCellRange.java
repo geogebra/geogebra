@@ -236,7 +236,7 @@ public class AlgoCellRange extends AlgoElement {
 	 */
 	private ArrayList<GeoElement> initCellRangeList(GPoint startCoords,
 			GPoint endCoords) {
-		ArrayList<GeoElement> listItems1 = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> listItems1 = new ArrayList<>();
 
 		// check if we have valid spreadsheet coordinates
 		boolean validRange = startCoords != null && endCoords != null;

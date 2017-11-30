@@ -117,7 +117,7 @@ public class CopyPaste {
 	 */
 	protected void removeDependentFromAxes(ArrayList<ConstructionElement> geos,
 			App app) {
-		TreeSet<GeoElement> ancestors = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> ancestors = new TreeSet<>();
 		ConstructionElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = geos.get(i);
@@ -359,7 +359,7 @@ public class CopyPaste {
 	protected ArrayList<ConstructionElement> addPredecessorGeos(
 			ArrayList<ConstructionElement> geos) {
 
-		ArrayList<ConstructionElement> ret = new ArrayList<ConstructionElement>();
+		ArrayList<ConstructionElement> ret = new ArrayList<>();
 
 		GeoElement geo, geo2;
 		TreeSet<GeoElement> ts;
@@ -394,7 +394,7 @@ public class CopyPaste {
 			ArrayList<ConstructionElement> conels, boolean putdown,
 			boolean copymacro) {
 
-		ArrayList<ConstructionElement> ret = new ArrayList<ConstructionElement>();
+		ArrayList<ConstructionElement> ret = new ArrayList<>();
 
 		GeoElement geo;
 		ArrayList<AlgoElement> geoal;
@@ -430,7 +430,7 @@ public class CopyPaste {
 
 				if (!(ale instanceof AlgoMacro) || putdown || copymacro) {
 
-					ac = new ArrayList<ConstructionElement>();
+					ac = new ArrayList<>();
 					ac.addAll(Arrays.asList(ale.getInput()));
 					if (conels.containsAll(ac) && !conels.contains(ale)) {
 
@@ -468,7 +468,7 @@ public class CopyPaste {
 			ArrayList<ConstructionElement> conels,
 			ArrayList<GeoElement> selected) {
 
-		ArrayList<ConstructionElement> ret = new ArrayList<ConstructionElement>();
+		ArrayList<ConstructionElement> ret = new ArrayList<>();
 		ret.addAll(conels);
 		GeoElement geo;
 		for (int i = ret.size() - 1; i >= 0; i--) {
@@ -497,9 +497,9 @@ public class CopyPaste {
 			boolean putdown) {
 
 		if (samewindow) {
-			copiedXMLlabelsforSameWindow = new ArrayList<String>();
+			copiedXMLlabelsforSameWindow = new ArrayList<>();
 		} else {
-			copiedXMLlabels = new ArrayList<String>();
+			copiedXMLlabels = new ArrayList<>();
 		}
 
 		ConstructionElement geo;
@@ -610,16 +610,16 @@ public class CopyPaste {
 		app.setBlockUpdateScripts(true);
 
 		copiedXML = new StringBuilder();
-		copiedXMLlabels = new ArrayList<String>();
+		copiedXMLlabels = new ArrayList<>();
 		copiedXMLforSameWindow = new StringBuilder();
-		copiedXMLlabelsforSameWindow = new ArrayList<String>();
+		copiedXMLlabelsforSameWindow = new ArrayList<>();
 		copySource = app.getActiveEuclidianView();
 		copyObject = app.getKernel().getConstruction().getUndoManager()
 				.getCurrentUndoInfo();
-		copiedMacros = new HashSet<Macro>();
+		copiedMacros = new HashSet<>();
 
 		// create geoslocal and geostohide
-		ArrayList<ConstructionElement> geoslocal = new ArrayList<ConstructionElement>();
+		ArrayList<ConstructionElement> geoslocal = new ArrayList<>();
 		geoslocal.addAll(geos);
 
 		if (!putdown) {
@@ -749,9 +749,9 @@ public class CopyPaste {
 	 */
 	public void clearClipboard() {
 		copiedXML = null;
-		copiedXMLlabels = new ArrayList<String>();
+		copiedXMLlabels = new ArrayList<>();
 		copiedXMLforSameWindow = null;
-		copiedXMLlabelsforSameWindow = new ArrayList<String>();
+		copiedXMLlabelsforSameWindow = new ArrayList<>();
 		copySource = null;
 		copyObject = null;
 		copyObject2 = null;
@@ -937,7 +937,7 @@ public class CopyPaste {
 					// alternative solution
 					app.addMacroXML(copySource.getApplication().getXMLio()
 							.getFullMacroXML(
-									new ArrayList<Macro>(copiedMacros)));
+									new ArrayList<>(copiedMacros)));
 				} catch (Exception ex) {
 					Log.debug(
 							"Could not load any macros at \"Paste from XML\"");

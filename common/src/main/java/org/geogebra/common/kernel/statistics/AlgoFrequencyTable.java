@@ -159,7 +159,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 		case STANDARD:
 
-			ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> tempList = new ArrayList<>();
 
 			if (isCumulative != null) {
 				tempList.add(isCumulative);

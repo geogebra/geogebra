@@ -194,7 +194,7 @@ public class GeoGebraColorConstants {
 			synchronized (lock) { // declare a private static Object to use for
 									// mutex
 				if (geogebraColor == null) { // have to do this inside the sync
-					HashMap<String, GColor> geogebraColor0 = new HashMap<String, GColor>();
+					HashMap<String, GColor> geogebraColor0 = new HashMap<>();
 
 					// primary
 					geogebraColor0.put("red", GColor.RED);
@@ -257,7 +257,7 @@ public class GeoGebraColorConstants {
 				if (geogebraColorReverse == null) { // have to do this inside
 													// the sync
 
-					HashMap<GColor, String> geogebraColorReverse0 = new HashMap<GColor, String>();
+					HashMap<GColor, String> geogebraColorReverse0 = new HashMap<>();
 
 					for (Entry<String, GColor> entry : getGeoGebraColors()
 							.entrySet()) {
@@ -667,7 +667,7 @@ public class GeoGebraColorConstants {
 				if (colors == null) { // have to do this inside the sync
 
 					// findbugs DC_PARTIALLY_CONSTRUCTED
-					HashMap<String, GColor> colors0 = new HashMap<String, GColor>();
+					HashMap<String, GColor> colors0 = new HashMap<>();
 
 					// HTML 3.2
 					// colors0.put("AQUA", rgb(0x00FFFF));

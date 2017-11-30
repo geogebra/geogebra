@@ -1,5 +1,7 @@
 package org.geogebra.common.gui;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -24,8 +26,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SpreadsheetTraceManager;
-
-import java.util.ArrayList;
 
 /**
  * @author gabor
@@ -313,7 +313,7 @@ public abstract class ContextMenuGeoElement {
 
 	public ArrayList<GeoElement> checkOneGeo() {
 		if (justOneGeo) {
-			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> ret = new ArrayList<>();
 			ret.add(getGeo());
 			return ret;
 		}

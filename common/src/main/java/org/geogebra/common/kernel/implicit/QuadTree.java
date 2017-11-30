@@ -80,7 +80,7 @@ abstract class QuadTree {
 	protected double scaleX;
 	protected double scaleY;
 	protected ArrayList<MyPoint> locusPoints;
-	private LinkedList<PointList> openList = new LinkedList<PointList>();
+	private LinkedList<PointList> openList = new LinkedList<>();
 	private MyPoint[] pts = new MyPoint[2];
 	private PointList p1, p2;
 	private MyPoint temp;
@@ -343,7 +343,7 @@ abstract class QuadTree {
 	static class PointList {
 		MyPoint start;
 		MyPoint end;
-		LinkedList<MyPoint> pts = new LinkedList<MyPoint>();
+		LinkedList<MyPoint> pts = new LinkedList<>();
 
 		public PointList(MyPoint start, MyPoint end) {
 			this.start = start;

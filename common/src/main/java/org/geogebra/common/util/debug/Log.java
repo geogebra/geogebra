@@ -17,7 +17,7 @@ public abstract class Log {
 	private static volatile Log logger;
 	private static Object lock = new Object();
 
-	private static Set<String> reportedImplementationNeeded = new TreeSet<String>();
+	private static Set<String> reportedImplementationNeeded = new TreeSet<>();
 	/** emergency */
 	public final Level EMERGENCY = new Level(0, "EMERGENCY");
 	/** alert */

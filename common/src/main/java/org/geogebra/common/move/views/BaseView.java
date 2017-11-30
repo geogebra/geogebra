@@ -14,7 +14,7 @@ public abstract class BaseView<T> {
 	protected List<T> viewComponents;
 
 	protected BaseView() {
-		viewComponents = new ArrayList<T>();
+		viewComponents = new ArrayList<>();
 	}
 
 	/**

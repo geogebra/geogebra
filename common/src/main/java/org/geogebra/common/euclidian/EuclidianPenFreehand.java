@@ -122,7 +122,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				return false;
 			}
 
-			ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
+			ArrayList<GeoPointND> list = new ArrayList<>();
 			for (GeoPointND geo : points) {
 				if (!geo.isLabelSet()) {
 					recreate = true;
@@ -154,7 +154,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 */
 	private GeoElement tryCircleThroughExistingPoints() {
 		GeoElement circle = null;
-		ArrayList<GeoPoint> list = new ArrayList<GeoPoint>();
+		ArrayList<GeoPoint> list = new ArrayList<>();
 		for (GPoint p : this.penPoints) {
 			this.view.setHits(p,
 					this.view.getEuclidianController().getDefaultEventType());
@@ -189,7 +189,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		// Postprocessing
 
 		if (polygon != null) {
-			ArrayList<GeoPoint> list = new ArrayList<GeoPoint>();
+			ArrayList<GeoPoint> list = new ArrayList<>();
 			for (GeoPointND point : ((GeoPolygon) polygon).getPoints()) {
 				if (point instanceof GeoPoint) {
 					list.add((GeoPoint) point);

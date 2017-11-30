@@ -182,8 +182,8 @@ public class OFFHandler {
 		faceCount = f;
 		edgeCount = e;
 		facesColor = new GColor[faceCount];
-		faces = new ArrayList<int[]>(faceCount);
-		vertices = new ArrayList<Coords>(vertexCount);
+		faces = new ArrayList<>(faceCount);
+		vertices = new ArrayList<>(vertexCount);
 
 	}
 

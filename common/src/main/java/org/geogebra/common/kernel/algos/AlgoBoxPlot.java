@@ -232,7 +232,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 
 		outliers = null;
 		if (tempList == null) {
-			tempList = new ArrayList<Double>();
+			tempList = new ArrayList<>();
 		}
 		tempList.clear();
 
@@ -473,7 +473,7 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 		// Log.debug("outlier "+x);
 
 		if (outliers == null) {
-			outliers = new ArrayList<Double>();
+			outliers = new ArrayList<>();
 		}
 
 		outliers.add(x);

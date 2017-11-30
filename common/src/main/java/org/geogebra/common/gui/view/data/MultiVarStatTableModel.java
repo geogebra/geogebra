@@ -53,7 +53,7 @@ public class MultiVarStatTableModel extends StatTableModel {
 	@Override
 	public ArrayList<Stat> getStatList() {
 
-		ArrayList<Stat> list = new ArrayList<Stat>();
+		ArrayList<Stat> list = new ArrayList<>();
 
 		if (getMultiVarListener().isViewValid()) {
 			return list;

@@ -1274,9 +1274,9 @@ public class ToolBar {
 
 	public static Vector<ToolbarItem> parseToolbarString(String toolbarString,
 			ToolsRemover toolsRemover) throws NumberFormatException {
-		Vector<ToolbarItem> toolbar = new Vector<ToolbarItem>();
+		Vector<ToolbarItem> toolbar = new Vector<>();
 		StringBuilder currentNumber = new StringBuilder();
-		Vector<Integer> menu = new Vector<Integer>();
+		Vector<Integer> menu = new Vector<>();
 		for (int i = 0; i < toolbarString.length(); i++) {
 			char ch = toolbarString.charAt(i);
 			if ('0' <= ch && ch <= '9') {
@@ -1286,7 +1286,7 @@ public class ToolBar {
 				if (menu.size() > 0) {
 					toolbar.add(new ToolbarItem(menu));
 				}
-				menu = new Vector<Integer>();
+				menu = new Vector<>();
 			} else if (ch == ',') {
 				flush(currentNumber, menu, toolsRemover);
 				menu.add(SEPARATOR);
@@ -1478,7 +1478,7 @@ public class ToolBar {
 
 		String[] split = def2.split(" "); // split by tool menus
 
-		TreeSet<Integer> ret = new TreeSet<Integer>();
+		TreeSet<Integer> ret = new TreeSet<>();
 		for (String s : split) {
 			try {
 				int mode = Integer.parseInt(s);

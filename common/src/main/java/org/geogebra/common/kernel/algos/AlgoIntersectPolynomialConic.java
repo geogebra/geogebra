@@ -161,7 +161,7 @@ public class AlgoIntersectPolynomialConic extends AlgoSimpleRootsPolynomial {
 			}
 
 			GeoPoint[] rootPoints = algo.getRootPoints();
-			List<double[]> valPairs = new ArrayList<double[]>();
+			List<double[]> valPairs = new ArrayList<>();
 			for (int i = 0; i < rootPoints.length; i++) {
 				double t = rootPoints[i].getX();
 				valPairs.add(new double[] { t, h.value(t) });

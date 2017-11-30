@@ -132,7 +132,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 		} else if (!bool.isLabelSet()) {
 			bool.getFunction().updateIneqs();
 		}
-		TreeSet<Double> zeros = new TreeSet<Double>();
+		TreeSet<Double> zeros = new TreeSet<>();
 		bool.getFunction().getIneqs().getZeros(zeros);
 		this.rootPoint.setUndefined();
 		if (zeros.isEmpty()) {

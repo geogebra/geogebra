@@ -64,9 +64,9 @@ import org.geogebra.common.util.debug.Log;
 public class AlgoDependentBoolean extends AlgoElement implements
 		SymbolicParametersAlgo, SymbolicParametersBotanaAlgoAre, DependentAlgo {
 
-	private Set<GeoSegment> allSegmentsFromExpression = new HashSet<GeoSegment>();
+	private Set<GeoSegment> allSegmentsFromExpression = new HashSet<>();
 	private PVariable[] botanaVars;
-	private ArrayList<PPolynomial> extraPolys = new ArrayList<PPolynomial>();
+	private ArrayList<PPolynomial> extraPolys = new ArrayList<>();
 	private int nrOfMaxDecimals;
 	// substitution list of segments with variables
 	private ArrayList<Map.Entry<GeoElement, PVariable>> varSubstListOfSegs;
@@ -666,7 +666,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 
 			ExpressionNode rootCopy = root.deepCopy(kernel);
 			// collect all labels of GeoNumerics from expression
-			Set<String> setOfGeoNumLabels = new TreeSet<String>();
+			Set<String> setOfGeoNumLabels = new TreeSet<>();
 			rootCopy.traverse(
 					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
 			if (!setOfGeoNumLabels.isEmpty()) {
@@ -755,7 +755,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 			botanaVars = new PVariable[allSegmentsFromExpression.size()];
 		}
 		if (varSubstListOfSegs == null) {
-			varSubstListOfSegs = new ArrayList<Entry<GeoElement, PVariable>>();
+			varSubstListOfSegs = new ArrayList<>();
 		}
 		int index = 0;
 		for (GeoSegment segment : allSegmentsFromExpression) {
@@ -799,7 +799,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (substNeeded) {
 			ExpressionNode rootCopy = bool.getDefinition().deepCopy(kernel);
 			// collect all labels of GeoNumerics from expression
-			Set<String> setOfGeoNumLabels = new TreeSet<String>();
+			Set<String> setOfGeoNumLabels = new TreeSet<>();
 			rootCopy.traverse(
 					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
 			Iterator<String> it = setOfGeoNumLabels.iterator();
@@ -867,7 +867,7 @@ public class AlgoDependentBoolean extends AlgoElement implements
 		if (substNeeded) {
 			ExpressionNode rootCopy = bool.getDefinition().deepCopy(kernel);
 			// collect all labels of GeoNumerics from expression
-			Set<String> setOfGeoNumLabels = new TreeSet<String>();
+			Set<String> setOfGeoNumLabels = new TreeSet<>();
 			rootCopy.traverse(
 					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
 			Iterator<String> it = setOfGeoNumLabels.iterator();

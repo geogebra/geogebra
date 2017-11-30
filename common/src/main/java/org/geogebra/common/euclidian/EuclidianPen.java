@@ -101,7 +101,7 @@ public class EuclidianPen implements GTimerListener {
 
 	private AlgoElement lastAlgo = null;
 	/** points created by pen */
-	protected ArrayList<GPoint> penPoints = new ArrayList<GPoint>();
+	protected ArrayList<GPoint> penPoints = new ArrayList<>();
 	private ArrayList<GPoint> temp = null;
 	private int minX = Integer.MAX_VALUE, maxX = Integer.MIN_VALUE;
 	private double score = 0;
@@ -1294,7 +1294,7 @@ public class EuclidianPen implements GTimerListener {
 	}
 
 	private GeoConic makeACircle(double x, double y, double r) {
-		temp = new ArrayList<GPoint>();
+		temp = new ArrayList<>();
 		int npts, i = 0;
 		npts = (int) (2 * r);
 		if (npts < 12) {

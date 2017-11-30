@@ -12,7 +12,7 @@ import org.geogebra.common.main.App;
 abstract public class ImageManager {
 
 	public void setCornersFromSelection(GeoImage geoImage, App app) {
-		ArrayList<GeoPointND> corners = new ArrayList<GeoPointND>();
+		ArrayList<GeoPointND> corners = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			GeoPoint p = getImageCornerFromSelection(i, app);
 			if (p != null) {

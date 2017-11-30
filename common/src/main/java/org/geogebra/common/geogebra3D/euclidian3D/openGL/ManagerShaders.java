@@ -50,17 +50,17 @@ public class ManagerShaders extends Manager {
 
 	@Override
 	protected void initGeometriesList() {
-		geometriesSetList = new TreeMap<Integer, ManagerShaders.GeometriesSet>();
+		geometriesSetList = new TreeMap<>();
 		geometriesSetMaxIndex = -1;
-		indicesRemoved = new Stack<Integer>();
+		indicesRemoved = new Stack<>();
 
-		vertices = new ArrayList<Double>();
+		vertices = new ArrayList<>();
 		verticesSize = 0;
-		normals = new ArrayList<Double>();
+		normals = new ArrayList<>();
 		normalsSize = 0;
-		textures = new ArrayList<Double>();
+		textures = new ArrayList<>();
 		texturesSize = 0;
-		colors = new ArrayList<Double>();
+		colors = new ArrayList<>();
 		colorsSize = 0;
 
 	}

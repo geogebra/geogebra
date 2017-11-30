@@ -87,7 +87,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 		// it is inefficient to have Q and P as input
 		// let's take all independent parents of Q
 		// and the path as input
-		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> inSet = new TreeSet<>();
 		Iterator<GeoElement> it;
 		standardInput = new GeoElement[2];
 

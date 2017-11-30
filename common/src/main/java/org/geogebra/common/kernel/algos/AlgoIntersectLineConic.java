@@ -812,7 +812,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 			if (g != null /* !g.isGeoSegment() && */) {
 				PVariable[] botanaVarsThis = new PVariable[2];
 				if (botanaVars == null) {
-					botanaVars = new HashMap<GeoElementND, PVariable[]>();
+					botanaVars = new HashMap<>();
 				}
 				if (botanaVars.containsKey(geo)) {
 					botanaVarsThis = botanaVars.get(geo);
@@ -891,7 +891,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 						vc[0], vc[1], botanaVarsThis[0], botanaVarsThis[1]);
 
 				if (botanaPolynomials == null) {
-					botanaPolynomials = new HashMap<GeoElementND, PPolynomial[]>();
+					botanaPolynomials = new HashMap<>();
 				}
 
 				/*
@@ -930,7 +930,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 				PVariable[] botanaVarsThis = new PVariable[2];
 				if (botanaVars == null) {
-					botanaVars = new HashMap<GeoElementND, PVariable[]>();
+					botanaVars = new HashMap<>();
 				}
 				if (botanaVars.containsKey(geo)) {
 					botanaVarsThis = botanaVars.get(geo);
@@ -957,7 +957,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 						vg[2], vg[3]);
 
 				if (botanaPolynomials == null) {
-					botanaPolynomials = new HashMap<GeoElementND, PPolynomial[]>();
+					botanaPolynomials = new HashMap<>();
 				}
 				botanaPolynomials.put(geo, botanaPolynomialsThis);
 

@@ -115,7 +115,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeFilledObject = new StringBuilder();
 		codeBeginDoc = new StringBuilder();
 		codeBeginPic = new StringBuilder();
-		customColor = new HashMap<GColor, String>();
+		customColor = new HashMap<>();
 		if (format == GeoGebraToPstricks.FORMAT_BEAMER) {
 			codePreamble.append(
 					"\\documentclass[" + frame.getFontSize() + "pt]{beamer}\n");

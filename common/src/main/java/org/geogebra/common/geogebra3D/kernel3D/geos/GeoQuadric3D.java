@@ -3519,7 +3519,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	public String[] getEquationVariables() {
-		ArrayList<String> vars = new ArrayList<String>();
+		ArrayList<String> vars = new ArrayList<>();
 		if (!MyDouble.exactEqual(matrix[0], 0)
 				|| !MyDouble.exactEqual(matrix[4], 0)
 				|| !MyDouble.exactEqual(matrix[5], 0)

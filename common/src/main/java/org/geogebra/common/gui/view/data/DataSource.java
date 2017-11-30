@@ -41,7 +41,7 @@ public class DataSource {
 	public DataSource(App app) {
 		this.app = app;
 		this.selection = app.getSelectionManager();
-		dataList = new ArrayList<DataVariable>();
+		dataList = new ArrayList<>();
 		selectedIndex = 0;
 	}
 
@@ -227,7 +227,7 @@ public class DataSource {
 			return null;
 		}
 
-		ArrayList<String[]> list = new ArrayList<String[]>();
+		ArrayList<String[]> list = new ArrayList<>();
 		list.addAll(dataList.get(dataIndex).getStringData());
 
 		// get maximum row count
@@ -265,7 +265,7 @@ public class DataSource {
 			return null;
 		}
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		list.addAll(dataList.get(dataIndex).getTitles(app));
 
 		String[] s = list.toArray(new String[list.size()]);
@@ -351,7 +351,7 @@ public class DataSource {
 			return null;
 		}
 
-		ArrayList<GeoList> list = new ArrayList<GeoList>();
+		ArrayList<GeoList> list = new ArrayList<>();
 
 		for (DataVariable var : dataList) {
 			list.addAll(var.getGeoListData(app, mode, leftToRight, doCopy));
@@ -400,7 +400,7 @@ public class DataSource {
 
 	public void setDataListFromSettings(ArrayList<String> items, int mode) {
 		dataList.clear();
-		ArrayList<CellRange> ranges = new ArrayList<CellRange>();
+		ArrayList<CellRange> ranges = new ArrayList<>();
 		for (int i = 0; i < items.size(); i++) {
 			String range = items.get(i);
 
@@ -422,7 +422,7 @@ public class DataSource {
 	private void setDataListFromGeoList(int mode) {
 
 		// create a list of GeoLists from the selected elements
-		ArrayList<GeoList> list = new ArrayList<GeoList>();
+		ArrayList<GeoList> list = new ArrayList<>();
 		for (GeoElement geo : selection.getSelectedGeos()) {
 			if (geo.isGeoList() && !((GeoList) geo).isMatrix()) {
 				list.add((GeoList) geo);
@@ -432,7 +432,7 @@ public class DataSource {
 			return;
 		}
 
-		ArrayList<DataItem> itemList = new ArrayList<DataItem>();
+		ArrayList<DataItem> itemList = new ArrayList<>();
 		DataVariable var = new DataVariable(app);
 
 		switch (mode) {
@@ -485,7 +485,7 @@ public class DataSource {
 			ArrayList<CellRange> rangeList) {
 		DataVariable var = new DataVariable(app);
 
-		ArrayList<DataItem> itemList = new ArrayList<DataItem>();
+		ArrayList<DataItem> itemList = new ArrayList<>();
 
 		switch (mode) {
 
@@ -498,7 +498,7 @@ public class DataSource {
 				if (cr.is2D()) {
 					var.setGroupType(GroupType.FREQUENCY);
 					add1DCellRanges(rangeList, itemList);
-					ArrayList<DataItem> values = new ArrayList<DataItem>();
+					ArrayList<DataItem> values = new ArrayList<>();
 					values.add(itemList.get(0));
 					var.setDataVariable(GroupType.FREQUENCY, GeoClass.NUMERIC,
 							values,

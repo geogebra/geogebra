@@ -148,8 +148,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		D = new GeoPoint[4];
 		Q = new GeoPoint[4];
 
-		preexistPoints = new ArrayList<GeoPointND>();
-		newPoints = new ArrayList<GeoPoint>();
+		preexistPoints = new ArrayList<>();
+		newPoints = new ArrayList<>();
 		isQonPath = new boolean[4];
 		isPalive = new boolean[4];
 		age = new int[4];
@@ -1388,7 +1388,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		if (A != null && B != null && A.isCircle() && B.isCircle()) {
 			PVariable[] botanaVarsThis = new PVariable[2];
 			if (botanaVars == null) {
-				botanaVars = new HashMap<GeoElementND, PVariable[]>();
+				botanaVars = new HashMap<>();
 			}
 			if (botanaVars.containsKey(geo)) {
 				botanaVarsThis = botanaVars.get(geo);
@@ -1461,7 +1461,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 					vB[0], vB[1], botanaVarsThis[0], botanaVarsThis[1]);
 
 			if (botanaPolynomials == null) {
-				botanaPolynomials = new HashMap<GeoElementND, PPolynomial[]>();
+				botanaPolynomials = new HashMap<>();
 			}
 
 			/*
@@ -1493,7 +1493,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		/* General case */
 		PVariable[] botanaVarsThis = new PVariable[2];
 		if (botanaVars == null) {
-			botanaVars = new HashMap<GeoElementND, PVariable[]>();
+			botanaVars = new HashMap<>();
 		}
 		if (botanaVars.containsKey(geo)) {
 			botanaVarsThis = botanaVars.get(geo);
@@ -1531,7 +1531,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 				}
 
 				if (botanaPolynomials == null) {
-					botanaPolynomials = new HashMap<GeoElementND, PPolynomial[]>();
+					botanaPolynomials = new HashMap<>();
 				}
 				botanaPolynomials.put(geo, botanaPolynomialsThis);
 

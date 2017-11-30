@@ -279,7 +279,7 @@ public class MyVec3DNode extends ValidExpression
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> temp, varset = x.getVariables();
 		if (varset == null) {
-			varset = new HashSet<GeoElement>();
+			varset = new HashSet<>();
 		}
 		temp = y.getVariables();
 		if (temp != null) {

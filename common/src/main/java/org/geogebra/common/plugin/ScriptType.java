@@ -32,7 +32,7 @@ public enum ScriptType {
 
 	private String name;
 	private String xmlName;
-	private static HashMap<String, ScriptType> xmlMap = new HashMap<String, ScriptType>();
+	private static HashMap<String, ScriptType> xmlMap = new HashMap<>();
 
 	ScriptType(String name, String xmlName) {
 		this.name = name;

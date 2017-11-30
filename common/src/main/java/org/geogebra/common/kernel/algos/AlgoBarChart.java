@@ -52,7 +52,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		implements DrawInformationAlgo {
 
-	private Map<Integer, HashMap<Integer, Object>> tags = new HashMap<Integer, HashMap<Integer, Object>>();
+	private Map<Integer, HashMap<Integer, Object>> tags = new HashMap<>();
 
 	/** Bar chart from expression **/
 	public static final int TYPE_BARCHART_EXPRESSION = 0;
@@ -558,7 +558,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 			"missing break is deliberate" })
 	protected void setInputOutput() {
 
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> list = new ArrayList<>();
 
 		switch (type) {
 		default:
@@ -635,7 +635,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		case TYPE_BARCHART_HYPERGEOMETRIC:
 		case TYPE_BARCHART_POISSON:
 		case TYPE_BARCHART_ZIPF:
-			ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> inputList = new ArrayList<>();
 			inputList.add(p1geo);
 			if (p2geo != null) {
 				inputList.add(p2geo);
@@ -1306,7 +1306,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		if (tags.containsKey(numBar)) {
 			tags.get(numBar).put(0, color);
 		} else {
-			HashMap<Integer, Object> hm = new HashMap<Integer, Object>();
+			HashMap<Integer, Object> hm = new HashMap<>();
 			hm.put(0, color);
 			tags.put(numBar, hm);
 		}
@@ -1330,7 +1330,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		if (tags.containsKey(numBar)) {
 			tags.get(numBar).put(1, alpha);
 		} else {
-			HashMap<Integer, Object> hm = new HashMap<Integer, Object>();
+			HashMap<Integer, Object> hm = new HashMap<>();
 			hm.put(1, alpha);
 			tags.put(numBar, hm);
 		}
@@ -1354,7 +1354,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		if (tags.containsKey(numBar)) {
 			tags.get(numBar).put(2, fillType);
 		} else {
-			HashMap<Integer, Object> hm = new HashMap<Integer, Object>();
+			HashMap<Integer, Object> hm = new HashMap<>();
 			hm.put(2, fillType);
 			tags.put(numBar, hm);
 		}
@@ -1385,7 +1385,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		if (tags.containsKey(numBar)) {
 			tags.get(numBar).put(3, symbol);
 		} else {
-			HashMap<Integer, Object> hm = new HashMap<Integer, Object>();
+			HashMap<Integer, Object> hm = new HashMap<>();
 			hm.put(3, symbol);
 			tags.put(numBar, hm);
 		}
@@ -1409,7 +1409,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		if (tags.containsKey(numBar)) {
 			tags.get(numBar).put(4, image);
 		} else {
-			HashMap<Integer, Object> hm = new HashMap<Integer, Object>();
+			HashMap<Integer, Object> hm = new HashMap<>();
 			hm.put(4, image);
 			tags.put(numBar, hm);
 		}
@@ -1433,7 +1433,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		if (tags.containsKey(numBar)) {
 			tags.get(numBar).put(5, distance);
 		} else {
-			HashMap<Integer, Object> hm = new HashMap<Integer, Object>();
+			HashMap<Integer, Object> hm = new HashMap<>();
 			hm.put(5, distance);
 			tags.put(numBar, hm);
 		}
@@ -1457,7 +1457,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		if (tags.containsKey(numBar)) {
 			tags.get(numBar).put(6, angle);
 		} else {
-			HashMap<Integer, Object> hm = new HashMap<Integer, Object>();
+			HashMap<Integer, Object> hm = new HashMap<>();
 			hm.put(6, angle);
 			tags.put(numBar, hm);
 		}

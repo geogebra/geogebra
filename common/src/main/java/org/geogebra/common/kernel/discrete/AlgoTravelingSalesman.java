@@ -66,7 +66,7 @@ public class AlgoTravelingSalesman extends AlgoDiscrete {
 		tsp.solve(nodes);
 
 		if (al == null) {
-			al = new ArrayList<MyPoint>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}

@@ -244,7 +244,7 @@ public class AlgoMedian extends AlgoElement {
 		// create a tree map to sort the value/frequency pairs
 		double val;
 		int freq;
-		TreeMap<Double, Integer> tm = new TreeMap<Double, Integer>();
+		TreeMap<Double, Integer> tm = new TreeMap<>();
 		for (int i = 0; i < freqList.size(); i++) {
 
 			val = ((NumberValue) inputList.get(i)).getDouble();

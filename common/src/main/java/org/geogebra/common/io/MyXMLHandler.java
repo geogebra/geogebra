@@ -215,23 +215,23 @@ public class MyXMLHandler implements DocHandler {
 	// List of LocateableExpPair objects
 	// for setting the start points at the end of the construction
 	// (needed for GeoText and GeoVector)
-	private LinkedList<LocateableExpPair> startPointList = new LinkedList<LocateableExpPair>();
+	private LinkedList<LocateableExpPair> startPointList = new LinkedList<>();
 
 	// List of GeoExpPair objects
 	// for setting the linked geos needed for GeoTextFields
-	private LinkedList<GeoExpPair> linkedGeoList = new LinkedList<GeoExpPair>();
+	private LinkedList<GeoExpPair> linkedGeoList = new LinkedList<>();
 
 	// List of GeoExpPair condition objects
 	// for setting the conditions at the end of the construction
 	// (needed for GeoText and GeoVector)
-	private LinkedList<GeoExpPair> showObjectConditionList = new LinkedList<GeoExpPair>();
-	private LinkedList<GeoExpPair> dynamicColorList = new LinkedList<GeoExpPair>();
-	private LinkedList<GeoExpPair> animationSpeedList = new LinkedList<GeoExpPair>();
-	private LinkedList<GeoExpPair> animationStepList = new LinkedList<GeoExpPair>();
-	private LinkedList<GeoElement> animatingList = new LinkedList<GeoElement>();
-	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<GeoNumericMinMax>();
+	private LinkedList<GeoExpPair> showObjectConditionList = new LinkedList<>();
+	private LinkedList<GeoExpPair> dynamicColorList = new LinkedList<>();
+	private LinkedList<GeoExpPair> animationSpeedList = new LinkedList<>();
+	private LinkedList<GeoExpPair> animationStepList = new LinkedList<>();
+	private LinkedList<GeoElement> animatingList = new LinkedList<>();
+	private LinkedList<GeoNumericMinMax> minMaxList = new LinkedList<>();
 	/** errors encountered during load */
-	ArrayList<String> errors = new ArrayList<String>();
+	ArrayList<String> errors = new ArrayList<>();
 	// construction step stored in <consProtNavigation> : handled after parsing
 	private int consStep;
 
@@ -248,7 +248,7 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * A vector with all perspectives we have read in this document.
 	 */
-	private ArrayList<Perspective> tmp_perspectives = new ArrayList<Perspective>();
+	private ArrayList<Perspective> tmp_perspectives = new ArrayList<>();
 
 	/**
 	 * Array lists to store temporary panes and views of a perspective.
@@ -289,13 +289,10 @@ public class MyXMLHandler implements DocHandler {
 
 	private int casMapParent;
 
-	private HashMap<EuclidianSettings, String> xmin = new HashMap<EuclidianSettings, String>(),
-			xmax = new HashMap<EuclidianSettings, String>(),
-			ymin = new HashMap<EuclidianSettings, String>(),
-			xtick = new HashMap<EuclidianSettings, String>(),
-			ytick = new HashMap<EuclidianSettings, String>(),
-			ztick = new HashMap<EuclidianSettings, String>(),
-			ymax = new HashMap<EuclidianSettings, String>();
+	private HashMap<EuclidianSettings, String> xmin = new HashMap<>(),
+			xmax = new HashMap<>(), ymin = new HashMap<>(),
+			xtick = new HashMap<>(), ytick = new HashMap<>(),
+			ztick = new HashMap<>(), ymax = new HashMap<>();
 
 	private boolean sliderTagProcessed, fontTagProcessed;
 
@@ -2263,7 +2260,7 @@ public class MyXMLHandler implements DocHandler {
 
 		tmp_perspective.setSplitPaneData(spXml);
 
-		tmp_perspectives = new ArrayList<Perspective>();
+		tmp_perspectives = new ArrayList<>();
 		tmp_perspectives.add(tmp_perspective);
 		app.setPreferredSize(
 				AwtFactory.getPrototype().newDimension(width, height));
@@ -2288,7 +2285,7 @@ public class MyXMLHandler implements DocHandler {
 
 			boolean[] colsVis = new boolean[attrs.keySet().size()];
 
-			ArrayList<String> keys = new ArrayList<String>(attrs.keySet());
+			ArrayList<String> keys = new ArrayList<>(attrs.keySet());
 			for (String key : keys) {
 				int k = Integer.parseInt(key.substring(3));
 				colsVis[k] = Boolean.parseBoolean(attrs.get(key));
@@ -2698,13 +2695,13 @@ public class MyXMLHandler implements DocHandler {
 			tmp_perspectives.add(tmp_perspective);
 
 			if (tmp_panes == null) {
-				tmp_panes = new ArrayList<DockSplitPaneData>();
+				tmp_panes = new ArrayList<>();
 			} else {
 				tmp_panes.clear();
 			}
 
 			if (tmp_views == null) {
-				tmp_views = new ArrayList<DockPanelData>();
+				tmp_views = new ArrayList<>();
 			} else {
 				tmp_views.clear();
 			}
@@ -3508,7 +3505,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private void processEvSizes() {
 		// Set<EuclidianSettings> eSet0 = xmin.keySet();
-		ArrayList<EuclidianSettings> eSet = new ArrayList<EuclidianSettings>(
+		ArrayList<EuclidianSettings> eSet = new ArrayList<>(
 				xmin.keySet());
 		eSet.addAll(xtick.keySet());
 		eSet.addAll(ytick.keySet());
@@ -3736,7 +3733,7 @@ public class MyXMLHandler implements DocHandler {
 					ok = handleCurveParam(attrs);
 					break;
 				} else if ("casMap".equals(eName)) {
-					casMap = new TreeMap<String, String>();
+					casMap = new TreeMap<>();
 					constMode = MODE_CAS_MAP;
 					casMapParent = MODE_CONST_GEO_ELEMENT;
 					ok = true;
@@ -5603,8 +5600,8 @@ public class MyXMLHandler implements DocHandler {
 				if (data == null) {
 					return false;
 				}
-				ArrayList<ArrayList<Double>> collect = new ArrayList<ArrayList<Double>>();
-				ArrayList<Double> newRow = new ArrayList<Double>();
+				ArrayList<ArrayList<Double>> collect = new ArrayList<>();
+				ArrayList<Double> newRow = new ArrayList<>();
 				int start = 0;
 				for (int c = 1; c < data.length(); c++) {
 					switch (data.charAt(c)) {
@@ -5622,7 +5619,7 @@ public class MyXMLHandler implements DocHandler {
 								.parseDouble(data.substring(start, c)));
 						start = c + 1;
 						collect.add(newRow);
-						newRow = new ArrayList<Double>();
+						newRow = new ArrayList<>();
 						c++; // jump over ','
 						break;
 					case ',':
@@ -5733,7 +5730,7 @@ public class MyXMLHandler implements DocHandler {
 		} else if ("outputSizes".equals(eName)) {
 			ok = handleCmdOutputSizes(attrs);
 		} else if ("casMap".equals(eName)) {
-			casMap = new TreeMap<String, String>();
+			casMap = new TreeMap<>();
 			constMode = MODE_CAS_MAP;
 			casMapParent = MODE_CONST_COMMAND;
 			ok = true;
@@ -5760,7 +5757,7 @@ public class MyXMLHandler implements DocHandler {
 		// Iterator<String> it = values.iterator();
 		// while (it.hasNext()) {
 
-		ArrayList<String> keys = new ArrayList<String>(attrs.keySet());
+		ArrayList<String> keys = new ArrayList<>(attrs.keySet());
 		for (String key : keys) {
 
 			// parse argument expressions
@@ -5815,7 +5812,7 @@ public class MyXMLHandler implements DocHandler {
 			 * (it.hasNext()) { label = it.next();
 			 */
 
-			ArrayList<String> attrKeys = new ArrayList<String>(attrs.keySet());
+			ArrayList<String> attrKeys = new ArrayList<>(attrs.keySet());
 			for (String key : attrKeys) {
 				label = attrs.get(key);
 				if ("".equals(label)) {

@@ -115,7 +115,7 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	 */
 	protected void setInput() {
 
-		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> tempList = new ArrayList<>();
 		tempList.add(inputList);
 		if (stackAdjacentDots != null) {
 			tempList.add(stackAdjacentDots);

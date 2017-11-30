@@ -276,7 +276,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 					: new double[0];
 		}
 		double[] y = new double[samples + 1]; //
-		ArrayList<Double> xlist = new ArrayList<Double>();
+		ArrayList<Double> xlist = new ArrayList<>();
 		double x, xval;
 		double deltax = (r - l) / samples;
 
@@ -407,7 +407,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 			// no visible points left
 			if (number == 0) {
-				ArrayList<GeoPoint> temp = new ArrayList<GeoPoint>();
+				ArrayList<GeoPoint> temp = new ArrayList<>();
 				for (int i = 0; i < points.length; i++) {
 					if (!points[i].getAlgoUpdateSet().isEmpty()) {
 						// store points that have dependent objects

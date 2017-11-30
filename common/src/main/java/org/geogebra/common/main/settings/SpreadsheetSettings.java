@@ -85,7 +85,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public HashMap<Integer, Integer> getWidthMap() {
 		if (widthMap == null) {
-			widthMap = new HashMap<Integer, Integer>();
+			widthMap = new HashMap<>();
 		}
 		return widthMap;
 	}
@@ -106,7 +106,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 	public HashMap<Integer, Integer> getHeightMap() {
 		if (heightMap == null) {
-			heightMap = new HashMap<Integer, Integer>();
+			heightMap = new HashMap<>();
 		}
 		return heightMap;
 	}

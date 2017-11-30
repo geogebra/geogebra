@@ -68,10 +68,10 @@ public class ColorProvider {
 		assignmentReg = createAssignmentRegExp(isCasInput);
 		labels = null;
 		locals = null;
-		definedObjectsIntervals = new ArrayList<Integer[]>();
-		undefinedObjectsIntervals = new ArrayList<Integer[]>();
-		ignoreIntervals = new ArrayList<Integer[]>();
-		localVariableIntervals = new ArrayList<Integer[]>();
+		definedObjectsIntervals = new ArrayList<>();
+		undefinedObjectsIntervals = new ArrayList<>();
+		ignoreIntervals = new ArrayList<>();
+		localVariableIntervals = new ArrayList<>();
 		pf = app.getParserFunctions();
 		text = "";
 	}

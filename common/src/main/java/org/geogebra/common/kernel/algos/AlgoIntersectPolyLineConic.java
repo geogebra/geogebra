@@ -160,7 +160,7 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 
 		intersectingPoints = createOutputPoints();
 
-		intersectingCoords = new ArrayList<Coords>();
+		intersectingCoords = new ArrayList<>();
 
 	}
 
@@ -316,7 +316,7 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 
-		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(getConstruction());

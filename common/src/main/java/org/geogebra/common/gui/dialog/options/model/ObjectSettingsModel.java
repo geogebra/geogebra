@@ -1,5 +1,8 @@
 package org.geogebra.common.gui.dialog.options.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.kernel.Construction;
@@ -18,9 +21,6 @@ import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class represents a model for the object properties
@@ -55,7 +55,7 @@ abstract public class ObjectSettingsModel {
      */
     protected void init(App app) {
         this.app = app;
-        geoElementsList = new ArrayList<GeoElement>();
+		geoElementsList = new ArrayList<>();
     }
 
     /**

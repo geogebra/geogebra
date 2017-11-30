@@ -36,7 +36,7 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 			AbsoluteScreenLocateable geo = getAbsoluteScreenLocateable(index);
 			setAbsolute(geo, value, app.getActiveEuclidianView());
 		} else if (getGeoAt(index).isPinnable()) {
-			ArrayList<GeoElement> al = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> al = new ArrayList<>();
 			al.add(getGeoAt(index));
 
 			// geo could be redefined, so need to change geos[i] to

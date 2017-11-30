@@ -69,7 +69,7 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 		// empty list?
 		if (getHead() == null) {
 			if (hashMap == null) {
-				hashMap = new HashMap<AlgoElement, AlgoElement>();
+				hashMap = new HashMap<>();
 			}
 			hashMap.put(algo, algo);
 
@@ -129,7 +129,7 @@ public class AlgorithmSet implements Iterable<AlgoElement> {
 		// empty list?
 		if (getHead() == null) {
 			if (hashMap == null) {
-				hashMap = new HashMap<AlgoElement, AlgoElement>();
+				hashMap = new HashMap<>();
 			}
 			hashMap.put(algo, algo);
 

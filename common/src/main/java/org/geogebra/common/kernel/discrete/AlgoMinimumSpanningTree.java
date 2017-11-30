@@ -64,9 +64,9 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 
 		edgeCount = 0;
 
-		HashMap<GeoPointND, MyNode> nodes = new HashMap<GeoPointND, MyNode>();
+		HashMap<GeoPointND, MyNode> nodes = new HashMap<>();
 		MyNode node1, node2;
-		UndirectedSparseMultigraph<MyNode, MyLink> g = new UndirectedSparseMultigraph<MyNode, MyLink>();
+		UndirectedSparseMultigraph<MyNode, MyLink> g = new UndirectedSparseMultigraph<>();
 
 		for (int i = 0; i < size - 1; i++) {
 			GeoPointND p1 = (GeoPointND) inputList.get(i);
@@ -91,7 +91,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 
 			}
 
-			MinimumSpanningForest2<MyNode, MyLink> prim = new MinimumSpanningForest2<MyNode, MyLink>(
+			MinimumSpanningForest2<MyNode, MyLink> prim = new MinimumSpanningForest2<>(
 					g, new DelegateForest<MyNode, MyLink>(),
 					DelegateTree.<MyNode, MyLink> getFactory(), wtTransformer);
 
@@ -100,7 +100,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 			Iterator<MyLink> it = tree.getEdges().iterator();
 
 			if (al == null) {
-				al = new ArrayList<MyPoint>();
+				al = new ArrayList<>();
 			} else {
 				al.clear();
 			}

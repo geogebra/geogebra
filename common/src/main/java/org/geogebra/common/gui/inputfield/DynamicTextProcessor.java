@@ -41,7 +41,7 @@ public class DynamicTextProcessor {
 	 */
 	public DynamicTextProcessor(App app) {
 		this.app = app;
-		dList = new ArrayList<DynamicTextElement>();
+		dList = new ArrayList<>();
 	}
 
 	/**

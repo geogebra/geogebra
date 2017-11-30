@@ -87,7 +87,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		// it is inefficient to have Q and P as input
 		// let's take all independent parents of Q
 		// and the path as input
-		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> inSet = new TreeSet<>();
 		inSet.add(this.movingPoint.getPath().toGeoElement());
 
 		// we need all independent parents of Q PLUS
@@ -260,7 +260,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	 */
 	protected void setInputOutputEnvelope() {
 
-		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> inSet = new TreeSet<>();
 		inSet.add(this.movingPoint);
 		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors()
 				.iterator();

@@ -425,8 +425,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 		this.selectedPoints = selectedPoints;
 
-		segments = new ArrayList<DrawSegment3D>();
-		segmentsPoints = new ArrayList<ArrayList<GeoPointND>>();
+		segments = new ArrayList<>();
+		segmentsPoints = new ArrayList<>();
 
 		setPickingType(PickingType.SURFACE);
 
@@ -483,7 +483,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				sp.add(point); // add second point to precedent segment
 			}
 
-			sp = new ArrayList<GeoPointND>();
+			sp = new ArrayList<>();
 			segmentsPoints.add(sp);
 			point = i.next();
 			sp.add(point);

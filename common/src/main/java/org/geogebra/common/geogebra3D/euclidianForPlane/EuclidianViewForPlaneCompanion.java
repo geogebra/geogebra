@@ -495,7 +495,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	@Override
 	public ArrayList<GeoPointND> getFreeInputPoints(AlgoElement algoParent) {
 		ArrayList<GeoPointND> list = algoParent.getFreeInputPoints();
-		ArrayList<GeoPointND> ret = new ArrayList<GeoPointND>();
+		ArrayList<GeoPointND> ret = new ArrayList<>();
 		for (GeoPointND p : list) {
 			if (!hasForParent((GeoElement) p)) {
 				ret.add(p);

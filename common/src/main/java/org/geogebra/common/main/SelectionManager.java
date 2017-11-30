@@ -52,7 +52,7 @@ import org.geogebra.common.util.debug.Log;
  */
 public class SelectionManager {
 	/** list of selected geos */
-	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
+	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<>();
 
 	private final Kernel kernel;
 
@@ -60,33 +60,33 @@ public class SelectionManager {
 
 	private ArrayList<GeoElementSelectionListener> selectionListeners;
 
-	private final ArrayList<GeoPointND> selectedPoints = new ArrayList<GeoPointND>();
-	private final ArrayList<GeoNumeric> selectedNumbers = new ArrayList<GeoNumeric>();
-	private final ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<GeoNumberValue>();
-	private final ArrayList<GeoLineND> selectedLines = new ArrayList<GeoLineND>();
-	private final ArrayList<GeoDirectionND> selectedDirections = new ArrayList<GeoDirectionND>();
-	private final ArrayList<GeoSegmentND> selectedSegments = new ArrayList<GeoSegmentND>();
-	private final ArrayList<Region> selectedRegions = new ArrayList<Region>();
-	private final ArrayList<Path> selectedPaths = new ArrayList<Path>();
-	private final ArrayList<GeoConicND> selectedConicsND = new ArrayList<GeoConicND>();
-	private final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<GeoImplicit>();
-	private final ArrayList<GeoImplicitSurfaceND> selectedImplicitSurface = new ArrayList<GeoImplicitSurfaceND>();
-	private final ArrayList<GeoFunction> selectedFunctions = new ArrayList<GeoFunction>();
-	private final ArrayList<GeoFunctionNVar> selectedFunctionsNVar = new ArrayList<GeoFunctionNVar>();
-	private final ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<GeoCurveCartesian>();
-	private final ArrayList<GeoVectorND> selectedVectors = new ArrayList<GeoVectorND>();
-	private final ArrayList<GeoPolygon> selectedPolygons = new ArrayList<GeoPolygon>();
-	private final ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<GeoPolyLine>();
-	private final ArrayList<GeoElement> selectedGeosEuclidian = new ArrayList<GeoElement>();
-	private final ArrayList<GeoList> selectedLists = new ArrayList<GeoList>();
-	private final ArrayList<GeoCoordSys> selectedCS2D = new ArrayList<GeoCoordSys>();
-	private final ArrayList<GeoQuadricND> selectedQuadric = new ArrayList<GeoQuadricND>();
-	private final ArrayList<GeoQuadric3DLimitedInterface> selectedQuadricLimited = new ArrayList<GeoQuadric3DLimitedInterface>();
-	private final ArrayList<GeoPolyhedronInterface> selectedPolyhedron = new ArrayList<GeoPolyhedronInterface>();
+	private final ArrayList<GeoPointND> selectedPoints = new ArrayList<>();
+	private final ArrayList<GeoNumeric> selectedNumbers = new ArrayList<>();
+	private final ArrayList<GeoNumberValue> selectedNumberValues = new ArrayList<>();
+	private final ArrayList<GeoLineND> selectedLines = new ArrayList<>();
+	private final ArrayList<GeoDirectionND> selectedDirections = new ArrayList<>();
+	private final ArrayList<GeoSegmentND> selectedSegments = new ArrayList<>();
+	private final ArrayList<Region> selectedRegions = new ArrayList<>();
+	private final ArrayList<Path> selectedPaths = new ArrayList<>();
+	private final ArrayList<GeoConicND> selectedConicsND = new ArrayList<>();
+	private final ArrayList<GeoImplicit> selectedImplicitpoly = new ArrayList<>();
+	private final ArrayList<GeoImplicitSurfaceND> selectedImplicitSurface = new ArrayList<>();
+	private final ArrayList<GeoFunction> selectedFunctions = new ArrayList<>();
+	private final ArrayList<GeoFunctionNVar> selectedFunctionsNVar = new ArrayList<>();
+	private final ArrayList<GeoCurveCartesian> selectedCurves = new ArrayList<>();
+	private final ArrayList<GeoVectorND> selectedVectors = new ArrayList<>();
+	private final ArrayList<GeoPolygon> selectedPolygons = new ArrayList<>();
+	private final ArrayList<GeoPolyLine> selectedPolyLines = new ArrayList<>();
+	private final ArrayList<GeoElement> selectedGeosEuclidian = new ArrayList<>();
+	private final ArrayList<GeoList> selectedLists = new ArrayList<>();
+	private final ArrayList<GeoCoordSys> selectedCS2D = new ArrayList<>();
+	private final ArrayList<GeoQuadricND> selectedQuadric = new ArrayList<>();
+	private final ArrayList<GeoQuadric3DLimitedInterface> selectedQuadricLimited = new ArrayList<>();
+	private final ArrayList<GeoPolyhedronInterface> selectedPolyhedron = new ArrayList<>();
 
-	private ArrayList<GeoPlaneND> selectedPlane = new ArrayList<GeoPlaneND>();
+	private ArrayList<GeoPlaneND> selectedPlane = new ArrayList<>();
 	/** selected geos names just before undo/redo */
-	private ArrayList<String> selectedGeosNames = new ArrayList<String>();
+	private ArrayList<String> selectedGeosNames = new ArrayList<>();
 
 	private boolean geoToggled = false;
 
@@ -94,7 +94,7 @@ public class SelectionManager {
 
 	private GeoElement[] specPoints;
 	/** Special points for preview points */
-	private List<AlgoElement> specPointAlgos = new ArrayList<AlgoElement>();
+	private List<AlgoElement> specPointAlgos = new ArrayList<>();
 
 	/**
 	 * @param kernel
@@ -106,7 +106,7 @@ public class SelectionManager {
 		this.kernel = kernel;
 		this.listener = listener;
 
-		selectionListeners = new ArrayList<GeoElementSelectionListener>();
+		selectionListeners = new ArrayList<>();
 	}
 
 	/**
@@ -669,7 +669,7 @@ public class SelectionManager {
 		TreeSet<GeoElement> tree = kernel.getConstruction()
 				.getGeoSetLabelOrder();
 
-		tree = new TreeSet<GeoElement>(tree);
+		tree = new TreeSet<>(tree);
 
 
 		// remove geos that don't have isSelectionAllowed()==true
@@ -799,7 +799,7 @@ public class SelectionManager {
 
 	private void filterInvisible(TreeSet<GeoElement> tree,
 			EuclidianViewInterfaceCommon ev) {
-		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
+		TreeSet<GeoElement> copy = new TreeSet<>(tree);
 
 		Iterator<GeoElement> it = copy.iterator();
 		while (it.hasNext()) {
@@ -833,7 +833,7 @@ public class SelectionManager {
 		TreeSet<GeoElement> tree = kernel.getConstruction()
 				.getGeoSetLabelOrder();
 
-		tree = new TreeSet<GeoElement>(tree);
+		tree = new TreeSet<>(tree);
 
 		filterInvisible(tree, ev);
 
@@ -882,7 +882,7 @@ public class SelectionManager {
 				: Arrays.asList(geos0);
 
 		if (geos!=null){
-			ArrayList<GeoElementND> specPoints0 = new ArrayList<GeoElementND>();
+			ArrayList<GeoElementND> specPoints0 = new ArrayList<>();
 			for(int i = 0; i<geos.size(); i++){
 				GeoElementND[] sp = getSpecPoints(geos.get(i));
 				if (sp != null) {
@@ -1137,7 +1137,7 @@ public class SelectionManager {
 
 	public ArrayList<GeoElement> getTempMoveGeoList() {
 		if (tempMoveGeoList == null) {
-			tempMoveGeoList = new ArrayList<GeoElement>();
+			tempMoveGeoList = new ArrayList<>();
 		}
 		return tempMoveGeoList;
 	}
@@ -1250,7 +1250,7 @@ public class SelectionManager {
 	 * set geos selected from their names
 	 */
 	public void recallSelectedGeosNames(Kernel kernel) {
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> list = new ArrayList<>();
 		for (String name : selectedGeosNames) {
 			GeoElement geo = kernel.lookupLabel(name);
 			if (geo != null) {

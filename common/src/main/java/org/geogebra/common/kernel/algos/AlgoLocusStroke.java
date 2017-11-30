@@ -41,7 +41,7 @@ public class AlgoLocusStroke extends AlgoElement
 	protected GeoLocusStroke poly; // output
 	// list of all points (also newly calculated control points of
 	// bezier curve)
-	private ArrayList<MyPoint> pointList = new ArrayList<MyPoint>();
+	private ArrayList<MyPoint> pointList = new ArrayList<>();
 
 	/**
 	 * @param cons
@@ -213,7 +213,7 @@ public class AlgoLocusStroke extends AlgoElement
 
 	// calculate control points for bezier curve
 	private static ArrayList<double[]> getControlPoints(GeoPointND[] data) {
-		ArrayList<double[]> values = new ArrayList<double[]>();
+		ArrayList<double[]> values = new ArrayList<>();
 		if (data.length == 0) {
 			return values;
 		}

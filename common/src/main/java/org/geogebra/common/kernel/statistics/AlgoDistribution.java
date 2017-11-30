@@ -228,7 +228,7 @@ public abstract class AlgoDistribution extends AlgoElement {
 	protected void setInputOutput() {
 
 		// build array list of possible arguments
-		ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> inputList = new ArrayList<>();
 		inputList.add(a.toGeoElement());
 		inputList.add(b.toGeoElement());
 		if (c != null) {

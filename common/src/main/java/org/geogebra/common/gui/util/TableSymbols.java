@@ -598,7 +598,7 @@ public class TableSymbols {
 	public final static String[] basicSymbols(Localization app,
 			String[][] map) {
 
-		ArrayList<String> extraSymbols = new ArrayList<String>();
+		ArrayList<String> extraSymbols = new ArrayList<>();
 
 		// create a list of special symbols for the current locale
 		int index = 1;
@@ -621,7 +621,7 @@ public class TableSymbols {
 	public final static String[] basicSymbolsToolTips(Localization app,
 			String[][] map) {
 
-		ArrayList<String> extraTooltips = new ArrayList<String>();
+		ArrayList<String> extraTooltips = new ArrayList<>();
 
 		// create a list of special symbols for the current locale
 		int index = 1;
@@ -714,7 +714,7 @@ public class TableSymbols {
 	}
 
 	public final static String[] greekLettersPlusVariants() {
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		GeoElement.addAddAllGreekUpperCase(list);
 		GeoElement.addAddAllGreekLowerCaseNoPi(list);
 		list.add("\u03C6"); // LaTeX /varPhi (loopy phi)

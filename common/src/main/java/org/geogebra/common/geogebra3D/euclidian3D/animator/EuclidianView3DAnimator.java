@@ -36,7 +36,7 @@ public class EuclidianView3DAnimator {
 	 */
 	public EuclidianView3DAnimator(EuclidianView3D view3D) {
 		this.view3D = view3D;
-		animationList = new LinkedList<EuclidianView3DAnimation>();
+		animationList = new LinkedList<>();
 		animationMouse = new EuclidianView3DAnimationMouseMove(view3D, this);
 		animationAxis = new EuclidianView3DAnimationAxisScale(view3D, this);
 		animationScreenScale = new EuclidianView3DAnimationScreenScale(view3D, this);

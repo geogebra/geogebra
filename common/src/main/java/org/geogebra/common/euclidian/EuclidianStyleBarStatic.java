@@ -283,7 +283,7 @@ public class EuclidianStyleBarStatic {
 		if (index > 0) {
 			arg += bracketArray2[index];
 		}
-		ArrayList<GeoElement> newGeos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> newGeos = new ArrayList<>();
 
 		StringBuilder cmdText = new StringBuilder();
 
@@ -624,7 +624,7 @@ public class EuclidianStyleBarStatic {
 	}
 
 	public static HashMap<Integer, Integer> createDefaultMap() {
-		HashMap<Integer, Integer> defaultGeoMap = new HashMap<Integer, Integer>();
+		HashMap<Integer, Integer> defaultGeoMap = new HashMap<>();
 		defaultGeoMap.put(EuclidianConstants.MODE_POINT,
 				ConstructionDefaults.DEFAULT_POINT_ALL_BUT_COMPLEX);
 		defaultGeoMap.put(EuclidianConstants.MODE_COMPLEX_NUMBER,

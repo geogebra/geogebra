@@ -44,7 +44,7 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 		double[] roots = null;
 		int outputSize = -1;
 
-		ArrayList<Double> polyRoots = new ArrayList<Double>();
+		ArrayList<Double> polyRoots = new ArrayList<>();
 
 		if (geoFun.isPolynomialFunction(true)) {
 			// AbstractApplication.debug("trying polynomial");

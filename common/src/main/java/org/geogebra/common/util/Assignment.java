@@ -85,8 +85,8 @@ public abstract class Assignment {
 	 *            Kernel
 	 */
 	public Assignment(Kernel kernel) {
-		fractionForResult = new HashMap<Result, Double>();
-		hintForResult = new HashMap<Result, String>();
+		fractionForResult = new HashMap<>();
+		hintForResult = new HashMap<>();
 		res = Result.UNKNOWN;
 		this.kernel = kernel;
 	}

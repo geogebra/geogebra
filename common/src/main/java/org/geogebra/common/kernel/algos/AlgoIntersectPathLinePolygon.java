@@ -78,7 +78,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 		setFirstInput(geo);
 		setSecondInput(p);
 
-		newCoords = new TreeMap<Double, Coords>(
+		newCoords = new TreeMap<>(
 				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 
 		setInputOutput(); // for AlgoElement
@@ -145,7 +145,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	}
 
 	protected OutputHandler<GeoElement> createOutputSegments() {
-		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoSegment newElement() {
 				GeoSegment a = new GeoSegment(cons);
@@ -364,7 +364,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 			outputSegments.getElement(0).setUndefined();
 		} else {
 			// check which bi-points are segments, and save indices
-			ArrayList<Coords[]> segmentList = new ArrayList<Coords[]>();
+			ArrayList<Coords[]> segmentList = new ArrayList<>();
 			Coords[] points = new Coords[newCoords.size()];
 			newCoords.values().toArray(points);
 			Coords b = points[0];

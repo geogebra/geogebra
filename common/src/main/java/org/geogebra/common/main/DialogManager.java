@@ -344,7 +344,7 @@ public abstract class DialogManager {
 								}
 								return;
 							}
-							ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+							ArrayList<GeoElement> ret = new ArrayList<>();
 							for (int i = 0; i < selGeos.length; i++) {
 								if (selGeos[i] != creator.getPivot()) {
 									if (selGeos[i] instanceof Transformable) {
@@ -471,7 +471,7 @@ public abstract class DialogManager {
 			// mirror all selected geos
 			// GeoElement [] selGeos = getSelectedGeos();
 			GeoPointND point = points[0];
-			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> ret = new ArrayList<>();
 			for (int i = 0; i < selGeos.length; i++) {
 				if (selGeos[i] != point) {
 					if ((selGeos[i] instanceof Transformable)

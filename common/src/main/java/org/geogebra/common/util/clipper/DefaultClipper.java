@@ -632,12 +632,12 @@ public class DefaultClipper extends ClipperBase {
 		scanbeam = null;
 		activeEdges = null;
 		sortedEdges = null;
-		intersectList = new ArrayList<IntersectNode>();
+		intersectList = new ArrayList<>();
 
 		usingPolyTree = false;
-		polyOuts = new ArrayList<OutRec>();
-		joins = new ArrayList<Join>();
-		ghostJoins = new ArrayList<Join>();
+		polyOuts = new ArrayList<>();
+		joins = new ArrayList<>();
+		ghostJoins = new ArrayList<>();
 		reverseSolution = (REVERSE_SOLUTION & InitOptions) != 0;
 		strictlySimple = (STRICTLY_SIMPLE & InitOptions) != 0;
 

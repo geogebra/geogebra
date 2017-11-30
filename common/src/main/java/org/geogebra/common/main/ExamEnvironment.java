@@ -94,8 +94,8 @@ public class ExamEnvironment {
 
 	protected void initLists() {
 		if (cheatingTimes == null) {
-			cheatingTimes = new LinkedList<Long>();
-			cheatingEvents = new LinkedList<CheatingEvent>();
+			cheatingTimes = new LinkedList<>();
+			cheatingEvents = new LinkedList<>();
 		}
 
 	}

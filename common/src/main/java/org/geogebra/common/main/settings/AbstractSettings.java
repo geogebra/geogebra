@@ -27,7 +27,7 @@ public abstract class AbstractSettings {
 	private LinkedList<SettingListener> listeners;
 
 	public AbstractSettings() {
-		listeners = new LinkedList<SettingListener>();
+		listeners = new LinkedList<>();
 	}
 
 	public AbstractSettings(LinkedList<SettingListener> listeners) {

@@ -123,7 +123,7 @@ public abstract class App3DCompanion extends AppCompanion {
 
 		// add it to list
 		if (euclidianViewForPlaneCompanionList == null) {
-			euclidianViewForPlaneCompanionList = new ArrayList<EuclidianViewForPlaneCompanion>();
+			euclidianViewForPlaneCompanionList = new ArrayList<>();
 		}
 		euclidianViewForPlaneCompanionList.add(euclidianViewForPlaneCompanion);
 

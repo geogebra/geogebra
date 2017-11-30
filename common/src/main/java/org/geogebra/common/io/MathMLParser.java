@@ -62,7 +62,7 @@ public class MathMLParser {
 	static synchronized HashMap<String, String> getGeogebraMap() {
 
 		if (geogebraMap == null) {
-			geogebraMap = new HashMap<String, String>();
+			geogebraMap = new HashMap<>();
 
 			// Tags:
 			geogebraMap.put("<mfrac>", "((%BLOCK1%) / (%BLOCK2%))");
@@ -403,7 +403,7 @@ public class MathMLParser {
 	private static synchronized HashMap<String, String> getLatexMap() {
 
 		if (latexMap == null) {
-			latexMap = new HashMap<String, String>();
+			latexMap = new HashMap<>();
 
 			// Tags:
 			latexMap.put("<mfrac>", "\\frac{%BLOCK1%}{%BLOCK2%}");

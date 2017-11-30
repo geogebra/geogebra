@@ -77,13 +77,13 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 			Iterator<Triangle_dt> it = dt.trianglesIterator();
 
 			if (al == null) {
-				al = new ArrayList<MyPoint>();
+				al = new ArrayList<>();
 			} else {
 				al.clear();
 			}
 
 			// add to TreeSet to remove duplicates (from touching triangles)
-			TreeSet<MyLine> tree = new TreeSet<MyLine>(getComparator());
+			TreeSet<MyLine> tree = new TreeSet<>(getComparator());
 
 			while (it.hasNext()) {
 				Triangle_dt triangle = it.next();

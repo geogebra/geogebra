@@ -19,7 +19,7 @@ public class PTerm implements Comparable<PTerm> {
 	 * creates the 1 term
 	 */
 	public PTerm() {
-		variables = new TreeMap<PVariable, Integer>();
+		variables = new TreeMap<>();
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class PTerm implements Comparable<PTerm> {
 	 *            the term to copy
 	 */
 	public PTerm(final PTerm t) {
-		variables = new TreeMap<PVariable, Integer>(t.getTerm());
+		variables = new TreeMap<>(t.getTerm());
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class PTerm implements Comparable<PTerm> {
 	 *            the variable
 	 */
 	public PTerm(final PVariable variable) {
-		variables = new TreeMap<PVariable, Integer>();
+		variables = new TreeMap<>();
 		variables.put(variable, 1);
 	}
 
@@ -63,7 +63,7 @@ public class PTerm implements Comparable<PTerm> {
 	 *            the exponent
 	 */
 	public PTerm(final PVariable variable, final int exponent) {
-		variables = new TreeMap<PVariable, Integer>();
+		variables = new TreeMap<>();
 		variables.put(variable, exponent);
 	}
 
@@ -75,7 +75,7 @@ public class PTerm implements Comparable<PTerm> {
 	 * @return the product
 	 */
 	public PTerm times(final PTerm term) {
-		TreeMap<PVariable, Integer> productTerm = new TreeMap<PVariable, Integer>(
+		TreeMap<PVariable, Integer> productTerm = new TreeMap<>(
 				variables);
 
 		TreeMap<PVariable, Integer> variables2 = term.getTerm();
@@ -219,7 +219,7 @@ public class PTerm implements Comparable<PTerm> {
 	 * @return the set of variables
 	 */
 	public HashSet<PVariable> getVars() {
-		HashSet<PVariable> v = new HashSet<PVariable>();
+		HashSet<PVariable> v = new HashSet<>();
 		Iterator<PVariable> it = variables.keySet().iterator();
 		while (it.hasNext()) {
 			PVariable fv = it.next();

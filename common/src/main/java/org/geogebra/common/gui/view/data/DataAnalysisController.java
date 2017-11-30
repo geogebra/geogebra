@@ -200,7 +200,7 @@ public abstract class DataAnalysisController {
 		if (dataSelected != null) {
 
 			if (dataArray == null) {
-				dataArray = new ArrayList<GeoElement>();
+				dataArray = new ArrayList<>();
 			}
 			dataArray.clear();
 
@@ -356,7 +356,7 @@ public abstract class DataAnalysisController {
 	protected abstract void removeGeos();
 
 	public double[] getValueArray(GeoList dataList) {
-		ArrayList<Double> list = new ArrayList<Double>();
+		ArrayList<Double> list = new ArrayList<>();
 		for (int i = 0; i < dataList.size(); i++) {
 			GeoElement geo = dataList.get(i);
 			if (geo instanceof NumberValue) {

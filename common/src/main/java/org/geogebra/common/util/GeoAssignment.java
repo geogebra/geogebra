@@ -61,8 +61,8 @@ public class GeoAssignment extends Assignment {
 		this.macro = macro;
 		inputTypes = macro.getInputTypes();
 
-		uniqueInputTypes = new HashSet<Test>(Arrays.asList(inputTypes));
-		randomizeablePredecessors = new TreeSet<GeoElement>();
+		uniqueInputTypes = new HashSet<>(Arrays.asList(inputTypes));
+		randomizeablePredecessors = new TreeSet<>();
 
 		checkOp = "AreEqual";
 
@@ -87,7 +87,7 @@ public class GeoAssignment extends Assignment {
 			boolean oldSilentMode = cons.getKernel().isSilentMode();
 			cons.getKernel().setSilentMode(true);
 
-			TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>(
+			TreeSet<GeoElement> possibleOutputGeos = new TreeSet<>(
 					Collections.reverseOrder());
 
 			// find all possible inputgeos and all outputgeos that match the
@@ -130,7 +130,7 @@ public class GeoAssignment extends Assignment {
 				macro.getMacroOutput().length);
 		GeoElement[] possibleOutputPermutation = outputPermutationUtil.next();
 
-		TreeSet<Result> partRes = new TreeSet<Result>();
+		TreeSet<Result> partRes = new TreeSet<>();
 		long startTime = System.currentTimeMillis();
 		double macroCons = 0;
 		while (possibleOutputPermutation != null && res != Result.CORRECT
@@ -337,7 +337,7 @@ public class GeoAssignment extends Assignment {
 	private static TreeSet<GeoElement> getAllPredecessors(
 			GeoElement[] possibleOutputPermutation, Inspecting geoInspector) {
 
-		TreeSet<GeoElement> possibleInputGeos = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> possibleInputGeos = new TreeSet<>();
 		for (int i = 0; i < possibleOutputPermutation.length; i++) {
 			possibleOutputPermutation[i].addPredecessorsToSet(possibleInputGeos,
 					geoInspector);

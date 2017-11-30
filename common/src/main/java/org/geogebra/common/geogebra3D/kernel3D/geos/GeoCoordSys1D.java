@@ -605,7 +605,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	@Override
 	public final void addPointOnLine(GeoPointND p) {
 		if (pointsOnLine == null) {
-			pointsOnLine = new ArrayList<GeoPointND>();
+			pointsOnLine = new ArrayList<>();
 		}
 
 		if (!pointsOnLine.contains(p)) {

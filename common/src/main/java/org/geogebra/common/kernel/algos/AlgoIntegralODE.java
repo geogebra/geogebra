@@ -160,7 +160,7 @@ public class AlgoIntegralODE extends AlgoElement {
 		}
 
 		if (al == null) {
-			al = new ArrayList<MyPoint>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}

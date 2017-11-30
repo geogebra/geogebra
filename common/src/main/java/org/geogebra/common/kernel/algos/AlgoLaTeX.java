@@ -102,7 +102,7 @@ public class AlgoLaTeX extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 
-		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> geos = new ArrayList<>();
 		geos.add(geo);
 		if (substituteVars != null) {
 			geos.add(substituteVars);

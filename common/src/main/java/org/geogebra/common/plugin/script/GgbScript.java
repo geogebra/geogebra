@@ -168,7 +168,7 @@ public class GgbScript extends Script {
 	private static String[] splitScriptByCommands(final String st) {
 
 		StringBuilder retone = new StringBuilder();
-		final ArrayList<String> ret = new ArrayList<String>();
+		final ArrayList<String> ret = new ArrayList<>();
 
 		// as the other algorithms would be too complicated,
 		// just go from the end of the string and advance character by character

@@ -178,7 +178,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			f.computeOutput();
 
 			boolean includesNumericCommand = false;
-			HashSet<Command> commands = new HashSet<Command>();
+			HashSet<Command> commands = new HashSet<>();
 
 			f.getInputVE().traverse(CommandCollector.getCollector(commands));
 
@@ -436,7 +436,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		int size = geoSet.size();
 
 		// build objNames array
-		ArrayList<String> objList = new ArrayList<String>(size / 2);
+		ArrayList<String> objList = new ArrayList<>(size / 2);
 
 		Iterator<GeoElement> it = geoSet.iterator();
 		while (it.hasNext()) {

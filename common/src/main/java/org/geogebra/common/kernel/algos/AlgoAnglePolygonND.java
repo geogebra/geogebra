@@ -140,7 +140,7 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	}
 
 	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoAngle newElement() {
 				GeoAngle p = newGeoAngle(cons);

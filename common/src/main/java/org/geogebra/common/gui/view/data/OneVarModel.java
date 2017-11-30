@@ -115,7 +115,7 @@ public class OneVarModel {
 	}
 
 	public ArrayList<String> getNameList(Localization loc) {
-		ArrayList<String> nameList = new ArrayList<String>();
+		ArrayList<String> nameList = new ArrayList<>();
 
 		switch (selectedPlot) {
 		default:

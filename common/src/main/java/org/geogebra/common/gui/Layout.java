@@ -426,7 +426,7 @@ public abstract class Layout implements SettingListener {
 				}
 			}
 		} else {
-			this.perspectives = new ArrayList<Perspective>();
+			this.perspectives = new ArrayList<>();
 		}
 
 		if (customPerspective != null) {

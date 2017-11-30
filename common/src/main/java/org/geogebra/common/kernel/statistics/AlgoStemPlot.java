@@ -183,7 +183,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 	private static ArrayList<ArrayList<Integer>> createStemPlotArray(
 			double[] data, double stemFactor, int[] outlierIndex) {
 
-		ArrayList<ArrayList<Integer>> lines = new ArrayList<ArrayList<Integer>>();
+		ArrayList<ArrayList<Integer>> lines = new ArrayList<>();
 		int size = outlierIndex[1];
 		int startIndex = outlierIndex[0];
 
@@ -346,7 +346,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		body.append("}");
 
 		// populate the body array
-		ArrayList<Integer> currentLine = new ArrayList<Integer>();
+		ArrayList<Integer> currentLine = new ArrayList<>();
 		int stem;
 		for (int r = 0; r < stemLines.size(); r++) {
 			currentLine = stemLines.get(r);

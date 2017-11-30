@@ -176,9 +176,9 @@ public class EuclidianStatic {
 		// split on $ but not \$
 		String[] elements = blockSplit(labelDesc);
 
-		ArrayList<Integer> lineHeights = new ArrayList<Integer>();
+		ArrayList<Integer> lineHeights = new ArrayList<>();
 		lineHeights.add(lineSpread + lineSpace);
-		ArrayList<Integer> elementHeights = new ArrayList<Integer>();
+		ArrayList<Integer> elementHeights = new ArrayList<>();
 
 		int depth = 0;
 

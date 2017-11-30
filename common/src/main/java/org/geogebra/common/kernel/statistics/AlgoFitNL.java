@@ -1,17 +1,6 @@
 package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
-import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
-import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.optimization.FitRealFunction;
-import org.geogebra.common.util.debug.Log;
 /* 
 GeoGebra - Dynamic Mathematics for Everyone
 http://www.geogebra.org
@@ -24,6 +13,17 @@ the Free Software Foundation.
 
 */
 import org.apache.commons.math3.fitting.CurveFitter;
+import org.apache.commons.math3.optim.nonlinear.vector.jacobian.LevenbergMarquardtOptimizer;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.optimization.FitRealFunction;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * <pre>
@@ -67,7 +67,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 	private double[] ydata = null;
 	private FitRealFunction prfunction = null; // function for Apache lib
 	private LevenbergMarquardtOptimizer LMO = new LevenbergMarquardtOptimizer();
-	private CurveFitter<ParametricUnivariateFunction> curvefitter = new CurveFitter<ParametricUnivariateFunction>(
+	private CurveFitter<ParametricUnivariateFunction> curvefitter = new CurveFitter<>(
 			LMO);
 
 	/**

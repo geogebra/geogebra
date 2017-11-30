@@ -62,8 +62,8 @@ public class SpreadsheetTraceManager {
 		this.app = app;
 		kernel = app.getKernel();
 
-		traceGeoCollection = new HashMap<GeoElement, SpreadsheetTraceSettings>();
-		storedTraces = new HashSet<GeoElement>();
+		traceGeoCollection = new HashMap<>();
+		storedTraces = new HashSet<>();
 
 	}
 
@@ -85,7 +85,7 @@ public class SpreadsheetTraceManager {
 		if (t.doTraceGeoCopy) {
 			t.traceColumn2 = t.traceColumn1;
 		} else {
-			ArrayList<GeoNumeric> traceList = new ArrayList<GeoNumeric>();
+			ArrayList<GeoNumeric> traceList = new ArrayList<>();
 			spreadsheetTraceable.addToSpreadsheetTraceList(traceList);
 			t.traceColumn2 = t.traceColumn1 + traceList.size() - 1;
 		}
@@ -278,7 +278,7 @@ public class SpreadsheetTraceManager {
 
 	public ArrayList<GeoElement> getTraceGeoList() {
 
-		ArrayList<GeoElement> traceGeoList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> traceGeoList = new ArrayList<>();
 		for (GeoElement geo : traceGeoCollection.keySet()) {
 			traceGeoList.add(geo);
 		}
@@ -751,13 +751,13 @@ public class SpreadsheetTraceManager {
 		// needed)
 		ArrayList<Double> traceArray = traceArray0;
 		if (traceArray == null) {
-			traceArray = new ArrayList<Double>();
+			traceArray = new ArrayList<>();
 			traceArray.add(Double.NaN);
 			traceArray.add(Double.NaN);
 		}
 
 		// trace
-		ArrayList<GeoNumeric> traceList = new ArrayList<GeoNumeric>();
+		ArrayList<GeoNumeric> traceList = new ArrayList<>();
 		for (int i = 0; i < geos.length; i++) {
 
 			if (geos[i] instanceof SpreadsheetTraceable) {
@@ -976,7 +976,7 @@ public class SpreadsheetTraceManager {
 		if (geo instanceof SpreadsheetTraceable) {
 			SpreadsheetTraceable traceGeo = (SpreadsheetTraceable) geo;
 
-			ArrayList<GeoNumeric> traceList = new ArrayList<GeoNumeric>();
+			ArrayList<GeoNumeric> traceList = new ArrayList<>();
 
 			traceGeo.addToSpreadsheetTraceList(traceList);
 

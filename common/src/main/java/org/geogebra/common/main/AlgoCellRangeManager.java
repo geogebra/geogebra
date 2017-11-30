@@ -109,7 +109,7 @@ public class AlgoCellRangeManager {
 			String start, String end) {
 
 		if (algos == null) {
-			algos = new HashMap<String, AlgoCellRange>();
+			algos = new HashMap<>();
 		}
 
 		String key = getKey(start, end);

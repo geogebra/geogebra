@@ -44,7 +44,7 @@ public class MaterialRequest implements Request {
 			Fields.likes, Fields.modified, Fields.visibility, Fields.favorite,
 			Fields.sharing_key };
 	public Filters[] filters = { Filters.search };
-	public Map<Filters, String> filterMap = new HashMap<Filters, String>();
+	public Map<Filters, String> filterMap = new HashMap<>();
 	public Order by = Order.relevance;
 	public Type type = Type.desc;
 	public int limit = GeoGebraTubeAPI.STANDARD_RESULT_QUANTITY;
@@ -62,7 +62,7 @@ public class MaterialRequest implements Request {
 	private JSONObject limitJSON = new JSONObject();
 	private final AuthenticationModel model;
 	private final ClientInfo client;
-	public TreeSet<Filters> negFilters = new TreeSet<Filters>();
+	public TreeSet<Filters> negFilters = new TreeSet<>();
 
 	/**
 	 * Constructor for a Featured Materials Request

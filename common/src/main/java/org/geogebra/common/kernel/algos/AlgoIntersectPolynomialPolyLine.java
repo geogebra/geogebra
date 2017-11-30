@@ -193,7 +193,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	 * @return handler for output points
 	 */
 	protected OutputHandler<GeoPoint> createOutputPoints() {
-		return new OutputHandler<GeoPoint>(new elementFactory<GeoPoint>() {
+		return new OutputHandler<>(new elementFactory<GeoPoint>() {
 			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);
@@ -227,7 +227,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	@Override
 	public void compute() {
 		numOfOutputPoints = 0;
-		intersectCoords = new ArrayList<Coords>();
+		intersectCoords = new ArrayList<>();
 
 		// calculate intersectpaths between poly and conic
 		for (int index = 0; index < segCountOfPoly; index++) {

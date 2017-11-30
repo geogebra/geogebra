@@ -31,14 +31,14 @@ public class Exercise {
 	public Exercise(App app) {
 		this.app = app;
 		kernel = app.getKernel();
-		assignments = new ArrayList<Assignment>();
+		assignments = new ArrayList<>();
 	}
 
 	/**
 	 * Resets the Exercise to contain no user defined tools.
 	 */
 	public void reset() {
-		assignments = new ArrayList<Assignment>();
+		assignments = new ArrayList<>();
 	}
 
 	/**
@@ -406,8 +406,8 @@ public class Exercise {
 	 */
 	public ArrayList<GeoNumeric> stopRandomizeAndGetValuesForBoolAssignments() {
 		// TODO Auto-generated method stub
-		ArrayList<GeoNumeric> geos = new ArrayList<GeoNumeric>();
-		TreeSet<GeoElement> predecessorsOfUsedBooleans = new TreeSet<GeoElement>();
+		ArrayList<GeoNumeric> geos = new ArrayList<>();
+		TreeSet<GeoElement> predecessorsOfUsedBooleans = new TreeSet<>();
 
 		for (Assignment assignment : assignments) {
 			if (assignment instanceof BoolAssignment) {

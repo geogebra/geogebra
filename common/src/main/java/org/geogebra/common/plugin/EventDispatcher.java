@@ -26,7 +26,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 public class EventDispatcher implements ClientView {
 
 	private App app;
-	private ArrayList<EventListener> listeners = new ArrayList<EventListener>();
+	private ArrayList<EventListener> listeners = new ArrayList<>();
 
 	/**
 	 * @param app

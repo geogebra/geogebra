@@ -16,7 +16,7 @@ public class UnicodeTeX {
 		if (unicode2tex != null) {
 			return unicode2tex;
 		}
-		unicode2tex = new HashMap<Character, String>();
+		unicode2tex = new HashMap<>();
 
 		// these ones are not implemented in JLaTeXMath
 		p('\u00a3', "sterling");

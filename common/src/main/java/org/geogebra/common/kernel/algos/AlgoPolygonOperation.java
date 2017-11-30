@@ -276,7 +276,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	 */
 	private final void createOutput() {
 
-		outputPolygons = new OutputHandler<GeoPolygon>(
+		outputPolygons = new OutputHandler<>(
 				new elementFactory<GeoPolygon>() {
 					@Override
 					public GeoPolygon newElement() {
@@ -294,7 +294,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		outputPolygons.adjustOutputSize(1, false);
 
-		outputPoints = new OutputHandler<GeoPoint>(
+		outputPoints = new OutputHandler<>(
 				new elementFactory<GeoPoint>() {
 					@Override
 					public GeoPoint newElement() {
@@ -310,7 +310,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		outputPoints.adjustOutputSize(1, false);
 
-		outputSegments = new OutputHandler<GeoSegment>(
+		outputSegments = new OutputHandler<>(
 				new elementFactory<GeoSegment>() {
 					@Override
 					public GeoSegment newElement() {

@@ -211,9 +211,9 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			minpoly = minpoly.replace("x", x.getName());
 			// Ugly way of converting the CAS computation result into PPolynomial:
 			String parsable = "[1]: [1]: _[1]=1 _[2]=" + minpoly + " [2]: 1,1";
-			HashSet<PVariable> v = new HashSet<PVariable>();
+			HashSet<PVariable> v = new HashSet<>();
 			v.add(x);
-			TreeSet<PVariable> variables = new TreeSet<PVariable>(v);
+			TreeSet<PVariable> variables = new TreeSet<>(v);
 			Set<Set<PPolynomial>> parsed;
 			try {
 				parsed = PolynomialParser.parseFactoredPolynomialSet(parsable,

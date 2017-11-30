@@ -174,8 +174,8 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 																// Q
 
 		// get intersection of all children of P and all parents of Q
-		locusConsOrigElements = new TreeSet<ConstructionElement>();
-		TreeSet<Long> usedAlgoIds = new TreeSet<Long>();
+		locusConsOrigElements = new TreeSet<>();
+		TreeSet<Long> usedAlgoIds = new TreeSet<>();
 		Iterator<GeoElement> it = Qin.iterator();
 		while (it.hasNext()) {
 			GeoElement parent = it.next();
@@ -227,7 +227,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		// it is inefficient to have Q and P as input
 		// let's take all independent parents of Q
 		// and the path as input
-		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> inSet = new TreeSet<>();
 		// inSet.add(movingSlider);
 
 		// we need all independent parents of Q PLUS

@@ -31,7 +31,7 @@ public class PerspectiveDecoder {
 	private static final double MIN_TOOLBAR_WIDTH = 250;
 	private static final double MAX_TOOLBAR_WIDTH = 380;
 
-	private static Map<String, DockPanelData> viewCodes = new HashMap<String, DockPanelData>();
+	private static Map<String, DockPanelData> viewCodes = new HashMap<>();
 	static {
 		viewCodes
 				.put("G",
@@ -176,8 +176,8 @@ public class PerspectiveDecoder {
 			e.printStackTrace();
 			return null;
 		}
-		ArrayList<DockPanelData> panelList = new ArrayList<DockPanelData>();
-		ArrayList<DockSplitPaneData> splitList = new ArrayList<DockSplitPaneData>();
+		ArrayList<DockPanelData> panelList = new ArrayList<>();
+		ArrayList<DockSplitPaneData> splitList = new ArrayList<>();
 		buildPerspective(expr.unwrap(), "", "", panelList, splitList, 1, 0.8);
 
 		if (splitList.isEmpty()) {

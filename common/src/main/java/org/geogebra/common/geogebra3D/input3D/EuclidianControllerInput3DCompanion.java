@@ -302,7 +302,7 @@ public class EuclidianControllerInput3DCompanion extends
 			if (stickToPoints()) {
 				// check sticky points
 				if (stickyPoints == null) {
-					stickyPoints = new TreeSet<StickyPoint>();
+					stickyPoints = new TreeSet<>();
 				} else {
 					stickyPoints.clear();
 				}
@@ -330,7 +330,7 @@ public class EuclidianControllerInput3DCompanion extends
 						if (!stickyPoints.isEmpty()) {
 
 							if (stickyPointsForDirection == null) {
-								stickyPointsForDirection = new TreeSet<StickyPointForDirection>();
+								stickyPointsForDirection = new TreeSet<>();
 							} else {
 								stickyPointsForDirection.clear();
 							}
@@ -493,7 +493,7 @@ public class EuclidianControllerInput3DCompanion extends
 
 		// set sticky points
 		if (stickyPointsList == null) {
-			stickyPointsList = new ArrayList<GeoPointND>();
+			stickyPointsList = new ArrayList<>();
 		} else {
 			stickyPointsList.clear();
 		}

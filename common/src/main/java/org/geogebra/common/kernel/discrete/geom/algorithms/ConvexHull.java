@@ -220,7 +220,7 @@ public class ConvexHull {
 
 		events.clear();
 
-		List<Point2D> result = new ArrayList<Point2D>();
+		List<Point2D> result = new ArrayList<>();
 
 		if (points.size() > 2) {
 
@@ -367,7 +367,7 @@ public class ConvexHull {
 
 		events.clear();
 
-		List<Point2D> result = new ArrayList<Point2D>();
+		List<Point2D> result = new ArrayList<>();
 
 		if (points.size() > 2) {
 

@@ -110,11 +110,11 @@ public abstract class SensorLogger {
 		}
 	}
 
-	protected HashMap<Types, GeoNumeric> listeners = new HashMap<Types, GeoNumeric>();
-	protected HashMap<Types, GeoList> listenersL = new HashMap<Types, GeoList>();
-	protected HashMap<Types, GeoFunction> listenersF = new HashMap<Types, GeoFunction>();
-	protected HashMap<Types, Integer> listLimits = new HashMap<Types, Integer>();
-	protected HashMap<Types, Integer> listenersAges = new HashMap<Types, Integer>();
+	protected HashMap<Types, GeoNumeric> listeners = new HashMap<>();
+	protected HashMap<Types, GeoList> listenersL = new HashMap<>();
+	protected HashMap<Types, GeoFunction> listenersF = new HashMap<>();
+	protected HashMap<Types, Integer> listLimits = new HashMap<>();
+	protected HashMap<Types, Integer> listenersAges = new HashMap<>();
 
 
 	private int stepsToGo = DEFAULT_LIMIT;

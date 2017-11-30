@@ -1,16 +1,16 @@
 package org.geogebra.common.gui.inputbar;
 
-import org.geogebra.common.gui.GuiManager;
-import org.geogebra.common.gui.util.TableSymbols;
-import org.geogebra.common.kernel.commands.CommandsConstants;
-import org.geogebra.common.main.App;
-import org.geogebra.common.util.LowerCaseDictionary;
-
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.TreeSet;
+
+import org.geogebra.common.gui.GuiManager;
+import org.geogebra.common.gui.util.TableSymbols;
+import org.geogebra.common.kernel.commands.CommandsConstants;
+import org.geogebra.common.main.App;
+import org.geogebra.common.util.LowerCaseDictionary;
 
 public class InputBarHelpPanel {
 
@@ -42,7 +42,7 @@ public class InputBarHelpPanel {
 	final static public TreeMap<String, TreeSet<String>> getCommandTreeMap(
 			App app, Comparator<String> comparator) {
 
-		TreeMap<String, TreeSet<String>> cmdTreeMap = new TreeMap<String, TreeSet<String>>(
+		TreeMap<String, TreeSet<String>> cmdTreeMap = new TreeMap<>(
 				comparator);
 		LowerCaseDictionary[] subDict = app.getSubCommandDictionary();
 
@@ -55,7 +55,7 @@ public class InputBarHelpPanel {
 			String cmdSetName = app.getKernel().getAlgebraProcessor()
 					.getSubCommandSetName(i);
 
-			TreeSet<String> cmdTree = new TreeSet<String>(comparator);
+			TreeSet<String> cmdTree = new TreeSet<>(comparator);
 
 			Iterator<?> it = subDict[i].getIterator();
 			while (it.hasNext()) {
@@ -80,7 +80,7 @@ public class InputBarHelpPanel {
 	final static public TreeSet<String> getAllCommandsTreeSet(App app,
 			Comparator<String> comparator) {
 
-		TreeSet<String> treeSet = new TreeSet<String>(comparator);
+		TreeSet<String> treeSet = new TreeSet<>(comparator);
 
 		LowerCaseDictionary dict = app.getCommandDictionary();
 		Iterator<?> it = dict.getIterator();
@@ -124,7 +124,7 @@ public class InputBarHelpPanel {
 
 		int n = getCategoriesCount();
 		mCommands = new Collection[n];
-		mCategoryNameToTableIndex = new TreeMap<String, Integer>();
+		mCategoryNameToTableIndex = new TreeMap<>();
 
 		for (int i = 0; i < n; i++) {
 			String categoryName = getCategoryName(i);

@@ -302,7 +302,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	@Override
 	protected void setIndicesForDrawTriangleFans(int size) {
 		if (indices == null) {
-			indices = new ReusableArrayList<Short>(size);
+			indices = new ReusableArrayList<>(size);
 		}
 		indices.setLength(0);
 	}

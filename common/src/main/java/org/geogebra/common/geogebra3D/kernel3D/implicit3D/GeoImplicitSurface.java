@@ -1039,7 +1039,7 @@ public class GeoImplicitSurface extends GeoElement3D
 
 	@Override
 	public String[] getEquationVariables() {
-		ArrayList<String> vars = new ArrayList<String>();
+		ArrayList<String> vars = new ArrayList<>();
 		for (FunctionVariable var : expression.getFunctionVariables()) {
 			if (expression.getFunctionExpression().contains(var)) {
 				vars.add(var.toString(StringTemplate.defaultTemplate));

@@ -121,7 +121,7 @@ public abstract class CASSubDialog {
 	 *            initialize table with cell information
 	 */
 	protected void initData(GeoCasCell cell) {
-		HashSet<GeoElement> vars = new HashSet<GeoElement>();
+		HashSet<GeoElement> vars = new HashSet<>();
 		if (cell.getInputVE().getVariables() != null) {
 			for (GeoElement var : cell.getInputVE().getVariables()) {
 				addVariables(var, vars);
@@ -132,10 +132,10 @@ public abstract class CASSubDialog {
 		ArrayList<Vector<String>> substList = cell.getSubstList();
 
 		Vector<String> row;
-		data = new Vector<Vector<String>>(vars.size() + 1);
+		data = new Vector<>(vars.size() + 1);
 		Iterator<GeoElement> iter = vars.iterator();
 		while (iter.hasNext()) {
-			row = new Vector<String>(2);
+			row = new Vector<>(2);
 			GeoElement var = iter.next();
 			String nextVar = var.getLabel(StringTemplate.defaultTemplate);
 			int i = 0;
@@ -167,7 +167,7 @@ public abstract class CASSubDialog {
 				data.insertElementAt(row, i);
 			}
 		}
-		row = new Vector<String>(2);
+		row = new Vector<>(2);
 		row.add("");
 		row.add("");
 		data.add(row);

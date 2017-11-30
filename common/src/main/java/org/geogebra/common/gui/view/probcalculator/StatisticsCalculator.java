@@ -270,10 +270,10 @@ public abstract class StatisticsCalculator {
 
 	protected void combolabelsPreprocess() {
 		if (mapNameToProcedure == null) {
-			mapNameToProcedure = new HashMap<String, Procedure>();
+			mapNameToProcedure = new HashMap<>();
 		}
 		if (mapProcedureToName == null) {
-			mapProcedureToName = new HashMap<Procedure, String>();
+			mapProcedureToName = new HashMap<>();
 		}
 
 		mapNameToProcedure.clear();

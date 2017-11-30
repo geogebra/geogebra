@@ -15,7 +15,7 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 
 	public MultipleGeosModel(App app) {
 		super(app);
-		choices = new ArrayList<String>();
+		choices = new ArrayList<>();
 	}
 
 	/**
@@ -25,7 +25,7 @@ public abstract class MultipleGeosModel extends MultipleOptionsModel {
 	 */
 	public List<GeoElement> getGeoChoiches(Localization loc) {
 		TreeSet<GeoElement> points = app.getKernel().getPointSet();
-		List<GeoElement> choices2 = new ArrayList<GeoElement>();
+		List<GeoElement> choices2 = new ArrayList<>();
 		choices2.add(null);
 		Iterator<GeoElement> it = points.iterator();
 		int count = 0;

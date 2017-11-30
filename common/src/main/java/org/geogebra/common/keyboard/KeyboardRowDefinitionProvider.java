@@ -58,7 +58,7 @@ public class KeyboardRowDefinitionProvider {
      * @return a map which associates lower keys with upper keys
      */
     public Map<String, String> getUpperKeys() {
-        Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
         String[][] keyboardDefinition = getKeyboardDefinition();
 		for (int i = 0; i < 3; i++) {
             associateKeys(keyboardDefinition[0][i], keyboardDefinition[1][i], map);

@@ -55,7 +55,7 @@ public class NDGDetector {
 	NDGDetector(Prover prover,
 			HashMap<PVariable, BigInteger> substitutionsInput,
 			Set<PVariable> freeVariablesInput) {
-		lookupTable = new HashMap<String, NDGCondition>();
+		lookupTable = new HashMap<>();
 		this.prover = prover;
 		this.substitutions = substitutionsInput;
 		this.freeVariables = freeVariablesInput;
@@ -103,7 +103,7 @@ public class NDGDetector {
 			ArrayList<Entry<GeoElement, PVariable>> varSubstListOfSegs = ((AlgoDependentBoolean) statement
 					.getParentAlgorithm()).getVarSubstListOfSegs();
 			// create list of variables -> segments
-			HashMap<PVariable, GeoElement> geos = new HashMap<PVariable, GeoElement>();
+			HashMap<PVariable, GeoElement> geos = new HashMap<>();
 			if (varSubstListOfSegs != null) {
 				for (int i = 0; i < varSubstListOfSegs.size(); ++i) {
 					Entry<GeoElement, PVariable> e = varSubstListOfSegs.get(i);
@@ -135,8 +135,8 @@ public class NDGDetector {
 					ExpressionNode en = new ExpressionNode(kernel, 1);
 					/* e.g. v1->3, v2->1 */
 
-					TreeSet<GeoElement> geoSet = new TreeSet<GeoElement>();
-					HashMap<GeoElement, ExpressionNode> bases = new HashMap<GeoElement, ExpressionNode>();
+					TreeSet<GeoElement> geoSet = new TreeSet<>();
+					HashMap<GeoElement, ExpressionNode> bases = new HashMap<>();
 					for (Entry<PVariable, Integer> entry0 : tm2.entrySet()) { // e.g.
 																				// v1
 						PVariable t2 = entry0.getKey();
@@ -199,7 +199,7 @@ public class NDGDetector {
 
 		List<GeoElement> freePoints = ProverBotanasMethod
 				.getFreePoints(statement);
-		HashSet<GeoElement> freePointsSet = new HashSet<GeoElement>(freePoints);
+		HashSet<GeoElement> freePointsSet = new HashSet<>(freePoints);
 
 		// CHECKING COLLINEARITY
 
@@ -286,10 +286,10 @@ public class NDGDetector {
 			}
 		}
 
-		HashSet<PVariable> freeXvars = new HashSet<PVariable>();
-		HashMap<PVariable, GeoElement> xvarGeo = new HashMap<PVariable, GeoElement>();
-		HashSet<PVariable> freeYvars = new HashSet<PVariable>();
-		HashMap<PVariable, GeoElement> yvarGeo = new HashMap<PVariable, GeoElement>();
+		HashSet<PVariable> freeXvars = new HashSet<>();
+		HashMap<PVariable, GeoElement> xvarGeo = new HashMap<>();
+		HashSet<PVariable> freeYvars = new HashSet<>();
+		HashMap<PVariable, GeoElement> yvarGeo = new HashMap<>();
 		Iterator<GeoElement> it = prover.getStatement().getAllPredecessors()
 				.iterator();
 		while (it.hasNext()) {

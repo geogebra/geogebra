@@ -531,7 +531,7 @@ public abstract class CopyPasteCut {
 	public static boolean delete(App app, int column1, int row1, int column2,
 			int row2, int selectionType) {
 		boolean succ = false;
-		TreeSet<GeoElement> toRemove = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> toRemove = new TreeSet<>();
 		for (int column = column1; column <= column2; ++column) {
 			for (int row = row1; row <= row2; ++row) {
 				GeoElement value0 = RelativeCopy.getValue(app, column, row);

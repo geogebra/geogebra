@@ -194,7 +194,7 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 		double[] y = new double[samples + 1]; // n+1 y-values
 		boolean[] grad = new boolean[samples]; // n gradients, true: f'>=0,
 												// false: f'<0
-		ArrayList<Double> xlist = new ArrayList<Double>();
+		ArrayList<Double> xlist = new ArrayList<>();
 
 		double deltax = (r - l) / samples; // x[i]=l+i*deltax, don't need
 											// x-array

@@ -233,7 +233,7 @@ public abstract class AlgoElement extends ConstructionElement
 		 */
 		public OutputHandler(elementFactory<T> fac) {
 			this.fac = fac;
-			outputList = new ArrayList<T>();
+			outputList = new ArrayList<>();
 			if (getOutputHandler() == null) {
 				setOutputHandler(new ArrayList<OutputHandler<?>>());
 			}
@@ -672,7 +672,7 @@ public abstract class AlgoElement extends ConstructionElement
 			return;
 		}
 
-		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> geos = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			AlgoElement algo = algos.get(i);
 			algo.compute();
@@ -690,7 +690,7 @@ public abstract class AlgoElement extends ConstructionElement
 
 	private static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null || tempSetLock) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<>();
 		}
 		return tempSet;
 	}
@@ -1134,11 +1134,11 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public ArrayList<GeoPointND> getFreeInputPoints() {
 		if (this instanceof AlgoLocusStroke) {
-			return new ArrayList<GeoPointND>(0);
+			return new ArrayList<>(0);
 		}
 		if (freeInputPoints == null || (this instanceof AlgoPolyLine
 				&& ((AlgoPolyLine) this).getIsPenStroke())) {
-			freeInputPoints = new ArrayList<GeoPointND>(input.length);
+			freeInputPoints = new ArrayList<>(input.length);
 
 			// don't use free points from dependent algos with expression trees
 			if (!(this instanceof DependentAlgo)) {
@@ -1160,7 +1160,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public ArrayList<GeoPointND> getInputPoints() {
 		if (inputPoints == null) {
-			inputPoints = new ArrayList<GeoPointND>(input.length);
+			inputPoints = new ArrayList<>(input.length);
 			for (int i = 0; i < input.length; i++) {
 				if (input[i].isGeoPoint()) {
 					inputPoints.add((GeoPointND) input[i]);

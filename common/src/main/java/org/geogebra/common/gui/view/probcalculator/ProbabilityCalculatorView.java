@@ -206,7 +206,7 @@ public abstract class ProbabilityCalculatorView
 
 		probManager = new ProbabilityManager(app, this);
 		plotSettings = new PlotSettings();
-		plotGeoList = new ArrayList<GeoElementND>();
+		plotGeoList = new ArrayList<>();
 
 	}
 
@@ -405,7 +405,7 @@ public abstract class ProbabilityCalculatorView
 		highPoint.setLayer(5);
 		plotGeoList.add(highPoint);
 
-		pointList = new ArrayList<GeoElement>();
+		pointList = new ArrayList<>();
 		pointList.add(lowPoint);
 		pointList.add(highPoint);
 
@@ -1191,7 +1191,7 @@ public abstract class ProbabilityCalculatorView
 
 	private TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<>();
 		}
 		return tempSet;
 	}
@@ -1206,7 +1206,7 @@ public abstract class ProbabilityCalculatorView
 	public void exportGeosToEV(int euclidianViewID) {
 
 		app.setWaitCursor();
-		ArrayList<GeoElementND> newGeoList = new ArrayList<GeoElementND>();
+		ArrayList<GeoElementND> newGeoList = new ArrayList<>();
 		String expr;
 
 		try {

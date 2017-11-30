@@ -137,7 +137,7 @@ public class AlgoFinancial extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 
-		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> tempList = new ArrayList<>();
 
 		if (geoRate != null) {
 			tempList.add(geoRate);

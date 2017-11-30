@@ -81,7 +81,7 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 
 		this.outputPoints = this.createOutputPoints();
 
-		this.intersectingCoords = new ArrayList<Coords>();
+		this.intersectingCoords = new ArrayList<>();
 
 		this.dummySegment[0] = new GeoSegment(getConstruction());
 		this.dummySegment[1] = new GeoSegment(getConstruction());
@@ -158,7 +158,7 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 
-		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoPoint newElement() {
 				GeoPoint p = new GeoPoint(cons);

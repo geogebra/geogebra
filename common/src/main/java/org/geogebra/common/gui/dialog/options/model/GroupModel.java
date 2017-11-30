@@ -6,7 +6,7 @@ import java.util.List;
 import org.geogebra.common.main.App;
 
 public class GroupModel extends OptionsModel {
-	private List<OptionsModel> models = new ArrayList<OptionsModel>();
+	private List<OptionsModel> models = new ArrayList<>();
 	private PropertyListener listener;
 
 	public GroupModel(App app) {

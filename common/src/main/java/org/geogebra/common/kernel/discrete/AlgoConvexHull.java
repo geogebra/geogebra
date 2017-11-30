@@ -94,7 +94,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 		}
 
 		if (vl == null) {
-			vl = new ArrayList<Point2D>();
+			vl = new ArrayList<>();
 		} else {
 			vl.clear();
 		}
@@ -120,7 +120,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 		}
 
 		if (al == null) {
-			al = new ArrayList<MyPoint>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}

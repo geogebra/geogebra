@@ -106,7 +106,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 		centerPoint = (GeoPointND) newGeoPoint(c);
 		rotAngle = new MyDouble(kernel);
 
-		outputPolygon = new OutputHandler<GeoPolygon>(
+		outputPolygon = new OutputHandler<>(
 				new elementFactory<GeoPolygon>() {
 					@Override
 					public GeoPolygon newElement() {
@@ -116,7 +116,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 					}
 				});
 
-		outputSegments = new OutputHandler<GeoElement>(
+		outputSegments = new OutputHandler<>(
 				new elementFactory<GeoElement>() {
 					@Override
 					public GeoElement newElement() {
@@ -149,7 +149,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 			outputSegments.removeFromHandler(); // no segments has output
 		}
 
-		outputPoints = new OutputHandler<GeoElement>(
+		outputPoints = new OutputHandler<>(
 				new elementFactory<GeoElement>() {
 					@Override
 					public GeoElement newElement() {

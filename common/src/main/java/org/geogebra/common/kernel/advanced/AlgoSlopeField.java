@@ -172,7 +172,7 @@ public class AlgoSlopeField extends AlgoElement {
 		}
 
 		if (al == null) {
-			al = new ArrayList<MyPoint>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}

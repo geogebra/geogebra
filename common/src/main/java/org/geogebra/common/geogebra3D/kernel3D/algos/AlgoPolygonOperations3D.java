@@ -137,10 +137,10 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 		solution = new Paths();
 
 		planeIntsctGeoLine3D = new GeoLine3D(getConstruction());
-		newCoords = new TreeMap<Double, Coords>(
+		newCoords = new TreeMap<>(
 				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 		tmpPoint = new GeoPoint3D(getConstruction());
-		intersectSegmentIndex = new ArrayList<Integer>();
+		intersectSegmentIndex = new ArrayList<>();
 
 		createOutput();
 
@@ -200,10 +200,10 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 		solution = new Paths();
 
 		planeIntsctGeoLine3D = new GeoLine3D(getConstruction());
-		newCoords = new TreeMap<Double, Coords>(
+		newCoords = new TreeMap<>(
 				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 		tmpPoint = new GeoPoint3D(getConstruction());
-		intersectSegmentIndex = new ArrayList<Integer>();
+		intersectSegmentIndex = new ArrayList<>();
 
 		createOutput();
 
@@ -297,7 +297,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 	 */
 	private final void createOutput() {
 
-		outputPolygons = new OutputHandler<GeoPolygon3D>(
+		outputPolygons = new OutputHandler<>(
 				new elementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
@@ -315,7 +315,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		outputPolygons.adjustOutputSize(1, false);
 
-		outputPoints = new OutputHandler<GeoPoint3D>(
+		outputPoints = new OutputHandler<>(
 				new elementFactory<GeoPoint3D>() {
 					@Override
 					public GeoPoint3D newElement() {
@@ -332,7 +332,7 @@ public abstract class AlgoPolygonOperations3D extends AlgoElement3D {
 
 		outputPoints.adjustOutputSize(1, false);
 
-		outputSegments = new OutputHandler<GeoSegment3D>(
+		outputSegments = new OutputHandler<>(
 				new elementFactory<GeoSegment3D>() {
 					@Override
 					public GeoSegment3D newElement() {

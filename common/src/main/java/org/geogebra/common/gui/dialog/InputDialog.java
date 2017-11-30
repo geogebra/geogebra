@@ -17,7 +17,7 @@ public abstract class InputDialog implements ErrorHandler {
 	private String initString;
 	private InputHandler inputHandler;
 	protected String inputText = null;
-	protected ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
+	protected ArrayList<GeoElement> tempArrayList = new ArrayList<>();
 
 	protected void processInputHandler(AsyncOperation<Boolean> callback) {
 		getInputHandler().processInput(inputText, this, callback);

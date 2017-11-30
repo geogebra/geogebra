@@ -85,7 +85,7 @@ public class CellFormat implements CellFormatInterface {
 	private static final String bgColorToken = "c";
 
 	// map to convert token to format type
-	private static HashMap<String, Integer> formatTokenMap = new HashMap<String, Integer>();
+	private static HashMap<String, Integer> formatTokenMap = new HashMap<>();
 	static {
 		formatTokenMap.put(alignToken, FORMAT_ALIGN);
 		formatTokenMap.put(borderToken, FORMAT_BORDER);
@@ -484,13 +484,13 @@ public class CellFormat implements CellFormatInterface {
 	 */
 	@Override
 	public void setFormat(GPoint cell, int formatType, Object formatValue) {
-		ArrayList<CellRange> crList = new ArrayList<CellRange>();
+		ArrayList<CellRange> crList = new ArrayList<>();
 		crList.add(new CellRange(app, cell.x, cell.y));
 		setFormat(crList, formatType, formatValue);
 	}
 
 	public void doSetFormat(GPoint cell, int formatType, Object formatValue) {
-		ArrayList<CellRange> crList = new ArrayList<CellRange>();
+		ArrayList<CellRange> crList = new ArrayList<>();
 		crList.add(new CellRange(app, cell.x, cell.y));
 		doSetFormat(crList, formatType, formatValue);
 	}
@@ -499,7 +499,7 @@ public class CellFormat implements CellFormatInterface {
 	 * Add a format value to a cell range.
 	 */
 	public void setFormat(CellRange cr, int formatType, Object formatValue) {
-		ArrayList<CellRange> crList = new ArrayList<CellRange>();
+		ArrayList<CellRange> crList = new ArrayList<>();
 		crList.add(cr);
 		setFormat(crList, formatType, formatValue);
 	}
@@ -963,7 +963,7 @@ public class CellFormat implements CellFormatInterface {
 		StringBuilder sb = new StringBuilder();
 
 		// create a set containing all cells with formats
-		HashSet<GPoint> masterKeySet = new HashSet<GPoint>();
+		HashSet<GPoint> masterKeySet = new HashSet<>();
 		for (int i = 0; i < formatMapArray.length; i++) {
 			masterKeySet.addAll(formatMapArray[i].keySet());
 		}

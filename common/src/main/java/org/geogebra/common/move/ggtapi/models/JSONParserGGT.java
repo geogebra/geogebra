@@ -308,7 +308,7 @@ public class JSONParserGGT {
 	}
 
 	private static ArrayList<Chapter> parseMeta(String s) {
-		ArrayList<Chapter> ret = new ArrayList<Chapter>();
+		ArrayList<Chapter> ret = new ArrayList<>();
 		try {
 			JSONTokener tokener = new JSONTokener(s);
 			JSONArray parsed = new JSONArray(tokener);

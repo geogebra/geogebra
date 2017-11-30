@@ -27,9 +27,9 @@ import org.geogebra.common.util.MyMath;
 public class LayoutAbsoluteGeos {
 	private static final int Y_GAP = 5;
 	private static final int X_GAP = 5;
-	private List<AbsoluteScreenLocateable> originals = new ArrayList<AbsoluteScreenLocateable>();
-	private List<AbsoluteScreenLocateable> all = new ArrayList<AbsoluteScreenLocateable>();
-	private List<AbsoluteScreenLocateable> moveable = new ArrayList<AbsoluteScreenLocateable>();
+	private List<AbsoluteScreenLocateable> originals = new ArrayList<>();
+	private List<AbsoluteScreenLocateable> all = new ArrayList<>();
+	private List<AbsoluteScreenLocateable> moveable = new ArrayList<>();
 	private final EuclidianView view;
 	private final static AbsoluteGeoComparator comparatorX = new AbsoluteGeoComparator(
 			false);
@@ -159,7 +159,7 @@ public class LayoutAbsoluteGeos {
 			return;
 		}
 
-		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
+		ArrayList<GRectangle> usedPositions = new ArrayList<>();
 		boolean moveNeeded = false;
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int x = absGeo.getAbsoluteScreenLocX();
@@ -199,7 +199,7 @@ public class LayoutAbsoluteGeos {
 			return;
 		}
 
-		ArrayList<GRectangle> usedPositions = new ArrayList<GRectangle>();
+		ArrayList<GRectangle> usedPositions = new ArrayList<>();
 		boolean moveNeeded = false;
 		for (AbsoluteScreenLocateable absGeo : moveable) {
 			final int y = absGeo.getAbsoluteScreenLocY();

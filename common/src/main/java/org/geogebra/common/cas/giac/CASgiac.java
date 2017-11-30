@@ -335,7 +335,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		private static void setDependency(CustomFunctions cf1,
 				CustomFunctions cf2) {
-			Entry<CustomFunctions, CustomFunctions> pair = new SimpleEntry<CustomFunctions, CustomFunctions>(
+			Entry<CustomFunctions, CustomFunctions> pair = new SimpleEntry<>(
 					cf1, cf2);
 			CustomFunctionsDependencies.add(pair);
 		}
@@ -346,7 +346,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * function is loaded.
 		 */
 		public static void setDependencies() {
-			CustomFunctionsDependencies = new ArrayList<Entry<CustomFunctions, CustomFunctions>>();
+			CustomFunctionsDependencies = new ArrayList<>();
 			setDependency(IMPLICIT_CURVE_COEFFS, COEFF_MATRIX);
 			setDependency(IMPLICIT_CURVE_COEFFS, COEFF_MATRICES);
 			setDependency(IMPLICIT_CURVE_COEFFS, FACTOR_SQR_FREE);
@@ -374,7 +374,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 */
 		public static ArrayList<CustomFunctions> prereqs(
 				CustomFunctions cf) {
-			ArrayList<CustomFunctions> list = new ArrayList<CustomFunctions>();
+			ArrayList<CustomFunctions> list = new ArrayList<>();
 			for (Entry<CustomFunctions, CustomFunctions> pair : CustomFunctionsDependencies) {
 				CustomFunctions key = pair.getKey();
 				CustomFunctions value = pair.getValue();

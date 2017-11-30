@@ -125,7 +125,7 @@ public class EuclidianControllerForPlaneCompanion
 	@Override
 	public ArrayList<GeoElement> removeParentsOfView(
 			ArrayList<GeoElement> list) {
-		ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> ret = new ArrayList<>();
 		for (GeoElement geo : list) {
 			if (ec.getView().isMoveable(geo)) {
 				ret.add(geo);

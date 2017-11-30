@@ -291,7 +291,7 @@ final public class CellRange {
 	 */
 	public ArrayList<GeoElement> toGeoList() {
 
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> list = new ArrayList<>();
 
 		for (int col = minColumn; col <= maxColumn; ++col) {
 			for (int row = minRow; row <= maxRow; ++row) {
@@ -310,7 +310,7 @@ final public class CellRange {
 	public ArrayList<String> toGeoLabelList(boolean scanByColumn,
 			boolean copyByValue) {
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		if (scanByColumn) {
 			for (int col = minColumn; col <= maxColumn; ++col) {
@@ -356,7 +356,7 @@ final public class CellRange {
 	 */
 	public ArrayList<String> toGeoValueList(boolean scanByColumn) {
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		CellRange cr = getActualRange();
 
 		if (scanByColumn) {
@@ -385,7 +385,7 @@ final public class CellRange {
 	}
 
 	public ArrayList<CellRange> toPartialColumnList() {
-		ArrayList<CellRange> list = new ArrayList<CellRange>();
+		ArrayList<CellRange> list = new ArrayList<>();
 
 		if (isColumn()) {
 			for (int col = minColumn; col <= maxColumn; col++) {
@@ -403,7 +403,7 @@ final public class CellRange {
 	}
 
 	public ArrayList<CellRange> toPartialRowList() {
-		ArrayList<CellRange> list = new ArrayList<CellRange>();
+		ArrayList<CellRange> list = new ArrayList<>();
 
 		if (isRow()) {
 			for (int row = minRow; row <= maxRow; row++) {
@@ -422,7 +422,7 @@ final public class CellRange {
 	 */
 	public ArrayList<GPoint> toCellList(boolean scanByColumn) {
 
-		ArrayList<GPoint> list = new ArrayList<GPoint>();
+		ArrayList<GPoint> list = new ArrayList<>();
 		if (scanByColumn) {
 			for (int col = minColumn; col <= maxColumn; ++col) {
 				for (int row = minRow; row <= maxRow; ++row) {

@@ -18,7 +18,7 @@ class PolyNode {
 	private int index;
 	private JoinType joinType;
 	private EndType endType;
-	protected final List<PolyNode> childs = new ArrayList<PolyNode>();
+	protected final List<PolyNode> childs = new ArrayList<>();
 	private boolean isOpen;
 
 	public void addChild(PolyNode child) {

@@ -239,7 +239,7 @@ public class DataVariable {
 	}
 
 	public void setValueItems(DataItem... valueItem) {
-		values = new ArrayList<DataItem>();
+		values = new ArrayList<>();
 		for (DataItem item : valueItem) {
 			values.add(item);
 			item.setDescription(loc.getMenu("Data"));
@@ -264,7 +264,7 @@ public class DataVariable {
 
 	public void addNewValue() {
 		if (values == null) {
-			values = new ArrayList<DataItem>();
+			values = new ArrayList<>();
 		}
 
 		DataItem item = new DataItem();
@@ -278,7 +278,7 @@ public class DataVariable {
 
 	public ArrayList<DataItem> getItemList() {
 
-		ArrayList<DataItem> list = new ArrayList<DataItem>();
+		ArrayList<DataItem> list = new ArrayList<>();
 
 		if (label != null) {
 			list.add(label);
@@ -321,7 +321,7 @@ public class DataVariable {
 	public ArrayList<GeoList> getGeoListData(App app, int mode,
 			boolean leftToRight, boolean doCopy) {
 
-		ArrayList<GeoList> list = new ArrayList<GeoList>();
+		ArrayList<GeoList> list = new ArrayList<>();
 
 		if (label != null) {
 			list.add(label.toGeoList(app, enableHeader, leftToRight, doCopy));
@@ -369,7 +369,7 @@ public class DataVariable {
 
 		Construction cons = app.getKernel().getConstruction();
 
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> list = new ArrayList<>();
 
 		try {
 			GeoElement xCoord, yCoord;
@@ -446,7 +446,7 @@ public class DataVariable {
 
 	public ArrayList<String[]> getStringData() {
 
-		ArrayList<String[]> list = new ArrayList<String[]>();
+		ArrayList<String[]> list = new ArrayList<>();
 
 		if (groupType == GroupType.CLASS && classes != null) {
 			updateAutomaticClasses();
@@ -459,7 +459,7 @@ public class DataVariable {
 
 	public ArrayList<String> getTitles(App app) {
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		for (DataItem item : getItemList()) {
 			list.add(item.getDataTitle(app, enableHeader));
 		}
@@ -468,7 +468,7 @@ public class DataVariable {
 
 	public ArrayList<String> getColumnNames() {
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 		for (DataItem item : getItemList()) {
 			list.add(item.getDescription());
 		}
@@ -482,7 +482,7 @@ public class DataVariable {
 	public ArrayList<String> getTableColumnDescriptions(App app, int mode,
 			int index) {
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		for (DataItem item : values) {
 

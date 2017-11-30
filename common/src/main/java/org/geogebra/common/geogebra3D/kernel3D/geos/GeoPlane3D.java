@@ -927,7 +927,7 @@ public class GeoPlane3D extends GeoElement3D
 
 	@Override
 	public String[] getEquationVariables() {
-		ArrayList<String> usedVars = new ArrayList<String>();
+		ArrayList<String> usedVars = new ArrayList<>();
 		if (!MyDouble.exactEqual(getCoordSys().getEquationVector().getX(), 0)) {
 			usedVars.add("x");
 		}

@@ -312,9 +312,9 @@ public class AlgoMacro extends AlgoElement
 	 * construction.
 	 */
 	private void initMap() {
-		macroToAlgoMap = new HashMap<GeoElementND, GeoElement>();
-		macroOutputAndReferencedGeos = new ArrayList<GeoElementND>();
-		algoOutputAndReferencedGeos = new ArrayList<GeoElementND>();
+		macroToAlgoMap = new HashMap<>();
+		macroOutputAndReferencedGeos = new ArrayList<>();
+		algoOutputAndReferencedGeos = new ArrayList<>();
 
 		// INPUT initing
 		// map macro input to algo input
@@ -456,7 +456,7 @@ public class AlgoMacro extends AlgoElement
 		}
 
 		int size = macroPoints.size();
-		ArrayList<GeoPointND> points = new ArrayList<GeoPointND>(size);
+		ArrayList<GeoPointND> points = new ArrayList<>(size);
 		for (int i = 0; i < size; i++) {
 			points.add((GeoPointND) getAlgoGeo(macroPoints.get(i)));
 		}
@@ -643,7 +643,7 @@ public class AlgoMacro extends AlgoElement
 		}
 		macro.getMacroConstruction().updateAllAlgorithms();
 		getMacroConstructionState();
-		ArrayList<GeoElement> outputList = new ArrayList<GeoElement>(
+		ArrayList<GeoElement> outputList = new ArrayList<>(
 				getOutputLength());
 		for (int i = 0; i < getOutputLength(); i++) {
 			outputList.add(getOutput(i));

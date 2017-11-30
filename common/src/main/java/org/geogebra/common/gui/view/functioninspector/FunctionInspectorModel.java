@@ -94,17 +94,17 @@ public class FunctionInspectorModel {
 	private GeoElementND[] rootGeos;
 
 	// stores lists of column data from the point panel table
-	private ArrayList<Double[]> xyTableCopyList = new ArrayList<Double[]>();
+	private ArrayList<Double[]> xyTableCopyList = new ArrayList<>();
 
 	private double xMin, xMax, start = -1, step = 0.1;
 
 	// private boolean isChangingValue;
 	private int pointCount = 9;
 
-	private ArrayList<String> property = new ArrayList<String>();
-	private ArrayList<String> value = new ArrayList<String>();
+	private ArrayList<String> property = new ArrayList<>();
+	private ArrayList<String> value = new ArrayList<>();
 	// store number values for copy
-	private ArrayList<Double[]> value2 = new ArrayList<Double[]>();
+	private ArrayList<Double[]> value2 = new ArrayList<>();
 	private String[] columnNames;
 
 	/**
@@ -158,12 +158,12 @@ public class FunctionInspectorModel {
 		this.listener = listener;
 		cons = kernel.getConstruction();
 
-		extraColumnList = new ArrayList<Integer>();
+		extraColumnList = new ArrayList<>();
 
 		// lists of all geos we create
-		intervalTabGeoList = new ArrayList<GeoElement>();
-		pointTabGeoList = new ArrayList<GeoElement>();
-		hiddenGeoList = new ArrayList<GeoElement>();
+		intervalTabGeoList = new ArrayList<>();
+		pointTabGeoList = new ArrayList<>();
+		hiddenGeoList = new ArrayList<>();
 
 		activeEV = app.getActiveEuclidianView();
 

@@ -62,7 +62,7 @@ public class StatisticsCalculatorProcessor {
 
 	private void createGeos() {
 
-		geos = new ArrayList<GeoElement>();
+		geos = new ArrayList<>();
 
 		n = new GeoNumeric(cons);
 		geos.add(n);

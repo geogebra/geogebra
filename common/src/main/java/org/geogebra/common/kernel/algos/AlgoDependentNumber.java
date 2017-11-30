@@ -73,8 +73,8 @@ public class AlgoDependentNumber extends AlgoElement
 	 */
 	private boolean rewriteFormula = true;
 
-	private Set<GeoSegment> allSegmentsFromExpression = new HashSet<GeoSegment>();
-	private ArrayList<Entry<GeoElement, PVariable>> segVarPairs = new ArrayList<Entry<GeoElement, PVariable>>();
+	private Set<GeoSegment> allSegmentsFromExpression = new HashSet<>();
+	private ArrayList<Entry<GeoElement, PVariable>> segVarPairs = new ArrayList<>();
 	private int nrOfMaxDecimals = 0;
 
 	/**
@@ -343,7 +343,7 @@ public class AlgoDependentNumber extends AlgoElement
 				}
 			}
 
-			allSegmentsFromExpression = new HashSet<GeoSegment>();
+			allSegmentsFromExpression = new HashSet<>();
 			// remove variables as geoSegment names
 			if (rewriteFormula && !segVarPairs.isEmpty()) {
 				Iterator<Entry<GeoElement, PVariable>> it = segVarPairs
@@ -354,7 +354,7 @@ public class AlgoDependentNumber extends AlgoElement
 					currGeoSeg.setLabelSet(false);
 				}
 			}
-			segVarPairs = new ArrayList<Entry<GeoElement, PVariable>>();
+			segVarPairs = new ArrayList<>();
 
 			return botanaPolynomials;
 

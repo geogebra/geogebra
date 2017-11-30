@@ -19,7 +19,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 
 	private static final long serialVersionUID = 1L;
 
-	private TreeSet<String> treeSet = new TreeSet<String>();
+	private TreeSet<String> treeSet = new TreeSet<>();
 
 	private transient NormalizerMinimal normalizer;
 
@@ -135,7 +135,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 		getGreatestCommonPrefix(currLowerCase);
 		try {
 			SortedSet<String> tailSet = treeSet.tailSet(currLowerCase);
-			ArrayList<String> completions = new ArrayList<String>();
+			ArrayList<String> completions = new ArrayList<>();
 			Iterator<String> compIter = tailSet.iterator();
 			while (compIter.hasNext()) {
 				String comp = compIter.next();
@@ -216,7 +216,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 			return null;
 		}
 
-		ArrayList<String> completions = new ArrayList<String>();
+		ArrayList<String> completions = new ArrayList<>();
 		String koreanCurr = Korean.flattenKorean(curr);
 		Iterator<String> it = getIterator();
 		while (it.hasNext()) {
@@ -236,7 +236,7 @@ public class LowerCaseDictionary extends HashMap<String, String>
 	}
 
 	public ArrayList<String> getAllCommands() {
-		ArrayList<String> ret = new ArrayList<String>();
+		ArrayList<String> ret = new ArrayList<>();
 
 		Iterator<String> compIter = treeSet.iterator();
 		while (compIter.hasNext()) {

@@ -38,13 +38,13 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	protected OutputHandler<GeoSegment3D> outputSegments;
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
-	private ArrayList<ArrayList<Integer>> netMap = new ArrayList<ArrayList<Integer>>();
-	private ArrayList<PolygonInfoElement> polygonInfo = new ArrayList<PolygonInfoElement>();
-	private ArrayList<ArrayList<Integer>> polygonChildSegsList = new ArrayList<ArrayList<Integer>>();
+	private ArrayList<ArrayList<Integer>> netMap = new ArrayList<>();
+	private ArrayList<PolygonInfoElement> polygonInfo = new ArrayList<>();
+	private ArrayList<ArrayList<Integer>> polygonChildSegsList = new ArrayList<>();
 
-	protected ArrayList<GeoSegmentND> segmentList = new ArrayList<GeoSegmentND>();
+	protected ArrayList<GeoSegmentND> segmentList = new ArrayList<>();
 
-	protected ArrayList<SegmentInfo> segmentInfoList = new ArrayList<SegmentInfo>();
+	protected ArrayList<SegmentInfo> segmentInfoList = new ArrayList<>();
 
 	private boolean netComplete = true;
 	private Coords projCoord;
@@ -61,7 +61,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		int linkSegNumber;
 		int rank;
 		int segShift;
-		ArrayList<Integer> pointIndex = new ArrayList<Integer>();
+		ArrayList<Integer> pointIndex = new ArrayList<>();
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			input[i].addAlgorithm(this);
 		}
 
-		outputNet = new OutputHandler<GeoPolyhedronNet>(
+		outputNet = new OutputHandler<>(
 				new elementFactory<GeoPolyhedronNet>() {
 					@Override
 					public GeoPolyhedronNet newElement() {
@@ -195,7 +195,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 		GeoPolygon[] polygonList = p.getFaces();
 		for (int iP = 0; iP < polygonList.length; iP++) {
-			ArrayList<Integer> segsList = new ArrayList<Integer>();
+			ArrayList<Integer> segsList = new ArrayList<>();
 			GeoPolygon thisPolygon = polygonList[iP];
 			if (iBottom < 0) { // user selected bottom face not yet found
 
@@ -255,7 +255,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		// father) and then its sons if it has any
 		GeoPolygon[] polygonList = p1.getFaces();
 		for (int iP = 0; iP < polygonList.length; iP++) {
-			ArrayList<Integer> linkedPolygonList = new ArrayList<Integer>();
+			ArrayList<Integer> linkedPolygonList = new ArrayList<>();
 			netMap.add(linkedPolygonList);
 			PolygonInfoElement infoElt = new PolygonInfoElement();
 			polygonInfo.add(infoElt);
@@ -377,7 +377,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	private ArrayList<Integer> rotateFace(int iFace, double fUnsigned) {
 		double f = fUnsigned;
-		ArrayList<Integer> pointsToRotate = new ArrayList<Integer>();
+		ArrayList<Integer> pointsToRotate = new ArrayList<>();
 
 		// recursive call
 		for (int i = 1; i < netMap.get(iFace).size(); i++) {
@@ -451,7 +451,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoPoint3D> createOutputPoints() {
-		return new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
+		return new OutputHandler<>(new elementFactory<GeoPoint3D>() {
 			@Override
 			public GeoPoint3D newElement() {
 				GeoPoint3D p1 = new GeoPoint3D(cons);
@@ -644,7 +644,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoSegment3D> createOutputSegments() {
-		return new OutputHandler<GeoSegment3D>(
+		return new OutputHandler<>(
 				new elementFactory<GeoSegment3D>() {
 					@Override
 					public GeoSegment3D newElement() {
@@ -656,7 +656,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoPolygon3D> createOutputPolygons() {
-		return new OutputHandler<GeoPolygon3D>(
+		return new OutputHandler<>(
 				new elementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {

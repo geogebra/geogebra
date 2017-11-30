@@ -101,7 +101,7 @@ public class AlgoLocusList extends AlgoElement {
 	private void fillLocusArray(GeoPoint Q, GeoPoint P) {
 
 		if (arrLocus == null) {
-			arrLocus = new ArrayList<AlgoElement>();
+			arrLocus = new ArrayList<>();
 		}
 
 		// AlgoLocusList should be called only when the path is a GeoList
@@ -234,7 +234,7 @@ public class AlgoLocusList extends AlgoElement {
 		// it is inefficient to have Q and P as input
 		// let's take all independent parents of Q
 		// and the path as input
-		TreeSet<GeoElement> inSet = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> inSet = new TreeSet<>();
 		inSet.add(path.toGeoElement());
 
 		// we need all independent parents of Q PLUS

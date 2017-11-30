@@ -154,7 +154,7 @@ public class CASparser implements CASParserInterface {
 		ev.resolveVariables(new EvalInfo(false));
 		kernel.setResolveUnkownVarsAsDummyGeos(false);
 
-		Set<String> nonFunctions = new TreeSet<String>();
+		Set<String> nonFunctions = new TreeSet<>();
 		NonFunctionCollector c = NonFunctionCollector
 				.getCollector(nonFunctions);
 		NonFunctionReplacer r = NonFunctionReplacer.getCollector(nonFunctions);

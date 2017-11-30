@@ -123,7 +123,7 @@ public class AlgoFunctionFreehand extends AlgoElement {
 	}
 
 	public ArrayList<MyPoint> getPoints() {
-		ArrayList<MyPoint> ret = new ArrayList<MyPoint>();
+		ArrayList<MyPoint> ret = new ArrayList<>();
 		double step, min, max;
 		int n = inputList.size() - 3;
 		if (n >= 1) {

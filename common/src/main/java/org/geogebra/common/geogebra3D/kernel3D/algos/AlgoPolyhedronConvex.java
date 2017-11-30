@@ -55,7 +55,7 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 			input[i].addAlgorithm(this);
 		}
 
-		outputPolyhedron = new OutputHandler<GeoPolyhedron>(
+		outputPolyhedron = new OutputHandler<>(
 				new elementFactory<GeoPolyhedron>() {
 					@Override
 					public GeoPolyhedron newElement() {
@@ -115,8 +115,8 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 
 		GeoPolyhedron p = getPolyhedron();
 
-		ArrayList<ConstructionElementCycle> newFaces = new ArrayList<ConstructionElementCycle>();
-		TreeSet<Integer> availableIndices = new TreeSet<Integer>();
+		ArrayList<ConstructionElementCycle> newFaces = new ArrayList<>();
+		TreeSet<Integer> availableIndices = new TreeSet<>();
 		availableIndices.addAll(p.getPolygonsIndices());
 
 		int[][] faceIndices = quickHull3D
@@ -163,7 +163,7 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoSegment3D> createOutputSegments() {
-		return new OutputHandler<GeoSegment3D>(
+		return new OutputHandler<>(
 				new elementFactory<GeoSegment3D>() {
 					@Override
 					public GeoSegment3D newElement() {
@@ -175,7 +175,7 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoPolygon3D> createOutputPolygons() {
-		return new OutputHandler<GeoPolygon3D>(
+		return new OutputHandler<>(
 				new elementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {

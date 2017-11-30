@@ -83,7 +83,7 @@ public class AlgoIntersectPathLinePolygon3D
 
 	@Override
 	protected OutputHandler<GeoElement> createOutputSegments() {
-		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoSegment3D newElement() {
 				GeoSegment3D a = new GeoSegment3D(cons);

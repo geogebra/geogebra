@@ -139,7 +139,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 	@Override
 	protected void setInputOutput() {
 
-		ArrayList<GeoElement> outList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> outList = new ArrayList<>();
 
 		if (list1 != null) {
 			outList.add(list1);

@@ -93,10 +93,10 @@ public class Delaunay_Triangulation {
 		_modCount2 = 0;
 		_bb_min = null;
 		_bb_max = null;
-		this._vertices = new TreeSet<Point_dt>(Point_dt.getComparator());
-		_triangles = new Vector<Triangle_dt>();
+		this._vertices = new TreeSet<>(Point_dt.getComparator());
+		_triangles = new Vector<>();
 		deletedTriangles = null;
-		addedTriangles = new Vector<Triangle_dt>();
+		addedTriangles = new Vector<>();
 		allCollinear = true;
 		for (int i = 0; ps != null && i < ps.length && ps[i] != null; i++) {
 			this.insertPoint(ps[i]);
@@ -751,7 +751,7 @@ public class Delaunay_Triangulation {
 	 *         only a half plane - returns an empty iterator
 	 */
 	public Iterator<Triangle_dt> getLastUpdatedTriangles() {
-		Vector<Triangle_dt> tmp = new Vector<Triangle_dt>();
+		Vector<Triangle_dt> tmp = new Vector<>();
 		if (this.trianglesSize() > 1) {
 			Triangle_dt t = currT;
 			allTriangles(t, tmp, this._modCount);
@@ -1191,8 +1191,8 @@ public class Delaunay_Triangulation {
 	 */
 	private Vector<Point_dt> findConnectedVertices(Point_dt point,
 			boolean saveTriangles) {
-		Set<Point_dt> pointsSet = new HashSet<Point_dt>();
-		Vector<Point_dt> pointsVec = new Vector<Point_dt>();
+		Set<Point_dt> pointsSet = new HashSet<>();
+		Vector<Point_dt> pointsVec = new Vector<>();
 		Vector<Triangle_dt> triangles = null;
 		// Getting one of the neigh
 		Triangle_dt triangle = find(point);
@@ -1251,7 +1251,7 @@ public class Delaunay_Triangulation {
 	 */
 	public Vector<Triangle_dt> findTriangleNeighborhood(
 			Triangle_dt firstTriangle, Point_dt point) {
-		Vector<Triangle_dt> triangles = new Vector<Triangle_dt>(30);
+		Vector<Triangle_dt> triangles = new Vector<>(30);
 		triangles.add(firstTriangle);
 
 		Triangle_dt prevTriangle = null;
@@ -1441,7 +1441,7 @@ public class Delaunay_Triangulation {
 	 */
 	public Iterator<Triangle_dt> trianglesIterator() {
 		if (this.size() <= 2) {
-			_triangles = new Vector<Triangle_dt>();
+			_triangles = new Vector<>();
 		}
 		initTriangles();
 		return _triangles.iterator();
@@ -1453,7 +1453,7 @@ public class Delaunay_Triangulation {
 	 * @return iterator to the set of all the points on the XY-convex hull.
 	 */
 	public Iterator<Point_dt> CH_vertices_Iterator() {
-		Vector<Point_dt> ans = new Vector<Point_dt>();
+		Vector<Point_dt> ans = new Vector<>();
 		Triangle_dt curr = this.startTriangleHull;
 		boolean cont = true;
 		double x0 = _bb_min.x(), x1 = _bb_max.x();
@@ -1490,8 +1490,8 @@ public class Delaunay_Triangulation {
 		}
 		if (this.size() > 2) {
 			_modCount2 = _modCount;
-			Vector<Triangle_dt> front = new Vector<Triangle_dt>();
-			_triangles = new Vector<Triangle_dt>();
+			Vector<Triangle_dt> front = new Vector<>();
+			_triangles = new Vector<>();
 			front.add(this.startTriangle);
 			while (front.size() > 0) {
 				Triangle_dt t = front.remove(0);

@@ -73,7 +73,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 		this.g = g;
 		this.pi = p;
 
-		newCoords = new TreeMap<Double, Coords>(
+		newCoords = new TreeMap<>(
 				Kernel.doubleComparator(Kernel.STANDARD_PRECISION));
 
 		compute();
@@ -105,7 +105,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 	 * @return handler for output points
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoPoint newElement() {
 				GeoPoint p1 = new GeoPoint(cons);

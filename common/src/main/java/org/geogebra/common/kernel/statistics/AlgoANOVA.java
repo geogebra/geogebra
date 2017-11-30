@@ -101,7 +101,7 @@ public class AlgoANOVA extends AlgoElement {
 
 		// create an array list of data arrays
 		if (categoryData == null) {
-			categoryData = new ArrayList<double[]>();
+			categoryData = new ArrayList<>();
 		} else {
 			categoryData.clear();
 		}

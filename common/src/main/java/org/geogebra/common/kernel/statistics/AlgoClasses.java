@@ -71,7 +71,7 @@ public class AlgoClasses extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> tempList = new ArrayList<>();
 
 		tempList.add(dataList);
 

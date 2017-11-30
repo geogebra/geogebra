@@ -110,9 +110,9 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 		edgeCount = 0;
 
-		HashMap<GeoPointND, MyNode> nodes = new HashMap<GeoPointND, MyNode>();
+		HashMap<GeoPointND, MyNode> nodes = new HashMap<>();
 
-		SparseMultigraph<MyNode, MyLink> g = new SparseMultigraph<MyNode, MyLink>();
+		SparseMultigraph<MyNode, MyLink> g = new SparseMultigraph<>();
 
 		MyNode node1, node2, startNode = null, endNode = null;
 
@@ -156,7 +156,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 		}
 
 		if (al == null) {
-			al = new ArrayList<MyPoint>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}
@@ -170,10 +170,10 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 		DijkstraShortestPath<MyNode, MyLink> alg;
 
 		if (weighted.getBoolean()) {
-			alg = new DijkstraShortestPath<MyNode, MyLink>(g, wtTransformer);
+			alg = new DijkstraShortestPath<>(g, wtTransformer);
 		} else {
 			// Unweighted Shortest Path
-			alg = new DijkstraShortestPath<MyNode, MyLink>(g);
+			alg = new DijkstraShortestPath<>(g);
 		}
 
 		List<MyLink> list = alg.getPath(startNode, endNode);

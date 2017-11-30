@@ -582,7 +582,7 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 		// GeoList newlist;
 		// This is code duplication of AlgoSort, but for the time being:
 		TreeSet<GeoPoint> sortedSet;
-		sortedSet = new TreeSet<GeoPoint>(GeoPoint.getComparatorX());
+		sortedSet = new TreeSet<>(GeoPoint.getComparatorX());
 		for (int i = 0; i < size; i++) {
 			geoelement = geolist.get(i);
 			if (geoelement instanceof GeoPoint) {

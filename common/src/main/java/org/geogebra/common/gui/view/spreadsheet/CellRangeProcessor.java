@@ -62,7 +62,7 @@ public class CellRangeProcessor {
 	 * @return copy of given cell range list
 	 */
 	public static ArrayList<CellRange> clone(ArrayList<CellRange> rangeList) {
-		ArrayList<CellRange> newList = new ArrayList<CellRange>();
+		ArrayList<CellRange> newList = new ArrayList<>();
 		for (CellRange cr : rangeList) {
 			newList.add(cr.duplicate());
 		}
@@ -329,7 +329,7 @@ public class CellRangeProcessor {
 						tempRange = new CellRange(app, col, cr.getMinRow(), col,
 								cr.getMaxRow());
 					}
-					ArrayList<CellRange> tempList = new ArrayList<CellRange>();
+					ArrayList<CellRange> tempList = new ArrayList<>();
 					tempList.add(tempRange);
 					tempGeo.add(createList(tempList, true, copyByValue, false,
 							false, null, addToConstruction));
@@ -346,7 +346,7 @@ public class CellRangeProcessor {
 						tempRange = new CellRange(app, cr.getMinColumn(), row,
 								cr.getMaxColumn(), row);
 					}
-					ArrayList<CellRange> tempList = new ArrayList<CellRange>();
+					ArrayList<CellRange> tempList = new ArrayList<>();
 					tempList.add(tempRange);
 					tempGeo.add(createList(tempList, true, copyByValue, false,
 							false, null, addToConstruction));
@@ -512,7 +512,7 @@ public class CellRangeProcessor {
 		getPointListDimensions(rangeList, pd);
 
 		// build the string
-		ArrayList<GeoElementND> list = new ArrayList<GeoElementND>();
+		ArrayList<GeoElementND> list = new ArrayList<>();
 
 		try {
 			GeoElement xCoord, yCoord, zCoord;
@@ -750,7 +750,7 @@ public class CellRangeProcessor {
 
 	public String[] getColumnTitles(ArrayList<CellRange> rangeList) {
 
-		ArrayList<String> titleList = new ArrayList<String>();
+		ArrayList<String> titleList = new ArrayList<>();
 
 		for (CellRange cr : rangeList) {
 			// get column header or column name from each column in this cell
@@ -798,14 +798,14 @@ public class CellRangeProcessor {
 		if (copyByValue) {
 			geoList = new GeoList(cons);
 		} else {
-			list = new ArrayList<GeoElementND>();
+			list = new ArrayList<>();
 		}
 
-		ArrayList<GPoint> cellList = new ArrayList<GPoint>();
+		ArrayList<GPoint> cellList = new ArrayList<>();
 
 		// temporary fix for catching duplicate cells caused by ctrl-seelct
 		// will not be needed when sorting of cells by row/column is done
-		HashSet<GPoint> usedCells = new HashSet<GPoint>();
+		HashSet<GPoint> usedCells = new HashSet<>();
 
 		try {
 
@@ -872,7 +872,7 @@ public class CellRangeProcessor {
 			boolean isSorted, boolean storeUndoInfo, GeoClass geoTypeFilter,
 			boolean addToConstruction) {
 
-		ArrayList<CellRange> rangeList = new ArrayList<CellRange>();
+		ArrayList<CellRange> rangeList = new ArrayList<>();
 		CellRange cr = new CellRange(app, column, -1);
 		cr.setActualRange();
 		rangeList.add(cr);

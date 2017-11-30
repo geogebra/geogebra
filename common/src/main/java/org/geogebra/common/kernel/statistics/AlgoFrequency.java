@@ -142,7 +142,7 @@ public class AlgoFrequency extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 
-		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> tempList = new ArrayList<>();
 
 		if (isCumulative != null) {
 			tempList.add(isCumulative);

@@ -40,7 +40,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 
 		cons.addToAlgorithmList(this);
 
-		outputPolyhedron = new OutputHandler<GeoPolyhedron>(
+		outputPolyhedron = new OutputHandler<>(
 				new elementFactory<GeoPolyhedron>() {
 					@Override
 					public GeoPolyhedron newElement() {
@@ -89,7 +89,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 * @return an output handler for segments
 	 */
 	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler() {
-		return new OutputHandler<GeoSegment3D>(
+		return new OutputHandler<>(
 				new elementFactory<GeoSegment3D>() {
 					@Override
 					public GeoSegment3D newElement() {
@@ -109,7 +109,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 * @return an output handler for polygons
 	 */
 	protected OutputHandler<GeoPolygon3D> createOutputPolygonsHandler() {
-		return new OutputHandler<GeoPolygon3D>(
+		return new OutputHandler<>(
 				new elementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
@@ -212,7 +212,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 * @return an output handler for points
 	 */
 	protected OutputHandler<GeoPoint3D> createOutputPointsHandler() {
-		return new OutputHandler<GeoPoint3D>(new PointFactory());
+		return new OutputHandler<>(new PointFactory());
 	}
 
 	/**

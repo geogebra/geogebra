@@ -43,8 +43,8 @@ public class QDParser {
 	 * Creates new parser
 	 */
 	public QDParser() {
-		attrs = new LinkedHashMap<String, String>();
-		stack = new Stack<Integer>();
+		attrs = new LinkedHashMap<>();
+		stack = new Stack<>();
 		sb = new StringBuilder();
 		etag = new StringBuilder();
 	}

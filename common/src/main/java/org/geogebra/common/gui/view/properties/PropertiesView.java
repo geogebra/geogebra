@@ -38,7 +38,7 @@ public abstract class PropertiesView implements View {
 
 	private OptionsObject objectPanel;
 	protected int selectedTab = 0;
-	final private static HashMap<Integer, OptionType> viewMap = new HashMap<Integer, OptionType>();
+	final private static HashMap<Integer, OptionType> viewMap = new HashMap<>();
 	// map to match view ID with OptionType
 	static {
 
@@ -134,7 +134,7 @@ public abstract class PropertiesView implements View {
 		Construction.Constants firstConstant = Construction.Constants.NOT;
 
 		// check if there is constants, remove it and remember what type
-		ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> geos = new ArrayList<>();
 
 		for (GeoElement geo : geosList) {
 			Construction.Constants constant = kernel.getConstruction()
@@ -328,7 +328,7 @@ public abstract class PropertiesView implements View {
 			if (creatorMode) { // if euclidian view is e.g. in move mode, then
 				// geo was created by a script, so just show
 				// object properties
-				ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> geos = new ArrayList<>();
 				geos.add(geo);
 				setOptionPanel(OptionType.OBJECTS, geos);
 			} else {

@@ -53,14 +53,14 @@ public class ManagerElementForGLList extends Manager {
 	@Override
 	public void startGeometry(Type type) {
 		if (vx == null) {
-			vx = new ArrayList<Double>();
-			vy = new ArrayList<Double>();
-			vz = new ArrayList<Double>();
-			nx = new ArrayList<Double>();
-			ny = new ArrayList<Double>();
-			nz = new ArrayList<Double>();
-			tx = new ArrayList<Double>();
-			ty = new ArrayList<Double>();
+			vx = new ArrayList<>();
+			vy = new ArrayList<>();
+			vz = new ArrayList<>();
+			nx = new ArrayList<>();
+			ny = new ArrayList<>();
+			nz = new ArrayList<>();
+			tx = new ArrayList<>();
+			ty = new ArrayList<>();
 		} else {
 			vx.clear();
 			vy.clear();

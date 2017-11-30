@@ -387,7 +387,7 @@ public abstract class GeoGebraTubeAPI {
 
 			@Override
 			public void onSuccess(String response) {
-				ArrayList<Material> result = new ArrayList<Material>();
+				ArrayList<Material> result = new ArrayList<>();
 				ArrayList<Chapter> meta = JSONParserGGT.prototype
 						.parseResponse(response, result);
 				cb.onLoaded(result, meta);
@@ -505,7 +505,7 @@ public abstract class GeoGebraTubeAPI {
 
 					@Override
 					public void onSuccess(String response) {
-						ArrayList<SyncEvent> events = new ArrayList<SyncEvent>();
+						ArrayList<SyncEvent> events = new ArrayList<>();
 						try {
 							JSONTokener tok = new JSONTokener(response);
 							JSONObject responseObj = (JSONObject) ((JSONObject) new JSONObject(

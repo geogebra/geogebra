@@ -540,7 +540,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			int id) {
 
 		if (constProtocolNavigationMap == null) {
-			constProtocolNavigationMap = new HashMap<Integer, ConstructionProtocolNavigation>();
+			constProtocolNavigationMap = new HashMap<>();
 		}
 
 		ConstructionProtocolNavigation constProtocolNavigation = constProtocolNavigationMap
@@ -650,7 +650,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	protected HashMap<Integer, PlotPanelEuclidianViewInterface> getPlotPanelIDMap() {
 		if (plotPanelIDMap == null) {
-			plotPanelIDMap = new HashMap<Integer, PlotPanelEuclidianViewInterface>();
+			plotPanelIDMap = new HashMap<>();
 		}
 		return plotPanelIDMap;
 	}
@@ -718,7 +718,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 				|| mode == EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS)
 				&& m == ModeSetter.TOOLBAR) {
 			// save the selected geos so they can be re-selected later
-			ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> temp = new ArrayList<>();
 			if (app.getSelectionManager().getSelectedGeos() != null) {
 				for (GeoElement geo : app.getSelectionManager()
 						.getSelectedGeos()) {

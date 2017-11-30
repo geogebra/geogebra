@@ -110,7 +110,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 		codeFilledObject = new StringBuilder();
 		codeBeginDoc = new StringBuilder();
-		customColor = new HashMap<GColor, String>();
+		customColor = new HashMap<>();
 		if (format == GeoGebraToPgf.FORMAT_LATEX) {
 			codePreamble.append("\\documentclass[" + frame.getFontSize()
 					+ "pt]{article}\n"

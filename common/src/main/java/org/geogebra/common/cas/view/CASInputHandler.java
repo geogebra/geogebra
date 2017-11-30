@@ -535,7 +535,7 @@ public class CASInputHandler {
 	 * @return the set with geoDummy names
 	 */
 	private static Set<String> getVariableStrSet(HashSet<GeoElement> vars) {
-		Set<String> varsStrSet = new HashSet<String>();
+		Set<String> varsStrSet = new HashSet<>();
 		if (!vars.isEmpty()) {
 			Iterator<GeoElement> it = vars.iterator();
 			while (it.hasNext()) {
@@ -612,7 +612,7 @@ public class CASInputHandler {
 		int nrEquations;
 
 		// remove empty cells because empty cells' inputVE vars are null
-		ArrayList<Integer> l = new ArrayList<Integer>();
+		ArrayList<Integer> l = new ArrayList<>();
 		for (int i = 0; i < selectedIndices.length; i++) {
 			if (!casView.isRowEmpty(selectedIndices[i])) {
 				l.add(selectedIndices[i]);
@@ -645,7 +645,7 @@ public class CASInputHandler {
 			casView.insertRow(cellValue, false);
 		}
 
-		ArrayList<GeoElement> vars = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> vars = new ArrayList<>();
 		boolean foundNonPolynomial = false;
 		// generates an array of references (e.g. $1,a,...) and
 		// an array of equations

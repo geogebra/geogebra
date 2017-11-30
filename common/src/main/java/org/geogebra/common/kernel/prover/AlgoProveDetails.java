@@ -204,7 +204,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 				ndgConditionsList.clear();
 				ndgConditionsList.setDrawAsComboBox(true);
 				Iterator<NDGCondition> it = ndgresult.iterator();
-				TreeSet<GeoText> sortedSet = new TreeSet<GeoText>(
+				TreeSet<GeoText> sortedSet = new TreeSet<>(
 						GeoText.getComparator());
 
 				// Collecting the set of NDG conditions.

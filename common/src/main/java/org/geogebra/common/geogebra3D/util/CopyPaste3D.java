@@ -266,7 +266,7 @@ public class CopyPaste3D extends CopyPaste {
 
 	private static TreeSet<GeoElement> getAllIndependentPredecessors(
 			GeoElement geo) {
-		TreeSet<GeoElement> ancestors = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> ancestors = new TreeSet<>();
 		geo.addPredecessorsToSet(ancestors, true);
 		return ancestors;
 	}

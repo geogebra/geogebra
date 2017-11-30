@@ -27,7 +27,7 @@ public class DataCollectionSettings extends AbstractSettings {
 	// Object can be String or GeoElement
 	// Strings needed in case before construction loaded
 	// GeoElements needed later in case geo is renamed
-	private HashMap<Types, Object> mapper = new HashMap<Types, Object>();
+	private HashMap<Types, Object> mapper = new HashMap<>();
 
 	public DataCollectionSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);

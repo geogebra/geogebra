@@ -53,7 +53,7 @@ public class GeneralPathClipped implements GShape {
 	public GeneralPathClipped(EuclidianViewInterfaceSlim view) {
 		// this.view = (EuclidianView)view;
 		this.view = view;
-		pathPoints = new ArrayList<MyPoint>();
+		pathPoints = new ArrayList<>();
 		gp = AwtFactory.getPrototype().newGeneralPath();
 		// bounds = new Rectangle();
 		reset();

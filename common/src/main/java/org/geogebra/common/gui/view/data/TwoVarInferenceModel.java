@@ -89,7 +89,7 @@ public class TwoVarInferenceModel {
 
 	public void setResults() {
 
-		ArrayList<String> list = new ArrayList<String>();
+		ArrayList<String> list = new ArrayList<>();
 
 		switch (selectedInference) {
 		default:

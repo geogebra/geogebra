@@ -197,7 +197,7 @@ public class SymbolicParameters {
 	 * @throws NoSymbolicParametersException
 	 */
 	private void initFreeVariables() throws NoSymbolicParametersException {
-		variables = new HashSet<PVariable>();
+		variables = new HashSet<>();
 		spa.getFreeVariables(variables);
 	}
 

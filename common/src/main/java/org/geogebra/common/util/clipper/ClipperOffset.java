@@ -47,7 +47,7 @@ public class ClipperOffset {
 		lowest = new DoublePoint();
 		lowest.setX(-1d);
 		polyNodes = new PolyNode();
-		normals = new ArrayList<DoublePoint>();
+		normals = new ArrayList<>();
 	}
 
 	private static boolean nearZero(double val) {

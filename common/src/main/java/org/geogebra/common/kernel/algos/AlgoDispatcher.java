@@ -70,7 +70,7 @@ public class AlgoDispatcher {
 	 * to avoid multiple calculations of the intersection points of the same two
 	 * objects, we remember all the intersection algorithms created
 	 */
-	protected ArrayList<AlgoIntersectAbstract> intersectionAlgos = new ArrayList<AlgoIntersectAbstract>();
+	protected ArrayList<AlgoIntersectAbstract> intersectionAlgos = new ArrayList<>();
 
 	public AlgoDispatcher(Construction cons) {
 		this.cons = cons;

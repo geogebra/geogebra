@@ -173,7 +173,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	/**
 	 * array list for intersection curves
 	 */
-	private ArrayList<IntersectionCurve> intersectionCurveList = new ArrayList<IntersectionCurve>();
+	private ArrayList<IntersectionCurve> intersectionCurveList = new ArrayList<>();
 	private IntersectionCurve resultedIntersectionCurve;
 
 	private GeoPointND singleIntersectionPoint;
@@ -4048,7 +4048,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					plane = kernel.getManager3D().Plane3D(mirror);
 				}
 
-				ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> ret = new ArrayList<>();
 				checkZooming();
 
 				for (int i = 0; i < geos.length; i++) {
@@ -4243,7 +4243,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 								return;
 							}
 
-							ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+							ArrayList<GeoElement> ret = new ArrayList<>();
 							for (int i = 0; i < selGeos.length; i++) {
 								if (selGeos[i] != lines[0]) {
 									if (selGeos[i] instanceof Transformable) {

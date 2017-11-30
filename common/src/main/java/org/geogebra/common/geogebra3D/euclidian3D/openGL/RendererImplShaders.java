@@ -64,8 +64,8 @@ public abstract class RendererImplShaders extends RendererImpl {
 	protected Object shaderProgram;
 	protected Object vertShader;
 	protected Object fragShader;
-	private Stack<Object> removedBuffers = new Stack<Object>();
-	private Stack<Object> removedElementBuffers = new Stack<Object>();
+	private Stack<Object> removedBuffers = new Stack<>();
+	private Stack<Object> removedElementBuffers = new Stack<>();
 
 	private boolean texturesEnabled;
 

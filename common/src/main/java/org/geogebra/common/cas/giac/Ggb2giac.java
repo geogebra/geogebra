@@ -19,7 +19,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 
 public class Ggb2giac {
-	private static Map<String, String> commandMap = new TreeMap<String, String>();
+	private static Map<String, String> commandMap = new TreeMap<>();
 
 	/**
 	 * @param signature

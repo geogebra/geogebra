@@ -253,10 +253,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private ArrayList<GeoElement> hitPointOrBoundary, hitFilling, hitLabel;
 
 	// Map (geo, drawable) for GeoElements and Drawables
-	private HashMap<GeoElement, DrawableND> drawableMap = new HashMap<GeoElement, DrawableND>(
+	private HashMap<GeoElement, DrawableND> drawableMap = new HashMap<>(
 			500);
 
-	private ArrayList<GeoPointND> stickyPointList = new ArrayList<GeoPointND>();
+	private ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
 
 	protected DrawableList allDrawableList = new DrawableList();
 	/** lists of geos on different layers */
@@ -275,8 +275,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected double[] axesNumberingDistances;
 	protected GeoNumberValue[] axesDistanceObjects;
-	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<Integer>();
-	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<Integer>();
+	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<>();
+	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<>();
 	double yLabelMaxWidthPos = 0;
 	double yLabelMaxWidthNeg = 0;
 	double xLabelHeights = 0;
@@ -428,7 +428,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 									// circles
 	private GLine2D tempLine = AwtFactory.getPrototype().newLine2D();
 	private GeoElement[] previewFromInputBarGeos;
-	private ArrayList<GeoElement> geosWaiting = new ArrayList<GeoElement>();
+	private ArrayList<GeoElement> geosWaiting = new ArrayList<>();
 	private boolean labelHitNeedsRefresh = true;
 	private GeoElement labelHitLastGeo = null;
 	/** reIniting is used by GeoGebraWeb */
@@ -2110,9 +2110,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		hits.init();
 
 		if (hitPointOrBoundary == null) {
-			hitPointOrBoundary = new ArrayList<GeoElement>();
-			hitFilling = new ArrayList<GeoElement>();
-			hitLabel = new ArrayList<GeoElement>();
+			hitPointOrBoundary = new ArrayList<>();
+			hitFilling = new ArrayList<>();
+			hitLabel = new ArrayList<>();
 		} else {
 			hitPointOrBoundary.clear();
 			hitFilling.clear();

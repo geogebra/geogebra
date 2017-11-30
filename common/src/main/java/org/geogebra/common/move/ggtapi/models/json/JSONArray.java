@@ -55,7 +55,7 @@ public class JSONArray {
 	 * Creates a {@code JSONArray} with no values.
 	 */
 	public JSONArray() {
-		values = new ArrayList<Object>();
+		values = new ArrayList<>();
 	}
 
 	/**

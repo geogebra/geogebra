@@ -125,7 +125,7 @@ public class TeXAtomSerializer {
 	}
 
 	private static void initMappings() {
-		mappings = new HashMap<String, String>();
+		mappings = new HashMap<>();
 		mappings.put("plus", "+");
 		mappings.put("minus", "-");
 		mappings.put("equals", "=");

@@ -158,7 +158,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 
 		codeFilledObject = new StringBuilder();
 		codeBeginDoc = new StringBuilder();
-		customColor = new HashMap<GColor, String>();
+		customColor = new HashMap<>();
 		if (format == GeoGebraToPdf.FORMAT_LATEX) {
 			codePreamble.append("\\documentclass[" + frame.getFontSize()
 					+ "pt]{article}\n"

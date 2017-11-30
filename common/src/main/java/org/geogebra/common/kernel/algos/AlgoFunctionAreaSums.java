@@ -685,7 +685,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		case HISTOGRAM:
 		case HISTOGRAM_DENSITY:
 
-			ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> tempList = new ArrayList<>();
 
 			if (isCumulative != null) {
 				tempList.add(isCumulative);
@@ -712,7 +712,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		case BARCHART_HYPERGEOMETRIC:
 		case BARCHART_POISSON:
 		case BARCHART_ZIPF:
-			ArrayList<GeoElement> inputList = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> inputList = new ArrayList<>();
 			inputList.add(p1geo);
 			if (p2geo != null) {
 				inputList.add(p2geo);

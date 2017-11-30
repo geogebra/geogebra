@@ -32,12 +32,12 @@ public class Hits3D extends Hits {
 	private TreeSetOfDrawable3D hitsLabels = new TreeSetOfDrawable3D(
 			new Drawable3D.DrawableComparator());
 	/** set of all the sets */
-	private TreeSet<TreeSetOfDrawable3D> hitSetSet = new TreeSet<TreeSetOfDrawable3D>(
+	private TreeSet<TreeSetOfDrawable3D> hitSetSet = new TreeSet<>(
 			new Drawable3D.SetComparator());
 
 	private Hits topHits = new Hits();
 
-	private ArrayList<Drawable3D> drawables3D = new ArrayList<Drawable3D>();
+	private ArrayList<Drawable3D> drawables3D = new ArrayList<>();
 
 	/** number of quadrics 2D */
 	private int quadCount;
@@ -241,7 +241,7 @@ public class Hits3D extends Hits {
 		// App.error(""+topHits);
 
 		// sets the hits to this
-		ArrayList<GeoElement> segmentList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> segmentList = new ArrayList<>();
 		drawables3D.clear();
 
 		for (Iterator<TreeSetOfDrawable3D> iterSet = hitSetSet

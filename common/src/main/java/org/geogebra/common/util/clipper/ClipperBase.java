@@ -97,7 +97,7 @@ public abstract class ClipperBase implements Clipper {
 		minimaList = null;
 		currentLM = null;
 		hasOpenPaths = false;
-		edges = new ArrayList<List<Edge>>();
+		edges = new ArrayList<>();
 	}
 
 	@Override
@@ -122,7 +122,7 @@ public abstract class ClipperBase implements Clipper {
 		}
 
 		// create a new edge array ...
-		final List<Edge> edges1 = new ArrayList<Edge>(highI + 1);
+		final List<Edge> edges1 = new ArrayList<>(highI + 1);
 		for (int i = 0; i <= highI; i++) {
 			edges1.add(new Edge());
 		}

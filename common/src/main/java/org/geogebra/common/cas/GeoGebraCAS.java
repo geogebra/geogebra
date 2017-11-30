@@ -44,9 +44,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	private CASparser casParser;
 	private CASGenericInterface cas;
 
-	private ArrayList<String> varSwaps = new ArrayList<String>();
+	private ArrayList<String> varSwaps = new ArrayList<>();
 	// these variables are cached to gain some speed in getPolynomialCoeffs
-	private Map<String, String[]> getPolynomialCoeffsCache = new MaxSizeHashMap<String, String[]>(
+	private Map<String, String[]> getPolynomialCoeffsCache = new MaxSizeHashMap<>(
 			Kernel.GEOGEBRA_CAS_CACHE_SIZE);
 	private StringBuilder getPolynomialCoeffsSB = new StringBuilder();
 	private StringBuilder sbPolyCoeffs = new StringBuilder();
@@ -345,9 +345,9 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			}
 
 			// set of variables in list of equations
-			Set<String> varsInEqus = new HashSet<String>();
+			Set<String> varsInEqus = new HashSet<>();
 			// set of variables in list of variables
-			Set<String> vars = new HashSet<String>();
+			Set<String> vars = new HashSet<>();
 			// get list of equations
 			MyList listOfEqus = (MyList) args.get(0).getLeft();
 			for (int i = 0; i < listOfEqus.size(); i++) {
@@ -393,7 +393,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 				// get variables of obtained equation
 				HashSet<GeoElement> varsFromEquOfCurrVars = node == null
 						? new HashSet<GeoElement>() : node.getVariables();
-				HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<String>(
+				HashSet<String> stringVarsFromEquOfCurrVars = new HashSet<>(
 						varsFromEquOfCurrVars.size());
 				// collect labels of variables from obtained equation
 				for (GeoElement geo : varsFromEquOfCurrVars) {
@@ -967,7 +967,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	private static String switchVarsToSolutions(ArrayList<ExpressionNode> args,
 			StringBuilder sbCASCommand) {
-		Set<String> setOfDummyVars = new TreeSet<String>();
+		Set<String> setOfDummyVars = new TreeSet<>();
 		args.get(0)
 				.traverse(DummyVariableCollector.getCollector(setOfDummyVars));
 		String newSbCASCommand = sbCASCommand.toString();
@@ -1052,7 +1052,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	@Override
 	public Set<String> getAvailableCommandNames() {
-		Set<String> cmdSet = new HashSet<String>();
+		Set<String> cmdSet = new HashSet<>();
 		for (String signature : casParser.getTranslationRessourceBundle()
 				.keySet()) {
 			String cmd = signature.substring(0, signature.indexOf('.'));

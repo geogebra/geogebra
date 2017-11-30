@@ -64,7 +64,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 
 	@Override
 	public List<String> getChoiches(Localization loc) {
-		List<String> result = new ArrayList<String>();
+		List<String> result = new ArrayList<>();
 
 		if (hasOrientation) {
 			int length = GeoAngle.getIntervalMinListLength();

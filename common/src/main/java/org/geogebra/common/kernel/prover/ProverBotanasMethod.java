@@ -75,7 +75,7 @@ public class ProverBotanasMethod {
 	static void updateBotanaVarsInv(GeoElement statement)
 			throws NoSymbolicParametersException {
 		if (botanaVarsInv == null) {
-			botanaVarsInv = new HashMap<List<PVariable>, GeoElement>();
+			botanaVarsInv = new HashMap<>();
 		}
 		for (GeoElement geo : statement.getAllPredecessors()) {
 			if (!(geo instanceof GeoNumeric)) {
@@ -97,7 +97,7 @@ public class ProverBotanasMethod {
 	 * @return list of free points
 	 */
 	public static List<GeoElement> getFreePoints(GeoElement statement) {
-		List<GeoElement> freePoints = new ArrayList<GeoElement>();
+		List<GeoElement> freePoints = new ArrayList<>();
 		for (GeoElement geo : statement.getAllPredecessors()) {
 			if (geo.isGeoPoint() && geo.getParentAlgorithm() == null) {
 				/* this is a free point */
@@ -118,7 +118,7 @@ public class ProverBotanasMethod {
 	 * @return list of free points
 	 */
 	private static HashSet<GeoElement> getLocusFreePoints(GeoElement geo) {
-		HashSet<GeoElement> freePoints = new HashSet<GeoElement>();
+		HashSet<GeoElement> freePoints = new HashSet<>();
 		AlgoElement algo = geo.getParentAlgorithm();
 		if (algo != null) {
 			for (GeoElement g : algo.getInput()) {
@@ -177,13 +177,13 @@ public class ProverBotanasMethod {
 				* (setSize - 2) / 6];
 		i = 0;
 		/* Creating the set of triplets: */
-		HashSet<HashSet<GeoElement>> triplets = new HashSet<HashSet<GeoElement>>();
+		HashSet<HashSet<GeoElement>> triplets = new HashSet<>();
 		for (GeoElement geo1 : freePoints) {
 			for (GeoElement geo2 : freePoints) {
 				if (!isEqual(geo1, geo2)) {
 					for (GeoElement geo3 : freePoints) {
 						if (!isEqual(geo1, geo3) && !isEqual(geo2, geo3)) {
-							HashSet<GeoElement> triplet = new HashSet<GeoElement>();
+							HashSet<GeoElement> triplet = new HashSet<>();
 							triplet.add(geo1);
 							triplet.add(geo2);
 							triplet.add(geo3);
@@ -264,13 +264,13 @@ public class ProverBotanasMethod {
 
 		GeoElement statement = prover.getStatement();
 		List<GeoElement> freePoints = getFreePoints(statement);
-		List<GeoElement> fixedPoints = new ArrayList<GeoElement>();
+		List<GeoElement> fixedPoints = new ArrayList<>();
 		/* Adding free points: */
 		for (GeoElement ge : freePoints) {
 			fixedPoints.add(ge);
 		}
 
-		HashMap<PVariable, BigInteger> ret = new HashMap<PVariable, BigInteger>();
+		HashMap<PVariable, BigInteger> ret = new HashMap<>();
 
 		Iterator<GeoElement> it = fixedPoints.iterator();
 		GeoElement[] geos = new GeoElement[2];
@@ -326,7 +326,7 @@ public class ProverBotanasMethod {
 		 * this list is empty. Some algos and geo types should create an entry
 		 * for some of the Botana variables.
 		 */
-		Set<PVariable> freeVariables = new HashSet<PVariable>();
+		Set<PVariable> freeVariables = new HashSet<>();
 		/**
 		 * Should the "false" result be interpreted as undefined?
 		 */
@@ -341,7 +341,7 @@ public class ProverBotanasMethod {
 		private String polys, elimVars, freeVars;
 
 		private PPolynomial[] thesisFactors;
-		private HashMap<GeoElement, PPolynomial[]> geoPolys = new HashMap<GeoElement, PPolynomial[]>();
+		private HashMap<GeoElement, PPolynomial[]> geoPolys = new HashMap<>();
 
 		/**
 		 * Number of maximal fix coordinates. -1 if no limit. Sometimes we need
@@ -525,11 +525,11 @@ public class ProverBotanasMethod {
 		 * Convert Java datatypes into String datatypes.
 		 */
 		public void computeStrings() {
-			TreeSet<PVariable> dependentVariables = new TreeSet<PVariable>();
+			TreeSet<PVariable> dependentVariables = new TreeSet<>();
 
 			PPolynomial[] eqSystem = this.getPolynomials()
 					.toArray(new PPolynomial[this.getPolynomials().size()]);
-			TreeSet<PVariable> variables = new TreeSet<PVariable>(
+			TreeSet<PVariable> variables = new TreeSet<>(
 					PPolynomial.getVars(eqSystem));
 
 			Iterator<PVariable> variablesIterator = variables.iterator();
@@ -567,9 +567,9 @@ public class ProverBotanasMethod {
 		}
 
 		private void setHypotheses(GeoElement movingPoint) {
-			polynomials = new HashSet<PPolynomial>();
+			polynomials = new HashSet<>();
 
-			TreeSet<GeoElement> predecessors = new TreeSet<GeoElement>();
+			TreeSet<GeoElement> predecessors = new TreeSet<>();
 			TreeSet<GeoElement> allPredecessors = geoStatement
 					.getAllPredecessors();
 			if (geoProver.getProverEngine() == ProverEngine.LOCUS_EXPLICIT) {
@@ -1044,7 +1044,7 @@ public class ProverBotanasMethod {
 								polyIsConst = true; // poly is a number
 							}
 							// list of polynomial factors
-							ArrayList<PPolynomial> polyListOfFactors = new ArrayList<PPolynomial>();
+							ArrayList<PPolynomial> polyListOfFactors = new ArrayList<>();
 							if (!polyIsConst) {
 								for (String factor : factors) {
 									// parse factors into expression
@@ -1423,19 +1423,19 @@ public class ProverBotanasMethod {
 
 				Iterator<Set<PPolynomial>> ndgSet = eliminationIdeal.iterator();
 
-				List<HashSet<GeoPoint>> xEqualSet = new ArrayList<HashSet<GeoPoint>>();
+				List<HashSet<GeoPoint>> xEqualSet = new ArrayList<>();
 				xEqualSet.add(new HashSet<GeoPoint>());
-				List<HashSet<GeoPoint>> yEqualSet = new ArrayList<HashSet<GeoPoint>>();
+				List<HashSet<GeoPoint>> yEqualSet = new ArrayList<>();
 				yEqualSet.add(new HashSet<GeoPoint>());
 				boolean xyRewrite = (eliminationIdeal.size() == 2);
 
-				List<NDGCondition> bestNdgSet = new ArrayList<NDGCondition>();
+				List<NDGCondition> bestNdgSet = new ArrayList<>();
 				double bestScore = Double.POSITIVE_INFINITY;
 				int ndgI = 0;
 				while (ndgSet.hasNext()) {
 					ndgI++;
 					Log.debug("Considering NDG " + ndgI + "...");
-					List<NDGCondition> ndgcl = new ArrayList<NDGCondition>();
+					List<NDGCondition> ndgcl = new ArrayList<>();
 					double score = 0.0;
 					/*
 					 * All NDGs must be translatable into human readable form.
@@ -1524,7 +1524,7 @@ public class ProverBotanasMethod {
 								if (xyRewrite) {
 									if (ndgc.getCondition()
 											.equals("xAreEqual")) {
-										HashSet<GeoPoint> points = new HashSet<GeoPoint>();
+										HashSet<GeoPoint> points = new HashSet<>();
 										points.add(
 												(GeoPoint) ndgc.getGeos()[0]);
 										points.add(
@@ -1533,7 +1533,7 @@ public class ProverBotanasMethod {
 									}
 									if (ndgc.getCondition()
 											.equals("yAreEqual")) {
-										HashSet<GeoPoint> points = new HashSet<GeoPoint>();
+										HashSet<GeoPoint> points = new HashSet<>();
 										points.add(
 												(GeoPoint) ndgc.getGeos()[0]);
 										points.add(
@@ -1699,7 +1699,7 @@ public class ProverBotanasMethod {
 			return null;
 		}
 
-		as.substitutions = new HashMap<PVariable, BigInteger>();
+		as.substitutions = new HashMap<>();
 		HashSet<GeoElement> freePoints = ProverBotanasMethod
 				.getLocusFreePoints(tracer);
 		if (!implicit) {

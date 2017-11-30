@@ -336,7 +336,7 @@ public class RelativeCopy {
 		// create a treeset, ordered by construction index
 		// so that when we relative copy A1=1 B1=(A1+C1)/2 C1=3
 		// B2 is done last
-		TreeSet<GeoElement> tree = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> tree = new TreeSet<>();
 		for (int x = x1; x <= x2; ++x) {
 			int ix = x - x1;
 			GeoElement cell = getValue(app, x1 + ix, sy);
@@ -389,7 +389,7 @@ public class RelativeCopy {
 		// create a treeset, ordered by construction index
 		// so that when we relative copy A1=1 A2=(A1+A3)/2 A3=3
 		// B2 is done last
-		TreeSet<GeoElement> tree = new TreeSet<GeoElement>();
+		TreeSet<GeoElement> tree = new TreeSet<>();
 		for (int y = y1; y <= y2; ++y) {
 			int iy = y - y1;
 			GeoElement cell = getValue(app, sx, y1 + iy);

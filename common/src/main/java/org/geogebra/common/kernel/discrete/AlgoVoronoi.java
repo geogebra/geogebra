@@ -52,13 +52,13 @@ public class AlgoVoronoi extends AlgoDiscrete {
 
 		double inhom[] = new double[2];
 
-		ArrayList<Double> xcoords = new ArrayList<Double>();
-		ArrayList<Double> ycoords = new ArrayList<Double>();
+		ArrayList<Double> xcoords = new ArrayList<>();
+		ArrayList<Double> ycoords = new ArrayList<>();
 
 		final double delta = 0.0000001;
 
 		// add to TreeSet to remove duplicates (from touching triangles)
-		TreeSet<GPoint2D> pointTree = new TreeSet<GPoint2D>(
+		TreeSet<GPoint2D> pointTree = new TreeSet<>(
 				getPointComparator());
 
 		for (int i = 0; i < size; i++) {
@@ -108,13 +108,13 @@ public class AlgoVoronoi extends AlgoDiscrete {
 		Iterator<Triangle_dt> it = dt.trianglesIterator();
 
 		if (al == null) {
-			al = new ArrayList<MyPoint>();
+			al = new ArrayList<>();
 		} else {
 			al.clear();
 		}
 
 		// add to TreeSet to remove duplicates (from touching triangles)
-		TreeSet<MyLine> tree = new TreeSet<MyLine>(
+		TreeSet<MyLine> tree = new TreeSet<>(
 				AlgoDelauneyTriangulation.getComparator());
 
 		while (it.hasNext()) {

@@ -13,7 +13,7 @@ import java.util.HashMap;
 public final class GColor implements GPaint {
 
 	// MUST be first in class
-	private static HashMap<Integer, GColor> map = new HashMap<Integer, GColor>();
+	private static HashMap<Integer, GColor> map = new HashMap<>();
 
 	/** WHITE */
 	public static final GColor WHITE = newColor(255, 255, 255);

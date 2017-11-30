@@ -135,7 +135,7 @@ public abstract class Prover {
 	protected AbstractProverReciosMethod reciosProver;
 
 	/* output */
-	private HashSet<NDGCondition> ndgConditions = new HashSet<NDGCondition>();
+	private HashSet<NDGCondition> ndgConditions = new HashSet<>();
 	/**
 	 * The result of the proof
 	 */
@@ -390,7 +390,7 @@ public abstract class Prover {
 	 * Constructor for the package.
 	 */
 	public Prover() {
-		proveAutoOrder = new ArrayList<ProverEngine>();
+		proveAutoOrder = new ArrayList<>();
 		// Order of Prove[] for the AUTO prover:
 		// Recio is the fastest.
 		proveAutoOrder.add(ProverEngine.RECIOS_PROVER);
@@ -402,7 +402,7 @@ public abstract class Prover {
 		// proveAutoOrder.add(ProverEngine.OPENGEOPROVER_AREA);
 
 		// Order of ProveDetails[] for the AUTO prover:
-		proveDetailsAutoOrder = new ArrayList<ProverEngine>();
+		proveDetailsAutoOrder = new ArrayList<>();
 		// Botana's prover based on elimination (with no presumed NDGs) gives
 		// the shortest conditions, best for educational use.
 		proveDetailsAutoOrder.add(ProverEngine.BOTANAS_PROVER);
@@ -578,7 +578,7 @@ public abstract class Prover {
 
 	private void callEngine(ProverEngine currentEngine) {
 		Log.debug("Using " + currentEngine);
-		ndgConditions = new HashSet<NDGCondition>(); // reset
+		ndgConditions = new HashSet<>(); // reset
 		if (currentEngine == ProverEngine.BOTANAS_PROVER) {
 			ProverBotanasMethod pbm = new ProverBotanasMethod();
 			result = override(pbm.prove(this));
@@ -711,7 +711,7 @@ public abstract class Prover {
 	 */
 	public static String getTextFormat(GeoElement statement) {
 		Localization loc = statement.getKernel().getLocalization();
-		ArrayList<String> freePoints = new ArrayList<String>();
+		ArrayList<String> freePoints = new ArrayList<>();
 		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
 		StringBuilder hypotheses = new StringBuilder();
 		while (it.hasNext()) {

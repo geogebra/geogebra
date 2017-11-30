@@ -60,7 +60,7 @@ public class Combinations implements Iterator<Object> {
 
 	@Override
 	public Set<Object> next() {
-		Set<Object> ret = new HashSet<Object>();
+		Set<Object> ret = new HashSet<>();
 		for (int i = 0; i < r; ++i) {
 			ret.add(list[num[i] - 1]);
 		}

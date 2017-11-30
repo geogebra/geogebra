@@ -55,7 +55,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		this.v = v;
 		vNum = ChangeableCoordParent.getGeoNumeric(v);
 
-		outputNet = new OutputHandler<GeoPolyhedronNet>(
+		outputNet = new OutputHandler<>(
 				new elementFactory<GeoPolyhedronNet>() {
 					@Override
 					public GeoPolyhedronNet newElement() {
@@ -150,7 +150,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoPoint3D> createOutputPoints() {
-		return new OutputHandler<GeoPoint3D>(new elementFactory<GeoPoint3D>() {
+		return new OutputHandler<>(new elementFactory<GeoPoint3D>() {
 			@Override
 			public GeoPoint3D newElement() {
 				GeoPoint3D p1 = new GeoPoint3D(cons);
@@ -164,7 +164,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoSegment3D> createOutputSegments() {
-		return new OutputHandler<GeoSegment3D>(
+		return new OutputHandler<>(
 				new elementFactory<GeoSegment3D>() {
 					@Override
 					public GeoSegment3D newElement() {

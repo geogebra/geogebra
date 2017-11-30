@@ -312,7 +312,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	public void setPoints3DLength() {
 
 		if (points3DArray == null) {
-			points3DArray = new ArrayList<GeoPoint3D>();
+			points3DArray = new ArrayList<>();
 		}
 
 		// adjust size

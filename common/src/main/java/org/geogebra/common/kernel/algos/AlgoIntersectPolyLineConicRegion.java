@@ -97,7 +97,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	public void compute() {
 
 		numOfOutputSegments = 0;
-		intersectPaths = new ArrayList<CalcDetails>();
+		intersectPaths = new ArrayList<>();
 
 		// calculate intersectpaths between poly and conic
 		for (int index = 0; index < segCountOfPoly; index++) {
@@ -520,7 +520,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		segCountOfPoly = isPolyClosed() ? polyPointCount : polyPointCount - 1;
 
 		outputSegments = createOutputSegments();
-		intersectPaths = new ArrayList<CalcDetails>();
+		intersectPaths = new ArrayList<>();
 
 		tempSegEndPoints = new GeoPoint[2];
 		intersectPoints = new GeoPoint[2];
@@ -563,7 +563,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 * @return
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
-		return new OutputHandler<GeoSegment>(new elementFactory<GeoSegment>() {
+		return new OutputHandler<>(new elementFactory<GeoSegment>() {
 			@Override
 			public GeoSegment newElement() {
 				GeoSegment a = new GeoSegment(cons);

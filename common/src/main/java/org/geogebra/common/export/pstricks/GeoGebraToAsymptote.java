@@ -145,15 +145,15 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		 * usepackage_amssymb = false; usepackage_amsmath = false;
 		 * usepackage_mathrsfs = false;
 		 */
-		usepackage = new TreeSet<String>();
-		importpackage = new TreeSet<String>();
-		pointList = new ArrayList<GeoPoint>(); // list of pairs, for cse5
-		pairNameTable = new HashMap<String, String>(); // map of coordinates ->
+		usepackage = new TreeSet<>();
+		importpackage = new TreeSet<>();
+		pointList = new ArrayList<>(); // list of pairs, for cse5
+		pairNameTable = new HashMap<>(); // map of coordinates ->
 														// point's name
-		implicitPolyTable = new HashMap<String, Integer>(); // function(x,y)
+		implicitPolyTable = new HashMap<>(); // function(x,y)
 															// return value to
 															// function #
-		customColor = new HashMap<GColor, String>(); // map
+		customColor = new HashMap<>(); // map
 														// of
 														// rgb
 														// ->

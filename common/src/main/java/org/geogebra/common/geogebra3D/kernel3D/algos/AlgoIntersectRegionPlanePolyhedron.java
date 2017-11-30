@@ -406,20 +406,20 @@ public class AlgoIntersectRegionPlanePolyhedron
 	protected void setNewCoords() {
 
 		if (newCoordsList == null) {
-			newCoordsList = new TreeMap<GeoPolygon, ArrayList<Segment>>();
+			newCoordsList = new TreeMap<>();
 		} else {
 			newCoordsList.clear();
 		}
 
 		if (parentToPolygons == null) {
-			parentToPolygons = new TreeMap<GeoElementND, TreeSet<GeoPolygon>>();
+			parentToPolygons = new TreeMap<>();
 		} else {
 			parentToPolygons.clear();
 		}
 
 		// for polyhedron vertices
 		if (polyhedronVertices == null) {
-			polyhedronVertices = new TreeSet<Coords>(COORDS_COMPARATOR);
+			polyhedronVertices = new TreeSet<>(COORDS_COMPARATOR);
 		} else {
 			polyhedronVertices.clear();
 		}
@@ -493,7 +493,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 			// fill a new points map
 			if (newCoords == null) {
-				newCoords = new TreeSet<CoordsWithParent>();
+				newCoords = new TreeSet<>();
 			} else {
 				newCoords.clear();
 			}
@@ -522,7 +522,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	// private TreeMap<GeoElement,TreeMap<GeoElement,Segment>> originalEdges;
 
 	private ArrayList<Segment> getSegmentsCoords() {
-		ArrayList<Segment> ret = new ArrayList<Segment>();
+		ArrayList<Segment> ret = new ArrayList<>();
 
 		Iterator<CoordsWithParent> it = newCoords.iterator();
 		CoordsWithParent b = it.next();
@@ -569,7 +569,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 	private void addParentToPolygons(GeoElementND parent) {
 		TreeSet<GeoPolygon> polygons = parentToPolygons.get(parent);
 		if (polygons == null) {
-			polygons = new TreeSet<GeoPolygon>();
+			polygons = new TreeSet<>();
 			parentToPolygons.put(parent, polygons);
 		}
 		polygons.add(p);
@@ -856,13 +856,13 @@ public class AlgoIntersectRegionPlanePolyhedron
 		}
 
 		if (checkVerticesList == null) {
-			checkVerticesList = new TreeSet<Vertices>();
+			checkVerticesList = new TreeSet<>();
 		} else {
 			checkVerticesList.clear();
 		}
 
 		if (polyhedronFaces == null) {
-			polyhedronFaces = new ArrayList<Vertices>();
+			polyhedronFaces = new ArrayList<>();
 		} else {
 			polyhedronFaces.clear();
 		}
@@ -998,7 +998,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 	private final void createOutput() {
 
-		outputPolygons = new OutputHandler<GeoPolygon3D>(
+		outputPolygons = new OutputHandler<>(
 				new elementFactory<GeoPolygon3D>() {
 					@Override
 					public GeoPolygon3D newElement() {
@@ -1023,7 +1023,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 		outputPolygons.adjustOutputSize(1, false);
 
-		outputPoints = new OutputHandler<GeoPoint3D>(
+		outputPoints = new OutputHandler<>(
 				new elementFactory<GeoPoint3D>() {
 					@Override
 					public GeoPoint3D newElement() {
@@ -1075,7 +1075,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		outputPoints.adjustOutputSize(1, false);
 
 		outputSegmentsPolyhedron = // createOutputSegments();
-				new OutputHandler<GeoSegment3D>(
+				new OutputHandler<>(
 						new elementFactory<GeoSegment3D>() {
 							@Override
 							public GeoSegment3D newElement() {

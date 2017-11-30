@@ -30,9 +30,9 @@ public class AdjustScreen {
 	private App app;
 	private Kernel kernel;
 	private boolean enabled;
-	private List<GeoNumeric> hSliders = new ArrayList<GeoNumeric>();
-	private List<GeoNumeric> vSliders = new ArrayList<GeoNumeric>();
-	private List<GeoInputBox> inputBoxes = new ArrayList<GeoInputBox>();
+	private List<GeoNumeric> hSliders = new ArrayList<>();
+	private List<GeoNumeric> vSliders = new ArrayList<>();
+	private List<GeoInputBox> inputBoxes = new ArrayList<>();
 	private LayoutAbsoluteGeos layoutAbsoluteGeos;
 	private static class HSliderComparator implements Comparator<GeoNumeric> {
 		protected HSliderComparator() {

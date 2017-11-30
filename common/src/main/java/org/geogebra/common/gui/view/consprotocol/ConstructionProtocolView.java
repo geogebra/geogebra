@@ -26,7 +26,7 @@ public class ConstructionProtocolView {
 	public Kernel kernel;
 	public ConstructionTableData data;
 	protected boolean isViewAttached;
-	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<ConstructionProtocolNavigation>();
+	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<>();
 
 	protected boolean useColors, addIcons;
 
@@ -373,8 +373,8 @@ public class ConstructionProtocolView {
 
 		public ConstructionTableData(SetLabels gui) {
 			// ctDataImpl = new MyGAbstractTableModel();
-			rowList = new ArrayList<RowData>();
-			geoMap = new HashMap<GeoElement, RowData>();
+			rowList = new ArrayList<>();
+			geoMap = new HashMap<>();
 			this.gui = gui;
 		}
 

@@ -169,7 +169,7 @@ public class PolygonTriangulation {
 				// copy segments
 				if (p1.toRight != null) {
 					if (p2.toRight == null) {
-						p2.toRight = new MyTreeSet<Segment>();
+						p2.toRight = new MyTreeSet<>();
 					}
 					for (Segment seg : p1.toRight) {
 						seg.leftPoint = p2;
@@ -179,7 +179,7 @@ public class PolygonTriangulation {
 
 				if (p1.toLeft != null) {
 					if (p2.toLeft == null) {
-						p2.toLeft = new MyTreeSet<Segment>();
+						p2.toLeft = new MyTreeSet<>();
 					}
 					for (Segment seg : p1.toLeft) {
 						seg.rightPoint = p2;
@@ -263,7 +263,7 @@ public class PolygonTriangulation {
 
 		public boolean addSegmentToRight(Segment segment) {
 			if (toRight == null) {
-				toRight = new MyTreeSet<Segment>();
+				toRight = new MyTreeSet<>();
 			}
 			return toRight.add(segment);
 		}
@@ -274,7 +274,7 @@ public class PolygonTriangulation {
 
 		public boolean addSegmentToLeft(Segment segment) {
 			if (toLeft == null) {
-				toLeft = new MyTreeSet<Segment>();
+				toLeft = new MyTreeSet<>();
 			}
 			return toLeft.add(segment);
 		}
@@ -312,7 +312,7 @@ public class PolygonTriangulation {
 
 			if (toRight != null) {
 				if (p2.toRight == null) {
-					p2.toRight = new MyTreeSet<Segment>();
+					p2.toRight = new MyTreeSet<>();
 				}
 				for (Segment seg : toRight) {
 					seg.leftPoint = p2;
@@ -327,7 +327,7 @@ public class PolygonTriangulation {
 
 			if (toLeft != null) {
 				if (p2.toLeft == null) {
-					p2.toLeft = new MyTreeSet<Segment>();
+					p2.toLeft = new MyTreeSet<>();
 				}
 				for (Segment seg : toLeft) {
 					seg.rightPoint = p2;
@@ -629,8 +629,8 @@ public class PolygonTriangulation {
 	 */
 	public PolygonTriangulation() {
 
-		polygonPointsList = new ArrayList<PolygonPoints>();
-		fansList = new ArrayList<TriangleFan>();
+		polygonPointsList = new ArrayList<>();
+		fansList = new ArrayList<>();
 		pointsArray = new GPoint2D.Double[0];
 	}
 
@@ -1137,7 +1137,7 @@ public class PolygonTriangulation {
 		// aligned segments to right are cut
 		// aligned segments to left are ignored
 		error("=========== store points ============");
-		MyTreeSet<Point> pointSet = new MyTreeSet<Point>();
+		MyTreeSet<Point> pointSet = new MyTreeSet<>();
 
 		for (point = firstPoint; point.next != firstPoint; point = point.next) {
 			debug("" + point.name + "(" + point.id + ")");
@@ -2015,7 +2015,7 @@ public class PolygonTriangulation {
 		Segment firstBelow = firstBelow0;
 		// init stack
 		Chain chain;
-		Stack<Point> stack = new Stack<Point>();
+		Stack<Point> stack = new Stack<>();
 		stack.push(firstAbove.leftPoint);
 
 		Point pAbove = firstAbove.rightPoint;

@@ -75,7 +75,7 @@ public abstract class AbstractProverReciosMethod {
 			}
 		}
 
-		HashSet<PVariable> variables = new HashSet<PVariable>();
+		HashSet<PVariable> variables = new HashSet<>();
 
 		if (!B) {
 			try {
@@ -117,8 +117,8 @@ public abstract class AbstractProverReciosMethod {
 		// setting two points fixed (the first to (0,0) and the second to (0,1))
 		// all other variables are stored in freeVariables
 		Iterator<PVariable> it = variables.iterator();
-		HashMap<PVariable, BigInteger> values = new HashMap<PVariable, BigInteger>();
-		TreeSet<PVariable> fixedVariables = new TreeSet<PVariable>(
+		HashMap<PVariable, BigInteger> values = new HashMap<>();
+		TreeSet<PVariable> fixedVariables = new TreeSet<>(
 				new Comparator<PVariable>() {
 					@Override
 					public int compare(PVariable v1, PVariable v2) {
@@ -145,7 +145,7 @@ public abstract class AbstractProverReciosMethod {
 						return compareNames;
 					}
 				});
-		HashSet<PVariable> freeVariables = new HashSet<PVariable>();
+		HashSet<PVariable> freeVariables = new HashSet<>();
 		while (it.hasNext()) {
 			PVariable fv = it.next();
 			if (fv.getTwin() == null || !variables.contains(fv.getTwin())) {
@@ -225,7 +225,7 @@ public abstract class AbstractProverReciosMethod {
 			SymbolicParameters s, AlgebraicStatement as) {
 		if (as != null) {
 			// use Botana's method
-			HashMap<PVariable, BigInteger> substitutions = new HashMap<PVariable, BigInteger>();
+			HashMap<PVariable, BigInteger> substitutions = new HashMap<>();
 			for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
 				PVariable v = entry.getKey();
 				// FIXME: Change Long in Variable to BigInteger
@@ -264,7 +264,7 @@ public abstract class AbstractProverReciosMethod {
 			values.put(variable, BigInteger.valueOf(i));
 			if (as != null) {
 				// use Botana's method
-				HashMap<PVariable, BigInteger> substitutions = new HashMap<PVariable, BigInteger>();
+				HashMap<PVariable, BigInteger> substitutions = new HashMap<>();
 				for (Entry<PVariable, BigInteger> entry : values.entrySet()) {
 					PVariable v = entry.getKey();
 					// FIXME: Change Long in Variable to BigInteger
@@ -318,7 +318,7 @@ public abstract class AbstractProverReciosMethod {
 
 				if (as != null) {
 					// use Botana's method
-					HashMap<PVariable, BigInteger> substitutions = new HashMap<PVariable, BigInteger>();
+					HashMap<PVariable, BigInteger> substitutions = new HashMap<>();
 					for (Entry<PVariable, BigInteger> entry : values
 							.entrySet()) {
 						PVariable v = entry.getKey();

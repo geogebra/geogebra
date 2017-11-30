@@ -56,7 +56,7 @@ public class Settings {
 	public Settings(App app, int euclidianLength) {
 		euclidianSettings = new EuclidianSettings[euclidianLength];
 
-		euclidianSettingsForPlane = new HashMap<String, EuclidianSettings>();
+		euclidianSettingsForPlane = new HashMap<>();
 
 		resetSettings(app);
 	}

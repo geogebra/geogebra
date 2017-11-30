@@ -234,12 +234,12 @@ abstract class GLBufferManager {
 	public GLBufferManager() {
 		currentIndex = new Index();
 		currentBufferPack = new BufferPack(this);
-		bufferPackList = new ArrayList<GLBufferManager.BufferPack>();
+		bufferPackList = new ArrayList<>();
 		bufferPackList.add(currentBufferPack);
 
 		currentLengths = new Index();
-		bufferSegments = new TreeMap<Index, GLBufferManager.BufferSegment>();
-		availableSegments = new TreeMap<Index, LinkedList<BufferSegment>>();
+		bufferSegments = new TreeMap<>();
+		availableSegments = new TreeMap<>();
 	}
 
 	/**
@@ -371,7 +371,7 @@ abstract class GLBufferManager {
 		currentLengths.set(currentBufferSegment.elementsLength, currentBufferSegment.indicesLength);
 		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
 		if (list == null) {
-			list = new LinkedList<GLBufferManager.BufferSegment>();
+			list = new LinkedList<>();
 			availableSegments.put(new Index(currentLengths), list);
 		}
 		list.add(currentBufferSegment);

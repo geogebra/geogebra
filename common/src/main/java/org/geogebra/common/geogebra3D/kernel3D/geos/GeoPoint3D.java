@@ -1232,7 +1232,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
-			tempSet = new TreeSet<AlgoElement>();
+			tempSet = new TreeSet<>();
 		}
 		return tempSet;
 	}
@@ -1875,9 +1875,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 */
 	public void setIncidenceList(ArrayList<GeoElement> list) {
 		if (list == null) {
-			incidenceList = new ArrayList<GeoElement>();
+			incidenceList = new ArrayList<>();
 		} else {
-			incidenceList = new ArrayList<GeoElement>(list);
+			incidenceList = new ArrayList<>(list);
 		}
 	}
 
@@ -1885,7 +1885,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	 * initialize incidenceList
 	 */
 	public void createIncidenceList() {
-		incidenceList = new ArrayList<GeoElement>();
+		incidenceList = new ArrayList<>();
 	}
 
 	/**
@@ -2005,7 +2005,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	final public ArrayList<NumberValue> getCoordParentNumbers() {
 		// init changeableCoordNumbers
 		if (changeableCoordNumbers == null) {
-			changeableCoordNumbers = new ArrayList<NumberValue>(3);
+			changeableCoordNumbers = new ArrayList<>(3);
 			AlgoElement parentAlgo = getParentAlgorithm();
 
 			// dependent point of form P = (a, b)

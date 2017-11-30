@@ -223,7 +223,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	private TreeSet<GeoElement> geosToBeAdded;
 	// Map (geo, drawable) for GeoElements and Drawables
-	private TreeMap<GeoElement, Drawable3D> drawable3DMap = new TreeMap<GeoElement, Drawable3D>();
+	private TreeMap<GeoElement, Drawable3D> drawable3DMap = new TreeMap<>();
 	// matrix for changing coordinate system
 	private CoordMatrix4x4 mWithoutScale = CoordMatrix4x4.Identity();
 	private CoordMatrix4x4 mWithScale = CoordMatrix4x4.Identity();
@@ -405,10 +405,10 @@ public abstract class EuclidianView3D extends EuclidianView
 	protected void start() {
 
 		drawable3DLists = new Drawable3DListsForView(this);
-		drawable3DListToBeAdded = new LinkedList<Drawable3D>();
-		drawable3DListToBeRemoved = new LinkedList<Drawable3D>();
+		drawable3DListToBeAdded = new LinkedList<>();
+		drawable3DListToBeRemoved = new LinkedList<>();
 
-		geosToBeAdded = new TreeSet<GeoElement>();
+		geosToBeAdded = new TreeSet<>();
 
 		Log.debug("create gl renderer");
 		renderer = createRenderer();
@@ -489,7 +489,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	// not implemented yet in 3D
 	@Override
 	public ArrayList<GeoPointND> getStickyPointList() {
-		return new ArrayList<GeoPointND>();
+		return new ArrayList<>();
 	}
 
 	/**

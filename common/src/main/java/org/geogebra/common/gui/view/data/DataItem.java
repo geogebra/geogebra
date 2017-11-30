@@ -80,7 +80,7 @@ public class DataItem {
 	 * @param cellRange
 	 */
 	public DataItem(CellRange cellRange) {
-		rangeList = new ArrayList<CellRange>();
+		rangeList = new ArrayList<>();
 		rangeList.add(cellRange);
 		this.sourceType = SourceType.SPREADSHEET;
 	}
@@ -451,7 +451,7 @@ public class DataItem {
 	private static ArrayList<CellRange> rangeListCopy(ArrayList<CellRange> list,
 			boolean removeHeaderCell) {
 
-		ArrayList<CellRange> list2 = new ArrayList<CellRange>();
+		ArrayList<CellRange> list2 = new ArrayList<>();
 
 		list2.add(rangeCopy(list.get(0), removeHeaderCell));
 
@@ -481,7 +481,7 @@ public class DataItem {
 	private static GeoList dependentListCopy(Construction cons,
 			GeoList geoList) {
 
-		ArrayList<GeoElement> copyList = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> copyList = new ArrayList<>();
 
 		for (int i = 0; i < geoList.size(); i++) {
 			copyList.add(geoList.get(i).copy());
@@ -532,7 +532,7 @@ public class DataItem {
 			return null;
 		}
 
-		ArrayList<String> strList = new ArrayList<String>();
+		ArrayList<String> strList = new ArrayList<>();
 
 		try {
 			switch (sourceType) {

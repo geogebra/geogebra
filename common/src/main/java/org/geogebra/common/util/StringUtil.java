@@ -639,7 +639,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		int curly = 0;
 		int square = 0;
 		int round = 0;
-		Stack<Integer> closingBrackets = new Stack<Integer>();
+		Stack<Integer> closingBrackets = new Stack<>();
 		boolean comment = false;
 		for (int i = parseString.length() - 1; i >= 0; i--) {
 			char ch = parseString.charAt(i);
@@ -702,7 +702,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 		// When we have <splitter> || , we know that we should separate
 		// these bars (i. e., we want absolute value, not OR)
-		Set<Character> splitters = new TreeSet<Character>(
+		Set<Character> splitters = new TreeSet<>(
 				Arrays.asList(new Character[] { Unicode.SQUARE_ROOT, '+', '-',
 						'*', '/', '^', '=' }));
 
@@ -723,7 +723,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				parseString = sbFix.reverse().toString();
 				ignoredIndices = ignoreIndices(parseString);
 				sbFix = new StringBuilder();
-				splitters = new TreeSet<Character>(
+				splitters = new TreeSet<>(
 						Arrays.asList(new Character[] { '*', '/', '^', '=',
 								Unicode.SUPERSCRIPT_0, Unicode.SUPERSCRIPT_1,
 								Unicode.SUPERSCRIPT_2, Unicode.SUPERSCRIPT_3,
@@ -984,7 +984,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	public static ArrayList<String> wholeWordTokenize(String input) {
 		// ArrayList is easier for now as we don't know
 		// the length of the returned String yet
-		ArrayList<String> ret = new ArrayList<String>();
+		ArrayList<String> ret = new ArrayList<>();
 		Character actChar;
 		String actWord = "";
 

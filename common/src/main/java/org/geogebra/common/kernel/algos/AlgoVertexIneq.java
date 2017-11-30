@@ -44,7 +44,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	AlgoVertexIneq(Construction cons, GeoFunctionNVar p) {
 		super(cons);
 		this.p = p;
-		vertices = new ArrayList<GeoPoint>();
+		vertices = new ArrayList<>();
 		helperLine = new GeoLine(cons);
 		outputPoints = createOutputPoints();
 		setInputOutput(); // for AlgoElement
@@ -598,7 +598,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
+		return new OutputHandler<>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoPoint newElement() {
 				GeoPoint pt = new GeoPoint(cons);

@@ -141,7 +141,7 @@ public class DataDisplayModel {
 		this.app = daModel.getApp();
 		this.statGeo = daModel.getStatGeo();
 		this.listener = listener;
-		plotGeoList = new ArrayList<GeoElementND>();
+		plotGeoList = new ArrayList<>();
 
 		// create settings
 		settings = new StatPanelSettings();

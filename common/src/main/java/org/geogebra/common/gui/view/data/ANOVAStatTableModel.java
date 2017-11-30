@@ -18,7 +18,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 	public static ArrayList<double[]> getCategoryData(GeoList geoList) {
 
 		// create an array list of data arrays
-		ArrayList<double[]> categoryData = new ArrayList<double[]>();
+		ArrayList<double[]> categoryData = new ArrayList<>();
 
 		// load the data arrays from the input GeoList
 		GeoList list;

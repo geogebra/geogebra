@@ -151,17 +151,17 @@ public class GeoPolyhedron extends GeoElement3D
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
 
-		polygonsIndex = new TreeMap<ConstructionElementCycle, Integer>();
-		polygonsDescriptions = new ArrayList<ConstructionElementCycle>();
-		polygons = new TreeMap<Integer, GeoPolygon3D>();
+		polygonsIndex = new TreeMap<>();
+		polygonsDescriptions = new ArrayList<>();
+		polygons = new TreeMap<>();
 
-		segmentsIndex = new TreeMap<ConstructionElementCycle, Long>();
-		segments = new TreeMap<Long, GeoSegment3D>();
+		segmentsIndex = new TreeMap<>();
+		segments = new TreeMap<>();
 
-		segmentsLinked = new TreeMap<ConstructionElementCycle, GeoSegmentND>();
-		polygonsLinked = new ArrayList<GeoPolygon>();
+		segmentsLinked = new TreeMap<>();
+		polygonsLinked = new ArrayList<>();
 
-		pointsCreated = new ArrayList<GeoPoint3D>();
+		pointsCreated = new ArrayList<>();
 	}
 
 	/**
@@ -1310,7 +1310,7 @@ public class GeoPolyhedron extends GeoElement3D
 						}
 					};
 				}
-				copyPoints = new TreeMap<GeoPointND, GeoPoint3D>(
+				copyPoints = new TreeMap<>(
 						pointIdComparator);
 			}
 

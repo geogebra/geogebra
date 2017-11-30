@@ -109,7 +109,7 @@ public class StatisticsModel {
 	 */
 	private void createLabelMap() {
 		if (labelMap == null) {
-			labelMap = new HashMap<Integer, String>();
+			labelMap = new HashMap<>();
 		}
 
 		labelMap.clear();
@@ -129,7 +129,7 @@ public class StatisticsModel {
 				loc.getMenu("TEstimatePairedDifferences"));
 
 		// REVERSE LABEL MAP
-		labelMapReverse = new HashMap<String, Integer>();
+		labelMapReverse = new HashMap<>();
 		for (Entry<Integer, String> entry : labelMap.entrySet()) {
 
 			labelMapReverse.put(entry.getValue(), entry.getKey());

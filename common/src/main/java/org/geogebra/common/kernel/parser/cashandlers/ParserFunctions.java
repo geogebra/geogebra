@@ -19,10 +19,10 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  */
 public class ParserFunctions {
-	private final List<Map<String, Operation>> stringToOp = new ArrayList<Map<String, Operation>>();
+	private final List<Map<String, Operation>> stringToOp = new ArrayList<>();
 
-	private final TreeSet<String> RESERVED_FUNCTION_NAMES = new TreeSet<String>();
-	private final TreeSet<String> syntaxes = new TreeSet<String>();
+	private final TreeSet<String> RESERVED_FUNCTION_NAMES = new TreeSet<>();
+	private final TreeSet<String> syntaxes = new TreeSet<>();
 	private static final int MAX_ARGS = 4;
 	private boolean localeLoaded = false;
 
@@ -404,7 +404,7 @@ public class ParserFunctions {
 	 *         brackets at the end)
 	 */
 	public ArrayList<String> getCompletions(String prefix) {
-		ArrayList<String> completions = new ArrayList<String>();
+		ArrayList<String> completions = new ArrayList<>();
 		Iterator<String> candidates = syntaxes.tailSet(prefix).iterator();
 		while (candidates.hasNext()) {
 			String candidate = candidates.next();

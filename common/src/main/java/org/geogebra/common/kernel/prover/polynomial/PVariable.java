@@ -15,7 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class PVariable implements Comparable<PVariable> {
 	// private int nextAvailableNumber = 0;
 	// private HashMap<String,Integer> nameToId;
-	private HashMap<Integer, PVariable> twins = new HashMap<Integer, PVariable>();
+	private HashMap<Integer, PVariable> twins = new HashMap<>();
 
 	private GeoElement parent;
 	// private final String name;

@@ -115,7 +115,7 @@ public class AlgoNSolveODE extends AlgoElement {
 			y0[i] = ((GeoNumeric) startY.get(i)).getDouble();
 		}
 
-		al = new ArrayList<ArrayList<MyPoint>>(dim);
+		al = new ArrayList<>(dim);
 
 		for (int i = 0; i < dim; i++) {
 			al.add(new ArrayList<MyPoint>());

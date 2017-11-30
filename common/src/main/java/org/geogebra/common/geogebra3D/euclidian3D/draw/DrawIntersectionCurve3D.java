@@ -33,7 +33,7 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves
 
 		super(a_view3D, geo);
 
-		drawables = new ArrayList<Drawable3D>();
+		drawables = new ArrayList<>();
 
 		setPickingType(PickingType.POINT_OR_CURVE);
 

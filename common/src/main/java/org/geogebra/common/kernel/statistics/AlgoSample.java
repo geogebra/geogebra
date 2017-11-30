@@ -113,7 +113,7 @@ public class AlgoSample extends AlgoElement {
 				return;
 			}
 
-			ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+			ArrayList<GeoElement> list = new ArrayList<>();
 
 			// copy inputList into arraylist
 			for (int i = 0; i < inputListSize; i++) {

@@ -7,7 +7,7 @@ import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
 
 public class DataAnalysisSettings {
-	private ArrayList<String> items = new ArrayList<String>();
+	private ArrayList<String> items = new ArrayList<>();
 	private int mode = DataAnalysisModel.MODE_ONEVAR;
 	private Regression regression = Regression.NONE;
 

@@ -47,7 +47,7 @@ public class ToolManagerDialogModel {
 		this.app = app;
 		this.loc = app.getLocalization();
 		this.listener = listener;
-		deletedMacros = new ArrayList<Macro>();
+		deletedMacros = new ArrayList<>();
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class ToolManagerDialogModel {
 		// keeping "pointers" on the Assignments in the Exercise to put them
 		// in Place afterwards (the Exercise checks if they are still valid)
 		Exercise ex = app.getKernel().getExercise();
-		ArrayList<Assignment> assignments = new ArrayList<Assignment>(
+		ArrayList<Assignment> assignments = new ArrayList<>(
 				ex.getParts());
 
 		kernel.removeAllMacros();
@@ -153,7 +153,7 @@ public class ToolManagerDialogModel {
 
 			// we need to save all selected tools and all tools
 			// that are used by the selected tools
-			LinkedHashSet<Macro> tools = new LinkedHashSet<Macro>();
+			LinkedHashSet<Macro> tools = new LinkedHashSet<>();
 			for (int i = 0; i < sel.length; i++) {
 				Macro macro = (Macro) sel[i];
 				ArrayList<Macro> macros = macro.getUsedMacros();
@@ -164,7 +164,7 @@ public class ToolManagerDialogModel {
 			}
 
 			// create Macro array list from tools set
-			ArrayList<Macro> macros = new ArrayList<Macro>(tools.size());
+			ArrayList<Macro> macros = new ArrayList<>(tools.size());
 			Iterator<Macro> it = tools.iterator();
 			while (it.hasNext()) {
 				macros.add(it.next());
@@ -186,7 +186,7 @@ public class ToolManagerDialogModel {
 
 		// we need to save all selected tools and all tools
 		// that are used by the selected tools
-		LinkedHashSet<Macro> tools = new LinkedHashSet<Macro>();
+		LinkedHashSet<Macro> tools = new LinkedHashSet<>();
 		for (int i = 0; i < sel.length; i++) {
 			Macro macro = (Macro) sel[i];
 			ArrayList<Macro> macros = macro.getUsedMacros();
@@ -197,7 +197,7 @@ public class ToolManagerDialogModel {
 		}
 
 		// create Macro array list from tools set
-		ArrayList<Macro> macros = new ArrayList<Macro>(tools.size());
+		ArrayList<Macro> macros = new ArrayList<>(tools.size());
 		Iterator<Macro> it = tools.iterator();
 		while (it.hasNext()) {
 			macros.add(it.next());

@@ -504,7 +504,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 		GeoPoint geoelement;
 		// This is code duplication of AlgoSort, but for the time being:
 		TreeSet<GeoPoint> sortedSet;
-		sortedSet = new TreeSet<GeoPoint>(GeoPoint.getComparatorX());
+		sortedSet = new TreeSet<>(GeoPoint.getComparatorX());
 		for (int i = 0; i < size; i++) {
 			if (geolist.get(i) instanceof GeoPoint) {
 				geoelement = (GeoPoint) geolist.get(i);

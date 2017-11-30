@@ -40,7 +40,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 					&& (ok[3] = arg2[3] instanceof GeoNumberValue)) {
 				GeoElement geo = arg2[0];
 
-				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> listItems = new ArrayList<>();
 				listItems.add(arg2[1]);
 				listItems.add(arg2[2]);
 				listItems.add(arg2[3]);
@@ -72,7 +72,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 
 				GeoElement geo = arg2[0];
 
-				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> listItems = new ArrayList<>();
 				listItems.add(arg2[1]);
 				listItems.add(arg2[2]);
 				listItems.add(arg2[3]);

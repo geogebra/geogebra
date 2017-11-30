@@ -39,7 +39,7 @@ public class DrawAxis3D extends DrawLine3D {
 
 		super.setDrawMinMax(-2, 2);
 
-		labels = new TreeMap<String, DrawLabel3D>();
+		labels = new TreeMap<>();
 
 	}
 

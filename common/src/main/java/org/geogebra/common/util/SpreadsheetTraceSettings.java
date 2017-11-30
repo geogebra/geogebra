@@ -36,7 +36,7 @@ public class SpreadsheetTraceSettings {
 	public int headerOffset = 1;
 
 	/** List of most recently recorded trace values */
-	public ArrayList<Double> lastTrace = new ArrayList<Double>();
+	public ArrayList<Double> lastTrace = new ArrayList<>();
 
 	// ============================
 	// Flags

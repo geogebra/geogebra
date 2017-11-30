@@ -823,7 +823,7 @@ public class StatGeo {
 	public GeoElement createScatterPlot(GeoList dataList) {
 
 		// copy the dataList geo
-		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
+		ArrayList<GeoElement> list = new ArrayList<>();
 		for (int i = 0; i < dataList.size(); ++i) {
 			list.add(dataList.get(i));
 		}

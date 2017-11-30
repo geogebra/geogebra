@@ -22,7 +22,7 @@ public class AlgoDivisorsList extends AlgoElement {
 	private GeoNumberValue number;
 	private AlgoPrimeFactorization factors;
 	private GeoList factorList;
-	List<Long> factList = new ArrayList<Long>();
+	List<Long> factList = new ArrayList<>();
 
 	public AlgoDivisorsList(Construction cons, String label,
 			GeoNumberValue number) {
@@ -70,7 +70,7 @@ public class AlgoDivisorsList extends AlgoElement {
 		}
 		result.setDefined(true);
 		result.clear();
-		Set<Long> sortedSet = new TreeSet<Long>();
+		Set<Long> sortedSet = new TreeSet<>();
 		sortedSet.addAll(factList);
 		Iterator<Long> iterator = sortedSet.iterator();
 

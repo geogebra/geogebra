@@ -42,13 +42,13 @@ public class FormatCollada implements Format {
 	@Override
 	public void getScriptStart(StringBuilder sb) {
 		if (idColors == null) {
-			idColors = new ArrayList<IdColor>();
+			idColors = new ArrayList<>();
 		}
 		if (materials == null) {
-			materials = new HashMap<Integer, GColor>();
+			materials = new HashMap<>();
 		} 
 		if (labels == null) {
-			labels = new HashMap<String, Integer>();
+			labels = new HashMap<>();
 		}
 		sb.append("<?xml version=\"1.0\" encoding=\"utf-8\"?>");
 		sb.append("\n<COLLADA xmlns=\"http://www.collada.org/2005/11/COLLADASchema\" version=\"1.5\">");

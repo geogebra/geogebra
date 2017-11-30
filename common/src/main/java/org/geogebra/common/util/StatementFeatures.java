@@ -49,7 +49,7 @@ class StatementFeatures {
 		AlgoElement ae = node.getParentAlgorithm();
 		if (ae != null) {
 			for (GeoElement dependency : ae.getInput()) {
-				ArrayList<GeoElement> item = new ArrayList<GeoElement>();
+				ArrayList<GeoElement> item = new ArrayList<>();
 				item.add(dependency);
 				item.add(node);
 				deps.add(item);
@@ -80,7 +80,7 @@ class StatementFeatures {
 			ExpressionNode root = ((AlgoDependentBoolean) ae)
 					.getExpression();
 
-			HashMap<GeoElement, Integer> gSet = new HashMap<GeoElement, Integer>();
+			HashMap<GeoElement, Integer> gSet = new HashMap<>();
 			GeoCollector gc = GeoCollector.getCollector(gSet);
 			root.traverse(gc);
 			Iterator<Entry<GeoElement, Integer>> it = gSet.entrySet().iterator();
@@ -119,7 +119,7 @@ class StatementFeatures {
 		int size = 0;
 
 		double mean, variation_coefficient, minimum, maximum, entropy;
-		HashMap<Object, Integer> frequencies = new HashMap<Object, Integer>();
+		HashMap<Object, Integer> frequencies = new HashMap<>();
 		Iterator<Object> it = nodes.iterator();
 
 		int number_of_nodes = 0;
@@ -252,10 +252,10 @@ class StatementFeatures {
 	 */
 	static void init(GeoElement statement) {
 
-		nodeLongestPath = new HashMap<GeoElement, Integer>();
-		nodeComplexity = new HashMap<GeoElement, Integer>();
+		nodeLongestPath = new HashMap<>();
+		nodeComplexity = new HashMap<>();
 		longestPath = 0;
-		deps = new HashSet<ArrayList<GeoElement>>();
+		deps = new HashSet<>();
 		csv_header = "";
 		csv_data = "";
 
@@ -265,12 +265,12 @@ class StatementFeatures {
 
 		List<Object> geo_nodes, nodes_in_deg, nodes_out_deg, nodes_deg,
 				types, objs;
-		geo_nodes = new ArrayList<Object>();
-		nodes_in_deg = new ArrayList<Object>();
-		nodes_out_deg = new ArrayList<Object>();
-		nodes_deg = new ArrayList<Object>();
-		types = new ArrayList<Object>();
-		objs = new ArrayList<Object>();
+		geo_nodes = new ArrayList<>();
+		nodes_in_deg = new ArrayList<>();
+		nodes_out_deg = new ArrayList<>();
+		nodes_deg = new ArrayList<>();
+		types = new ArrayList<>();
+		objs = new ArrayList<>();
 
 		int number_of_nodes = 0, free = 0, edges = 0;
 		while (it.hasNext()) {

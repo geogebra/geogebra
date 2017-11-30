@@ -9,7 +9,7 @@ import java.util.HashMap;
  *
  */
 public class NormalizerMinimal {
-	static private HashMap<Character, String> hm = new HashMap<Character, String>();
+	static private HashMap<Character, String> hm = new HashMap<>();
 
 	static {
 

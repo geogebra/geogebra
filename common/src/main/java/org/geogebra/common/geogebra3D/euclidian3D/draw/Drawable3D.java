@@ -1818,7 +1818,7 @@ public abstract class Drawable3D extends DrawableND {
 		if (hasTrace()) {
 			if (index != NOT_REUSABLE_INDEX) {
 				if (tracesPackingBuffer == null) {
-					tracesPackingBuffer = new LinkedList<Integer>();
+					tracesPackingBuffer = new LinkedList<>();
 				}
 				tracesPackingBuffer.add(index);
 			}

@@ -90,7 +90,7 @@ public class ProbabilityManager {
 	 */
 	public HashMap<DIST, String> getDistributionMap() {
 
-		HashMap<DIST, String> plotMap = new HashMap<DIST, String>();
+		HashMap<DIST, String> plotMap = new HashMap<>();
 
 		plotMap.put(DIST.NORMAL, loc.getMenu("Distribution.Normal"));
 		plotMap.put(DIST.STUDENT, loc.getMenu("Distribution.StudentT"));
@@ -120,7 +120,7 @@ public class ProbabilityManager {
 	public HashMap<String, DIST> getReverseDistributionMap() {
 
 		HashMap<DIST, String> plotMap = getDistributionMap();
-		HashMap<String, DIST> plotMapReverse = new HashMap<String, DIST>();
+		HashMap<String, DIST> plotMapReverse = new HashMap<>();
 		for (Entry<DIST, String> entry : plotMap.entrySet()) {
 			plotMapReverse.put(entry.getValue(), entry.getKey());
 		}

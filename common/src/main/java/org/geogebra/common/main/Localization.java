@@ -1205,7 +1205,7 @@ public abstract class Localization {
 
 	public void initTranslateCommand() {
 		if (translateCommandTable == null) {
-			translateCommandTable = new HashMap<String, String>();
+			translateCommandTable = new HashMap<>();
 		}
 		translateCommandTable.clear();
 
