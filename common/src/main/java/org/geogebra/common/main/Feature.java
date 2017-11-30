@@ -177,9 +177,6 @@ public enum Feature {
 	/** GGB-1970*/
 	ARROW_OUTPUT_PREFIX,
 
-	/** AND-479*/
-	MOB_EXAM_MODE,
-
 	AND_AV_ITEM_MENU,
 
 	/** GGB-1982 */
