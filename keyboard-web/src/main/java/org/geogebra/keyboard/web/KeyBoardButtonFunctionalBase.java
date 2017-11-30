@@ -59,6 +59,10 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 	 *            - inserted text
 	 * @param handler
 	 *            {@link ClickHandler}
+	 * @param loc
+	 *            localization
+	 * @param altText
+	 *            alternate text for icon
 	 */
 	public KeyBoardButtonFunctionalBase(ImageResource image,
 			String feedback, ButtonHandler handler, Localization loc,
@@ -91,11 +95,13 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		this.image = new Image(new ImageResourcePrototype(null,
 				svg.getSafeUri(), 0, 0, 24, 24, false, false));
 		this.image.setAltText(loc.getMenu(altText));
+		this.image.getElement().setAttribute("role", "img");
 		this.feedback = feedback;
 		this.add(this.image);
 		if (addSupSyle) {
 			this.addStyleName("sup");
 		}
+		this.getElement().setAttribute("aria-label", loc.getMenu(altText));
 	}
 
 	/**
