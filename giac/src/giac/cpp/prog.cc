@@ -2556,7 +2556,7 @@ namespace giac {
 	const char * name=tmp._IDNTptr->id_name;
 	int bl=strlen(name);
 	gen a=*it;
-	if (name[bl-2]=='_'){
+	if (name[bl-2]=='_' && (a.type!=_STRNG || a.subtype!=-1)){
 	  switch (name[bl-1]){
 	  case 'd':
 	    if (a.type!=_INT_ && a.type!=_DOUBLE_ && a.type!=_FRAC){
@@ -7505,9 +7505,20 @@ namespace giac {
     int s=int(v.size());
     if (s<2)
       return gentoofewargs("");
-    if (v[1].type!=_VECT)
-      return gensizeerr(contextptr);
-    int i=equalposcomp(*v[1]._VECTptr,v[0]);
+    int i=-1;
+    if (v[0].type==_STRNG && v[1].type==_STRNG){
+      string f=*v[0]._STRNGptr,s=*v[1]._STRNGptr;
+      int pos=s.find(f);
+      if (pos<0 || pos>=s.size())
+	i=0;
+      else
+	i=pos+1;
+    }
+    else {
+      if (v[1].type!=_VECT)
+	return gensizeerr(contextptr);
+      i=equalposcomp(*v[1]._VECTptr,v[0]);
+    }
     if (s==3){
       gen tmpsto;
       if (array_start(contextptr))

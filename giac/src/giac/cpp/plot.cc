@@ -10262,6 +10262,10 @@ namespace giac {
     vecteur v(w);
     bool curve=true;
     gen fp=v[0];
+    if (fp.is_symb_of_sommet(at_equal) && fp._SYMBptr->feuille[0].type==_INT_){
+      fp=fp._SYMBptr->feuille[1];
+      *logptr(contextptr) << "Warning, replacing plotode(" << v[0] << " by plotode(" << fp << endl;
+    }
     if (fp.type!=_VECT) // y'=f(x,y)
       fp=makevecteur(plus_one,fp);
     gen vars=v[1];

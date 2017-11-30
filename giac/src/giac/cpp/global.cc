@@ -3537,7 +3537,9 @@ extern "C" void Sleep(unsigned int miliSecond);
 #endif
     gen g = (*v)[0];
     g = giac::protecteval(g,(*v)[1].val,contextptr);
+#ifndef NO_STDEXCEPT
     try {
+#endif
 #ifndef __MINGW_H
       times(&tmp2);
       double dt=delta_tms(tmp1,tmp2);
@@ -3548,8 +3550,10 @@ extern "C" void Sleep(unsigned int miliSecond);
       (*v)[4]=end-beg;
 #endif
       (*v)[5]=g;
+#ifndef NO_STDEXCEPT
     } catch (std::runtime_error & e){
     }
+#endif
     ptr->stackaddr=0;
     thread_eval_status(0,contextptr);
     pthread_exit(0);
@@ -3629,10 +3633,14 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifndef __MINGW_H
       *logptr(contextptr) << gettext("Thread ") << tp.eval_thread << " has been cancelled" << endl;
 #endif
+#ifdef NO_STDEXCEPT
+      pthread_cancel(tp.eval_thread) ;
+#else
       try {
 	pthread_cancel(tp.eval_thread) ;
       } catch (...){
       }
+#endif
       pthread_mutex_unlock(mutexptr(contextptr));
       return -1;
     }
@@ -5660,6 +5668,31 @@ unsigned int ConvertUTF8toUTF16 (
     }
   }
 
+  /*
+  string glue_lines_backslash(const string & s){
+    string res,line;
+    int ss=s.size();
+    for (int i=0;i<ss;++i){
+      if (s[i]!='\n'){
+	line += s[i];
+	continue;
+      }
+      int ls=line.size(),j;
+      for (j=ls-1;j>=0;--j){
+	if (line[j]!=' ')
+	  break;
+      }
+      if (line[j]!='\\'){
+	res += line+'\n';
+	line ="";
+      }
+      else
+	line=line.substr(0,j); 
+    }
+    return res+line;
+  }
+  */
+
   // detect Python like syntax: 
   // remove """ """ docstrings and ''' ''' comments
   // cut string in lines, remove comments at the end (search for #)
@@ -5740,6 +5773,7 @@ unsigned int ConvertUTF8toUTF16 (
       res=res.substr(17,res.size()-18);
     res=remove_comment(res,"\"\"\"",false);
     res=remove_comment(res,"'''",true);
+    //res=glue_lines_backslash(res);
     vector<int_string> stack;
     string s,cur; 
     for (;res.size();){

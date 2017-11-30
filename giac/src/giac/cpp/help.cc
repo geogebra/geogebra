@@ -44,7 +44,7 @@ using namespace std;
 #include <sys/param.h>
 #endif
 
-#if !defined BESTA_OS && !defined NSPIRE // test should always return true
+#if !defined BESTA_OS && !defined NSPIRE && !defined NUMWORKS // test should always return true
 #include <dirent.h>
 #endif
 
