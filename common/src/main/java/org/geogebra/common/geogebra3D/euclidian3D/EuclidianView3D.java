@@ -1477,6 +1477,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 * @param d
 	 */
 	public void remove(Drawable3D d) {
+		drawable3DListToBeAdded.remove(d);
 		drawable3DListToBeRemoved.add(d);
 	}
 
@@ -2489,8 +2490,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void setPreview(Previewable previewDrawable) {
 
-		// Log.debug(""+previewDrawable);
-
 		if (this.previewDrawable == previewDrawable) {
 			return;
 		}
@@ -2500,16 +2499,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 
 		if (previewDrawable instanceof Drawable3D) {
-			if (((Drawable3D) previewDrawable).getGeoElement() != null)
-			 {
+			if (((Drawable3D) previewDrawable).getGeoElement() != null) {
 				addToDrawable3DLists((Drawable3D) previewDrawable);
-			// drawable3DLists.add((Drawable3D) previewDrawable);
 			}
 		}
-
-		// Application.debug("drawList3D :\n"+drawList3D);
-
-		// setCursor3DType(PREVIEW_POINT_NONE);
 
 		this.previewDrawable = previewDrawable;
 
