@@ -28,6 +28,8 @@ $slider-diameter:15px;
 		text-shadow: initial;
 	}
 	table tr, table td, img, li, input, button, input[type="number"], input[type="text"], ul {
+		margin: 0;
+		padding: 0;
 		margin: initial;
 		padding: initial;
 		border: initial;

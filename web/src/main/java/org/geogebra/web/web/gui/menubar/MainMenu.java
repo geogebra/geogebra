@@ -178,7 +178,7 @@ public class MainMenu extends FlowPanel
 		menuTitles.clear();
 		menuImgs.clear();
 
-		if (app.has(Feature.ARIA_MENU)) {
+		if (app.has(Feature.ARIA_MENU) && app.isUnbundled()) {
 			initAriaStackPanel();
 		} else {
 			initKeyListener();
