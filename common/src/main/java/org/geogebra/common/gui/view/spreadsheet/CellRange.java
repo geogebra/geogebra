@@ -584,12 +584,16 @@ final public class CellRange {
 	 * Prints debugging information about the cell range
 	 */
 	public void debug() {
-		Log.debug("-------------------------");
-		Log.debug("anchor cell:  (" + anchorColumn + "," + anchorRow + ")");
-		Log.debug("corner cells: (" + minColumn + "," + minRow + ")  ("
-				+ maxColumn + "," + maxRow + ")");
-		Log.debug("isRow: " + isRow());
-		Log.debug("isColumn: " + isColumn());
+		Log.debug("-------------------------\n");
+		Log.debug(toString());
+	}
+
+	@Override
+	public String toString(){
+		return "(" + anchorColumn + "," + anchorRow + ") in (" 
+		 + minColumn + "," + minRow + ") : ("
+				+ maxColumn + "," + maxRow + ")"+
+		( isRow() ? "row":"")+(isColumn()?"column":"");
 	}
 
 }
