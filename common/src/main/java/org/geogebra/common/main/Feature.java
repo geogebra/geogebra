@@ -63,8 +63,6 @@ public enum Feature {
 	/** MOW */
 	WHITEBOARD_APP,
 
-	MOBILE_CACHE_FEATURED,
-
 	/**
 	 * GGB-1398 + GGB-1529
 	 */

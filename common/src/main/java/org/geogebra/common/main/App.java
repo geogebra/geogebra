@@ -3929,10 +3929,6 @@ public abstract class App implements UpdateSelection {
             case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
                 return false;
 
-            // MOB-351 5.0.358.0
-            case MOBILE_CACHE_FEATURED:
-                return true;
-
             case AND_TRACE_IN_PROPERTIES:
                 return true; // 5.0.356
 
