@@ -540,6 +540,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       _integer_mode_=b;
   }
 
+  bool python_color=false;
   static int _python_compat_=false;
   int & python_compat(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -549,6 +550,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   }
 
   void python_compat(int b,GIAC_CONTEXT){
+    python_color=b; //cout << "python_color " << b << endl;
     if (contextptr && contextptr->globalptr )
       contextptr->globalptr->_python_compat_=b;
     else
@@ -5810,8 +5812,16 @@ unsigned int ConvertUTF8toUTF16 (
 	if (chkfrom && ch=='f' && pos+15<int(cur.size()) && cur.substr(pos,5)=="from "){
 	  chkfrom=false;
 	  int posi=cur.find(" import ");
+	  if (posi<0 || posi>=int(cur.size()))
+	    posi = cur.find(" import*");
 	  if (posi>pos+5 && posi<int(cur.size())){
+	    posi=cur.find("turtle");
+	    int cs=int(cur.size());
 	    cur=cur.substr(0,pos);
+	    if (posi>=0 && posi<cs){
+	      // add python turtle shortcuts
+	      cur += "\npu:=penup;up:=penup; pd:=pendown;down:=pendown; fd:=forward;bk:=backward; rt:=right; lt:=left; pos:=position; seth:=heading;setheading:=heading; reset:=efface\n";
+	    }
 	    pythonmode=true;
 	    break;
 	  }

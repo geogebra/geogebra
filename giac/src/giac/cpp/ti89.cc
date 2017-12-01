@@ -1102,6 +1102,8 @@ namespace giac {
       }
     }
 #endif
+    if (g.type==_INT_ || g.type==_DOUBLE_)
+      return _tourne_gauche(g,contextptr);
     vecteur v(1,g);
     if (g.type==_VECT && g.subtype==_SEQ__VECT)
       v=*g._VECTptr;
@@ -1128,6 +1130,8 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     if (g.type==_SYMB && g._SYMBptr->feuille.type==_VECT && !g._SYMBptr->feuille._VECTptr->empty())
       return g._SYMBptr->feuille._VECTptr->back();
+    if (g.type==_INT_ || g.type==_DOUBLE_)
+      return _tourne_droite(g,contextptr);
 #if defined HAVE_LIBMPFI && !defined NO_RTTI
     if (g.type==_REAL){
       if (real_interval * ptr=dynamic_cast<real_interval *>(g._REALptr)){
@@ -1910,7 +1914,10 @@ namespace giac {
     int l=absint(v[0].val),c=absint(v[1].val);
     if (l > LIST_SIZE_LIMIT || c > LIST_SIZE_LIMIT || longlong(l) * c > LIST_SIZE_LIMIT)
       return gendimerr(contextptr);
-    return vecteur(l,vecteur(c));
+    vecteur res(l);
+    for (int i=0;i<l;++i)
+      res[i]=vecteur(c);
+    return res;
   }
   static const char _newMat_s[]="newMat";
   static define_unary_function_eval (__newMat,&_newMat,_newMat_s);

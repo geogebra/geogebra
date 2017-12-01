@@ -666,6 +666,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
   int & python_compat(GIAC_CONTEXT);
   void python_compat(int b,GIAC_CONTEXT);
   int array_start(GIAC_CONTEXT);
+  extern bool python_color; // global variable for syntax highlighting
 
   int & calc_mode(GIAC_CONTEXT);
   int abs_calc_mode(GIAC_CONTEXT);

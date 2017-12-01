@@ -13470,6 +13470,10 @@ namespace giac {
   static define_unary_function_eval2 (__avance,&_avance,_avance_s,&printastifunction);
   define_unary_function_ptr5( at_avance ,alias_at_avance,&__avance,0,T_LOGO);
 
+  static const char _forward_s []="forward";
+  static define_unary_function_eval (__forward,&_avance,_forward_s);
+  define_unary_function_ptr5( at_forward ,alias_at_forward,&__forward,0,true);
+
   gen _recule(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     // logo instruction
@@ -13480,6 +13484,10 @@ namespace giac {
   static const char _recule_s []="recule";
   static define_unary_function_eval2 (__recule,&_recule,_recule_s,&printastifunction);
   define_unary_function_ptr5( at_recule ,alias_at_recule,&__recule,0,T_LOGO);
+
+  static const char _backward_s []="backward";
+  static define_unary_function_eval (__backward,&_recule,_backward_s);
+  define_unary_function_ptr5( at_backward ,alias_at_backward,&__backward,0,true);
 
   gen _position(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -13517,6 +13525,11 @@ namespace giac {
   static const char _cap_s []="cap";
   static define_unary_function_eval2 (__cap,&_cap,_cap_s,&printastifunction);
   define_unary_function_ptr5( at_cap ,alias_at_cap,&__cap,0,T_LOGO);
+
+  static const char _heading_s []="heading";
+  static define_unary_function_eval (__heading,&_cap,_heading_s);
+  define_unary_function_ptr5( at_heading ,alias_at_heading,&__heading,0,true);
+
 
   gen _tourne_droite(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -13566,6 +13579,10 @@ namespace giac {
   static define_unary_function_eval2 (__leve_crayon,&_leve_crayon,_leve_crayon_s,&printastifunction);
   define_unary_function_ptr5( at_leve_crayon ,alias_at_leve_crayon,&__leve_crayon,0,T_LOGO);
 
+  static const char _penup_s []="penup";
+  static define_unary_function_eval (__penup,&_leve_crayon,_penup_s);
+  define_unary_function_ptr5( at_penup ,alias_at_penup,&__penup,0,true);
+
   gen _baisse_crayon(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     // logo instruction
@@ -13576,6 +13593,10 @@ namespace giac {
   static const char _baisse_crayon_s []="baisse_crayon";
   static define_unary_function_eval2 (__baisse_crayon,&_baisse_crayon,_baisse_crayon_s,&printastifunction);
   define_unary_function_ptr5( at_baisse_crayon ,alias_at_baisse_crayon,&__baisse_crayon,0,T_LOGO);
+
+  static const char _pendown_s []="pendown";
+  static define_unary_function_eval (__pendown,&_baisse_crayon,_pendown_s);
+  define_unary_function_ptr5( at_pendown ,alias_at_pendown,&__pendown,0,true);
 
   gen _ecris(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -13649,6 +13670,10 @@ namespace giac {
   static define_unary_function_eval2 (__cache_tortue,&_cache_tortue,_cache_tortue_s,&printastifunction);
   define_unary_function_ptr5( at_cache_tortue ,alias_at_cache_tortue,&__cache_tortue,0,T_LOGO);
 
+  static const char _hideturtle_s []="hideturtle";
+  static define_unary_function_eval (__hideturtle,&_cache_tortue,_hideturtle_s);
+  define_unary_function_ptr5( at_hideturtle ,alias_at_hideturtle,&__hideturtle,0,true);
+
   gen _montre_tortue(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     // logo instruction
@@ -13659,6 +13684,10 @@ namespace giac {
   static const char _montre_tortue_s []="montre_tortue";
   static define_unary_function_eval2 (__montre_tortue,&_montre_tortue,_montre_tortue_s,&printastifunction);
   define_unary_function_ptr5( at_montre_tortue ,alias_at_montre_tortue,&__montre_tortue,0,T_LOGO);
+
+  static const char _showturtle_s []="showturtle";
+  static define_unary_function_eval (__showturtle,&_montre_tortue,_showturtle_s);
+  define_unary_function_ptr5( at_showturtle ,alias_at_showturtle,&__showturtle,0,true);
 
   gen _debut_enregistrement(const gen & g0,GIAC_CONTEXT){
     if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
@@ -13748,6 +13777,11 @@ namespace giac {
   static const char _crayon_s []="crayon";
   static define_unary_function_eval2 (__crayon,&_crayon,_crayon_s,&printastifunction);
   define_unary_function_ptr5( at_crayon ,alias_at_crayon,&__crayon,0,T_LOGO);
+
+  static const char _pencolor_s []="pencolor";
+  static define_unary_function_eval (__pencolor,&_crayon,_pencolor_s);
+  define_unary_function_ptr5( at_pencolor ,alias_at_pencolor,&__pencolor,0,true);
+
 
   gen _efface(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
