@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.TabHandler;
 
 import com.google.gwt.user.client.DOM;
@@ -34,10 +35,12 @@ public class AccessibilityButton implements AccessibilityInterface {
 				return true;
 			}
 
-			if (app.getGlobalKeyDispatcher().handleCommonKeys(
-					com.himamis.retex.editor.share.util.KeyCodes
-							.translateGWTcode(event.getKeyCode()),
+			if (app.has(Feature.HELP_AND_SHORTCUTS)
+					&& app.getGlobalKeyDispatcher().handleCommonKeys(
+					event.getKeyCode(),
 					event.getCtrlKey(), event.getAltKey())) {
+				event.stopPropagation();
+				event.preventDefault();
 				return true;
 			}
 		}

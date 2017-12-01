@@ -1138,9 +1138,13 @@ public class MainMenu extends FlowPanel
 			selectNextItem(mi);
 		}
 
-		app.getGlobalKeyDispatcher().handleCommonKeys(
-				com.himamis.retex.editor.share.util.KeyCodes
-						.translateGWTcode(event.getNativeKeyCode()),
-				event.isControlKeyDown(), event.isAltKeyDown());
+		if (app.has(Feature.HELP_AND_SHORTCUTS)) {
+			if (app.getGlobalKeyDispatcher().handleCommonKeys(
+					event.getNativeKeyCode(), event.isControlKeyDown(),
+					event.isAltKeyDown())) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		}
 	}
 }

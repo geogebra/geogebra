@@ -778,4 +778,9 @@ public class GlobalKeyDispatcherW extends
 		};
 	}
 
+	@Override
+	protected KeyCodes translateKey(int i) {
+		return KeyCodes.translateGWTcode(i);
+	}
+
 }

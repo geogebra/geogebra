@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.util;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -233,10 +234,9 @@ public class AriaMenuBar extends Widget {
 		} // end case Event.ONKEYDOWN
 		} // end switch (DOM.eventGetType(event))
 
-		if (getApp().getGlobalKeyDispatcher().handleCommonKeys(
-				com.himamis.retex.editor.share.util.KeyCodes
-						.translateGWTcode(event.getKeyCode()),
-				event.getCtrlKey(), event.getAltKey())) {
+		if (getApp().has(Feature.HELP_AND_SHORTCUTS) && getApp()
+				.getGlobalKeyDispatcher().handleCommonKeys(
+				event.getKeyCode(), event.getCtrlKey(), event.getAltKey())) {
 			eatEvent(event);
 		}
 		super.onBrowserEvent(event);

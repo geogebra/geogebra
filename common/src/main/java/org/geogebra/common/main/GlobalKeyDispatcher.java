@@ -418,10 +418,15 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	/**
+	 * Handler for common shortcuts
+	 * 
 	 * @param key
+	 *            translated keycode of the event
 	 * @param isControlDown
+	 *            is control button down
 	 * @param isAltDown
-	 * @return
+	 *            is alt button down
+	 * @return true if the event handled
 	 */
 	public boolean handleCommonKeys(KeyCodes key, boolean isControlDown,
 			boolean isAltDown) {
@@ -432,6 +437,31 @@ public abstract class GlobalKeyDispatcher {
 		}
 		return false;
 	}
+
+	/**
+	 * Handler for common shortcuts
+	 * 
+	 * @param i
+	 *            event keycode
+	 * @param isControlDown
+	 *            is control button down
+	 * @param isAltDown
+	 *            alt button button down
+	 * @return true if the event handled
+	 */
+	public boolean handleCommonKeys(int i, boolean isControlDown,
+			boolean isAltDown) {
+		return handleCommonKeys(translateKey(i), isControlDown, isAltDown);
+	}
+
+	/**
+	 * Translate keycode of event for KeyCodes instance
+	 * 
+	 * @param i
+	 *            event keycode
+	 * @return translated keycode
+	 */
+	protected abstract KeyCodes translateKey(int i);
 
 	private boolean handleCtrlKey(KeyCodes key, boolean isShiftDown,
 			boolean fromSpreadsheet, boolean fromEuclidianView) {
