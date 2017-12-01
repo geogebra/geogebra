@@ -350,12 +350,15 @@ public class AriaStackPanel extends ComplexPanel
 		int index = findDividerIndex(target);
 		if (eventType == Event.ONMOUSEOVER || eventType == Event.ONKEYDOWN
 				|| eventType == Event.ONCLICK) {
-			int idx = getContentIndex(target);
-			Widget content = getWidget(idx);
+
 			if (index > 0) {
 				headers.get(index).focus();
-			} else if (content != null) {
-				content.onBrowserEvent(event);
+			} else {
+				int idx = getContentIndex(target);
+				Widget content = idx == -1 ? null : getWidget(idx);
+				if (content != null) {
+					content.onBrowserEvent(event);
+				}
 			}
 		}
 		super.onBrowserEvent(event);
@@ -407,4 +410,3 @@ public class AriaStackPanel extends ComplexPanel
 		headers.get(index).focus();
 	}
 }
-
