@@ -4286,7 +4286,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2203 */
 		case HELP_AND_SHORTCUTS:
-			return prerelease;
+			return true;
 
 		/** GGB-2204 */
 		case TAB_ON_MENU:
