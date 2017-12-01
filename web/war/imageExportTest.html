@@ -57,7 +57,7 @@
             elem.src = imageBase64;
             elem.style.height = "100%";
             elem.style.width = "100%";
-            elem.style.opacity = 0.5;
+            elem.style.opacity = 0;
             div.appendChild(elem);
 
         }
@@ -104,7 +104,8 @@
 
             var svg = applet1.exportSVG(1, true);
             console.log(svg);
-            openImageInLightBox("data:image/svg+xml;utf8," + svg);
+			// can't use data:image/svg+xml;utf8 in IE11 / Edge
+            openImageInLightBox("data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg))));
 
 
         }
