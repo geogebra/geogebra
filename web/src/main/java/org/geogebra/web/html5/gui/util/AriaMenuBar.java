@@ -224,15 +224,7 @@ public class AriaMenuBar extends Widget {
 
 		case Event.ONKEYDOWN: {
 			int keyCode = event.getKeyCode();
-			if (keyCode == KeyCodes.KEY_X) {
-				if (event.getAltKey() && event.getCtrlKey()) {
-					App app = getApp();
-					if (app != null) {
-						app.getAccessibilityManager().focusInput(true);
-					}
-					eatEvent(event);
-				}
-			} else if (keyCode == KeyCodes.KEY_ENTER) {
+			if (keyCode == KeyCodes.KEY_ENTER) {
 				if (item != null) {
 					doItemAction(item);
 				}
@@ -240,6 +232,13 @@ public class AriaMenuBar extends Widget {
 			break;
 		} // end case Event.ONKEYDOWN
 		} // end switch (DOM.eventGetType(event))
+
+		if (getApp().getGlobalKeyDispatcher().handleCommonKeys(
+				com.himamis.retex.editor.share.util.KeyCodes
+						.translateGWTcode(event.getKeyCode()),
+				event.getCtrlKey(), event.getAltKey())) {
+			eatEvent(event);
+		}
 		super.onBrowserEvent(event);
 	}
 
