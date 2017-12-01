@@ -43,6 +43,7 @@
             div.style["background-size"] = "contain";
             div.style["background-repeat"] = "no-repeat";
             div.style["background-position"] = "center";
+ 			div.style.zIndex=10000;
             div.onclick = function() {
                 document.body.removeChild(div);
             };
@@ -56,7 +57,7 @@
             elem.src = imageBase64;
             elem.style.height = "100%";
             elem.style.width = "100%";
-            elem.style.opacity = 0;
+            elem.style.opacity = 0.5;
             div.appendChild(elem);
 
         }
@@ -74,6 +75,7 @@
             div.style.left = "10%";
             div.style.border = "7px solid rgba(0, 0, 0, 0.5)";
             div.style.background = "#FFF";
+			div.style.zIndex=10000;
             div.onclick = function() {
                 document.body.removeChild(div);
             };
