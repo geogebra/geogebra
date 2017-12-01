@@ -1036,12 +1036,16 @@ public class MainMenu extends FlowPanel
 		return false;
 	}
 
-	private void focusStack(int index) {
+	private void focusStack(int index, boolean first) {
 		if (menuPanel instanceof AriaStackPanel) {
 			((AriaStackPanel) menuPanel).focusHeader(index);
 		} else {
 			GMenuBar mi = getMenuAt(index);
-			mi.selectFirstItem();
+			if (first) {
+				mi.selectFirstItem();
+			} else {
+				mi.selectLastItem();
+			}
 			mi.focus();
 
 		}
@@ -1064,7 +1068,7 @@ public class MainMenu extends FlowPanel
 			int nextIdx = menuPanel.getSelectedIndex() + 1;
 			if (nextIdx < menuPanel.getWidgetCount()) {
 				menuPanel.showStack(nextIdx);
-				focusStack(nextIdx);
+				focusStack(nextIdx, true);
 			} else {
 				return false;
 			}
@@ -1090,11 +1094,8 @@ public class MainMenu extends FlowPanel
 		if (menu.isFirstItemSelected() || menu.isEmpty()) {
 			int prevIdx = menuPanel.getSelectedIndex() - 1;
 			if (prevIdx != -1) {
-				GMenuBar mi = getMenuAt(prevIdx);
 				menuPanel.showStack(prevIdx);
-				if (mi != null) {
-					mi.selectLastItem();
-				}
+				focusStack(prevIdx, false);
 			} else {
 				return false;
 			}
