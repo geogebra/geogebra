@@ -61,7 +61,6 @@ public class GMenuBar extends AriaMenuBar {
 	 */
 	public boolean isLastItemSelected() {
 		return this.getItemIndex(this.getSelectedItem()) == this.getItems().size() + separators - 1;
-		
     }
 	
 	@Override

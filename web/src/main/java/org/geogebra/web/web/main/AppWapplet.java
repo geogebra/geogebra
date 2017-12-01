@@ -486,7 +486,6 @@ public class AppWapplet extends AppWFull {
 			addStyleName("floatingMenu");
 			menu = getAppletFrame().getMenuBar(AppWapplet.this);
 			add(menu);
-			
 		}
 
 		/**

@@ -324,7 +324,6 @@ public class MainMenu extends FlowPanel
 											.getMenu("GeoGebraGeometry")),
 					true);
 		}
-
 	}
 
 	private void initAriaStackPanel() {
@@ -336,7 +335,7 @@ public class MainMenu extends FlowPanel
 				} else {
 					super.showStack(index);
 					if (app.isUnbundledOrWhiteboard()) {
-						setStackTextCollapsed(index, true);
+						setStackTextExpand(index, true);
 					}
 				}
 				dispatchOpenEvent();
@@ -349,7 +348,7 @@ public class MainMenu extends FlowPanel
 				}
 			}
 
-			private void setStackTextCollapsed(int index, boolean collapse) {
+			private void setStackTextExpand(int index, boolean expand) {
 				if (index < 0 || index > menuImgs.size()) {
 					return;
 				}
@@ -361,16 +360,19 @@ public class MainMenu extends FlowPanel
 
 				if (menu == settingsMenu || menu == languageMenu) {
 					setStackText(index, getHTML(img, title), title,
-							collapse);
+							expand);
 					return;
 				}
-				setStackText(index, getHTMLCollapse(img, title), title,
-						collapse);
 
-				if (collapse) {
-					setCollapseStyles(index);
-				} else {
+				String menuText = expand ? getHTMLExpand(img, title)
+						: getHTMLCollapse(img, title);
+
+				setStackText(index, menuText, title, expand);
+
+				if (expand) {
 					setExpandStyles(index);
+				} else {
+					setCollapseStyles(index);
 				}
 
 			}
@@ -417,12 +419,12 @@ public class MainMenu extends FlowPanel
 						if (index == getSelectedIndex()) {
 							closeAll();
 							if (app.isUnbundledOrWhiteboard()) {
-								setStackTextCollapsed(index, true);
+								setStackTextExpand(index, true);
 							}
 							return;
 						}
 						if (app.isUnbundledOrWhiteboard()) {
-							setStackTextCollapsed(getSelectedIndex(), false);
+							setStackTextExpand(getSelectedIndex(), false);
 						}
 						showStack(index);
 					}
@@ -464,6 +466,12 @@ public class MainMenu extends FlowPanel
 				int index = getWidgetCount() - 1;
 				setStackText(index, stackText, getMenuAt(index).getMenuTitle(),
 						null);
+			}
+
+			@Override
+			public void closeAll() {
+				setStackTextExpand(getSelectedIndex(), false);
+				super.closeAll();
 			}
 		};
 
