@@ -332,6 +332,7 @@ public class MainMenu extends FlowPanel
 			public void showStack(int index) {
 				if (app.isUnbundledOrWhiteboard() && index == 0) {
 					super.showStack(1);
+					setStackTextExpand(1, true);
 				} else {
 					super.showStack(index);
 					if (app.isUnbundledOrWhiteboard()) {
@@ -419,12 +420,12 @@ public class MainMenu extends FlowPanel
 						if (index == getSelectedIndex()) {
 							closeAll();
 							if (app.isUnbundledOrWhiteboard()) {
-								setStackTextExpand(index, true);
+								setStackTextExpand(index, false);
 							}
 							return;
 						}
 						if (app.isUnbundledOrWhiteboard()) {
-							setStackTextExpand(getSelectedIndex(), false);
+							// setStackTextExpand(getSelectedIndex(), true);
 						}
 						showStack(index);
 					}
@@ -470,7 +471,7 @@ public class MainMenu extends FlowPanel
 
 			@Override
 			public void closeAll() {
-				setStackTextExpand(getSelectedIndex(), false);
+				setStackTextExpand(getSelectedIndex(), true);
 				super.closeAll();
 			}
 		};
@@ -1025,7 +1026,7 @@ public class MainMenu extends FlowPanel
 	 * Focuses the first item of the Main Menu
 	 */
 	public void focusFirst() {
-		menus.get(0).focus();
+		menuPanel.showStack(1);
 	}
 
 	@Override
