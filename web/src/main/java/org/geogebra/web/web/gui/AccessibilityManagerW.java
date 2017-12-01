@@ -39,10 +39,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusNext(Object source) {
-		if (app.isMenuShowing()) {
-			return;
-		}
-
 		if (source instanceof LatexTreeItemController) {
 			focusMenu();
 		} else if (source instanceof ZoomPanel) {
