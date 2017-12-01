@@ -3929,9 +3929,6 @@ public abstract class App implements UpdateSelection {
             case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
                 return false;
 
-            case AND_TRACE_IN_PROPERTIES:
-                return true; // 5.0.356
-
             case AND_GEOMETRY_IN_MATH_APPS_MENU:
                 return true; // 5.0.376
 

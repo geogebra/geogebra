@@ -99,10 +99,6 @@ public enum Feature {
 	/** MOW-55 */
 	MOW_BOUNDING_BOXES,
 
-
-	/** AND-193 */
-	AND_TRACE_IN_PROPERTIES,
-
 	/** MOW-239 */
 	MOW_IMPROVE_CONTEXT_MENU,
 
