@@ -77,7 +77,7 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 	
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (acc != null && acc.handleBrowserEvent(event)) {
+		if (acc != null && acc.handleBrowserEvent(event, app)) {
 			return;
 		}
 		super.onBrowserEvent(event);

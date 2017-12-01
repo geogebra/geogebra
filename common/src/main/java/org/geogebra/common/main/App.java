@@ -5088,4 +5088,11 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
+	/**
+	 * Hides burger menu on web
+	 */
+	public void hideMenu() {
+		// overwritten in web
+	}
+
 }

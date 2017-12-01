@@ -389,14 +389,6 @@ public abstract class GlobalKeyDispatcher {
 				consumed = true;
 			}
 			break;
-
-		case X:
-			if(isAltDown){
-				app.getAccessibilityManager()
-						.focusInput(true);
-				consumed = true;
-				break;
-			}
 		}
 
 		/*
@@ -420,7 +412,25 @@ public abstract class GlobalKeyDispatcher {
 
 		}
 
+		consumed = handleCommonKeys(key, isControlDown, isAltDown);
+
 		return consumed;
+	}
+
+	/**
+	 * @param key
+	 * @param isControlDown
+	 * @param isAltDown
+	 * @return
+	 */
+	public boolean handleCommonKeys(KeyCodes key, boolean isControlDown,
+			boolean isAltDown) {
+		if (app != null && key == KeyCodes.X && isControlDown && isAltDown) {
+			app.getAccessibilityManager().focusInput(true);
+			app.hideMenu();
+			return true;
+		}
+		return false;
 	}
 
 	private boolean handleCtrlKey(KeyCodes key, boolean isShiftDown,

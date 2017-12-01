@@ -190,4 +190,9 @@ public class StandardButton extends FastButton {
 		AriaHelper.setLabel(this, altText);
 		Roles.getButtonRole().removeAriaPressedState(getElement());
 	}
+
+	@Override
+	public App getApp() {
+		return app;
+	}
 }

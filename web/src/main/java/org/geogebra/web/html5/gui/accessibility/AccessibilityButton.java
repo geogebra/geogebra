@@ -3,6 +3,7 @@ package org.geogebra.web.html5.gui.accessibility;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.TabHandler;
 
 import com.google.gwt.user.client.DOM;
@@ -24,7 +25,7 @@ public class AccessibilityButton implements AccessibilityInterface {
 		tabHandlers.add(handler);
 	}
 
-	public boolean handleBrowserEvent(Event event) {
+	public boolean handleBrowserEvent(Event event, App app) {
 		int eventGetType = DOM.eventGetType(event);
 		if (eventGetType == Event.ONKEYDOWN) {
 			char keyCode = (char) event.getKeyCode();
@@ -32,9 +33,11 @@ public class AccessibilityButton implements AccessibilityInterface {
 				onTabPressed(event);
 				return true;
 			}
-			if (keyCode == 'X' && event.getAltKey() && event.getCtrlKey()) {
-				focusInput(true);
-				event.preventDefault();
+
+			if (app.getGlobalKeyDispatcher().handleCommonKeys(
+					com.himamis.retex.editor.share.util.KeyCodes
+							.translateGWTcode(event.getKeyCode()),
+					event.getCtrlKey(), event.getAltKey())) {
 				return true;
 			}
 		}
