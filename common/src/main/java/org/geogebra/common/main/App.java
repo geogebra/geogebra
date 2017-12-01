@@ -3929,9 +3929,6 @@ public abstract class App implements UpdateSelection {
             case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
                 return false;
 
-            case AND_GEOMETRY_IN_MATH_APPS_MENU:
-                return true; // 5.0.376
-
             case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
                 return true; // 5.0.376
 
