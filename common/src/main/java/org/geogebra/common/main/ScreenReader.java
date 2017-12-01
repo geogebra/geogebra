@@ -114,5 +114,4 @@ public class ScreenReader {
 		Localization loc = app.getLocalization();
 		return loc.getMenu("not visible");
 	}
-
 }

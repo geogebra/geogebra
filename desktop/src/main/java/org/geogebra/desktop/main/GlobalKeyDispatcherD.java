@@ -231,7 +231,6 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 			super.handleCopyCut(cut);
 		}
-
 	}
 
 	@Override
@@ -264,9 +263,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			String mathml = OOMLConverter
 					.oomlToMathml(html.substring(blockBegin, blockEnd)
 							.replace('\n', ' ').replace('\r', ' '));
-			app.getGgbApi().evalCommand(mathml);	
-
-			}
+			app.getGgbApi().evalCommand(mathml);
+		}
 	}
 
 	@Override
@@ -339,16 +337,13 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 					ggb.toFront();
 					ggb.requestFocus();
 					break; // break from if loop
-
 				}
 			}
 
 			return true;
-
 		}
 
 		return false;
-
 	}
 
 	@Override
@@ -389,12 +384,10 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			app.setDefaultCursor();
 			newWindowAllowed = false;
 		}
-
 	}
 
 	@Override
 	protected KeyCodes translateKey(int i) {
 		return KeyCodes.translateJavacode(i);
 	}
-
 }
