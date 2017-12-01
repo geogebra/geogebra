@@ -4284,6 +4284,7 @@ public abstract class App implements UpdateSelection {
 		case CAS_FROM_TO_BASE:
 			return true;
 
+		/** GGB-2203 */
 		case HELP_AND_SHORTCUTS:
 			return prerelease;
 
