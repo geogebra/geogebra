@@ -285,7 +285,9 @@ public class AriaMenuBar extends Widget {
 	 */
 	protected void itemOver(AriaMenuItem item) {
 		selectItem(item);
-		removeSubPopup();
+		if (item != null) {
+			removeSubPopup();
+		}
 		if (item != null
 				&& "true".equals(item.getElement().getAttribute("hasPopup"))
 				&& autoOpen) {
