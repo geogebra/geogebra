@@ -128,9 +128,6 @@ public enum Feature {
 
 	EXPORT_SCAD,
 
-	/** AND-174 */
-	AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION,
-
 	/** GGB-1876 */
 	DOUBLE_ROUND_BRACKETS,
 

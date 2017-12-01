@@ -3929,9 +3929,6 @@ public abstract class App implements UpdateSelection {
             case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
                 return false;
 
-            case AND_KEEP_SIGNED_IN_WHEN_NO_CONNECTION:
-                return true; // 5.0.376
-
             // AND-465: dependent on the MOB_EV_SETTINGS_POPUP feature
             case MOB_DYNAMIC_SYLEBAR:
 
