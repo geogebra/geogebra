@@ -1056,6 +1056,10 @@ public class MainMenu extends FlowPanel
 	 * 
 	 */
 	boolean selectNextItem(GMenuBar menu) {
+		if (menu == null) {
+			return false;
+		}
+
 		if (menu.isLastItemSelected() || menu.isEmpty()) {
 			int nextIdx = menuPanel.getSelectedIndex() + 1;
 			if (nextIdx < menuPanel.getWidgetCount()) {
@@ -1075,16 +1079,29 @@ public class MainMenu extends FlowPanel
 	 * 
 	 * @param menu
 	 *            to select in.
+	 * @return true if the previous item is not the same as it is already
+	 *         selected.
 	 */
-	void selectPreviousItem(GMenuBar menu) {
+	boolean selectPreviousItem(GMenuBar menu) {
+		if (menu == null) {
+			return false;
+		}
+
 		if (menu.isFirstItemSelected() || menu.isEmpty()) {
 			int prevIdx = menuPanel.getSelectedIndex() - 1;
-			GMenuBar mi = getMenuAt(prevIdx);
-			menuPanel.showStack(prevIdx);
-			mi.selectLastItem();
+			if (prevIdx != -1) {
+				GMenuBar mi = getMenuAt(prevIdx);
+				menuPanel.showStack(prevIdx);
+				if (mi != null) {
+					mi.selectLastItem();
+				}
+			} else {
+				return false;
+			}
 		} else {
 			menu.moveSelectionUp();
 		}
+		return true;
 	}
 
 	/**
@@ -1109,10 +1126,12 @@ public class MainMenu extends FlowPanel
 		int key = event.getNativeKeyCode();
 		GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
 
-		if (key == KeyCodes.KEY_TAB && mi != null) {
-			onTab(mi, event.isShiftKeyDown());
-			event.preventDefault();
-			event.stopPropagation();
+		if (key == KeyCodes.KEY_TAB) {
+			if (mi != null) {
+				onTab(mi, event.isShiftKeyDown());
+				event.preventDefault();
+				event.stopPropagation();
+			}
 		} else if (key == KeyCodes.KEY_UP) {
 			selectPreviousItem(mi);
 		} else if (key == KeyCodes.KEY_DOWN) {
