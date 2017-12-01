@@ -392,4 +392,9 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 	}
 
+	@Override
+	protected KeyCodes translateKey(int i) {
+		return KeyCodes.translateJavacode(i);
+	}
+
 }
