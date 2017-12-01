@@ -2320,7 +2320,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Removes geo from 3D views
+	 * Removes geo from 3D view
 	 *
 	 * @param geo
 	 *            geo
