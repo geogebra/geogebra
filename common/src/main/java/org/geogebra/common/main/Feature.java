@@ -51,10 +51,6 @@ public enum Feature {
 	/** GGB-776 */
 	ABSOLUTE_TEXTS,
 
-	/** MOB-601 */
-	MOBILE_LOCAL_SAVE,
-
-
 	/** MOB-788 */
 	MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT,
 

@@ -3925,10 +3925,6 @@ public abstract class App implements UpdateSelection {
             case ANALYTICS:
                 return prerelease;
 
-            // MOB-601 5.0.358.0
-            case MOBILE_LOCAL_SAVE:
-                return true;
-
             // MOB-788
             case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
                 return false;
