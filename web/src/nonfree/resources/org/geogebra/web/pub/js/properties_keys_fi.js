@@ -1637,7 +1637,7 @@ __GGB__keysVar.fi.menu = {
     "DoubleLineEquation": "(a x + b y + c)\xb2 = 0",
     "Down": "Alas",
     "Download": "Lataa koneellesi",
-    "DownloadAs": "Lataa nimell\xe4...",
+    "DownloadAs": "Tallenna piirtoalue...",
     "DownloadAsGgbFile": "Tallenna .ggb-tiedostona",
     "DrawAsDropDownList": "Piirr\xe4 pudotusvalikkona",
     "DrawingPad": "Piirtoalue",
