@@ -8180,7 +8180,7 @@ namespace giac {
     if (g.type==_VECT){
       v=*g._VECTptr;
       int s=int(v.size()),nd=0,nargs=0;
-      if (v[0].type==_FUNC && (nd=is_distribution(v[0])) && 1+(nargs=distrib_nargs(nd))<=s){
+      if (s && v[0].type==_FUNC && (nd=is_distribution(v[0])) && 1+(nargs=distrib_nargs(nd))<=s){
 	if (is_discrete_distribution(nd))
 	  return _histogram(g,contextptr);
 	gen d=distribution(nd);
@@ -8211,6 +8211,25 @@ namespace giac {
     int s=int(v.size());
     gen attribut=default_color(contextptr);
     vecteur attributs(1,attribut);
+    gen v1=eval(v[1],1,contextptr);
+    if (s>1 && v[0].type<=_REAL && v1.type<=_REAL){
+      *logptr(contextptr) << gettext("To get a point, run point(")<<v[0]<<","<<v1<<")" << endl;
+      // gen pos=v[0]+cst_i*v1; s=read_attributs(v,attributs,contextptr); return put_attributs(_point(pos,contextptr),attributs,contextptr);
+    }
+    if (s>1 && v[0].type==_VECT && v1.type==_VECT && v[0]._VECTptr->size()==v1._VECTptr->size()){
+      *logptr(contextptr) << gettext("Assuming you want to run polygonscatterplot") << endl;
+      vecteur w0=*v[0]._VECTptr,w1=*v1._VECTptr;
+      int ss=w0.size(),i;
+      for (i=0;i<ss;++i){
+	if (w0[i].type>_REAL || w1[i].type>_REAL)
+	  break;
+      }
+      if (i=ss){
+	// polygonscatterplot
+	s=read_attributs(v,attributs,contextptr);
+	return put_attributs(_polygonscatterplot(makesequence(v[0],v1),contextptr),attributs,contextptr);
+      }
+    }
     if (g.subtype!=_SEQ__VECT && s==3 ){
       if (v[2].type==_IDNT)
 	return plotparam(v[0]+cst_i*v[1],v[2],attributs,true,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,gnuplot_tmin,gnuplot_tmax,gnuplot_tstep,undef,undef,contextptr); // FIX equation?
@@ -13435,6 +13454,9 @@ namespace giac {
     turtle(contextptr).theta = turtle(contextptr).theta - floor(turtle(contextptr).theta/360)*360;
     turtle_stack(contextptr).push_back(turtle(contextptr));
     gen res=turtle_state(contextptr);
+#ifdef EMCC // should directly interact with canvas
+    return gen(turtlevect2vecteur(turtle_stack(contextptr)),_LOGO__VECT);
+#endif
     // update parent turtle state
     if (turtle_stack(contextptr).size()==1)
       __interactive.op(symbolic(at_pnt,-1),contextptr); // clear parent stack
