@@ -46,6 +46,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("3/2+4/2", "(7)/(2)");
 		r("1/(sqrt(2)-1)+1/(sqrt(2)+1)-2sqrt(2)", "0");
 		r("1/(sqrt(2)-1)", "(nroot(2, 2) + 1)");
 		r("1/(2+sqrt(5))-1/(2-sqrt(5))-2sqrt(5)", "0");

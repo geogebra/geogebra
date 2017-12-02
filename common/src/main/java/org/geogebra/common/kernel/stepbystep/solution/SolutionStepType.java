@@ -196,7 +196,9 @@ public enum SolutionStepType {
 	
 	DIVIDE_BY_NEGATVE_ONE("DividedByNegativeOne", "Any expression divided by negative one negates the expression"),
 
-	REWRITE_AS("RevriteAAsB", "Rewrite %0 as %1"),
+	REWRITE_AS("RewriteAAsB", "Rewrite %0 as %1"),
+
+	REWRITE_COMPLEX_FRACTION("RewriteComplexFraction", "Rewrite complex fraction"),
 
 	POWER_OF_POWER("MultiplyExponents", "Simplify the expression by multiplying the exponents"),
 

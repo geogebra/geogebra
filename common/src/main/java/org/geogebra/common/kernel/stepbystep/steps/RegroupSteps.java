@@ -889,6 +889,27 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	REWRITE_COMPLEX_FRACTIONS {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.DIVIDE)) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.getSubTree(0).isFraction() || so.getSubTree(1).isFraction()) {
+					StepExpression result = multiply(so.getSubTree(0), so.getSubTree(1).reciprocate());
+
+					so.setColor(tracker.getColorTracker());
+					result.setColor(tracker.getColorTracker());
+					sb.add(SolutionStepType.REWRITE_COMPLEX_FRACTION, tracker.incColorTracker());
+
+					return result;
+				}
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
 	REGROUP_PRODUCTS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {

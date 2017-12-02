@@ -249,8 +249,8 @@ public abstract class StepSolvable extends StepNode {
 	}
 
 	public void reciprocate(SolutionBuilder steps) {
-		LHS = StepExpression.reciprocate(LHS);
-		RHS = StepExpression.reciprocate(RHS);
+		LHS = LHS.reciprocate();
+		RHS = RHS.reciprocate();
 
 		steps.add(SolutionStepType.GROUP_WRAPPER);
 		steps.levelDown();

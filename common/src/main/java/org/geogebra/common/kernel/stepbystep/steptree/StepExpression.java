@@ -281,6 +281,11 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return isOperation(Operation.LOG) && ((StepOperation) this).getSubTree(0).equals(StepConstant.E);
 	}
 
+	public boolean isFraction() {
+		return isOperation(Operation.DIVIDE) ||
+				isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).isFraction();
+	}
+
 	/**
 	 * @return the tree, regrouped (destroys the tree, use only in assignments)
 	 */
@@ -524,16 +529,16 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return the denominator of the tree, if it's an integer. 0 otherwise
 	 */
 	public static long getConstantDenominator(StepExpression sn) {
-		if (sn.nonSpecialConstant()) {
-			return 1;
-		} else if (sn.isOperation(Operation.MINUS)) {
+		if (sn.isOperation(Operation.MINUS)) {
 			return getConstantDenominator(((StepOperation) sn).getSubTree(0));
 		} else if (sn.isOperation(Operation.DIVIDE)) {
-			if (closeToAnInteger(((StepOperation) sn).getSubTree(0))
-					&& closeToAnInteger(((StepOperation) sn).getSubTree(1))) {
+			if (closeToAnInteger(((StepOperation) sn).getSubTree(1))) {
 				return Math.round(((StepOperation) sn).getSubTree(1).getValue());
 			}
+		} else if (sn.isConstant()) {
+			return 1;
 		}
+
 		return 0;
 	}
 
@@ -542,9 +547,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return the numerator of the tree.
 	 */
 	public static StepExpression getNumerator(StepExpression sn) {
-		if (sn.nonSpecialConstant()) {
-			return sn;
-		} else if (sn.isOperation(Operation.MINUS)) {
+		if (sn.isOperation(Operation.MINUS)) {
 			return minus(getNumerator(((StepOperation) sn).getSubTree(0)));
 		} else if (sn.isOperation(Operation.DIVIDE)) {
 			return ((StepOperation) sn).getSubTree(0);
@@ -626,20 +629,16 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		}
 	}
 
-	public static StepExpression reciprocate(StepExpression a) {
-		if (a == null) {
-			return null;
-		}
-
-		if (a.isOperation(Operation.DIVIDE)) {
-			if (isEqual(((StepOperation) a).getSubTree(0), 1)) {
-				return ((StepOperation) a).getSubTree(1);
+	public StepExpression reciprocate() {
+		if (isOperation(Operation.DIVIDE)) {
+			if (isEqual(((StepOperation) this).getSubTree(0), 1)) {
+				return ((StepOperation) this).getSubTree(1);
 			}
-			return divide(((StepOperation) a).getSubTree(1), ((StepOperation) a).getSubTree(0));
-		} else if (isEqual(a, 1) || isEqual(a, -1)) {
-			return a;
+			return divide(((StepOperation) this).getSubTree(1), ((StepOperation) this).getSubTree(0));
+		} else if (isEqual(this, 1) || isEqual(this, -1)) {
+			return this;
 		} else {
-			return divide(new StepConstant(1), a);
+			return divide(new StepConstant(1), this);
 		}
 	}
 
