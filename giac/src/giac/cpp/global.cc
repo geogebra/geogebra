@@ -5922,8 +5922,13 @@ unsigned int ConvertUTF8toUTF16 (
 	  if (nl)
 	    s=s.substr(0,ss-1);
 	  while (!stack.empty() && stack.back().decal>=ws){
+	    int sb=stack.back().decal;
 	    s += ' '+stack.back().endbloc+';';
 	    stack.pop_back();
+	    // indent must match one of the saved indent
+	    if (sb!=ws && !stack.empty() && stack.back().decal<ws){
+	      return "\"Bad indentation at "+cur+"\"";
+	    }
 	  }
 	  if (nl)
 	    s += '\n';

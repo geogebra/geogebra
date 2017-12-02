@@ -4467,6 +4467,7 @@ static define_unary_function_eval (__batons,&_batons,_batons_s);
     int ncamemberts=int(vals.size()),s=int(vals.front()._VECTptr->size()),t=int(attr.size());
     if (t==1)
       t=0;
+    int c=default_color(contextptr) & 0xffff;
     for (int j=0;j<ncamemberts;j++){
       vecteur & Vals = *vals[j]._VECTptr;
       int i=0;
@@ -4477,8 +4478,15 @@ static define_unary_function_eval (__batons,&_batons,_batons_s);
 	++i;
       }
       for (;i<s;++i){
-	gen tmp(makevecteur(xy+i+largeur+cst_i*Vals[i],xy+i+largeur,xy+i-largeur,xy+i-largeur+cst_i*Vals[i],xy+i+largeur+cst_i*Vals[i]),_LINE__VECT);
-	res.push_back(symb_pnt_name(tmp,i<t?attr[i]:((i==7?0:i) | _FILL_POLYGON | _QUADRANT2),names[i],contextptr));
+	gen tmp,xpos;
+	if (names[i].type!=_STRNG && has_evalf(names[i],xpos,1,contextptr)){
+	  tmp=gen(makevecteur(xpos+largeur+cst_i*Vals[i],xpos+largeur,xpos-largeur,xpos-largeur+cst_i*Vals[i],xpos+largeur+cst_i*Vals[i]),_LINE__VECT);
+	  res.push_back(symb_pnt(tmp,i<t?attr[i]:(c | _FILL_POLYGON | _QUADRANT2),contextptr));
+	}
+	else {
+	  tmp=gen(makevecteur(xy+i+largeur+cst_i*Vals[i],xy+i+largeur,xy+i-largeur,xy+i-largeur+cst_i*Vals[i],xy+i+largeur+cst_i*Vals[i]),_LINE__VECT);
+	  res.push_back(symb_pnt_name(tmp,i<t?attr[i]:((i==7?0:i) | _FILL_POLYGON | _QUADRANT2),names[i],contextptr));
+	}
       }
     }
     return res;
