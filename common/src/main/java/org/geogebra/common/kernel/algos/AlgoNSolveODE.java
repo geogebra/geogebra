@@ -11,8 +11,10 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -100,7 +102,13 @@ public class AlgoNSolveODE extends AlgoElement {
 	@Override
 	public void compute() {
 		for (int i = 0; i < dim; i++) {
-			if (!fun.get(i).isDefined() || !startY.get(i).isDefined()) {
+			if (!fun.get(i).isDefined() || !startY.get(i).isDefined()
+			// important for CAS, functions can be loaded as f(x)=?
+			// which doesn't trigger isDefined() check
+			// TODO: if function is partially defined
+			// can probably lead to infinite loop
+					|| !MyDouble.isFinite(((GeoFunction) fun.get(0))
+							.value(startX.evaluateDouble()))) {
 				setUndefined();
 				return;
 			}
