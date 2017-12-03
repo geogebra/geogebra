@@ -289,7 +289,7 @@ exp	: T_NUMBER		{$$ = $1;}
         }
 	/* | T_ROOTOF_BEGIN exp T_VIRGULE exp T_ROOTOF_END {if ($2.type==_VECT) $$ = real_complex_rootof(*$2._VECTptr,$4); else $$=zero;} */
 	| T_OF { $$=gen(at_of,2); }
-	| exp T_AFFECT exp 		{$$ = symb_sto($3,$1,$2==at_array_sto); if ($3.is_symb_of_sommet(at_program)) *logptr(giac_yyget_extra(scanner))<<"// End defining "<<$1<<endl;}
+	| exp T_AFFECT exp 		{if ($1.type==_INT_) $$=symb_equal($1,$3); else {$$ = symb_sto($3,$1,$2==at_array_sto); if ($3.is_symb_of_sommet(at_program)) *logptr(giac_yyget_extra(scanner))<<"// End defining "<<$1<<endl;}}
 	| T_NOT exp	{ $$ = symbolic(*$1._FUNCptr,$2);}
 	| T_ARGS T_BEGIN_PAR exp T_END_PAR	{$$ = symb_args($3);}
 	| T_ARGS T_INDEX_BEGIN exp T_VECT_END	{$$ = symb_args($3);}

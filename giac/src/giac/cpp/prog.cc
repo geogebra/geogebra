@@ -7939,7 +7939,7 @@ namespace giac {
   gen _goto(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
     if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2)
-      return _position(args,contextptr);
+      return _position(change_subtype(args,0),contextptr);
     return symbolic(at_goto,args);
   }
   static const char _goto_s []="goto";

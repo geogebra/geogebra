@@ -5793,6 +5793,7 @@ unsigned int ConvertUTF8toUTF16 (
     vector<int_string> stack;
     string s,cur; 
     bool pythoncompat=python_compat(contextptr);
+    if (pythoncompat) pythonmode=true;
     for (;res.size();){
       int pos=res.find('\n');
       if (pos<0 || pos>=int(res.size())){
@@ -5808,7 +5809,8 @@ unsigned int ConvertUTF8toUTF16 (
 	char ch=cur[pos];
 	if (ch==' ' || ch==char(9))
 	  continue;
-	if (!instring && pythoncompat && ch=='\'' && pos<cur.size()-2 && cur[pos+1]!='\\' && (pos==0 || (cur[pos-1]!='\\' && cur[pos-1]!='\\'))){ // workaround for '' string delimiters
+	if (!instring && pythoncompat &&
+	    ch=='\'' && pos<cur.size()-2 && cur[pos+1]!='\\' && (pos==0 || (cur[pos-1]!='\\' && cur[pos-1]!='\''))){ // workaround for '' string delimiters
 	  int p=pos,q,beg; // skip spaces
 	  for (p++;p<int(cur.size());++p)
 	    if (cur[p]!=' ') 
@@ -5823,6 +5825,8 @@ unsigned int ConvertUTF8toUTF16 (
 	      --p;
 	      // does cur[pos+1..p-1] look like a string?
 	      bool str=!isalpha(cur[q]) || !isalphan(cur[p]);
+	      if (p && cur[p]=='.' && cur[p-1]>'9')
+		str=true;
 	      for (;!str && q<p;++q){
 		char ch=cur[q];
 		if (ch=='"' || ch==' ')

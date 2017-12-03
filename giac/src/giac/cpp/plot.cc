@@ -1730,6 +1730,8 @@ namespace giac {
       if (opt.type!=_VECT || opt._VECTptr->size()!=2)
 	continue;
       gen opt1=opt._VECTptr->front(),opt2=opt._VECTptr->back().eval(1,0);
+      if (opt2.type==_STRNG)
+	opt2=gen(*opt2._STRNGptr,contextptr);
       unsigned colormask=0xffff0000;
       if (opt1==at_couleur || opt1==at_display){
 	opt1=_COLOR; opt1.subtype=_INT_COLOR;
@@ -10224,6 +10226,10 @@ namespace giac {
 
   gen _couleur(const gen & a,GIAC_CONTEXT){
     if (is_undef(a)) return a;
+    if (a.type==_STRNG){
+      *logptr(contextptr) << gettext("Use pencolor for the turtle") << endl;
+      return _couleur(gen(*a._STRNGptr,contextptr),contextptr);
+    }
     if (a.type==_INT_){
       int i=default_color(contextptr);
       default_color(a.val,contextptr);
@@ -13786,6 +13792,7 @@ namespace giac {
 
   gen _crayon(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_STRNG) return _crayon(gen(*g._STRNGptr,contextptr),contextptr);
     // logo instruction
     if (g.type!=_INT_){
       gen res=turtle(contextptr).color;

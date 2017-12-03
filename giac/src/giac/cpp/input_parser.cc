@@ -5327,7 +5327,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 292 "input_parser.yy"
-    {(yyval) = symb_sto((yyvsp[(3) - (3)]),(yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])==at_array_sto); if ((yyvsp[(3) - (3)]).is_symb_of_sommet(at_program)) *logptr(giac_yyget_extra(scanner))<<"// End defining "<<(yyvsp[(1) - (3)])<<endl;}
+    {if ((yyvsp[(1) - (3)]).type==_INT_) (yyval)=symb_equal((yyvsp[(1) - (3)]),(yyvsp[(3) - (3)])); else {(yyval) = symb_sto((yyvsp[(3) - (3)]),(yyvsp[(1) - (3)]),(yyvsp[(2) - (3)])==at_array_sto); if ((yyvsp[(3) - (3)]).is_symb_of_sommet(at_program)) *logptr(giac_yyget_extra(scanner))<<"// End defining "<<(yyvsp[(1) - (3)])<<endl;}}
     break;
 
   case 61:
