@@ -84,10 +84,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * Abstract constructor
 	 * 
 	 * @param app2
+	 *            application
 	 */
 	public GuiManager(App app2) {
-		this.setApp(app2);
-		this.kernel = getApp().getKernel();
+		this.app = app2;
+		this.kernel = app2.getKernel();
 	}
 
 	@Override
@@ -924,10 +925,6 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public StepGuiBuilder getStepGuiBuilder() {
 		return null;
-	}
-
-	public void setApp(App app) {
-		this.app = app;
 	}
 
 }
