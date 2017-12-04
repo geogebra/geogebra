@@ -13,6 +13,7 @@ import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.view.algebra.LatexTreeItemController;
 
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Web implementation of AccessibilityManager.
@@ -25,6 +26,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private AppW app;
 	private boolean tabOverGeos = false;
 	private SelectionManager selection;
+	private Widget anchor;
 	/**
 	 * Constructor.
 	 * 
@@ -198,5 +200,19 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 				tp.focusMenu();
 			}
 		}
+	}
+
+	@Override
+	public void setFocusAnchor(Object anchor) {
+		this.anchor = anchor instanceof Widget ? (Widget) anchor : null;
+	}
+
+	@Override
+	public void focusAnchor() {
+		if (anchor == null) {
+			return;
+		}
+		anchor.getElement().focus();
+		anchor = null;
 	}
 }

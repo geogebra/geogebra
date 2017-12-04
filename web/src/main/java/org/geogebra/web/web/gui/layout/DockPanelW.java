@@ -562,6 +562,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 				@Override
 				public void onClick(Widget source) {
+					app.getAccessibilityManager().setFocusAnchor(source);
 					onGraphicsSettingsPressed();
 				}
 

@@ -692,6 +692,7 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		if (!isShowing()) {
 			return;
 		}
+		app.getAccessibilityManager().focusAnchor();
 		resizeAnimation.setState(false, false);
 		CloseEvent.fire(this, this, autoClosed);
 	}

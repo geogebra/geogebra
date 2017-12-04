@@ -63,5 +63,26 @@ public interface AccessibilityManagerInterface {
 	 */
 	public void setTabOverGeos(boolean b);
 
+	/**
+	 * Focus the geo specified.
+	 * 
+	 * @param geo
+	 *            to focus.
+	 */
 	public void focusGeo(GeoElement geo);
+
+	/**
+	 * Use this method to set an anchor you like to give the focus back to. For
+	 * example setting a button as a focus anchor that opens a popup, closing it
+	 * can give back the focus to the button.
+	 * 
+	 * @param anchor
+	 *            to give back the focus.
+	 */
+	public void setFocusAnchor(Object anchor);
+
+	/**
+	 * Give back the focus to the anchor if set.
+	 */
+	public void focusAnchor();
 }
