@@ -8,3 +8,6 @@ EditorBuildSettings:
   - enabled: 0
     path: 
     guid: 00000000000000000000000000000000
+  - enabled: 1
+    path: Assets/Scenes/WinMixedRealityTestScene.unity
+    guid: 23fa76c874e890f46847b223fc48a2bb

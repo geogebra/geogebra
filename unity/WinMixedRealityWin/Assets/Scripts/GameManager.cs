@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour {
 
     public void OnButtonPressed ()
     {
+        Debug.Log("In OnButtonPressed");
+
         //Destroy all GameObjects with tag "Model"
         GameObject[] gameObjects;  
         gameObjects = GameObject.FindGameObjectsWithTag("Model");
@@ -34,9 +36,14 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObjects[i]);
         }
 
-        Debug.Log("In OnButtonPressed");
+        
         // Create GameObject
-        Instantiate(TempModel, new Vector3(0, 0, 0), Quaternion.identity);
+        Instantiate(TempModel, new Vector3(0, 1.4f, 1.4f), Quaternion.identity);
+    }
+
+    public void CheckForItem(string ModelName)
+    {
+        Debug.Log(ModelName);
     }
 
 }
