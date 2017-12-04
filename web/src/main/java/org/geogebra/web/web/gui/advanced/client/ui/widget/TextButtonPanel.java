@@ -17,6 +17,7 @@
 package org.geogebra.web.web.gui.advanced.client.ui.widget;
 
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -41,7 +42,8 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * @since 1.2.0
  */
 public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
-		implements AdvancedWidget, HasValue<TypeOfSelectedValue> {
+		implements AdvancedWidget, HasValue<TypeOfSelectedValue>,
+		HasInputElement {
 	/** widget layout */
 	private FlexTable layout;
 	/** a selected value box */
@@ -425,9 +427,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 		return app;
 	}
 
-	/**
-	 * @return wrapped input element
-	 */
+	@Override
 	public Element getInputElement() {
 		return getSelectedValue().getTextField().getElement();
 	}
