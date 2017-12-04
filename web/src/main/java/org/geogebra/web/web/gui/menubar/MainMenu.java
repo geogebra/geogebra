@@ -332,14 +332,21 @@ public class MainMenu extends FlowPanel
 			public void showStack(int index) {
 				if (app.isUnbundledOrWhiteboard() && index == 0) {
 					super.showStack(1);
-					setStackTextExpand(1, true);
+					expandStack(1);
 				} else {
-					super.showStack(index);
 					if (app.isUnbundledOrWhiteboard()) {
-						setStackTextExpand(index, true);
+						int selected = getSelectedIndex();
+						collapseStack(getSelectedIndex());
+						if (selected == index) {
+							closeAll();
+							return;
+						}
+						expandStack(index);
 					}
+					super.showStack(index);
 				}
 				dispatchOpenEvent();
+
 				if (app.isUnbundledOrWhiteboard() && index == 0) {
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(1)), false);
@@ -347,35 +354,6 @@ public class MainMenu extends FlowPanel
 					app.getGuiManager().setDraggingViews(
 							isViewDraggingMenu(menus.get(index)), false);
 				}
-			}
-
-			private void setStackTextExpand(int index, boolean expand) {
-				if (index < 0 || index > menuImgs.size()) {
-					return;
-				}
-
-				SVGResource img = menuImgs.get(index - 1);
-				GMenuBar menu = getMenuAt(index);
-				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
-						+ menu.getMenuTitle().substring(1);
-
-				if (menu == settingsMenu || menu == languageMenu) {
-					setStackText(index, getHTML(img, title), title,
-							expand);
-					return;
-				}
-
-				String menuText = expand ? getHTMLExpand(img, title)
-						: getHTMLCollapse(img, title);
-
-				setStackText(index, menuText, title, expand);
-
-				if (expand) {
-					setExpandStyles(index);
-				} else {
-					setCollapseStyles(index);
-				}
-
 			}
 
 			@Override
@@ -417,16 +395,6 @@ public class MainMenu extends FlowPanel
 					}
 
 					if (index != -1) {
-						if (index == getSelectedIndex()) {
-							closeAll();
-							if (app.isUnbundledOrWhiteboard()) {
-								setStackTextExpand(index, false);
-							}
-							return;
-						}
-						if (app.isUnbundledOrWhiteboard()) {
-							// setStackTextExpand(getSelectedIndex(), true);
-						}
 						showStack(index);
 					}
 				}
@@ -448,6 +416,42 @@ public class MainMenu extends FlowPanel
 				mi.getElement().addClassName("collapse");
 			}
 
+			private void setStackText(int index, boolean expand) {
+				if (index < 0 || index > menuImgs.size()) {
+					return;
+				}
+
+				SVGResource img = menuImgs.get(index - 1);
+				GMenuBar menu = getMenuAt(index);
+				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
+						+ menu.getMenuTitle().substring(1);
+
+				if (menu == settingsMenu || menu == languageMenu) {
+					setStackText(index, getHTML(img, title), title, expand);
+					return;
+				}
+
+				String menuText = expand ? getHTMLExpand(img, title)
+						: getHTMLCollapse(img, title);
+
+				setStackText(index, menuText, title, expand);
+
+				if (expand) {
+					setExpandStyles(index);
+				} else {
+					setCollapseStyles(index);
+				}
+
+			}
+
+			private void expandStack(int index) {
+				setStackText(index, false);
+			}
+
+			private void collapseStack(int index) {
+				setStackText(index, true);
+			}
+
 			/**
 			 * @param ariaLabel
 			 *            for compatibility with AriaStackPanel
@@ -467,12 +471,6 @@ public class MainMenu extends FlowPanel
 				int index = getWidgetCount() - 1;
 				setStackText(index, stackText, getMenuAt(index).getMenuTitle(),
 						null);
-			}
-
-			@Override
-			public void closeAll() {
-				setStackTextExpand(getSelectedIndex(), true);
-				super.closeAll();
 			}
 		};
 
@@ -1026,7 +1024,7 @@ public class MainMenu extends FlowPanel
 	 * Focuses the first item of the Main Menu
 	 */
 	public void focusFirst() {
-		menuPanel.showStack(1);
+		menuPanel.showStack(0);
 	}
 
 	@Override
