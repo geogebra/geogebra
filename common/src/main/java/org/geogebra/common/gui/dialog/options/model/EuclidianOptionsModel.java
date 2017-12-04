@@ -562,13 +562,11 @@ public class EuclidianOptionsModel {
 		}
 	}
 
-	public void fillTooltipCombo() {
+	public String[] fillTooltipCombo() {
 		Localization loc = app.getLocalization();
-		String[] tooltipItems = new String[] { loc.getMenu("On"),
+		return new String[] { loc.getMenu("On"),
 				loc.getMenu("Automatic"), loc.getMenu("Off") };
-		for (String item : tooltipItems) {
-			listener.addTooltipItem(item);
-		}
+
 	}
 
 	/**
@@ -782,8 +780,6 @@ public class EuclidianOptionsModel {
 		void enableAxesRatio(boolean value);
 
 		void setMinMaxText(String minX, String maxX, String minY, String maxY);
-
-		void addTooltipItem(String item);
 
 		void addGridTypeItem(String item);
 

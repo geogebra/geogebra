@@ -25,6 +25,22 @@ import java.text.NumberFormat;
 import java.util.Collection;
 import java.util.Locale;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
+import javax.swing.JToggleButton;
+import javax.swing.SwingUtilities;
+import javax.swing.border.Border;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.SetLabels;
@@ -49,22 +65,6 @@ import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigation
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
-
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
-import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -401,7 +401,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		// show tooltips
 		tooltips = new JLabel(loc.getMenu("Tooltips") + ":");
 		cbTooltips = new JComboBox();
-		model.fillTooltipCombo();
+		fillTooltipCombo();
 		cbTooltips.addActionListener(this);
 
 		miscPanel = new JPanel();
@@ -724,8 +724,7 @@ public class OptionsEuclidianD extends OptionsEuclidian
 
 		int index = cbTooltips.getSelectedIndex();
 		cbTooltips.removeActionListener(this);
-		cbTooltips.removeAllItems();
-		model.fillTooltipCombo();
+		fillTooltipCombo();
 		cbTooltips.setSelectedIndex(index);
 		cbTooltips.addActionListener(this);
 
@@ -741,6 +740,13 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		cbAxisLabelBold.setText(loc.getMenu("Bold"));
 		cbAxisLabelSerif.setText(loc.getMenu("Serif"));
 		cbAxisLabelItalic.setText(loc.getMenu("Italic"));
+	}
+
+	private void fillTooltipCombo() {
+		cbTooltips.removeAllItems();
+		for (String item : model.fillTooltipCombo()) {
+			cbTooltips.addItem(item);
+		}
 	}
 
 	@Override
@@ -1146,12 +1152,6 @@ public class OptionsEuclidianD extends OptionsEuclidian
 		tfMaxX.setText(maxX);
 		tfMinY.setText(minY);
 		tfMaxY.setText(maxY);
-
-	}
-
-	@Override
-	public void addTooltipItem(String item) {
-		cbTooltips.addItem(item);
 	}
 
 	@Override

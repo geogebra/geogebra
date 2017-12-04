@@ -82,6 +82,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	protected FlowPanel miscPanel;
 	private EuclidianOptionsModel model;
 	ListBox rightAngleStyleListBox;
+	ListBox lbTooltips;
 
 	public BasicTab(OptionsEuclidianW optionsEuclidianW) {
 		super(optionsEuclidianW.app);
@@ -545,8 +546,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		// show tooltips
 		tooltips = new Label(
 				this.optionsEuclidianW.loc.getMenu("Tooltips") + ":");
-		this.optionsEuclidianW.lbTooltips = new ListBox();
-		this.optionsEuclidianW.model.fillTooltipCombo();
+		this.lbTooltips = new ListBox();
+		fillTooltipCombo();
 
 		rightAngleStyleLabel = new Label(
 				this.optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":");
@@ -619,12 +620,12 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 			}
 		});
 
-		this.optionsEuclidianW.lbTooltips.addChangeHandler(new ChangeHandler() {
+		this.lbTooltips.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 				model.applyTooltipMode(
-						BasicTab.this.optionsEuclidianW.lbTooltips
+						BasicTab.this.lbTooltips
 								.getSelectedIndex());
 			}
 		});
@@ -651,7 +652,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		miscPanel.add(
 				LayoutUtilW.panelRow(backgroundColorLabel, btBackgroundColor));
 		miscPanel.add(LayoutUtilW.panelRow(tooltips,
-				this.optionsEuclidianW.lbTooltips));
+				this.lbTooltips));
 		miscPanel.add(LayoutUtilW.panelRow(cbShowMouseCoords));
 		miscPanel.add(LayoutUtilW.panelRow(rightAngleStyleLabel,
 				this.rightAngleStyleListBox));
@@ -679,10 +680,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		miscTitle.setText(this.optionsEuclidianW.loc.getMenu("Miscellaneous"));
 		backgroundColorLabel.setText(
 				this.optionsEuclidianW.loc.getMenu("BackgroundColor") + ":");
-		int index = this.optionsEuclidianW.lbTooltips.getSelectedIndex();
-		this.optionsEuclidianW.lbTooltips.clear();
-		this.optionsEuclidianW.model.fillTooltipCombo();
-		this.optionsEuclidianW.lbTooltips.setSelectedIndex(index);
+		int index = this.lbTooltips.getSelectedIndex();
+
+		fillTooltipCombo();
+		this.lbTooltips.setSelectedIndex(index);
 		cbShowMouseCoords.setText(
 				this.optionsEuclidianW.loc.getMenu("ShowMouseCoordinates"));
 
@@ -706,6 +707,13 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbAxisLabelBold.setText(this.optionsEuclidianW.loc.getMenu("Bold"));
 		cbAxisLabelItalic.setText(this.optionsEuclidianW.loc.getMenu("Italic"));
 
+	}
+
+	private void fillTooltipCombo() {
+		this.lbTooltips.clear();
+		for (String item : model.fillTooltipCombo()) {
+			this.lbTooltips.addItem(item);
+		}
 	}
 
 	public void enableAxesRatio(boolean value) {

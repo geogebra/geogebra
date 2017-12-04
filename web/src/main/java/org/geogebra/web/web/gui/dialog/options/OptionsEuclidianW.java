@@ -51,7 +51,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	AxisTab xAxisTab;
 	AxisTab yAxisTab;
 	private GridTab gridTab;
-	ListBox lbTooltips;
 	private boolean isIniting;
 	protected Localization loc;
 	
@@ -711,11 +710,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	@Override
-	public void addTooltipItem(String item) {
-		lbTooltips.addItem(item);
-	}
-
-	@Override
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
 		basicTab.updateAxes(color, isShown, isBold);
 	}
@@ -727,7 +721,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	
 	@Override
 	public void selectTooltipType(int index) {
-		lbTooltips.setSelectedIndex(index);
+		basicTab.lbTooltips.setSelectedIndex(index);
 	}
 
 	@Override
