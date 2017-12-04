@@ -2786,7 +2786,7 @@ __GGB__keysVar.de_AT.menu = {
     "TangentToAThroughB": "Tangente zu %0 durch %1",
     "TangentToAatB": "Tangente zu %0 bei %1",
     "Tetrahedron": "Tetraeder",
-    "Tetrahedron.Help": "W\xe4hlen Sie eine Ebene (optional) und zwei Punkte.",
+    "Tetrahedron.Help": "W\xe4hle eine Ebene (optional) und zwei Punkte.",
     "Tetrahedron.Tool": "Regelm\xe4\xdfiges Tetraeder",
     "Text": "Text",
     "Text.Help": "W\xe4hle eine Position oder einen Punkt",
