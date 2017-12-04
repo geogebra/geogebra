@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
 
@@ -12,6 +13,7 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
     private Vector3 _originTransform;
 
     public GameObject WorkModel;
+    public Text HihlightedText;
 
     #region Members
     [HideInInspector]
@@ -25,6 +27,7 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
         gameManager = GameObject.Find("GameManager");
 
         _originTransform = this.transform.localScale;
+        HihlightedText.enabled = false;
         
     }
     public void OnFocusEnter()
@@ -32,12 +35,14 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
         //throw new System.NotImplementedException();
         //Debug.Log("I am on focus now");
         this.transform.localScale = transform.localScale * HighlightedSize;
+        HihlightedText.enabled = true;
     }
 
     public void OnFocusExit()
     {
         //throw new System.NotImplementedException();
         this.transform.localScale = _originTransform;
+        HihlightedText.enabled = false;
     }
 
     public void OnInputClicked(InputClickedEventData eventData)

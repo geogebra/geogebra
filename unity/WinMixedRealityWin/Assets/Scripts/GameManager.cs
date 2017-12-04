@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour {
 
         
         // Create GameObject
-        Instantiate(TempModel, new Vector3(0, 1.4f, 1.4f), Quaternion.identity);
+        Instantiate(TempModel, TempModel.transform.localPosition/*new Vector3(0, 0, 0)*/, Quaternion.identity);
     }
 
     public void CheckForItem(string ModelName)
