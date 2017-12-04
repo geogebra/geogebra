@@ -1439,6 +1439,32 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdNSolveODE() {
+		// pendulum testcase from the wiki
+		t("g = 9.8", "9.8");
+		t("l = 2", "2");
+		t("a = 5", "5");
+		t("b = 3", "3");
+		t("y1'(t, y1, y2) = y2", "y2");
+		t("y2'(t, y1, y2) = (-g) / l sin(y1)", "(((-9.8)) / 2 * sin(y1))");
+		t("nint=NSolveODE({y1', y2'}, 0, {a, b}, 20)",
+				new String[] { "NSolveODE[{y1', y2'}, 0, {a, b}, 20]",
+						"NSolveODE[{y1', y2'}, 0, {a, b}, 20]" });
+
+		t("x1 = l sin(y(Point(nint_1, 0)))", "-1.89982",
+				StringTemplate.editTemplate);
+		t("y1 = -l cos(y(Point(nint_1, 0)))", "-0.62504",
+				StringTemplate.editTemplate);
+		t("Segment((0, 0), (x1, y1))", "2", StringTemplate.editorTemplate);
+		// undefined testcase
+		t("yu1'(t, y1, y2) = ?", "NaN");
+		t("yu2'(t, y1, y2) = ?", "NaN");
+		t("NSolveODE({yu1', yu2'}, 0, {a, b}, 20)",
+				new String[] { "NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]",
+						"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]" });
+	}
+
+	@Test
 	public void testPointsFromList() {
 		t("Sequence(Segment(Point({0, n}), Point({1, n+0})), n, 0, 9, 1)",
 				"{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}");

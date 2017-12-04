@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -102,12 +101,7 @@ public class AlgoNSolveODE extends AlgoElement {
 	@Override
 	public void compute() {
 		for (int i = 0; i < dim; i++) {
-			if (!fun.get(i).isDefined() || !startY.get(i).isDefined()
-			// important for CAS, functions can be loaded as f(x)=?
-			// which doesn't trigger isDefined() check
-			// TODO: if function is partially defined
-			// can probably lead to infinite loop
-					|| !definedAtStart(fun.get(i))) {
+			if (!fun.get(i).isDefined() || !startY.get(i).isDefined()) {
 				setUndefined();
 				return;
 			}
@@ -131,6 +125,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		FirstOrderIntegrator integrator = new DormandPrince54Integrator(0.001,
 				0.01, 0.000001, 0.0001);
 		FirstOrderDifferentialEquations ode = new ODEN(fun);
+
 		integrator.addStepHandler(stepHandler);
 
 		for (int i = 0; i < dim; i++) {
@@ -152,14 +147,6 @@ public class AlgoNSolveODE extends AlgoElement {
 		}
 	}
 
-	private boolean definedAtStart(GeoElement geo) {
-		if (geo instanceof GeoFunction) {
-			return MyDouble
-				.isFinite(((GeoFunction) geo).value(startX.evaluateDouble()));
-		}
-		return true;
-	}
-
 	private void setUndefined() {
 		for (int i = 0; i < out.length; i++) {
 			out[i].setUndefined();
@@ -170,14 +157,17 @@ public class AlgoNSolveODE extends AlgoElement {
 
 		@Override
 		public void init(double ts0, double[] ys0, double t) {
-			//
+			//this.
 		}
 
 		@Override
 		public void handleStep(StepInterpolator interpolator, boolean isLast) {
 			double t = interpolator.getCurrentTime();
+			if(!MyDouble.isFinite(t)){
+				throw new IllegalArgumentException(
+						"Invalid value of time:" + t);
+			}
 			double[] y1 = interpolator.getInterpolatedState();
-
 			for (int i = 0; i < y1.length; i++) {
 				al.get(i).add(new MyPoint(t, y1[i], SegmentType.LINE_TO));
 			}
