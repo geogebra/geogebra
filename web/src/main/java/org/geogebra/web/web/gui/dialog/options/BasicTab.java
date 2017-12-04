@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -67,8 +68,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	protected Label backgroundColorLabel;
 	protected MyCJButton btBackgroundColor;
 	CheckBox cbShowMouseCoords;
-	private Label tooltips;
-	private Label rightAngleStyleLabel;
+	private FormLabel tooltips;
+	private FormLabel rightAngleStyleLabel;
 	protected Label miscTitle;
 	private Label consProtocolTitle;
 	private FlowPanel consProtocolPanel;
@@ -544,18 +545,20 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbShowMouseCoords = new CheckBox();
 
 		// show tooltips
-		tooltips = new Label(
-				this.optionsEuclidianW.loc.getMenu("Tooltips") + ":");
 		this.lbTooltips = new ListBox();
 		fillTooltipCombo();
+		tooltips = new FormLabel(
+				this.optionsEuclidianW.loc.getMenu("Tooltips") + ":")
+						.setFor(lbTooltips);
 
-		rightAngleStyleLabel = new Label(
-				this.optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":");
+
 		this.rightAngleStyleListBox = new ListBox();
 		updateRightAngleCombo();
 		rightAngleStyleListBox
 				.setSelectedIndex(optionsEuclidianW.view.getRightAngleStyle());
-
+		rightAngleStyleLabel = new FormLabel(
+				this.optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":")
+						.setFor(rightAngleStyleListBox);
 		miscPanel = new FlowPanel();
 		add(miscTitle);
 
@@ -706,6 +709,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbAxisLabelSerif.setText(this.optionsEuclidianW.loc.getMenu("Serif"));
 		cbAxisLabelBold.setText(this.optionsEuclidianW.loc.getMenu("Bold"));
 		cbAxisLabelItalic.setText(this.optionsEuclidianW.loc.getMenu("Italic"));
+		tooltips.setText(this.optionsEuclidianW.loc.getMenu("Tooltips") + ":");
+
+		rightAngleStyleLabel.setText(
+				this.optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":");
 
 	}
 

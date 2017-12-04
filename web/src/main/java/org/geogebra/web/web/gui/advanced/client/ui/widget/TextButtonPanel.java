@@ -22,6 +22,7 @@ import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.advanced.client.ui.AdvancedWidget;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
@@ -422,5 +423,12 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 */
 	public AppW getApp() {
 		return app;
+	}
+
+	/**
+	 * @return wrapped input element
+	 */
+	public Element getInputElement() {
+		return getSelectedValue().getTextField().getElement();
 	}
 }

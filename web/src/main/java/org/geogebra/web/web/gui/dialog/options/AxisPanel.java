@@ -9,6 +9,7 @@ import org.geogebra.common.gui.dialog.options.model.AxisModel.IAxisModelListener
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
@@ -21,7 +22,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListener {
@@ -37,13 +37,13 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	private ComboBoxW comboAxisLabel, comboUnitLabel;
 	protected AutoCompleteTextFieldW tfCross;
 
-	private Label crossAt;
+	private FormLabel crossAt;
 
-	private Label axisTicks;
+	private FormLabel axisTicks;
 
-	private Label axisLabel;
+	private FormLabel axisLabel;
 
-	private Label axisUnitLabel;
+	private FormLabel axisUnitLabel;
 
 	private AppW app;
 	protected EuclidianView view;
@@ -107,9 +107,10 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		});
 
 		// ticks
-		axisTicks = new Label(loc.getMenu("AxisTicks") + ":");
-		lbTickStyle = new ListBox();
 
+		lbTickStyle = new ListBox();
+		axisTicks = new FormLabel(loc.getMenu("AxisTicks") + ":")
+				.setFor(lbTickStyle);
 		model.fillTicksCombo();
 
 		lbTickStyle.addChangeHandler(new ChangeHandler(){
@@ -166,8 +167,9 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		comboAxisLabel.setEnabled(true);
         model.fillAxisCombo();
 		
-		axisLabel = new Label(loc.getMenu("AxisLabel") + ":");
-		axisUnitLabel = new Label(loc.getMenu("AxisUnitLabel") + ":");
+		axisLabel = new FormLabel(loc.getMenu("AxisLabel") + ":")
+				.setFor(comboAxisLabel);
+
 		comboUnitLabel = new ComboBoxW(app) {
 
 			@Override
@@ -178,7 +180,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
             }};
 
             model.fillUnitLabel();
-
+		axisUnitLabel = new FormLabel(loc.getMenu("AxisUnitLabel") + ":")
+				.setFor(comboUnitLabel);
 		comboUnitLabel.setEnabled(true);
 		FlowPanel labelPanel = new FlowPanel();
 		labelPanel.add(axisLabel);
@@ -211,7 +214,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 			}	
 		});
 
-		crossAt = new Label(loc.getMenu("CrossAt") + ":");
+		crossAt = new FormLabel(loc.getMenu("CrossAt") + ":").setFor(tfCross);
 		cbDrawAtBorder = new CheckBox(loc.getMenu("StickToEdge"));
 		cbDrawAtBorder.addClickHandler(new ClickHandler(){
 

@@ -11,7 +11,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			/*box-shadow: 0 0 16px $black-28;*/
 			box-shadow: 0 6px 16px rgba(0,0,0,0.28);
 			background-color: $white;
-			z-index: 500;
+			/* keep shadow under keyboard */
+			z-index: 499;
 			height: 100%;
 			width: 500px;
 			overflow-y: auto;
