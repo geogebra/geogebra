@@ -107,8 +107,7 @@ public class AlgoNSolveODE extends AlgoElement {
 			// which doesn't trigger isDefined() check
 			// TODO: if function is partially defined
 			// can probably lead to infinite loop
-					|| !MyDouble.isFinite(((GeoFunction) fun.get(0))
-							.value(startX.evaluateDouble()))) {
+					|| !definedAtStart(fun.get(i))) {
 				setUndefined();
 				return;
 			}
@@ -151,6 +150,14 @@ public class AlgoNSolveODE extends AlgoElement {
 			out[i].setPoints(al.get(i));
 			out[i].setDefined(true);
 		}
+	}
+
+	private boolean definedAtStart(GeoElement geo) {
+		if (geo instanceof GeoFunction) {
+			return MyDouble
+				.isFinite(((GeoFunction) geo).value(startX.evaluateDouble()));
+		}
+		return true;
 	}
 
 	private void setUndefined() {

@@ -308,7 +308,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return success;
 	}
 
-	protected abstract App getApp();
+	/**
+	 * @return the associated app; overriden to avoid classcast
+	 */
+	protected App getApp() {
+		return app;
+	}
 
 	/**
 	 * Attach a view which by using the view ID.
