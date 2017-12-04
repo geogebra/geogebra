@@ -38,6 +38,7 @@ import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
@@ -881,5 +882,23 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public double getInnerWidth() {
 		return getWidth();
+	}
+
+	@Override
+	public void centerAndResizePopups() {
+		for (int i = 0; i < popups.size(); i++) {
+			Widget w = popups.get(i);
+			if (w instanceof HasKeyboardPopup) {
+				if (w instanceof DialogBoxW) {
+					((DialogBoxW) w).centerAndResize(
+							this.getAppletFrame().getKeyboardHeight());
+				}
+			}
+		}
+		if(getGuiManager().hasPropertiesView()){
+			((PropertiesViewW) getGuiManager().getPropertiesView())
+					.resize(getWidth(),
+							getHeight() - this.frame.getKeyboardHeight());
+		}
 	}
 }

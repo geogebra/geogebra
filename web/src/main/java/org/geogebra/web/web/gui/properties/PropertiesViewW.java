@@ -675,4 +675,10 @@ public class PropertiesViewW extends PropertiesView
 	public void setFloatingAttached(boolean floatingAttached) {
 		this.floatingAttached = floatingAttached;
 	}
+
+	public void resize(double width, double height) {
+		wrappedPanel.setPixelSize((int) Math.min(width, 500), (int) height);
+		onResize();
+
+	}
 }
