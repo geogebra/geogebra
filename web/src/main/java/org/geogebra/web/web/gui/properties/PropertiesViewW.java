@@ -10,13 +10,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.keyboard.web.KeyboardResources;
-import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
-import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
 import org.geogebra.web.web.gui.dialog.options.OptionsAlgebraW;
 import org.geogebra.web.web.gui.dialog.options.OptionsCASW;
@@ -31,7 +27,6 @@ import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -64,9 +59,6 @@ public class PropertiesViewW extends PropertiesView
 	private FlowPanel contentsPanel;
 	private OptionType optionType;
 	private boolean floatingAttached = false;
-
-	private StandardButton closeButton;
-	private FlowPanel closeButtonPanel;
 
 	// For autoopen AV feature
 	// private boolean wasAVShowing;
@@ -101,7 +93,6 @@ public class PropertiesViewW extends PropertiesView
 	private void initGUI() {
 
 		wrappedPanel.addStyleName("PropertiesViewW");
-		addCloseButton();
 		//		getStyleBar();
 
 		//mainPanel = new FlowPanel();
@@ -123,32 +114,6 @@ public class PropertiesViewW extends PropertiesView
 		//createButtonPanel();
 		//add(buttonPanel, BorderLayout.SOUTH);
 
-	}
-
-	private void addCloseButton() {
-		if (!app.has(Feature.FLOATING_SETTINGS)) {
-			return;
-		}
-		closeButton = new StandardButton(
-				app.isUnbundledOrWhiteboard()
-				? new ImageResourcePrototype(null,
-						KeyboardResources.INSTANCE.keyboard_close_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)
-				: GuiResources.INSTANCE.dockbar_close(),
-				app);
-		closeButton.addFastClickHandler(new FastClickHandler() {
-			
-			@Override
-			public void onClick(Widget source) {
-				close();
-			}
-		});
-		closeButtonPanel = new FlowPanel();
-		closeButtonPanel.setStyleName("closeButtonPanel");
-		closeButtonPanel.setVisible(true);
-		closeButtonPanel.add(closeButton);
-		wrappedPanel.add(closeButtonPanel);
 	}
 
 	/**
@@ -636,6 +601,7 @@ public class PropertiesViewW extends PropertiesView
 	 */
 	public void close() {
 		if (!app.has(Feature.FLOATING_SETTINGS)) {
+			app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
 			return;
 		}
 		wrappedPanel.removeStyleName("animateIn");

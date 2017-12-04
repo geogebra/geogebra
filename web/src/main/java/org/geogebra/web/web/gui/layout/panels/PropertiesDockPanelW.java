@@ -18,7 +18,7 @@ public class PropertiesDockPanelW extends DockPanelW {
 			App.VIEW_PROPERTIES, 	// view id
 			"Properties", 					// view title phrase 
 			null,	// toolbar string
-			true,					// style bar?
+				false, // style bar?
 			7,						// menu order
 			'E' // ctrl-shift-E
 		);
@@ -64,7 +64,7 @@ public class PropertiesDockPanelW extends DockPanelW {
 	
 	@Override
 	public boolean isStyleBarEmpty(){
-		return true;
+		return false;
 	}
 
 	@Override

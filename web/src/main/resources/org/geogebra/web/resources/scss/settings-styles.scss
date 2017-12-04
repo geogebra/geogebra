@@ -14,23 +14,20 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			z-index: 500;
 			height: 100%;
 			width: 500px;
-    		overflow-y: auto;	
-    		
+			overflow-y: auto;
+
     		select:focus,select:hover, textarea:focus:not([readonly]) {
     			border: 1px $teal-default solid;
     		}
-    		
-    		.closeButtonPanel { 
-    			float: right;
-    			padding: 8px;
-    			height: 24px;
+
+    		.closeButton {
     			opacity: 0.54;
     			
     			&:hover {
     				opacity: 1;	
     			}
     		}
-    		
+
     		.settingsBtn, .textButton, .openFileBtn,
     			.okBtn, .cancelBtn {
     			height: 36px !important;
@@ -226,8 +223,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
     	
     		.propertiesStyleBar {
     			overflow: visible;
-    			top: 40px;
-    			
+
     			.selected,
     				.gwt-MenuItem.selected:hover {
     				background-image: -webkit-linear-gradient(right,#dcdcdc,#f8f8f8);

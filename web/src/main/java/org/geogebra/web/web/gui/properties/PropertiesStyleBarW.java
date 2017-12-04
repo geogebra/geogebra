@@ -4,16 +4,17 @@ import java.util.HashMap;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.keyboard.web.KeyboardResources;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.menubar.MainMenu;
-import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
@@ -142,7 +143,19 @@ public class PropertiesStyleBarW extends
 		toolbar.setStyleName("menuProperties");	
 		toolbar.sinkEvents(Event.ONMOUSEDOWN | Event.ONTOUCHSTART);
 		toolbar.setFocusOnHoverEnabled(false);
-		
+		NoDragImage closeImage = new NoDragImage(
+				KeyboardResources.INSTANCE.keyboard_close_black(), 24, 24);
+		closeImage.addStyleName("closeButton");
+		toolbar.addItem(
+				new AriaMenuItem(
+						closeImage.getElement()
+										.getString(),
+						true, new ScheduledCommand() {
+
+			public void execute() {
+				propertiesView.close();
+			}
+		}));
 		buttonMap = new HashMap<>();
 		
 		for (final OptionType type : OptionTypesImpl) {
@@ -197,57 +210,7 @@ public class PropertiesStyleBarW extends
 		return MainMenu.getMenuBarHtml(getTypeIcon(type), typeString);
     }
 	
-	/**
-	 * @param type
-	 *            option type
-	 * @param btn
-	 *            button
-	 */
-	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
-		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
-		switch (type) {
-		case GLOBAL:
-			ImgResourceHelper.setIcon(
-					MaterialDesignResources.INSTANCE.gear(), btn);
-		case DEFAULTS:
-			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
-		case SPREADSHEET:
-			ImgResourceHelper.setIcon(pr.menu_icon_spreadsheet24(), btn);
-		case EUCLIDIAN:
-			ImgResourceHelper
-					.setIcon(app.isUnbundledOrWhiteboard()
-							? new ImageResourcePrototype(null,
-					MaterialDesignResources.INSTANCE
-									.geometry().getSafeUri(),
-							0, 0, 24, 24, false, false)
-							: pr.menu_icon_graphics24(),
-					btn);
-		case EUCLIDIAN2:
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics224(), btn);
-		case EUCLIDIAN_FOR_PLANE:
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics_extra24(),
-					btn);
-		case EUCLIDIAN3D:
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics3D24(), btn);
-		case CAS:
-			ImgResourceHelper.setIcon(pr.menu_icon_cas24(), btn);
-		case ALGEBRA:
-			ImgResourceHelper
-					.setIcon(
-							app.isUnbundledOrWhiteboard()
-									? new ImageResourcePrototype(null,
-											MaterialDesignResources.INSTANCE
-													.graphing().getSafeUri(),
-											0, 0, 24, 24, false, false)
-									: AppResources.INSTANCE.options_algebra24(),
-							btn);
-		case OBJECTS:
-			//AppResourcesConverter.setIcon(AppResources.INSTANCE.options_objects24(), btn);
-			ImgResourceHelper.setIcon(GuiResources.INSTANCE.properties_object(), btn);
-		case LAYOUT:
-			ImgResourceHelper.setIcon(AppResources.INSTANCE.options_layout24(), btn);
-		}
-	}
+
 
 	/**
 	 * @param type

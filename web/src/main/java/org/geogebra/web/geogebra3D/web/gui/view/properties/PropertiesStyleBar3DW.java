@@ -9,9 +9,6 @@ import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
 import org.geogebra.web.web.gui.properties.PropertiesStyleBarW;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
-import org.geogebra.web.web.gui.util.PopupMenuButtonW;
-
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 
 /**
  * Style bar for properties view (in 3D)
@@ -34,36 +31,12 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	}
 
 	@Override
-	protected void setIcon(OptionType type, PopupMenuButtonW btn) {
-		switch (type) {
-		case EUCLIDIAN3D :
-			SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
-			ImgResourceHelper.setIcon(app.getSettings().getToolbarSettings().is3D()
-					? new ImageResourcePrototype(null,
-									MaterialDesignResources.INSTANCE
-											.graphing3D().getSafeUri(),
-									0, 0, 24, 24, false, false)
-							: pr.menu_icon_graphics3D(), btn);
-			break;
-		case EUCLIDIAN_FOR_PLANE :
-			pr = ImageFactory.getPerspectiveResources();
-			ImgResourceHelper.setIcon(pr.menu_icon_graphics_extra(), btn);
-			break;
-		default:
-			super.setIcon(type, btn);
-			break;
-		}
-	}
-
-	@Override
 	protected String getTypeIcon(OptionType type) {
 		switch (type) {
 		case EUCLIDIAN3D:
 			SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 			return ImgResourceHelper
-					.safeURI(app.getSettings().getToolbarSettings().is3D()
-							? MaterialDesignResources.INSTANCE.graphing3D()
-							: pr.menu_icon_graphics3D());
+					.safeURI(MaterialDesignResources.INSTANCE.graphing3D());
 		case EUCLIDIAN_FOR_PLANE:
 			pr = ImageFactory
 					.getPerspectiveResources();

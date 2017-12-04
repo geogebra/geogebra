@@ -15,11 +15,12 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			/*border-radius: 2px;*/
 			z-index:  100000;;
 			height: 100%;
-    		overflow-y: auto;	
-    		
-    		.ggbmenubarwrapper { 
-    			padding-bottom: 4px;
-    		}
+			max-width: 100%;
+			overflow-y: auto;	
+
+			.ggbmenubarwrapper { 
+				padding-bottom: 4px;
+			}
 	
 			.gwt-StackPanel .matStackPanelNoOpacity {
 				min-width: 232px;
@@ -31,12 +32,12 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				}
 				
 				.gwt-MenuItem {
-				    padding-top: 0px;
-   					height: 40px;
-    				padding-bottom: 0px;
+					padding-top: 0px;
+					height: 40px;
+					padding-bottom: 0px;
 					padding-right: 16px;
 					padding-left: 72px;
-    				line-height: normal;
+					line-height: normal;
 					min-width: 232px;
 					color: $black-87;
 					
@@ -55,7 +56,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				
 					.gwt-HTML {
 						padding-top: 6px;
-   						padding-left: 8px;
+						padding-left: 8px;
 					
 						.menuImg {
 							margin-left: -32px;
@@ -70,7 +71,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					}
 					
 					span.gwt-CheckBox.matCheckBox {
-					    padding-left: 16px;
+						padding-left: 16px;
 					}
 					
 					td {
@@ -142,7 +143,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				border-top:none;
 				line-height: normal;
 				img {
-				    height: 24px !important;
+					height: 24px !important;
 					width: 24px !important;
 					position: absolute;
 					margin-left: -56px;	
@@ -166,10 +167,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					img {
 						opacity: 1;
 						top: 10px;
-    					height: 36px !important;
-    					width: 36px !important;
-    					margin: 0px;
-    					left: 6%;
+						height: 36px !important;
+						width: 36px !important;
+						margin: 0px;
+						left: 6%;
 					}
 					
 					span {
@@ -243,8 +244,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		top: 11px;
 		padding-top: 8px;
    		padding-bottom: 8px;
-    	padding-left: 0px;
-    	padding-right: 0px;
+		padding-left: 0px;
+		padding-right: 0px;
 	}
 		
 	.subMenuRightSide {

@@ -895,7 +895,8 @@ public class AppWapplet extends AppWFull {
 				}
 			}
 		}
-		if(getGuiManager().hasPropertiesView()){
+		if (getGuiManager().hasPropertiesView()
+				&& has(Feature.FLOATING_SETTINGS)) {
 			((PropertiesViewW) getGuiManager().getPropertiesView())
 					.resize(getWidth(),
 							getHeight() - this.frame.getKeyboardHeight());
