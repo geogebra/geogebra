@@ -1,11 +1,13 @@
 package org.geogebra.common.kernel.kernelND;
 
+import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
@@ -283,9 +285,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined()) {
 			StringBuilder sbTemp = new StringBuilder(80);
-
 			sbTemp.setLength(0);
-			sbTemp.append('(');
+			sbTemp.append(tpl.leftBracket());
 
 			for (int i = 0; i < fun.length; i++) {
 				sbTemp.append(fun[i].toValueString(tpl));
@@ -294,7 +295,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 				}
 			}
 
-			sbTemp.append(')');
+			sbTemp.append(tpl.rightBracket());
 			return sbTemp.toString();
 		}
 		return "?";
@@ -844,6 +845,40 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 	@Override
 	public final boolean showInAlgebraView() {
 		return true;
+	}
+
+	@Override
+	public void set(GeoElementND geo) {
+		GeoSurfaceCartesianND geoSurface = (GeoSurfaceCartesianND) geo;
+		int dim = this.isGeoElement3D() ? 3 : 2;
+		fun = new FunctionNVar[dim];
+		for (int i = 0; i < dim; i++) {
+			fun[i] = new FunctionNVar(geoSurface.fun[i], kernel);
+			// Application.debug(fun[i].toString());
+		}
+
+		fun1 = null;
+		fun2 = null;
+
+		startParam = Cloner.clone(geoSurface.startParam);
+		endParam = Cloner.clone(geoSurface.endParam);
+		isDefined = geoSurface.isDefined;
+
+		// macro OUTPUT
+		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
+			if (!geo.isIndependent()) {
+				// this object is an output object of AlgoMacro
+				// we need to check the references to all geos in its function's
+				// expression
+				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
+				for (int i = 0; i < dim; i++) {
+					algoMacro.initFunction(fun[i]);
+				}
+			}
+		}
+
+		// distFun = new ParametricCurveDistanceFunction(this);
+
 	}
 
 }

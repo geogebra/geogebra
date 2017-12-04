@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
-import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -226,45 +225,18 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	}
 
 	@Override
-	public boolean isEqual(GeoElementND Geo) {
+	public boolean isEqual(GeoElementND geo) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public void set(GeoElementND geo) {
-		GeoSurfaceCartesian3D geoSurface = (GeoSurfaceCartesian3D) geo;
-
-		fun = new FunctionNVar[3];
-		for (int i = 0; i < 3; i++) {
-			fun[i] = new FunctionNVar(geoSurface.fun[i], kernel);
-			// Application.debug(fun[i].toString());
+		super.set(geo);
+		if (geo instanceof GeoSurfaceCartesian3D) {
+			GeoSurfaceCartesian3D geoSurface = (GeoSurfaceCartesian3D) geo;
+			isSurfaceOfRevolutionAroundOx = geoSurface.isSurfaceOfRevolutionAroundOx;
 		}
-
-		fun1 = null;
-		fun2 = null;
-
-		startParam = geoSurface.startParam;
-		endParam = geoSurface.endParam;
-		isDefined = geoSurface.isDefined;
-
-		isSurfaceOfRevolutionAroundOx = geoSurface.isSurfaceOfRevolutionAroundOx;
-
-		// macro OUTPUT
-		if (geo.getConstruction() != cons && isAlgoMacroOutput()) {
-			if (!geo.isIndependent()) {
-				// this object is an output object of AlgoMacro
-				// we need to check the references to all geos in its function's
-				// expression
-				AlgoMacro algoMacro = (AlgoMacro) getParentAlgorithm();
-				for (int i = 0; i < 3; i++) {
-					algoMacro.initFunction(fun[i]);
-				}
-			}
-		}
-
-		// distFun = new ParametricCurveDistanceFunction(this);
-
 	}
 
 	@Override

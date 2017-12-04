@@ -82,12 +82,6 @@ public class GeoSurfaceCartesian2D extends GeoSurfaceCartesianND {
 	}
 
 	@Override
-	public void set(GeoElementND geo) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	protected boolean showInEuclidianView() {
 		// TODO Auto-generated method stub
 		return true;
