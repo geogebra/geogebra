@@ -40,7 +40,7 @@ public class GuiManager3DW extends GuiManagerW {
 	protected boolean initLayoutPanels() {
 
 		if (super.initLayoutPanels()) {
-			this.euclidian3Dpanel = new EuclidianDockPanel3DW(app);
+			this.euclidian3Dpanel = new EuclidianDockPanel3DW(getApp());
 			layout.registerPanel(this.euclidian3Dpanel);
 			return true;
 		}
@@ -59,13 +59,13 @@ public class GuiManager3DW extends GuiManagerW {
 	        org.geogebra.common.awt.GPoint p) {
 
 		// clear highlighting and selections in views
-		app.getActiveEuclidianView().resetMode();
+		getApp().getActiveEuclidianView().resetMode();
 		getDrawingPadpopupMenu3D(p.x, p.y).show(
 		        ((EuclidianView3DW) view).g2p.getCanvas(), p.x, p.y);
 	}
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu3D(int x, int y) {
-		currentPopup = new ContextMenuGraphicsWindow3DW((AppW) app, x, y);
+		currentPopup = new ContextMenuGraphicsWindow3DW((AppW) getApp(), x, y);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 

@@ -73,7 +73,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	private static final String material = "/material/show/id/";
 
 	protected Kernel kernel;
-	public App app;
+	protected App app;
 	protected HashMap<Integer, ConstructionProtocolNavigation> constProtocolNavigationMap;
 	private HashMap<Integer, PlotPanelEuclidianViewInterface> plotPanelIDMap;
 	private int lastUsedPlotPanelID = -App.VIEW_PLOT_PANEL;
@@ -86,8 +86,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 	 * @param app2
 	 */
 	public GuiManager(App app2) {
-		this.app = app2;
-		this.kernel = app.getKernel();
+		this.setApp(app2);
+		this.kernel = getApp().getKernel();
 	}
 
 	@Override
@@ -123,10 +123,10 @@ public abstract class GuiManager implements GuiManagerInterface {
 		if (this.isUsingConstructionProtocol()) {
 			getConstructionProtocolView().getXML(sb);
 		}
-		if (app.showConsProtNavigation()) {
+		if (getApp().showConsProtNavigation()) {
 			sb.append("\t<consProtNavigationBar ");
 			sb.append("id=\"");
-			app.getConsProtNavigationIds(sb);
+			getApp().getConsProtNavigationIds(sb);
 			sb.append('\"');
 			sb.append(" playButton=\"");
 			sb.append(
@@ -201,7 +201,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 				// however ends with ".ggb":
 				// http://www.geogebra.org/web/test42/?f=_circles5.ggb
 				// loadURL_GGB(processedUrlString);
-				app.getGgbApi().openFile(processedUrlString);
+				getApp().getGgbApi().openFile(processedUrlString);
 
 				// special case: urlString is from GeoGebraTube
 				// eg http://www.geogebratube.org/student/105 changed to
@@ -263,8 +263,8 @@ public abstract class GuiManager implements GuiManagerInterface {
 				// Add the login token to assure that private files of the
 				// logged in user can be accessed
 				processedUrlString += id + ".ggb";
-				if (app.getLoginOperation().isLoggedIn()) {
-					String token = app.getLoginOperation().getModel()
+				if (getApp().getLoginOperation().isLoggedIn()) {
+					String token = getApp().getLoginOperation().getModel()
 							.getLoggedInUser().getLoginToken();
 					if (token != null) {
 						processedUrlString += "?lt=" + token;
@@ -273,12 +273,12 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 				// Log.debug(processedUrlString);
 				// success = loadURL_GGB(processedUrlString);
-				app.getGgbApi().openFile(processedUrlString);
+				getApp().getGgbApi().openFile(processedUrlString);
 
 				// special case: urlString is actually a base64 encoded ggb file
 			} else if (processedUrlString.startsWith("UEs")) {
 				success = true;
-				app.getGgbApi()
+				getApp().getGgbApi()
 						.setBase64(
 						processedUrlString.replace("\\/", "/"));
 
@@ -360,46 +360,46 @@ public abstract class GuiManager implements GuiManagerInterface {
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
 
 		boolean bothAxesShown = ev.getShowXaxis() && ev.getShowYaxis();
-		if (app.getEuclidianView1() == ev) {
-			app.getSettings().getEuclidian(1).setShowAxes(!bothAxesShown,
+		if (getApp().getEuclidianView1() == ev) {
+			getApp().getSettings().getEuclidian(1).setShowAxes(!bothAxesShown,
 					!bothAxesShown);
 
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-				&& app.getEuclidianView2(1) == ev) {
-			app.getSettings().getEuclidian(2).setShowAxes(!bothAxesShown,
+		} else if (getApp().hasEuclidianView2EitherShowingOrNot(1)
+				&& getApp().getEuclidianView2(1) == ev) {
+			getApp().getSettings().getEuclidian(2).setShowAxes(!bothAxesShown,
 					!bothAxesShown);
-		} else if (app.isEuclidianView3D(ev)) {
-			app.getSettings().getEuclidian(3).setShowAxes(!bothAxesShown);
+		} else if (getApp().isEuclidianView3D(ev)) {
+			getApp().getSettings().getEuclidian(3).setShowAxes(!bothAxesShown);
 
 		} else {
 			ev.setShowAxes(!bothAxesShown, true);
 		}
 
 		ev.repaint();
-		app.storeUndoInfo();
-		app.updateMenubar();
+		getApp().storeUndoInfo();
+		getApp().updateMenubar();
 	}
 
 	@Override
 	public void showGridCmd() {
 		// get ev with focus
 		EuclidianView ev = getActiveEuclidianView();
-		if (app.getEuclidianView1() == ev) {
-			app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
+		if (getApp().getEuclidianView1() == ev) {
+			getApp().getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
 
-		} else if (app.hasEuclidianView2EitherShowingOrNot(1)
-				&& app.getEuclidianView2(1) == ev) {
-			app.getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
-		} else if (app.isEuclidianView3D(ev)) {
-			app.getSettings().getEuclidian(3).showGrid(!ev.getShowGrid());
+		} else if (getApp().hasEuclidianView2EitherShowingOrNot(1)
+				&& getApp().getEuclidianView2(1) == ev) {
+			getApp().getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
+		} else if (getApp().isEuclidianView3D(ev)) {
+			getApp().getSettings().getEuclidian(3).showGrid(!ev.getShowGrid());
 
 		} else {
 			ev.showGrid(!ev.getShowGrid());
 		}
 
 		ev.repaint();
-		app.storeUndoInfo();
-		app.updateMenubar();
+		getApp().storeUndoInfo();
+		getApp().updateMenubar();
 	}
 
 	@Override
@@ -710,7 +710,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 			}
 
 			// nothing more to do, so reset to move mode
-			app.setMoveMode();
+			getApp().setMoveMode();
 		}
 
 		if ((mode == EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS
@@ -719,21 +719,21 @@ public abstract class GuiManager implements GuiManagerInterface {
 				&& m == ModeSetter.TOOLBAR) {
 			// save the selected geos so they can be re-selected later
 			ArrayList<GeoElement> temp = new ArrayList<>();
-			if (app.getSelectionManager().getSelectedGeos() != null) {
-				for (GeoElement geo : app.getSelectionManager()
+			if (getApp().getSelectionManager().getSelectedGeos() != null) {
+				for (GeoElement geo : getApp().getSelectionManager()
 						.getSelectedGeos()) {
 					temp.add(geo);
 				}
 			}
 
-			if (app.getGuiManager() != null) {
+			if (getApp().getGuiManager() != null) {
 
-				app.getDialogManager().showDataSourceDialog(mode, true);
-				app.setMoveMode();
+				getApp().getDialogManager().showDataSourceDialog(mode, true);
+				getApp().setMoveMode();
 			}
 
 			// reselect the geos
-			app.getSelectionManager().setSelectedGeos(temp);
+			getApp().getSelectionManager().setSelectedGeos(temp);
 		}
 
 		setModeFinished = true;
@@ -764,11 +764,11 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
 		urlSB.append("help/");
-		urlSB.append(app.getLocalization().getLanguage()); // eg en_GB
+		urlSB.append(getApp().getLocalization().getLanguage()); // eg en_GB
 
 		switch (type) {
 		case COMMAND:
-			String cmdPageName = app.getLocalization().getEnglishCommand(
+			String cmdPageName = getApp().getLocalization().getEnglishCommand(
 					pageName);
 			urlSB.append("/cmd/");
 			urlSB.append(cmdPageName);
@@ -794,20 +794,20 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 	@Override
 	public void redo() {
-		app.setWaitCursor();
+		getApp().setWaitCursor();
 		kernel.redo();
 		updateActions();
-		app.resetPen();
-		app.setDefaultCursor();
+		getApp().resetPen();
+		getApp().setDefaultCursor();
 	}
 
 	@Override
 	public void undo() {
-		app.setWaitCursor();
+		getApp().setWaitCursor();
 		kernel.undo();
 		updateActions();
-		app.resetPen();
-		app.setDefaultCursor();
+		getApp().resetPen();
+		getApp().setDefaultCursor();
 	}
 
 	@Override
@@ -818,7 +818,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public void refreshCustomToolsInToolBar() {
 		String oldToolbar = getToolbarDefinition() == null
-				? ToolBar.getAllTools(app) : getToolbarDefinition();
+				? ToolBar.getAllTools(getApp()) : getToolbarDefinition();
 		setToolBarDefinition(refreshCustomToolsInToolBar(oldToolbar));
 	}
 
@@ -904,21 +904,25 @@ public abstract class GuiManager implements GuiManagerInterface {
 	@Override
 	public void setImageCornersFromSelection(GeoImage geoImage) {
 
-		app.getImageManager().setCornersFromSelection(geoImage, app);
+		getApp().getImageManager().setCornersFromSelection(geoImage, getApp());
 		// }
 		// // make sure only the last image will be selected
 		GeoElement[] geos = { geoImage };
-		app.getActiveEuclidianView().getEuclidianController().clearSelections();
-		app.getActiveEuclidianView().getEuclidianController()
+		getApp().getActiveEuclidianView().getEuclidianController().clearSelections();
+		getApp().getActiveEuclidianView().getEuclidianController()
 				.memorizeJustCreatedGeos(geos);
-		app.setMoveMode();
-		app.getActiveEuclidianView().resetMode();
+		getApp().setMoveMode();
+		getApp().getActiveEuclidianView().resetMode();
 
 	}
 
 	@Override
 	public StepGuiBuilder getStepGuiBuilder() {
 		return null;
+	}
+
+	public void setApp(App app) {
+		this.app = app;
 	}
 
 }

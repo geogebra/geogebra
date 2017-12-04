@@ -75,7 +75,7 @@ public class GuiManager3D extends GuiManagerD {
 	@Override
 	protected void initLayoutPanels() {
 		super.initLayoutPanels();
-		if (app.supportsView(App.VIEW_EUCLIDIAN3D)) {
+		if (getApp().supportsView(App.VIEW_EUCLIDIAN3D)) {
 			getLayout().registerPanel(new EuclidianDockPanel3DD(getApp()));
 		}
 	}
@@ -253,7 +253,7 @@ public class GuiManager3D extends GuiManagerD {
 	protected EuclidianViewD newEuclidianView(boolean[] showAxis,
 			boolean showGrid, int viewId) {
 
-		EuclidianSettings settings = app.getSettings().getEuclidian(viewId);
+		EuclidianSettings settings = getApp().getSettings().getEuclidian(viewId);
 
 		return new EuclidianViewFor3DD(new EuclidianControllerFor3DD(kernel),
 				showAxis, showGrid, viewId, settings);
@@ -273,8 +273,8 @@ public class GuiManager3D extends GuiManagerD {
 
 		super.setLabels();
 
-		if (app.isEuclidianView3Dinited()) {
-			EuclidianView3DInterface view = app.getEuclidianView3D();
+		if (getApp().isEuclidianView3Dinited()) {
+			EuclidianView3DInterface view = getApp().getEuclidianView3D();
 			if (view != null && ((EuclidianView) view).hasStyleBar()) {
 				((EuclidianView) view).getStyleBar().setLabels();
 			}
@@ -284,7 +284,7 @@ public class GuiManager3D extends GuiManagerD {
 
 	@Override
 	public boolean loadURL(String urlString, boolean suppressErrorMsg) {
-		((App3DCompanion) app.getCompanion()).removeAllEuclidianViewForPlane();
+		((App3DCompanion) getApp().getCompanion()).removeAllEuclidianViewForPlane();
 		return super.loadURL(urlString, suppressErrorMsg);
 	}
 }
