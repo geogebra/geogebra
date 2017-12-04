@@ -919,13 +919,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		Log.debug("KoreanDoubles may be needed in AutocompleteTextField");
 	}
 
-	private boolean moveToNextArgument(boolean find) {
+	private boolean moveToNextArgument(boolean find, boolean updateUI) {
 		String text = getText();
 		int caretPos = getCaretPosition();
 
 		// make sure it works if caret is just after [
 		if (caretPos > 0 && text.length() < caretPos
-				&& text.charAt(caretPos) != '[') {
+				&& text.charAt(caretPos) != '(') {
 			caretPos--;
 		}
 		String suffix = text.substring(caretPos);
@@ -951,9 +951,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				&& (find || index == caretPos)) {
 			// setCaretPosition(argMatcher.end();
 			// moveCaretPosition(argMatcher.start() + 1);
-			String groupStr = argMatcher.getGroup(1);
-			textField.getValueBox().setSelectionRange(index + 2,
+			if (updateUI) {
+				String groupStr = argMatcher.getGroup(1);
+				textField.getValueBox().setSelectionRange(index + 2,
 					groupStr.length());
+			}
 
 			return true;
 		}
@@ -991,7 +993,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 				// If found, select the argument description so that it can
 				// easily be typed over with the value
 				// of the argument.
-				if (moveToNextArgument(false)) {
+				if (moveToNextArgument(false, true)) {
 					e.stopPropagation();
 					e.preventDefault();
 				}
@@ -1092,27 +1094,31 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		}
 		int keyCode = e.getNativeKeyCode();
 		app.getGlobalKeyDispatcher();
-		if (keyCode == GWTKeycodes.KEY_TAB || keyCode == GWTKeycodes.KEY_F1
+		if (keyCode == GWTKeycodes.KEY_F1
 				|| GlobalKeyDispatcherW.isBadKeyEvent(e)) {
 			e.preventDefault();
-			if (keyCode == GWTKeycodes.KEY_TAB && usedForInputBox()) {
-				AutoCompleteTextField tf = app.getActiveEuclidianView()
-						.getTextField();
-				if (tf != null) {
-					geoUsedForInputBox.setText(tf.getText());
-					tf.setVisible(false);
-				}
 
-				app.getGlobalKeyDispatcher().handleTab(e.isControlKeyDown(),
-						e.isShiftKeyDown(), true);
-				GeoElement next = app.getSelectionManager().getSelectedGeos()
-						.get(0);
-				if (next instanceof GeoInputBox) {
-					app.getActiveEuclidianView()
-							.focusTextField((GeoInputBox) next);
-				} else {
-					app.getActiveEuclidianView().requestFocus();
-				}
+		}
+		if (keyCode == GWTKeycodes.KEY_TAB && moveToNextArgument(true, false)) {
+			e.preventDefault();
+		}
+		if (keyCode == GWTKeycodes.KEY_TAB && usedForInputBox()) {
+			e.preventDefault();
+			AutoCompleteTextField tf = app.getActiveEuclidianView()
+					.getTextField();
+			if (tf != null) {
+				geoUsedForInputBox.setText(tf.getText());
+				tf.setVisible(false);
+			}
+
+			app.getGlobalKeyDispatcher().handleTab(e.isControlKeyDown(),
+					e.isShiftKeyDown(), true);
+			GeoElement next = app.getSelectionManager().getSelectedGeos()
+					.get(0);
+			if (next instanceof GeoInputBox) {
+				app.getActiveEuclidianView().focusTextField((GeoInputBox) next);
+			} else {
+				app.getActiveEuclidianView().requestFocus();
 			}
 		}
 	}
@@ -1190,7 +1196,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			e.stopPropagation();
 			break;
 		case GWTKeycodes.KEY_RIGHT:
-			if (moveToNextArgument(false)) {
+			if (moveToNextArgument(false, true)) {
 				e.stopPropagation();
 				textField.hideSuggestions();
 			}
@@ -1199,7 +1205,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 		case GWTKeycodes.KEY_TAB:
 			e.preventDefault();
-			if (moveToNextArgument(true)) {
+			if (moveToNextArgument(true, true)) {
 				e.stopPropagation();
 			}
 			break;
@@ -1540,13 +1546,13 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		// Special case if the completion is a built-in function
 		if (bracketIndex == -1) {
 			bracketIndex = command.indexOf('(');
-			bracketIndex++;
+			// bracketIndex++;
 			/*
 			 * setCaretPosition(curWordStart + bracketIndex + 1); return true;
 			 */
 		}
 		setCaretPosition(curWordStart + bracketIndex);
-		moveToNextArgument(false);
+		moveToNextArgument(false, true);
 		return true;
 	}
 
