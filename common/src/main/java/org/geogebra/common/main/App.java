@@ -401,7 +401,7 @@ public abstract class App implements UpdateSelection {
 	private AdjustScreen adjustScreen2 = null;
 	private long ceIDcounter = 1;
 	private int nextVariableID = 1;
-	private boolean buttonShadows = true;
+	private boolean buttonShadows = false;
 	private double buttonRounding = 0.2;
 
 	public static String[] getStrDecimalSpacesAC() {
