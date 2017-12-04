@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.Image;
  */
 public abstract class GCheckMarkPanel {
 
-	protected FlowPanel itemPanel;
+	private FlowPanel itemPanel;
 	private boolean checked;
 	private String text;
 	private Image checkImg;
@@ -32,8 +32,7 @@ public abstract class GCheckMarkPanel {
 	 * @param cmd
 	 *            The command to run.
 	 */
-	public GCheckMarkPanel(String text, SVGResource checkUrl,
-			boolean checked,
+	public GCheckMarkPanel(String text, SVGResource checkUrl, boolean checked,
 			final ScheduledCommand cmd) {
 		this.setText(text);
 		this.setCmd(cmd);
@@ -87,24 +86,48 @@ public abstract class GCheckMarkPanel {
 		return checked;
 	}
 
+	/**
+	 * @return checkbox action
+	 */
 	public ScheduledCommand getCmd() {
 		return cmd;
 	}
 
+	/**
+	 * @param cmd
+	 *            checkbox action
+	 */
 	public void setCmd(ScheduledCommand cmd) {
 		this.cmd = cmd;
 	}
 
+	/**
+	 * @return checkbox label
+	 */
 	public String getText() {
 		return text;
 	}
 
+	/**
+	 * @param text
+	 *            checkbox label
+	 */
 	public void setText(String text) {
 		this.text = text;
 		updateGUI();
 	}
 
+	/**
+	 * @return panel
+	 */
 	public FlowPanel getPanel() {
 		return itemPanel;
+	}
+
+	/**
+	 * @return HTML content
+	 */
+	public String getHTML() {
+		return itemPanel.toString();
 	}
 }

@@ -113,10 +113,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            point to show popup
 	 */
 	public final void show(GPoint p) {
-		double yOffset =  app.getPanel().getAbsoluteTop()
-				/ getScaleY();
-		double xOffset = app.getPanel().getAbsoluteLeft()
-				/ getScaleX();
+		double yOffset = app.getPanel().getAbsoluteTop() / getScaleY();
+		double xOffset = app.getPanel().getAbsoluteLeft() / getScaleX();
 		int top = (int) (p.getY() - yOffset);
 		int left = (int) (p.getX() - xOffset);
 		boolean newPoz = false;
@@ -125,16 +123,14 @@ public class GPopupMenuW implements AttachedToDOM {
 				* getScaleX() > Window.getClientWidth()
 						+ Window.getScrollLeft()) {
 			left = (int) ((Window.getClientWidth() + Window.getScrollLeft())
-					/ getScaleX() - xOffset
-					- popupPanel.getOffsetWidth());
+					/ getScaleX() - xOffset - popupPanel.getOffsetWidth());
 			newPoz = true;
 		}
 		if ((p.getY() + popupPanel.getOffsetHeight())
 				* getScaleY() > Window.getClientHeight()
 						+ Window.getScrollTop()) {
 			top = (int) (((Window.getClientHeight() + Window.getScrollTop()))
-					/ getScaleY() - yOffset
-					- popupPanel.getOffsetHeight());
+					/ getScaleY() - yOffset - popupPanel.getOffsetHeight());
 			newPoz = true;
 		}
 
@@ -168,8 +164,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 *            coord to show popup
 	 */
 	public void show(Canvas c, int x, int y) {
-		show(new GPoint(
-				(int) (c.getAbsoluteLeft() / getScaleX() + x),
+		show(new GPoint((int) (c.getAbsoluteLeft() / getScaleX() + x),
 				(int) (c.getAbsoluteTop() / getScaleY() + y)));
 	}
 
@@ -254,6 +249,9 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 	}
 
+	/**
+	 * Hide menu and mark this as hidden
+	 */
 	public void hideMenu() {
 		setMenuShown(false);
 		popupPanel.hide();
@@ -262,15 +260,14 @@ public class GPopupMenuW implements AttachedToDOM {
 
 	private static ImageResource getSubMenuIcon(boolean isRTL) {
 		return isRTL
-					? new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE
-									.arrow_drop_left_black().getSafeUri(),
-							0, 0, 24, 24, false, false)
-					: new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE
-									.arrow_drop_right_black().getSafeUri(),
-							0, 0, 24, 24, false, false);
-
+				? new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.arrow_drop_left_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false)
+				: new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE
+								.arrow_drop_right_black().getSafeUri(),
+						0, 0, 24, 24, false, false);
 	}
 
 	// public void addItem(final MenuItem item) {
@@ -286,7 +283,6 @@ public class GPopupMenuW implements AttachedToDOM {
 	public void addItem(final AriaMenuItem item) {
 		addItem(item, true);
 	}
-
 
 	/**
 	 * @param item
@@ -339,7 +335,7 @@ public class GPopupMenuW implements AttachedToDOM {
 					} else {
 						xCord = getRightSubPopupXCord();
 						if (xCord + getSubPopupWidth() > Window
-						        .getClientWidth()) {
+								.getClientWidth()) {
 							xCord = getLeftSubPopupXCord();
 						}
 					}
@@ -349,8 +345,7 @@ public class GPopupMenuW implements AttachedToDOM {
 									/ getScaleY(),
 							(Window.getClientHeight() + Window.getScrollTop()
 									- getApp().getPanel().getAbsoluteTop())
-									/ getScaleY()
-									- getSubPopupHeight());
+									/ getScaleY() - getSubPopupHeight());
 					subPopup.showAtPoint(xCord, yCord);
 				}
 			};
@@ -365,7 +360,6 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		}
 		popupMenuSize++;
-
 		item.addStyleName("gPopupMenu_item");
 	}
 
@@ -425,8 +419,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	public int getLeftSubPopupXCord() {
 		int xCord;
 		xCord = (int) ((popupPanel.getAbsoluteLeft()
-				- app.getPanel().getAbsoluteLeft())
-				/ getScaleX() - getSubPopupWidth());
+				- app.getPanel().getAbsoluteLeft()) / getScaleX()
+				- getSubPopupWidth());
 		return xCord;
 	}
 
@@ -439,8 +433,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	public int getRightSubPopupXCord() {
 		return (int) ((popupPanel.getAbsoluteLeft()
-				- app.getPanel().getAbsoluteLeft())
-				/ getScaleX()
+				- app.getPanel().getAbsoluteLeft()) / getScaleX()
 				+ popupPanel.getOffsetWidth());
 	}
 
@@ -452,7 +445,6 @@ public class GPopupMenuW implements AttachedToDOM {
 		addItem(item.getMenuItem());
 
 	}
-
 
 	/**
 	 * @param s
@@ -535,6 +527,7 @@ public class GPopupMenuW implements AttachedToDOM {
 				selectListener.removeSubPopup();
 			}
 		}
+
 		private AriaMenuItem findItem(Element hItem) {
 			for (AriaMenuItem item : getItems()) {
 				if (item.getElement().isOrHasChild(hItem)) {

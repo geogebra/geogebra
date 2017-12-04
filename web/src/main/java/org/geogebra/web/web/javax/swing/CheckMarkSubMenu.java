@@ -21,8 +21,6 @@ public abstract class CheckMarkSubMenu {
 	protected GCollapseMenuItem parentMenu;
 
 	/**
-	 * @param wrappedPopup
-	 *            - pupup menu
 	 * @param parentMenu
 	 *            - parent of wrappedPopup
 	 */

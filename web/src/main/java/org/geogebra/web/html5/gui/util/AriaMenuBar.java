@@ -15,7 +15,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
 
-/**Accessible alternative to MenuBar*/
+/** Accessible alternative to MenuBar */
 public class AriaMenuBar extends Widget {
 	private AriaMenuItem selectedItem;
 	private ArrayList<AriaMenuItem> allItems = new ArrayList<>();
@@ -47,6 +47,12 @@ public class AriaMenuBar extends Widget {
 		return item;
 	}
 
+	/**
+	 * Add a collapsible submenu as a new item
+	 * 
+	 * @param item
+	 *            collapsible submenu
+	 */
 	public void addMenu(AriaMenuBar item) {
 		Element li = Document.get().createLIElement();
 		li.appendChild(item.getElement());
@@ -256,8 +262,7 @@ public class AriaMenuBar extends Widget {
 		event.preventDefault();
 	}
 
-	private AriaMenuItem findItem(
-			Element eventTarget) {
+	private AriaMenuItem findItem(Element eventTarget) {
 		for (AriaMenuItem item : allItems) {
 			if (item.getElement().isOrHasChild(eventTarget)) {
 				return item;
@@ -333,7 +338,7 @@ public class AriaMenuBar extends Widget {
 	 *            whether mouseover should select items
 	 */
 	public void setFocusOnHoverEnabled(boolean focusOnHover) {
-		this.focusOnHover = focusOnHover;		
+		this.focusOnHover = focusOnHover;
 	}
 
 	/**

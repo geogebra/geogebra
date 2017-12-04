@@ -12,18 +12,21 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Menu item with a checkbox (for new UI use the checkmark version)
+ */
 public class GCheckBoxMenuItem {
 
-	CheckBox checkBox;
-	AriaMenuItem menuItem;
-	HorizontalPanel itemPanel;
+	private CheckBox checkBox;
+	private AriaMenuItem menuItem;
+	private HorizontalPanel itemPanel;
 
 	// true if menu has no checkbox, but ON/OFF label.
-	boolean toggle = false;
-	boolean selected;
+	private boolean toggle = false;
+	private boolean selected;
 	private App app;
 	private boolean isHtml;
-	String text;
+	private String text;
 	private boolean forceCheckbox = false;
 	// public GCheckBoxMenuItem(SafeHtml html, final ScheduledCommand cmd) {
 	// super(html, cmd);
@@ -59,8 +62,6 @@ public class GCheckBoxMenuItem {
 
 		this.toggle = app.has(Feature.WHITEBOARD_APP)
 				&& app.has(Feature.MOW_CONTEXT_MENU);
-
-
 		itemPanel = new HorizontalPanel();
 
 		checkBox = new CheckBox();
@@ -75,8 +76,6 @@ public class GCheckBoxMenuItem {
 			checkBox.addStyleName("matCheckBox");
 		}
 	}
-
-
 
 	public GCheckBoxMenuItem(String text, final ScheduledCommand cmd,
 			boolean isHtml, App app) {
@@ -130,6 +129,9 @@ public class GCheckBoxMenuItem {
 		return isToggleMenu() ? selected : checkBox.getValue();
 	}
 
+	/**
+	 * @return wrapped item
+	 */
 	public AriaMenuItem getMenuItem() {
 		return menuItem;
 	}

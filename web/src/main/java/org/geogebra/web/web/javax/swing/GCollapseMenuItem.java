@@ -27,7 +27,7 @@ public class GCollapseMenuItem {
 	private Image imgExpand;
 	private Image imgCollapse;
 	private GPopupMenuW parentMenu;
-	
+
 	/**
 	 * @param text
 	 *            Title
@@ -40,10 +40,8 @@ public class GCollapseMenuItem {
 	 * @param wrappedPopup
 	 *            The command to run.
 	 */
-	public GCollapseMenuItem(String text, String expandUrl,
-			String collapseUrl,
-			boolean expanded,
-			final GPopupMenuW wrappedPopup) {
+	public GCollapseMenuItem(String text, String expandUrl, String collapseUrl,
+			boolean expanded, final GPopupMenuW wrappedPopup) {
 		this.text = text;
 		imgExpand = new NoDragImage(expandUrl);
 		imgExpand.setStyleName("expandImg");
@@ -78,13 +76,15 @@ public class GCollapseMenuItem {
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
 		menuItem.setHTML(itemPanel.toString());
 		if (items.getElement().getParentElement() != null) {
-				items.getElement().getParentElement().getStyle()
+			items.getElement().getParentElement().getStyle()
 					.setProperty("listStyle", "none");
-
 		}
 		updateItems();
 	}
 
+	/**
+	 * Attach to parent menu and collapse this
+	 */
 	public void attachToParent() {
 		parentMenu.getPopupMenu().addMenu(items);
 		setExpanded(false);
@@ -134,6 +134,9 @@ public class GCollapseMenuItem {
 		items.addItem(item);
 	}
 
+	/**
+	 * @return the collapsed items wrapped in a submenu
+	 */
 	public AriaMenuBar getItems() {
 		return items;
 	}
