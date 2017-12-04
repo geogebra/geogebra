@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
-class BasicTab extends OptionsEuclidianW.EuclidianTab {
+public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 	/**
 	 * 
@@ -81,6 +81,7 @@ class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	protected CheckBox cbAxisLabelItalic;
 	protected FlowPanel miscPanel;
 	private EuclidianOptionsModel model;
+	ListBox rightAngleStyleListBox;
 
 	public BasicTab(OptionsEuclidianW optionsEuclidianW) {
 		super(optionsEuclidianW.app);
@@ -549,8 +550,10 @@ class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		rightAngleStyleLabel = new Label(
 				this.optionsEuclidianW.loc.getMenu("RightAngleStyle") + ":");
-		this.optionsEuclidianW.rightAngleStyleListBox = new ListBox();
-		this.optionsEuclidianW.model.fillRightAngleCombo();
+		this.rightAngleStyleListBox = new ListBox();
+		updateRightAngleCombo();
+		rightAngleStyleListBox
+				.setSelectedIndex(optionsEuclidianW.view.getRightAngleStyle());
 
 		miscPanel = new FlowPanel();
 		add(miscTitle);
@@ -626,15 +629,22 @@ class BasicTab extends OptionsEuclidianW.EuclidianTab {
 			}
 		});
 
-		this.optionsEuclidianW.rightAngleStyleListBox
+		this.rightAngleStyleListBox
 				.addChangeHandler(new ChangeHandler() {
 					@Override
 					public void onChange(ChangeEvent event) {
 						model.applyRightAngleStyle(
-								BasicTab.this.optionsEuclidianW.rightAngleStyleListBox
+								BasicTab.this.rightAngleStyleListBox
 										.getSelectedIndex());
 					}
 				});
+	}
+
+	private void updateRightAngleCombo() {
+		this.rightAngleStyleListBox.clear();
+		for (String s : this.model.fillRightAngleCombo()) {
+			this.rightAngleStyleListBox.addItem(s);
+		}
 	}
 
 	protected void fillMiscPanel() {
@@ -644,7 +654,7 @@ class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				this.optionsEuclidianW.lbTooltips));
 		miscPanel.add(LayoutUtilW.panelRow(cbShowMouseCoords));
 		miscPanel.add(LayoutUtilW.panelRow(rightAngleStyleLabel,
-				this.optionsEuclidianW.rightAngleStyleListBox));
+				this.rightAngleStyleListBox));
 
 	}
 
@@ -676,11 +686,11 @@ class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbShowMouseCoords.setText(
 				this.optionsEuclidianW.loc.getMenu("ShowMouseCoordinates"));
 
-		index = this.optionsEuclidianW.rightAngleStyleListBox
+		index = this.rightAngleStyleListBox
 				.getSelectedIndex();
-		this.optionsEuclidianW.rightAngleStyleListBox.clear();
-		this.optionsEuclidianW.model.fillRightAngleCombo();
-		this.optionsEuclidianW.rightAngleStyleListBox.setSelectedIndex(index);
+
+		updateRightAngleCombo();
+		this.rightAngleStyleListBox.setSelectedIndex(index);
 
 		consProtocolTitle.setText(this.optionsEuclidianW.loc
 				.getMenu("ConstructionProtocolNavigation"));

@@ -574,11 +574,9 @@ public class EuclidianOptionsModel {
 	/**
 	 * fill list with right angle styles
 	 */
-	public void fillRightAngleCombo() {
-		listener.addRightAngleStyleItem(app.getLocalization().getMenu("off"));
-		listener.addRightAngleStyleItem("\u25a1");
-		listener.addRightAngleStyleItem("\u2219");
-		listener.addRightAngleStyleItem("\u2335");
+	public String[] fillRightAngleCombo() {
+		return new String[] {app.getLocalization().getMenu("off"),
+				"\u25a1", "\u2219", "\u2335" };
 	}
 
 	public void updateProperties() {
@@ -786,8 +784,6 @@ public class EuclidianOptionsModel {
 		void setMinMaxText(String minX, String maxX, String minY, String maxY);
 
 		void addTooltipItem(String item);
-
-		void addRightAngleStyleItem(String item);
 
 		void addGridTypeItem(String item);
 

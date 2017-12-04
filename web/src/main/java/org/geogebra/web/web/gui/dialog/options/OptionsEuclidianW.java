@@ -52,7 +52,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	AxisTab yAxisTab;
 	private GridTab gridTab;
 	ListBox lbTooltips;
-	ListBox rightAngleStyleListBox;
 	private boolean isIniting;
 	protected Localization loc;
 	
@@ -714,11 +713,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	@Override
 	public void addTooltipItem(String item) {
 		lbTooltips.addItem(item);
-	}
-
-	@Override
-	public void addRightAngleStyleItem(String item) {
-		rightAngleStyleListBox.addItem(item);
 	}
 
 	@Override
