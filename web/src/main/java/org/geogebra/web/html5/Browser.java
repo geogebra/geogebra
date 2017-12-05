@@ -300,13 +300,18 @@ public class Browser {
 		var extension;
 		var header;
 
-		if (url.startsWith("data:image/png;base64,")) {
+		// IE11 doesn't have String.startsWith()
+		var startsWith = function(data, input) {
+			return data.substring(0, input.length) === input;
+		}
+
+		if (startsWith(url, "data:image/png;base64,")) {
 			extension = "image/png";
 			header = "data:image/png;base64,";
-		} else if (url.startsWith("data:image/svg+xml;base64,")) {
+		} else if (startsWith(url, "data:image/svg+xml;base64,")) {
 			extension = "image/svg+xml";
 			header = "data:image/svg+xml;base64,";
-		} else if (url.startsWith("data:application/pdf;base64,")) {
+		} else if (startsWith(url, "data:application/pdf;base64,")) {
 			extension = "application/pdf";
 			header = "data:application/pdf;base64,";
 		} else {
@@ -334,7 +339,7 @@ public class Browser {
 			}
 
 			var blob = new Blob(byteArrays, {
-				type : entension
+				type : extension
 			});
 
 			//works for internet explorer
