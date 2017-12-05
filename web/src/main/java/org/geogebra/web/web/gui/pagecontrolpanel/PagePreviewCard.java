@@ -1,20 +1,24 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.event.KeyEvent;
+import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.event.FocusListenerW;
+import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
+import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 
 /**
  * Page Preview Card showing preview of EuclidianView
@@ -31,7 +35,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	private FlowPanel imagePanel;
 	private String image;
 	private FlowPanel titlePanel;
-	private Label title;
+	private AutoCompleteTextFieldW textField;
 	private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
 
@@ -44,8 +48,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 *            current page index
 	 */
 	public PagePreviewCard(EuclidianView view, int pageIndex) {
-		// TODO EuclidianView is used for testing, might have to be changed when
-		// full functionality will be implemented
 		this.view = view;
 		this.pageIndex = pageIndex;
 		this.app = (AppW) view.getApplication();
@@ -61,15 +63,41 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 
 		titlePanel = new FlowPanel();
 		titlePanel.addStyleName("mowTitlePanel");
-		title = new Label();
-		titlePanel.add(title);
 
 		add(imagePanel);
 		add(titlePanel);
 
 		setPreviewImage();
+		addTextField();
 		setDefaultLabel();
 		addMoreButton();
+	}
+
+	private void addTextField() {
+		textField = InputPanelW.newTextComponent(app);
+		textField.setAutoComplete(false);
+		textField.addFocusListener(new FocusListenerW(this) {
+			@Override
+			protected void wrapFocusLost() {
+				onEnter();
+			}
+		});
+		textField.addKeyHandler(new KeyHandler() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					onEnter();
+				}
+			}
+		});
+		titlePanel.add(textField);
+	}
+
+	/**
+	 * execute textfield input
+	 */
+	protected void onEnter() {
+		rename(textField.getText());
 	}
 
 	private void setPreviewImage() {
@@ -112,7 +140,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 
 	private void setDefaultLabel() {
 		if (!isTitleSet) {
-		title.setText(loc.getMenu("page") + " " + (pageIndex + 1));
+			textField.setText(loc.getMenu("page") + " " + (pageIndex + 1));
 		}
 	}
 
@@ -149,15 +177,8 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 *            title of page to set
 	 */
 	public void rename(String text) {
-		title.setText(text);
+		textField.setText(text);
 		isTitleSet = true;
-	}
-
-	/**
-	 * @return title
-	 */
-	public Label getTitleText() {
-		return title;
 	}
 
 	/**
@@ -167,7 +188,8 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		if (contextMenu == null) {
 			contextMenu = new ContextMenuPagePreview(app, this);
 		}
-		contextMenu.show(getAbsoluteLeft(), getAbsoluteTop() + 170);
+		contextMenu.show(moreBtn.getAbsoluteLeft(),
+				moreBtn.getAbsoluteTop() - 3);
 	}
 	
 	/**
@@ -182,5 +204,9 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		if (moreBtn != null) {
 			moreBtn.setAltText(loc.getMenu("Options"));
 		}
+		if (contextMenu != null) {
+			contextMenu.setLabels();
+		}
+		setDefaultLabel();
 	}
 }

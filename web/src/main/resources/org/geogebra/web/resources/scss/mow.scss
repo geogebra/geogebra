@@ -662,7 +662,7 @@
 			.mowMoreButton {
 				width: 24px;
 				height: 24px;
-				padding: 13.5px;
+				padding: 8px;
 				right: 16px;
    				position: absolute;
 				opacity: 0.54;
@@ -673,62 +673,31 @@
 				}
 			}
 		}
-	}
-	.mowPagePreviewCard.selected {
-		box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
-	}
-	/*****************
-*   PAGE PREVIEW CARD CONTEXT MENU
-******************/
-	.mowCardContextMenu {
-		padding: 8px 8px;
-    	width: 188px;
-    	
-    	.panelRow {
-    			height: 32px !important;
-    			display: flex;
-    			
-    			img {
-					width: 24px !important;
-				    height: 24px !important;
-				    padding: 2px;
-				   	opacity: 0.54;
-				}
-    			.gwt-Label {
-    				line-height: 30px;
-    				cursor: default;
-				}
-    			.AutoCompleteTextFieldW {
-    				width: 134px;
+		.AutoCompleteTextFieldW {
     				margin: 0px !important;
+    				padding: 8px;
+    				padding-left: 16px;
     				border-radius: 2px;	
     				
     				.TextField {
-    					padding: 2px;
-   						padding-left: 8px;
-   						margin-bottom: 2px;
+    					height: 24px;
+    					padding: 0px;
     					border: none;
-    					border-bottom: 1px solid $tool-border;
     					background: transparent;
     					box-shadow: none;
     					border-radius: 0px !important;
     				}
     			}
-    		}
-		.mowMenuRow{
-			cursor: pointer;
-			
-			.gwt-Label {
-	 			cursor: pointer;
-			}
-			&:hover {
-				background-color: $selected-menuitem-background;
-				color: $black;
-				img {
-					opacity: 0.87;
-				}
-			}
-		}
+	}
+	.mowPagePreviewCard.selected {
+		box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
+	}
+/*****************
+*   PAGE PREVIEW CARD CONTEXT MENU
+******************/
+	.mowMatMenu.gwt-PopupPanel{
+		min-width: 100px !important;
+   		max-width: 200px;
 	}
 }
 

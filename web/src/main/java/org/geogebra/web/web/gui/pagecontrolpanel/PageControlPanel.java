@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
+import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -27,7 +28,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Alicia Hofstaetter
  * 
  */
-public class PageControlPanel extends PersistablePanel {
+public class PageControlPanel
+		extends PersistablePanel implements SetLabels {
 
 	private AppW app;
 	private GeoGebraFrameBoth frame;
@@ -121,6 +123,7 @@ public class PageControlPanel extends PersistablePanel {
 			isAttached = true;
 		}
 		updatePreview();
+		setLabels();
 		setVisible(true);
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
@@ -269,4 +272,12 @@ public class PageControlPanel extends PersistablePanel {
 			activePreviewCard.updatePreviewImage();
 		}
 	}
+
+	@Override
+	public void setLabels() {
+		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
+			((PagePreviewCard) contentPanel.getWidget(i)).setLabels();
+		}
+	}
+
 }

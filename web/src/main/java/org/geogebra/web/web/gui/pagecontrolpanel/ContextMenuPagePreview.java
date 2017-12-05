@@ -1,30 +1,19 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
 import org.geogebra.common.awt.GPoint;
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.event.FocusListenerW;
-import org.geogebra.web.html5.gui.GPopupPanel;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
-import org.geogebra.web.html5.gui.util.LayoutUtilW;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.web.gui.view.algebra.InputPanelW;
+import org.geogebra.web.web.gui.menubar.MainMenu;
 import org.geogebra.web.web.javax.swing.GPopupMenuW;
 import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.Command;
 
 /**
  * Context Menu of Page Preview Cards
@@ -33,7 +22,7 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class ContextMenuPagePreview
-		implements SetLabels, CloseHandler<GPopupPanel> {
+		implements SetLabels {
 
 	/** visible component */
 	protected GPopupMenuW wrappedPopup;
@@ -41,8 +30,6 @@ public class ContextMenuPagePreview
 	private AppW app;
 	private GeoGebraFrameBoth frame;
 	private PagePreviewCard card;
-	private FlowPanel contentPanel;
-	private AutoCompleteTextFieldW textField;
 
 	/**
 	 * @param app
@@ -60,70 +47,24 @@ public class ContextMenuPagePreview
 
 	private void initGUI() {
 		wrappedPopup = new GPopupMenuW(app);
-		wrappedPopup.getPopupPanel().addStyleName("matPopupPanel");
-
-		contentPanel = new FlowPanel();
-		contentPanel.addStyleName("mowCardContextMenu");
-		wrappedPopup.getPopupPanel().setWidget(contentPanel);
-
-		addRenameItem();
+		wrappedPopup.getPopupPanel().addStyleName("matMenu");
+		wrappedPopup.getPopupPanel().addStyleName("mowMatMenu");
 		addDeleteItem();
-		wrappedPopup.getPopupPanel().addCloseHandler(this);
-	}
-
-	private void addRenameItem() {
-		String img = MaterialDesignResources.INSTANCE.mow_label().getSafeUri()
-				.asString();
-		Label name = new Label(loc.getMenu("Title") + ":");
-		textField = InputPanelW.newTextComponent(app);
-		textField.setAutoComplete(false);
-		textField.setText(card.getTitleText().getText());
-		
-		textField.addFocusListener(new FocusListenerW(this) {
-			@Override
-			protected void wrapFocusLost() {
-				onEnter();
-			}
-		});
-		textField.addKeyHandler(new KeyHandler() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					onEnter();
-				}
-			}
-		});
-		contentPanel.add(LayoutUtilW.panelRow(new Image(img), name, textField));
-	}
-
-	/**
-	 * execute textfield input
-	 */
-	protected void onEnter() {
-		card.rename(textField.getText());
-		wrappedPopup.hide();
-	}
-
-	@Override
-	public void onClose(CloseEvent<GPopupPanel> event) {
-		card.rename(textField.getText());
 	}
 
 	private void addDeleteItem() {
 		String img = MaterialDesignResources.INSTANCE.delete_black()
 				.getSafeUri().asString();
-		Label delete = new Label(loc.getMenu("Delete"));
-		FlowPanel deletePanel = LayoutUtilW.panelRow(new Image(img), delete);
-		deletePanel.addStyleName("mowMenuRow");
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Delete"), true), true,
+				new Command() {
 
-		deletePanel.addDomHandler(new ClickHandler() {
-			@Override
-			public void onClick(ClickEvent event) {
-				onDelete();
-			}
-		}, ClickEvent.getType());
-
-		contentPanel.add(deletePanel);
+					@Override
+					public void execute() {
+						onDelete();
+					}
+				});
+		wrappedPopup.addItem(mi);
 	}
 
 	/**
@@ -146,13 +87,7 @@ public class ContextMenuPagePreview
 	 *            screen y-coordinate
 	 */
 	public void show(int x, int y) {
-		int y1 = y;
-		if (y + wrappedPopup.getPopupPanel().getOffsetHeight() > app
-				.getHeight()) {
-			y1 = (int) (app.getHeight()
-					- wrappedPopup.getPopupPanel().getOffsetHeight());
-		}
-		wrappedPopup.show(new GPoint(x, y1));
+		wrappedPopup.show(new GPoint(x, y));
 		focusDeferred();
 	}
 
