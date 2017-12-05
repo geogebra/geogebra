@@ -714,6 +714,7 @@ public class MathFieldW implements MathField, IsWidget {
 				@Override
 				public void onBlur(BlurEvent event) {
 					instances.remove(MathFieldW.this);
+					resetFlags();
 					event.stopPropagation();
 					if (onTextfieldBlur != null) {
 						onTextfieldBlur.onBlur(event);
@@ -725,8 +726,7 @@ public class MathFieldW implements MathField, IsWidget {
 		}
 		if (parent != null) {
 			parent.add(clip);
-
-			}
+		}
 
 		return wrap.getElement();
 	}
@@ -734,6 +734,11 @@ public class MathFieldW implements MathField, IsWidget {
 	// private native void logNative(String s) /*-{
 	// $wnd.console.log(s);
 	// }-*/;
+
+	protected void resetFlags() {
+		this.rightAltDown = false;
+		this.leftAltDown = false;
+	}
 
 	public void setOnBlur(BlurHandler run) {
 		this.onTextfieldBlur = run;
