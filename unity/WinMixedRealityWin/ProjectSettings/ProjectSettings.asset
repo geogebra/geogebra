@@ -549,6 +549,13 @@ PlayerSettings:
     around them. Millions of people around the world use GeoGebra to learn mathematics
     and science. Join us!
   wsaImages:
+    131172: Assets/Images/SplashScreen.scale-100.png
+    131197: Assets/Images/SplashScreen.scale-125.png
+    131212: Assets/Images/SplashScreen.scale-140.png
+    131222: Assets/Images/SplashScreen.scale-150.png
+    131252: Assets/Images/SplashScreen.scale-180.png
+    131272: Assets/Images/SplashScreen.scale-200.png
+    131472: Assets/Images/SplashScreen.scale-400.png
     2031632: Assets/Images/Square44x44Logo.targetsize-16.png
     2031640: Assets/Images/Square44x44Logo.targetsize-24.png
     2031664: Assets/Images/Square44x44Logo.targetsize-48.png
