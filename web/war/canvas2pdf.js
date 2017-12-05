@@ -554,7 +554,6 @@ PDFKitMini.prototype.textAdd = function(a, b, c) {
 PDFKitMini.prototype.imageLoadFromCanvas = function(a) {
     a = new PDFImage(a);
     this.add(a);
-    //this.images.push(a);
     this.currentImage = a
 };
 
@@ -1364,6 +1363,7 @@ function PDFImageTile(canvas) {
                   "ID\n"
 ];
     var rawData = ctx.getImageData(0, 0, this.width, this.height);
+    // reflect vertically so it's drawn right way up!
     for (var y = this.height - 1; y >=0 ; y--)
         for (var x = 0; x < this.width; x++) {
             var red = rawData.data[(x + y * this.width) * 4];
@@ -1384,13 +1384,6 @@ PDFImageTile.prototype.writeImage = function(a) {
     this.stream = a;
 };
 
-// 6 0 obj <</Type /XObject/Width 83/Height 112/Subtype /Image/ColorSpace /DeviceRGB/BitsPerComponent 8/Name /Im6/Length 27888>>
-
-
-//9 0 obj << /Length 10 0 R /Type /Pattern /PatternType 1 /PaintType 1 /TilingType 1 /BBox [0.0000 0.0000 14.000 14.000]
-///XStep 14.000 /YStep 14.000 /Resources <<  /ProcSet [/PDF /ImageC] >> /Matrix [.49842 0.0000 0.0000 -.49842 33.293 311.00] >>
-//stream
-
 PDFImageTile.prototype.getObject = function() {
     var props = {
         "Type": "Pattern",
@@ -1401,8 +1394,6 @@ PDFImageTile.prototype.getObject = function() {
         "XStep": this.width,
         "YStep": this.height,
         "Resources": {ProcSet: ["PDF","ImageC"]},
-        // optional
-        //"Matrix": [.49842, 0.0000, 0.0000, -.49842, 33.293, 311.00]
     }
     return PDFObject.makeObject(props, this.id, this.stream);
 };
