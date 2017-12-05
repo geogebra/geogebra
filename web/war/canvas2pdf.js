@@ -70,6 +70,10 @@
     };
 
     var fixColor = function(value) {
+    	
+    	if (!value) {
+    		return { c: "0 0 0", a:1};
+    	}
 
         if (!value.startsWith("rgb") && !value.startsWith("hsl")) {
             var d = document.createElement("div");
@@ -395,15 +399,15 @@
         return this.doc.setLineDash(dashArray);
     };
 
+    canvas2pdf.PdfContext.prototype.createPattern = function(image, repetition) {
+        this.doc.imageTileLoad(image);
+    };
+
     /**
      * Not yet implemented
      */
     canvas2pdf.PdfContext.prototype.setTransform = function() {
         console.log('setTransform not implemented');
-    };
-
-    canvas2pdf.PdfContext.prototype.createPattern = function(image, repetition) {
-        console.log('createPattern not implemented');
     };
 
     canvas2pdf.PdfContext.prototype.drawFocusRing = function() {
@@ -456,7 +460,6 @@ function PDFKitMini() {
     this.lineWidth = 1;
     this.lineEndType = 0;
     this.alpha = 1;
-    this.images = [];
 }
 
 PDFKitMini.prototype.add = function(a) {
@@ -551,13 +554,26 @@ PDFKitMini.prototype.textAdd = function(a, b, c) {
 PDFKitMini.prototype.imageLoadFromCanvas = function(a) {
     a = new PDFImage(a);
     this.add(a);
-    this.images.push(a);
+    //this.images.push(a);
     this.currentImage = a
+};
+
+PDFKitMini.prototype.imageTileLoadFromCanvas = function(a) {
+
+    a = new PDFImageTile(a);
+    this.add(a);
+    this.currentPage.currentImageTile = a
+    
 };
 
 PDFKitMini.prototype.doDrawImage = function(x, y, width, height) {
     this.currentPage.drawImage(x, y, this.currentImage, this.alpha, width, height)
 };
+
+PDFKitMini.prototype.addPatternToPage = function(img) {
+    this.currentPage.addPatternToPage(img)
+};
+
 
 PDFKitMini.prototype.moveTo = function(x, y) {
     this.currentPage.moveTo(x, y)
@@ -575,7 +591,7 @@ PDFKitMini.prototype.transform = function(m0, m1, m2, m3, m4, m5) {
     this.currentPage.transform(m0, m1, m2, m3, m4, m5)
 };
 
-// img can be an image element or a canvas
+//img can be an image element or a canvas
 PDFKitMini.prototype.drawImage = function(img, x, y, w, h) {
 
     if (img.nodeName.toLowerCase() == "img") {
@@ -592,6 +608,25 @@ PDFKitMini.prototype.drawImage = function(img, x, y, w, h) {
     this.doDrawImage(x, y, img.width, img.height);
 };
 
+//img can be an image element or a canvas
+PDFKitMini.prototype.imageTileLoad = function(img) {
+	
+    if (img.nodeName.toLowerCase() == "img") {
+        //convert image to canvas
+        var canvas = document.createElement('canvas');
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var context = canvas.getContext("2d");
+        context.drawImage(img, 0, 0);
+
+        img = canvas;
+    }
+    this.imageTileLoadFromCanvas(img);
+    
+    this.addPatternToPage(this.currentPage.currentImageTile);
+    
+};
+
 
 PDFKitMini.prototype.scale = function(xFactor, yFactor, options) {
     this.currentPage.scale(xFactor, yFactor, options)
@@ -599,7 +634,6 @@ PDFKitMini.prototype.scale = function(xFactor, yFactor, options) {
 PDFKitMini.prototype.rotate = function(angle, options) {
     this.currentPage.rotate(angle, options)
 };
-
 
 
 PDFKitMini.prototype.beginPath = function() {
@@ -655,7 +689,7 @@ PDFKitMini.prototype.getObject = function(a) {
 
     this.stream = "";
 
-    this._write("%PDF-1.0");
+    this._write("%PDF-1.7");
     var _i, d;
     for (_i = 0; _i < this.objects.length; _i++) {
         d = this.objects[_i];
@@ -732,7 +766,7 @@ function PDFPage(pdf0, width0, height0) {
     this.pdf = pdf0;
     this.fonts = [];
     this.images = [];
-    this.imageInstances = [];
+    this.fillImages = [];
     this.alphas = [];
     this.fillColor = "0 0 0 ";
     this.strokeColor = "0 0 0 ";
@@ -898,6 +932,14 @@ PDFPage.prototype.restoreContext = function() {
     this.pdfStream.addText("Q ");
 };
 PDFPage.prototype.fill = function(rule) {
+	
+    if (this.currentImageTile) {
+    	this.pdfStream.addText("/Pattern cs ");
+    	this.pdfStream.addText("/Pattern CS ");
+    	this.pdfStream.addText("/Paint"+this.currentImageTile.id+" scn ");
+    	this.pdfStream.addText("/Paint"+this.currentImageTile.id+" SCN ");
+    	this.currentImageTile = undefined;
+    }
     //	f 	fill path.
     // f* 	eofill Even/odd fill path.
     this.pdfStream.addTextCheckMerge((/even-?odd/.test(rule)) ? "f* " : "f ");
@@ -922,9 +964,11 @@ PDFPage.prototype.beginPath = function() {
 
     }
     this.setAlpha(this.alpha);
+    
+    this.pdfStream.addText(this.fillColor + " rg ");
+    this.pdfStream.addText(this.strokeColor + " RG ");  	
 
-
-    this.pdfStream.addText(this.lineCap + " J " + this.lineJoin + " j " + (this.lineWidth | 1) + " w " + this.fillColor + " rg " + this.strokeColor + " RG ");
+    this.pdfStream.addText(this.lineCap + " J " + this.lineJoin + " j " + (this.lineWidth | 1) + " w ");
 };
 PDFPage.prototype.setStrokeColor = function(color, alpha) {
     this.strokeColor = color || "0 0 0";
@@ -934,6 +978,7 @@ PDFPage.prototype.setFillColor = function(color, alpha) {
     this.fillColor = color || "0 0 0";
     this.alpha = alpha;
 };
+
 PDFPage.prototype.closePath = function() {
     this.pdfStream.addText("h ");
 };
@@ -1101,7 +1146,14 @@ PDFPage.prototype.drawImage = function(x, y, im, alpha, width, height) {
         this.images.push(im);
     }
 
-    this.imageInstances.push(pdfImage);
+};
+PDFPage.prototype.addPatternToPage = function(im) {
+
+
+    if (this.fillImages.indexOf(im) == -1) {
+       this.fillImages.push(im);
+    }
+
 };
 PDFPage.prototype.getObject = function(a) {
     a.pageSetCurrent(this);
@@ -1117,7 +1169,7 @@ PDFPage.prototype.getObject = function(a) {
 
     var fontProps = "<<";
 
-    if (0 < this.fonts.length) {
+    if (this.fonts.length > 0) {
         for (c = 0; c < this.fonts.length; c++) {
             e = this.fonts[c];
             fontProps += "/F" + e.id + " " + e.id + " 0 R"
@@ -1127,7 +1179,7 @@ PDFPage.prototype.getObject = function(a) {
 
     var alphaProps = {};
 
-    if (0 < this.alphas.length) {
+    if (this.alphas.length > 0) {
         for (c = 0; c < this.alphas.length; c++) {
 
             var alpha = this.alphas[c];
@@ -1148,7 +1200,7 @@ PDFPage.prototype.getObject = function(a) {
 
     var imageProps = "<<";
 
-    if (0 < this.images.length) {
+    if (this.images.length > 0) {
         for (d = 0; d < this.images.length; d++) {
             e = this.images[d];
             imageProps += "/Im" + e.id + " " + e.id + " 0 R"
@@ -1156,11 +1208,33 @@ PDFPage.prototype.getObject = function(a) {
     }
     imageProps += ">>";
 
-    props["Resources"] = {
-        "Font": new PDFReference(fontProps),
-        "ExtGState": alphaProps,
-        "XObject": new PDFReference(imageProps)
-    };
+    var patternProps = "<<";
+    
+    if (this.fillImages.length > 0) {
+        for (d = 0; d < this.fillImages.length; d++) {
+            e = this.fillImages[d];
+            patternProps += "/Paint" + e.id + " " + e.id + " 0 R"
+        }
+    }
+    patternProps += ">>";
+
+    props["Resources"] = {};
+       
+    if (this.fonts.length > 0) {
+    	props["Resources"]["Font"] = new PDFReference(fontProps);
+    }
+    
+    if (this.alphas.length > 0) {
+    	props["Resources"]["ExtGState"] = alphaProps;
+    }
+    
+    if (this.fillImages.length > 0) {
+    	props["Resources"]["Pattern"] = new PDFReference(patternProps);
+    }
+    
+    if (this.images.length > 0) {
+    	props["Resources"]["XObject"] = new PDFReference(imageProps);
+    }
 
     return PDFObject.makeObject(props, this.id);
 
@@ -1270,6 +1344,65 @@ PDFImage.prototype.getObject = function() {
         "BitsPerComponent": 8,
         "Name": "Im" + this.id,
         "Length": this.stream.length
+    }
+    return PDFObject.makeObject(props, this.id, this.stream);
+};
+
+function PDFImageTile(canvas) {
+    this.width = canvas.width;
+    this.height = canvas.height;
+    var ctx = canvas.getContext("2d");
+    var buffer = [
+                  // eg"14.000 0.0000 0.0000 -14.000 0.0000 14.000 cm ",
+                  //this.width+" 0.0000 0.0000 -"+this.height+" 0.0000 "+this.height+" cm ",
+                  this.width+" 0.0000 0.0000 -"+this.height+" 0.0000 "+this.height+" cm ",
+                  "BI ",
+                  "/Width "+this.width+" ",
+                  "/Height "+this.height+" ",
+                  "/ColorSpace /DeviceRGB ",
+                  "/BitsPerComponent 8 ",
+                  "ID\n"
+];
+    var rawData = ctx.getImageData(0, 0, this.width, this.height);
+    for (var y = this.height - 1; y >=0 ; y--)
+        for (var x = 0; x < this.width; x++) {
+            var red = rawData.data[(x + y * this.width) * 4];
+            var green = rawData.data[(x + y * this.width) * 4 + 1];
+            var blue = rawData.data[(x + y * this.width) * 4 + 2];
+
+            buffer.push(String.fromCharCode(red));
+            buffer.push(String.fromCharCode(green));
+            buffer.push(String.fromCharCode(blue));
+        }
+    buffer.push("\nEI\n");
+    
+    this.stream = buffer.join("");
+
+}
+
+PDFImageTile.prototype.writeImage = function(a) {
+    this.stream = a;
+};
+
+// 6 0 obj <</Type /XObject/Width 83/Height 112/Subtype /Image/ColorSpace /DeviceRGB/BitsPerComponent 8/Name /Im6/Length 27888>>
+
+
+//9 0 obj << /Length 10 0 R /Type /Pattern /PatternType 1 /PaintType 1 /TilingType 1 /BBox [0.0000 0.0000 14.000 14.000]
+///XStep 14.000 /YStep 14.000 /Resources <<  /ProcSet [/PDF /ImageC] >> /Matrix [.49842 0.0000 0.0000 -.49842 33.293 311.00] >>
+//stream
+
+PDFImageTile.prototype.getObject = function() {
+    var props = {
+        "Type": "Pattern",
+        "PatternType": 1,
+        "PaintType": 1,
+        "TilingType": 1,
+        "BBox": [0, 0, this.width, this.height],
+        "XStep": this.width,
+        "YStep": this.height,
+        "Resources": {ProcSet: ["PDF","ImageC"]},
+        // optional
+        //"Matrix": [.49842, 0.0000, 0.0000, -.49842, 33.293, 311.00]
     }
     return PDFObject.makeObject(props, this.id, this.stream);
 };
