@@ -15,6 +15,8 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
     public GameObject WorkModel;
     public Text HihlightedText;
 
+    public GameObject InstructionText;
+
     #region Members
     [HideInInspector]
     public GameManager GameManager;
@@ -49,7 +51,9 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
     {
         Debug.Log("You clicked on me");
         gameManager.GetComponent<GameManager>().TempModel = WorkModel;
+        gameManager.GetComponent<GameManager>().TempText = InstructionText;
         gameManager.GetComponent<GameManager>().OnButtonPressed();
+        
 
     }
 
