@@ -823,9 +823,11 @@ PDFPage.prototype.textAdd = function(x, y, text, d) {
 
 PDFPage.prototype.setAlpha = function(a) {
     if (a != this.currentAlpha) {
-        for (var b = false, c = 0; !b && c < this.alphas.length;) this.alphas[c] == a ? b = true : c++;
-        b || this.alphas.push(a);
-        this.pdfStream.addText("/EGS" + c + " gs ");
+    	if (this.alphas.indexOf(a) == -1) {
+    		this.alphas.push(a);
+    	}
+    	var index = this.alphas.indexOf(a);
+        this.pdfStream.addText("/Alpha" + index + " gs ");
         this.currentAlpha = a
     }
 };
@@ -1141,7 +1143,7 @@ PDFPage.prototype.drawImage = function(x, y, im, alpha, width, height) {
     this.transform(1, 0, 0, -1, 0, 0);
     this.translate(x, -height - y);
     this.scale(width, height);
-    this.pdfStream.addText("/Im" + im.id + " Do ");
+    this.pdfStream.addText("/Image" + im.id + " Do ");
     this.restoreContext();
 
     if (this.images.indexOf(im) == -1) {
@@ -1192,7 +1194,7 @@ PDFPage.prototype.getObject = function(a) {
                 alpha = alpha * 1;
             }
 
-            alphaProps["EGS" + c] = {
+            alphaProps["Alpha" + c] = {
                 "CA": alpha,
                 "ca": alpha
             };
@@ -1205,7 +1207,7 @@ PDFPage.prototype.getObject = function(a) {
     if (this.images.length > 0) {
         for (d = 0; d < this.images.length; d++) {
             e = this.images[d];
-            imageProps += "/Im" + e.id + " " + e.id + " 0 R"
+            imageProps += "/Image" + e.id + " " + e.id + " 0 R"
         }
     }
     imageProps += ">>";
@@ -1344,7 +1346,7 @@ PDFImage.prototype.getObject = function() {
         "Subtype": "Image",
         "ColorSpace": "DeviceRGB",
         "BitsPerComponent": 8,
-        "Name": "Im" + this.id,
+        "Name": "Image" + this.id,
         "Length": this.stream.length
     }
     return PDFObject.makeObject(props, this.id, this.stream);
