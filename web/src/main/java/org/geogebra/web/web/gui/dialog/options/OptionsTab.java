@@ -53,6 +53,7 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.SliderPanel;
@@ -1395,7 +1396,7 @@ public class OptionsTab extends FlowPanel {
 			if (res == null) {
 				return;
 			}
-			Label label = getLabel();
+			FormLabel label = getLabel();
 			label.setStyleName("imageCorner");
 			label.getElement().getStyle()
 					.setProperty("backgroundImage", "url(" + res + ")");

@@ -61,6 +61,8 @@ import org.geogebra.common.gui.dialog.options.model.TraceModel;
 import org.geogebra.common.gui.dialog.options.model.TrimmedIntersectionLinesModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel;
 import org.geogebra.common.gui.dialog.options.model.ViewLocationModel.IGraphicsViewLocationListener;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -72,6 +74,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
 import org.geogebra.web.web.gui.properties.GroupOptionsPanel;
@@ -230,7 +233,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private class ShowConditionPanel extends OptionPanel
 			implements IShowConditionListener, ErrorHandler {
 		private ShowConditionModel model;
-		private Label title;
+		private FormLabel title;
 		private AutoCompleteTextFieldW tfCondition;
 
 		boolean processed;
@@ -243,15 +246,14 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.setStyleName("optionsInput");
-
-			title = new Label();
-			title.setStyleName("panelTitle");
-
-			mainPanel.add(title);
 			// non auto complete input panel
 			InputPanelW inputPanel = new InputPanelW(null, getAppW(), 1, -1,
 					true);
 			tfCondition = inputPanel.getTextComponent();
+
+			title = new FormLabel().setFor(tfCondition);
+			title.setStyleName("panelTitle");
+			mainPanel.add(title);
 
 			tfCondition.addKeyHandler(new KeyHandler() {
 
@@ -344,7 +346,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		ObjectNameModel model;
 		AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
 
-		private Label nameLabel, defLabel, captionLabel;
+		private FormLabel nameLabel, defLabel, captionLabel;
 		private InputPanelW inputPanelName, inputPanelDef, inputPanelCap;
 
 		private FlowPanel mainWidget;
@@ -454,7 +456,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			// name panel
 			nameStrPanel = new FlowPanel();
-			nameLabel = new Label();
+			nameLabel = new FormLabel("").setFor(inputPanelName);
 			// inputPanelName.insert(nameLabel, 0);
 
 			nameStrPanel.add(nameLabel);
@@ -463,7 +465,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			// definition panel
 			defPanel = new FlowPanel();
-			defLabel = new Label();
+			defLabel = new FormLabel("").setFor(inputPanelDef);
 			defPanel.add(defLabel);
 			defPanel.add(inputPanelDef);
 			mainWidget.add(defPanel);
@@ -473,7 +475,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 			// caption panel
 			captionPanel = new FlowPanel();
-			captionLabel = new Label();
+			captionLabel = new FormLabel("").setFor(inputPanelCap);
 			captionPanel.add(captionLabel);
 			captionPanel.add(inputPanelCap);
 			mainWidget.add(captionPanel);
@@ -669,7 +671,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	class ReflexAnglePanel extends OptionPanel implements IReflexAngleListener {
 		ReflexAngleModel model;
 		private FlowPanel mainWidget;
-		private Label intervalLabel;
+		private FormLabel intervalLabel;
 		private ListBox intervalLB;
 
 		public ReflexAnglePanel() {
@@ -678,11 +680,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			setModel(model);
 
 			mainWidget = new FlowPanel();
-
-			intervalLabel = new Label();
+			intervalLB = new ListBox();
+			intervalLabel = new FormLabel("").setFor(intervalLB);
 			mainWidget.add(intervalLabel);
 
-			intervalLB = new ListBox();
+
 			intervalLB.addChangeHandler(new ChangeHandler() {
 
 				@Override
@@ -755,7 +757,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		private AutoCompleteTextFieldW tfRed, tfGreen, tfBlue, tfAlpha;
 		private Label btRemove;
 		private Label title;
-		private Label nameLabelR, nameLabelG, nameLabelB, nameLabelA;
+		private FormLabel nameLabelR, nameLabelG, nameLabelB, nameLabelA;
 
 		ListBox cbColorSpace;
 		int colorSpace = GeoElement.COLORSPACE_RGB;
@@ -782,10 +784,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			tfBlue = inputPanelB.getTextComponent();
 			tfAlpha = inputPanelA.getTextComponent();
 
-			nameLabelR = new Label();
-			nameLabelG = new Label();
-			nameLabelB = new Label();
-			nameLabelA = new Label();
+			nameLabelR = new FormLabel().setFor(tfRed);
+			nameLabelG = new FormLabel().setFor(tfGreen);
+			nameLabelB = new FormLabel().setFor(tfBlue);
+			nameLabelA = new FormLabel().setFor(tfAlpha);
 
 			FocusListenerW focusListener = new FocusListenerW(this) {
 
@@ -968,11 +970,16 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 		@Override
 		public void setDefaultValues(GeoElement geo) {
+			Kernel kernel = geo.getKernel();
 			GColor col = geo.getObjectColor();
-			defaultR = "" + col.getRed() / 255.0;
-			defaultG = "" + col.getGreen() / 255.0;
-			defaultB = "" + col.getBlue() / 255.0;
-			defaultA = "" + geo.getFillColor().getAlpha() / 255.0;
+			defaultR = kernel.format(col.getRed() / 255.0,
+					StringTemplate.editTemplate);
+			defaultG = kernel.format(col.getGreen() / 255.0,
+					StringTemplate.editTemplate);
+			defaultB = kernel.format(col.getBlue() / 255.0,
+					StringTemplate.editTemplate);
+			defaultA = kernel.format(geo.getFillColor().getAlpha() / 255.0,
+					StringTemplate.editTemplate);
 
 			// set the selected color space and labels to match the first geo's
 			// color space

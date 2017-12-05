@@ -29,8 +29,12 @@ public class FormLabel extends FlowPanel {
 	 *            plain text content
 	 */
 	public FormLabel(String string) {
-		super(LabelElement.TAG);
+		this();
 		getElement().setInnerText(string);
+	}
+
+	public FormLabel() {
+		super(LabelElement.TAG);
 		addStyleName("gwt-Label");
 	}
 

@@ -4,6 +4,7 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -13,7 +14,6 @@ import org.geogebra.web.web.main.GeoGebraPreferencesW;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -43,22 +43,22 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	 */
 	protected class GlobalTab extends FlowPanel implements SetLabels {
 		private FlowPanel optionsPanel;
-		private Label lblRounding;
+		private FormLabel lblRounding;
 		/**
 		 * rounding combo box
 		 */
 		ListBox roundingList;
-		private Label lblLabeling;
+		private FormLabel lblLabeling;
 		/**
 		 * labeling combo box
 		 */
 		ListBox labelingList;
-		private Label lblFontSize;
+		private FormLabel lblFontSize;
 		/**
 		 * font size combo box
 		 */
 		ListBox fontSizeList;
-		private Label lblLanguage;
+		private FormLabel lblLanguage;
 		ListBox languageList;
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
@@ -92,9 +92,10 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addRoundingItem() {
-			lblRounding = new Label(
-					app.getLocalization().getMenu("Rounding") + ":");
 			roundingList = new ListBox();
+			lblRounding = new FormLabel(
+					app.getLocalization().getMenu("Rounding") + ":")
+							.setFor(roundingList);
 			optionsPanel
 					.add(LayoutUtilW.panelRowIndent(lblRounding, roundingList));
 			roundingList.addChangeHandler(new ChangeHandler() {
@@ -125,9 +126,11 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLabelingItem() {
-			lblLabeling = new Label(
-					app.getLocalization().getMenu("Labeling") + ":");
 			labelingList = new ListBox();
+			lblLabeling = new FormLabel(
+					app.getLocalization().getMenu("Labeling") + ":")
+							.setFor(labelingList);
+
 			optionsPanel
 					.add(LayoutUtilW.panelRowIndent(lblLabeling, labelingList));
 			labelingList.addChangeHandler(new ChangeHandler() {
@@ -145,9 +148,10 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addFontItem() {
-			lblFontSize = new Label(
-					app.getLocalization().getMenu("FontSize") + ":");
 			fontSizeList = new ListBox();
+			lblFontSize = new FormLabel(
+					app.getLocalization().getMenu("FontSize") + ":")
+							.setFor(fontSizeList);
 			optionsPanel
 					.add(LayoutUtilW.panelRowIndent(lblFontSize, fontSizeList));
 			fontSizeList.addChangeHandler(new ChangeHandler() {
@@ -182,9 +186,10 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 
 		private void addLanguageItem() {
-			lblLanguage = new Label(
-					app.getLocalization().getMenu("Language") + ":");
 			languageList = new ListBox();
+			lblLanguage = new FormLabel(
+					app.getLocalization().getMenu("Language") + ":")
+							.setFor(languageList);
 			optionsPanel
 					.add(LayoutUtilW.panelRowIndent(lblLanguage, languageList));
 			languageList.addChangeHandler(new ChangeHandler() {

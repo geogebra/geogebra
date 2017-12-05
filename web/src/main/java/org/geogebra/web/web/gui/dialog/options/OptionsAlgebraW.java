@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.AlgebraSettings;
 import org.geogebra.common.main.settings.SettingListener;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
@@ -50,12 +51,12 @@ public class OptionsAlgebraW extends OptionsAdvanced
 		private CheckBox showAuxiliaryObjects;
 		private ListBox sortMode;
 		private AlgebraStyleListBox description;
-		private Label lblCoordStyle;
+		private FormLabel lblCoordStyle;
 		private ListBox coordStyle;
-		private Label lblAngleUnit;
+		private FormLabel lblAngleUnit;
 		private ListBox angleUnit;
-		private Label lblSortMode;
-		private Label lblDescriptionMode;
+		private FormLabel lblSortMode;
+		private FormLabel lblDescriptionMode;
 		private List<SortMode> supportedModes = Arrays.asList(SortMode.DEPENDENCY,
 			SortMode.TYPE, SortMode.ORDER, SortMode.LAYER);
 
@@ -79,19 +80,22 @@ public class OptionsAlgebraW extends OptionsAdvanced
 			lblShow.addStyleName("panelTitle");
 			showAuxiliaryObjects = new CheckBox();
 			showAuxiliaryObjects.addClickHandler(this);
-			lblSortMode = new Label();
-			lblSortMode.addStyleName("panelTitle");
-			lblDescriptionMode = new Label();
-			lblDescriptionMode.addStyleName("panelTitle");
-			sortMode = new ListBox();
-			description = new AlgebraStyleListBox(getApp(), false);
 
-			lblCoordStyle = new Label(
-					getApp().getLocalization().getMenu("Coordinates") + ":");
+			sortMode = new ListBox();
+			lblSortMode = new FormLabel().setFor(sortMode);
+			lblSortMode.addStyleName("panelTitle");
+			lblDescriptionMode = new FormLabel().setFor(sortMode);
+			lblDescriptionMode.addStyleName("panelTitle");
+
+			description = new AlgebraStyleListBox(getApp(), false);
 			coordStyle = new ListBox();
-			lblAngleUnit = new Label(
-					getApp().getLocalization().getMenu("AngleUnit") + ":");
+			lblCoordStyle = new FormLabel(
+					getApp().getLocalization().getMenu("Coordinates") + ":")
+							.setFor(coordStyle);
 			angleUnit = new ListBox();
+			lblAngleUnit = new FormLabel(
+					getApp().getLocalization().getMenu("AngleUnit") + ":")
+							.setFor(angleUnit);
 
 			optionsPanel.add(lblShow);
 			optionsPanel.add(LayoutUtilW.panelRowIndent(showAuxiliaryObjects));

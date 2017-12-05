@@ -8,6 +8,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ComboBoxW;
 
@@ -18,7 +19,7 @@ public abstract class ComboBoxPanel extends OptionPanel
  implements
 		ErrorHandler, GeoComboListener {
 
-	private Label label;
+	private FormLabel label;
 	private ComboBoxW comboBox;
 	private String title;
 	private Localization loc;
@@ -29,13 +30,15 @@ public abstract class ComboBoxPanel extends OptionPanel
 		this.loc = app.getLocalization();
 		this.app = app;
 		this.title = title;
-		label = new Label();
+
 		comboBox = new ComboBoxW((AppW) app) {
 
 			@Override
-            protected void onValueChange(String value) {
-	            onComboBoxChange();
-            }};
+			protected void onValueChange(String value) {
+				onComboBoxChange();
+			}
+		};
+		label = new FormLabel("").setFor(comboBox);
 		comboBox.setEnabled(true);
 		FlowPanel mainWidget = new FlowPanel(); 
 		mainWidget.setStyleName("listBoxPanel");
@@ -92,12 +95,8 @@ public abstract class ComboBoxPanel extends OptionPanel
         getLabel().setText(title);
     }
 	
-	public Label getLabel() {
+	public FormLabel getLabel() {
         return label;
-    }
-
-	public void setLabel(Label label) {
-        this.label = label;
     }
 
 	@Override

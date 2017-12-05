@@ -13,6 +13,7 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
@@ -97,17 +98,17 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected class GridTab extends EuclidianTab {
 		private static final int iconHeight = 24;
 		CheckBox cbShowGrid;
-		private Label lbPointCapturing;
+		private FormLabel lbPointCapturing;
 		private ListBox pointCapturingStyleList;
 		ListBox lbGridType;
 		CheckBox cbGridManualTick;
 		NumberListBox ncbGridTickX;
 		NumberListBox ncbGridTickY;
 		ComboBoxW cbGridTickAngle;
-		private Label gridLabel1;
-		private Label gridLabel2;
-		private Label gridLabel3;
-		protected Label lblGridType;
+		private FormLabel gridLabel1;
+		private FormLabel gridLabel2;
+		private FormLabel gridLabel3;
+		protected FormLabel lblGridType;
 		private Label lblGridStyle;
 		LineStylePopup btnGridStyle;
 		private Label lblColor;
@@ -143,8 +144,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void addPointCapturingStyle() {
-			lbPointCapturing = new Label(loc.getMenu("PointCapturing") + ":");
 			pointCapturingStyleList = new ListBox();
+			lbPointCapturing = new FormLabel(
+					loc.getMenu("PointCapturing") + ":")
+							.setFor(pointCapturingStyleList);
 			updatePointCapturingStyleList();
 			mainPanel.add(LayoutUtilW.panelRowIndent(lbPointCapturing,
 					pointCapturingStyleList));
@@ -235,8 +238,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 
 		private void initGridTypePanel() {
 			// grid type combo box
-			lblGridType = new Label();
+
 			lbGridType = new ListBox();
+			lblGridType = new FormLabel("").setFor(lbGridType);
 			mainPanel.add(lblGridType);
 			lblGridType.setStyleName("panelTitle");
 			
@@ -296,9 +300,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 			
 			// grid labels
-			gridLabel1 = new Label("x:");
-			gridLabel2 = new Label("y:");
-			gridLabel3 = new Label(Unicode.theta + ":");
+			gridLabel1 = new FormLabel("x:").setFor(this.ncbGridTickX);
+			gridLabel2 = new FormLabel("y:").setFor(this.ncbGridTickY);
+			gridLabel3 = new FormLabel(Unicode.theta + ":")
+					.setFor(cbGridTickAngle);
 			
 			FlowPanel ncbGridTickXPanel = new FlowPanel();
 			FlowPanel ncbGridTickYPanel = new FlowPanel();
@@ -340,14 +345,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 		private void initGridStylePanel() {
-
 			// line style
+			btnGridStyle = LineStylePopup.create(app, -1, false,
+					app.isUnbundledOrWhiteboard());
+			
 			lblGridStyle = new Label();
 			addOnlyFor2D(lblGridStyle);
 			lblGridStyle.setStyleName("panelTitle");
-			btnGridStyle = LineStylePopup.create(app, -1, false,
-					app.isUnbundledOrWhiteboard());
-			//			slider.setSnapToTicks(true);
 			btnGridStyle.addPopupHandler(new PopupMenuHandler() {
 
 				@Override
@@ -469,7 +473,6 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void addAngleOptionItem(String item) {
 			cbGridTickAngle.addItem(item);
 		}
-		
 
 		public void update(GColor color, boolean isShown, boolean isBold,
 				int gridType) {

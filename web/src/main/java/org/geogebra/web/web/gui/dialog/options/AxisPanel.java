@@ -28,8 +28,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 	private AxisModel model;
 
-	protected CheckBox cbShowAxis, cbAxisNumber, cbManualTicks,
- cbPositiveAxis,
+	protected CheckBox cbShowAxis, cbAxisNumber, cbManualTicks, cbPositiveAxis,
 			cbDrawAtBorder, cbAllowSelection;
 
 	protected NumberListBox ncbTickDist;

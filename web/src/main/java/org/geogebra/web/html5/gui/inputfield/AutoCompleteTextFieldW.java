@@ -35,6 +35,7 @@ import org.geogebra.web.html5.event.KeyListenerW;
 import org.geogebra.web.html5.gui.HasKeyboardTF;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
 import org.geogebra.web.html5.gui.view.autocompletion.CompletionsPopup;
 import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
@@ -84,7 +85,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		implements AutoComplete, AutoCompleteW, AutoCompleteTextField,
 		KeyDownHandler, KeyUpHandler, KeyPressHandler,
 		ValueChangeHandler<String>, SelectionHandler<Suggestion>,
-		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF {
+		VirtualKeyboardListener, HasSymbolPopup, HasKeyboardTF,
+		HasInputElement {
 
 	private static final int BOX_ROUND = 8;
 
@@ -1929,6 +1931,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public App getApplication() {
 		return app;
+	}
+
+	public Element getInputElement() {
+		return getTextField().getElement();
 	}
 
 }
