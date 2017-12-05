@@ -79,10 +79,15 @@ public interface AccessibilityManagerInterface {
 	 * @param anchor
 	 *            to give back the focus.
 	 */
-	public void setFocusAnchor(Object anchor);
+	public void setAnchor(Object anchor);
 
 	/**
 	 * Give back the focus to the anchor if set.
 	 */
 	public void focusAnchor();
+
+	/**
+	 * Clears the anchor.
+	 */
+	public void cancelAnchor();
 }
