@@ -81,7 +81,7 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 		String imgHTML = "<img src=\"" + img
 				+ "\" draggable=\"false\"><span>"
 				+ app.getLocalization().getMenu(s) + "</span>";
-		return "<a href=\" " + link + "\" target=\"_blank\">"
+		return "<a class=\"menuLink\" href=\" " + link + "\" target=\"_blank\">"
 				+ imgHTML + "</a>";
 	}
 }

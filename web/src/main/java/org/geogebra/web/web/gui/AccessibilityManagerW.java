@@ -66,7 +66,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (!focusInput(false)) {
 			focusMenu();
 		}
-
 	}
 
 	@Override

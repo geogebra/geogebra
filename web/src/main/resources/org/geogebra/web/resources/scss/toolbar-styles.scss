@@ -7,12 +7,15 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 .GeoGebraFrame{
 	.gwt-ToggleButton.flatButton.menu.landscapeMenuBtn,.gwt-ToggleButton.flatButton.menu {
 		margin-left: 10px;
+		&:focus{
+			outline: $white 5px auto;
+		}
 	}
 	
 	.gwt-ToggleButton.flatButton.menu.portraitMenuBtn {
 		img {
 			opacity: 0.54;
-		}
+		}		
 	}
 	
 	.gwt-ToggleButton.flatButton.menu.portraitMenuBtn.gwt-ToggleButton-up-hovering {
@@ -24,7 +27,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.toolbar {
 		overflow: hidden;
 
-		.header {
+		.header {		
 			background-color: $purple-default;
 			/*box-shadow: 0px 4px 6px 0px rgba(110, 110, 110, 0.46);*/
 			
@@ -32,14 +35,16 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				/*border-bottom: solid 2px $white;*/
 			}
 		
-			.flatButton:hover, .flatButton:focus {
+			.flatButton:hover {
 				cursor: hand;
 		
 				img { 
 					opacity: 1;
 				}
 			}
-			
+			.flatButton:focus{
+				outline: $white 5px auto;
+			}
 			.contents {
 				padding-top: 4px;
 				padding-bottom: 4px;

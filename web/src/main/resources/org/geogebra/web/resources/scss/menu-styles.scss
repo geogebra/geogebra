@@ -13,7 +13,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			/*box-shadow: 0 0 16px $black-28;*/
 			background-color: $white;
 			/*border-radius: 2px;*/
-			z-index:  100000;;
+			z-index:  100000;
 			height: 100%;
 			max-width: 100%;
 			overflow-y: auto;	
@@ -21,7 +21,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			.ggbmenubarwrapper { 
 				padding-bottom: 4px;
 			}
-	
+			.menuLink{
+				padding-top: 8px;
+				display: inline-block;
+			}
 			.gwt-StackPanel .matStackPanelNoOpacity {
 				min-width: 232px;
 				background-color: $white;

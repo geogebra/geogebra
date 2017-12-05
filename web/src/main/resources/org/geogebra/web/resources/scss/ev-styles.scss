@@ -39,7 +39,9 @@
 			opacity: 0.84;	
 		}
 	}
-
+	.flatButton:focus{
+		outline: #66C 5px auto;
+	}
 	/*dyn stylebar*/
 	.matDynStyleBar {
 		// popup has 500

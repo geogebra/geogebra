@@ -667,7 +667,6 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			addStyleName("header-close-" + orientation);
 			btnClose.getUpFace().setImage(imgOpen);
 			btnClose.setTitle(app.getLocalization().getMenu("Open"));
-
 		}
 
 		updateMenuButtonStyle();

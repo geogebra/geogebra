@@ -111,12 +111,8 @@ public class AriaMenuBar extends Widget {
 	 *            item to be selected
 	 */
 	public void selectItem(AriaMenuItem item) {
-		if (selectedItem != null) {
-			selectedItem.removeStyleName("gwt-MenuItem-selected");
-		}
 		this.selectedItem = item;
 		if (item != null) {
-			item.addStyleName("gwt-MenuItem-selected");
 			item.getElement().focus();
 		}
 	}
@@ -241,9 +237,9 @@ public class AriaMenuBar extends Widget {
 		} // end switch (DOM.eventGetType(event))
 
 		if (getApp() != null && getApp().has(Feature.HELP_AND_SHORTCUTS)
-				&& getApp()
-				.getGlobalKeyDispatcher().handleCommonKeys(
-				event.getKeyCode(), event.getCtrlKey(), event.getAltKey())) {
+				&& getApp().getGlobalKeyDispatcher().handleCommonKeys(
+						event.getKeyCode(), event.getCtrlKey(),
+						event.getAltKey())) {
 			eatEvent(event);
 		}
 		super.onBrowserEvent(event);
