@@ -227,7 +227,8 @@ public class AriaMenuBar extends Widget {
 
 		case Event.ONKEYDOWN: {
 			int keyCode = event.getKeyCode();
-			if (keyCode == KeyCodes.KEY_ENTER) {
+			if (keyCode == KeyCodes.KEY_ENTER
+					|| keyCode == KeyCodes.KEY_SPACE) {
 				if (item != null) {
 					doItemAction(item);
 				}
