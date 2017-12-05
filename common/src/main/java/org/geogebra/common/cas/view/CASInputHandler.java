@@ -108,7 +108,7 @@ public class CASInputHandler {
 				}
 				// Log.debug(s);
 				text.setTextString(s);
-				text.update();
+				text.updateRepaint();
 
 			} catch (Throwable e) {
 				e.printStackTrace();
