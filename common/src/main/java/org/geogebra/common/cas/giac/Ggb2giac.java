@@ -1116,7 +1116,9 @@ public class Ggb2giac {
 		// tlin() removed,see #3956
 		// texpand() added for Simplify[exp(x)/exp(x+1)]
 		// normal needed for Simplify[sqrt(2)*sqrt(5)]
-		p("Simplify.1", "normal(simplify(regroup(texpand(%0))))");
+		// exp2pow(lin(pow2exp()) added for Simplify(x^(8*k+9)*x^(5*k))
+		p("Simplify.1",
+				"[[[ggbsimparg:=%0],[ggbsimpans:=normal(simplify(regroup(texpand(ggbsimparg))))],[ggbsimpans2:=exp2pow(lin(pow2exp(ggbsimparg)))]],when(length(\"\"+ggbsimpans)<=length(\"\"+ggbsimpans2),ggbsimpans,ggbsimpans2)][1]");
 
 		p("Regroup.1", "regroup(%0)");
 		p("ExpandOnly.1", "expand(%0)");
