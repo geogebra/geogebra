@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.stylebar.StylebarPositioner;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -53,11 +51,10 @@ public class PreviewPointPopup extends GPopupPanel {
 		StylebarPositioner positioner = new StylebarPositioner(app);
 		GPoint pos = positioner.getPositionOnCanvas(60, 100,
 				app.getActiveEuclidianView().getViewHeight());
-		DockPanelW dp = (DockPanelW) app.getGuiManager().getLayout()
-				.getDockManager().getPanel(App.VIEW_ALGEBRA);
-		if (dp != null && pos != null) {
+		if (pos != null) {
 			this.setPopupPosition(
-					pos.getX() + dp.getOffsetWidth() - offsetWidth / 2,
+					pos.getX() + app.getActiveEuclidianView().getAbsoluteLeft()
+							- offsetWidth / 2,
 					pos.getY() + 10);
 		} else {
 			hide(true);
