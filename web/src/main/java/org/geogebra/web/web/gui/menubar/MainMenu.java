@@ -1025,6 +1025,7 @@ public class MainMenu extends FlowPanel
 	 */
 	public void focusFirst() {
 		menuPanel.showStack(0);
+		getMenuAt(0).focus();
 	}
 
 	@Override
