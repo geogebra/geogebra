@@ -29,7 +29,7 @@ public class PreviewPointPopup extends GPopupPanel {
 		super(appW.getPanel(), appW);
 		this.app = appW;
 		content = new FlowPanel();
-		content.addStyleName("previewPointsPopup");
+		this.addStyleName("previewPointsPopup");
 		createContent(previewPoints);
 		add(content);
 		setAutoHideEnabled(true);
@@ -44,7 +44,6 @@ public class PreviewPointPopup extends GPopupPanel {
 	}
 
 	private void createContent(ArrayList<GeoElement> previewPoints) {
-
 		for (GeoElement geo : previewPoints) {
 			if (geo.getParentAlgorithm() != null) {
 				Label lbl = new Label(app.getLocalization().getMenu(
