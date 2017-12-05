@@ -168,7 +168,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	@Override
 	protected boolean updateForItSelf() {
 
-		if (((GeoPolyhedron) getGeoElement()).getChildrenLabelsSet()) {
+		if (((GeoPolyhedron) getGeoElement()).getChildrenLabelsSet() && !createdByDrawList()) {
 			return true;
 		}
 
@@ -279,7 +279,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 	@Override
 	protected void updateForView() {
 
-		if (((GeoPolyhedron) getGeoElement()).getChildrenLabelsSet()) {
+		if (((GeoPolyhedron) getGeoElement()).getChildrenLabelsSet() && !createdByDrawList()) {
 			return;
 		}
 
