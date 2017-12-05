@@ -71,10 +71,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 	@Override
 	public void focusPrevious(Object source) {
-		if (app.isMenuShowing()) {
-			return;
-		}
-
 		if (source instanceof LatexTreeItemController) {
 			focusLastGeo();
 		} else if (source instanceof ZoomPanel) {
@@ -203,7 +199,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
-	public void setFocusAnchor(Object anchor) {
+	public void setAnchor(Object anchor) {
 		this.anchor = anchor instanceof Widget ? (Widget) anchor : null;
 	}
 
@@ -213,6 +209,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return;
 		}
 		anchor.getElement().focus();
+		cancelAnchor();
+	}
+
+	@Override
+	public void cancelAnchor() {
 		anchor = null;
 	}
 }
