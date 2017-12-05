@@ -2,54 +2,53 @@ package org.geogebra.web.web.gui.properties;
 
 import org.geogebra.common.gui.dialog.options.model.IComboListener;
 import org.geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.util.FormLabel;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
 public class ListBoxPanel extends OptionPanel implements IComboListener {
 
-	private Label label;
+	private FormLabel label;
 	private ListBox listBox;
 	private String title;
 	private Localization loc;
-	
+
 	public ListBoxPanel(Localization loc, final String title) {
 		this.loc = loc;
 		this.title = title;
-		setLabel(new Label());
 		listBox = new ListBox();
-		FlowPanel mainWidget = new FlowPanel(); 
+		label = new FormLabel().setFor(listBox);
+		FlowPanel mainWidget = new FlowPanel();
 		mainWidget.setStyleName("listBoxPanel");
 
 		mainWidget.add(getLabel());
 		mainWidget.add(getListBox());
-		
-		getListBox().addChangeHandler(new ChangeHandler(){
+
+		getListBox().addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 				onListBoxChange();
-			}});
+			}
+		});
 		setWidget(mainWidget);
 	}
 
 	MultipleOptionsModel getMultipleModel() {
-		return (MultipleOptionsModel)getModel();
+		return (MultipleOptionsModel) getModel();
 	}
-	
+
 	protected void onListBoxChange() {
 		getMultipleModel().applyChanges(getListBox().getSelectedIndex());
-        
 	}
-	@Override
-    public void setLabels() {
-		getLabel().setText(getTitle() + ":");
 
+	@Override
+	public void setLabels() {
+		getLabel().setText(getTitle() + ":");
 		int idx = getListBox().getSelectedIndex();
 		getListBox().clear();
 		getMultipleModel().fillModes(loc);
@@ -59,12 +58,12 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 	@Override
 	public void setSelectedIndex(int index) {
 		getListBox().setSelectedIndex(index);
-    }
+	}
 
 	@Override
 	public void addItem(String item) {
-        getListBox().addItem(item);
-    }
+		getListBox().addItem(item);
+	}
 
 	public String getTitle() {
 		String ret = loc.getMenu(title);
@@ -73,40 +72,28 @@ public class ListBoxPanel extends OptionPanel implements IComboListener {
 			ret = loc.getMenu(title);
 		}
 		return ret;
-    }
-	
+	}
+
 	public void setTitle(String title) {
-        this.title = title;
-        getLabel().setText(title);
-    }
-	
+		this.title = title;
+		getLabel().setText(title);
+	}
+
 	public ListBox getListBox() {
-        return listBox;
-    }
+		return listBox;
+	}
 
-	public Label getLabel() {
-        return label;
-    }
-
-	public void setLabel(Label label) {
-        this.label = label;
-    }
+	public FormLabel getLabel() {
+		return label;
+	}
 
 	@Override
 	public void setSelectedItem(String item) {
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public void clearItems() {
 		getListBox().clear();
-
 	}
-
-	public void addItem(GeoElement item) {
-		// TODO Auto-generated method stub
-
-	}
-	
 }
