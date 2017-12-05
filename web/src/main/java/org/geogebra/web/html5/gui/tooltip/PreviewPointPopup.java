@@ -59,6 +59,8 @@ public class PreviewPointPopup extends GPopupPanel {
 			this.setPopupPosition(
 					pos.getX() + dp.getOffsetWidth() - offsetWidth / 2,
 					pos.getY() + 10);
+		} else {
+			hide(true);
 		}
 	}
 

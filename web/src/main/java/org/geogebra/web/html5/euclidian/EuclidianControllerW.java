@@ -82,7 +82,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		}
 		PreviewPointPopup popup = new PreviewPointPopup((AppW) getApplication(),
 				previewPoints);
-		popup.show();
 	}
 
 	/**
