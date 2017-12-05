@@ -436,9 +436,7 @@
     canvas2pdf.PdfContext.prototype.arcTo = function(x1, y1, x2, y2, radius) {
         console.log('arcTo not implemented');
     };
-
-})(typeof window !== 'undefined' ? window : this);
-
+    
 /*
 MIT LICENSE
 Copyright (c) 2014 Devon Govett
@@ -1174,8 +1172,8 @@ PDFPage.prototype.getObject = function(a) {
     var fontProps = "<<";
 
     if (this.fonts.length > 0) {
-        for (c = 0; c < this.fonts.length; c++) {
-            e = this.fonts[c];
+        for (var c = 0; c < this.fonts.length; c++) {
+            var e = this.fonts[c];
             fontProps += "/F" + e.id + " " + e.id + " 0 R"
         }
     }
@@ -1205,7 +1203,7 @@ PDFPage.prototype.getObject = function(a) {
     var imageProps = "<<";
 
     if (this.images.length > 0) {
-        for (d = 0; d < this.images.length; d++) {
+        for (var d = 0; d < this.images.length; d++) {
             e = this.images[d];
             imageProps += "/Image" + e.id + " " + e.id + " 0 R"
         }
@@ -1567,3 +1565,6 @@ PDFReference = (function(s) {
 
     return PDFReference;
 })();
+
+})(typeof window !== 'undefined' ? window : this);
+
