@@ -548,7 +548,36 @@ PlayerSettings:
   metroApplicationDescription: Place math models in virtual reality world and walk
     around them. Millions of people around the world use GeoGebra to learn mathematics
     and science. Join us!
-  wsaImages: {}
+  wsaImages:
+    2031632: Assets/Images/Square44x44Logo.targetsize-16.png
+    2031640: Assets/Images/Square44x44Logo.targetsize-24.png
+    2031664: Assets/Images/Square44x44Logo.targetsize-48.png
+    2031716: Assets/Images/Square44x44Logo.scale-100.png
+    2031741: Assets/Images/Square44x44Logo.scale-125.png
+    2031766: Assets/Images/Square44x44Logo.scale-150.png
+    2031816: Assets/Images/Square44x44Logo.scale-200.png
+    2031872: Assets/Images/Square44x44Logo.targetsize-256.png
+    2032016: Assets/Images/Square44x44Logo.scale-400.png
+    2097252: Assets/Images/Square71x71Logo.scale-100.png
+    2097277: Assets/Images/Square71x71Logo.scale-125.png
+    2097302: Assets/Images/Square71x71Logo.scale-150.png
+    2097352: Assets/Images/Square71x71Logo.scale-200.png
+    2097552: Assets/Images/Square71x71Logo.scale-400.png
+    2162788: Assets/Images/Square150x150Logo.scale-100.png
+    2162813: Assets/Images/Square150x150Logo.scale-125.png
+    2162838: Assets/Images/Square150x150Logo.scale-150.png
+    2162888: Assets/Images/Square150x150Logo.scale-200.png
+    2163088: Assets/Images/Square150x150Logo.scale-400.png
+    2228324: Assets/Images/Square310x310Logo.scale-100.png
+    2228349: Assets/Images/Square310x310Logo.scale-125.png
+    2228374: Assets/Images/Square310x310Logo.scale-150.png
+    2228424: Assets/Images/Square310x310Logo.scale-200.png
+    2228624: Assets/Images/Square310x310Logo.scale-400.png
+    2293860: Assets/Images/Wide310x150Logo.scale-100.png
+    2293885: Assets/Images/Wide310x150Logo.scale-125.png
+    2293910: Assets/Images/Wide310x150Logo.scale-150.png
+    2293960: Assets/Images/Wide310x150Logo.scale-200.png
+    2294160: Assets/Images/Wide310x150Logo.scale-400.png
   metroTileShortName: GeoGebra MR
   metroCommandLineArgsFile: 
   metroTileShowName: 0
