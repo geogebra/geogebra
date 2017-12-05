@@ -65,7 +65,7 @@ public class GuiManager3DW extends GuiManagerW {
 	}
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu3D(int x, int y) {
-		currentPopup = new ContextMenuGraphicsWindow3DW((AppW) getApp(), x, y);
+		currentPopup = new ContextMenuGraphicsWindow3DW(getApp(), x, y);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 

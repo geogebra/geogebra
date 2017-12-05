@@ -4,6 +4,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
+@SuppressWarnings("javadoc")
 public interface StyleBar3DResources extends ClientBundle {
 	StyleBar3DResources INSTANCE = GWT.create(StyleBar3DResources.class);
 

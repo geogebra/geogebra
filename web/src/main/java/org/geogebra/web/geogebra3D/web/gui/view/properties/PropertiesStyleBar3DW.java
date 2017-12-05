@@ -34,11 +34,10 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	protected String getTypeIcon(OptionType type) {
 		switch (type) {
 		case EUCLIDIAN3D:
-			SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 			return ImgResourceHelper
 					.safeURI(MaterialDesignResources.INSTANCE.graphing3D());
 		case EUCLIDIAN_FOR_PLANE:
-			pr = ImageFactory
+			SvgPerspectiveResources pr = ImageFactory
 					.getPerspectiveResources();
 			return ImgResourceHelper.safeURI(pr.menu_icon_graphics_extra());
 		default:
