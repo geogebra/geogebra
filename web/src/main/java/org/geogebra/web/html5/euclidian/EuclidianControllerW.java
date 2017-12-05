@@ -22,6 +22,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.main.AppW;
 
@@ -73,6 +74,16 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
 		return mtg.getEnvironmentStyle();
+	}
+
+	@Override
+	protected void showSpecialPointPopup(ArrayList<GeoElement> previewPoints) {
+		if (!app.has(Feature.PREVIEW_POINTS)) {
+			return;
+		}
+		PreviewPointPopup popup = new PreviewPointPopup((AppW) getApplication(),
+				previewPoints);
+		popup.show();
 	}
 
 	/**
