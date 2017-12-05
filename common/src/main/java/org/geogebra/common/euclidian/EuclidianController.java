@@ -7091,9 +7091,15 @@ public abstract class EuclidianController {
 			} else {
 				if (!moveModeSelectionHandled) {
 					GeoElement geo = chooseGeo(geos, true);
-					if (geo != null && !geo.isGeoButton()) {
-						selection.clearSelectedGeos(false);
-						selection.addSelectedGeo(geo);
+					if (geo != null && !geo.isGeoButton() ) {
+						Hits hits = new Hits();
+						hits.addAll(geos);
+						if(app.has(Feature.PREVIEW_POINTS) && isSpecialPreviewPointFound(hits)){
+							previewPointHits = getPreviewSpecialPointHits(hits);
+						} else {
+							selection.clearSelectedGeos(false);
+							selection.addSelectedGeo(geo);
+						}
 					}
 				}
 			}
@@ -8553,10 +8559,11 @@ public abstract class EuclidianController {
 	private ArrayList<GeoElement> getPreviewSpecialPointHits(Hits hits) {
 		List<GeoElement> selectedPreviewPoints = app.getSelectionManager().getSelectedPreviewPoints();
 		ArrayList<GeoElement> previewPointHits = new ArrayList<>();
-
-		for (GeoElement hit : hits) {
-			if (selectedPreviewPoints.contains(hit)) {
-				previewPointHits.add(hit);
+		if (selectedPreviewPoints != null) {
+			for (GeoElement hit : hits) {
+				if (selectedPreviewPoints.contains(hit)) {
+					previewPointHits.add(hit);
+				}
 			}
 		}
 		return previewPointHits;
