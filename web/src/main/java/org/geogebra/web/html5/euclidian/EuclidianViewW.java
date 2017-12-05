@@ -373,11 +373,13 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @return PDF as a base64 String
 	 */
 	@Override
-	public String getExportPDF(double scale, boolean transparency) {
+	public String getExportPDF(double scale) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
 
-		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
+		if (!canvas2PdfLoaded()) {
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
+		}
 
 		JavaScriptObject ctx = getCanvas2PDF(width, height);
 
@@ -388,7 +390,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		g4copy = new GGraphics2DW((Context2d) ctx.cast());
 		this.app.setExporting(ExportType.PDF_HTML5, scale);
-		exportPaintPre(g4copy, scale, transparency);
+		exportPaintPre(g4copy, scale, false);
 		drawObjects(g4copy);
 		this.app.setExporting(ExportType.NONE, 1);
 		return getPDF(ctx);
@@ -414,6 +416,10 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		return null;
+	}-*/;
+
+	private native boolean canvas2PdfLoaded() /*-{
+		return !!$wnd.canvas2pdf;
 	}-*/;
 
 	private native String getPDF(JavaScriptObject pdfcontext) /*-{

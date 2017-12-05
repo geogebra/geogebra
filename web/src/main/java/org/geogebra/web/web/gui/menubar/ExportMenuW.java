@@ -95,7 +95,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				app.getActiveEuclidianView().getEuclidianController()
 						.clearSelections();
 				String pdf = ((EuclidianViewWInterface) app
-						.getActiveEuclidianView()).getExportPDF(1, false);
+						.getActiveEuclidianView()).getExportPDF(1.0);
 
 				app.getFileManager().showExportAsPictureDialog(pdf,
 						app.getExportTitle(), "pdf", "ExportAsPicture", app);

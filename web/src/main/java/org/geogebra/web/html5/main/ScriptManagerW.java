@@ -921,12 +921,12 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPGF()();
 		};
 		
-		api.exportSVG = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportSVG()();
+		api.exportSVG = function(filename) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportSVG(Ljava/lang/String;)(filename);
 		};
 
-		api.exportPDF = function() {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPDF()();
+		api.exportPDF = function(scale, filename) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportPDF(DLjava/lang/String;)(scale | 1, filename);
 		};
 
 		api.exportPSTricks = function() {

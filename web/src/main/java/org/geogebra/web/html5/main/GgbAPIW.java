@@ -1171,13 +1171,20 @@ public class GgbAPIW extends GgbAPI {
 	 * 
 	 * @return current construction as SVG
 	 */
-	final public String exportSVG() {
+	final public String exportSVG(String filename) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
 
-			return evw.getExportSVG(1, true);
+			String svg = evw.getExportSVG(1, true);
+
+			if (filename != null) {
+				// can't use data:image/svg+xml;utf8 in IE11 / Edge
+				Browser.exportImage(Browser.encodeSVG(svg), filename);
+			}
+
+			return svg;
 		}
 
 		return null;
@@ -1188,16 +1195,23 @@ public class GgbAPIW extends GgbAPI {
 	 * Experimental GGB-2150
 	 * 
 	 */
-	final public String exportPDF() {
+	final public String exportPDF(double scale, String filename) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
 
-			return evw.getExportPDF(1, true);
+			String pdf = evw.getExportPDF(scale);
+
+			if (filename != null) {
+				Browser.exportImage(pdf, filename);
+			}
+
+			return pdf;
+
 		}
 
-		return "";
+		return null;
 
 
 	}

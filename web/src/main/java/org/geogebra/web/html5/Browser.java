@@ -286,14 +286,38 @@ public class Browser {
 		return devicePixelRatio / backingStorePixelRatio;
 	}-*/;
 
+	public static native String encodeSVG(String svg) /*-{
+		// can't use data:image/svg+xml;utf8 in IE11 / Edge
+		// so encode as Base64
+		return "data:image/svg+xml;base64,"
+				+ btoa(unescape(encodeURIComponent(svg)));
+	}-*/;
+		
+
 	public static native void exportImage(String url, String title) /*-{
 		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768
+
+		var extension;
+		var header;
+
+		if (url.startsWith("data:image/png;base64,")) {
+			extension = "image/png";
+			header = "data:image/png;base64,";
+		} else if (url.startsWith("data:image/svg+xml;base64,")) {
+			extension = "image/svg+xml";
+			header = "data:image/svg+xml;base64,";
+		} else if (url.startsWith("data:application/pdf;base64,")) {
+			extension = "application/pdf";
+			header = "data:application/pdf;base64,";
+		} else {
+			$wnd.console.log("unknown extension " + url.substring(0, 20));
+			return;
+		}
 
 		if ($wnd.navigator.msSaveBlob) {
 			var sliceSize = 512;
 
-			var byteCharacters = atob(url
-					.substring("data:image/png;base64,".length));
+			var byteCharacters = atob(url.substring(header.length));
 			var byteArrays = [];
 
 			for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
@@ -310,7 +334,7 @@ public class Browser {
 			}
 
 			var blob = new Blob(byteArrays, {
-				type : "image/png"
+				type : entension
 			});
 
 			//works for internet explorer

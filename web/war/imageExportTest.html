@@ -28,6 +28,9 @@
     <input type="button" value="Export PDF" onClick="pdf()" />
     <input type="button" value="Export SVG" onClick="svg()" />
     <input type="button" value="Export PNG" onClick="png()" />
+    <input type="button" value="Download PDF" onClick="pdf2()" />
+    <input type="button" value="Download SVG" onClick="svg2()" />
+    <input type="button" value="Download PNG" onClick="png2()" />
 
     <script>
         function closeLightbox() {
@@ -113,7 +116,7 @@
 
         function svg() {
 
-            var svg = applet1.exportSVG(1, true);
+            var svg = applet1.exportSVG();
             console.log(svg);
 			// can't use data:image/svg+xml;utf8 in IE11 / Edge
             openImageInLightBox("data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(svg))));
@@ -128,6 +131,21 @@
             openImageInLightBox("data:image/png;base64," + png);
 
 
+        }
+        
+        function png2() {
+        
+          applet1.writePNGtoFile("image.png", 1, false, undefined);
+        }
+        
+        function svg2() {
+        
+          applet1.exportSVG("image.svg");
+        }
+        
+        function pdf2() {
+        
+          applet1.exportPDF(1, "image.pdf");
         }
     </script>
 
