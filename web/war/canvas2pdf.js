@@ -70,10 +70,13 @@
     };
 
     var fixColor = function(value) {
-    	
-    	if (!value) {
-    		return { c: "0 0 0", a:1};
-    	}
+
+        if (!value) {
+            return {
+                c: "0 0 0",
+                a: 1
+            };
+        }
 
         if (!value.startsWith("rgb") && !value.startsWith("hsl")) {
             var d = document.createElement("div");
@@ -163,9 +166,9 @@
                 return this.fillColor;
             },
             set: function(value) {
-            	
-            	this.fillColor = value;
-            	
+
+                this.fillColor = value;
+
                 var color = fixColor(value);
                 _this.doc.fillColor(color.c, color.a);
             }
@@ -562,7 +565,7 @@ PDFKitMini.prototype.imageTileLoadFromCanvas = function(a) {
     a = new PDFImageTile(a);
     this.add(a);
     this.currentPage.currentImageTile = a
-    
+
 };
 
 PDFKitMini.prototype.doDrawImage = function(x, y, width, height) {
@@ -609,7 +612,7 @@ PDFKitMini.prototype.drawImage = function(img, x, y, w, h) {
 
 //img can be an image element or a canvas
 PDFKitMini.prototype.imageTileLoad = function(img) {
-	
+
     if (img.nodeName.toLowerCase() == "img") {
         //convert image to canvas
         var canvas = document.createElement('canvas');
@@ -621,9 +624,9 @@ PDFKitMini.prototype.imageTileLoad = function(img) {
         img = canvas;
     }
     this.imageTileLoadFromCanvas(img);
-    
+
     this.addPatternToPage(this.currentPage.currentImageTile);
-    
+
 };
 
 
@@ -931,13 +934,13 @@ PDFPage.prototype.restoreContext = function() {
     this.pdfStream.addText("Q ");
 };
 PDFPage.prototype.fill = function(rule) {
-	
+
     if (this.currentImageTile) {
-    	this.pdfStream.addText("/Pattern cs ");
-    	this.pdfStream.addText("/Pattern CS ");
-    	this.pdfStream.addText("/Paint"+this.currentImageTile.id+" scn ");
-    	this.pdfStream.addText("/Paint"+this.currentImageTile.id+" SCN ");
-    	this.currentImageTile = undefined;
+        this.pdfStream.addText("/Pattern cs ");
+        this.pdfStream.addText("/Pattern CS ");
+        this.pdfStream.addText("/Paint" + this.currentImageTile.id + " scn ");
+        this.pdfStream.addText("/Paint" + this.currentImageTile.id + " SCN ");
+        this.currentImageTile = undefined;
     }
     //	f 	fill path.
     // f* 	eofill Even/odd fill path.
@@ -963,9 +966,9 @@ PDFPage.prototype.beginPath = function() {
 
     }
     this.setAlpha(this.alpha);
-    
+
     this.pdfStream.addText(this.fillColor + " rg ");
-    this.pdfStream.addText(this.strokeColor + " RG ");  	
+    this.pdfStream.addText(this.strokeColor + " RG ");
 
     this.pdfStream.addText(this.lineCap + " J " + this.lineJoin + " j " + (this.lineWidth | 1) + " w ");
 };
@@ -1150,7 +1153,7 @@ PDFPage.prototype.addPatternToPage = function(im) {
 
 
     if (this.fillImages.indexOf(im) == -1) {
-       this.fillImages.push(im);
+        this.fillImages.push(im);
     }
 
 };
@@ -1208,7 +1211,7 @@ PDFPage.prototype.getObject = function(a) {
     imageProps += ">>";
 
     var patternProps = "<<";
-    
+
     if (this.fillImages.length > 0) {
         for (d = 0; d < this.fillImages.length; d++) {
             e = this.fillImages[d];
@@ -1218,21 +1221,21 @@ PDFPage.prototype.getObject = function(a) {
     patternProps += ">>";
 
     props["Resources"] = {};
-       
+
     if (this.fonts.length > 0) {
-    	props["Resources"]["Font"] = new PDFReference(fontProps);
+        props["Resources"]["Font"] = new PDFReference(fontProps);
     }
-    
+
     if (this.alphas.length > 0) {
-    	props["Resources"]["ExtGState"] = alphaProps;
+        props["Resources"]["ExtGState"] = alphaProps;
     }
-    
+
     if (this.fillImages.length > 0) {
-    	props["Resources"]["Pattern"] = new PDFReference(patternProps);
+        props["Resources"]["Pattern"] = new PDFReference(patternProps);
     }
-    
+
     if (this.images.length > 0) {
-    	props["Resources"]["XObject"] = new PDFReference(imageProps);
+        props["Resources"]["XObject"] = new PDFReference(imageProps);
     }
 
     return PDFObject.makeObject(props, this.id);
@@ -1352,19 +1355,19 @@ function PDFImageTile(canvas) {
     this.height = canvas.height;
     var ctx = canvas.getContext("2d");
     var buffer = [
-                  // eg"14.000 0.0000 0.0000 -14.000 0.0000 14.000 cm ",
-                  //this.width+" 0.0000 0.0000 -"+this.height+" 0.0000 "+this.height+" cm ",
-                  this.width+" 0.0000 0.0000 -"+this.height+" 0.0000 "+this.height+" cm ",
-                  "BI ",
-                  "/Width "+this.width+" ",
-                  "/Height "+this.height+" ",
-                  "/ColorSpace /DeviceRGB ",
-                  "/BitsPerComponent 8 ",
-                  "ID\n"
-];
+        // eg"14.000 0.0000 0.0000 -14.000 0.0000 14.000 cm ",
+        //this.width+" 0.0000 0.0000 -"+this.height+" 0.0000 "+this.height+" cm ",
+        this.width + " 0.0000 0.0000 -" + this.height + " 0.0000 " + this.height + " cm ",
+        "BI ",
+        "/Width " + this.width + " ",
+        "/Height " + this.height + " ",
+        "/ColorSpace /DeviceRGB ",
+        "/BitsPerComponent 8 ",
+        "ID\n"
+    ];
     var rawData = ctx.getImageData(0, 0, this.width, this.height);
     // reflect vertically so it's drawn right way up!
-    for (var y = this.height - 1; y >=0 ; y--)
+    for (var y = this.height - 1; y >= 0; y--)
         for (var x = 0; x < this.width; x++) {
             var red = rawData.data[(x + y * this.width) * 4];
             var green = rawData.data[(x + y * this.width) * 4 + 1];
@@ -1375,7 +1378,7 @@ function PDFImageTile(canvas) {
             buffer.push(String.fromCharCode(blue));
         }
     buffer.push("\nEI\n");
-    
+
     this.stream = buffer.join("");
 
 }
@@ -1393,7 +1396,9 @@ PDFImageTile.prototype.getObject = function() {
         "BBox": [0, 0, this.width, this.height],
         "XStep": this.width,
         "YStep": this.height,
-        "Resources": {ProcSet: ["PDF","ImageC"]},
+        "Resources": {
+            ProcSet: ["PDF", "ImageC"]
+        },
     }
     return PDFObject.makeObject(props, this.id, this.stream);
 };
