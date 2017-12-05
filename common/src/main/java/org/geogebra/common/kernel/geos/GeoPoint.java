@@ -2886,4 +2886,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	public double getZScale() {
 		return 1;
 	}
+
+	@Override
+	public boolean showToolTipText() {
+		// do not show tooltip for preview points of function
+		if (!isLabelSet()) {
+			return false;
+		}
+		return super.showToolTipText();
+	}
 }

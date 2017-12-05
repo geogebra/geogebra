@@ -2199,7 +2199,6 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	public String getTooltipText(final boolean colored,
 			final boolean alwaysOn) {
-
 		if (getParentAlgorithm() instanceof AlgoAttachCopyToView) {
 			return "";
 		}

@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.stylebar.StylebarPositioner;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.gui.layout.DockPanelW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -33,14 +35,31 @@ public class PreviewPointPopup extends GPopupPanel {
 		createContent(previewPoints);
 		add(content);
 		setAutoHideEnabled(true);
-		positionPopup();
+		setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+			@Override
+			public void setPosition(int offsetWidth, int offsetHeight) {
+				positionPopup(offsetWidth);
+			}
+		});
 	}
 
-	private void positionPopup() {
+	/**
+	 * position popup
+	 * 
+	 * @param offsetWidth
+	 *            width of popup
+	 */
+	public void positionPopup(int offsetWidth) {
 		StylebarPositioner positioner = new StylebarPositioner(app);
-		GPoint pos = positioner.getPositionOnCanvas(20, 100,
+		GPoint pos = positioner.getPositionOnCanvas(60, 100,
 				app.getActiveEuclidianView().getViewHeight());
-		this.setPopupPosition(pos.getX() + 360, pos.getY());
+		DockPanelW dp = (DockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_ALGEBRA);
+		if (dp != null && pos != null) {
+			this.setPopupPosition(
+					pos.getX() + dp.getOffsetWidth() - offsetWidth / 2,
+					pos.getY() + 10);
+		}
 	}
 
 	private void createContent(ArrayList<GeoElement> previewPoints) {
