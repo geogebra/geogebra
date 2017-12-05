@@ -431,8 +431,14 @@ public abstract class GlobalKeyDispatcher {
 	public boolean handleCommonKeys(KeyCodes key, boolean isControlDown,
 			boolean isAltDown) {
 		if (app != null && key == KeyCodes.X && isControlDown && isAltDown) {
-			app.getAccessibilityManager().focusInput(true);
 			app.hideMenu();
+			app.closePopups();
+			if (app.getActiveEuclidianView() != null) {
+				app.getActiveEuclidianView().getEuclidianController()
+						.hideDynamicStylebar();
+			}
+			app.getSelectionManager().clearSelectedGeos();
+			app.getAccessibilityManager().focusInput(true);
 			return true;
 		}
 		return false;
