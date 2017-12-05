@@ -43,7 +43,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	 */
 	private final OptionsEuclidianW optionsEuclidianW;
 	private Label dimTitle;
-	private Label[] dimLabel;
+	private FormLabel[] dimLabel;
 	private AutoCompleteTextFieldW tfMinX;
 	private AutoCompleteTextFieldW tfMaxX;
 	private AutoCompleteTextFieldW tfMinY;
@@ -159,9 +159,9 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private void addDimensionPanel() {
 		dimTitle = new Label("");
 		dimTitle.setStyleName("panelTitle");
-		dimLabel = new Label[4]; // "Xmin", "Xmax" etc.
+		dimLabel = new FormLabel[4]; // "Xmin", "Xmax" etc.
 		for (int i = 0; i < 4; i++) {
-			dimLabel[i] = new Label("");
+			dimLabel[i] = new FormLabel();
 		}
 
 		tfMinX = this.optionsEuclidianW.getTextField();

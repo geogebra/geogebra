@@ -10,6 +10,7 @@ import org.geogebra.common.gui.dialog.options.model.EuclidianOptionsModel;
 import org.geogebra.web.geogebra3D.web.gui.images.StyleBar3DResources;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.FormLabel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabBar;
@@ -290,7 +291,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		private AutoCompleteTextFieldW tfPersp, tfGlassesEyeSep, tfObliqueAngle,
 				tfObliqueFactor;
-		private Label tfPerspLabel, tfGlassesLabel, tfObliqueAngleLabel,
+		private FormLabel tfPerspLabel, tfGlassesLabel, tfObliqueAngleLabel,
 				tfObliqueFactorLabel;
 		private CheckBox cbGlassesGray, cbGlassesShutDownGreen;
 
@@ -365,8 +366,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			perspTitle = new Label("");
 			perspTitle.setStyleName("panelTitle");
 			perspPanel = new FlowPanel();
-			tfPerspLabel = new Label("");
 			tfPersp = getTextField();
+			tfPerspLabel = new FormLabel().setFor(tfPersp);
 			tfPersp.addKeyHandler(new KeyHandler() {
 
 				@Override
@@ -398,8 +399,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			glassesTitle = new Label("");
 			glassesTitle.setStyleName("panelTitle");
 			glassesPanel = new FlowPanel();
-			tfGlassesLabel = new Label("");
+
 			tfGlassesEyeSep = getTextField();
+			tfGlassesLabel = new FormLabel().setFor(tfGlassesEyeSep);
 			tfGlassesEyeSep.addKeyHandler(new KeyHandler() {
 
 				@Override
@@ -451,8 +453,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			obliqueTitle = new Label("");
 			obliqueTitle.setStyleName("panelTitle");
 			obliquePanel = new FlowPanel();
-			tfObliqueAngleLabel = new Label("");
+
 			tfObliqueAngle = getTextField();
+			tfObliqueAngleLabel = new FormLabel().setFor(tfObliqueAngle);
 			tfObliqueAngle.addKeyHandler(new KeyHandler() {
 
 				@Override
@@ -469,8 +472,9 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					processObliqueAngleText();
 				}
 			});
-			tfObliqueFactorLabel = new Label("");
+
 			tfObliqueFactor = getTextField();
+			tfObliqueFactorLabel = new FormLabel().setFor(tfObliqueFactor);
 			tfObliqueFactor.addKeyHandler(new KeyHandler() {
 
 				@Override
