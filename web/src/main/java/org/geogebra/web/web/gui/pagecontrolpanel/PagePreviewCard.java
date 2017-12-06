@@ -13,12 +13,14 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * Page Preview Card showing preview of EuclidianView
@@ -79,14 +81,14 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		textField.addFocusListener(new FocusListenerW(this) {
 			@Override
 			protected void wrapFocusLost() {
-				onEnter();
+				rename();
 			}
 		});
 		textField.addKeyHandler(new KeyHandler() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
-					onEnter();
+					rename();
 				}
 			}
 		});
@@ -94,10 +96,28 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * execute textfield input
+	 * remember if title was renamed
 	 */
-	protected void onEnter() {
-		rename(textField.getText());
+	protected void rename() {
+		if (textField.getText().equals(getDefaultLabel())) {
+			isTitleSet = false;
+		} else {
+			isTitleSet = true;
+		}
+		setTextFieldWidth();
+	}
+
+	/**
+	 * use a dummy label to calculate exact width of textfield this way the
+	 * textfield is not clickable where empty
+	 */
+	private void setTextFieldWidth() {
+		Label calcLabel = new Label(textField.getText());
+		calcLabel.setStyleName("mowCalcLabel");
+		add(calcLabel);
+		int length = calcLabel.getOffsetWidth();
+		remove(calcLabel);
+		textField.setWidth(Math.max(Math.min(length, 178), 10));
 	}
 
 	private void setPreviewImage() {
@@ -116,6 +136,17 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	public void updatePreviewImage() {
 		imagePanel.clear();
 		setPreviewImage();
+	}
+
+	private String getDefaultLabel() {
+		return loc.getMenu("page") + " " + (pageIndex + 1);
+	}
+
+	private void setDefaultLabel() {
+		if (!isTitleSet) {
+			textField.setText(getDefaultLabel());
+			setTextFieldWidth();
+		}
 	}
 
 	/**
@@ -138,28 +169,16 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		setDefaultLabel();
 	}
 
-	private void setDefaultLabel() {
-		if (!isTitleSet) {
-			textField.setText(loc.getMenu("page") + " " + (pageIndex + 1));
-		}
-	}
-
 	private void addMoreButton(){
 		if (moreBtn == null) {
 			moreBtn = new MyToggleButton(
-					new Image(
-					new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE.more_vert_black()
-									.getSafeUri(),
-									0, 0, 24, 24, false, false)),
+					getImage(
+							MaterialDesignResources.INSTANCE.more_vert_black()),
 					app);
 		}
 		moreBtn.getUpHoveringFace()
-				.setImage(
-						new Image(new ImageResourcePrototype(null,
-								MaterialDesignResources.INSTANCE
-										.more_vert_mebis().getSafeUri(),
-								0, 0, 24, 24, false, false)));
+				.setImage(getImage(
+						MaterialDesignResources.INSTANCE.more_vert_mebis()));
 		moreBtn.addStyleName("mowMoreButton");
 		ClickStartHandler.init(moreBtn, new ClickStartHandler(true, true) {
 			@Override
@@ -170,15 +189,9 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		titlePanel.add(moreBtn);
 	}
 	
-	/**
-	 * rename title of page
-	 * 
-	 * @param text
-	 *            title of page to set
-	 */
-	public void rename(String text) {
-		textField.setText(text);
-		isTitleSet = true;
+	private static Image getImage(SVGResource res) {
+		return new Image(new ImageResourcePrototype(null, res.getSafeUri(), 0,
+				0, 24, 24, false, false));
 	}
 
 	/**

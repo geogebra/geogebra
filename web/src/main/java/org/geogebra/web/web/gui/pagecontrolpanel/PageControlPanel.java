@@ -123,8 +123,8 @@ public class PageControlPanel
 			isAttached = true;
 		}
 		updatePreview();
-		setLabels();
 		setVisible(true);
+		setLabels();
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
 		style.setOverflow(Overflow.HIDDEN);
@@ -192,6 +192,7 @@ public class PageControlPanel
 			}
 		});
 		contentPanel.add(previewCard);
+		previewCard.setLabels();
 		scrollPanel.scrollToBottom();
 	}
 
@@ -279,5 +280,4 @@ public class PageControlPanel
 			((PagePreviewCard) contentPanel.getWidget(i)).setLabels();
 		}
 	}
-
 }

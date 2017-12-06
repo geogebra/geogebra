@@ -655,7 +655,7 @@
 			.gwt-Label {
 				font-size: 14px;
 				padding: 16px;
-				width: 138px;
+				/*width: 138px;*/
  				overflow: hidden;
 				cursor: default;
 			}
@@ -678,14 +678,24 @@
     				padding: 8px;
     				padding-left: 16px;
     				border-radius: 2px;	
+    				width: calc(100% - 40px) !important;
     				
     				.TextField {
-    					height: 24px;
+    					height: 25px;
+    					margin-top: -1px;
     					padding: 0px;
     					border: none;
     					background: transparent;
     					box-shadow: none;
     					border-radius: 0px !important;
+    					
+    					&:focus {
+    						border: none;
+    						border-bottom: 1px solid $tool-border;
+    						height: 24px;
+    						margin-top: 0px;
+    						width: 100% !important;
+    					}
     				}
     			}
 	}
@@ -698,6 +708,11 @@
 	.mowMatMenu.gwt-PopupPanel{
 		min-width: 100px !important;
    		max-width: 200px;
+	}
+	.mowCalcLabel{
+		font-size: 16px;
+	    width: fit-content;
+	    visibility: hidden;
 	}
 }
 
