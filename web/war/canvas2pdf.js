@@ -1292,16 +1292,21 @@ PDFStream.prototype.addTextCheckMerge = function(a) {
     //S 	stroke path.
     //f 	fill path.
     //f* 	eofill Even/odd fill path.
+	
+	// for IE11
+	function endsWith(str, suffix) {
+	    return str.indexOf(suffix, str.length - suffix.length) !== -1;
+	}
 
-    if (a == "f* " && this.stream.endsWith(" S ")) {
+    if (a == "f* " && endsWith(this.stream, " S ")) {
         // TODO: not quite right, need stroke /then/ fill
         this.stream = this.stream.substring(0, this.stream.length - 3) + " B* ";
-    } else if (a == "S " && this.stream.endsWith(" f* ")) {
+    } else if (a == "S " && endsWith(this.stream, " f* ")) {
         this.stream = this.stream.substring(0, this.stream.length - 4) + " B* ";
-    } else if (a == "f " && this.stream.endsWith(" S ")) {
+    } else if (a == "f " && endsWith(this.stream, " S ")) {
         // TODO: not quite right, need stroke /then/ fill
         this.stream = this.stream.substring(0, this.stream.length - 3) + " B ";
-    } else if (a == "S " && this.stream.endsWith(" f ")) {
+    } else if (a == "S " && endsWith(this.stream, " f ")) {
         this.stream = this.stream.substring(0, this.stream.length - 3) + " B ";
     } else {
         this.stream += a;
