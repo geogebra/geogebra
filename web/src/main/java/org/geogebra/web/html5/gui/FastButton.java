@@ -54,7 +54,7 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 	private boolean touchMoved = false;
 	private int touchId;
 	private boolean isActive;
-	private List<FastClickHandler> handlers;
+	private final List<FastClickHandler> handlers;
 	private AccessibilityButton acc;
 	/**
 	 * New fast button
@@ -182,6 +182,9 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 		}
 		case Event.ONMOUSEDOWN: {
 			event.stopPropagation();
+			if (!this.handlers.isEmpty()) {
+				event.preventDefault();
+			}
 			break;
 		}
 
@@ -201,12 +204,18 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 		default: {
 			// Let parent handle event if not one of the above (?)
 			try {
-			super.onBrowserEvent(event);
+				super.onBrowserEvent(event);
 			} catch (Throwable t) {
 				Log.debug(DOM.eventGetType(event) + "event failed");
 			}
 		}
 		}
+	}
+
+	@Override
+	public void setFocus(boolean focus) {
+		Log.printStacktrace("");
+		super.setFocus(focus);
 	}
 
 	private void onClick(Event event) {

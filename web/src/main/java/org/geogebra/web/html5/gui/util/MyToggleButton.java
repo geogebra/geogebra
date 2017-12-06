@@ -18,6 +18,7 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 	private App app;
 	private Image image = null;
 	private AccessibilityButton acc;
+	private boolean mayFocus;
 
 	/**
 	 * @param image
@@ -80,9 +81,18 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 		if (acc != null && acc.handleBrowserEvent(event, app)) {
 			return;
 		}
+		this.mayFocus = false;
 		super.onBrowserEvent(event);
+		this.mayFocus = true;
 	}
 	
+	@Override
+	public void setFocus(boolean focus) {
+		if (mayFocus) {
+			super.setFocus(focus);
+		}
+	}
+
 	@Override
 	public void addTabHandler(TabHandler handler) {
 		acc.addTabHandler(handler);

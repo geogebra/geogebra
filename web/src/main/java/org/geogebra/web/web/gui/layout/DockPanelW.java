@@ -606,6 +606,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	/** Graphics Settings button handler */
 	protected void onGraphicsSettingsPressed() {
+		app.hideMenu();
 		int x = graphicsContextMenuBtn.getAbsoluteLeft();
 		final int y = 8;
 		final ContextMenuGraphicsWindowW contextMenu = new ContextMenuGraphicsWindowW(
