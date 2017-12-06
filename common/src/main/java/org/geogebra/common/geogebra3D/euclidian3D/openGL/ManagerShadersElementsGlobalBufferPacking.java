@@ -147,7 +147,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 			@Override
 			public void setTextures(ArrayList<Double> array, int length) {
-				geometrySet.getBufferManager().setTextureBuffer(array, length);
+				geometrySet.getBufferManager().setTextureBuffer(array);
 			}
 
 			@Override

@@ -197,8 +197,9 @@ abstract class GLBufferManager {
 			colorBuffer.set((float) color.getAlpha() / 255, colorOffset, length, 4);
 		}
 
-		public void setAlpha(int alpha, int offset, int length) {
-			colorBuffer.set((float) alpha / 255, offset * 4 + 3, length, 4);
+		public void setAlpha(int alpha) {
+			colorBuffer.set((float) alpha / 255, manager.currentBufferSegment.elementsOffset * 4 + 3,
+					manager.currentBufferSegment.elementsLength, 4);
 		}
 
 		public void draw(RendererShadersInterface r) {
@@ -282,10 +283,8 @@ abstract class GLBufferManager {
 	 * 
 	 * @param array
 	 *            array
-	 * @param length
-	 *            length to set
 	 */
-	public void setTextureBuffer(ArrayList<Double> array, int length) {
+	public void setTextureBuffer(ArrayList<Double> array) {
 		textureArray = array;
 	}
 
@@ -340,8 +339,7 @@ abstract class GLBufferManager {
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			if (currentBufferSegment != null) { // this may happen after undo from DrawIntersectionCurve3D
 				currentBufferPack = currentBufferSegment.bufferPack;
-				currentBufferPack.setAlpha(alpha, currentBufferSegment.elementsOffset,
-						currentBufferSegment.elementsLength);
+				currentBufferPack.setAlpha(alpha);
 			}
 		}
 	}
@@ -378,8 +376,8 @@ abstract class GLBufferManager {
 	}
 
 
-	private BufferSegment getAvailableSegment(Index index, TreeMap<Index, LinkedList<BufferSegment>> availableList) {
-		LinkedList<BufferSegment> list = availableList.get(index);
+	private BufferSegment getAvailableSegment() {
+		LinkedList<BufferSegment> list = availableSegments.get(currentLengths);
 		if (list == null || list.isEmpty()) {
 			return null;
 		}
@@ -438,7 +436,7 @@ abstract class GLBufferManager {
 		if (currentBufferSegment == null || currentBufferSegmentDoesNotFit(indicesLength, type)) {
 			// try to reuse available segment
 			currentLengths.set(elementsLength, indicesLength);
-			currentBufferSegment = getAvailableSegment(currentLengths, availableSegments);
+			currentBufferSegment = getAvailableSegment();
 			if (currentBufferSegment == null) {
 				if (!currentBufferPack.canAdd(elementsLength, indicesLength)) {
 					currentBufferPack = new BufferPack(this);
