@@ -183,4 +183,15 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		this.shortSyntax = b;
 	}
 
+	@Override
+	protected boolean hasExpXML(String cmdName) {
+		return shortSyntax;
+	}
+
+	@Override
+	final public String toExpString(StringTemplate tpl) {
+		return getDefinition(tpl);
+	}
+
+
 }

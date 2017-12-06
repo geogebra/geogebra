@@ -122,4 +122,14 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 		this.shortSyntax = b;
 	}
 
+	@Override
+	protected boolean hasExpXML(String cmdName) {
+		return shortSyntax;
+	}
+
+	@Override
+	final public String toExpString(StringTemplate tpl) {
+		return getDefinition(tpl);
+	}
+
 }

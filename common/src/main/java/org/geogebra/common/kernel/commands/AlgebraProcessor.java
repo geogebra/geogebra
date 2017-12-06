@@ -3205,6 +3205,7 @@ public class AlgebraProcessor {
 				new EvalInfo(true));
 		if (ret[0].getParentAlgorithm() instanceof HasShortSyntax) {
 			((HasShortSyntax) ret[0].getParentAlgorithm()).setShortSyntax(true);
+			ret[0].updateRepaint();
 		}
 		return ret;
 	}
