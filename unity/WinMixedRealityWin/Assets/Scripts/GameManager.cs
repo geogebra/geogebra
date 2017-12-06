@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.WSA.Input;
+using HoloToolkit.Unity.InputModule;
+
 
 public class GameManager : MonoBehaviour {
 
@@ -27,9 +30,10 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-	}
+     
 
+    }
+    
     public void OnButtonPressed ()
     {
         //Destroy all GameObjects with tag "Model"
@@ -43,11 +47,8 @@ public class GameManager : MonoBehaviour {
         // Create GameObject
         Instantiate(TempModel, ModelSpawner.transform.localPosition, Quaternion.identity);
 
+
         // Change Text on the screen
-
-        //TempText.SetActive(false);
-        //DisplayedText.SetActive(false);
-
         if (DisplayedText == null)
         {
             DisplayedText = TempText;
@@ -56,12 +57,8 @@ public class GameManager : MonoBehaviour {
         {
             DisplayedText.GetComponent<Text>().enabled = false;
             DisplayedText = TempText;
-            //DisplayedText.SetActive(true);
             DisplayedText.GetComponent<Text>().enabled = true;
         }
-
-
-
 
     }
 
@@ -70,6 +67,11 @@ public class GameManager : MonoBehaviour {
         Debug.Log(ModelName);
     }
 
+    public void MakeScreenshot ()
+    {
 
+    }
+
+    
 
 }

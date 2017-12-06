@@ -13,7 +13,7 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
     private Vector3 _originTransform;
 
     public GameObject WorkModel;
-    public Text HihlightedText;
+    public GameObject HihlightedText;
 
     public GameObject InstructionText;
 
@@ -29,22 +29,19 @@ public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
         gameManager = GameObject.Find("GameManager");
 
         _originTransform = this.transform.localScale;
-        HihlightedText.enabled = false;
+        HihlightedText.SetActive(false);
         
     }
     public void OnFocusEnter()
     {
-        //throw new System.NotImplementedException();
-        //Debug.Log("I am on focus now");
         this.transform.localScale = transform.localScale * HighlightedSize;
-        HihlightedText.enabled = true;
+        HihlightedText.SetActive(true);
     }
 
     public void OnFocusExit()
     {
-        //throw new System.NotImplementedException();
         this.transform.localScale = _originTransform;
-        HihlightedText.enabled = false;
+        HihlightedText.SetActive(false);
     }
 
     public void OnInputClicked(InputClickedEventData eventData)
