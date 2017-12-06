@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.ChangeableCoordParent;
+import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -681,4 +682,16 @@ public abstract class GeoQuadricND extends GeoElement
 		return trace;
 	}
 
+	@Override
+	public final char getLabelDelimiter() {
+		return ':';
+	}
+
+	@Override
+	public DescriptionMode needToShowBothRowsInAV() {
+		if (toStringMode == GeoConicND.EQUATION_USER) {
+			return DescriptionMode.VALUE;
+		}
+		return super.needToShowBothRowsInAV();
+	}
 }

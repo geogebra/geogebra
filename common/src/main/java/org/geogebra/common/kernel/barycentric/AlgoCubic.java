@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -143,7 +144,8 @@ public class AlgoCubic extends AlgoElement {
 		try {
 			ve = parser.parseGeoGebraExpression(equation);
 			GeoImplicit result = (GeoImplicit) (algebraProcessor
-					.processEquation((Equation) ve, ve.wrap(), true)[0]);
+					.processEquation((Equation) ve, ve.wrap(), true,
+							new EvalInfo(false))[0]);
 			result.remove();
 			poly.setCoeff(result.getCoeff());
 			poly.setDefined();

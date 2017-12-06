@@ -429,11 +429,6 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	}
 
 	@Override
-	public char getLabelDelimiter() {
-		return ':';
-	}
-
-	@Override
 	public CoordSys getCoordSys() {
 		if (coordSys == null) {
 			coordSys = CoordSys.Identity3D;

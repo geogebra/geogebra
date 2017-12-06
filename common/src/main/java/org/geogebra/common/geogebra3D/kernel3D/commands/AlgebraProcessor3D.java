@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
@@ -136,37 +137,40 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	}
 
 	@Override
-	protected GeoElement[] processLine(Equation equ, ExpressionNode def) {
+	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
+			EvalInfo info) {
 
 		if (equ.isForcedLine()) {
-			return super.processLine(equ, def);
+			return super.processLine(equ, def, info);
 		}
 
 		// check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedPlane() || kernel.isParsingFor3D()) {
-			return processPlane(equ, def);
+			return processPlane(equ, def, info);
 		}
-		return super.processLine(equ, def);
+		return super.processLine(equ, def, info);
 
 	}
 
 	@Override
-	public GeoElement[] processConic(Equation equ, ExpressionNode def) {
+	public GeoElement[] processConic(Equation equ, ExpressionNode def,
+			EvalInfo info) {
 
 		if (equ.isForcedConic()) {
-			return super.processConic(equ, def);
+			return super.processConic(equ, def, info);
 		}
 
 		// check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedQuadric() || kernel.getApplication()
 				.getActiveEuclidianView().isEuclidianView3D()) {
-			return processQuadric(equ, def);
+			return processQuadric(equ, def, info);
 		}
-		return super.processConic(equ, def);
+		return super.processConic(equ, def, info);
 
 	}
 
-	private GeoElement[] processQuadric(Equation equ, ExpressionNode def) {
+	private GeoElement[] processQuadric(Equation equ, ExpressionNode def,
+			EvalInfo info) {
 		double xx = 0, yy = 0, zz = 0, xy = 0, xz = 0, yz = 0, x = 0, y = 0,
 				z = 0, c = 0;
 		GeoElement[] ret = new GeoElement[1];
@@ -196,7 +200,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		}
 		quadric.setDefinition(def);
 		quadric.showUndefinedInAlgebraView(true);
-		setEquationLabelAndVisualStyle(quadric, label);
+		setEquationLabelAndVisualStyle(quadric, label, info);
 		ret[0] = quadric;
 		return ret;
 	}
@@ -206,7 +210,8 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 	 *            equation to process
 	 * @return resulting plane
 	 */
-	private GeoElement[] processPlane(Equation equ, ExpressionNode def) {
+	private GeoElement[] processPlane(Equation equ, ExpressionNode def,
+			EvalInfo info) {
 		double a = 0, b = 0, c = 0, d = 0;
 		GeoPlane3D plane = null;
 		String label = equ.getLabel();
@@ -226,7 +231,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			plane = (GeoPlane3D) kernel.getManager3D().DependentPlane3D(equ);
 		}
 		plane.showUndefinedInAlgebraView(true);
-		setEquationLabelAndVisualStyle(plane, label);
+		setEquationLabelAndVisualStyle(plane, label, info);
 
 		return array(plane);
 	}
@@ -241,7 +246,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 	@Override
 	public GeoElement[] processImplicitPoly(Equation equ,
-			ExpressionNode definition) {
+			ExpressionNode definition, EvalInfo info) {
 
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			Polynomial lhs = equ.getNormalForm();
@@ -265,7 +270,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 			}
 		}
 
-		return super.processImplicitPoly(equ, definition);
+		return super.processImplicitPoly(equ, definition, info);
 	}
 
 }

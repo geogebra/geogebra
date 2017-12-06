@@ -58,7 +58,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 			cons.setSuppressLabelCreation(true);
 			arg[3] = kernel.getAlgebraProcessor().processEquation(
 					(Equation) c.getArgument(3).unwrap(), c.getArgument(3),
-					true)[0];
+					true, new EvalInfo(false))[0];
 			cons.setSuppressLabelCreation(oldMacroMode);
 			if ((ok[0] = arg[0] instanceof GeoPoint)
 					&& (ok[1] = arg[1] instanceof GeoPoint)

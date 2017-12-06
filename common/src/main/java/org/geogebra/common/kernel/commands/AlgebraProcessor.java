@@ -1957,7 +1957,7 @@ public class AlgebraProcessor {
 			if (kernel.getApplication()
 					.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
 				// asin(x) -> asind(x)
-				ve = ve.traverse(ArcTrigReplacer.getReplacer(kernel));
+				ve = ve.traverse(ArcTrigReplacer.getReplacer());
 			}
 		}
 
@@ -2495,7 +2495,7 @@ public class AlgebraProcessor {
 			}
 		}
 		return processEquation(equ, def,
-				kernel.getConstruction().isFileLoading());
+				kernel.getConstruction().isFileLoading(), info);
 	}
 
 	/**
@@ -2507,12 +2507,14 @@ public class AlgebraProcessor {
 	 * @param allowConstant
 	 *            true to allow equations like 2=3 or x=x, false to throw
 	 *            MyError for those
+	 * @param info
+	 *            evaluation flags
 	 * @return line, conic, implicit poly or plane
 	 * @throws MyError
 	 *             e.g. for invalid operation
 	 */
 	public final GeoElement[] processEquation(Equation equ, ExpressionNode def,
-			boolean allowConstant) throws MyError {
+			boolean allowConstant, EvalInfo info) throws MyError {
 		// AbstractApplication.debug("EQUATION: " + equ);
 		// AbstractApplication.debug("NORMALFORM POLYNOMIAL: " +
 		// equ.getNormalForm());
@@ -2532,7 +2534,7 @@ public class AlgebraProcessor {
 		}
 
 		if (equ.isFunctionDependent()) {
-			return processImplicitPoly(equ, def);
+			return processImplicitPoly(equ, def, info);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree()
 				&& !equ.isForcedImplicitPoly()
@@ -2543,27 +2545,27 @@ public class AlgebraProcessor {
 		// linear equation -> LINE
 		case 0:
 			if (allowConstant) {
-				return functionOrImplicitPoly(equ, def);
+				return functionOrImplicitPoly(equ, def, info);
 			}
-			return processLine(equ, def);
+			return processLine(equ, def, info);
 		case 1:
-			return processLine(equ, def);
+			return processLine(equ, def, info);
 
 		// quadratic equation -> CONIC
 		case 2:
-			return processConic(equ, def);
+			return processConic(equ, def, info);
 		// pi = 3 is not an equation, #1391
 
 			// if constants are allowed, build implicit poly
 		default:
 			// test for "y= <rhs>" here as well
-			return functionOrImplicitPoly(equ, def);
+			return functionOrImplicitPoly(equ, def, info);
 		}
 
 	}
 
 	private GeoElement[] functionOrImplicitPoly(Equation equ,
-			ExpressionNode def) {
+			ExpressionNode def, EvalInfo info) {
 		String lhsStr = equ.getLHS().toString(StringTemplate.xmlTemplate)
 				.trim();
 
@@ -2592,7 +2594,7 @@ public class AlgebraProcessor {
 					new EvalInfo(!cons.isSuppressLabelsActive()));
 			return ret;
 		}
-		return processImplicitPoly(equ, def);
+		return processImplicitPoly(equ, def, info);
 	}
 
 	private void checkNoTheta(Equation equ) {
@@ -2620,9 +2622,13 @@ public class AlgebraProcessor {
 	 *            equation
 	 * @param def
 	 *            definition expression (equation without any simplifications)
+	 * @param info
+	 *            evaluation flags
 	 * @return resulting line
+	 * 
 	 */
-	protected GeoElement[] processLine(Equation equ, ExpressionNode def) {
+	protected GeoElement[] processLine(Equation equ, ExpressionNode def,
+			EvalInfo info) {
 		double a = 0, b = 0, c = 0;
 		GeoLine line;
 		String label = equ.getLabel();
@@ -2643,7 +2649,7 @@ public class AlgebraProcessor {
 			line.setToExplicit();
 		}
 		line.showUndefinedInAlgebraView(true);
-		setEquationLabelAndVisualStyle(line, label);
+		setEquationLabelAndVisualStyle(line, label, info);
 
 		return array(line);
 	}
@@ -2653,15 +2659,23 @@ public class AlgebraProcessor {
 	 *            line or conic
 	 * @param label
 	 *            new label
+	 * @param info
+	 *            evaluation flags
 	 */
-	protected void setEquationLabelAndVisualStyle(GeoElementND line, String label) {
+	protected void setEquationLabelAndVisualStyle(GeoElementND line,
+			String label, EvalInfo info) {
 		if (app.has(Feature.OBJECT_DEFAULTS_AND_COLOR)
 				&& kernel.getApplication().isUnbundledGraphing()) {
 			line.setObjColor(cons.getConstructionDefaults().getNextColor());
 			line.setLineOpacity(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}
-		line.setLabel(label);
+		if (line instanceof EquationValue && info.isForceUserEquation()) {
+			((EquationValue) line).setToUser();
+		}
+		if (info.isLabelOutput()) {
+			line.setLabel(label);
+		}
 	}
 
 	/**
@@ -2679,9 +2693,12 @@ public class AlgebraProcessor {
 	 *            equation
 	 * @param def
 	 *            definition expression
+	 * @param info
+	 *            evaluation flags
 	 * @return resulting conic
 	 */
-	public GeoElement[] processConic(Equation equ, ExpressionNode def) {
+	public GeoElement[] processConic(Equation equ, ExpressionNode def,
+			EvalInfo info) {
 		double a = 0, b = 0, c = 0, d = 0, e = 0, f = 0;
 		GeoConic conic;
 		String label = equ.getLabel();
@@ -2714,7 +2731,7 @@ public class AlgebraProcessor {
 			conic.setToSpecific();
 		}
 		conic.setDefinition(def);
-		setEquationLabelAndVisualStyle(conic, label);
+		setEquationLabelAndVisualStyle(conic, label, info);
 
 		return array(conic);
 	}
@@ -2734,10 +2751,12 @@ public class AlgebraProcessor {
 	 *            equation
 	 * @param definition
 	 *            definition node (not same as equation in case of list1(2))
+	 * @param info
+	 *            evaluation flags
 	 * @return resulting implicit polynomial
 	 */
 	protected GeoElement[] processImplicitPoly(Equation equ,
-			ExpressionNode definition) {
+			ExpressionNode definition, EvalInfo info) {
 		String label = equ.getLabel();
 		Polynomial lhs = equ.getNormalForm();
 		boolean isIndependent = !equ.isFunctionDependent() && lhs.isConstant()
@@ -2762,7 +2781,7 @@ public class AlgebraProcessor {
 			geo.setDefinition(definition);
 		}
 		// AbstractApplication.debug("User Input: "+equ);
-		setEquationLabelAndVisualStyle(geo, label);
+		setEquationLabelAndVisualStyle(geo, label, info);
 		return array(geo);
 	}
 

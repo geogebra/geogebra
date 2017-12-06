@@ -17,5 +17,8 @@ public interface EquationValue {
 	 */
 	public String[] getEquationVariables();
 
+	/**
+	 * Force output in user input form
+	 */
 	public void setToUser();
 }

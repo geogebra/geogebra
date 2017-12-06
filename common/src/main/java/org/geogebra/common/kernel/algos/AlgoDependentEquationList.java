@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 
@@ -125,7 +126,8 @@ public class AlgoDependentEquationList extends AlgoElement
 					.expandFunctionDerivativeNodes(eq.getLHS(), true).wrap());
 
 			GeoElement element = kernel.getAlgebraProcessor()
-					.processEquation(eq, eq.wrap(), true)[0];
+					.processEquation(eq, eq.wrap(), true,
+							new EvalInfo(false))[0];
 
 			if (element != null) {
 				list.add(element);

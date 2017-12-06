@@ -16,6 +16,7 @@ public class EvalInfo {
 	private boolean autocreateSliders = true;
 	private boolean autoAddDegree = false;
 	private boolean fractions = false;
+	private boolean forceUserEquation;
 
 	/**
 	 * @param labelOut
@@ -111,6 +112,7 @@ public class EvalInfo {
 		ret.autocreateSliders = this.autocreateSliders;
 		ret.autoAddDegree = this.autoAddDegree;
 		ret.fractions = this.fractions;
+		ret.forceUserEquation = this.forceUserEquation;
 		return ret;
 	}
 
@@ -204,6 +206,20 @@ public class EvalInfo {
 	}
 
 	/**
+	 * @param symbFractions
+	 *            whether to show symbolic fractionss
+	 * @return derived eval info
+	 */
+	public EvalInfo withUserEquation(boolean userEquation) {
+		if (userEquation == this.forceUserEquation) {
+			return this;
+		}
+		EvalInfo ret = copy();
+		ret.forceUserEquation = userEquation;
+		return ret;
+	}
+
+	/**
 	 * @return whether to show symbolic fractions
 	 */
 	public boolean isFractions() {
@@ -215,6 +231,10 @@ public class EvalInfo {
 	 */
 	public boolean autoAddDegree() {
 		return autoAddDegree;
+	}
+
+	public boolean isForceUserEquation() {
+		return forceUserEquation;
 	}
 
 }

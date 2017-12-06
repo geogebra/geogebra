@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel;
 
-import org.geogebra.common.gui.inputfield.InputHelper;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -121,7 +120,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 			return;
 		}
 		EvalInfo info = new EvalInfo(false, true).withScripting(false)
-				.withCAS(false).addDegree(true);
+				.withCAS(false).addDegree(true).withUserEquation(true);
 		Log.debug("preview for: " + validInput);
 		boolean silentModeOld = this.kernel.isSilentMode();
 		previewGeos = null;
@@ -133,7 +132,6 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 			if (!isCASeval(ve)) {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
-				Log.debug(existingGeo);
 				if (existingGeo == null) {
 
 					GeoElementND[] inputGeos = this.kernel.getAlgebraProcessor()
@@ -143,8 +141,9 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 											.has(Feature.INPUT_BAR_ADD_SLIDER)));
 					previewGeos = null;
 					if (inputGeos != null) {
-						InputHelper.updateProperties(inputGeos, kernel
-								.getApplication().getActiveEuclidianView(), -2);
+						// TODO use thisif we want text centering
+						// InputHelper.updateProperties(inputGeos, kernel
+						// .getApplication().getActiveEuclidianView(), -2);
 						int unlabeled = 0;
 						for (GeoElementND geo : inputGeos) {
 							if (geo instanceof GeoFunction) {

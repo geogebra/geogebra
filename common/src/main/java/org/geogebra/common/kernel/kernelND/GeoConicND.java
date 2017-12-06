@@ -39,7 +39,6 @@ import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
-import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -4608,14 +4607,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public void setIsShape(boolean isShape) {
 		this.isShape = isShape;
-	}
-	
-	@Override
-	public DescriptionMode needToShowBothRowsInAV() {
-		if (toStringMode == EQUATION_USER) {
-			return DescriptionMode.VALUE;
-		}
-		return super.needToShowBothRowsInAV();
 	}
 
 }

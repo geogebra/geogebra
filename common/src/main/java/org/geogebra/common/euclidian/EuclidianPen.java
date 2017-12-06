@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.algos.AlgoStrokeInterface;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -1336,7 +1337,7 @@ public class EuclidianPen implements GTimerListener {
 		Equation equ = getEquationOfConic(circle.getFlatMatrix());
 		equ.initEquation();
 		GeoElement[] geos = view.getKernel().getAlgebraProcessor()
-				.processConic(equ, equ.wrap());
+				.processConic(equ, equ.wrap(), new EvalInfo(true));
 		geos[0].setEuclidianVisible(true);
 		circle.remove();
 		algo.remove();

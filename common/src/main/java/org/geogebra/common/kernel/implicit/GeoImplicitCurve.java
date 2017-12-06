@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
+import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -2424,5 +2425,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			}
 		}
 		return vars.toArray(new String[0]);
+	}
+
+	@Override
+	public DescriptionMode needToShowBothRowsInAV() {
+		if (toStringMode == GeoLine.EQUATION_USER) {
+			return DescriptionMode.VALUE;
+		}
+		return super.needToShowBothRowsInAV();
 	}
 }

@@ -223,7 +223,7 @@ public interface Traversing {
 	 *
 	 */
 	public class ArcTrigReplacer implements Traversing {
-		private Kernel kernel;
+
 		private static ArcTrigReplacer replacer = new ArcTrigReplacer();
 
 		@Override
@@ -256,13 +256,9 @@ public interface Traversing {
 		}
 
 		/**
-		 * @param kernel
-		 *            kernel in which resulting variables live (also needed to
-		 *            check which commands are valid)
 		 * @return replacer
 		 */
-		public static ArcTrigReplacer getReplacer(Kernel kernel) {
-			replacer.kernel = kernel;
+		public static ArcTrigReplacer getReplacer() {
 			return replacer;
 		}
 	}

@@ -4,8 +4,6 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.CircularDefinitionException;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -73,10 +71,6 @@ public class InputHelper {
 			if (geos[i] instanceof GeoText) {
 				GeoText text = (GeoText) geos[i];
 				centerText(text, ev);
-			}
-			if (Equation.isAlgebraEquation(geos[i])) {
-				((EquationValue) geos[i]).setToUser();
-				geos[i].updateRepaint();
 			}
 		}
 
