@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.algos.AlgoCurveCartesian;
 import org.geogebra.common.kernel.algos.AlgoDependentText;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.GeoElementSelectionListener;
@@ -1734,7 +1735,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	}
 
 	@Override
-	public void updateHighlight(GeoElement geo) {
+	public void updateHighlight(GeoElementND geo) {
 		// nothing to do here
 	}
 

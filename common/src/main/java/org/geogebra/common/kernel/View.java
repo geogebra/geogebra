@@ -14,6 +14,7 @@ package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Interface for views. A view registered to the kernel gets informed if
@@ -68,7 +69,7 @@ public interface View {
 	 * @param geo
 	 *            updated geo
 	 */
-	public void updateHighlight(GeoElement geo);
+	public void updateHighlight(GeoElementND geo);
 
 	/**
 	 * Notify this view about updated auxiliary geo

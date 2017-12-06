@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
@@ -710,6 +711,12 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			if (shouldBePacked()) {
 				if (prop == GProperty.COLOR) {
 					setWaitForUpdateColor();
+				} else if (prop == GProperty.HIGHLIGHT) {
+					setWaitForUpdateColor();
+					EuclidianView3D view3D = getView3D();
+					for (GeoSegmentND seg : ((GeoPolygon) getGeoElement()).getSegments()) {
+						view3D.updateHighlight(seg);
+					}
 				} else if (prop == GProperty.VISIBLE) {
 					setWaitForUpdateVisibility();
 				}

@@ -39,13 +39,11 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	public boolean doHighlighting() {
 
-		if (!shouldBePacked()) {
-			// if the segments depends on a polygon (or polyhedron), look at the
-			// poly' highlighting
-			GeoElement meta = ((GeoSegmentND) getGeoElement()).getMetas()[0];
-			if (meta != null && meta.doHighlighting()) {
-				return true;
-			}
+		// if the segments depends on a polygon (or polyhedron), look at the
+		// poly' highlighting
+		GeoElement meta = ((GeoSegmentND) getGeoElement()).getMetas()[0];
+		if (meta != null && meta.doHighlighting()) {
+			return true;
 		}
 
 		return super.doHighlighting();
@@ -135,7 +133,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 	@Override
 	public void setWaitForUpdateVisualStyle(GProperty prop) {
 		if (shouldBePacked()) {
-			if (prop == GProperty.COLOR) {
+			if (prop == GProperty.COLOR || prop == GProperty.HIGHLIGHT) {
 				setWaitForUpdateColor();
 			} else if (prop == GProperty.VISIBLE) {
 				setWaitForUpdateVisibility();

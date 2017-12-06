@@ -31,5 +31,7 @@ public enum GProperty {
 	/** textfield length */
 	LENGTH,
 	/** hatching */
-	HATCHING
+	HATCHING,
+	/** highlight */
+	HIGHLIGHT
 }

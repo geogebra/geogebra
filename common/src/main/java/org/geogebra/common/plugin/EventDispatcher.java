@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.ClientView;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 
@@ -150,7 +151,7 @@ public class EventDispatcher implements ClientView {
 	}
 
 	@Override
-	public void updateHighlight(GeoElement geo) {
+	public void updateHighlight(GeoElementND geo) {
 		// nothing to do here
 	}
 

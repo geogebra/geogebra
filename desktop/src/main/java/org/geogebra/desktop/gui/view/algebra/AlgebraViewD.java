@@ -1265,7 +1265,7 @@ public class AlgebraViewD extends AlgebraTree
 	}
 
 	@Override
-	public void updateHighlight(GeoElement geo) {
+	public void updateHighlight(GeoElementND geo) {
 		// nothing to do here
 	}
 } // AlgebraView

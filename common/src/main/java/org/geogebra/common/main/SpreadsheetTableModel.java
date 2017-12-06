@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
  * Abstract class for managing spreadsheet GeoElement cells in a table model
@@ -295,7 +296,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	@Override
-	public void updateHighlight(GeoElement geo) {
+	public void updateHighlight(GeoElementND geo) {
 		// nothing to do here
 	}
 

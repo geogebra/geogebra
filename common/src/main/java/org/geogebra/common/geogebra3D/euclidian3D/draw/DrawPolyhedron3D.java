@@ -549,6 +549,22 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 			if (shouldBePacked()) {
 				if (prop == GProperty.COLOR) {
 					setWaitForUpdateColor();
+				} else if (prop == GProperty.HIGHLIGHT) {
+					setWaitForUpdateColor();
+					// highlight faces and edges
+					GeoPolyhedron poly = (GeoPolyhedron) getGeoElement();
+					EuclidianView3D view3D = getView3D();
+					for (GeoPolygon p : poly.getPolygons()) {
+						if (p.isLabelSet()) {
+							view3D.updateHighlight(p);
+							for (GeoSegmentND seg : p.getSegments()) {
+								view3D.updateHighlight(seg);
+							}
+						}
+					}
+					for (GeoSegmentND seg : poly.getSegments()) {
+						view3D.updateHighlight(seg);
+					}
 				} else if (prop == GProperty.VISIBLE) {
 					setWaitForUpdateVisibility();
 				}
