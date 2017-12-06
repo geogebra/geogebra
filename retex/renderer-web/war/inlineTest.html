@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>Inline JLaTeXMath</title>
+      <script src="./jlatexmath/jlatexmath.nocache.js"></script>
+      <script>
+      
+      var getPixelRatio = function() {
+         var testCanvas = document.createElement("canvas"),
+            testCtx = testCanvas.getContext("2d"),
+            devicePixelRatio = window.devicePixelRatio || 1,
+            backingStorePixelRatio = testCtx.webkitBackingStorePixelRatio ||
+            testCtx.mozBackingStorePixelRatio ||
+            testCtx.msBackingStorePixelRatio ||
+            testCtx.oBackingStorePixelRatio ||
+            testCtx.backingStorePixelRatio ||
+            1;
+            return devicePixelRatio / backingStorePixelRatio;
+        }
+
+        function initializeCanvas(canvas, pixelRatio) {
+            var context;
+            // This function should only be called once on each canvas.
+            // It will ensure the best rendering quality on both Retina and non-Retina displays.
+            if (typeof canvas == "string") {
+                canvas = document.getElementById(canvas);
+            }
+
+            context = canvas.getContext("2d");
+
+            //store original width and height in canvas datalist,
+            //for invisible canvases
+            canvas.setAttribute('data-originalWidth', canvas.width);
+            canvas.setAttribute('data-originalHeight', canvas.height);
+
+            canvas.style.width = canvas.width + 'px';
+            canvas.style.height = canvas.height + 'px';
+            canvas.width *= pixelRatio;
+            canvas.height *= pixelRatio;
+        }
+        
+        var jlmlib;
+        var windowLoaded = false;
+        
+        function jlmOnInit(api) {
+        	console.log("jlmOnInit() - api available");
+        	jlmlib = api;
+        	
+        	if (windowLoaded) {
+        		redraw();
+        	}
+        }
+        
+        window.onload = function() {
+        	windowLoaded = true;
+        	if (jlmlib) {
+        		redraw();
+        	}
+        }
+        
+        window.onresize = function() {
+        	//redraw()
+        }
+
+
+        var redraw = function() {
+                
+            var elements = document.getElementsByTagName("jlm");
+
+            for (var i = 0; i < elements.length; i++) {
+                var el = elements[i];
+                
+                
+                var nodes = el.childNodes;
+                for (var j = 0 ; j < nodes.length ; j++) {
+                	// IE11: no startsWith()
+                	if ((nodes[j].id+"").substring(0,5) === "LATEX") {
+                		el.removeChild(nodes[j]);
+                	}
+                }
+
+
+                var canvas = document.createElement('canvas');
+
+                canvas.id = "LATEX" + i;
+                canvas.width = 1;
+                canvas.height = 1;
+                canvas.style["vertical-align"] = "middle";
+
+                // innerText not innerHTML so that we get & not &amp;
+                var latex = el.innerText || el.saveLaTeX;
+                el.innerHTML = "";
+                el.saveLaTeX = latex;
+
+
+                el.appendChild(canvas);
+
+                var ctx = canvas.getContext("2d");
+
+                var opts = {
+                    "context": ctx,
+                    "latex": latex,
+                    "size": 14,
+                    "x": 0,
+                    "y": 0,
+                    "type": 0,
+                    "foregroundColor": "#000000",
+                    "backgroundColor": "#ffffff",
+                    //"callback" : function() { console.log('callback') },
+                    "insets": {
+                        "top": 0,
+                        "bottom": 0,
+                        "left": 0,
+                        "right": 0
+                    }
+                };
+
+                var size = jlmlib["drawLatex"](opts);
+                
+                var pixelRatio = size.pixelRatio;
+                
+                canvas.width = size.width;
+                canvas.height = size.height;
+                canvas.style.lineHeight = size.height + "px";
+                canvas.style["vertical-align"] = (-100 + Math.round(size.baseline * 100)) + "%";
+                initializeCanvas(canvas, pixelRatio);
+                jlmlib["drawLatex"](opts);
+
+
+            }
+
+        };
+         
+      </script>
+   </head>
+   <body style="font-size:14px">
+      <h1>JLaTeXMath Inline Substitution example</h1>
+      <p>
+         <em>
+            Resize the browser window and see what happens.  View the page source. All <code>&lt;jlm&gt;</code> nodes are replaced with a canvas containing a rendering of the math in the element.  The math is written in 
+            <jlm>\LaTeX</jlm>
+            syntax.
+         </em>
+      </p>
+      <p>
+         eg: 
+         <jlm>\sqrt{x}</jlm>
+         . 
+      </p>
+      <p>
+         eg 
+         <jlm>1+\sin \left( \theta \right)</jlm>
+         . 
+      </p>
+      <p>
+         eg some text before 
+         <jlm>\sqrt{x^2+y^2}</jlm>
+         and after!
+      </p>
+      <p>
+         We know well that 
+         <jlm>\sin^{2}  \theta  + \cos^{2} \theta = 1</jlm>
+         and that 
+         <jlm>x=\frac{-b \pm \sqrt{b^2-4ac}}{2a}</jlm>
+         , but it is less well known that 
+         <jlm>e^{i \pi}+1=0</jlm>
+      </p>
+      <p>
+         Matrices are important too: 
+         <jlm> {\left(\begin{array}{ll}\cos \phi &amp; -\sin \phi \\ \sin \phi&\cos \phi \\ \end{array}\right)} </jlm>
+         may ring a bell...
+      </p>
+   </body>
+</html>
