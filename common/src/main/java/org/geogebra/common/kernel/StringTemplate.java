@@ -387,11 +387,12 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * No localized digits, max precision
 	 */
 	public static final StringTemplate testTemplateJSON = new StringTemplate(
-			"testTemplate");
+			"testTemplateJSON");
 	static {
-		testTemplate.internationalizeDigits = false;
-		// testTemplate.localizeCmds = false;
-		testTemplate.sf = FormatFactory.getPrototype().getScientificFormat(15,
+		testTemplateJSON.internationalizeDigits = false;
+		// testTemplateJSON.localizeCmds = false;
+		testTemplateJSON.sf = FormatFactory.getPrototype()
+				.getScientificFormat(15,
 				20, false);
 	}
 	/** Template for CAS tests involving Numeric command */
