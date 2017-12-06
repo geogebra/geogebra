@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 import com.google.gwt.animation.client.Animation;
 import com.google.gwt.core.client.GWT;
@@ -692,7 +693,12 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		if (!isShowing()) {
 			return;
 		}
-		app.getAccessibilityManager().focusAnchor();
+		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
+				&& app.getAccessibilityManager().getAnchor() == null) {
+			app.getAccessibilityManager().focusMenu();
+		} else {
+			app.getAccessibilityManager().focusAnchor();
+		}
 		resizeAnimation.setState(false, false);
 		CloseEvent.fire(this, this, autoClosed);
 	}

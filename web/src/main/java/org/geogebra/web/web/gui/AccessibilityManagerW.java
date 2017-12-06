@@ -203,6 +203,11 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
+	public Object getAnchor() {
+		return anchor;
+	}
+
+	@Override
 	public void focusAnchor() {
 		if (anchor == null) {
 			return;

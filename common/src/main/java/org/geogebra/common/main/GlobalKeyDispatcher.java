@@ -39,7 +39,7 @@ public abstract class GlobalKeyDispatcher {
 	private static final double AUTOSTEPS_PER_KEY = 5;
 
 	/** application */
-	protected final App app;
+	public final App app;
 	/** selection */
 	protected final SelectionManager selection;
 
