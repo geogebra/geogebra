@@ -77,8 +77,14 @@
                 a: 1
             };
         }
+        
+		// IE11 doesn't have String.startsWith()
+		var startsWith = function(data, input) {
+			return data.substring(0, input.length) === input;
+		}
 
-        if (!value.startsWith("rgb") && !value.startsWith("hsl")) {
+
+        if (!startsWith(value, "rgb") && !startsWith(value, "hsl")) {
             var d = document.createElement("div");
             d.style.color = value;
             document.body.appendChild(d);
@@ -86,7 +92,6 @@
             value = window.getComputedStyle(d).color + "";
             document.body.removeChild(d);
 
-            //value = "rgb(255,0,0)";
         }
         // remove spaces
         // rgb(255, 0, 0) -> rgb(255,0,0)
