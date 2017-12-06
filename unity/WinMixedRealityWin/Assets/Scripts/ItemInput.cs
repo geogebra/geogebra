@@ -21,11 +21,6 @@ public class ItemInput : MonoBehaviour, IInputClickHandler
         gameManager = GameObject.Find("GameManager");
 
 
-
-       /* Button btn = this.GetComponent<Button>();
-        btn.onClick.AddListener(TaskOnClick);
-
-        */
     }
 
     public void OnInputClicked(InputClickedEventData eventData)
