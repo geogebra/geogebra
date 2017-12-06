@@ -409,4 +409,12 @@ public class AriaStackPanel extends ComplexPanel
 		}
 		headers.get(index).focus();
 	}
+
+	/**
+	 * Resets the all Stacks.
+	 */
+	public void reset() {
+		closeAll();
+	}
+
 }

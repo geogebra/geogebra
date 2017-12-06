@@ -472,6 +472,11 @@ public class MainMenu extends FlowPanel
 				setStackText(index, stackText, getMenuAt(index).getMenuTitle(),
 						null);
 			}
+
+			@Override
+			public void reset() {
+				collapseStack(getSelectedIndex());
+			}
 		};
 
 		menuPanel.addDomHandler(this, KeyDownEvent.getType());
@@ -1160,7 +1165,7 @@ public class MainMenu extends FlowPanel
 	@Override
 	public void setVisible(boolean b) {
 		if (app.has(Feature.ARIA_MENU) && !b) {
-			((AriaStackPanel) (menuPanel)).closeAll();
+			((AriaStackPanel) (menuPanel)).reset();
 		}
 		super.setVisible(b);
 	}
