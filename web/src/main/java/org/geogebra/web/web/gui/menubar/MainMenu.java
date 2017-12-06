@@ -1156,4 +1156,12 @@ public class MainMenu extends FlowPanel
 			}
 		}
 	}
+
+	@Override
+	public void setVisible(boolean b) {
+		if (app.has(Feature.ARIA_MENU) && !b) {
+			((AriaStackPanel) (menuPanel)).closeAll();
+		}
+		super.setVisible(b);
+	}
 }

@@ -495,6 +495,12 @@ public class AppWapplet extends AppWFull {
 		public void focusDeferred() {
 			menu.focusDeferred();
 		}
+
+		@Override
+		public void setVisible(boolean b) {
+			menu.setVisible(b);
+		}
+
 	}
 
 	@Override

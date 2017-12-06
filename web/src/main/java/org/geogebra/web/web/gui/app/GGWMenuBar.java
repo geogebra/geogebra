@@ -87,4 +87,10 @@ public class GGWMenuBar extends Composite {
 	public void updateHeight(int height) {
 		menubar.updateHeight(height);
 	}
+
+	@Override
+	public void setVisible(boolean b) {
+		menubar.setVisible(b);
+	}
+
 }
