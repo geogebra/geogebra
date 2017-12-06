@@ -284,7 +284,14 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
+
+		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+			app.getAccessibilityManager().setAnchor(btnMenu);
+		}
 		toolbarPanel.app.getGuiManager().redo();
+		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+			app.getAccessibilityManager().cancelAnchor();
+		}
 	}
 
 	/**
@@ -537,6 +544,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			btnRedo.removeStyleName("hideButton");
 		} else {
 			btnRedo.addStyleName("hideButton");
+			if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+				app.getAccessibilityManager().focusAnchor();
+			}
 		}
 	}
 
