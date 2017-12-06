@@ -1951,13 +1951,13 @@ public class AlgebraProcessor {
 		if (info.autoAddDegree()) {
 			// sin(15) -> sin(15deg)
 			ve = ve2.traverse(DegreeReplacer.getReplacer(kernel));
-			if (ve instanceof ValidExpression) {
-				((ValidExpression) ve).setLabels(ve2.getLabels());
-			}
 			if (kernel.getApplication()
 					.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
 				// asin(x) -> asind(x)
 				ve = ve.traverse(ArcTrigReplacer.getReplacer());
+			}
+			if (ve instanceof ValidExpression) {
+				((ValidExpression) ve).setLabels(ve2.getLabels());
 			}
 		}
 

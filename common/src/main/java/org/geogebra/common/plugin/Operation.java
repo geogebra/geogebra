@@ -1865,7 +1865,9 @@ public enum Operation {
 		case ARCSIN:
 		case ARCSIND:
 		case ARCCOS:
+		case ARCCOSD:
 		case ARCTAN:
+		case ARCTAND:
 		case SINH:
 		case COSH:
 		case TANH:

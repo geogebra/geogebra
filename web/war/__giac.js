@@ -2108,7 +2108,7 @@ var __giac = [ {},
 { cat:"FromBase", cmd:"FromBase(\"123\",2)", result:"?", notes:"GGB-2208"},
 { cat:"IndexOf", cmd:"IndexOf(3,{4,3,6})", result:"2", notes:"GGB-2208"},
 { cat:"IndexOf", cmd:"IndexOf(8,{4,3,6})", result:"?", notes:"GGB-2208"},
-{ cat:"Simplify", cmd:"Simplify(x^(8*k+9)*x^(5*k))", result:"", },
+{ cat:"Simplify", cmd:"Simplify(x^(8*k+9)*x^(5*k))", result:"" },
 //JSONEND
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
