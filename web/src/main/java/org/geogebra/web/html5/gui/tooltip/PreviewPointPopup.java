@@ -36,7 +36,7 @@ public class PreviewPointPopup extends GPopupPanel {
 		setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
-				positionPopup(offsetWidth);
+				positionPopup(offsetWidth, offsetHeight);
 			}
 		});
 	}
@@ -46,11 +46,13 @@ public class PreviewPointPopup extends GPopupPanel {
 	 * 
 	 * @param offsetWidth
 	 *            width of popup
+	 * @param offsetHeight
+	 *            height of popup
 	 */
-	public void positionPopup(int offsetWidth) {
+	public void positionPopup(int offsetWidth, int offsetHeight) {
 		StylebarPositioner positioner = new StylebarPositioner(app);
 		GPoint pos = positioner.getPositionOnCanvas(60, 100,
-				app.getActiveEuclidianView().getViewHeight());
+				app.getActiveEuclidianView().getViewHeight() - offsetHeight);
 		if (pos != null) {
 			this.setPopupPosition(
 					pos.getX() + app.getActiveEuclidianView().getAbsoluteLeft()
