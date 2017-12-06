@@ -1262,6 +1262,27 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdSetCoords() {
+		t("Pt2=(1,1)", "(1, 1)");
+		t("Pt3=(1,1,1)", "(1, 1, 1)");
+		t("SetCoords[ Pt2, x(Pt2)+1, 3 ]", new String[0]);
+		t("Pt2", "(2, 3)");
+		t("SetCoords[ Pt3, 4, 5, 6 ]", new String[0]);
+		t("Pt3", "(4, 5, 6)");
+		t("SetCoords[ Pt3, 7, 8 ]", new String[0]);
+		t("Pt3", "(7, 8, 0)");
+
+
+		t("A=Point(xAxis)", "(0, 0)");
+		t("SetCoords(A,1/0,0)", new String[0]);
+		t("A", "(Infinity, 0)");
+
+		t("B=Point(x=2)", "(2, 0)");
+		t("SetCoords(B,0,1/0)", new String[0]);
+		t("B", "(2, Infinity)");
+	}
+
+	@Test
 	public void cmdNSolve() {
 		t("NSolve[ x^2=3 ]", "{x = -1.73205, x = 1.73205}",
 				StringTemplate.editTemplate);

@@ -1211,7 +1211,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	private void doPointChanged(GeoPointND P) {
-
 		Coords coords = P.getCoordsInD2();
 		PathParameter pp = P.getPathParameter();
 
@@ -1233,12 +1232,19 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		// project P on line
 		double px = coords.getX() / coords.getZ();
 		double py = coords.getY() / coords.getZ();
+
 		// param of projection point on perpendicular line
 		double t = -(z + x * px + y * py) / (x * x + y * y);
 		// calculate projection point using perpendicular line
-		px += t * x;
-		py += t * y;
 
+		if (x == 0 && Double.isInfinite(px) && MyDouble.isFinite(py)) {
+			py = -z / y;
+		} else if (y == 0 && Double.isInfinite(py) && MyDouble.isFinite(px)) {
+			px = -z / x;
+		} else {
+			px += t * x;
+			py += t * y;
+		}
 		coords.setX(px);
 		coords.setY(py);
 		coords.setZ(1);
@@ -1266,7 +1272,6 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		} else {
 			pp.t = (spy - spz * py) / (x * spz);
 		}
-
 	}
 
 	@Override
