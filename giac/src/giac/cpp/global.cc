@@ -5671,21 +5671,23 @@ unsigned int ConvertUTF8toUTF16 (
 	++pos;
 	continue;
       }
-      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && (pos==int(cur.size())-1 || (cur[pos+1]!='=' && cur[pos+1]!='<'))){
+      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!=';' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && (pos==int(cur.size())-1 || (cur[pos+1]!='=' && cur[pos+1]!='<'))){
 	cur.insert(cur.begin()+pos,':');
 	++pos;
 	continue;
       }
-      if (prevch=='/' && curch=='/')
+      if (prevch=='/' && curch=='/' && pos>1)
 	cur[pos]='%';
     }
   }
 
-  /*
   string glue_lines_backslash(const string & s){
-    string res,line;
     int ss=s.size();
-    for (int i=0;i<ss;++i){
+    int i=s.find('\\');
+    if (i<0 || i>=ss)
+      return s;
+    string res,line;    
+    for (i=0;i<ss;++i){
       if (s[i]!='\n'){
 	line += s[i];
 	continue;
@@ -5695,7 +5697,7 @@ unsigned int ConvertUTF8toUTF16 (
 	if (line[j]!=' ')
 	  break;
       }
-      if (line[j]!='\\'){
+      if (line[j]!='\\' || (j && line[j-1]=='\\')){
 	res += line+'\n';
 	line ="";
       }
@@ -5704,7 +5706,6 @@ unsigned int ConvertUTF8toUTF16 (
     }
     return res+line;
   }
-  */
 
   // detect Python like syntax: 
   // remove """ """ docstrings and ''' ''' comments
@@ -5734,6 +5735,8 @@ unsigned int ConvertUTF8toUTF16 (
     first=0;
     if (sss>24 && s_orig.substr(0,17)=="add_autosimplify(")
       first=17;
+    if (s_orig[first]=='/' && s_orig[first]=='/')
+      return s_orig;
     if (s_orig[first]=='#' || s_orig.substr(first,4)=="from" || s_orig.substr(first,7)=="import ")
       pythonmode=true;
     for (first=0;!pythonmode && first<sss;){
@@ -5789,7 +5792,7 @@ unsigned int ConvertUTF8toUTF16 (
       res=res.substr(17,res.size()-18);
     res=remove_comment(res,"\"\"\"",false);
     res=remove_comment(res,"'''",true);
-    //res=glue_lines_backslash(res);
+    res=glue_lines_backslash(res);
     vector<int_string> stack;
     string s,cur; 
     bool pythoncompat=python_compat(contextptr);

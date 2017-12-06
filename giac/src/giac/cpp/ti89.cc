@@ -1656,7 +1656,7 @@ namespace giac {
 
   gen _int(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    if (xcas_mode(contextptr)==3 || python_compat(contextptr)){
+    if (xcas_mode(contextptr)==3 || (python_compat(contextptr) && g.type!=_VECT)){
       gen g_=g;
       if (g.type==_STRNG)
 	g_=gen(*g._STRNGptr,contextptr);

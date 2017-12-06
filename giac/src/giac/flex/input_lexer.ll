@@ -422,6 +422,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "->"                    index_status(yyextra)=0; return T_MAPSTO;
 "-<"                    (*yylval) = gen(at_couleur,2); index_status(yyextra)=0; return T_INTERVAL;
 "=="			index_status(yyextra)=0; (*yylval)=gen(at_same,2); return T_TEST_EQUAL;
+"==="			index_status(yyextra)=0; (*yylval)=gen(at_equal,2); return T_EQUAL;
 "'=='"                  index_status(yyextra)=0; (*yylval)=gen(at_same,2); return T_QUOTED_BINARY;
 "_equal"                  index_status(yyextra)=0; (*yylval)=gen(at_same,2); return T_QUOTED_BINARY;
 "!="			index_status(yyextra)=0; (*yylval)=gen(at_different,2); return T_TEST_EQUAL;

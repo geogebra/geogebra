@@ -419,10 +419,31 @@ namespace giac {
     ck_parameter_t(contextptr);
     reim(M,Mx,My,contextptr);
     gen eqM=_quo(makesequence(subst(eq,makevecteur(x,y),makevecteur(Mx+x,My+t*x),false,contextptr),x),contextptr);
+    gen a,b;
+    if (!is_linear_wrt(eqM,x,a,b,contextptr))
+      return undef;
+    return M+(-b/a)*(1+cst_i);
     vecteur res=solve(eqM,x,0,contextptr); // x in terms of t
     if (res.size()!=1)
       return undef;
     return M+res[0]*(1+cst_i*t);
+  }
+
+  // return a,b,c,d,e such that the parametric equation of the conic
+  // is M+(1+i*t)*(d*t+e)/(a*t^2+b*t+c)
+  vecteur conique_ratparams(const gen & eq,const gen & M,GIAC_CONTEXT){
+    if (is_undef(M))
+      return vecteur(1,undef);
+    gen Mx,My,x(x__IDNT_e),y(y__IDNT_e),t(t__IDNT_e);
+    ck_parameter_x(contextptr);
+    ck_parameter_y(contextptr);
+    ck_parameter_t(contextptr);
+    reim(M,Mx,My,contextptr);
+    gen eqM=_quo(makesequence(subst(eq,makevecteur(x,y),makevecteur(Mx+x,My+t*x),false,contextptr),x),contextptr);
+    gen num,deno,a,b,c,d,e;
+    if (!is_linear_wrt(eqM,x,deno,num,contextptr) || !is_linear_wrt(num,t,d,e,contextptr) || !is_quadratic_wrt(deno,t,a,b,c,contextptr))
+      return vecteur(1,undef);
+    return makevecteur(at_ellipse,M,a,b,c,-d,-e);
   }
 
   bool conique_reduite(const gen & equation_conique,const gen & pointsurconique,const vecteur & nom_des_variables,gen & x0, gen & y0, vecteur & V0, vecteur &V1, gen & propre,gen & equation_reduite, vecteur & param_curves,gen & ratparam,bool numeric,GIAC_CONTEXT){

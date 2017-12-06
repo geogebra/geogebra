@@ -15431,12 +15431,16 @@ namespace giac {
 #ifdef EMCC
     // compile with -s LEGACY_GL_EMULATION=1
     gen last=g;
-    while (last.type==_VECT && !last._VECTptr->empty()){
+    while (last.type==_VECT && last.subtype!=_LOGO__VECT && !last._VECTptr->empty()){
       gen tmp=last._VECTptr->back();
       if (tmp.is_symb_of_sommet(at_equal))
 	last=vecteur(last._VECTptr->begin(),last._VECTptr->end()-1);
       else
 	last=tmp;
+    }
+    if (last.type==_VECT && last.subtype==_LOGO__VECT){
+      S="logo("+last.print(&C)+")";
+      return S.c_str();
     }
     if (calc_mode(&C)!=1 && last.is_symb_of_sommet(at_pnt)){
 #ifndef GIAC_GGB

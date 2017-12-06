@@ -6099,6 +6099,7 @@ namespace giac {
       } // end if evalf_after | 4 == 0
     } // end var size >1
     bool convertapprox=has_num_coeff(eq);
+    gen eqs=eq;
     if (convertapprox)
       eq=*exact(evalf(eq,1,contextptr),contextptr)._VECTptr;
     // check rational
@@ -6145,6 +6146,40 @@ namespace giac {
 #if 1 // trying with rational univariate rep., assuming radical ideal of dim 0
     if (varsize<=GROEBNER_VARS && varsize==int(eq.size())){
       double eps=epsilon(contextptr);
+      if (varsize==2){ // try by resultant
+	//eq=*eqs._VECTptr;
+	gen r=_resultant(makesequence(eq[0],eq[1],var[0]),contextptr);
+	// solve r w.r.t. var[1]
+	vecteur S,res;
+	if (convertapprox){
+	  gen p=_symb2poly(makesequence(r,var[1]),contextptr);
+	  p=evalf(p,1,contextptr);
+	  p=_proot(p,contextptr);
+	  if (p.type!=_VECT) return vecteur(1,gensizeerr(contextptr));
+	  S=*p._VECTptr;
+	}
+	else
+	  S=solve(r,var[1],complexmode,contextptr);
+	for (int i=0;i<int(S.size());++i){
+	  gen y=S[i];
+	  if (has_num_coeff(y)){
+	    vecteur T=solve(subst(eq[0],var[1],y,false,contextptr),var[0],complexmode,contextptr);
+	    for (int j=0;j<int(T.size());++j){
+	      gen x=T[j];
+	      gen tst=subst(subst(eq[1],var[1],y,false,contextptr),var[0],x,false,contextptr);
+	      if (is_greater(1e-6,abs(tst,contextptr),contextptr))
+		res.push_back(makevecteur(x,y));
+	    }	    
+	  }
+	  else {
+	    vecteur T=solve(gcd(subst(eq[0],var[1],y,false,contextptr),subst(eq[1],var[1],y,false,contextptr)),var[0],complexmode,contextptr);
+	    for (int j=0;j<int(T.size());++j){
+	      res.push_back(makevecteur(T[j],y));
+	    }
+	  }
+	}
+	return res;
+      }
       gen G=_gbasis(makesequence(eq,var,change_subtype(_RUR_REVLEX,_INT_GROEBNER)),contextptr);
       if (G.type==_VECT && G._VECTptr->size()==var.size()+4 && G._VECTptr->front().type==_INT_ && G._VECTptr->front().val==_RUR_REVLEX){
 	vecteur Gv=*G._VECTptr,S;

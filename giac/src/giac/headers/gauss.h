@@ -43,6 +43,9 @@ namespace giac {
 
   // rational parametrization of a conic, given cartesian equation and point over
   gen conique_ratparam(const gen & eq,const gen & M,GIAC_CONTEXT);
+  // return a,b,c,d,e such that the parametric equation of the conic
+  // is M+(1+i*t)*(d*t+e)/(a*t^2+b*t+c)
+  vecteur conique_ratparams(const gen & eq,const gen & M,GIAC_CONTEXT);
 
   // given a 2-var 2nd order equation `equation_conique'
   // and the vecteur of variables 'nom_des_variables'

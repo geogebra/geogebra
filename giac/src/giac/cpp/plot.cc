@@ -7860,8 +7860,7 @@ namespace giac {
   static define_unary_function_eval2 (__curve,&giac::_curve,_curve_s,&printascurve);
   define_unary_function_ptr5( at_curve ,alias_at_curve,&__curve,0,true);
 
-
-  gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const gen & equation,const gen & parameq,const context * contextptr){
+  gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const gen & equation,const gen & parameq,const gen & vparam,const context * contextptr){
     if (function_tstep<=0 || (function_tmax-function_tmin)/function_tstep>max_nstep)
       return gensizeerr(gettext("Plotparam: unable to discretize: tmin, tmax, tstep=")+print_DOUBLE_(function_tmin,12)+","+print_DOUBLE_(function_tmax,12)+","+print_DOUBLE_(function_tstep,12)+gettext("\nTry a larger value for tstep"));
     gen fC(f);
@@ -7945,7 +7944,7 @@ namespace giac {
 	chemin.push_back(gen(i,j));
       else {
 	if (!chemin.empty())
-	  res.push_back(symb_pnt(symb_curve(gen(makevecteur(fC,vars,function_tmin,t,0,equation,parameq),_PNT__VECT),gen(chemin,_GROUP__VECT)),attribut,contextptr));
+	  res.push_back(symb_pnt(symb_curve(gen(makevecteur(fC,vars,function_tmin,t,0,equation,parameq,vparam),_PNT__VECT),gen(chemin,_GROUP__VECT)),attribut,contextptr));
 	function_tmin=t;
 	chemin=vecteur(1,gen(i,j));
       }
@@ -7953,7 +7952,7 @@ namespace giac {
       oldj=j;
     }
     if (!chemin.empty())
-      res.push_back(symb_pnt(symb_curve(gen(makevecteur(fC,vars,function_tmin,function_tmax,0,equation,parameq),_PNT__VECT),gen(chemin,_GROUP__VECT)),attribut,contextptr));
+      res.push_back(symb_pnt(symb_curve(gen(makevecteur(fC,vars,function_tmin,function_tmax,0,equation,parameq,vparam),_PNT__VECT),gen(chemin,_GROUP__VECT)),attribut,contextptr));
     leave(protect,localvar,newcontextptr);
     // io_graph(old_io_graph,contextptr);
 #if !defined(WIN32) && defined(WITH_GNUPLOT)
@@ -7964,6 +7963,10 @@ namespace giac {
       return res.front();
     // gen e(res,_SEQ__VECT);
     return res; // e;
+  }
+
+  gen plotparam(const gen & f,const gen & vars,const vecteur & attributs,bool densityplot,double function_xmin,double function_xmax,double function_ymin,double function_ymax,double function_tmin, double function_tmax,double function_tstep,const gen & equation,const gen & parameq,const context * contextptr){
+    return plotparam(f,vars,attributs,densityplot,function_xmin,function_xmax,function_ymin,function_ymax,function_tmin,function_tmax,function_tstep,equation,parameq,undef,contextptr);
   }
 
   gen paramplotparam(const gen & args,bool densityplot,const context * contextptr){
@@ -8021,11 +8024,13 @@ namespace giac {
       }
     }
     int s=int(vargs.size());
-    gen eq=undef,parameq=undef;
+    gen eq=undef,parameq=undef,vparam=undef;
     if (s>5)
       eq=vargs[5];
     if (s>6)
       parameq=vargs[6];
+    if (s>7)
+      vparam=vargs[7];
     double umin=gnuplot_tmin,vmin=gnuplot_tmin,umax=gnuplot_tmax,vmax=gnuplot_tmax,tmin=gnuplot_tmin,tmax=gnuplot_tmax,xmin=gnuplot_xmin,xmax=gnuplot_xmax,ymin=gnuplot_ymin,ymax=gnuplot_ymax,zmin=gnuplot_zmin,zmax=gnuplot_zmax,tstep=-1,ustep=-1,vstep=-1;
     if (param2d && s>=3){
       gen trange=vargs[2].evalf_double(eval_level(contextptr),contextptr);
@@ -8138,7 +8143,7 @@ namespace giac {
     }
     if (!readrange(vars,tmin,tmax,vars,tmin,tmax,contextptr))
       return gensizeerr(gettext("2nd arg must be a free variable"));
-    return plotparam(f,vars,attributs,densityplot,xmin,xmax,ymin,ymax,tmin,tmax,tstep,eq,parameq,contextptr);
+    return plotparam(f,vars,attributs,densityplot,xmin,xmax,ymin,ymax,tmin,tmax,tstep,eq,parameq,vparam,contextptr);
   }
   gen _plotparam(const gen & args,const context * contextptr){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -9394,6 +9399,26 @@ namespace giac {
 	}
 	gen M=remove_at_pnt(t);
 	if (M.is_symb_of_sommet(at_curve)) return gensizeerr(contextptr);
+	if (v.size()>7 && v[7].type==_VECT){
+	  vecteur v7=*v[7]._VECTptr;
+	  if (v7.size()==7 && v7.front()==at_ellipse){
+	    // conic O+(1+i*t)*(d*t+e)/(a*t^2+b*t+c)
+	    gen O=v7[1],a=v7[2],b=v7[3],c=v7[4],d=v7[5],f=v7[6],xM,yM;
+	    // t must satisfy a 2nd order equation of coeffs
+	    // poly1[a*d*yM-a*f*xM+b*d*xM-d^2,2*a*f*yM+2*c*d*xM-2*d*f,b*f*yM-c*d*yM+c*f*xM-f^2]
+	    reim(M-O,xM,yM,contextptr);
+	    gen A=a*d*yM-a*f*xM+b*d*xM-d*d,B=2*a*f*yM+2*c*d*xM-2*d*f,C=b*f*yM-c*d*yM+c*f*xM-f*f;
+	    gen D=B*B-4*A*C;
+	    if (is_positive(D,contextptr)){
+	      D=sqrt(D,contextptr);
+	      gen t1=(-B-D)/(2*A),t2=(-B+D)/(2*A);
+	      t1=O+(1+cst_i*t1)*(d*t1+f)/(a*t1*t1+b*t1+c);
+	      t2=O+(1+cst_i*t2)*(d*t2+f)/(a*t2*t2+b*t2+c);
+	      return makevecteur(_droite(makesequence(M,t1),contextptr),_droite(makesequence(M,t2),contextptr));
+	    }
+	    return vecteur(0);
+	  }
+	}
 	gen m,tmin,tmax;
 	double T=1;
 	if (v[1].type==_IDNT && find_curve_parametrization(curve,m,v[1],T,tmin,tmax,false,contextptr)){
@@ -9617,6 +9642,7 @@ namespace giac {
       a2=recursive_normal(a*a,contextptr);
     }
     gen eq=ellipse_hyperbole_equation(F1,F2,a2,contextptr);
+    vecteur vparam=conique_ratparams(eq,M,contextptr);
     gen parameq=conique_ratparam(eq,M,contextptr);
     gen F1F2=F2-F1;
     gen O=rdiv(F1+F2,plus_two,contextptr);
@@ -9654,9 +9680,9 @@ namespace giac {
     gen nstep=_NSTEP;
     nstep.subtype=_INT_PLOT;
 #if 0 // def GIAC_HAS_STO_38
-    return _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
+    return _paramplot(gen(makevecteur(res,symb_equal(vx_var,symb_interval(0,2*cst_pi)),symb_equal(nstep,60),symb_equal(ustep,M_PI/30),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq,vparam),_SEQ__VECT),contextptr);
 #else
-    return _paramplot(gen(makevecteur(res,symb_equal(theta_orig,symb_interval(0,2*cst_pi)),symb_equal(nstep,120),symb_equal(ustep,M_PI/60),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr);
+    return _paramplot(gen(makevecteur(res,symb_equal(theta_orig,symb_interval(0,2*cst_pi)),symb_equal(nstep,120),symb_equal(ustep,M_PI/60),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq,vparam),_SEQ__VECT),contextptr);
 #endif
   }
   static const char _ellipse_s []="ellipse";
@@ -9697,6 +9723,7 @@ namespace giac {
     }
     gen eq=ellipse_hyperbole_equation(F1,F2,a2,contextptr);
     gen parameq=conique_ratparam(eq,M,contextptr);
+    vecteur vparam=conique_ratparams(eq,M,contextptr);
     gen F1F2=F2-F1;
     gen O=rdiv(F1+F2,plus_two,contextptr);
     gen c2=rdiv(F1F2.squarenorm(contextptr),gen(4),contextptr);
@@ -9729,7 +9756,7 @@ namespace giac {
 #if 0 // def GIAC_HAS_STO_38
     return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(vx_var,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(vx_var,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr)); // should be -inf..inf
 #else
-    return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(theta,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(theta,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq),_SEQ__VECT),contextptr)); // should be -inf..inf
+    return makevecteur(_paramplot(gen(makevecteur(res1,symb_equal(theta,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq,vparam),_SEQ__VECT),contextptr),_paramplot(gen(makevecteur(res2,symb_equal(theta,symb_interval(-3,3)),symb_equal(nstep,60),symb_equal(ustep,0.1),symbolic(at_equal,makesequence(at_display,attributs[0])),eq,parameq,vparam),_SEQ__VECT),contextptr)); // should be -inf..inf
 #endif
   }
   static const char _hyperbole_s []="hyperbola";
