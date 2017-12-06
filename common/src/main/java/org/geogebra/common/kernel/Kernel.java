@@ -2652,7 +2652,7 @@ public class Kernel {
 				return sbFormatAngle;
 			}
 
-			if (getAngleUnit() == ANGLE_DEGREE) {
+			if (degreesMode()) {
 				boolean rtl = getLocalization().isRightToLeftDigits(tpl);
 				if (rtl) {
 					if (tpl.hasCASType()) {
@@ -2785,6 +2785,14 @@ public class Kernel {
 
 	final public int getAngleUnit() {
 		return angleUnit;
+	}
+
+	/**
+	 * 
+	 * @return true if in degrees mode
+	 */
+	final public boolean degreesMode() {
+		return angleUnit == Kernel.ANGLE_DEGREE;
 	}
 
 	/**

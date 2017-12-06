@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.arithmetic.Traversing;
+import org.geogebra.common.kernel.arithmetic.Traversing.ArcTrigReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.CollectUndefinedVariables;
 import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.DegreeReplacer;
@@ -1948,9 +1949,15 @@ public class AlgebraProcessor {
 		ExpressionValue ve = ve2;
 
 		if (info.autoAddDegree()) {
+			// sin(15) -> sin(15deg)
 			ve = ve2.traverse(DegreeReplacer.getReplacer(kernel));
 			if (ve instanceof ValidExpression) {
 				((ValidExpression) ve).setLabels(ve2.getLabels());
+			}
+			if (kernel.getApplication()
+					.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+				// asin(x) -> asind(x)
+				ve = ve.traverse(ArcTrigReplacer.getReplacer(kernel));
 			}
 		}
 

@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -49,6 +50,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 	private boolean forceNF;
 	private boolean allowMoreDigits;
 	private boolean useRealLabels;
+
+	private boolean changeArcTrig = true;
 
 	private boolean localizeCmds;
 	private boolean usePrefix;
@@ -226,6 +229,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		xmlTemplate.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
 		xmlTemplate.questionMarkForNaN = false;
+		xmlTemplate.changeArcTrig = false;
 	}
 	/**
 	 * XML string type, do not internationalize digits
@@ -246,6 +250,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		casCopyTemplate.sf = FormatFactory.getPrototype()
 				.getScientificFormat(15, 20, false);
 		casCopyTemplate.questionMarkForNaN = true;
+		casCopyTemplate.changeArcTrig = false;
 	}
 	/**
 	 * for input bar; same as default, but increases precision to
@@ -287,6 +292,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 		regression.nf = FormatFactory.getPrototype().getNumberFormat(6);
 		regression.forceSF = true;
 		regression.setType(StringType.GEOGEBRA_XML);
+		regression.changeArcTrig = false;
+
 	}
 	/**
 	 * OGP string type
@@ -382,18 +389,22 @@ public class StringTemplate implements ExpressionNodeConstants {
 		// testTemplate.localizeCmds = false;
 		testTemplate.sf = FormatFactory.getPrototype().getScientificFormat(15,
 				20, false);
+		testTemplate.changeArcTrig = false;
+
 	}
 	/**
 	 * No localized digits, max precision
 	 */
 	public static final StringTemplate testTemplateJSON = new StringTemplate(
-			"testTemplateJSON");
+			"testTemplate");
 	static {
 		testTemplateJSON.internationalizeDigits = false;
-		// testTemplateJSON.localizeCmds = false;
-		testTemplateJSON.sf = FormatFactory.getPrototype()
-				.getScientificFormat(15,
+		// testTemplate.localizeCmds = false;
+		testTemplateJSON.sf = FormatFactory.getPrototype().getScientificFormat(
+				15,
 				20, false);
+		testTemplateJSON.changeArcTrig = false;
+
 	}
 	/** Template for CAS tests involving Numeric command */
 	public static final StringTemplate testNumeric = new StringTemplate(
@@ -3059,6 +3070,55 @@ public class StringTemplate implements ExpressionNodeConstants {
 			squared = "\u00b2";
 		}
 		return squared;
+	}
+
+	public boolean degreeMode() {
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @return "asin" or "asind" as appropriate
+	 */
+	public String asind(Kernel kernel) {
+
+		if (changeArcTrig && kernel.getApplication()
+				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+			return "asin";
+		}
+		return "asind";
+	}
+
+	/**
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @return "acos" or "acosd" as appropriate
+	 */
+	public String acosd(Kernel kernel) {
+
+		if (changeArcTrig && kernel.getApplication()
+				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+			return "acos";
+		}
+		return "acosd";
+	}
+
+	/**
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @return "atan" or "atand" as appropriate
+	 */
+	public String atand(Kernel kernel) {
+
+		if (changeArcTrig && kernel.getApplication()
+				.has(Feature.CHANGE_INVERSE_TRIG_TO_DEGREES)) {
+			return "atan";
+		}
+		return "atand";
 	}
 
 }

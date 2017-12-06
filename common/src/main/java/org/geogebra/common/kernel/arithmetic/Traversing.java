@@ -172,7 +172,7 @@ public interface Traversing {
 	}
 
 	/**
-	 * Replaces sin(15) with sing(15deg) GGB-2183
+	 * Replaces sin(15) with sin(15deg) GGB-2183
 	 *
 	 */
 	public class DegreeReplacer implements Traversing {
@@ -213,6 +213,55 @@ public interface Traversing {
 		 * @return replacer
 		 */
 		public static DegreeReplacer getReplacer(Kernel kernel) {
+			replacer.kernel = kernel;
+			return replacer;
+		}
+	}
+
+	/**
+	 * Replaces asin(0.5) with asind(0.5)
+	 *
+	 */
+	public class ArcTrigReplacer implements Traversing {
+		private Kernel kernel;
+		private static ArcTrigReplacer replacer = new ArcTrigReplacer();
+
+		@Override
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof ExpressionNode) {
+				ExpressionNode en = (ExpressionNode) ev;
+
+				Operation op = en.getOperation();
+
+				Operation newOp = null;
+
+				switch (op) {
+				case ARCSIN:
+					newOp = Operation.ARCSIND;
+					break;
+				case ARCCOS:
+					newOp = Operation.ARCCOSD;
+					break;
+				case ARCTAN:
+					newOp = Operation.ARCTAND;
+					break;
+				}
+
+				if (newOp != null) {
+					en.setOperation(newOp);
+				}
+
+			}
+			return ev;
+		}
+
+		/**
+		 * @param kernel
+		 *            kernel in which resulting variables live (also needed to
+		 *            check which commands are valid)
+		 * @return replacer
+		 */
+		public static ArcTrigReplacer getReplacer(Kernel kernel) {
 			replacer.kernel = kernel;
 			return replacer;
 		}

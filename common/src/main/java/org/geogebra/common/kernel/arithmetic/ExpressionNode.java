@@ -2112,35 +2112,39 @@ public class ExpressionNode extends ValidExpression
 
 		case ARCCOS:
 			trig(leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
-					"acos", "arccos", degFix("acos", kernel), tpl, loc, false,
+					"acos", "arccos", giacDegFix("acos", kernel), tpl, loc, false,
 					true);
 			break;
 
 		case ARCCOSD:
 			trig(leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
-					"acosd", "arccos", "acosd", tpl, loc, false, true);
+					tpl.acosd(kernel), "arccos", "acosd", tpl, loc, false,
+					true);
 			break;
 
 		case ARCSIN:
 			trig(leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
-					"asin", "arcsin", degFix("asin", kernel), tpl, loc, false,
+					"asin", "arcsin", giacDegFix("asin", kernel), tpl, loc, false,
 					true);
 			break;
 
 		case ARCSIND:
+
 			trig(leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
-					"asind", "arcsin", "asind", tpl, loc, false, true);
+					tpl.asind(kernel), "arcsin", "asind", tpl, loc, false,
+					true);
 			break;
 
 		case ARCTAN:
 			trig(leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
-					"atan", "arctan", degFix("atan", kernel), tpl, loc, false,
+					"atan", "arctan", giacDegFix("atan", kernel), tpl, loc, false,
 					true);
 			break;
 
 		case ARCTAND:
 			trig(leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
-					"atand", "arctan", "atand", tpl, loc, false, true);
+					tpl.atand(kernel), "arctan", "atand", tpl, loc, false,
+					true);
 			break;
 
 		case ARCTAN2:
@@ -2162,7 +2166,7 @@ public class ExpressionNode extends ValidExpression
 					break;
 
 				case GIAC:
-					sb.append(degFix("atan2", kernel));
+					sb.append(giacDegFix("atan2", kernel));
 					sb.append("(");
 					break;
 
@@ -3775,7 +3779,7 @@ public class ExpressionNode extends ValidExpression
 
 	}
 
-	private static String degFix(String string, Kernel kernel) {
+	private static String giacDegFix(String string, Kernel kernel) {
 		if (kernel.getInverseTrigReturnsAngle()) {
 			return "deg" + string;
 		}

@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.web.web.gui.view.algebra;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -108,7 +107,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		if (num.getIntervalMinObject() != null
 				&& num.getIntervalMaxObject() != null) {
 			boolean degree = geo.isGeoAngle()
-					&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
+					&& kernel.degreesMode();
 			setSlider(new SliderPanelW(num.getIntervalMin(),
 					num.getIntervalMax(), app.getKernel(), degree));
 			updateColor();
@@ -210,7 +209,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		double min = num.getIntervalMin();
 		double max = num.getIntervalMax();
 		boolean degree = geo.isGeoAngle()
-				&& kernel.getAngleUnit() == Kernel.ANGLE_DEGREE;
+				&& kernel.degreesMode();
 		getSlider().setMinimum(min, degree);
 		getSlider().setMaximum(max, degree);
 

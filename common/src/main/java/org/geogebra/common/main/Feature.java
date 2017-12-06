@@ -219,8 +219,11 @@ public enum Feature {
 	/** GGB-2169 */
 	CENTER_IMAGE,
 
-	/** GGB-2183 hange sin(15) -> sin(15deg) */
+	/** GGB-2183 change sin(15) -> sin(15deg) */
 	AUTO_ADD_DEGREE,
+
+	/** GGB-2222 change asin(0.5) -> asind(0.5) */
+	CHANGE_INVERSE_TRIG_TO_DEGREES,
 
 	/** GGB-2170 for k12 */
 	SLIDER_STYLE_OPTIONS,

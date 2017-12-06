@@ -422,9 +422,9 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		cbUseLocalLabels.setSelected(loc.isUsingLocalizedLabels());
 
 		angleUnitRadioDegree.setSelected(
-				app.getKernel().getAngleUnit() == Kernel.ANGLE_DEGREE);
+				app.getKernel().degreesMode());
 		angleUnitRadioRadian.setSelected(
-				app.getKernel().getAngleUnit() != Kernel.ANGLE_DEGREE);
+				!app.getKernel().degreesMode());
 
 		continuityRadioOn.setSelected(app.getKernel().isContinuous());
 		continuityRadioOff.setSelected(!app.getKernel().isContinuous());
