@@ -26,6 +26,7 @@ abstract class GLBufferManager {
 	private boolean oneNormal;
 	private int elementsLength;
 	private GColor color;
+	private static final int ALPHA_INVISIBLE = -1;
 
 	static private class Index implements Comparable<Index> {
 		private int v1, v2;
@@ -194,12 +195,16 @@ abstract class GLBufferManager {
 			colorOffset++;
 			colorBuffer.set((float) color.getBlue() / 255, colorOffset, length, 4);
 			colorOffset++;
-			colorBuffer.set((float) color.getAlpha() / 255, colorOffset, length, 4);
+			setAlpha(color.getAlpha(), colorOffset, length);
 		}
 
 		public void setAlpha(int alpha) {
-			colorBuffer.set((float) alpha / 255, manager.currentBufferSegment.elementsOffset * 4 + 3,
-					manager.currentBufferSegment.elementsLength, 4);
+			setAlpha(alpha, manager.currentBufferSegment.elementsOffset * 4 + 3,
+					manager.currentBufferSegment.elementsLength);
+		}
+
+		private void setAlpha(int alpha, int offset, int length) {
+			colorBuffer.set(alpha <= 0 ? ALPHA_INVISIBLE : ((float) alpha / 255), offset, length, 4);
 		}
 
 		public void draw(RendererShadersInterface r) {
@@ -333,7 +338,7 @@ abstract class GLBufferManager {
 	 *            if visible
 	 */
 	public void updateVisibility(int index, int geometriesLength, boolean visible) {
-		int alpha = visible ? color.getAlpha() : -1;
+		int alpha = visible ? color.getAlpha() : ALPHA_INVISIBLE;
 		for (int i = 0; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
