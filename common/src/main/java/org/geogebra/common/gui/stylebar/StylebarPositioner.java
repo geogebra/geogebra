@@ -17,11 +17,13 @@ import org.geogebra.common.main.SelectionManager;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public class StylebarPositioner {
 
-    private App app;
-    private EuclidianView euclidianView;
-    private SelectionManager selectionManager;
+    private final App app;
+    private final EuclidianView euclidianView;
+    private final SelectionManager selectionManager;
 
     /**
      * @param app
@@ -60,13 +62,15 @@ public class StylebarPositioner {
             boolean isPoint,
             boolean isFunction,
             int stylebarHeight,
-            int minTopPosition,
-            int maxTopPosition) {
+            int minYPosition,
+            int maxYPosition,
+            int minXPosition,
+            int maxXPosition) {
 
         final int MARGIN = 4;
         final int BOTTOM_MARGIN = 10 * MARGIN;
         double left, top;
-        int maxTopWithMargin = maxTopPosition - 2 * MARGIN;
+        int maxTopWithMargin = maxYPosition - 2 * MARGIN;
 
         if (gRectangle2D == null) {
             if (!isFunction || isPoint) {
@@ -91,7 +95,7 @@ public class StylebarPositioner {
             }
         }
 
-        if (top < minTopPosition) {
+        if (top < minYPosition) {
             top = (gRectangle2D != null ? gRectangle2D.getMaxY() : 0) + MARGIN;
         }
 
@@ -109,6 +113,9 @@ public class StylebarPositioner {
             left = gRectangle2D.getMaxX();
         }
 
+        left = left < minXPosition ? minXPosition : left;
+        left = left > maxXPosition ? maxXPosition : left;
+
         return new GPoint((int) left, (int) top);
     }
 
@@ -116,17 +123,51 @@ public class StylebarPositioner {
      * Calculates the position of the dynamic stylebar on the EuclidianView
      * @param stylebarHeight
      *                          The height of the stylebar.
-     * @param minTopPosition
-     *                          The minimum y position for the top of the stylebar.
-     * @param maxTopPosition
-     *                          The maximum y position for the top of the stylebar.
+     * @param minYPosition
+     *                          The minimum y position on the canvas for the top of the stylebar.
+     * @param maxYPosition
+     *                          The maximum y position on the canvas for the top of the stylebar.
+     *                          The top of the stylebar is allowed to be at this position,
+     *                          so if the entire stylebar should be on the canvas
+     *                          then the height of the stylebar should be already subtracted from this value.
      * @return
      *          Returns a GPoint which contains the x and y coordinates for the top of the stylebar.
      */
-    public GPoint getPositionOnCanvas(int stylebarHeight, int minTopPosition, int maxTopPosition) {
+    public GPoint getPositionOnCanvas(int stylebarHeight, int minYPosition, int maxYPosition) {
+        return getPositionOnCanvas(stylebarHeight, minYPosition, maxYPosition, 0, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Calculates the position of the dynamic stylebar on the EuclidianView
+     * @param stylebarHeight
+     *                          The height of the stylebar.
+     * @param minYPosition
+     *                          The minimum y position on the canvas for the top of the stylebar.
+     * @param maxYPosition
+     *                          The maximum y position on the canvas for the top of the stylebar.
+     *                          The top of the stylebar is allowed to be at this position,
+     *                          so if the entire stylebar should be on the canvas
+     *                          then the height of the stylebar should be already subtracted from this value.
+     * @param minXPosition
+     *                          The minimum x position on the canvas for the left end of the stylebar.
+     * @param maxXPosition
+     *                          The maximum x position on the canvas for the left end of the stylebar.
+     *                          The left end of the stylebar is allowed to be on this position,
+     *                          so if the entire stylebar should be on the canvas
+     *                          then the width of the stylebar should be already subtracted from this value.
+     * @return
+     *          Returns a GPoint which contains the x and y coordinates for the top of the stylebar.
+     */
+    @SuppressWarnings({"SameParameterValue", "WeakerAccess"})
+    @Nullable
+    public GPoint getPositionOnCanvas(
+            int stylebarHeight,
+            int minYPosition, int maxYPosition,
+            int minXPosition, int maxXPosition) {
+
         List<GeoElement> activeGeoList = createActiveGeoList();
 
-        if (activeGeoList.size() == 0) {
+        if (activeGeoList.isEmpty()) {
             return null;
         }
 
@@ -142,8 +183,10 @@ public class StylebarPositioner {
                         false,
                         false,
                         stylebarHeight,
-                        minTopPosition,
-                        maxTopPosition);
+                        minYPosition,
+                        maxYPosition,
+                        minXPosition,
+                        maxXPosition);
             }
         }
 
@@ -159,8 +202,10 @@ public class StylebarPositioner {
                             false,
                             true,
                             stylebarHeight,
-                            minTopPosition,
-                            maxTopPosition);
+                            minYPosition,
+                            maxYPosition,
+                            minXPosition,
+                            maxXPosition);
                     if (position != null) {
                         return position;
                     }
@@ -176,8 +221,10 @@ public class StylebarPositioner {
                                     false,
                                     true,
                                     stylebarHeight,
-                                    minTopPosition,
-                                    maxTopPosition);
+                                    minYPosition,
+                                    maxYPosition,
+                                    minXPosition,
+                                    maxXPosition);
                             if (position != null) {
                                 return position;
                             }
@@ -193,8 +240,10 @@ public class StylebarPositioner {
                             dr instanceof DrawPoint && activeGeoList.size() < 2,
                             false,
                             stylebarHeight,
-                            minTopPosition,
-                            maxTopPosition);
+                            minYPosition,
+                            maxYPosition,
+                            minXPosition,
+                            maxXPosition);
                     if (position != null) {
                         return position;
                     }
