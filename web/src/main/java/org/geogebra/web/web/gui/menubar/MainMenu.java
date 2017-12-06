@@ -476,6 +476,9 @@ public class MainMenu extends FlowPanel
 			@Override
 			public void reset() {
 				collapseStack(getSelectedIndex());
+				for (int i = 1; i < menuPanel.getWidgetCount(); i++) {
+					getMenuAt(i).selectItem(null);
+				}
 			}
 		};
 
