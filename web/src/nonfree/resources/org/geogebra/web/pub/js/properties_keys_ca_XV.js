@@ -1787,7 +1787,7 @@ __GGB__keysVar.ca_XV.menu = {
     "FrequencyTable.Frequency": "Freq\xfc\xe8ncies",
     "FrequencyTable.RelativeFrequency": "Freq\xfc\xe8ncia relativa",
     "FrequencyType": "Tipus de freq\xfc\xe8ncies",
-    "Fullscreen": "Fullscreen",
+    "Fullscreen": "Pantalla completa",
     "Function": "Funci\xf3",
     "Function.acos": "acos",
     "Function.acosd": "acosd",
