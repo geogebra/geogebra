@@ -8,6 +8,14 @@ using HoloToolkit.Unity.InputModule;
 
 public class GameManager : MonoBehaviour {
 
+    #region Members
+    [HideInInspector]
+    public CloneScreenText cloneScreenText;
+    public GameObject cloneScreen;
+    #endregion
+
+
+
     public GameObject BasicModel;
     public GameObject FootballModel;
     public GameObject FunctionModel;
@@ -21,6 +29,7 @@ public class GameManager : MonoBehaviour {
     public GameObject ModelSpawner;
 
     public GameObject TempText;
+    public GameObject TempTextSecondScreen;
     public GameObject DisplayedText;
 
 	// Use this for initialization
@@ -59,6 +68,9 @@ public class GameManager : MonoBehaviour {
             DisplayedText = TempText;
             DisplayedText.GetComponent<Text>().enabled = true;
         }
+
+        //Activate sceond screen
+        cloneScreen.GetComponent<CloneScreenText>().CheckStatus();
 
     }
 

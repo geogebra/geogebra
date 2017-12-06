@@ -15,8 +15,6 @@ public class ItemInput : MonoBehaviour, IInputClickHandler
 
     public GameObject ButtonModel;
 
-    [SerializeField]
-    public string itemName;
 
     private void Start()
     {
