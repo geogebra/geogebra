@@ -5675,7 +5675,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			if (attrs.get("show") != null && attrs.get("show").equals("true")
 					&& valid) {
-				((GeoImplicit) geo).setInputForm();
+				((GeoImplicit) geo).setToUser();
 			} else {
 				((GeoImplicit) geo).setExtendedForm();
 			}

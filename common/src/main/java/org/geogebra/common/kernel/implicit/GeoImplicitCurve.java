@@ -109,7 +109,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	private double[] eval = new double[2];
 	private boolean calcPath = true;
-	private boolean inputForm;
 
 	/**
 	 * Construct an empty Implicit Curve Object
@@ -617,7 +616,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (!isDefined()) {
 			return "?";
 		}
-		if (!inputForm && coeff != null) {
+		if (!isInputForm() && coeff != null) {
 			return toRawValueString(coeff, kernel, tpl);
 		}
 		return getDefinition() == null ? ""
@@ -1944,9 +1943,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void setInputForm() {
-		inputForm = true;
-
+	public void setToUser() {
+		toStringMode = GeoLine.EQUATION_USER;
 	}
 
 	@Override
@@ -1962,13 +1960,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public boolean isInputForm() {
-		return inputForm;
+		return toStringMode == GeoLine.EQUATION_USER;
 	}
 
 	@Override
 	public void setExtendedForm() {
-		inputForm = false;
-
+		toStringMode = GeoLine.EQUATION_EXPLICIT;
 	}
 
 	@Override

@@ -1790,7 +1790,7 @@ public class GeoCasCell extends GeoElement
 		if (newTwinGeo != null && !dependsOnDummy(newTwinGeo)) {
 			setTwinGeo(newTwinGeo);
 			if (twinGeo instanceof GeoImplicit) {
-				((GeoImplicit) twinGeo).setInputForm();
+				((GeoImplicit) twinGeo).setToUser();
 			}
 			if (newTwinGeo instanceof GeoNumeric) {
 				newTwinGeo.setLabelVisible(true);

@@ -443,7 +443,7 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	public void inputFormCmd(final GeoImplicit inputElement) {
-		inputElement.setInputForm();
+		inputElement.setToUser();
 		inputElement.updateRepaint();
 		app.storeUndoInfo();
 	}

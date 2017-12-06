@@ -875,4 +875,9 @@ public class Equation extends ValidExpression implements EquationValue {
 				|| geo.getParentAlgorithm().getClassName() == Algos.Expression);
 	}
 
+	@Override
+	public void setToUser() {
+		// only needed for geos
+	}
+
 } // end of class Equation

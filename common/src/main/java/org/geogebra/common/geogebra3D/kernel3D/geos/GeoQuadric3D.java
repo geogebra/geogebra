@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -1897,6 +1898,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			kernel.notifyTypeChanged(this);
 		}
 
+	}
+
+	@Override
+	final public void setToUser() {
+		toStringMode = GeoConicND.EQUATION_USER;
 	}
 
 

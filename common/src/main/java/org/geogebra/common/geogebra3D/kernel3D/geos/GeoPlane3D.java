@@ -484,9 +484,11 @@ public class GeoPlane3D extends GeoElement3D
 		}
 		return buildValueString(tpl, kernel, getCoordSys().getEquationVector(),
 				!isLabelSet());
+	}
 
-
-
+	@Override
+	final public void setToUser() {
+		setMode(GeoLine.EQUATION_USER);
 	}
 
 	/**

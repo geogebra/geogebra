@@ -133,6 +133,7 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 
 			if (!isCASeval(ve)) {
 				GeoElement existingGeo = this.kernel.lookupLabel(ve.getLabel());
+				Log.debug(existingGeo);
 				if (existingGeo == null) {
 
 					GeoElementND[] inputGeos = this.kernel.getAlgebraProcessor()
@@ -142,8 +143,8 @@ public class ScheduledPreviewFromInputBar implements Runnable {
 											.has(Feature.INPUT_BAR_ADD_SLIDER)));
 					previewGeos = null;
 					if (inputGeos != null) {
-						InputHelper.updateProperties(previewGeos, kernel
-								.getApplication().getActiveEuclidianView(), 0);
+						InputHelper.updateProperties(inputGeos, kernel
+								.getApplication().getActiveEuclidianView(), -2);
 						int unlabeled = 0;
 						for (GeoElementND geo : inputGeos) {
 							if (geo instanceof GeoFunction) {

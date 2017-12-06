@@ -65,7 +65,7 @@ public interface GeoImplicit extends Path {
 	/**
 	 * Switch to user input form
 	 */
-	void setInputForm();
+	void setToUser();
 
 	/**
 	 * @param dx

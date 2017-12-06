@@ -16,4 +16,6 @@ public interface EquationValue {
 	 * @return array of variables with nonzero cofficients
 	 */
 	public String[] getEquationVariables();
+
+	public void setToUser();
 }

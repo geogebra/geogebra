@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
@@ -1046,5 +1047,10 @@ public class GeoImplicitSurface extends GeoElement3D
 			}
 		}
 		return vars.toArray(new String[0]);
+	}
+
+	@Override
+	final public void setToUser() {
+		toStringMode = GeoLine.EQUATION_USER;
 	}
 }
