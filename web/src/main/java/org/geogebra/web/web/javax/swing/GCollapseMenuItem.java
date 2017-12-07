@@ -75,11 +75,19 @@ public class GCollapseMenuItem {
 		itemPanel.add(new HTML(text));
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
 		menuItem.setHTML(itemPanel.toString());
+		menuItem.getElement().setAttribute("aria-haspopup", "true");
+		menuItem.getElement().setAttribute("aria-expanded",
+				String.valueOf(expanded));
 		if (items.getElement().getParentElement() != null) {
 			items.getElement().getParentElement().getStyle()
 					.setProperty("listStyle", "none");
+			items.getElement().getParentElement().setAttribute("aria-hidden",
+					String.valueOf(!expanded));
 		}
 		updateItems();
+
+		items.getElement().setTabIndex(-1);
+
 	}
 
 	/**

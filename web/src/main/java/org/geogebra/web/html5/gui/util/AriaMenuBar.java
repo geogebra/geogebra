@@ -57,6 +57,7 @@ public class AriaMenuBar extends Widget {
 		Element li = Document.get().createLIElement();
 		li.appendChild(item.getElement());
 		getElement().appendChild(li);
+		li.setAttribute("aria-hidden", "true");
 		submenus.add(item);
 	}
 
