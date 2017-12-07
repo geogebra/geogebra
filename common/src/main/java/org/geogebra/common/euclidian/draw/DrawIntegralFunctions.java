@@ -15,18 +15,13 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralFunctions;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -39,7 +34,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Markus Hohenwarter
  */
-public class DrawIntegralFunctions extends Drawable {
+public class DrawIntegralFunctions extends DrawFunctionArea {
 
 	private GeoNumeric n;
 	private GeoFunction f, g;
@@ -90,43 +85,11 @@ public class DrawIntegralFunctions extends Drawable {
 		AlgoCasCellInterface algo = (AlgoCasCellInterface) n.getDrawAlgorithm();
 		GeoCasCell cell = algo.getCasCell();
 		Command cmd = cell.getInputVE().getTopLevelCommand();
-		Kernel kernel = cmd.getKernel();
 
-		ExpressionValue arg0 = cmd.getArgument(0).unwrap();
-		if (arg0 instanceof GeoCasCell) {
-			// https://help.geogebra.org/topic/integraaltussen-wordt-grafisch-verkeerd-weergegeven-via-cas
-			f = (GeoFunction) ((GeoCasCell) arg0).getTwinGeo();
-		} else {
-			f = new GeoFunction(kernel.getConstruction(), new Function(
-					cmd.getArgument(0).wrap().replaceCasCommands()));
-		}
-
-		ExpressionValue arg1 = cmd.getArgument(1).unwrap();
-		if (arg1 instanceof GeoCasCell) {
-			g = (GeoFunction) ((GeoCasCell) arg1).getTwinGeo();
-		} else {
-			g = new GeoFunction(kernel.getConstruction(), new Function(
-					cmd.getArgument(1).wrap().replaceCasCommands()));
-		}
-
-		ExpressionValue arg2 = cmd.getArgument(2).unwrap();
-		if (arg2 instanceof GeoCasCell) {
-			a = new MyDouble(cmd.getKernel(),
-					((GeoCasCell) arg2).getTwinGeo().evaluateDouble());
-		} else {
-			a = new MyDouble(cmd.getKernel(), cmd.getArgument(2).wrap()
-					.replaceCasCommands().evaluateDouble());
-		}
-
-		ExpressionValue arg3 = cmd.getArgument(3).unwrap();
-		if (arg3 instanceof GeoCasCell) {
-			b = new MyDouble(cmd.getKernel(),
-					((GeoCasCell) arg3).getTwinGeo().evaluateDouble());
-		} else {
-			b = new MyDouble(cmd.getKernel(), cmd.getArgument(3).wrap()
-					.replaceCasCommands().evaluateDouble());
-		}
-
+		f = asFunction(cmd, 0);
+		g = asFunction(cmd, 1);
+		a = asDouble(cmd, 2);
+		b = asDouble(cmd, 3);
 	}
 
 	@Override

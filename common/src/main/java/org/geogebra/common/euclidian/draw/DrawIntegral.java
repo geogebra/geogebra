@@ -15,7 +15,6 @@ package org.geogebra.common.euclidian.draw;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
-import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
@@ -24,8 +23,6 @@ import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import org.geogebra.common.kernel.geos.GeoCasCell;
@@ -38,7 +35,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Markus Hohenwarter
  */
-public class DrawIntegral extends Drawable {
+public class DrawIntegral extends DrawFunctionArea {
 
 	private GeoNumeric n;
 	private GeoFunction f;
@@ -84,13 +81,9 @@ public class DrawIntegral extends Drawable {
 		AlgoCasCellInterface algo = (AlgoCasCellInterface) n.getDrawAlgorithm();
 		GeoCasCell cell = algo.getCasCell();
 		Command cmd = cell.getInputVE().getTopLevelCommand();
-		Kernel kernel = cmd.getKernel();
-		f = new GeoFunction(kernel.getConstruction(),
-				new Function(cmd.getArgument(0).wrap().replaceCasCommands()));
-		a = new MyDouble(cmd.getKernel(), cmd.getArgument(1).wrap()
-				.replaceCasCommands().evaluateDouble());
-		b = new MyDouble(cmd.getKernel(), cmd.getArgument(2).wrap()
-				.replaceCasCommands().evaluateDouble());
+		f = asFunction(cmd, 0);
+		a = asDouble(cmd, 1);
+		b = asDouble(cmd, 2);
 	}
 
 	@Override
