@@ -7089,17 +7089,21 @@ public abstract class EuclidianController {
 				// app.geoElementSelected(geo, true); // copy definiton to input
 				// bar
 			} else {
+				Hits hits = new Hits();
+				hits.addAll(geos);
 				if (!moveModeSelectionHandled) {
 					GeoElement geo = chooseGeo(geos, true);
-					if (geo != null && !geo.isGeoButton() ) {
-						Hits hits = new Hits();
-						hits.addAll(geos);
-						if(app.has(Feature.PREVIEW_POINTS) && isSpecialPreviewPointFound(hits)){
+					if (geo != null && !geo.isGeoButton()) {
+						if (isSpecialPreviewPointFound(hits)) {
 							previewPointHits = getPreviewSpecialPointHits(hits);
 						} else {
 							selection.clearSelectedGeos(false);
 							selection.addSelectedGeo(geo);
 						}
+					}
+				} else {
+					if (isSpecialPreviewPointFound(hits)) {
+						previewPointHits = getPreviewSpecialPointHits(hits);
 					}
 				}
 			}
@@ -8479,7 +8483,7 @@ public abstract class EuclidianController {
 						lastSelectionToolPressResult = SelectionToolPressResult.ADD;
 						selection.addSelectedGeo(geo, true, true);
 					}
-				} else if (app.has(Feature.PREVIEW_POINTS) && mode == EuclidianConstants.MODE_MOVE && isSpecialPreviewPointFound(topHits)) {
+				} else if (mode == EuclidianConstants.MODE_MOVE && isSpecialPreviewPointFound(topHits)) {
 					previewPointHits = getPreviewSpecialPointHits(topHits);
 				} else {
 					// repaint done next step, no update for properties view (will
@@ -8539,6 +8543,10 @@ public abstract class EuclidianController {
 	 * @return whether there is any GeoPoint in the hits which is a preview Special point or not
 	 */
 	private boolean isSpecialPreviewPointFound(Hits hits) {
+		if (!app.has(Feature.PREVIEW_POINTS)) {
+			return false;
+		}
+
 		List<GeoElement> selectedPreviewPoints = app.getSelectionManager().getSelectedPreviewPoints();
 
 		if (selectedPreviewPoints != null) {
