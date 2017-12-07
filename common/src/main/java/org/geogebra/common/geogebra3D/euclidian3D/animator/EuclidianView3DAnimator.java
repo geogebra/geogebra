@@ -196,7 +196,9 @@ public class EuclidianView3DAnimator {
 	 * animate the view for changing scale, orientation, etc.
 	 */
 	synchronized public void animate() {
-		animation.animate();
+		if (animation != null) {
+            animation.animate();
+        }
 	}
 
 	/**
