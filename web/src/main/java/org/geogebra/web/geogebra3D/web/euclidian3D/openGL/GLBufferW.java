@@ -129,4 +129,11 @@ public class GLBufferW implements GLBuffer {
 		return impl.subarray(0, currentLength);
 	}
 
+	@Override
+	public void reallocate(int size) {
+		MyFloat32Array oldImpl = impl;
+		impl = (MyFloat32Array) Float32Array.create(size);
+		impl.set(oldImpl);
+	}
+
 }

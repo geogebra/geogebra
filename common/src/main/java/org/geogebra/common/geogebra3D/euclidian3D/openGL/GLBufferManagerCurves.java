@@ -7,6 +7,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
  */
 public class GLBufferManagerCurves extends GLBufferManager {
 
+	// complex materials need more than 1500
+	static final private int ELEMENTS_SIZE_START = 2048;
+	// for now on, only segments are drawn here, so we count 1 triangle per vertex,
+	// and 3 indices per triangle
+	static final private int INDICES_SIZE_START = ELEMENTS_SIZE_START * 3;
+
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
 		return 3 * 2 * size * PlotterBrush.LATITUDES;
@@ -41,6 +47,16 @@ public class GLBufferManagerCurves extends GLBufferManager {
 		((TexturesShaders) r.getTextures()).setPackedDash();
 		r.setDashTexture(hidden ? Textures.DASH_PACKED_HIDDEN : Textures.DASH_PACKED);
 		drawBufferPacks(r);
+	}
+
+	@Override
+	protected int getElementSizeStart() {
+		return ELEMENTS_SIZE_START;
+	}
+
+	@Override
+	protected int getIndicesSizeStart() {
+		return INDICES_SIZE_START;
 	}
 
 }

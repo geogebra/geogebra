@@ -96,4 +96,11 @@ public class GLBufferIndicesJre implements GLBufferIndices {
 		return impl;
 	}
 
+	@Override
+	public void reallocate(int size) {
+		ShortBuffer oldImpl = impl;
+		impl = ShortBuffer.allocate(size);
+		impl.put(oldImpl);
+	}
+
 }

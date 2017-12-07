@@ -7,6 +7,11 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElem
  */
 public class GLBufferManagerSurfaces extends GLBufferManager {
 
+	// complex materials need not more than 100
+	static final private int ELEMENTS_SIZE_START = 128;
+	// use 1.5 empirical factor observed from materials
+	static final private int INDICES_SIZE_START = (ELEMENTS_SIZE_START * 3) / 2;
+
 	private ManagerShadersElementsGlobalBufferPacking manager;
 
 	/**
@@ -88,6 +93,16 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 			return true;
 		}
 		return super.currentBufferSegmentDoesNotFit(indicesLength, type);
+	}
+
+	@Override
+	protected int getElementSizeStart() {
+		return ELEMENTS_SIZE_START;
+	}
+
+	@Override
+	protected int getIndicesSizeStart() {
+		return INDICES_SIZE_START;
 	}
 
 }

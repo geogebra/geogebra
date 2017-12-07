@@ -128,11 +128,12 @@ abstract class GLBufferManager {
 		private GLBufferIndices indicesBuffer;
 		private int elementsLength, indicesLength;
 
-		private static int elementsSize = Short.MAX_VALUE + 1;
-		private static int indicesSize = elementsSize * 3;
+		static final private int ELEMENT_SIZE_MAX = Short.MAX_VALUE;
+		private int elementsSize, indicesSize;
 
 		/**
 		 * creates a new buffer pack, using approx. 2MB (4 bytes per float * 32768 * 15)
+		 * at max
 		 * 
 		 * @param manager
 		 *            geometries manager
@@ -144,27 +145,57 @@ abstract class GLBufferManager {
 			textureBuffer = GLFactory.getPrototype().newBuffer();
 			colorBuffer = GLFactory.getPrototype().newBuffer();
 			indicesBuffer = GLFactory.getPrototype().newBufferIndices();
+
+			elementsSize = manager.getElementSizeStart();
+			indicesSize = manager.getIndicesSizeStart();
 			vertexBuffer.allocate(elementsSize * 3);
 			normalBuffer.allocate(elementsSize * 3);
 			textureBuffer.allocate(elementsSize * 2);
 			colorBuffer.allocate(elementsSize * 4);
 			indicesBuffer.allocate(indicesSize);
+
 			elementsLength = 0;
 			indicesLength = 0;
 		}
 
-		public boolean canAdd(int elementsLength, int indicesLength) {
-			return this.elementsLength + elementsLength < elementsSize
-					&& this.indicesLength + indicesLength < indicesSize;
+		private void reallocateElements(int size) {
+			elementsSize = size;
+			vertexBuffer.reallocate(size * 3);
+			normalBuffer.reallocate(size * 3);
+			textureBuffer.reallocate(size * 2);
+			colorBuffer.reallocate(size * 4);
 		}
 
-		public void addToLength(int elementsLength, int indicesLength) {
-			this.elementsLength += elementsLength;
+		private void reallocateIndices(int size) {
+			indicesSize = size;
+			indicesBuffer.reallocate(indicesSize);
+		}
+
+		private static int multiplyByPowerOfTwoToMakeItGreaterThan(int current, int min) {
+			int ret = current * 2;
+			while (ret < min) {
+				ret *= 2;
+			}
+			return ret;
+		}
+
+		public boolean canAdd(int elementsLength, int indicesLength) {
+			return this.elementsLength + elementsLength < ELEMENT_SIZE_MAX;
+		}
+
+		public void addToLength(int elementsLengthToAdd, int indicesLengthToAdd) {
+			elementsLength += elementsLengthToAdd;
+			if (elementsLength > elementsSize) {
+				reallocateElements(multiplyByPowerOfTwoToMakeItGreaterThan(elementsSize, elementsLength));
+			}
 			vertexBuffer.setLimit(this.elementsLength * 3);
 			normalBuffer.setLimit(this.elementsLength * 3);
 			textureBuffer.setLimit(this.elementsLength * 2);
 			colorBuffer.setLimit(this.elementsLength * 4);
-			this.indicesLength += indicesLength;
+			this.indicesLength += indicesLengthToAdd;
+			if (indicesLength > indicesSize) {
+				reallocateIndices(multiplyByPowerOfTwoToMakeItGreaterThan(indicesSize, indicesLength));
+			}
 			indicesBuffer.setLimit(this.indicesLength);
 		}
 
@@ -506,4 +537,17 @@ abstract class GLBufferManager {
 		}
 
 	}
+
+	/**
+	 * WARNING: must be power of 2, and less than ELEMENT_SIZE_MAX = Short.MAX_VALUE
+	 * 
+	 * @return elements size at start
+	 */
+	abstract protected int getElementSizeStart();
+
+	/**
+	 * 
+	 * @return indices size at start
+	 */
+	abstract protected int getIndicesSizeStart();
 }

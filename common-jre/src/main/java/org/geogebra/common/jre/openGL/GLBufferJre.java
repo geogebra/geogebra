@@ -118,4 +118,11 @@ public class GLBufferJre implements GLBuffer {
 		return impl;
 	}
 
+	@Override
+	public void reallocate(int size) {
+		FloatBuffer oldImpl = impl;
+		impl = FloatBuffer.allocate(size);
+		impl.put(oldImpl);
+	}
+
 }

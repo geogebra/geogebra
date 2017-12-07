@@ -103,4 +103,12 @@ public interface GLBuffer {
 	 */
 	public void setEmpty();
 
+	/**
+	 * reallocate to a bigger size and keep the values
+	 * 
+	 * @param size
+	 *            new size
+	 */
+	public void reallocate(int size);
+
 }

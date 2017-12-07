@@ -75,4 +75,12 @@ public interface GLBufferIndices {
 	 * says it's an empty buffer
 	 */
 	public void setEmpty();
+
+	/**
+	 * reallocate to a bigger size and keep the values
+	 * 
+	 * @param size
+	 *            new size
+	 */
+	public void reallocate(int size);
 }

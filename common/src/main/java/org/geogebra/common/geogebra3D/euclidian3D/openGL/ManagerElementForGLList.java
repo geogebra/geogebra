@@ -255,6 +255,11 @@ public class ManagerElementForGLList extends Manager {
 
 		}
 
+		@Override
+		public void reallocate(int size) {
+			// not needed
+		}
+
 	}
 
 	public void put(short value) {

@@ -103,4 +103,11 @@ public class GLBufferIndicesW implements GLBufferIndices {
 		return impl;
 	}
 
+	@Override
+	public void reallocate(int size) {
+		MyInt16Array oldImpl = impl;
+		impl = MyInt16Array.create(size);
+		impl.set(oldImpl);
+	}
+
 }
