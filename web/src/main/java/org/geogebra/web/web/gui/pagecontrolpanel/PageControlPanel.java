@@ -39,7 +39,6 @@ public class PageControlPanel
 	private PersistablePanel contentPanel;
 	private PagePreviewCard activePreviewCard;
 	private StandardButton plusButton;
-	private boolean isAttached = false;
 
 	/**
 	 * @param app
@@ -60,6 +59,9 @@ public class PageControlPanel
 		addStyleName("mowPageControlPanel");
 		addPlusButton();
 		addContentPanel();
+		addNewPage();
+		setCardSelected((PagePreviewCard) contentPanel.getWidget(0));
+		frame.add(this);
 		setVisible(false);
 	}
 
@@ -84,7 +86,7 @@ public class PageControlPanel
 		plusButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				addNewPage();
+				loadPage(addNewPage());
 			}
 		});
 		add(plusButton);
@@ -117,22 +119,16 @@ public class PageControlPanel
 	 * opens the page control panel
 	 */
 	public void open() {
-		if (!isAttached) {
-			addNewPage();
-			frame.add(this);
-			isAttached = true;
+		if (app.isWhiteboardActive()) {
+			dockPanel.hideZoomPanel();
+			mowToolbar.hidePageControlButton();
 		}
-		updatePreview();
 		setVisible(true);
+		updatePreview();
 		setLabels();
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
 		style.setOverflow(Overflow.HIDDEN);
-
-		if (app.isWhiteboardActive()) {
-			mowToolbar.hidePageControlButton();
-			dockPanel.hideZoomPanel();
-		}
 		CSSAnimation.runOnAnimation(new Runnable() {
 			@Override
 			public void run() {
@@ -175,11 +171,13 @@ public class PageControlPanel
 
 	/**
 	 * creates a new page and associated preview card
+	 * 
+	 * @return index of new slide
 	 */
-	protected void addNewPage() {
+	protected int addNewPage() {
 		int slideNumber = app.addSlide();
 		addPreviewCard(app.getActiveEuclidianView(), slideNumber);
-		loadPage(slideNumber);
+		return slideNumber;
 	}
 
 	private void addPreviewCard(EuclidianView view, final int slideNumber) {
@@ -235,14 +233,6 @@ public class PageControlPanel
 		updatePreview();
 	}
 
-	private void updateIndizes() {
-		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
-			PagePreviewCard card = (PagePreviewCard) contentPanel.getWidget(i);
-			if (card.getPageIndex() != i) {
-				card.setPageIndex(i);
-			}
-		}
-	}
 	/**
 	 * Sets the selected page visible and highlights the preview card
 	 * 
@@ -271,6 +261,15 @@ public class PageControlPanel
 	public void updatePreview() {
 		if (activePreviewCard != null) {
 			activePreviewCard.updatePreviewImage();
+		}
+	}
+
+	private void updateIndizes() {
+		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
+			PagePreviewCard card = (PagePreviewCard) contentPanel.getWidget(i);
+			if (card.getPageIndex() != i) {
+				card.setPageIndex(i);
+			}
 		}
 	}
 
