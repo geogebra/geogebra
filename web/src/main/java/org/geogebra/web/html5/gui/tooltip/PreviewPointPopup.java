@@ -33,12 +33,6 @@ public class PreviewPointPopup extends GPopupPanel {
 		createContent(previewPoints);
 		add(content);
 		setAutoHideEnabled(true);
-		setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-			@Override
-			public void setPosition(int offsetWidth, int offsetHeight) {
-				positionPopup(offsetWidth, offsetHeight);
-			}
-		});
 	}
 
 	/**

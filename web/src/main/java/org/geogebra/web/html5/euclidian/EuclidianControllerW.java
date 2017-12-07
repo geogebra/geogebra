@@ -21,6 +21,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.event.PointerEvent;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.PreviewPointPopup;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
@@ -80,8 +81,15 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (!app.has(Feature.PREVIEW_POINTS)) {
 			return;
 		}
-		PreviewPointPopup popup = new PreviewPointPopup((AppW) getApplication(),
+		final PreviewPointPopup popup = new PreviewPointPopup(
+				(AppW) getApplication(),
 				previewPoints);
+		popup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
+			@Override
+			public void setPosition(int offsetWidth, int offsetHeight) {
+				popup.positionPopup(offsetWidth, offsetHeight);
+			}
+		});
 	}
 
 	/**
