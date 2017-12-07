@@ -649,7 +649,7 @@ public class TabbedKeyboard extends FlowPanel {
 		} else if (resourceName.equals(Resource.ABS.name()) && isBoxIcon) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.abs(),
-					button.getActionName(), bh, false, loc, "AbsAltText");
+					"abs", bh, false, loc, "AbsAltText");
 		} else if (resourceName.equals(Resource.CEIL.name()) && isBoxIcon) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.ceil(),

@@ -152,9 +152,10 @@ task copyHtml {
         def appHtml = { appID, prerelease, offline = false ->
             def header = offline || appID == "whiteboard" ? "" : file(templateDir+"app-header.html").text; 
             def platformSpecific = offline ? "<script src=\"platform.js\"></script>" : "<!--LANGUAGE LINKS-->";
+            def stylesheet = prerelease ? "<link rel=\"stylesheet\" href=\"debug.css\"/>\n" :"";
             return html.replace("<!--SPLASH-->", header + "<div class=\"startscreen\"> <div class=\"logo\">"+file(templateDir+appID+"-min.svg").text+"</div></div>")
             .replace("<!--SPLASH STYLE-->", file(templateDir+"app-header.css").text)
-            .replace("<!--PLATFORM SPECIFIC CODE-->", "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
+            .replace("<!--PLATFORM SPECIFIC CODE-->", stylesheet + "<script>prerelease=${prerelease};appID=\"${appID}\";appOnline=${!offline};</script>" + platformSpecific)
             .replace("<!--ICON-->", "//cdn.geogebra.org/apps/icons/${appID}.ico");
         }
         def english = {raw, appName ->
@@ -169,13 +170,16 @@ task copyHtml {
         file("war/app-release.html").text = classicHtml(false, false);
         file("war/app.html").text = classicHtml(true, false);
         file("war/app-offline.html").text = classicHtml(false, true);
-
+        if(!file("war/debug.css").exists()){
+            file("war/debug.css").text = "/** Put your temporary CSS here */";
+        }
         file("war/graphing-template.html").text = appHtml("graphing", false);
         file("war/geometry-template.html").text = appHtml("geometry", false);
         file("war/3d-template.html").text = appHtml("3d", false);
         file("war/whiteboard-template.html").text = appHtml("whiteboard", true);
         file("war/graphing-offline.html").text = english(appHtml("graphing", false, true), "Graphing Calculator");
         file("war/geometry-offline.html").text = english(appHtml("geometry", false, true), "Geometry");
+        file("war/3d-offline.html").text = english(appHtml("3d", false, true), "3D Graphing Calculator");
       
         file("war/calculator.html").text = english(appHtml("calculator", true), "Scientific Calculator");
         
