@@ -40,7 +40,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	private AutoCompleteTextFieldW textField;
 	private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
-
 	private ContextMenuPagePreview contextMenu = null;
 
 	/**
@@ -105,6 +104,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 			isTitleSet = true;
 		}
 		setTextFieldWidth();
+		textField.setFocus(false);
 	}
 
 	/**
@@ -201,8 +201,8 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		if (contextMenu == null) {
 			contextMenu = new ContextMenuPagePreview(app, this);
 		}
-		contextMenu.show(moreBtn.getAbsoluteLeft(),
-				moreBtn.getAbsoluteTop() - 3);
+		contextMenu.show(moreBtn.getAbsoluteLeft() - 116,
+				moreBtn.getAbsoluteTop() + 33);
 	}
 	
 	/**
