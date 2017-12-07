@@ -289,6 +289,10 @@ public abstract class AppW extends App implements SetLabels {
 					updateHeaderVisible();
 					AppW.this.getGgbApi().setSize(Window.getClientWidth(),
 							getArticleElement().computeHeight());
+					if (AppW.this
+							.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+						AppW.this.getAccessibilityManager().focusMenu();
+					}
 				}
 				windowResized();
 			}
