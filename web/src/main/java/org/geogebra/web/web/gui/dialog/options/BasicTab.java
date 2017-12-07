@@ -50,7 +50,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private AutoCompleteTextFieldW tfMaxY;
 	AutoCompleteTextFieldW tfAxesRatioX;
 	AutoCompleteTextFieldW tfAxesRatioY;
-
 	private Label axesRatioLabel;
 	private FlowPanel dimPanel;
 	ToggleButton tbLockRatio;
@@ -551,7 +550,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				this.optionsEuclidianW.loc.getMenu("Tooltips") + ":")
 						.setFor(lbTooltips);
 
-
 		this.rightAngleStyleListBox = new ListBox();
 		updateRightAngleCombo();
 		rightAngleStyleListBox
@@ -577,7 +575,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 									@Override
 									public void onForegroundSelected() {
 										// TODO Auto-generated method stub
-
 									}
 
 									@Override
@@ -589,28 +586,23 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 									@Override
 									public void onClearBackground() {
 										// TODO Auto-generated method stub
-
 									}
 
 									@Override
 									public void onBackgroundSelected() {
 										// TODO Auto-generated method stub
-
 									}
 
 									@Override
 									public void onAlphaChange() {
 										// TODO Auto-generated method stub
-
 									}
 
 									@Override
 									public void onBarSelected() {
 										// TODO Auto-generated method stub
-
 									}
 								});
-
 				// model.applyBackgroundColor();
 			}
 		});

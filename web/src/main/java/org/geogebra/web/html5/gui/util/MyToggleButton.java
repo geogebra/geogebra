@@ -4,7 +4,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
+import org.geogebra.web.resources.SVGResource;
 
+import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -41,6 +43,23 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 		super();
 		this.app = app;
 		acc = new AccessibilityButton(this);
+	}
+
+	/**
+	 * @param upFace
+	 *            upface img resource
+	 * @param downFace
+	 *            downface img resource
+	 */
+	public void setUpfaceDownfaceImg(SVGResource upFace,
+			SVGResource downFace) {
+		this.getUpFace().setImage(getImgFromSVG(upFace));
+		this.getDownFace().setImage(getImgFromSVG(downFace));
+	}
+
+	private static Image getImgFromSVG(SVGResource svgRes) {
+		return new Image(new ImageResourcePrototype(null,
+				svgRes.getSafeUri(), 0, 0, 24, 24, false, false));
 	}
 
 	@Override

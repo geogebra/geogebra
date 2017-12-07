@@ -146,15 +146,12 @@ public class PropertiesStyleBarW extends
 		NoDragImage closeImage = new NoDragImage(
 				KeyboardResources.INSTANCE.keyboard_close_black(), 24, 24);
 		closeImage.addStyleName("closeButton");
-		toolbar.addItem(
-				new AriaMenuItem(
-						closeImage.getElement()
-										.getString(),
-						true, new ScheduledCommand() {
+		toolbar.addItem(new AriaMenuItem(closeImage.getElement().getString(),
+				true, new ScheduledCommand() {
 
-			public void execute() {
-				propertiesView.close();
-			}
+					public void execute() {
+						propertiesView.close();
+					}
 		}));
 		buttonMap = new HashMap<>();
 		

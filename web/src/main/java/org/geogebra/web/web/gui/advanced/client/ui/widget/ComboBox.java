@@ -100,7 +100,6 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	 */
 	protected ComboBox(AppW app) {
 		super(app);
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

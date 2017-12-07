@@ -59,7 +59,6 @@ public class FormLabel extends FlowPanel {
 		if (ui instanceof HasInputElement) {
 			target = ((HasInputElement) ui).getInputElement();
 		}
-
 		if (StringUtil.empty(target.getId())) {
 			target.setId(DOM.createUniqueId());
 		}

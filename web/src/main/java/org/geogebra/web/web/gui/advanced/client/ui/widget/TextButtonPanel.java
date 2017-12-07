@@ -18,18 +18,17 @@ package org.geogebra.web.web.gui.advanced.client.ui.widget;
 
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.FormLabel.HasInputElement;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.advanced.client.ui.AdvancedWidget;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
  * This is a basic class for all text boxs with a button.
@@ -49,7 +48,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	/** a selected value box */
 	private AutoCompleteTextFieldW selectedValue;
 	/** a choice button */
-	private ToggleButton choiceButton;
+	private MyToggleButton choiceButton;
 	/** a choice button image */
 	private Image choiceButtonImage;
 	/** this flag means whether it's possible to enter a custom text */
@@ -260,17 +259,11 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 * Prepares the drop down button for displaying.
 	 */
 	protected void prepareChoiceButton() {
-		ToggleButton dropDownButton = getChoiceButton();
+		MyToggleButton dropDownButton = getChoiceButton();
 		if (app.isUnbundledOrWhiteboard()) {
-			dropDownButton.getUpFace()
-					.setImage(new Image(new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE.arrow_drop_down()
-									.getSafeUri(),
-							0, 0, 24, 24, false, false)));
-			dropDownButton.getDownFace().setImage(new Image(new ImageResourcePrototype(null,
-					MaterialDesignResources.INSTANCE.arrow_drop_up()
-					.getSafeUri(),
-			0, 0, 24, 24, false, false)));
+			dropDownButton.setUpfaceDownfaceImg(
+					MaterialDesignResources.INSTANCE.arrow_drop_down(),
+					MaterialDesignResources.INSTANCE.arrow_drop_up());
 		} else {
 			dropDownButton.getUpFace().setImage(getChoiceButtonImage());
 			dropDownButton.getDownFace().setImage(getChoiceButtonImage());
@@ -320,9 +313,9 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 *
 	 * @return Value for property 'choiceButton'.
 	 */
-	protected ToggleButton getChoiceButton() {
+	protected MyToggleButton getChoiceButton() {
 		if (choiceButton == null) {
-			choiceButton = new ToggleButton();
+			choiceButton = new MyToggleButton(app);
 		}
 		return choiceButton;
 	}

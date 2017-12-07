@@ -399,7 +399,10 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	protected void resetPosition() {
 		int absTop = (int) ((getComboBox().getAbsoluteTop()
 				- ((AppW) app).getAbsLeft())
-						/ ((AppW) app).getArticleElement().getScaleX());
+				/ ((AppW) app).getArticleElement().getScaleX());
+		if (((AppW) app).isUnbundled()) {
+			absTop -= 40;
+		}
 		int absLeft = (int) ((getComboBox().getAbsoluteLeft()
 				- ((AppW) app).getAbsLeft())
 				/ ((AppW) app).getArticleElement().getScaleX());

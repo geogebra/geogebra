@@ -37,11 +37,8 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	protected AutoCompleteTextFieldW tfCross;
 
 	private FormLabel crossAt;
-
 	private FormLabel axisTicks;
-
 	private FormLabel axisLabel;
-
 	private FormLabel axisUnitLabel;
 
 	private AppW app;
@@ -106,7 +103,6 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		});
 
 		// ticks
-
 		lbTickStyle = new ListBox();
 		axisTicks = new FormLabel(loc.getMenu("AxisTicks") + ":")
 				.setFor(lbTickStyle);

@@ -91,7 +91,6 @@ public class PropertiesViewW extends PropertiesView
 	}
 
 	private void initGUI() {
-
 		wrappedPanel.addStyleName("PropertiesViewW");
 		//		getStyleBar();
 
@@ -174,7 +173,6 @@ public class PropertiesViewW extends PropertiesView
 				euclidianPanel.setView(((AppW)app).getEuclidianView1());
 				euclidianPanel.showCbView(false);
 			}
-
 			return euclidianPanel;
 
 		case EUCLIDIAN2:
@@ -215,7 +213,6 @@ public class PropertiesViewW extends PropertiesView
 				layoutPanel = new OptionsLayoutW();
 			}
 			layoutPanel.getWrappedPanel().setStyleName("layoutPanel");
-			
 			return layoutPanel;
 
 		case OBJECTS:
@@ -228,7 +225,6 @@ public class PropertiesViewW extends PropertiesView
 								updatePropertiesView();
 							}
 						}));
-
 			}
 			getObjectPanel().selectTab(subType);
 			return getObjectPanel();
@@ -292,7 +288,6 @@ public class PropertiesViewW extends PropertiesView
 	@Override
 	public void rename(GeoElement geo) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -311,9 +306,7 @@ public class PropertiesViewW extends PropertiesView
 
 	@Override
 	public void updateAuxiliaryObject(GeoElement geo) {
-		// TODO Auto-generated method stub
 		updatePropertiesGUI();
-
 	}
 
 	@Override
@@ -643,9 +636,14 @@ public class PropertiesViewW extends PropertiesView
 		this.floatingAttached = floatingAttached;
 	}
 
+	/**
+	 * @param width
+	 *            width
+	 * @param height
+	 *            heigth
+	 */
 	public void resize(double width, double height) {
 		wrappedPanel.setPixelSize((int) Math.min(width, 500), (int) height);
 		onResize();
-
 	}
 }
