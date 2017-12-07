@@ -15,6 +15,7 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
@@ -79,7 +80,11 @@ public class AlgoDistanceLines3D extends AlgoElement3D {
 			return;
 		}
 
-		dist.setValue(g3D.distance(h3D));
+		if (g3D instanceof GeoLine) {
+			dist.setValue(h3D.distance(g3D));
+		} else {
+			dist.setValue(g3D.distance(h3D));
+		}
 
 	}
 
