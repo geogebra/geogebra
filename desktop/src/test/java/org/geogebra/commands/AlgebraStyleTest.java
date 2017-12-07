@@ -29,12 +29,14 @@ public class AlgebraStyleTest extends Assert {
 	static AlgebraProcessor ap;
 
 
-
-
 	private static void checkRows(String def, int rows) {
+		checkRows(def, rows, new EvalInfo(true));
+	}
+
+	private static void checkRows(String def, int rows, EvalInfo info) {
 		GeoElementND[] el = ap.processAlgebraCommandNoExceptionHandling(def,
 				false,
-				TestErrorHandler.INSTANCE, false, null);
+				TestErrorHandler.INSTANCE, info, null);
 		assertEquals(DescriptionMode.values()[rows],
 				el[0].needToShowBothRowsInAV());
 	}
@@ -79,7 +81,8 @@ public class AlgebraStyleTest extends Assert {
 		checkRows("{{a}}", 2);
 		checkRows("{{a}}+{{1}}", 2);
 		checkRows("{x=y}", 1);
-		checkRows("x=y", 0);
+		checkRows("x=y", 2);
+		checkRows("x=y", 1, new EvalInfo(true).withUserEquation(true));
 		checkRows("{y=x}", 1);
 		checkRows("Sequence[100]", 2);
 

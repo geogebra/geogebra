@@ -2670,7 +2670,7 @@ public class AlgebraProcessor {
 			line.setLineOpacity(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}
-		if (line instanceof EquationValue && info.isForceUserEquation()) {
+		if (info.isForceUserEquation() && line instanceof EquationValue) {
 			((EquationValue) line).setToUser();
 		}
 		if (info.isLabelOutput()) {
@@ -2874,7 +2874,7 @@ public class AlgebraProcessor {
 		} else if (eval instanceof TextValue) {
 			return processText(n, eval);
 		} else if (eval instanceof MyList) {
-			return processList(n, (MyList) eval);
+			return processList(n, (MyList) eval, info);
 		} else if (eval instanceof EquationValue) {
 			Equation eq = ((EquationValue) eval).getEquation();
 			eq.setFunctionDependent(true);
@@ -2889,7 +2889,7 @@ public class AlgebraProcessor {
 		// we have to process list in case list=matrix1(1), but not when
 		// list=list2
 		else if (eval instanceof GeoList && myNode.hasOperations()) {
-			return processList(n, ((GeoList) eval).getMyList());
+			return processList(n, ((GeoList) eval).getMyList(), info);
 		} else if (eval.isGeoElement()) {
 
 			// e.g. B1 = A1 where A1 is a GeoElement and B1 does not exist yet
@@ -2999,7 +2999,8 @@ public class AlgebraProcessor {
 		return number;
 	}
 
-	private GeoElement[] processList(ExpressionNode n, MyList evalList) {
+	private GeoElement[] processList(ExpressionNode n, MyList evalList,
+			EvalInfo info) {
 		String label = n.getLabel();
 
 		GeoElement ret;
@@ -3023,7 +3024,10 @@ public class AlgebraProcessor {
 				GeoElement[] results = processExpressionNode(en,
 						new EvalInfo(false));
 				GeoElement geo = results[0];
-
+				if (info.isForceUserEquation()
+						&& Equation.isAlgebraEquation(geo)) {
+					((EquationValue) geo).setToUser();
+				}
 				// add to list
 				geoElements.add(geo);
 				if (geo.isLabelSet() || geo.isLocalVariable()

@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.algos.AlgoDependentList;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoMacroInterface;
 import org.geogebra.common.kernel.algos.AlgoSemicircle;
+import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -3069,7 +3070,8 @@ public class GeoList extends GeoElement
 		}
 
 		for (GeoElement geo : geoList) {
-			if (geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE) {
+			if (geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+					&& !Equation.isAlgebraEquation(geo)) {
 				return DescriptionMode.DEFINITION_VALUE;
 			}
 		}
