@@ -142,8 +142,8 @@ public class GlobalKeyDispatcherW extends
 							ArticleElement nextArticle = getNextArticle(targetArticle);
 							focusArticle(nextArticle);
 						}
-					} else if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
-							&& app != null
+					} else if (app != null
+							&& app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
 							&& event.getNativeEvent()
 									.getKeyCode() == GWTKeycodes.KEY_X
 							&& event.getNativeEvent().getCtrlKey()
