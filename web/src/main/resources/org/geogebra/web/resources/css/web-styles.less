@@ -1657,7 +1657,8 @@
 		display: inline-block;
 		background-repeat: no-repeat;
 		background-position: center center;
-		padding-top: 100%;
+		padding-top: 20%;
+		color: #4cb4a4;
 		cursor: pointer;
 	}
 
@@ -1897,9 +1898,19 @@
 	} */
 
 	/*---------------- SHARE DIALOG -------------*/
+	.shareDialog{
+		min-width:320px;
+		&>div>table {
+			width:100%;
+			padding-right:16px;
+		}
+	}
 	.GeoGebraTabLayout {
 		width: 500px;
-		height: 255px;
+		.gwt-TabPanelBottom {
+			min-height: 220px;
+			margin-bottom: 8px;
+		}
 	}
 	.GeoGebraLinkPanel {
 		height: 100%;

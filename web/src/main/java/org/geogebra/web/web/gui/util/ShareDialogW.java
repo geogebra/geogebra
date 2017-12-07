@@ -42,6 +42,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private TextBox recipient;
 	private TextArea message;
 	private Localization loc;
+	private TextBox link;
 
 	public ShareDialogW(final AppW app) {
 		super(app.getPanel(), app);
@@ -57,6 +58,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		this.contentPanel = new VerticalPanel();
 		this.contentPanel.add(getTabPanel());
 		this.add(this.contentPanel);
+		addStyleName("shareDialog");
 	}
 
 	private TabPanel getTabPanel() {
@@ -241,7 +243,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		// Label lblLink = new Label(loc.getMenu("Link") + ": ");
 
-		final TextBox link = new TextBox();
+		link = new TextBox();
 		link.setValue(GeoGebraConstants.TUBE_URL_SHORT + sharingKey);
 		link.setReadOnly(true);
 
@@ -295,6 +297,14 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		return emailPanel;
 	}
 
+	@Override
+	public void center() {
+		super.center();
+		if (link != null) {
+			link.setFocus(true);
+			link.selectAll();
+		}
+	}
 	// TODO implement in the future - share images
 	/*
 	 * private HorizontalPanel getImagePanel() { imagePanel = new

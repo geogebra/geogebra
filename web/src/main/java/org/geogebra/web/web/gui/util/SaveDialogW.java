@@ -110,7 +110,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private ListBox listBox;
 	private MaterialType saveType;
 	private ArrayList<Material.Provider> supportedProviders = new ArrayList<>();
-	private Visibility defaultVisibility = Visibility.Private;
+	private Visibility defaultVisibility = Visibility.Shared;
 	private Localization loc;
 
 	// private MaterialCallback materialCB;

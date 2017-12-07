@@ -217,12 +217,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 						@Override
 						public void doExecute() {
-							if (!nativeShareSupported()) {
-								showShareDialog();
-							} else {
-								getApp().getGgbApi().getBase64(true,
-										getShareStringHandler(getApp()));
-							}
+						share(getApp());
 					}
 			});
 		if (getApp().getLAF().exportSupported() && !getApp().isUnbundledOrWhiteboard()) {
@@ -267,6 +262,15 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    }
 	}
 
+	public static void share(AppW app) {
+		if (!nativeShareSupported()) {
+			showShareDialog(app);
+		} else {
+			app.getGgbApi().getBase64(true,
+					getShareStringHandler(app));
+		}
+	}
+
 	/**
 	 * Show exit exam dialog
 	 */
@@ -291,34 +295,34 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	/**
 	 * SHow the custom share dialog
 	 */
-	protected void showShareDialog() {
+	protected static void showShareDialog(final AppW app) {
 		Runnable shareCallback = new Runnable() {
 
 			@Override
 			public void run() {
-				ShareDialogW sd = new ShareDialogW(getApp());
+				ShareDialogW sd = new ShareDialogW(app);
 				sd.setVisible(true);
 				sd.center();
 			}
 		};
-		if (getApp().getActiveMaterial() == null
-				|| "P".equals(getApp().getActiveMaterial().getVisibility())) {
-			if (!getApp().getLoginOperation().isLoggedIn()) {
+		if (app.getActiveMaterial() == null
+				|| "P".equals(app.getActiveMaterial().getVisibility())) {
+			if (!app.getLoginOperation().isLoggedIn()) {
 				// not saved, not logged in
-				getApp().getLoginOperation().getView().add(new EventRenderable() {
+				app.getLoginOperation().getView().add(new EventRenderable() {
 
 					@Override
 					public void renderEvent(BaseEvent event) {
 						if (event instanceof LoginEvent
 								&& ((LoginEvent) event).isSuccessful()) {
-							showShareDialog();
+							showShareDialog(app);
 						}
 					}
 				});
-				((SignInButton) getApp().getLAF().getSignInButton(getApp())).login();
+				((SignInButton) app.getLAF().getSignInButton(app)).login();
 			} else {
 				// not saved, logged in
-				((DialogManagerW) getApp().getDialogManager()).getSaveDialog()
+				((DialogManagerW) app.getDialogManager()).getSaveDialog()
 						.setDefaultVisibility(SaveDialogW.Visibility.Shared)
 					.showIfNeeded(shareCallback, true);
 			}

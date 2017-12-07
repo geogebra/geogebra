@@ -5,11 +5,11 @@ import java.util.Locale;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
+import org.geogebra.web.web.gui.menubar.FileMenuW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
@@ -76,8 +76,6 @@ public final class ToolTipManagerW {
 
 	private TooltipPanel bottomInfoTipPanel;
 	private HTML bottomInfoTipHTML;
-	private String questionMark;
-	private String viewSavedFile;
 	private Label helpLabel;
 
 	private String oldText = "";
@@ -182,11 +180,6 @@ public final class ToolTipManagerW {
 		bottomInfoTipHTML = new HTML();
 		bottomInfoTipHTML.setStyleName("infoText");
 
-		questionMark = GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
-				.asString();
-		viewSavedFile = GuiResourcesSimple.INSTANCE.viewSaved().getSafeUri()
-				.asString();
-
 		bottomInfoTipPanel = new TooltipPanel();
 
 		bottomInfoTipPanel.setStyleName("infoTooltip");
@@ -203,10 +196,13 @@ public final class ToolTipManagerW {
 	 */
 	void openHelp() {
 		if (!StringUtil.empty(helpURL) && app != null) {
-			app.getFileManager().open(helpURL);
+			if (this.linkType == ToolTipLinkType.ViewSavedFile) {
+				FileMenuW.share(app);
+			}else{
+				app.getFileManager().open(helpURL);
+			}
 			hideAllToolTips();
 		}
-
 	}
 
 	/**
@@ -279,16 +275,13 @@ public final class ToolTipManagerW {
 			helpLabel = new Label();
 
 			if (link.equals(ToolTipLinkType.Help)) {
-				if (app.isUnbundled()) {
-					helpLabel.setText(app.getLocalization().getMenu("Help").toUpperCase(Locale.ROOT));
 
-				} else {
-					helpLabel.getElement().getStyle().setBackgroundImage("url(" + this.questionMark + ")");
-				}
+				helpLabel.setText(app.getLocalization().getMenu("Help")
+						.toUpperCase(Locale.ROOT));
 
 			} else if (link.equals(ToolTipLinkType.ViewSavedFile)) {
-				helpLabel.getElement().getStyle()
-						.setBackgroundImage("url(" + this.viewSavedFile + ")");
+				helpLabel.setText(app.getLocalization().getMenu("Share")
+						.toUpperCase(Locale.ROOT));
 			}
 			// IE and FF block popups if they are comming from mousedown, so use
 			// mouseup instead
