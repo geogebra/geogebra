@@ -50,7 +50,7 @@ public class ZoomPanel extends FlowPanel
 	boolean isFullScreen = false;
 
 	private FlowPanel zoomPanel = this;
-	private AppW app;
+	AppW app;
 	private EuclidianView view;
 	/** after we leave fullscreen, we must reset container position */
 	private String containerPositionBefore;
@@ -233,6 +233,9 @@ public class ZoomPanel extends FlowPanel
 			@Override
 			public void onClick(Widget source) {
 				onHomePressed();
+				if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+					app.getAccessibilityManager().focusMenu();
+				}
 			}
 		};
 		homeBtn.addFastClickHandler(handlerHome);
