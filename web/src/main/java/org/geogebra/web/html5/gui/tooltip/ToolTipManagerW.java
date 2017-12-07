@@ -9,7 +9,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
-import org.geogebra.web.web.gui.menubar.FileMenuW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
@@ -197,7 +196,7 @@ public final class ToolTipManagerW {
 	void openHelp() {
 		if (!StringUtil.empty(helpURL) && app != null) {
 			if (this.linkType == ToolTipLinkType.ViewSavedFile) {
-				FileMenuW.share(app);
+				app.share();
 			}else{
 				app.getFileManager().open(helpURL);
 			}

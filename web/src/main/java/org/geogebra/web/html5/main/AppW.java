@@ -3728,4 +3728,11 @@ public abstract class AppW extends App implements SetLabels {
 	public int getSlidesAmount() {
 		return slides.size();
 	}
+
+	/**
+	 * Open share dialog (native or HTML popup)
+	 */
+	public void share() {
+		// only with GUI
+	}
 }
