@@ -655,7 +655,8 @@ public class AlgebraProcessor {
 			boolean addDegree, final AsyncOperation<GeoElementND[]> callback0) {
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
 				new EvalInfo(!cons.isSuppressLabelsActive(), true)
-						.withSliders(autoCreateSliders).addDegree(addDegree),
+						.withSliders(autoCreateSliders).addDegree(addDegree)
+						.withUserEquation(true),
 				callback0);
 	}
 

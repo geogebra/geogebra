@@ -16,7 +16,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ScriptElement;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
@@ -26,7 +25,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TabLayoutPanel;
+import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -60,8 +59,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		this.add(this.contentPanel);
 	}
 
-	private TabLayoutPanel getTabPanel() {
-		TabLayoutPanel tabPanel = new TabLayoutPanel(30, Unit.PX);
+	private TabPanel getTabPanel() {
+		TabPanel tabPanel = new TabPanel();
 		tabPanel.addStyleName("GeoGebraTabLayout");
 
 		tabPanel.add(getLinkPanel(), loc.getMenu("Link"));
