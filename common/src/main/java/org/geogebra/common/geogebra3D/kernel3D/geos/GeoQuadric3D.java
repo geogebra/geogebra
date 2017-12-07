@@ -1931,7 +1931,11 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	protected StringBuilder buildValueString(StringTemplate tpl) {
 
 		StringBuilder sbToValueString = new StringBuilder();
-
+		if (getDefinition() != null && (!kernel.getApplication().getSettings()
+				.getCasSettings().isEnabled()
+				|| toStringMode == GeoConicND.EQUATION_USER)) {
+			return sbToValueString.append(getDefinition().toString(tpl));
+		}
 		switch (type) {
 		case QUADRIC_SPHERE:
 			buildSphereNDString(sbToValueString, tpl);

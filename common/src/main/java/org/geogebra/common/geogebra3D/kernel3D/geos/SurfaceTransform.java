@@ -11,6 +11,9 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Helper functions for transfroming parametric curves and surfaces
+ */
 public class SurfaceTransform {
 	/**
 	 * @param fun
@@ -77,6 +80,18 @@ public class SurfaceTransform {
 
 	}
 
+	/**
+	 * @param fun
+	 *            functions
+	 * @param kernel
+	 *            kernel
+	 * @param r
+	 *            angle
+	 * @param s
+	 *            center (use z-axis as orientation)
+	 * @param tmpMatrix4x4
+	 *            helper matrix
+	 */
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
 			GeoPointND s, CoordMatrix4x4 tmpMatrix4x4) {
 		CoordMatrix4x4.Rotation4x4(r.getDouble(), s.getInhomCoordsInD3(),
@@ -105,6 +120,20 @@ public class SurfaceTransform {
 
 	}
 
+	/**
+	 * @param fun
+	 *            functions
+	 * @param kernel
+	 *            kernel
+	 * @param r
+	 *            angle
+	 * @param s
+	 *            center
+	 * @param orientation
+	 *            axis direction
+	 * @param tmpMatrix4x4
+	 *            helper matrix
+	 */
 	public static void rotate(FunctionNVar[] fun, Kernel kernel, NumberValue r,
 			GeoPointND s, GeoDirectionND orientation,
 			CoordMatrix4x4 tmpMatrix4x4) {

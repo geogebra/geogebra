@@ -8566,15 +8566,15 @@ public abstract class EuclidianController {
 	 */
 	private ArrayList<GeoElement> getPreviewSpecialPointHits(Hits hits) {
 		List<GeoElement> selectedPreviewPoints = app.getSelectionManager().getSelectedPreviewPoints();
-		ArrayList<GeoElement> previewPointHits = new ArrayList<>();
+		ArrayList<GeoElement> previewHits = new ArrayList<>();
 		if (selectedPreviewPoints != null) {
 			for (GeoElement hit : hits) {
 				if (selectedPreviewPoints.contains(hit)) {
-					previewPointHits.add(hit);
+					previewHits.add(hit);
 				}
 			}
 		}
-		return previewPointHits;
+		return previewHits;
 	}
 
 	/**

@@ -206,7 +206,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * @param symbFractions
+	 * @param userEquation
 	 *            whether to show symbolic fractionss
 	 * @return derived eval info
 	 */
@@ -233,6 +233,9 @@ public class EvalInfo {
 		return autoAddDegree;
 	}
 
+	/**
+	 * @return whether to force output = input
+	 */
 	public boolean isForceUserEquation() {
 		return forceUserEquation;
 	}

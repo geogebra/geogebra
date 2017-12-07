@@ -2156,10 +2156,17 @@ public class GeoPolyhedron extends GeoElement3D
 		return 0;
 	}
 
+	/**
+	 * @param flag
+	 *            whether children are labeled
+	 */
 	public void setChildrenLabelsSet(boolean flag) {
 		childrenLabelsSet = flag;
 	}
 
+	/**
+	 * @return whether children are labeled
+	 */
 	public boolean getChildrenLabelsSet() {
 		return childrenLabelsSet;
 	}
