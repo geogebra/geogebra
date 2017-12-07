@@ -3,6 +3,7 @@
 
     <declare-styleable name="FormulaEditor">
         <attr name="fe_size" format="float" />
+        <attr name="fe_minWidth" format="dimension" />
         <attr name="fe_foregroundColor" format="color" />
         <attr name="fe_backgroundColor" format="color" />
         <attr name="fe_text" format="string" />

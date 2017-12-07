@@ -49,7 +49,7 @@ public class FormulaEditor extends View implements MathField {
     private final static int CURSOR_MARGIN = 5;
     // tolerance for cursor color
     private final static int CURSOR_TOLERANCE = 10;
-    public static final int DEFAULT_SIZE = 20;
+    private static final int DEFAULT_SIZE = 20;
 
     @SuppressWarnings({"PublicField", "StaticNonFinalField"})
     public static MetaModel sMetaModel = new MetaModel();
@@ -57,6 +57,7 @@ public class FormulaEditor extends View implements MathField {
     private TeXIcon mTeXIcon;
     private Graphics2DA mGraphics;
     private float mSize = DEFAULT_SIZE;
+    private float mMinWidth;
     private int mBackgroundColor = Color.TRANSPARENT;
     private ColorA mForegroundColor = new ColorA(Color.BLACK);
     private int mType = TeXFormula.SERIF;
@@ -107,6 +108,7 @@ public class FormulaEditor extends View implements MathField {
 
         try {
             mSize = a.getFloat(R.styleable.FormulaEditor_fe_size, DEFAULT_SIZE);
+            mMinWidth = a.getDimension(R.styleable.FormulaEditor_fe_minWidth, 0);
             mBackgroundColor = a.getColor(R.styleable.FormulaEditor_fe_backgroundColor, Color.TRANSPARENT);
             mForegroundColor = new ColorA(a.getColor(R.styleable.FormulaEditor_fe_foregroundColor, Color.BLACK));
             mText = a.getString(R.styleable.FormulaEditor_fe_text);
@@ -129,7 +131,7 @@ public class FormulaEditor extends View implements MathField {
         mMathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
     }
 
-    private float getMinHeigth() {
+    private float getMinHeight() {
         if (mMinHeight == 0) {
             TeXIcon tempIcon = new TeXFormula("|").new TeXIconBuilder().setSize(mSize * mScale)
                     .setStyle(TeXConstants.STYLE_DISPLAY).build();
@@ -254,8 +256,8 @@ public class FormulaEditor extends View implements MathField {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int desiredWidth = getWidthForIconWithPadding();
-        final int desiredHeight = (int) (Math.max(getMinHeigth(), mTeXIcon.getIconHeight()) + 0.5);
+        final int desiredWidth = Math.max(getWidthForIconWithPadding(), Math.round(mMinWidth));
+        final int desiredHeight = (int) (Math.max(getMinHeight(), mTeXIcon.getIconHeight()) + 0.5);
 
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -546,6 +548,10 @@ public class FormulaEditor extends View implements MathField {
 
     protected boolean hasPreview() {
         return mFormulaPreviewTeXIcon != null;
+    }
+
+    protected float getFontSize() {
+        return mSize;
     }
     
     @Override
