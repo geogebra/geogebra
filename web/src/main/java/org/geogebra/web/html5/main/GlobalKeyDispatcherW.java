@@ -142,7 +142,24 @@ public class GlobalKeyDispatcherW extends
 							ArticleElement nextArticle = getNextArticle(targetArticle);
 							focusArticle(nextArticle);
 						}
-					} 
+					} else if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
+							&& app != null
+							&& event.getNativeEvent()
+									.getKeyCode() == GWTKeycodes.KEY_X
+							&& event.getNativeEvent().getCtrlKey()
+							&& event.getNativeEvent().getAltKey()) {
+						app.hideMenu();
+						app.closePopups();
+						if (app.getActiveEuclidianView() != null) {
+							app.getActiveEuclidianView()
+									.getEuclidianController()
+									.hideDynamicStylebar();
+						}
+						app.getSelectionManager().clearSelectedGeos();
+						app.getAccessibilityManager().focusInput(true);
+						event.cancel();
+					}
+
 					preventIfNotTabOrEnter(event, appfocused);
 					break;
 				case Event.ONKEYPRESS:

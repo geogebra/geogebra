@@ -36,6 +36,7 @@ public class AccessibilityButton implements AccessibilityInterface {
 			}
 
 			if (app.has(Feature.HELP_AND_SHORTCUTS)
+					&& !app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
 					&& app.getGlobalKeyDispatcher().handleCommonKeys(
 					event.getKeyCode(),
 					event.getCtrlKey(), event.getAltKey())) {

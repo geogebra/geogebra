@@ -1155,7 +1155,8 @@ public class MainMenu extends FlowPanel
 			selectNextItem(mi);
 		}
 
-		if (app.has(Feature.HELP_AND_SHORTCUTS)) {
+		if (app.has(Feature.HELP_AND_SHORTCUTS)
+				&& !app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
 			if (app.getGlobalKeyDispatcher().handleCommonKeys(
 					event.getNativeKeyCode(), event.isControlKeyDown(),
 					event.isAltKeyDown())) {

@@ -238,6 +238,7 @@ public class AriaMenuBar extends Widget {
 		} // end switch (DOM.eventGetType(event))
 
 		if (getApp() != null && getApp().has(Feature.HELP_AND_SHORTCUTS)
+				&& !getApp().has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
 				&& getApp().getGlobalKeyDispatcher().handleCommonKeys(
 						event.getKeyCode(), event.getCtrlKey(),
 						event.getAltKey())) {

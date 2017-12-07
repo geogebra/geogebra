@@ -412,7 +412,9 @@ public abstract class GlobalKeyDispatcher {
 
 		}
 
-		consumed = handleCommonKeys(key, isControlDown, isAltDown);
+		if (!app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+			consumed = handleCommonKeys(key, isControlDown, isAltDown);
+		}
 
 		return consumed;
 	}
