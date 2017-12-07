@@ -1,9 +1,11 @@
 package org.geogebra.web.html5.gui.util;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityButton;
 import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
@@ -109,6 +111,8 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 	public void setFocus(boolean focus) {
 		if (mayFocus) {
 			super.setFocus(focus);
+		} else if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+			((AppW) app).getArticleElement().focus();
 		}
 	}
 
