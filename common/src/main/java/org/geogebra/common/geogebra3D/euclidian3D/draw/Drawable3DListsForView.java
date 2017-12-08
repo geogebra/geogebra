@@ -104,7 +104,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 	public void enlargeBounds(Coords min, Coords max) {
 		for (Drawable3DList l : lists) {
 			for (Drawable3D d : l) {
-				if (d.isVisible()) {
+				if (d != null && d.isVisible()) {
 					d.enlargeBounds(min, max);
 				}
 			}
