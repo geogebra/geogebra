@@ -5941,11 +5941,8 @@ public class ExpressionNode extends ValidExpression
 	 * @return this as fraction
 	 */
 	public String toFractionString(StringTemplate tpl) {
-
 		initFraction();
-
 		return ((ExpressionNode) resolve).toFractionStringFlat(tpl);
-
 	}
 
 	/**

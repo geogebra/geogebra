@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.arithmetic.MySpecialDouble;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
@@ -1915,6 +1916,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	public void append(StringBuilder sb, String str, ExpressionValue ev,
 			Operation op) {
+		if (ev.isGeoElement() && ((GeoElement) ev).isGeoNumeric()
+				&& ((GeoNumeric) ev).isSymbolicMode()
+				&& ((GeoElement) ev).getDefinition() != null
+				&& ((GeoElement) ev).getDefinition().isFraction()) {
+			append(sb, str, ((GeoElement) ev).getDefinition(), op);
+			return;
+		}
 		if (ev.isLeaf() || (ExpressionNode.opID(ev) >= op.ordinal())
 				&& (!ExpressionNode.chainedBooleanOp(op) || !ExpressionNode
 						.chainedBooleanOp(ev.wrap().getOperation()))) {
