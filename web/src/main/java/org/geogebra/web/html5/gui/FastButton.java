@@ -212,12 +212,6 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 		}
 	}
 
-	@Override
-	public void setFocus(boolean focus) {
-		Log.printStacktrace("");
-		super.setFocus(focus);
-	}
-
 	private void onClick(Event event) {
 		event.stopPropagation();
 		event.preventDefault();

@@ -1911,7 +1911,6 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void setSymbolicMode(boolean mode, boolean update) {
-		Log.printStacktrace(mode);
 		this.symbolicMode = mode;
 	}
 
