@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CursorVisibility : MonoBehaviour
 {
-    void OnLevelWasLoaded(int level)
+    void sceneLoaded(int level)
     {
         if (FindObjectOfType<CharacterController>() != null)
         {

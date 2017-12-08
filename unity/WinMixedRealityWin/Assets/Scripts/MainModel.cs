@@ -3,20 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.WSA.Input;
 using HoloToolkit.Unity.InputModule;
+using Demonixis.Toolbox.XR;
 
 
 
-namespace UnityEngine.XR.WSA.Input
-{ 
+
 public class MainModel : MonoBehaviour, IControllerInputHandler, IInputClickHandler, IFocusable, IControllerTouchpadHandler
     {
-
         
+        Vector3 newPosition;
+        Vector3 newRotation;
         private float movementSpeedMultiplier = 0.001f;
 
         #region Members
         [HideInInspector]
-        public InteractionSourceState InteractionSource;
+        public InteractionInputSource InteractionSource;
         public GameObject interatctionSourceState;
         #endregion
 
@@ -65,6 +66,12 @@ public class MainModel : MonoBehaviour, IControllerInputHandler, IInputClickHand
             Debug.Log("This.transform.localscale is: " + this.transform.localScale);
             //throw new System.NotImplementedException();
 
+            GameObject interactable = GazeManager.Instance.HitObject;
+            if (interactable!= null)
+            {
+              
+            }
+
 
 
             //controllerState.TouchpadPosition.x = 1;
@@ -73,7 +80,7 @@ public class MainModel : MonoBehaviour, IControllerInputHandler, IInputClickHand
             //InteractionSourceState.touchpadPostion;
             //InteractionSourceState.touchpad
 
-            if (interatctionSourceState.GetComponent<InteractionSourceState>().touchpadPosition.x > 0.4f)
+            //if (interatctionSourceState.GetComponent<InteractionInputSource>().touchpadPosition.x > 0.4f)
             {
                 Debug.Log("Touchpad is aboe 0.4");
                 transform.localPosition = transform.localPosition * 0.5f;
@@ -81,8 +88,11 @@ public class MainModel : MonoBehaviour, IControllerInputHandler, IInputClickHand
 
 
             var interactionSourceStates = InteractionManager.GetCurrentReading();
-
             
+
+        
+
+
     }
 
 
@@ -93,17 +103,21 @@ public class MainModel : MonoBehaviour, IControllerInputHandler, IInputClickHand
             {
                 interatctionSourceState = GameObject.Find("GesturesInput");
             }
+
+        Debug.Log("this is InteractionSourceInfo.Controller" + InteractionSourceInfo.Controller);
             
         }
+        
 
-  
+        
         // Update is called once per frame
         void Update()
         {
-            
-        }
 
 
 
     }
-}
+
+
+
+    }
