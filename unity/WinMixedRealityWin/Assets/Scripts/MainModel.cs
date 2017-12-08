@@ -88,8 +88,8 @@ public class MainModel : MonoBehaviour, IControllerInputHandler, IInputClickHand
 
 
             var interactionSourceStates = InteractionManager.GetCurrentReading();
-            
 
+        
         
 
 
