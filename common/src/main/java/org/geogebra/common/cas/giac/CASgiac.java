@@ -131,6 +131,11 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGBIS_POLYNOMIAL("ggbisPolynomial", "ggbisPolynomial(a):= when (size(lname(a)) == 1, is_polynomial(a,lname(a)[0])," + "when (size(lname(a)) == 2, is_polynomial(a,lname(a)[0]) && is_polynomial(a,lname(a)[1]), ?))"),
 
 		/**
+		 * test if "=" or "%=" - needed for eg LeftSide({a,b}={1,2})
+		 */
+		GGB_IS_EQUALS("ggb_is_equals_sign", "ggb_is_equals_sign(a):=when(a=='='||a=='%=',true,false)"),
+
+		/**
 		 * now implemented natively in Giac. This is just for reference /
 		 * testing
 		 */
