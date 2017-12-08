@@ -5735,7 +5735,7 @@ unsigned int ConvertUTF8toUTF16 (
     first=0;
     if (sss>24 && s_orig.substr(0,17)=="add_autosimplify(")
       first=17;
-    if (s_orig[first]=='/' && s_orig[first]=='/')
+    if (s_orig[first]=='/')
       return s_orig;
     if (s_orig[first]=='#' || s_orig.substr(first,4)=="from" || s_orig.substr(first,7)=="import ")
       pythonmode=true;

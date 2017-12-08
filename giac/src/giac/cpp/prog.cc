@@ -1075,7 +1075,8 @@ namespace giac {
       check_local_assign(newc,Newa,res1,non_decl,res3,res4,false,contextptr);
       int rs=int(non_decl.size());
       for (int i=0;i<rs;i++){
-	if (is_constant_idnt(non_decl[i])){
+	// remove constant idnt and recursive def
+	if (is_constant_idnt(non_decl[i]) || non_decl[i]==d){ 
 	  non_decl.erase(non_decl.begin()+i);
 	  --i; --rs;
 	}

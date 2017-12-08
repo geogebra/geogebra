@@ -9402,6 +9402,18 @@ namespace giac {
 	if (v.size()>7 && v[7].type==_VECT){
 	  vecteur v7=*v[7]._VECTptr;
 	  if (v7.size()==7 && v7.front()==at_ellipse){
+	    // geometric construction
+	    // tanellipse(P,F1,F2,a):={
+	    // local c1,c2,M1,M2,l1,l2;
+	    // l1:=longueur(P,F1);
+	    // l2:=longueur(P,F2);
+	    // si l1+l2<2a alors retourne [] fsi;
+	    // c1:=cercle(F1,2a);
+	    // c2:=cercle(P,l2);
+	    // [M1,M2]:=inter(c1,c2);
+	    // retourne mediatrice(F2,M1), mediatrice(F2,M2);
+	    // }:;
+	    // rational parametrization analytic construction
 	    // conic O+(1+i*t)*(d*t+e)/(a*t^2+b*t+c)
 	    gen O=v7[1],a=v7[2],b=v7[3],c=v7[4],d=v7[5],f=v7[6],xM,yM;
 	    // t must satisfy a 2nd order equation of coeffs
