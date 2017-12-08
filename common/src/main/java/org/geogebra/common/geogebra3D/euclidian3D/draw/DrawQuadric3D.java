@@ -67,16 +67,22 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	}
 
+	static private void drawPlane(DrawPlane3D dp, Renderer renderer) {
+	    if (dp != null) {
+            dp.drawGeometry(renderer);
+        }
+    }
+
 	@Override
 	public void drawGeometry(Renderer renderer) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
 		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
-			drawPlanes[0].drawGeometry(renderer);
-			drawPlanes[1].drawGeometry(renderer);
+            drawPlane(drawPlanes[0], renderer);
+			drawPlane(drawPlanes[1], renderer);
 			break;
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
-			drawPlanes[0].drawGeometry(renderer);
+			drawPlane(drawPlanes[0], renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_LINE:
