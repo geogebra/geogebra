@@ -199,7 +199,7 @@ public class Derivative {
 
 		case POLYGAMMA:
 			if (left.isNumberValue() && !left.contains(fv)) {
-				double n = ((NumberValue) left).getDouble();
+				double n = left.evaluateDouble();
 				return wrap(right.derivative(fv, kernel0))
 						.multiply(wrap(right).polygamma(n + 1));
 			}
@@ -244,7 +244,7 @@ public class Derivative {
 		case LOGB:
 			if (left.isNumberValue() && !left.contains(fv)) {
 				return wrap(right.derivative(fv, kernel0)).divide(right)
-						.divide(Math.log(((NumberValue) left).getDouble()));
+						.divide(Math.log(left.evaluateDouble()));
 			}
 			return right.wrap().apply(Operation.LOG)
 					.divide(left.wrap().apply(Operation.LOG))
