@@ -236,6 +236,9 @@ public interface Traversing {
 				Operation newOp = null;
 
 				switch (op) {
+				default:
+					// do nothing
+					break;
 				case ARCSIN:
 					newOp = Operation.ARCSIND;
 					break;
