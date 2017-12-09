@@ -346,9 +346,9 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			PTerm t = entry.getKey();
 			BigInteger c = entry.getValue();
 			if (!t.getTerm().isEmpty()) {
-				if (c != BigInteger.ONE) {
+				if (!c.equals(BigInteger.ONE)) {
 					// c != -1
-					if (c.add(BigInteger.ONE) != BigInteger.ZERO) {
+					if (!(c.add(BigInteger.ONE)).equals(BigInteger.ZERO)) {
 						// c < -1
 						if (c.add(BigInteger.ONE).compareTo(BigInteger.ZERO) < 0) {
 							if (sb.length() > 0) {

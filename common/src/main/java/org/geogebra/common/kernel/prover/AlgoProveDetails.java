@@ -185,14 +185,10 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		list.clear();
 
 		if (!ExtendedBoolean.UNKNOWN.equals(result)) {
-			Boolean unreadable = null;
+			Boolean unreadable = false;
 
-			if (proofresult == ProofResult.TRUE_NDG_UNREADABLE
-					|| proofresult == ProofResult.TRUE_COMPONENT) {
+			if (proofresult == ProofResult.TRUE_NDG_UNREADABLE) {
 				unreadable = true;
-			}
-			if (proofresult == ProofResult.TRUE) {
-				unreadable = false;
 			}
 
 			GeoBoolean answer = new GeoBoolean(cons);
@@ -311,6 +307,15 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 				// Put this list to the final output (if non-empty):
 				if (ndgConditionsList.size() > 0) {
 					list.add(ndgConditionsList);
+				}
+
+				if (proofresult == ProofResult.TRUE_ON_COMPONENTS) {
+					GeoText classification = new GeoText(cons);
+					String c = "c";
+					classification.setTextString(c);
+					classification.setLabelVisible(false);
+					classification.setEuclidianVisible(false);
+					list.add(classification);
 				}
 			}
 		}

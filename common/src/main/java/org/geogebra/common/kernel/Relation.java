@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.prover.AlgoAreCollinear;
 import org.geogebra.common.kernel.prover.AlgoAreConcurrent;
 import org.geogebra.common.kernel.prover.AlgoAreConcyclic;
@@ -146,6 +147,10 @@ public class Relation {
 							} else if ("1".equals(ndgResult[0])) {
 								// ProveDetails=={true}
 								rel.setInfo(rel.getInfo() + loc.getMenu("AlwaysTrue"));
+							} else if ("2".equals(ndgResult[0])) {
+								// ProveDetails=={true,"c"}
+								rel.setInfo(rel.getInfo()
+										+ loc.getMenu("PartiallyTrue"));
 							} else { // "0"
 								Log.error(
 										"Internal error in prover: Prove==true <-> ProveDetails==false");
@@ -156,10 +161,14 @@ public class Relation {
 							int ndgs = ndgResult.length;
 							if ((ndgs == 2) && ((Unicode.ELLIPSIS + "")
 									.equals(ndgResult[1]))) {
-								// UnderCertainConditionsA
+								// Formerly UnderCertainConditionsA
 								rel.setInfo(rel.getInfo() + loc.getPlain(
-										"UnderCertainConditionsA",
+										"GenerallyTrueAcondB",
 										"<ul><li " + liStyle + ">" + relInfo
+												+ "</ul>",
+										"<ul><li " + liStyle + ">"
+												+ loc.getMenu(
+														"ConstructionNotDegenerate")
 												+ "</ul>"));
 
 							} else {
@@ -356,7 +365,7 @@ public class Relation {
 
 		GeoList list = ((GeoList) o[0]);
 		// Turning the output of ProveDetails into an array:
-		if (list.size() >= 2) {
+		if (list.size() >= 2 && list.get(1).isGeoList()) {
 			GeoList conds = (GeoList) list.get(1);
 			int condsSize = conds.size();
 			ret = new String[condsSize + 1];
@@ -380,6 +389,14 @@ public class Relation {
 			}
 		} else {
 			ret[0] = ""; // undefined (UNKNOWN)
+		}
+		GeoElement last = list.get(list.size() - 1);
+		if (last.isGeoText()) {
+			String lastText = ((GeoText) last).getText().toString();
+			if ("\"c\"".equals(lastText)) {
+				// true on components
+				ret[0] = "2";
+			}
 		}
 		root.remove();
 		o[0].remove();

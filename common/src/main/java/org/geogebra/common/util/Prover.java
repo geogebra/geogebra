@@ -86,13 +86,13 @@ public abstract class Prover {
 	 */
 	public enum ProofResult {
 		/**
-		 * The proof is completed, the statement is generally true (with some
-		 * NDG conditions)
+		 * The proof is completed, the statement is generally true (maybe with
+		 * some NDG conditions).
 		 */
 		TRUE,
 		/**
-		 * The statement is generally true (with some NDG conditions) but no
-		 * readable NDGs were found
+		 * The proof is completed, the statement is generally true (with some
+		 * NDG conditions) but no readable NDGs were found.
 		 */
 		TRUE_NDG_UNREADABLE,
 		/**
@@ -100,14 +100,14 @@ public abstract class Prover {
 		 * generally false. That is, it is true on a component, but not true on
 		 * all components in the algebraic geometry context.
 		 */
-		TRUE_COMPONENT,
+		TRUE_ON_COMPONENTS,
 		/**
-		 * The proof is completed, the statement is generally false
+		 * The proof is completed, the statement is generally false.
 		 */
 		FALSE,
 		/**
 		 * The statement cannot be proved by using the current backend within
-		 * the given timeout
+		 * the given timeout.
 		 */
 		UNKNOWN,
 		/**
@@ -148,7 +148,6 @@ public abstract class Prover {
 	private boolean returnExtraNDGs;
 	private List<ProverEngine> proveAutoOrder;
 	private List<ProverEngine> proveDetailsAutoOrder;
-
 	/**
 	 * @author Zoltan Kovacs <zoltan@geogebra.org> An object which contains a
 	 *         condition description (e.g. "AreCollinear") and an ordered list
@@ -511,7 +510,9 @@ public abstract class Prover {
 		AlgoElement algoParent = statement.getParentAlgorithm();
 		if (algoParent == null) {
 			if (statement.getValueForInputBar().equals("true")) {
-				result = ProofResult.TRUE; // Trust in kernel's wisdom
+				result = ProofResult.TRUE; // Trust in
+																// kernel's
+																// wisdom
 			} else if (statement.getValueForInputBar().equals("false")) {
 				result = ProofResult.FALSE; // Trust in kernel's wisdom
 			}
@@ -540,7 +541,8 @@ public abstract class Prover {
 		}
 		result = ProofResult.UNKNOWN;
 		while ((result == ProofResult.UNKNOWN
-				|| result == ProofResult.TRUE_NDG_UNREADABLE) && it.hasNext()) {
+				|| result == ProofResult.TRUE_NDG_UNREADABLE)
+				&& it.hasNext()) {
 			ProverEngine pe = it.next();
 			if (pe == ProverEngine.OPENGEOPROVER_WU
 					|| pe == ProverEngine.OPENGEOPROVER_AREA) {
@@ -625,7 +627,7 @@ public abstract class Prover {
 		if (result != null) {
 			if (result == Prover.ProofResult.TRUE
 					|| result == Prover.ProofResult.TRUE_NDG_UNREADABLE
-					|| result == Prover.ProofResult.TRUE_COMPONENT) {
+					|| result == Prover.ProofResult.TRUE_ON_COMPONENTS) {
 				return ExtendedBoolean.TRUE;
 			}
 			if (result == Prover.ProofResult.FALSE) {
@@ -770,4 +772,5 @@ public abstract class Prover {
 	public Construction getConstruction() {
 		return construction;
 	}
+
 }

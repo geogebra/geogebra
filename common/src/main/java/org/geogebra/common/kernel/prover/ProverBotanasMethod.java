@@ -475,7 +475,7 @@ public class ProverBotanasMethod {
 			}
 			polynomials.add(p);
 			int size = polynomials.size();
-			Log.debug("Adding poly #" + (size) + ": " + p);
+			Log.debug("Adding poly #" + (size) + ": " + p.toTeX());
 		}
 
 		/**
@@ -1478,7 +1478,7 @@ public class ProverBotanasMethod {
 										 */
 										Log.debug(
 												"Statement is NOT GENERALLY FALSE");
-										return ProofResult.TRUE_COMPONENT;
+										return ProofResult.TRUE_ON_COMPONENTS;
 									}
 								}
 							}
@@ -1647,7 +1647,7 @@ public class ProverBotanasMethod {
 					 * Here we know that the statement is not generally false.
 					 */
 					Log.debug("Statement is NOT GENERALLY FALSE");
-					return ProofResult.TRUE_COMPONENT;
+					return ProofResult.TRUE_ON_COMPONENTS;
 				}
 				/* End of checking if the statement is not generally false. */
 
