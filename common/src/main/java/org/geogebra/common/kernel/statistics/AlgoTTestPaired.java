@@ -105,7 +105,6 @@ public class AlgoTTestPaired extends AlgoElement {
 		val0 = new double[size];
 		val1 = new double[size];
 		GeoElement geo0, geo1;
-		NumberValue num0, num1;
 
 		for (int i = 0; i < size; i++) {
 			geo0 = geoList0.get(i);
