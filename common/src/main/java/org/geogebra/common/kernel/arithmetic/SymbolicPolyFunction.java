@@ -81,7 +81,7 @@ public class SymbolicPolyFunction extends PolyFunction {
 			for (int i = 0; i < symbCoeffs.length; i++) {
 				ExpressionValue eval = symbCoeffs[i]
 						.evaluate(StringTemplate.defaultTemplate);
-				coeff = ((NumberValue) eval).getDouble();
+				coeff = eval.evaluateDouble();
 				if (Double.isNaN(coeff) || Double.isInfinite(coeff))
 				 {
 					return false; // no valid values

@@ -85,7 +85,7 @@ public class PointNDFold implements FoldComputer {
 			// changed from GeoGebra 4.2 so that Sum[{(1,2),3}] gives (4,5)
 			// not (4,2)
 			// to be consistent with the CAS View
-			double val = ((NumberValue) p).getDouble();
+			double val = p.evaluateDouble();
 			x += val;
 			y += val;
 			z += val;

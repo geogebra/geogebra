@@ -147,15 +147,14 @@ public class MyVecNode extends ValidExpression
 		}
 
 		if (mode == Kernel.COORD_POLAR) {
-			double r = ((NumberValue) evx).getDouble();
+			double r = evx.evaluateDouble();
 			// allow negative radius for US
-			double phi = ((NumberValue) evy).getDouble();
+			double phi = evy.evaluateDouble();
 			double[] ret = { r * Math.cos(phi), r * Math.sin(phi) };
 			return ret;
 		}
 		// CARTESIAN
-		double[] ret = { ((NumberValue) evx).getDouble(),
-				((NumberValue) evy).getDouble() };
+		double[] ret = { evx.evaluateDouble(), evy.evaluateDouble() };
 		return ret;
 	}
 

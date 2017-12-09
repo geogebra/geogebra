@@ -30,7 +30,6 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.RelationNumerical.Report.RelationCommand;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.algos.AlgoIntersectLineConic;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -389,8 +388,7 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoSegmentND a, GeoSegmentND b) {
 		Boolean bool;
 		String str;
-		if (Kernel.isEqual(((NumberValue) a).getDouble(),
-				((NumberValue) b).getDouble())) {
+		if (Kernel.isEqual(a.evaluateDouble(), b.evaluateDouble())) {
 
 			if (a.isEqual(b)) {
 				register(true, null,
@@ -674,8 +672,7 @@ public class RelationNumerical {
 		register(bool, null, str);
 		// TODO: No prover support for conic equality yet.
 
-		bool = Kernel.isEqual(((NumberValue) a).getDouble(),
-				((NumberValue) b).getDouble());
+		bool = Kernel.isEqual(a.evaluateDouble(), b.evaluateDouble());
 		int type = a.getConicPartType();
 		if (type == b.getConicPartType()) {
 			if (type == GeoConicNDConstants.CONIC_PART_ARC) {

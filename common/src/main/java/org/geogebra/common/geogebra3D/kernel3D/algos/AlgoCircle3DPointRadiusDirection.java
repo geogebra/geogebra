@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -60,7 +59,7 @@ public class AlgoCircle3DPointRadiusDirection
 	@Override
 	protected final double getRadius() {
 
-		return ((NumberValue) getSecondInput()).getDouble();
+		return getSecondInput().evaluateDouble();
 
 	}
 

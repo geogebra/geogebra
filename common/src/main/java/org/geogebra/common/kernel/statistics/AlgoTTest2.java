@@ -163,8 +163,7 @@ public class AlgoTTest2 extends AlgoElement {
 			for (int i = 0; i < size0; i++) {
 				GeoElement geo0 = geoList0.get(i);
 				if (geo0 instanceof NumberValue) {
-					NumberValue num = (NumberValue) geo0;
-					val0[i] = num.getDouble();
+					val0[i] = geo0.evaluateDouble();
 
 				} else {
 					result.setUndefined();
@@ -175,8 +174,7 @@ public class AlgoTTest2 extends AlgoElement {
 			for (int i = 0; i < size1; i++) {
 				GeoElement geo1 = geoList1.get(i);
 				if (geo1 instanceof NumberValue) {
-					NumberValue num = (NumberValue) geo1;
-					val1[i] = num.getDouble();
+					val1[i] = geo1.evaluateDouble();
 
 				} else {
 					result.setUndefined();

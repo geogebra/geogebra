@@ -738,7 +738,7 @@ public class Function extends FunctionNVar
 																	// ---Tam
 				} else {
 					coeffValues[i] = coeff[i][0] instanceof NumberValue
-							? ((NumberValue) coeff[i][0]).getDouble() : 0;
+							? coeff[i][0].evaluateDouble() : 0;
 				}
 
 			}

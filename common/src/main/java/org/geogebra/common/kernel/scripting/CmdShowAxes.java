@@ -68,7 +68,7 @@ public class CmdShowAxes extends CmdScripting {
 
 			show = ((BooleanValue) arg[1]).getBoolean();
 
-			switch ((int) (((NumberValue) arg[0]).getDouble())) {
+			switch ((int) (arg[0].evaluateDouble())) {
 			case 2:
 				if (app.hasEuclidianView2(1)) {
 					ev = app.getEuclidianView2(1);

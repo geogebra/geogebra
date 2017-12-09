@@ -38,8 +38,7 @@ public class CmdShowHideLayer extends CmdScripting {
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0] instanceof NumberValue) {
-				NumberValue layerGeo = (NumberValue) arg[0];
-				int layer = (int) layerGeo.getDouble();
+				int layer = (int) arg[0].evaluateDouble();
 				if (layer < 0 || layer > EuclidianStyleConstants.MAX_LAYERS) {
 					return arg;
 				}

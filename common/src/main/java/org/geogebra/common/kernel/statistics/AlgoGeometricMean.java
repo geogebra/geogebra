@@ -85,7 +85,7 @@ public class AlgoGeometricMean extends AlgoElement {
 				result.setUndefined();
 				return;
 			}
-			double val = ((NumberValue) geo).getDouble();
+			double val = geo.evaluateDouble();
 			resultLog += Math.log(val);
 		}
 		result.setValue(Math.exp(resultLog / size));

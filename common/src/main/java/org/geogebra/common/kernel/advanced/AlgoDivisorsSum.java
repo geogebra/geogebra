@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoPrimeFactorization;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -49,9 +48,9 @@ public class AlgoDivisorsSum extends AlgoElement {
 		long res = 1;
 		for (int i = 0; i < factorList.size(); i++) {
 			GeoList pair = (GeoList) factorList.get(i);
-			double exp = ((NumberValue) pair.get(1)).getDouble();
+			double exp = pair.get(1).evaluateDouble();
 			if (sum) {
-				double prime = ((NumberValue) pair.get(0)).getDouble();
+				double prime = pair.get(0).evaluateDouble();
 				Log.debug(prime);
 				res = res * Math
 						.round((Math.pow(prime, exp + 1) - 1) / (prime - 1.0));

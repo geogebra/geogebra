@@ -13,7 +13,6 @@ package org.geogebra.common.kernel.algos;
  */
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -92,11 +91,11 @@ public class AlgoNormalize extends AlgoElement {
 		if (geo0.isGeoNumeric()) {
 			for (int i = 0; i < size; i++) {
 				geo0 = geoList.get(i);
-				if (((NumberValue) geo0).getDouble() > xMaxVal) {
-					xMaxVal = ((NumberValue) geo0).getDouble();
+				if (geo0.evaluateDouble() > xMaxVal) {
+					xMaxVal = geo0.evaluateDouble();
 				}
-				if (((NumberValue) geo0).getDouble() < xMinVal) {
-					xMinVal = ((NumberValue) geo0).getDouble();
+				if (geo0.evaluateDouble() < xMinVal) {
+					xMinVal = geo0.evaluateDouble();
 				}
 			}
 			// if the list has all elements equal or, the list has just one
@@ -148,8 +147,7 @@ public class AlgoNormalize extends AlgoElement {
 				if (normalXVal == 0) {
 					xVal = 0;
 				} else {
-					xVal = (((NumberValue) geo0).getDouble() - xMinVal)
-							/ normalXVal;
+					xVal = (geo0.evaluateDouble() - xMinVal) / normalXVal;
 				}
 
 				normalList.addNumber(xVal, this);

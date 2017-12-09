@@ -78,8 +78,7 @@ public class AlgoTiedRank extends AlgoElement {
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo instanceof NumberValue) {
-				NumberValue num = (NumberValue) geo;
-				inputArray[i] = num.getDouble();
+				inputArray[i] = geo.evaluateDouble();
 				if (Double.isNaN(inputArray[i])) {
 					outputList.setUndefined();
 					return;

@@ -2417,7 +2417,7 @@ public class GeoList extends GeoElement
 		for (int i = 0; i < size(); i++) {
 			GeoElement geo = get(i);
 			if (geo instanceof NumberValue) {
-				sum += ((NumberValue) geo).getDouble();
+				sum += geo.evaluateDouble();
 			} else {
 				return Double.NaN;
 			}

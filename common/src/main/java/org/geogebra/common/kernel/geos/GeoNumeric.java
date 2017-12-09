@@ -428,8 +428,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public void set(GeoElementND geo) {
-		NumberValue num = (NumberValue) geo;
-		setValue(num.getDouble());
+		setValue(geo.evaluateDouble());
 		reuseDefinition(geo);
 	}
 

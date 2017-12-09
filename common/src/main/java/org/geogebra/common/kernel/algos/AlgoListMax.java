@@ -95,9 +95,8 @@ public class AlgoListMax extends AlgoElement {
 		if (freqList == null) {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = geoList.get(i);
-				if (geo instanceof NumberValue) {
-					NumberValue num = (NumberValue) geo;
-					maxVal = Math.max(maxVal, num.getDouble());
+				if (geo.isNumberValue()) {
+					maxVal = Math.max(maxVal, geo.evaluateDouble());
 				} else {
 					max.setUndefined();
 					return;
@@ -122,7 +121,7 @@ public class AlgoListMax extends AlgoElement {
 				}
 
 				// handle bad frequency
-				double frequency = ((NumberValue) freqGeo).getDouble();
+				double frequency = freqGeo.evaluateDouble();
 				if (frequency < 0) {
 					max.setUndefined();
 					return;
@@ -130,8 +129,7 @@ public class AlgoListMax extends AlgoElement {
 					continue;
 				}
 				hasPositiveFrequency = true;
-				NumberValue num = (NumberValue) geo;
-				maxVal = Math.max(maxVal, num.getDouble());
+				maxVal = Math.max(maxVal, geo.evaluateDouble());
 			}
 
 			// make sure not all frequencies are zero

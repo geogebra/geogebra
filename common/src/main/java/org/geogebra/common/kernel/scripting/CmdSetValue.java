@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -47,10 +46,10 @@ public class CmdSetValue extends CmdScripting {
 			return arg;
 		case 3:
 			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent()))
-					&& arg[1] instanceof NumberValue) {
+					&& arg[1].isNumberValue()) {
 
 				boolean success = setValue3(kernel, (GeoList) arg[0],
-						(int) ((NumberValue) arg[1]).getDouble(), arg[2]);
+						(int) arg[1].evaluateDouble(), arg[2]);
 
 				if (!success) {
 					throw argErr(app, c, arg[1]);
@@ -102,9 +101,8 @@ public class CmdSetValue extends CmdScripting {
 		}
 		GeoElement geo = list.get(nn - 1);
 		if (geo.isIndependent()) {
-			if (geo.isGeoNumeric() && arg2 instanceof NumberValue) {
-				NumberValue num = (NumberValue) arg2;
-				((GeoNumeric) geo).setValue(num.getDouble());
+			if (geo.isGeoNumeric() && arg2.isNumberValue()) {
+				((GeoNumeric) geo).setValue(arg2.evaluateDouble());
 			} else {
 				geo.set(arg2);
 			}
@@ -178,9 +176,8 @@ public class CmdSetValue extends CmdScripting {
 					(int) Math.round(arg1.evaluateDouble()) - 1, true);
 
 		} else if (arg0.isIndependent() || arg0.isMoveable()) {
-			if (arg0.isGeoNumeric() && arg1 instanceof NumberValue) {
-				NumberValue num = (NumberValue) arg1;
-				((GeoNumeric) arg0).setValue(num.getDouble());
+			if (arg0.isGeoNumeric() && arg1.isNumberValue()) {
+				((GeoNumeric) arg0).setValue(arg1.evaluateDouble());
 			} else {
 				if (arg1.isGeoNumeric()
 						&& Double.isNaN(arg1.evaluateDouble())) {
@@ -197,15 +194,15 @@ public class CmdSetValue extends CmdScripting {
 				}
 			}
 			arg0.updateRepaint();
-		} else if (arg1 instanceof NumberValue && arg0.isGeoNumeric()
+		} else if (arg1.isNumberValue() && arg0.isGeoNumeric()
 				&& arg0.getParentAlgorithm() instanceof SetRandomValue) {
 			// eg a = RandomBetween[0,10]
 			SetRandomValue algo = (SetRandomValue) arg0.getParentAlgorithm();
-			algo.setRandomValue(((NumberValue) arg1).getDouble());
-		} else if (arg1 instanceof NumberValue
+			algo.setRandomValue(arg1.evaluateDouble());
+		} else if (arg1.isNumberValue()
 				&& arg0.getParentAlgorithm() instanceof AlgoDependentNumber) {
 			// eg a = random()
-			double val = ((NumberValue) arg1).getDouble();
+			double val = arg1.evaluateDouble();
 			if (val >= 0 && val <= 1) {
 				AlgoDependentNumber al = (AlgoDependentNumber) arg0
 						.getParentAlgorithm();

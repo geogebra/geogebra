@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.advanced;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -138,8 +137,8 @@ public class AlgoToComplexPolar extends AlgoElement {
 			outPoint.setMode(coordStyle);
 			return;
 		}
-		outPoint.setCoords(((NumberValue) inList.get(0)).getDouble(),
-				((NumberValue) inList.get(1)).getDouble(), 1);
+		outPoint.setCoords(inList.get(0).evaluateDouble(),
+				inList.get(1).evaluateDouble(), 1);
 		outPoint.setMode(coordStyle);
 	}
 

@@ -251,8 +251,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 
-				double a = ((NumberValue) lt).getDouble();
-				double b = ((NumberValue) rt).getDouble();
+				double a = lt.evaluateDouble();
+				double b = rt.evaluateDouble();
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), Kernel.isGreater(b, a),
@@ -273,8 +273,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 
-				double a = ((NumberValue) lt).getDouble();
-				double b = ((NumberValue) rt).getDouble();
+				double a = lt.evaluateDouble();
+				double b = rt.evaluateDouble();
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(), Kernel.isGreater(a, b),
@@ -295,8 +295,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 
-				double a = ((NumberValue) lt).getDouble();
-				double b = ((NumberValue) rt).getDouble();
+				double a = lt.evaluateDouble();
+				double b = rt.evaluateDouble();
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
@@ -318,8 +318,8 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
 
-				double a = ((NumberValue) lt).getDouble();
-				double b = ((NumberValue) rt).getDouble();
+				double a = lt.evaluateDouble();
+				double b = rt.evaluateDouble();
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
@@ -542,7 +542,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof ListValue) {
-				double x = ((NumberValue) lt).getDouble();
+				double x = lt.evaluateDouble();
 				double ret = Double.NaN;
 
 				ListValue list = (ListValue) rt;
@@ -552,10 +552,8 @@ public enum Operation {
 				}
 				int n = list.size() - 3;
 				if (n >= 1) {
-					double min = ((NumberValue) (list.getListElement(0)))
-							.getDouble();
-					double max = ((NumberValue) (list.getListElement(1)))
-							.getDouble();
+					double min = (list.getListElement(0)).evaluateDouble();
+					double max = (list.getListElement(1)).evaluateDouble();
 
 					if ((min > max) || (x > max) || (x < min)) {
 						return new MyDouble(ev.getKernel(), Double.NaN);
@@ -566,14 +564,13 @@ public enum Operation {
 					int index = (int) Math.floor((x - min) / step);
 
 					if (index > (n - 1)) {
-						ret = ((NumberValue) (list.getListElement(n + 2)))
-								.getDouble();
+						ret = (list.getListElement(n + 2)).evaluateDouble();
 					} else {
 
-						double y1 = ((NumberValue) (list
-								.getListElement(index + 2))).getDouble();
-						double y2 = ((NumberValue) (list
-								.getListElement(index + 3))).getDouble();
+						double y1 = (list.getListElement(index + 2))
+								.evaluateDouble();
+						double y2 = (list.getListElement(index + 3))
+								.evaluateDouble();
 						double x1 = min + (index * step);
 
 						// linear interpolation between (x1,y1) and
@@ -594,7 +591,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof MyNumberPair) {
-				double x = ((NumberValue) lt).getDouble();
+				double x = lt.evaluateDouble();
 				ListValue keyList = (ListValue) ((MyNumberPair) rt).getX();
 				ListValue valueList = (ListValue) ((MyNumberPair) rt).getY();
 				if (keyList.size() < 1) {
@@ -844,7 +841,7 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			Kernel kernel = ev.getKernel();
 			if (rt instanceof NumberValue) {
-				double n = ((NumberValue) rt).getDouble();
+				double n = rt.evaluateDouble();
 				MyDouble exp = new MyDouble(kernel, 1 / n);
 
 				if (lt instanceof NumberValue) {
@@ -1298,10 +1295,10 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				if (rt instanceof NumberValue
-						&& (!Double.isNaN(((NumberValue) rt).getDouble())
+						&& (!Double.isNaN(rt.evaluateDouble())
 								|| rt.isGeoElement())) {
 					return ((NumberValue) lt).getNumber().round(
-							((NumberValue) rt).getDouble(),
+							rt.evaluateDouble(),
 							ev.getKernel().getAngleUnit());
 				}
 				return ((NumberValue) lt).getNumber()
@@ -1559,7 +1556,7 @@ public enum Operation {
 				return ret;
 			} else if (lt instanceof NumberValue) {
 				return new MyDouble(kernel,
-						((NumberValue) lt).getDouble() < 0 ? Math.PI : 0);
+						lt.evaluateDouble() < 0 ? Math.PI : 0);
 			}
 			return ev.polynomialOrDie(lt, this, "arg(");
 		}
@@ -1607,16 +1604,16 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (rt instanceof NumberValue) {
-				NumberValue arg = (NumberValue) rt;
 
 				if (lt instanceof GeoCurveCartesianND) {
 					return ((GeoCurveCartesianND) lt)
-							.evaluateCurve(arg.getDouble());
+							.evaluateCurve(rt.evaluateDouble());
 				}
 				if (lt instanceof GeoLineND) {
-					return ((GeoLineND) lt).evaluateCurve(arg.getDouble());
+					return ((GeoLineND) lt).evaluateCurve(rt.evaluateDouble());
 				}
-				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
+				return ((ParametricCurve) lt)
+						.evaluateCurve(rt.evaluateDouble());
 			}
 			if (rt instanceof ListValue) {
 				ListValue arg = (ListValue) rt;
@@ -1650,12 +1647,12 @@ public enum Operation {
 			if (rt instanceof NumberValue) {
 				if (lt instanceof Functional) { // derivative of GeoFunction
 					return ((Functional) lt).getGeoDerivative(
-							(int) Math.round(((NumberValue) rt).getDouble()),
+							(int) Math.round(rt.evaluateDouble()),
 							true);
 				} else if (lt instanceof GeoCurveCartesianND) { // derivative of
 																// GeoCurveCartesian
 					return ((GeoCurveCartesianND) lt).getGeoDerivative(
-							(int) Math.round(((NumberValue) rt).getDouble()));
+							(int) Math.round(rt.evaluateDouble()));
 				}
 			}
 			return ev.illegalArgument(rt);

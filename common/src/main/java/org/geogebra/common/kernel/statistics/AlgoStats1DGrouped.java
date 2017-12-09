@@ -162,10 +162,8 @@ public abstract class AlgoStats1DGrouped extends AlgoElement {
 			GeoElement geo = geoList.get(i);
 			GeoElement geo2 = geoList2.get(i);
 			if (geo instanceof NumberValue && geo2 instanceof NumberValue) {
-				NumberValue num = (NumberValue) geo;
-				NumberValue freq = (NumberValue) geo2;
-				val = num.getDouble();
-				frequency = freq.getDouble();
+				val = geo.evaluateDouble();
+				frequency = geo2.evaluateDouble();
 				val_by_freq = val * frequency;
 				sumVal += val_by_freq;
 				sumSquares += val * val_by_freq;

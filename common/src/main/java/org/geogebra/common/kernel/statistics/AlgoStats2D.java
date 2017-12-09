@@ -134,10 +134,8 @@ public abstract class AlgoStats2D extends AlgoElement {
 				GeoElement geoy = geoListy.get(i);
 				if (geox instanceof NumberValue
 						&& geoy instanceof NumberValue) {
-					NumberValue numx = (NumberValue) geox;
-					NumberValue numy = (NumberValue) geoy;
-					valx = numx.getDouble();
-					valy = numy.getDouble();
+					valx = geox.evaluateDouble();
+					valy = geoy.evaluateDouble();
 					sumx += valx;
 					sumy += valy;
 					sumxx += valx * valx;

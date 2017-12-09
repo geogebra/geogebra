@@ -90,8 +90,8 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 				return;
 			}
 
-			double val = ((NumberValue) values.get(i)).getDouble();
-			double prob = ((NumberValue) probabilities.get(i)).getDouble();
+			double val = values.get(i).evaluateDouble();
+			double prob = probabilities.get(i).evaluateDouble();
 
 			if (Double.isInfinite(val) || Double.isNaN(val)
 					|| Double.isInfinite(prob) || Double.isNaN(prob)) {
@@ -104,15 +104,15 @@ public class AlgoRandomDiscrete extends AlgoElement implements SetRandomValue {
 
 		double randomDouble = sum * cons.getApplication().getRandomNumber();
 
-		double total = ((NumberValue) probabilities.get(0)).getDouble();
+		double total = probabilities.get(0).evaluateDouble();
 		int count = 0;
 
 		while (total < randomDouble) {
 			count++;
-			total += ((NumberValue) probabilities.get(count)).getDouble();
+			total += probabilities.get(count).evaluateDouble();
 		}
 
-		double result = ((NumberValue) values.get(count)).getDouble();
+		double result = values.get(count).evaluateDouble();
 		randomDiscrete.setValue(result);
 	}
 

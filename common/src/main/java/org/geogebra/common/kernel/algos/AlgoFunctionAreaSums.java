@@ -1637,16 +1637,16 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 							return;
 						}
 					}
-					if (geo instanceof NumberValue) {
-						leftBorder[i] = ((NumberValue) geo).getDouble();
+					if (geo.isNumberValue()) {
+						leftBorder[i] = geo.evaluateDouble();
 					} else {
 						sum.setUndefined();
 						return;
 					}
 
 					geo = list2.get(i);
-					if (geo instanceof NumberValue) {
-						yval[i] = ((NumberValue) geo).getDouble();
+					if (geo.isNumberValue()) {
+						yval[i] = geo.evaluateDouble();
 					} else {
 						sum.setUndefined();
 						return;

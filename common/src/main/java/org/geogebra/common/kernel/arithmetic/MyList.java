@@ -269,7 +269,7 @@ public class MyList extends ValidExpression
 		if (right && operation == Operation.POWER
 				&& value instanceof NumberValue && isMatrix()) {
 
-			double power = ((NumberValue) value).getDouble();
+			double power = value.evaluateDouble();
 			// Application.debug("matrix ^ "+power);
 
 			if (!Kernel.isInteger(power)) {

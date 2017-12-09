@@ -9,7 +9,6 @@ import java.util.TreeSet;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoPrimeFactorization;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -56,8 +55,8 @@ public class AlgoDivisorsList extends AlgoElement {
 		factList.add(1L);
 		for (int i = 0; i < factorList.size(); i++) {
 			GeoList pair = (GeoList) factorList.get(i);
-			double exp = ((NumberValue) pair.get(1)).getDouble();
-			double prime = ((NumberValue) pair.get(0)).getDouble();
+			double exp = pair.get(1).evaluateDouble();
+			double prime = pair.get(0).evaluateDouble();
 			long power = Math.round(prime);
 			for (int k = 1; k <= exp; k++) {
 				for (int j = 0; j < oldLength; j++) {

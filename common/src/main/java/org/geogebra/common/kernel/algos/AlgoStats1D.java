@@ -206,7 +206,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				geo = geoList.get(i);
 				if (geo instanceof NumberValue) {
-					val = ((NumberValue) geo).getDouble();
+					val = geo.evaluateDouble();
 					sumVal += val;
 					sumSquares += val * val;
 					product *= val;
@@ -235,7 +235,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 					return;
 				}
 
-				val = ((NumberValue) geo).getDouble();
+				val = geo.evaluateDouble();
 
 				// compute midpoint value if needed
 				if (useMidpoint) {
@@ -244,10 +244,10 @@ public abstract class AlgoStats1D extends AlgoElement {
 						result.setUndefined();
 						return;
 					}
-					val = (val + (((NumberValue) geo2).getDouble())) / 2;
+					val = (val + (geo2.evaluateDouble())) / 2;
 				}
 
-				frequency = ((NumberValue) geoFreq).getDouble();
+				frequency = geoFreq.evaluateDouble();
 
 				// handle bad frequency
 				if (frequency < 0) {

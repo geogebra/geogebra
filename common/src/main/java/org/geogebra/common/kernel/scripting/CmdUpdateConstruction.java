@@ -36,7 +36,7 @@ public class CmdUpdateConstruction extends CmdScripting {
 		case 1:
 			GeoElement[] arg = resArgs(c);
 			if (arg[0] instanceof NumberValue) {
-				double val = ((NumberValue) arg[0]).getDouble();
+				double val = arg[0].evaluateDouble();
 				if (Kernel.isInteger(val)) {
 					app.getKernel().updateConstruction(true, (int) val);
 					app.setUnsaved();

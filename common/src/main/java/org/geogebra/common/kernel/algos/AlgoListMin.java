@@ -100,8 +100,7 @@ public class AlgoListMin extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = geoList.get(i);
 				if (geo instanceof NumberValue) {
-					NumberValue num = (NumberValue) geo;
-					minVal = Math.min(minVal, num.getDouble());
+					minVal = Math.min(minVal, geo.evaluateDouble());
 				} else {
 					min.setUndefined();
 					return;
@@ -127,7 +126,7 @@ public class AlgoListMin extends AlgoElement {
 				}
 
 				// handle bad frequency
-				double frequency = ((NumberValue) freqGeo).getDouble();
+				double frequency = freqGeo.evaluateDouble();
 				if (frequency < 0) {
 					min.setUndefined();
 					return;
@@ -136,8 +135,7 @@ public class AlgoListMin extends AlgoElement {
 				}
 				hasPositiveFrequency = true;
 
-				NumberValue num = (NumberValue) geo;
-				minVal = Math.min(minVal, num.getDouble());
+				minVal = Math.min(minVal, geo.evaluateDouble());
 			}
 
 			// make sure not all frequencies are zero

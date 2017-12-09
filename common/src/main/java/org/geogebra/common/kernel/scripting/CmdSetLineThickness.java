@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
@@ -29,9 +28,9 @@ public class CmdSetLineThickness extends CmdScripting {
 		case 2:
 			GeoElement[] arg = resArgs(c);
 
-			if (arg[1] instanceof NumberValue) {
+			if (arg[1].isNumberValue()) {
 
-				int thickness = (int) ((NumberValue) arg[1]).getDouble();
+				int thickness = (int) arg[1].evaluateDouble();
 
 				arg[0].setLineThicknessOrVisibility(thickness);
 				arg[0].updateRepaint();

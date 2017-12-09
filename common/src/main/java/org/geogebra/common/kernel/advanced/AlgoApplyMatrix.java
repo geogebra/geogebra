@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.algos.AlgoTransformation;
 import org.geogebra.common.kernel.arithmetic.MyList;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConicPart;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -188,10 +187,10 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	@Override
 	public boolean swapOrientation(GeoConicPartND arc) {
 		double a, b, c, d;
-		a = ((NumberValue) (matrix.get(0, 0))).getDouble();
-		b = ((NumberValue) (matrix.get(1, 0))).getDouble();
-		c = ((NumberValue) (matrix.get(0, 1))).getDouble();
-		d = ((NumberValue) (matrix.get(1, 1))).getDouble();
+		a = matrix.get(0, 0).evaluateDouble();
+		b = matrix.get(1, 0).evaluateDouble();
+		c = matrix.get(0, 1).evaluateDouble();
+		d = matrix.get(1, 1).evaluateDouble();
 		return (arc == null || arc.positiveOrientation())
 				^ (((a * d) - (b * c)) < 0);
 	}
@@ -208,10 +207,10 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 
 	@Override
 	public double getAreaScaleFactor() {
-		double a = ((NumberValue) (matrix.get(0, 0))).getDouble();
-		double b = ((NumberValue) (matrix.get(1, 0))).getDouble();
-		double c = ((NumberValue) (matrix.get(0, 1))).getDouble();
-		double d = ((NumberValue) (matrix.get(1, 1))).getDouble();
+		double a = matrix.get(0, 0).evaluateDouble();
+		double b = matrix.get(1, 0).evaluateDouble();
+		double c = matrix.get(0, 1).evaluateDouble();
+		double d = matrix.get(1, 1).evaluateDouble();
 		return (a * d) - (b * c);
 	}
 

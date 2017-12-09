@@ -81,8 +81,7 @@ public class AlgoHarmonicMean extends AlgoElement {
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo instanceof NumberValue) {
-				NumberValue num = (NumberValue) geo;
-				sum += 1 / num.getDouble();
+				sum += 1 / geo.evaluateDouble();
 			} else {
 				result.setUndefined();
 				return;

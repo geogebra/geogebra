@@ -2817,7 +2817,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			if (simple && lt instanceof FunctionVariable
 					&& rt instanceof NumberValue
 					&& !(rt instanceof FunctionVariable)) {
-				double d = ((NumberValue) rt).getDouble();
+				double d = rt.evaluateDouble();
 				if (e.getOperation() == Operation.GREATER
 						&& (lower == null || lower <= d))// x > d
 				{
@@ -2845,7 +2845,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			} else if (simple && rt instanceof FunctionVariable
 					&& lt instanceof NumberValue
 					&& !(lt instanceof FunctionVariable)) {
-				double d = ((NumberValue) lt).getDouble();
+				double d = lt.evaluateDouble();
 				if (e.getOperation() == Operation.LESS
 						&& (lower == null || lower <= d))// x > d
 				{

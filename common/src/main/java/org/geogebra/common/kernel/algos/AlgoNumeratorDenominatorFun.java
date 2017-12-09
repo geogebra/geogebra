@@ -144,7 +144,7 @@ public class AlgoNumeratorDenominatorFun extends AlgoElement {
 				// construct function f(x) = 1
 				FunctionVariable fv = new FunctionVariable(kernel);
 				ExpressionNode en = new ExpressionNode(kernel,
-						new MyDouble(kernel, ((NumberValue) ev).getDouble()));
+						new MyDouble(kernel, ev.evaluateDouble()));
 				Function tempFun = new Function(en, fv);
 				tempFun.initFunction();
 				((GeoFunction) g).setFunction(tempFun);

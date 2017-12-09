@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -344,13 +343,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	public double getCoeffValue(String variables) {
 		ExpressionValue ev = getCoefficient(variables);
 
-		try {
-			NumberValue nv = (NumberValue) ev;
-			return nv.getDouble();
-		} catch (Exception e) {
-			Log.warn("getCoeffValue(" + variables + ") failed:" + e);
-			return Double.NaN;
-		}
+		return ev.evaluateDouble();
 	}
 
 	/**

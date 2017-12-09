@@ -328,8 +328,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					.getBoolean() == ((BooleanValue) rt).getBoolean());
 		} else if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			return new MyBoolean(kernel,
-					Kernel.isEqual(((NumberValue) lt).getDouble(),
-							((NumberValue) rt).getDouble()));
+					Kernel.isEqual(lt.evaluateDouble(), rt.evaluateDouble()));
 		} else if (lt instanceof TextValue && rt instanceof TextValue) {
 
 			String strL = ((TextValue) lt).toValueString(tpl);
@@ -785,7 +784,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// vector / number
 			else if (lt instanceof VectorValue) {
 				vec = ((VectorValue) lt).getVector();
-				GeoVec2D.div(vec, ((NumberValue) rt).getDouble(), vec);
+				GeoVec2D.div(vec, rt.evaluateDouble(), vec);
 				return vec;
 			} else if (lt instanceof GeoFunction) {
 				return GeoFunction.applyNumberSymb(Operation.DIVIDE,

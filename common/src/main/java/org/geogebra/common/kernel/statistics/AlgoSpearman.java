@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.statistics;
 import org.apache.commons.math3.stat.correlation.SpearmansCorrelation;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -135,17 +134,9 @@ public class AlgoSpearman extends AlgoElement {
 			for (int i = 0; i < sizeX; i++) {
 				GeoElement geox = geoListX.get(i);
 				GeoElement geoy = geoListY.get(i);
-				if (geox instanceof NumberValue
-						&& geoy instanceof NumberValue) {
-					NumberValue numx = (NumberValue) geox;
-					NumberValue numy = (NumberValue) geoy;
-					valX[i] = numx.getDouble();
-					valY[i] = numy.getDouble();
-					if (Double.isNaN(valX[i]) || Double.isNaN(valY[i])) {
-						result.setUndefined();
-						return;
-					}
-				} else {
+				valX[i] = geox.evaluateDouble();
+				valY[i] = geoy.evaluateDouble();
+				if (Double.isNaN(valX[i]) || Double.isNaN(valY[i])) {
 					result.setUndefined();
 					return;
 				}

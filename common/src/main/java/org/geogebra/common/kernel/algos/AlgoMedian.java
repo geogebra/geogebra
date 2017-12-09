@@ -106,8 +106,7 @@ public class AlgoMedian extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = inputList.get(i);
 				if (geo instanceof NumberValue) {
-					NumberValue num = (NumberValue) geo;
-					sortList[i] = num.getDouble();
+					sortList[i] = geo.evaluateDouble();
 				} else {
 					median.setUndefined();
 					return;
@@ -140,7 +139,7 @@ public class AlgoMedian extends AlgoElement {
 			// check for bad frequency
 			for (int i = 0; i < freqList.size(); i++) {
 				if (!(freqList.get(i) instanceof NumberValue)
-						|| ((NumberValue) freqList.get(i)).getDouble() < 0) {
+						|| freqList.get(i).evaluateDouble() < 0) {
 					median.setUndefined();
 					return;
 				}
@@ -189,15 +188,15 @@ public class AlgoMedian extends AlgoElement {
 			// TODO ok to assume classes are valid? (sorted no gaps)
 			double n = 0;
 			for (int i = 0; i < freqList.size(); i++) {
-				n += ((NumberValue) freqList.get(i)).getDouble();
+				n += freqList.get(i).evaluateDouble();
 			}
 			int cf = 0;
 			int f = 0;
 			double lowBound, highBound;
 			for (int i = 0; i < freqList.size(); i++) {
-				lowBound = ((NumberValue) inputList.get(i)).getDouble();
-				highBound = ((NumberValue) inputList.get(i + 1)).getDouble();
-				f = (int) ((NumberValue) freqList.get(i)).getDouble();
+				lowBound = inputList.get(i).evaluateDouble();
+				highBound = inputList.get(i + 1).evaluateDouble();
+				f = (int) freqList.get(i).evaluateDouble();
 
 				if (f < 0) {
 					median.setUndefined();
@@ -247,8 +246,8 @@ public class AlgoMedian extends AlgoElement {
 		TreeMap<Double, Integer> tm = new TreeMap<>();
 		for (int i = 0; i < freqList.size(); i++) {
 
-			val = ((NumberValue) inputList.get(i)).getDouble();
-			freq = (int) ((NumberValue) freqList.get(i)).getDouble();
+			val = inputList.get(i).evaluateDouble();
+			freq = (int) freqList.get(i).evaluateDouble();
 			// handle repeated values
 			if (tm.containsKey(val)) {
 				freq += tm.get(val);

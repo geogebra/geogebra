@@ -852,8 +852,8 @@ public abstract class CommandProcessor {
 		GeoList list = (GeoList) algo.getInput()[0];
 
 		// first 2 points in list are start and end, rest are y-coordinates
-		double start = ((NumberValue) list.get(0)).getDouble();
-		double end = ((NumberValue) list.get(1)).getDouble();
+		double start = list.get(0).evaluateDouble();
+		double end = list.get(1).evaluateDouble();
 		int size = list.size() - 2;
 
 		double step = (end - start) / (size - 1);
@@ -861,7 +861,7 @@ public abstract class CommandProcessor {
 		ArrayList<GeoElement> geoElementList = new ArrayList<>();
 		for (int i = 0; i < size; i++) {
 			GeoPoint p = new GeoPoint(cons, start + i * step,
-					((NumberValue) list.get(2 + i)).getDouble(), 1.0);
+					list.get(2 + i).evaluateDouble(), 1.0);
 			geoElementList.add(p);
 		}
 

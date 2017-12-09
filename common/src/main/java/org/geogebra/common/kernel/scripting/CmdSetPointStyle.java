@@ -36,7 +36,7 @@ public class CmdSetPointStyle extends CmdScripting {
 
 				PointProperties point = (PointProperties) arg[0];
 
-				int style = (int) ((NumberValue) arg[1]).getDouble();
+				int style = (int) arg[1].evaluateDouble();
 
 				point.setPointStyle(style);
 				point.updateRepaint();

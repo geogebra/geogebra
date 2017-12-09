@@ -110,7 +110,7 @@ public class GgbMat extends Array2DRowRealMatrix {
 					setIsUndefined(true);
 					return;
 				}
-				setEntry(r, c, ((NumberValue) geo).getDouble());
+				setEntry(r, c, geo.evaluateDouble());
 			}
 		}
 	}

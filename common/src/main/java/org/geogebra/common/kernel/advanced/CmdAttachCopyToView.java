@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
@@ -42,7 +41,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 
 			if (arg[1] instanceof GeoNumberValue) {
 				GeoPointND corner1, corner3, screenCorner1, screenCorner3;
-				int viewID = (int) ((NumberValue) arg[1]).getDouble();
+				int viewID = (int) arg[1].evaluateDouble();
 				EuclidianView ev = null;
 				if (viewID == 2) {
 					// #5014

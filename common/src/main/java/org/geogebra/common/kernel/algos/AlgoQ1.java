@@ -105,8 +105,7 @@ public class AlgoQ1 extends AlgoElement {
 			for (int i = 0; i < size; i++) {
 				GeoElement geo = inputList.get(i);
 				if (geo instanceof NumberValue) {
-					NumberValue num = (NumberValue) geo;
-					sortList[i] = num.getDouble();
+					sortList[i] = geo.evaluateDouble();
 				} else {
 					Q1.setUndefined();
 					return;
@@ -149,7 +148,7 @@ public class AlgoQ1 extends AlgoElement {
 			// handle bad frequency
 			for (int i = 0; i < freqList.size(); i++) {
 				if (!(freqList.get(i) instanceof NumberValue)
-						|| ((NumberValue) freqList.get(i)).getDouble() < 0) {
+						|| freqList.get(i).evaluateDouble() < 0) {
 					Q1.setUndefined();
 					return;
 				}

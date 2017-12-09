@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -35,9 +34,9 @@ public class CmdSetPointSize extends CmdScripting {
 			GeoElement[] arg = resArgs(c);
 
 			boolean ok = false;
-			if (arg[1] instanceof NumberValue) {
+			if (arg[1].isNumberValue()) {
 				ok = true;
-				double size = ((NumberValue) arg[1]).getDouble();
+				double size = arg[1].evaluateDouble();
 				if (arg[0] instanceof PointProperties) {
 
 					if (size > 0) {

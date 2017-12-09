@@ -418,7 +418,7 @@ public class ExpressionNode extends ValidExpression
 					.evaluate(StringTemplate.defaultTemplate);
 			if (eval instanceof NumberValue) {
 				// we only simplify numbers that have integer values
-				if (Kernel.isInteger(((NumberValue) eval).getDouble())) {
+				if (Kernel.isInteger(eval.evaluateDouble())) {
 					if (node.inspect(TRICKY_DIVISION_CHECKER)) {
 						node.simplifyConstantIntegers();
 						return left2;
@@ -470,7 +470,7 @@ public class ExpressionNode extends ValidExpression
 		switch (operation) {
 		case POWER: // eg e^x
 			if ((left instanceof NumberValue) && MyDouble
-					.exactEqual(((NumberValue) left).getDouble(), Math.E)) {
+					.exactEqual(left.evaluateDouble(), Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -487,7 +487,7 @@ public class ExpressionNode extends ValidExpression
 		case PLUS: // eg 1 + e or e + 1
 		case MINUS: // eg 1 - e or e - 1
 			if ((left instanceof NumberValue) && MyDouble
-					.exactEqual(((NumberValue) left).getDouble(), Math.E)) {
+					.exactEqual(left.evaluateDouble(), Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -498,7 +498,7 @@ public class ExpressionNode extends ValidExpression
 					kernel.getConstruction().removeLabel(geo);
 				}
 			} else if ((right instanceof NumberValue) && MyDouble
-					.exactEqual(((NumberValue) right).getDouble(), Math.E)) {
+					.exactEqual(right.evaluateDouble(), Math.E)) {
 				GeoElement geo = kernel.lookupLabel("e");
 				if ((geo != null) && geo.needsReplacingInExpressionNode()) {
 
@@ -3939,8 +3939,8 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
 		if (ev1 instanceof NumberValue && ev2 instanceof NumberValue) {
-			return Kernel.isEqual(((NumberValue) ev1).getDouble(),
-					((NumberValue) ev2).getDouble(), Kernel.STANDARD_PRECISION);
+			return Kernel.isEqual(ev1.evaluateDouble(), ev2.evaluateDouble(),
+					Kernel.STANDARD_PRECISION);
 		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {
 			return ((TextValue) ev1)
 					.toValueString(StringTemplate.defaultTemplate)
@@ -3999,8 +3999,7 @@ public class ExpressionNode extends ValidExpression
 				}
 			}
 
-			NumberValue nv = (NumberValue) ev;
-			return nv.getDouble() == val;
+			return ev.evaluateDouble() == val;
 		}
 		return false;
 	}
@@ -4680,14 +4679,12 @@ public class ExpressionNode extends ValidExpression
 					setOperation(Operation.CBRT);
 					hit = true;
 				} else if (!rightLeaf.getRight().unwrap().isExpressionNode()
-						&& rightLeaf.getRight() instanceof NumberValue
-						&& Kernel.isInteger(((NumberValue) rightLeaf.getRight())
-								.getDouble())
-						&& ((NumberValue) rightLeaf.getRight())
-								.getDouble() <= maxRoot) {
+						&& Kernel.isInteger(
+								rightLeaf.getRight().evaluateDouble())
+						&& rightLeaf.getRight().evaluateDouble() <= maxRoot) {
 					setOperation(Operation.NROOT);
 					setRight(new MyDouble(kernel,
-							((NumberValue) rightLeaf.getRight()).getDouble()));
+							rightLeaf.getRight().evaluateDouble()));
 					hit = true;
 				}
 				if (hit) {
@@ -5266,11 +5263,11 @@ public class ExpressionNode extends ValidExpression
 			ExpressionNode en = (ExpressionNode) ev;
 			if (en.left == fv && en.right.isNumberValue()
 					&& !en.right.contains(fv)) {
-				return ((NumberValue) en.right).getDouble() * factor;
+				return en.right.evaluateDouble() * factor;
 				// return wrap(en.right).multiply(factor);
 			} else if (en.right == fv && en.left.isNumberValue()
 					&& !en.left.contains(fv)) {
-				return ((NumberValue) en.left).getDouble() * factor;
+				return en.left.evaluateDouble() * factor;
 				// return wrap(en.left).multiply(factor);
 			}
 		}
@@ -5312,9 +5309,8 @@ public class ExpressionNode extends ValidExpression
 		if (ev.isExpressionNode() && ((ExpressionNode) ev).getOperation()
 				.equals(Operation.DIVIDE)) {
 			ExpressionNode en = (ExpressionNode) ev;
-			if (en.left == fv && en.right.isNumberValue()
-					&& !en.right.contains(fv)) {
-				return ((NumberValue) en.right).getDouble() * factor;
+			if (en.left == fv && !en.right.contains(fv)) {
+				return en.right.evaluateDouble() * factor;
 			}
 		}
 

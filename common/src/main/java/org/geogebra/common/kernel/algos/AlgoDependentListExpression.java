@@ -160,7 +160,7 @@ public class AlgoDependentListExpression extends AlgoElement
 		if (element instanceof NumberValue) {
 			ExpressionNode definition = element.isGeoElement()
 					? ((GeoElement) element).getDefinition() : null;
-			double val = ((NumberValue) element).getDouble();
+			double val = element.evaluateDouble();
 
 			// try to use cached element of same type
 			if (cachedGeo != null) {

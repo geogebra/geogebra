@@ -10,7 +10,6 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -149,18 +148,18 @@ public class CmdSetColor extends CmdScripting {
 		GeoElement g = resArg(c.getArgument(offset + 1), argInfo)[0];
 		GeoElement b = resArg(c.getArgument(offset + 2), argInfo)[0];
 		int red, blue, green;
-		if (r instanceof NumberValue) {
-			red = MyDouble.normalize0to255(((NumberValue) r).getDouble());
+		if (r.isNumberValue()) {
+			red = MyDouble.normalize0to255(r.evaluateDouble());
 		} else {
 			throw argErr(app, c, r);
 		}
-		if (g instanceof NumberValue) {
-			green = MyDouble.normalize0to255(((NumberValue) g).getDouble());
+		if (g.isNumberValue()) {
+			green = MyDouble.normalize0to255(g.evaluateDouble());
 		} else {
 			throw argErr(app, c, g);
 		}
-		if (b instanceof NumberValue) {
-			blue = MyDouble.normalize0to255(((NumberValue) b).getDouble());
+		if (b.isNumberValue()) {
+			blue = MyDouble.normalize0to255(b.evaluateDouble());
 		} else {
 			throw argErr(app, c, b);
 		}

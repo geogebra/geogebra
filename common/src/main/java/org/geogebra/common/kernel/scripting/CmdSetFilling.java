@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.scripting;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
@@ -29,11 +28,11 @@ public class CmdSetFilling extends CmdScripting {
 		switch (n) {
 		case 2:
 			GeoElement[] arg = resArgs(c);
-			if (arg[1] instanceof NumberValue) {
+			if (arg[1].isNumberValue()) {
 
 				GeoElement geo = arg[0];
 
-				geo.setAlphaValue(((NumberValue) arg[1]).getDouble());
+				geo.setAlphaValue(arg[1].evaluateDouble());
 				geo.updateRepaint();
 
 				return arg;

@@ -111,10 +111,8 @@ public class AlgoTTestPaired extends AlgoElement {
 			geo0 = geoList0.get(i);
 			geo1 = geoList1.get(i);
 			if (geo0 instanceof NumberValue && geo1 instanceof NumberValue) {
-				num0 = (NumberValue) geo0;
-				num1 = (NumberValue) geo1;
-				val0[i] = num0.getDouble();
-				val1[i] = num1.getDouble();
+				val0[i] = geo0.evaluateDouble();
+				val1[i] = geo1.evaluateDouble();
 
 			} else {
 				result.setUndefined();

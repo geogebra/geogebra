@@ -95,7 +95,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 				if (lt instanceof Vector3DValue) {
 					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt)
 							.getVector();
-					Geo3DVec.div(vec3D, ((NumberValue) rt).getDouble(), vec3D);
+					Geo3DVec.div(vec3D, rt.evaluateDouble(), vec3D);
 					return vec3D;
 				}
 			}

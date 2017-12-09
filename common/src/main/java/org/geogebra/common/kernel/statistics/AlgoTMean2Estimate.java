@@ -223,8 +223,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 				for (int i = 0; i < size1; i++) {
 					GeoElement geo = geoList1.get(i);
 					if (geo instanceof NumberValue) {
-						NumberValue num = (NumberValue) geo;
-						val1[i] = num.getDouble();
+						val1[i] = geo.evaluateDouble();
 
 					} else {
 						result.setUndefined();
@@ -236,8 +235,7 @@ public class AlgoTMean2Estimate extends AlgoElement {
 				for (int i = 0; i < size2; i++) {
 					GeoElement geo = geoList2.get(i);
 					if (geo instanceof NumberValue) {
-						NumberValue num = (NumberValue) geo;
-						val2[i] = num.getDouble();
+						val2[i] = geo.evaluateDouble();
 
 					} else {
 						result.setUndefined();

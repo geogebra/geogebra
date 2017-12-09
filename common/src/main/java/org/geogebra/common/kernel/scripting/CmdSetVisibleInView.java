@@ -42,7 +42,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 
 				GeoElement geo = arg[0];
 
-				int viewNo = (int) ((NumberValue) arg[1]).getDouble();
+				int viewNo = (int) arg[1].evaluateDouble();
 
 				EuclidianViewInterfaceSlim ev = null;
 				boolean show = ((GeoBoolean) arg[2]).getBoolean();

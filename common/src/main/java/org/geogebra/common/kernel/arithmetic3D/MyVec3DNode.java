@@ -154,19 +154,18 @@ public class MyVec3DNode extends ValidExpression
 		}
 
 		if (mode == Kernel.COORD_SPHERICAL) {
-			double r = ((NumberValue) evx).getDouble();
+			double r = evx.evaluateDouble();
 			// allow negative radius for US
-			double theta = ((NumberValue) evy).getDouble();
-			double phi = ((NumberValue) evz).getDouble();
+			double theta = evy.evaluateDouble();
+			double phi = evz.evaluateDouble();
 			double[] ret = { r * Math.cos(theta) * Math.cos(phi),
 					r * Math.sin(theta) * Math.cos(phi), r * Math.sin(phi) };
 			return ret;
 		}
 
 		// CARTESIAN 3D
-		double[] ret = { ((NumberValue) evx).getDouble(),
-				((NumberValue) evy).getDouble(),
-				((NumberValue) evz).getDouble() };
+		double[] ret = { evx.evaluateDouble(), evy.evaluateDouble(),
+				evz.evaluateDouble() };
 		return ret;
 
 	}

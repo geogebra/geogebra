@@ -1188,7 +1188,7 @@ public abstract class GeoElement extends ConstructionElement
 		for (int i = 0; i < 3; i++) {
 			final GeoElement geo = colFunction.get(i);
 			if (geo.isDefined()) {
-				final double val = ((NumberValue) geo).getDouble();
+				final double val = geo.evaluateDouble();
 				switch (i) {
 				default:
 				case 0:
@@ -1546,7 +1546,7 @@ public abstract class GeoElement extends ConstructionElement
 
 		final GeoElement geo = colFunction.get(3);
 		if (geo.isDefined()) {
-			double alpha = ((NumberValue) geo).getDouble();
+			double alpha = geo.evaluateDouble();
 
 			// ensure between 0 and 1
 			alpha = (alpha / 2) - Math.floor(alpha / 2);

@@ -447,8 +447,8 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 		GeoList list = algo.getList();
 
-		double a1 = ((NumberValue) list.get(0)).getDouble();
-		double b1 = ((NumberValue) list.get(1)).getDouble();
+		double a1 = list.get(0).evaluateDouble();
+		double b1 = list.get(1).evaluateDouble();
 
 		if (lowerLimit < a1 || upperLimit > b1) {
 			return Double.NaN;
@@ -483,8 +483,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 			for (int i = 0; i < noOfSteps; i++) {
 				// y-coordinate
-				double y = ((NumberValue) list.get(2 + i + startGap))
-						.getDouble();
+				double y = list.get(2 + i + startGap).evaluateDouble();
 				if (i == 0 || (i == noOfSteps - 1)) {
 					sum += y;
 				} else {

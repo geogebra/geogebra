@@ -89,8 +89,7 @@ public class AlgoMode extends AlgoElement {
 		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo instanceof NumberValue) {
-				NumberValue num = (NumberValue) geo;
-				sortList[i] = num.getDouble();
+				sortList[i] = geo.evaluateDouble();
 			} else {
 				outputList.setUndefined();
 				return;
