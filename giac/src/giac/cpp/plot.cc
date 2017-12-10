@@ -9411,7 +9411,11 @@ namespace giac {
 	    // c1:=cercle(F1,2a);
 	    // c2:=cercle(P,l2);
 	    // [M1,M2]:=inter(c1,c2);
-	    // retourne mediatrice(F2,M1), mediatrice(F2,M2);
+	    // d1:=mediatrice(F2,M1);
+	    // d2:=mediatrice(F2,M2);
+	    // T1:=inter_unique(droite(F1,M1),d1);
+	    // T2:=inter_unique(droite(F1,M2),d2);
+	    // retourne d1,d2,T1,T2;
 	    // }:;
 	    // rational parametrization analytic construction
 	    // conic O+(1+i*t)*(d*t+e)/(a*t^2+b*t+c)
@@ -9610,7 +9614,7 @@ namespace giac {
   }
 
   // cartesian ellipse or hyperbola equation from focus F1/F2 and square of a
-  static gen ellipse_hyperbole_equation(const gen & F1,const gen & F2,const gen & a2,GIAC_CONTEXT){
+  gen ellipse_hyperbole_equation(const gen & F1,const gen & F2,const gen & a2,GIAC_CONTEXT){
     gen x1,x2,y1,y2,x(x__IDNT_e),y(y__IDNT_e);
     if (F1.type==_VECT)
       return undef;

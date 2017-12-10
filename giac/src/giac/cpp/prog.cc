@@ -6395,14 +6395,18 @@ namespace giac {
 	    gen z=fast_icontent(f0);
 	    gen n= f._VECTptr->back()._FRACptr->num;
 	    if (d.val<0){ n=-n; d=-d;}
-	    gen zn=pow(z,n,contextptr),a,b;
+	    gen zn=pow(z,n,contextptr),a,b,fapprox;
 	    bool pos; // pos should be true after next call since zn is > 0
 	    zint2simpldoublpos(zn,a,b,pos,d.val,contextptr);
 	    if (pos){
 	      if (0 && n==1)
 		wi=b*pow(fast_divide_by_icontent(f0,z/a),f._VECTptr->back(),contextptr);
-	      else
-		wi=b*pow(a,inv(d,contextptr),contextptr)*pow(fast_divide_by_icontent(f0,z),f._VECTptr->back(),contextptr);
+	      else { // avoid extracting sqrt(2) out for simplify(exp(i*pi/5));
+		if (d*f._VECTptr->back()==1 && has_evalf(f0,fapprox,1,contextptr))
+		  wi=b*pow(a*fast_divide_by_icontent(f0,z),inv(d,contextptr),contextptr);
+		else
+		  wi=b*pow(a,inv(d,contextptr),contextptr)*pow(fast_divide_by_icontent(f0,z),f._VECTptr->back(),contextptr);
+	      }
 	      continue;
 	    }
 	  }

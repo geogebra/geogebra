@@ -4600,6 +4600,8 @@ namespace giac {
     if (args.type!=_VECT)
       return args;
     iterateur it=args._VECTptr->begin(), itend=args._VECTptr->end();
+    if (itend-it==2 && it->type<_IDNT && (it+1)->type<_IDNT)
+      return operator_times(*it,*(it+1),contextptr);
     gen prod(1);
     /*
     if (it==itend)

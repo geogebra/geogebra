@@ -4340,6 +4340,8 @@ namespace giac {
     case _ZINT__CPLX: case _FLOAT___CPLX: case _DOUBLE___CPLX: case _REAL__CPLX:
       return gen(a+*b._CPLXptr,*(b._CPLXptr+1));
     case _CPLX__CPLX:
+      if (a._CPLXptr->type==_DOUBLE_ && (a._CPLXptr+1)->type==_DOUBLE_ && b._CPLXptr->type ==_DOUBLE_ && (b._CPLXptr+1)->type ==_DOUBLE_)
+	return adjust_complex_display(gen(a._CPLXptr->_DOUBLE_val + b._CPLXptr->_DOUBLE_val, (a._CPLXptr+1)->_DOUBLE_val + (b._CPLXptr+1)->_DOUBLE_val),a,b);
       return adjust_complex_display(gen(*a._CPLXptr + *b._CPLXptr, *(a._CPLXptr+1) + *(b._CPLXptr+1)),a,b);
     case _POLY__POLY:
       return addpoly(a,b);
