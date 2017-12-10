@@ -42,11 +42,16 @@ public class NoExceptionsTest {
 		t("Pt3=(3,1/3)");
 		t("Pt4=(4,1/4)");
 		t("Pt5=(5,1/5)");
+		t("Pt3D1=(5,1/5,-1)");
+		t("Pt3D2=(5,2,-8)");
+		t("Pt3D3=(-5,4,-3)");
+		t("Pt3D4=(9,-2,3)");
 		t("v1=(1,1)");
 		t("v2=(2,1/2)");
 		t("v3=(3,1/3)");
 		t("v4=(4,1/4)");
 		t("v5=(5,1/5)");
+		t("v3D1=(5,1/5,-1)");
 		t("c1:x^2+y^2=1");
 		t("c2:x^2+y^2/2=1");
 		t("f1(x)=sin(x)");
@@ -591,6 +596,10 @@ public class NoExceptionsTest {
 		t("Distance[ Pt1, obj ]");
 		t("Distance[ xAxis,yAxis ]");
 		t("Distance[x+y+z=1, x+y+z=2]");
+		t("Distance[Line[Pt1,Pt2],Line[Pt3,Pt4]]");
+		t("Distance[Line[Pt3D1,Pt3D2],Line[Pt3,Pt4]]");
+		t("Distance[Line[Pt1,Pt2],Line[Pt3D3,Pt3D4]]");
+		t("Distance[Line[Pt3D1,Pt3D2],Line[Pt3D3,Pt3D4]]");
 	}
 
 	@Test
@@ -1162,6 +1171,12 @@ public class NoExceptionsTest {
 		t("Line[ Pt1, l1 ]");
 		t("Line[ Pt1,Pt2 ]");
 		t("Line[ Pt1, v1 ]");
+		t("Line[ Pt1, v3D1 ]");
+		t("Line[ Pt3D1, v1 ]");
+		t("Line[ Pt3D1, v3D1 ]");
+		t("Line[ Pt1, Pt3D1 ]");
+		t("Line[ Pt3D1, Pt1 ]");
+		t("Line[ Pt3D1, Pt3D2 ]");
 	}
 
 	@Test
