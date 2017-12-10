@@ -11,16 +11,21 @@ public class ExportFrameMinimal implements ExportSettings {
 	private boolean showAxes;
 	private boolean exportPointSymbol = true;
 	private int fillType;
-	private int fontSize;
+	private int fontSize = 10;
 	private double xUnit = 1;
 	private double yUnit = 1;
 	private boolean grayscale = false;
 	private boolean keepDotColors;
 	private double latexHeight;
 	private int format = 0;
-	private int yMax;
-	private int yMin;
+	private double yMax;
+	private double yMin;
 	private GeoNumeric cbitem;
+
+	public ExportFrameMinimal(double ymin2, double ymax2) {
+		yMin = ymin2;
+		yMax = ymax2;
+	}
 
 	@Override
 	public double getLatexHeight() {
@@ -58,12 +63,12 @@ public class ExportFrameMinimal implements ExportSettings {
 	}
 
 	@Override
-	public int textYmaxValue() {
+	public double textYmaxValue() {
 		return yMax;
 	}
 
 	@Override
-	public int textYminValue() {
+	public double textYminValue() {
 		return yMin;
 	}
 

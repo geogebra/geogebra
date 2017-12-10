@@ -349,13 +349,13 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 	// end changes
 
 	@Override
-	public int textYmaxValue() {
-		return (int) this.textYmax.getValue();
+	public double textYmaxValue() {
+		return this.textYmax.getValue();
 	}
 
 	@Override
-	public int textYminValue() {
-		return (int) this.textYmin.getValue();
+	public double textYminValue() {
+		return this.textYmin.getValue();
 	}
 
 	protected abstract boolean isLaTeX();

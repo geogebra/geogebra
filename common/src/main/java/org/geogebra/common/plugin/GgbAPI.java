@@ -2118,7 +2118,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 
-		ExportFrameMinimal frame = new ExportFrameMinimal();
+		EuclidianView ev = app.getActiveEuclidianView();
+
+		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
+				ev.getYmax());
 		export.setFrame(frame);
 		export.generateAllCode();
 
@@ -2137,7 +2140,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			// not implemented eg Android, iOS)
 			return "";
 		}
-		ExportFrameMinimal frame = new ExportFrameMinimal();
+		EuclidianView ev = app.getActiveEuclidianView();
+
+		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
+				ev.getYmax());
 		export.setFrame(frame);
 		export.generateAllCode();
 
@@ -2157,7 +2163,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			return "";
 		}
 
-		ExportFrameMinimal frame = new ExportFrameMinimal();
+		EuclidianView ev = app.getActiveEuclidianView();
+
+		ExportFrameMinimal frame = new ExportFrameMinimal(ev.getYmin(),
+				ev.getYmax());
 		export.setFrame(frame);
 		export.generateAllCode();
 

@@ -63,6 +63,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -2280,7 +2281,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		 * We allow a factor of 40 between the coefficient director and the
 		 * window height Else we say it's vertical.
 		 */
-
+		Log.debug("frame.textYmaxValue() = " + frame.textYmaxValue());
+		Log.debug("frame.textYminValue() = " + frame.textYminValue());
 		double heightScreen = frame.textYmaxValue() - frame.textYminValue();
 		if (Math.abs(a / b / heightScreen) > 40) {
 			b = 0;

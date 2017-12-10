@@ -20,9 +20,9 @@ public interface ExportSettings {
 
 	int getFormat();
 
-	int textYmaxValue();
+	double textYmaxValue();
 
-	int textYminValue();
+	double textYminValue();
 
 	void write(StringBuilder code);
 
