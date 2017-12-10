@@ -3268,12 +3268,11 @@ namespace giac {
   }
   
   gen sto(const gen & a,const gen & b,const context * contextptr){
-    gen res= sto(a,b,false,contextptr);
-    return res;
+    return sto(a,b,false,contextptr);
   }
   // in_place==true to store in vector/matrices without making a new copy
   gen sto(const gen & a,const gen & b,bool in_place,const context * contextptr_){
-    if (is_undef(a) && a.type==_STRNG)
+    if (a.type==_STRNG && is_undef(a))
       return a;
     if ( (a.type==_IDNT || a.is_symb_of_sommet(at_at)) && b.is_symb_of_sommet(at_rootof) && contextptr_){
       if (!contextptr_->globalcontextptr->rootofs)
@@ -4457,6 +4456,15 @@ namespace giac {
       return args;
     }
     iterateur it=args._VECTptr->begin(), itend=args._VECTptr->end();
+    if (itend-it==2){
+      int t1=it->type,t2=(it+1)->type;
+      if (t1<_IDNT && t2<_IDNT){
+	unsigned t=(t1<< _DECALAGE) | t2;
+	if (!t)
+	  return((longlong) it->val+(it+1)->val);
+	return operator_plus(*it,*(it+1),t,contextptr);
+      }
+    }
     if (it==itend)
       return zero;
     const gen & a=*it;

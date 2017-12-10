@@ -951,6 +951,7 @@ namespace giac {
   gen operator && (const gen & a,const gen & b);
   gen operator || (const gen & a,const gen & b);
   gen operator_plus (const gen & a,const gen & b,GIAC_CONTEXT);
+  gen operator_plus (const gen & a,const gen & b,unsigned t,GIAC_CONTEXT);
   gen operator + (const gen & a,const gen & b);
   gen & operator_plus_eq (gen & a,const gen & b,GIAC_CONTEXT);
   inline gen & operator += (gen & a,const gen & b){ 
