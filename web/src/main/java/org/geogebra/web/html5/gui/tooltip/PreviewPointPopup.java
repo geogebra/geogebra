@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.stylebar.StylebarPositioner;
+import org.geogebra.common.kernel.algos.GetCommand;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -62,8 +64,16 @@ public class PreviewPointPopup extends GPopupPanel {
 	private void createContent(ArrayList<GeoElement> previewPoints) {
 		for (GeoElement geo : previewPoints) {
 			if (geo.getParentAlgorithm() != null) {
-				Label lbl = new Label(app.getLocalization().getMenu(
-						geo.getParentAlgorithm().getClassName().getCommand()));
+				GetCommand cmd = geo.getParentAlgorithm().getClassName();
+				String text;
+				if (cmd == Commands.Intersect) {
+					text = app.getLocalization().getMenu("yIntercept");
+				} else if (cmd == Commands.Roots) {
+					text = app.getLocalization().getCommand("Root");
+				} else {
+					text = app.getLocalization().getCommand(cmd.getCommand());
+				}
+				Label lbl = new Label(text);
 				addToContent(lbl);
 			}
 		}

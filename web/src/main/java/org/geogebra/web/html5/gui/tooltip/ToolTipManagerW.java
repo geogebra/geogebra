@@ -180,14 +180,10 @@ public final class ToolTipManagerW {
 		bottomInfoTipHTML.setStyleName("infoText");
 
 		bottomInfoTipPanel = new TooltipPanel();
-
 		bottomInfoTipPanel.setStyleName("infoTooltip");
-
 		bottomInfoTipPanel.add(bottomInfoTipHTML);
-
 		bottomInfoTipPanel.setVisible(false);
 		RootPanel.get().add(bottomInfoTipPanel);
-
 	}
 
 	/**
@@ -454,10 +450,7 @@ public final class ToolTipManagerW {
 			timer = new Timer() {
 				@Override
 				public void run() {
-					cancelTimer();
-					bottomInfoTipPanel.removeFromParent();
-					app.getPanel().getElement().getStyle()
-							.setOverflow(Overflow.VISIBLE);
+					animateSnackbarOut();
 				}
 			};
 			timer.schedule(400);
@@ -477,6 +470,16 @@ public final class ToolTipManagerW {
 	// =====================================
 	// Getters/Setters
 	// =====================================
+
+	/**
+	 * Move snackbar out
+	 */
+	protected void animateSnackbarOut() {
+		cancelTimer();
+		bottomInfoTipPanel.removeFromParent();
+		app.getPanel().getElement().getStyle().setOverflow(Overflow.VISIBLE);
+
+	}
 
 	/**
 	 * @return time, in milliseconds, to wait before showing toolTip
