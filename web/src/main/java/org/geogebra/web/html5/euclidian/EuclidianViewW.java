@@ -236,7 +236,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	protected final CoordSystemAnimation newZoomer() {
-		return new MyZoomerW(this);
+		return new CoordSystemAnimationW(this);
 	}
 
 	@Override
@@ -907,14 +907,6 @@ public class EuclidianViewW extends EuclidianView implements
 		evPanel.addDomHandler(euclidiancontroller, DropEvent.getType());
 	}
 
-	static public GBasicStrokeW getDefaultStroke() {
-		return standardStroke;
-	}
-
-	static public GBasicStrokeW getDefaultSelectionStroke() {
-		return selStroke;
-	}
-
 	/* Code for dashed lines removed in r23713 */
 
 	/**
@@ -1028,7 +1020,6 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void setCursorClass(String className) {
-
 		// IMPORTANT: do nothing if we already have the classname,
 		// app.resetCursor is VERY expensive in IE
 		if (!g2p.getCanvas().getElement().hasClassName(className)) {

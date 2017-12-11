@@ -5,10 +5,10 @@ import org.geogebra.common.euclidian.CoordSystemAnimation;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.web.html5.sound.GTimerW;
 
-public class MyZoomerW extends CoordSystemAnimation implements GTimerListener {
+public class CoordSystemAnimationW extends CoordSystemAnimation implements GTimerListener {
 	protected GTimerW timer; // for animation
 
-	public MyZoomerW(EuclidianView view) {
+	public CoordSystemAnimationW(EuclidianView view) {
 		super(view);
 		timer = new GTimerW(this, DELAY);
 	}

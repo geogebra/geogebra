@@ -474,11 +474,10 @@ public final class ToolTipManagerW {
 	/**
 	 * Move snackbar out
 	 */
-	protected void animateSnackbarOut() {
+	void animateSnackbarOut() {
 		cancelTimer();
 		bottomInfoTipPanel.removeFromParent();
 		app.getPanel().getElement().getStyle().setOverflow(Overflow.VISIBLE);
-
 	}
 
 	/**
