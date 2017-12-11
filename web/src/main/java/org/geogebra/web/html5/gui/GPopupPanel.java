@@ -57,6 +57,7 @@ import com.google.gwt.user.client.ui.SourcesPopupEvents;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.impl.PopupImpl;
+import com.himamis.retex.editor.share.util.GWTKeycodes;
 
 /**
  * A panel that can "pop up" over other widgets. It overlays the browser's
@@ -690,14 +691,20 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 	 *            closed
 	 */
 	public void hide(boolean autoClosed) {
+		hide(autoClosed, true);
+	}
+
+	public void hide(boolean autoClosed, boolean setFocus) {
 		if (!isShowing()) {
 			return;
 		}
-		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
-				&& app.getAccessibilityManager().getAnchor() == null) {
-			app.getAccessibilityManager().focusMenu();
-		} else {
-			app.getAccessibilityManager().focusAnchor();
+
+		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS) && setFocus) {
+			if (app.getAccessibilityManager().getAnchor() == null) {
+				app.getAccessibilityManager().focusMenu();
+			} else {
+				app.getAccessibilityManager().focusAnchor();
+			}
 		}
 		resizeAnimation.setState(false, false);
 		CloseEvent.fire(this, this, autoClosed);
@@ -1513,6 +1520,14 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 					KeyboardListenerCollection
 							.getKeyboardModifiers(nativeEvent))) {
 				event.cancel();
+			}
+
+			if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
+					&& nativeEvent.getKeyCode() == GWTKeycodes.KEY_X
+					&& nativeEvent.getCtrlKey() && nativeEvent.getAltKey()) {
+				hide(true, false);
+				app.getAccessibilityManager().focusInput(true);
+				event.getNativeEvent().preventDefault();
 			}
 			return;
 		}
