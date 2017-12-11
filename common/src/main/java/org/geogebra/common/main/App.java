@@ -404,6 +404,7 @@ public abstract class App implements UpdateSelection {
 	private int nextVariableID = 1;
 	private boolean buttonShadows = false;
 	private double buttonRounding = 0.2;
+	private SpecialPointsManager specialPointsManager;
 
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
@@ -5094,6 +5095,13 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void hideMenu() {
 		// overwritten in web
+	}
+
+	public SpecialPointsManager getSpecialPointsManager() {
+		if (this.specialPointsManager == null) {
+			specialPointsManager = new SpecialPointsManager(kernel);
+		}
+		return specialPointsManager;
 	}
 
 }

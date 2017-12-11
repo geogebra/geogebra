@@ -6384,7 +6384,7 @@ public abstract class EuclidianController {
 
 		if (repaint) {
 			if (app.has(Feature.PREVIEW_POINTS)) {
-				app.getSelectionManager().updateSpecialPoints(null);
+				app.getSpecialPointsManager().updateSpecialPoints(null);
 			}
 			// GGB-1249 fast dragging of CAS functions
 			movedGeoFunction.updateRepaint(true);
@@ -8547,7 +8547,8 @@ public abstract class EuclidianController {
 			return false;
 		}
 
-		List<GeoElement> selectedPreviewPoints = app.getSelectionManager().getSelectedPreviewPoints();
+		List<GeoElement> selectedPreviewPoints = app.getSpecialPointsManager()
+				.getSelectedPreviewPoints();
 
 		if (selectedPreviewPoints != null) {
 			for (GeoElement hit : hits) {
@@ -8565,7 +8566,8 @@ public abstract class EuclidianController {
 	 * @return List of the hitted preview special points
 	 */
 	private ArrayList<GeoElement> getPreviewSpecialPointHits(Hits hits) {
-		List<GeoElement> selectedPreviewPoints = app.getSelectionManager().getSelectedPreviewPoints();
+		List<GeoElement> selectedPreviewPoints = app.getSpecialPointsManager()
+				.getSelectedPreviewPoints();
 		ArrayList<GeoElement> previewHits = new ArrayList<>();
 		if (selectedPreviewPoints != null) {
 			for (GeoElement hit : hits) {
@@ -10312,11 +10314,12 @@ public abstract class EuclidianController {
 	 * @param geoElement preview point to highlight
 	 */
 	private void highlightPreviewPoint(GeoElement geoElement){
-		if(app.getSelectionManager().getSelectedPreviewPoints() == null) {
+		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
 			return;
 		}
 
-		for (GeoElement geo : app.getSelectionManager().getSelectedPreviewPoints()) {
+		for (GeoElement geo : app.getSpecialPointsManager()
+				.getSelectedPreviewPoints()) {
 			geo.setHighlighted(false);
 		}
 		geoElement.setHighlighted(true);
