@@ -1461,6 +1461,7 @@ __GGB__keysVar.sl.menu = {
     "Conify": "Raz\u0161iri v piramido ali sto\u017eec",
     "Conify.Help": "Potegni mnogokotnik/krog, ali izberi mnogokotnik/krog in vnesi vi\u0161ino, da naredi\u0161 pokon\u010dno piramido/sto\u017eec",
     "Connecting": "Povezujem\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Zaporedje konstrukcije",
     "ConstructionProtocol": "Opis konstrukcije",
     "ConstructionProtocolButton": "Gumb za prikaz opisa konstrukcije",

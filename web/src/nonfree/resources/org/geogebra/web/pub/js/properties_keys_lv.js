@@ -1461,6 +1461,7 @@ __GGB__keysVar.lv.menu = {
     "Conify": "P\u0101rv\u0113rst par piram\u012bdu vai konusu",
     "Conify.Help": "Velc daudzst\u016bri/ri\u0146\u0137a l\u012bniju vai izv\u0113lies daudzt\u016bri/ri\u0146\u0137a l\u012bniju un evadi augstumu, lai izveidotu piram\u012bdu/konusu",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Konstrukcijas sec\u012bba",
     "ConstructionProtocol": "Konstrukcijas protokols",
     "ConstructionProtocolButton": "Poga konstrukcijas protokola atv\u0113r\u0161anai",

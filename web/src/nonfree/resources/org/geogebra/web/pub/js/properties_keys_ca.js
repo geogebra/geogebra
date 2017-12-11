@@ -1461,6 +1461,7 @@ __GGB__keysVar.ca.menu = {
     "Conify": "Crea una Pir\xe0mide o un Con a partir de la base",
     "Conify.Help": "Arrossegueu un pol\xedgon o un cercle o b\xe9 seleccioneu un pol\xedgon o un cercle i entreu el valor de l'altura per a crear una pir\xe0mide recta o un con recte",
     "Connecting": "Establint la connexi\xf3\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Ordre de construcci\xf3",
     "ConstructionProtocol": "Passos de la construcci\xf3",
     "ConstructionProtocolButton": "Bot\xf3 per obrir tots els passos de la construcci\xf3",

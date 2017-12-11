@@ -1461,6 +1461,7 @@ __GGB__keysVar.ro.menu = {
     "Conify": "Scoatere \xeen piramid\u0103 sau con",
     "Conify.Help": "Glisare poligon/cerc, sau selec\u021bie poligon/cerc \u0219i introducere altitudine pentru creare piramid/con centrat",
     "Connecting": "Se conecteaz\u0103\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Ordinea construc\u021biilor",
     "ConstructionProtocol": "Protocol de construc\u0163ie",
     "ConstructionProtocolButton": "Buton pentru a deschide protocol de construc\u0163ie",

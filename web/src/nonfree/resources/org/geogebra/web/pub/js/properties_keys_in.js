@@ -1461,6 +1461,7 @@ __GGB__keysVar.in.menu = {
     "Conify": "Paksa ke Piramid or Kerucut",
     "Conify.Help": "Drag poligon/lingkaran, atau pilih poligon/lingkaran and masukan ketinggian untuk membuat piramid atau kerucut terpusat",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Urutan Konstruksi",
     "ConstructionProtocol": "Protokol Konstruksi",
     "ConstructionProtocolButton": "Tombol untuk membuka protokol konstruksi",

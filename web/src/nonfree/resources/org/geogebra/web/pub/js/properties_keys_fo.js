@@ -1461,6 +1461,7 @@ __GGB__keysVar.fo.menu = {
     "Conify": "Extrude to Pyramid or Cone",
     "Conify.Help": "Drag polygon/circle, or select polygon/circle and enter altitude to create centered pyramid/cone",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Construction Order",
     "ConstructionProtocol": "Construction Protocol",
     "ConstructionProtocolButton": "Button to open construction protocol",

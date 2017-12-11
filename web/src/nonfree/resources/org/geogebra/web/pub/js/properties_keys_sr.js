@@ -1461,6 +1461,7 @@ __GGB__keysVar.sr.menu = {
     "Conify": "Izvuci u piramidu ili konus",
     "Conify.Help": "Prevucite mnogougao/kru\u017enicu, ili odaberite mnogougao/kru\u017enicu i unesite visinu da biste napravili centriranu piramidu/konus",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Redosled konstrukcije",
     "ConstructionProtocol": "Opis konstrukcije",
     "ConstructionProtocolButton": "Dugme za opis konstrukcije",

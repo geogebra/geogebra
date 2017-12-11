@@ -1461,6 +1461,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Conify": "\u62c9\u6210\u9525\u4f53",
     "Conify.Help": "\u76f4\u63a5\u62d6\u52a8\u591a\u8fb9\u5f62 / \u5706\u9525\u66f2\u7ebf; \u6216\u8005\u9009\u62e9\u591a\u8fb9\u5f62 / \u5706\u9525\u66f2\u7ebf, \u518d\u8f93\u5165\u9525\u4f53\u7684\u9ad8\u5ea6",
     "Connecting": "\u8fde\u63a5\u4e2d\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "\u4f5c\u56fe\u987a\u5e8f",
     "ConstructionProtocol": "\u4f5c\u56fe\u8fc7\u7a0b",
     "ConstructionProtocolButton": "\"\u4f5c\u56fe\u8fc7\u7a0b\" \u6309\u94ae",

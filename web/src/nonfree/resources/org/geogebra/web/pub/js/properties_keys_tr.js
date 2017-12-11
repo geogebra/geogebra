@@ -1461,6 +1461,7 @@ __GGB__keysVar.tr.menu = {
     "Conify": "Piramit veya Koniye D\xf6nd\xfcr",
     "Conify.Help": "\xc7okgen/\xe7ember \xe7ekin, veya \xe7okgen/\xe7ember se\xe7in ve ortalanm\u0131\u015f piramit/koni olu\u015fturmak i\xe7in y\xfckseklik girin",
     "Connecting": "Ba\u011flan\u0131yor\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "\u0130n\u015fa S\u0131ras\u0131",
     "ConstructionProtocol": "\u0130n\u015fa Protokol\xfc",
     "ConstructionProtocolButton": "\u0130n\u015fa protokol\xfcn\xfc a\xe7ma d\xfc\u011fmesi",

@@ -1461,6 +1461,7 @@ __GGB__keysVar.lt.menu = {
     "Conify": "\u012esprausti \u012f piramid\u0119 ar k\u016bg\u012f",
     "Conify.Help": "Tempkite daugiakamp\u012f/apskritim\u0105, arba pasirinkite daugiakamp\u012f/apskritim\u0105 ir \u012fveskite auk\u0161t\u012f nor\u0117dami sukurti piramid\u0119/k\u016bg\u012f",
     "Connecting": "Jungiamasi\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Konstrukcijos seka",
     "ConstructionProtocol": "Konstrukcijos taisykl\u0117s",
     "ConstructionProtocolButton": "Konstrukcijos taisykl\u0117s",

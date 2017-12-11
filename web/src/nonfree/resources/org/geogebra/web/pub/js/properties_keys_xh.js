@@ -1461,6 +1461,7 @@ __GGB__keysVar.xh.menu = {
     "Conify": "Yenza kuphume iphiramidi okanye ikhowni",
     "Conify.Help": "Tsala umacalamaninzi/isangqa, okanye khetha umacalamaninzi/isangqa uze ufake ialtitude ukwenza ipyramid/icone esembindini",
     "Connecting": "Isakonekta\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Ulandelelwaniso lolwakhiwo",
     "ConstructionProtocol": "Umthetho woLwakhiwo",
     "ConstructionProtocolButton": "Iqhosha lokuvula umthetho wolwakhiwo",

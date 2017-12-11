@@ -1461,6 +1461,7 @@ __GGB__keysVar.ms.menu = {
     "Conify": "Dikeluarkan ke Piramid atau Kon",
     "Conify.Help": "Heret poligon/bulatan, atau pilih poligon/bulatan dan masukkan ketinggian untuk membina piramid/kon terpusat",
     "Connecting": "sedang menyambung\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Tertib Pembinaan",
     "ConstructionProtocol": "Protokol Pembinaan",
     "ConstructionProtocolButton": "Butang untuk buka protokol pembinaan",

@@ -1461,6 +1461,7 @@ __GGB__keysVar.sq.menu = {
     "Conify": "Shnderro ne Piramide ose Kon",
     "Conify.Help": "Zvarrit poligon/rreth, ose selekto poligon/rreth dhe fut lartesine per te krijuar piramide/kon te qenderzuar",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Renditja e Ndertimit",
     "ConstructionProtocol": "Protokoll Ndertimi",
     "ConstructionProtocolButton": "Celsi i Protokollit te Ndertimit",

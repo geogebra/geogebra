@@ -1461,6 +1461,7 @@ __GGB__keysVar.et.menu = {
     "Conify": "Venita p\xfcramiidiks v\xf5i koonuseks",
     "Conify.Help": "Vea hulknurka/ringi v\xf5i vali hulknurk/ring ja sisesta k\xf5rgus, et luua sentreeritud p\xfcramiid/koonus",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Konstruktsiooni j\xe4rjekord",
     "ConstructionProtocol": "Konstruktsiooni protokoll",
     "ConstructionProtocolButton": "Nupp konstruktsiooni protokolli avamiseks",

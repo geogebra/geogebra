@@ -1461,6 +1461,7 @@ __GGB__keysVar.sv.menu = {
     "Conify": "Dra ut till pyramid eller kon",
     "Conify.Help": "Drag polygon/cikel, eller v\xe4lj polygon/cirkel och mata in h\xf6jd f\xf6r att skapa en rak central pyramid/kon",
     "Connecting": "Kopplar\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Konstruktionsordning",
     "ConstructionProtocol": "Konstruktionsprotokoll",
     "ConstructionProtocolButton": "Knapp som \xf6ppnar konstruktionsprotokoll",

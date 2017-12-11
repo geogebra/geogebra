@@ -1461,6 +1461,7 @@ __GGB__keysVar.hu.menu = {
     "Conify": "G\xfala vagy k\xfap kifesz\xedt\xe9se",
     "Conify.Help": "Egyenes g\xfala/k\xfap l\xe9trehoz\xe1sa az alap soksz\xf6g/k\xf6r kijel\xf6l\xe9s\xe9vel, majd a magass\xe1g megad\xe1s\xe1val",
     "Connecting": "Kapcsol\xf3d\xe1s\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Szerkeszt\xe9si sorrend",
     "ConstructionProtocol": "A szerkeszt\xe9s l\xe9p\xe9sei",
     "ConstructionProtocolButton": "Gomb a szerkeszt\xe9s l\xe9p\xe9seinek megnyit\xe1s\xe1hoz",

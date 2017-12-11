@@ -1461,6 +1461,7 @@ __GGB__keysVar.no_NN.menu = {
     "Conify": "Ekstruder til pyramide eller kjegle",
     "Conify.Help": "Drag i mangekant/sirkel, eller vel mangekant/sirkel og skriv inn h\xf8gde for \xe5 lage ein rett pyramide/kjegle",
     "Connecting": "Tilkopling\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Rekkef\xf8lgje for framgangsm\xe5ten",
     "ConstructionProtocol": "Framgangsm\xe5te",
     "ConstructionProtocolButton": "Knapp som opnar forklaringa av framgangsm\xe5ten",

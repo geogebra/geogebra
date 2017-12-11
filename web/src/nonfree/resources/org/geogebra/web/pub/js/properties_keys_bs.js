@@ -1461,6 +1461,7 @@ __GGB__keysVar.bs.menu = {
     "Conify": "Ekstruzija u piramidu ili konus",
     "Conify.Help": "Pomjerite ili ozna\u010dite mnogougao/krug i unesite visinu da kreirate piramidu/konus.",
     "Connecting": "Povezivanje\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Redoslijed konstrukcije",
     "ConstructionProtocol": "Opis konstrukcije",
     "ConstructionProtocolButton": "Dugme za opis konstrukcije",

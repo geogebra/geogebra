@@ -1461,6 +1461,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Conify": "Extrus\xe3o para Pir\xe2mide ou Cone",
     "Conify.Help": "Arraste pol\xedgono/circunfer\xeancia, ou selecione pol\xedgono/circunfer\xeancia e introduza a altura para criar uma pir\xe2mide/cone",
     "Connecting": "A ligar\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Ordem da Constru\xe7\xe3o",
     "ConstructionProtocol": "Protocolo de Constru\xe7\xe3o",
     "ConstructionProtocolButton": "Bot\xe3o para abrir o protocolo de constru\xe7\xe3o",

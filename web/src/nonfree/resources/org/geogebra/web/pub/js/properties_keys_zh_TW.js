@@ -1461,6 +1461,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Conify": "\u62c9\u6210\u9310\u9ad4",
     "Conify.Help": "\u76f4\u63a5\u62d6\u66f3\u591a\u908a\u5f62\uff0f\u5713\uff0c\u6216\u5148\u9ede\u9078\u591a\u908a\u5f62\uff0f\u5713\uff0c\u7136\u5f8c\u8f38\u5165\u9310\u9ad4\u7684\u9ad8\u5ea6\u3002",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "\u4f5c\u5716\u9806\u5e8f",
     "ConstructionProtocol": "\u69cb\u5716\u6309\u672c",
     "ConstructionProtocolButton": "\u986f\u793a\u300c\u69cb\u5716\u6309\u672c\u300d\u6309\u9215",

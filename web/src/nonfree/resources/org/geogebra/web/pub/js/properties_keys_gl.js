@@ -1461,6 +1461,7 @@ __GGB__keysVar.gl.menu = {
     "Conify": "Extrusi\xf3n a pir\xe1mide ou cono",
     "Conify.Help": "Arrastrar o pol\xedgono/c\xedrculo, ou seleccionar un ou outro, e anotar a altura para crear o correspondente corpo centrado.",
     "Connecting": "Conectando\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Orde de Construci\xf3n",
     "ConstructionProtocol": "Protocolo de construci\xf3n",
     "ConstructionProtocolButton": "Bot\xf3n para abrir o protocolo de construci\xf3n",

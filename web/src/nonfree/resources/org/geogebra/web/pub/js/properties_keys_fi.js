@@ -1461,6 +1461,7 @@ __GGB__keysVar.fi.menu = {
     "Conify": "Laajenna pyramidiksi tai kartioksi",
     "Conify.Help": "Luo suora pyramidi tai kartio raahaamalla monikulmiota/ympyr\xe4\xe4 tai valitsemalla monikulmio/ympyr\xe4 ja sy\xf6tt\xe4m\xe4ll\xe4 korkeus",
     "Connecting": "Yhdistet\xe4\xe4n\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Konstruktion j\xe4rjestys",
     "ConstructionProtocol": "Konstruktion vaiheet",
     "ConstructionProtocolButton": "Konstruktion vaiheiden avauspainike",

@@ -1461,6 +1461,7 @@ __GGB__keysVar.ta.menu = {
     "Conify": "Extrude to Pyramid or Cone",
     "Conify.Help": "Drag polygon/circle, or select polygon/circle and enter altitude to create centered pyramid/cone",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Construction Order",
     "ConstructionProtocol": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1 \u0b89\u0b9f\u0ba9\u0bcd\u0baa\u0b9f\u0bc1\u0bb5\u0bb0\u0bc8\u0bae\u0bc1\u0bb1\u0bc8",
     "ConstructionProtocolButton": "\u0b85\u0bae\u0bc8\u0baa\u0bcd\u0baa\u0bc1 \u0b89\u0b9f\u0ba9\u0bcd\u0baa\u0b9f\u0bc1\u0bb5\u0bb0\u0bc8\u0bae\u0bc1\u0bb1\u0bc8\u0baf\u0bbf\u0ba9\u0bc8 \u0ba4\u0bbf\u0bb1\u0baa\u0bcd\u0baa\u0ba4\u0bb1\u0bcd\u0b95\u0bbe\u0ba9 \u0baa\u0bca\u0ba4\u0bcd\u0ba4\u0bbe\u0ba9\u0bcd",

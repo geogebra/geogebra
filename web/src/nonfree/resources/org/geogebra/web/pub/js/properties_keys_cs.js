@@ -1461,6 +1461,7 @@ __GGB__keysVar.cs.menu = {
     "Conify": "Vyta\u017een\xed do jehlanu nebo ku\u017eele",
     "Conify.Help": "T\xe1hn\u011bte my\u0161\xed mnoho\xfaheln\xedk/kruh nebo vyberte mnoho\xfaheln\xedk/kruh a zadejte v\xfd\u0161ku pro vytvo\u0159en\xed \"st\u0159edov\u011b soum\u011brn\xe9ho\" jehlanu/rota\u010dn\xedho ku\u017eele",
     "Connecting": "Prob\xedh\xe1 p\u0159ipojen\xed\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Po\u0159ad\xed v konstrukci",
     "ConstructionProtocol": "Z\xe1pis konstrukce",
     "ConstructionProtocolButton": "Tla\u010d\xedtko z\xe1pisu konstrukce",

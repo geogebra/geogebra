@@ -1461,6 +1461,7 @@ __GGB__keysVar.it.menu = {
     "Conify": "Estrusione in piramide o cono",
     "Conify.Help": "Trascinare il poligono/circonferenza o selezionare il poligono/circonferenza e inserire la misura dell'altezza per creare una piramide/cono",
     "Connecting": "Connessione in corso\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Ordine costruzione",
     "ConstructionProtocol": "Protocollo di costruzione",
     "ConstructionProtocolButton": "Pulsante per aprire il protocollo di costruzione",

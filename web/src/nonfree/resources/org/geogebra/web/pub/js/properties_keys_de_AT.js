@@ -1461,6 +1461,7 @@ __GGB__keysVar.de_AT.menu = {
     "Conify": "Zu Pyramide oder Kegel extrudieren",
     "Conify.Help": "Ziehe ein Vieleck / einen Kreis oder w\xe4hle ein Vieleck / einen Kreis und gib die H\xf6he ein, um eine zentrierte Pyramide / einen zentrierten Kegel zu erstellen",
     "Connecting": "Verbinden\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Konstruktionsreihenfolge",
     "ConstructionProtocol": "Konstruktionsprotokoll",
     "ConstructionProtocolButton": "Schaltfl\xe4che zum \xd6ffnen des Konstruktionsprotokolls",

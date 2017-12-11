@@ -1461,6 +1461,7 @@ __GGB__keysVar.nl.menu = {
     "Conify": "Uitrekken naar piramide of kegel",
     "Conify.Help": "Sleep veelhoek/cirkel of selecteer veelhoek/cirkel en voer de hoogte in om een piramide/kegel te tekenen",
     "Connecting": "Verbinden\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Constructievolgorde",
     "ConstructionProtocol": "Overzicht constructiestappen",
     "ConstructionProtocolButton": "Knop voor het openen van het constructieoverzicht",

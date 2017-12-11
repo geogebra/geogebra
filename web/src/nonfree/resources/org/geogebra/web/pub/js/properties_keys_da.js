@@ -1461,6 +1461,7 @@ __GGB__keysVar.da.menu = {
     "Conify": "Udvid til pyramide eller kegle",
     "Conify.Help": "Tr\xe6k polygon/cirkel, eller v\xe6lg polygon/cirkel og angiv h\xf8jden for at lave en centreret pyramide/kegle",
     "Connecting": "Forbinder\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Konstruktionsr\xe6kkef\xf8lge",
     "ConstructionProtocol": "Konstruktionsbeskrivelse",
     "ConstructionProtocolButton": "Knap der \xe5bner konstruktions protokollen",

@@ -1461,6 +1461,7 @@ __GGB__keysVar.sk.menu = {
     "Conify": "Vytvori\u0165 ihlan alebo ku\u017ee\u013e",
     "Conify.Help": "\u0164ahaj mnohouholn\xedk/kru\u017enicu, alebo vyber mnohouholn\xedk/kru\u017enicu a zadaj v\xfd\u0161ku k vytvoreniu ihlanu/ku\u017ee\u013ea",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Poradie kon\u0161trukcie",
     "ConstructionProtocol": "Postup kon\u0161trukcie",
     "ConstructionProtocolButton": "Tla\u010d\xedtko postupu kon\u0161trukcie",

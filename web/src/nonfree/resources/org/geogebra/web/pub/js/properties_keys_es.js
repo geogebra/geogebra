@@ -1461,6 +1461,7 @@ __GGB__keysVar.es.menu = {
     "Conify": "Pir\xe1mide o Cono desde su base",
     "Conify.Help": "Arrastre de un pol\xedgono/c\xedrculo o selecci\xf3n e ingreso de la altura de la pir\xe1mide recta o cono centrado",
     "Connecting": "Conect\xe1ndose\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Orden de construcci\xf3n",
     "ConstructionProtocol": "Protocolo de Construcci\xf3n",
     "ConstructionProtocolButton": "Bot\xf3n que abre el Protocolo",

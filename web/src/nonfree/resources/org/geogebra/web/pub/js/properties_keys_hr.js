@@ -1461,6 +1461,7 @@ __GGB__keysVar.hr.menu = {
     "Conify": "Izvuci u piramidu ili sto\u017eac",
     "Conify.Help": "Povucite mnogokut/kru\u017enicu ili odaberite mnogokut/kru\u017enicu i unesite visinu kako biste izradili uspravnu piramidu/sto\u017eac.",
     "Connecting": "Spajanje\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Redoslijed konstrukcije",
     "ConstructionProtocol": "Opis konstrukcije",
     "ConstructionProtocolButton": "Gumb za opis konstrukcije",

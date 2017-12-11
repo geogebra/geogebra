@@ -1461,6 +1461,7 @@ __GGB__keysVar.vi.menu = {
     "Conify": "Tr\u1ea3i h\xecnh ch\xf3p ho\u1eb7c h\xecnh n\xf3n",
     "Conify.Help": "K\xe9o \u0111a gi\xe1c/\u0111\u01b0\u1eddng tr\xf2n, ho\u1eb7c l\u1ef1a ch\u1ecdn \u0111a gi\xe1c/\u0111\u01b0\u1eddng tr\xf2n v\xe0 nh\u1eadp \u0111\u1ed9 d\xe0i \u0111\u01b0\u1eddng cao \u0111\u1ec3 t\u1ea1o h\xecnh ch\xf3p/h\xecnh n\xf3n \u1edf gi\u1eefa",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Th\u1ee9 t\u1ef1 d\u1ef1ng h\xecnh",
     "ConstructionProtocol": "C\xe1ch d\u1ef1ng h\xecnh",
     "ConstructionProtocolButton": "Hi\u1ec3n th\u1ecb n\xfat xem c\xe1ch d\u1ef1ng h\xecnh",

@@ -1461,6 +1461,7 @@ __GGB__keysVar.tl.menu = {
     "Conify": "Extrude to Pyramid or Cone",
     "Conify.Help": "I-drag ang polygon/circle, o piliin ang polygon/circle at i-enter ang altitude para gumawa ng centered pyramid/cone",
     "Connecting": "Connecting\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Construction Order",
     "ConstructionProtocol": "Protokol sa paggawa",
     "ConstructionProtocolButton": "Pindutan para sa pagbukas ng protokol sa paggawa",

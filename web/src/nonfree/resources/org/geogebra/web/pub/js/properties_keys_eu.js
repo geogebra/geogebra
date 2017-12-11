@@ -1461,6 +1461,7 @@ __GGB__keysVar.eu.menu = {
     "Conify": "Piramide edo Kono bezala Estruitu",
     "Conify.Help": "Arrastatu poligonoa/zirkulua, edo aukeratu poligonoa/zirkulua eta sartu altuera piramidea/konoa sortzeko",
     "Connecting": "Konektatzen\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Eraikuntzaren ordena",
     "ConstructionProtocol": "Eraikuntzaren Pausoak",
     "ConstructionProtocolButton": "Eraikuntzaren pauso guztiak irekitzeko botoia",

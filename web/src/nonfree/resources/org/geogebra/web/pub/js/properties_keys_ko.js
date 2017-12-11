@@ -1461,6 +1461,7 @@ __GGB__keysVar.ko.menu = {
     "Conify": "\uac01\ubfd4\uc774\ub098 \uc6d0\ubfd4\ub85c \ub04c\uc5b4\ub0b4\uae30",
     "Conify.Help": "\ub2e4\uac01\ud615(\uc6d0)\uc744 \ub4dc\ub798\uadf8\ud558\uc138\uc694.\n\ub2e4\uac01\ud615(\uc6d0)\uc744 \uc120\ud0dd\ud55c \ud6c4 \ubfd4\uc758 \ub192\uc774\ub97c \uc785\ub825\ud558\uc138\uc694.",
     "Connecting": "\uc5f0\uacb0\uc911\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "\uad6c\uc131 \uc21c\uc11c",
     "ConstructionProtocol": "\uad6c\uc131\ub2e8\uacc4",
     "ConstructionProtocolButton": "\uad6c\uc131\ub2e8\uacc4\ub97c \uc5ec\ub294 \ubc84\ud2bc",

@@ -1461,6 +1461,7 @@ __GGB__keysVar.pl.menu = {
     "Conify": "Utw\xf3rz Ostros\u0142up lub Sto\u017cek",
     "Conify.Help": "Przeci\u0105gnij wielok\u0105t / okr\u0105g lub wybierz wielok\u0105t / okr\u0105g i wprowad\u017a wysoko\u015b\u0107, aby utworzy\u0107 ostros\u0142up / sto\u017cek",
     "Connecting": "Po\u0142\u0105czenie\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "Kolejno\u015b\u0107 konstrukcji",
     "ConstructionProtocol": "Protok\xf3\u0142 Konstrukcji",
     "ConstructionProtocolButton": "Przycisk otwarcia okna protoko\u0142u konstrukcji",

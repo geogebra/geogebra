@@ -1461,6 +1461,7 @@ __GGB__keysVar.is.menu = {
     "Conify": "Draga \xfat \xed p\xedram\xedta e\xf0a keilu",
     "Conify.Help": "Draga marghyrning/hring, e\xf0a velja marghyrning/hring og sl\xe1 inn h\xe6\xf0 til a\xf0 b\xfaa til p\xedram\xedta/keilu",
     "Connecting": "Tengir\u2026",
+    "ConstructionNotDegenerate": "the construction is not degenerate",
     "ConstructionOrder": "R\xf6\xf0 myndsm\xed\xf0arskrefa",
     "ConstructionProtocol": "Verkl\xfdsing myndsm\xed\xf0ar",
     "ConstructionProtocolButton": "Hnappur til a\xf0 opna verkl\xfdsingu sm\xed\xf0ar",
