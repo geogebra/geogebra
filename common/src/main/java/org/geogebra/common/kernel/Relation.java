@@ -150,7 +150,8 @@ public class Relation {
 							} else if ("2".equals(ndgResult[0])) {
 								// ProveDetails=={true,"c"}
 								rel.setInfo(rel.getInfo()
-										+ loc.getMenu("PartiallyTrue"));
+										+ loc.getMenuDefault("PartiallyTrue",
+												"(partially true)"));
 							} else { // "0"
 								Log.error(
 										"Internal error in prover: Prove==true <-> ProveDetails==false");
