@@ -631,10 +631,8 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 	 */
 	static final public void setSinglePoint(GeoConic conic, double x,
 			double y) {
-
 		conic.setMidpoint(x, y);
 		conic.singlePoint();
-
 	}
 
 	@Override

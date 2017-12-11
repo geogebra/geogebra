@@ -4583,7 +4583,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * @return circumfernece assuming this is an ellipse
 	 */
 	public double getEllipseCircumference() {
-
 		return EllipticArcLength.getEllipseCircumference(halfAxes[0],
 				halfAxes[1]);
 	}
@@ -4595,7 +4594,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	public void toParametric(String param) {
 		this.toStringMode = GeoConicND.EQUATION_PARAMETRIC;
 		this.parameter = param;
-
 	}
 
 	@Override

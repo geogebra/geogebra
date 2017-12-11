@@ -2048,4 +2048,12 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return new GeoVec2D(kernel, P[0] + t * y, P[1] - t * x);
 	}
 
+	@Override
+	public DescriptionMode needToShowBothRowsInAV() {
+		if (toStringMode == GeoLine.EQUATION_USER) {
+			return DescriptionMode.VALUE;
+		}
+		return super.needToShowBothRowsInAV();
+	}
+
 }

@@ -1866,6 +1866,8 @@ public class AlgebraProcessor {
 						if (replaceable instanceof GeoNumeric) {
 							((GeoNumeric) replaceable).extendMinMax(ret[0]);
 						}
+						// copy equation style
+						ret[0].setVisualStyle(replaceable);
 						replaceable.set(ret[0]);
 						if (replaceable instanceof GeoFunction
 								&& !((GeoFunction) replaceable)

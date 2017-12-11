@@ -1580,7 +1580,6 @@ public class Construction {
 				addToConstructionList(parentAlgo, true);
 				// make sure all output objects get labels, see #218
 				parentAlgo.resetLabels(oldGeoLabel);
-
 			}
 
 			// copy label of oldGeo to newGeo
