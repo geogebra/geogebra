@@ -2110,6 +2110,7 @@ var __giac = [ {},
 { cat:"IndexOf", cmd:"IndexOf(8,{4,3,6})", result:"?", notes:"GGB-2208"},
 { cat:"Simplify", cmd:"Simplify(x^(8*k+9)*x^(5*k))", result:"x^(13k+9)" },
 { cat:"Simplify", cmd:"Simplify(x^(5k)*x^(2*k+1))", result:"x^(7k + 1)" },
+{ cat:"Simplify", cmd:"Simplify(If(x>0,x))", result:"If(x>0, x)" },
 { cat:"LeftSide", cmd:"LeftSide({a,b}={1,2})", result:"{a,b}" },
 { cat:"RightSide", cmd:"RightSide({a,b}={1,2})", result:"{1,2}" },
 //JSONEND
