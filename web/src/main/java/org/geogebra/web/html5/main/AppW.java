@@ -2179,7 +2179,6 @@ public abstract class AppW extends App implements SetLabels {
 		// }
 		updateCommandDictionary();
 		String key = getConfig().getAppTitle();
-
 		getArticleElement().setAttribute("aria-label",
 				getLocalization().getMenu(key));
 		setAltText();
@@ -3239,6 +3238,7 @@ public abstract class AppW extends App implements SetLabels {
 		return "true".equals(p) || "canary".equals(p);
 	}
 
+	@Override
 	public void hideMenu() {
 		// for applets with menubar
 	}
