@@ -2172,14 +2172,14 @@ namespace giac {
       return true;
     unary_function_ptr & u=forprog._SYMBptr->sommet;
     if (u==at_sto || u==at_array_sto){
-      gen to=forprog._SYMBptr->feuille[1];
-      if (to==index || to==stopg)
+      const gen * to=&(*forprog._SYMBptr->feuille._VECTptr)[1];
+      if (*to==index || *to==stopg)
 	return false;
     }
     if (u==at_increment || u==at_decrement){
-      gen to=forprog._SYMBptr->feuille;
-      if (to.type==_VECT) to=to._VECTptr->front();
-      if (to==index || to==stopg) 
+      const gen * to=&forprog._SYMBptr->feuille;
+      if (to->type==_VECT) to=&to->_VECTptr->front();
+      if (*to==index || *to==stopg) 
 	return false;
     }
     return chk_forprog(forprog._SYMBptr->feuille,index,stopg);

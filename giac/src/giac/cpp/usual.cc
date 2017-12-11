@@ -3360,11 +3360,12 @@ namespace giac {
     }
     if (b.type==_IDNT){
       // typed variable name must end with _d (double) or _i (int)
-      int bl=int(strlen(b._IDNTptr->id_name));
+      const char * name=b._IDNTptr->id_name;
+      int bl=int(strlen(name));
       if (bl==1){
-	if (b._IDNTptr->id_name[0]=='O' && (series_flags(contextptr) & (1<<6)) )
+	if (name[0]=='O' && (series_flags(contextptr) & (1<<6)) )
 	  series_flags(contextptr) ^= (1<<6);
-	if (b._IDNTptr->id_name[0]==series_variable_name(contextptr)){
+	if (name[0]==series_variable_name(contextptr)){
 	  if (series_flags(contextptr) & (1<<5))
 	    series_flags(contextptr) ^= (1<<5);
 	  if (series_flags(contextptr) & (1<<6))
@@ -3372,7 +3373,6 @@ namespace giac {
 	}
       }
       if (bl>=3){
-	const char * name=b._IDNTptr->id_name;
 	if (name[bl-2]=='_'){
 	  switch (name[bl-1]){
 	  case 'd':
@@ -3415,14 +3415,14 @@ namespace giac {
 	} catch (std::runtime_error & ) { }
 #endif
       }
-      gen aa(a),error;
-      if (strcmp(b._IDNTptr->id_name,string_pi)==0 || strcmp(b._IDNTptr->id_name,string_infinity)==0 || strcmp(b._IDNTptr->id_name,string_undef)==0 
+      gen aa(a);
+      if (strcmp(name,string_pi)==0 || strcmp(name,string_infinity)==0 || strcmp(name,string_undef)==0 
 #ifdef GIAC_HAS_STO_38
-	  || b._IDNTptr->id_name[0]=='_' 
+	  || name[0]=='_' 
 #endif
 	  )
 	return gensizeerr(b.print(contextptr)+": reserved word");
-      if (a==b)
+      if (a.type==_IDNT && a==b)
 	return purgenoassume(b,contextptr);
       gen ans(aa);
       if ( (a.type==_SYMB) && (a._SYMBptr->sommet==at_parameter)){
@@ -3462,7 +3462,7 @@ namespace giac {
 	ans=symbolic(at_parameter,makesequence(b,debut,fin,aa,saut));
       } // end parameter
       if (abs_calc_mode(contextptr)==38){
-	if (storcl_38 && storcl_38(ans,0,b._IDNTptr->id_name,undef,false,contextptr,&aa,false) )
+	if (storcl_38 && storcl_38(ans,0,name,undef,false,contextptr,&aa,false) )
 	  return ans;
       }
       if (b._IDNTptr->quoted)
@@ -3471,7 +3471,7 @@ namespace giac {
 	const context * ptr=contextptr;
 	bool done=false;
 	for (;ptr->previous && ptr->tabptr;ptr=ptr->previous){
-	  sym_tab::iterator it=ptr->tabptr->find(b._IDNTptr->id_name),itend=ptr->tabptr->end();
+	  sym_tab::iterator it=ptr->tabptr->find(name),itend=ptr->tabptr->end();
 	  if (it!=itend){ // found in current local context
 	    // check that the current value is a thread pointer
 	    if (it->second.type==_POINTER_ && it->second.subtype==_THREAD_POINTER){
@@ -3491,7 +3491,7 @@ namespace giac {
 	      return gensizeerr(b.print(contextptr)+gettext(": recursive definition"));
 	  }
 	  sym_tab * symtabptr=contextptr->globalcontextptr?contextptr->globalcontextptr->tabptr:contextptr->tabptr;
-	  sym_tab::iterator it=symtabptr->find(b._IDNTptr->id_name),itend=symtabptr->end();
+	  sym_tab::iterator it=symtabptr->find(name),itend=symtabptr->end();
 	  if (it!=itend){ 
 	    // check that the current value is a thread pointer
 	    if (it->second.type==_POINTER_ && it->second.subtype==_THREAD_POINTER){
@@ -3501,7 +3501,7 @@ namespace giac {
 	    it->second=aa;
 	  }
 	  else
-	    (*symtabptr)[b._IDNTptr->id_name]=aa;
+	    (*symtabptr)[name]=aa;
 	}
 #ifdef HAVE_SIGNAL_H_OLD
 	if (!child_id && signal_store)

@@ -365,7 +365,10 @@ namespace giac {
     if (itb->type==_FRAC)
       s=gen2mathml(*itb,contextptr); 
     else {
-      if ( (itb->type==_IDNT) || ((itb->type!=_SYMB) && is_positive(*itb,contextptr)) || sommetstr=="<mo>=</mo>")
+      if ( 
+	  !need_parenthesis(*itb) || itb->is_symb_of_sommet(at_of)
+	  // (itb->type==_IDNT) || ((itb->type!=_SYMB) && is_positive(*itb,contextptr)) 
+	  || sommetstr=="<mo>=</mo>")
 	s=gen2mathml(*itb,contextptr);
       else
 	s="<mo>(</mo>"+gen2mathml(*itb,contextptr)+"<mo>)</mo>";
