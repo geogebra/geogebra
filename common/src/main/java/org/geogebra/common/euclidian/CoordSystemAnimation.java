@@ -236,12 +236,15 @@ public abstract class CoordSystemAnimation {
 
 	/**
 	 * Starts the animation
+	 * 
+	 * @param withListener
+	 *            animation listener
 	 */
-	public synchronized void startAnimation(CoordSystemListener listener) {
+	public synchronized void startAnimation(CoordSystemListener withListener) {
 		if (!hasTimer()) {
 			return;
 		}
-		this.listener = listener;
+		this.listener = withListener;
 		switch (mode) {
 		case AXES:
 			add = (newScale - oldScale) / steps;
@@ -281,6 +284,9 @@ public abstract class CoordSystemAnimation {
 	/** @return true if timer is defined */
 	protected abstract boolean hasTimer();
 
+	/**
+	 * @return current listener
+	 */
 	public CoordSystemListener getListener() {
 		return listener;
 	}

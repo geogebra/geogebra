@@ -612,6 +612,9 @@ public class EuclidianControllerCompanion {
 	/**
 	 * @param forPreviewable
 	 *            in 3D we might want a preview
+	 * @param complex
+	 *            whether to use complex coords
+	 * @return point
 	 */
 	protected GeoPointND createNewPoint(boolean forPreviewable,
 			boolean complex) {
@@ -625,6 +628,15 @@ public class EuclidianControllerCompanion {
 		return ret;
 	}
 
+	/**
+	 * @param forPreviewable
+	 *            whether it's preview
+	 * @param path
+	 *            parent path
+	 * @param complex
+	 *            whether to use complex coords
+	 * @return new point
+	 */
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path,
 			boolean complex) {
 		return createNewPoint(null, forPreviewable, path,
@@ -632,6 +644,15 @@ public class EuclidianControllerCompanion {
 				Kernel.checkDecimalFraction(ec.yRW), 0, complex, true);
 	}
 
+	/**
+	 * @param forPreviewable
+	 *            whether it's preview
+	 * @param region
+	 *            parent region
+	 * @param complex
+	 *            whether to use complex coords
+	 * @return new point
+	 */
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region,
 			boolean complex) {
 		return ec.createNewPoint(null, forPreviewable, region,
@@ -639,12 +660,20 @@ public class EuclidianControllerCompanion {
 				Kernel.checkDecimalFraction(ec.yRW), 0, complex, true);
 	}
 
+	/**
+	 * @param point
+	 *            position for mode locking
+	 */
 	protected void processModeLock(GeoPointND point) {
 		Coords coords = point.getInhomCoordsInD2();
 		ec.xRW = coords.getX();
 		ec.yRW = coords.getY();
 	}
 
+	/**
+	 * @param path
+	 *            path for mode locking
+	 */
 	protected void processModeLock(Path path) {
 		ec.checkZooming();
 
@@ -656,6 +685,13 @@ public class EuclidianControllerCompanion {
 		p.remove();
 	}
 
+	/**
+	 * For view from plane remove the parent of the view
+	 * 
+	 * @param list
+	 *            list of elements
+	 * @return filtered list
+	 */
 	public ArrayList<GeoElement> removeParentsOfView(
 			ArrayList<GeoElement> list) {
 		return list;
@@ -674,9 +710,17 @@ public class EuclidianControllerCompanion {
 		return clockwise;
 	}
 
+	/**
+	 * @param geoRot
+	 *            rotated element
+	 * @param phi
+	 *            angle
+	 * @param Q
+	 *            rotation center
+	 * @return rotated element
+	 */
 	public GeoElement[] rotateByAngle(GeoElement geoRot, GeoNumberValue phi,
 			GeoPointND Q) {
-
 		return ec.kernel.getAlgoDispatcher().Rotate(null, geoRot, phi, Q);
 	}
 

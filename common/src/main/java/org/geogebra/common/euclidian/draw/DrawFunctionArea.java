@@ -9,7 +9,17 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoFunction;
 
+/**
+ * Common class for integral drawables
+ */
 public abstract class DrawFunctionArea extends Drawable {
+	/**
+	 * @param cmd
+	 *            command
+	 * @param i
+	 *            index
+	 * @return i-th argument of command as function
+	 */
 	protected GeoFunction asFunction(Command cmd, int i) {
 		ExpressionValue arg0 = cmd.getArgument(i).unwrap();
 		if (arg0 instanceof GeoCasCell) {
@@ -21,6 +31,13 @@ public abstract class DrawFunctionArea extends Drawable {
 				new Function(cmd.getArgument(i).wrap().replaceCasCommands()));
 	}
 
+	/**
+	 * @param cmd
+	 *            command
+	 * @param i
+	 *            index
+	 * @return i-th argument of command as MyDouble
+	 */
 	protected NumberValue asDouble(Command cmd, int i) {
 		ExpressionValue arg2 = cmd.getArgument(i).unwrap();
 		if (arg2 instanceof GeoCasCell) {
