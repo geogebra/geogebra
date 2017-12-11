@@ -453,8 +453,10 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	protected void showDynamicStylebar() {
-		getView().getDynamicStyleBar().setVisible(true);
-		getView().getDynamicStyleBar().updateStyleBar();
+		if (((AppW) app).allowStylebar()) {
+			getView().getDynamicStyleBar().setVisible(true);
+			getView().getDynamicStyleBar().updateStyleBar();
+		}
 	}
 
 	@Override

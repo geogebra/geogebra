@@ -51,6 +51,7 @@ public class PreviewPointPopup extends GPopupPanel {
 		if (pos != null) {
 			this.setPopupPosition(
 					pos.getX() + app.getActiveEuclidianView().getAbsoluteLeft()
+							- (int) ((AppW) app).getAbsLeft()
 							- offsetWidth / 2,
 					pos.getY() + 10);
 		} else {

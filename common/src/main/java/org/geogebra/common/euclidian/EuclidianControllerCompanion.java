@@ -470,30 +470,74 @@ public class EuclidianControllerCompanion {
 				(GeoLine) h);
 	}
 
+	/**
+	 * @param A
+	 *            first leg
+	 * @param B
+	 *            apex
+	 * @param C
+	 *            second leg
+	 * @return bisector
+	 */
 	protected GeoElement angularBisector(GeoPointND A, GeoPointND B,
 			GeoPointND C) {
 		return ec.getAlgoDispatcher().AngularBisector(null, (GeoPoint) A,
 				(GeoPoint) B, (GeoPoint) C);
 	}
 
+	/**
+	 * @param p1
+	 *            point
+	 * @param p2
+	 *            center
+	 * @param p3
+	 *            point
+	 * @param type
+	 *            sector or arc
+	 * @return circle sector or arc
+	 */
 	protected GeoElement circleArcSector(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3, int type) {
 		return ec.getAlgoDispatcher().CircleArcSector(null, (GeoPoint) p1,
 				(GeoPoint) p2, (GeoPoint) p3, type);
 	}
 
+	/**
+	 * @param p1
+	 *            first point
+	 * @param p2
+	 *            second point
+	 * @param p3
+	 *            third point
+	 * @return circumcircle arc
+	 */
 	protected GeoElement circumcircleArc(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
 		return ec.getAlgoDispatcher().CircumcircleArc(null, (GeoPoint) p1,
 				(GeoPoint) p2, (GeoPoint) p3);
 	}
 
+	/**
+	 * @param p1
+	 *            first point
+	 * @param p2
+	 *            second point
+	 * @param p3
+	 *            third point
+	 * @return circumcircular sector
+	 */
 	protected GeoElement circumcircleSector(GeoPointND p1, GeoPointND p2,
 			GeoPointND p3) {
 		return ec.getAlgoDispatcher().CircumcircleSector(null, (GeoPoint) p1,
 				(GeoPoint) p2, (GeoPoint) p3);
 	}
 
+	/**
+	 * @param repaint
+	 *            whether to repaint afterwards
+	 * @param event
+	 *            mouse move event
+	 */
 	public void movePoint(boolean repaint, AbstractEvent event) {
 		ec.movedGeoPoint.setCoords(Kernel.checkDecimalFraction(ec.xRW),
 				Kernel.checkDecimalFraction(ec.yRW), 1.0);
