@@ -4384,6 +4384,13 @@ namespace giac {
 	if (is_undef(tmpsto)) return tmpsto;
 	return a2;
       }
+      if (a2==at_complex){
+	a2=_CPLX;
+	a2.subtype=1;
+	gen tmpsto=sto(gen(makevecteur(a2),_ASSUME__VECT),a1,contextptr);
+	if (is_undef(tmpsto)) return tmpsto;
+	return a2;
+      }
       if ( (a2.type==_FUNC) && (*a2._FUNCptr==at_ou) ){
 	purge_assume(a1,contextptr);
 	return assumesymbolic(a1,a1,contextptr);

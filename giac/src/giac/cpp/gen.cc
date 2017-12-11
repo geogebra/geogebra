@@ -3780,8 +3780,6 @@ namespace giac {
   }
 
   gen abs(const gen & a,GIAC_CONTEXT){ 
-    if (is_equal(a))
-      return apply_to_equal(a,abs,contextptr);
     switch (a.type ) {
     case _INT_: 
       return(absint(a.val));
@@ -3821,6 +3819,8 @@ namespace giac {
     case _IDNT:
       return idnt_abs(a,contextptr);
     case _SYMB:
+      if (is_equal(a))
+	return apply_to_equal(a,abs,contextptr);
       if (a.is_symb_of_sommet(at_pnt)){
 	if (is3d(a))
 	  return _l2norm(_coordonnees(a,contextptr),contextptr);
@@ -6113,7 +6113,7 @@ namespace giac {
     return undef;
   }
 
-  gen operator_times (const gen & a,const gen & b,GIAC_CONTEXT){
+  gen operator_times(const gen & a,const gen & b,GIAC_CONTEXT){
     register unsigned t=(a.type<< _DECALAGE) | b.type;
     if (!t)
       return gen((longlong) a.val*b.val);
@@ -6255,7 +6255,13 @@ namespace giac {
     }
     if (exponent.type==_INT_){
       if (exponent.val==1) return base;
-      if (exponent.val==2 && base.type<=_REAL) return base*base;
+      if (exponent.val==2 && base.type<=_CPLX){
+	if (base.type==_CPLX && base.subtype==3){
+	  double a=base._CPLXptr->_DOUBLE_val,b=(base._CPLXptr+1)->_DOUBLE_val;
+	  return gen(a*a-b*b,2.0*a*b);
+	}
+	return operator_times(base,base,contextptr);
+      }
     }
     if (is_undef(base))
       return base;
@@ -8171,6 +8177,7 @@ namespace giac {
 	if (a==_VECT && b==at_vector) return true;
 	if (a==_FLOAT_ && b==at_float) return true;
 	if (a==_DOUBLE_ && b==at_real) return true;
+	if (a==_CPLX && b==at_complex) return true;
       }
       if (b.type==_INT_ && b.subtype==_INT_TYPE && a.type==_FUNC)
 	return operator_equal(b,a,contextptr);

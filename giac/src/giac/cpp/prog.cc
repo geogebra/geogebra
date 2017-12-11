@@ -982,6 +982,14 @@ namespace giac {
 	  v2.push_back(*it);
 	  continue;
 	}
+	if (thetype==at_complex){
+	  v1.push_back(theid);
+	  *it=gen(theid.print(contextptr)+"_c",contextptr);
+	  if (egal!=0)
+	    *it=symb_equal(*it,egal);
+	  v2.push_back(*it);
+	  continue;
+	}
 	if (thetype==at_vector){
 	  v1.push_back(theid);
 	  newid=*it=gen(theid.print(contextptr)+"_v",contextptr);

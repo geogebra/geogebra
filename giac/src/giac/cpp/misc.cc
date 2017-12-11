@@ -1693,6 +1693,18 @@ namespace giac {
   static define_unary_function_eval (__float,&_float,_float_s);
   define_unary_function_ptr5( at_float ,alias_at_float,&__float,0,true);
 
+  gen _build_complex(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT && g._VECTptr->size()==2)
+      return gen(g._VECTptr->front(),g._VECTptr->back());
+    if (g.type==_STRNG)
+      return gen(*g._STRNGptr,contextptr);
+    return g;
+  }
+  static const char _build_complex_s []="complex";
+  static define_unary_function_eval (__build_complex,&_build_complex,_build_complex_s);
+  define_unary_function_ptr5( at_complex ,alias_at_build_complex,&__build_complex,0,true);
+
   gen _hold(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     return g;
