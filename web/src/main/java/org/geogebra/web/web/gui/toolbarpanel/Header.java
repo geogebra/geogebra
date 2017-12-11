@@ -195,7 +195,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 			toolbarPanel.setFadeTabs(false);
 		}
 		toolbarPanel.openAlgebra(open);
-		toolbarPanel.setMoveMode();
+		if (!app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+			toolbarPanel.setMoveMode();
+		}
 		app.setKeyboardNeeded(true);
 		toolbarPanel.getFrame().keyBoardNeeded(false, null);
 		toolbarPanel.getFrame().showKeyboardButton(true);
