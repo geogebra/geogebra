@@ -3970,7 +3970,7 @@ public abstract class App implements UpdateSelection {
 				
 			// MOB-1329
 			case MOB_PACK_BUFFERS_3D:
-				return prerelease;
+			return true;
 
             // **********************************************************************
             // MOBILE END
