@@ -314,10 +314,15 @@ public class Browser {
 		} else if (startsWith(url, "data:application/pdf;base64,")) {
 			extension = "application/pdf";
 			header = "data:application/pdf;base64,";
+		} else if (startsWith(url, "data:text/plain;charset=utf-8,")) {
+			extension = "text/plain";
+			header = "data:text/plain;charset=utf-8,";
 		} else {
 			$wnd.console.log("unknown extension " + url.substring(0, 20));
 			return;
 		}
+
+		// 
 
 		if ($wnd.navigator.msSaveBlob) {
 			var sliceSize = 512;
