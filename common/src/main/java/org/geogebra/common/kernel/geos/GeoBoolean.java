@@ -194,6 +194,11 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
+	public boolean showFixUnfix() {
+		return false;
+	}
+
+	@Override
 	public void set(GeoElementND geo) {
 		if (geo.isGeoNumeric()) { // eg SetValue[checkbox, 0]
 			// 1 = true

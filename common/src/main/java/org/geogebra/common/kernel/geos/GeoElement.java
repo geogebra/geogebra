@@ -2039,6 +2039,13 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * @return true if fix/unfix button is shown in properties
+	 */
+	public boolean showFixUnfix() {
+		return isFixable();
+	}
+
+	/**
 	 * if an object has a fixed descendent, we want to set it undefined
 	 */
 	@Override

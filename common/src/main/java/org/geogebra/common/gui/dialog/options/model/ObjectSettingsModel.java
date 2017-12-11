@@ -303,15 +303,15 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
-     * @return whether the geos are fixable
+     * @return whether the geos show fix/unfix button
      */
-    public boolean areObjectsFixable() {
+    public boolean areObjectsShowingFixUnfix() {
         if (geoElement == null) {
             return false;
         }
 
         for (GeoElement geo : geoElementsList) {
-            if (!geo.isFixable()) {
+            if (!geo.showFixUnfix()) {
                 return false;
             }
         }
@@ -644,7 +644,7 @@ abstract public class ObjectSettingsModel {
      */
     public boolean hasLineProperties() {
         for (GeoElement geo : geoElementsList) {
-            if (!LineStyleModel.match(geo)) {
+            if (!geo.showLineProperties()) {
                 return false;
             }
         }

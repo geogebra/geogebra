@@ -820,6 +820,11 @@ public class GeoNumeric extends GeoElement
 						&& !isDefaultGeo();
 	}
 
+	@Override
+	public boolean showFixUnfix() {
+		return false;
+	}
+
 	/**
 	 * @param b
 	 *            - true, if is constant depending on function
