@@ -1740,7 +1740,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSetAxesRatio() {
 		t("SetAxesRatio[ n1, n1 ]");
-
 	}
 
 	@Test
@@ -2178,15 +2177,6 @@ public class NoExceptionsTest {
 	public void cmdVector() {
 		t("Vector[ Pt1 ]");
 		t("Vector[ Pt3, Pt5 ]");
-	}
-
-	@Test
-	public void cmdVertex() {
-		t("Vertex[ c1 ]");
-		t("Vertex[ x>y ]");
-		t("Vertex[ poly1 ]");
-		t("Vertex[ poly1, n2]");
-		t("Vertex[ Segment[(1,0),(0,1)], 1]");
 	}
 
 	@Test

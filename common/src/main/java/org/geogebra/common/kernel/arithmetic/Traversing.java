@@ -230,9 +230,7 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if (ev instanceof ExpressionNode) {
 				ExpressionNode en = (ExpressionNode) ev;
-
 				Operation op = en.getOperation();
-
 				Operation newOp = null;
 
 				switch (op) {
@@ -253,7 +251,6 @@ public interface Traversing {
 				if (newOp != null) {
 					en.setOperation(newOp);
 				}
-
 			}
 			return ev;
 		}

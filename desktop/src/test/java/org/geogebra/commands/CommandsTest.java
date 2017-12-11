@@ -1262,6 +1262,21 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdVertex() {
+		t("Vertex[ x^2/9+y^2/4 =1 ]",
+				new String[] { "(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)" });
+		t("Vertex[ x>y && x>0 && x^2+y^2 < 2 ]",
+				new String[] { "(0, 0)", "(-1, -1)", "(1, 1)", "(0, -1.41421)",
+						"(0, 1.41421)" },
+				StringTemplate.editTemplate);
+		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]",
+				new String[] { "(0, 0)", "(1, 0)", "(0, 1)" });
+		t("Vertex[ Polygon[(0,0),(1,0),(0,1)],2 ]",
+				"(1, 0)");
+		t("Vertex[ Segment[(1,0),(0,1)], 1]", "(1, 0)");
+	}
+
+	@Test
 	public void cmdSetCoords() {
 		t("Pt2=(1,1)", "(1, 1)");
 		t("Pt3=(1,1,1)", "(1, 1, 1)");
