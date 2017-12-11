@@ -4270,8 +4270,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2222 */
 		case CHANGE_INVERSE_TRIG_TO_DEGREES:
-			return prerelease
-					&& getKernel().degreesMode();
+			return getKernel().degreesMode();
 
 		/** GGB-2170 */
 		case SLIDER_STYLE_OPTIONS:
