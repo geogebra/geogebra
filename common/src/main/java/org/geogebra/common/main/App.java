@@ -356,6 +356,7 @@ public abstract class App implements UpdateSelection {
 	private LowerCaseDictionary commandDictCAS;
 	// array of dictionaries corresponding to the sub command tables
 	private LowerCaseDictionary[] subCommandDict;
+	private final Object commandDictLock = new Object();
 	private String scriptingLanguage;
 	/**
 	 * flag for current state
@@ -649,8 +650,10 @@ public abstract class App implements UpdateSelection {
 	 * @return command dictionary for CAS
 	 */
 	public final LowerCaseDictionary getCommandDictionaryCAS() {
-		fillCommandDict();
-		fillCasCommandDict();
+		synchronized (commandDictLock) {
+			fillCommandDict();
+			fillCasCommandDict();
+		}
 		return commandDictCAS;
 	}
 
@@ -677,10 +680,12 @@ public abstract class App implements UpdateSelection {
 	 * will load the properties files first.
 	 */
 	final public void initTranslatedCommands() {
-		if (getLocalization().isCommandNull() || subCommandDict == null) {
-			getLocalization().initCommand();
-			fillCommandDict();
-			kernel.updateLocalAxesNames();
+		synchronized (commandDictLock) {
+			if (getLocalization().isCommandNull() || subCommandDict == null) {
+				getLocalization().initCommand();
+				fillCommandDict();
+				kernel.updateLocalAxesNames();
+			}
 		}
 	}
 
@@ -688,7 +693,9 @@ public abstract class App implements UpdateSelection {
 	 * @return command dictionary
 	 */
 	public final LowerCaseDictionary getCommandDictionary() {
-		fillCommandDict();
+		synchronized (commandDictLock) {
+			fillCommandDict();
+		}
 		return commandDict;
 	}
 
@@ -815,8 +822,10 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void updateCommandDictionary() {
 		// make sure all macro commands are in dictionary
-		if (commandDict != null) {
-			fillCommandDict();
+		synchronized (commandDictLock) {
+			if (commandDict != null) {
+				fillCommandDict();
+			}
 		}
 	}
 
