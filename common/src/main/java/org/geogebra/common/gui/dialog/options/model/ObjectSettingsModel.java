@@ -303,6 +303,23 @@ abstract public class ObjectSettingsModel {
     }
 
     /**
+     * @return whether the geos are fixable
+     */
+    public boolean areObjectsFixable() {
+        if (geoElement == null) {
+            return false;
+        }
+
+        for (GeoElement geo : geoElementsList) {
+            if (!geo.isFixable()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
      * @param objectFixed
      *         geoElement should be fixed or not
      */
