@@ -3179,6 +3179,7 @@ __GGB__keysVar.ko.menu = {
     "xmin": "x\uc758 \ucd5c\uc19f\uac12",
     "xstep": "x\ucd95 \uac04\uaca9",
     "yAxis": "y\ucd95",
+    "yIntercept": "y-intercept",
     "ymax": "y\uc758 \ucd5c\ub313\uac12",
     "ymin": "y\uc758 \ucd5c\uc19f\uac12",
     "ystep": "y\ucd95 \uac04\uaca9",

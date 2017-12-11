@@ -3179,6 +3179,7 @@ __GGB__keysVar.nl_NL.menu = {
     "xmin": "xMin",
     "xstep": "X Stapgrootte",
     "yAxis": "yAs",
+    "yIntercept": "y-intercept",
     "ymax": "yMax",
     "ymin": "yMin",
     "ystep": "Y Stapgrootte",

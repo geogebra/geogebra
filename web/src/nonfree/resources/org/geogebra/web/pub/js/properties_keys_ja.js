@@ -3179,6 +3179,7 @@ __GGB__keysVar.ja.menu = {
     "xmin": "X Min",
     "xstep": "X Step",
     "yAxis": "y\u8ef8",
+    "yIntercept": "y-intercept",
     "ymax": "Y Max",
     "ymin": "Y Min",
     "ystep": "Y Step",

@@ -3179,6 +3179,7 @@ __GGB__keysVar.fr.menu = {
     "xmin": "xMin",
     "xstep": "xpas",
     "yAxis": "axeY",
+    "yIntercept": "y-intercept",
     "ymax": "yMax",
     "ymin": "yMin",
     "ystep": "ypas",

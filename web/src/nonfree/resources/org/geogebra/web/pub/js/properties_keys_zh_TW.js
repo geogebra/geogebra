@@ -3179,6 +3179,7 @@ __GGB__keysVar.zh_TW.menu = {
     "xmin": "x \u6700\u5c0f",
     "xstep": "x \u9593\u8ddd",
     "yAxis": "y\u8ef8",
+    "yIntercept": "y-intercept",
     "ymax": "y \u6700\u5927",
     "ymin": "y \u6700\u5c0f",
     "ystep": "y \u9593\u8ddd",

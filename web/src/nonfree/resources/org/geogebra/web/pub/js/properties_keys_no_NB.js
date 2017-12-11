@@ -3179,6 +3179,7 @@ __GGB__keysVar.no_NB.menu = {
     "xmin": "x-min",
     "xstep": "x-trinn",
     "yAxis": "yAkse",
+    "yIntercept": "y-intercept",
     "ymax": "y-maks",
     "ymin": "y-min",
     "ystep": "y-trinn",

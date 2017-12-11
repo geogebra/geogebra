@@ -3179,6 +3179,7 @@ __GGB__keysVar.bs.menu = {
     "xmin": "x Min",
     "xstep": "X korak",
     "yAxis": "yOsa",
+    "yIntercept": "y-intercept",
     "ymax": "y Max",
     "ymin": "y Min",
     "ystep": "Y korak",

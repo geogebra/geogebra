@@ -3179,6 +3179,7 @@ __GGB__keysVar.fi.menu = {
     "xmin": "x min",
     "xstep": "X askel",
     "yAxis": "yAkseli",
+    "yIntercept": "y-intercept",
     "ymax": "y max",
     "ymin": "y min",
     "ystep": "Y askel",

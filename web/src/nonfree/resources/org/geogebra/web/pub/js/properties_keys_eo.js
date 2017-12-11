@@ -3179,6 +3179,7 @@ __GGB__keysVar.eo.menu = {
     "xmin": "x Min",
     "xstep": "X-pa\u015do",
     "yAxis": "OrdinataAkso",
+    "yIntercept": "y-intercept",
     "ymax": "y Max",
     "ymin": "y Min",
     "ystep": "Y-pa\u015do",

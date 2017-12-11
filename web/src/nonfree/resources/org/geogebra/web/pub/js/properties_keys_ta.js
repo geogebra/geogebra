@@ -3179,6 +3179,7 @@ __GGB__keysVar.ta.menu = {
     "xmin": "x\u0b95\u0bc1\u0bb1\u0bc1\u0bae\u0bae\u0bcd",
     "xstep": "X \u0baa\u0b9f\u0bbf",
     "yAxis": "y\u0b85\u0b9a\u0bcd\u0b9a\u0bc1",
+    "yIntercept": "y-intercept",
     "ymax": "y\u0baa\u0bc6\u0bb0\u0bc1\u0bae\u0bae\u0bcd",
     "ymin": "y\u0b95\u0bc1\u0bb1\u0bc1\u0bae\u0bae\u0bcd",
     "ystep": "Y \u0baa\u0b9f\u0bbf",

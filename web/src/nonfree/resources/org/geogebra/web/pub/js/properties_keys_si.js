@@ -3179,6 +3179,7 @@ __GGB__keysVar.si.menu = {
     "xmin": "X\u0dc4\u0dd3 \u0d85\u0dc0\u0db8\u0dba",
     "xstep": "X \u0db4\u0dd2\u0dba\u0dc0\u0dbb",
     "yAxis": "Y\u0d85\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba",
+    "yIntercept": "y-intercept",
     "ymax": "Y\u0dc4\u0dd3 \u0d8b\u0db4\u0dbb\u0dd2\u0db8\u0dba",
     "ymin": "Y\u0dc4\u0dd3 \u0d85\u0dc0\u0db8\u0dba",
     "ystep": "Y \u0db4\u0dd2\u0dba\u0dc0\u0dbb",

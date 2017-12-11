@@ -3179,6 +3179,7 @@ __GGB__keysVar.gl.menu = {
     "xmin": "x m\xedn",
     "xstep": "Paso X",
     "yAxis": "eixeY",
+    "yIntercept": "y-intercept",
     "ymax": "y m\xe1x",
     "ymin": "y m\xedn",
     "ystep": "Paso Y",

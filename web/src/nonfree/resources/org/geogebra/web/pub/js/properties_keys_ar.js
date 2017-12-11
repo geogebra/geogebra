@@ -3179,6 +3179,7 @@ __GGB__keysVar.ar.menu = {
     "xmin": "\u062d\u062f\u0651 \u0623\u062f\u0646\u0649 \u0633",
     "xstep": "\u062e\u0637\u0648\u0629x",
     "yAxis": "\u0627\u0644\u0645\u062d\u0648\u0631\u0635",
+    "yIntercept": "y-intercept",
     "ymax": "\u062d\u062f\u0651 \u0623\u0642\u0635\u0649 \u0635",
     "ymin": "\u062d\u062f\u0651 \u0623\u062f\u0646\u0649 \u0635",
     "ystep": "\u062e\u0637\u0648\u0629y",

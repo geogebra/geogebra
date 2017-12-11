@@ -3179,6 +3179,7 @@ __GGB__keysVar.ro.menu = {
     "xmin": "x min",
     "xstep": "pas X",
     "yAxis": "axaY",
+    "yIntercept": "y-intercept",
     "ymax": "y max",
     "ymin": "y min",
     "ystep": "Pas Y",

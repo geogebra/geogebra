@@ -3179,6 +3179,7 @@ __GGB__keysVar.ca_XV.menu = {
     "xmin": "x m\xedn.",
     "xstep": "Pas X",
     "yAxis": "EixY",
+    "yIntercept": "y-intercept",
     "ymax": "y m\xe0x.",
     "ymin": "y m\xedn.",
     "ystep": "Pas Y",

@@ -3179,6 +3179,7 @@ __GGB__keysVar.ji.menu = {
     "xmin": "\u05de\u05d9\u05e0\u05d9\u05de\u05d5\u05dd X",
     "xstep": "\u05e9\u05e4\u05bc\u05d0\u05b7\u05df \u05e4\u05bf\u05d0\u05b7\u05e8 X",
     "yAxis": "\u05d0\u05b7\u05e7\u05e1Y",
+    "yIntercept": "y-intercept",
     "ymax": "\u05de\u05d0\u05b7\u05e7\u05e1\u05d9\u05de\u05d5\u05dd Y",
     "ymin": "\u05de\u05d9\u05e0\u05d9\u05de\u05d5\u05dd Y",
     "ystep": "\u05e9\u05e4\u05bc\u05d0\u05b7\u05df \u05e4\u05bf\u05d0\u05b7\u05e8 Y",

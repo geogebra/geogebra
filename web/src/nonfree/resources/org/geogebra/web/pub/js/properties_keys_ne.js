@@ -3179,6 +3179,7 @@ __GGB__keysVar.ne.menu = {
     "xmin": "x\u0928\u094d\u092f\u0941\u0928\u0924\u092e\u094d",
     "xstep": "X \u0924\u0939",
     "yAxis": "y\u0905\u0915\u094d\u0937",
+    "yIntercept": "y-intercept",
     "ymax": "y\u0909\u091a\u094d\u091a\u0924\u092e\u094d",
     "ymin": "y\u0928\u094d\u092f\u0941\u0928\u0924\u092e",
     "ystep": "Y \u091a\u093e\u0932",

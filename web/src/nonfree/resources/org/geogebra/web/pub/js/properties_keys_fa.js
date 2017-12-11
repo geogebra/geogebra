@@ -3179,6 +3179,7 @@ __GGB__keysVar.fa.menu = {
     "xmin": "x \u06a9\u0645\u062a\u0631\u06cc\u0646",
     "xstep": "\u06af\u0627\u0645 X",
     "yAxis": "yAxis",
+    "yIntercept": "y-intercept",
     "ymax": "y \u0628\u06cc\u0634\u062a\u0631\u06cc\u0646",
     "ymin": "y \u06a9\u0645\u062a\u0631\u06cc\u0646",
     "ystep": "\u06af\u0627\u0645 Y",

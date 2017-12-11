@@ -3179,6 +3179,7 @@ __GGB__keysVar.cy.menu = {
     "xmin": "MinX",
     "xstep": "CynyddiadX",
     "yAxis": "EchelinY",
+    "yIntercept": "y-intercept",
     "ymax": "MacsY",
     "ymin": "MinY",
     "ystep": "Cynyddiad Y",

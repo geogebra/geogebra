@@ -3179,6 +3179,7 @@ __GGB__keysVar.uk.menu = {
     "xmin": "x \u043c\u0456\u043d.",
     "xstep": "X \u043a\u0440\u043e\u043a",
     "yAxis": "\u0412\u0456\u0441\u044c\u041e\u0440\u0434\u0438\u043d\u0430\u0442",
+    "yIntercept": "y-intercept",
     "ymax": "y \u043c\u0430\u043a\u0441.",
     "ymin": "y \u043c\u0456\u043d.",
     "ystep": "Y \u043a\u0440\u043e\u043a",

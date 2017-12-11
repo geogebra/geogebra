@@ -3179,6 +3179,7 @@ __GGB__keysVar.hu_gm.menu = {
     "xmin": "x-minimum",
     "xstep": "x-l\xe9p\xe9sk\xf6z",
     "yAxis": "yTengely",
+    "yIntercept": "y-intercept",
     "ymax": "y-maximum",
     "ymin": "y-minimum",
     "ystep": "y-l\xe9p\xe9sk\xf6z",

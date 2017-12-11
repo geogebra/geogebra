@@ -3179,6 +3179,7 @@ __GGB__keysVar.hr.menu = {
     "xmin": "x min",
     "xstep": "x razmak",
     "yAxis": "yOs",
+    "yIntercept": "y-intercept",
     "ymax": "y max",
     "ymin": "y min",
     "ystep": "y razmak",

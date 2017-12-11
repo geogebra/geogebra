@@ -3179,6 +3179,7 @@ __GGB__keysVar.pt_PT.menu = {
     "xmin": "x Min",
     "xstep": "Passo X",
     "yAxis": "EixoOy",
+    "yIntercept": "y-intercept",
     "ymax": "y Max",
     "ymin": "y Min",
     "ystep": "Passo Y",

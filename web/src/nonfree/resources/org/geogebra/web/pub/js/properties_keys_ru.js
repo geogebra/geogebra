@@ -3179,6 +3179,7 @@ __GGB__keysVar.ru.menu = {
     "xmin": "x \u043c\u0438\u043d.",
     "xstep": "x \u0448\u0430\u0433",
     "yAxis": "\u041e\u0441\u044c\u041e\u0440\u0434\u0438\u043d\u0430\u0442",
+    "yIntercept": "y-intercept",
     "ymax": "y \u043c\u0430\u043a\u0441.",
     "ymin": "y \u043c\u0438\u043d.",
     "ystep": "y \u0448\u0430\u0433",

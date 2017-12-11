@@ -3179,6 +3179,7 @@ __GGB__keysVar.vi.menu = {
     "xmin": "GNNNx",
     "xstep": "X B\u01b0\u1edbc",
     "yAxis": "TrucTung",
+    "yIntercept": "y-intercept",
     "ymax": "GTLNy",
     "ymin": "GTNNy",
     "ystep": "Y B\u01b0\u1edbc",

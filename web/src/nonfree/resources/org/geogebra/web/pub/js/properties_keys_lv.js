@@ -3179,6 +3179,7 @@ __GGB__keysVar.lv.menu = {
     "xmin": "x Minimums",
     "xstep": "X Solis",
     "yAxis": "yAss",
+    "yIntercept": "y-intercept",
     "ymax": "y Maksimums",
     "ymin": "y Minimums",
     "ystep": "Y Solis",

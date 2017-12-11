@@ -3179,6 +3179,7 @@ __GGB__keysVar.sq.menu = {
     "xmin": "x-min",
     "xstep": "X Shkalle",
     "yAxis": "Boshtiy",
+    "yIntercept": "y-intercept",
     "ymax": "y-max",
     "ymin": "y-min",
     "ystep": "Y Shkalle",
