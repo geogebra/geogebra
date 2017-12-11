@@ -27,10 +27,11 @@ public class GCollapseMenuItem {
 	private Image imgExpand;
 	private Image imgCollapse;
 	private GPopupMenuW parentMenu;
+	private String title;
 
 	/**
 	 * @param text
-	 *            Title
+	 *            HTML text
 	 * @param expandUrl
 	 *            image of expand
 	 * @param collapseUrl
@@ -42,13 +43,35 @@ public class GCollapseMenuItem {
 	 */
 	public GCollapseMenuItem(String text, String expandUrl, String collapseUrl,
 			boolean expanded, final GPopupMenuW wrappedPopup) {
+		this(text, "", expandUrl, collapseUrl, expanded, wrappedPopup);
+	}
+
+	/**
+	 * @param text
+	 *            HTML text
+	 * @param title
+	 *            Title
+	 * @param expandUrl
+	 *            image of expand
+	 * @param collapseUrl
+	 *            image of collapse
+	 * @param expanded
+	 *            initial value.
+	 * @param wrappedPopup
+	 *            The command to run.
+	 */
+	public GCollapseMenuItem(String text, String title, String expandUrl,
+			String collapseUrl,
+			boolean expanded, final GPopupMenuW wrappedPopup) {
 		this.text = text;
+		this.title = title;
 		imgExpand = new NoDragImage(expandUrl);
 		imgExpand.setStyleName("expandImg");
 		imgCollapse = new NoDragImage(collapseUrl);
 		imgCollapse.addStyleName("collapseImg");
 
 		items = new AriaMenuBar();
+		items.clearRole();
 		itemPanel = new FlowPanel();
 		itemPanel.addStyleName("collapseMenuItem");
 		this.parentMenu = wrappedPopup;
@@ -75,7 +98,7 @@ public class GCollapseMenuItem {
 		itemPanel.add(new HTML(text));
 		itemPanel.add(expanded ? imgCollapse : imgExpand);
 		menuItem.setHTML(itemPanel.toString());
-		menuItem.getElement().setAttribute("aria-haspopup", "true");
+		// menuItem.getElement().setAttribute("aria-haspopup", "true");
 		menuItem.getElement().setAttribute("aria-expanded",
 				String.valueOf(expanded));
 		if (items.getElement().getParentElement() != null) {
@@ -84,6 +107,8 @@ public class GCollapseMenuItem {
 			items.getElement().getParentElement().setAttribute("aria-hidden",
 					String.valueOf(!expanded));
 		}
+		menuItem.getElement().setAttribute("aria-label",
+				title + (value ? " collapsed" : " expanded"));
 		updateItems();
 
 		items.getElement().setTabIndex(-1);

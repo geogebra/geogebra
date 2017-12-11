@@ -346,4 +346,11 @@ public class AriaMenuBar extends Widget {
 	public boolean getFocusOnHover() {
 		return focusOnHover;
 	}
+
+	/**
+	 * Clears default menu role. Useful for submenus.
+	 */
+	public void clearRole() {
+		getElement().setAttribute("role", "");
+	}
 }

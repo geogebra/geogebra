@@ -72,7 +72,8 @@ public abstract class GCheckMarkPanel {
 		}
 
 		itemPanel.clear();
-		itemPanel.add(new HTML(getText()));
+		HTML html = new HTML(getText());
+		itemPanel.add(html);
 		if (checked) {
 			itemPanel.add(checkImg);
 		}
