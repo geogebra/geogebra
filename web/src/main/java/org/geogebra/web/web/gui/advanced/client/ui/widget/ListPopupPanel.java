@@ -416,7 +416,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 		} else if (getDropDownPosition() == DropDownPosition.UNDER
 				|| getDropDownPosition() == DropDownPosition.AUTO) {
 			setPopupPosition(absLeft,
-					absTop + getComboBox().getOffsetHeight() + 5);
+					absTop + getComboBox().getOffsetHeight());
 		}
 	}
 
