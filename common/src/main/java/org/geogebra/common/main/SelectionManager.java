@@ -47,7 +47,7 @@ public class SelectionManager {
 
 	private final Kernel kernel;
 
-	private final UpdateSelection listener;
+	private final ArrayList<UpdateSelection> listeners;
 
 	private ArrayList<GeoElementSelectionListener> selectionListeners;
 
@@ -92,7 +92,8 @@ public class SelectionManager {
 	 */
 	public SelectionManager(Kernel kernel, UpdateSelection listener) {
 		this.kernel = kernel;
-		this.listener = listener;
+		this.listeners = new ArrayList<>(2);
+		this.listeners.add(listener);
 
 		selectionListeners = new ArrayList<>();
 	}
@@ -558,8 +559,9 @@ public class SelectionManager {
 		selectedGeos.add(geo);
 		geo.setSelected(true);
 		kernel.notifyRepaint();
-
-		listener.updateSelection(false);
+		for (UpdateSelection listener : listeners) {
+			listener.updateSelection(false);
+		}
 
 		return geo;
 
@@ -866,11 +868,9 @@ public class SelectionManager {
 	 *            whether to update properties view
 	 */
 	public void updateSelection(boolean updatePropertiesView) {
-		if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
-			kernel.getApplication().getSpecialPointsManager()
-					.updateSpecialPoints(null);
+		for (UpdateSelection listener : listeners) {
+			listener.updateSelection(updatePropertiesView);
 		}
-		listener.updateSelection(updatePropertiesView);
 	}
 
 	/**
@@ -1184,5 +1184,13 @@ public class SelectionManager {
 		}
 		clearSelectedGeos(false, false);
 		addSelectedGeo(geo, false, false);
+	}
+
+	/**
+	 * @param listener
+	 *            global listener
+	 */
+	public void addListener(UpdateSelection listener) {
+		this.listeners.add(listener);
 	}
 }

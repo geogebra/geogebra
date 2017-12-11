@@ -17,14 +17,19 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
-public class SpecialPointsManager {
+public class SpecialPointsManager implements UpdateSelection {
 	private Kernel kernel;
 	private GeoElement[] specPoints;
 	/** Special points for preview points */
 	private List<AlgoElement> specPointAlgos = new ArrayList<>();
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public SpecialPointsManager(Kernel kernel) {
 		this.kernel = kernel;
+		kernel.getApplication().getSelectionManager().addListener(this);
 	}
 
 	private GeoElementND[] getSpecPoints(GeoElement[] geos0,
@@ -147,5 +152,9 @@ public class SpecialPointsManager {
 	 */
 	public List<GeoElement> getSelectedPreviewPoints() {
 		return specPoints == null ? null : Arrays.asList(specPoints);
+	}
+
+	public void updateSelection(boolean updateProperties) {
+		updateSpecialPoints(null);
 	}
 }
