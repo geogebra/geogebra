@@ -5,8 +5,17 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.EventType;
 
+/**
+ * Utility class for reading GeoElement descriptions
+ * 
+ * @author Judit
+ */
 public class ScreenReader {
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public static void updateSelection(App app) {
 
 		if (0 < app.getSelectionManager().getSelectedGeos().size()) {
@@ -21,10 +30,18 @@ public class ScreenReader {
 	}
 
 
+	/**
+	 * @param geo0
+	 *            selected element
+	 * @param app
+	 *            application
+	 */
 	public static void readText(GeoElement geo0, App app) {
 		StringBuilder sb = new StringBuilder();
 		String caption = geo0.getCaptionSimple();
 		if (caption == null || "".equals(caption)) {
+			sb.append(geo0.translatedTypeStringForAlgebraView());
+			sb.append(' ');
 			sb.append(geo0.getAlgebraDescriptionDefault());
 		} else {
 			sb.append(caption);
@@ -41,62 +58,53 @@ public class ScreenReader {
 						&& app.getGuiManager().hasAlgebraView()
 						&& !geo0.isGeoInputBox()) {
 					if (geo0.isEuclidianVisible()) {
-						sb.append(app.getLocalization()
-								.getMenu("PressSlashToHide"));
+						appendSentence(sb, "PressSlashToHide", app);
 					} else {
-						sb.append(app.getLocalization()
-								.getMenu("PressSlashToShow"));
+						appendSentence(sb, "PressSlashToShow", app);
 					}
 				}
 			}
 
 			if (geo0.isGeoButton() && !geo0.isGeoInputBox()
 					|| geo0.isGeoLocusStroke()) {
-				sb.append(app.getLocalization()
-						.getMenu("PressEnterToOpenSettings"));
+				appendSentence(sb, "PressEnterToOpenSettings", app);
 			} else if (!geo0.isGeoInputBox()) {
-				sb.append(app.getLocalization().getMenu("PressEnterToEdit"));
+				appendSentence(sb, "PressEnterToEdit", app);
 			}
 			
 			if (geo0.isGeoBoolean()){
 				if(((GeoBoolean)geo0).getBoolean()){
-					sb.append(app.getLocalization()
-							.getMenu("PressSpaceCheckboxOff"));
+					appendSentence(sb, "PressSpaceCheckboxOff", app);
 				} else {
-					sb.append(app.getLocalization()
-							.getMenu("PressSpaceCheckboxOn"));
+					appendSentence(sb, "PressSpaceCheckboxOn", app);
 				}
 			}
 
 			if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSliderable()) {
 				GeoNumeric geoNum = (GeoNumeric) geo0;
 				if (geoNum.isAnimating()) {
-					sb.append(app.getLocalization()
-							.getMenu("PressSpaceStopAnimation"));
+					appendSentence(sb, "PressSpaceStopAnimation", app);
 				} else {
-					sb.append(app.getLocalization()
-							.getMenu("PressSpaceStartAnimation"));
+					appendSentence(sb, "PressSpaceStartAnimation", app);
 				}
 
 				if (geoNum.getIntervalMax() != geoNum.getValue()) {
-					sb.append(
-							app.getLocalization().getMenu("PressUpToIncrease"));
+					appendSentence(sb, "PressUpToIncrease", app);
 				}
 
 				if (geoNum.getIntervalMin() != geoNum.getValue()) {
-					sb.append(app.getLocalization()
-							.getMenu("PressDownToDecrease"));
+					appendSentence(sb, "PressDownToDecrease", app);
 				}
 			}
 
 			if (geo0.getScript(EventType.CLICK) != null
 					&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
-				sb.append("PressSpaceToRunScript");
+				appendSentence(sb, "PressSpaceToRunScript", app);
 			}
 
 			if (geo0.isGeoPoint() && (geo0.isIndependent()
 					|| geo0.isPointOnPath() || geo0.isPointInRegion())) {
-				sb.append("PressArrowsToMove");
+				appendSentence(sb, "PressArrowsToMove", app);
 			}
 		}
 
@@ -107,6 +115,14 @@ public class ScreenReader {
 						.getActiveEuclidianView().getViewID()) {
 			app.getActiveEuclidianView().readText(sb.toString());
 		}
+
+	}
+
+	private static void appendSentence(StringBuilder sb, String string,
+			App app) {
+		sb.append(" ");
+		sb.append(app.getLocalization().getMenu(string));
+		sb.append(".");
 
 	}
 
