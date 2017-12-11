@@ -16,7 +16,7 @@ import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.sliderPanel.SliderPanelW;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.ImageFactory;
+import org.geogebra.web.web.css.ToolbarSvgResources;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.toolbar.images.ToolbarResources;
 import org.geogebra.web.web.gui.util.GeoGebraIconW;
@@ -76,7 +76,7 @@ public class PenSubMenu extends SubMenuPanel {
 		penPanel.addStyleName("penPanel");
 		pen = createButton(EuclidianConstants.MODE_PEN);
 		// pen gets a separate icon here so it can show the selected color
-		ToolbarResources pr = ImageFactory.getToolbarResources();
+		ToolbarResources pr = ToolbarSvgResources.INSTANCE;
 		NoDragImage im = new NoDragImage(ImgResourceHelper.safeURI(pr.mode_pen_white_32()), 32);
 		im.addStyleName("opacityFixForOldIcons");
 		pen.getUpFace().setImage(im);

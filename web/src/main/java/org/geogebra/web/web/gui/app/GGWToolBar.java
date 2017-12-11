@@ -20,6 +20,7 @@ import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.web.css.ToolbarSvgResources;
 import org.geogebra.web.web.gui.ImageFactory;
 import org.geogebra.web.web.gui.images.AppResources;
 import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
@@ -52,8 +53,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class GGWToolBar extends Composite implements RequiresResize,
 		ToolBarInterface, SetLabels {
 
-	static private ToolbarResources myIconResourceBundle = ImageFactory
-			.getToolbarResources();
+	static private ToolbarResources myIconResourceBundle = ToolbarSvgResources.INSTANCE;
 	
 
 	private ArrayList<ToolBarW> toolbars;
