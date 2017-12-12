@@ -586,7 +586,6 @@ public class ManagerShaders extends Manager {
 		return index;
 	}
 
-
 	@Override
 	public void endPolygons(Drawable3D d) {
 		endList();
