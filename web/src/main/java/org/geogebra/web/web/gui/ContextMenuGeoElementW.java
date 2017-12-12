@@ -9,6 +9,7 @@ import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -135,7 +136,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				addNumberItems();
 				addUserInputItem();
 			}
-
 		}
 
 		// TODO remove the condition when ggb version >= 5
@@ -1072,6 +1072,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				}
 
 			}
+		} else if (needsInputFormItem(getGeo())) {
+			final EquationValue inputElement = (EquationValue) getGeo();
+			Command action = new Command() {
+
+				@Override
+				public void execute() {
+					inputFormCmd(inputElement);
+				}
+			};
+			addAction(action, null, loc.getMenu("InputForm"));
 		}
 
 	}

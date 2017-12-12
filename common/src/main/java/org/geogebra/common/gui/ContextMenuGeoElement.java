@@ -9,6 +9,8 @@ import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -22,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.OptionType;
@@ -442,9 +445,9 @@ public abstract class ContextMenuGeoElement {
 				checkOneGeo());
 	}
 
-	public void inputFormCmd(final GeoImplicit inputElement) {
+	public void inputFormCmd(final EquationValue inputElement) {
 		inputElement.setToUser();
-		inputElement.updateRepaint();
+		((GeoElement) inputElement).updateRepaint();
 		app.storeUndoInfo();
 	}
 
@@ -619,5 +622,21 @@ public abstract class ContextMenuGeoElement {
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos(), false);
 		app.getCopyPaste().pasteFromXML(app, false);
+	}
+
+	public boolean needsInputFormItem(GeoElement geo) {
+		if (Equation.isAlgebraEquation(geo)) {
+			if (geo.isGeoLine()) {
+				return ((GeoLine) geo).getMode() != GeoLine.EQUATION_USER;
+			}
+			if (geo.isGeoConic()) {
+				return ((GeoConicND) geo)
+						.getToStringMode() != GeoConicND.EQUATION_USER;
+			}
+			if (geo instanceof GeoImplicit) {
+				return !((GeoImplicit) geo).isInputForm();
+			}
+		}
+		return false;
 	}
 }

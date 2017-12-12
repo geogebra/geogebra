@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -62,7 +61,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Translateable, Dilateable, Mirrorable, ConicMirrorable,
-		Transformable, PointRotateable, GeoImplicit, EquationValue {
+		Transformable, PointRotateable, GeoImplicit {
 	/**
 	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT,TOP_FAR, BOTTOM_FAR,
 	 * LEFT_FAR, RIGHT_FAR]

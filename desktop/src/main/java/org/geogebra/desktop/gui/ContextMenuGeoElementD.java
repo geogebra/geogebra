@@ -32,6 +32,7 @@ import javax.swing.KeyStroke;
 
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
@@ -450,6 +451,21 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				}
 				addAction(action);
 			}
+		} else if (needsInputFormItem(getGeo())) {
+			final EquationValue inputElement = (EquationValue) getGeo();
+			AbstractAction action = new AbstractAction(
+					loc.getMenu("InputForm")) {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					inputFormCmd(inputElement);
+				}
+			};
+
+			addAction(action);
+
 		}
 	}
 

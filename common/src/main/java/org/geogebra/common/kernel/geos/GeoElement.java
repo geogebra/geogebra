@@ -8548,10 +8548,7 @@ public abstract class GeoElement extends ConstructionElement
 		addLabelTextOrHTML(def0, sbDef);
 		String def = sbDef.toString();
 		String val = getAlgebraDescriptionTextOrHTMLDefault(sbVal);
-		if (!def.equals(val)) {
-			Log.debug(def);
-			Log.debug(val);
-		}
+
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;
 	}
