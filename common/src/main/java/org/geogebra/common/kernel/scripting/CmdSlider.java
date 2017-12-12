@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -63,6 +64,7 @@ public class CmdSlider extends CommandProcessor {
 
 			if (slider == null || !slider.isAngle()) {
 				slider = new GeoAngle(kernel.getConstruction());
+				((GeoAngle) slider).setAngleStyle(AngleStyle.UNBOUNDED);
 			}
 		} else {
 			if (slider == null || slider.isAngle()) {
