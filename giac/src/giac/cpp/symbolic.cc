@@ -644,7 +644,7 @@ namespace giac {
     e=gen(v,e.subtype);
   }
 
-  static gen eval_sto(const gen & feuille,std::vector<const char *> & last,int level,GIAC_CONTEXT){ // autoname function
+  static gen eval_sto(const gen & feuille,std::vector<const char *> * last,int level,GIAC_CONTEXT){ // autoname function
     // detect vector/matrix addressing with () parsed as function definition
     // e.g. M(j,k):=j+k+1 parsed as M:=(j,k)->j+k+1
     // these affectations are marked by a subtype==1 by the parser
@@ -661,13 +661,19 @@ namespace giac {
     }
     gen ans;
     gen & feuilleback=feuille._VECTptr->back();
-    vecteur & lastarg=last_evaled_arg(contextptr);
     if ( feuilleback.type==_SYMB && (feuilleback._SYMBptr->sommet==at_unquote || feuilleback._SYMBptr->sommet==at_hash ) ){
       ans=_sto(feuille.eval(level,contextptr),contextptr);
-      if (!last.empty())
-	last.pop_back();
+#ifdef GIAC_STO_ERRORMSG
+      if (last && !last->empty())
+	last->pop_back();
+#if 1
+      vector<const gen *> & lastarg= last_evaled_argptr(contextptr);
+#else
+      vecteur & lastarg=last_evaled_arg(contextptr);
+#endif
       if (!lastarg.empty())
 	lastarg.pop_back();
+#endif
       return ans;
     }
     bool b=show_point(contextptr),quotearg=false;
@@ -690,10 +696,17 @@ namespace giac {
     if ( e.type==_VECT && !e._VECTptr->empty() && e._VECTptr->back().type==_SYMB && e._VECTptr->back()._SYMBptr->sommet==at_pnt && (contextptr?!contextptr->previous:!protection_level))
       eval_sto_pnt_vect(feuilleback,e,contextptr);
     ans=sto(e,feuilleback,contextptr);
-    if (!last.empty())
-      last.pop_back();
+#ifdef GIAC_STO_ERRORMSG
+    if (last && !last->empty())
+      last->pop_back();
+#if 1
+    vector<const gen *> & lastarg= last_evaled_argptr(contextptr);
+#else
+    vecteur & lastarg=last_evaled_arg(contextptr);
+#endif
     if (!lastarg.empty())
       lastarg.pop_back();
+#endif
     return ans;
   } // end sommet==at_sto
 
@@ -1368,17 +1381,28 @@ namespace giac {
   gen symbolic::eval(int level,const context * contextptr) const {
     if (level==0 || !sommet.ptr())
       return *this;
-    gen ans;
     // FIXME test should be removed later, it's here for tests. See global.cc DEFAULT_EVAL_LEVEL
     int & elevel=eval_level(contextptr);
     if (elevel==26)
       return nr_eval(*this,level,contextptr);
+#ifndef GIAC_STO_ERRORMSG
+    if (sommet==at_sto && feuille.type==_VECT)
+      return eval_sto(feuille,0,level,contextptr);
+#endif
     std::vector<const char *> & last =last_evaled_function_name(contextptr);
     last.push_back(sommet.ptr()->s);
+#if 1
+    vector<const gen *> & lastarg=last_evaled_argptr(contextptr);
+    lastarg.push_back(&feuille);
+#else
     vecteur & lastarg=last_evaled_arg(contextptr);
     lastarg.push_back(feuille);
+#endif
+#ifdef GIAC_STO_ERRORMSG
     if (sommet==at_sto && feuille.type==_VECT)
-      return eval_sto(feuille,last,level,contextptr);
+      return eval_sto(feuille,&last,level,contextptr);
+#endif
+    gen ans;
     if (sommet.quoted()){ 
 #ifndef RTOS_THREADX
       if (feuille.type==_SYMB){ 
@@ -1524,8 +1548,13 @@ namespace giac {
       return *this;
     std::vector<const char *> & last =last_evaled_function_name(contextptr);
     last.push_back(sommet.ptr()->s);
+#if 1
+    vector<const gen *> & lastarg=last_evaled_argptr(contextptr);
+    lastarg.push_back(&feuille);
+#else
     vecteur & lastarg=last_evaled_arg(contextptr);
     lastarg.push_back(feuille);
+#endif
     if (sommet==at_sto){ // autoname function
       gen e=feuille._VECTptr->front().evalf(level,contextptr);
       if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_pnt) && (e._SYMBptr->feuille.type==_VECT) && (e._SYMBptr->feuille._VECTptr->size()==2))

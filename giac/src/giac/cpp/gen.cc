@@ -287,9 +287,15 @@ namespace giac {
 	paren=false;
     }
     if (paren) res +="(";
+#if 1
+    vector<const gen *> & lastarg= last_evaled_argptr(contextptr);
+    if (!lastarg.empty())
+      res += lastarg.back()->print(contextptr);
+#else
     vecteur & lastarg= last_evaled_arg(contextptr);
     if (!lastarg.empty())
       res += lastarg.back().print(contextptr);
+#endif
     if (paren) res += ")";
     debug_struct * dbg = debug_ptr(contextptr);
     if (!dbg->sst_at_stack.empty()){

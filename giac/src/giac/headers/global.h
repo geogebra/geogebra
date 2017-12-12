@@ -582,6 +582,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
     int _language_;
     std::vector<const char *> _last_evaled_function_name_;
     vecteur _last_evaled_arg_;
+    std::vector<const gen *> _last_evaled_argptr_;
     int _max_sum_sqrt_;
     int _max_sum_add_;
     logo_turtle _turtle_;
@@ -642,6 +643,7 @@ throw(std::runtime_error("Stopped by user interruption.")); \
 
   std::vector<const char *> & last_evaled_function_name(GIAC_CONTEXT);
   vecteur & last_evaled_arg(GIAC_CONTEXT);
+  std::vector<const gen *> & last_evaled_argptr(GIAC_CONTEXT);
 
   bool make_thread(const giac::gen & g,int level,const giac_callback & f,void * f_param,const context * contextptr);
 

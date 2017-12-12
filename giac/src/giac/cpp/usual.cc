@@ -3280,7 +3280,7 @@ namespace giac {
       gen b_=eval(b,1,contextptr_);
       gen Pmin=b_._SYMBptr->feuille;
       if (Pmin.type!=_VECT || Pmin._VECTptr->size()!=2 || Pmin._VECTptr->front()!=makevecteur(1,0))
-	return gensizeerr(gettext("Bad rootof"));
+	return gensizeerr(gettext("Bad rootof (in sto)"));
       Pmin=Pmin._VECTptr->back();
       vecteur & r =*contextptr_->globalcontextptr->rootofs;
       for (unsigned i=0;i<r.size();++i){
@@ -3377,7 +3377,7 @@ namespace giac {
 	  switch (name[bl-1]){
 	  case 'd':
 	    if (a.type!=_INT_ && a.type!=_DOUBLE_ && a.type!=_FRAC)
-	      return gensizeerr(gettext("Unable to convert to float ")+a.print(contextptr));
+	      return gensizeerr(gettext("Unable to convert to float (in sto) ")+a.print(contextptr));
 	    break;
 	  case 'f':
 	    if (a.type==_FRAC)
@@ -3391,12 +3391,12 @@ namespace giac {
 	    }
 	    if (a.type!=_INT_){
 	      if (a.type!=_ZINT || mpz_sizeinbase(*a._ZINTptr,2)>62)
-		return gensizeerr(gettext("Unable to convert to integer ")+a.print(contextptr));
+		return gensizeerr(gettext("Unable to convert to integer (in sto) ")+a.print(contextptr));
 	    }
 	    break;
 	  case 'v':
 	    if (a.type!=_VECT)
-	      return gensizeerr(gettext("Unable to convert to vector ")+a.print(contextptr));
+	      return gensizeerr(gettext("Unable to convert to vector (in sto) ")+a.print(contextptr));
 	    break;
 	  case 's':
 	    if (a.type!=_STRNG)
@@ -3421,7 +3421,7 @@ namespace giac {
 	  || name[0]=='_' 
 #endif
 	  )
-	return gensizeerr(b.print(contextptr)+": reserved word");
+	return gensizeerr(b.print(contextptr)+": reserved word (in sto)");
       if (a.type==_IDNT && a==b)
 	return purgenoassume(b,contextptr);
       gen ans(aa);
@@ -3476,7 +3476,7 @@ namespace giac {
 	    // check that the current value is a thread pointer
 	    if (it->second.type==_POINTER_ && it->second.subtype==_THREAD_POINTER){
 	      if (it->second._POINTER_val!=(void *)contextptr_)
-		return gentypeerr(b.print(contextptr)+gettext(" is locked by thread ")+it->second.print(contextptr));
+		return gentypeerr(b.print(contextptr)+gettext(" is locked by thread (in sto) ")+it->second.print(contextptr));
 	    }
 	    it->second=aa;
 	    done=true;
@@ -3488,7 +3488,7 @@ namespace giac {
 	    if (a.is_symb_of_sommet(at_when) || a.is_symb_of_sommet(at_ifte) || a.is_symb_of_sommet(at_program))
 	      *logptr(contextptr) << b.print(contextptr)+gettext(": recursive definition") << endl;
 	    else
-	      return gensizeerr(b.print(contextptr)+gettext(": recursive definition"));
+	      return gensizeerr(b.print(contextptr)+gettext(": recursive definition (in sto) "));
 	  }
 	  sym_tab * symtabptr=contextptr->globalcontextptr?contextptr->globalcontextptr->tabptr:contextptr->tabptr;
 	  sym_tab::iterator it=symtabptr->find(name),itend=symtabptr->end();
@@ -3496,7 +3496,7 @@ namespace giac {
 	    // check that the current value is a thread pointer
 	    if (it->second.type==_POINTER_ && it->second.subtype==_THREAD_POINTER){
 	      if (it->second._POINTER_val!=(void *)contextptr_)
-		return gentypeerr(b.print(contextptr)+gettext(" is locked by thread ")+it->second.print(contextptr));
+		return gentypeerr(b.print(contextptr)+gettext(" is locked by thread (in sto) ")+it->second.print(contextptr));
 	    }
 	    it->second=aa;
 	  }
@@ -3513,7 +3513,7 @@ namespace giac {
 	if (a.is_symb_of_sommet(at_when) || a.is_symb_of_sommet(at_ifte) || a.is_symb_of_sommet(at_program))
 	  *logptr(contextptr) << b.print(contextptr)+gettext(": recursive definition") << endl;
 	else
-	  return gensizeerr(b.print(contextptr)+gettext(": recursive definition"));
+	  return gensizeerr(b.print(contextptr)+gettext(": recursive definition (in sto) "));
       }
       if (b._IDNTptr->localvalue && !b._IDNTptr->localvalue->empty() && (b.subtype!=_GLOBAL__EVAL))
 	b._IDNTptr->localvalue->back()=aa;
@@ -3636,7 +3636,7 @@ namespace giac {
 	  iterateur it=indice._VECTptr->begin(),itend=indice._VECTptr->end();
 	  for (;;){
 	    if (it->type!=_INT_)
-	      return gentypeerr(gettext("Bad index ")+indice.print(contextptr));
+	      return gentypeerr(gettext("Bad index (in sto) ")+indice.print(contextptr));
 	    empile.push_back(v);
 	    v=v[*it];
 	    ++it;
@@ -3729,7 +3729,7 @@ namespace giac {
 	if (valeur.subtype==1){ // array
 	  gen_map::iterator it=valeur._MAPptr->find(indice),itend=valeur._MAPptr->end();
 	  if (it==itend)
-	    return gendimerr(gettext("Index outside of range"));
+	    return gendimerr(gettext("Index outside of range (in sto) "));
 	  if (xcas_mode(contextptr)==1)
 	    in_place=true;
 	}
@@ -3785,7 +3785,7 @@ namespace giac {
 	if (indice.type==_INT_ && indice.val<0)
 	  indice += int(vptr->size());
 	if (indice.type!=_INT_ || indice.val<0 )
-	  return gentypeerr(gettext("Bad index ")+indice.print(contextptr));
+	  return gentypeerr(gettext("Bad index (in sto) ")+indice.print(contextptr));
 	// check size
 	int is=int(vptr->size());
 	for (;is<=indice.val;++is){
@@ -3883,7 +3883,7 @@ namespace giac {
 	} // end first value interval
 	if (it->type==_INT_ && it->val<0) it->val += vptr->size();
 	if (it->type!=_INT_ || it->val<0)
-	  return gentypeerr(gettext("Bad index ")+indice.print(contextptr));
+	  return gentypeerr(gettext("Bad index (in sto) ")+indice.print(contextptr));
 	int i1=it->val;
 	bool i2deuxpoints=i2.is_symb_of_sommet(*at_deuxpoints);
 	if ( (i2.is_symb_of_sommet(*at_interval) || i2deuxpoints) && i2._SYMBptr->feuille.type==_VECT && i2._SYMBptr->feuille._VECTptr->size()==2){
@@ -3914,7 +3914,7 @@ namespace giac {
       } // end itend-it==2
       for (;;){
 	if (it->type!=_INT_)
-	  return gentypeerr(gettext("Bad index ")+indice.print(contextptr));
+	  return gentypeerr(gettext("Bad index (in sto) ")+indice.print(contextptr));
 	if (!in_place)
 	  empile.push_back(v);
 	gen tmp;
@@ -3934,7 +3934,7 @@ namespace giac {
 	if (it==itend)
 	  break;
 	if (tmp.type!=_VECT)
-	  return gentypeerr(gettext("Bad index ")+indice.print(contextptr));
+	  return gentypeerr(gettext("Bad index (in sto) ")+indice.print(contextptr));
 	if (in_place)
 	  vptr= tmp._VECTptr;
 	else

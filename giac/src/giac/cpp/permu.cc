@@ -666,7 +666,7 @@ namespace giac {
     vector<int> p;
     if (!is_permu(v,p,contextptr))
       return gensizeerr(contextptr);
-    return vectvector_int_2_vecteur(permu2cycles(p),contextptr);
+    return gen(vectvector_int_2_vecteur(permu2cycles(p),contextptr),_LIST__VECT);
   }
 
   static const char _permu2cycles_s[]="permu2cycles";

@@ -241,6 +241,17 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _last_evaled_function_name_();
   }
 
+  static vector<const gen *> & _last_evaled_argptr_(){
+    static vector<const gen *> * ans = new vector<const gen *> ;
+    return *ans;
+  }
+  vector<const gen *> & last_evaled_argptr(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      return contextptr->globalptr->_last_evaled_argptr_;
+    else
+      return _last_evaled_argptr_();
+  }
+
   static vecteur & _last_evaled_arg_(){
     static vecteur * ans = new vecteur ;
     return *ans;
