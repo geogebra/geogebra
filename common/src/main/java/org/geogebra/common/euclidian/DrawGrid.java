@@ -240,7 +240,8 @@ public class DrawGrid {
 			// start of grids
 			double start2 = view.getXZero() % tickStepX;
 			// number of subgrids on the left
-			leftSubGrids = Math
+			leftSubGrids = view.positiveAxes[0] ? 0
+					: Math
 					.round((float) ((start2 - xAxisStart) / smallStep));
 		}
 
