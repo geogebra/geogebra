@@ -72,7 +72,7 @@ public class ContextMenuPagePreview
 	 */
 	protected void onDelete() {
 		frame.getPageControlPanel().removePage(card.getPageIndex());
-		wrappedPopup.hide();
+		hide();
 	}
 
 	@Override
@@ -89,6 +89,22 @@ public class ContextMenuPagePreview
 	public void show(int x, int y) {
 		wrappedPopup.show(new GPoint(x, y));
 		focusDeferred();
+		wrappedPopup.setMenuShown(true);
+	}
+
+	/**
+	 * hides the context menu
+	 */
+	public void hide() {
+		wrappedPopup.hideMenu();
+		wrappedPopup.setMenuShown(false);
+	}
+
+	/**
+	 * @return if context menu is showing
+	 */
+	public boolean isShowing() {
+		return wrappedPopup.isMenuShown();
 	}
 
 	private void focusDeferred() {

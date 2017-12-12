@@ -674,6 +674,9 @@
 					opacity: 0.85;
 				}
 			}
+			.mowMoreButton.active {
+					opacity: 0.85;
+				}
 		}
 		.AutoCompleteTextFieldW {
     				margin: 0px !important;
@@ -712,9 +715,12 @@
    		.gwt-MenuItem { 
 			min-width: 150px !important;
 			max-width: 200px;
+			&:focus {
+   				background: $mow_light;
+			}
 		}
 	}
-	
+
 	.mowCalcLabel{
 		font-size: 16px;
 	    width: fit-content;

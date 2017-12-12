@@ -36,6 +36,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	private int pageIndex;
 	private FlowPanel imagePanel;
 	private String image;
+	private String title = null;
 	private FlowPanel titlePanel;
 	private AutoCompleteTextFieldW textField;
 	private boolean isTitleSet = false;
@@ -99,8 +100,10 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 */
 	protected void rename() {
 		if (textField.getText().equals(getDefaultLabel())) {
+			title = null;
 			isTitleSet = false;
 		} else {
+			title = textField.getText();
 			isTitleSet = true;
 		}
 		setTextFieldWidth();
@@ -150,6 +153,13 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	}
 
 	/**
+	 * @return title set by user
+	 */
+	public String getTitleText() {
+		return title;
+	}
+
+	/**
 	 * get the index of the page
 	 * 
 	 * @return page index
@@ -183,7 +193,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		ClickStartHandler.init(moreBtn, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				showContexMenu();
+				toggleContexMenu();
 			}
 		});
 		titlePanel.add(moreBtn);
@@ -197,14 +207,32 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	/**
 	 * show context menu of preview card
 	 */
-	protected void showContexMenu() {
+	protected void toggleContexMenu() {
 		if (contextMenu == null) {
 			contextMenu = new ContextMenuPagePreview(app, this);
 		}
-		contextMenu.show(moreBtn.getAbsoluteLeft() - 116,
+		if (contextMenu.isShowing()) {
+			contextMenu.hide();
+			toggleMoreButton(false);
+		} else {
+			contextMenu.show(moreBtn.getAbsoluteLeft() - 116,
 				moreBtn.getAbsoluteTop() + 33);
+			toggleMoreButton(true);
+		}
 	}
 	
+	private void toggleMoreButton(boolean toggle) {
+		if (toggle) {
+			moreBtn.getUpFace().setImage(getImage(
+					MaterialDesignResources.INSTANCE.more_vert_mebis()));
+			moreBtn.addStyleName("active");
+		} else {
+			moreBtn.getUpFace().setImage(getImage(
+					MaterialDesignResources.INSTANCE.more_vert_black()));
+			moreBtn.removeStyleName("active");
+		}
+	}
+
 	/**
 	 * @return the page that is associated with this preview card
 	 */
