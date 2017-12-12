@@ -1,7 +1,9 @@
 package org.geogebra.web.html5.gui.util;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -53,10 +55,8 @@ public class ZoomPanel extends FlowPanel
 	AppW app;
 	private EuclidianView view;
 	/** after we leave fullscreen, we must reset container position */
-	private String containerPositionBefore;
-	private String containerLeft;
-	private String containerMarginLeft;
-	private String containerMarginTop;
+	private HashMap<String, String> containerProps = new HashMap<>();
+
 	private double cssScale = 0;
 	private List<StandardButton> buttons = null;
 	private boolean homeShown;
@@ -203,15 +203,10 @@ public class ZoomPanel extends FlowPanel
 	 */
 	protected void resetStyleAfterFullscreen(Element container) {
 		if (container != null) {
-			container.getStyle().setProperty("position",
-					containerPositionBefore);
-			if (!StringUtil.empty(containerMarginLeft)) {
-				container.getStyle().setProperty("marginLeft",
-						containerMarginLeft);
-			}
-			if (!StringUtil.empty(containerMarginTop)) {
-				container.getStyle().setProperty("marginTop",
-						containerMarginTop);
+			for (Entry<String, String> e : containerProps.entrySet()) {
+				if (!StringUtil.empty(e.getValue())) {
+					container.getStyle().setProperty(e.getKey(), e.getValue());
+				}
 			}
 		}
 	}
@@ -381,22 +376,20 @@ public class ZoomPanel extends FlowPanel
 			final Element scaler = ae.getParentElement();
 			container = scaler.getParentElement();
 			if (!isFullScreen) {
-				containerPositionBefore = container.getStyle().getPosition();
-				containerMarginLeft = container.getStyle()
-						.getProperty("marginLeft");
-				containerMarginTop = container.getStyle()
-						.getProperty("marginTop");
-				container.getStyle().setProperty("marginTop", "0");
-				container.getStyle().setProperty("marginLeft", "0");
+				String containerPositionBefore = container.getStyle()
+						.getPosition();
 				if (StringUtil.empty(containerPositionBefore)) {
 					containerPositionBefore = "static";
 				}
+				containerProps.clear();
+				containerProps.put("position", containerPositionBefore);
+				setContainerProp(container, "marginLeft", "0");
+				setContainerProp(container, "marginTop", "0");
+
 				scaler.addClassName("fullscreen");
 				cssScale = ae.getParentScaleX();
 				if (ipad) {
-					containerLeft = container.getStyle()
-							.getProperty("left");
-					container.getStyle().setProperty("left", "0px");
+					setContainerProp(container, "left", "0px");
 					scaler.addClassName("fullscreen-ipad");
 				}
 
@@ -414,10 +407,6 @@ public class ZoomPanel extends FlowPanel
 				t.schedule(50);
 			} else {
 				if (ipad) {
-					if (containerLeft != null) {
-						container.getStyle().setProperty("left", containerLeft);
-
-					}
 					scaler.removeClassName("fullscreen-ipad");
 					onExitFullscreen();
 					if (cssScale != 0) {
@@ -431,6 +420,12 @@ public class ZoomPanel extends FlowPanel
 			isFullScreen = !isFullScreen;
 			Browser.toggleFullscreen(isFullScreen, container);
 		}
+	}
+
+	private void setContainerProp(Element container, String propName,
+			String value) {
+		containerProps.put(propName, container.getStyle().getProperty(propName));
+		container.getStyle().setProperty(propName, value);
 	}
 
 	private static double getDeviceScale(double xscale, double yscale) {
@@ -454,8 +449,8 @@ public class ZoomPanel extends FlowPanel
 		double scale = getDeviceScale(xscale, yscale);
 		Browser.scale(scaler, scale, 0, 0);
 		Browser.scale(zoomPanel.getElement(), 1 / scale, 120, 100);
-		container.getStyle().setWidth(100, Unit.PCT);
-		container.getStyle().setHeight(100, Unit.PCT);
+		setContainerProp(container, "width", "100%");
+		setContainerProp(container, "height", "100%");
 		container.getStyle().setPosition(Position.ABSOLUTE);
 		double marginLeft = 0;
 		double marginTop = 0;
