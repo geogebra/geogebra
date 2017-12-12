@@ -751,7 +751,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public int getReusableSurfaceIndex() {
-		if (managerPackBuffers() && shouldBePacked()) {
+		if (shouldBePackedForManager()) {
 			return addToTracesPackingBuffer(getSurfaceIndex());
 		}
 		return super.getReusableSurfaceIndex();
@@ -759,7 +759,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	protected int getReusableGeometryIndex() {
-		if (managerPackBuffers() && shouldBePacked()) {
+		if (shouldBePackedForManager()) {
 			return addToTracesPackingBuffer(getGeometryIndex());
 		}
 		return super.getReusableGeometryIndex();
@@ -767,14 +767,14 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	protected void recordTrace() {
-		if (!(managerPackBuffers() && shouldBePacked())) {
+		if (!shouldBePackedForManager()) {
 			super.recordTrace();
 		}
 	}
 
 	@Override
 	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (managerPackBuffers() && shouldBePacked()) {
+		if (shouldBePackedForManager()) {
 			if (tracesPackingBuffer != null) {
 				while (!tracesPackingBuffer.isEmpty()) {
 					doRemoveGeometryIndex(tracesPackingBuffer.pop());

@@ -609,7 +609,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	public int getReusableSurfaceIndex() {
-		if (managerPackBuffers() && shouldBePacked()) {
+		if (shouldBePackedForManager()) {
 			return addToTracesPackingBuffer(getSurfaceIndex());
 		}
 		return super.getReusableSurfaceIndex();
@@ -617,7 +617,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	protected int getReusableGeometryIndex() {
-		if (managerPackBuffers() && shouldBePacked()) {
+		if (shouldBePackedForManager()) {
 			return addToTracesPackingBuffer(getGeometryIndex());
 		}
 		return super.getReusableGeometryIndex();
@@ -625,14 +625,14 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces
 
 	@Override
 	protected void recordTrace() {
-		if (!(managerPackBuffers() && shouldBePacked())) {
+		if (!shouldBePackedForManager()) {
 			super.recordTrace();
 		}
 	}
 
 	@Override
 	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (managerPackBuffers() && shouldBePacked()) {
+		if (shouldBePackedForManager()) {
 			if (tracesPackingBuffer != null) {
 				while (!tracesPackingBuffer.isEmpty()) {
 					doRemoveGeometryIndex(tracesPackingBuffer.pop());

@@ -178,7 +178,7 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	@Override
 	protected int getReusableGeometryIndex() {
-		if (managerPackBuffers() && shouldBePacked()) {
+		if (shouldBePackedForManager()) {
 			return addToTracesPackingBuffer(getGeometryIndex());
 		}
 		return super.getReusableGeometryIndex();
@@ -186,14 +186,14 @@ public class DrawSegment3D extends DrawCoordSys1D {
 
 	@Override
 	protected void recordTrace() {
-		if (!(managerPackBuffers() && shouldBePacked())) {
+		if (!shouldBePackedForManager()) {
 			super.recordTrace();
 		}
 	}
 
 	@Override
 	protected void clearTraceForViewChangedByZoomOrTranslate() {
-		if (managerPackBuffers() && shouldBePacked()) {
+		if (shouldBePackedForManager()) {
 			if (tracesPackingBuffer != null) {
 				while (!tracesPackingBuffer.isEmpty()) {
 					doRemoveGeometryIndex(tracesPackingBuffer.pop());

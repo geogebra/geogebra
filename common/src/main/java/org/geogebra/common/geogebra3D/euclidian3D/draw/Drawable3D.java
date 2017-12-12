@@ -1800,11 +1800,11 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/**
-	 * 
-	 * @return true if manager packs the buffers
+	 *
+	 * @return true should be packed for the current geometry manager
 	 */
-	protected boolean managerPackBuffers() {
-		return getView3D().getRenderer().getGeometryManager().packBuffers();
+	protected boolean shouldBePackedForManager() {
+		return getView3D().getRenderer().getGeometryManager().packBuffers() && shouldBePacked();
 	}
 
 	/**
