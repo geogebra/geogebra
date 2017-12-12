@@ -607,23 +607,40 @@ public abstract class ContextMenuGeoElement {
 	protected ArrayList<GeoElement> getGeos() {
 		return geos;
 	}
+
+	/**
+	 * Update the selection of geos
+	 * 
+	 * @param geos
+	 *            selected geos
+	 */
 	protected void setGeos(ArrayList<GeoElement> geos) {
 		this.geos = geos;
 	}
 
+	/**
+	 * Cuts selected elements
+	 */
 	public void cutCmd() {
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos(), false);
 		deleteCmd(true);
-
 	}
 
+	/**
+	 * Duplicates selected elements
+	 */
 	public void duplicateCmd() {
 		app.getCopyPaste().copyToXML(app,
 				app.getSelectionManager().getSelectedGeos(), false);
 		app.getCopyPaste().pasteFromXML(app, false);
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether "input form" is acceptable equation form for the geo
+	 */
 	public boolean needsInputFormItem(GeoElement geo) {
 		if (Equation.isAlgebraEquation(geo)) {
 			if (geo.isGeoLine()) {
