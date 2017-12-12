@@ -83,7 +83,7 @@ public class DrawGrid {
 
 		// number of parts splitted by subgrids
 		int n = 1;
-		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
+		if (subGrid) {
 			n = 5;
 			smallStep = tickStepY / n;
 			//start of subgrids
@@ -101,8 +101,7 @@ public class DrawGrid {
 
 		double pix;
 
-		if (view.getApplication().has(Feature.MINOR_GRIDLINES)
-				&& view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
+		if (view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
 			// draw main grid
 			g2.setColor(view.getGridColor());
 			g2.startGeneralPath();
@@ -128,38 +127,27 @@ public class DrawGrid {
 			g2.endAndDrawGeneralPath();
 		} else {
 			pix = start;
-			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-				pix = start - tickStepY / n;
-			} else if (pix > (view.getHeight() - EuclidianView.SCREEN_BORDER)) {
-				pix -= tickStepY;
-			}
+			pix = start - tickStepY / n;
 
 			for (int j = 0; pix <= yAxisEnd; j++) {
 				// don't draw the grid line x=0 if the y-axis is showing
 				// or if it's too close (eg sticky axes)
 				if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
-					if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-						if ((j - topSubGrids - 1) % n == 0) {
-							// g2.setStrokeLineWidth(1);
-							g2.setColor(view.getGridColor());
+					if ((j - topSubGrids - 1) % n == 0) {
+						// g2.setStrokeLineWidth(1);
+						g2.setColor(view.getGridColor());
 
-						} else {
-							// g2.setStrokeLineWidth(0.4);
-							g2.setColor(getBrighterColor(view.getGridColor()));
-						}
+					} else {
+						// g2.setStrokeLineWidth(0.4);
+						g2.setColor(getBrighterColor(view.getGridColor()));
 					}
 
 					addStraightLineToGeneralPath(g2, left, pix,
 								view.getWidth(), pix);
 				}
 
-				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-					pix = start + (j * tickStepY / n);
-				} else {
-					pix = start + (j * tickStepY);
-				}
-
+				pix = start + (j * tickStepY / n);
 			}
 		}
 	}
@@ -241,7 +229,7 @@ public class DrawGrid {
 
 		// number of parts splitted by subgrids
 		int n = 1;
-		if (view.getApplication().has(Feature.MINOR_GRIDLINES) && subGrid) {
+		if (subGrid) {
 			n = 5;
 			smallStep = tickStepX / n;
 			// start of subgrids
@@ -262,8 +250,7 @@ public class DrawGrid {
 				: view.getHeight();
 		double pix;
 
-		if (view.getApplication().has(Feature.MINOR_GRIDLINES)
-				&& view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
+		if (view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
 
 			// draw main grid
 			g2.setColor(view.getGridColor());
@@ -292,26 +279,18 @@ public class DrawGrid {
 		} else {
 			pix = xAxisStart;
 
-			if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-				pix = xAxisStart;
-			} else if (pix < EuclidianView.SCREEN_BORDER) {
-				pix += tickStepX;
-			}
-
 			for (int i = 1; pix <= view.getWidth(); i++) {
 				// don't draw the grid line x=0 if the y-axis is showing
 				// or if it's too close (eg sticky axes)
 
 				if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-					if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-						if ((i - leftSubGrids - 1) % n == 0) {
-							// g2.setStrokeLineWidth(1);
-							g2.setColor(view.getGridColor());
+					if ((i - leftSubGrids - 1) % n == 0) {
+						// g2.setStrokeLineWidth(1);
+						g2.setColor(view.getGridColor());
 
-						} else {
-							// g2.setStrokeLineWidth(0.4);
-							g2.setColor(getBrighterColor(view.getGridColor()));
-						}
+					} else {
+						// g2.setStrokeLineWidth(0.4);
+						g2.setColor(getBrighterColor(view.getGridColor()));
 					}
 
 					if (view.axesLabelsPositionsX.contains(Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
@@ -326,11 +305,7 @@ public class DrawGrid {
 
 				}
 
-				if (view.getApplication().has(Feature.MINOR_GRIDLINES)) {
-					pix = xAxisStart + (i * tickStepX / n);
-				} else {
-					pix = xAxisStart + (i * tickStepX);
-				}
+				pix = xAxisStart + (i * tickStepX / n);
 
 			}
 		}

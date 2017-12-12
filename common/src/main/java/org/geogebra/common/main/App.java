@@ -4194,10 +4194,6 @@ public abstract class App implements UpdateSelection {
             case DOUBLE_ROUND_BRACKETS:
                 return prerelease;
 
-            /** GGB-1881 */
-            case MINOR_GRIDLINES:
-                return true;
-
             case DEFAULT_OBJECT_STYLES:
                 return relaunch || isNativeMobileAppWithNewUI();
 
@@ -4256,7 +4252,7 @@ public abstract class App implements UpdateSelection {
 
             /** MOB-1278 */
             case SPEED_UP_GRID_DRAWING:
-                return true;
+			return true;
 
             /** MOB-1293 */
             case SELECT_TOOL_NEW_BEHAVIOUR:

@@ -62,15 +62,14 @@ public class GeoGebraPreferencesXML {
 
 				+ "<size width=\"640\" height=\"480\"/>"
 				+ "<coordSystem xZero=\"215.0\" yZero=\"315.0\" scale=\"50.0\" yscale=\"50.0\"/>"
-				+ "<evSettings axes=\"true\" grid=\"false\" gridIsBold=\"false\" pointCapturing=\"3\" rightAngleStyle=\""
+				+ "<evSettings axes=\"true\" grid=\"" + xAxis
+				+ "\" gridIsBold=\"false\" pointCapturing=\"3\" rightAngleStyle=\""
 
 				// dynamic
 				+ rightAngleStyle
 
-				+ "\" checkboxSize=\"26\" gridType=\"" + "\"/>"
-				+ (app.has(Feature.MINOR_GRIDLINES)
-						? (EuclidianView.GRID_CARTESIAN_WITH_SUBGRID + "")
-						: (EuclidianView.GRID_CARTESIAN + ""))
+				+ "\" checkboxSize=\"26\" gridType=\""
+				+ +EuclidianView.GRID_CARTESIAN_WITH_SUBGRID + "\"/>"
 				+ "<bgColor r=\"255\" g=\"255\" b=\"255\"/>"
 				+ "<axesColor r=\"0\" g=\"0\" b=\"0\"/>"
 				+ "<gridColor r=\"192\" g=\"192\" b=\"192\"/>"

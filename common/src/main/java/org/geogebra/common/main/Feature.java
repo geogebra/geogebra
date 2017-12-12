@@ -134,9 +134,6 @@ public enum Feature {
 	/** GGB-1708 */
 	INPUT_BAR_ADD_SLIDER,
 
-	/** GGB-1881 */
-	MINOR_GRIDLINES,
-
 	/** GGB-1916 */
 	DEFAULT_OBJECT_STYLES,
 	
