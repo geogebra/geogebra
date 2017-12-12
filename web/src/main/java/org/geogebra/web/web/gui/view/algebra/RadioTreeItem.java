@@ -95,7 +95,6 @@ import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
-import com.himamis.retex.renderer.share.CursorBox;
 
 /**
  * main -> marblePanel content controls
@@ -2065,14 +2064,7 @@ public class RadioTreeItem extends AVTreeItem
 	 * Cursor listener
 	 */
 	public void onCursorMove() {
-		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
-				- 10 < CursorBox.startX) {
-			latexItem.getElement().setScrollLeft(
-					(int) CursorBox.startX - latexItem.getOffsetWidth() + 10);
-		} else if (CursorBox.startX < latexItem.getElement().getScrollLeft()
-				+ 10) {
-			latexItem.getElement().setScrollLeft((int) CursorBox.startX - 10);
-		}
+		MathFieldW.scrollParent(latexItem, 20);
 	}
 
 	public boolean popupSuggestions() {

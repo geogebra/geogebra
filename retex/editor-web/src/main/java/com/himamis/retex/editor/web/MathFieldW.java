@@ -48,6 +48,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Navigator;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -864,6 +865,25 @@ public class MathFieldW implements MathField, IsWidget {
 	@Override
 	public void tab(boolean shiftDown) {
 		mathFieldInternal.onTab(shiftDown);
+	}
+
+	/**
+	 * @param latexItem
+	 *            panel to be scrolled
+	 * @param margin
+	 *            minimal distance from cursor to left/right border
+	 */
+	public static void scrollParent(FlowPanel latexItem, int margin) {
+		if (latexItem.getOffsetWidth() + latexItem.getElement().getScrollLeft()
+				- margin < CursorBox.startX) {
+			latexItem.getElement().setScrollLeft(
+					(int) CursorBox.startX - latexItem.getOffsetWidth()
+							+ margin);
+		} else if (CursorBox.startX < latexItem.getElement().getScrollLeft()
+				+ margin) {
+			latexItem.getElement()
+					.setScrollLeft((int) CursorBox.startX - margin);
+		}
 	}
 
 }

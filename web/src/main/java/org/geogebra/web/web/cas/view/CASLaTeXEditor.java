@@ -21,10 +21,12 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
+import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -56,6 +58,7 @@ public class CASLaTeXEditor extends FlowPanel
 	private CASTableControllerW controller;
 	private boolean autocomplete = true;
 	private Widget dummy;
+	private Canvas canvas;
 
 	/**
 	 * @param table
@@ -70,7 +73,7 @@ public class CASLaTeXEditor extends FlowPanel
 		this.app = (AppWFull) app;
 		this.table = table;
 		this.controller = controller;
-		Canvas canvas = Canvas.createIfSupported();
+		canvas = Canvas.createIfSupported();
 		mf = new MathFieldW(this, canvas, this,
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
 				app.getGlobalKeyDispatcher().getFocusHandler());
@@ -80,7 +83,16 @@ public class CASLaTeXEditor extends FlowPanel
 		dummy = new Label(
 				app.getLocalization().getMenu("InputLabel") + Unicode.ELLIPSIS);
 		dummy.getElement().getStyle().setMarginLeft(5, Unit.PX);
+		this.getElement().getStyle().setOverflow(Overflow.HIDDEN);
+		updateWidth();
+	}
 
+	private void updateWidth() {
+		int width = ((DockPanelW) app.getGuiManager().getLayout()
+				.getDockManager().getPanel(App.VIEW_CAS)).getOffsetWidth() - 35;
+		if (width > 0) {
+			this.getElement().getStyle().setWidth(width, Unit.PX);
+		}
 	}
 
 	@Override
@@ -135,19 +147,16 @@ public class CASLaTeXEditor extends FlowPanel
 	@Override
 	public void setInputSelectionStart(int selStart) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setInputSelectionEnd(int selEnd) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void clearInputText() {
 		setText("");
-
 	}
 
 	@Override
@@ -156,12 +165,10 @@ public class CASLaTeXEditor extends FlowPanel
 			setWidget(mf.asWidget());
 		}
 		setText(string);
-
 	}
 
 	private void setWidget(Widget asWidget) {
 		insert(asWidget, 0);
-
 	}
 
 	@Override
@@ -197,12 +204,13 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void setFocus(boolean focus, boolean scheduled) {
-
 		remove(focus ? dummy : mf);
+		if (focus) {
+			updateWidth();
+		}
 		setWidget(focus ? mf.asWidget()
 				: dummy);
 		mf.setFocus(focus);
-
 	}
 
 	@Override
@@ -252,7 +260,6 @@ public class CASLaTeXEditor extends FlowPanel
 			}
 		});
 		setFocus(true, false);
-
 	}
 
 	/**
@@ -348,8 +355,8 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void onKeyTyped() {
-		// TODO Auto-generated method stub
 		getInputSuggestions().popupSuggestions();
+		onCursorMove();
 	}
 
 	@Override
@@ -359,8 +366,7 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void onCursorMove() {
-		// TODO Auto-generated method stub
-
+		MathFieldW.scrollParent(this, 20);
 	}
 
 	@Override
@@ -368,9 +374,7 @@ public class CASLaTeXEditor extends FlowPanel
 		if (isSuggesting()) {
 			sug.onKeyUp();
 		}
-
 	}
-
 
 	@Override
 	public void onDownKeyPressed() {

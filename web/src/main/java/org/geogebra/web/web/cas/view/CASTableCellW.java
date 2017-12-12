@@ -198,24 +198,28 @@ public class CASTableCellW extends VerticalPanel {
 				inputPanel.removeStyleName("italic");
 			}
 		}
-
-
 	}
 
 	public void setColor() {
 		GColor newColor = casCell.getFontColor();
 		inputPanel.getElement().getStyle()
-		        .setColor(GColor.getColorString(newColor));
+				.setColor(GColor.getColorString(newColor));
 	}
 
 	public Widget getOutputWidget() {
 		return outputPanel;
 	}
 
+	/**
+	 * @return input in CAS (plain text)
+	 */
 	public String getInputString() {
 		return inputPanel.getText();
 	}
 
+	/**
+	 * @return output string
+	 */
 	public String getOutputString() {
 		return outputText;
 	}

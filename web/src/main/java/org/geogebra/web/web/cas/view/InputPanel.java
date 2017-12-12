@@ -60,7 +60,6 @@ public interface InputPanel extends IsWidget {
 		@Override
 		public void addStyleName(String style) {
 			c.addStyleName(style);
-
 		}
 
 		@Override
@@ -89,7 +88,6 @@ public interface InputPanel extends IsWidget {
 			}
 			DrawEquationW.paintOnCanvas(new GeoNumeric(app.getKernel()
 					.getConstruction()), laTeX, c, app.getFontSizeWeb());
-
 		}
 
 		@Override
@@ -97,9 +95,7 @@ public interface InputPanel extends IsWidget {
 			if (this.laTex != null) {
 				setLaTeX(laTex);
 			}
-
 		}
-
 	}
 
 	public void addStyleName(String string);

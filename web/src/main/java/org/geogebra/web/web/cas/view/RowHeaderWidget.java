@@ -8,11 +8,11 @@ import org.geogebra.web.web.gui.images.AppResources;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
+public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	private Image marble;
 	private boolean oldValue;
 	private RowHeaderHandler handler;
@@ -27,6 +27,7 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		if (cell != null) {
 			CASInputHandler.handleMarble(cell, this);
 		}
+		addStyleName("casRowHeader");
 		marble.addClickHandler(new MarbleClickHandler(cell, this));
 
 		// instead of here, from now on the whole of header areas should
