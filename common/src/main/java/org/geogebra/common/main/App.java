@@ -3980,7 +3980,7 @@ public abstract class App implements UpdateSelection {
 				
 			// MOB-1329
 			case MOB_PACK_BUFFERS_3D:
-			return prerelease;
+			return true;
 
             // **********************************************************************
             // MOBILE END
@@ -4276,7 +4276,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2222 */
 		case CHANGE_INVERSE_TRIG_TO_DEGREES:
-			return prerelease && getKernel().degreesMode();
+			return getKernel().degreesMode();
 
 		/** GGB-2170 */
 		case SLIDER_STYLE_OPTIONS:
