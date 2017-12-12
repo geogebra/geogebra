@@ -545,10 +545,11 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		if (toolbarPanel.app.getKernel().redoPossible()) {
 			btnRedo.removeStyleName("hideButton");
 		} else {
-			btnRedo.addStyleName("hideButton");
-			if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+			if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)
+					&& !btnRedo.getElement().hasClassName("hideButton")) {
 				app.getAccessibilityManager().focusAnchor();
 			}
+			btnRedo.addStyleName("hideButton");
 		}
 	}
 
