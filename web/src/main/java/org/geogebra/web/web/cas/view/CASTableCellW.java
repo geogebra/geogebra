@@ -200,12 +200,18 @@ public class CASTableCellW extends VerticalPanel {
 		}
 	}
 
+	/**
+	 * Set input color from geo
+	 */
 	public void setColor() {
 		GColor newColor = casCell.getFontColor();
 		inputPanel.getElement().getStyle()
 				.setColor(GColor.getColorString(newColor));
 	}
 
+	/**
+	 * @return output panel
+	 */
 	public Widget getOutputWidget() {
 		return outputPanel;
 	}
@@ -224,14 +230,24 @@ public class CASTableCellW extends VerticalPanel {
 		return outputText;
 	}
 
+	/**
+	 * Insert input to currently edited position and start edit mode
+	 * 
+	 * @param input
+	 *            input string
+	 */
 	public void insertInput(String input) {
 		if (textField == null) {
 			return;
 		}
-		textField.insertString(input);
+		textField.insertInput(input);
 		textField.ensureEditing();
 	}
 
+	/**
+	 * @param ratio
+	 *            CSS pixel ratio
+	 */
 	public void setPixelRatio(double ratio) {
 		if (casCell != null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
@@ -257,10 +273,12 @@ public class CASTableCellW extends VerticalPanel {
 		this.inputPanel.setPixelRatio(ratio);
 	}
 
+	/**
+	 * Show error from CAS cell
+	 */
 	public void showError() {
 		outputPanel.clear();
 		outputPanel.add(renderPlain());
-
 	}
 
 }

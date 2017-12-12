@@ -391,7 +391,6 @@ public class CASLaTeXEditor extends FlowPanel
 	@Override
 	public void onInsertString() {
 		mf.setFormula(GeoGebraSerializer.reparse(this.mf.getFormula()));
-
 	}
 
 	@Override
@@ -413,6 +412,10 @@ public class CASLaTeXEditor extends FlowPanel
 	@Override
 	public void onTab(boolean shiftDown) {
 		// TODO Auto-generated method stub
+	}
+
+	public void insertInput(String input) {
+		mf.insertString(input);
 	}
 
 }

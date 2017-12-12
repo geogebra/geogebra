@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.util.ReTeXHelper;
 
@@ -51,7 +52,6 @@ public class CASTableW extends Grid implements CASTable {
 		if (hasEditor()) {
 			getEditor().setLabels();
 		}
-
 	}
 
 	@Override
@@ -89,9 +89,7 @@ public class CASTableW extends Grid implements CASTable {
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell,
 		        (AppW) getApplication());
 
-		Widget outputWidget = cellWidget.getOutputWidget();
-		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
-		outputWidget.addDomHandler(ml, TouchEndEvent.getType());
+		addOutputListener(cellWidget);
 
 		setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
 		getCellFormatter().addStyleName(n, COL_CAS_HEADER, "cas_header");
@@ -105,6 +103,13 @@ public class CASTableW extends Grid implements CASTable {
 			// end
 			app.getKernel().getConstruction().setCasCellRow(casCell, rows);
 		}
+	}
+
+	private void addOutputListener(CASTableCellW cellWidget) {
+		Widget outputWidget = cellWidget.getOutputWidget();
+		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
+		outputWidget.addDomHandler(ml, TouchEndEvent.getType());
+		ClickStartHandler.initDefaults(outputWidget, true, true);
 	}
 
 	/**
@@ -164,7 +169,6 @@ public class CASTableW extends Grid implements CASTable {
 			editing.stopEditing();
 		}
 		editing = null;
-
 	}
 
 	/**
@@ -180,7 +184,6 @@ public class CASTableW extends Grid implements CASTable {
 	@Override
 	public void startEditingRow(int n) {
 		startEditingRow(n, null);
-
 	}
 
 	private void startEditingRow(int n, String newText) {
@@ -283,9 +286,7 @@ public class CASTableW extends Grid implements CASTable {
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1, casCell,
 		        (AppW) getApplication());
 
-		Widget outputWidget = cellWidget.getOutputWidget();
-		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
-		outputWidget.addDomHandler(ml, TouchEndEvent.getType());
+		addOutputListener(cellWidget);
 
 		setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
 		setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);

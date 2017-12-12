@@ -36,13 +36,11 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	 */
 	public String getLaTeX();
 
-	@Override
-	public void ensureEditing();
-
 	/**
-	 * @param explicit
-	 *            whether enter was really pressed (false for just blur)
+	 * Inserts input string, doesn't treat it like autocomplete (no highlight)
+	 * 
+	 * @param input
+	 *            input stru=ing
 	 */
-	@Override
-	public void onEnter(boolean explicit);
+	public void insertInput(String input);
 }
