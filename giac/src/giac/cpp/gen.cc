@@ -2042,8 +2042,8 @@ namespace giac {
 	return false;
       { 
 	unary_function_ptr & Sommet=_SYMBptr->sommet;
-	bool is_ifte=false,is_of_local_ifte_bloc=false;
-	if (Sommet==at_plus || Sommet==at_prod || Sommet==at_pow || (is_of_local_ifte_bloc=(Sommet==at_of || Sommet==at_local || (is_ifte=Sommet==at_ifte) || Sommet==at_bloc)) ){
+	bool is_ifte=false,is_of_local_ifte_bloc=false,is_plus=Sommet==at_plus,is_prod=false,is_pow=false;
+	if (is_plus || (is_prod=(Sommet==at_prod)) || (is_pow=(Sommet==at_pow)) || (is_of_local_ifte_bloc=(Sommet==at_of || Sommet==at_local || (is_ifte=Sommet==at_ifte) || Sommet==at_bloc)) ){
 	  int & elevel=eval_level(contextptr);
 	  short int slevel=elevel;
 	  // Check if we are not far from stack end
@@ -2084,6 +2084,25 @@ namespace giac {
 	      }
 	    }
 #endif // rtos
+	  if ( (is_plus ||is_prod || is_pow) && _SYMBptr->feuille.type==_VECT && _SYMBptr->feuille._VECTptr->size()==2){
+	    vecteur * vptr=_SYMBptr->feuille._VECTptr;
+	    gen a;
+	    if (!vptr->front().in_eval(level,a,contextptr))
+	      a=vptr->front();
+	    if (a.type!=_VECT || a.subtype!=_SEQ__VECT){
+	      if (!vptr->back().in_eval(level,evaled,contextptr))
+		evaled=vptr->back();
+	      if (evaled.type!=_VECT || evaled.subtype!=_SEQ__VECT){		
+		if (is_plus) evaled=operator_plus(a,evaled,contextptr);
+		else {
+		  if (is_prod) evaled=operator_times(a,evaled,contextptr);
+		  else evaled=pow(a,evaled,contextptr);
+		}
+		elevel=slevel;
+		return true;
+	      }
+	    }
+	  }
 	  if (is_of_local_ifte_bloc){
 	    elevel=level;
 	    evaled=_SYMBptr->feuille; // FIXME must also set eval_level to level
