@@ -1434,7 +1434,6 @@ public class CommandsTest extends Assert{
 				get("A").getObjectColor().toString());
 		Assert.assertEquals("A,A1",
 				StringUtil.join(",", app.getGgbApi().getAllObjectNames()));
-
 	}
 
 	@Test

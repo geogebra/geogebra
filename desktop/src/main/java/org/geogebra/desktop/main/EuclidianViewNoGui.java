@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.EuclidianViewCompanion;
 import org.geogebra.common.geogebra3D.euclidianFor3D.EuclidianViewFor3DCompanion;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidian.MyZoomerD;
 
@@ -23,6 +24,7 @@ import org.geogebra.desktop.euclidian.MyZoomerD;
 public class EuclidianViewNoGui extends EuclidianView {
 
 	private GColor backgroundColor = GColor.WHITE;
+	private GDimensionD dim = new GDimensionD(800, 600);
 	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
 			BufferedImage.TYPE_INT_RGB).createGraphics();
 
@@ -100,14 +102,12 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public int getWidth() {
-		// TODO Auto-generated method stub
-		return 0;
+		return dim.getWidth();
 	}
 
 	@Override
 	public int getHeight() {
-		// TODO Auto-generated method stub
-		return 0;
+		return dim.getHeight();
 	}
 
 	@Override
@@ -194,8 +194,7 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		// TODO Auto-generated method stub
-
+		this.dim = (GDimensionD) preferredSize;
 	}
 
 	@Override

@@ -1,8 +1,8 @@
 package org.geogebra.desktop.export;
 
 import java.awt.Dimension;
-import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintWriter;
 
 import org.geogebra.common.awt.GGraphics2D;
@@ -34,7 +34,7 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 	protected String title;
 	protected String desc;
 
-	public SVGExtensions(File file, Dimension size, double cmWidth,
+	public SVGExtensions(OutputStream file, Dimension size, double cmWidth,
 			double cmHeight) throws IOException {
 		super(file, size);
 		this.cmWidth = Kernel.checkDecimalFraction(cmWidth);

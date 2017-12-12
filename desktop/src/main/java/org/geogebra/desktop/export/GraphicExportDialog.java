@@ -24,7 +24,9 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -51,6 +53,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
@@ -963,7 +966,43 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param transparent0
 	 *            transparent?
 	 */
-	public static void exportSVG(AppD app, EuclidianViewD ev, File file,
+	public static void exportSVG(App app, EuclidianView ev, File file,
+			boolean textAsShapes, int pixelWidth, int pixelHeight,
+			double cmWidth, double cmHeight, double exportScale,
+			boolean transparent0) {
+		try {
+			exportSVG(app, ev, new FileOutputStream(file), textAsShapes,
+					pixelWidth, pixelHeight, cmWidth, cmHeight, exportScale,
+					transparent0);
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	/**
+	 * 
+	 * @param app
+	 *            application
+	 * @param ev
+	 *            view
+	 * @param file
+	 *            target file
+	 * @param textAsShapes
+	 *            whether to convert text to curves
+	 * @param pixelWidth
+	 *            width in pixels
+	 * @param pixelHeight
+	 *            height in pixels
+	 * @param cmWidth
+	 *            width in cm
+	 * @param cmHeight
+	 *            height in cm
+	 * @param exportScale
+	 *            scale units / cm
+	 * @param transparent0
+	 *            transparent?
+	 */
+	public static void exportSVG(App app, EuclidianView ev, OutputStream file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
 			double cmWidth, double cmHeight, double exportScale,
 			boolean transparent0) {

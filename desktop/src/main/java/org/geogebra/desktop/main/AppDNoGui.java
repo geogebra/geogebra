@@ -8,6 +8,7 @@ import java.util.Locale;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.DrawEquation;
@@ -58,6 +59,8 @@ import org.geogebra.common.util.ImageManager;
 import org.geogebra.common.util.NormalizerMinimal;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GBufferedImageD;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.DrawEquationD;
 import org.geogebra.desktop.factories.AwtFactoryD;
@@ -70,6 +73,7 @@ import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.kernel.UndoManagerD;
 import org.geogebra.desktop.kernel.geos.GeoElementGraphicsAdapterD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
+import org.geogebra.desktop.plugin.GgbAPID;
 import org.geogebra.desktop.plugin.ScriptManagerD;
 import org.geogebra.desktop.plugin.UDPLoggerD;
 import org.geogebra.desktop.util.GTimerD;
@@ -326,6 +330,8 @@ public class AppDNoGui extends App {
 	@Override
 	protected EuclidianView newEuclidianView(boolean[] showAxes1,
 			boolean showGrid1) {
+		this.getSettings().getEuclidian(1)
+				.setPreferredSize(new GDimensionD(800, 600));
 		return new EuclidianViewNoGui(getEuclidianController(), 1,
 				this.getSettings().getEuclidian(1));
 	}
@@ -457,8 +463,11 @@ public class AppDNoGui extends App {
 				@Override
 				protected String base64encodePNG(boolean transparent,
 						double DPI, double exportScale, EuclidianView ev) {
-					// TODO Auto-generated method stub
-					return null;
+					ev.updateBackground();
+					GBufferedImage img = ((EuclidianViewNoGui) ev)
+							.getExportImage(exportScale, transparent, ExportType.PNG);
+					return GgbAPID.base64encode(
+							GBufferedImageD.getAwtBufferedImage(img), DPI);
 				}
 
 			};
