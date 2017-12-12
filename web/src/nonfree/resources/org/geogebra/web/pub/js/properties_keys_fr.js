@@ -1461,7 +1461,7 @@ __GGB__keysVar.fr.menu = {
     "Conify": "Extrusion Pyramide/C\xf4ne",
     "Conify.Help": "Extruder un polygone/cercle, ou s\xe9lectionner le et entrer une hauteur pour cr\xe9er une pyramide/un c\xf4ne.",
     "Connecting": "Connexion \u2026",
-    "ConstructionNotDegenerate": "the construction is not degenerate",
+    "ConstructionNotDegenerate": "la construction n'est pas d\xe9g\xe9n\xe9r\xe9e",
     "ConstructionOrder": "Ordre de Construction",
     "ConstructionProtocol": "Protocole de construction",
     "ConstructionProtocolButton": "Ouverture du protocole",
