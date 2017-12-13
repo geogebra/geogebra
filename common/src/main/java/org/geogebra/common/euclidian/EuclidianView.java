@@ -1947,7 +1947,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		previewFromInputBarGeos = geos;
 
 		if (app.has(Feature.PREVIEW_POINTS)){
-			app.getSpecialPointsManager()
+			app.getSelectionManager()
 					.updateSpecialPoints(previewFromInputBarGeos);
 		} else {
 			repaintForPreviewFromInputBar();
@@ -5673,7 +5673,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public double getMinSamplePoints() {
-		return MIN_SAMPLE_POINTS;
+		// test-case pan https://www.geogebra.org/m/EMNRrnxF left & right
+		return Math.max(MIN_SAMPLE_POINTS, (getXmax() - getXmin()) / 5);
 	}
 
 	public double getMaxBendOfScreen() {
