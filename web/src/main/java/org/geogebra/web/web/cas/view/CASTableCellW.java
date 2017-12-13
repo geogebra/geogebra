@@ -52,7 +52,6 @@ public class CASTableCellW extends VerticalPanel {
 			        .setText(casCell.getInput(StringTemplate.defaultTemplate));
 			inputPanel.setLaTeX(casCell
 					.getLaTeXInput(StringTemplate.latexTemplate));
-
 		}
 		add(inputPanel);
 
@@ -66,7 +65,6 @@ public class CASTableCellW extends VerticalPanel {
 				canvas = DrawEquationW.paintOnCanvasOutput(casCell, eqstring,
 						null,
 						casCell.getKernel().getApplication().getFontSize() + 1);
-
 			} else {
 				outputLabel = renderPlain();
 			}
@@ -92,7 +90,6 @@ public class CASTableCellW extends VerticalPanel {
 		outputPanel.add(canvas == null ? outputLabel : canvas);
 		outputPanel.setStyleName("CAS_outputPanel");
 		add(outputPanel);
-
 	}
 
 	private Label renderPlain() {
@@ -140,7 +137,6 @@ public class CASTableCellW extends VerticalPanel {
 			setInput();
 			inputPanel.setText(textField.getText());
 			inputPanel.setLaTeX(textField.getLaTeX());
-
 		}
 		clear();
 		add(inputPanel);
@@ -252,7 +248,6 @@ public class CASTableCellW extends VerticalPanel {
 		if (casCell != null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				String eqstring = casCell.getLaTeXOutput();
-
 				this.outputPanel.clear();
 				if (this.commentLabel != null) {
 					this.commentLabel
@@ -267,9 +262,7 @@ public class CASTableCellW extends VerticalPanel {
 						eqstring, null, casCell.getKernel().getApplication()
 								.getFontSizeWeb() + 1));
 			}
-
 		}
-
 		this.inputPanel.setPixelRatio(ratio);
 	}
 
@@ -280,5 +273,4 @@ public class CASTableCellW extends VerticalPanel {
 		outputPanel.clear();
 		outputPanel.add(renderPlain());
 	}
-
 }

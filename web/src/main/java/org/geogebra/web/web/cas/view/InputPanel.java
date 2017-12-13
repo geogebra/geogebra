@@ -20,16 +20,13 @@ public interface InputPanel extends IsWidget {
 
 		@Override
 		public void setLaTeX(String laTeX) {
-			// TODO Auto-generated method stub
-
+			// not needed
 		}
 
 		@Override
 		public void setPixelRatio(double ratio) {
-			// TODO Auto-generated method stub
-
+			// not needed
 		}
-
 	}
 
 	public class InputPanelCanvas implements InputPanel {
@@ -47,9 +44,7 @@ public interface InputPanel extends IsWidget {
 		}
 		@Override
 		public void setText(String input) {
-
 			this.text = input;
-
 		}
 
 		@Override
@@ -70,7 +65,6 @@ public interface InputPanel extends IsWidget {
 		@Override
 		public void removeStyleName(String string) {
 			c.removeStyleName(string);
-
 		}
 
 		@Override
@@ -107,5 +101,4 @@ public interface InputPanel extends IsWidget {
 	public void setLaTeX(String laTeX);
 
 	public void setPixelRatio(double ratio);
-
 }

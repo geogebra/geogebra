@@ -101,23 +101,20 @@ public class CASLaTeXEditor extends FlowPanel
 		if (!isSuggesting()) {
 			onEnter(false);
 		}
-
 	}
+
 	@Override
 	public int getInputSelectionEnd() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public int getInputSelectionStart() {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
 	@Override
 	public String getInputSelectedText() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -146,12 +143,12 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void setInputSelectionStart(int selStart) {
-		// TODO Auto-generated method stub
+		// not needed
 	}
 
 	@Override
 	public void setInputSelectionEnd(int selEnd) {
-		// TODO Auto-generated method stub
+		// not needed
 	}
 
 	@Override
@@ -198,8 +195,7 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void setLabels() {
-		// TODO Auto-generated method stub
-
+		// not needed
 	}
 
 	@Override
@@ -215,7 +211,6 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void onEnter(boolean keepFocus) {
-		// TODO Auto-generated method stub
 		if (sug != null && sug.needsEnterForSuggestion()) {
 			return;
 		}
@@ -229,20 +224,17 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void resetInput() {
-		// TODO Auto-generated method stub
-
+		// not needed
 	}
 
 	@Override
 	public void setAutocomplete(boolean b) {
 		this.autocomplete = b;
-
 	}
 
 	@Override
 	public void setLaTeX(String plain, String latex) {
 		// not needed
-
 	}
 
 	@Override
@@ -272,6 +264,7 @@ public class CASLaTeXEditor extends FlowPanel
 		// cursor position)
 		CancelEventTimer.keyboardSetVisible();
 	}
+
 	@Override
 	public boolean getAutoComplete() {
 		return autocomplete;
@@ -294,7 +287,6 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public ArrayList<String> getHistory() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -309,7 +301,6 @@ public class CASLaTeXEditor extends FlowPanel
 			setWidget(mf.asWidget());
 		}
 		mf.requestViewFocus();
-
 	}
 
 	@Override
@@ -320,13 +311,11 @@ public class CASLaTeXEditor extends FlowPanel
 	@Override
 	public void autocomplete(String text) {
 		GuiManagerW.makeKeyboardListener(retexListener, app).insertString(text);
-
 	}
 
 	@Override
 	public void updatePosition(AbstractSuggestionDisplay sugPanel) {
 		sugPanel.setPositionRelativeTo(this);
-
 	}
 
 	@Override
@@ -350,7 +339,6 @@ public class CASLaTeXEditor extends FlowPanel
 	public void onEnter() {
 		// TODO or onEnter(false) ?
 		onEnter(true);
-
 	}
 
 	@Override
@@ -411,11 +399,10 @@ public class CASLaTeXEditor extends FlowPanel
 
 	@Override
 	public void onTab(boolean shiftDown) {
-		// TODO Auto-generated method stub
+		// not needed
 	}
 
 	public void insertInput(String input) {
 		mf.insertString(input);
 	}
-
 }
