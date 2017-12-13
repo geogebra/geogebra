@@ -1,5 +1,8 @@
 package org.geogebra.web.web.javax.swing;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -48,6 +51,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	GPopupMenuW subPopup;
 	private AppW app;
 	private boolean menuShown = false;
+	private Map<AriaMenuItem, GCollapseMenuItem> expandItems = new HashMap<>();
 	private boolean horizontal;
 	/**
 	 * @param app
@@ -378,6 +382,17 @@ public class GPopupMenuW implements AttachedToDOM {
 	}
 
 	/**
+	 * Adds an expand/collapse item {@link GCollapseMenuItem} to the popup.
+	 * 
+	 * @param ci
+	 *            The collapse item to add.
+	 */
+	public void addItem(GCollapseMenuItem ci) {
+		addItem(ci.getMenuItem(), false);
+		expandItems.put(ci.getMenuItem(), ci);
+	}
+
+	/**
 	 * Show submenu popup
 	 * 
 	 * @param xCoord
@@ -395,6 +410,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	}
 
 	/**
+>>>>>>> .r58539
 	 * @return app scale (vertical)
 	 */
 	protected double getScaleY() {
@@ -592,12 +608,62 @@ public class GPopupMenuW implements AttachedToDOM {
 				}
 			} else if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
 				char keyCode = (char) event.getKeyCode();
+				int forward = -1;
 				if (keyCode == KeyCodes.KEY_ESCAPE) {
 					popupPanel.hide();
+				} else if (keyCode == KeyCodes.KEY_UP) {
+					forward = 0;
+				} else if (keyCode == KeyCodes.KEY_DOWN) {
+					forward = 1;
+				}	
+			
+				int idx = forward == 1 ? getSelectedIndex()
+						: getSelectedIndex() - 1;
+
+				if (handleKeyExpandedMenu(idx, event)) {
+					return;
+				}
+				
+				if (forward == 1) {
+					moveSelectionDown();
+				} else if (forward == 0) {
+					moveSelectionUp();
 				}
 			}
 			super.onBrowserEvent(event);
 		}
 	}
 
+	/**
+	 * @param idx
+	 *            the AriaMenuItem
+	 * @param event
+	 *            keyCode
+	 * @return if the item is expanded and handles the key given.
+	 */
+	boolean handleKeyExpandedMenu(int idx, Event event) {
+		GCollapseMenuItem ci = getCollapseMenuAt(idx);
+		if (ci == null || !ci.isExpanded()) {
+			return false;
+		}
+
+		int key = event.getKeyCode();
+
+		AriaMenuBar items = ci.getItems();
+		if (key == KeyCodes.KEY_DOWN) {
+			return items.moveSelectionDown();
+		} else if (key == KeyCodes.KEY_UP) {
+			return items.moveSelectionUp();
+		} else if (key == KeyCodes.KEY_ENTER) {
+			popupPanel.hide();
+		}
+		return false;
+	}
+
+	private GCollapseMenuItem getCollapseMenuAt(int idx) {
+		if (idx < 0 && idx > popupMenu.getItems().size()) {
+			return null;
+		}
+		return expandItems.get(popupMenu.getItemAt(idx));
+	}
 }

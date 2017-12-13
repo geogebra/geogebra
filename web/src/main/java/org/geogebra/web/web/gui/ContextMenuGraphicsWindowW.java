@@ -28,7 +28,7 @@ import com.google.gwt.user.client.Command;
  * euclidian view/graphics view context menu
  */
 public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
-        implements MyActionListener {
+		implements MyActionListener {
 
 	/**
 	 * x position of popup
@@ -38,6 +38,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 	 * y position of popup
 	 */
 	protected double py;
+	private GCollapseMenuItem gridCollapseItem;
 
 	/**
 	 * @param app
@@ -168,17 +169,17 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 						MaterialDesignResources.INSTANCE.grid_black()
 								.getSafeUri().asString(),
 						loc.getMenu("ShowGrid"));
-		final GCollapseMenuItem ci = new GCollapseMenuItem(htmlString,
+		gridCollapseItem = new GCollapseMenuItem(htmlString,
 				loc.getMenu("ShowGrid"),
 				MaterialDesignResources.INSTANCE.expand_black().getSafeUri()
 						.asString(),
 				MaterialDesignResources.INSTANCE.collapse_black().getSafeUri()
 						.asString(),
 				false, wrappedPopup);
-		wrappedPopup.addItem(ci.getMenuItem(), false);
-		GridSubmenu gridSubMenu = new GridSubmenu(ci);
+		wrappedPopup.addItem(gridCollapseItem);
+		GridSubmenu gridSubMenu = new GridSubmenu(gridCollapseItem);
 		gridSubMenu.update();
-		ci.attachToParent();
+		gridCollapseItem.attachToParent();
 	}
 
 	/**

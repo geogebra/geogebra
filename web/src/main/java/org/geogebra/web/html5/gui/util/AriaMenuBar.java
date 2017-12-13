@@ -93,6 +93,18 @@ public class AriaMenuBar extends Widget {
 	}
 
 	/**
+	 * Get a {@link AriaMenuItem} at a given index.
+	 * 
+	 * @param index
+	 *            of the item to get.
+	 * 
+	 * @return the item at the given index.
+	 */
+	public AriaMenuItem getItemAt(int index) {
+		return allItems.get(index);
+	}
+
+	/**
 	 * Get the index of a {@link AriaMenuItem}.
 	 * 
 	 * @param item
@@ -103,6 +115,16 @@ public class AriaMenuBar extends Widget {
 	 */
 	public int getItemIndex(AriaMenuItem item) {
 		return allItems.indexOf(item);
+	}
+
+	/**
+	 * Get the index of the selected item.
+	 *
+	 * @return the index of the selected item, or -1 if it is not contained by
+	 *         this MenuBar
+	 */
+	public int getSelectedIndex() {
+		return allItems.indexOf(selectedItem);
 	}
 
 	/**
