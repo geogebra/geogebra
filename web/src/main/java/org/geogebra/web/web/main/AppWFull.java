@@ -367,7 +367,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		// reload the saved/(default) preferences
 		Perspective p = null;
 		if (isUnbundled()) {
-			Layout.initializeDefaultPerspectives(this, 0.2);
+			LayoutW.resetPerspectives(this);
 		}
 		if (getGuiManager() != null) {
 			p = getGuiManager().getLayout().createPerspective("tmp");

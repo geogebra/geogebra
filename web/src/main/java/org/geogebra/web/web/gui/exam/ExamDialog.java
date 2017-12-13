@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.exam;
 
 import java.util.Date;
 
-import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.GTimer;
@@ -17,6 +16,7 @@ import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.dialog.InputDialogW.DialogBoxKbW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.web.gui.layout.LayoutW;
 
 import com.google.gwt.dom.client.StyleInjector;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -286,7 +286,7 @@ public class ExamDialog {
 		app.fireViewsChangedEvent();
 		guiManager.updateToolbar();
 		guiManager.updateToolbarActions();
-		Layout.initializeDefaultPerspectives(app, 0.2);
+		LayoutW.resetPerspectives(app);
 		guiManager.updateMenubar();
 		guiManager.resetMenu();
 		DockPanelW dp = ((DockManagerW) guiManager.getLayout().getDockManager()).getPanelForKeyboard();

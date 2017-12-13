@@ -252,7 +252,8 @@ public class LoadFilePresenter {
 		}
 		app.updateHeaderVisible();
 		app.setPreferredSize(
-				new GDimensionW((int) app.getWidth(), (int) app.getHeight()));
+				new GDimensionW((int) app.getAppletWidth(),
+						(int) app.getAppletHeight()));
 		app.loadPreferences(p);
 
 		if (app.has(Feature.CENTER_STANDARD_VIEW)) {

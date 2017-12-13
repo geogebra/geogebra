@@ -8,6 +8,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.Perspective;
+import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
@@ -33,7 +34,8 @@ public class LayoutW extends Layout implements SettingListener {
 	 *            application
 	 */
 	public LayoutW(App app) {
-		initializeDefaultPerspectives(app, 0.2);
+		initializeDefaultPerspectives(app,
+				PerspectiveDecoder.landscapeRatio(app, 800));
 
 		this.perspectives = new ArrayList<>(
 				getDefaultPerspectivesLength());
@@ -409,5 +411,11 @@ public class LayoutW extends Layout implements SettingListener {
 			return null;
 		}		
 		return dockManager.getRoot();
+	}
+
+	public static void resetPerspectives(AppW app) {
+		Layout.initializeDefaultPerspectives(app,
+				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth()));
+
 	}
 }

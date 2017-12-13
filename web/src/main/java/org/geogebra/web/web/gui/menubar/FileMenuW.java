@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.menubar;
 
-import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
@@ -21,6 +20,7 @@ import org.geogebra.web.web.export.PrintPreviewW;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.exam.ExamDialog;
+import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
 
@@ -135,7 +135,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
 		getApp().setExam(null);
 		getApp().resetViewsEnabled();
-		Layout.initializeDefaultPerspectives(getApp(), 0.2);
+		LayoutW.resetPerspectives(getApp());
 		getApp().getLAF().addWindowClosingHandler(getApp());
 		getApp().fireViewsChangedEvent();
 		getApp().getGuiManager().updateToolbarActions();
