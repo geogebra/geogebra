@@ -155,6 +155,10 @@ public class SpecialPointsManager implements UpdateSelection {
 	}
 
 	public void updateSelection(boolean updateProperties) {
+		updateSelection();
+	}
+
+	public void updateSelection() {
 		updateSpecialPoints(null);
 	}
 }
