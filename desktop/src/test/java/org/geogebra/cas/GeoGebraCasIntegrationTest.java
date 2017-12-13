@@ -4514,6 +4514,7 @@ public class GeoGebraCasIntegrationTest {
 				"(2 * x + 3 * sqrt(10) - 3 * sqrt(x^(2) * (-2 * sqrt(10) - 6) + x * (8 * sqrt(10) + 24) - 2 * sqrt(10) - 5) + 5) / (2 * sqrt(10) + 6)",
 				"(x * (-4 * sqrt(10) + 6) - sqrt(10) + 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) / (-6 * sqrt(10) - 22)");
 		t("Solve[f'(x) = 0, x]",
+				"{x = (-sqrt(31 * (2 * sqrt(10) - 3)) + 62) / 31}",
 				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}");
 		t("g(x) := f'(x)",
 				"(x^(2) * (-2 * sqrt(10) - 6) + (x * (3 * sqrt(10) + 9) - 6 * sqrt(10) - 18) * sqrt(x^(2) * (-2 * sqrt(10) - 6) + x * (8 * sqrt(10) + 24) - 2 * sqrt(10) - 5) + x * (8 * sqrt(10) + 24) - 2 * sqrt(10) - 5) / (x^(2) * (-sqrt(10) * 12 - 38) + x * (sqrt(10) * 48 + 152) - sqrt(10) * 11 - 35)",
@@ -4526,6 +4527,7 @@ public class GeoGebraCasIntegrationTest {
 		// + 1195)),x]
 		// just one correct answer not 3
 		t("Solve[g(x) = 0, x]",
+				"{x = (-sqrt(31 * (2 * sqrt(10) - 3)) + 62) / 31}",
 				"{x = (-sqrt(2 * sqrt(10) - 3) * sqrt(31) + 62) / 31}");
 
   }
