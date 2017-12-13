@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.kernel.geos.GeoLine;
-import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -25,13 +24,12 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return false;
 		}
-		boolean valid = true;
 		Object geo = getObjectAt(index);
-		if (!(geo instanceof GeoPlaneND) || geo instanceof GeoSegment) {
-			valid = false;
+		if (!(geo instanceof GeoPlaneND)) {
+			return false;
 		}
 
-		return valid;
+		return true;
 	}
 
 	private GeoPlaneND getLineAt(int index) {

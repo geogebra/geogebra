@@ -357,11 +357,7 @@ public class GPopupMenuW implements AttachedToDOM {
 							(Window.getClientHeight() + Window.getScrollTop()
 									- getApp().getPanel().getAbsoluteTop())
 									/ getScaleY() - getSubPopupHeight());
-					if (horizontal) {
-						yCoord += 32;
-						app.registerPopup(subPopup.getPopupPanel());
-					}
-					subPopup.showAtPoint(xCord, yCoord);
+					showSubPopup(xCord, yCoord);
 
 				}
 			};
@@ -379,6 +375,23 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 		popupMenuSize++;
 		item.addStyleName("gPopupMenu_item");
+	}
+
+	/**
+	 * Show submenu popup
+	 * 
+	 * @param xCoord
+	 *            popup x
+	 * @param yCoord
+	 *            popup y
+	 */
+	protected void showSubPopup(int xCoord, int yCoord) {
+		if (horizontal) {
+			app.registerPopup(subPopup.getPopupPanel());
+			subPopup.showAtPoint(xCoord, yCoord + 32);
+		} else {
+			subPopup.showAtPoint(xCoord, yCoord);
+		}
 	}
 
 	/**
@@ -442,6 +455,9 @@ public class GPopupMenuW implements AttachedToDOM {
 		return xCord;
 	}
 
+	/**
+	 * @return left x-coord of menu
+	 */
 	public int getPopupLeft() {
 		return popupPanel.getAbsoluteLeft();
 	}
