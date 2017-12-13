@@ -3726,6 +3726,9 @@ public abstract class AppW extends App implements SetLabels {
 		if (slides == null || index >= slides.size()) {
 			return;
 		}
+		if (activeSlide >= index) {
+			activeSlide--;
+		}
 		slides.remove(index);
 	}
 

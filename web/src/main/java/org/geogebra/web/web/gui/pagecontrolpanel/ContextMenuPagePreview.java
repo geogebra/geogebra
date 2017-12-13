@@ -71,8 +71,9 @@ public class ContextMenuPagePreview
 	 * execute delete action
 	 */
 	protected void onDelete() {
-		frame.getPageControlPanel().removePage(card.getPageIndex());
 		hide();
+		frame.getPageControlPanel().removePage(card.getPageIndex());
+
 	}
 
 	@Override

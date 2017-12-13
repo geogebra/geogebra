@@ -207,30 +207,32 @@ public class PageControlPanel
 	}
 
 	/**
-	 * remove preview card and associated view
+	 * remove preview card and associated slide
 	 * 
 	 * @param index
 	 *            index of page to be removed
 	 * 
 	 */
 	public void removePage(int index) {
+		if (index > app.getSlidesAmount()) {
+			return;
+		}
 		int i = index;
 		if (app.getSlidesAmount() > 1) {
 			if (index == 0) {
-				// TODO handle deleting of first page -some bug here
 				i++;
 			} else {
 				i--;
 			}
-			loadPage(i);
-			app.removeSlide(index);
-			contentPanel.remove(index);
-
+			if (index == activePreviewCard.getPageIndex()) {
+				loadPage(i);
+			}
 		} else {
-			// TODO handle deleting of page if it's the only one
+			loadPage(addNewPage());
 		}
+		contentPanel.remove(index);
+		app.removeSlide(index);
 		updateIndizes();
-		updatePreview();
 	}
 
 	/**
