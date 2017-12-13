@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
@@ -242,25 +243,25 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		public void setLabels() {
 			super.setLabels();
 
-			cbYAxisVertical.setText(loc.getMenu("YAxisVertical"));
-
-			cbUseLight.setText(loc.getMenu("UseLighting"));
-
-			clippingOptionsTitle.setText(loc.getMenu("Clipping"));
-			cbUseClipping.setText(loc.getMenu("UseClipping"));
-			cbShowClipping.setText(loc.getMenu("ShowClipping"));
-
-			boxSizeTitle.setText(loc.getMenu("BoxSize"));
-			radioClippingSmall.setText(loc.getMenu("BoxSize.small"));
-			radioClippingMedium.setText(loc.getMenu("BoxSize.medium"));
-			radioClippingLarge.setText(loc.getMenu("BoxSize.large"));
+			setText(cbYAxisVertical, "YAxisVertical");
+			setText(cbUseLight, "UseLighting");
+			setText(clippingOptionsTitle, "Clipping");
+			setText(cbUseClipping, "UseClipping");
+			setText(cbShowClipping, "ShowClipping");
+			setText(boxSizeTitle, "BoxSize");
+			setText(radioClippingSmall, "BoxSize.small");
+			setText(radioClippingMedium, "BoxSize.medium");
+			setText(radioClippingLarge, "BoxSize.large");
 		}
-
 	}
 
 	@Override
 	protected GridTab newGridTab() {
 		return new GridTab3D();
+	}
+
+	public void setText(HasText cb, String string) {
+		cb.setText(loc.getMenu(string));
 	}
 
 	class GridTab3D extends GridTab {
@@ -578,20 +579,16 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		@Override
 		public void setLabels() {
-			orthoTitle.setText(loc.getMenu("Orthographic"));
-
-			perspTitle.setText(loc.getMenu("Perspective"));
-			tfPerspLabel.setText(loc.getMenu(loc.getMenu("EyeDistance") + ":"));
-
-			glassesTitle.setText(loc.getMenu("Glasses"));
-			tfGlassesLabel.setText(loc.getMenu("EyesSeparation") + ":");
-			cbGlassesGray.setText(loc.getMenu("GrayScale"));
-			cbGlassesShutDownGreen.setText(loc.getMenu("ShutDownGreen"));
-
-			obliqueTitle.setText(loc.getMenu("Oblique"));
-			tfObliqueAngleLabel.setText(loc.getMenu("Angle") + ":");
-			tfObliqueFactorLabel.setText(loc.getMenu("Dilate.Factor") + ":");
-
+			setText(orthoTitle,"Orthographic");
+			setText(perspTitle,"Perspective");
+			setTextColon(tfPerspLabel, "EyeDistance");
+			setText(glassesTitle,"Glasses");
+			setTextColon(tfGlassesLabel, "EyesSeparation");
+			setText(cbGlassesGray,"GrayScale");
+			setText(cbGlassesShutDownGreen,"ShutDownGreen");
+			setText(obliqueTitle,"Oblique");
+			setTextColon(tfObliqueAngleLabel, "Angle");
+			setTextColon(tfObliqueFactorLabel, "Dilate.Factor");
 		}
 
 		/**

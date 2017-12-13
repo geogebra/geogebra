@@ -444,7 +444,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		@Override
 		public void setLabels() {
 			cbShowGrid.setText(loc.getMenu("ShowGrid"));
-			lbPointCapturing.setText(loc.getMenu("PointCapturing") + ":");
+			setTextColon(lbPointCapturing, "PointCapturing");
 			updatePointCapturingStyleList();
 			int idx = lbGridType.getSelectedIndex();
 			setGridTypeLabel();
@@ -828,5 +828,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		return (DialogManagerW) app.getDialogManager();
 	}
 
+	public void setTextColon(FormLabel cb, String string) {
+		cb.setText(loc.getMenu(string) + ":");
+	}
 }
 
