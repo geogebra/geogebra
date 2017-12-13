@@ -781,7 +781,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		
 		plotPanel.setPreferredSize(new GDimensionW(width, height));
 		if (optionsPanel.isVisible()) {
-			optionsPanel.resize(height);
+			optionsPanel.resize(w - width - PLOTPANEL_MARGIN, height);
 		}
 		plotPanel.updateSize();
 		plotPanel.repaintView();

@@ -36,15 +36,15 @@ import com.google.gwt.user.client.ui.TabPanel;
  * @author G. Sturr
  * 
  */
-public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandler,
-	StatPanelInterfaceW {
+public class OptionsPanelW extends FlowPanel
+		implements ClickHandler, BlurHandler, StatPanelInterfaceW {
 
 	private AppW app;
 	private StatPanelSettings settings;
 
 	// histogram panel GUI
-	private CheckBox ckCumulative, ckManual, ckOverlayNormal,
-			ckOverlayPolygon, ckShowFrequencyTable, ckShowHistogram;
+	private CheckBox ckCumulative, ckManual, ckOverlayNormal, ckOverlayPolygon,
+			ckShowFrequencyTable, ckShowHistogram;
 	private RadioButton rbRelative, rbNormalized, rbFreq, rbLeftRule,
 			rbRightRule;
 	private Label lblFreqType, lblOverlay, lblClassRule;
@@ -72,8 +72,8 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	private CheckBox ckShowLines;
 
 	// panels
-	private FlowPanel histogramPanel, graphPanel, classesPanel, scatterplotPanel,
-			barChartPanel, boxPlotPanel;
+	private FlowPanel histogramPanel, graphPanel, classesPanel,
+			scatterplotPanel, barChartPanel, boxPlotPanel;
 	private FlowPanel mainPanel;
 	private TabPanel tabPanel;
 
@@ -94,23 +94,26 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	private class PropertyChangeHandler implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
-	       actionPerformed(event.getSource());
-        }
-		
+			actionPerformed(event.getSource());
+		}
+
 	}
-	
+
 	private class PropertyKeyHandler implements KeyHandler {
 		private Object source;
+
 		public PropertyKeyHandler(Object source) {
 			this.source = source;
 		}
+
 		@Override
 		public void keyReleased(KeyEvent e) {
-	        if (e.isEnterKey()) {
-	        	actionPerformed(source);
-	        }
-        }
+			if (e.isEnterKey()) {
+				actionPerformed(source);
+			}
+		}
 	}
+
 	/************************************************************
 	 * Constructs an OptionPanel
 	 * 
@@ -236,21 +239,21 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		histogramPanel = new FlowPanel();
 		// create components
 		ckCumulative = new CheckBox();
-		
+
 		lblFreqType = new Label();
-		
+
 		lbClassTitle = new Label();
 		lbClassTitle.setStyleName("panelTitle");
-		
+
 		lbFreqTitle = new Label();
 		lbFreqTitle.setStyleName("panelTitle");
-	
+
 		lbShowTitle = new Label();
 		lbShowTitle.setStyleName("panelTitle");
-	
+
 		lbDimTitle = new Label();
 		lbDimTitle.setStyleName("panelTitle");
-		
+
 		rbFreq = new RadioButton("group1");
 
 		rbNormalized = new RadioButton("group1");
@@ -258,15 +261,15 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		rbRelative = new RadioButton("group1");
 		lblOverlay = new Label();
 		ckOverlayNormal = new CheckBox();
-		
+
 		ckOverlayPolygon = new CheckBox();
-		
+
 		ckShowFrequencyTable = new CheckBox();
-		
+
 		ckShowHistogram = new CheckBox();
-		
+
 		ckManual = new CheckBox();
-		
+
 		lblClassRule = new Label();
 		rbLeftRule = new RadioButton("rule");
 		rbRightRule = new RadioButton("rule");
@@ -348,8 +351,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		// barChartWidthPanel
 		barChartWidthPanel = new FlowPanel();
 		barChartWidthPanel.add(ckAutoBarWidth);
-		barChartWidthPanel.add(LayoutUtilW.panelRow(lblBarWidth,
-				fldBarWidth));
+		barChartWidthPanel.add(LayoutUtilW.panelRow(lblBarWidth, fldBarWidth));
 
 		layoutBarChartPanel();
 
@@ -362,7 +364,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		ckShowOutliers.addClickHandler(this);
 
 		// layout
-		
+
 		boxPlotPanel = new FlowPanel();
 		boxPlotPanel.add(ckShowOutliers);
 
@@ -391,7 +393,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		fldXMin = InputPanelW.newTextComponent(app);
 		fldXMin.setEditable(true);
 		fldXMin.addKeyHandler(new KeyHandler() {
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
@@ -400,7 +402,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 			}
 		});
 		fldXMin.addBlurHandler(new BlurHandler() {
-			
+
 			@Override
 			public void onBlur(BlurEvent event) {
 				actionPerformed(fldXMin);
@@ -410,7 +412,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		lblXMax = new Label();
 		fldXMax = InputPanelW.newTextComponent(app);
 		fldXMax.addKeyHandler(new KeyHandler() {
-			
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
@@ -419,7 +421,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 			}
 		});
 		fldXMax.addBlurHandler(new BlurHandler() {
-			
+
 			@Override
 			public void onBlur(BlurEvent event) {
 				actionPerformed(fldXMax);
@@ -462,9 +464,7 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		dimPanel.add(LayoutUtilW.panelRow(lblYMax, fldYMax));
 		dimPanel.add(LayoutUtilW.panelRow(lblYInterval, fldYInterval));
 
-
 		cbLogAxes = new ListBox();
-
 
 		ckAutoWindow.addClickHandler(this);
 		// put the sub-panels together
@@ -489,7 +489,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 			graphPanel.add(modePanel);
 		}
 	}
-
 
 	protected void onComboBoxChange() {
 		int index = cbLogAxes.getSelectedIndex();
@@ -555,11 +554,12 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 		// histogram/barchart
 		ckManual.setValue(settings.isUseManualClasses());
-		rbFreq.setValue(settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
-		rbRelative
-				.setValue(settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE);
-		rbNormalized
-				.setValue(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+		rbFreq.setValue(
+				settings.getFrequencyType() == StatPanelSettings.TYPE_COUNT);
+		rbRelative.setValue(
+				settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE);
+		rbNormalized.setValue(settings
+				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
 		rbLeftRule.setValue(settings.isLeftRule());
 		ckCumulative.setValue(settings.isCumulative());
 		ckOverlayNormal.setValue(settings.isHasOverlayNormal());
@@ -570,13 +570,14 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		ckShowHistogram.setValue(settings.isShowHistogram());
 
 		if (settings.dataSource != null) {
-			ckManual.setVisible(settings.getDataSource().getGroupType() != GroupType.CLASS);
-			freqPanel
-					.setVisible(settings.getDataSource().getGroupType() == GroupType.RAWDATA);
+			ckManual.setVisible(
+					settings.getDataSource().getGroupType() != GroupType.CLASS);
+			freqPanel.setVisible(settings.getDataSource()
+					.getGroupType() == GroupType.RAWDATA);
 		}
 		// normal overlay
-		ckOverlayNormal
-				.setEnabled(settings.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
+		ckOverlayNormal.setEnabled(settings
+				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED);
 
 		// bar chart width
 		ckAutoBarWidth.setValue(settings.isAutomaticBarWidth());
@@ -598,7 +599,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		fldYMax.setEditable(!ckAutoWindow.getValue());
 		fldYInterval.setEditable(!ckAutoWindow.getValue());
 
-
 		// update automatic dimensions
 		fldXMin.setText("" + daModel.format(settings.xMin));
 		fldXMax.setText("" + daModel.format(settings.xMax));
@@ -613,7 +613,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 
 		isUpdating = false;
 	}
-
 
 	public void actionPerformed(Object source) {
 
@@ -679,7 +678,6 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 		updateGUI();
 	}
 
-
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
 		if (isUpdating) {
 			return;
@@ -721,34 +719,34 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 			e.printStackTrace();
 		}
 
-    }
+	}
 
 	private void firePropertyChange() {
-	    dyModel.updatePlot(true);
-    }
+		dyModel.updatePlot(true);
+	}
 
 	@Override
 	public void updatePanel() {
-		
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onBlur(BlurEvent event) {
-	       actionPerformed(event.getSource());
-	    
-    }
+		actionPerformed(event.getSource());
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {
-	       actionPerformed(event.getSource());
+		actionPerformed(event.getSource());
 
-    }
+	}
 
-	public void resize(int height) {
-	    spHistogram.setHeight(height + "px");
-	    spGraph.setHeight(height + "px");
-    }
+	public void resize(int width, int height) {
+		spHistogram.setHeight(height + "px");
+		spGraph.setHeight(height + "px");
+		if (width > 0) {
+			tabPanel.setWidth(width + "px");
+		}
+	}
 
 }
