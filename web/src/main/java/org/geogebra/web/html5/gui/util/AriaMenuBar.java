@@ -375,4 +375,11 @@ public class AriaMenuBar extends Widget {
 	public void clearRole() {
 		getElement().setAttribute("role", "");
 	}
+
+	/**
+	 * Selects the last item of the menubar.
+	 */
+	public void selectLastItem() {
+		selectItem(allItems.get(allItems.size() - 1));
+	}
 }

@@ -51,7 +51,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	GPopupMenuW subPopup;
 	private AppW app;
 	private boolean menuShown = false;
-	private Map<AriaMenuItem, GCollapseMenuItem> expandItems = new HashMap<>();
+
 	private boolean horizontal;
 	/**
 	 * @param app
@@ -389,7 +389,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	public void addItem(GCollapseMenuItem ci) {
 		addItem(ci.getMenuItem(), false);
-		expandItems.put(ci.getMenuItem(), ci);
+		popupMenu.addItem(ci);
 	}
 
 	/**
@@ -566,9 +566,15 @@ public class GPopupMenuW implements AttachedToDOM {
 	private class PopupMenuBar extends GMenuBar {
 
 		private GPopupMenuW selectListener;
+		private Map<AriaMenuItem, GCollapseMenuItem> expandItems = new HashMap<>();
+		private GCollapseMenuItem activeCollapseItem = null;
 
 		public PopupMenuBar(AppW app1) {
 			super("", app1);
+		}
+
+		public void addItem(GCollapseMenuItem ci) {
+			expandItems.put(ci.getMenuItem(), ci);
 		}
 
 		public void setParentMenu(GPopupMenuW gPopupMenuW) {
@@ -608,62 +614,64 @@ public class GPopupMenuW implements AttachedToDOM {
 				}
 			} else if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
 				char keyCode = (char) event.getKeyCode();
-				int forward = -1;
 				if (keyCode == KeyCodes.KEY_ESCAPE) {
 					popupPanel.hide();
 				} else if (keyCode == KeyCodes.KEY_UP) {
-					forward = 0;
-				} else if (keyCode == KeyCodes.KEY_DOWN) {
-					forward = 1;
-				}	
-			
-				int idx = forward == 1 ? getSelectedIndex()
-						: getSelectedIndex() - 1;
-
-				if (handleKeyExpandedMenu(idx, event)) {
-					return;
-				}
-				
-				if (forward == 1) {
-					moveSelectionDown();
-				} else if (forward == 0) {
 					moveSelectionUp();
-				}
+					event.stopPropagation();
+					event.preventDefault();
+					return;
+				} else if (keyCode == KeyCodes.KEY_DOWN) {
+					moveSelectionDown();
+					event.stopPropagation();
+					event.preventDefault();
+					return;
+				}	
 			}
 			super.onBrowserEvent(event);
 		}
-	}
 
-	/**
-	 * @param idx
-	 *            the AriaMenuItem
-	 * @param event
-	 *            keyCode
-	 * @return if the item is expanded and handles the key given.
-	 */
-	boolean handleKeyExpandedMenu(int idx, Event event) {
-		GCollapseMenuItem ci = getCollapseMenuAt(idx);
-		if (ci == null || !ci.isExpanded()) {
-			return false;
+		@Override
+		public boolean moveSelectionDown() {
+			if (activeCollapseItem != null && activeCollapseItem.isExpanded()) {
+				AriaMenuBar submenu = activeCollapseItem.getItems();
+				if (submenu.moveSelectionDown()) {
+					return true;
+				}
+				submenu.selectItem(null);
+				activeCollapseItem = null;
+			}
+			boolean result = super.moveSelectionDown();
+			activeCollapseItem = getCollapseMenuAt(getSelectedIndex());
+			return result;
 		}
 
-		int key = event.getKeyCode();
-
-		AriaMenuBar items = ci.getItems();
-		if (key == KeyCodes.KEY_DOWN) {
-			return items.moveSelectionDown();
-		} else if (key == KeyCodes.KEY_UP) {
-			return items.moveSelectionUp();
-		} else if (key == KeyCodes.KEY_ENTER) {
-			popupPanel.hide();
+		@Override
+		public boolean moveSelectionUp() {
+			if (activeCollapseItem != null && activeCollapseItem.isExpanded()) {
+				if (!activeCollapseItem.getItems().moveSelectionUp()) {
+					selectItem(activeCollapseItem.getMenuItem());
+					activeCollapseItem = null;
+				}
+				return true;
+			}
+			AriaMenuItem si = getSelectedItem();
+			boolean result = super.moveSelectionUp();
+			activeCollapseItem = getCollapseMenuAt(getSelectedIndex());
+			if (activeCollapseItem != null
+					&& activeCollapseItem.isExpanded()
+					&& activeCollapseItem.getMenuItem() != si) {
+				activeCollapseItem.getItems().selectLastItem();
+			}
+			return result;
 		}
-		return false;
-	}
 
-	private GCollapseMenuItem getCollapseMenuAt(int idx) {
-		if (idx < 0 && idx > popupMenu.getItems().size()) {
-			return null;
+
+		private GCollapseMenuItem getCollapseMenuAt(int idx) {
+			if (idx < 0 && idx > popupMenu.getItems().size()) {
+				return null;
+			}
+			return expandItems.get(getItemAt(idx));
 		}
-		return expandItems.get(popupMenu.getItemAt(idx));
 	}
 }
