@@ -284,6 +284,7 @@ namespace giac {
   vecteur merge_pixon(const vecteur & v);
   gen _pixon(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pixon;
+  void pixon_print(const gen &g,std::string & S,GIAC_CONTEXT);
 
   gen _pixoff(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_pixoff;

@@ -2203,6 +2203,66 @@ namespace giac {
     return w;
   }
 
+  void pixon_print(const gen &g,std::string & S,GIAC_CONTEXT){
+    if (g.type==_VECT){
+      vecteur v=merge_pixon(*g._VECTptr);
+      const_iterateur it=v.begin(),itend=v.end();
+      if (it==itend) return;
+      S+='[';
+      S+=print_INT_(pixon_size);
+      S+=",";
+      for (;;++it){
+	if (it->type!=_SYMB || it->_SYMBptr->sommet!=at_pnt)
+	  continue;
+	const gen & g=it->_SYMBptr->feuille;
+	if (g.type!=_VECT)
+	  continue;
+	const vecteur & w= *g._VECTptr;
+	if (w.empty() || w.front().type!=_SYMB || w.front()._SYMBptr->sommet!=at_pixon)
+	  continue;
+	const gen & f=w.front()._SYMBptr->feuille;
+	if (f.type!=_VECT){
+	  S+=f.print(contextptr);
+	  continue;
+	}
+	S+='[';
+	const_iterateur jt=f._VECTptr->begin(),jtend=f._VECTptr->end();
+	for (;;){
+	  S+=jt->print(contextptr);
+	  ++jt;
+	  if (jt==jtend) break;
+	  S+=',';
+	}
+	S+=']';
+	if (it+1==itend) break;
+	S+=',';
+      }
+      S+=']';
+    }
+    if (g.type!=_SYMB)
+      return;
+    if (g._SYMBptr->sommet==at_pnt && g._SYMBptr->feuille.type==_VECT){
+      pixon_print(g._SYMBptr->feuille._VECTptr->front(),S,contextptr);
+      return;
+    }
+    if (g._SYMBptr->sommet!=at_pixon)
+      return;
+    const gen & f=g._SYMBptr->feuille;
+    if (f.type!=_VECT){
+      S+=f.print(contextptr);
+      return;
+    }
+    S+='[';
+    const_iterateur it=f._VECTptr->begin(),itend=f._VECTptr->end();
+    for (;;){
+      S+=it->print(contextptr);
+      ++it;
+      if (it==itend) break;
+      S+=',';
+    }
+    S+=']';
+  }
+
   int pixon_size=2; // global size, used in all sessions
   // pixel (i,j,[color])
   gen _pixon(const gen & a,GIAC_CONTEXT){
@@ -8232,7 +8292,7 @@ namespace giac {
 	if (w0[i].type>_REAL || w1[i].type>_REAL)
 	  break;
       }
-      if (i=ss){
+      if (i==ss){
 	// polygonscatterplot
 	s=read_attributs(v,attributs,contextptr);
 	return put_attributs(_polygonscatterplot(makesequence(v[0],v1),contextptr),attributs,contextptr);

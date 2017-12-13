@@ -12235,6 +12235,18 @@ namespace giac {
         return "stack()";
       }
     }
+#if 1 // for debugging/profiling pixon_print
+    if (v.back().is_symb_of_sommet(at_pnt) ){
+      gen f=v.back()._SYMBptr->feuille;
+      if (f.type==_VECT)
+	f=f._VECTptr->front();
+      if (f.is_symb_of_sommet(at_pixon)){
+	string S;
+	pixon_print(v,S,contextptr);
+	return S;
+      }
+    }
+#endif
     string s;
     if (subtype==_SPREAD__VECT && !v.empty() && v.front().type==_VECT){
 #ifdef EMCC
@@ -15473,7 +15485,7 @@ namespace giac {
 	last=tmp;
     }
     if (last.type==_VECT && last.subtype==_LOGO__VECT){
-      S="logo("+last.print(&C)+")";
+      S="gr2d(logo("+last.print(&C)+"))";
       return S.c_str();
     }
     if (calc_mode(&C)!=1 && last.is_symb_of_sommet(at_pnt)){
@@ -15490,6 +15502,13 @@ namespace giac {
 	return S.c_str();
       }
 #endif // GIAC_GGB
+      last=remove_at_pnt(last);
+      if (last.is_symb_of_sommet(at_pixon)){
+	S="gr2d(pixon(";
+	pixon_print(g,S,&C);
+	S+="))";
+	return S.c_str();
+      }
       return svg2doutput(g,S,&C);
     }
 #endif // EMCC
