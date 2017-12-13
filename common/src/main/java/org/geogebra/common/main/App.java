@@ -3964,11 +3964,11 @@ public abstract class App implements UpdateSelection {
 
 			// AND-637
 			case MOB_GGB_KEYBOARD_IN_SETTINGS:
-				return prerelease;
+				return true;
 
 			// IGR-373
 			case MOB_TRANSPARENT_STATUS_BAR_IN_EXAM_MODE:
-				return prerelease;
+				return true;
 
 			// MOB-1319
 			case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
