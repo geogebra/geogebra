@@ -46,6 +46,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 		super(handler);
 		this.image = new Image(image);
 		this.image.setAltText(loc.getMenu(altText));
+		this.getElement().setAttribute("aria-label", loc.getMenu(altText));
 		this.action = action;
 		this.add(this.image);
 		addStyleName("colored");

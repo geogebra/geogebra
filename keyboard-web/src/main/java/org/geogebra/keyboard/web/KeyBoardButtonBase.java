@@ -91,6 +91,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 			}
 		});
 		addStyleName("KeyBoardButton");
+		this.getElement().setAttribute("role", "button");
 		if (handler.hasTouchFeedback()) {
 			this.addStyleName("waves-effect");
 			this.addStyleName("waves-keyboard");
@@ -113,6 +114,7 @@ public class KeyBoardButtonBase extends SimplePanel {
 	 *            feedback of the button (to be inserted in textfield)
 	 */
 	public void setCaption(String caption, String feedback1) {
+		this.getElement().setAttribute("aria-label", caption);
 		this.caption = caption;
 		if (feedback1 != null) {
 			this.feedback = feedback1;
