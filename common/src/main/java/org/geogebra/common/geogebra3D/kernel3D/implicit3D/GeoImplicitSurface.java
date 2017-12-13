@@ -1053,4 +1053,14 @@ public class GeoImplicitSurface extends GeoElement3D
 	final public void setToUser() {
 		toStringMode = GeoLine.EQUATION_USER;
 	}
+
+	@Override
+	public boolean setTypeFromXML(String style, String parameter) {
+		return false;
+	}
+
+	public void setToImplicit() {
+		// TODO Auto-generated method stub
+
+	}
 }

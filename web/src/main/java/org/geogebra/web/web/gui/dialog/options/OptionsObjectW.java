@@ -39,6 +39,7 @@ import org.geogebra.common.gui.dialog.options.model.LodModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
+import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
@@ -1376,6 +1377,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		tab = makeOptionsTab("Properties.Algebra");
 		tab.addModel(new CoordsModel(app));
 		tab.addModel(new LineEqnModel(app));
+		tab.addModel(new PlaneEqnModel(app));
 		tab.addModel(new SymbolicModel(app));
 		tab.addModel(new ConicEqnModel(app));
 		tab.addModel(new AnimationSpeedModel(getAppW()));

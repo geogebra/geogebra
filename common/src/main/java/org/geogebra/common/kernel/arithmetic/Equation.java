@@ -822,19 +822,6 @@ public class Equation extends ValidExpression implements EquationValue {
 				|| rhs.containsFreeFunctionVariable(name);
 	}
 
-	/**
-	 * @param sb
-	 *            xml builder
-	 * @param string
-	 *            equation style
-	 */
-	public static void appendType(StringBuilder sb, String string) {
-		sb.append("\t<eqnStyle style=\"");
-		sb.append(string);
-		sb.append("\"/>\n");
-
-	}
-
 	@Override
 	public String[] getEquationVariables() {
 		// TODO Auto-generated method stub
@@ -871,6 +858,14 @@ public class Equation extends ValidExpression implements EquationValue {
 	@Override
 	public void setToUser() {
 		// only needed for geos
+	}
+
+	public boolean setTypeFromXML(String style, String parameter) {
+		return false;
+	}
+
+	public void setToImplicit() {
+		// only for geos
 	}
 
 } // end of class Equation

@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
@@ -308,7 +309,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		if (getGeo().getClass() != GeoConic.class) {
 			return;
 		}
-		GeoConic conic = (GeoConic) getGeo();
+		GeoQuadricND conic = (GeoConic) getGeo();
 
 		// there's no need to show implicit equation
 		// if you can't select the specific equation

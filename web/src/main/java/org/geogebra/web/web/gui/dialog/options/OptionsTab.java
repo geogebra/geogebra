@@ -34,6 +34,7 @@ import org.geogebra.common.gui.dialog.options.model.LineStyleModel;
 import org.geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import org.geogebra.common.gui.dialog.options.model.LodModel;
 import org.geogebra.common.gui.dialog.options.model.OptionsModel;
+import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.SlopeTriangleSizeModel;
@@ -330,6 +331,9 @@ public class OptionsTab extends FlowPanel {
 		}
 		if (m instanceof LineEqnModel) {
 			return new LineEqnPanel((LineEqnModel) m, app);
+		}
+		if (m instanceof PlaneEqnModel) {
+			return new PlaneEqnPanel((PlaneEqnModel) m, app);
 		}
 		if (m instanceof ConicEqnModel) {
 			return new ConicEqnPanel((ConicEqnModel) m, app);
@@ -1620,6 +1624,15 @@ public class OptionsTab extends FlowPanel {
 	private static class LineEqnPanel extends ListBoxPanel {
 
 		public LineEqnPanel(LineEqnModel model, AppW app) {
+			super(app.getLocalization(), "Equation");
+			model.setListener(this);
+			setModel(model);
+		}
+	}
+
+	private static class PlaneEqnPanel extends ListBoxPanel {
+
+		public PlaneEqnPanel(PlaneEqnModel model, AppW app) {
 			super(app.getLocalization(), "Equation");
 			model.setListener(this);
 			setModel(model);

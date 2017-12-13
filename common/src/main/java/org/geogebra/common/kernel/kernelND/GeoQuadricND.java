@@ -694,4 +694,42 @@ public abstract class GeoQuadricND extends GeoElement
 		}
 		return super.needToShowBothRowsInAV();
 	}
+
+	public boolean isSpecificPossible() {
+		return false;
+	}
+
+	public boolean isExplicitPossible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isVertexformPossible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean isConicformPossible() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	/**
+	 * Returns equation mode (specific, implicit or explicit)
+	 * 
+	 * @return equation mode (one of EQUATION_* constants)
+	 */
+	public final int getToStringMode() {
+		return toStringMode;
+	}
+	
+	/**
+	 * Returns description of current specific equation
+	 * 
+	 * @return description of current specific equation
+	 */
+	public String getSpecificEquation() {
+		return null;
+	}
+
 }

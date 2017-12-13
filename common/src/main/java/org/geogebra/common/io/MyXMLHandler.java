@@ -52,6 +52,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -88,7 +89,6 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
-import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
@@ -4195,47 +4195,15 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleEqnStyle(LinkedHashMap<String, String> attrs) {
-		// line
-		if (geo.isGeoLine()) {
-			GeoLineND line = (GeoLineND) geo;
+
+		if (geo instanceof EquationValue) {
 			String style = attrs.get("style");
-			if ("implicit".equals(style)) {
-				line.setToImplicit();
-			} else if ("explicit".equals(style)) {
-				line.setToExplicit();
-			} else if ("parametric".equals(style)) {
-				String parameter = attrs.get("parameter");
-				line.setToParametric(parameter);
-			} else if ("user".equals(style)) {
-				line.setToUser();
-			} else if ("general".equals(style)) {
-				line.setToGeneral();
-			} else {
-				Log.error("unknown style for line in <eqnStyle>: " + style);
-				return false;
+			String parameter = attrs.get("parameter");
+			if (!((EquationValue) geo).setTypeFromXML(style, parameter)) {
+				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
 		}
-		// conic
-		else if (geo.isGeoConic()) {
-			GeoConicND conic = (GeoConicND) geo;
-			String style = attrs.get("style");
-			if ("implicit".equals(style)) {
-				conic.setToImplicit();
-			} else if ("specific".equals(style)) {
-				conic.setToSpecific();
-			} else if ("explicit".equals(style)) {
-				conic.setToExplicit();
-			} else if ("parametric".equals(style)) {
-				conic.setToParametric();
-			} else if ("user".equals(style)) {
-				conic.setToUser();
-			} else if ("vertex".equals(style)) {
-				conic.setToVertexform();
-			} else {
-				Log.error("unknown style for conic in <eqnStyle>: " + style);
-				return false;
-			}
-		} else {
+		else {
 			Log.error("wrong element type for <eqnStyle>: " + geo.getClass());
 			return false;
 		}
@@ -5677,7 +5645,7 @@ public class MyXMLHandler implements DocHandler {
 					&& valid) {
 				((GeoImplicit) geo).setToUser();
 			} else {
-				((GeoImplicit) geo).setExtendedForm();
+				((GeoImplicit) geo).setToImplicit();
 			}
 
 			return true;

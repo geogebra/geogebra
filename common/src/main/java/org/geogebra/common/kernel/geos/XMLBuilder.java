@@ -1,5 +1,6 @@
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.main.App;
 
 /**
@@ -186,6 +187,74 @@ public class XMLBuilder {
 			sb.append(" type=\"");
 			sb.append(geo.getDecorationType());
 			sb.append("\"/>\n");
+		}
+
+	}
+
+	public static void appendEquationTypeLine(StringBuilder sb, int toStringMode,
+			String parameter) {
+		switch (toStringMode) {
+		case GeoLine.PARAMETRIC:
+			sb.append("\t<eqnStyle style=\"parametric\" parameter=\"");
+			sb.append(parameter);
+			sb.append("\"/>\n");
+			break;
+
+		case GeoLine.EQUATION_EXPLICIT:
+			appendType(sb, "explicit");
+			break;
+		case GeoLine.EQUATION_GENERAL:
+			appendType(sb, "general");
+			break;
+		case GeoLine.EQUATION_USER:
+			appendType(sb, "user");
+			break;
+
+		case GeoLine.EQUATION_IMPLICIT_NON_CANONICAL:
+			// don't want anything here
+			break;
+
+		default:
+			appendType(sb, "implicit");
+		}
+
+	}
+
+	/**
+	 * @param sb
+	 *            xml builder
+	 * @param string
+	 *            equation style
+	 */
+	private static void appendType(StringBuilder sb, String string) {
+		sb.append("\t<eqnStyle style=\"");
+		sb.append(string);
+		sb.append("\"/>\n");
+	}
+
+	public static void appendEquationTypeConic(StringBuilder sb,
+			int toStringMode, String parameter) {
+		// implicit or specific mode
+		switch (toStringMode) {
+		case GeoConicND.EQUATION_SPECIFIC:
+			XMLBuilder.appendType(sb, "specific");
+			break;
+
+		case GeoConicND.EQUATION_EXPLICIT:
+			XMLBuilder.appendType(sb, "explicit");
+			break;
+		case GeoConicND.EQUATION_USER:
+			XMLBuilder.appendType(sb, "user");
+			break;
+		case GeoConicND.EQUATION_VERTEX:
+			XMLBuilder.appendType(sb, "vertex");
+			break;
+		case GeoConicND.EQUATION_PARAMETRIC:
+			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
+			break;
+
+		default:
+			XMLBuilder.appendType(sb, "implicit");
 		}
 
 	}

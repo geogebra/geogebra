@@ -92,6 +92,7 @@ import org.geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import org.geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import org.geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
+import org.geogebra.common.gui.dialog.options.model.PlaneEqnModel;
 import org.geogebra.common.gui.dialog.options.model.PointSizeModel;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
@@ -178,6 +179,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	private LayerPanel layerPanel;
 	private CoordsPanel coordPanel;
 	private LineEqnPanel lineEqnPanel;
+	private PlaneEqnPanel planeEqnPanel;
 	private SymbolicPanel symbolicPanel;
 	private ConicEqnPanel conicEqnPanel;
 	private PointSizePanel pointSizePanel;
@@ -289,6 +291,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		colorPanel = new ColorPanel(this, colChooser);
 		coordPanel = new CoordsPanel();
 		lineEqnPanel = new LineEqnPanel();
+		planeEqnPanel = new PlaneEqnPanel();
 		conicEqnPanel = new ConicEqnPanel();
 		pointSizePanel = new PointSizePanel();
 		pointStylePanel = new PointStylePanel();
@@ -509,6 +512,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		ArrayList<JPanel> algebraTabList = new ArrayList<JPanel>();
 		algebraTabList.add(coordPanel);
 		algebraTabList.add(lineEqnPanel);
+		algebraTabList.add(planeEqnPanel);
 		algebraTabList.add(conicEqnPanel);
 		algebraTabList.add(animStepPanel);
 		algebraTabList.add(animSpeedPanel);
@@ -578,6 +582,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		colorPanel.setLabels();
 		coordPanel.setLabels();
 		lineEqnPanel.setLabels();
+		planeEqnPanel.setLabels();
 		conicEqnPanel.setLabels();
 		pointSizePanel.setLabels();
 		pointStylePanel.setLabels();
@@ -660,6 +665,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		colChooser.updateFonts();
 		coordPanel.updateFonts();
 		lineEqnPanel.updateFonts();
+		planeEqnPanel.updateFonts();
 		conicEqnPanel.updateFonts();
 		pointSizePanel.updateFonts();
 		pointStylePanel.updateFonts();
@@ -2178,7 +2184,18 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			model.setListener(this);
 			setModel(model);
 		}
-	} // LineEqnPanel
+	}
+
+	private class PlaneEqnPanel extends ComboPanel {
+		private static final long serialVersionUID = 1L;
+
+		public PlaneEqnPanel() {
+			super("Equation");
+			PlaneEqnModel model = new PlaneEqnModel(app);
+			model.setListener(this);
+			setModel(model);
+		}
+	}
 
 	private class ConicEqnPanel extends ComboPanel {
 		private static final long serialVersionUID = 1L;

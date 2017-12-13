@@ -1169,31 +1169,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		getLineStyleXML(sb);
 
 		// prametric, explicit or implicit mode
-		switch (toStringMode) {
-		case GeoLine.PARAMETRIC:
-			sb.append("\t<eqnStyle style=\"parametric\" parameter=\"");
-			sb.append(parameter);
-			sb.append("\"/>\n");
-			break;
-
-		case GeoLine.EQUATION_EXPLICIT:
-			Equation.appendType(sb, "explicit");
-			break;
-		case GeoLine.EQUATION_GENERAL:
-			Equation.appendType(sb, "general");
-			break;
-		case GeoLine.EQUATION_USER:
-			Equation.appendType(sb, "user");
-			break;
-
-		case GeoLine.EQUATION_IMPLICIT_NON_CANONICAL:
-			// don't want anything here
-			break;
-
-		default:
-			Equation.appendType(sb, "implicit");
-		}
-
+		XMLBuilder.appendEquationTypeLine(sb, toStringMode, parameter);
 	}
 
 	/*
@@ -2054,6 +2030,23 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			return DescriptionMode.VALUE;
 		}
 		return super.needToShowBothRowsInAV();
+	}
+
+	public boolean setTypeFromXML(String style, String parameter) {
+		if ("implicit".equals(style)) {
+			setToImplicit();
+		} else if ("explicit".equals(style)) {
+			setToExplicit();
+		} else if ("parametric".equals(style)) {
+			setToParametric(parameter);
+		} else if ("user".equals(style)) {
+			setToUser();
+		} else if ("general".equals(style)) {
+			setToGeneral();
+		} else {
+			return false;
+		}
+		return true;
 	}
 
 }

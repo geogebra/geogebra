@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -3409,16 +3410,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// see geogebra.io.MyXMLHandler: handleMatrix() and handleEigenvectors()
 		getXMLtagsMatrix(sb);
 
-		// implicit or specific mode
-		/*
-		 * switch (toStringMode) { case GeoConicND.EQUATION_SPECIFIC :
-		 * sb.append("\t<eqnStyle style=\"specific\"/>\n"); break;
-		 * 
-		 * case GeoConicND.EQUATION_EXPLICIT : sb.append(
-		 * "\t<eqnStyle style=\"explicit\"/>\n"); break;
-		 * 
-		 * default : sb.append("\t<eqnStyle style=\"implicit\"/>\n"); }
-		 */
+		XMLBuilder.appendEquationTypeConic(sb, this.toStringMode, null);
 
 	}
 
@@ -3549,5 +3541,20 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			vars.add("z");
 		}
 		return vars.toArray(new String[0]);
+	}
+
+	public boolean setTypeFromXML(String style, String parameter) {
+		if ("implicit".equals(style)) {
+			setToImplicit();
+		} else if ("user".equals(style)) {
+			setToUser();
+		} else {
+			return false;
+		}
+		return true;
+	}
+
+	public void setToImplicit() {
+		toStringMode = GeoConicND.EQUATION_IMPLICIT;
 	}
 }

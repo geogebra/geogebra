@@ -1964,8 +1964,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void setExtendedForm() {
-		toStringMode = GeoLine.EQUATION_EXPLICIT;
+	public void setToImplicit() {
+		toStringMode = GeoLine.EQUATION_IMPLICIT;
 	}
 
 	@Override
@@ -2432,5 +2432,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			return DescriptionMode.VALUE;
 		}
 		return super.needToShowBothRowsInAV();
+	}
+
+	public boolean setTypeFromXML(String style, String parameter) {
+		return false;
 	}
 }

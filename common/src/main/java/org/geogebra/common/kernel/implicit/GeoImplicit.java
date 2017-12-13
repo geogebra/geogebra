@@ -94,7 +94,7 @@ public interface GeoImplicit extends Path, EquationValue {
 	/**
 	 * Switch print form to expanded
 	 */
-	void setExtendedForm();
+	void setToImplicit();
 
 	/**
 	 * @param equation

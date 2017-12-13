@@ -2,8 +2,9 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import java.util.List;
 
-import org.geogebra.common.kernel.geos.GeoConic;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 
@@ -23,18 +24,18 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return false;
 		}
-		return (getObjectAt(index) instanceof GeoConic);
+		return (getObjectAt(index) instanceof GeoQuadricND);
 	}
 
-	private GeoConicND getConicAt(int index) {
-		return (GeoConicND) getObjectAt(index);
+	private GeoQuadricND getConicAt(int index) {
+		return (GeoQuadricND) getObjectAt(index);
 	}
 
 	@Override
 	public void updateProperties() {
 		// check if all conics have same type and mode
 		// and if specific, explicit is possible
-		GeoConicND temp, geo0 = getConicAt(0);
+		GeoQuadricND temp, geo0 = getConicAt(0);
 		boolean equalType = true;
 		boolean equalMode = true;
 		boolean specificPossible = geo0.isSpecificPossible();
@@ -153,31 +154,39 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	}
 
 	@Override
-	public List<String> getChoiches(Localization loc) {
+	public List<String> getChoiches(Localization localization) {
 		// Not used
 		return null;
 	}
 
 	@Override
 	protected void apply(int index, int value) {
-		GeoConicND geo = getConicAt(index);
-		if (value == specificIndex) {
-			geo.setToSpecific();
-		} else if (value == explicitIndex) {
-			geo.setToExplicit();
-		} else if (value == implicitIndex) {
-			geo.setToImplicit();
-		} else if (value == userIndex) {
-			geo.setToUser();
-		} else if (value == parametricIndex) {
-			geo.setToParametric();
-		} else if (value == vertexformIndex) {
-			geo.setToVertexform();
-		} else if (value == conicformIndex) {
-			geo.setToConicform();
+		GeoQuadricND quad = getConicAt(index);
+		if (quad instanceof GeoConicND) {
+			GeoConicND geo = (GeoConicND) quad;
+			if (value == specificIndex) {
+				geo.setToSpecific();
+			} else if (value == explicitIndex) {
+				geo.setToExplicit();
+			} else if (value == implicitIndex) {
+				geo.setToImplicit();
+			} else if (value == userIndex) {
+				geo.setToUser();
+			} else if (value == parametricIndex) {
+				geo.setToParametric();
+			} else if (value == vertexformIndex) {
+				geo.setToVertexform();
+			} else if (value == conicformIndex) {
+				geo.setToConicform();
+			}
+		} else if (quad instanceof EquationValue) {
+			if (value == implicitIndex) {
+				((EquationValue) quad).setToImplicit();
+			} else if (value == userIndex) {
+				((EquationValue) quad).setToUser();
+			}
 		}
-
-		geo.updateRepaint();
+		quad.updateRepaint();
 	}
 
 	@Override

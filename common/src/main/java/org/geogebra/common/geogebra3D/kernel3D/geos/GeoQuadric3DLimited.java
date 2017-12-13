@@ -223,10 +223,15 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	/**
 	 * @param origin
+	 *            top center
 	 * @param direction
+	 *            axis direction
 	 * @param r
+	 *            radius
 	 * @param bottomParameter
+	 *            bottom parameter
 	 * @param topParameter
+	 *            top parameter
 	 * 
 	 */
 	public void setCylinder(Coords origin, Coords direction, double r,
@@ -302,10 +307,25 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	}
 
+	/**
+	 * @return radius at height 1
+	 */
 	public double getRadius() {
 		return radius;
 	}
 
+	/**
+	 * @param origin
+	 *            vertex
+	 * @param direction
+	 *            axis direction
+	 * @param r
+	 *            radius at height 1
+	 * @param bottomParameter
+	 *            bottom parameter
+	 * @param topParameter
+	 *            top parameter
+	 */
 	public void setCone(Coords origin, Coords direction, double r,
 			double bottomParameter, double topParameter) {
 

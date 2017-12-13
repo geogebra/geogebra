@@ -12,7 +12,6 @@ import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
@@ -25,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -42,7 +42,7 @@ import org.geogebra.common.plugin.GeoClass;
 public class GeoPlane3D extends GeoElement3D
 		implements Functional2Var, ViewCreator, GeoCoords4D, GeoPlaneND,
 		Translateable, Traceable, RotateableND, MirrorableAtPlane,
-		Transformable, Dilateable, EquationValue {
+		Transformable, Dilateable {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
@@ -479,7 +479,9 @@ public class GeoPlane3D extends GeoElement3D
 
 		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
 		// as a plane
-		if (toStringMode == GeoLine.EQUATION_USER && getDefinition() != null) {
+		if ((toStringMode == GeoLine.EQUATION_USER || !kernel.getApplication()
+				.getSettings().getCasSettings().isEnabled())
+				&& getDefinition() != null) {
 			return new StringBuilder(getDefinition().toValueString(tpl));
 		}
 		return buildValueString(tpl, kernel, getCoordSys().getEquationVector(),
@@ -489,6 +491,11 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	final public void setToUser() {
 		setMode(GeoLine.EQUATION_USER);
+	}
+
+	@Override
+	final public void setToImplicit() {
+		setMode(GeoLine.EQUATION_IMPLICIT);
 	}
 
 	/**
@@ -608,7 +615,7 @@ public class GeoPlane3D extends GeoElement3D
 
 		// grid line style
 		getLineStyleXML(sb);
-
+		XMLBuilder.appendEquationTypeLine(sb, toStringMode, null);
 	}
 
 	@Override
@@ -951,6 +958,23 @@ public class GeoPlane3D extends GeoElement3D
 	@Override
 	public boolean isLaTeXDrawableGeo() {
 		return toStringMode == GeoLine.EQUATION_USER;
+	}
+
+	@Override
+	public int getToStringMode() {
+		return toStringMode;
+	}
+
+	@Override
+	public boolean setTypeFromXML(String style, String parameter) {
+		if ("implicit".equals(style)) {
+			toStringMode = GeoLine.EQUATION_IMPLICIT;
+		} else if ("user".equals(style)) {
+			setToUser();
+		} else {
+			return false;
+		}
+		return true;
 	}
 
 }

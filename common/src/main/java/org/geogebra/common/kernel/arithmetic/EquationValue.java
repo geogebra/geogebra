@@ -21,4 +21,8 @@ public interface EquationValue {
 	 * Force output in user input form
 	 */
 	public void setToUser();
+
+	public boolean setTypeFromXML(String style, String parameter);
+
+	public void setToImplicit();
 }

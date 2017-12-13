@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.geos.Mirrorable;
 import org.geogebra.common.kernel.geos.PointRotateable;
 import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.main.Feature;
@@ -1392,15 +1393,6 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * Returns equation mode (specific, implicit or explicit)
-	 * 
-	 * @return equation mode (one of EQUATION_* constants)
-	 */
-	final public int getToStringMode() {
-		return toStringMode;
-	}
-
-	/**
 	 * returns true if this conic is a circle Michael Borcherds 2008-03-23
 	 * 
 	 * @return true iff this conic is circle
@@ -1485,6 +1477,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * 
 	 * @return true iff specific equation representation is possible.
 	 */
+	@Override
 	final public boolean isSpecificPossible() {
 		switch (type) {
 		case CONIC_CIRCLE:
@@ -1514,6 +1507,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * 
 	 * @return true iff explicit equation is possible
 	 */
+	@Override
 	final public boolean isExplicitPossible() {
 		if (type == CONIC_LINE) {
 			return false;
@@ -1528,6 +1522,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * 
 	 * @return true if vertex form equation is possible
 	 */
+	@Override
 	final public boolean isVertexformPossible() {
 		return !Kernel.isZero(matrix[0]) && !Kernel.isZero(matrix[5])
 				&& Kernel.isZero(matrix[1]) && Kernel.isZero(matrix[3]);
@@ -1539,8 +1534,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	 * 
 	 * @return true if conic form equation is possible
 	 */
+	@Override
 	final public boolean isConicformPossible() {
-
 		// directrix parallel with xAxis
 		if (!Kernel.isZero(matrix[0]) && !Kernel.isZero(matrix[5])
 				&& Kernel.isZero(matrix[1]) && Kernel.isZero(matrix[3])) {
@@ -3654,36 +3649,10 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 		sb.append("/>\n");
 
-		// implicit or specific mode
-		switch (toStringMode) {
-		case GeoConicND.EQUATION_SPECIFIC:
-			Equation.appendType(sb, "specific");
-			break;
-
-		case GeoConicND.EQUATION_EXPLICIT:
-			Equation.appendType(sb, "explicit");
-			break;
-		case GeoConicND.EQUATION_USER:
-			Equation.appendType(sb, "user");
-			break;
-		case GeoConicND.EQUATION_VERTEX:
-			Equation.appendType(sb, "vertex");
-			break;
-		case GeoConicND.EQUATION_PARAMETRIC:
-			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
-			break;
-
-		default:
-			Equation.appendType(sb, "implicit");
-		}
-
+		XMLBuilder.appendEquationTypeConic(sb, this.toStringMode, parameter);
 	}
 
-	/**
-	 * Returns description of current specific equation
-	 * 
-	 * @return description of current specific equation
-	 */
+	@Override
 	public String getSpecificEquation() {
 		String ret = null;
 		switch (type) {
@@ -4605,6 +4574,32 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public void setIsShape(boolean isShape) {
 		this.isShape = isShape;
+	}
+
+	/**
+	 * @param style
+	 *            equation type
+	 * @param parameter
+	 *            parameter (for parametric form)
+	 * @return whether it was successful
+	 */
+	public boolean setTypeFromXML(String style, String parameter) {
+		if ("implicit".equals(style)) {
+			setToImplicit();
+		} else if ("specific".equals(style)) {
+			setToSpecific();
+		} else if ("explicit".equals(style)) {
+			setToExplicit();
+		} else if ("parametric".equals(style)) {
+			setToParametric();
+		} else if ("user".equals(style)) {
+			setToUser();
+		} else if ("vertex".equals(style)) {
+			setToVertexform();
+		} else {			
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.kernelND;
 
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.arithmetic.EquationValue;
 
 /**
  * simple plane interface for all geos that can be considered as a plane (3D
@@ -9,7 +10,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
  * @author mathieu
  *
  */
-public interface GeoPlaneND extends GeoCoordSys2D {
+public interface GeoPlaneND extends GeoCoordSys2D, EquationValue {
 
 	/**
 	 * sets the fading for the "ends" of the plane
@@ -51,4 +52,5 @@ public interface GeoPlaneND extends GeoCoordSys2D {
 	 */
 	public void setMode(int toStringMode);
 
+	public int getToStringMode();
 }
