@@ -258,6 +258,13 @@ for i in `find tests -name '*.ggb' | sort`; do
    # --regressionFile is broken since 5.0.244.0, so we don't use its output
    RETVAL=$?
    RESULT=""
+
+   # Test if SingularWS really is available:
+   if [ $ENGINE = DesktopGrobcov ]; then
+    cat $MYDIR/tmp/.test.stdout | grep --silent "No SingularWS is available" && {
+     RETVAL=124 # fixme, it's actually not timeout but a connection problem
+    }
+    fi
    fi
   # Desktop*
 
