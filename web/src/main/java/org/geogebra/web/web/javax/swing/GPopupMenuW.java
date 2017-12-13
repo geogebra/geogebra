@@ -416,12 +416,16 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * 
 	 * @return submenu's left position in pixels
 	 */
-	public int getLeftSubPopupXCord() {
+	public final int getLeftSubPopupXCord() {
 		int xCord;
-		xCord = (int) ((popupPanel.getAbsoluteLeft()
+		xCord = (int) ((getPopupLeft()
 				- app.getPanel().getAbsoluteLeft()) / getScaleX()
 				- getSubPopupWidth());
 		return xCord;
+	}
+
+	public int getPopupLeft() {
+		return popupPanel.getAbsoluteLeft();
 	}
 
 	/**
@@ -431,8 +435,8 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * 
 	 * @return submenu's left position in pixels
 	 */
-	public int getRightSubPopupXCord() {
-		return (int) ((popupPanel.getAbsoluteLeft()
+	public final int getRightSubPopupXCord() {
+		return (int) ((getPopupLeft()
 				- app.getPanel().getAbsoluteLeft()) / getScaleX()
 				+ popupPanel.getOffsetWidth());
 	}

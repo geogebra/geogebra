@@ -29,6 +29,7 @@ import org.geogebra.web.html5.main.LocalizationW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
+import org.geogebra.web.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -114,7 +115,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private Label lblTitleX, lblTitleY;
 	private AutoCompleteTextFieldW fldTitleX, fldTitleY;
 	private FrequencyTablePanelW frequencyTable;
-	private AriaMenuBar btnExport;
+	private GPopupMenuW btnExport;
 	private AutoCompleteTextFieldW fldNumClasses;
 
 	private DataAnalysisModel daModel;
@@ -184,7 +185,12 @@ public class DataDisplayPanelW extends FlowPanel implements
 		});
 
 		// create export button
-		btnExport = new AriaMenuBar();
+		btnExport = new GPopupMenuW(app) {
+			@Override
+			public int getPopupLeft() {
+				return getPopupMenu().getAbsoluteLeft() + 32;
+			}
+		};
 
 		// create control panel
 		if (hasControlPanel) {
@@ -206,7 +212,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 			FlowPanel buttonPanel = new FlowPanel();
 			buttonPanel.setStyleName("daOptionButtons");
-			buttonPanel.add(LayoutUtilW.panelRow(btnOptions, btnExport));
+			buttonPanel.add(
+					LayoutUtilW.panelRow(btnOptions, btnExport.getPopupMenu()));
 
 			// control panel
 			controlPanel = new FlowPanel();
@@ -463,6 +470,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 			        @Override
 					public void execute() {
 				        exportToEV();
+						btnExport.removeSubPopup();
 			        }
 		});
 		
@@ -476,6 +484,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 				        @Override
 						public void execute() {
 				        	exportAsPicture();
+							btnExport.removeSubPopup();
 				        }
 			});
 			menu.addItem(miAsPicture);
