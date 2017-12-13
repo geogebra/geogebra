@@ -5674,7 +5674,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public double getMinSamplePoints() {
 		// test-case pan https://www.geogebra.org/m/EMNRrnxF left & right
-		return Math.max(MIN_SAMPLE_POINTS, (getXmax() - getXmin()) / 5);
+		return Math.max(MIN_SAMPLE_POINTS, getWidth() / 6);
 	}
 
 	public double getMaxBendOfScreen() {
