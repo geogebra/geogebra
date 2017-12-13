@@ -604,10 +604,22 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	private void insertStringFinished() {
-		mathField.requestViewFocus();
-		// do this as late as possible
-		if (listener != null) {
-			listener.onKeyTyped();
+		if (mathField instanceof MathFieldAsync) {
+			((MathFieldAsync) mathField).requestViewFocus(new Runnable() {
+
+				public void run() {
+					if (listener != null) {
+						listener.onKeyTyped();
+					}
+
+				}
+			});
+		} else {
+			mathField.requestViewFocus();
+			// do this as late as possible
+			if (listener != null) {
+				listener.onKeyTyped();
+			}
 		}
 
 	}

@@ -55,6 +55,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
 import com.himamis.retex.editor.share.editor.MathField;
+import com.himamis.retex.editor.share.editor.MathFieldAsync;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.ClickListener;
 import com.himamis.retex.editor.share.event.FocusListener;
@@ -77,7 +78,7 @@ import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.JlmLib;
 import com.himamis.retex.renderer.web.graphics.ColorW;
 
-public class MathFieldW implements MathField, IsWidget {
+public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	protected static MetaModel sMetaModel = new MetaModel();
 
@@ -547,8 +548,11 @@ public class MathFieldW implements MathField, IsWidget {
 		return this.mathFieldInternal.getFormula();
 	}
 
-
 	public void setFocus(boolean focus) {
+		setFocus(focus, null);
+	}
+
+	public void setFocus(boolean focus, final Runnable callback) {
 		if (focus) {
 			startBlink();
 			if (focusHandler != null) {
@@ -559,7 +563,9 @@ public class MathFieldW implements MathField, IsWidget {
 				@Override
 				public void run() {
 					onFocusTimer();
-
+					if (callback != null) {
+						callback.run();
+					}
 				}
 			};
 			focuser.schedule(200);
@@ -598,6 +604,8 @@ public class MathFieldW implements MathField, IsWidget {
 		}
 		// after set focus to the keyboard listening element
 		wrap.getElement().focus();
+		html.getElement().getParentElement().setScrollTop(0);
+
 		onTextfieldBlur = oldBlur;
 
 
@@ -661,9 +669,9 @@ public class MathFieldW implements MathField, IsWidget {
 	public void insertString(String text) {
 		KeyboardInputAdapter.insertString(mathFieldInternal, text);
 
-		mathFieldInternal.selectNextArgument();
+		// mathFieldInternal.selectNextArgument();
 
-		mathFieldInternal.update();
+		// mathFieldInternal.update();
 
 	}
 
@@ -884,6 +892,11 @@ public class MathFieldW implements MathField, IsWidget {
 			latexItem.getElement()
 					.setScrollLeft((int) CursorBox.startX - margin);
 		}
+	}
+
+	public void requestViewFocus(Runnable runnable) {
+		setEnabled(true);
+		setFocus(true, runnable);
 	}
 
 }
