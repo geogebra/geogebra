@@ -178,7 +178,7 @@ public class MainMenu extends FlowPanel
 		menuTitles.clear();
 		menuImgs.clear();
 
-		if (app.has(Feature.ARIA_MENU) && app.isUnbundled()) {
+		if (app.has(Feature.ARIA_MENU) && app.isUnbundledOrWhiteboard()) {
 			initAriaStackPanel();
 		} else {
 			initKeyListener();
@@ -1168,7 +1168,8 @@ public class MainMenu extends FlowPanel
 
 	@Override
 	public void setVisible(boolean b) {
-		if (app.has(Feature.ARIA_MENU) && !b) {
+		if (app.has(Feature.ARIA_MENU) && menuPanel instanceof AriaStackPanel
+				&& !b) {
 			((AriaStackPanel) (menuPanel)).reset();
 		}
 		super.setVisible(b);
