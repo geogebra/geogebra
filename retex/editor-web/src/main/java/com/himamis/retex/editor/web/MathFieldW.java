@@ -304,7 +304,7 @@ public class MathFieldW implements MathField, IsWidget {
 				boolean handled = keyListener.onKeyPressed(
 						new KeyEvent(code, getModifiers(event),
 								getChar(event.getNativeEvent())));
-				// need to prevent sdefault for arrows to kill keypress
+				// need to prevent default for arrows to kill keypress
 				// (otherwise strange chars appear in Firefox). Backspace/delete
 				// also need killing.
 				// also kill events while left alt down: alt+e, alt+d working in

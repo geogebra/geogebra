@@ -46,7 +46,8 @@ public class KeyListenerImpl {
 			}
 			return false;
 		case JavaKeyCodes.VK_ESCAPE:
-			inputController.escSymbol(editorState);
+			// see details in GGB-2235
+			// inputController.escSymbol(editorState);
 			return true;
 		case JavaKeyCodes.VK_HOME:
 			CursorController.firstField(editorState);
