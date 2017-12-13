@@ -4910,7 +4910,8 @@ namespace giac {
 #if 1
       if (v.size()>6 && !is_undef(v[6])){
 	v[0]=vparameq=v[6];
-	v[1]=t__IDNT_e;
+	if (is_constant_wrt(vparameq,v[1],contextptr))
+	  v[1]=t__IDNT_e;
 	v[2]=minus_inf;
 	v[3]=plus_inf;
 	tt=*v[1]._IDNTptr;

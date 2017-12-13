@@ -2988,6 +2988,13 @@ namespace giac {
   gen limit(const gen & e,const identificateur & x,const gen & lim_point,int direction,GIAC_CONTEXT){
     if (is_undef(lim_point))
       return lim_point;
+    if (lim_point.type==_DOUBLE_){
+      double d=lim_point._DOUBLE_val;
+      if (d==int(d))
+	return limit(e,x,int(d),direction,contextptr);
+    }
+    if (has_num_coeff(lim_point)) // otherwise A:=conic(x^2/4+y^2/3=1); B:=element(A,1)+nop(-1.666-1.243*i) runs forever
+      return subst(e,x,lim_point,false,contextptr);
     // Insert here code for cleaning limit remember
     int save_series_flags=series_flags(contextptr);
     series_flags(save_series_flags | 8,contextptr);
