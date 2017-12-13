@@ -2084,16 +2084,25 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 						if (Browser.isXWALK()) {
 							getApp().getGgbApi().getBase64(true,
 									getStringCallback(obj[1]));
-						}
+						} else if (Integer.parseInt(obj[0]) == 0) {
 
-				else if (Integer.parseInt(obj[0]) == 0) {
+							String filename = obj[1];
+
+							if (filename == null || filename.trim().isEmpty()) {
+								filename = getApp().getExportTitle();
+							}
+
+							// in case user removes extension
+							if (!filename.endsWith(".ggb")) {
+								filename += ".ggb";
+							}
+
 							getApp().getGgbApi().getGGB(true,
-									getDownloadCallback(obj[1]));
+									getDownloadCallback(filename));
 						}
 					}
 				}, loc.getMenu("Save"));
 	}
-
 
 	/**
 	 * @param title
