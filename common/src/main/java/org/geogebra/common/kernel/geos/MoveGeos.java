@@ -227,7 +227,8 @@ public class MoveGeos {
 				// handled for mouse drag in
 				// EuclidianController.addMovedGeoElementFreeInputPointsToTranslateableGeos
 				// needed here for moving with arrow keys
-				if (moveParentPoints && freeInputPoints.size() > 0) {
+				if (moveParentPoints && freeInputPoints != null
+						&& freeInputPoints.size() > 0) {
 					for (int i = 0; i < freeInputPoints.size(); i++) {
 						moveObject(((GeoElement) freeInputPoints.get(i)),
 								rwTransVec, endPosition, viewDirection,
