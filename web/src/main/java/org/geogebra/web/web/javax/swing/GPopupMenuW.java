@@ -48,14 +48,26 @@ public class GPopupMenuW implements AttachedToDOM {
 	GPopupMenuW subPopup;
 	private AppW app;
 	private boolean menuShown = false;
-
+	private boolean horizontal;
 	/**
 	 * @param app
 	 * 
 	 *            Creates a popup menu. App needed for get environment style
 	 */
 	public GPopupMenuW(AppW app) {
+		this(app, false);
+	}
+
+	/**
+	 * @param app
+	 * 
+	 *            Creates a popup menu. App needed for get environment style
+	 * @param horizontal
+	 *            whether this is horizontal menu
+	 */
+	public GPopupMenuW(AppW app, boolean horizontal) {
 		this.app = app;
+		this.horizontal = horizontal;
 		popupPanel = new GPopupPanel(app.getPanel(), app);
 		popupMenu = new PopupMenuBar(app);
 		popupMenu.setAutoOpen(true);
@@ -70,7 +82,6 @@ public class GPopupMenuW implements AttachedToDOM {
 					subPopup = null;
 				}
 			}
-
 		});
 
 		popupPanel.setAutoHideEnabled(true);
@@ -319,7 +330,7 @@ public class GPopupMenuW implements AttachedToDOM {
 			itemCommand = new ScheduledCommand() {
 				@Override
 				public void execute() {
-					int xCord, yCord;
+					int xCord, yCoord;
 					if (subPopup != null) {
 						subPopup.removeFromDOM();
 					}
@@ -339,24 +350,31 @@ public class GPopupMenuW implements AttachedToDOM {
 							xCord = getLeftSubPopupXCord();
 						}
 					}
-					yCord = (int) Math.min(
+					yCoord = (int) Math.min(
 							(newItem.getAbsoluteTop()
 									- getApp().getPanel().getAbsoluteTop())
 									/ getScaleY(),
 							(Window.getClientHeight() + Window.getScrollTop()
 									- getApp().getPanel().getAbsoluteTop())
 									/ getScaleY() - getSubPopupHeight());
-					subPopup.showAtPoint(xCord, yCord);
+					if (horizontal) {
+						yCoord += 32;
+						app.registerPopup(subPopup.getPopupPanel());
+					}
+					subPopup.showAtPoint(xCord, yCoord);
+
 				}
 			};
 			newItem.setScheduledCommand(itemCommand);
 
 			// adding arrow for the menuitem
-			ImageResource imgRes = getSubMenuIcon(
-					app.getLocalization().isRightToLeftReadingOrder());
-			popupMenu.setParentMenu(this);
 
-			popupMenu.appendSubmenu(newItem, imgRes);
+			popupMenu.setParentMenu(this);
+			if (!horizontal) {
+				ImageResource imgRes = getSubMenuIcon(
+						app.getLocalization().isRightToLeftReadingOrder());
+				popupMenu.appendSubmenu(newItem, imgRes);
+			}
 
 		}
 		popupMenuSize++;

@@ -23,6 +23,7 @@ import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 import org.geogebra.web.web.gui.view.data.PlotPanelEuclidianViewW;
+import org.geogebra.web.web.javax.swing.GPopupMenuW;
 import org.geogebra.web.web.main.FileManagerW;
 
 import com.google.gwt.core.client.Scheduler;
@@ -94,7 +95,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private MyTabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
 	private HandlerRegistration comboProbHandler, comboDistributionHandler;
-	private AriaMenuBar btnExport;
+	private GPopupMenuW btnExport;
 	private MyToggleButtonW btnNormalOverlay;
 	
 	/**
@@ -179,7 +180,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnIntervalLeft.setToolTipText(loc.getMenu("LeftProb"));
 		btnIntervalRight.setToolTipText(loc.getMenu("RightProb"));
 		btnIntervalBetween.setToolTipText(loc.getMenu("IntervalProb"));
-		btnExport.setTitle(loc.getMenu("Export"));
+		// TODO btnExport.setTitle(loc.getMenu("Export"));
 		btnNormalOverlay.setTitle(loc.getMenu("OverlayNormalCurve"));
 		for (int i = 0; i < ProbabilityManager.getParmCount(selectedDist); i++) {
 			lblParameterArray[i]
@@ -273,7 +274,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	    plotPanelOptions.setStyleName("plotPanelOptions");
 	    plotPanelOptions.add(lblMeanSigma);
 		if (!getApp().isExam()) {
-			plotPanelOptions.add(btnExport);
+			plotPanelOptions.add(btnExport.getPopupMenu());
 		}
 	    plotPanelOptions.add(btnNormalOverlay);
 	    plotPanelOptions.add(new ClearPanel());
@@ -1103,8 +1104,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	private void createExportMenu() {
 
-		btnExport = new AriaMenuBar();
-		btnExport.addStyleName("btnExport");
+		btnExport = new GPopupMenuW((AppW) app, true) {
+			@Override
+			public int getPopupLeft() {
+				return getPopupMenu().getAbsoluteLeft();
+			}
+		};
+		btnExport.getPopupMenu().addStyleName("btnExport");
 
 		AriaMenuBar menu = new AriaMenuBar();
 
@@ -1144,9 +1150,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 						.asString()
 				+ "\" >";
 		btnExport.addItem(new AriaMenuItem(image, true, menu));
-		btnExport.removeStyleName("gwt-MenuBar");
-		btnExport.addStyleName("gwt-ToggleButton");
-		btnExport.addStyleName("MyToggleButton");
+		btnExport.getPopupMenu().removeStyleName("gwt-MenuBar");
+		btnExport.getPopupMenu().addStyleName("gwt-ToggleButton");
+		btnExport.getPopupMenu().addStyleName("MyToggleButton");
 	}
 
 	/**

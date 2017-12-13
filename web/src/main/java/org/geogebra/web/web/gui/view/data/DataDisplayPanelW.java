@@ -185,13 +185,14 @@ public class DataDisplayPanelW extends FlowPanel implements
 		});
 
 		// create export button
-		btnExport = new GPopupMenuW(app) {
+		btnExport = new GPopupMenuW(app, true) {
 			@Override
 			public int getPopupLeft() {
-				return getPopupMenu().getAbsoluteLeft() + 32;
+				return getPopupMenu().getAbsoluteLeft();
 			}
 		};
-
+		btnExport.getPopupMenu().addStyleName("gwt-ToggleButton");
+		btnExport.getPopupMenu().addStyleName("MyToggleButton");
 		// create control panel
 		if (hasControlPanel) {
 
