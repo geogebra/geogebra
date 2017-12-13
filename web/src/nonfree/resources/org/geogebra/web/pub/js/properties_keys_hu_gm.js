@@ -1220,7 +1220,7 @@ __GGB__keysVar.hu_gm.menu = {
     "AintersectsWithBTwice": "%0 k\xe9tszer metszi %1-t",
     "AisAnAsymptoteToB": "%0 %1 aszimptot\xe1ja",
     "AisNotDefined": "%0 nincs defini\xe1lva",
-    "AisaDegenerateBranchOfB": "%0 r\xe9sze %1-nek",
+    "AisaDegenerateBranchOfB": "%0 elfajul\xf3 r\xe9sze %1-nek",
     "AisaTangentToB": "%0 %1 \xe9rint\u0151je",
     "Algebra": "Algebra",
     "AlgebraDescriptions": "Alakzatok algebrai le\xedr\xe1sa",
