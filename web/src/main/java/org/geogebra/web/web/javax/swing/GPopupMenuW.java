@@ -646,11 +646,16 @@ public class GPopupMenuW implements AttachedToDOM {
 		@Override
 		public boolean moveSelectionUp() {
 			if (activeCollapseItem != null && activeCollapseItem.isExpanded()) {
-
-				if (!activeCollapseItem.getItems().moveSelectionUp()) {
-					selectItem(activeCollapseItem.getMenuItem());
-					activeCollapseItem.getItems().selectItem(null);
+				AriaMenuItem mi = activeCollapseItem.getMenuItem();
+				if (getSelectedItem() == mi && activeCollapseItem.getItems()
+						.getSelectedIndex() == -1) {
 					activeCollapseItem = null;
+					return super.moveSelectionUp();
+				}
+				if (!activeCollapseItem.getItems().moveSelectionUp()) {
+					selectItem(mi);
+					activeCollapseItem.getItems().selectItem(null);
+
 				}
 				return true;
 			}
