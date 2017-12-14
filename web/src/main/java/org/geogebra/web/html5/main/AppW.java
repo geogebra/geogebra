@@ -2804,7 +2804,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public ErrorHandler getDefaultErrorHandler() {
-		return new ErrorHandlerW();
+		return new ErrorHandlerW(this);
 	}
 
 	@Override
