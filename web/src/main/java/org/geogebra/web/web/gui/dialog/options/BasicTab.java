@@ -44,10 +44,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	private final OptionsEuclidianW optionsEuclidianW;
 	private Label dimTitle;
 	private FormLabel[] dimLabel;
-	private AutoCompleteTextFieldW tfMinX;
-	private AutoCompleteTextFieldW tfMaxX;
-	private AutoCompleteTextFieldW tfMinY;
-	private AutoCompleteTextFieldW tfMaxY;
+	private AutoCompleteTextFieldW[] dimField;
 	AutoCompleteTextFieldW tfAxesRatioX;
 	AutoCompleteTextFieldW tfAxesRatioY;
 	private Label axesRatioLabel;
@@ -159,15 +156,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		dimTitle = new Label("");
 		dimTitle.setStyleName("panelTitle");
 		dimLabel = new FormLabel[4]; // "Xmin", "Xmax" etc.
-		for (int i = 0; i < 4; i++) {
-			dimLabel[i] = new FormLabel();
-		}
-
-		tfMinX = this.optionsEuclidianW.getTextField();
-		tfMaxX = this.optionsEuclidianW.getTextField();
-
-		tfMinY = this.optionsEuclidianW.getTextField();
-		tfMaxY = this.optionsEuclidianW.getTextField();
+		dimField = new AutoCompleteTextFieldW[4];
 
 		tfAxesRatioX = this.optionsEuclidianW.getTextField();
 		tfAxesRatioY = this.optionsEuclidianW.getTextField();
@@ -197,39 +186,30 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 		dimPanel = new FlowPanel();
 		addToDimPanel(dimTitle);
+		FlowPanel[] axisRangePanel = new FlowPanel[4];
+		MinMaxType[] fields = new MinMaxType[] {
+				MinMaxType.minX, MinMaxType.maxX,
+				MinMaxType.minY, MinMaxType.maxY };
+		for (int i = 0; i < fields.length; i++) {
+			dimLabel[i] = new FormLabel();
+			dimField[i] = this.optionsEuclidianW.getTextField();
+			axisRangePanel[i] = new FlowPanel();
+			axisRangePanel[i].setStyleName("panelRowCell");
+			axisRangePanel[i].add(dimLabel[i].setFor(dimField[i]));
+			axisRangePanel[i].add(dimField[i]);
+			addMinMaxHandler(dimField[i], fields[i]);
+		}
 
-		FlowPanel xMinPanel = new FlowPanel();
-		FlowPanel xMaxPanel = new FlowPanel();
-		FlowPanel yMinPanel = new FlowPanel();
-		FlowPanel yMaxPanel = new FlowPanel();
-		xMinPanel.setStyleName("panelRowCell");
-		xMaxPanel.setStyleName("panelRowCell");
-		yMinPanel.setStyleName("panelRowCell");
-		yMaxPanel.setStyleName("panelRowCell");
-		xMinPanel.add(dimLabel[0]);
-		xMinPanel.add(tfMinX);
-		xMaxPanel.add(dimLabel[1]);
-		xMaxPanel.add(tfMaxX);
-		yMinPanel.add(dimLabel[2]);
-		yMinPanel.add(tfMinY);
-		yMaxPanel.add(dimLabel[3]);
-		yMaxPanel.add(tfMaxY);
-
-		dimPanel.add(LayoutUtilW.panelRow(xMinPanel, xMaxPanel));
-		dimPanel.add(LayoutUtilW.panelRow(yMinPanel, yMaxPanel));
+		dimPanel.add(
+				LayoutUtilW.panelRow(axisRangePanel[0], axisRangePanel[1]));
+		dimPanel.add(
+				LayoutUtilW.panelRow(axisRangePanel[2], axisRangePanel[3]));
 
 		dimPanel.add(LayoutUtilW.panelRow(axesRatioLabel));
 		dimPanel.add(LayoutUtilW.panelRow(tfAxesRatioX, new Label(" : "),
 				tfAxesRatioY, tbLockRatio));
 
 		indentDimPanel();
-
-		addMinMaxHandler(tfMinX, MinMaxType.minX);
-		addMinMaxHandler(tfMaxX, MinMaxType.maxX);
-
-		addMinMaxHandler(tfMinY, MinMaxType.minY);
-		addMinMaxHandler(tfMaxY, MinMaxType.maxY);
-
 		addAxesRatioHandler(tfAxesRatioX);
 		addAxesRatioHandler(tfAxesRatioY);
 
@@ -243,7 +223,6 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 				} else {
 					model.applyLockRatio(-1);
 				}
-
 			}
 		});
 	}
@@ -726,11 +705,10 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 
 	public void setMinMaxText(String minX, String maxX, String minY,
 			String maxY) {
-		tfMinX.setText(minX);
-		tfMaxX.setText(maxX);
-		tfMinY.setText(minY);
-		tfMaxY.setText(maxY);
-
+		dimField[0].setText(minX);
+		dimField[1].setText(maxX);
+		dimField[2].setText(minY);
+		dimField[3].setText(maxY);
 	}
 
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
