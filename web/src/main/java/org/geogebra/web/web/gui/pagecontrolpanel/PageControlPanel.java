@@ -233,6 +233,7 @@ public class PageControlPanel
 			}
 		} else {
 			loadPage(addNewPage());
+			updatePreview();
 		}
 		contentPanel.remove(index);
 		app.removeSlide(index);
