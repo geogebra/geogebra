@@ -32,20 +32,18 @@ public class SpecialPointsManager implements UpdateSelection {
 		kernel.getApplication().getSelectionManager().addListener(this);
 	}
 
-	private GeoElementND[] getSpecPoints(GeoElement[] geos0,
+	private GeoElementND[] getSpecPoints(GeoElement geo0,
 			List<GeoElement> selectedGeos) {
 		specPointAlgos.clear();
 		specPoints = null;
-		List<GeoElement> geos = (geos0 == null) ? selectedGeos
-				: Arrays.asList(geos0);
+		GeoElement geo = (geo0 == null && selectedGeos != null
+				&& selectedGeos.size() > 0) ? selectedGeos.get(0) : geo0;
 
-		if (geos != null) {
+		if (geo != null) {
 			ArrayList<GeoElementND> specPoints0 = new ArrayList<>();
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElementND[] sp = getSpecPoints(geos.get(i));
-				if (sp != null) {
-					specPoints0.addAll(Arrays.asList(sp));
-				}
+			GeoElementND[] sp = getSpecPoints(geo);
+			if (sp != null) {
+				specPoints0.addAll(Arrays.asList(sp));
 			}
 			if (specPoints0.size() > 0) {
 				specPoints = new GeoElement[specPoints0.size()];
@@ -60,13 +58,13 @@ public class SpecialPointsManager implements UpdateSelection {
 	}
 
 	/**
-	 * Updates the special points of the geos.
+	 * Updates the special points of the geo.
 	 * 
-	 * @param geos
-	 *            geos which special points will be updated
+	 * @param geo
+	 *            geo which special points will be updated
 	 */
-	public void updateSpecialPoints(GeoElement[] geos) {
-		getSpecPoints(geos, kernel.getApplication().getSelectionManager()
+	public void updateSpecialPoints(GeoElement geo) {
+		getSpecPoints(geo, kernel.getApplication().getSelectionManager()
 				.getSelectedGeos());
 		kernel.notifyUpdateSpecPointsPreviewOnEV(specPoints);
 	}
