@@ -2804,65 +2804,8 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public ErrorHandler getDefaultErrorHandler() {
-		return new ErrorHandler() {
-
-			@Override
-			public void showError(String msg) {
-				Log.printStacktrace("");
-				if (!isErrorDialogsActive()) {
-					return;
-				}
-				String title = GeoGebraConstants.APPLICATION_NAME + " - "
-						+ getLocalization().getError("Error");
-
-				getOptionPane().showConfirmDialog(AppW.this, msg, title,
-						GOptionPane.DEFAULT_OPTION, GOptionPane.ERROR_MESSAGE,
-						null);
-
-			}
-
-			@Override
-			public void resetError() {
-				// do nothing
-			}
-
-			@Override
-			public boolean onUndefinedVariables(String string,
-					AsyncOperation<String[]> callback) {
-				return getGuiManager().checkAutoCreateSliders(string, callback);
-			}
-
-			@Override
-			public void showCommandError(final String command, String message) {
-				String title = GeoGebraConstants.APPLICATION_NAME + " - "
-						+ getLocalization().getError("Error");
-
-				String[] optionNames = { getLocalization().getMenu("OK"),
-						getLocalization().getMenu("ShowOnlineHelp") };
-				getOptionPane().showOptionDialog(AppW.this, message, title, 0,
-						GOptionPane.ERROR_MESSAGE,
-						null, optionNames, new AsyncOperation<String[]>() {
-							@Override
-							public void callback(String[] dialogResult) {
-								if ("1".equals(dialogResult[0])) {
-									if (getGuiManager() != null) {
-										getGuiManager()
-												.openCommandHelp(command);
-									}
-								}
-							}
-						});
-
-			}
-
-			@Override
-			public String getCurrentCommand() {
-				return null;
-			}
-		};
+		return new ErrorHandlerW();
 	}
-
-
 
 	@Override
 	public void showError(String s) {
