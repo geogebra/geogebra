@@ -117,9 +117,6 @@ public enum Feature {
 	/** GGB-1697 */
 	AV_ITEM_DESIGN,
 
-	/** Dynamic stylebar added for locked geos too */
-	LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR,
-
 	EXPORT_SCAD,
 
 	/** GGB-1876 */

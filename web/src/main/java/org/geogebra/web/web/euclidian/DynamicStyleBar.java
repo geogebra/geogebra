@@ -51,7 +51,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 							return;
 						}
 
-						if (app.has(Feature.LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR)) {
+
 							// If the activeGeoList will be null or empty, this
 							// will
 							// hide the dynamic stylebar.
@@ -60,10 +60,8 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 							// contain it, so in this case the dynamic stylebar
 							// will
 							// be visible yet.
-							DynamicStyleBar.this.updateStyleBar();
-						} else {
-							DynamicStyleBar.this.setVisible(addToSelection);
-						}
+						DynamicStyleBar.this.updateStyleBar();
+
 					}
 				});
 		stopPointer(getElement());

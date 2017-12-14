@@ -4180,9 +4180,6 @@ public abstract class App implements UpdateSelection {
             case AV_ITEM_DESIGN:
                 return relaunch || isNativeMobileAppWithNewUI();
 
-            case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
-                return relaunch;
-
             case EXPORT_SCAD:
                 return prerelease;
 
