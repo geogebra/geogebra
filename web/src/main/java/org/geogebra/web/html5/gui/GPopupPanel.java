@@ -710,7 +710,6 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		if (!isShowing()) {
 			return;
 		}
-
 		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS) && setFocus) {
 			if (app.getAccessibilityManager().getAnchor() == null) {
 				app.getAccessibilityManager().focusMenu();
