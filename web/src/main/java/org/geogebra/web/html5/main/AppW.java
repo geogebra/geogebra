@@ -3653,6 +3653,7 @@ public abstract class AppW extends App implements SetLabels {
 			if (slides.get(i).isEmpty()) {
 				fileNew();
 			} else {
+				resetPerspectiveParam();
 				loadGgbFile(slides.get(i));
 			}
 		} catch (Exception e) {
