@@ -192,9 +192,6 @@ public enum Feature {
 	/** GGB-2053 */
 	TAB_ON_GUI,
 
-	/** MOB-1278 */
-	SPEED_UP_GRID_DRAWING,
-
 	/** MOB-1293 */
 	SELECT_TOOL_NEW_BEHAVIOUR,
 

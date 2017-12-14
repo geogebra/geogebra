@@ -549,10 +549,6 @@ public class DrawAxis {
 							view.yLabelMaxWidthPos = width;
 						}
 
-						// store position of number, so grid line can avoid
-						// it
-						view.axesLabelsPositionsY.add(Integer
-								.valueOf((int) (pix + Kernel.MIN_PRECISION)));
 					}
 				}
 				if (drawMajorTicks[1] && (!view.showAxes[0]
@@ -840,10 +836,6 @@ public class DrawAxis {
 							view.yLabelMaxWidthPos = width;
 						}
 
-						// store position of number, so grid line can avoid
-						// it
-						view.axesLabelsPositionsY.add(Integer
-								.valueOf((int) (pix + Kernel.MIN_PRECISION)));
 					}
 				}
 				if (drawMajorTicks[1] && (!view.showAxes[0]
@@ -864,9 +856,7 @@ public class DrawAxis {
 				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
 						smallTickPix);
 			}
-
 		}
-
 	}
 
 	/**

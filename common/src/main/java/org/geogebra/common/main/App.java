@@ -4258,10 +4258,6 @@ public abstract class App implements UpdateSelection {
             case TAB_ON_GUI:
                 return true;
 
-            /** MOB-1278 */
-            case SPEED_UP_GRID_DRAWING:
-			return true;
-
             /** MOB-1293 */
             case SELECT_TOOL_NEW_BEHAVIOUR:
                 return prerelease;

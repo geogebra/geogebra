@@ -275,7 +275,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected double[] axesNumberingDistances;
 	protected GeoNumberValue[] axesDistanceObjects;
-	ArrayList<Integer> axesLabelsPositionsY = new ArrayList<>();
 	ArrayList<Integer> axesLabelsPositionsX = new ArrayList<>();
 	double yLabelMaxWidthPos = 0;
 	double yLabelMaxWidthNeg = 0;
@@ -3822,7 +3821,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 
 		// reset axes label positions
-		axesLabelsPositionsY.clear();
 		axesLabelsPositionsX.clear();
 
 		yLabelMaxWidthPos = 0;

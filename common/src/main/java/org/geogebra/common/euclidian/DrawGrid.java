@@ -101,55 +101,29 @@ public class DrawGrid {
 
 		double pix;
 
-		if (view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
-			// draw main grid
-			g2.setColor(view.getGridColor());
-			g2.startGeneralPath();
-			double startGrid = start + topSubGrids * tickStepY / n;
-			pix = startGrid;
-			for (int j = 0; pix <= yAxisEnd; j++) {
-				drawHorizontalGridLine(g2, pix, left, yCrossPix);
-				pix = startGrid + (j * tickStepY);
-			}
-			g2.endAndDrawGeneralPath();
-
-			// draw sub grid
-			g2.setColor(getBrighterColor(view.getGridColor()));
-			g2.startGeneralPath();
-			pix = start;
-			for (int j = 0; pix <= yAxisEnd; j++) {
-				if ((j - topSubGrids - 1) % n != 0) {
-					// don't draw over main grid
-					drawHorizontalGridLine(g2, pix, left, yCrossPix);
-				}
-				pix = start + (j * tickStepY / n);
-			}
-			g2.endAndDrawGeneralPath();
-		} else {
-			pix = start;
-			pix = start - tickStepY / n;
-
-			for (int j = 0; pix <= yAxisEnd; j++) {
-				// don't draw the grid line x=0 if the y-axis is showing
-				// or if it's too close (eg sticky axes)
-				if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
-
-					if ((j - topSubGrids - 1) % n == 0) {
-						// g2.setStrokeLineWidth(1);
-						g2.setColor(view.getGridColor());
-
-					} else {
-						// g2.setStrokeLineWidth(0.4);
-						g2.setColor(getBrighterColor(view.getGridColor()));
-					}
-
-					addStraightLineToGeneralPath(g2, left, pix,
-								view.getWidth(), pix);
-				}
-
-				pix = start + (j * tickStepY / n);
-			}
+		// draw main grid
+		g2.setColor(view.getGridColor());
+		g2.startGeneralPath();
+		double startGrid = start + topSubGrids * tickStepY / n;
+		pix = startGrid;
+		for (int j = 0; pix <= yAxisEnd; j++) {
+			drawHorizontalGridLine(g2, pix, left, yCrossPix);
+			pix = startGrid + (j * tickStepY);
 		}
+		g2.endAndDrawGeneralPath();
+
+		// draw sub grid
+		g2.setColor(getBrighterColor(view.getGridColor()));
+		g2.startGeneralPath();
+		pix = start;
+		for (int j = 0; pix <= yAxisEnd; j++) {
+			if ((j - topSubGrids - 1) % n != 0) {
+				// don't draw over main grid
+				drawHorizontalGridLine(g2, pix, left, yCrossPix);
+			}
+			pix = start + (j * tickStepY / n);
+		}
+		g2.endAndDrawGeneralPath();
 	}
 
 	private void drawHorizontalGridLine(GGraphics2D g2, double pix, double left,
@@ -178,17 +152,12 @@ public class DrawGrid {
 			pix = view.toScreenCoordYd(pow);
 			if (!view.showAxes[0] || Math.abs(pix - yCrossPix) > 2d) {
 
-				if (view.axesLabelsPositionsY.contains(
-						Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
 
-					// hits axis label, draw in 2 sections
-					drawLineAvoidingLabelsH(g2, left, pix, view.getWidth(),
-							pix);
-				} else {
 
 					// not hitting axis label, just draw it
-					addStraightLineToGeneralPath(g2, left, pix, view.getWidth(), pix);
-				}
+				addStraightLineToGeneralPath(g2, left, pix, view.getWidth(),
+						pix);
+
 			}
 
 			pix = start + (j * tickStepY);
@@ -251,65 +220,29 @@ public class DrawGrid {
 				: view.getHeight();
 		double pix;
 
-		if (view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
-
-			// draw main grid
-			g2.setColor(view.getGridColor());
-			g2.startGeneralPath();
-			double startGrid = xAxisStart + leftSubGrids * tickStepX / n;
-			pix = startGrid;
-			for (int i = 0; pix <= view.getWidth(); i++) {
-				drawVerticalGridLine(g2, pix, bottom, xCrossPix, yCrossPix);
-				pix = startGrid + (i * tickStepX);
-			}
-			g2.endAndDrawGeneralPath();
-
-			// draw sub grid
-			g2.setColor(getBrighterColor(view.getGridColor()));
-			g2.startGeneralPath();
-			pix = xAxisStart;
-			for (int i = 1; pix <= view.getWidth(); i++) {
-				if ((i - leftSubGrids - 1) % n != 0) {
-					// don't draw over main grid
-					drawVerticalGridLine(g2, pix, bottom, xCrossPix, yCrossPix);
-				}
-				pix = xAxisStart + (i * tickStepX / n);
-			}
-			g2.endAndDrawGeneralPath();
-
-		} else {
-			pix = xAxisStart;
-
-			for (int i = 1; pix <= view.getWidth(); i++) {
-				// don't draw the grid line x=0 if the y-axis is showing
-				// or if it's too close (eg sticky axes)
-
-				if (!view.showAxes[1] || Math.abs(pix - xCrossPix) > 2d) {
-					if ((i - leftSubGrids - 1) % n == 0) {
-						// g2.setStrokeLineWidth(1);
-						g2.setColor(view.getGridColor());
-
-					} else {
-						// g2.setStrokeLineWidth(0.4);
-						g2.setColor(getBrighterColor(view.getGridColor()));
-					}
-
-					if (view.axesLabelsPositionsX.contains(Integer.valueOf((int) (pix + Kernel.MIN_PRECISION)))) {
-
-						// hits axis label, draw in 2 sections
-						drawLineAvoidingLabelsV(g2, pix, 0, pix, bottom, yCrossPix);
-					} else {
-						// not hitting axis label, just draw it
-						addStraightLineToGeneralPath(g2, pix, 0, pix, bottom);
-
-					}
-
-				}
-
-				pix = xAxisStart + (i * tickStepX / n);
-
-			}
+		// draw main grid
+		g2.setColor(view.getGridColor());
+		g2.startGeneralPath();
+		double startGrid = xAxisStart + leftSubGrids * tickStepX / n;
+		pix = startGrid;
+		for (int i = 0; pix <= view.getWidth(); i++) {
+			drawVerticalGridLine(g2, pix, bottom, xCrossPix, yCrossPix);
+			pix = startGrid + (i * tickStepX);
 		}
+		g2.endAndDrawGeneralPath();
+
+		// draw sub grid
+		g2.setColor(getBrighterColor(view.getGridColor()));
+		g2.startGeneralPath();
+		pix = xAxisStart;
+		for (int i = 1; pix <= view.getWidth(); i++) {
+			if ((i - leftSubGrids - 1) % n != 0) {
+				// don't draw over main grid
+				drawVerticalGridLine(g2, pix, bottom, xCrossPix, yCrossPix);
+			}
+			pix = xAxisStart + (i * tickStepX / n);
+		}
+		g2.endAndDrawGeneralPath();
 	}
 
 	private void drawVerticalGridLine(GGraphics2D g2, double pix, double bottom, double xCrossPix, double yCrossPix) {
@@ -369,13 +302,6 @@ public class DrawGrid {
 
 	}
 
-	private void drawLineAvoidingLabelsH(GGraphics2D g2, double x1, double y1,
-			double x2, double y2) {
-
-		addStraightLineToGeneralPath(g2, x1, y1, x2, y2);
-
-	}
-
 	private void drawLineAvoidingLabelsV(GGraphics2D g2, double x1, double y1,
 			double x2, double y2, double yCrossPix) {
 
@@ -390,12 +316,9 @@ public class DrawGrid {
 		}
 	}
 
-	private void addStraightLineToGeneralPath(GGraphics2D g2, double x1, double y1, double x2, double y2) {
-		if (view.getApplication().has(Feature.SPEED_UP_GRID_DRAWING)) {
-			g2.addStraightLineToGeneralPath(x1, y1, x2, y2);
-		} else {
-			g2.drawStraightLine(x1, y1, x2, y2);
-		}
+	private static void addStraightLineToGeneralPath(GGraphics2D g2, double x1,
+			double y1, double x2, double y2) {
+		g2.addStraightLineToGeneralPath(x1, y1, x2, y2);
 	}
 
 }
