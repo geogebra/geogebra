@@ -3986,6 +3986,10 @@ public abstract class App implements UpdateSelection {
 			case MOB_IOS_SINGLE_APP_MODE:
 				return prerelease;
 
+			// AND-623
+			case MOB_SYNC_BKG_SERVICE:
+				return prerelease;
+
             // **********************************************************************
             // MOBILE END
             // *********************************************************
