@@ -393,7 +393,7 @@ public class Relation {
 		}
 		GeoElement last = list.get(list.size() - 1);
 		if (last.isGeoText()) {
-			String lastText = ((GeoText) last).getText().toString();
+			String lastText = ((GeoText) last).getTextString();
 			if ("\"c\"".equals(lastText)) {
 				// true on components
 				ret[0] = "2";

@@ -194,6 +194,7 @@ public class Kernel {
 
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
+	/** Whether to move point on path together with path */
 	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
 	private GeoGebraCasInterface ggbCAS;
 	/** Angle type: radians */
@@ -231,11 +232,12 @@ public class Kernel {
 	final public static int GEOGEBRA_CAS_CACHE_SIZE = 500;
 	private MySpecialDouble eulerConstant;
 
-	// print precision
+	/** print precision */
 	public static final int STANDARD_PRINT_DECIMALS = 2;
 	// private double PRINT_PRECISION = 1E-2;
 	private NumberFormatAdapter nf;
 	private final ScientificFormatAdapter sf;
+	/** whether to use significant figures for output */
 	public boolean useSignificantFigures = false;
 
 	// style of point/vector coordinates
@@ -340,7 +342,7 @@ public class Kernel {
 	private ScheduledPreviewFromInputBar scheduledPreviewFromInputBar = new ScheduledPreviewFromInputBar(
 			this);
 	private boolean userStopsLoading = false;
-	protected AnimationManager animationManager;
+	private AnimationManager animationManager;
 
 	private StringBuilder sbFormat;
 	private StringBuilder formatSB;
@@ -357,9 +359,18 @@ public class Kernel {
 
 	private boolean isSaving;
 	private MaxSizeHashMap<String, String> ggbCasCache;
-	protected double[] xmin = new double[1], xmax = new double[1],
-			ymin = new double[1], ymax = new double[1], xscale = new double[1],
-			yscale = new double[1];
+	/** min real world x for all views */
+	protected double[] xmin = new double[1];
+	/** max real world x for all views */
+	protected double[] xmax = new double[1];
+	/** min real world y for all views */
+	protected double[] ymin = new double[1];
+	/** max real world y for all views */
+	protected double[] ymax = new double[1];
+	/** x-scale for all views */
+	protected double[] xscale = new double[1];
+	/** y-scale for all views */
+	protected double[] yscale = new double[1];
 	private boolean graphicsView2showing = false;
 	private boolean notifyRepaint = true;
 	private EuclidianView lastAttachedEV = null;
