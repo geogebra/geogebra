@@ -2830,7 +2830,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Tool.SelectObjects": "Seleccioneu els objectes a la zona gr\xe0fica o trieu-los de la llista",
     "ToolCategory.BasicTools": "Eines b\xe0siques",
     "ToolCategory.Circles": "Cercles",
-    "ToolCategory.Conics": "Conics",
+    "ToolCategory.Conics": "C\xf2niques",
     "ToolCategory.Construct": "Construir",
     "ToolCategory.Curves": "Corbes",
     "ToolCategory.Edit": "Editar",
