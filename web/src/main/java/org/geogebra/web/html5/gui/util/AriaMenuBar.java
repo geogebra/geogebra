@@ -254,6 +254,7 @@ public class AriaMenuBar extends Widget {
 					|| keyCode == KeyCodes.KEY_SPACE) {
 				if (item != null) {
 					doItemAction(item);
+					eatEvent(event);
 				}
 			}
 			break;
@@ -278,7 +279,13 @@ public class AriaMenuBar extends Widget {
 		return null;
 	}
 
-	private static void eatEvent(Event event) {
+	/**
+	 * Stops event propagation and prevents default behavior.
+	 * 
+	 * @param event
+	 *            to eat.
+	 */
+	public static void eatEvent(Event event) {
 		event.stopPropagation();
 		event.preventDefault();
 	}
@@ -290,6 +297,16 @@ public class AriaMenuBar extends Widget {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Executes the command associated with the item selected.
+	 */
+	public void doSelectedItemAction() {
+		if (selectedItem == null) {
+			return;
+		}
+		doItemAction(selectedItem);
 	}
 
 	private static void doItemAction(AriaMenuItem item) {

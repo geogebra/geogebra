@@ -410,7 +410,6 @@ public class GPopupMenuW implements AttachedToDOM {
 	}
 
 	/**
->>>>>>> .r58539
 	 * @return app scale (vertical)
 	 */
 	protected double getScaleY() {
@@ -618,15 +617,13 @@ public class GPopupMenuW implements AttachedToDOM {
 					popupPanel.hide();
 				} else if (keyCode == KeyCodes.KEY_UP) {
 					moveSelectionUp();
-					event.stopPropagation();
-					event.preventDefault();
+					AriaMenuBar.eatEvent(event);
 					return;
 				} else if (keyCode == KeyCodes.KEY_DOWN) {
 					moveSelectionDown();
-					event.stopPropagation();
-					event.preventDefault();
+					AriaMenuBar.eatEvent(event);
 					return;
-				}	
+				}
 			}
 			super.onBrowserEvent(event);
 		}
@@ -649,8 +646,10 @@ public class GPopupMenuW implements AttachedToDOM {
 		@Override
 		public boolean moveSelectionUp() {
 			if (activeCollapseItem != null && activeCollapseItem.isExpanded()) {
+
 				if (!activeCollapseItem.getItems().moveSelectionUp()) {
 					selectItem(activeCollapseItem.getMenuItem());
+					activeCollapseItem.getItems().selectItem(null);
 					activeCollapseItem = null;
 				}
 				return true;
@@ -668,10 +667,11 @@ public class GPopupMenuW implements AttachedToDOM {
 
 
 		private GCollapseMenuItem getCollapseMenuAt(int idx) {
-			if (idx < 0 && idx > popupMenu.getItems().size()) {
+			if (idx < 0 && idx > getItems().size()) {
 				return null;
 			}
 			return expandItems.get(getItemAt(idx));
 		}
 	}
+
 }

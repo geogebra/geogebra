@@ -604,6 +604,10 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 			@Override
 			public void execute() {
 				wrappedPopup.getPopupMenu().getElement().focus();
+				// first item is the header, so we need the 2nd.
+				wrappedPopup.getPopupMenu().moveSelectionDown();
+				wrappedPopup.getPopupMenu().moveSelectionDown();
+
 			}
 		});
 	}
