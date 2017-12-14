@@ -4183,13 +4183,6 @@ public abstract class App implements UpdateSelection {
             case LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR:
                 return relaunch;
 
-            /** GGB-1686 */
-            case TICK_NUMBERS_AT_EDGE:
-                return true;
-
-            case STORE_IMAGES_ON_APPS_PICKER:
-                return true;
-
             case EXPORT_SCAD:
                 return prerelease;
 

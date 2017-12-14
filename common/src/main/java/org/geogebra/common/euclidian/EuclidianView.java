@@ -17,7 +17,6 @@ import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
-import org.geogebra.common.awt.font.GTextLayout;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
 import org.geogebra.common.euclidian.draw.CanvasDrawable;
 import org.geogebra.common.euclidian.draw.DrawAngle;
@@ -3838,58 +3837,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				da = new DrawAxis(this);
 			}
 			da.drawAxes(g);
-			if (!app.has(Feature.TICK_NUMBERS_AT_EDGE)) {
-				drawCornerCoordsIfNeeded(g);
-			}
 		}
 
 		if (showResetIcon()) {
 			drawResetIcon(g);
 		}
-	}
-
-	private void drawCornerCoordsIfNeeded(GGraphics2D g2) {
-		// if both axes visible and
-		// one of the axes is off-screen, show upper left and lower right
-		if (showAxesCornerCoords) {
-			if (showAxes[0] && showAxes[1]
-					&& (!xAxisOnscreen() || !yAxisOnscreen())) {
-				// upper left corner
-				StringBuilder sb = new StringBuilder();
-				sb.setLength(0);
-				sb.append('(');
-				sb.append(kernel.formatPiE(getXmin(), axesNumberFormat[0],
-						StringTemplate.defaultTemplate));
-				sb.append(app.getLocalization().unicodeComma);
-				sb.append(" ");
-				sb.append(kernel.formatPiE(getYmax(), axesNumberFormat[1],
-						StringTemplate.defaultTemplate));
-				sb.append(')');
-
-				int textHeight = 2 + getFontAxes().getSize();
-				g2.setFont(getFontAxes());
-				g2.drawString(sb.toString(), 5, textHeight);
-
-				// lower right corner
-				sb.setLength(0);
-				sb.append('(');
-				sb.append(kernel.formatPiE(getXmax(), axesNumberFormat[0],
-						StringTemplate.defaultTemplate));
-				sb.append(app.getLocalization().unicodeComma);
-				sb.append(" ");
-				sb.append(kernel.formatPiE(getYmin(), axesNumberFormat[1],
-						StringTemplate.defaultTemplate));
-				sb.append(')');
-
-				GTextLayout layout = AwtFactory.getPrototype()
-						.newTextLayout(sb.toString(), getFontAxes(),
-								g2.getFontRenderContext());
-				layout.draw(g2, (int) (getWidth() - 5 - EuclidianView
-						.estimateTextWidth(sb.toString(), getFontAxes())),
-						getHeight() - 5);
-			}
-		}
-
 	}
 
 	boolean showResetIcon() {

@@ -120,12 +120,6 @@ public enum Feature {
 	/** Dynamic stylebar added for locked geos too */
 	LOCKED_GEO_HAVE_DYNAMIC_STYLEBAR,
 
-	/** GGB-1686 */
-	TICK_NUMBERS_AT_EDGE,
-
-	/** GGB-1756 */
-	STORE_IMAGES_ON_APPS_PICKER,
-
 	EXPORT_SCAD,
 
 	/** GGB-1876 */

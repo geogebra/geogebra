@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.MyMath;
 
@@ -129,10 +128,7 @@ public class DrawAxis {
 
 		// ========================================
 		// X-AXIS
-		if (view.xAxisOnscreen()
-				&& !view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)
-				|| view.showAxes[0] && view.getApplication()
-						.has(Feature.TICK_NUMBERS_AT_EDGE)) {
+		if (view.showAxes[0]) {
 			// erase the grid to make space for labels, use two rectangles
 
 			// label of x axis
@@ -221,10 +217,7 @@ public class DrawAxis {
 		// ========================================
 		// Y-AXIS
 
-		if (view.yAxisOnscreen()
-				&& !view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)
-				|| view.showAxes[1] && view.getApplication()
-						.has(Feature.TICK_NUMBERS_AT_EDGE)) {
+		if (view.showAxes[1]) {
 
 			// label of y axis
 			if (view.axesLabels[1] != null) {
@@ -468,16 +461,12 @@ public class DrawAxis {
 				if (view.showAxesNumbers[1]
 						// Don't show the biggest number on y-axis if x-axis is
 						// too close to the top of EV.
-						&& (pix > maxY + fontsize || yCrossPix > 0
-								|| !view.getApplication()
-										.has(Feature.TICK_NUMBERS_AT_EDGE))
+						&& (pix > maxY + fontsize || yCrossPix > 0)
 						// Don't show the lowest number on y-axis if x-axis is
 						// too close to the bottom of EV.
 						&& (pix < view.getHeight() - (view.xLabelHeights + 5)
 								|| yCrossPix < view.getHeight()
-										- (view.xLabelHeights + 5)
-								|| !view.getApplication()
-										.has(Feature.TICK_NUMBERS_AT_EDGE))) {
+										- (view.xLabelHeights + 5))) {
 					String strNum = tickDescription(view, labelno, 1);
 
 					if ((labelno % unitsPerLabelY) == 0) {
@@ -522,22 +511,14 @@ public class DrawAxis {
 						}
 
 						if (!bothNull) {
-							if (view.getApplication()
-									.has(Feature.TICK_NUMBERS_AT_EDGE)) {
-								numbers.add(new TickNumber(g2, sb.toString(), x, y,
-										xCrossPix, xoffset, width));
-							} else {
-								// draw number
-								drawString(g2, sb.toString(), x, y);
-							}
+							numbers.add(new TickNumber(g2, sb.toString(), x, y,
+									xCrossPix, xoffset, width));
 							
 							if (labelno == -unitsPerLabelY) {
 								beforeZeroY = y - fontsize;
 							}	
 						}
 						
-
-
 
 						// measure width, so grid line can avoid it
 						// use same (max) for all labels
@@ -569,15 +550,11 @@ public class DrawAxis {
 				g2.drawStraightLine(xSmall1, smallTickPix, xSmall2,
 						smallTickPix);
 			}
-
 		}
 
-		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
-			for (int i = 0; i < numbers.size(); i++) {
-				numbers.get(i).draw();
-			}
+		for (int i = 0; i < numbers.size(); i++) {
+			numbers.get(i).draw();
 		}
-
 	}
 
 	/**
@@ -991,16 +968,14 @@ public class DrawAxis {
 											/ 2));
 						}
 
-						if (view.getApplication()
-								.has(Feature.TICK_NUMBERS_AT_EDGE)) {
-							if (yCrossPix >= view.getHeight()
-									- (view.xLabelHeights + 5)) {
-								y = (int) (view.getHeight() - view.xLabelHeights
-										- 5 + yoffset);
-							} else if (yCrossPix <= 0) {
-								y = (int) yoffset;
-							}
+						if (yCrossPix >= view.getHeight()
+								- (view.xLabelHeights + 5)) {
+							y = (int) (view.getHeight() - view.xLabelHeights - 5
+									+ yoffset);
+						} else if (yCrossPix <= 0) {
+							y = (int) yoffset;
 						}
+
 
 						boolean bothNull = zero && view.axisCross[0] == 0
 								&& view.axisCross[1] == 0;

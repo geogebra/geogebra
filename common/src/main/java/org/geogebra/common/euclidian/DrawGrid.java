@@ -3,7 +3,6 @@ package org.geogebra.common.euclidian;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -171,20 +170,6 @@ public class DrawGrid {
 			double yCrossPix1, boolean subGrid) {
 
 		double yCrossPix = yCrossPix1;
-
-		if (view.getApplication().has(Feature.TICK_NUMBERS_AT_EDGE)) {
-			if (yCrossPix1 >= view.getHeight() - view.xLabelHeights - 5) {
-				// If the xAxis is offscreen on the bottom, or almost offscreen,
-				// numbers
-				// will be fixed at the bottom edge of view, and because of this
-				// grid won't be drawn there, there will be some space for the
-				// numbers. The position of this space depends on value of
-				// yCrossPix.
-				yCrossPix = view.getHeight() - view.xLabelHeights - 5;
-			} else if (yCrossPix1 <= 0) {
-				yCrossPix = 0 + Kernel.MIN_PRECISION;
-			}
-		}
 
 		// vertical grid lines
 		double tickStepX = view.getXscale() * view.gridDistances[0];
