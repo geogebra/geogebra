@@ -623,7 +623,15 @@ public class GPopupMenuW implements AttachedToDOM {
 					moveSelectionDown();
 					AriaMenuBar.eatEvent(event);
 					return;
-				}
+				} else if (keyCode == KeyCodes.KEY_TAB) {
+					if (event.getShiftKey()) {
+						moveSelectionUp();
+					} else {
+						moveSelectionDown();
+					}
+					AriaMenuBar.eatEvent(event);
+					return;
+			}
 			}
 			super.onBrowserEvent(event);
 		}
