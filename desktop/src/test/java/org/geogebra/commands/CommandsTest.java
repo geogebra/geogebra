@@ -1486,9 +1486,9 @@ public class CommandsTest extends Assert{
 				new String[] { "NSolveODE[{y1', y2'}, 0, {a, b}, 20]",
 						"NSolveODE[{y1', y2'}, 0, {a, b}, 20]" });
 
-		t("x1 = l sin(y(Point(nint_1, 0)))", "-1.89982",
+		t("x1 = l sin(y(Point(nint_1, 0)))", "-1.91785",
 				StringTemplate.editTemplate);
-		t("y1 = -l cos(y(Point(nint_1, 0)))", "-0.62504",
+		t("y1 = -l cos(y(Point(nint_1, 0)))", "-0.56732",
 				StringTemplate.editTemplate);
 		t("Segment((0, 0), (x1, y1))", "2", StringTemplate.editorTemplate);
 		// undefined testcase
