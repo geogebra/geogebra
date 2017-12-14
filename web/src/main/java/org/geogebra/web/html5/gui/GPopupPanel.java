@@ -694,6 +694,18 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		hide(autoClosed, true);
 	}
 
+	/**
+	 * Hides the popup and detaches it from the page. This has no effect if it
+	 * is not currently showing.
+	 *
+	 * @param autoClosed
+	 *            the value that will be passed to
+	 *            {@link CloseHandler#onClose(CloseEvent)} when the popup is
+	 *            closed
+	 * @param setFocus
+	 *            true if the function should give the focus to the anchor or
+	 *            or the burger menu
+	 */
 	public void hide(boolean autoClosed, boolean setFocus) {
 		if (!isShowing()) {
 			return;
