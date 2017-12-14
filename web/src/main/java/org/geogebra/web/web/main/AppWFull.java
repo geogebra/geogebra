@@ -367,7 +367,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		kernel.removeAllMacros();
 		// reload the saved/(default) preferences
 		Perspective p = null;
-		if (isUnbundled()) {
+		if (isUnbundledOrWhiteboard()) {
 			LayoutW.resetPerspectives(this);
 		}
 		if (getGuiManager() != null) {
@@ -379,9 +379,11 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		if (isUnbundledGraphing()) {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHING - 1);
 		}
-
 		if (isUnbundled3D()) {
 			p = Layout.getDefaultPerspectives(Perspective.GRAPHER_3D - 1);
+		}
+		if (isWhiteboardActive()) {
+			p = Layout.getDefaultPerspectives(Perspective.WHITEBOARD - 1);
 		}
 
 		if (isPortrait()) {

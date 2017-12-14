@@ -554,7 +554,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		 *            new grid type
 		 */
 		protected void setGridType(int gridType) {
-			app.getSettings().getEuclidian(1).setShowGridSetting(
+			app.getSettings().getEuclidian(1)
+					.showGrid(
 					gridType != EuclidianView.GRID_NOT_SHOWN);
 			app.getSettings().getEuclidian(1).setGridType(gridType);
 			app.getActiveEuclidianView().setGridType(gridType);
