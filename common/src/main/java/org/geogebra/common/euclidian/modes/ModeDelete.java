@@ -552,7 +552,7 @@ public class ModeDelete {
 		this.penDeleteMode = false;
 	}
 
-	private void updatePolyLineDataPoints(GeoPointND[] dataPoints,
+	private static void updatePolyLineDataPoints(GeoPointND[] dataPoints,
 			GeoPenStroke gps) {
 		if (dataPoints.length != gps.getPoints().length) {
 			if (gps.getParentAlgorithm() != null
@@ -570,6 +570,15 @@ public class ModeDelete {
 		}
 	}
 
+	/**
+	 * @param hits
+	 *            hit objects
+	 * @param control
+	 *            control pressed
+	 * @param selPreview
+	 *            for preview
+	 * @return whether something was deleted
+	 */
 	public boolean process(Hits hits, boolean control,
 			boolean selPreview) {
 		if (hits.isEmpty() || this.penDeleteMode) {

@@ -115,11 +115,9 @@ public abstract class CanvasDrawable extends Drawable {
 
 	protected int getH() {
 		return (int) (getLabelFontSize() * 1.2 + HIGHLIGHT_MARGIN);
-
 	}
 
 	protected void drawLabel(GGraphics2D g2, GeoElement geo0, String text) {
-
 		if (isLatexString(text)) {
 			drawLatex(g2, geo0, getLabelFont(), text, xLabel, yLabel);
 		} else {
@@ -145,33 +143,10 @@ public abstract class CanvasDrawable extends Drawable {
 		g2.setPaint(geo.getObjectColor());
 
 		if (geo.isVisible()) {
-
 			drawWidget(g2);
-
 		}
-
 	}
 
-	protected int getDefaultTextHeight(GGraphics2D g2) {
-		return getFullTextHeight(g2, "Apq");
-	}
-
-	protected int getFullTextHeight(GGraphics2D g2, String text) {
-		// make sure layout won't be null ("" makes it null).
-
-		GTextLayout layout = getLayout(g2, text, getLabelFont());
-
-		return (int) (layout.getAscent() + layout.getDescent());
-	}
-
-	protected int getTextHeight(GGraphics2D g2, String text) {
-		// make sure layout won't be null ("" makes it null).
-
-		GTextLayout layout = getTextLayout("".equals(text) ? "A" : text,
-				getLabelFont(), g2);
-
-		return (int) (layout.getBounds().getHeight());
-	}
 
 	protected int getTextDescent(GGraphics2D g2, String text) {
 		// make sure layout won't be null ("" makes it null).
@@ -193,17 +168,14 @@ public abstract class CanvasDrawable extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		boolean res = false;
 		int left = xLabel;
 		int top = boxTop;
 		int right = left + labelSize.x + boxWidth;
 		int bottom = top + boxHeight;
 		//
-		res = (x > left && x < right && y > top && y < bottom)
+		return (x > left && x < right && y > top && y < bottom)
 				|| (x > xLabel && x < xLabel + labelSize.x && y > yLabel
 						&& y < yLabel + labelSize.y);
-
-		return res;
 	}
 
 	public GFont getLabelFont() {

@@ -22,7 +22,17 @@ public interface EquationValue {
 	 */
 	public void setToUser();
 
+	/**
+	 * @param style
+	 *            type from XML
+	 * @param parameter
+	 *            parameter name
+	 * @return whether style is valid for this objecttype
+	 */
 	public boolean setTypeFromXML(String style, String parameter);
 
+	/**
+	 * Implicit (expanded) equation
+	 */
 	public void setToImplicit();
 }

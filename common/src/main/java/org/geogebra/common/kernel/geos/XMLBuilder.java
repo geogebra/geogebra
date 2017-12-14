@@ -191,6 +191,14 @@ public class XMLBuilder {
 
 	}
 
+	/**
+	 * @param sb
+	 *            string builder
+	 * @param toStringMode
+	 *            line/plane equation mode
+	 * @param parameter
+	 *            parameter name
+	 */
 	public static void appendEquationTypeLine(StringBuilder sb, int toStringMode,
 			String parameter) {
 		switch (toStringMode) {
@@ -232,6 +240,14 @@ public class XMLBuilder {
 		sb.append("\"/>\n");
 	}
 
+	/**
+	 * @param sb
+	 *            string builder
+	 * @param toStringMode
+	 *            conic/quadric equation mode
+	 * @param parameter
+	 *            parameter name
+	 */
 	public static void appendEquationTypeConic(StringBuilder sb,
 			int toStringMode, String parameter) {
 		// implicit or specific mode
