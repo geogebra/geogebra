@@ -4774,6 +4774,7 @@ namespace giac {
 	  gval=ti2gen(&buf[tt],contextptr);
 	}
 	catch (std::runtime_error & e){
+	  last_evaled_argptr(contextptr)=NULL;
 	  CERR << gname << ":" << e.what();
 	  gval=string2gen(e.what(),false);
 	}
@@ -4814,6 +4815,7 @@ namespace giac {
 	  gval=ti2gen(&buf[tt],contextptr);
 	}
 	catch (std::runtime_error & e){
+	  last_evaled_argptr(contextptr)=NULL;
 	  CERR << gname << ":" << e.what();
 	  gval=string2gen(e.what(),false);
 	}

@@ -1078,7 +1078,7 @@ namespace giac {
       for (;cur->previous;cur=cur->previous){
 	sym_tab::const_iterator it=cur->tabptr->find(id_name);
 	if (it!=cur->tabptr->end()){
-	  if (!it->second.in_eval(level,evaled,contextptr->globalcontextptr))
+	  if (!level || !it->second.in_eval(level,evaled,contextptr->globalcontextptr))
 	    evaled=it->second;
 	  return true;
 	}

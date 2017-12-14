@@ -1384,6 +1384,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error & ){
+	last_evaled_argptr(contextptr)=NULL;
       }
 #endif
       vecteur res;

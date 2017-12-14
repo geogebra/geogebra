@@ -1190,6 +1190,7 @@ namespace giac {
 	  try {
 	    newsol=solve(res-x,*t._IDNTptr,3,contextptr);
 	  } catch(std::runtime_error & err){
+	    last_evaled_argptr(contextptr)=NULL;
 	    newsol.clear();
 	    *logptr(contextptr) << "Unable to solve implicit equation "<< res-x << "=0 in " << t << endl;
 	  }
@@ -1242,6 +1243,7 @@ namespace giac {
 	  try {
 	    newsol=solve(implicitsol,*y._IDNTptr,3,contextptr);
 	  } catch(std::runtime_error & err){
+	    last_evaled_argptr(contextptr)=NULL;
 	    newsol.clear();
 	    *logptr(contextptr) << "Unable to solve implicit equation "<< implicitsol << "=0 in " << y << endl;
 	  }

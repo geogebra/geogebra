@@ -1404,6 +1404,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     } // end try
     catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       if (!vars._VECTptr->empty())
 	leave(protect,*vars._VECTptr,newcontextptr);
       if (calc_save) 
@@ -2468,6 +2469,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     } // end try
     catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       if (bound)
 	leave(protect,loop_var,newcontextptr);
       return gensizeerr(e.what());
@@ -3007,6 +3009,7 @@ namespace giac {
       res=args._VECTptr->front().eval(eval_level(contextptr),contextptr);
     }
     catch (std::runtime_error & error ){
+      last_evaled_argptr(contextptr)=NULL;
       ++debug_ptr(contextptr)->current_instruction;
       if (debug_ptr(contextptr)->debug_mode)
 	debug_loop(res,contextptr);
@@ -5307,6 +5310,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error & error){
+	last_evaled_argptr(contextptr)=NULL;
 	w[6]=string2gen(error.what(),false);
       }
 #endif
@@ -5349,6 +5353,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error & error ){
+	last_evaled_argptr(contextptr)=NULL;
 	w[2]=string2gen(error.what(),false);
       }
 #endif
@@ -5525,6 +5530,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error &  ){
+      last_evaled_argptr(contextptr)=NULL;
       xcas_mode(contextptr)=save_maple_mode;
       return false;
     }
@@ -7707,6 +7713,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       *debug_ptr(contextptr)=dbg;
       res=string2gen(e.what(),false);
       res.subtype=-1;

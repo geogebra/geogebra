@@ -1012,6 +1012,7 @@ namespace giac {
       try {
 	u=ifactors(e_copy,contextptr);
       } catch (std::runtime_error & err){
+	last_evaled_argptr(contextptr)=NULL;
 	*logptr(contextptr) << gettext("Unable to factor ") << e << endl;
 	simpl=e;
 	pos=true;
@@ -3412,7 +3413,9 @@ namespace giac {
 #else
 	try {
 	  b._IDNTptr->eval(1,b,contextptr); 
-	} catch (std::runtime_error & ) { }
+	} catch (std::runtime_error & ) { 
+	  last_evaled_argptr(contextptr)=NULL;
+	}
 #endif
       }
       gen aa(a);

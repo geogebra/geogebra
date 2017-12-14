@@ -3003,6 +3003,7 @@ namespace giac {
       try {
 	tmp=evalf_double(accurate_evalf(exactvalue,256),1,contextptr);
       } catch (std::runtime_error & err){
+	last_evaled_argptr(contextptr)=NULL;
       }
     }
 #endif
@@ -3080,6 +3081,7 @@ namespace giac {
     try {
       res=_integrate(args,contextptr);
     } catch (std::runtime_error & err){
+      last_evaled_argptr(contextptr)=NULL;
       res=string2gen(err.what(),false);
     }
     return res;
@@ -3274,6 +3276,7 @@ namespace giac {
 	if (!is_undef(tmp)) v[0]=tmp;
       }
     } catch (std::runtime_error & err){
+      last_evaled_argptr(contextptr)=NULL;
       CERR << "Unable to eval " << v[0] << ": " << err.what() << endl;
     }
 #endif
@@ -3532,6 +3535,7 @@ namespace giac {
 	  res=limit(primitive,*x._IDNTptr,borne_sup,0,contextptr)-limit(primitive,*x._IDNTptr,borne_inf,0,contextptr);
       }
     } catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       *logptr(contextptr) << "Error trying to find limit of " << primitive << endl;
       return symbolic(at_integrate,makesequence(v[0],x,borne_inf,borne_sup));
     }
@@ -3921,6 +3925,7 @@ namespace giac {
     try {
       old_line.push_back(evalf(h*(limit(f,*x._IDNTptr,a,1,contextptr)+limit(f,*x._IDNTptr,b,-1,contextptr))/2,eval_level(contextptr),contextptr));
     } catch (std::runtime_error & ){
+      last_evaled_argptr(contextptr)=NULL;
       old_line=vecteur(1,undef);
     }
 #endif
@@ -4999,6 +5004,7 @@ namespace giac {
 	  if (!has_num_coeff(v0))
 	    w=protect_find_singularities(v0,*v[1]._IDNTptr,0,contextptr);
 	} catch (std::runtime_error & e){
+	  last_evaled_argptr(contextptr)=NULL;
 	  v0=v[0];
 	}
 #endif
@@ -5148,6 +5154,7 @@ namespace giac {
       res=_sum(args,contextptr);
     }
     catch (std::runtime_error & e){
+		  last_evaled_argptr(contextptr)=NULL;
       elevel=el;
       throw(e);
     }

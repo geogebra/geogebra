@@ -1549,6 +1549,7 @@ namespace giac {
       try {
 	gg=limit(gg,*v[i]._IDNTptr,point,direction,contextptr);
       } catch (std::runtime_error &){
+	last_evaled_argptr(contextptr)=NULL;
 	gg=0;
       }
 #endif
@@ -2294,7 +2295,9 @@ namespace giac {
 	gen et=ratnormal(_texpand(e,contextptr),contextptr);
 	if (lvar(et).size()<lvar(e).size())
 	  e=et;
-      } catch (std::runtime_error & err){}
+      } catch (std::runtime_error & err){
+	last_evaled_argptr(contextptr)=NULL;
+      }
 #endif
       e=_exp2pow(e,contextptr);
     }
@@ -2552,6 +2555,7 @@ namespace giac {
 	  return _greduce(args,contextptr);
 	}
 	catch(std::runtime_error & e){ 
+	  last_evaled_argptr(contextptr)=NULL;
 	  *logptr(contextptr) << e.what() << endl;
 	}
 #endif
@@ -2577,6 +2581,7 @@ namespace giac {
     try {
       res=simplify(res,contextptr);
     } catch (...){
+      last_evaled_argptr(contextptr)=NULL;
     }
 #endif
     if (!sub1.empty())

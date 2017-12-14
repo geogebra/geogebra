@@ -1228,6 +1228,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 	}
 	catch (std::runtime_error & e){
+	  last_evaled_argptr(contextptr)=NULL;
 	  w[1]=string2gen(e.what(),false);
 	}
 #endif
@@ -6844,6 +6845,20 @@ namespace giac {
     return status;
   }
 
+  bool remove_identity(matrice & res,GIAC_CONTEXT){
+    int s=int(res.size());
+    // "shrink" res
+    for (int i=0;i<s;++i){
+      vecteur v = *res[i]._VECTptr;
+      if (is_zero(v[i],context0))
+	return false;
+      gen tmp=new ref_vecteur(v.begin()+s,v.end());
+      divvecteur(*tmp._VECTptr,v[i],*tmp._VECTptr);
+      res[i] = normal(tmp,contextptr);
+    }
+    return true;
+  }
+
   // row reduction from line l and column c to line lmax and column cmax
   // lmax and cmax are not included
   // line are numbered starting from 0
@@ -6864,6 +6879,9 @@ namespace giac {
     unsigned as=unsigned(a.size()),a0s=unsigned(a.front()._VECTptr->size());
     bool step_rref=false;
     int algorithm=algorithm_;
+    bool rm_idn_after=absint(fullreduction_)>=256;
+    if (rm_idn_after)
+      fullreduction_/=256;
     int fullreduction=fullreduction_;
     if (fullreduction<0)
       fullreduction=-fullreduction_;
@@ -7377,8 +7395,18 @@ namespace giac {
 	det = r2sym(det,lv,contextptr);
     }
     std_matrix_gen2matrice_destroy(M,res);
-    if (convert_internal)
-      res = *(r2sym (res,lv,contextptr)._VECTptr);
+    int ok=1;
+    if (convert_internal){
+      if (rm_idn_after){
+	if (!remove_identity(res,contextptr))
+	  return 0;
+	res = *(r2sym (res,lv,contextptr)._VECTptr);
+	res =*normal(res,contextptr)._VECTptr;
+	ok=2;
+      }
+      else
+	res = *(r2sym (res,lv,contextptr)._VECTptr);
+    }
     if (rref_or_det_or_lu==2 || rref_or_det_or_lu == 3){
       vecteur P;
       vector_int2vecteur(permutation,P);
@@ -7386,7 +7414,7 @@ namespace giac {
     }
     if (debug_infolevel>2)
       CERR << "// mrref end:" << CLOCK() << " " << M << endl;
-    return 1;
+    return ok;
   }
 
   // convert a to vector< vector<int> > with modular reduction (if modulo!=0)
@@ -9279,20 +9307,6 @@ namespace giac {
     }
   }
 
-  bool remove_identity(matrice & res,GIAC_CONTEXT){
-    int s=int(res.size());
-    // "shrink" res
-    for (int i=0;i<s;++i){
-      vecteur v = *res[i]._VECTptr;
-      if (is_zero(v[i],context0))
-	return false;
-      gen tmp=new ref_vecteur(v.begin()+s,v.end());
-      divvecteur(*tmp._VECTptr,v[i],*tmp._VECTptr);
-      res[i] = normal(tmp,contextptr);
-    }
-    return true;
-  }
-
   bool remove_identity(matrice & res){
     return remove_identity(res,context0);
   }
@@ -10964,7 +10978,7 @@ namespace giac {
     gen det;
     vecteur pivots;
     int ok=mrref(arref,res,pivots,det,0,s,0,2*s,
-		 /* fullreduction */2,0,convert_internal,algorithm,0,
+		 /* fullreduction */2*256,0,convert_internal,algorithm,0,
 		 contextptr);
     if (!ok)
       return false;
@@ -16303,6 +16317,7 @@ namespace giac {
 		line.push_back(string2gen(s,s[0]=='"'));
 	    }
 	  } catch (std::runtime_error & e){
+	    last_evaled_argptr(contextptr)=NULL;
 	    line.push_back(string2gen(e.what(),false));
 	  }
 #endif

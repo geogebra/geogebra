@@ -837,6 +837,7 @@ namespace giac {
 	}
 #ifndef NO_STDEXCEPT
       } catch (...){
+	last_evaled_argptr(contextptr)=NULL;
 	return false;
       }
 #endif
@@ -1382,6 +1383,7 @@ namespace giac {
       }
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & ){
+      last_evaled_argptr(contextptr)=NULL;
     }
 #endif
     return false;

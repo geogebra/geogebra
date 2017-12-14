@@ -937,6 +937,7 @@ namespace giac {
       e=a.evalf_double(1,contextptr); // FIXME? level 1 does not work for non 0 context
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & error ){
+      last_evaled_argptr(contextptr)=NULL;
       CERR << error.what() << endl;
     }
 #endif

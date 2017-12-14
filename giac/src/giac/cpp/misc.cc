@@ -7109,7 +7109,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 #else
     try {
       s=step_param_(f,g,t,tmin,tmax,poi,tvi,printtvi,exactlegende,contextptr);
-    } catch(std::runtime_error & e){ s=0;}
+    } catch(std::runtime_error & e){ 
+      last_evaled_argptr(contextptr)=NULL;
+      s=0;
+    }
 #endif
     complex_mode(c,contextptr);
     step_infolevel(st,contextptr);
@@ -7536,7 +7539,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 #else
     try {
       s=step_func_(f,x,xmin,xmax,poi,tvi,periode,asym,parab,crit,inflex,printtvi,exactlegende,contextptr,do_inflex);
-    } catch (std::runtime_error & e){s=0;}
+    } catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
+      s=0;
+    }
 #endif
     complex_mode(c,contextptr);
     step_infolevel(st,contextptr);

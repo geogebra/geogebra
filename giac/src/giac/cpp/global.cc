@@ -230,37 +230,20 @@ extern "C" void Sleep(unsigned int miliSecond);
   gen (*fl_widget_updatepict_function)(const gen & g)=0;
   std::string (*fl_widget_texprint_function)(void * ptr)=0;
 
-  static std::vector<const char *> & _last_evaled_function_name_(){
-    static std::vector<const char *> * ans = new std::vector<const char *>;
-    return *ans;
-  }
-  std::vector<const char *> & last_evaled_function_name(GIAC_CONTEXT){
+  const char * _last_evaled_function_name_=0;
+  const char * & last_evaled_function_name(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_last_evaled_function_name_;
     else
-      return _last_evaled_function_name_();
+      return _last_evaled_function_name_;
   }
 
-  static vector<const gen *> & _last_evaled_argptr_(){
-    static vector<const gen *> * ans = new vector<const gen *> ;
-    return *ans;
-  }
-  vector<const gen *> & last_evaled_argptr(GIAC_CONTEXT){
+  const gen * _last_evaled_argptr_=0;
+  const gen * & last_evaled_argptr(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_last_evaled_argptr_;
     else
-      return _last_evaled_argptr_();
-  }
-
-  static vecteur & _last_evaled_arg_(){
-    static vecteur * ans = new vecteur ;
-    return *ans;
-  }
-  vecteur & last_evaled_arg(GIAC_CONTEXT){
-    if (contextptr && contextptr->globalptr )
-      return contextptr->globalptr->_last_evaled_arg_;
-    else
-      return _last_evaled_arg_();
+      return _last_evaled_argptr_;
   }
 
   static int _language_=0; 
@@ -2005,6 +1988,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 	  }
 	}
 	catch (std::runtime_error & error ){
+	  last_evaled_argptr(contextptr)=NULL;
 	  args = string2gen("Child unarchive error:"+string(error.what()),false);
 	}
 	child_in.close();
@@ -2024,6 +2008,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 		  history_out(context0).push_back(eval(history_in(context0)[k],eval_level(context0),context0));
 	      }
 	      catch (std::runtime_error & error){
+		last_evaled_argptr(contextptr)=NULL;
 		history_out(context0).push_back(catch_err(error));
 	      }
 	    }
@@ -2038,6 +2023,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 		args_evaled=args.eval(1,context0);
 	      }
 	      catch (std::runtime_error & error){
+		last_evaled_argptr(contextptr)=NULL;
 		args_evaled=catch_err(error);
 	      }
 	      history_out(context0).push_back(args_evaled);
@@ -2059,6 +2045,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 		    args_evaled=it->eval(1,context0);
 		}
 		catch (std::runtime_error & error){
+		  last_evaled_argptr(contextptr)=NULL;
 		  args_evaled=catch_err(error);
 		}
 		// cerr << args_evaled << endl;
@@ -2158,6 +2145,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (!parent_out)
 	setsizeerr();
     } catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       archive_write_error();
       return false;
     }
@@ -2207,6 +2195,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (!parent_out)
 	setsizeerr();
     } catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       archive_write_error();
       return false;
     }
@@ -2499,6 +2488,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       if (!parent_in)
 	setsizeerr();
     } catch (std::runtime_error & ){
+      last_evaled_argptr(contextptr)=NULL;
       archive_read_error();
       return false;
     }
@@ -2618,6 +2608,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       CERR << "Error in config file " << xcasrc() << " " << e.what() << endl;
     }
 #endif
@@ -3449,6 +3440,8 @@ extern "C" void Sleep(unsigned int miliSecond);
      ptr->globalptr->_eval_level=_eval_level;
      ptr->globalptr->_rand_seed=_rand_seed;
      ptr->globalptr->_language_=_language_;
+     ptr->globalptr->_last_evaled_argptr_=_last_evaled_argptr_;
+     ptr->globalptr->_last_evaled_function_name_=_last_evaled_function_name_;
      ptr->globalptr->_max_sum_sqrt_=_max_sum_sqrt_;      
      ptr->globalptr->_max_sum_add_=_max_sum_add_;   
      
@@ -3565,6 +3558,7 @@ extern "C" void Sleep(unsigned int miliSecond);
       (*v)[5]=g;
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
     }
 #endif
     ptr->stackaddr=0;
@@ -3841,7 +3835,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_python_compat_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0),_series_variable_name_('h'),_series_default_order_(5),
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_python_compat_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_last_evaled_function_name_(0),_last_evaled_argptr_(0),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0),_series_variable_name_('h'),_series_default_order_(5),
 #else
 		     _ntl_on_(true),
 		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_atan_tan_no_floor_(false),_keep_acosh_asinh_(false),_keep_algext_(false),_python_compat_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_step_infolevel_(0),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), 
@@ -3850,7 +3844,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
 		     _logptr_(&CERR), 
 #endif
-		     _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0),_series_variable_name_('h'),_series_default_order_(5)
+		     _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_last_evaled_function_name_(0),_last_evaled_argptr_(0),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0),_series_variable_name_('h'),_series_default_order_(5)
 #endif
   { 
     _pl._i_sqrt_minus1_=1;
@@ -3926,6 +3920,8 @@ extern "C" void Sleep(unsigned int miliSecond);
      _eval_level=g._eval_level;
      _rand_seed=g._rand_seed;
      _language_=g._language_;
+     _last_evaled_argptr_=g._last_evaled_argptr_;
+     _last_evaled_function_name_=g._last_evaled_function_name_;
      _max_sum_sqrt_=g._max_sum_sqrt_;
      _max_sum_add_=g._max_sum_add_;
      _turtle_=g._turtle_;

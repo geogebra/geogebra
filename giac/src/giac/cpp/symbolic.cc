@@ -659,27 +659,14 @@ namespace giac {
 	}
       }
     }
-    gen ans;
     gen & feuilleback=feuille._VECTptr->back();
     if ( feuilleback.type==_SYMB && (feuilleback._SYMBptr->sommet==at_unquote || feuilleback._SYMBptr->sommet==at_hash ) ){
-      ans=_sto(feuille.eval(level,contextptr),contextptr);
-#ifdef GIAC_STO_ERRORMSG
-      if (last && !last->empty())
-	last->pop_back();
-#if 1
-      vector<const gen *> & lastarg= last_evaled_argptr(contextptr);
-#else
-      vecteur & lastarg=last_evaled_arg(contextptr);
-#endif
-      if (!lastarg.empty())
-	lastarg.pop_back();
-#endif
+      gen ans(_sto(feuille.eval(level,contextptr),contextptr));
       return ans;
     }
     bool b=show_point(contextptr),quotearg=false;
     if (b)
       show_point(false,contextptr);
-    gen e=feuille._VECTptr->front();
 #ifdef GIAC_HAS_STO_38 // quote STO> E, STO> F, STO>R, STO> X, STO>Y
     if (feuilleback.type==_IDNT){
       const char * ch = feuilleback._IDNTptr->id_name;
@@ -687,27 +674,19 @@ namespace giac {
 	quotearg=true;
     }
 #endif
-    if (!quotearg)
-      e=e.eval(level,contextptr);
+    gen e;
+    if (quotearg)
+      e=feuille._VECTptr->front();
+    else
+      e=feuille._VECTptr->front().eval(level,contextptr);
     if (b)
       show_point(b,contextptr);
     if (e.type==_SYMB && e._SYMBptr->sommet==at_pnt && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2 && (contextptr?!contextptr->previous:!protection_level) )
       eval_sto_pnt_symb(feuille,e,contextptr);
     if ( e.type==_VECT && !e._VECTptr->empty() && e._VECTptr->back().type==_SYMB && e._VECTptr->back()._SYMBptr->sommet==at_pnt && (contextptr?!contextptr->previous:!protection_level))
       eval_sto_pnt_vect(feuilleback,e,contextptr);
-    ans=sto(e,feuilleback,contextptr);
-#ifdef GIAC_STO_ERRORMSG
-    if (last && !last->empty())
-      last->pop_back();
-#if 1
-    vector<const gen *> & lastarg= last_evaled_argptr(contextptr);
-#else
-    vecteur & lastarg=last_evaled_arg(contextptr);
-#endif
-    if (!lastarg.empty())
-      lastarg.pop_back();
-#endif
-    return ans;
+    e=sto(e,feuilleback,contextptr);
+    return e;
   } // end sommet==at_sto
 
   // http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-34.html#%_sec_5.4
@@ -1369,6 +1348,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error & e) {
+	last_evaled_argptr(contextptr)=NULL;
 	res=string2gen(e.what(),false);
 	res.subtype=-1;
 	*destination=res;
@@ -1385,23 +1365,14 @@ namespace giac {
     int & elevel=eval_level(contextptr);
     if (elevel==26)
       return nr_eval(*this,level,contextptr);
-#ifndef GIAC_STO_ERRORMSG
     if (sommet==at_sto && feuille.type==_VECT)
       return eval_sto(feuille,0,level,contextptr);
-#endif
-    std::vector<const char *> & last =last_evaled_function_name(contextptr);
-    last.push_back(sommet.ptr()->s);
-#if 1
-    vector<const gen *> & lastarg=last_evaled_argptr(contextptr);
-    lastarg.push_back(&feuille);
-#else
-    vecteur & lastarg=last_evaled_arg(contextptr);
-    lastarg.push_back(feuille);
-#endif
-#ifdef GIAC_STO_ERRORMSG
-    if (sommet==at_sto && feuille.type==_VECT)
-      return eval_sto(feuille,&last,level,contextptr);
-#endif
+    const char * & last =last_evaled_function_name(contextptr);
+    const char * save_last=last;
+    last=sommet.ptr()->s;
+    const gen * & lastarg=last_evaled_argptr(contextptr);
+    const gen * save_lastarg=lastarg;
+    lastarg=&feuille;
     gen ans;
     if (sommet.quoted()){ 
 #ifndef RTOS_THREADX
@@ -1409,18 +1380,14 @@ namespace giac {
 	unary_function_ptr & u=feuille._SYMBptr->sommet;
 	if (u==at_unquote){
 	  ans=sommet(feuille.eval(level,contextptr),contextptr);
-	  if (!last.empty())
-	    last.pop_back();
-	  if (!lastarg.empty())
-	    lastarg.pop_back();
+	  last=save_last;
+	  lastarg=save_lastarg;
 	  return ans;
 	}
 	if (u==at_hash){
 	  ans=sommet(gen(*feuille._SYMBptr->feuille._STRNGptr,contextptr),contextptr);
-	  if (!last.empty())
-	    last.pop_back();
-	  if (!lastarg.empty())
-	    lastarg.pop_back();
+	  last=save_last;
+	  lastarg=save_lastarg;
 	  return ans;
 	}
       }
@@ -1434,39 +1401,32 @@ namespace giac {
 	ans=sommet(feuille,contextptr);
       }
       catch (std::runtime_error & err){
+	last_evaled_argptr(contextptr)=NULL;
 	elevel=save_level;
 	throw(err);
       }
 #endif
       elevel=save_level;
-      if (!last.empty())
-	last.pop_back();
-      if (!lastarg.empty())
-	lastarg.pop_back();
+      last=save_last;
+      lastarg=save_lastarg;
       return ans;
     } // if (sommet.quoted())
     else {
       // pnt check required because pnt name might be the identifier->recursion
       if (sommet==at_pnt && feuille.type==_VECT && feuille._VECTptr->size()==3){
 	ans=(*sommet.ptr())(gen(vecteur(feuille._VECTptr->begin(),feuille._VECTptr->begin()+2),feuille.subtype).in_eval(level,ans,contextptr)?ans:feuille,contextptr);
-	if (!last.empty())
-	  last.pop_back();
-	if (!lastarg.empty())
-	  lastarg.pop_back();
+	last=save_last;
+	lastarg=save_lastarg;
 	return ans;
       }
       if ((sommet==at_neg) && (feuille.type==_IDNT) && !strcmp(feuille._IDNTptr->id_name,string_infinity)){
-	if (!last.empty())
-	  last.pop_back();
-	if (!lastarg.empty())
-	  lastarg.pop_back();
+	last=save_last;
+	lastarg=save_lastarg;
 	return minus_inf;
       }
       if (sommet==at_quote){
-	if (!last.empty())
-	  last.pop_back();
-	if (!lastarg.empty())
-	  lastarg.pop_back();
+	last=save_last;
+	lastarg=save_lastarg;
 	return quote(feuille,contextptr);
       }
       ans=(*sommet.ptr())(feuille.in_eval(level,ans,contextptr)?ans:feuille,contextptr);
@@ -1476,10 +1436,8 @@ namespace giac {
 	else
 	ans=(*sommet.ptr())(feuille,contextptr);
       */
-      if (!last.empty())
-	last.pop_back();
-      if (!lastarg.empty())
-	lastarg.pop_back();
+      last=save_last;
+      lastarg=save_lastarg;
       return ans;
     }
   }
@@ -1546,15 +1504,12 @@ namespace giac {
   gen symbolic::evalf(int level,const context * contextptr) const {
     if (level==0)
       return *this;
-    std::vector<const char *> & last =last_evaled_function_name(contextptr);
-    last.push_back(sommet.ptr()->s);
-#if 1
-    vector<const gen *> & lastarg=last_evaled_argptr(contextptr);
-    lastarg.push_back(&feuille);
-#else
-    vecteur & lastarg=last_evaled_arg(contextptr);
-    lastarg.push_back(feuille);
-#endif
+    const char * & last =last_evaled_function_name(contextptr);
+    const char * save_last=last;
+    last=sommet.ptr()->s;
+    const gen * & lastarg=last_evaled_argptr(contextptr);
+    const gen * save_lastarg=lastarg;
+    lastarg=&feuille;
     if (sommet==at_sto){ // autoname function
       gen e=feuille._VECTptr->front().evalf(level,contextptr);
       if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_pnt) && (e._SYMBptr->feuille.type==_VECT) && (e._SYMBptr->feuille._VECTptr->size()==2))
@@ -1568,10 +1523,8 @@ namespace giac {
 	}
 	e=v;
       }
-      if (!last.empty())
-	last.pop_back();
-      if (!lastarg.empty())
-	lastarg.pop_back();
+      last=save_last;
+      lastarg=save_lastarg;
       return sto(e,feuille._VECTptr->back(),contextptr);
     }
     gen ans;
@@ -1588,10 +1541,8 @@ namespace giac {
 	  ans=ans+it->evalf(level,contextptr);
 	}
       }
-      if (!last.empty())
-	last.pop_back();
-      if (!lastarg.empty())
-	lastarg.pop_back();
+      last=save_last;
+      lastarg=save_lastarg;
       return ans;
     }
     if (sommet==at_prod){
@@ -1604,33 +1555,25 @@ namespace giac {
 	  ans=operator_times(ans,it->evalf(level,contextptr),contextptr);
 	}
       }
-      if (!last.empty())
-	last.pop_back();
-      if (!lastarg.empty())
-	lastarg.pop_back();
+      last=save_last;
+      lastarg=save_lastarg;
       return ans;
     }
     if (sommet.quoted() && sommet!=at_and && !equalposcomp(plot_sommets,sommet) ){ 
       ans=sommet(feuille,contextptr);
-      if (!last.empty())
-	last.pop_back();
-      if (!lastarg.empty())
-	lastarg.pop_back();
+      last=save_last;
+      lastarg=save_lastarg;
       return ans;
     }
     else {
       if ((sommet==at_neg) && (feuille.type==_IDNT) && !strcmp(feuille._IDNTptr->id_name,string_infinity)){
-	if (!last.empty())
-	  last.pop_back();
-	if (!lastarg.empty())
-	  lastarg.pop_back();
+	last=save_last;
+	lastarg=save_lastarg;
 	return minus_inf;
       }
       if (sommet==at_quote){
-	if (!last.empty())
-	  last.pop_back();
-	if (!lastarg.empty())
-	  lastarg.pop_back();
+	last=save_last;
+	lastarg=save_lastarg;
 	return quote(feuille,contextptr);
       }
       if (sommet==at_and || (sommet!=at_cercle && equalposcomp(plot_sommets,sommet))){
@@ -1638,17 +1581,13 @@ namespace giac {
 	// is_inevalf=true;
 	ans=new_ref_symbolic(symbolic(sommet,feuille.evalf(1,contextptr)));
 	// is_inevalf=save_is_inevalf;
-	if (!last.empty())
-	  last.pop_back();
-	if (!lastarg.empty())
-	  lastarg.pop_back();
+	last=save_last;
+	lastarg=save_lastarg;
 	return ans;
       }
       ans=(*sommet.ptr())(feuille.evalf(level,contextptr),contextptr);
-      if (!last.empty())
-	last.pop_back();
-      if (!lastarg.empty())
-	lastarg.pop_back();
+      last=save_last;
+      lastarg=save_lastarg;
       return ans;
     }
   }

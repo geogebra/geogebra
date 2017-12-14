@@ -272,30 +272,24 @@ namespace giac {
   // bool is_inevalf=false;
 
   static string last_evaled_function(GIAC_CONTEXT){
-    std::vector<const char *> & last =last_evaled_function_name(contextptr);
-    if (last.empty() || !last.back())
+    const char * last =last_evaled_function_name(contextptr);
+    if (!last)
       return "";
     string res;
     bool paren=true;
-    if (abs_calc_mode(contextptr)==38 && !strcmp(last.back(),"sqrt"))
+    if (abs_calc_mode(contextptr)==38 && !strcmp(last,"sqrt"))
       res="√";
     else {
       string tmp=unlocalize(autosimplify(contextptr));
-      if (tmp!=last.back())
-	res=last.back();
+      if (tmp!=last)
+	res=last;
       else
 	paren=false;
     }
     if (paren) res +="(";
-#if 1
-    vector<const gen *> & lastarg= last_evaled_argptr(contextptr);
-    if (!lastarg.empty())
-      res += lastarg.back()->print(contextptr);
-#else
-    vecteur & lastarg= last_evaled_arg(contextptr);
-    if (!lastarg.empty())
-      res += lastarg.back().print(contextptr);
-#endif
+    const gen * lastarg= last_evaled_argptr(contextptr);
+    if (lastarg)
+      res += lastarg->print(contextptr);
     if (paren) res += ")";
     debug_struct * dbg = debug_ptr(contextptr);
     if (!dbg->sst_at_stack.empty()){

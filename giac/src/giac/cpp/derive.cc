@@ -713,6 +713,7 @@ namespace giac {
     try {
       res=_derive(args,contextptr);
     } catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       res=string2gen(e.what(),false);
       res.subtype=-1;
     }
@@ -1053,7 +1054,10 @@ namespace giac {
       domain(f,x,eqs,excluded,mode,contextptr);
       res=gen2vecteur(_solve(makesequence(eqs,x),contextptr));
 #ifndef NO_STDEXCEPT
-    } catch (std::runtime_error & e ) { *logptr(contextptr) << e.what() << endl;}
+    } catch (std::runtime_error & e ) { 
+      last_evaled_argptr(contextptr)=NULL;
+      *logptr(contextptr) << e.what() << endl;
+    }
 #endif
     complex_mode(b,contextptr);
     comprim(excluded);

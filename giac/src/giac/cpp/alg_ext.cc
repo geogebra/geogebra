@@ -534,6 +534,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 		}
 		catch (std::runtime_error & ){
+		  last_evaled_argptr(contextptr)=NULL;
 		  K=0;
 		}
 #endif
@@ -576,6 +577,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 		}
 		catch (std::runtime_error & ){
+		  last_evaled_argptr(contextptr)=NULL;
 		  K=0;
 		}
 #endif
@@ -1437,6 +1439,7 @@ namespace giac {
       try {
 	tmp=limit(expr,*var._IDNTptr,*it,direction,contextptr);
       } catch (std::runtime_error & err){
+	last_evaled_argptr(contextptr)=NULL;
 	tmp=undef;
       }
 #endif
@@ -1666,6 +1669,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error & ){
+	last_evaled_argptr(contextptr)=NULL;
       }
 #endif
       unary_function_ptr s(g._SYMBptr->sommet);
@@ -1708,7 +1712,7 @@ namespace giac {
     // = sign(b) if a^2-c*b^2 < 0
     int s=int(v.size());
     if (!s
-#if 0 // def EMCC
+#ifdef EMCC
 	|| s>1
 #endif
 	)
@@ -1790,6 +1794,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & ){
+      last_evaled_argptr(contextptr)=NULL;
       return 0;
     }
 #endif

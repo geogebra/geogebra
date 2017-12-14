@@ -2332,6 +2332,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 	}
 	catch (std::runtime_error & e){
+	  last_evaled_argptr(contextptr)=NULL;
 	  CERR << "sym2poly exception caught " << e.what() << endl;
 	}
 #endif
@@ -2774,6 +2775,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & err){
+      last_evaled_argptr(contextptr)=NULL;
       CERR << err.what() << endl;
       return e;
     }

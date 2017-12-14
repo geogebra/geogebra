@@ -942,7 +942,8 @@ namespace giac {
 	}
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){
-	;  //    *logptr(contextptr) << e.what() << endl;
+	last_evaled_argptr(contextptr)=NULL;
+	//    *logptr(contextptr) << e.what() << endl;
       }
 #endif
     }
@@ -2683,6 +2684,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error & ){
+	last_evaled_argptr(contextptr)=NULL;
 	name=undef;
       }
 #endif
@@ -5022,7 +5024,9 @@ namespace giac {
 #else
 	try {
 	  distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr),cur_distance2;
-	} catch (std::runtime_error) {}
+	} catch (std::runtime_error) {
+	  last_evaled_argptr(contextptr)=NULL;
+	}
 #endif
 	if (is_undef(distance2_found))
 	  distance2_found=plus_inf;
@@ -5039,6 +5043,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       } // end try
       catch(std::runtime_error & ){ // could not solve
+	last_evaled_argptr(contextptr)=NULL;
 	// if curve is a function (plotfunc) return re(p)
 	gen eq=re(v[0],contextptr);
 	rewrite_with_t_real(eq,v[1],contextptr);
@@ -5815,6 +5820,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & ){
+      last_evaled_argptr(contextptr)=NULL;
       // CERR  << error.what() << endl;
       // *logptr(contextptr) << error.what() << endl;
       return false;
@@ -5853,6 +5859,7 @@ namespace giac {
       }
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       *logptr(contextptr) << e.what() << endl;
     }
 #endif
@@ -5874,6 +5881,7 @@ namespace giac {
       args_evaled=args.eval(1,contextptr);
     }
     catch (std::runtime_error & error ){
+      last_evaled_argptr(contextptr)=NULL;
       args_evaled = string2gen('"'+string(error.what())+'"');
     }
 #ifdef WIN32
@@ -6723,6 +6731,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
 #ifdef HAVE_SIGNAL_H_OLD
       signal_store=old_signal_store;
 #endif
@@ -8983,6 +8992,7 @@ namespace giac {
       return remove_not_in_arc(res,circle,contextptr);
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & ){
+      last_evaled_argptr(contextptr)=NULL;
       *logptr(contextptr) << gettext("Unable to solve intersection equation ") << eq << endl;
       return makevecteur(symbolic(at_inter,makesequence(curve,circle)));
     }
@@ -9052,6 +9062,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & ) {
+      last_evaled_argptr(contextptr)=NULL;
     }
 #endif
     return res;
@@ -9073,6 +9084,7 @@ namespace giac {
       v=solve(eq,t,0,contextptr);
 #ifndef NO_STDEXCEPT
     } catch(std::runtime_error) {
+      last_evaled_argptr(contextptr)=NULL;
       return false;
     }
 #endif
@@ -9267,6 +9279,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error &){
+	last_evaled_argptr(contextptr)=NULL;
 	return makevecteur(symbolic(at_inter,makesequence(a,b)));
       }
 #endif
@@ -9580,6 +9593,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 	}
 	catch (std::runtime_error & error ){
+	  last_evaled_argptr(contextptr)=NULL;
 	  *logptr(contextptr) << error.what() << endl;
 	  sol.clear();
 	}
@@ -10826,6 +10840,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error & ){
+	last_evaled_argptr(contextptr)=NULL;
 	e=string2gen(s,false);
       }
 #endif
@@ -11016,6 +11031,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error & ){
+	last_evaled_argptr(contextptr)=NULL;
 	s=u.ptr()->s;
       }
 #endif
@@ -15570,6 +15586,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
       }
       catch (std::runtime_error &){
+	last_evaled_argptr(contextptr)=NULL;
 	return makevecteur(symbolic(at_inter,makesequence(a,b)));
       }
 #endif

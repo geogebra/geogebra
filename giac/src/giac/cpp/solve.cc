@@ -303,6 +303,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     }
     catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       CERR << e.what() << endl;
     }
 #endif
@@ -384,6 +385,7 @@ namespace giac {
       sp=find_singularities(e,x,cplxmode,contextptr);
     }
     catch (std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       *logptr(contextptr) << e.what() << endl;
       sp=vecteur(1,undef);
       // sp.clear();
@@ -478,7 +480,9 @@ namespace giac {
 	try {
 	  if (tmp.type!=_FRAC && tmp.type!=_EXT)
 	    tmp=accurate_evalf(tmp,1000);
-	} catch (std::runtime_error & ) {}
+	} catch (std::runtime_error & ) {
+	  last_evaled_argptr(contextptr)=NULL;
+	}
 #endif
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
 	int n0(_ceil(tmp,contextptr).val);
@@ -487,7 +491,9 @@ namespace giac {
 	try {
 	  if (tmp.type!=_FRAC && tmp.type!=_EXT)
 	    tmp=accurate_evalf(tmp,1000);
-	} catch (std::runtime_error & ) {}
+	} catch (std::runtime_error & ) {
+	  last_evaled_argptr(contextptr)=NULL;
+	}
 #endif
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
 	int n1(_floor(tmp,contextptr).val);
@@ -965,6 +971,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 	  }
 	  catch (std::runtime_error & ){
+	    last_evaled_argptr(contextptr)=NULL;
 	  }
 #endif
 	  return;
@@ -2129,6 +2136,7 @@ namespace giac {
     try {
       res=solve(e,x,isolate_mode,contextptr);
     } catch(std::runtime_error & e){
+      last_evaled_argptr(contextptr)=NULL;
       res=vecteur(1,undef);
     }
 #endif
@@ -2660,6 +2668,7 @@ namespace giac {
 	fc=eval(fc,1,contextptr);
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){
+	last_evaled_argptr(contextptr)=NULL;
 	iszero=-1;
 	return vecteur(0);
       }
@@ -2742,6 +2751,7 @@ namespace giac {
       }
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error & ){
+      last_evaled_argptr(contextptr)=NULL;
       iszero=-1;
       return vecteur(0);
     }
@@ -2792,6 +2802,7 @@ namespace giac {
 	      fb=eval(fb,1,contextptr);
 #ifndef NO_STDEXCEPT
 	    } catch (std::runtime_error & ){
+	      last_evaled_argptr(contextptr)=NULL;
 	      iszero=-1;
 	      return vecteur(0);
 	    }
@@ -2829,6 +2840,7 @@ namespace giac {
 	fb=eval(fb,1,contextptr);
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){
+	last_evaled_argptr(contextptr)=NULL;
 	continue;
       }
 #endif
@@ -2977,6 +2989,7 @@ namespace giac {
 	interval=true;
 #ifndef NO_STDEXCEPT
     } catch (std::runtime_error &){
+      last_evaled_argptr(contextptr)=NULL;
       eq=undef;
       interval=true;
     }
@@ -3008,6 +3021,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 	}
 	catch (std::runtime_error & ){
+	  last_evaled_argptr(contextptr)=NULL;
 	  res.clear();
 	}
 #endif
@@ -3054,6 +3068,7 @@ namespace giac {
 #ifndef NO_STDEXCEPT
 	}
 	catch (std::runtime_error & ){
+	  last_evaled_argptr(contextptr)=NULL;
 	  res.clear();
 	}
 #endif
@@ -3087,6 +3102,7 @@ namespace giac {
       return solve_zero_extremum(equation0,variable,guess,gnuplot_xmin,gnuplot_xmax,type,contextptr);
 #ifndef NO_STDEXCEPT
     } catch(std::runtime_error & ){
+      last_evaled_argptr(contextptr)=NULL;
       type=-2;
       return vecteur(1,undef);
     }
@@ -4099,6 +4115,7 @@ namespace giac {
       a= iter(g,x,a,niter2,eps2,b); 
     }
     catch (std::runtime_error & err){
+      last_evaled_argptr(contextptr)=NULL;
       b=0;
     }
     return a;
@@ -4303,6 +4320,7 @@ namespace giac {
 	  break;
 #ifndef NO_STDEXCEPT
       } catch (std::runtime_error & ){
+	last_evaled_argptr(contextptr)=NULL;
 	continue; // start with a new initial point
       }
 #endif
@@ -5864,6 +5882,7 @@ namespace giac {
       }
 #ifndef NO_STDEXCEPT
     } catch (...){
+      last_evaled_argptr(contextptr)=NULL;
       if (debug_infolevel)
 	CERR << "Unable to compute gbasis with CoCoA" << endl;
     }
