@@ -266,5 +266,8 @@ public enum Feature {
 
 	/** AND-637 */
 	MOB_GGB_KEYBOARD_IN_SETTINGS,
+
+	/** IGR-546 */
+	MOB_IOS_SINGLE_APP_MODE
 }
 

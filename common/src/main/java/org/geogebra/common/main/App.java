@@ -3982,6 +3982,10 @@ public abstract class App implements UpdateSelection {
 			case MOB_PACK_BUFFERS_3D:
 			return true;
 
+			// IGR-546
+			case MOB_IOS_SINGLE_APP_MODE:
+				return prerelease;
+
             // **********************************************************************
             // MOBILE END
             // *********************************************************
