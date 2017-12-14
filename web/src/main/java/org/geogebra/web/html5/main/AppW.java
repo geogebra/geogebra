@@ -727,7 +727,6 @@ public abstract class AppW extends App implements SetLabels {
 	public void loadGgbFile(GgbFile archiveContent)
 	        throws Exception {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
-		
 		algebraSettings.setModeChanged(false);
 		
 		loadFile(archiveContent);
@@ -3637,14 +3636,19 @@ public abstract class AppW extends App implements SetLabels {
 		return getWidth() < getHeight();
 	}
 
+	/**
+	 * loads the slide with index i from the list
+	 * 
+	 * @param i
+	 *            index of the slide to load
+	 */
 	public void loadSlide(int i) {
 		if (slides == null) {
 			return;
 		}
-
 		slides.set(activeSlide, getGgbApi().createArchiveContent(false));
-
 		activeSlide = i;
+
 		try {
 			if (slides.get(i).isEmpty()) {
 				fileNew();
@@ -3656,6 +3660,11 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}
 
+	/**
+	 * adds a new slide to the list
+	 * 
+	 * @return index of the added slide
+	 */
 	public int addSlide() {
 		if (slides == null) {
 			slides = new ArrayList<>();
@@ -3665,6 +3674,12 @@ public abstract class AppW extends App implements SetLabels {
 		return slides.size() - 1;
 	}
 
+	/**
+	 * removes the slide with given index from the list
+	 * 
+	 * @param index
+	 *            of the slide to be removed
+	 */
 	public void removeSlide(int index) {
 		if (slides == null || index >= slides.size()) {
 			return;
@@ -3675,6 +3690,11 @@ public abstract class AppW extends App implements SetLabels {
 		slides.remove(index);
 	}
 
+	/**
+	 * gets the number of slides in the list
+	 * 
+	 * @return number of slides
+	 */
 	public int getSlidesAmount() {
 		return slides.size();
 	}

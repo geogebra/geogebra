@@ -91,6 +91,7 @@ public class PageControlPanel
 			@Override
 			public void onClick(Widget source) {
 				loadPage(addNewPage());
+				updatePreview();
 			}
 		});
 		add(plusButton);
@@ -205,9 +206,8 @@ public class PageControlPanel
 	 *            index of page to load
 	 */
 	protected void loadPage(int index) {
-		setCardSelected((PagePreviewCard) contentPanel.getWidget(index));
 		app.loadSlide(index);
-		updatePreview();
+		setCardSelected((PagePreviewCard) contentPanel.getWidget(index));
 	}
 
 	/**
