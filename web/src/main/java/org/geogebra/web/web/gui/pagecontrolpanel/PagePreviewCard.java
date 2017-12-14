@@ -215,7 +215,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 			contextMenu.hide();
 			toggleMoreButton(false);
 		} else {
-			contextMenu.show(moreBtn.getAbsoluteLeft() - 116,
+			contextMenu.show(moreBtn.getAbsoluteLeft() - 134,
 				moreBtn.getAbsoluteTop() + 33);
 			toggleMoreButton(true);
 		}

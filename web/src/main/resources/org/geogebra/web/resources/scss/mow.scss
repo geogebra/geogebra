@@ -710,11 +710,12 @@
 *   PAGE PREVIEW CARD CONTEXT MENU
 ******************/
 	.mowMatMenu.gwt-PopupPanel {
-		min-width: 100px !important;
-   		max-width: 200px;
+		width: 168px;
+   		min-width: 112px !important;
    		.gwt-MenuItem { 
-			min-width: 150px !important;
-			max-width: 200px;
+   			width: 168px;
+    		min-width: 112px !important;
+			padding-left: 56px !important;
 			&:focus {
    				background: $mow_light;
 			}
