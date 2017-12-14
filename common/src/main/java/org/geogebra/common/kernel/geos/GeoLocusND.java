@@ -380,7 +380,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		MyPoint locusPoint = myPointList.get(n);
 		MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
 
-		P.set(t, 1-t, locusPoint, locusPoint2);
+		P.set(t, 1 - t, locusPoint, locusPoint2);
 
 	}
 
@@ -404,7 +404,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		MyPoint locusPoint = myPointList.get(n);
 		MyPoint locusPoint2 = myPointList.get((n + 1) % myPointList.size());
 
-		P.set(1 - t, t, locusPoint, locusPoint2);
+		P.set(t, 1 - t, locusPoint, locusPoint2);
 	}
 
 	@Override
