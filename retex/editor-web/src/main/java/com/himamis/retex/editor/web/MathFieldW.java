@@ -540,19 +540,32 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		return html;
 	}
 
+	/**
+	 * @param formula
+	 *            editor content
+	 */
 	public void setFormula(MathFormula formula) {
 		this.mathFieldInternal.setFormula(formula);
 	}
 
+	/**
+	 * @return editor content
+	 */
 	public MathFormula getFormula() {
 		return this.mathFieldInternal.getFormula();
 	}
 
+	/**
+	 * Focus or blur this field
+	 * 
+	 * @param focus
+	 *            whether to focus this
+	 */
 	public void setFocus(boolean focus) {
 		setFocus(focus, null);
 	}
 
-	public void setFocus(boolean focus, final Runnable callback) {
+	private void setFocus(boolean focus, final Runnable callback) {
 		if (focus) {
 			startBlink();
 			if (focusHandler != null) {
