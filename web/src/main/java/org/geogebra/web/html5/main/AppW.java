@@ -170,7 +170,7 @@ public abstract class AppW extends App implements SetLabels {
 	private final LocalizationW loc;
 	private ImageManagerW imageManager;
 	private GgbFile currentFile = null;
-	private ArrayList<GgbFile> slides = null;
+	protected ArrayList<GgbFile> slides = null;
 	private int activeSlide = -1;
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file

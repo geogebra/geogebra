@@ -59,8 +59,7 @@ public class PageControlPanel
 		addStyleName("mowPageControlPanel");
 		addPlusButton();
 		addContentPanel();
-		addNewPage();
-		setCardSelected((PagePreviewCard) contentPanel.getWidget(0));
+		addFirstPage();
 		frame.add(this);
 		setVisible(false);
 	}
@@ -72,6 +71,11 @@ public class PageControlPanel
 		contentPanel.addStyleName("mowPageControlContentPanel");
 		scrollPanel.add(contentPanel);
 		add(scrollPanel);
+	}
+
+	private void addFirstPage() {
+		addNewPage();
+		setCardSelected((PagePreviewCard) contentPanel.getWidget(0));
 	}
 
 	private void addPlusButton() {
@@ -280,5 +284,13 @@ public class PageControlPanel
 		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
 			((PagePreviewCard) contentPanel.getWidget(i)).setLabels();
 		}
+	}
+
+	/**
+	 * resets the page control panel
+	 */
+	public void reset() {
+		contentPanel.clear();
+		addFirstPage();
 	}
 }

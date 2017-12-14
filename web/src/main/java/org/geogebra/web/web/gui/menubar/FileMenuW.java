@@ -4,6 +4,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.ExamEnvironment;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.move.events.BaseEvent;
@@ -23,6 +24,7 @@ import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -53,6 +55,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				
 				if (!app.isUnbundledOrWhiteboard()) {
 					app.showPerspectivesPopup();
+				}
+				if (app.has(Feature.MOW_MULTI_PAGE)) {
+					((AppWFull) app).resetPageControl();
 				}
 			}
 		};
