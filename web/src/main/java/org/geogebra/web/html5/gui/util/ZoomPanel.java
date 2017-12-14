@@ -383,6 +383,8 @@ public class ZoomPanel extends FlowPanel
 				}
 				containerProps.clear();
 				containerProps.put("position", containerPositionBefore);
+				setContainerProp(container, "width", "100%");
+				setContainerProp(container, "height", "100%");
 				setContainerProp(container, "marginLeft", "0");
 				setContainerProp(container, "marginTop", "0");
 
@@ -429,7 +431,7 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private static double getDeviceScale(double xscale, double yscale) {
-		if ((xscale < 1 || yscale < 1) || Browser.isIPad()) {
+		if (xscale < 1 || yscale < 1) {
 			return Math.min(1d, Math.min(xscale, yscale));
 		}
 		return Math.max(1d, Math.min(xscale, yscale));
@@ -449,8 +451,6 @@ public class ZoomPanel extends FlowPanel
 		double scale = getDeviceScale(xscale, yscale);
 		Browser.scale(scaler, scale, 0, 0);
 		Browser.scale(zoomPanel.getElement(), 1 / scale, 120, 100);
-		setContainerProp(container, "width", "100%");
-		setContainerProp(container, "height", "100%");
 		container.getStyle().setPosition(Position.ABSOLUTE);
 		double marginLeft = 0;
 		double marginTop = 0;
