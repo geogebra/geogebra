@@ -110,4 +110,9 @@ public class GLBufferIndicesW implements GLBufferIndices {
 		impl.set(oldImpl);
 	}
 
+	@Override
+	public void position(int newPosition) {
+		index = newPosition;
+	}
+
 }

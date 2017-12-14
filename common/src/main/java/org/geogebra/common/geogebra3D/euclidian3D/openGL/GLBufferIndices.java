@@ -83,4 +83,12 @@ public interface GLBufferIndices {
 	 *            new size
 	 */
 	public void reallocate(int size);
+
+	/**
+	 * set position where to read
+	 * 
+	 * @param newPosition
+	 *            new position
+	 */
+	public void position(int newPosition);
 }

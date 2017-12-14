@@ -550,4 +550,65 @@ abstract class GLBufferManager {
 	 * @return indices size at start
 	 */
 	abstract protected int getIndicesSizeStart();
+
+	/**
+	 * 
+	 * @return current buffer segment elements length
+	 */
+	public int getCurrentElementsLength() {
+		return currentBufferSegment.elementsLength;
+	}
+
+	/**
+	 * 
+	 * @return vertex buffer positioned to current buffer segment offset
+	 */
+	public GLBuffer getCurrentBufferVertices() {
+		GLBuffer ret = currentBufferSegment.bufferPack.vertexBuffer;
+		ret.position(currentBufferSegment.elementsOffset * 3);
+		return ret;
+	}
+
+	/**
+	 * 
+	 * @return normal buffer positioned to current buffer segment offset
+	 */
+	public GLBuffer getCurrentBufferNormals() {
+		GLBuffer ret = currentBufferSegment.bufferPack.normalBuffer;
+		ret.position(currentBufferSegment.elementsOffset * 3);
+		return ret;
+	}
+
+	/**
+	 * 
+	 * @return current buffer segment elements offset
+	 */
+	public int getCurrentElementsOffset() {
+		return currentBufferSegment.elementsOffset;
+	}
+
+	/**
+	 * 
+	 * @return current buffer segment indices length
+	 */
+	public int getCurrentIndicesLength() {
+		return currentBufferSegment.indicesLength;
+	}
+
+	/**
+	 * 
+	 * @return indices buffer positioned to current buffer segment offset
+	 */
+	public GLBufferIndices getCurrentBufferIndices() {
+		GLBufferIndices ret = currentBufferSegment.bufferPack.indicesBuffer;
+		ret.position(currentBufferSegment.indicesOffset);
+		return ret;
+	}
+
+	/**
+	 * set current buffer segment to the one stored at current index
+	 */
+	public void setBufferSegmentToCurrentIndex() {
+		currentBufferSegment = bufferSegments.get(currentIndex);
+	}
 }

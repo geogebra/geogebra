@@ -9,10 +9,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DElements;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBufferIndices;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.GeometriesSet;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.Geometry;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShadersElementsGlobalBuffer.GeometryElementsGlobalBuffer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
@@ -43,6 +43,63 @@ public abstract class ExportToPrinter3D {
 	private double xInvScale;
 	private boolean differentAxisRatio = false;
 	private Coords tmpNormal = new Coords(3);
+
+	/**
+	 * 
+	 * interface for geometries methods used for export
+	 *
+	 */
+	public interface GeometryForExport {
+
+		/**
+		 * init the geometry to be ready for export
+		 */
+		void initForExport();
+
+		/**
+		 * 
+		 * @return number of vertices/normals in geometry
+		 */
+		int getLengthForExport();
+
+		/**
+		 * 
+		 * @return vertices buffer for export
+		 */
+		GLBuffer getVerticesForExport();
+
+		/**
+		 * 
+		 * @return normals buffer for export
+		 */
+		GLBuffer getNormalsForExport();
+
+		/**
+		 * 
+		 * @return indices buffer for export
+		 */
+		GLBufferIndices getBufferIndices();
+
+		/**
+		 * 
+		 * @return number of indices
+		 */
+		int getIndicesLength();
+
+		/**
+		 * 
+		 * @return offset in vertices/normals to retrieve it from indices
+		 */
+		int getElementsOffset();
+
+
+		/**
+		 * 
+		 * @return geometry GL type
+		 */
+		Manager.Type getType();
+
+	}
 
 	/**
 	 * constructor
@@ -92,7 +149,8 @@ public abstract class ExportToPrinter3D {
 			sb.setLength(0);
 			for (Geometry g : currentGeometriesSet) {
 
-				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
+				GeometryForExport geometry = (GeometryForExport) g;
+				geometry.initForExport();
 
 				format.getObjectStart(sb, geoType, geo, false, null, 1);
 
@@ -101,9 +159,9 @@ public abstract class ExportToPrinter3D {
 
 				// vertices
 				boolean notFirst = false;
-				format.getVerticesStart(sb, geometry.getLength());
-				GLBuffer fb = geometry.getVertices();
-				for (int i = 0; i < geometry.getLength(); i++) {
+				format.getVerticesStart(sb, geometry.getLengthForExport());
+				GLBuffer fb = geometry.getVerticesForExport();
+				for (int i = 0; i < geometry.getLengthForExport(); i++) {
 					double x = fb.get();
 					double y = fb.get();
 					double z = fb.get();
@@ -117,15 +175,16 @@ public abstract class ExportToPrinter3D {
 				getNormals(geometry);
 
 				// faces
-				GLBufferIndices bi = geometry.getCurrentBufferI();
+				GLBufferIndices bi = geometry.getBufferIndices();
 				int length = geometry.getIndicesLength() / 3;
+				int offset = geometry.getElementsOffset();
 				format.getFacesStart(sb, length, false);
 				notFirst = false;
 				for (int i = 0; i < length; i++) {
 					int v1 = bi.get();
 					int v2 = bi.get();
 					int v3 = bi.get();
-					getFace(notFirst, v1, v2, v3);
+					getFace(notFirst, offset, v1, v2, v3, -1);
 					notFirst = true;
 				}
 				bi.rewind();
@@ -137,7 +196,7 @@ public abstract class ExportToPrinter3D {
 					}
 
 					// update index
-					int l = geometry.getLength();
+					int l = geometry.getLengthForExport();
 
 					// face for end
 					for (int i = 2; i < 8; i++) {
@@ -196,7 +255,8 @@ public abstract class ExportToPrinter3D {
 			sb.setLength(0);
 			for (Geometry g : currentGeometriesSet) {
 
-				GeometryElementsGlobalBuffer geometry = (GeometryElementsGlobalBuffer) g;
+				GeometryForExport geometry = (GeometryForExport) g;
+				geometry.initForExport();
 
 				format.getObjectStart(sb, group, geo, transparency, color, alpha);
 
@@ -205,9 +265,9 @@ public abstract class ExportToPrinter3D {
 
 				// vertices
 				boolean notFirst = false;
-				format.getVerticesStart(sb, geometry.getLength());
-				GLBuffer fb = geometry.getVertices();
-				for (int i = 0; i < geometry.getLength(); i++) {
+				format.getVerticesStart(sb, geometry.getLengthForExport());
+				GLBuffer fb = geometry.getVerticesForExport();
+				for (int i = 0; i < geometry.getLengthForExport(); i++) {
 					double x = fb.get();
 					double y = fb.get();
 					double z = fb.get();
@@ -221,7 +281,7 @@ public abstract class ExportToPrinter3D {
 				getNormals(geometry);
 
 				// faces
-				GLBufferIndices bi = geometry.getCurrentBufferI();
+				GLBufferIndices bi = geometry.getBufferIndices();
 				switch (geometry.getType()) {
 				case TRIANGLE_FAN:
 					// for openGL we use replace triangle fans by triangle strips, repeating apex
@@ -283,12 +343,12 @@ public abstract class ExportToPrinter3D {
 		}
 	}
 
-	private void getNormals(GeometryElementsGlobalBuffer geometry) {
+	private void getNormals(GeometryForExport geometry) {
 		if (format.handlesNormals()) {
-			GLBuffer fb = geometry.getNormals();
+			GLBuffer fb = geometry.getNormalsForExport();
 			if (fb != null && !fb.isEmpty() && fb.capacity() > 3) {
-				format.getNormalsStart(sb, geometry.getLength());
-				for (int i = 0; i < geometry.getLength(); i++) {
+				format.getNormalsStart(sb, geometry.getLengthForExport());
+				for (int i = 0; i < geometry.getLengthForExport(); i++) {
 					double x = fb.get();
 					double y = fb.get();
 					double z = fb.get();
@@ -311,12 +371,10 @@ public abstract class ExportToPrinter3D {
 		PolygonTriangulation pt = polygon.getPolygonTriangulation();
 		if (pt.getMaxPointIndex() > 2) {
 			Coords n = polygon.getMainDirection();
-			double delta;
+			double delta = 0;
 			if (differentAxisRatio) {
 				if (format.needsClosedObjects()) {
 					delta = 3 * PlotterBrush.LINE3D_THICKNESS;
-				} else {
-					delta = PlotterBrush.LINE3D_THICKNESS / 2;
 				}
 				if (view.scaleAndNormalizeNormalXYZ(n, tmpNormal)) {
 					n = tmpNormal;
@@ -363,7 +421,7 @@ public abstract class ExportToPrinter3D {
 						z = v.getZ();
 					}
 					if (format.needsClosedObjects()) {
-						getVertex(notFirst, x + dx, y + dy, z + dz);
+						getVertex(notFirst, x, y, z);
 						notFirst = true;
 						getVertex(notFirst, x - dx, y - dy, z - dz);
 					} else {
@@ -545,6 +603,10 @@ public abstract class ExportToPrinter3D {
 	
 	private void getFace(boolean notFirst, int v1, int v2, int v3) {
 		getFace(notFirst, v1, v2, v3, -1);
+	}
+
+	private void getFace(boolean notFirst, int offset, int v1, int v2, int v3, int normal) {
+		getFace(notFirst, v1 - offset, v2 - offset, v3 - offset, normal);
 	}
 
 	private void getFace(boolean notFirst, int v1, int v2, int v3, int normal) {

@@ -125,4 +125,10 @@ public class GLBufferJre implements GLBuffer {
 		impl.put(oldImpl);
 	}
 
+	@Override
+	public void position(int newPosition) {
+		impl.rewind();
+		impl.position(newPosition);
+	}
+
 }

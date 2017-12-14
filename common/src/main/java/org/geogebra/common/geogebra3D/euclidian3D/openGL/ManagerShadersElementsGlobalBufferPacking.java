@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 
 /**
  * manager packing geometries
@@ -112,7 +113,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 * geometry handler for buffer packing
 		 *
 		 */
-		public class GeometryElementsGlobalBufferPacking extends Geometry {
+		public class GeometryElementsGlobalBufferPacking extends Geometry implements GeometryForExport {
 
 			private int geometryIndex;
 			private GeometriesSetElementsGlobalBufferPacking geometrySet;
@@ -136,7 +137,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 
 			@Override
 			public void setVertices(ArrayList<Double> array, int length) {
-				geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(), geometryIndex);
+				setBufferCurrentIndex();
 				geometrySet.getBufferManager().setVertexBuffer(array, length);
 			}
 
@@ -163,6 +164,46 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 			@Override
 			public void setColorsEmpty() {
 				geometrySet.getBufferManager().setColorBuffer(geometrySet.getColor());
+			}
+
+			@Override
+			public int getLengthForExport() {
+				return geometrySet.getBufferManager().getCurrentElementsLength();
+			}
+
+			@Override
+			public GLBuffer getVerticesForExport() {
+				return geometrySet.getBufferManager().getCurrentBufferVertices();
+			}
+
+			@Override
+			public GLBuffer getNormalsForExport() {
+				return geometrySet.getBufferManager().getCurrentBufferNormals();
+			}
+
+			@Override
+			public int getElementsOffset() {
+				return geometrySet.getBufferManager().getCurrentElementsOffset();
+			}
+
+			@Override
+			public int getIndicesLength() {
+				return geometrySet.getBufferManager().getCurrentIndicesLength();
+			}
+
+			@Override
+			public GLBufferIndices getBufferIndices() {
+				return geometrySet.getBufferManager().getCurrentBufferIndices();
+			}
+
+			private void setBufferCurrentIndex() {
+				geometrySet.getBufferManager().setCurrentIndex(geometrySet.getIndex(), geometryIndex);
+			}
+
+			@Override
+			public void initForExport() {
+				setBufferCurrentIndex();
+				geometrySet.getBufferManager().setBufferSegmentToCurrentIndex();
 			}
 
 		}

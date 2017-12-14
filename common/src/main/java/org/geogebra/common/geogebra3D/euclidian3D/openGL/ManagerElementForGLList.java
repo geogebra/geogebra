@@ -260,6 +260,11 @@ public class ManagerElementForGLList extends Manager {
 			// not needed
 		}
 
+		@Override
+		public void position(int newPosition) {
+			// not needed
+		}
+
 	}
 
 	public void put(short value) {

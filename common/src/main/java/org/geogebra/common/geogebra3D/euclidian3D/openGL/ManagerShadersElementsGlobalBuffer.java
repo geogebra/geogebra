@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 import java.util.ArrayList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.GeometryForExport;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.TriangleFan;
 import org.geogebra.common.util.debug.Log;
@@ -201,7 +202,7 @@ public class ManagerShadersElementsGlobalBuffer
 		}
 	}
 
-	public class GeometryElementsGlobalBuffer extends Geometry {
+	public class GeometryElementsGlobalBuffer extends Geometry implements GeometryForExport {
 
 		private GLBufferIndices arrayI = null;
 
@@ -350,20 +351,39 @@ public class ManagerShadersElementsGlobalBuffer
 			return arrayI;
 		}
 
-		/**
-		 * 
-		 * @return current indices buffer
-		 */
-		public GLBufferIndices getCurrentBufferI() {
+		@Override
+		public void initForExport() {
+			// no need here
+		}
+
+		@Override
+		public GLBufferIndices getBufferIndices() {
 			return arrayI;
 		}
 
-		/**
-		 * 
-		 * @return indices length
-		 */
+		@Override
 		public int getIndicesLength() {
 			return indicesLength;
+		}
+
+		@Override
+		public int getElementsOffset() {
+			return 0; // no offset here
+		}
+
+		@Override
+		public int getLengthForExport() {
+			return getLength();
+		}
+
+		@Override
+		public GLBuffer getVerticesForExport() {
+			return getVertices();
+		}
+
+		@Override
+		public GLBuffer getNormalsForExport() {
+			return getNormals();
 		}
 
 	}
