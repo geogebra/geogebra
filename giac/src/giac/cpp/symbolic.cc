@@ -644,7 +644,7 @@ namespace giac {
     e=gen(v,e.subtype);
   }
 
-  static gen eval_sto(const gen & feuille,std::vector<const char *> * last,int level,GIAC_CONTEXT){ // autoname function
+  static gen eval_sto(const gen & feuille,int level,GIAC_CONTEXT){ // autoname function
     // detect vector/matrix addressing with () parsed as function definition
     // e.g. M(j,k):=j+k+1 parsed as M:=(j,k)->j+k+1
     // these affectations are marked by a subtype==1 by the parser
@@ -655,7 +655,7 @@ namespace giac {
 	gen val=prog._VECTptr->back();
 	if (feuille._VECTptr->back().type==_IDNT && feuille._VECTptr->back()._IDNTptr->eval(1,feuille._VECTptr->back(),contextptr).type==_VECT){
 	  prog=symbolic(at_of,makesequence(feuille._VECTptr->back(),prog._VECTptr->front()));
-	  return eval_sto(gen(makevecteur(val,prog),_SORTED__VECT),last,level,contextptr);
+	  return eval_sto(gen(makevecteur(val,prog),_SORTED__VECT),level,contextptr);
 	}
       }
     }
@@ -1366,7 +1366,7 @@ namespace giac {
     if (elevel==26)
       return nr_eval(*this,level,contextptr);
     if (sommet==at_sto && feuille.type==_VECT)
-      return eval_sto(feuille,0,level,contextptr);
+      return eval_sto(feuille,level,contextptr);
     const char * & last =last_evaled_function_name(contextptr);
     const char * save_last=last;
     last=sommet.ptr()->s;
@@ -1401,7 +1401,7 @@ namespace giac {
 	ans=sommet(feuille,contextptr);
       }
       catch (std::runtime_error & err){
-	last_evaled_argptr(contextptr)=NULL;
+	lastarg=&feuille;
 	elevel=save_level;
 	throw(err);
       }

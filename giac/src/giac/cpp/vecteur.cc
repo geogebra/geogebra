@@ -3143,7 +3143,11 @@ namespace giac {
 	matrice res;
 	if (!mmultck(a,b,res))
 	  return gendimerr("");
-	return _simplifier(res,context0);
+	gen tmp=_simplifier(res,context0);
+	// code added for e.g. matpow([[0,1],[0,0]],n)
+	if (contains(tmp,undef))
+	  return res;
+	return tmp;
       }
       // matrice * vecteur
       vecteur res;

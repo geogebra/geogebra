@@ -2282,9 +2282,10 @@ namespace giac {
       if (s==0) return pixon_size;
       return gensizeerr(contextptr);
     }
+    if (s>=3)
+      return symb_pnt(symbolic(at_pixon,a),0,contextptr);
     vecteur v(*args._VECTptr);
-    if (s<3)
-      v.push_back(default_color(contextptr));
+    v.push_back(default_color(contextptr));
     return symb_pnt(symbolic(at_pixon,gen(v,_SEQ__VECT)),0,contextptr);
   }
   static const char _pixon_s []="pixon";
