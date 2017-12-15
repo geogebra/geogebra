@@ -78,7 +78,8 @@ public class SpecialPointsManager implements UpdateSelection {
 						((GeoFunction) geo).getFunctionExpression(), false,
 						true);
 		GeoElementND[] geos1 = null;
-		if (poly == null || poly.getDegree() > 0) {
+		if (kernel.getApplication().getActiveEuclidianView().getShowAxis(0)
+				&& (poly == null || poly.getDegree() > 0)) {
 			if (!((GeoFunction) geo).isPolynomialFunction(true)
 					&& geo.isDefined()) {
 				EuclidianViewInterfaceCommon view = kernel.getApplication()
