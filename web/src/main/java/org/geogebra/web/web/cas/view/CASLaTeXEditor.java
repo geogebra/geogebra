@@ -19,6 +19,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.EventUtil;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.layout.DockPanelW;
@@ -30,6 +31,7 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -50,7 +52,7 @@ public class CASLaTeXEditor extends FlowPanel
 		MathFieldListener, BlurHandler {
 	/** suggestions */
 	InputSuggestions sug;
-	private MathFieldW mf;
+	private final MathFieldW mf;
 	/** keyboard connector */
 	RetexKeyboardListener retexListener;
 	private AppWFull app;
@@ -404,5 +406,10 @@ public class CASLaTeXEditor extends FlowPanel
 
 	public void insertInput(String input) {
 		mf.insertString(input);
+	}
+
+	public void adjustCaret(HumanInputEvent<?> event) {
+		mf.adjustCaret(EventUtil.getTouchOrClickClientX(event),
+				EventUtil.getTouchOrClickClientY(event));
 	}
 }

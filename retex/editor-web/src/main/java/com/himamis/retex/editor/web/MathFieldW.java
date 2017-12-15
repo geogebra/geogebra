@@ -583,7 +583,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			};
 			focuser.schedule(200);
 			startEditing();
-			wrap.getElement().focus();
+			focusTextArea();
 			if (!pasteInstalled) {
 				pasteInstalled = true;
 				installPaste(this.getHiddenTextArea());
@@ -616,12 +616,15 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 			focusHandler.onFocus(null);
 		}
 		// after set focus to the keyboard listening element
-		wrap.getElement().focus();
-		html.getElement().getParentElement().setScrollTop(0);
-
+		focusTextArea();
 		onTextfieldBlur = oldBlur;
+	}
 
-
+	private void focusTextArea() {
+		wrap.getElement().focus();
+		if (html.getElement().getParentElement() != null) {
+			html.getElement().getParentElement().setScrollTop(0);
+		}
 	}
 
 	private native void installPaste(Element target) /*-{
@@ -907,6 +910,7 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		}
 	}
 
+	@Override
 	public void requestViewFocus(Runnable runnable) {
 		setEnabled(true);
 		setFocus(true, runnable);

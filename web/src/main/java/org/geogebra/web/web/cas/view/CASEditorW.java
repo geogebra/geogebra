@@ -3,6 +3,8 @@ package org.geogebra.web.web.cas.view;
 import org.geogebra.common.cas.view.CASTableCellEditor;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteW;
 
+import com.google.gwt.event.dom.client.HumanInputEvent;
+
 /**
  * Common interface for plaintext or LaTeX based CAS editors
  */
@@ -43,4 +45,10 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	 *            input stru=ing
 	 */
 	public void insertInput(String input);
+
+	/**
+	 * @param event
+	 *            mouse / touch event that moved the caret
+	 */
+	public void adjustCaret(HumanInputEvent<?> event);
 }

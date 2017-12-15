@@ -252,6 +252,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		if (cell.getCellIndex() == CASTableW.COL_CAS_CELLS_WEB) {
 			int rowIndex = cell.getRowIndex();
 			table.startEditingRow(rowIndex);
+			table.adjustCaret(event);
 		}
 	}
 

@@ -26,9 +26,13 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * CAS table
+ */
 public class CASTableW extends Grid implements CASTable {
-
+	/** column index of content */
 	public static final int COL_CAS_CELLS_WEB = 1;
+	/** column index of marbles */
 	public static final int COL_CAS_HEADER = 0;
 	private CASTableCellEditor editor;
 	private CASTableCellW editing;
@@ -37,10 +41,19 @@ public class CASTableW extends Grid implements CASTable {
 	private CASTableControllerW ml;
 	private CASViewW view;
 
-	public CASTableW(AppW app, CASTableControllerW ml, CASViewW casViewW) {
+	/**
+	 * @param app
+	 *            application
+	 * @param controller
+	 *            controller
+	 * @param casViewW
+	 *            view
+	 */
+	public CASTableW(AppW app, CASTableControllerW controller,
+			CASViewW casViewW) {
 		super(0, 2);
 		this.app = app;
-		this.ml = ml;
+		this.ml = controller;
 
 		addStyleName("CAS-table");
 		insertRow(0, null, false);
@@ -212,7 +225,6 @@ public class CASTableW extends Grid implements CASTable {
 			editing.startEditing(((CASEditorW) getEditor()),
 					newText);
 		}
-
 	}
 
 
@@ -284,7 +296,7 @@ public class CASTableW extends Grid implements CASTable {
 
 		CASTableCellW cellWidget = new CASTableCellW(casCell, app);
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1, casCell,
-		        (AppW) getApplication());
+				(AppW) getApplication());
 
 		addOutputListener(cellWidget);
 
@@ -299,10 +311,10 @@ public class CASTableW extends Grid implements CASTable {
 	private void setRowSelected(int rowNumber, boolean selected) {
 		if (selected) {
 			getCellFormatter().getElement(rowNumber, COL_CAS_HEADER)
-			        .addClassName("selected");
+					.addClassName("selected");
 		} else {
 			getCellFormatter().getElement(rowNumber, COL_CAS_HEADER)
-			        .removeClassName("selected");
+					.removeClassName("selected");
 		}
 	}
 
@@ -325,7 +337,7 @@ public class CASTableW extends Grid implements CASTable {
 		}
 
 		int row = TableRowElement.as(td.getParentElement())
-		        .getSectionRowIndex();
+				.getSectionRowIndex();
 		int column = TableCellElement.as(td).getCellIndex();
 		return new GPoint(column, row);
 	}
@@ -386,6 +398,11 @@ public class CASTableW extends Grid implements CASTable {
 		return view;
 	}
 
+	/**
+	 * @param row
+	 *            row index
+	 * @return whether row is among the selectted ones
+	 */
 	public boolean isSelectedIndex(int row) {
 		for (Integer item : getSelectedRows()) {
 			if (item.equals(row)) {
@@ -395,6 +412,9 @@ public class CASTableW extends Grid implements CASTable {
 		return false;
 	}
 
+	/**
+	 * @return currently edited row index
+	 */
 	public int getEditingRow() {
 		if (isEditing()) {
 			return getSelectedRows()[0];
@@ -402,21 +422,33 @@ public class CASTableW extends Grid implements CASTable {
 		return -1;
 	}
 
+	/**
+	 * @return currently edited cell
+	 */
 	public CASTableCellW getEditingCell() {
 		return editing;
 	}
 
+	/**
+	 * @param value
+	 *            whether first row is selected
+	 */
 	public void setFirstRowFront(boolean value) {
 		CellFormatter cellFormatter = getCellFormatter();
 		if (value) {
 			cellFormatter.addStyleName(0, COL_CAS_CELLS_WEB,
-			        "CAS_table_first_row_selected");
+					"CAS_table_first_row_selected");
 		} else {
 			cellFormatter.removeStyleName(0, COL_CAS_CELLS_WEB,
-			        "CAS_table_first_row_selected");
+					"CAS_table_first_row_selected");
 		}
 	}
 
+	/**
+	 * @param event
+	 *            mouse / touch event
+	 * @return clicked cell
+	 */
 	public CASTableCellW getCasCellForEvent(HumanInputEvent<?> event) {
 		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
 		if (td == null) {
@@ -437,6 +469,12 @@ public class CASTableW extends Grid implements CASTable {
 	 * Return value for {@link HTMLTable#getCellForEvent}.
 	 */
 	public class MyCell extends HTMLTable.Cell {
+		/**
+		 * @param rowIndex
+		 *            row
+		 * @param cellIndex
+		 *            column
+		 */
 		public MyCell(int rowIndex, int cellIndex) {
 			super(rowIndex, cellIndex);
 		}
@@ -458,11 +496,17 @@ public class CASTableW extends Grid implements CASTable {
 		}
 
 		int row = TableRowElement.as(td.getParentElement())
-		        .getSectionRowIndex();
+				.getSectionRowIndex();
 		int column = TableCellElement.as(td).getCellIndex();
 		return new MyCell(row, column);
 	}
 
+	/**
+	 * @param i
+	 *            cell index
+	 * @param cellInput
+	 *            cell input
+	 */
 	public void setCellInput(int i, String cellInput) {
 		GeoCasCell casCell = getGeoCasCell(i);
 		if (casCell != null && cellInput != null && cellInput.length() > 0) {
@@ -470,7 +514,6 @@ public class CASTableW extends Grid implements CASTable {
 			// casCell.setLaTeXInput(null);
 			startEditingRow(i, cellInput);
 		}
-
 	}
 
 	@Override
@@ -487,5 +530,15 @@ public class CASTableW extends Grid implements CASTable {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * @param event
+	 *            mouse / touch event that moved the caret
+	 */
+	public void adjustCaret(HumanInputEvent<?> event) {
+		if (editor != null) {
+			((CASEditorW) editor).adjustCaret(event);
+		}
 	}
 }
