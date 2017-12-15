@@ -243,9 +243,6 @@ public enum Feature {
 	/** GGB-2204 */
 	TAB_ON_MENU,
 
-	/** GGB-2204 */
-	ARIA_MENU,
-
 	/** GGB-2215 */
 	ARIA_CONTEXT_MENU,
 

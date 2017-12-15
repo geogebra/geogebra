@@ -570,6 +570,7 @@ public class GPopupMenuW implements AttachedToDOM {
 
 		public PopupMenuBar(AppW app1) {
 			super("", app1);
+			setHandleArrows(true);
 		}
 
 		public void addItem(GCollapseMenuItem ci) {

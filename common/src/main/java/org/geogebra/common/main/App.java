@@ -4294,15 +4294,11 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2203 */
 		case HELP_AND_SHORTCUTS_IMPROVEMENTS:
-			return prerelease;
+			return true;
 
 		/** GGB-2204 */
 		case TAB_ON_MENU:
-			return prerelease;
-
-		/** GGB-2204 */
-		case ARIA_MENU:
-			return prerelease;
+			return true;
 
 		/** GGB-2100 */
 		case KEYBOARD_BOX_ICON:

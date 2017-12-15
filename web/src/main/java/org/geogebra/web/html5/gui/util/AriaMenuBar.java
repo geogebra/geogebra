@@ -22,6 +22,7 @@ public class AriaMenuBar extends Widget {
 	private ArrayList<AriaMenuBar> submenus = new ArrayList<>();
 	private boolean autoOpen;
 	private boolean focusOnHover;
+	private boolean handleArrows = true;
 
 	/**
 	 * Create new accessible menu
@@ -34,6 +35,10 @@ public class AriaMenuBar extends Widget {
 		getElement().setTabIndex(0);
 		addStyleName("gwt-MenuBar");
 		addStyleName("gwt-MenuBar-vertical");
+	}
+
+	protected void setHandleArrows(boolean b) {
+		this.handleArrows = b;
 	}
 
 	/**
@@ -271,12 +276,12 @@ public class AriaMenuBar extends Widget {
 					eatEvent(event);
 				}
 			}
-			else if (keyCode == KeyCodes.KEY_UP) {
+			else if (keyCode == KeyCodes.KEY_UP && handleArrows) {
 				moveSelectionUp();
 				eatEvent(event);
 				return;
 			}
-			else if (keyCode == KeyCodes.KEY_DOWN) {
+			else if (keyCode == KeyCodes.KEY_DOWN && handleArrows) {
 				moveSelectionDown();
 				eatEvent(event);
 				return;
@@ -352,13 +357,13 @@ public class AriaMenuBar extends Widget {
 	 *            item mouse is hovering over
 	 */
 	protected void itemOver(AriaMenuItem item) {
-		selectItem(item);
 		if (item != null) {
 			removeSubPopup();
 		}
 		if (item != null
 				&& "true".equals(item.getElement().getAttribute("hasPopup"))
 				&& autoOpen) {
+			selectItem(item);
 			doItemAction(item);
 		}
 	}

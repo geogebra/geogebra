@@ -267,6 +267,12 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    }
 	}
 
+	/**
+	 * Open share dialog for given app
+	 * 
+	 * @param app
+	 *            application
+	 */
 	public static void share(AppW app) {
 		if (!nativeShareSupported()) {
 			showShareDialog(app);

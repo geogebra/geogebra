@@ -37,6 +37,7 @@ public class GMenuBar extends AriaMenuBar {
 		this.menuTitle = menuTitle;
 		this.app = app;
 		tabHandlers = new ArrayList<>();
+		setHandleArrows(false);
 	}
 
 	/**
