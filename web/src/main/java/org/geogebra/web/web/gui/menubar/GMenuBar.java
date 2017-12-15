@@ -253,6 +253,7 @@ public class GMenuBar extends AriaMenuBar {
 	/**
 	 * Selects the last menu item.
 	 */
+	@Override
 	public void selectLastItem() {
 		List<AriaMenuItem> list = getItems();
 		if (!list.isEmpty()) {

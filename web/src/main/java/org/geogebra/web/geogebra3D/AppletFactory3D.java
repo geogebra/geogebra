@@ -9,11 +9,15 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.main.AppWapplet;
 import org.geogebra.web.web.main.GDevice;
 
-public class AppletFactory3D implements AppletFactory{
-	
-		@Override
+/**
+ * 3D Applets factory class
+ *
+ */
+public class AppletFactory3D implements AppletFactory {
+
+	@Override
 	public AppWapplet getApplet(ArticleElement ae, GeoGebraFrameBoth fr,
 			GLookAndFeelI laf, GDevice device) {
 		return new AppWapplet3D(ae, fr, (GLookAndFeel) laf, device);
-		}
+	}
 }

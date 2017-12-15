@@ -52,6 +52,7 @@ public class ZoomPanel extends FlowPanel
 	boolean isFullScreen = false;
 
 	private FlowPanel zoomPanel = this;
+	/** application */
 	AppW app;
 	private EuclidianView view;
 	/** after we leave fullscreen, we must reset container position */

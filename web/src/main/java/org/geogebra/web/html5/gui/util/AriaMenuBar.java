@@ -37,8 +37,12 @@ public class AriaMenuBar extends Widget {
 		addStyleName("gwt-MenuBar-vertical");
 	}
 
-	protected void setHandleArrows(boolean b) {
-		this.handleArrows = b;
+	/**
+	 * @param handleArrows
+	 *            whether this menu should handle up/down keys on its own
+	 */
+	protected void setHandleArrows(boolean handleArrows) {
+		this.handleArrows = handleArrows;
 	}
 
 	/**
@@ -388,7 +392,7 @@ public class AriaMenuBar extends Widget {
 	 *            whether submenu icon is on the left
 	 * @return horizontal coordinate of menu
 	 */
-	protected int getAbsoluteHorizontalPos(AriaMenuItem item, boolean subleft) {
+	public int getAbsoluteHorizontalPos(AriaMenuItem item, boolean subleft) {
 		return subleft ? item.getElement().getAbsoluteLeft()
 				: item.getElement().getAbsoluteRight() + 8;
 	}
