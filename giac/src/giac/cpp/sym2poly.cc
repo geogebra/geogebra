@@ -1661,6 +1661,8 @@ namespace giac {
     common_EXT(iext,currentext,0,contextptr);
     if (currentext.type==_EXT)
       currentext=*(currentext._EXTptr+1);
+    Extension=change_subtype(Extension,_POLY1__VECT);
+    currentext=change_subtype(currentext,_POLY1__VECT);
     if (Extension==currentext)
       return true;
     already.push_back(Extension);

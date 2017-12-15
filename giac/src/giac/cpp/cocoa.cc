@@ -15767,6 +15767,7 @@ Let {f1, ..., fr} be a set of polynomials. The Gebauer-Moller Criteria are as fo
 	  }
 	}
       }  catch (std::runtime_error & e){ 
+	last_evaled_argptr(contextptr)=NULL;
 	CERR << "Degree too large for compressed monomials. Using uncompressed monomials instead." << endl;
       }
     }
