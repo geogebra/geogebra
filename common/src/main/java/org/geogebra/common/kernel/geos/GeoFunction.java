@@ -2517,7 +2517,8 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	public void update(boolean dragging) {
 		updateGeo(!cons.isUpdateConstructionRunning(), dragging);
 		if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
-			kernel.getApplication().getSpecialPointsManager().updateSelection();	
+			kernel.getApplication().getSpecialPointsManager()
+					.updateSpecialPoints(null);
 		}
 		kernel.notifyUpdate(this);
 	}

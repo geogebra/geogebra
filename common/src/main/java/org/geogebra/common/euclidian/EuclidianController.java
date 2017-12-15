@@ -6383,9 +6383,6 @@ public abstract class EuclidianController {
 		}
 
 		if (repaint) {
-			if (app.has(Feature.PREVIEW_POINTS)) {
-				app.getSpecialPointsManager().updateSpecialPoints(null);
-			}
 			// GGB-1249 fast dragging of CAS functions
 			movedGeoFunction.updateRepaint(true);
 		} else {
