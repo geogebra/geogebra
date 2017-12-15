@@ -97,17 +97,17 @@ public class DrawLabel3D {
 	/**
 	 * update the label
 	 * 
-	 * @param text
+	 * @param text0
 	 * @param fontsize
 	 * @param color
 	 * @param v
-	 * @param xOffset
-	 * @param yOffset
+	 * @param xOffset0
+	 * @param yOffset0
 	 */
-	public void update(String text, GFont font, GColor color, Coords v,
-			float xOffset, float yOffset) {
+	public void update(String text0, GFont font, GColor color, Coords v,
+			float xOffset0, float yOffset0) {
 
-		update(text, font, null, color, v, xOffset, yOffset);
+		update(text, font, null, color, v, xOffset0, yOffset0);
 	}
 
 	/**
@@ -121,18 +121,18 @@ public class DrawLabel3D {
 	/**
 	 * update the label
 	 * 
-	 * @param text
+	 * @param text0
 	 * @param fontsize
 	 * @param fgColor
 	 * @param v
 	 * @param xOffset
-	 * @param yOffset
+	 * @param yOffset0
 	 */
-	public void update(String text, GFont font0, GColor bgColor,
-			GColor fgColor, Coords v, float xOffset, float yOffset) {
+	public void update(String text0, GFont font0, GColor bgColor,
+			GColor fgColor, Coords v, float xOffset0, float yOffset0) {
 
 		this.origin = v;
-		if (text.length() == 0) {
+		if (text0.length() == 0) {
 			return;
 		}
 
@@ -155,9 +155,9 @@ public class DrawLabel3D {
 
 		setIsVisible(true);
 
-		if (waitForReset || !text.equals(this.text)
+		if (waitForReset || !text0.equals(this.text)
 				|| !font0.equals(this.fontOriginal)) {
-			this.text = text;
+			this.text = text0;
 			fontOriginal = font0;
 			int style = fontOriginal.getStyle();
 			int size = fontOriginal.getSize();
@@ -197,8 +197,8 @@ public class DrawLabel3D {
 			// Application.debug("textureIndex = "+textureIndex);
 		}
 
-		this.xOffset = xOffset;// + xOffset2;
-		this.yOffset = yOffset;// + yOffset2;
+		this.xOffset = xOffset0;// + xOffset2;
+		this.yOffset = yOffset0;// + yOffset2;
 	}
 
 	/**

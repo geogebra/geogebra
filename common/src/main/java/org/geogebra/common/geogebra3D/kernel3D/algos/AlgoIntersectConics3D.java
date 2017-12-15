@@ -199,71 +199,71 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 	/**
 	 * calc intersection points between A, B
 	 * 
-	 * @param A
+	 * @param cA
 	 *            first conic
-	 * @param B
+	 * @param cB
 	 *            second conic
-	 * @param P
+	 * @param pts
 	 *            intersection points
 	 */
-	public final void intersectConics3D(GeoConicND A, GeoConicND B,
-			GeoPoint3D[] P) {
-		if (!A.isDefined() || !B.isDefined()) {
-			setPointsUndefined(P);
+	public final void intersectConics3D(GeoConicND cA, GeoConicND cB,
+			GeoPoint3D[] pts) {
+		if (!cA.isDefined() || !cB.isDefined()) {
+			setPointsUndefined(pts);
 			return;
 		}
-		CoordSys csA = A.getCoordSys();
-		CoordSys csB = B.getCoordSys();
+		CoordSys csA = cA.getCoordSys();
+		CoordSys csB = cB.getCoordSys();
 		// check if coord sys are incident
 		Coords cross = csA.getNormal().crossProduct(csB.getNormal());
 		if (!cross.equalsForKernel(0, Kernel.MIN_PRECISION)) { // not same plane
 			Coords[] intersection = CoordMatrixUtil.intersectPlanes(
-					A.getCoordSys().getMatrixOrthonormal(),
-					B.getCoordSys().getMatrixOrthonormal());
+					cA.getCoordSys().getMatrixOrthonormal(),
+					cB.getCoordSys().getMatrixOrthonormal());
 			Coords op = csA.getNormalProjection(intersection[0])[1];
 			Coords dp = csA.getNormalProjection(intersection[1])[1];
 			l2d.setCoords(dp.getY(), -dp.getX(),
 					-dp.getY() * op.getX() + dp.getX() * op.getY());
-			AlgoIntersectLineConic.intersectLineConic(l2d, A, points2d,
+			AlgoIntersectLineConic.intersectLineConic(l2d, cA, points2d,
 					Kernel.STANDARD_PRECISION);
 			// Application.debug(points2d[0]+"\n"+points2d[1]);
 
-			P[0].setCoords(csA.getPoint(points2d[0].x, points2d[0].y), false);
-			checkIsOnConic(B, P[0]);
-			P[1].setCoords(csA.getPoint(points2d[1].x, points2d[1].y), false);
-			checkIsOnConic(B, P[1]);
+			pts[0].setCoords(csA.getPoint(points2d[0].x, points2d[0].y), false);
+			checkIsOnConic(cB, pts[0]);
+			pts[1].setCoords(csA.getPoint(points2d[1].x, points2d[1].y), false);
+			checkIsOnConic(cB, pts[1]);
 
-			if (!P[0].isDefined() && P[1].isDefined()) {
-				P[0].setCoords(P[1].getCoords(), false);
-				P[1].setUndefined();
+			if (!pts[0].isDefined() && pts[1].isDefined()) {
+				pts[0].setCoords(pts[1].getCoords(), false);
+				pts[1].setUndefined();
 			}
 
-			P[2].setUndefined();
-			P[3].setUndefined();
+			pts[2].setUndefined();
+			pts[3].setUndefined();
 
 		} else { // parallel plane
 
 			Coords op = csA.getNormalProjection(csB.getOrigin())[1];
 			if (!Kernel.isZero(op.getZ())) {// coord sys strictly parallel
-				setPointsUndefined(P); // TODO infinite points ?
+				setPointsUndefined(pts); // TODO infinite points ?
 			} else {// coord sys included
 
-				intersectSamePlane(A, B, P);
+				intersectSamePlane(cA, cB, pts);
 
 			}
 		}
 
 	}
 
-	private void intersectSamePlane(GeoConicND A, GeoConicND B,
-			GeoPoint3D[] P) {
-		transformConics(A, B, A2d, B2d);
+	private void intersectSamePlane(GeoConicND cA, GeoConicND cB,
+			GeoPoint3D[] pts) {
+		transformConics(cA, cB, A2d, B2d);
 		// Log.debug(sBinA.get(1,1)+","+B2d.matrix[0]+"");
 		algo2d.intersectConics(A2d, B2d, points2d);
-		setPointsUndefined(P);
+		setPointsUndefined(pts);
 		for (int i = 0; i < 4; i++) {
-			P[i].setCoords(
-					A.getCoordSys().getPoint(points2d[i].x, points2d[i].y),
+			pts[i].setCoords(
+					cA.getCoordSys().getPoint(points2d[i].x, points2d[i].y),
 					false);
 		}
 

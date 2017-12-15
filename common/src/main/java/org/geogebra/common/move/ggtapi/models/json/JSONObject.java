@@ -22,6 +22,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import org.geogebra.common.util.debug.Log;
+
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 // Note: this class was written without inspecting the non-free org.json sourcecode.
@@ -834,7 +836,7 @@ public class JSONObject {
 				return new JSONArray((Collection) o);
 			} else if (o.getClass().isArray()) {
 				// removed so that it will compile in GeoGebra/common
-				throw new JSONException("not supported");
+				Log.warn("Array not supported");
 				// return new JSONArray(o);
 			}
 			if (o instanceof Map) {
@@ -851,7 +853,8 @@ public class JSONObject {
 			// if (o.getClass().getPackage().getName().startsWith("java.")) {
 			return o.toString();
 			// }
-		} catch (Exception ignored) {
+		} catch (RuntimeException ignored) {
+			// invalid
 		}
 		return null;
 	}

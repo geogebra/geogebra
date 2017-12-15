@@ -157,14 +157,14 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	/**
 	 * calc intersection points with the conic
 	 * 
-	 * @param c
+	 * @param conic
 	 *            conic
-	 * @param P
+	 * @param pts
 	 *            points
 	 */
-	protected final void intersect(GeoConicND c, GeoPoint3D[] P) {
+	protected final void intersect(GeoConicND conic, GeoPoint3D[] pts) {
 
-		CoordSys cs = c.getCoordSys();
+		CoordSys cs = conic.getCoordSys();
 		Coords o = getFirstGeoStartInhomCoords();
 		Coords d = getFirstGeoDirectionInD3();
 
@@ -179,9 +179,9 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 			p2d.setY(inPlaneCoords.getY());
 			p2d.setZ(inPlaneCoords.getW());
 			// check if intersect point is on conic
-			if (c.isOnFullConic(p2d, Kernel.MIN_PRECISION)
+			if (conic.isOnFullConic(p2d, Kernel.MIN_PRECISION)
 					&& getFirstGeoRespectLimitedPath(globalCoords)) {
-				P[0].setCoords(globalCoords, false);
+				pts[0].setCoords(globalCoords, false);
 			} else {
 				setPointsUndefined();
 			}
@@ -192,7 +192,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 			} else {// line included
 				g2d.setCoords(dp.getY(), -dp.getX(),
 						-dp.getY() * op.getX() + dp.getX() * op.getY());
-				intersectLineIncluded(c, P, cs, g2d);
+				intersectLineIncluded(conic, pts, cs, g2d);
 			}
 		}
 

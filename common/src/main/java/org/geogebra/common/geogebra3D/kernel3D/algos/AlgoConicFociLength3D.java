@@ -55,8 +55,8 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 	}
 
 	@Override
-	protected GeoConicND newGeoConic(Construction cons) {
-		GeoConic3D ret = new GeoConic3D(cons);
+	protected GeoConicND newGeoConic(Construction cons0) {
+		GeoConic3D ret = new GeoConic3D(cons0);
 		ret.setCoordSys(new CoordSys(2));
 		return ret;
 	}
