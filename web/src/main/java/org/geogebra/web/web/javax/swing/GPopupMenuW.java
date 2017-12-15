@@ -618,13 +618,13 @@ public class GPopupMenuW implements AttachedToDOM {
 				} else if (keyCode == KeyCodes.KEY_TAB) {
 					if (event.getShiftKey()) {
 						if (!moveSelectionUp()) {
-							getApp().getAccessibilityManager()
-									.focusPrevious(hide());
+							popupPanel.hide();
+							getApp().getAccessibilityManager().focusAnchor();
 						}
 					} else {
 						if (!moveSelectionDown()) {
-							getApp().getAccessibilityManager()
-									.focusNext(hide());
+							hide();
+							getApp().getAccessibilityManager().focusAnchor();
 						}
 					}
 					AriaMenuBar.eatEvent(event);
