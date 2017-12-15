@@ -164,14 +164,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 	/**
 	 * @param keepFocus
 	 *            whether the focus should stay afterwards
-	 */
-	public void createGeoFromInput(final boolean keepFocus) {
-		createGeoFromInput(keepFocus, false);
-	}
-
-	/**
-	 * @param keepFocus
-	 *            whether the focus should stay afterwards
 	 * @param withSliders
 	 *            whether to create sliders
 	 */
@@ -184,7 +176,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 		final String input = textInput ? "\"" + rawInput + "\"": rawInput;
 		
 		setInputAsText(false);
-		
 		final boolean valid = input.equals(newValue);
 
 		app.setScrollToShow(true);
