@@ -405,6 +405,23 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		}
 		return v;
 	}
+
+	/**
+	 * The set of the variables in the given polynomials
+	 * 
+	 * @param polys
+	 *            the polynomials
+	 * @return the set of variables
+	 */
+	public static HashSet<PVariable> getVars(Set<PPolynomial> polys) {
+		HashSet<PVariable> v = new HashSet<>();
+		for (PPolynomial poly : polys) {
+			HashSet<PVariable> vars = poly.getVars();
+			if (vars != null)
+				v.addAll(vars);
+		}
+		return v;
+	}
 	
 	/**
 	 * Creates a comma separated list of the variables in the given polynomials

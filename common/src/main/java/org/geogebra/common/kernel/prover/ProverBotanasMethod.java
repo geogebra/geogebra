@@ -454,11 +454,18 @@ public class ProverBotanasMethod {
 		}
 
 		/**
-		 * Create the negated thesis. Note that this can be called only once and
-		 * cannot be reverted.
+		 * Remove the thesis (eventually the negated one if it is already
+		 * negated).
 		 */
-		public void negateThesis() {
+		public void removeThesis() {
 			removeGeoPolys(geoStatement);
+		}
+
+		/**
+		 * Add the negated thesis. Note that this can be called only once and
+		 * cannot be reverted. (?)
+		 */
+		public void addNegatedThesis() {
 			addGeoPolys(geoStatement, thesisFactors);
 		}
 
@@ -615,13 +622,16 @@ public class ProverBotanasMethod {
 			 * is OK in general, that is, we never need using
 			 * AlgoDependentNumber's polynomials directly. If this is still the
 			 * case, our idea here must be redesigned. Also remove geos which
-			 * should be computed numerically.
+			 * should be computed numerically. Also remove numbers which have no
+			 * role, e.g. in Intersect(c,d,2).
 			 */
 			it = allPredecessors.iterator();
 			while (it.hasNext()) {
 				GeoElement geo = it.next();
-				if (!(geo instanceof GeoNumeric && geo
-						.getParentAlgorithm() instanceof AlgoDependentNumber)) {
+				AlgoElement algo = geo.getParentAlgorithm();
+				if (!(geo instanceof GeoNumeric
+						&& (algo instanceof AlgoDependentNumber
+								|| algo == null))) {
 					predecessors.add(geo);
 				}
 			}
@@ -1160,6 +1170,8 @@ public class ProverBotanasMethod {
 					if (algo.input[0] instanceof GeoAngle
 							&& algo.input[1] instanceof GeoAngle) {
 						interpretTrueAsUndefined = true;
+						// FIXME: this should be removed, and an essential
+						// condition added
 					}
 				}
 				if (algo instanceof AlgoDependentBoolean) {
@@ -1181,6 +1193,8 @@ public class ProverBotanasMethod {
 						if ((algo.input[0] instanceof GeoAngle
 								&& algo.input[1] instanceof GeoAngle)) {
 							interpretTrueAsUndefined = true;
+							// FIXME: this should be removed, and an essential
+							// condition added
 						}
 					}
 				}
@@ -1458,7 +1472,8 @@ public class ProverBotanasMethod {
 							 * generally false, either.
 							 * 
 							 */
-							as.negateThesis();
+							as.removeThesis();
+							as.addNegatedThesis();
 							eliminationIdeal = PPolynomial.eliminate(
 									as.getPolynomials()
 											.toArray(new PPolynomial[as
@@ -1478,7 +1493,19 @@ public class ProverBotanasMethod {
 										 */
 										Log.debug(
 												"Statement is NOT GENERALLY FALSE");
-										return ProofResult.TRUE_ON_COMPONENTS;
+										as.removeThesis();
+										int hilbDim = HilbertDimension
+												.compute(as);
+										int naivDim = as.getFreeVariables()
+												.size();
+										Log.debug(
+												"Hilbert dimension = " + hilbDim
+														+ ", naive dimension = "
+														+ naivDim);
+										if (hilbDim == naivDim) {
+											return ProofResult.TRUE_ON_COMPONENTS;
+										}
+										return ProofResult.UNKNOWN;
 									}
 								}
 							}
@@ -1625,7 +1652,8 @@ public class ProverBotanasMethod {
 				 * It is possible that the statement is not generally false,
 				 * either.
 				 */
-				as.negateThesis();
+				as.removeThesis();
+				as.addNegatedThesis();
 				solvable = PPolynomial
 						.solvable(
 								as.getPolynomials()
