@@ -70,7 +70,7 @@ public class SpecialPointsManager implements UpdateSelection {
 	}
 
 	private GeoElementND[] getSpecPoints(GeoElementND geo) {
-		if (!(geo instanceof GeoFunction)) {
+		if (!(geo instanceof GeoFunction) || !geo.isVisible()) {
 			return null;
 		}
 		PolyFunction poly = ((GeoFunction) geo).getFunction()
@@ -118,7 +118,8 @@ public class SpecialPointsManager implements UpdateSelection {
 				geos2 = algoExtremumPolynomial.getRootPoints();
 				specPointAlgos.add(algoExtremumPolynomial);
 			}
-		} else {
+		} else if (kernel.getApplication().getActiveEuclidianView()
+				.getShowAxis(1)) {
 			AlgoIntersectPolynomialLine algoPolynomialLine = new AlgoIntersectPolynomialLine(
 					kernel.getConstruction(), (GeoFunction) geo,
 					kernel.getConstruction().getYAxis());
