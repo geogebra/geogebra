@@ -117,4 +117,6 @@ public interface StackPanelInterface extends InsertPanel {
 	public void addStyleName(String string);
 
 	public boolean remove(Widget w);
+
+	public boolean isCollapsed();
 }

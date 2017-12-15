@@ -103,6 +103,10 @@ public class MainMenu extends FlowPanel
 
 	/** Add interface to stack panel */
 	class MyStackPanel extends StackPanel implements StackPanelInterface {
+		@Override
+		public boolean isCollapsed() {
+			return false;
+		}
 		// only adds interface
 	}
 
@@ -1080,7 +1084,8 @@ public class MainMenu extends FlowPanel
 			return false;
 		}
 
-		if (menu.isLastItemSelected() || menu.isEmpty()) {
+		if (menu.isLastItemSelected() || menu.isEmpty()
+				|| menuPanel.isCollapsed()) {
 			int nextIdx = menuPanel.getSelectedIndex() + 1;
 			if (nextIdx < menuPanel.getWidgetCount()) {
 				menuPanel.showStack(nextIdx);

@@ -28,6 +28,7 @@ public class AriaStackPanel extends ComplexPanel
 			+ "Item";
 
 	private int visibleStack = -1;
+	private int lastVisibleStack = -1;
 	private UListElement ul;
 	private ArrayList<Widget> items = new ArrayList<>();
 	private ArrayList<Element> headers = new ArrayList<>();
@@ -103,7 +104,7 @@ public class AriaStackPanel extends ComplexPanel
 	 */
 	@Override
 	public int getSelectedIndex() {
-		return visibleStack;
+		return visibleStack == -1 ? lastVisibleStack : visibleStack;
 	}
 
 	/**
@@ -157,7 +158,7 @@ public class AriaStackPanel extends ComplexPanel
 		} else {
 			setStackVisible(beforeIndex, false);
 			if (visibleStack >= beforeIndex) {
-				++visibleStack;
+				setVisibleStack(visibleStack + 1);
 			}
 			// Reshow the stack to apply style names
 			setStackVisible(visibleStack, true);
@@ -241,7 +242,7 @@ public class AriaStackPanel extends ComplexPanel
 			setStackVisible(visibleStack, false);
 		}
 
-		visibleStack = index;
+		setVisibleStack(index);
 		setStackVisible(visibleStack, true);
 	}
 
@@ -316,6 +317,9 @@ public class AriaStackPanel extends ComplexPanel
 	}
 
 	private void setStackVisible(int index, boolean visible) {
+		if (index < 0) {
+			return;
+		}
 		Element header = headers.get(index);
 		Element content = contents.get(index);
 		setStyleName(header, DEFAULT_ITEM_STYLENAME + "-selected", visible);
@@ -339,7 +343,7 @@ public class AriaStackPanel extends ComplexPanel
 	/** Close all stacks */
 	public void closeAll() {
 		setStackVisible(visibleStack, false);
-		visibleStack = -1;
+		this.visibleStack = -1;
 	}
 
 	@Override
@@ -415,6 +419,16 @@ public class AriaStackPanel extends ComplexPanel
 	 */
 	public void reset() {
 		closeAll();
+		setVisibleStack(-1);
+	}
+
+	private void setVisibleStack(int visibleStack) {
+		this.visibleStack = visibleStack;
+		this.lastVisibleStack = visibleStack;
+	}
+
+	public boolean isCollapsed() {
+		return visibleStack != lastVisibleStack;
 	}
 
 }
