@@ -99,10 +99,8 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 
 		if (source.getTabIndex() == GUITabs.MENU) {
-			if (!focusInput(false)) {
-				if (!focusLastGeo()) {
-					focusZoom(false);
-				}
+			if (!focusLastGeo()) {
+				focusZoom(false);
 			}
 		}
 	}
