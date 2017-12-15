@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
@@ -513,7 +514,13 @@ public class GPopupMenuW implements AttachedToDOM {
 	 * hide popup menu
 	 */
 	public void hide() {
+		AccessibilityManagerInterface am = getApp()
+				.getAccessibilityManager();
+		Object anchor = am.getAnchor();
 		popupPanel.hide();
+		if (anchor instanceof Widget) {
+			((Widget) anchor).getElement().focus();
+		}
 	}
 
 	/**
@@ -615,17 +622,15 @@ public class GPopupMenuW implements AttachedToDOM {
 			} else if (DOM.eventGetType(event) == Event.ONKEYDOWN) {
 				char keyCode = (char) event.getKeyCode();
 				if (keyCode == KeyCodes.KEY_ESCAPE) {
-					popupPanel.hide();
+					hide();
 				} else if (keyCode == KeyCodes.KEY_TAB) {
 					if (event.getShiftKey()) {
 						if (!moveSelectionUp()) {
-							popupPanel.hide();
-							getApp().getAccessibilityManager().focusAnchor();
+							hide();
 						}
 					} else {
 						if (!moveSelectionDown()) {
 							hide();
-							getApp().getAccessibilityManager().focusAnchor();
 						}
 					}
 					AriaMenuBar.eatEvent(event);
@@ -635,12 +640,7 @@ public class GPopupMenuW implements AttachedToDOM {
 			super.onBrowserEvent(event);
 		}
 
-		private Object hide() {
-			Object anchor = getApp().getAccessibilityManager().getAnchor();
-			popupPanel.hide();
-			getApp().getAccessibilityManager().setAnchor(anchor);
-			return anchor;
-		}
+
 
 		@Override
 		public boolean moveSelectionDown() {
