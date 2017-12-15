@@ -77,17 +77,17 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	protected void showSpecialPointPopup(ArrayList<GeoElement> previewPoints) {
+	protected void showSpecialPointPopup(
+			final ArrayList<GeoElement> previewPoints) {
 		if (!app.has(Feature.PREVIEW_POINTS)) {
 			return;
 		}
 		final PreviewPointPopup popup = new PreviewPointPopup(
-				(AppW) getApplication(),
-				previewPoints);
+				(AppW) getApplication(), previewPoints);
 		popup.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
 			@Override
 			public void setPosition(int offsetWidth, int offsetHeight) {
-				popup.positionPopup(offsetWidth, offsetHeight);
+				popup.positionPopup(offsetWidth, offsetHeight, previewPoints);
 			}
 		});
 	}
