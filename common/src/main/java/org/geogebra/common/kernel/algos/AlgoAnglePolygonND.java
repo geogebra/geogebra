@@ -30,9 +30,11 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	protected GeoPolygon poly; // input
 	protected OutputHandler<GeoElement> outputAngles;
 	protected AlgoAnglePointsND algoAngle;
+	private boolean internalAngle;
 
-	public AlgoAnglePolygonND(Construction cons) {
+	public AlgoAnglePolygonND(Construction cons, boolean internalAngle) {
 		super(cons);
+		this.internalAngle = internalAngle;
 	}
 
 	public AlgoAnglePolygonND(Construction cons, String[] labels,
@@ -109,12 +111,14 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	@Override
 	public final void compute() {
 		int length = poly.getPoints().length;
+		int dir = !internalAngle || poly.getAreaWithSign() > 0
+								? 1 : length - 1;
 		outputAngles.adjustOutputSize(length > 0 ? length : 1);
 
 		for (int i = 0; i < length; i++) {
-			algoAngle.setABC(poly.getPointND((i + 1) % length),
+			algoAngle.setABC(poly.getPointND((i + dir) % length),
 					poly.getPointND(i),
-					poly.getPointND((i + length - 1) % length));
+					poly.getPointND((i + length - dir) % length));
 			algoAngle.compute();
 
 			GeoAngle angle = (GeoAngle) outputAngles.getElement(i);

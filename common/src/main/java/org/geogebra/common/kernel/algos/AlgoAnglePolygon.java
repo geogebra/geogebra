@@ -47,7 +47,7 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 	 * 
 	 */
 	public AlgoAnglePolygon(Construction cons, GeoPolygon poly) {
-		super(cons);
+		super(cons, false);
 		setPolyAndOrientation(poly, null);
 		algoAngle = newAlgoAnglePoints(cons);
 		outputAngles = createOutputPoints();
