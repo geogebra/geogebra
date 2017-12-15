@@ -3102,7 +3102,7 @@ __GGB__keysVar.sk.menu = {
     "html": "Webov\xe1 str\xe1nka",
     "insert_worksheet": "Vlo\u017ei\u0165 pracovn\xfd h\xe1rok",
     "jpg": "JPG form\xe1t",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "max",
     "min": "min",

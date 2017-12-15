@@ -3102,7 +3102,7 @@ __GGB__keysVar.et.menu = {
     "html": "Veebileht",
     "insert_worksheet": "Lisa t\xf6\xf6leht",
     "jpg": "JPG-vorming",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "Max",
     "min": "Min",

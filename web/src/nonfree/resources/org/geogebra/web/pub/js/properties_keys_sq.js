@@ -3102,7 +3102,7 @@ __GGB__keysVar.sq.menu = {
     "html": "Faqe internet",
     "insert_worksheet": "Insert Worksheet",
     "jpg": "Format Pikture JPG",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "Maks",
     "min": "Min",

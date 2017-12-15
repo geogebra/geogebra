@@ -3102,7 +3102,7 @@ __GGB__keysVar.lt.menu = {
     "html": "Tinklalapis",
     "insert_worksheet": "\u012eterpti skai\u010diuokl\u0117s lak\u0161t\u0105",
     "jpg": "JPG formatas",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "max",
     "min": "min",

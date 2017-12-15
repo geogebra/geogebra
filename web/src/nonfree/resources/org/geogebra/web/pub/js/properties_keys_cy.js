@@ -3102,7 +3102,7 @@ __GGB__keysVar.cy.menu = {
     "html": "Gwe-dudalen",
     "insert_worksheet": "Insert Worksheet",
     "jpg": "Fformat JPG",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "Macs",
     "min": "Min",

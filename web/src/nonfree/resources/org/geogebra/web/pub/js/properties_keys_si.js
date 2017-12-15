@@ -3102,7 +3102,7 @@ __GGB__keysVar.si.menu = {
     "html": "\u0dc0\u0dd9\u0db6\u0dca \u0db4\u0dd2\u0da7\u0dd4\u0dc0",
     "insert_worksheet": "Insert Worksheet",
     "jpg": "JPG Format",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "\u0d8b\u0db4\u0dbb\u0dd2\u0db8",
     "min": "\u0d85\u0dc0\u0db8",

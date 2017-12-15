@@ -3102,7 +3102,7 @@ __GGB__keysVar.az.menu = {
     "html": "Veb-s\u0259hif\u0259",
     "insert_worksheet": "Insert Worksheet",
     "jpg": "JPG Format",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "Maks",
     "min": "Min",

@@ -3102,7 +3102,7 @@ __GGB__keysVar.in.menu = {
     "html": "Halaman Web",
     "insert_worksheet": "Insert Worksheet",
     "jpg": "Format JPG",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "maksimum",
     "min": "minimum",

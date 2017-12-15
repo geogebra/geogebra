@@ -3102,7 +3102,7 @@ __GGB__keysVar.ro.menu = {
     "html": "Pagin\u0103 web",
     "insert_worksheet": "Inserare foaie de lucru",
     "jpg": "Format JPG",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "max",
     "min": "min",

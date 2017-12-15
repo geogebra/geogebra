@@ -3102,7 +3102,7 @@ __GGB__keysVar.lv.menu = {
     "html": "Webpage",
     "insert_worksheet": "Insert Worksheet",
     "jpg": "JPG Form\u0101ts",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "Max",
     "min": "Min",

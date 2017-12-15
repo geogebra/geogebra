@@ -3102,7 +3102,7 @@ __GGB__keysVar.vi.menu = {
     "html": "Trang web",
     "insert_worksheet": "Insert Worksheet",
     "jpg": "\u0111u\xf4i .jpg",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "C\u1ef1c \u0111\u1ea1i",
     "min": "C\u1ef1c ti\u1ec3u",

@@ -3102,7 +3102,7 @@ __GGB__keysVar.ms.menu = {
     "html": "Laman web",
     "insert_worksheet": "Selit Lembaran Kerja",
     "jpg": "Format JPG",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "maks",
     "min": "minimum",

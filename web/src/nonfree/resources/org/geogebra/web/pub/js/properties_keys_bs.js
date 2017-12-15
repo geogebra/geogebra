@@ -3102,7 +3102,7 @@ __GGB__keysVar.bs.menu = {
     "html": "Web-stranica",
     "insert_worksheet": "Ubaci dinami\u010dki radni list",
     "jpg": "JPG format",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "max",
     "min": "min",

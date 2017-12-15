@@ -3102,7 +3102,7 @@ __GGB__keysVar.br.menu = {
     "html": "Webpage",
     "insert_worksheet": "Insert Worksheet",
     "jpg": "JPG Format",
-    "materials": "Materials",
+    "materials": "Resources",
     "math_apps": "GeoGebra Classic",
     "max": "Max",
     "min": "Min",
