@@ -679,6 +679,11 @@ public class GSuggestBox extends Composite
 				itemOver(items.get(index));
 			}
 		}
+
+		@Override
+		protected void focus(AriaMenuItem item) {
+			// do not move the real focus
+		}
 	}
 
 	/**

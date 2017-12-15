@@ -139,9 +139,19 @@ public class AriaMenuBar extends Widget {
 		}
 		this.selectedItem = item;
 		if (item != null) {
-			item.getElement().focus();
+			focus(item);
 			item.addStyleName("selectedItem");
 		}
+	}
+
+	/**
+	 * Move focus to an item, may be overriden
+	 * 
+	 * @param item
+	 *            item to move focus to
+	 */
+	protected void focus(AriaMenuItem item) {
+		item.getElement().focus();
 	}
 
 	/**
