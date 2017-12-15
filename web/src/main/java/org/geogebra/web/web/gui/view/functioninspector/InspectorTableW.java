@@ -256,7 +256,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	    return blurHandler;
     }
 
-	public void addBlurHandler(BlurHandler blurHandler) {
+	public void setBlurHandler(BlurHandler blurHandler) {
 	    this.blurHandler = blurHandler;
     }
 

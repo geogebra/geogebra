@@ -12,8 +12,8 @@ public class LongTouchTimer extends Timer {
 	private static final int MOVE_THRESHOLD = 10;
 
 	private LongTouchHandler handler;
-	private int x;
-	private int y;
+	private int mX;
+	private int mY;
 	private boolean longTouchHappened = false;
 
 	/**
@@ -41,8 +41,8 @@ public class LongTouchTimer extends Timer {
 	 */
 	public LongTouchTimer(LongTouchHandler handler) {
 		this.handler = handler;
-		this.x = 0;
-		this.y = 0;
+		this.mX = 0;
+		this.mY = 0;
 		longTouchHappened = false;
 	}
 
@@ -52,7 +52,7 @@ public class LongTouchTimer extends Timer {
 			return;
 		}
 		longTouchHappened = true;
-		handler.handleLongTouch(x, y);
+		handler.handleLongTouch(mX, mY);
 	}
 
 	/**
@@ -85,8 +85,8 @@ public class LongTouchTimer extends Timer {
 	public void schedule(LongTouchHandler handler, int x, int y,
 			int delayMillis) {
 		this.handler = handler;
-		this.x = x;
-		this.y = y;
+		this.mX = x;
+		this.mY = y;
 		longTouchHappened = false;
 		schedule(delayMillis);
 	}
@@ -150,16 +150,16 @@ public class LongTouchTimer extends Timer {
 	}
 
 	public void cancelTimer() {
-		x = 0;
-		y = 0;
+		mX = 0;
+		mY = 0;
 		handler = null;
 		longTouchHappened = false;
 		cancel();
 	}
 
 	private boolean pointWithinLimit(int nx, int ny) {
-		if (Math.abs(nx - x) < MOVE_THRESHOLD
-				&& Math.abs(ny - y) < MOVE_THRESHOLD) {
+		if (Math.abs(nx - mX) < MOVE_THRESHOLD
+				&& Math.abs(ny - mY) < MOVE_THRESHOLD) {
 			return true;
 		}
 		return false;

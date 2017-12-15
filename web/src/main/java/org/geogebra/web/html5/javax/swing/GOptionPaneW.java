@@ -35,8 +35,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class GOptionPaneW extends GDialogBox
 		implements ClickHandler, HasKeyboardPopup {
 
-	private App app;
-	private String title, message, initialSelectionValue;
+	private App mApp;
+	private String title, mMessage, initialSelectionValue;
 	private Button btnOK, btnCancel;
 	private Button[] optionButtons;
 	private String[] optionNames;
@@ -53,7 +53,7 @@ public class GOptionPaneW extends GDialogBox
 	private String returnValue;
 	private VerticalPanel messageTextPanel;
 
-	private Image icon;
+	private Image mIcon;
 	private HorizontalPanel messagePanel;
 	private String okLabel = null;
 	private int enterOption;
@@ -62,12 +62,12 @@ public class GOptionPaneW extends GDialogBox
 
 	public GOptionPaneW(Panel root, App app) {
 		super(false, true, root, app);
-		this.app = app;
+		this.mApp = app;
 		createGUI();
 	}
 
 	private void showDialog(boolean autoComplete) {
-		loc = app.getLocalization();
+		loc = mApp.getLocalization();
 		updateGUI();
 		center();
 		if (inputField != null) {
@@ -116,7 +116,7 @@ public class GOptionPaneW extends GDialogBox
 	private void createGUI() {
 
 		setGlassEnabled(true);
-		if (app.has(Feature.DIALOG_DESIGN)) {
+		if (mApp.has(Feature.DIALOG_DESIGN)) {
 			addStyleName("MaterialDialogBox");
 		} else {
 			addStyleName("DialogBox");
@@ -176,7 +176,7 @@ public class GOptionPaneW extends GDialogBox
 
 				// Styling of cancel button should be different
 				if (optionNames[i]
-						.equals(app.getLocalization().getMenu("Cancel"))) {
+						.equals(mApp.getLocalization().getMenu("Cancel"))) {
 					optionButtons[i].addStyleName("cancelBtn");
 				}
 
@@ -209,14 +209,14 @@ public class GOptionPaneW extends GDialogBox
 		messageTextPanel.clear();
 
 		updateIcon();
-		if (icon != null) {
-			messagePanel.add(icon);
+		if (mIcon != null) {
+			messagePanel.add(mIcon);
 		}
 		if (scrollPanel != null) {
 			messagePanel.add(scrollPanel);
 			messagePanel.addStyleName("examMessagePanel");
 		} else {
-			String[] lines = message.split("\n");
+			String[] lines = mMessage.split("\n");
 			for (String item : lines) {
 				messageTextPanel.add(new Label(item));
 			}
@@ -232,7 +232,7 @@ public class GOptionPaneW extends GDialogBox
 	private void updateInputField() {
 
 		if (inputField == null) {
-			inputField = new AutoCompleteTextFieldW(app);
+			inputField = new AutoCompleteTextFieldW(mApp);
 		}
 		inputField.setText(initialSelectionValue);
 
@@ -240,31 +240,31 @@ public class GOptionPaneW extends GDialogBox
 
 	private void updateIcon() {
 
-		if (icon != null) {
+		if (mIcon != null) {
 			return;
 		}
 
 		switch (messageType) {
 
 		case GOptionPane.ERROR_MESSAGE:
-			icon = new Image(
+			mIcon = new Image(
 					GuiResourcesSimple.INSTANCE.dialog_error().getSafeUri());
 			break;
 		case GOptionPane.INFORMATION_MESSAGE:
-			icon = new Image(
+			mIcon = new Image(
 					GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri());
 			break;
 		case GOptionPane.WARNING_MESSAGE:
-			icon = new Image(
+			mIcon = new Image(
 					GuiResourcesSimple.INSTANCE.dialog_warning().getSafeUri());
 			break;
 		case GOptionPane.QUESTION_MESSAGE:
-			icon = new Image(
+			mIcon = new Image(
 					GuiResourcesSimple.INSTANCE.dialog_question().getSafeUri());
 			break;
 		default:
 		case GOptionPane.PLAIN_MESSAGE:
-			icon = null;
+			mIcon = null;
 			break;
 		}
 	}
@@ -334,12 +334,12 @@ public class GOptionPaneW extends GDialogBox
 	public int showConfirmDialog(App app, String message, String title,
 			int optionType, int messageType, Image icon) {
 
-		this.app = app;
-		this.message = message;
+		this.mApp = app;
+		this.mMessage = message;
 		this.title = title;
 		this.optionType = optionType;
 		this.messageType = messageType;
-		this.icon = icon;
+		this.mIcon = icon;
 
 		this.okLabel = null;
 
@@ -357,12 +357,12 @@ public class GOptionPaneW extends GDialogBox
 			int optionType, int messageType, String okLabel, Image icon,
 			AsyncOperation<String[]> returnHandler) {
 
-		this.app = app;
+		this.mApp = app;
 		this.scrollPanel = scrollPanel;
 		this.title = title;
 		this.optionType = optionType;
 		this.messageType = messageType;
-		this.icon = icon;
+		this.mIcon = icon;
 
 		this.okLabel = okLabel;
 		this.returnHandler = returnHandler;
@@ -393,13 +393,13 @@ public class GOptionPaneW extends GDialogBox
 			int enterOption, int messageType, Object icon, String[] optionNames,
 			AsyncOperation<String[]> handler) {
 
-		this.app = app;
-		this.message = message;
+		this.mApp = app;
+		this.mMessage = message;
 		this.title = title;
 		this.optionType = GOptionPane.CUSTOM_OPTION;
 		this.enterOption = enterOption;
 		this.messageType = messageType;
-		this.icon = (Image) icon;
+		this.mIcon = (Image) icon;
 		this.scrollPanel = null;
 
 		this.optionNames = optionNames;
@@ -423,12 +423,12 @@ public class GOptionPaneW extends GDialogBox
 			String initialSelectionValue, Object icon,
 			AsyncOperation<String[]> handler, boolean autoComplete) {
 
-		this.app = app;
-		this.message = message;
+		this.mApp = app;
+		this.mMessage = message;
 		this.title = null;
 		this.optionType = GOptionPane.OK_CANCEL_OPTION;
 		this.messageType = GOptionPane.PLAIN_MESSAGE;
-		this.icon = (Image) icon;
+		this.mIcon = (Image) icon;
 
 		this.initialSelectionValue = initialSelectionValue;
 		this.returnHandler = handler;
@@ -442,13 +442,13 @@ public class GOptionPaneW extends GDialogBox
 			String initialSelectionValue, Object icon,
 			AsyncOperation<String[]> handler, String okLabel) {
 
-		this.app = app;
-		this.message = "";
+		this.mApp = app;
+		this.mMessage = "";
 		this.title = title;
 		this.okLabel = okLabel;
 		this.optionType = GOptionPane.OK_CANCEL_OPTION;
 		this.messageType = GOptionPane.PLAIN_MESSAGE;
-		this.icon = (Image) icon;
+		this.mIcon = (Image) icon;
 
 		this.initialSelectionValue = initialSelectionValue;
 		this.returnHandler = handler;
@@ -472,12 +472,12 @@ public class GOptionPaneW extends GDialogBox
 			Object icon, String[] optionNames,
 			AsyncOperation<String[]> handler) {
 
-		this.app = app;
-		this.message = message;
+		this.mApp = app;
+		this.mMessage = message;
 		this.title = title;
 		this.optionType = optionType;
 		this.messageType = messageType;
-		this.icon = (Image) icon;
+		this.mIcon = (Image) icon;
 
 		this.optionNames = optionNames;
 		this.initialSelectionValue = initialSelectionValue;

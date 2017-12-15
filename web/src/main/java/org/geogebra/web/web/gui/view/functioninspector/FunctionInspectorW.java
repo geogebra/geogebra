@@ -408,7 +408,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			}
 		});
 
-		tableXY.addBlurHandler(new BlurHandler() {
+		tableXY.setBlurHandler(new BlurHandler() {
 
 			@Override
 			public void onBlur(BlurEvent event) {
