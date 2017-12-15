@@ -189,6 +189,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 	protected App app;
 
+	private boolean mayMoveFocus;
+
 	/**
 	 * A callback that is used to set the position of a {@link GPopupPanel}
 	 * right before it is shown.
@@ -710,7 +712,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		if (!isShowing()) {
 			return;
 		}
-		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS) && setFocus) {
+		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS) && setFocus
+				&& mayMoveFocus) {
 			if (app.getAccessibilityManager().getAnchor() == null) {
 				app.getAccessibilityManager().focusMenu();
 			} else {
@@ -719,6 +722,10 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		}
 		resizeAnimation.setState(false, false);
 		CloseEvent.fire(this, this, autoClosed);
+	}
+
+	public void setMayMoveFocus(boolean mayMoveFocus) {
+		this.mayMoveFocus = mayMoveFocus;
 	}
 
 	@Override

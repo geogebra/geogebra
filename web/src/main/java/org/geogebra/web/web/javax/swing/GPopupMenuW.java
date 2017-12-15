@@ -615,14 +615,6 @@ public class GPopupMenuW implements AttachedToDOM {
 				char keyCode = (char) event.getKeyCode();
 				if (keyCode == KeyCodes.KEY_ESCAPE) {
 					popupPanel.hide();
-				} else if (keyCode == KeyCodes.KEY_UP) {
-					moveSelectionUp();
-					AriaMenuBar.eatEvent(event);
-					return;
-				} else if (keyCode == KeyCodes.KEY_DOWN) {
-					moveSelectionDown();
-					AriaMenuBar.eatEvent(event);
-					return;
 				} else if (keyCode == KeyCodes.KEY_TAB) {
 					if (event.getShiftKey()) {
 						moveSelectionUp();

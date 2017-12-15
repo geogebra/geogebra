@@ -134,9 +134,13 @@ public class AriaMenuBar extends Widget {
 	 *            item to be selected
 	 */
 	public void selectItem(AriaMenuItem item) {
+		if (selectedItem != null) {
+			selectedItem.removeStyleName("selectedItem");
+		}
 		this.selectedItem = item;
 		if (item != null) {
 			item.getElement().focus();
+			item.addStyleName("selectedItem");
 		}
 	}
 
@@ -256,6 +260,16 @@ public class AriaMenuBar extends Widget {
 					doItemAction(item);
 					eatEvent(event);
 				}
+			}
+			else if (keyCode == KeyCodes.KEY_UP) {
+				moveSelectionUp();
+				eatEvent(event);
+				return;
+			}
+			else if (keyCode == KeyCodes.KEY_DOWN) {
+				moveSelectionDown();
+				eatEvent(event);
+				return;
 			}
 			break;
 		} // end case Event.ONKEYDOWN

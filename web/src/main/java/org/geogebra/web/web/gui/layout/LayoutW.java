@@ -35,7 +35,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 */
 	public LayoutW(App app) {
 		initializeDefaultPerspectives(app,
-				PerspectiveDecoder.landscapeRatio(app, 800));
+				PerspectiveDecoder.landscapeRatio(app, app.getAppletWidth()));
 
 		this.perspectives = new ArrayList<>(
 				getDefaultPerspectivesLength());

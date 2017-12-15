@@ -449,6 +449,7 @@ public class GSuggestBox extends Composite
 			p.setStyleName("gwt-SuggestBoxPopup");
 			p.setPreviewingAllNativeEvents(true);
 			p.setAnimationType(GPopupPanel.AnimationType.ROLL_DOWN);
+			p.setMayMoveFocus(false);
 			return p;
 		}
 
