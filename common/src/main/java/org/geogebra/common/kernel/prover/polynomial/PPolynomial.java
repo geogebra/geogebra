@@ -1182,11 +1182,10 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		Iterator<PVariable> variablesIterator = variables.iterator();
 		while (variablesIterator.hasNext()) {
 			PVariable variable = variablesIterator.next();
-			if (!freeVariablesInput.contains(variable)) {
-				dependentVariables.add(variable);
-			} else {
-				if (substitutions == null
-						|| !substitutions.containsKey(variable)) {
+			if (substitutions == null || !substitutions.containsKey(variable)) {
+				if (!freeVariablesInput.contains(variable)) {
+					dependentVariables.add(variable);
+				} else {
 					freeVariables.add(variable);
 				}
 			}
