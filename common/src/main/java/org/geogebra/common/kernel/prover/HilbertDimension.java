@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.prover;
 
+import java.math.BigInteger;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -11,7 +13,7 @@ import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Compute the Hilbert dimension of the hypothessis ideal appearing in an
+ * Compute the Hilbert dimension of the hypothesis ideal appearing in an
  * algebraic geometry proof.
  * 
  * @author kovzol
@@ -22,10 +24,11 @@ public class HilbertDimension {
 	private static Kernel kernel;
 
 	private static boolean eliminationIsZero(Set<PPolynomial> polys,
-			Set<PVariable> vars) {
+			Set<PVariable> vars, HashMap<PVariable, BigInteger> substitutions) {
 		Set<Set<PPolynomial>> eliminationIdeal;
 		eliminationIdeal = PPolynomial.eliminate(
-				polys.toArray(new PPolynomial[polys.size()]), null, kernel, 0,
+				polys.toArray(new PPolynomial[polys.size()]), substitutions,
+				kernel, 0,
 				true, false, vars);
 		Iterator<Set<PPolynomial>> ndgSet;
 		ndgSet = eliminationIdeal.iterator();
@@ -47,13 +50,17 @@ public class HilbertDimension {
 	 * Before calling this, ensure that the input does not contain the thesis.
 	 * 
 	 * TODO: This algorithm is very slow when there are more variables, find a
-	 * faster method.
+	 * faster method. Using substitutions may speed up computations
+	 * dramatically.
 	 * 
 	 * @param as
 	 *            the algebraic statement
+	 * @param substitutions
+	 *            variables and their BigInteger substitutions
 	 * @return the Hilbert dimension
 	 */
-	public static int compute(AlgebraicStatement as) {
+	public static int compute(AlgebraicStatement as,
+			HashMap<PVariable, BigInteger> substitutions) {
 		int dim = 0;
 
 		kernel = as.geoStatement.getKernel();
@@ -61,6 +68,11 @@ public class HilbertDimension {
 				lastUseful = new HashSet<>(),
 				useful = new HashSet<>();
 		HashSet<PVariable> allVars = PPolynomial.getVars(as.getPolynomials());
+		// Remove substituted vars:
+		for (PVariable var : substitutions.keySet()) {
+			allVars.remove(var);
+		}
+
 		// Create the useful set of variable sets, each containing one single
 		// variable first:
 		for (PVariable var : allVars) {
@@ -71,11 +83,15 @@ public class HilbertDimension {
 
 		while (!useful.isEmpty()) {
 			dim++;
+			Log.debug(
+					useful.size() + " useful sets to be checked for " + dim
+							+ " dimensions");
 			lastUseful = nextUseful;
 			nextUseful = new HashSet<>();
 			// Check the useful set if they are useful in the future:
 			for (HashSet<PVariable> set : useful) {
-				if (eliminationIsZero(as.getPolynomials(), set)) {
+				if (eliminationIsZero(as.getPolynomials(), set,
+						substitutions)) {
 					nextUseful.add(set);
 				}
 			}
