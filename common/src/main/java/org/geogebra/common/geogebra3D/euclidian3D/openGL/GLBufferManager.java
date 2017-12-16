@@ -5,13 +5,15 @@ import java.util.LinkedList;
 import java.util.TreeMap;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
 
 /**
  * manager for packing buffers
  */
 abstract class GLBufferManager {
+
+	/** alpha value for invisible geometries */
+	static final int ALPHA_INVISIBLE = -1;
 
 	private Index currentIndex;
 	private Index currentLengths;
@@ -22,248 +24,17 @@ abstract class GLBufferManager {
 	private TreeMap<Index, LinkedList<BufferSegment>> availableSegments;
 	private BufferPack currentBufferPack;
 	private ArrayList<BufferPack> bufferPackList;
-	private ArrayList<Double> vertexArray, normalArray, textureArray;
-	private boolean oneNormal;
+	/** vertex array for current geometry */
+	ArrayList<Double> vertexArray;
+	/** normal array for current geometry */
+	ArrayList<Double> normalArray;
+	/** texture array for current geometry */
+	ArrayList<Double> textureArray;
+	/** flag for if current geometry uses one normal */
+	boolean oneNormal;
 	private int elementsLength;
-	private GColor color;
-	private static final int ALPHA_INVISIBLE = -1;
-
-	static private class Index implements Comparable<Index> {
-		private int v1, v2;
-
-		/**
-		 * simple constructor
-		 */
-		public Index() {
-			// nothing done
-		}
-
-		/**
-		 * create a copy
-		 * 
-		 * @param index
-		 *            index
-		 */
-		public Index(Index index) {
-			this.v1 = index.v1;
-			this.v2 = index.v2;
-		}
-
-		public void set(int v1, int v2) {
-			this.v1 = v1;
-			this.v2 = v2;
-		}
-
-		@Override
-		public int compareTo(Index o) {
-			if (v1 < o.v1) {
-				return -1;
-			}
-			if (v1 > o.v1) {
-				return 1;
-			}
-			if (v2 < o.v2) {
-				return -1;
-			}
-			if (v2 > o.v2) {
-				return 1;
-			}
-			return 0;
-		}
-
-		@Override
-		public boolean equals(Object o) {
-			if (!(o instanceof Index)) {
-				return false;
-			}
-			Index index = (Index) o;
-			return v1 == index.v1 && v2 == index.v2;
-		}
-
-		@Override
-		public int hashCode() {
-			return 0; // we don't use it in hash table etc.
-		}
-
-		@Override
-		public String toString() {
-			return v1 + ", " + v2;
-		}
-	}
-
-	/**
-	 * segment in buffer for a geometry element
-	 *
-	 */
-	static class BufferSegment {
-		private int elementsOffset, elementsLength;
-		private int indicesOffset, indicesLength;
-		private BufferPack bufferPack;
-		/** element type */
-		TypeElement type;
-
-		/**
-		 * constructor
-		 * 
-		 * @param bufferPack
-		 *            buffer pack
-		 * @param elementsLength
-		 *            elements length
-		 * @param indicesLength
-		 *            indices length
-		 */
-		public BufferSegment(BufferPack bufferPack, int elementsLength, int indicesLength) {
-			this.bufferPack = bufferPack;
-			elementsOffset = bufferPack.elementsLength;
-			indicesOffset = bufferPack.indicesLength;
-			this.elementsLength = elementsLength;
-			this.indicesLength = indicesLength;
-		}
-
-	}
-
-	private static class BufferPack {
-		private GLBufferManager manager;
-		private GLBuffer vertexBuffer, normalBuffer, textureBuffer, colorBuffer;
-		private GLBufferIndices indicesBuffer;
-		private int elementsLength, indicesLength;
-
-		static final private int ELEMENT_SIZE_MAX = Short.MAX_VALUE;
-		private int elementsSize, indicesSize;
-
-		/**
-		 * creates a new buffer pack, using approx. 2MB (4 bytes per float * 32768 * 15)
-		 * at max
-		 * 
-		 * @param manager
-		 *            geometries manager
-		 */
-		public BufferPack(GLBufferManager manager) {
-			this.manager = manager;
-			vertexBuffer = GLFactory.getPrototype().newBuffer();
-			normalBuffer = GLFactory.getPrototype().newBuffer();
-			textureBuffer = GLFactory.getPrototype().newBuffer();
-			colorBuffer = GLFactory.getPrototype().newBuffer();
-			indicesBuffer = GLFactory.getPrototype().newBufferIndices();
-
-			elementsSize = manager.getElementSizeStart();
-			indicesSize = manager.getIndicesSizeStart();
-			vertexBuffer.allocate(elementsSize * 3);
-			normalBuffer.allocate(elementsSize * 3);
-			textureBuffer.allocate(elementsSize * 2);
-			colorBuffer.allocate(elementsSize * 4);
-			indicesBuffer.allocate(indicesSize);
-
-			elementsLength = 0;
-			indicesLength = 0;
-		}
-
-		private void reallocateElements(int size) {
-			elementsSize = size;
-			vertexBuffer.reallocate(size * 3);
-			normalBuffer.reallocate(size * 3);
-			textureBuffer.reallocate(size * 2);
-			colorBuffer.reallocate(size * 4);
-		}
-
-		private void reallocateIndices(int size) {
-			indicesSize = size;
-			indicesBuffer.reallocate(indicesSize);
-		}
-
-		private static int multiplyByPowerOfTwoToMakeItGreaterThan(int current, int min) {
-			int ret = current * 2;
-			while (ret < min) {
-				ret *= 2;
-			}
-			return ret;
-		}
-
-		public boolean canAdd(int elementsLength, int indicesLength) {
-			return this.elementsLength + elementsLength < ELEMENT_SIZE_MAX;
-		}
-
-		public void addToLength(int elementsLengthToAdd, int indicesLengthToAdd) {
-			elementsLength += elementsLengthToAdd;
-			if (elementsLength > elementsSize) {
-				reallocateElements(multiplyByPowerOfTwoToMakeItGreaterThan(elementsSize, elementsLength));
-			}
-			vertexBuffer.setLimit(this.elementsLength * 3);
-			normalBuffer.setLimit(this.elementsLength * 3);
-			textureBuffer.setLimit(this.elementsLength * 2);
-			colorBuffer.setLimit(this.elementsLength * 4);
-			this.indicesLength += indicesLengthToAdd;
-			if (indicesLength > indicesSize) {
-				reallocateIndices(multiplyByPowerOfTwoToMakeItGreaterThan(indicesSize, indicesLength));
-			}
-			indicesBuffer.setLimit(this.indicesLength);
-		}
-
-		public void setElements() {
-			int offset = manager.currentBufferSegment.elementsOffset;
-			int length = manager.currentBufferSegment.elementsLength;
-			vertexBuffer.set(manager.vertexArray, offset * 3, length * 3);
-			if (manager.oneNormal) {
-				for (int i = 0; i < 3; i++) {
-					normalBuffer.set(manager.normalArray.get(i).floatValue(), offset * 3 + i, length, 3);
-				}
-			} else {
-				normalBuffer.set(manager.normalArray, offset * 3, length * 3);
-			}
-			if (manager.textureArray == null) {
-				textureBuffer.set(0, offset * 2, length * 2, 1);
-			} else {
-				textureBuffer.set(manager.textureArray, offset * 2, length * 2);
-			}
-			setColor(manager.color, offset, length);
-		}
-
-		public void setColor(GColor color, int offset, int length) {
-			int colorOffset = offset * 4;
-			colorBuffer.set((float) color.getRed() / 255, colorOffset, length, 4);
-			colorOffset++;
-			colorBuffer.set((float) color.getGreen() / 255, colorOffset, length, 4);
-			colorOffset++;
-			colorBuffer.set((float) color.getBlue() / 255, colorOffset, length, 4);
-			colorOffset++;
-			setAlpha(color.getAlpha(), colorOffset, length);
-		}
-
-		public void setAlpha(int alpha) {
-			setAlpha(alpha, manager.currentBufferSegment.elementsOffset * 4 + 3,
-					manager.currentBufferSegment.elementsLength);
-		}
-
-		private void setAlpha(int alpha, int offset, int length) {
-			colorBuffer.set(alpha <= 0 ? ALPHA_INVISIBLE : ((float) alpha / 255), offset, length, 4);
-		}
-
-		public void draw(RendererShadersInterface r) {
-			vertexBuffer.rewind();
-			normalBuffer.rewind();
-			indicesBuffer.rewind();
-			r.loadVertexBuffer(vertexBuffer, elementsLength);
-			r.loadNormalBuffer(normalBuffer, elementsLength);
-			r.loadColorBuffer(colorBuffer, elementsLength);
-			if (r.areTexturesEnabled()) {
-				r.loadTextureBuffer(textureBuffer, elementsLength);
-			} else {
-				r.disableTextureBuffer();
-			}
-			r.loadIndicesBuffer(indicesBuffer, indicesLength);
-			r.draw(Type.TRIANGLES, indicesLength);
-		}
-
-		public void reset() {
-			elementsLength = 0;
-			indicesLength = 0;
-			vertexBuffer.setLimit(0);
-			normalBuffer.setLimit(0);
-			colorBuffer.setLimit(0);
-			textureBuffer.setLimit(0);
-			indicesBuffer.setLimit(0);
-		}
-	}
+	/** color for current geometry */
+	GColor color;
 
 	/**
 	 * constructor
