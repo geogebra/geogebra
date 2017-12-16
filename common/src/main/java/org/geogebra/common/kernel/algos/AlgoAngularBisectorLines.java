@@ -319,39 +319,37 @@ public class AlgoAngularBisectorLines extends AlgoElement
 		GeoLine lh = geth();
 
 		if (lg != null && lh != null) {
+
 			/*
 			 * We need to compute this.B symbolically since it is not computed
 			 * automatically in this class.
 			 */
-			PVariable[] varsB, varsLg, varsLh;
-			varsB = (this.B).getBotanaVars(this.B);
+			PVariable[] vB, varsLg, varsLh;
+			vB = (this.B).getBotanaVars(this.B);
 			varsLg = lg.getBotanaVars(lg);
 			varsLh = lh.getBotanaVars(lh);
 			PPolynomial[] polysB = (this.B).getBotanaPolynomials(this.B);
 
+			// intersection point of the two lines
 			if (polysB == null) {
 				// if already exists, let's use it, if not, create a new one
 				polysB = new PPolynomial[2];
-				polysB[0] = PPolynomial.collinear(varsB[0], varsB[1], varsLg[0],
+				polysB[0] = PPolynomial.collinear(vB[0], vB[1], varsLg[0],
 						varsLg[1], varsLg[2], varsLg[3]);
-				polysB[1] = PPolynomial.collinear(varsB[0], varsB[1], varsLh[0],
+				polysB[1] = PPolynomial.collinear(vB[0], vB[1], varsLh[0],
 						varsLh[1], varsLh[2], varsLh[3]);
 			}
 
 			PVariable[] vA = new PVariable[2];
-			vA[0] = varsLg[0];
-			vA[1] = varsLg[1];
-			PVariable[] vB = new PVariable[2];
-			vB[0] = varsLh[0];
-			vB[1] = varsLh[1];
-			PVariable[] vC = varsB;
+			vA[0] = new PVariable(kernel);
+			vA[1] = new PVariable(kernel);
+			PVariable[] vC = new PVariable[2];
+			vC[0] = new PVariable(kernel);
+			vC[1] = new PVariable(kernel);
 
-			botanaPolynomials = new PPolynomial[4];
+			botanaPolynomials = new PPolynomial[8];
 			botanaPolynomials[2] = polysB[0];
 			botanaPolynomials[3] = polysB[1];
-
-			// from now on we use the equations from
-			// AlgoAngularBisectorPoints
 
 			if (botanaVars == null) {
 				botanaVars = new PVariable[4];
@@ -359,43 +357,36 @@ public class AlgoAngularBisectorLines extends AlgoElement
 				botanaVars[0] = new PVariable(kernel);
 				botanaVars[1] = new PVariable(kernel);
 				// A
-				botanaVars[2] = vC[0];
-				botanaVars[3] = vC[1];
+				botanaVars[2] = vB[0];
+				botanaVars[3] = vB[1];
 			}
 
-			PPolynomial a1 = new PPolynomial(vA[0]);
-			PPolynomial a2 = new PPolynomial(vA[1]);
-			PPolynomial b1 = new PPolynomial(vB[0]);
-			PPolynomial b2 = new PPolynomial(vB[1]);
-			PPolynomial c1 = new PPolynomial(vC[0]);
-			PPolynomial c2 = new PPolynomial(vC[1]);
-			PPolynomial m1 = new PPolynomial(botanaVars[0]); // d1
-			PPolynomial m2 = new PPolynomial(botanaVars[1]); // d2
-
-			// A,M,B collinear (needed for easing computations)
-			botanaPolynomials[0] = PPolynomial.collinear(vA[0], vA[1], vB[0],
-					vB[1], botanaVars[0], botanaVars[1]);
-
-			// (b1-c1)*(c1-d1)
-			PPolynomial p1 = b1.subtract(c1).multiply(c1.subtract(m1));
-			// (b2-c2)*(c2-d2)
-			PPolynomial p2 = b2.subtract(c2).multiply(c2.subtract(m2));
-			// (a1-c1)^2+(a2-c2)^2
-			PPolynomial p3 = (PPolynomial.sqr(a1.subtract(c1)))
-					.add(PPolynomial.sqr(a2.subtract(c2)));
-			// (a1-c1)*(c1-d1)
-			PPolynomial p4 = a1.subtract(c1).multiply(c1.subtract(m1));
-			// (a2-c2)*(c2-d2)
-			PPolynomial p5 = a2.subtract(c2).multiply(c2.subtract(m2));
-			// (b1-c1)^2+(b2-c2)^2
-			PPolynomial p6 = PPolynomial.sqr(b1.subtract(c1))
-					.add(PPolynomial.sqr(b2.subtract(c2)));
-			// ((b1-c1)*(c1-d1)+(b2-c2)*(c2-d2))^2*((a1-c1)^2+(a2-c2)^2)
-			// -((a1-c1)*(c1-d1)+(a2-c2)*(c2-d2))^2*((b1-c1)^2+(b2-c2)^2)
-			botanaPolynomials[1] = PPolynomial.sqr((p1.add(p2))).multiply(p3)
-					.subtract(PPolynomial.sqr(p4.add(p5)).multiply(p6));
-
+			// vA lies on lg
+			botanaPolynomials[0] = PPolynomial.collinear(varsLg[0], varsLg[1],
+					varsLg[2], varsLg[3], vA[0], vA[1]);
+			// vC lies on lh
+			botanaPolynomials[1] = PPolynomial.collinear(varsLh[0], varsLh[1],
+					varsLh[2], varsLh[3], vC[0], vC[1]);
+			// vA--M is perpendicular to lg
+			botanaPolynomials[4] = PPolynomial.perpendicular(varsLg[0],
+					varsLg[1], vA[0], vA[1], vA[0], vA[1], botanaVars[0],
+					botanaVars[1]);
+			// vC--M is perpendicular to lh
+			botanaPolynomials[5] = PPolynomial.perpendicular(varsLh[0],
+					varsLh[1], vC[0], vC[1], vC[0], vC[1], botanaVars[0],
+					botanaVars[1]);
+			// (vA--M) == (vC--M)
+			botanaPolynomials[6] = PPolynomial.equidistant(vA[0], vA[1],
+					botanaVars[0], botanaVars[1], vC[0], vC[1]);
+			// fix one coordinate of M to the mass center of the quadrangle
+			botanaPolynomials[7] = new PPolynomial(botanaVars[0])
+					.multiply(new PPolynomial(4))
+					.subtract(new PPolynomial(varsLg[0]))
+					.subtract(new PPolynomial(varsLg[2]))
+					.subtract(new PPolynomial(varsLh[0]))
+					.subtract(new PPolynomial(varsLh[2]));
 			return botanaPolynomials;
+
 		}
 		throw new NoSymbolicParametersException();
 
