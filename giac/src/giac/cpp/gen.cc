@@ -1909,17 +1909,18 @@ namespace giac {
   }
 
   static bool in_eval_idnt(const gen & g,gen & evaled,int level,GIAC_CONTEXT){
-    if (strcmp(g._IDNTptr->id_name,string_pi)==0 || strcmp(g._IDNTptr->id_name,string_euler_gamma)==0 )
+    identificateur * gptr=g._IDNTptr;
+    if (strcmp(gptr->id_name,string_pi)==0 || strcmp(gptr->id_name,string_euler_gamma)==0 )
       return false;
     if (!contextptr && g.subtype==_GLOBAL__EVAL)
-      evaled=global_eval(*g._IDNTptr,level);
+      evaled=global_eval(*gptr,level);
     else {
-      if (!g._IDNTptr->in_eval(level-1,g,evaled,contextptr))
+      if (!gptr->in_eval(level-1,g,evaled,contextptr))
 	return false;
     }
     if ( evaled.type!=_VECT || evaled.subtype!=_ASSUME__VECT ){
       if (evaled.is_symb_of_sommet(at_program))
-	lastprog_name(g._IDNTptr->id_name,contextptr);
+	lastprog_name(gptr->id_name,contextptr);
       return true;
     }
     return check_not_assume(g,evaled,false,contextptr);
@@ -3822,7 +3823,8 @@ namespace giac {
       }
 #else
       if (a.subtype==3){
-	double ar=a._CPLXptr->_DOUBLE_val,ai=(a._CPLXptr+1)->_DOUBLE_val;
+	gen * aptr=a._CPLXptr;
+	double ar=aptr->_DOUBLE_val,ai=(aptr+1)->_DOUBLE_val;
 	return gen(std::sqrt(ar*ar+ai*ai));
       }
       return sqrt(sq(*a._CPLXptr)+sq(*(a._CPLXptr+1)),contextptr) ;
@@ -5397,8 +5399,12 @@ namespace giac {
       return -(a._DOUBLE_val);
     case _FLOAT_:
       return -(a._FLOAT_val);
-    case _CPLX:
-      return adjust_complex_display(gen(-*a._CPLXptr,-*(a._CPLXptr+1)),a);
+    case _CPLX: {
+      const gen * aptr=a._CPLXptr;
+      if (a.subtype==3)
+	return adjust_complex_display(gen(-aptr->_DOUBLE_val,-(aptr+1)->_DOUBLE_val),a);
+      return adjust_complex_display(gen(-*aptr,-*(aptr+1)),a);
+    }
     case _IDNT:
       if ((a==undef) || (a==unsigned_inf))
 	return a;

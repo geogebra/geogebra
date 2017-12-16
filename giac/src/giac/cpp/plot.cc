@@ -2178,11 +2178,11 @@ namespace giac {
 	  if (lastymax==lastymin)
 	    w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor)),0)));
 	  else
-	    w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastymax-lastymin)),0)));
+	    w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastymax+1-lastymin)),0)));
 	}
 	else {
 	  if (lastymax==lastymin)
-	    w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastxmin-lastxmax)),0)));
+	    w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastxmin-lastxmax-1)),0)));
 	}
       }
       lastxmax=lastxmin=x.val;
@@ -2194,11 +2194,11 @@ namespace giac {
 	if (lastymax==lastymin)
 	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor)),0)));
 	else
-	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastymax-lastymin)),0)));
+	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastymax+1-lastymin)),0)));
       }
       else {
 	if (lastymax==lastymin)
-	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastxmin-lastxmax)),0)));
+	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastxmin-lastxmax-1)),0)));
       }
     }
     return w;

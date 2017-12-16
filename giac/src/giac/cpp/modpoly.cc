@@ -5063,20 +5063,19 @@ namespace giac {
   }
   gen _horner(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    gen p,q,x;
     if (args.type!=_VECT)
       return symbolic(at_horner,args);
     vecteur & v=*args._VECTptr;
     int s=int(v.size());
     if (s<2)
       return gensizeerr(contextptr);
-    p=v.front();
-    q=v[1];
+    const gen &p=v.front();
+    const gen & q=v[1];
     if (p.type==_VECT){
       if (q.type==_VECT && p._VECTptr->size()==q._VECTptr->size() && s==3){
 	// Horner-like evaluation for divided difference
 	// p=divided differences, q=list of abscissas, r=eval point
-	x=v[2];
+	const gen & x=v[2];
 	gen r=0;
 	const vecteur & P=*p._VECTptr;
 	s=int(P.size())-1;
@@ -5088,19 +5087,24 @@ namespace giac {
       }
       if (s==3 && v[2]==at_newton){
 	// Newton iteration for a polynomial
-	q=evalf_double(q,1,contextptr);
 	complex<double> x;
 	if (q.type==_DOUBLE_)
 	  x=q._DOUBLE_val;
 	else {
-	  if (q.type!=_CPLX || q.subtype!=3)
-	    return gensizeerr(contextptr);
-	  x=complex<double>(q._CPLXptr->_DOUBLE_val,(q._CPLXptr+1)->_DOUBLE_val);
+	  if (q.type==_CPLX && q.subtype==3)
+	    x=complex<double>(q._CPLXptr->_DOUBLE_val,(q._CPLXptr+1)->_DOUBLE_val);
+	  else {
+	    gen tmp=evalf_double(q,1,contextptr);
+	    if (tmp.type!=_CPLX || tmp.subtype!=3)
+	      return gensizeerr(contextptr);
+	    x=complex<double>(tmp._CPLXptr->_DOUBLE_val,(tmp._CPLXptr+1)->_DOUBLE_val);
+	  }
 	}
 	return horner_newton(*p._VECTptr,x,contextptr);
       } // end newton iteration
       return horner(*p._VECTptr,q);
     }
+    gen x;
     if (s==2)
       x=vx_var;
     else 
