@@ -258,7 +258,8 @@ namespace giac {
 
   enum symb_subtypes {
     _GLOBAL__EVAL =-1,
-    _SPREAD__SYMB =123 // do not use this value elsewhere
+    _SPREAD__SYMB =123, // do not use this value elsewhere
+    _FORCHK__SYMB=124, // cached subtype value for for inside a for loop
   } ;
 
   enum map_subtypes {

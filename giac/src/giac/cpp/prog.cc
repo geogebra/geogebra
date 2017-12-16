@@ -2169,7 +2169,7 @@ namespace giac {
   bool chk_forprog(const gen & forprog,const gen & index,const gen & stopg){
     if (forprog.type==_VECT)
       return chk_forprog(*forprog._VECTptr,index,stopg);
-    if (forprog.type!=_SYMB)
+    if (forprog.type!=_SYMB || forprog.subtype==_FORCHK__SYMB)
       return true;
     unary_function_ptr & u=forprog._SYMBptr->sommet;
     if (u==at_sto || u==at_array_sto){
@@ -2183,7 +2183,10 @@ namespace giac {
       if (*to==index || *to==stopg) 
 	return false;
     }
-    return chk_forprog(forprog._SYMBptr->feuille,index,stopg);
+    if (!chk_forprog(forprog._SYMBptr->feuille,index,stopg))
+      return false;
+    ((gen *) &forprog)->subtype=_FORCHK__SYMB;
+    return true;
   }
   gen _for(const gen & args,const context * contextptr){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;

@@ -4358,10 +4358,12 @@ namespace giac {
       if (a.val==0) return b;
     case _ZINT__CPLX: case _FLOAT___CPLX: case _DOUBLE___CPLX: case _REAL__CPLX:
       return gen(a+*b._CPLXptr,*(b._CPLXptr+1));
-    case _CPLX__CPLX:
-      if (a._CPLXptr->type==_DOUBLE_ && (a._CPLXptr+1)->type==_DOUBLE_ && b._CPLXptr->type ==_DOUBLE_ && (b._CPLXptr+1)->type ==_DOUBLE_)
-	return adjust_complex_display(gen(a._CPLXptr->_DOUBLE_val + b._CPLXptr->_DOUBLE_val, (a._CPLXptr+1)->_DOUBLE_val + (b._CPLXptr+1)->_DOUBLE_val),a,b);
-      return adjust_complex_display(gen(*a._CPLXptr + *b._CPLXptr, *(a._CPLXptr+1) + *(b._CPLXptr+1)),a,b);
+    case _CPLX__CPLX: {
+      gen * aptr=a._CPLXptr, *bptr=b._CPLXptr;
+      if (aptr->type==_DOUBLE_ && (aptr+1)->type==_DOUBLE_ && bptr->type ==_DOUBLE_ && (bptr+1)->type ==_DOUBLE_)
+	return adjust_complex_display(gen(aptr->_DOUBLE_val + bptr->_DOUBLE_val, (aptr+1)->_DOUBLE_val + (bptr+1)->_DOUBLE_val),a,b);
+      return adjust_complex_display(gen(*aptr + *bptr, *(aptr+1) + *(bptr+1)),a,b);
+    }
     case _POLY__POLY:
       return addpoly(a,b);
     case _FRAC__FRAC:
@@ -5706,17 +5708,18 @@ namespace giac {
   }
 
   static gen mult_cplx(const gen & a,const gen & b,GIAC_CONTEXT){
-    unsigned t= (a._CPLXptr->type | ((a._CPLXptr+1)->type << 8) | (b._CPLXptr->type << 16) | ((b._CPLXptr+1)->type << 24));
+    gen * aptr=a._CPLXptr,*bptr=b._CPLXptr;
+    unsigned t= (aptr->type | ((aptr+1)->type << 8) | (bptr->type << 16) | ((bptr+1)->type << 24));
     if (t==(_DOUBLE_ | (_DOUBLE_<<8) | (_DOUBLE_ <<16) | (_DOUBLE_ <<24))){
-      double ar=a._CPLXptr->_DOUBLE_val,ai=(a._CPLXptr+1)->_DOUBLE_val,
-	br=b._CPLXptr->_DOUBLE_val,bi=(b._CPLXptr+1)->_DOUBLE_val;
+      double ar=aptr->_DOUBLE_val,ai=(aptr+1)->_DOUBLE_val,
+	br=bptr->_DOUBLE_val,bi=(bptr+1)->_DOUBLE_val;
       return gen(ar*br-ai* bi, br*ai+ar*bi);
     }
     if (t==(_ZINT | (_ZINT<<8) | (_ZINT <<16) | (_ZINT <<24))){
-      mpz_t & ax=*a._CPLXptr->_ZINTptr;
-      mpz_t & ay=*((a._CPLXptr+1)->_ZINTptr);
-      mpz_t & bx=*b._CPLXptr->_ZINTptr;
-      mpz_t & by=*((b._CPLXptr+1)->_ZINTptr);
+      mpz_t & ax=*aptr->_ZINTptr;
+      mpz_t & ay=*((aptr+1)->_ZINTptr);
+      mpz_t & bx=*bptr->_ZINTptr;
+      mpz_t & by=*((bptr+1)->_ZINTptr);
       // (ax+i*ay)*(bx+i*by)=ax*bx-ay*by+i*(ax*by+ay*bx)
       // imaginary part is also (ax+ay)*(bx+by)-ax*bx-ay*by, Karatsuba trick
       mpz_t axbx,ayby,r;
@@ -5742,10 +5745,10 @@ namespace giac {
     }
 #if defined HAVE_LIBMPFR && !defined NO_RTTI
     if (t==(_REAL | (_REAL<<8) | (_REAL <<16) | (_REAL <<24))){
-      real_object & ax=*a._CPLXptr->_REALptr;
-      real_object & ay=*((a._CPLXptr+1)->_REALptr);
-      real_object & bx=*b._CPLXptr->_REALptr;
-      real_object & by=*((b._CPLXptr+1)->_REALptr);
+      real_object & ax=*aptr->_REALptr;
+      real_object & ay=*((aptr+1)->_REALptr);
+      real_object & bx=*bptr->_REALptr;
+      real_object & by=*((bptr+1)->_REALptr);
       if (!dynamic_cast<real_interval *>(&ax) || 
 	  !dynamic_cast<real_interval *>(&ay) ||
 	  !dynamic_cast<real_interval *>(&bx) ||
@@ -5770,8 +5773,8 @@ namespace giac {
       }
     }
 #endif
-    return gen(*a._CPLXptr * (*b._CPLXptr) - *(a._CPLXptr+1)* (*(b._CPLXptr+1)), 
-	       (*b._CPLXptr) * (*(a._CPLXptr+1)) + *(b._CPLXptr+1) * (*a._CPLXptr));
+    return gen(*aptr * (*bptr) - *(aptr+1)* (*(bptr+1)), 
+	       (*bptr) * (*(aptr+1)) + *(bptr+1) * (*aptr));
   }
 
   static gen operator_times(const gen & a,const gen & b,unsigned t,GIAC_CONTEXT){
