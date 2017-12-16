@@ -583,7 +583,7 @@ public abstract class ContextMenuGeoElement {
 		SpreadsheetTraceManager traceManager = app.getTraceManager();
 		if (!traceManager.isTraceGeo(getGeo())) {
 			traceManager.addSpreadsheetTraceGeo(getGeo());
-		} else if (app.has(Feature.MOW_IMPROVE_CONTEXT_MENU)) {
+		} else {
 			traceManager.removeSpreadsheetTraceGeo(getGeo());
 		}
 	}
