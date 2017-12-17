@@ -1494,16 +1494,12 @@ public class ProverBotanasMethod {
 										Log.debug(
 												"Statement is NOT GENERALLY FALSE");
 										as.removeThesis();
-										int hilbDim = HilbertDimension
-												.compute(as, substitutions);
 										int naivDim = as.getFreeVariables()
 												.size()
 												- substitutions.keySet().size();
 										Log.debug(
-												"Hilbert dimension = " + hilbDim
-														+ ", naive dimension = "
-														+ naivDim);
-										if (hilbDim == naivDim) {
+												"Naive dimension = " + naivDim);
+										if (!HilbertDimension.isDimGreaterThan(as, substitutions, naivDim)) {
 											return ProofResult.TRUE_ON_COMPONENTS;
 										}
 										return ProofResult.UNKNOWN;
@@ -1677,17 +1673,14 @@ public class ProverBotanasMethod {
 					 */
 					
 					as.removeThesis();
-					int hilbDim = HilbertDimension
-							.compute(as, substitutions);
 					int naivDim = as.getFreeVariables()
-							.size() - substitutions.keySet().size();
-					Log.debug(
-							"Hilbert dimension = " + hilbDim
-									+ ", naive dimension = "
-									+ naivDim);
-					if (hilbDim == naivDim) {
+							.size()
+							- substitutions.keySet().size();
+					Log.debug("Naive dimension = " + naivDim);
+					if (!HilbertDimension.isDimGreaterThan(as, substitutions,
+							naivDim)) {
 						return ProofResult.TRUE_ON_COMPONENTS;
-					}
+						}
 					return ProofResult.UNKNOWN;
 				}
 				/* End of checking if the statement is not generally false. */

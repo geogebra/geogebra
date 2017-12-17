@@ -45,6 +45,70 @@ public class HilbertDimension {
 		return false;
 	}
 
+	public static boolean isDimGreaterThan(AlgebraicStatement as,
+			HashMap<PVariable, BigInteger> substitutions, int minDim) {
+		int dim = 0;
+
+		kernel = as.geoStatement.getKernel();
+		HashSet<HashSet<PVariable>> nextUseful = new HashSet<>(),
+				lastUseful = new HashSet<>(), useful = new HashSet<>();
+		HashSet<PVariable> allVars = PPolynomial.getVars(as.getPolynomials());
+		// Remove substituted vars:
+		for (PVariable var : substitutions.keySet()) {
+			allVars.remove(var);
+		}
+
+		// Create the useful set of variable sets, each containing one single
+		// variable first:
+		for (PVariable var : allVars) {
+			HashSet<PVariable> singleSet = new HashSet<>();
+			singleSet.add(var);
+			useful.add(singleSet);
+		}
+
+		boolean loop = true;
+		while (loop) {
+			dim++;
+			Log.debug(useful.size() + " useful sets to be checked for " + dim
+					+ " dimensions");
+			lastUseful = nextUseful;
+			nextUseful = new HashSet<>();
+			// Check the useful set if they are useful in the future:
+			for (HashSet<PVariable> set : useful) {
+				if (eliminationIsZero(as.getPolynomials(), set,
+						substitutions)) {
+					nextUseful.add(set);
+					if (dim > minDim) {
+						Log.debug(
+								"Found a useful set " + set + " with dimension "
+										+ dim + ": Hilbert dimension > "
+										+ minDim);
+						return true;
+					}
+				}
+			}
+
+			// Create next useful set:
+			useful = new HashSet<>();
+			for (HashSet<PVariable> set1 : nextUseful) {
+				for (HashSet<PVariable> set2 : nextUseful) {
+					HashSet<PVariable> union = new HashSet<>(set1);
+					union.addAll(set2);
+					if (union.size() == dim + 1) {
+						useful.add(union);
+					}
+				}
+			}
+
+			if (useful.isEmpty()) {
+				loop = false;
+			}
+		}
+		Log.debug("No useful sets found with " + dim
+				+ " dimensions: Hilbert dimension = " + (dim - 1));
+		return false;
+	}
+
 	/**
 	 * Compute Hilbert dimension of the ideal described by the polynomials.
 	 * Before calling this, ensure that the input does not contain the thesis.
