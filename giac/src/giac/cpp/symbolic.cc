@@ -649,24 +649,25 @@ namespace giac {
     // e.g. M(j,k):=j+k+1 parsed as M:=(j,k)->j+k+1
     // these affectations are marked by a subtype==1 by the parser
     // if destination is a matrix
-    if (feuille.type==_VECT && feuille.subtype==_SORTED__VECT && feuille._VECTptr->size()==2 && feuille._VECTptr->front().is_symb_of_sommet(at_program)){
-      gen prog=feuille._VECTptr->front()._SYMBptr->feuille;
+    vecteur & feuillev=*feuille._VECTptr;
+    gen & feuilleback=feuillev.back();
+    if (feuille.type==_VECT && feuille.subtype==_SORTED__VECT && feuillev.size()==2 && feuillev.front().is_symb_of_sommet(at_program)){
+      gen prog=feuillev.front()._SYMBptr->feuille;
       if (prog.type==_VECT && prog._VECTptr->size()==3 && (prog._VECTptr->front()!=_VECT || prog._VECTptr->front()._VECTptr->size()==2)){
 	gen val=prog._VECTptr->back();
-	if (feuille._VECTptr->back().type==_IDNT && feuille._VECTptr->back()._IDNTptr->eval(1,feuille._VECTptr->back(),contextptr).type==_VECT){
-	  prog=symbolic(at_of,makesequence(feuille._VECTptr->back(),prog._VECTptr->front()));
+	if (feuilleback.type==_IDNT && feuilleback._IDNTptr->eval(1,feuilleback,contextptr).type==_VECT){
+	  prog=symbolic(at_of,makesequence(feuilleback,prog._VECTptr->front()));
 	  return eval_sto(gen(makevecteur(val,prog),_SORTED__VECT),level,contextptr);
 	}
       }
     }
-    gen & feuilleback=feuille._VECTptr->back();
     if ( feuilleback.type==_SYMB && (feuilleback._SYMBptr->sommet==at_unquote || feuilleback._SYMBptr->sommet==at_hash ) ){
       gen ans(_sto(feuille.eval(level,contextptr),contextptr));
       return ans;
     }
-    bool b=show_point(contextptr),quotearg=false;
+    bool & showpoint=show_point(contextptr),b=showpoint,quotearg=false;
     if (b)
-      show_point(false,contextptr);
+      showpoint=false;
 #ifdef GIAC_HAS_STO_38 // quote STO> E, STO> F, STO>R, STO> X, STO>Y
     if (feuilleback.type==_IDNT){
       const char * ch = feuilleback._IDNTptr->id_name;
@@ -676,17 +677,16 @@ namespace giac {
 #endif
     gen e;
     if (quotearg)
-      e=feuille._VECTptr->front();
+      e=feuillev.front();
     else
-      e=feuille._VECTptr->front().eval(level,contextptr);
+      e=feuillev.front().eval(level,contextptr);
     if (b)
-      show_point(b,contextptr);
+      showpoint=true;
     if (e.type==_SYMB && e._SYMBptr->sommet==at_pnt && e._SYMBptr->feuille.type==_VECT && e._SYMBptr->feuille._VECTptr->size()==2 && (contextptr?!contextptr->previous:!protection_level) )
       eval_sto_pnt_symb(feuille,e,contextptr);
     if ( e.type==_VECT && !e._VECTptr->empty() && e._VECTptr->back().type==_SYMB && e._VECTptr->back()._SYMBptr->sommet==at_pnt && (contextptr?!contextptr->previous:!protection_level))
       eval_sto_pnt_vect(feuilleback,e,contextptr);
-    e=sto(e,feuilleback,contextptr);
-    return e;
+    return sto(e,feuilleback,contextptr);
   } // end sommet==at_sto
 
   // http://mitpress.mit.edu/sicp/full-text/book/book-Z-H-34.html#%_sec_5.4

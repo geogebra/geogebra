@@ -2042,7 +2042,9 @@ namespace giac {
       if (subtype==_SPREAD__SYMB)
 	return false;
       { 
-	unary_function_ptr & Sommet=_SYMBptr->sommet;
+	symbolic * sptr=_SYMBptr;
+	unary_function_ptr & Sommet=sptr->sommet;
+	const gen & feuille=sptr->feuille;
 	bool is_ifte=false,is_of_local_ifte_bloc=false,is_plus=Sommet==at_plus,is_prod=false,is_pow=false;
 	if (is_plus || (is_prod=(Sommet==at_prod)) || (is_pow=(Sommet==at_pow)) || (is_of_local_ifte_bloc=(Sommet==at_of || Sommet==at_local || (is_ifte=Sommet==at_ifte) || Sommet==at_bloc)) ){
 	  int & elevel=eval_level(contextptr);
@@ -2059,10 +2061,11 @@ namespace giac {
 	  }
 #else // rtos
 #if !defined(WIN32) && defined(HAVE_PTHREAD_H)
-	  if (contextptr && thread_param_ptr(contextptr)->stackaddr){
+	  void * stackaddr;
+	  if (contextptr && (stackaddr=thread_param_ptr(contextptr)->stackaddr)){
 	    // CERR << &slevel << " " << thread_param_ptr(contextptr)->stackaddr << endl;
-	    if ( ((size_t) &slevel) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+65536){
-	      if ( ((size_t) &slevel) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+8192){
+	    if ( ((size_t) &slevel) < ((size_t) stackaddr)+65536){
+	      if ( ((size_t) &slevel) < ((size_t) stackaddr)+8192){
 		gensizeerr(gettext("Too many recursion levels"),evaled); // two many recursion levels
 		return true;
 	      }
@@ -2085,14 +2088,16 @@ namespace giac {
 	      }
 	    }
 #endif // rtos
-	  if ( (is_plus ||is_prod || is_pow) && _SYMBptr->feuille.type==_VECT && _SYMBptr->feuille._VECTptr->size()==2){
-	    vecteur * vptr=_SYMBptr->feuille._VECTptr;
+	  const vecteur * vptr;
+	  if ( (is_plus ||is_prod || is_pow) && feuille.type==_VECT && (vptr=feuille._VECTptr)->size()==2){
+	    const gen & vptrfront=vptr->front();
+	    const gen & vptrback=vptr->back();
 	    gen a;
-	    if (!vptr->front().in_eval(level,a,contextptr))
-	      a=vptr->front();
+	    if (!vptrfront.in_eval(level,a,contextptr))
+	      a=vptrfront;
 	    if (a.type!=_VECT || a.subtype!=_SEQ__VECT){
-	      if (!vptr->back().in_eval(level,evaled,contextptr))
-		evaled=vptr->back();
+	      if (!vptrback.in_eval(level,evaled,contextptr))
+		evaled=vptrback;
 	      if (evaled.type!=_VECT || evaled.subtype!=_SEQ__VECT){		
 		if (is_plus) evaled=operator_plus(a,evaled,contextptr);
 		else {
@@ -2106,11 +2111,11 @@ namespace giac {
 	  }
 	  if (is_of_local_ifte_bloc){
 	    elevel=level;
-	    evaled=_SYMBptr->feuille; // FIXME must also set eval_level to level
+	    evaled=feuille; // FIXME must also set eval_level to level
 	  }
 	  else {
-	    if (!_SYMBptr->feuille.in_eval(level,evaled,contextptr))
-	      evaled=_SYMBptr->feuille;
+	    if (!feuille.in_eval(level,evaled,contextptr))
+	      evaled=feuille;
 	  }
 	  if (is_ifte)
 	    evaled=ifte(evaled,true,contextptr);
@@ -2119,7 +2124,7 @@ namespace giac {
 	  elevel=slevel;
 	}
 	else
-	  evaled=_SYMBptr->eval(level,contextptr);
+	  evaled=sptr->eval(level,contextptr);
 	return true;
       }
     case _USER:
