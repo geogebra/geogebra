@@ -3989,6 +3989,10 @@ public abstract class App implements UpdateSelection {
 			// AND-623
 			case MOB_SYNC_BKG_SERVICE:
 				return prerelease;
+				
+			// IGR-593
+			case MOB_IOS_CHECKBOXES_AND_STATUS_BAR:
+				return prerelease;
 
             // **********************************************************************
             // MOBILE END
@@ -5088,6 +5092,16 @@ public abstract class App implements UpdateSelection {
 			specialPointsManager = new SpecialPointsManager(kernel);
 		}
 		return specialPointsManager;
+	}
+
+	/**
+	 * enable/disable CAS and re-init command table
+	 * 
+	 * @param enable
+	 */
+	public void enableCAS(boolean enable) {
+	    getSettings().getCasSettings().setEnabled(enable);
+	    getKernel().getAlgebraProcessor().reinitCommands();
 	}
 
 }
