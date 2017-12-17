@@ -1413,13 +1413,13 @@ namespace giac {
     } // if (sommet.quoted())
     else {
       // pnt check required because pnt name might be the identifier->recursion
-      if (sommet==at_pnt && feuille.type==_VECT && feuille._VECTptr->size()==3){
+      if (feuille.type==_VECT && sommet==at_pnt && feuille._VECTptr->size()==3){
 	ans=(*sommet.ptr())(gen(vecteur(feuille._VECTptr->begin(),feuille._VECTptr->begin()+2),feuille.subtype).in_eval(level,ans,contextptr)?ans:feuille,contextptr);
 	last=save_last;
 	lastarg=save_lastarg;
 	return ans;
       }
-      if ((sommet==at_neg) && (feuille.type==_IDNT) && !strcmp(feuille._IDNTptr->id_name,string_infinity)){
+      if (feuille.type==_IDNT && sommet==at_neg && !strcmp(feuille._IDNTptr->id_name,string_infinity)){
 	last=save_last;
 	lastarg=save_lastarg;
 	return minus_inf;

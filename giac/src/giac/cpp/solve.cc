@@ -1611,7 +1611,7 @@ namespace giac {
       expr=factor(expr,false,contextptr);
       if (is_zero(derive(expr,x,contextptr),contextptr))
 	return;
-      solve(expr,x,fullres,isolate_mode,contextptr);
+      solve(pow2expln(expr,contextptr),x,fullres,isolate_mode,contextptr);
       return;
     }
     // old code with Groebner basis

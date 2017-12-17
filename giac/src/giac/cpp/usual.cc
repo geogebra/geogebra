@@ -2933,9 +2933,11 @@ namespace giac {
 
   gen _abs(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT)
+      return giac::abs(args,contextptr);
     if (ckmatrix(args))
       return _l2norm(args,contextptr);
-    if (args.type==_VECT && (args.subtype==_POINT__VECT || args.subtype==_GGBVECT))
+    if (args.subtype==_POINT__VECT || args.subtype==_GGBVECT)
       return _l2norm(args,contextptr);
     return apply(args,contextptr,giac::abs);
   }
