@@ -18,12 +18,25 @@ public class ExamEnvironment {
 		SCREEN_ON, SCREEN_OFF
 	}
 
+	/**
+	 * enumeration for exam modes (calculator type)
+	 */
+	public enum CalculatorType {
+		/** 2D graphing, no CAS */
+		GRAPHING,
+		/** 2D graphing, CAS */
+		SYMBOLIC
+	}
+
 	protected LinkedList<CheatingEvent> cheatingEvents = null;
 	private long closed = -1;
 	private long maybeCheating = -1;
 	private boolean lastCheatingEventWindowWasLeft;
 
 	private boolean hasGraph = false;
+
+	private CalculatorType calculatorType;
+	private boolean wasCasEnabled;
 
 	public long getStart() {
 		return examStartTime;
@@ -347,6 +360,58 @@ public class ExamEnvironment {
 			return loc.getCommandSyntax(cmdInt);
 		}
 
+	}
+
+	/**
+	 * set calculator type and setup application regarding the type
+	 * 
+	 * @param app
+	 *            application
+	 * 
+	 * @param type
+	 *            calculator type
+	 */
+	public void setCalculatorType(App app, CalculatorType type) {
+		calculatorType = type;
+		// setup CAS on/off
+		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
+		switch (calculatorType) {
+		case GRAPHING:
+			app.enableCAS(false);
+			break;
+		case SYMBOLIC:
+			app.enableCAS(true);
+			break;
+		default:
+			break;
+		}
+	}
+
+	/**
+	 * close exam mode and reset CAS etc.
+	 * 
+	 * @param app
+	 *            application
+	 */
+	public void closeExam(App app) {
+		app.enableCAS(wasCasEnabled);
+	}
+
+	/**
+	 * 
+	 * @param app
+	 *            application
+	 * @return name for current calculator type
+	 */
+	public String getCalculatorTypeName(App app) {
+		switch (calculatorType) {
+		case GRAPHING:
+			return app.getLocalization().getMenu("GraphingCalculator");
+		case SYMBOLIC:
+			return app.getLocalization().getMenu("SymbolicCalculator");
+		default:
+			return "";
+		}
 	}
 
 }
