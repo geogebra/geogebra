@@ -3102,7 +3102,7 @@ __GGB__keysVar.zh_CN.menu = {
     "html": "\u7f51\u9875",
     "insert_worksheet": "\u63d2\u5165\u8bfe\u4ef6",
     "jpg": "JPG \u683c\u5f0f",
-    "materials": "\u7d20\u6750",
+    "materials": "\u8d44\u6e90",
     "math_apps": "GeoGebra \u7ecf\u5178",
     "max": "\u6700\u5927",
     "min": "\u6700\u5c0f",

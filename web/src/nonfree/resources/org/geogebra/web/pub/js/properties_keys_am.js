@@ -1356,7 +1356,7 @@ __GGB__keysVar.am.menu = {
     "CenterImage": "Center Image",
     "CenterOfA": "\u12a0\u121b\u12ad\u120d %0",
     "CentroidOfA": "Centroid of %0",
-    "CheckBoxTitle": "Check Box to Show/Hide Objects",
+    "CheckBoxTitle": "Yemesil masaya/medebeqiYa saTene",
     "CheckOutTutorial": "\u12ed\u1218\u120d\u12a8\u1271 %0 \u12e8\u129b\u1295 \u12a0\u130b\u12e5 \u1225\u120d\u1320\u1293!",
     "CheckedNumerically": "(checked numerically)",
     "ChiSquaredContribution": "\u03a7\xb2 Contribution",
