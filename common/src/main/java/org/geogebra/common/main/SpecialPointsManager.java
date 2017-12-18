@@ -75,7 +75,8 @@ public class SpecialPointsManager implements UpdateSelection {
 	}
 
 	private GeoElementND[] getSpecPoints(GeoElementND geo) {
-		if (!(geo instanceof GeoFunction) || !geo.isVisible()) {
+		if (!(geo instanceof GeoFunction) || !geo.isVisible()
+				|| !geo.isDefined()) {
 			return null;
 		}
 		PolyFunction poly = ((GeoFunction) geo).getFunction()
