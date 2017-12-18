@@ -95,7 +95,7 @@ public class InputController {
 		editorState.resetSelection();
 		// set current
 		editorState.setCurrentField(field);
-		editorState.setCurrentOffset(field.size());
+		editorState.setCurrentOffset(0);
 		return array;
 	}
 

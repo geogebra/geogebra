@@ -154,6 +154,20 @@ public class AriaMenuBar extends Widget {
 	}
 
 	/**
+	 * Selects the item at the specified index in the menu. Selecting the item
+	 * does not perform the item's associated action; it only changes the style
+	 * of the item and updates the value of SuggestionMenu.selectedItem.
+	 *
+	 * @param index
+	 *            index
+	 */
+	public void selectItem(int index) {
+		if (index >= 0 && index < allItems.size()) {
+			selectItem(allItems.get(index));
+		}
+	}
+
+	/**
 	 * Move focus to an item, may be overriden
 	 * 
 	 * @param item

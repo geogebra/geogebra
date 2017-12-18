@@ -1,7 +1,6 @@
 package org.geogebra.web.html5.gui.view.autocompletion;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.gui.GDecoratedPopupPanel;
@@ -662,22 +661,6 @@ public class GSuggestBox extends Composite
 				return getItems().indexOf(selectedItem);
 			}
 			return -1;
-		}
-
-		/**
-		 * Selects the item at the specified index in the menu. Selecting the
-		 * item does not perform the item's associated action; it only changes
-		 * the style of the item and updates the value of
-		 * SuggestionMenu.selectedItem.
-		 *
-		 * @param index
-		 *            index
-		 */
-		public void selectItem(int index) {
-			List<AriaMenuItem> items = getItems();
-			if (index > -1 && index < items.size()) {
-				itemOver(items.get(index));
-			}
 		}
 
 		@Override
