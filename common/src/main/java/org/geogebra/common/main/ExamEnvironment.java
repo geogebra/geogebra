@@ -404,7 +404,19 @@ public class ExamEnvironment {
 	 * @return name for current calculator type
 	 */
 	public String getCalculatorTypeName(App app) {
-		switch (calculatorType) {
+		return getCalculatorTypeName(app, calculatorType);
+	}
+
+	/**
+	 * 
+	 * @param app
+	 *            application
+	 * @param type
+	 *            calculator type
+	 * @return name for a calculator type
+	 */
+	public String getCalculatorTypeName(App app, CalculatorType type) {
+		switch (type) {
 		case GRAPHING:
 			return app.getLocalization().getMenu("GraphingCalculator");
 		case SYMBOLIC:
