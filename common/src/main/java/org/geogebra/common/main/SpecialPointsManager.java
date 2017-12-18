@@ -17,8 +17,10 @@ import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventListener;
 
-public class SpecialPointsManager implements UpdateSelection {
+public class SpecialPointsManager implements UpdateSelection, EventListener {
 	private Kernel kernel;
 	private GeoElement[] specPoints;
 	/** Special points for preview points */
@@ -31,6 +33,7 @@ public class SpecialPointsManager implements UpdateSelection {
 	public SpecialPointsManager(Kernel kernel) {
 		this.kernel = kernel;
 		kernel.getApplication().getSelectionManager().addListener(this);
+		kernel.getApplication().getEventDispatcher().addEventListener(this);
 	}
 
 	private GeoElementND[] getSpecPoints(GeoElement geo0,
@@ -166,5 +169,17 @@ public class SpecialPointsManager implements UpdateSelection {
 
 	public void updateSelection() {
 		updateSpecialPoints(null);
+	}
+
+	public void sendEvent(Event evt) {
+		switch (evt.type) {
+		case DESELECT:
+			updateSelection();
+		}
+	}
+
+	public void reset() {
+		// TODO Auto-generated method stub
+
 	}
 }

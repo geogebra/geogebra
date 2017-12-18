@@ -186,11 +186,6 @@ public class SelectionManager {
 
 			if (updateSelection) {
 				updateSelection();
-			} else {
-				if (kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
-					kernel.getApplication().getSpecialPointsManager()
-							.updateSpecialPoints(null);
-				}
 			}
 
 			kernel.getApplication().getEventDispatcher()
