@@ -18,11 +18,29 @@ public class AlgoAnglePoints3DOrientation extends AlgoAnglePoints3D {
 
 	private GeoDirectionND orientation;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 * @param orientation
+	 *            orientation
+	 */
 	AlgoAnglePoints3DOrientation(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 		super(cons, A, B, C, orientation);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param orientation
+	 *            orientation
+	 */
 	public AlgoAnglePoints3DOrientation(Construction cons,
 			GeoDirectionND orientation) {
 		super(cons);

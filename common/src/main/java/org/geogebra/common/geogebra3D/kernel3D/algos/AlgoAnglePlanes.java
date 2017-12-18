@@ -76,25 +76,6 @@ public class AlgoAnglePlanes extends AlgoAngle implements DrawInformationAlgo {
 		this.q = q;
 	}
 
-	/**
-	 * Creates new labeled angle between line and plane
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            angle label
-	 * @param g
-	 *            line
-	 * @param p
-	 *            plane
-	 */
-
-	public AlgoAnglePlanes(Construction cons, String label, GeoPlane3D p,
-			GeoPlane3D q) {
-		this(cons, p, q);
-		angle.setLabel(label);
-	}
-
 	@Override
 	public AlgoAnglePlanes copy() {
 		return new AlgoAnglePlanes(p.copy(), q.copy());

@@ -56,7 +56,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 	 * @param orientation
 	 *            orientation (for 3D)
 	 */
-	AlgoAngleLinesND(Construction cons, GeoLineND g, GeoLineND h,
+	protected AlgoAngleLinesND(Construction cons, GeoLineND g, GeoLineND h,
 			GeoDirectionND orientation) {
 		super(cons);
 		setInput(g, h, orientation);
@@ -65,7 +65,6 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 		// compute angle
 		compute();
-
 	}
 
 	/**
@@ -94,27 +93,6 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 		super(((GeoElement) g).getConstruction(), false);
 		this.g = g;
 		this.h = h;
-	}
-
-	/**
-	 * Creates new labeled angle between lines algo
-	 * 
-	 * @param cons
-	 *            construction
-	 * @param label
-	 *            angle label
-	 * @param g
-	 *            first line
-	 * @param h
-	 *            second line
-	 * @param orientation
-	 *            orientation (for 3D)
-	 */
-
-	public AlgoAngleLinesND(Construction cons, String label, GeoLineND g,
-			GeoLineND h, GeoDirectionND orientation) {
-		this(cons, g, h, orientation);
-		angle.setLabel(label);
 	}
 
 	/**

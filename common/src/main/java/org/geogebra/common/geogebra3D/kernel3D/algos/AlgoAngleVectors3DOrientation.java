@@ -18,9 +18,19 @@ public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D {
 
 	private GeoDirectionND orientation;
 
-	AlgoAngleVectors3DOrientation(Construction cons, String label,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param v
+	 *            vector
+	 * @param w
+	 *            vector
+	 * @param orientation
+	 *            orientation
+	 */
+	AlgoAngleVectors3DOrientation(Construction cons,
 			GeoVectorND v, GeoVectorND w, GeoDirectionND orientation) {
-		super(cons, label, v, w, orientation);
+		super(cons, v, w, orientation);
 	}
 
 	@Override

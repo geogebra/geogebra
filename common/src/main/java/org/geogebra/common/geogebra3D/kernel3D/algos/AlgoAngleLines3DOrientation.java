@@ -35,9 +35,19 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 
 	private GeoDirectionND orientation;
 
-	AlgoAngleLines3DOrientation(Construction cons, String label, GeoLineND g,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param g
+	 *            line
+	 * @param h
+	 *            line
+	 * @param orientation
+	 *            orientation
+	 */
+	AlgoAngleLines3DOrientation(Construction cons, GeoLineND g,
 			GeoLineND h, GeoDirectionND orientation) {
-		super(cons, label, g, h, orientation);
+		super(cons, g, h, orientation);
 	}
 
 	@Override

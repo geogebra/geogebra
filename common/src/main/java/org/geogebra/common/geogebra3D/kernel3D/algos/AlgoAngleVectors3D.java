@@ -32,20 +32,39 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
  * @author mathieu
  */
 public class AlgoAngleVectors3D extends AlgoAngleVectorsND {
-
+	/** normal */
 	protected Coords vn;
 	private Coords o;
 	private Coords v1;
 	private Coords v2;
 
-	AlgoAngleVectors3D(Construction cons, String label, GeoVectorND v,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param v
+	 *            vector
+	 * @param w
+	 *            vector
+	 */
+	AlgoAngleVectors3D(Construction cons, GeoVectorND v,
 			GeoVectorND w) {
-		this(cons, label, v, w, null);
+		this(cons, v, w, null);
 	}
 
-	AlgoAngleVectors3D(Construction cons, String label, GeoVectorND v,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param v
+	 *            vector
+	 * @param w
+	 *            vector
+	 * @param orientation
+	 *            orientation
+	 */
+	AlgoAngleVectors3D(Construction cons, GeoVectorND v,
 			GeoVectorND w, GeoDirectionND orientation) {
-		super(cons, label, v, w, orientation);
+		super(cons, v, w, orientation);
+
 	}
 
 	@Override

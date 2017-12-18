@@ -35,20 +35,38 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
  * @author mathieu
  */
 public class AlgoAngleLines3D extends AlgoAngleLinesND {
-
+	/** normal vector */
 	protected Coords vn;
 	private Coords o;
 	private Coords v1;
 	private Coords v2;
 
-	AlgoAngleLines3D(Construction cons, String label, GeoLineND g, GeoLineND h,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param g
+	 *            line
+	 * @param h
+	 *            line
+	 * @param orientation
+	 *            orientation
+	 */
+	AlgoAngleLines3D(Construction cons, GeoLineND g, GeoLineND h,
 			GeoDirectionND orientation) {
-		super(cons, label, g, h, orientation);
+		super(cons, g, h, orientation);
 	}
 
-	AlgoAngleLines3D(Construction cons, String label, GeoLineND g,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param g
+	 *            line
+	 * @param h
+	 *            line
+	 */
+	AlgoAngleLines3D(Construction cons, GeoLineND g,
 			GeoLineND h) {
-		this(cons, label, g, h, null);
+		this(cons, g, h, null);
 	}
 
 	@Override

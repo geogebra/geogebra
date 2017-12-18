@@ -196,12 +196,13 @@ public class CmdAngle3D extends CmdAngle {
 		if (v.isGeoElement3D()) {
 			AlgoAngleElement3D algo;
 			if (v.isGeoVector()) {
-				algo = new AlgoAngleVector3D(cons, label, (GeoVector3D) v);
+				algo = new AlgoAngleVector3D(cons, (GeoVector3D) v);
 			} else {
-				algo = new AlgoAnglePoint3D(cons, label, (GeoPoint3D) v);
+				algo = new AlgoAnglePoint3D(cons, (GeoPoint3D) v);
 			}
 
 			GeoElement[] ret = { algo.getAngle() };
+			ret[0].setLabel(label);
 			return ret;
 		}
 
@@ -212,9 +213,10 @@ public class CmdAngle3D extends CmdAngle {
 	protected GeoElement[] angle(String label, GeoConicND c) {
 
 		if (c.isGeoElement3D()) {
-			AlgoAngleElement3D algo = new AlgoAngleConic3D(cons, label,
+			AlgoAngleElement3D algo = new AlgoAngleConic3D(cons,
 					(GeoConic3D) c);
 			GeoElement[] ret = { algo.getAngle() };
+			ret[0].setLabel(label);
 			return ret;
 		}
 

@@ -19,7 +19,6 @@ the Free Software Foundation.
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoAnglePointsND;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
@@ -40,6 +39,8 @@ public class AlgoAnglePolygon3DOrientation extends AlgoAnglePolygon3D {
 	 *            labels
 	 * @param poly
 	 *            polygon
+	 * @param orientation
+	 *            orientation to determine clockwise
 	 */
 	public AlgoAnglePolygon3DOrientation(Construction cons, String[] labels,
 			GeoPolygon poly, GeoDirectionND orientation) {
@@ -66,12 +67,4 @@ public class AlgoAnglePolygon3DOrientation extends AlgoAnglePolygon3D {
 
 		setDependencies();
 	}
-
-	@Override
-	public String toString(StringTemplate tpl) {
-
-		return getLoc().getPlain("AngleOfAOrientedByB", poly.getLabel(tpl),
-				orientation.getLabel(tpl));
-	}
-
 }

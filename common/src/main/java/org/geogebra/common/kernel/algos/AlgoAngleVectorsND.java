@@ -33,13 +33,13 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 	protected GeoVectorND v, w; // input
 	protected GeoAngle angle; // output
 
-	public AlgoAngleVectorsND(Construction cons, String label, GeoVectorND v,
+	public AlgoAngleVectorsND(Construction cons, GeoVectorND v,
 			GeoVectorND w) {
 
-		this(cons, label, v, w, null);
+		this(cons, v, w, null);
 	}
 
-	public AlgoAngleVectorsND(Construction cons, String label, GeoVectorND v,
+	public AlgoAngleVectorsND(Construction cons, GeoVectorND v,
 			GeoVectorND w, GeoDirectionND orientation) {
 		super(cons);
 		setInput(v, w, orientation);
@@ -48,7 +48,6 @@ public abstract class AlgoAngleVectorsND extends AlgoAngle {
 
 		// compute angle
 		compute();
-		angle.setLabel(label);
 	}
 
 	// for AlgoElement

@@ -33,18 +33,51 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
-	protected Coords center, v1, v2, vn;
+	/** vertex coords */
+	protected Coords center;
+	/** leg1 - vertex */
+	protected Coords v1;
+	/** leg2 - vertex */
+	protected Coords v2;
+	/** normal vector */
+	protected Coords vn;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 */
 	AlgoAnglePoints3D(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 		this(cons, A, B, C, null);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            leg
+	 * @param B
+	 *            vertex
+	 * @param C
+	 *            leg
+	 * @param orientation
+	 *            orientation
+	 */
 	AlgoAnglePoints3D(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 		super(cons, A, B, C, orientation);
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 */
 	AlgoAnglePoints3D(Construction cons) {
 		super(cons);
 	}

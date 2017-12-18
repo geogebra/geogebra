@@ -1625,25 +1625,28 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h) {
-		AlgoAngleLines3D algo = new AlgoAngleLines3D(cons, label, g, h);
+		AlgoAngleLines3D algo = new AlgoAngleLines3D(cons, g, h);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 
 	@Override
 	final public GeoAngle Angle3D(String label, GeoLineND g, GeoLineND h,
 			GeoDirectionND orientation) {
-		AlgoAngleLines3D algo = new AlgoAngleLines3DOrientation(cons, label, g,
+		AlgoAngleLines3D algo = new AlgoAngleLines3DOrientation(cons, g,
 				h, orientation);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 
 	@Override
 	final public GeoAngle Angle3D(String label, GeoPlaneND p1, GeoPlaneND p2) {
-		AlgoAnglePlanes algo = new AlgoAnglePlanes(cons, label, (GeoPlane3D) p1,
+		AlgoAnglePlanes algo = new AlgoAnglePlanes(cons, (GeoPlane3D) p1,
 				(GeoPlane3D) p2);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 
@@ -1726,17 +1729,19 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w) {
-		AlgoAngleVectors3D algo = new AlgoAngleVectors3D(cons, label, v, w);
+		AlgoAngleVectors3D algo = new AlgoAngleVectors3D(cons, v, w);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 
 	@Override
 	final public GeoAngle Angle3D(String label, GeoVectorND v, GeoVectorND w,
 			GeoDirectionND orientation) {
-		AlgoAngleVectors3D algo = new AlgoAngleVectors3DOrientation(cons, label,
+		AlgoAngleVectors3D algo = new AlgoAngleVectors3DOrientation(cons,
 				v, w, orientation);
 		GeoAngle angle = algo.getAngle();
+		angle.setLabel(label);
 		return angle;
 	}
 

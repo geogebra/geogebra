@@ -31,9 +31,14 @@ public class AlgoAngleVector3D extends AlgoAngleElement3D {
 
 	private Coords o;
 
-	public AlgoAngleVector3D(Construction cons, String label, GeoVector3D vec) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param vec
+	 *            vector
+	 */
+	public AlgoAngleVector3D(Construction cons, GeoVector3D vec) {
 		super(cons, vec);
-		angle.setLabel(label);
 	}
 
 	@Override

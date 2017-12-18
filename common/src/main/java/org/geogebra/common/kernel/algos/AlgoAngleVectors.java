@@ -28,8 +28,8 @@ public class AlgoAngleVectors extends AlgoAngleVectorsND {
 
 	public AlgoAngleVectors(Construction cons, String label, GeoVectorND v,
 			GeoVectorND w) {
-
-		super(cons, label, v, w, null);
+		super(cons, v, w, null);
+		angle.setLabel(label);
 	}
 
 	// for AlgoElement

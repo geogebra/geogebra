@@ -34,6 +34,12 @@ public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 
 	private Coords vn, v2;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param vec
+	 *            single input
+	 */
 	public AlgoAngleElement3D(Construction cons, GeoElement vec) {
 		super(cons, vec);
 	}
@@ -45,10 +51,19 @@ public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 		return ret;
 	}
 
+	/**
+	 * @return input as vector
+	 */
 	protected abstract Coords getVectorCoords();
 
+	/**
+	 * @return origin
+	 */
 	protected abstract Coords getOrigin();
 
+	/**
+	 * Update the origin
+	 */
 	protected abstract void setOrigin();
 
 	@Override
