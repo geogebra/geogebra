@@ -521,6 +521,18 @@ public class InputController {
 
 				// if ')' typed at the end of last field of braces ... move
 				// after closing character
+			} else if (parent instanceof MathFunction
+					&& ch == ((MathFunction) parent).getClosingBracket()
+							.charAt(0)
+					&& parent.size() == currentField.getParentIndex() + 1) {
+				ArrayList<MathComponent> removed = cut(currentField,
+						currentOffset);
+				insertReverse(parent.getParent(), parent.getParentIndex(),
+						removed);
+
+				currentOffset = parent.getParentIndex() + 1;
+				currentField = (MathSequence) parent.getParent();
+
 			} else {
 				if (ch == ',') {
 					newCharacter(editorState, ch);

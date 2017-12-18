@@ -99,12 +99,13 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.append(")");
 			break;
 		case SQRT:
-			maybeInsertTimes(mathFunction, stringBuilder);
-			stringBuilder.append("sqrt(");
-			serialize(mathFunction.getArgument(0), stringBuilder);
-			stringBuilder.append(')');
+			appendSqrt(mathFunction, stringBuilder, 0);
 			break;
 		case NROOT:
+			if (mathFunction.getArgument(0).size() == 0) {
+				appendSqrt(mathFunction, stringBuilder, 1);
+				break;
+			}
 			maybeInsertTimes(mathFunction, stringBuilder);
 			stringBuilder.append("nroot(");
 			serialize(mathFunction.getArgument(1), stringBuilder);
@@ -151,7 +152,14 @@ public class GeoGebraSerializer implements Serializer {
 		default:
 			generalFunction(mathFunction, stringBuilder);
 		}
+	}
 
+	private static void appendSqrt(MathFunction mathFunction,
+			StringBuilder stringBuilder, int i) {
+		maybeInsertTimes(mathFunction, stringBuilder);
+		stringBuilder.append("sqrt(");
+		serialize(mathFunction.getArgument(i), stringBuilder);
+		stringBuilder.append(')');
 	}
 
 	private static void generalFunction(MathFunction mathFunction,
@@ -159,7 +167,6 @@ public class GeoGebraSerializer implements Serializer {
 		maybeInsertTimes(mathFunction, stringBuilder);
 		stringBuilder.append(mathFunction.getName().getFunction());
 		serializeArgs(mathFunction, stringBuilder, 0);
-
 	}
 
 	private static void serializeArgs(MathFunction mathFunction,
@@ -173,7 +180,6 @@ public class GeoGebraSerializer implements Serializer {
 			stringBuilder.deleteCharAt(stringBuilder.length() - 1);
 		}
 		stringBuilder.append(mathFunction.getClosingBracket());
-
 	}
 
 	private static void serializeArgs(MathFunction mathFunction,
@@ -268,6 +274,4 @@ public class GeoGebraSerializer implements Serializer {
 		}
 		return formula1 == null ? formula : formula1;
 	}
-
-
 }

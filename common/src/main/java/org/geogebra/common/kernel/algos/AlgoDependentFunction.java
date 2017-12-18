@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.ListValue;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -270,7 +271,7 @@ public class AlgoDependentFunction extends AlgoElement
 				// we do NOT expand GeoFunctionConditional objects in expression
 				// tree
 				return substituteFunction((Functional) leftValue,
-						node.getRight(), fast);
+						node.getRight(), fast, node.getKernel());
 
 			case FUNCTION_NVAR:
 				// make sure we expand $ in $A1(x,y)
@@ -327,7 +328,6 @@ public class AlgoDependentFunction extends AlgoElement
 							break;
 						}
 					}
-					Log.debug(constants + "/" + list.size());
 					ExpressionNodeEvaluator expev = ((GeoList) leftValue)
 							.getKernel().getExpressionNodeEvaluator();
 					ExpressionValue res = expev.handleElementOf(leftValue,
@@ -335,7 +335,8 @@ public class AlgoDependentFunction extends AlgoElement
 					if (res instanceof Functional
 							&& constants >= list.size() - 1) {
 						return substituteFunction(((Functional) res),
-								list.getListElement(list.size() - 1), fast);
+								list.getListElement(list.size() - 1), fast,
+								node.getKernel());
 					}
 					if (res instanceof FunctionalNVar
 							&& constants >= list.size() - ((FunctionalNVar) res)
@@ -405,8 +406,11 @@ public class AlgoDependentFunction extends AlgoElement
 	}
 
 	private static ExpressionValue substituteFunction(Functional leftValue,
-			ExpressionValue right, boolean fast) {
+			ExpressionValue right, boolean fast, Kernel kernel) {
 		Function fun = leftValue.getFunction();
+		if (fun == null) {
+			return new MyDouble(kernel, Double.NaN);
+		}
 		FunctionVariable x = fun.getFunctionVariable();
 		// don't destroy the function
 		ExpressionNode funcExpression = fun.getExpression()
