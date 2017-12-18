@@ -24,7 +24,6 @@ import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
-import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageWrapper;
@@ -851,9 +850,7 @@ public class GGraphics2DW implements GGraphics2D {
 	public boolean setAltText(String altStr) {
 		boolean ret = !(canvas.getElement().getInnerText() + "").equals(altStr);
 		canvas.getElement().setInnerText(altStr);
-		AriaHelper.setLabel(canvas, altStr);
 		return ret;
-
 	}
 
 	public String getAltText() {

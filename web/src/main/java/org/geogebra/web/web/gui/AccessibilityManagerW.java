@@ -71,15 +71,15 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	@Override
 	public void focusPrevious(Object source) {
 		if (source instanceof LatexTreeItemController) {
-			focusZoom(false);
+			if (!focusLastGeo()) {
+				focusMenu();
+			}
 		} else if (source instanceof ZoomPanel) {
 			focusSettings();
 		} else if (source instanceof FocusWidget) {
 			focusPreviousWidget((FocusWidget) source);
 		} else if (source instanceof GeoElement) {
-			if (!focusInput(false)) {
-				focusZoom(true);
-			}
+			focusZoom(false);
 		}
 	}
 	
@@ -101,12 +101,9 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 
 
 		if (source.getTabIndex() == GUITabs.MENU) {
-			if (!focusLastGeo()) {
 				if (!focusInput(false)) {
 					focusZoom(false);
-
 				}
-			}
 		}
 	}
 
