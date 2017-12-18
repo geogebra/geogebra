@@ -58,7 +58,7 @@ public class ParametricProcessor3D extends ParametricProcessor {
 				return processSurface(exp, fv, label, 2);
 			}
 		}
-		if (ev instanceof Vector3DValue) {
+		if (ev instanceof Vector3DValue && fv.length < 3) {
 			if (fv.length == 2) {
 				return processSurface(exp, fv, label, 3);
 			}
