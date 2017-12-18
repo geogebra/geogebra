@@ -208,6 +208,8 @@ public class InputController {
 		// add function
 		MathFunction function;
 		Tag tag = Tag.lookup(name);
+		boolean builtin = tag != null;
+		final boolean hasSelection = editorState.getSelectionEnd() != null;
 		int offset = 0;
 		if (tag != null) {
 			MetaFunction meta = metaModel.getGeneral(tag);
@@ -233,7 +235,7 @@ public class InputController {
 
 		// pass characters for fraction and factorial only
 		if ("frac".equals(name)) {
-			if (editorState.getSelectionEnd() != null) {
+			if (hasSelection) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
 				MathSequence field = new MathSequence();
@@ -246,7 +248,7 @@ public class InputController {
 			}
 			ArgumentHelper.passArgument(editorState, function);
 		} else if ("^".equals(name)) {
-			if (editorState.getSelectionEnd() != null) {
+			if (hasSelection) {
 				MathArray array = this.newArray(editorState, 1, '(');
 				editorState
 						.setCurrentField((MathSequence) array
@@ -258,14 +260,16 @@ public class InputController {
 				return;
 			}
 		} else {
-			if (editorState.getSelectionEnd() != null) {
+			if (hasSelection || !builtin) {
 				ArrayList<MathComponent> removed = cut(currentField,
 						currentOffset, -1, editorState, function, true);
 				MathSequence field = new MathSequence();
 				function.setArgument(offset, field);
 				insertReverse(field, -1, removed);
 				editorState.resetSelection();
-				editorState.incCurrentOffset();
+				editorState.setCurrentField(field);
+				editorState.setCurrentOffset(hasSelection ? field.size() : 0);
+				// editorState.incCurrentOffset();
 				return;
 			}
 		}
