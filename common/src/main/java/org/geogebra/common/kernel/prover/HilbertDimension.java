@@ -51,7 +51,7 @@ public class HilbertDimension {
 
 		kernel = as.geoStatement.getKernel();
 		HashSet<HashSet<PVariable>> nextUseful = new HashSet<>(),
-				lastUseful = new HashSet<>(), useful = new HashSet<>();
+				/* lastUseful = new HashSet<>(), */ useful = new HashSet<>();
 		HashSet<PVariable> allVars = PPolynomial.getVars(as.getPolynomials());
 		// Remove substituted vars:
 		for (PVariable var : substitutions.keySet()) {
@@ -71,7 +71,7 @@ public class HilbertDimension {
 			dim++;
 			Log.debug(useful.size() + " useful sets to be checked for " + dim
 					+ " dimensions");
-			lastUseful = nextUseful;
+			/* lastUseful = nextUseful; */
 			nextUseful = new HashSet<>();
 			// Check the useful set if they are useful in the future:
 			for (HashSet<PVariable> set : useful) {
