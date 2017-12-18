@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.util.CSSAnimation;
@@ -134,6 +135,7 @@ public class ItemControls extends FlowPanel
 				}
 
 			});
+			AriaHelper.setHidden(btnMore, true);
 		}
 		return btnMore;
 
@@ -149,7 +151,6 @@ public class ItemControls extends FlowPanel
 		}
 		if (cmMore == null) {
 			cmMore = new ContextMenuAVItemMore(radioTreeItem);
-
 		}
 		radioTreeItem.cancelEditing();
 		cmMore.show(btnMore.getAbsoluteLeft(), btnMore.getAbsoluteTop() - 8);
@@ -423,7 +424,6 @@ public class ItemControls extends FlowPanel
 					right = itemWidth - avWidth;
 				}
 				getElement().getStyle().setRight(right, Unit.PX);
-
 			}
 		});
 	}
@@ -446,7 +446,6 @@ public class ItemControls extends FlowPanel
 		} else {
 			btnMore.removeStyleName("more-hidden");
 			btnMore.addStyleName("more");
-
 		}
 
 	}

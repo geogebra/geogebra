@@ -283,6 +283,7 @@ public class MarblePanel extends FlowPanel
 			btnPlus.addKeyDownHandler(this);
 			btnPlus.setAltText(btnPlus.getTitle());
 		}
+		AriaHelper.setHidden(btnPlus, true);
 	}
 
 	/**
