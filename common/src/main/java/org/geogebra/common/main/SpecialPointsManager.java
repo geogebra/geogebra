@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoExtremumMulti;
@@ -50,6 +51,10 @@ public class SpecialPointsManager implements UpdateSelection {
 				for (int i = 0; i < specPoints0.size(); i++) {
 					specPoints[i] = specPoints0.get(i).toGeoElement();
 					specPoints[i].remove();
+					specPoints[i].setAdvancedVisualStyle(kernel
+							.getConstruction().getConstructionDefaults()
+							.getDefaultGeo(
+									ConstructionDefaults.DEFAULT_POINT_PREVIEW));
 				}
 			}
 		}

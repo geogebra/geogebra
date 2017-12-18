@@ -73,6 +73,8 @@ public class ConstructionDefaults {
 	public static final int DEFAULT_POINT_COMPLEX = 14;
 	/** default type for free point */
 	public static final int DEFAULT_POINT_ALL_BUT_COMPLEX = 15;
+	/** default type for preview point */
+	public static final int DEFAULT_POINT_PREVIEW = 16;
 
 	/** default line */
 	public static final int DEFAULT_LINE = 20;
@@ -415,6 +417,17 @@ public class ConstructionDefaults {
 		depPoint.setPointSize(dependentPointSize);
 		depPoint.setDefaultGeoType(DEFAULT_POINT_DEPENDENT);
 		defaultGeoElements.put(DEFAULT_POINT_DEPENDENT, depPoint);
+
+		// preview point
+		GeoPoint previewPoint = new GeoPoint(cons);
+		previewPoint.setPointStyle(EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE);
+		previewPoint.setLocalVariableLabel("Point" + strDependent);
+		previewPoint.setObjColor(
+				cons.getApplication().has(Feature.OBJECT_DEFAULTS_AND_COLOR)
+						? colDepPointG : colDepPoint);
+		previewPoint.setPointSize(dependentPointSize);
+		previewPoint.setDefaultGeoType(DEFAULT_POINT_PREVIEW);
+		defaultGeoElements.put(DEFAULT_POINT_PREVIEW, previewPoint);
 
 		// point on path
 		GeoPoint pathPoint = new GeoPoint(cons);
