@@ -20,6 +20,10 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
 
+/**
+ * Special point manager.
+ *
+ */
 public class SpecialPointsManager implements UpdateSelection, EventListener {
 	private Kernel kernel;
 	private GeoElement[] specPoints;
@@ -167,6 +171,9 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 		updateSelection();
 	}
 
+	/**
+	 * Updates special points when the selection updated.
+	 */
 	public void updateSelection() {
 		updateSpecialPoints(null);
 	}
