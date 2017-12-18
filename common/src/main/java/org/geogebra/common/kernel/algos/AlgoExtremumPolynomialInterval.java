@@ -43,15 +43,18 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 
 	@Override
 	public final void compute() {
+		Function fun = f.getGeoFunction().getFunction();
 		if (f.isDefined()) {
-			ExpressionNode polyExpression = f.getFunctionExpression().getRight()
+			ExpressionNode polyExpression = fun.getFunctionExpression()
+					.getRight()
 					.wrap();
-			ExpressionNode condExpression = f.getFunctionExpression().getLeft()
+			ExpressionNode condExpression = fun
+					.getFunctionExpression().getLeft()
 					.wrap();
 			if (yValFunction == null
 					|| yValFunction.getExpression() != polyExpression
 					|| interval.getFunctionExpression() != condExpression) {
-				FunctionVariable fVar = f.getFunction().getFunctionVariable();
+				FunctionVariable fVar = fun.getFunctionVariable();
 
 				// extract poly from If[0<x<10, poly]
 				yValFunction = new Function(polyExpression, fVar);

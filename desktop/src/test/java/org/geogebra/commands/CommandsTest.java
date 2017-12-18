@@ -601,6 +601,16 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdExtremum() {
+		t("Extremum[ sin(x), 1, 7 ]",
+				new String[] { "(1.5708, 1)", "(4.71239, -1)" },
+				StringTemplate.editTemplate);
+		t("Extremum[ x^3-3x ]", new String[] { "(-1, 2)", "(1, -2)" },
+				StringTemplate.editTemplate);
+		t("Extremum((x^2-4)/(x-2),-9,9)", "(NaN, NaN)");
+	}
+
+	@Test
 	public void cmdSurface() {
 		t("Surface[u*v,u+v,u^2+v^2,u,-1,1,v,1,3]",
 				"((u * v), u + v, u^(2) + v^(2))");

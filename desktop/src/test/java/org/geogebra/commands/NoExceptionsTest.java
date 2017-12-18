@@ -675,11 +675,7 @@ public class NoExceptionsTest {
 
 	}
 
-	@Test
-	public void cmdExtremum() {
-		t("Extremum[ sin(x), 4, 17 ]");
-		t("Extremum[ polynom1 ]");
-	}
+
 
 	@Test
 	public void cmdFactor() {

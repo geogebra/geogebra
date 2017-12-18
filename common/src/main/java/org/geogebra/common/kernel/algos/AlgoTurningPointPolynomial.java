@@ -15,7 +15,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -26,7 +26,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 
 	public AlgoTurningPointPolynomial(Construction cons, String[] labels,
-			GeoFunction f) {
+			GeoFunctionable f) {
 		super(cons, labels, f, true);
 	}
 
@@ -41,13 +41,13 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 
 	@Override
 	public void compute() {
-		if (!f.isPolynomialFunction(true)) {
+		if (!f.getGeoFunction().isPolynomialFunction(true)) {
 			initRootPoints(1);
 			getOutput(0).setUndefined();
 			return;
 		}
 		if (f.isDefined()) {
-			yValFunction = f.getFunction();
+			yValFunction = f.getGeoFunction().getFunction();
 
 			// roots of second derivative
 			// (roots without change of sign are removed)

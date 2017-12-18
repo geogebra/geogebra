@@ -41,7 +41,7 @@ public class CmdExtremum extends CommandProcessor {
 			arg = resArgs(c);
 			ok[0] = arg[0].isGeoFunctionable();
 			if (ok[0]) {
-				return Extremum(c, ((GeoFunctionable) arg[0]).getGeoFunction());
+				return Extremum(c, (GeoFunctionable) arg[0]);
 			}
 			throw argErr(app, c, arg[0]);
 		case 3: // Extremum[f,start-x,end-x]
@@ -69,8 +69,8 @@ public class CmdExtremum extends CommandProcessor {
 	 * @return - all Extrema of function f (for polynomial functions) - all
 	 *         Extrema currently visible (for non-polynomial functions)
 	 */
-	final private GeoPoint[] Extremum(Command c, GeoFunction f) {
-
+	final private GeoPoint[] Extremum(Command c, GeoFunctionable gf) {
+		GeoFunction f = gf.getGeoFunction();
 		// special case for If
 		// non-polynomial -> undefined
 		ExpressionNode exp = f.getFunctionExpression();
@@ -97,7 +97,7 @@ public class CmdExtremum extends CommandProcessor {
 		}
 
 		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons,
-				c.getLabels(), f, true);
+				c.getLabels(), gf, true);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
 	}

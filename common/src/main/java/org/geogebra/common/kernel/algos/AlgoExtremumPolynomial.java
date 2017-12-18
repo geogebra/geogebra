@@ -15,7 +15,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
@@ -25,8 +25,18 @@ import org.geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param f
+	 *            function
+	 * @param labelEnabled
+	 *            whether to add this to cons & label outputs
+	 */
 	public AlgoExtremumPolynomial(Construction cons, String[] labels,
-			GeoFunction f, boolean labelEnabled) {
+			GeoFunctionable f, boolean labelEnabled) {
 		super(cons, labels, f, labelEnabled);
 
 		// Application.debug("AlgoExtremumPolynomial: " + f + ", " + f.cons);
@@ -42,6 +52,9 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 		return Commands.Extremum;
 	}
 
+	/**
+	 * @return extrema
+	 */
 	public GeoPoint[] getExtremumPoints() {
 		return super.getRootPoints();
 	}
@@ -52,7 +65,7 @@ public class AlgoExtremumPolynomial extends AlgoRootsPolynomial {
 			// TODO: remove
 			// Application.debug("*** extremum of " + f);
 
-			yValFunction = f.getFunction();
+			yValFunction = f.getGeoFunction().getFunction();
 
 			// roots of first derivative
 			// (roots without change of sign are removed)

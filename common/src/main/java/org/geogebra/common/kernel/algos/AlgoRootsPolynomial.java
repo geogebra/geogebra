@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LabelManager;
@@ -44,7 +45,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	private static final int MULTIPLE_ROOTS = 3;
 	private int mode;
 
-	protected GeoFunction f; // input (g for intersection of polynomials)
+	protected GeoFunctionable f; // input (g for intersection of polynomials)
 	GeoFunction g;
 	protected GeoLine line; // input (for intersection of polynomial with line)
 	protected GeoPoint[] rootPoints; // output, inherited from AlgoIntersect
@@ -66,15 +67,15 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * Computes all roots of f
 	 */
 	public AlgoRootsPolynomial(Construction cons, String[] labels,
-			GeoFunction f, boolean labelEnabled) {
-		this(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(), f,
+			GeoFunctionable f2, boolean labelEnabled) {
+		this(cons, labels, labelEnabled && !cons.isSuppressLabelsActive(), f2,
 				null, null);
 	}
 
 	/**
 	 * Intersects polynomials f and g.
 	 */
-	AlgoRootsPolynomial(Construction cons, GeoFunction f, GeoFunction g) {
+	AlgoRootsPolynomial(Construction cons, GeoFunctionable f, GeoFunction g) {
 		this(cons, null, false, f, g, null);
 	}
 
@@ -86,7 +87,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	protected AlgoRootsPolynomial(Construction cons, String[] labels,
-			boolean setLabels, GeoFunction f, GeoFunction g, GeoLine l) {
+			boolean setLabels, GeoFunctionable f, GeoFunction g, GeoLine l) {
 		super(cons);
 		this.f = f;
 		this.g = g;
@@ -211,18 +212,18 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		case MULTIPLE_ROOTS:
 		case ROOTS: // roots of f
 			input = new GeoElement[1];
-			input[0] = f;
+			input[0] = f.toGeoElement();
 			break;
 
 		case INTERSECT_POLYNOMIALS: // intersection of f and g
 			input = new GeoElement[2];
-			input[0] = f;
+			input[0] = f.toGeoElement();
 			input[1] = g;
 			break;
 
 		case INTERSECT_POLY_LINE: // intersection of f and line
 			input = new GeoElement[2];
-			input[0] = f;
+			input[0] = f.toGeoElement();
 			input[1] = line;
 			break;
 		}
@@ -256,7 +257,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			break;
 		case MULTIPLE_ROOTS:
 			if (f.isDefined()) {
-				Function fun = f.getFunction();
+				Function fun = f.getGeoFunction().getFunction();
 				// get polynomial factors anc calc roots
 				calcRootsMultiple(fun, 0, solution, eqnSolver);
 			} else {
@@ -280,7 +281,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// roots of f
 	protected void computeRoots() {
 		if (f.isDefined()) {
-			Function fun = f.getFunction();
+			Function fun = f.getGeoFunction().getFunction();
 			// get polynomial factors anc calc roots
 			calcRoots(fun, 0);
 		} else {
@@ -291,7 +292,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	// intersection of f and g
 	private void computePolynomialIntersection() {
 		if (f.isDefined() && g.isDefined()) {
-			yValFunction = f.getFunction();
+			Function fun = f.getGeoFunction().getFunction();
+			yValFunction = fun;
 			// get difference f - g
 			updateDiffFunctions();
 			calcRoots(diffFunction, 0);
@@ -299,7 +301,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// check if the intersection points are really on the functions
 			// due to interval restrictions this might not be the case
 			for (int i = 0; i < solution.curRealRoots; i++) {
-				if (!Kernel.isEqual(f.value(solution.curRoots[i]),
+				if (!Kernel.isEqual(fun.value(solution.curRoots[i]),
 						g.value(solution.curRoots[i]),
 						Kernel.MIN_PRECISION)) {
 					solution.removeRoot(i);
@@ -317,14 +319,16 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * Compute difference between functions, overridden for conditional case
 	 */
 	protected void updateDiffFunctions() {
-		Function.difference(f.getFunction(), g.getFunction(), diffFunction);
-
+		Function.difference(f.getGeoFunction().getFunction(),
+				g.getGeoFunction().getFunction(),
+				diffFunction);
 	}
 
 	// intersection of f and line
 	private void computePolyLineIntersection() {
 		if (f.isDefined() && line.isDefined()) {
-			yValFunction = f.getFunction();
+			Function fun = f.getGeoFunction().getFunction();
+			yValFunction = fun;
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
 			if (Kernel.isZero(line.y)) {
@@ -342,7 +346,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// following must be done for both vertical and standard
 			for (int i = 0; i < solution.curRealRoots; i++) {
 				tempPoint.setCoords(solution.curRoots[i],
-						f.value(solution.curRoots[i]), 1.0);
+						fun.value(solution.curRoots[i]), 1.0);
 				if (!line.isIntersectionPointIncident(tempPoint,
 						Kernel.MIN_PRECISION)) {
 					solution.removeRoot(i);
@@ -359,7 +363,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * case
 	 */
 	protected void updateDiffLine() {
-		Function.difference(f.getFunction(), line, diffFunction);
+		Function.difference(f.getGeoFunction().getFunction(), line,
+				diffFunction);
 	}
 
 	/**

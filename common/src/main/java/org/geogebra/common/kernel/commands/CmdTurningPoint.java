@@ -37,15 +37,16 @@ public class CmdTurningPoint extends CommandProcessor {
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
 
-				GeoFunction f = ((GeoFunctionable) arg[0]).getGeoFunction();
+				GeoFunctionable f = (GeoFunctionable) arg[0];
+				GeoFunction fun = f.getGeoFunction();
 
 				// special case for If
 				// non-polynomial -> undefined
-				ExpressionNode exp = f.getFunctionExpression();
+				ExpressionNode exp = fun.getFunctionExpression();
 				if (exp.getOperation().equals(Operation.IF)) {
 
 					AlgoTurningPointPolynomialInterval algo = new AlgoTurningPointPolynomialInterval(
-							cons, c.getLabels(), f);
+							cons, c.getLabels(), fun);
 					GeoPoint[] g = algo.getRootPoints();
 					return g;
 

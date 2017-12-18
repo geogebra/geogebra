@@ -46,13 +46,14 @@ public class AlgoTurningPointPolynomialInterval
 	public final void compute() {
 		if (f.isDefined()) {
 			ExpressionNode polyExpression = (ExpressionNode) f
-					.getFunctionExpression().getRight();
+					.getGeoFunction().getFunctionExpression().getRight();
 			ExpressionNode condExpression = (ExpressionNode) f
-					.getFunctionExpression().getLeft();
+					.getGeoFunction().getFunctionExpression().getLeft();
 			if (yValFunction == null
 					|| yValFunction.getExpression() != polyExpression
 					|| interval.getFunctionExpression() != condExpression) {
-				FunctionVariable fVar = f.getFunction().getFunctionVariable();
+				FunctionVariable fVar = f.getGeoFunction().getFunction()
+						.getFunctionVariable();
 
 				// extract poly from If[0<x<10, poly]
 				yValFunction = new Function(polyExpression, fVar);
