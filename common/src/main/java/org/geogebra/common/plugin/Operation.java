@@ -1555,8 +1555,14 @@ public enum Operation {
 				ret.setAngle();
 				return ret;
 			} else if (lt instanceof NumberValue) {
-				return new MyDouble(kernel,
-						lt.evaluateDouble() < 0 ? Math.PI : 0);
+
+				double num = lt.evaluateDouble();
+
+				if (MyDouble.isFinite(num)) {
+
+					return new MyDouble(kernel, num < 0 ? Math.PI : 0);
+				}
+				return new MyDouble(kernel, Double.NaN);
 			}
 			return ev.polynomialOrDie(lt, this, "arg(");
 		}
