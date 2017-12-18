@@ -133,7 +133,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return false;
 		}
 
-		focusGeo(cons.getGeoSetLabelOrder().first());
+		focusGeo(app.getSelectionManager().getTabbingSet().first());
 		return true;
 	}
 
@@ -143,7 +143,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			return false;
 		}
 
-		focusGeo(cons.getGeoSetLabelOrder().last());
+		focusGeo(app.getSelectionManager().getTabbingSet().last());
 		return true;
 	}
 

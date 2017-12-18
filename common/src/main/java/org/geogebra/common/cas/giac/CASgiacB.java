@@ -155,6 +155,7 @@ public abstract class CASgiacB extends CASgiac {
     @Override
     protected String evaluate(final String exp, final long timeoutMillis0)
             throws Throwable {
+		Log.printStacktrace(exp);
         Runnable evalFunction = new Runnable() {
             @Override
             public void run() {

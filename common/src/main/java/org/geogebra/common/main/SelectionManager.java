@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
@@ -657,8 +658,8 @@ public class SelectionManager {
 	final public boolean selectNextGeo(EuclidianViewInterfaceCommon ev,
 			boolean cycle) {
 
-		TreeSet<GeoElement> tree = kernel.getConstruction()
-				.getGeoSetLabelOrder();
+		TreeSet<GeoElement> tree = getTabbingSet();
+		// .getGeoSetLabelOrder();
 
 		tree = new TreeSet<>(tree);
 
@@ -790,6 +791,10 @@ public class SelectionManager {
 
 	private void filterInvisible(TreeSet<GeoElement> tree,
 			EuclidianViewInterfaceCommon ev) {
+		if (this.kernel.getApplication().getGuiManager() == null || !this.kernel
+				.getApplication().getGuiManager().hasAlgebraViewShowing()) {
+			return;
+		}
 		TreeSet<GeoElement> copy = new TreeSet<>(tree);
 
 		Iterator<GeoElement> it = copy.iterator();
@@ -798,10 +803,7 @@ public class SelectionManager {
 			boolean evVisible = !geo.isSelectionAllowed(ev)
 					|| !geo.isEuclidianVisible()
 					|| !geo.isVisibleInView(ev.getViewID());
-			if ((this.kernel.getApplication().getGuiManager() == null
-					|| !this.kernel.getApplication().getGuiManager()
-							.hasAlgebraViewShowing())
-					&& evVisible) {
+			if (evVisible) {
 				tree.remove(geo);
 			}
 		}
@@ -821,8 +823,7 @@ public class SelectionManager {
 		}
 		GeoElement selGeo = selectedGeos.get(0);
 		GeoElement lastGeo = null;
-		TreeSet<GeoElement> tree = kernel.getConstruction()
-				.getGeoSetLabelOrder();
+		TreeSet<GeoElement> tree = getTabbingSet();
 
 		tree = new TreeSet<>(tree);
 
@@ -852,6 +853,26 @@ public class SelectionManager {
 			}
 			lastGeo = geo;
 		}
+	}
+
+	/**
+	 * TODO add support for layer / object type sorting of AV
+	 * 
+	 * @return set over which TAB iterates: either alphabetical or construction
+	 *         order
+	 */
+	public TreeSet<GeoElement> getTabbingSet() {
+		if (this.kernel.getApplication().getGuiManager() != null && this.kernel
+				.getApplication().getGuiManager().hasAlgebraViewShowing()) {
+			Log.debug("AV:" + this.kernel.getApplication().getSettings()
+					.getAlgebra().getTreeMode());
+			if (this.kernel.getApplication().getSettings().getAlgebra()
+					.getTreeMode() == SortMode.ORDER) {
+				return kernel.getConstruction().getGeoSetConstructionOrder();
+			}
+		}
+		Log.debug("NO AV");
+		return kernel.getConstruction().getGeoSetLabelOrder();
 	}
 
 	/**
@@ -1142,8 +1163,7 @@ public class SelectionManager {
 			return false;
 		}
 
-		TreeSet<GeoElement> tree = kernel.getConstruction()
-				.getGeoSetLabelOrder();
+		TreeSet<GeoElement> tree = getTabbingSet();
 		return tree.first().equals(selectedGeos.get(0));
 	}
 
@@ -1155,8 +1175,7 @@ public class SelectionManager {
 		if (selectedGeos.size() == 0) {
 			return false;
 		}
-		TreeSet<GeoElement> tree = kernel.getConstruction()
-				.getGeoSetLabelOrder();
+		TreeSet<GeoElement> tree = getTabbingSet();
 		return tree.last().equals(selectedGeos.get(0));
 	}
 
