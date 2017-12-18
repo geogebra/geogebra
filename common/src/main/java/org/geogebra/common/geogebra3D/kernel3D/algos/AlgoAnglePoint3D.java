@@ -29,7 +29,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
 public class AlgoAnglePoint3D extends AlgoAngleElement3D {
 
 	public AlgoAnglePoint3D(Construction cons, String label, GeoPoint3D vec) {
-		super(cons, label, vec);
+		super(cons, vec);
+		angle.setLabel(label);
 	}
 
 	@Override

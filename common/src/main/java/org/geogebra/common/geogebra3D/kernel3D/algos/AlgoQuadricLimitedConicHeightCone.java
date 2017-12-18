@@ -2,8 +2,8 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
@@ -28,7 +28,7 @@ public class AlgoQuadricLimitedConicHeightCone
 	 *            height
 	 */
 	public AlgoQuadricLimitedConicHeightCone(Construction c, String[] labels,
-			GeoConicND bottom, NumberValue height) {
+			GeoConicND bottom, GeoNumberValue height) {
 		super(c, labels, bottom, height, GeoQuadricNDConstants.QUADRIC_CONE);
 	}
 

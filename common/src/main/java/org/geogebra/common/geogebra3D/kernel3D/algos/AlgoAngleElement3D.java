@@ -34,8 +34,8 @@ public abstract class AlgoAngleElement3D extends AlgoAngleVectorND {
 
 	private Coords vn, v2;
 
-	public AlgoAngleElement3D(Construction cons, String label, GeoElement vec) {
-		super(cons, label, vec);
+	public AlgoAngleElement3D(Construction cons, GeoElement vec) {
+		super(cons, vec);
 	}
 
 	@Override

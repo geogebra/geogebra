@@ -1,8 +1,8 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 
 /**
@@ -28,7 +28,7 @@ public class AlgoQuadricLimitedConicHeightCylinderForExtrusion extends
 	 *            height
 	 */
 	public AlgoQuadricLimitedConicHeightCylinderForExtrusion(Construction c,
-			String[] labels, GeoConicND bottom, NumberValue height) {
+			String[] labels, GeoConicND bottom, GeoNumberValue height) {
 		super(c, labels, bottom, height);
 	}
 

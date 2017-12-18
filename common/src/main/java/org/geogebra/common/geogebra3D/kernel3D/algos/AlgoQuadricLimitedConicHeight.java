@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 
@@ -44,7 +45,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 	 *            type (cylinder/cone)
 	 */
 	public AlgoQuadricLimitedConicHeight(Construction c, String[] labels,
-			GeoConicND bottom, NumberValue height, int type) {
+			GeoConicND bottom, GeoNumberValue height, int type) {
 		super(c);
 
 		this.bottom = bottom;
@@ -55,7 +56,7 @@ public abstract class AlgoQuadricLimitedConicHeight extends AlgoElement3D {
 
 		input = new GeoElement[] { bottom, (GeoElement) height };
 
-		((GeoElement) bottom).addAlgorithm(this);
+		bottom.addAlgorithm(this);
 		((GeoElement) height).addAlgorithm(this);
 
 		// parent of output

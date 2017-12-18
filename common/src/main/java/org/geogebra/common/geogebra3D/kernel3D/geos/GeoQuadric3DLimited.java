@@ -83,6 +83,12 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * this.bottomPoint = bottomPoint; this.topPoint = topPoint; }
 	 */
 
+	/**
+	 * @param bottom2
+	 *            new bottom
+	 * @param top
+	 *            new top
+	 */
 	public void setBottomTop(GeoConicND bottom2, GeoConic3D top) {
 		this.bottom = bottom2;
 		this.top = top;
@@ -91,6 +97,10 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		top.addMeta(this);
 	}
 
+	/**
+	 * @param side
+	 *            side
+	 */
 	public void setSide(GeoQuadric3DPart side) {
 		this.side = side;
 		side.setFromMeta(this);
@@ -106,6 +116,12 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		super.remove();
 	}
 
+	/**
+	 * Copy constructor
+	 * 
+	 * @param quadric
+	 *            original
+	 */
 	public GeoQuadric3DLimited(GeoQuadric3DLimited quadric) {
 		this(quadric.getConstruction());
 		this.bottom = new GeoConic3D(quadric.getConstruction());
@@ -114,24 +130,35 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		set(quadric);
 	}
 
+	/**
+	 * @return bottom conic
+	 */
 	public GeoConicND getBottom() {
 		return bottom;
 	}
 
+	/**
+	 * @return top conic
+	 */
 	public GeoConic3D getTop() {
 		return top;
 	}
 
+	/**
+	 * @return side
+	 */
 	public GeoQuadric3DPart getSide() {
 		return side;
 	}
 
+	/**
+	 * Update visual style of top / bottom / side
+	 */
 	public void updatePartsVisualStyle() {
 		setObjColor(getObjectColor());
 		setLineThickness(getLineThickness());
 		setAlphaValue(getAlphaValue());
 		setEuclidianVisible(isEuclidianVisible());
-
 	}
 
 	/**
@@ -213,10 +240,16 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 		return topParameter;
 	}
 
+	/**
+	 * @return main direction
+	 */
 	public Coords getDirection() {
 		return direction;
 	}
 
+	/**
+	 * @return bottom center
+	 */
 	public Coords getOrigin() {
 		return origin;
 	}
@@ -254,6 +287,18 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	}
 
+	/**
+	 * @param origin
+	 *            midpoint
+	 * @param direction
+	 *            main direction
+	 * @param r
+	 *            parameter
+	 * @param bottomParameter
+	 *            bottom parameter
+	 * @param topParameter
+	 *            top parameter
+	 */
 	public void setHyperbolicCylinder(Coords origin, Coords direction, double r,
 			double bottomParameter, double topParameter) {
 
@@ -274,6 +319,18 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	}
 
+	/**
+	 * @param origin
+	 *            vertex
+	 * @param direction
+	 *            main direction
+	 * @param r
+	 *            parameter
+	 * @param bottomParameter
+	 *            bottom parameter
+	 * @param topParameter
+	 *            top parameter
+	 */
 	public void setParabolicCylinder(Coords origin, Coords direction, double r,
 			double bottomParameter, double topParameter) {
 
@@ -298,7 +355,9 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	 * sets the bottom and top values for limits
 	 * 
 	 * @param bottomParameter
+	 *            bottom parameter
 	 * @param topParameter
+	 *            top parameter
 	 */
 	public void setLimits(double bottomParameter, double topParameter) {
 

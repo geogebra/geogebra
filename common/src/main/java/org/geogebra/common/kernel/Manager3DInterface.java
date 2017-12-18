@@ -339,7 +339,7 @@ public interface Manager3DInterface {
 			GeoPointND secondPoint, NumberValue r);
 
 	public GeoElement[] ConeLimited(String[] labels, GeoConicND bottom,
-			NumberValue height);
+			GeoNumberValue height);
 
 	/**
 	 * Cylinder
@@ -353,10 +353,10 @@ public interface Manager3DInterface {
 	public GeoQuadricND Cylinder(String label, GeoLineND axis, NumberValue r);
 
 	public GeoElement[] CylinderLimited(String[] labels, GeoPointND origin,
-			GeoPointND secondPoint, NumberValue r);
+			GeoPointND secondPoint, GeoNumberValue r);
 
 	public GeoElement[] CylinderLimited(String[] labels, GeoConicND bottom,
-			NumberValue height);
+			GeoNumberValue height);
 
 	/**
 	 * Limited quadrics

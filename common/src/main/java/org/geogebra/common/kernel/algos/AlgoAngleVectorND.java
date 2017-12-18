@@ -25,14 +25,13 @@ public abstract class AlgoAngleVectorND extends AlgoAngle {
 	protected GeoElement vec; // input
 	protected GeoAngle angle; // output
 
-	public AlgoAngleVectorND(Construction cons, String label, GeoElement vec) {
+	public AlgoAngleVectorND(Construction cons, GeoElement vec) {
 		super(cons);
 		this.vec = vec;
 
 		angle = newGeoAngle(cons);
 		setInputOutput(); // for AlgoElement
 		compute();
-		angle.setLabel(label);
 	}
 
 	// for AlgoElement

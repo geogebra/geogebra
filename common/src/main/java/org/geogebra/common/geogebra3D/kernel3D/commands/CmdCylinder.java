@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CommandProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -98,7 +97,7 @@ public class CmdCylinder extends CommandProcessor {
 	 * @return cylinder
 	 */
 	protected GeoElement[] cylinderPointPointRadius(Command c, GeoPointND p1,
-			GeoPointND p2, NumberValue r) {
+			GeoPointND p2, GeoNumberValue r) {
 		return kernel.getManager3D().CylinderLimited(c.getLabels(), p1, p2, r);
 	}
 

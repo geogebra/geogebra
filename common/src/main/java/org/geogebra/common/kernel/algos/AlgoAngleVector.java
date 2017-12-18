@@ -26,7 +26,8 @@ public class AlgoAngleVector extends AlgoAngleVectorND {
 	private double[] coords;
 
 	public AlgoAngleVector(Construction cons, String label, GeoVec3D vec) {
-		super(cons, label, vec);
+		super(cons, vec);
+		angle.setLabel(label);
 	}
 
 	public GeoVec3D getVec3D() {

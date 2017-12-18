@@ -31,7 +31,8 @@ public class AlgoAngleConic3D extends AlgoAngleElement3D {
 	private Coords o;
 
 	public AlgoAngleConic3D(Construction cons, String label, GeoConic3D vec) {
-		super(cons, label, vec);
+		super(cons, vec);
+		angle.setLabel(label);
 	}
 
 	@Override

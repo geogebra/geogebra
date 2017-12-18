@@ -708,7 +708,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoElement[] ConeLimited(String[] labels, GeoConicND bottom,
-			NumberValue height) {
+			GeoNumberValue height) {
 		AlgoQuadricLimitedConicHeightCone algo = new AlgoQuadricLimitedConicHeightCone(
 				cons, labels, bottom, height);
 		algo.update();// ensure volume is correctly computed
@@ -743,7 +743,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoElement[] CylinderLimited(String[] labels,
-			GeoPointND origin, GeoPointND secondPoint, NumberValue r) {
+			GeoPointND origin, GeoPointND secondPoint, GeoNumberValue r) {
 		AlgoQuadricLimitedPointPointRadius algo = new AlgoQuadricLimitedPointPointRadiusCylinder(
 				cons, labels, origin, secondPoint, r);
 		algo.update();// ensure volume is correctly computed
@@ -752,7 +752,7 @@ public class Manager3D implements Manager3DInterface {
 
 	@Override
 	final public GeoElement[] CylinderLimited(String[] labels,
-			GeoConicND bottom, NumberValue height) {
+			GeoConicND bottom, GeoNumberValue height) {
 		AlgoQuadricLimitedConicHeightCylinder algo = new AlgoQuadricLimitedConicHeightCylinder(
 				cons, labels, bottom, height);
 		algo.update();// ensure volume is correctly computed

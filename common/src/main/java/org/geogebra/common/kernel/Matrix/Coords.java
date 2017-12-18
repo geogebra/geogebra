@@ -1314,8 +1314,10 @@ public class Coords {
 	 * @param v
 	 *            the direction used for projection (v3 is used instead if v is
 	 *            parallel to the plane)
-	 * @return two vectors {globalCoords,inPlaneCoords}: the point projected,
-	 *         and the original point in plane coords
+	 * @param globalCoords
+	 *            output: the point projected,
+	 * @param inPlaneCoords
+	 *            output: the original point in plane coords
 	 */
 	public void projectPlaneThruVIfPossible(CoordMatrix m, Coords oldCoords,
 			Coords v, Coords globalCoords, Coords inPlaneCoords) {
@@ -1815,22 +1817,21 @@ public class Coords {
 	 * Return true if all coordinates are not different from val more than
 	 * precision.
 	 * 
-	 * @param val
+	 * @param value
 	 *            value compared with
 	 * @param precision
+	 *            precision
 	 * @return true if all coordinates are not different from val more than
 	 *         precision.
 	 */
-	public boolean equalsForKernel(double val, double precision) {
+	public boolean equalsForKernel(double value, double precision) {
 		int len = getLength();
 		for (int i = 0; i < len; i++) {
-			if (!Kernel.isEqual(this.val[i], val, precision)) {
+			if (!Kernel.isEqual(this.val[i], value, precision)) {
 				return false;
 			}
 		}
-
 		return true;
-
 	}
 
 	/**
