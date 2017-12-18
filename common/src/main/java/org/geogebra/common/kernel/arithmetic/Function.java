@@ -378,7 +378,7 @@ public class Function extends FunctionNVar
 	 */
 	final public LinkedList<PolyFunction> getSymbolicPolynomialDerivativeFactors(
 			int n, boolean rootFindingSimplification) {
-		Function deriv = getDerivative(n, false);
+		Function deriv = getDerivative(n, true, false, true);
 		if (deriv == null) {
 			return null;
 		}
@@ -400,16 +400,20 @@ public class Function extends FunctionNVar
 	 *            null is returned
 	 * @param keepFraction
 	 *            whether to keep 1/3 as 1/3 or change to 0.333..
+	 * @param forRootFinding
+	 *            whether this is for root (in that case just a subtree is used)
 	 * @return derivative
 	 * 
 	 */
 	final public PolyFunction getNumericPolynomialDerivative(int n,
-			boolean skipCASfallback, boolean keepFraction) {
+			boolean skipCASfallback, boolean keepFraction,
+			boolean forRootFinding) {
 		// we expand the numerical expression of this function (all variables
 		// are
 		// replaced by their values) and try to get a polynomial.
 		// Then we take the derivative of this polynomial.
-		PolyFunction poly = expandToPolyFunction(expression, keepFraction,
+		ExpressionValue root = forRootFinding ? strip(expression) : expression;
+		PolyFunction poly = expandToPolyFunction(root, keepFraction,
 				skipCASfallback);
 		if (poly != null) { // we got a polynomial
 			for (int i = 0; i < n; i++) {
@@ -417,6 +421,19 @@ public class Function extends FunctionNVar
 			}
 		}
 		return poly;
+	}
+
+	private ExpressionValue strip(ExpressionNode expr) {
+		switch (expr.getOperation()) {
+		case MULTIPLY:
+			return new ExpressionNode(kernel, strip(expr.getLeftTree()),
+					Operation.MULTIPLY, strip(expr.getRightTree()));
+		case ABS:
+		case CBRT:
+		case SQRT:
+			return expr.getLeft();
+		}
+		return expr;
 	}
 
 	/**
@@ -591,6 +608,7 @@ public class Function extends FunctionNVar
 			case ABS:
 			case SGN:
 			case SQRT:
+			case CBRT:
 				if (!rootFindingSimplification) {
 					break;
 				}
@@ -801,7 +819,7 @@ public class Function extends FunctionNVar
 	 * @return derivative
 	 */
 	final public Function getDerivative(int n, boolean fast) {
-		return getDerivative(n, true, fast);
+		return getDerivative(n, true, fast, false);
 	}
 
 	/**
@@ -815,7 +833,7 @@ public class Function extends FunctionNVar
 	 * @return derivative
 	 */
 	final public Function getDerivativeNoFractions(int n, boolean fast) {
-		return getDerivative(n, false, fast);
+		return getDerivative(n, false, fast, false);
 	}
 
 	/**
@@ -826,12 +844,15 @@ public class Function extends FunctionNVar
 	 *            true for 123/100, false for 1.23 in coefficients
 	 * @param fast
 	 *            if true -> use fast non-CAS derivatives
+	 * @param forRootFinding
+	 *            whether this is for Root
 	 * @return n-th derivative
 	 */
-	final Function getDerivative(int n, boolean keepFractions, boolean fast) {
+	final Function getDerivative(int n, boolean keepFractions, boolean fast,
+			boolean forRootFinding) {
 		// check if it's a polynomial
 		PolyFunction polyDeriv = getNumericPolynomialDerivative(n, true,
-				keepFractions);
+				keepFractions, forRootFinding);
 
 		// it it is...
 		if (polyDeriv != null) {
@@ -1090,7 +1111,7 @@ public class Function extends FunctionNVar
 		}
 
 		if (derivative == null) {
-			derivative = getDerivative(1, false, true);
+			derivative = getDerivative(1, false, true, false);
 		}
 
 		ret[1] = derivative.value(x);

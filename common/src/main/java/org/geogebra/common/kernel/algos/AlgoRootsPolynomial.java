@@ -422,7 +422,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// expansion of this function
 			if (factorList == null) {
 				derivPoly = fun.getNumericPolynomialDerivative(derivDegree,
-						false, false);
+						false, false, true);
 				evalFunction = derivPoly;
 			} else {
 				evalFunction = fun.getDerivative(derivDegree, true);
