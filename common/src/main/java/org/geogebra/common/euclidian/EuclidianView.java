@@ -1943,13 +1943,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 		}
 		previewFromInputBarGeos = geos;
-
 		if (app.has(Feature.PREVIEW_POINTS)){
-			if (previewFromInputBarGeos != null
-					&& previewFromInputBarGeos.length > 0) {
-				app.getSpecialPointsManager()
-						.updateSpecialPoints(previewFromInputBarGeos[0]);
-			}
+			GeoElement geo0 = (previewFromInputBarGeos == null
+					|| previewFromInputBarGeos.length == 0) ? null
+							: previewFromInputBarGeos[0];
+			app.getSpecialPointsManager().updateSpecialPoints(geo0);
 		} else {
 			repaintForPreviewFromInputBar();
 		}
