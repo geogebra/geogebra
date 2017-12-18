@@ -4484,9 +4484,13 @@ public abstract class App implements UpdateSelection {
 		setExam(new ExamEnvironment());
 	}
 	
+	public void startExam() {
+		getExam().setStart((new Date()).getTime());
+	}
+
 	public void startNewExam() {
 		setNewExam();
-		getExam().setStart((new Date()).getTime());
+		startExam();
 	}
 
 	/**
