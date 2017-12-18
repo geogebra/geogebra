@@ -420,7 +420,7 @@ public class ExamEnvironment {
 		case GRAPHING:
 			return app.getLocalization().getMenu("GraphingCalculator");
 		case SYMBOLIC:
-			return app.getLocalization().getMenu("SymbolicCalculator");
+			return app.getLocalization().getMenuDefault("SymbolicCalculator", "Symbolic Calculator");
 		default:
 			return "";
 		}
