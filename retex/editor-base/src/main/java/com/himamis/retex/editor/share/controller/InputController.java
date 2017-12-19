@@ -27,30 +27,30 @@ public class InputController {
 
 	private MetaModel metaModel;
 
-    @Weak
-    private MathField mathField;
+	@Weak
+	private MathField mathField;
 
-    private boolean createFrac = true;
+	private boolean createFrac = true;
 
 	public InputController(MetaModel metaModel) {
 		this.metaModel = metaModel;
 	}
 
-    public MathField getMathField() {
-        return mathField;
-    }
+	public MathField getMathField() {
+		return mathField;
+	}
 
-    public void setMathField(MathField mathField) {
-        this.mathField = mathField;
-    }
+	public void setMathField(MathField mathField) {
+		this.mathField = mathField;
+	}
 
-    public boolean getCreateFrac() {
-        return createFrac;
-    }
+	public boolean getCreateFrac() {
+		return createFrac;
+	}
 
-    public void setCreateFrac(boolean createFrac) {
-        this.createFrac = createFrac;
-    }
+	public void setCreateFrac(boolean createFrac) {
+		this.createFrac = createFrac;
+	}
 
 	final static private char getLetter(MathComponent component)
 			throws Exception {
@@ -139,7 +139,7 @@ public class InputController {
 
 		} else {
 			String selText = editorState.getSelectedText().trim();
-			if(editorState.getSelectionStart() instanceof MathCharacter){
+			if (editorState.getSelectionStart() instanceof MathCharacter) {
 				if (selText.startsWith("<") && selText.endsWith(">")) {
 
 					deleteSelection(editorState);
@@ -250,12 +250,9 @@ public class InputController {
 		} else if ("^".equals(name)) {
 			if (hasSelection) {
 				MathArray array = this.newArray(editorState, 1, '(');
-				editorState
-						.setCurrentField((MathSequence) array
-								.getParent());
+				editorState.setCurrentField((MathSequence) array.getParent());
 				editorState.resetSelection();
-				editorState.setCurrentOffset(
-						array.getParentIndex() + 1);
+				editorState.setCurrentOffset(array.getParentIndex() + 1);
 				newFunction(editorState, name, initial, square);
 				return;
 			}
@@ -288,7 +285,8 @@ public class InputController {
 
 	public void newScript(EditorState editorState, String script) {
 		MathSequence currentField = editorState.getCurrentField();
-		if (currentField.size() == 0 && currentField.getParent() instanceof MathFunction
+		if (currentField.size() == 0
+				&& currentField.getParent() instanceof MathFunction
 				&& Tag.SUPERSCRIPT == ((MathFunction) currentField.getParent())
 						.getName()
 				&& "^".equals(script)) {
@@ -392,8 +390,7 @@ public class InputController {
 	 * @param meta
 	 *            character
 	 */
-	public void newCharacter(EditorState editorState,
-			MetaCharacter meta) {
+	public void newCharacter(EditorState editorState, MetaCharacter meta) {
 		MathComponent last = editorState.getCurrentField()
 				.getArgument(editorState.getCurrentOffset() - 1);
 
@@ -570,7 +567,7 @@ public class InputController {
 			int from, int to, EditorState st, MathComponent array,
 			boolean rec) {
 
-		int end = to < 0 ? currentField.size() - 1 : to;
+		int end = to < 0 ? endToken(currentField) : to;
 		int start = from;
 
 		if (st.getCurrentField() == currentField
@@ -604,6 +601,26 @@ public class InputController {
 		}
 		currentField.addArgument(start, array);
 		return removed;
+	}
+
+	private static int endToken(MathSequence currentField) {
+		for (int i = 0; i < currentField.size() - 2; i++) {
+			if (match(currentField, i, ", <")) {
+				return i - 1;
+			}
+		}
+		return currentField.size() - 1;
+	}
+
+	private static boolean match(MathSequence currentField, int i,
+			String string) {
+		for (int j = 0; j < 3; j++) {
+			if (!(string.charAt(j) + "")
+					.equals(currentField.getArgument(i + j).toString())) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private static ArrayList<MathComponent> cut(MathSequence currentField,
@@ -685,8 +702,7 @@ public class InputController {
 				if (currentField.getParentIndex() == 1) {
 					int len = parent.getArgument(0).size();
 					delContainer(editorState, parent, parent.getArgument(0));
-					editorState
-							.setCurrentOffset(len);
+					editorState.setCurrentOffset(len);
 				}
 			}
 
@@ -826,8 +842,8 @@ public class InputController {
 		MathSequence currentField = editorState.getCurrentField();
 		if (currentOffset < currentField.size()) {
 
-				CursorController.nextCharacter(editorState);
-				bkspCharacter(editorState);
+			CursorController.nextCharacter(editorState);
+			bkspCharacter(editorState);
 
 		} else {
 			if (currentField.getParent() instanceof MathArray) {
@@ -1010,7 +1026,7 @@ public class InputController {
 
 				MathComponent nextArg = currentField.getArgument(offset);
 				MathComponent prevArg = currentField.getArgument(offset - 1);
-				
+
 				// check for eg * + -
 				boolean isOperation = mathField.getMetaModel()
 						.isOperator(prevArg + "");
@@ -1158,7 +1174,7 @@ public class InputController {
 			mathField.tab(shiftDown);
 		}
 	}
-	
+
 	public static MathSequence getSelectionText(EditorState editorState) {
 		if (editorState.getSelectionStart() != null) {
 			MathContainer parent = editorState.getSelectionStart().getParent();
@@ -1183,6 +1199,5 @@ public class InputController {
 		// editorState.resetSelection();
 		return null;
 	}
-
 
 }
