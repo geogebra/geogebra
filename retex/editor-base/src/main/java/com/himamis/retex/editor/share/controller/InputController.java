@@ -76,12 +76,15 @@ public class InputController {
 	 * Insert array.
 	 */
 	public MathArray newArray(EditorState editorState, int size,
-			char arrayOpenKey) {
+			char arrayOpenKey, boolean reverse) {
 		MathSequence currentField = editorState.getCurrentField();
 		int currentOffset = editorState.getCurrentOffset();
 		MetaArray meta = metaModel.getArray(arrayOpenKey);
 		MathArray array = new MathArray(meta, size);
-		ArrayList<MathComponent> removed = cut(currentField, currentOffset, -1,
+		ArrayList<MathComponent> removed = reverse
+				? cut(currentField, 0, currentOffset - 1, editorState, array,
+						true)
+				: cut(currentField, currentOffset, -1,
 				editorState, array, true);
 
 		// add sequence
@@ -94,8 +97,13 @@ public class InputController {
 		}
 		editorState.resetSelection();
 		// set current
-		editorState.setCurrentField(field);
-		editorState.setCurrentOffset(0);
+		if (reverse) {
+			editorState.setCurrentField(currentField);
+			editorState.setCurrentOffset(1);
+		} else {
+			editorState.setCurrentField(field);
+			editorState.setCurrentOffset(0);
+		}
 		return array;
 	}
 
@@ -156,7 +164,7 @@ public class InputController {
 				}
 			}
 			// TODO brace type
-			newArray(editorState, 1, ch);
+			newArray(editorState, 1, ch, false);
 		}
 	}
 
@@ -249,7 +257,7 @@ public class InputController {
 			ArgumentHelper.passArgument(editorState, function);
 		} else if ("^".equals(name)) {
 			if (hasSelection) {
-				MathArray array = this.newArray(editorState, 1, '(');
+				MathArray array = this.newArray(editorState, 1, '(', false);
 				editorState.setCurrentField((MathSequence) array.getParent());
 				editorState.resetSelection();
 				editorState.setCurrentOffset(array.getParentIndex() + 1);
@@ -537,10 +545,18 @@ public class InputController {
 					// set
 					return;
 				}
+				if (ch == FUNCTION_CLOSE_KEY) {
+					newArray(editorState, 1, '(', true);
+					return;
+				}
 			}
 
 			// topmost container last ...
 		} else {
+			if (ch == FUNCTION_CLOSE_KEY) {
+				newArray(editorState, 1, '(', true);
+				return;
+			}
 			// if ';' typed and at the top level ... insert delimiter char
 			if (ch == DELIMITER_KEY || ch == ',') {
 				newCharacter(editorState, ch);
@@ -1060,7 +1076,7 @@ public class InputController {
 				newFunction(editorState, "sqrt", 0, false);
 				handled = true;
 			} else if (meta.isArrayOpenKey(ch)) {
-				newArray(editorState, 1, ch);
+				newArray(editorState, 1, ch, false);
 				handled = true;
 			} else if (ch == Unicode.MULTIPLY || ch == Unicode.CENTER_DOT
 					|| ch == Unicode.BULLET) {
