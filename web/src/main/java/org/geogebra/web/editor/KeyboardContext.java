@@ -3,6 +3,11 @@ package org.geogebra.web.editor;
 import org.geogebra.keyboard.web.HasKeyboard;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 
+/**
+ * Dummy keyboard listener
+ * 
+ * @author Zbynek
+ */
 public class KeyboardContext implements HasKeyboard {
 
 	@Override
@@ -56,10 +61,6 @@ public class KeyboardContext implements HasKeyboard {
 	public boolean needsSmallKeyboard() {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	public boolean hasKeyboardInProbCalculator() {
-		return true;
 	}
 
 	@Override

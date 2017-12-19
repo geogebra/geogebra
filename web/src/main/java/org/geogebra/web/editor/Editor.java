@@ -21,6 +21,12 @@ import com.himamis.retex.renderer.web.CreateLibrary;
 import com.himamis.retex.renderer.web.FactoryProviderGWT;
 import com.himamis.retex.renderer.web.font.opentype.Opentype;
 
+/**
+ * Standalone editor with GGB keyboard
+ * 
+ * @author Zbynek
+ *
+ */
 public class Editor implements EntryPoint, MathFieldListener {
 	private JlmEditorLib library;
 	private Opentype opentype;
@@ -37,6 +43,10 @@ public class Editor implements EntryPoint, MathFieldListener {
 
 	}
 
+	/**
+	 * @param parent
+	 *            editor parent
+	 */
 	public void edit(Element parent) {
 		Canvas canvas = Canvas.createIfSupported();
 		String id = "JlmEditorKeyboard" + DOM.createUniqueId();
@@ -95,25 +105,21 @@ public class Editor implements EntryPoint, MathFieldListener {
 	@Override
 	public void onKeyTyped() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onCursorMove() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onDownKeyPressed() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onUpKeyPressed() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -124,7 +130,6 @@ public class Editor implements EntryPoint, MathFieldListener {
 	@Override
 	public void onInsertString() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

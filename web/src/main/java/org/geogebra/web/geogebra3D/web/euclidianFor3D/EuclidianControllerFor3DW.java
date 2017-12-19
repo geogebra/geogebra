@@ -22,6 +22,10 @@ import org.geogebra.web.html5.euclidian.EuclidianControllerW;
  */
 public class EuclidianControllerFor3DW extends EuclidianControllerW {
 
+	/**
+	 * @param kernel
+	 *            kernel
+	 */
 	public EuclidianControllerFor3DW(Kernel kernel) {
 		super(kernel);
 	}

@@ -172,6 +172,9 @@ public class CASgiacW extends CASgiac {
 		return !!$wnd.__ggb__giac;
 	}-*/;
 
+	/**
+	 * Make sure an instance of giac.js is loaded
+	 */
 	public void initialize() {
 
 		if (casLoaded) {

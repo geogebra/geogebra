@@ -10,10 +10,22 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.http.client.URL;
 
+/**
+ * Printer export
+ * 
+ * @author Mathieu
+ *
+ */
 public class ExportToPrinter3DW extends ExportToPrinter3D {
 	
 	private StringBuilder sb = new StringBuilder();
 
+	/**
+	 * @param view
+	 *            3d view
+	 * @param renderer
+	 *            renderer
+	 */
 	public ExportToPrinter3DW(EuclidianView3D view, Renderer renderer) {
 		super();
 		set(view, (ManagerShadersElementsGlobalBuffer) renderer.getGeometryManager());

@@ -5,8 +5,19 @@ import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCom
 import org.geogebra.common.main.OptionType;
 import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
 
+/**
+ * Stylebar for view for plane
+ * 
+ * @author Mathieu
+ */
 public class EuclidianStyleBarForPlaneW extends EuclidianStyleBarW {
 
+	/**
+	 * @param ev
+	 *            view
+	 * @param viewID
+	 *            view ID
+	 */
 	public EuclidianStyleBarForPlaneW(EuclidianView ev, int viewID) {
 		super(ev, viewID);
 	}

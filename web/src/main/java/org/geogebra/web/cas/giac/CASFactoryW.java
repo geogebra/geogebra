@@ -5,6 +5,9 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.kernel.CASGenericInterface;
 import org.geogebra.common.kernel.Kernel;
 
+/**
+ * GWT CAS loader
+ */
 public class CASFactoryW extends CASFactory {
 
 	@Override
