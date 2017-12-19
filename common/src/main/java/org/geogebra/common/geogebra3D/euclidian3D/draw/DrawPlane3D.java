@@ -481,6 +481,16 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		origin.projectPlaneInPlaneCoords(m, o);
 
 		double a = radius * INV_SQRT_2;
+		// Log.debug("\nvx=\n" + geo.getCoordSys().getDrawingMatrix().getVx() +
+		// "\nvy=\n"
+		// + geo.getCoordSys().getDrawingMatrix().getVy() + "\n"
+		// + getView3D().getClippingCubeDrawable().getFrustumInteriorVector());
+		// double a = geo.getCoordSys().getDrawingMatrix().getVx()
+		// .dotproduct3(getView3D().getClippingCubeDrawable().getFrustumInteriorVector())
+		// * INV_SQRT_2;
+		// double b = geo.getCoordSys().getDrawingMatrix().getVy()
+		// .dotproduct3(getView3D().getClippingCubeDrawable().getFrustumInteriorVector())
+		// * INV_SQRT_2;
 
 		minmaxXFinal[0] = o.getX() - a;
 		minmaxYFinal[0] = o.getY() - a;

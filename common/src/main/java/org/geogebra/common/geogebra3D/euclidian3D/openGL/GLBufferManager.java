@@ -134,14 +134,16 @@ abstract class GLBufferManager {
 	 * 
 	 * @param index
 	 *            geometry set index
+	 * @param start
+	 *            first geometry to update
 	 * @param geometriesLength
 	 *            geometries length for this set
 	 * @param visible
 	 *            if visible
 	 */
-	public void updateVisibility(int index, int geometriesLength, boolean visible) {
+	public void updateVisibility(int index, int start, int geometriesLength, boolean visible) {
 		int alpha = visible ? color.getAlpha() : ALPHA_INVISIBLE;
-		for (int i = 0; i < geometriesLength; i++) {
+		for (int i = start; i < geometriesLength; i++) {
 			currentIndex.set(index, i);
 			currentBufferSegment = bufferSegments.get(currentIndex);
 			if (currentBufferSegment != null) { // this may happen after undo from DrawIntersectionCurve3D

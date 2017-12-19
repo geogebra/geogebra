@@ -31,6 +31,7 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		private static final long serialVersionUID = 1L;
 		private GColor color;
 		private int index;
+		private int oldGeometriesLength;
 
 		/**
 		 * constructor
@@ -44,6 +45,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		public GeometriesSetElementsGlobalBufferPacking(GLBufferManager bufferManager, GColor color) {
 			this.color = color;
 			this.bufferManager = bufferManager;
+		}
+
+		@Override
+		public void reset() {
+			oldGeometriesLength = getGeometriesLength();
+			super.reset();
 		}
 
 		@Override
@@ -88,8 +95,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 		 *            if visible
 		 */
 		public void updateVisibility(boolean visible) {
-			bufferManager.updateVisibility(index, getGeometriesLength(), visible);
+			bufferManager.updateVisibility(index, 0, getGeometriesLength(), visible);
+		}
 
+		@Override
+		public void hideLastGeometries() {
+			bufferManager.updateVisibility(index, currentGeometryIndex, oldGeometriesLength, false);
 		}
 
 		public GColor getColor() {
@@ -364,6 +375,12 @@ public class ManagerShadersElementsGlobalBufferPacking extends ManagerShadersEle
 	 */
 	public ReusableArrayList<Short> getIndices() {
 		return indices;
+	}
+
+	@Override
+	public void endList() {
+	    super.endList();
+		currentGeometriesSet.hideLastGeometries();
 	}
 
 }

@@ -6,6 +6,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing 3D constant planes.
@@ -43,6 +44,7 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	 * min value from center to one FRUSTUM face
 	 */
 	private double frustumInteriorRadius;
+	private Coords frustumInteriorVector = new Coords(3);
 
 	private int nearestCornerX = -1, nearestCornerY = -1, nearestCornerZ = -1;
 	private Coords tmpCoords1 = new Coords(3), tmpCoords2 = new Coords(3);
@@ -109,6 +111,13 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 	}
 
 	/**
+	 * @return vector from center to FRUSTUM faces
+	 */
+	public Coords getFrustumInteriorVector() {
+		return frustumInteriorVector;
+	}
+
+	/**
 	 * update the x,y,z min/max values
 	 * 
 	 * @return the min/max values
@@ -171,7 +180,12 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		frustumRadius = Math.sqrt(w * w + h * h + d * d) / (2 * scaleMin);
 
 		frustumInteriorRadius = Math.min(w, Math.min(h, d)) / (2 * scaleMax);
+		Log.debug("frustumInteriorRadius = " + frustumInteriorRadius);
 		frustumInteriorRadius *= INTERIOR_RADIUS_FACTOR[reductionIndex];
+		double r = Math.min(w, Math.min(h, d)) * INTERIOR_RADIUS_FACTOR[reductionIndex];
+		frustumInteriorVector.setX(r / xscale);
+		frustumInteriorVector.setY(r / yscale);
+		frustumInteriorVector.setZ(r / zscale);
 
 		// double h = minMax[2][1]-minMax[2][0]; frustumRadius = h/2;
 

@@ -800,16 +800,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 
 	}
 
-	/**
-	 * set that init label has been called (or not)
-	 * 
-	 * @param flag
-	 *            flag
-	 */
-	public void setInitLabelsCalled(boolean flag) {
-		initLabelsCalled = flag;
-	}
-
 	// ////////////////////////////////////////////
 	// ROTATION
 	// ////////////////////////////////////////////

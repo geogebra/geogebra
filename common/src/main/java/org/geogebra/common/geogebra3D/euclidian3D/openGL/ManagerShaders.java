@@ -372,6 +372,13 @@ public class ManagerShaders extends Manager {
 		}
 
 		/**
+		 * hide last geometries when ending a list
+		 */
+		public void hideLastGeometries() {
+			// nothing to do here
+		}
+
+		/**
 		 * 
 		 * @return geometries length
 		 */

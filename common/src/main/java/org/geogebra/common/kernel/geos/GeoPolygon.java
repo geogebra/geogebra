@@ -427,6 +427,16 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	}
 
 	/**
+	 * set that init label has been called (or not)
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setInitLabelsCalled(boolean flag) {
+		initLabelsCalled = flag;
+	}
+
+	/**
 	 * Returns whether the method initLabels() was called for this polygon. This
 	 * is important to know whether the segments have gotten labels.
 	 * 
