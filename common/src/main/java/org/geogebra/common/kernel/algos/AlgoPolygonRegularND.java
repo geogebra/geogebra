@@ -112,7 +112,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 					public GeoPolygon newElement() {
 						GeoPolygon p = newGeoPolygon(cons);
 						p.setParentAlgorithm(AlgoPolygonRegularND.this);
-						p.setInitLabelsCalled(true);
+						// p.setInitLabelsCalled(true);
 						return p;
 					}
 				});
