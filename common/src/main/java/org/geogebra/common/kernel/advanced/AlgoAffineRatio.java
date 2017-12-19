@@ -21,7 +21,17 @@ public class AlgoAffineRatio extends AlgoElement {
 	private GeoPointND A, B, C; // input
 	private GeoNumeric M; // output
 
-	public AlgoAffineRatio(Construction cons, String label, GeoPointND A,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param A
+	 *            point
+	 * @param B
+	 *            point
+	 * @param C
+	 *            point
+	 */
+	public AlgoAffineRatio(Construction cons, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 		super(cons);
 		this.A = A;
@@ -31,7 +41,6 @@ public class AlgoAffineRatio extends AlgoElement {
 		M = new GeoNumeric(cons);
 		setInputOutput();
 		compute();
-		M.setLabel(label);
 	}
 
 	@Override
@@ -51,6 +60,9 @@ public class AlgoAffineRatio extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return ratio
+	 */
 	public GeoNumeric getResult() {
 		return M;
 	}

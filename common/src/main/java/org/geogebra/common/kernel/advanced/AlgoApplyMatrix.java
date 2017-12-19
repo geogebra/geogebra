@@ -41,26 +41,16 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 	private GeoElement inGeo, outGeo;
 	private final GeoList matrix;
 
-	/**
-	 * Creates new apply matrix algorithm
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param in
-	 * @param matrix
-	 */
-	public AlgoApplyMatrix(Construction cons, String label, GeoElement in,
-			GeoList matrix) {
-		this(cons, in, matrix);
-		outGeo.setLabel(label);
-	}
 
 	/**
 	 * Creates new apply matrix algorithm
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param in
+	 *            input geo
 	 * @param matrix
+	 *            transform matrix
 	 */
 	public AlgoApplyMatrix(Construction cons, GeoElement in, GeoList matrix) {
 		super(cons);
