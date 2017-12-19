@@ -104,6 +104,13 @@ public class AriaStackPanel extends ComplexPanel
 	 */
 	@Override
 	public int getSelectedIndex() {
+		return visibleStack;
+	}
+
+	/**
+	 * @return selected index or last oone if all collapsed
+	 */
+	public int getLastSelectedIndex() {
 		return visibleStack == -1 ? lastVisibleStack : visibleStack;
 	}
 

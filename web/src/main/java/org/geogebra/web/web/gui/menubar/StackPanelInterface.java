@@ -6,11 +6,16 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
 import com.google.gwt.safehtml.shared.annotations.SuppressIsSafeHtmlCastCheck;
-import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.ui.InsertPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public interface StackPanelInterface extends InsertPanel {
+/**
+ * Interface for stack panels (accessible or otherwise)
+ * 
+ * @author Laszlo
+ */
+public interface StackPanelInterface extends InsertPanel, EventListener {
 	/**
 	 * Adds a new child with the given widget and header.
 	 *
@@ -52,18 +57,13 @@ public interface StackPanelInterface extends InsertPanel {
 	   */
 	public int getSelectedIndex();
 
-	public void onBrowserEvent(Event event);
-
-	@Override
-	public boolean remove(int index);
-
 	/**
 	   * Sets the text associated with a child by its index.
 	   *
 	   * @param index the index of the child whose text is to be set
 	   * @param text the text to be associated with it
 	   */
-	  @SuppressIsSafeHtmlCastCheck
+	@SuppressIsSafeHtmlCastCheck
 	public void setStackText(int index, String text);
 
 	/**
@@ -110,13 +110,38 @@ public interface StackPanelInterface extends InsertPanel {
 	 */
 	public void removeHeaderStyleName(int index, String styleName);
 
+	/**
+	 * @param handler
+	 *            handler
+	 * @param type
+	 *            event type
+	 * @return event registration
+	 */
 	public <H extends EventHandler>
 			HandlerRegistration addDomHandler(H handler,
 			Type<H> type);
 
+	/**
+	 * @param string
+	 *            style name
+	 */
 	public void addStyleName(String string);
 
+	/**
+	 * @param w
+	 *            widget
+	 * @return whether it was removed
+	 */
 	public boolean remove(Widget w);
 
+	/**
+	 * @return whether all stacks are collapsed
+	 */
 	public boolean isCollapsed();
+
+	/**
+	 * @return selected index if visible; last selected if all stacks are
+	 *         collapsed
+	 */
+	public int getLastSelectedIndex();
 }

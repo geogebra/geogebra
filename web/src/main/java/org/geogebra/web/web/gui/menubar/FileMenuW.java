@@ -304,7 +304,10 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	}
 
 	/**
-	 * SHow the custom share dialog
+	 * Show the custom share dialog
+	 * 
+	 * @param app
+	 *            application
 	 */
 	protected static void showShareDialog(final AppW app) {
 		Runnable shareCallback = new Runnable() {

@@ -215,6 +215,9 @@ public class AriaMenuBar extends Widget {
 	 */
 	public boolean moveSelectionUp() {
 		int next = allItems.indexOf(selectedItem) - 1;
+		if (next < 0) {
+			next = allItems.size() - 1;
+		}
 		if (next >= 0 && next < allItems.size()) {
 			selectItem(allItems.get(next));
 			return true;

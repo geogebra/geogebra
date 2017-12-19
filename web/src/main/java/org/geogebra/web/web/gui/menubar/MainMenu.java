@@ -107,7 +107,10 @@ public class MainMenu extends FlowPanel
 		public boolean isCollapsed() {
 			return false;
 		}
-		// only adds interface
+
+		public int getLastSelectedIndex() {
+			return getSelectedIndex();
+		}
 	}
 
 	/**
@@ -658,7 +661,7 @@ public class MainMenu extends FlowPanel
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
 				int key = event.getNativeKeyCode();
-				GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
+				GMenuBar mi = getMenuAt(menuPanel.getLastSelectedIndex());
 				if (key == KeyCodes.KEY_TAB && mi != null) {
 					onTab(mi, event.isShiftKeyDown());
 					event.preventDefault();
@@ -1067,7 +1070,6 @@ public class MainMenu extends FlowPanel
 				mi.selectLastItem();
 			}
 			mi.focus();
-
 		}
 	}
 
@@ -1086,7 +1088,8 @@ public class MainMenu extends FlowPanel
 
 		if (menu.isLastItemSelected() || menu.isEmpty()
 				|| menuPanel.isCollapsed()) {
-			int nextIdx = menuPanel.getSelectedIndex() + 1;
+			menu.selectItem(null);
+			int nextIdx = menuPanel.getLastSelectedIndex() + 1;
 			if (nextIdx < menuPanel.getWidgetCount()) {
 				menuPanel.showStack(nextIdx);
 				focusStack(nextIdx, true);
@@ -1112,8 +1115,10 @@ public class MainMenu extends FlowPanel
 			return false;
 		}
 
-		if (menu.isFirstItemSelected() || menu.isEmpty()) {
-			int prevIdx = menuPanel.getSelectedIndex() - 1;
+		if (menu.isFirstItemSelected() || menu.isEmpty()
+				|| menuPanel.isCollapsed()) {
+			menu.selectItem(null);
+			int prevIdx = menuPanel.getLastSelectedIndex() - 1;
 			if (prevIdx != -1) {
 				menuPanel.showStack(prevIdx);
 				focusStack(prevIdx, false);
@@ -1146,7 +1151,7 @@ public class MainMenu extends FlowPanel
 	@Override
 	public void onKeyDown(KeyDownEvent event) {
 		int key = event.getNativeKeyCode();
-		GMenuBar mi = getMenuAt(menuPanel.getSelectedIndex());
+		GMenuBar mi = getMenuAt(menuPanel.getLastSelectedIndex());
 
 		if (key == KeyCodes.KEY_TAB) {
 			if (mi != null) {
