@@ -158,6 +158,7 @@ public class GlobalKeyDispatcherW extends
 						app.getSelectionManager().clearSelectedGeos();
 						app.getAccessibilityManager().focusInput(true);
 						event.getNativeEvent().preventDefault();
+						event.getNativeEvent().stopPropagation();
 					}
 
 					preventIfNotTabOrEnter(event, appfocused);
