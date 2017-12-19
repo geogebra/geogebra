@@ -1437,11 +1437,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		return (type == CONIC_DOUBLE_LINE);
 	}
 
-	/** Changes equation mode to Specific */
-	final public void setToSpecific() {
-		setToStringMode(EQUATION_SPECIFIC);
-	}
-
 	/** Changes equation mode to Implicit */
 	final public void setToImplicit() {
 		setToStringMode(EQUATION_IMPLICIT);

@@ -95,6 +95,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
@@ -2673,7 +2674,8 @@ public class AlgebraProcessor {
 			line.setLineOpacity(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}
-		if (info.isForceUserEquation() && line instanceof EquationValue) {
+		if (info.isForceUserEquation() && line instanceof EquationValue
+				&& !(line instanceof GeoQuadric3DInterface)) {
 			((EquationValue) line).setToUser();
 		}
 		if (info.isLabelOutput()) {

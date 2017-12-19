@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.Transformable;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -119,7 +120,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 *            coefficients
 	 */
 	public GeoQuadric3D(Construction c, double[] coeffs) {
-
 		this(c);
 		setMatrix(coeffs);
 	}
@@ -1939,29 +1939,36 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 		switch (type) {
 		case QUADRIC_SPHERE:
+			if (toStringMode == GeoConicND.EQUATION_IMPLICIT) {
+				return buildImplicitEquation(tpl);
+			}
 			buildSphereNDString(sbToValueString, tpl);
 			break;
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
 		default:
-			double[] coeffs = new double[10];
-			coeffs[0] = matrix[0]; // x^2
-			coeffs[1] = matrix[1]; // y^2
-			coeffs[2] = matrix[2]; // z^2
-			coeffs[9] = matrix[3]; // constant
-
-			coeffs[3] = 2 * matrix[4]; // xy
-			coeffs[4] = 2 * matrix[5]; // xz
-			coeffs[5] = 2 * matrix[6]; // yz
-			coeffs[6] = 2 * matrix[7]; // x
-			coeffs[7] = 2 * matrix[8]; // y
-			coeffs[8] = 2 * matrix[9]; // z
-
-			return kernel.buildImplicitEquation(coeffs, vars3D, false, true,
-					true, '=', tpl, true);
+			return buildImplicitEquation(tpl);
 		}
 
 		return sbToValueString;
+	}
+
+	private StringBuilder buildImplicitEquation(StringTemplate tpl) {
+		double[] coeffs = new double[10];
+		coeffs[0] = matrix[0]; // x^2
+		coeffs[1] = matrix[1]; // y^2
+		coeffs[2] = matrix[2]; // z^2
+		coeffs[9] = matrix[3]; // constant
+
+		coeffs[3] = 2 * matrix[4]; // xy
+		coeffs[4] = 2 * matrix[5]; // xz
+		coeffs[5] = 2 * matrix[6]; // yz
+		coeffs[6] = 2 * matrix[7]; // x
+		coeffs[7] = 2 * matrix[8]; // y
+		coeffs[8] = 2 * matrix[9]; // z
+
+		return kernel.buildImplicitEquation(coeffs, vars3D, false, true, true,
+				'=', tpl, true);
 	}
 
 	/** to be able to fill it with an alpha value */
@@ -3543,9 +3550,12 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return vars.toArray(new String[0]);
 	}
 
+	@Override
 	public boolean setTypeFromXML(String style, String parameter) {
 		if ("implicit".equals(style)) {
 			setToImplicit();
+		} else if ("specific".equals(style)) {
+			toStringMode = GeoConicND.EQUATION_SPECIFIC;
 		} else if ("user".equals(style)) {
 			setToUser();
 		} else {
@@ -3554,7 +3564,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return true;
 	}
 
+	@Override
 	public void setToImplicit() {
 		toStringMode = GeoConicND.EQUATION_IMPLICIT;
+	}
+
+	@Override
+	public boolean isSpecificPossible() {
+		return type == QUADRIC_SPHERE;
+	}
+
+	@Override
+	public String getSpecificEquation() {
+		if (type == GeoConicNDConstants.QUADRIC_SPHERE) {
+			return getLoc().getMenu("CircleEquation");
+		}
+		return null;
 	}
 }

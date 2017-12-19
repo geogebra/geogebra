@@ -732,4 +732,10 @@ public abstract class GeoQuadricND extends GeoElement
 		return null;
 	}
 
+	/**
+	 * Make this specific eg. (x-a)^2+(y-b)^2+(z-c)^2
+	 */
+	public final void setToSpecific() {
+		toStringMode = GeoConicND.EQUATION_SPECIFIC;
+	}
 }

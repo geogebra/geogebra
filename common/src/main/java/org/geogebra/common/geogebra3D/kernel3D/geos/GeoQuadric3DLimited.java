@@ -945,5 +945,4 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 	public ValueType getValueType() {
 		return ValueType.NUMBER;
 	}
-
 }

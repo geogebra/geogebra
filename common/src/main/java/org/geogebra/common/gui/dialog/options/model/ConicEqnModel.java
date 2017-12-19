@@ -184,6 +184,8 @@ public class ConicEqnModel extends MultipleOptionsModel {
 				((EquationValue) quad).setToImplicit();
 			} else if (value == userIndex) {
 				((EquationValue) quad).setToUser();
+			} else if (value == specificIndex) {
+				quad.setToSpecific();
 			}
 		}
 		quad.updateRepaint();

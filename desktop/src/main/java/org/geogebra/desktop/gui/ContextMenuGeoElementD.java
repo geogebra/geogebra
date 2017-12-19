@@ -422,23 +422,6 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			};
 			addAction(action);
 		}
-
-		if (mode != GeoConicND.EQUATION_USER) {
-			sb.append(loc.getMenu("InputForm"));
-			final EquationValue inputElement = (EquationValue) getGeo();
-			action = new AbstractAction(sb.toString()) {
-				/**
-				 * 
-				 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					inputFormCmd(inputElement);
-				}
-			};
-			addAction(action);
-		}
 	}
 
 	private void addUserInputItem() {

@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -1095,10 +1094,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			return;
 		}
-		if (!(getGeo() instanceof GeoConic)) {
+		if (!(getGeo() instanceof GeoQuadricND)) {
 			return;
 		}
-		GeoQuadricND conic = (GeoConic) getGeo();
+		GeoQuadricND conic = (GeoQuadricND) getGeo();
 		// there's no need to show implicit equation
 		// if you can't select the specific equation
 		boolean specificPossible = conic.isSpecificPossible();
@@ -1187,19 +1186,6 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				@Override
 				public void execute() {
 					equationConicformEquationCmd();
-				}
-			};
-			addAction(action, null, sb.toString());
-		}
-
-		if (mode != GeoConicND.EQUATION_USER) {
-			sb.append(loc.getMenu("InputForm"));
-			final EquationValue equation = (EquationValue) getGeo();
-			action = new Command() {
-
-				@Override
-				public void execute() {
-					inputFormCmd(equation);
 				}
 			};
 			addAction(action, null, sb.toString());

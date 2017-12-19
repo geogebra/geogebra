@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.commands.CommandDispatcher;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.commands.ParametricProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 import org.geogebra.common.main.Feature;
 
 /**
@@ -200,6 +201,11 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		}
 		quadric.setDefinition(def);
 		quadric.showUndefinedInAlgebraView(true);
+		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_SPHERE) {
+			quadric.setToSpecific();
+		} else {
+			quadric.setToImplicit();
+		}
 		setEquationLabelAndVisualStyle(quadric, label, info);
 		ret[0] = quadric;
 		return ret;
