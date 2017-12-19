@@ -31,16 +31,16 @@ import com.googlecode.gwtgl.binding.WebGLRenderingContext;
  */
 public class RendererWithImplW extends RendererWithImpl implements
 		RendererWInterface {
-
+	/** canvas */
 	protected Canvas webGLCanvas;
-
+	/** context */
 	protected WebGLRenderingContext glContext;
 	private double ratio = 1;
 	private Timer loopTimer;
 
 	/**
 	 * @param view
-	 * @param type
+	 *            3D view
 	 */
 	public RendererWithImplW(EuclidianView3D view) {
 		super(view, RendererType.SHADER);
@@ -55,10 +55,17 @@ public class RendererWithImplW extends RendererWithImpl implements
 		Window.addCloseHandler(new CloseHandler<Window>() {
 			@Override
 			public void onClose(CloseEvent<Window> event) {
-				getRendererImpl().dispose();
+				dispose();
 			}
 		});
 
+	}
+
+	/**
+	 * Dispose context when tab closed
+	 */
+	protected void dispose() {
+		getRendererImpl().dispose();
 	}
 
 	/**
@@ -204,6 +211,9 @@ public class RendererWithImplW extends RendererWithImpl implements
 
 	/**
 	 * create the webGL context
+	 * 
+	 * @param preserveDrawingBuffer
+	 *            whether to use preserveDrawingBuffer flag
 	 */
 	protected void createGLContext(boolean preserveDrawingBuffer) {
 		if (preserveDrawingBuffer) {

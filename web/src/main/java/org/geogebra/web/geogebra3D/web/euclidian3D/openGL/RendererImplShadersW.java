@@ -541,8 +541,11 @@ public class RendererImplShadersW extends RendererImplShaders {
 	/**
 	 * 
 	 * @param sizeX
+	 *            width
 	 * @param sizeY
+	 *            height
 	 * @param buf
+	 *            buffer
 	 * @return a texture for alpha channel
 	 */
 	public int createAlphaTexture(int sizeX, int sizeY, byte[] buf) {
@@ -643,11 +646,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	protected void renderbufferStorage(int width, int height) {
 		getGL().renderbufferStorage(WebGLRenderingContext.RENDERBUFFER,
 				WebGLRenderingContext.DEPTH_COMPONENT, width, height);
-	}
-
-
-	protected Object genTexture() {
-		return getGL().createTexture();
 	}
 
 	@Override

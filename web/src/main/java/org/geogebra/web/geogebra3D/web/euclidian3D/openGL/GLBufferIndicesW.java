@@ -13,7 +13,7 @@ public class GLBufferIndicesW implements GLBufferIndices {
 	private MyInt16Array impl;
 	private boolean isEmpty;
 	private int currentLength;
-	private int index = 0;
+	private int mIndex = 0;
 
 	/**
 	 * constructor from float array
@@ -41,7 +41,7 @@ public class GLBufferIndicesW implements GLBufferIndices {
 			impl = MyInt16Array.create(length);
 		}
 
-		index = 0;
+		mIndex = 0;
 
 	}
 
@@ -56,8 +56,8 @@ public class GLBufferIndicesW implements GLBufferIndices {
 		if (impl == null) {
 			return;
 		}
-		impl.set(index, value);
-		index++;
+		impl.set(mIndex, value);
+		mIndex++;
 	}
 
 	@Override
@@ -70,14 +70,14 @@ public class GLBufferIndicesW implements GLBufferIndices {
 
 	@Override
 	public short get() {
-		short ret = (short) impl.get(index);
-		index++;
+		short ret = (short) impl.get(mIndex);
+		mIndex++;
 		return ret;
 	}
 
 	@Override
 	public void rewind() {
-		index = 0;
+		mIndex = 0;
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class GLBufferIndicesW implements GLBufferIndices {
 
 	@Override
 	public void position(int newPosition) {
-		index = newPosition;
+		mIndex = newPosition;
 	}
 
 }
