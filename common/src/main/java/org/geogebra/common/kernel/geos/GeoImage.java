@@ -810,7 +810,7 @@ public class GeoImage extends GeoElement implements Locateable,
 					// D is defined, B isn't
 					double nx = D.inhomY - ay;
 					double ny = ax - D.inhomX;
-					double factor = width / height;
+					double factor = width / pixelHeight;
 					coords[0] = ax + factor * nx;
 					coords[1] = ay + factor * ny;
 				}
