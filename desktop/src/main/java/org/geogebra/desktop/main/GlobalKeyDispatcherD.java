@@ -276,17 +276,13 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 			// ask if OK to discard current file
 			if (((AppD) app).isSaved() || ((AppD) app).saveCurrentFile()) {
-
 				MyFileFilter fileFilter = new MyFileFilter();
 				fileFilter.addExtension(FileExtensions.GEOGEBRA);
-
 				File[] options = ((AppD) app).getCurrentPath()
 						.listFiles(fileFilter);
-
 				if (options == null) {
 					return false;
 				}
-
 				// no current file, just load the first file in the
 				// folder
 				if (((AppD) app).getCurrentFile() == null) {
@@ -297,7 +293,6 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 					}
 					return false;
 				}
-
 				TreeSet<File> sortedSet = new TreeSet<File>(
 						UtilD.getFileComparator());
 				for (int i = 0; i < options.length; i++) {
@@ -320,9 +315,7 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 						}
 					}
 				}
-
 				((GuiManagerD) app.getGuiManager()).loadFile(fileToLoad, false);
-
 				return true;
 			}
 			for (int i = 0; i < size; i++) {
@@ -339,10 +332,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 					break; // break from if loop
 				}
 			}
-
 			return true;
 		}
-
 		return false;
 	}
 
@@ -363,11 +354,8 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 			}
 		}
 		sb.append('}');
-
 		textComponent.setText(sb.toString());
 	}
-
-
 
 	@Override
 	protected void showPrintPreview(App app2) {

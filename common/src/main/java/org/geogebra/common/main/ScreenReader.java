@@ -17,7 +17,6 @@ public class ScreenReader {
 	 *            application
 	 */
 	public static void updateSelection(App app) {
-
 		if (0 < app.getSelectionManager().getSelectedGeos().size()) {
 			GeoElement geo0 = app.getSelectionManager().getSelectedGeos()
 					.get(0);
@@ -28,7 +27,6 @@ public class ScreenReader {
 			readText(geo0, app);
 		}
 	}
-
 
 	/**
 	 * @param geo0
@@ -46,12 +44,9 @@ public class ScreenReader {
 		} else {
 			sb.append(caption);
 		}
-
 		if (geo0.isEuclidianShowable() && !geo0.isEuclidianVisible()) {
 			sb.append(getNotVisibleText(app));
 		}
-
-		
 		if (app.has(Feature.HELP_AND_SHORTCUTS)) {
 			if (geo0.isEuclidianShowable()) {
 				if (app.getGuiManager() != null
@@ -64,14 +59,12 @@ public class ScreenReader {
 					}
 				}
 			}
-
-			if (geo0.isGeoButton() && !geo0.isGeoInputBox()
+			if ((geo0.isGeoButton() && !geo0.isGeoInputBox())
 					|| geo0.isGeoLocusStroke()) {
 				appendSentence(sb, "PressEnterToOpenSettings", app);
 			} else if (!geo0.isGeoInputBox()) {
 				appendSentence(sb, "PressEnterToEdit", app);
 			}
-			
 			if (geo0.isGeoBoolean()){
 				if(((GeoBoolean)geo0).getBoolean()){
 					appendSentence(sb, "PressSpaceCheckboxOff", app);
@@ -79,7 +72,6 @@ public class ScreenReader {
 					appendSentence(sb, "PressSpaceCheckboxOn", app);
 				}
 			}
-
 			if (geo0.isGeoNumeric() && ((GeoNumeric) geo0).isSliderable()) {
 				GeoNumeric geoNum = (GeoNumeric) geo0;
 				if (geoNum.isAnimating()) {
@@ -87,27 +79,22 @@ public class ScreenReader {
 				} else {
 					appendSentence(sb, "PressSpaceStartAnimation", app);
 				}
-
 				if (geoNum.getIntervalMax() != geoNum.getValue()) {
 					appendSentence(sb, "PressUpToIncrease", app);
 				}
-
 				if (geoNum.getIntervalMin() != geoNum.getValue()) {
 					appendSentence(sb, "PressDownToDecrease", app);
 				}
 			}
-
 			if (geo0.getScript(EventType.CLICK) != null
 					&& geo0.getScript(EventType.CLICK).getText().length() > 0) {
 				appendSentence(sb, "PressSpaceToRunScript", app);
 			}
-
 			if (geo0.isGeoPoint() && (geo0.isIndependent()
 					|| geo0.isPointOnPath() || geo0.isPointInRegion())) {
 				appendSentence(sb, "PressArrowsToMove", app);
 			}
 		}
-
 		// MOW-137 if selection originated in AV we don't want to move
 		// focus to EV
 		if (app.getGuiManager() == null || app.getGuiManager().getLayout()
@@ -115,7 +102,6 @@ public class ScreenReader {
 						.getActiveEuclidianView().getViewID()) {
 			app.getActiveEuclidianView().readText(sb.toString());
 		}
-
 	}
 
 	private static void appendSentence(StringBuilder sb, String string,
@@ -123,7 +109,6 @@ public class ScreenReader {
 		sb.append(" ");
 		sb.append(app.getLocalization().getMenu(string));
 		sb.append(".");
-
 	}
 
 	private static String getNotVisibleText(App app) {
