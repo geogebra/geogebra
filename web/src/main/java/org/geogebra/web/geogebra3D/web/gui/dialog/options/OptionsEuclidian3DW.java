@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author mathieu
  *
  */
-@SuppressWarnings("javadoc")
+@SuppressWarnings({ "javadoc", "synthetic-access" })
 public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 	private AxisTab zAxisTab;
@@ -93,7 +93,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			super.addMiscPanel();
 
 			cbUseLight.addClickHandler(new ClickHandler() {
-
+				
 				@Override
 				public void onClick(ClickEvent event) {
 					get3dview().getSettings()

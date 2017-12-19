@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventListener;
+import org.geogebra.common.plugin.EventType;
 
 /**
  * Special point manager.
@@ -179,14 +180,12 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 	}
 
 	public void sendEvent(Event evt) {
-		switch (evt.type) {
-		case DESELECT:
+		if (evt.type == EventType.DESELECT) {
 			updateSelection();
 		}
 	}
 
 	public void reset() {
-		// TODO Auto-generated method stub
-
+		// not needed
 	}
 }

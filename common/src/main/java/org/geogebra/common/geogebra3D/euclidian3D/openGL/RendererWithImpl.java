@@ -634,21 +634,36 @@ public abstract class RendererWithImpl extends Renderer
 																			// move
 				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 			}
-
 		}
-
 	}
 
 	/**
 	 * get alpha channel of the array ARGB description
 	 * 
+	 * @param label
+	 *            label
+	 * 
 	 * @param pix
+	 *            bitmap
 	 * @return the alpha channel of the array ARGB description
 	 */
 	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int[] pix) {
 		return ARGBtoAlpha(label, label.getWidth(), label.getHeight(), pix);
 	}
 
+	/**
+	 * get alpha channel of the array ARGB description
+	 * 
+	 * @param label
+	 *            label
+	 * @param labelWidthRes
+	 *            width
+	 * @param labelHeightRes
+	 *            height
+	 * @param pix
+	 *            bitmap
+	 * @return the alpha channel of the array ARGB description
+	 */
 	protected static byte[] ARGBtoAlpha(DrawLabel3D label, int labelWidthRes,
 			int labelHeightRes, int[] pix) {
 
@@ -767,10 +782,17 @@ public abstract class RendererWithImpl extends Renderer
 		rendererImpl.setExportImageDimension(w, h);
 	}
 
+	/**
+	 * @return implementation
+	 */
 	protected RendererImpl getRendererImpl() {
 		return rendererImpl;
 	}
 
+	/**
+	 * @param rendererImpl
+	 *            implementation
+	 */
 	protected void setRendererImpl(RendererImpl rendererImpl) {
 		this.rendererImpl = rendererImpl;
 	}
