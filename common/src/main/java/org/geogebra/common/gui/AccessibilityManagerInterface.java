@@ -97,4 +97,10 @@ public interface AccessibilityManagerInterface {
 	 * Clears the anchor.
 	 */
 	public void cancelAnchor();
+
+	/**
+	 * Give back the focus to the anchor if set otherwise give the focus to
+	 * menu.
+	 */
+	void focusAnchorOrMenu();
 }

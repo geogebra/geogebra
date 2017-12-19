@@ -217,6 +217,15 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	}
 
 	@Override
+	public void focusAnchorOrMenu() {
+		if (anchor == null) {
+			focusMenu();
+		} else {
+			focusAnchor();
+		}
+	}
+
+	@Override
 	public void cancelAnchor() {
 		anchor = null;
 	}

@@ -246,7 +246,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		toolbarPanel.setClosedByUser(true);
 		setOpen(false);
 		if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-			app.getActiveEuclidianView().requestFocusInWindow();
+			app.getAccessibilityManager().focusAnchorOrMenu();
 		}
 	}
 
