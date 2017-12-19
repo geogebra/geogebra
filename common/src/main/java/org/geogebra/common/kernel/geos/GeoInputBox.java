@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.geos;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -499,12 +498,6 @@ public class GeoInputBox extends GeoButton {
 	@Override
 	public DescriptionMode needToShowBothRowsInAV() {
 		return DescriptionMode.DEFINITION;
-	}
-
-	/** ignore setting for Input Boxes */
-	@Override
-	public boolean isSelectionAllowed(EuclidianViewInterfaceSlim ev) {
-		return true;
 	}
 
 }

@@ -107,12 +107,11 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 
 		if (!geo.isSelectionAllowed(null)) {
-
 			// #3771
-			if (!(geo instanceof GeoList && ((GeoList) geo).drawAsComboBox())) {
+			if (!(geo instanceof GeoList && ((GeoList) geo).drawAsComboBox())
+					&& !geo.isGeoInputBox()) {
 				return false;
 			}
-
 		}
 
 		if (geo instanceof GeoCoordSys2D) {
