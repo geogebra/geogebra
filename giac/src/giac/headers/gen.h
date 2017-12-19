@@ -905,6 +905,7 @@ namespace giac {
     volatile ref_count_t ref_count;
     int display;
     gen re,im;
+    ref_complex(const std::complex<double> & c):ref_count(1),display(0),re(real(c)),im(imag(c)) {}
     ref_complex(const gen & R,const gen & I):ref_count(1),display(0),re(R),im(I) {}
     ref_complex(const gen & R,const gen & I,int display_mode):ref_count(1),display(display_mode),re(R),im(I) {}
   };

@@ -1244,12 +1244,11 @@ namespace giac {
       subtype= (a.type==_DOUBLE_) + (b.type==_DOUBLE_)*2;
     }
   }
-  
   gen::gen(const complex<double> & c) {
 #ifdef SMARTPTR64
-      * ((ulonglong * ) this) = ulonglong(new ref_complex(real(c),imag(c))) << 16;
+      * ((ulonglong * ) this) = ulonglong(new ref_complex(c)) << 16;
 #else
-      __CPLXptr = new_ref_complex(real(c),imag(c));
+      __CPLXptr = new ref_complex(c);
 #endif
     type=_CPLX;
     subtype=3;

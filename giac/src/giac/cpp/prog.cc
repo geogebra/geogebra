@@ -223,8 +223,8 @@ namespace giac {
     ++debug_ptr(contextptr)->current_instruction;
     if (arg.type!=_SYMB)
       return;
-    unary_function_ptr u=arg._SYMBptr->sommet;
-    gen f=arg._SYMBptr->feuille;
+    const unary_function_ptr & u=arg._SYMBptr->sommet;
+    const gen & f=arg._SYMBptr->feuille;
     const unary_function_eval * uptr=dynamic_cast<const unary_function_eval *>(u.ptr());
     if (uptr && uptr->op==_ifte){
       --debug_ptr(contextptr)->current_instruction;
@@ -232,15 +232,15 @@ namespace giac {
       return;
     }
     if ( (u==at_local) || (uptr && uptr->op==_for) ){
-      f=f._VECTptr->back();
-      if (f.type!=_VECT){
-	if (f.is_symb_of_sommet(at_bloc) && f._SYMBptr->feuille.type==_VECT)
-	  increment_instruction(*f._SYMBptr->feuille._VECTptr,contextptr);
+      gen F(f._VECTptr->back());
+      if (F.type!=_VECT){
+	if (F.is_symb_of_sommet(at_bloc) && F._SYMBptr->feuille.type==_VECT)
+	  increment_instruction(*F._SYMBptr->feuille._VECTptr,contextptr);
 	else
-	  increment_instruction(f,contextptr);
+	  increment_instruction(F,contextptr);
       }
       else 
-	increment_instruction(*f._VECTptr,contextptr);
+	increment_instruction(*F._VECTptr,contextptr);
       return;
     }
     if (u==at_bloc){
