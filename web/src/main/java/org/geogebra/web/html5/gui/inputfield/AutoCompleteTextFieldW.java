@@ -204,7 +204,8 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			public void onBrowserEvent(Event event) {
 				int etype = event.getTypeInt();
 				if ((etype == Event.ONMOUSEDOWN || etype == Event.ONTOUCHSTART)
-						&& app.has(Feature.KEYBOARD_BEHAVIOUR)) {
+						&& app.has(Feature.KEYBOARD_BEHAVIOUR)
+						&& app.getGuiManager() != null) {
 					app.getGuiManager().setOnScreenKeyboardTextField(
 							AutoCompleteTextFieldW.this);
 				}
@@ -1469,7 +1470,9 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	void showTablePopupRelativeTo(Widget w) {
 		if (tablePopup == null && this.showSymbolButton != null) {
 			tablePopup = new SymbolTablePopupW(app, this, showSymbolButton);
-			app.getGuiManager().addKeyboardAutoHidePartner(tablePopup);
+			if (app.getGuiManager() != null) {
+				app.getGuiManager().addKeyboardAutoHidePartner(tablePopup);
+			}
 		}
 		if (this.tablePopup != null) {
 			tablePopup.showRelativeTo(w);
