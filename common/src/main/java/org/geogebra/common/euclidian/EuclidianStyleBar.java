@@ -65,7 +65,7 @@ public interface EuclidianStyleBar {
 
 	void reinit();
 
-	void setVisible(boolean b);
+	void setVisible(boolean visible);
 	
 	boolean isVisible();
 }
