@@ -1105,7 +1105,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		boolean explicitPossible = conic.isExplicitPossible();
 		boolean vertexformPossible = conic.isVertexformPossible();
 		boolean conicformPossible = conic.isConicformPossible();
-		if (!(specificPossible || explicitPossible)) {
+		boolean userPossible = conic.getDefinition() != null;
+		if (!(specificPossible || explicitPossible || userPossible)) {
 			return;
 		}
 
@@ -1186,6 +1187,19 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				@Override
 				public void execute() {
 					equationConicformEquationCmd();
+				}
+			};
+			addAction(action, null, sb.toString());
+		}
+
+		if (mode != GeoConicND.EQUATION_USER) {
+			sb.append(loc.getMenu("InputForm"));
+			final EquationValue equation = (EquationValue) getGeo();
+			action = new Command() {
+
+				@Override
+				public void execute() {
+					inputFormCmd(equation);
 				}
 			};
 			addAction(action, null, sb.toString());

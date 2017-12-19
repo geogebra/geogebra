@@ -213,10 +213,10 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1.getClass() == GeoConic.class) {
-				GeoConic conic1 = (GeoConic) geo1;
+			if (geo1 instanceof EquationValue) {
+				EquationValue conic1 = (EquationValue) geo1;
 				conic1.setToImplicit();
-				conic1.updateRepaint();
+				geo1.updateRepaint();
 			}
 		}
 		app.storeUndoInfo();

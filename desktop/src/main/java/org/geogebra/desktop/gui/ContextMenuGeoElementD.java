@@ -36,7 +36,6 @@ import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
 import org.geogebra.common.kernel.geos.Animatable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
-import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
 import org.geogebra.common.kernel.geos.GeoLine;
@@ -306,10 +305,10 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addConicItems() {
-		if (getGeo().getClass() != GeoConic.class) {
+		if (!(getGeo() instanceof GeoQuadricND)) {
 			return;
 		}
-		GeoQuadricND conic = (GeoConic) getGeo();
+		GeoQuadricND conic = (GeoQuadricND) getGeo();
 
 		// there's no need to show implicit equation
 		// if you can't select the specific equation
@@ -317,7 +316,8 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		boolean explicitPossible = conic.isExplicitPossible();
 		boolean vertexformPossible = conic.isVertexformPossible();
 		boolean conicformPossible = conic.isConicformPossible();
-		if (!(specificPossible || explicitPossible)) {
+		boolean userPossible = conic.getDefinition() != null;
+		if (!(specificPossible || explicitPossible || userPossible)) {
 			return;
 		}
 
@@ -418,6 +418,23 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					equationConicformEquationCmd();
+				}
+			};
+			addAction(action);
+		}
+
+		if (mode != GeoConicND.EQUATION_USER) {
+			sb.append(loc.getMenu("InputForm"));
+			final EquationValue inputElement = (EquationValue) getGeo();
+			action = new AbstractAction(sb.toString()) {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					inputFormCmd(inputElement);
 				}
 			};
 			addAction(action);
