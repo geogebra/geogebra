@@ -1245,7 +1245,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void getPrintable(final FlowPanel pPanel, Button btPrint) {
-		Log.debug(getPrintingScale());
 		final Image prevImg = new Image();
 		String urlText = getExportImageDataUrl(getPrintingScale(), false);
 
