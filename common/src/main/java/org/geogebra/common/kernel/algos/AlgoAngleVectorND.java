@@ -20,11 +20,21 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * Algo for Angle(Vector)
+ */
 public abstract class AlgoAngleVectorND extends AlgoAngle {
+	/** input vector */
+	protected GeoElement vec;
+	/** output angle */
+	protected GeoAngle angle;
 
-	protected GeoElement vec; // input
-	protected GeoAngle angle; // output
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param vec
+	 *            vector
+	 */
 	public AlgoAngleVectorND(Construction cons, GeoElement vec) {
 		super(cons);
 		this.vec = vec;
@@ -45,6 +55,9 @@ public abstract class AlgoAngleVectorND extends AlgoAngle {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting angle
+	 */
 	public GeoAngle getAngle() {
 		return angle;
 	}

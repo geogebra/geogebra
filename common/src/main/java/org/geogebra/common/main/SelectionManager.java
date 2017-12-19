@@ -1187,20 +1187,6 @@ public class SelectionManager {
 	}
 
 	/**
-	 * add geo to selection with its special points.
-	 * 
-	 * @param geo
-	 *            The geo element to add.
-	 */
-	public void addSelectedGeoWithSpecialPoints(GeoElementND geo) {
-		if (!kernel.getApplication().has(Feature.PREVIEW_POINTS)) {
-			return;
-		}
-		clearSelectedGeos(false, false);
-		addSelectedGeo(geo, false, false);
-	}
-
-	/**
 	 * @param listener
 	 *            global listener
 	 */

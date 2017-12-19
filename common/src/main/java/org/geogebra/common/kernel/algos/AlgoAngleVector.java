@@ -21,15 +21,26 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 
+/**
+ * Algo for Angle(vector)
+ */
 public class AlgoAngleVector extends AlgoAngleVectorND {
 
 	private double[] coords;
 
-	public AlgoAngleVector(Construction cons, String label, GeoVec3D vec) {
+	/**
+	 * @param cons
+	 *            construction
+	 * @param vec
+	 *            vector
+	 */
+	public AlgoAngleVector(Construction cons, GeoVec3D vec) {
 		super(cons, vec);
-		angle.setLabel(label);
 	}
 
+	/**
+	 * @return vector
+	 */
 	public GeoVec3D getVec3D() {
 		return (GeoVec3D) vec;
 	}

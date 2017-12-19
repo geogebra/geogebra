@@ -299,8 +299,9 @@ public class CmdAngle extends CommandProcessor {
 	 * @return angle between Ox and vector/point
 	 */
 	protected GeoElement[] anglePointOrVector(String label, GeoElement v) {
-		AlgoAngleVector algo = new AlgoAngleVector(cons, label, (GeoVec3D) v);
+		AlgoAngleVector algo = new AlgoAngleVector(cons, (GeoVec3D) v);
 		GeoElement[] ret = { algo.getAngle() };
+		ret[0].setLabel(label);
 		return ret;
 	}
 

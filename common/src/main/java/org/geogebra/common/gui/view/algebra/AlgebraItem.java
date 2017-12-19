@@ -11,8 +11,10 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.HasSymbolicMode;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
 
@@ -252,5 +254,22 @@ public class AlgebraItem {
 
 	public static boolean shouldShowSymbolicOutputButton(GeoElement geo) {
 		return isSymbolicDiffers(geo) && !isTextItem(geo);
+	}
+
+	/**
+	 * add geo to selection with its special points.
+	 * 
+	 * @param geo
+	 *            The geo element to add.
+	 * @param app
+	 *            application
+	 */
+	public static void addSelectedGeoWithSpecialPoints(GeoElementND geo,
+			App app) {
+		if (app.has(Feature.PREVIEW_POINTS)) {
+			return;
+		}
+		app.getSelectionManager().clearSelectedGeos(false, false);
+		app.getSelectionManager().addSelectedGeo(geo, false, false);
 	}
 }

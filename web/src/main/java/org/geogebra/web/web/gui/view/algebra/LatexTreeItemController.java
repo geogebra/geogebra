@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.algebra;
 
 import org.geogebra.common.gui.inputfield.InputHelper;
+import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -206,8 +207,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 						geos[0].setEuclidianVisible(false);
 					}
 
-					app.getSelectionManager()
-							.addSelectedGeoWithSpecialPoints(geos[0]);
+					AlgebraItem.addSelectedGeoWithSpecialPoints(geos[0], app);
 				}
 
 				InputHelper.updateProperties(geos,
