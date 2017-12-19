@@ -12,7 +12,7 @@ import org.geogebra.common.util.debug.Log;
 public class ExamEnvironmentW extends ExamEnvironment {
 
     private App app;
-    private boolean wasAirplaneModeOn, wasWifiEnabled, wasTaskLocked, wasBluetoothEnabled, wasScreenOn;
+	private boolean wasAirplaneModeOn, wasWifiEnabled, wasBluetoothEnabled, wasScreenOn;
 	private GTimer checkTaskLockTimer = null;
 	private GTimer checkScreenState = null;
 	private boolean isCheating;
@@ -45,7 +45,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
             exportGeoGebraAndroidMethods();
             if (checkLockTaskAvailable()) {
                 // task should locked when started
-                wasTaskLocked = true;
+				setTaskLocked();
                 watchTaskLock();
             }
 
@@ -242,39 +242,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
     }
 
 
-	/**
-	 * Run this when unlocked task detected; notifies about cheating
-	 */
-    public void taskUnlocked() {
-        if (getStart() > 0) {
-            if (wasTaskLocked) {
-                initLists();
-                cheatingTimes.add(System.currentTimeMillis());
-                cheatingEvents.add(CheatingEvent.TASK_UNLOCKED);
-                wasTaskLocked = false;
-                isCheating = true;
-                Log.debug("STARTED CHEATING: task unlocked");
-            }
-        }
-    }
-
-
-	/**
-	 * If task was previously unlocked, add cheating end to the log
-	 */
-    public void taskLocked() {
-        if (getStart() > 0) {
-            if (!wasTaskLocked) {
-                initLists();
-                cheatingTimes.add(System.currentTimeMillis());
-                cheatingEvents.add(CheatingEvent.TASK_LOCKED);
-                wasTaskLocked = true;
-                Log.debug("STOPPED CHEATING: task locked");
-            }
-        }
-    }
-
-
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
      */
@@ -360,5 +327,10 @@ public class ExamEnvironmentW extends ExamEnvironment {
         }
     }
 
+	@Override
+	protected void addCheatingTime() {
+		super.addCheatingTime();
+		isCheating = true;
+	}
 
 }

@@ -36,7 +36,7 @@ public class ExamEnvironment {
 	private boolean hasGraph = false;
 
 	private CalculatorType calculatorType;
-	private boolean wasCasEnabled;
+	private boolean wasCasEnabled, wasTaskLocked;
 
 	public long getStart() {
 		return examStartTime;
@@ -424,6 +424,50 @@ public class ExamEnvironment {
 		default:
 			return "";
 		}
+	}
+
+	/**
+	 * set task is currently locked
+	 */
+	protected void setTaskLocked() {
+		wasTaskLocked = true;
+	}
+
+	/**
+	 * Run this when unlocked task detected; notifies about cheating
+	 */
+	public void taskUnlocked() {
+		if (getStart() > 0) {
+			if (wasTaskLocked) {
+				initLists();
+				addCheatingTime();
+				cheatingEvents.add(CheatingEvent.TASK_UNLOCKED);
+				wasTaskLocked = false;
+				Log.debug("STARTED CHEATING: task unlocked");
+			}
+		}
+	}
+
+	/**
+	 * If task was previously unlocked, add cheating end to the log
+	 */
+	public void taskLocked() {
+		if (getStart() > 0) {
+			if (!wasTaskLocked) {
+				initLists();
+				cheatingTimes.add(System.currentTimeMillis());
+				cheatingEvents.add(CheatingEvent.TASK_LOCKED);
+				wasTaskLocked = true;
+				Log.debug("STOPPED CHEATING: task locked");
+			}
+		}
+	}
+
+	/**
+	 * add cheating time
+	 */
+	protected void addCheatingTime() {
+		cheatingTimes.add(System.currentTimeMillis());
 	}
 
 }
