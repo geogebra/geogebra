@@ -134,8 +134,14 @@ public final class DrawImage extends Drawable {
 			if (B == null) {
 				// we only have corner A
 				if (D == null) {
-					// use original pixel width and heigt of image
-					at.scale(view.getInvXscale(), -view.getInvYscale());
+					// use original pixel width and height of image
+					at.scale(view.getInvXscale(),
+							// make sure old files work
+							// https://dev.geogebra.org/trac/changeset/57611
+							geo.getKernel().getApplication().fileVersionBefore(
+									new int[] { 5, 0, 397, 0 })
+											? -view.getInvXscale()
+											: -view.getInvYscale());
 				}
 				// we have corners A and D
 				else {
