@@ -2097,7 +2097,7 @@ __GGB__keysVar.de.menu = {
     "Menu": "Hauptmen\xfc",
     "Metal": "Metall",
     "Midpoint": "Mittelpunkt",
-    "Midpoint.Help": "W\xe4hle zwei Punkte oder eine Strecke, einen Kreis oder Kegelschnitt",
+    "Midpoint.Help": "W\xe4hle zwei Punkte, eine Strecke, einen Kreis oder Kegelschnitt",
     "Midpoint.Tool": "Mittelpunkt",
     "MidpointOfA": "Mittelpunkt von %0",
     "MidpointOfAB": "Mittelpunkt von %0, %1",
