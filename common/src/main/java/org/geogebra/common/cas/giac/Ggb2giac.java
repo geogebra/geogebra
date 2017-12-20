@@ -204,7 +204,7 @@ public class Ggb2giac {
 				"[[ggbdimarg:=%0],when(ggbdimarg[0]=='pnt',when(is_3dpoint(ggbdimarg),3,2),dim(ggbdimarg))][1]");
 
 		p("Div.2",
-				"when(lname(%0)==lname(%1) && lname(%0)!={}, quo(%0,%1,lname(%1)[0]), iquo(%0,%1))");
+				"when(type(%0)!=DOM_INT||type(%1)!=DOM_INT,quo(%0,%1,when(length(lname(%1))>0,lname(%1)[0],x)),iquo(%0,%1))");
 
 		p("Division.2",
 				"[[[ggbdivarg0:=%0],[ggbdivarg1:=%1]],if type(ggbdivarg0)==DOM_INT&&type(%1)==DOM_INT then iquorem(ggbdivarg0,ggbdivarg1) else quorem(ggbdivarg0,ggbdivarg1,x) fi][1]");
@@ -927,7 +927,7 @@ public class Ggb2giac {
 		// see GGB-2184
 		// eg Sum(If(Mod(k,2)==0,k,0),k,0,10)
 		p("Mod.2",
-				"when(lname(%0)==lname(%1) && lname(%0)!={}, rem(%0,%1,lname(%1)[0]), irem(%0,%1))");
+				"when(type(%0)!=DOM_INT||type(%1)!=DOM_INT,rem(%0,%1,when(length(lname(%1))>0,lname(%1)[0],x)),irem(%0,%1))");
 		p("NextPrime.1", "nextprime(%0)");
 		p("NIntegral.3", "gaussquad(%%0,%%1,%%2)");
 		p("NIntegral.4", "gaussquad(%%0,%%1,%%2,%%3)");
