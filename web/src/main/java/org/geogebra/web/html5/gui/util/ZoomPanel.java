@@ -485,9 +485,6 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private static boolean needsFullscreenButton(AppW app) {
-		if (app.has(Feature.MOW_MULTI_PAGE)) {
-			return false;
-		}
 		return app.getArticleElement().getDataParamShowFullscreenButton()
 				|| (app.getArticleElement().getDataParamApp()
 						&& !Browser.isMobile());
