@@ -50,6 +50,8 @@ public class CommandDispatcherGiac {
 		integrate(Operation.INTEGRAL),
 		/** rootof */
 		rootof(Operation.NO_OPERATION),
+		/** irem */
+		irem(Operation.NO_OPERATION),
 		/** exact (convert to fraction) */
 		exact(Operation.NO_OPERATION),
 		/** psi */
@@ -597,6 +599,7 @@ public class CommandDispatcherGiac {
 				Log.warn("'rootof()' returned from giac");
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
+			case irem:
 			case binomial_cdf:
 			case binomial_icdf:
 			case fisher_cdf:
