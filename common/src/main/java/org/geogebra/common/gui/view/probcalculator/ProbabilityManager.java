@@ -289,28 +289,28 @@ public class ProbabilityManager {
 
 		switch (d) {
 		case NORMAL:
-			ret = new AlgoNormal(cons, param1, param2, x);
+			ret = new AlgoNormal(cons, param1, param2, x, null);
 			break;
 		case STUDENT:
-			ret = new AlgoTDistribution(cons, param1, x);
+			ret = new AlgoTDistribution(cons, param1, x, null);
 			break;
 		case CHISQUARE:
-			ret = new AlgoChiSquared(cons, param1, x);
+			ret = new AlgoChiSquared(cons, param1, x, null);
 			break;
 		case F:
-			ret = new AlgoFDistribution(cons, param1, param2, x);
+			ret = new AlgoFDistribution(cons, param1, param2, x, null);
 			break;
 		case CAUCHY:
-			ret = new AlgoCauchy(cons, param1, param2, x);
+			ret = new AlgoCauchy(cons, param1, param2, x, null);
 			break;
 		case EXPONENTIAL:
-			ret = new AlgoExponential(cons, param1, x);
+			ret = new AlgoExponential(cons, param1, x, null);
 			break;
 		case GAMMA:
-			ret = new AlgoGamma(cons, param1, param2, x);
+			ret = new AlgoGamma(cons, param1, param2, x, null);
 			break;
 		case WEIBULL:
-			ret = new AlgoWeibull(cons, param1, param2, x);
+			ret = new AlgoWeibull(cons, param1, param2, x, null);
 			break;
 		case BINOMIAL:
 			ret = new AlgoBinomialDist(cons, param1, param2, x,
@@ -329,10 +329,10 @@ public class ProbabilityManager {
 					new GeoBoolean(cons, isCumulative));
 			break;
 		case LOGNORMAL:
-			ret = new AlgoLogNormal(cons, param1, param2, x);
+			ret = new AlgoLogNormal(cons, param1, param2, x, null);
 			break;
 		case LOGISTIC:
-			ret = new AlgoLogistic(cons, param1, param2, x);
+			ret = new AlgoLogistic(cons, param1, param2, x, null);
 			break;
 
 		default:

@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
@@ -39,9 +40,9 @@ public class AlgoTriangular extends AlgoDistribution {
 	 * @param x
 	 *            x
 	 */
-	public AlgoTriangular(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue mode, GeoNumberValue x) {
-		super(cons, label, a, b, mode, x, null);
+	public AlgoTriangular(Construction cons, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue mode, GeoNumberValue x, GeoBoolean cumulative) {
+		super(cons, a, b, mode, x, cumulative);
 	}
 
 	@Override
@@ -66,16 +67,20 @@ public class AlgoTriangular extends AlgoDistribution {
 				num.setUndefined();
 				return;
 			}
-
+			boolean pdf = this.isCumulative == null
+					|| this.isCumulative.getBoolean();
 			if (x <= A) {
 				num.setValue(0);
 			} else if (x >= B) {
-				num.setValue(1);
+				num.setValue(pdf ? 1 : 0);
 			} else if (x < mode) {
-				num.setValue((x - A) * (x - A) / ((B - A) * (mode - A)));
+				double halfDensity = (x - A) / ((B - A) * (mode - A));
+				num.setValue(pdf ? (x - A) * halfDensity : 2 * halfDensity);
 			} else {
 				// mode <= x < B
-				num.setValue(1 + (x - B) * (x - B) / ((B - A) * (mode - B)));
+				double halfDensity = (x - B) / ((B - A) * (mode - B));
+				num.setValue(
+						pdf ? 1 + (x - B) * halfDensity : 2 * halfDensity);
 			}
 
 			// old hack

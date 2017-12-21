@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -35,13 +35,13 @@ public class CmdTriangular extends CommandProcessor {
 		boolean ok, ok2 = true;
 		GeoElement[] arg;
 
-		BooleanValue cumulative = null; // default for n=3
+		GeoBoolean cumulative = null; // default for n=3
 		arg = resArgs(c2);
 
 		switch (n) {
 		case 5:
 			if (arg[4].isGeoBoolean()) {
-				cumulative = (BooleanValue) arg[4];
+				cumulative = (GeoBoolean) arg[4];
 			} else {
 				throw argErr(app, c2, arg[4]);
 			}
@@ -62,9 +62,10 @@ public class CmdTriangular extends CommandProcessor {
 
 				} else if (arg[3] instanceof GeoNumberValue) {
 					AlgoTriangular algo = new AlgoTriangular(cons,
-							c2.getLabel(), (GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[0],
 							(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
-							(GeoNumberValue) arg[3]);
+							(GeoNumberValue) arg[3], cumulative);
+					algo.getResult().setLabel(c2.getLabel());
 					return algo.getResult().asArray();
 
 				} else {

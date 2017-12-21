@@ -64,9 +64,11 @@ public class CmdChiSquared extends CommandProcessor {
 
 				} else if (arg[1] instanceof GeoNumberValue) {
 
-					AlgoChiSquared algo = new AlgoChiSquared(cons, c.getLabel(),
-							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+					AlgoChiSquared algo = new AlgoChiSquared(cons,
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+							null);
 					GeoElement[] ret = { algo.getResult() };
+					ret[0].setLabel(c.getLabel());
 					return ret;
 				} else {
 					throw argErr(app, c, arg[1]);

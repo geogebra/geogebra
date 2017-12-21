@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -37,7 +37,7 @@ public class CmdExponential extends CommandProcessor {
 
 		arg = resArgs(c);
 
-		BooleanValue cumulative = null; // default for n=2
+		GeoBoolean cumulative = null; // default for n=2
 		switch (n) {
 		case 3:
 			if (!arg[1].isGeoFunction() || !((GeoFunction) arg[1])
@@ -46,7 +46,7 @@ public class CmdExponential extends CommandProcessor {
 			}
 
 			if (arg[2].isGeoBoolean()) {
-				cumulative = (BooleanValue) arg[2];
+				cumulative = (GeoBoolean) arg[2];
 			} else {
 				throw argErr(app, c, arg[2]);
 			}
@@ -65,8 +65,8 @@ public class CmdExponential extends CommandProcessor {
 				} else if (arg[1] instanceof GeoNumberValue) {
 
 					AlgoExponential algo = new AlgoExponential(cons,
-							c.getLabel(), (GeoNumberValue) arg[0],
-							(GeoNumberValue) arg[1]);
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+							cumulative);
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;

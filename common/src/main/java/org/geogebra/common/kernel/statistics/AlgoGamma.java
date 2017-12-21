@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.statistics;
 import org.apache.commons.math3.distribution.GammaDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
@@ -24,14 +25,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoGamma extends AlgoDistribution {
 
-	public AlgoGamma(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
-	}
-
 	public AlgoGamma(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue c) {
-		super(cons, a, b, c, null);
+			GeoNumberValue c, GeoBoolean cumulative) {
+		super(cons, a, b, c, cumulative);
 	}
 
 	@Override

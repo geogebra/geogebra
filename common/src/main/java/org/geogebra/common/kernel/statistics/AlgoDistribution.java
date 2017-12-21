@@ -24,6 +24,7 @@ import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.commons.math3.distribution.NormalDistribution;
 import org.apache.commons.math3.distribution.PascalDistribution;
 import org.apache.commons.math3.distribution.PoissonDistribution;
+import org.apache.commons.math3.distribution.RealDistribution;
 import org.apache.commons.math3.distribution.TDistribution;
 import org.apache.commons.math3.distribution.WeibullDistribution;
 import org.apache.commons.math3.distribution.ZipfDistribution;
@@ -459,6 +460,14 @@ public abstract class AlgoDistribution extends AlgoElement {
 			zipf = new ZipfDistribution(param, param2);
 		}
 		return zipf;
+	}
+
+	protected void setFromRealDist(RealDistribution dist, GeoNumberValue c) {
+		if (this.isCumulative == null || this.isCumulative.getBoolean()) {
+			num.setValue(dist.cumulativeProbability(c.getDouble()));
+		} else {
+			num.setValue(dist.density(c.getDouble()));
+		}
 	}
 
 }

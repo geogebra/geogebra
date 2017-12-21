@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.statistics;
 import org.apache.commons.math3.distribution.WeibullDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
@@ -24,14 +25,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoWeibull extends AlgoDistribution {
 
-	public AlgoWeibull(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
-	}
-
 	public AlgoWeibull(Construction cons, GeoNumberValue a, GeoNumberValue b,
-			GeoNumberValue c) {
-		super(cons, a, b, c, null);
+			GeoNumberValue c, GeoBoolean cumulative) {
+		super(cons, a, b, c, cumulative);
 	}
 
 	@Override
@@ -46,11 +42,10 @@ public class AlgoWeibull extends AlgoDistribution {
 				&& input[2].isDefined()) {
 			double param = a.getDouble();
 			double param2 = b.getDouble();
-			double val = c.getDouble();
 			try {
 				WeibullDistribution dist = getWeibullDistribution(param,
 						param2);
-				num.setValue(dist.cumulativeProbability(val)); // P(T <= val)
+				setFromRealDist(dist, c); // P(T <= val)
 
 			} catch (Exception e) {
 				num.setUndefined();

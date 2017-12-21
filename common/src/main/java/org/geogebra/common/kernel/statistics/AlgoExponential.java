@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.statistics;
 import org.apache.commons.math3.distribution.ExponentialDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
@@ -25,13 +26,13 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 public class AlgoExponential extends AlgoDistribution {
 
 	public AlgoExponential(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b) {
-		super(cons, label, a, b, null, null);
+			GeoNumberValue b, GeoBoolean cumulative) {
+		super(cons, label, a, b, null, cumulative);
 	}
 
 	public AlgoExponential(Construction cons, GeoNumberValue a,
-			GeoNumberValue b) {
-		super(cons, a, b, null, null);
+			GeoNumberValue b, GeoBoolean cumulative) {
+		super(cons, a, b, null, cumulative);
 	}
 
 	@Override
@@ -44,12 +45,10 @@ public class AlgoExponential extends AlgoDistribution {
 
 		if (input[0].isDefined() && input[1].isDefined()) {
 			double param = a.getDouble();
-			double val = b.getDouble();
 			try {
 				ExponentialDistribution dist = getExponentialDistribution(
 						param);
-				num.setValue(dist.cumulativeProbability(val)); // P(T <= val)
-
+				this.setFromRealDist(dist, b);
 			} catch (Exception e) {
 				num.setUndefined();
 			}
