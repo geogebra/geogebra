@@ -194,6 +194,14 @@ public class ExamEnvironment {
 		}
 	}
 	
+	/**
+	 * 
+	 * @return elapsed time
+	 */
+	public String getElapsedTime() {
+		return getLocalizedTimeOnly(app.getLocalization(), closed);
+	}
+
 	private void appendLogTimes(Localization loc, StringBuilder sb, boolean showEndTime) {
 		// Log times
 
