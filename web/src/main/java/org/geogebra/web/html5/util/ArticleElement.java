@@ -316,10 +316,10 @@ public final class ArticleElement extends Element {
 
 	/**
 	 * 
-	 * @return the data-param-allowJSscripting (default: true)
+	 * @return the data-param-useBrowserForJS (default: false)
 	 */
 	public boolean getDataParamUseBrowserForJS() {
-		return getBoolDataParam("useBrowserForJS", true);
+		return getBoolDataParam("useBrowserForJS", false);
 	}
 
 	/**
