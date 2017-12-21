@@ -2787,7 +2787,7 @@ __GGB__keysVar.vi.menu = {
     "TangentToAThroughB": "Ti\u1ebfp tuy\u1ebfn c\u1ee7a %0 qua %1",
     "TangentToAatB": "Ti\u1ebfp tuy\u1ebfn v\u1edbi %0 t\u1ea1i %1",
     "Tetrahedron": "Tetrahedron",
-    "Tetrahedron.Help": "Click on a plane (optional) and then 2 points",
+    "Tetrahedron.Help": "Select two points or other corresponding objects",
     "Tetrahedron.Tool": "Regular Tetrahedron",
     "Text": "V\u0103n b\u1ea3n",
     "Text.Help": "Ch\u1ecdn v\u1ecb tr\xed ch\u1ec9 \u0111\u1ecbnh c\u1ea7n vi\u1ebft ch\u1eef tr\xean v\xf9ng l\xe0m vi\u1ec7c",
