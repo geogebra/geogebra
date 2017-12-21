@@ -1563,7 +1563,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		switch (type) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			return drawPoint.getBounds();
+			return drawPoint == null ? null : drawPoint.getBounds();
 
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:

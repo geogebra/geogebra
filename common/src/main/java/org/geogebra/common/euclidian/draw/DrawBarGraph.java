@@ -100,7 +100,7 @@ public class DrawBarGraph extends Drawable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
+		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 

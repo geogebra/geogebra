@@ -424,11 +424,11 @@ public class DrawVector extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
+		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 		GRectangle ret = null;
-		if (lineVisible) {
+		if (lineVisible && line != null) {
 			ret = line.getBounds();
 		}
 

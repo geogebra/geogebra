@@ -265,7 +265,7 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public GRectangle getBounds() {
 		if (!geo.isDefined() || !locus.isClosedPath()
-				|| !geo.isEuclidianVisible()) {
+				|| !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 		return gp.getBounds();

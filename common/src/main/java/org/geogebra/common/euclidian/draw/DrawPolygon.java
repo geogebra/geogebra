@@ -479,7 +479,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
+		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 		return gp.getBounds();

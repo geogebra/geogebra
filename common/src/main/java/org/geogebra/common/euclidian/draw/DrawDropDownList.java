@@ -1130,6 +1130,10 @@ public final class DrawDropDownList extends CanvasDrawable
 	@Override
 	public GRectangle getBounds() {
 
+		if (getHitRect() == null) {
+			return null;
+		}
+
 		return getHitRect().getBounds();
 
 

@@ -277,7 +277,7 @@ public class DrawSlider extends Drawable {
 	@Override
 	final public GRectangle getBounds() {
 		if (!geo.isDefined() || ((GeoNumeric) geo).isAbsoluteScreenLocActive()
-				|| !geo.isEuclidianVisible()) {
+				|| !geo.isEuclidianVisible() || line == null) {
 			return null;
 		}
 		return line.getBounds();

@@ -444,7 +444,7 @@ public class DrawParametricCurve extends Drawable {
 	@Override
 	final public GRectangle getBounds() {
 		if (!geo.isDefined() || !curve.isClosedPath()
-				|| !geo.isEuclidianVisible()) {
+				|| !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
 		return AwtFactory.getPrototype().newRectangle(gp.getBounds());
