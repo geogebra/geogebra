@@ -196,6 +196,7 @@ namespace giac {
   int erase_pos(GIAC_CONTEXT);
   int erase_pos(int current,GIAC_CONTEXT);
   bool is_segment(const gen & e);
+  bool is_pnt_or_pixon(const gen & g);
   gen remove_at_pnt(const gen & e);
   gen remove_sto(const gen & e);
   vecteur selection2vecteur(const std::vector<int> & selected,GIAC_CONTEXT);

@@ -2883,6 +2883,8 @@ extern "C" void Sleep(unsigned int miliSecond);
       browser="mozilla";
       if (!access("/usr/bin/dillo",R_OK))
 	browser="dillo";
+      if (!access("/usr/bin/chromium",R_OK))
+	browser="chromium";
       if (!access("/usr/bin/firefox",R_OK))
 	browser="firefox";
 #endif
@@ -2896,7 +2898,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     ++i;
     string browsersub=browser.substr(i,bs-i);
     if (s[0]!='\'') s='\''+s+'\'';
-    if (browsersub=="mozilla" || browsersub=="mozilla-bin" || browsersub=="firefox" ){
+    if (browsersub=="mozilla" || browsersub=="mozilla-bin" || browsersub=="firefox" || browsersub=="chromium"){
       s="if ! "+browser+" -remote \"openurl("+s+")\" ; then "+browser+" "+s+" & fi &";
     }
     else

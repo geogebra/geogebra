@@ -12243,10 +12243,13 @@ namespace giac {
       }
     }
 #if 1 // for debugging/profiling pixon_print
-    if (v.back().is_symb_of_sommet(at_pnt) ){
-      gen f=v.back()._SYMBptr->feuille;
-      if (f.type==_VECT)
-	f=f._VECTptr->front();
+    if (is_pnt_or_pixon(v.back()) ){
+      gen f=v.back();
+      if (f.is_symb_of_sommet(at_pnt)){
+	f=f._SYMBptr->feuille;
+	if (f.type==_VECT)
+	  f=f._VECTptr->front();
+      }
       if (f.is_symb_of_sommet(at_pixon)){
 	string S;
 	pixon_print(v,S,contextptr);
@@ -15495,7 +15498,7 @@ namespace giac {
       S="gr2d(logo("+last.print(&C)+"))";
       return S.c_str();
     }
-    if (calc_mode(&C)!=1 && last.is_symb_of_sommet(at_pnt)){
+    if (calc_mode(&C)!=1 && (last.is_symb_of_sommet(at_pnt) || last.is_symb_of_sommet(at_pixon))){
 #ifndef GIAC_GGB
       if (is3d(last)){
 	bool worker=false;
