@@ -9,6 +9,10 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 
 public class ExamEnvironment {
+
+	private static final String MARK_CHEATING = "\u274C"; // red cross
+	private static final String MARK_NOT_CHEATING = "\u2731"; // check mark
+
 	long examStartTime = -1;
 	protected LinkedList<Long> cheatingTimes = null;
 
@@ -496,6 +500,14 @@ public class ExamEnvironment {
 	 */
 	protected void addCheatingTime() {
 		cheatingTimes.add(System.currentTimeMillis());
+	}
+
+	/**
+	 * 
+	 * @return a string representation that represents if currently cheating or not
+	 */
+	public String getMarkCheatingOrNot() {
+		return isCheating() ? MARK_CHEATING : MARK_NOT_CHEATING;
 	}
 
 }
