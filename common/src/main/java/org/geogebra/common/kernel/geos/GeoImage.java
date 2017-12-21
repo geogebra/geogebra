@@ -783,13 +783,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 		double xscale = kernel.getXscale();
 		double yscale = kernel.getYscale();
-		double width = pixelWidth;
-		double height = pixelHeight;
-
-		// different scales: change height
-		if (xscale != yscale) {
-			height = height * yscale / xscale;
-		}
+		final double width = pixelWidth;
 
 		switch (n) {
 		case 0: // get A

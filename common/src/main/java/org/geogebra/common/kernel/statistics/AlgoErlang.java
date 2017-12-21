@@ -25,9 +25,19 @@ import org.geogebra.common.util.MyMath2;
 
 public class AlgoErlang extends AlgoDistribution {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 * @param b
+	 * @param x
+	 *            variable value
+	 * @param cumulative
+	 *            whether to compute PDF, null for true
+	 */
 	public AlgoErlang(Construction cons, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c, GeoBoolean cumulative) {
-		super(cons, a, b, c, cumulative);
+			GeoNumberValue b, GeoNumberValue x, GeoBoolean cumulative) {
+		super(cons, a, b, x, cumulative);
 	}
 
 	@Override
@@ -43,12 +53,15 @@ public class AlgoErlang extends AlgoDistribution {
 			double k = a.getDouble();
 			double l = b.getDouble();
 			double x = c.getDouble();
-
+			boolean pdf = isCumulative == null || isCumulative.getBoolean();
 			if (x < 0) {
 				num.setValue(0);
-			} else {
+			} else if(pdf){
 				num.setValue(MyMath2.gammaIncomplete(k, l * x)
 						/ MyMath2.factorial(k - 1));
+			} else {
+				num.setValue(Math.pow(l,k)*Math.pow(x,k-1)*
+						Math.exp(-l * x) / MyMath2.factorial(k - 1));
 			}
 
 			// old hack

@@ -42,11 +42,9 @@ public class AlgoGamma extends AlgoDistribution {
 				&& input[2].isDefined()) {
 			double param = a.getDouble();
 			double param2 = b.getDouble();
-			double val = c.getDouble();
 			try {
 				GammaDistribution dist = getGammaDistribution(param, param2);
-				num.setValue(dist.cumulativeProbability(val)); // P(T <= val)
-
+				setFromRealDist(dist, c); // P(T <= val)
 			} catch (Exception e) {
 				num.setUndefined();
 			}

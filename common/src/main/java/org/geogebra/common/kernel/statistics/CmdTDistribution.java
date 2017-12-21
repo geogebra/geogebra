@@ -40,11 +40,6 @@ public class CmdTDistribution extends CommandProcessor {
 		GeoBoolean cumulative = null; // default for n=2 (false)
 		switch (n) {
 		case 3:
-			if (!arg[1].isGeoFunction() || !((GeoFunction) arg[1])
-					.toString(StringTemplate.defaultTemplate).equals("x")) {
-				throw argErr(app, c, arg[1]);
-			}
-
 			if (arg[2].isGeoBoolean()) {
 				cumulative = (GeoBoolean) arg[2];
 			} else {

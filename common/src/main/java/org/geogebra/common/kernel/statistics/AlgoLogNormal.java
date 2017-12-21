@@ -13,6 +13,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -45,15 +46,20 @@ public class AlgoLogNormal extends AlgoDistribution {
 			double mean = a.getDouble();
 			double s = b.getDouble();
 			double x = c.getDouble();
-
+			boolean pdf = isCumulative == null || isCumulative.getBoolean();
 			if (s <= 0) {
 				num.setUndefined();
-			} else if (x < 0) {
+			} else if (x <= 0) {
 				num.setValue(0);
-			} else {
+			} else if (pdf) {
 				num.setValue(MyMath2.erf(
 						(Math.log(x) - mean) / (Math.sqrt(2) * Math.abs(s))) / 2
 						+ 0.5);
+			} else {
+				double prod = x * Math.sqrt(Kernel.PI_2) * Math.abs(s);
+				double en = (Math.log(x) - mean);
+				en = Math.exp(-(en * en) / (s * s * 2)) / prod;
+				num.setValue(en);
 			}
 
 			// old hack

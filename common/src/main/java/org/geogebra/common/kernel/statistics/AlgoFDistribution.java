@@ -25,14 +25,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoFDistribution extends AlgoDistribution {
 
-	public AlgoFDistribution(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
-	}
-
 	public AlgoFDistribution(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c, GeoBoolean cumulative) {
-		super(cons, a, b, c, null);
+		super(cons, a, b, c, cumulative);
 	}
 
 	@Override

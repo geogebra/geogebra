@@ -40,11 +40,6 @@ public class CmdCauchy extends CommandProcessor {
 		GeoBoolean cumulative = null; // default for n=3 (false)
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction() || !((GeoFunction) arg[2])
-					.toString(StringTemplate.defaultTemplate).equals("x")) {
-				throw argErr(app, c, arg[2]);
-			}
-
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (GeoBoolean) arg[3];
 			} else {
@@ -64,7 +59,6 @@ public class CmdCauchy extends CommandProcessor {
 					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {
-
 					AlgoCauchy algo = new AlgoCauchy(cons,
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 							(GeoNumberValue) arg[2], cumulative);

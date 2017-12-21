@@ -40,12 +40,6 @@ public class CmdChiSquared extends CommandProcessor {
 		BooleanValue cumulative = null; // default for n=2
 		switch (n) {
 		case 3:
-
-			if (!arg[1].isGeoFunction() || !((GeoFunction) arg[1])
-					.toString(StringTemplate.defaultTemplate).equals("x")) {
-				throw argErr(app, c, arg[1]);
-			}
-
 			if (arg[2].isGeoBoolean()) {
 				cumulative = (BooleanValue) arg[2];
 			} else {

@@ -25,11 +25,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoExponential extends AlgoDistribution {
 
-	public AlgoExponential(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoBoolean cumulative) {
-		super(cons, label, a, b, null, cumulative);
-	}
-
 	public AlgoExponential(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoBoolean cumulative) {
 		super(cons, a, b, null, cumulative);

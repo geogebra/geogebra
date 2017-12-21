@@ -43,8 +43,11 @@ public class AlgoLogistic extends AlgoDistribution {
 			double mean = a.getDouble();
 			double s = b.getDouble();
 			double x = c.getDouble();
-
-			num.setValue(1 / (1 + Math.exp((-(x - mean)) / Math.abs(s))));
+			// en = en.subtract(mean).divide(absS).reverseSign().exp();
+			boolean pdf = isCumulative == null || isCumulative.getBoolean();
+			double exp = Math.exp((-(x - mean)) / Math.abs(s));
+			num.setValue(pdf ? 1 / (1 + exp)
+					: exp / Math.abs(s) / Math.pow(exp + 1, 2));
 
 			// old hack
 			// processAlgebraCommand( "1/(1+exp(-("+x+"-("+m+"))/abs("+s+")))",
