@@ -199,6 +199,9 @@ public class ExamEnvironment {
 	 * @return elapsed time
 	 */
 	public String getElapsedTime() {
+		if (closed < examStartTime) {
+			setEndTime();
+		}
 		return timeToString(closed);
 	}
 
@@ -330,8 +333,12 @@ public class ExamEnvironment {
 		return mins + ":" + secsS;
 	}
 
-	public void exit() {
+	private void setEndTime() {
 		this.closed = System.currentTimeMillis();
+	}
+
+	public void exit() {
+		setEndTime();
 	}
 
 	public String getSyntax(String cmdInt, Localization loc,
