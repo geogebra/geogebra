@@ -4485,7 +4485,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void setNewExam() {
-		setExam(new ExamEnvironment());
+		setExam(new ExamEnvironment(this));
 	}
 	
 	public void startExam() {

@@ -11,7 +11,6 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ExamEnvironmentW extends ExamEnvironment {
 
-    private App app;
 	private boolean wasAirplaneModeOn, wasWifiEnabled, wasBluetoothEnabled, wasScreenOn;
 	private GTimer checkTaskLockTimer = null;
 	private GTimer checkScreenState = null;
@@ -22,8 +21,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
 	 *            application
 	 */
     public ExamEnvironmentW(App app) {
-        super();
-        this.app = app;
+		super(app);
     }
 
     @Override

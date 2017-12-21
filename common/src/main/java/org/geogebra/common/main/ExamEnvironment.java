@@ -38,6 +38,20 @@ public class ExamEnvironment {
 	private CalculatorType calculatorType;
 	private boolean wasCasEnabled, wasTaskLocked;
 
+	/**
+	 * application
+	 */
+	protected App app;
+
+	/**
+	 * 
+	 * @param app
+	 *            application
+	 */
+	public ExamEnvironment(App app) {
+		this.app = app;
+	}
+
 	public long getStart() {
 		return examStartTime;
 	}
@@ -365,14 +379,18 @@ public class ExamEnvironment {
 	/**
 	 * set calculator type and setup application regarding the type
 	 * 
-	 * @param app
-	 *            application
-	 * 
 	 * @param type
 	 *            calculator type
 	 */
-	public void setCalculatorType(App app, CalculatorType type) {
+	public void setCalculatorType(CalculatorType type) {
 		calculatorType = type;
+
+	}
+
+	/**
+	 * apply calculator type (CAS on/off, etc.)
+	 */
+	protected void applyCalculatorType() {
 		// setup CAS on/off
 		wasCasEnabled = app.getSettings().getCasSettings().isEnabled();
 		switch (calculatorType) {
@@ -390,32 +408,24 @@ public class ExamEnvironment {
 	/**
 	 * close exam mode and reset CAS etc.
 	 * 
-	 * @param app
-	 *            application
 	 */
-	public void closeExam(App app) {
+	public void closeExam() {
 		app.enableCAS(wasCasEnabled);
 	}
 
 	/**
-	 * 
-	 * @param app
-	 *            application
 	 * @return name for current calculator type
 	 */
-	public String getCalculatorTypeName(App app) {
-		return getCalculatorTypeName(app, calculatorType);
+	public String getCalculatorTypeName() {
+		return getCalculatorTypeName(calculatorType);
 	}
 
 	/**
-	 * 
-	 * @param app
-	 *            application
 	 * @param type
 	 *            calculator type
 	 * @return name for a calculator type
 	 */
-	public String getCalculatorTypeName(App app, CalculatorType type) {
+	public String getCalculatorTypeName(CalculatorType type) {
 		switch (type) {
 		case GRAPHING:
 			return app.getLocalization().getMenu("GraphingCalculator");
