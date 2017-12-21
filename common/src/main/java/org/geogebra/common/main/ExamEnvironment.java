@@ -200,7 +200,7 @@ public class ExamEnvironment {
 	 */
 	public String getElapsedTime() {
 		if (closed < examStartTime) {
-			setEndTime();
+			storeEndTime();
 		}
 		return timeToString(closed);
 	}
@@ -333,12 +333,15 @@ public class ExamEnvironment {
 		return mins + ":" + secsS;
 	}
 
-	private void setEndTime() {
+	/**
+	 * store end time
+	 */
+	public void storeEndTime() {
 		this.closed = System.currentTimeMillis();
 	}
 
 	public void exit() {
-		setEndTime();
+		storeEndTime();
 	}
 
 	public String getSyntax(String cmdInt, Localization loc,
