@@ -51,7 +51,7 @@ public class AlgoChiSquared extends AlgoDistribution {
 			double param = a.getDouble();
 			try {
 				ChiSquaredDistribution dist = getChiSquaredDistribution(param);
-				setFromRealDist(dist, c); // P(T <= val)
+				setFromRealDist(dist, b); // P(T <= val)
 			} catch (Exception e) {
 				num.setUndefined();
 			}

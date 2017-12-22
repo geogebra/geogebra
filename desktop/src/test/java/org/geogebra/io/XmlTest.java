@@ -53,8 +53,9 @@ public class XmlTest {
 			validator.validate(xmlFile);
 		} catch (SAXParseException se) {
 			int l = se.getLineNumber();
-			for (int i = l - 2; i < l + 3; i++) {
-				System.out.println(xml.split("\\n")[i]);
+			String[] rows = xml.split("\\n");
+			for (int i = l - 2; i < l + 3 && i > 0 && i < rows.length; i++) {
+				System.out.println(rows[i]);
 
 			}
 			Assert.assertNull(se.getLocalizedMessage(), se);

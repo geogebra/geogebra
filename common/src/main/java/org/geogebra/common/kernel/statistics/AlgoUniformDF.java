@@ -53,7 +53,7 @@ public class AlgoUniformDF extends AlgoElement {
 		this.a = a;
 		this.b = b;
 		this.cumulative = cumulative;
-		ret = DistributionFunctionFactory.zeroWhenLessThan(a, cons);
+		ret = DistributionFunctionFactory.zeroWhenLessThan(a, cons, true);
 
 		setInputOutput(); // for AlgoElement
 

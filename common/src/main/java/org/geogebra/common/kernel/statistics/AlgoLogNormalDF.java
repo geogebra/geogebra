@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
@@ -52,7 +53,8 @@ public class AlgoLogNormalDF extends AlgoElement implements AlgoDistributionDF {
 		this.mean = mean;
 		this.sd = sd;
 		this.cumulative = cumulative;
-		ret = DistributionFunctionFactory.zeroWhenNegative(cons);
+		ret = DistributionFunctionFactory
+				.zeroWhenLessThan(new MyDouble(kernel, 0), cons, false);
 
 		setInputOutput(); // for AlgoElement
 

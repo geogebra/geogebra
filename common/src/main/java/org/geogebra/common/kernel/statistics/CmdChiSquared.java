@@ -2,9 +2,9 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -37,11 +37,11 @@ public class CmdChiSquared extends CommandProcessor {
 
 		arg = resArgs(c);
 
-		BooleanValue cumulative = null; // default for n=2
+		GeoBoolean cumulative = null; // default for n=2
 		switch (n) {
 		case 3:
 			if (arg[2].isGeoBoolean()) {
-				cumulative = (BooleanValue) arg[2];
+				cumulative = (GeoBoolean) arg[2];
 			} else {
 				throw argErr(app, c, arg[2]);
 			}
@@ -60,7 +60,7 @@ public class CmdChiSquared extends CommandProcessor {
 
 					AlgoChiSquared algo = new AlgoChiSquared(cons,
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-							null);
+							cumulative);
 					GeoElement[] ret = { algo.getResult() };
 					ret[0].setLabel(c.getLabel());
 					return ret;

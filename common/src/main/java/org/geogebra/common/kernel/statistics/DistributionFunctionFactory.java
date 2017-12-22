@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.plugin.Operation;
 
 /**
  * Helper for building distribution functions
@@ -18,7 +19,7 @@ public class DistributionFunctionFactory {
 	 * @return function If[x<0,0,0]
 	 */
 	public static GeoFunction zeroWhenNegative(Construction cons) {
-		return zeroWhenLessThan(new MyDouble(cons.getKernel(), 0), cons);
+		return zeroWhenLessThan(new MyDouble(cons.getKernel(), 0), cons, true);
 	}
 
 	/**
@@ -29,10 +30,11 @@ public class DistributionFunctionFactory {
 	 * @return function If[x<border,0,0]
 	 */
 	public static GeoFunction zeroWhenLessThan(ExpressionValue border,
-			Construction cons) {
+			Construction cons, boolean sharp) {
 		Kernel kernel = cons.getKernel();
 		FunctionVariable fv = new FunctionVariable(kernel);
-		ExpressionNode en = fv.wrap().lessThan(border)
+		ExpressionNode en = fv.wrap()
+				.apply(sharp ? Operation.LESS : Operation.LESS_EQUAL, border)
 				.ifElse(new MyDouble(kernel, 0), new MyDouble(kernel, 0));
 
 		return en.buildFunction(fv);

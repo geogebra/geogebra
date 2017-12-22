@@ -172,7 +172,6 @@ public class NoExceptionsTest {
 			System.out.print("-");
 			Assert.assertNull(e.getMessage()+","+t.getMessage()+out,e);
 		}
-
 	}
 
 	@Test
@@ -268,7 +267,6 @@ public class NoExceptionsTest {
 		t("Arc[ c1, Pt1,Pt2 ]");
 		t("Arc[ c2, prob, prob2 ]");
 		t("Arc[ c2, Pt1,Pt2 ]");
-
 	}
 
 	@Test
@@ -276,7 +274,6 @@ public class NoExceptionsTest {
 		t("Area[ c1 ]");
 		t("Area[ poly1 ]");
 		t("Area[ Pt1, Pt3, Pt1 ]");
-
 	}
 
 	@Test
@@ -284,19 +281,16 @@ public class NoExceptionsTest {
 		t("Asymptote[ c1 ]");
 		t("Asymptote[ f1 ]");
 		t("Asymptote[ impl1 ]");
-
 	}
 
 	@Test
 	public void cmdAxes() {
 		t("Axes[ c1 ]");
-
 	}
 
 	@Test
 	public void cmdAxisStepX() {
 		t("AxisStepX[]");
-
 	}
 
 	@Test
@@ -329,7 +323,6 @@ public class NoExceptionsTest {
 		t("BinomialDist[ n1, prob2 ]");
 		t("BinomialDist[ n1, prob2, b1 ]");
 		t("BinomialDist[ n1, prob2, n1, b1 ]");
-
 	}
 
 	@Test
@@ -351,24 +344,16 @@ public class NoExceptionsTest {
 		t("Button[ txt ]");
 	}
 
-	@Test
-	public void cmdCauchy() {
-		t("Cauchy[ n1, n3, n1 ]");
-		t("Cauchy[ n1, n3, x ]");
-		t("Cauchy[ n1, n3, x, b1 ]");
 
-	}
 
 	@Test
 	public void cmdCell() {
 		t("Cell[ n1, n2 ]");
-
 	}
 
 	@Test
 	public void cmdCellRange() {
 		t("CellRange[ A1, A1 ]");
-
 	}
 
 	@Test
@@ -411,7 +396,6 @@ public class NoExceptionsTest {
 	public void cmdCircumcircleSector() {
 
 		t("CircumcircularSector[ Pt1,Pt2,Pt3 ]");
-
 	}
 
 	@Test
@@ -423,7 +407,6 @@ public class NoExceptionsTest {
 	public void cmdClasses() {
 		t("Classes[ list2, n1 ]");
 		t("Classes[ list2, n3, n2 ]");
-		
 	}
 
 	@Test
@@ -437,7 +420,6 @@ public class NoExceptionsTest {
 	public void cmdCoefficients() {
 		t("Coefficients[ c1 ]");
 		t("Coefficients[ polynom1 ]");
-
 	}
 
 	@Test
@@ -464,7 +446,6 @@ public class NoExceptionsTest {
 	public void cmdConic() {
 		t("Conic[ {n1,n2,n3,n4,n5,n6} ]");
 		t("Conic[ Pt1,Pt2,Pt3,Pt4,Pt5 ]");
-
 	}
 
 	@Test
@@ -481,13 +462,11 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdCopyFreeObject() {
 		t("CopyFreeObject[ obj ]");
-
 	}
 
 	@Test
 	public void cmdComplexRoot() {
 		t("ComplexRoot[ polynom1 ]");
-
 	}
 
 	@Test
@@ -498,7 +477,6 @@ public class NoExceptionsTest {
 		GeoImage ge = new GeoImage(app.getKernel().getConstruction());
 		ge.setLabel("img1");
 		t("Corner[ img1, n2 ]");
-
 	}
 
 	@Test
@@ -511,13 +489,11 @@ public class NoExceptionsTest {
 	public void cmdCovariance() {
 		t("Covariance[ list1, list1 ]");
 		t("Covariance[ ptlist1 ]");
-
 	}
 
 	@Test
 	public void cmdCrossRatio() {
 		t("CrossRatio[ Pt1,Pt2,Pt3,Pt4 ]");
-
 	}
 
 	@Test
@@ -548,7 +524,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdDegree() {
 		t("Degree[f1]");
-
 	}
 
 	@Test
@@ -559,13 +534,11 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdDelete() {
 		t("Delete[ obj2 ]");
-
 	}
 
 	@Test
 	public void cmdDeterminant() {
 		t("Determinant[ matrix1 ]");
-
 	}
 
 	@Test
@@ -583,7 +556,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdDirection() {
 		t("Direction[ l1 ]");
-
 	}
 
 	@Test
@@ -607,20 +579,17 @@ public class NoExceptionsTest {
 
 		t("Div[ n2, n2 ]");
 		t("Div[ polynom2, polynom1 ] ");
-
 	}
 
 	@Test
 	public void cmdDotPlot() {
 		t("DotPlot[ list2 ]");
-
 	}
 
 	@Test
 	public void cmdDynamicCoordinates() {
 		t("DynamicCoordinates[ Pt1, n1, n2 ]");
 		t("DynamicCoordinates[ Pt1, n1, n2, n3 ]");
-
 	}
 
 	@Test
@@ -633,7 +602,6 @@ public class NoExceptionsTest {
 		t("Element[ {{list1}}, n1, n2,n3]");
 		t("Element[ list1, n2 ]");
 		t("Element[ matrix1, n2, n3 ]");
-
 	}
 
 	@Test
@@ -641,13 +609,6 @@ public class NoExceptionsTest {
 		t("Ellipse[ Pt1,Pt2,Pt3 ]");
 		t("Ellipse[ Pt3, Pt3, n2 ]");
 		t("Ellipse[ Pt3, Pt3, seg1 ]");
-	}
-
-	@Test
-	public void cmdErlang() {
-		t("Erlang[ n2, n1, n1 ]");
-		t("Erlang[ n2, n1, x ]");
-		t("Erlang[ n2, n1, x, b1 ]");
 	}
 
 	@Test
@@ -667,14 +628,6 @@ public class NoExceptionsTest {
 		t("Expand[ x^2 ]");
 	}
 
-	@Test
-	public void cmdExponential() {
-		t("Exponential[ n2, n1 ]");
-		t("Exponential[ n2, x ]");
-		t("Exponential[ n2, x, b1 ]");
-
-	}
-
 
 
 	@Test
@@ -686,15 +639,6 @@ public class NoExceptionsTest {
 	public void cmdFactors() {
 		t("Factors[ n1 ]");
 		t("Factors[ polynom1 ]");
-
-	}
-
-	@Test
-	public void cmdFDistribution() {
-		t("FDistribution[ n3, n3, n1 ]");
-		t("FDistribution[ n3, n3, x ]");
-		t("FDistribution[ n3, n3, x, b1 ]");
-
 	}
 
 	@Test
@@ -722,7 +666,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdFirstAxisLength() {
 		t("SemiMajorAxisLength[ c1 ]");
-
 	}
 
 	@Test
@@ -739,7 +682,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdFitExp() {
 		t("FitExp[ ptlist1 ]");
-
 	}
 
 	@Test
@@ -765,13 +707,11 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdFitLogistic() {
 		t("FitLogistic[ ptlist1 ]");
-
 	}
 
 	@Test
 	public void cmdFitPoly() {
 		t("FitPoly[ ptlist1, n2 ]");
-
 	}
 
 	@Test
@@ -782,7 +722,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdFitSin() {
 		t("FitSin[ ptlist1 ]");
-
 	}
 
 	@Test
@@ -801,7 +740,6 @@ public class NoExceptionsTest {
 	public void cmdFractionText() {
 		t("FractionText[ n1 ]");
 		t("FractionText[ Pt1 ]");
-		
 	}
 
 	@Test
@@ -813,7 +751,6 @@ public class NoExceptionsTest {
 		t("Frequency[ list1, list2, b2 , n2 ]");
 		t("Frequency[ list2 ]");
 		t("Frequency[ {\"GeoGebra\",\"rocks\"},{\"X\",\"Y\"} ]");
-
 	}
 
 	@Test
@@ -821,7 +758,6 @@ public class NoExceptionsTest {
 		t("FrequencyPolygon[ b1, list1, list2, b1 , n2 ]");
 		t("FrequencyPolygon[ list1, list1 ]");
 		t("FrequencyPolygon[ list1, list2, b1 , n4 ]");
-
 	}
 
 	@Test
@@ -841,18 +777,9 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdGamma() {
-		t("Gamma[ n1, n2, n1 ]");
-		t("Gamma[ n1, n2, x ]");
-		t("Gamma[ n1, n2, x, b1 ]");
-
-	}
-
-	@Test
 	public void cmdGCD() {
 		t("GCD[ list1 ]");
 		t("GCD[ n1, n1 ]");
-
 	}
 
 	@Test
@@ -874,7 +801,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdHideLayer() {
 		t("HideLayer[ n1 ]");
-
 	}
 
 	@Test
@@ -882,7 +808,6 @@ public class NoExceptionsTest {
 		t("Histogram[ b1, list1, list2, b2 , n2 ]");
 		t("Histogram[ list1, list1 ]");
 		t("Histogram[ list1, list2, b2 , n2  ]");
-
 	}
 
 	@Test
@@ -890,7 +815,6 @@ public class NoExceptionsTest {
 		t("HistogramRight[ b1, list1, list2, b2 , n2 ]");
 		t("HistogramRight[ list1, list1 ]");
 		t("HistogramRight[ list1, list2, b2 , n2 ]");
-
 	}
 
 	@Test
@@ -910,8 +834,6 @@ public class NoExceptionsTest {
 		t("HyperGeometric[ n3, n1, n2 ]");
 		t("HyperGeometric[ n3, n1, n2, b1 ]");
 		t("HyperGeometric[ n3, n1, n2, n1, b1 ]");
-
-		
 	}
 
 	@Test
@@ -920,14 +842,6 @@ public class NoExceptionsTest {
 		t("Checkbox[ list1 ]");
 		t("Checkbox[ txt ]");
 		t("Checkbox[ txt, list1 ]");
-	}
-
-	@Test
-	public void cmdChiSquared() {
-		t("ChiSquared[ n2, n1 ]");
-		t("ChiSquared[ n2, x ]");
-		t("ChiSquared[ n2, x, b1 ]");
-
 	}
 
 	@Test
@@ -996,7 +910,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdIntersectRegion() {
 		t("IntersectRegion[ poly1, poly1 ]");
-
 	}
 
 	@Test
@@ -1064,8 +977,6 @@ public class NoExceptionsTest {
 		t("InverseZipf[ n1, n2, prob ]");
 	}
 
-
-
 	@Test
 	public void cmdIsInRegion() {
 		t("IsInRegion[ Pt1, c1 ]");
@@ -1082,7 +993,6 @@ public class NoExceptionsTest {
 	public void cmdJoin() {
 		t("Join[ list1, list1]");
 		t("Join[ matrix1 ]");
-
 	}
 
 	@Test
@@ -1113,7 +1023,6 @@ public class NoExceptionsTest {
 	public void cmdLCM() {
 		t("LCM[ list1 ]");
 		t("LCM[ n1, n1 ]");
-
 	}
 
 	@Test
@@ -1141,25 +1050,21 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdLetterToUnicode() {
 		t("LetterToUnicode[ letter ]");
-
 	}
 
 	@Test
 	public void cmdLimitAbove() {
 		t("LimitAbove[ f1, n3 ]");
-
 	}
 
 	@Test
 	public void cmdLimitBelow() {
 		t("LimitBelow[ f1, n3 ]");
-
 	}
 
 	@Test
 	public void cmdLimit() {
 		t("Limit[ f1, n3 ]");
-
 	}
 
 	@Test
@@ -1191,24 +1096,8 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdLogistic() {
-		t("Logistic[ n1, n3, n1 ]");
-		t("Logistic[ n1, n3, x ]");
-		t("Logistic[ n1, n3, x, b1 ]");
-	}
-
-	@Test
-	public void cmdLogNormal() {
-		t("LogNormal[ n1, n2, n1 ]");
-		t("LogNormal[ n1, n2, x ]");
-		t("LogNormal[ n1, n2, x, b1]");
-
-	}
-
-	@Test
 	public void cmdLowerSum() {
 		t("LowerSum[ f1, n2, n3, n1 ]");
-
 	}
 
 	@Test
@@ -1226,7 +1115,6 @@ public class NoExceptionsTest {
 	public void cmdMean() {
 		t("Mean[ list1 ]");
 		t("Mean[ list1, list1 ]");
-
 	}
 
 	@Test
@@ -1265,7 +1153,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdMinimumSpanningTree() {
 		t("MinimumSpanningTree[ ptlist1 ]");
-
 	}
 
 	@Test
@@ -1284,7 +1171,6 @@ public class NoExceptionsTest {
 	public void cmdMod() {
 		t("Mod[ n2, n2 ]");
 		t("Mod[ polynom2, polynom1 ] ");
-
 	}
 
 	@Test
@@ -1293,16 +1179,8 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdNormal() {
-		t("Normal[ n1, n2, n1 ]");
-		t("Normal[ n1, n2, x ]");
-		t("Normal[ n1, n2, x, b1]");
-	}
-
-	@Test
 	public void cmdNormalQuantilePlot() {
 		t("NormalQuantilePlot[ list2]");
-
 	}
 
 
@@ -1326,7 +1204,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdOrdinalRank() {
 		t("OrdinalRank[ list1 ]");
-
 	}
 
 	@Test
@@ -1373,7 +1250,6 @@ public class NoExceptionsTest {
 		t("Pascal[ n1, prob2 ]");
 		t("Pascal[ n1, prob2, b1 ]");
 		t("Pascal[ n1, prob2, n1, b1 ]");
-
 	}
 
 	@Test
@@ -1420,7 +1296,6 @@ public class NoExceptionsTest {
 	public void cmdPMCC() {
 		t("CorrelationCoefficient[ list1, list1 ]");
 		t("CorrelationCoefficient[ ptlist1 ]");
-
 	}
 
 	@Test
@@ -1429,7 +1304,6 @@ public class NoExceptionsTest {
 		t("Point[ obj, prob]");
 		t("Point[ Pt1,v1]");
 		t("Point[ list1]");
-
 	}
 
 	@Test
@@ -1447,7 +1321,6 @@ public class NoExceptionsTest {
 		t("Poisson[ n1 ]");
 		t("Poisson[ n1, b1 ]");
 		t("Poisson[ n1, n1, b1 ]");
-
 	}
 
 	@Test
@@ -1474,7 +1347,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdPrimeFactors() {
 		t("PrimeFactors[ n1 ]");
-
 	}
 
 	
@@ -1501,7 +1373,6 @@ public class NoExceptionsTest {
 	public void cmdQ3() {
 		t("Q3[ list1 ]");
 		t("Q3[ list1, list1 ]");
-
 	}
 
 	@Test
@@ -1512,13 +1383,11 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdRandomBinomial() {
 		t("RandomBinomial[ n1, prob ]");
-
 	}
 
 	@Test
 	public void cmdRandomElement() {
 		t("RandomElement[ list1 ]");
-
 	}
 
 	@Test
@@ -1530,13 +1399,11 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdRandomNormal() {
 		t("RandomNormal[ n1, n2 ]");
-
 	}
 
 	@Test
 	public void cmdRandomPoisson() {
 		t("RandomPoisson[ n1 ]");
-
 	}
 
 	@Test
@@ -1559,7 +1426,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdReducedRowEchelonForm() {
 		t("ReducedRowEchelonForm[matrix1]");
-
 	}
 
 	/*
@@ -1606,7 +1472,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdRootMeanSquare() {
 		t("RootMeanSquare[ list1 ]");
-
 	}
 
 	@Test
@@ -1645,7 +1510,6 @@ public class NoExceptionsTest {
 	public void cmdSampleSD() {
 		t("SampleSD[ list1 ]");
 		t("SampleSD[ list1, list1 ]");
-
 	}
 
 	@Test
@@ -1656,21 +1520,18 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSampleSDY() {
 		t("SampleSDY[ ptlist1 ]");
-
 	}
 
 	@Test
 	public void cmdSampleVariance() {
 		t("SampleVariance[ list1 ]");
 		t("SampleVariance[ list1, list1 ]");
-
 	}
 
 	@Test
 	public void cmdSD() {
 		t("SD[ list1 ]");
 		t("SD[ list1, list1 ]");
-
 	}
 
 	@Test
@@ -1724,7 +1585,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSemicircle() {
 		t("Semicircle[ Pt1,Pt2 ]");
-
 	}
 
 	@Test
@@ -1835,7 +1695,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdShuffle() {
 		t("Shuffle[ list1 ]");
-
 	}
 
 	@Test
@@ -1854,7 +1713,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSigmaYY() {
 		t("SigmaYY[ ptlist1 ]");
-
 	}
 
 	@Test
@@ -1865,7 +1723,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSlope() {
 		t("Slope[ l1 ]");
-
 	}
 
 	@Test
@@ -1935,7 +1792,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSumSquaredErrors() {
 		t("SumSquaredErrors[ ptlist1, f1 ]");
-
 	}
 
 	@Test
@@ -1996,13 +1852,7 @@ public class NoExceptionsTest {
 		t("TaylorPolynomial[ f1, n1, n2 ]");
 	}
 
-	@Test
-	public void cmdTDistribution() {
-		t("TDistribution[ n2, n1 ]");
-		t("TDistribution[ n2, x ]");
-		t("TDistribution[ n2, x, b1]");
 
-	}
 
 	@Test
 	public void cmdTextfield() {
@@ -2090,13 +1940,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdTriangular() {
-		t("Triangular[ n1, n4, n3, n1 ]");
-		t("Triangular[ n1, n4, n3, x ]");
-		t("Triangular[ n1, n4, n3, x, b1 ]");
-	}
-
-	@Test
 	public void cmdTTest() {
 		t("TTest[ list1, n1, \">\" ]");
 		t("TTest[ n2, n3, n2, n4, \">\"]");
@@ -2105,7 +1948,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdTTestPaired() {
 		t("TTestPaired[ list1, list1, \">\"]");
-
 	}
 
 	@Test
@@ -2130,16 +1972,8 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdUniform() {
-		t("Uniform[ n1, n4, n1 ]");
-		t("Uniform[ n1, n4, x ]");
-		t("Uniform[ n1, n4, x, b1 ]");
-	}
-
-	@Test
 	public void cmdUnique() {
 		t("Unique[ list1]");
-
 	}
 
 	@Test
@@ -2166,7 +2000,6 @@ public class NoExceptionsTest {
 	public void cmdVariance() {
 		t("Variance[ list1 ]");
 		t("Variance[ list1, list1 ]");
-
 	}
 
 	@Test
@@ -2187,19 +2020,10 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdWeibull() {
-		t("Weibull[ n2, n3, n1 ]");
-		t("Weibull[ n2, n3, x ]");
-		t("Weibull[ n2, n3, x, b1 ]");
-
-	}
-
-	@Test
 	public void cmdZipf() {
 		t("Zipf[ n1, n2 ]");
 		t("Zipf[ n1, n2, b1 ]");
 		t("Zipf[ n1, n2, n1, b1 ]");
-
 	}
 
 	@Test
@@ -2240,7 +2064,7 @@ public class NoExceptionsTest {
 	
 	@Test
 	public void cmdAreConcurrent(){
-		t("AreConcurrent[l1,l2,x=0]");
+		t("AreConcurrent[l1,l2, x=0]");
 	}
 	
 	@Test
@@ -2313,7 +2137,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdDivision() {
 		t("Division[3,7]");
-		t("Division[x^2,x+1]");
+		t("Division[x^2, x+1]");
 	}
 
 	@Test
@@ -2385,7 +2209,6 @@ public class NoExceptionsTest {
 	public void cmdCommonDenominator() {
 		t("CommonDenominator[1/2,1/3]");
 		t("CommonDenominator[1/(x-1),1/(x^2-1)]");
-	
 	}
 	
 	@Test
@@ -2443,14 +2266,12 @@ public class NoExceptionsTest {
 	public void cmdZMeanTest(){
 		t("ZMeanTest[ list1, n1, n2, \">\" ]");
 		t("ZMeanTest[ n1, n1, n2, n3, \">\" ]");
-		
 	}
 	
 	@Test
 	public void cmdZMean2Test(){
 		t("ZMean2Test[ list1, n1, list1,n3, \">\" ]");
 		t("ZMean2Test[ n1, n1, n2, n3,n1,n2,\">\" ]");
-		
 	}
 	
 	@Test
@@ -2496,14 +2317,12 @@ public class NoExceptionsTest {
 		app.getKernel().getConstruction().initUndoInfo();
 		app.getKernel().getConstruction().undo();
 		app.getKernel().getConstruction().redo();
-		
 	}
 	
 	@Test
 	public void cmdUpdateConstruction() {
 		t("UpdateConstruction[]");
 		t("UpdateConstruction[n2]");
-
 	}
 	/*@Test
 	public void cmdDensityPlot() {
@@ -2621,8 +2440,8 @@ public class NoExceptionsTest {
 	
 	@Test
 	public void cmdIntersectConic(){
-		t("IntersectConic[x+z=0,x^2+y^2+z^2=1]");
-		t("IntersectConic[x^2+y^2+(z-1)^2=0,x^2+y^2+z^2=0]");
+		t("IntersectConic[x+z=0, x^2+y^2+z^2=1]");
+		t("IntersectConic[x^2+y^2+(z-1)^2=0, x^2+y^2+z^2=0]");
 	}
 	
 	@Test
@@ -2682,7 +2501,7 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdReflect3D() {
-		t("Reflect[sin(x)+sin(y),x+y+z=0]");
+		t("Reflect[sin(x)+sin(y), x+y+z=0]");
 	}
 
 	@Test
@@ -2707,7 +2526,6 @@ public class NoExceptionsTest {
 		} catch (NoSuchMethodException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private void safeInvoke(Method m) {

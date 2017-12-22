@@ -40,11 +40,6 @@ public class CmdGamma extends CommandProcessor {
 		GeoBoolean cumulative = null; // default for n=3 (false)
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction() || !((GeoFunction) arg[2])
-					.toString(StringTemplate.defaultTemplate).equals("x")) {
-				throw argErr(app, c, arg[2]);
-			}
-
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (GeoBoolean) arg[3];
 			} else {

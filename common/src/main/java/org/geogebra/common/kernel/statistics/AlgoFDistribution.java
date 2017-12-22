@@ -25,6 +25,18 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoFDistribution extends AlgoDistribution {
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            dist parameter
+	 * @param b
+	 *            dist parameter
+	 * @param c
+	 *            variable value
+	 * @param cumulative
+	 *            whether this is CDF (null = true)
+	 */
 	public AlgoFDistribution(Construction cons, GeoNumberValue a,
 			GeoNumberValue b, GeoNumberValue c, GeoBoolean cumulative) {
 		super(cons, a, b, c, cumulative);
@@ -37,16 +49,18 @@ public class AlgoFDistribution extends AlgoDistribution {
 
 	@Override
 	public final void compute() {
-
 		if (input[0].isDefined() && input[1].isDefined()) {
 			double param = a.getDouble();
 			double param2 = b.getDouble();
-			try {
-				FDistribution dist = getFDistribution(param, param2);
-				setFromRealDist(dist, c); // P(T <= val)
-
-			} catch (Exception e) {
-				num.setUndefined();
+			if (c.getDouble() < 0) {
+				num.setValue(0);
+			} else {
+				try {
+					FDistribution dist = getFDistribution(param, param2);
+					setFromRealDist(dist, c); // P(T <= val)
+				} catch (Exception e) {
+					num.setUndefined();
+				}
 			}
 		} else {
 			num.setUndefined();

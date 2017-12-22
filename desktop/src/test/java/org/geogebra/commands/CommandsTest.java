@@ -113,7 +113,6 @@ public class CommandsTest extends Assert{
 			Assert.assertEquals(s + ":" + actual, expected[i], actual);
 		}
 		System.out.print("+");
-
 	}
 
 	private static int syntaxes = -1000;
@@ -313,7 +312,6 @@ public class CommandsTest extends Assert{
 		t("Division[2x+2,0x+2]", "{x + 1, 0}");
 		t("Div[2x+2,0x+2]", "x + 1");
 		t("Mod[2x+2,0x+2]", "0");
-		
 	}
 	
 	@Test
@@ -367,7 +365,6 @@ public class CommandsTest extends Assert{
 		t("Intersect[x=y,x^2+y^2=2]", new String[] { "(1, 1)", "(-1, -1)" });
 		t("Intersect[x=y,x^2+y^2=2, 1]", "(1, 1)");
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
-
 	}
 
 	@Test
@@ -491,7 +488,6 @@ public class CommandsTest extends Assert{
 		t("Sequence[ t^2, t, 1, 4, 2 ]", "{1, 9}");
 		t("Sequence[ t^2, t, 1, 4, -2 ]", "{}");
 		t("Length[Unique[Sequence[ random(), t, 1, 10]]]", "10");
-
 	}
 
 	@Test
@@ -525,7 +521,6 @@ public class CommandsTest extends Assert{
 				new String[] { out.replace("i", Unicode.IMAGINARY + "") }, app,
 				ap,
 				StringTemplate.xmlTemplate);
-
 	}
 	@Test
 	public void complexArithmetic() {
@@ -543,7 +538,6 @@ public class CommandsTest extends Assert{
 		t("lc=la", "{1}");
 		t("lc=lb", "{2}");
 		t("1*lb", "{2}");
-
 	}
 
 	@Test
@@ -554,8 +548,6 @@ public class CommandsTest extends Assert{
 		t("sinx", "sin(x)");
 		t("x" + Unicode.PI_STRING, "(" + Unicode.PI_STRING + " * x)");
 		t("sinxdeg", "sin((1*" + Unicode.DEGREE_STRING + " * x))");
-
-
 	}
 
 	@Test
@@ -586,7 +578,6 @@ public class CommandsTest extends Assert{
 		t("Product[ k/(k+1),k,1,7 ]", "0.125", StringTemplate.editTemplate);
 		t("Product[{x,y}]", "(x * y)");
 		t("Product[ (k,k),k,1,5 ]", "-480 - 480" + Unicode.IMAGINARY);
-
 	}
 
 	@Test
@@ -844,7 +835,6 @@ public class CommandsTest extends Assert{
 		}
 		t(string + "[(1;" + deg + "deg),(0,0),Vector[(0,0,1)]]", dodeca1,
 				StringTemplate.editTemplate);
-
 	}
 
 	@Test
@@ -964,7 +954,6 @@ public class CommandsTest extends Assert{
 		t("asind(0.317)", "18.48159\u00B0", StringTemplate.editTemplate);
 		t("acosd(0.317)", "71.51841\u00B0", StringTemplate.editTemplate);
 		t("atand(0.317)", "17.58862\u00B0", StringTemplate.editTemplate);
-	
 	}
 
 	@Test
@@ -1089,7 +1078,6 @@ public class CommandsTest extends Assert{
 		t("Fit[ {(0,1),(1,2),(2,5)},a*x^2+b*x+c ]",
 				unicode("1x^2 + 0x + 1"),
 				StringTemplate.editTemplate);
-
 	}
 
 	@Test
@@ -1168,7 +1156,6 @@ public class CommandsTest extends Assert{
 				StringTemplate.editTemplate);
 		t("A", "(0, 0)", StringTemplate.editTemplate);
 		t("Object[\"B\"]", "(3.14159, 0)", StringTemplate.editTemplate);
-
 	}
 	
 	@Test
@@ -1182,7 +1169,6 @@ public class CommandsTest extends Assert{
 		t("Derivative[ cos(x), x ]", "(-sin(x))");
 		t("Derivative[ cos(x), x, 3 ]", "sin(x)");
 		t("Derivative[ x^4/3 ]", "(4 / 3 * x^(3))");
-
 	}
 
 	@Test
@@ -1245,7 +1231,6 @@ public class CommandsTest extends Assert{
 
 	private static void tdeg(String string, String string2) {
 		t(string, string2.replace("deg", Unicode.DEGREE_STRING));
-		
 	}
 
 	@Test
@@ -1268,7 +1253,6 @@ public class CommandsTest extends Assert{
 				"{30" + Unicode.DEGREE_CHAR + ", 150" + Unicode.DEGREE_CHAR
 						+ "}",
 				StringTemplate.defaultTemplate);
-
 	}
 
 	@Test
@@ -1327,6 +1311,135 @@ public class CommandsTest extends Assert{
 		t("Simplify[ 2/sqrt(2) ]", "sqrt(2)");
 		t("Simplify[\"x+-x--x\"]", "x " + Unicode.MINUS + " x + x");
 	}
+	private static void prob(String cmd, String params, String pdf,
+			String cdf) {
+		prob(cmd, params, pdf, cdf, -5);
+	}
+
+	private static void prob(String cmd, String params, String pdf, String cdf,
+			int skip) {
+		t("pdf=" + cmd + "(" + params + ",x)", unicode(pdf),
+				StringTemplate.editTemplate);
+		t("pdf1=" + cmd + "(" + params + ",x,false)", unicode(pdf),
+				StringTemplate.editTemplate);
+		t("cdf=" + cmd + "(" + params + ",x,true)", unicode(cdf),
+				StringTemplate.editTemplate);
+		for (int i = -1; i < 5; i++) {
+			t("cdf(" + i + ")==" + cmd + "(" + params + "," + i + ",true)",
+					"true");
+			if (i == skip) {
+				t("!IsDefined(pdf(" + i + ")) && !IsDefined(" + cmd + "("
+						+ params + "," + i + ",false))",
+					"true");
+			} else {
+				t("pdf(" + i + ")==" + cmd + "(" + params + "," + i + ",false)",
+						"true");
+
+			}
+		}
+	}
+
+	@Test
+	public void cmdWeibull() {
+		prob("Weibull", "2,1",
+				"If(x < 0, 0, 2 (x)^(2 - 1) " + Unicode.EULER_STRING
+						+ "^(-(x)^2))",
+				"If(x < 0, 0, 1 - " + Unicode.EULER_STRING + "^(-(x)^2))");
+	}
+
+	@Test
+	public void cmdTDistribution() {
+		prob("TDistribution", "2",
+				"((x^2 / 2 + 1)^(-((2 + 1) / 2)) gamma((2 + 1) / 2)) / (sqrt(2"
+						+ Unicode.pi + ") gamma(2 / 2))",
+				"0.5 + (betaRegularized(2 / 2, 0.5, 1) - betaRegularized(2 / 2, 0.5, 2 / (2 + x^2))) sgn(x) / 2");
+	}
+
+	@Test
+	public void cmdUniform() {
+		prob("Uniform", "1,2.5", "If(x < 1, 0, If(x < 2.5, (2.5 - 1)^-1, 0))",
+				"If(x < 1, 0, If(x < 2.5, (x - 1) / (2.5 - 1), 1))");
+	}
+
+	@Test
+	public void cmdChiSquared() {
+		prob("ChiSquared", "2",
+				"If(x < 0, 0, (" + Unicode.EULER_STRING
+						+ "^((-x) / 2) x^(2 / 2 - 1)) / (2^(2 / 2) gamma(2 / 2)))",
+				"If(x < 0, 0, gamma(2 / 2, x / 2) / gamma(2 / 2))");
+	}
+
+	@Test
+	public void cmdErlang() {
+		prob("Erlang", "2,1",
+				"If(x < 0, 0, (" + Unicode.EULER_STRING
+						+ "^(-(x 1)) x^(2 - 1) 1^2) / (2 - 1)!)",
+				"If(x < 0, 0, gamma(2, 1x) / (2 - 1)!)");
+	}
+
+	@Test
+	public void cmdNormal() {
+		prob("Normal", "2,1", Unicode.EULER_STRING
+				+ "^((-(x - 2)^2) / (1^2 2)) / (abs(1) sqrt("
+				+ Unicode.pi + " 2))",
+				"(erf((x - 2) / (abs(1) sqrt(2))) + 1) / 2");
+	}
+
+	@Test
+	public void cmdGamma() {
+		prob("Gamma", "2,1",
+				"If(x < 0, 0, (x^(2 - 1) " + Unicode.EULER_STRING
+						+ "^(-(x))) / (1^2 gamma(2)))",
+				"If(x < 0, 0, gamma(2, x) / gamma(2))");
+	}
+
+	@Test
+	public void cmdTriangular() {
+		prob("Triangular", "1,3,2",
+				"If(x < 1, 0, If(x < 2, ((x - 1) (2)) / ((2 - 1) (3 - 1)), If(x < 3, ((x - 3) (2)) / ((2 - 3) (3 - 1)), 0)))",
+				"If(x < 1, 0, If(x < 2, (x - 1)^2 / ((2 - 1) (3 - 1)), If(x < 3, (x - 3)^2 / ((2 - 3) (3 - 1)) + 1, 1)))");
+	}
+
+	@Test
+	public void cmdFDistribution() {
+		prob("FDistribution", "2,1",
+				"If(x < 0, 0, (1^(1 / 2) (2x)^(2 / 2)) / (beta(2 / 2, 1 / 2) x (2x + 1)^(2 / 2 + 1 / 2)))",
+				"If(x < 0, 0, betaRegularized(2 / 2, 1 / 2, (2x) / (2x + 1)))",
+				0);
+	}
+
+	@Test
+	public void cmdExponential() {
+		prob("Exponential", "2",
+				"If(x < 0, 0, 2" + Unicode.EULER_STRING + "^(-(2x)))",
+				"If(x < 0, 0, 1 - " + Unicode.EULER_STRING + "^(-(2x)))");
+	}
+
+	@Test
+	public void cmdLogistic() {
+		prob("Logistic", "2,1",
+				Unicode.EULER_STRING + "^(-((x - 2) / abs(1))) / (("
+						+ Unicode.EULER_STRING
+						+ "^(-((x - 2) / abs(1))) + 1)^2 abs(1))",
+				"(" + Unicode.EULER_STRING + "^(-((x - 2) / abs(1))) + 1)^-1");
+	}
+
+	@Test
+	public void cmdLogNormal() {
+		prob("LogNormal", "2,1",
+				"If(x " + Unicode.LESS_EQUAL
+						+ " 0, 0, " + Unicode.EULER_STRING
+						+ "^(-((ln(x) - 2)^2 / (1^2 2))) / (abs(1) sqrt(2"
+						+ Unicode.pi + ") x))",
+				"If(x " + Unicode.LESS_EQUAL
+						+ " 0, 0, erf((ln(x) - 2) / (sqrt(2) abs(1))) 0.5 + 0.5)");
+	}
+
+	@Test
+	public void cmdCauchy() {
+		prob("Cauchy", "2,1", "abs(1) / ((1^2 + (x - 2)^2) " + Unicode.pi + ")",
+				"atan((x - 2) / abs(1)) / " + Unicode.pi + " + 0.5");
+	}
 
 	@Test
 	public void yLHSFunctions() {
@@ -1346,7 +1459,6 @@ public class CommandsTest extends Assert{
 		tpm("x+(pm2)","{x + 2, x - 2}");
 		tpm("xpm2","{x + 2, x - 2}");
 		tpm("xpm(pm2)", "{x + 2, x + 2}");
-		
 	}
 
 	@Test
@@ -1372,12 +1484,10 @@ public class CommandsTest extends Assert{
 		// t("2f+3g", "(2 * ((2 * x) + (0 * y))) + (3 * ((0 * x) + (3 * y)))");
 		t("2f+3g=36",
 				"4x + 9y = 36");
-
 	}
 
 	private static void tpm(String string, String expected) {
 		t(string.replace("pm", Unicode.PLUSMINUS+""),expected);
-		
 	}
 
 	@Test
@@ -1518,6 +1628,8 @@ public class CommandsTest extends Assert{
 	public static String unicode(String theSpline) {
 		return theSpline.replace("^2", Unicode.SUPERSCRIPT_2 + "")
 				.replace("^3", Unicode.SUPERSCRIPT_3 + "")
+				.replace("^-1",
+						Unicode.SUPERSCRIPT_MINUS + "" + Unicode.SUPERSCRIPT_1)
 				.replace("deg", Unicode.DEGREE_STRING);
 	}
 }

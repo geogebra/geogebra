@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
@@ -23,9 +24,9 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 public class AlgoUniform extends AlgoDistribution {
 
-	public AlgoUniform(Construction cons, String label, GeoNumberValue a,
-			GeoNumberValue b, GeoNumberValue c) {
-		super(cons, label, a, b, c, null);
+	public AlgoUniform(Construction cons, GeoNumberValue a, GeoNumberValue b,
+			GeoNumberValue c, GeoBoolean cumulative) {
+		super(cons, a, b, c, cumulative);
 	}
 
 	@Override
@@ -42,15 +43,16 @@ public class AlgoUniform extends AlgoDistribution {
 			double B = b.getDouble();
 			double x = c.getDouble();
 			try {
-
+				boolean cdf = this.isCumulative == null
+						|| this.isCumulative.getBoolean();
 				if (A >= B) {
 					num.setUndefined();
 				} else if (x > B) {
-					num.setValue(1);
+					num.setValue(cdf ? 1 : 0);
 				} else if (x < A) {
 					num.setValue(0);
 				} else { // A < x < B
-					num.setValue((x - A) / (B - A));
+					num.setValue(cdf ? (x - A) / (B - A) : 1 / (B - A));
 				}
 
 				// old hack

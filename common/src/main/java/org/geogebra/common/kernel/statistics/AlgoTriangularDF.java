@@ -54,7 +54,7 @@ public class AlgoTriangularDF extends AlgoElement {
 		this.b = b;
 		this.mode = mode;
 		this.cumulative = cumulative;
-		ret = DistributionFunctionFactory.zeroWhenLessThan(a, cons);
+		ret = DistributionFunctionFactory.zeroWhenLessThan(a, cons, true);
 
 		setInputOutput(); // for AlgoElement
 
