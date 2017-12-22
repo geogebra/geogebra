@@ -2138,14 +2138,17 @@ namespace giac {
     return e;
   }
 
-  vecteur merge_pixon(const vecteur & v){
-    vecteur w;
+  void merge_pixon(const vecteur & v,vecteur & w){
     const_iterateur it=v.begin(),itend=v.end();
     w.reserve(itend-it);
     int lastxmin=-1,lastxmax=-1,lastymin=-1,lastymax=-1,lastcolor=-1;
     for (;it!=itend;++it){
       if (!is_pnt_or_pixon(*it)){
-	w.push_back(it->type==_VECT?gen(merge_pixon(*it->_VECTptr),it->subtype):*it);
+	if (it->type==_VECT){
+	  merge_pixon(*it->_VECTptr,w);
+	  continue;
+	}
+	w.push_back(*it);
 	continue;
       }
       gen tmp=remove_at_pnt(*it);
@@ -2216,18 +2219,24 @@ namespace giac {
 	  w.push_back(symbolic(at_pnt,makesequence(symbolic(at_pixon,makesequence(lastxmin,lastymin,lastcolor,lastxmin-lastxmax-1)),0)));
       }
     }
+  }
+
+  vecteur merge_pixon(const vecteur & v){
+    vecteur w;
+    merge_pixon(v,w);
     return w;
   }
 
   void pixon_print(const gen &g,std::string & S,GIAC_CONTEXT){
     if (g.type==_VECT){
-      vecteur v=merge_pixon(*g._VECTptr);
+      vecteur v;
+      merge_pixon(*g._VECTptr,v);
       const_iterateur it=v.begin(),itend=v.end();
       if (it==itend) return;
       S+='[';
       S+=print_INT_(pixon_size);
       S+=",";
-      for (;;++it){
+      for (;it!=itend;++it){
 	if (it->type!=_SYMB)
 	  continue;
 	const gen * f;

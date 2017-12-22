@@ -4968,7 +4968,7 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (args.type!=_VECT)
       return symb_superieur_strict(args);
-    gen res=superieur_strict(args._VECTptr->front(),args._VECTptr->back(),contextptr);
+    gen res(superieur_strict(args._VECTptr->front(),args._VECTptr->back(),contextptr));
     if (res.type==_INT_ && abs_calc_mode(contextptr)!=38)
       res.subtype=_INT_BOOLEAN;
     return res;

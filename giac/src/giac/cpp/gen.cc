@@ -12243,7 +12243,7 @@ namespace giac {
       }
     }
 #if 1 // for debugging/profiling pixon_print
-    if (is_pnt_or_pixon(v.back()) ){
+    if (is_pnt_or_pixon(v.back())){
       gen f=v.back();
       if (f.is_symb_of_sommet(at_pnt)){
 	f=f._SYMBptr->feuille;
@@ -15499,7 +15499,7 @@ namespace giac {
       return S.c_str();
     }
     if (calc_mode(&C)!=1 && (last.is_symb_of_sommet(at_pnt) || last.is_symb_of_sommet(at_pixon))){
-#ifndef GIAC_GGB
+#if !defined(GIAC_GGB) && defined(EMCC)
       if (is3d(last)){
 	bool worker=false;
 	worker=EM_ASM_INT_V({
