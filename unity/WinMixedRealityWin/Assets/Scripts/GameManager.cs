@@ -34,11 +34,52 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+
+        #region Find reference in case of missing referenece
+
+        // Models
+        if (BasicModel == null)
+            BasicModel = GameObject.Find("Basic");
+
+        if (FootballModel == null)
+            FootballModel = GameObject.Find("Football");
+
+        if (FunctionModel == null)
+            FunctionModel = GameObject.Find("Function");
+
+        if (KleinModel == null)
+            KleinModel = GameObject.Find("Klein");
+
+        if (LissajousModel == null)
+            LissajousModel = GameObject.Find("Lissajous");
+
+        if (PenroseModel == null)
+            PenroseModel = GameObject.Find("Penrose");
+
+        if (RuledSurfaceModel == null)
+            RuledSurfaceModel = GameObject.Find("RuledSurface");
+
+        if (SierpinskiModel == null)
+            SierpinskiModel = GameObject.Find("Sierpinski");
+
+
+
+        // SPAWN POINT
+        if (ModelSpawner == null)
+            ModelSpawner = GameObject.Find("ModelsSpawner");
+
+
+        // Second Screen
+        if (TempTextSecondScreen == null)
+            TempTextSecondScreen = GameObject.Find("SecondScreenCanvas");
+
+
+        #endregion
+
+    }
+
+    // Update is called once per frame
+    void Update () {
      
 
     }
