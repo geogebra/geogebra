@@ -784,7 +784,7 @@ public class SelectionManager {
 
 	private void filterInvisible(TreeSet<GeoElement> tree,
 			EuclidianViewInterfaceCommon ev) {
-		if (this.kernel.getApplication().getGuiManager() == null || !this.kernel
+		if (this.kernel.getApplication().getGuiManager() != null && !this.kernel
 				.getApplication().getGuiManager().hasAlgebraViewShowing()) {
 			return;
 		}
