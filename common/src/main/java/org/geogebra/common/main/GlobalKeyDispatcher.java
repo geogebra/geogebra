@@ -128,8 +128,10 @@ public abstract class GlobalKeyDispatcher {
 							.getActiveEuclidianView().getDrawableFor(geo);
 					dt.setFocus(ch + "");
 				} else {
-					app.getDialogManager().showRenameDialog(geo, true,
-							Character.toString(ch), false);
+					if (app.getDialogManager() != null) {
+						app.getDialogManager().showRenameDialog(geo, true,
+								Character.toString(ch), false);
+					}
 				}
 				return true;
 			}
