@@ -37,6 +37,7 @@ import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
+import org.geogebra.common.gui.AccessibilityManagerNoGui;
 import org.geogebra.common.gui.menubar.MenuFactory;
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.toolcategorization.ToolCategorization;
@@ -5027,7 +5028,7 @@ public abstract class App implements UpdateSelection {
 	 * @return the AccessibilityManager.
 	 */
 	public AccessibilityManagerInterface getAccessibilityManager() {
-		return null;
+		return new AccessibilityManagerNoGui();
 	}
 
 	/**

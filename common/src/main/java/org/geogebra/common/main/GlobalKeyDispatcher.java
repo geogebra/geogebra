@@ -369,7 +369,7 @@ public abstract class GlobalKeyDispatcher {
 			break;
 
 		case TAB:
-			if (!app.has(Feature.TAB_ON_GUI)) {
+			if (app.isDesktop()) {
 				consumed = handleTab(isControlDown, isShiftDown, true);
 			}
 

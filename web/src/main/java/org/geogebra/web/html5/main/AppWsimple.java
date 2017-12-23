@@ -1,9 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import org.geogebra.common.GeoGebraConstants;
-import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
@@ -215,76 +213,4 @@ public class AppWsimple extends AppW {
 		return frame;
 	}
 
-	@Override
-	public AccessibilityManagerInterface getAccessibilityManager() {
-		return new AccessibilityManagerInterface() {
-			@Override
-			public void focusNext(Object source) {
-				// only tab geos
-			}
-
-			@Override
-			public void focusPrevious(Object source) {
-				// only tab geos
-			}
-
-			@Override
-			public void focusMenu() {
-				// only tab geos
-			}
-
-			@Override
-			public boolean focusInput(boolean force) {
-				return false;
-			}
-
-			@Override
-			public boolean isTabOverGeos() {
-				return true;
-			}
-
-			@Override
-			public boolean isCurrentTabExitGeos(boolean isShiftDown) {
-				return false;
-			}
-
-			@Override
-			public void setTabOverGeos(boolean b) {
-				// always true anyway
-			}
-
-			@Override
-			public void focusGeo(GeoElement geo) {
-				// only called from AV
-			}
-
-			@Override
-			public void setAnchor(Object anchor) {
-				// not needed
-			}
-
-			@Override
-			public Object getAnchor() {
-				// TODO Auto-generated method stub
-				return null;
-			}
-
-			@Override
-			public void focusAnchor() {
-				// not needed
-			}
-
-			@Override
-			public void cancelAnchor() {
-				// not needed
-			}
-
-			@Override
-			public void focusAnchorOrMenu() {
-				// not needed
-
-			}
-		};
-
-	}
 }
