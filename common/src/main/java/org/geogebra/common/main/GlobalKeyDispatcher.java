@@ -137,13 +137,13 @@ public abstract class GlobalKeyDispatcher {
 		if (ch == '/') {
 			toggleSelectionVisibility();
 		}
-		if (selection.selectedGeosSize() == 1) {
-			if (ch == 13) {
-				startEdit(geo = selection.getSelectedGeos().get(0));
-			} else if (ch == '.') {
-				openSettingsInAV(selection.getSelectedGeos().get(0));
-			}
+
+		if (ch == '\n') {
+			startEdit(geo);
+		} else if (ch == '.') {
+			openSettingsInAV(geo);
 		}
+
 		// don't instantiate: could steal focus
 		if (app.getActiveEuclidianView().hasDynamicStyleBar()) {
 			app.getActiveEuclidianView().getDynamicStyleBar().setVisible(false);
