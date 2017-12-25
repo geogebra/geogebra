@@ -253,7 +253,7 @@ public class DrawLine extends Drawable implements Previewable {
 			y2 = k * x2 + d;
 			p1Pos = LEFT;
 			p2Pos = RIGHT;
-			clipTopBottom(minx, miny, maxx, maxy);
+			clipTopBottom(minx, miny, maxy);
 		}
 		// abs(slope) >= 1
 		// x = k y + d
@@ -270,7 +270,7 @@ public class DrawLine extends Drawable implements Previewable {
 			x2 = k * y2 + d;
 			p1Pos = BOTTOM;
 			p2Pos = TOP;
-			clipLeftRight(minx, miny, maxx, maxy);
+			clipLeftRight(minx, maxx);
 		}
 
 		if (line == null) {
@@ -282,8 +282,7 @@ public class DrawLine extends Drawable implements Previewable {
 	// Cohen & Sutherland algorithm for line clipping on a rectangle
 	// Computergraphics I (Prof. Held) pp.100
 	// points (0, y1), (width, y2) -> clip on y=0 and y=height
-	final private void clipTopBottom(double minx, double miny, double maxx,
-			double maxy) {
+	final private void clipTopBottom(double minx, double miny, double maxy) {
 		// calc clip attributes for both points (x1,y1), (x2,y2)
 		attr1[TOP] = y1 < minx - EuclidianStatic.CLIP_DISTANCE;
 		attr1[BOTTOM] = y1 > maxy + EuclidianStatic.CLIP_DISTANCE;
@@ -325,8 +324,7 @@ public class DrawLine extends Drawable implements Previewable {
 	// Cohen & Sutherland algorithm for line clipping on a rectangle
 	// Computergraphics I (Prof. Held) pp.100
 	// points (x1, 0), (x2, height) -> clip on x=0 and x=width
-	final private void clipLeftRight(double minx, double miny, double maxx,
-			double maxy) {
+	final private void clipLeftRight(double minx, double maxx) {
 		// calc clip attributes for both points (x1,y1), (x2,y2)
 		attr1[LEFT] = x1 < minx - EuclidianStatic.CLIP_DISTANCE;
 		attr1[RIGHT] = x1 > maxx + EuclidianStatic.CLIP_DISTANCE;
