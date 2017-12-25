@@ -90,7 +90,7 @@ public class DrawLocus extends Drawable {
 
 		// line on screen?
 		if (!geo.isInverseFill()
-				&& !gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
+				&& !view.intersects(gp)) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too

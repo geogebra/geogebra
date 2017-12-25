@@ -162,8 +162,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			}
 
 			// shape on screen?
-			if (shape != null && !shape.intersects(0, 0, view.getWidth(),
-					view.getHeight())) {
+			if (shape != null && !view.intersects(shape)) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too

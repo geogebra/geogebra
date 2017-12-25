@@ -214,10 +214,10 @@ public class DrawVector extends Drawable implements Previewable {
 			// check if any of vector is on-screen
 			GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
 					coordsA[1], coordsB[0], coordsB[1],
-					-EuclidianStatic.CLIP_DISTANCE,
-					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
-					-EuclidianStatic.CLIP_DISTANCE,
-					view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
+					view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
+					view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
+					view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
+					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE);
 			if (clippedPoints == null) {
 				isVisible = false;
 				lineVisible = false;
@@ -259,8 +259,8 @@ public class DrawVector extends Drawable implements Previewable {
 				gp.closePath();
 			}
 
-			arrowheadVisible = onscreenB
-					|| gp.intersects(0, 0, view.getWidth(), view.getHeight());
+			arrowheadVisible = onscreenB || view.intersects(gp);
+
 		}
 	}
 

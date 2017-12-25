@@ -44,12 +44,14 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	boolean isMoveable(GeoElement geoElement);
 
 	/**
-	 * @return width in pixels
+	 * @return width in pixels of physical view. use getMaxXScreen() -
+	 *         getMinXScreen() if you need the width for exporting
 	 */
 	int getWidth();
 
 	/**
-	 * @return height in pixels
+	 * @return height in pixels of physical view. use getMaxYScreen() -
+	 *         getMinYScreen() if you need the width for exporting
 	 */
 	int getHeight();
 

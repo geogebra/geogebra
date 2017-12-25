@@ -572,7 +572,7 @@ public class DrawBarGraph extends Drawable {
 		// don't return here to make sure that getBounds() works for
 		// off screen points too
 		for (int i = 0; i < gp.length; i++) {
-			if (gp[i].intersects(0, 0, view.getWidth(), view.getHeight())) {
+			if (view.intersects(gp[i])) {
 				isVisible = true;
 				break;
 			}

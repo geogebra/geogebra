@@ -14,7 +14,7 @@ public interface GRectangle extends GRectangle2D {
 	@Override
 	public double getHeight();
 
-	public void setBounds(int xLabel, int i, int width, int height);
+	public void setBounds(int x, int y, int width, int height);
 
 	public void setLocation(int xLabel, int i);
 

@@ -500,6 +500,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private boolean updateBackgroundOnNextRepaint;
 	
 	private GeoElement[] specPoints;
+	private GRectangle exportFrame;
+	private GRectangle tempFrame;
 	
 
 	/** @return line types */
@@ -3560,7 +3562,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	final protected void clearBackground(GGraphics2D g) {
 		g.setColor(getBackgroundCommon());
 		g.updateCanvasColor();
-		g.fillRect(0, 0, getWidth(), getHeight());
+		g.fillRect(getMinXScreen(), getMinYScreen(),
+				getMaxXScreen() - getMinXScreen(),
+				getMaxYScreen() - getMinYScreen());
 	}
 
 	/**
@@ -4328,11 +4332,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public GeneralPathClipped getBoundingPath() {
 		GeneralPathClipped gs = new GeneralPathClipped(this);// AwtFactory.getPrototype().newGeneralPath();
-		gs.moveTo(0, 0);
-		gs.lineTo(getWidth(), 0);
-		gs.lineTo(getWidth(), getHeight());
-		gs.lineTo(0, getHeight());
-		gs.lineTo(0, 0);
+		gs.moveTo(getMinXScreen(), getMinYScreen());
+		gs.lineTo(getMaxXScreen(), getMinYScreen());
+		gs.lineTo(getMaxXScreen(), getMaxYScreen());
+		gs.lineTo(getMinXScreen(), getMaxYScreen());
+		gs.lineTo(getMinXScreen(), getMinYScreen());
 		gs.closePath();
 		return gs;
 	}
@@ -5072,6 +5076,81 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public int getSelectedHeightInPixels() {
 		return getSelectedHeight();
+	}
+
+	/**
+	 * @return export width in pixels (or Export width in pixels if appropriate)
+	 */
+	public int getWidthCheckExport() {
+		if (app.isExporting()) {
+			return getExportWidth();
+		}
+
+		return getWidth();
+	}
+
+	/**
+	 * @return export height in pixels (or Export height in pixels if
+	 *         appropriate)
+	 */
+	public int getHeightCheckExport() {
+		if (app.isExporting()) {
+			return getExportHeight();
+		}
+
+		return getHeight();
+	}
+
+	/**
+	 * default frame, for when no custom frame for exporting taking place
+	 */
+	private GRectangle getDefaultFrame() {
+		if (tempFrame == null) {
+			tempFrame = AwtFactory.getPrototype().newRectangle(0, 0, getWidth(),
+					getHeight());
+		} else {
+			tempFrame.setBounds(0, 0, getWidth(), getHeight());
+		}
+		return tempFrame;
+
+	}
+
+	public GRectangle getFrame() {
+		if (!app.isExporting()) {
+			return getDefaultFrame();
+		}
+
+		if (selectionRectangle != null) {
+			return selectionRectangle;
+		}
+
+		GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
+		GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
+
+		if (export1 == null || export2 == null) {
+			return getDefaultFrame();
+		}
+
+		double[] xy1 = new double[2];
+		double[] xy2 = new double[2];
+		export1.getInhomCoords(xy1);
+		export2.getInhomCoords(xy2);
+		double x1 = Math.max(xy1[0], xy2[0]);
+		double x2 = Math.min(xy1[0], xy2[0]);
+		double y1 = Math.max(xy1[1], xy2[1]);
+		double y2 = Math.min(xy1[1], xy2[1]);
+		// Log.debug("x1 = " + x1 + " y1 = " + y1 + " x2 = " + x2 + " y2 = " +
+		// y2);
+		x1 = (x1 / getInvXscale()) + getXZero();
+		x2 = (x2 / getInvXscale()) + getXZero();
+		y1 = getYZero() - (y1 / getInvYscale());
+		y2 = getYZero() - (y2 / getInvYscale());
+		// Log.debug("x1 = " + x1 + " y1 = " + y1 + " x2 = " + x2 + " y2 = " +
+		// y2);
+
+		return AwtFactory.getPrototype().newRectangle((int) x2, (int) y1,
+				(int) (x1 - x2), (int) (y2 - y1));
+
 	}
 
 	/**
@@ -5835,10 +5914,70 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void exportPaint(GGraphics2D g2d, double scale,
 			boolean transparency, ExportType exportType) {
 		getApplication().setExporting(exportType, scale);
+
+		exportFrame = getFrame();
+
+		// EuclidianViewExporter2 evExport = new EuclidianViewExporter2(this,
+		// getFrame());
+
+		// in case they are off screen but within Export_1, Export_2 rectangle
+		updateAllDrawables(false);
+
 		exportPaintPre(g2d, scale, transparency);
 		drawObjects(g2d);
 		g2d.resetClip();
 		getApplication().setExporting(ExportType.NONE, 1);
+
+		exportFrame = null;
+
+		// reset visibility for drawables
+		updateAllDrawables(true);
+
+	}
+
+	/**
+	 * 
+	 * @return maxx in screen pixels
+	 */
+	public int getMaxXScreen() {
+		if (exportFrame != null) {
+			return (int) exportFrame.getMaxX();
+		}
+		return getWidth();
+	}
+
+	/**
+	 * 
+	 * @return minx in pixels
+	 */
+	public int getMinXScreen() {
+		if (exportFrame != null) {
+			return (int) exportFrame.getMinX();
+		}
+		return 0;
+	}
+
+	/**
+	 * 
+	 * @return maxx in pixels
+	 */
+	public int getMaxYScreen() {
+		if (exportFrame != null) {
+			return (int) exportFrame.getMaxY();
+		}
+
+		return getHeight();
+	}
+
+	/**
+	 * 
+	 * @return miny in pixels
+	 */
+	public int getMinYScreen() {
+		if (exportFrame != null) {
+			return (int) exportFrame.getMinY();
+		}
+		return 0;
 	}
 
 	/**
@@ -6088,4 +6227,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public abstract void readText(String text);
+
+	public boolean intersects(GShape shape) {
+		// don't use getWidth()/ getHeight()
+		// doesn't work for export
+		return shape.intersects(getMinXScreen(), getMinYScreen(),
+				getMaxXScreen() - getMinXScreen(),
+				getMaxYScreen() - getMinYScreen());
+	}
+
 }

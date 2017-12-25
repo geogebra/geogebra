@@ -482,7 +482,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		}
 
 		// shape on screen?
-		if (!shape.intersects(0, 0, view.getWidth(), view.getHeight())) {
+		if (!view.intersects(shape)) {
 			setNotVisible();
 			return;
 		}

@@ -30,8 +30,8 @@ public class GArc2DD implements GRectangularShapeD, GArc2D {
 	}
 
 	@Override
-	public boolean intersects(int i, int j, int k, int l) {
-		return impl.intersects(i, j, k, l);
+	public boolean intersects(int x, int y, int w, int h) {
+		return impl.intersects(x, y, w, h);
 	}
 
 	@Override

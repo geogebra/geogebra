@@ -199,13 +199,11 @@ public class DrawLine extends Drawable implements Previewable {
 			gy = equation.getY();
 			gz = equation.getZ();
 
-			setClippedLine();
+			setClippedLine(view.getMinXScreen(), view.getMinYScreen(),
+					view.getMaxXScreen(), view.getMaxYScreen());
 
 			// line on screen?
-			if (!line.intersects(-EuclidianStatic.CLIP_DISTANCE,
-					-EuclidianStatic.CLIP_DISTANCE,
-					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
-					view.getHeight() + EuclidianStatic.CLIP_DISTANCE)) {
+			if (!view.intersects(line)) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
@@ -236,7 +234,8 @@ public class DrawLine extends Drawable implements Previewable {
 
 	// transform line to screen coords
 	// write start and endpoint into (x1,y1), (x2,y2)
-	private final void setClippedLine() {
+	private final void setClippedLine(double minx, double miny, double maxx,
+			double maxy) {
 		// first calc two points in screen coords that are on the line
 
 		// abs(slope) < 1
@@ -248,13 +247,13 @@ public class DrawLine extends Drawable implements Previewable {
 			d = view.getYZero() + gz / gy * view.getYscale()
 					- k * view.getXZero();
 
-			x1 = -EuclidianStatic.CLIP_DISTANCE;
+			x1 = view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE;
 			y1 = k * x1 + d;
-			x2 = view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
+			x2 = view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE;
 			y2 = k * x2 + d;
 			p1Pos = LEFT;
 			p2Pos = RIGHT;
-			clipTopBottom();
+			clipTopBottom(minx, miny, maxx, maxy);
 		}
 		// abs(slope) >= 1
 		// x = k y + d
@@ -265,13 +264,13 @@ public class DrawLine extends Drawable implements Previewable {
 			d = view.getXZero() - gz / gx * view.getXscale()
 					- k * view.getYZero();
 
-			y1 = view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
+			y1 = maxy + EuclidianStatic.CLIP_DISTANCE;
 			x1 = k * y1 + d;
-			y2 = -EuclidianStatic.CLIP_DISTANCE;
+			y2 = miny - EuclidianStatic.CLIP_DISTANCE;
 			x2 = k * y2 + d;
 			p1Pos = BOTTOM;
 			p2Pos = TOP;
-			clipLeftRight();
+			clipLeftRight(minx, miny, maxx, maxy);
 		}
 
 		if (line == null) {
@@ -283,12 +282,13 @@ public class DrawLine extends Drawable implements Previewable {
 	// Cohen & Sutherland algorithm for line clipping on a rectangle
 	// Computergraphics I (Prof. Held) pp.100
 	// points (0, y1), (width, y2) -> clip on y=0 and y=height
-	final private void clipTopBottom() {
+	final private void clipTopBottom(double minx, double miny, double maxx,
+			double maxy) {
 		// calc clip attributes for both points (x1,y1), (x2,y2)
-		attr1[TOP] = y1 < -EuclidianStatic.CLIP_DISTANCE;
-		attr1[BOTTOM] = y1 > view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
-		attr2[TOP] = y2 < -EuclidianStatic.CLIP_DISTANCE;
-		attr2[BOTTOM] = y2 > view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
+		attr1[TOP] = y1 < minx - EuclidianStatic.CLIP_DISTANCE;
+		attr1[BOTTOM] = y1 > maxy + EuclidianStatic.CLIP_DISTANCE;
+		attr2[TOP] = y2 < miny - EuclidianStatic.CLIP_DISTANCE;
+		attr2[BOTTOM] = y2 > maxy + EuclidianStatic.CLIP_DISTANCE;
 
 		// both points outside (TOP or BOTTOM)
 		if ((attr1[TOP] && attr2[TOP]) || (attr1[BOTTOM] && attr2[BOTTOM])) {
@@ -297,26 +297,26 @@ public class DrawLine extends Drawable implements Previewable {
 		// at least one point inside -> clip
 		// point1 TOP -> clip with y=0
 		if (attr1[TOP]) {
-			y1 = -EuclidianStatic.CLIP_DISTANCE;
+			y1 = miny - EuclidianStatic.CLIP_DISTANCE;
 			x1 = (y1 - d) / k;
 			p1Pos = TOP;
 		}
 		// point1 BOTTOM -> clip with y=height
 		else if (attr1[BOTTOM]) {
-			y1 = view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
+			y1 = maxy + EuclidianStatic.CLIP_DISTANCE;
 			x1 = (y1 - d) / k;
 			p1Pos = BOTTOM;
 		}
 
 		// point2 TOP -> clip with y=0
 		if (attr2[TOP]) {
-			y2 = -EuclidianStatic.CLIP_DISTANCE;
+			y2 = miny - EuclidianStatic.CLIP_DISTANCE;
 			x2 = (y2 - d) / k;
 			p2Pos = TOP;
 		}
 		// point2 BOTTOM -> clip with y=height
 		else if (attr2[BOTTOM]) {
-			y2 = view.getHeight() + EuclidianStatic.CLIP_DISTANCE;
+			y2 = maxy + EuclidianStatic.CLIP_DISTANCE;
 			x2 = (y2 - d) / k;
 			p2Pos = BOTTOM;
 		}
@@ -325,12 +325,13 @@ public class DrawLine extends Drawable implements Previewable {
 	// Cohen & Sutherland algorithm for line clipping on a rectangle
 	// Computergraphics I (Prof. Held) pp.100
 	// points (x1, 0), (x2, height) -> clip on x=0 and x=width
-	final private void clipLeftRight() {
+	final private void clipLeftRight(double minx, double miny, double maxx,
+			double maxy) {
 		// calc clip attributes for both points (x1,y1), (x2,y2)
-		attr1[LEFT] = x1 < -EuclidianStatic.CLIP_DISTANCE;
-		attr1[RIGHT] = x1 > view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
-		attr2[LEFT] = x2 < -EuclidianStatic.CLIP_DISTANCE;
-		attr2[RIGHT] = x2 > view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
+		attr1[LEFT] = x1 < minx - EuclidianStatic.CLIP_DISTANCE;
+		attr1[RIGHT] = x1 > maxx + EuclidianStatic.CLIP_DISTANCE;
+		attr2[LEFT] = x2 < minx - EuclidianStatic.CLIP_DISTANCE;
+		attr2[RIGHT] = x2 > maxx + EuclidianStatic.CLIP_DISTANCE;
 
 		// both points outside (LEFT or RIGHT)
 		if ((attr1[LEFT] && attr2[LEFT]) || (attr1[RIGHT] && attr2[RIGHT])) {
@@ -339,26 +340,26 @@ public class DrawLine extends Drawable implements Previewable {
 		// at least one point inside -> clip
 		// point1 LEFT -> clip with x=0
 		if (attr1[LEFT]) {
-			x1 = -EuclidianStatic.CLIP_DISTANCE;
+			x1 = minx - EuclidianStatic.CLIP_DISTANCE;
 			y1 = (x1 - d) / k;
 			p1Pos = LEFT;
 		}
 		// point1 RIGHT -> clip with x=width
 		else if (attr1[RIGHT]) {
-			x1 = view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
+			x1 = maxx + EuclidianStatic.CLIP_DISTANCE;
 			y1 = (x1 - d) / k;
 			p1Pos = RIGHT;
 		}
 
 		// point2 LEFT -> clip with x=0
 		if (attr2[LEFT]) {
-			x2 = -EuclidianStatic.CLIP_DISTANCE;
+			x2 = minx - EuclidianStatic.CLIP_DISTANCE;
 			y2 = (x2 - d) / k;
 			p2Pos = LEFT;
 		}
 		// point2 RIGHT -> clip with x=width
 		else if (attr2[RIGHT]) {
-			x2 = view.getWidth() + EuclidianStatic.CLIP_DISTANCE;
+			x2 = maxx + EuclidianStatic.CLIP_DISTANCE;
 			y2 = (x2 - d) / k;
 			p2Pos = RIGHT;
 		}
@@ -670,7 +671,8 @@ public class DrawLine extends Drawable implements Previewable {
 			gx = ((GeoLine) g).x;
 			gy = ((GeoLine) g).y;
 			gz = ((GeoLine) g).z;
-			setClippedLine();
+			setClippedLine(view.getMinXScreen(), view.getMinYScreen(),
+					view.getMaxXScreen(), view.getMaxYScreen());
 
 		}
 

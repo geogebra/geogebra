@@ -149,7 +149,7 @@ public class DrawRay extends Drawable implements Previewable {
 		setClippedLine();
 
 		// line on screen?
-		if (!line.intersects(0, 0, view.getWidth(), view.getHeight())) {
+		if (!view.intersects(line)) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
@@ -199,16 +199,16 @@ public class DrawRay extends Drawable implements Previewable {
 		double lambda;
 		if (Math.abs(v[0]) > Math.abs(v[1])) {
 			if (v[0] > 0) {
-				lambda = (view.getWidth() - a[0]) / v[0];
+				lambda = (view.getMaxXScreen() - a[0]) / v[0];
 			} else {
 				// LEFT
-				lambda = -a[0] / v[0];
+				lambda = (view.getMinXScreen() - a[0]) / v[0];
 			}
 		} else {
 			if (v[1] > 0) {
-				lambda = (view.getHeight() - a[1]) / v[1];
+				lambda = (view.getMaxYScreen() - a[1]) / v[1];
 			} else {
-				lambda = -a[1] / v[1];
+				lambda = (view.getMinYScreen() - a[1]) / v[1];
 			}
 		}
 
@@ -226,10 +226,10 @@ public class DrawRay extends Drawable implements Previewable {
 			// clip ray at screen, that's important for huge coordinates of A
 			GPoint2D[] clippedPoints = ClipLine.getClipped(a[0], a[1],
 					a[0] + lambda * v[0], a[1] + lambda * v[1],
-					-EuclidianStatic.CLIP_DISTANCE,
-					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
-					-EuclidianStatic.CLIP_DISTANCE,
-					view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
+					view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
+					view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
+					view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
+					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE);
 			if (clippedPoints == null) {
 				isVisible = false;
 			} else {

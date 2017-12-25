@@ -143,8 +143,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 			}
 
 			// polygon on screen?
-			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())
-					&& !geo.isInverseFill()) {
+			if (!view.intersects(gp) && !geo.isInverseFill()) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too

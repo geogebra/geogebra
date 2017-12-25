@@ -174,10 +174,10 @@ public class DrawSegment extends Drawable implements Previewable {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
 			isVisible = drawClipped(coordsA, coordsB, line,
-					-EuclidianStatic.CLIP_DISTANCE,
-					view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
-					-EuclidianStatic.CLIP_DISTANCE,
-					view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
+					view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
+					view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
+					view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
+					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE);
 		}
 
 		// draw trace

@@ -129,7 +129,7 @@ public class DrawParametricCurve extends Drawable {
 		}
 
 		// gp on screen?
-		if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
+		if (!view.intersects(gp)) {
 			isVisible = false;
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too

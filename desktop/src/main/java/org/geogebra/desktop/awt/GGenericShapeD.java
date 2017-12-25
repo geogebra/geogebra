@@ -16,8 +16,8 @@ public class GGenericShapeD implements GShapeD {
 	}
 
 	@Override
-	public boolean intersects(int i, int j, int k, int l) {
-		return impl.intersects(i, j, k, l);
+	public boolean intersects(int x, int y, int w, int h) {
+		return impl.intersects(x, y, w, h);
 	}
 
 	public static Shape getAwtShape(GShape s) {

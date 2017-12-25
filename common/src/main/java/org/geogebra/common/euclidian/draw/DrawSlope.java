@@ -105,7 +105,7 @@ public class DrawSlope extends Drawable {
 			// closePath important for clipping: #4048
 			gp.closePath();
 			// gp on screen?
-			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
+			if (!view.intersects(gp)) {
 				isVisible = false;
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too

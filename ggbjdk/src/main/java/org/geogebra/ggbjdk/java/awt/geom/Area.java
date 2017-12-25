@@ -679,8 +679,8 @@ public class Area implements Shape, GArea {
     }
 
 	@Override
-	public boolean intersects(int i, int j, int k, int l) {
-		return intersects((double)i, (double)j, (double)k, (double)l);
+	public boolean intersects(int x, int y, int w, int h) {
+		return intersects((double)x, (double)y, (double)w, (double)h);
 	}
 
 	@Override

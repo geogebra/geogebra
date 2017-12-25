@@ -398,8 +398,7 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 
 		// shape on screen?
-		GRectangle viewRect = AwtFactory.getPrototype().newRectangle(0, 0,
-				view.getWidth(), view.getHeight());
+		GRectangle viewRect = view.getFrame();
 		switch (type) {
 		default:
 			// do nothing
@@ -414,6 +413,8 @@ public class DrawConic extends Drawable implements Previewable {
 			isVisible = checkHyperbolaOnScreen(viewRect);
 			break;
 		}
+
+		// Log.debug("isVisible = " + isVisible);
 
 		if (!isVisible) {
 			return;
@@ -1396,6 +1397,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 	@Override
 	final public void draw(GGraphics2D g2) {
+
 		if (!isVisible) {
 			return;
 		}
