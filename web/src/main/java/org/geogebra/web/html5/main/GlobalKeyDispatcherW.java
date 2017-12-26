@@ -9,6 +9,7 @@ import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.GlobalKeyDispatcher;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
@@ -40,9 +41,8 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Handles keyboard events.
  */
-public class GlobalKeyDispatcherW extends
-        org.geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler,
-        KeyDownHandler, KeyPressHandler {
+public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
+		implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
 	private boolean keydownPreventsDefaultKeypressTAB = false;
@@ -56,7 +56,7 @@ public class GlobalKeyDispatcherW extends
 
 
 	/**
-	 * @return whether ctrll is pressed
+	 * @return whether ctrl is pressed
 	 */
 	public static boolean getControlDown() {
 		return controlDown;
