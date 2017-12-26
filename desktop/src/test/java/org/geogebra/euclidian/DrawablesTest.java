@@ -6,6 +6,7 @@ import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.junit.Assert;
@@ -55,6 +56,8 @@ public class DrawablesTest {
 		for (GeoClass type : GeoClass.values()) {
 			Assert.assertTrue(type + "",
 					types.contains(type)
+							|| (GeoClass.IMPLICIT_SURFACE_3D == type
+									&& !app.has(Feature.IMPLICIT_SURFACES))
 							|| GeoClass.CAS_CELL == type
 							|| GeoClass.SPACE == type
 							|| GeoClass.DEFAULT == type

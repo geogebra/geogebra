@@ -266,7 +266,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// FILE fields
 	// ==============================================================
 
-	private static LinkedList<File> fileList = new LinkedList<File>();
+	private static LinkedList<File> fileList = new LinkedList<>();
 	protected File currentPath, currentImagePath, currentFile = null;
 
 	/**
@@ -573,9 +573,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			}
 		}
 
-		if (isUsingFullGui() && (tmpPerspectives != null)) {
+		if (isUsingFullGui() && (getTmpPerspectives() != null)) {
 			getGuiManager().getLayout()
-					.setPerspectives(tmpPerspectives, PerspectiveDecoder.decode(
+					.setPerspectives(getTmpPerspectives(),
+							PerspectiveDecoder.decode(
 							this.perspectiveParam, getKernel().getParser(),
 							ToolBar.getAllToolsNoMacros(false, false, this)));
 		}
@@ -962,7 +963,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			int count = 0;
 
-			ArrayList<String> errors = new ArrayList<String>();
+			ArrayList<String> errors = new ArrayList<>();
 
 			// Open the file
 			FileInputStream fstream;
@@ -1809,17 +1810,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 */
 	private boolean isJustEuclidianVisible()
 			throws OperationNotSupportedException {
-		if (tmpPerspectives == null) {
-			throw new OperationNotSupportedException();
-		}
-
-		Perspective docPerspective = null;
-
-		for (Perspective perspective : tmpPerspectives) {
-			if (perspective.getId().equals("tmp")) {
-				docPerspective = perspective;
-			}
-		}
+		Perspective docPerspective = getTmpPerspective(null);
 
 		if (docPerspective == null) {
 			throw new OperationNotSupportedException();
@@ -5047,7 +5038,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		getCopyPaste().copyToXML(ad, new ArrayList<GeoElement>(ad.getKernel()
+		getCopyPaste()
+				.copyToXML(ad,
+						new ArrayList<>(ad.getKernel()
 				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
 				true);
 

@@ -561,10 +561,6 @@ public class AppWapplet extends AppWFull {
 	 * @return
 	 */
 	private boolean isJustEuclidianVisible() {
-		if (tmpPerspectives == null) {
-			return true;
-		}
-
 		Perspective docPerspective = getTmpPerspective(null);
 
 		if (docPerspective == null) {
@@ -583,17 +579,6 @@ public class AppWapplet extends AppWFull {
 		}
 
 		return justEuclidianVisible;
-	}
-
-	private Perspective getTmpPerspective(Perspective fallback) {
-
-		for (Perspective perspective : tmpPerspectives) {
-			if (perspective.getId().equals("tmp")) {
-				return perspective;
-			}
-		}
-		return fallback;
-
 	}
 
 	@Override

@@ -314,7 +314,7 @@ public abstract class App implements UpdateSelection {
 	 */
 	protected boolean showMenuBar = true;
 	protected String uniqueId;
-	protected ArrayList<Perspective> tmpPerspectives = new ArrayList<>();
+	private ArrayList<Perspective> tmpPerspectives = new ArrayList<>();
 	/**
 	 * whether toolbar should be visible
 	 */
@@ -5111,6 +5111,23 @@ public abstract class App implements UpdateSelection {
 	public void enableCAS(boolean enable) {
 	    getSettings().getCasSettings().setEnabled(enable);
 	    getKernel().getAlgebraProcessor().reinitCommands();
+	}
+
+	/**
+	 * @param fallback
+	 *            value in case temp perspective is not defined
+	 * @return perspective called "tmp" or given fallback
+	 */
+	public Perspective getTmpPerspective(Perspective fallback) {
+		if (tmpPerspectives == null) {
+			return fallback;
+		}
+		for (Perspective perspective : tmpPerspectives) {
+			if (perspective.getId().equals("tmp")) {
+				return perspective;
+			}
+		}
+		return fallback;
 	}
 
 }

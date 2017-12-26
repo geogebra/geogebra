@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
@@ -431,8 +432,10 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdImplicitSurface() {
-		t("ImplicitSurface[sin(x)+sin(y)+sin(z)]",
+		if (app.has(Feature.IMPLICIT_SURFACES)) {
+			t("ImplicitSurface[sin(x)+sin(y)+sin(z)]",
 				"sin(x) + sin(y) + sin(z) = 0");
+		}
 	}
 
 	@Test

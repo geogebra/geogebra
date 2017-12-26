@@ -27,6 +27,8 @@ import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.gui.Layout;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.io.layout.DockPanelData;
+import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.jre.factory.FormatFactoryJre;
 import org.geogebra.common.jre.plugin.GgbAPIJre;
 import org.geogebra.common.kernel.Construction;
@@ -188,7 +190,14 @@ public class AppDNoGui extends App {
 
 	@Override
 	public boolean showView(int view) {
-		// TODO Auto-generated method stub
+		Perspective p = this.getTmpPerspective(null);
+		if (p != null) {
+			for (DockPanelData dp : p.getDockPanelData()) {
+				if (dp.getViewId() == view) {
+					return dp.isVisible();
+				}
+			}
+		}
 		return false;
 	}
 
@@ -798,9 +807,9 @@ public class AppDNoGui extends App {
 
 	public void testFeatures() {
 		boolean pre = prerelease;
-		ArrayList<Feature> stable = new ArrayList<Feature>();
-		ArrayList<Feature> beta = new ArrayList<Feature>();
-		ArrayList<Feature> dead = new ArrayList<Feature>();
+		ArrayList<Feature> stable = new ArrayList<>();
+		ArrayList<Feature> beta = new ArrayList<>();
+		ArrayList<Feature> dead = new ArrayList<>();
 
 		for(Feature f:Feature.values()){
 

@@ -593,4 +593,8 @@ public class Perspective {
 		return perspectiveSlugs[perspID];
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
 }
