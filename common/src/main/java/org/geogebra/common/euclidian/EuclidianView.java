@@ -6236,14 +6236,27 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				getMaxYScreen() - getMinYScreen());
 	}
 
+	/**
+	 * This default implementation does NOT draw "white" outlines (actually
+	 * outline color is taken from view's background color)
+	 * 
+	 * It's currently over-ridden in web to draw white outlines for axes numbers
+	 * and GeoElement labels
+	 * 
+	 * @param g2
+	 *            canvas
+	 * @param text
+	 *            text
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y=coord
+	 * @param col
+	 *            text color
+	 */
 	public void drawStringWithOutline(GGraphics2D g2, String text, double x,
 			double y, GColor col) {
-		g2.setColor(getBackgroundCommon());
-		g2.setStrokeLineWidth(getFontAxes().getSize() / 3d);
-		g2.drawStringStroke(text, x, y);
-
 		g2.setColor(col);
 		g2.drawString(text, x, y);
-
 	}
 }
