@@ -118,7 +118,7 @@ public class TeXSerializer extends SerializerAdapter {
 				}
 				boolean emptyFormula = stringBuilder
 						.substring(lengthBefore, stringBuilder.length())
-						.replace("\\nbsp", "").replace(cursor, "").trim()
+						.trim().replace("\\nbsp", "").replace(cursor, "")
 						.isEmpty();
 				if(emptyFormula){
 					String cursorFix = stringBuilder.toString().replace(cursor,cursorBig);

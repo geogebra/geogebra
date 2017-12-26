@@ -41,6 +41,12 @@ task wrapper(type: Wrapper) {
 	gradleVersion = gradleVersionGGB
 }
 
+task checkPmd(dependsOn: [':common:pmdMain', ':common-jre:pmdMain', ':web:pmdMain', 
+	':editor-base:pmdMain',':keyboard-web:pmdMain',':keyboard-base:pmdMain']){
+	description "run PMD for all subprojects with pmd conf"
+}
+
+
 // eclipse related tasks
 project(':common') {
 	

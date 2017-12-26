@@ -16,7 +16,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class KeyboardInputAdapter {
 
-	private static final char e = Unicode.EULER_CHAR;
+	protected static final char e = Unicode.EULER_CHAR;
 	private static final char divide = Unicode.DIVIDE;
 	private static final char times = Unicode.MULTIPLY;
 	private static final char minus = Unicode.MINUS;

@@ -608,10 +608,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			((MathFieldAsync) mathField).requestViewFocus(new Runnable() {
 
 				public void run() {
-					if (listener != null) {
-						listener.onKeyTyped();
-					}
-
+					onKeyTyped();
 				}
 			});
 		} else {
@@ -621,9 +618,17 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 				listener.onKeyTyped();
 			}
 		}
-
 	}
-
+	
+	/**
+	 * Trigger the listener
+	 */
+	protected void onKeyTyped(){
+		if (listener != null) {
+			listener.onKeyTyped();
+		}
+	}
+	
 	public void insertFunction(String text) {
 		inputController.newFunction(editorState, text, "frac".equals(text) ? 1
 				: 0, false);
