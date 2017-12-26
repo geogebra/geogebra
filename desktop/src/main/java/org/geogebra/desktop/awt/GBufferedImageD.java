@@ -43,8 +43,8 @@ public class GBufferedImageD implements GBufferedImage {
 	}
 
 	@Override
-	public GBufferedImage getSubimage(int i, int j, int size, int size2) {
-		return new GBufferedImageD(impl.getSubimage(i, j, size, size2));
+	public GBufferedImage getSubimage(int x, int y, int w, int h) {
+		return new GBufferedImageD(impl.getSubimage(x, y, w, h));
 	}
 
 	/**

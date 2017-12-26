@@ -60,8 +60,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public void rememberOrigins();
 
-	public void translateCoordSystemInPixels(int i, int j, int k,
-	        int modeTranslateview);
+	public void translateCoordSystemInPixels(int dx, int dy, int dz, int mode);
 
 	public void setHits(GPoint gPoint, PointerEventType touch);
 

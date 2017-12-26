@@ -422,24 +422,23 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	@Override
-	public boolean contains(double arg0, double arg1) {
-		return getGeneralPath().contains(arg0, arg1);
+	public boolean contains(double x, double y) {
+		return getGeneralPath().contains(x, y);
 	}
 
 	/**
-	 * @param arg0
+	 * @param x
 	 *            x min
-	 * @param arg1
+	 * @param y
 	 *            y min
-	 * @param arg2
+	 * @param w
 	 *            width
-	 * @param arg3
+	 * @param arhg3
 	 *            height
 	 * @return true if contains rectangle given by args
 	 */
-	public boolean contains(double arg0, double arg1, double arg2,
-			double arg3) {
-		return getGeneralPath().contains(arg0, arg1, arg2, arg3);
+	public boolean contains(double x, double y, double w, double h) {
+		return getGeneralPath().contains(x, y, w, h);
 	}
 
 	@Override
@@ -488,14 +487,13 @@ public class GeneralPathClipped implements GShape {
 	}
 
 	@Override
-	public boolean intersects(double arg0, double arg1, double arg2,
-			double arg3) {
-		return getGeneralPath().intersects(arg0, arg1, arg2, arg3);
+	public boolean intersects(double x, double y, double w, double h) {
+		return getGeneralPath().intersects(x, y, w, h);
 	}
 
 	@Override
-	public boolean intersects(int i, int j, int k, int l) {
-		return getGeneralPath().intersects(i, j, k, l);
+	public boolean intersects(int x, int y, int w, int h) {
+		return getGeneralPath().intersects(x, y, w, h);
 	}
 
 	/**

@@ -2,7 +2,7 @@ package org.geogebra.common.awt;
 
 public interface GShape {
 
-	boolean intersects(int i, int j, int k, int l);
+	boolean intersects(int x, int y, int w, int h);
 
 	boolean contains(int x, int y);
 
@@ -12,7 +12,7 @@ public interface GShape {
 
 	boolean contains(GRectangle2D rectangle);
 
-	boolean contains(double xTry, double yTry);
+	boolean contains(double x, double y);
 
 	GPathIterator getPathIterator(GAffineTransform affineTransform);
 

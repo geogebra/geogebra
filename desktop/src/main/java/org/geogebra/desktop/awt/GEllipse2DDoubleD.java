@@ -21,8 +21,8 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 		impl = ellipse;
 	}
 
-	public GEllipse2DDoubleD(double i, double j, double k, double l) {
-		impl = new Ellipse2D.Double(i, j, k, l);
+	public GEllipse2DDoubleD(double x, double y, double w, double h) {
+		impl = new Ellipse2D.Double(x, y, w, h);
 	}
 
 	@Override
@@ -88,8 +88,9 @@ public class GEllipse2DDoubleD implements GRectangularShapeD, GEllipse2DDouble {
 	}
 
 	@Override
-	public void setFrameFromCenter(double i, double j, double d, double e) {
-		impl.setFrameFromCenter(i, j, d, e);
+	public void setFrameFromCenter(double centerX, double centerY,
+			double cornerX, double cornerY) {
+		impl.setFrameFromCenter(centerX, centerY, cornerX, cornerY);
 
 	}
 

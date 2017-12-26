@@ -10,7 +10,7 @@ public interface GBufferedImage {
 
 	GGraphics2D createGraphics();
 
-	GBufferedImage getSubimage(int i, int j, int size, int size2);
+	GBufferedImage getSubimage(int x, int y, int w, int h);
 
 	void flush();
 

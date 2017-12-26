@@ -64,11 +64,11 @@ public abstract class AwtFactory {
 
 	public abstract GPoint2D newPoint2D();
 
-	public abstract GRectangle newRectangle(int i, int j);
+	public abstract GRectangle newRectangle(int w, int h);
 
 	public abstract GRectangle newRectangle();
 
-	public abstract GPoint2D newPoint2D(double d, double coord);
+	public abstract GPoint2D newPoint2D(double x, double y);
 
 	public abstract GGeneralPath newGeneralPath();
 
@@ -87,14 +87,13 @@ public abstract class AwtFactory {
 
 	public abstract GEllipse2DDouble newEllipse2DDouble();
 
-	public abstract GEllipse2DDouble newEllipse2DDouble(double i, double j,
-			double k, double l);
+	public abstract GEllipse2DDouble newEllipse2DDouble(double x, double y,
+			double w, double h);
 
 	public abstract GArc2D newArc2D();
 
 	public abstract GQuadCurve2D newQuadCurve2D();
 
-	/* public abstract Area newArea(GeneralPathClipped hypRight); */
 	public abstract GArea newArea();
 
 	public abstract GArea newArea(GShape shape);

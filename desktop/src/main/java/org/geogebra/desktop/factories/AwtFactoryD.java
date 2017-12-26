@@ -135,8 +135,8 @@ public class AwtFactoryD extends AwtFactory {
 	 */
 
 	@Override
-	public GRectangle newRectangle(int i, int j) {
-		return new GRectangleD(i, j);
+	public GRectangle newRectangle(int w, int h) {
+		return new GRectangleD(w, h);
 	}
 
 	@Override
@@ -193,9 +193,9 @@ public class AwtFactoryD extends AwtFactory {
 	}
 
 	@Override
-	public GEllipse2DDouble newEllipse2DDouble(double i, double j, double k,
-			double l) {
-		return new GEllipse2DDoubleD(i, j, k, l);
+	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double w,
+			double h) {
+		return new GEllipse2DDoubleD(x, y, w, h);
 	}
 
 	@Override

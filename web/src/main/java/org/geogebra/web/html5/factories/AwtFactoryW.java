@@ -148,9 +148,9 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GEllipse2DDouble newEllipse2DDouble(double i, double j, double k,
-			double l) {
-		return new Ellipse2D.Double(i, j, k, l);
+	public GEllipse2DDouble newEllipse2DDouble(double x, double y, double w,
+			double h) {
+		return new Ellipse2D.Double(x, y, w, h);
 	}
 
 	@Override

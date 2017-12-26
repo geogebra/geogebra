@@ -141,9 +141,8 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 	}
 
 	@Override
-	public boolean contains(double arg0, double arg1, double arg2,
-			double arg3) {
-		return impl.contains(arg0, arg1, arg2, arg3);
+	public boolean contains(double x, double y, double w, double h) {
+		return impl.contains(x, y, w, h);
 	}
 
 	@Override
@@ -155,9 +154,9 @@ public class GGeneralPathD implements GGeneralPath, GShapeD {
 	}
 
 	@Override
-	public void curveTo(double f, double g, double h, double i, double j,
-			double k) {
-		impl.curveTo(f, g, h, i, j, k);
+	public void curveTo(double x1, double y1, double x2, double y2, double x3,
+			double y3) {
+		impl.curveTo(x1, y1, x2, y2, x3, y3);
 
 	}
 }
