@@ -72,7 +72,7 @@ public abstract class CanvasDrawable extends Drawable {
 				g2.setFont(getLabelFont());
 				setLabelSize(
 						EuclidianStatic.drawIndexedString(view.getApplication(),
-								g2, text, 0, 0, false, false));
+								g2, text, 0, 0, false));
 			}
 			calculateBoxBounds(latex);
 		} else {
@@ -124,7 +124,8 @@ public abstract class CanvasDrawable extends Drawable {
 			g2.setPaint(geo.getObjectColor());
 
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-					xLabel, yLabel + getTextBottom(), false);
+					xLabel, yLabel + getTextBottom(), false, view,
+					geo.getObjectColor());
 		}
 
 	}

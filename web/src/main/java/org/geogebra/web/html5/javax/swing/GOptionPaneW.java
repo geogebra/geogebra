@@ -78,7 +78,7 @@ public class GOptionPaneW extends GDialogBox
 
 	protected void close() {
 		// if hide is called before the callback the callback can create another
-		// Message (without being hidden instantanousely)!
+		// Message (without being hidden instantaneously)!
 		hide();
 
 		if (requiresReturnValue) {

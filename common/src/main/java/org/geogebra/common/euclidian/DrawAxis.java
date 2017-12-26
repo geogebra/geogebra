@@ -265,7 +265,8 @@ public class DrawAxis {
 			g2.setFont(font);
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 					view.axesLabels[1], x,
-					(int) (5 + layout.getAscent()), false);
+					(int) (5 + layout.getAscent()), false, view,
+					view.axesColor);
 			g2.setFont(old);
 		}
 
@@ -299,7 +300,7 @@ public class DrawAxis {
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2,
 					view.axesLabels[0],
 					view.getWidth() - 10 - layout.getAdvance(),
-					y, false);
+					y, false, view, view.axesColor);
 			g2.setFont(old);
 		}
 
@@ -851,13 +852,7 @@ public class DrawAxis {
 	void drawString(GGraphics2D g2, String text, double x, double y) {
 
 		
-		g2.setColor(view.getBackgroundCommon());
-		g2.setStrokeLineWidth(view.getFontAxes().getSize() / 3d);
-		g2.drawStringStroke(text, x, y);
-
-		g2.setColor(view.axesColor);
-		g2.drawString(text, x, y);
-
+		view.drawStringWithOutline(g2, text, x, y, view.axesColor);
 	}
 
 	private void drawXTicksLinear(GGraphics2D g2, double yCrossPix,

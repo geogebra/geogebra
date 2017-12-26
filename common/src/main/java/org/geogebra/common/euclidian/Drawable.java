@@ -264,14 +264,16 @@ public abstract class Drawable extends DrawableND {
 		int fontSize = g2.getFont().getSize();
 		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex
 				&& lastFontSize == fontSize) {
-			g2.drawString(label, xLabel, yLabel);
+			view.drawStringWithOutline(g2, label, xLabel, yLabel,
+					geo.getObjectColor());
 			labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		} else { // label with index or label has changed:
 					// do the slower index drawing routine and check for indices
 			oldLabelDesc = labelDesc;
 
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
-					g2, label, xLabel, yLabel, isSerif());
+					g2, label, xLabel, yLabel, isSerif(), view,
+					geo.getObjectColor());
 			labelHasIndex = p.y > 0;
 			labelRectangle.setBounds(xLabel, yLabel - fontSize, p.x,
 					fontSize + p.y);

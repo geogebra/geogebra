@@ -358,6 +358,11 @@ public class EuclidianStatic {
 		return f.deriveFont(f.getStyle(), newSize);
 	}
 
+	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
+			double xPos, double yPos, boolean serif) {
+		return drawIndexedString(app, g3, str, xPos, yPos, serif, null, null);
+	}
+
 	/**
 	 * Always draws a string str with possible indices to g2 at position x, y.
 	 * The indices are drawn using the given indexFont. Examples for strings
@@ -379,10 +384,11 @@ public class EuclidianStatic {
 	 * @return additional pixel needed to draw str (x-offset, y-offset)
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
-			double xPos, double yPos, boolean serif) {
+			double xPos, double yPos, boolean serif, EuclidianView view,
+			GColor col) {
 
 		return drawIndexedString(app, g3, str, xPos, yPos, serif, 
-				true);
+				true, view, col);
 	}
 
 	/**
@@ -409,7 +415,7 @@ public class EuclidianStatic {
 	 */
 	public static GPoint drawIndexedString(App app, GGraphics2D g3, String str,
 			double xPos, double yPos, boolean serif,
-			boolean doDraw) {
+			boolean doDraw, EuclidianView view, GColor col) {
 
 		GFont g2font = g3.getFont();
 		g2font = app.getFontCanDisplay(str, serif, g2font.getStyle(),
@@ -447,7 +453,8 @@ public class EuclidianStatic {
 
 					if (doDraw) {
 						g3.setFont(font);
-						g3.drawString(tempStr, x, y);
+						drawString(view, g3, tempStr, x, y, col);
+
 					}
 
 					x += measureString(tempStr, font, frc);
@@ -466,7 +473,7 @@ public class EuclidianStatic {
 					String tempStr = str.substring(startPos, startPos + 1);
 					if (doDraw) {
 						g3.setFont(font);
-						g3.drawString(tempStr, x, y);
+						drawString(view, g3, tempStr, x, y, col);
 					}
 					x += measureString(tempStr, font, frc);
 					depth--;
@@ -486,7 +493,7 @@ public class EuclidianStatic {
 						String tempStr = str.substring(startPos, i);
 						if (doDraw) {
 							g3.setFont(font);
-							g3.drawString(tempStr, x, y);
+							drawString(view, g3, tempStr, x, y, col);
 						}
 						x += measureString(tempStr, font, frc);
 					}
@@ -506,7 +513,7 @@ public class EuclidianStatic {
 			String tempStr = str.substring(startPos);
 			if (doDraw) {
 				g3.setFont(font);
-				g3.drawString(tempStr, x, y);
+				drawString(view, g3, tempStr, x, y, col);
 			}
 			x += measureString(tempStr, font, frc);
 		}
@@ -516,6 +523,16 @@ public class EuclidianStatic {
 		}
 		return new GPoint((int) Math.round(x - xPos),
 				(int) Math.round(maxY - yPos));
+
+	}
+
+	private static void drawString(EuclidianView view, GGraphics2D g3,
+			String tempStr, double x, double y, GColor col) {
+		if (view != null) {
+			view.drawStringWithOutline(g3, tempStr, x, y, col);
+		} else {
+			g3.drawString(tempStr, x, y);
+		}
 
 	}
 

@@ -6236,4 +6236,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				getMaxYScreen() - getMinYScreen());
 	}
 
+	public void drawStringWithOutline(GGraphics2D g2, String text, double x,
+			double y, GColor col) {
+		g2.setColor(getBackgroundCommon());
+		g2.setStrokeLineWidth(getFontAxes().getSize() / 3d);
+		g2.drawStringStroke(text, x, y);
+
+		g2.setColor(col);
+		g2.drawString(text, x, y);
+
+	}
 }

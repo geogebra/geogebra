@@ -177,7 +177,8 @@ public class DrawSlope extends Drawable {
 				g2.setPaint(slope.getLabelColor());
 				g2.setFont(view.getFontLine());
 				drawLabel(g2);
-				g2.drawString(horLabel, xLabelHor, yLabelHor);
+				view.drawStringWithOutline(g2, horLabel, xLabelHor, yLabelHor,
+						geo.getObjectColor());
 			}
 		}
 	}
