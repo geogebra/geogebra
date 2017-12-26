@@ -2,24 +2,21 @@ package org.geogebra.main;
 
 import java.util.Locale;
 
-import javax.swing.JFrame;
-
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.geogebra3D.App3D;
-import org.geogebra.desktop.plugin.GgbAPID;
+import org.geogebra.common.plugin.GgbAPI;
+import org.geogebra.desktop.main.AppDNoGui;
+import org.geogebra.desktop.main.LocalizationD;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class APITest {
-	private static App3D app;
-	private static GgbAPID api;
+	private static AppDNoGui app;
+	private static GgbAPI api;
 
 	@BeforeClass
 	public static void setupApp() {
-		app = new App3D(new CommandLineArguments(
-				new String[] { "--prerelease" }), new JFrame(), false);
+		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 		api = app.getGgbApi();
 		// Setting the general timeout to 11 seconds. Feel free to change this.

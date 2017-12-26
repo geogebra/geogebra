@@ -93,6 +93,8 @@ run {
 }
 test {
 	systemProperty "materials.token", project.hasProperty("materialsTokenPath") ? file( project.getProperty("materialsTokenPath")).getText() : "";
+    systemProperty "ggb.prerelease", project.findProperty("prerelease") ?: "true";
+    
     ignoreFailures = true
     outputs.upToDateWhen { false }
 }

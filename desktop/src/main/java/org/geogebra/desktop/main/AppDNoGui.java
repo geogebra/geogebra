@@ -111,6 +111,11 @@ public class AppDNoGui extends App {
 		}
 
 		prerelease = true;
+		String prop = System.getProperty("ggb.prerelease");
+		if ("false".equals(prop)) {
+			prerelease = false;
+		}
+		Log.debug(prerelease ? "Start up prerelese." : "Start up stable.");
 		initFactories();
 		this.kernel = new Kernel3D(this, new GeoFactory3D());
 		settings = companion.newSettings();
