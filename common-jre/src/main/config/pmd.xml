@@ -23,7 +23,6 @@
 
 	<!-- Here's some rules we'll specify one at a time -->
 	<rule ref="rulesets/java/unusedcode.xml">
-		<exclude name="UnusedModifier" />
 	</rule>
 
 
@@ -61,7 +60,7 @@
 	<exclude name="UseUtilityClass"/>
 	<exclude name="SimplifyBooleanReturns"/>
 	<exclude name="UseLocaleWithCaseConversions"/>
-	<exclude name="AvoidConstantsInterface"/>
+	<exclude name="ConstantsInInterface"/>
 	<exclude name="AbstractClassWithoutAbstractMethod"/>
 	<exclude name="UncommentedEmptyConstructor"/>
 	<exclude name="OptimizableToArrayCall"/>

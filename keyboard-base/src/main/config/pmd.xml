@@ -29,9 +29,6 @@
 
 	<!-- Here's some rules we'll specify one at a time -->
 	<rule ref="rulesets/java/unusedcode.xml">
-		<exclude name="UnusedModifier" />
-		<exclude name="UnusedPrivateMethod" />
-		<exclude name="UnusedPrivateField" />
 	</rule>
 
 	<rule ref="rulesets/java/unnecessary.xml">
@@ -77,7 +74,7 @@
 	<exclude name="UseUtilityClass"/>
 	<exclude name="SimplifyBooleanReturns"/>
 	<exclude name="UseLocaleWithCaseConversions"/>
-	<exclude name="AvoidConstantsInterface"/>
+	<exclude name="ConstantsInInterface"/>
 	<exclude name="UncommentedEmptyConstructor"/>
 	<exclude name="OptimizableToArrayCall"/>
 	<exclude name="PreserveStackTrace"/>

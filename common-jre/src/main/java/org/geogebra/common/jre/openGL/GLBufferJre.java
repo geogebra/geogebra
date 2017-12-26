@@ -11,6 +11,9 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.GLBuffer;
  */
 public class GLBufferJre implements GLBuffer {
 	private FloatBuffer impl;
+	private boolean isEmpty;
+	private int currentLength;
+
 
 	/**
 	 * constructor from float array
@@ -18,10 +21,6 @@ public class GLBufferJre implements GLBuffer {
 	public GLBufferJre() {
 		isEmpty = true;
 	}
-
-	private boolean isEmpty;
-
-	private int currentLength;
 
 	@Override
 	public boolean isEmpty() {

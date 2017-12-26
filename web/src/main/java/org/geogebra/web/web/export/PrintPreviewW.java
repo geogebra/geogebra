@@ -273,7 +273,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	}
 
 	private static void removePrintPanelFromDOM() {
-		NodeList<com.google.gwt.dom.client.Element> pp = Dom
+		NodeList<Element> pp = Dom
 				.getElementsByClassName("printPanel");
 		if (pp.getLength() != 0) {
 			pp.getItem(0).removeFromParent();

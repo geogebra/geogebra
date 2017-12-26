@@ -67,7 +67,7 @@ public class KeyListenerImpl {
 			if (InputController.trySelectNext(editorState)) {
 				return true;
 			}
-			cursorController.nextCharacter(editorState);
+			CursorController.nextCharacter(editorState);
 			if ((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0) {
 				editorState.extendSelection(false);
 			} else {
@@ -98,7 +98,7 @@ public class KeyListenerImpl {
 			if (!InputController.trySelectNext(editorState)) {
 				if (!InputController.trySelectFirst(editorState)) {
 					onTab((keyEvent.getKeyModifiers() & KeyEvent.SHIFT_MASK) > 0);
-				};
+				}
 			}
 			return true;
 		default:

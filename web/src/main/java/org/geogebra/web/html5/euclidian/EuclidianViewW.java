@@ -1258,7 +1258,7 @@ public class EuclidianViewW extends EuclidianView implements
 				Window.print();
 
 				// PrintPreviewW.removePrintPanelFromDOM();
-				NodeList<com.google.gwt.dom.client.Element> pp = Dom
+				NodeList<Element> pp = Dom
 						.getElementsByClassName("printPanel");
 				if (pp.getLength() != 0) {
 					pp.getItem(0).removeFromParent();

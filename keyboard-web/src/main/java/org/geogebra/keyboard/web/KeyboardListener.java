@@ -21,11 +21,11 @@ public interface KeyboardListener {
 	}
 
 	/** ASCII */
-	public static final int BACKSPACE = 8;
+	int BACKSPACE = 8;
 	/**
 	 * enter
 	 */
-	public static final int ENTER = '\r'; // 13;
+	int ENTER = '\r'; // 13;
 	/**
 	 * Focus/Blur the text field
 	 * 
@@ -81,12 +81,12 @@ public interface KeyboardListener {
 	 * @param text
 	 *            true if text
 	 */
-	public void setKeyBoardModeText(boolean text);
+	void setKeyBoardModeText(boolean text);
 
 	/**
 	 * @return true if spreadsheet view
 	 */
-	public boolean isSVCell();
+	boolean isSVCell();
 
 	/**
 	 * end editing

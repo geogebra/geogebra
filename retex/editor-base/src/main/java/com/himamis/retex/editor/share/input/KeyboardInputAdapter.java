@@ -22,7 +22,7 @@ public class KeyboardInputAdapter {
 	private static final char minus = Unicode.MINUS;
     private static final List<KeyboardAdapter> adapters;
     private static final KeyboardAdapter commandAdapter;
-    private static final String[] allowedCharacterCategories = {
+    /*private static final String[] allowedCharacterCategories = {
             Character.DECIMAL_DIGIT_NUMBER,
             Character.OTHER_NUMBER,
             Character.LOWERCASE_LETTER,
@@ -36,7 +36,7 @@ public class KeyboardInputAdapter {
             Character.SPACE_SEPARATOR,
             Character.LETTER_NUMBER,
             Character.DASH_PUNCTUATION
-    };
+    };*/
 
     static {
         adapters = new ArrayList<KeyboardAdapter>();

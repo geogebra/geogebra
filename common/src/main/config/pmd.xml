@@ -29,10 +29,10 @@
 
 	<!-- Here's some rules we'll specify one at a time -->
 	<rule ref="rulesets/java/unusedcode.xml">
-		<exclude name="UnusedModifier" />
 	</rule>
 
 	<rule ref="rulesets/java/unnecessary.xml">
+		<exclude name="UnnecessaryModifier" />
 		<exclude name="UselessParentheses"/>
 		<exclude name="UselessOverridingMethod"/>
 	</rule>
@@ -69,9 +69,10 @@
 	<exclude name="AvoidSynchronizedAtMethodLevel"/>
 	<exclude name="TooFewBranchesForASwitchStatement"/>
 	<exclude name="UseUtilityClass"/>
+	<exclude name="AccessorMethodGeneration"/>
 	<exclude name="SimplifyBooleanReturns"/>
 	<exclude name="UseLocaleWithCaseConversions"/>
-	<exclude name="AvoidConstantsInterface"/>
+	<exclude name="ConstantsInInterface"/>
 	<exclude name="AbstractClassWithoutAbstractMethod"/>
 	<exclude name="UncommentedEmptyConstructor"/>
 	<exclude name="OptimizableToArrayCall"/>

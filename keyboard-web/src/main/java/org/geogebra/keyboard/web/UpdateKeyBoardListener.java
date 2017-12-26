@@ -14,7 +14,7 @@ public interface UpdateKeyBoardListener {
 	 *            {@link MathKeyboardListener}
 	 * @return true animating in
 	 */
-	public boolean keyBoardNeeded(boolean show, MathKeyboardListener textField);
+	boolean keyBoardNeeded(boolean show, MathKeyboardListener textField);
 
 	/**
 	 * @param b
@@ -22,5 +22,5 @@ public interface UpdateKeyBoardListener {
 	 * @param textField
 	 *            {@link MathKeyboardListener}
 	 */
-	public void doShowKeyBoard(boolean b, MathKeyboardListener textField);
+	void doShowKeyBoard(boolean b, MathKeyboardListener textField);
 }
