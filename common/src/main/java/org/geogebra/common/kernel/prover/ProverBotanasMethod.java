@@ -1472,7 +1472,21 @@ public class ProverBotanasMethod {
 							 * generally false, either.
 							 * 
 							 */
+							int naivDim = as.getFreeVariables().size()
+									- substitutions.keySet().size();
+							Log.debug("Naive dimension = " + naivDim);
 							as.removeThesis();
+							boolean maxSize = !HilbertDimension
+									.isDimGreaterThan(as, substitutions,
+											naivDim);
+							if (!maxSize) {
+								{
+									Log.debug(
+											"Hilbert dimension > naive dimension");
+									return ProofResult.UNKNOWN;
+								}
+							}
+
 							as.addNegatedThesis();
 							eliminationIdeal = PPolynomial.eliminate(
 									as.getPolynomials()
@@ -1493,16 +1507,7 @@ public class ProverBotanasMethod {
 										 */
 										Log.debug(
 												"Statement is NOT GENERALLY FALSE");
-										as.removeThesis();
-										int naivDim = as.getFreeVariables()
-												.size()
-												- substitutions.keySet().size();
-										Log.debug(
-												"Naive dimension = " + naivDim);
-										if (!HilbertDimension.isDimGreaterThan(as, substitutions, naivDim)) {
-											return ProofResult.TRUE_ON_COMPONENTS;
-										}
-										return ProofResult.UNKNOWN;
+										return ProofResult.TRUE_ON_COMPONENTS;
 									}
 								}
 							}
@@ -1510,7 +1515,7 @@ public class ProverBotanasMethod {
 							 * End of checking if the statement is not generally
 							 * false.
 							 */
-
+							Log.debug("Statement is GENERALLY FALSE");
 							if (as.interpretFalseAsUndefined) {
 								Log.debug("Interpreting FALSE as UNKNOWN");
 								return ProofResult.UNKNOWN;
@@ -1522,6 +1527,7 @@ public class ProverBotanasMethod {
 						 * Here we know that the statement is reported to be
 						 * generally true with some NDGs.
 						 */
+						Log.debug("Statement is GENERALLY TRUE");
 						if (!poly.isConstant()) {
 							if (as.interpretTrueAsUndefined) {
 								Log.debug("Interpreting TRUE as UNKNOWN");
@@ -1649,7 +1655,20 @@ public class ProverBotanasMethod {
 				 * It is possible that the statement is not generally false,
 				 * either.
 				 */
+
+				int naivDim = as.getFreeVariables().size()
+						- substitutions.keySet().size();
+				Log.debug("Naive dimension = " + naivDim);
 				as.removeThesis();
+				boolean maxSize = !HilbertDimension.isDimGreaterThan(as,
+						substitutions, naivDim);
+				if (!maxSize) {
+					{
+						Log.debug("Hilbert dimension > naive dimension");
+						return ProofResult.UNKNOWN;
+					}
+				}
+
 				as.addNegatedThesis();
 				solvable = PPolynomial
 						.solvable(
@@ -1672,18 +1691,12 @@ public class ProverBotanasMethod {
 					 * Here we know that the statement is not generally false.
 					 */
 					
-					as.removeThesis();
-					int naivDim = as.getFreeVariables()
-							.size()
-							- substitutions.keySet().size();
-					Log.debug("Naive dimension = " + naivDim);
-					if (!HilbertDimension.isDimGreaterThan(as, substitutions,
-							naivDim)) {
-						return ProofResult.TRUE_ON_COMPONENTS;
-						}
-					return ProofResult.UNKNOWN;
+					Log.debug("Statement is NOT GENERALLY FALSE");
+					return ProofResult.TRUE_ON_COMPONENTS;
 				}
 				/* End of checking if the statement is not generally false. */
+
+				Log.debug("Statement is GENERALLY FALSE");
 
 				if (as.interpretFalseAsUndefined
 						&& !as.interpretTrueAsUndefined) {
