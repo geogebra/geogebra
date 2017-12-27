@@ -1,0 +1,84 @@
+@import 'colors';
+
+.GeoGebraFrame {
+	
+	// command suggestion popup in AV
+	.gwt-SuggestBoxPopup.ggb-AlgebraViewSuggestionPopup.matDesign {
+		border-radius: 2px;
+    	padding: 8px 16px;
+    	font-size: 80%;
+    	background-color: white;
+    	box-shadow: 0 0 2px 1px $popup-shadow;
+    		
+    	.item {
+    		height: 16px;
+    		padding: 8px 0px;
+    		cursor: pointer;
+    			
+    		&.selectedItem {
+    			color: $teal-default;
+			}
+		}
+	}
+	
+	// help popup with command list
+	.gwt-PopupPanel.helpPopupAV.GeoGebraPopup.matDesign,
+		.gwt-PopupPanel.GeoGebraPopup.matDesign.helpPopupAVBottom {
+		border-radius: 2px;
+    	padding: 8px;
+    	font-size: 80%;	
+    	background-color: white;
+    	box-shadow: 0 0 2px 1px $popup-shadow;
+    	
+    	.inputHelp-CancelBtn,
+    		.inputHelp-OnlineHelpBtn {
+    		text-decoration: none;	
+    		text-align: center;
+    		color: $teal-default;
+    		min-width: 64px;
+    		height: 36px;
+    		border-radius: 2px;
+    		padding: 0px 8px;
+    		border: none;
+    		box-shadow: none;
+    		font-size: 100%;
+    		cursor: pointer;
+    		
+    		&:hover,&:active {
+    			background: $black-10 !important;
+    			color: $teal-dark;
+    		}
+    	}
+    
+    	.inputHelp-leaf {
+    		font-size: 90%;
+    			
+    		&:hover {
+    			background: $selected-menuitem-background;
+    		}
+    	}
+    
+    	.inputHelp-functionTable {
+    		.gwt-Label {
+    			font-size: 90%;	
+    		}
+    	}
+    
+	}
+
+	// preview point popup
+	.previewPointsPopup {
+		background: white;
+		border-radius: 2px;
+		padding-left: 8px;
+		padding-right: 8px;
+		font-size: 90%; // 14px
+		box-shadow: 0 0 2px 1px $popup-shadow;
+		white-space: nowrap;
+		
+		.gwt-Label {
+			text-align: center;
+		}
+	}
+
+}

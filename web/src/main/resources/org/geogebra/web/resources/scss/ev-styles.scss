@@ -2,20 +2,6 @@
 	
 .GeoGebraFrame {
 	
-	.previewPointsPopup {
-		background: white;
-		border-radius: 2px;
-		padding-left: 8px;
-		padding-right: 8px;
-		font-size: 90%; // 14px
-		box-shadow: 0 0 2px 1px $popup-shadow;
-		white-space: nowrap;
-		
-		.gwt-Label {
-			text-align: center;
-		}
-	}
-	
 	.MatTitleBarPanelContent {
 		box-shadow:none;	
 		padding: 0px;

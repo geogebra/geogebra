@@ -34,6 +34,9 @@ public class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
 		((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel()).setInputField(field);
 		this.add((Widget) app.getGuiManager().getInputHelpPanel());
 		this.addStyleName("GeoGebraPopup");
+		if (app.isUnbundled()) {
+			addStyleName("matDesign");
+		}
 	}
 	
 	
