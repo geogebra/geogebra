@@ -2,6 +2,24 @@
 $duration: 0.2s;
 
 .GeoGebraFrame {
+	
+		// command suggestion popup in AV
+		.gwt-SuggestBoxPopup.ggb-AlgebraViewSuggestionPopup.matDesign {
+			border-radius: 2px;
+    		padding: 8px 16px;
+    		font-size: 80%;
+    		background-color: white;
+    		box-shadow: 0 0 2px 1px $popup-shadow;
+    		
+    		.item {
+    			height: 16px;
+    			padding: 8px 0px;
+    			
+    			&.selectedItem {
+    				color: $teal-default;
+				}
+			}
+		}
 
 		.matMenu.gwt-PopupPanel {
 		

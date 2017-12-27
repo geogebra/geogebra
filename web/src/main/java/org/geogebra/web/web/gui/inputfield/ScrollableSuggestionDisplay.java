@@ -54,6 +54,9 @@ public final class ScrollableSuggestionDisplay extends
 	protected GPopupPanel createPopup(Panel panel, App app) {
 		GPopupPanel su = super.createPopup(panel, app);
 		su.addStyleName("ggb-AlgebraViewSuggestionPopup");
+		if (app.isUnbundled()) {
+			su.addStyleName("matDesign");
+		}
 		return su;
 	}
 
