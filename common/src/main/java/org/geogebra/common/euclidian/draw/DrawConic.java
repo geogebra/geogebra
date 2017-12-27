@@ -1014,9 +1014,8 @@ public class DrawConic extends Drawable implements Previewable {
 			// shape=ClipShape.clipToRect(shape,ellipse, transform, new
 			// Rectangle(-1,
 			// -1, view.getWidth() + 2, view.getHeight() + 2));
-			shape = ClipShape.clipToRect(ellipse, transform,
-					AwtFactory.getPrototype().newRectangle(-1, -1,
-							view.getWidth() + 2, view.getHeight() + 2));
+			shape = ClipShape.clipToRect(ellipse, transform, -1, -1,
+					view.getWidth() + 2, view.getHeight() + 2);
 
 		}
 		// set label coords
@@ -1585,8 +1584,7 @@ public class DrawConic extends Drawable implements Previewable {
 			int ymin = view.toScreenCoordY(midpoint.getY() - focX);
 			int ymax = view.toScreenCoordY(midpoint.getY() + focX);
 
-			return AwtFactory.getPrototype().newRectangle(xmin, ymax,
-					xmax - xmin, ymin - ymax);
+			return getTempFrame(xmin, ymax, xmax - xmin, ymin - ymax);
 		default:
 			return null;
 		}

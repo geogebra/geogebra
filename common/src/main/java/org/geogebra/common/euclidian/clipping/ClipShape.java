@@ -27,7 +27,6 @@ import java.util.Stack;
 import org.geogebra.common.awt.GAffineTransform;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GPathIterator;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.EquationSolver;
@@ -412,32 +411,6 @@ public class ClipShape {
 	}
 
 	/**
-	 * @param result
-	 * @param s
-	 * @param t
-	 * @param r
-	 * @return
-	 */
-
-	// public static geogebra.common.awt.Shape
-	// clipToRect(geogebra.common.awt.Shape result,Shape s,AffineTransform
-	// t,Rectangle2D r) {
-	// if(result==null)
-	// return new geogebra.awt.GeneralPath(clipToRect(s,t,r));
-	// ((geogebra.awt.GenericShape)result).setImpl(clipToRect(s,t,r));
-	// return result;
-	// }
-	//
-	// public static geogebra.common.awt.GeneralPath clipToRect(
-	// geogebra.common.awt.Shape s, geogebra.common.awt.AffineTransform t,
-	// geogebra.common.awt.Rectangle2D r){
-	// return new geogebra.awt.GeneralPath(clipToRect(
-	// geogebra.awt.GenericShape.getAwtShape(s),
-	// geogebra.awt.AffineTransform.getAwtAffineTransform(t),
-	// geogebra.awt.GenericRectangle2D.getAWTRectangle2D(r)));
-	// }
-
-	/**
 	 * This creates a <code>GeneralPath</code> representing <code>s</code> when
 	 * clipped to <code>r</code>
 	 * 
@@ -448,22 +421,28 @@ public class ClipShape {
 	 *            <P>
 	 *            This may be <code>null</code>, indicating that <code>s</code>
 	 *            should not be transformed.
-	 * @param r
-	 *            the rectangle to clip to
+	 * @param x0
+	 *            x0, y0, w, h define the rectangle to clip to
+	 * @param y0
+	 *            x0, y0, w, h define the rectangle to clip to
+	 * @param w
+	 *            x0, y0, w, h define the rectangle to clip to
+	 * @param h
+	 *            x0, y0, w, h define the rectangle to clip to
 	 * @return a <code>GeneralPath</code> enclosing the new shape.
 	 */
-	public static GGeneralPath clipToRect(GShape s, GAffineTransform t,
-			GRectangle2D r) {
+	public static GGeneralPath clipToRect(GShape s, GAffineTransform t, int x0,
+			int y0, int w, int h) {
 		GPathIterator i = s.getPathIterator(t);
 		ClippedPath p = new ClippedPath(i.getWindingRule());
 		double initialX = 0;
 		double initialY = 0;
 		int k;
 		double[] f = doubleFactory.getArray(6);
-		double rTop = r.getY();
-		double rLeft = r.getX();
-		double rRight = (r.getX() + r.getWidth());
-		double rBottom = (r.getY() + r.getHeight());
+		double rTop = y0;
+		double rLeft = x0;
+		double rRight = x0 + w;
+		double rBottom = y0 + h;
 		boolean shouldClose = false;
 		double lastX = 0;
 		double lastY = 0;

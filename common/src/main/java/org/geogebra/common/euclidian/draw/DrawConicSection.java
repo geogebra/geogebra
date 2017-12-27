@@ -277,9 +277,8 @@ public class DrawConicSection extends DrawConic {
 			shape = transform.createTransformedShape(arcs);
 		} else {
 			// clip big arc at screen
-			shape = ClipShape.clipToRect(arcs, transform,
-					AwtFactory.getPrototype().newRectangle(-1, -1,
-							view.getWidth() + 2, view.getHeight() + 2));
+			shape = ClipShape.clipToRect(arcs, transform, -1, -1,
+					view.getWidth() + 2, view.getHeight() + 2);
 		}
 
 		// set label coords

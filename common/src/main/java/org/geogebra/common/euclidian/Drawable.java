@@ -104,6 +104,8 @@ public abstract class Drawable extends DrawableND {
 
 	private HatchingHandler hatchingHandler;
 
+	private GRectangle tempFrame;
+
 	// boolean createdByDrawList = false;
 
 	@Override
@@ -830,6 +832,16 @@ public abstract class Drawable extends DrawableND {
 	@Override
 	public GRectangle2D getBoundsForStylebarPosition() {
 		return getBounds();
+	}
+
+	protected GRectangle getTempFrame(int x, int y, int w, int h) {
+		if (tempFrame == null) {
+			tempFrame = AwtFactory.getPrototype().newRectangle(x, y, w, h);
+		} else {
+			tempFrame.setBounds(x, y, w, h);
+		}
+
+		return tempFrame;
 	}
 
 }

@@ -241,9 +241,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 			shape = transform.createTransformedShape(arc);
 		} else {
 			// clip big arc at screen
-			shape = ClipShape.clipToRect(arc, transform,
-					AwtFactory.getPrototype().newRectangle(-1, -1,
-							view.getWidth() + 2, view.getHeight() + 2));
+			shape = ClipShape.clipToRect(arc, transform, -1, -1,
+					view.getWidth() + 2, view.getHeight() + 2);
 		}
 
 		// label position
