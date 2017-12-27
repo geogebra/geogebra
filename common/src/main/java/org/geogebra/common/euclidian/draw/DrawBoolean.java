@@ -100,12 +100,10 @@ public final class DrawBoolean extends Drawable {
 		xLabel = geo.labelOffsetX;
 		yLabel = geo.labelOffsetY;
 		int size = view.getBooleanSize();
-		GDimension prefSize = AwtFactory.getPrototype().newDimension(size + 12,
-				size + 12);// checkBox.getPreferredSize();
+		int prefSize = size + 12;
 		labelRectangle.setBounds(xLabel, yLabel,
-				prefSize.getWidth() + textSize.x, prefSize.getHeight());
+				prefSize + textSize.x, prefSize);
 
-		// checkBox.setBounds(labelRectangle);
 	}
 
 	@Override

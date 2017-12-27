@@ -33,6 +33,7 @@ public class DrawConicSection extends DrawConic {
 	private boolean onlyEdge;
 	private Coords[] endPoints;
 	private boolean drawLeft;
+	private GShape arcs = null;
 
 	/**
 	 * constructor
@@ -225,9 +226,6 @@ public class DrawConicSection extends DrawConic {
 		 * DrawConic.HUGE_RADIUS) { isVisible = false; return; }
 		 */
 
-		// use shape
-		GShape arcs;
-
 		// set arc
 		if (arc == null) {
 			arc = AwtFactory.getPrototype().newArc2D();
@@ -252,8 +250,11 @@ public class DrawConicSection extends DrawConic {
 		if (Double.isNaN(start1)) {
 			arcs = arc;
 		} else {
-			arcs = AwtFactory.getPrototype().newGeneralPath();
-
+			if (arcs instanceof GGeneralPath) {
+				((GGeneralPath) arcs).reset();
+			} else {
+				arcs = AwtFactory.getPrototype().newGeneralPath();
+			}
 			((GGeneralPath) arcs).append(arc, true);
 
 			// second arc

@@ -476,10 +476,8 @@ public class DrawLine extends Drawable implements Previewable {
 	 */
 	@Override
 	public GRectangle getBoundsForStylebarPosition() {
-		GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0);
-		rect.setBounds((int) (x1 + x2) / 2 + 50, (int) (y1 + y2) / 2 + 50, 0,
-				0);
-		return rect;
+		return getTempFrame((int) (x1 + x2) / 2 + 50, (int) (y1 + y2) / 2 + 50,
+				0, 0);
 	}
 
 	@Override
