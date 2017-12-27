@@ -8,14 +8,14 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 	.gwt-ToggleButton.flatButton.menu.landscapeMenuBtn,.gwt-ToggleButton.flatButton.menu {
 		margin-left: 10px;
 		&:focus{
-			outline: $white 5px auto;
+			outline: $focus-black 5px auto;
 		}
 	}
 	
 	.gwt-ToggleButton.flatButton.menu.portraitMenuBtn {
 		img {
 			opacity: 0.54;
-		}		
+		}	
 	}
 	
 	.gwt-ToggleButton.flatButton.menu.portraitMenuBtn.gwt-ToggleButton-up-hovering {
@@ -43,7 +43,7 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 				}
 			}
 			.flatButton:focus{
-				outline: $white 5px auto;
+				outline: $focus-black 5px auto;
 			}
 			.contents {
 				padding-top: 4px;
@@ -59,8 +59,8 @@ $movebtn-transition: bottom  250ms cubic-bezier(0.4, 0, 1, 1) 0ms;
 					width: 24px;
 					height: 24px;
 					opacity: 0.85;
-				}
-			
+									}
+								
 				.indicator {
 					width: 36px;
 					height: 3px;

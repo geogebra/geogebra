@@ -40,8 +40,9 @@
 			opacity: 0.84;	
 		}
 	}
+
 	.flatButton:focus{
-		outline: #66C 5px auto;
+		outline: $focus-black 5px auto;
 	}
 
 	.gwt-MenuItem:focus {
@@ -346,13 +347,20 @@
     			opacity: 0.54;
     		}	
     	
-    		&:hover, &:focus {
+    		&:hover {
     			/*background-color: #666;*/
     			background-color: $selected-menuitem-background;
     			
     			img {
     				opacity: 1;	
     			}
+    		}
+    	
+    		&:focus {
+    			img {
+    				opacity: 1;
+    				outline: $focus-black 5px auto;	
+    			}	
     		}
     	}
     
