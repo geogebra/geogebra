@@ -1515,11 +1515,11 @@ public class ProverBotanasMethod {
 							 * End of checking if the statement is not generally
 							 * false.
 							 */
-							Log.debug("Statement is GENERALLY FALSE");
 							if (as.interpretFalseAsUndefined) {
 								Log.debug("Interpreting FALSE as UNKNOWN");
 								return ProofResult.UNKNOWN;
 							}
+							Log.debug("Statement is GENERALLY FALSE");
 							return ProofResult.FALSE;
 						}
 
@@ -1527,7 +1527,7 @@ public class ProverBotanasMethod {
 						 * Here we know that the statement is reported to be
 						 * generally true with some NDGs.
 						 */
-						Log.debug("Statement is GENERALLY TRUE");
+						Log.debug("Statement seems GENERALLY TRUE");
 						if (!poly.isConstant()) {
 							if (as.interpretTrueAsUndefined) {
 								Log.debug("Interpreting TRUE as UNKNOWN");
@@ -1696,13 +1696,12 @@ public class ProverBotanasMethod {
 				}
 				/* End of checking if the statement is not generally false. */
 
-				Log.debug("Statement is GENERALLY FALSE");
-
 				if (as.interpretFalseAsUndefined
 						&& !as.interpretTrueAsUndefined) {
 					Log.debug("Interpreting FALSE as UNKNOWN");
 					return ProofResult.UNKNOWN;
 				}
+				Log.debug("Statement is GENERALLY FALSE");
 				return ProofResult.FALSE;
 			}
 		}
