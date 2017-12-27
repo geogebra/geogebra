@@ -88,7 +88,6 @@ public class Tools extends FlowPanel implements SetLabels {
 							.getAttribute("mode"))) {
 						panelTools.getWidget(j).getElement()
 								.setAttribute("selected", "true");
-
 					} else {
 						panelTools.getWidget(j).getElement()
 								.setAttribute("selected", "false");
@@ -145,14 +144,12 @@ public class Tools extends FlowPanel implements SetLabels {
 		mToolCategorization = new ToolCategorization(app,
 				app.getSettings().getToolbarSettings().getType(), app.getSettings().getToolbarSettings().getToolsetLevel(), false);
 		String def = app.getGuiManager().getCustomToolbarDefinition();
-
 		if (app.isUnbundled3D()) {
 			def = app.getGuiManager().getLayout().getDockManager()
 					.getPanel(App.VIEW_EUCLIDIAN3D).getToolbarString();
 		}
 		mToolCategorization
 				.resetTools(def);
-
 		categories = mToolCategorization
 				.getCategories();
 		categoryPanelList = new ArrayList<>();
@@ -186,7 +183,6 @@ public class Tools extends FlowPanel implements SetLabels {
 			initGui();
 		}
 
-
 		private void initGui() {
 			categoryLabel = new Label(
 					getmToolCategorization().getLocalizedHeader(category));
@@ -218,28 +214,23 @@ public class Tools extends FlowPanel implements SetLabels {
 		private StandardButton getButton(final int mode) {
 			int size = (mode == EuclidianConstants.MODE_DELETE
 					|| mode == EuclidianConstants.MODE_IMAGE) ? 24 : 32;
-
 			final StandardButton btn = new StandardButton(
 					GGWToolBar.getImageURLNotMacro(toolSvgRes, mode), null,
 					size, getApp());
 			AriaHelper.hide(btn);
 			btn.setTitle(getApp().getLocalization()
 					.getMenu(EuclidianConstants.getModeText(mode)));
-
 			if (mode == EuclidianConstants.MODE_DELETE
 					|| mode == EuclidianConstants.MODE_IMAGE) {
 				btn.addStyleName("plusPadding");
 			}
 			btn.getElement().setAttribute("mode", mode + "");
-
 			btn.ignoreTab();
-
 			btn.addFastClickHandler(new FastClickHandler() {
 
 				@Override
 				public void onClick(Widget source) {
 					getApp().setMode(mode);
-
 					showTooltip(mode);
 					getApp().updateDynamicStyleBars();
 				}

@@ -278,6 +278,11 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 						0, 0, 24, 24, false, false),
 				app);
 		AriaHelper.hide(moveBtn);
+		String altText = app.getLocalization().getMenu(
+				EuclidianConstants.getModeText(EuclidianConstants.MODE_MOVE))
+				+ ". " + app.getToolHelp(EuclidianConstants.MODE_MOVE);
+		moveBtn.setTitle(altText);
+		moveBtn.setAltText(altText);
 		moveBtn.setStyleName("moveFloatingBtn");
 		// moveMoveBtnDown style added for moveBtn to fix the position on tablet
 		// too
