@@ -389,9 +389,10 @@ public abstract class Drawable extends DrawableND {
 		// no index in text
 		if (labelDesc.equals(oldLabelDesc) && !labelHasIndex) {
 
-			labelRectangle.setBounds(EuclidianStatic.drawMultiLineText(
+			// sets labelRectangle
+			EuclidianStatic.drawMultiLineText(
 					view.getApplication(), labelDesc, xLabel, yLabel, g2,
-					isSerif(), textFont));
+					isSerif(), textFont, labelRectangle);
 		} else {
 
 

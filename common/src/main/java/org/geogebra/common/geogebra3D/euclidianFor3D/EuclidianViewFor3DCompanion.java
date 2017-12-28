@@ -21,6 +21,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 
+	private GAffineTransform transform = AwtFactory.getPrototype()
+			.newAffineTransform();
+
 	/**
 	 * constructor
 	 * 
@@ -76,8 +79,6 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 			Coords[] ev) {
 
 		// use already computed for this view middlepoint M and eigen vecs ev
-		GAffineTransform transform = AwtFactory.getPrototype()
-				.newAffineTransform();
 		transform.setTransform(ev[0].getX(), ev[0].getY(), ev[1].getX(),
 				ev[1].getY(), M.getX(), M.getY());
 

@@ -487,10 +487,8 @@ public class DrawConic extends Drawable implements Previewable {
 	 */
 	protected boolean checkHyperbolaOnScreen(GRectangle viewRect) {
 		// hyperbola wings on screen?
-		hypLeftOnScreen = hypLeft
-				.intersects(AwtFactory.getPrototype().newRectangle(viewRect));
-		hypRightOnScreen = hypRight
-				.intersects(AwtFactory.getPrototype().newRectangle(viewRect));
+		hypLeftOnScreen = hypLeft.intersects(viewRect);
+		hypRightOnScreen = hypRight.intersects(viewRect);
 		if (!hypLeftOnScreen && !hypRightOnScreen) {
 			return false;
 		}

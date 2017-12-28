@@ -61,6 +61,8 @@ public class DrawVector extends Drawable implements Previewable {
 	private boolean arrowheadVisible, lineVisible;
 	private ArrayList<GeoPointND> points;
 	private GPoint2D endPoint = AwtFactory.getPrototype().newPoint2D();
+	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
+			AwtFactory.getPrototype().newPoint2D() };
 
 	/**
 	 * Creates new DrawVector
@@ -217,7 +219,8 @@ public class DrawVector extends Drawable implements Previewable {
 					view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
 					view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
 					view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
-					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE);
+					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE,
+					tmpClipPoints);
 			if (clippedPoints == null) {
 				isVisible = false;
 				lineVisible = false;
@@ -229,7 +232,8 @@ public class DrawVector extends Drawable implements Previewable {
 						coordsF[0], coordsF[1], -EuclidianStatic.CLIP_DISTANCE,
 						view.getWidth() + EuclidianStatic.CLIP_DISTANCE,
 						-EuclidianStatic.CLIP_DISTANCE,
-						view.getHeight() + EuclidianStatic.CLIP_DISTANCE);
+						view.getHeight() + EuclidianStatic.CLIP_DISTANCE,
+						tmpClipPoints);
 				if (clippedPoints != null) {
 					line.setLine(clippedPoints[0].getX(),
 							clippedPoints[0].getY(), clippedPoints[1].getX(),

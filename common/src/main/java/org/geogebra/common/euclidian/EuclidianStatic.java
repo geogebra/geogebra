@@ -564,7 +564,7 @@ public class EuclidianStatic {
 	 */
 	public final static GRectangle drawMultiLineText(App app, String labelDesc,
 			int xLabel, int yLabel, GGraphics2D g2, boolean serif,
-			GFont textFont) {
+			GFont textFont, GRectangle ret) {
 
 		int lines = 0;
 		int fontSize = textFont.getSize();
@@ -618,8 +618,9 @@ public class EuclidianStatic {
 		// labelRectangle.setLocation(xLabel, yLabel - fontSize);
 		int height = (int) ((lines + 1) * lineSpread);
 
-		return AwtFactory.getPrototype().newRectangle(xLabel - 3,
+		ret.setBounds(xLabel - 3,
 				yLabel - fontSize - 3, xoffset + 6, height + 6);
+		return ret;
 	}
 
 	/**

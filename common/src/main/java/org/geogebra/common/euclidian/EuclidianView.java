@@ -15,6 +15,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.DrawableList.DrawableIterator;
@@ -502,6 +503,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private GeoElement[] specPoints;
 	private GRectangle exportFrame;
 	private GRectangle tempFrame;
+	private GPoint2D[] tmpClipPoints;
 	
 
 	/** @return line types */
@@ -4005,18 +4007,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		pix = startX + (-(extra + 1) * tickStepX);
 		for (int j = -extra; pix <= getWidth(); j += 1) {
 			double endx = pix
-					+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale());
+					+ (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale())
+							/ getYscale());
 			if (clipX || clipY) {
-				DrawSegment
-						.drawClipped(new double[] { pix, startY - tickStepY },
-								new double[] {
-										endx,
-										(startY - tickStepY) + getHeight()
-												+ tickStepY }, tempLine,
-								xAxisStart, getWidth(), 0, yAxisEnd);
+				DrawSegment.drawClipped(
+						new double[] { pix, startY - tickStepY },
+						new double[] { endx,
+								(startY - tickStepY) + getHeight()
+										+ tickStepY },
+						tempLine, xAxisStart, getWidth(), 0, yAxisEnd,
+						getTmpClipPoints());
 			} else {
-				tempLine.setLine(pix, startY - tickStepY, endx, startY
-						+ getHeight());
+				tempLine.setLine(pix, startY - tickStepY, endx,
+						startY + getHeight());
 			}
 			g2.draw(tempLine);
 			pix = startX + (j * tickStepX);
@@ -4029,23 +4032,34 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// for (int j=0; j<=kk; j+=1)
 		{
 			double endx = pix
-					- (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale()) / getYscale());
+					- (((getHeight() + tickStepY) * Math.sqrt(3) * getXscale())
+							/ getYscale());
 			if (clipX || clipY) {
-				DrawSegment
-						.drawClipped(new double[] { pix, startY - tickStepY },
-								new double[] {
-										endx,
-										(startY - tickStepY) + getHeight()
-												+ tickStepY }, tempLine,
-								xAxisStart, getWidth(), 0, yAxisEnd);
+				DrawSegment.drawClipped(
+						new double[] { pix, startY - tickStepY },
+						new double[] { endx,
+								(startY - tickStepY) + getHeight()
+										+ tickStepY },
+						tempLine, xAxisStart, getWidth(), 0, yAxisEnd,
+						getTmpClipPoints());
 			} else {
-				tempLine.setLine(pix, startY - tickStepY, endx, startY
-						+ getHeight());
+				tempLine.setLine(pix, startY - tickStepY, endx,
+						startY + getHeight());
 			}
 			g2.draw(tempLine);
 			pix = startX + (j * tickStepX);
 		}
 
+	}
+
+	private GPoint2D[] getTmpClipPoints() {
+		if (tmpClipPoints == null) {
+			tmpClipPoints = new GPoint2D[2];
+			tmpClipPoints[0] = AwtFactory.getPrototype().newPoint2D();
+			tmpClipPoints[1] = AwtFactory.getPrototype().newPoint2D();
+		}
+
+		return tmpClipPoints;
 	}
 
 	double getXAxisCrossingPixel() {

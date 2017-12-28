@@ -49,6 +49,9 @@ import org.geogebra.common.util.MyMath;
  */
 public class DrawSegment extends Drawable implements Previewable {
 
+	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
+			AwtFactory.getPrototype().newPoint2D() };
+
 	private GeoLineND s;
 
 	private boolean isVisible, labelVisible;
@@ -177,7 +180,8 @@ public class DrawSegment extends Drawable implements Previewable {
 					view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
 					view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
 					view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
-					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE);
+					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE,
+					tmpClipPoints);
 		}
 
 		// draw trace
@@ -392,12 +396,14 @@ public class DrawSegment extends Drawable implements Previewable {
 	 *            clip top
 	 * @param ymax
 	 *            clip bottom
+	 * @param tmpClipPoints2
 	 * @return whether line intersects clipping rectangle
 	 */
 	public static boolean drawClipped(double[] coordsA, double[] coordsB,
-			GLine2D line, int xmin, int xmax, int ymin, int ymax) {
+			GLine2D line, int xmin, int xmax, int ymin, int ymax,
+			GPoint2D[] tmpClipPoints2) {
 		GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0], coordsA[1],
-				coordsB[0], coordsB[1], xmin, xmax, ymin, ymax);
+				coordsB[0], coordsB[1], xmin, xmax, ymin, ymax, tmpClipPoints2);
 		if (clippedPoints == null) {
 			return false;
 		}

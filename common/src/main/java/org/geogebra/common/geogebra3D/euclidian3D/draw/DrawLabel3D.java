@@ -236,8 +236,10 @@ public class DrawLabel3D {
 	}
 
 	protected GRectangle getBounds() {
+		
 		GRectangle rectangle = EuclidianStatic.drawMultiLineText(
-				view.getApplication(), text, 0, 0, tempGraphics, false, font);
+				view.getApplication(), text, 0, 0, tempGraphics, false, font,
+				AwtFactory.getPrototype().newRectangle());
 		if (text.contains("_")) { // text contains subscript
 			hasIndex = true;
 			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),

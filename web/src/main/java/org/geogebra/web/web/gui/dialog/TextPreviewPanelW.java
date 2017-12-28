@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.dialog.TextPreviewer;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoText;
@@ -86,7 +87,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 			
 			rect = EuclidianStatic.drawMultiLineText(getApp(),
 					previewGeo.getTextString(), 0, 0, ((EuclidianViewW) ev).g2p,
-					serif, textFont);
+					serif, textFont, AwtFactory.getPrototype().newRectangle());
 		}
 		//App.debug("text rect: " + rect.getWidth() + " x " +
 	//	rect.getHeight());

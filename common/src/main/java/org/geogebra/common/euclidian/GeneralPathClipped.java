@@ -44,6 +44,11 @@ public class GeneralPathClipped implements GShape {
 	private double cont2X = Double.NaN;
 	private double cont2Y = Double.NaN;
 
+	private GRectangle oldBounds;
+
+	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
+			AwtFactory.getPrototype().newPoint2D() };
+
 	/**
 	 * Creates new clipped general path
 	 * 
@@ -75,7 +80,8 @@ public class GeneralPathClipped implements GShape {
 	final public void reset() {
 		pathPoints.clear();
 		gp.reset();
-		// bounds.setBounds(0,0,0,0);
+		// save object
+		oldBounds = bounds;
 		bounds = null;
 		largestCoord = 0;
 		needClosePath = false;
@@ -170,7 +176,8 @@ public class GeneralPathClipped implements GShape {
 		// at least one point is not on screen: clip line at screen
 		GPoint2D[] clippedPoints = ClipLine.getClipped(prevP.getX(),
 				prevP.getY(), curP.getX(), curP.getY(), -10,
-				view.getWidth() + 10, -10, view.getHeight() + 10);
+				view.getWidth() + 10, -10, view.getHeight() + 10,
+				tmpClipPoints);
 
 		if (clippedPoints != null) {
 			// we have two intersection points with the screen
@@ -362,7 +369,8 @@ public class GeneralPathClipped implements GShape {
 	private void updateBounds(MyPoint p) {
 
 		if (bounds == null) {
-			bounds = AwtFactory.getPrototype().newRectangle();
+			bounds = oldBounds != null ? oldBounds
+					: AwtFactory.getPrototype().newRectangle();
 			bounds.setBounds((int) p.getX(), (int) p.getY(), 0, 0);
 		}
 

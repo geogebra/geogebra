@@ -57,6 +57,8 @@ public class DrawRay extends Drawable implements Previewable {
 	private double[] a = new double[2];
 	private double[] v = new double[2];
 	private Coords tmpCoords2;
+	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
+			AwtFactory.getPrototype().newPoint2D() };
 
 	/**
 	 * Creates new DrawRay
@@ -229,7 +231,8 @@ public class DrawRay extends Drawable implements Previewable {
 					view.getMinXScreen() - EuclidianStatic.CLIP_DISTANCE,
 					view.getMaxXScreen() + EuclidianStatic.CLIP_DISTANCE,
 					view.getMinYScreen() - EuclidianStatic.CLIP_DISTANCE,
-					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE);
+					view.getMaxYScreen() + EuclidianStatic.CLIP_DISTANCE,
+					tmpClipPoints);
 			if (clippedPoints == null) {
 				isVisible = false;
 			} else {
