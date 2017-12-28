@@ -863,23 +863,24 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	// temp image
-	private final Graphics2D g2Dtemp = new BufferedImage(5, 5,
-			BufferedImage.TYPE_INT_RGB).createGraphics();
+	private final GGraphics2D g2Dtemp = new GGraphics2DD(
+			new BufferedImage(5, 5, BufferedImage.TYPE_INT_RGB)
+					.createGraphics());
 	private boolean printScaleString;
 
 	/**
 	 * @return temporary graphics that is stored in this view
 	 */
-	final public Graphics2D getTempGraphics2D() {
-		g2Dtemp.setFont(getApplication().getPlainFont());
+	final public GGraphics2D getTempGraphics2D() {
+		g2Dtemp.setFont(getApplication().getPlainFontCommon());
 		return g2Dtemp;
 	}
 
 	@Override
 	final public GGraphics2D getTempGraphics2D(GFont font) {
-		g2Dtemp.setFont(GFontD.getAwtFont(font));
+		g2Dtemp.setFont(font);
 
-		return new GGraphics2DD(g2Dtemp);
+		return g2Dtemp;
 	}
 
 	@Override

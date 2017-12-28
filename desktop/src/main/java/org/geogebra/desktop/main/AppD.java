@@ -3077,31 +3077,31 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 
 	final public Font getBoldFont() {
-		return fontManager.getBoldFont();
+		return ((GFontD) fontManager.getBoldFont()).getAwtFont();
 	}
 
 	final public Font getItalicFont() {
-		return fontManager.getItalicFont();
+		return ((GFontD) fontManager.getItalicFont()).getAwtFont();
 	}
 
 	final public Font getPlainFont() {
-		return fontManager.getPlainFont();
+		return ((GFontD) fontManager.getPlainFont()).getAwtFont();
 	}
 
 	@Override
 	final public GFont getPlainFontCommon() {
-		return new GFontD(fontManager.getPlainFont());
+		return fontManager.getPlainFont();
 	}
 
 	final public Font getSerifFont() {
-		return fontManager.getSerifFont();
+		return ((GFontD) fontManager.getSerifFont()).getAwtFont();
 	}
 
 	final public Font getSmallFont() {
-		return fontManager.getSmallFont();
+		return ((GFontD) fontManager.getSmallFont()).getAwtFont();
 	}
 
-	final public Font getFont(boolean serif, int style, int size) {
+	final public GFont getFont(boolean serif, int style, int size) {
 		return fontManager.getFont(serif, style, size);
 	}
 
@@ -4498,11 +4498,11 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	@Override
 	public GFont getFontCommon(boolean b, int i, int size) {
-		return new GFontD(getFont(b, i, size));
+		return getFont(b, i, size);
 	}
 
 	public GFont getBoldFontCommon() {
-		return new GFontD(getBoldFont());
+		return fontManager.getBoldFont();
 	}
 
 	@Override
@@ -4549,7 +4549,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public Font getFontCanDisplayAwt(String string, boolean b, int plain,
 			int i) {
-		return getFontManager().getFontCanDisplayAwt(string, b, plain, i);
+		return ((GFontD) getFontManager().getFontCanDisplay(string, b, plain,
+				i)).getAwtFont();
 	}
 
 	public Font getFontCanDisplayAwt(String string) {

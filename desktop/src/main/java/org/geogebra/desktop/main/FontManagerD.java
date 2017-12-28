@@ -23,8 +23,9 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class FontManagerD extends FontManager {
 
-	private Font boldFont, italicFont, plainFont, smallFont, serifFont,
+	private GFont boldFont, italicFont, smallFont, plainFont, serifFont,
 			serifFontBold, javaSans, javaSerif;
+
 	private int fontSize;
 	private String sansName, serifName;
 
@@ -182,7 +183,7 @@ public class FontManagerD extends FontManager {
 		serifFontBold = getFont(serif, Font.BOLD, size);
 
 		// TODO: causes problems with multiple windows (File -> New Window)
-		setLAFFont(plainFont);
+		setLAFFont(((GFontD) plainFont).getAwtFont());
 
 		// System.out.println("Fonts updated: sans: " + sans + ", serif: " +
 		// serif);
@@ -195,7 +196,7 @@ public class FontManagerD extends FontManager {
 	 * @param style
 	 * @param size
 	 */
-	public Font getFont(final boolean serif, final int style, final int size) {
+	public GFont getFont(final boolean serif, final int style, final int size) {
 		final String name = serif ? getSerifFont().getFontName()
 				: getPlainFont().getFontName();
 		return getFont(name, style, size);
@@ -204,7 +205,7 @@ public class FontManagerD extends FontManager {
 	/**
 	 * Gets a font from a HashMap to avoid multiple creations of the same font.
 	 */
-	private Font getFont(final String name, final int style, final int size) {
+	private GFont getFont(final String name, final int style, final int size) {
 		// build font's key name for HashMap
 		key.setLength(0);
 		key.append(name);
@@ -223,16 +224,17 @@ public class FontManagerD extends FontManager {
 			// System.out.println("NEW font: " + f);
 		}
 
-		return f;
+		return new GFontD(f);
 	}
 
 	/**
 	 * Returns a font that can display testString.
 	 */
-	public Font getFontCanDisplayAwt(final String testString,
+	@Override
+	public GFont getFontCanDisplay(final String testString,
 			final boolean serif, final int fontStyle, final int fontSize) {
 
-		final Font appFont = serif ? serifFont : plainFont;
+		final GFont appFont = serif ? serifFont : plainFont;
 		if (appFont == null) {
 			return plainFont;
 		}
@@ -253,9 +255,10 @@ public class FontManagerD extends FontManager {
 		}
 
 		// check if standard Java fonts can be used
-		final Font javaFont = serif ? javaSerif : javaSans;
+		final GFont javaFont = serif ? javaSerif : javaSans;
 		if (javaFont.canDisplayUpTo(testString) == -1) {
-			return getFont(javaFont.getName(), fontStyle, fontSize);
+			return getFont(((GFontD) javaFont).getAwtFont().getName(),
+					fontStyle, fontSize);
 		}
 
 		// no standard fonts worked: try harder and go through all
@@ -291,10 +294,11 @@ public class FontManagerD extends FontManager {
 			while (it.hasNext()) {
 				// create font for name
 				final String fontName = it.next();
-				final Font font = getFont(fontName, Font.PLAIN, 12);
+				final GFont font = getFont(fontName, Font.PLAIN, 12);
 
 				// check if creating font worked
-				if (font.getFamily().startsWith(fontName)) {
+				if (((GFontD) font).getAwtFont().getFamily()
+						.startsWith(fontName)) {
 					// test if this font can display all test characters
 					if (font.canDisplayUpTo(testCharacters) == -1) {
 						return font.getFontName();
@@ -339,23 +343,23 @@ public class FontManagerD extends FontManager {
 				"Sorry, there is no font for this language available on your computer.");
 	}
 
-	final public Font getBoldFont() {
+	final public GFont getBoldFont() {
 		return boldFont;
 	}
 
-	final public Font getItalicFont() {
+	final public GFont getItalicFont() {
 		return italicFont;
 	}
 
-	final public Font getPlainFont() {
+	final public GFont getPlainFont() {
 		return plainFont;
 	}
 
-	final public Font getSmallFont() {
+	final public GFont getSmallFont() {
 		return smallFont;
 	}
 
-	final public Font getSerifFont() {
+	final public GFont getSerifFont() {
 		return serifFont;
 	}
 
@@ -405,13 +409,6 @@ public class FontManagerD extends FontManager {
 		UIManager.put("PasswordField.font", plain);
 		UIManager.put("TextArea.font", plain);
 		UIManager.put("ToolTip.font", plain);
-	}
-
-	@Override
-	public GFont getFontCanDisplay(final String testString, final boolean serif,
-			final int fontStyle, final int fontSize) {
-		return new GFontD(
-				getFontCanDisplayAwt(testString, serif, fontStyle, fontSize));
 	}
 
 	/**
