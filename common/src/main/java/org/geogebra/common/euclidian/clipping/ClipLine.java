@@ -68,6 +68,8 @@ public class ClipLine {
 	 *            lower left y of rectangle
 	 * @param ymax
 	 *            upper right y of rectangle
+	 * @param ret
+	 *            output array
 	 * @return <code>null</code> (does not clip) or array of two points
 	 */
 	public static GPoint2D[] getClipped(double x1, double y1, double x2,
@@ -151,6 +153,8 @@ public class ClipLine {
 	 *            upper right x of rectangle
 	 * @param ymax
 	 *            upper right y of rectangle
+	 * @param ret2
+	 *            output array
 	 * @return <code>null</code> (does not clip) or array of two points
 	 */
 	protected static GPoint2D[] getClipped(double x1, double y1, int mask1,
@@ -262,7 +266,6 @@ public class ClipLine {
 						p1x = p.getX();
 						p1y = p.getY();
 					} else {
-						GPoint2D[] ret = new GPoint2D[2];
 						ret2[0].setX(p1x);
 						ret2[0].setY(p1y);
 						ret2[1] = p;
