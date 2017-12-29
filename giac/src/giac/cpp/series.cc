@@ -2553,7 +2553,7 @@ namespace giac {
 	e_copy=subst(e_copy,cv,*cvg._VECTptr,false,contextptr);
     }
     if (!direction) { 
-      if (!is_analytic(e_copy)){
+      if (!is_analytic(e_copy) || has_op(e_copy,*at_acos) || has_op(e_copy,*at_asin)){
 	gen g1=unidirectional_limit(e_copy,x,lim_point,1,contextptr);
 	if (is_undef(g1))
 	  return g1;

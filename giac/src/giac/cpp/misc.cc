@@ -7379,7 +7379,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     vecteur tvif=makevecteur(symb_equal(yof,f),y);
     gen nothing=string2gen(" ",false);
     vecteur tvidf=makevecteur(symb_equal(symbolic(at_derive,yof),f1),limit(f1,xid,nextx,1,contextptr));
-    vecteur tvidf2=makevecteur(symbolic(at_derive,symbolic(at_derive,yof)),limit(f2,xid,nextx,1,contextptr));
+    vecteur tvidf2;
+    if (do_inflex)
+      tvidf2=makevecteur(symbolic(at_derive,symbolic(at_derive,yof)),limit(f2,xid,nextx,1,contextptr));
     int tvs=int(tvx.size());
     for (int i=1;i<tvs;++i){
       gen curx=nextx,dfx,df2;
@@ -7389,17 +7391,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       tvix.push_back(nothing);
       if (is_inf(nextx) && is_inf(curx)){
 	dfx=limit(f1,xid,0,0,contextptr);
-	df2=limit(f2,xid,0,0,contextptr);
+	if (do_inflex) df2=limit(f2,xid,0,0,contextptr);
       }
       else {
 	if (curx==minus_inf){
 	  dfx=limit(f1,xid,nextx-1,0,contextptr);
-	  df2=limit(f2,xid,nextx-1,0,contextptr);
+	  if (do_inflex) df2=limit(f2,xid,nextx-1,0,contextptr);
 	}
 	else {
 	  if (nextx==plus_inf){
 	    dfx=limit(f1,xid,curx+1,0,contextptr);
-	    df2=limit(f2,xid,curx+1,0,contextptr);
+	    if (do_inflex) df2=limit(f2,xid,curx+1,0,contextptr);
 	  }
 	  else {
 	    gen m=(curx+nextx)/2;
@@ -7413,7 +7415,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	    }
 	    if (in_domain(df,x,m,contextptr)){
 	      dfx=limit(f1,xid,m,0,contextptr);
-	      df2=limit(f2,xid,m,0,contextptr);
+	      if (do_inflex) df2=limit(f2,xid,m,0,contextptr);
 	    }
 	    else dfx=df2=undef;
 	  }
@@ -7480,7 +7482,9 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	if (do_inflex) tvidf2.push_back(string2gen("||",false));
       }
       else {
-	y=limit(f,xid,nextx,-1,contextptr);
+	y=limit(f,xid,nextx,-1,contextptr); 
+	if (0 && !is_inf(nextx) && !is_zero(recursive_normal(y-limit(f,xid,nextx,1,contextptr),contextptr))) // should not happen
+	  y=undef;
 	y=recursive_normal(y,contextptr);
 	if (!is_inf(y) && is_greater(ymin,y,contextptr))
 	  ymin=y;
@@ -7488,12 +7492,18 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	  ymax=y;
 	tvix.push_back(nextx);
 	tvif.push_back(crunch_rootof(y,contextptr));
-	y=limit(f1,xid,nextx,-1,contextptr);
+	y=limit(f1,xid,nextx,-1,contextptr); 
+	// additional check for same bidirectional limit
+	gen ysecond;
+	if (!is_inf(nextx) && !is_zero(recursive_normal(y-(ysecond=limit(f,xid,nextx,1,contextptr)),contextptr)))
+	  y=makevecteur(y,ysecond);
 	y=recursive_normal(y,contextptr);
 	tvidf.push_back(crunch_rootof(y,contextptr));
-	y=limit(f2,xid,nextx,-1,contextptr);
-	y=recursive_normal(y,contextptr);
-	if (do_inflex) tvidf2.push_back(crunch_rootof(y,contextptr));
+	if (do_inflex){
+	  y=limit(f2,xid,nextx,0,contextptr);
+	  y=recursive_normal(y,contextptr);
+	  tvidf2.push_back(crunch_rootof(y,contextptr));
+	}
       }
     }
     tvi=makevecteur(tvix,tvif,tvidf);

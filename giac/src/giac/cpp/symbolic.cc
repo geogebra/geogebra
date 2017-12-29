@@ -747,9 +747,10 @@ namespace giac {
   // name changed: BESTA compiler see this as repeated code with same sig as passing the itor itself 
   // - compiler whinges like a wounded pig --
   static void increment_instruction_ptr(const gen * it0,const gen * itend,GIAC_CONTEXT){
+    debug_struct *dbgptr=debug_ptr(contextptr);
     const gen * it=it0;
     for (;it!=itend;++it)
-      increment_instruction(*it,contextptr);
+      increment_instruction(*it,dbgptr);
   }
 
   // nr_eval is slower than usual eval because it saves what is usually saved

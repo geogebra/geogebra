@@ -3301,7 +3301,13 @@ namespace giac {
 #else
 
   gen _testfunc(const gen & g0,GIAC_CONTEXT){
+#if 0
+    string S;
+    pixon_print(g0,S,contextptr);
+    return string2gen(S,false);
+#else
     return g0;
+#endif
   }
   static const char _testfunc_s[]="testfunc";
   static define_unary_function_eval(__testfunc,&_testfunc,_testfunc_s);

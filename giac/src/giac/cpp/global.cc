@@ -3566,6 +3566,7 @@ extern "C" void Sleep(unsigned int miliSecond);
     ptr->stackaddr=0;
     thread_eval_status(0,contextptr);
     pthread_exit(0);
+    return 0;
   }
 
   // create a new thread for evaluation of g at level level in context

@@ -57,7 +57,8 @@ namespace giac {
   int bind(const vecteur & vals,const vecteur & vars,context * & contextptr);
   bool leave(int protect,vecteur & vars,context * & contextptr);
 
-  void increment_instruction(const vecteur & v,GIAC_CONTEXT);
+  void increment_instruction(const vecteur & v,debug_struct * dbgptr);
+  void increment_instruction(const gen & arg,debug_struct * dbgptr);
   void increment_instruction(const gen & arg,GIAC_CONTEXT);
   void debug_print(const vecteur & arg,std::vector<std::string> & v,GIAC_CONTEXT);
   void debug_print(const gen & e,std::vector<std::string>  & v,GIAC_CONTEXT);
