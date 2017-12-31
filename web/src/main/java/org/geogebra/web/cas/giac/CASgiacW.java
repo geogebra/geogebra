@@ -48,8 +48,9 @@ public class CASgiacW extends CASgiac {
 			Log.debug("switching to external");
 			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			this.casLoaded = true;
-		} else if (Browser.supportsJsCas()) {
-			initialize();
+		} else if (Browser.supportsJsCas()
+				&& kernel.getApplication().has(Feature.GGB_WEB_ASSEMBLY)) {
+			initialize(Browser.webAssemblySupported());
 		}
 
 	}
@@ -174,19 +175,24 @@ public class CASgiacW extends CASgiac {
 
 	/**
 	 * Make sure an instance of giac.js is loaded
+	 * 
+	 * @param wasm
+	 *            whether to use WebAssembly or JavaScript
 	 */
-	public void initialize() {
+	public void initialize(final boolean wasm) {
 
 		if (casLoaded) {
 			return;
 		}
+
+		final String versionString = wasm ? "giac.wasm" : "giac.js";
 
 		if (nativeCASloaded()) {
 
 			kernel.getApplication().invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					Log.debug("giac.js already loaded");
+					Log.debug(versionString + " is already loaded");
 					CASgiacW.this.casLoaded = true;
 					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 				}
@@ -199,20 +205,26 @@ public class CASgiacW extends CASgiac {
 		GWT.runAsync(new RunAsyncCallback() {
 			@Override
 			public void onSuccess() {
-				Log.debug("giac.js loading success");
-				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
+				Log.debug(versionString + " loading success");
+				if (wasm) {
+					JavaScriptInjector
+							.inject(CASResources.INSTANCE.giacWasmBase64());
+					JavaScriptInjector.inject(CASResources.INSTANCE.giacWasm());
+
+				} else {
+					JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
+
+				}
 				CASgiacW.this.casLoaded = true;
 				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			}
 
 			@Override
 			public void onFailure(Throwable reason) {
-				Log.debug("giac.js loading failure");
+				Log.debug(versionString + " loading failure");
 			}
 		});
 	}
-
-
 
 	@Override
 	public void clearResult() {

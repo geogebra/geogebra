@@ -135,6 +135,14 @@ public class Browser {
 		return 'undefined' !== typeof Float64Array;
 	}-*/;
 
+	/**
+	 * 
+	 * @return true if WebAssembly supported
+	 */
+	public static native boolean webAssemblySupported()/*-{
+		return !!$wnd.WebAssembly;
+	}-*/;
+
 	public static native boolean supportsPointerEvents(boolean usePen)/*-{
 		//$wnd.console.log("PEN SUPPORT" + usePen + "," + (!!$wnd.PointerEvent));
 		if (usePen && $wnd.PointerEvent) {
