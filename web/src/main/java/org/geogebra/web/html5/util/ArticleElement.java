@@ -414,8 +414,12 @@ public final class ArticleElement extends Element {
 		var sy = 1;
 
 		do {
-			var matrixRegex = /matrix\((-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+)\)/, style = $wnd
-					.getComputedStyle(current);
+			var matrixRegex = /matrix\((-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+),\s*(-?\d*\.?\d+)\)/;
+			var style;
+			// https://bugzilla.mozilla.org/show_bug.cgi?id=548397
+			if ($wnd.getComputedStyle) {
+				style = $wnd.getComputedStyle(current);
+			}
 			if (style) {
 				var transform = style.transform || style.webkitTransform
 						|| style.MozTransform || style.msTransform
