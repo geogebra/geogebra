@@ -207,8 +207,6 @@ public class CASgiacW extends CASgiac {
 			public void onSuccess() {
 				Log.debug(versionString + " loading success");
 				if (wasm) {
-					JavaScriptInjector
-							.inject(CASResources.INSTANCE.giacWasmBase64());
 					JavaScriptInjector.inject(CASResources.INSTANCE.giacWasm());
 
 				} else {

@@ -19,10 +19,10 @@ public interface CASResources extends ClientBundle {
 	TextResource giacJs();
 
 	/** @return giac.wasm */
-	@Source("org/geogebra/web/resources/js/giac.wasm.js")
+	@Source("org/geogebra/web/resources/js/giac.wasm.clamp64.js")
 	TextResource giacWasm();
 
 	/** @return giac.wasm */
-	@Source("org/geogebra/web/resources/js/giac.wasm-base64.js")
-	TextResource giacWasmBase64();
+	// @Source("org/geogebra/web/resources/js/giac.wasm-base64.js")
+	// TextResource giacWasmBase64();
 }
