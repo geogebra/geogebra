@@ -391,12 +391,14 @@ public class Relation {
 		} else {
 			ret[0] = ""; // undefined (UNKNOWN)
 		}
-		GeoElement last = list.get(list.size() - 1);
-		if (last.isGeoText()) {
-			String lastText = ((GeoText) last).getTextString();
-			if ("c".equals(lastText)) {
-				// true on components
-				ret[0] = "2";
+		if (list.size() > 0) {
+			GeoElement last = list.get(list.size() - 1);
+			if (last.isGeoText()) {
+				String lastText = ((GeoText) last).getTextString();
+				if ("c".equals(lastText)) {
+					// true on components
+					ret[0] = "2";
+				}
 			}
 		}
 		root.remove();
