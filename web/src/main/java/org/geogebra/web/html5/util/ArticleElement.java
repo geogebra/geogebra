@@ -391,14 +391,8 @@ public final class ArticleElement extends Element {
 	 * @return that the article element has (inherited) direction attribute
 	 */
 	public native boolean isRTL() /*-{
-		var style;
-		if ($wnd.getComputedStyle) {
-			style = $wnd.getComputedStyle(this);
-			return style.direction === "rtl";
-		} else if (this.currentStyle) {
-			return this.currentStyle.direction === "rtl";
-		}
-		return false;
+		var style = $wnd.getComputedStyle(this);
+		return style && style.direction === "rtl";
 	}-*/;
 
 	private static native String getTransform(JavaScriptObject style) /*-{
