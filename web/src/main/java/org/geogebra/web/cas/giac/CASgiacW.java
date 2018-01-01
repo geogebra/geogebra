@@ -48,9 +48,9 @@ public class CASgiacW extends CASgiac {
 			Log.debug("switching to external");
 			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			this.casLoaded = true;
-		} else if (Browser.supportsJsCas()
-				&& kernel.getApplication().has(Feature.GGB_WEB_ASSEMBLY)) {
-			initialize(Browser.webAssemblySupported());
+		} else if (Browser.supportsJsCas()) {
+			initialize(Browser.webAssemblySupported()
+					&& kernel.getApplication().has(Feature.GGB_WEB_ASSEMBLY));
 		}
 
 	}
@@ -202,26 +202,42 @@ public class CASgiacW extends CASgiac {
 
 		}
 
-		GWT.runAsync(new RunAsyncCallback() {
-			@Override
-			public void onSuccess() {
-				Log.debug(versionString + " loading success");
-				if (wasm) {
+		if (wasm) {
+
+			GWT.runAsync(new RunAsyncCallback() {
+				@Override
+				public void onSuccess() {
+					Log.debug(versionString + " loading success");
 					JavaScriptInjector.inject(CASResources.INSTANCE.giacWasm());
 
-				} else {
+					CASgiacW.this.casLoaded = true;
+					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+				}
+
+				@Override
+				public void onFailure(Throwable reason) {
+					Log.debug(versionString + " loading failure");
+				}
+			});
+
+		} else {
+
+			GWT.runAsync(new RunAsyncCallback() {
+				@Override
+				public void onSuccess() {
+					Log.debug(versionString + " loading success");
 					JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
 
+					CASgiacW.this.casLoaded = true;
+					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 				}
-				CASgiacW.this.casLoaded = true;
-				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-			}
 
-			@Override
-			public void onFailure(Throwable reason) {
-				Log.debug(versionString + " loading failure");
-			}
-		});
+				@Override
+				public void onFailure(Throwable reason) {
+					Log.debug(versionString + " loading failure");
+				}
+			});
+		}
 	}
 
 	@Override
