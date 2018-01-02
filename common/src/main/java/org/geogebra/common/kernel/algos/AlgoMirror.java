@@ -45,8 +45,8 @@ import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.prover.MirrorBotana;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.adapters.MirrorAdapter;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.util.MyMath;
@@ -67,7 +67,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	protected GeoElement mirror;
 
 	private GeoPoint transformedPoint;
-	private MirrorBotana mirrorBotana;
+	private MirrorAdapter mirrorBotana;
 
 	/**
 	 * Creates new "mirror at point" algo
@@ -457,7 +457,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	@Override
 	public PVariable[] getBotanaVars(GeoElementND geo) {
 		if (mirrorBotana == null) {
-			mirrorBotana = new MirrorBotana();
+			mirrorBotana = new MirrorAdapter();
 		}
 		return mirrorBotana.getBotanaVars();
 	}
@@ -466,7 +466,7 @@ public class AlgoMirror extends AlgoTransformation implements
 	public PPolynomial[] getBotanaPolynomials(GeoElementND geo)
 			throws NoSymbolicParametersException {
 		if (mirrorBotana == null) {
-			mirrorBotana = new MirrorBotana();
+			mirrorBotana = new MirrorAdapter();
 		}
 		return this.mirrorBotana.getBotanaPolynomials(geo, inGeo, mirrorLine,
 				mirrorPoint, mirrorConic);
