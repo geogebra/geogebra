@@ -149,6 +149,8 @@ public abstract class StepSolvable extends StepNode {
 			steps.levelUp();
 			steps.add(this);
 			steps.levelUp();
+
+			toAdd.cleanColors();
 		}
 	}
 
@@ -169,6 +171,8 @@ public abstract class StepSolvable extends StepNode {
 			steps.levelUp();
 			steps.add(this);
 			steps.levelUp();
+
+			toSubtract.cleanColors();
 		}
 	}
 
@@ -206,6 +210,8 @@ public abstract class StepSolvable extends StepNode {
 			steps.levelUp();
 			steps.add(this);
 			steps.levelUp();
+
+			toMultiply.cleanColors();
 		}
 	}
 
@@ -226,6 +232,8 @@ public abstract class StepSolvable extends StepNode {
 			steps.levelUp();
 			steps.add(this);
 			steps.levelUp();
+
+			toDivide.cleanColors();
 		}
 	}
 

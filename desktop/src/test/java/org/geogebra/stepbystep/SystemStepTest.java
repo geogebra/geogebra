@@ -1,6 +1,7 @@
 package org.geogebra.stepbystep;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.CASException;
@@ -16,7 +17,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 @SuppressWarnings("javadoc")
-public class InequalityStepTest {
+public class SystemStepTest {
     private static App app;
 
     @BeforeClass
@@ -35,36 +36,31 @@ public class InequalityStepTest {
     private static int caseCounter = 0;
 
     @Test
-    public void linearInequality() {
-        i("3x + 2", "<=", "5", "x", "(-inf, 1]");
-        i("3x + 2", "<", "5", "x", "(-inf, 1)");
-        i("2x + 1", ">", "9x+7", "x", "(-(6)/(7), inf)");
-        i("2x + 1", ">=", "9x+7", "x", "[-(6)/(7), inf)");
+    public void linearSystems() {
+        t(new String[] { "3x + 2y + z = 2", "2x + 3y + 3z = 1", "3x + 2y + 3z = 3"}, new String[] {});
+        t(new String[] { "3x + 2y = 1", "2x + 3y = 2"}, new String[] {});
     }
 
-    public void i(String LHS, String op, String RHS, String variable, String... expectedSolutions) {
+    public void t(String[] equations, String[] expectedSolutions) {
         if (needsHeading) {
             Throwable t = new Throwable();
             htmlBuilder.addHeading(t.getStackTrace()[1].getMethodName(), 1);
             needsHeading = false;
         }
+
         htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
 
-        StepExpression _LHS = (StepExpression) StepNode.getStepTree(LHS, app.getKernel().getParser());
-        StepExpression _RHS = (StepExpression) StepNode.getStepTree(RHS, app.getKernel().getParser());
-        StepVariable var = new StepVariable(variable);
-
-        boolean lessThan = op.contains("<");
-        boolean strong = !op.contains("=");
-
-        SolutionBuilder steps = new SolutionBuilder();
+        List<StepEquation> stepEquations = new ArrayList<>();
+        for (String eq : equations) {
+            stepEquations.add(new StepEquation(eq, app.getKernel().getParser()));
+        }
 
         StepNode[] solutions = new StepNode[0];
+        SolutionBuilder steps = new SolutionBuilder();
+        StepEquationSystem ses = new StepEquationSystem(stepEquations.toArray(new StepEquation[0]));
 
         try {
-            solutions = new StepInequality(_LHS, _RHS, lessThan, strong).solveAndCompareToCAS(app.getKernel(), var,
-                    steps)
-                    .getElements();
+            solutions = ses.solve(steps).getElements();
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);
             e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
@@ -83,18 +79,6 @@ public class InequalityStepTest {
         }
 
         steps.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());
-
-        Assert.assertEquals(expectedSolutions.length, solutions.length);
-
-        String[] actualSolutions = new String[solutions.length];
-        for (int i = 0; i < expectedSolutions.length; i++) {
-            actualSolutions[i] = solutions[i].toString();
-        }
-
-        Arrays.sort(expectedSolutions);
-        Arrays.sort(actualSolutions);
-
-        Assert.assertArrayEquals(expectedSolutions, actualSolutions);
     }
 
     @Before
@@ -104,6 +88,6 @@ public class InequalityStepTest {
 
     @AfterClass
     public static void printHtml() {
-        htmlBuilder.printReport("solve.html");
+        htmlBuilder.printReport("system.html");
     }
 }

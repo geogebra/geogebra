@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
@@ -163,7 +164,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return whether the current node is an integer (not Integer..)
 	 */
 	public boolean isInteger() {
-		return this.nonSpecialConstant() && isEqual(Math.round(this.getValue()), this.getValue());
+		return isEqual(Math.round(getValue()), getValue());
 	}
 
 	/**
@@ -178,7 +179,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		if (isSquareRoot()) {
 			return true;
 		}
-		if (this instanceof StepOperation) {
+		if (isOperation(Operation.MULTIPLY) || isOperation(Operation.MINUS)) {
 			for (int i = 0; i < ((StepOperation) this).noOfOperands(); i++) {
 				if (((StepOperation) this).getSubTree(i).containsSquareRoot()) {
 					return true;
@@ -306,6 +307,11 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return this;
 	}
 
+	public StepExpression regroupOutput(SolutionBuilder sb) {
+		sb.add(SolutionStepType.SIMPLIFY, this);
+		return regroup(sb);
+	}
+
 	/**
 	 * @return the tree, regrouped and expanded (destroys the tree, use only in
 	 *         assignments)
@@ -326,6 +332,11 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		}
 
 		return this;
+	}
+
+	public StepExpression expandOutput(SolutionBuilder sb) {
+		sb.add(SolutionStepType.EXPAND, this);
+		return expand(sb);
 	}
 
 	/**
@@ -350,10 +361,15 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 
 	public StepExpression factorEquation(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
-			return (StepExpression) StepStrategies.defaultFactor(this, sb, new RegroupTracker(true, true));
+			return (StepExpression) StepStrategies.defaultFactor(this, sb, new RegroupTracker().setWeakFactor());
 		}
 
 		return this;
+	}
+
+	public StepExpression factorOutput(SolutionBuilder sb) {
+		sb.add(SolutionStepType.FACTOR, this);
+		return factor(sb);
 	}
 
 	public StepExpression differentiate() {
@@ -366,6 +382,11 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		}
 
 		return this;
+	}
+
+	public StepExpression differentiateOutput(SolutionBuilder sb) {
+		sb.add(SolutionStepType.DIFFERENTIATE, this);
+		return differentiate(sb);
 	}
 
 	/**
@@ -400,7 +421,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	public static StepExpression[] convertToPolynomial(StepExpression toConvert, StepVariable var) {
 		List<StepExpression> poli = new ArrayList<>();
 
-		StepExpression temp = StepHelper.findConstant(toConvert);
+		StepExpression temp = StepHelper.findConstantIn(toConvert, var);
 		poli.add(temp);
 
 		for (int pow = 1; pow <= StepHelper.degree(toConvert); pow++) {
@@ -524,18 +545,27 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return null;
 	}
 
+	public StepExpression getDenominator() {
+		if (isOperation(Operation.MINUS)) {
+			return ((StepOperation) this).getSubTree(0).getDenominator();
+		} else if (isOperation(Operation.DIVIDE)) {
+			return ((StepOperation) this).getSubTree(1);
+		}
+
+		return null;
+	}
+
 	/**
-	 * @param sn
 	 * @return the denominator of the tree, if it's an integer. 0 otherwise
 	 */
-	public static long getConstantDenominator(StepExpression sn) {
-		if (sn.isOperation(Operation.MINUS)) {
-			return getConstantDenominator(((StepOperation) sn).getSubTree(0));
-		} else if (sn.isOperation(Operation.DIVIDE)) {
-			if (closeToAnInteger(((StepOperation) sn).getSubTree(1))) {
-				return Math.round(((StepOperation) sn).getSubTree(1).getValue());
+	public long getConstantDenominator() {
+		if (isOperation(Operation.MINUS)) {
+			return ((StepOperation) this).getSubTree(0).getConstantDenominator();
+		} else if (isOperation(Operation.DIVIDE)) {
+			if (closeToAnInteger(((StepOperation) this).getSubTree(1))) {
+				return Math.round(((StepOperation) this).getSubTree(1).getValue());
 			}
-		} else if (sn.isConstant()) {
+		} else if (isConstant()) {
 			return 1;
 		}
 
@@ -543,22 +573,21 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	}
 
 	/**
-	 * @param sn
 	 * @return the numerator of the tree.
 	 */
-	public static StepExpression getNumerator(StepExpression sn) {
-		if (sn.isOperation(Operation.MINUS)) {
-			return minus(getNumerator(((StepOperation) sn).getSubTree(0)));
-		} else if (sn.isOperation(Operation.DIVIDE)) {
-			return ((StepOperation) sn).getSubTree(0);
+	public StepExpression getNumerator() {
+		if (isOperation(Operation.MINUS)) {
+			return minus(((StepOperation) this).getSubTree(0).getNumerator());
+		} else if (isOperation(Operation.DIVIDE)) {
+			return ((StepOperation) this).getSubTree(0);
 		}
-		return sn;
+		return this;
 	}
 
 	/**
 	 * Returns the value of arcsin(a), arccos(a) and arctg(a) for simple a-s
 	 * 
-	 * @param so
+	 * @param so inverse trigonometric expression (such as arccos(1))
 	 * @return the value, if it can be evaluated, null otherwise
 	 */
 	public static StepExpression inverseTrigoLookup(StepOperation so) {

@@ -183,6 +183,13 @@ public abstract class StepNode {
 	 *            set of variables found in the tree
 	 */
 	public void getListOfVariables(Set<StepVariable> variableList) {
+		if (this instanceof StepSolvable) {
+			StepSolvable ss = (StepSolvable) this;
+
+			ss.getLHS().getListOfVariables(variableList);
+			ss.getRHS().getListOfVariables(variableList);
+		}
+
 		if (this instanceof StepOperation) {
 			StepOperation so = (StepOperation) this;
 			for (int i = 0; i < so.noOfOperands(); i++) {
@@ -328,6 +335,7 @@ public abstract class StepNode {
 			if (b == null) {
 				return null;
 			}
+
 			return divide(new StepConstant(1), b);
 		}
 		if (b == null) {
@@ -442,8 +450,12 @@ public abstract class StepNode {
 		return lcm(Math.round(a.getValue()), Math.round(b.getValue()));
 	}
 
+	public static boolean isEqual(StepExpression a, StepExpression b) {
+		return a.canBeEvaluated() && b.canBeEvaluated() && isEqual(a.getValue(), b.getValue());
+	}
+
 	public static boolean isEqual(StepExpression a, double b) {
-		return a.nonSpecialConstant() && isEqual(a.getValue(), b);
+		return a.canBeEvaluated() && isEqual(a.getValue(), b);
 	}
 
 	public static boolean isZero(StepExpression a) {

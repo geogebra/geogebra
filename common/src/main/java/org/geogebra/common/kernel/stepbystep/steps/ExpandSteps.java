@@ -163,5 +163,9 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 			return newSum;
 		}
+	};
+
+	public int type() {
+		return 0;
 	}
 }

@@ -9,27 +9,53 @@ import org.geogebra.common.util.debug.Log;
 
 public class StepStrategies {
 
-	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb) {
-		RegroupSteps[] defaultStrategy = new RegroupSteps[] { RegroupSteps.CALCULATE_INVERSE_TRIGO,
+	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] { RegroupSteps.CALCULATE_INVERSE_TRIGO,
 				RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION, RegroupSteps.EXPAND_ROOT, RegroupSteps.COMMON_ROOT,
 				RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS, RegroupSteps.SIMPLE_POWERS, RegroupSteps.SIMPLE_ROOTS,
-				RegroupSteps.FACTOR_SQUARE, RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS, RegroupSteps.ELIMINATE_OPPOSITES,
-				RegroupSteps.DISTRIBUTE_MINUS, RegroupSteps.ELIMINATE_OPPOSITES, RegroupSteps.DOUBLE_MINUS,
-				RegroupSteps.SIMPLIFY_FRACTIONS,RegroupSteps.REWRITE_COMPLEX_FRACTIONS, RegroupSteps.COMMON_FRACTION,
-				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT, RegroupSteps.MULTIPLY_NEGATIVES,
-				RegroupSteps.REGROUP_SUMS, RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.ADD_FRACTIONS,
-				RegroupSteps.POWER_OF_NEGATIVE, RegroupSteps.RATIONALIZE_DENOMINATORS };
+				RegroupSteps.FACTOR_SQUARE, RegroupSteps.ELIMINATE_OPPOSITES, RegroupSteps.NEGATIVE_FRACTIONS,
+				RegroupSteps.MULTIPLY_NEGATIVES, RegroupSteps.DISTRIBUTE_MINUS,
+				RegroupSteps.DOUBLE_MINUS, RegroupSteps.TRIVIAL_FRACTIONS, RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
+				RegroupSteps.SIMPLIFY_FRACTIONS, RegroupSteps.COMMON_FRACTION, RegroupSteps
+				.DISTRIBUTE_POWER_OVER_PRODUCT, RegroupSteps.REGROUP_SUMS,
+				RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.FACTOR_FRACTIONS_SUBSTEP, RegroupSteps
+				.RATIONALIZE_DENOMINATORS, FractionSteps.ADD_FRACTIONS,	RegroupSteps.POWER_OF_NEGATIVE };
 
 		StepNode result = sn;
 		String old, current = null;
 		do {
-			result = implementStrategy(result, sb, defaultStrategy);
+			result = implementStrategy(result, sb, defaultStrategy, tracker);
 			old = current;
 			current = result.toString();
 		} while (!current.equals(old));
 
 		return result;
 	}
+
+	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb) {
+		return defaultRegroup(sn, sb, new RegroupTracker());
+	}
+
+	public static StepNode weakRegroup(StepNode sn, SolutionBuilder sb) {
+		SimplificationStepGenerator[] weakStrategy = new SimplificationStepGenerator[] {
+				RegroupSteps.CALCULATE_INVERSE_TRIGO, RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS, RegroupSteps.SIMPLE_POWERS,
+				RegroupSteps.SIMPLE_ROOTS, RegroupSteps.FACTOR_SQUARE, RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS,
+				RegroupSteps.ELIMINATE_OPPOSITES, RegroupSteps.NEGATIVE_FRACTIONS, RegroupSteps.DOUBLE_MINUS,
+				RegroupSteps.TRIVIAL_FRACTIONS, RegroupSteps.REWRITE_COMPLEX_FRACTIONS, RegroupSteps.COMMON_FRACTION,
+				RegroupSteps.SIMPLIFY_FRACTIONS, RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT, RegroupSteps.MULTIPLY_NEGATIVES,
+				RegroupSteps.REGROUP_SUMS, RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.POWER_OF_NEGATIVE };
+
+		StepNode result = sn;
+		String old, current = null;
+		do {
+			result = implementStrategy(result, sb, weakStrategy);
+			old = current;
+			current = result.toString();
+		} while (!current.equals(old));
+
+		return result;
+	}
+
 
 	public static StepNode defaultExpand(StepNode sn, SolutionBuilder sb) {
 		SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] { ExpandSteps.EXPAND_POWERS,
@@ -47,22 +73,29 @@ public class StepStrategies {
 		return result;
 	}
 
-	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] { FactorSteps.FACTOR_COMMON,
-				FactorSteps.FACTOR_INTEGER, FactorSteps.COMPLETING_THE_SQUARE, FactorSteps.FACTOR_BINOM_CUBED,
-				FactorSteps.FACTOR_BINOM_SQUARED, FactorSteps.FACTOR_BINOM_SQUARED, FactorSteps.FACTOR_USING_FORMULA,
-				FactorSteps.REORGANIZE_POLYNOMIAL, FactorSteps.FACTOR_POLYNOMIAL, FactorSteps.FACTOR_COMMON };
+	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker, boolean withRegroup) {
+		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[]{FactorSteps.FACTOR_COMMON,
+				FactorSteps.FACTOR_INTEGER, FactorSteps.FACTOR_BINOM_STRATEGY, FactorSteps.FACTOR_BINOM_CUBED,
+				FactorSteps.FACTOR_USING_FORMULA, FactorSteps.FACTOR_POLYNOMIALS };
 
 		StepNode result = sn;
 		String old, current = null;
+
 		do {
-			result = defaultRegroup(result, sb);
 			result = implementStrategy(result, sb, defaultStrategy, tracker);
+			if (withRegroup) {
+				result = weakRegroup(result, sb);
+			}
+
 			old = current;
 			current = result.toString();
 		} while (!current.equals(old));
 
 		return result;
+	}
+
+	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		return defaultFactor(sn, sb, tracker, true);
 	}
 
 	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb) {
@@ -73,10 +106,6 @@ public class StepStrategies {
 				DifferentiationSteps.DIFFERENTIATE_PRODUCT, DifferentiationSteps.DIFFERENTIATE_ROOT,
 				DifferentiationSteps.DIFFERENTIATE_TRIGO, DifferentiationSteps.DIFFERENTIATE_LOG,
 				DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO };
-
-		if (sb != null) {
-			sb.add(SolutionStepType.DIFFERENTIATE, sn);
-		}
 
 		StepNode result = sn;
 		String old, current = null;
@@ -92,47 +121,49 @@ public class StepStrategies {
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
 											 RegroupTracker tracker) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
-		StepNode origSn = sn, newSn;
+		StepNode newSn;
 
 		for (SimplificationStepGenerator simplificationStep : strategy) {
-			newSn = simplificationStep.apply(origSn, changes, tracker);
+			newSn = simplificationStep.apply(sn, changes, tracker);
 
 			if (printDebug) {
 				if (tracker.wasChanged()) {
 					Log.error("changed at " + simplificationStep);
-					Log.error("from: " + origSn);
+					Log.error("from: " + sn);
 					Log.error("to: " + newSn);
 				}
 			}
 
 			if (tracker.wasChanged()) {
 				if (sb != null) {
-					if (simplificationStep == RegroupSteps.ADD_FRACTIONS
-							|| simplificationStep == RegroupSteps.RATIONALIZE_DENOMINATORS) {
-						sb.add(SolutionStepType.GROUP_WRAPPER);
-						sb.levelDown();
-					} else {
+					if (simplificationStep.type() == 0) { // group type
 						sb.add(SolutionStepType.SUBSTEP_WRAPPER);
 						sb.levelDown();
-						sb.add(SolutionStepType.EQUATION, origSn.deepCopy());
+						sb.add(SolutionStepType.EQUATION, sn.deepCopy());
+						sb.addAll(changes.getSteps());
+						sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
+						sb.levelUp();
+					} else if (simplificationStep.type() == 1) { // substep type
+						sb.add(SolutionStepType.GROUP_WRAPPER);
+						sb.levelDown();
+						sb.addAll(changes.getSteps());
+						sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
+						sb.levelUp();
+					} else { // strategy type
+						sb.addAll(changes.getSteps());
 					}
-					sb.addAll(changes.getSteps());
-					sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
-					sb.levelUp();
 				}
 
+				tracker.resetTracker();
 				newSn.cleanColors();
+				return newSn;
 			}
-
-			tracker.resetTracker();
-			changes.reset();
-			origSn = newSn;
 		}
 
-		return origSn;
+		return sn;
 	}
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy) {
@@ -141,9 +172,10 @@ public class StepStrategies {
 
 	public static StepNode defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb) {
 		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON, EquationSteps.FACTOR,
-				EquationSteps.SOLVE_PRODUCT, EquationSteps.PLUSMINUS, EquationSteps.RECIPROCATE_EQUATION,
-				EquationSteps.SOLVE_LINEAR_IN_INVERSE,
-				EquationSteps.COMMON_DENOMINATOR, EquationSteps.SOLVE_LINEAR, EquationSteps.TAKE_ROOT, EquationSteps.EXPAND, EquationSteps.SOLVE_QUADRATIC,
+				EquationSteps.SOLVE_PRODUCT, EquationSteps.PLUSMINUS, EquationSteps.MULTIPLY_THROUGH,
+				EquationSteps.SOLVE_LINEAR, EquationSteps.RECIPROCATE_EQUATION,
+				EquationSteps.SOLVE_LINEAR_IN_INVERSE, EquationSteps.TAKE_ROOT, EquationSteps.COMMON_DENOMINATOR,
+				EquationSteps.EXPAND, EquationSteps.SOLVE_QUADRATIC,
 				EquationSteps.COMPLETE_CUBE, EquationSteps.REDUCE_TO_QUADRATIC, EquationSteps.SOLVE_ABSOLUTE_VALUE,
 				EquationSteps.SOLVE_IRRATIONAL, EquationSteps.SOLVE_TRIGONOMETRIC,
 				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC };
@@ -161,7 +193,7 @@ public class StepStrategies {
 
 	public static StepNode implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
 
@@ -170,7 +202,7 @@ public class StepStrategies {
 			sb.levelDown();
 
 			if (se.getRestriction().equals(StepInterval.R)) {
-				sb.add(SolutionStepType.SOLVE, se);
+				sb.add(SolutionStepType.SOLVE, se, variable);
 			} else {
 				sb.add(SolutionStepType.SOLVE_IN, se, se.getRestriction());
 			}
@@ -179,7 +211,7 @@ public class StepStrategies {
 		}
 
 		StepNode result = se;
-		String old = null, current = null;
+		String old, current = null;
 		do {
 			boolean changed = false;
 			for (int i = 0; i < strategy.length && !changed; i++) {
@@ -232,7 +264,7 @@ public class StepStrategies {
 			StepOperation toReturn = null;
 			for (int i = 0; i < so.noOfOperands(); i++) {
 				if (so.isOperation(Operation.DIVIDE) && i == 1) {
-					tracker.setDenominator();
+					tracker.setDenominator(true);
 				}
 
 				StepExpression a = (StepExpression) step.apply(so.getSubTree(i), sb, tracker);
@@ -245,6 +277,10 @@ public class StepStrategies {
 				}
 				if (toReturn != null) {
 					toReturn.addSubTree(a);
+				}
+
+				if (so.isOperation(Operation.DIVIDE) && i == 1) {
+					tracker.setDenominator(false);
 				}
 			}
 

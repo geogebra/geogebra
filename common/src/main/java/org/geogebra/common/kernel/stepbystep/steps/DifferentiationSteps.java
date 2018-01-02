@@ -467,5 +467,9 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
+	};
+
+	public int type() {
+		return 0;
 	}
 }

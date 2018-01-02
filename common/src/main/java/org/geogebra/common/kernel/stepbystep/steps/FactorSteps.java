@@ -2,14 +2,7 @@ package org.geogebra.common.kernel.stepbystep.steps;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.gcd;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEven;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -109,6 +102,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				}
 
 				tracker.setColorTracker(tempTracker);
+
 				sb.add(SolutionStepType.FACTOR_COMMON, common);
 				return multiply(common, result);
 			}
@@ -130,7 +124,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					integerParts[i] = so.getSubTree(i).getIntegerCoefficient();
 
-					if (integerParts[i] == null) {
+					if (integerParts[i] == null || !closeToAnInteger(integerParts[i])) {
 						return so;
 					}
 
@@ -172,6 +166,30 @@ public enum FactorSteps implements SimplificationStepGenerator {
 			}
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	FACTOR_BINOM_STRATEGY {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					COMPLETING_THE_SQUARE, FACTOR_BINOM_SQUARED
+			};
+
+			StepNode result = sn;
+			String old, current = null;
+
+			do {
+				result = StepStrategies.implementStrategy(result, sb, strategy, tracker);
+				old = current;
+				current = result.toString();
+			} while (!current.equals(old));
+
+			if (result != sn) {
+				tracker.incColorTracker();
+			}
+
+			return result;
 		}
 	},
 
@@ -463,7 +481,6 @@ public enum FactorSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-
 				Set<StepVariable> variableSet = new HashSet<>();
 				so.getListOfVariables(variableSet);
 
@@ -491,7 +508,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					long constant = Math.abs(integerForm[0]);
 					long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
 
-					if (Math.abs(constant) > 100 || Math.abs(highestOrder) > 100) {
+					if (constant > 100 || highestOrder > 100) {
 						return StepStrategies.iterateThrough(this, sn, sb, tracker);
 					}
 
@@ -511,9 +528,13 @@ public enum FactorSteps implements SimplificationStepGenerator {
 									integerForm[k - 1] += i * integerForm[k] / j;
 								}
 
-								tracker.incColorTracker();
-								sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
-								return reorganized;
+								if (!so.equals(reorganized)) {
+									tracker.incColorTracker();
+									sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
+									return reorganized;
+								} else {
+									return StepStrategies.iterateThrough(this, sn, sb, tracker);
+								}
 							}
 						}
 					}
@@ -537,7 +558,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				if (variableSet.size() == 1) {
 					var = (StepVariable) variableSet.toArray()[0];
 				}
-				
+
 				if (var != null && so.integerCoefficients(var)) {
 					StepExpression[] polynomialForm = StepExpression.convertToPolynomial(so, var);
 					long[] integerForm = new long[polynomialForm.length];
@@ -557,7 +578,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					long constant = Math.abs(integerForm[0]);
 					long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
 
-					if (Math.abs(constant) > 100 || Math.abs(highestOrder) > 100) {
+					if (constant > 100 || highestOrder > 100) {
 						return StepStrategies.iterateThrough(this, sn, sb, tracker);
 					}
 
@@ -587,5 +608,44 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
+	},
+
+	FACTOR_POLYNOMIALS {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					FactorSteps.FACTOR_COMMON, FactorSteps.REORGANIZE_POLYNOMIAL, FactorSteps.FACTOR_POLYNOMIAL
+			};
+
+			SolutionBuilder factorSteps = new SolutionBuilder();
+			StepNode temp = StepStrategies.implementStrategy(sn, factorSteps, strategy);
+
+			if (!temp.equals(sn)) {
+				temp = StepStrategies.implementStrategy(temp, factorSteps, strategy);
+				temp = StepStrategies.implementStrategy(temp, factorSteps, strategy);
+
+				if (sb != null) {
+					sb.add(SolutionStepType.FACTOR_POLYNOMIAL);
+					sb.levelDown();
+					sb.addAll(factorSteps.getSteps());
+					sb.levelUp();
+				}
+
+				tracker.incColorTracker();
+				return temp;
+			}
+
+			return sn;
+		}
+	};
+
+	public int type() {
+		if (this == FACTOR_BINOM_STRATEGY) {
+			return 2;
+		} else if (this == FACTOR_POLYNOMIALS) {
+			return 1;
+		}
+
+		return 0;
 	}
 }

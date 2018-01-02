@@ -76,7 +76,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			return copyOfThis.exactEquals(copyOfThat);
 		}
 
-		return false;
+		return obj instanceof StepConstant && isEqual((StepConstant) obj, this);
 	}
 
 	private void sort() {

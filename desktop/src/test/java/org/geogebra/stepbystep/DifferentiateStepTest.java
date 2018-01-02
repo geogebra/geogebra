@@ -58,12 +58,8 @@ public class DifferentiateStepTest {
 		SolutionBuilder sb = new SolutionBuilder();
 		
 		StepExpression sn = (StepExpression) StepNode.getStepTree(toDifferentiate, app.getKernel().getParser());
-
 		StepExpression input = StepNode.differentiate(sn, new StepVariable(variable));
-
-		Log.error(sn.toString());
-		Log.error(input.toString());
-		String result = input.differentiate(sb).toString();
+		String result = input.differentiateOutput(sb).toString();
 
 		SolutionStep steps = sb.getSteps();
 		steps.getListOfSteps(htmlBuilder, app.getLocalization());

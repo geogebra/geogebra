@@ -73,16 +73,16 @@ public class StepEquation extends StepSolvable {
 
 	@Override
 	public StepSet trivialSolution(StepVariable variable) {
+		if (LHS.equals(RHS)) {
+			return new StepSet(getRestriction());
+		}
+
 		if (LHS.equals(variable)) {
 			return new StepSet(RHS);
 		}
 
 		if (RHS.equals(variable)) {
 			return new StepSet(LHS);
-		}
-
-		if (LHS.equals(RHS)) {
-			return new StepSet(getRestriction());
 		}
 
 		return new StepSet();
@@ -97,8 +97,14 @@ public class StepEquation extends StepSolvable {
 		return (StepEquation) super.regroup(sb);
 	}
 
-	public boolean isValid(StepVariable var, double val) {
-		return isEqual(LHS.getValueAt(var, val), RHS.getValueAt(var, val));
+	public boolean isValid(StepVariable var, StepExpression val) {
+		StepEquation copy = deepCopy();
+		copy.replace(var, val);
+
+		copy.expand();
+
+		return copy.getLHS().equals(copy.getRHS()) || isEqual(LHS.getValueAt(var, val.getValue()), RHS.getValueAt(var,
+				val.getValue()));
 	}
 
 	public StepSet solve(StepVariable sv, SolutionBuilder sb) {
@@ -139,7 +145,7 @@ public class StepEquation extends StepSolvable {
 				return false;
 			}
 		} else {
-			if (isValid(variable, solution.getValue())) {
+			if (isValid(variable, solution)) {
 				steps.add(SolutionStepType.VALID_SOLUTION, new StepEquation(variable, solution));
 			} else {
 				steps.add(SolutionStepType.INVALID_SOLUTION, new StepEquation(variable, solution));

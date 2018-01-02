@@ -63,7 +63,7 @@ public class StepArbitraryConstant extends StepExpression {
 
 	@Override
 	public boolean canBeEvaluated() {
-		return true;
+		return false;
 	}
 
 	@Override

@@ -17,11 +17,15 @@ public enum SolutionStepType {
 
 	EQUATION("", "%0"),
 
-	SOLVE("Solve", "Solve: %0"),
+	SIMPLIFY("SimplifyA", "Simplify %0"),
+
+	EXPAND("ExpandA", "Expand %0"),
+
+	FACTOR("FactorA", "Factor %0"),
+
+	SOLVE("Solve", "Solve: %0 for %1"),
 
 	SOLVE_IN("SolveIn", "Solve %0 in %1"),
-
-	SOLVING_IN_INTERVAL("SolvingInInterval", "Solve %0 when %1"),
 
 	CANT_SOLVE("CantSolve", "Cannot Solve"),
 
@@ -170,6 +174,8 @@ public enum SolutionStepType {
 
 	ODD_POWER_NEGATIVE("OddPowerNegative", "An odd power of a negative number is a negative"),
 
+	NEGATIVE_NUM_DENOM("NegativeNumeratorOrDenominator", "Use \\frac{-a}{b} = \\frac{a}{-b} = -\\frac{a}{b}"),
+
 	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power by: %0"),
 
 	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power by: %0"),
@@ -220,6 +226,8 @@ public enum SolutionStepType {
 
 	DIFFERENCE_OF_SQUARES("DifferenceOfSquares", "Use $(a+b)(a-b) \\equiv a^2-b^2$ to expand"),
 
+	FACTOR_FRACTIONS("FactorFractions", "Factor fractions"),
+
 	SUM_OF_CUBES("SumOfCubes", "Use $a^3 + b^3 = (a + b)(a^2 - ab + b^2)$ to factor"),
 
 	BINOM_SQUARED_SUM_FACTOR("BinomSquaredSum", "Use $a^2 + 2ab + b^2 \\equiv (a+b)^2$ to factor"),
@@ -235,6 +243,8 @@ public enum SolutionStepType {
 	BINOM_CUBED_DIFF_FACTOR("BinomCubed", "Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to factor"),
 
 	FACTOR_COMMON("FactorOutA", "Factor out %0"),
+
+	FACTOR_POLYNOMIAL("FactorPolynomial", "Factor polynomial"),
 
 	FACTOR_FROM_PAIR("FactorOutAFromEveryPair", "Factor out %0 from every pair"),
 
