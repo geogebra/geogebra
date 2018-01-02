@@ -51,7 +51,7 @@ $duration: 0.2s;
 				}
 			
 				.gwt-Label {
-					font-size: 13px;
+					font-size: 80%;
 					color: $teal-default;
 					cursor: default;
 				}
@@ -127,7 +127,7 @@ $duration: 0.2s;
 	/* recover dialog*/
 	.MaterialDialogBox.RecoverAutoSavedDialog, .MaterialDialogBox.GeoGebraFileChooser {
 		.infotext {
-			font-size: 15px;
+			font-size: 95%;
 			margin-right: 16px;
 		} 
 		.buttonPanel {
@@ -169,7 +169,7 @@ $duration: 0.2s;
     		text-align: center;
     		min-width: 24px;
     		height: 24px;
-    		font-size: 14px;
+    		font-size: 90%;
     		line-height: 24px;
     		text-align: center;
     		text-decoration: none;
@@ -255,7 +255,7 @@ $duration: 0.2s;
     		outline: none;
     		background: transparent;
     		color: $teal-default;
-    		font-size: 14px;
+    		font-size: 90%;
     		font-weight: 500;
     		letter-spacing: .04em;
     		line-height: 36px;
@@ -278,7 +278,7 @@ $duration: 0.2s;
     	}
    		
    		.Caption { 
-   			font-size: 20px;	
+   			font-size: 125%;	
    			margin-bottom: 20px;
    			color: #666;
     		border: none;
@@ -299,7 +299,7 @@ $duration: 0.2s;
 		}
    	
    		.coloredLabel {
-   			font-size: 13px;
+   			font-size: 80%;
    			color: $teal-default;
    		}
    		
@@ -328,7 +328,7 @@ $duration: 0.2s;
 		}
 	
 		.gwt-Label {
-   			font-size: 13px;
+   			font-size: 80%;
    			margin-top: 10px;
 		}
 	
@@ -348,7 +348,7 @@ $duration: 0.2s;
    		
    		.gwt-TabBar {
    			.gwt-Label {
-   				font-size: 16px !important;
+   				font-size: 100% !important;
 			}
    			
    		}

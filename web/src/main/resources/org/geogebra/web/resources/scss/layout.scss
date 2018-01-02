@@ -11,13 +11,13 @@
 		opacity: 1;
 		transition: opacity 0s linear 1s;
 		content: attr(data-title);
-		font-size: 10px;
+		font-size: 65%;
 		white-space: nowrap; 
 		position: absolute;
 		top: 30px;
 		left: -8px;
     	height: 22px;
-    	line-height: 22px !important;
+    	line-height: 21px !important;
     	padding-left: 8px !important;
     	padding-right: 8px !important;
     	vertical-align: middle;
