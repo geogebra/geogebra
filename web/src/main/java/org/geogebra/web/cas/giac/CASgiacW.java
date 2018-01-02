@@ -236,8 +236,8 @@ public class CASgiacW extends CASgiac {
 
 	protected void initCAS(String versionString) {
 		Log.debug(versionString + " loading success");
-		CASgiacW.this.casLoaded = true;
-		CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+		this.casLoaded = true;
+		this.kernel.getApplication().getGgbApi().initCAS();
 	}
 
 	@Override
