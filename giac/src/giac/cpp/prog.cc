@@ -1776,6 +1776,7 @@ namespace giac {
 
   gen _evalb(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    if (args.type==_VECT) return apply(args,_evalb,contextptr);
     gen test=equaltosame(args);
     test=normal(test,contextptr);
     test=test.eval(eval_level(contextptr),contextptr);

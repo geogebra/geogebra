@@ -7495,7 +7495,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	y=limit(f1,xid,nextx,-1,contextptr); 
 	// additional check for same bidirectional limit
 	gen ysecond;
-	if (!is_inf(nextx) && !is_zero(recursive_normal(y-(ysecond=limit(f,xid,nextx,1,contextptr)),contextptr)))
+	if (!is_inf(nextx) && !is_zero(recursive_normal(y-(ysecond=limit(f1,xid,nextx,1,contextptr)),contextptr)))
 	  y=makevecteur(y,ysecond);
 	y=recursive_normal(y,contextptr);
 	tvidf.push_back(crunch_rootof(y,contextptr));

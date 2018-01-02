@@ -104,6 +104,7 @@ namespace giac {
   inline index_t index_min(const index_t & a,const index_t & b){ return index_gcd(a,b); }
   inline index_t index_max(const index_t & a,const index_t & b){ return index_lcm(a,b); }
   void dbgprint(const index_t & i);
+  void add_print_INT_(std::string & s,int i);
   std::string print_INT_(int i);
   std::string hexa_print_INT_(int i);
   std::string octal_print_INT_(int i);

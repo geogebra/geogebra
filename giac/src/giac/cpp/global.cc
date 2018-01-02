@@ -4989,6 +4989,7 @@ unsigned int ConvertUTF8toUTF16 (
     "mathml",
     "mult_c_conjugate",
     "mult_conjugate",
+    "multiplier_conjugue",
     "nodisp",
     "normal",
     "op",
@@ -5733,6 +5734,8 @@ unsigned int ConvertUTF8toUTF16 (
   // elif ...: -> elif ... then [nothing in stack]
   // ? support for try except
   std::string python2xcas(const std::string & s_orig,GIAC_CONTEXT){
+    if (xcas_mode(contextptr)>0)
+      return s_orig;
     // quick check for python-like syntax: search line ending with :
     int first=0,sss=s_orig.size();
     first=s_orig.find("maple_mode");

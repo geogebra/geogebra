@@ -2261,7 +2261,10 @@ namespace giac {
 	S+='[';
 	const_iterateur jt=f->_VECTptr->begin(),jtend=f->_VECTptr->end();
 	for (;;){
-	  S+=jt->print(contextptr);
+	  if (jt->type==_INT_)
+	    add_print_INT_(S,jt->val);
+	  else
+	    S+=jt->print(contextptr);
 	  ++jt;
 	  if (jt==jtend) break;
 	  S+=',';

@@ -218,6 +218,12 @@ namespace giac {
     return true;
   }
 
+  void add_print_INT_(string & s,int i){
+    char c[256];
+    my_sprintf(c,"%d",i);
+    s += c;
+  }
+
   string print_INT_(int i){
     char c[256];
     my_sprintf(c,"%d",i);
