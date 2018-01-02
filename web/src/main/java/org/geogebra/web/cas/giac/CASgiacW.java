@@ -207,11 +207,8 @@ public class CASgiacW extends CASgiac {
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
-					Log.debug(versionString + " loading success");
 					JavaScriptInjector.inject(CASResources.INSTANCE.giacWasm());
-
-					CASgiacW.this.casLoaded = true;
-					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+					initCAS(versionString);
 				}
 
 				@Override
@@ -225,11 +222,8 @@ public class CASgiacW extends CASgiac {
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
-					Log.debug(versionString + " loading success");
 					JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
-
-					CASgiacW.this.casLoaded = true;
-					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+					initCAS(versionString);
 				}
 
 				@Override
@@ -238,6 +232,12 @@ public class CASgiacW extends CASgiac {
 				}
 			});
 		}
+	}
+
+	protected void initCAS(String versionString) {
+		Log.debug(versionString + " loading success");
+		CASgiacW.this.casLoaded = true;
+		CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 	}
 
 	@Override
