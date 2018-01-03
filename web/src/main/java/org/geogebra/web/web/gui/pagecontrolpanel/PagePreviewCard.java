@@ -36,7 +36,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	private int pageIndex;
 	private FlowPanel imagePanel;
 	private String image;
-	private String title = null;
 	private FlowPanel titlePanel;
 	private AutoCompleteTextFieldW textField;
 	private boolean isTitleSet = false;
@@ -100,10 +99,8 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 */
 	protected void rename() {
 		if (textField.getText().equals(getDefaultLabel())) {
-			title = null;
 			isTitleSet = false;
 		} else {
-			title = textField.getText();
 			isTitleSet = true;
 		}
 		setTextFieldWidth();
@@ -126,7 +123,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	private void setPreviewImage() {
 		image = ((EuclidianViewWInterface) view).getExportImageDataUrl(0.2,
 				false);
-
 		if (image != null && image.length() > 0) {
 			imagePanel.getElement().getStyle().setBackgroundImage(
 					"url(" + Browser.normalizeURL(image) + ")");
@@ -152,12 +148,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		}
 	}
 
-	/**
-	 * @return title set by user
-	 */
-	public String getTitleText() {
-		return title;
-	}
 
 	/**
 	 * get the index of the page

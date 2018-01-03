@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Page Control Panel for navigating through multiple pages MOW-269
+ * Page Control Panel for navigating through multiple pages
  * 
  * @author Alicia Hofstaetter
  * 
@@ -95,29 +95,21 @@ public class PageControlPanel
 			}
 		});
 		add(plusButton);
-		hidePlusButton();
+		showPlusButton(false);
 	}
 
 	/**
-	 * Sets plus button visible
+	 * @param doShow
+	 *            - true if plus button should be visible, false otherwise
 	 */
-	protected void showPlusButton() {
+	protected void showPlusButton(boolean doShow) {
 		if (plusButton == null) {
 			return;
 		}
-		plusButton.addStyleName("showMowFloatingButton");
-		plusButton.removeStyleName("hideMowFloatingButton");
-	}
-
-	/**
-	 * Hides plus button
-	 */
-	protected void hidePlusButton() {
-		if (plusButton == null) {
-			return;
-		}
-		plusButton.addStyleName("hideMowFloatingButton");
-		plusButton.removeStyleName("showMowFloatingButton");
+		plusButton.addStyleName(
+				doShow ? "showMowFloatingButton" : "hideMowFloatingButton");
+		plusButton.removeStyleName(
+				doShow ? "hideMowFloatingButton" : "showMowFloatingButton");
 	}
 
 	/**
@@ -126,7 +118,7 @@ public class PageControlPanel
 	public void open() {
 		if (app.isWhiteboardActive()) {
 			dockPanel.hideZoomPanel();
-			mowToolbar.hidePageControlButton();
+			mowToolbar.showPageControlButton(false);
 		}
 		setVisible(true);
 		updatePreview();
@@ -138,7 +130,7 @@ public class PageControlPanel
 			@Override
 			public void run() {
 				style.setOverflow(Overflow.VISIBLE);
-				showPlusButton();
+				showPlusButton(true);
 			}
 		}, getElement(), "animateIn");
 	}
@@ -150,7 +142,7 @@ public class PageControlPanel
 		if (!isVisible()) {
 			return;
 		}
-		hidePlusButton();
+		showPlusButton(false);
 		addStyleName("animateOut");
 		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);
 		CSSAnimation.runOnAnimation(new Runnable() {
@@ -166,9 +158,8 @@ public class PageControlPanel
 	 */
 	protected void onClose() {
 		app.getFrameElement().getStyle().setOverflow(Overflow.VISIBLE);
-
 		if (app.isWhiteboardActive()) {
-			mowToolbar.showPageControlButton();
+			mowToolbar.showPageControlButton(true);
 			dockPanel.showZoomPanel();
 		}
 		setVisible(false);
@@ -237,7 +228,7 @@ public class PageControlPanel
 		}
 		contentPanel.remove(index);
 		app.removeSlide(index);
-		updateIndizes();
+		updateIndexes();
 	}
 
 	/**
@@ -271,7 +262,7 @@ public class PageControlPanel
 		}
 	}
 
-	private void updateIndizes() {
+	private void updateIndexes() {
 		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
 			PagePreviewCard card = (PagePreviewCard) contentPanel.getWidget(i);
 			if (card.getPageIndex() != i) {

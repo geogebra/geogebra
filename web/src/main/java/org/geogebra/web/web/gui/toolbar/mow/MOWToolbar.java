@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.toolbar.mow;
 
-
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
@@ -69,6 +68,7 @@ public class MOWToolbar extends FlowPanel {
 	private enum ButtonType {
 		UNDO, REDO, CLOSE, PEN, TOOLS, MEDIA, PAGECONTROL, DEFAULT
 	}
+
 	/**
 	 *
 	 * @param app
@@ -121,11 +121,10 @@ public class MOWToolbar extends FlowPanel {
 	}
 
 	private static ImageResourcePrototype getIcon(SVGResource resource) {
-		return new ImageResourcePrototype(null,
-				resource.getSafeUri(),
-		0, 0, 24, 24, false, false);
+		return new ImageResourcePrototype(null, resource.getSafeUri(), 0, 0, 24,
+				24, false, false);
 	}
-	
+
 	private ClickStartHandler getClickStartHandler(final ButtonType b) {
 		ClickStartHandler handler = new ClickStartHandler(true, true) {
 			@Override
@@ -156,7 +155,7 @@ public class MOWToolbar extends FlowPanel {
 					openPageControlPanel();
 					break;
 				case DEFAULT:
-					//only close menus
+					// only close menus
 					break;
 				}
 			}
@@ -209,9 +208,9 @@ public class MOWToolbar extends FlowPanel {
 				MaterialDesignResources.INSTANCE.mow_media_panel(),
 				ButtonType.MEDIA, "ToolCategory.Media", middlePanel);
 
-		closeButton = createButton(MaterialDesignResources.INSTANCE
-				.toolbar_close_portrait_white(), ButtonType.CLOSE, "Open",
-				rightPanel);
+		closeButton = createButton(
+				MaterialDesignResources.INSTANCE.toolbar_close_portrait_white(),
+				ButtonType.CLOSE, "Open", rightPanel);
 	}
 
 	private void createPageControlButton() {
@@ -219,17 +218,17 @@ public class MOWToolbar extends FlowPanel {
 				MaterialDesignResources.INSTANCE.mow_page_control(),
 				ButtonType.PAGECONTROL, "PageControl", null);
 		pageControlButton.setStyleName("mowFloatingButton");
-		showPageControlButton();
+		showPageControlButton(true);
 	}
 
 	/**
 	 * Opens the page control panel
 	 */
-	public void openPageControlPanel(){
+	public void openPageControlPanel() {
 		if (app.isMenuShowing()) {
 			app.toggleMenu();
 		}
-		if(pageControlPanel == null){
+		if (pageControlPanel == null) {
 			pageControlPanel = ((AppWapplet) app).getAppletFrame()
 					.getPageControlPanel();
 		}
@@ -237,25 +236,18 @@ public class MOWToolbar extends FlowPanel {
 	}
 
 	/**
-	 * Hides floating page control button
+	 * @param doShow
+	 *            - true if page control button should be visible, false
+	 *            otherwise
 	 */
-	public void hidePageControlButton() {
+	public void showPageControlButton(boolean doShow) {
 		if (pageControlButton == null) {
 			return;
 		}
-		pageControlButton.addStyleName("hideMowFloatingButton");
-		pageControlButton.removeStyleName("showMowFloatingButton");
-	}
-
-	/**
-	 * Shows floating page control button
-	 */
-	public void showPageControlButton() {
-		if (pageControlButton == null) {
-			return;
-		}
-		pageControlButton.addStyleName("showMowFloatingButton");
-		pageControlButton.removeStyleName("hideMowFloatingButton");
+		pageControlButton.addStyleName(
+				doShow ? "showMowFloatingButton" : "hideMowFloatingButton");
+		pageControlButton.removeStyleName(
+				doShow ? "hideMowFloatingButton" : "showMowFloatingButton");
 	}
 
 	/**
@@ -286,8 +278,8 @@ public class MOWToolbar extends FlowPanel {
 	 *            submenu associated with the button
 	 */
 	protected void setMenu(MyToggleButton button, SubMenuPanel submenu) {
-			setCurrentMenu(submenu);
-			selectButton(button);
+		setCurrentMenu(submenu);
+		selectButton(button);
 	}
 
 	/**
@@ -296,7 +288,7 @@ public class MOWToolbar extends FlowPanel {
 	protected void toggleSubmenu() {
 		setSubmenuVisible(!subMenuPanel.isVisible());
 	}
-	
+
 	/**
 	 * get the undo/redo panel
 	 * 
@@ -335,17 +327,17 @@ public class MOWToolbar extends FlowPanel {
 		if (source == penButton || source == toolsButton
 				|| source == mediaButton) {
 			MyToggleButton[] buttons = { penButton, toolsButton, mediaButton };
-		String[] indicatorPosition = { "indicatorLeft", "indicatorCenter",
-				"indicatorRight" };
-		for (int i = 0; i < buttons.length; i++) {
+			String[] indicatorPosition = { "indicatorLeft", "indicatorCenter",
+					"indicatorRight" };
+			for (int i = 0; i < buttons.length; i++) {
 				if (buttons[i] == source) {
 					middlePanel.addStyleName(indicatorPosition[i]);
-				buttons[i].addStyleName("selected");
-			} else {
+					buttons[i].addStyleName("selected");
+				} else {
 					middlePanel.removeStyleName(indicatorPosition[i]);
-				buttons[i].removeStyleName("selected");
+					buttons[i].removeStyleName("selected");
+				}
 			}
-		}
 		}
 	}
 
@@ -407,8 +399,7 @@ public class MOWToolbar extends FlowPanel {
 		if (mode == EuclidianConstants.MODE_PEN) {
 			selectButton(penButton);
 		}
-		if (!(mode == EuclidianConstants.MODE_PEN
-				&& currentMenu == penMenu)
+		if (!(mode == EuclidianConstants.MODE_PEN && currentMenu == penMenu)
 				&& !((mode == EuclidianConstants.MODE_TEXT
 						|| mode == EuclidianConstants.MODE_MOVE)
 						&& currentMenu == mediaMenu)) {
@@ -543,8 +534,7 @@ public class MOWToolbar extends FlowPanel {
 			// floating buttons push toolbar to the left
 			getElement().getStyle().setLeft(Math.max(
 					app.getWidth() - MAX_TOOLBAR_WIDTH - FLOATING_BTNS_WIDTH,
-					0),
-					Unit.PX);
+					0), Unit.PX);
 			if (app.getWidth() < MAX_TOOLBAR_WIDTH) {
 				// toolbar gets 100% of app width, floating buttons move above
 				// toolbar
@@ -557,8 +547,7 @@ public class MOWToolbar extends FlowPanel {
 			removeStyleName("SmallScreen");
 			addStyleName("BigScreen");
 			getElement().getStyle()
-					.setLeft((app.getWidth() - MAX_TOOLBAR_WIDTH) / 2,
-					Unit.PX);
+					.setLeft((app.getWidth() - MAX_TOOLBAR_WIDTH) / 2, Unit.PX);
 		}
 	}
 
