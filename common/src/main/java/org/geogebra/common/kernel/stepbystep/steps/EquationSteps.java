@@ -104,9 +104,9 @@ public enum EquationSteps implements SolveStepGenerator {
 			double rightSquareCoeff = StepHelper.getCoefficientValue(se.getRHS(), power(variable, 2));
 
 			if (leftSquareCoeff < 0 && isZero(se.getRHS())) {
-				se.multiply(new StepConstant(-1), steps);
+				se.multiply(StepConstant.create(-1), steps);
 			} else if (rightSquareCoeff < 0 && isZero(se.getLHS())) {
-				se.multiply(new StepConstant(-1), steps);
+				se.multiply(StepConstant.create(-1), steps);
 				se.swapSides();
 			} else if (leftSquareCoeff < rightSquareCoeff) {
 				se.swapSides();
@@ -185,7 +185,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 				for (int i = 0; i < product.noOfOperands(); i++) {
 					if (!product.getSubTree(i).isConstant()) {
-						StepEquation newEq = new StepEquation(product.getSubTree(i), new StepConstant(0));
+						StepEquation newEq = new StepEquation(product.getSubTree(i), StepConstant.create(0));
 						solutions.addAll(newEq.solve(variable, steps));
 					}
 				}
@@ -261,7 +261,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				se.modify(newLHS, newRHS);
 				se.regroup(steps);
 
-				se.replace(add(sineSquared, cosineSquared), new StepConstant(1), steps);
+				se.replace(add(sineSquared, cosineSquared), StepConstant.create(1), steps);
 				se.regroup(steps);
 			}
 
@@ -375,27 +375,26 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			if (trigoVar.getOperation() == Operation.TAN) {
 				StepExpression newRHS = add(StepNode.apply(se.getRHS(), op),
-						multiply(se.getNextArbInt(), new StepConstant(Math.PI)));
+						multiply(se.getNextArbInt(), StepConstant.PI));
 
 				StepEquation newEq = new StepEquation(newLHS, newRHS);
 				return newEq.solve(variable, steps);
 			}
 
 			StepExpression firstRHS = add(StepNode.apply(se.getRHS(), op),
-					multiply(multiply(2, se.getNextArbInt()), new StepConstant(Math.PI)));
+					multiply(multiply(2, se.getNextArbInt()), StepConstant.PI));
 
 			StepEquation firstBranch = new StepEquation(newLHS, firstRHS);
 			StepSet solutions = firstBranch.solve(variable, steps);
 
 			if (!isEqual(se.getRHS(), 1) && !isEqual(se.getRHS(), -1)) {
 				StepExpression secondRHS = add(StepNode.apply(se.getRHS(), op),
-						multiply(multiply(2, se.getNextArbInt()), new StepConstant(Math.PI)));
+						multiply(multiply(2, se.getNextArbInt()), StepConstant.PI));
 				StepEquation secondBranch;
 				if (trigoVar.getOperation() == Operation.SIN) {
-					secondBranch = new StepEquation(subtract(new StepConstant(Math.PI), newLHS), secondRHS);
+					secondBranch = new StepEquation(subtract(StepConstant.PI, newLHS), secondRHS);
 				} else {
-					secondBranch = new StepEquation(subtract(multiply(2, new StepConstant(Math.PI)), newLHS),
-							secondRHS);
+					secondBranch = new StepEquation(subtract(multiply(2, StepConstant.PI), newLHS), secondRHS);
 				}
 
 				solutions.addAll(secondBranch.solve(variable, steps));
@@ -511,7 +510,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			StepSet tempSolutions = new StepSet();
 			for (StepExpression absoluteValue : absoluteValues) {
-				StepEquation tempEq = new StepEquation(absoluteValue, new StepConstant(0));
+				StepEquation tempEq = new StepEquation(absoluteValue, StepConstant.create(0));
 				tempSolutions.addAll(tempEq.solve(variable, null));
 			}
 
@@ -527,8 +526,8 @@ public enum EquationSteps implements SolveStepGenerator {
 				}
 			});
 
-			roots.add(0, new StepConstant(Double.NEGATIVE_INFINITY));
-			roots.add(new StepConstant(Double.POSITIVE_INFINITY));
+			roots.add(0, StepConstant.NEG_INF);
+			roots.add(StepConstant.POS_INF);
 
 			StepSet solutions = new StepSet();
 			for (int i = 1; i < roots.size(); i++) {
@@ -667,7 +666,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 				StepExpression underSquare = ((StepOperation) se.getLHS()).getSubTree(0);
 				if (isEqual(se.getRHS(), 0)) {
-					se.modify(underSquare, new StepConstant(0));
+					se.modify(underSquare, StepConstant.create(0));
 				} else {
 					se.modify(underSquare, StepNode.apply(root(se.getRHS(), 2), Operation.PLUSMINUS));
 				}
@@ -703,7 +702,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			newEquation = add(newEquation, multiply(coeffLow, newVariable));
 			newEquation = add(newEquation, constant);
 
-			StepEquation newEq = new StepEquation(newEquation.regroup(), new StepConstant(0));
+			StepEquation newEq = new StepEquation(newEquation.regroup(), StepConstant.create(0));
 			StepSet tempSolutions = newEq.solve(newVariable, steps);
 
 			StepSet solutions = new StepSet();

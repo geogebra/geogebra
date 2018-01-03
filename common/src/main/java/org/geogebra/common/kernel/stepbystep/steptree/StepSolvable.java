@@ -293,7 +293,7 @@ public abstract class StepSolvable extends StepNode {
 		} else if (root == 3) {
 			steps.add(SolutionStepType.CUBE_ROOT);
 		} else {
-			steps.add(SolutionStepType.NTH_ROOT, new StepConstant(root));
+			steps.add(SolutionStepType.NTH_ROOT, StepConstant.create(root));
 		}
 
 		LHS = StepNode.root(LHS, root);

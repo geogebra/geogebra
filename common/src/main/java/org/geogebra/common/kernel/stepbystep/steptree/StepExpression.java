@@ -230,7 +230,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		if (isSquare()) {
 			if (nonSpecialConstant()) {
 				if (isEqual(Math.sqrt(getValue()), Math.floor(Math.sqrt(getValue())))) {
-					return new StepConstant(Math.sqrt(getValue()));
+					return StepConstant.create(Math.sqrt(getValue()));
 				}
 				return root(this, 2);
 			}
@@ -246,7 +246,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		if (isCube()) {
 			if (nonSpecialConstant()) {
 				if (isEqual(Math.cbrt(getValue()), Math.floor(Math.cbrt(getValue())))) {
-					return new StepConstant(Math.cbrt(getValue()));
+					return StepConstant.create(Math.cbrt(getValue()));
 				}
 				return root(this, 3);
 			}
@@ -492,7 +492,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		int leadR = arrayR.length - 1;
 		int leadD = arrayD.length - 1;
 
-		StepExpression q = new StepConstant(0);
+		StepExpression q = StepConstant.create(0);
 
 		while ((leadR != 0 || (arrayR[0] != null && arrayR[0].getValue() != 0)) && leadR >= leadD) {
 			StepExpression t = multiply(divide(arrayR[leadR], arrayD[leadD]), power(var, leadR - leadD)).regroup();
@@ -596,13 +596,13 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		String[] argumentsTan = new String[] { "", "-nroot(3, 2)", "-1", "-nroot(3, 2)/3", "0", "nroot(3, 2)/3", "1",
 				"nroot(3, 2)", "" };
 
-		StepExpression pi = new StepConstant(Math.PI);
+		StepExpression pi = StepConstant.create(Math.PI);
 		StepExpression[] valuesSinTan = new StepExpression[] { minus(divide(pi, 2)), minus(divide(pi, 3)),
-				minus(divide(pi, 4)), minus(divide(pi, 6)), new StepConstant(0), divide(pi, 6), divide(pi, 4),
+				minus(divide(pi, 4)), minus(divide(pi, 6)), StepConstant.create(0), divide(pi, 6), divide(pi, 4),
 				divide(pi, 3), divide(pi, 2) };
 		StepExpression[] valuesCos = new StepExpression[] { pi, divide(multiply(5, pi), 6), divide(multiply(3, pi), 4),
 				divide(multiply(2, pi), 3), divide(pi, 2), divide(pi, 3), divide(pi, 4), divide(pi, 6),
-				new StepConstant(0) };
+				StepConstant.create(0) };
 
 		String currentArgument = so.getSubTree(0).toString();
 		for (int i = 0; i < arguments.length; i++) {
@@ -635,8 +635,8 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 				return;
 			case MINUS:
 				if (!so.getSubTree(0).nonSpecialConstant()) {
-					bases.add(new StepConstant(-1));
-					exponents.add(new StepConstant(1));
+					bases.add(StepConstant.create(-1));
+					exponents.add(StepConstant.create(1));
 					getBasesAndExponents(so.getSubTree(0), currentExp, bases, exponents);
 					return;
 				}
@@ -654,7 +654,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 
 		if (sn != null) {
 			bases.add(sn);
-			exponents.add(currentExp == null ? new StepConstant(1) : currentExp);
+			exponents.add(currentExp == null ? StepConstant.create(1) : currentExp);
 		}
 	}
 
@@ -667,7 +667,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		} else if (isEqual(this, 1) || isEqual(this, -1)) {
 			return this;
 		} else {
-			return divide(new StepConstant(1), this);
+			return divide(StepConstant.create(1), this);
 		}
 	}
 
@@ -715,7 +715,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			if (isEqual(b, 1)) {
 				return a;
 			} else if (isEqual(b, 0)) {
-				return new StepConstant(1);
+				return StepConstant.create(1);
 			}
 		}
 
@@ -723,7 +723,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	}
 
 	public static StepExpression nonTrivialPower(StepExpression a, double b) {
-		return nonTrivialPower(a, new StepConstant(b));
+		return nonTrivialPower(a, StepConstant.create(b));
 	}
 
 	/**
@@ -746,7 +746,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	}
 
 	public static StepExpression nonTrivialProduct(double a, StepExpression b) {
-		return nonTrivialProduct(new StepConstant(a), b);
+		return nonTrivialProduct(StepConstant.create(a), b);
 	}
 
 	/**
@@ -755,9 +755,6 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return -this
 	 */
 	public StepExpression negate() {
-		if (nonSpecialConstant()) {
-			return new StepConstant(-getValue());
-		}
 		if (isOperation(Operation.MINUS)) {
 			return ((StepOperation) this).getSubTree(0);
 		}
@@ -782,8 +779,8 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	}
 
 	public boolean isNegative() {
-		return (nonSpecialConstant() && getValue() < 0) || isOperation(Operation.MINUS)
-				|| isOperation(Operation.MULTIPLY) && ((StepOperation) this).getSubTree(0).isNegative();
+		return isOperation(Operation.MINUS) ||
+				isOperation(Operation.MULTIPLY) && ((StepOperation) this).getSubTree(0).isNegative();
 	}
 
 	public static Operation getInverse(Operation op) {

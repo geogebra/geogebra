@@ -76,7 +76,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			return copyOfThis.exactEquals(copyOfThat);
 		}
 
-		return obj instanceof StepConstant && isEqual((StepConstant) obj, this);
+		return false;
 	}
 
 	private void sort() {
@@ -450,7 +450,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		} else if (isOperation(Operation.MINUS)) {
 			StepExpression coefficient = getSubTree(0).getCoefficientIn(sv);
 			if (coefficient == null) {
-				return new StepConstant(-1);
+				return StepConstant.create(-1);
 			}
 			StepOperation result = new StepOperation(Operation.MINUS);
 			result.addSubTree(coefficient);
@@ -493,7 +493,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		case MINUS:
 			StepExpression sm = getSubTree(0).getIntegerCoefficient();
 			if (sm == null) {
-				return new StepConstant(-1);
+				return StepConstant.create(-1);
 			}
 			StepOperation result = new StepOperation(Operation.MINUS);
 			result.addSubTree(sm);

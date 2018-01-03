@@ -4,17 +4,25 @@ import java.text.DecimalFormat;
 
 import org.geogebra.common.main.Localization;
 
-public class StepConstant extends StepExpression {
+public final class StepConstant extends StepExpression {
 	private double value;
 
 	public static final StepConstant PI = new StepConstant(Math.PI);
 	public static final StepConstant E = new StepConstant(Math.E);
 
-	public static final StepConstant NEG_INF = new StepConstant(Double.NEGATIVE_INFINITY);
-	public static final StepConstant POS_INF = new StepConstant(Double.POSITIVE_INFINITY);
+	public static final StepExpression NEG_INF = StepConstant.create(Double.NEGATIVE_INFINITY);
+	public static final StepExpression POS_INF = StepConstant.create(Double.POSITIVE_INFINITY);
 
-	public StepConstant(double value) {
+	private StepConstant(double value) {
 		this.value = value;
+	}
+
+	public static StepExpression create(double value) {
+		if (value < 0) {
+			return minus(new StepConstant(-value));
+		}
+
+		return new StepConstant(value);
 	}
 
 	@Override
@@ -24,18 +32,11 @@ public class StepConstant extends StepExpression {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof StepExpression) {
-			StepExpression se = (StepExpression) obj;
-			if (se.nonSpecialConstant()) {
-				return isEqual(se.getValue(), value);
-			} else if (se instanceof StepConstant) {
-				if (Double.isInfinite(se.getValue()) && Double.isInfinite(getValue()) &&
-						(se.getValue() > 0 == getValue() > 0)) {
-					return true;
-				}
+		if (obj instanceof StepConstant) {
+			StepConstant se = (StepConstant) obj;
 
-				return isEqual(((StepConstant) obj).value, value);
-			}
+			return Double.isInfinite(se.value) && Double.isInfinite(value) ||
+					isEqual(se.value, value);
 		}
 
 		return false;
@@ -103,9 +104,6 @@ public class StepConstant extends StepExpression {
 		} else if (Double.isNaN(value)) {
 			return "NaN";
 		} else if (Double.isInfinite(value)) {
-			if (value < 0) {
-				return "-inf";
-			}
 			return "inf";
 		}
 		return new DecimalFormat("#0.##").format(value);
@@ -123,9 +121,6 @@ public class StepConstant extends StepExpression {
 		} else if (Double.isNaN(value)) {
 			return "NaN";
 		} else if (Double.isInfinite(value)) {
-			if (value < 0) {
-				return "-\\infty";
-			}
 			return "\\infty";
 		}
 		return new DecimalFormat("#0.##").format(value);

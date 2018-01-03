@@ -57,7 +57,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 					for (int j = 0; j < commonBases.size(); j++) {
 						if (!found[j]) {
-							commonExponents.set(j, new StepConstant(0));
+							commonExponents.set(j, StepConstant.create(0));
 						}
 					}
 				}
@@ -70,7 +70,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 						for (int k = 0; k < currentBases.get(i).size(); k++) {
 							if (!isEqual(commonExponents.get(j), 0)
 									&& currentBases.get(i).get(k).equals(commonBases.get(j))) {
-								StepExpression differenceOfPowers = new StepConstant(
+								StepExpression differenceOfPowers = StepConstant.create(
 										currentExponents.get(i).get(k).getValue() - commonExponents.get(j).getValue());
 
 								currentExponents.get(i).set(k, differenceOfPowers);
@@ -146,7 +146,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				StepOperation factored = new StepOperation(Operation.PLUS);
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					StepExpression remainder = new StepConstant(integerParts[i].getValue() / common);
+					StepExpression remainder = StepConstant.create(integerParts[i].getValue() / common);
 					integerParts[i].setColor(tracker.getColorTracker());
 					remainder.setColor(tracker.incColorTracker());
 
@@ -158,7 +158,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					return minus(factored);
 				}
 
-				integerParts[integerParts.length - 1] = new StepConstant(common);
+				integerParts[integerParts.length - 1] = StepConstant.create(common);
 				integerParts[integerParts.length - 1].setColor(tracker.incColorTracker());
 
 				sb.add(SolutionStepType.FACTOR_GCD, integerParts);
@@ -226,8 +226,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 							newSum.addSubTree(first);
 							newSum.addSubTree(second);
 
-							StepExpression asSum = add(new StepConstant(b.getValue() * b.getValue() / 4),
-									new StepConstant(toComplete));
+							StepExpression asSum = add(StepConstant.create(b.getValue() * b.getValue() / 4),
+									StepConstant.create(toComplete));
 							third.setColor(tracker.getColorTracker());
 							asSum.setColor(tracker.incColorTracker());
 							newSum.addSubTree(asSum);

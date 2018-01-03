@@ -163,7 +163,7 @@ public class StepHelper {
 	 */
 	public static StepExpression findCoefficient(StepExpression sn, StepExpression expr) {
 		if (sn != null && sn.equals(expr)) {
-			return new StepConstant(1);
+			return StepConstant.create(1);
 		}
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
@@ -173,7 +173,7 @@ public class StepHelper {
 			}
 
 			if (so.isOperation(Operation.MULTIPLY)) {
-				StepExpression coeff = new StepConstant(1);
+				StepExpression coeff = StepConstant.create(1);
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					if (so.getSubTree(i).isConstant()) {
 						coeff = StepExpression.nonTrivialProduct(coeff, so.getSubTree(i));
@@ -387,7 +387,7 @@ public class StepHelper {
 		StepSolvable withVariable = se.deepCopy();
 		withVariable.replace(inverse, new StepVariable("x"));
 		StepSolvable withConstant = se.deepCopy();
-		withConstant.replace(inverse, new StepConstant(1));
+		withConstant.replace(inverse, StepConstant.create(1));
 
 		if (inverse != null && degree(withVariable) == 1 && degree(withConstant) == 0) {
 			return inverse;
@@ -681,7 +681,68 @@ public class StepHelper {
 		return -1;
 	}
 
-	private static StepExpression LCMGCD(StepExpression a, StepExpression b, boolean isLCM) {
+	public static StepExpression LCM(StepExpression a, StepExpression b) {
+		if (isZero(a)) {
+			return b;
+		}
+
+		if (isZero(b)) {
+			return a;
+		}
+
+		StepExpression aFactored = a.factor();
+		StepExpression bFactored = b.factor();
+
+		StepExpression integerA = aFactored.getIntegerCoefficient();
+		StepExpression integerB = bFactored.getIntegerCoefficient();
+
+		aFactored = aFactored.getNonInteger();
+		bFactored = bFactored.getNonInteger();
+
+		List<StepExpression> aBases = new ArrayList<>();
+		List<StepExpression> aExponents = new ArrayList<>();
+		List<StepExpression> bBases = new ArrayList<>();
+		List<StepExpression> bExponents = new ArrayList<>();
+
+		StepExpression.getBasesAndExponents(aFactored, null, aBases, aExponents);
+		StepExpression.getBasesAndExponents(bFactored, null, bBases, bExponents);
+
+		for (int i = 0; i < aBases.size(); i++) {
+			for (int j = 0; j < bBases.size(); j++) {
+				if (aBases.get(i).equals(bBases.get(j))) {
+					boolean less = aExponents.get(i).getValue() < bExponents.get(j).getValue();
+
+					if (less) {
+						aExponents.set(i, StepConstant.create(0));
+					} else {
+						bExponents.set(j, StepConstant.create(0));
+					}
+				}
+			}
+		}
+
+		StepExpression result = null;
+
+		if (integerA != null && integerB != null) {
+			result = StepConstant.create(StepNode.lcm(integerA, integerB));
+		}
+
+		for (int i = 0; i < aBases.size(); i++) {
+			result = StepExpression.makeFraction(result, aBases.get(i), aExponents.get(i));
+		}
+
+		for (int i = 0; i < bBases.size(); i++) {
+			result = StepExpression.makeFraction(result, bBases.get(i), bExponents.get(i));
+		}
+
+		return result;
+	}
+
+	public static StepExpression GCD(StepExpression a, StepExpression b) {
+		if (isZero(a) || isZero(b)) {
+			return null;
+		}
+
 		StepExpression aFactored = a.factor();
 		StepExpression bFactored = b.factor();
 
@@ -707,11 +768,11 @@ public class StepHelper {
 				if (aBases.get(i).equals(bBases.get(j))) {
 					boolean less = aExponents.get(i).getValue() < bExponents.get(j).getValue();
 
-					if (less && isLCM || !less && !isLCM) {
-						aExponents.set(i, new StepConstant(0));
+					if (!less) {
+						aExponents.set(i, StepConstant.create(0));
 						foundB[j] = true;
 					} else {
-						bExponents.set(j, new StepConstant(0));
+						bExponents.set(j, StepConstant.create(0));
 						foundA[i] = true;
 					}
 				}
@@ -721,44 +782,20 @@ public class StepHelper {
 		StepExpression result = null;
 
 		if (integerA != null && integerB != null) {
-			if (isLCM) {
-				result = new StepConstant(StepNode.lcm(integerA, integerB));
-			} else {
-				result = new StepConstant(StepNode.gcd(integerA, integerB));
-			}
+			result = StepConstant.create(StepNode.gcd(integerA, integerB));
 		}
 
 		for (int i = 0; i < aBases.size(); i++) {
-			if (isLCM || foundA[i]) {
+			if (foundA[i]) {
 				result = StepExpression.makeFraction(result, aBases.get(i), aExponents.get(i));
 			}
 		}
 		for (int i = 0; i < bBases.size(); i++) {
-			if (isLCM || foundB[i]) {
+			if (foundB[i]) {
 				result = StepExpression.makeFraction(result, bBases.get(i), bExponents.get(i));
 			}
 		}
 
 		return result;
-	}
-
-	public static StepExpression LCM(StepExpression a, StepExpression b) {
-		if (isZero(a)) {
-			return b;
-		}
-
-		if (isZero(b)) {
-			return a;
-		}
-
-		return LCMGCD(a, b, true);
-	}
-
-	public static StepExpression GCD(StepExpression a, StepExpression b) {
-		if (isZero(a) || isZero(b)) {
-			return null;
-		}
-
-		return LCMGCD(a, b, false);
 	}
 }

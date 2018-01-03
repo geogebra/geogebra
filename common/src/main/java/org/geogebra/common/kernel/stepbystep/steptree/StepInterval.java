@@ -10,8 +10,8 @@ public class StepInterval extends StepNode {
 	private boolean leftClosed;
 	private boolean rightClosed;
 
-	public final static StepInterval R = new StepInterval(new StepConstant(Double.NEGATIVE_INFINITY),
-			new StepConstant(Double.POSITIVE_INFINITY), false, false);
+	public final static StepInterval R = new StepInterval(StepConstant.NEG_INF, StepConstant.POS_INF,
+			false, false);
 
 	public StepInterval(StepExpression leftBound, StepExpression rightBound, boolean leftClosed, boolean rightClosed) {
 		this.leftBound = leftBound;

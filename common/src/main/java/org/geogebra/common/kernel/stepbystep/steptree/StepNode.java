@@ -143,10 +143,10 @@ public abstract class StepNode {
 				return logarithm(StepConstant.E, arg);
 			case LOG10:
 				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				return logarithm(new StepConstant(10), arg);
+				return logarithm(StepConstant.create(10), arg);
 			case LOG2:
 				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				return logarithm(new StepConstant(2), arg);
+				return logarithm(StepConstant.create(2), arg);
 			case MULTIPLY:
 				if (((ExpressionNode) ev).getLeft().isConstant()
 						&& ((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
@@ -171,7 +171,7 @@ public abstract class StepNode {
 			return new StepVariable(ev.toString(StringTemplate.defaultTemplate));
 		}
 		if (ev instanceof MyDouble) {
-			return new StepConstant(((MyDouble) ev).getDouble());
+			return StepConstant.create(((MyDouble) ev).getDouble());
 		}
 		return null;
 	}
@@ -287,7 +287,7 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression add(StepExpression a, double b) {
-		return add(a, new StepConstant(b));
+		return add(a, StepConstant.create(b));
 	}
 
 	public static StepExpression subtract(StepExpression a, StepExpression b) {
@@ -295,11 +295,11 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression subtract(StepExpression a, double b) {
-		return subtract(a, new StepConstant(b));
+		return subtract(a, StepConstant.create(b));
 	}
 
 	public static StepExpression subtract(double a, StepExpression b) {
-		return subtract(new StepConstant(a), b);
+		return subtract(StepConstant.create(a), b);
 	}
 
 	public static StepExpression minus(StepExpression a) {
@@ -327,7 +327,7 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression multiply(double a, StepExpression b) {
-		return multiply(new StepConstant(a), b);
+		return multiply(StepConstant.create(a), b);
 	}
 
 	public static StepExpression divide(StepExpression a, StepExpression b) {
@@ -336,7 +336,7 @@ public abstract class StepNode {
 				return null;
 			}
 
-			return divide(new StepConstant(1), b);
+			return divide(StepConstant.create(1), b);
 		}
 		if (b == null) {
 			return a.deepCopy();
@@ -349,15 +349,15 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression divide(StepExpression a, double b) {
-		return divide(a, new StepConstant(b));
+		return divide(a, StepConstant.create(b));
 	}
 
 	public static StepExpression divide(double a, StepExpression b) {
-		return divide(new StepConstant(a), b);
+		return divide(StepConstant.create(a), b);
 	}
 
 	public static StepExpression divide(double a, double b) {
-		return divide(new StepConstant(a), new StepConstant(b));
+		return divide(StepConstant.create(a), StepConstant.create(b));
 	}
 
 	public static StepExpression power(StepExpression a, StepExpression b) {
@@ -375,7 +375,7 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression power(StepExpression a, double b) {
-		return power(a, new StepConstant(b));
+		return power(a, StepConstant.create(b));
 	}
 
 	public static StepExpression root(StepExpression a, StepExpression b) {
@@ -393,7 +393,7 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression root(StepExpression a, double b) {
-		return root(a, new StepConstant(b));
+		return root(a, StepConstant.create(b));
 	}
 
 	public static StepExpression logarithm(StepExpression a, StepExpression b) {
@@ -411,7 +411,7 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression logarithm(double a, StepExpression b) {
-		return logarithm(new StepConstant(a), b);
+		return logarithm(StepConstant.create(a), b);
 	}
 
 	public static StepExpression abs(StepExpression a) {
@@ -506,8 +506,7 @@ public abstract class StepNode {
 	}
 
 	public static boolean closeToAnInteger(StepExpression sn) {
-		return (sn != null && sn.isOperation(Operation.MINUS) && closeToAnInteger(((StepOperation) sn).getSubTree(0)))
-				|| sn instanceof StepConstant && closeToAnInteger(sn.getValue());
+		return sn != null && sn.nonSpecialConstant() && closeToAnInteger(sn.getValue());
 	}
 
 }

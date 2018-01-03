@@ -57,7 +57,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				StepVariable variable = (StepVariable) so.getSubTree(1);
 
 				if (toDifferentiate.isConstantIn(variable)) {
-					StepConstant result = new StepConstant(1);
+					StepExpression result = StepConstant.create(1);
 
 					toDifferentiate.setColor(tracker.getColorTracker());
 					result.setColor(tracker.incColorTracker());
@@ -177,7 +177,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.getSubTree(0).equals(so.getSubTree(1))) {
-					StepExpression result = new StepConstant(1);
+					StepExpression result = StepConstant.create(1);
 
 					so.getSubTree(0).setColor(tracker.getColorTracker());
 					result.setColor(tracker.getColorTracker());
