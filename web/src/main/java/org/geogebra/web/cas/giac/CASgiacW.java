@@ -151,15 +151,6 @@ public class CASgiacW extends CASgiac {
 
 	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
 
-		//		if ($wnd.__ggb__giac) {
-		//			$wnd.console.log("__ggb__giac = " + $wnd.__ggb__giac);
-		//		}
-		//		if ($wnd.__ggb__giac.asm) {
-		//			$wnd.console.log("__ggb__giac.asm = " + $wnd.__ggb__giac.asm);
-		//			$wnd.console.log("typeof $wnd.__ggb__giac.asm.stackSave = "
-		//					+ (typeof $wnd.__ggb__giac.asm.stackSave));
-		//		}
-
 		if (typeof $wnd.evalGeoGebraCASExternal === 'function') {
 			return $wnd.evalGeoGebraCASExternal(s);
 		}
