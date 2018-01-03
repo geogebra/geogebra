@@ -10,6 +10,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.JavaScriptInjector;
 
 import com.google.gwt.core.client.GWT;
@@ -25,8 +26,6 @@ public class CASgiacW extends CASgiac {
 
 	/** kernel */
 	Kernel kernel;
-	/** flag indicating that JS file was loaded */
-	boolean casLoaded = false;
 	private Evaluate giac;
 
 	/**
@@ -47,17 +46,18 @@ public class CASgiacW extends CASgiac {
 		if (Browser.externalCAS()) {
 			Log.debug("switching to external");
 			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-			this.casLoaded = true;
 		} else if (Browser.supportsJsCas()) {
 			initialize(Browser.webAssemblySupported()
 					&& kernel.getApplication().has(Feature.GGB_WEB_ASSEMBLY));
+		} else {
+			Log.debug("CAS not possible");
 		}
 
 	}
 
 	@Override
 	public String evaluateCAS(String exp) {
-		if (!casLoaded) {
+		if (!casLoaded()) {
 			return "?";
 		}
 		try {
@@ -78,7 +78,7 @@ public class CASgiacW extends CASgiac {
 
 	@Override
 	protected synchronized String evaluate(String exp, long timeoutMilliseconds) {
-		if (!casLoaded) {
+		if (!casLoaded()) {
 			return "?";
 		}
 		
@@ -144,7 +144,22 @@ public class CASgiacW extends CASgiac {
 		return ret;
 	}
 
+	private native String setUpInitCAS(String ggbApplet) /*-{
+		$wnd.__ggb__giac__postRun = $wnd[ggbApplet].initCAS;
+
+	}-*/;
+
 	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
+
+		//		if ($wnd.__ggb__giac) {
+		//			$wnd.console.log("__ggb__giac = " + $wnd.__ggb__giac);
+		//		}
+		//		if ($wnd.__ggb__giac.asm) {
+		//			$wnd.console.log("__ggb__giac.asm = " + $wnd.__ggb__giac.asm);
+		//			$wnd.console.log("typeof $wnd.__ggb__giac.asm.stackSave = "
+		//					+ (typeof $wnd.__ggb__giac.asm.stackSave));
+		//		}
+
 		if (typeof $wnd.evalGeoGebraCASExternal === 'function') {
 			return $wnd.evalGeoGebraCASExternal(s);
 		}
@@ -168,9 +183,14 @@ public class CASgiacW extends CASgiac {
 		return ret
 	}-*/;
 
+	private boolean casLoaded() {
+		return nativeCASloaded() || externalCAS();
+
+	}
+
 	private native boolean nativeCASloaded() /*-{
 
-		return !!$wnd.__ggb__giac;
+		return !!$wnd.__ggb__giac && !!$wnd.__ggb__giac.cwrap;
 	}-*/;
 
 	/**
@@ -181,11 +201,13 @@ public class CASgiacW extends CASgiac {
 	 */
 	public void initialize(final boolean wasm) {
 
-		if (casLoaded) {
+		final String versionString = wasm ? "giac.wasm" : "giac.js";
+
+		if (casLoaded()) {
+			Log.debug(versionString + " is already loaded!");
 			return;
 		}
 
-		final String versionString = wasm ? "giac.wasm" : "giac.js";
 
 		if (nativeCASloaded()) {
 
@@ -193,7 +215,6 @@ public class CASgiacW extends CASgiac {
 				@Override
 				public void run() {
 					Log.debug(versionString + " is already loaded");
-					CASgiacW.this.casLoaded = true;
 					CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 				}
 			});
@@ -202,13 +223,23 @@ public class CASgiacW extends CASgiac {
 
 		}
 
+		Log.debug("Loading " + versionString);
+
 		if (wasm) {
+
+			// make sure CAS cells etc re-evaluated after CAS loaded
+			setUpInitCAS(((AppW) kernel.getApplication()).getDataParamId());
 
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
 					JavaScriptInjector.inject(CASResources.INSTANCE.giacWasm());
-					initCAS(versionString);
+					// don't call this here
+					// needs to be called once WebAssembly is actually working
+					// (compiled?)
+					// see setUpInitCAS()
+					// initCAS(versionString);
+
 				}
 
 				@Override
@@ -223,6 +254,7 @@ public class CASgiacW extends CASgiac {
 				@Override
 				public void onSuccess() {
 					JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
+					// make sure CAS cells etc re-evaluated after CAS loaded
 					initCAS(versionString);
 				}
 
@@ -236,7 +268,6 @@ public class CASgiacW extends CASgiac {
 
 	protected void initCAS(String versionString) {
 		Log.debug(versionString + " loading success");
-		this.casLoaded = true;
 		this.kernel.getApplication().getGgbApi().initCAS();
 	}
 
@@ -248,7 +279,7 @@ public class CASgiacW extends CASgiac {
 
 	@Override
 	public boolean isLoaded() {
-		return casLoaded;
+		return casLoaded();
 	}
 
 	@Override
