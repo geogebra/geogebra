@@ -2684,6 +2684,7 @@ __GGB__keysVar.cy.menu = {
     "Sphere": "Sphere",
     "Sphere2": "Sffer gyda chanol o bwynt",
     "Sphere2.Help": "Dewis pwynt y canol ac wedyn pwynt ar y sffer",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sffer gyda chanol a radiws",
     "SpherePointRadius.Help": "Dewis canol y sffer a mewnbynnwch y radiws",
     "SphereThroughAwithCenterB": "Sffer trwy %0 \xe2 chanol %1",

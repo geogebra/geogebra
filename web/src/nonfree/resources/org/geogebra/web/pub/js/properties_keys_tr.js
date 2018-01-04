@@ -2684,6 +2684,7 @@ __GGB__keysVar.tr.menu = {
     "Sphere": "K\xfcre",
     "Sphere2": "Merkez ve bir Noktadan ge\xe7en K\xfcre",
     "Sphere2.Help": "Merkez noktas\u0131n\u0131 ve sonra k\xfcre \xfczerinde bir nokta se\xe7in",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Merkez ve yar\u0131\xe7ap ile K\xfcre",
     "SpherePointRadius.Help": "K\xfcrenin merkez noktas\u0131n\u0131 se\xe7in ve sonra yar\u0131\xe7ap\u0131 girin",
     "SphereThroughAwithCenterB": "%0'dan ge\xe7en ve %1 merkezli silindir",

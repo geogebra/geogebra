@@ -2684,6 +2684,7 @@ __GGB__keysVar.gl.menu = {
     "Sphere": "Esfera",
     "Sphere2": "Esfera con centro pasando por punto",
     "Sphere2.Help": "Seleccionar punto central; logo, punto da esfera",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Esfera con centro e raio",
     "SpherePointRadius.Help": "Seleccionar punto central da esfera e logo, valor do raio",
     "SphereThroughAwithCenterB": "Esfera a trav\xe9s de %0  con centro en %1",

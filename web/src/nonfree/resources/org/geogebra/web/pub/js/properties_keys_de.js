@@ -2684,6 +2684,7 @@ __GGB__keysVar.de.menu = {
     "Sphere": "Kugel",
     "Sphere2": "Kugel mit Mittelpunkt durch Punkt",
     "Sphere2.Help": "W\xe4hle den Kugelmittelpunkt, dann einen Punkt auf der Kugel",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Kugel mit Mittelpunkt und Radius",
     "SpherePointRadius.Help": "W\xe4hle den Kugelmittelpunkt, dann gib den Radius ein",
     "SphereThroughAwithCenterB": "Kugel durch %0 mit Mittelpunkt %1",

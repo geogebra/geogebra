@@ -2684,6 +2684,7 @@ __GGB__keysVar.fr.menu = {
     "Sphere": "Sph\xe8re",
     "Sphere2": "Sph\xe8re(centre-point)",
     "Sphere2.Help": "Le centre puis un point de la sph\xe8re",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sph\xe8re(centre-rayon)",
     "SpherePointRadius.Help": "Le centre, puis entrer le rayon.",
     "SphereThroughAwithCenterB": "Sph\xe8re de centre %1 passant par %0",

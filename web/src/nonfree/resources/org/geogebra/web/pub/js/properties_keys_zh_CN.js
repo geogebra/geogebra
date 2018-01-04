@@ -2684,6 +2684,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Sphere": "\u7403\u9762",
     "Sphere2": "\u7403\u9762(\u7403\u5fc3\u4e0e\u4e00\u70b9)",
     "Sphere2.Help": "\u9009\u5b9a\u7403\u5fc3, \u518d\u9009\u5b9a\u7403\u9762\u4e0a\u4e00\u70b9",
+    "SphereEquation": "(x - a)\xb2 + (y - b)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "\u7403\u9762(\u7403\u5fc3\u4e0e\u534a\u5f84)",
     "SpherePointRadius.Help": "\u9009\u5b9a\u7403\u5fc3, \u518d\u8f93\u5165\u534a\u5f84\u957f\u5ea6",
     "SphereThroughAwithCenterB": "\u7403\u5fc3\u4e3a %1\u3001\u7ecf\u8fc7 %0 \u7684\u7403\u9762",

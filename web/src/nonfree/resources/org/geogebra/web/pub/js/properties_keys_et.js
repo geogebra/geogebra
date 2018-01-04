@@ -2684,6 +2684,7 @@ __GGB__keysVar.et.menu = {
     "Sphere": "Kera",
     "Sphere2": "Kera keskpunktiga ning punktiga, mida kera l\xe4bib",
     "Sphere2.Help": "Valige keskpunkt ning punkt kera pinnal",
+    "SphereEquation": "(x - a)\xb2 + (y - b)\xb2 + (z - c)\xb2 = r\xb2",
     "SpherePointRadius": "Kera keskpunkti ja raadiusega",
     "SpherePointRadius.Help": "Valige kera keskpunkt ja sisestage raadius",
     "SphereThroughAwithCenterB": "Kera l\xe4bi %0 keskpunktiga %1",

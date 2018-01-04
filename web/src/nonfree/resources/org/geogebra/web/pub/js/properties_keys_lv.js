@@ -2684,6 +2684,7 @@ __GGB__keysVar.lv.menu = {
     "Sphere": "Sf\u0113ra",
     "Sphere2": "Sf\u0113ra ar centru punkt\u0101",
     "Sphere2.Help": "Izv\u0113lies centa punktu, tad punktu uz sf\u0113ras",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sf\u0113ra ar centru un r\u0101diusu",
     "SpherePointRadius.Help": "Izv\u0113liessf\u0113ras centru un ievadi r\u0101diusu",
     "SphereThroughAwithCenterB": "Sf\u0113ra caur %0 ar centru %1",

@@ -2684,6 +2684,7 @@ __GGB__keysVar.tg.menu = {
     "Sphere": "Sphere",
     "Sphere2": "Sphere with Center through Point",
     "Sphere2.Help": "Select center point, then point on sphere",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sphere with Center and Radius",
     "SpherePointRadius.Help": "Select the sphere's center point, and enter radius",
     "SphereThroughAwithCenterB": "Sphere through %0 with center %1",

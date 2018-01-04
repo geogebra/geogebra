@@ -2684,6 +2684,7 @@ __GGB__keysVar.ms.menu = {
     "Sphere": "Sfera",
     "Sphere2": "Sfera dengan Pusat melalui Titik",
     "Sphere2.Help": "Pilih titik pusat, kemudian titik pada sfera",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sfera dengan Pusat dan Jejari",
     "SpherePointRadius.Help": "Pilih titik pusat sfera dan masukkan jejari",
     "SphereThroughAwithCenterB": "Sfera melalui %0 dengan pusat %1",

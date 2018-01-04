@@ -2684,6 +2684,7 @@ __GGB__keysVar.sl.menu = {
     "Sphere": "Sfera",
     "Sphere2": "Sfera s srei\u0161\u010dem skozi to\u010dko",
     "Sphere2.Help": "Izberi sredi\u0161\u010de in to\u010dko na sferi",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sfera s sredi\u0161\u010dem in polmerom",
     "SpherePointRadius.Help": "Izberi sredi\u0161\u010de sfere in vnesi polmer",
     "SphereThroughAwithCenterB": "Krogla skozi %0 s sredi\u0161\u010dem %1",

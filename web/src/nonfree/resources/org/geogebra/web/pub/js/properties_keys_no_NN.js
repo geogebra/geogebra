@@ -2684,6 +2684,7 @@ __GGB__keysVar.no_NN.menu = {
     "Sphere": "Kule",
     "Sphere2": "Kule med sentrum gjennom punkt",
     "Sphere2.Help": "Vel sentrum og deretter punkt p\xe5 kule",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Kule med sentrum og radius",
     "SpherePointRadius.Help": "Vel kulesentrum og skriv inn radius",
     "SphereThroughAwithCenterB": "Kule gjennom %0 med sentrum i %1",

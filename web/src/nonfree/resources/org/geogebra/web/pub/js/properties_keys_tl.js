@@ -2684,6 +2684,7 @@ __GGB__keysVar.tl.menu = {
     "Sphere": "Sphere",
     "Sphere2": "Sphere with Center through Point",
     "Sphere2.Help": "Pumili ng center point, pagkatapos pumili ng point sa sphere",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sphere with Center and Radius",
     "SpherePointRadius.Help": "Pulmili ng sphere center point at i-enter radius",
     "SphereThroughAwithCenterB": "Globo sa %0 na may gitnang %1",

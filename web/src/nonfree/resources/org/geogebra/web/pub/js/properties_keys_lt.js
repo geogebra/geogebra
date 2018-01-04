@@ -2684,6 +2684,7 @@ __GGB__keysVar.lt.menu = {
     "Sphere": "Sfera",
     "Sphere2": "Sfera su centru per ta\u0161k\u0105",
     "Sphere2.Help": "Pasirinkite centr\u0105, tuomet ta\u0161k\u0105 ant sferos",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sfera su centru ir spinduliu",
     "SpherePointRadius.Help": "Pasirinkite sferos centr\u0105 ir \u012fveskite spindul\u012f",
     "SphereThroughAwithCenterB": "Sfera per %0 su centru %1",

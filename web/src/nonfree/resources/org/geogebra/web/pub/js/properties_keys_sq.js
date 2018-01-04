@@ -2684,6 +2684,7 @@ __GGB__keysVar.sq.menu = {
     "Sphere": "Sphere",
     "Sphere2": "Sfere me Qender ne nje Pike",
     "Sphere2.Help": "Selekto qendren, pastaj piken ne sfere",
+    "SphereEquation": "Ekuacion Rrethi",
     "SpherePointRadius": "Sfera me Qender dhe Rreze",
     "SpherePointRadius.Help": "Selekto qendren e sferes dhe fut rrezen",
     "SphereThroughAwithCenterB": "Sfere neper %0 me qender %1",

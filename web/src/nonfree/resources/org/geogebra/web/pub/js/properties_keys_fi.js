@@ -2684,6 +2684,7 @@ __GGB__keysVar.fi.menu = {
     "Sphere": "Pallo",
     "Sphere2": "Pallo",
     "Sphere2.Help": "Valitse ensin keskipiste ja sitten piste pallon kuorelta",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Pallo: keskipiste ja s\xe4de",
     "SpherePointRadius.Help": "Valitse pallon keskipiste ja anna s\xe4de",
     "SphereThroughAwithCenterB": "Pallo %0:n l\xe4pi ja keskipisteell\xe4 %1",

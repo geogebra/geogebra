@@ -2684,6 +2684,7 @@ __GGB__keysVar.ar_TN.menu = {
     "Sphere": "\u0643\u0631\u0629",
     "Sphere2": "\u0643\u0631\u0629: \u0645\u0631\u0643\u0632 \u0648 \u0646\u0642\u0637\u0629",
     "Sphere2.Help": "\u062d\u062f\u062f \u0627\u0644\u0645\u0631\u0643\u0632 \u062b\u0645 \u0646\u0642\u0637\u0629 \u0645\u0646\u0647\u0627",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2= r\xb2",
     "SpherePointRadius": "\u0643\u0631\u0629: \u0645\u0631\u0643\u0632 \u0648 \u0634\u0639\u0627\u0639",
     "SpherePointRadius.Help": "\u062d\u062f\u062f \u0627\u0644\u0645\u0631\u0643\u0632 \u062b\u0645 \u0627\u0644\u0634\u0639\u0627\u0639",
     "SphereThroughAwithCenterB": "\u0643\u0631\u0629 \u0645\u0631\u0643\u0632\u0647\u0627 %1 \u0645\u0627\u0631\u0629 \u0645\u0646 %0",

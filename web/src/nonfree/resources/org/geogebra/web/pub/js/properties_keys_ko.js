@@ -2684,6 +2684,7 @@ __GGB__keysVar.ko.menu = {
     "Sphere": "\uad6c",
     "Sphere2": "\uc911\uc2ec\uc774 \uc788\uace0 \ud55c \uc810\uc744 \uc9c0\ub098\ub294 \uad6c",
     "Sphere2.Help": "\uc911\uc2ec\uc810\uc744 \uc120\ud0dd\ud55c \ud6c4 \uad6c \uc704\uc758 \ud55c \uc810\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "\uc911\uc2ec\uacfc \ubc18\uc9c0\ub984\uc774 \uc788\ub294 \uad6c",
     "SpherePointRadius.Help": "\uad6c\uc758 \uc911\uc2ec\uc810\uc744 \uc120\ud0dd\ud55c \ud6c4 \ubc18\uc9c0\ub984\uc744 \uc785\ub825\ud558\uc138\uc694.",
     "SphereThroughAwithCenterB": "\uc911\uc2ec\uc774 %1 \uc774\uace0 %0 \uc744(\ub97c) \uc9c0\ub098\ub294 \uad6c",

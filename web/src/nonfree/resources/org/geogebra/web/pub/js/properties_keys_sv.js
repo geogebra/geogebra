@@ -2684,6 +2684,7 @@ __GGB__keysVar.sv.menu = {
     "Sphere": "Sf\xe4r",
     "Sphere2": "Klot med centrum i punkt",
     "Sphere2.Help": "V\xe4lj punkt i centrum, d\xe4refter punkt p\xe5 ytan",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Klot med centrum och radie",
     "SpherePointRadius.Help": "V\xe4lj punkt i centrum av sf\xe4ren och mata d\xe4refter in radien",
     "SphereThroughAwithCenterB": "Sphere through %0 with center %1",

@@ -2684,6 +2684,7 @@ __GGB__keysVar.sk.menu = {
     "Sphere": "Gu\u013ea",
     "Sphere2": "Gu\u013ea so stredom cez bod",
     "Sphere2.Help": "Vyzna\u010d stred a potom bod povrchu",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Gu\u013ea so stredom a polomerom",
     "SpherePointRadius.Help": "Vyzna\u010d stred gule a potom zadaj polomer",
     "SphereThroughAwithCenterB": "Gu\u013ea cez %0 so stredom %1",

@@ -2684,6 +2684,7 @@ __GGB__keysVar.in.menu = {
     "Sphere": "Sphere",
     "Sphere2": "Bola dengan pusat melalui titik",
     "Sphere2.Help": "Pilih titik pusat, kemudian titik pada bola",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Bola dengan pusat dan Jari-jari",
     "SpherePointRadius.Help": "Pilih titik pusat bola dan masukan jari-jari",
     "SphereThroughAwithCenterB": "Bola melalui %0 dengan pusat %1",

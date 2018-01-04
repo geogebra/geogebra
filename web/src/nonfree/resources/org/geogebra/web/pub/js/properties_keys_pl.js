@@ -2684,6 +2684,7 @@ __GGB__keysVar.pl.menu = {
     "Sphere": "Kula",
     "Sphere2": "Kula o danym \u015brodku przechodz\u0105ca przez punkt",
     "Sphere2.Help": "Wybierz \u015brodek i punkt na sferze",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Kula o danym \u015brodku i promieniu",
     "SpherePointRadius.Help": "Wybierz \u015brodek kuli i wprowad\u017a promie\u0144",
     "SphereThroughAwithCenterB": "Sfera przechodz\u0105ca przez %0 o \u015brodku %1",

@@ -2684,6 +2684,7 @@ __GGB__keysVar.bs.menu = {
     "Sphere": "Sfera",
     "Sphere2": "Sfera odre\u0111ena centrom i ta\u010dkom",
     "Sphere2.Help": "Ozna\u010dite/Kreirajte ta\u010dku-centar, zatim ta\u010dku na sferi",
+    "SphereEquation": "(x - p)\xb2 + (y - q)\xb2 + (z - m)\xb2 = r\xb2",
     "SpherePointRadius": "Sfera odre\u0111ena centrom i polupre\u010dnikom",
     "SpherePointRadius.Help": "Ozna\u010dite/Kreirajte ta\u010dku-centar sfere, zatim unesite du\u017einu polupre\u010dnika",
     "SphereThroughAwithCenterB": "Sfera odre\u0111ena centrom %1 i ta\u010dkom %0 na sferi",

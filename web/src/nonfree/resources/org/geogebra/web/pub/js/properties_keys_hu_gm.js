@@ -2684,6 +2684,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Sphere": "G\xf6mb",
     "Sphere2": "G\xf6mb k\xf6z\xe9pponttal \xe9s felsz\xedni pontj\xe1val",
     "Sphere2.Help": "K\xf6z\xe9ppont, majd a g\xf6mb felsz\xedn\xe9n l\xe9v\u0151 pont kijel\xf6l\xe9se",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "G\xf6mb k\xf6z\xe9pponttal \xe9s sug\xe1rral",
     "SpherePointRadius.Help": "G\xf6mb k\xf6z\xe9ppontj\xe1nak kijel\xf6l\xe9se, majd sug\xe1r megad\xe1sa",
     "SphereThroughAwithCenterB": "%1 k\xf6z\xe9ppont\xfa %0-n \xe1thalad\xf3 g\xf6mb",

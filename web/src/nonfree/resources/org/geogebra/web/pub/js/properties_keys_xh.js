@@ -2684,6 +2684,7 @@ __GGB__keysVar.xh.menu = {
     "Sphere": "iSphere",
     "Sphere2": "iSphere esinoMbindi ophumela kwiChaphaza",
     "Sphere2.Help": "Khetha iChaphaza loMbindi, ulandelise ngeChaphaza elikwiSphere",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "iSphere esinoMbindi neReydiyasi",
     "SpherePointRadius.Help": "Khetha iChaphaza lombindi le Sphere, kunye neReydiyasi",
     "SphereThroughAwithCenterB": "iSphere esiphumela ku %0 esinombindi ongu %1",

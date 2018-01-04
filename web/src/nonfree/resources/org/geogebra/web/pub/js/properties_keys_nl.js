@@ -2684,6 +2684,7 @@ __GGB__keysVar.nl.menu = {
     "Sphere": "Bol",
     "Sphere2": "Bol met middelpunt door punt",
     "Sphere2.Help": "Selecteer middelpunte en vervolgens punt op bol",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Bol met middelpunt en straal",
     "SpherePointRadius.Help": "Klik op middelpunt van bol en geef de straal",
     "SphereThroughAwithCenterB": "Bol door %0 met middelpunt %1",

@@ -2684,6 +2684,7 @@ __GGB__keysVar.en_GB.menu = {
     "Sphere": "Sphere",
     "Sphere2": "Sphere with Centre through Point",
     "Sphere2.Help": "Select centre point, then point on sphere",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sphere with Centre and Radius",
     "SpherePointRadius.Help": "Select the sphere's centre point, and enter radius",
     "SphereThroughAwithCenterB": "Sphere through %0 with centre %1",

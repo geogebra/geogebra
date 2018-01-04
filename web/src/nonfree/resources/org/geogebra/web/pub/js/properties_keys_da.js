@@ -2684,6 +2684,7 @@ __GGB__keysVar.da.menu = {
     "Sphere": "Kugle",
     "Sphere2": "Kugle udfra centrum og gennem punkt",
     "Sphere2.Help": "V\xe6lg centrum og dern\xe6st punkt p\xe5 kuglen",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Kugle udfra centrum og radius",
     "SpherePointRadius.Help": "V\xe6lg kuglens centrum og indtast radius",
     "SphereThroughAwithCenterB": "Kugle gennem %0 med centrum i %1",

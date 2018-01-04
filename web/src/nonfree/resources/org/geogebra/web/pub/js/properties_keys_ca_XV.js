@@ -2684,6 +2684,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Sphere": "Esfera",
     "Sphere2": "Esfera donats el centre i un punt per on passa",
     "Sphere2.Help": "Seleccioneu el centre i, a continuaci\xf3, un punt sobre l'esfera",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Esfera donats el centre i el radi",
     "SpherePointRadius.Help": "Seleccioneu el centre de l'esfera i introdu\xefu el radi",
     "SphereThroughAwithCenterB": "Esfera que passa per %1 amb centre %0.",

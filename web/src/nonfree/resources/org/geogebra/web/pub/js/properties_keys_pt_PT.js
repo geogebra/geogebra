@@ -2684,6 +2684,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Sphere": "Esfera",
     "Sphere2": "Esfera (Centro, Ponto)",
     "Sphere2.Help": "Selecione o centro e em seguida um ponto da esfera",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Esfera (Centro, Raio)",
     "SpherePointRadius.Help": "Selecione o centro da esfera e introduza o raio",
     "SphereThroughAwithCenterB": "Esfera contendo %0 com centro em %1",

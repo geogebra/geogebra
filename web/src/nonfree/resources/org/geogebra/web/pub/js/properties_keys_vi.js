@@ -2684,6 +2684,7 @@ __GGB__keysVar.vi.menu = {
     "Sphere": "Sphere",
     "Sphere2": "M\u1eb7t c\u1ea7u bi\u1ebft t\xe2m v\xe0 qua 1 \u0111i\u1ec3m",
     "Sphere2.Help": "Ch\u1ecdn t\xe2m v\xe0 1 \u0111i\u1ec3m thu\u1ed9c m\u1eb7t c\u1ea7u",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "M\u1eb7t c\u1ea7u bi\u1ebft t\xe2m v\xe0 b\xe1n k\xednh",
     "SpherePointRadius.Help": "Ch\u1ecdn t\xe2m v\xe0 nh\u1eadp \u0111\u1ed9 l\u1edbn b\xe1n k\xednh",
     "SphereThroughAwithCenterB": "H\xecnh c\u1ea7u \u0111i qua %0 v\u1edbi t\xe2m %1",

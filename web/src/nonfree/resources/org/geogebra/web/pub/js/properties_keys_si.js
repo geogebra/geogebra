@@ -2684,6 +2684,7 @@ __GGB__keysVar.si.menu = {
     "Sphere": "Sphere",
     "Sphere2": "Sphere with Center through Point",
     "Sphere2.Help": "Select center point, then point on sphere",
+    "SphereEquation": "\u0dc0\u0dd8\u0dad\u0dca\u0dad \u0dc3\u0db8\u0dd3\u0d9a\u0dbb\u0dab\u0dba",
     "SpherePointRadius": "Sphere with Center and Radius",
     "SpherePointRadius.Help": "Select the sphere's center point, and enter radius",
     "SphereThroughAwithCenterB": "Sphere through %0 with center %1",

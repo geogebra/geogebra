@@ -2684,6 +2684,7 @@ __GGB__keysVar.eu.menu = {
     "Sphere": "Esfera",
     "Sphere2": "Esfera Zentroa eta bere Puntu bat emanda",
     "Sphere2.Help": "Esferaren zentroa, eta ondoren, esferaren puntua",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Esfera, Zentroa eta Erradioa emanda",
     "SpherePointRadius.Help": "Esferaren zentroa aukeratu, eta ondoren, sartu erradioa",
     "SphereThroughAwithCenterB": "%1 zentroko esfera, %0-(e)tik pasatuz",

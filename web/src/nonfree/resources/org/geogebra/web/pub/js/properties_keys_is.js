@@ -2684,6 +2684,7 @@ __GGB__keysVar.is.menu = {
     "Sphere": "K\xfala",
     "Sphere2": "K\xfala me\xf0 mi\xf0ju gegnum punkt",
     "Sphere2.Help": "Velji\xf0 mi\xf0ju og s\xed\xf0an punkt \xe1 k\xfalu",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "K\xfala me\xf0 mi\xf0ju og geisla",
     "SpherePointRadius.Help": "Velji\xf0 mi\xf0ju k\xfalu og sl\xe1i\xf0 inn geisla",
     "SphereThroughAwithCenterB": "K\xfala gegnum %0 me\xf0 mi\xf0ju \xed %1",

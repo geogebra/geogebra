@@ -2684,6 +2684,7 @@ __GGB__keysVar.ro.menu = {
     "Sphere": "Sfer\u0103",
     "Sphere2": "Sfera cu Centrul, prin Punctul",
     "Sphere2.Help": "Selecta\u021bi punctul central, apoi punct pe sfer\u0103",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2=r\xb2",
     "SpherePointRadius": "Sfera cu Centru si raza",
     "SpherePointRadius.Help": "Selecta\u021bi punctul de centrul sferei, \u0219i introduce\u021bi raza",
     "SphereThroughAwithCenterB": "Sfer\u0103 prin %0 cu centrul %1",

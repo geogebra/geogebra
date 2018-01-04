@@ -2684,6 +2684,7 @@ __GGB__keysVar.hr.menu = {
     "Sphere": "Sfera",
     "Sphere2": "Sfera odre\u0111ena sredi\u0161tem i to\u010dkom",
     "Sphere2.Help": "Odaberite sredi\u0161te i to\u010dku na sferi",
+    "SphereEquation": "(x - m)\xb2 + (y - n)\xb2 + (z - p)\xb2 = r\xb2",
     "SpherePointRadius": "Sfera odre\u0111ena sredi\u0161tem i polumjerom",
     "SpherePointRadius.Help": "Odaberite sredi\u0161te sfere i unesite polumjer",
     "SphereThroughAwithCenterB": "Sfera kroz %0 sa sredi\u0161tem %1",
