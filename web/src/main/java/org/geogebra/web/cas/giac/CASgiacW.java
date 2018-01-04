@@ -145,7 +145,13 @@ public class CASgiacW extends CASgiac {
 	}
 
 	private native String setUpInitCAS(String ggbApplet) /*-{
-		$wnd.__ggb__giac__postRun = $wnd[ggbApplet].initCAS;
+
+		if (!$wnd.__ggb__giac)
+			$wnd.__ggb__giac = (typeof $wnd.__ggb__giac !== "undefined" ? $wnd.__ggb__giac
+					: null)
+					|| {};
+
+		$wnd.__ggb__giac.postRun = [ $wnd[ggbApplet].initCAS ];
 
 	}-*/;
 
