@@ -1,5 +1,6 @@
 package org.geogebra.web.web.gui.view.algebra;
 
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -8,14 +9,13 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
+import org.geogebra.web.html5.gui.util.ClickEndHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.util.MyToggleButtonW;
 
 import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
@@ -106,10 +106,9 @@ public class AlgebraOutputPanel extends FlowPanel {
 						GuiResourcesSimple.INSTANCE.modeToggleNumeric());
 			}
 			final MyToggleButtonW btn = btnSymbolic;
-			btnSymbolic.addClickHandler(new ClickHandler() {
-
+			ClickEndHandler.init(btnSymbolic, new ClickEndHandler() {
 				@Override
-				public void onClick(ClickEvent event) {
+				public void onClickEnd(int x, int y, PointerEventType type) {
 					btn.setSelected(AlgebraItem.toggleSymbolic(geo));
 				}
 			});
