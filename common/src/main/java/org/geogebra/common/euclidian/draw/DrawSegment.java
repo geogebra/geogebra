@@ -397,6 +397,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @param ymax
 	 *            clip bottom
 	 * @param tmpClipPoints2
+	 *            helper array for clipping
 	 * @return whether line intersects clipping rectangle
 	 */
 	public static boolean drawClipped(double[] coordsA, double[] coordsB,

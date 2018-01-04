@@ -92,11 +92,24 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 
 	}
 
+	/**
+	 * Draw 2D cross cursor
+	 * 
+	 * @param renderer1
+	 *            renderer
+	 */
 	public void drawFreeCursor(Renderer renderer1) {
 		// free point on xOy plane
 		renderer1.drawCursor(PlotterCursor.TYPE_CROSS2D);
 	}
 
+	/**
+	 * @param p
+	 *            event location
+	 * @param type
+	 *            event type
+	 * @return whether label was hit
+	 */
 	public GeoElement getLabelHit(GPoint p, PointerEventType type) {
 		if (type == PointerEventType.TOUCH) {
 			return null;
@@ -116,6 +129,11 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		return geo.isMoveable();
 	}
 
+	/**
+	 * @param type
+	 *            event type
+	 * @return point capturing threshold
+	 */
 	public int getCapturingThreshold(PointerEventType type) {
 		return getView().getApplication().getCapturingThreshold(type);
 	}
@@ -128,14 +146,23 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 		// used for some input3D
 	}
 
+	/**
+	 * Reset styles: ignore unless 3D input is used
+	 */
 	public void resetAllVisualStyles() {
 		// used for some input3D
 	}
 
+	/**
+	 * Reset drawables: ignore unless 3D input is used
+	 */
 	public void resetOwnDrawables() {
 		// used for some input3D
 	}
 
+	/**
+	 * ignore unless 3D input is used
+	 */
 	public void update() {
 		// used for some input3D
 	}

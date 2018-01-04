@@ -81,7 +81,6 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.Event;
@@ -1014,10 +1013,17 @@ public class Kernel {
 		return saveScriptsToXML;
 	}
 
+	/**
+	 * @param flag
+	 *            whether we can load default elements
+	 */
 	public void setElementDefaultAllowed(boolean flag) {
 		elementDefaultAllowed = flag;
 	}
 
+	/**
+	 * @return whether we can load default elements
+	 */
 	public boolean getElementDefaultAllowed() {
 		return elementDefaultAllowed;
 	}
@@ -1090,11 +1096,18 @@ public class Kernel {
 		return '-';
 	}
 
+	/**
+	 * @param flag
+	 *            whether add/remove should be sent to construction protocol
+	 */
 	public void setNotifyConstructionProtocolViewAboutAddRemoveActive(
 			boolean flag) {
 		notifyConstructionProtocolViewAboutAddRemoveActive = flag;
 	}
 
+	/**
+	 * @return whether add/remove should be sent to construction protocol
+	 */
 	public boolean isNotifyConstructionProtocolViewAboutAddRemoveActive() {
 		return notifyConstructionProtocolViewAboutAddRemoveActive;
 	}
@@ -1136,6 +1149,14 @@ public class Kernel {
 		return sbBuildImplicitEquation;
 	}
 
+	/**
+	 * @param x
+	 *            number
+	 * @param sb
+	 *            output buffer
+	 * @param tpl
+	 *            formated number with leading + or -. Skips 1 and -1.
+	 */
 	final public void formatSignedCoefficient(double x, StringBuilder sb,
 			StringTemplate tpl) {
 		if (x == -1.0) {
@@ -1150,9 +1171,16 @@ public class Kernel {
 		formatSigned(x, sb, tpl);
 	}
 
+	/**
+	 * @param x
+	 *            number
+	 * @param sb
+	 *            output buffer
+	 * @param tpl
+	 *            formated number with leading + or -
+	 */
 	final public void formatSigned(double x, StringBuilder sb,
 			StringTemplate tpl) {
-
 		if (x >= 0.0d) {
 			sb.append("+ ");
 			sb.append(format(x, tpl));
@@ -1162,6 +1190,14 @@ public class Kernel {
 		sb.append(format(-x, tpl));
 	}
 
+	/**
+	 * @param x
+	 *            number
+	 * @param sb
+	 *            output buffer
+	 * @param tpl
+	 *            formated number with leading +- or -+. Skips 1 and -1.
+	 */
 	final public void formatSignedCoefficientPlusMinus(double x,
 			StringBuilder sb, StringTemplate tpl) {
 		if (x == -1.0) {
@@ -1176,6 +1212,14 @@ public class Kernel {
 		formatSignedPlusMinus(x, sb, tpl);
 	}
 
+	/**
+	 * @param x
+	 *            number
+	 * @param sb
+	 *            output buffer
+	 * @param tpl
+	 *            formated number with leading + or -
+	 */
 	final public void formatSignedPlusMinus(double x, StringBuilder sb,
 			StringTemplate tpl) {
 
@@ -3383,6 +3427,7 @@ public class Kernel {
 	/**
 	 * @param i
 	 *            used in 3D
+	 * @return 3D view z-max for id = 2
 	 */
 	public double getZmax(int i) {
 		return 0;
@@ -3391,6 +3436,7 @@ public class Kernel {
 	/**
 	 * @param i
 	 *            used in 3D
+	 * @return 3D view z-min for id = 2
 	 */
 	public double getZmin(int i) {
 		return 0;
@@ -3454,6 +3500,9 @@ public class Kernel {
 		return getYscale();
 	}
 
+	/**
+	 * @return CAS
+	 */
 	public synchronized GeoGebraCasInterface getGeoGebraCAS() {
 		if (ggbCAS == null) {
 			ggbCAS = new GeoGebraCAS(this);
@@ -3472,6 +3521,9 @@ public class Kernel {
 
 	/**
 	 * Returns a GeoElement for the given label.
+	 * 
+	 * @param label
+	 *            CAS cell label
 	 * 
 	 * @return may return null
 	 */
@@ -3526,94 +3578,6 @@ public class Kernel {
 		}
 
 		return geo;
-	}
-
-	public GeoClass getClassType(String type) throws MyError {
-		switch (type.charAt(0)) {
-		case 'a': // angle
-			return GeoClass.ANGLE;
-
-		case 'b': // angle
-			if ("boolean".equals(type)) {
-				return GeoClass.BOOLEAN;
-			}
-			return GeoClass.BUTTON; // "button"
-
-		case 'c': // conic
-			if ("conic".equals(type)) {
-				return GeoClass.CONIC;
-			} else if ("conicpart".equals(type)) {
-				return GeoClass.CONICPART;
-			} else if ("circle".equals(type)) { // bug in GeoGebra 2.6c
-				return GeoClass.CONIC;
-			}
-
-		case 'd': // doubleLine // bug in GeoGebra 2.6c
-			return GeoClass.CONIC;
-
-		case 'e': // ellipse, emptyset // bug in GeoGebra 2.6c
-			return GeoClass.CONIC;
-
-		case 'f': // function
-			return GeoClass.FUNCTION;
-
-		case 'h': // hyperbola // bug in GeoGebra 2.6c
-			return GeoClass.CONIC;
-
-		case 'i': // image,implicitpoly
-			if ("image".equals(type)) {
-				return GeoClass.IMAGE;
-			} else if ("intersectinglines".equals(type)) {
-				return GeoClass.CONIC;
-			} else if ("implicitpoly".equals(type)) {
-				return GeoClass.IMPLICIT_POLY;
-			}
-
-		case 'l': // line, list, locus
-			if ("line".equals(type)) {
-				return GeoClass.LINE;
-			} else if ("list".equals(type)) {
-				return GeoClass.LIST;
-			} else {
-				return GeoClass.LOCUS;
-			}
-
-		case 'n': // numeric
-			return GeoClass.NUMERIC;
-
-		case 'p': // point, polygon
-			if ("point".equals(type)) {
-				return GeoClass.POINT;
-			} else if ("polygon".equals(type)) {
-				return GeoClass.POLYGON;
-			} else if ("polyline".equals(type)) {
-				return GeoClass.POLYLINE;
-			} else if ("penstroke".equals(type)) {
-				return GeoClass.PENSTROKE;
-			} else {
-				return GeoClass.CONIC;
-			}
-
-		case 'r': // ray
-			return GeoClass.RAY;
-
-		case 's': // segment
-			return GeoClass.SEGMENT;
-
-		case 't':
-			if ("text".equals(type)) {
-				return GeoClass.TEXT; // text
-			}
-			return GeoClass.TEXTFIELD; // textfield
-
-		case 'v': // vector
-			return GeoClass.VECTOR;
-
-		default:
-			throw new MyError(cons.getApplication().getLocalization(),
-					"Kernel: GeoElement of type " + type
-							+ " could not be created.");
-		}
 	}
 
 	/**
@@ -3747,6 +3711,9 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * Dispatch all remaining move events
+	 */
 	public final void notifyControllersMoveIfWaiting() {
 		if (notifyRepaint && notifyViewsActive) {
 			for (View view : views) {
@@ -3758,6 +3725,9 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * @return whether at least one view needed repaint
+	 */
 	public final boolean notifySuggestRepaint() {
 		boolean needed = false;
 		if (notifyViewsActive) {
@@ -3849,8 +3819,13 @@ public class Kernel {
 		return lastAttachedEV;
 	}
 
+	/**
+	 * Attach view (view will receive events)
+	 * 
+	 * @param view
+	 *            view
+	 */
 	public void attach(View view) {
-
 		if (!views.contains(view)) {
 			views.add(view);
 		}
@@ -3860,7 +3835,6 @@ public class Kernel {
 		}
 
 		printAttachedViews();
-
 	}
 
 	private void printAttachedViews() {
@@ -3883,11 +3857,15 @@ public class Kernel {
 		} catch (Exception e) {
 			Log.debug(e.getMessage());
 		}
-
 	}
 
+	/**
+	 * Detach a view (will stop sending events to it)
+	 * 
+	 * @param view
+	 *            view
+	 */
 	public void detach(View view) {
-
 		views.remove(view);
 		printAttachedViews();
 
@@ -3897,6 +3875,9 @@ public class Kernel {
 	 * Notify the views that the mode changed.
 	 * 
 	 * @param mode
+	 *            mode (see EuclidianConstants)
+	 * @param m
+	 *            mode change event type
 	 */
 	final public void notifyModeChanged(int mode, ModeSetter m) {
 		if (notifyViewsActive) {
@@ -3906,6 +3887,12 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * Add all elements to a view
+	 * 
+	 * @param view
+	 *            view
+	 */
 	final public void notifyAddAll(View view) {
 		if (cons == null) {
 			return;
@@ -3917,6 +3904,9 @@ public class Kernel {
 	/**
 	 * Registers an algorithm that needs to be updated when notifyRename(),
 	 * notifyAdd(), or notifyRemove() is called.
+	 * 
+	 * @param algo
+	 *            algo listening to rename events
 	 */
 	public void registerRenameListenerAlgo(AlgoElement algo) {
 		if (renameListenerAlgos == null) {
@@ -3928,12 +3918,16 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * See {@link #registerRenameListenerAlgo(AlgoElement)}
+	 * @param algo
+	 *            algo listening to rename events
+	 */
 	void unregisterRenameListenerAlgo(AlgoElement algo) {
 		if (renameListenerAlgos != null) {
 			renameListenerAlgos.remove(algo);
 		}
 	}
-
 
 	private void notifyRenameListenerAlgos() {
 		// #4073 command Object[] registers rename listeners
@@ -3943,10 +3937,17 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * @return whether spreadsheet batch operation is running
+	 */
 	public boolean isSpreadsheetBatchRunning() {
 		return this.spreadsheetBatchRunning;
 	}
 
+	/**
+	 * @param b
+	 *            whether spreadsheet batch operation is running
+	 */
 	public void setSpreadsheetBatchRunning(boolean b) {
 		this.spreadsheetBatchRunning = b;
 		if (!b) {
@@ -4030,9 +4031,11 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * Notify views about new polygon
+	 */
 	public final void notifyPolygonAdded() {
 		if (notifyViewsActive) {
-
 			for (View view : views) {
 				if (view instanceof ClientView) {
 					((ClientView) view).addPolygonComplete(this.newPolygon);
@@ -4041,6 +4044,9 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * Notify views about mass remove
+	 */
 	public final void notifyRemoveGroup() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -4052,6 +4058,12 @@ public class Kernel {
 		this.deleteList.clear();
 	}
 
+	/**
+	 * Notify views about removed element
+	 * 
+	 * @param geo
+	 *            removed element
+	 */
 	public final void notifyRemove(GeoElement geo) {
 		if (notifyViewsActive) {
 			if (geo.isLabelSet()) {
@@ -4066,11 +4078,9 @@ public class Kernel {
 						removeFromCAS(view, geo);
 					} else {
 						view.remove(geo);
-
 					}
 				}
 			}
-
 		}
 
 		notifyRenameListenerAlgos();
@@ -4091,6 +4101,9 @@ public class Kernel {
 		view.remove(geo);
 	}
 
+	/**
+	 * Notify views about moving multiple geos (start)
+	 */
 	public final void movingGeoSet() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -4101,6 +4114,12 @@ public class Kernel {
 		}
 	}
 
+	/**
+	 * Notify views about moving multiple geos (end)
+	 * 
+	 * @param elmSet
+	 *            moved geos
+	 */
 	public final void movedGeoSet(ArrayList<GeoElement> elmSet) {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -4132,8 +4151,6 @@ public class Kernel {
 				}
 			}
 		}
-
-		// App.printStacktrace("notifyUpdate " + geo);
 	}
 
 	public final void notifyUpdateVisualStyle(GeoElement geo, GProperty prop) {
