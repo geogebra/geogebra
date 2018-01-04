@@ -383,10 +383,15 @@ public class AriaStackPanel extends ComplexPanel
 	 * @return index of parent element
 	 */
 	public int getContentIndex(Element target) {
-		if (target.getParentElement() == null) {
-			return -1;
+		Element current = target.getParentElement();
+		while (current != null) {
+			String idx = current.getPropertyString("__index");
+			if (idx != null) {
+				return Integer.parseInt(idx);
+			}
+			current = current.getParentElement();
 		}
-		return target.getParentElement().getPropertyInt("__index");
+		return -1;
 	}
 
 	/**
