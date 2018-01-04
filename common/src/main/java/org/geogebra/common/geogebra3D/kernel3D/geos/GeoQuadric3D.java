@@ -3576,7 +3576,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	@Override
 	public String getSpecificEquation() {
 		if (type == GeoQuadricNDConstants.QUADRIC_SPHERE) {
-			return getLoc().getMenu("CircleEquation");
+			return getLoc().getMenu("SphereEquation");
 		}
 		return null;
 	}

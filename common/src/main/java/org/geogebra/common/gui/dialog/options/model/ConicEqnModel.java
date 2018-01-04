@@ -3,10 +3,13 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.List;
 
 import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 public class ConicEqnModel extends MultipleOptionsModel {
 
@@ -24,7 +27,11 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		if (!app.getSettings().getCasSettings().isEnabled()) {
 			return false;
 		}
-		return (getObjectAt(index) instanceof GeoQuadricND);
+		return isValid(getObjectAt(index));
+	}
+
+	public static boolean isValid(Object geo) {
+		return geo instanceof GeoConic || geo instanceof GeoQuadric3DInterface;
 	}
 
 	private GeoQuadricND getConicAt(int index) {
@@ -99,7 +106,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			userIndex = ++counter;
 		}
 		implicitIndex = ++counter;
-		getListener().addItem(loc.getMenu("ImplicitConicEquation"));
+		getListener().addItem(getImplicitEquation(geo0, loc, false));
 		if (vertexformPossible) {
 			getListener().addItem(loc.getMenu("ParabolaVertexForm"));
 			vertexformIndex = ++counter;
@@ -108,7 +115,10 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			getListener().addItem(loc.getMenu("ParabolaConicForm"));
 			conicformIndex = ++counter;
 		}
-
+		if (geo0 instanceof GeoConic) {
+			getListener().addItem(loc.getMenu("ParametricForm"));
+			this.parametricIndex = ++counter;
+		}
 		int mode;
 		if (equalMode) {
 			mode = geo0.getToStringMode();
@@ -153,6 +163,15 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		}
 	}
 
+	public static String getImplicitEquation(GeoQuadricND geo0,
+			Localization loc2, boolean prefix) {
+		if (geo0 instanceof GeoQuadric3DInterface) {
+			return loc2.getMenu("ExtendedForm");
+		}
+		return (prefix ? loc2.getMenu("Equation") + ' ' : "")
+						+ loc2.getMenu("ImplicitConicEquation");
+	}
+
 	@Override
 	public List<String> getChoiches(Localization localization) {
 		// Not used
@@ -162,6 +181,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	@Override
 	protected void apply(int index, int value) {
 		GeoQuadricND quad = getConicAt(index);
+		Log.debug(value + ":" + parametricIndex);
 		if (quad instanceof GeoConicND) {
 			GeoConicND geo = (GeoConicND) quad;
 			if (value == specificIndex) {

@@ -52,5 +52,8 @@ public interface GeoPlaneND extends GeoCoordSys2D, EquationValue {
 	 */
 	public void setMode(int toStringMode);
 
+	/**
+	 * @return string mode
+	 */
 	public int getToStringMode();
 }

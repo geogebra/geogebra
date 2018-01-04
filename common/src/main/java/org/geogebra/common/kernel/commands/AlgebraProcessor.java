@@ -95,7 +95,6 @@ import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.kernel.kernelND.GeoQuadric3DInterface;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.ParserInterface;
@@ -631,33 +630,6 @@ public class AlgebraProcessor {
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
 				new EvalInfo(!cons.isSuppressLabelsActive(), true)
 						.withSliders(autoCreateSliders),
-				callback0);
-	}
-
-	/**
-	 * @param cmd
-	 *            string to process
-	 * @param storeUndo
-	 *            true to make undo step
-	 * @param handler
-	 *            decides how to handle exceptions
-	 * @param autoCreateSliders
-	 *            whether to show a popup for undefined variables
-	 * @param addDegree
-	 *            whether to allow automatically adding degree eg sin(15) ->
-	 *            sin(15deg)
-	 * @param callback0
-	 *            callback after the geos are created
-	 * @return resulting geos
-	 */
-	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
-			final String cmd, final boolean storeUndo,
-			final ErrorHandler handler, boolean autoCreateSliders,
-			boolean addDegree, final AsyncOperation<GeoElementND[]> callback0) {
-		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
-				new EvalInfo(!cons.isSuppressLabelsActive(), true)
-						.withSliders(autoCreateSliders).addDegree(addDegree)
-						.withUserEquation(true),
 				callback0);
 	}
 
@@ -2674,8 +2646,7 @@ public class AlgebraProcessor {
 			line.setLineOpacity(
 					EuclidianStyleConstants.OBJSTYLE_DEFAULT_LINE_OPACITY_EQUATION_GEOMETRY);
 		}
-		if (info.isForceUserEquation() && line instanceof EquationValue
-				&& !(line instanceof GeoQuadric3DInterface)) {
+		if (info.isForceUserEquation() && line instanceof EquationValue) {
 			((EquationValue) line).setToUser();
 		}
 		if (info.isLabelOutput()) {

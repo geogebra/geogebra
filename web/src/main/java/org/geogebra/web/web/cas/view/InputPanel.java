@@ -6,16 +6,19 @@ import org.geogebra.web.html5.main.DrawEquationW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.IsWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-public interface InputPanel extends IsWidget {
+/**
+ * CAS input panel
+ */
+public interface InputPanel extends IsWidget, HasText {
 
-	public void setText(String input);
-
-	public String getText();
-
+	/**
+	 * Text input
+	 */
 	public class InputPanelLabel extends Label implements InputPanel {
 
 		@Override
@@ -29,12 +32,19 @@ public interface InputPanel extends IsWidget {
 		}
 	}
 
+	/**
+	 * JLM based input
+	 */
 	public class InputPanelCanvas implements InputPanel {
 		private String text;
 		private Canvas c;
 		private App app;
 		private String laTex;
 
+		/**
+		 * @param app
+		 *            application
+		 */
 		public InputPanelCanvas(App app) {
 			this.app = app;
 			c = Canvas.createIfSupported();
@@ -92,13 +102,32 @@ public interface InputPanel extends IsWidget {
 		}
 	}
 
+	/**
+	 * @param string
+	 *            CSS class name
+	 */
 	public void addStyleName(String string);
 
+	/**
+	 * @param string
+	 *            CSS class name
+	 */
 	public void removeStyleName(String string);
 
+	/**
+	 * @return element
+	 */
 	public Element getElement();
 
+	/**
+	 * @param laTeX
+	 *            LaTeX content
+	 */
 	public void setLaTeX(String laTeX);
 
+	/**
+	 * @param ratio
+	 *            pixel ratio
+	 */
 	public void setPixelRatio(double ratio);
 }

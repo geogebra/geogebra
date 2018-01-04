@@ -122,7 +122,8 @@ public class ParametricProcessor {
 						new FunctionVariable[] { fv },
 						"X".equals(ve.getLabel()) ? null : ve.getLabel(), info);
 				if (ret != null
-						&& (num.isEmpty() || info.isAutocreateSliders())) {
+						&& (num.isEmpty() || (info.isAutocreateSliders())
+								&& info.isLabelOutput())) {
 					cons.setSuppressLabelCreation(oldMacroMode);
 					ap.processReplace(replaceable, ret, null, info);
 					return ret;

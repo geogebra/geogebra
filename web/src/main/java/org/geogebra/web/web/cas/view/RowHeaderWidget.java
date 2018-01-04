@@ -12,11 +12,24 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Row header with marble
+ */
 public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	private Image marble;
 	private boolean oldValue;
 	private RowHeaderHandler handler;
 
+	/**
+	 * @param casTableW
+	 *            table
+	 * @param n
+	 *            row number
+	 * @param cell
+	 *            cell
+	 * @param app
+	 *            application
+	 */
 	public RowHeaderWidget(CASTableW casTableW, int n, GeoCasCell cell, AppW app) {
 		Label label = new Label();
 		label.setText(n + "");
@@ -38,10 +51,17 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		// , MouseUpEvent.getType());
 	}
 
+	/**
+	 * @return handler
+	 */
 	public RowHeaderHandler getHandler() {
 		return handler;
 	}
 
+	/**
+	 * @param number
+	 *            row number
+	 */
 	public void setLabel(int number) {
 		((Label) (getWidget(0))).setText(number + "");
 	}
@@ -59,7 +79,7 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 			return;
 		}
 		marble.setUrl(value ? AppResources.INSTANCE.shown().getSafeUri()
-		        : AppResources.INSTANCE.hidden().getSafeUri());
+				: AppResources.INSTANCE.hidden().getSafeUri());
 		oldValue = value;
 
 	}
@@ -67,7 +87,6 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 	@Override
 	public void setMarbleVisible(boolean visible) {
 		marble.setVisible(visible);
-
 	}
 
 	/**
@@ -84,7 +103,7 @@ public class RowHeaderWidget extends FlowPanel implements MarbleRenderer {
 		 *            row header
 		 */
 		protected MarbleClickHandler(GeoCasCell cell,
-		        RowHeaderWidget rowHeaderWidget) {
+				RowHeaderWidget rowHeaderWidget) {
 			this.cell = cell;
 			this.rowHeaderWidget = rowHeaderWidget;
 		}

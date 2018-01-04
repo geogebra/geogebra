@@ -31,6 +31,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.KeyStroke;
 
 import org.geogebra.common.gui.ContextMenuGeoElement;
+import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.arithmetic.TextValue;
@@ -305,7 +306,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 	}
 
 	private void addConicItems() {
-		if (!(getGeo() instanceof GeoQuadricND)) {
+		if (!ConicEqnModel.isValid(getGeo())) {
 			return;
 		}
 		GeoQuadricND conic = (GeoQuadricND) getGeo();
@@ -326,9 +327,7 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 		StringBuilder sb = new StringBuilder();
 
 		if (mode != GeoConicND.EQUATION_IMPLICIT) {
-			sb.append(loc.getMenu("Equation"));
-			sb.append(' ');
-			sb.append(loc.getMenu("ImplicitConicEquation"));
+			sb.append(ConicEqnModel.getImplicitEquation(conic, loc, true));
 			action = new AbstractAction(sb.toString()) {
 				/**
 				 * 

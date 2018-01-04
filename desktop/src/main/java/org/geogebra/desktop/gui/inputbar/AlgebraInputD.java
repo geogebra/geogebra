@@ -35,8 +35,10 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
@@ -424,18 +426,20 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 
 		if (input == null || input.length() == 0) {
 			app.getActiveEuclidianView().requestFocus();
-
 			return;
 		}
 
 		app.setScrollToShow(true);
 		try {
-
+			EvalInfo info = new EvalInfo(true, true).withSliders(true)
+					.addDegree(app.getKernel()
+							.getAngleUnit() == Kernel.ANGLE_DEGREE);
+			AsyncOperation<GeoElementND[]> callback =
+					new InputBarCallback(app, inputField, input,
+							app.getKernel().getConstructionStep());
 			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
-							getErrorHandler(valid, explicit), true, app.has(Feature.AUTO_ADD_DEGREE),
-							new InputBarCallback(app, inputField, input,
-									app.getKernel().getConstructionStep()));
+							getErrorHandler(valid, explicit), info, callback);
 
 		} catch (Exception ee) {
 			inputField.addToHistory(getTextField().getText());

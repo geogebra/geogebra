@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.ContextMenuGeoElement;
 import org.geogebra.common.gui.dialog.options.model.AngleArcSizeModel;
+import org.geogebra.common.gui.dialog.options.model.ConicEqnModel;
 import org.geogebra.common.gui.dialog.options.model.ReflexAngleModel;
 import org.geogebra.common.gui.dialog.options.model.ShowLabelModel;
 import org.geogebra.common.kernel.Kernel;
@@ -1094,7 +1095,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			return;
 		}
-		if (!(getGeo() instanceof GeoQuadricND)) {
+		if (!ConicEqnModel.isValid(getGeo())) {
 			return;
 		}
 		GeoQuadricND conic = (GeoQuadricND) getGeo();
@@ -1114,9 +1115,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		StringBuilder sb = new StringBuilder();
 
 		if (mode != GeoConicND.EQUATION_IMPLICIT) {
-			sb.append(loc.getMenu("Equation"));
-			sb.append(' ');
-			sb.append(loc.getMenu("ImplicitConicEquation"));
+			sb.append(ConicEqnModel.getImplicitEquation(conic, loc, true));
 			action = new Command() {
 
 				@Override

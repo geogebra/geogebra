@@ -586,6 +586,17 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	}
 
+	/**
+	 * @param x0
+	 *            point x
+	 * @param y0
+	 *            point y
+	 * @param z0
+	 *            point z
+	 * @param xzyzuvOut
+	 *            (x,y,z,u,v) where x,y,z are coords of closest point and u,v
+	 *            are parameters
+	 */
 	protected void getClosestParameters(double x0, double y0, double z0,
 			double[] xzyzuvOut) {
 
