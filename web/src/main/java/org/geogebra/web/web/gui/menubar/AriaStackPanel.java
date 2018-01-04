@@ -317,9 +317,11 @@ public class AriaStackPanel extends ComplexPanel
 	private boolean remove(Widget child, int index) {
 		// Make sure to call this before disconnecting the DOM.
 		boolean removed = super.remove(child);
-		headers.remove(index);
-		contents.remove(index);
-		items.remove(index);
+		if (index > -1) {
+			headers.remove(index);
+			contents.remove(index);
+			items.remove(index);
+		}
 		return removed;
 	}
 

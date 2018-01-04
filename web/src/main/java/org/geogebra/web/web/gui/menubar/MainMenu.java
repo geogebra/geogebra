@@ -22,7 +22,6 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.move.ggtapi.operations.LoginOperationW;
 
@@ -185,12 +184,8 @@ public class MainMenu extends FlowPanel
 		menuTitles.clear();
 		menuImgs.clear();
 
-		if (app.isUnbundledOrWhiteboard()) {
-			initAriaStackPanel();
-		} else {
-			initKeyListener();
-			initStackPanel();
-		}
+		initAriaStackPanel();
+
 		initLogoMenu();
 
 		if (app.enableFileFeatures()) {
@@ -372,7 +367,7 @@ public class MainMenu extends FlowPanel
 					if (index != getSelectedIndex()) {
 						getMenuAt(getSelectedIndex()).selectItem(null);
 					}
-				} else if (!app.isExam() && eventType == Event.ONCLICK) {
+				} else if (eventType == Event.ONCLICK) {
 
 					// check if SignIn was clicked
 					// if we are offline, the last item is actually Help
@@ -492,222 +487,6 @@ public class MainMenu extends FlowPanel
 		menuPanel.addDomHandler(this, KeyDownEvent.getType());
 	}
 
-	private void initStackPanel() {
-		this.menuPanel = new MyStackPanel() {
-			@Override
-			public void showStack(int index) {
-				if (app.isUnbundledOrWhiteboard() && index == 0) {
-					super.showStack(1);
-				} else {
-					super.showStack(index);
-					if (app.isUnbundledOrWhiteboard()
-							&& menuImgs.size() > index - 1
-							&& menuImgs.get(index - 1) != null) {
-						String ariaLabel = menuTitles.get(index - 1);
-						setStackText(index,
-								getHTMLCollapse(menuImgs.get(index - 1),
-										menuTitles.get(index - 1)),
-								ariaLabel, true);
-						setExpandStyles(index);
-					}
-				}
-				dispatchOpenEvent();
-				if (app.isUnbundledOrWhiteboard() && index == 0) {
-					app.getGuiManager().setDraggingViews(
-							isViewDraggingMenu(menus.get(1)), false);
-				} else if (index < menus.size()) {
-					app.getGuiManager().setDraggingViews(
-							isViewDraggingMenu(menus.get(index)), false);
-				}
-			}
-
-			@Override
-			public void onBrowserEvent(Event event) {
-
-				int eventType = DOM.eventGetType(event);
-				if (!app.isExam() && eventType == Event.ONCLICK) {
-					Element target = DOM.eventGetTarget(event);
-					int index = findDividerIndex(target);
-					// check if SignIn was clicked
-					// if we are offline, the last item is actually Help
-					if (app.getNetworkOperation().isOnline()
-							&& !app.getLoginOperation().isLoggedIn()
-							&& index >= 0
-							&& this.getWidget(index) == signInMenu) {
-						((SignInButton) app.getLAF().getSignInButton(app))
-								.login();
-						app.toggleMenu();
-						return;
-					} else if (index >= 0) {
-						if (this.getWidget(index) == logoMenu) {
-							app.toggleMenu();
-							return;
-						}
-						if (this.getWidget(index) == settingsMenu) {
-							app.getDialogManager().showPropertiesDialog(
-									OptionType.GLOBAL, null);
-							app.toggleMenu();
-							return;
-						}
-						if (this.getWidget(index) == languageMenu) {
-							app.showLanguageGUI();
-							return;
-						}
-					}
-
-					if (index != -1) {
-						if (index == this.getSelectedIndex()) {
-							closeAll(this);
-							if (app.isUnbundledOrWhiteboard()) {
-								setStackText(index,
-										getHTMLExpand(menuImgs.get(index - 1),
-												menuTitles.get(index - 1)),
-										menuTitles.get(index - 1), false);
-								setCollapseStyles(index);
-							}
-							return;
-						}
-						if (app.isUnbundledOrWhiteboard()
-								&& this.getSelectedIndex() > 0) {
-							setStackText(this.getSelectedIndex(), getHTMLExpand(
-									menuImgs.get(this.getSelectedIndex() - 1),
-									menuTitles
-											.get(this.getSelectedIndex() - 1)),
-									true);
-
-							setCollapseStyles(getSelectedIndex());
-						}
-						showStack(index);
-					}
-				}
-
-				super.onBrowserEvent(event);
-			}
-
-			private void setExpandStyles(int index) {
-				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
-						: menus.get(index - 1);
-				mi.getElement().removeClassName("collapse");
-				mi.getElement().addClassName("expand");
-			}
-
-			private void setCollapseStyles(int index) {
-				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
-						: menus.get(index - 1);
-				mi.getElement().removeClassName("expand");
-				mi.getElement().addClassName("collapse");
-			}
-
-			// violator pattern from
-			// https://code.google.com/archive/p/google-web-toolkit/issues/1188
-			private native void closeAll(StackPanel stackPanel) /*-{
-																stackPanel.@com.google.gwt.user.client.ui.StackPanel::setStackVisible(IZ)(stackPanel. @com.google.gwt.user.client.ui.StackPanel::visibleStack, false);
-																stackPanel.@com.google.gwt.user.client.ui.StackPanel::visibleStack = -1; 
-																}-*/;
-
-			private int findDividerIndex(Element elemSource) {
-				Element elem = elemSource;
-				while (elem != null && elem != getElement()) {
-					String expando = elem.getPropertyString("__index");
-					if (expando != null) {
-						// Make sure it belongs to me!
-						int ownerHash = elem.getPropertyInt("__owner");
-						if (ownerHash == hashCode()) {
-							// Yes, it's mine.
-							return Integer.parseInt(expando);
-						}
-						// It must belong to some nested StackPanel.
-						return -1;
-					}
-					elem = DOM.getParent(elem);
-				}
-				return -1;
-			}
-
-			public void setStackText(int index, @IsSafeHtml String text,
-					String ariaLabel, Boolean expand) {
-				if (index >= getWidgetCount()) {
-					return;
-				}
-
-				Element b = getElement().getFirstChildElement();
-				Element tdWrapper = DOM.getChild(DOM.getChild(b, index * 2),
-						0);
-				Element headerElem = DOM.getFirstChild(tdWrapper);
-
-				headerElem.setInnerHTML(text);
-
-				tdWrapper.setTabIndex(1);
-				tdWrapper.setAttribute("role", "menu");
-				tdWrapper.setAttribute("aria-label", ariaLabel);
-				if (expand != null) {
-					tdWrapper.setAttribute("aria-expanded", expand.toString());
-				}
-
-			}
-
-			@Override
-			public void add(Widget w, @IsSafeHtml String stackText,
-					boolean asHTML) {
-				add(w);
-				int index = getWidgetCount() - 1;
-				setStackText(index, stackText, getMenuAt(index).getMenuTitle(),
-						null);
-			}
-
-		};
-
-		menuPanel.addDomHandler(new KeyDownHandler() {
-			@Override
-			public void onKeyDown(KeyDownEvent event) {
-				int key = event.getNativeKeyCode();
-				GMenuBar mi = getMenuAt(menuPanel.getLastSelectedIndex());
-				if (key == KeyCodes.KEY_TAB && mi != null) {
-					onTab(mi, event.isShiftKeyDown());
-					event.preventDefault();
-					event.stopPropagation();
-				}
-			}
-		}, KeyDownEvent.getType());
-	}
-
-	private void initKeyListener() {
-		for (int i = 0; i < menus.size(); i++) {
-			final int next = (i + 1) % menus.size();
-			final int previous = (i - 1 + menus.size()) % menus.size();
-			final int index = i;
-			menus.get(i).addTabHandler(this);
-			this.menus.get(i).addDomHandler(new KeyDownHandler() {
-
-				@Override
-				public void onKeyDown(KeyDownEvent event) {
-					int keyCode = event.getNativeKeyCode();
-					// First / last below are not intuitive -- note that default
-					// handler of
-					// down skipped already from last to first
-					if (keyCode == KeyCodes.KEY_DOWN) {
-						if (menus.get(index).isFirstItemSelected()) {
-							menuPanel.showStack(next);
-							menus.get(next).focus();
-						}
-
-					} else if (keyCode == KeyCodes.KEY_UP) {
-						if (menus.get(index).isLastItemSelected()) {
-							menuPanel.showStack(previous);
-							menus.get(previous).focus();
-						}
-					}
-					if (keyCode == KeyCodes.KEY_ESCAPE) {
-						app.toggleMenu();
-						((GuiManagerW) app.getGuiManager()).getToolbarPanel()
-								.selectMenuButton(-1);
-					}
-
-				}
-			}, KeyDownEvent.getType());
-		}
-	}
-
 	/**
 	 * @param menu
 	 *            menu
@@ -745,6 +524,7 @@ public class MainMenu extends FlowPanel
 		} else {
 			this.userMenu.addStyleName("GeoGebraMenuBar");
 		}
+
 		this.userMenu.addItem(
 				getMenuBarHtml(
 						app.isUnbundledOrWhiteboard()
