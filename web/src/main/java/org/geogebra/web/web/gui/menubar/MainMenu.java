@@ -60,7 +60,7 @@ public class MainMenu extends FlowPanel
 	/**
 	 * Panel with menus
 	 */
-	StackPanelInterface menuPanel;
+	AriaStackPanel menuPanel;
 	private ViewMenuW viewMenu;
 	private FileMenuW fileMenu;
 	private DownloadMenuW downloadMenu;
@@ -287,7 +287,7 @@ public class MainMenu extends FlowPanel
 			}
 			app.getNetworkOperation().getView().add(this);
 		}
-		this.add((Widget) menuPanel);
+		this.add(menuPanel);
 	}
 
 	private void initLogoMenu() {
@@ -839,17 +839,9 @@ public class MainMenu extends FlowPanel
 		return false;
 	}
 
-	private void focusStack(int index, boolean first) {
-		if (menuPanel instanceof AriaStackPanel) {
-			((AriaStackPanel) menuPanel).focusHeader(index);
-		} else {
-			GMenuBar mi = getMenuAt(index);
-			if (first) {
-				mi.selectFirstItem();
-			} else {
-				mi.selectLastItem();
-			}
-			mi.focus();
+	private void focusStack(int index) {
+		if (menuPanel != null) {
+			menuPanel.focusHeader(index);
 		}
 	}
 
@@ -872,7 +864,7 @@ public class MainMenu extends FlowPanel
 			int nextIdx = menuPanel.getLastSelectedIndex() + 1;
 			if (nextIdx < menuPanel.getWidgetCount()) {
 				menuPanel.showStack(nextIdx);
-				focusStack(nextIdx, true);
+				focusStack(nextIdx);
 			} else {
 				return false;
 			}
@@ -901,7 +893,7 @@ public class MainMenu extends FlowPanel
 			int prevIdx = menuPanel.getLastSelectedIndex() - 1;
 			if (prevIdx != -1) {
 				menuPanel.showStack(prevIdx);
-				focusStack(prevIdx, false);
+				focusStack(prevIdx);
 			} else {
 				return false;
 			}
@@ -957,11 +949,10 @@ public class MainMenu extends FlowPanel
 	}
 
 	@Override
-	public void setVisible(boolean b) {
-		if (menuPanel instanceof AriaStackPanel
-				&& !b) {
-			((AriaStackPanel) (menuPanel)).reset();
+	public void setVisible(boolean visible) {
+		if (!visible) {
+			menuPanel.reset();
 		}
-		super.setVisible(b);
+		super.setVisible(visible);
 	}
 }
