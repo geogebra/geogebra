@@ -625,12 +625,16 @@ public class AlgebraProcessor {
 	 */
 	public GeoElementND[] processAlgebraCommandNoExceptionHandling(
 			final String cmd, final boolean storeUndo,
-			final ErrorHandler handler, boolean autoCreateSliders,
+			final ErrorHandler handler, boolean autoCreateSlidersAndDegrees,
 			final AsyncOperation<GeoElementND[]> callback0) {
+
+		EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(), true)
+				.withSliders(autoCreateSlidersAndDegrees)
+				.addDegree(autoCreateSlidersAndDegrees && app.getKernel()
+						.getAngleUnit() == Kernel.ANGLE_DEGREE);
+
 		return processAlgebraCommandNoExceptionHandling(cmd, storeUndo, handler,
-				new EvalInfo(!cons.isSuppressLabelsActive(), true)
-						.withSliders(autoCreateSliders),
-				callback0);
+				info, callback0);
 	}
 
 	/**
