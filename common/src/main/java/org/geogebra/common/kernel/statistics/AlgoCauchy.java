@@ -35,6 +35,8 @@ public class AlgoCauchy extends AlgoDistribution {
 	 *            scale
 	 * @param c
 	 *            variable value
+	 * @param cumulative
+	 *            whether to compute CDF
 	 */
 	public AlgoCauchy(Construction cons, GeoNumberValue a, GeoNumberValue b,
 			GeoNumberValue c, GeoBoolean cumulative) {

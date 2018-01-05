@@ -15,12 +15,7 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.distribution.BinomialDistribution;
-import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.apache.commons.math3.distribution.IntegerDistribution;
-import org.apache.commons.math3.distribution.PascalDistribution;
-import org.apache.commons.math3.distribution.PoissonDistribution;
-import org.apache.commons.math3.distribution.ZipfDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -33,7 +28,6 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.optimization.NegativeRealRootFunction;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Superclass for lower/upper sum of function f in interval [a, b] with n
@@ -64,7 +58,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	private NumberValue d; // input: divider for Rectangle sum, 0..1
 	private GeoList list1, list2, list3; // input
 	private GeoElement ageo, bgeo, ngeo, dgeo, widthGeo, densityGeo,
-			useDensityGeo, isCumulative, p1geo, p2geo, p3geo;
+			useDensityGeo, isCumulative, p1geo;
 	private GeoNumeric sum; // output sum
 
 	private int N;
@@ -111,34 +105,20 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		HISTOGRAM_DENSITY,
 
 		/** barchart of a discrete probability distribution **/
-		BARCHART_BINOMIAL, BARCHART_PASCAL, BARCHART_POISSON, BARCHART_HYPERGEOMETRIC, BARCHART_BERNOULLI, BARCHART_ZIPF
+		BARCHART_BERNOULLI
 	}
 
 	// tolerance for parabolic interpolation
 	private static final double TOLERANCE = 1E-7;
 
 	private GeoFunction f; // input
-	private GeoNumberValue a, b, n, width, density, p1, p2, p3; // input
+	private GeoNumberValue a, b, n, width, density, p1; // input
 
 	/**
 	 * @return the p1
 	 */
 	public GeoNumberValue getP1() {
 		return p1;
-	}
-
-	/**
-	 * @return the p2
-	 */
-	public GeoNumberValue getP2() {
-		return p2;
-	}
-
-	/**
-	 * @return the p3
-	 */
-	public GeoNumberValue getP3() {
-		return p3;
 	}
 
 	/**
@@ -570,22 +550,15 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * @param type
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label,
-			GeoNumberValue p1, GeoNumberValue p2, GeoNumberValue p3,
+			GeoNumberValue p1,
 			GeoBoolean isCumulative, SumType type) {
 
 		super(cons);
 
 		this.type = type;
 		this.p1 = p1;
-		this.p2 = p2;
-		this.p3 = p3;
 		p1geo = p1.toGeoElement();
-		if (p2 != null) {
-			p2geo = p2.toGeoElement();
-		}
-		if (p3 != null) {
-			p3geo = p3.toGeoElement();
-		}
+
 		this.isCumulative = isCumulative;
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
@@ -599,8 +572,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		}
 	}
 
-	protected AlgoFunctionAreaSums(GeoNumberValue p1, GeoNumberValue p2,
-			GeoNumberValue p3, GeoBoolean isCumulative, SumType type,
+	protected AlgoFunctionAreaSums(GeoNumberValue p1, GeoBoolean isCumulative,
+			SumType type,
 			GeoNumberValue a, GeoNumberValue b, double[] vals, double[] borders,
 			int N, Construction cons) {
 
@@ -608,15 +581,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 		this.type = type;
 		this.p1 = p1;
-		this.p2 = p2;
-		this.p3 = p3;
 		p1geo = p1.toGeoElement();
-		if (p2 != null) {
-			p2geo = p2.toGeoElement();
-		}
-		if (p3 != null) {
-			p3geo = p3.toGeoElement();
-		}
+
 		this.isCumulative = isCumulative;
 		this.a = a;
 		this.b = b;
@@ -707,19 +673,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			break;
 
 		case BARCHART_BERNOULLI:
-		case BARCHART_BINOMIAL:
-		case BARCHART_PASCAL:
-		case BARCHART_HYPERGEOMETRIC:
-		case BARCHART_POISSON:
-		case BARCHART_ZIPF:
 			ArrayList<GeoElement> inputList = new ArrayList<>();
 			inputList.add(p1geo);
-			if (p2geo != null) {
-				inputList.add(p2geo);
-			}
-			if (p3geo != null) {
-				inputList.add(p3geo);
-			}
+
 			if (isCumulative != null) {
 				inputList.add(isCumulative);
 			}
@@ -834,6 +790,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 	@Override
 	public final void compute() {
+		System.out.println("compute");
 		compute(false);
 	}
 
@@ -1239,18 +1196,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			break;
 
 		case BARCHART_FREQUENCY_TABLE:
-		case BARCHART_BINOMIAL:
-		case BARCHART_POISSON:
-		case BARCHART_HYPERGEOMETRIC:
-		case BARCHART_PASCAL:
-		case BARCHART_ZIPF:
-
-			if (type != SumType.BARCHART_FREQUENCY_TABLE) {
-				if (!prepareDistributionLists()) {
-					sum.setUndefined();
-					return;
-				}
-			}
 
 			// BarChart[{11,12,13,14,15},{1,5,0,13,4}]
 			if (!list1.isDefined() || !list2.isDefined()) {
@@ -1754,88 +1699,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		return type;
 	}
 
-	/**
-	 * Prepares list1 and list2 for use with probability distribution bar charts
-	 */
-	private boolean prepareDistributionLists() {
-		IntegerDistribution dist = null;
-		int first = 0, last = 0;
-		try {
-			// get the distribution and the first, last list values for given
-			// distribution type
-			switch (type) {
-			default:
-				// do nothing
-				break;
-			case BARCHART_BINOMIAL:
-				if (!(p1geo.isDefined() && p2geo.isDefined())) {
-					return false;
-				}
-				int n1 = (int) Math.round(p1.getDouble());
-				double p = p2.getDouble();
-				dist = new BinomialDistribution(n1, p);
-				first = 0;
-				last = n1;
-				break;
 
-			case BARCHART_PASCAL:
-				if (!(p1geo.isDefined() && p2geo.isDefined())) {
-					return false;
-				}
-				n1 = (int) Math.round(p1.getDouble());
-				p = p2.getDouble();
-				dist = new PascalDistribution(n1, p);
-
-				first = 0;
-				last = (int) Math.max(1, (kernel).getXmax() + 1);
-				break;
-			case BARCHART_ZIPF:
-				if (!(p1geo.isDefined() && p2geo.isDefined())) {
-					return false;
-				}
-				n1 = (int) Math.round(p1.getDouble());
-				p = p2.getDouble();
-				dist = new ZipfDistribution(n1, p);
-
-				first = 0;
-				last = n1;
-				break;
-			case BARCHART_POISSON:
-				if (!p1geo.isDefined()) {
-					return false;
-				}
-				double lambda = p1.getDouble();
-				dist = new PoissonDistribution(lambda);
-				first = 0;
-				last = (int) Math.max(1, kernel.getXmax() + 1);
-				break;
-
-			case BARCHART_HYPERGEOMETRIC:
-				if (!(p1geo.isDefined() && p2geo.isDefined()
-						&& p3geo.isDefined())) {
-					return false;
-				}
-				int pop = (int) p1.getDouble();
-				int successes = (int) p2.getDouble();
-				int sample = (int) p3.getDouble();
-				dist = new HypergeometricDistribution(pop, successes,
-						sample);
-				first = Math.max(0, successes + sample - pop);
-				last = Math.min(successes, sample);
-				break;
-			}
-
-			// load class list and probability list
-			loadDistributionLists(first, last, dist);
-		}
-
-		catch (Exception e) {
-			Log.debug(e.getMessage());
-			return false;
-		}
-
-		return true;
-	}
 
 	/**
 	 * Utility method, creates and loads list1 and list2 with classes and
