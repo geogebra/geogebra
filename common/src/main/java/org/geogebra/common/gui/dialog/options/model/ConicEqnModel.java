@@ -166,7 +166,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	public static String getImplicitEquation(GeoQuadricND geo0,
 			Localization loc2, boolean prefix) {
 		if (geo0 instanceof GeoQuadric3DInterface) {
-			return loc2.getMenu("ExtendedForm");
+			return loc2.getMenu("ExpandedForm");
 		}
 		return (prefix ? loc2.getMenu("Equation") + ' ' : "")
 						+ loc2.getMenu("ImplicitConicEquation");

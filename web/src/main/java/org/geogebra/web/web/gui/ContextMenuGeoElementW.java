@@ -1057,10 +1057,10 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 						@Override
 						public void execute() {
-							extendedFormCmd(inputElement);
+							expandedFormCmd(inputElement);
 						}
 					};
-					addAction(action, null, loc.getMenu("ExtendedForm"));
+					addAction(action, null, loc.getMenu("ExpandedForm"));
 				} else {
 					action = new Command() {
 

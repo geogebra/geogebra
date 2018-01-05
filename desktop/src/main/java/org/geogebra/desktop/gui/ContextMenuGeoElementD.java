@@ -429,13 +429,13 @@ public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 			if (inputElement.isValidInputForm()) {
 				AbstractAction action;
 				if (inputElement.isInputForm()) {
-					action = new AbstractAction(loc.getMenu("ExtendedForm")) {
+					action = new AbstractAction(loc.getMenu("ExpandedForm")) {
 
 						private static final long serialVersionUID = 1L;
 
 						@Override
 						public void actionPerformed(ActionEvent e) {
-							extendedFormCmd(inputElement);
+							expandedFormCmd(inputElement);
 						}
 					};
 				} else {

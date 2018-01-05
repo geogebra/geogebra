@@ -279,7 +279,7 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
-	public void extendedFormCmd(final GeoImplicit inputElement) {
+	public void expandedFormCmd(final GeoImplicit inputElement) {
 		inputElement.setToImplicit();
 		inputElement.updateRepaint();
 		app.storeUndoInfo();

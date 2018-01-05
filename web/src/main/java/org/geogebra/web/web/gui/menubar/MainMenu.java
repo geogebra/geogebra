@@ -35,7 +35,6 @@ import com.google.gwt.safehtml.shared.annotations.IsSafeHtml;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -99,18 +98,6 @@ public class MainMenu extends FlowPanel
 	 */
 	GMenuBar languageMenu;
 	private boolean loggedIn = false;
-
-	/** Add interface to stack panel */
-	class MyStackPanel extends StackPanel implements StackPanelInterface {
-		@Override
-		public boolean isCollapsed() {
-			return false;
-		}
-
-		public int getLastSelectedIndex() {
-			return getSelectedIndex();
-		}
-	}
 
 	/**
 	 * Constructs the menubar

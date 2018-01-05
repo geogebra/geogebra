@@ -76,9 +76,8 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Florian Sonner
  */
-public abstract class DockPanelW extends ResizeComposite implements
- DockPanel,
-		DockComponent, TabHandler {
+public abstract class DockPanelW extends ResizeComposite
+		implements DockPanel, DockComponent, TabHandler {
 	/** Dock manager */
 	protected DockManagerW dockManager;
 	/** app */

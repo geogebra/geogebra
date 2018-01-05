@@ -18,7 +18,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -63,9 +62,7 @@ public class CommandsTest extends Assert{
 			if (!syntax.contains("[")) {
 				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
 				syntax = app1.getLocalization().getCommand(cmdName + ".Syntax");
-
 			}
-			Log.debug(syntax);
 			syntaxes = 0;
 			for (int i = 0; i < syntax.length(); i++) {
 				if (syntax.charAt(i) == '[') {
@@ -79,7 +76,7 @@ public class CommandsTest extends Assert{
 				syntax += "\n" + syntax3D;
 			}
 			for (int i = 0; i < syntax3D.length(); i++) {
-				if (syntax3D.charAt(i) == '(') {
+				if (syntax3D.charAt(i) == '[') {
 					syntaxes++;
 				}
 			}
