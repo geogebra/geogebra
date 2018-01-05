@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
-import org.apache.commons.math3.distribution.IntegerDistribution;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -1699,43 +1698,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		return type;
 	}
 
-
-
-	/**
-	 * Utility method, creates and loads list1 and list2 with classes and
-	 * probabilities for the probability distribution bar charts
-	 */
-	private void loadDistributionLists(int first, int last,
-			IntegerDistribution dist) throws Exception {
-		boolean oldSuppress = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-		if (list1 != null) {
-			list1.remove();
-		}
-		list1 = new GeoList(cons);
-
-		if (list2 != null) {
-			list2.remove();
-		}
-		list2 = new GeoList(cons);
-
-		double prob;
-		double cumProb = 0;
-
-		for (int i = first; i <= last; i++) {
-			list1.add(new GeoNumeric(cons, i));
-			prob = dist.probability(i);
-			cumProb += prob;
-			if (isCumulative != null
-					&& ((GeoBoolean) isCumulative).getBoolean()) {
-				list2.add(new GeoNumeric(cons, cumProb));
-			} else {
-				list2.add(new GeoNumeric(cons, prob));
-			}
-		}
-		cons.setSuppressLabelCreation(oldSuppress);
-	}
-
 	@Override
 	public void update() {
 		if (doStopUpdateCascade()) {
@@ -1744,23 +1706,13 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 		// do not update input random numbers without label
 
-		// counter++;
-		// startTime = System.currentTimeMillis();
-
 		// compute output from input
 		compute();
-
-		// endTime = System.currentTimeMillis();
-		// computeTime += (endTime - startTime);
-		// startTime = System.currentTimeMillis();
 
 		// update dependent objects
 		for (int i = 0; i < getOutputLength(); i++) {
 			getOutput(i).update();
 		}
-
-		// endTime = System.currentTimeMillis();
-		// updateTime += (endTime - startTime );
 	}
 
 	/*
