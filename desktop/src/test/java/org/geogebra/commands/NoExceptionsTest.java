@@ -314,18 +314,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdBernoulli() {
-		t("Bernoulli[ prob, b1 ]");
-	}
-
-	@Test
-	public void cmdBinomialDist() {
-		t("BinomialDist[ n1, prob2 ]");
-		t("BinomialDist[ n1, prob2, b1 ]");
-		t("BinomialDist[ n1, prob2, n1, b1 ]");
-	}
-
-	@Test
 	public void cmdBinomial() {
 		t("BinomialCoefficient[ n1, n1 ]");
 	}
@@ -830,13 +818,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdHyperGeometric() {
-		t("HyperGeometric[ n3, n1, n2 ]");
-		t("HyperGeometric[ n3, n1, n2, b1 ]");
-		t("HyperGeometric[ n3, n1, n2, n1, b1 ]");
-	}
-
-	@Test
 	public void cmdCheckbox() {
 		t("Checkbox[]");
 		t("Checkbox[ list1 ]");
@@ -1246,13 +1227,6 @@ public class NoExceptionsTest {
 	}
 
 	@Test
-	public void cmdPascal() {
-		t("Pascal[ n1, prob2 ]");
-		t("Pascal[ n1, prob2, b1 ]");
-		t("Pascal[ n1, prob2, n1, b1 ]");
-	}
-
-	@Test
 	public void cmdPathParameter() {
 		t("PathParameter[ ptonpath1 ]");
 	}
@@ -1314,13 +1288,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdPointList() {
 		t("PointList[ list1 ]");
-	}
-
-	@Test
-	public void cmdPoisson() {
-		t("Poisson[ n1 ]");
-		t("Poisson[ n1, b1 ]");
-		t("Poisson[ n1, n1, b1 ]");
 	}
 
 	@Test
@@ -2017,13 +1984,6 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdVoronoi() {
 		t("Voronoi[ ptlist1 ]");
-	}
-
-	@Test
-	public void cmdZipf() {
-		t("Zipf[ n1, n2 ]");
-		t("Zipf[ n1, n2, b1 ]");
-		t("Zipf[ n1, n2, n1, b1 ]");
 	}
 
 	@Test

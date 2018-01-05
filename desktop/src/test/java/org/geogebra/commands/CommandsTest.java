@@ -18,6 +18,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -59,6 +60,12 @@ public class CommandsTest extends Assert{
 			Throwable t = new Throwable();
 			String cmdName = t.getStackTrace()[2].getMethodName().substring(3);
 			syntax = app1.getLocalization().getCommand(cmdName + ".Syntax");
+			if (!syntax.contains("[")) {
+				cmdName = t.getStackTrace()[3].getMethodName().substring(3);
+				syntax = app1.getLocalization().getCommand(cmdName + ".Syntax");
+
+			}
+			Log.debug(syntax);
 			syntaxes = 0;
 			for (int i = 0; i < syntax.length(); i++) {
 				if (syntax.charAt(i) == '[') {
@@ -72,7 +79,7 @@ public class CommandsTest extends Assert{
 				syntax += "\n" + syntax3D;
 			}
 			for (int i = 0; i < syntax3D.length(); i++) {
-				if (syntax3D.charAt(i) == '[') {
+				if (syntax3D.charAt(i) == '(') {
 					syntaxes++;
 				}
 			}
@@ -366,6 +373,13 @@ public class CommandsTest extends Assert{
 		t("Intersect[x=y,x^2+y^2=2]", new String[] { "(1, 1)", "(-1, -1)" });
 		t("Intersect[x=y,x^2+y^2=2, 1]", "(1, 1)");
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
+		t("Intersect[x^2+y^2=25,x y=12, 1]", "(3, 4)",
+				StringTemplate.editTemplate);
+		t("Intersect[x^2+y^2=25,(x-6)^2+ y^2=25, 1]", "(3, 4)",
+				StringTemplate.editTemplate);
+		t("Intersect[x=y,sin(x)]", "(0, 0)");
+		t("Intersect[x=y,(x-1)^2+1]", new String[] { "(1, 1)", "(2, 2)" },
+				StringTemplate.editTemplate);
 	}
 
 	@Test
@@ -1442,6 +1456,51 @@ public class CommandsTest extends Assert{
 	public void cmdCauchy() {
 		prob("Cauchy", "2,1", "abs(1) / ((1^2 + (x - 2)^2) " + Unicode.pi + ")",
 				"atan((x - 2) / abs(1)) / " + Unicode.pi + " + 0.5");
+	}
+
+	@Test
+	public void cmdZipf() {
+		intProb("Zipf", "4,3", "3", "0.03145", "0.98673");
+	}
+
+	@Test
+	public void cmdBernoulli() {
+		t("Bernoulli[ 0.7, false ]", "1");
+		t("Bernoulli[ 0.7, true ]", "Infinity");
+	}
+
+	private static void intProb(String cmd, String args, String val, String pf,
+			String cdf) {
+		t("ZoomIn[0,0,100,100]", new String[0]);
+		t(cmd + "(" + args + "," + val + ",false)", pf,
+				StringTemplate.editTemplate);
+		t(cmd + "(" + args + "," + val + ",true)", cdf,
+				StringTemplate.editTemplate);
+
+		t(cmd + "(" + args + ")", "1", StringTemplate.editTemplate);
+		t(cmd + "(" + args + ",false)", "1", StringTemplate.editTemplate);
+
+		t(cmd + "(" + args + ",true)>1", "true", StringTemplate.editTemplate);
+	}
+
+	@Test
+	public void cmdPoisson() {
+		intProb("Poisson", "2", "1", "0.27067", "0.40601");
+	}
+
+	@Test
+	public void cmdPascal() {
+		intProb("Pascal", "3,0.5", "4", "0.11719", "0.77344");
+	}
+
+	@Test
+	public void cmdHyperGeometric() {
+		intProb("HyperGeometric", "10,3,5", "2", "0.41667", "0.91667");
+	}
+
+	@Test
+	public void cmdBinomialDist() {
+		intProb("BinomialDist", "11, 0.5", "5", "0.22559", "0.5");
 	}
 
 	@Test
