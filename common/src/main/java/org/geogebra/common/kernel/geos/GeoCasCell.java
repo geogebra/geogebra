@@ -227,11 +227,8 @@ public class GeoCasCell extends GeoElement
 	 * @return output string
 	 */
 	public String getOutput(StringTemplate tpl) {
-		if (error != null) {
-			if (tpl.isPrintLocalizedCommandNames()) {
-				return getLoc().getError(error);
-			}
-			return error;
+		if (isError()) {
+			return localizedError(tpl);
 		}
 
 		if (outputVE == null) {
@@ -239,6 +236,21 @@ public class GeoCasCell extends GeoElement
 		}
 
 		return outputVE.toAssignmentString(tpl, getAssignmentType());
+	}
+
+	private String localizedError(StringTemplate tpl) {
+		if (tpl.isPrintLocalizedCommandNames()) {
+			if (error.startsWith(AlgoDependentCasCell.UNDEFINED_VARIABLE)) {
+				return getLoc()
+						.getError(AlgoDependentCasCell.UNDEFINED_VARIABLE)
+						+ ": "
+						+ error.substring(
+								AlgoDependentCasCell.UNDEFINED_VARIABLE
+										.length());
+			}
+			return getLoc().getError(error);
+		}
+		return error;
 	}
 
 	/**
@@ -250,11 +262,8 @@ public class GeoCasCell extends GeoElement
 	 * @return output string
 	 */
 	public String getOutputRHS(StringTemplate tpl) {
-		if (error != null) {
-			if (tpl.isPrintLocalizedCommandNames()) {
-				return getLoc().getError(error);
-			}
-			return error;
+		if (isError()) {
+			return localizedError(tpl);
 		}
 
 		if (outputVE == null) {
@@ -527,7 +536,7 @@ public class GeoCasCell extends GeoElement
 	 * @return whether output is empty
 	 */
 	public boolean isOutputEmpty() {
-		return outputVE == null && error == null;
+		return outputVE == null && !isError();
 	}
 
 	/**
@@ -827,7 +836,7 @@ public class GeoCasCell extends GeoElement
 					.parseGeoGebraCASInputAndResolveDummyVars(inValue,
 							getKernel(), this);
 		} catch (CASException c) {
-			setError(getLoc().getError(c.getKey()));
+			setError(c.getKey());
 			return null;
 		} catch (Throwable e) {
 
@@ -3418,7 +3427,7 @@ public class GeoCasCell extends GeoElement
 	public String getTooltipText(final boolean colored,
 			final boolean alwaysOn) {
 		if (isError()) {
-			return getLoc().getError(error);
+			return localizedError(StringTemplate.defaultTemplate);
 		}
 		if (tooltip == null && outputVE != null) {
 			tooltip = getOutput(StringTemplate.defaultTemplate);

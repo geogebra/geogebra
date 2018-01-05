@@ -19,7 +19,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
  */
 public class AlgoDependentCasCell extends AlgoElement
 		implements AlgoCasCellInterface {
-
+	/** error key for undefined var */
+	public static final String UNDEFINED_VARIABLE = "UndefinedVariable";
 	// output CAS cell of this algorithm
 	private GeoCasCell casCell;
 
@@ -137,8 +138,7 @@ public class AlgoDependentCasCell extends AlgoElement
 			casCell.computeOutput();
 		} else {
 			casCell.setUndefined();
-			casCell.setError(kernel.getLocalization()
-					.getError("UndefinedVariable") + ": "
+			casCell.setError(UNDEFINED_VARIABLE
 					+ undefinedGeo.getLabel(StringTemplate.defaultTemplate));
 		}
 	}
