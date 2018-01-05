@@ -6425,7 +6425,27 @@ namespace giac {
       if (wi.type==_SYMB){
 	gen f =wi._SYMBptr->feuille;
 	if (wi.is_symb_of_sommet(at_pow) && f.type==_VECT && f._VECTptr->size()==2 && f._VECTptr->back().type==_FRAC){
+	  gen base=f._VECTptr->front();
 	  gen d= f._VECTptr->back()._FRACptr->den;
+	  if ( (base.type==_INT_ && absint(base.val)>3) || base.type==_ZINT){
+	    gen b=evalf_double(base,1,contextptr);
+	    if (b.type==_DOUBLE_){
+	      double bd=b._DOUBLE_val;
+	      bd=std::log(bd);
+	      int N=int(bd/std::log(2));
+	      int ii;
+	      for (ii=3;ii<=N;++ii){
+		double di=std::exp(bd/ii);
+		gen g=exact_double(di,1e-15);
+		if (is_integer(g) && pow(g,ii,contextptr)==base){
+		  wi=pow(g,ii*f._VECTptr->back(),contextptr);
+		  break;
+		}
+	      }
+	      if (ii!=N+1)
+		continue;
+	    }
+	  }
 	  if (d.type==_INT_){
 	    gen f0=simplifier(f._VECTptr->front(),contextptr);
 	    gen z=fast_icontent(f0);
