@@ -1699,7 +1699,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Expand": "\u5c55\u5f00",
     "Expand.Help": "\u5bf9\u9009\u5b9a\u884c\u5c55\u5f00\u62ec\u53f7",
     "ExpandAll": "\u5168\u90e8\u5c55\u5f00",
-    "ExpandedForm": "Expanded Form",
+    "ExpandedForm": "\u5c55\u5f00\u5f0f",
     "ExpectedCount": "\u9884\u671f\u6b21\u6570",
     "ExplicitConicEquation": "y = a x\xb2 + b x + c",
     "ExplicitLineEquation": "y = m x + b",

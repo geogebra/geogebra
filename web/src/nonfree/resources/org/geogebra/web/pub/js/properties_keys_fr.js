@@ -1699,7 +1699,7 @@ __GGB__keysVar.fr.menu = {
     "Expand": "D\xe9velopper",
     "Expand.Help": "D\xe9veloppe",
     "ExpandAll": "D\xe9velopper tout",
-    "ExpandedForm": "Expanded Form",
+    "ExpandedForm": "Forme d\xe9velopp\xe9e",
     "ExpectedCount": "Valeur attendue",
     "ExplicitConicEquation": "y = a x\xb2 + b x + c",
     "ExplicitLineEquation": "y = a x + b",
