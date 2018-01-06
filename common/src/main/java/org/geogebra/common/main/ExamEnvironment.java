@@ -10,7 +10,7 @@ import org.geogebra.common.util.debug.Log;
 
 public class ExamEnvironment {
 
-	private static final String MARK_CHEATING = "\u274C"; // red cross
+	private static final String MARK_CHEATING = "\u2716"; // heavy multiplication
 	private static final String MARK_NOT_CHEATING = "\u2713"; // check mark
 
 	long examStartTime = -1;
