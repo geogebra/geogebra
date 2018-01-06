@@ -203,6 +203,14 @@ public class ExamEnvironment {
 	 * @return elapsed time
 	 */
 	public String getElapsedTime() {
+		return timeToString(System.currentTimeMillis());
+	}
+
+	/**
+	 * 
+	 * @return closed time
+	 */
+	public String getClosedTime() {
 		return timeToString(closed);
 	}
 
