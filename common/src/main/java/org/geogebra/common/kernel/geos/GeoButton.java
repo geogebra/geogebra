@@ -12,6 +12,7 @@
 
 package org.geogebra.common.kernel.geos;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -486,6 +487,30 @@ public class GeoButton extends GeoElement
 	 */
 	public SliderPosition getStartPoint() {
 		return startPoint;
+	}
+
+	@Override
+	public GColor getBackgroundColor() {
+		if (bgColor == null && colFunction == null) {
+			return null;
+		}
+
+		// get dynamic Opacity from *foreground* color
+		if (colFunction != null && colFunction.size() == 4) {
+			double alpha = colFunction.get(3).evaluateDouble();
+			int r = 255;
+			int g = 255;
+			int b = 255;
+			if (bgColor != null) {
+				r = bgColor.getRed();
+				g = bgColor.getGreen();
+				b = bgColor.getBlue();
+			}
+
+			return GColor.newColor(r, g, b, (int) (alpha * 255));
+		}
+
+		return bgColor;
 	}
 
 }

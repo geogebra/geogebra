@@ -298,7 +298,7 @@ public abstract class GeoElement extends ConstructionElement
 	protected boolean sendValueToCas = true;
 
 	// function to determine color
-	private GeoList colFunction; // { GeoNumeric red, GeoNumeric Green,
+	protected GeoList colFunction; // { GeoNumeric red, GeoNumeric Green,
 									// GeoNumeric Blue }
 
 	private boolean useVisualDefaults = true;
