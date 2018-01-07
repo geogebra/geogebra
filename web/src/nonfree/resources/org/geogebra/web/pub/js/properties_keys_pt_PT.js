@@ -1699,7 +1699,7 @@ __GGB__keysVar.pt_PT.menu = {
     "Expand": "Expandir",
     "Expand.Help": "Expande express\xe3o fatorizada",
     "ExpandAll": "Expandir Tudo",
-    "ExpandedForm": "Expanded Form",
+    "ExpandedForm": "Forma Expandida",
     "ExpectedCount": "Valor Esperado",
     "ExplicitConicEquation": "y = a x\xb2 + b x + c",
     "ExplicitLineEquation": "y = m x + b",
