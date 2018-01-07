@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -32,6 +31,7 @@ import org.geogebra.common.kernel.optimization.NegativeRealRootFunction;
  * Superclass for lower/upper sum of function f in interval [a, b] with n
  * intervals
  */
+@SuppressWarnings("javadoc")
 public abstract class AlgoFunctionAreaSums extends AlgoElement
 		implements DrawInformationAlgo {
 
@@ -56,7 +56,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 	private NumberValue d; // input: divider for Rectangle sum, 0..1
 	private GeoList list1, list2, list3; // input
-	private GeoElement ageo, bgeo, ngeo, dgeo, widthGeo, densityGeo,
+	private GeoElement ageo, bgeo, ngeo, dgeo, densityGeo,
 			useDensityGeo, isCumulative, p1geo;
 	private GeoNumeric sum; // output sum
 
@@ -86,15 +86,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		/** Trapezoidal sum **/
 		TRAPEZOIDALSUM,
 
-		/** Barchart from expression **/
-		BARCHART,
-		/** Barchart from raw data **/
-		BARCHART_RAWDATA,
-		/** Barchart from (values,frequencies) **/
-		BARCHART_FREQUENCY_TABLE,
-		/** Barchart from (values,frequencies) with given width **/
-		BARCHART_FREQUENCY_TABLE_WIDTH,
-
 		/**
 		 * Histogram from(class boundaries, raw data) with default density = 1
 		 * or Histogram from(class boundaries, frequencies) no density required
@@ -111,7 +102,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	private static final double TOLERANCE = 1E-7;
 
 	private GeoFunction f; // input
-	private GeoNumberValue a, b, n, width, density, p1; // input
+	private GeoNumberValue a, b, n, density, p1; // input
 
 	/**
 	 * @return the p1
@@ -271,152 +262,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 		this.leftBorder = borders;
 		N = (int) Math.round(n.getDouble());
 
-	}
-
-	/**
-	 * BARCHART
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param a
-	 * @param b
-	 * @param list1
-	 */
-	public AlgoFunctionAreaSums(Construction cons, String label,
-			GeoNumberValue a, GeoNumberValue b, GeoList list1) {
-
-		super(cons);
-
-		type = SumType.BARCHART;
-
-		this.a = a;
-		this.b = b;
-		this.list1 = list1;
-		ageo = a.toGeoElement();
-		bgeo = b.toGeoElement();
-
-		sum = new GeoNumeric(cons); // output
-		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setDrawable(true);
-		sum.setLabel(label);
-	}
-
-	/**
-	 * BarChart [&lt;list of data without repetition&gt;, &lt;frequency of each
-	 * of these data&gt;]
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param list2
-	 */
-	public AlgoFunctionAreaSums(Construction cons, String label, GeoList list1,
-			GeoList list2) {
-
-		this(cons, list1, list2);
-		sum.setLabel(label);
-	}
-
-	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
-			GeoList list2) {
-
-		super(cons);
-
-		type = SumType.BARCHART_FREQUENCY_TABLE;
-
-		this.list1 = list1;
-		this.list2 = list2;
-
-		sum = new GeoNumeric(cons); // output
-		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setDrawable(true);
-	}
-
-	/**
-	 * BarChart [&lt;list of data without repetition&gt;, &lt;frequency of each
-	 * of these data&gt;, &lt;width&gt;]
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param list2
-	 * @param width
-	 */
-
-	public AlgoFunctionAreaSums(Construction cons, String label, GeoList list1,
-			GeoList list2, GeoNumberValue width) {
-		this(cons, list1, list2, width);
-		sum.setLabel(label);
-	}
-
-	public AlgoFunctionAreaSums(Construction cons, GeoList list1, GeoList list2,
-			GeoNumberValue width) {
-
-		super(cons);
-
-		type = SumType.BARCHART_FREQUENCY_TABLE_WIDTH;
-
-		this.list1 = list1;
-		this.list2 = list2;
-		this.width = width;
-		widthGeo = width.toGeoElement();
-
-		sum = new GeoNumeric(cons); // output
-		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setDrawable(true);
-	}
-
-	/**
-	 * BarChart [&lt;list of data&gt;, &lt;width&gt;]
-	 * 
-	 * @param cons
-	 * @param label
-	 * @param list1
-	 * @param n
-	 */
-	public AlgoFunctionAreaSums(Construction cons, String label, GeoList list1,
-			GeoNumeric n) {
-
-		super(cons);
-
-		type = SumType.BARCHART_RAWDATA;
-
-		this.list1 = list1;
-		this.n = n;
-		ngeo = n.toGeoElement();
-
-		sum = new GeoNumeric(cons); // output
-		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setDrawable(true);
-		sum.setLabel(label);
-	}
-
-	/**
-	 * BarChart [&lt;list of data&gt;, &lt;width&gt;]
-	 * 
-	 * @param cons
-	 * @param list1
-	 * @param n
-	 */
-	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
-			GeoNumeric n) {
-
-		super(cons);
-
-		type = SumType.BARCHART_RAWDATA;
-
-		this.list1 = list1;
-		this.n = n;
-		ngeo = n.toGeoElement();
-
-		sum = new GeoNumeric(cons); // output
-		setInputOutput(); // for AlgoElement
-		compute();
-		sum.setDrawable(true);
 	}
 
 	/**
@@ -623,28 +468,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			input[2] = bgeo;
 			input[3] = ngeo;
 			input[4] = dgeo;
-			break;
-		case BARCHART:
-			input = new GeoElement[3];
-			input[0] = ageo;
-			input[1] = bgeo;
-			input[2] = list1;
-			break;
-		case BARCHART_FREQUENCY_TABLE:
-			input = new GeoElement[2];
-			input[0] = list1;
-			input[1] = list2;
-			break;
-		case BARCHART_FREQUENCY_TABLE_WIDTH:
-			input = new GeoElement[3];
-			input[0] = list1;
-			input[1] = list2;
-			input[2] = widthGeo;
-			break;
-		case BARCHART_RAWDATA:
-			input = new GeoElement[2];
-			input[0] = list1;
-			input[1] = ngeo;
 			break;
 
 		case HISTOGRAM:
@@ -1024,270 +847,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			sum.setValue(totalArea * STEP);
 			break;
 
-		case BARCHART:
-			if (!(ageo.isDefined() && bgeo.isDefined() && list1.isDefined())) {
-				sum.setUndefined();
-				return;
-			}
 
-			N = list1.size();
 
-			ad = a.getDouble();
-			bd = b.getDouble();
-
-			ints = list1.size();
-			if (ints < 1) {
-				sum.setUndefined();
-				return;
-			} else if (ints > MAX_RECTANGLES) {
-				N = MAX_RECTANGLES;
-			} else {
-				N = (int) Math.round(ints);
-			}
-			STEP = (bd - ad) / N;
-
-			if (yval == null || yval.length < N) {
-				yval = new double[N];
-				leftBorder = new double[N];
-			}
-
-			totalArea = 0;
-
-			for (int i = 0; i < N; i++) {
-				leftBorder[i] = ad + i * STEP;
-
-				geo = list1.get(i);
-				if (geo.isGeoNumeric()) {
-					yval[i] = ((GeoNumeric) geo).getDouble();
-				} else {
-					yval[i] = 0;
-				}
-
-				totalArea += yval[i];
-			}
-
-			// calc area of rectangles
-			sum.setValue(totalArea * STEP);
-			if (!isDefined) {
-				sum.setUndefined();
-			}
-
-			break;
-		case BARCHART_RAWDATA:
-			// BarChart[{1,1,2,3,3,3,4,5,5,5,5,5,5,5,6,8,9,10,11,12},3]
-			if (!list1.isDefined() || !ngeo.isDefined()) {
-				sum.setUndefined();
-				return;
-			}
-
-			double mini = Double.POSITIVE_INFINITY;
-			double maxi = Double.NEGATIVE_INFINITY;
-			int minIndex = -1, maxIndex = -1;
-
-			double step = n.getDouble();
-
-			int rawDataSize = list1.size();
-
-			if (step < 0 || Kernel.isZero(step) || rawDataSize < 2) {
-				sum.setUndefined();
-				return;
-			}
-
-			// find max and min
-			for (int i = 0; i < rawDataSize; i++) {
-				geo = list1.get(i);
-				if (!geo.isGeoNumeric()) {
-					sum.setUndefined();
-					return;
-				}
-				double val = ((GeoNumeric) geo).getDouble();
-
-				if (val > maxi) {
-					maxi = val;
-					maxIndex = i;
-				}
-				if (val < mini) {
-					mini = val;
-					minIndex = i;
-				}
-			}
-
-			if (maxi == mini || maxIndex == -1 || minIndex == -1) {
-				sum.setUndefined();
-				return;
-			}
-
-			double totalWidth = maxi - mini;
-
-			double noOfBars = totalWidth / n.getDouble();
-
-			double gap = 0;
-
-		/*
-		 * if (kernel.isInteger(noOfBars)) { N = (int)noOfBars + 1; a =
-		 * (NumberValue)list1.get(minIndex); b =
-		 * (NumberValue)list1.get(maxIndex); } else
-		 */
-		{
-			N = (int) noOfBars + 2;
-			gap = ((N - 1) * step - totalWidth) / 2.0;
-			a = (new GeoNumeric(cons, mini - gap));
-			b = (new GeoNumeric(cons, maxi + gap));
-			// Application.debug("gap = "+gap);
-		}
-
-			// Application.debug("N = "+N+" maxi = "+maxi+" mini = "+mini);
-
-			if (yval == null || yval.length < N) {
-				yval = new double[N];
-				leftBorder = new double[N];
-			}
-
-			// fill in class boundaries
-			// double width = (maxi-mini)/(double)(N-2);
-			for (int i = 0; i < N; i++) {
-				leftBorder[i] = mini - gap + step * i;
-			}
-
-			// zero frequencies
-			for (int i = 0; i < N; i++) {
-				yval[i] = 0;
-			}
-
-			// work out frequencies in each class
-			double datum, valueFrequency = 1;
-
-			for (int i = 0; i < list1.size(); i++) {
-				geo = list1.get(i);
-				if (geo.isGeoNumeric()) {
-					datum = ((GeoNumeric) geo).getDouble();
-				} else {
-					sum.setUndefined();
-					return;
-				}
-
-				// if datum is outside the range, set undefined
-				// if (datum < leftBorder[0] || datum > leftBorder[N-1] ) {
-				// sum.setUndefined(); return; }
-
-				// fudge to make the last boundary eg 10 <= x <= 20
-				// all others are 10 <= x < 20
-				double oldMaxBorder = leftBorder[N - 1];
-				leftBorder[N - 1] += Math.abs(leftBorder[N - 1] / 100000000);
-
-				// check which class this datum is in
-				for (int j = 1; j < N; j++) {
-					// System.out.println("checking "+leftBorder[j]);
-					if (datum < leftBorder[j]) {
-						// System.out.println(datum+" "+j);
-						yval[j - 1]++;
-						break;
-					}
-				}
-
-				leftBorder[N - 1] = oldMaxBorder;
-
-				// area of rectangles
-				sum.setValue(list1.size() * step);
-
-			}
-
-			break;
-
-		case BARCHART_FREQUENCY_TABLE:
-
-			// BarChart[{11,12,13,14,15},{1,5,0,13,4}]
-			if (!list1.isDefined() || !list2.isDefined()) {
-				sum.setUndefined();
-				return;
-			}
-
-			N = list1.size() + 1;
-
-			// if (yval == null || yval.length < N) {
-			yval = new double[N];
-			leftBorder = new double[N];
-			// }
-
-			if (N == 2) {
-				// special case, 1 bar
-
-				yval = new double[2];
-				leftBorder = new double[2];
-				yval[0] = ((GeoNumeric) (list2.get(0))).getDouble();
-
-				leftBorder[0] = ((GeoNumeric) (list1.get(0))).getDouble() - 0.5;
-				leftBorder[1] = leftBorder[0] + 1;
-				ageo = new GeoNumeric(cons, leftBorder[0]);
-				bgeo = new GeoNumeric(cons, leftBorder[1]);
-				a = (GeoNumberValue) ageo;
-				b = (GeoNumberValue) bgeo;
-
-				sum.setValue(yval[0]);
-
-				return;
-			}
-
-			if (list2.size() + 1 != N || N < 3) {
-				sum.setUndefined();
-				return;
-			}
-
-			double start = ((GeoNumeric) (list1.get(0))).getDouble();
-			double end = ((GeoNumeric) (list1.get(N - 2))).getDouble();
-			step = ((GeoNumeric) (list1.get(1))).getDouble() - start;
-
-			// Application.debug("N = "+N+" start = "+start+" end = "+end+"
-			// width = "+width);
-
-			if (!Kernel.isEqual(end - start, step * (N - 2)) // check first list
-																// is
-																// (consistent)
-																// with being AP
-					|| step <= 0) {
-				sum.setUndefined();
-				return;
-			}
-
-			ageo = new GeoNumeric(cons, start - step / 2);
-			bgeo = new GeoNumeric(cons, end + step / 2);
-			a = (GeoNumberValue) ageo;
-			b = (GeoNumberValue) bgeo;
-
-			// fill in class boundaries
-
-			for (int i = 0; i < N; i++) {
-				leftBorder[i] = start - step / 2 + step * i;
-			}
-
-			double area = 0;
-
-			// fill in frequencies
-			for (int i = 0; i < N - 1; i++) {
-				geo = list2.get(i);
-				if (!geo.isGeoNumeric()) {
-					sum.setUndefined();
-					return;
-				}
-				yval[i] = ((GeoNumeric) (list2.get(i))).getDouble();
-
-				area += yval[i] * step;
-			}
-
-			// area of rectangles = total frequency
-			if (type == SumType.BARCHART_FREQUENCY_TABLE) {
-				sum.setValue(area);
-			} else {
-				if (isCumulative != null
-						&& ((GeoBoolean) isCumulative).getBoolean()) {
-					sum.setValue(Double.POSITIVE_INFINITY);
-				} else {
-					sum.setValue(1);
-				}
-				sum.updateCascade();
-			}
-
-			break;
 		case BARCHART_BERNOULLI:
 			double p = p1.getDouble();
 			if (p < 0 || p > 1) {
@@ -1322,86 +883,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 			return;
 
-		case BARCHART_FREQUENCY_TABLE_WIDTH:
-			// BarChart[{1,2,3,4,5},{1,5,0,13,4}, 0.5]
-			if (!list1.isDefined() || !list2.isDefined()) {
-				sum.setUndefined();
-				return;
-			}
 
-			N = list1.size() + 1;
-
-			int NN = 2 * N - 1;
-
-			if (list2.size() + 1 != N || N < 2) {
-				sum.setUndefined();
-				return;
-			}
-
-			start = ((GeoNumeric) (list1.get(0))).getDouble();
-			end = ((GeoNumeric) (list1.get(N - 2))).getDouble();
-			if (N == 2) {
-				// special case, one bar
-				step = 1;
-			} else {
-				step = ((GeoNumeric) (list1.get(1))).getDouble() - start;
-			}
-			double colWidth = width.getDouble();
-
-			// Application.debug("N = "+N+" start = "+start+" end = "+end+"
-			// colWidth = "+colWidth);
-
-			if (!Kernel.isEqual(end - start, step * (N - 2)) // check first list
-																// is
-																// (consistent)
-																// with being AP
-					|| step <= 0) {
-				sum.setUndefined();
-				return;
-			}
-
-			ageo = new GeoNumeric(cons, start - colWidth / 2);
-			bgeo = new GeoNumeric(cons, end + colWidth / 2);
-			a = (GeoNumberValue) ageo;
-			b = (GeoNumberValue) bgeo;
-
-			if (yval == null || yval.length < NN - 1) {
-				yval = new double[NN - 1];
-				leftBorder = new double[NN - 1];
-			}
-
-			// fill in class boundaries
-
-			for (int i = 0; i < NN - 1; i += 2) {
-				leftBorder[i] = start + step * (i / 2.0) - colWidth / 2.0;
-				leftBorder[i + 1] = start + step * (i / 2.0) + colWidth / 2.0;
-			}
-
-			area = 0;
-
-			// fill in frequencies
-			for (int i = 0; i < NN - 1; i++) {
-				if (MyDouble.isOdd(i)) {
-					// dummy columns, zero height
-					yval[i] = 0;
-				} else {
-					geo = list2.get(i / 2);
-					if (!geo.isGeoNumeric()) {
-						sum.setUndefined();
-						return;
-					}
-					yval[i] = ((GeoNumeric) (list2.get(i / 2))).getDouble();
-
-					area += yval[i] * colWidth;
-				}
-			}
-
-			// area of rectangles = total frequency
-			sum.setValue(area);
-
-			N = NN - 1;
-
-			break;
 
 		case HISTOGRAM:
 		case HISTOGRAM_DENSITY:
@@ -1494,7 +976,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 				// work out frequencies in each class
 
 				// TODO: finish right histogram option for 2nd case below
-				valueFrequency = 1;
+				double valueFrequency = 1;
+				double datum;
 				for (int i = 0; i < list2.size(); i++) {
 					geo = list2.get(i);
 

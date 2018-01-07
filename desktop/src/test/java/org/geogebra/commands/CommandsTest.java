@@ -105,6 +105,7 @@ public class CommandsTest extends Assert{
 			t = e;
 		}
 		syntaxes--;
+
 		assertNull(t);
 		Assert.assertNotNull(s,result);
 		// for (int i = 0; i < result.length; i++) {
@@ -363,20 +364,29 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdIntersect() {
-		t("Intersect[3x=4y,Curve[5*sin(t),5*cos(t),t,0,6]]", new String[] {
-				"(4, 3)", "(-4, -3)" },
-				StringTemplate.editTemplate);
-		t("Intersect[x=y,x+y=2]", "(1, 1)");
-		t("Intersect[x=y,x^2+y^2=2]", new String[] { "(1, 1)", "(-1, -1)" });
+		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", "(4, 3)",
+				"(-4, -3)");
+		intersect("x=y", "x+y=2", "(1, 1)");
+		intersect("x=y", "x^2+y^2=2", "(1, 1)", "(-1, -1)");
+		intersect("x=y", "x^4+y^4=2", "(1, 1)", "(-1, -1)");
 		t("Intersect[x=y,x^2+y^2=2, 1]", "(1, 1)");
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
 		t("Intersect[x^2+y^2=25,x y=12, 1]", "(3, 4)",
 				StringTemplate.editTemplate);
 		t("Intersect[x^2+y^2=25,(x-6)^2+ y^2=25, 1]", "(3, 4)",
 				StringTemplate.editTemplate);
-		t("Intersect[x=y,sin(x)]", "(0, 0)");
-		t("Intersect[x=y,(x-1)^2+1]", new String[] { "(1, 1)", "(2, 2)" },
-				StringTemplate.editTemplate);
+		intersect("x=y", "sin(x)", "(0, 0)");
+		intersect("x=y", "(x-1)^2+1", "(1, 1)", "(2, 2)");
+		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", "(3, 3)",
+				"(-1, -1)");
+		intersect("x", "PolyLine((-1,-2),(-1,3),(5,3))", "(-1, -1)", "(3, 3)");
+	}
+
+	private static void intersect(String arg1, String arg2, String... results) {
+		t("Intersect(" + arg1 + "," + arg2 + ")", results,
+				StringTemplate.defaultTemplate);
+		t("Intersect(" + arg2 + "," + arg1 + ")", results,
+				StringTemplate.defaultTemplate);
 	}
 
 	@Test

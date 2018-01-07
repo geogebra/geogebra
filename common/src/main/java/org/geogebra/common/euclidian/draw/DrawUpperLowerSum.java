@@ -19,7 +19,6 @@ import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums;
-import org.geogebra.common.kernel.algos.AlgoFunctionAreaSums.SumType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -41,7 +40,6 @@ public class DrawUpperLowerSum extends Drawable {
 	private double[] coords = new double[2];
 	private boolean trapeziums;
 	private boolean histogram;
-	private boolean barchartFreqs, barchartFreqsWidth;
 
 	/**
 	 * Creates graphical representation of the sum / barchart /...
@@ -66,9 +64,6 @@ public class DrawUpperLowerSum extends Drawable {
 		algo = (AlgoFunctionAreaSums) geo.getDrawAlgorithm();
 		this.trapeziums = algo.useTrapeziums();
 		this.histogram = algo.isHistogram();
-		this.barchartFreqs = algo.getType() == SumType.BARCHART_FREQUENCY_TABLE;
-		this.barchartFreqsWidth = algo
-				.getType() == SumType.BARCHART_FREQUENCY_TABLE_WIDTH;
 		a = algo.getA();
 		b = algo.getB();
 	}
@@ -89,7 +84,7 @@ public class DrawUpperLowerSum extends Drawable {
 			gp = new GeneralPathClipped(view);
 		}
 
-		if (barchartFreqs || histogram) {
+		if (histogram) {
 			updateBarChart();
 			return;
 		}
@@ -145,14 +140,13 @@ public class DrawUpperLowerSum extends Drawable {
 			coords[1] = yval[N];
 			view.toScreenCoords(coords);
 			gp.lineTo(bx, coords[1]); // last bar: top
-		} else if (!barchartFreqsWidth) {
+		} else {
 			gp.lineTo(bx, y); // last bar: top
 		}
 
 		if (histogram) {
 			gp.moveTo(bx, y0);
-		} else if (!barchartFreqsWidth)
-		 {
+		} else {
 			gp.lineTo(bx, y0);// last bar: right
 		}
 
