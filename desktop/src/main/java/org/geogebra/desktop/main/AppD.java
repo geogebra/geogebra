@@ -4958,7 +4958,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	protected void initSignInEventFlow() {
 
 		// Inizialize the login operation
-		loginOperation = new LoginOperationD();
+		loginOperation = new LoginOperationD(this);
 
 		// Try to login the stored user
 		loginOperation.performTokenLogin();

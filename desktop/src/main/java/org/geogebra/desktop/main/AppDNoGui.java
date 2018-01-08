@@ -126,7 +126,7 @@ public class AppDNoGui extends App {
 		loc.setApp(this);
 		Layout.initializeDefaultPerspectives(this, 0.2);
 		initEuclidianViews();
-		loginOperation = new LoginOperationD();
+		loginOperation = new LoginOperationD(this);
 		kernel.attach(euclidianView);
 
 	}

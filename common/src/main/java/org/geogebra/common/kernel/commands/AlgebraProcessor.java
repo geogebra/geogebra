@@ -617,8 +617,8 @@ public class AlgebraProcessor {
 	 *            true to make undo step
 	 * @param handler
 	 *            decides how to handle exceptions
-	 * @param autoCreateSliders
-	 *            whether to show a popup for undefined variables
+	 * @param autoCreateSlidersAndDegrees
+	 *            whether to create sliders (using a popup) and add degrees
 	 * @param callback0
 	 *            callback after the geos are created
 	 * @return resulting geos

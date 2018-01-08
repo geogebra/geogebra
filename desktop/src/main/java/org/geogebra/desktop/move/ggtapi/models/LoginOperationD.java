@@ -1,6 +1,8 @@
 package org.geogebra.desktop.move.ggtapi.models;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
@@ -16,13 +18,18 @@ import org.geogebra.desktop.util.URLEncoderD;
  */
 public class LoginOperationD extends LogInOperation {
 
+	private App app;
+
 	/**
 	 * Initializes the LoginOperation for Desktop by creating the corresponding
 	 * model and view classes
+	 * 
+	 * @param app
+	 *            application
 	 */
-	public LoginOperationD() {
+	public LoginOperationD(App app) {
 		super();
-
+		this.app = app;
 		setView(new BaseSwingEventView());
 		setModel(new AuthenticationModelD());
 	}
@@ -44,7 +51,7 @@ public class LoginOperationD extends LogInOperation {
 			client.setType("desktop");
 			client.setWidth(1024);
 			client.setWidth(768);
-			api = new GeoGebraTubeAPID(false, client);
+			api = new GeoGebraTubeAPID(app.has(Feature.TUBE_BETA), client);
 		}
 		return api;
 	}

@@ -1774,10 +1774,10 @@ public abstract class GgbAPI implements JavaScriptAPI {
 						app));
 		if (app.getGuiManager() == null) {
 			if (ps != null) {
-			ArrayList<Perspective> perspectives = new ArrayList<>();
-			ps.setId("tmp");
-			perspectives.add(ps);
-			app.setTmpPerspectives(perspectives);
+				ArrayList<Perspective> perspectives = new ArrayList<>();
+				ps.setId("tmp");
+				perspectives.add(ps);
+				app.setTmpPerspectives(perspectives);
 			}
 			return;
 		}

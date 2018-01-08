@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
 import org.geogebra.common.move.ggtapi.models.Chapter;
@@ -35,8 +36,11 @@ public class TubeAPITest extends Assert {
 	@Test
 	public void testSearch() {
 
-		GeoGebraTubeAPID api = new GeoGebraTubeAPID(true, getClient());
-		final ArrayList<String> titles = new ArrayList<String>();
+		GeoGebraTubeAPID api = new GeoGebraTubeAPID(
+				new AppDNoGui(new LocalizationD(3), false)
+						.has(Feature.TUBE_BETA),
+				getClient());
+		final ArrayList<String> titles = new ArrayList<>();
 		api.search("pythagoras", new MaterialCallbackI() {
 
 			@Override
@@ -71,8 +75,8 @@ public class TubeAPITest extends Assert {
 	 */
 	public void testUpload() {
 
-		GeoGebraTubeAPID api = new GeoGebraTubeAPID(true, getAuthClient(null));
-		final ArrayList<String> titles = new ArrayList<String>();
+		GeoGebraTubeAPID api = getAuthAPI();
+		final ArrayList<String> titles = new ArrayList<>();
 
 		uploadMaterial(api, titles, 0, null);
 
@@ -93,9 +97,8 @@ public class TubeAPITest extends Assert {
 	@Test
 	public void testReupload() {
 
-		final GeoGebraTubeAPID api = new GeoGebraTubeAPID(true,
-				getAuthClient(null));
-		final ArrayList<String> titles = new ArrayList<String>();
+		final GeoGebraTubeAPID api = getAuthAPI();
+		final ArrayList<String> titles = new ArrayList<>();
 
 		uploadMaterial(api, titles, 0, new IdCallback() {
 
@@ -153,9 +156,8 @@ public class TubeAPITest extends Assert {
 	@Test
 	public void testDelete() {
 		testUpload();// ensure we have st to delete
-		final GeoGebraTubeAPID api = new GeoGebraTubeAPID(true,
-				getAuthClient(null));
-		final ArrayList<String> titles = new ArrayList<String>();
+		final GeoGebraTubeAPID api = getAuthAPI();
+		final ArrayList<String> titles = new ArrayList<>();
 
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
@@ -206,6 +208,10 @@ public class TubeAPITest extends Assert {
 				titles.get(0).contains("FAIL"));
 	}
 
+	private GeoGebraTubeAPID getAuthAPI() {
+		return new GeoGebraTubeAPID(new AppDNoGui(new LocalizationD(3), false)
+				.has(Feature.TUBE_BETA), getAuthClient(null));
+	}
 	@Test
 	public void testSync() {
 		AppDNoGui app = new AppDNoGui(new LocalizationD(3), false);

@@ -593,6 +593,10 @@ public class Perspective {
 		return perspectiveSlugs[perspID];
 	}
 
+	/**
+	 * @param id
+	 *            perspective ID
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}

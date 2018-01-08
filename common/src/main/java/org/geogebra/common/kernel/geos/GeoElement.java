@@ -297,13 +297,15 @@ public abstract class GeoElement extends ConstructionElement
 	/** whether we should send value to CAS (for false we send the name) */
 	protected boolean sendValueToCas = true;
 
-	// function to determine color
-	protected GeoList colFunction; // { GeoNumeric red, GeoNumeric Green,
-									// GeoNumeric Blue }
+	/**
+	 * List of GeoNumerics to determine color { red, green, blue, alpha
+	 * (optional) }
+	 */
+	protected GeoList colFunction;
 
 	private boolean useVisualDefaults = true;
 	/** true if color is set */
-	protected boolean isColorSet = false;
+	private boolean isColorSet = false;
 	/** true if geo is highlited */
 	protected boolean highlighted = false;
 	private boolean selected = false;
