@@ -216,8 +216,7 @@ public interface GeoGebraConstants {
 	 * This app's personal client ID assigned by the Google APIs Console
 	 * (http://code.google.com/apis/console).
 	 */
-	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
-	public static final String GOOGLE_TEST_CLIENT_ID = "300173001758.apps.googleusercontent.com";
+	public static final String GOOGLE_CLIENT_ID = "656990710877-g0tjpnhriv39e59f5s5ubs81sv2686m6.apps.googleusercontent.com";
 
 	// The auth scope being requested. This scope will allow the application to
 	// identify who the authenticated user is.
