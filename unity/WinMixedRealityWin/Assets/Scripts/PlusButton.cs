@@ -4,14 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 using HoloToolkit.Unity.InputModule;
 
-public class PlusButton : MonoBehaviour, IXboxControllerHandler, IControllerTouchpadHandler {
+public class PlusButton : MonoBehaviour, IControllerTouchpadHandler {
 
-    public void OnGamePadDetected(GamePadEventData eventData)
+    public void OnGamePadDetected(SourceStateEventData eventData )
     {
+
         throw new System.NotImplementedException();
     }
 
-    public void OnGamePadLost(GamePadEventData eventData)
+    public void OnGamePadLost(SourceStateEventData eventData)
     {
         throw new System.NotImplementedException();
     }
