@@ -114,7 +114,9 @@ public class CASTableControllerW extends CASTableCellController implements
 	private boolean copyOutputToEditingCell(CASTableCellW clickedCell) {
 		CASTableW table = view.getConsoleTable();
 		CASTableCellW editingCell = table.getEditingCell();
-		if (editingCell != null && clickedCell != null) {
+		if (editingCell != null && clickedCell != null
+				&& clickedCell.getCASCell() != null
+				&& !clickedCell.getCASCell().isError()) {
 			editingCell.insertInput(clickedCell.getOutputString());
 			return true;
 		}
