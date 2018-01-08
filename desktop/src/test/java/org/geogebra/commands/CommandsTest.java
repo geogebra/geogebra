@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.algos.AlgoIntersectConics;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -365,30 +366,45 @@ public class CommandsTest extends Assert{
 	@Test
 	public void cmdIntersect() {
 		t("ZoomIn(-5,-5,5,5)", new String[0]);
-		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", "(4, 3)",
+		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", false, "(4, 3)",
 				"(-4, -3)");
-		intersect("x=y", "x+y=2", "(1, 1)");
-		intersect("x=y", "x^2+y^2=2", "(1, 1)", "(-1, -1)");
-		intersect("x=y", "x^4+y^4=2", "(1, 1)", "(-1, -1)");
-		intersect("x", "x^4+y^4=2", "(-1, -1)", "(1, 1)");
-		t("Intersect[x=y,x^2+y^2=2, 1]", "(1, 1)");
+		intersect("x=y", "x+y=2", true, "(1, 1)");
+		intersect("x=y", "x^2+y^2=2", true, "(1, 1)", "(-1, -1)");
+		intersect("x=y", "x^4+y^4=2", false, "(1, 1)", "(-1, -1)");
+		intersect("x^2+y^2=2", "x^4+y^4=2", false, "(-1, -1)", "(-1, 1)",
+				"(1, -1)", "(1, 1)");
+		intersect("x", "x^4+y^4=2", false, "(-1, -1)", "(1, 1)");
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
-		t("Intersect[x^2+y^2=25,x y=12, 1]", "(3, 4)",
-				StringTemplate.editTemplate);
+		intersect("x^2+y^2=25", "x y=12", true, "(3, 4)", "(-3, -4)",
+				"(-4, -3)", "(4, 3)");
 		t("Intersect[x^2+y^2=25,(x-6)^2+ y^2=25, 1]", "(3, 4)",
 				StringTemplate.editTemplate);
-		intersect("x=y", "sin(x)", "(0, 0)");
-		intersect("x=y", "(x-1)^2+1", "(1, 1)", "(2, 2)");
-		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", "(3, 3)",
+		intersect("x=y", "sin(x)", false, "(0, 0)");
+		intersect("x=y", "(x-1)^2+1", true, "(1, 1)", "(2, 2)");
+		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(3, 3)",
 				"(-1, -1)");
-		intersect("x", "PolyLine((-1,-2),(-1,3),(5,3))", "(-1, -1)", "(3, 3)");
+		intersect("x", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, -1)",
+				"(3, 3)");
+		intersect("x^2", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, 1)",
+				eval("(sqrt(3), 3)"));
 	}
 
-	private static void intersect(String arg1, String arg2, String... results) {
-		t("Intersect(" + arg1 + "," + arg2 + ")", results,
+	private static void intersect(String arg1, String arg2, boolean num,
+			String... results) {
+		app.getKernel().clearConstruction(true);
+		app.getKernel().getConstruction().setSuppressLabelCreation(false);
+		t("its:=Intersect(" + arg1 + "," + arg2 + ")", results,
+				StringTemplate.editTemplate);
+		GeoElement geo = get("its") == null ? get("its_1") : get("its");
+		if (geo != null
+				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectConics)) {
+			t("Intersect(" + arg2 + "," + arg1 + ")", results,
+					StringTemplate.editTemplate);
+		}
+		if (num) {
+			t("Intersect(" + arg1 + "," + arg2 + ",1)", results[0],
 				StringTemplate.defaultTemplate);
-		t("Intersect(" + arg2 + "," + arg1 + ")", results,
-				StringTemplate.defaultTemplate);
+		}
 	}
 
 	@Test
@@ -834,7 +850,7 @@ public class CommandsTest extends Assert{
 	}
 
 	private static String eval(String string) {
-		return ap.evaluateToNumeric(string, true)
+		return ap.evaluateToGeoElement(string, true)
 				.toValueString(StringTemplate.editTemplate);
 	}
 

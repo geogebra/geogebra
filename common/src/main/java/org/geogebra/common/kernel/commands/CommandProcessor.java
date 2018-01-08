@@ -946,10 +946,11 @@ public abstract class CommandProcessor {
 	 * @return fallback, new boolean or null (when file is loading)
 	 */
 	protected GeoBoolean forceBoolean(GeoBoolean fallback, boolean value) {
-		if (fallback != null || kernel.getConstruction().isFileLoading()) {
+		if (fallback != null) {
 			return fallback;
 		}
-		return new GeoBoolean(kernel.getConstruction(), value);
+		return new GeoBoolean(kernel.getConstruction(),
+				!kernel.getConstruction().isFileLoading() && value);
 	}
 
 }
