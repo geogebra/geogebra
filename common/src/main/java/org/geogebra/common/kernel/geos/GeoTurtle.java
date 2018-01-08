@@ -957,4 +957,9 @@ public class GeoTurtle extends GeoPoint {
 			sb.append("\"/>\n");
 		}
 	}
+
+	@Override
+	public DescriptionMode needToShowBothRowsInAV() {
+		return DescriptionMode.DEFINITION;
+	}
 }

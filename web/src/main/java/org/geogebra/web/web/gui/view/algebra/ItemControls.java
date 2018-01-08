@@ -8,6 +8,7 @@ import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoTurtle;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -224,7 +225,8 @@ public class ItemControls extends FlowPanel
 			return SliderTreeItemRetex.match(geo);
 		}
 		return geo.getKernel()
-				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+				&& !(geo instanceof GeoTurtle);
 
 	}
 
