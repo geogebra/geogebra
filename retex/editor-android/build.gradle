@@ -31,9 +31,9 @@ publishing {
 }
 
 dependencies {
-	compile project(':editor-base')
-    compile project(':renderer-android')
-	testCompile 'junit:junit:4.11'
+	api project(':editor-base')
+    implementation project(':renderer-android')
+	testImplementation 'junit:junit:4.11'
 }
 
 android {

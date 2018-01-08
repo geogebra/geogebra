@@ -30,8 +30,8 @@ publishing {
 }
 
 dependencies {
-	compile project(':renderer-base')
-	testCompile 'junit:junit:4.11'
+	api project(':renderer-base')
+	testImplementation 'junit:junit:4.11'
 }
 
 android {
