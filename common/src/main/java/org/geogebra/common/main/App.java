@@ -4485,6 +4485,10 @@ public abstract class App implements UpdateSelection {
 		return exam != null;
 	}
 
+	public boolean isExamStarted() {
+		return isExam() && getExam().isStarted();
+	}
+
 	public void setExam(ExamEnvironment exam) {
 		this.exam = exam;
 	}

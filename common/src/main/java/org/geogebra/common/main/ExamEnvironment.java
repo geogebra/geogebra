@@ -13,7 +13,9 @@ public class ExamEnvironment {
 	private static final String MARK_CHEATING = "\u2716"; // heavy multiplication
 	private static final String MARK_NOT_CHEATING = "\u2713"; // check mark
 
-	long examStartTime = -1;
+	private static final long EXAM_START_TIME_NOT_STARTED = -1;
+
+	long examStartTime = EXAM_START_TIME_NOT_STARTED;
 	protected LinkedList<Long> cheatingTimes = null;
 
 	protected enum CheatingEvent {
@@ -58,6 +60,14 @@ public class ExamEnvironment {
 
 	public long getStart() {
 		return examStartTime;
+	}
+
+	/**
+	 * 
+	 * @return true if exam is started
+	 */
+	public boolean isStarted() {
+		return examStartTime > 0;
 	}
 
 	public void setStart(long time) {
@@ -438,6 +448,7 @@ public class ExamEnvironment {
 	 */
 	public void closeExam() {
 		app.enableCAS(wasCasEnabled);
+		examStartTime = EXAM_START_TIME_NOT_STARTED;
 	}
 
 	/**
