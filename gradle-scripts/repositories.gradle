@@ -20,6 +20,7 @@ allprojects {
             maven { url 'https://jitpack.io' }
             mavenCentral()
             jcenter()
+            google()
         }
     }
 
@@ -28,6 +29,7 @@ allprojects {
         maven { url 'http://dl.bintray.com/android/android-tools' }
         mavenCentral()
         jcenter()
+        google()
     }
 }
 
