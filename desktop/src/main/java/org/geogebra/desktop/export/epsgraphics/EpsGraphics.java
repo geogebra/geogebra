@@ -400,16 +400,6 @@ abstract public class EpsGraphics implements GGraphics2D {
 		}
 	}
 
-	@Override
-	public void drawStringStroke(String str, double x, double y) {
-		// implemented on web
-	}
-
-	@Override
-	public void setStrokeLineWidth(double w) {
-		// implemented on web
-	}
-
 	/**
 	 * Draws the characters of an AttributedCharacterIterator, starting from
 	 * (x,y).

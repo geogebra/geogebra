@@ -234,12 +234,29 @@ public class GGraphics2DW implements GGraphics2D {
 		context.fillText(str, x, y);
 	}
 
-	@Override
+	/**
+	 * Draws a stroke for a string.
+	 * 
+	 * @param str
+	 *            the <code>String</code> to be rendered
+	 * @param x
+	 *            the x coordinate of the location where the <code>String</code>
+	 *            should be rendered
+	 * @param y
+	 *            the y coordinate of the location where the <code>String</code>
+	 *            should be rendered
+	 */
+
 	public void drawStringStroke(String str, double x, double y) {
 		context.strokeText(str, x, y);
 	}
 
-	@Override
+	/**
+	 * Sets stroke width
+	 * 
+	 * @param w
+	 *            stroke width
+	 */
 	public void setStrokeLineWidth(double w) {
 		context.setLineWidth(w);
 	}

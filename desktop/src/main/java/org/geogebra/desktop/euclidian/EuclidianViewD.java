@@ -1020,4 +1020,18 @@ public class EuclidianViewD extends EuclidianView
 
 	}
 
+	@Override
+	public void drawStringWithOutline(GGraphics2D g2, String text, double x,
+			double y, GColor col) {
+		if (g2 instanceof GGraphics2DD) {
+			g2.setColor(getBackgroundCommon());
+			g2.drawString(text, x + 1, y);
+			g2.drawString(text, x - 1, y);
+			g2.drawString(text, x, y + 1);
+			g2.drawString(text, x, y - 1);
+		}
+		g2.setColor(col);
+		g2.drawString(text, x, y);
+	}
+
 }

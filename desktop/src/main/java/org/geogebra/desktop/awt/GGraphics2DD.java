@@ -58,19 +58,6 @@ public class GGraphics2DD implements GGraphics2D {
 	}
 
 	@Override
-	public void drawStringStroke(String str, double x, double y) {
-		impl.drawString(str, (float) x + 1, (float) y + 1);
-		impl.drawString(str, (float) x - 1, (float) y - 1);
-		impl.drawString(str, (float) x + 1, (float) y - 1);
-		impl.drawString(str, (float) x - 1, (float) y + 1);
-	}
-
-	@Override
-	public void setStrokeLineWidth(double w) {
-		// implemented on web
-	}
-
-	@Override
 	public void setComposite(GComposite comp) {
 		impl.setComposite(GCompositeD.getAwtComposite(comp));
 	}
