@@ -78,7 +78,7 @@ public class ExportFrameMinimal implements ExportSettings {
 	}
 
 	public String getCode() {
-		return code.toString();
+		return code.toString().replaceAll("\n", "\r\n");
 	}
 
 	@Override

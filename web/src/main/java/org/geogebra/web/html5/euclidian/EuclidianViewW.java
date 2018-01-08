@@ -1464,13 +1464,14 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void drawStringWithOutline(GGraphics2D g2c, String text, double x,
 			double y, GColor col) {
-		GGraphics2DW g2 = (GGraphics2DW) g2c;
-		g2.setColor(getBackgroundCommon());
-		g2.setStrokeLineWidth(getFontAxes().getSize() / 3d);
-		g2.drawStringStroke(text, x, y);
-
-		g2.setColor(col);
-		g2.drawString(text, x, y);
+		if (g2c instanceof GGraphics2DW) {
+			GGraphics2DW g2 = (GGraphics2DW) g2c;
+			g2.setColor(getBackgroundCommon());
+			g2.setStrokeLineWidth(getFontAxes().getSize() / 3d);
+			g2.drawStringStroke(text, x, y);
+		}
+		g2c.setColor(col);
+		g2c.drawString(text, x, y);
 
 	}
 

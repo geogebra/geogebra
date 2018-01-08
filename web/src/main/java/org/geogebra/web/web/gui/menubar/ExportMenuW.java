@@ -3,11 +3,12 @@ package org.geogebra.web.web.gui.menubar;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.images.AppResources;
 
-import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author bencze The "Export Image" menu, part of the "File" menu.
@@ -202,7 +203,9 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	/** hide the submenu */
 	@Override
 	public void hide() {
-		PopupPanel p = (PopupPanel) getParent();
-		p.hide();
+		Widget p = getParent();
+		if (p instanceof GPopupPanel) {
+			((GPopupPanel) p).hide();
+		}
 	}
 }
