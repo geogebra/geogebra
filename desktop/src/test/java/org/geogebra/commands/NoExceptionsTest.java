@@ -968,8 +968,6 @@ public class NoExceptionsTest {
 		t("IsInteger[ n1 ]");
 	}
 
-
-
 	@Test
 	public void cmdJoin() {
 		t("Join[ list1, list1]");

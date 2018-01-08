@@ -364,11 +364,13 @@ public class CommandsTest extends Assert{
 
 	@Test
 	public void cmdIntersect() {
+		t("ZoomIn(-5,-5,5,5)", new String[0]);
 		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", "(4, 3)",
 				"(-4, -3)");
 		intersect("x=y", "x+y=2", "(1, 1)");
 		intersect("x=y", "x^2+y^2=2", "(1, 1)", "(-1, -1)");
 		intersect("x=y", "x^4+y^4=2", "(1, 1)", "(-1, -1)");
+		intersect("x", "x^4+y^4=2", "(-1, -1)", "(1, 1)");
 		t("Intersect[x=y,x^2+y^2=2, 1]", "(1, 1)");
 		t("Intersect[x=y,x^2+y^2=2, (-5, -3)]", "(-1, -1)");
 		t("Intersect[x^2+y^2=25,x y=12, 1]", "(3, 4)",
@@ -397,6 +399,10 @@ public class CommandsTest extends Assert{
 						"(-1.4142135623730951, -1.4142135623730951)" });
 		t("Intersect[Curve[t, t^3 - t, t, -2, 2], Curve[t, t, t, -4, 4], 1, 1]",
 				"(1.4142135623730951, 1.4142135623730956)");
+		t("Intersect[sin(x), cos(x), 0, 2pi]",
+				new String[] { "(0.7854, 0.70711)",
+						"(3.92699, -0.70711)" },
+				StringTemplate.editTemplate);
 	}
 
 	@Test
@@ -815,6 +821,12 @@ public class CommandsTest extends Assert{
 		t("IntersectPath[Polygon[(0,0),(2,0),4],Polygon[(1,1),(3,1),4]]",
 				new String[] { "1", "(2, 2)", "(1, 2)", "(1, 1)", "(2, 1)",
 						"1", "1", "1", "1" }, StringTemplate.editTemplate);
+		t("IntersectPath[Polygon[(0,0),(4,0),4],(x-2)^2+(y-2)^2=5]",
+				new String[] { "2", "2", "2", "2" },
+				StringTemplate.editTemplate);
+		t("IntersectPath[Segment[(0,0),(4,4)],(x-2)^2+(y-2)^2=2]",
+				eval("sqrt(8)"),
+				StringTemplate.editTemplate);
 	}
 
 	private static String indices(String string) {
