@@ -55,7 +55,7 @@ public class CmdWeibull extends CommandProcessor {
 
 					AlgoWeibullDF algo = new AlgoWeibullDF(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-							cumulative);
+							forceBoolean(cumulative, true));
 					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {

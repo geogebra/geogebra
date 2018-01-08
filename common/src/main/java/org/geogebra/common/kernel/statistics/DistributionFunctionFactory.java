@@ -27,6 +27,8 @@ public class DistributionFunctionFactory {
 	 *            left border of function support
 	 * @param cons
 	 *            construction
+	 * @param sharp
+	 *            whether to use &lt; or &lt;=
 	 * @return function If[x<border,0,0]
 	 */
 	public static GeoFunction zeroWhenLessThan(ExpressionValue border,

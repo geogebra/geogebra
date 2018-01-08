@@ -59,7 +59,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  *          they will certainly ask for this...)
  *          </ul>
  */
-
+@SuppressWarnings("javadoc")
 public final class RegressionMath {
 
 	public final static int LINEAR = 1, QUAD = 2, CUBIC = 3, /* QUART = 4, */
@@ -71,8 +71,8 @@ public final class RegressionMath {
 	private double // r, //Reg-coeff
 	p1, p2, p3, p4, p5, // Parameters
 			sigmax, sigmax2, sigmax3, sigmax4, // Sums of x,x^2,...
-			sigmax5, sigmax6, sigmax7, sigmax8, sigmay, sigmay2, sigmaxy,
-			sigmax2y, sigmax3y, sigmax4y;
+			sigmax5, sigmax6, sigmay, sigmay2, sigmaxy,
+			sigmax2y, sigmax3y;
 	private GeoList geolist;
 	private double[] xlist;
 	private double[] ylist;
@@ -407,7 +407,7 @@ public final class RegressionMath {
 			"missing break is deliberate" })
 	private void doSums(int degree) { // do whatever sums neccessary
 		double x, y, xx, xy;
-		sigmax = sigmax2 = sigmax3 = sigmax4 = sigmax5 = sigmax6 = sigmax7 = sigmax8 = sigmaxy = sigmax2y = sigmax3y = sigmax4y = sigmay = sigmay2 = 0.0d;
+		sigmax = sigmax2 = sigmax3 = sigmax4 = sigmax5 = sigmax6 = sigmaxy = sigmax2y = sigmax3y = sigmay = sigmay2 = 0.0d;
 		for (int i = 0; i < size; i++) {
 			x = xlist[i];
 			y = ylist[i];
@@ -418,9 +418,6 @@ public final class RegressionMath {
 				// do nothing
 				break;
 			case 4:
-				sigmax4y += x * xx * xy;
-				sigmax7 += xx * xx * xx * x;
-				sigmax8 += xx * xx * xx * xx;
 				//$FALL-THROUGH$
 			case 3:
 				sigmax3y += xx * xy;

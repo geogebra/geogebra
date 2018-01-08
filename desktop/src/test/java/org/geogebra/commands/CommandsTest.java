@@ -1354,9 +1354,13 @@ public class CommandsTest extends Assert{
 
 	private static void prob(String cmd, String params, String pdf, String cdf,
 			int skip) {
-		t("pdf=" + cmd + "(" + params + ",x)", unicode(pdf),
+		t("cdf1=" + cmd + "(" + params + ",x)", unicode(cdf),
 				StringTemplate.editTemplate);
-		t("pdf1=" + cmd + "(" + params + ",x,false)", unicode(pdf),
+		app.getKernel().getConstruction().setFileLoading(true);
+		t("pdf1=" + cmd + "(" + params + ",x)", unicode(pdf),
+				StringTemplate.editTemplate);
+		app.getKernel().getConstruction().setFileLoading(false);
+		t("pdf=" + cmd + "(" + params + ",x,false)", unicode(pdf),
 				StringTemplate.editTemplate);
 		t("cdf=" + cmd + "(" + params + ",x,true)", unicode(cdf),
 				StringTemplate.editTemplate);
@@ -1368,7 +1372,8 @@ public class CommandsTest extends Assert{
 						+ params + "," + i + ",false))",
 					"true");
 			} else {
-				t("pdf(" + i + ")==" + cmd + "(" + params + "," + i + ",false)",
+				t("pdf(" + i + ")==" + cmd + "(" + params + "," + i
+						+ ",false)",
 						"true");
 
 			}

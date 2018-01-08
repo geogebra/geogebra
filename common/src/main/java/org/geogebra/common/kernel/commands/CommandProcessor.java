@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.CommandReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.Replacer;
 import org.geogebra.common.kernel.arithmetic.Variable;
+import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -935,6 +936,20 @@ public abstract class CommandProcessor {
 	 */
 	protected final MyError argNumErr(Command c) {
 		return argNumErr(app, c, c.getArgumentNumber());
+	}
+
+	/**
+	 * @param fallback
+	 *            override given by user
+	 * @param value
+	 *            default value (to be used when command is typed)
+	 * @return fallback, new boolean or null (when file is loading)
+	 */
+	protected GeoBoolean forceBoolean(GeoBoolean fallback, boolean value) {
+		if (fallback != null || kernel.getConstruction().isFileLoading()) {
+			return fallback;
+		}
+		return new GeoBoolean(kernel.getConstruction(), value);
 	}
 
 }

@@ -54,7 +54,7 @@ public class CmdUniform extends CommandProcessor {
 
 					AlgoUniformDF algo = new AlgoUniformDF(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-							cumulative);
+							forceBoolean(cumulative, true));
 					return algo.getResult().asArray();
 
 				} else if (arg[2] instanceof GeoNumberValue) {
