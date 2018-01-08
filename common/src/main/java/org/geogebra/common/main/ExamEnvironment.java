@@ -457,7 +457,7 @@ public class ExamEnvironment {
 		case GRAPHING:
 			return app.getLocalization().getMenu("GraphingCalculator");
 		case SYMBOLIC:
-			return app.getLocalization().getMenuDefault("SymbolicCalculator", "Symbolic Calculator");
+			return app.getLocalization().getMenuDefault("AlgebraCalculator", "Algebra Calculator");
 		default:
 			return "";
 		}
