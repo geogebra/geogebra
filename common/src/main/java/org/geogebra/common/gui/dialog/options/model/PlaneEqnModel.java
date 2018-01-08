@@ -3,6 +3,7 @@ package org.geogebra.common.gui.dialog.options.model;
 import java.util.Arrays;
 import java.util.List;
 
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
@@ -25,7 +26,8 @@ public class PlaneEqnModel extends MultipleOptionsModel {
 			return false;
 		}
 		Object geo = getObjectAt(index);
-		if (!(geo instanceof GeoPlaneND)) {
+		if (!(geo instanceof GeoPlaneND)
+				|| ((GeoElement) geo).getDefinition() == null) {
 			return false;
 		}
 

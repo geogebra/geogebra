@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
@@ -1057,7 +1058,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 
 						@Override
 						public void execute() {
-							expandedFormCmd(inputElement);
+							implicitConicEquationCmd();
 						}
 					};
 					addAction(action, null, loc.getMenu("ExpandedForm"));
@@ -1083,6 +1084,16 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				}
 			};
 			addAction(action, null, loc.getMenu("InputForm"));
+		} else if (getGeo() instanceof GeoPlaneND
+				&& getGeo().getDefinition() != null) {
+			Command action = new Command() {
+
+				@Override
+				public void execute() {
+					implicitConicEquationCmd();
+				}
+			};
+			addAction(action, null, loc.getMenu("ExpandedForm"));
 		}
 
 	}

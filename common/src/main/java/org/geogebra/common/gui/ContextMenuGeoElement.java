@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
+import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
@@ -276,12 +277,6 @@ public abstract class ContextMenuGeoElement {
 				conic1.updateRepaint();
 			}
 		}
-		app.storeUndoInfo();
-	}
-
-	public void expandedFormCmd(final GeoImplicit inputElement) {
-		inputElement.setToImplicit();
-		inputElement.updateRepaint();
 		app.storeUndoInfo();
 	}
 
@@ -646,6 +641,10 @@ public abstract class ContextMenuGeoElement {
 		if (Equation.isAlgebraEquation(geo)) {
 			if (geo.isGeoLine()) {
 				return ((GeoLine) geo).getMode() != GeoLine.EQUATION_USER;
+			}
+			if (geo.isGeoPlane()) {
+				return ((GeoPlaneND) geo)
+						.getToStringMode() != GeoLine.EQUATION_USER;
 			}
 			if (geo.isGeoConic() || geo.isGeoQuadric()) {
 				return ((GeoQuadricND) geo)
