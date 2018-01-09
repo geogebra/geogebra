@@ -2,6 +2,7 @@ package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
@@ -77,10 +78,10 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 				app.toggleMenu();
 				app.getActiveEuclidianView().getEuclidianController()
 						.clearSelections();
-				String svg = "data:text/plain;charset=utf-8,"
-						+ ((EuclidianViewWInterface) app
-								.getActiveEuclidianView()).getExportSVG(1,
-										false);
+
+				String svg = Browser.encodeSVG(
+						((EuclidianViewWInterface) app.getActiveEuclidianView())
+								.getExportSVG(1, false));
 
 				app.getFileManager().showExportAsPictureDialog(svg,
 						app.getExportTitle(), "svg", "ExportAsPicture", app);
