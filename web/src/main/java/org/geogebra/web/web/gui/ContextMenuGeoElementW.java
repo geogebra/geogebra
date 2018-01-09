@@ -1049,8 +1049,11 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		if (app.isUnbundled() || hasWhiteboardContextMenu()) {
 			return;
 		}
-		if (getGeo() instanceof GeoImplicit) {
-			final GeoImplicit inputElement = (GeoImplicit) getGeo();
+
+		GeoElement geo = getGeo();
+
+		if (geo instanceof GeoImplicit) {
+			final GeoImplicit inputElement = (GeoImplicit) geo;
 			if (inputElement.isValidInputForm()) {
 				Command action;
 				if (inputElement.isInputForm()) {
@@ -1074,8 +1077,8 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				}
 
 			}
-		} else if (needsInputFormItem(getGeo())) {
-			final EquationValue inputElement = (EquationValue) getGeo();
+		} else if (needsInputFormItem(geo)) {
+			final EquationValue inputElement = (EquationValue) geo;
 			Command action = new Command() {
 
 				@Override
@@ -1084,8 +1087,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 				}
 			};
 			addAction(action, null, loc.getMenu("InputForm"));
-		} else if (getGeo() instanceof GeoPlaneND
-				&& getGeo().getDefinition() != null) {
+		} else if (geo instanceof GeoPlaneND && geo.getDefinition() != null) {
 			Command action = new Command() {
 
 				@Override
