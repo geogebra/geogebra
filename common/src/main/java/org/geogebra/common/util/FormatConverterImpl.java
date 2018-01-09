@@ -61,6 +61,7 @@ public class FormatConverterImpl implements FormatConverter {
 		return mathmlParserGGB.parse(mathmlExpression, false, true);
 	}
 
+	@Override
 	public String convert(String exp) {
 		// might start <math> or <mrow> etc
 		if (exp.startsWith("<")) {
