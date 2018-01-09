@@ -87,13 +87,19 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 				|| !geo.isDefined()) {
 			return null;
 		}
+		boolean xAxis = kernel.getApplication().getActiveEuclidianView()
+				.getShowAxis(0);
+		boolean yAxis = kernel.getApplication().getActiveEuclidianView()
+				.getShowAxis(1);
+		if (!xAxis && !yAxis) {
+			return null;
+		}
 		PolyFunction poly = ((GeoFunction) geo).getFunction()
 				.expandToPolyFunction(
 						((GeoFunction) geo).getFunctionExpression(), false,
 						true);
 		GeoElementND[] geos1 = null;
-		if (kernel.getApplication().getActiveEuclidianView().getShowAxis(0)
-				&& (poly == null || poly.getDegree() > 0)) {
+		if (xAxis && (poly == null || poly.getDegree() > 0)) {
 			if (!((GeoFunction) geo).isPolynomialFunction(true)
 					&& geo.isDefined()) {
 				EuclidianViewInterfaceCommon view = kernel.getApplication()
@@ -133,8 +139,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 				geos2 = algoExtremumPolynomial.getRootPoints();
 				specPointAlgos.add(algoExtremumPolynomial);
 			}
-		} else if (kernel.getApplication().getActiveEuclidianView()
-				.getShowAxis(1)) {
+		}
+		if (yAxis) {
 			AlgoIntersectPolynomialLine algoPolynomialLine = new AlgoIntersectPolynomialLine(
 					kernel.getConstruction(), (GeoFunction) geo,
 					kernel.getConstruction().getYAxis());
