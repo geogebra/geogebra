@@ -870,10 +870,8 @@ public class EuclidianPen implements GTimerListener {
 		AlgoElement algo;
 		// don't set label
 		Kernel kernelA = app.getKernel();
-		AlgoElement newPolyLine = app.has(Feature.MOW_PEN_IS_LOCUS)
-				? new AlgoLocusStroke(cons, newPts)
-				: app.getKernel().getAlgoDispatcher()
-						.getStrokeAlgo(getPointArray(newPts));
+		AlgoElement newPolyLine = app.getKernel().getAlgoDispatcher()
+				.getStrokeAlgo(newPts);
 		if (!absoluteScreenPosition) {
 
 			// set label
@@ -948,14 +946,7 @@ public class EuclidianPen implements GTimerListener {
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
-	private GeoPointND[] getPointArray(List<MyPoint> dataPoints) {
-		GeoPointND[] pointArray = new GeoPointND[dataPoints.size()];
-		for (int i = 0; i < dataPoints.size(); i++) {
-			pointArray[i] = new GeoPoint(app.getKernel().getConstruction(),
-					dataPoints.get(i).getX(), dataPoints.get(i).getY(), 1);
-		}
-		return pointArray;
-	}
+
 	private static AlgoStrokeInterface getAlgoStrokeInterface(AlgoElement al) {
 		if (al instanceof AlgoStrokeInterface) {
 			return (AlgoStrokeInterface) al;

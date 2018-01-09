@@ -12,6 +12,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.List;
+
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
@@ -42,9 +44,9 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 	 */
 
 
-	public AlgoPenStroke(Construction cons, GeoPointND[] points) {
+	public AlgoPenStroke(Construction cons, List<MyPoint> points) {
 		super(cons);
-		this.points = points;
+		this.points = getPointArray(points);
 
 		// Log.debug(penStroke);
 
@@ -56,6 +58,15 @@ public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 
 		setInputOutput(); // for AlgoElement
 
+	}
+
+	private GeoPointND[] getPointArray(List<MyPoint> dataPoints) {
+		GeoPointND[] pointArray = new GeoPointND[dataPoints.size()];
+		for (int i = 0; i < dataPoints.size(); i++) {
+			pointArray[i] = new GeoPoint(kernel.getConstruction(),
+					dataPoints.get(i).getX(), dataPoints.get(i).getY(), 1);
+		}
+		return pointArray;
 	}
 
 	@Override

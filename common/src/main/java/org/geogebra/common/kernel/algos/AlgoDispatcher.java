@@ -1,12 +1,14 @@
 package org.geogebra.common.kernel.algos;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.KernelCAS;
+import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Transform;
@@ -852,15 +854,13 @@ public class AlgoDispatcher {
 	 * polygon P[0], ..., P[n-1] The labels name the polygon itself and its
 	 * segments
 	 */
-	final public GeoElement[] PolyLine(String label, GeoPointND[] P,
-			boolean penStroke) {
-		AlgoElement algo = penStroke ? getStrokeAlgo(P)
-				: new AlgoPolyLine(cons, P, null);
+	final public GeoElement[] PolyLine(String label, GeoPointND[] P) {
+		AlgoElement algo = new AlgoPolyLine(cons, P, null);
 		algo.getOutput(0).setLabel(label);
 		return algo.getOutput();
 	}
 
-	public AlgoElement getStrokeAlgo(GeoPointND[] p) {
+	public AlgoElement getStrokeAlgo(List<MyPoint> p) {
 		return cons.getApplication().has(Feature.MOW_PEN_IS_LOCUS)
 				? new AlgoLocusStroke(cons, p) : new AlgoPenStroke(cons, p);
 	}

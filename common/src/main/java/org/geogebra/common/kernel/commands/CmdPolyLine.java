@@ -1,8 +1,14 @@
 package org.geogebra.common.kernel.commands;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.algos.AlgoPolyLine;
 import org.geogebra.common.kernel.arithmetic.Command;
+import org.geogebra.common.kernel.arithmetic.MyVecNode;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -24,21 +30,21 @@ public class CmdPolyLine extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c, EvalInfo info) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
-
-		arg = resArgs(c);
 		switch (n) {
 		case 0:
 			throw argNumErr(c);
 		case 1:
+			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
 			throw argErr(app, c, arg[0]);
 
 		case 2:
+			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 
 				if (!arg[1].isGeoBoolean()) {
@@ -57,21 +63,32 @@ public class CmdPolyLine extends CommandProcessor {
 			}
 			throw argErr(app, c, arg[0]);
 		default:
-
+			arg = resArg(c.getArgument(n - 1), info.withLabels(false));
 			return genericPolyline(arg, c);
 
 		}
 	}
 
 	private GeoElement[] genericPolyline(GeoElement[] arg, Command c) {
-		int size = arg.length;
-		boolean penStroke = false;
 
+		boolean penStroke = false;
+		int size = c.getArgumentNumber();
 		if (arg[arg.length - 1].isGeoBoolean()) {
 			// pen stroke
 			// last argument is boolean (normally true)
 			size = size - 1;
 			penStroke = ((GeoBoolean) arg[arg.length - 1]).getBoolean();
+		}
+		if (penStroke) {
+			ArrayList<MyPoint> myPoints = new ArrayList<>();
+			for (int i = 0; i < size; i++) {
+				MyVecNode vec =(MyVecNode)c.getArgument(i).unwrap();
+				myPoints.add(new MyPoint(vec.getX().evaluateDouble(),
+						vec.getY().evaluateDouble()));
+			}
+			AlgoElement algo = new AlgoLocusStroke(cons, myPoints);
+			algo.getOutput(0).setLabel(c.getLabel());
+			return algo.getOutput();
 		}
 
 		// polygon for given points
@@ -86,7 +103,7 @@ public class CmdPolyLine extends CommandProcessor {
 			is3D = checkIs3D(is3D, arg[i]);
 		}
 		// everything ok
-		return polyLine(c.getLabel(), points, penStroke, is3D);
+		return polyLine(c.getLabel(), points, is3D);
 	}
 
 	/**
@@ -126,8 +143,8 @@ public class CmdPolyLine extends CommandProcessor {
 	 * @return polyline
 	 */
 	protected GeoElement[] polyLine(String label, GeoPointND[] points,
-			boolean penStroke, boolean is3D) {
-		return kernel.polyLine(label, points, penStroke);
+			boolean is3D) {
+		return kernel.polyLine(label, points);
 	}
 
 }
