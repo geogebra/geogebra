@@ -54,6 +54,7 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.controller.CursorController;
+import com.himamis.retex.editor.share.editor.FormatConverter;
 import com.himamis.retex.editor.share.editor.MathField;
 import com.himamis.retex.editor.share.editor.MathFieldAsync;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -105,6 +106,8 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	private double scale = 1.0;
 
 	private FocusHandler focusHandler;
+
+	private FormatConverter converter;
 	static ArrayList<MathFieldW> instances = new ArrayList<MathFieldW>();
 	// can't be merged with instances.size because we sometimes remove an
 	// instance
@@ -119,9 +122,12 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	 * @param listener
 	 *            listener for special events
 	 */
-	public MathFieldW(Panel parent, Canvas canvas,
+	public MathFieldW(FormatConverter converter, Panel parent, Canvas canvas,
 			MathFieldListener listener, boolean directFormulaBuilder,
 			FocusHandler fh) {
+
+		this.converter = converter;
+
 		if (FactoryProvider.getInstance() == null) {
 			FactoryProvider.setInstance(new FactoryProviderGWT());
 		}
@@ -629,16 +635,22 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 
 	private native void installPaste(Element target) /*-{
 		var that = this;
-		target.addEventListener('paste',
-			function(a){
-				if(a.clipboardData){
-					that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(a.clipboardData.getData("text/plain"));
-				}else if($wnd.clipboardData){
-					that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)($wnd.clipboardData.getData("Text"));
-				}
-			}
-			);
-		
+		target
+				.addEventListener(
+						'paste',
+						function(a) {
+							var exp;
+							if (a.clipboardData) {
+								exp = a.clipboardData.getData("text/plain");
+							} else if ($wnd.clipboardData) {
+								exp = $wnd.clipboardData.getData("Text");
+							}
+
+							exp = that.@com.himamis.retex.editor.web.MathFieldW::convert(Ljava/lang/String;)(exp);
+
+							that.@com.himamis.retex.editor.web.MathFieldW::insertString(Ljava/lang/String;)(exp);
+						});
+
 	}-*/;
 
 	public void startEditing() {
@@ -675,6 +687,16 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 	public void paste() {
 		// insertString(getSystemClipboardChromeWebapp(html.getElement()));
 
+	}
+
+	public String convert(String exp) {
+		if (converter != null) {
+
+			return converter.convert(exp);
+
+		}
+
+		return exp;
 	}
 
 	/**

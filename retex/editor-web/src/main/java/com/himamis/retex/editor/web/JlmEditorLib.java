@@ -15,7 +15,7 @@ public class JlmEditorLib extends JlmLib {
 	public void edit(Element el) {
 		Canvas canvas = Canvas.createIfSupported();
 		el.appendChild(canvas.getCanvasElement());
-		MathFieldW fld = new MathFieldW(RootPanel.get(), canvas,
+		MathFieldW fld = new MathFieldW(null, RootPanel.get(), canvas,
 				new MathFieldListener() {
 
 					@Override

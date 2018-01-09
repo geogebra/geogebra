@@ -39,6 +39,7 @@ import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -1892,7 +1893,8 @@ public class RadioTreeItem extends AVTreeItem
 		if (latexItem == null) {
 			latexItem = new FlowPanel();
 		}
-		mf = new MathFieldW(latexItem, canvas, getLatexController(),
+		mf = new MathFieldW(new FormatConverterImpl(kernel), latexItem, canvas,
+				getLatexController(),
 				app.has(Feature.MOW_DIRECT_FORMULA_CONVERSION),
 				app.getGlobalKeyDispatcher().getFocusHandler());
 		updateEditorAriaLabel("");
