@@ -5383,8 +5383,16 @@ namespace giac {
   }
   gen _longueur2(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-    if ( args.type!=_VECT || args.subtype!=_SEQ__VECT || args._VECTptr->size()!=2)
+    if (args.type==_INT_){int d=args.val; return d*d;}
+    if (args.type==_DOUBLE_){double d=args._DOUBLE_val; return d*d;}
+    if (args.type==_CPLX && args.subtype==3){
+      double r=args._CPLXptr->_DOUBLE_val,i=(args._CPLXptr+1)->_DOUBLE_val;
+      return r*r+i*i;
+    }
+    if ( args.type!=_VECT || args.subtype!=_SEQ__VECT || args._VECTptr->size()!=2){
+      if (args.type!=_VECT) return args*args;
       return gensizeerr(contextptr);
+    }
     gen e1=args._VECTptr->front(),e2=args._VECTptr->back();
     if (e1.type==_VECT && e2.type==_VECT){
       vecteur e12=subvecteur(*e1._VECTptr,*e2._VECTptr);

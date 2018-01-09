@@ -73,6 +73,7 @@ namespace giac {
     int epaisseur_point;
     int type_line;
     int type_point;
+    int labelpos;
     bool fill_polygon;
     bool hidden_name;
     bool ie; // Internet explorer flag for SVG
@@ -910,9 +911,12 @@ namespace giac {
     if (is_greater(ymin,y,contextptr))
       y=ymin+y_scale;    
     string res= "<text  fill=\"" +color_string(attr)+"\"  x=\""+(x/fontscale).print(contextptr)+"\" y=\""+(y/ratio/fontscale).print(contextptr)
-      +"\" transform=\"translate(0,"+print_DOUBLE_(ymin+ymax,contextptr)+") scale("+print_DOUBLE_(fontscale,contextptr)+","+print_DOUBLE_(-ratio*fontscale,contextptr)+")\" style=\"font-size:1.0pt; text-anchor:end;\">"
-      +legende
-      +"</text>\n";
+      +"\" transform=\"translate(0,"+print_DOUBLE_(ymin+ymax,contextptr)+") scale("+print_DOUBLE_(fontscale,contextptr)+","+print_DOUBLE_(-ratio*fontscale,contextptr)+")\" style=\"font-size:1.0pt; text-anchor:";
+    if (attr.labelpos==0 || attr.labelpos==3)
+      res = res +"start;\">";
+    else
+      res = res +"end;\">";
+    res = res +legende +"</text>\n";
     return res;
   }
   
@@ -1277,7 +1281,7 @@ namespace giac {
 	    return 0;
 	});
 #endif
-      svg_attribut attr={ysurx,color,width+1,epaisseur_point,type_line,type_point,fill_polygon,hidden_name,ie};
+      svg_attribut attr={ysurx,color,width+1,epaisseur_point,type_line,type_point,labelpos,fill_polygon,hidden_name,ie};
       if(v.size()==3)
 	name=v[2].print(contextptr);
       if (v[0].type==_VECT){
