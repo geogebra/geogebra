@@ -870,15 +870,21 @@ public class EuclidianPen implements GTimerListener {
 		AlgoElement algo;
 		// don't set label
 		Kernel kernelA = app.getKernel();
-		AlgoElement newPolyLine = app.getKernel().getAlgoDispatcher()
-				.getStrokeAlgo(newPts);
-		if (!absoluteScreenPosition) {
 
+		if (!absoluteScreenPosition) {
+			if (lastAlgo instanceof AlgoLocusStroke) {
+				((AlgoLocusStroke) lastAlgo).updatePointArray(newPts);
+				lastAlgo.getOutput(0).updateCascade();
+				return;
+			}
+			AlgoElement newPolyLine = app.getKernel().getAlgoDispatcher()
+					.getStrokeAlgo(newPts);
 			// set label
 			newPolyLine.getOutput(0).setLabel(null);
 			algo = newPolyLine;
 		} else {
-
+			AlgoElement newPolyLine = app.getKernel().getAlgoDispatcher()
+					.getStrokeAlgo(newPts);
 
 			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 
@@ -908,7 +914,7 @@ public class EuclidianPen implements GTimerListener {
 					screenCorner1, screenCorner3);
 		}
 
-		newPolyLine.getOutput(0).setTooltipMode(GeoElement.TOOLTIP_OFF);
+		algo.getOutput(0).setTooltipMode(GeoElement.TOOLTIP_OFF);
 
 		if (lastAlgo == null) {
 			// lastPolyLine = new AlgoStrokeInterface(cons, null, newPts);

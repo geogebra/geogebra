@@ -569,8 +569,7 @@ public class ModeDeleteLocus extends ModeDelete {
 					&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 				((AlgoLocusStroke) gps.getParentAlgorithm())
 						.updateFrom(dataPoints);
-
-				gps.notifyUpdate();
+			gps.notifyUpdate();
 			}
 
 	}

@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
 
@@ -48,26 +47,6 @@ public class AlgoLocusStroke extends AlgoElement
 	 * @param points
 	 *            vertices of the polygon
 	 */
-	public AlgoLocusStroke(Construction cons, GeoPointND[] points) {
-		super(cons);
-		poly = new GeoLocusStroke(this.cons);
-		updatePointArray(points);
-		// poly = new GeoPolygon(cons, points);
-		// updatePointArray already covered compute
-		input = new GeoElement[1];
-		// for (int i = 0; i < points.length; i++) {
-		// input[i] = (GeoElement) points[i];
-		// }
-
-		input[0] = new GeoBoolean(cons, true); // dummy to
-															// force
-															// PolyLine[...,
-															// true]
-
-		setInputOutput(); // for AlgoElement
-
-	}
-
 	public AlgoLocusStroke(Construction cons, List<MyPoint> points) {
 		super(cons);
 		poly = new GeoLocusStroke(this.cons);
@@ -199,20 +178,6 @@ public class AlgoLocusStroke extends AlgoElement
 					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 			}
 		}
-	}
-
-	public void updatePointArray(GeoPointND[] data) {
-		// check if we have a point list
-		// create new points array
-		int size = data.length;
-		ArrayList<MyPoint> myPoints = new ArrayList<>(size);
-		// to use bezier curve we need at least 2 points
-		// stroke is: (A),(?),(A),(B) -> size 4
-
-		for (int i = 0; i < size; i++) {
-			myPoints.add(new MyPoint(data[i].getInhomX(), data[i].getInhomY()));
-		}
-		updatePointArray(myPoints);
 	}
 
 	// returns the part of array started at index until first undef point
@@ -394,7 +359,7 @@ public class AlgoLocusStroke extends AlgoElement
 			}
 		}
 		poly.resetPointsWithoutControl();
-		getOutput(0).update();
+		getOutput(0).updateCascade();
 	}
 
 	/**
