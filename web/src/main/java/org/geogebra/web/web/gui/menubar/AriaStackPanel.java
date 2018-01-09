@@ -409,7 +409,8 @@ public class AriaStackPanel extends ComplexPanel
 			return;
 		}
 		Element head = headers.get(index);
-		head.setAttribute("alt", label);
+		Element li = head.getParentElement();
+		li.setAttribute("aria-label", label);
 		if (expanded != null) {
 			head.setAttribute("aria-expanded", expanded.toString());
 		}
