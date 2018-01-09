@@ -421,7 +421,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					}
 				}
 
-				if (so.noOfOperands() == 2 && so.getSubTree(0).isCube() && so.getSubTree(1).isCube()) {
+				if (so.noOfOperands() == 2 && so.getSubTree(0).isCube() && so.getSubTree(1).isCube()
+						&& !tracker.isWeakFactor()) {
 					StepExpression a = so.getSubTree(0).getCubeRoot();
 					StepExpression b = so.getSubTree(1).getCubeRoot();
 

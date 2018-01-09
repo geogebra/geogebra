@@ -137,6 +137,22 @@ public class SolutionStep {
 		}
 	}
 
+	/**
+	 * the complexity of a solution is simply the total number of steps
+	 * @return complexity of solution
+	 */
+	public int getComplexity() {
+		int complexity = 1;
+
+		if (substeps != null) {
+			for(SolutionStep step : substeps) {
+				complexity += step.getComplexity();
+			}
+		}
+
+		return complexity;
+	}
+
 	public List<SolutionStep> getSubsteps() {
 		return substeps;
 	}

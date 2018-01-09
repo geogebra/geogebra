@@ -23,9 +23,13 @@ public enum SolutionStepType {
 
 	FACTOR("FactorA", "Factor %0"),
 
-	SOLVE("Solve", "Solve: %0 for %1"),
+	SOLVE("Solve", "Solve %0"),
+
+	SOLVE_FOR("SolveFor", "Solve %0 for %1"),
 
 	SOLVE_IN("SolveIn", "Solve %0 in %1"),
+
+	SOLVE_WHEN("SolveWhen", "Solve %0 when %1"),
 
 	CANT_SOLVE("CantSolve", "Cannot Solve"),
 
@@ -117,6 +121,8 @@ public enum SolutionStepType {
 
 	REPLACE_WITH("ReplaceAWithB", "Replace %0 with %1"),
 
+	REPLACE_WITH_AND_REGROUP("ReplaceAWithBAndRegroup", "Replace %0 with %1 and regroup"),
+
 	RATIONAL_ROOT_THEOREM("RationalRootTheorem",
 			"A polynomial equation with integer coefficients has all of its rational roots in the form p/q, where p divides the constant term and q divides the coefficient of the highest order term"),
 
@@ -139,6 +145,8 @@ public enum SolutionStepType {
 	RATIONALIZE_DENOMINATOR("RationalizeDenominator", "Rationalize the denominator."),
 
 	MULTIPLY_NUM_DENOM("MultiplyNumeratorAndDenominator", "Mutiply the numerator and denominator by %0"),
+
+	DISTRIBUTE_POWER_FRAC("DistributePowerOverFraction", "Distribute power over fraction"),
 
 	DISTRIBUTE_ROOT_FRAC("DistributeRootOverFraction", "Distribute the root over the fraction"),
 

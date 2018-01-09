@@ -13,13 +13,14 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public enum ExpandSteps implements SimplificationStepGenerator {
 
 	EXPAND_PRODUCTS {
 		@Override 
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.MULTIPLY) && tracker.getDenominatorSetting()) {
+			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
 				StepExpression firstMultiplicand = null;
@@ -39,6 +40,13 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 				if (firstMultiplicand != null && secondMultiplicand != null) {
 					StepOperation product = new StepOperation(Operation.PLUS);
+
+					if (!(firstMultiplicand.isInteger() || tracker.getExpandSettings())) {
+						return sn;
+					}
+
+					Log.error(firstMultiplicand + "");
+					Log.error(tracker.getExpandSettings() + "");
 
 					if (firstMultiplicand.isOperation(Operation.PLUS)
 							&& StepHelper.countOperation(secondMultiplicand, Operation.DIVIDE) == 0) {

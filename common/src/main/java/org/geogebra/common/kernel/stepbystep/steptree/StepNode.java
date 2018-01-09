@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import java.util.Set;
 
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -16,7 +15,6 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 public abstract class StepNode {
 
@@ -55,8 +53,8 @@ public abstract class StepNode {
 	public void setColor(int color) {
 		this.color = color;
 		if (this instanceof StepOperation) {
-			for (int i = 0; i < ((StepOperation) this).noOfOperands(); i++) {
-				((StepOperation) this).getSubTree(i).setColor(color);
+			for (StepExpression operand : (StepOperation) this) {
+				operand.setColor(color);
 			}
 		} else if (this instanceof StepSolvable) {
 			((StepSolvable) this).getLHS().setColor(color);
@@ -158,9 +156,6 @@ public abstract class StepNode {
 				so.addSubTree((StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
 				return so;
 			}
-		}
-		if (ev instanceof Command) {
-			Log.error(((Command) ev).getName());
 		}
 		if (ev instanceof Equation) {
 			StepNode LHS = convertExpression(((Equation) ev).getLHS());
@@ -270,6 +265,44 @@ public abstract class StepNode {
 			power = gcd(power, currentPower);
 		}
 		return power;
+	}
+
+	public boolean isPolynomial(StepVariable variable) {
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isConstantIn(variable) || so.isMonom()) {
+				return true;
+			}
+
+			if (so.isOperation(Operation.PLUS)) {
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					if (!so.getSubTree(i).isPolynomial(variable)) {
+						return false;
+					}
+				}
+				return true;
+			}
+
+			if (so.isOperation(Operation.MULTIPLY) && so.noOfOperands() == 2) {
+				return so.getSubTree(0).isConstant() && so.getSubTree(1).isMonom() ||
+						so.getSubTree(1).isConstant() && so.getSubTree(0).isMonom();
+			}
+
+			if (so.isOperation(Operation.MINUS)) {
+				return so.getSubTree(0).isPolynomial(variable) &&
+						!so.getSubTree(0).isOperation(Operation.PLUS);
+			}
+
+			return false;
+		}
+
+		if (this instanceof StepSolvable) {
+			StepSolvable ss = (StepSolvable) this;
+			return ss.getLHS().isPolynomial(variable) && ss.getRHS().isPolynomial(variable);
+		}
+
+		return this instanceof StepExpression;
 	}
 
 	public static StepExpression add(StepExpression a, StepExpression b) {

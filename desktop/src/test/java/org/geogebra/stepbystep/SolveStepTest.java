@@ -39,6 +39,8 @@ public class SolveStepTest {
 
 	@Test
 	public void multipleVariables() {
+		t("x^2 + y^2", "1", "x", "nroot((1-(y)^(2)), 2)", "-nroot((1-(y)^(2)), 2)");
+		t("x^2 + y^2", "1", "y", "nroot((1-(x)^(2)), 2)", "-nroot((1-(x)^(2)), 2)");
 		t("3x + 2y", "1", "x", "((1-(2)(y)))/(3)");
 		t("3x + 2y", "1", "y", "((1-(3)(x)))/(2)");
 	}
@@ -83,6 +85,7 @@ public class SolveStepTest {
 
 	@Test
 	public void quadraticEquations() {
+		t("((1-2y)/3)^2 + y^2", "1", "y", "((2 + (6)(nroot(3, 2))))/(13)", "((2-(6)(nroot(3, 2))))/(13)");
 		t("x^2+4", "4x", "x", "2");
 		t("x^2+3x+1", "x-1", "x");
 		t("x-1", "x^2+3x+1", "x");

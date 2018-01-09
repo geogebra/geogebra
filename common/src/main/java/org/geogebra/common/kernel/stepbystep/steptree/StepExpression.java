@@ -86,6 +86,8 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return isConstantIn(null);
 	}
 
+	public abstract int degree(StepVariable var);
+
 	public abstract boolean isConstantIn(StepVariable sv);
 
 	/**
@@ -164,7 +166,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return whether the current node is an integer (not Integer..)
 	 */
 	public boolean isInteger() {
-		return isEqual(Math.round(getValue()), getValue());
+		return canBeEvaluated() && isEqual(Math.round(getValue()), getValue());
 	}
 
 	/**
@@ -191,7 +193,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	}
 
 	public boolean integerCoefficients(StepVariable sv) {
-		if (isPolynomial(this)) {
+		if (isPolynomial(sv)) {
 			StepExpression[] coefficients = convertToPolynomial(this, sv);
 
 			for (StepExpression coefficient : coefficients) {
@@ -398,16 +400,21 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 */
 	public StepExpression replace(StepExpression from, StepExpression to) {
 		if (equals(from)) {
-			return to;
+			return to.deepCopy();
 		}
 		if (this instanceof StepOperation) {
 			StepOperation so = new StepOperation(((StepOperation) this).getOperation());
-			for (int i = 0; i < ((StepOperation) this).noOfOperands(); i++) {
-				so.addSubTree(((StepOperation) this).getSubTree(i).replace(from, to));
+			for (StepExpression operand : (StepOperation) this) {
+				so.addSubTree(operand.replace(from, to));
 			}
 			return so;
 		}
-		return this;
+		return deepCopy();
+	}
+
+	public boolean isProduct() {
+		return isOperation(Operation.MULTIPLY) ||
+				isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).isProduct();
 	}
 
 	/**
@@ -424,7 +431,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		StepExpression temp = StepHelper.findConstantIn(toConvert, var);
 		poli.add(temp);
 
-		for (int pow = 1; pow <= StepHelper.degree(toConvert); pow++) {
+		for (int pow = 1; pow <= toConvert.degree(var); pow++) {
 			poli.add(StepHelper.findCoefficient(toConvert, (pow == 1 ? var : power(var, pow))));
 		}
 
@@ -435,41 +442,16 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * a monom is an expression of the form x^n, where n is an integer, or a simple
 	 * integer
 	 * 
-	 * @return whether sn is a monom
+	 * @return whether the expression is a monom
 	 */
-	private static boolean isMonom(StepExpression sn) {
-		if (sn.isOperation(Operation.POWER)) {
-			StepOperation so = (StepOperation) sn;
+	public boolean isMonom() {
+		if (isOperation(Operation.POWER)) {
+			StepOperation so = (StepOperation) this;
 
 			return so.getSubTree(0) instanceof StepVariable && closeToAnInteger(so.getSubTree(1));
 		}
 
-		return sn instanceof StepVariable || sn instanceof StepConstant;
-	}
-
-	public static boolean isPolynomial(StepExpression sn) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
-
-			if (so.isOperation(Operation.PLUS)) {
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					if (!isPolynomial(so.getSubTree(i))) {
-						return false;
-					}
-				}
-				return true;
-			}
-
-			if (so.isOperation(Operation.MULTIPLY) && so.noOfOperands() == 2) {
-				return so.getSubTree(0).isConstant() && isMonom(so.getSubTree(1));
-			}
-
-			if (so.isOperation(Operation.MINUS)) {
-				return isPolynomial(so.getSubTree(0)) && !so.getSubTree(0).isOperation(Operation.PLUS);
-			}
-		}
-
-		return sn.isConstant() || isMonom(sn);
+		return this instanceof StepVariable || this instanceof StepConstant;
 	}
 
 	/**
@@ -482,7 +464,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return the quotient of the two polynomials, null if they can not be divided
 	 */
 	public static StepExpression polynomialDivision(StepExpression r, StepExpression d, StepVariable var) {
-		if (!isPolynomial(r) || !isPolynomial(d)) {
+		if (!r.isPolynomial(var) || !d.isPolynomial(var)) {
 			return null;
 		}
 

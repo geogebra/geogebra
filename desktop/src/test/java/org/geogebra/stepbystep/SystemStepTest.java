@@ -41,6 +41,11 @@ public class SystemStepTest {
         t(new String[] { "3x + 2y = 1", "2x + 3y = 2"}, new String[] {});
     }
 
+    @Test
+    public void quadraticLinear() {
+        t(new String[] { "3x + 2y = 1", "x^2 + y^2 = 1"}, new String[] {});
+    }
+
     public void t(String[] equations, String[] expectedSolutions) {
         if (needsHeading) {
             Throwable t = new Throwable();

@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -12,7 +11,10 @@ public class StepSet extends StepNode implements Iterable<StepNode> {
 	private Set<StepNode> elements;
 
 	public StepSet(StepNode... elements) {
-		this.elements = new HashSet<>(Arrays.asList(elements));
+		this.elements = new HashSet<>();
+		for (StepNode element : elements) {
+			this.elements.add(element.deepCopy());
+		}
 	}
 
 	public StepNode[] getElements() {

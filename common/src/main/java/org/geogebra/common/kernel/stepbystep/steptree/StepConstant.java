@@ -55,6 +55,11 @@ public final class StepConstant extends StepExpression {
 	}
 
 	@Override
+	public int degree(StepVariable var) {
+		return 0;
+	}
+
+	@Override
 	public boolean canBeEvaluated() {
 		return true;
 	}

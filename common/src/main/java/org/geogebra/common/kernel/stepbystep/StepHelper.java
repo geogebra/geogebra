@@ -161,7 +161,7 @@ public class StepHelper {
 	 *            expression to find
 	 * @return the coefficient of expr in the tree
 	 */
-	public static StepExpression findCoefficient(StepExpression sn, StepExpression expr) {
+	public static StepExpression findCoefficient(StepNode sn, StepExpression expr) {
 		if (sn != null && sn.equals(expr)) {
 			return StepConstant.create(1);
 		}
@@ -200,6 +200,11 @@ public class StepHelper {
 				return StepNode.divide(nominator, so.getSubTree(1));
 			}
 		}
+		if (sn instanceof StepEquation) {
+			StepEquation se = (StepEquation) sn;
+			return StepNode.subtract(findCoefficient(se.getLHS(), expr), findCoefficient(se.getRHS(), expr));
+		}
+
 		return null;
 	}
 
@@ -210,7 +215,7 @@ public class StepHelper {
 	 *            expression to find
 	 * @return whether sn contains expr
 	 */
-	private static boolean containsExpression(StepExpression sn, StepExpression expr) {
+	private static boolean containsExpression(StepNode sn, StepExpression expr) {
 		if (sn != null && sn.equals(expr)) {
 			return true;
 		}
@@ -323,25 +328,6 @@ public class StepHelper {
 		}
 	}
 
-	public static boolean canBeReducedToQuadratic(StepExpression sn, StepExpression variable) {
-		int degree = degree(sn);
-
-		if (degree % 2 != 0) {
-			return false;
-		}
-
-		for (int i = 1; i < degree; i++) {
-			if (i != degree / 2) {
-				StepExpression coeff = findCoefficient(sn, StepNode.power(variable, i));
-				if (!isZero(coeff)) {
-					return false;
-				}
-			}
-		}
-
-		return true;
-	}
-
 	public static boolean shouldReciprocate(StepExpression sn) {
 		if (sn.isOperation(Operation.DIVIDE)) {
 			StepOperation so = (StepOperation) sn;
@@ -352,16 +338,17 @@ public class StepHelper {
 		return sn.isConstant();
 	}
 
-	public static StepOperation findInverse(StepNode sn) {
+	public static StepOperation findInverse(StepNode sn, StepVariable var) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.isOperation(Operation.DIVIDE) && so.getSubTree(0).isConstant() && !so.getSubTree(1).isConstant()) {
+			if (so.isOperation(Operation.DIVIDE) && so.getSubTree(0).isConstantIn(var) &&
+					!so.getSubTree(1).isConstantIn(var)) {
 				return (StepOperation) sn;
 			}
 
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				StepOperation inverse = findInverse(so.getSubTree(i));
+				StepOperation inverse = findInverse(so.getSubTree(i), var);
 				if (inverse != null) {
 					return inverse;
 				}
@@ -370,26 +357,26 @@ public class StepHelper {
 		} else if (sn instanceof StepSolvable) {
 			StepSolvable se = (StepSolvable) sn;
 
-			StepOperation temp = findInverse(se.getLHS());
+			StepOperation temp = findInverse(se.getLHS(), var);
 			if (temp != null) {
 				return temp;
 			}
 
-			return findInverse(se.getRHS());
+			return findInverse(se.getRHS(), var);
 		}
 
 		return null;
 	}
 
-	public static StepOperation linearInInverse(StepSolvable se) {
-		StepOperation inverse = findInverse(se);
+	public static StepOperation linearInInverse(StepSolvable se, StepVariable var) {
+		StepOperation inverse = findInverse(se, var);
 
 		StepSolvable withVariable = se.deepCopy();
-		withVariable.replace(inverse, new StepVariable("x"));
+		withVariable.replace(inverse, new StepVariable("a"));
 		StepSolvable withConstant = se.deepCopy();
 		withConstant.replace(inverse, StepConstant.create(1));
 
-		if (inverse != null && degree(withVariable) == 1 && degree(withConstant) == 0) {
+		if (inverse != null && withVariable.degree(new StepVariable("a")) == 1 && withConstant.degree(var) == 0) {
 			return inverse;
 		}
 
@@ -414,23 +401,24 @@ public class StepHelper {
 		return StepNode.multiply(a, b);
 	}
 
-	public static int countNonConstOperation(StepNode sn, Operation operation) {
+	public static int countNonConstOperation(StepNode sn, Operation operation, StepVariable variable) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
 
-			if (so.isOperation(operation) && !so.isConstant()) {
+			if (so.isOperation(operation) && !so.isConstantIn(variable)) {
 				return 1;
 			}
 
 			int operations = 0;
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				operations += countNonConstOperation(so.getSubTree(i), operation);
+				operations += countNonConstOperation(so.getSubTree(i), operation, variable);
 			}
 			return operations;
 		} else if (sn instanceof StepSolvable) {
 			StepSolvable se = (StepSolvable) sn;
 
-			return countNonConstOperation(se.getLHS(), operation) + countNonConstOperation(se.getRHS(), operation);
+			return countNonConstOperation(se.getLHS(), operation, variable) +
+					countNonConstOperation(se.getRHS(), operation, variable);
 		}
 
 		return 0;
@@ -503,7 +491,9 @@ public class StepHelper {
 
 	public static StepOperation linearInTrigonometric(StepExpression sn) {
 		StepOperation trigoVar = findTrigonometricVariable(sn);
-		int degree = degree(sn.deepCopy().replace(trigoVar, new StepVariable("x")));
+		StepVariable toReplace = new StepVariable("x");
+
+		int degree = sn.deepCopy().replace(trigoVar, toReplace).degree(toReplace);
 
 		if (degree == 1) {
 			return trigoVar;
@@ -514,7 +504,9 @@ public class StepHelper {
 
 	public static StepOperation quadraticInTrigonometric(StepExpression sn) {
 		StepOperation trigoVar = findTrigonometricVariable(sn);
-		int degree = degree(sn.deepCopy().replace(trigoVar, new StepVariable("x")));
+		StepVariable toReplace = new StepVariable("x");
+
+		int degree = sn.deepCopy().replace(trigoVar, toReplace).degree(toReplace);
 
 		if (degree == 2) {
 			return trigoVar;
@@ -600,85 +592,6 @@ public class StepHelper {
 			e.printStackTrace();
 			return new StepSet();
 		}
-	}
-
-	public static int degree(StepNode sn) {
-		if (sn instanceof StepVariable) {
-			return 1;
-		} else if (sn instanceof StepConstant || sn instanceof StepArbitraryConstant) {
-			return 0;
-		} else if (sn instanceof StepSolvable) {
-			int degreeLHS = degree(((StepSolvable) sn).getLHS());
-			int degreeRHS = degree(((StepSolvable) sn).getRHS());
-			
-			if (degreeLHS == -1 || degreeRHS == -1) {
-				return -1;
-			}
-
-			return Math.max(degreeLHS, degreeRHS);
-		} else if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
-
-			if (so.isTrigonometric() || so.isInverseTrigonometric()) {
-				if (so.isConstant()) {
-					return 0;
-				}
-				return -1;
-			}
-
-			switch (so.getOperation()) {
-			case MINUS:
-				return degree(so.getSubTree(0));
-			case PLUS:
-				int max = 0;
-
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					int temp = degree(so.getSubTree(i));
-					if (temp == -1) {
-						return -1;
-					} else if (temp > max) {
-						max = temp;
-					}
-				}
-
-				return max;
-			case POWER:
-				int temp = degree(so.getSubTree(0));
-				if (temp == -1) {
-					return -1;
-				}
-				if (StepNode.closeToAnInteger(so.getSubTree(1).getValue())) {
-					return (int) (temp * so.getSubTree(1).getValue());
-				}
-				return -1;
-			case MULTIPLY:
-				int p = 0;
-
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					int tmp = degree(so.getSubTree(i));
-					if (tmp == -1) {
-						return -1;
-					}
-					p += tmp;
-				}
-
-				return p;
-			case DIVIDE:
-				if (!so.getSubTree(1).isConstant()) {
-					return -1;
-				}
-				return degree(so.getSubTree(0));
-			case NROOT:
-				if (so.getSubTree(0).isConstant()) {
-					return 0;
-				}
-				return -1;
-			case PLUSMINUS:
-				return -1;
-			}
-		}
-
-		return -1;
 	}
 
 	public static StepExpression LCM(StepExpression a, StepExpression b) {

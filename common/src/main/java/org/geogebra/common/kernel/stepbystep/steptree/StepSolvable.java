@@ -73,6 +73,17 @@ public abstract class StepSolvable extends StepNode {
 
 	public abstract StepSolvable deepCopy();
 
+	public int degree(StepVariable var) {
+		int degreeLHS = LHS.degree(var);
+		int degreeRHS = RHS.degree(var);
+
+		if (degreeLHS == -1 || degreeRHS == -1) {
+			return -1;
+		}
+
+		return Math.max(degreeLHS, degreeRHS);
+	}
+
 	public StepExpression getLHS() {
 		return LHS;
 	}

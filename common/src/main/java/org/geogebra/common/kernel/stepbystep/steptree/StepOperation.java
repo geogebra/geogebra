@@ -80,12 +80,6 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	}
 
 	private void sort() {
-		for (int i = 0; i < noOfOperands(); i++) {
-			if (getSubTree(i) instanceof StepOperation) {
-				((StepOperation) getSubTree(i)).sort();
-			}
-		}
-
 		if (isOperation(Operation.PLUS) || isOperation(Operation.MULTIPLY)) {
 			subtrees.sort(new Comparator<StepExpression>() {
 				@Override
@@ -117,6 +111,63 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		}
 
 		return true;
+	}
+
+	@Override
+	public int degree(StepVariable var) {
+		if (isConstantIn(var)) {
+			return 0;
+		}
+
+		switch (operation) {
+			case MINUS:
+				return getSubTree(0).degree(var);
+			case PLUS:
+				int max = 0;
+
+				for (StepExpression operand : this) {
+					int temp = operand.degree(var);
+					if (temp == -1) {
+						return -1;
+					} else if (temp > max) {
+						max = temp;
+					}
+				}
+
+				return max;
+			case POWER:
+				int temp = getSubTree(0).degree(var);
+				if (temp == -1) {
+					return -1;
+				}
+				if (closeToAnInteger(getSubTree(1).getValue())) {
+					return (int) (temp * getSubTree(1).getValue());
+				}
+				return -1;
+			case MULTIPLY:
+				int p = 0;
+
+				for (StepExpression operand : this) {
+					int tmp = operand.degree(var);
+					if (tmp == -1) {
+						return -1;
+					}
+					p += tmp;
+				}
+
+				return p;
+			case DIVIDE:
+				if (!getSubTree(1).isConstant()) {
+					return -1;
+				}
+				return getSubTree(0).degree(var);
+			case NROOT:
+				if (getSubTree(0).isConstant()) {
+					return 0;
+				}
+		}
+
+		return -1;
 	}
 
 	@Override
@@ -233,11 +284,10 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			StringBuilder ss = new StringBuilder();
 			ss.append("(");
 			for (int i = 0; i < subtrees.size(); i++) {
-				String temp = subtrees.get(i).toString();
-				if (i != 0 && temp.charAt(0) != '-') {
+				if (i != 0 && !subtrees.get(i).isOperation(Operation.MINUS)) {
 					ss.append(" + ");
 				}
-				ss.append(temp);
+				ss.append(subtrees.get(i).toString());
 			}
 			if (subtrees.size() == 0) {
 				ss.append("0");

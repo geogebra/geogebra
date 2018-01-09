@@ -252,6 +252,31 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	DISTRIBUTE_POWER_OVER_FRACION {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.POWER)) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.getSubTree(0).isOperation(Operation.DIVIDE)) {
+					StepExpression numerator = power(((StepOperation) so.getSubTree(0)).getSubTree(0), so.getSubTree
+							(1));
+					StepExpression denominator = power(((StepOperation) so.getSubTree(0)).getSubTree(1),
+							so.getSubTree(1));
+
+					StepExpression result = divide(numerator, denominator);
+					so.setColor(tracker.getColorTracker());
+					result.setColor(tracker.getColorTracker());
+					sb.add(SolutionStepType.DISTRIBUTE_POWER_FRAC, tracker.incColorTracker());
+
+					return result;
+				}
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
 	DISTRIBUTE_ROOT_OVER_FRACTION {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -1198,7 +1223,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 			if (tempTracker.wasChanged()) {
 				SolutionBuilder rationalizationSteps = new SolutionBuilder();
-				RegroupTracker denominatorTracker = new RegroupTracker().setOnlyInDenominator();
+				RegroupTracker denominatorTracker = new RegroupTracker().setInDenominator();
 
 				String old, current = null;
 				StepNode result = sn;

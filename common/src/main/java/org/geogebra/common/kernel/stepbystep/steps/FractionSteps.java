@@ -124,17 +124,28 @@ public enum FractionSteps implements SimplificationStepGenerator {
     ADD_FRACTIONS {
         @Override
         public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-            SimplificationStepGenerator[] fractionAddition = new SimplificationStepGenerator[] { EXPAND_FRACTIONS,
-                    ADD_NUMERATORS, RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.REGROUP_SUMS,
-                    RegroupSteps.SIMPLIFY_FRACTIONS };
+            SimplificationStepGenerator[] fractionAddition = new SimplificationStepGenerator[] {
+                    EXPAND_FRACTIONS,
+                    ADD_NUMERATORS,
+                    RegroupSteps.REGROUP_PRODUCTS,
+                    RegroupSteps.REGROUP_SUMS,
+                    RegroupSteps.SIMPLIFY_FRACTIONS,
+                    ExpandSteps.EXPAND_PRODUCTS
+            };
+
+            RegroupTracker tempTracker = new RegroupTracker();
+            if (!tracker.isIntegerFractions()) {
+                tempTracker.unsetIntegerFractions();
+            }
 
             SolutionBuilder tempSteps = new SolutionBuilder();
 
-            StepNode tempTree = EXPAND_FRACTIONS.apply(sn.deepCopy(), tempSteps, tracker);
-            ADD_NUMERATORS.apply(tempTree, tempSteps, tracker);
+            StepNode tempTree = EXPAND_FRACTIONS.apply(sn.deepCopy(), tempSteps, tempTracker);
+            ADD_NUMERATORS.apply(tempTree, tempSteps, tempTracker);
 
-            if (tracker.wasChanged()) {
-                tracker.resetTracker();
+            if (tempTracker.wasChanged()) {
+                tempTracker.resetTracker();
+                tempTracker.setInNumerator();
 
                 SolutionBuilder additionSteps = new SolutionBuilder();
 
@@ -142,7 +153,7 @@ public enum FractionSteps implements SimplificationStepGenerator {
                 String old, current = null;
 
                 do {
-                    result = StepStrategies.implementStrategy(result, additionSteps, fractionAddition, tracker);
+                    result = StepStrategies.implementStrategy(result, additionSteps, fractionAddition, tempTracker);
 
                     old = current;
                     current = result.toString();

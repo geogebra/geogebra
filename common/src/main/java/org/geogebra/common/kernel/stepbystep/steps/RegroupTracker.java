@@ -4,19 +4,28 @@ public class RegroupTracker {
 
 	private int colorTracker;
 
-	private boolean onlyInDenominator;
 	private boolean weakFactor;
 	private boolean integerFractions;
+	private boolean strongExpand;
 
+	private boolean inNumerator;
 	private boolean inDenominator;
+
+	private boolean currentlyInNumerator;
+	private boolean currentlyInDenominator;
 
 	public RegroupTracker() {
 		this.colorTracker = 1;
 		this.integerFractions = true;
 	}
 
-	public RegroupTracker setOnlyInDenominator() {
-		this.onlyInDenominator = true;
+	public RegroupTracker setInNumerator() {
+		this.inNumerator = true;
+		return this;
+	}
+
+	public RegroupTracker setInDenominator() {
+		this.inDenominator = true;
 		return this;
 	}
 
@@ -25,17 +34,26 @@ public class RegroupTracker {
 		return this;
 	}
 
-	public RegroupTracker setIntegerFractions() {
+	public RegroupTracker unsetIntegerFractions() {
 		this.integerFractions = false;
 		return this;
 	}
 
-	public void setDenominator(boolean inDenominator) {
-		this.inDenominator = inDenominator;
+	public RegroupTracker setStrongExpand() {
+		this.strongExpand = true;
+		return this;
 	}
 
-	public boolean getDenominatorSetting() {
-		return !onlyInDenominator || inDenominator;
+	public void setNumerator(boolean inNumerator){
+		this.currentlyInNumerator = inNumerator;
+	}
+
+	public void setDenominator(boolean inDenominator) {
+		this.currentlyInDenominator = inDenominator;
+	}
+
+	public boolean getExpandSettings() {
+		return strongExpand || (inNumerator && currentlyInNumerator) || (inDenominator && currentlyInDenominator);
 	}
 
 	public boolean isWeakFactor() {
@@ -64,6 +82,6 @@ public class RegroupTracker {
 
 	public void resetTracker() {
 		this.colorTracker = 1;
-		this.inDenominator = false;
+		this.currentlyInDenominator = false;
 	}
 }

@@ -11,7 +11,10 @@ public class StepEquationSystem extends StepNode {
     private StepEquation[] equations;
 
     public StepEquationSystem(StepEquation... equations) {
-        this.equations = equations;
+        this.equations = new StepEquation[equations.length];
+        for (int i = 0; i < equations.length; i++) {
+            this.equations[i] = equations[i].deepCopy();
+        }
     }
 
     @Override

@@ -37,6 +37,15 @@ public class StepVariable extends StepExpression {
 	}
 
 	@Override
+	public int degree(StepVariable sv) {
+		if (this.equals(sv)) {
+			return 1;
+		}
+
+		return 0;
+	}
+
+	@Override
 	public boolean canBeEvaluated() {
 		return false;
 	}

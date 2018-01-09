@@ -10,16 +10,34 @@ import org.geogebra.common.util.debug.Log;
 public class StepStrategies {
 
 	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] { RegroupSteps.CALCULATE_INVERSE_TRIGO,
-				RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION, RegroupSteps.EXPAND_ROOT, RegroupSteps.COMMON_ROOT,
-				RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS, RegroupSteps.SIMPLE_POWERS, RegroupSteps.SIMPLE_ROOTS,
-				RegroupSteps.FACTOR_SQUARE, RegroupSteps.ELIMINATE_OPPOSITES, RegroupSteps.NEGATIVE_FRACTIONS,
-				RegroupSteps.MULTIPLY_NEGATIVES, RegroupSteps.DISTRIBUTE_MINUS,
-				RegroupSteps.DOUBLE_MINUS, RegroupSteps.TRIVIAL_FRACTIONS, RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
-				RegroupSteps.SIMPLIFY_FRACTIONS, RegroupSteps.COMMON_FRACTION, RegroupSteps
-				.DISTRIBUTE_POWER_OVER_PRODUCT, RegroupSteps.REGROUP_SUMS,
-				RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.FACTOR_FRACTIONS_SUBSTEP, RegroupSteps
-				.RATIONALIZE_DENOMINATORS, FractionSteps.ADD_FRACTIONS,	RegroupSteps.POWER_OF_NEGATIVE };
+		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+				RegroupSteps.CALCULATE_INVERSE_TRIGO,
+				RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
+				RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
+				RegroupSteps.EXPAND_ROOT,
+				RegroupSteps.COMMON_ROOT,
+				RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS,
+				RegroupSteps.SIMPLE_POWERS,
+				RegroupSteps.SIMPLE_ROOTS,
+				RegroupSteps.FACTOR_SQUARE,
+				RegroupSteps.ELIMINATE_OPPOSITES,
+				RegroupSteps.NEGATIVE_FRACTIONS,
+				RegroupSteps.MULTIPLY_NEGATIVES,
+				RegroupSteps.DISTRIBUTE_MINUS,
+				RegroupSteps.DOUBLE_MINUS,
+				RegroupSteps.TRIVIAL_FRACTIONS,
+				RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
+				RegroupSteps.SIMPLIFY_FRACTIONS,
+				RegroupSteps.COMMON_FRACTION,
+				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
+				RegroupSteps.REGROUP_SUMS,
+				RegroupSteps.REGROUP_PRODUCTS,
+				RegroupSteps.FACTOR_FRACTIONS_SUBSTEP,
+				RegroupSteps.RATIONALIZE_DENOMINATORS,
+				FractionSteps.ADD_FRACTIONS,
+				RegroupSteps.POWER_OF_NEGATIVE,
+				ExpandSteps.EXPAND_PRODUCTS
+		};
 
 		StepNode result = sn;
 		String old, current = null;
@@ -38,12 +56,25 @@ public class StepStrategies {
 
 	public static StepNode weakRegroup(StepNode sn, SolutionBuilder sb) {
 		SimplificationStepGenerator[] weakStrategy = new SimplificationStepGenerator[] {
-				RegroupSteps.CALCULATE_INVERSE_TRIGO, RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS, RegroupSteps.SIMPLE_POWERS,
-				RegroupSteps.SIMPLE_ROOTS, RegroupSteps.FACTOR_SQUARE, RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS,
-				RegroupSteps.ELIMINATE_OPPOSITES, RegroupSteps.NEGATIVE_FRACTIONS, RegroupSteps.DOUBLE_MINUS,
-				RegroupSteps.TRIVIAL_FRACTIONS, RegroupSteps.REWRITE_COMPLEX_FRACTIONS, RegroupSteps.COMMON_FRACTION,
-				RegroupSteps.SIMPLIFY_FRACTIONS, RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT, RegroupSteps.MULTIPLY_NEGATIVES,
-				RegroupSteps.REGROUP_SUMS, RegroupSteps.REGROUP_PRODUCTS, RegroupSteps.POWER_OF_NEGATIVE };
+				RegroupSteps.CALCULATE_INVERSE_TRIGO,
+				RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS,
+				RegroupSteps.SIMPLE_POWERS,
+				RegroupSteps.SIMPLE_ROOTS,
+				RegroupSteps.FACTOR_SQUARE,
+				RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS,
+				RegroupSteps.ELIMINATE_OPPOSITES,
+				RegroupSteps.NEGATIVE_FRACTIONS,
+				RegroupSteps.DOUBLE_MINUS,
+				RegroupSteps.TRIVIAL_FRACTIONS,
+				RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
+				RegroupSteps.COMMON_FRACTION,
+				RegroupSteps.SIMPLIFY_FRACTIONS,
+				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
+				RegroupSteps.MULTIPLY_NEGATIVES,
+				RegroupSteps.REGROUP_SUMS,
+				RegroupSteps.REGROUP_PRODUCTS,
+				RegroupSteps.POWER_OF_NEGATIVE
+		};
 
 		StepNode result = sn;
 		String old, current = null;
@@ -58,14 +89,16 @@ public class StepStrategies {
 
 
 	public static StepNode defaultExpand(StepNode sn, SolutionBuilder sb) {
-		SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] { ExpandSteps.EXPAND_POWERS,
-				ExpandSteps.EXPAND_PRODUCTS };
+		SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
+				ExpandSteps.EXPAND_POWERS,
+				ExpandSteps.EXPAND_PRODUCTS
+		};
 
 		StepNode result = sn;
 		String old, current = null;
 		do {
 			result = defaultRegroup(result, sb);
-			result = implementStrategy(result, sb, expandStrategy);
+			result = implementStrategy(result, sb, expandStrategy, new RegroupTracker().setStrongExpand());
 			old = current;
 			current = result.toString();
 		} while (!current.equals(old));
@@ -74,9 +107,14 @@ public class StepStrategies {
 	}
 
 	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker, boolean withRegroup) {
-		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[]{FactorSteps.FACTOR_COMMON,
-				FactorSteps.FACTOR_INTEGER, FactorSteps.FACTOR_BINOM_STRATEGY, FactorSteps.FACTOR_BINOM_CUBED,
-				FactorSteps.FACTOR_USING_FORMULA, FactorSteps.FACTOR_POLYNOMIALS };
+		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+				FactorSteps.FACTOR_COMMON,
+				FactorSteps.FACTOR_INTEGER,
+				FactorSteps.FACTOR_BINOM_STRATEGY,
+				FactorSteps.FACTOR_BINOM_CUBED,
+				FactorSteps.FACTOR_USING_FORMULA,
+				FactorSteps.FACTOR_POLYNOMIALS
+		};
 
 		StepNode result = sn;
 		String old, current = null;
@@ -100,12 +138,18 @@ public class StepStrategies {
 
 	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb) {
 		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
-				DifferentiationSteps.CONSTANT_COEFFICIENT, DifferentiationSteps.DIFFERENTIATE_SUM,
-				DifferentiationSteps.CONSTANT_COEFFICIENT, DifferentiationSteps.DIFFERENTIATE_FRACTION,
-				DifferentiationSteps.DIFFERENTIATE_POLYNOMIAL, DifferentiationSteps.DIFFERENTIATE_EXPONENTIAL,
-				DifferentiationSteps.DIFFERENTIATE_PRODUCT, DifferentiationSteps.DIFFERENTIATE_ROOT,
-				DifferentiationSteps.DIFFERENTIATE_TRIGO, DifferentiationSteps.DIFFERENTIATE_LOG,
-				DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO };
+				DifferentiationSteps.CONSTANT_COEFFICIENT,
+				DifferentiationSteps.DIFFERENTIATE_SUM,
+				DifferentiationSteps.CONSTANT_COEFFICIENT,
+				DifferentiationSteps.DIFFERENTIATE_FRACTION,
+				DifferentiationSteps.DIFFERENTIATE_POLYNOMIAL,
+				DifferentiationSteps.DIFFERENTIATE_EXPONENTIAL,
+				DifferentiationSteps.DIFFERENTIATE_PRODUCT,
+				DifferentiationSteps.DIFFERENTIATE_ROOT,
+				DifferentiationSteps.DIFFERENTIATE_TRIGO,
+				DifferentiationSteps.DIFFERENTIATE_LOG,
+				DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO
+		};
 
 		StepNode result = sn;
 		String old, current = null;
@@ -171,14 +215,28 @@ public class StepStrategies {
 	}
 
 	public static StepNode defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb) {
-		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON, EquationSteps.FACTOR,
-				EquationSteps.SOLVE_PRODUCT, EquationSteps.PLUSMINUS, EquationSteps.MULTIPLY_THROUGH,
-				EquationSteps.SOLVE_LINEAR, EquationSteps.RECIPROCATE_EQUATION,
-				EquationSteps.SOLVE_LINEAR_IN_INVERSE, EquationSteps.TAKE_ROOT, EquationSteps.COMMON_DENOMINATOR,
-				EquationSteps.EXPAND, EquationSteps.SOLVE_QUADRATIC,
-				EquationSteps.COMPLETE_CUBE, EquationSteps.REDUCE_TO_QUADRATIC, EquationSteps.SOLVE_ABSOLUTE_VALUE,
-				EquationSteps.SOLVE_IRRATIONAL, EquationSteps.SOLVE_TRIGONOMETRIC,
-				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC };
+		SolveStepGenerator[] strategy = {
+				EquationSteps.SOLVE_PRODUCT,
+				EquationSteps.REGROUP,
+				EquationSteps.SUBTRACT_COMMON,
+				EquationSteps.FACTOR,
+				EquationSteps.PLUSMINUS,
+				EquationSteps.MULTIPLY_THROUGH,
+				EquationSteps.SOLVE_LINEAR,
+				EquationSteps.RECIPROCATE_EQUATION,
+				EquationSteps.SOLVE_LINEAR_IN_INVERSE,
+				EquationSteps.TAKE_ROOT,
+				EquationSteps.COMMON_DENOMINATOR,
+				EquationSteps.EXPAND,
+				EquationSteps.SOLVE_QUADRATIC,
+				EquationSteps.COMPLETE_CUBE,
+				EquationSteps.REDUCE_TO_QUADRATIC,
+				EquationSteps.SOLVE_ABSOLUTE_VALUE,
+				EquationSteps.SOLVE_IRRATIONAL,
+				EquationSteps.SOLVE_TRIGONOMETRIC,
+				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC,
+				EquationSteps.DIFF
+		};
 
 		return implementSolveStrategy(se, sv, sb, strategy);
 	}
@@ -202,7 +260,7 @@ public class StepStrategies {
 			sb.levelDown();
 
 			if (se.getRestriction().equals(StepInterval.R)) {
-				sb.add(SolutionStepType.SOLVE, se, variable);
+				sb.add(SolutionStepType.SOLVE_FOR, se, variable);
 			} else {
 				sb.add(SolutionStepType.SOLVE_IN, se, se.getRestriction());
 			}
@@ -263,8 +321,12 @@ public class StepStrategies {
 
 			StepOperation toReturn = null;
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				if (so.isOperation(Operation.DIVIDE) && i == 1) {
-					tracker.setDenominator(true);
+				if (so.isOperation(Operation.DIVIDE)) {
+					if (i == 0) {
+						tracker.setNumerator(true);
+					} else {
+						tracker.setDenominator(true);
+					}
 				}
 
 				StepExpression a = (StepExpression) step.apply(so.getSubTree(i), sb, tracker);
@@ -279,8 +341,12 @@ public class StepStrategies {
 					toReturn.addSubTree(a);
 				}
 
-				if (so.isOperation(Operation.DIVIDE) && i == 1) {
-					tracker.setDenominator(false);
+				if (so.isOperation(Operation.DIVIDE)) {
+					if (i == 0) {
+						tracker.setNumerator(false);
+					} else {
+						tracker.setDenominator(false);
+					}
 				}
 			}
 

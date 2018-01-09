@@ -62,6 +62,11 @@ public class StepArbitraryConstant extends StepExpression {
 	}
 
 	@Override
+	public int degree(StepVariable sv) {
+		return 0;
+	}
+
+	@Override
 	public boolean canBeEvaluated() {
 		return false;
 	}
