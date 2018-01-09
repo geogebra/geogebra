@@ -277,7 +277,7 @@ public class AlgebraItem {
 	/**
 	 * @param geoElement about we should decide if the outputrow should be shown or not
 	 * @param style      current algebrastyle
-	 * @return wether the output should be shown or not
+	 * @return whether the output should be shown or not
 	 */
 	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
 		if (style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE || (style == Kernel.ALGEBRA_STYLE_DESCRIPTION && geoElement instanceof GeoNumeric && (!geoElement.isIndependent() || (geoElement.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE && geoElement.getParentAlgorithm() == null)))) {
