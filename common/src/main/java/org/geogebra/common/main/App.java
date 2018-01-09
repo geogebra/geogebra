@@ -4317,6 +4317,10 @@ public abstract class App implements UpdateSelection {
 		case KEYBOARD_BOX_ICON:
 			return true;
 
+		/** MOW-285 */
+		case MOW_BOUNDING_BOX_FOR_PEN_TOOL:
+			return prerelease && whiteboard;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

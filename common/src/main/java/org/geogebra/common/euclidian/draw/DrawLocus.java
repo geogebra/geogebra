@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
+import org.geogebra.common.main.Feature;
 
 /**
  * Drawable representation oflocus
@@ -44,6 +45,7 @@ public class DrawLocus extends Drawable {
 	private GeneralPathClippedForCurvePlotter gp;
 	private double[] labelPosition;
 	private CoordSys transformSys;
+	private BoundingBox boundingBox;
 
 	/**
 	 * Creates new drawable for given locus
@@ -137,6 +139,10 @@ public class DrawLocus extends Drawable {
 			getShape().subtract(AwtFactory.getPrototype().newArea(gp));
 		}
 
+		if (geo.getKernel().getApplication().has(
+				Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL) && getBounds() != null) {
+			getBoundingBox().setRectangle(getBounds());
+		}
 	}
 
 	@Override
@@ -264,7 +270,9 @@ public class DrawLocus extends Drawable {
 	 */
 	@Override
 	final public GRectangle getBounds() {
-		if (!geo.isDefined() || !locus.isClosedPath()
+		if (!geo.isDefined()
+				|| (!locus.isClosedPath() && !geo.getKernel().getApplication()
+						.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL))
 				|| !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
@@ -281,7 +289,13 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
+		if (geo.getKernel().getApplication()
+				.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)) {
+			if (boundingBox == null) {
+				boundingBox = new BoundingBox();
+			}
+			return boundingBox;
+		}
 		return null;
 	}
 
