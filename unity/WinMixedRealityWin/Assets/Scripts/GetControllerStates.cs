@@ -267,6 +267,21 @@ namespace HoloToolkit.Unity
             }
             */
 
+            if (TouchpadPressed)
+            {
+                print("Touchpad Pressed:)");
+            }
+
+            if (TouchpadTouched)
+            {
+                print("Touchpad Touched:)");
+            }
+
+            if (Grasped)
+            {
+                print("Grasped touched");
+            }
+
         }
     }
 }
