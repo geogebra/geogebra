@@ -4195,7 +4195,6 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleEqnStyle(LinkedHashMap<String, String> attrs) {
-
 		if (geo instanceof EquationValue) {
 			String style = attrs.get("style");
 			String parameter = attrs.get("parameter");
@@ -4211,7 +4210,6 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleCurveParam(LinkedHashMap<String, String> attrs) {
-
 		if (!(geo instanceof GeoVec3D)) {
 			Log.debug("wrong element type for <curveParam>: " + geo.getClass());
 			return false;
@@ -4240,7 +4238,6 @@ public class MyXMLHandler implements DocHandler {
 		boolean success = kernel.handleCoords(geo, attrs);
 		geo.setDefinition(def);
 		return success;
-
 	}
 
 	// for point or vector

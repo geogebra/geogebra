@@ -284,6 +284,35 @@ public abstract class CommandProcessor {
 	}
 
 	/**
+	 * @param c
+	 *            command
+	 * @param pos
+	 *            argument position
+	 * @param info
+	 *            evaluation info
+	 * @return single arg
+	 * @throws MyError
+	 *             when argument is invalid
+	 */
+	protected final GeoElement resArgSilent(Command c, int pos, EvalInfo info)
+			throws MyError {
+		boolean oldMacroMode = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+		// resolve arguments to get GeoElements
+
+		// resolve variables in argument expression
+		c.getArgument(pos).resolveVariables(info.withLabels(false));
+
+		// resolve i-th argument and get GeoElements
+		// use only first resolved argument object for result
+		GeoElement result = resArg(c.getArgument(pos), info)[0];
+
+		cons.setSuppressLabelCreation(oldMacroMode);
+		return result;
+	}
+
+	/**
 	 * Resolve arguments of a command that has a local numeric variable at the
 	 * position varPos. Initializes the variable with the NumberValue at
 	 * initPos.

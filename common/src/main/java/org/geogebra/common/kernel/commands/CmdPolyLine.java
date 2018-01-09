@@ -59,25 +59,26 @@ public class CmdPolyLine extends CommandProcessor {
 					throw argErr(app, c, arg[1]);
 				}
 
-				return genericPolyline(arg, c);
+				return genericPolyline(arg[1], arg, c);
 			}
 			throw argErr(app, c, arg[0]);
 		default:
-			arg = resArg(c.getArgument(n - 1), info.withLabels(false));
-			return genericPolyline(arg, c);
+			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
+			return genericPolyline(lastArg, null, c);
 
 		}
 	}
 
-	private GeoElement[] genericPolyline(GeoElement[] arg, Command c) {
+	private GeoElement[] genericPolyline(GeoElement lastArg, GeoElement[] arg0,
+			Command c) {
 
 		boolean penStroke = false;
 		int size = c.getArgumentNumber();
-		if (arg[arg.length - 1].isGeoBoolean()) {
+		if (lastArg.isGeoBoolean()) {
 			// pen stroke
 			// last argument is boolean (normally true)
 			size = size - 1;
-			penStroke = ((GeoBoolean) arg[arg.length - 1]).getBoolean();
+			penStroke = ((GeoBoolean) lastArg).getBoolean();
 		}
 		if (penStroke) {
 			ArrayList<MyPoint> myPoints = new ArrayList<>();
@@ -90,7 +91,7 @@ public class CmdPolyLine extends CommandProcessor {
 			algo.getOutput(0).setLabel(c.getLabel());
 			return algo.getOutput();
 		}
-
+		GeoElement[] arg = arg0 == null ? resArgs(c) : arg0;
 		// polygon for given points
 		GeoPointND[] points = new GeoPointND[size];
 		// check arguments
@@ -136,8 +137,6 @@ public class CmdPolyLine extends CommandProcessor {
 	 *            output label
 	 * @param points
 	 *            polyline
-	 * @param penStroke
-	 *            whether it's a pen stroke
 	 * @param is3D
 	 *            whether it's a 3D object
 	 * @return polyline

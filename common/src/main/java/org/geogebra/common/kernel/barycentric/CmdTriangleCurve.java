@@ -41,7 +41,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 			GeoNumeric ta = null, tb = null, tc = null;
 			arg = new GeoElement[4];
 			for (int i = 0; i < 3; i++) {
-				arg[i] = resArg(c, i, new EvalInfo(false));
+				arg[i] = resArgSilent(c, i, new EvalInfo(false));
 			}
 			ta = new GeoNumeric(cons);
 			tb = new GeoNumeric(cons);
@@ -88,24 +88,6 @@ public class CmdTriangleCurve extends CommandProcessor {
 		cons.removeLocalVariable("A");
 		cons.removeLocalVariable("B");
 		cons.removeLocalVariable("C");
-	}
-
-	private final GeoElement resArg(Command c, int pos, EvalInfo info)
-			throws MyError {
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
-		cons.setSuppressLabelCreation(true);
-
-		// resolve arguments to get GeoElements
-
-		// resolve variables in argument expression
-		c.getArgument(pos).resolveVariables(info.withLabels(false));
-
-		// resolve i-th argument and get GeoElements
-		// use only first resolved argument object for result
-		GeoElement result = resArg(c.getArgument(pos), info)[0];
-
-		cons.setSuppressLabelCreation(oldMacroMode);
-		return result;
 	}
 
 }

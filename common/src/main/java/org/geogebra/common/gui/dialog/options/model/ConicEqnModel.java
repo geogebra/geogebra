@@ -11,12 +11,19 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
+/**
+ * Equation type setting for quadrics and conics
+ */
 public class ConicEqnModel extends MultipleOptionsModel {
 
 	private Localization loc;
-	int implicitIndex, explicitIndex, specificIndex, parametricIndex, userIndex,
-			vertexformIndex, conicformIndex;
+	private int implicitIndex, explicitIndex, specificIndex, parametricIndex,
+			userIndex, vertexformIndex, conicformIndex;
 
+	/**
+	 * @param app
+	 *            application
+	 */
 	public ConicEqnModel(App app) {
 		super(app);
 		this.loc = app.getLocalization();
@@ -30,6 +37,11 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		return isValid(getObjectAt(index));
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether given geo is a quadric with different equation types
+	 */
 	public static boolean isValid(Object geo) {
 		return geo instanceof GeoConic || geo instanceof GeoQuadric3DInterface;
 	}
@@ -37,6 +49,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	private GeoQuadricND getConicAt(int index) {
 		return (GeoQuadricND) getObjectAt(index);
 	}
+
 
 	@Override
 	public void updateProperties() {
@@ -163,6 +176,15 @@ public class ConicEqnModel extends MultipleOptionsModel {
 		}
 	}
 
+	/**
+	 * @param geo0
+	 *            element
+	 * @param loc2
+	 *            localization
+	 * @param prefix
+	 *            whether to add "Equation"
+	 * @return for quadrics "Expanded Form", for conics "Equation? a x^2 + ... "
+	 */
 	public static String getImplicitEquation(GeoQuadricND geo0,
 			Localization loc2, boolean prefix) {
 		if (geo0 instanceof GeoQuadric3DInterface) {
