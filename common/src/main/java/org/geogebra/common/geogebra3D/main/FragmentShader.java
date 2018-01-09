@@ -147,7 +147,7 @@ public class FragmentShader {
 
 				+ "vec4 color;\n" + "if (enableShine == 1){\n"
 				// adding specular
-				+ "float specular = dot(normalize(lightReflect), normalize(viewDirection));\n"
+				+ "float specular = dot(lightReflect, viewDirection);\n"
 				+ "if (specular > 0.0){\n"
 				+ "  float specular2  = specular  * specular;\n"
 				+ "  float specular4  = specular2 * specular2;\n"
@@ -243,7 +243,7 @@ public class FragmentShader {
 
 				+ "vec4 color;\n" + "if (enableShine == 1){\n"
 				// adding specular
-				+ "float specular = dot(normalize(lightReflect), normalize(viewDirection));\n"
+				+ "float specular = dot(lightReflect, viewDirection);\n"
 				+ "if (specular > 0.0){\n" + "  float specular2  = specular  * specular;\n"
 				+ "  float specular4  = specular2 * specular2;\n" + "  float specular16  = specular4 * specular4;\n"
 				+ "  color.rgb = varying_Color.rgb + 0.2 * specular16 * vec3(1.0, 1.0, 1.0);\n"

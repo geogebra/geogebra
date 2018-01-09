@@ -103,10 +103,10 @@ public class VertexShader {
 			+ "	  if (eyePosition[3] < 0.5){ // parallel projection\n"
 			+ "	  	viewDirection = vec3(eyePosition);\n"
 			+ "	  }else{ // perspective projection\n"
-			+ "	  	viewDirection = position - vec3(eyePosition);\n"
+					+ "	  	viewDirection = normalize(position - vec3(eyePosition));\n"
 			+ "	  }\n"
 
-			+ "	  lightReflect = reflect(lightPosition, n);\n"
+					+ "	  lightReflect = normalize(reflect(lightPosition, n));\n"
 			// specular will be added in fragment shader
 			+ "	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;\n"
 			+ "	  varying_Color.a = c.a;\n" + "  }else{ //no light\n"
