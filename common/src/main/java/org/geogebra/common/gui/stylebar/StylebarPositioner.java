@@ -13,12 +13,12 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawPoint;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.SelectionManager;
-import org.geogebra.common.util.Rectangle;
 
 /**
  * dynamic stylebar positioner logic, also used for preview point popup
@@ -81,17 +81,17 @@ public class StylebarPositioner {
             boolean isPoint,
             boolean isFunction,
             int popupHeight, int popupWidth,
-            Rectangle canvasRect) {
+            GRectangle canvasRect) {
         if (gRectangle2D == null) {
             if (!isFunction || isPoint) {
                 return null;
             }
         }
 
-        int minXPosition = canvasRect.getMinX();
-        int maxXPosition = canvasRect.getMaxX();
-        int minYPosition = canvasRect.getMinY();
-        int maxYPosition = canvasRect.getMaxY();
+        int minXPosition = (int) Math.round(canvasRect.getX());
+        int maxXPosition = (int) Math.round(canvasRect.getX() + canvasRect.getWidth());
+        int minYPosition = (int) Math.round(canvasRect.getY());
+        int maxYPosition = (int) Math.round(canvasRect.getY() + canvasRect.getHeight());
 
 		// final int BOTTOM_MARGIN = 7 * MARGIN;
         double top;
@@ -163,7 +163,7 @@ public class StylebarPositioner {
     public GPoint getPositionOnCanvas(int stylebarHeight, int minYPosition, int maxYPosition) {
         return getPositionOnCanvas(
                 stylebarHeight, 0,
-                new Rectangle(0, minYPosition, Integer.MAX_VALUE, maxYPosition));
+                getGRectangle(0, minYPosition, Integer.MAX_VALUE, maxYPosition));
     }
 
     /**
@@ -194,7 +194,7 @@ public class StylebarPositioner {
             int minXPosition, int maxXPosition) {
         return getPositionOnCanvas(
                 stylebarHeight, 0,
-                new Rectangle(minXPosition, minYPosition, maxXPosition, maxYPosition));
+                getGRectangle(minXPosition, minYPosition, maxXPosition, maxYPosition));
     }
 
     /**
@@ -214,7 +214,7 @@ public class StylebarPositioner {
     @Nullable
     public GPoint getPositionOnCanvas(
             int stylebarHeight, int stylebarWidth,
-            Rectangle canvasRect) {
+            GRectangle canvasRect) {
         List<GeoElement> activeGeoList = createActiveGeoList();
         if (activeGeoList.isEmpty()) {
             return null;
@@ -248,7 +248,13 @@ public class StylebarPositioner {
     }
 
 	/**
-	 * @param activeGeoList
+     * Returns the position of the popup for the first element of the geoList.
+     *
+     * This method is deprecated, use the
+     * getPositionFor(GeoElement geo, int stylebarHeight, int stylebarWidth, GRectangle canvasRect)
+     * method instead!
+     *
+	 * @param geoList
 	 *            selected geos
 	 * @param stylebarHeight
 	 *            height of stylebar
@@ -264,17 +270,26 @@ public class StylebarPositioner {
 	 */
     @Deprecated
     @SuppressWarnings({"unused", "MethodWithTooManyParameters", "deprecation", "ReturnOfNull"})
-    public GPoint getPositionFor(List<GeoElement> activeGeoList,
+    public GPoint getPositionFor(List<GeoElement> geoList,
                                  int stylebarHeight,
                                  int minYPosition, int maxYPosition,
                                  int minXPosition, int maxXPosition) {
-        if (activeGeoList != null && !activeGeoList.isEmpty()) {
+        if (geoList != null && !geoList.isEmpty()) {
             return getPositionFor(
-                    activeGeoList.get(0),
+                    geoList.get(0),
                     stylebarHeight, 0,
-                    new Rectangle(minXPosition, minYPosition, maxXPosition, maxYPosition));
+                    getGRectangle(minXPosition, minYPosition, maxXPosition, maxYPosition)
+            );
         }
         return null;
+    }
+
+    protected GRectangle getGRectangle(int minX, int minY, int maxX, int maxY) {
+        return AwtFactory.getPrototype().newRectangle(
+                minX,
+                minY,
+                maxX - minX,
+                maxY - minY);
     }
 
     private GeoElement getSelectedPreviewPoint() {
@@ -301,7 +316,7 @@ public class StylebarPositioner {
 	 * @return position
 	 */
     @SuppressWarnings("WeakerAccess")
-    public GPoint getPositionFor(GeoElement geo, int stylebarHeight, int stylebarWidth, Rectangle canvasRect) {
+    public GPoint getPositionFor(GeoElement geo, int stylebarHeight, int stylebarWidth, GRectangle canvasRect) {
         Drawable dr = (Drawable) euclidianView.getDrawableND(geo);
         if (dr != null) {
             return getStylebarPositionForDrawable(
@@ -319,7 +334,7 @@ public class StylebarPositioner {
     private GPoint getPositionForFunction (
             GeoElement geo,
             int stylebarHeight, int stylebarWidth,
-            Rectangle canvasRect) {
+            GRectangle canvasRect) {
         if (euclidianView.getHits().contains(geo)) {
             GPoint position = getStylebarPositionForDrawable(
                     null,
@@ -355,7 +370,7 @@ public class StylebarPositioner {
 
     private GPoint getPositionForSelection(
             int stylebarHeight, int stylebarWidth,
-            Rectangle canvasRect) {
+            GRectangle canvasRect) {
         GRectangle selectionRectangle = euclidianView.getSelectionRectangle();
         if (selectionRectangle != null) {
             return getStylebarPositionForDrawable(
