@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
@@ -807,27 +808,23 @@ public class EuclidianPen implements GTimerListener {
 	 *            - index
 	 * @return copy of i-th no control point of poly
 	 */
-	public GeoPoint getNoControlPointCopy(ArrayList<MyPoint> points, int i) {
-		return new GeoPoint(
-				app.getKernel().getConstruction(),
-				points.get(i).getX(), points.get(i).getY(), 1);
+	public MyPoint getNoControlPointCopy(ArrayList<MyPoint> points, int i) {
+		return new MyPoint(points.get(i).getX(), points.get(i).getY());
 	}
 
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
 
 		Construction cons = app.getKernel().getConstruction();
 		// GeoList newPts;// = new GeoList(cons);
-		GeoPoint[] newPts;// = new GeoList(cons);
-		int offset;
+		List<MyPoint> newPts;// = new GeoList(cons);
 		if (startNewStroke) {
 			lastAlgo = null;
 			startNewStroke = false;
 		}
 		if (lastAlgo == null) {
 			// lastPolyLine = new GeoPolyLine(cons, "hello");
-			newPts = new GeoPoint[penPoints2.size()];
+			newPts = new ArrayList<>(penPoints2.size());
 			// newPts = new GeoList(cons);
-			offset = 0;
 		} else {
 			// newPts = lastPolyLine.getPointsList();
 
@@ -841,24 +838,23 @@ public class EuclidianPen implements GTimerListener {
 					.getPointsWithoutControl();
 				ptsLength = pointsNoControl.size();
 
-				newPts = new GeoPoint[penPoints2.size() + 1 + ptsLength];
+				newPts = new ArrayList<>(penPoints2.size() + 1 + ptsLength);
 
 				for (int i = 0; i < ptsLength; i++) {
-					newPts[i] = getNoControlPointCopy(pointsNoControl, i);
+					newPts.add(getNoControlPointCopy(pointsNoControl, i));
 				}
 			} else {
 				ptsLength = algo.getPointsLength();
 
-				newPts = new GeoPoint[penPoints2.size() + 1 + ptsLength];
+				newPts = new ArrayList<>(penPoints2.size() + 1 + ptsLength);
 
 				for (int i = 0; i < ptsLength; i++) {
-					newPts[i] = algo.getPointCopy(i);
+					newPts.add(algo.getPointCopy(i));
 				}
 
 			}
-			newPts[ptsLength] = new GeoPoint(cons, Double.NaN, Double.NaN, 1);
+			newPts.add(new MyPoint(Double.NaN, Double.NaN));
 
-			offset = ptsLength + 1;
 		}
 
 		Iterator<GPoint> it = penPoints2.iterator();
@@ -866,16 +862,18 @@ public class EuclidianPen implements GTimerListener {
 			GPoint p = it.next();
 			// newPts.add(new GeoPoint2(cons, view.toRealWorldCoordX(p.getX()),
 			// view.toRealWorldCoordY(p.getY()), 1));
-			newPts[offset++] = new GeoPoint(cons,
+			newPts.add(new MyPoint(
 					view.toRealWorldCoordX(p.getX()),
-					view.toRealWorldCoordY(p.getY()), 1);
+					view.toRealWorldCoordY(p.getY())));
 		}
 
 		AlgoElement algo;
 		// don't set label
 		Kernel kernelA = app.getKernel();
-		AlgoElement newPolyLine = kernelA.getAlgoDispatcher()
-				.getStrokeAlgo(newPts);
+		AlgoElement newPolyLine = app.has(Feature.MOW_PEN_IS_LOCUS)
+				? new AlgoLocusStroke(cons, newPts)
+				: app.getKernel().getAlgoDispatcher()
+						.getStrokeAlgo(getPointArray(newPts));
 		if (!absoluteScreenPosition) {
 
 			// set label
@@ -950,6 +948,14 @@ public class EuclidianPen implements GTimerListener {
 		// app.storeUndoInfo() will be called from wrapMouseReleasedND
 	}
 
+	private GeoPointND[] getPointArray(List<MyPoint> dataPoints) {
+		GeoPointND[] pointArray = new GeoPointND[dataPoints.size()];
+		for (int i = 0; i < dataPoints.size(); i++) {
+			pointArray[i] = new GeoPoint(app.getKernel().getConstruction(),
+					dataPoints.get(i).getX(), dataPoints.get(i).getY(), 1);
+		}
+		return pointArray;
+	}
 	private static AlgoStrokeInterface getAlgoStrokeInterface(AlgoElement al) {
 		if (al instanceof AlgoStrokeInterface) {
 			return (AlgoStrokeInterface) al;

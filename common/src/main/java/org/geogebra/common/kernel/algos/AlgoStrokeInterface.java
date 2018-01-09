@@ -1,11 +1,11 @@
 package org.geogebra.common.kernel.algos;
 
-import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.kernel.MyPoint;
 
 public interface AlgoStrokeInterface {
 
 	int getPointsLength();
 
-	GeoPoint getPointCopy(int i);
+	MyPoint getPointCopy(int i);
 
 }

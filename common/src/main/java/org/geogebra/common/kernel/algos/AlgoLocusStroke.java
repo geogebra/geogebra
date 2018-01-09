@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
@@ -49,8 +48,6 @@ public class AlgoLocusStroke extends AlgoElement
 	 * @param points
 	 *            vertices of the polygon
 	 */
-
-
 	public AlgoLocusStroke(Construction cons, GeoPointND[] points) {
 		super(cons);
 		poly = new GeoLocusStroke(this.cons);
@@ -66,6 +63,26 @@ public class AlgoLocusStroke extends AlgoElement
 															// force
 															// PolyLine[...,
 															// true]
+
+		setInputOutput(); // for AlgoElement
+
+	}
+
+	public AlgoLocusStroke(Construction cons, List<MyPoint> points) {
+		super(cons);
+		poly = new GeoLocusStroke(this.cons);
+		updatePointArray(points);
+		// poly = new GeoPolygon(cons, points);
+		// updatePointArray already covered compute
+		input = new GeoElement[1];
+		// for (int i = 0; i < points.length; i++) {
+		// input[i] = (GeoElement) points[i];
+		// }
+
+		input[0] = new GeoBoolean(cons, true); // dummy to
+												// force
+												// PolyLine[...,
+												// true]
 
 		setInputOutput(); // for AlgoElement
 
@@ -89,10 +106,10 @@ public class AlgoLocusStroke extends AlgoElement
 	}
 
 	// data has to have at least 2 defined points after each other
-	private static boolean canBeBezierCurve(GeoPointND[] data) {
+	private static boolean canBeBezierCurve(List<MyPoint> data) {
 		boolean firstDefFound = false;
-		for (int i=0;i<data.length;i++) {
-			if (data[i].isDefined()) {
+		for (int i = 0; i < data.size(); i++) {
+			if (data.get(i).isDefined()) {
 				if (firstDefFound) {
 					return true;
 				}
@@ -109,10 +126,10 @@ public class AlgoLocusStroke extends AlgoElement
 	 * 
 	 * @param data
 	 */
-	public void updatePointArray(GeoPointND[] data) {
+	public void updatePointArray(List<MyPoint> data) {
 		// check if we have a point list
 		// create new points array
-		int size = data.length;
+		int size = data.size();
 		poly.setDefined(true);
 		poly.getPoints().clear();
 		// to use bezier curve we need at least 2 points
@@ -121,36 +138,36 @@ public class AlgoLocusStroke extends AlgoElement
 				.has(Feature.MOW_PEN_SMOOTHING)) {
 			int index = 0;
 			pointList.clear();
-			if (data[0].isDefined()) {
+			if (data.get(0).isDefined()) {
 				// move at first point
 				pointList.add(
-						new MyPoint(data[0].getInhomX(), data[0].getInhomY(),
+						new MyPoint(data.get(0).getX(), data.get(0).getY(),
 					SegmentType.MOVE_TO));
 			}
 			// Log.debug("1: (" + data[0].getInhomX() + "," +
 			// data[0].getInhomY()
 			// + ") -> " +
 			// SegmentType.MOVE_TO);
-			while (index <= data.length) {
+			while (index <= data.size()) {
 				if (!pointList.isEmpty()
 						&& pointList.get(pointList.size() - 1).isDefined()) {
 					pointList.add(
 						new MyPoint(Double.NaN, Double.NaN,
 								SegmentType.LINE_TO));
 				}
-				GeoPointND[] partOfStroke = getPartOfPenStroke(index, data);
+				List<MyPoint> partOfStroke = getPartOfPenStroke(index, data);
 				// if we found single point
 				// just add it to the list without control points
-				if (partOfStroke.length == 1) {
-					pointList.add(new MyPoint(partOfStroke[0].getInhomX(),
-							partOfStroke[0].getInhomY(), SegmentType.MOVE_TO));
-				} else if (partOfStroke.length > 1) {
+				if (partOfStroke.size() == 1) {
+					pointList.add(new MyPoint(partOfStroke.get(0).getX(),
+							partOfStroke.get(0).getY(), SegmentType.MOVE_TO));
+				} else if (partOfStroke.size() > 1) {
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
-					for (int i = 0; i < partOfStroke.length - 1; i++) {
+					for (int i = 0; i < partOfStroke.size() - 1; i++) {
 						// start point of segment
-						pointList.add(new MyPoint(partOfStroke[i].getInhomX(),
-								partOfStroke[i].getInhomY(),
+						pointList.add(new MyPoint(partOfStroke.get(i).getX(),
+								partOfStroke.get(i).getY(),
 								i == 0 ? SegmentType.MOVE_TO
 										: SegmentType.CURVE_TO));
 						// first control point
@@ -162,92 +179,109 @@ public class AlgoLocusStroke extends AlgoElement
 					}
 					// end point of curve
 					pointList.add(new MyPoint(
-							partOfStroke[partOfStroke.length - 1].getInhomX(),
-							partOfStroke[partOfStroke.length - 1].getInhomY(),
+							partOfStroke.get(partOfStroke.size() - 1).getX(),
+							partOfStroke.get(partOfStroke.size() - 1).getY(),
 							SegmentType.CURVE_TO));
 				}
-				if (partOfStroke.length == 3 && Kernel.isZero(partOfStroke[partOfStroke.length-1].distance(partOfStroke[partOfStroke.length-2]))) {
-					index = index + partOfStroke.length;
+				if (partOfStroke.size() == 3 && Kernel.isZero(
+						partOfStroke.get(partOfStroke.size() - 1).distanceSqr(
+								partOfStroke.get(partOfStroke.size() - 2)))) {
+					index = index + partOfStroke.size();
 				} else {
-					index = index + partOfStroke.length + 1;
+					index = index + partOfStroke.size() + 1;
 				}
 			}
 			poly.setPoints(pointList);
 		} else {
 			for (int i = 0; i < size; i++) {
-				poly.getPoints().add(new MyPoint(data[i].getInhomX(),
-					data[i].getInhomY(),
+				poly.getPoints().add(new MyPoint(data.get(i).getX(),
+						data.get(i).getY(),
 					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 			}
 		}
 	}
 
+	public void updatePointArray(GeoPointND[] data) {
+		// check if we have a point list
+		// create new points array
+		int size = data.length;
+		ArrayList<MyPoint> myPoints = new ArrayList<>(size);
+		// to use bezier curve we need at least 2 points
+		// stroke is: (A),(?),(A),(B) -> size 4
+
+		for (int i = 0; i < size; i++) {
+			myPoints.add(new MyPoint(data[i].getInhomX(), data[i].getInhomY()));
+		}
+		updatePointArray(myPoints);
+	}
+
 	// returns the part of array started at index until first undef point
-	private static GeoPointND[] getPartOfPenStroke(int index,
-			GeoPointND[] data) {
+	private static List<MyPoint> getPartOfPenStroke(int index,
+			List<MyPoint> data) {
 		int size = 0;
-		for (int i=index;i<data.length;i++) {
-			if (data[i].isDefined()) {
+		for (int i = index; i < data.size(); i++) {
+			if (data.get(i).isDefined()) {
 				size++;
 			} else {
 				break;
 			}
 		}
-		GeoPointND[] partOfStroke;
+		ArrayList<MyPoint> partOfStroke;
 		// for simple segment add endpoint once again
 		// trick needed for bezier curve
 		if (size == 2) {
-			partOfStroke = new GeoPointND[size + 1];
+			partOfStroke = new ArrayList<>(size + 1);
 			for (int i = 0; i < size; i++) {
-				partOfStroke[i] = data[i + index];
+				partOfStroke.add(data.get(i + index));
 			}
-			partOfStroke[size] = data[size + index - 1];
+			partOfStroke.add(data.get(size + index - 1));
 		} else {
-			partOfStroke = new GeoPointND[size];
+			partOfStroke = new ArrayList<>(size);
 			for (int i = 0; i < size; i++) {
-				partOfStroke[i] = data[i + index];
+				partOfStroke.add(data.get(i + index));
 			}
 		}
 		return partOfStroke;
 	}
 
 	// calculate control points for bezier curve
-	private static ArrayList<double[]> getControlPoints(GeoPointND[] data) {
+	private static ArrayList<double[]> getControlPoints(List<MyPoint> data) {
 		ArrayList<double[]> values = new ArrayList<>();
-		if (data.length == 0) {
+
+		if (data.size() == 0) {
 			return values;
 		}
-		double[] xCoordsP1 = new double[data.length - 1];
-		double[] xCoordsP2 = new double[data.length - 1];
-		double[] yCoordsP1 = new double[data.length - 1];
-		double[] yCoordsP2 = new double[data.length - 1];
+		double[] xCoordsP1 = new double[data.size() - 1];
+		double[] xCoordsP2 = new double[data.size() - 1];
+		double[] yCoordsP1 = new double[data.size() - 1];
+		double[] yCoordsP2 = new double[data.size() - 1];
 
-		double[] a = new double[data.length - 1];
-		double[] b = new double[data.length - 1];
-		double[] c = new double[data.length - 1];
-		double[] rX = new double[data.length - 1];
-		double[] rY = new double[data.length - 1];
-		int n = data.length - 1;
+		double[] a = new double[data.size() - 1];
+		double[] b = new double[data.size() - 1];
+		double[] c = new double[data.size() - 1];
+		double[] rX = new double[data.size() - 1];
+		double[] rY = new double[data.size() - 1];
+		int n = data.size() - 1;
 		/* left most segment */
 		a[0] = 0;
 		b[0] = 2;
 		c[0] = 1;
-		rX[0] = data[0].getInhomX() + 2 * data[1].getInhomX();
-		rY[0] = data[0].getInhomY() + 2 * data[1].getInhomY();
+		rX[0] = data.get(0).getX() + 2 * data.get(1).getX();
+		rY[0] = data.get(0).getY() + 2 * data.get(1).getY();
 		/* internal segments */
 		for (int i = 1; i < n - 1; i++) {
 			a[i] = 1;
 			b[i] = 4;
 			c[i] = 1;
-			rX[i] = 4 * data[i].getInhomX() + 2 * data[i + 1].getInhomX();
-			rY[i] = 4 * data[i].getInhomY() + 2 * data[i + 1].getInhomY();
+			rX[i] = 4 * data.get(i).getX() + 2 * data.get(i + 1).getX();
+			rY[i] = 4 * data.get(i).getY() + 2 * data.get(i + 1).getY();
 		}
 		/* right segment */
 		a[n - 1] = 2;
 		b[n - 1] = 7;
 		c[n - 1] = 0;
-		rX[n - 1] = 8 * data[n - 1].getInhomX() + data[n].getInhomX();
-		rY[n - 1] = 8 * data[n - 1].getInhomY() + data[n].getInhomY();
+		rX[n - 1] = 8 * data.get(n - 1).getX() + data.get(n).getX();
+		rY[n - 1] = 8 * data.get(n - 1).getY() + data.get(n).getY();
 
 		/* solves Ax=b with the Thomas algorithm (from Wikipedia) */
 		for (int i = 1; i < n; i++) {
@@ -266,11 +300,11 @@ public class AlgoLocusStroke extends AlgoElement
 
 		/* we have p1, now compute p2 */
 		for (int i = 0; i < n - 1; i++) {
-			xCoordsP2[i] = 2 * data[i + 1].getInhomX() - xCoordsP1[i + 1];
-			yCoordsP2[i] = 2 * data[i + 1].getInhomY() - yCoordsP1[i + 1];
+			xCoordsP2[i] = 2 * data.get(i + 1).getX() - xCoordsP1[i + 1];
+			yCoordsP2[i] = 2 * data.get(i + 1).getY() - yCoordsP1[i + 1];
 		}
-		xCoordsP2[n - 1] = 0.5 * (data[n].getInhomX() + xCoordsP1[n - 1]);
-		yCoordsP2[n - 1] = 0.5 * (data[n].getInhomY() + yCoordsP1[n - 1]);
+		xCoordsP2[n - 1] = 0.5 * (data.get(n).getX() + xCoordsP1[n - 1]);
+		yCoordsP2[n - 1] = 0.5 * (data.get(n).getY() + yCoordsP1[n - 1]);
 
 		values.add(xCoordsP1);
 		values.add(yCoordsP1);
@@ -332,9 +366,9 @@ public class AlgoLocusStroke extends AlgoElement
 	}
 
 	@Override
-	public GeoPoint getPointCopy(int i) {
-		return new GeoPoint(cons, poly.getPoints().get(i).getX(),
-				poly.getPoints().get(i).getY(), 1);
+	public MyPoint getPointCopy(int i) {
+		return new MyPoint(poly.getPoints().get(i).getX(),
+				poly.getPoints().get(i).getY());
 	}
 
 	/**

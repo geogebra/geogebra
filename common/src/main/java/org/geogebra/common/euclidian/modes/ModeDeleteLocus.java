@@ -22,8 +22,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
-import org.geogebra.common.kernel.geos.GeoPoint;
-import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
@@ -219,8 +217,7 @@ public class ModeDeleteLocus extends ModeDelete {
 							&& gps.getParentAlgorithm() != null
 							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 						((AlgoLocusStroke) gps.getParentAlgorithm())
-								.updatePointArray(
-										getPointArray(dataPoints));
+								.updatePointArray(dataPoints);
 					}
 
 				} else {
@@ -242,15 +239,6 @@ public class ModeDeleteLocus extends ModeDelete {
 
 		ec.deleteAll(h);
 		updateAlgoSet();
-	}
-
-	private GeoPointND[] getPointArray(List<MyPoint> dataPoints) {
-		GeoPointND[] pointArray = new GeoPointND[dataPoints.size()];
-		for (int i = 0; i < dataPoints.size(); i++) {
-			pointArray[i] = new GeoPoint(ec.getKernel().getConstruction(),
-					dataPoints.get(i).getX(), dataPoints.get(i).getY(), 1);
-		}
-		return pointArray;
 	}
 
 	private void updateAlgoSet() {
@@ -742,7 +730,7 @@ public class ModeDeleteLocus extends ModeDelete {
 							&& gps.getParentAlgorithm() != null
 							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 						((AlgoLocusStroke) gps.getParentAlgorithm())
-								.updatePointArray(getPointArray(dataPoints));
+								.updatePointArray(dataPoints);
 					}
 
 				} else {
