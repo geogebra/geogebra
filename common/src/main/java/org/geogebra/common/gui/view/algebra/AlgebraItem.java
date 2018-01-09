@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
+import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
@@ -271,5 +272,18 @@ public class AlgebraItem {
 		}
 		app.getSelectionManager().clearSelectedGeos(false, false);
 		app.getSelectionManager().addSelectedGeo(geo, false, false);
+	}
+
+	/**
+	 * @param geoElement about we should decide if the outputrow should be shown or not
+	 * @param style      current algebrastyle
+	 * @return wether the output should be shown or not
+	 */
+	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
+		if (style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE || (style == Kernel.ALGEBRA_STYLE_DESCRIPTION && geoElement instanceof GeoNumeric && (!geoElement.isIndependent() || (geoElement.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE && geoElement.getParentAlgorithm() == null)))) {
+			return true;
+		}
+
+		return false;
 	}
 }
