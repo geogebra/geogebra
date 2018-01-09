@@ -371,6 +371,7 @@ public class CommandsTest extends Assert{
 		intersect("x=y", "x+y=2", true, "(1, 1)");
 		intersect("x=y", "x^2+y^2=2", true, "(1, 1)", "(-1, -1)");
 		intersect("x=y", "x^4+y^4=2", false, "(1, 1)", "(-1, -1)");
+		intersect("x^4+y^4=2", "(x-2)^4+y^4=2", false, "(1, -1)", "(1, 1)");
 		intersect("x^2+y^2=2", "x^4+y^4=2", false, "(-1, -1)", "(-1, 1)",
 				"(1, -1)", "(1, 1)");
 		intersect("x", "x^4+y^4=2", false, "(-1, -1)", "(1, 1)");
@@ -381,12 +382,15 @@ public class CommandsTest extends Assert{
 				StringTemplate.editTemplate);
 		intersect("x=y", "sin(x)", false, "(0, 0)");
 		intersect("x=y", "(x-1)^2+1", true, "(1, 1)", "(2, 2)");
+		intersect("x^2=y^2", "(x-1)^2+1", true, "(1, 1)", "(2, 2)");
 		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(3, 3)",
 				"(-1, -1)");
 		intersect("x", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, -1)",
 				"(3, 3)");
 		intersect("x^2", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, 1)",
 				eval("(sqrt(3), 3)"));
+		intersect("(x+1)^4+(y-3)^4=1", "PolyLine((-1,-2),(-1,3),(5,3))", false,
+				"(-1, 2)", "(0, 3)");
 	}
 
 	private static void intersect(String arg1, String arg2, boolean num,
