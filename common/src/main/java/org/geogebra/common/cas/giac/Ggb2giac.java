@@ -207,7 +207,7 @@ public class Ggb2giac {
 				"when(type(%0)!=DOM_INT||type(%1)!=DOM_INT,quo(%0,%1,when(length(lname(%1))>0,lname(%1)[0],x)),iquo(%0,%1))");
 
 		p("Division.2",
-				"[[[ggbdivarg0:=%0],[ggbdivarg1:=%1]],if type(ggbdivarg0)==DOM_INT&&type(%1)==DOM_INT then iquorem(ggbdivarg0,ggbdivarg1) else quorem(ggbdivarg0,ggbdivarg1,x) fi][1]");
+				"when(type(%0)!=DOM_INT||type(%1)!=DOM_INT,quorem(%0,%1,when(length(lname(%1))>0,lname(%1)[0],x)),iquorem(%0,%1))");
 		p("Divisors.1", "dim(idivis(%0))");
 		p("DivisorsList.1", "idivis(%0)");
 		p("DivisorsSum.1", "sum(idivis(%0))");
