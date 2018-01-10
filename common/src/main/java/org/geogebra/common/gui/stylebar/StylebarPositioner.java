@@ -220,9 +220,11 @@ public class StylebarPositioner {
             return null;
         }
 
-        GeoElement selectedPreviewPoint = getSelectedPreviewPoint();
-        if (selectedPreviewPoint != null) {
-            return getPositionFor(selectedPreviewPoint, stylebarHeight, stylebarWidth, canvasRect);
+        if (app.has(Feature.PREVIEW_POINTS)) {
+            GeoElement selectedPreviewPoint = getSelectedPreviewPoint();
+            if (selectedPreviewPoint != null) {
+                return getPositionFor(selectedPreviewPoint, stylebarHeight, stylebarWidth, canvasRect);
+            }
         }
 
         if (app.has(Feature.DYNAMIC_STYLEBAR_SELECTION_TOOL)
