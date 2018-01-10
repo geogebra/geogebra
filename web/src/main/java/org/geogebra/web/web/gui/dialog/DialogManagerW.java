@@ -45,11 +45,13 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.export.AnimationExportDialogW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
+import org.geogebra.web.web.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 import org.geogebra.web.web.gui.view.functioninspector.FunctionInspectorW;
 import org.geogebra.web.web.main.AppWFull;
+import org.geogebra.web.web.main.BrowserDevice;
 import org.geogebra.web.web.main.GDevice;
 import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
 import org.geogebra.web.web.move.googledrive.operations.GoogleDriveOperationW;
@@ -63,6 +65,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	private FunctionInspectorW functionInspector;
 	protected SaveDialogW saveDialog = null;
 	protected UploadImageDialog imageDialog;
+	protected WebcamInputDialog webcamDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
@@ -247,6 +250,24 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		imageDialog.show();
 	}
 
+	/**
+	 * @param device
+	 *            device type
+	 */
+	public void showWebcamInputDialog(GDevice device) {
+		if (!(app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
+				&& device instanceof BrowserDevice)) {
+			return;
+		}
+		if (this.webcamDialog == null) {
+			this.webcamDialog = ((BrowserDevice) device)
+					.getWebcamInputDialog((AppW) app);
+		} else {
+			webcamDialog.startVideo();
+		}
+		webcamDialog.center();
+		webcamDialog.show();
+	}
 
 	@Override
 	public void showNumberInputDialog(String title, String message,

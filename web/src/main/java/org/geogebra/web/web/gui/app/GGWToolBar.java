@@ -1132,6 +1132,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		case EuclidianConstants.MODE_VIDEO:
 			return resourceBundle.mode_video_32();
 
+		case EuclidianConstants.MODE_CAMERA:
+			return resourceBundle.mode_camera_32();
+
 		case EuclidianConstants.MODE_AUDIO:
 			return resourceBundle.mode_audio_32();
 

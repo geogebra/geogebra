@@ -324,6 +324,8 @@ public class ToolBar {
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_IMAGE);
 		sb.append(" ");
+		sb.append(EuclidianConstants.MODE_CAMERA);
+		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_VIDEO);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_AUDIO);

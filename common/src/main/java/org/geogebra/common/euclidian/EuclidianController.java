@@ -889,6 +889,12 @@ public abstract class EuclidianController {
 		}
 
 		if (ms == ModeSetter.TOOLBAR) {
+			if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+				if (newMode == EuclidianConstants.MODE_CAMERA) {
+					webcam();
+					return;
+				}
+			}
 			if (newMode == EuclidianConstants.MODE_IMAGE) {
 				image(view.getHits().getOtherHits(Test.GEOIMAGE, tempArrayList),
 						false);
@@ -3671,6 +3677,12 @@ public abstract class EuclidianController {
 			app.getGuiManager().loadImage(loc, null, altDown, view);
 		}
 		return true;
+	}
+
+	protected final void webcam() {
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().loadWebcam();
+		}
 	}
 
 	protected final GeoElement[] mirrorAtPoint(Hits hits, boolean selPreview) {

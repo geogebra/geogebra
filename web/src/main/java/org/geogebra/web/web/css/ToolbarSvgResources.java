@@ -564,6 +564,10 @@ public interface ToolbarSvgResources extends ClientBundle, ToolbarResources {
 	SVGResource mode_video_32();
 
 	@Override
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_camera_black.svg")
+	SVGResource mode_camera_32();
+
+	@Override
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio_black.svg")
 	SVGResource mode_audio_32();
 

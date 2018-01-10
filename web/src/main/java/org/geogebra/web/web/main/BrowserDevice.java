@@ -7,6 +7,7 @@ import org.geogebra.web.web.gui.browser.BrowseGUI;
 import org.geogebra.web.web.gui.browser.BrowseResources;
 import org.geogebra.web.web.gui.dialog.image.ImageInputDialog;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
+import org.geogebra.web.web.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
 
 import com.google.gwt.dom.client.Element;
@@ -90,6 +91,15 @@ public class BrowserDevice implements GDevice {
 	public UploadImageDialog getImageInputDialog(AppW app) {
 
 		return new ImageInputDialog(app);
+	}
+
+	/**
+	 * @param app
+	 *            application
+	 * @return WebcamInputDialog
+	 */
+	public WebcamInputDialog getWebcamInputDialog(AppW app) {
+		return new WebcamInputDialog(app);
 	}
 
 	@Override

@@ -368,6 +368,7 @@ public class MOWToolbar extends FlowPanel {
 		if (mode == EuclidianConstants.MODE_TEXT
 				|| mode == EuclidianConstants.MODE_IMAGE
 				|| mode == EuclidianConstants.MODE_VIDEO
+				|| mode == EuclidianConstants.MODE_CAMERA
 				|| mode == EuclidianConstants.MODE_AUDIO
 				|| mode == EuclidianConstants.MODE_GEOGEBRA) {
 			return mediaMenu;

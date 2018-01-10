@@ -411,6 +411,8 @@ public final class EuclidianConstants {
 	public static final int MODE_AUDIO = 116;
 	/** Geogebra */
 	public static final int MODE_GEOGEBRA = 117;
+	/** Camera */
+	public static final int MODE_CAMERA = 118;
 
 	/** macro tools ID offset */
 	public static final int MACRO_MODE_ID_OFFSET = 100001;
@@ -847,6 +849,8 @@ public final class EuclidianConstants {
 			return "MediaPanel";
 		case EuclidianConstants.MODE_VIDEO:
 			return "Video";
+		case EuclidianConstants.MODE_CAMERA:
+			return "Camera";
 		case EuclidianConstants.MODE_AUDIO:
 			return "Audio";
 		case EuclidianConstants.MODE_GEOGEBRA:

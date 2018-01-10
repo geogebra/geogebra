@@ -402,6 +402,7 @@ public interface ToolbarResources {
 
 	ResourcePrototype mode_pen_white_32();
 
+	ResourcePrototype mode_camera_32();
 		
 	// ResourcePrototype mode_highlighter_32();
 

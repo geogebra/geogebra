@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.dialog.image;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
@@ -45,10 +46,15 @@ public class WebCamInputPanel extends VerticalPanel {
 
 		el.style.position = "relative";
 
-		var ihtml = "<span style='position:absolute;width:213px;height:160px;text-align:center;'><br><br>"
+		var prevWidth = this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::getPreviewWidth()();
+		var prevHeight = this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::getPreviewHeight()();
+
+		var ihtml = "<span style='position:absolute;width:" + prevWidth
+				+ "px;height:" + prevHeight + "px;text-align:center;'><br><br>"
 				+ message + "</span>\n";
-		ihtml += "<video width='213' height='160' autoplay style='width:213px;height:160px;'><br><br>"
-				+ errorMessage + "</video>";
+		ihtml += "<video width='" + prevWidth + "' height='" + prevHeight
+				+ "' autoplay style='width:" + prevWidth + "px;height:"
+				+ prevHeight + "px;'><br><br>" + errorMessage + "</video>";
 		el.innerHTML = ihtml;
 		var video = el.lastChild;
 
@@ -176,5 +182,19 @@ public class WebCamInputPanel extends VerticalPanel {
 	 */
 	public int getCanvasHeight() {
 		return canvasHeight;
+	}
+
+	private int getPreviewWidth() {
+		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			return 480;
+		}
+		return 213;
+	}
+
+	private int getPreviewHeight() {
+		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			return 360;
+		}
+		return 160;
 	}
 }

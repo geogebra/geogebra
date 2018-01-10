@@ -451,6 +451,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				this.device);
 	}
 
+	public void loadWebcam() {
+		if (getApp().getToolbar() != null) {
+			getApp().getToolbar().closeAllSubmenu();
+		}
+		((DialogManagerW) getDialogManager())
+				.showWebcamInputDialog(this.device);
+	}
+
 	/**
 	 * It sometimes happens that a file changes the font size of GUI. The GUI is
 	 * not ready for this in Web.
