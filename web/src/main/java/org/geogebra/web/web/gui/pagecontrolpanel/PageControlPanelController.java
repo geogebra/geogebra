@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
+import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 
 /**
@@ -13,7 +14,7 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
  * @author csilla
  *
  */
-public class PageControlPanelController {
+public class PageControlPanelController implements PageListControllerInterface {
 
 	/**
 	 * application {@link AppW}
@@ -98,9 +99,7 @@ public class PageControlPanelController {
 		return slides.size();
 	}
 
-	/**
-	 * resets the page control panel
-	 */
+	@Override
 	public void resetPageControl() {
 		if (!app.has(Feature.MOW_MULTI_PAGE)) {
 			return;

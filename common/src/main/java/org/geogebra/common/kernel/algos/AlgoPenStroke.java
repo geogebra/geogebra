@@ -30,7 +30,9 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  * Creates a PolyLine from a given list of points or point array.
  * 
  * @author Michael Borcherds
+ * @deprecated use AlgoLocusPenStroke instead
  */
+@Deprecated
 public class AlgoPenStroke extends AlgoElement implements AlgoStrokeInterface {
 
 	protected GeoPointND[] points; // input

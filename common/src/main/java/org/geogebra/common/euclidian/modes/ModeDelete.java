@@ -27,6 +27,8 @@ import org.geogebra.common.util.debug.Log;
 
 /**
  * Delete mode controller for polyline based penstrokes
+ * 
+ * @deprecated use ModeDeleteLocus instead
  */
 public class ModeDelete {
 	private EuclidianView view;

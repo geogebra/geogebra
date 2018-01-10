@@ -127,7 +127,6 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.plugin.WebsocketLogger;
-import org.geogebra.web.web.gui.pagecontrolpanel.PageControlPanelController;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -216,7 +215,7 @@ public abstract class AppW extends App implements SetLabels {
 	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
 	private NetworkOperation networkOperation;
-	private PageControlPanelController pageController;
+	private PageListControllerInterface pageController;
 
 	/*
 	 * True if showing the "alpha" in Input Boxes is allowed. (we can hide the
@@ -923,15 +922,15 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * @return controller for page control panel
 	 */
-	public PageControlPanelController getPageController() {
+	public PageListControllerInterface getPageController() {
 		return pageController;
 	}
 
 	/**
 	 * @param pageController
-	 *            {@link PageControlPanelController}
+	 *            {@link PageListControllerInterface}
 	 */
-	public void setPageController(PageControlPanelController pageController) {
+	public void setPageController(PageListControllerInterface pageController) {
 		this.pageController = pageController;
 	}
 

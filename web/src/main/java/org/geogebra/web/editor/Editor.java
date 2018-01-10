@@ -90,11 +90,11 @@ public class Editor implements EntryPoint, MathFieldListener {
 		// t.schedule(0);
 		// fld.requestViewFocus();
 	}
-	private native void addEditorFunction(Editor library) /*-{
-		$wnd.tryEditor = function(el) {
-			library.@org.geogebra.web.editor.Editor::edit(Lcom/google/gwt/dom/client/Element;)(el);
-		}
 
+	private native void addEditorFunction(Editor lib) /*-{
+		$wnd.tryEditor = function(el) {
+			lib.@org.geogebra.web.editor.Editor::edit(Lcom/google/gwt/dom/client/Element;)(el);
+		}
 	}-*/;
 
 	@Override

@@ -9,7 +9,9 @@ import org.geogebra.common.plugin.GeoClass;
  * Class for polylines created using pen
  * 
  * @author Michael
+ * @deprecated use GeoLocusPenStroke instead
  */
+@Deprecated
 public class GeoPenStroke extends GeoPolyLine {
 
 	/**
