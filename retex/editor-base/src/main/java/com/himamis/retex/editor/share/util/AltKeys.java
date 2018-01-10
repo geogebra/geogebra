@@ -29,6 +29,8 @@ public class AltKeys {
 		lookupUpper.put('L', Unicode.Lambda + "");
 		lookupLower.put('M', Unicode.mu + "");
 		lookupUpper.put('M', Unicode.Mu + "");
+		lookupLower.put('N', Unicode.nu + "");
+		lookupUpper.put('N', Unicode.Nu + "");
 		lookupLower.put('O', Unicode.DEGREE_STRING);
 		lookupUpper.put('O', Unicode.DEGREE_STRING);
 		lookupLower.put('P', " " + Unicode.pi + " ");

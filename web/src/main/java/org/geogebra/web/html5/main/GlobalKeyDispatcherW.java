@@ -718,6 +718,12 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 			return Unicode.mu + "";
 
+		case GWTKeycodes.KEY_N:
+			if (shiftDown) {
+				return Unicode.Nu + "";
+			}
+			return Unicode.nu + "";
+
 		case GWTKeycodes.KEY_W:
 			// Alt-W is | needed for abs()
 			if (shiftDown) {
