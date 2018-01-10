@@ -11,7 +11,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.web.gui.pagecontrolpanel.PageControlPanel;
+import org.geogebra.web.web.gui.pagecontrolpanel.PageListPanel;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 import org.geogebra.web.web.main.AppWapplet;
 
@@ -61,7 +61,7 @@ public class MOWToolbar extends FlowPanel {
 	/** redo button */
 	protected MyToggleButton btnRedo;
 	private MyToggleButton pageControlButton;
-	private PageControlPanel pageControlPanel;
+	private PageListPanel pageControlPanel;
 	private final static int MAX_TOOLBAR_WIDTH = 600;
 	private final static int FLOATING_BTNS_WIDTH = 80;
 

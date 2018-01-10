@@ -27,7 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Alicia Hofstaetter
  * 
  */
-public class PageControlPanel
+public class PageListPanel
 		extends PersistablePanel implements SetLabels {
 
 	private AppW app;
@@ -38,13 +38,13 @@ public class PageControlPanel
 	private PersistablePanel contentPanel;
 	private PagePreviewCard activePreviewCard;
 	private StandardButton plusButton;
-	private PageControlPanelController pageController;
+	private PageListController pageController;
 
 	/**
 	 * @param app
 	 *            application
 	 */
-	public PageControlPanel(AppW app) {
+	public PageListPanel(AppW app) {
 		this.app = app;
 		this.frame = ((AppWapplet) app).getAppletFrame();
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
@@ -52,7 +52,7 @@ public class PageControlPanel
 		if (app.isWhiteboardActive()) {
 			this.mowToolbar = frame.getMOWToorbar();
 		}
-		pageController = new PageControlPanelController(app);
+		pageController = new PageListController(app);
 		app.setPageController(pageController);
 		initGUI();
 	}

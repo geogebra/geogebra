@@ -14,7 +14,7 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
  * @author csilla
  *
  */
-public class PageControlPanelController implements PageListControllerInterface {
+public class PageListController implements PageListControllerInterface {
 
 	/**
 	 * application {@link AppW}
@@ -30,7 +30,7 @@ public class PageControlPanelController implements PageListControllerInterface {
 	 * @param app
 	 *            {@link AppW}
 	 */
-	public PageControlPanelController(AppW app) {
+	public PageListController(AppW app) {
 		this.app = app;
 		slides = new ArrayList<>();
 		activeSlide = 0;
