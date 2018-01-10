@@ -23,8 +23,8 @@ public class PageControlPanelController implements PageListControllerInterface {
 	/**
 	 * list of slides (pages)
 	 */
-	protected ArrayList<GgbFile> slides = null;
-	private int activeSlide = -1;
+	protected ArrayList<PagePreviewCard> slides;
+	private int activeSlide;
 
 	/**
 	 * @param app
@@ -32,6 +32,8 @@ public class PageControlPanelController implements PageListControllerInterface {
 	 */
 	public PageControlPanelController(AppW app) {
 		this.app = app;
+		slides = new ArrayList<>();
+		activeSlide = 0;
 	}
 
 	/**
@@ -44,16 +46,16 @@ public class PageControlPanelController implements PageListControllerInterface {
 		if (slides == null) {
 			return;
 		}
-		slides.set(activeSlide >= 0 ? activeSlide : 0,
-				app.getGgbApi().createArchiveContent(false));
+		slides.get(activeSlide)
+				.setFile(app.getGgbApi().createArchiveContent(false));
 		activeSlide = i;
 
 		try {
-			if (slides.get(i).isEmpty()) {
+			if (slides.get(i).getFile().isEmpty()) {
 				app.fileNew();
 			} else {
 				app.resetPerspectiveParam();
-				app.loadGgbFile(slides.get(i));
+				app.loadGgbFile(slides.get(i).getFile());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -65,13 +67,15 @@ public class PageControlPanelController implements PageListControllerInterface {
 	 * 
 	 * @return index of the added slide
 	 */
-	public int addSlide() {
+	public PagePreviewCard addSlide() {
 		if (slides == null) {
 			slides = new ArrayList<>();
 			activeSlide = 0;
 		}
-		slides.add(new GgbFile());
-		return slides.size() - 1;
+		PagePreviewCard previewCard = new PagePreviewCard(
+				app.getActiveEuclidianView(), slides.size(), new GgbFile());
+		slides.add(previewCard);
+		return previewCard;
 	}
 
 	/**

@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
@@ -174,22 +173,20 @@ public class PageControlPanel
 	 * @return index of new slide
 	 */
 	protected int addNewPage() {
-		int slideNumber = pageController.addSlide();
-		addPreviewCard(app.getActiveEuclidianView(), slideNumber);
-		return slideNumber;
+		final PagePreviewCard card = pageController.addSlide();
+		addPreviewCard(card);
+		return card.getPageIndex();
 	}
 
-	private void addPreviewCard(EuclidianView view, final int slideNumber) {
-		final PagePreviewCard previewCard = new PagePreviewCard(view,
-				slideNumber);
-		ClickStartHandler.init(previewCard, new ClickStartHandler() {
+	private void addPreviewCard(final PagePreviewCard card) {
+		ClickStartHandler.init(card, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				loadPage(previewCard.getPageIndex());
+				loadPage(card.getPageIndex());
 			}
 		});
-		contentPanel.add(previewCard);
-		previewCard.setLabels();
+		contentPanel.add(card);
+		card.setLabels();
 		scrollPanel.scrollToBottom();
 	}
 

@@ -13,6 +13,7 @@ import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
@@ -41,17 +42,24 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
 	private ContextMenuPagePreview contextMenu = null;
+	/**
+	 * ggb file
+	 */
+	protected GgbFile file;
 
 	/**
 	 * @param view
 	 *            associated view
 	 * @param pageIndex
 	 *            current page index
+	 * @param file
+	 *            see {@link GgbFile}
 	 */
-	public PagePreviewCard(EuclidianView view, int pageIndex) {
+	public PagePreviewCard(EuclidianView view, int pageIndex, GgbFile file) {
+		this.app = (AppW) view.getApplication();
 		this.view = view;
 		this.pageIndex = pageIndex;
-		this.app = (AppW) view.getApplication();
+		this.file = file;
 		this.loc = app.getLocalization();
 		initGUI();
 	}
@@ -228,6 +236,21 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 */
 	public EuclidianView getAssociatedView() {
 		return view;
+	}
+
+	/**
+	 * @return ggb file associated to this card
+	 */
+	public GgbFile getFile() {
+		return file;
+	}
+
+	/**
+	 * @param file
+	 *            see {@link GgbFile}
+	 */
+	public void setFile(GgbFile file) {
+		this.file = file;
 	}
 
 	@Override
