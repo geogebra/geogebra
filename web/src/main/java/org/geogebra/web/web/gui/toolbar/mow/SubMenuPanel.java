@@ -329,7 +329,8 @@ public abstract class SubMenuPanel extends FlowPanel
 		if ((mode < 101 && mode != EuclidianConstants.MODE_TEXT && mode != EuclidianConstants.MODE_IMAGE
 				&& mode != EuclidianConstants.MODE_PEN)
 				|| (mode > 110 && mode != EuclidianConstants.MODE_VIDEO && mode != EuclidianConstants.MODE_AUDIO
-						&& mode != EuclidianConstants.MODE_GEOGEBRA)) {
+						&& mode != EuclidianConstants.MODE_GEOGEBRA
+						&& mode != EuclidianConstants.MODE_CAMERA)) {
 			return true;
 		}
 		return false;
