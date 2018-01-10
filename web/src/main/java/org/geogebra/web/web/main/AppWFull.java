@@ -51,7 +51,6 @@ import org.geogebra.web.web.gui.HeaderPanelDeck;
 import org.geogebra.web.web.gui.LanguageGUI;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
-import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.layout.DockGlassPaneW;
@@ -951,16 +950,5 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 			accessibilityManager = new AccessibilityManagerW(this);
 		}
 		return accessibilityManager;
-	}
-
-	/**
-	 * resets the page control panel
-	 */
-	public void resetPageControl() {
-		if (!has(Feature.MOW_MULTI_PAGE)) {
-			return;
-		}
-		slides = null;
-		((GeoGebraFrameBoth) getAppletFrame()).getPageControlPanel().reset();
 	}
 }

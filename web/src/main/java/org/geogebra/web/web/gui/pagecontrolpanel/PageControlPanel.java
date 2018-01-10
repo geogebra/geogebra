@@ -39,6 +39,7 @@ public class PageControlPanel
 	private PersistablePanel contentPanel;
 	private PagePreviewCard activePreviewCard;
 	private StandardButton plusButton;
+	private PageControlPanelController pageController;
 
 	/**
 	 * @param app
@@ -52,6 +53,8 @@ public class PageControlPanel
 		if (app.isWhiteboardActive()) {
 			this.mowToolbar = frame.getMOWToorbar();
 		}
+		pageController = new PageControlPanelController(app);
+		app.setPageController(pageController);
 		initGUI();
 	}
 
@@ -171,7 +174,7 @@ public class PageControlPanel
 	 * @return index of new slide
 	 */
 	protected int addNewPage() {
-		int slideNumber = app.addSlide();
+		int slideNumber = pageController.addSlide();
 		addPreviewCard(app.getActiveEuclidianView(), slideNumber);
 		return slideNumber;
 	}
@@ -197,7 +200,7 @@ public class PageControlPanel
 	 *            index of page to load
 	 */
 	protected void loadPage(int index) {
-		app.loadSlide(index);
+		pageController.loadSlide(index);
 		setCardSelected((PagePreviewCard) contentPanel.getWidget(index));
 	}
 
@@ -209,11 +212,11 @@ public class PageControlPanel
 	 * 
 	 */
 	public void removePage(int index) {
-		if (index > app.getSlidesAmount()) {
+		if (index > pageController.getSlidesAmount()) {
 			return;
 		}
 		int i = index;
-		if (app.getSlidesAmount() > 1) {
+		if (pageController.getSlidesAmount() > 1) {
 			if (index == 0) {
 				i++;
 			} else {
@@ -227,7 +230,7 @@ public class PageControlPanel
 			updatePreview();
 		}
 		contentPanel.remove(index);
-		app.removeSlide(index);
+		pageController.removeSlide(index);
 		updateIndexes();
 	}
 

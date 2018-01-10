@@ -24,7 +24,6 @@ import org.geogebra.web.web.gui.exam.ExamDialog;
 import org.geogebra.web.web.gui.layout.LayoutW;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.util.ShareDialogW;
-import org.geogebra.web.web.main.AppWFull;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -56,8 +55,9 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				if (!app.isUnbundledOrWhiteboard()) {
 					app.showPerspectivesPopup();
 				}
-				if (app.has(Feature.MOW_MULTI_PAGE)) {
-					((AppWFull) app).resetPageControl();
+				if (app.has(Feature.MOW_MULTI_PAGE)
+						&& app.getPageController() != null) {
+					app.getPageController().resetPageControl();
 				}
 			}
 		};

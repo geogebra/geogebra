@@ -127,6 +127,7 @@ import org.geogebra.web.html5.util.UUIDW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.GeoGebraProfilerW;
 import org.geogebra.web.plugin.WebsocketLogger;
+import org.geogebra.web.web.gui.pagecontrolpanel.PageControlPanelController;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
@@ -170,8 +171,6 @@ public abstract class AppW extends App implements SetLabels {
 	private final LocalizationW loc;
 	private ImageManagerW imageManager;
 	private GgbFile currentFile = null;
-	protected ArrayList<GgbFile> slides = null;
-	private int activeSlide = -1;
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private int localID = -1;
@@ -217,6 +216,7 @@ public abstract class AppW extends App implements SetLabels {
 	private ArrayList<ViewsChangedListener> viewsChangedListener = new ArrayList<>();
 	private GDimension preferredSize;
 	private NetworkOperation networkOperation;
+	private PageControlPanelController pageController;
 
 	/*
 	 * True if showing the "alpha" in Input Boxes is allowed. (we can hide the
@@ -920,7 +920,20 @@ public abstract class AppW extends App implements SetLabels {
 		setCurrentFile(null);
 	}
 
+	/**
+	 * @return controller for page control panel
+	 */
+	public PageControlPanelController getPageController() {
+		return pageController;
+	}
 
+	/**
+	 * @param pageController
+	 *            {@link PageControlPanelController}
+	 */
+	public void setPageController(PageControlPanelController pageController) {
+		this.pageController = pageController;
+	}
 
 	/**
 	 * @return current .zip file as hashmap
@@ -3634,70 +3647,6 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public boolean isPortrait() {
 		return getWidth() < getHeight();
-	}
-
-	/**
-	 * loads the slide with index i from the list
-	 * 
-	 * @param i
-	 *            index of the slide to load
-	 */
-	public void loadSlide(int i) {
-		if (slides == null) {
-			return;
-		}
-		slides.set(activeSlide, getGgbApi().createArchiveContent(false));
-		activeSlide = i;
-
-		try {
-			if (slides.get(i).isEmpty()) {
-				fileNew();
-			} else {
-				resetPerspectiveParam();
-				loadGgbFile(slides.get(i));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * adds a new slide to the list
-	 * 
-	 * @return index of the added slide
-	 */
-	public int addSlide() {
-		if (slides == null) {
-			slides = new ArrayList<>();
-			activeSlide = 0;
-		}
-		slides.add(new GgbFile());
-		return slides.size() - 1;
-	}
-
-	/**
-	 * removes the slide with given index from the list
-	 * 
-	 * @param index
-	 *            of the slide to be removed
-	 */
-	public void removeSlide(int index) {
-		if (slides == null || index >= slides.size()) {
-			return;
-		}
-		if (activeSlide >= index) {
-			activeSlide--;
-		}
-		slides.remove(index);
-	}
-
-	/**
-	 * gets the number of slides in the list
-	 * 
-	 * @return number of slides
-	 */
-	public int getSlidesAmount() {
-		return slides.size();
 	}
 
 	/**
