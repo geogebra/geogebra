@@ -61,7 +61,7 @@ public class PageListPanel
 		addStyleName("mowPageControlPanel");
 		addPlusButton();
 		addContentPanel();
-		addFirstPage();
+		addNewPage(true);
 		frame.add(this);
 		setVisible(false);
 	}
@@ -73,11 +73,6 @@ public class PageListPanel
 		contentPanel.addStyleName("mowPageControlContentPanel");
 		scrollPanel.add(contentPanel);
 		add(scrollPanel);
-	}
-
-	private void addFirstPage() {
-		addNewPage();
-		setCardSelected((PagePreviewCard) contentPanel.getWidget(0));
 	}
 
 	private void addPlusButton() {
@@ -92,7 +87,7 @@ public class PageListPanel
 		plusButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				loadPage(addNewPage());
+				loadPage(addNewPage(false));
 				updatePreview();
 			}
 		});
@@ -170,11 +165,17 @@ public class PageListPanel
 	/**
 	 * creates a new page and associated preview card
 	 * 
+	 * @param selected
+	 *            true if added card should be selected, false otherwise
+	 * 
 	 * @return index of new slide
 	 */
-	protected int addNewPage() {
+	protected int addNewPage(boolean selected) {
 		final PagePreviewCard card = pageController.addSlide();
 		addPreviewCard(card);
+		if (selected) {
+			setCardSelected(card);
+		}
 		return card.getPageIndex();
 	}
 
@@ -223,7 +224,7 @@ public class PageListPanel
 				loadPage(i);
 			}
 		} else {
-			loadPage(addNewPage());
+			loadPage(addNewPage(true));
 			updatePreview();
 		}
 		contentPanel.remove(index);
@@ -283,6 +284,6 @@ public class PageListPanel
 	 */
 	public void reset() {
 		contentPanel.clear();
-		addFirstPage();
+		addNewPage(true);
 	}
 }
