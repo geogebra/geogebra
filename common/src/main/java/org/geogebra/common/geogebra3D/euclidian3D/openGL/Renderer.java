@@ -153,6 +153,7 @@ public abstract class Renderer {
 	private int export_i;
 	private AnimationExportSlider export_num;
 	public boolean waitForSetStencilLines = false;
+	private Runnable export3DRunnable;
 
 
 	/**
@@ -242,6 +243,15 @@ public abstract class Renderer {
 	 */
 	public boolean isExportingImageEquirectangular() {
 		return exportImageEquirectangular;
+	}
+
+	/**
+	 * set runnable to do a 3D export on next frame
+	 * 
+	 * @param runnable
+	 */
+	public void setExport3D(Runnable runnable) {
+		export3DRunnable = runnable;
 	}
 
 	/**
@@ -392,6 +402,11 @@ public abstract class Renderer {
 
 		if (nei) {
 			unselectFBO();
+		}
+
+		if (export3DRunnable != null) {
+			export3DRunnable.run();
+			export3DRunnable = null;
 		}
 
 	}

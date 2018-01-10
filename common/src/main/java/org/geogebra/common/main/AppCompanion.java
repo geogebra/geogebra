@@ -2,6 +2,7 @@ package org.geogebra.common.main;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.kernel.GeoFactory;
 import org.geogebra.common.kernel.Kernel;
@@ -182,9 +183,12 @@ public class AppCompanion {
 	}
 	
 	/**
-	 * set flag so a Solid CAD export will be done on next 3D frame
+	 * set export will be done on next 3D frame
+	 * 
+	 * @param format
+	 *            export format
 	 */
-	public void setFlagForSCADexport() {
+	public void setExport3D(Format format) {
 		// implemented in App3DCompanion
 	}
 

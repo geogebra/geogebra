@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.menubar;
 
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.web.html5.Browser;
@@ -168,12 +170,22 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 			}
 		});
 
-		if (app.has(Feature.EXPORT_SCAD)) {
+		if (app.has(Feature.EXPORT_SCAD_IN_MENU)) {
 			menu.addItem(menuText("OpenSCAD"), true, new MenuCommand(app) {
 				@Override
 				public void doExecute() {
 					menu.hide();
-					app.setFlagForSCADexport();
+					app.setExport3D(new FormatJscad());
+				}
+			});
+		}
+
+		if (app.has(Feature.EXPORT_COLLADA_IN_MENU)) {
+			menu.addItem(menuText("Collada"), true, new MenuCommand(app) {
+				@Override
+				public void doExecute() {
+					menu.hide();
+					app.setExport3D(new FormatCollada());
 				}
 			});
 		}

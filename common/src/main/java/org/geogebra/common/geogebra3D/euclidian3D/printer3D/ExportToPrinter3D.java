@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.Feature;
 
-public abstract class ExportToPrinter3D {
+public class ExportToPrinter3D {
 
 	static public enum Type {
 		CURVE, CURVE_CLOSED, SURFACE_CLOSED, POINT
@@ -103,22 +103,19 @@ public abstract class ExportToPrinter3D {
 
 	/**
 	 * constructor
-	 */
-	public ExportToPrinter3D() {
-		format = new FormatJscad();
-		// format = new FormatCollada();
-		sb = new StringBuilder();
-	}
-
-	/**
-	 * set view and manager
 	 * 
 	 * @param view
 	 *            3D view
-	 * @param manager
-	 *            geometries manager
 	 */
-	final protected void set(EuclidianView3D view,
+	public ExportToPrinter3D(EuclidianView3D view) {
+		Manager manager = view.getRenderer().getGeometryManager();
+		if (manager instanceof ManagerShadersElementsGlobalBuffer) {
+			set(view, (ManagerShadersElementsGlobalBuffer) manager);
+		}
+		sb = new StringBuilder();
+	}
+
+	private void set(EuclidianView3D view,
 			ManagerShadersElementsGlobalBuffer manager) {
 		this.view = view;
 		this.manager = manager;
@@ -146,7 +143,6 @@ public abstract class ExportToPrinter3D {
 
 
 		if (currentGeometriesSet != null) {
-			sb.setLength(0);
 			for (Geometry g : currentGeometriesSet) {
 
 				GeometryForExport geometry = (GeometryForExport) g;
@@ -210,8 +206,6 @@ public abstract class ExportToPrinter3D {
 				format.getPolyhedronEnd(sb);
 
 			}
-
-			printToFile(sb.toString());
 		}
 	}
 
@@ -252,7 +246,6 @@ public abstract class ExportToPrinter3D {
 		GeometriesSet currentGeometriesSet = manager
 				.getGeometrySet(geometryIndex);
 		if (currentGeometriesSet != null) {
-			sb.setLength(0);
 			for (Geometry g : currentGeometriesSet) {
 
 				GeometryForExport geometry = (GeometryForExport) g;
@@ -339,7 +332,6 @@ public abstract class ExportToPrinter3D {
 
 			}
 
-			printToFile(sb.toString());
 		}
 	}
 
@@ -365,8 +357,6 @@ public abstract class ExportToPrinter3D {
 		if (alpha < 0.001) {
 			return;
 		}
-
-		sb.setLength(0);
 
 		PolygonTriangulation pt = polygon.getPolygonTriangulation();
 		if (pt.getMaxPointIndex() > 2) {
@@ -467,8 +457,6 @@ public abstract class ExportToPrinter3D {
 				// end of polyhedron
 				format.getPolyhedronEnd(sb);
 
-				printToFile(sb.toString());
-
 			} else {
 				if (!format.needsClosedObjects()) { // TODO for 3D printing
 					int length = polygon.getPointsLength();
@@ -534,9 +522,6 @@ public abstract class ExportToPrinter3D {
 
 					// end of polyhedron
 					format.getPolyhedronEnd(sb);
-
-					printToFile(sb.toString());
-
 				}
 
 			}
@@ -552,14 +537,6 @@ public abstract class ExportToPrinter3D {
 	public Format getFormat() {
 		return format;
 	}
-
-	/**
-	 * Print script
-	 * 
-	 * @param s
-	 *            exported script
-	 */
-	abstract protected void printToFile(String s);
 
 	private void getVertex(boolean notFirst, double x0, double y0, double z0) {
 		double x = x0;
@@ -620,12 +597,23 @@ public abstract class ExportToPrinter3D {
 			format.getFaces(sb, v1, v2, v3, normal);
 		}
 	}
-	
-	public void start() {
+
+	/**
+	 * 
+	 * @param format
+	 *            export format
+	 * @return export
+	 */
+	public StringBuilder export(Format format) {
+		this.format = format;
 		xInvScale = 1 / view.getXscale();
 		differentAxisRatio = view.getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D);
+
+		sb.setLength(0);
+		format.getScriptStart(sb);
+		view.getRenderer().drawable3DLists.exportToPrinter3D(this);
+		format.getScriptEnd(sb);
+		return sb;
 	}
-	
-	abstract public void end();
 
 }

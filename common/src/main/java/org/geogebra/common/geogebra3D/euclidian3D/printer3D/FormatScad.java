@@ -9,8 +9,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public class FormatScad implements Format {
 
 	@Override
-	public void getExtension(StringBuilder sb) {
-		sb.append(".scad");
+	public String getExtension() {
+		return "scad";
 	}
 
 	@Override

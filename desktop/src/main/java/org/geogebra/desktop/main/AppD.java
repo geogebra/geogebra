@@ -60,6 +60,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -5397,6 +5398,26 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void resetCurrentFile() {
 		setCurrentFile(null);
+	}
+
+	@Override
+	public void exportSbToFile(String ext, StringBuilder sb) {
+		try {
+			StringBuilder fileName = new StringBuilder();
+			fileName.append("test.");
+			fileName.append(ext);
+			BufferedWriter objBufferedWriter = new BufferedWriter(
+					new OutputStreamWriter(new FileOutputStream(fileName.toString()), "UTF-8"));
+			Log.debug("Export to " + fileName);
+			objBufferedWriter.write(sb.toString());
+			objBufferedWriter.close();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

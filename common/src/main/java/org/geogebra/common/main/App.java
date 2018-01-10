@@ -35,6 +35,7 @@ import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.factories.CASFactory;
 import org.geogebra.common.factories.Factory;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.util.CopyPaste3D;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
 import org.geogebra.common.gui.AccessibilityManagerNoGui;
@@ -4197,10 +4198,12 @@ public abstract class App implements UpdateSelection {
             case AV_ITEM_DESIGN:
                 return relaunch || isNativeMobileAppWithNewUI();
 
-            case EXPORT_SCAD:
+            case EXPORT_SCAD_IN_MENU:
                 return prerelease;
 
-
+            case EXPORT_COLLADA_IN_MENU:
+                return prerelease;
+                
             case INPUT_BAR_ADD_SLIDER:
                 return relaunch
                         && isHTML5Applet();
@@ -5025,10 +5028,13 @@ public abstract class App implements UpdateSelection {
 	}
 	
 	/**
-	 * set flag so a Solid CAD export will be done on next 3D frame
+	 * set export will be done on next 3D frame
+	 * 
+	 * @param format
+	 *            export format
 	 */
-	public void setFlagForSCADexport() {
-		companion.setFlagForSCADexport();
+	public void setExport3D(Format format) {
+		companion.setExport3D(format);
 	}
 
 	public boolean isPortrait() {
@@ -5144,6 +5150,14 @@ public abstract class App implements UpdateSelection {
 			}
 		}
 		return fallback;
+	}
+
+	/**
+	 * 
+	 * @param sb
+	 */
+	public void exportSbToFile(String ext, StringBuilder sb) {
+		// needs to be implemented in subclasses
 	}
 
 }

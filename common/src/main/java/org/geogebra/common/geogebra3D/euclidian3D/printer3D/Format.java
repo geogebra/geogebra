@@ -11,10 +11,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 public interface Format {
 
 	/**
-	 * 
-	 * file extension for this format
+	 * @return file extension for this format
 	 */
-	public void getExtension(StringBuilder sb);
+	public String getExtension();
 
 	/**
 	 * 

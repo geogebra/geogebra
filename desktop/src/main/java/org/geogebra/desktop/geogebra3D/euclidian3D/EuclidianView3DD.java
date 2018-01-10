@@ -33,7 +33,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.RendererType;
-import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.settings.EuclidianSettings;
@@ -51,7 +50,6 @@ import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.printer3D.ExportToPrinter3DD;
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.Mouse3DEventD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.javax.swing.GBoxD;
@@ -141,10 +139,6 @@ public class EuclidianView3DD extends EuclidianView3D
 
 		return new RendererCheckGLVersionD(this, canUseCanvas(), RendererType.GL2);
 
-	}
-
-	protected ExportToPrinter3D createExportToPrinter3D() {
-		return new ExportToPrinter3DD(this, renderer);
 	}
 
 	private boolean canUseCanvas() {

@@ -63,6 +63,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Manager.ScalerXYZ;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
@@ -290,9 +291,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	private Coords startPos;
 
 	private CoordMatrix4x4 startTranslation = CoordMatrix4x4.Identity();
-
-	private boolean doExportToPrinter3D = false;
-	private ExportToPrinter3D exportToPrinter;
 
 	private EuclidianView3DAnimator animator;
 
@@ -4576,25 +4574,15 @@ public abstract class EuclidianView3D extends EuclidianView
 	}
 	
 	@Override
-	public void setFlagForSCADexport() {
-		doExportToPrinter3D = true;
-	}
-
-	abstract protected ExportToPrinter3D createExportToPrinter3D();
-
-	/**
-	 * export drawables to 3D printer file
-	 */
-	public void exportToPrinter3D() {
-		if (doExportToPrinter3D) {
-			if (exportToPrinter == null) {
-				exportToPrinter = createExportToPrinter3D();
+	public void setExport3D(final Format format) {
+		renderer.setExport3D(new Runnable() {
+			@Override
+			public void run() {
+				ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(EuclidianView3D.this);
+				StringBuilder export = exportToPrinter.export(format);
+				app.exportSbToFile(format.getExtension(), export);
 			}
-			exportToPrinter.start();
-			renderer.drawable3DLists.exportToPrinter3D(exportToPrinter);
-			exportToPrinter.end();
-			doExportToPrinter3D = false;
-		}
+		});
 	}
 
 	@Override

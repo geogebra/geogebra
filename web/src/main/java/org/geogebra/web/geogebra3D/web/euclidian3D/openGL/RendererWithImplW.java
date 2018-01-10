@@ -7,7 +7,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
-import org.geogebra.common.main.Feature;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
@@ -294,11 +293,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 		setColorMask(false, false, false, true);
 		clearColorBuffer();
 		setColorMask(true, true, true, true);
-		
-		if (view3D.getApplication().has(Feature.EXPORT_SCAD)) {
-			view3D.exportToPrinter3D();
-		}
-
 	}
 
 	/**

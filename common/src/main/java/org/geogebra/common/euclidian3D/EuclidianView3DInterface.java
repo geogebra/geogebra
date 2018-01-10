@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian3D;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
@@ -194,9 +195,12 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	public boolean hasStyleBar();
 	
 	/**
-	 * set flag so a Solid CAD export will be done on next 3D frame
+	 * set export will be done on next 3D frame
+	 * 
+	 * @param format
+	 *            export format
 	 */
-	public void setFlagForSCADexport();
+	public void setExport3D(final Format format);
 	
 	/**
 	 * zoom y & z axes ratio regarding x axis

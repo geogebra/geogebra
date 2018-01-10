@@ -35,8 +35,8 @@ public class FormatCollada implements Format {
 	}
 
 	@Override
-	public void getExtension(StringBuilder sb) {
-		sb.append(".dae");
+	public String getExtension() {
+		return "dae";
 	}
 
 	@Override

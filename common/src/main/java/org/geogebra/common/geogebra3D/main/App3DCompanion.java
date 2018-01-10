@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.main;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
 import org.geogebra.common.geogebra3D.kernel3D.Kernel3D;
@@ -272,8 +273,8 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 	
 	@Override
-	public void setFlagForSCADexport() {
-		app.getEuclidianView3D().setFlagForSCADexport();
+	public void setExport3D(Format format) {
+		app.getEuclidianView3D().setExport3D(format);
 	}
 
 }

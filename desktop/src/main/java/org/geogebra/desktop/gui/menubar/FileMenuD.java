@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
 
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -44,7 +46,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	private AbstractAction newWindowAction, deleteAll, saveAction, saveAsAction,
 			loadAction, loadURLAction, exportWorksheet, shareAction,
 			exportGraphicAction, exportAnimationAction, exportPgfAction,
-			exportPSTricksAction, exportAsymptoteAction, exportPDFaction, exportSCADaction;
+			exportPSTricksAction, exportAsymptoteAction, exportPDFaction, exportSCADaction, exportColladaAction;
 	/** load from MAT item */
 	JMenuItem loadURLMenuItem;
 	/** share item */
@@ -168,8 +170,11 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		if (app.has(Feature.EXPORT_ANIMATED_PDF)) {
 			mi = submenu.add(exportPDFaction);
 		}
-		if (app.has(Feature.EXPORT_SCAD)) {
+		if (app.has(Feature.EXPORT_SCAD_IN_MENU)) {
 			mi = submenu.add(exportSCADaction);
+		}
+		if (app.has(Feature.EXPORT_COLLADA_IN_MENU)) {
+			mi = submenu.add(exportColladaAction);
 		}
 		addSeparator();
 
@@ -577,7 +582,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 		
 		
-		if (app.has(Feature.EXPORT_SCAD)) {
+		if (app.has(Feature.EXPORT_SCAD_IN_MENU)) {
 			exportSCADaction = new AbstractAction(
 					"OpenSCAD" + Unicode.ELLIPSIS,
 					app.getEmptyIcon()) {
@@ -586,9 +591,24 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try {
-						app.setFlagForSCADexport();
+						app.setExport3D(new FormatJscad());
 					} catch (Exception ex) {
 						Log.debug("Export to OpenSCAD not available");
+					}
+				}
+			};
+		}
+
+		if (app.has(Feature.EXPORT_COLLADA_IN_MENU)) {
+			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						app.setExport3D(new FormatCollada());
+					} catch (Exception ex) {
+						Log.debug("Export to Collada not available");
 					}
 				}
 			};

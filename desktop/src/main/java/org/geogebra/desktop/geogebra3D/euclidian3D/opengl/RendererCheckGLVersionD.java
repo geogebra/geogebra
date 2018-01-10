@@ -18,7 +18,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -262,11 +261,6 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 		drawScene();
 
-		if (view3D.getApplication().has(Feature.EXPORT_SCAD)) {
-			if (getType() == RendererType.SHADER) {
-				view3D.exportToPrinter3D();
-			}
-		}
 	}
 
 	@Override

@@ -70,6 +70,7 @@ import org.geogebra.common.move.ggtapi.operations.LogInOperation;
 import org.geogebra.common.move.operations.Network;
 import org.geogebra.common.move.operations.NetworkOperation;
 import org.geogebra.common.move.views.OfflineView;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.sound.SoundManager;
@@ -142,6 +143,7 @@ import com.google.gwt.dom.client.ScriptElement;
 import com.google.gwt.dom.client.Style.Display;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.storage.client.Storage;
 import com.google.gwt.storage.client.StorageMap;
 import com.google.gwt.user.client.Cookies;
@@ -3653,5 +3655,12 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void share() {
 		// only with GUI
+	}
+
+	@Override
+	public void exportSbToFile(String ext, StringBuilder sb) {
+		String url = "data:text/plain;charset=utf-8," + URL.encodePathSegment(sb.toString());
+		dispatchEvent(new org.geogebra.common.plugin.Event(EventType.OPEN_DIALOG, null, "export3D"));
+		getFileManager().showExportAsPictureDialog(url, getExportTitle(), ext, "Export", this);
 	}
 }
