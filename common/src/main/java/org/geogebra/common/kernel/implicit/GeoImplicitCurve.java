@@ -122,6 +122,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		locus.setDefined(true);
 		cons.removeFromConstructionList(locus);
 		c.registerEuclidianViewCE(this);
+		setConstructionDefaults();
 	}
 
 	/**

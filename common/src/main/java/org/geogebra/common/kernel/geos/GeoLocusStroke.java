@@ -145,7 +145,6 @@ public class GeoLocusStroke extends GeoLocus
 		}
 
 		resetPointsWithoutControl();
-
 	}
 
 	@Override

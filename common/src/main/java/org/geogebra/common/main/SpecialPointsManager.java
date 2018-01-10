@@ -50,10 +50,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 
 		if (geo != null) {
 			ArrayList<GeoElementND> specPoints0 = new ArrayList<>();
-			GeoElementND[] sp = getSpecPoints(geo);
-			if (sp != null) {
-				specPoints0.addAll(Arrays.asList(sp));
-			}
+			getSpecPoints(geo, specPoints0);
+
 			if (specPoints0.size() > 0) {
 				specPoints = new GeoElement[specPoints0.size()];
 				for (int i = 0; i < specPoints0.size(); i++) {
@@ -82,23 +80,23 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 		kernel.notifyUpdateSpecPointsPreviewOnEV(specPoints);
 	}
 
-	private GeoElementND[] getSpecPoints(GeoElementND geo) {
+	private void getSpecPoints(GeoElementND geo,
+			ArrayList<GeoElementND> retList) {
 		if (!(geo instanceof GeoFunction) || !geo.isVisible()
 				|| !geo.isDefined()) {
-			return null;
+			return;
 		}
 		boolean xAxis = kernel.getApplication().getActiveEuclidianView()
 				.getShowAxis(0);
 		boolean yAxis = kernel.getApplication().getActiveEuclidianView()
 				.getShowAxis(1);
 		if (!xAxis && !yAxis) {
-			return null;
+			return;
 		}
 		PolyFunction poly = ((GeoFunction) geo).getFunction()
 				.expandToPolyFunction(
 						((GeoFunction) geo).getFunctionExpression(), false,
 						true);
-		GeoElementND[] geos1 = null;
 		if (xAxis && (poly == null || poly.getDegree() > 0)) {
 			if (!((GeoFunction) geo).isPolynomialFunction(true)
 					&& geo.isDefined()) {
@@ -108,7 +106,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 				AlgoRoots algoRoots = new AlgoRoots(kernel.getConstruction(),
 						null, (GeoFunction) geo, view.getXminObject(),
 						view.getXmaxObject(), false);
-				geos1 = algoRoots.getRootPoints();
+				add(algoRoots.getRootPoints(), retList);
 				specPointAlgos.add(algoRoots);
 			} else {
 				AlgoRootsPolynomial algoRootsPolynomial = new AlgoRootsPolynomial(
@@ -116,11 +114,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 						false);
 				kernel.getConstruction()
 						.removeFromAlgorithmList(algoRootsPolynomial);
-				geos1 = algoRootsPolynomial.getRootPoints();
+				add(algoRootsPolynomial.getRootPoints(), retList);
 				specPointAlgos.add(algoRootsPolynomial);
 			}
 		}
-		GeoElementND[] geos2 = null;
 		if (poly == null || poly.getDegree() > 1) {
 			if (!((GeoFunction) geo).isPolynomialFunction(true)) {
 				EuclidianViewInterfaceCommon view = this.kernel.getApplication()
@@ -128,7 +125,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 				AlgoExtremumMulti algoExtremumMulti = new AlgoExtremumMulti(
 						kernel.getConstruction(), null, (GeoFunction) geo,
 						view.getXminObject(), view.getXmaxObject(), false);
-				geos2 = algoExtremumMulti.getExtremumPoints();
+				add(algoExtremumMulti.getExtremumPoints(), retList);
 				specPointAlgos.add(algoExtremumMulti);
 			} else {
 				AlgoExtremumPolynomial algoExtremumPolynomial = new AlgoExtremumPolynomial(
@@ -136,34 +133,30 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 						false);
 				kernel.getConstruction()
 						.removeFromAlgorithmList(algoExtremumPolynomial);
-				geos2 = algoExtremumPolynomial.getRootPoints();
+				add(algoExtremumPolynomial.getRootPoints(), retList);
 				specPointAlgos.add(algoExtremumPolynomial);
 			}
 		}
+
 		if (yAxis) {
 			AlgoIntersectPolynomialLine algoPolynomialLine = new AlgoIntersectPolynomialLine(
 					kernel.getConstruction(), (GeoFunction) geo,
 					kernel.getConstruction().getYAxis());
 			kernel.getConstruction()
 					.removeFromAlgorithmList(algoPolynomialLine);
-			geos2 = algoPolynomialLine.getOutput();
+			add(algoPolynomialLine.getOutput(), retList);
 			specPointAlgos.add(algoPolynomialLine);
 		}
-		if (geos1 != null && geos1.length > 0) {
-			if (geos2 != null && geos2.length > 0) {
-				GeoElementND[] ret = new GeoElementND[geos1.length
-						+ geos2.length];
-				for (int i = 0; i < geos1.length; i++) {
-					ret[i] = geos1[i];
-				}
-				for (int i = 0; i < geos2.length; i++) {
-					ret[i + geos1.length] = geos2[i];
-				}
-				return ret;
+
+	}
+
+	private void add(GeoElement[] geos1, ArrayList<GeoElementND> retList) {
+		if (geos1 != null) {
+			for(int i=0;i<geos1.length;i++){
+				retList.add(geos1[i]);
 			}
-			return geos1;
 		}
-		return geos2;
+
 	}
 
 	/**
