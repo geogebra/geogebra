@@ -960,6 +960,11 @@ namespace giac {
     if (args.type==_DOUBLE_ && args._DOUBLE_val==int(args._DOUBLE_val)){
       return evalf(_laplacian(int(args._DOUBLE_val),contextptr),1,context0);
     }
+    if (args.type==_IDNT){
+      gen g=eval(args,1,contextptr);
+      if (g.type==_INT_)
+	return _laplacian(g,contextptr);
+    }
     if (args.type==_INT_ && args.val>0 && args.val<int(std::sqrt(double(LIST_SIZE_LIMIT)))){
       // discrete 1-d laplacian matrix
       int n=args.val;

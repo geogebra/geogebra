@@ -476,30 +476,37 @@ namespace giac {
     if (r1==r2)
       return true;
     gen_map::const_iterator r1b0,r1b,r1e,r2b0,r2b,r2e;
-    if (!dicho(B,r1,r1b0,r1e) || !dicho(B,r2,r2b0,r2e))
+    bool dicho1=dicho(B,r1,r1b0,r1e),dicho2=dicho(B,r2,r2b0,r2e);
+    if (!dicho1 && !dicho2)
       return false;
     vecteur c1;
-    for (r1b=r1b0;r1b!=r1e;++r1b){
-      gen & C=r1b->first._VECTptr->back();
-      if (c>=0 && C.val>c){
-	r1e=r1b;
-	break;
+    if (dicho1){
+      for (r1b=r1b0;r1b!=r1e;++r1b){
+	gen & C=r1b->first._VECTptr->back();
+	if (c>=0 && C.val>c){
+	  r1e=r1b;
+	  break;
+	}
+	c1.push_back(C);
+	c1.push_back(r1b->second);
       }
-      c1.push_back(C);
-      c1.push_back(r1b->second);
     }
     vecteur c2;
-    for (r2b=r2b0;r2b!=r2e;++r2b){
-      gen & C=r2b->first._VECTptr->back();
-      if (c>=0 && C.val>c){
-	r2e=r2b;
-	break;
+    if (dicho2){
+      for (r2b=r2b0;r2b!=r2e;++r2b){
+	gen & C=r2b->first._VECTptr->back();
+	if (c>=0 && C.val>c){
+	  r2e=r2b;
+	  break;
+	}
+	c2.push_back(C);
+	c2.push_back(r2b->second);
       }
-      c2.push_back(C);
-      c2.push_back(r2b->second);
     }
-    u.erase(*(gen_map::iterator *) &r1b0, *(gen_map::iterator *) &r1e);
-    u.erase(*(gen_map::iterator *) &r2b0, *(gen_map::iterator *) &r2e);
+    if (dicho1)
+      u.erase(*(gen_map::iterator *) &r1b0, *(gen_map::iterator *) &r1e);
+    if (dicho2)
+      u.erase(*(gen_map::iterator *) &r2b0, *(gen_map::iterator *) &r2e);
     for (int i=0;i<int(c2.size());i+=2){
       u[makesequence(r1,c2[i])]=c2[i+1];
     }
@@ -600,10 +607,13 @@ namespace giac {
       }
       // exchange rows
       if (pivotline!=r){
+	//CERR << "pivotline,r " << pivotline << "," << r << " col " << c << endl;
+	//CERR << "avant " << l << endl << u << endl;
 	sparse_swaprows(u,B,r,pivotline);
 	find_line_begin(l.begin(),l.end(),B);
 	sparse_swaprows(l,B,r,pivotline,c);
 	find_line_begin(u.begin(),u.end(),B);
+	//CERR << "apres " << l << endl << u << endl;
 	swapint(p[r],p[pivotline]);
       }
       // reduce rows and fill l
