@@ -217,7 +217,7 @@ public class ModeDeleteLocus extends ModeDelete {
 							&& gps.getParentAlgorithm() != null
 							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 						((AlgoLocusStroke) gps.getParentAlgorithm())
-								.updatePointArray(dataPoints);
+								.updatePointArray(dataPoints, 0);
 					}
 
 				} else {
@@ -729,7 +729,7 @@ public class ModeDeleteLocus extends ModeDelete {
 							&& gps.getParentAlgorithm() != null
 							&& gps.getParentAlgorithm() instanceof AlgoLocusStroke) {
 						((AlgoLocusStroke) gps.getParentAlgorithm())
-								.updatePointArray(dataPoints);
+								.updatePointArray(dataPoints, 0);
 					}
 
 				} else {

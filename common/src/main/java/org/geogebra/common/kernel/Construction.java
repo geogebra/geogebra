@@ -1544,8 +1544,9 @@ public class Construction {
 
 		// if an object is redefined the same (eg in a script) rather than
 		// reloading the whole XML, just update it
-		if (oldGeo.getDefinition(StringTemplate.maxPrecision)
-				.equals(newGeo.getDefinition(StringTemplate.maxPrecision))
+		// NB xmlTemplate has faster serialization than maxPrecision template
+		if (oldGeo.getDefinition(StringTemplate.xmlTemplate)
+				.equals(newGeo.getDefinition(StringTemplate.xmlTemplate))
 				&& oldGeo.getParentAlgorithm() != null) {
 			ArrayList<AlgoElement> ae = new ArrayList<>();
 			ae.add(oldGeo.getParentAlgorithm());

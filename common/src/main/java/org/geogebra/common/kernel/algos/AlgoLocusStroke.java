@@ -50,7 +50,7 @@ public class AlgoLocusStroke extends AlgoElement
 	public AlgoLocusStroke(Construction cons, List<MyPoint> points) {
 		super(cons);
 		poly = new GeoLocusStroke(this.cons);
-		updatePointArray(points);
+		updatePointArray(points, 0);
 		// poly = new GeoPolygon(cons, points);
 		// updatePointArray already covered compute
 		input = new GeoElement[1];
@@ -105,7 +105,7 @@ public class AlgoLocusStroke extends AlgoElement
 	 * 
 	 * @param data
 	 */
-	public void updatePointArray(List<MyPoint> data) {
+	public void updatePointArray(List<MyPoint> data, int initialIndex) {
 		// check if we have a point list
 		// create new points array
 		int size = data.size();
@@ -115,12 +115,17 @@ public class AlgoLocusStroke extends AlgoElement
 		// stroke is: (A),(?),(A),(B) -> size 4
 		if (canBeBezierCurve(data) && poly.getKernel().getApplication()
 				.has(Feature.MOW_PEN_SMOOTHING)) {
-			int index = 0;
+
 			pointList.clear();
-			if (data.get(0).isDefined()) {
+			for (int i = 0; i < initialIndex; i++) {
+				pointList.add(data.get(i));
+			}
+			int index = initialIndex;
+			if (data.get(index).isDefined()) {
 				// move at first point
 				pointList.add(
-						new MyPoint(data.get(0).getX(), data.get(0).getY(),
+						new MyPoint(data.get(index).getX(),
+								data.get(index).getY(),
 					SegmentType.MOVE_TO));
 			}
 			// Log.debug("1: (" + data[0].getInhomX() + "," +

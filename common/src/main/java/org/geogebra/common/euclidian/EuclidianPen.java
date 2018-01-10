@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.Coords;
-import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFocus;
@@ -145,8 +144,6 @@ public class EuclidianPen implements GTimerListener {
 	 */
 	protected boolean deleteInitialPoint = false;
 
-	private boolean absoluteScreenPosition;
-
 	private GTimer timer = null;
 
 	private int eraserSize;
@@ -218,7 +215,6 @@ public class EuclidianPen implements GTimerListener {
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.BLACK;
 		lineOpacity = 10;
-		setAbsoluteScreenPosition(false);
 	}
 
 	/**
@@ -801,17 +797,6 @@ public class EuclidianPen implements GTimerListener {
 				0);
 	}
 
-	/**
-	 * @param points
-	 *            - list of points without control points
-	 * @param i
-	 *            - index
-	 * @return copy of i-th no control point of poly
-	 */
-	public MyPoint getNoControlPointCopy(ArrayList<MyPoint> points, int i) {
-		return new MyPoint(points.get(i).getX(), points.get(i).getY());
-	}
-
 	private void addPointsToPolyLine(ArrayList<GPoint> penPoints2) {
 
 		Construction cons = app.getKernel().getConstruction();
@@ -821,6 +806,7 @@ public class EuclidianPen implements GTimerListener {
 			lastAlgo = null;
 			startNewStroke = false;
 		}
+		int ptsLength = 0;
 		if (lastAlgo == null) {
 			// lastPolyLine = new GeoPolyLine(cons, "hello");
 			newPts = new ArrayList<>(penPoints2.size());
@@ -831,17 +817,17 @@ public class EuclidianPen implements GTimerListener {
 			// force a gap
 			// newPts.add(new GeoPoint2(cons, Double.NaN, Double.NaN, 1));
 			AlgoStrokeInterface algo = getAlgoStrokeInterface(lastAlgo);
-			int ptsLength;
+
 			if (app.has(Feature.MOW_PEN_SMOOTHING)
 					&& algo instanceof AlgoLocusStroke) {
 				ArrayList<MyPoint> pointsNoControl = ((AlgoLocusStroke) algo)
-					.getPointsWithoutControl();
+						.getPoints();
 				ptsLength = pointsNoControl.size();
 
 				newPts = new ArrayList<>(penPoints2.size() + 1 + ptsLength);
 
 				for (int i = 0; i < ptsLength; i++) {
-					newPts.add(getNoControlPointCopy(pointsNoControl, i));
+					newPts.add(pointsNoControl.get(i));
 				}
 			} else {
 				ptsLength = algo.getPointsLength();
@@ -869,56 +855,20 @@ public class EuclidianPen implements GTimerListener {
 
 		AlgoElement algo;
 		// don't set label
-		Kernel kernelA = app.getKernel();
-
-		if (!absoluteScreenPosition) {
-			if (lastAlgo instanceof AlgoLocusStroke) {
-				((AlgoLocusStroke) lastAlgo).updatePointArray(newPts);
-				lastAlgo.getOutput(0).updateCascade();
-				return;
-			}
-			AlgoElement newPolyLine = app.getKernel().getAlgoDispatcher()
-					.getStrokeAlgo(newPts);
-			// set label
-			newPolyLine.getOutput(0).setLabel(null);
-			algo = newPolyLine;
-		} else {
-			AlgoElement newPolyLine = app.getKernel().getAlgoDispatcher()
-					.getStrokeAlgo(newPts);
-
-			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-
-
-
-			GeoPoint corner1 = new GeoPoint(kernelA.getConstruction());
-			GeoPoint corner3 = new GeoPoint(kernelA.getConstruction());
-			GeoPoint screenCorner1 = new GeoPoint(kernelA.getConstruction());
-			GeoPoint screenCorner3 = new GeoPoint(kernelA.getConstruction());
-
-			int viewNo = 1;
-
-			if (ev != null) {
-				corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
-				corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
-				screenCorner1.setCoords(0, ev.getHeight(), 1);
-				screenCorner3.setCoords(ev.getWidth(), 0, 1);
-				viewNo = ev.getEuclidianViewNo();
-			}
-
-			GeoNumeric evNo = new GeoNumeric(kernelA.getConstruction(), viewNo);
-
-			cons.removeFromConstructionList(newPolyLine);
-
-			algo = new AlgoAttachCopyToView(cons, null,
-					newPolyLine.getOutput(0), evNo, corner1, corner3,
-					screenCorner1, screenCorner3);
+		if (lastAlgo instanceof AlgoLocusStroke) {
+			((AlgoLocusStroke) lastAlgo).updatePointArray(newPts, ptsLength);
+			lastAlgo.getOutput(0).updateRepaint();
+			return;
 		}
+		AlgoElement newPolyLine = app.getKernel().getAlgoDispatcher()
+				.getStrokeAlgo(newPts);
+		// set label
+		newPolyLine.getOutput(0).setLabel(null);
+		algo = newPolyLine;
 
 		algo.getOutput(0).setTooltipMode(GeoElement.TOOLTIP_OFF);
 
-		if (lastAlgo == null) {
-			// lastPolyLine = new AlgoStrokeInterface(cons, null, newPts);
-		} else {
+		if (lastAlgo != null) {
 			try {
 				cons.replace(lastAlgo.getOutput(0), algo.getOutput(0));
 				// String label = lastPolyLine.getPoly().getLabelSimple();
@@ -928,7 +878,6 @@ public class EuclidianPen implements GTimerListener {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			// lastPolyLine.setPointsList(newPts);
 		}
 
 		lastAlgo = algo;
@@ -942,9 +891,6 @@ public class EuclidianPen implements GTimerListener {
 
 		app.getSelectionManager().clearSelectedGeos(false);
 		app.getSelectionManager().addSelectedGeo(poly);
-
-		// app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionsOrErrors("AttachCopyToView["+poly.getLabelSimple()+",1]",
-		// false);
 
 		poly.setSelected(false);
 		poly.updateRepaint();
@@ -1935,15 +1881,6 @@ public class EuclidianPen implements GTimerListener {
 		lineDrawingColor = color;
 	}
 
-	/**
-	 * @param b
-	 *            true for absolute position (AttachCopyToView)
-	 */
-	public void setAbsoluteScreenPosition(boolean b) {
-		absoluteScreenPosition = b;
-
-	}
-
 	private static class RecoSegment {
 		int startpt = 0, endpt = 0;
 		double xcenter = 0, ycenter = 0, angle = 0, radius = 0;
@@ -1953,7 +1890,6 @@ public class EuclidianPen implements GTimerListener {
 		protected RecoSegment() {
 
 		}
-
 	}
 
 	private static class Inertia {

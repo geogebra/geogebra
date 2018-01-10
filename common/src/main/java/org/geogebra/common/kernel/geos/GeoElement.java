@@ -4336,7 +4336,6 @@ public abstract class GeoElement extends ConstructionElement
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -4396,10 +4395,8 @@ public abstract class GeoElement extends ConstructionElement
 				if (algo == lastAlgo) {
 					return;
 				}
-
 			}
 		}
-
 	}
 
 	/**
