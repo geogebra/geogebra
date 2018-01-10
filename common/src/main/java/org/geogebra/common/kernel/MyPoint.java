@@ -274,4 +274,13 @@ public class MyPoint extends GPoint2D implements Point {
 		x = java.lang.Double.NaN;
 
 	}
+
+	/**
+	 * @param returnType
+	 *            new type
+	 * @return copy with given type
+	 */
+	public MyPoint withType(SegmentType returnType) {
+		return new MyPoint(x, y, returnType);
+	}
 }

@@ -352,7 +352,7 @@ public class EuclidianPen implements GTimerListener {
 		} else {
 			// drawing in progress, so we need repaint
 			needsRepaint = true;
-			addPointPenMode(e, null);
+			addPointPenMode(e);
 		}
 	}
 
@@ -368,7 +368,7 @@ public class EuclidianPen implements GTimerListener {
 			timer.stop();
 
 			penPoints.clear();
-			addPointPenMode(e, hits);
+			addPointPenMode(e);
 			// we need single point only for pen tool
 			// prevent creating points with freehand tool
 			if (!freehand) {
@@ -433,10 +433,8 @@ public class EuclidianPen implements GTimerListener {
 	 *
 	 * @param e
 	 *            event
-	 * @param h
-	 *            hits
 	 */
-	public void addPointPenMode(AbstractEvent e, Hits h) {
+	public void addPointPenMode(AbstractEvent e) {
 
 		// if a PolyLine is selected, we can append to it.
 

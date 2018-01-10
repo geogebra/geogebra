@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
@@ -104,6 +103,10 @@ public class AlgoLocusStroke extends AlgoElement
 	 * Update point array of polygon using the given array list
 	 * 
 	 * @param data
+	 *            points
+	 * @param initialIndex
+	 *            index from which to start smoothing (consider previous points
+	 *            smooth)
 	 */
 	public void updatePointArray(List<MyPoint> data, int initialIndex) {
 		// check if we have a point list
@@ -133,47 +136,39 @@ public class AlgoLocusStroke extends AlgoElement
 			// + ") -> " +
 			// SegmentType.MOVE_TO);
 			while (index <= data.size()) {
-				if (!pointList.isEmpty()
-						&& pointList.get(pointList.size() - 1).isDefined()) {
-					pointList.add(
-						new MyPoint(Double.NaN, Double.NaN,
-								SegmentType.LINE_TO));
-				}
+				// separator for XML
 				List<MyPoint> partOfStroke = getPartOfPenStroke(index, data);
 				// if we found single point
 				// just add it to the list without control points
+				if (partOfStroke.size() > 0) {
+					pointList
+						.add(partOfStroke.get(0).withType(SegmentType.MOVE_TO));
+				}
 				if (partOfStroke.size() == 1) {
-					pointList.add(new MyPoint(partOfStroke.get(0).getX(),
-							partOfStroke.get(0).getY(), SegmentType.MOVE_TO));
+					pointList.add(
+							partOfStroke.get(0).withType(SegmentType.LINE_TO));
+				} else if (partOfStroke.size() == 2) {
+					pointList.add(
+							partOfStroke.get(1).withType(SegmentType.LINE_TO));
 				} else if (partOfStroke.size() > 1) {
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
-					for (int i = 0; i < partOfStroke.size() - 1; i++) {
-						// start point of segment
-						pointList.add(new MyPoint(partOfStroke.get(i).getX(),
-								partOfStroke.get(i).getY(),
-								i == 0 ? SegmentType.MOVE_TO
-										: SegmentType.CURVE_TO));
-						// first control point
-						pointList.add(new MyPoint(controlPoints.get(0)[i],
-								controlPoints.get(1)[i], SegmentType.CONTROL));
-						// second control point
-						pointList.add(new MyPoint(controlPoints.get(2)[i],
-								controlPoints.get(3)[i], SegmentType.CONTROL));
+					for (int i = 1; i < partOfStroke.size(); i++) {
+						MyPoint ctrl1 = new MyPoint(controlPoints.get(0)[i - 1],
+								controlPoints.get(1)[i - 1],
+								SegmentType.CONTROL);
+						MyPoint ctrl2 = new MyPoint(controlPoints.get(2)[i - 1],
+								controlPoints.get(3)[i - 1],
+								SegmentType.CONTROL);
+						MyPoint endpoint = partOfStroke.get(i)
+								.withType(SegmentType.CURVE_TO);
+						pointList.add(ctrl1);
+						pointList.add(ctrl2);
+						pointList.add(endpoint);
 					}
-					// end point of curve
-					pointList.add(new MyPoint(
-							partOfStroke.get(partOfStroke.size() - 1).getX(),
-							partOfStroke.get(partOfStroke.size() - 1).getY(),
-							SegmentType.CURVE_TO));
 				}
-				if (partOfStroke.size() == 3 && Kernel.isZero(
-						partOfStroke.get(partOfStroke.size() - 1).distanceSqr(
-								partOfStroke.get(partOfStroke.size() - 2)))) {
-					index = index + partOfStroke.size();
-				} else {
-					index = index + partOfStroke.size() + 1;
-				}
+
+				index = index + partOfStroke.size() + 1;
 			}
 			poly.setPoints(pointList);
 		} else {
@@ -188,28 +183,10 @@ public class AlgoLocusStroke extends AlgoElement
 	// returns the part of array started at index until first undef point
 	private static List<MyPoint> getPartOfPenStroke(int index,
 			List<MyPoint> data) {
-		int size = 0;
-		for (int i = index; i < data.size(); i++) {
-			if (data.get(i).isDefined()) {
-				size++;
-			} else {
-				break;
-			}
-		}
-		ArrayList<MyPoint> partOfStroke;
-		// for simple segment add endpoint once again
-		// trick needed for bezier curve
-		if (size == 2) {
-			partOfStroke = new ArrayList<>(size + 1);
-			for (int i = 0; i < size; i++) {
-				partOfStroke.add(data.get(i + index));
-			}
-			partOfStroke.add(data.get(size + index - 1));
-		} else {
-			partOfStroke = new ArrayList<>(size);
-			for (int i = 0; i < size; i++) {
-				partOfStroke.add(data.get(i + index));
-			}
+		ArrayList<MyPoint> partOfStroke = new ArrayList<>(
+				data.size() - index + 1);
+		for (int i = index; i < data.size() && data.get(i).isDefined(); i++) {
+			partOfStroke.add(data.get(i));
 		}
 		return partOfStroke;
 	}
@@ -398,8 +375,13 @@ public class AlgoLocusStroke extends AlgoElement
 	}
 
 	private void appendPoints(StringBuilder sb, StringTemplate tpl) {
-		ArrayList<MyPoint> pts = this.getPointsWithoutControl();
+		ArrayList<MyPoint> pts = getPointsWithoutControl();
+		boolean first = true;
 		for (MyPoint m : pts) {
+			if (m.getSegmentType() == SegmentType.MOVE_TO && !first) {
+				sb.append("(?,?),");
+			}
+			first = false;
 			sb.append("(");
 			sb.append(kernel.format(m.getX(), tpl));
 			sb.append(",");
