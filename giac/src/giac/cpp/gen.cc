@@ -13193,7 +13193,11 @@ namespace giac {
       reim(d,dr,di,contextptr);
       n=n*gen(dr,-di);
       d=dr*dr+di*di;
-      return print_FRAC(fraction(n,d),contextptr);
+      gen nd=fraction(n,d);
+      if (nd.type==_FRAC)
+	return print_FRAC(nd,contextptr);
+      else
+	return nd.print(contextptr);
     }
     return _FRAC2_SYMB(f).print(contextptr);
   }
