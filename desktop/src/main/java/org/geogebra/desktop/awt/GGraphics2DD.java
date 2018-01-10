@@ -369,11 +369,19 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
-	private GLine2D line = AwtFactory.getPrototype().newLine2D();
+	private GLine2D line;
+
+	private GLine2D getLine() {
+		if (line == null) {
+			line = AwtFactory.getPrototype().newLine2D();
+		}
+
+		return line;
+	}
 
 	@Override
 	public void drawStraightLine(double x1, double y1, double x2, double y2) {
-		line.setLine(x1, y1, x2, y2);
+		getLine().setLine(x1, y1, x2, y2);
 
 		// turn off "pure" to avoid blurry axes
 		impl.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,
