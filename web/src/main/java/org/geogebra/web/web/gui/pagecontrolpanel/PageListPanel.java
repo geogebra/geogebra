@@ -215,10 +215,10 @@ public class PageListPanel
 		}
 		int i = index;
 		if (pageController.getSlidesAmount() > 1) {
-			if (index == 0) {
-				i++;
-			} else {
+			if (index == pageController.getSlidesAmount() - 1) {
 				i--;
+			} else {
+				i++;
 			}
 			if (index == activePreviewCard.getPageIndex()) {
 				loadPage(i);

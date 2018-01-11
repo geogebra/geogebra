@@ -110,7 +110,7 @@ public class PageListController implements PageListControllerInterface {
 		if (!app.has(Feature.MOW_MULTI_PAGE)) {
 			return;
 		}
-		slides = null;
+		slides = new ArrayList<>();
 		((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
 				.reset();
 	}
