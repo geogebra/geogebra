@@ -21,7 +21,7 @@ public class WebCamInputPanel extends VerticalPanel {
 	private JavaScriptObject stream;
 	private int canvasWidth = 640, canvasHeight = 480;// overwritten by real
 														// dimensions
-	
+
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;
 
@@ -196,5 +196,12 @@ public class WebCamInputPanel extends VerticalPanel {
 			return 360;
 		}
 		return 160;
+	}
+
+	/**
+	 * @return true if the video stream is empty
+	 */
+	public boolean isStreamEmpty() {
+		return stream == null;
 	}
 }

@@ -87,11 +87,12 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		if (source == screenshotBtn) {
 			String data = webcamInputPanel.getImageDataURL();
 			String name = "webcam";
-
-			app1.imageDropHappened(name, data, "",
+			if (data != null && !webcamInputPanel.isStreamEmpty()) {
+				app1.imageDropHappened(name, data, "",
 					webcamInputPanel.getCanvasWidth(),
 					webcamInputPanel.getCanvasHeight());
-			startVideo();
+				startVideo();
+			}
 		} else if (source == closeBtn) {
 			app1.getImageManager().setPreventAuxImage(false);
 			app1.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
