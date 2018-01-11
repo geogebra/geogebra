@@ -321,7 +321,8 @@ public class DrawLocus extends Drawable {
 	 */
 	private void updateLocusSide(EuclidianBoundingBoxHandler handler,
 			AbstractEvent e) {
-		((GeoLocus) geo).updatePoints();
+		((GeoLocus) geo).updatePoints(handler, e,
+				getBoundingBox().getRectangle());
 		update();
 		getBoundingBox().setRectangle(getBounds());
 

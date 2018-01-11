@@ -14,6 +14,9 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GRectangle2D;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -129,11 +132,43 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	}
 
 	/**
-	 * Updates points when resizing the locus
+	 * Updates the points when resizing the locus with bounding box handler
+	 * 
+	 * @param handler
+	 *            handler was hit
+	 * @param event
+	 *            event to handle
+	 * @param gRectangle2D
+	 *            bounding box rectangle
 	 */
-	public void updatePoints() {
+	public void updatePoints(EuclidianBoundingBoxHandler handler,
+			AbstractEvent event, GRectangle2D gRectangle2D) {
 		for (int i = 0; i < myPointList.size(); i++) {
-			myPointList.get(i).setX(myPointList.get(i).getX() + 1);
+			updatePoint(myPointList.get(i), handler, event, gRectangle2D);
+		}
+	}
+
+	private void updatePoint(T point, EuclidianBoundingBoxHandler handler,
+			AbstractEvent event, GRectangle2D gRectangle2D) {
+		switch (handler) {
+		case TOP:
+			break;
+		case BOTTOM:
+			break;
+		case LEFT:
+			break;
+		case RIGHT:
+			double minX = gRectangle2D.getX();
+			double oldMaxX = gRectangle2D.getMaxX();
+			double oldWidth = oldMaxX - minX;
+			double newWidth = event.getX() - minX;
+			double scale = newWidth / oldWidth;
+			int pointScreenX = kernel.getApplication().getActiveEuclidianView()
+					.toScreenCoordX(point.getX());
+			double newPointScreenX = (pointScreenX - minX) * scale + minX;
+			point.setX(kernel.getApplication().getActiveEuclidianView()
+					.toRealWorldCoordX(newPointScreenX));
+			break;
 		}
 	}
 
