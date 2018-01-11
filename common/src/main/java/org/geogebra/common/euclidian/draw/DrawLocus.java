@@ -285,6 +285,10 @@ public class DrawLocus extends Drawable {
 	@Override
 	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
+		if (!geo.getKernel().getApplication()
+				.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)) {
+			return;
+		}
 		if (isCornerHandler(handler)) {
 			updateLocusCorner(handler, e);
 		} else {
