@@ -361,16 +361,20 @@ public class GgbAPIW extends GgbAPI {
 		// change / add pHYs chunk 
 		// pixels per metre
 		var ppm = Math.round(dpi / 2.54 * 100);
-		bytes = $wnd.rewrite_pHYs_chunk(bytes, ppm, ppm);
 
-		// re-encode PNG (btoa method)
-		var b64encoded = btoa(String.fromCharCode.apply(null, bytes));
-		//console.log("b64encoded = " + b64encoded);
+		var b64encoded;
 
+		if (base64.length > 100000) {
+			// slower but works with large images
+			b64encoded = $wnd.rewrite_pHYs_chunk(bytes, ppm, ppm, true);
+		} else {
+			// faster but not good for large images eg 4000 x 4000
+			bytes = $wnd.rewrite_pHYs_chunk(bytes, ppm, ppm, false);
+			b64encoded = btoa(String.fromCharCode.apply(null, bytes));
+		}
 		return 'data:image/png;base64,' + b64encoded;
 
 	}-*/;
-
 
 	/**
 	 * @param includeThumbnail
