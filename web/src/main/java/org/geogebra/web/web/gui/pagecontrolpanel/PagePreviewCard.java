@@ -128,6 +128,28 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		textField.setWidth(Math.max(Math.min(length, 178), 10));
 	}
 
+	/**
+	 * @return the page that is associated with this preview card
+	 */
+	public EuclidianView getAssociatedView() {
+		return view;
+	}
+
+	/**
+	 * @return ggb file associated to this card
+	 */
+	public GgbFile getFile() {
+		return file;
+	}
+
+	/**
+	 * @param file
+	 *            see {@link GgbFile}
+	 */
+	public void setFile(GgbFile file) {
+		this.file = file;
+	}
+
 	private void setPreviewImage() {
 		image = ((EuclidianViewWInterface) view).getExportImageDataUrl(0.2,
 				false);
@@ -167,6 +189,8 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 
 	/**
 	 * set index of page
+	 * 
+	 * note: this will also update the title of the page
 	 * 
 	 * @param index
 	 *            new index
@@ -228,28 +252,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 					MaterialDesignResources.INSTANCE.more_vert_black()));
 			moreBtn.removeStyleName("active");
 		}
-	}
-
-	/**
-	 * @return the page that is associated with this preview card
-	 */
-	public EuclidianView getAssociatedView() {
-		return view;
-	}
-
-	/**
-	 * @return ggb file associated to this card
-	 */
-	public GgbFile getFile() {
-		return file;
-	}
-
-	/**
-	 * @param file
-	 *            see {@link GgbFile}
-	 */
-	public void setFile(GgbFile file) {
-		this.file = file;
 	}
 
 	@Override

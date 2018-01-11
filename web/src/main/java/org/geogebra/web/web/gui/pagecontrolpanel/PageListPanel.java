@@ -36,7 +36,7 @@ public class PageListPanel
 	private MOWToolbar mowToolbar;
 	private ScrollPanel scrollPanel;
 	private PersistablePanel contentPanel;
-	private PagePreviewCard activePreviewCard;
+	private PagePreviewCard selectedPreviewCard;
 	private StandardButton plusButton;
 	private PageListController pageController;
 
@@ -61,7 +61,7 @@ public class PageListPanel
 		addStyleName("mowPageControlPanel");
 		addPlusButton();
 		addContentPanel();
-		addNewPage(true);
+		addNewPreviewCard(true);
 		frame.add(this);
 		setVisible(false);
 	}
@@ -87,8 +87,8 @@ public class PageListPanel
 		plusButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				loadPage(addNewPage(false));
-				updatePreview();
+				loadPage(addNewPreviewCard(false), true);
+				updatePreviewImage();
 			}
 		});
 		add(plusButton);
@@ -118,7 +118,7 @@ public class PageListPanel
 			mowToolbar.showPageControlButton(false);
 		}
 		setVisible(true);
-		updatePreview();
+		updatePreviewImage();
 		setLabels();
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
@@ -163,14 +163,14 @@ public class PageListPanel
 	}
 
 	/**
-	 * creates a new page and associated preview card
+	 * creates a new preview card
 	 * 
 	 * @param selected
 	 *            true if added card should be selected, false otherwise
 	 * 
 	 * @return index of new slide
 	 */
-	protected int addNewPage(boolean selected) {
+	protected int addNewPreviewCard(boolean selected) {
 		final PagePreviewCard card = pageController.addSlide();
 		addPreviewCard(card);
 		if (selected) {
@@ -183,7 +183,7 @@ public class PageListPanel
 		ClickStartHandler.init(card, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				loadPage(card.getPageIndex());
+				loadPage(card.getPageIndex(), false);
 			}
 		});
 		contentPanel.add(card);
@@ -196,10 +196,12 @@ public class PageListPanel
 	 * 
 	 * @param index
 	 *            index of page to load
+	 * @param newPage
+	 *            true if slide is new page
 	 */
-	protected void loadPage(int index) {
-		pageController.loadSlide(activePreviewCard, index);
-		setCardSelected((PagePreviewCard) contentPanel.getWidget(index));
+	protected void loadPage(int index, boolean newPage) {
+		pageController.loadSlide(selectedPreviewCard, index, newPage);
+		setCardSelected(pageController.getSlides().get(index));
 	}
 
 	/**
@@ -210,26 +212,27 @@ public class PageListPanel
 	 * 
 	 */
 	public void removePage(int index) {
+		// invalid index
 		if (index > pageController.getSlidesAmount()) {
 			return;
 		}
-		int i = index;
-		if (pageController.getSlidesAmount() > 1) {
-			if (index == pageController.getSlidesAmount() - 1) {
-				i--;
-			} else {
-				i++;
-			}
-			if (index == activePreviewCard.getPageIndex()) {
-				loadPage(i);
-			}
-		} else {
-			loadPage(addNewPage(true));
-			updatePreview();
-		}
+		// remove preview card
 		contentPanel.remove(index);
+		// remove associated ggb file
 		pageController.removeSlide(index);
 		updateIndexes(index);
+		// load new slide
+		if (index == 0 && pageController.getSlidesAmount() == 0) {
+			// first and single slide was deleted
+			loadPage(addNewPreviewCard(true), true);
+			updatePreviewImage();
+		} else if (index == pageController.getSlidesAmount()) {
+			// last slide was deleted
+			loadPage(index - 1, false);
+		} else {
+			// otherwise
+			loadPage(index, false);
+		}
 	}
 
 	/**
@@ -239,36 +242,33 @@ public class PageListPanel
 	 *            selected preview card
 	 */
 	protected void setCardSelected(PagePreviewCard previewCard) {
-		deselectAllPreviewCards();
-		previewCard.addStyleName("selected");
-		activePreviewCard = previewCard;
-	}
-
-	/**
-	 * Sets all preview cards to not selected
-	 */
-	protected void deselectAllPreviewCards() {
-		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
-			((PagePreviewCard) contentPanel.getWidget(i))
-					.removeStyleName("selected");
+		if (selectedPreviewCard != null) {
+			// deselect old selected card
+			selectedPreviewCard.removeStyleName("selected");
 		}
+		// select new card
+		previewCard.addStyleName("selected");
+		//
+		selectedPreviewCard = previewCard;
 	}
 
 	/**
 	 * Updates the preview image of the active preview card
 	 */
-	public void updatePreview() {
-		if (activePreviewCard != null) {
-			activePreviewCard.updatePreviewImage();
+	public void updatePreviewImage() {
+		if (selectedPreviewCard != null) {
+			selectedPreviewCard.updatePreviewImage();
 		}
 	}
 
 	/**
+	 * update index and titles above index
 	 * 
 	 * @param index
-	 *            update index and title above index
+	 *            of card that should be updated
 	 */
 	private void updateIndexes(int index) {
+		// update only slides after deleted slide
 		for (int i = index; i < contentPanel.getWidgetCount(); i++) {
 			PagePreviewCard card = (PagePreviewCard) contentPanel.getWidget(i);
 			if (card.getPageIndex() != i) {
@@ -279,6 +279,7 @@ public class PageListPanel
 
 	@Override
 	public void setLabels() {
+		// update labels of cards
 		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
 			((PagePreviewCard) contentPanel.getWidget(i)).setLabels();
 		}
@@ -289,6 +290,7 @@ public class PageListPanel
 	 */
 	public void reset() {
 		contentPanel.clear();
-		addNewPage(true);
+		// start with empty new page
+		addNewPreviewCard(true);
 	}
 }
