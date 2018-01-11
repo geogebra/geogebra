@@ -227,7 +227,7 @@ public class CmdIntersect extends CommandProcessor {
 			return getAlgoDispatcher().IntersectPolygonConic(c.getLabels(),
 					(GeoPolygon) arg[0], (GeoConic) arg[1], false);
 		} else if ((ok[0] = (arg[0].isGeoConic()))
-				&& (ok[1] = (arg[1].isGeoPolyLine()))) {
+				&& (ok[1] = (arg[1].isGeoPolygon()))) {
 			return getAlgoDispatcher().IntersectPolygonConic(c.getLabels(),
 					(GeoPolygon) arg[1], (GeoConic) arg[0], false);
 		} else if ((ok[0] = (arg[0].isGeoFunction()))

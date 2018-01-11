@@ -391,7 +391,9 @@ public class CommandsTest extends Assert{
 				"(3, 3)",
 				"(-1, -1)");
 		intersect("x^2", "PolyLine((-1,-2),(-1,3),(5,3))", false, true,
-				"(-1, 1)",
+				"(-1, 1)", eval("(sqrt(3), 3)"));
+		intersect("x^2", "Polygon((-1,-2),(-1,3),(5,3))", false, true,
+				"(-1, 1)", 
 				eval("(sqrt(3), 3)"));
 		intersect("PolyLine((1,-2),(1,4),(5,3))",
 				"PolyLine((-1,-2),(-1,3),(5,3))", false, "(1, 3)",
@@ -406,6 +408,9 @@ public class CommandsTest extends Assert{
 				"(-1, 2)", "(0, 3)");
 		intersect("(x+1)^2+(y-3)^2=1", "PolyLine((-1,-2),(-1,3),(5,3))", false,
 				"(-1, 2)", "(0, 3)");
+		intersect("(x+1)^2+(y-3)^2=1", "Polygon((-1,-2),(-1,3),(5,3))", false,
+				"(-1, 2)", "(0, 3)");
+		intersect("x^2+1", "x^3-x+2", true, "(-1, 2)", "(1, 2)");
 		if (app.has(Feature.IMPLICIT_SURFACES)) {
 			intersect("x^4+y^4+z^4=2", "x=y",
 				false, "(-1, -1, 0)", "(1, 1, 0)");
@@ -427,7 +432,10 @@ public class CommandsTest extends Assert{
 		GeoElement geo = get("its") == null ? get("its_1") : get("its");
 		boolean symmetric = geo != null
 				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectConics)
-				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines);
+				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines
+						&& geo.getParentAlgorithm().getOutput(0)
+								.getGeoClassType() == geo.getParentAlgorithm()
+										.getOutput(1).getGeoClassType());
 		if (symmetric) {
 			t("Intersect(" + arg2 + "," + arg1 + ")", results,
 					StringTemplate.editTemplate);
