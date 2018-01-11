@@ -33,7 +33,6 @@ public class ModeDeleteLocus extends ModeDelete {
 	private EuclidianController ec;
 	private boolean objDeleteMode = false, penDeleteMode = false;
 	private ArrayList<GPoint2D> interPoints;
-	private ArrayList<List<MyPoint>> newDataAndRealPoint = new ArrayList<>();
 	private GRectangle rect = AwtFactory.getPrototype().newRectangle(0, 0, 100,
 			100);
 
@@ -94,12 +93,7 @@ public class ModeDeleteLocus extends ModeDelete {
 				// for
 				// hit detection).
 
-				List<MyPoint> realPoints;
-				if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)) {
-					realPoints = gps.getPointsWithoutControl();
-				} else {
-					realPoints = gps.getPoints();
-				}
+
 				List<MyPoint> dataPoints;
 
 				if (geo.getParentAlgorithm() != null && (geo
@@ -125,11 +119,10 @@ public class ModeDeleteLocus extends ModeDelete {
 				} else {
 					dataPoints = gps.getPoints();
 				}
-
 				boolean hasVisiblePart = false;
-				if (realPoints.size() == dataPoints.size()) {
+				if (dataPoints.size() > 0) {
 					for (int i = 0; i < dataPoints.size(); i++) {
-						MyPoint p = realPoints.get(i);
+						MyPoint p = dataPoints.get(i);
 						if (p.isDefined() && Math.max(
 								Math.abs(eventX
 										- view.toScreenCoordXd(p.getX())),
@@ -147,23 +140,13 @@ public class ModeDeleteLocus extends ModeDelete {
 								if (!interPoints.isEmpty()
 										&& interPoints.size() == 1) {
 									i = handleEraserAtJoinPointOrEndOfSegments(
-											dataPoints,
-											realPoints, i);
-									if (newDataAndRealPoint != null
-											&& !newDataAndRealPoint.isEmpty()) {
-										dataPoints = newDataAndRealPoint.get(0);
-										realPoints = newDataAndRealPoint.get(1);
-									}
+
+											dataPoints, i);
+
 								}
 								// no intersection point
 								else {
-									i = handleEraserAtPoint(dataPoints,
-											realPoints, i);
-									if (newDataAndRealPoint != null
-											&& !newDataAndRealPoint.isEmpty()) {
-										dataPoints = newDataAndRealPoint.get(0);
-										realPoints = newDataAndRealPoint.get(1);
-									}
+									i = handleEraserAtPoint(dataPoints, i);
 								}
 							}
 							// start point of segment is in rectangle
@@ -172,15 +155,11 @@ public class ModeDeleteLocus extends ModeDelete {
 									&& i + 1 < dataPoints.size()
 									&& dataPoints.get(i + 1).isDefined()) {
 								handleEraserAtStartPointOfSegment(
-										dataPoints,
-										realPoints, i);
-								dataPoints = newDataAndRealPoint.get(0);
-								realPoints = newDataAndRealPoint.get(1);
+										dataPoints, i);
 							}
 							// handle first/last/single remained point
 							else {
 								handleLastFirstOrSinglePoints(dataPoints, i);
-								dataPoints = newDataAndRealPoint.get(0);
 							}
 						}
 						// eraser is between the endpoints of segment
@@ -189,14 +168,11 @@ public class ModeDeleteLocus extends ModeDelete {
 									&& dataPoints.get(i).isDefined()
 									&& dataPoints.get(i + 1).isDefined()) {
 								i = handleEraserBetweenPointsOfSegment(
-										dataPoints,
-										realPoints, i);
-								if (newDataAndRealPoint != null
-										&& !newDataAndRealPoint.isEmpty()) {
-									dataPoints = newDataAndRealPoint.get(0);
-									realPoints = newDataAndRealPoint.get(1);
-									i = i + 2;
-								}
+										dataPoints, i);// TODO
+								// if (newDataAndRealPoint != null
+								// && !newDataAndRealPoint.isEmpty()) {
+								// i = i + 2;
+								// }
 							}
 						}
 
@@ -205,12 +181,7 @@ public class ModeDeleteLocus extends ModeDelete {
 						}
 					}
 
-					deleteUnnecessaryUndefPoints(dataPoints, realPoints);
-					if (newDataAndRealPoint != null
-							&& !newDataAndRealPoint.isEmpty()) {
-						dataPoints = newDataAndRealPoint.get(0);
-						realPoints = newDataAndRealPoint.get(1);
-					}
+					deleteUnnecessaryUndefPoints(dataPoints);
 
 					updatePolyLineDataPoints(dataPoints, gps);
 					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)
@@ -251,13 +222,9 @@ public class ModeDeleteLocus extends ModeDelete {
 
 	}
 
-	private void deleteUnnecessaryUndefPoints(List<MyPoint> dataPoints,
-			List<MyPoint> realPoints) {
-		newDataAndRealPoint.clear();
+	private static void deleteUnnecessaryUndefPoints(List<MyPoint> dataPoints) {
 		ArrayList<MyPoint> dataPointList = new ArrayList<>(
 				dataPoints.size());
-		ArrayList<MyPoint> realPointList = new ArrayList<>(
-				realPoints.size());
 		int i = 1;
 		while (i < dataPoints.size()) {
 			if ((!dataPoints.get(i).isDefined()
@@ -265,58 +232,45 @@ public class ModeDeleteLocus extends ModeDelete {
 				i++;
 			} else {
 				dataPointList.add(dataPoints.get(i - 1));
-				realPointList.add(realPoints.get(i - 1));
 				i++;
 			}
 		}
 		if (dataPoints.get(i - 1).isDefined()) {
 			dataPointList.add(dataPoints.get(i - 1));
-			realPointList.add(realPoints.get(i - 1));
 		}
 		if (dataPointList.size() != dataPoints.size()) {
-			newDataAndRealPoint.add(dataPointList);
-			newDataAndRealPoint.add(realPointList);
+			dataPoints.clear();
+			dataPoints.addAll(dataPointList);
 		}
 	}
 
 	// add new undefined points and update old points coordinates
-	private static ArrayList<List<MyPoint>> getNewPolyLinePoints(
-			List<MyPoint> dataPoints, List<MyPoint> realPoints, int newSize,
+	private static List<MyPoint> getNewPolyLinePoints(
+			List<MyPoint> dataPoints, int newSize,
 			int i, int indexInter1, int indexUndef, int indexInter2,
 			double[] realCoords) {
-		ArrayList<List<MyPoint>> dataAndRealPoint = new ArrayList<>();
 		MyPoint[] newDataPoints = Arrays.copyOf(
 				dataPoints.toArray(new MyPoint[0]),
 				dataPoints.size() + newSize);
-		MyPoint[] newRealPoints = Arrays.copyOf(
-				realPoints.toArray(new MyPoint[0]),
-				realPoints.size() + newSize);
 
 		if (newSize == 1) {
 			for (int j = dataPoints.size(); j > i + 1; j--) {
 				newDataPoints[j + newSize - 1] = dataPoints.get(j - 1);
-				newRealPoints[j + newSize - 1] = realPoints.get(j - 1);
 			}
 		} else if (newSize == -1) {
 			for (int j = dataPoints.size(); j > i; j--) {
 				newDataPoints[j] = dataPoints.get(j - 1);
-				newRealPoints[j] = realPoints.get(j - 1);
 			}
 		} else {
 			for (int j = dataPoints.size(); j > i - newSize + 3; j--) {
 				newDataPoints[j + newSize - 1] = dataPoints.get(j - 1);
-				newRealPoints[j + newSize - 1] = realPoints.get(j - 1);
 			}
 		}
 		newDataPoints[indexInter1] = ngp(realCoords[0], realCoords[1]);
 		newDataPoints[indexUndef] = ngp();
-		newRealPoints[indexUndef] = ngp();
 		newDataPoints[indexInter2] = ngp(realCoords[2], realCoords[3]);
 
-		dataAndRealPoint.add(Arrays.asList(newDataPoints));
-		dataAndRealPoint.add(Arrays.asList(newRealPoints));
-
-		return dataAndRealPoint;
+		return Arrays.asList(newDataPoints);
 	}
 
 	private static MyPoint ngp() {
@@ -482,7 +436,6 @@ public class ModeDeleteLocus extends ModeDelete {
 		double y3 = startPointY;
 		double x4 = endPointX;
 		double y4 = endPointY;
-
 		GPoint2D p = null;
 
 		double d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
@@ -509,14 +462,17 @@ public class ModeDeleteLocus extends ModeDelete {
 	private static boolean onSegment(double segStartX, double segStartY,
 			double interPointX, double interPointY, double segEndX,
 			double segEndY) {
-		if (interPointX <= Math.max(segStartX, segEndX)
-				&& interPointX >= Math.min(segStartX, segEndX)
-				&& interPointY <= Math.max(segStartY, segEndY)
-				&& interPointY >= Math.min(segStartY, segEndY)) {
-			return true;
-		}
+		return onSegmentCoord(segStartX, interPointX, segEndX)
+				&& onSegmentCoord(segStartY, interPointY, segEndY);
 
-		return false;
+	}
+
+	private static boolean onSegmentCoord(double segStartX, double interPointX,
+			double segEndX) {
+		return (interPointX <= Math.max(segStartX, segEndX)
+				&& interPointX >= Math.min(segStartX, segEndX))
+				|| (segStartX == segEndX);
+
 	}
 
 	// check if the two intersection point is close enough
@@ -601,12 +557,6 @@ public class ModeDeleteLocus extends ModeDelete {
 					return false;
 				}
 				GeoLocusStroke gps = (GeoLocusStroke) geos[0];
-				List<MyPoint> realPoints;
-				if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)) {
-					realPoints = gps.getPointsWithoutControl();
-				} else {
-					realPoints = gps.getPoints();
-				}
 				List<MyPoint> dataPoints;
 
 				if (geos[0].getParentAlgorithm() != null && (geos[0]
@@ -634,9 +584,9 @@ public class ModeDeleteLocus extends ModeDelete {
 				}
 
 				boolean hasVisiblePart = false;
-				if (realPoints.size() == dataPoints.size()) {
+				if (dataPoints.size() > 0) {
 					for (int i = 0; i < dataPoints.size(); i++) {
-						MyPoint p = realPoints.get(i);
+						MyPoint p = dataPoints.get(i);
 						if (p.isDefined() && Math.max(
 								Math.abs(eventX
 										- view.toScreenCoordXd(p.getX())),
@@ -655,25 +605,11 @@ public class ModeDeleteLocus extends ModeDelete {
 								if (!interPoints.isEmpty()
 										&& interPoints.size() == 1) {
 									i = handleEraserAtJoinPointOrEndOfSegments(
-											dataPoints,
-											realPoints, i);
-									if (newDataAndRealPoint != null
-											&& !newDataAndRealPoint.isEmpty()) {
-										dataPoints = newDataAndRealPoint.get(0);
-										realPoints = newDataAndRealPoint.get(1)
-										;
-									}
+											dataPoints, i);
 								}
 								// no intersection point
 								else {
-									i = handleEraserAtPoint(dataPoints,
-											realPoints, i);
-									if (newDataAndRealPoint != null
-											&& !newDataAndRealPoint.isEmpty()) {
-										dataPoints = newDataAndRealPoint.get(0);
-										realPoints = newDataAndRealPoint.get(1)
-										;
-									}
+									i = handleEraserAtPoint(dataPoints, i);
 								}
 							}
 							// start point of segment is in rectangle
@@ -682,16 +618,12 @@ public class ModeDeleteLocus extends ModeDelete {
 									&& i + 1 < dataPoints.size()
 									&& dataPoints.get(i + 1).isDefined()) {
 								handleEraserAtStartPointOfSegment(
-										dataPoints,
-										realPoints, i);
-								dataPoints = newDataAndRealPoint.get(0);
-								realPoints = newDataAndRealPoint.get(1);
+										dataPoints, i);
 							}
 							// handle first/last/single remained point
 							else {
 								handleLastFirstOrSinglePoints(
 										dataPoints, i);
-								dataPoints = newDataAndRealPoint.get(0);
 							}
 						}
 						// eraser is between the points of segment
@@ -701,14 +633,11 @@ public class ModeDeleteLocus extends ModeDelete {
 									dataPoints.get(i).isDefined()
 									&& dataPoints.get(i + 1).isDefined()) {
 								i = handleEraserBetweenPointsOfSegment(
-										dataPoints,
-										realPoints, i);
-								if (newDataAndRealPoint != null
-										&& !newDataAndRealPoint.isEmpty()) {
-									dataPoints = newDataAndRealPoint.get(0);
-									realPoints = newDataAndRealPoint.get(1);
-									i = i + 2;
-								}
+										dataPoints, i);// TODO
+								// if (newDataAndRealPoint != null
+								// && !newDataAndRealPoint.isEmpty()) {
+								// i = i + 2;
+								// }
 							}
 						}
 
@@ -717,12 +646,7 @@ public class ModeDeleteLocus extends ModeDelete {
 						}
 					}
 
-					deleteUnnecessaryUndefPoints(dataPoints, realPoints);
-					if (newDataAndRealPoint != null
-							&& !newDataAndRealPoint.isEmpty()) {
-						dataPoints = newDataAndRealPoint.get(0);
-						realPoints = newDataAndRealPoint.get(1);
-					}
+					deleteUnnecessaryUndefPoints(dataPoints);
 
 					updatePolyLineDataPoints(dataPoints, gps);
 					if (view.getApplication().has(Feature.MOW_PEN_SMOOTHING)
@@ -751,9 +675,8 @@ public class ModeDeleteLocus extends ModeDelete {
 		return false;
 	}
 
-	private void handleLastFirstOrSinglePoints(List<MyPoint> dataPoints,
+	private static void handleLastFirstOrSinglePoints(List<MyPoint> dataPoints,
 			int i) {
-		newDataAndRealPoint.clear();
 		if ((i == 0 && ((i + 1 < dataPoints.size()
 				&& !dataPoints.get(i + 1).isDefined())
 				|| (i + 1 == dataPoints.size())))
@@ -768,13 +691,11 @@ public class ModeDeleteLocus extends ModeDelete {
 			dataPoints.get(i).setUndefined();
 		}
 
-		newDataAndRealPoint.add(dataPoints);
 
 	}
 
 	private void handleEraserAtStartPointOfSegment(List<MyPoint> dataPoints,
-			List<MyPoint> realPoints, int i) {
-		newDataAndRealPoint.clear();
+			int i) {
 		// get intersection points
 		interPoints.clear();
 		interPoints = getAllIntersectionPoint(dataPoints.get(i),
@@ -814,15 +735,10 @@ public class ModeDeleteLocus extends ModeDelete {
 				dataPoints.get(i).setUndefined();
 			}
 		}
-		newDataAndRealPoint.add(dataPoints);
-		newDataAndRealPoint.add(realPoints);
 	}
 
-	private int handleEraserAtPoint(List<MyPoint> dataPoints,
-			List<MyPoint> realPoints,
-			int i) {
+	private int handleEraserAtPoint(List<MyPoint> dataPoints, int i) {
 		int index = i;
-		newDataAndRealPoint.clear();
 		// no intersection points
 		if (interPoints.isEmpty()) {
 			double pointX = view.toScreenCoordXd(dataPoints.get(i - 1).getX());
@@ -849,24 +765,20 @@ public class ModeDeleteLocus extends ModeDelete {
 			} else {
 				double[] realCoords = getInterRealCoords(
 						dataPoints.get(i - 1));
-				newDataAndRealPoint = getNewPolyLinePoints(
-						dataPoints, realPoints, 1, i, i - 1, i, i + 1,
-						realCoords);
+				swap(dataPoints, getNewPolyLinePoints(
+						dataPoints, 1, i, i - 1, i, i + 1,
+						realCoords));
 
 				index = i + 2;
 			}
 		}
-		if (newDataAndRealPoint != null && newDataAndRealPoint.isEmpty()) {
-			newDataAndRealPoint.add(dataPoints);
-			newDataAndRealPoint.add(realPoints);
-		}
+
 		return index;
 	}
 
 	private int handleEraserAtJoinPointOrEndOfSegments(List<MyPoint> dataPoints,
-			List<MyPoint> realPoints, int i) {
+			int i) {
 		int index = i;
-		newDataAndRealPoint.clear();
 		ArrayList<GPoint2D> secondInterPoints;
 		if (i + 1 < dataPoints.size() && dataPoints.get(i + 1).isDefined()) {
 			// see if there is intersection point with next segment
@@ -889,33 +801,31 @@ public class ModeDeleteLocus extends ModeDelete {
 					// intersection point
 					dataPoints.get(i + 1).setCoords(realCoords[2],
 							realCoords[3]);
-					newDataAndRealPoint.add(dataPoints);
-					newDataAndRealPoint.add(realPoints);
 					index = i + 2;
 				} else if (i + 2 < dataPoints.size()
 						&& !dataPoints.get(i + 2).isDefined() && i - 2 > 0
 						&& dataPoints.get(i - 2).isDefined()) {
-					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
-							realPoints, 1, i, i - 1, i, i + 1, realCoords);
+					swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i,
+							i - 1, i, i + 1, realCoords));
 
 					index = i + 2;
 				} else if (i - 2 > 0 && !dataPoints.get(i - 2).isDefined()
 						&& i + 2 < dataPoints.size()
 						&& dataPoints.get(i + 2).isDefined()) {
-					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
-							realPoints, 1, i, i, i + 1, i + 2, realCoords);
+					swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i, i,
+							i + 1, i + 2, realCoords));
 
 					index = i + 2;
 				} else if (i - 2 > 0 && !dataPoints.get(i - 2).isDefined()
 						&& i + 2 < dataPoints.size()
 						&& !dataPoints.get(i + 2).isDefined()) {
-					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
-							realPoints, 2, i, i, i + 1, i + 2, realCoords);
+					swap(dataPoints, getNewPolyLinePoints(dataPoints, 2, i, i,
+							i + 1, i + 2, realCoords));
 
 					index = i + 3;
 				} else {
-					newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
-							realPoints, 1, i, i, i + 1, i + 2, realCoords);
+					swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i, i,
+							i + 1, i + 2, realCoords));
 
 					index = i + 2;
 				}
@@ -928,50 +838,57 @@ public class ModeDeleteLocus extends ModeDelete {
 			// switch old point with
 			// intersection point
 			dataPoints.get(i).setCoords(realX, realY);
-			newDataAndRealPoint.add(dataPoints);
-			newDataAndRealPoint.add(realPoints);
 		}
 		return index;
 	}
 
+	private void swap(List<MyPoint> dataPoints,
+			List<MyPoint> newPolyLinePoints) {
+		dataPoints.clear();
+		dataPoints.addAll(newPolyLinePoints);
+
+	}
+
 	private int handleEraserBetweenPointsOfSegment(
-			List<MyPoint> dataPoints, List<MyPoint> realPoints, int i) {
+			List<MyPoint> dataPoints, int i) {
 		int index = i;
 		interPoints.clear();
+
+
 		interPoints = getAllIntersectionPoint(dataPoints.get(i),
 				dataPoints.get(i + 1),
 				rect);
-		newDataAndRealPoint.clear();
-		if (!interPoints.isEmpty() && interPoints.size() >= 2) {
+		if (interPoints.size() >= 2) {
 			double[] realCoords = getInterRealCoords(dataPoints.get(i));
 			// case ?,(A),(B),? or ?,(A),(B)
 			if (i - 1 > 0 && !dataPoints.get(i - 1).isDefined()
 					&& ((i + 2 < dataPoints.size()
 							&& !dataPoints.get(i + 2).isDefined())
 							|| i + 1 == dataPoints.size() - 1)) {
-				newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
-						realPoints, 3, i, i + 1, i + 2, i + 3, realCoords);
-				index = i + 2;
+				swap(dataPoints, getNewPolyLinePoints(dataPoints, 3, i, i + 1,
+						i + 2, i + 3, realCoords));
+				index += 4;
 			}
 			// case ?,(A),(B),...
 			else if (i - 1 > 0 && !dataPoints.get(i - 1).isDefined()
 					&& i + 1 != dataPoints.size() - 1) {
-				newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
-						realPoints, 2, i, i + 1, i + 2, i + 3, realCoords);
-				index++;
+				swap(dataPoints, getNewPolyLinePoints(dataPoints, 2, i, i + 1,
+						i + 2, i + 3, realCoords));
+				index += 3;
 			}
 			// case ...,(A),(B),?,... or ...,(A),(B)
 			else if (i + 1 == dataPoints.size() - 1
 					|| (i + 2 < dataPoints.size()
 							&& !dataPoints.get(i + 2).isDefined())) {
-				newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
-						realPoints, 2, i, i, i + 1, i + 2, realCoords);
-				index++;
+				swap(dataPoints, getNewPolyLinePoints(dataPoints, 2, i, i,
+						i + 1, i + 2, realCoords));
+				index += 3;
 			}
 			// otherwise
 			else {
-				newDataAndRealPoint = getNewPolyLinePoints(dataPoints,
-						realPoints, 1, i, i, i + 1, i + 2, realCoords);
+				swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i, i,
+						i + 1, i + 2, realCoords));
+				index += 2;
 			}
 		}
 		return index;

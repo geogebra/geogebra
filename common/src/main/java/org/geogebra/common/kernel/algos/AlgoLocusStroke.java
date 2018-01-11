@@ -125,35 +125,43 @@ public class AlgoLocusStroke extends AlgoElement
 				pointList.add(data.get(i));
 			}
 			int index = initialIndex;
-			if (data.get(index).isDefined()) {
-				// move at first point
-				pointList.add(
-						new MyPoint(data.get(index).getX(),
-								data.get(index).getY(),
-					SegmentType.MOVE_TO));
-			}
+			// if (data.get(index).isDefined()) {
+			// // move at first point
+			// pointList.add(
+			// new MyPoint(data.get(index).getX(),
+			// data.get(index).getY(),
+			// SegmentType.MOVE_TO));
+			// }
 			// Log.debug("1: (" + data[0].getInhomX() + "," +
 			// data[0].getInhomY()
 			// + ") -> " +
 			// SegmentType.MOVE_TO);
 			while (index <= data.size()) {
+				// TODO
+
 				// separator for XML
 				List<MyPoint> partOfStroke = getPartOfPenStroke(index, data);
+				if (!pointList.isEmpty()
+						&& pointList.get(pointList.size() - 1).isDefined()
+						&& partOfStroke.size() > 0) {
+					pointList.add(new MyPoint(Double.NaN, Double.NaN,
+							SegmentType.LINE_TO));
+				}
 				// if we found single point
 				// just add it to the list without control points
 				if (partOfStroke.size() > 0) {
-					// pointList.add(new MyPoint(Double.NaN, Double.NaN,
-					// SegmentType.MOVE_TO));
-					pointList
-						.add(partOfStroke.get(0).withType(SegmentType.MOVE_TO));
+					pointList.add(
+							partOfStroke.get(0).withType(SegmentType.MOVE_TO));
 				}
 				if (partOfStroke.size() == 1) {
+
 					pointList.add(
 							partOfStroke.get(0).withType(SegmentType.LINE_TO));
 				} else if (partOfStroke.size() == 2) {
 					pointList.add(
 							partOfStroke.get(1).withType(SegmentType.LINE_TO));
 				} else if (partOfStroke.size() > 1) {
+
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
 					for (int i = 1; i < partOfStroke.size(); i++) {
@@ -399,7 +407,7 @@ public class AlgoLocusStroke extends AlgoElement
 		boolean first = true;
 		for (MyPoint m : pts) {
 			if (m.getSegmentType() == SegmentType.MOVE_TO && !first) {
-				sb.append("(?,?),");
+				// sb.append("(?,?),"); TODO
 			}
 			first = false;
 			sb.append("(");
