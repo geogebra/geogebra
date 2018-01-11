@@ -367,7 +367,8 @@ public class CommandsTest extends Assert{
 	@Test
 	public void cmdIntersect() {
 		t("ZoomIn(-5,-5,5,5)", new String[0]);
-		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", false, "(4, 3)",
+		intersect("3x=4y", "Curve[5*sin(t),5*cos(t),t,0,6]", false,
+				"(4, 3)",
 				"(-4, -3)");
 		intersect("x=y", "x+y=2", true, "(1, 1)");
 		intersect("x=y", "x^2+y^2=2", true, "(1, 1)", "(-1, -1)");
@@ -385,15 +386,16 @@ public class CommandsTest extends Assert{
 		intersect("x=y", "(2,2)", false, "(2, 2)");
 		intersect("x", "(2,2)", false, "(2, 2)");
 		intersect("x=y", "(x-1)^2+1", true, "(1, 1)", "(2, 2)");
-		intersect("x^2=y^2", "(x-1)^2+1", true, "(1, 1)", "(2, 2)");
-		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(3, 3)",
+		intersect("x^2=y^2", "(x-1)^2+1", true, false, "(1, 1)", "(2, 2)");
+		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", false, true,
+				"(3, 3)",
 				"(-1, -1)");
-		intersect("x", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, -1)",
-				"(3, 3)");
-		intersect("x^2", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, 1)",
+		intersect("x^2", "PolyLine((-1,-2),(-1,3),(5,3))", false, true,
+				"(-1, 1)",
 				eval("(sqrt(3), 3)"));
 		intersect("PolyLine((1,-2),(1,4),(5,3))",
-				"PolyLine((-1,-2),(-1,3),(5,3))", false, "(1, 3)", "(5, 3)");
+				"PolyLine((-1,-2),(-1,3),(5,3))", false, "(1, 3)",
+				"(5, 3)");
 		intersect("PolyLine((1,-2),(1,4),(5,3))",
 				"Polygon((-1,-2),(-1,3),(5,3))", false, "(1, 3)",
 				"(1, -0.33333)", "(5, 3)", "(5, 3)");
@@ -412,20 +414,35 @@ public class CommandsTest extends Assert{
 
 	private static void intersect(String arg1, String arg2, boolean num,
 			String... results) {
+		intersect(arg1, arg2, num, num, results);
+	}
+
+	private static void intersect(String arg1, String arg2, boolean num,
+			boolean closest,
+			String... results) {
 		app.getKernel().clearConstruction(true);
 		app.getKernel().getConstruction().setSuppressLabelCreation(false);
 		t("its:=Intersect(" + arg1 + "," + arg2 + ")", results,
 				StringTemplate.editTemplate);
 		GeoElement geo = get("its") == null ? get("its_1") : get("its");
-		if (geo != null
+		boolean symmetric = geo != null
 				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectConics)
-				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines)) {
+				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines);
+		if (symmetric) {
 			t("Intersect(" + arg2 + "," + arg1 + ")", results,
 					StringTemplate.editTemplate);
 		}
 		if (num) {
 			t("Intersect(" + arg1 + "," + arg2 + ",1)", results[0],
-				StringTemplate.defaultTemplate);
+					StringTemplate.defaultTemplate);
+			if (symmetric) {
+				t("Intersect(" + arg2 + "," + arg1 + ",1)", results[0],
+					StringTemplate.defaultTemplate);
+			}
+		}
+		if (closest) {
+			t("Intersect(" + arg1 + "," + arg2 + "," + results[0] + ")",
+					results[0], StringTemplate.defaultTemplate);
 		}
 	}
 
