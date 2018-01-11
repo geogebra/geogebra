@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoIntersectConics;
+import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -381,6 +382,8 @@ public class CommandsTest extends Assert{
 		t("Intersect[x^2+y^2=25,(x-6)^2+ y^2=25, 1]", "(3, 4)",
 				StringTemplate.editTemplate);
 		intersect("x=y", "sin(x)", false, "(0, 0)");
+		intersect("x=y", "(2,2)", false, "(2, 2)");
+		intersect("x", "(2,2)", false, "(2, 2)");
 		intersect("x=y", "(x-1)^2+1", true, "(1, 1)", "(2, 2)");
 		intersect("x^2=y^2", "(x-1)^2+1", true, "(1, 1)", "(2, 2)");
 		intersect("x=y", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(3, 3)",
@@ -389,8 +392,22 @@ public class CommandsTest extends Assert{
 				"(3, 3)");
 		intersect("x^2", "PolyLine((-1,-2),(-1,3),(5,3))", false, "(-1, 1)",
 				eval("(sqrt(3), 3)"));
+		intersect("PolyLine((1,-2),(1,4),(5,3))",
+				"PolyLine((-1,-2),(-1,3),(5,3))", false, "(1, 3)", "(5, 3)");
+		intersect("PolyLine((1,-2),(1,4),(5,3))",
+				"Polygon((-1,-2),(-1,3),(5,3))", false, "(1, 3)",
+				"(1, -0.33333)", "(5, 3)", "(5, 3)");
+		intersect("Polygon((1,-2),(1,4),(5,3))",
+				"Polygon((-1,-2),(-1,3),(5,3))", false, "(1, 3)",
+				"(1, -0.33333)", "(5, 3)", "(5, 3)", "(5, 3)", "(5, 3)");
 		intersect("(x+1)^4+(y-3)^4=1", "PolyLine((-1,-2),(-1,3),(5,3))", false,
 				"(-1, 2)", "(0, 3)");
+		intersect("(x+1)^2+(y-3)^2=1", "PolyLine((-1,-2),(-1,3),(5,3))", false,
+				"(-1, 2)", "(0, 3)");
+		if (app.has(Feature.IMPLICIT_SURFACES)) {
+			intersect("x^4+y^4+z^4=2", "x=y",
+				false, "(-1, -1, 0)", "(1, 1, 0)");
+		}
 	}
 
 	private static void intersect(String arg1, String arg2, boolean num,
@@ -401,7 +418,8 @@ public class CommandsTest extends Assert{
 				StringTemplate.editTemplate);
 		GeoElement geo = get("its") == null ? get("its_1") : get("its");
 		if (geo != null
-				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectConics)) {
+				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectConics)
+				&& !(geo.getParentAlgorithm() instanceof AlgoIntersectPolyLines)) {
 			t("Intersect(" + arg2 + "," + arg1 + ")", results,
 					StringTemplate.editTemplate);
 		}

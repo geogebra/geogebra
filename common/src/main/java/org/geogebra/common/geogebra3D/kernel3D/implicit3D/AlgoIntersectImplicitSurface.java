@@ -78,6 +78,9 @@ public class AlgoIntersectImplicitSurface extends AlgoIntersect3D {
 
 	private void intersectLine(GeoLineND eq) {
 		Coords v = eq.getDirectionInD3();
+		if (eq.getStartPoint() == null) {
+			eq.setStandardStartPoint();
+		}
 		Coords r = eq.getStartPoint().getCoordsInD3();
 		FunctionVariable t = new FunctionVariable(kernel, "x");
 		ExpressionNode x = new ExpressionNode(kernel, r.getX());

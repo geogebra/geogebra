@@ -399,6 +399,10 @@ public class CmdIntersect extends CommandProcessor {
 				&& (ok[1] = arg[1].isGeoPoint())) {
 			return getAlgoDispatcher().IntersectPathPoint(c.getLabel(),
 					(Path) arg[0], (GeoPointND) arg[1]);
+		} else if ((ok[0] = arg[0].isGeoPoint())
+				&& (ok[1] = arg[1] instanceof Path)) {
+			return getAlgoDispatcher().IntersectPathPoint(c.getLabel(),
+					(Path) arg[1], (GeoPointND) arg[0]);
 		}
 		/*
 		 * moved to CmdIntersection to allow Intersect[List, List] to intersect
