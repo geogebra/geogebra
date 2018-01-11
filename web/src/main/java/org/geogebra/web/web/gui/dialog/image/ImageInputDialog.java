@@ -84,7 +84,6 @@ public class ImageInputDialog extends UploadImageDialog {
 		if (source == insertBtn) {
 	    	String data;
 	    	String name;
-	    	boolean camera = false;
 	    	if (webcamPanel == null) { // file upload
 	    		data = uploadImagePanel.getImageDataURL();
 	    		name = uploadImagePanel.getFileName();
@@ -92,7 +91,6 @@ public class ImageInputDialog extends UploadImageDialog {
 	    	} else { // webcam
 	    		data = webcamPanel.getImageDataURL();
 	    		name = "webcam";
-	    		camera = true;
 	    	}
 			if (location != null && !location.isLabelSet()) {
 				location.setLabel(null);
