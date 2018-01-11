@@ -8,6 +8,7 @@ import org.apache.commons.math3.linear.Array2DRowRealMatrix;
 import org.apache.commons.math3.linear.RealMatrix;
 import org.apache.commons.math3.linear.RealVector;
 import org.apache.commons.math3.linear.SingularValueDecomposition;
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
@@ -390,7 +391,7 @@ public class EuclidianPen implements GTimerListener {
 		}
 		GGeneralPath gp = AwtFactory.getPrototype().newGeneralPath();
 		g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
-				lineDrawingStyle));
+				lineDrawingStyle, GBasicStroke.JOIN_ROUND));
 		g2D.setColor(lineDrawingColor);
 		gp.moveTo(penPoints.get(0).x, penPoints.get(0).y);
 		for (int i = 1; i < penPoints.size() - 1; i++) {

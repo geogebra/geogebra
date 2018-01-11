@@ -72,7 +72,6 @@ public class EuclidianStatic {
 		return layout.getAdvance();
 
 	}
-
 	/**
 	 * Creates a stroke with thickness width, dashed according to line style
 	 * type.
@@ -84,6 +83,20 @@ public class EuclidianStatic {
 	 * @return stroke
 	 */
 	public static GBasicStroke getStroke(double width, int type) {
+		return getStroke(width, type, standardStroke.getLineJoin());
+	}
+
+	/**
+	 * Creates a stroke with thickness width, dashed according to line style
+	 * type.
+	 * 
+	 * @param width
+	 *            stroke width
+	 * @param type
+	 *            stroke type (EuclidianStyleConstants.LINE_TYPE_*)
+	 * @return stroke
+	 */
+	public static GBasicStroke getStroke(double width, int type, int join) {
 		double[] dash;
 
 		switch (type) {
@@ -122,7 +135,7 @@ public class EuclidianStatic {
 				: standardStroke.getEndCap();
 
 		return AwtFactory.getPrototype().newBasicStroke(width, endCap,
-				standardStroke.getLineJoin(), standardStroke.getMiterLimit(),
+				join, standardStroke.getMiterLimit(),
 				dash);
 	}
 
