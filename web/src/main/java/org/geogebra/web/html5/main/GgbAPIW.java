@@ -38,7 +38,6 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.CanvasElement;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.json.client.JSONNumber;
@@ -137,24 +136,18 @@ public class GgbAPIW extends GgbAPI {
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
 				.getActiveEuclidianView());
 
-		// TODO: PNGEncoder not working for transparent images
-		if (MyDouble.isFinite(DPI) && DPI > 0 && ev instanceof EuclidianViewW
-				&& !transparent) {
+		// get export image
+		// DPI ignored
+		url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
+				.getExportImageDataUrl(exportScale, transparent);
+
+		if (MyDouble.isFinite(DPI) && DPI > 0 && ev instanceof EuclidianViewW) {
 
 			JavaScriptInjector
-					.inject(GuiResourcesSimple.INSTANCE.pngEncoder());
+					.inject(GuiResourcesSimple.INSTANCE.rewritePHYS());
 
-			Canvas canvas = ((EuclidianViewW) ev).getExportImageCanvas(
-					exportScale, transparent);
+			url = addDPI(url, DPI);
 
-			url = getExportImageDataUrl(canvas.getCanvasElement(), DPI);
-
-		} else {
-
-		// get export image
-			// DPI ignored
-			url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(exportScale, transparent);
 		}
 
 		return url;
@@ -343,36 +336,38 @@ public class GgbAPIW extends GgbAPI {
 		};
 	}-*/;
 
-	private native String getExportImageDataUrl(CanvasElement canvas,
-			double dpi) /*-{
+	private native String addDPI(String base64, double dpi) /*-{
+
+		var pngHeader = "data:image/png;base64,";
+
+		if (base64.startsWith(pngHeader)) {
+			base64 = base64.substr(pngHeader.length);
+		}
 
 		// convert dots per inch into dots per metre
 		var pixelsPerM = dpi * 100 / 2.54;
 
-		var param = {
-			bitDepth : 8,
-			colourType : 2,
-			filterType : 0,
-			height : canvas.height,
-			interlaceMethod : 0,
-			phys : {
-				unit : 1,
-				x : pixelsPerM,
-				y : pixelsPerM
-			},
-			width : canvas.width
-		};
-
-		var array = canvas.getContext('2d').getImageData(0, 0, canvas.width,
-				canvas.height).data;
-
-		var png = new $wnd.CanvasTool.PngEncoder(array, param).convert();
-
-		var base64 = 'data:image/png;base64,' + btoa(png);
-
 		//console.log("base64 = " + base64);
 
-		return base64;
+		// encode PNG as Uint8Array
+		var binary_string = window.atob(base64);
+		var len = binary_string.length;
+		//console.log("len = " + len);
+		var bytes = new Uint8Array(len);
+		for (var i = 0; i < len; i++) {
+			bytes[i] = binary_string.charCodeAt(i);
+		}
+
+		// change / add pHYs chunk 
+		// pixels per metre
+		var ppm = Math.round(dpi / 2.54 * 100);
+		bytes = $wnd.rewrite_pHYs_chunk(bytes, ppm, ppm);
+
+		// re-encode PNG (btoa method)
+		var b64encoded = btoa(String.fromCharCode.apply(null, bytes));
+		//console.log("b64encoded = " + b64encoded);
+
+		return 'data:image/png;base64,' + b64encoded;
 
 	}-*/;
 

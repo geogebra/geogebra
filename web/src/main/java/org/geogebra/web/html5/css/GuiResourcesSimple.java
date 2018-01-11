@@ -16,8 +16,8 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/zipjs/deflate.js")
 	TextResource deflateJs();
 
-	@Source("org/geogebra/web/resources/js/pngencoder.min.js")
-	TextResource pngEncoder();
+	@Source("org/geogebra/web/resources/js/rewrite_pHYs_min.js")
+	TextResource rewritePHYS();
 
 	@Source("org/geogebra/web/resources/js/canvas2svg_min.js")
 	TextResource canvas2Svg();
