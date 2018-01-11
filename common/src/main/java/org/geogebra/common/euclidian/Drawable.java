@@ -845,4 +845,17 @@ public abstract class Drawable extends DrawableND {
 		return tempFrame;
 	}
 
+	/**
+	 * @param handler
+	 *            bounding box handler
+	 * @return true if 'handler' is a corner handler.
+	 */
+	protected static boolean isCornerHandler(
+			EuclidianBoundingBoxHandler handler) {
+		return handler == EuclidianBoundingBoxHandler.BOTTOM_LEFT
+				|| handler == EuclidianBoundingBoxHandler.BOTTOM_RIGHT
+				|| handler == EuclidianBoundingBoxHandler.TOP_LEFT
+				|| handler == EuclidianBoundingBoxHandler.TOP_RIGHT;
+	}
+
 }

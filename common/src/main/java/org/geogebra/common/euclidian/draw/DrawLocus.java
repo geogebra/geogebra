@@ -342,13 +342,5 @@ public class DrawLocus extends Drawable {
 		}
 		return null;
 	}
-	
-	private static boolean isCornerHandler(
-			EuclidianBoundingBoxHandler handler) {
-		return handler == EuclidianBoundingBoxHandler.BOTTOM_LEFT
-				|| handler == EuclidianBoundingBoxHandler.BOTTOM_RIGHT
-				|| handler == EuclidianBoundingBoxHandler.TOP_LEFT
-				|| handler == EuclidianBoundingBoxHandler.TOP_RIGHT;
-	}
 
 }
