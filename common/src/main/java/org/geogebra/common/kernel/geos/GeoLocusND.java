@@ -129,6 +129,15 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	}
 
 	/**
+	 * Updates points when resizing the locus
+	 */
+	public void updatePoints() {
+		for (int i = 0; i < myPointList.size(); i++) {
+			myPointList.get(i).setX(myPointList.get(i).getX() + 1);
+		}
+	}
+
+	/**
 	 * Reset list of points for XML
 	 */
 	public void resetPointsWithoutControl() {

@@ -19,7 +19,9 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
@@ -27,6 +29,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
@@ -280,6 +283,47 @@ public class DrawLocus extends Drawable {
 	}
 
 	@Override
+	public void updateByBoundingBoxResize(AbstractEvent e,
+			EuclidianBoundingBoxHandler handler) {
+		if (isCornerHandler(handler)) {
+			updateLocusCorner(handler, e);
+		} else {
+			updateLocusSide(handler, e);
+		}
+		view.getEuclidianController().hideDynamicStylebar();
+		view.repaintView();
+	}
+
+	/**
+	 * update locus by dragging corner handler
+	 * 
+	 * @param handler
+	 *            - handler was hit
+	 * @param e
+	 *            - mouse event
+	 */
+	private void updateLocusCorner(EuclidianBoundingBoxHandler handler,
+			AbstractEvent e) {
+		//TODO
+	}
+
+	/**
+	 * update locus by dragging side handler
+	 * 
+	 * @param handler
+	 *            - handler was hit
+	 * @param e
+	 *            - mouse event
+	 */
+	private void updateLocusSide(EuclidianBoundingBoxHandler handler,
+			AbstractEvent e) {
+		((GeoLocus) geo).updatePoints();
+		update();
+		getBoundingBox().setRectangle(getBounds());
+
+	}
+
+	@Override
 	public GRectangle getBoundsForStylebarPosition() {
 		if (gp == null) {
 			return null;
@@ -297,6 +341,14 @@ public class DrawLocus extends Drawable {
 			return boundingBox;
 		}
 		return null;
+	}
+	
+	private static boolean isCornerHandler(
+			EuclidianBoundingBoxHandler handler) {
+		return handler == EuclidianBoundingBoxHandler.BOTTOM_LEFT
+				|| handler == EuclidianBoundingBoxHandler.BOTTOM_RIGHT
+				|| handler == EuclidianBoundingBoxHandler.TOP_LEFT
+				|| handler == EuclidianBoundingBoxHandler.TOP_RIGHT;
 	}
 
 }
