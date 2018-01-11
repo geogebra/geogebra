@@ -21,7 +21,6 @@ public class WebCamInputPanel extends VerticalPanel {
 	private JavaScriptObject stream;
 	private int canvasWidth = 640, canvasHeight = 480;// overwritten by real
 														// dimensions
-
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;
 
@@ -149,8 +148,6 @@ public class WebCamInputPanel extends VerticalPanel {
 		stopVideo();
 		inputWidget.getElement().removeAllChildren();
 		resetVideo();
-
-	    
     }
 
 	private void resetVideo() {
@@ -167,21 +164,6 @@ public class WebCamInputPanel extends VerticalPanel {
 		}
 		video = populate(inputWidget.getElement(), message,
 				loc.getMenu("Webcam.Problem"));
-
-	}
-
-	/**
-	 * @return screenshot width
-	 */
-	public int getCanvasWidth() {
-		return canvasWidth;
-	}
-
-	/**
-	 * @return screenshot height
-	 */
-	public int getCanvasHeight() {
-		return canvasHeight;
 	}
 
 	private int getPreviewWidth() {

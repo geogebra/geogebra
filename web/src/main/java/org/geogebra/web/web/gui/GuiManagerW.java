@@ -440,7 +440,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 						pngBase64end);
 
 				getApp().imageDropHappened("pastedFromClipboard.png",
-						base64, "", 0, 0);
+						base64, "");
 
 				return;
 			}

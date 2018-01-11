@@ -242,6 +242,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	 * @param loc {@link GeoPoint}
 	 */
 	public void showImageInputDialog(GeoPoint loc, GDevice device) {
+		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
+				&& device instanceof BrowserDevice) {
+			((BrowserDevice) device).getUploadImageWithoutDialog((AppW) app);
+			return;
+		}
 		if (this.imageDialog == null) {
 			this.imageDialog =  device.getImageInputDialog((AppW) app);
 		}

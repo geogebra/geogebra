@@ -8,13 +8,17 @@ import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * panel for uploading images contains preview image
+ *
+ */
 public class UploadImagePanel extends VerticalPanel {
 	
 	private String fileData;
 	private String fileName;
 
-	int previewHeight;
-	int previewWidth;
+	private int previewHeight;
+	private int previewWidth;
 	
 	/** used to reset the uploadImageBtn */
 	private FormPanel panel;
@@ -22,8 +26,17 @@ public class UploadImagePanel extends VerticalPanel {
 	private Image previewImg;
 
 	private UploadImageDialog dialog;
+	private UploadImageWithoutDialog uploadImageWithoutDialog;
 	
 	
+	/**
+	 * @param uploadImageDialog
+	 *            dialog containing image upload panel
+	 * @param previewWidth
+	 *            width of preview image
+	 * @param previewHeight
+	 *            height of preview image
+	 */
 	public UploadImagePanel(UploadImageDialog uploadImageDialog,
 			int previewWidth, int previewHeight) {
 		this.dialog = uploadImageDialog;
@@ -32,6 +45,15 @@ public class UploadImagePanel extends VerticalPanel {
 	    initGUI();
 	    initActions();
     }
+
+	/**
+	 * @param uploadImageWithoutDialog
+	 *            enables file upload without dialog
+	 */
+	public UploadImagePanel(UploadImageWithoutDialog uploadImageWithoutDialog) {
+		this(null, 0, 0);
+		this.uploadImageWithoutDialog = uploadImageWithoutDialog;
+	}
 	
 	private void initGUI() {
 		panel = new FormPanel();
@@ -43,6 +65,10 @@ public class UploadImagePanel extends VerticalPanel {
 		addChangeHandler(uploadImageBtn.getElement());
 	}
 	
+	/**
+	 * @param el
+	 *            Element
+	 */
 	public native void addChangeHandler(Element el) /*-{
 		var panel = this;
 		el.setAttribute("accept", "image/*");
@@ -73,9 +99,9 @@ public class UploadImagePanel extends VerticalPanel {
 		}
 	}-*/;
 	
-	private void fileSelected(String fileData, String fileName) {
-		this.fileData = fileData;
-		this.fileName = fileName;
+	private void fileSelected(String fData, String fName) {
+		this.fileData = fData;
+		this.fileName = fName;
 		if (previewImg == null) {
 			try{
 			previewImg = new Image(fileData);
@@ -88,17 +114,30 @@ public class UploadImagePanel extends VerticalPanel {
 		} else {
 			previewImg.setUrl(fileData);
 		}
-		dialog.imageAvailable();
+		if (dialog == null) {
+			uploadImageWithoutDialog.insertImage();
+		} else {
+			dialog.imageAvailable();
+		}
 	}
 
+	/**
+	 * @return image data
+	 */
 	public String getImageDataURL() {
 		return fileData;
 	}
 	
+	/**
+	 * @return file name
+	 */
 	public String getFileName() {
 		return fileName;
 	}
 	
+	/**
+	 * reset the preview image
+	 */
 	public void resetPreview() {
 		if (this.previewImg != null) {
 			this.remove(this.previewImg);
@@ -107,4 +146,10 @@ public class UploadImagePanel extends VerticalPanel {
 		}
 	}
 
+	/**
+	 * opens the file browser
+	 */
+	public void openFileBrowserDirectly() {
+		uploadImageBtn.click();
+	}
 }

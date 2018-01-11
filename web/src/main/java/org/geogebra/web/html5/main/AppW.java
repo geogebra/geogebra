@@ -120,7 +120,9 @@ import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.Dom;
+import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
+import org.geogebra.web.html5.util.ImageWrapper;
 import org.geogebra.web.html5.util.NetworkW;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
@@ -1539,11 +1541,6 @@ public abstract class AppW extends App implements SetLabels {
 		return getGuiManager().getPlotPanelView(viewID) != null;
 	}
 
-	public void imageDropHappened(String imgFileName, String fileStr,
-			String fileStr2) {
-		imageDropHappened(imgFileName, fileStr, fileStr2, 0, 0);
-	}
-
 	/**
 	 * Loads an image and puts it on the canvas (this happens on webcam input)
 	 * On drag&drop or insert from URL this would be called too, but that would
@@ -1580,7 +1577,7 @@ public abstract class AppW extends App implements SetLabels {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, url, 0, 0);
+		doDropHappened(imgFileName, url);
 		if (insertImageCallback != null) {
 			this.insertImageCallback.run();
 		}
@@ -1598,7 +1595,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param loc
 	 */
 	public void imageDropHappened(String imgFileName, String fileStr,
-			String notUsed, int width, int height) {
+			String notUsed) {
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		String zip_directory = md5e.encrypt(fileStr);
@@ -1615,29 +1612,36 @@ public abstract class AppW extends App implements SetLabels {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		fn = zip_directory + '/' + fn;
 
-		doDropHappened(fn, fileStr, width, height);
+		doDropHappened(fn, fileStr);
 	}
 
 	/**
 	 * @param pt
 	 *            drop location TODO make sure it's used
 	 */
-	private void doDropHappened(String imgFileName, String fileStr, int width,
-			int height) {
+	private void doDropHappened(final String imgFileName, String fileStr) {
 
 		Construction cons = getKernel().getConstruction();
 		getImageManager().addExternalImage(imgFileName, fileStr);
-		GeoImage geoImage = new GeoImage(cons);
+		final GeoImage geoImage = new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(imgFileName, geoImage);
-		geoImage.setImageFileName(imgFileName, width, height);
-	
-		getGuiManager().setImageCornersFromSelection(geoImage);
-		if (getImageManager().isPreventAuxImage()) {
-			geoImage.setAuxiliaryObject(false);
-		}
-		setDefaultCursor();
 
+		final ImageWrapper img = new ImageWrapper(
+				getImageManager().getExternalImage(imgFileName, this));
+		img.attachNativeLoadHandler(getImageManager(), new ImageLoadCallback() {
+			@Override
+			public void onLoad() {
+				int width = img.getElement().getWidth();
+				int height = img.getElement().getHeight();
 
+				geoImage.setImageFileName(imgFileName, width, height);
+				getGuiManager().setImageCornersFromSelection(geoImage);
+				if (getImageManager().isPreventAuxImage()) {
+					geoImage.setAuxiliaryObject(false);
+				}
+				setDefaultCursor();
+			}
+		});
 	}
 
 	/**
