@@ -247,9 +247,10 @@ public class EuclidianStyleBarStatic {
 
 						@Override
 						public void callback(GeoElementND newGeo1) {
-							app.doAfterRedefine(newGeo1);
-							newGeo1.updateRepaint();
-
+							if (newGeo1 != null) {
+								app.doAfterRedefine(newGeo1);
+								newGeo1.updateRepaint();
+							}
 						}
 					});
 

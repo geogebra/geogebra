@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -141,6 +142,8 @@ public class AlgoLocusStroke extends AlgoElement
 				// if we found single point
 				// just add it to the list without control points
 				if (partOfStroke.size() > 0) {
+					// pointList.add(new MyPoint(Double.NaN, Double.NaN,
+					// SegmentType.MOVE_TO));
 					pointList
 						.add(partOfStroke.get(0).withType(SegmentType.MOVE_TO));
 				}
@@ -160,15 +163,21 @@ public class AlgoLocusStroke extends AlgoElement
 						MyPoint ctrl2 = new MyPoint(controlPoints.get(2)[i - 1],
 								controlPoints.get(3)[i - 1],
 								SegmentType.CONTROL);
-						MyPoint endpoint = partOfStroke.get(i)
-								.withType(SegmentType.CURVE_TO);
-						pointList.add(ctrl1);
-						pointList.add(ctrl2);
-						pointList.add(endpoint);
+						MyPoint endpoint = partOfStroke.get(i);
+						if (angle(pointList.get(pointList.size() - 1), ctrl1,
+								endpoint) > -1) {
+							pointList.add(ctrl1);
+							pointList.add(ctrl2);
+							pointList.add(
+									endpoint.withType(SegmentType.CURVE_TO));
+						} else {
+							pointList.add(
+									endpoint.withType(SegmentType.LINE_TO));
+						}
 					}
 				}
 
-				index = index + partOfStroke.size() + 1;
+				index = index + Math.max(partOfStroke.size(), 1);
 			}
 			poly.setPoints(pointList);
 		} else {
@@ -180,12 +189,23 @@ public class AlgoLocusStroke extends AlgoElement
 		}
 	}
 
+	private double angle(MyPoint a, MyPoint b, MyPoint c) {
+		double dx1 = a.x - b.x;
+		double dx2 = c.x - b.x;
+		double dy1 = a.y - b.y;
+		double dy2 = c.y - b.y;
+		return Math.abs(dx1 * dy1 - dx2 * dy2) / MyMath.length(dx1, dy1)
+				/ MyMath.length(dx2, dy2);
+	}
+
 	// returns the part of array started at index until first undef point
 	private static List<MyPoint> getPartOfPenStroke(int index,
 			List<MyPoint> data) {
 		ArrayList<MyPoint> partOfStroke = new ArrayList<>(
 				data.size() - index + 1);
-		for (int i = index; i < data.size() && data.get(i).isDefined(); i++) {
+		for (int i = index; i < data.size() && data.get(i).isDefined()
+				&& (data.get(i).getSegmentType() != SegmentType.MOVE_TO
+						|| i == index); i++) {
 			partOfStroke.add(data.get(i));
 		}
 		return partOfStroke;

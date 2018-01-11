@@ -1152,22 +1152,24 @@ public class TextInputDialogD extends InputDialogD
 
 							@Override
 							public void callback(GeoElementND obj) {
-								// update editGeo
-								GeoText newText = (GeoText) obj;
-								editGeo = newText;
+								if (obj instanceof GeoText) {
+									// update editGeo
+									GeoText newText = (GeoText) obj;
+									editGeo = newText;
 
-								// make sure newText is using correct LaTeX
-								// setting
-								newText.setLaTeX(isLaTeX, true);
+									// make sure newText is using correct LaTeX
+									// setting
+									newText.setLaTeX(isLaTeX, true);
 
-								if (newText.getParentAlgorithm() != null) {
-									newText.getParentAlgorithm().update();
-								} else {
-									newText.updateRepaint();
+									if (newText.getParentAlgorithm() != null) {
+										newText.getParentAlgorithm().update();
+									} else {
+										newText.updateRepaint();
+									}
+
+									app.doAfterRedefine(newText);
+									callback.callback(obj != null);
 								}
-
-								app.doAfterRedefine(newText);
-								callback.callback(obj != null);
 							}
 						});
 
