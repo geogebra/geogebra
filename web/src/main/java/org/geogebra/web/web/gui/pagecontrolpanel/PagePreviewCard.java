@@ -78,7 +78,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 
 		setPreviewImage();
 		addTextField();
-		setDefaultLabel();
+		updateLabel();
 		addMoreButton();
 	}
 
@@ -149,13 +149,12 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		return loc.getMenu("page") + " " + (pageIndex + 1);
 	}
 
-	private void setDefaultLabel() {
+	private void updateLabel() {
 		if (!isTitleSet) {
 			textField.setText(getDefaultLabel());
 			setTextFieldWidth();
 		}
 	}
-
 
 	/**
 	 * get the index of the page
@@ -174,7 +173,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 */
 	public void setPageIndex(int index) {
 		pageIndex = index;
-		setDefaultLabel();
+		updateLabel();
 	}
 
 	private void addMoreButton(){
@@ -261,6 +260,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		if (contextMenu != null) {
 			contextMenu.setLabels();
 		}
-		setDefaultLabel();
+		updateLabel();
 	}
 }

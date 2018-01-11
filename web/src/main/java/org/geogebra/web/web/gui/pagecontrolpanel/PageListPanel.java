@@ -229,7 +229,7 @@ public class PageListPanel
 		}
 		contentPanel.remove(index);
 		pageController.removeSlide(index);
-		updateIndexes();
+		updateIndexes(index);
 	}
 
 	/**
@@ -263,8 +263,13 @@ public class PageListPanel
 		}
 	}
 
-	private void updateIndexes() {
-		for (int i = 0; i < contentPanel.getWidgetCount(); i++) {
+	/**
+	 * 
+	 * @param index
+	 *            update index and title above index
+	 */
+	private void updateIndexes(int index) {
+		for (int i = index; i < contentPanel.getWidgetCount(); i++) {
 			PagePreviewCard card = (PagePreviewCard) contentPanel.getWidget(i);
 			if (card.getPageIndex() != i) {
 				card.setPageIndex(i);
