@@ -198,7 +198,7 @@ public class PageListPanel
 	 *            index of page to load
 	 */
 	protected void loadPage(int index) {
-		pageController.loadSlide(index);
+		pageController.loadSlide(activePreviewCard, index);
 		setCardSelected((PagePreviewCard) contentPanel.getWidget(index));
 	}
 

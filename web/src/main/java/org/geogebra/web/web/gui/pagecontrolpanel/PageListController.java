@@ -24,7 +24,7 @@ public class PageListController implements PageListControllerInterface {
 	 * list of slides (pages)
 	 */
 	protected ArrayList<PagePreviewCard> slides;
-	private int activeSlide;
+	// private int activeSlide;
 
 	/**
 	 * @param app
@@ -33,22 +33,24 @@ public class PageListController implements PageListControllerInterface {
 	public PageListController(AppW app) {
 		this.app = app;
 		slides = new ArrayList<>();
-		activeSlide = 0;
+		// activeSlide = 0;
 	}
 
 	/**
 	 * loads the slide with index i from the list
 	 * 
+	 * @param curSelCard
+	 *            currently selected card
+	 * 
 	 * @param i
 	 *            index of the slide to load
 	 */
-	public void loadSlide(int i) {
+	public void loadSlide(PagePreviewCard curSelCard, int i) {
 		if (slides == null) {
 			return;
 		}
-		slides.get(activeSlide)
-				.setFile(app.getGgbApi().createArchiveContent(false));
-		activeSlide = i;
+		curSelCard.setFile(app.getGgbApi().createArchiveContent(false));
+		// activeSlide = i;
 
 		try {
 			if (slides.get(i).getFile().isEmpty()) {
@@ -70,7 +72,7 @@ public class PageListController implements PageListControllerInterface {
 	public PagePreviewCard addSlide() {
 		if (slides == null) {
 			slides = new ArrayList<>();
-			activeSlide = 0;
+			// activeSlide = 0;
 		}
 		PagePreviewCard previewCard = new PagePreviewCard(
 				app.getActiveEuclidianView(), slides.size(), new GgbFile());
@@ -88,9 +90,9 @@ public class PageListController implements PageListControllerInterface {
 		if (slides == null || index >= slides.size()) {
 			return;
 		}
-		if (activeSlide >= index) {
-			activeSlide--;
-		}
+		// if (activeSlide >= index) {
+		// activeSlide--;
+		// }
 		slides.remove(index);
 	}
 
