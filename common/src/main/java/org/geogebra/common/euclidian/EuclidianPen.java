@@ -855,7 +855,8 @@ public class EuclidianPen implements GTimerListener {
 		AlgoElement algo;
 		// don't set label
 		if (lastAlgo instanceof AlgoLocusStroke) {
-			((AlgoLocusStroke) lastAlgo).updatePointArray(newPts, ptsLength);
+			((AlgoLocusStroke) lastAlgo).updatePointArray(newPts, ptsLength,
+					view.getScale(0));
 			lastAlgo.getOutput(0).updateRepaint();
 			return;
 		}

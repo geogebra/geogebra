@@ -50,7 +50,7 @@ public class AlgoLocusStroke extends AlgoElement
 	public AlgoLocusStroke(Construction cons, List<MyPoint> points) {
 		super(cons);
 		poly = new GeoLocusStroke(this.cons);
-		updatePointArray(points, 0);
+		updatePointArray(points, 0, 0);
 		// poly = new GeoPolygon(cons, points);
 		// updatePointArray already covered compute
 		input = new GeoElement[1];
@@ -108,8 +108,11 @@ public class AlgoLocusStroke extends AlgoElement
 	 * @param initialIndex
 	 *            index from which to start smoothing (consider previous points
 	 *            smooth)
+	 * @param xscale
+	 *            view scale, used for filtering
 	 */
-	public void updatePointArray(List<MyPoint> data, int initialIndex) {
+	public void updatePointArray(List<MyPoint> data, int initialIndex,
+			double xscale) {
 		// check if we have a point list
 		// create new points array
 		int size = data.size();
@@ -140,18 +143,37 @@ public class AlgoLocusStroke extends AlgoElement
 				// TODO
 
 				// separator for XML
-				List<MyPoint> partOfStroke = getPartOfPenStroke(index, data);
+				List<MyPoint> unfiltered = getPartOfPenStroke(index, data);
 				if (!pointList.isEmpty()
 						&& pointList.get(pointList.size() - 1).isDefined()
-						&& partOfStroke.size() > 0) {
+						&& unfiltered.size() > 0) {
 					pointList.add(new MyPoint(Double.NaN, Double.NaN,
 							SegmentType.LINE_TO));
 				}
 				// if we found single point
 				// just add it to the list without control points
-				if (partOfStroke.size() > 0) {
+				if (unfiltered.size() > 0) {
 					pointList.add(
-							partOfStroke.get(0).withType(SegmentType.MOVE_TO));
+							unfiltered.get(0).withType(SegmentType.MOVE_TO));
+				}
+				MyPoint lastUsed = null;
+				List<MyPoint> partOfStroke;
+				if (xscale > 0) {
+					double distSqr = 250000 / xscale / xscale;
+					partOfStroke = new ArrayList<>();
+					for (int i = 1; i < unfiltered.size(); i++) {
+						MyPoint endpoint = unfiltered.get(i);
+						if (lastUsed != null && unfiltered.size() > i + 1
+								&& angle(lastUsed, endpoint,
+										unfiltered.get(i + 1)) < Math.PI / 18
+								&& lastUsed.distanceSqr(endpoint) < distSqr) {
+							continue;
+						}
+						lastUsed = endpoint;
+						partOfStroke.add(endpoint);
+					}
+				} else {
+					partOfStroke = unfiltered;
 				}
 				if (partOfStroke.size() == 1) {
 
@@ -164,6 +186,7 @@ public class AlgoLocusStroke extends AlgoElement
 
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
+
 					for (int i = 1; i < partOfStroke.size(); i++) {
 						MyPoint ctrl1 = new MyPoint(controlPoints.get(0)[i - 1],
 								controlPoints.get(1)[i - 1],
@@ -172,8 +195,10 @@ public class AlgoLocusStroke extends AlgoElement
 								controlPoints.get(3)[i - 1],
 								SegmentType.CONTROL);
 						MyPoint endpoint = partOfStroke.get(i);
-						if (angle(pointList.get(pointList.size() - 1), ctrl1,
-								endpoint) > -1) {
+						if (angle(pointList.get(pointList.size() - 1), endpoint,
+								ctrl1) > Math.PI / 2
+								&& angle(pointList.get(pointList.size() - 1),
+										endpoint, ctrl2) > Math.PI / 2) {
 							pointList.add(ctrl1);
 							pointList.add(ctrl2);
 							pointList.add(
@@ -182,10 +207,11 @@ public class AlgoLocusStroke extends AlgoElement
 							pointList.add(
 									endpoint.withType(SegmentType.LINE_TO));
 						}
+
 					}
 				}
 
-				index = index + Math.max(partOfStroke.size(), 1);
+				index = index + Math.max(unfiltered.size(), 1);
 			}
 			poly.setPoints(pointList);
 		} else {
@@ -197,13 +223,13 @@ public class AlgoLocusStroke extends AlgoElement
 		}
 	}
 
-	private double angle(MyPoint a, MyPoint b, MyPoint c) {
+	private static double angle(MyPoint a, MyPoint b, MyPoint c) {
 		double dx1 = a.x - b.x;
 		double dx2 = c.x - b.x;
 		double dy1 = a.y - b.y;
 		double dy2 = c.y - b.y;
-		return Math.abs(dx1 * dy1 - dx2 * dy2) / MyMath.length(dx1, dy1)
-				/ MyMath.length(dx2, dy2);
+		double ret = Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
+		return ret;
 	}
 
 	// returns the part of array started at index until first undef point
