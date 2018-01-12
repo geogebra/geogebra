@@ -8457,7 +8457,11 @@ public abstract class GeoElement extends ConstructionElement
 	 *            template element
 	 */
 	protected void reuseDefinition(GeoElementND geo) {
-		this.definition = !geo.isIndependent() ? null : geo.getDefinition();
+		if (geo.isIndependent() || geo.getDefinition() == null) {
+			this.definition = geo.getDefinition();
+		} else {
+			this.definition = geo.getDefinition().asFraction();
+		}
 	}
 
 	@Override
