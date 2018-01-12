@@ -57,6 +57,7 @@ public class GOptionPaneW extends GDialogBox
 	private HorizontalPanel messagePanel;
 	private String okLabel = null;
 	private int enterOption;
+	private boolean keyDown;
 
 	private static FocusWidget caller;
 
@@ -309,8 +310,11 @@ public class GOptionPaneW extends GDialogBox
 		if (!isShowing()) {
 			return;
 		}
-
-		if (event.getTypeInt() == Event.ONKEYUP) {
+		if (event.getTypeInt() == Event.ONKEYDOWN) {
+			keyDown = true;
+		}
+		if (event.getTypeInt() == Event.ONKEYUP && keyDown) {
+			keyDown = false;
 			int keyCode = event.getNativeEvent().getKeyCode();
 			if (keyCode == KeyCodes.KEY_ESCAPE) {
 				returnOption = GOptionPane.CANCEL_OPTION;
