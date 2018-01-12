@@ -52,6 +52,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	protected ArrayList<T> myPointList;
 	private ArrayList<GPoint2D> nonScaledPointList;
 	private double nonScaledWidth;
+	private double nonScaledHeight;
 	private ArrayList<T> poitsWithoutControl;
 	private StringBuilder sbToString = new StringBuilder(80);
 	private double closestPointDist;
@@ -148,42 +149,60 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			AbstractEvent event, GRectangle2D gRectangle2D) {
 		double minX = gRectangle2D.getMinX();
 		double maxX = gRectangle2D.getMaxX();
+		double minY = gRectangle2D.getMinY();
+		double maxY = gRectangle2D.getMaxY();
 
 		// save the original rates when scaling first time
 		if (nonScaledPointList == null) {
 			nonScaledPointList = new ArrayList<>(myPointList.size());
 			nonScaledWidth = maxX - minX;
+			nonScaledHeight = maxY - minY;
 			for (int i = 0; i < myPointList.size(); i++) {
 				nonScaledPointList.add(new GPoint2D.Double(
 						kernel.getApplication().getActiveEuclidianView()
 								.toScreenCoordX(myPointList.get(i).getX())
 								- minX,
 						kernel.getApplication().getActiveEuclidianView()
-								.toScreenCoordX(myPointList.get(i).getY())));
+								.toScreenCoordY(myPointList.get(i).getY())
+								- minY));
 			}
 		}
 
-		double scale = 1;
 		switch (handler) {
 		case TOP:
+			updatePointsY((maxY - event.getY()) / nonScaledHeight,
+					event.getY());
 			break;
 		case BOTTOM:
+			updatePointsY((event.getY() - minY) / nonScaledHeight,
+					minY);
 			break;
 		case LEFT:
-			scale = (maxX - event.getX()) / nonScaledWidth;
-			minX = event.getX();
+			updatePointsX((maxX - event.getX()) / nonScaledWidth, event.getX());
 			break;
 		case RIGHT:
-			scale = (event.getX() - minX) / nonScaledWidth;
+			updatePointsX((event.getX() - minX) / nonScaledWidth, minX);
 			break;
 		}
+	}
 
+	private void updatePointsX(double scaleX, double newMinX) {
 		for (int i = 0; i < myPointList.size(); i++) {
-			double newPointScreenX = nonScaledPointList.get(i).getX() * scale
-					+ minX;
+			double newPointScreenX = nonScaledPointList.get(i).getX() * scaleX
+					+ newMinX;
 			myPointList.get(i)
 					.setX(kernel.getApplication().getActiveEuclidianView()
 							.toRealWorldCoordX(newPointScreenX));
+		}
+	}
+
+	private void updatePointsY(double scaleY, double newMinY) {
+		for (int i = 0; i < myPointList.size(); i++) {
+			double newPointScreenY = nonScaledPointList.get(i).getY() * scaleY
+					+ newMinY;
+			myPointList.get(i)
+					.setY(kernel.getApplication().getActiveEuclidianView()
+							.toRealWorldCoordY(newPointScreenY));
 		}
 	}
 
