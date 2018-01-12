@@ -147,12 +147,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	public void updatePoints(EuclidianBoundingBoxHandler handler,
 			AbstractEvent event, GRectangle2D gRectangle2D) {
 		double minX = gRectangle2D.getMinX();
+		double maxX = gRectangle2D.getMaxX();
 
 		// save the original rates when scaling first time
 		if (nonScaledPointList == null) {
 			nonScaledPointList = new ArrayList<>(myPointList.size());
-			nonScaledWidth = gRectangle2D.getMaxX()
-					- gRectangle2D.getMinX();
+			nonScaledWidth = maxX - minX;
 			for (int i = 0; i < myPointList.size(); i++) {
 				nonScaledPointList.add(new GPoint2D.Double(
 						kernel.getApplication().getActiveEuclidianView()
@@ -170,9 +170,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		case BOTTOM:
 			break;
 		case LEFT:
+			scale = (maxX - event.getX()) / nonScaledWidth;
+			minX = event.getX();
 			break;
 		case RIGHT:
 			scale = (event.getX() - minX) / nonScaledWidth;
+			break;
 		}
 
 		for (int i = 0; i < myPointList.size(); i++) {
