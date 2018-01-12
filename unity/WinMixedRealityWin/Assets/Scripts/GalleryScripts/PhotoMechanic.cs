@@ -34,7 +34,7 @@ public class PhotoMechanic : MonoBehaviour
 
 
     // Use this for initialization
-    void Start()
+    IEnumerator Start()
     {
         List<GameObject> PhotoPreviewList = new List<GameObject>();
 
@@ -52,6 +52,7 @@ public class PhotoMechanic : MonoBehaviour
         getControllerStates = GetSourceStat.GetComponent<GetControllerStates>();
 
 
+        yield return UploadPNG();
 
     }
 
@@ -64,6 +65,9 @@ public class PhotoMechanic : MonoBehaviour
         {
             print("SelectPressed");
             StartCoroutine(UpScrnCoroutine());
+
+
+
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -73,6 +77,9 @@ public class PhotoMechanic : MonoBehaviour
         }
 
     }
+
+
+    
 
     IEnumerator UpScrnCoroutine()
     {
@@ -92,11 +99,20 @@ public class PhotoMechanic : MonoBehaviour
 
     public void MakePhoto()
     {
-        ScreenCapture.CaptureScreenshot(Application.dataPath + "/" + screenshotName + ArrayInt.ToString() + ".png");
+        ScreenCapture.CaptureScreenshot(Application.dataPath + "/" + screenshotName + ArrayInt.ToString() + ".png" );
         print("end of MakPhoto function");
+
+       
+
+
         ArrayInt++;
 
         Camera.main.Render();
+
+        
+
+
+
 
 
     }
@@ -189,6 +205,44 @@ public class PhotoMechanic : MonoBehaviour
         }
 
         PhotoSelection(First);
+
+
+    }
+
+
+
+
+    // Take a shot immediately
+
+
+    IEnumerator UploadPNG()
+    {
+        // We should only read the screen buffer after rendering is complete
+        yield return new WaitForEndOfFrame();
+
+        // Create a texture the size of the screen, RGB24 format
+        int width = Screen.width;
+        int height = Screen.height/4;
+
+        print("Screen.width" + Screen.width);
+        print("Screen.height" + Screen.height);
+
+        //int width = 1920;
+        //int height = 1080;
+        Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
+
+        // Read screen contents into the texture
+        tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
+        tex.Apply();
+
+        // Encode texture into PNG
+        byte[] bytes = tex.EncodeToPNG();
+        Object.Destroy(tex);
+
+        // For testing purposes, also write to a file in the project folder
+         File.WriteAllBytes(Application.dataPath + "/" + "SavedScreen.png", bytes);
+        print("ScreenshotSaved");
+
 
 
     }
