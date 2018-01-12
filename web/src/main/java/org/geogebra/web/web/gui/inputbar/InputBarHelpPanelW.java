@@ -262,6 +262,11 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 	
+	/**
+	 * @param scale
+	 *            scale
+	 * @return pixel width
+	 */
 	public int getPreferredWidth(double scale) {
 		double width = ((GuiManagerW) app.getGuiManager()).getRootComponent()
 				.getOffsetWidth() * scale - 60;
