@@ -170,10 +170,10 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		if (app.has(Feature.EXPORT_ANIMATED_PDF)) {
 			mi = submenu.add(exportPDFaction);
 		}
-		if (app.has(Feature.EXPORT_SCAD_IN_MENU)) {
+		if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
 			mi = submenu.add(exportSCADaction);
 		}
-		if (app.has(Feature.EXPORT_COLLADA_IN_MENU)) {
+		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
 			mi = submenu.add(exportColladaAction);
 		}
 		addSeparator();
@@ -582,7 +582,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		};
 		
 		
-		if (app.has(Feature.EXPORT_SCAD_IN_MENU)) {
+		if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
 			exportSCADaction = new AbstractAction(
 					"OpenSCAD" + Unicode.ELLIPSIS,
 					app.getEmptyIcon()) {
@@ -599,7 +599,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			};
 		}
 
-		if (app.has(Feature.EXPORT_COLLADA_IN_MENU)) {
+		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
 			exportColladaAction = new AbstractAction("Collada" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 

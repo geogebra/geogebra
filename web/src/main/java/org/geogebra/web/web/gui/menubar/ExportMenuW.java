@@ -170,7 +170,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 			}
 		});
 
-		if (app.has(Feature.EXPORT_SCAD_IN_MENU)) {
+		if (app.has(Feature.EXPORT_SCAD_IN_MENU) && app.is3D()) {
 			menu.addItem(menuText("OpenSCAD"), true, new MenuCommand(app) {
 				@Override
 				public void doExecute() {
@@ -180,7 +180,7 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 			});
 		}
 
-		if (app.has(Feature.EXPORT_COLLADA_IN_MENU)) {
+		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
 			menu.addItem(menuText("Collada"), true, new MenuCommand(app) {
 				@Override
 				public void doExecute() {
