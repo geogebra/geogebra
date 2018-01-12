@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tab order test</title>
+</head>
+<body>
+<button tabIndex="2">3rd</button>
+<button tabIndex="0">1st</button>
+<button tabIndex="1">2nd</button>
+<button tabIndex="3">4th</button>
+
+<div role="navigation" aria-label="Main menu">
+  <ul id="nav" role="menubar">
+    <li role="menuitem" tabindex="0" aria-haspopup="true">
+      About
+      <ul role="menu">
+        <li role="menuitem" tabindex="0">
+         <a href="#">News</a>
+        </li>
+        <li role="menuitem" tabindex="0">
+         <a href="#">Contact Us</a>
+        </li>
+     </ul>
+  </li>
+    <li role="menuitem" tabindex="0" aria-haspopup="true">
+      Academics
+      <ul role="menu">
+        <li role="menuitem" tabindex="0">
+         <a href="#">Degree Programs</a>
+        </li>
+        <li role="menuitem" tabindex="0">
+         <a href="#">Faculty</a>
+        </li>
+     </ul>
+  </li>
+ </ul>
+</div>
+</body>
+</html>
