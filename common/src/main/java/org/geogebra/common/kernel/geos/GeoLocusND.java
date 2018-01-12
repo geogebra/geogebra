@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 
+import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.event.AbstractEvent;
@@ -49,6 +50,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	/** coords of points on locus */
 	protected ArrayList<T> myPointList;
+	private ArrayList<GPoint2D> nonScaledPointList;
+	private double nonScaledWidth;
 	private ArrayList<T> poitsWithoutControl;
 	private StringBuilder sbToString = new StringBuilder(80);
 	private double closestPointDist;
@@ -143,13 +146,24 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 */
 	public void updatePoints(EuclidianBoundingBoxHandler handler,
 			AbstractEvent event, GRectangle2D gRectangle2D) {
-		for (int i = 0; i < myPointList.size(); i++) {
-			updatePoint(myPointList.get(i), handler, event, gRectangle2D);
-		}
-	}
+		double minX = gRectangle2D.getMinX();
 
-	private void updatePoint(T point, EuclidianBoundingBoxHandler handler,
-			AbstractEvent event, GRectangle2D gRectangle2D) {
+		// save the original rates when scaling first time
+		if (nonScaledPointList == null) {
+			nonScaledPointList = new ArrayList<>(myPointList.size());
+			nonScaledWidth = gRectangle2D.getMaxX()
+					- gRectangle2D.getMinX();
+			for (int i = 0; i < myPointList.size(); i++) {
+				nonScaledPointList.add(new GPoint2D.Double(
+						kernel.getApplication().getActiveEuclidianView()
+								.toScreenCoordX(myPointList.get(i).getX())
+								- minX,
+						kernel.getApplication().getActiveEuclidianView()
+								.toScreenCoordX(myPointList.get(i).getY())));
+			}
+		}
+
+		double scale = 1;
 		switch (handler) {
 		case TOP:
 			break;
@@ -158,17 +172,15 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		case LEFT:
 			break;
 		case RIGHT:
-			double minX = gRectangle2D.getX();
-			double oldMaxX = gRectangle2D.getMaxX();
-			double oldWidth = oldMaxX - minX;
-			double newWidth = event.getX() - minX;
-			double scale = newWidth / oldWidth;
-			int pointScreenX = kernel.getApplication().getActiveEuclidianView()
-					.toScreenCoordX(point.getX());
-			double newPointScreenX = (pointScreenX - minX) * scale + minX;
-			point.setX(kernel.getApplication().getActiveEuclidianView()
-					.toRealWorldCoordX(newPointScreenX));
-			break;
+			scale = (event.getX() - minX) / nonScaledWidth;
+		}
+
+		for (int i = 0; i < myPointList.size(); i++) {
+			double newPointScreenX = nonScaledPointList.get(i).getX() * scale
+					+ minX;
+			myPointList.get(i)
+					.setX(kernel.getApplication().getActiveEuclidianView()
+							.toRealWorldCoordX(newPointScreenX));
 		}
 	}
 
