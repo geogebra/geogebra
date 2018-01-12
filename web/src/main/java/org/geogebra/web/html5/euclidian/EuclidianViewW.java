@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.euclidian;
 
-import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -20,11 +19,9 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.awt.GBasicStrokeW;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.awt.GGraphics2DW;
@@ -128,16 +125,6 @@ public class EuclidianViewW extends EuclidianView implements
 	// applet or not (because we shall not change selection in case
 	// e.g. the spreadsheet view gives focus to Graphics view).
 	private static boolean tabPressed = false;
-
-	// STROKES
-	final protected static GBasicStrokeW standardStroke = new GBasicStrokeW(1.0,
-			GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
-
-	final protected static GBasicStrokeW selStroke = new GBasicStrokeW(
-			1.0 + EuclidianStyleConstants.SELECTION_ADD, GBasicStroke.CAP_ROUND,
-			GBasicStroke.JOIN_ROUND);
-
-	protected boolean unitAxesRatio;
 
 	private GDimension preferredSize;
 
