@@ -12,6 +12,7 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
@@ -283,6 +284,7 @@ public class AlgebraInputW extends FlowPanel
 			onEnterPressed(true);
 
 		} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V
+				&& keyCode != GWTKeycodes.KEY_A
 				&& keyCode != GWTKeycodes.KEY_X) {
 			app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg
 																	// ctrl-tab
@@ -294,11 +296,13 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 	private void onEnterPressed(final boolean explicit) {
+		Log.printStacktrace("ENTER" + explicit);
 		app.getKernel().clearJustCreatedGeosInViews();
 		final String input = app.getKernel().getInputPreviewHelper()
 				.getInput(getTextField().getText());
 		boolean valid = app.getKernel().getInputPreviewHelper().isValid();
-
+		app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar("",
+				app.getDefaultErrorHandler());
 		if (input == null || input.length() == 0) {
 			app.getActiveEuclidianView().requestFocusInWindow();
 			return;
