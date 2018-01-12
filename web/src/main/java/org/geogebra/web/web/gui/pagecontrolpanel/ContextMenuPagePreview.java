@@ -50,6 +50,7 @@ public class ContextMenuPagePreview
 		wrappedPopup.getPopupPanel().addStyleName("matMenu");
 		wrappedPopup.getPopupPanel().addStyleName("mowMatMenu");
 		addDeleteItem();
+		addDuplicateItem();
 	}
 
 	private void addDeleteItem() {
@@ -67,12 +68,37 @@ public class ContextMenuPagePreview
 		wrappedPopup.addItem(mi);
 	}
 
+	private void addDuplicateItem() {
+		String img = MaterialDesignResources.INSTANCE.duplicate_black()
+				.getSafeUri().asString();
+		AriaMenuItem mi = new AriaMenuItem(
+				MainMenu.getMenuBarHtml(img, loc.getMenu("Duplicate"), true),
+				true,
+				new Command() {
+
+					@Override
+					public void execute() {
+						onDuplicate();
+					}
+				});
+		wrappedPopup.addItem(mi);
+	}
+
 	/**
 	 * execute delete action
 	 */
 	protected void onDelete() {
 		hide();
 		frame.getPageControlPanel().removePage(card.getPageIndex());
+
+	}
+
+	/**
+	 * execute duplicate action
+	 */
+	protected void onDuplicate() {
+		hide();
+		frame.getPageControlPanel().duplicatePage(card);
 
 	}
 

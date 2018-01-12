@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -180,6 +181,10 @@ public class PageListPanel
 	}
 
 	private void addPreviewCard(final PagePreviewCard card) {
+		if (card == null) {
+			Log.error("preview card is null!");
+			return;
+		}
 		ClickStartHandler.init(card, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
@@ -292,5 +297,21 @@ public class PageListPanel
 		contentPanel.clear();
 		// start with empty new page
 		addNewPreviewCard(true);
+	}
+
+	/**
+	 * Duplicates page at given index.
+	 * 
+	 * @param card
+	 *            to duplicate page at.
+	 */
+	public void duplicatePage(PagePreviewCard card) {
+		pageController.duplicateSlide(card);
+		PagePreviewCard dup = card.duplicate();
+		if (dup == null) {
+			return;
+		}
+		addPreviewCard(dup);
+		setCardSelected(dup);
 	}
 }

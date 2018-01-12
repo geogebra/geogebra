@@ -72,6 +72,23 @@ public class PageListController implements PageListControllerInterface {
 	}
 
 	/**
+	 * Duplicates slide
+	 * 
+	 * @param sourceCard
+	 *            to duplicate.
+	 * @return the new, duplicated card.
+	 */
+	public PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
+		if (slides == null) {
+			return null;
+		}
+
+		PagePreviewCard dup = sourceCard.duplicate();
+		slides.add(dup);
+		return dup;
+	}
+
+	/**
 	 * adds a new slide to the list
 	 * 
 	 * @return index of the added slide

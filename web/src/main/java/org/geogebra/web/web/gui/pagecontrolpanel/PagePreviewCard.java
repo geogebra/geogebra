@@ -254,4 +254,13 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		}
 		updateLabel();
 	}
+
+	/**
+	 * Duplicates this card.
+	 * 
+	 * @return the duplicate.
+	 */
+	public PagePreviewCard duplicate() {
+		return new PagePreviewCard(app, pageIndex + 1, getFile().duplicate());
+	}
 }
