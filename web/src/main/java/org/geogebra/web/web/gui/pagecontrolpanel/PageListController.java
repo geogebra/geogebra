@@ -81,7 +81,7 @@ public class PageListController implements PageListControllerInterface {
 			slides = new ArrayList<>();
 		}
 		PagePreviewCard previewCard = new PagePreviewCard(
-				app.getActiveEuclidianView(), slides.size(), new GgbFile());
+				app, slides.size(), new GgbFile());
 		slides.add(previewCard);
 		return previewCard;
 	}

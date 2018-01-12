@@ -1,6 +1,5 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
-import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -12,13 +11,13 @@ import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -33,7 +32,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 
 	private AppW app;
 	private Localization loc;
-	private EuclidianView view;
 	private int pageIndex;
 	private FlowPanel imagePanel;
 	private String image;
@@ -48,16 +46,15 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	protected GgbFile file;
 
 	/**
-	 * @param view
-	 *            associated view
+	 * @param app
+	 *            parent application
 	 * @param pageIndex
 	 *            current page index
 	 * @param file
 	 *            see {@link GgbFile}
 	 */
-	public PagePreviewCard(EuclidianView view, int pageIndex, GgbFile file) {
-		this.app = (AppW) view.getApplication();
-		this.view = view;
+	public PagePreviewCard(AppW app, int pageIndex, GgbFile file) {
+		this.app = app;
 		this.pageIndex = pageIndex;
 		this.file = file;
 		this.loc = app.getLocalization();
@@ -76,7 +73,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		add(imagePanel);
 		add(titlePanel);
 
-		setPreviewImage();
+		updatePreviewImage();
 		addTextField();
 		updateLabel();
 		addMoreButton();
@@ -128,12 +125,6 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		textField.setWidth(Math.max(Math.min(length, 178), 10));
 	}
 
-	/**
-	 * @return the page that is associated with this preview card
-	 */
-	public EuclidianView getAssociatedView() {
-		return view;
-	}
 
 	/**
 	 * @return ggb file associated to this card
@@ -150,9 +141,8 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		this.file = file;
 	}
 
-	private void setPreviewImage() {
-		image = ((EuclidianViewWInterface) view).getExportImageDataUrl(0.2,
-				false);
+	private void setPreviewImage(String img) {
+		image = img;
 		if (image != null && image.length() > 0) {
 			imagePanel.getElement().getStyle().setBackgroundImage(
 					"url(" + Browser.normalizeURL(image) + ")");
@@ -164,7 +154,8 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 */
 	public void updatePreviewImage() {
 		imagePanel.clear();
-		setPreviewImage();
+		setPreviewImage(((EuclidianViewWInterface) app.getActiveEuclidianView())
+				.getExportImageDataUrl(0.2, false));
 	}
 
 	private String getDefaultLabel() {
@@ -221,8 +212,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	}
 	
 	private static Image getImage(SVGResource res) {
-		return new Image(new ImageResourcePrototype(null, res.getSafeUri(), 0,
-				0, 24, 24, false, false));
+		return new NoDragImage(res, 24, 24);
 	}
 
 	/**
