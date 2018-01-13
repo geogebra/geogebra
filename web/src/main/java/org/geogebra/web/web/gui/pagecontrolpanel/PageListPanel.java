@@ -308,9 +308,6 @@ public class PageListPanel
 	public void duplicatePage(PagePreviewCard card) {
 		pageController.duplicateSlide(card);
 		PagePreviewCard dup = card.duplicate();
-		if (dup == null) {
-			return;
-		}
 		addPreviewCard(dup);
 		setCardSelected(dup);
 	}

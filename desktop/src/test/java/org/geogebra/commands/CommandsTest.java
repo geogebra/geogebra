@@ -107,7 +107,8 @@ public class CommandsTest extends Assert{
 			t = e;
 		}
 		syntaxes--;
-
+		if (t != null)
+			t.printStackTrace();
 		assertNull(t);
 		Assert.assertNotNull(s,result);
 		// for (int i = 0; i < result.length; i++) {
@@ -668,8 +669,10 @@ public class CommandsTest extends Assert{
 		t("Product[ {1,2,3,4} ]", "24");
 		t("Product[ 1..10,  5 ]", "120");
 		t("Product[ {1,2,3},  {100,1,2} ]", "18");
+		t("Product[ {{1,2,3},  {100,1,2}} ]", "{100, 2, 6}");
 		t("Product[ k/(k+1),k,1,7 ]", "0.125", StringTemplate.editTemplate);
 		t("Product[{x,y}]", "(x * y)");
+		t("Product[ Sequence({{1,k},{0,1}},k,1,10) ]", "{{1, 55}, {0, 1}}");
 		t("Product[ (k,k),k,1,5 ]", "-480 - 480" + Unicode.IMAGINARY);
 	}
 
@@ -1766,6 +1769,38 @@ public class CommandsTest extends Assert{
 		t("NSolveODE({yu1', yu2'}, 0, {a, b}, 20)",
 				new String[] { "NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]",
 						"NSolveODE[{yu1', yu2'}, 0, {a, b}, 20]" });
+	}
+
+	@Test
+	public void cmdLength() {
+		t("Length[ Curve(3t,4t,t,0,10), 2, 3 ]", "5");
+		t("Length[ Curve(3t,4t,t,0,10), (3,5),(6,9) ]", "5",
+				StringTemplate.editTemplate);
+		t("Length[ 3/4x, 0, 4 ]", "5");
+		t("Length[ 3/4x, (0,1), (4,4) ]", "5", StringTemplate.editTemplate);
+		t("Length[ Segment((1,0),(0,0))]", "1");
+		t("Length[ Segment((3,4,12),(0,0))]", "13");
+		t("Length[ CircleArc((0,0),(1/pi,0),(0,1))]", "0.5");
+
+		t("Length[Vector((3,4))]", "5");
+
+		t("Length[ (3,4) ]", "5");
+
+		t("Length[ 1..10 ]", "10");
+		// t("Length[ loc ]");
+		t("freehandFunc=Function[{1,2,3,1,5,7,9}]", "freehandFunc(x)");
+		t("Length[ freehandFunc ]", "5");
+
+
+		t("Length[ \"GeoGebra\" ]", "8");
+	}
+
+	@Test
+	public void cmdTaylorSeries() {
+		t("TaylorPolynomial[ sin(x)^2, pi, 5 ]",
+				"(2 * (x - pi)^(2) / 2!) - (8 * (x - pi)^(4) / 4!)"
+						.replaceAll("pi",
+						"3.141592653589793"));
 	}
 
 	@Test

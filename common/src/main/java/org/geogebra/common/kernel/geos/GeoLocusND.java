@@ -32,6 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Locus of points
@@ -183,6 +184,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		case RIGHT:
 			updatePointsX((event.getX() - minX) / nonScaledWidth, minX);
 			break;
+		default:
+			Log.warn("unhandled case");
 		}
 	}
 

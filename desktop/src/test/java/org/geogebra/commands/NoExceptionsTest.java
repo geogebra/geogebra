@@ -1009,22 +1009,6 @@ public class NoExceptionsTest {
 		t("LeftSum[ f1, n2, n3, n1 ]");
 	}
 
-	@Test
-	public void cmdLength() {
-		t("Length[ curve1, n2, n3 ]");
-		t("Length[ curve1, Pt3, Pt5 ]");
-		t("Length[ f1, n2, n3 ]");
-		t("Length[ f1, Pt3, Pt5 ]");
-		t("Length[ seg1]");
-		t("Length[ list1 ]");
-		t("Length[ loc ]");
-		t("Length[ freehandFunc ]");
-
-		t("Length[ Pt1 ]");
-
-		t("Length[ txt ]");
-		t("Length[v1]");
-	}
 
 	@Test
 	public void cmdLetterToUnicode() {
@@ -1811,13 +1795,6 @@ public class NoExceptionsTest {
 		t("Tangent[ Pt1, f1 ]");
 		t("Tangent[ Pt1, Spline[listSpline]]");
 	}
-
-	@Test
-	public void cmdTaylorSeries() {
-		t("TaylorPolynomial[ f1, n1, n2 ]");
-	}
-
-
 
 	@Test
 	public void cmdTextfield() {
