@@ -58,6 +58,19 @@ public abstract class StepSolvable extends StepNode {
 		LHS = temp;
 	}
 
+	public int countNonConstOperation(Operation operation, StepVariable variable) {
+		return LHS.countNonConstOperation(operation, variable) +
+				RHS.countNonConstOperation(operation, variable);
+	}
+
+	public int countOperation(Operation operation) {
+		return LHS.countOperation(operation) + RHS.countOperation(operation);
+	}
+
+	public StepExpression findCoefficient(StepExpression expr) {
+		return subtract(LHS.findCoefficient(expr), RHS.findCoefficient(expr));
+	}
+
 	/**
 	 * Solves "variable ? constant" and "constant ? constant" type equations and inequalities
 	 * @return the solution - a set containing either a constant StepExpression or a StepInterval
@@ -261,7 +274,7 @@ public abstract class StepSolvable extends StepNode {
 			multiply(se.deepCopy(), steps);
 		} else if (se.isOperation(Operation.DIVIDE)) {
 			StepOperation so = (StepOperation) se;
-			multiply(StepNode.divide(so.getSubTree(1), so.getSubTree(0)), steps);
+			multiply(StepNode.divide(so.getOperand(1), so.getOperand(0)), steps);
 		} else {
 			divide(se.deepCopy(), steps);
 		}
@@ -313,9 +326,11 @@ public abstract class StepSolvable extends StepNode {
 		}
 	}
 
-	public void replace(StepExpression from, StepExpression to) {
+	public StepSolvable replace(StepExpression from, StepExpression to) {
 		LHS = LHS.replace(from, to);
 		RHS = RHS.replace(from, to);
+
+		return this;
 	}
 
 	public void replace(StepExpression from, StepExpression to, SolutionBuilder steps) {

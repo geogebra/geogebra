@@ -27,14 +27,14 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 				
-				if (so.getSubTree(0).isOperation(Operation.PLUS)) {
-					StepOperation sum = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isOperation(Operation.PLUS)) {
+					StepOperation sum = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
 					StepOperation result = new StepOperation(Operation.PLUS);
-					for(StepExpression subtree : sum) {
-						subtree.setColor(tracker.incColorTracker());
-						result.addSubTree(differentiate(subtree, variable));
+					for(StepExpression operand : sum) {
+						operand.setColor(tracker.incColorTracker());
+						result.addOperand(differentiate(operand, variable));
 					}
 
 					sb.add(SolutionStepType.DIFF_SUM);
@@ -53,8 +53,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				StepOperation toDifferentiate = (StepOperation) so.getSubTree(0);
-				StepVariable variable = (StepVariable) so.getSubTree(1);
+				StepOperation toDifferentiate = (StepOperation) so.getOperand(0);
+				StepVariable variable = (StepVariable) so.getOperand(1);
 
 				if (toDifferentiate.isConstantIn(variable)) {
 					StepExpression result = StepConstant.create(1);
@@ -77,9 +77,9 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 				
-				if (so.getSubTree(0).isOperation(Operation.MULTIPLY)) {
-					StepOperation product = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isOperation(Operation.MULTIPLY)) {
+					StepOperation product = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
 					StepExpression constantCoefficient = product.getCoefficientIn(variable);
 					
@@ -106,27 +106,27 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(0).isOperation(Operation.MULTIPLY)) {
-					StepOperation product = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isOperation(Operation.MULTIPLY)) {
+					StepOperation product = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
-					StepExpression firstPart = product.getSubTree(0);
+					StepExpression firstPart = product.getOperand(0);
 					StepExpression secondPart = new StepOperation(Operation.MULTIPLY);
 
 					for (int i = 1; i < product.noOfOperands(); i++) {
-						((StepOperation) secondPart).addSubTree(product.getSubTree(i));
+						((StepOperation) secondPart).addOperand(product.getOperand(i));
 					}
 
 					if (((StepOperation) secondPart).noOfOperands() == 1) {
-						secondPart = ((StepOperation) secondPart).getSubTree(0);
+						secondPart = ((StepOperation) secondPart).getOperand(0);
 					}
 
 					firstPart.setColor(tracker.incColorTracker());
 					secondPart.setColor(tracker.incColorTracker());
 
 					StepOperation result = new StepOperation(Operation.PLUS);
-					result.addSubTree(multiply(firstPart, differentiate(secondPart, variable)));
-					result.addSubTree(multiply(differentiate(firstPart, variable), secondPart));
+					result.addOperand(multiply(firstPart, differentiate(secondPart, variable)));
+					result.addOperand(multiply(differentiate(firstPart, variable), secondPart));
 
 					sb.add(SolutionStepType.DIFF_PRODUCT);
 
@@ -144,12 +144,12 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(0).isOperation(Operation.DIVIDE)) {
-					StepOperation fraction = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isOperation(Operation.DIVIDE)) {
+					StepOperation fraction = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
-					StepExpression numerator = fraction.getSubTree(0);
-					StepExpression denominator = fraction.getSubTree(1);
+					StepExpression numerator = fraction.getOperand(0);
+					StepExpression denominator = fraction.getOperand(1);
 					
 					numerator.setColor(tracker.incColorTracker());
 					denominator.setColor(tracker.incColorTracker());
@@ -176,10 +176,10 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(0).equals(so.getSubTree(1))) {
+				if (so.getOperand(0).equals(so.getOperand(1))) {
 					StepExpression result = StepConstant.create(1);
 
-					so.getSubTree(0).setColor(tracker.getColorTracker());
+					so.getOperand(0).setColor(tracker.getColorTracker());
 					result.setColor(tracker.getColorTracker());
 
 					sb.add(SolutionStepType.DIFF_VARIABLE, tracker.incColorTracker());
@@ -187,12 +187,12 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 					return result;
 				}
 
-				if (so.getSubTree(0).isOperation(Operation.POWER)) {
-					StepOperation power = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isOperation(Operation.POWER)) {
+					StepOperation power = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
-					StepExpression base = power.getSubTree(0);
-					StepExpression exponent = power.getSubTree(1);
+					StepExpression base = power.getOperand(0);
+					StepExpression exponent = power.getOperand(1);
 
 					if (exponent.isConstantIn(variable)) {
 						base.setColor(tracker.incColorTracker());
@@ -222,12 +222,12 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(0).isOperation(Operation.POWER)) {
-					StepOperation power = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isOperation(Operation.POWER)) {
+					StepOperation power = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
-					StepExpression base = power.getSubTree(0);
-					StepExpression exponent = power.getSubTree(1);
+					StepExpression base = power.getOperand(0);
+					StepExpression exponent = power.getOperand(1);
 
 					if (base.equals(StepConstant.E)) {
 						power.setColor(tracker.getColorTracker());
@@ -278,12 +278,12 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(0).isOperation(Operation.NROOT)) {
-					StepOperation root = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isOperation(Operation.NROOT)) {
+					StepOperation root = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
-					StepExpression base = root.getSubTree(0);
-					StepExpression exponent = root.getSubTree(1);
+					StepExpression base = root.getOperand(0);
+					StepExpression exponent = root.getOperand(1);
 					
 					base.setColor(tracker.incColorTracker());
 					exponent.setColor(tracker.incColorTracker());
@@ -312,12 +312,12 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(0).isOperation(Operation.LOG)) {
-					StepOperation logarithm = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isOperation(Operation.LOG)) {
+					StepOperation logarithm = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 					
-					StepExpression base = logarithm.getSubTree(0);
-					StepExpression argument = logarithm.getSubTree(1);
+					StepExpression base = logarithm.getOperand(0);
+					StepExpression argument = logarithm.getOperand(1);
 
 					if (logarithm.isNaturalLog()) {
 						StepExpression result = divide(1, argument);
@@ -361,11 +361,11 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(0).isTrigonometric()) {
-					StepOperation trigo = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isTrigonometric()) {
+					StepOperation trigo = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
-					StepExpression argument = trigo.getSubTree(0);
+					StepExpression argument = trigo.getOperand(0);
 
 					StepExpression result = null;
 					if (trigo.isOperation(Operation.SIN)) {
@@ -417,11 +417,11 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.getSubTree(0).isInverseTrigonometric()) {
-					StepOperation trigo = (StepOperation) so.getSubTree(0);
-					StepVariable variable = (StepVariable) so.getSubTree(1);
+				if (so.getOperand(0).isInverseTrigonometric()) {
+					StepOperation trigo = (StepOperation) so.getOperand(0);
+					StepVariable variable = (StepVariable) so.getOperand(1);
 
-					StepExpression argument = trigo.getSubTree(0);
+					StepExpression argument = trigo.getOperand(0);
 
 					StepExpression result = null;
 					if (trigo.isOperation(Operation.ARCSIN)) {

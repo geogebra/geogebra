@@ -9,45 +9,45 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
 public class StepOperation extends StepExpression implements Iterable<StepExpression> {
-	private List<StepExpression> subtrees;
+	private List<StepExpression> operands;
 	private Operation operation;
 
 	public StepOperation(Operation op) {
 		operation = op;
-		subtrees = new ArrayList<>();
+		operands = new ArrayList<>();
 	}
 
 	public int noOfOperands() {
-		return subtrees.size();
+		return operands.size();
 	}
 
-	public StepExpression getSubTree(int index) {
-		return subtrees.get(index);
+	public StepExpression getOperand(int index) {
+		return operands.get(index);
 	}
 
 	public Operation getOperation() {
 		return operation;
 	}
 
-	public void addSubTree(StepExpression sn) {
+	public void addOperand(StepExpression sn) {
 		if (sn != null) {
 			if (isOperation(Operation.PLUS) && sn.isOperation(Operation.PLUS)) {
-				for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
-					addSubTree(((StepOperation) sn).getSubTree(i));
+				for (StepExpression operand : (StepOperation) sn) {
+					addOperand(operand);
 				}
 			} else if (isOperation(Operation.MULTIPLY) && sn.isOperation(Operation.MULTIPLY)) {
-				for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
-					addSubTree(((StepOperation) sn).getSubTree(i));
+				for (StepExpression operand : (StepOperation) sn) {
+					addOperand(operand);
 				}
 			} else {
-				subtrees.add(sn);
+				operands.add(sn);
 			}
 		}
 	}
 
 	@Override
 	public Iterator<StepExpression> iterator() {
-		return subtrees.iterator();
+		return operands.iterator();
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((operation == null) ? 0 : operation.hashCode());
-		result = prime * result + ((subtrees == null) ? 0 : subtrees.hashCode());
+		result = prime * result + ((operands == null) ? 0 : operands.hashCode());
 		return result;
 	}
 
@@ -79,12 +79,22 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		return false;
 	}
 
+	/**
+	 * Sorts the operands, recursively, so things like 3*4+5 and 5+4*3 will be equal.
+	 * The actual order is not important - only consistency. That is why hashCode is okay for this/
+	 */
 	private void sort() {
+		for (StepExpression operand : this) {
+			if (operand instanceof StepOperation) {
+				((StepOperation) operand).sort();
+			}
+		}
+
 		if (isOperation(Operation.PLUS) || isOperation(Operation.MULTIPLY)) {
-			subtrees.sort(new Comparator<StepExpression>() {
+			operands.sort(new Comparator<StepExpression>() {
 				@Override
-				public int compare(StepExpression arg0, StepExpression arg1) {
-					return arg0.compareTo(arg1);
+				public int compare(StepExpression o1, StepExpression o2) {
+					return o1.hashCode() - o2.hashCode();
 				}
 			});
 		}
@@ -93,7 +103,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	private boolean exactEquals(StepOperation so) {
 		if (so.noOfOperands() == noOfOperands()) {
 			for (int i = 0; i < noOfOperands(); i++) {
-				if (!so.getSubTree(i).equals(getSubTree(i))) {
+				if (!so.getOperand(i).equals(getOperand(i))) {
 					return false;
 				}
 			}
@@ -104,8 +114,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	@Override
 	public boolean isConstantIn(StepVariable sv) {
-		for (StepExpression subtree : subtrees) {
-			if (!subtree.isConstantIn(sv)) {
+		for (StepExpression operand : operands) {
+			if (!operand.isConstantIn(sv)) {
 				return false;
 			}
 		}
@@ -121,7 +131,11 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 		switch (operation) {
 			case MINUS:
-				return getSubTree(0).degree(var);
+				if (countNonConstOperation(Operation.PLUS, var) > 0) {
+					return -1;
+				}
+
+				return getOperand(0).degree(var);
 			case PLUS:
 				int max = 0;
 
@@ -136,15 +150,18 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 				return max;
 			case POWER:
-				int temp = getSubTree(0).degree(var);
-				if (temp == -1) {
-					return -1;
+				int temp = getOperand(0).degree(var);
+
+				if (temp != -1 && closeToAnInteger(getOperand(1).getValue())) {
+					return (int) (temp * getOperand(1).getValue());
 				}
-				if (closeToAnInteger(getSubTree(1).getValue())) {
-					return (int) (temp * getSubTree(1).getValue());
-				}
+
 				return -1;
 			case MULTIPLY:
+				if (countNonConstOperation(Operation.PLUS, var) > 0) {
+					return -1;
+				}
+
 				int p = 0;
 
 				for (StepExpression operand : this) {
@@ -157,14 +174,10 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 				return p;
 			case DIVIDE:
-				if (!getSubTree(1).isConstant()) {
+				if (!getOperand(1).isConstant()) {
 					return -1;
 				}
-				return getSubTree(0).degree(var);
-			case NROOT:
-				if (getSubTree(0).isConstant()) {
-					return 0;
-				}
+				return getOperand(0).degree(var);
 		}
 
 		return -1;
@@ -172,8 +185,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	@Override
 	public boolean canBeEvaluated() {
-		for (StepExpression subtree : subtrees) {
-			if (!subtree.canBeEvaluated()) {
+		for (StepExpression operand : operands) {
+			if (!operand.canBeEvaluated()) {
 				return false;
 			}
 		}
@@ -186,25 +199,25 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		switch (operation) {
 		case PLUS:
 			double s = 0;
-			for (StepExpression subtree : subtrees) {
-				s += subtree.getValue();
+			for (StepExpression operand : operands) {
+				s += operand.getValue();
 			}
 			return s;
 		case MINUS:
-			return -subtrees.get(0).getValue();
+			return -operands.get(0).getValue();
 		case MULTIPLY:
 			double p = 1;
-			for (StepExpression subtree : subtrees) {
-				p *= subtree.getValue();
+			for (StepExpression operand : operands) {
+				p *= operand.getValue();
 			}
 			return p;
 		case DIVIDE:
-			return subtrees.get(0).getValue() / subtrees.get(1).getValue();
+			return operands.get(0).getValue() / operands.get(1).getValue();
 		case POWER:
-			return Math.pow(subtrees.get(0).getValue(), subtrees.get(1).getValue());
+			return Math.pow(operands.get(0).getValue(), operands.get(1).getValue());
 		case NROOT:
-			double base = subtrees.get(0).getValue();
-			double exponent = subtrees.get(1).getValue();
+			double base = operands.get(0).getValue();
+			double exponent = operands.get(1).getValue();
 
 			if (base < 0) {
 				if (closeToAnInteger(exponent) && Math.round(exponent) % 2 == 1) {
@@ -214,19 +227,19 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 			return Math.pow(base, 1 / exponent);
 		case ABS:
-			return Math.abs(subtrees.get(0).getValue());
+			return Math.abs(operands.get(0).getValue());
 		case SIN:
-			return Math.sin(subtrees.get(0).getValue());
+			return Math.sin(operands.get(0).getValue());
 		case COS:
-			return Math.cos(subtrees.get(0).getValue());
+			return Math.cos(operands.get(0).getValue());
 		case TAN:
-			return Math.tan(subtrees.get(0).getValue());
+			return Math.tan(operands.get(0).getValue());
 		case ARCSIN:
-			return Math.asin(subtrees.get(0).getValue());
+			return Math.asin(operands.get(0).getValue());
 		case ARCCOS:
-			return Math.acos(subtrees.get(0).getValue());
+			return Math.acos(operands.get(0).getValue());
 		case ARCTAN:
-			return Math.atan(subtrees.get(0).getValue());
+			return Math.atan(operands.get(0).getValue());
 		}
 		return Double.NaN;
 	}
@@ -236,41 +249,41 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		switch (operation) {
 		case PLUS:
 			double s = 0;
-			for (StepExpression subtree : subtrees) {
-				s += subtree.getValueAt(variable, replaceWith);
+			for (StepExpression operand : operands) {
+				s += operand.getValueAt(variable, replaceWith);
 			}
 			return s;
 		case MINUS:
-			return -subtrees.get(0).getValueAt(variable, replaceWith);
+			return -operands.get(0).getValueAt(variable, replaceWith);
 		case MULTIPLY:
 			double p = 1;
-			for (StepExpression subtree : subtrees) {
-				p *= subtree.getValueAt(variable, replaceWith);
+			for (StepExpression operand : operands) {
+				p *= operand.getValueAt(variable, replaceWith);
 			}
 			return p;
 		case DIVIDE:
-			return subtrees.get(0).getValueAt(variable, replaceWith)
-					/ subtrees.get(1).getValueAt(variable, replaceWith);
+			return operands.get(0).getValueAt(variable, replaceWith)
+					/ operands.get(1).getValueAt(variable, replaceWith);
 		case POWER:
-			return Math.pow(subtrees.get(0).getValueAt(variable, replaceWith),
-					subtrees.get(1).getValueAt(variable, replaceWith));
+			return Math.pow(operands.get(0).getValueAt(variable, replaceWith),
+					operands.get(1).getValueAt(variable, replaceWith));
 		case NROOT:
-			return Math.pow(subtrees.get(0).getValueAt(variable, replaceWith),
-					1 / subtrees.get(1).getValueAt(variable, replaceWith));
+			return Math.pow(operands.get(0).getValueAt(variable, replaceWith),
+					1 / operands.get(1).getValueAt(variable, replaceWith));
 		case ABS:
-			return Math.abs(subtrees.get(0).getValueAt(variable, replaceWith));
+			return Math.abs(operands.get(0).getValueAt(variable, replaceWith));
 		case SIN:
-			return Math.sin(subtrees.get(0).getValueAt(variable, replaceWith));
+			return Math.sin(operands.get(0).getValueAt(variable, replaceWith));
 		case COS:
-			return Math.cos(subtrees.get(0).getValueAt(variable, replaceWith));
+			return Math.cos(operands.get(0).getValueAt(variable, replaceWith));
 		case TAN:
-			return Math.tan(subtrees.get(0).getValueAt(variable, replaceWith));
+			return Math.tan(operands.get(0).getValueAt(variable, replaceWith));
 		case ARCSIN:
-			return Math.asin(subtrees.get(0).getValueAt(variable, replaceWith));
+			return Math.asin(operands.get(0).getValueAt(variable, replaceWith));
 		case ARCCOS:
-			return Math.acos(subtrees.get(0).getValueAt(variable, replaceWith));
+			return Math.acos(operands.get(0).getValueAt(variable, replaceWith));
 		case ARCTAN:
-			return Math.atan(subtrees.get(0).getValueAt(variable, replaceWith));
+			return Math.atan(operands.get(0).getValueAt(variable, replaceWith));
 		}
 		return Double.NaN;
 	}
@@ -279,44 +292,44 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	public String toString() {
 		switch (operation) {
 		case IS_ELEMENT_OF:
-			return subtrees.get(0) + " in " + subtrees.get(1);
+			return operands.get(0) + " in " + operands.get(1);
 		case PLUS:
 			StringBuilder ss = new StringBuilder();
 			ss.append("(");
-			for (int i = 0; i < subtrees.size(); i++) {
-				if (i != 0 && !subtrees.get(i).isOperation(Operation.MINUS)) {
+			for (int i = 0; i < operands.size(); i++) {
+				if (i != 0 && !operands.get(i).isOperation(Operation.MINUS)) {
 					ss.append(" + ");
 				}
-				ss.append(subtrees.get(i).toString());
+				ss.append(operands.get(i).toString());
 			}
-			if (subtrees.size() == 0) {
+			if (operands.size() == 0) {
 				ss.append("0");
 			}
 			ss.append(")");
 			return ss.toString();
 		case MINUS:
-			if (subtrees.get(0).isOperation(Operation.PLUS) || subtrees.get(0).isOperation(Operation.MINUS)) {
-				return "-(" + subtrees.get(0).toString() + ")";
+			if (operands.get(0).isOperation(Operation.PLUS) || operands.get(0).isOperation(Operation.MINUS)) {
+				return "-(" + operands.get(0).toString() + ")";
 			}
-			return "-" + subtrees.get(0).toString();
+			return "-" + operands.get(0).toString();
 		case PLUSMINUS:
-			return "pm(" + subtrees.get(0).toString() + ")";
+			return "pm(" + operands.get(0).toString() + ")";
 		case MULTIPLY:
 			StringBuilder sp = new StringBuilder();
-			for (StepExpression subtree : subtrees) {
+			for (StepExpression operand : operands) {
 				sp.append("(");
-				sp.append(subtree.toString());
+				sp.append(operand.toString());
 				sp.append(")");
 			}
 			return sp.toString();
 		case DIVIDE:
-			return "(" + subtrees.get(0).toString() + ")/(" + subtrees.get(1).toString() + ")";
+			return "(" + operands.get(0).toString() + ")/(" + operands.get(1).toString() + ")";
 		case POWER:
-			return "(" + subtrees.get(0).toString() + ")^(" + subtrees.get(1).toString() + ")";
+			return "(" + operands.get(0).toString() + ")^(" + operands.get(1).toString() + ")";
 		case NROOT:
-			return "nroot(" + subtrees.get(0).toString() + ", " + subtrees.get(1).toString() + ")";
+			return "nroot(" + operands.get(0).toString() + ", " + operands.get(1).toString() + ")";
 		case ABS:
-			return "|" + subtrees.get(0).toString() + "|";
+			return "|" + operands.get(0).toString() + "|";
 		case SIN:
 		case COS:
 		case TAN:
@@ -326,11 +339,11 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		case ARCSIN:
 		case ARCCOS:
 		case ARCTAN:
-			return operation.toString().toLowerCase() + "(" + subtrees.get(0).toString() + ")";
+			return operation.toString().toLowerCase() + "(" + operands.get(0).toString() + ")";
 		case DIFF:
-			return "d/d" + subtrees.get(1).toString() + "(" + subtrees.get(0).toString() + ")";
+			return "d/d" + operands.get(1).toString() + "(" + operands.get(0).toString() + ")";
 		case LOG:
-			return "log_(" + subtrees.get(0).toString() + ")(" + subtrees.get(1).toString() + ")";
+			return "log_(" + operands.get(0).toString() + ")(" + operands.get(1).toString() + ")";
 		}
 		return "";
 	}
@@ -351,69 +364,69 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	private String convertToString(Localization loc, boolean colored) {
 		switch (operation) {
 		case IS_ELEMENT_OF:
-			return subtrees.get(0).toLaTeXString(loc, colored) + " \\in " + subtrees.get(1).toLaTeXString(loc, colored);
+			return operands.get(0).toLaTeXString(loc, colored) + " \\in " + operands.get(1).toLaTeXString(loc, colored);
 		case PLUS:
 			StringBuilder ss = new StringBuilder();
-			for (int i = 0; i < subtrees.size(); i++) {
-				if (i != 0 && requiresPlus(subtrees.get(i))) {
+			for (int i = 0; i < operands.size(); i++) {
+				if (i != 0 && requiresPlus(operands.get(i))) {
 					ss.append(" + ");
 				}
-				ss.append(subtrees.get(i).toLaTeXString(loc, colored));
+				ss.append(operands.get(i).toLaTeXString(loc, colored));
 			}
-			if (subtrees.size() == 0) {
+			if (operands.size() == 0) {
 				ss.append("0");
 			}
 			return ss.toString();
 		case MINUS:
-			if (subtrees.get(0).isOperation(Operation.PLUS) || subtrees.get(0).isOperation(Operation.MINUS)) {
-				return "-\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)";
+			if (operands.get(0).isOperation(Operation.PLUS) || operands.get(0).isOperation(Operation.MINUS)) {
+				return "-\\left(" + operands.get(0).toLaTeXString(loc, colored) + "\\right)";
 			}
-			return "-" + subtrees.get(0).toLaTeXString(loc, colored);
+			return "-" + operands.get(0).toLaTeXString(loc, colored);
 		case PLUSMINUS:
-			if (subtrees.get(0).isOperation(Operation.PLUS) || subtrees.get(0).isOperation(Operation.MINUS)) {
-				return "\\pm\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)";
+			if (operands.get(0).isOperation(Operation.PLUS) || operands.get(0).isOperation(Operation.MINUS)) {
+				return "\\pm\\left(" + operands.get(0).toLaTeXString(loc, colored) + "\\right)";
 			}
-			return "\\pm " + subtrees.get(0).toLaTeXString(loc, colored);
+			return "\\pm " + operands.get(0).toLaTeXString(loc, colored);
 		case MULTIPLY:
 			StringBuilder sp = new StringBuilder();
-			for (int i = 0; i < subtrees.size(); i++) {
-				if (i != 0 && requiresDot(subtrees.get(i - 1), subtrees.get(i))) {
+			for (int i = 0; i < operands.size(); i++) {
+				if (i != 0 && requiresDot(operands.get(i - 1), operands.get(i))) {
 					sp.append(" \\cdot ");
 				} else if (i != 0) {
 					sp.append(" ");
 				}
 
-				boolean parantheses = subtrees.get(i).isOperation(Operation.PLUS)
-						&& !subtrees.get(i).isOperation(Operation.MINUS) || (i != 0 && subtrees.get(i).isNegative());
+				boolean parantheses = operands.get(i).isOperation(Operation.PLUS)
+						&& !operands.get(i).isOperation(Operation.MINUS) || (i != 0 && operands.get(i).isNegative());
 
 				if (parantheses) {
 					sp.append("\\left(");
 				}
-				sp.append(subtrees.get(i).toLaTeXString(loc, colored));
+				sp.append(operands.get(i).toLaTeXString(loc, colored));
 				if (parantheses) {
 					sp.append("\\right)");
 				}
 			}
 			return sp.toString();
 		case DIVIDE:
-			return "\\frac{" + subtrees.get(0).toLaTeXString(loc, colored) + "}{"
-					+ subtrees.get(1).toLaTeXString(loc, colored) + "}";
+			return "\\frac{" + operands.get(0).toLaTeXString(loc, colored) + "}{"
+					+ operands.get(1).toLaTeXString(loc, colored) + "}";
 		case POWER:
-			if (subtrees.get(0).isNegative()
-					|| (subtrees.get(0) instanceof StepOperation && !subtrees.get(0).isOperation(Operation.NROOT))) {
-				return "\\left(" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right)^{"
-						+ subtrees.get(1).toLaTeXString(loc, colored) + "}";
+			if (operands.get(0).isNegative()
+					|| (operands.get(0) instanceof StepOperation && !operands.get(0).isOperation(Operation.NROOT))) {
+				return "\\left(" + operands.get(0).toLaTeXString(loc, colored) + "\\right)^{"
+						+ operands.get(1).toLaTeXString(loc, colored) + "}";
 			}
-			return subtrees.get(0).toLaTeXString(loc, colored) + "^{" + subtrees.get(1).toLaTeXString(loc, colored)
+			return operands.get(0).toLaTeXString(loc, colored) + "^{" + operands.get(1).toLaTeXString(loc, colored)
 					+ "}";
 		case NROOT:
 			if (isSquareRoot()) {
-				return "\\sqrt{" + subtrees.get(0).toLaTeXString(loc, colored) + "}";
+				return "\\sqrt{" + operands.get(0).toLaTeXString(loc, colored) + "}";
 			}
-			return "\\sqrt[" + subtrees.get(1).toLaTeXString(loc, colored) + "]{"
-					+ subtrees.get(0).toLaTeXString(loc, colored) + "}";
+			return "\\sqrt[" + operands.get(1).toLaTeXString(loc, colored) + "]{"
+					+ operands.get(0).toLaTeXString(loc, colored) + "}";
 		case ABS:
-			return "\\left|" + subtrees.get(0).toLaTeXString(loc, colored) + "\\right|";
+			return "\\left|" + operands.get(0).toLaTeXString(loc, colored) + "\\right|";
 		case SIN:
 		case COS:
 		case TAN:
@@ -424,32 +437,32 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		case ARCCOS:
 		case ARCTAN:
 			return "\\" + loc.getFunction(operation.toString().toLowerCase()) + "\\left("
-					+ subtrees.get(0).toLaTeXString(loc, colored) + "\\right)";
+					+ operands.get(0).toLaTeXString(loc, colored) + "\\right)";
 		case LOG:
 			if (isNaturalLog()) {
-				return "\\ln \\left(" + subtrees.get(1).toLaTeXString(loc, colored) + "\\right)";
+				return "\\ln \\left(" + operands.get(1).toLaTeXString(loc, colored) + "\\right)";
 			}
-			return "\\log_{" + subtrees.get(0).toLaTeXString(loc, colored) + "} \\left("
-					+ subtrees.get(1).toLaTeXString(loc, colored) + "\\right)";
+			return "\\log_{" + operands.get(0).toLaTeXString(loc, colored) + "} \\left("
+					+ operands.get(1).toLaTeXString(loc, colored) + "\\right)";
 		case DIFF:
 			StringBuilder sb = new StringBuilder();
 
 			if (loc.primeNotation()) {
 				sb.append("\\left(");
-				sb.append(subtrees.get(0).toLaTeXString(loc, colored));
+				sb.append(operands.get(0).toLaTeXString(loc, colored));
 				sb.append("\\right)");
 				sb.append("'");
 				return sb.toString();
 			}
 
 			sb.append("\\frac{d}{d");
-			sb.append(subtrees.get(1).toLaTeXString(loc, colored));
+			sb.append(operands.get(1).toLaTeXString(loc, colored));
 			sb.append("}");
-			if (subtrees.get(0).isOperation(Operation.PLUS)) {
+			if (operands.get(0).isOperation(Operation.PLUS)) {
 				sb.append("\\left(");
 			}
-			sb.append(subtrees.get(0).toLaTeXString(loc, colored));
-			if (subtrees.get(0).isOperation(Operation.PLUS)) {
+			sb.append(operands.get(0).toLaTeXString(loc, colored));
+			if (operands.get(0).isOperation(Operation.PLUS)) {
 				sb.append("\\right)");
 			}
 			return sb.toString();
@@ -460,13 +473,13 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	private static boolean requiresPlus(StepExpression a) {
 		return !a.isNegative() && !a.isOperation(Operation.PLUSMINUS)
-				&& (!a.isOperation(Operation.MULTIPLY) || requiresPlus(((StepOperation) a).getSubTree(0)));
+				&& (!a.isOperation(Operation.MULTIPLY) || requiresPlus(((StepOperation) a).getOperand(0)));
 	}
 
 	private static boolean requiresDot(StepExpression a, StepExpression b) {
 		return (a.nonSpecialConstant() && b.nonSpecialConstant())
 				|| (a instanceof StepVariable && b.nonSpecialConstant()) || (a instanceof StepVariable && a.equals(b))
-				|| (b.isOperation(Operation.POWER) && requiresDot(a, ((StepOperation) b).getSubTree(0)));
+				|| (b.isOperation(Operation.POWER) && requiresDot(a, ((StepOperation) b).getOperand(0)));
 	}
 
 	@Override
@@ -474,7 +487,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		StepOperation so = new StepOperation(operation);
 		so.color = color;
 		for (int i = 0; i < noOfOperands(); i++) {
-			so.addSubTree(getSubTree(i).deepCopy());
+			so.addOperand(getOperand(i).deepCopy());
 		}
 		return so;
 	}
@@ -488,22 +501,22 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		if (isOperation(Operation.MULTIPLY)) {
 			StepOperation coefficient = new StepOperation(Operation.MULTIPLY);
 			for (int i = 0; i < noOfOperands(); i++) {
-				coefficient.addSubTree(getSubTree(i).getCoefficientIn(sv));
+				coefficient.addOperand(getOperand(i).getCoefficientIn(sv));
 			}
 			if (coefficient.noOfOperands() == 0) {
 				return null;
 			}
 			if (coefficient.noOfOperands() == 1) {
-				return coefficient.getSubTree(0);
+				return coefficient.getOperand(0);
 			}
 			return coefficient;
 		} else if (isOperation(Operation.MINUS)) {
-			StepExpression coefficient = getSubTree(0).getCoefficientIn(sv);
+			StepExpression coefficient = getOperand(0).getCoefficientIn(sv);
 			if (coefficient == null) {
 				return StepConstant.create(-1);
 			}
 			StepOperation result = new StepOperation(Operation.MINUS);
-			result.addSubTree(coefficient);
+			result.addOperand(coefficient);
 			return result;
 		}
 
@@ -519,17 +532,17 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		if (isOperation(Operation.MULTIPLY)) {
 			StepOperation variable = new StepOperation(Operation.MULTIPLY);
 			for (int i = 0; i < noOfOperands(); i++) {
-				variable.addSubTree(getSubTree(i).getVariableIn(sv));
+				variable.addOperand(getOperand(i).getVariableIn(sv));
 			}
 			if (variable.noOfOperands() == 0) {
 				return null;
 			}
 			if (variable.noOfOperands() == 1) {
-				return variable.getSubTree(0);
+				return variable.getOperand(0);
 			}
 			return variable;
 		} else if (isOperation(Operation.MINUS)) {
-			return getSubTree(0).getVariableIn(sv);
+			return getOperand(0).getVariableIn(sv);
 		}
 
 		return this;
@@ -539,29 +552,29 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	public StepExpression getIntegerCoefficient() {
 		switch (operation) {
 		case PLUSMINUS:
-			return getSubTree(0).getIntegerCoefficient();
+			return getOperand(0).getIntegerCoefficient();
 		case MINUS:
-			StepExpression sm = getSubTree(0).getIntegerCoefficient();
+			StepExpression sm = getOperand(0).getIntegerCoefficient();
 			if (sm == null) {
 				return StepConstant.create(-1);
 			}
 			StepOperation result = new StepOperation(Operation.MINUS);
-			result.addSubTree(sm);
+			result.addOperand(sm);
 			return result;
 		case MULTIPLY:
 			StepOperation coefficient = new StepOperation(Operation.MULTIPLY);
 			for (int i = 0; i < noOfOperands(); i++) {
-				coefficient.addSubTree(getSubTree(i).getIntegerCoefficient());
+				coefficient.addOperand(getOperand(i).getIntegerCoefficient());
 			}
 			if (coefficient.noOfOperands() == 0) {
 				return null;
 			}
 			if (coefficient.noOfOperands() == 1) {
-				return coefficient.getSubTree(0);
+				return coefficient.getOperand(0);
 			}
 			return coefficient;
 		case DIVIDE:
-			return divide(getSubTree(0).getIntegerCoefficient(), getSubTree(1).getIntegerCoefficient());
+			return divide(getOperand(0).getIntegerCoefficient(), getOperand(1).getIntegerCoefficient());
 		}
 		return null;
 	}
@@ -570,23 +583,23 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	public StepExpression getNonInteger() {
 		switch (operation) {
 		case PLUSMINUS:
-			return apply(getSubTree(0).getNonInteger(), Operation.PLUSMINUS);
+			return apply(getOperand(0).getNonInteger(), Operation.PLUSMINUS);
 		case MINUS:
-			return getSubTree(0).getNonInteger();
+			return getOperand(0).getNonInteger();
 		case MULTIPLY:
 			StepOperation variable = new StepOperation(Operation.MULTIPLY);
 			for (int i = 0; i < noOfOperands(); i++) {
-				variable.addSubTree(getSubTree(i).getNonInteger());
+				variable.addOperand(getOperand(i).getNonInteger());
 			}
 			if (variable.noOfOperands() == 0) {
 				return null;
 			}
 			if (variable.noOfOperands() == 1) {
-				return variable.getSubTree(0);
+				return variable.getOperand(0);
 			}
 			return variable;
 		case DIVIDE:
-			return divide(getSubTree(0).getNonInteger(), getSubTree(1).getNonInteger());
+			return divide(getOperand(0).getNonInteger(), getOperand(1).getNonInteger());
 		}
 		return this;
 	}

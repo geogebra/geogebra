@@ -152,8 +152,8 @@ public abstract class StepNode {
 				}
 			default:
 				StepOperation so = new StepOperation(((ExpressionNode) ev).getOperation());
-				so.addSubTree((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()));
-				so.addSubTree((StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
+				so.addOperand((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()));
+				so.addOperand((StepExpression) convertExpression(((ExpressionNode) ev).getRight()));
 				return so;
 			}
 		}
@@ -188,7 +188,7 @@ public abstract class StepNode {
 		if (this instanceof StepOperation) {
 			StepOperation so = (StepOperation) this;
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				so.getSubTree(i).getListOfVariables(variableList);
+				so.getOperand(i).getListOfVariables(variableList);
 			}
 		}
 
@@ -267,44 +267,6 @@ public abstract class StepNode {
 		return power;
 	}
 
-	public boolean isPolynomial(StepVariable variable) {
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
-
-			if (so.isConstantIn(variable) || so.isMonom()) {
-				return true;
-			}
-
-			if (so.isOperation(Operation.PLUS)) {
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					if (!so.getSubTree(i).isPolynomial(variable)) {
-						return false;
-					}
-				}
-				return true;
-			}
-
-			if (so.isOperation(Operation.MULTIPLY) && so.noOfOperands() == 2) {
-				return so.getSubTree(0).isConstant() && so.getSubTree(1).isMonom() ||
-						so.getSubTree(1).isConstant() && so.getSubTree(0).isMonom();
-			}
-
-			if (so.isOperation(Operation.MINUS)) {
-				return so.getSubTree(0).isPolynomial(variable) &&
-						!so.getSubTree(0).isOperation(Operation.PLUS);
-			}
-
-			return false;
-		}
-
-		if (this instanceof StepSolvable) {
-			StepSolvable ss = (StepSolvable) this;
-			return ss.getLHS().isPolynomial(variable) && ss.getRHS().isPolynomial(variable);
-		}
-
-		return this instanceof StepExpression;
-	}
-
 	public static StepExpression add(StepExpression a, StepExpression b) {
 		if (a == null) {
 			return b == null ? null : b.deepCopy();
@@ -314,8 +276,8 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(Operation.PLUS);
-		so.addSubTree(a.deepCopy());
-		so.addSubTree(b.deepCopy());
+		so.addOperand(a.deepCopy());
+		so.addOperand(b.deepCopy());
 		return so;
 	}
 
@@ -341,7 +303,7 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(Operation.MINUS);
-		so.addSubTree(a.deepCopy());
+		so.addOperand(a.deepCopy());
 		return so;
 	}
 
@@ -354,8 +316,8 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(Operation.MULTIPLY);
-		so.addSubTree(a.deepCopy());
-		so.addSubTree(b.deepCopy());
+		so.addOperand(a.deepCopy());
+		so.addOperand(b.deepCopy());
 		return so;
 	}
 
@@ -376,8 +338,8 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(Operation.DIVIDE);
-		so.addSubTree(a.deepCopy());
-		so.addSubTree(b.deepCopy());
+		so.addOperand(a.deepCopy());
+		so.addOperand(b.deepCopy());
 		return so;
 	}
 
@@ -402,8 +364,8 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(Operation.POWER);
-		so.addSubTree(a.deepCopy());
-		so.addSubTree(b.deepCopy());
+		so.addOperand(a.deepCopy());
+		so.addOperand(b.deepCopy());
 		return so;
 	}
 
@@ -420,8 +382,8 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(Operation.NROOT);
-		so.addSubTree(a.deepCopy());
-		so.addSubTree(b.deepCopy());
+		so.addOperand(a.deepCopy());
+		so.addOperand(b.deepCopy());
 		return so;
 	}
 
@@ -438,8 +400,8 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(Operation.LOG);
-		so.addSubTree(a.deepCopy());
-		so.addSubTree(b.deepCopy());
+		so.addOperand(a.deepCopy());
+		so.addOperand(b.deepCopy());
 		return so;
 	}
 
@@ -453,7 +415,7 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(Operation.ABS);
-		so.addSubTree(a.deepCopy());
+		so.addOperand(a.deepCopy());
 		return so;
 	}
 
@@ -463,14 +425,14 @@ public abstract class StepNode {
 		}
 
 		StepOperation so = new StepOperation(op);
-		so.addSubTree(a.deepCopy());
+		so.addOperand(a.deepCopy());
 		return so;
 	}
 
 	public static StepExpression differentiate(StepExpression a, StepVariable b) {
 		StepOperation so = new StepOperation(Operation.DIFF);
-		so.addSubTree(a.deepCopy());
-		so.addSubTree(b.deepCopy());
+		so.addOperand(a.deepCopy());
+		so.addOperand(b.deepCopy());
 
 		return so;
 	}

@@ -233,7 +233,9 @@ public class StepStrategies {
 				EquationSteps.REDUCE_TO_QUADRATIC,
 				EquationSteps.SOLVE_ABSOLUTE_VALUE,
 				EquationSteps.SOLVE_IRRATIONAL,
-				EquationSteps.SOLVE_TRIGONOMETRIC,
+				EquationSteps.SIMPLIFY_TRIGONOMETRIC,
+				EquationSteps.SOLVE_QUADRATIC_TRIGONOMETRIC,
+				EquationSteps.SOLVE_LINEAR_TRIGONOMETRC,
 				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC,
 				EquationSteps.DIFF
 		};
@@ -329,16 +331,16 @@ public class StepStrategies {
 					}
 				}
 
-				StepExpression a = (StepExpression) step.apply(so.getSubTree(i), sb, tracker);
+				StepExpression a = (StepExpression) step.apply(so.getOperand(i), sb, tracker);
 				if (toReturn == null && tracker.getColorTracker() > colorsAtStart) {
 					toReturn = new StepOperation(so.getOperation());
 
 					for (int j = 0; j < i; j++) {
-						toReturn.addSubTree(so.getSubTree(j));
+						toReturn.addOperand(so.getOperand(j));
 					}
 				}
 				if (toReturn != null) {
-					toReturn.addSubTree(a);
+					toReturn.addOperand(a);
 				}
 
 				if (so.isOperation(Operation.DIVIDE)) {

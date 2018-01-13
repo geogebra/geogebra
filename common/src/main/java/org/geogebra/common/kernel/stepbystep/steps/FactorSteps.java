@@ -9,7 +9,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
@@ -30,7 +29,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				List<StepExpression> commonBases = new ArrayList<>();
 				List<StepExpression> commonExponents = new ArrayList<>();
 
-				StepExpression.getBasesAndExponents(so.getSubTree(0), null, commonBases, commonExponents);
+				StepExpression.getBasesAndExponents(so.getOperand(0), null, commonBases, commonExponents);
 
 				List<List<StepExpression>> currentBases = new ArrayList<>();
 				List<List<StepExpression>> currentExponents = new ArrayList<>();
@@ -39,7 +38,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					currentBases.add(new ArrayList<StepExpression>());
 					currentExponents.add(new ArrayList<StepExpression>());
 
-					StepExpression.getBasesAndExponents(so.getSubTree(i), null, currentBases.get(i),
+					StepExpression.getBasesAndExponents(so.getOperand(i), null, currentBases.get(i),
 							currentExponents.get(i));
 
 					boolean[] found = new boolean[commonBases.size()];
@@ -85,7 +84,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 								currentExponents.get(i).get(j));
 					}
 
-					result.addSubTree(currentProduct);
+					result.addOperand(currentProduct);
 				}
 
 				int tempTracker = tracker.getColorTracker();
@@ -122,7 +121,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				StepExpression[] integerParts = new StepExpression[so.noOfOperands() + 1];
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					integerParts[i] = so.getSubTree(i).getIntegerCoefficient();
+					integerParts[i] = so.getOperand(i).getIntegerCoefficient();
 
 					if (integerParts[i] == null || !closeToAnInteger(integerParts[i])) {
 						return so;
@@ -150,7 +149,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					integerParts[i].setColor(tracker.getColorTracker());
 					remainder.setColor(tracker.incColorTracker());
 
-					factored.addSubTree(nonTrivialProduct(remainder, so.getSubTree(i).getNonInteger()));
+					factored.addOperand(nonTrivialProduct(remainder, so.getOperand(i).getNonInteger()));
 				}
 
 				if (isEqual(common, -1)) {
@@ -203,12 +202,12 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					StepExpression first = null, second = null, third = null;
 
 					for (int i = 0; i < 3; i++) {
-						if (so.getSubTree(i).isSquare() && !so.getSubTree(i).isConstant()) {
-							first = so.getSubTree(i);
-						} else if (so.getSubTree(i).nonSpecialConstant()) {
-							third = so.getSubTree(i);
+						if (so.getOperand(i).isSquare() && !so.getOperand(i).isConstant()) {
+							first = so.getOperand(i);
+						} else if (so.getOperand(i).nonSpecialConstant()) {
+							third = so.getOperand(i);
 						} else {
-							second = so.getSubTree(i);
+							second = so.getOperand(i);
 						}
 					}
 
@@ -216,21 +215,21 @@ public enum FactorSteps implements SimplificationStepGenerator {
 						return StepStrategies.iterateThrough(this, sn, sb, tracker);
 					}
 
-					StepExpression b = StepHelper.findCoefficient(second, first.getSquareRoot());
+					StepExpression b = second.findCoefficient(first.getSquareRoot());
 
 					if (b != null && isEven(b)) {
 						double toComplete = third.getValue() - b.getValue() * b.getValue() / 4;
 
 						if (toComplete < 0) {
 							StepOperation newSum = new StepOperation(Operation.PLUS);
-							newSum.addSubTree(first);
-							newSum.addSubTree(second);
+							newSum.addOperand(first);
+							newSum.addOperand(second);
 
 							StepExpression asSum = add(StepConstant.create(b.getValue() * b.getValue() / 4),
 									StepConstant.create(toComplete));
 							third.setColor(tracker.getColorTracker());
 							asSum.setColor(tracker.incColorTracker());
-							newSum.addSubTree(asSum);
+							newSum.addOperand(asSum);
 
 							sb.add(SolutionStepType.REPLACE_WITH, third, asSum);
 							return newSum;
@@ -257,12 +256,12 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					StepExpression first = null, second = null, third = null;
 
 					for (int i = 0; i < 3; i++) {
-						if (so.getSubTree(i).isSquare() && first == null) {
-							first = so.getSubTree(i);
-						} else if (so.getSubTree(i).isSquare() && third == null) {
-							third = so.getSubTree(i);
+						if (so.getOperand(i).isSquare() && first == null) {
+							first = so.getOperand(i);
+						} else if (so.getOperand(i).isSquare() && third == null) {
+							third = so.getOperand(i);
 						} else {
-							second = so.getSubTree(i);
+							second = so.getOperand(i);
 						}
 					}
 
@@ -279,15 +278,15 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 						if (second.equals(_2ab) || second.equals(_2ab.negate())) {
 							if (second.isOperation(Operation.MINUS)) {
-								second = ((StepOperation) second).getSubTree(0);
+								second = ((StepOperation) second).getOperand(0);
 							}
 
 							first.setColor(tracker.getColorTracker());
 							a.setColor(tracker.getColorTracker());
-							((StepOperation) second).getSubTree(1).setColor(tracker.incColorTracker());
+							((StepOperation) second).getOperand(1).setColor(tracker.incColorTracker());
 							third.setColor(tracker.getColorTracker());
 							b.setColor(tracker.getColorTracker());
-							((StepOperation) second).getSubTree(2).setColor(tracker.incColorTracker());
+							((StepOperation) second).getOperand(2).setColor(tracker.incColorTracker());
 
 							StepExpression result = negative ? power(subtract(a, b), 2) : power(add(a, b), 2);
 
@@ -302,9 +301,9 @@ public enum FactorSteps implements SimplificationStepGenerator {
 							}
 
 							StepOperation newSum = new StepOperation(Operation.PLUS);
-							newSum.addSubTree(result);
+							newSum.addOperand(result);
 							for (int i = 3; i < so.noOfOperands(); i++) {
-								newSum.addSubTree(so.getSubTree(i));
+								newSum.addOperand(so.getOperand(i));
 							}
 							return newSum;
 						}
@@ -319,12 +318,12 @@ public enum FactorSteps implements SimplificationStepGenerator {
 						sb.add(SolutionStepType.REWRITE_AS, second, _2ab);
 
 						StepOperation newSum = new StepOperation(Operation.PLUS);
-						newSum.addSubTree(first);
-						newSum.addSubTree(_2ab);
-						newSum.addSubTree(third);
+						newSum.addOperand(first);
+						newSum.addOperand(_2ab);
+						newSum.addOperand(third);
 
 						for (int i = 3; i < so.noOfOperands(); i++) {
-							newSum.addSubTree(so.getSubTree(i));
+							newSum.addOperand(so.getOperand(i));
 						}
 
 						return newSum;
@@ -346,10 +345,10 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					StepExpression aCube = null, bCube = null;
 
 					for (int i = 0; i < 4; i++) {
-						if (so.getSubTree(i).isCube() && aCube == null && !so.getSubTree(i).isNegative()) {
-							aCube = so.getSubTree(i);
-						} else if (so.getSubTree(i).isCube() && bCube == null) {
-							bCube = so.getSubTree(i);
+						if (so.getOperand(i).isCube() && aCube == null && !so.getOperand(i).isNegative()) {
+							aCube = so.getOperand(i);
+						} else if (so.getOperand(i).isCube() && bCube == null) {
+							bCube = so.getOperand(i);
 						}
 					}
 
@@ -389,79 +388,79 @@ public enum FactorSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.noOfOperands() == 2 && so.getSubTree(0).isSquare() && so.getSubTree(1).isSquare()) {
-					if (!so.getSubTree(0).isNegative() && so.getSubTree(1).isNegative()) {
-						StepExpression a = so.getSubTree(0).getSquareRoot();
-						StepExpression b = so.getSubTree(1).negate().getSquareRoot();
+				if (so.noOfOperands() == 2 && so.getOperand(0).isSquare() && so.getOperand(1).isSquare()) {
+					if (!so.getOperand(0).isNegative() && so.getOperand(1).isNegative()) {
+						StepExpression a = so.getOperand(0).getSquareRoot();
+						StepExpression b = so.getOperand(1).negate().getSquareRoot();
 
-						so.getSubTree(0).setColor(tracker.getColorTracker());
+						so.getOperand(0).setColor(tracker.getColorTracker());
 						a.setColor(tracker.incColorTracker());
-						so.getSubTree(1).setColor(tracker.getColorTracker());
+						so.getOperand(1).setColor(tracker.getColorTracker());
 						b.setColor(tracker.incColorTracker());
 
 						StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
-						newProduct.addSubTree(add(a, b));
-						newProduct.addSubTree(subtract(a, b));
+						newProduct.addOperand(add(a, b));
+						newProduct.addOperand(subtract(a, b));
 
 						sb.add(SolutionStepType.DIFFERENCE_OF_SQUARES_FACTOR);
 						return newProduct;
 					}
 
-					if (so.getSubTree(0).isNegative() && !so.getSubTree(1).isNegative()) {
+					if (so.getOperand(0).isNegative() && !so.getOperand(1).isNegative()) {
 						StepOperation reorganized = new StepOperation(Operation.PLUS);
 
-						so.getSubTree(0).setColor(tracker.incColorTracker());
-						so.getSubTree(1).setColor(tracker.incColorTracker());
+						so.getOperand(0).setColor(tracker.incColorTracker());
+						so.getOperand(1).setColor(tracker.incColorTracker());
 
-						reorganized.addSubTree(so.getSubTree(1));
-						reorganized.addSubTree(so.getSubTree(0));
+						reorganized.addOperand(so.getOperand(1));
+						reorganized.addOperand(so.getOperand(0));
 
 						sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
 						return reorganized;
 					}
 				}
 
-				if (so.noOfOperands() == 2 && so.getSubTree(0).isCube() && so.getSubTree(1).isCube()
+				if (so.noOfOperands() == 2 && so.getOperand(0).isCube() && so.getOperand(1).isCube()
 						&& !tracker.isWeakFactor()) {
-					StepExpression a = so.getSubTree(0).getCubeRoot();
-					StepExpression b = so.getSubTree(1).getCubeRoot();
+					StepExpression a = so.getOperand(0).getCubeRoot();
+					StepExpression b = so.getOperand(1).getCubeRoot();
 
 					StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
 
 					if (!a.isNegative() && !b.isNegative()) {
-						so.getSubTree(0).setColor(tracker.getColorTracker());
+						so.getOperand(0).setColor(tracker.getColorTracker());
 						a.setColor(tracker.incColorTracker());
 
-						so.getSubTree(1).setColor(tracker.getColorTracker());
+						so.getOperand(1).setColor(tracker.getColorTracker());
 						b.setColor(tracker.incColorTracker());
 
-						newProduct.addSubTree(add(a, b));
-						newProduct.addSubTree(add(subtract(power(a, 2), multiply(a, b)), power(b, 2)));
+						newProduct.addOperand(add(a, b));
+						newProduct.addOperand(add(subtract(power(a, 2), multiply(a, b)), power(b, 2)));
 
 						sb.add(SolutionStepType.SUM_OF_CUBES);
 						return newProduct;
 					} else if (!a.isNegative() && b.isNegative()) {
 						StepExpression minusb = b.negate();
 
-						so.getSubTree(0).setColor(tracker.getColorTracker());
+						so.getOperand(0).setColor(tracker.getColorTracker());
 						a.setColor(tracker.incColorTracker());
 
-						so.getSubTree(1).setColor(tracker.getColorTracker());
+						so.getOperand(1).setColor(tracker.getColorTracker());
 						minusb.setColor(tracker.incColorTracker());
 
-						newProduct.addSubTree(subtract(a, minusb));
-						newProduct.addSubTree(add(add(power(a, 2), multiply(a, minusb)), power(minusb, 2)));
+						newProduct.addOperand(subtract(a, minusb));
+						newProduct.addOperand(add(add(power(a, 2), multiply(a, minusb)), power(minusb, 2)));
 
 						sb.add(SolutionStepType.DIFFERENCE_OF_CUBES_FACTOR);
 						return newProduct;
 					} else if (a.isNegative() && !b.isNegative()) {
 						StepOperation reorganized = new StepOperation(Operation.PLUS);
 
-						so.getSubTree(0).setColor(tracker.incColorTracker());
-						so.getSubTree(1).setColor(tracker.incColorTracker());
+						so.getOperand(0).setColor(tracker.incColorTracker());
+						so.getOperand(1).setColor(tracker.incColorTracker());
 
-						reorganized.addSubTree(so.getSubTree(1));
-						reorganized.addSubTree(so.getSubTree(0));
+						reorganized.addOperand(so.getOperand(1));
+						reorganized.addOperand(so.getOperand(0));
 
 						sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
 						return reorganized;
@@ -491,7 +490,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				}
 
 				if (var != null && so.integerCoefficients(var)) {
-					StepExpression[] polynomialForm = StepExpression.convertToPolynomial(so, var);
+					StepExpression[] polynomialForm = so.convertToPolynomial(var);
+
 					long[] integerForm = new long[polynomialForm.length];
 
 					if (polynomialForm.length < 3) {
@@ -522,9 +522,9 @@ public enum FactorSteps implements SimplificationStepGenerator {
 								for (int k = polynomialForm.length - 1; k > 0; k--) {
 									long coeff = i * integerForm[k] / j;
 
-									reorganized.addSubTree(nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
+									reorganized.addOperand(nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
 									reorganized
-											.addSubTree(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)).negate());
+											.addOperand(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)).negate());
 
 									integerForm[k - 1] += i * integerForm[k] / j;
 								}
@@ -561,7 +561,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				}
 
 				if (var != null && so.integerCoefficients(var)) {
-					StepExpression[] polynomialForm = StepExpression.convertToPolynomial(so, var);
+					StepExpression[] polynomialForm = so.convertToPolynomial(var);
 					long[] integerForm = new long[polynomialForm.length];
 
 					if (polynomialForm.length < 3) {
@@ -593,7 +593,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 								innerSum.setColor(tracker.incColorTracker());
 								for (int k = polynomialForm.length - 1; k > 0; k--) {
 									long coeff = integerForm[k] / j;
-									factored.addSubTree(
+									factored.addOperand(
 											multiply(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)), innerSum));
 
 									integerForm[k - 1] += i * integerForm[k] / j;

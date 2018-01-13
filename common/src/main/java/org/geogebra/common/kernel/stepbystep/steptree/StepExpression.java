@@ -1,80 +1,17 @@
 package org.geogebra.common.kernel.stepbystep.steptree;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 
-public abstract class StepExpression extends StepNode implements Comparable<StepExpression> {
+public abstract class StepExpression extends StepNode {
 
 	@Override
 	public abstract StepExpression deepCopy();
-
-	/**
-	 * @param sn
-	 *            the tree to be compared to this
-	 * @return 0, if the two trees are equal, 1, if this has a higher priority, -1,
-	 *         if lower
-	 */
-	@Override
-	public int compareTo(StepExpression sn) {
-		int a = getSortingPriority(this);
-		int b = getSortingPriority(sn);
-
-		if (a == b) {
-			if (this.canBeEvaluated()) {
-				return Double.compare(getValue(), sn.getValue());
-			} else if (this instanceof StepOperation) {
-				StepOperation so1 = (StepOperation) this;
-				StepOperation so2 = (StepOperation) sn;
-
-				int cmp = Integer.compare(so1.noOfOperands(), so2.noOfOperands());
-
-				if (cmp != 0) {
-					return cmp;
-				}
-
-				for (int i = 0; i < so1.noOfOperands(); i++) {
-					cmp = so1.getSubTree(i).compareTo(so2.getSubTree(i));
-
-					if (cmp != 0) {
-						return cmp;
-					}
-				}
-
-				return 0;
-			}
-			return toString().compareTo(sn.toString());
-		}
-
-		return a - b;
-	}
-
-	/**
-	 * This priority is used only for sorting and has nothing to do with the
-	 * precedence of operations
-	 */
-	private static int getSortingPriority(StepExpression sn) {
-		if (sn.nonSpecialConstant()) {
-			return 0;
-		} else if (sn instanceof StepArbitraryConstant) {
-			return 1;
-		} else if (sn.specialConstant()) {
-			return 2;
-		} else if (sn instanceof StepVariable) {
-			return 3;
-		} else if (sn instanceof StepOperation) {
-			return 4;
-		}
-		return 5;
-	}
 
 	/**
 	 * !This does not mean that getValue() will not return NaN.
@@ -86,6 +23,11 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return isConstantIn(null);
 	}
 
+	/**
+	 * If the expression is a polynomial in var, returns its degree, -1 otherwise
+	 * @param var variable of polynomial
+	 * @return degree or -1
+	 */
 	public abstract int degree(StepVariable var);
 
 	public abstract boolean isConstantIn(StepVariable sv);
@@ -149,7 +91,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 */
 	public boolean nonSpecialConstant() {
 		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E) &&
-				!Double.isInfinite(getValue()) || isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0)
+				!Double.isInfinite(getValue()) || isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0)
 				.nonSpecialConstant();
 	}
 
@@ -174,7 +116,165 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 *         exponent of 2)
 	 */
 	public boolean isSquareRoot() {
-		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getSubTree(1), 2);
+		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getOperand(1), 2);
+	}
+
+
+	/**
+	 * @param expr
+	 *            expression to find
+	 * @return all subexpression which contain expr
+	 */
+	public StepExpression findExpression(StepExpression expr) {
+		if (equals(expr)) {
+			return this;
+		}
+
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isOperation(Operation.MULTIPLY)) {
+				for (StepExpression operand : so) {
+					if (operand.equals(expr)) {
+						return so;
+					}
+				}
+			} else if (so.isOperation(Operation.MINUS)) {
+				return minus(so.getOperand(0).findExpression(expr));
+			} else if (so.isOperation(Operation.PLUS)) {
+				StepExpression found = null;
+				for (int i = 0; i < so.noOfOperands(); i++) {
+					found = add(found, so.getOperand(i).findExpression(expr));
+				}
+				return found;
+			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()) {
+				StepExpression nominator = so.getOperand(0).findExpression(expr);
+
+				if (nominator != null) {
+					return divide(nominator, so.getOperand(1));
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @param expr
+	 *            expression to find
+	 * @return the coefficient of expr in the tree
+	 */
+	public StepExpression findCoefficient(StepExpression expr) {
+		if (equals(expr)) {
+			return StepConstant.create(1);
+		}
+
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isOperation(Operation.MULTIPLY)) {
+				StepExpression coeff = null;
+				boolean found = false;
+
+				for (StepExpression operand : so) {
+					StepExpression current = operand.findCoefficient(expr);
+					if (current == null) {
+						coeff = nonTrivialProduct(coeff, operand);
+					} else {
+						found = true;
+						coeff = nonTrivialProduct(coeff, current);
+					}
+				}
+
+				if (found) {
+					return coeff;
+				}
+			} else if (so.isOperation(Operation.MINUS)) {
+				return minus(so.getOperand(0).findCoefficient(expr));
+			} else if (so.isOperation(Operation.PLUS)) {
+				StepExpression found = null;
+				for (StepExpression operand : so) {
+					found = add(found, operand.findCoefficient(expr));
+				}
+				return found;
+			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()) {
+				StepExpression nominator = so.getOperand(0).findCoefficient(expr);
+
+				if (nominator != null) {
+					return divide(nominator, so.getOperand(1));
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * @return subexpression which does not contain any variable part
+	 */
+	public StepExpression findConstantIn(StepVariable sv) {
+		if (isConstantIn(sv)) {
+			return this;
+		}
+
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isOperation(Operation.MINUS)) {
+				return minus(so.getOperand(0).findConstantIn(sv));
+			} else if (so.isOperation(Operation.PLUS)) {
+				StepExpression found = null;
+				for (StepExpression operand : so) {
+					found = add(found, operand.findConstantIn(sv));
+				}
+				return found;
+			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()) {
+				StepExpression nominator = so.getOperand(0).findConstantIn(sv);
+
+				if (nominator != null) {
+					return divide(nominator, so.getOperand(1));
+				}
+			}
+		}
+
+		return null;
+	}
+
+
+	public int countNonConstOperation(Operation operation, StepVariable variable) {
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isOperation(operation) && !so.isConstantIn(variable)) {
+				return 1;
+			}
+
+			int operations = 0;
+			for (StepExpression operand : so) {
+				operations += operand.countNonConstOperation(operation, variable);
+			}
+			return operations;
+		}
+
+		return 0;
+	}
+
+	public int countOperation(Operation operation) {
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isOperation(operation)) {
+				return 1;
+			}
+
+			int operations = 0;
+			for (StepExpression operand : so) {
+				operations += operand.countOperation(operation);
+			}
+			return operations;
+		}
+
+		return 0;
 	}
 
 	public boolean containsSquareRoot() {
@@ -182,8 +282,8 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			return true;
 		}
 		if (isOperation(Operation.MULTIPLY) || isOperation(Operation.MINUS)) {
-			for (int i = 0; i < ((StepOperation) this).noOfOperands(); i++) {
-				if (((StepOperation) this).getSubTree(i).containsSquareRoot()) {
+			for (StepExpression operand : (StepOperation) this) {
+				if (operand.containsSquareRoot()) {
 					return true;
 				}
 			}
@@ -193,8 +293,8 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	}
 
 	public boolean integerCoefficients(StepVariable sv) {
-		if (isPolynomial(sv)) {
-			StepExpression[] coefficients = convertToPolynomial(this, sv);
+		if (degree(sv) >= 0) {
+			StepExpression[] coefficients = convertToPolynomial(sv);
 
 			for (StepExpression coefficient : coefficients) {
 				if (coefficient != null && !coefficient.isInteger()) {
@@ -215,12 +315,12 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 * @return whether the current node is a square
 	 */
 	public boolean isSquare() {
-		return nonSpecialConstant() || isOperation(Operation.POWER) && isEven(((StepOperation) this).getSubTree(1));
+		return nonSpecialConstant() || isOperation(Operation.POWER) && isEven(((StepOperation) this).getOperand(1));
 	}
 
 	public boolean isCube() {
-		return isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).isCube() || nonSpecialConstant()
-				|| isOperation(Operation.POWER) && isEqual(((StepOperation) this).getSubTree(1), 3);
+		return isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isCube() || nonSpecialConstant()
+				|| isOperation(Operation.POWER) && isEqual(((StepOperation) this).getOperand(1), 3);
 	}
 
 	/**
@@ -238,7 +338,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			}
 
 			StepOperation so = (StepOperation) this;
-			return nonTrivialPower(so.getSubTree(0), so.getSubTree(1).getValue() / 2);
+			return nonTrivialPower(so.getOperand(0), so.getOperand(1).getValue() / 2);
 		}
 
 		return null;
@@ -256,10 +356,10 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			StepOperation so = (StepOperation) this;
 
 			if (isOperation(Operation.MINUS)) {
-				return so.getSubTree(0).getCubeRoot().negate();
+				return so.getOperand(0).getCubeRoot().negate();
 			}
 
-			return nonTrivialPower(so.getSubTree(0), so.getSubTree(1).getValue() / 3);
+			return nonTrivialPower(so.getOperand(0), so.getOperand(1).getValue() / 3);
 		}
 
 		return null;
@@ -281,12 +381,12 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	}
 
 	public boolean isNaturalLog() {
-		return isOperation(Operation.LOG) && ((StepOperation) this).getSubTree(0).equals(StepConstant.E);
+		return isOperation(Operation.LOG) && ((StepOperation) this).getOperand(0).equals(StepConstant.E);
 	}
 
 	public boolean isFraction() {
 		return isOperation(Operation.DIVIDE) ||
-				isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).isFraction();
+				isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isFraction();
 	}
 
 	/**
@@ -361,14 +461,6 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		return this;
 	}
 
-	public StepExpression factorEquation(SolutionBuilder sb) {
-		if (this instanceof StepOperation) {
-			return (StepExpression) StepStrategies.defaultFactor(this, sb, new RegroupTracker().setWeakFactor());
-		}
-
-		return this;
-	}
-
 	public StepExpression factorOutput(SolutionBuilder sb) {
 		sb.add(SolutionStepType.FACTOR, this);
 		return factor(sb);
@@ -405,133 +497,36 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		if (this instanceof StepOperation) {
 			StepOperation so = new StepOperation(((StepOperation) this).getOperation());
 			for (StepExpression operand : (StepOperation) this) {
-				so.addSubTree(operand.replace(from, to));
+				so.addOperand(operand.replace(from, to));
 			}
 			return so;
 		}
 		return deepCopy();
 	}
 
-	public boolean isProduct() {
-		return isOperation(Operation.MULTIPLY) ||
-				isOperation(Operation.MINUS) && ((StepOperation) this).getSubTree(0).isProduct();
-	}
-
 	/**
-	 * @param toConvert
-	 *            StepTree to convert
 	 * @param var
 	 *            variable to group in
 	 * @return toConvert in a polynomial format (as an array of coefficients)
 	 *         toConvert = sum(returned[i] * var^i)
 	 */
-	public static StepExpression[] convertToPolynomial(StepExpression toConvert, StepVariable var) {
-		List<StepExpression> poli = new ArrayList<>();
+	public StepExpression[] convertToPolynomial(StepVariable var) {
+		StepExpression[] poli = new StepExpression[degree(var) + 1];
 
-		StepExpression temp = StepHelper.findConstantIn(toConvert, var);
-		poli.add(temp);
+		poli[0] = findConstantIn(var);
 
-		for (int pow = 1; pow <= toConvert.degree(var); pow++) {
-			poli.add(StepHelper.findCoefficient(toConvert, (pow == 1 ? var : power(var, pow))));
+		for (int pow = 1; pow <= degree(var); pow++) {
+			poli[pow] = findCoefficient(pow == 1 ? var : power(var, pow));
 		}
 
-		return poli.toArray(new StepExpression[0]);
-	}
-
-	/**
-	 * a monom is an expression of the form x^n, where n is an integer, or a simple
-	 * integer
-	 * 
-	 * @return whether the expression is a monom
-	 */
-	public boolean isMonom() {
-		if (isOperation(Operation.POWER)) {
-			StepOperation so = (StepOperation) this;
-
-			return so.getSubTree(0) instanceof StepVariable && closeToAnInteger(so.getSubTree(1));
-		}
-
-		return this instanceof StepVariable || this instanceof StepConstant;
-	}
-
-	/**
-	 * @param r
-	 *            dividend
-	 * @param d
-	 *            divisor
-	 * @param var
-	 *            variable
-	 * @return the quotient of the two polynomials, null if they can not be divided
-	 */
-	public static StepExpression polynomialDivision(StepExpression r, StepExpression d, StepVariable var) {
-		if (!r.isPolynomial(var) || !d.isPolynomial(var)) {
-			return null;
-		}
-
-		StepExpression[] arrayD = convertToPolynomial(d, var);
-		StepExpression[] arrayR = convertToPolynomial(r, var);
-
-		int leadR = arrayR.length - 1;
-		int leadD = arrayD.length - 1;
-
-		StepExpression q = StepConstant.create(0);
-
-		while ((leadR != 0 || (arrayR[0] != null && arrayR[0].getValue() != 0)) && leadR >= leadD) {
-			StepExpression t = multiply(divide(arrayR[leadR], arrayD[leadD]), power(var, leadR - leadD)).regroup();
-			q = add(q, t);
-
-			StepExpression[] td = convertToPolynomial(multiply(t, d).expand(null), var);
-
-			for (int i = 0; i < td.length; i++) {
-				if (td[i] != null) {
-					arrayR[i] = subtract(arrayR[i], td[i]).regroup();
-				}
-			}
-
-			while (leadR > 0 && (arrayR[leadR] == null || arrayR[leadR].getValue() == 0)) {
-				leadR--;
-			}
-		}
-
-		if (leadR == 0 && (arrayR[0] == null || arrayR[0].getValue() == 0)) {
-			return q.regroup();
-		}
-		return null;
-	}
-
-	/**
-	 * tries to divide a by b
-	 * 
-	 * @param a
-	 *            dividend
-	 * @param b
-	 *            divisor
-	 * @return result, if polynomial division was successful, null otherwise
-	 */
-	public static StepExpression tryToDivide(StepExpression a, StepExpression b) {
-		Set<StepVariable> listA = new HashSet<>();
-		Set<StepVariable> listB = new HashSet<>();
-
-		a.getListOfVariables(listA);
-		b.getListOfVariables(listB);
-
-		listA.retainAll(listB);
-
-		for (StepVariable sv : listA) {
-			StepExpression result = polynomialDivision(a, b, sv);
-			if (result != null) {
-				return result;
-			}
-		}
-
-		return null;
+		return poli;
 	}
 
 	public StepExpression getDenominator() {
 		if (isOperation(Operation.MINUS)) {
-			return ((StepOperation) this).getSubTree(0).getDenominator();
+			return ((StepOperation) this).getOperand(0).getDenominator();
 		} else if (isOperation(Operation.DIVIDE)) {
-			return ((StepOperation) this).getSubTree(1);
+			return ((StepOperation) this).getOperand(1);
 		}
 
 		return null;
@@ -542,10 +537,10 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 */
 	public long getConstantDenominator() {
 		if (isOperation(Operation.MINUS)) {
-			return ((StepOperation) this).getSubTree(0).getConstantDenominator();
+			return ((StepOperation) this).getOperand(0).getConstantDenominator();
 		} else if (isOperation(Operation.DIVIDE)) {
-			if (closeToAnInteger(((StepOperation) this).getSubTree(1))) {
-				return Math.round(((StepOperation) this).getSubTree(1).getValue());
+			if (closeToAnInteger(((StepOperation) this).getOperand(1))) {
+				return Math.round(((StepOperation) this).getOperand(1).getValue());
 			}
 		} else if (isConstant()) {
 			return 1;
@@ -559,9 +554,9 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	 */
 	public StepExpression getNumerator() {
 		if (isOperation(Operation.MINUS)) {
-			return minus(((StepOperation) this).getSubTree(0).getNumerator());
+			return minus(((StepOperation) this).getOperand(0).getNumerator());
 		} else if (isOperation(Operation.DIVIDE)) {
-			return ((StepOperation) this).getSubTree(0);
+			return ((StepOperation) this).getOperand(0);
 		}
 		return this;
 	}
@@ -586,7 +581,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 				divide(multiply(2, pi), 3), divide(pi, 2), divide(pi, 3), divide(pi, 4), divide(pi, 6),
 				StepConstant.create(0) };
 
-		String currentArgument = so.getSubTree(0).toString();
+		String currentArgument = so.getOperand(0).toString();
 		for (int i = 0; i < arguments.length; i++) {
 			if (currentArgument.equals(arguments[i])) {
 				if (so.isOperation(Operation.ARCSIN)) {
@@ -612,24 +607,24 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 			switch (so.getOperation()) {
 			case MULTIPLY:
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					getBasesAndExponents(so.getSubTree(i), currentExp, bases, exponents);
+					getBasesAndExponents(so.getOperand(i), currentExp, bases, exponents);
 				}
 				return;
 			case MINUS:
-				if (!so.getSubTree(0).nonSpecialConstant()) {
+				if (!so.getOperand(0).nonSpecialConstant()) {
 					bases.add(StepConstant.create(-1));
 					exponents.add(StepConstant.create(1));
-					getBasesAndExponents(so.getSubTree(0), currentExp, bases, exponents);
+					getBasesAndExponents(so.getOperand(0), currentExp, bases, exponents);
 					return;
 				}
 				break;
 			case DIVIDE:
-				getBasesAndExponents(so.getSubTree(0), currentExp, bases, exponents);
-				getBasesAndExponents(so.getSubTree(1), multiply(-1, currentExp), bases, exponents);
+				getBasesAndExponents(so.getOperand(0), currentExp, bases, exponents);
+				getBasesAndExponents(so.getOperand(1), multiply(-1, currentExp), bases, exponents);
 				return;
 			case POWER:
-				bases.add(so.getSubTree(0));
-				exponents.add(multiply(currentExp, so.getSubTree(1)));
+				bases.add(so.getOperand(0));
+				exponents.add(multiply(currentExp, so.getOperand(1)));
 				return;
 			}
 		}
@@ -642,10 +637,10 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 
 	public StepExpression reciprocate() {
 		if (isOperation(Operation.DIVIDE)) {
-			if (isEqual(((StepOperation) this).getSubTree(0), 1)) {
-				return ((StepOperation) this).getSubTree(1);
+			if (isEqual(((StepOperation) this).getOperand(0), 1)) {
+				return ((StepOperation) this).getOperand(1);
 			}
-			return divide(((StepOperation) this).getSubTree(1), ((StepOperation) this).getSubTree(0));
+			return divide(((StepOperation) this).getOperand(1), ((StepOperation) this).getOperand(0));
 		} else if (isEqual(this, 1) || isEqual(this, -1)) {
 			return this;
 		} else {
@@ -664,8 +659,8 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 		StepExpression denominator;
 
 		if (currentFraction != null && currentFraction.isOperation(Operation.DIVIDE)) {
-			nominator = ((StepOperation) currentFraction).getSubTree(0);
-			denominator = ((StepOperation) currentFraction).getSubTree(1);
+			nominator = ((StepOperation) currentFraction).getOperand(0);
+			denominator = ((StepOperation) currentFraction).getOperand(1);
 		} else {
 			nominator = currentFraction;
 			denominator = null;
@@ -732,27 +727,27 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 	}
 
 	/**
-	 * Tries to negate the subtree. Basically, it removes the starting minus, if
+	 * Tries to negate the expression. Basically, it removes the starting minus, if
 	 * there is one.
 	 * @return -this
 	 */
 	public StepExpression negate() {
 		if (isOperation(Operation.MINUS)) {
-			return ((StepOperation) this).getSubTree(0);
+			return ((StepOperation) this).getOperand(0);
 		}
-		if (isOperation(Operation.MULTIPLY) && ((StepOperation) this).getSubTree(0).isNegative()) {
+		if (isOperation(Operation.MULTIPLY) && ((StepOperation) this).getOperand(0).isNegative()) {
 			StepExpression so = null;
-			if (!isEqual(((StepOperation) this).getSubTree(0), -1)) {
-				so = ((StepOperation) this).getSubTree(0).negate();
+			if (!isEqual(((StepOperation) this).getOperand(0), -1)) {
+				so = ((StepOperation) this).getOperand(0).negate();
 			}
 			for (int i = 1; i < ((StepOperation) this).noOfOperands(); i++) {
-				so = multiply(so, ((StepOperation) this).getSubTree(i));
+				so = multiply(so, ((StepOperation) this).getOperand(i));
 			}
 			return so;
 		}
 		if (isOperation(Operation.DIVIDE)) {
-			if (((StepOperation) this).getSubTree(0).isNegative()) {
-				return divide(((StepOperation) this).getSubTree(0).negate(), ((StepOperation) this).getSubTree(1));
+			if (((StepOperation) this).getOperand(0).isNegative()) {
+				return divide(((StepOperation) this).getOperand(0).negate(), ((StepOperation) this).getOperand(1));
 			}
 			return minus(this);
 		}
@@ -762,7 +757,7 @@ public abstract class StepExpression extends StepNode implements Comparable<Step
 
 	public boolean isNegative() {
 		return isOperation(Operation.MINUS) ||
-				isOperation(Operation.MULTIPLY) && ((StepOperation) this).getSubTree(0).isNegative();
+				isOperation(Operation.MULTIPLY) && ((StepOperation) this).getOperand(0).isNegative();
 	}
 
 	public static Operation getInverse(Operation op) {

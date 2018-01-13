@@ -57,12 +57,12 @@ public enum FractionSteps implements SimplificationStepGenerator {
                         StepExpression newFraction = divide(nonTrivialProduct(toExpand, numerator), newDenominator);
 
                         if (operand.isNegative()) {
-                            newSum.addSubTree(newFraction.negate());
+                            newSum.addOperand(newFraction.negate());
                         } else {
-                            newSum.addSubTree(newFraction);
+                            newSum.addOperand(newFraction);
                         }
                     } else {
-                        newSum.addSubTree(operand);
+                        newSum.addOperand(operand);
                     }
                 }
 
