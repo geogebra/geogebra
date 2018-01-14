@@ -1,6 +1,7 @@
 package org.geogebra.common.euclidian3D;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.kernel.Matrix.Coords;
 
@@ -222,5 +223,11 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 	 * set the settings to standard view position, orientation, scaling
 	 */
 	public void setSettingsToStandardView();
+
+	/**
+	 * 
+	 * @return renderer
+	 */
+	public Renderer getRenderer();
 
 }

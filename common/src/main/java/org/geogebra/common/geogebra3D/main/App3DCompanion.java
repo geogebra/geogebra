@@ -3,6 +3,9 @@ package org.geogebra.common.geogebra3D.main;
 import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DForExport;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.GeoFactory3D;
@@ -274,7 +277,20 @@ public abstract class App3DCompanion extends AppCompanion {
 	
 	@Override
 	public void setExport3D(Format format) {
-		app.getEuclidianView3D().setExport3D(format);
+		// try fist with existing 3D view
+		if (app.isEuclidianView3Dinited()) {
+			EuclidianView3DInterface view3D = app.getEuclidianView3D();
+			if (view3D.isShowing() && view3D.getRenderer().useShaders()) {
+				view3D.setExport3D(format);
+				return;
+			}
+		}
+		// use ad hoc 3D view for export
+		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
+				app.getSettings().getEuclidian(3));
+		StringBuilder export = exportView3D.export3D(format);
+		app.getKernel().detach(exportView3D);
+		app.exportSbToFile(format.getExtension(), export);
 	}
 
 }

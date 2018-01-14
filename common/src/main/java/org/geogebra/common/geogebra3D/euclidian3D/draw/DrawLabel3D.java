@@ -107,7 +107,9 @@ public class DrawLabel3D {
 	public void update(String text0, GFont font, GColor color, Coords v,
 			float xOffset0, float yOffset0) {
 
-		update(text0, font, null, color, v, xOffset0, yOffset0);
+		if (view.drawsLabels()) {
+			update(text0, font, null, color, v, xOffset0, yOffset0);
+		}
 	}
 
 	/**

@@ -106,19 +106,15 @@ public class ExportToPrinter3D {
 	 * 
 	 * @param view
 	 *            3D view
+	 * @param manager
+	 *            geometry manager
 	 */
-	public ExportToPrinter3D(EuclidianView3D view) {
-		Manager manager = view.getRenderer().getGeometryManager();
+	public ExportToPrinter3D(EuclidianView3D view, Manager manager) {
+		this.view = view;
 		if (manager instanceof ManagerShadersElementsGlobalBuffer) {
-			set(view, (ManagerShadersElementsGlobalBuffer) manager);
+			this.manager = (ManagerShadersElementsGlobalBuffer) manager;
 		}
 		sb = new StringBuilder();
-	}
-
-	private void set(EuclidianView3D view,
-			ManagerShadersElementsGlobalBuffer manager) {
-		this.view = view;
-		this.manager = manager;
 	}
 
 	public void export(Drawable3D d, Type type) {

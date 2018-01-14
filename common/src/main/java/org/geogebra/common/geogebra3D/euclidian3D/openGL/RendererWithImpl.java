@@ -160,7 +160,7 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final protected Manager createManager() {
+	protected Manager createManager() {
 		return rendererImpl.createManager();
 	}
 
@@ -557,7 +557,7 @@ public abstract class RendererWithImpl extends Renderer
 	}
 
 	@Override
-	final public boolean useShaders() {
+	public boolean useShaders() {
 		return rendererImpl.useShaders();
 	}
 

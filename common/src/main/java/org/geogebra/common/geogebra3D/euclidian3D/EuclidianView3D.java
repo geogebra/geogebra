@@ -304,15 +304,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			EuclidianSettings settings) {
 
 		super(ec, EVNO_3D, settings);
-		// don't remove, it's important we pick up when this class is created by
-		// mistake
-		Log.error(
-				"******************************************************************************");
-		Log.error(
-				"******************* 3D View being initialized ********************************");
-		Log.error(
-				"******************************************************************************");
-		// Log.printStacktrace("");
+		logInited();
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
 
@@ -325,6 +317,15 @@ public abstract class EuclidianView3D extends EuclidianView
 		viewDirection = Coords.VZ.copyVector();
 
 		start();
+	}
+
+	protected void logInited() {
+		// don't remove, it's important we pick up when this class is created by
+		// mistake
+		Log.error("******************************************************************************");
+		Log.error("******************* 3D View being initialized ********************************");
+		Log.error("******************************************************************************");
+		// Log.printStacktrace("");
 	}
 
 	final private static void changeCoords(CoordMatrix mat, Coords vInOut) {
@@ -4578,7 +4579,8 @@ public abstract class EuclidianView3D extends EuclidianView
 		renderer.setExport3D(new Runnable() {
 			@Override
 			public void run() {
-				ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(EuclidianView3D.this);
+				ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(EuclidianView3D.this,
+						renderer.getGeometryManager());
 				StringBuilder export = exportToPrinter.export(format);
 				app.exportSbToFile(format.getExtension(), export);
 			}
@@ -4664,5 +4666,13 @@ public abstract class EuclidianView3D extends EuclidianView
 				d.setWaitForUpdateVisualStyle(GProperty.HIGHLIGHT);
 			}
 		}
+	}
+
+	/**
+	 * 
+	 * @return true if that view draws labels
+	 */
+	public boolean drawsLabels() {
+		return true;
 	}
 }
