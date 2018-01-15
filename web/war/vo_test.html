@@ -5,31 +5,27 @@
 <title>Tab order test</title>
 </head>
 <body>
-<button tabIndex="2">3rd</button>
-<button tabIndex="0">1st</button>
-<button tabIndex="1">2nd</button>
-<button tabIndex="3">4th</button>
 
-<div role="navigation" aria-label="Main menu">
-  <ul id="nav" role="menubar">
-    <li role="menuitem" tabindex="0" aria-haspopup="true">
+<div aria-label="Main menu">
+  <ul>
+    <li>
       About
-      <ul role="menu">
-        <li role="menuitem" tabindex="0">
+      <ul>
+        <li>
          <a href="#">News</a>
         </li>
-        <li role="menuitem" tabindex="0">
+        <li>
          <a href="#">Contact Us</a>
         </li>
      </ul>
   </li>
-    <li role="menuitem" tabindex="0" aria-haspopup="true">
+    <li>
       Academics
-      <ul role="menu">
-        <li role="menuitem" tabindex="0">
+      <ul>
+        <li>
          <a href="#">Degree Programs</a>
         </li>
-        <li role="menuitem" tabindex="0">
+        <li>
          <a href="#">Faculty</a>
         </li>
      </ul>
