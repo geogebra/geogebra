@@ -473,8 +473,7 @@ public class GeneralPathClipped implements GShape {
 
 	@Override
 	public GRectangle2D getBounds2D() {
-		return bounds == null ? AwtFactory.getPrototype().newRectangle()
-				: bounds;
+		return getBounds();
 	}
 
 	/*
