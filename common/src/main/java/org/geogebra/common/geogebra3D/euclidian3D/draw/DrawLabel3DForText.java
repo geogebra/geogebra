@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.TextProperties;
 public class DrawLabel3DForText extends DrawLabel3D {
 	protected GeoText geo;
 	private int highLightIndex = -1;
+	GRectangle bounds = AwtFactory.getPrototype().newRectangle();
 
 	public DrawLabel3DForText(EuclidianView3D view, Drawable3D drawable) {
 		super(view, drawable);
@@ -35,7 +36,6 @@ public class DrawLabel3DForText extends DrawLabel3D {
 					GColor.WHITE, text, 0, 0,
 					((TextProperties) geo).isSerifFont(), getCallBack());
 		}
-		GRectangle bounds = AwtFactory.getPrototype().newRectangle();
 		EuclidianStatic.drawIndexedMultilineString(view.getApplication(), text,
 				tempGraphics, bounds, font,
 				((TextProperties) geo).isSerifFont(), 0, 0);
