@@ -122,17 +122,25 @@ public class MainMenu extends FlowPanel
 		}
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = app.isExam();
-		// if (app.enableFileFeatures()) {
-		// this.createFileMenu();
-		// }
-		// if (app.isUnbundledOrWhiteboard()) {
-		// this.createDownloadAsMenu();
-		// }
+		if (app.enableFileFeatures()) {
+			this.createFileMenu();
+		}
+
+		if (app.isUnbundledOrWhiteboard()) {
+			this.createDownloadAsMenu();
+		}
+
+		if (app.enableFileFeatures()) {
+			this.createFileMenu();
+		}
+		if (app.isUnbundledOrWhiteboard()) {
+			this.createDownloadAsMenu();
+		}
 
 		boolean enableGraph = !exam || app.enableGraphing();
 		if (enableGraph) {
 			this.createPerspectivesMenu();
-			// this.createEditMenu();
+			this.createEditMenu();
 			this.createViewMenu();
 		}
 		this.createOptionsMenu();
@@ -143,6 +151,14 @@ public class MainMenu extends FlowPanel
 		if (!exam) {
 			this.createHelpMenu();
 			this.createUserMenu();
+			if (app.enableFileFeatures()) {
+				menus.add(fileMenu);
+			}
+
+			menus.add(editMenu);
+			if (app.isUnbundledOrWhiteboard()) {
+				menus.add(downloadMenu);
+			}
 			menus.add(perspectivesMenu);
 			if (!app.isUnbundledOrWhiteboard()) {
 				menus.add(viewMenu);
@@ -169,7 +185,6 @@ public class MainMenu extends FlowPanel
 
 		if (app.enableFileFeatures()) {
 			if (app.isUnbundledOrWhiteboard()) {
-				this.createFileMenu();
 				menus.add(fileMenu);
 				this.menuPanel.add(fileMenu, getExpandCollapseHTML(
 						MaterialDesignResources.INSTANCE.insert_file_black(),
@@ -196,7 +211,6 @@ public class MainMenu extends FlowPanel
 			}
 
 			if (app.isUnbundledOrWhiteboard()) {
-				createDownloadAsMenu();
 				menus.add(downloadMenu);
 				this.menuPanel
 						.add(downloadMenu,
