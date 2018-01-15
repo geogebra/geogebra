@@ -35,13 +35,15 @@ public class ErrorHelper {
 		Localization loc = app.getLocalization();
 		app.initTranslatedCommands();
 		if (e instanceof CircularDefinitionException) {
-			handler.showError(loc.getError("CircularDefinition"));
+			handler.showError(loc.getErrorDefault("CircularDefinition",
+					"Circular Definition"));
 		} else if (e.getCause() instanceof MyError) {
 			handleError((MyError) e.getCause(), null, loc, handler);
 		} else if (loc.getReverseCommand(handler.getCurrentCommand()) != null) {
 			handleCommandError(loc, handler.getCurrentCommand(), handler);
 		} else {
-			handler.showError(loc.getError("InvalidInput"));
+			handler.showError(
+					loc.getErrorDefault("InvalidInput", "Invalid Input"));
 		}
 
 	}
@@ -58,7 +60,8 @@ public class ErrorHelper {
 			ErrorHandler handler) {
 		String cmd = loc.getReverseCommand(localCommand);
 		handler.showCommandError(cmd,
-				loc.getError("InvalidInput") + ":\n" + localCommand + "\n\n"
+				loc.getErrorDefault("InvalidInput", "Invalid Input") + ":\n"
+						+ localCommand + "\n\n"
 						+ loc.getMenu("Syntax") + ":\n"
 						+ loc.getCommandSyntax(cmd));
 
@@ -101,9 +104,11 @@ public class ErrorHelper {
 	public static void handleInvalidInput(String str, Localization loc,
 			ErrorHandler handler) {
 		if (loc != null) {
-			handler.showError(loc.getError("InvalidInput") + ":\n" + str);
+			handler.showError(
+					loc.getErrorDefault("InvalidInput", "Invalid Input") + ":\n"
+							+ str);
 		} else {
-			handler.showError("InvalidInput:\n" + str);
+			handler.showError("Invalid Input:\n" + str);
 		}
 	}
 

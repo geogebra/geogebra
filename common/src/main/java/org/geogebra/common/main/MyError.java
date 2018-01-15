@@ -126,4 +126,18 @@ public class MyError extends java.lang.Error {
 		return loc.getError(s);
 	}
 
+	/**
+	 * @param s
+	 *            key
+	 * @param default0
+	 *            default to return if no translation available
+	 * @return localized error
+	 */
+	protected String getErrorDefault(String s, String default0) {
+		if (loc == null) {
+			return default0;
+		}
+		return loc.getErrorDefault(s, default0);
+	}
+
 }

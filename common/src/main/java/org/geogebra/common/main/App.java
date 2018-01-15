@@ -1707,7 +1707,8 @@ public abstract class App implements UpdateSelection {
 	public final void showGenericError(Exception e) {
 		// can't work out anything better, just show "Invalid Input"
 		e.printStackTrace();
-		showError(getLocalization().getError("InvalidInput"));
+		showError(getLocalization().getErrorDefault("InvalidInput",
+				"Invalid Input"));
 	}
 
 	/**

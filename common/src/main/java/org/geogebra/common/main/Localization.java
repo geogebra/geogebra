@@ -1349,4 +1349,21 @@ public abstract class Localization {
 		return ret;
 	}
 
+	/**
+	 * 
+	 * @param key
+	 * @param default0
+	 *            return this if lookup failed
+	 * @return translation of key
+	 */
+	public String getErrorDefault(String key, String default0) {
+		String ret = getError(key);
+
+		if (ret == null || ret.equals(key)) {
+			return default0;
+		}
+
+		return ret;
+	}
+
 }

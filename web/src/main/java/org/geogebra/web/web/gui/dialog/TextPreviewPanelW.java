@@ -74,20 +74,20 @@ public class TextPreviewPanelW extends TextPreviewer {
 		        size);
 		
 		
-		GRectangle rect;
+		GRectangle rect = AwtFactory.getPrototype().newRectangle();
 		if (isLatex) {
 		
-			rect = EuclidianStatic.drawMultilineLaTeX(getApp(),
+			EuclidianStatic.drawMultilineLaTeX(getApp(),
 					ev.getTempGraphics2D(textFont), previewGeo,
 					ev.getTempGraphics2D(textFont), textFont, GColor.BLACK,
 					GColor.WHITE,
-							previewGeo.getTextString(), 0, 0, serif, null);
+					previewGeo.getTextString(), 0, 0, serif, null, null);
 			
 		} else {
 			
 			rect = EuclidianStatic.drawMultiLineText(getApp(),
 					previewGeo.getTextString(), 0, 0, ((EuclidianViewW) ev).g2p,
-					serif, textFont, AwtFactory.getPrototype().newRectangle());
+					serif, textFont, rect);
 		}
 		//App.debug("text rect: " + rect.getWidth() + " x " +
 	//	rect.getHeight());
