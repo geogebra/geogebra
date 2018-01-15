@@ -174,10 +174,11 @@ public class EuclidianStatic {
 	 *            LaTeX loading callback
 	 * @return bounds of resulting LaTeX formula
 	 */
-	public static final GRectangle drawMultilineLaTeX(App app,
+	public static final void drawMultilineLaTeX(App app,
 			GGraphics2D tempGraphics, GeoElementND geo, GGraphics2D g2,
 			GFont font, GColor fgColor, GColor bgColor, String labelDesc,
-			int xLabel, int yLabel, boolean serif, Runnable callback) {
+			int xLabel, int yLabel, boolean serif, Runnable callback,
+			GRectangle ret) {
 		int fontSize = g2.getFont().getSize();
 		int lineSpread = (int) (fontSize * 1.0f);
 		int lineSpace = (int) (fontSize * 0.5f);
@@ -315,9 +316,10 @@ public class EuclidianStatic {
 			isLaTeX = !isLaTeX;
 		}
 
-		return AwtFactory.getPrototype().newRectangle(xLabel - 3,
-				yLabel - 3 + depth, width + 6, height + 6);
-
+		if (ret != null) {
+			ret.setBounds(xLabel - 3, yLabel - 3 + depth, width + 6,
+					height + 6);
+		}
 	}
 
 	/**

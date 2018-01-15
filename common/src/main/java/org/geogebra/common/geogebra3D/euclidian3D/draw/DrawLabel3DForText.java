@@ -31,14 +31,16 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	final protected GRectangle getBounds() {
 
 		if (geo.isLaTeX()) {
-			return EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
+			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					tempGraphics, geo, tempGraphics, font, GColor.BLACK,
 					GColor.WHITE, text, 0, 0,
-					((TextProperties) geo).isSerifFont(), getCallBack());
+					((TextProperties) geo).isSerifFont(), getCallBack(),
+					bounds);
+		} else {
+			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
+					text, tempGraphics, bounds, font,
+					((TextProperties) geo).isSerifFont(), 0, 0);
 		}
-		EuclidianStatic.drawIndexedMultilineString(view.getApplication(), text,
-				tempGraphics, bounds, font,
-				((TextProperties) geo).isSerifFont(), 0, 0);
 		return bounds;
 
 	}
@@ -52,7 +54,7 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 					tempGraphics, geo, g2d, font, GColor.BLACK, GColor.WHITE,
 					text, 0, 0, ((TextProperties) geo).isSerifFont(),
-					getCallBack());
+					getCallBack(), null);
 		} else {
 			EuclidianStatic.drawIndexedMultilineString(view.getApplication(),
 					text, g2d, AwtFactory.getPrototype().newRectangle(),
