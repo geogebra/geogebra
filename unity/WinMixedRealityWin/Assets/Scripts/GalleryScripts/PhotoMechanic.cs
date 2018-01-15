@@ -61,7 +61,7 @@ public class PhotoMechanic : MonoBehaviour
     {
 
 
-        if (getControllerStates.SelectPressed && ReadyForNextPhoto)
+        if (getControllerStates.TouchpadPressed && ReadyForNextPhoto)
         {
             print("SelectPressed");
             StartCoroutine(UpScrnCoroutine());
