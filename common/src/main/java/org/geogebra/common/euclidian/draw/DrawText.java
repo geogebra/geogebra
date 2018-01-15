@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package org.geogebra.common.euclidian.draw;
 
+import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
@@ -19,6 +20,7 @@ import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -52,7 +54,8 @@ public final class DrawText extends Drawable {
 	// private Image eqnImage;
 	private int oldXpos, oldYpos;
 	private boolean needsBoundingBoxOld;
-
+	private static GBasicStroke rectangleStroke = AwtFactory.getPrototype()
+			.newBasicStroke(2);
 	/**
 	 * Creates new DrawText
 	 * 
@@ -199,7 +202,7 @@ public final class DrawText extends Drawable {
 
 			// draw label rectangle
 			if (geo.doHighlighting()) {
-				g2.setStroke(objStroke);
+				g2.setStroke(rectangleStroke);
 				g2.setPaint(HIGHLIGHT_COLOR);
 				g2.draw(labelRectangle);
 			}
