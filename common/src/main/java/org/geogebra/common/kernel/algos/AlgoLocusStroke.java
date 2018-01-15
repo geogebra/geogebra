@@ -157,6 +157,7 @@ public class AlgoLocusStroke extends AlgoElement
 							unfiltered.get(0).withType(SegmentType.MOVE_TO));
 				}
 				MyPoint lastUsed = null;
+				MyPoint lastSkipped = null;
 				List<MyPoint> partOfStroke;
 				if (xscale > 0) {
 					double distSqr = 250000 / xscale / xscale;
@@ -167,10 +168,15 @@ public class AlgoLocusStroke extends AlgoElement
 								&& angle(lastUsed, endpoint,
 										unfiltered.get(i + 1)) < Math.PI / 18
 								&& lastUsed.distanceSqr(endpoint) < distSqr) {
+							lastSkipped = endpoint;
 							continue;
 						}
 						lastUsed = endpoint;
+						if (lastSkipped != null) {
+							partOfStroke.add(lastSkipped);
+						}
 						partOfStroke.add(endpoint);
+						lastSkipped = null;
 					}
 				} else {
 					partOfStroke = unfiltered;
@@ -352,14 +358,9 @@ public class AlgoLocusStroke extends AlgoElement
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-
 		return "";
-
 	}
 
-	public final MyPoint[] getPointsND() {
-		return poly.getPointsND();
-	}
 
 	@Override
 	public int getPointsLength() {
@@ -390,9 +391,7 @@ public class AlgoLocusStroke extends AlgoElement
 		if (poly.getPoints() != data) {
 			poly.setDefined(true);
 			poly.getPoints().clear();
-			for (MyPoint pt : data) {
-				poly.getPoints().add(pt);
-			}
+			poly.getPoints().addAll(data);
 		}
 		poly.resetPointsWithoutControl();
 		getOutput(0).updateCascade();
