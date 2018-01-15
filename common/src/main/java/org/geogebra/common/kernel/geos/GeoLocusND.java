@@ -159,13 +159,19 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			nonScaledWidth = maxX - minX;
 			nonScaledHeight = maxY - minY;
 			for (int i = 0; i < myPointList.size(); i++) {
-				nonScaledPointList.add(new GPoint2D.Double(
-						kernel.getApplication().getActiveEuclidianView()
-								.toScreenCoordX(myPointList.get(i).getX())
-								- minX,
-						kernel.getApplication().getActiveEuclidianView()
-								.toScreenCoordY(myPointList.get(i).getY())
-								- minY));
+				double x = myPointList.get(i).getX();
+				double y = myPointList.get(i).getY();
+				
+				if (Double.isNaN(x)) {
+					nonScaledPointList
+							.add(new GPoint2D.Double(Double.NaN, Double.NaN));
+				} else {
+					nonScaledPointList.add(new GPoint2D.Double(
+							kernel.getApplication().getActiveEuclidianView()
+									.toScreenCoordX(x) - minX,
+							kernel.getApplication().getActiveEuclidianView()
+									.toScreenCoordY(y) - minY));
+				}
 			}
 		}
 
