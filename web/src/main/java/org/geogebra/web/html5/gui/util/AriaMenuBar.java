@@ -23,6 +23,7 @@ public class AriaMenuBar extends Widget {
 	private boolean autoOpen;
 	private boolean focusOnHover;
 	private boolean handleArrows = true;
+	private int tabIndex = 0;
 
 	/**
 	 * Create new accessible menu
@@ -31,15 +32,15 @@ public class AriaMenuBar extends Widget {
 		setElement(Document.get().createULElement());
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
 				| Event.ONFOCUS | Event.ONKEYDOWN);
-		getElement().setAttribute("role", "menubar");
-		getElement().setTabIndex(0);
+		// getElement().setAttribute("role", "menubar");
+		// getElement().setTabIndex(0);
 		addStyleName("gwt-MenuBar");
 		addStyleName("gwt-MenuBar-vertical");
 	}
 
 	/**
 	 * @param handleArrows
-	 *            whether this menu should handle up/down keys on its own
+	 *            whsether this menu should handle up/down keys on its own
 	 */
 	protected void setHandleArrows(boolean handleArrows) {
 		this.handleArrows = handleArrows;

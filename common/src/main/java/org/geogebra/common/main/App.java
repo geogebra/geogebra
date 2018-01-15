@@ -4328,6 +4328,10 @@ public abstract class App implements UpdateSelection {
 		case MOW_BOUNDING_BOX_FOR_PEN_TOOL:
 			return prerelease && whiteboard;
 
+		/** GGB-2258 */
+		case VOICEOVER_CURSOR:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;

@@ -33,12 +33,21 @@ public class AriaStackPanel extends ComplexPanel
 	private ArrayList<Widget> items = new ArrayList<>();
 	private ArrayList<Element> headers = new ArrayList<>();
 	private ArrayList<Element> contents = new ArrayList<>();
+	private boolean ipad;
 
 	/**
 	 * Creates an empty stack panel.
 	 */
 	public AriaStackPanel() {
+		this(false);
+	}
+
+	/**
+	 * Creates an empty stack panel.
+	 */
+	public AriaStackPanel(boolean ipad) {
 		ul = Document.get().createULElement();
+		this.ipad = ipad;
 		setElement(ul);
 		addStyleName("gwt-StackPanel");
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
@@ -128,22 +137,25 @@ public class AriaStackPanel extends ComplexPanel
 	public void insert(Widget w, int beforeIndex) {
 		// header
 		Element li = DOM.createElement("LI");
-		li.setAttribute("role", "menuitem");
 		getElement().appendChild(li);
 
 		Element button = DOM.createElement("button");
-		button.setAttribute("role", "menuitem");
-		li.appendChild(button);
 
+		if (!ipad) {
+			li.setAttribute("role", "menuitem");
+			button.setAttribute("role", "menuitem");
+		}
+
+		li.setAttribute("hasPopup", "true");
+		li.appendChild(button);
+		button.setTabIndex(0);
 		headers.add(button);
 
 		Element content = DOM.createElement("DIV");
-		content.setTabIndex(0);
 		items.add(beforeIndex, w);
 		content.appendChild(w.getElement());
 		contents.add(content);
 		li.appendChild(content);
-		li.setTabIndex(0);
 		ul.appendChild(li);
 
 		// header styling
@@ -170,6 +182,7 @@ public class AriaStackPanel extends ComplexPanel
 			// Reshow the stack to apply style names
 			setStackVisible(visibleStack, true);
 		}
+
 	}
 
 	@Override
