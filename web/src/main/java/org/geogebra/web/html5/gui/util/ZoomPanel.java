@@ -27,7 +27,6 @@ import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -114,17 +113,14 @@ public class ZoomPanel extends FlowPanel
 	 * add fullscreen button
 	 */
 	public void addFullscreenButton() {
-		fullscreenBtn = new StandardButton(
-				new ImageResourcePrototype(null,
+		fullscreenBtn = new StandardButton(new ImageResourcePrototype(null,
 						ZoomPanelResources.INSTANCE.fullscreen_black18()
 								.getSafeUri(),
-						0, 0, 18, 18, false, false),
+				0, 0, 18, 18, false, false),
 				app);
 		fullscreenBtn.getDownFace()
-				.setImage(new Image(new ImageResourcePrototype(
-						null, ZoomPanelResources.INSTANCE
-								.fullscreen_exit_black18().getSafeUri(),
-						0, 0, 18, 18, false, false)));
+				.setImage(new NoDragImage(ZoomPanelResources.INSTANCE
+						.fullscreen_exit_black18(), 18));
 
 		fullscreenBtn.setStyleName("zoomPanelBtn");
 

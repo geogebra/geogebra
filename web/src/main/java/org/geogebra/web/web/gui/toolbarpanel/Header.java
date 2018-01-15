@@ -8,6 +8,7 @@ import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -165,10 +166,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private void createToolsButton() {
 		btnTools = new MyToggleButton(
-				new Image(new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE
-						.toolbar_tools().getSafeUri(),
-				0, 0, 24, 24, false, false)),
+				new NoDragImage(
+						MaterialDesignResources.INSTANCE.toolbar_tools(), 24),
 				app);
 
 		btnTools.addStyleName("tabButton");

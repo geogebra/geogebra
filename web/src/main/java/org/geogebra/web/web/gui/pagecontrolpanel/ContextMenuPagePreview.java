@@ -47,8 +47,7 @@ public class ContextMenuPagePreview
 
 	private void initGUI() {
 		wrappedPopup = new GPopupMenuW(app);
-		wrappedPopup.getPopupPanel().addStyleName("matMenu");
-		wrappedPopup.getPopupPanel().addStyleName("mowMatMenu");
+		wrappedPopup.getPopupPanel().addStyleName("matMenu mowMatMenu");
 		addDeleteItem();
 		addDuplicateItem();
 	}
@@ -90,7 +89,6 @@ public class ContextMenuPagePreview
 	protected void onDelete() {
 		hide();
 		frame.getPageControlPanel().removePage(card.getPageIndex());
-
 	}
 
 	/**

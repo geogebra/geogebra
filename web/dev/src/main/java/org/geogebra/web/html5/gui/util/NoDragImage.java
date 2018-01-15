@@ -22,12 +22,30 @@ public class NoDragImage extends Image {
 		this.setWidth(width + "px");
 	}
 
+	/**
+	 * @param uri
+	 *            URL
+	 * @param width
+	 *            in px
+	 * @param height
+	 *            in px
+	 */
 	public NoDragImage(ResourcePrototype uri, int width, int height) {
 		this(safeURI(uri));
 		this.setWidth(width + "px");
 		if (height > 0) {
 			this.setHeight(height + "px");
 		}
+	}
+
+	/**
+	 * @param uri
+	 *            URL
+	 * @param size
+	 *            in px
+	 */
+	public NoDragImage(ResourcePrototype uri, int size) {
+		this(uri, size, size);
 	}
 
 	/**

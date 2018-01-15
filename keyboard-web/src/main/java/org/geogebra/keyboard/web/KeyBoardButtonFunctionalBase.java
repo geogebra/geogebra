@@ -2,11 +2,11 @@ package org.geogebra.keyboard.web;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.keyboard.base.Action;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Image;
 
 /**
@@ -93,8 +93,7 @@ public class KeyBoardButtonFunctionalBase extends KeyBoardButtonBase {
 			ButtonHandler handler, boolean addSupSyle, Localization loc,
 			String altText) {
 		super(handler);
-		this.image = new Image(new ImageResourcePrototype(null,
-				svg.getSafeUri(), 0, 0, 24, 24, false, false));
+		this.image = new NoDragImage(svg, 24);
 		this.image.setAltText(loc.getMenu(altText));
 		this.image.getElement().setAttribute("role", "img");
 		this.feedback = feedback;

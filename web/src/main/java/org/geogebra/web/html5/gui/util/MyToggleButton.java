@@ -8,7 +8,6 @@ import org.geogebra.web.html5.gui.accessibility.AccessibilityInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -55,13 +54,8 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 	 */
 	public void setUpfaceDownfaceImg(SVGResource upFace,
 			SVGResource downFace) {
-		this.getUpFace().setImage(getImgFromSVG(upFace));
-		this.getDownFace().setImage(getImgFromSVG(downFace));
-	}
-
-	private static Image getImgFromSVG(SVGResource svgRes) {
-		return new Image(new ImageResourcePrototype(null,
-				svgRes.getSafeUri(), 0, 0, 24, 24, false, false));
+		this.getUpFace().setImage(new NoDragImage(upFace, 24));
+		this.getDownFace().setImage(new NoDragImage(downFace, 24));
 	}
 
 	@Override

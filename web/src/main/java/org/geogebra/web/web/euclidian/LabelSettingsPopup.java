@@ -70,10 +70,11 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		super(app, null, -1, -1, null, false, false, null, false);
 		this.app = app;
 		loc = app.getLocalization();
-		this.setIcon(new ImageOrText(new ImageResourcePrototype(null,
-						ToolbarSvgResources.INSTANCE.mode_showhidelabel_32()
-								.getSafeUri(),
-				0, 0, 24, 24, false, false)));
+		this.setIcon(
+				new ImageOrText(new ImageResourcePrototype(
+						null, ToolbarSvgResources.INSTANCE
+								.mode_showhidelabel_32().getSafeUri(),
+						0, 0, 24, 24, false, false)));
 		createPopup();
 
 		addStyleName("MyCanvasButton");

@@ -39,6 +39,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.GuiResources;
@@ -1457,11 +1458,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private void createTextBoldBtn() {
 		if (app.isUnbundledOrWhiteboard()) {
-			btnBold = new MyToggleButtonW(
-					new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE.text_bold_black()
-									.getSafeUri(),
-							0, 0, 24, 24, false, false)) {
+			btnBold = new MyToggleButtonW(new NoDragImage(
+					MaterialDesignResources.INSTANCE.text_bold_black(), 24)) {
 				@Override
 				public void update(Object[] geos) {
 
@@ -1541,11 +1539,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	private void createTextItalicBtn() {
 		if (app.isUnbundledOrWhiteboard()) {
-			btnItalic = new MyToggleButtonW(
-					new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE.text_italic_black()
-									.getSafeUri(),
-							0, 0, 24, 24, false, false)) {
+			btnItalic = new MyToggleButtonW(new NoDragImage(
+					MaterialDesignResources.INSTANCE.text_italic_black(), 24)) {
 
 				@Override
 				public void update(Object[] geos) {
