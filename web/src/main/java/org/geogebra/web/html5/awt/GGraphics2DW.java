@@ -67,6 +67,7 @@ public class GGraphics2DW implements GGraphics2D {
 	public double devicePixelRatio = 1;
 
 	private double[] coords = new double[6];
+	private boolean debug = false;
 
 	/**
 	 * @param canvas
@@ -222,6 +223,48 @@ public class GGraphics2DW implements GGraphics2D {
 			it.next();
 		}
 		// this.closePath();
+	}
+
+	public void debug(GShape shape) {
+
+		GPathIterator it = shape.getPathIterator(null);
+
+		while (!it.isDone()) {
+			int cu = it.currentSegment(coords);
+			switch (cu) {
+			default:
+				// do nothing
+				break;
+			case GPathIterator.SEG_MOVETO:
+				ellipse(coords[0], coords[1], GColor.GREEN);
+				break;
+			case GPathIterator.SEG_LINETO:
+				ellipse(coords[0], coords[1], GColor.BLUE);
+				break;
+			case GPathIterator.SEG_CUBICTO:
+				ellipse(coords[0], coords[1], GColor.YELLOW);
+				ellipse(coords[2], coords[3], GColor.YELLOW);
+				ellipse(coords[4], coords[5], GColor.RED);
+				break;
+			case GPathIterator.SEG_QUADTO:
+				context.quadraticCurveTo(coords[0], coords[1], coords[2],
+						coords[3]);
+				break;
+			case GPathIterator.SEG_CLOSE:
+				context.closePath();
+			}
+			it.next();
+		}
+
+		// this.closePath();
+	}
+
+	private void ellipse(double d, double e, GColor blue) {
+		setColor(blue);
+		context.beginPath();
+		context.arc(d, e, 3, 0, 6.28);
+		context.closePath();
+		context.stroke();
 	}
 
 	@Override
@@ -598,6 +641,9 @@ public class GGraphics2DW implements GGraphics2D {
 		}
 		if (shape instanceof GeneralPathClipped) {
 			doDrawShape((Shape) ((GeneralPathClipped) shape).getGeneralPath());
+			if (debug) {
+				debug(shape);
+			}
 		} else {
 			doDrawShape((Shape) shape);
 		}
@@ -886,6 +932,13 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void resetClip() {
 		context.restoreTransform();
+	}
+
+	/**
+	 * Start debugging
+	 */
+	public void startDebug() {
+		debug = true;
 	}
 
 
