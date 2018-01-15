@@ -20,7 +20,7 @@ public class PhotoMechanic : MonoBehaviour
     public GameObject PhotoPreview2;
     public GameObject PhotoPreview3;
     public GameObject PhotoPreview4;
-    public GameObject PhotoPreview5;
+    //public GameObject PhotoPreview5;
 
     public GameObject SelectedPhoto;
 
@@ -30,6 +30,10 @@ public class PhotoMechanic : MonoBehaviour
     public GameObject GetSourceStat;
     GetControllerStates getControllerStates;
 
+    private GameObject First;
+    private GameObject Second;
+    private GameObject Third;
+    private GameObject Fourth;
 
 
 
@@ -42,11 +46,11 @@ public class PhotoMechanic : MonoBehaviour
         PhotoPreviewList.Add(PhotoPreview2);
         PhotoPreviewList.Add(PhotoPreview3);
         PhotoPreviewList.Add(PhotoPreview4);
-        PhotoPreviewList.Add(PhotoPreview5);
+        //PhotoPreviewList.Add(PhotoPreview5);
 
         ReadyForNextPhoto = true;
 
-        if (GetSourceStat == null) 
+        if (GetSourceStat == null)
             GetSourceStat = GameObject.Find("GameManager");
 
         getControllerStates = GetSourceStat.GetComponent<GetControllerStates>();
@@ -61,13 +65,10 @@ public class PhotoMechanic : MonoBehaviour
     {
 
 
-        if (getControllerStates.TouchpadPressed && ReadyForNextPhoto)
+        if ((getControllerStates.TouchpadPressed || getControllerStates.SelectPressed) && ReadyForNextPhoto)
         {
             print("SelectPressed");
             StartCoroutine(UpScrnCoroutine());
-
-
-
         }
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -75,11 +76,9 @@ public class PhotoMechanic : MonoBehaviour
             print("SelectPressed");
             StartCoroutine(UpScrnCoroutine());
         }
-
     }
 
 
-    
 
     IEnumerator UpScrnCoroutine()
     {
@@ -102,22 +101,12 @@ public class PhotoMechanic : MonoBehaviour
         ScreenCapture.CaptureScreenshot(Application.dataPath + "/" + screenshotName + ArrayInt.ToString() + ".png" );
         print("end of MakPhoto function");
 
-       
-
-
+      
         ArrayInt++;
 
         Camera.main.Render();
 
-        
-
-
-
-
-
     }
-
- 
 
 
     //Method for Loading Texture
@@ -144,15 +133,12 @@ public class PhotoMechanic : MonoBehaviour
     {
         int NumOfScreen = ArrayInt;
 
-        GameObject First = PhotoPreview1;
-        GameObject Second = PhotoPreview2;
-        GameObject Third = PhotoPreview3;
-        GameObject Fourth = PhotoPreview4;
-        GameObject Fivth = PhotoPreview5;
+        First = PhotoPreview1;
+        Second = PhotoPreview2;
+        Third = PhotoPreview3;
+        Fourth = PhotoPreview4;
 
-        
-        
-
+     
         TestGalleryTex = LoadPNG(Application.dataPath + "/" + screenshotName + ArrayInt.ToString() + ".png");
         //PhotoPreviewMain.GetComponent<Renderer>().material.mainTexture = TestGalleryTex;
         NumOfScreen -= 1;
@@ -195,21 +181,11 @@ public class PhotoMechanic : MonoBehaviour
             print("In the Fourth if /n NumOfScreen = " + NumOfScreen);
         }
 
-        if (NumOfScreen > 0)
-        {
-            PhotoPreview5.GetComponent<Renderer>().material.mainTexture =
-                LoadPNG(Application.dataPath + "/" + screenshotName + NumOfScreen.ToString() + ".png");
-            NumOfScreen -= 1;
-            print("In the Fivth if /n NumOfScreen = " + NumOfScreen);
-
-        }
 
         PhotoSelection(First);
 
 
     }
-
-
 
 
     // Take a shot immediately
@@ -242,9 +218,28 @@ public class PhotoMechanic : MonoBehaviour
         // For testing purposes, also write to a file in the project folder
          File.WriteAllBytes(Application.dataPath + "/" + "SavedScreen.png", bytes);
         print("ScreenshotSaved");
+    }
 
+    public void SelectItem(GameObject gameObject)
+    {
+        switch (gameObject.name)
+        {
+            case "Image1":
+                PhotoSelection(First);
+                break;
 
+            case "Image2":
+                PhotoSelection(Second);
+                break;
 
+            case "Image3":
+                PhotoSelection(Third);
+                break;
+
+            case "Image4":
+                PhotoSelection(Fourth);
+                break;
+        }
     }
 
 
