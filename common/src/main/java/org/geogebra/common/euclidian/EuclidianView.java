@@ -5119,15 +5119,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return getHeight();
 	}
 
-	/**
-	 * for iOS when view is not initialized
-	 */
-    private GRectangle getExportFrame() {
-		// getExportWidth(), getExportHeight() overridden in iOS
-        return AwtFactory.getPrototype().newRectangle(0, 0, getExportWidth(),
-                getExportHeight());
-    }
-
     /**
 	 * default frame, for when no custom frame for exporting taking place
 	 */
@@ -5154,8 +5145,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double[] exportCoords = getExportCoords();
 
 		if (exportCoords == null) {
-			// for iOS
-			return getExportFrame();
+			return getDefaultFrame();
 		}
 
 		double x1 = exportCoords[0];
