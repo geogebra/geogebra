@@ -129,8 +129,8 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public void removeOrSetUndefinedIfHasFixedDescendent() {
-		if (!(kernel.getApplication().getActiveEuclidianView()
-				.getMode() == EuclidianConstants.MODE_ERASER)) {
+		if (kernel.getApplication().getActiveEuclidianView()
+				.getMode() != EuclidianConstants.MODE_ERASER) {
 			super.removeOrSetUndefinedIfHasFixedDescendent();
 		}
 	}
