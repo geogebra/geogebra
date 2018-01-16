@@ -1130,8 +1130,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 						if (!app.isUnbundled()) {
 							if (hasFillable) {
-								setTitle(loc
+								if (app.isWhiteboardActive()
+										&& geos[0] instanceof GeoImage) {
+									setTitle(loc.getMenu("Opacity"));
+								} else {
+									setTitle(loc
 										.getMenu("stylebar.ColorTransparency"));
+								}
 							} else {
 								setTitle(loc.getMenu("stylebar.Color"));
 							}
@@ -1232,8 +1237,13 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 						if (!app.isUnbundled()) {
 							if (hasFillable) {
-								setTitle(loc
+								if (app.isWhiteboardActive() && geos[0] instanceof GeoImage) {
+									setTitle(loc
+											.getMenu("Opacity"));
+								} else {
+									setTitle(loc
 										.getMenu("stylebar.ColorTransparency"));
+								}
 							} else {
 								setTitle(loc.getMenu("stylebar.Color"));
 							}

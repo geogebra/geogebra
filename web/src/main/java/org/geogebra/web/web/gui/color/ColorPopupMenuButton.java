@@ -156,7 +156,11 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		ImageOrText icon = super.getButtonIcon();
 		if (app.isUnbundledOrWhiteboard()) {
 			icon = new ImageOrText(new ImageResourcePrototype(null,
-					MaterialDesignResources.INSTANCE.color_black().getSafeUri(),
+					isEnableTable()
+							? MaterialDesignResources.INSTANCE.color_black()
+									.getSafeUri()
+							: MaterialDesignResources.INSTANCE.opacity_black()
+									.getSafeUri(),
 					0, 0, 24, 24, false, false));
 			return icon;
 		}
