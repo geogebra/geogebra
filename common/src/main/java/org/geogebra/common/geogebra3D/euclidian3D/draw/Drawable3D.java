@@ -306,7 +306,7 @@ public abstract class Drawable3D extends DrawableND {
 				waitForUpdateVisualStyle = false;
 			}
 
-			updateForView();
+			updateForViewVisible();
 
 			if (waitForUpdate) {
 				if (updateForItSelf()) {
@@ -418,8 +418,14 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/**
-	 * update the drawable when view has changed TODO separate
-	 * translation/rotation/zoom of the view
+	 * update the drawable when view has changed and drawable visible
+	 */
+	protected void updateForViewVisible() {
+		updateForView();
+	}
+
+	/**
+	 * update the drawable when view has changed
 	 */
 	abstract protected void updateForView();
 
@@ -449,7 +455,7 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * @return true if this wait for update
 	 */
-	public boolean waitForUpdate() {
+	final public boolean waitForUpdate() {
 		return waitForUpdate;
 	}
 

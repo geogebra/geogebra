@@ -342,6 +342,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	@Override
+	protected void updateForViewVisible() {
+		if (!waitForUpdate()) {
+			updateForView();
+		}
+	}
+
+	@Override
 	protected void updateForView() {
 
 		if (getView3D().viewChangedByZoom()) {
