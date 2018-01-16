@@ -82,7 +82,6 @@ public class EuclidianPen implements GTimerListener {
 	private AlgoElement lastAlgo = null;
 	/** points created by pen */
 	protected ArrayList<GPoint> penPoints = new ArrayList<>();
-	private ArrayList<GPoint> temp = null;
 	protected int minX = Integer.MAX_VALUE;
 	protected int maxX = Integer.MIN_VALUE;
 
@@ -446,14 +445,20 @@ public class EuclidianPen implements GTimerListener {
 			penPoints.add(newPoint);
 		} else {
 			GPoint p1 = penPoints.get(penPoints.size() - 1);
+			double dist = p1.distance(newPoint);
+			if (!app.has(Feature.MOW_PEN_SMOOTHING)) {
+				if (dist > MIN_POINT_DIST) {
+					penPoints.add(newPoint);
+					addPointRepaint();
+				}
+				return;
+			}
 			GPoint p2 = penPoints.size() >= 2
 					? penPoints.get(penPoints.size() - 2) : null;
 			GPoint p3 = penPoints.size() >= 3
 					? penPoints.get(penPoints.size() - 3) : null;
 
 
-			// drawPenPreviewLine(g2D, newPoint, lastPoint);
-			double dist = p1.distance(newPoint);
 
 			if (dist > MAX_POINT_DIST
 					|| (dist > MIN_POINT_DIST

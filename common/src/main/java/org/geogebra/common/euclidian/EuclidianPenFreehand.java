@@ -163,14 +163,11 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		double monotonicTest = 0;
 
 		for (int i = 0; i < penPoints.size() - 1; i++) {
-
 			GPoint p1 = penPoints.get(i);
 			GPoint p2 = penPoints.get(i + 1);
-
 			if (Math.signum(p2.x - p1.x) != 1) {
 				monotonicTest++;
 			}
-
 		}
 
 		Log.debug("mono" + monotonicTest + " "
