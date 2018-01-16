@@ -1960,7 +1960,7 @@ __GGB__keysVar.ca.menu = {
     "IntersectingLines": "Rectes Secants",
     "IntersectionCircleOfAB": "Circumfer\xe8ncia d'intersecci\xf3 de %0, %1",
     "IntersectionCurve": "Crea la l\xednia d'intersecci\xf3 de dues superf\xedcies",
-    "IntersectionCurve.Help": "Seleccioneu dues superf\xedcies (o altres objectes adequats)",
+    "IntersectionCurve.Help": "Seleccioneu dues superf\xedcies",
     "IntersectionCurveOfAB": "Corba d\u2019intersecci\xf3 entre %0, %1",
     "IntersectionLineOfAB": "Recta d\u2019intersecci\xf3 entre %0, %1",
     "IntersectionOfAandB": "Recorreguts d\u2019intersecci\xf3 entre %0 i %1",
