@@ -2,6 +2,8 @@ package org.geogebra.web.web.gui.menubar;
 
 import java.util.ArrayList;
 
+import org.geogebra.web.html5.Browser;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.UListElement;
@@ -33,7 +35,7 @@ public class AriaStackPanel extends ComplexPanel
 	private ArrayList<Widget> items = new ArrayList<>();
 	private ArrayList<Element> headers = new ArrayList<>();
 	private ArrayList<Element> contents = new ArrayList<>();
-	private boolean ipad;
+	private boolean voiceOverCursor;
 
 	/**
 	 * Creates an empty stack panel.
@@ -44,10 +46,13 @@ public class AriaStackPanel extends ComplexPanel
 
 	/**
 	 * Creates an empty stack panel.
+	 * 
+	 * @param voiceOverCursor
+	 *            if panel is supporting VO cursor.
 	 */
-	public AriaStackPanel(boolean ipad) {
+	public AriaStackPanel(boolean voiceOverCursor) {
 		ul = Document.get().createULElement();
-		this.ipad = ipad;
+		this.voiceOverCursor = voiceOverCursor;
 		setElement(ul);
 		addStyleName("gwt-StackPanel");
 		sinkEvents(Event.ONCLICK | Event.ONMOUSEOVER | Event.ONMOUSEOUT
@@ -140,8 +145,8 @@ public class AriaStackPanel extends ComplexPanel
 		getElement().appendChild(li);
 
 		Element button = DOM.createElement("button");
-
-		if (!ipad) {
+		// li.setAttribute("list-style-type", "none");
+		if (!(Browser.isIPad() && voiceOverCursor)) {
 			li.setAttribute("role", "menuitem");
 			button.setAttribute("role", "menuitem");
 		}
