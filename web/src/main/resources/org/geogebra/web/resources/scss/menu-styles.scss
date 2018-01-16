@@ -105,6 +105,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 					opacity: 0.54;
 				}
 				
+			
 				.gwt-MenuItem {
 					padding-right: 16px;
 					padding-top: 0px;
@@ -212,6 +213,10 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				color: $black-87; 
 			}
 			
+			.gwt-StackPanel {
+				list-style-type : none;
+			}
+			
 	}
 	
 	.floatingMenu.animateIn {
@@ -243,6 +248,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 .floatingSubMenu {
 	z-index: 9999;
 	
+	.gwt-MenuBar {
+		border: 2px solid green;
+	}	
 	.gwt-MenuBar.gwt-MenuBar-vertical.floating-Popup.subMenuRightSide.matMenuBar.subMenuLeftSide2 {
 		top: 11px;
 		padding-top: 8px;
