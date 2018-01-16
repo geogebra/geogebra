@@ -145,11 +145,12 @@ public class AriaStackPanel extends ComplexPanel
 		getElement().appendChild(li);
 
 		Element button = DOM.createElement("button");
-		// li.setAttribute("list-style-type", "none");
+
 		if (!(Browser.isIPad() && voiceOverCursor)) {
 			li.setAttribute("role", "menuitem");
-			button.setAttribute("role", "menuitem");
 		}
+
+		button.setAttribute("role", "menuitem");
 
 		li.setAttribute("hasPopup", "true");
 		li.appendChild(button);
