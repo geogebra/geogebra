@@ -72,8 +72,7 @@ public class DrawLabel3D {
 	private int pickingX, pickingY, pickingW, pickingH;
 
 	/** temp graphics used for calculate bounds */
-	protected GGraphics2D tempGraphics = AwtFactory.getPrototype()
-			.newBufferedImage(1, 1, 1).createGraphics();
+	protected GGraphics2D tempGraphics;
 
 	protected Drawable3D drawable;
 	private int textIndex = -1;
@@ -92,6 +91,9 @@ public class DrawLabel3D {
 	public DrawLabel3D(EuclidianView3D view, Drawable3D drawable) {
 		this.view = view;
 		this.drawable = drawable;
+		if (view.drawsLabels()) {
+			tempGraphics = AwtFactory.getPrototype().newBufferedImage(1, 1, 1).createGraphics();
+		}
 	}
 
 	/**
