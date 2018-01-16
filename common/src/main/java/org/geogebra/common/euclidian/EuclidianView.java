@@ -5119,7 +5119,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return getHeight();
 	}
 
+	/**
+	 * for iOS when view is not initialized
+	 */
     private GRectangle getExportFrame() {
+		// getExportWidth(), getExportHeight() overridden in iOS
         return AwtFactory.getPrototype().newRectangle(0, 0, getExportWidth(),
                 getExportHeight());
     }
@@ -5151,6 +5155,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
 
 		if (export1 == null || export2 == null) {
+			// for iOS
 			return getExportFrame();
 		}
 
@@ -5162,14 +5167,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double x2 = Math.min(xy1[0], xy2[0]);
 		double y1 = Math.max(xy1[1], xy2[1]);
 		double y2 = Math.min(xy1[1], xy2[1]);
-		// Log.debug("x1 = " + x1 + " y1 = " + y1 + " x2 = " + x2 + " y2 = " +
-		// y2);
-		x1 = (x1 / getInvXscale()) + getXZero();
-		x2 = (x2 / getInvXscale()) + getXZero();
-		y1 = getYZero() - (y1 / getInvYscale());
-		y2 = getYZero() - (y2 / getInvYscale());
-		// Log.debug("x1 = " + x1 + " y1 = " + y1 + " x2 = " + x2 + " y2 = " +
-		// y2);
 
 		return AwtFactory.getPrototype().newRectangle((int) x2, (int) y1,
 				(int) (x1 - x2), (int) (y2 - y1));
