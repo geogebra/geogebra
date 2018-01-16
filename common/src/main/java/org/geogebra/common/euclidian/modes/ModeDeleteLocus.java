@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoLocusStroke;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
@@ -465,7 +466,6 @@ public class ModeDeleteLocus extends ModeDelete {
 			double segEndY) {
 		return onSegmentCoord(segStartX, interPointX, segEndX)
 				&& onSegmentCoord(segStartY, interPointY, segEndY);
-
 	}
 
 	private static boolean onSegmentCoord(double segStartX, double interPointX,
@@ -473,7 +473,6 @@ public class ModeDeleteLocus extends ModeDelete {
 		return (interPointX <= Math.max(segStartX, segEndX)
 				&& interPointX >= Math.min(segStartX, segEndX))
 				|| (segStartX == segEndX);
-
 	}
 
 	// check if the two intersection point is close enough
@@ -510,7 +509,6 @@ public class ModeDeleteLocus extends ModeDelete {
 			coords[2] = realX1;
 			coords[3] = realY1;
 		}
-
 		return coords;
 	}
 
@@ -528,7 +526,6 @@ public class ModeDeleteLocus extends ModeDelete {
 						.updateFrom(dataPoints);
 			gps.notifyUpdate();
 			}
-
 	}
 
 	@Override
@@ -669,7 +666,10 @@ public class ModeDeleteLocus extends ModeDelete {
 			}
 			// delete this object
 			else {
-				geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+				// remove this Stroke
+				if (!(geos[0] instanceof GeoImage)) {
+					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
+				}
 			}
 			return true;
 		}
@@ -691,8 +691,6 @@ public class ModeDeleteLocus extends ModeDelete {
 				&& !dataPoints.get(i + 1).isDefined()) {
 			dataPoints.get(i).setUndefined();
 		}
-
-
 	}
 
 	private void handleEraserAtStartPointOfSegment(List<MyPoint> dataPoints,
@@ -773,7 +771,6 @@ public class ModeDeleteLocus extends ModeDelete {
 				index = i + 2;
 			}
 		}
-
 		return index;
 	}
 
@@ -822,12 +819,10 @@ public class ModeDeleteLocus extends ModeDelete {
 						&& !dataPoints.get(i + 2).isDefined()) {
 					swap(dataPoints, getNewPolyLinePoints(dataPoints, 2, i, i,
 							i + 1, i + 2, realCoords));
-
 					index = i + 3;
 				} else {
 					swap(dataPoints, getNewPolyLinePoints(dataPoints, 1, i, i,
 							i + 1, i + 2, realCoords));
-
 					index = i + 2;
 				}
 			}
@@ -847,15 +842,12 @@ public class ModeDeleteLocus extends ModeDelete {
 			List<MyPoint> newPolyLinePoints) {
 		dataPoints.clear();
 		dataPoints.addAll(newPolyLinePoints);
-
 	}
 
 	private int handleEraserBetweenPointsOfSegment(
 			List<MyPoint> dataPoints, int i) {
 		int index = i;
 		interPoints.clear();
-
-
 		interPoints = getAllIntersectionPoint(dataPoints.get(i),
 				dataPoints.get(i + 1),
 				rect);
