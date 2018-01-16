@@ -2051,13 +2051,11 @@ public abstract class GeoElement extends ConstructionElement
 	 * if an object has a fixed descendent, we want to set it undefined
 	 */
 	@Override
-	final public void removeOrSetUndefinedIfHasFixedDescendent() {
-
+	public void removeOrSetUndefinedIfHasFixedDescendent() {
 		// can't delete a fixed object at all
 		if (isProtected(EventType.REMOVE)) {
 			return;
 		}
-
 		boolean hasFixedDescendent = false;
 
 		final Set<GeoElement> tree = getAllChildren();
