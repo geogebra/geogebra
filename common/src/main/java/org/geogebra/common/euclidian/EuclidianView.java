@@ -5120,7 +5120,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return getHeight();
 	}
 
-	/**
+    private GRectangle getExportFrame() {
+        return AwtFactory.getPrototype().newRectangle(0, 0, getExportWidth(),
+                getExportHeight());
+    }
+
+    /**
 	 * default frame, for when no custom frame for exporting taking place
 	 */
 	private GRectangle getDefaultFrame() {
@@ -5147,7 +5152,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
 
 		if (export1 == null || export2 == null) {
-			return getDefaultFrame();
+			return getExportFrame();
 		}
 
 		double[] xy1 = new double[2];
