@@ -63,7 +63,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
@@ -888,9 +887,9 @@ public class GeoGebraFrame extends JFrame
 
 			final String filename = StringUtil.removeFileExtension(filename0);
 
-			GeoPoint export1 = (GeoPoint) app.getKernel()
+			GeoElement export1 = app.getKernel()
 					.lookupLabel(EuclidianView.EXPORT1);
-			GeoPoint export2 = (GeoPoint) app.getKernel()
+			GeoElement export2 = app.getKernel()
 					.lookupLabel(EuclidianView.EXPORT2);
 
 			if ("gif".equals(extension) && export1 != null && export2 != null) {
