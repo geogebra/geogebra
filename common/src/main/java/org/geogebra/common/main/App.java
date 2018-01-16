@@ -3991,7 +3991,7 @@ public abstract class App implements UpdateSelection {
 
 			// AND-623
 			case MOB_SYNC_BKG_SERVICE:
-				return prerelease;
+				return true;
 				
 			// IGR-593
 			case MOB_IOS_CHECKBOXES_AND_STATUS_BAR:
