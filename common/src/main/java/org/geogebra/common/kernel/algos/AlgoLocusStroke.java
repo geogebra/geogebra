@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -156,31 +155,8 @@ public class AlgoLocusStroke extends AlgoElement
 					pointList.add(
 							unfiltered.get(0).withType(SegmentType.MOVE_TO));
 				}
-				MyPoint lastUsed = null;
-				MyPoint lastSkipped = null;
-				List<MyPoint> partOfStroke;
-				if (xscale > 0) {
-					double distSqr = 250000 / xscale / xscale;
-					partOfStroke = new ArrayList<>();
-					for (int i = 1; i < unfiltered.size(); i++) {
-						MyPoint endpoint = unfiltered.get(i);
-						if (lastUsed != null && unfiltered.size() > i + 1
-								&& angle(lastUsed, endpoint,
-										unfiltered.get(i + 1)) < Math.PI / 18
-								&& lastUsed.distanceSqr(endpoint) < distSqr) {
-							lastSkipped = endpoint;
-							continue;
-						}
-						lastUsed = endpoint;
-						if (lastSkipped != null) {
-							partOfStroke.add(lastSkipped);
-						}
-						partOfStroke.add(endpoint);
-						lastSkipped = null;
-					}
-				} else {
-					partOfStroke = unfiltered;
-				}
+				List<MyPoint> partOfStroke = unfiltered;
+
 				if (partOfStroke.size() == 1) {
 
 					pointList.add(
@@ -201,18 +177,12 @@ public class AlgoLocusStroke extends AlgoElement
 								controlPoints.get(3)[i - 1],
 								SegmentType.CONTROL);
 						MyPoint endpoint = partOfStroke.get(i);
-						if (angle(pointList.get(pointList.size() - 1), endpoint,
-								ctrl1) > Math.PI / 2
-								&& angle(pointList.get(pointList.size() - 1),
-										endpoint, ctrl2) > Math.PI / 2) {
+
 							pointList.add(ctrl1);
 							pointList.add(ctrl2);
 							pointList.add(
 									endpoint.withType(SegmentType.CURVE_TO));
-						} else {
-							pointList.add(
-									endpoint.withType(SegmentType.LINE_TO));
-						}
+
 
 					}
 				}
@@ -227,15 +197,6 @@ public class AlgoLocusStroke extends AlgoElement
 					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 			}
 		}
-	}
-
-	private static double angle(MyPoint a, MyPoint b, MyPoint c) {
-		double dx1 = a.x - b.x;
-		double dx2 = c.x - b.x;
-		double dy1 = a.y - b.y;
-		double dy2 = c.y - b.y;
-		double ret = Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
-		return ret;
 	}
 
 	// returns the part of array started at index until first undef point

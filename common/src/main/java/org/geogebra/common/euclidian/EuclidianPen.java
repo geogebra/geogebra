@@ -25,6 +25,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
+import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles pen and freehand tool
@@ -87,6 +89,10 @@ public class EuclidianPen implements GTimerListener {
 	// segment
 
 	private final static int PEN_SIZE_FACTOR = 2;
+	/** skip intermediate points on segments longer than this */
+	private static final double MAX_POINT_DIST = 30;
+	/** ignore consecutive pen points closer than this */
+	private static final double MIN_POINT_DIST = 3;
 
 	private boolean startNewStroke = false;
 
@@ -439,15 +445,51 @@ public class EuclidianPen implements GTimerListener {
 			}
 			penPoints.add(newPoint);
 		} else {
-			GPoint lastPoint = penPoints.get(penPoints.size() - 1);
+			GPoint p1 = penPoints.get(penPoints.size() - 1);
+			GPoint p2 = penPoints.size() >= 2
+					? penPoints.get(penPoints.size() - 2) : null;
+			GPoint p3 = penPoints.size() >= 3
+					? penPoints.get(penPoints.size() - 3) : null;
+
+
 			// drawPenPreviewLine(g2D, newPoint, lastPoint);
-			if (lastPoint.distance(newPoint) > 3) {
-				needsRepaint = true;
+			double dist = p1.distance(newPoint);
+
+			if (dist > MAX_POINT_DIST
+					|| (dist > MIN_POINT_DIST
+							&& (angle(newPoint, p1, p2) > Math.PI / 18
+							|| angle(p1, p2, p3) > Math.PI / 18
+									|| (p3 != null && p3.distance(newPoint) > 3
+									* MAX_POINT_DIST)))) {
 				penPoints.add(newPoint);
-				view.repaintView();
+				addPointRepaint();
+			} else if (dist > MIN_POINT_DIST) {
+				Log.debug("Merge:" + p1 + "," + newPoint);
+				p2.x = (p1.x + p2.x) / 2;
+				p2.y = (p1.y + p2.y) / 2;
+				p1.x = newPoint.x;
+				p1.y = newPoint.y;
+				// penPoints.add(newPoint);
+				addPointRepaint();
 			}
 		}
+	}
 
+	private void addPointRepaint() {
+		needsRepaint = true;
+		view.repaintView();
+	}
+
+	private static double angle(GPoint a, GPoint b, GPoint c) {
+		if (a == null || b == null || c == null) {
+			return Math.PI / 2;
+		}
+		double dx1 = a.x - b.x;
+		double dx2 = c.x - b.x;
+		double dy1 = a.y - b.y;
+		double dy2 = c.y - b.y;
+		double ret = Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
+		return Double.isNaN(ret) ? Math.PI / 2 : ret;
 	}
 
 	// private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
