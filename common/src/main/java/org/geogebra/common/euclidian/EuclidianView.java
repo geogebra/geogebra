@@ -80,6 +80,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -289,6 +290,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean batchUpdate;
 	/** kernel */
 	protected Kernel kernel;
+	protected GGraphics2D cacheGraphics;
 
 	private final static int[] lineTypes = {
 			EuclidianStyleConstants.LINE_TYPE_FULL,
@@ -504,6 +506,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private GRectangle exportFrame;
 	private GRectangle tempFrame;
 	private GPoint2D[] tmpClipPoints;
+	public int maxCachedLayer;
 	
 
 	/** @return line types */
@@ -1825,7 +1828,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	public void update(GeoElement geo) {
 		DrawableND d = drawableMap.get(geo);
-
+		cacheLayers(-1);
 		if (d != null) {
 			if (d instanceof DrawImage) {
 				this.updateBackgroundOnNextRepaint = ((DrawImage) d)
@@ -1858,7 +1861,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	@Override
 	public void add(GeoElement geo) {
-
+		cacheLayers(-1);
 		// G.Sturr 2010-6-30
 		// filter out any geo not marked for this view
 		if (!drawableNeeded(geo)) {
@@ -3518,17 +3521,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 
 	 * @param g2
 	 *            graphics
+	 * @param layerMin
+	 *            minimal layer
+	 * @param layerMax
+	 *            top layer
 	 */
-	protected void drawGeometricObjects(GGraphics2D g2) {
-		// boolean
-		// isSVGExtensions=g2.getClass().getName().endsWith("SVGExtensions");
-		int layer;
-
-		for (layer = 0; layer <= getApplication().getMaxLayerUsed(); layer++) // only
-																				// draw
-																				// layers
-		// we need
-		{
+	final protected void drawGeometricObjects(GGraphics2D g2, int layerMin,
+			int layerMax) {
+		// only draw layers we need
+		for (int layer = layerMin; layer <= layerMax; layer++) {
+			Log.debug("DRAWING" + layer);
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).startGroup("layer "+layer);
 			drawLayers[layer].drawAll(g2);
@@ -3545,8 +3547,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            graphics
 	 */
 	protected void drawObjects(GGraphics2D g2) {
-
-		drawGeometricObjects(g2);
+		if (maxCachedLayer >= 0 && getCacheGraphics() != null) {
+			g2.drawImage(getCacheGraphics(), 0, 0);
+		}
+		drawGeometricObjects(g2, maxCachedLayer + 1,
+				getApplication().getMaxLayerUsed());
 		drawActionObjects(g2);
 
 		if (previewDrawable != null) {
@@ -5849,7 +5854,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void exportPaintPre(GGraphics2D g2d, double scale,
 			boolean transparency) {
-
+		cacheLayers(-1);
 		exportPaintPreScale(g2d, scale);
 
 		// clipping on selection rectangle
@@ -6272,5 +6277,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			double y, GColor col) {
 		g2.setColor(col);
 		g2.drawString(text, x, y);
+	}
+
+	public void cacheLayers(int topLayer) {
+		if (topLayer < 0) {
+			maxCachedLayer = -1;
+			cacheGraphics = null;
+			return;
+		}
+		if (getCacheGraphics() != null && topLayer != maxCachedLayer) {
+			cacheGraphics = getCacheGraphics().createGraphics();
+			drawGeometricObjects(cacheGraphics, 0, topLayer);
+			maxCachedLayer = topLayer;
+		}
+	}
+
+	protected GBufferedImage getCacheGraphics() {
+		return null;
 	}
 }

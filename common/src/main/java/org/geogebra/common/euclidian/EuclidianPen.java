@@ -376,6 +376,7 @@ public class EuclidianPen implements GTimerListener {
 				// will create the single point for pen tool
 				addPointsToPolyLine(penPoints);
 			}
+			view.cacheLayers(app.getMaxLayerUsed());
 		}
 	}
 

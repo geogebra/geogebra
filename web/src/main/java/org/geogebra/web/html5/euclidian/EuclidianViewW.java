@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.euclidian;
 
+import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
@@ -129,6 +130,8 @@ public class EuclidianViewW extends EuclidianView implements
 	private GDimension preferredSize;
 
 	private SimplePanel dummyDiv;
+
+	private GBufferedImage cacheImage;
 
 	/**
 	 * @param euclidianViewPanel
@@ -589,18 +592,31 @@ public class EuclidianViewW extends EuclidianView implements
 		} catch (Exception e) {
 			bgImage = null;
 			bgGraphics = null;
+			cacheGraphics = null;
 		}
 
 		updateBackgroundImage();
 	}
 
 	public void createImage() {
-		bgImage = new GBufferedImageW(g2p.getOffsetWidth(),
+		bgImage = makeImage();
+		bgGraphics = bgImage.createGraphics();
+	}
+
+	@Override
+	public GBufferedImage getCacheGraphics() {
+		if (cacheGraphics == null || cacheImage == null) {
+			cacheImage = makeImage();
+		}
+		return cacheImage;
+	}
+
+	private GBufferedImage makeImage() {
+		return new GBufferedImageW(g2p.getOffsetWidth(),
 				g2p.getOffsetHeight(),
 				app == null ? 1 : app
 						.getPixelRatio(),
 				false);
-		bgGraphics = bgImage.createGraphics();
 	}
 
 	@Override
