@@ -1,6 +1,8 @@
 package org.geogebra.web.web.gui.menubar;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -55,7 +57,8 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 			link = new StringBuilder("https://beta.geogebra.org/");
 		}
 		link.append(appId);
-		addItem(getHTMLwithLink(ImgResourceHelper.safeURI(icon),
+		AriaMenuItem item = addItem(
+				getHTMLwithLink(ImgResourceHelper.safeURI(icon),
 				app.getLocalization()
 						.getMenu(translationKey),
 				link.toString()),
@@ -66,6 +69,8 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 						// do nothing
 					}
 				});
+		AriaHelper.setLabel(item,
+				app.getLocalization().getMenu(translationKey));
 	}
 
 	/**
