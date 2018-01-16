@@ -46,10 +46,9 @@ namespace HoloToolkit.Unity.ControllerExamples
         private Texture2D colorWheelTexture;
         [SerializeField]
         private GameObject colorWheelObject;
-        [SerializeField]
-        private Animator animator;
-        [SerializeField]
-        private float timeout = 2f;
+
+        //[SerializeField]
+       // private float timeout = 2f;
 
         private Vector2 selectorPosition;
         private float lastTimeVisible;
@@ -62,29 +61,29 @@ namespace HoloToolkit.Unity.ControllerExamples
                 return;
             }
 
-            if (Time.unscaledTime > lastTimeVisible + timeout)
-            {
-                visible = false;
-            }
+           // if (Time.unscaledTime > lastTimeVisible + timeout)
+           // {
+          //      visible = false;
+           // }
 
-            if (visible != visibleLastFrame)
-            {
+          //  if (visible != visibleLastFrame)
+         //   {
                 // Based on visible property, it triggers Show and Hide animation triggers in the color picker's animator component
-                if (visible)
-                {
-                    animator.SetTrigger("Show");
-                }
-                else
-                {
-                    animator.SetTrigger("Hide");
-                }
-            }
-            visibleLastFrame = visible;
+          //      if (visible)
+          //      {
+                    //animator.SetTrigger("Show");
+         //       }
+             //   else
+          //      {
+                  //  animator.SetTrigger("Hide");
+          //      }
+         //   }
+         //   visibleLastFrame = visible;
 
-            if (!visible)
-            {
-                return;
-            }
+        //    if (!visible)
+         //   {
+        //        return;
+         //   }
 
             // Transform the touchpad's input x, y position information to ColorPickerWheel's local position x, z
             Vector3 localPosition = new Vector3(selectorPosition.x * inputScale, 0.15f, selectorPosition.y * inputScale);
@@ -135,11 +134,11 @@ namespace HoloToolkit.Unity.ControllerExamples
             Visible = true;
 
             // If we're opening or closing, don't set the color value
-            AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-            if (stateInfo.IsName("Show") || stateInfo.IsName("Hide"))
-            {
-                return;
-            }
+        //    AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        //    if (stateInfo.IsName("Show") || stateInfo.IsName("Hide"))
+        //    {
+        //        return;
+        //    }
 
             Vector3 localHitPoint = selectorTransform.parent.InverseTransformPoint(source.TargetPoint);
             selectorPosition = new Vector2(localHitPoint.x, localHitPoint.z);
