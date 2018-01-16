@@ -42,8 +42,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	private void initGUI() {
 		mainPanel = new FlowPanel();
 		inputPanel = new SimplePanel();
-		inputPanel.setHeight("360px");
-		inputPanel.setWidth("496px");// 480 + 16 padding
+		inputPanel.setStyleName("mowCameraSimplePanel");
 
 		webcamInputPanel = new WebCamInputPanel(app1);
 		inputPanel.add(webcamInputPanel);

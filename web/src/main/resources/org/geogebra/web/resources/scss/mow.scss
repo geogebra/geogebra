@@ -727,6 +727,26 @@
 	    width: fit-content;
 	    visibility: hidden;
 	}
+	
+/*****************
+*   WEBCAM DIALOG
+******************/
+	.mowCameraSimplePanel{
+		height: 360px;
+		width: 496px;
+	}
+	.mowCameraInputPanel{
+		height: 360px;
+		width: 480px;
+		position:absolute;
+		text-align:center;
+	}
+	.webcamInputPanel{
+		height: 160px;
+		width: 213px;
+		position:absolute;
+		text-align:center;
+	}
 }
 
 

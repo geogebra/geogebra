@@ -44,16 +44,13 @@ public class WebCamInputPanel extends VerticalPanel {
 			String errorMessage) /*-{
 
 		el.style.position = "relative";
+		var dependentStyle = this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::getFeatureDependentStyle()();
 
-		var prevWidth = this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::getPreviewWidth()();
-		var prevHeight = this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::getPreviewHeight()();
+		var ihtml = "<span class=" + dependentStyle + "><br><br>" + message
+				+ "</span>\n";
+		ihtml += "<video autoplay class=" + dependentStyle + "><br><br>"
+				+ errorMessage + "</video>";
 
-		var ihtml = "<span style='position:absolute;width:" + prevWidth
-				+ "px;height:" + prevHeight + "px;text-align:center;'><br><br>"
-				+ message + "</span>\n";
-		ihtml += "<video width='" + prevWidth + "' height='" + prevHeight
-				+ "' autoplay style='width:" + prevWidth + "px;height:"
-				+ prevHeight + "px;'><br><br>" + errorMessage + "</video>";
 		el.innerHTML = ihtml;
 		var video = el.lastChild;
 
@@ -166,18 +163,11 @@ public class WebCamInputPanel extends VerticalPanel {
 				loc.getMenu("Webcam.Problem"));
 	}
 
-	private int getPreviewWidth() {
+	private String getFeatureDependentStyle() {
 		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
-			return 480;
+			return "mowCameraInputPanel";
 		}
-		return 213;
-	}
-
-	private int getPreviewHeight() {
-		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
-			return 360;
-		}
-		return 160;
+		return "webcamInputPanel";
 	}
 
 	/**

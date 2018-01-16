@@ -74,6 +74,9 @@ public interface GuiManagerInterface {
 	public void loadImage(GeoPoint loc, Object object, boolean altDown,
 			EuclidianView view);
 
+	/**
+	 * loads the camera dialog
+	 */
 	public void loadWebcam();
 
 	public boolean hasAlgebraViewShowing();
