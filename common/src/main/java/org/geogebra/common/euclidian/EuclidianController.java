@@ -11011,11 +11011,14 @@ public abstract class EuclidianController {
 		switch (mode1) {
 
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-			getPen().setFreehand(true);
-
+			if (pen == null || !pen.isFreehand()) {
+				pen = new EuclidianPenFreehand(app, view);
+			}
 			break;
 		case EuclidianConstants.MODE_PEN:
-			getPen().setFreehand(false);
+			if (pen == null || pen.isFreehand()) {
+				pen = new EuclidianPen(app, view);
+			}
 			// getPen().setAbsoluteScreenPosition(true);
 			break;
 		/*
