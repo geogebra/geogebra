@@ -165,11 +165,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 		 *            to set.
 		 */
 		public void setFade(boolean fade) {
-			if (fade) {
-				addStyleName("fade");
-			} else {
-				removeStyleName("fade");
-			}
+			setStyleName("tabFade", fade);
 		}
 	}
 
