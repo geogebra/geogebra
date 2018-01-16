@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.main.Feature;
 
 /**
  * 
@@ -54,9 +55,10 @@ public final class DrawImage extends Drawable {
 	private GAffineTransform at, atInverse, tempAT;
 	private boolean needsInterpolationRenderingHint;
 	private int screenX, screenY;
-	private GRectangle boundingBox;
+	private GRectangle classicBoundingBox;
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
+	private BoundingBox boundingBox;
 
 	/**
 	 * Creates new drawable image
@@ -74,7 +76,7 @@ public final class DrawImage extends Drawable {
 		// temp
 		at = AwtFactory.getPrototype().newAffineTransform();
 		tempAT = AwtFactory.getPrototype().newAffineTransform();
-		boundingBox = AwtFactory.getPrototype().newRectangle();
+		classicBoundingBox = AwtFactory.getPrototype().newRectangle();
 
 		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5f);
 
@@ -205,9 +207,9 @@ public final class DrawImage extends Drawable {
 			labelRectangle.setBounds(0, 0, width, height);
 
 			// calculate bounding box for isInside
-			boundingBox.setBounds(0, 0, width, height);
-			GShape shape = at.createTransformedShape(boundingBox);
-			boundingBox = shape.getBounds();
+			classicBoundingBox.setBounds(0, 0, width, height);
+			GShape shape = at.createTransformedShape(classicBoundingBox);
+			classicBoundingBox = shape.getBounds();
 
 			try {
 				// for hit testing
@@ -236,6 +238,10 @@ public final class DrawImage extends Drawable {
 
 		if (!view.isBackgroundUpdating() && isInBackground) {
 			view.updateBackgroundImage();
+		}
+		if (geo.getKernel().getApplication().has(
+				Feature.MOW_BOUNDING_BOXES) && getBounds() != null) {
+			getBoundingBox().setRectangle(getBounds());
 		}
 	}
 
@@ -324,7 +330,11 @@ public final class DrawImage extends Drawable {
 					highlighting.lineTo(corner3.getX(), corner3.getY());
 					highlighting.lineTo(corner4.getX(), corner4.getY());
 					highlighting.lineTo(corner1.getX(), corner1.getY());
-					g3.draw(highlighting);
+					if (!geoImage.getKernel().getApplication()
+							.isWhiteboardActive()) {
+						// no highlight if we have bounding box for mow
+						g3.draw(highlighting);
+					}
 
 				}
 
@@ -371,7 +381,7 @@ public final class DrawImage extends Drawable {
 			return false;
 		}
 
-		return rect.intersects(boundingBox);
+		return rect.intersects(classicBoundingBox);
 	}
 
 	@Override
@@ -379,7 +389,7 @@ public final class DrawImage extends Drawable {
 		if (!isVisible || geoImage.isInBackground()) {
 			return false;
 		}
-		return rect.contains(boundingBox);
+		return rect.contains(classicBoundingBox);
 	}
 
 	/**
@@ -390,7 +400,7 @@ public final class DrawImage extends Drawable {
 		if (!geo.isDefined() || !geo.isEuclidianVisible()) {
 			return null;
 		}
-		return boundingBox;
+		return classicBoundingBox;
 	}
 
 	/**
@@ -413,8 +423,10 @@ public final class DrawImage extends Drawable {
 
 	@Override
 	public BoundingBox getBoundingBox() {
-		// TODO Auto-generated method stub
-		return null;
+		if (boundingBox == null) {
+			boundingBox = new BoundingBox();
+		}
+		return boundingBox;
 	}
 
 }

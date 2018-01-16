@@ -38,7 +38,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * Drawable representation oflocus
+ * Drawable representation of locus
  *
  */
 public class DrawLocus extends Drawable {
