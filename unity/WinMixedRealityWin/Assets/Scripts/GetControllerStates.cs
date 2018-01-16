@@ -143,7 +143,7 @@ namespace HoloToolkit.Unity
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
         private void InteractionManager_InteractionSourceDetected(InteractionSourceDetectedEventArgs obj)
         {
-            Debug.LogFormat("{0} {1} Detected", obj.state.source.handedness, obj.state.source.kind);
+            //Debug.LogFormat("{0} {1} Detected", obj.state.source.handedness, obj.state.source.kind);
 
             if (obj.state.source.kind == InteractionSourceKind.Controller && !controllers.ContainsKey(obj.state.source.id))
             {
@@ -259,29 +259,7 @@ namespace HoloToolkit.Unity
 
         private void Update()
         {
-            /* TEST
-             * 
-            if (TouchpadTouched)
-            {
-                print("Touchpad touched:)");
-            }
-            */
 
-            if (TouchpadPressed)
-            {
-                print("Touchpad Pressed:)");
-            }
-
-            if (TouchpadTouched)
-            {
-                print("Touchpad Touched:)");
-            }
-
-            if (Grasped)
-            {
-                print("Grasped touched");
-            }
-
-        }
+         }
     }
 }

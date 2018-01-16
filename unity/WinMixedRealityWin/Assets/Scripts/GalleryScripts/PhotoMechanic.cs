@@ -5,6 +5,8 @@ using UnityEngine;
 using System.IO;
 using HoloToolkit.Unity;
 
+
+
 public class PhotoMechanic : MonoBehaviour
 {
 
@@ -20,7 +22,6 @@ public class PhotoMechanic : MonoBehaviour
     public GameObject PhotoPreview2;
     public GameObject PhotoPreview3;
     public GameObject PhotoPreview4;
-    //public GameObject PhotoPreview5;
 
     public GameObject SelectedPhoto;
 
@@ -35,18 +36,24 @@ public class PhotoMechanic : MonoBehaviour
     private GameObject Third;
     private GameObject Fourth;
 
+    private string photoTemp;
+    private string screen_Shot_File_Name;
+
 
 
     // Use this for initialization
-    IEnumerator Start()
+    private void Start()
     {
-        List<GameObject> PhotoPreviewList = new List<GameObject>();
+        //Test the correct file folder
+        Debug.Log("File folder for saving pictures is " + System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures));
+
+
+        List <GameObject> PhotoPreviewList = new List<GameObject>();
 
         PhotoPreviewList.Add(PhotoPreview1);
         PhotoPreviewList.Add(PhotoPreview2);
         PhotoPreviewList.Add(PhotoPreview3);
         PhotoPreviewList.Add(PhotoPreview4);
-        //PhotoPreviewList.Add(PhotoPreview5);
 
         ReadyForNextPhoto = true;
 
@@ -55,17 +62,15 @@ public class PhotoMechanic : MonoBehaviour
 
         getControllerStates = GetSourceStat.GetComponent<GetControllerStates>();
 
-
-        yield return UploadPNG();
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
+        
 
-
-        if ((getControllerStates.TouchpadPressed || getControllerStates.SelectPressed) && ReadyForNextPhoto)
+        if (getControllerStates.TouchpadPressed && ReadyForNextPhoto)
         {
             print("SelectPressed");
             StartCoroutine(UpScrnCoroutine());
@@ -98,12 +103,11 @@ public class PhotoMechanic : MonoBehaviour
 
     public void MakePhoto()
     {
-        ScreenCapture.CaptureScreenshot(Application.dataPath + "/" + screenshotName + ArrayInt.ToString() + ".png" );
+        screen_Shot_File_Name = "Screenshot__" + ArrayInt + System.DateTime.Now.ToString("__yyyy-MM-dd-HHmmss") + ".png";
+
+        ScreenCapture.CaptureScreenshot(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures) + "/" + screen_Shot_File_Name);
         print("end of MakPhoto function");
-
-      
         ArrayInt++;
-
         Camera.main.Render();
 
     }
@@ -138,88 +142,26 @@ public class PhotoMechanic : MonoBehaviour
         Third = PhotoPreview3;
         Fourth = PhotoPreview4;
 
-     
-        TestGalleryTex = LoadPNG(Application.dataPath + "/" + screenshotName + ArrayInt.ToString() + ".png");
-        //PhotoPreviewMain.GetComponent<Renderer>().material.mainTexture = TestGalleryTex;
-        NumOfScreen -= 1;
-        print("NumOfScreen = " + NumOfScreen);
 
-        if (NumOfScreen > 0)
-        {
-            PhotoPreview1.GetComponent<Renderer>().material.mainTexture =
-                LoadPNG(Application.dataPath + "/" + screenshotName + NumOfScreen.ToString() + ".png");
+        // Swaping textures
+        PhotoPreview4.GetComponent<Renderer>().material.mainTexture = 
+            PhotoPreview3.GetComponent<Renderer>().material.mainTexture;
 
-            NumOfScreen -= 1;
-            print("In the First if /n NumOfScreen = " + NumOfScreen);
-        }
+        PhotoPreview3.GetComponent<Renderer>().material.mainTexture =
+             PhotoPreview2.GetComponent<Renderer>().material.mainTexture;
 
-        if (NumOfScreen > 0)
-        {
-            PhotoPreview2.GetComponent<Renderer>().material.mainTexture =
-                LoadPNG(Application.dataPath + "/" + screenshotName + NumOfScreen.ToString() + ".png");
+        PhotoPreview2.GetComponent<Renderer>().material.mainTexture =
+            PhotoPreview1.GetComponent<Renderer>().material.mainTexture;
 
-            NumOfScreen -= 1;
-            print("In the Second if /n NumOfScreen = " + NumOfScreen);
-
-        }
-
-        if (NumOfScreen > 0)
-        {
-            PhotoPreview3.GetComponent<Renderer>().material.mainTexture =
-                LoadPNG(Application.dataPath + "/" + screenshotName + NumOfScreen.ToString() + ".png");
-
-            NumOfScreen -= 1;
-            print("In the Third if /n NumOfScreen = " + NumOfScreen);
-
-        }
-
-        if (NumOfScreen > 0)
-        {
-            PhotoPreview4.GetComponent<Renderer>().material.mainTexture =
-                LoadPNG(Application.dataPath + "/" + screenshotName + NumOfScreen.ToString() + ".png");
-            NumOfScreen -= 1;
-            print("In the Fourth if /n NumOfScreen = " + NumOfScreen);
-        }
-
+       //Making photo
+                PhotoPreview1.GetComponent<Renderer>().material.mainTexture =
+                LoadPNG(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures) + "/" + screen_Shot_File_Name);
 
         PhotoSelection(First);
-
-
     }
 
 
-    // Take a shot immediately
-
-
-    IEnumerator UploadPNG()
-    {
-        // We should only read the screen buffer after rendering is complete
-        yield return new WaitForEndOfFrame();
-
-        // Create a texture the size of the screen, RGB24 format
-        int width = Screen.width;
-        int height = Screen.height/4;
-
-        print("Screen.width" + Screen.width);
-        print("Screen.height" + Screen.height);
-
-        //int width = 1920;
-        //int height = 1080;
-        Texture2D tex = new Texture2D(width, height, TextureFormat.RGB24, false);
-
-        // Read screen contents into the texture
-        tex.ReadPixels(new Rect(0, 0, width, height), 0, 0);
-        tex.Apply();
-
-        // Encode texture into PNG
-        byte[] bytes = tex.EncodeToPNG();
-        Object.Destroy(tex);
-
-        // For testing purposes, also write to a file in the project folder
-         File.WriteAllBytes(Application.dataPath + "/" + "SavedScreen.png", bytes);
-        print("ScreenshotSaved");
-    }
-
+    //Gallery Image Selesction from Game
     public void SelectItem(GameObject gameObject)
     {
         switch (gameObject.name)
@@ -241,10 +183,4 @@ public class PhotoMechanic : MonoBehaviour
                 break;
         }
     }
-
-
-
-
-
-
 }

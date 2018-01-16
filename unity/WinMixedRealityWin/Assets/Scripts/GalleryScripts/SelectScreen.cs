@@ -26,18 +26,17 @@ public class SelectScreen : MonoBehaviour,IFocusable, IInputClickHandler {
     {
 
         this.transform.localScale = transform.localScale * HighlightedSize;
-        throw new System.NotImplementedException();
     }
 
     public void OnFocusExit()
     {
         this.transform.localScale = _originTransform;
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
         gameManager.GetComponent<PhotoMechanic>().SelectItem(this.gameObject);
-        throw new System.NotImplementedException();
+        //throw new System.NotImplementedException();
     }
 }
