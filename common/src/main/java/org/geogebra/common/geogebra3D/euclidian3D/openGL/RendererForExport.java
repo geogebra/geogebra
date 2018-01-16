@@ -45,6 +45,21 @@ public class RendererForExport extends RendererWithImpl {
 		return true;
 	}
 
+	/**
+	 * set x/y min/max
+	 * 
+	 * @param xmin
+	 * @param xmax
+	 * @param ymin
+	 * @param ymax
+	 */
+	public void setXYMinMax(double xmin, double xmax, double ymin, double ymax) {
+		left = (int) xmin;
+		bottom = (int) ymin;
+		right = (int) xmax;
+		top = (int) ymax;
+	}
+
 	@Override
 	public Object getCanvas() {
 		return null;

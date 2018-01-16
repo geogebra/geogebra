@@ -10,13 +10,22 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 
 /**
  * 3D view in the background (no display)
  *
  */
 public class EuclidianView3DForExport extends EuclidianView3D {
+
+	final static private double DEFAULT_SCALE = 500;
+
+	private double xmin, xmax, ymin, ymax, zmin, zmax;
+	private boolean boundsSet;
+	private boolean needsNewUpdate;
 
 	/**
 	 * constructor
@@ -28,7 +37,71 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 */
 	public EuclidianView3DForExport(EuclidianController3D ec, EuclidianSettings settings) {
 		super(ec, settings);
+		boundsSet = false;
 		((RendererForExport) renderer).setGeometryManager();
+	}
+
+	/**
+	 * 
+	 * @param format
+	 * @param xmin
+	 * @param xmax
+	 * @param ymin
+	 * @param ymax
+	 * @param zmin
+	 * @param zmax
+	 * @param xyScale
+	 * @param xzScale
+	 * @param xTickDistance
+	 * @param yTickDistance
+	 * @param zTickDistance
+	 * @return export for 3D format
+	 */
+	public StringBuilder export3D(Format format, double xmin, double xmax, double ymin, double ymax, double zmin,
+			double zmax, double xyScale,
+			double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
+		this.xmin = xmin;
+		this.xmax = xmax;
+		this.ymin = ymin;
+		this.ymax = ymax;
+		this.zmin = zmin;
+		this.zmax = zmax;
+		boundsSet = true;
+
+		EuclidianSettings3D settings = getSettings();
+		settings.updateOrigin(xmin, ymin, zmin);
+		double xscale = DEFAULT_SCALE / (xmax - xmin);
+		// scale
+		settings.setXscale(xscale);
+		settings.setYscale(xscale * xyScale);
+		settings.setZscale(xscale * xzScale);
+		// ticks distances
+		GeoNumberValue n;
+		if (xTickDistance > 0) {
+			n = new GeoNumeric(app.getKernel().getConstruction(), xTickDistance);
+			settings.setAxisNumberingDistance(0, n);
+		} else {
+			settings.setAutomaticAxesNumberingDistance(true, 0, false);
+		}
+		if (yTickDistance > 0) {
+			n = new GeoNumeric(app.getKernel().getConstruction(), yTickDistance);
+			settings.setAxisNumberingDistance(1, n);
+		} else {
+			settings.setAutomaticAxesNumberingDistance(true, 1, false);
+		}
+		if (zTickDistance > 0) {
+			n = new GeoNumeric(app.getKernel().getConstruction(), zTickDistance);
+			settings.setAxisNumberingDistance(2, n);
+		} else {
+			settings.setAutomaticAxesNumberingDistance(true, 2, false);
+		}
+		settingsChanged(settings);
+
+		((RendererForExport) renderer).setXYMinMax(xmin * getXscale(), xmax * getXscale(), ymin * getYscale(),
+				ymax * getYscale());
+
+		setWaitForUpdate();
+		return export3D(format);
 	}
 
 	@Override
@@ -52,10 +125,28 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 *            3D format
 	 * @return 3D export
 	 */
-	public StringBuilder export3D(final Format format) {
-		renderer.drawScene();
+	public StringBuilder export3D(Format format) {
+		needsNewUpdate = true;
+		while (needsNewUpdate) {
+			needsNewUpdate = false;
+			renderer.drawScene();
+		}
+		boundsSet = false;
 		ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this, renderer.getGeometryManager());
 		return exportToPrinter.export(format);
+	}
+
+	@Override
+	public void waitForNewRepaint() {
+		needsNewUpdate = true;
+	}
+
+	@Override
+	protected double[][] updateClippingCubeMinMax() {
+		if (boundsSet) {
+			return clippingCubeDrawable.updateMinMax(xmin, xmax, ymin, ymax, zmin, zmax);
+		}
+		return clippingCubeDrawable.updateMinMax();
 	}
 
 	@Override

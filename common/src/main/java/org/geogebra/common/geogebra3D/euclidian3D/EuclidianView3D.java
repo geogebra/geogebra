@@ -3360,7 +3360,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		// update, but not in case where view changed by rotation
 		if (viewChangedByTranslate() || viewChangedByZoom()) {
 			// update clipping cube
-			double[][] minMax = clippingCubeDrawable.updateMinMax();
+			double[][] minMax = updateClippingCubeMinMax();
 			// e.g. Corner[] algos are updated by clippingCubeDrawable
 			clippingCubeDrawable.setWaitForUpdate();
 
@@ -3394,6 +3394,10 @@ public abstract class EuclidianView3D extends EuclidianView
 
 		}
 
+	}
+
+	protected double[][] updateClippingCubeMinMax() {
+		return clippingCubeDrawable.updateMinMax();
 	}
 
 	// ///////////////////////////////////////////////

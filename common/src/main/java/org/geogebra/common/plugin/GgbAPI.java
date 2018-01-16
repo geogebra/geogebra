@@ -15,6 +15,10 @@ import org.geogebra.common.export.pstricks.ExportFrameMinimal;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.export.pstricks.GeoGebraToPgf;
 import org.geogebra.common.export.pstricks.GeoGebraToPstricks;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3DForExport;
+import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3DForExport;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.gui.dialog.handler.RenameInputHandler;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.view.algebra.StepGuiBuilderJson;
@@ -56,6 +60,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -2215,6 +2220,21 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		
 		sb.getSteps().getListOfSteps(builder, kernel.getLocalization());
 		return builder.toString();
+	}
+
+	@Override
+	final public String exportCollada(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
+		// use ad hoc 3D view for export
+		EuclidianSettings3D settings = new EuclidianSettings3D(app);
+		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
+				settings);
+		Format format = new FormatCollada();
+		StringBuilder export = exportView3D.export3D(format, xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale,
+				xTickDistance, yTickDistance, zTickDistance);
+		app.getKernel().detach(exportView3D);
+		return export.toString();
+
 	}
 
 }

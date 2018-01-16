@@ -827,4 +827,11 @@ public interface JavaScriptAPI {
 	public String getToolName(int mode);
 
 	public void evalLaTeX(String input, int mode);
+
+	/**
+	 * 
+	 * @return 3D model exported in collada format
+	 */
+	public String exportCollada(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance);
 }

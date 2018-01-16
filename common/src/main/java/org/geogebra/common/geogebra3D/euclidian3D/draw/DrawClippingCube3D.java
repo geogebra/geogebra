@@ -197,6 +197,48 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 		return minMax;
 	}
 
+	public double[][] updateMinMax(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax) {
+
+		EuclidianView3D view = getView3D();
+
+		double xscale = view.getXscale();
+
+		int reductionIndex = ((GeoClippingCube3D) getGeoElement()).getReduction();
+
+		minMax[0][0] = xmin;
+		minMax[0][1] = xmax;
+		minMax[1][0] = ymin;
+		minMax[1][1] = ymax;
+		minMax[2][0] = zmin;
+		minMax[2][1] = zmax;
+
+		setVertices();
+
+		double w = xmax - xmin;
+		double h = ymax - ymin;
+		double d = zmax - zmin;
+		horizontalDiagonal = w / xscale * Math.sqrt(2);
+
+		frustumRadius = Math.sqrt(w * w + h * h + d * d) / 2;
+
+		frustumInteriorRadius = Math.min(w, Math.min(h, d)) / 2;
+		frustumInteriorRadius *= INTERIOR_RADIUS_FACTOR[reductionIndex];
+
+		view.setXYMinMax(minMax);
+
+		minMaxLarge[0][0] = xmin;
+		minMaxLarge[0][1] = xmax;
+		minMaxLarge[1][0] = ymin;
+		minMaxLarge[1][1] = ymax;
+		minMaxLarge[2][0] = zmin;
+		minMaxLarge[2][1] = zmax;
+
+		// update ev 3D depending algos
+		getView3D().updateBounds();
+
+		return minMax;
+	}
+
 	/**
 	 * update corner nearest to the eye
 	 * 
