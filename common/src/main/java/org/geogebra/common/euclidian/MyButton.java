@@ -231,6 +231,7 @@ public class MyButton implements Observer {
 		}
 
 		g.setPaint(paint);
+		g.setStroke(borderStroke);
 		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add - 1,
 				geoButton.getHeight() - 1 - shadowSize, arcSize, arcSize);
 
@@ -270,7 +271,6 @@ public class MyButton implements Observer {
 		}
 
 		// draw border
-		g.setStroke(borderStroke);
 		g.drawRoundRect(x, y, getWidth() + (int) add - 1,
 				getHeight() - 1 - shadowSize, arcSize, arcSize);
 
