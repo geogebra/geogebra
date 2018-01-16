@@ -218,7 +218,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 		openBracket = "\\left.";
 		closeBracket = "\\right.";
 
-		if (args != null) {
+		if (args != null && !StringUtil.empty(args.getTextString())) {
 			String optionsStr = args.getTextString();
 			if (optionsStr.indexOf("v") > -1) {
 				alignment = Alignment.VERTICAL; // vertical table
