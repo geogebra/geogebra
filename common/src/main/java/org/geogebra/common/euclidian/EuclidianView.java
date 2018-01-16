@@ -80,7 +80,6 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -290,6 +289,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean batchUpdate;
 	/** kernel */
 	protected Kernel kernel;
+	/** cache for bottom layers */
 	protected GGraphics2D cacheGraphics;
 
 	private final static int[] lineTypes = {
@@ -3493,6 +3493,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 
 	private void updateSizeChange() {
+		cacheLayers(-1);
 		updateSizeKeepDrawables();
 		updateAllDrawablesForView(true);
 		if (app.has(Feature.ADJUST_WIDGETS)) {
@@ -3530,7 +3531,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			int layerMax) {
 		// only draw layers we need
 		for (int layer = layerMin; layer <= layerMax; layer++) {
-			Log.debug("DRAWING" + layer);
 			// if (isSVGExtensions)
 			// ((geogebra.export.SVGExtensions)g2).startGroup("layer "+layer);
 			drawLayers[layer].drawAll(g2);
@@ -3634,8 +3634,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		reIniting = reiniting;
 		if (reiniting) {
 			firstPaint = true;
-			bgImage = null;
-			bgGraphics = null;
+			resetBackgroundAndCache();
 			openedComboBox = null;
 		}
 	}
@@ -6299,5 +6298,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	protected GBufferedImage getCacheGraphics() {
 		return null;
+	}
+
+	protected void resetBackgroundAndCache() {
+		bgImage = null;
+		bgGraphics = null;
+		cacheGraphics = null;
 	}
 }

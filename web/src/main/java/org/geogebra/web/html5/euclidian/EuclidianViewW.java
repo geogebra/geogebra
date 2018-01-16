@@ -590,9 +590,7 @@ public class EuclidianViewW extends EuclidianView implements
 		try {
 			createImage();
 		} catch (Exception e) {
-			bgImage = null;
-			bgGraphics = null;
-			cacheGraphics = null;
+			resetBackgroundAndCache();
 		}
 
 		updateBackgroundImage();
@@ -1321,9 +1319,6 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 			return;
 		case PEN:
-			// Log.debug("event type: " +
-			// getEuclidianController().getDefaultEventType());
-
 			if (app.isWhiteboardActive() && getEuclidianController()
 					.getDefaultEventType() != PointerEventType.MOUSE) {
 				setTransparentCursor();

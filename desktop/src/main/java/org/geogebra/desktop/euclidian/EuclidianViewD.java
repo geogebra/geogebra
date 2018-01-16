@@ -826,8 +826,7 @@ public class EuclidianViewD extends EuclidianView
 		try {
 			createImage(gconf);
 		} catch (OutOfMemoryError e) {
-			bgImage = null;
-			bgGraphics = null;
+			resetBackgroundAndCache();
 		}
 
 		updateBackgroundImage();

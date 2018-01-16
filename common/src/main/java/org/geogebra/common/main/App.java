@@ -4033,7 +4033,7 @@ public abstract class App implements UpdateSelection {
                 return false;
 
             case MOW_PEN_SMOOTHING:
-                return prerelease;
+			return canary;
 
             case MOW_AXES_STYLE_SUBMENU:
                 return prerelease && whiteboard;
