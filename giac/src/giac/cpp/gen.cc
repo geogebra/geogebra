@@ -12124,7 +12124,7 @@ namespace giac {
       if (tex)
 	s="\\{";
       else
-	s=abs_calc_mode(contextptr)==38?"{":"list[";
+	s=(abs_calc_mode(contextptr)==38 || calc_mode(contextptr)==1)?"{":"list[";
       break;
     case _GGB__VECT:
       if (calc_mode(contextptr)==1)
@@ -12160,7 +12160,7 @@ namespace giac {
       if (tex)
 	return "\\}";
       else
-	return abs_calc_mode(contextptr)==38?"}":"]";
+	return (abs_calc_mode(contextptr)==38 || calc_mode(contextptr)==1)?"}":"]";
     case _GGB__VECT:
       if (calc_mode(contextptr)==1)
 	return ")";
