@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocusStroke;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -35,6 +36,7 @@ import org.geogebra.common.util.StringUtil;
 public class AlgoLocusStroke extends AlgoElement
 		implements AlgoStrokeInterface {
 
+	private static final double MIN_CURVE_ANGLE = Math.PI / 60;// 3degrees
 	protected GeoLocusStroke poly; // output
 	// list of all points (also newly calculated control points of
 	// bezier curve)
@@ -177,12 +179,18 @@ public class AlgoLocusStroke extends AlgoElement
 								controlPoints.get(3)[i - 1],
 								SegmentType.CONTROL);
 						MyPoint endpoint = partOfStroke.get(i);
-
+						if (angle(pointList.get(pointList.size() - 1), ctrl1,
+								endpoint) > MIN_CURVE_ANGLE
+								|| angle(pointList.get(pointList.size() - 1),
+										ctrl2, endpoint) > MIN_CURVE_ANGLE) {
 							pointList.add(ctrl1);
 							pointList.add(ctrl2);
 							pointList.add(
 									endpoint.withType(SegmentType.CURVE_TO));
-
+						} else {
+							pointList.add(
+									endpoint.withType(SegmentType.LINE_TO));
+						}
 
 					}
 				}
@@ -197,6 +205,15 @@ public class AlgoLocusStroke extends AlgoElement
 					i == 0 ? SegmentType.MOVE_TO : SegmentType.LINE_TO));
 			}
 		}
+	}
+
+	private static double angle(MyPoint a, MyPoint b, MyPoint c) {
+		double dx1 = a.x - b.x;
+		double dx2 = c.x - b.x;
+		double dy1 = a.y - b.y;
+		double dy2 = c.y - b.y;
+		double ret = Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
+		return ret;
 	}
 
 	// returns the part of array started at index until first undef point

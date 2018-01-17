@@ -26,7 +26,6 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Handles pen and freehand tool
@@ -82,8 +81,6 @@ public class EuclidianPen implements GTimerListener {
 	private AlgoElement lastAlgo = null;
 	/** points created by pen */
 	protected ArrayList<GPoint> penPoints = new ArrayList<>();
-	protected int minX = Integer.MAX_VALUE;
-	protected int maxX = Integer.MIN_VALUE;
 
 	// segment
 
@@ -418,13 +415,16 @@ public class EuclidianPen implements GTimerListener {
 
 		GPoint newPoint = new GPoint(e.getX(), e.getY());
 
-		if (minX > e.getX()) {
-			minX = e.getX();
-		}
-		if (maxX < e.getX()) {
-			maxX = e.getX();
-		}
+		addPointPenMode(newPoint);
+	}
 
+	/**
+	 * Append point to the list
+	 * 
+	 * @param newPoint
+	 *            new point
+	 */
+	protected void addPointPenMode(GPoint newPoint) {
 		if (penPoints.size() == 0) {
 			if (initialPoint != null) {
 				// also add the coordinates of the initialPoint to the penPoints
@@ -437,16 +437,13 @@ public class EuclidianPen implements GTimerListener {
 
 				GPoint p = new GPoint(locationX, locationY);
 				penPoints.add(p);
-				needsRepaint = true;
-				view.repaintView();
-				// draw a line between the initalPoint and the first point
-				// drawPenPreviewLine(g2D, newPoint, p);
+				addPointRepaint();
 			}
 			penPoints.add(newPoint);
 		} else {
 			GPoint p1 = penPoints.get(penPoints.size() - 1);
 			double dist = p1.distance(newPoint);
-			if (!app.has(Feature.MOW_PEN_SMOOTHING)) {
+			if (!app.has(Feature.MOW_PEN_SMOOTHING) || isFreehand()) {
 				if (dist > MIN_POINT_DIST) {
 					penPoints.add(newPoint);
 					addPointRepaint();
@@ -455,29 +452,40 @@ public class EuclidianPen implements GTimerListener {
 			}
 			GPoint p2 = penPoints.size() >= 2
 					? penPoints.get(penPoints.size() - 2) : null;
-			GPoint p3 = penPoints.size() >= 3
-					? penPoints.get(penPoints.size() - 3) : null;
+			GPoint p3 = tailStart(newPoint);
 
-
-
-			if (dist > MAX_POINT_DIST
-					|| (dist > MIN_POINT_DIST
-							&& (angle(newPoint, p1, p2) > Math.PI / 18
-							|| angle(p1, p2, p3) > Math.PI / 18
-									|| (p3 != null && p3.distance(newPoint) > 3
-									* MAX_POINT_DIST)))) {
+			if (dist > MAX_POINT_DIST || p3 == null || p2 == null) {
 				penPoints.add(newPoint);
 				addPointRepaint();
 			} else if (dist > MIN_POINT_DIST) {
-				Log.debug("Merge:" + p1 + "," + newPoint);
 				p2.x = (p1.x + p2.x) / 2;
 				p2.y = (p1.y + p2.y) / 2;
 				p1.x = newPoint.x;
 				p1.y = newPoint.y;
-				// penPoints.add(newPoint);
 				addPointRepaint();
 			}
 		}
+
+	}
+
+	private GPoint tailStart(GPoint newPoint) {
+		for (int i = 3; i < penPoints.size(); i++) {
+			GPoint current = penPoints.get(penPoints.size() - i);
+			if (current.distance(newPoint) > 2 * MAX_POINT_DIST) {
+				return null;
+			}
+			boolean anglesOK = true;
+			for (int j = 1; j < i; j++) {
+				if (angle(newPoint, penPoints.get(penPoints.size() - j),
+						current) > Math.PI / 36) {
+					anglesOK = false;
+				}
+			}
+			if (anglesOK) {
+				return current;
+			}
+		}
+		return null;
 	}
 
 	private void addPointRepaint() {
@@ -496,18 +504,6 @@ public class EuclidianPen implements GTimerListener {
 		double ret = Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
 		return Double.isNaN(ret) ? Math.PI / 2 : ret;
 	}
-
-	// private void drawPenPreviewLine(GGraphics2D g2D, GPoint point1,
-	// GPoint point2) {
-	// GLine2D line = AwtFactory.getPrototype().newLine2D();
-	// line.setLine(point1.getX(), point1.getY(), point2.getX(),
-	// point2.getY());
-	// g2D.setStroke(EuclidianStatic.getStroke(getLineThickness(),
-	// lineDrawingStyle));
-	// g2D.setColor(lineDrawingColor);
-	// g2D.fill(line);
-	// g2D.draw(line);
-	// }
 
 	/**
 	 * Clean up the pen mode stuff, add points.
@@ -726,6 +722,9 @@ public class EuclidianPen implements GTimerListener {
 		startNewStroke = true;
 	}
 
+	/**
+	 * @return whether this is freehand pen tool
+	 */
 	public boolean isFreehand() {
 		return false;
 	}

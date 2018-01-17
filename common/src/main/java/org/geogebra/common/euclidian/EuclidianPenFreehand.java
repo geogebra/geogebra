@@ -69,6 +69,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	private double score = 0;
 	private static final int MAX_POLYGON_SIDES = 4;
 	private static final double SLANT_TOLERANCE = 5 * Math.PI / 180;
+	private int minX = Integer.MAX_VALUE;
+	private int maxX = Integer.MIN_VALUE;
 
 	private static class Inertia {
 		double mass = 0;
@@ -145,6 +147,16 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		return checkExpectedShape(x, y);
 	}
 
+	@Override
+	protected void addPointPenMode(GPoint newPoint) {
+		if (minX > newPoint.getX()) {
+			minX = newPoint.getX();
+		}
+		if (maxX < newPoint.getX()) {
+			maxX = newPoint.getX();
+		}
+		super.addPointPenMode(newPoint);
+	}
 	// Return true if a shape was created, false otherwise
 	private boolean mouseReleasedFreehand(int x, int y) {
 		int n = maxX - minX + 1;
