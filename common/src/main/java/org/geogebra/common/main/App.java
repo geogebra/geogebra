@@ -4070,6 +4070,10 @@ public abstract class App implements UpdateSelection {
             case MOW_MULTI_PAGE:
                 return canary && whiteboard;
 
+		/** MOW-285 */
+		case MOW_BOUNDING_BOX_FOR_PEN_TOOL:
+			return prerelease && whiteboard;
+
             // **********************************************************************
             // MOW END
             // *********************************************************
@@ -4332,10 +4336,6 @@ public abstract class App implements UpdateSelection {
 		/** GGB-2100 */
 		case KEYBOARD_BOX_ICON:
 			return true;
-
-		/** MOW-285 */
-		case MOW_BOUNDING_BOX_FOR_PEN_TOOL:
-			return prerelease && whiteboard;
 
 		/** GGB-2258 */
 		case VOICEOVER_CURSOR:
