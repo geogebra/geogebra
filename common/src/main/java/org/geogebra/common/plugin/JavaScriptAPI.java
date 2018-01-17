@@ -834,4 +834,11 @@ public interface JavaScriptAPI {
 	 */
 	public String exportCollada(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
 			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance);
+
+	/**
+	 * 
+	 * @return 3D model exported in obj format
+	 */
+	public String exportObj(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance);
 }

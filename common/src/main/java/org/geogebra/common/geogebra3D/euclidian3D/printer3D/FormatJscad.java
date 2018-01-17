@@ -95,11 +95,6 @@ public class FormatJscad implements Format {
 	}
 
 	@Override
-	public void getListType(StringBuilder sb, int type) {
-		// not used
-	}
-
-	@Override
 	public void getNormalsStart(StringBuilder sb, int count) {
 		// not used
 	}

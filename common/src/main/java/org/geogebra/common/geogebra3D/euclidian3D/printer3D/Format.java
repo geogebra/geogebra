@@ -147,16 +147,6 @@ public interface Format {
 	public void getFacesEnd(StringBuilder sb);
 
 	/**
-	 * append list type
-	 * 
-	 * @param sb
-	 *            string builder
-	 * @param type
-	 *            list type
-	 */
-	public void getListType(StringBuilder sb, int type);
-
-	/**
 	 * 
 	 * @return true if this format can export surfaces
 	 */

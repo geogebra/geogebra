@@ -358,11 +358,6 @@ public class FormatCollada implements Format {
 		sb.append("\n        </triangles>");
 	}
 
-	@Override
-	public void getListType(StringBuilder sb, int type) {
-		sb.append("\n  g ");
-		sb.append(type);
-	}
 
 	@Override
 	public void getNormalsStart(StringBuilder sb, int count) {

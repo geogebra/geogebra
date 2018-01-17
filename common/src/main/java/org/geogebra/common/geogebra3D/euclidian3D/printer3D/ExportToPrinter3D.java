@@ -566,7 +566,6 @@ public class ExportToPrinter3D {
 		} else {
 			getNormalHandlingReverse(x, y, z);
 		}
-		format.getNormalsSeparator(sb);
 	}
 	
 	private void getNormalHandlingReverse(double x, double y, double z) {
