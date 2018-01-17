@@ -415,8 +415,7 @@ public abstract class App implements UpdateSelection {
 	 * Please call setVersion right after this
 	 */
 	public App() {
-		companion = newAppCompanion();
-		resetUniqueId();
+		init();
 	}
 
 	/**
@@ -425,6 +424,11 @@ public abstract class App implements UpdateSelection {
 	public App(Versions version) {
 		this();
 		this.version = version;
+	}
+
+	protected void init() {
+		companion = newAppCompanion();
+		resetUniqueId();
 	}
 
 	/**
