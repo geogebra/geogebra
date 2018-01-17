@@ -185,13 +185,19 @@ public class PageListPanel
 			Log.error("preview card is null!");
 			return;
 		}
+		final int pageIndex = card.getPageIndex();
 		ClickStartHandler.init(card, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				loadPage(card.getPageIndex(), false);
+				loadPage(pageIndex, false);
 			}
 		});
-		contentPanel.add(card);
+		if (pageIndex < pageController.getSlidesAmount()) {
+			contentPanel.insert(card, pageIndex);
+
+		} else {
+			contentPanel.add(card);
+		}
 		card.setLabels();
 		scrollPanel.scrollToBottom();
 	}
@@ -306,9 +312,10 @@ public class PageListPanel
 	 *            to duplicate page at.
 	 */
 	public void duplicatePage(PagePreviewCard card) {
-		pageController.duplicateSlide(card);
-		PagePreviewCard dup = card.duplicate();
+		PagePreviewCard dup = pageController.duplicateSlide(card);
 		addPreviewCard(dup);
-		setCardSelected(dup);
+		updateIndexes(dup.getPageIndex());
+		loadPage(dup.getPageIndex(), false);
+		updatePreviewImage();
 	}
 }

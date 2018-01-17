@@ -79,12 +79,12 @@ public class PageListController implements PageListControllerInterface {
 	 * @return the new, duplicated card.
 	 */
 	public PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
-		if (slides == null) {
-			return null;
-		}
+		int dupIdx = sourceCard.getPageIndex() + 1;
+		PagePreviewCard dup = new PagePreviewCard(app, dupIdx,
+				sourceCard.getFile().duplicate());
 
-		PagePreviewCard dup = sourceCard.duplicate();
-		slides.add(dup);
+		slides.add(dupIdx, dup);
+
 		return dup;
 	}
 
