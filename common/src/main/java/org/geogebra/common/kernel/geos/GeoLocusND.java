@@ -54,6 +54,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	private ArrayList<GPoint2D> nonScaledPointList;
 	private double nonScaledWidth;
 	private double nonScaledHeight;
+	private int minXNumber;
 	private ArrayList<T> poitsWithoutControl;
 	private StringBuilder sbToString = new StringBuilder(80);
 	private double closestPointDist;
@@ -158,6 +159,16 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			nonScaledPointList = new ArrayList<>(myPointList.size());
 			nonScaledWidth = maxX - minX;
 			nonScaledHeight = maxY - minY;
+			double minPointX = Double.NaN;
+			for (int i = 0; i < myPointList.size(); i++) {
+				double x = myPointList.get(i).getX();
+				double y = myPointList.get(i).getY();
+				if (Double.isNaN(minPointX) || x < minPointX) {
+					minPointX = x;
+					minXNumber = i;
+				}
+			}
+
 			for (int i = 0; i < myPointList.size(); i++) {
 				double x = myPointList.get(i).getX();
 				double y = myPointList.get(i).getY();
@@ -168,7 +179,10 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 				} else {
 					nonScaledPointList.add(new GPoint2D.Double(
 							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordX(x) - minX,
+									.toScreenCoordX(x)
+									- kernel.getApplication()
+											.getActiveEuclidianView()
+											.toScreenCoordXd(minPointX),
 							kernel.getApplication().getActiveEuclidianView()
 									.toScreenCoordY(y) - minY));
 				}
@@ -188,7 +202,10 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			updatePointsX((maxX - event.getX()) / nonScaledWidth, event.getX());
 			break;
 		case RIGHT:
-			updatePointsX((event.getX() - minX) / nonScaledWidth, minX);
+			updatePointsX((event.getX() - minX) / nonScaledWidth,
+					kernel.getApplication().getActiveEuclidianView()
+							.toScreenCoordXd(
+									myPointList.get(minXNumber).getX()));
 			break;
 		default:
 			Log.warn("unhandled case");
