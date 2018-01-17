@@ -23,6 +23,7 @@ public class WebCamInputPanel extends VerticalPanel {
 														// dimensions
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;
+	private WebcamInputDialog webcamDialog;
 
 	/**
 	 * @param app
@@ -32,6 +33,17 @@ public class WebCamInputPanel extends VerticalPanel {
 	    this.app = app;
 	    initGUI();
     }
+
+	/**
+	 * @param app
+	 *            application
+	 * @param webcamDialog
+	 *            webcam dialog
+	 */
+	public WebCamInputPanel(AppW app, WebcamInputDialog webcamDialog) {
+		this(app);
+		this.webcamDialog = webcamDialog;
+	}
 
 	private void initGUI() {		
 		inputWidget = new SimplePanel();
@@ -69,6 +81,7 @@ public class WebCamInputPanel extends VerticalPanel {
 									video : true
 								},
 								function(bs) {
+									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
 									if ($wnd.URL && $wnd.URL.createObjectURL) {
 										video.src = $wnd.URL
 												.createObjectURL(bs);
@@ -106,7 +119,6 @@ public class WebCamInputPanel extends VerticalPanel {
 				: 0.75 * @org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::MAX_CANVAS_WIDTH;
 		var ctx = canvas.getContext('2d');
 		ctx.drawImage(video1, 0, 0);
-		this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::stopVideo()();
 		this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::canvasWidth = canvas.width;
 		this.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::canvasHeight = canvas.height;
 		return canvas.toDataURL('image/png');
@@ -135,7 +147,11 @@ public class WebCamInputPanel extends VerticalPanel {
 		if (video == null) {
 			return null;
 		}
-		return shotcapture(video);
+		String capture = shotcapture(video);
+		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			stopVideo();
+		}
+		return capture;
 	}
 
 	/**
@@ -175,5 +191,15 @@ public class WebCamInputPanel extends VerticalPanel {
 	 */
 	public boolean isStreamEmpty() {
 		return stream == null;
+	}
+
+	private void hidePermissionDialog() {
+		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
+				|| webcamDialog == null) {
+			return;
+		}
+		webcamDialog.center();
+		webcamDialog.show();
+		webcamDialog.hidePermissionDialog();
 	}
 }
