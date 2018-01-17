@@ -451,7 +451,7 @@
 			}
 		}
 	
-	.btnCrop {
+	.btnCrop,.btnBold,.btnItalic {
 		border-radius: 2px;
 		margin-left: 0px;
    	 	margin-right: 8px;
@@ -461,11 +461,11 @@
 		}	
 		
 		&:hover, &:focus {
-			border: $mow_highlight solid 1px;
+			border: $mow_highlight solid 1px !important;
 		}
 		
 		&.gwt-ToggleButton-down {
-			border: $mow_highlight solid 1px;
+			border: $mow_highlight solid 1px !important;
 		}
 	}
 	
