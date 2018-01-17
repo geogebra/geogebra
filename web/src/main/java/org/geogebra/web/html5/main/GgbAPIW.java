@@ -1002,25 +1002,26 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @param show
 	 * 
-	 *            wheter show the algebrainput in geogebra-web applets or not
+	 *            whether show the algebrainput in geogebra-web applets or not
 	 */
 	public void showAlgebraInput(boolean show) {
 
-		// ((AppW) app).getAppletFrame().showAlgebraInput(show);
+		final AppW appW = (AppW) this.app;
 
-		// from ExportMenuW
-		app.setShowAlgebraInput(true, false);
+		// from ViewMenuW
+		appW.persistWidthAndHeight();
 
-		app.setInputPosition(
-				app.getInputPosition() == InputPosition.algebraView
+		appW.setShowAlgebraInput(show, false);
+		appW.setInputPosition(
+				appW.getInputPosition() == InputPosition.algebraView
 						? InputPosition.bottom : InputPosition.algebraView,
 				true);
-		((AppW) app).updateSplitPanelHeight();
+		appW.updateSplitPanelHeight();
 
-		((AppW) app).updateCenterPanelAndViews();
-		if (app.getGuiManager() != null
-				&& app.getGuiManager().getLayout() != null) {
-			app.getGuiManager().getLayout().getDockManager().resizePanels();
+		appW.updateCenterPanelAndViews();
+		if (appW.getGuiManager() != null
+				&& appW.getGuiManager().getLayout() != null) {
+			appW.getGuiManager().getLayout().getDockManager().resizePanels();
 		}
 
 	}
