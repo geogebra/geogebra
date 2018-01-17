@@ -11,6 +11,7 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
 
@@ -88,7 +89,7 @@ public class LaTeXPanel extends JPanel {
 				GColorD.newColor(getForeground()),
 				GColorD.newColor(getBackground()), true, false, null);
 
-		return new Dimension(fd.getWidth(), fd.getHeight());
+		return GDimensionD.getAWTDimension(fd);
 	}
 
 	private boolean ensureImageSize(int width, int height) {
