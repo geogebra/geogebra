@@ -221,7 +221,9 @@ public class Ggb2giac {
 						+ "when(type(ggbdotarg0)==DOM_LIST&&subtype(ggbdotarg0)!=27,"
 						+
 						// eg lists length 4 (and not ggbvect)
-						"regroup(ggbdotarg0 * ggbdotarg1)" + ","
+						// max -> error for different size lists
+						"sum(seq(ggbdotarg0[j] * ggbdotarg1[j], j, 0, max(length(ggbdotarg0), length(ggbdotarg1))-1))"
+						+ ","
 						+ " regroup(xcoord(ggbdotarg0)*xcoord(ggbdotarg1)+ycoord(ggbdotarg0)*ycoord(ggbdotarg1)+zcoord(ggbdotarg0)*zcoord(ggbdotarg1))"
 						+ ")][1]");
 
