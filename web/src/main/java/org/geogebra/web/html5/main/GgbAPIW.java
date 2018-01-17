@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.Assignment;
@@ -1004,7 +1005,24 @@ public class GgbAPIW extends GgbAPI {
 	 *            wheter show the algebrainput in geogebra-web applets or not
 	 */
 	public void showAlgebraInput(boolean show) {
-		((AppW) app).getAppletFrame().showAlgebraInput(show);
+
+		// ((AppW) app).getAppletFrame().showAlgebraInput(show);
+
+		// from ExportMenuW
+		app.setShowAlgebraInput(true, false);
+
+		app.setInputPosition(
+				app.getInputPosition() == InputPosition.algebraView
+						? InputPosition.bottom : InputPosition.algebraView,
+				true);
+		((AppW) app).updateSplitPanelHeight();
+
+		((AppW) app).updateCenterPanelAndViews();
+		if (app.getGuiManager() != null
+				&& app.getGuiManager().getLayout() != null) {
+			app.getGuiManager().getLayout().getDockManager().resizePanels();
+		}
+
 	}
 
 	/**
