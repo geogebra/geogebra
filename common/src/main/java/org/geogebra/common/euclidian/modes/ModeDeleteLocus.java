@@ -209,7 +209,8 @@ public class ModeDeleteLocus extends ModeDelete {
 				}
 			}
 		}
-
+		// do not delete images using eraser
+		h.removeImages();
 		ec.deleteAll(h);
 		updateAlgoSet();
 	}
@@ -666,7 +667,6 @@ public class ModeDeleteLocus extends ModeDelete {
 			}
 			// delete this object
 			else {
-				// remove this Stroke
 				if (!(geos[0] instanceof GeoImage)) {
 					geos[0].removeOrSetUndefinedIfHasFixedDescendent();
 				}
