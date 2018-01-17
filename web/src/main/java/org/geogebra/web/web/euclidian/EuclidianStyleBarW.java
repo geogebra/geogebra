@@ -628,10 +628,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			public void onClickStart(int x, int y, PointerEventType type) {
 				if (btnCrop.isDown()) {
 					// TODO implement handler
-
 				}
 			}
 		});
+		btnCrop.setTitle(loc.getMenu("stylebar.Crop"));
 		add(btnCrop);
 	}
 
@@ -2048,6 +2048,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnLabel.setLabels();
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
+		btnCrop.setText(loc.getMenu("stylebar.Crop"));
 		// set labels for ToolTips
 		setToolTips();
 	}
