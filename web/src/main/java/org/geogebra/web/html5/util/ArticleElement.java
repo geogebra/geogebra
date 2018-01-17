@@ -87,16 +87,14 @@ public final class ArticleElement extends Element {
 	 *         empty String
 	 */
 	public String getDataParamFileName() {
-		String ret = this.getAttribute("data-param-filename");
-		return (ret != null) ? ret : "";
+		return getStringDataParam("filename", "");
 	}
 
 	/**
 	 * @return data-param-json (string encoded ZIP file stucture)
 	 */
 	public String getDataParamJSON() {
-		String ret = this.getAttribute("data-param-json");
-		return (ret != null) ? ret : "";
+		return getStringDataParam("json", "");
 	}
 
 	/**
@@ -179,8 +177,7 @@ public final class ArticleElement extends Element {
 	 *         empty String
 	 */
 	public String getDataParamBase64String() {
-		String ret = this.getAttribute("data-param-ggbbase64");
-		return (ret != null) ? ret : "";
+		return getStringDataParam("ggbbase64", "");
 	}
 
 	/**
@@ -231,7 +228,7 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-customToolBar (default: null)
 	 */
 	public String getDataParamCustomToolBar() {
-		return this.getAttribute("data-param-customToolBar");
+		return getStringDataParam("customToolBar", "");
 	}
 
 	/**
@@ -249,7 +246,8 @@ public final class ArticleElement extends Element {
 	 * @return input position (top / bottom / AV)
 	 */
 	public InputPosition getAlgebraPosition(InputPosition def) {
-		String pos = this.getAttribute("data-param-algebraInputPosition").toLowerCase().trim();
+		String pos = getStringDataParam("algebraInputPosition", "")
+				.toLowerCase().trim();
 		if("top".equals(pos)){
 			return InputPosition.top;
 		}
@@ -333,12 +331,12 @@ public final class ArticleElement extends Element {
 	 * @return integer value of the data-param-width, 0 if not present
 	 */
 	public int getDataParamWidth() {
-		return getIntegerAttribute("data-param-width", 0);
+		return getIntegerAttribute("width", 0);
 
 	}
 
 	private int getIntegerAttribute(String string, int fallback) {
-		String val = this.getAttribute(string);
+		String val = this.getAttribute("data-param-" + string);
 		if(val == null || val.isEmpty()){
 			return fallback;
 		}
@@ -354,7 +352,7 @@ public final class ArticleElement extends Element {
 	 * @return integer value of the data-param-height, 0 if not present
 	 */
 	public int getDataParamHeight() {
-		return getIntegerAttribute("data-param-height", 0);
+		return getIntegerAttribute("height", 0);
 	}
 
 	/**
@@ -375,8 +373,12 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showLogging (default: false)
 	 */
 	public boolean getDataParamShowLogging() {
-		return getBoolDataParam("showLogging", false)
+		return !"false".equals(getStringDataParam("showLogging", "false"))
 				|| (Location.getParameter("GeoGebraDebug") != null);
+	}
+
+	public boolean isDebugGraphics() {
+		return "graphics".equals(getStringDataParam("showLogging", "false"));
 	}
 
 	/**
@@ -487,8 +489,6 @@ public final class ArticleElement extends Element {
 		return Double.parseDouble(this.getAttribute("data-scaley"));
 	}
 
-
-
 	/**
 	 * @return default false
 	 */
@@ -517,7 +517,7 @@ public final class ArticleElement extends Element {
 	 * @return look and feel
 	 */
 	public String getDataParamLAF() {
-		return this.getAttribute("data-param-laf");
+		return getStringDataParam("laf", "");
 	}
 
 	/**
@@ -531,24 +531,21 @@ public final class ArticleElement extends Element {
 	 * @return client ID for API
 	 */
 	public String getDataClientID() {
-		return this.getAttribute("data-param-clientid");
+		return getStringDataParam("clientid", "");
 	}
 
 	/**
 	 * @return perspective
 	 */
 	public String getDataParamPerspective() {
-		String ret = this.getAttribute("data-param-perspective");
-		return ret == null ? "" : ret;
+		return getStringDataParam("perspective", "");
 	}
 
 	/**
 	 * @return graphing, geometry or classic; defaults to classic
 	 */
 	public String getDataParamAppName() {
-		String ret = this.getAttribute("data-param-appname");
-		return ret == null || ret.length() < 1 ? "classic"
-				: ret.toLowerCase(Locale.US);
+		return getStringDataParam("appName", "classic").toLowerCase(Locale.US);
 	}
 
 	/**
@@ -778,12 +775,18 @@ public final class ArticleElement extends Element {
 				|| "true".equals(this.getAttribute(attr));
 	}
 
+	private String getStringDataParam(String string, String def) {
+		String attr = "data-param-" + string;
+		return "".equals(this.getAttribute(attr)) ? def
+				: this.getAttribute(attr);
+	}
+
 	/**
 	 * @return how much space should be left above the applet in fit-to-screen
 	 *         mode
 	 */
 	public int getDataParamMarginTop() {
-		return this.getIntegerAttribute("data-param-marginTop", 0);
+		return this.getIntegerAttribute("marginTop", 0);
 	}
 
 	/**

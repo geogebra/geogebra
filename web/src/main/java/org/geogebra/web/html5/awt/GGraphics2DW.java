@@ -262,7 +262,7 @@ public class GGraphics2DW implements GGraphics2D {
 	private void ellipse(double d, double e, GColor blue) {
 		setColor(blue);
 		context.beginPath();
-		context.arc(d, e, 3, 0, 6.28);
+		context.arc(d, e, 1, 0, 6.28);
 		context.closePath();
 		context.stroke();
 	}
@@ -641,13 +641,13 @@ public class GGraphics2DW implements GGraphics2D {
 		}
 		if (shape instanceof GeneralPathClipped) {
 			doDrawShape((Shape) ((GeneralPathClipped) shape).getGeneralPath());
-			if (debug) {
-				debug(shape);
-			}
 		} else {
 			doDrawShape((Shape) shape);
 		}
 		context.stroke();
+		if (debug) {
+			debug(shape);
+		}
 	}
 
 	@Override

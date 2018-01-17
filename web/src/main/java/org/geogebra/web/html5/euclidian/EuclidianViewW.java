@@ -149,7 +149,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo,
 				settings);
-
 		initClickStartHandler();
 	}
 
@@ -191,7 +190,6 @@ public class EuclidianViewW extends EuclidianView implements
 		// at mouse events which call setActiveToolbarId #plotpanelevno
 		// initBaseComponents(EVPanel, euclidiancontroller, -1);
 		initBaseComponents(EVPanel, euclidiancontroller, viewNo, settings);
-
 		initClickStartHandler();
 	}
 
@@ -639,7 +637,9 @@ public class EuclidianViewW extends EuclidianView implements
 		this.g2p = new GGraphics2DW(canvas);
 		g2p.devicePixelRatio = app.getPixelRatio();
 		g2p.setView(this);
-
+		if (app.getArticleElement().isDebugGraphics()) {
+			g2p.startDebug();
+		}
 		updateFonts();
 		initView(true);
 		attachView();

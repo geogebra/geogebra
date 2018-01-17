@@ -479,8 +479,8 @@ var app = document.createElement("script");
 				setPrerelease(prerelease || "true");
 				
 			}
-			if(getURLparam("debug") || debug){
-				setDebug(true);
+			if(getURLparam("debug") || debug || isLocalhost()){
+				setDebug(debug || true);
 				
 			}
 			if(location.host.indexOf("alpha") == 0){
