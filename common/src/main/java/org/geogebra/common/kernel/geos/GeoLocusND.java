@@ -162,7 +162,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			double minPointX = Double.NaN;
 			for (int i = 0; i < myPointList.size(); i++) {
 				double x = myPointList.get(i).getX();
-				double y = myPointList.get(i).getY();
 				if (Double.isNaN(minPointX) || x < minPointX) {
 					minPointX = x;
 					minXNumber = i;
