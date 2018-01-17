@@ -53,6 +53,8 @@ public final class GColor implements GPaint {
 	public static final GColor GEOGEBRA_BLUE = newColor(153, 153, 255);
 	/** MOW PURPLE */
 	public static final GColor MOW_PURPLE = newColor(163, 136, 212);
+	/** MOW MEBIS TEAL */
+	public static final GColor MOW_MEBIS_TEAL = newColor(0, 168, 213);
 
 	/**
 	 * color stored as ARGB order chosen so that it can be sent as an integer

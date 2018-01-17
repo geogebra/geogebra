@@ -152,7 +152,7 @@ public class BoundingBox {
 			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
 					GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
 			g2.fill(rectangle);
-			g2.setColor(GColor.MOW_PURPLE);
+			g2.setColor(GColor.MOW_MEBIS_TEAL);
 			g2.draw(rectangle);
 		}
 		if (handlers != null && !handlers.isEmpty()) {
@@ -165,7 +165,7 @@ public class BoundingBox {
 			// g2.setColor(GColor.GEOGEBRA_GRAY);
 			// g2.draw(line);
 			for (int i = 0; i < /* = */nrHandlers; i++) {
-				g2.setPaint(GColor.MOW_PURPLE);
+				g2.setPaint(GColor.MOW_MEBIS_TEAL);
 				g2.fill(handlers.get(i));
 				g2.setStroke(AwtFactory.getPrototype().newBasicStroke(2.0f,
 						GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
