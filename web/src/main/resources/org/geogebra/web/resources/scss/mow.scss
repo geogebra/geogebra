@@ -450,6 +450,25 @@
 				}
 			}
 		}
+	
+	.btnCrop {
+		border-radius: 2px;
+		margin-left: 0px;
+   	 	margin-right: 8px;
+   	 		
+		img {
+			opacity: 0.7;
+		}	
+		
+		&:hover, &:focus {
+			border: $mow_highlight solid 1px;
+		}
+		
+		&.gwt-ToggleButton-down {
+			border: $mow_highlight solid 1px;
+		}
+	}
+	
 	.matDynStyleContextButton:hover {
 	    margin-right: 0px !important;
 	    margin-left: 0px !important;

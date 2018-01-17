@@ -130,7 +130,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	Localization loc;
 	private ContextMenuPopup btnContextMenu = null;
 	private StandardButton btnDelete;
-	private StandardButton btnCrop;
+	private MyToggleButtonW btnCrop;
 	private LabelSettingsPopup btnLabel;
 
 
@@ -618,21 +618,20 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	protected void addCropButton() {
-		btnCrop = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.crop_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
-		btnCrop.setStyleName("MyCanvasButton");
-		FastClickHandler btnCropHandler = new FastClickHandler() {
-
+		btnCrop = new MyToggleButtonW(new NoDragImage(
+				MaterialDesignResources.INSTANCE.crop_black(),
+				24));
+		btnCrop.addStyleName("btnCrop");
+		ClickStartHandler.init(btnCrop, new ClickStartHandler(true,true) {
+			
 			@Override
-			public void onClick(Widget source) {
-				// TODO implement handler
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (btnCrop.isDown()) {
+					// TODO implement handler
+
+				}
 			}
-		};
-		btnCrop.addFastClickHandler(btnCropHandler);
+		});
 		add(btnCrop);
 	}
 
