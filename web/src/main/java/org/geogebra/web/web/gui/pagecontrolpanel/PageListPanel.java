@@ -192,6 +192,7 @@ public class PageListPanel
 				loadPage(pageIndex, false);
 			}
 		});
+
 		if (pageIndex < pageController.getSlidesAmount()) {
 			contentPanel.insert(card, pageIndex);
 
@@ -314,8 +315,13 @@ public class PageListPanel
 	public void duplicatePage(PagePreviewCard card) {
 		PagePreviewCard dup = pageController.duplicateSlide(card);
 		addPreviewCard(dup);
-		updateIndexes(dup.getPageIndex());
-		loadPage(dup.getPageIndex(), false);
+
+		int idx = dup.getPageIndex();
+		pageController.loadSlide(dup, idx, false);
+		setCardSelected(dup);
+
+		updateIndexes(idx);
+		// loadPage(dup.getPageIndex(), false);
 		updatePreviewImage();
 	}
 }
