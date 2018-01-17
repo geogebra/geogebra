@@ -1758,14 +1758,15 @@ public class Ggb2giac {
 				+ "))");
 
 		p("OrthogonalVector.1",
-				"when(is_3dpoint(%0),?,"
+				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,ggbvect[-%0[1],%0[0]]),"
+						+ "when(is_3dpoint(%0),?,"
 						+ "when((%0)[0]=='=',convert(when(count_eq(z,lname(%0))==0,[xcoord(%0),ycoord(%0)],[xcoord(%0),ycoord(%0),zcoord(%0)]),25),"
-						+ "convert([[0,-1],[1,0]]*(%0),25)))");
+						+ "convert([[0,-1],[1,0]]*(%0),25))))");
 		p("UnitOrthogonalVector.1",
-				"when(type(%0)==DOM_LIST&&size(%0)!=2,?,"
+				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,unitV(ggbvect[-%0[1],%0[0]])),"
 						+ "when(is_3dpoint(%0),?,"
 						// vector given as point or list
-						+ "when(subtype(%0)==27||(%0)[0]=='pnt'||type(%0)==DOM_LIST,"
+						+ "when(subtype(%0)==27||(%0)[0]=='pnt',"
 						// case UnitOrthogonalVector[Vector]
 						+ "regroup(convert(unitV([-ycoord(%0),xcoord(%0)]),25)),"
 						// case UnitOrthogonalVecto[Line]
