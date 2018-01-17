@@ -3152,6 +3152,7 @@ __GGB__keysVar.uz.menu = {
     "stylebar.Color": "Set color",
     "stylebar.ColorTransparency": "Set Color and Transparency",
     "stylebar.CopyVisualStyle": "Copy visual style",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Siyohli chiziqlarni o'chirish",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

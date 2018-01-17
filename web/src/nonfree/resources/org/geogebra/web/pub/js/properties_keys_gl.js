@@ -3152,6 +3152,7 @@ __GGB__keysVar.gl.menu = {
     "stylebar.Color": "Fixa a cor",
     "stylebar.ColorTransparency": "Fixa cor e transparencia",
     "stylebar.CopyVisualStyle": "Copia estilo visual",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Borra trazo de pluma",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Proxecci\xf3n para lentes",

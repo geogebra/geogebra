@@ -3152,6 +3152,7 @@ __GGB__keysVar.eu.menu = {
     "stylebar.Color": "Ezarri kolorea",
     "stylebar.ColorTransparency": "Ezarri Kolorea eta Gardentasuna",
     "stylebar.CopyVisualStyle": "Kopiatu ikuspegi-estiloa",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Ezabatu arkatzaren arrastoa",
     "stylebar.Filling": "Ezarri Betegarria",
     "stylebar.GlassesProjection": "Betaurrekoetarako proiekzioa",

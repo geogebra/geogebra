@@ -3152,6 +3152,7 @@ __GGB__keysVar.ro.menu = {
     "stylebar.Color": "Stabile\u0219te culoare",
     "stylebar.ColorTransparency": "Stabile\u0219te culoare \u0219i transparen\u021b\u0103",
     "stylebar.CopyVisualStyle": "Copiere stil vizual",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "\u0218terge urm\u0103 creion",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Proiec\u021bie pentru ochelari",

@@ -3152,6 +3152,7 @@ __GGB__keysVar.da.menu = {
     "stylebar.Color": "Indstil farve",
     "stylebar.ColorTransparency": "Indstil farve og gennemsigtighed",
     "stylebar.CopyVisualStyle": "Kopier stil",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Visk ud",
     "stylebar.Filling": "Indstil fyld",
     "stylebar.GlassesProjection": "Projektion for briller",

@@ -3152,6 +3152,7 @@ __GGB__keysVar.is.menu = {
     "stylebar.Color": "Setja lit",
     "stylebar.ColorTransparency": "Setja lit og gegns\xe6i",
     "stylebar.CopyVisualStyle": "Afrita \xfatlit",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Stroka \xfat pennastrik",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "V\xf6rpun fyrir gleraugu",

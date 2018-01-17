@@ -3152,6 +3152,7 @@ __GGB__keysVar.zh.menu = {
     "stylebar.Color": "Set color",
     "stylebar.ColorTransparency": "Set Color and Transparency",
     "stylebar.CopyVisualStyle": "Copy visual style",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Erase pen stroke",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

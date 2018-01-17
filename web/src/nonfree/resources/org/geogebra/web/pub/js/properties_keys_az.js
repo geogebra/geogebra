@@ -3152,6 +3152,7 @@ __GGB__keysVar.az.menu = {
     "stylebar.Color": "R\u0259ngi t\u0259yin et",
     "stylebar.ColorTransparency": "Set Color and Transparency",
     "stylebar.CopyVisualStyle": "Copy visual style",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Erase pen stroke",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

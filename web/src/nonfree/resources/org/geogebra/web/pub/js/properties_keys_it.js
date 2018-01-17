@@ -3152,6 +3152,7 @@ __GGB__keysVar.it.menu = {
     "stylebar.Color": "Colore",
     "stylebar.ColorTransparency": "Colore e trasparenza",
     "stylebar.CopyVisualStyle": "Copia stile visuale",
+    "stylebar.Crop": "Ritaglia",
     "stylebar.Eraser": "Cancella il tratto della penna",
     "stylebar.Filling": "Imposta riempimento",
     "stylebar.GlassesProjection": "Proiezione per occhiali 3D",

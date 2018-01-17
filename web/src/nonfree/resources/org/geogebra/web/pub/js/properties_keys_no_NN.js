@@ -3152,6 +3152,7 @@ __GGB__keysVar.no_NN.menu = {
     "stylebar.Color": "Vel farge",
     "stylebar.ColorTransparency": "Vel farge og kor gjennomsiktig denne er",
     "stylebar.CopyVisualStyle": "Kopier stil og utsj\xe5nad",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Slett pennestr\xf8k",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projeksjon for 3D-briller",

@@ -3152,6 +3152,7 @@ __GGB__keysVar.ca_XV.menu = {
     "stylebar.Color": "Establix el color",
     "stylebar.ColorTransparency": "Establix el color i la transpar\xe8ncia",
     "stylebar.CopyVisualStyle": "Copia l'estil visual",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Esborra el tra\xe7",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projecci\xf3 per a les ulleres",

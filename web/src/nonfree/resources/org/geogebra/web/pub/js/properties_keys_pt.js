@@ -3152,6 +3152,7 @@ __GGB__keysVar.pt.menu = {
     "stylebar.Color": "Cor",
     "stylebar.ColorTransparency": "Cor e Transpar\xeancia",
     "stylebar.CopyVisualStyle": "Copiar estilo visual",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Apagar tra\xe7o da caneta",
     "stylebar.Filling": "Definir Preenchimento",
     "stylebar.GlassesProjection": "Proje\xe7\xe3o para \xf3culos 3D",

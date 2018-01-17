@@ -3152,6 +3152,7 @@ __GGB__keysVar.zh_CN.menu = {
     "stylebar.Color": "\u8bbe\u7f6e\u989c\u8272",
     "stylebar.ColorTransparency": "\u989c\u8272\u4e0e\u900f\u660e\u5ea6",
     "stylebar.CopyVisualStyle": "\u590d\u5236\u6837\u5f0f",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "\u64e6\u9664\u56fe\u5f62",
     "stylebar.Filling": "\u8bbe\u7f6e\u586b\u5145",
     "stylebar.GlassesProjection": "\u773c\u955c\u6295\u5f71",

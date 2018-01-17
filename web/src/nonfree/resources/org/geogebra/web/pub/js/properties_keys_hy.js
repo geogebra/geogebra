@@ -3152,6 +3152,7 @@ __GGB__keysVar.hy.menu = {
     "stylebar.Color": "\u0533\u0578\u0582\u0575\u0576",
     "stylebar.ColorTransparency": "\u0538\u0576\u057f\u0580\u0565\u0574 \u0563\u0578\u0582\u0575\u0576\u0568 \u0587 \u0569\u0561\u0583\u0561\u0576\u0581\u056b\u056f\u0578\u0582\u0569\u0575\u0578\u0582\u0576\u0568",
     "stylebar.CopyVisualStyle": "\u053f\u0580\u056f\u0576\u0585\u0580\u056b\u0576\u0561\u056f\u0565\u0574 \u0578\u0573\u0568",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "\u054b\u0576\u057b\u0565\u0574 \u0574\u0561\u057f\u056b\u057f\u056b \u0570\u0565\u057f\u0584\u0565\u0580\u0568",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

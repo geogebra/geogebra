@@ -3152,6 +3152,7 @@ __GGB__keysVar.fa.menu = {
     "stylebar.Color": "\u062a\u0646\u0638\u06cc\u0645 \u0631\u0646\u06af",
     "stylebar.ColorTransparency": "\u062a\u0646\u0638\u06cc\u0645 \u0631\u0646\u06af \u0648 \u0634\u0641\u0627\u0641\u06cc\u062a",
     "stylebar.CopyVisualStyle": "\u06a9\u067e\u06cc \u0628\u0631\u062f\u0627\u0631\u06cc \u0627\u0632 \u0633\u0628\u06a9 \u0638\u0627\u0647\u0631\u06cc",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "\u067e\u0627\u06a9 \u06a9\u0631\u062f\u0646",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "\u0646\u0645\u0627\u06cc \u0633\u0647 \u0628\u0639\u062f\u06cc",

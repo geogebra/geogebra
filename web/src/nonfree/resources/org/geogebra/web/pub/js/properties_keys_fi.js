@@ -3152,6 +3152,7 @@ __GGB__keysVar.fi.menu = {
     "stylebar.Color": "Aseta v\xe4ri",
     "stylebar.ColorTransparency": "Aseta v\xe4ri ja l\xe4pin\xe4kyvyys",
     "stylebar.CopyVisualStyle": "Kopioi visuaalinen tyyli",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Pyyhi kyn\xe4n j\xe4lki",
     "stylebar.Filling": "Aseta t\xe4ytt\xf6",
     "stylebar.GlassesProjection": "Lasien projektio",

@@ -3152,6 +3152,7 @@ __GGB__keysVar.in.menu = {
     "stylebar.Color": "Atur warna",
     "stylebar.ColorTransparency": "Atur warna dan transparansi",
     "stylebar.CopyVisualStyle": "Salin Format Tampilan",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Hapus goresan pena",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

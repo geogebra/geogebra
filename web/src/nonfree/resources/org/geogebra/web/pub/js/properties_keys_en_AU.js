@@ -3152,6 +3152,7 @@ __GGB__keysVar.en_AU.menu = {
     "stylebar.Color": "Set colour",
     "stylebar.ColorTransparency": "Set Colour and Transparency",
     "stylebar.CopyVisualStyle": "Copy visual style",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Erase pen stroke",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

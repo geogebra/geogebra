@@ -3152,6 +3152,7 @@ __GGB__keysVar.ko.menu = {
     "stylebar.Color": "\uc0c9\uc0c1 \uc124\uc815",
     "stylebar.ColorTransparency": "\uc0c9\uc0c1 \ubc0f \ud22c\uba85\ub3c4 \uc124\uc815",
     "stylebar.CopyVisualStyle": "\uc2a4\ud0c0\uc77c \ubcf5\uc0ac",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "\ud39c \uadf8\ub9bc \uc9c0\uc6b0\uae30",
     "stylebar.Filling": "\ucc44\uc6c0 \uc124\uc815",
     "stylebar.GlassesProjection": "\uc548\uacbd\ubaa8\ub4dc \ud22c\uc601",

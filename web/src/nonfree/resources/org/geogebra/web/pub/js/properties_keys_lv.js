@@ -3152,6 +3152,7 @@ __GGB__keysVar.lv.menu = {
     "stylebar.Color": "Pie\u0161\u0137irt kr\u0101su",
     "stylebar.ColorTransparency": "Pie\u0161\u0137irt kr\u0101su un caursp\u012bd\u012bgumu",
     "stylebar.CopyVisualStyle": "Kop\u0113t vizu\u0101lo stilu",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Erase pen stroke",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

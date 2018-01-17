@@ -3152,6 +3152,7 @@ __GGB__keysVar.eo.menu = {
     "stylebar.Color": "Koloro",
     "stylebar.ColorTransparency": "Koloro kaj Opakeco",
     "stylebar.CopyVisualStyle": "Copy visual style",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Erase pen stroke",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

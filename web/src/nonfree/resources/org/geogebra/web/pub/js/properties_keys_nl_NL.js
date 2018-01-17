@@ -3152,6 +3152,7 @@ __GGB__keysVar.nl_NL.menu = {
     "stylebar.Color": "Instelling kleur",
     "stylebar.ColorTransparency": "Instelling kleur en transparantie",
     "stylebar.CopyVisualStyle": "Kopieer de visuele stijl",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Wis penstrook",
     "stylebar.Filling": "Bepaal opvulling",
     "stylebar.GlassesProjection": "Projectie voor bril",

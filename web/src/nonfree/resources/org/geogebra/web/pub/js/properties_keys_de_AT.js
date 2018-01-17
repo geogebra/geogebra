@@ -3152,6 +3152,7 @@ __GGB__keysVar.de_AT.menu = {
     "stylebar.Color": "Farbe",
     "stylebar.ColorTransparency": "Farbe und Transparenz",
     "stylebar.CopyVisualStyle": "Format \xfcbertragen",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Stift l\xf6sche",
     "stylebar.Filling": "F\xfcllung",
     "stylebar.GlassesProjection": "Projektion f\xfcr Brillen",

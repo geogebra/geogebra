@@ -3152,6 +3152,7 @@ __GGB__keysVar.cy.menu = {
     "stylebar.Color": "Gosod lliw",
     "stylebar.ColorTransparency": "Gosod lliw a thryloywder",
     "stylebar.CopyVisualStyle": "Copio'r arddull gweledol",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Dileu marc yr ysgrifbin",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

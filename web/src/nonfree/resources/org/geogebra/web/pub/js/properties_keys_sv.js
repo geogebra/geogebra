@@ -3152,6 +3152,7 @@ __GGB__keysVar.sv.menu = {
     "stylebar.Color": "F\xe4rg",
     "stylebar.ColorTransparency": "F\xe4rg och transparens",
     "stylebar.CopyVisualStyle": "Kopiera visuellt format",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Radera penndrag",
     "stylebar.Filling": "Fyllning",
     "stylebar.GlassesProjection": "Projektion f\xf6r 3D-glas\xf6gon",

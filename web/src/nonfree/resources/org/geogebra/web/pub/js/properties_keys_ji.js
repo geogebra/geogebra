@@ -3152,6 +3152,7 @@ __GGB__keysVar.ji.menu = {
     "stylebar.Color": "\u05e7\u05d0\u05b8\u05dc\u05d9\u05e8",
     "stylebar.ColorTransparency": "\u05e7\u05d0\u05b8\u05dc\u05d9\u05e8 \u05d0\u05d5\u05df \u05d0\u05b8\u05e4\u05bc\u05d0\u05b7\u05e6\u05d9\u05d8\u05e2\u05d8",
     "stylebar.CopyVisualStyle": "\u05e7\u05d0\u05b8\u05e4\u05bc\u05d9\u05e8\u05df \u05d3\u05e2\u05dd \u05d2\u05e8\u05d0\u05b7\u05e4\u05bf\u05d9\u05e9\u05df \u05e1\u05d8\u05d9\u05dc",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "\u05d0\u05b8\u05e4\u05bc\u05de\u05e2\u05e7\u05df \u05d3\u05e2\u05dd \u05e9\u05d8\u05e8\u05d9\u05da \u05e4\u05bf\u05d5\u05df \u05d3\u05e2\u05e8 \u05e4\u05bc\u05e2\u05df",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

@@ -3152,6 +3152,7 @@ __GGB__keysVar.sq.menu = {
     "stylebar.Color": "Vendos ngjyre",
     "stylebar.ColorTransparency": "Vendos Ngjyre dhe Transparence",
     "stylebar.CopyVisualStyle": "Kopjo stilin vizual",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Fshije goditjen me pene",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

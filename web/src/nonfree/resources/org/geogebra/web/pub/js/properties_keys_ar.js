@@ -3152,6 +3152,7 @@ __GGB__keysVar.ar.menu = {
     "stylebar.Color": "\u0627\u0644\u0644\u0648\u0646",
     "stylebar.ColorTransparency": "\u0644\u0648\u0646 \u0634\u0641\u0627\u0641",
     "stylebar.CopyVisualStyle": "\u0646\u0633\u062e \u0627\u0644\u0646\u0645\u0637",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "\u0645\u0633\u062d \u0627\u0644\u0643\u062a\u0627\u0628\u0629",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

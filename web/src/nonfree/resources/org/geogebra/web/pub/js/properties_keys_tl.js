@@ -3152,6 +3152,7 @@ __GGB__keysVar.tl.menu = {
     "stylebar.Color": "Ayusin ang kulay",
     "stylebar.ColorTransparency": "Ayusin ang Kulay at Pagkalinaw",
     "stylebar.CopyVisualStyle": "Kopyahin ang istilong biswal",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Burahin ang ginuhit",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Projection for glasses",

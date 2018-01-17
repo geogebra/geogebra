@@ -3152,6 +3152,7 @@ __GGB__keysVar.hr.menu = {
     "stylebar.Color": "Postavi boju",
     "stylebar.ColorTransparency": "Postavi boju i prozirnost",
     "stylebar.CopyVisualStyle": "Kopiraj izgled",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Izbri\u0161i trag olovke",
     "stylebar.Filling": "Postavi ispunu",
     "stylebar.GlassesProjection": "Projekcija za nao\u010dale",

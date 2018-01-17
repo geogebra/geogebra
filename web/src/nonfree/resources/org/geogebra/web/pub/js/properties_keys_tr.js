@@ -3152,6 +3152,7 @@ __GGB__keysVar.tr.menu = {
     "stylebar.Color": "Renk ayarla",
     "stylebar.ColorTransparency": "Renk ve \u015eeffafl\u0131k ayarla",
     "stylebar.CopyVisualStyle": "G\xf6rsel Sitili kopyala",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Kalem vuru\u015funu sil",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "Mercekler i\xe7in izd\xfc\u015f\xfcm",

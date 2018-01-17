@@ -3152,6 +3152,7 @@ __GGB__keysVar.cs.menu = {
     "stylebar.Color": "Nastavit barvu",
     "stylebar.ColorTransparency": "Nastaven\xed barvy a pr\u016fhlednosti",
     "stylebar.CopyVisualStyle": "Kop\xedrov\xe1n\xed vizu\xe1ln\xedho stylu",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Vymazat tah perem",
     "stylebar.Filling": "Nastavit v\xfdpl\u0148",
     "stylebar.GlassesProjection": "Prom\xedt\xe1n\xed pro anaglyfick\xe9 br\xfdle",

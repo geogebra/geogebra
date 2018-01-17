@@ -3152,6 +3152,7 @@ __GGB__keysVar.xh.menu = {
     "stylebar.Color": "Lungisa icolor",
     "stylebar.ColorTransparency": "Lungisa Color ne Transparency",
     "stylebar.CopyVisualStyle": "Kopa ivisual style",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Cima ipen stroke",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "iProjection yee glasi",

@@ -3152,6 +3152,7 @@ __GGB__keysVar.ml.menu = {
     "stylebar.Color": "Set color",
     "stylebar.ColorTransparency": "Set Color and Transparency",
     "stylebar.CopyVisualStyle": "Copy visual style",
+    "stylebar.Crop": "Crop",
     "stylebar.Eraser": "Erase pen stroke",
     "stylebar.Filling": "Set Filling",
     "stylebar.GlassesProjection": "\u0d17\u0d4d\u0d32\u0d3e\u0d38\u0d4d\u0d38\u0d41\u0d15\u0d33\u0d41\u0d1f\u0d46 \u0d1c\u0d4d\u0d2f\u0d3e\u0d2e\u0d3f\u0d24\u0d3f\u0d2f \u0d30\u0d42\u0d2a\u0d28\u0d3f\u0d30\u0d4d\u200d\u0d2e\u0d4d\u0d2e\u0d3e\u0d23\u0d02",
