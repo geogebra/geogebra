@@ -124,8 +124,7 @@ public abstract class CanvasDrawable extends Drawable {
 			g2.setPaint(geo.getObjectColor());
 
 			EuclidianStatic.drawIndexedString(view.getApplication(), g2, text,
-					xLabel, yLabel + getTextBottom(), false, view,
-					geo.getObjectColor());
+					xLabel, yLabel + getTextBottom(), false, null, null);
 		}
 
 	}
