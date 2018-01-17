@@ -4058,9 +4058,9 @@ public abstract class App implements UpdateSelection {
             case MOW_DIRECT_FORMULA_CONVERSION:
                 return false;
 
-		/** MOW-368 */
-		case MOW_IMAGE_DIALOG_UNBUNDLED:
-			return prerelease && whiteboard;
+            /** MOW-368 */
+            case MOW_IMAGE_DIALOG_UNBUNDLED:
+            	return prerelease && whiteboard;
 
             /** MOW-261 */
             case MOW_COLOR_FILLING_LINE:
@@ -4069,6 +4069,10 @@ public abstract class App implements UpdateSelection {
             /** MOW-269 */
             case MOW_MULTI_PAGE:
                 return canary && whiteboard;
+                
+            /** MOW-360 */
+            case MOW_CROP_IMAGE:
+            	return prerelease && whiteboard;
 
 		/** MOW-285 */
 		case MOW_BOUNDING_BOX_FOR_PEN_TOOL:

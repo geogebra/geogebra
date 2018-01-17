@@ -279,6 +279,9 @@ public enum Feature {
 	VOICEOVER_CURSOR,
 
 	/** IGR-655 */
-	MOB_IOS_APP_INIT_3D
+	MOB_IOS_APP_INIT_3D,
+
+	/** MOW-360 */
+	MOW_CROP_IMAGE
 }
 

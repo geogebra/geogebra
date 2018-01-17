@@ -130,6 +130,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	Localization loc;
 	private ContextMenuPopup btnContextMenu = null;
 	private StandardButton btnDelete;
+	private StandardButton btnCrop;
 	private LabelSettingsPopup btnLabel;
 
 
@@ -568,6 +569,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		}
 
 		if (app.isUnbundledOrWhiteboard()) {
+			if (app.has(Feature.MOW_CROP_IMAGE)
+					&& isImageGeoSelected()) {
+				addCropButton();
+			}
 			addDeleteButton();
 		}
 
@@ -575,6 +580,12 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		if (app.has(Feature.DYNAMIC_STYLEBAR) && hasActiveGeos()) {
 			addContextMenuButton();
 		}
+	}
+
+	private boolean isImageGeoSelected() {
+		return !ev.getEuclidianController().getAppSelectedGeos().isEmpty()
+				&& ev.getEuclidianController().getAppSelectedGeos().get(0)
+						.isGeoImage();
 	}
 
 	private boolean hasActiveGeos() {
@@ -604,6 +615,25 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		// }
 		// }
 		// });
+	}
+
+	protected void addCropButton() {
+		btnCrop = new StandardButton(
+				new ImageResourcePrototype(null,
+						MaterialDesignResources.INSTANCE.crop_black()
+								.getSafeUri(),
+						0, 0, 24, 24, false, false),
+				app);
+		btnCrop.setStyleName("MyCanvasButton");
+		FastClickHandler btnCropHandler = new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				// TODO implement handler
+			}
+		};
+		btnCrop.addFastClickHandler(btnCropHandler);
+		add(btnCrop);
 	}
 
 	/**
