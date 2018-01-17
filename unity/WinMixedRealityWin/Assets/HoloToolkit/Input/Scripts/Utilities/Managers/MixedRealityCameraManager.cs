@@ -86,7 +86,7 @@ namespace HoloToolkit.Unity.InputModule
 
         public void ApplySettingsForOpaqueDisplay()
         {
-            Debug.Log("Display is Opaque");
+            //Debug.Log("Display is Opaque");
             CameraCache.Main.clearFlags = CameraClearFlags_OpaqueDisplay;
             CameraCache.Main.nearClipPlane = NearClipPlane_OpaqueDisplay;
             CameraCache.Main.backgroundColor = BackgroundColor_OpaqueDisplay;
