@@ -27,8 +27,6 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 			7,						// menu order
 			'L' // ctrl-shift-L
 		);
-		
-
 		this.app = app;
 		this.setShowStyleBar(true);
 		this.setEmbeddedSize(300);
@@ -49,23 +47,15 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_construction_protocol();
 	}
-	
-
-
-	
-
 
 	@Override
 	protected Panel getViewPanel() {
-
 		return ((ConstructionProtocolViewW) app.getGuiManager()
 				.getConstructionProtocolView()).getOuterScrollPanel();
-
 	}
 
 	@Override
 	protected ResourcePrototype getViewIcon() {
 		return getResources().styleBar_ConstructionProtocol();
 	}
-
 }

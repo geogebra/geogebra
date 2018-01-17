@@ -16,8 +16,6 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 		super(id, title, toolbar, hasStyleBar, menuOrder, menuShortcut);
 	}
 
-
-
 	@Override
 	public final void updateNavigationBar() {
 		// ConstructionProtocolSettings cps = app.getSettings()

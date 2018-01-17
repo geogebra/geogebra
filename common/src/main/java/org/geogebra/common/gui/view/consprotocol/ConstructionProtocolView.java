@@ -152,7 +152,8 @@ public class ConstructionProtocolView {
 			}
 
 			if (m != -1 && index1 != prevIndex) {
-				toolbarIcon = getModeIcon(m); // app.wrapGetModeIcon(m);
+				toolbarIcon = getModeIcon(m);
+				// app.wrapGetModeIcon(m);
 			} else {
 				toolbarIcon = null;
 			}
