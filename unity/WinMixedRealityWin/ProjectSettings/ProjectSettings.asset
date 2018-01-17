@@ -542,9 +542,9 @@ PlayerSettings:
   metroPackageVersion: 1.0.0.0
   metroCertificatePath: Assets\WSATestCertificate.pfx
   metroCertificatePassword: 
-  metroCertificateSubject: DefaultCompany
-  metroCertificateIssuer: DefaultCompany
-  metroCertificateNotAfter: 00980555968cd401
+  metroCertificateSubject: GeoGebra
+  metroCertificateIssuer: GeoGebra
+  metroCertificateNotAfter: 007a305e7caed401
   metroApplicationDescription: Place math models in virtual reality world and walk
     around them. Millions of people around the world use GeoGebra to learn mathematics
     and science. Join us!

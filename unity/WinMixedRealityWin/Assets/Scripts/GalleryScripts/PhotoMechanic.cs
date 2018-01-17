@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.UI;
 using System.IO;
 using HoloToolkit.Unity;
+//using UnityEngine.Windows;
+
 
 
 
 public class PhotoMechanic : MonoBehaviour
 {
-
     public Texture[] Textures;
     public static int ArrayInt = 1;
 
@@ -39,14 +39,30 @@ public class PhotoMechanic : MonoBehaviour
     private string photoTemp;
     private string screen_Shot_File_Name;
 
+    public GameObject gameManager;
+
+    public string FileFolder = "GeoGebraMR";
 
 
     // Use this for initialization
     private void Start()
     {
-        //Test the correct file folder
-        Debug.Log("File folder for saving pictures is " + System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures));
+        //assign Game manager
+        if (gameManager == null)
+        {
+            gameManager = GameObject.Find("gameManager");
+        }
 
+        //Create GeoGebraMR folder if not exist
+
+        if (!Directory.Exists(Application.dataPath + "/GeoGebraMR"))
+        {
+            Directory.CreateDirectory(Application.dataPath + "/GeoGebraMR");
+        }
+
+
+        //Test the correct file folder
+        Debug.Log("File folder for saving pictures is " + Application.dataPath);
 
         List <GameObject> PhotoPreviewList = new List<GameObject>();
 
@@ -60,30 +76,21 @@ public class PhotoMechanic : MonoBehaviour
         if (GetSourceStat == null)
             GetSourceStat = GameObject.Find("GameManager");
 
-        getControllerStates = GetSourceStat.GetComponent<GetControllerStates>();
-
-        
+        getControllerStates = GetSourceStat.GetComponent<GetControllerStates>();       
     }
 
     // Update is called once per frame
     void Update()
-    {
-        
-
+    {     
         if (getControllerStates.TouchpadPressed && ReadyForNextPhoto)
         {
-            print("SelectPressed");
             StartCoroutine(UpScrnCoroutine());
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            print("SelectPressed");
-            StartCoroutine(UpScrnCoroutine());
-        }
     }
 
 
+    
 
     IEnumerator UpScrnCoroutine()
     {
@@ -101,16 +108,32 @@ public class PhotoMechanic : MonoBehaviour
     }
 
 
+
     public void MakePhoto()
     {
-        screen_Shot_File_Name = "Screenshot__" + ArrayInt + System.DateTime.Now.ToString("__yyyy-MM-dd-HHmmss") + ".png";
+        //Assign current ModelName from workspace to string for Name of model.
+        string objName;
 
-        ScreenCapture.CaptureScreenshot(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures) + "/" + screen_Shot_File_Name);
+        if (gameManager.GetComponent<GameManager>().TempModel != null)
+        {
+            objName = gameManager.GetComponent<GameManager>().TempModel.name;
+            print("objName is " + objName.ToString().ToUpper());
+
+            screen_Shot_File_Name = objName + ArrayInt + System.DateTime.Now.ToString("_yyyy-MM-dd-HHmmss") + ".png";
+        } else
+        {
+            screen_Shot_File_Name = ArrayInt + System.DateTime.Now.ToString("_yyyy-MM-dd-HHmmss") + ".png";
+        }
+
+
+
+        ScreenCapture.CaptureScreenshot(Application.dataPath + "/GeoGebraMR/" + screen_Shot_File_Name);
+
         print("end of MakPhoto function");
         ArrayInt++;
         Camera.main.Render();
-
     }
+
 
 
     //Method for Loading Texture
@@ -155,7 +178,7 @@ public class PhotoMechanic : MonoBehaviour
 
        //Making photo
                 PhotoPreview1.GetComponent<Renderer>().material.mainTexture =
-                LoadPNG(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures) + "/" + screen_Shot_File_Name);
+                LoadPNG(Application.dataPath + "/GeoGebraMR/" + screen_Shot_File_Name);
 
         PhotoSelection(First);
     }
@@ -183,4 +206,5 @@ public class PhotoMechanic : MonoBehaviour
                 break;
         }
     }
+
 }

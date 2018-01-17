@@ -113,6 +113,8 @@ public class GameManager : MonoBehaviour {
         //Activate sceond screen
         cloneScreen.GetComponent<CloneScreenText>().CheckStatus();
 
+
+        print("thecurrent model is " + TempModel);
     }
 
     public void CheckForItem(string ModelName)
