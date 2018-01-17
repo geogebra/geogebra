@@ -6486,6 +6486,8 @@ namespace giac {
   }
   gen _simplifier(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG &&  g.subtype==-1) return  g;
+    if (is_equal(g))
+      return apply_to_equal(g,_simplifier,contextptr);
     if (g.type!=_VECT)
       return simplifier(g,contextptr);
     return apply(g,_simplifier,contextptr);

@@ -2513,7 +2513,7 @@ index_status(yyextra)=1; return T_VECT_END;
 case 115:
 YY_RULE_SETUP
 #line 410 "input_lexer.ll"
-index_status(yyextra)=0; if (rpn_mode(yyextra) ||calc_mode(yyextra)==1) { (*yylval)=0; return T_VECT_DISPATCH; } if (xcas_mode(yyextra)==3 || abs_calc_mode(yyextra)==38){ (*yylval) = _LIST__VECT;  return T_VECT_DISPATCH; } if (xcas_mode(yyextra) > 0 ){ (*yylval)=_SET__VECT; return T_VECT_DISPATCH; } else return T_BLOC_BEGIN;
+index_status(yyextra)=0; if (rpn_mode(yyextra) ) { (*yylval)=0; return T_VECT_DISPATCH; } if (xcas_mode(yyextra)==3 || abs_calc_mode(yyextra)==38 ||calc_mode(yyextra)==1){ (*yylval) = _LIST__VECT;  return T_VECT_DISPATCH; } if (xcas_mode(yyextra) > 0 ){ (*yylval)=_SET__VECT; return T_VECT_DISPATCH; } else return T_BLOC_BEGIN;
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
