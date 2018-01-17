@@ -1111,15 +1111,6 @@ public abstract class AppW extends App implements SetLabels {
 		setLocalID(-1);
 		resetActiveMaterial();
 
-		if (isWhiteboardActive()) {
-			// reset pen default size
-			getEuclidianController().getPen().DEFAULT_PEN_LINE
-					.setLineThickness(EuclidianConstants.DEFAULT_PEN_SIZE);
-			// reset eraser default size
-			getActiveEuclidianView().getSettings()
-					.setDeleteToolSize(EuclidianConstants.DEFAULT_ERASER_SIZE);
-		}
-
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}

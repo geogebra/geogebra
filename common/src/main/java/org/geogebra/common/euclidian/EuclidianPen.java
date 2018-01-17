@@ -112,9 +112,8 @@ public class EuclidianPen implements GTimerListener {
 
 	private GTimer timer = null;
 
-	private int eraserSize;
 	private int penLineStyle;
-	private GColor penColor;
+	private GColor penColor = GColor.BLACK;
 
 	// being used for Freehand Shape tool (not done yet)
 	// private boolean recognizeShapes = false;
@@ -133,7 +132,7 @@ public class EuclidianPen implements GTimerListener {
 
 		timer = app.newTimer(this, 1500);
 
-		setDefaults();
+
 
 		DEFAULT_PEN_LINE = new GeoPolyLine(app.getKernel().getConstruction()) {
 			@Override
@@ -160,6 +159,7 @@ public class EuclidianPen implements GTimerListener {
 				setPenOpacity(lineOpacity);
 			}
 		};
+		setDefaults();
 		DEFAULT_PEN_LINE.setLineThickness(penSize);
 		DEFAULT_PEN_LINE.setLineOpacity(lineOpacity);
 		DEFAULT_PEN_LINE.setObjColor(penColor);
@@ -173,11 +173,10 @@ public class EuclidianPen implements GTimerListener {
 	 * Set default pen color, line style, thickness, eraser size
 	 */
 	public void setDefaults() {
-		penSize = 3;
-		eraserSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
+		penSize = EuclidianConstants.DEFAULT_PEN_SIZE;
 		penLineStyle = EuclidianStyleConstants.LINE_TYPE_FULL;
 		penColor = GColor.BLACK;
-		lineOpacity = 10;
+		lineOpacity = 85 * 255 / 100;
 	}
 
 	/**
@@ -310,7 +309,8 @@ public class EuclidianPen implements GTimerListener {
 		view.setCursor(EuclidianCursor.TRANSPARENT);
 		if (isErasingEvent(e)) {
 			view.getEuclidianController().getDeleteMode()
-					.handleMouseDraggedForDelete(e, eraserSize, true);
+					.handleMouseDraggedForDelete(e,
+							view.getSettings().getDeleteToolSize(), true);
 			app.getKernel().notifyRepaint();
 		} else {
 			// drawing in progress, so we need repaint
