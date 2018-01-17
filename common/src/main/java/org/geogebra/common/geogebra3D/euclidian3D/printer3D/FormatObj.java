@@ -86,7 +86,7 @@ public class FormatObj implements Format {
 
 	@Override
 	public void getNormal(StringBuilder sb, double x, double y, double z) {
-		sb.append("n ");
+		sb.append("vn ");
 		sb.append(x);
 		sb.append(" ");
 		sb.append(y);
