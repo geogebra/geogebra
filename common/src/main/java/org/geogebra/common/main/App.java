@@ -4290,7 +4290,7 @@ public abstract class App implements UpdateSelection {
 
             /** GGB-2118 */
             case PREVIEW_POINTS:
-			return prerelease;
+			return true;
 
 
 		/** GGB-2183 */
