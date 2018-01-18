@@ -1340,6 +1340,7 @@ __GGB__keysVar.xh.menu = {
     "Calculate": "Khaltyulata",
     "CalligraphicLetters": "Oonobumba beCalligraphic",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Cima",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

@@ -1340,6 +1340,7 @@ __GGB__keysVar.sl.menu = {
     "Calculate": "Izra\u010dunaj",
     "CalligraphicLetters": "Kaligrafske \u010drke",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Prekini",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

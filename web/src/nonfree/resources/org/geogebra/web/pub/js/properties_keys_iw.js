@@ -1340,6 +1340,7 @@ __GGB__keysVar.iw.menu = {
     "Calculate": "\u05d7\u05e9\u05b6\u05d1",
     "CalligraphicLetters": "\u05d0\u05d5\u05ea\u05d9\u05d5\u05ea \u05de\u05e2\u05d5\u05d8\u05e8\u05d5\u05ea",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "\u05d1\u05d9\u05d8\u05d5\u05dc",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

@@ -1340,6 +1340,7 @@ __GGB__keysVar.cy.menu = {
     "Calculate": "Cyfrifwch",
     "CalligraphicLetters": "Llythrennau Llawysgrifen",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Canslo",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

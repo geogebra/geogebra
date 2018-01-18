@@ -1340,6 +1340,7 @@ __GGB__keysVar.et.menu = {
     "Calculate": "Arvuta",
     "CalligraphicLetters": "Galligraafilised t\xe4hed",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "T\xfchista",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

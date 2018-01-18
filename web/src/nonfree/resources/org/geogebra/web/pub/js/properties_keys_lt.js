@@ -1340,6 +1340,7 @@ __GGB__keysVar.lt.menu = {
     "Calculate": "Skai\u010diuoti",
     "CalligraphicLetters": "Kaligrafin\u0117s raid\u0117s",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "At\u0161aukti",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

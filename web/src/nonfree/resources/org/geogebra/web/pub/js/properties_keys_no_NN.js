@@ -1340,6 +1340,7 @@ __GGB__keysVar.no_NN.menu = {
     "Calculate": "Rekn ut",
     "CalligraphicLetters": "Kalligrafiske bokstavar",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Avbryt",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

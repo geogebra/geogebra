@@ -1340,6 +1340,7 @@ __GGB__keysVar.sq.menu = {
     "Calculate": "Kalkulo",
     "CalligraphicLetters": "Shkronja Kaligrafike",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Anulloj",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

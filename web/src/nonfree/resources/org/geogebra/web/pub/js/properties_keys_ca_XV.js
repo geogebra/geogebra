@@ -1340,6 +1340,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Calculate": "Calcula",
     "CalligraphicLetters": "Car\xe0cters cal\xb7ligr\xe0fics",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Cancel\xb7la",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",

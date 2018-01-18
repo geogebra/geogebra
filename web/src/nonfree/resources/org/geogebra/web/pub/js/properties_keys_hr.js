@@ -1340,6 +1340,7 @@ __GGB__keysVar.hr.menu = {
     "Calculate": "Izra\u010dunaj",
     "CalligraphicLetters": "Krasopisna slova",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Odustani",
     "CapsLockActiveAltText": "Caps Lock aktivan",
     "CapsLockUnactiveAltText": "Caps Lock neaktivan",

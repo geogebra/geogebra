@@ -1340,6 +1340,7 @@ __GGB__keysVar.it.menu = {
     "Calculate": "Calcola",
     "CalligraphicLetters": "Lettere calligrafiche",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Annulla",
     "CapsLockActiveAltText": "Blocco maiuscle attivato",
     "CapsLockUnactiveAltText": "Blocco maiuscole disattivato",

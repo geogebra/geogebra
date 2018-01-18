@@ -1340,6 +1340,7 @@ __GGB__keysVar.eu.menu = {
     "Calculate": "Kalkulatu",
     "CalligraphicLetters": "Letra Kaligrafikoak",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "Utzi",
     "CapsLockActiveAltText": "Hizki Larriak gaituta",
     "CapsLockUnactiveAltText": "Hizki Larriak Desgaituta",

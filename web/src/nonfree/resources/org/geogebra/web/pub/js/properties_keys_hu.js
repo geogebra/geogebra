@@ -1340,6 +1340,7 @@ __GGB__keysVar.hu.menu = {
     "Calculate": "Kisz\xe1mol",
     "CalligraphicLetters": "Kalligrafikus karakterek",
     "Camera": "Camera",
+    "Camera.Request": "Allow GeoGebra to access your Camera?",
     "Cancel": "M\xe9gse",
     "CapsLockActiveAltText": "Caps Lock Active",
     "CapsLockUnactiveAltText": "Caps Lock Unactive",
