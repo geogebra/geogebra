@@ -45,7 +45,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.export.AnimationExportDialogW;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
-import org.geogebra.web.web.gui.dialog.image.WebcamPermissionDialog;
+import org.geogebra.web.web.gui.dialog.image.WebcamInputDialog;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 import org.geogebra.web.web.gui.util.SaveDialogW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
@@ -65,7 +65,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	private FunctionInspectorW functionInspector;
 	protected SaveDialogW saveDialog = null;
 	protected UploadImageDialog imageDialog;
-	protected WebcamPermissionDialog webcamPermissionDialog;
+	protected WebcamInputDialog webcamInputDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
 	private PopupPanel loadingAnimation = null;
 	private ColorChooserDialog dialog = null;
@@ -264,13 +264,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 				&& device instanceof BrowserDevice)) {
 			return;
 		}
-		if (this.webcamPermissionDialog == null) {
-			this.webcamPermissionDialog = ((BrowserDevice) device)
-					.getWebcamPermissionDialog((AppW) app);
+		if (this.webcamInputDialog == null) {
+			this.webcamInputDialog = ((BrowserDevice) device)
+					.getWebcamInputDialog((AppW) app);
 		}
-		webcamPermissionDialog.initWebcamInputDialog();
-		webcamPermissionDialog.center();
-		webcamPermissionDialog.show();
+		webcamInputDialog.initVideo();
 	}
 
 	@Override

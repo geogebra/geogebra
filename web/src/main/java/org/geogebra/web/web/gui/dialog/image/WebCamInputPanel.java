@@ -24,6 +24,7 @@ public class WebCamInputPanel extends VerticalPanel {
 	private AppW app;
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private WebcamInputDialog webcamDialog;
+	private WebcamPermissionDialog permissionDialog;
 
 	/**
 	 * @param app
@@ -48,7 +49,6 @@ public class WebCamInputPanel extends VerticalPanel {
 	private void initGUI() {		
 		inputWidget = new SimplePanel();
 		resetVideo();
-
 		add(inputWidget);
 	}
 
@@ -75,13 +75,15 @@ public class WebCamInputPanel extends VerticalPanel {
 		var that = this;
 		if ($wnd.navigator.getMedia) {
 			try {
+				var browserAlreadyAllowed = false;
 				$wnd.navigator
 						.getMedia(
 								{
 									video : true
 								},
 								function(bs) {
-									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
+									browserAlreadyAllowed = true;
+									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showInputDialog()();
 									if ($wnd.URL && $wnd.URL.createObjectURL) {
 										video.src = $wnd.URL
 												.createObjectURL(bs);
@@ -91,11 +93,18 @@ public class WebCamInputPanel extends VerticalPanel {
 										el.firstChild.style.display = "none";
 									}
 									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::stream = bs;
+									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
 								},
 
 								function(err) {
 									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error from WebCam: "+err);
 								});
+				setTimeout(
+						function() {
+							if (!browserAlreadyAllowed) {
+								that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showPermissionDialog()();
+							}
+						}, 1);
 
 				return video;
 			} catch (e) {
@@ -193,13 +202,26 @@ public class WebCamInputPanel extends VerticalPanel {
 		return stream == null;
 	}
 
-	private void hidePermissionDialog() {
-		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
-				|| webcamDialog == null) {
-			return;
-		}
+	private void showInputDialog() {
 		webcamDialog.center();
 		webcamDialog.show();
-		webcamDialog.hidePermissionDialog();
+	}
+
+	private void showPermissionDialog() {
+		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			return;
+		}
+		if (permissionDialog == null) {
+			permissionDialog = new WebcamPermissionDialog(app);
+		}
+		permissionDialog.center();
+		permissionDialog.show();
+	}
+
+	private void hidePermissionDialog() {
+		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			return;
+		}
+		permissionDialog.hide();
 	}
 }

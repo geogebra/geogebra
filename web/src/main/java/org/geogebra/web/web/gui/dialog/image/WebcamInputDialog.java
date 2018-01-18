@@ -26,7 +26,6 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	private FlowPanel buttonPanel;
 	private Button screenshotBtn;
 	private Button closeBtn;
-	private WebcamPermissionDialog permissionDialog;
 
 	/**
 	 * @param app
@@ -40,25 +39,10 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		initActions();
 	}
 
-	/**
-	 * @param app
-	 *            application
-	 * @param permissionDialog
-	 *            permission dialog
-	 */
-	public WebcamInputDialog(AppW app,
-			WebcamPermissionDialog permissionDialog) {
-		this(app);
-		this.permissionDialog = permissionDialog;
-	}
-
 	private void initGUI() {
 		mainPanel = new FlowPanel();
 		inputPanel = new SimplePanel();
 		inputPanel.setStyleName("mowCameraSimplePanel");
-
-		webcamInputPanel = new WebCamInputPanel(app1, this);
-		inputPanel.add(webcamInputPanel);
 
 		screenshotBtn = new Button("");
 		screenshotBtn.setEnabled(true);
@@ -83,6 +67,13 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		closeBtn.addClickHandler(this);
 	}
 
+	/**
+	 * adds the webcam input panel which starts the video
+	 */
+	public void initVideo() {
+		webcamInputPanel = new WebCamInputPanel(app1, this);
+		inputPanel.add(webcamInputPanel);
+	}
 	/**
 	 * set button labels and dialog title
 	 */
@@ -129,12 +120,5 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	 */
 	public void startVideo() {
 		webcamInputPanel.startVideo();
-	}
-
-	/**
-	 * hides permission dialog
-	 */
-	public void hidePermissionDialog() {
-		permissionDialog.hide();
 	}
 }
