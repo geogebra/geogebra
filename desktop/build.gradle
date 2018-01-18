@@ -19,6 +19,8 @@ sourceSets {
     }
 }
 
+eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+
 File javaHome = new File(System.properties['java.home'])
 javaHome = javaHome.name == 'jre' ? javaHome.parentFile : javaHome
 String jfxrtLocation = new File("${javaHome}/jre/lib/jfxrt.jar").absolutePath
@@ -111,7 +113,7 @@ gradle.projectsEvaluated {
         def projs = configurations.compile.getAllDependencies().withType(ProjectDependency).collect{it.getDependencyProject()}
         projs.each {
             additionalSourceDirs files(it.sourceSets.main.java.srcDirs)
-            additionalClassDirs files(files(it.sourceSets.main.output.classesDir).collect({
+            additionalClassDirs files(files(it.sourceSets.main['java'].outputDir).collect({
 		File f -> fileTree(dir: f, exclude: ['org/apache/**','edu/**','org/geogebra/common/kernel/barycentric/**','org/mozilla/**'])
 	     }))
         }

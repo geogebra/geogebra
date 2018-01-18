@@ -209,8 +209,10 @@ public class WebCamInputPanel extends VerticalPanel {
 	}
 
 	private void showInputDialog() {
-		webcamDialog.center();
-		webcamDialog.show();
+		if (webcamDialog != null) {
+			webcamDialog.center();
+			webcamDialog.show();
+		}
 	}
 
 	private void showPermissionDialog() {
