@@ -267,8 +267,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		if (this.webcamInputDialog == null) {
 			this.webcamInputDialog = ((BrowserDevice) device)
 					.getWebcamInputDialog((AppW) app);
+		} else {
+			webcamInputDialog.startVideo();
 		}
-		webcamInputDialog.initVideo();
 	}
 
 	@Override

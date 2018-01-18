@@ -44,6 +44,9 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		inputPanel = new SimplePanel();
 		inputPanel.setStyleName("mowCameraSimplePanel");
 
+		webcamInputPanel = new WebCamInputPanel(app1, this);
+		inputPanel.add(webcamInputPanel);
+
 		screenshotBtn = new Button("");
 		screenshotBtn.setEnabled(true);
 		closeBtn = new Button("");
@@ -60,6 +63,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		addStyleName("GeoGebraPopup");
 		addStyleName("image");
 		setGlassEnabled(true);
+
 	}
 
 	private void initActions() {
@@ -67,13 +71,6 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		closeBtn.addClickHandler(this);
 	}
 
-	/**
-	 * adds the webcam input panel which starts the video
-	 */
-	public void initVideo() {
-		webcamInputPanel = new WebCamInputPanel(app1, this);
-		inputPanel.add(webcamInputPanel);
-	}
 	/**
 	 * set button labels and dialog title
 	 */

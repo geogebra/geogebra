@@ -104,7 +104,7 @@ public class WebCamInputPanel extends VerticalPanel {
 							if (!browserAlreadyAllowed) {
 								that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showPermissionDialog()();
 							}
-						}, 1);
+						}, 10);
 
 				return video;
 			} catch (e) {
