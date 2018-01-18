@@ -329,18 +329,19 @@ fontactive: function(familyName, fvd) {},
             }
         };
 
-var app = document.createElement("script");		
-		app.setAttribute("src",codebase+module+"/js/webfont.js");
-		document.head.appendChild(app);
+	var app = document.createElement("script");		
+	app.setAttribute("src",codebase+module+"/js/webfont.js");
+	document.head.appendChild(app);
 		
-		app = document.createElement("script");
-		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
-		window.setTimeout(function(){
+	app = document.createElement("script");
+	app.setAttribute("src",codebase+module+"/"+module+".nocache.js");
+	window.setTimeout(function(){
 		document.head.appendChild(app);
-			},startDelay);
-}
+				},startDelay);
+	}
+
 	function isLocalhost(){
-		return location.protocol.match(/(app|file:)/) || location.host.match(/^([0-9:.]*|(autotest|deploy).*geogebra.org|localhost)$/);
+		return location.protocol.match(/(app|file:)/) || location.host.match(/^([0-9.]*|(autotest|deploy).*geogebra.org|localhost)(:.+)?$/);
 	}
 	function showStartScreen(codebase){
 		var lang = getURLparam("lang") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";

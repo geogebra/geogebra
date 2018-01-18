@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
 
 public class CenterImageModel extends BooleanOptionModel {
-	private final boolean centerImage = true;
 
 	public CenterImageModel(App app) {
 		super(null, app);
@@ -26,7 +25,7 @@ public class CenterImageModel extends BooleanOptionModel {
 
 	@Override
 	protected boolean isValidAt(int index) {
-		return centerImage && getGeoAt(index) instanceof GeoImage
+		return getGeoAt(index) instanceof GeoImage
 				&& getGeoAt(index).isIndependent();
 	}
 

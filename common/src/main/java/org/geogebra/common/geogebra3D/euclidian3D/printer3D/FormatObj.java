@@ -106,7 +106,7 @@ public class FormatObj implements Format {
 
 	@Override
 	public void getFacesStart(StringBuilder sb, int count, boolean hasSpecificNormals) {
-
+		// not needed
 	}
 
 	@Override
