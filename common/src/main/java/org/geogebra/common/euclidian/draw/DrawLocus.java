@@ -299,6 +299,11 @@ public class DrawLocus extends Drawable {
 		view.repaintView();
 	}
 
+	@Override
+	public void updateGeo(AbstractEvent e) {
+		((GeoLocus) geo).resetSavedBoundingBoxValues();
+	}
+
 	/**
 	 * update locus by dragging corner handler
 	 * 

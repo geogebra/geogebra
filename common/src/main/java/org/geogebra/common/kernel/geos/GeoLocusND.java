@@ -54,7 +54,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	private ArrayList<GPoint2D> nonScaledPointList;
 	private double nonScaledWidth;
 	private double nonScaledHeight;
-	private int minXNumber;
 	private ArrayList<T> poitsWithoutControl;
 	private StringBuilder sbToString = new StringBuilder(80);
 	private double closestPointDist;
@@ -68,6 +67,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	protected double closestPointParameter;
 
 	private boolean trace;
+
+	private double startMinX = Double.NaN;
 
 	/**
 	 * Creates new locus
@@ -138,6 +139,13 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	}
 
 	/**
+	 * Resets the saved starting values of coordinates of bounding box
+	 */
+	public void resetSavedBoundingBoxValues() {
+		startMinX = Double.NaN;
+	}
+
+	/**
 	 * Updates the points when resizing the locus with bounding box handler
 	 * 
 	 * @param handler
@@ -149,7 +157,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 */
 	public void updatePoints(EuclidianBoundingBoxHandler handler,
 			AbstractEvent event, GRectangle2D gRectangle2D) {
-		double minX = gRectangle2D.getMinX();
+		if (Double.isNaN(startMinX)) {
+			startMinX = gRectangle2D.getMinX();
+		}
 		double maxX = gRectangle2D.getMaxX();
 		double minY = gRectangle2D.getMinY();
 		double maxY = gRectangle2D.getMaxY();
@@ -157,16 +167,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		// save the original rates when scaling first time
 		if (nonScaledPointList == null) {
 			nonScaledPointList = new ArrayList<>(myPointList.size());
-			nonScaledWidth = maxX - minX;
+			nonScaledWidth = maxX - startMinX;
 			nonScaledHeight = maxY - minY;
-			double minPointX = Double.NaN;
-			for (int i = 0; i < myPointList.size(); i++) {
-				double x = myPointList.get(i).getX();
-				if (Double.isNaN(minPointX) || x < minPointX) {
-					minPointX = x;
-					minXNumber = i;
-				}
-			}
 
 			for (int i = 0; i < myPointList.size(); i++) {
 				double x = myPointList.get(i).getX();
@@ -178,12 +180,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 				} else {
 					nonScaledPointList.add(new GPoint2D.Double(
 							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordXd(x)
-									- kernel.getApplication()
-											.getActiveEuclidianView()
-											.toScreenCoordXd(minPointX),
+									.toScreenCoordX(x) - startMinX,
 							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordYd(y) - minY));
+									.toScreenCoordY(y) - minY));
 				}
 			}
 		}
@@ -201,10 +200,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			updatePointsX((maxX - event.getX()) / nonScaledWidth, event.getX());
 			break;
 		case RIGHT:
-			updatePointsX((event.getX() - minX) / nonScaledWidth,
-					kernel.getApplication().getActiveEuclidianView()
-							.toScreenCoordXd(
-									myPointList.get(minXNumber).getX()));
+			updatePointsX((event.getX() - startMinX) / nonScaledWidth, startMinX);
 			break;
 		default:
 			Log.warn("unhandled case");
