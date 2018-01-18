@@ -42,8 +42,9 @@ sourceSets {
         }
     }
 }
-
-eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+if(hasProperty("eclipse")){
+	eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+}
 
 compileJavacc {
 	arguments = [static: 'false', JAVA_TEMPLATE_TYPE: 'modern']

@@ -37,7 +37,9 @@ sourceSets {
     }
 }
 
-eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+if(hasProperty("eclipse")){
+	eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
+}
 
 dependencies {
     compile project(':web:dev'), 
