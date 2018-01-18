@@ -3137,13 +3137,13 @@ namespace giac {
     return res;
   }
 
-  gen ckmultmatvecteur(const vecteur & a,const vecteur & b){
+  gen ckmultmatvecteur(const vecteur & a,const vecteur & b,GIAC_CONTEXT){
     if (ckmatrix(a)){
       if (ckmatrix(b)){
 	matrice res;
 	if (!mmultck(a,b,res))
 	  return gendimerr("");
-	gen tmp=_simplifier(res,context0);
+	gen tmp=_simplifier(res,contextptr);
 	// code added for e.g. matpow([[0,1],[0,0]],n)
 	if (contains(tmp,undef))
 	  return res;
@@ -3154,14 +3154,14 @@ namespace giac {
       if (a.front()._VECTptr->size()!=b.size())
 	return gendimerr(gettext("dotvecteur"));
       multmatvecteur(a,b,res);
-      return _simplifier(res,context0);
+      return _simplifier(res,contextptr);
     }
     if (ckmatrix(b)){
       vecteur res;
       multvecteurmat(a,b,res);
-      return _simplifier(res,context0);
+      return _simplifier(res,contextptr);
     }
-    if (xcas_mode(context0)==3)
+    if (xcas_mode(contextptr)==3 || calc_mode(contextptr)==1)
       return apply(a,b,prod);
     return dotvecteur(a,b);
   }
@@ -15622,7 +15622,7 @@ namespace giac {
 	w[j]=LU[i][j];
       L.push_back(w);
     }
-    return ckmultmatvecteur(L,D);
+    return ckmultmatvecteur(L,D,contextptr);
 */
     /*
     std_matrix<gen> C(n,vecteur(n));

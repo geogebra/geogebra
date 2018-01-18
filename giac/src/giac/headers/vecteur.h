@@ -197,7 +197,7 @@ namespace giac {
   // if a and b are matrices returns matrix product
   // if a is a matrix and b a vecteur return matr*vect
   // otherwise returns the dot product of a and b
-  gen ckmultmatvecteur(const vecteur & a,const vecteur & b);
+  gen ckmultmatvecteur(const vecteur & a,const vecteur & b,GIAC_CONTEXT);
   void multmatvecteur(const matrix_double & H,const std::vector<giac_double> & w,std::vector<giac_double> & v);
 
   void vecteur2vector_int(const vecteur & v,int modulo,std::vector<int> & res);

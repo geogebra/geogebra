@@ -5991,7 +5991,7 @@ namespace giac {
 	return multgen_poly(*A._VECTptr,*B._VECTptr);
       if ( (A.subtype==_LIST__VECT) || (B.subtype==_LIST__VECT) )
 	return matrix_apply(A,B,contextptr,operator_times);
-      { gen res=ckmultmatvecteur(*A._VECTptr,*B._VECTptr);
+      { gen res=ckmultmatvecteur(*A._VECTptr,*B._VECTptr,contextptr);
 	if ( (calc_mode(contextptr)==1 || abs_calc_mode(contextptr)==38) && res.type==_VECT){
 	  res.subtype=B.subtype;
 	  if (res.subtype==0)
@@ -12124,7 +12124,7 @@ namespace giac {
       if (tex)
 	s="\\{";
       else
-	s=(abs_calc_mode(contextptr)==38 || calc_mode(contextptr)==1)?"{":"list[";
+	s=abs_calc_mode(contextptr)==38?"{":"list[";
       break;
     case _GGB__VECT:
       if (calc_mode(contextptr)==1)
@@ -12160,7 +12160,7 @@ namespace giac {
       if (tex)
 	return "\\}";
       else
-	return (abs_calc_mode(contextptr)==38 || calc_mode(contextptr)==1)?"}":"]";
+	return abs_calc_mode(contextptr)==38?"}":"]";
     case _GGB__VECT:
       if (calc_mode(contextptr)==1)
 	return ")";
