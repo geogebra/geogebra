@@ -855,14 +855,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// register spreadsheet view
 		layout.registerPanel(new SpreadsheetDockPanelW(getApp()));
 
-		if (getApp().isUnbundled() && !getApp().has(Feature.MOW_TOOLBAR)) {
-			// register toolbar panel
-			layout.registerPanel(new ToolbarDockPanelW());
-		}
-		else {
-			// register algebra view
-			layout.registerPanel(new AlgebraDockPanelW(getApp()));
-		}
+		swapAlgebraPanel();
 
 		// register CAS view
 		layout.registerPanel(new CASDockPanelW(getApp()));
@@ -892,6 +885,21 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 
 		return true;
+	}
+
+	public void swapAlgebraPanel() {
+		DockPanel old = layout.getDockManager().getPanel(App.VIEW_ALGEBRA);
+		if (old != null) {
+			layout.getDockManager().unRegisterPanel(old);
+		}
+		if (getApp().isUnbundled() && !getApp().has(Feature.MOW_TOOLBAR)) {
+			// register toolbar panel
+			layout.registerPanel(new ToolbarDockPanelW());
+		} else {
+			// register algebra view
+			layout.registerPanel(new AlgebraDockPanelW(getApp()));
+		}
+
 	}
 
 	@Override

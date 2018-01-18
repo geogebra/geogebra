@@ -899,4 +899,15 @@ public class AppWapplet extends AppWFull {
 	public void share() {
 		FileMenuW.share(this);
 	}
+
+	@Override
+	public void setFileVersion(String version, String appName) {
+		super.setFileVersion(version, appName);
+		if (has(Feature.WEB_SWITCH_APP_FOR_FILE)
+				&& "graphing".equals(appName)) {
+			this.getArticleElement().setAttribute("data-param-appName",
+					appName);
+			((GuiManagerW) getGuiManager()).swapAlgebraPanel();
+		}
+	}
 }

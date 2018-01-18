@@ -583,7 +583,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			String ggbVersion = attrs.get("version");
-			app.setFileVersion(ggbVersion);
+			app.setFileVersion(ggbVersion, attrs.get("app"));
 			String uniqueId = attrs.get("id");
 			if (uniqueId != null) {
 				app.setUniqueId(uniqueId);

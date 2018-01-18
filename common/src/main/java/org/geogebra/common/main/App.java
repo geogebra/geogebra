@@ -1398,8 +1398,10 @@ public abstract class App implements UpdateSelection {
 	 *
 	 * @param version
 	 *            version string
+	 * @param appName
+	 *            name of the app that saved current file
 	 */
-	public void setFileVersion(String version) {
+	public void setFileVersion(String version, String appName) {
 
 		// AbstractApplication.debug("file version: " + version);
 
@@ -4321,10 +4323,6 @@ public abstract class App implements UpdateSelection {
 		case SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE:
 			return prerelease;
 
-		/** GGB-2208 FromBase() and ToBase() commands in CAS */
-		case CAS_FROM_TO_BASE:
-			return true;
-
 		/** GGB-2203 */
 		case HELP_AND_SHORTCUTS:
 			return true;
@@ -4343,6 +4341,9 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2258 */
 		case VOICEOVER_CURSOR:
+			return prerelease;
+
+		case WEB_SWITCH_APP_FOR_FILE:
 			return prerelease;
 
 		default:
