@@ -178,12 +178,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 				} else {
 					nonScaledPointList.add(new GPoint2D.Double(
 							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordX(x)
+									.toScreenCoordXd(x)
 									- kernel.getApplication()
 											.getActiveEuclidianView()
 											.toScreenCoordXd(minPointX),
 							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordY(y) - minY));
+									.toScreenCoordYd(y) - minY));
 				}
 			}
 		}
