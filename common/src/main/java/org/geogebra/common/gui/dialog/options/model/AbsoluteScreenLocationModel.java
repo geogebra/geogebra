@@ -5,12 +5,10 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
-import org.geogebra.common.kernel.geos.Furniture;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 
@@ -78,10 +76,6 @@ public class AbsoluteScreenLocationModel extends BooleanOptionModel {
 					|| geo instanceof GeoList || (geo instanceof GeoImage
 							&& ((GeoImage) geo).isCentered())) {
 
-				return false;
-			}
-			if (!app.has(Feature.RELATIVE_POSITION_FURNITURE)
-					&& geo instanceof Furniture) {
 				return false;
 			}
 		} else if (!geo.isPinnable()) {

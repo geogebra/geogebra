@@ -95,7 +95,6 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -3443,7 +3442,7 @@ public class MyXMLHandler implements DocHandler {
 					((CasEvaluableFunction) geo).updateCASEvalMap(casMap);
 				}
 
-				if (app.has(Feature.CENTER_IMAGE) && geo.isGeoImage()
+				if (geo.isGeoImage()
 						&& ((GeoImage) geo).isCentered()) {
 					((GeoImage) geo).setCentered(true);
 				}

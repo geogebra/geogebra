@@ -4256,9 +4256,6 @@ public abstract class App implements UpdateSelection {
             case FUNCTIONS_DYNAMIC_STYLEBAR_POSITION:
                 return relaunch;
 
-            case ARROW_OUTPUT_PREFIX:
-                return true;
-
             /** GGB-1982 */
             // TODO if there is no need for this feature flag more, remove "appl"
             // parameter from MyCJButton.MyCJButton(App appl)
@@ -4295,13 +4292,6 @@ public abstract class App implements UpdateSelection {
             case PREVIEW_POINTS:
 			return prerelease;
 
-		/** GGB-2127 */
-            case UNBUNDLED_3D_APP:
-			return true;
-
-		/** GGB-2169 */
-            case CENTER_IMAGE:
-			return true;
 
 		/** GGB-2183 */
 		case AUTO_ADD_DEGREE:
@@ -4313,10 +4303,6 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-2170 */
 		case SLIDER_STYLE_OPTIONS:
-			return true;
-
-		/** GGB-2187 */
-		case RELATIVE_POSITION_FURNITURE:
 			return true;
 
 		/** MOB-1310 */

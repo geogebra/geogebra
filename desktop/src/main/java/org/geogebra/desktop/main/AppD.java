@@ -448,7 +448,8 @@ public class AppD extends App implements KeyEventDispatcher {
 			Log.error("*********************************");
 		}
 
-		setFileVersion(GeoGebraConstants.VERSION_STRING);
+		setFileVersion(GeoGebraConstants.VERSION_STRING,
+				Versions.DESKTOP.getAppName());
 
 		if (args != null) {
 			handleHelpVersionArgs(args);

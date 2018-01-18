@@ -125,7 +125,6 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -1944,9 +1943,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			corner0 = new ImageCornerPanel(0);
 			corner1 = new ImageCornerPanel(1);
 			corner2 = new ImageCornerPanel(2);
-			if (app.has(Feature.CENTER_IMAGE)) {
-				center = new ImageCornerPanel(GeoImage.CENTER_INDEX);
-			}
+			center = new ImageCornerPanel(GeoImage.CENTER_INDEX);
 
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			add(corner0);

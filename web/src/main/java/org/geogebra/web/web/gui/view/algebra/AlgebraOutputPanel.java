@@ -146,26 +146,15 @@ public class AlgebraOutputPanel extends FlowPanel {
 			if (!kernel.getApplication().has(Feature.AV_ITEM_DESIGN)) {
 				createSymbolicButton(this, geo1, false);
 			} else {
-				if (kernel.getApplication()
-						.has(Feature.ARROW_OUTPUT_PREFIX)) {
-					if (AlgebraItem.getOutputPrefix(geo1)
-							.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
-						addPrefixLabel(AlgebraItem.getOutputPrefix(geo1),
-								latex);
-					} else {
-						addArrowPrefix();
-					}
-				} else {
+				if (AlgebraItem.getOutputPrefix(geo1)
+						.startsWith(Unicode.CAS_OUTPUT_NUMERIC + "")) {
 					addPrefixLabel(AlgebraItem.getOutputPrefix(geo1), latex);
+				} else {
+					addArrowPrefix();
 				}
 			}
 		} else {
-			if (kernel.getApplication().has(Feature.ARROW_OUTPUT_PREFIX)) {
-				addArrowPrefix();
-			} else {
-				addPrefixLabel(AlgebraItem.getSymbolicPrefix(kernel),
-					latex);
-			}
+			addArrowPrefix();
 		}
 
 		valuePanel.clear();

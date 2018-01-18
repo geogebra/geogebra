@@ -55,6 +55,7 @@ import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.LongTouchManager;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.css.GuiResources;
@@ -82,7 +83,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -568,15 +568,8 @@ public class RadioTreeItem extends AVTreeItem
 			if (!plain.equals(text) || forceLatex) {
 				outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
 			}
-			if (kernel.getApplication()
-					.has(Feature.ARROW_OUTPUT_PREFIX)) {
-				outputPanel.addArrowPrefix();
-			} else {
-				outputPanel.addPrefixLabel(
-						AlgebraItem.getSymbolicPrefix(kernel),
-					latex);
-			}
 
+			outputPanel.addArrowPrefix();
 			outputPanel.addValuePanel();
 
 			if (content.getWidgetIndex(plainTextItem) == -1) {
@@ -641,17 +634,12 @@ public class RadioTreeItem extends AVTreeItem
 			content.addStyleName("additionalRow");
 			prefix.addStyleName("prefix");
 			updateFont(content);
-			if (app.has(Feature.ARROW_OUTPUT_PREFIX)) {
-				Image arrow = new Image(
-						new ImageResourcePrototype(null,
-								MaterialDesignResources.INSTANCE.arrow_black()
-										.getSafeUri(),
-								0, 0, 24, 24, false, false));
-				arrow.setStyleName("arrowOutputImg");
-				content.insert(arrow, 0);
-			} else {
-				content.insert(prefix, 0);
-			}
+
+			Image arrow = new NoDragImage(
+					MaterialDesignResources.INSTANCE.arrow_black(), 24, 24);
+			arrow.setStyleName("arrowOutputImg");
+			content.insert(arrow, 0);
+
 		}
 
 	}

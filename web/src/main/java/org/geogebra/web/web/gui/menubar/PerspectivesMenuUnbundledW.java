@@ -41,10 +41,8 @@ public class PerspectivesMenuUnbundledW extends GMenuBar {
 				MaterialDesignResources.INSTANCE.graphing());
 		addMenuItem("geometry", "Geometry",
 				MaterialDesignResources.INSTANCE.geometry());
-		if (app.has(Feature.UNBUNDLED_3D_APP)) {
-			addMenuItem("3d", "Graphing3D",
+		addMenuItem("3d", "Graphing3D",
 				MaterialDesignResources.INSTANCE.graphing3D());
-		}
 		addMenuItem("classic", "math_apps",
 				MaterialDesignResources.INSTANCE.geogebra_color());
 	}

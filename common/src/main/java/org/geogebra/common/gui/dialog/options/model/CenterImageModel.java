@@ -2,14 +2,12 @@ package org.geogebra.common.gui.dialog.options.model;
 
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 
 public class CenterImageModel extends BooleanOptionModel {
-	private boolean centerImage;
+	private final boolean centerImage = true;
 
 	public CenterImageModel(App app) {
 		super(null, app);
-		centerImage = app.has(Feature.CENTER_IMAGE);
 	}
 
 	private GeoImage getImageAt(int index) {

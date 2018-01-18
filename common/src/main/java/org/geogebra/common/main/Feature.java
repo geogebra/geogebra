@@ -151,9 +151,6 @@ public enum Feature {
 
 	SURFACE_2D,
 
-	/** GGB-1970*/
-	ARROW_OUTPUT_PREFIX,
-
 	/** GGB-1982 */
 	OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS,
 
@@ -176,6 +173,8 @@ public enum Feature {
 
 	/** GGB-2015 */
 	GEO_AV_DESCRIPTION,
+
+	WEB_SWITCH_APP_FOR_FILE,
 
 	/**
 	 * AND-364
@@ -200,14 +199,8 @@ public enum Feature {
 	/** IGR-481 */
 	MOB_LINKS_TO_OTHER_APPS_IN_IOS, 
 	
-	/** GGB-2127 */
-	UNBUNDLED_3D_APP,
-
 	/** AND-617 */
 	MOB_INPUT_CONTEXT_MENU,
-
-	/** GGB-2169 */
-	CENTER_IMAGE,
 
 	/** GGB-2183 change sin(15) -> sin(15deg) */
 	AUTO_ADD_DEGREE,
@@ -217,9 +210,6 @@ public enum Feature {
 
 	/** GGB-2170 for k12 */
 	SLIDER_STYLE_OPTIONS,
-
-	/** GGB-2178 */
-	RELATIVE_POSITION_FURNITURE,
 
 	/** MOB-1310 */
 	SHOW_HIDE_LABEL_OBJECT_DELETE_MULTIPLE,
@@ -279,6 +269,6 @@ public enum Feature {
 	MOB_IOS_APP_INIT_3D,
 
 	/** MOW-360 */
-	MOW_CROP_IMAGE, WEB_SWITCH_APP_FOR_FILE
+	MOW_CROP_IMAGE,
 }
 

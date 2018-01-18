@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -83,13 +82,8 @@ public class GeoImage extends GeoElement implements Locateable,
 		// setAlgebraVisible(false); // don't show in algebra view
 		setAuxiliaryObject(true);
 
-		if (kernel.getApplication().has(Feature.CENTER_IMAGE)) {
-			// three corners of the image: first, second, fourth and the center
-			corners = new GeoPoint[4];
-		} else {
-			// three corners of the image: first, second and fourth
-			corners = new GeoPoint[3];
-		}
+		// three corners of the image: first, second, fourth and the center
+		corners = new GeoPoint[4];
 
 		kernel.getApplication().images.add(this);
 		defined = true;
@@ -1130,9 +1124,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * @return if image is centered.
 	 */
 	public boolean isCentered() {
-		if (!getKernel().getApplication().has(Feature.CENTER_IMAGE)) {
-			return false;
-		}
 		return centered;
 	}
 
@@ -1144,10 +1135,6 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            to set.
 	 */
 	public void setCentered(boolean centered) {
-		if (!getKernel().getApplication().has(Feature.CENTER_IMAGE)) {
-			return;
-		}
-
 		this.centered = centered;
 		if (centered) {
 			center();

@@ -49,7 +49,6 @@ import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -1478,7 +1477,7 @@ public class OptionsTab extends FlowPanel {
 			corner1 = new ImageCorner(0, app);
 			corner2 = new ImageCorner(1, app);
 			corner4 = new ImageCorner(2, app);
-			center = app.has(Feature.CENTER_IMAGE) ? new ImageCenter(app): null;
+			center = new ImageCenter(app);
 			FlowPanel mainPanel = new FlowPanel();
 			mainPanel.add(corner1.getWidget());
 			mainPanel.add(corner2.getWidget());
