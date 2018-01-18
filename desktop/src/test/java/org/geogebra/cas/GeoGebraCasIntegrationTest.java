@@ -1413,11 +1413,6 @@ public class GeoGebraCasIntegrationTest {
   /* Dot */
 
   @Test
-  public void Dot_0 () {
-    t("Dot[{1, 3, 2}, {0, 3, -2}]", "5");
-  }
-
-  @Test
   public void Dot_1 () {
     t("(1,2) * (a,b)", "a+2*b");
   }
@@ -1427,27 +1422,7 @@ public class GeoGebraCasIntegrationTest {
 
   /* Singledimensional List */
 
-  @Test
-  public void Element_ListSD_0 () {
-    t("Element[{1, 3, 2}, 2]", "3");
-  }
 
-  @Test
-  public void Element_ListSD_1 () {
-    t("Element[{a, b, c}, 2]", "b");
-  }
-
-  /* Matrix */
-
-  @Test
-  public void Element_Matrix_0 () {
-    t("Element[{{1, 3, 2}, {0, 3, -2}}, 2, 3]", "-2");
-  }
-
-  @Test
-  public void Element_Matrix_1 () {
-    t("Element[{{a, b, c}, {d, e, f}}, 2, 3]", "f");
-  }
 
   /*
    * Note:
@@ -1458,20 +1433,7 @@ public class GeoGebraCasIntegrationTest {
 
   /* Expand */
 
-  @Test
-  public void Expand_0 () {
-    t("Expand[((a + b) / c)^2]", "(a^(2) + 2 * a * b + b^(2)) / c^(2)");
-  }
 
-  @Test
-  public void Expand_1 () {
-    t("Expand[((a + b) / (c + d))^2]", "(a^(2) + 2 * a * b + b^(2)) / (c^(2) + 2 * c * d + d^(2))");
-  }
-
-  @Test
-  public void Expand_2 () {
-    t("Expand[Factor[a x^2 + b x^2]]", "a * x^(2) + b * x^(2)", "x^(2) * a + x^(2) * b");
-  }
 
   @Test
   public void Expand_4 () {
@@ -1513,31 +1475,6 @@ public class GeoGebraCasIntegrationTest {
     // Giac only supports 13dp
 		t("Numeric[Fdistribution[5, 7, 3], 14]", "0.9077534389795",
 				"0.9077534389794");
-  }
-
-
-  /* Factor */
-
-  /* Factor with Constants */
-
-  @Test
-  public void Factor_ConstantsOnly_0 () {
-    t("Factor[-15]", "-(3 * 5)");
-  }
-
-  @Test
-  public void Factor_ConstantsOnly_1 () {
-    t("Factor[15]", "3 * 5");
-  }
-
-  @Test
-  public void Factor_ConstantsOnly_2 () {
-    t("Factor[1024]", "2^(10)");
-  }
-
-  @Test
-  public void Factor_ConstantsOnly_3 () {
-    t("Factor[42]", "2 * 3 * 7");
   }
 
   /* Factor with Variables */
