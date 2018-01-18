@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -30,6 +31,7 @@ import com.google.gwt.user.client.ui.Label;
  */
 public class PagePreviewCard extends FlowPanel implements SetLabels {
 
+	private static final int LABELFONT_SIZE = 16;
 	private AppW app;
 	private Localization loc;
 	private int pageIndex;
@@ -113,15 +115,11 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	}
 
 	/**
-	 * use a dummy label to calculate exact width of textfield this way the
-	 * textfield is not clickable where empty
+	 * using an approximate calculation for text field width.
+	 * 
 	 */
 	private void setTextFieldWidth() {
-		Label calcLabel = new Label(textField.getText());
-		calcLabel.setStyleName("mowCalcLabel");
-		add(calcLabel);
-		int length = calcLabel.getOffsetWidth();
-		remove(calcLabel);
+		int length = LABELFONT_SIZE * (textField.getText().length() + 2);
 		textField.setWidth(Math.max(Math.min(length, 178), 10));
 	}
 
