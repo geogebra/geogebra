@@ -4929,6 +4929,26 @@ public class GeoGebraCasIntegrationTest {
   }
   
   @Test
+	public void applyFunctionToList() {
+		// https://help.geogebra.org/topic/applying-a-function-to-a-list
+		// make sure all 4 operations are tested
+		t("f(x):=(x+3)*cos(3x+2)+1/10", "(x + 3) * cos(3 * x + 2) + 1 / 10");
+		t("g(x):=2-sqrt(4+8x-5x^2)", "-sqrt(-5 * x^(2) + 8 * x + 4) + 2");
+		t("h(x):=3 * x^2 - x / 2 + 2*sin(x)",
+				"3 * x^(2) + 2 * sin(x) - 1 / 2 * x");
+		// t("f({1,2,3,4}",
+		// "{(4 * cos(5)) + 1 / 10, (5 * cos(8)) + 1 / 10, (6 * cos(11)) + 1 /
+		// 10, (7 * cos(14)) + 1 / 10}");
+		// t("g({1,2,3,4}",
+		// "{(-sqrt(7)) + 2, 2, ((-sqrt(17)) * " + Unicode.IMAGINARY
+		// + ") + 2, (((-sqrt(11)) * 2) * " + Unicode.IMAGINARY
+		// + ") + 2}");
+		// t("h({1,2,3,4}",
+		// "{(2 * sin(1)) + 5 / 2, (2 * sin(2)) + 11, (2 * sin(3)) + 51 / 2, (2
+		// * sin(4)) + 46}");
+	}
+
+	@Test
 	public void ExponentialEqs() {
 		t("Solve[7^(2 x - 5) 5^x = 9^(x + 1), x]",
 				"{x = (5 * log(7) + log(9)) / (log(5) + 2 * log(7) - log(9))}");
