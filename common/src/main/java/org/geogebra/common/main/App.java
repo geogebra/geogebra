@@ -4005,7 +4005,7 @@ public abstract class App implements UpdateSelection {
 
 			// IGR-588, AND-695
 			case MOB_OUTPUTROW_IN_DESC_MODE:
-				return prerelease;
+				return true;
 				
 			// IGR-655
 			case MOB_IOS_APP_INIT_3D:
