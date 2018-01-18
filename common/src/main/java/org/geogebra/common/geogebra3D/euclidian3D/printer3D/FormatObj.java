@@ -32,7 +32,7 @@ public class FormatObj implements Format {
 	@Override
 	public void getObjectStart(StringBuilder sb, String type, GeoElement geo, boolean transparency, GColor color,
 			double alpha) {
-		sb.append("\n#########################\no ");
+		sb.append("\n#########################\n### ");
 		sb.append(geo.getLabelSimple());
 		sb.append("\n");
 
