@@ -25,6 +25,8 @@ public class WebCamInputPanel extends VerticalPanel {
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private WebcamInputDialog webcamDialog;
 	private WebcamPermissionDialog permissionDialog;
+	private WebcamErrorDialog permissionDeniedDialog;
+	private WebcamErrorDialog errorDialog;
 
 	/**
 	 * @param app
@@ -73,9 +75,11 @@ public class WebCamInputPanel extends VerticalPanel {
 		$wnd.URL = $wnd.URL || $wnd.webkitURL || $wnd.msURL || $wnd.mozURL
 				|| $wnd.oURL || null;
 		var that = this;
+
 		if ($wnd.navigator.getMedia) {
 			try {
 				var browserAlreadyAllowed = false;
+				var deniedByUser = false;
 				$wnd.navigator
 						.getMedia(
 								{
@@ -95,25 +99,27 @@ public class WebCamInputPanel extends VerticalPanel {
 									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::stream = bs;
 									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
 								},
-
 								function(err) {
+									deniedByUser = true;
 									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error from WebCam: "+err);
+									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showPermissionDeniedDialog()();
 								});
 				setTimeout(
 						function() {
-							if (!browserAlreadyAllowed) {
+							if (!browserAlreadyAllowed && !deniedByUser) {
 								that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showPermissionDialog()();
 							}
-						}, 10);
+						}, 200);
 
 				return video;
 			} catch (e) {
 				el.firstChild.innerHTML = "<br><br>" + errorMessage;
+				that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
 				return null;
-
 			}
 		} else {
 			el.firstChild.innerHTML = "<br><br>" + errorMessage;
+			that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
 		}
 		return null;
 	}-*/;
@@ -222,6 +228,36 @@ public class WebCamInputPanel extends VerticalPanel {
 		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
 			return;
 		}
-		permissionDialog.hide();
+		if (permissionDialog != null) {
+			permissionDialog.hide();
+		}
+	}
+
+	private void showPermissionDeniedDialog() {
+		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			return;
+		}
+		hidePermissionDialog();
+		if (permissionDeniedDialog == null) {
+			permissionDeniedDialog = new WebcamErrorDialog(app,
+					"You denied access to the Camera",
+					"Without acess to the Camera the Video Tool will not work. Please change your Browser Settings.");
+		}
+		permissionDeniedDialog.center();
+		permissionDeniedDialog.show();
+	}
+
+	private void showErrorDialog() {
+		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			return;
+		}
+		hidePermissionDialog();
+		if (errorDialog == null) {
+			errorDialog = new WebcamErrorDialog(app,
+					"Problem communicating with the Webcam",
+					"Please check if a Camera is attached or try another browser");
+		}
+		errorDialog.center();
+		errorDialog.show();
 	}
 }

@@ -21,11 +21,11 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
-	private AppW app1;
+	protected AppW app1;
 	private FlowPanel mainPanel;
 	private FlowPanel buttonPanel;
-	private Button cancelBtn;
-	private Label text;
+	protected Button cancelBtn;
+	protected Label text;
 
 	/**
 	 * @param app
@@ -58,8 +58,7 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 	 */
 	public void setLabels() {
 		Localization loc = app1.getLocalization();
-		getCaption().setText(
-				/* loc.getMenu("Camera") */"Allow GeoGebra to access your Camera?");
+		getCaption().setText(loc.getMenu("Camera.Request"));
 		String message;
 		if (app1.getVersion() == Versions.WEB_FOR_DESKTOP) {
 			message = "";
