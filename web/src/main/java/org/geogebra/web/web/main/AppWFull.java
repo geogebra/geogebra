@@ -21,6 +21,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.MaterialsManagerI;
+import org.geogebra.common.main.OpenFileListener;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.events.StayLoggedOutEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -676,11 +677,10 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 									parseResponse.get(0).getModified());
 							AppWFull.this.setSyncStamp(
 									parseResponse.get(0).getModified());
+							registerOpenFileListener(
+									getUpdateTitleCallback(material));
 							getGgbApi().setBase64(material.getBase64());
 							setActiveMaterial(material);
-							AppWFull.this.updateMaterialURL(material.getId(),
-									material.getSharingKey(),
-									material.getTitle());
 						} else {
 							onError.run();
 						}
@@ -691,6 +691,16 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 						onError.run();
 					}
 				});
+	}
+
+	protected OpenFileListener getUpdateTitleCallback(final Material material) {
+		return new OpenFileListener() {
+			public void onOpenFile() {
+				AppWFull.this.updateMaterialURL(material.getId(),
+						material.getSharingKey(), material.getTitle());
+				AppWFull.this.unregisterOpenFileListener(this);
+			}
+		};
 	}
 
 	@Override

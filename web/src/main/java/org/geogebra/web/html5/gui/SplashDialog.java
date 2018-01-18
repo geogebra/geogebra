@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.gui;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.ArticleElement;
@@ -39,7 +40,8 @@ public class SplashDialog extends SimplePanel {
 		this.article = article;
 		this.geogebraFrame = frame;
 		isPreviewExists = checkIfPreviewExists(article)
-				|| !"classic".equals(article.getDataParamAppName());
+				|| AppConfigDefault
+						.isUnbundledOrWhiteboard(article.getDataParamAppName());
 
 		if (!isPreviewExists) {
 			FlowPanel panel = new FlowPanel();

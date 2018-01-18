@@ -1,6 +1,7 @@
 package org.geogebra.web.web.main;
 
 import org.geogebra.common.GeoGebraConstants;
+import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockPanel;
 import org.geogebra.common.gui.toolbar.ToolBar;
@@ -10,6 +11,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.AppConfigDefault;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -904,9 +906,11 @@ public class AppWapplet extends AppWFull {
 	public void setFileVersion(String version, String appName) {
 		super.setFileVersion(version, appName);
 		if (has(Feature.WEB_SWITCH_APP_FOR_FILE)
-				&& "graphing".equals(appName)) {
-			this.getArticleElement().setAttribute("data-param-appName",
+				&& AppConfigDefault.isUnbundledOrWhiteboard(appName)
+				&& "auto".equals(getArticleElement().getDataParamAppName())) {
+			getArticleElement().setAttribute("data-param-appName",
 					appName);
+			setVersion(Versions.WEB_GRAPHING);
 			((GuiManagerW) getGuiManager()).swapAlgebraPanel();
 		}
 	}

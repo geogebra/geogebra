@@ -3364,9 +3364,9 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void updateMaterialURL(int i, String sharingKey, String title) {
 		setTubeId(i);
-
 		if (articleElement.getDataParamApp() && sharingKey != null) {
 			String appName = articleElement.getDataParamAppName();
+			Log.printStacktrace(appName);
 			if (StringUtil.empty(appName)) {
 				appName = "classic";
 			}
@@ -3598,8 +3598,8 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public boolean isUnbundled() {
-		return !StringUtil.empty(articleElement.getDataParamAppName())
-				&& !"classic".equals(articleElement.getDataParamAppName())
+		return AppConfigDefault
+				.isUnbundledOrWhiteboard(articleElement.getDataParamAppName())
 				&& !"whiteboard".equals(articleElement.getDataParamAppName());
 
 	}
