@@ -1756,30 +1756,30 @@ public class Ggb2giac {
 				+ "))");
 
 		p("OrthogonalVector.1",
-				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,ggbvect[-%0[1],%0[0]]),"
+				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,ggbvect[-ycoord(%0),xcoord(%0)]),"
 						+ "when(is_3dpoint(%0),?,"
-						+ "when((%0)[0]=='=',convert(when(count_eq(z,lname(%0))==0,[xcoord(%0),ycoord(%0)],[xcoord(%0),ycoord(%0),zcoord(%0)]),25),"
-						+ "convert([[0,-1],[1,0]]*(%0),25))))");
+						+ "when((%0)[0]=='=',when(count_eq(z,lname(%0))==0,ggbvect[xcoord(%0),ycoord(%0)],ggbvect[xcoord(%0),ycoord(%0),zcoord(%0)]),"
+						+ "ggbvect[-ycoord(%0),xcoord(%0)])))");
 		p("UnitOrthogonalVector.1",
-				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,unitV(ggbvect[-%0[1],%0[0]])),"
+				"when(type(%0)==DOM_LIST,when(size(%0)!=2,?,normalize(ggbvect[-%0[1],%0[0]])),"
 						+ "when(is_3dpoint(%0),?,"
 						// vector given as point or list
 						+ "when(subtype(%0)==27||(%0)[0]=='pnt',"
 						// case UnitOrthogonalVector[Vector]
-						+ "regroup(convert(unitV([-ycoord(%0),xcoord(%0)]),25)),"
+						+ "regroup(unitV(ggbvect[-ycoord(%0),xcoord(%0)])),"
 						// case UnitOrthogonalVecto[Line]
 						// UnitOrthogonalVector[Segment]
 						+ "[[gguv:=unitV(when(count_eq(z,lname(%0))==0,[xcoord(%0),ycoord(%0)],[xcoord(%0),ycoord(%0),zcoord(%0)]))],when((gguv)[0]=='undef',"
-						+ "point(?,?),"
+						+ "ggbvect[?,?],"
 						+ "when(size(gguv)==1,"
-						+ "regroup(convert("
-						+ "point(getNum(gguv)[0]/getDenom(gguv),"
-						+ "getNum(gguv)[1]/getDenom(gguv)),25)),"
+						+ "regroup("
+						+ "ggbvect[getNum(gguv)[0]/getDenom(gguv),"
+						+ "getNum(gguv)[1]/getDenom(gguv)]),"
 						+ "regroup(convert(gguv,25))))][1]" + ")))");
 		p("UnitVector.1",
 				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='=',"
-						+ "convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25),"
-						+ "when(ggin[0]='pnt'&&size(ggin[1])==3,normal(unitV(ggin)),convert(unitV([real(ggin[1]),im(ggin[1])]),25))))],ggbuvans][2]");
+						+ "ggbvect[unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],"
+						+ "when(ggin[0]='pnt'&&size(ggin[1])==3,normal(unitV(ggin)),unitV(ggbvect[real(ggin[1]),im(ggin[1])]))))],ggbuvans][2]");
 		// Tecna[(10,1),log10(x)]
 		return commandMap;
 	}
