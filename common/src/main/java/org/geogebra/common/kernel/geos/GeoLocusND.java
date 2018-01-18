@@ -68,7 +68,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	private boolean trace;
 
-	private double startMinX = Double.NaN;
+	// fixed parameters of bounding box when starting scaling
+	private double fixedX = Double.NaN;
+	private double fixedY = Double.NaN;
 
 	/**
 	 * Creates new locus
@@ -142,7 +144,32 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 * Resets the saved starting values of coordinates of bounding box
 	 */
 	public void resetSavedBoundingBoxValues() {
-		startMinX = Double.NaN;
+		fixedX = Double.NaN;
+		fixedY = Double.NaN;
+	}
+
+	private void saveOriginalRates(GRectangle2D gRectangle2D) {
+		if (nonScaledPointList == null) {
+			nonScaledPointList = new ArrayList<>(myPointList.size());
+			nonScaledWidth = gRectangle2D.getMaxX() - gRectangle2D.getMinX();
+			nonScaledHeight = gRectangle2D.getMaxY() - gRectangle2D.getMinY();
+
+			for (int i = 0; i < myPointList.size(); i++) {
+				double x = myPointList.get(i).getX();
+				double y = myPointList.get(i).getY();
+				if (Double.isNaN(x)) {
+					nonScaledPointList
+							.add(new GPoint2D.Double(Double.NaN, Double.NaN));
+				} else {
+					nonScaledPointList.add(new GPoint2D.Double(
+							kernel.getApplication().getActiveEuclidianView()
+									.toScreenCoordX(x) - gRectangle2D.getMinX(),
+							kernel.getApplication().getActiveEuclidianView()
+									.toScreenCoordY(y)
+									- gRectangle2D.getMinY()));
+				}
+			}
+		}
 	}
 
 	/**
@@ -157,50 +184,37 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 */
 	public void updatePoints(EuclidianBoundingBoxHandler handler,
 			AbstractEvent event, GRectangle2D gRectangle2D) {
-		if (Double.isNaN(startMinX)) {
-			startMinX = gRectangle2D.getMinX();
-		}
-		double maxX = gRectangle2D.getMaxX();
-		double minY = gRectangle2D.getMinY();
-		double maxY = gRectangle2D.getMaxY();
 
 		// save the original rates when scaling first time
-		if (nonScaledPointList == null) {
-			nonScaledPointList = new ArrayList<>(myPointList.size());
-			nonScaledWidth = maxX - startMinX;
-			nonScaledHeight = maxY - minY;
-
-			for (int i = 0; i < myPointList.size(); i++) {
-				double x = myPointList.get(i).getX();
-				double y = myPointList.get(i).getY();
-				
-				if (Double.isNaN(x)) {
-					nonScaledPointList
-							.add(new GPoint2D.Double(Double.NaN, Double.NaN));
-				} else {
-					nonScaledPointList.add(new GPoint2D.Double(
-							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordX(x) - startMinX,
-							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordY(y) - minY));
-				}
-			}
-		}
+		saveOriginalRates(gRectangle2D);
 
 		switch (handler) {
 		case TOP:
-			updatePointsY((maxY - event.getY()) / nonScaledHeight,
+			if (Double.isNaN(fixedY)) {
+				fixedY = gRectangle2D.getMaxY();
+			}
+			updatePointsY((fixedY - event.getY()) / nonScaledHeight,
 					event.getY());
 			break;
 		case BOTTOM:
-			updatePointsY((event.getY() - minY) / nonScaledHeight,
-					minY);
+			if (Double.isNaN(fixedY)) {
+				fixedY = gRectangle2D.getMinY();
+			}
+			updatePointsY((event.getY() - fixedY) / nonScaledHeight,
+					fixedY);
 			break;
 		case LEFT:
-			updatePointsX((maxX - event.getX()) / nonScaledWidth, event.getX());
+			if (Double.isNaN(fixedX)) {
+				fixedX = gRectangle2D.getMaxX();
+			}
+			updatePointsX((fixedX - event.getX()) / nonScaledWidth,
+					event.getX());
 			break;
 		case RIGHT:
-			updatePointsX((event.getX() - startMinX) / nonScaledWidth, startMinX);
+			if (Double.isNaN(fixedX)) {
+				fixedX = gRectangle2D.getMinX();
+			}
+			updatePointsX((event.getX() - fixedX) / nonScaledWidth, fixedX);
 			break;
 		default:
 			Log.warn("unhandled case");
