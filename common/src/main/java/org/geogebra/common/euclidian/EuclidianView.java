@@ -289,6 +289,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean batchUpdate;
 	/** kernel */
 	protected Kernel kernel;
+	/** cache for bottom layers */
 	protected GGraphics2D cacheGraphics;
 
 	private final static int[] lineTypes = {
@@ -5118,7 +5119,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		return getHeight();
 	}
 
-	/**
+    /**
 	 * default frame, for when no custom frame for exporting taking place
 	 */
 	private GRectangle getDefaultFrame() {
@@ -5141,33 +5142,48 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return selectionRectangle;
 		}
 
-		GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-		GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
-
-		if (export1 == null || export2 == null) {
+		double[] exportCoords = getExportCoords();
+		if (exportCoords == null) {
 			return getDefaultFrame();
 		}
 
-		double[] xy1 = new double[2];
-		double[] xy2 = new double[2];
-		export1.getInhomCoords(xy1);
-		export2.getInhomCoords(xy2);
-		double x1 = Math.max(xy1[0], xy2[0]);
-		double x2 = Math.min(xy1[0], xy2[0]);
-		double y1 = Math.max(xy1[1], xy2[1]);
-		double y2 = Math.min(xy1[1], xy2[1]);
-		// Log.debug("x1 = " + x1 + " y1 = " + y1 + " x2 = " + x2 + " y2 = " +
-		// y2);
-		x1 = (x1 / getInvXscale()) + getXZero();
-		x2 = (x2 / getInvXscale()) + getXZero();
-		y1 = getYZero() - (y1 / getInvYscale());
-		y2 = getYZero() - (y2 / getInvYscale());
-		// Log.debug("x1 = " + x1 + " y1 = " + y1 + " x2 = " + x2 + " y2 = " +
-		// y2);
+		double x1 = exportCoords[0];
+		double y1 = exportCoords[1];
+		double x2 = exportCoords[2];
+		double y2 = exportCoords[3];
 
-		return AwtFactory.getPrototype().newRectangle((int) x2, (int) y1,
-				(int) (x1 - x2), (int) (y2 - y1));
+		return AwtFactory.getPrototype().newRectangle((int) x1, (int) y1,
+				(int) (x2 - x1), (int) (y2 - y1));
+	}
 
+	/**
+	 * 
+	 * @return {minX, minY, maxX, maxY} if Export_1 and Export_2 exist,
+	 *         otherwise null
+	 */
+	private double[] getExportCoords() {
+		GeoElement geo1 = kernel.lookupLabel(EXPORT1);
+		GeoElement geo2 = kernel.lookupLabel(EXPORT2);
+
+		if (geo1 instanceof GeoPoint && geo2 instanceof GeoPoint) {
+			GeoPoint export1 = (GeoPoint) geo1;
+			GeoPoint export2 = (GeoPoint) geo2;
+
+			double[] ret = new double[4];
+			double[] xy1 = new double[2];
+			double[] xy2 = new double[2];
+
+			export1.getInhomCoords(xy1);
+			export2.getInhomCoords(xy2);
+			ret[0] = toScreenCoordXd(Math.min(xy1[0], xy2[0]));
+			ret[1] = toScreenCoordYd(Math.max(xy1[1], xy2[1]));
+			ret[2] = toScreenCoordXd(Math.max(xy1[0], xy2[0]));
+			ret[3] = toScreenCoordYd(Math.min(xy1[1], xy2[1]));
+
+			return ret;
+		}
+
+		return null;
 	}
 
 	/**
@@ -5177,23 +5193,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (selectionRectangle != null) {
 			return (int) selectionRectangle.getWidth();
 		}
-		try {
-			GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-			GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
-			double[] xy1 = new double[2];
-			double[] xy2 = new double[2];
-			export1.getInhomCoords(xy1);
-			export2.getInhomCoords(xy2);
-			double x1 = xy1[0];
-			double x2 = xy2[0];
-			x1 = (x1 / getInvXscale()) + getXZero();
-			x2 = (x2 / getInvXscale()) + getXZero();
+		double[] exportCoords = getExportCoords();
 
-			return (int) Math.abs(x1 - x2) + 2;
-		} catch (Exception e) {
-			return getWidth();
+		if (exportCoords != null) {
+			double x1 = exportCoords[0];
+			double x2 = exportCoords[2];
+			return (int) (x2 - x1 + 2);
 		}
 
+		return getWidth();
 	}
 
 	/**
@@ -5204,23 +5212,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return (int) selectionRectangle.getHeight();
 		}
 
-		try {
-			GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-			GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
-			double[] xy1 = new double[2];
-			double[] xy2 = new double[2];
-			export1.getInhomCoords(xy1);
-			export2.getInhomCoords(xy2);
-			double y1 = xy1[1];
-			double y2 = xy2[1];
-			y1 = getYZero() - (y1 / getInvYscale());
-			y2 = getYZero() - (y2 / getInvYscale());
+		double[] exportCoords = getExportCoords();
 
-			return (int) Math.abs(y1 - y2) + 2;
-		} catch (Exception e) {
-			return getHeight();
+		if (exportCoords != null) {
+			double y1 = exportCoords[1];
+			double y2 = exportCoords[3];
+
+			return (int) (y2 - y1 + 2);
 		}
 
+		return getHeight();
 	}
 
 	// for use in AlgebraController
@@ -5867,30 +5868,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// "+rect.height);
 		} else {
 			// use points Export_1 and Export_2 to define corner
-			try {
-				// Construction cons = kernel.getConstruction();
-				GeoPoint export1 = (GeoPoint) kernel.lookupLabel(EXPORT1);
-				GeoPoint export2 = (GeoPoint) kernel.lookupLabel(EXPORT2);
-				double[] xy1 = new double[2];
-				double[] xy2 = new double[2];
-				export1.getInhomCoords(xy1);
-				export2.getInhomCoords(xy2);
-				double x1 = xy1[0];
-				double x2 = xy2[0];
-				double y1 = xy1[1];
-				double y2 = xy2[1];
-				x1 = (x1 / getInvXscale()) + getXZero();
-				y1 = getYZero() - (y1 / getInvYscale());
-				x2 = (x2 / getInvXscale()) + getXZero();
-				y2 = getYZero() - (y2 / getInvYscale());
-				int x = (int) Math.min(x1, x2);
-				int y = (int) Math.min(y1, y2);
-				int exportWidth = (int) Math.abs(x1 - x2) + 2;
-				int exportHeight = (int) Math.abs(y1 - y2) + 2;
+			double[] exportCoords = getExportCoords();
+			if (exportCoords != null) {
+				double x1 = exportCoords[0];
+				double y1 = exportCoords[1];
+				double x2 = exportCoords[2];
+				double y2 = exportCoords[3];
+				int exportWidth = (int) (x2 - x1 + 2);
+				int exportHeight = (int) (y2 - y1 + 2);
 
 				g2d.setClip(0, 0, exportWidth, exportHeight);
-				g2d.translate(-x, -y);
-			} catch (Exception e) {
+				g2d.translate(-x1, -y1);
+			} else {
 				// or take full euclidian view
 				g2d.setClip(0, 0, getWidth(), getHeight());
 			}
