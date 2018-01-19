@@ -666,7 +666,7 @@ public abstract class EuclidianController {
 									((GeoPointND) geo).getInhomY());
 						}
 						firstMoveable = false;
-					} else if (geo.isGeoText()) {
+					} else if (geo instanceof GeoText) {
 						if (((GeoText) geo).hasAbsoluteLocation()) {
 							GeoPointND loc = ((GeoText) geo).getStartPoint();
 							if (loc != null) {
@@ -7457,7 +7457,7 @@ public abstract class EuclidianController {
 
 	final protected boolean handleMovedElementFreeText() {
 
-		if (movedGeoElement.isGeoText()) {
+		if (movedGeoElement instanceof GeoText) {
 			moveMode = MOVE_TEXT;
 			movedGeoText = (GeoText) movedGeoElement;
 			view.setShowMouseCoords(false);
