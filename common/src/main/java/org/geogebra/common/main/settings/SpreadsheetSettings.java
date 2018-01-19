@@ -417,16 +417,8 @@ public class SpreadsheetSettings extends AbstractSettings {
 		return enableAutoComplete;
 	}
 
-	public int getHScrollBarValue() {
-		return HScrollBarValue;
-	}
-
 	public void setHScrollBalValue(int hScrollBalValue) {
 		HScrollBarValue = hScrollBalValue;
-	}
-
-	public int getVScrollBarValue() {
-		return VScrollBarValue;
 	}
 
 	public void setVScrollBalValue(int vScrollBalValue) {
@@ -450,7 +442,7 @@ public class SpreadsheetSettings extends AbstractSettings {
 	}
 
 	public boolean isSelectionDefaults() {
-		return (HScrollBarValue == 0 && VScrollBarValue == 00
+		return (HScrollBarValue == 0 && VScrollBarValue == 0
 				&& selectedCell.getX() == 0 && selectedCell.getY() == 0);
 	}
 
@@ -463,40 +455,39 @@ public class SpreadsheetSettings extends AbstractSettings {
 				&& !equalsRequired() && !isEnableAutoComplete());
 	}
 
-	public boolean isDefaultToolTipsAllowed() {
+	private boolean isDefaultToolTipsAllowed() {
 		return allowToolTips == Defaults.ALLOW_TOOLTIPS;
 	}
 
-	public boolean isDefaultSpecialEditorAllowed() {
+	private boolean isDefaultSpecialEditorAllowed() {
 		return allowSpecialEditor == Defaults.ALLOW_SPECIAL_EDITOR;
 	}
 
-	public boolean isDefaultColumnSelect() {
+	private boolean isDefaultColumnSelect() {
 		return isColumnSelect == Defaults.IS_COLUMN_SELECT;
 	}
 
-	public boolean isDefaultVScrollBar() {
+	private boolean isDefaultVScrollBar() {
 		return showVScrollBar == Defaults.SHOW_VSCROLLBAR;
 	}
 
-	public boolean isDefaultHScrollBar() {
+	private boolean isDefaultHScrollBar() {
 		return showHScrollBar == Defaults.SHOW_HSCROLLBAR;
 	}
 
-	public boolean isDefaultShowColumnHeader() {
-		// TODO Auto-generated method stub
+	private boolean isDefaultShowColumnHeader() {
 		return showColumnHeader == Defaults.SHOW_COLUMN_HEADER;
 	}
 
-	public boolean isDefaultShowRowHeader() {
+	private boolean isDefaultShowRowHeader() {
 		return showRowHeader == Defaults.SHOW_ROW_HEADER;
 	}
 
-	public boolean isDefaultShowFormulaBar() {
+	private boolean isDefaultShowFormulaBar() {
 		return showFormulaBar == Defaults.SHOW_FORMULA_BAR;
 	}
 
-	public boolean isDefaultShowGrid() {
+	private boolean isDefaultShowGrid() {
 		return showGrid == Defaults.SHOW_GRID;
 	}
 
@@ -603,6 +594,21 @@ public class SpreadsheetSettings extends AbstractSettings {
 		}
 
 		// layout
+		getLayoutXML(sb);
+
+		// cell formats
+
+		if (!asPreference && hasCellFormat()) {
+			sb.append("\t<spreadsheetCellFormat formatMap=\"");
+			sb.append(cellFormat);
+			sb.append("\"/>\n");
+		}
+
+		sb.append("</spreadsheetView>\n");
+
+	}
+
+	public void getLayoutXML(StringBuilder sb) {
 		if (!isLayoutDefaults()) {
 			sb.append("\t<layout ");
 
@@ -649,16 +655,6 @@ public class SpreadsheetSettings extends AbstractSettings {
 
 			sb.append("/>\n");
 		}
-
-		// cell formats
-
-		if (!asPreference && hasCellFormat()) {
-			sb.append("\t<spreadsheetCellFormat formatMap=\"");
-			sb.append(cellFormat);
-			sb.append("\"/>\n");
-		}
-
-		sb.append("</spreadsheetView>\n");
 
 	}
 

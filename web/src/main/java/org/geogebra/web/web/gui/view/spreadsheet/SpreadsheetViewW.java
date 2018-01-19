@@ -568,73 +568,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			sb.append("/>\n");
 		}
 
-		// layout
-		sb.append("\t<layout ");
 
-		sb.append(" showFormulaBar=\"");
-		sb.append(settings().showFormulaBar() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showGrid=\"");
-		sb.append(settings().showGrid() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showHScrollBar=\"");
-		sb.append(settings().showHScrollBar() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showVScrollBar=\"");
-		sb.append(settings().showVScrollBar() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showColumnHeader=\"");
-		sb.append(settings().showColumnHeader() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" showRowHeader =\"");
-		sb.append(settings().showRowHeader() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" allowSpecialEditor=\"");
-		sb.append(settings().allowSpecialEditor() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" allowToolTips=\"");
-		sb.append(settings().allowToolTips() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append(" equalsRequired=\"");
-		sb.append(settings().equalsRequired() ? "true" : "false");
-		sb.append("\"");
-
-		sb.append("/>\n");
-
-		// ---- end layout
-
-		// file browser
-		/*
-		 * TODO if (fileBrowser != null) { sb.append("\t<spreadsheetBrowser ");
-		 * 
-		 * if (!settings().initialFilePath().equals(settings().defaultFile()) ||
-		 * settings().initialURL() != DEFAULT_URL ||
-		 * settings().initialBrowserMode() != DEFAULT_MODE) {
-		 * sb.append(" default=\""); sb.append("false"); sb.append("\"");
-		 * 
-		 * sb.append(" dir=\""); sb.append(settings().initialFilePath());
-		 * sb.append("\"");
-		 * 
-		 * sb.append(" URL=\""); sb.append(settings().initialURL());
-		 * sb.append("\"");
-		 * 
-		 * sb.append(" mode=\""); sb.append(settings().initialBrowserMode());
-		 * sb.append("\"");
-		 * 
-		 * } else {
-		 * 
-		 * sb.append(" default=\""); sb.append("true"); sb.append("\""); }
-		 * 
-		 * sb.append("/>\n"); }
-		 */
+		settings().getLayoutXML(sb);
 
 		// cell formats
 		if (!asPreference) {

@@ -124,8 +124,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		}
 
 		autoCompleteTextField.setText(text);
-		autoCompleteTextField.setAutoComplete(
-				app.getSettings().getSpreadsheet().isEnableAutoComplete());
 		// autoCompleteTextField.setFont(app.getFontCanDisplay(text));
 		autoCompleteTextField.requestFocus();
 
