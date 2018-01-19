@@ -115,17 +115,35 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	}
 
 	private void createCenter() {
-		SVGResource img;
 		if (!app.showToolBar() || !app.enableGraphing()) {
 			return;
 		}
+
+		createAlgebraButton();
+		createToolsButton();
+
+		center = new FlowPanel();
+		center.addStyleName("center");
+		center.addStyleName("indicatorLeft");
+
+		center.add(btnAlgebra);
+
+		Element indicator = DOM.createDiv();
+		indicator.addClassName("indicator");
+		center.getElement().insertFirst(indicator);
+		center.add(btnTools);
+
+		contents.add(center);
+	}
+
+	private void createAlgebraButton() {
+		SVGResource img;
 		if (!app.isUnbundledGeometry()) {
 			img = MaterialDesignResources.INSTANCE.toolbar_algebra_graphing();
 		} else {
 			img = MaterialDesignResources.INSTANCE.toolbar_algebra_geometry();
 		}
-		btnAlgebra = new MyToggleButton(new Image(new ImageResourcePrototype(
-				null, img.getSafeUri(), 0, 0, 24, 24, false, false)), app);
+		btnAlgebra = new MyToggleButton(new NoDragImage(img, 24, 24), app);
 		btnAlgebra.addStyleName("tabButton");
 		ClickStartHandler.init(btnAlgebra, new ClickStartHandler() {
 
@@ -134,34 +152,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 				onAlgebraPressed();
 			}
 		});
-
-
-			createToolsButton();
-
-
-		if (app.has(Feature.TAB_ON_GUI)) {
-			if (btnAlgebra != null) {
-				btnAlgebra.ignoreTab();
-			}
-			if (btnTools != null) {
-				btnTools.ignoreTab();
-			}
-		}
-
-		center = new FlowPanel();
-		center.addStyleName("center");
-		center.addStyleName("indicatorLeft");
-
-		center.add(btnAlgebra);
-		if (btnTools != null) {
-			Element indicator = DOM.createDiv();
-			indicator.addClassName("indicator");
-			center.getElement().insertFirst(indicator);
-			center.add(btnTools);
-		}else{
-			center.addStyleName("singleButton");
-		}
-		contents.add(center);
+		btnAlgebra.addKeyDownHandler(this);
+		AriaHelper.hide(btnAlgebra);
+		btnAlgebra.ignoreTab();
 	}
 
 	private void createToolsButton() {
@@ -180,10 +173,10 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 						onToolsPressed();
 					}
 				});
-		if (app.has(Feature.TAB_ON_GUI)) {
-			btnAlgebra.addKeyDownHandler(this);
-			btnTools.addKeyDownHandler(this);
-		}
+
+		btnTools.addKeyDownHandler(this);
+		AriaHelper.hide(btnTools);
+		btnTools.ignoreTab();
 	}
 
 	/**
