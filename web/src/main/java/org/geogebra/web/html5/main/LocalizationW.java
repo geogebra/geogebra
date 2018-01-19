@@ -94,7 +94,7 @@ public final class LocalizationW extends Localization
 	}
 
 	private String getCommandLocaleString() {
-		return getCommandLocale().getLanguage();
+		return getCommandLocale().toString();
 	}
 
 	/**
