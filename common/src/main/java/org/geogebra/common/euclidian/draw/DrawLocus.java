@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation of locus
@@ -320,21 +319,6 @@ public class DrawLocus extends Drawable {
 		((GeoLocus) geo).resetSavedBoundingBoxValues();
 	}
 
-	/**
-	 * update locus by dragging corner handler
-	 * 
-	 * @param handler
-	 *            - handler was hit
-	 * @param e
-	 *            - mouse event
-	 */
-	private void updateLocusCorner(EuclidianBoundingBoxHandler handler,
-			AbstractEvent e) {
-		//TODO
-		Log.warn(
-				"Not implemented corner move" + handler + "," + e + ","
-						+ geo.getLabelSimple());
-	}
 
 	/**
 	 * update locus by dragging side handler
