@@ -1659,7 +1659,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			case DEFAULT:
 				isEditing = true;
 
-				AutoCompleteTextFieldW w = (AutoCompleteTextFieldW) ((MyCellEditorW) getCellEditor())
+				AutoCompleteTextFieldW w = ((MyCellEditorW) getCellEditor())
 						.getTableCellEditorWidget(this, ob, false,
 				        row, col);
 				// w.getElement().setAttribute("display", "none");

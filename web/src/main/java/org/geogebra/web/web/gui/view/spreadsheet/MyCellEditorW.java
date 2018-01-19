@@ -18,7 +18,6 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.web.MathFieldW;
 
 //import geogebra.web.gui.virtualkeyboard.VirtualKeyboard;
@@ -42,7 +41,6 @@ public class MyCellEditorW implements BaseCellEditor {
 	private boolean editing = false;
 
 	private boolean allowProcessGeo = false;
-	private boolean enableAutoComplete = false;
 
 	private SpreadsheetCellEditorKeyListener keyListener;
 
@@ -61,12 +59,8 @@ public class MyCellEditorW implements BaseCellEditor {
 		this.allowProcessGeo = allowProcessGeo;
 	}
 
-	public boolean isEnableAutoComplete() {
-		return enableAutoComplete;
-	}
 
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
-		this.enableAutoComplete = enableAutoComplete;
 		autoCompleteTextField.setAutoComplete(enableAutoComplete);
 	}
 
@@ -90,7 +84,8 @@ public class MyCellEditorW implements BaseCellEditor {
 
 			}
 		});
-		autoCompleteTextField.setAutoComplete(enableAutoComplete);
+		autoCompleteTextField.setAutoComplete(
+				app.getSettings().getSpreadsheet().isEnableAutoComplete());
 		autoCompleteTextField.setStyleName("SpreadsheetEditorCell");
 		editorPanel.add(autoCompleteTextField);
 	}
@@ -102,7 +97,8 @@ public class MyCellEditorW implements BaseCellEditor {
 
 	}
 
-	public Widget getTableCellEditorWidget(MyTableW table0, Object value0,
+	public AutoCompleteTextFieldW getTableCellEditorWidget(MyTableW table0,
+			Object value0,
 			boolean isSelected, int row0, int column0) {
 
 		table = table0;
@@ -128,6 +124,8 @@ public class MyCellEditorW implements BaseCellEditor {
 		}
 
 		autoCompleteTextField.setText(text);
+		autoCompleteTextField.setAutoComplete(
+				app.getSettings().getSpreadsheet().isEnableAutoComplete());
 		// autoCompleteTextField.setFont(app.getFontCanDisplay(text));
 		autoCompleteTextField.requestFocus();
 
