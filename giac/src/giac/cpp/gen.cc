@@ -7544,8 +7544,9 @@ namespace giac {
 	return apply2nd(a,b,contextptr,rdiv);
       if (ckmatrix(b))
 	return a*inv(b,contextptr);
-      else
-	return fraction(a,b);
+      if (calc_mode(contextptr)==1 && b.subtype!=_POLY1__VECT)
+	return apply2nd(a,b,contextptr,rdiv);
+      return fraction(a,b);
     default:
 #ifdef TIMEOUT
       control_c();
