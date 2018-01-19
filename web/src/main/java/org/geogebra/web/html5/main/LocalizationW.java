@@ -83,7 +83,7 @@ public final class LocalizationW extends Localization
 			return key;
 		}
 
-		String ret = getPropertyNative(localeStr, key, "command");
+		String ret = getPropertyNative(getCommandLocaleString(), key, "command");
 
 		if (ret == null || "".equals(ret)) {
 			Log.debug("command key not found: " + key);
@@ -91,7 +91,10 @@ public final class LocalizationW extends Localization
 		}
 
 		return ret;
+	}
 
+	private String getCommandLocaleString() {
+		return getCommandLocale().getLanguage();
 	}
 
 	/**

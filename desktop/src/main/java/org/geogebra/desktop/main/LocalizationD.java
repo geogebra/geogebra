@@ -41,6 +41,11 @@ public class LocalizationD extends LocalizationJre {
 				app != null && app.has(Feature.ALL_LANGUAGES));
 	}
 
+	@Override
+	protected Locale getCommandLocale() {
+		return currentLocale;
+	}
+
 	/**
 	 * @param prerelease
 	 *            whether we also have prereleased languages

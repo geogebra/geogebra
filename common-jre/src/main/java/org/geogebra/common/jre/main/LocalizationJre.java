@@ -205,7 +205,7 @@ public abstract class LocalizationJre extends Localization {
 	@Override
 	final public void initCommand() {
 		if (rbcommand == null) {
-			rbcommand = createBundle(getCommandRessourcePath(), currentLocale);
+			rbcommand = createBundle(getCommandRessourcePath(), getCommandLocale());
 		}
 
 	}
@@ -224,7 +224,7 @@ public abstract class LocalizationJre extends Localization {
 		}
 
 		if (rbcommand != null) {
-			rbcommand = createBundle(getCommandRessourcePath(), currentLocale);
+			rbcommand = createBundle(getCommandRessourcePath(), getCommandLocale());
 		}
 		if (rbcolors != null) {
 			rbcolors = createBundle(getColorRessourcePath(), currentLocale);

@@ -617,4 +617,13 @@ public enum Language {
 		return this.rightAngleStyle;
 	}
 
+	final public boolean hasTranslatedKeyboard() {
+		switch (this) {
+			case Chinese_Simplified:
+			case Chinese_Traditional:
+				return false;
+			default:
+				return true;
+		}
+	}
 }

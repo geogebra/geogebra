@@ -1366,4 +1366,10 @@ public abstract class Localization {
 		return ret;
 	}
 
+	protected Locale getCommandLocale() {
+		if (!Language.getLanguage(getLanguage()).hasTranslatedKeyboard()) {
+			return Locale.ENGLISH;
+		}
+		return currentLocale;
+	}
 }
