@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.menubar.GMenuBar;
 import org.geogebra.web.web.html5.AttachedToDOM;
@@ -22,8 +23,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -274,16 +273,11 @@ public class GPopupMenuW implements AttachedToDOM {
 		hide();
 	}
 
-	private static ImageResource getSubMenuIcon(boolean isRTL) {
-		return isRTL
-				? new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.arrow_drop_left_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)
-				: new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE
-								.arrow_drop_right_black().getSafeUri(),
-						0, 0, 24, 24, false, false);
+	private static SVGResource getSubMenuIcon(boolean isRTL) {
+		return isRTL ?
+				MaterialDesignResources.INSTANCE.arrow_drop_left_black()
+				: MaterialDesignResources.INSTANCE
+						.arrow_drop_right_black();
 	}
 
 	// public void addItem(final MenuItem item) {
@@ -372,7 +366,7 @@ public class GPopupMenuW implements AttachedToDOM {
 
 			popupMenu.setParentMenu(this);
 			if (!horizontal) {
-				ImageResource imgRes = getSubMenuIcon(
+				SVGResource imgRes = getSubMenuIcon(
 						app.getLocalization().isRightToLeftReadingOrder());
 				popupMenu.appendSubmenu(newItem, imgRes);
 			}

@@ -547,10 +547,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private void addUndoButton(final FlowPanel panel) {
 		btnUndo = new MyToggleButton(
-				new Image(new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.undo_border()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)),
+				new NoDragImage(MaterialDesignResources.INSTANCE.undo_border(),
+						24),
 				app);
 		btnUndo.setTitle(app.getLocalization().getMenu("Undo"));
 		btnUndo.addStyleName("flatButton");
@@ -573,10 +571,8 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 	private void addRedoButton(final FlowPanel panel) {
 		btnRedo = new MyToggleButton(
-				new Image(new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.redo_border()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)),
+				new NoDragImage(MaterialDesignResources.INSTANCE.redo_border(),
+						24),
 				app);
 		btnRedo.setTitle(app.getLocalization().getMenu("Redo"));
 		btnRedo.addStyleName("flatButton");

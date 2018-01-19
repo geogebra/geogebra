@@ -23,7 +23,6 @@ import org.geogebra.web.web.gui.layout.GUITabs;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -113,10 +112,8 @@ public class ZoomPanel extends FlowPanel
 	 * add fullscreen button
 	 */
 	public void addFullscreenButton() {
-		fullscreenBtn = new StandardButton(new ImageResourcePrototype(null,
-						ZoomPanelResources.INSTANCE.fullscreen_black18()
-								.getSafeUri(),
-				0, 0, 18, 18, false, false),
+		fullscreenBtn = new StandardButton(
+				ZoomPanelResources.INSTANCE.fullscreen_black18(), null, 18,
 				app);
 		fullscreenBtn.getDownFace()
 				.setImage(new NoDragImage(ZoomPanelResources.INSTANCE
@@ -157,10 +154,7 @@ public class ZoomPanel extends FlowPanel
 	void onFullscreen() {
 		isFullScreen = true;
 		fullscreenBtn
-				.setIcon(new ImageResourcePrototype(
-						null, ZoomPanelResources.INSTANCE
-								.fullscreen_exit_black18().getSafeUri(),
-						0, 0, 18, 18, false, false));
+				.setIcon(ZoomPanelResources.INSTANCE.fullscreen_exit_black18());
 	}
 
 	/**
@@ -168,9 +162,7 @@ public class ZoomPanel extends FlowPanel
 	 */
 	void onExitFullscreen() {
 		isFullScreen = false;
-		fullscreenBtn.setIcon(new ImageResourcePrototype(null,
-				ZoomPanelResources.INSTANCE.fullscreen_black18().getSafeUri(),
-				0, 0, 18, 18, false, false));
+		fullscreenBtn.setIcon(ZoomPanelResources.INSTANCE.fullscreen_black18());
 		if (!app.getArticleElement().getDataParamFitToScreen()) {
 
 			final Element scaler = app.getArticleElement().getParentElement();
@@ -213,11 +205,8 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public void addZoomButtons() {
 		homeBtn = new StandardButton(
-				new ImageResourcePrototype(null,
-						ZoomPanelResources.INSTANCE.home_zoom_black18()
-								.getSafeUri(),
-						0, 0, 18, 18, false, false),
-				app);
+				ZoomPanelResources.INSTANCE.home_zoom_black18(),
+				null, 18, app);
 		homeBtn.setStyleName("zoomPanelBtn");
 		hideHomeButton();
 		FastClickHandler handlerHome = new FastClickHandler() {
@@ -250,11 +239,7 @@ public class ZoomPanel extends FlowPanel
 
 	private void addZoomOutButton() {
 		zoomOutBtn = new StandardButton(
-				new ImageResourcePrototype(null,
-						ZoomPanelResources.INSTANCE.remove_black18()
-								.getSafeUri(),
-						0, 0, 18, 18, false, false),
-				app);
+				ZoomPanelResources.INSTANCE.remove_black18(), null, 18, app);
 		zoomOutBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
 
@@ -268,9 +253,9 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private void addZoomInButton() {
-		zoomInBtn = new StandardButton(new ImageResourcePrototype(null,
-				ZoomPanelResources.INSTANCE.add_black18().getSafeUri(), 0, 0,
-				18, 18, false, false), app);
+		zoomInBtn = new StandardButton(
+				ZoomPanelResources.INSTANCE.add_black18(), null,
+				18, app);
 		zoomInBtn.setStyleName("zoomPanelBtn");
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 

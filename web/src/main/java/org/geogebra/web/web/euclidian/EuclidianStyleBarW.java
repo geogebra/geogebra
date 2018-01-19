@@ -64,7 +64,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -640,11 +639,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 */
 	protected void addDeleteButton() {
 		btnDelete = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.delete_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
+				MaterialDesignResources.INSTANCE.delete_black(), null, 24, app);
 		btnDelete.setStyleName("MyCanvasButton");
 		FastClickHandler btnDelHandler = new FastClickHandler() {
 			
@@ -1651,13 +1646,10 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize.setIcon(
-				new ImageOrText(app.isUnbundledOrWhiteboard()
-						? new ImageResourcePrototype(null,
+		btnTextSize.setIcon(app.isUnbundledOrWhiteboard() ? new ImageOrText(
 								MaterialDesignResources.INSTANCE
-										.text_size_black().getSafeUri(),
-								0, 0, 24, 24, false, false)
-				: StyleBarResources.INSTANCE
+						.text_size_black(),
+				24) : new ImageOrText(StyleBarResources.INSTANCE
 		                        .font_size()));
 		btnTextSize.addStyleName("withIcon");
 		btnTextSize.getMyPopup().removeStyleName("matPopupPanel");

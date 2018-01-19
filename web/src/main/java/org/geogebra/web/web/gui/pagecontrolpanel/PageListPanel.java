@@ -18,7 +18,6 @@ import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -78,11 +77,7 @@ public class PageListPanel
 
 	private void addPlusButton() {
 		plusButton = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.add_white()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
+				MaterialDesignResources.INSTANCE.add_white(), null, 24, app);
 		plusButton.setStyleName("mowFloatingButton");
 		plusButton.addStyleName("mowPlusButton");
 		plusButton.addFastClickHandler(new FastClickHandler() {

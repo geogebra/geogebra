@@ -29,7 +29,6 @@ import org.geogebra.web.web.main.AppWFull;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.layout.client.Layout.AnimationCallback;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -268,10 +267,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 
 	private void addMoveBtn() {
 		moveBtn = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.mode_move()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
+				MaterialDesignResources.INSTANCE.mode_move(), null, 24,
 				app);
 		AriaHelper.hide(moveBtn);
 		String altText = app.getLocalization().getMenu(

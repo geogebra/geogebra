@@ -22,6 +22,7 @@ import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -40,11 +41,9 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PushButton;
@@ -452,12 +451,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		btnImage.setSelectedIndex(-1);
 		btnImage.setKeepVisible(false);
 		btnClearImage = new PushButton(
-				new Image(app.isUnbundledOrWhiteboard()
-				? new ImageResourcePrototype(null,
+				new NoDragImage(app.isUnbundledOrWhiteboard()
+						? 
 						MaterialDesignResources.INSTANCE.delete_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false)
-				: AppResources.INSTANCE.delete_small()));
+						: AppResources.INSTANCE.delete_small(), 24));
 		btnClearImage.addClickHandler(new ClickHandler() {
 
 			@Override

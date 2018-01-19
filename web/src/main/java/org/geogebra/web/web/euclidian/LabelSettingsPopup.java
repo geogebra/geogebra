@@ -29,7 +29,6 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -71,10 +70,8 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		this.app = app;
 		loc = app.getLocalization();
 		this.setIcon(
-				new ImageOrText(new ImageResourcePrototype(
-						null, ToolbarSvgResources.INSTANCE
-								.mode_showhidelabel_32().getSafeUri(),
-						0, 0, 24, 24, false, false)));
+				new ImageOrText(ToolbarSvgResources.INSTANCE
+						.mode_showhidelabel_32(), 24));
 		createPopup();
 
 		addStyleName("MyCanvasButton");

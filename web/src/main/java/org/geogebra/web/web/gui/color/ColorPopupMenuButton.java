@@ -16,7 +16,6 @@ import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
 
 /**
@@ -155,13 +154,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	public ImageOrText getButtonIcon() {
 		ImageOrText icon = super.getButtonIcon();
 		if (app.isUnbundledOrWhiteboard()) {
-			icon = new ImageOrText(new ImageResourcePrototype(null,
-					isEnableTable()
-							? MaterialDesignResources.INSTANCE.color_black()
-									.getSafeUri()
-							: MaterialDesignResources.INSTANCE.opacity_black()
-									.getSafeUri(),
-					0, 0, 24, 24, false, false));
+			icon = new ImageOrText(
+					MaterialDesignResources.INSTANCE.color_black(), 24);
 			return icon;
 		}
 		if (icon == null) {
@@ -244,10 +238,8 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 				a[i] = GeoGebraIconW.createColorSwatchIcon(alpha, colorArray[i],
 						null);
 			} else {
-				a[i] = new ImageOrText(new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.add_black()
-						.getSafeUri(),
-						0, 0, 24, 24, false, false))
+				a[i] = new ImageOrText(
+						MaterialDesignResources.INSTANCE.add_black(), 24)
 								.setClass("plusButton");
 				// a[i] = new ImageOrText("+");
 				// a[i] = new ImageOrText(AppResources.INSTANCE.more());

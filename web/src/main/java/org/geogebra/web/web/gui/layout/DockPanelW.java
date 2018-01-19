@@ -47,7 +47,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragEvent;
 import com.google.gwt.event.dom.client.DragHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -550,11 +549,8 @@ public abstract class DockPanelW extends ResizeComposite
 		// always show the view-icon; othrwise use showStylebar as parameter
 		if (app.isUnbundledOrWhiteboard()) {
 			graphicsContextMenuBtn = new StandardButton(
-					new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE.settings_border()
-									.getSafeUri(),
-							0, 0, 24, 24, false, false),
-					app);
+					MaterialDesignResources.INSTANCE.settings_border(), null,
+					24, app);
 			graphicsContextMenuBtn
 					.setTitle(app.getLocalization().getMenu("Settings"));
 			FastClickHandler graphicsContextMenuHandler = new FastClickHandler() {

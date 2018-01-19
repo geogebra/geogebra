@@ -13,6 +13,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.css.MaterialDesignResources;
@@ -25,7 +26,6 @@ import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
@@ -111,20 +111,17 @@ public class ItemControls extends FlowPanel
 	public ToggleButton getMoreButton() {
 		if (btnMore == null) {
 			btnMore = new MyToggleButton(
-					new Image(
-					new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE.more_vert_black()
-									.getSafeUri(),
-									0, 0, 24, 24, false, false)),
+					new NoDragImage(
+							MaterialDesignResources.INSTANCE.more_vert_black(),
+							24),
 					radioTreeItem.app);
 
 			btnMore.ignoreTab();
 
 			btnMore.getUpHoveringFace()
-					.setImage(new Image(new ImageResourcePrototype(null,
-							MaterialDesignResources.INSTANCE.more_vert_purple()
-									.getSafeUri(),
-							0, 0, 24, 24, false, false)));
+					.setImage(new NoDragImage(
+							MaterialDesignResources.INSTANCE.more_vert_purple(),
+							24));
 			btnMore.addStyleName("XButton");
 			btnMore.addStyleName("shown");
 			btnMore.addStyleName("more");

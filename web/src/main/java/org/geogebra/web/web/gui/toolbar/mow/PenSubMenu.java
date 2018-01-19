@@ -24,7 +24,6 @@ import org.geogebra.web.web.gui.util.PenPreview;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -126,11 +125,7 @@ public class PenSubMenu extends SubMenuPanel {
 			btnColor[i] = createColorButton(penColor[i], i);
 		}
 		btnCustomColor = new StandardButton(
-				new ImageResourcePrototype(null,
-						MaterialDesignResources.INSTANCE.add_black()
-								.getSafeUri(),
-						0, 0, 24, 24, false, false),
-				app);
+				MaterialDesignResources.INSTANCE.add_black(), null, 24, app);
 		btnCustomColor.addStyleName("mowColorButton");
 		btnCustomColor.addStyleName("mowColorPlusButton");
 		btnCustomColor.addFastClickHandler(this);

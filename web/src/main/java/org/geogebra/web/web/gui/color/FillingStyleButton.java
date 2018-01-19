@@ -12,7 +12,6 @@ import org.geogebra.web.web.gui.util.PopupMenuButtonW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 
 /**
  * button to get popup with filling options
@@ -109,8 +108,7 @@ public class FillingStyleButton extends PopupMenuButtonW {
 		 * 
 		 * return new ImageOrText();
 		 */
-		return new ImageOrText(new ImageResourcePrototype(null,
-				MaterialDesignResources.INSTANCE.filling_black().getSafeUri(),
-				0, 0, 24, 24, false, false));
+		return new ImageOrText(MaterialDesignResources.INSTANCE.filling_black(),
+				24);
 	}
 }

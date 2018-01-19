@@ -10,7 +10,7 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Widget;
@@ -395,7 +395,7 @@ public class AriaMenuBar extends Widget {
 	 * @param imgRes
 	 *            submenu arrow icon
 	 */
-	public void appendSubmenu(AriaMenuItem newItem, ImageResource imgRes) {
+	public void appendSubmenu(AriaMenuItem newItem, ResourcePrototype imgRes) {
 		NoDragImage img = new NoDragImage(imgRes, 20, 20);
 		AriaHelper.hide(img);
 		img.addStyleName("submenuArrow");
