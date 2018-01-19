@@ -502,4 +502,9 @@ public class GeoInputBox extends GeoButton {
 		return DescriptionMode.DEFINITION;
 	}
 
+	@Override
+	public GColor getBackgroundColor() {
+		return bgColor;
+	}
+
 }
