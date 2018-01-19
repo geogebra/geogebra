@@ -14,6 +14,7 @@ import javax.swing.KeyStroke;
 import org.geogebra.common.export.pstricks.GeoGebraToAsymptote;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatCollada;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatJscad;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.FormatObj;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
@@ -46,7 +47,8 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 	private AbstractAction newWindowAction, deleteAll, saveAction, saveAsAction,
 			loadAction, loadURLAction, exportWorksheet, shareAction,
 			exportGraphicAction, exportAnimationAction, exportPgfAction,
-			exportPSTricksAction, exportAsymptoteAction, exportPDFaction, exportSCADaction, exportColladaAction;
+			exportPSTricksAction, exportAsymptoteAction, exportPDFaction, exportSCADaction, exportColladaAction,
+			exportObjAction;
 	/** load from MAT item */
 	JMenuItem loadURLMenuItem;
 	/** share item */
@@ -175,6 +177,9 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		}
 		if (app.has(Feature.EXPORT_COLLADA_IN_MENU) && app.is3D()) {
 			mi = submenu.add(exportColladaAction);
+		}
+		if (app.has(Feature.EXPORT_OBJ_IN_MENU) && app.is3D()) {
+			mi = submenu.add(exportObjAction);
 		}
 		addSeparator();
 
@@ -609,6 +614,21 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 						app.setExport3D(new FormatCollada());
 					} catch (Exception ex) {
 						Log.debug("Export to Collada not available");
+					}
+				}
+			};
+		}
+
+		if (app.has(Feature.EXPORT_OBJ_IN_MENU) && app.is3D()) {
+			exportColladaAction = new AbstractAction("Obj" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					try {
+						app.setExport3D(new FormatObj());
+					} catch (Exception ex) {
+						Log.debug("Export to .obj not available");
 					}
 				}
 			};

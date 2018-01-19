@@ -4223,6 +4223,9 @@ public abstract class App implements UpdateSelection {
             case EXPORT_COLLADA_IN_MENU:
                 return prerelease;
                 
+            case EXPORT_OBJ_IN_MENU:
+            		return prerelease;
+                
             case INPUT_BAR_ADD_SLIDER:
                 return relaunch
                         && isHTML5Applet();

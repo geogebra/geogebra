@@ -124,6 +124,8 @@ public enum Feature {
 
 	EXPORT_COLLADA_IN_MENU,
 
+	EXPORT_OBJ_IN_MENU,
+
 	/** GGB-1876 */
 	DOUBLE_ROUND_BRACKETS,
 
