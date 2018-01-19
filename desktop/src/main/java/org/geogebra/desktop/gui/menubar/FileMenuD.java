@@ -620,7 +620,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 		}
 
 		if (app.has(Feature.EXPORT_OBJ_IN_MENU) && app.is3D()) {
-			exportColladaAction = new AbstractAction("Obj" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
+			exportObjAction = new AbstractAction("Obj" + Unicode.ELLIPSIS, app.getEmptyIcon()) {
 				private static final long serialVersionUID = 1L;
 
 				@Override
