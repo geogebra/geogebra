@@ -4321,13 +4321,9 @@ public abstract class App implements UpdateSelection {
 		case TAB_ON_MENU:
 			return true;
 
-		/** GGB-2100 */
-		case KEYBOARD_BOX_ICON:
-			return true;
-
 		/** GGB-2258 */
 		case VOICEOVER_CURSOR:
-			return prerelease;
+			return true;
 
 		case WEB_SWITCH_APP_FOR_FILE:
 			return prerelease;

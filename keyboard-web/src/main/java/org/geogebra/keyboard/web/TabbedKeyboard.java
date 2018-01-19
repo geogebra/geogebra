@@ -284,8 +284,7 @@ public class TabbedKeyboard extends FlowPanel {
 		switcher = new KeyboardSwitcher();
 		this.btnHandler = bh;
 		this.doubleBrackets = ((App) app).has(Feature.DOUBLE_ROUND_BRACKETS);
-		boolean hasBoxIcons = ((App) app).has(Feature.KEYBOARD_BOX_ICON);
-		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(hasBoxIcons),
+		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(true),
 				bh);
 		tabs.add(keyboard);
 		// more butto must be first because of float (Firefox)
@@ -310,7 +309,7 @@ public class TabbedKeyboard extends FlowPanel {
 		switcher.addSwitch(keyboard, Unicode.ALPHA_BETA_GAMMA);
 		switcher.setSelected(0, true);
 		// add special char tab
-		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(hasBoxIcons),
+		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(true),
 				bh);
 		keyboard.setVisible(false);
 		tabs.add(keyboard);
@@ -560,7 +559,6 @@ public class TabbedKeyboard extends FlowPanel {
 
 	private KeyBoardButtonBase functionButton(WeightedButton button,
 			ButtonHandler bh) {
-		boolean isBoxIcon = ((App) app).has(Feature.KEYBOARD_BOX_ICON);
 		Localization loc = ((App) app).getLocalization();
 		String resourceName = button.getResourceName();
 		if (resourceName.equals(Resource.RETURN_ENTER.name())) {
@@ -580,18 +578,15 @@ public class TabbedKeyboard extends FlowPanel {
 					KeyboardResources.INSTANCE.keyboard_arrowRight_black(), bh,
 					Action.RIGHT_CURSOR, loc, "RightArrowAltText");
 		} else if (resourceName.equals(Resource.POWA2.name())) {
-			return isBoxIcon
-					? new KeyBoardButtonFunctionalBase(
+			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.square(),
 							button.getActionName(), bh, false, loc,
-							"SquareAltText")
-					: new KeyBoardButtonBase("a^2", "^2", bh);
+					"SquareAltText");
+			
 		} else if (resourceName.equals(Resource.POWAB.name())) {
-			return isBoxIcon
-					? new KeyBoardButtonFunctionalBase(
+			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.xPower(),
-							"a^x", bh, false, loc, "PowerAltText")
-					: new KeyBoardButtonBase("a^b", "a^x", bh);
+							"a^x", bh, false, loc, "PowerAltText");			
 		} else if (resourceName.equals(Resource.CAPS_LOCK.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.keyboard_shift(), bh,
@@ -601,43 +596,30 @@ public class TabbedKeyboard extends FlowPanel {
 					KeyboardResources.INSTANCE.keyboard_shiftDown(), bh,
 					Action.CAPS_LOCK, loc, "CapsLockActiveAltText");
 		} else if (resourceName.equals(Resource.POW10_X.name())) {
-			return isBoxIcon
-					? new KeyBoardButtonFunctionalBase(
+			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.ten_power(),
 							button.getActionName(), bh, false, loc,
-							"PowTenAltText")
-					: new KeyBoardButtonBase("10^x", "10^", bh);
+							"PowTenAltText");
 		} else if (resourceName.equals(Resource.POWE_X.name())) {
-			return isBoxIcon
-					? new KeyBoardButtonFunctionalBase(
+			return  new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.e_power(),
 							button.getActionName(), bh, false, loc,
-							"PowEAltText")
-					: new KeyBoardButtonBase("e^x", Unicode.EULER_STRING + "^",
-							bh);
+							"PowEAltText");
 		} else if (resourceName.equals(Resource.LOG_10.name())) {
 			return new KeyBoardButtonBase("log_10", "log10", bh);
 		} else if (resourceName.equals(Resource.LOG_B.name())) {
-			return isBoxIcon
-					? new KeyBoardButtonFunctionalBase(
+			return  new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.log(),
-							"log_", bh, true, loc, "LogBAltText")
-					: new KeyBoardButtonBase("log_b", "log_", bh);
+					"log_", bh, true, loc, "LogBAltText");
 		} else if (resourceName.equals(Resource.A_N.name())) {
-			return isBoxIcon
-					? new KeyBoardButtonFunctionalBase(
+			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.a_index(),
-							"_", bh, false, loc, "SubscriptAltText")
-					: new KeyBoardButtonBase("a_n", "_", bh);
+							"_", bh, false, loc, "SubscriptAltText");
 		} else if (resourceName.equals(Resource.N_ROOT.name())) {
-			return isBoxIcon
-					? new KeyBoardButtonFunctionalBase(
+			return  new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.n_root(),
 							button.getActionName(), bh, false, loc,
-							"RootAltText")
-					: new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.nroot(),
-							button.getActionName(), bh, loc, "RootAltText");
+							"RootAltText");
 		} else if (resourceName.equals(Resource.INTEGRAL.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.integral(),
@@ -646,28 +628,23 @@ public class TabbedKeyboard extends FlowPanel {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.derivative(),
 					button.getActionName(), bh, loc, "Derivative");
-		} else if (resourceName.equals(Resource.ABS.name()) && isBoxIcon) {
+		} else if (resourceName.equals(Resource.ABS.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.abs(),
 					"abs", bh, false, loc, "AbsAltText");
-		} else if (resourceName.equals(Resource.CEIL.name()) && isBoxIcon) {
+		} else if (resourceName.equals(Resource.CEIL.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.ceil(),
 					button.getActionName(), bh, false, loc, "CeilAltText");
-		} else if (resourceName.equals(Resource.FLOOR.name()) && isBoxIcon) {
+		} else if (resourceName.equals(Resource.FLOOR.name())) {
 			return new KeyBoardButtonFunctionalBase(
 					KeyboardResources.INSTANCE.floor(),
 					button.getActionName(), bh, false, loc, "FloorAltText");
 		}
 		if (resourceName.equals(Resource.ROOT.name())) {
-			return isBoxIcon
-					? new KeyBoardButtonFunctionalBase(
+			return new KeyBoardButtonFunctionalBase(
 							KeyboardResources.INSTANCE.sqrt(),
 							button.getActionName(), bh, false, loc,
-							"SquareRootAltText")
-					: new KeyBoardButtonFunctionalBase(
-							KeyboardResources.INSTANCE.sqrtPng(),
-							button.getActionName(), bh, loc,
 							"SquareRootAltText");
 		}
 		if (KeyboardConstants.SWITCH_TO_SPECIAL_SYMBOLS.equals(resourceName)) {
