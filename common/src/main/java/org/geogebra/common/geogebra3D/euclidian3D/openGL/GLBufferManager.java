@@ -173,6 +173,9 @@ abstract class GLBufferManager {
 	 * add current buffer segment to available list
 	 */
 	protected void addCurrentToAvailableSegments() {
+		if (currentBufferSegment == null) {
+			return;
+		}
 		currentBufferPack = currentBufferSegment.bufferPack;
 		setAlphaToTransparent();
 		currentLengths.set(currentBufferSegment.elementsLength, currentBufferSegment.indicesLength);
