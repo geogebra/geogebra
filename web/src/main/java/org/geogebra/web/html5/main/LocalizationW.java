@@ -8,6 +8,7 @@ import java.util.MissingResourceException;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.util.KeyboardLocale;
 import org.geogebra.web.html5.util.MyDictionary;
@@ -93,7 +94,12 @@ public final class LocalizationW extends Localization
 		return ret;
 	}
 
+	// TODO: implement getCommandLocale()
 	private String getCommandLocaleString() {
+		if (!Language.getLanguage(getLanguage()).hasTranslatedKeyboard()) {
+			// TODO: implement if LocalizationW uses Locale rather than String
+			return "en";
+		}
 		return localeStr;
 	}
 
