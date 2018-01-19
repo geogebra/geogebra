@@ -72,6 +72,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	private double fixedX = Double.NaN;
 	private double fixedY = Double.NaN;
 
+	private double scaleX;
+	private boolean reflected;
+
 	/**
 	 * Creates new locus
 	 * 
@@ -146,6 +149,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	public void resetSavedBoundingBoxValues() {
 		fixedX = Double.NaN;
 		fixedY = Double.NaN;
+		reflected = scaleX < 0;
+		scaleX = Double.NaN;
 	}
 
 	private void saveOriginalRates(GRectangle2D gRectangle2D) {
@@ -207,21 +212,31 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			if (Double.isNaN(fixedX)) {
 				fixedX = gRectangle2D.getMaxX();
 			}
-			updatePointsX((fixedX - event.getX()) / nonScaledWidth,
-					event.getX());
+			updatePointsX(handler, event.getX());
 			break;
 		case RIGHT:
 			if (Double.isNaN(fixedX)) {
 				fixedX = gRectangle2D.getMinX();
 			}
-			updatePointsX((event.getX() - fixedX) / nonScaledWidth, fixedX);
+			updatePointsX(handler, event.getX());
 			break;
 		default:
 			Log.warn("unhandled case");
 		}
 	}
 
-	private void updatePointsX(double scaleX, double newMinX) {
+	private void updatePointsX(EuclidianBoundingBoxHandler handler,
+			int eventX) {
+		double newMinX;
+		scaleX = (eventX - fixedX) / nonScaledWidth;
+		if (handler == EuclidianBoundingBoxHandler.RIGHT && reflected
+				|| handler == EuclidianBoundingBoxHandler.LEFT && !reflected) {
+			newMinX = eventX;
+			scaleX *= -1;
+		} else {
+			newMinX = fixedX;
+		}
+
 		for (int i = 0; i < myPointList.size(); i++) {
 			double newPointScreenX = nonScaledPointList.get(i).getX() * scaleX
 					+ newMinX;
