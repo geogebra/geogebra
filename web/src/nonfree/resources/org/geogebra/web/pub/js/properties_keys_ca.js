@@ -2731,7 +2731,7 @@ __GGB__keysVar.ca.menu = {
     "SubstituteSimplify": "Substitueix i Simplifica",
     "Successes": "\xc8xits",
     "Suggestion.CreateSlider": "Create Slider",
-    "Suggestion.SpecialPoints": "Special Points",
+    "Suggestion.SpecialPoints": "Punts Notables",
     "Sum": "\u03a3x",
     "Sum2": "\u03a3x\xb2",
     "SumCells": "Suma",
