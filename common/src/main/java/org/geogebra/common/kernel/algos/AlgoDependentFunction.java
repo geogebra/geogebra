@@ -97,6 +97,7 @@ public class AlgoDependentFunction extends AlgoElement
 		f = new GeoFunction(cons, false);
 		f.setFunction(fun);
 		f.setConstructionDefaults();
+		f.setDependentFunction(this);
 
 		// look for FUNCTION or DERIVATIVE nodes in function
 		expression = fun.getExpression();

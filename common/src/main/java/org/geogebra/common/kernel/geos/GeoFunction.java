@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
+import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoDistancePointObject;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
@@ -131,6 +132,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	private double[] bounds;
 
 	private static StringBuilder sbCasCommand;
+
+	// Save a strong reference to the algo that created this
+	// function (needed for iOS)
+	private AlgoDependentFunction dependentFunction;
 	/**
 	 * Creates new function
 	 * 
@@ -3252,5 +3257,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public void setShortLHS(boolean shortLHS) {
 		this.shortLHS = shortLHS;
+	}
+
+	public void setDependentFunction(AlgoDependentFunction dependentFunction) {
+		this.dependentFunction = dependentFunction;
+	}
+
+	public AlgoDependentFunction getDependentFunction() {
+		return dependentFunction;
 	}
 }
