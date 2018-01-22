@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
@@ -71,30 +70,12 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		EuclidianSettings3D settings = getSettings();
 		settings.updateOrigin(xmin, ymin, zmin);
 		double xscale = DEFAULT_SCALE / (xmax - xmin);
-		// scale
 		settings.setXscale(xscale);
 		settings.setYscale(xscale * xyScale);
 		settings.setZscale(xscale * xzScale);
-		// ticks distances
-		GeoNumberValue n;
-		if (xTickDistance > 0) {
-			n = new GeoNumeric(app.getKernel().getConstruction(), xTickDistance);
-			settings.setAxisNumberingDistance(0, n);
-		} else {
-			settings.setAutomaticAxesNumberingDistance(true, 0, false);
-		}
-		if (yTickDistance > 0) {
-			n = new GeoNumeric(app.getKernel().getConstruction(), yTickDistance);
-			settings.setAxisNumberingDistance(1, n);
-		} else {
-			settings.setAutomaticAxesNumberingDistance(true, 1, false);
-		}
-		if (zTickDistance > 0) {
-			n = new GeoNumeric(app.getKernel().getConstruction(), zTickDistance);
-			settings.setAxisNumberingDistance(2, n);
-		} else {
-			settings.setAutomaticAxesNumberingDistance(true, 2, false);
-		}
+		setNumberingDistance(settings, 0, xTickDistance);
+		setNumberingDistance(settings, 1, yTickDistance);
+		setNumberingDistance(settings, 2, zTickDistance);
 		settingsChanged(settings);
 
 		((RendererForExport) renderer).setXYMinMax(xmin * getXscale(), xmax * getXscale(), ymin * getYscale(),
@@ -102,6 +83,14 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 
 		setWaitForUpdate();
 		return export3D(format);
+	}
+
+	private void setNumberingDistance(EuclidianSettings3D settings, int axis, double distance) {
+		if (distance > 0) {
+			settings.setAxisNumberingDistance(axis, new GeoNumeric(app.getKernel().getConstruction(), distance));
+		} else {
+			settings.setAutomaticAxesNumberingDistance(true, axis, false);
+		}
 	}
 
 	@Override
