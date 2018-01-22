@@ -23,7 +23,7 @@ public abstract class LocalizationJre extends Localization {
 	protected App app;
 	private boolean tooltipFlag = false;
 	// supported GUI languages (from properties files)
-	private ArrayList<Locale> supportedLocales = null;
+	protected ArrayList<Locale> supportedLocales = null;
 
 	/**
 	 * @param dimension
@@ -337,7 +337,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	@Override
-	public ArrayList<Locale> getSupportedLocales() {
+	protected ArrayList<Locale> getSupportedLocales() {
 		return getSupportedLocales(false);
 	}
 

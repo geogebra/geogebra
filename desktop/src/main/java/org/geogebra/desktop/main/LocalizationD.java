@@ -31,8 +31,6 @@ public class LocalizationD extends LocalizationJre {
 		super(dimension);
 	}
 
-	// supported GUI languages (from properties files)
-	private static volatile ArrayList<Locale> supportedLocales = null;
 	private static Object lock = new Object();
 
 	@Override
@@ -51,8 +49,8 @@ public class LocalizationD extends LocalizationJre {
 	 *            whether we also have prereleased languages
 	 * @return locales
 	 */
-	public static ArrayList<Locale> getSupportedLocales(boolean prerelease) {
-
+	@Override
+	public ArrayList<Locale> getSupportedLocales(boolean prerelease) {
 		if (supportedLocales == null) {
 			synchronized (lock) {
 				if (supportedLocales == null) {
