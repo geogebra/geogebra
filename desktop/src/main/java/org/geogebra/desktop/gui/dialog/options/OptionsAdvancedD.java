@@ -49,6 +49,7 @@ import org.geogebra.desktop.main.LocalizationD;
 /**
  * Advanced options for the options dialog.
  */
+@SuppressWarnings("javadoc")
 public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		ActionListener, ChangeListener, FocusListener, SetLabels {
 
@@ -74,7 +75,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 			tooltipTimeoutLabel;
 
 	/** */
-	private JComboBox cbKeyboardLanguage, cbTooltipLanguage, cbTooltipTimeout,
+	private JComboBox<String> cbKeyboardLanguage, cbTooltipLanguage,
+			cbTooltipTimeout,
 			cbGUIFont;
 
 	/**	 */
@@ -182,7 +184,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 		keyboardLanguageLabel = new JLabel();
 		virtualKeyboardPanel.add(LayoutUtil.flowPanel(keyboardLanguageLabel));
-		cbKeyboardLanguage = new JComboBox();
+		cbKeyboardLanguage = new JComboBox<>();
 		// listener to this combo box is added in setLabels()
 		virtualKeyboardPanel.add(LayoutUtil
 				.flowPanel(Box.createHorizontalStrut(20), cbKeyboardLanguage));
@@ -225,7 +227,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		guiFontSizeLabel = new JLabel();
 		panel.add(guiFontSizeLabel);
 
-		cbGUIFont = new JComboBox();
+		cbGUIFont = new JComboBox<>();
 		// listener to this combo box is added in setLabels()
 		panel.add(cbGUIFont);
 
@@ -257,7 +259,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 		tooltipLanguageLabel = new JLabel();
 		tooltipPanel.add(LayoutUtil.flowPanel(tooltipLanguageLabel));
-		cbTooltipLanguage = new JComboBox();
+		cbTooltipLanguage = new JComboBox<>();
 		cbTooltipLanguage.setRenderer(new LanguageRenderer(app));
 		// listener to this combo box is added in setLabels()
 		tooltipPanel.add(LayoutUtil.flowPanel(Box.createHorizontalStrut(20),
@@ -272,7 +274,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 		}
 		tooltipTimeouts[tooltipTimeouts.length - 1] = "-";
 
-		cbTooltipTimeout = new JComboBox(tooltipTimeouts);
+		cbTooltipTimeout = new JComboBox<>(tooltipTimeouts);
 
 		tooltipPanel.add(
 				LayoutUtil.flowPanel(tooltipTimeoutLabel, cbTooltipTimeout));
@@ -840,7 +842,8 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 		// take care that this doesn't fire events by accident
 		cbKeyboardLanguage.removeActionListener(this);
-		cbKeyboardLanguage.setModel(new DefaultComboBoxModel(languages));
+		cbKeyboardLanguage
+				.setModel(new DefaultComboBoxModel<>(languages));
 		cbKeyboardLanguage.setSelectedIndex(selectedIndex);
 		cbKeyboardLanguage.addActionListener(this);
 		cbKeyboardShowAutomatic.addActionListener(this);
@@ -866,7 +869,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 		// take care that this doesn't fire events by accident
 		cbGUIFont.removeActionListener(this);
-		cbGUIFont.setModel(new DefaultComboBoxModel(fontSizesStr));
+		cbGUIFont.setModel(new DefaultComboBoxModel<>(fontSizesStr));
 		cbGUIFont.setSelectedIndex(selectedIndex);
 		cbGUIFont.addActionListener(this);
 
@@ -895,7 +898,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 		// take care that this doesn't fire events by accident
 		cbTooltipLanguage.removeActionListener(this);
-		cbTooltipLanguage.setModel(new DefaultComboBoxModel(languages));
+		cbTooltipLanguage.setModel(new DefaultComboBoxModel<>(languages));
 		cbTooltipLanguage.setSelectedIndex(selectedIndex);
 		cbTooltipLanguage.addActionListener(this);
 
@@ -903,7 +906,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 	}
 
 	private ArrayList<Locale> getSupportedLocales() {
-		return LocalizationD
+		return app.getLocalization()
 				.getSupportedLocales(app.has(Feature.ALL_LANGUAGES));
 	}
 
@@ -917,7 +920,7 @@ public class OptionsAdvancedD extends OptionsAdvanced implements OptionPanelD,
 
 		// take care that this doesn't fire events by accident
 		cbTooltipTimeout.removeActionListener(this);
-		cbTooltipTimeout.setModel(new DefaultComboBoxModel(tooltipTimeouts));
+		cbTooltipTimeout.setModel(new DefaultComboBoxModel<>(tooltipTimeouts));
 		cbTooltipTimeout.setSelectedIndex(selectedIndex);
 		cbTooltipTimeout.addActionListener(this);
 	}
