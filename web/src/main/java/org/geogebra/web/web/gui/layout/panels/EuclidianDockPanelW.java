@@ -11,7 +11,6 @@ import org.geogebra.web.web.css.MaterialDesignResources;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.resources.client.ResourcePrototype;
-import com.google.gwt.resources.client.impl.ImageResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements EuclidianPanelWAbstract{
@@ -40,13 +39,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 			);
 
 
-		if (app1 != null && app1.has(Feature.DYNAMIC_STYLEBAR)) {
-			setViewImage(new ImageResourcePrototype(null,
-					MaterialDesignResources.INSTANCE.gear().getSafeUri(), 0, 0,
-					24, 24, false, false));
-		} else {
-			setViewImage(getResources().styleBar_graphicsView());
-		}
+
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
 		
@@ -143,18 +136,25 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	}
 
 	@Override
-    public ResourcePrototype getIcon() {
+	public ResourcePrototype getIcon() {
 		return getResources().menu_icon_graphics();
 	}
 
 	@Override
 	public void calculateEnvironment() {
 		app.getEuclidianView1().getEuclidianController().calculateEnvironment();
-
 	}
 
 	@Override
 	public void resizeView(int width, int height) {
 		app.ggwGraphicsViewDimChanged(width, height);
+	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		if (app != null && app.has(Feature.DYNAMIC_STYLEBAR)) {
+			return MaterialDesignResources.INSTANCE.gear();
+		}
+		return getResources().styleBar_graphicsView();
 	}
 }

@@ -12,6 +12,7 @@ import org.geogebra.web.web.gui.toolbarpanel.ToolbarPanel;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -168,6 +169,11 @@ public class ToolbarDockPanelW extends DockPanelW
 		if (toolbar != null) {
 			toolbar.scrollToActiveItem();
 		}
+	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		return null;
 	}
 
 }

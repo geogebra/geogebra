@@ -52,46 +52,35 @@ public class LocalizationD extends LocalizationJre {
 	@Override
 	public ArrayList<Locale> getSupportedLocales(boolean prerelease) {
 		if (supportedLocales == null) {
-			synchronized (lock) {
-				if (supportedLocales == null) {
+			ArrayList<Locale> supportedLocales0 = new ArrayList<>();
 
-					ArrayList<Locale> supportedLocales0 = new ArrayList<Locale>();
+			Language[] languages = Language.values();
 
-					Language[] languages = Language.values();
+			for (int i = 0; i < languages.length; i++) {
+				Language language = languages[i];
 
-					for (int i = 0; i < languages.length; i++) {
-
-						Language language = languages[i];
-
-						if (language.fullyTranslated || prerelease) {
-
-							if (language.locale.length() == 2) {
-								// eg "en"
-								supportedLocales0
-										.add(new Locale(language.locale));
-							} else if (language.locale.length() == 4) {
-								// eg "enGB" -> "en", "GB"
-								supportedLocales0.add(new Locale(
-										language.locale.substring(0, 2),
+				if (language.fullyTranslated || prerelease) {
+					if (language.locale.length() == 2) {
+						// eg "en"
+						supportedLocales0.add(new Locale(language.locale));
+					} else if (language.locale.length() == 4) {
+						// eg "enGB" -> "en", "GB"
+						supportedLocales0
+								.add(new Locale(language.locale.substring(0, 2),
 										language.locale.substring(2, 4)));
-							} else if (language.locale.length() == 6) {
-								// eg "noNONY" -> "no", "NO", "NY"
-								supportedLocales0.add(new Locale(
-										language.locale.substring(0, 2),
+					} else if (language.locale.length() == 6) {
+						// eg "noNONY" -> "no", "NO", "NY"
+						supportedLocales0
+								.add(new Locale(language.locale.substring(0, 2),
 										language.locale.substring(2, 4),
 										language.locale.substring(4, 6)));
-							}
-						}
-
 					}
-					supportedLocales = supportedLocales0;
 				}
-
 			}
+			supportedLocales = supportedLocales0;
 		}
 
 		return supportedLocales;
-
 	}
 
 	@Override

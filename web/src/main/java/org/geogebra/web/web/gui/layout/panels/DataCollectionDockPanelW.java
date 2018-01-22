@@ -5,6 +5,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -28,5 +29,10 @@ public class DataCollectionDockPanelW extends DockPanelW {
 	@Override
 	protected void focusGained() {
 		((GuiManagerW) app.getGuiManager()).updateDataCollectionView();
+	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		return null;
 	}
 }

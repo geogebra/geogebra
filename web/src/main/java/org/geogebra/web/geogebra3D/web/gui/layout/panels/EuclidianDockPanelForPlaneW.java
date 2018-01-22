@@ -167,4 +167,9 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		app.stopCollectingRepaints();
 
 	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		return null;
+	}
 }

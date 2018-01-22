@@ -854,7 +854,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// register spreadsheet view
 		layout.registerPanel(new SpreadsheetDockPanelW(getApp()));
 
-		swapAlgebraPanel();
+		layout.getDockManager().swapAlgebraPanel();
 
 		// register CAS view
 		layout.registerPanel(new CASDockPanelW(getApp()));
@@ -880,15 +880,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		//register data collection view
 		layout.registerPanel(new DataCollectionDockPanelW());
-		
-
-
 		return true;
 	}
 
-	public void swapAlgebraPanel() {
-		layout.getDockManager().setPanelsFromApp();
-
+	public void resetPanels() {
+		layout.getDockManager().swapAlgebraPanel();
+		layout.getDockManager().reset();
 	}
 
 	@Override

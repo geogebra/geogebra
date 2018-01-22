@@ -36,11 +36,7 @@ public class AlgebraDockPanelW extends DockPanelW
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
-		if (app1.has(Feature.DYNAMIC_STYLEBAR)) {
-			setViewImage(getResources().settings());
-		} else {
-			setViewImage(getResources().styleBar_algebraView());
-		}
+
 	}
 
 	@Override
@@ -213,5 +209,13 @@ public class AlgebraDockPanelW extends DockPanelW
 	@Override
 	public boolean isToolMode() {
 		return false;
+	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		if (app != null && app.has(Feature.DYNAMIC_STYLEBAR)) {
+			return getResources().settings();
+		}
+		return getResources().styleBar_algebraView();
 	}
 }

@@ -693,7 +693,12 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 				});
 	}
 
-	protected OpenFileListener getUpdateTitleCallback(final Material material) {
+	/**
+	 * @param material
+	 *            loaded material
+	 * @return callback that updates browser title
+	 */
+	public OpenFileListener getUpdateTitleCallback(final Material material) {
 		return new OpenFileListener() {
 			public void onOpenFile() {
 				AppWFull.this.updateMaterialURL(material.getId(),

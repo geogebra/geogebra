@@ -1972,7 +1972,7 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
-	public void setPanelsFromApp() {
+	public void swapAlgebraPanel() {
 		DockPanelW old = this.getPanel(App.VIEW_ALGEBRA);
 		if (old != null) {
 			layout.getDockManager().unRegisterPanel(old);
@@ -1984,9 +1984,13 @@ public class DockManagerW extends DockManager {
 			// register algebra view
 			layout.registerPanel(new AlgebraDockPanelW(getApp()));
 		}
+
+	}
+
+	public void reset() {
 		for (DockPanelW dock : this.dockPanels) {
 			if (dock.getViewId() != App.VIEW_ALGEBRA) {
-				dock.reset();
+				dock.resetStylebar();
 			}
 		}
 	}

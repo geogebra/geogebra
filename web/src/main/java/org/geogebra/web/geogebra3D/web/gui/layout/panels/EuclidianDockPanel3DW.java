@@ -10,6 +10,7 @@ import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -48,11 +49,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	protected Widget loadComponent() {
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			setViewImage(getResources().settings());
-		} else {
-			setViewImage(getResources().styleBar_graphics3dView());
-		}
 		// 2D app or exam: just flow panel; 3D app in old browser: EVnoWebGL
 		if (!app.supportsView(App.VIEW_EUCLIDIAN3D)
 				&& Browser.supportsWebGL()) {
@@ -140,6 +136,14 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	protected boolean needsResetIcon() {
 		return app.showResetIcon() && !app.showView(App.VIEW_EUCLIDIAN)
 				&& !app.showView(App.VIEW_EUCLIDIAN2);
+	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		if (app != null && app.has(Feature.DYNAMIC_STYLEBAR)) {
+			return getResources().settings();
+		}
+		return getResources().styleBar_graphics3dView();
 	}
 
 }

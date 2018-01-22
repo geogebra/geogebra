@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
+import org.geogebra.web.resources.SVGResource;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
@@ -51,11 +52,6 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 
 	@Override
 	protected Widget loadComponent() {
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			setViewImage(getResources().settings());
-		} else {
-			setViewImage(getResources().styleBar_graphics2View());
-		}
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
@@ -73,8 +69,13 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 
 		return euclidianpanel;
 	}
-	
 
+	public SVGResource getViewIcon() {
+		if (app != null && app.has(Feature.DYNAMIC_STYLEBAR)) {
+			return getResources().settings();
+		}
+		return getResources().styleBar_graphics2View();
+	}
 
 	public void reset() {
 		if (euclidianpanel != null) {

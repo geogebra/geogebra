@@ -5,6 +5,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.properties.PropertiesViewW;
 
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 public class PropertiesDockPanelW extends DockPanelW {
@@ -75,6 +76,11 @@ public class PropertiesDockPanelW extends DockPanelW {
 		}
 
 
+	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		return null;
 	}
 
 }

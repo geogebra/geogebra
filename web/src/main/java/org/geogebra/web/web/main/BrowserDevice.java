@@ -103,6 +103,11 @@ public class BrowserDevice implements GDevice {
 		return new WebcamInputDialog(app);
 	}
 
+	/**
+	 * @param app
+	 *            application
+	 * @return image panel controller
+	 */
 	public UploadImageWithoutDialog getUploadImageWithoutDialog(AppW app) {
 		return new UploadImageWithoutDialog(app);
 	}

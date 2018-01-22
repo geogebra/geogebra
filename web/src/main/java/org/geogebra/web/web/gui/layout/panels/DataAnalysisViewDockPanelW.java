@@ -7,6 +7,7 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.view.data.DataAnalysisViewW;
 
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -73,5 +74,10 @@ public class DataAnalysisViewDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
 
 		return sb.toString();
+	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		return null;
 	}
 } 

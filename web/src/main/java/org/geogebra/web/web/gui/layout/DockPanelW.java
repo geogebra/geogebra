@@ -547,9 +547,12 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 	}
 
-	public void reset() {
+	public void resetStylebar() {
 		updateStyles();
 		addDragPanel();
+		if (!this.isStyleBarEmpty()) {
+			addToggleButton();
+		}
 	}
 
 	/** Builds zoom panel */
@@ -572,8 +575,14 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	private void addToggleButton() {
+		if (titleBarPanelContent == null) {
+			return;
+		}
 		// always show the view-icon; othrwise use showStylebar as parameter
 		if (app.isUnbundledOrWhiteboard()) {
+			if (graphicsContextMenuBtn != null) {
+				return;
+			}
 			graphicsContextMenuBtn = new StandardButton(
 					MaterialDesignResources.INSTANCE.settings_border(), null,
 					24, app);
@@ -598,6 +607,12 @@ public abstract class DockPanelW extends ResizeComposite
 				graphicsContextMenuBtn.addTabHandler(this);
 			}
 			return;
+		}
+		Log.debug("CHANGE CTXT" + this.getViewId() + ":"
+				+ app.isUnbundledOrWhiteboard());
+		if (graphicsContextMenuBtn != null) {
+			graphicsContextMenuBtn.removeFromParent();
+			graphicsContextMenuBtn = null;
 		}
 		toggleStyleBarButton = new StandardButton(getToggleImage(false), null,
 				32, 24, app);
@@ -1527,8 +1542,8 @@ public abstract class DockPanelW extends ResizeComposite
 			}
 			return GuiResources.INSTANCE.dockbar_triangle_right();
 		}
-		if(viewImage != null){
-			return viewImage;
+		if (getViewIcon() != null) {
+			return getViewIcon();
 		}
 		if(triangleLeft == null){
 			triangleLeft = new Image(
@@ -1536,6 +1551,8 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 		return GuiResources.INSTANCE.dockbar_triangle_left();
 	}
+
+	protected abstract ResourcePrototype getViewIcon();
 
 	public void setStyleBarRightOffset(int offset){
 		if(this.titleBarPanel != null){

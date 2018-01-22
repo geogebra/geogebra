@@ -74,4 +74,9 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 		return getResources().menu_icon_probability();
 	}
 
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		return null;
+	}
+
 }

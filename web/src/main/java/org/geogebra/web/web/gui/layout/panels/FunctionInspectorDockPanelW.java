@@ -4,6 +4,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -60,6 +61,11 @@ public class FunctionInspectorDockPanelW extends DockPanelW {
 	@Override
 	public boolean isStyleBarEmpty(){
 		return true;
+	}
+
+	@Override
+	protected ResourcePrototype getViewIcon() {
+		return null;
 	}
 
 }

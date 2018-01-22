@@ -905,12 +905,25 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void setFileVersion(String version, String appName) {
 		super.setFileVersion(version, appName);
-		if (has(Feature.WEB_SWITCH_APP_FOR_FILE) && !StringUtil.empty(appName)
+		if (has(Feature.WEB_SWITCH_APP_FOR_FILE)
 				&& "auto".equals(getArticleElement().getDataParamAppName())) {
 			getArticleElement().setAttribute("data-param-appName",
 					appName);
-			setVersion(Versions.WEB_GRAPHING);
-			((GuiManagerW) getGuiManager()).swapAlgebraPanel();
+			Versions v = getVersion();
+			if ("graphing".equals(appName)) {
+				v = Versions.WEB_GRAPHING;
+			}
+			else if ("geometry".equals(appName)) {
+				v = Versions.WEB_GEOMETRY;
+			}
+			else if ("classic".equals(appName) || StringUtil.empty(appName)) {
+				v = Versions.WEB_FOR_BROWSER_3D;
+			}
+			Log.debug(getVersion() + " change to " + v);
+			if (v != getVersion()) {
+				setVersion(v);
+				((GuiManagerW) getGuiManager()).resetPanels();
+			}
 		}
 	}
 }

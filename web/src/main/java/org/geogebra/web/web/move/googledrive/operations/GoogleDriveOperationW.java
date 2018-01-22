@@ -4,6 +4,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
+import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.move.views.EventRenderable;
@@ -14,6 +16,7 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
+import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.move.googledrive.events.GoogleDriveLoadedEvent;
 import org.geogebra.web.web.move.googledrive.events.GoogleLogOutEvent;
 import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
@@ -367,6 +370,11 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	private void processGoogleDriveFileContentAsBase64(String base64,
 	        String description, String title, String id) {
+		Material imported = new Material(0, MaterialType.ggb);
+		imported.setTitle(title);
+		app.registerOpenFileListener(
+				((AppWFull) app)
+						.getUpdateTitleCallback(imported));
 		app.loadGgbFileAsBase64Again(base64);
 		postprocessFileLoading(description, title, id);
 	}
