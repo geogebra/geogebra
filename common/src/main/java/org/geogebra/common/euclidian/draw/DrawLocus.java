@@ -289,27 +289,7 @@ public class DrawLocus extends Drawable {
 				.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)) {
 			return;
 		}
-
-		switch (handler) {
-		case TOP_LEFT:
-			updateLocusSide(EuclidianBoundingBoxHandler.TOP, e);
-			updateLocusSide(EuclidianBoundingBoxHandler.LEFT, e);
-			break;
-		case BOTTOM_LEFT:
-			updateLocusSide(EuclidianBoundingBoxHandler.BOTTOM, e);
-			updateLocusSide(EuclidianBoundingBoxHandler.LEFT, e);
-			break;
-		case TOP_RIGHT:
-			updateLocusSide(EuclidianBoundingBoxHandler.TOP, e);
-			updateLocusSide(EuclidianBoundingBoxHandler.RIGHT, e);
-			break;
-		case BOTTOM_RIGHT:
-			updateLocusSide(EuclidianBoundingBoxHandler.BOTTOM, e);
-			updateLocusSide(EuclidianBoundingBoxHandler.RIGHT, e);
-			break;
-		default:
-			updateLocusSide(handler, e);
-		}
+		updateLocusSide(handler, e);
 		view.getEuclidianController().hideDynamicStylebar();
 		view.repaintView();
 	}
@@ -318,7 +298,6 @@ public class DrawLocus extends Drawable {
 	public void updateGeo(AbstractEvent e) {
 		((GeoLocus) geo).resetSavedBoundingBoxValues();
 	}
-
 
 	/**
 	 * update locus by dragging side handler
