@@ -1,5 +1,6 @@
 package org.geogebra.common.jre.main;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -7,6 +8,7 @@ import java.util.ResourceBundle;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.lang.Language;
 
 /**
  * common jre localization
@@ -20,6 +22,8 @@ public abstract class LocalizationJre extends Localization {
 	/** application */
 	protected App app;
 	private boolean tooltipFlag = false;
+	// supported GUI languages (from properties files)
+	private ArrayList<Locale> supportedLocales = null;
 
 	/**
 	 * @param dimension
@@ -330,6 +334,39 @@ public abstract class LocalizationJre extends Localization {
 		} catch (Exception e) {
 			return str;
 		}
+	}
+
+	@Override
+	public ArrayList<Locale> getSupportedLocales() {
+		return getSupportedLocales(false);
+	}
+
+	protected ArrayList<Locale> getSupportedLocales(boolean prerelease) {
+		if (supportedLocales != null) {
+			return supportedLocales;
+		}
+
+		supportedLocales = new ArrayList<>();
+
+		Language[] languages = Language.values();
+
+		for (int i = 0; i < languages.length; i++) {
+
+			Language language = languages[i];
+
+			if (language.fullyTranslated || prerelease) {
+				String lang = language.localeISO6391;
+				String country = "";
+				if (language.localeGWT.length() == 5) {
+					country = language.localeGWT.substring(3);
+				}
+
+				supportedLocales.add(new Locale(lang, country));
+			}
+
+		}
+
+		return supportedLocales;
 	}
 
 	@Override
