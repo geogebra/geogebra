@@ -43,7 +43,7 @@ public class ResourcesInjector {
 		if (INSTANCE == null) {
 			INSTANCE = (ResourcesInjector) GWT.create(ResourcesInjector.class);
 		}
-		INSTANCE.injectResourcesGUI();
+
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 
@@ -56,7 +56,7 @@ public class ResourcesInjector {
 
 		injectLTRstyles();
 		injectScss();
-
+		INSTANCE.injectResourcesGUI();
 
 		Browser.setWebWorkerSupported(Location
 				.getParameter("GeoGebraDebug") == null
