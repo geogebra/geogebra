@@ -226,12 +226,11 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 		view.setXYMinMax(minMax);
 
-		minMaxLarge[0][0] = xmin;
-		minMaxLarge[0][1] = xmax;
-		minMaxLarge[1][0] = ymin;
-		minMaxLarge[1][1] = ymax;
-		minMaxLarge[2][0] = zmin;
-		minMaxLarge[2][1] = zmax;
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 2; j++) {
+				minMaxLarge[i][j] = minMax[i][j];
+			}
+		}
 
 		// update ev 3D depending algos
 		getView3D().updateBounds();
