@@ -98,21 +98,9 @@ public class ResourcesInjector {
 	private static void injectScss() {
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.colorsScss());
-		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.avStyleScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.evStyleScss());
-		StyleInjector.inject(
-				GuiResourcesSimple.INSTANCE.toolBarStyleScss());
-
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.menuStyleScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.popupStyleScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.dialogStylesScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.settingsStyleScss());
-
-		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.perspectivesPopupScss());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.layoutScss());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.snackbarScss());
+
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.evStyleScss());
 	}
 
 	/**

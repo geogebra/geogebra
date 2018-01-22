@@ -86,7 +86,6 @@ import org.geogebra.web.web.gui.laf.GLookAndFeel;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.LayoutW;
-import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.CASDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.ConstructionProtocolDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.DataAnalysisViewDockPanelW;
@@ -888,17 +887,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public void swapAlgebraPanel() {
-		DockPanel old = layout.getDockManager().getPanel(App.VIEW_ALGEBRA);
-		if (old != null) {
-			layout.getDockManager().unRegisterPanel(old);
-		}
-		if (getApp().isUnbundled() && !getApp().has(Feature.MOW_TOOLBAR)) {
-			// register toolbar panel
-			layout.registerPanel(new ToolbarDockPanelW());
-		} else {
-			// register algebra view
-			layout.registerPanel(new AlgebraDockPanelW(getApp()));
-		}
+		layout.getDockManager().setPanelsFromApp();
 
 	}
 

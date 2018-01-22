@@ -16,6 +16,7 @@ import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.io.layout.ShowDockPanelListener;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
@@ -23,6 +24,7 @@ import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
+import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.Euclidian2DockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
@@ -1970,5 +1972,23 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
+	public void setPanelsFromApp() {
+		DockPanelW old = this.getPanel(App.VIEW_ALGEBRA);
+		if (old != null) {
+			layout.getDockManager().unRegisterPanel(old);
+		}
+		if (getApp().isUnbundled() && !getApp().has(Feature.MOW_TOOLBAR)) {
+			// register toolbar panel
+			layout.registerPanel(new ToolbarDockPanelW());
+		} else {
+			// register algebra view
+			layout.registerPanel(new AlgebraDockPanelW(getApp()));
+		}
+		for (DockPanelW dock : this.dockPanels) {
+			if (dock.getViewId() != App.VIEW_ALGEBRA) {
+				dock.reset();
+			}
+		}
+	}
 
 }

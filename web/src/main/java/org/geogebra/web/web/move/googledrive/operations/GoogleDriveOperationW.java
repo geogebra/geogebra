@@ -1,5 +1,6 @@
 package org.geogebra.web.web.move.googledrive.operations;
 
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
@@ -517,12 +518,15 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		String state = Location.getParameter("state");
 		Log.debug(state);
 		if (state != null && !"".equals(state)) {
+			if (app.has(Feature.WEB_SWITCH_APP_FOR_FILE)) {
+				app.getArticleElement().setAttribute("data-param-appName",
+						"auto");
+			}
 			googleDriveURL = JSON.parse(state);
 			Log.debug(googleDriveURL);
 			if (!this.loggedIn) {
 				login(true);
 			}
-
 		}
 	}
 

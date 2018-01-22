@@ -22,6 +22,19 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
 		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
+
+		StyleInjector.inject(GuiResources.INSTANCE.avStyleScss());
+		StyleInjector.inject(GuiResources.INSTANCE.toolBarStyleScss());
+
+		StyleInjector.inject(GuiResources.INSTANCE.menuStyleScss());
+		StyleInjector.inject(GuiResources.INSTANCE.popupStyleScss());
+		StyleInjector.inject(GuiResources.INSTANCE.dialogStylesScss());
+		StyleInjector.inject(GuiResources.INSTANCE.settingsStyleScss());
+
+		StyleInjector.inject(GuiResources.INSTANCE.perspectivesPopupScss());
+
+		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
+
 	}
 
 	/**

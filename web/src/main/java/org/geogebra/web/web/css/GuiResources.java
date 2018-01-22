@@ -453,6 +453,30 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/print.scss")
 	SassResource printStyle();
 
+	@Source("org/geogebra/web/resources/scss/av-styles.scss")
+	SassResource avStyleScss();
+
+	@Source("org/geogebra/web/resources/scss/toolbar-styles.scss")
+	SassResource toolBarStyleScss();
+
 	@Source("org/geogebra/web/pub/js/properties_keys_en.js")
 	TextResource propertiesKeysJS();
+
+	@Source("org/geogebra/web/resources/scss/menu-styles.scss")
+	SassResource menuStyleScss();
+
+	@Source("org/geogebra/web/resources/scss/popup-styles.scss")
+	SassResource popupStyleScss();
+
+	@Source("org/geogebra/web/resources/scss/settings-styles.scss")
+	SassResource settingsStyleScss();
+
+	@Source("org/geogebra/web/resources/scss/perspectives-popup.scss")
+	SassResource perspectivesPopupScss();
+
+	@Source("org/geogebra/web/resources/scss/snackbar.scss")
+	SassResource snackbarScss();
+
+	@Source("org/geogebra/web/resources/scss/dialog-styles.scss")
+	SassResource dialogStylesScss();
 }

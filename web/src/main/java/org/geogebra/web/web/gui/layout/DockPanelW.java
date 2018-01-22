@@ -448,41 +448,13 @@ public abstract class DockPanelW extends ResizeComposite
 //		kbButtonSpace = new SimplePanel();
 		
 		titleBarPanelContent = new FlowPanel();
-		if (app.isUnbundledOrWhiteboard()) {
-			titleBarPanelContent.setStyleName("MatTitleBarPanelContent");
-		} else {
-			titleBarPanelContent.setStyleName("TitleBarPanelContent");
-		}
+
+		updateStyles();
+
 		titleBarPanel.add(titleBarPanelContent);
 
-		dragPanel = new FlowPanel();
-		dragPanel.setStyleName("dragPanel");
-		ClickStartHandler.init(dragPanel, new ClickStartHandler(true, false) {
-
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				startDragging();
-
-			}
-		});
-
-		dragPanel.setVisible(false);
-		if(dragIcon == null){
-			dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
-			/*
-			 * Prevent default image drag from interfering with view drag --
-			 * needed for IE
-			 */
-			dragIcon.addDragHandler(new DragHandler() {
-
-				@Override
-				public void onDrag(DragEvent event) {
-					event.preventDefault();
-				}
-			});
-		}
-		dragPanel.add(dragIcon);
 		
+
 		if(closeIcon == null){
 			closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
 		}
@@ -501,9 +473,7 @@ public abstract class DockPanelW extends ResizeComposite
 		closeButtonPanel.add(closeButton);
 		
 		titleBarPanelContent.add(styleBarPanel);
-		if (!app.isUnbundled()) {
-			titleBarPanelContent.add(dragPanel);
-		}
+		addDragPanel();
 
 		if (!this.isStyleBarEmpty()) {
 			addToggleButton();
@@ -524,6 +494,62 @@ public abstract class DockPanelW extends ResizeComposite
 		if (setlayout) {
 			setLayout(false);
 		}
+	}
+
+	private void updateStyles() {
+		if (titleBarPanelContent != null) {
+			titleBarPanelContent.setStyleName("MatTitleBarPanelContent",
+					app.isUnbundledOrWhiteboard());
+			titleBarPanelContent.setStyleName("TitleBarPanelContent",
+					!app.isUnbundledOrWhiteboard());
+		}
+	}
+
+	private void addDragPanel() {
+		if (titleBarPanelContent == null) {
+			return;
+		}
+		boolean dragNeeded = !app.isUnbundled();
+		if (dragNeeded && dragPanel == null) {
+			dragPanel = new FlowPanel();
+			dragPanel.setStyleName("dragPanel");
+			ClickStartHandler.init(dragPanel,
+					new ClickStartHandler(true, false) {
+
+						@Override
+						public void onClickStart(int x, int y,
+								PointerEventType type) {
+							startDragging();
+
+						}
+					});
+
+			dragPanel.setVisible(false);
+			if (dragIcon == null) {
+				dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
+				/*
+				 * Prevent default image drag from interfering with view drag --
+				 * needed for IE
+				 */
+				dragIcon.addDragHandler(new DragHandler() {
+
+					@Override
+					public void onDrag(DragEvent event) {
+						event.preventDefault();
+					}
+				});
+			}
+			dragPanel.add(dragIcon);
+			titleBarPanelContent.add(dragPanel);
+		} else if (!dragNeeded && dragPanel != null) {
+			titleBarPanelContent.remove(dragPanel);
+			dragPanel = null;
+		}
+	}
+
+	public void reset() {
+		updateStyles();
+		addDragPanel();
 	}
 
 	/** Builds zoom panel */
