@@ -724,4 +724,6 @@ public interface GeoElementND extends ExpressionValue {
 
 	public void setHighlighted(final boolean flag);
 
+	void setAdvancedVisualStyle(GeoElement defaultGeo);
+
 }

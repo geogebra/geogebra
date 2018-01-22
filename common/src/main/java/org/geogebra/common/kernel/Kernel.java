@@ -5623,7 +5623,7 @@ public class Kernel {
 		}
 	}
 
-	public final void notifyUpdateSpecPointsPreviewOnEV(GeoElement[] geos) {
+	public final void notifyUpdateSpecPointsPreviewOnEV(List<GeoElement> geos) {
 		if (notifyViewsActive) {
 			app.getActiveEuclidianView().updateSpecPointFromInputBar(geos);
 		}

@@ -2,6 +2,7 @@ package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GAffineTransform;
@@ -502,7 +503,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected double lockedAxesRatio = -1;
 	private boolean updateBackgroundOnNextRepaint;
 	
-	private GeoElement[] specPoints;
+	private List<GeoElement> specPoints;
 	private GRectangle exportFrame;
 	private GRectangle tempFrame;
 	private GPoint2D[] tmpClipPoints;
@@ -1931,7 +1932,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param geos
 	 *            special points
 	 */
-	public void updateSpecPointFromInputBar(GeoElement[] geos) {
+	public void updateSpecPointFromInputBar(List<GeoElement> geos) {
 		if (specPoints != null) {
 			for (GeoElement geo : specPoints) {
 				remove(geo);

@@ -1,7 +1,6 @@
 package org.geogebra.common.main;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -27,7 +26,7 @@ import org.geogebra.common.plugin.EventType;
  */
 public class SpecialPointsManager implements UpdateSelection, EventListener {
 	private Kernel kernel;
-	private GeoElement[] specPoints;
+	private List<GeoElement> specPoints;
 	/** Special points for preview points */
 	private List<AlgoElement> specPointAlgos = new ArrayList<>();
 
@@ -41,7 +40,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 		kernel.getApplication().getEventDispatcher().addEventListener(this);
 	}
 
-	private GeoElementND[] getSpecPoints(GeoElement geo0,
+	private List<GeoElement> getSpecPoints(GeoElement geo0,
 			List<GeoElement> selectedGeos) {
 		specPointAlgos.clear();
 		specPoints = null;
@@ -53,14 +52,16 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 			getSpecPoints(geo, specPoints0);
 
 			if (specPoints0.size() > 0) {
-				specPoints = new GeoElement[specPoints0.size()];
-				for (int i = 0; i < specPoints0.size(); i++) {
-					specPoints[i] = specPoints0.get(i).toGeoElement();
-					specPoints[i].remove();
-					specPoints[i].setAdvancedVisualStyle(kernel
+				specPoints = new ArrayList<>(specPoints0.size());
+				for (GeoElementND pt : specPoints0) {
+					if (pt != null) {
+						specPoints.add(pt.toGeoElement());
+						pt.remove();
+						pt.setAdvancedVisualStyle(kernel
 							.getConstruction().getConstructionDefaults()
 							.getDefaultGeo(
 									ConstructionDefaults.DEFAULT_POINT_PREVIEW));
+					}
 				}
 			}
 		}
@@ -164,7 +165,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 	 *         null if there is none
 	 */
 	public List<GeoElement> getSelectedPreviewPoints() {
-		return specPoints == null ? null : Arrays.asList(specPoints);
+		return specPoints;
 	}
 
 	public void updateSelection(boolean updateProperties) {
