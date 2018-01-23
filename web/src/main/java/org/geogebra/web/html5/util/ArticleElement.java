@@ -797,7 +797,6 @@ public final class ArticleElement extends Element {
 		int height = getDataParamHeight() - getBorderThickness();
 
 		// do we have fit to screen?
-
 		if (getDataParamFitToScreen()) {
 			int margin = AppW.smallScreen() ? 0 : getDataParamMarginTop();
 			height = Window.getClientHeight() - margin;

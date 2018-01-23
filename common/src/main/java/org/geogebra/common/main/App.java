@@ -4329,7 +4329,7 @@ public abstract class App implements UpdateSelection {
 			return true;
 
 		case WEB_SWITCH_APP_FOR_FILE:
-			return prerelease;
+			return true;
 
 		default:
 			Log.debug("missing case in Feature: " + f);

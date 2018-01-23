@@ -606,10 +606,12 @@ public abstract class DockPanelW extends ResizeComposite
 				graphicsContextMenuBtn.setTabIndex(GUITabs.SETTINGS);
 				graphicsContextMenuBtn.addTabHandler(this);
 			}
+			if (toggleStyleBarButton != null) {
+				toggleStyleBarButton.removeFromParent();
+				toggleStyleBarButton = null;
+			}
 			return;
 		}
-		Log.debug("CHANGE CTXT" + this.getViewId() + ":"
-				+ app.isUnbundledOrWhiteboard());
 		if (graphicsContextMenuBtn != null) {
 			graphicsContextMenuBtn.removeFromParent();
 			graphicsContextMenuBtn = null;

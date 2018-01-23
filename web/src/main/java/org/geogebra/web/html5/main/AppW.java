@@ -288,18 +288,21 @@ public abstract class AppW extends App implements SetLabels {
 
 			@Override
 			public void onResize(ResizeEvent event) {
-				if (getArticleElement().getDataParamFitToScreen()) {
-					updateHeaderVisible();
-					AppW.this.getGgbApi().setSize(Window.getClientWidth(),
-							getArticleElement().computeHeight());
-					if (AppW.this
-							.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-						AppW.this.getAccessibilityManager().focusMenu();
-					}
-				}
+				fitSizeToScreen();
 				windowResized();
 			}
 		});
+	}
+
+	protected void fitSizeToScreen() {
+		if (getArticleElement().getDataParamFitToScreen()) {
+			updateHeaderVisible();
+			AppW.this.getGgbApi().setSize(Window.getClientWidth(),
+					getArticleElement().computeHeight());
+			if (AppW.this.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+				AppW.this.getAccessibilityManager().focusMenu();
+			}
+		}
 	}
 
 	/**
@@ -317,8 +320,15 @@ public abstract class AppW extends App implements SetLabels {
 			}
 			getAppletFrame().updateArticleHeight();
 		}
+	}
 
-
+	public void removeHeader() {
+		Element header = Dom.querySelector("GeoGebraHeader");
+		if (header != null) {
+			header.removeFromParent();
+			getArticleElement().setAttribute("data-param-marginTop", "0");
+			fitSizeToScreen();
+		}
 	}
 
 	/**

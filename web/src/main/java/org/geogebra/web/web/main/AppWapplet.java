@@ -918,6 +918,7 @@ public class AppWapplet extends AppWFull {
 			}
 			else if ("classic".equals(appName) || StringUtil.empty(appName)) {
 				v = Versions.WEB_FOR_BROWSER_3D;
+				removeHeader();
 			}
 			Log.debug(getVersion() + " change to " + v);
 			if (v != getVersion()) {

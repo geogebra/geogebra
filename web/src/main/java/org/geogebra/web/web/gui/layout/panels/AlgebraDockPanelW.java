@@ -88,8 +88,8 @@ public class AlgebraDockPanelW extends DockPanelW
 	}
 
 	public ScrollPanel getAbsolutePanel() {
-	    return algebrap;
-    }
+		return algebrap;
+	}
 
 	@Override
 	public void onResize() {
@@ -108,7 +108,7 @@ public class AlgebraDockPanelW extends DockPanelW
 	}
 
 	@Override
-    public ResourcePrototype getIcon() {
+	public ResourcePrototype getIcon() {
 		return getResources().menu_icon_algebra();
 	}
 
@@ -151,7 +151,6 @@ public class AlgebraDockPanelW extends DockPanelW
 
 	@Override
 	public void scrollToActiveItem() {
-
 		final RadioTreeItem item = aview == null ? null
 				: aview.getActiveTreeItem();
 		if (item == null) {
@@ -163,7 +162,6 @@ public class AlgebraDockPanelW extends DockPanelW
 
 				@Override
 				public void execute() {
-
 					algebrap.scrollToBottom();
 				}
 			});
@@ -184,9 +182,7 @@ public class AlgebraDockPanelW extends DockPanelW
 		final RadioTreeItem item = aview.getActiveTreeItem();
 
 		int spH = algebrap.getOffsetHeight();
-
 		int top = item.getElement().getOffsetTop();
-
 		int relTop = top - savedScrollPosition;
 
 		if (spH < relTop + item.getOffsetHeight()) {

@@ -38,8 +38,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 				'1' // ctrl-shift-1
 			);
 
-
-
 		//TODO: temporary fix to make applets work until
 		// dockpanels works for applets
 		
@@ -59,8 +57,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
 		this(stylebar, application);
 		attachApp(application);
-
-
 	}
 
 	public void attachApp(AppW application) {
@@ -68,8 +64,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 
 		// GuiManager can be null at the startup of the application,
 		// but then the addNavigationBar method will be called explicitly.
-		// By the way, this method is only called from AppWapplet,
-		// so this will be actually null here.
 		if (app.getGuiManager() != null
 				&& app.showConsProtNavigation(App.VIEW_EUCLIDIAN)) {
 			addNavigationBar();
@@ -97,38 +91,34 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		}
 	}
 
-
-
 	@Override
 	protected Widget loadStyleBar() {
-
 		if (espanel == null) {
 			espanel = app.getEuclidianView1().getStyleBar();
 		}
-
 		return (Widget) espanel;
 	}
 
 	@Override
 	public Canvas getCanvas() {
-	    return eview1;
-    }
+		return eview1;
+	}
 
 	@Override
 	public EuclidianPanel getEuclidianPanel() {
-	    return euclidianpanel;
-    }
+		return euclidianpanel;
+	}
 
 	public void remove(Widget w) {
 		euclidianpanel.remove(w);
-    }
+	}
 
 	public EuclidianDockPanelW getEuclidianView1Wrapper() {
 		return this;
 	}
 
 	@Override
-    public EuclidianView getEuclidianView() {
+	public EuclidianView getEuclidianView() {
 		if (app != null) {
 			return app.getEuclidianView1();
 		}

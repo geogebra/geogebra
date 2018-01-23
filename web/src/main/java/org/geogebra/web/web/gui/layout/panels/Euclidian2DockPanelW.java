@@ -13,32 +13,32 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This class may be redundant since EuclidianDockPanelW,
- * but GeoGebra Desktop also uses two different classes for similar
- * purposes, so its behaviour was imitated here.
- *  
+ * This class may be redundant since EuclidianDockPanelW, but GeoGebra Desktop
+ * also uses two different classes for similar purposes, so its behaviour was
+ * imitated here.
+ * 
  * @author arpad
  */
 
-public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements EuclidianPanelWAbstract{
+public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
+		implements EuclidianPanelWAbstract {
 
 	EuclidianStyleBar espanel;
 	EuclidianPanel euclidianpanel;
 
 	Canvas eview1 = null;// static foreground
 	private int idx;
-	
+
 	public Euclidian2DockPanelW(boolean stylebar, int idx) {
-		super(
-				App.VIEW_EUCLIDIAN2,	// view id 
-				"DrawingPad2", 				// view title
-				//ToolBar.getAllToolsNoMacros(true),  // toolbar string... TODO: ToolBarW.getAllTools(app);
-				null,
-				stylebar,					// style bar?
+		super(App.VIEW_EUCLIDIAN2, // view id
+				"DrawingPad2", // view title
+				// ToolBar.getAllToolsNoMacros(true), // toolbar string... TODO:
+				// ToolBarW.getAllTools(app);
+				null, stylebar, // style bar?
 				false, // zoom panel
-				6,							// menu order
+				6, // menu order
 				'2' // ctrl-shift-1
-			);
+		);
 
 		this.idx = idx;
 		// copied here from loadComponent
@@ -83,10 +83,9 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 			euclidianpanel.oldHeight = 0;
 		}
 	}
-	
+
 	@Override
 	protected Widget loadStyleBar() {
-
 		if (espanel == null) {
 			espanel = app.getEuclidianView2(idx).getStyleBar();
 		}
@@ -96,12 +95,12 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 
 	@Override
 	public Canvas getCanvas() {
-	    return eview1;
-    }
+		return eview1;
+	}
 
 	public void remove(Widget w) {
 		euclidianpanel.remove(w);
-    }
+	}
 
 	public Euclidian2DockPanelW getEuclidianView2Wrapper() {
 		return this;
@@ -119,7 +118,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 		}
 		return null;
 	}
-	
+
 	@Override
 	public ResourcePrototype getIcon() {
 		return getResources().menu_icon_graphics2();
@@ -131,12 +130,10 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 			app.getEuclidianView2(1).getEuclidianController()
 					.calculateEnvironment();
 		}
-
 	}
 
 	@Override
 	public void resizeView(int width, int height) {
 		app.ggwGraphicsView2DimChanged(width, height);
-
 	}
 }

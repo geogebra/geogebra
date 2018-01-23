@@ -35,12 +35,12 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	 */
 	public EuclidianDockPanel3DW(App app) {
 		super(App.VIEW_EUCLIDIAN3D, // view id
-		        "GraphicsView3D", // view title
-		        ToolBar.getAllToolsNoMacros3D(), // toolbar string
-		        true, // style bar?
+				"GraphicsView3D", // view title
+				ToolBar.getAllToolsNoMacros3D(), // toolbar string
+				true, // style bar?
 				true, // zoom panel
-		        4, // menu order
-		        '3' // ctrl-shift-3
+				4, // menu order
+				'3' // ctrl-shift-3
 		);
 		this.app = (AppW) app;
 		this.setOpenInFrame(true);
@@ -97,24 +97,10 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 		return null;
 	}
 
-	/*
-	 * @Override public void updateNavigationBar() {
-	 * 
-	 * if (app.getShowCPNavNeedsUpdate(id)) {
-	 * app.setShowConstructionProtocolNavigation(
-	 * app.showConsProtNavigation(id), id); } if (app.showConsProtNavigation(id)
-	 * && consProtNav == null) { this.addNavigationBar(); } if (consProtNav !=
-	 * null) { consProtNav.update();
-	 * consProtNav.setVisible(app.showConsProtNavigation(id)); //
-	 * updateEuclidianPanel(); euclidianpanel.onResize(); } }
-	 */
-	
-	
-	
 	@Override
 	public EuclidianPanel getEuclidianPanel() {
-	    return euclidianpanel;
-    }
+		return euclidianpanel;
+	}
 	
 
 	@Override
@@ -123,13 +109,11 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 			app.getEuclidianView3D().getEuclidianController()
 					.calculateEnvironment();
 		}
-
 	}
 
 	@Override
 	public void resizeView(int width, int height) {
 		app.ggwGraphicsView3DDimChanged(width, height);
-
 	}
 
 	@Override

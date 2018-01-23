@@ -11,12 +11,12 @@ import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.util.JSON;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
-import org.geogebra.web.web.main.AppWFull;
 import org.geogebra.web.web.move.googledrive.events.GoogleDriveLoadedEvent;
 import org.geogebra.web.web.move.googledrive.events.GoogleLogOutEvent;
 import org.geogebra.web.web.move.googledrive.events.GoogleLoginEvent;
@@ -59,7 +59,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 *            Application
 	 */
 	public GoogleDriveOperationW(AppW app) {
-
 		this.app = app;
 		setCurrentFileId();
 		setView(new BaseEventView());
@@ -67,9 +66,11 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 		app.getLoginOperation().getView().add(this);
 		getView().add(this);
-
 	}
 
+	/**
+	 * @return
+	 */
 	public String getFileName() {
 		return driveBase64FileName;
 	}
@@ -369,18 +370,15 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}-*/;
 
 	private void processGoogleDriveFileContentAsBase64(String base64,
-	        String description, String title, String id) {
+			String description, final String title, String id) {
 		Material imported = new Material(0, MaterialType.ggb);
 		imported.setTitle(title);
-		app.registerOpenFileListener(
-				((AppWFull) app)
-						.getUpdateTitleCallback(imported));
 		app.loadGgbFileAsBase64Again(base64);
 		postprocessFileLoading(description, title, id);
 	}
 
 	private void postprocessFileLoading(String description, String title,
-	        String id) {
+			String id) {
 		refreshCurrentFileDescriptors(title, description);
 		setCurrentFileId(id);
 		app.setUnsaved();
@@ -394,14 +392,16 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	@Override
 	public void refreshCurrentFileDescriptors(String fName, String desc) {
+		if (app.getArticleElement().getDataParamFitToScreen()
+				&& !StringUtil.empty(fName)) {
+			Browser.changeMetaTitle(fName.replace(".ggb", ""));
+		}
 		if ("null".equals(desc) || "undefined".equals(desc)) {
 			driveBase64description = "";
 		} else {
 			driveBase64description = desc;
 		}
 		driveBase64FileName = fName;
-
-
 	}
 
 	/**
@@ -447,18 +447,19 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 			JSON.put(metaData, "parents", parents);
 		}
 		JavaScriptObject thumbnail = JavaScriptObject.createObject();
-		JSON.put(
-		        thumbnail,
-		        "image",
-		        ((EuclidianViewWInterface) app.getActiveEuclidianView())
-		                .getCanvasBase64WithTypeString()
-						.substring(StringUtil.pngMarker.length())
-		                .replace("+", "-").replace("/", "_"));
+		JSON.put(thumbnail, "image", getThumbnail());
 		JSON.put(thumbnail, "mimeType", "image/png");
 		JSON.putObject(metaData, "thumbnail", thumbnail);
 		Log.debug(metaData);
 		handleFileUploadToGoogleDrive(getCurrentFileId(), metaData, fileContent,
 				isggb);
+	}
+
+	private String getThumbnail() {
+		return ((EuclidianViewWInterface) app.getActiveEuclidianView())
+				.getCanvasBase64WithTypeString()
+				.substring(StringUtil.pngMarker.length()).replace("+", "-")
+				.replace("/", "_");
 	}
 
 	private native void handleFileUploadToGoogleDrive(String id,
@@ -562,7 +563,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 			this.needsPicker = true;
 			login(false);
 		}
-
 	}
 
 	@Override
@@ -570,7 +570,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		driveBase64FileName = null;
 		driveBase64description = null;
 		currentFileId = null;
-
 	}
 
 	public String getCurrentFileId() {
@@ -595,7 +594,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 			this.waitingHandler = todo;
 			login(false);
 		}
-
 	}
 
 }
