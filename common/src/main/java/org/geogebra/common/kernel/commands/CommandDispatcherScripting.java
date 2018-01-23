@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.scripting.CmdCenterView;
 import org.geogebra.common.kernel.scripting.CmdCheckbox;
 import org.geogebra.common.kernel.scripting.CmdDelete;
 import org.geogebra.common.kernel.scripting.CmdExecute;
-import org.geogebra.common.kernel.scripting.CmdSetLineStyle;
 import org.geogebra.common.kernel.scripting.CmdPan;
 import org.geogebra.common.kernel.scripting.CmdParseToFunction;
 import org.geogebra.common.kernel.scripting.CmdParseToNumber;
@@ -31,6 +30,8 @@ import org.geogebra.common.kernel.scripting.CmdSetFilling;
 import org.geogebra.common.kernel.scripting.CmdSetFixed;
 import org.geogebra.common.kernel.scripting.CmdSetLabelMode;
 import org.geogebra.common.kernel.scripting.CmdSetLayer;
+import org.geogebra.common.kernel.scripting.CmdSetLevelOfDetail;
+import org.geogebra.common.kernel.scripting.CmdSetLineStyle;
 import org.geogebra.common.kernel.scripting.CmdSetLineThickness;
 import org.geogebra.common.kernel.scripting.CmdSetPointSize;
 import org.geogebra.common.kernel.scripting.CmdSetPointStyle;
@@ -90,6 +91,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdSetConditionToShowObject(kernel);
 		case SetFilling:
 			return new CmdSetFilling(kernel);
+		case SetLevelOfDetail:
+			return new CmdSetLevelOfDetail(kernel);
 		case SetLineThickness:
 			return new CmdSetLineThickness(kernel);
 		case SetLineStyle:

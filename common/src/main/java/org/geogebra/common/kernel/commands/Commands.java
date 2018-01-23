@@ -764,6 +764,8 @@ public enum Commands implements CommandsConstants,
 
 	SetFilling(TABLE_SCRIPTING),
 
+	SetLevelOfDetail(TABLE_SCRIPTING),
+
 	SetLineThickness(TABLE_SCRIPTING),
 
 	SetLineStyle(TABLE_SCRIPTING),
