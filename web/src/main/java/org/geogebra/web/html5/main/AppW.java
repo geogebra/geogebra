@@ -759,6 +759,12 @@ public abstract class AppW extends App implements SetLabels {
 
 	private void loadFile(GgbFile archiveContent)
 	        throws Exception {
+		if (archiveContent.containsKey("structure.json")) {
+			if (getPageController() != null) {
+				getPageController().loadSlides(archiveContent);
+			}
+			return;
+		}
 		beforeLoadFile();
 
 		GgbFile archive = archiveContent.duplicate();

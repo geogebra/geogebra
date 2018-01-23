@@ -1,8 +1,13 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
 import java.util.ArrayList;
+import java.util.Map.Entry;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.move.ggtapi.models.json.JSONArray;
+import org.geogebra.common.move.ggtapi.models.json.JSONException;
+import org.geogebra.common.move.ggtapi.models.json.JSONObject;
+import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
@@ -24,6 +29,7 @@ public class PageListController implements PageListControllerInterface {
 	 * list of slides (pages)
 	 */
 	protected ArrayList<PagePreviewCard> slides;
+	protected PagePreviewCard selectedPreviewCard;
 
 	/**
 	 * @param app
@@ -37,8 +43,21 @@ public class PageListController implements PageListControllerInterface {
 	/**
 	 * @return list of slides
 	 */
-	public ArrayList<PagePreviewCard> getSlides() {
+	public ArrayList<PagePreviewCard> getCards() {
 		return slides != null ? slides : new ArrayList<PagePreviewCard>();
+	}
+
+	/**
+	 * @return list of slides
+	 */
+	public GgbFile getSlide(int index) {
+		if(slides == null){
+			return null;
+		}
+		if(selectedPreviewCard == slides.get(index)){
+			return app.getGgbApi().createArchiveContent(false);
+		}
+		return slides.get(index).getFile();
 	}
 
 	/**
@@ -146,5 +165,78 @@ public class PageListController implements PageListControllerInterface {
 		for (int i = masterIdx; i < slides.size(); i++) {
 			slides.get(i).setPageIndex(i);
 		}
+	}
+
+	public String getStructureJSON() {
+		try {
+			JSONObject book = new JSONObject();
+			JSONObject chapter = new JSONObject();
+			JSONArray pages = new JSONArray();
+			if (slides != null) {
+				for (int i = 0; i < slides.size(); i++) {
+					pages.put(new JSONObject().put("id", "_slide" + i));
+				}
+			}
+			chapter.put("pages", pages);
+			book.put("chapters", new JSONArray().put(chapter));
+			return book.toString();
+		} catch (JSONException e) {
+			Log.warn("can't save slides:" + e.getMessage());
+		}
+		return "{}";
+	}
+
+	public void loadSlides(GgbFile archive) {
+		String structure = archive.remove("structure.json");
+		slides.clear();
+		Log.debug(structure);
+		try {
+			JSONObject response = new JSONObject(new JSONTokener(structure));
+			JSONArray pages = response.getJSONArray("chapters").getJSONObject(0)
+					.getJSONArray("pages");
+			for (int i = 0; i < pages.length(); i++) {
+				slides.add(new PagePreviewCard(app, i, filter(archive,
+						pages.getJSONObject(i).getString("id"))));
+			}
+			app.loadGgbFile(slides.get(0).getFile());
+			/// TODO this breaks MVC
+			((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
+					.update();
+			setCardSelected(slides.get(0));
+			Log.printStacktrace("Loaded" + slides.size());
+		} catch (Exception e) {
+			Log.debug(e);
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * Sets the selected page visible and highlights the preview card
+	 * 
+	 * @param previewCard
+	 *            selected preview card
+	 */
+	protected void setCardSelected(PagePreviewCard previewCard) {
+		if (selectedPreviewCard != null) {
+			// deselect old selected card
+			selectedPreviewCard.removeStyleName("selected");
+		}
+		// select new card
+		previewCard.addStyleName("selected");
+		//
+		selectedPreviewCard = previewCard;
+	}
+
+	private GgbFile filter(GgbFile archive, String prefix) {
+		GgbFile ret = new GgbFile();
+		for (Entry<String, String> e : archive.entrySet()) {
+			if(e.getKey().startsWith(prefix+"/")){
+				ret.put(e.getKey().substring(prefix.length() + 1),
+						e.getValue());
+			}
+		}
+		return ret;
 	}
 }

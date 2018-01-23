@@ -9,4 +9,12 @@ public interface PageListControllerInterface {
 	 */
 	void resetPageControl();
 
+	GgbFile getSlide(int index);
+
+	String getStructureJSON();
+
+	int getSlidesAmount();
+
+	void loadSlides(GgbFile archiveContent);
+
 }

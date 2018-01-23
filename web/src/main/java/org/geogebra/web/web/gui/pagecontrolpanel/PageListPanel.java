@@ -36,7 +36,6 @@ public class PageListPanel
 	private MOWToolbar mowToolbar;
 	private ScrollPanel scrollPanel;
 	private PersistablePanel contentPanel;
-	private PagePreviewCard selectedPreviewCard;
 	private StandardButton plusButton;
 	private PageListController pageController;
 
@@ -170,7 +169,7 @@ public class PageListPanel
 		final PagePreviewCard card = pageController.addSlide();
 		addPreviewCard(card);
 		if (selected) {
-			setCardSelected(card);
+			pageController.setCardSelected(card);
 		}
 		return card.getPageIndex();
 	}
@@ -215,8 +214,9 @@ public class PageListPanel
 	 *            true if slide is new page
 	 */
 	protected void loadPage(int index, boolean newPage) {
-		pageController.loadSlide(selectedPreviewCard, index, newPage);
-		setCardSelected(pageController.getSlides().get(index));
+		pageController.loadSlide(pageController.selectedPreviewCard, index,
+				newPage);
+		pageController.setCardSelected(pageController.getCards().get(index));
 	}
 
 	/**
@@ -251,28 +251,11 @@ public class PageListPanel
 	}
 
 	/**
-	 * Sets the selected page visible and highlights the preview card
-	 * 
-	 * @param previewCard
-	 *            selected preview card
-	 */
-	protected void setCardSelected(PagePreviewCard previewCard) {
-		if (selectedPreviewCard != null) {
-			// deselect old selected card
-			selectedPreviewCard.removeStyleName("selected");
-		}
-		// select new card
-		previewCard.addStyleName("selected");
-		//
-		selectedPreviewCard = previewCard;
-	}
-
-	/**
 	 * Updates the preview image of the active preview card
 	 */
 	public void updatePreviewImage() {
-		if (selectedPreviewCard != null) {
-			selectedPreviewCard.updatePreviewImage();
+		if (pageController.selectedPreviewCard != null) {
+			pageController.selectedPreviewCard.updatePreviewImage();
 		}
 	}
 
@@ -322,9 +305,16 @@ public class PageListPanel
 		
 		int idx = dup.getPageIndex(); 
 		pageController.loadSlide(dup, idx, false);
-		setCardSelected(dup);
+		pageController.setCardSelected(dup);
 		
 		updateIndexes(idx);
 		updatePreviewImage();
+	}
+
+	public void update() {
+		contentPanel.clear();
+		for (PagePreviewCard card : this.pageController.slides) {
+			contentPanel.add(card);
+		}
 	}
 }

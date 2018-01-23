@@ -257,14 +257,24 @@ public class GgbAPIW extends GgbAPI {
 			JavaScriptObject callback) {
 		GgbFile archiveContent = createMacrosArchive();
 		JavaScriptObject jso = JavaScriptObject.createObject();
-		getBase64ZipJs(prepareToEntrySet(archiveContent, jso), callback,
+		getBase64ZipJs(prepareToEntrySet(archiveContent, jso, ""), callback,
 				zipJSworkerURL(), false);
 	}
 
 	public JavaScriptObject getFileJSON(boolean includeThumbnail) {
 		GgbFile archiveContent = createArchiveContent(includeThumbnail);
 		JavaScriptObject jso = JavaScriptObject.createObject();
-		return prepareToEntrySet(archiveContent, jso);
+		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		if (pageController != null) {
+			for (int i = 0; i < pageController.getSlidesAmount(); i++) {
+				prepareToEntrySet(pageController.getSlide(i), jso,
+						"_slide" + i + "/");
+			}
+			pushIntoNativeEntry("structure.json",
+					pageController.getStructureJSON(), jso);
+			return jso;
+		}
+		return prepareToEntrySet(archiveContent, jso, "");
 	}
 
 	public void setFileJSON(JavaScriptObject obj) {
@@ -304,9 +314,9 @@ public class GgbAPIW extends GgbAPI {
 
 	public String getMacrosBase64() {
 		StoreString storeString = new StoreString();
-		Map<String, String> archiveContent = createMacrosArchive();
+		GgbFile archiveContent = createMacrosArchive();
 		JavaScriptObject jso = prepareToEntrySet(archiveContent,
-				JavaScriptObject.createObject());
+				JavaScriptObject.createObject(), "");
 		if (Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 		}
@@ -459,13 +469,15 @@ public class GgbAPIW extends GgbAPI {
 		return archiveContent;
 	}
 
-	private JavaScriptObject prepareToEntrySet(Map<String, String> archive,
-			JavaScriptObject nativeEntry) {
+	private JavaScriptObject prepareToEntrySet(GgbFile archive,
+			JavaScriptObject nativeEntry, String prefix) {
 		if (archive.entrySet() != null) {
 			for (Entry<String, String> entry : archive.entrySet()) {
-				pushIntoNativeEntry(entry.getKey(), entry.getValue(),
+				pushIntoNativeEntry(prefix + entry.getKey(), entry.getValue(),
 						nativeEntry);
 			}
+		} else {
+			Log.debug("empty");
 		}
 		return nativeEntry;
 	}
