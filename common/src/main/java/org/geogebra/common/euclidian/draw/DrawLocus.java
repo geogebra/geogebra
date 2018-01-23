@@ -296,7 +296,7 @@ public class DrawLocus extends Drawable {
 
 	@Override
 	public void updateGeo(AbstractEvent e) {
-		((GeoLocus) geo).resetSavedBoundingBoxValues();
+		((GeoLocus) geo).resetSavedBoundingBoxValues(false);
 	}
 
 	/**

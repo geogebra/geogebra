@@ -151,13 +151,24 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	/**
 	 * Resets the saved starting values of coordinates of bounding box
+	 * 
+	 * @param pointListChanged
+	 *            true if list of points of locus (myPointList) changed
 	 */
-	public void resetSavedBoundingBoxValues() {
-		fixedX = Double.NaN;
-		fixedY = Double.NaN;
-		reflectedX = scaleX < 0;
-		reflectedY = scaleY < 0;
-		ratio = Double.NaN;
+	public void resetSavedBoundingBoxValues(boolean pointListChanged) {
+		if (pointListChanged) {
+			nonScaledPointList = null;
+			scaleX = 1;
+			scaleY = 1;
+			reflectedX = false;
+			reflectedY = false;
+		} else {
+			fixedX = Double.NaN;
+			fixedY = Double.NaN;
+			reflectedX = scaleX < 0;
+			reflectedY = scaleY < 0;
+			ratio = Double.NaN;
+		}
 	}
 
 	private void saveOriginalRates(GRectangle2D gRectangle2D) {
@@ -651,6 +662,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 	 */
 	public void setPoints(ArrayList<T> al) {
 		myPointList = al;
+		this.resetSavedBoundingBoxValues(true);
 
 	}
 
