@@ -2,7 +2,7 @@ package org.geogebra.common.io.latex;
 
 import java.util.HashMap;
 
-import com.himamis.retex.editor.share.util.Unicode;
+import com.himamis.retex.editor.share.util.Greek;
 import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.CharAtom;
 import com.himamis.retex.renderer.share.EmptyAtom;
@@ -15,6 +15,7 @@ import com.himamis.retex.renderer.share.ScriptsAtom;
 import com.himamis.retex.renderer.share.SpaceAtom;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.TypedAtom;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 
 /**
  * Converts parsed LaTeX to GGB syntax
@@ -83,6 +84,9 @@ public class TeXAtomSerializer {
 		if (root instanceof SpaceAtom) {
 			return " ";
 		}
+		if (root instanceof EmptyAtom) {
+			return "";
+		}
 		if (root instanceof SymbolAtom) {
 			if (mappings == null) {
 				initMappings();
@@ -100,7 +104,8 @@ public class TeXAtomSerializer {
 			}
 			return sb.toString();
 		}
-		return root.getClass().getName();
+		FactoryProvider.getInstance().debug("Unknown atom:" + root);
+		return "?";
 	}
 
 	private String subSup(ScriptsAtom ch) {
@@ -145,6 +150,9 @@ public class TeXAtomSerializer {
 		mappings.put("gt",">");
 		mappings.put("cdot", "*");
 		mappings.put("times", "*");
-		mappings.put("theta", Unicode.theta_STRING);
+		// mappings.put("theta", Unicode.theta_STRING);
+		for (Greek greek : Greek.values()) {
+			mappings.put(greek.name(), greek.unicode + "");
+		}
 	}
 }

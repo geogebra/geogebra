@@ -191,7 +191,7 @@ public class SerializeLaTeX {
 		checkLaTeX("X=\\left(x_0+2x_x,y_0+2x_y\\right)",
 				"X=(x_0+2x_x,y_0+2x_y)");
 		checkLaTeX("i=\\left[0,\\frac{6\\pi}{p}...24\\pi\\right]",
-				"i=[0,(6pi)/(p)...24pi]");
+				"i=[0,(6pi)/(p)...24pi]".replace("pi", Unicode.PI_STRING));
 		checkLaTeX(
 				"\\left(\\left(1-t\\right)\\left(x_1\\right)+t\\left(x_1+R\\ f\\left(j\\right)\\right),\\left(1-t\\right)\\left(y_1\\right)+t\\left(y_1+Rg\\left(j\\right)\\right)\\right)",
 				"((1-t)(x_1)+t(x_1+R f(j)),(1-t)(y_1)+t(y_1+Rg(j)))");
@@ -203,6 +203,8 @@ public class SerializeLaTeX {
 				"r = g^(" + Unicode.theta_STRING + ")");
 		checkLaTeX("7\\cdot 6", "7*6");
 		checkLaTeX("7\\times 6", "7*6");
+		checkLaTeX("\\left \\alpha + \\beta \\right",
+				Unicode.alpha + "+" + Unicode.beta);
 	}
 
 	@Test
