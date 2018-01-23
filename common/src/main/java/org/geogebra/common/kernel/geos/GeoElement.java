@@ -6082,9 +6082,9 @@ public abstract class GeoElement extends ConstructionElement
 	public final void getXMLisShapeTag(final StringBuilder sb) {// package
 																// private
 		// was object created with shape tool
-		sb.append("\t<isShape val=\"");
-		sb.append(isShape());
-		sb.append("\"/>\n");
+		if (isShape()) {
+			sb.append("\t<isShape val=\"true\"/>\n");
+		}
 	}
 
 	/**

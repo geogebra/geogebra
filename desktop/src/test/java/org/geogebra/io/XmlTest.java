@@ -1,5 +1,10 @@
 package org.geogebra.io;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.URL;
 import java.util.Locale;
@@ -28,7 +33,7 @@ public class XmlTest {
 
 	@BeforeClass
 	public static void setup() {
-		app = new AppDNoGui(new LocalizationD(3), true);
+		app = new AppDNoGui(new LocalizationD(3), false);
 		ap = app.getKernel().getAlgebraProcessor();
 		app.setLanguage(Locale.US);
 	}
@@ -72,6 +77,33 @@ public class XmlTest {
 		app.setXML(app.getXML(), true);
 		Assert.assertEquals(0.01,
 				app.getKernel().lookupLabel("P").getAnimationStep(), 1E-8);
+	}
+	
+	@Test
+	public void specialPointsLoadTest() {
+		app.setXML(read("src/test/resources/specialpoints.xml"), true);
+		Assert.assertEquals(app.getGgbApi().getAllObjectNames().length, 20);
+	}
+
+	private String read(String string) {
+		File f = new File(string);
+		StringBuilder sb = new StringBuilder();
+		try {
+			InputStreamReader sr = new InputStreamReader(new FileInputStream(f));
+			BufferedReader br = new BufferedReader(sr);
+			String line = null;
+			do{
+				line = br.readLine();
+				sb.append(line);
+				sb.append('\n');
+			} while (line != null);
+			br.close();
+			return sb.toString();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

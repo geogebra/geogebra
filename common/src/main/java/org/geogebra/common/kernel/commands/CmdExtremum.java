@@ -92,7 +92,8 @@ public class CmdExtremum extends CommandProcessor {
 		if (!f.isPolynomialFunction(true)) {
 			EuclidianViewInterfaceCommon view = this.kernel.getApplication()
 					.getActiveEuclidianView();
-			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, null, f, view);
+			AlgoExtremumMulti algo = new AlgoExtremumMulti(cons, c.getLabels(),
+					f, view);
 			return algo.getExtremumPoints();
 		}
 
