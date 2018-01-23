@@ -58,8 +58,8 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public byte[] getGGBfile() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new IllegalArgumentException(
+				"In HTML5 getGGBfile needs at least 1 argument");
 	}
 
 	public Context2d getContext2D() {
@@ -202,11 +202,16 @@ public class GgbAPIW extends GgbAPI {
 		return c.toDataUrl().substring(StringUtil.pngMarker.length());
 	}
 
-	public void getGGB(final boolean includeThumbnail,
+	/**
+	 * @param includeThumbnail
+	 *            whether to include thumbnail
+	 * @param callback
+	 *            handler for the file
+	 */
+	public void getGGBfile(final boolean includeThumbnail,
 			final JavaScriptObject callback) {
-		GgbFile archiveContent = createArchiveContent(includeThumbnail);
 		final boolean oldWorkers = setWorkerURL(zipJSworkerURL(), false);
-		final JavaScriptObject arch = prepareToEntrySet(archiveContent);
+		final JavaScriptObject arch = getFileJSON(includeThumbnail);
 		getGGBZipJs(arch, callback, nativeCallback(new StringHandler() {
 			@Override
 			public void handle(String s) {
@@ -243,24 +248,23 @@ public class GgbAPIW extends GgbAPI {
 	 *            callback
 	 */
 	public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
-		GgbFile archiveContent = createArchiveContent(includeThumbnail);
 
-		getBase64ZipJs(prepareToEntrySet(archiveContent), callback,
+		getBase64ZipJs(getFileJSON(includeThumbnail), callback,
 				zipJSworkerURL(), false);
 	}
 
 	public void getMacrosBase64(boolean includeThumbnail,
 			JavaScriptObject callback) {
 		GgbFile archiveContent = createMacrosArchive();
-
-		getBase64ZipJs(prepareToEntrySet(archiveContent), callback,
+		JavaScriptObject jso = JavaScriptObject.createObject();
+		getBase64ZipJs(prepareToEntrySet(archiveContent, jso), callback,
 				zipJSworkerURL(), false);
 	}
 
 	public JavaScriptObject getFileJSON(boolean includeThumbnail) {
 		GgbFile archiveContent = createArchiveContent(includeThumbnail);
-
-		return prepareToEntrySet(archiveContent);
+		JavaScriptObject jso = JavaScriptObject.createObject();
+		return prepareToEntrySet(archiveContent, jso);
 	}
 
 	public void setFileJSON(JavaScriptObject obj) {
@@ -289,8 +293,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public String getBase64(boolean includeThumbnail) {
 		StoreString storeString = new StoreString();
-		GgbFile archiveContent = createArchiveContent(includeThumbnail);
-		JavaScriptObject jso = prepareToEntrySet(archiveContent);
+		JavaScriptObject jso = getFileJSON(includeThumbnail);
 		if (Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 		}
@@ -302,13 +305,13 @@ public class GgbAPIW extends GgbAPI {
 	public String getMacrosBase64() {
 		StoreString storeString = new StoreString();
 		Map<String, String> archiveContent = createMacrosArchive();
-		JavaScriptObject jso = prepareToEntrySet(archiveContent);
+		JavaScriptObject jso = prepareToEntrySet(archiveContent,
+				JavaScriptObject.createObject());
 		if (Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 		}
 		getBase64ZipJs(jso, nativeCallback(storeString), "false", true);
 		return storeString.getResult();
-
 	}
 
 	/**
@@ -338,7 +341,6 @@ public class GgbAPIW extends GgbAPI {
 	}-*/;
 
 	private native String addDPI(String base64, double dpi) /*-{
-
 		var pngHeader = "data:image/png;base64,";
 
 		if (base64.startsWith(pngHeader)) {
@@ -457,9 +459,8 @@ public class GgbAPIW extends GgbAPI {
 		return archiveContent;
 	}
 
-	private JavaScriptObject prepareToEntrySet(Map<String, String> archive) {
-		JavaScriptObject nativeEntry = JavaScriptObject.createObject();
-
+	private JavaScriptObject prepareToEntrySet(Map<String, String> archive,
+			JavaScriptObject nativeEntry) {
 		if (archive.entrySet() != null) {
 			for (Entry<String, String> entry : archive.entrySet()) {
 				pushIntoNativeEntry(entry.getKey(), entry.getValue(),
@@ -627,7 +628,6 @@ public class GgbAPIW extends GgbAPI {
 			}
 		}));
 	}
-
 
 	private native void getBase64ZipJs(JavaScriptObject arch,
 			JavaScriptObject clb, JavaScriptObject errorClb) /*-{
@@ -1206,7 +1206,6 @@ public class GgbAPIW extends GgbAPI {
 		}
 
 		return null;
-
 	}
 
 	/**
@@ -1218,7 +1217,6 @@ public class GgbAPIW extends GgbAPI {
 
 		if (ev instanceof EuclidianViewW) {
 			EuclidianViewW evw = (EuclidianViewW) ev;
-
 			String pdf = evw.getExportPDF(scale);
 
 			if (filename != null) {
@@ -1226,12 +1224,8 @@ public class GgbAPIW extends GgbAPI {
 			}
 
 			return pdf;
-
 		}
-
 		return null;
-
-
 	}
 
 }

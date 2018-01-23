@@ -2099,7 +2099,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 								filename += ".ggb";
 							}
 
-							getApp().getGgbApi().getGGB(true,
+							getApp().getGgbApi().getGGBfile(true,
 									getDownloadCallback(filename));
 						}
 					}
