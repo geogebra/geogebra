@@ -751,13 +751,10 @@
 *   WEBCAM DIALOG
 ******************/
 	.mowCameraSimplePanel{
-		height: 360px;
-		width: 480px;
 		margin-right: 16px;
 	}
 	.mowCameraInputPanel{
-		height: 360px;
-		width: 480px;
+		width: 100%;
 		position:absolute;
 		text-align:center;
 	}

@@ -3,11 +3,15 @@ package org.geogebra.web.web.gui.dialog.image;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -63,12 +67,20 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		addStyleName("GeoGebraPopup");
 		addStyleName("image");
 		setGlassEnabled(true);
-
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(ResizeEvent event) {
+				resize();
+			}
+		});
 	}
 
 	private void initActions() {
 		screenshotBtn.addClickHandler(this);
 		closeBtn.addClickHandler(this);
+		if (Browser.isMobile()) {
+			this.setAutoHideEnabled(true);
+		}
 	}
 
 	/**
@@ -81,6 +93,29 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		closeBtn.setText(loc.getMenu("Close")); // close
 	}
 
+	/**
+	 * resizes the video and its container
+	 */
+	public void resize() {
+		double width = webcamInputPanel.getVideoWidth();
+		double height = webcamInputPanel.getVideoHeight();
+		double ratio = height / width;
+		if (app1.getHeight() < app1.getWidth()) {
+			height = app1.getHeight() / 2;
+			width = height / ratio;
+			if (width < 250) {
+				width = 250;
+				height = width * ratio;
+			}
+		} else {
+			width = Math.max(250, app1.getWidth() / 2);
+			height = width * ratio;
+		}
+		inputPanel.setHeight(height + "px");
+		inputPanel.setWidth(width + "px");
+		center();
+	}
+
 	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
@@ -91,9 +126,6 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 				app1.imageDropHappened(name, data, "");
 			}
 		} else if (source == closeBtn) {
-			app1.getImageManager().setPreventAuxImage(false);
-			app1.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
-					ModeSetter.TOOLBAR);
 			hide();
 		}
 	}
@@ -103,7 +135,17 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		if (this.webcamInputPanel != null) {
 			this.webcamInputPanel.stopVideo();
 		}
+		app1.getImageManager().setPreventAuxImage(false);
+		app1.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+				ModeSetter.TOOLBAR);
 		super.hide();
+	}
+
+	@Override
+	public void hide(boolean autoClosed, boolean setFocus) {
+		super.hide(autoClosed, setFocus);
+		app1.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
+				ModeSetter.TOOLBAR);
 	}
 
 	@Override

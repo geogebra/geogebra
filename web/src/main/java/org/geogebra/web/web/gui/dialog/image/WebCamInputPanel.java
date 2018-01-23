@@ -85,11 +85,16 @@ public class WebCamInputPanel extends VerticalPanel {
 								},
 								function(bs) {
 									browserAlreadyAllowed = true;
-									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showInputDialog()();
 									if ($wnd.URL && $wnd.URL.createObjectURL) {
 										video.src = $wnd.URL
 												.createObjectURL(bs);
 										el.firstChild.style.display = "none";
+										video.onloadedmetadata = function(e) {
+											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::canvasWidth = video.videoWidth;
+											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::canvasHeight = video.videoHeight;
+											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::resize()();
+											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showInputDialog()();
+										};
 									} else {
 										video.src = bs;
 										el.firstChild.style.display = "none";
@@ -249,5 +254,20 @@ public class WebCamInputPanel extends VerticalPanel {
 
 	private void showNotSupportedDialog() {
 		showPermissionDialog(WebcamPermissionDialog.DialogType.NOT_SUPPORTED);
+	}
+
+	public int getVideoWidth() {
+		return canvasWidth;
+	}
+
+	public int getVideoHeight() {
+		return canvasHeight;
+	}
+
+	private void resize() {
+		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			return;
+		}
+		webcamDialog.resize();
 	}
 }
