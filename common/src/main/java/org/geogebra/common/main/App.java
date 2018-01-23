@@ -4001,11 +4001,11 @@ public abstract class App implements UpdateSelection {
 				
 			// IGR-593
 			case MOB_IOS_CHECKBOXES_AND_STATUS_BAR:
-			return true;
+				return true;
 
 			//AND-785
 			case MOB_AND_CHECKBOXES_AND_STATUS_BAR:
-			return false;
+				return false;
 
 			// IGR-588, AND-695
 			case MOB_OUTPUTROW_IN_DESC_MODE:
