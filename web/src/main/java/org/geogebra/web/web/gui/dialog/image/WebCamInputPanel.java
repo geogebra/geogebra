@@ -25,8 +25,6 @@ public class WebCamInputPanel extends VerticalPanel {
 	private static final int MAX_CANVAS_WIDTH = 640;
 	private WebcamInputDialog webcamDialog;
 	private WebcamPermissionDialog permissionDialog;
-	private WebcamErrorDialog permissionDeniedDialog;
-	private WebcamErrorDialog errorDialog;
 
 	/**
 	 * @param app
@@ -107,7 +105,7 @@ public class WebCamInputPanel extends VerticalPanel {
 				setTimeout(
 						function() {
 							if (!browserAlreadyAllowed && !deniedByUser) {
-								that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showPermissionDialog()();
+								that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showRequestDialog()();
 							}
 						}, 200);
 
@@ -119,7 +117,7 @@ public class WebCamInputPanel extends VerticalPanel {
 			}
 		} else {
 			el.firstChild.innerHTML = "<br><br>" + errorMessage;
-			that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
+			that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showNotSupportedDialog()();
 		}
 		return null;
 	}-*/;
@@ -215,17 +213,6 @@ public class WebCamInputPanel extends VerticalPanel {
 		}
 	}
 
-	private void showPermissionDialog() {
-		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
-			return;
-		}
-		if (permissionDialog == null) {
-			permissionDialog = new WebcamPermissionDialog(app);
-		}
-		permissionDialog.center();
-		permissionDialog.show();
-	}
-
 	private void hidePermissionDialog() {
 		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
 			return;
@@ -235,31 +222,32 @@ public class WebCamInputPanel extends VerticalPanel {
 		}
 	}
 
-	private void showPermissionDeniedDialog() {
+	private void showPermissionDialog(
+			WebcamPermissionDialog.DialogType dialogType) {
 		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
 			return;
 		}
 		hidePermissionDialog();
-		if (permissionDeniedDialog == null) {
-			permissionDeniedDialog = new WebcamErrorDialog(app,
-					"You denied access to the Camera",
-					"Without acess to the Camera the Video Tool will not work. Please change your Browser Settings.");
-		}
-		permissionDeniedDialog.center();
-		permissionDeniedDialog.show();
+		permissionDialog = new WebcamPermissionDialog(app, dialogType);
+		permissionDialog.center();
+		permissionDialog.show();
+	}
+
+	private void showRequestDialog() {
+		showPermissionDialog(
+				WebcamPermissionDialog.DialogType.PERMISSION_REQUEST);
+	}
+
+	private void showPermissionDeniedDialog() {
+		showPermissionDialog(
+				WebcamPermissionDialog.DialogType.PERMISSION_DENIED);
 	}
 
 	private void showErrorDialog() {
-		if (!app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
-			return;
-		}
-		hidePermissionDialog();
-		if (errorDialog == null) {
-			errorDialog = new WebcamErrorDialog(app,
-					"Problem communicating with the Webcam",
-					"Please check if a Camera is attached or try another browser");
-		}
-		errorDialog.center();
-		errorDialog.show();
+		showPermissionDialog(WebcamPermissionDialog.DialogType.ERROR);
+	}
+
+	private void showNotSupportedDialog() {
+		showPermissionDialog(WebcamPermissionDialog.DialogType.NOT_SUPPORTED);
 	}
 }

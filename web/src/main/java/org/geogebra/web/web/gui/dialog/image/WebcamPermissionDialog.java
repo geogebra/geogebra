@@ -15,25 +15,45 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
 /**
- * dialog to ask user for webcam permission
+ * dialog to ask user for webcam permission and show error messages
  * 
  * @author Alicia
  *
  */
 public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
-	protected AppW app1;
+	private AppW app1;
 	private FlowPanel mainPanel;
 	private FlowPanel buttonPanel;
-	protected Button cancelBtn;
-	protected Label text;
+	private Button cancelBtn;
+	private Label text;
+	private DialogType dialogType;
+
+	/**
+	 * type of dialog
+	 *
+	 */
+	protected enum DialogType {
+		/** request permission to use webcam */
+		PERMISSION_REQUEST,
+		/** permission request denied by user */
+		PERMISSION_DENIED,
+		/** problem communicating with the webcam */
+		ERROR,
+		/** webcam not supported by browser */
+		NOT_SUPPORTED
+	}
 
 	/**
 	 * @param app
 	 *            application
+	 * @param dialogType
+	 *            type of dialog (PERMISSION_REQUEST, PERMISSION_DENIED, ERROR,
+	 *            NOT_SUPPORTED)
 	 */
-	public WebcamPermissionDialog(AppW app) {
+	public WebcamPermissionDialog(AppW app, DialogType dialogType) {
 		super(app.getPanel(), app);
 		this.app1 = app;
+		this.dialogType = dialogType;
 		initGUI();
 	}
 
@@ -58,19 +78,39 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 	 */
 	public void setLabels() {
 		Localization loc = app1.getLocalization();
-		getCaption().setText(loc.getMenu("Camera.Request"));
-		String message;
-		if (app1.getVersion() == Versions.WEB_FOR_DESKTOP) {
-			message = "";
-		} else if (Browser.isFirefox()) {
-			message = loc.getMenu("Webcam.Firefox");
-		} else if (Browser.isEdge()) {
-			message = loc.getMenu("Webcam.Edge");
-		} else {
-			message = loc.getMenu("Webcam.Chrome");
+		String message = "";
+		String caption = "";
+		cancelBtn.setText(loc.getMenu("OK"));
+
+		switch (dialogType) {
+		case PERMISSION_REQUEST:
+			caption = loc.getMenu("Webcam.Request");
+			if (app1.getVersion() == Versions.WEB_FOR_DESKTOP) {
+				message = "";
+			} else if (Browser.isFirefox()) {
+				message = loc.getMenu("Webcam.Firefox");
+			} else if (Browser.isEdge()) {
+				message = loc.getMenu("Webcam.Edge");
+			} else {
+				message = loc.getMenu("Webcam.Chrome");
+			}
+			cancelBtn.setText(loc.getMenu("Cancel"));
+			break;
+		case PERMISSION_DENIED:
+			caption = loc.getMenu("Webcam.Denied.Caption");
+			message = loc.getMenu("Webcam.Denied.Message");
+			break;
+		case ERROR:
+			caption = loc.getMenu("Webcam.Problem");
+			message = loc.getMenu("Webcam.Problem.Message");
+			break;
+		case NOT_SUPPORTED:
+			caption = loc.getMenu("Webcam.Notsupported.Caption");
+			message = loc.getMenu("Webcam.Notsupported.Message");
+			break;
 		}
 		text.setText(message);
-		cancelBtn.setText(loc.getMenu("Cancel"));
+		getCaption().setText(caption);
 	}
 
 	public void onClick(ClickEvent event) {
