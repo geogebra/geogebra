@@ -184,7 +184,7 @@ public class PageListPanel
 		ClickStartHandler.init(card, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				loadPage(pageIndex, false);
+				loadPage(card);
 			}
 		});
 
@@ -198,6 +198,14 @@ public class PageListPanel
 		scrollPanel.scrollToBottom();
 	}
 
+	/**
+	 * 
+	 * @param card that represents the page to load
+	 */
+	protected void loadPage(PagePreviewCard card) {
+		loadPage(card.getPageIndex(), false);
+	}
+		
 	/**
 	 * load existing page
 	 * 
@@ -308,15 +316,15 @@ public class PageListPanel
 	 *            to duplicate page at.
 	 */
 	public void duplicatePage(PagePreviewCard card) {
+		
 		PagePreviewCard dup = pageController.duplicateSlide(card);
 		addPreviewCard(dup);
-
-		int idx = dup.getPageIndex();
+		
+		int idx = dup.getPageIndex(); 
 		pageController.loadSlide(dup, idx, false);
 		setCardSelected(dup);
-
+		
 		updateIndexes(idx);
-		// loadPage(dup.getPageIndex(), false);
 		updatePreviewImage();
 	}
 }

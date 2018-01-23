@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 import java.util.ArrayList;
 
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
@@ -64,6 +65,7 @@ public class PageListController implements PageListControllerInterface {
 			} else {
 				// load last status of file
 				app.resetPerspectiveParam();
+				Log.debug("[PCP] loading page " + i);
 				app.loadGgbFile(slides.get(i).getFile());
 			}
 		} catch (Exception e) {
@@ -82,10 +84,13 @@ public class PageListController implements PageListControllerInterface {
 		int dupIdx = sourceCard.getPageIndex() + 1;
 		PagePreviewCard dup = new PagePreviewCard(app, dupIdx,
 				sourceCard.getFile().duplicate());
-
+		boolean lastSlide = (dupIdx == slides.size());
 		slides.add(dupIdx, dup);
-
+		if (!lastSlide) {
+			updatePageIndexes(dupIdx);
+		}
 		return dup;
+
 	}
 
 	/**
@@ -135,5 +140,11 @@ public class PageListController implements PageListControllerInterface {
 		// clear gui
 		((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
 				.reset();
+	}
+	
+	private void updatePageIndexes(int masterIdx) {
+		for (int i = masterIdx; i < slides.size(); i++) {
+			slides.get(i).setPageIndex(i);
+		}
 	}
 }
