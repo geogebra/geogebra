@@ -27,7 +27,7 @@ public class AlgebraDockPanelW extends DockPanelW
 	AlgebraViewW aview = null;
 	private int savedScrollPosition;
 
-	public AlgebraDockPanelW(App app1) {
+	public AlgebraDockPanelW() {
 		super(
 				App.VIEW_ALGEBRA,	// view id 
 				"AlgebraWindow", 			// view title phrase

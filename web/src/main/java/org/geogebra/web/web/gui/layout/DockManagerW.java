@@ -1972,6 +1972,9 @@ public class DockManagerW extends DockManager {
 		}
 	}
 
+	/**
+	 * Replace tabbed algebra panel with plain algebra pael or vice versa
+	 */
 	public void swapAlgebraPanel() {
 		DockPanelW old = this.getPanel(App.VIEW_ALGEBRA);
 		if (old != null) {
@@ -1982,11 +1985,14 @@ public class DockManagerW extends DockManager {
 			layout.registerPanel(new ToolbarDockPanelW());
 		} else {
 			// register algebra view
-			layout.registerPanel(new AlgebraDockPanelW(getApp()));
+			layout.registerPanel(new AlgebraDockPanelW());
 		}
 
 	}
 
+	/**
+	 * Reset stylebar in all panels when changing classic <=> graphing
+	 */
 	public void reset() {
 		for (DockPanelW dock : this.dockPanels) {
 			if (dock.getViewId() != App.VIEW_ALGEBRA) {

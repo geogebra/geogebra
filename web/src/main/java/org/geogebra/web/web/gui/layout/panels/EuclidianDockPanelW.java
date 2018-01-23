@@ -26,7 +26,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	 * 
 	 * @param stylebar (is there stylebar?)
 	 */
-	public EuclidianDockPanelW(boolean stylebar, App app1) {
+	public EuclidianDockPanelW(boolean stylebar) {
 		super(
 				App.VIEW_EUCLIDIAN,	// view id 
 				"DrawingPad", 				// view title
@@ -55,7 +55,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	 * @param stylebar
 	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
-		this(stylebar, application);
+		this(stylebar);
 		attachApp(application);
 	}
 

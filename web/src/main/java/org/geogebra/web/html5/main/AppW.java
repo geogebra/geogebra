@@ -297,10 +297,10 @@ public abstract class AppW extends App implements SetLabels {
 	protected void fitSizeToScreen() {
 		if (getArticleElement().getDataParamFitToScreen()) {
 			updateHeaderVisible();
-			AppW.this.getGgbApi().setSize(Window.getClientWidth(),
+			getGgbApi().setSize(Window.getClientWidth(),
 					getArticleElement().computeHeight());
-			if (AppW.this.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-				AppW.this.getAccessibilityManager().focusMenu();
+			if (has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
+				getAccessibilityManager().focusMenu();
 			}
 		}
 	}
