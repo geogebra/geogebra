@@ -244,6 +244,16 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
+	private void setFixedY(EuclidianBoundingBoxHandler handler,
+			GRectangle2D gRectangle2D) {
+		boolean atTop = atTop(handler);
+		if (atTop) {
+			fixedY = gRectangle2D.getMaxY();
+		} else {
+			fixedY = gRectangle2D.getMinY();
+		}
+	}
+
 	private static boolean atTop(EuclidianBoundingBoxHandler handler) {
 		switch (handler) {
 		case TOP:
@@ -255,17 +265,28 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
+	private static boolean atLeft(EuclidianBoundingBoxHandler handler) {
+		switch (handler) {
+		case LEFT:
+		case BOTTOM_LEFT:
+		case TOP_LEFT:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	private double updatePointsX(EuclidianBoundingBoxHandler handler,
 			int eventX, GRectangle2D gRectangle2D) {
 		double newMinX;
+		boolean atLeft = atLeft(handler);
 		if (Double.isNaN(fixedX)) {
 			setFixedX(handler, gRectangle2D);
 		}	
 		double newWidth = eventX - fixedX;
 		scaleX = newWidth / nonScaledWidth;
 
-		if (handler == EuclidianBoundingBoxHandler.RIGHT && reflectedX
-				|| handler == EuclidianBoundingBoxHandler.LEFT && !reflectedX) {
+		if ((!atLeft && reflectedX) || (atLeft && !reflectedX)) {
 			newMinX = eventX;
 			scaleX *= -1;
 		} else {
@@ -280,33 +301,34 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 							.toRealWorldCoordX(newPointScreenX));
 		}
 
-		return Math.abs(newWidth);
+		return newWidth;
 	}
 
 	private void updatePointsY(EuclidianBoundingBoxHandler handler,
 			int eventY, GRectangle2D gRectangle2D, double newWidth) {
-		boolean atTop = atTop(handler);
 		if (Double.isNaN(fixedY)) {
-			if ((atTop && !reflectedY) || (!atTop && reflectedY)) {
-				fixedY = gRectangle2D.getMaxY();
-			} else {
-				fixedY = gRectangle2D.getMinY();
+			setFixedY(handler, gRectangle2D);
+		}
+		double newHeight;
+		if (Double.isNaN(ratio)) {
+			newHeight = (fixedY - eventY);
+			if (handler == EuclidianBoundingBoxHandler.BOTTOM) {
+				newHeight *= -1;
 			}
+		} else {
+			newHeight = newWidth * ratio;
+		}
+		scaleY = newHeight / nonScaledHeight;
+		if ((atLeft(handler) && !reflectedY)
+				|| (!atLeft(handler) && reflectedY)) {
+			scaleY *= -1;
 		}
 		double newMinY;
-		scaleY = (Double.isNaN(ratio)) ? (eventY - fixedY) / nonScaledHeight
-				: newWidth * ratio / nonScaledHeight;
-
-		if (handler == EuclidianBoundingBoxHandler.TOP_RIGHT
-				|| handler == EuclidianBoundingBoxHandler.TOP_LEFT) {
+		if (atTop(handler) && !reflectedY || !atTop(handler) && reflectedY) {
 			newMinY = fixedY - (nonScaledHeight * scaleY);
-		} else if (!atTop && reflectedY || atTop && !reflectedY) {
-			newMinY = eventY;
-			scaleY *= -1;
 		} else {
 			newMinY = fixedY;
 		}
-
 		for (int i = 0; i < myPointList.size(); i++) {
 			double newPointScreenY = nonScaledPointList.get(i).getY() * scaleY
 					+ newMinY;
