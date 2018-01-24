@@ -289,7 +289,7 @@ public class DrawLocus extends Drawable {
 				.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)) {
 			return;
 		}
-		updateLocusSide(handler, e);
+		updateLocus(handler, e);
 		view.getEuclidianController().hideDynamicStylebar();
 		view.repaintView();
 	}
@@ -307,7 +307,7 @@ public class DrawLocus extends Drawable {
 	 * @param e
 	 *            - mouse event
 	 */
-	private void updateLocusSide(EuclidianBoundingBoxHandler handler,
+	private void updateLocus(EuclidianBoundingBoxHandler handler,
 			AbstractEvent e) {
 		((GeoLocus) geo).updatePoints(handler, e,
 				getBoundingBox().getRectangle());
