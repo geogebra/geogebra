@@ -348,17 +348,10 @@ public class AlgebraProcessor {
 	public void changeGeoElement(GeoElementND geo, String newValue,
 			boolean redefineIndependent, boolean storeUndoInfo,
 			ErrorHandler handler, AsyncOperation<GeoElementND> callback) {
-
-		try {
 			EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
 					redefineIndependent);
 			changeGeoElementNoExceptionHandling(geo, newValue,
-					info, storeUndoInfo, callback, handler);
-		} catch (MyError e) {
-			ErrorHelper.handleError(e, newValue, loc, handler);
-		} catch (Exception e) {
-			handler.showError(e.getMessage());
-		}
+				info, storeUndoInfo, callback, handler);
 	}
 
 	/**
@@ -376,16 +369,11 @@ public class AlgebraProcessor {
 	 *            what to do with the changed geo
 	 * @param handler
 	 *            decides how to handle exceptions
-	 * @throws Exception
-	 *             e.g. parse exception or circular definition
-	 * @throws MyError
-	 *             eg assignment to fixed object
 	 *
 	 */
 	public void changeGeoElementNoExceptionHandling(GeoElementND geo,
 			String newValue, EvalInfo info, boolean storeUndoInfo,
-			AsyncOperation<GeoElementND> callback, ErrorHandler handler)
-			throws Exception, MyError {
+			AsyncOperation<GeoElementND> callback, ErrorHandler handler) {
 
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
@@ -395,19 +383,16 @@ public class AlgebraProcessor {
 			}
 			changeGeoElementNoExceptionHandling(geo, ve, info,
 					storeUndoInfo, callback, handler);
-		} catch (Exception e) {
-			Log.debug("EXCEPTION" + e.getMessage() + ":" + newValue);
-			e.printStackTrace();
-			throw new Exception(
-					loc.getError("InvalidInput") + ":\n" + newValue);
 		} catch (MyError e) {
-			e.printStackTrace();
-			throw e;
+			ErrorHelper.handleError(e, newValue, loc, handler);
+		} catch (Exception e) {
+			handler.showError(e.getMessage());
 		} catch (Error e) {
 			Log.debug("ERROR" + e.getMessage() + ":" + newValue);
 			e.printStackTrace();
-			throw new Exception(
-					loc.getError("InvalidInput") + ":\n" + newValue);
+			handler.showError(
+					loc.getErrorDefault("InvalidInput", "Invalid Input") + ":\n"
+							+ newValue);
 		}
 	}
 

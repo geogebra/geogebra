@@ -983,7 +983,6 @@ public class RelativeCopy {
 		if (text.charAt(0) == '=') {
 			text = text.substring(1);
 		}
-
 		// always redefine objects in spreadsheet, don't store undo info
 		// here
 		EvalInfo info = new EvalInfo(
@@ -1043,9 +1042,7 @@ public class RelativeCopy {
 			public void handleThrowable() {
 
 				// if exception is thrown treat the input as text and try to
-				// update
-				// the cell as a GeoText
-
+				// update the cell as a GeoText
 				// reset the text string if old value is GeoText
 				if (oldValue.isGeoText()) {
 					((GeoText) oldValue).setTextString(text0);
@@ -1090,6 +1087,8 @@ public class RelativeCopy {
 			@Override
 			public boolean onUndefinedVariables(String string,
 					AsyncOperation<String[]> callback1) {
+				handleThrowable(); // a+b should also be text if a,b are
+									// undefined
 				return false;
 			}
 
