@@ -2,7 +2,6 @@ package org.geogebra.web.web.gui.layout;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -56,16 +55,10 @@ public class DockGlassPaneW extends AbsolutePanel implements
 	/**********************************************
 	 * Constructs a DockGlassPane
 	 */
-	public DockGlassPaneW(GDimension size) {
+	public DockGlassPaneW() {
 		setVisible(false);
 		setStyleName("DockGlassPane");
-		if (size != null) {
-			this.getElement().getStyle().setPosition(Position.ABSOLUTE);
-			this.setWidth(size.getWidth() + "px");
-			this.setHeight(size.getHeight() + "px");
-			this.getElement().getStyle().setTop(0, Unit.PX);
-			this.getElement().getStyle().setLeft(0, Unit.PX);
-		}
+
 		previewPanel = new SimplePanel();
 		previewPanel.getElement().getStyle()
 		        .setBorderWidth(BORDER_WIDTH, Style.Unit.PX);
@@ -85,8 +78,15 @@ public class DockGlassPaneW extends AbsolutePanel implements
 		this.ae = ae; 
 	}
 
-	public void attach(DockManagerW dockManager) {
+	public void attach(DockManagerW dockManager, int w, int h) {
 		this.dockManager = dockManager;
+		if (h > 0 && w > 0) {
+			this.getElement().getStyle().setPosition(Position.ABSOLUTE);
+			this.setWidth(w + "px");
+			this.setHeight(h + "px");
+			this.getElement().getStyle().setTop(0, Unit.PX);
+			this.getElement().getStyle().setLeft(0, Unit.PX);
+		}
 	}
 
 	public boolean isDragInProgress() {

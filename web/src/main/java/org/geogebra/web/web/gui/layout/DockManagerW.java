@@ -566,7 +566,7 @@ public class DockManagerW extends DockManager {
 				glassPane.setArticleElement(app
 						.getArticleElement());
 			}
-			glassPane.attach(this);
+			glassPane.attach(this, (int) app.getWidth(), (int) app.getHeight());
 			glassPane.startDrag(new DnDState(panel));
 		}
 	}

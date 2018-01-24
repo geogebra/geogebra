@@ -10,7 +10,6 @@ import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.keyboard.web.TabbedKeyboard;
-import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
@@ -118,8 +117,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			addStyleName("newToolbar");
 		}
 
-		this.glass = new DockGlassPaneW(new GDimensionW(
-				article.getDataParamWidth(), article.getDataParamHeight()));
+		this.glass = new DockGlassPaneW();
 		this.add(glass);
 
 		return application;
