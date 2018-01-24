@@ -132,10 +132,15 @@ import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style.Display;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -2445,12 +2450,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			private TreeItem item;
 			private TreeItem child = null;
+			private boolean detailed = false;
+			private Button showDetails;
+			private ArrayList<Widget> summary = new ArrayList<>();
 
 			@Override
 			public void addLatexRow(String equations) {
 				Canvas c = DrawEquationW.paintOnCanvas(gn, equations, null,
 						getApp().getFontSizeWeb());
+				if (detailed) {
+					c.setVisible(false);
+				}
+				summary.add(c);
 				addWidget(c);
+				
 			}
 
 			private void addWidget(Widget c) {
@@ -2459,6 +2472,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 					item.addItem(child);
 				} else {
 					tree.addItem(child);
+				}
+				if (detailed) {
+					child.getElement().getStyle().setDisplay(Display.NONE);
 				}
 			}
 
@@ -2502,17 +2518,39 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			@Override
 			public void startDefault() {
-				// TODO Auto-generated method stub
+				summary = new ArrayList<>();
+				detailed = false;
+				showDetails = new Button("?");
+				addWidget(showDetails);
+				showDetails.getElement().getStyle().setPadding(1, Unit.PX);
+				showDetails.getElement().getStyle().setFontSize(5, Unit.PX);
+				showDetails.getElement().getParentElement().getParentElement()
+						.getStyle().setProperty("float", "left");
 			}
 
 			@Override
 			public void switchToDetailed() {
-				// TODO Auto-generated method stub
+				detailed = true;
 			}
 
 			@Override
 			public void endDetailed() {
-				// TODO Auto-generated method stub
+				detailed = false;
+				final ArrayList<Widget> swap = new ArrayList<>(summary);
+				summary = new ArrayList<>();
+				showDetails.addClickHandler(new ClickHandler(){
+
+					public void onClick(ClickEvent event) {
+						event.getSource();
+						for (Widget line : swap) {
+							boolean visible = !line.isVisible();
+							line.setVisible(visible);
+							line.getElement().getParentElement()
+									.getParentElement().getStyle()
+									.setDisplay(visible ? Display.BLOCK
+											: Display.NONE);
+						}
+					}});
 			}
 		};
 

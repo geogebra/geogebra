@@ -446,6 +446,9 @@ public abstract class StepNode {
 	}
 
 	public static boolean isEqual(StepExpression a, StepExpression b) {
+		if (a == null || b == null) {
+			return a == null && b == null;
+		}
 		return a.canBeEvaluated() && b.canBeEvaluated() && isEqual(a.getValue(), b.getValue());
 	}
 
