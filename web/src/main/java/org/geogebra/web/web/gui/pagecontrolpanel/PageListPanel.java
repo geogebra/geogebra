@@ -187,14 +187,13 @@ public class PageListPanel
 			}
 		});
 
-		if (pageIndex < pageController.getSlidesAmount()) {
+		if (pageIndex < pageController.getSlideCount()) {
 			contentPanel.insert(card, pageIndex);
-
 		} else {
 			contentPanel.add(card);
+			scrollPanel.scrollToBottom();
 		}
 		card.setLabels();
-		scrollPanel.scrollToBottom();
 	}
 
 	/**
@@ -228,7 +227,7 @@ public class PageListPanel
 	 */
 	public void removePage(int index) {
 		// invalid index
-		if (index > pageController.getSlidesAmount()) {
+		if (index > pageController.getSlideCount()) {
 			return;
 		}
 		// remove preview card
@@ -237,11 +236,11 @@ public class PageListPanel
 		pageController.removeSlide(index);
 		updateIndexes(index);
 		// load new slide
-		if (index == 0 && pageController.getSlidesAmount() == 0) {
+		if (index == 0 && pageController.getSlideCount() == 0) {
 			// first and single slide was deleted
 			loadPage(addNewPreviewCard(true), true);
 			updatePreviewImage();
-		} else if (index == pageController.getSlidesAmount()) {
+		} else if (index == pageController.getSlideCount()) {
 			// last slide was deleted
 			loadPage(index - 1, false);
 		} else {
@@ -295,19 +294,16 @@ public class PageListPanel
 	/**
 	 * Duplicates page at given index.
 	 * 
-	 * @param card
+	 * @param src
 	 *            to duplicate page at.
 	 */
-	public void duplicatePage(PagePreviewCard card) {
-		
-		PagePreviewCard dup = pageController.duplicateSlide(card);
+	public void duplicatePage(PagePreviewCard src) {
+		PagePreviewCard dup = pageController.duplicateSlide(src);
 		addPreviewCard(dup);
+		pageController.changeSlide(dup);
 		
-		int idx = dup.getPageIndex(); 
-		pageController.loadSlide(dup, idx, false);
 		pageController.setCardSelected(dup);
 		
-		updateIndexes(idx);
 		updatePreviewImage();
 	}
 

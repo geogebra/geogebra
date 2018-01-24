@@ -266,7 +266,7 @@ public class GgbAPIW extends GgbAPI {
 		JavaScriptObject jso = JavaScriptObject.createObject();
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
 		if (pageController != null) {
-			for (int i = 0; i < pageController.getSlidesAmount(); i++) {
+			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				prepareToEntrySet(pageController.getSlide(i), jso,
 						"_slide" + i + "/");
 			}

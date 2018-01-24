@@ -5,6 +5,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -45,6 +46,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	 */
 	protected GgbFile file;
 
+	
 	/**
 	 * @param app
 	 *            parent application
@@ -61,6 +63,15 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		initGUI();
 	}
 
+	/**
+	 * Duplicates card with pageIndex incremented by 1.
+	 * @param source to duplicate.
+	 * @return The duplicated card.
+	 */
+	public static PagePreviewCard duplicate(PagePreviewCard source) {
+		return new PagePreviewCard(source.app, source.getPageIndex() + 1, source.getFile().duplicate());
+	}
+	
 	private void initGUI() {
 		addStyleName("mowPagePreviewCard");
 

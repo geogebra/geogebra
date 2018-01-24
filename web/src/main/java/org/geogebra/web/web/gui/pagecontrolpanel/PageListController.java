@@ -92,6 +92,20 @@ public class PageListController implements PageListControllerInterface {
 		}
 	}
 
+	public void savePreviewCard(PagePreviewCard card) {
+		if (card != null) {
+			card.setFile(app.getGgbApi().createArchiveContent(false));
+		}
+	}
+	
+	public void changeSlide(PagePreviewCard dest) {
+		try {
+			app.resetPerspectiveParam();
+			app.loadGgbFile(dest.getFile());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Duplicates slide
 	 * 
@@ -100,10 +114,15 @@ public class PageListController implements PageListControllerInterface {
 	 * @return the new, duplicated card.
 	 */
 	public PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
-		int dupIdx = sourceCard.getPageIndex() + 1;
-		PagePreviewCard dup = new PagePreviewCard(app, dupIdx,
-				sourceCard.getFile().duplicate());
+		if (sourceCard == selectedPreviewCard) {
+			savePreviewCard(sourceCard);
+		}
+		
+		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard);
+		int dupIdx = dup.getPageIndex();
+		
 		boolean lastSlide = (dupIdx == slides.size());
+		
 		slides.add(dupIdx, dup);
 		if (!lastSlide) {
 			updatePageIndexes(dupIdx);
@@ -145,7 +164,7 @@ public class PageListController implements PageListControllerInterface {
 	 * 
 	 * @return number of slides
 	 */
-	public int getSlidesAmount() {
+	public int getSlideCount() {
 		return slides.size();
 	}
 

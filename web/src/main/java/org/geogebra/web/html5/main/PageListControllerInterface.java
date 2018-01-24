@@ -13,7 +13,7 @@ public interface PageListControllerInterface {
 
 	String getStructureJSON();
 
-	int getSlidesAmount();
+	int getSlideCount();
 
 	void loadSlides(GgbFile archiveContent);
 
