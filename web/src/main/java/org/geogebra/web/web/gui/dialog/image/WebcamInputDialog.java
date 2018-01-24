@@ -101,14 +101,14 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		double height = webcamInputPanel.getVideoHeight();
 		double ratio = height / width;
 		if (app1.getHeight() < app1.getWidth()) {
-			height = app1.getHeight() / 2;
+			height = app1.getHeight() / 2.5;
 			width = height / ratio;
 			if (width < 250) {
 				width = 250;
 				height = width * ratio;
 			}
 		} else {
-			width = Math.max(250, app1.getWidth() / 2);
+			width = Math.max(250, app1.getWidth() / 2.5);
 			height = width * ratio;
 		}
 		inputPanel.setHeight(height + "px");
