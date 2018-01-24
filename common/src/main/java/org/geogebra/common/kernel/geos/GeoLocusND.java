@@ -224,21 +224,25 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		case BOTTOM_LEFT:
 		case TOP_RIGHT:
 		case BOTTOM_RIGHT:
-			saveRatio(gRectangle2D);
 			double newWidth = updatePointsX(handler, event.getX(),
 					gRectangle2D);
+			saveRatio(gRectangle2D, newWidth);
 			updatePointsY(handler, event.getY(), gRectangle2D,
 					newWidth);
 			break;
-		default:
+		default: // UNDEFINED - maybe not possible
 			Log.warn("unhandled case");
 		}
 	}
 
-	private void saveRatio(GRectangle2D gRectangle2D) {
-		if (Double.isNaN(ratio)) {
+	private void saveRatio(GRectangle2D gRectangle2D, double newWidth) {
+		if (Double.isNaN(ratio) || Double.isFinite(ratio)) {
+			double width = (gRectangle2D.getMaxX() - gRectangle2D.getMinX());
+			if ((width == 0) && (newWidth != 0)) {
+				width = newWidth;
+			}
 			ratio = (gRectangle2D.getMaxY() - gRectangle2D.getMinY())
-					/ (gRectangle2D.getMaxX() - gRectangle2D.getMinX());
+					/ width;
 		}
 	}
 
@@ -326,6 +330,8 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			if (handler == EuclidianBoundingBoxHandler.BOTTOM) {
 				newHeight *= -1;
 			}
+		} else if (Math.abs(newWidth) < 1) {
+			return;
 		} else {
 			newHeight = newWidth * ratio;
 		}
