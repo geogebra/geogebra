@@ -3064,7 +3064,7 @@ __GGB__keysVar.bs.menu = {
     "exam_log_airplane_mode_on": "Airplane mode turned on",
     "exam_log_bluetooth_disabled": "Bluetooth disabled",
     "exam_log_bluetooth_enabled": "Bluetooth enabled",
-    "exam_log_header": "Exam Log",
+    "exam_log_header": "Exam Details",
     "exam_log_header_calculator_time_check": "Exam log: %0   %1 %2",
     "exam_log_pin": "App pinned",
     "exam_log_screen_off": "Screen turned off",

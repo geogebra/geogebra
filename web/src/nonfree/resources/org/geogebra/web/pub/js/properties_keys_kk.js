@@ -3064,7 +3064,7 @@ __GGB__keysVar.kk.menu = {
     "exam_log_airplane_mode_on": "\u04b0\u0448\u0443 \u0440\u0435\u0436\u0438\u043c\u0456 \u049b\u043e\u0441\u044b\u043b\u044b\u043f \u0442\u04b1\u0440",
     "exam_log_bluetooth_disabled": "Bluetooth \u04e9\u0448\u0456\u0440\u0456\u043b\u0433\u0435\u043d",
     "exam_log_bluetooth_enabled": "Bluetooth \u049b\u043e\u0441\u044b\u043b\u044b\u043f \u0442\u04b1\u0440",
-    "exam_log_header": "Exam Log",
+    "exam_log_header": "Exam Details",
     "exam_log_header_calculator_time_check": "Exam log: %0   %1 %2",
     "exam_log_pin": "App pinned",
     "exam_log_screen_off": "Screen turned off",
