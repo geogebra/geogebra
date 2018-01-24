@@ -45,7 +45,8 @@ public class ExportMenuW extends AriaMenuBar implements MenuBarI {
 	 */
 	protected static void initActions(final MenuBarI menu, final AppW app) {
 
-		menu.addItem(menuText("ggb"), true, new MenuCommand(app) {
+		menu.addItem(menuText(app.getFileExtension().substring(1)), true,
+				new MenuCommand(app) {
 
 			@Override
 			public void doExecute() {

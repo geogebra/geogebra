@@ -138,6 +138,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
@@ -2075,14 +2076,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 */
 	@Override
 	public void exportGGB() {
+		final String extension = ((AppW) app).getFileExtension();
 		getOptionPane().showSaveDialog(getApp(), loc.getMenu("Save"),
-				getApp().getExportTitle() + ".ggb", null,
+				getApp().getExportTitle() + extension, null,
 				new AsyncOperation<String[]>() {
 
 					@Override
 					public void callback(String[] obj) {
 						getApp().dispatchEvent(
-								new Event(EventType.EXPORT, null, "[\"ggb\"]"));
+								new Event(EventType.EXPORT, null, "[\""
+										+ extension.substring(1) + "\"]"));
 						if (Browser.isXWALK()) {
 							getApp().getGgbApi().getBase64(true,
 									getStringCallback(obj[1]));
@@ -2095,8 +2098,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 							}
 
 							// in case user removes extension
-							if (!filename.endsWith(".ggb")) {
-								filename += ".ggb";
+							if (!filename.endsWith(extension)) {
+								filename += extension;
 							}
 
 							getApp().getGgbApi().getGGBfile(true,
@@ -2457,7 +2460,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				} else {
 					tree.addItem(child);
 				}
-
 			}
 
 			@Override
@@ -2469,8 +2471,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			public void show() {
 				DialogBoxW box = new DialogBoxW(true, false, null,
 						getApp().getPanel(), getApp());
+				ScrollPanel sp = new ScrollPanel();
 				box.getCaption().setText("Steps");
-				box.add(tree);
+				sp.add(tree);
+				sp.setHeight("300px");
+				box.add(sp);
 				box.addCancelButton();
 				box.center();
 			}

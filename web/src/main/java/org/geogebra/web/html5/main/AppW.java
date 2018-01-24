@@ -1264,7 +1264,7 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public native boolean doOpenFile(JavaScriptObject fileToHandle,
 	        JavaScriptObject callback) /*-{
-		var ggbRegEx = /\.(ggb|ggt|csv|off)$/i;
+		var ggbRegEx = /\.(ggb|ggt|ggs|csv|off)$/i;
 		if (!fileToHandle.name.toLowerCase().match(ggbRegEx))
 			return false;
 
@@ -1273,7 +1273,7 @@ public abstract class AppW extends App implements SetLabels {
 		reader.onloadend = function(ev) {
 			if (reader.readyState === reader.DONE) {
 				var fileStr = reader.result;
-				if (fileToHandle.name.toLowerCase().match(/\.(ggb|ggt)$/i)) {
+				if (fileToHandle.name.toLowerCase().match(/\.(ggb|ggt|ggs)$/i)) {
 
 					appl.@org.geogebra.web.html5.main.AppW::loadGgbFileAsBase64Again(Ljava/lang/String;)(fileStr);
 				}
@@ -3660,5 +3660,9 @@ public abstract class AppW extends App implements SetLabels {
 		String url = "data:text/plain;charset=utf-8," + URL.encodePathSegment(sb.toString());
 		dispatchEvent(new org.geogebra.common.plugin.Event(EventType.OPEN_DIALOG, null, "export3D"));
 		getFileManager().showExportAsPictureDialog(url, getExportTitle(), ext, "Export", this);
+	}
+
+	public String getFileExtension() {
+		return getPageController() == null ? ".ggb" : ".ggs";
 	}
 }
