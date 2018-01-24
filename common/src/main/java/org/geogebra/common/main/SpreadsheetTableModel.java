@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.UpdateLocationView;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
@@ -291,7 +292,12 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	}
 
 	@Override
-	public void updateVisualStyle(GeoElement geo, GProperty prop) {
+	public final void updateVisualStyle(GeoElement geo, GProperty prop) {
+		if (prop == GProperty.FONT && geo instanceof TextProperties) {
+			GPoint pt = geo.getSpreadsheetCoords();
+			getCellFormat(null).setFormat(pt, CellFormat.FORMAT_FONTSTYLE,
+					((TextProperties) geo).getFontStyle());
+		}
 		updateWithoutTrace(geo);
 	}
 
