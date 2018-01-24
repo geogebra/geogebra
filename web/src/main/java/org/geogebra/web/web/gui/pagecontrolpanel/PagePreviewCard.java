@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.KeyEvent;
 import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
@@ -19,6 +20,17 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.event.dom.client.DragEnterEvent;
+import com.google.gwt.event.dom.client.DragEnterHandler;
+import com.google.gwt.event.dom.client.DragLeaveEvent;
+import com.google.gwt.event.dom.client.DragLeaveHandler;
+import com.google.gwt.event.dom.client.DragOverEvent;
+import com.google.gwt.event.dom.client.DragOverHandler;
+import com.google.gwt.event.dom.client.DragStartEvent;
+import com.google.gwt.event.dom.client.DragStartHandler;
+import com.google.gwt.event.dom.client.DropEvent;
+import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
@@ -28,8 +40,13 @@ import com.google.gwt.user.client.ui.Image;
  * @author Alicia Hofstaetter
  *
  */
-public class PagePreviewCard extends FlowPanel implements SetLabels {
+public class PagePreviewCard extends FlowPanel implements DragStartHandler,
+DragOverHandler, DragLeaveHandler, DropHandler, SetLabels {
 
+	public interface ReorderListener {
+		void reorder(int srcIdx, int destIdx);
+	}
+	
 	private static final int LABELFONT_SIZE = 16;
 	private AppW app;
 	private Localization loc;
@@ -41,11 +58,18 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 	private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
 	private ContextMenuPagePreview contextMenu = null;
+	private static PagePreviewCard dragCard;
 	/**
 	 * ggb file
 	 */
 	protected GgbFile file;
-
+	
+	private HandlerRegistration hrDragStart=null;
+	private HandlerRegistration hrDragEnter=null;
+	private HandlerRegistration hrDragOver=null;
+	private HandlerRegistration hrDragLeave=null;
+	private HandlerRegistration hrDrop=null;
+	private ReorderListener reorderListener =null;
 	
 	/**
 	 * @param app
@@ -62,7 +86,15 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		this.loc = app.getLocalization();
 		this.image = file.get("geogebra_thumbnail.png");
 		initGUI();
+		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
+			getElement().setAttribute("draggable", "true");
+			addDragStartHandler(this);
+			addDragOverHandler(this);
+			addDragLeaveHandler(this);
+			addDropHandler(this);
+		}
 	}
+
 
 	/**
 	 * Duplicates card with pageIndex incremented by 1.
@@ -265,4 +297,100 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		}
 		updateLabel();
 	}
+
+	public void addDragStartHandler(DragStartHandler handler) {
+		hrDragStart = addDomHandler(handler, DragStartEvent.getType());
+	}
+
+	public void addDropHandler(DropHandler handler) {
+		hrDrop = addDomHandler(handler, DropEvent.getType());
+	}
+
+	public void addDragOverHandler(DragOverHandler handler) {
+		hrDragOver = addDomHandler(handler, DragOverEvent.getType());
+	}
+
+	public void addDragLeaveHandler(DragLeaveHandler handler) {
+		hrDragLeave = addDomHandler(handler, DragLeaveEvent.getType());
+	}
+
+	public void addDragEnterHandler(DragEnterHandler handler) {
+		hrDragEnter = addDomHandler(handler, DragEnterEvent.getType());
+	}
+
+	public void removeDragNDrop() {
+		if (hrDragStart != null) {
+			hrDragStart.removeHandler();
+		}
+
+		if (hrDrop != null) {
+			hrDrop.removeHandler();
+		}
+
+		if (hrDragOver != null) {
+			hrDragOver.removeHandler();
+		}
+
+		if (hrDragLeave != null) {
+			hrDragLeave.removeHandler();
+		}
+
+		if (hrDragEnter != null) {
+			hrDragEnter.removeHandler();
+		}
+	}
+
+
+	@Override
+	public void onDragStart(DragStartEvent event) {
+		Log.debug("[DND] start");
+		dragCard = this;
+		event.setData("text", "dragging preview card");
+		event.getDataTransfer().setDragImage(getElement(), 10, 10);
+		event.stopPropagation();
+//		addStyleName("dragged");
+	}
+
+	private void removeDragStyles() {
+		removeStyleName("dragOver");
+		removeStyleName("dragLeave");
+	}
+
+	@Override
+	public void onDragOver(DragOverEvent event) {
+		event.preventDefault();
+		removeStyleName("dragLeave");
+		addStyleName("dragOver");
+	}
+
+	@Override
+	public void onDragLeave(DragLeaveEvent event) {
+		removeStyleName("dragOver");
+		addStyleName("dragLeave");
+	}
+
+	@Override
+	public void onDrop(DropEvent event) {
+		Log.debug("[DND] drop");
+		removeDragStyles();
+//		removeStyleName("dragged");
+		event.preventDefault();
+		if (reorderListener != null && dragCard != null) {
+			reorderListener.reorder(dragCard.getPageIndex(), getPageIndex());
+		}
+	}
+
+
+	public ReorderListener getReorderListener() {
+		return reorderListener;
+	}
+
+
+	public void setReorderListener(ReorderListener reorderListener) {
+		this.reorderListener = reorderListener;
+	}
+
+
+
 }
+

@@ -12,6 +12,7 @@ import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
+import org.geogebra.web.web.gui.pagecontrolpanel.PagePreviewCard.ReorderListener;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 import org.geogebra.web.web.main.AppWapplet;
@@ -28,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class PageListPanel
-		extends PersistablePanel implements SetLabels {
+		extends PersistablePanel implements SetLabels, ReorderListener {
 
 	private AppW app;
 	private GeoGebraFrameBoth frame;
@@ -167,6 +168,7 @@ public class PageListPanel
 	 */
 	protected int addNewPreviewCard(boolean selected) {
 		final PagePreviewCard card = pageController.addSlide();
+		card.setReorderListener(this);
 		addPreviewCard(card);
 		if (selected) {
 			pageController.setCardSelected(card);
@@ -213,7 +215,7 @@ public class PageListPanel
 	 *            true if slide is new page
 	 */
 	protected void loadPage(int index, boolean newPage) {
-		pageController.loadSlide(pageController.selectedPreviewCard, index,
+		pageController.loadSlide(pageController.selectedCard, index,
 				newPage);
 		pageController.setCardSelected(pageController.getCards().get(index));
 	}
@@ -253,8 +255,8 @@ public class PageListPanel
 	 * Updates the preview image of the active preview card
 	 */
 	public void updatePreviewImage() {
-		if (pageController.selectedPreviewCard != null) {
-			pageController.selectedPreviewCard.updatePreviewImage();
+		if (pageController.selectedCard != null) {
+			pageController.selectedCard.updatePreviewImage();
 		}
 	}
 
@@ -299,11 +301,8 @@ public class PageListPanel
 	 */
 	public void duplicatePage(PagePreviewCard src) {
 		PagePreviewCard dup = pageController.duplicateSlide(src);
+		dup.setReorderListener(this);
 		addPreviewCard(dup);
-		pageController.changeSlide(dup);
-		
-		pageController.setCardSelected(dup);
-		
 		updatePreviewImage();
 	}
 
@@ -313,4 +312,10 @@ public class PageListPanel
 			addPreviewCard(card);
 		}
 	}
-}
+
+	@Override
+	public void reorder(int srcIdx, int destIdx) {
+		pageController.reorder(srcIdx, destIdx);
+		update();
+	}
+	}	

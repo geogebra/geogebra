@@ -272,5 +272,8 @@ public enum Feature {
 
 	/** MOW-360 */
 	MOW_CROP_IMAGE,
+	
+	/** MOW-336 */
+	MOW_DRAG_AND_DROP_PAGES,
 }
 

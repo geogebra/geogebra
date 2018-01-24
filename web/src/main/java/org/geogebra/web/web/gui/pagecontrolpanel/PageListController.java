@@ -29,7 +29,7 @@ public class PageListController implements PageListControllerInterface {
 	 * list of slides (pages)
 	 */
 	protected ArrayList<PagePreviewCard> slides;
-	protected PagePreviewCard selectedPreviewCard;
+	protected PagePreviewCard selectedCard;
 
 	/**
 	 * @param app
@@ -54,7 +54,7 @@ public class PageListController implements PageListControllerInterface {
 		if(slides == null){
 			return null;
 		}
-		if(selectedPreviewCard == slides.get(index)){
+		if(selectedCard == slides.get(index)){
 			return app.getGgbApi().createArchiveContent(true);
 		}
 		return slides.get(index).getFile();
@@ -84,7 +84,6 @@ public class PageListController implements PageListControllerInterface {
 			} else {
 				// load last status of file
 				app.resetPerspectiveParam();
-				Log.debug("[PCP] loading page " + i);
 				app.loadGgbFile(slides.get(i).getFile());
 			}
 		} catch (Exception e) {
@@ -114,19 +113,24 @@ public class PageListController implements PageListControllerInterface {
 	 * @return the new, duplicated card.
 	 */
 	public PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
-		if (sourceCard == selectedPreviewCard) {
+		if (sourceCard == selectedCard) {
 			savePreviewCard(sourceCard);
 		}
 		
 		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard);
 		int dupIdx = dup.getPageIndex();
 		
-		boolean lastSlide = (dupIdx == slides.size());
+		boolean lastCard = (dupIdx == slides.size());
 		
 		slides.add(dupIdx, dup);
-		if (!lastSlide) {
+		
+		if (!lastCard) {
 			updatePageIndexes(dupIdx);
 		}
+		
+		changeSlide(dup);
+		setCardSelected(dup);
+
 		return dup;
 
 	}
@@ -240,14 +244,14 @@ public class PageListController implements PageListControllerInterface {
 	 *            selected preview card
 	 */
 	protected void setCardSelected(PagePreviewCard previewCard) {
-		if (selectedPreviewCard != null) {
+		if (selectedCard != null) {
 			// deselect old selected card
-			selectedPreviewCard.removeStyleName("selected");
+			selectedCard.removeStyleName("selected");
 		}
 		// select new card
 		previewCard.addStyleName("selected");
 		//
-		selectedPreviewCard = previewCard;
+		selectedCard = previewCard;
 	}
 
 	private GgbFile filter(GgbFile archive, String prefix) {
@@ -259,5 +263,13 @@ public class PageListController implements PageListControllerInterface {
 			}
 		}
 		return ret;
+	}
+
+	public void reorder(int srcIdx, int destIdx) {
+		PagePreviewCard src = slides.get(srcIdx);
+		slides.remove(srcIdx);
+		slides.add(destIdx, src);
+		updatePageIndexes(Math.min(srcIdx, destIdx));
+		
 	}
 }

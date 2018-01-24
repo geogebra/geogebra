@@ -725,6 +725,21 @@
 	.mowPagePreviewCard.selected {
 		box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
 	}
+	
+	.mowPagePreviewCard.dragOver {
+		margin-top: 48px;
+		transition: margin-top 0.2s;
+	}
+	
+	.mowPagePreviewCard.dragLeave {
+		margin-top: 0px;
+		transition: margin-top 0.2s;
+	}
+	
+	.mowPagePreviewCard.dragged {
+		margin-top: 0px !important;
+		transform:translateX(-9999px);
+	}
 /*****************
 *   PAGE PREVIEW CARD CONTEXT MENU
 ******************/
