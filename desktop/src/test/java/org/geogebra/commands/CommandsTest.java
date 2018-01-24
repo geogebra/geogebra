@@ -11,10 +11,12 @@ import org.geogebra.common.kernel.algos.AlgoIntersectPolyLines;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
@@ -1801,6 +1803,19 @@ public class CommandsTest extends Assert{
 				"(2 * (x - pi)^(2) / 2!) - (8 * (x - pi)^(4) / 4!)"
 						.replaceAll("pi",
 						"3.141592653589793"));
+	}
+
+	@Test
+	public void cmdSetLevelOfDetail() {
+		t("a:x+y", "x + y");
+		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
+				LevelOfDetail.SPEED);
+		t("SetLevelOfDetail(a,0)", new String[0]);
+		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
+				LevelOfDetail.SPEED);
+		t("SetLevelOfDetail(a,1)", new String[0]);
+		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
+				LevelOfDetail.QUALITY);
 	}
 
 	@Test

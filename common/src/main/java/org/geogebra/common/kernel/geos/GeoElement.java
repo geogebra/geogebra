@@ -8458,6 +8458,8 @@ public abstract class GeoElement extends ConstructionElement
 		if (geo.isIndependent() || geo.getDefinition() == null
 				|| geo.getDefinition().isConstant()) {
 			this.definition = geo.getDefinition();
+		} else {
+			this.definition = null;
 		}
 	}
 
