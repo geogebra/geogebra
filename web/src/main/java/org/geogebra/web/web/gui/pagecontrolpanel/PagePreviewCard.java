@@ -343,7 +343,6 @@ DragOverHandler, DragLeaveHandler, DropHandler, SetLabels {
 
 	@Override
 	public void onDragStart(DragStartEvent event) {
-		Log.debug("[DND] start");
 		dragCard = this;
 		event.setData("text", "dragging preview card");
 		event.getDataTransfer().setDragImage(getElement(), 10, 10);
@@ -371,7 +370,6 @@ DragOverHandler, DragLeaveHandler, DropHandler, SetLabels {
 
 	@Override
 	public void onDrop(DropEvent event) {
-		Log.debug("[DND] drop");
 		removeDragStyles();
 //		removeStyleName("dragged");
 		event.preventDefault();
@@ -389,8 +387,5 @@ DragOverHandler, DragLeaveHandler, DropHandler, SetLabels {
 	public void setReorderListener(ReorderListener reorderListener) {
 		this.reorderListener = reorderListener;
 	}
-
-
-
 }
 
