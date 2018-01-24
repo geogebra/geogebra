@@ -55,7 +55,7 @@ public class PageListController implements PageListControllerInterface {
 			return null;
 		}
 		if(selectedPreviewCard == slides.get(index)){
-			return app.getGgbApi().createArchiveContent(false);
+			return app.getGgbApi().createArchiveContent(true);
 		}
 		return slides.get(index).getFile();
 	}
@@ -76,7 +76,7 @@ public class PageListController implements PageListControllerInterface {
 			return;
 		}
 		// save file status of currently selected card
-		curSelCard.setFile(app.getGgbApi().createArchiveContent(false));
+		savePreviewCard(curSelCard);
 		try {
 			if (newPage) {
 				// new file
@@ -94,7 +94,7 @@ public class PageListController implements PageListControllerInterface {
 
 	public void savePreviewCard(PagePreviewCard card) {
 		if (card != null) {
-			card.setFile(app.getGgbApi().createArchiveContent(false));
+			card.setFile(app.getGgbApi().createArchiveContent(true));
 		}
 	}
 	
@@ -193,7 +193,9 @@ public class PageListController implements PageListControllerInterface {
 			JSONArray pages = new JSONArray();
 			if (slides != null) {
 				for (int i = 0; i < slides.size(); i++) {
-					pages.put(new JSONObject().put("id", "_slide" + i));
+					JSONArray elements = new JSONArray();
+					elements.put(new JSONObject().put("id", "_slide" + i));
+					pages.put(new JSONObject().put("elements", elements));
 				}
 			}
 			chapter.put("pages", pages);
@@ -215,14 +217,14 @@ public class PageListController implements PageListControllerInterface {
 					.getJSONArray("pages");
 			for (int i = 0; i < pages.length(); i++) {
 				slides.add(new PagePreviewCard(app, i, filter(archive,
-						pages.getJSONObject(i).getString("id"))));
+						pages.getJSONObject(i).getJSONArray("elements")
+								.getJSONObject(0).getString("id"))));
 			}
 			app.loadGgbFile(slides.get(0).getFile());
 			/// TODO this breaks MVC
 			((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
 					.update();
 			setCardSelected(slides.get(0));
-			Log.printStacktrace("Loaded" + slides.size());
 		} catch (Exception e) {
 			Log.debug(e);
 			// TODO Auto-generated catch block

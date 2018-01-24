@@ -18,7 +18,6 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
@@ -809,36 +808,6 @@ public class GGraphics2DW implements GGraphics2D {
 	public void fillWith(GColor color) {
 		this.setColor(color);
 		this.fillRect(0, 0, getOffsetWidth(), getOffsetHeight());
-	}
-
-	public void debug() {
-		// TODO Auto-generated method stub
-		String physical = context.getFillStyle().toString().toUpperCase();
-		String logical = "null";
-		if (color != null) {
-			logical = color.getAlpha() < 255 ? "RGBA(" + color.getRed() + ", "
-			        + color.getGreen() + ", " + color.getBlue() + ", 0."
-			        + (int) (1000000 * color.getAlpha() / 255d) + ")" : "#"
-			        + StringUtil.toHexString(color).toUpperCase();
-		}
-		if (color == null && physical.contains("OBJ")) {
-			System.out.println(hashCode() + ": not colors");
-			lastDebugOk = false;
-			lastDebugException = false;
-		} else if (!logical.equals(physical)) {
-			if (!lastDebugException) {
-				Log.printStacktrace(
-						hashCode() + ": "
-				        + logical.replace(".0", "") + " / "
-				        + physical.replace(".0", ""));
-			}
-			lastDebugOk = false;
-			lastDebugException = true;
-		} else if (!lastDebugOk) {
-			System.out.println(hashCode() + ": ok");
-			lastDebugOk = true;
-			lastDebugException = false;
-		}
 	}
 
 	public double getScale() {

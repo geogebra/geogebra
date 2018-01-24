@@ -471,13 +471,9 @@ public class GgbAPIW extends GgbAPI {
 
 	private JavaScriptObject prepareToEntrySet(GgbFile archive,
 			JavaScriptObject nativeEntry, String prefix) {
-		if (archive.entrySet() != null) {
-			for (Entry<String, String> entry : archive.entrySet()) {
-				pushIntoNativeEntry(prefix + entry.getKey(), entry.getValue(),
-						nativeEntry);
-			}
-		} else {
-			Log.debug("empty");
+		for (Entry<String, String> entry : archive.entrySet()) {
+			pushIntoNativeEntry(prefix + entry.getKey(), entry.getValue(),
+					nativeEntry);
 		}
 		return nativeEntry;
 	}

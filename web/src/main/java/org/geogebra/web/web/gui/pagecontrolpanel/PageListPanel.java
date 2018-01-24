@@ -310,7 +310,7 @@ public class PageListPanel
 	public void update() {
 		contentPanel.clear();
 		for (PagePreviewCard card : this.pageController.slides) {
-			contentPanel.add(card);
+			addPreviewCard(card);
 		}
 	}
 }

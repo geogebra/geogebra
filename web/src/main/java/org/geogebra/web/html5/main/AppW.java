@@ -3370,7 +3370,6 @@ public abstract class AppW extends App implements SetLabels {
 		setTubeId(i);
 		if (articleElement.getDataParamApp() && sharingKey != null) {
 			String appName = articleElement.getDataParamAppName();
-			Log.printStacktrace(appName);
 			if (StringUtil.empty(appName)) {
 				appName = "classic";
 			}

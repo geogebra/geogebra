@@ -5,7 +5,7 @@ import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.debug.Log;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.FocusListenerW;
@@ -60,6 +60,7 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 		this.pageIndex = pageIndex;
 		this.file = file;
 		this.loc = app.getLocalization();
+		this.image = file.get("geogebra_thumbnail.png");
 		initGUI();
 	}
 
@@ -83,8 +84,11 @@ public class PagePreviewCard extends FlowPanel implements SetLabels {
 
 		add(imagePanel);
 		add(titlePanel);
-
-		updatePreviewImage();
+		if (StringUtil.empty(image)) {
+			updatePreviewImage();
+		} else {
+			setPreviewImage(image);
+		}
 		addTextField();
 		updateLabel();
 		addMoreButton();

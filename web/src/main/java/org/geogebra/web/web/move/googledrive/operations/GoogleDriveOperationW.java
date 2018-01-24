@@ -4,8 +4,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.events.LogOutEvent;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
-import org.geogebra.common.move.ggtapi.models.Material;
-import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.operations.BaseOperation;
 import org.geogebra.common.move.views.BaseEventView;
 import org.geogebra.common.move.views.EventRenderable;
@@ -371,8 +369,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	private void processGoogleDriveFileContentAsBase64(String base64,
 			String description, final String title, String id) {
-		Material imported = new Material(0, MaterialType.ggb);
-		imported.setTitle(title);
 		app.loadGgbFileAsBase64Again(base64);
 		postprocessFileLoading(description, title, id);
 	}
@@ -418,6 +414,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 *            name of the File
 	 * @param description
 	 *            Description of the file
+	 * @param isggb
+	 *            whether this is GGB
 	 * @return javascript function to called back;
 	 */
 	public native JavaScriptObject getPutFileCallback(String fileName,
