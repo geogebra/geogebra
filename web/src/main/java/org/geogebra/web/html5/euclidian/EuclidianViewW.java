@@ -44,6 +44,7 @@ import org.geogebra.web.resources.JavaScriptInjector;
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.canvas.dom.client.Context2d.LineJoin;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Element;
@@ -1465,8 +1466,11 @@ public class EuclidianViewW extends EuclidianView implements
 		if (g2c instanceof GGraphics2DW) {
 			GGraphics2DW g2 = (GGraphics2DW) g2c;
 			g2.setColor(getBackgroundCommon());
+			String old = g2.getContext().getLineJoin();
+			g2.getContext().setLineJoin(LineJoin.BEVEL);
 			g2.setStrokeLineWidth(getFontAxes().getSize() / 3d);
 			g2.drawStringStroke(text, x, y);
+			g2.getContext().setLineJoin(old);
 		}
 		g2c.setColor(col);
 		g2c.drawString(text, x, y);
