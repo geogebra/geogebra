@@ -445,6 +445,7 @@ exp	: T_NUMBER		{$$ = $1;}
 	| exp T_DOLLAR exp { $$ = symb_dollar(gen(makevecteur($1,$3) ,_SEQ__VECT)); } 
 	| T_DOLLAR T_SYMBOL { $$=symb_dollar($2); }
 	| exp T_COMPOSE exp { $$ = symb_compose(gen(makevecteur($1,$3) ,_SEQ__VECT)); }
+	| T_COMPOSE {$$=symbolic(at_ans,-1);}
 	| exp T_UNION exp { $$ = symb_union(gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp T_INTERSECT exp { $$ = symb_intersect(gen(makevecteur($1,$3) ,_SEQ__VECT)); }
 	| exp T_MINUS exp { $$ = symb_minus(gen(makevecteur($1,$3) ,_SEQ__VECT)); }

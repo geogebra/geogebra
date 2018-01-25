@@ -22,6 +22,9 @@
 #include "config.h"
 #endif
 #include "first.h"
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
 #define GIAC_CONTEXT const context * contextptr
 #define GIAC_CONTEXT0 const context * contextptr=0
 

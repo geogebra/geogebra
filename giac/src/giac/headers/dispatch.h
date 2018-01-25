@@ -573,8 +573,13 @@ namespace giac {
     _LP_ITERATION_LIMIT = 134,     // lp_iterationlimit     option
     _LP_TIME_LIMIT = 135,          // lp_timelimit          option
     _LP_VERBOSE =136,             // lp_verbose            option
+    _NLP_INITIALPOINT = 137,    //nlp_initialpoint
+    _NLP_ITERATIONLIMIT = 138,  //nlp_iterationlimit
+    _NLP_NONNEGATIVE = 139,     //nlp_nonnegative
+    _NLP_PRECISION = 140,       //nlp_precision
+    _NLP_MAXIMIZE = 141,         //nlp_maximize
   };
-	
+
   enum mupad_operator {
     _DELETE_OPERATOR=0,
     _PREFIX_OPERATOR=1,

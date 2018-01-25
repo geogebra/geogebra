@@ -3828,6 +3828,8 @@ namespace giac {
   define_unary_function_ptr5( at_random ,alias_at_random,&__random,0,true);
 
   gen _randint(const gen & args,GIAC_CONTEXT){
+    if (args.type==_INT_)
+      return 1+_rand(args,contextptr);
     if (args.type!=_VECT || args._VECTptr->size()!=2)
       return gensizeerr(contextptr);
     gen a=args._VECTptr->front(),b=args._VECTptr->back();

@@ -5646,6 +5646,8 @@ unsigned int ConvertUTF8toUTF16 (
 
   void convert_python(string & cur,GIAC_CONTEXT){
     bool indexshift=array_start(contextptr); //xcas_mode(contextptr)!=0 || abs_calc_mode(contextptr)==38;
+    if (cur[0]=='_' && (cur.size()==1 || !isalpha(cur[1])))
+      cur[0]='@'; // python shortcut for ans(-1)
     bool instring=cur.size() && cur[0]=='"';
     for (int pos=1;pos<int(cur.size());++pos){
       char prevch=cur[pos-1],curch=cur[pos];
@@ -5751,7 +5753,7 @@ unsigned int ConvertUTF8toUTF16 (
       first=17;
     if (s_orig[first]=='/')
       return s_orig;
-    if (s_orig[first]=='#' || s_orig.substr(first,4)=="from" || s_orig.substr(first,7)=="import ")
+    if (s_orig[first]=='#' || (s_orig[first]=='_' && !isalpha(s_orig[first+1])) || s_orig.substr(first,4)=="from" || s_orig.substr(first,7)=="import ")
       pythonmode=true;
     for (first=0;!pythonmode && first<sss;){
       int pos=s_orig.find(":]");

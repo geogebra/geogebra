@@ -3643,6 +3643,8 @@ namespace giac {
   }
   gen _factor(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (is_integer(args))
+      *logptr(contextptr) << "Run ifactor(" << args << ") for integer factorization." << endl;
     if (is_equal(args))
       return apply_to_equal(args,_factor,contextptr);
     if (args.type==_VECT && args._VECTptr->size()==2 && is_equal(args._VECTptr->front())){

@@ -29,7 +29,7 @@
 #include "SDL/SDL.h"
 #include "SDL/SDL_opengl.h"
 #include <emscripten.h>
-#include <html5.h>
+//#include <html5.h>
 #endif
 
 #include <fstream>
