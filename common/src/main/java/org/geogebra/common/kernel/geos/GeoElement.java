@@ -503,6 +503,8 @@ public abstract class GeoElement extends ConstructionElement
 	private int colorSpace = COLORSPACE_RGB;
 
 	private List<Integer> viewFlags = null;
+
+	private NumberFormatAdapter numberFormatter6;
 	private static volatile TreeSet<AlgoElement> tempSet;
 
 	private static Comparator<AlgoElement> algoComparator = new Comparator<AlgoElement>() {
@@ -6137,6 +6139,7 @@ public abstract class GeoElement extends ConstructionElement
 		return toValueString(tpl);
 	}
 
+
 	/**
 	 * returns the number in rounded format to 6 decimal places, in case of the
 	 * number is very close to 0, it returns the exact value
@@ -6151,9 +6154,10 @@ public abstract class GeoElement extends ConstructionElement
 			return numberD.toString();
 		}
 		// this constructors uses US locale, so we don't have to worry about ","
-		final NumberFormatAdapter df = FormatFactory.getPrototype()
-				.getNumberFormat("#.######", 6);
-		return df.format(number);
+		if (numberFormatter6 == null) {
+			numberFormatter6 = FormatFactory.getPrototype().getNumberFormat("#.######", 6);
+		}
+		return numberFormatter6.format(number);
 	}
 
 	/**
