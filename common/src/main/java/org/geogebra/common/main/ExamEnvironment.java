@@ -145,6 +145,41 @@ public class ExamEnvironment {
 		return cheatingTimes != null;
 	}
 
+	public String getTranslatedString(Translation translation) {
+		Localization localization = app.getLocalization();
+		switch (translation) {
+			case EXAM_MODE:
+				return localization.getMenu("exam_menu_entry");
+			case OK:
+				return localization.getMenu("OK");
+			case ALERT:
+				return localization.getMenu("exam_alert");
+			case SHOW_TO_TEACHER:
+				return localization.getMenu("exam_log_show_screen_to_teacher");
+			case DATE:
+				return localization.getMenu("exam_start_date");
+			case START_TIME:
+				return localization.getMenu("exam_start_time");
+			case ACTIVITY:
+				return localization.getMenu("exam_activity");
+			case EXAM_STARTED:
+				return localization.getMenu("exam_started");
+			case EXAM_ENDED:
+				return localization.getMenu("exam_ended");
+			case EXIT:
+				return localization.getMenu("Exit");
+		}
+		return null;
+	}
+
+	public String getDate() {
+		return getLocalizedDateOnly(app.getLocalization(), examStartTime);
+	}
+
+	public String getStartTime() {
+		return getLocalizedTimeOnly(app.getLocalization(), examStartTime);
+	}
+
 	private static String getLocalizedTimeOnly(Localization loc, long time) {
 		// eg "14:08:48"
 		return CmdGetTime.buildLocalizedDate("\\H:\\i:\\s", new Date(time),
@@ -534,5 +569,4 @@ public class ExamEnvironment {
 		return app.getLocalization().getPlainDefault("exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
 				getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
 	}
-
 }
