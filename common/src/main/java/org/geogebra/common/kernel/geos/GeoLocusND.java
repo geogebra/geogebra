@@ -162,7 +162,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			scaleY = 1;
 			reflectedX = false;
 			reflectedY = false;
-		} else {
+		} else { // after dragging of handler finished
 			fixedX = Double.NaN;
 			fixedY = Double.NaN;
 			reflectedX = scaleX < 0;
@@ -224,9 +224,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		case BOTTOM_LEFT:
 		case TOP_RIGHT:
 		case BOTTOM_RIGHT:
+			saveRatio(gRectangle2D);
 			double newWidth = updatePointsX(handler, event.getX(),
 					gRectangle2D);
-			saveRatio(gRectangle2D, newWidth);
 			updatePointsY(handler, event.getY(), gRectangle2D,
 					newWidth);
 			break;
@@ -235,12 +235,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
-	private void saveRatio(GRectangle2D gRectangle2D, double newWidth) {
-		if (Double.isNaN(ratio) || Double.isFinite(ratio)) {
+	private void saveRatio(GRectangle2D gRectangle2D) {
+		if (Double.isNaN(ratio) || Double.isInfinite(ratio)) {
 			double width = (gRectangle2D.getMaxX() - gRectangle2D.getMinX());
-			if ((width == 0) && (newWidth != 0)) {
-				width = newWidth;
-			}
 			ratio = (gRectangle2D.getMaxY() - gRectangle2D.getMinY())
 					/ width;
 		}
@@ -338,7 +335,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			}
 		} else if (nonScaledWidth == 0) {
 			newHeight = eventY - fixedY;
-		} else if (Math.abs(newWidth) < 1) {
+		} else if (Double.isInfinite(ratio)) {
 			return;
 		} else {
 			newHeight = newWidth * ratio;
