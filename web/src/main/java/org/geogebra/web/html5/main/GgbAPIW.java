@@ -392,14 +392,15 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * @param includeThumbnail
 	 *            whether to include thumbnail
-	 * @return
+	 * @return zip archive (as a map)
 	 */
 	public GgbFile createArchiveContent(boolean includeThumbnail) {
 		GgbFile archiveContent = new GgbFile();
 		boolean isSaving = getKernel().isSaving();
 		// return getNativeBase64(includeThumbnail);
 		getKernel().setSaving(true);
-		adjustConstructionImages(getConstruction());
+		((ImageManagerW) app.getImageManager())
+				.adjustConstructionImages(getConstruction());
 		String constructionXml = getApplication().getXML();
 		String macroXml = getApplication().getMacroXMLorEmpty();
 		StringBuilder defaults2d = new StringBuilder();
@@ -811,29 +812,7 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	private void adjustConstructionImages(Construction cons) {
-		// save all GeoImage images
-		// TreeSet images =
-		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
-		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
-		if (geos == null) {
-			return;
-		}
 
-		Iterator<GeoElement> it = geos.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			String fileName = geo.getImageFileName();
-			// for some reason we sometimes get null and sometimes "" if there
-			// is no image used
-			if (fileName != null && fileName.length() > 0) {
-				geo.getGraphicsAdapter().convertToSaveableFormat();
-				String newName = geo.getGraphicsAdapter().getImageFileName();
-				((ImageManagerW) app.getImageManager()).replace(fileName,
-						newName);
-			}
-		}
-	}
 
 	private void writeConstructionImages(Construction cons, String filePath,
 			Map<String, String> archive) {

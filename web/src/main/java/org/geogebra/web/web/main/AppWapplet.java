@@ -205,7 +205,9 @@ public class AppWapplet extends AppWFull {
 			buildSingleApplicationPanel();
 			return;
 		}
-
+		if (isWhiteboardActive()) {
+			this.setToolbarPosition(SwingConstants.SOUTH, false);
+		}
 		for (int i = frame.getWidgetCount() - 1; i >= 0; i--) {
 			if (!(frame.getWidget(i) instanceof HasKeyboardPopup
 					|| frame.getWidget(i) instanceof TabbedKeyboard

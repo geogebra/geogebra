@@ -1,10 +1,14 @@
 package org.geogebra.web.html5.util;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.TreeSet;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.io.MyXMLio;
+import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.ImageManager;
@@ -193,7 +197,7 @@ public class ImageManagerW extends ImageManager {
 		return img;
 	}
 
-	public void replace(String fileName, String newName) {
+	private void replace(String fileName, String newName) {
 		if (fileName.equals(newName)) {
 			return;
 		}
@@ -219,5 +223,28 @@ public class ImageManagerW extends ImageManager {
 
 	public void setPreventAuxImage(boolean value) {
 		this.preventAuxImage = value;
+	}
+
+	public void adjustConstructionImages(Construction cons) {
+		// save all GeoImage images
+		// TreeSet images =
+		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);
+		TreeSet<GeoElement> geos = cons.getGeoSetLabelOrder();
+		if (geos == null) {
+			return;
+		}
+
+		Iterator<GeoElement> it = geos.iterator();
+		while (it.hasNext()) {
+			GeoElement geo = it.next();
+			String fileName = geo.getImageFileName();
+			// for some reason we sometimes get null and sometimes "" if there
+			// is no image used
+			if (fileName != null && fileName.length() > 0) {
+				geo.getGraphicsAdapter().convertToSaveableFormat();
+				String newName = geo.getGraphicsAdapter().getImageFileName();
+				replace(fileName, newName);
+			}
+		}
 	}
 }
