@@ -91,4 +91,28 @@ public class Event {
 	public EventType getType() {
 		return type;
 	}
+
+	/**
+	 * 
+	 * @return primary target
+	 */
+	public GeoElement getTarget() {
+		return target;
+	}
+
+	/**
+	 * 
+	 * @return secondary target
+	 */
+	public ArrayList<GeoElement> getTargets() {
+		return targets;
+	}
+
+	/**
+	 * 
+	 * @return argument
+	 */
+	public String getArgument() {
+		return argument;
+	}
 }
