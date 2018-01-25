@@ -508,6 +508,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private GRectangle tempFrame;
 	private GPoint2D[] tmpClipPoints;
 	public int maxCachedLayer;
+	private NumberFormatAdapter[] axesNumberFormatsNormal = new NumberFormatAdapter[16];
+	private NumberFormatAdapter[] axesNumberFormatsExponential = new NumberFormatAdapter[16];
 	
 
 	/** @return line types */
@@ -1747,7 +1749,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// }
 
 		int maxFractionDigits = Math.max(-exp, kernel.getPrintDecimals());
-
+		
 		if (automaticAxesNumberingDistances[axis]) {
 			// force same unit if scales are same, see #1082
 			if ((axis == 1) && automaticAxesNumberingDistances[0]
@@ -1789,16 +1791,26 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// display large and small numbers in scienctific notation
 		if ((axesNumberingDistances[axis] < 10E-6)
 				|| (axesNumberingDistances[axis] > 10E6)) {
-			// df.applyPattern("0.##E0");
 			maxFractionDigits = Math.min(14, maxFractionDigits);
-			axesNumberFormat[axis] = FormatFactory.getPrototype()
-					.getNumberFormat("0.##E0", maxFractionDigits);
+			
+			if (axesNumberFormatsExponential[maxFractionDigits] == null) {
+				axesNumberFormatsExponential[maxFractionDigits] = FormatFactory.getPrototype()
+						.getNumberFormat("0.##E0", maxFractionDigits);
+			}
+
+			
+			axesNumberFormat[axis] = axesNumberFormatsExponential[maxFractionDigits];
+			
 			// avoid 4.00000000000004E-11 due to rounding error when
 			// computing
 			// tick mark numbers
 		} else {
-			axesNumberFormat[axis] = FormatFactory.getPrototype()
-					.getNumberFormat("###0.##", maxFractionDigits);
+			if (axesNumberFormatsNormal[maxFractionDigits] == null) {
+				axesNumberFormatsNormal[maxFractionDigits] = FormatFactory.getPrototype()
+						.getNumberFormat("###0.##", maxFractionDigits);
+			}
+			
+			axesNumberFormat[axis] = axesNumberFormatsNormal[maxFractionDigits];
 		}
 
 		if (automaticGridDistance && axis < 2) {
