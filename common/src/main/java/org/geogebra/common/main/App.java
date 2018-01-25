@@ -411,6 +411,7 @@ public abstract class App implements UpdateSelection {
 	public static String[] getStrDecimalSpacesAC() {
 		return strDecimalSpacesAC;
 	}
+
 	/**
 	 * Please call setVersion right after this
 	 */
@@ -931,7 +932,8 @@ public abstract class App implements UpdateSelection {
 	}
 
 	public void storeUndoInfoForProperties() {
-		getKernel().getConstruction().getUndoManager().storeUndoInfoForProperties(isUndoActive());
+		getKernel().getConstruction().getUndoManager()
+				.storeUndoInfoForProperties(isUndoActive());
 	}
 
 	/**
@@ -1162,7 +1164,8 @@ public abstract class App implements UpdateSelection {
 			}
 			getActiveEuclidianView().getEuclidianController()
 					.clearJustCreatedGeos();
-			getActiveEuclidianView().getEuclidianController().clearSelectionAndRectangle();
+			getActiveEuclidianView().getEuclidianController()
+					.clearSelectionAndRectangle();
 			storeUndoInfoAndStateForModeStarting();
 		}
 	}
@@ -2493,7 +2496,7 @@ public abstract class App implements UpdateSelection {
 			}
 		}
 		ScreenReader.updateSelection(this);
-		
+
 	}
 
 	/**
@@ -2573,8 +2576,7 @@ public abstract class App implements UpdateSelection {
 			}
 		}
 
-		if (isEuclidianView3Dinited()
-				&& getEuclidianView3D().hasStyleBar()) {
+		if (isEuclidianView3Dinited() && getEuclidianView3D().hasStyleBar()) {
 			getEuclidianView3D().getStyleBar().reinit();
 		}
 
@@ -3015,7 +3017,6 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract boolean clearConstruction();
 
-
 	/**
 	 * Clear construction and reset settings from preferences
 	 */
@@ -3212,10 +3213,11 @@ public abstract class App implements UpdateSelection {
 	}
 
 	/**
-	 * Enables or disables right clicking for Algebra View. Used e.g. in
-	 * Exam Simple Calc app
+	 * Enables or disables right clicking for Algebra View. Used e.g. in Exam
+	 * Simple Calc app
 	 *
-	 * @param flag whether right click features should be enabled
+	 * @param flag
+	 *            whether right click features should be enabled
 	 */
 	public void setRightClickEnabledForAV(boolean flag) {
 		rightClickEnabledForAV = flag;
@@ -3277,7 +3279,7 @@ public abstract class App implements UpdateSelection {
 			getEventDispatcher().addEventListener(geoScriptRunner);
 		}
 	}
-	
+
 	/**
 	 * Compares 2, 3 or 4 objects by using the Relation Tool.
 	 *
@@ -3779,8 +3781,6 @@ public abstract class App implements UpdateSelection {
 		return false;
 	}
 
-
-
 	public final boolean isErrorDialogsActive() {
 		return isErrorDialogsActive;
 	}
@@ -3925,390 +3925,385 @@ public abstract class App implements UpdateSelection {
 		boolean whiteboard = isWhiteboardActive();
 		boolean relaunch = true;
 		// boolean keyboard = true;
-        switch (f) {
+		switch (f) {
 
-            // **********************************************************************
-            // MOBILE START
-            // note: please use prefix MOB
-            // *********************************************************
-            // **********************************************************************
+		// **********************************************************************
+		// MOBILE START
+		// note: please use prefix MOB
+		// *********************************************************
+		// **********************************************************************
 
-            /** MOB-637 */
-            case DIFFERENT_AXIS_RATIO_3D:
-                return true;
-
-            // MOB-270
-            case ACRA:
-                return prerelease;
-
-            case ANALYTICS:
-                return prerelease;
-
-            // MOB-788
-            case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
-                return false;
-
-            // AND-465: dependent on the MOB_EV_SETTINGS_POPUP feature
-            case MOB_DYNAMIC_SYLEBAR:
-
-                // AND-364
-            case MOB_EV_SETTINGS_POPUP:
-                return true;
-
-            // MOB-1305
-            case MOB_KEYBOARD_BOX_ICONS:
-                return true;
-
-            // AND-574
-            case MOB_NO_LOCK_FOR_PREVIEWABLE_IN_AND_3D:
-                return true;
-
-            // IGR-481
-            case MOB_LINKS_TO_OTHER_APPS_IN_IOS:
-                return true;
-
-			// AND-617
-            case MOB_INPUT_CONTEXT_MENU:
-                return true;
-
-			// AND-637
-			case MOB_GGB_KEYBOARD_IN_SETTINGS:
-				return true;
-
-			// IGR-373
-			case MOB_TRANSPARENT_STATUS_BAR_IN_EXAM_MODE:
-				return true;
-
-			// MOB-1319
-			case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
-			    return false;
-
-			// MOB-1313
-			case MOB_STANDARD_VIEW_BUTTON_3D:
-				return true;
-				
-			// MOB-1329
-			case MOB_PACK_BUFFERS_3D:
+		/** MOB-637 */
+		case DIFFERENT_AXIS_RATIO_3D:
 			return true;
 
-			// IGR-546
-			case MOB_IOS_SINGLE_APP_MODE:
-			return true;
-
-			// AND-623
-			case MOB_SYNC_BKG_SERVICE:
-				return true;
-				
-			// IGR-593
-			case MOB_IOS_CHECKBOXES_AND_STATUS_BAR:
-				return true;
-
-			//AND-785
-			case MOB_AND_CHECKBOXES_AND_STATUS_BAR:
-				return prerelease;
-
-			// IGR-588, AND-695
-			case MOB_OUTPUTROW_IN_DESC_MODE:
-				return true;
-				
-			// IGR-655
-			case MOB_IOS_APP_INIT_3D:
-				return prerelease;
-
-
-			// IGR-633
-			case MOB_IOS_EXAM_LOG_DIALOG:
-				return false;
-
-            // **********************************************************************
-            // MOBILE END
-            // *********************************************************
-            // **********************************************************************
-
-            // **********************************************************************
-            // MOW START
-            // note: please use prefix MOW
-            // *********************************************************
-            // **********************************************************************
-
-            case WHITEBOARD_APP:
-                return prerelease;
-
-            // MOW-29
-            case MOW_TOOLBAR:
-                return prerelease && whiteboard;// prerelease;
-
-            case MOW_CONTEXT_MENU:
-                return relaunch && isUnbundledOrWhiteboard();
-
-            /** MOW-55 */
-            case MOW_BOUNDING_BOXES:
-                return prerelease && whiteboard;
-
-            case MOW_PEN_IS_LOCUS:
-                return prerelease;
-
-            case MOW_PEN_EVENTS:
-                return false;
-
-            case MOW_PEN_SMOOTHING:
+		// MOB-270
+		case ACRA:
 			return prerelease;
 
-            case MOW_AXES_STYLE_SUBMENU:
-                return prerelease && whiteboard;
+		case ANALYTICS:
+			return prerelease;
 
-            case MOW_IMPROVE_CONTEXT_MENU:
-                return prerelease && whiteboard;
+		// MOB-788
+		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
+			return false;
 
-            case MOW_CLEAR_VIEW_STYLEBAR:
-                return relaunch && isUnbundledOrWhiteboard();
+		// AND-465: dependent on the MOB_EV_SETTINGS_POPUP feature
+		case MOB_DYNAMIC_SYLEBAR:
 
-            case MOW_COLORPOPUP_IMPROVEMENTS:
-                return prerelease;
+			// AND-364
+		case MOB_EV_SETTINGS_POPUP:
+			return true;
 
-            case MOW_DIRECT_FORMULA_CONVERSION:
-                return false;
+		// MOB-1305
+		case MOB_KEYBOARD_BOX_ICONS:
+			return true;
 
-            /** MOW-368 */
-            case MOW_IMAGE_DIALOG_UNBUNDLED:
-            	return prerelease && whiteboard;
+		// AND-574
+		case MOB_NO_LOCK_FOR_PREVIEWABLE_IN_AND_3D:
+			return true;
 
-            /** MOW-261 */
-            case MOW_COLOR_FILLING_LINE:
-                return prerelease && whiteboard;
+		// IGR-481
+		case MOB_LINKS_TO_OTHER_APPS_IN_IOS:
+			return true;
 
-            /** MOW-269 */
-            case MOW_MULTI_PAGE:
-                return canary && whiteboard;
+		// AND-617
+		case MOB_INPUT_CONTEXT_MENU:
+			return true;
 
-            /** MOW-336 */
-            case MOW_DRAG_AND_DROP_PAGES:
-                return canary && whiteboard;
-                
-            /** MOW-360 */
-            case MOW_CROP_IMAGE:
-            	return prerelease && whiteboard;
+		// AND-637
+		case MOB_GGB_KEYBOARD_IN_SETTINGS:
+			return true;
+
+		// IGR-373
+		case MOB_TRANSPARENT_STATUS_BAR_IN_EXAM_MODE:
+			return true;
+
+		// MOB-1319
+		case MOB_NOTIFICATION_BAR_TRIGGERS_EXAM_ALERT_IOS_11:
+			return false;
+
+		// MOB-1313
+		case MOB_STANDARD_VIEW_BUTTON_3D:
+			return true;
+
+		// MOB-1329
+		case MOB_PACK_BUFFERS_3D:
+			return true;
+
+		// IGR-546
+		case MOB_IOS_SINGLE_APP_MODE:
+			return true;
+
+		// AND-623
+		case MOB_SYNC_BKG_SERVICE:
+			return true;
+
+		// IGR-593
+		case MOB_IOS_CHECKBOXES_AND_STATUS_BAR:
+			return true;
+
+		// AND-785
+		case MOB_AND_CHECKBOXES_AND_STATUS_BAR:
+			return prerelease;
+
+		// IGR-588, AND-695
+		case MOB_OUTPUTROW_IN_DESC_MODE:
+			return true;
+
+		// IGR-655
+		case MOB_IOS_APP_INIT_3D:
+			return prerelease;
+
+		// IGR-633
+		case MOB_IOS_EXAM_LOG_DIALOG:
+			return false;
+
+		// **********************************************************************
+		// MOBILE END
+		// *********************************************************
+		// **********************************************************************
+
+		// **********************************************************************
+		// MOW START
+		// note: please use prefix MOW
+		// *********************************************************
+		// **********************************************************************
+
+		case WHITEBOARD_APP:
+			return prerelease;
+
+		// MOW-29
+		case MOW_TOOLBAR:
+			return prerelease && whiteboard;// prerelease;
+
+		case MOW_CONTEXT_MENU:
+			return relaunch && isUnbundledOrWhiteboard();
+
+		/** MOW-55 */
+		case MOW_BOUNDING_BOXES:
+			return prerelease && whiteboard;
+
+		case MOW_PEN_IS_LOCUS:
+			return prerelease;
+
+		case MOW_PEN_EVENTS:
+			return false;
+
+		case MOW_PEN_SMOOTHING:
+			return prerelease;
+
+		case MOW_AXES_STYLE_SUBMENU:
+			return prerelease && whiteboard;
+
+		case MOW_IMPROVE_CONTEXT_MENU:
+			return prerelease && whiteboard;
+
+		case MOW_CLEAR_VIEW_STYLEBAR:
+			return relaunch && isUnbundledOrWhiteboard();
+
+		case MOW_COLORPOPUP_IMPROVEMENTS:
+			return prerelease;
+
+		case MOW_DIRECT_FORMULA_CONVERSION:
+			return false;
+
+		/** MOW-368 */
+		case MOW_IMAGE_DIALOG_UNBUNDLED:
+			return prerelease && whiteboard;
+
+		/** MOW-261 */
+		case MOW_COLOR_FILLING_LINE:
+			return prerelease && whiteboard;
+
+		/** MOW-269 */
+		case MOW_MULTI_PAGE:
+			return canary && whiteboard;
+
+		/** MOW-336 */
+		case MOW_DRAG_AND_DROP_PAGES:
+			return canary && whiteboard;
+
+		/** MOW-360 */
+		case MOW_CROP_IMAGE:
+			return prerelease && whiteboard;
 
 		/** MOW-285 */
 		case MOW_BOUNDING_BOX_FOR_PEN_TOOL:
 			return prerelease && whiteboard;
 
-            // **********************************************************************
-            // MOW END
-            // *********************************************************
-            // **********************************************************************
+		// **********************************************************************
+		// MOW END
+		// *********************************************************
+		// **********************************************************************
 
-            // **********************************************************************
-            // KEYBOARD START
-            // *******************************************************
-            // **********************************************************************
+		// **********************************************************************
+		// KEYBOARD START
+		// *******************************************************
+		// **********************************************************************
 
+		// GGB-1349
 
-            // GGB-1349
+		// GGB-1252
+		case KEYBOARD_BEHAVIOUR:
+			return true;
 
-            // GGB-1252
-            case KEYBOARD_BEHAVIOUR:
-                return true;
+		/**
+		 * GGB-1398 + GGB-1529
+		 */
+		case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
+			return true;
 
-            /**
-             * GGB-1398 + GGB-1529
-             */
-            case SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME:
-                return true;
+		// **********************************************************************
+		// KEYBOARD END
+		// *********************************************************
+		// **********************************************************************
 
-            // **********************************************************************
-            // KEYBOARD END
-            // *********************************************************
-            // **********************************************************************
+		// leave as prerelease
+		case TUBE_BETA:
+			return prerelease;
 
-            // leave as prerelease
-            case TUBE_BETA:
-                return prerelease;
-
-            // leave as prerelease
-            case ALL_LANGUAGES:
-                return prerelease;
+		// leave as prerelease
+		case ALL_LANGUAGES:
+			return prerelease;
 
 		/** GGB-650 */
 		case GGB_WEB_ASSEMBLY:
 			return false;
 
-            case SOLVE_QUARTIC:
-                return prerelease;
+		case SOLVE_QUARTIC:
+			return prerelease;
 
-            case AUTOMATIC_DERIVATIVES:
-                return canary;
+		case AUTOMATIC_DERIVATIVES:
+			return canary;
 
-            case EXERCISES:
-                return prerelease;
+		case EXERCISES:
+			return prerelease;
 
-            // when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
-            // in Command.Java
-            case IMPLICIT_SURFACES:
-                return prerelease;
+		// when moved to stable, move ImplicitSurface[] from TABLE_ENGLISH
+		// in Command.Java
+		case IMPLICIT_SURFACES:
+			return prerelease;
 
-            case CONTOUR_PLOT_COMMAND:
-                return prerelease;
+		case CONTOUR_PLOT_COMMAND:
+			return prerelease;
 
-            case LOCALSTORAGE_FILES:
-                return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
+		case LOCALSTORAGE_FILES:
+			return prerelease || Versions.WEB_FOR_DESKTOP.equals(getVersion());
 
-            case POLYGON_TRIANGULATION:
-                return false;
-
-            case TOOL_EDITOR:
-                return prerelease;
-
-            // GGB-776
-            case ABSOLUTE_TEXTS:
+		case POLYGON_TRIANGULATION:
 			return false;
 
-            // TRAC-4845
-            case LOG_AXES:
-                return prerelease;
+		case TOOL_EDITOR:
+			return prerelease;
 
-            case HIT_PARAMETRIC_SURFACE:
-                return false;
+		// GGB-776
+		case ABSOLUTE_TEXTS:
+			return false;
 
-            case PARAMETRIC_SURFACE_IS_REGION:
-                return prerelease;
+		// TRAC-4845
+		case LOG_AXES:
+			return prerelease;
 
-            case CONVEX_HULL_3D:
-                return canary;
+		case HIT_PARAMETRIC_SURFACE:
+			return false;
 
-            case HANDWRITING:
-                return false;
+		case PARAMETRIC_SURFACE_IS_REGION:
+			return prerelease;
 
-            // GGB-92
-            case AV_DEFINITION_AND_VALUE:
-                if (isDesktop()) {
-                    return false;
-                }
-                if (isAndroid()) {
-                    return true;
-                }
-                return true;
+		case CONVEX_HULL_3D:
+			return canary;
 
-            case DATA_COLLECTION:
-                if (version != null && version != Versions.WEB_FOR_DESKTOP) {
-                    return true;
-                }
+		case HANDWRITING:
+			return false;
 
-                return false;
+		// GGB-92
+		case AV_DEFINITION_AND_VALUE:
+			if (isDesktop()) {
+				return false;
+			}
+			if (isAndroid()) {
+				return true;
+			}
+			return true;
 
-            // in web (not tablet apps yet)
-            // File -> Enter Exam Mode
-            case EXAM_TABLET:
-                return prerelease;
+		case DATA_COLLECTION:
+			if (version != null && version != Versions.WEB_FOR_DESKTOP) {
+				return true;
+			}
 
-            case SAVE_SETTINGS_TO_FILE:
-                // not enabled for linux
-                return isWindows() || isMacOS() || prerelease;
+			return false;
 
-            // GGB-334, TRAC-3401
-            case ADJUST_WIDGETS:
-			return false
-                        ;// && Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
+		// in web (not tablet apps yet)
+		// File -> Enter Exam Mode
+		case EXAM_TABLET:
+			return prerelease;
 
+		case SAVE_SETTINGS_TO_FILE:
+			// not enabled for linux
+			return isWindows() || isMacOS() || prerelease;
 
-            // GGB-944
-            case EXPORT_ANIMATED_PDF:
-                return prerelease;
+		// GGB-334, TRAC-3401
+		case ADJUST_WIDGETS:
+			return false;// &&
+							// Versions.ANDROID_NATIVE_GRAPHING.equals(getVersion());
 
-            case AUTOSCROLLING_SPREADSHEET:
-                return prerelease;
+		// GGB-944
+		case EXPORT_ANIMATED_PDF:
+			return prerelease;
 
-            case ERASER:
-                return prerelease;
+		case AUTOSCROLLING_SPREADSHEET:
+			return prerelease;
 
-            case ROUNDED_POLYGON:
-                return prerelease;
+		case ERASER:
+			return prerelease;
 
-            case DYNAMIC_STYLEBAR:
-                return relaunch && isUnbundledOrWhiteboard();
+		case ROUNDED_POLYGON:
+			return prerelease;
 
-            case AV_ITEM_DESIGN:
-                return relaunch || isNativeMobileAppWithNewUI();
+		case DYNAMIC_STYLEBAR:
+			return relaunch && isUnbundledOrWhiteboard();
 
-            case EXPORT_SCAD_IN_MENU:
-                return prerelease;
+		case AV_ITEM_DESIGN:
+			return relaunch || isNativeMobileAppWithNewUI();
 
-            case EXPORT_COLLADA_IN_MENU:
-                return prerelease;
-                
-            case EXPORT_OBJ_IN_MENU:
-            		return prerelease;
-                
-            case INPUT_BAR_ADD_SLIDER:
-                return relaunch
-                        && isHTML5Applet();
+		case EXPORT_SCAD_IN_MENU:
+			return prerelease;
 
-            /** GGB-1876 */
-            case DOUBLE_ROUND_BRACKETS:
-                return prerelease;
+		case EXPORT_COLLADA_IN_MENU:
+			return prerelease;
 
-            case DEFAULT_OBJECT_STYLES:
-                return relaunch || isNativeMobileAppWithNewUI();
+		case EXPORT_OBJ_IN_MENU:
+			return prerelease;
 
-            case OBJECT_DEFAULTS_AND_COLOR:
-                return relaunch && isUnbundledOrWhiteboard();
+		case INPUT_BAR_ADD_SLIDER:
+			return relaunch && isHTML5Applet();
 
-            case SHOW_STEPS:
-                return prerelease;
+		/** GGB-1876 */
+		case DOUBLE_ROUND_BRACKETS:
+			return prerelease;
 
-            case LABEL_SETTING_ON_STYLEBAR:
-                return relaunch && !whiteboard;
+		case DEFAULT_OBJECT_STYLES:
+			return relaunch || isNativeMobileAppWithNewUI();
 
-            case SURFACE_2D:
-                return prerelease;
+		case OBJECT_DEFAULTS_AND_COLOR:
+			return relaunch && isUnbundledOrWhiteboard();
 
-            case DYNAMIC_STYLEBAR_SELECTION_TOOL:
-                return relaunch;
+		case SHOW_STEPS:
+			return prerelease;
 
-            case CENTER_STANDARD_VIEW:
-                return relaunch;
+		case LABEL_SETTING_ON_STYLEBAR:
+			return relaunch && !whiteboard;
 
-            /** GGB-1966 */
-            case FUNCTIONS_DYNAMIC_STYLEBAR_POSITION:
-                return relaunch;
+		case SURFACE_2D:
+			return prerelease;
 
-            /** GGB-1982 */
-            // TODO if there is no need for this feature flag more, remove "appl"
-            // parameter from MyCJButton.MyCJButton(App appl)
-            case OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS:
-                return relaunch;
+		case DYNAMIC_STYLEBAR_SELECTION_TOOL:
+			return relaunch;
 
-            case FLOATING_SETTINGS:
-                return isUnbundledOrWhiteboard() && relaunch;
+		case CENTER_STANDARD_VIEW:
+			return relaunch;
 
-            /** GGB-2005 */
-            case TOOLTIP_DESIGN:
-                return isUnbundledOrWhiteboard() && relaunch;
+		/** GGB-1966 */
+		case FUNCTIONS_DYNAMIC_STYLEBAR_POSITION:
+			return relaunch;
 
-            case INITIAL_PORTRAIT:
-                return isUnbundled() && relaunch;
+		/** GGB-1982 */
+		// TODO if there is no need for this feature flag more, remove "appl"
+		// parameter from MyCJButton.MyCJButton(App appl)
+		case OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS:
+			return relaunch;
 
-            /** GGB-1986 */
-            case DIALOG_DESIGN:
-                return isUnbundledOrWhiteboard() && relaunch;
+		case FLOATING_SETTINGS:
+			return isUnbundledOrWhiteboard() && relaunch;
 
-            /** GGB-2015 */
-            case GEO_AV_DESCRIPTION:
-                return relaunch;
+		/** GGB-2005 */
+		case TOOLTIP_DESIGN:
+			return isUnbundledOrWhiteboard() && relaunch;
+
+		case INITIAL_PORTRAIT:
+			return isUnbundled() && relaunch;
+
+		/** GGB-1986 */
+		case DIALOG_DESIGN:
+			return isUnbundledOrWhiteboard() && relaunch;
+
+		/** GGB-2015 */
+		case GEO_AV_DESCRIPTION:
+			return relaunch;
 
 		/** GGB-2053 */
-            case TAB_ON_GUI:
-                return true;
+		case TAB_ON_GUI:
+			return true;
 
-            /** MOB-1293 */
-            case SELECT_TOOL_NEW_BEHAVIOUR:
-                return prerelease;
+		/** MOB-1293 */
+		case SELECT_TOOL_NEW_BEHAVIOUR:
+			return prerelease;
 
-            /** GGB-2118 */
-            case PREVIEW_POINTS:
+		/** GGB-2118 */
+		case PREVIEW_POINTS:
 			// not ggb5
 			return getVersion() != Versions.DESKTOP;
-
 
 		/** GGB-2183 */
 		case AUTO_ADD_DEGREE:
@@ -4349,8 +4344,8 @@ public abstract class App implements UpdateSelection {
 			Log.debug("missing case in Feature: " + f);
 			return false;
 
-        }
-    }
+		}
+	}
 
 	public boolean isUnbundled() {
 		return false;
@@ -4383,7 +4378,6 @@ public abstract class App implements UpdateSelection {
 	public boolean useShaders() {
 		return false;
 	}
-
 
 	public final int getTubeId() {
 		return tubeID;
@@ -4427,7 +4421,6 @@ public abstract class App implements UpdateSelection {
 		// TODO Auto-generated method stub
 
 	}
-
 
 	/**
 	 * handle space key hitted
@@ -4524,7 +4517,7 @@ public abstract class App implements UpdateSelection {
 	public void setNewExam() {
 		setExam(new ExamEnvironment(this));
 	}
-	
+
 	public void startExam() {
 		getExam().setStart((new Date()).getTime());
 	}
@@ -4774,8 +4767,7 @@ public abstract class App implements UpdateSelection {
 	}
 
 	final static protected GBufferedImage getEuclidianViewExportImage(
-			EuclidianView ev,
-			double maxX, double maxY) {
+			EuclidianView ev, double maxX, double maxY) {
 
 		double scale = Math.min(maxX / ev.getSelectedWidthInPixels(),
 				maxY / ev.getSelectedHeightInPixels());
@@ -4816,7 +4808,9 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * Adjusts Algebra and Euclidian View next to or bellow each other
 	 * (Portrait) according to app size.
-	 * @param force TODO
+	 * 
+	 * @param force
+	 *            TODO
 	 * 
 	 * @return if screen became portrait or not.
 	 */
@@ -4944,7 +4938,6 @@ public abstract class App implements UpdateSelection {
 		// overridden in AppD, AppW
 	}
 
-
 	////////////////////////////////////////////////////
 	// last commands selected from help (used in Android & iOS native)
 	////////////////////////////////////////////////////
@@ -4975,7 +4968,8 @@ public abstract class App implements UpdateSelection {
 		return kimberlingw;
 	}
 
-	public AlgoKimberlingWeightsInterface setKimberlingw(AlgoKimberlingWeightsInterface kimberlingw) {
+	public AlgoKimberlingWeightsInterface setKimberlingw(
+			AlgoKimberlingWeightsInterface kimberlingw) {
 		this.kimberlingw = kimberlingw;
 		return kimberlingw;
 	}
@@ -5018,32 +5012,34 @@ public abstract class App implements UpdateSelection {
 		ToolCategorization.AppType type;
 		boolean isPhoneApp;
 		switch (getVersion()) {
-			case ANDROID_NATIVE_GRAPHING:
-			case IOS_NATIVE:
+		case ANDROID_NATIVE_GRAPHING:
+		case IOS_NATIVE:
 			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
-				isPhoneApp = true;
-				break;
-			case ANDROID_GEOMETRY:
-			case IOS_GEOMETRY:
+			isPhoneApp = true;
+			break;
+		case ANDROID_GEOMETRY:
+		case IOS_GEOMETRY:
 			type = ToolCategorization.AppType.GEOMETRY_CALC;
-				isPhoneApp = true;
-				break;
-			case ANDROID_NATIVE_3D:
+			isPhoneApp = true;
+			break;
+		case ANDROID_NATIVE_3D:
 			type = ToolCategorization.AppType.GRAPHER_3D;
-				isPhoneApp = true;
-				break;
-			default:
+			isPhoneApp = true;
+			break;
+		default:
 			type = ToolCategorization.AppType.GRAPHING_CALCULATOR;
-				isPhoneApp = false;
-				break;
+			isPhoneApp = false;
+			break;
 		}
 
-		//Needed temporary, until the toolset levels are not implemented on iOS too
+		// Needed temporary, until the toolset levels are not implemented on iOS
+		// too
 		getSettings().getToolbarSettings().setType(type);
-		return new ToolCategorization(this, type, getSettings().getToolbarSettings().getToolsetLevel(),
+		return new ToolCategorization(this, type,
+				getSettings().getToolbarSettings().getToolsetLevel(),
 				isPhoneApp);
 	}
-	
+
 	/**
 	 * set export will be done on next 3D frame
 	 * 
@@ -5148,8 +5144,8 @@ public abstract class App implements UpdateSelection {
 	 * @param enable
 	 */
 	public void enableCAS(boolean enable) {
-	    getSettings().getCasSettings().setEnabled(enable);
-	    getKernel().getAlgebraProcessor().reinitCommands();
+		getSettings().getCasSettings().setEnabled(enable);
+		getKernel().getAlgebraProcessor().reinitCommands();
 	}
 
 	/**
