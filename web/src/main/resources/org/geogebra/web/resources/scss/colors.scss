@@ -43,6 +43,7 @@ $white-80: rgba(255, 255, 255, 0.8);
 $white-90: rgba(255, 255, 255, 0.9);
 $white-95: rgba(255, 255, 255, 0.95);
 $black-87: rgba(0,0,0,0.87);
+$black-54: rgba(0,0,0,0.54);
 $black-28: rgba(0,0,0,0.28);
 $black-19: rgba(0,0,0,0.19);
 $black-15: rgba(0,0,0,0.15);
@@ -51,6 +52,9 @@ $black-12: rgba(0,0,0,0.12);
 $black-10: rgba(0,0,0,0.1);
 $black-3: rgba(0, 0, 0, 0.3);
 $black-2: rgba(0, 0, 0, 0.2);
+
+$text-primary: $black-87;
+$text-secondary: $black-54;
 
 $mow_purple: #a388d4;
 $mow_purple_dark: #673AB7;

@@ -28,7 +28,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	private SimplePanel inputPanel;
 	private WebCamInputPanel webcamInputPanel;
 	private FlowPanel buttonPanel;
-	private Button screenshotBtn;
+	private Button takePictureBtn;
 	private Button closeBtn;
 
 	/**
@@ -51,13 +51,13 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		webcamInputPanel = new WebCamInputPanel(app1, this);
 		inputPanel.add(webcamInputPanel);
 
-		screenshotBtn = new Button("");
-		screenshotBtn.setEnabled(true);
+		takePictureBtn = new Button("");
+		takePictureBtn.setEnabled(true);
 		closeBtn = new Button("");
 		closeBtn.addStyleName("cancelBtn");
 		buttonPanel = new FlowPanel();
 		buttonPanel.setStyleName("DialogButtonPanel");
-		buttonPanel.add(screenshotBtn);
+		buttonPanel.add(takePictureBtn);
 		buttonPanel.add(closeBtn);
 
 		add(mainPanel);
@@ -76,7 +76,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	}
 
 	private void initActions() {
-		screenshotBtn.addClickHandler(this);
+		takePictureBtn.addClickHandler(this);
 		closeBtn.addClickHandler(this);
 		if (Browser.isMobile()) {
 			this.setAutoHideEnabled(true);
@@ -89,7 +89,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	public void setLabels() {
 		Localization loc = app1.getLocalization();
 		getCaption().setText(loc.getMenu("Camera"));
-		screenshotBtn.setText(loc.getMenu("screenshot")); // screenshot
+		takePictureBtn.setText(loc.getMenu("takepicture")); // screenshot
 		closeBtn.setText(loc.getMenu("Close")); // close
 	}
 
@@ -97,6 +97,9 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	 * resizes the video and its container
 	 */
 	public void resize() {
+		if (!isShowing()) {
+			return;
+		}
 		double width = webcamInputPanel.getVideoWidth();
 		double height = webcamInputPanel.getVideoHeight();
 		double ratio = height / width;
@@ -119,7 +122,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
-		if (source == screenshotBtn) {
+		if (source == takePictureBtn) {
 			String data = webcamInputPanel.getImageDataURL();
 			String name = "webcam";
 			if (data != null && !webcamInputPanel.isStreamEmpty()) {

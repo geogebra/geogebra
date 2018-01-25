@@ -92,8 +92,8 @@ public class WebCamInputPanel extends VerticalPanel {
 										video.onloadedmetadata = function(e) {
 											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::canvasWidth = video.videoWidth;
 											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::canvasHeight = video.videoHeight;
-											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::resize()();
 											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showInputDialog()();
+											that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::resize()();
 										};
 									} else {
 										video.src = bs;
@@ -256,10 +256,16 @@ public class WebCamInputPanel extends VerticalPanel {
 		showPermissionDialog(WebcamPermissionDialog.DialogType.NOT_SUPPORTED);
 	}
 
+	/**
+	 * @return width of video
+	 */
 	public int getVideoWidth() {
 		return canvasWidth;
 	}
 
+	/**
+	 * @return height of video
+	 */
 	public int getVideoHeight() {
 		return canvasHeight;
 	}

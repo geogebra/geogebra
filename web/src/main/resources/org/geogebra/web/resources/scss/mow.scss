@@ -495,7 +495,7 @@
 		top: 4px;
 		left: 0px;
 		margin-left: 4px;
-		z-index: 99999;
+		z-index: 99;
 		img{
 			margin: 6px;
 		    padding: 6px;
@@ -544,7 +544,7 @@
 		cursor: pointer;
 		position: fixed;
     	border-radius: 50%;
-    	z-index: 460;
+    	z-index: 99;
  
     	background-color: $mow_highlight;
     	box-shadow: 0px 2px 10px $black-3, 0px 0px 1px $black-10, inset 0px 1px 0px $white-25, inset 0px -1px 0px $black-15;
@@ -601,7 +601,7 @@
 		right: 0px;
 		box-shadow: 0 6px 16px $black-28;
 		background-color: $white;
-		z-index: 450;
+		z-index: 98;
 		height: 100%;
 		width: $pagecontrolpanelWidth;
 		overflow: hidden;
@@ -780,6 +780,9 @@
 		text-align:center;
 	}
 	.mowPermissionDialog{
+		max-width: calc(100% - 80px);
+   		min-width: 250px;
+   		max-height: calc(100% - 48px);
 		.Caption{
 			margin-right: 16px;
 		}

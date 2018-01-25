@@ -122,8 +122,8 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 
 	@Override
 	public void center() {
-		super.center();
 		setLabels();
+		super.center();
 	}
 
 	private void cancel() {
