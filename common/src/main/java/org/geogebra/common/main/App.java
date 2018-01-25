@@ -4131,7 +4131,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-650 */
 		case GGB_WEB_ASSEMBLY:
-			return prerelease;
+			return false;
 
             case SOLVE_QUARTIC:
                 return prerelease;
@@ -4306,7 +4306,8 @@ public abstract class App implements UpdateSelection {
 
             /** GGB-2118 */
             case PREVIEW_POINTS:
-			return true;
+			// not ggb5
+			return getVersion() != Versions.DESKTOP;
 
 
 		/** GGB-2183 */
