@@ -1,6 +1,7 @@
 package org.geogebra.web.html5.main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -48,6 +49,10 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GgbAPIW extends GgbAPI {
+
+	public static final String SHARED_PREFIX = "_shared/";
+	public static final String STRUCTURE_JSON = "structure.json";
+	public static final String SLIDE_PREFIX = "_slide";
 
 	public GgbAPIW(App app) {
 		this.app = app;
@@ -257,24 +262,48 @@ public class GgbAPIW extends GgbAPI {
 			JavaScriptObject callback) {
 		GgbFile archiveContent = createMacrosArchive();
 		JavaScriptObject jso = JavaScriptObject.createObject();
-		getBase64ZipJs(prepareToEntrySet(archiveContent, jso, ""), callback,
+		getBase64ZipJs(prepareToEntrySet(archiveContent, jso, "", null),
+				callback,
 				zipJSworkerURL(), false);
 	}
 
 	public JavaScriptObject getFileJSON(boolean includeThumbnail) {
-		GgbFile archiveContent = createArchiveContent(includeThumbnail);
 		JavaScriptObject jso = JavaScriptObject.createObject();
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
 		if (pageController != null) {
+			HashMap<String, Integer> usage = new HashMap<>();
+			GgbFile shared = new GgbFile();
+			for (int i = 0; i < pageController.getSlideCount(); i++) {
+				countShared(pageController.getSlide(i), usage, shared);
+			}
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				prepareToEntrySet(pageController.getSlide(i), jso,
-						"_slide" + i + "/");
+						SLIDE_PREFIX + i + "/", usage);
 			}
-			pushIntoNativeEntry("structure.json",
+			prepareToEntrySet(shared, jso, SHARED_PREFIX, null);
+			pushIntoNativeEntry(STRUCTURE_JSON,
 					pageController.getStructureJSON(), jso);
 			return jso;
 		}
-		return prepareToEntrySet(archiveContent, jso, "");
+		GgbFile archiveContent = createArchiveContent(includeThumbnail);
+		return prepareToEntrySet(archiveContent, jso, "", null);
+	}
+
+	private void countShared(GgbFile slide, HashMap<String, Integer> usage,
+			GgbFile shared) {
+		for (Entry<String, String> entry : slide.entrySet()) {
+			String filename = entry.getKey();
+			if (filename.contains("/")) {
+				Integer currentUsage = usage.get(filename);
+				if (currentUsage != null) {
+					usage.put(filename, currentUsage + 1);
+					shared.put(filename, entry.getValue());
+				} else {
+					usage.put(filename, 1);
+				}
+			}
+		}
+
 	}
 
 	public void setFileJSON(JavaScriptObject obj) {
@@ -316,7 +345,7 @@ public class GgbAPIW extends GgbAPI {
 		StoreString storeString = new StoreString();
 		GgbFile archiveContent = createMacrosArchive();
 		JavaScriptObject jso = prepareToEntrySet(archiveContent,
-				JavaScriptObject.createObject(), "");
+				JavaScriptObject.createObject(), "", null);
 		if (Browser.webWorkerSupported()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 		}
@@ -471,10 +500,14 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private JavaScriptObject prepareToEntrySet(GgbFile archive,
-			JavaScriptObject nativeEntry, String prefix) {
+			JavaScriptObject nativeEntry, String prefix,
+			HashMap<String, Integer> usage) {
 		for (Entry<String, String> entry : archive.entrySet()) {
-			pushIntoNativeEntry(prefix + entry.getKey(), entry.getValue(),
+			if (usage == null || usage.get(entry.getKey()) == null
+					|| usage.get(entry.getKey()) < 2) {
+				pushIntoNativeEntry(prefix + entry.getKey(), entry.getValue(),
 					nativeEntry);
+			}
 		}
 		return nativeEntry;
 	}
@@ -767,7 +800,7 @@ public class GgbAPIW extends GgbAPI {
 						});
 	}-*/;
 
-	private void writeMacroImages(Map<String, String> archive) {
+	private void writeMacroImages(GgbFile archive) {
 		if (kernel.hasMacros()) {
 			ArrayList<Macro> macros = kernel.getAllMacros();
 			writeMacroImages(macros, archive);
@@ -775,7 +808,7 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	private void writeMacroImages(ArrayList<Macro> macros,
-			Map<String, String> archive) {
+			GgbFile archive) {
 		if (macros == null) {
 			return;
 		}
@@ -815,7 +848,7 @@ public class GgbAPIW extends GgbAPI {
 
 
 	private void writeConstructionImages(Construction cons, String filePath,
-			Map<String, String> archive) {
+			GgbFile archive) {
 		// save all GeoImage images
 		// TreeSet images =
 		// cons.getGeoSetLabelOrder(GeoElement.GEO_CLASS_IMAGE);

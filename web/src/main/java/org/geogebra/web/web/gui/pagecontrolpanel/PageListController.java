@@ -10,6 +10,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
@@ -198,7 +199,8 @@ public class PageListController implements PageListControllerInterface {
 			if (slides != null) {
 				for (int i = 0; i < slides.size(); i++) {
 					JSONArray elements = new JSONArray();
-					elements.put(new JSONObject().put("id", "_slide" + i));
+					elements.put(new JSONObject().put("id",
+							GgbAPIW.SLIDE_PREFIX + i));
 					pages.put(new JSONObject().put("elements", elements));
 				}
 			}
@@ -211,8 +213,11 @@ public class PageListController implements PageListControllerInterface {
 		return "{}";
 	}
 
-	public void loadSlides(GgbFile archive) {
-		String structure = archive.remove("structure.json");
+	public boolean loadSlides(GgbFile archive) {
+		if (!archive.containsKey(GgbAPIW.STRUCTURE_JSON)) {
+			return false;
+		}
+		String structure = archive.remove(GgbAPIW.STRUCTURE_JSON);
 		slides.clear();
 		Log.debug(structure);
 		try {
@@ -234,7 +239,7 @@ public class PageListController implements PageListControllerInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return true;
 	}
 
 	/**
@@ -257,7 +262,8 @@ public class PageListController implements PageListControllerInterface {
 	private GgbFile filter(GgbFile archive, String prefix) {
 		GgbFile ret = new GgbFile();
 		for (Entry<String, String> e : archive.entrySet()) {
-			if(e.getKey().startsWith(prefix+"/")){
+			if (e.getKey().startsWith(prefix + "/")
+					|| e.getKey().startsWith(GgbAPIW.SHARED_PREFIX)) {
 				ret.put(e.getKey().substring(prefix.length() + 1),
 						e.getValue());
 			}

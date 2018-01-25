@@ -15,6 +15,6 @@ public interface PageListControllerInterface {
 
 	int getSlideCount();
 
-	void loadSlides(GgbFile archiveContent);
+	boolean loadSlides(GgbFile archiveContent);
 
 }
