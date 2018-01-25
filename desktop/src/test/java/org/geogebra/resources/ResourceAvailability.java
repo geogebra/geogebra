@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.lang.Country;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageManagerD;
@@ -71,15 +70,5 @@ public class ResourceAvailability {
 
 		}
 		Assert.assertEquals(missing.toString(), missing.toString(), "");
-	}
-
-	private static boolean hasFlag(Country country) {
-		switch (country) {
-		case EastTimor:
-		case Yugoslavia:
-		case SouthSudan:
-			return false;
-		}
-		return true;
 	}
 }
