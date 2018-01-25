@@ -14,6 +14,8 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.ConcurrentModificationException;
+
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -23,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.debug.Log;
 
 public class AlgoDrawingPadCorner extends AlgoElement {
 
@@ -130,7 +133,11 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 			ev = app.getEuclidianView1();
 		} else {
 			if (!app.hasEuclidianView2(1)) {
-				corner.setUndefined();
+				try {
+					corner.setUndefined();
+				} catch (ConcurrentModificationException e) {
+					Log.error("problem with Corner()" + e.getMessage());
+				}
 				return;
 			}
 			ev = app.getEuclidianView2(1);
