@@ -238,6 +238,11 @@ public abstract class GeoCurveCartesianND extends GeoElement
 			StringBuilder sbTemp = new StringBuilder(80);
 
 			sbTemp.setLength(0);
+
+			// needed for c*c -> dot product in CAS
+			if (tpl.hasCASType()) {
+				sbTemp.append("point(");
+			}
 			sbTemp.append('(');
 
 			for (int i = 0; i < fun.length; i++) {
@@ -252,6 +257,9 @@ public abstract class GeoCurveCartesianND extends GeoElement
 				}
 			}
 
+			if (tpl.hasCASType()) {
+				sbTemp.append(')');
+			}
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
