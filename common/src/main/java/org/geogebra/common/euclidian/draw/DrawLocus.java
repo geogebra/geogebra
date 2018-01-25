@@ -31,10 +31,12 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoLocusND;
+import org.geogebra.common.kernel.geos.GeoPenStroke;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.GeoClass;
 
 /**
  * Drawable representation of locus
@@ -143,7 +145,9 @@ public class DrawLocus extends Drawable {
 		}
 
 		if (geo.getKernel().getApplication().has(
-				Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL) && getBounds() != null) {
+				Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)
+				&& geo.getGeoClassType() == GeoClass.PENSTROKE
+				&& getBounds() != null) {
 			getBoundingBox().setRectangle(getBounds());
 		}
 	}
@@ -274,8 +278,9 @@ public class DrawLocus extends Drawable {
 	@Override
 	final public GRectangle getBounds() {
 		if (!geo.isDefined()
-				|| (!locus.isClosedPath() && !geo.getKernel().getApplication()
-						.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL))
+				|| (!locus.isClosedPath() && (!geo.getKernel().getApplication()
+						.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)
+						|| geo.getGeoClassType() != GeoClass.PENSTROKE))
 				|| !geo.isEuclidianVisible() || gp == null) {
 			return null;
 		}
