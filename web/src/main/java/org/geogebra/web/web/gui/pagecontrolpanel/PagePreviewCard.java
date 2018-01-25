@@ -41,12 +41,7 @@ import com.google.gwt.user.client.ui.Image;
  *
  */
 public class PagePreviewCard extends FlowPanel implements DragStartHandler,
-DragOverHandler, DragLeaveHandler, DropHandler, SetLabels {
-
-	public interface ReorderListener {
-		void reorder(int srcIdx, int destIdx);
-	}
-	
+		DragOverHandler, DragLeaveHandler, DropHandler, SetLabels {
 	private static final int LABELFONT_SIZE = 16;
 	private AppW app;
 	private Localization loc;
@@ -70,7 +65,10 @@ DragOverHandler, DragLeaveHandler, DropHandler, SetLabels {
 	private HandlerRegistration hrDragLeave=null;
 	private HandlerRegistration hrDrop=null;
 	private ReorderListener reorderListener =null;
-	
+
+	public interface ReorderListener {
+		void reorder(int srcIdx, int destIdx);
+	}
 	/**
 	 * @param app
 	 *            parent application
