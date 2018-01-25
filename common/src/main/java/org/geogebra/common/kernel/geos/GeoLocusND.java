@@ -293,6 +293,9 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	private double updatePointsX(EuclidianBoundingBoxHandler handler,
 			int eventX, GRectangle2D gRectangle2D) {
+		if (nonScaledWidth == 0) {
+			return 0;
+		}
 		double newMinX;
 		boolean atLeft = atLeft(handler);
 		if (Double.isNaN(fixedX)) {
@@ -321,15 +324,20 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 
 	private void updatePointsY(EuclidianBoundingBoxHandler handler,
 			int eventY, GRectangle2D gRectangle2D, double newWidth) {
+		if (nonScaledHeight == 0) {
+			return;
+		}
 		if (Double.isNaN(fixedY)) {
 			setFixedY(handler, gRectangle2D);
 		}
 		double newHeight;
 		if (Double.isNaN(ratio)) {
-			newHeight = (fixedY - eventY);
+			newHeight = fixedY - eventY;
 			if (handler == EuclidianBoundingBoxHandler.BOTTOM) {
 				newHeight *= -1;
 			}
+		} else if (nonScaledWidth == 0) {
+			newHeight = eventY - fixedY;
 		} else if (Math.abs(newWidth) < 1) {
 			return;
 		} else {
