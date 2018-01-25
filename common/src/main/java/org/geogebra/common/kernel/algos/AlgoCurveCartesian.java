@@ -163,7 +163,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 
 		// take care to set the curve undefined
 		// if its predecessors are undefined
-		for (int i = 0; i <= 1; i++) {
+		for (int i = 0; i < coords.length; i++) {
 			AlgoElement algo = null;
 			if (coords[i].toGeoElement() != null) {
 				algo = (coords[i].toGeoElement()).getParentAlgorithm();
