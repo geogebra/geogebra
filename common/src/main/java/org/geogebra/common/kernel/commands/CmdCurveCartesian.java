@@ -61,6 +61,7 @@ public class CmdCurveCartesian extends CommandProcessor {
 
 				return ret;
 			}
+			throw argErr(getBadArg(ok, arg), c);
 		case 5:
 			// create local variable at position 2 and resolve arguments
 			arg = resArgsLocalNumVar(c, 2, 3);
@@ -85,12 +86,8 @@ public class CmdCurveCartesian extends CommandProcessor {
 
 				return ret;
 			}
-			for (int i = 0; i < n; i++) {
-				if (!ok[i]) {
-					throw argErr(app, c, arg[i]);
-				}
-			}
 
+			throw argErr(getBadArg(ok, arg), c);
 		default:
 			throw argNumErr(c);
 		}
