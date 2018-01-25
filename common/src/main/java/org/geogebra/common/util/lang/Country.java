@@ -499,38 +499,10 @@ public enum Country {
 
 	private Country(String iso, String name) {
 		this.iso = iso;
-		this.name = name;
 	}
 
 	public String getISO() {
 		return iso;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public static Country getCountry(String iso) {
-
-		if (iso == null || iso.length() < 2) {
-			return defaultCountry;
-		}
-
-		Country[] v = values();
-		for (int i = 0; i < v.length; i++) {
-			if (v[i].iso.equalsIgnoreCase(iso.substring(0, 2))) {
-
-				return v[i];
-			}
-		}
-
-		return defaultCountry;
-
-	}
-
-	@Override
-	public String toString() {
-		return name;
 	}
 
 }

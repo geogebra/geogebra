@@ -2,7 +2,6 @@ package org.geogebra.resources;
 
 import java.net.URL;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -38,20 +37,6 @@ public class ResourceAvailability {
 			}
 			URL url = ResourceAvailability.class.getResource(fn);
 			Assert.assertNotNull("" + res, url);
-		}
-	}
-
-	@Test
-	public void checkFlagIcons() {
-		ImageManagerD man = new ImageManagerD(new JPanel());
-		for (Country country : Country.values()) {
-			if (!hasFlag(country)) {
-				continue;
-			}
-			ImageIcon res = man.getFlagIcon(country.getISO().toLowerCase()
-					+ ".png");
-
-			Assert.assertNotNull("" + country, res);
 		}
 	}
 

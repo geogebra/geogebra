@@ -123,6 +123,8 @@ public enum GuiResourcesD implements ImageResourceD {
 
 	INFO("/gui/images/64px/info.gif"),
 
+	LANGUAGE("/gui/images/64px/preferences-locale.png"),
+
 	KEYBOARD("/gui/images/64px/keyboard.png"),
 
 	VIEW_PROPERTIES_16("/gui/images/64px/view-properties16.png"),

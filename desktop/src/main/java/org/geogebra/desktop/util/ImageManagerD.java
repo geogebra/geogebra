@@ -372,12 +372,6 @@ public class ImageManagerD extends ImageManager {
 		return new ImageResourceDImpl(path);
 	}
 
-	public ImageIcon getFlagIcon(String filename) {
-		return getImageIcon(
-				new ImageResourceDImpl("/gui/menubar/images/" + filename),
-				null);
-	}
-
 	public String getToolbarIconPath() {
 		if (getMaxIconSize() <= 32) {
 			return "/org/geogebra/common/icons_toolbar/p32/";

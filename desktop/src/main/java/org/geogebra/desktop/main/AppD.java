@@ -176,7 +176,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.debug.Log.LogDestination;
-import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.GeoGebra;
 import org.geogebra.desktop.awt.GBufferedImageD;
@@ -2006,38 +2005,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		MyImageD img = imageManager.getInternalImage(fileName);
 		int iconSize = getScaledIconSize();
 		return img.getImage().getScaledInstance(iconSize, iconSize, 0);
-	}
-
-	/**
-	 * Attempt to return a flag to represent the current language
-	 * 
-	 * Not always possible to return a sensible value as there is not a 1-1
-	 * correspondence between countries &amp; languages
-	 * 
-	 * @return
-	 * 
-	 */
-	public String getFlagName() {
-
-		String country = Language.getCountry(getLocale().getLanguage(),
-				getLocale().getCountry());
-
-		// http://stackoverflow.com/questions/10175658/is-there-a-simple-way-to-get-the-language-code-from-a-country-code-in-php
-		// http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
-
-		country = StringUtil.toLowerCaseUS(country);
-
-		String flag = country + ".png";
-
-		return flag;
-	}
-
-	public ImageIcon getScaledFlagIcon(String filename) {
-		ImageIcon icon = imageManager.getFlagIcon(filename);
-		if (isMacOS()) {
-			return icon;
-		}
-		return scaleIcon(icon, getScaledIconSize());
 	}
 
 	public ImageIcon getToolBarImage(String modeText, Color borderColor) {

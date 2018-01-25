@@ -8,7 +8,6 @@ import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
@@ -26,7 +25,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App.InputPosition;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
@@ -54,12 +52,8 @@ public class OptionsMenuD extends BaseMenu
 		// addMenuListener(this);
 	}
 
-	/**
-	 * Initialize the menu items.
-	 * 
-	 * @param flag
-	 */
-	void initItems(ImageIcon flag) {
+	@Override
+	protected void initItems() {
 
 		// G.Sturr 2009-10-18
 		// Algebra description: show value or definition of objects
@@ -87,44 +81,16 @@ public class OptionsMenuD extends BaseMenu
 		// Language
 		if (app.getLocalization().propertiesFilesPresent()) {
 
-			ImageIcon flagIcon;
-			final String flagName = app.getFlagName();
 
-			if (flag != null) {
-				flagIcon = flag;
-			} else {
-				Log.debug("using flag: " + flagName);
-				flagIcon = app.getScaledFlagIcon(flagName);
-
-			}
 
 			LanguageActionListener langListener = new LanguageActionListener(
 					app);
 			final JMenu submenuLang = new JMenu(loc.getMenu("Language"));
-			submenuLang.setIcon(flagIcon);
+			submenuLang.setIcon(app.getMenuIcon(GuiResourcesD.LANGUAGE));
 			addLanguageMenuItems(app, submenuLang, langListener);
 			add(submenuLang);
 
-			// check
-			if (flag == null) {
-				new Thread(new Runnable() {
-					@Override
-					public void run() {
 
-						String geoIPflagname = app.getFlagName();
-
-						// fake for testing
-
-						if (!geoIPflagname.equals(flagName)) {
-							Log.debug("updating flag to: " + geoIPflagname);
-
-							// rebuild menu with new flag
-							removeAll();
-							initItems(app.getScaledFlagIcon(geoIPflagname));
-						}
-					}
-				}).start();
-			}
 
 		}
 
@@ -362,10 +328,6 @@ public class OptionsMenuD extends BaseMenu
 		getOptionsMenu().processActionPerformed(cmd);
 	}
 
-	@Override
-	protected void initItems() {
-		initItems(null);
-	}
 
 	@Override
 	public void actionPerformed(String command) {
