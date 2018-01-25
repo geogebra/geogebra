@@ -4015,6 +4015,11 @@ public abstract class App implements UpdateSelection {
 			case MOB_IOS_APP_INIT_3D:
 				return prerelease;
 
+
+			// IGR-633
+			case MOB_IOS_EXAM_LOG_DIALOG:
+				return false;
+
             // **********************************************************************
             // MOBILE END
             // *********************************************************
