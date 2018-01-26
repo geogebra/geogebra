@@ -483,11 +483,11 @@ namespace giac {
   gen _warn_equal_in_prog(const gen & g,GIAC_CONTEXT){
     if (is_zero(g) && g.type!=_VECT){
       warn_equal_in_prog=false;
-      return string2gen("Warning disabled",false);
+      return string2gen(gettext("Warning disabled"),false);
     }
     if (is_one(g)){
       warn_equal_in_prog=true;
-      return string2gen("Warning enabled",false);
+      return string2gen(gettext("Warning enabled"),false);
     }
     return warn_equal_in_prog;
   }
@@ -518,7 +518,7 @@ namespace giac {
       return res;
     gen & f=g._SYMBptr->feuille;
     if (f.type!=_VECT || f._VECTptr->size()!=3)
-      return "// Invalid program";
+      return gettext("// Invalid program");
     vecteur & v =*f._VECTptr;
     vecteur vars=rm_checktype(gen2vecteur(v[0]),contextptr),res1,res2(1,undef),res3,res4;
     for (unsigned i=0;i<vars.size();++i){
@@ -937,7 +937,7 @@ namespace giac {
       if (it->is_symb_of_sommet(at_sto) || it->is_symb_of_sommet(at_check_type) || it->is_symb_of_sommet(at_equal)) // FIXME check 1st arg too
 	continue;
       if (it->is_symb_of_sommet(at_of)){
-	*logptr(contextptr) << "Invalid argument name " << *it << ". You should use " << it->_SYMBptr->feuille._VECTptr->front() << " instead, even if the argument should be of type function" << endl;
+	*logptr(contextptr) << gettext("Invalid argument name ") << *it << gettext(". You should use ") << it->_SYMBptr->feuille._VECTptr->front() << gettext(" instead, even if the argument should be of type function") << endl;
 	*it=it->_SYMBptr->feuille._VECTptr->front();
       }
       if (it->is_symb_of_sommet(at_deuxpoints)){
@@ -1038,7 +1038,7 @@ namespace giac {
     if (v1.empty())
       newb=b;
     else {
-      *logptr(contextptr) << "Invalid or typed variable(s) name(s) were replaced by creating special identifiers, check " << v1 << endl;
+      *logptr(contextptr) << gettext("Invalid or typed variable(s) name(s) were replaced by creating special identifiers, check ") << v1 << endl;
       newb=quotesubst(b,v1,v2,contextptr);
     }
   }
@@ -1094,7 +1094,7 @@ namespace giac {
 	}
       }
       if (!non_decl.empty()){
-	*logptr(contextptr) << "Auto-declared local variables : " << gen(non_decl,_SEQ__VECT) << endl;
+	*logptr(contextptr) << gettext("Auto-declared local variables : ") << gen(non_decl,_SEQ__VECT) << endl;
 	newc=symb_local(non_decl,newc,contextptr);
       }
     }
@@ -1966,7 +1966,7 @@ namespace giac {
       if (maplemode>0){// pb for generic loops for Maple translation
 	gen inc=from_increment(*(it+2));
 	if ( (it->type!=_SYMB) || (it->_SYMBptr->sommet!=at_sto) || (inc.type!=_SYMB) || inc._SYMBptr->sommet!=at_sto || (it->_SYMBptr->feuille._VECTptr->back()!=inc._SYMBptr->feuille._VECTptr->back()) )
-	  return "Maple/Mupad/TI For: unable to convert";
+	  return gettext("Maple/Mupad/TI For: unable to convert");
 	gen var_name=it->_SYMBptr->feuille._VECTptr->back();
 	gen step=normal(inc._SYMBptr->feuille._VECTptr->front()-var_name,contextptr);
 	gen condition=*(it+1),limite=plus_inf;
@@ -2430,7 +2430,7 @@ namespace giac {
 #endif
 	      if (ctrl_c || interrupted || (res.type==_STRNG && res.subtype==-1)){
 		interrupted = true; ctrl_c=false;
-		*logptr(contextptr) << "Stopped in loop" << endl;
+		*logptr(contextptr) << gettext("Stopped in loop") << endl;
 		gensizeerr(gettext("Stopped by user interruption."),res);
 		break;
 	      }
@@ -4432,7 +4432,7 @@ namespace giac {
       return printsommetasoperator(feuille,sommetstr,contextptr);
     if (s==3)
       return v[0].print(contextptr)+sommetstr+v[1].print(contextptr)+" in "+v[2].print(contextptr);
-    return "error";
+    return gettext("error");
   }
   gen symb_dollar(const gen & args){
     return symbolic(at_dollar,args);
@@ -5757,7 +5757,7 @@ namespace giac {
       return xcas_mode(contextptr);
     xcas_mode(contextptr)=args.val & 0xff;
     python_compat(args.val>=256,contextptr);
-    return string2gen("Warning: some commands like subs might change arguments order",false);
+    return string2gen(gettext("Warning: some commands like subs might change arguments order"),false);
   }
   static const char _xcas_mode_s []="xcas_mode";
   static define_unary_function_eval (__xcas_mode,&_xcas_mode,_xcas_mode_s);
@@ -6976,14 +6976,14 @@ namespace giac {
       if (g.type==_MAP){
 	if (f==at_matrix || f==at_vector){
 	  if (g.subtype==_SPARSE_MATRIX)
-	    *logptr(contextptr) << "Run convert(matrix,array) for dense conversion" << endl;
+	    *logptr(contextptr) << gettext("Run convert(matrix,array) for dense conversion") << endl;
 	  g.subtype=_SPARSE_MATRIX;
 	  return g;
 	}
 	if (f==at_array){
 	  vecteur res;
 	  if (!convert(*g._MAPptr,res))
-	    return gensizeerr("Invalid map");
+	    return gensizeerr(gettext("Invalid map"));
 	  return res;
 	}
 	if (f==at_table){
@@ -8027,7 +8027,7 @@ namespace giac {
   */
   static string printastilocal(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if ( (feuille.type!=_VECT) || (feuille._VECTptr->size()!=2) )
-      return "invalid |";
+      return gettext("invalid |");
     return string("(")+feuille._VECTptr->front().print(contextptr)+string("|")+feuille._VECTptr->back().print(contextptr)+')';
   }
   gen _tilocal(const gen & args,const context * contextptr){
@@ -8726,7 +8726,7 @@ namespace giac {
   
   static string printasmaple_lib(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if (feuille.type!=_VECT || feuille._VECTptr->size()!=2)
-      return "Error printasmaple_lib";
+      return gettext("Error printasmaple_lib");
     vecteur & v=*feuille._VECTptr;
     return v[0].print(contextptr)+"["+v[1].print(contextptr)+"]";
   }
@@ -9931,7 +9931,7 @@ namespace giac {
   }
   string printasunit(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if (feuille.type!=_VECT || feuille._VECTptr->size()!=2)
-      return "printasunit error";
+      return gettext("printasunit error");
     vecteur & v=*feuille._VECTptr;
     vecteur v1(lidnt(v[1]));
     vecteur w(v1);
@@ -10097,7 +10097,7 @@ namespace giac {
     vecteur & v=*g._VECTptr;
     // int s=signed(v.size());
     if (v[0].type!=_STRNG)
-      return string2gen("Operator name must be of type string",false);
+      return string2gen(gettext("Operator name must be of type string"),false);
     string & ss=*v[0]._STRNGptr;
     vector<unary_function_ptr>::iterator it=user_operator_list.begin(),itend=user_operator_list.end();
     for (;it!=itend;++it){
@@ -10448,7 +10448,9 @@ namespace giac {
     if (a.type==_IDNT){
       gen tmp=eval(a,1,contextptr);
       if (tmp.type==_VECT && b.type==_SYMB){
-	if (b._SYMBptr->sommet==at_append){
+	// check tmp size, workaround for progs with l:=[]; l.append(1);
+	// where the code would self modify itself
+	if (b._SYMBptr->sommet==at_append && tmp._VECTptr->size()>3){
 	  tmp._VECTptr->push_back(eval(b._SYMBptr->feuille,eval_level(contextptr),contextptr));
 	  return tmp;
 	}
@@ -10493,7 +10495,7 @@ namespace giac {
     if (!is_integer(test))
       test=test.evalf_double(evallevel,contextptr);
     if (!is_integral(test) || test.val!=1)
-      return gensizeerr("assert failure: "+args.print(contextptr));
+      return gensizeerr(gettext("assert failure: ")+args.print(contextptr));
     return 1;
   }
   static const char _giac_assert_s []="assert";
