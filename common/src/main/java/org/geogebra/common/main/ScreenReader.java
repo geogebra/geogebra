@@ -44,9 +44,7 @@ public class ScreenReader {
 		} else {
 			sb.append(caption);
 		}
-		if (geo0.isEuclidianShowable() && !geo0.isEuclidianVisible()) {
-			sb.append(getNotVisibleText(app));
-		}
+
 		if (app.has(Feature.HELP_AND_SHORTCUTS)) {
 			if (geo0.isEuclidianShowable()) {
 				if (app.getGuiManager() != null
@@ -109,10 +107,5 @@ public class ScreenReader {
 		sb.append(" ");
 		sb.append(app.getLocalization().getMenu(string));
 		sb.append(".");
-	}
-
-	private static String getNotVisibleText(App app) {
-		Localization loc = app.getLocalization();
-		return loc.getMenu("not visible");
 	}
 }

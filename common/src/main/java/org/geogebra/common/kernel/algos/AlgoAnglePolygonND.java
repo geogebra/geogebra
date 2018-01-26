@@ -110,7 +110,7 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 
 	@Override
 	public final void compute() {
-		int length = poly.getPoints().length;
+		int length = poly.getPoints() == null ? 0 : poly.getPoints().length;
 		int dir = !internalAngle || poly.getAreaWithSign() > 0
 								? 1 : length - 1;
 		outputAngles.adjustOutputSize(length > 0 ? length : 1);

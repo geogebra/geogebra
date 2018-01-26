@@ -169,7 +169,8 @@ public class AlgebraOutputPanel extends FlowPanel {
 			valuePanel.add(valCanvas);
 		} else {
 			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
-			if (AlgebraItem.needsPacking(geo1)) {
+			if (AlgebraItem.needsPacking(geo1) && geo1.getKernel()
+					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
 				valuePanel.add(new HTML(sb.toString()));
 			}else{

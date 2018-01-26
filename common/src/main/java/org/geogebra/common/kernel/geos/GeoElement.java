@@ -8540,6 +8540,7 @@ public abstract class GeoElement extends ConstructionElement
 		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
 				&& getParentAlgorithm() != null
 				&& getParentAlgorithm().getOutput(0) != this
+				&& kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DESCRIPTION
 				&& kernel.getApplication().getSettings().getAlgebra()
 						.getTreeMode() == SortMode.ORDER) {
 			return DescriptionMode.VALUE;

@@ -121,10 +121,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	protected static final int LATEX_MAX_EDIT_LENGHT = 1500;
 
-	static final String CLEAR_COLOR_STR = GColor
-			.getColorString(GColor.newColor(255, 255, 255, 0));
-	static final String CLEAR_COLOR_STR_BORDER = GColor
-			.getColorString(GColor.newColor(220, 220, 220));
 	Boolean stylebarShown;
 	/** Help popup */
 	protected InputBarHelpPopup helpPopup;
@@ -414,11 +410,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					StringTemplate.latexTemplate);
 			definitionFromTeX(text);
 		} else if (geo != null) {
-
 			IndexHTMLBuilder sb = getBuilder(definitionPanel);
-			geo.addLabelTextOrHTML(
+			if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
+				geo.addLabelTextOrHTML(geo.getDefinitionDescription(
+						StringTemplate.defaultTemplate), sb);
+			} else {
+				geo.addLabelTextOrHTML(
 					geo.getDefinition(StringTemplate.defaultTemplate), sb);
-
+			}
 		}
 		return true;
 	}
@@ -446,16 +445,21 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	private void buildItemContent() {
-		if (isDefinitionAndValue()) {
+		if (mayNeedOutput()) {
 			if (controller.isEditing() || geo == null) {
 				return;
 			}
-			if ((geo.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+			if ((AlgebraItem.shouldShowOutputRowForAlgebraStyle(geo,
+					kernel.getAlgebraStyle())
 					&& !isLatexTrivial()) || lastTeX != null) {
 				buildItemWithTwoRows();
 				updateItemColor();
 			} else {
-				buildItemWithSingleRow();
+				if (isDefinitionAndValue()) {
+					buildItemWithSingleRow();
+				} else {
+					buildPlainTextItem();
+				}
 			}
 			controls.updateSuggestions(geo);
 
@@ -464,7 +468,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 
 		adjustToPanel(content);
-
 	}
 
 	Suggestion needsSuggestions(GeoElement geo1) {
@@ -690,7 +693,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		// check for new LaTeX
 		boolean latexAfterEdit = false;
 
-		if (!isDefinitionAndValue() && outputPanel != null) {
+		if (!mayNeedOutput() && outputPanel != null) {
 			content.remove(outputPanel);
 
 		}
@@ -860,6 +863,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected boolean isDefinitionAndValue() {
 		return kernel
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE;
+	}
+
+	protected boolean mayNeedOutput() {
+		return kernel
+				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
+				|| kernel
+						.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION;
 	}
 
 	private static boolean isMoveablePoint(GeoElement point) {
@@ -2161,7 +2171,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			controls.updateAnimPanel();
 		}
 
-		if (!isInputTreeItem() && isDefinitionAndValue()) {
+		if (!isInputTreeItem() && mayNeedOutput()) {
 			buildItemContent();
 		} else {
 			updateTextItems();
