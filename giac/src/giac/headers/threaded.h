@@ -1218,7 +1218,9 @@ namespace giac {
 	// using heap of chains
 	// std::vector< vector_size64< std::pair<unsigned,unsigned> > > vindex(v1s);
 	std::vector< std::vector< std::pair<unsigned,unsigned> > > vindex(v1s);
+#ifdef HEAP_STATS
 	double count1=0,count2=0,total=double(v1s)*v2s;
+#endif
 	U_unsigned<U> * heap = new U_unsigned<U>[v1s] ; // pointers to v2 monomials
 	U_unsigned<U> * heap0, *heapbeg=heap,* heapend=heap+v1s;
 	for (it1=it1beg,heap0=heap;heap0!=heapend;++heap0,++it1){
@@ -2293,6 +2295,7 @@ namespace giac {
     if (u<v) 
       return true;
     return false;
+    /*
     // the code below is too slow
     std::vector<int>::const_iterator it=varsshift.begin(),itend=varsshift.end();
     for (;it!=itend;++it){
@@ -2305,6 +2308,7 @@ namespace giac {
       v -= (v1 << shift);
     }
     return false;
+    */
   }
 
   // #define HEAP_STATS
