@@ -278,4 +278,39 @@ public class PageListController implements PageListControllerInterface {
 		updatePageIndexes(Math.min(srcIdx, destIdx));
 		
 	}
+
+	/**
+	 * Find card at given coordinates.
+	 * @param x client coordinate.
+	 * @param y client coordinate.
+	 * @return the card if any at (x, y), null otherwise.
+	 */
+	public PagePreviewCard findCardAt(int x, int y) {
+		for (PagePreviewCard card: slides) {
+			if (card.isHit(x, y)) {
+				return card;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Drop the card indexed by srcIdx to position x,y.
+	 * @param x coordinate.
+	 * @param y coordinate.
+	 * @param srcIdx the card index to drop.
+	 * @return if the drop was successful or not.
+	 */
+	public boolean dropTo(int x, int y, int srcIdx) {
+		PagePreviewCard card = findCardAt(x,y);
+		if (card != null) {
+			Log.debug("drag: " + srcIdx + " drop to " + card.getPageIndex());
+
+			reorder(srcIdx, card.getPageIndex());
+			return true;
+		} 
+		
+		Log.debug("card was not hit");
+		return false;
+	}
 }

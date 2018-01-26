@@ -20,6 +20,9 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.dom.client.Style.Position;
+import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.DragEnterEvent;
 import com.google.gwt.event.dom.client.DragEnterHandler;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
@@ -30,6 +33,12 @@ import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -41,7 +50,14 @@ import com.google.gwt.user.client.ui.Image;
  *
  */
 public class PagePreviewCard extends FlowPanel implements DragStartHandler,
-		DragOverHandler, DragLeaveHandler, DropHandler, SetLabels {
+DragOverHandler, DragLeaveHandler, DropHandler,
+TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
+
+	public interface ReorderListener {
+		void reorder(int srcIdx, int destIdx);
+		void dropTo(int x, int y, int pageIndex);
+	}
+	
 	private static final int LABELFONT_SIZE = 16;
 	private AppW app;
 	private Localization loc;
@@ -64,11 +80,11 @@ public class PagePreviewCard extends FlowPanel implements DragStartHandler,
 	private HandlerRegistration hrDragOver=null;
 	private HandlerRegistration hrDragLeave=null;
 	private HandlerRegistration hrDrop=null;
+	private HandlerRegistration hrTouchStart=null;
+	private HandlerRegistration hrTouchMove=null;
+	private HandlerRegistration hrTouchEnd=null;
 	private ReorderListener reorderListener =null;
 
-	public interface ReorderListener {
-		void reorder(int srcIdx, int destIdx);
-	}
 	/**
 	 * @param app
 	 *            parent application
@@ -86,10 +102,14 @@ public class PagePreviewCard extends FlowPanel implements DragStartHandler,
 		initGUI();
 		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
 			getElement().setAttribute("draggable", "true");
-			addDragStartHandler(this);
-			addDragOverHandler(this);
-			addDragLeaveHandler(this);
-			addDropHandler(this);
+//			addDragStartHandler(this);
+//			addDragOverHandler(this);
+//			addDragLeaveHandler(this);
+//			addDropHandler(this);
+			
+			addTouchStartHandler(this);
+			addTouchMoveHandler(this);
+			addTouchEndHandler(this);
 		}
 	}
 
@@ -316,6 +336,18 @@ public class PagePreviewCard extends FlowPanel implements DragStartHandler,
 		hrDragEnter = addDomHandler(handler, DragEnterEvent.getType());
 	}
 
+	public void addTouchStartHandler(TouchStartHandler handler) {
+		hrTouchStart = addDomHandler(handler, TouchStartEvent.getType());
+	}
+
+	public void addTouchMoveHandler(TouchMoveHandler handler) {
+		hrTouchMove = addDomHandler(handler, TouchMoveEvent.getType());
+	}
+	
+	public void addTouchEndHandler(TouchEndHandler handler) {
+		hrTouchEnd = addDomHandler(handler, TouchEndEvent.getType());
+	}
+	
 	public void removeDragNDrop() {
 		if (hrDragStart != null) {
 			hrDragStart.removeHandler();
@@ -335,6 +367,18 @@ public class PagePreviewCard extends FlowPanel implements DragStartHandler,
 
 		if (hrDragEnter != null) {
 			hrDragEnter.removeHandler();
+		}
+		
+		if (hrTouchStart != null) {
+			hrTouchStart.removeHandler();
+		}
+		
+		if (hrTouchMove != null) {
+			hrTouchMove.removeHandler();
+		}
+		
+		if (hrTouchEnd != null) {
+			hrTouchEnd.removeHandler();
 		}
 	}
 
@@ -384,6 +428,61 @@ public class PagePreviewCard extends FlowPanel implements DragStartHandler,
 
 	public void setReorderListener(ReorderListener reorderListener) {
 		this.reorderListener = reorderListener;
+	}
+
+	@Override
+	public void onTouchStart(TouchStartEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+		getElement().getStyle().setPosition(Position.ABSOLUTE);
+		dragCard = this;
+		setDragPosition(event.getTargetTouches().get(0));
+	}
+	
+	@Override
+	public void onTouchMove(TouchMoveEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+		if (dragCard == null) {
+			return;
+		}
+		
+		setDragPosition(event.getTargetTouches().get(0));
+	}
+
+
+	@Override
+	public void onTouchEnd(TouchEndEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+		if (dragCard == null) {
+			return;
+		}
+		dragCard.getElement().getStyle().clearPosition();
+		if (reorderListener != null && dragCard != null) {
+			Touch t = event.getTargetTouches().get(0);
+			if (t == null) {
+				t = event.getChangedTouches().get(0);
+			}
+			int x = t.getClientX();
+			int y = t.getClientY();
+			reorderListener.dropTo(x, y, dragCard.getPageIndex());
+		}
+		dragCard = null;
+	}
+	
+	private void setDragPosition(Touch t) {
+		int x = t.getClientX() - getParent().getAbsoluteLeft();
+		int y = t.getClientY() - getParent().getAbsoluteTop();
+		
+		getElement().getStyle().setLeft(x - getOffsetWidth() / 2, Unit.PX);
+		getElement().getStyle().setTop(y - getOffsetHeight() / 2, Unit.PX);
+	}
+
+	public boolean isHit(int x, int y) {
+		return (x > getAbsoluteLeft() && y > getAbsoluteTop()
+				&& x < getAbsoluteLeft() + getOffsetWidth()
+				&& y < getAbsoluteTop() + getOffsetHeight());
 	}
 }
 

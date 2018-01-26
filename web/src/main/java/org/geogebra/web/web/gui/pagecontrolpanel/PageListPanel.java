@@ -318,4 +318,13 @@ public class PageListPanel
 		pageController.reorder(srcIdx, destIdx);
 		update();
 	}
-	}	
+
+	@Override
+	public void dropTo(int x, int y, int pageIndex) {
+		if (pageController.dropTo(x, y, pageIndex)) {
+			update();
+		}
+		
+		
+	}
+}	
