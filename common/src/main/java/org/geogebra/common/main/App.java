@@ -4013,7 +4013,7 @@ public abstract class App implements UpdateSelection {
 
 		// IGR-655
 		case MOB_IOS_APP_INIT_3D:
-			return prerelease;
+			return true;
 
 		// IGR-633
 		case MOB_IOS_EXAM_LOG_DIALOG:
