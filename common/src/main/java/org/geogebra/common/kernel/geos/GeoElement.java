@@ -5301,14 +5301,9 @@ public abstract class GeoElement extends ConstructionElement
 	public String getAlgebraDescriptionDefault() {
 		if (strAlgebraDescriptionNeedsUpdate) {
 			if (isDefined()) {
-				if (this instanceof GeoPoint) {
-					strAlgebraDescription = ((GeoPoint) this)
-							.toStringDescription(
-									StringTemplate.algebraTemplate);
-				} else {
-					strAlgebraDescription = toString(
+				strAlgebraDescription = toString(
 							StringTemplate.algebraTemplate);
-				}
+
 				kernel.getAlgebraProcessor().setDisableGcd(false);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();

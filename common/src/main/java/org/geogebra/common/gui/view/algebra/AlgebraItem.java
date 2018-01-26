@@ -212,10 +212,6 @@ public class AlgebraItem {
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder) {
 		int avStyle = geo1.getKernel().getAlgebraStyle();
-		if (geo1.isIndependent() && geo1.getDefinition() == null) {
-			geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
-			return true;
-		}
 		if (geo1.isIndependent() && geo1.isGeoPoint()
 				&& avStyle == Kernel.ALGEBRA_STYLE_DESCRIPTION
 				&& geo1.getKernel().getApplication()
@@ -223,6 +219,10 @@ public class AlgebraItem {
 			builder.clear();
 			builder.append(((GeoPointND) geo1)
 					.toStringDescription(StringTemplate.defaultTemplate));
+			return true;
+		}
+		if (geo1.isIndependent() && geo1.getDefinition() == null) {
+			geo1.getAlgebraDescriptionTextOrHTMLDefault(builder);
 			return true;
 		}
 		switch (avStyle) {
