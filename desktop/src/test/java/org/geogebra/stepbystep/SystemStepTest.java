@@ -44,6 +44,7 @@ public class SystemStepTest {
     @Test
     public void quadraticLinear() {
         t(new String[] { "3x + 2y = 1", "x^2 + y^2 = 1"}, new String[] {});
+        t(new String[] { "x^2 + y^2 + z^2 = 9", "x + y = 2", "y + z = 3"}, new String[] {});
     }
 
     public void t(String[] equations, String[] expectedSolutions) {

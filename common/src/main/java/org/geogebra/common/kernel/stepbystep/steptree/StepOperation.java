@@ -68,10 +68,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				return false;
 			}
 
-			StepOperation copyOfThis = this.deepCopy();
-			copyOfThis.sort();
-			StepOperation copyOfThat = so.deepCopy();
-			copyOfThat.sort();
+			StepOperation copyOfThis = deepCopy().sort();
+			StepOperation copyOfThat = so.deepCopy().sort();
 
 			return copyOfThis.exactEquals(copyOfThat);
 		}
@@ -81,9 +79,9 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	/**
 	 * Sorts the operands, recursively, so things like 3*4+5 and 5+4*3 will be equal.
-	 * The actual order is not important - only consistency. That is why hashCode is okay for this/
+	 * The actual order is not important - only consistency. That is why hashCode is okay for this
 	 */
-	private void sort() {
+	public StepOperation sort() {
 		for (StepExpression operand : this) {
 			if (operand instanceof StepOperation) {
 				((StepOperation) operand).sort();
@@ -98,6 +96,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				}
 			});
 		}
+
+		return this;
 	}
 
 	private boolean exactEquals(StepOperation so) {
@@ -109,6 +109,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			}
 			return true;
 		}
+
 		return false;
 	}
 
@@ -396,8 +397,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 					sp.append(" ");
 				}
 
-				boolean parantheses = operands.get(i).isOperation(Operation.PLUS)
-						&& !operands.get(i).isOperation(Operation.MINUS) || (i != 0 && operands.get(i).isNegative());
+				boolean parantheses = operands.get(i).isOperation(Operation.PLUS) || operands.get(i).isNegative();
 
 				if (parantheses) {
 					sp.append("\\left(");
@@ -472,8 +472,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	}
 
 	private static boolean requiresPlus(StepExpression a) {
-		return !a.isNegative() && !a.isOperation(Operation.PLUSMINUS)
-				&& (!a.isOperation(Operation.MULTIPLY) || requiresPlus(((StepOperation) a).getOperand(0)));
+		return !a.isOperation(Operation.MINUS) && !a.isOperation(Operation.PLUSMINUS);
 	}
 
 	private static boolean requiresDot(StepExpression a, StepExpression b) {
@@ -486,8 +485,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	public StepOperation deepCopy() {
 		StepOperation so = new StepOperation(operation);
 		so.color = color;
-		for (int i = 0; i < noOfOperands(); i++) {
-			so.addOperand(getOperand(i).deepCopy());
+		for (StepExpression operand : operands) {
+			so.addOperand(operand.deepCopy());
 		}
 		return so;
 	}
@@ -500,8 +499,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 		if (isOperation(Operation.MULTIPLY)) {
 			StepOperation coefficient = new StepOperation(Operation.MULTIPLY);
-			for (int i = 0; i < noOfOperands(); i++) {
-				coefficient.addOperand(getOperand(i).getCoefficientIn(sv));
+			for (StepExpression operand : operands) {
+				coefficient.addOperand(operand.getCoefficientIn(sv));
 			}
 			if (coefficient.noOfOperands() == 0) {
 				return null;
@@ -531,8 +530,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 		if (isOperation(Operation.MULTIPLY)) {
 			StepOperation variable = new StepOperation(Operation.MULTIPLY);
-			for (int i = 0; i < noOfOperands(); i++) {
-				variable.addOperand(getOperand(i).getVariableIn(sv));
+			for (StepExpression operand : operands) {
+				variable.addOperand(operand.getVariableIn(sv));
 			}
 			if (variable.noOfOperands() == 0) {
 				return null;
@@ -563,8 +562,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			return result;
 		case MULTIPLY:
 			StepOperation coefficient = new StepOperation(Operation.MULTIPLY);
-			for (int i = 0; i < noOfOperands(); i++) {
-				coefficient.addOperand(getOperand(i).getIntegerCoefficient());
+			for (StepExpression operand : operands) {
+				coefficient.addOperand(operand.getIntegerCoefficient());
 			}
 			if (coefficient.noOfOperands() == 0) {
 				return null;
@@ -588,8 +587,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			return getOperand(0).getNonInteger();
 		case MULTIPLY:
 			StepOperation variable = new StepOperation(Operation.MULTIPLY);
-			for (int i = 0; i < noOfOperands(); i++) {
-				variable.addOperand(getOperand(i).getNonInteger());
+			for (StepExpression operand : operands) {
+				variable.addOperand(operand.getNonInteger());
 			}
 			if (variable.noOfOperands() == 0) {
 				return null;

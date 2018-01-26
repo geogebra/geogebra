@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import java.util.List;
 
+import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
@@ -105,10 +106,10 @@ public abstract class StepExpression extends StepNode {
 	}
 
 	/**
-	 * @return whether the current node is an integer (not Integer..)
+	 * @return whether the current node is an integer
 	 */
 	public boolean isInteger() {
-		return canBeEvaluated() && isEqual(Math.round(getValue()), getValue());
+		return nonSpecialConstant() && isEqual(Math.round(getValue()), getValue());
 	}
 
 	/**
@@ -143,8 +144,8 @@ public abstract class StepExpression extends StepNode {
 				return minus(so.getOperand(0).findExpression(expr));
 			} else if (so.isOperation(Operation.PLUS)) {
 				StepExpression found = null;
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					found = add(found, so.getOperand(i).findExpression(expr));
+				for (StepExpression operand : so) {
+					found = add(found, operand.findExpression(expr));
 				}
 				return found;
 			} else if (so.isOperation(Operation.DIVIDE) && so.getOperand(1).isConstant()) {
@@ -275,6 +276,179 @@ public abstract class StepExpression extends StepNode {
 		}
 
 		return 0;
+	}
+
+
+	public StepExpression getPower() {
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			if (so.isOperation(Operation.POWER)) {
+				return so.getOperand(1);
+			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)
+					|| so.isOperation(Operation.MINUS)) {
+				StepExpression power = null;
+				for (StepExpression operand : so) {
+					power = StepHelper.GCD(power, operand.getPower());
+				}
+				return power;
+			}
+		}
+
+		return null;
+	}
+
+	public boolean isPower() {
+		return isConstant() || getPower() != null;
+	}
+
+	/**
+	 * Check if this contains expr
+	 * for example 3+2+1 contains 1+3
+	 * and
+	 * @param expr expression to check
+	 * @return whether this contains expr
+	 */
+	public boolean containsExpression(StepExpression expr) {
+		if (equals(expr) || !isZero(this) && integerDivisible(expr)) {
+			return true;
+		}
+
+		if (isOperation(Operation.PLUS) && expr.isOperation(Operation.PLUS)) {
+			StepOperation sortedA = ((StepOperation) deepCopy()).sort();
+			StepOperation sortedB = ((StepOperation) expr.deepCopy()).sort();
+
+			int j = 0;
+			for (StepExpression operand : sortedA) {
+				if (j < sortedB.noOfOperands() && operand.equals(sortedB.getOperand(j))) {
+					j++;
+				}
+			}
+			return j == sortedB.noOfOperands();
+		}
+
+		if (isOperation(Operation.MULTIPLY) && expr.isOperation(Operation.MULTIPLY)) {
+			if (getIntegerCoefficient() != null && !getIntegerCoefficient().integerDivisible(expr.getIntegerCoefficient())) {
+				return false;
+			}
+
+			StepOperation sortedA = ((StepOperation) getNonInteger().deepCopy()).sort();
+			StepOperation sortedB = ((StepOperation) expr.getNonInteger().deepCopy()).sort();
+
+			int j = 0;
+			for (StepExpression operand : sortedA) {
+				if (j < sortedB.noOfOperands() && operand.equals(sortedB.getOperand(j))) {
+					j++;
+				}
+			}
+			return j == sortedB.noOfOperands();
+		}
+
+		if (isOperation(Operation.PLUS) || isOperation(Operation.MULTIPLY)) {
+			for (StepExpression operand : (StepOperation) this) {
+				if (operand.equals(expr)) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		if (isOperation(Operation.MINUS)) {
+			return ((StepOperation) this).getOperand(0).containsExpression(expr);
+		}
+
+		return false;
+	}
+
+	/**
+	 * this = se * quotient(se) + remainder(se)
+	 * simple example: 4a + 4b + 3 = 4(a + b) * 3,
+	 * so (4a + 4b + 3).remainder(4) = 3
+	 * @param expr expression to divide with
+	 * @return the remainder of this / se
+	 */
+	public StepExpression remainder(StepExpression expr) {
+		if (isInteger() && expr.isInteger()) {
+			return StepConstant.create(Math.floor(getValue() % expr.getValue()));
+		}
+
+		if (isOperation(Operation.PLUS)) {
+			StepExpression remainder = null;
+			for (StepExpression operand : (StepOperation) this) {
+				remainder = add(remainder, operand.remainder(expr));
+			}
+
+			return remainder;
+		}
+
+		if (isOperation(Operation.MULTIPLY) || isOperation(Operation.MINUS)) {
+			if (containsExpression(expr)) {
+				return null;
+			}
+		}
+
+		return this;
+	}
+
+	/**
+	 * this = se * quotient(se) + remainder(se)
+	 * simple example: 4a + 4b + 3 = 4(a + b) * 3,
+	 * so (4a + 4b + 3).quotient(4) = a + b
+	 * @param expr expression to divide with
+	 * @return the quotient of this / se
+	 */
+	public StepExpression quotient(StepExpression expr) {
+		if (isInteger() && expr.isInteger()) {
+			return StepConstant.create(Math.floor(getValue() / expr.getValue()));
+		}
+
+		if (isOperation(Operation.PLUS)) {
+			StepExpression quotient = null;
+			for (StepExpression operand : (StepOperation) this) {
+				quotient = add(quotient, operand.quotient(expr));
+			}
+
+			return quotient;
+		}
+
+		if (isOperation(Operation.MULTIPLY)) {
+			StepExpression quotient = null;
+
+			if (getIntegerCoefficient() != null) {
+				if(getIntegerCoefficient().integerDivisible(expr.getIntegerCoefficient())) {
+					if (expr.getIntegerCoefficient() == null) {
+						quotient = getIntegerCoefficient();
+					} else {
+						quotient = StepConstant.create(
+								Math.floor((getIntegerCoefficient().getValue()) / expr.getIntegerCoefficient().getValue()));
+					}
+				} else {
+					return null;
+				}
+			}
+
+			StepOperation sortedA = ((StepOperation) getNonInteger().deepCopy()).sort();
+			StepOperation sortedB = ((StepOperation) expr.getNonInteger().deepCopy()).sort();
+
+			int j = 0;
+			for (StepExpression operand : sortedA) {
+				if (j < sortedB.noOfOperands() && operand.equals(sortedB.getOperand(j))) {
+					j++;
+				} else {
+					quotient = multiply(quotient, operand);
+				}
+			}
+
+			if (j == sortedB.noOfOperands()) {
+				return quotient;
+			}
+		}
+
+		return null;
+	}
+
+	public boolean integerDivisible(StepExpression expr) {
+		return isInteger() && (expr == null || expr.isInteger() && isEqual(getValue() % expr.getValue(), 0));
 	}
 
 	public boolean containsSquareRoot() {
@@ -511,17 +685,20 @@ public abstract class StepExpression extends StepNode {
 	 *         toConvert = sum(returned[i] * var^i)
 	 */
 	public StepExpression[] convertToPolynomial(StepVariable var) {
-		StepExpression[] poli = new StepExpression[degree(var) + 1];
+		StepExpression[] poly = new StepExpression[degree(var) + 1];
 
-		poli[0] = findConstantIn(var);
+		poly[0] = findConstantIn(var);
 
 		for (int pow = 1; pow <= degree(var); pow++) {
-			poli[pow] = findCoefficient(pow == 1 ? var : power(var, pow));
+			poly[pow] = findCoefficient(pow == 1 ? var : power(var, pow));
 		}
 
-		return poli;
+		return poly;
 	}
 
+	/**
+	 * @return the denominator of the expression
+	 */
 	public StepExpression getDenominator() {
 		if (isOperation(Operation.MINUS)) {
 			return ((StepOperation) this).getOperand(0).getDenominator();
@@ -533,24 +710,7 @@ public abstract class StepExpression extends StepNode {
 	}
 
 	/**
-	 * @return the denominator of the tree, if it's an integer. 0 otherwise
-	 */
-	public long getConstantDenominator() {
-		if (isOperation(Operation.MINUS)) {
-			return ((StepOperation) this).getOperand(0).getConstantDenominator();
-		} else if (isOperation(Operation.DIVIDE)) {
-			if (closeToAnInteger(((StepOperation) this).getOperand(1))) {
-				return Math.round(((StepOperation) this).getOperand(1).getValue());
-			}
-		} else if (isConstant()) {
-			return 1;
-		}
-
-		return 0;
-	}
-
-	/**
-	 * @return the numerator of the tree.
+	 * @return the numerator of the expression
 	 */
 	public StepExpression getNumerator() {
 		if (isOperation(Operation.MINUS)) {
@@ -558,6 +718,7 @@ public abstract class StepExpression extends StepNode {
 		} else if (isOperation(Operation.DIVIDE)) {
 			return ((StepOperation) this).getOperand(0);
 		}
+
 		return this;
 	}
 
@@ -606,8 +767,8 @@ public abstract class StepExpression extends StepNode {
 
 			switch (so.getOperation()) {
 			case MULTIPLY:
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					getBasesAndExponents(so.getOperand(i), currentExp, bases, exponents);
+				for (StepExpression operand : so) {
+					getBasesAndExponents(operand, currentExp, bases, exponents);
 				}
 				return;
 			case MINUS:
@@ -624,7 +785,7 @@ public abstract class StepExpression extends StepNode {
 				return;
 			case POWER:
 				bases.add(so.getOperand(0));
-				exponents.add(multiply(currentExp, so.getOperand(1)));
+				exponents.add(nonTrivialProduct(currentExp, so.getOperand(1)));
 				return;
 			}
 		}
@@ -666,18 +827,10 @@ public abstract class StepExpression extends StepNode {
 			denominator = null;
 		}
 
-		if (!exponent.canBeEvaluated() || exponent.getValue() >= 0) {
-			if (!isEqual(exponent.getValue(), 1) && closeToAnInteger(1 / exponent.getValue())) {
-				nominator = nonTrivialProduct(nominator, root(base, 1 / exponent.getValue()));
-			} else {
-				nominator = nonTrivialProduct(nominator, nonTrivialPower(base, exponent));
-			}
+		if (exponent.isNegative()) {
+			denominator = nonTrivialProduct(denominator, nonTrivialPower(base, exponent.negate()));
 		} else {
-			if (!isEqual(exponent.getValue(), -1) && closeToAnInteger(1 / exponent.getValue())) {
-				nominator = nonTrivialProduct(denominator, root(base, -1 / exponent.getValue()));
-			} else {
-				denominator = nonTrivialProduct(denominator, nonTrivialPower(base, exponent.negate()));
-			}
+			nominator = nonTrivialProduct(nominator, nonTrivialPower(base, exponent));
 		}
 
 		return divide(nominator, denominator);
@@ -690,7 +843,7 @@ public abstract class StepExpression extends StepNode {
 	public static StepExpression nonTrivialPower(StepExpression a, StepExpression b) {
 		if (a != null && b != null) {
 			if (isEqual(b, 1)) {
-				return a;
+				return a.deepCopy();
 			} else if (isEqual(b, 0)) {
 				return StepConstant.create(1);
 			}
@@ -709,15 +862,15 @@ public abstract class StepExpression extends StepNode {
 	public static StepExpression nonTrivialProduct(StepExpression a, StepExpression b) {
 		if (a != null && b != null) {
 			if (isEqual(a, 1)) {
-				return b;
-			} else if (isEqual(a, -1)) {
-				return minus(b);
+				return b.deepCopy();
 			} else if (isEqual(b, 1)) {
-				return a;
-			} else if (isEqual(b, -1)) {
-				return minus(a);
+				return a.deepCopy();
+			} else if (a.isNegative()) {
+				return minus(nonTrivialProduct(a.negate(), b));
+			} else if (b.isNegative()) {
+				return minus(nonTrivialProduct(a, b.negate()));
 			}
-		}
+ 		}
 
 		return multiply(a, b);
 	}
@@ -733,31 +886,14 @@ public abstract class StepExpression extends StepNode {
 	 */
 	public StepExpression negate() {
 		if (isOperation(Operation.MINUS)) {
-			return ((StepOperation) this).getOperand(0);
-		}
-		if (isOperation(Operation.MULTIPLY) && ((StepOperation) this).getOperand(0).isNegative()) {
-			StepExpression so = null;
-			if (!isEqual(((StepOperation) this).getOperand(0), -1)) {
-				so = ((StepOperation) this).getOperand(0).negate();
-			}
-			for (int i = 1; i < ((StepOperation) this).noOfOperands(); i++) {
-				so = multiply(so, ((StepOperation) this).getOperand(i));
-			}
-			return so;
-		}
-		if (isOperation(Operation.DIVIDE)) {
-			if (((StepOperation) this).getOperand(0).isNegative()) {
-				return divide(((StepOperation) this).getOperand(0).negate(), ((StepOperation) this).getOperand(1));
-			}
-			return minus(this);
+			return ((StepOperation) this).getOperand(0).deepCopy();
 		}
 
 		return minus(this);
 	}
 
 	public boolean isNegative() {
-		return isOperation(Operation.MINUS) ||
-				isOperation(Operation.MULTIPLY) && ((StepOperation) this).getOperand(0).isNegative();
+		return isOperation(Operation.MINUS);
 	}
 
 	public static Operation getInverse(Operation op) {

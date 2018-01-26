@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
@@ -28,6 +27,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void factorTest() {
+		//f("2^(k+1)+2^k", "(3)(2^(k))");
 		f("x^3 + 6 x^2 + 11 x + 6", "((x + 3))((x + 2))((x + 1))");
 		f("12x+6y+9z", "(3)(((4)(x) + (2)(y) + (3)(z)))");
 		f("3*x^2*(x+2) + 3*x*(x+2)^2", "(6)(x)((x + 2))((x + 1))");
@@ -47,6 +47,8 @@ public class RegroupStepTest {
 
 	@Test
 	public void fractionTest() {
+		e("((1)/((1-((11 + nroot(13, 2)))/(9))) + ((22 + (2)(nroot(13, 2))))/((18-((9)((11 + nroot(13, 2))))/(9))))" +
+				"", "7");
 		r("3/2+4/2", "(7)/(2)");
 		r("1/3+1/2", "(5)/(6)");
 		r("1/2-1/3", "(1)/(6)");
@@ -63,6 +65,10 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("sqrt(x^3)", "(|x|)(nroot(x, 2))");
+		r("-((-3)*(-5)*(-6))", "90");
+		r("(-3)*(5)*(6)", "-90");
+		r("(3)*(-5)*(6)", "-90");
 		r("-(-x)", "x");
 		r("nroot(5, 2)*nroot(2, 2)", "nroot(10, 2)");
 		r("nroot(2, 2)*nroot(3, 3)", "nroot(72, 6)");
@@ -129,8 +135,6 @@ public class RegroupStepTest {
 	}
 
 	public void f(String toFactor, String expectedResult) {
-		Log.error("new");
-
 		if (needsHeading) {
 			Throwable t = new Throwable();
 			htmlBuilder.addHeading(t.getStackTrace()[1].getMethodName(), 1);

@@ -193,9 +193,9 @@ public enum EquationSteps implements SolveStepGenerator {
 				steps.add(SolutionStepType.PRODUCT_IS_ZERO);
 				StepSet solutions = new StepSet();
 
-				for (int i = 0; i < product.noOfOperands(); i++) {
-					if (!product.getOperand(i).isConstant()) {
-						StepEquation newEq = new StepEquation(product.getOperand(i), StepConstant.create(0));
+				for (StepExpression operand : product) {
+					if (!operand.isConstant()) {
+						StepEquation newEq = new StepEquation(operand, StepConstant.create(0));
 						solutions.addAll(newEq.solve(variable, steps));
 					}
 				}
@@ -221,11 +221,16 @@ public enum EquationSteps implements SolveStepGenerator {
 	MULTIPLY_THROUGH {
 		@Override
 		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
-			if (se.getLHS().isOperation(Operation.DIVIDE) && !se.getLHS().isConstant() ||
-					se.getRHS().isOperation(Operation.DIVIDE) && !se.getRHS().isConstant()) {
-				se.multiply(StepHelper.LCM(se.getLHS().getDenominator(), se.getRHS().getDenominator()), steps);
+			StepExpression commonDenominator = StepConstant.create(1);
+			if (!se.getLHS().isConstant() && se.getLHS().getDenominator() != null) {
+					commonDenominator = StepHelper.LCM(se.getLHS().getDenominator(), commonDenominator);
 			}
 
+			if (!se.getRHS().isConstant() && se.getRHS().getDenominator() != null) {
+					commonDenominator = StepHelper.LCM(se.getRHS().getDenominator(), commonDenominator);
+			}
+
+			se.multiply(commonDenominator, steps);
 			return se;
 		}
 	},
@@ -626,23 +631,17 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression constant = diff.findConstantIn(variable);
 			StepExpression noConstDiff = subtract(diff, constant).regroup();
 
-			if (StepHelper.getPower(se.getRHS()) > StepHelper.getPower(se.getLHS())) {
-				se.swapSides();
-			}
-
-			if (StepHelper.isPower(noConstDiff)) {
+			if (noConstDiff.isPower()) {
 				StepExpression RHSConstant = se.getRHS().findConstantIn(variable);
 				StepExpression RHSNonConst = subtract(se.getRHS(), RHSConstant).regroup();
 
 				se.addOrSubtract(RHSNonConst, steps);
 				se.addOrSubtract(se.getLHS().findConstantIn(variable), steps);
-			} else if (!StepHelper.isPower(se.getLHS()) || !StepHelper.isPower(se.getRHS())) {
+			} else if (!se.getLHS().isPower() || !se.getRHS().isPower()) {
 				if (diff.isOperation(Operation.PLUS)) {
                     StepOperation so = (StepOperation) diff;
 
-                    if (so.noOfOperands() == 2 && StepHelper.isPower(so.getOperand(0)) && StepHelper.isPower(so
-                            .getOperand(1))) {
-
+                    if (so.noOfOperands() == 2 && so.getOperand(0).isPower() && so.getOperand(1).isPower()) {
                         se.addOrSubtract(so.getOperand(1), steps);
                     } else {
                         return se;
@@ -652,7 +651,7 @@ public enum EquationSteps implements SolveStepGenerator {
                 }
 			}
 
-			int root = StepHelper.getPower(se.getLHS());
+			long root = StepNode.gcd(se.getLHS().getPower(), se.getRHS().getPower());
 
 			StepExpression toDivide = se.getLHS().getCoefficient();
 			se.multiplyOrDivide(toDivide, steps);
@@ -741,7 +740,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression linear = diff.findCoefficient(variable);
 			StepExpression constant = diff.findConstantIn(variable);
 
-			if (!isOne(cubic) || !isEqual(power(quadratic, 2), multiply(3, linear))) {
+			if (!isOne(cubic) || !power(quadratic, 2).regroup().equals(multiply(3, linear).regroup())) {
 				return se;
 			}
 
@@ -752,7 +751,9 @@ public enum EquationSteps implements SolveStepGenerator {
 			steps.add(SolutionStepType.COMPLETE_THE_CUBE);
 			se.addOrSubtract(toComplete, steps);
 
-			se.factor(steps);
+			StepExpression newLHS = (StepExpression) StepStrategies.defaultFactor(
+					se.getLHS(), steps, new RegroupTracker().setWeakFactor());
+			se.modify(newLHS, se.getRHS());
 
 			return se;
 		}

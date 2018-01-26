@@ -1,5 +1,10 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class RegroupTracker {
 
 	private int colorTracker;
@@ -8,25 +13,55 @@ public class RegroupTracker {
 	private boolean integerFractions;
 	private boolean strongExpand;
 
-	private boolean inNumerator;
-	private boolean inDenominator;
+	private List<Mark> marks;
 
-	private boolean currentlyInNumerator;
-	private boolean currentlyInDenominator;
+	public enum MarkType {
+		EXPAND,		// marked for expansion
+		ROOT		// marked for being under square root
+	}
+
+	private static class Mark {
+		private StepNode marked;
+		private MarkType type;
+
+		public Mark(StepNode marked, MarkType type) {
+			this.marked = marked;
+			this.type = type;
+
+		}
+
+		@Override
+		public boolean equals(Object o) {
+			if (o instanceof Mark) {
+				return type == ((Mark) o).type && marked.equals(((Mark) o).marked);
+			}
+
+			return false;
+		}
+
+		@Override
+		public int hashCode() {
+			int result = marked != null ? marked.hashCode() : 0;
+			result = 31 * result + (type != null ? type.hashCode() : 0);
+			return result;
+		}
+	}
 
 	public RegroupTracker() {
 		this.colorTracker = 1;
 		this.integerFractions = true;
 	}
 
-	public RegroupTracker setInNumerator() {
-		this.inNumerator = true;
-		return this;
+	public void addMark(StepNode toMark, MarkType type) {
+		if (marks == null) {
+			marks = new ArrayList<>();
+		}
+
+		marks.add(new Mark(toMark, type));
 	}
 
-	public RegroupTracker setInDenominator() {
-		this.inDenominator = true;
-		return this;
+	public boolean isMarked(StepNode toCheck, MarkType type) {
+		return marks != null && marks.remove(new Mark(toCheck, type));
 	}
 
 	public RegroupTracker setWeakFactor() {
@@ -44,16 +79,8 @@ public class RegroupTracker {
 		return this;
 	}
 
-	public void setNumerator(boolean inNumerator){
-		this.currentlyInNumerator = inNumerator;
-	}
-
-	public void setDenominator(boolean inDenominator) {
-		this.currentlyInDenominator = inDenominator;
-	}
-
 	public boolean getExpandSettings() {
-		return strongExpand || (inNumerator && currentlyInNumerator) || (inDenominator && currentlyInDenominator);
+		return strongExpand;
 	}
 
 	public boolean isWeakFactor() {
@@ -82,6 +109,5 @@ public class RegroupTracker {
 
 	public void resetTracker() {
 		this.colorTracker = 1;
-		this.currentlyInDenominator = false;
 	}
 }

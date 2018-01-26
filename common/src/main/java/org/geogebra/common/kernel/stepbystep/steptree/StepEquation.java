@@ -13,8 +13,8 @@ import org.geogebra.common.main.Localization;
 public class StepEquation extends StepSolvable {
 
 	public StepEquation(StepExpression LHS, StepExpression RHS) {
-		this.LHS = LHS;
-		this.RHS = RHS;
+		this.LHS = LHS.deepCopy();
+		this.RHS = RHS.deepCopy();
 	}
 
 	public StepEquation(String str, Parser parser) {

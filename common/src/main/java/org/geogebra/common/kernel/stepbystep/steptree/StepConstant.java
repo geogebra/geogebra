@@ -5,6 +5,7 @@ import java.text.DecimalFormat;
 import org.geogebra.common.main.Localization;
 
 public final class StepConstant extends StepExpression {
+
 	private double value;
 
 	public static final StepConstant PI = new StepConstant(Math.PI);

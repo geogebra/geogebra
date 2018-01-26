@@ -4,9 +4,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.StringUtil;
 
 public enum SolutionStepType {
 	WRAPPER("", ""),
@@ -184,9 +182,9 @@ public enum SolutionStepType {
 
 	NEGATIVE_NUM_DENOM("NegativeNumeratorOrDenominator", "Use \\frac{-a}{b} = \\frac{a}{-b} = -\\frac{a}{b}"),
 
-	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power by: %0"),
+	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power", "Reduce the root and power by: %0"),
 
-	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power by: %0"),
+	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power", "Reduce the root and power by: %0"),
 
 	EVALUATE_POWER("EvaluatePower", "Evaluate power"),
 
@@ -202,9 +200,14 @@ public enum SolutionStepType {
 
 	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
 
+	SPLIT_ROOTS("SplitRoots", "Use radical rules",
+			"The root of a product is equal to the product of the roots of each factor"),
+
 	ELIMINATE_OPPOSITES("EliminateOpposites", "Eliminate the opposites"),
 
 	ZERO_IN_ADDITION("AddingOrSubtractionZero", "When adding or subtracting zero, the quantity does not change"),
+
+	ZERO_DIVIDED("ZeroDivided", "Zero divided by anything is zero"),
 
 	DIVIDE_BY_ONE("DividedByOne", "Any expression divided by one remains the same"),
 	
@@ -449,27 +452,10 @@ public enum SolutionStepType {
 		for (Integer color : colors) {
 			if (color != 0) {
 				sb.append("\\fgcolor{");
-				sb.append(getColorHex(color));
+				sb.append(StepNode.getColorHex(color));
 				sb.append("}{\\,\\bullet}");
 			}
 		}
 		return sb.toString();
-	}
-
-	private static String getColorHex(int color) {
-		switch (color % 5) {
-		case 1:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
-		case 2:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
-		case 3:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
-		case 4:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
-		case 0:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
-		default:
-			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
-		}
 	}
 }

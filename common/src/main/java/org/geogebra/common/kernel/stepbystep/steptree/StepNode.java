@@ -26,7 +26,7 @@ public abstract class StepNode {
 	 */
 	public abstract StepNode deepCopy();
 
-	protected String getColorHex() {
+	public static String getColorHex(int color) {
 		switch (color % 5) {
 		case 1:
 			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
@@ -41,6 +41,10 @@ public abstract class StepNode {
 		default:
 			return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
 		}
+	}
+
+	protected String getColorHex() {
+		return getColorHex(color);
 	}
 
 	/**
@@ -187,8 +191,8 @@ public abstract class StepNode {
 
 		if (this instanceof StepOperation) {
 			StepOperation so = (StepOperation) this;
-			for (int i = 0; i < so.noOfOperands(); i++) {
-				so.getOperand(i).getListOfVariables(variableList);
+			for (StepExpression operand : so) {
+				operand.getListOfVariables(variableList);
 			}
 		}
 
@@ -201,16 +205,24 @@ public abstract class StepNode {
 	 * returns the largest b-th power that divides a (for example (8, 2) -> 4, (8,
 	 * 3) -> 8, (108, 2) -> 36)
 	 * 
-	 * @param a
+	 * @param se
 	 *            base
 	 * @param b
 	 *            exponent
 	 * @return largest b-th power that divides a
 	 */
-	public static long largestNthPower(double a, double b) {
-		if (closeToAnInteger(a) && closeToAnInteger(b)) {
-			long x = Math.round(a);
+	public static long largestNthPower(StepExpression se, double b) {
+		if (se == null || !se.canBeEvaluated()) {
+			return 1;
+		}
+
+		if (closeToAnInteger(se.getValue()) && closeToAnInteger(b)) {
+			long x = Math.round(se.getValue());
 			long y = Math.round(b);
+
+			if (x > 10000) {
+				return 1;
+			}
 
 			int power = 1;
 			int count = 0;
@@ -220,8 +232,7 @@ public abstract class StepNode {
 				x /= 2;
 			}
 
-			count /= y;
-			power *= Math.pow(2, count);
+			power *= Math.pow(2, count - count % y);
 
 			for (int i = 3; i < x; i += 2) {
 				count = 0;
@@ -231,8 +242,7 @@ public abstract class StepNode {
 					x /= i;
 				}
 
-				count /= y;
-				power *= Math.pow(i, count);
+				power *= Math.pow(i, count - count % y);
 			}
 
 			return power;
@@ -250,7 +260,7 @@ public abstract class StepNode {
 			temp = -temp;
 		}
 
-		if (temp == 1) {
+		if (temp == 1 || temp > 10000) {
 			return 1;
 		}
 
@@ -438,18 +448,31 @@ public abstract class StepNode {
 	}
 
 	public static long gcd(StepExpression a, StepExpression b) {
-		return gcd(Math.round(a.getValue()), Math.round(b.getValue()));
+		long aVal = 0, bVal = 0;
+
+		if (a != null && a.canBeEvaluated()) {
+			aVal = Math.round(a.getValue());
+		}
+
+		if (b != null && b.canBeEvaluated()) {
+			bVal = Math.round(b.getValue());
+		}
+
+		return gcd(aVal, bVal);
 	}
 
 	public static long lcm(StepExpression a, StepExpression b) {
-		return lcm(Math.round(a.getValue()), Math.round(b.getValue()));
-	}
+		long aVal = 0, bVal = 0;
 
-	public static boolean isEqual(StepExpression a, StepExpression b) {
-		if (a == null || b == null) {
-			return a == null && b == null;
+		if (a != null && a.canBeEvaluated()) {
+			aVal = Math.round(a.getValue());
 		}
-		return a.canBeEvaluated() && b.canBeEvaluated() && isEqual(a.getValue(), b.getValue());
+
+		if (b != null && b.canBeEvaluated()) {
+			bVal = Math.round(b.getValue());
+		}
+
+		return lcm(aVal, bVal);
 	}
 
 	public static boolean isEqual(StepExpression a, double b) {
@@ -469,7 +492,7 @@ public abstract class StepNode {
 	}
 
 	public static boolean isEven(StepExpression se) {
-		return se.canBeEvaluated() && isEven(se.getValue());
+		return se.isInteger() && isEven(se.getValue());
 	}
 
 	public static boolean isOdd(double d) {
@@ -477,7 +500,7 @@ public abstract class StepNode {
 	}
 
 	public static boolean isOdd(StepExpression se) {
-		return se.canBeEvaluated() && isOdd(se.getValue());
+		return se.isInteger() && isOdd(se.getValue());
 	}
 
 	public static long gcd(long a, long b) {
@@ -502,9 +525,4 @@ public abstract class StepNode {
 	public static boolean closeToAnInteger(double d) {
 		return Math.abs(Math.round(d) - d) < 0.0000001;
 	}
-
-	public static boolean closeToAnInteger(StepExpression sn) {
-		return sn != null && sn.nonSpecialConstant() && closeToAnInteger(sn.getValue());
-	}
-
 }

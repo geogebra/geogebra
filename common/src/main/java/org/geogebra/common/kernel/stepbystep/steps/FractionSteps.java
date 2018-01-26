@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.stepbystep.steps;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
@@ -14,21 +15,29 @@ import java.util.List;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isOne;
 
 public enum FractionSteps implements SimplificationStepGenerator {
 
     EXPAND_FRACTIONS {
         @Override
         public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+            StepNode temp = StepStrategies.iterateThrough(this, sn, sb, tracker);
+            if (!temp.equals(sn)) {
+                return temp;
+            }
+
             if (sn.isOperation(Operation.PLUS)) {
                 StepOperation so = (StepOperation) sn;
 
-                StepExpression newDenominator = null;
+                StepExpression newDenominator = StepConstant.create(1);
                 for (StepExpression operand : so) {
-                    newDenominator = StepHelper.LCM(newDenominator, operand.getDenominator());
+                    if (operand.getDenominator() != null) {
+                        newDenominator = StepHelper.LCM(newDenominator, operand.getDenominator());
+                    }
                 }
 
-                if (newDenominator == null || tracker.isIntegerFractions() && !newDenominator.isInteger()) {
+                if (isOne(newDenominator) || tracker.isIntegerFractions() && !newDenominator.isInteger()) {
                     return StepStrategies.iterateThrough(this, sn, sb, tracker);
                 }
 
@@ -47,14 +56,17 @@ public enum FractionSteps implements SimplificationStepGenerator {
                         toExpand = toExpand.regroup();
                         toExpand.setColor(tempTracker++);
 
-                        StepExpression numerator;
+                        StepExpression oldNumerator;
                         if (operand.isNegative()) {
-                            numerator = operand.negate().getNumerator();
+                            oldNumerator = operand.negate().getNumerator();
                         } else {
-                            numerator = operand.getNumerator();
+                            oldNumerator = operand.getNumerator();
                         }
 
-                        StepExpression newFraction = divide(nonTrivialProduct(toExpand, numerator), newDenominator);
+                        StepExpression numerator = nonTrivialProduct(toExpand, oldNumerator);
+                        tracker.addMark(numerator, RegroupTracker.MarkType.EXPAND);
+
+                        StepExpression newFraction = divide(numerator, newDenominator);
 
                         if (operand.isNegative()) {
                             newSum.addOperand(newFraction.negate());
@@ -74,7 +86,7 @@ public enum FractionSteps implements SimplificationStepGenerator {
                 }
             }
 
-            return StepStrategies.iterateThrough(this, sn, sb, tracker);
+            return sn;
         }
     },
 
@@ -124,54 +136,19 @@ public enum FractionSteps implements SimplificationStepGenerator {
     ADD_FRACTIONS {
         @Override
         public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-            SimplificationStepGenerator[] fractionAddition = new SimplificationStepGenerator[] {
-                    EXPAND_FRACTIONS,
-                    ADD_NUMERATORS,
+            SimplificationStepGenerator[] fractionAddition = new SimplificationStepGenerator[]{
                     RegroupSteps.REGROUP_PRODUCTS,
+                    RegroupSteps.DISTRIBUTE_MINUS,
                     RegroupSteps.REGROUP_SUMS,
-                    RegroupSteps.SIMPLIFY_FRACTIONS,
-                    ExpandSteps.EXPAND_PRODUCTS
+                    ExpandSteps.EXPAND_PRODUCTS,
+                    RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
+                    ADD_NUMERATORS,
+                    EXPAND_FRACTIONS,
+                    RegroupSteps.SIMPLIFY_FRACTIONS
             };
 
-            RegroupTracker tempTracker = new RegroupTracker();
-            if (!tracker.isIntegerFractions()) {
-                tempTracker.unsetIntegerFractions();
-            }
-
-            SolutionBuilder tempSteps = new SolutionBuilder();
-
-            StepNode tempTree = EXPAND_FRACTIONS.apply(sn.deepCopy(), tempSteps, tempTracker);
-            ADD_NUMERATORS.apply(tempTree, tempSteps, tempTracker);
-
-            if (tempTracker.wasChanged()) {
-                tempTracker.resetTracker();
-                tempTracker.setInNumerator();
-
-                SolutionBuilder additionSteps = new SolutionBuilder();
-
-                StepNode result = sn;
-                String old, current = null;
-
-                do {
-                    result = StepStrategies.implementStrategy(result, additionSteps, fractionAddition, tempTracker);
-
-                    old = current;
-                    current = result.toString();
-                } while (!current.equals(old));
-
-                if (sb != null) {
-                    sb.add(SolutionStepType.ADD_FRACTIONS);
-                    sb.levelDown();
-                    sb.addAll(additionSteps.getSteps());
-                    sb.levelUp();
-                }
-
-                tracker.incColorTracker();
-
-                return result;
-            }
-
-            return sn;
+            return StepStrategies.implementGroup(sn, SolutionStepType.ADD_FRACTIONS, fractionAddition,
+                    sb, tracker);
         }
     };
 

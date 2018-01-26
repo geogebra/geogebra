@@ -122,7 +122,7 @@ public class SolutionStep {
 				substeps = new ArrayList<>();
 			}
 
-			if (type == SolutionStepType.SUBSTEP_WRAPPER) {
+			if (type == SolutionStepType.SUBSTEP_WRAPPER && s.parameters == null) {
 				for (int i = 1; i < substeps.size(); i++) {
 					if (s.type == substeps.get(i).type) {
 						if (s.colors != null) {

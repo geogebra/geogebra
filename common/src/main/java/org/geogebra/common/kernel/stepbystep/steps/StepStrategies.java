@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.debug.Log;
 
 public class StepStrategies {
@@ -13,30 +12,28 @@ public class StepStrategies {
 		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 				RegroupSteps.CALCULATE_INVERSE_TRIGO,
 				RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
+				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
 				RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
 				RegroupSteps.EXPAND_ROOT,
 				RegroupSteps.COMMON_ROOT,
-				RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS,
-				RegroupSteps.SIMPLE_POWERS,
-				RegroupSteps.SIMPLE_ROOTS,
-				RegroupSteps.FACTOR_SQUARE,
-				RegroupSteps.ELIMINATE_OPPOSITES,
+				RegroupSteps.SIMPLIFY_ROOTS,
 				RegroupSteps.NEGATIVE_FRACTIONS,
 				RegroupSteps.MULTIPLY_NEGATIVES,
-				RegroupSteps.DISTRIBUTE_MINUS,
-				RegroupSteps.DOUBLE_MINUS,
 				RegroupSteps.TRIVIAL_FRACTIONS,
 				RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
-				RegroupSteps.SIMPLIFY_FRACTIONS,
 				RegroupSteps.COMMON_FRACTION,
-				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
 				RegroupSteps.REGROUP_SUMS,
 				RegroupSteps.REGROUP_PRODUCTS,
+				RegroupSteps.SIMPLE_POWERS,
+				RegroupSteps.ELIMINATE_OPPOSITES,
+				RegroupSteps.DISTRIBUTE_MINUS,
+				RegroupSteps.DOUBLE_MINUS,
+				RegroupSteps.SIMPLIFY_FRACTIONS,
 				RegroupSteps.FACTOR_FRACTIONS_SUBSTEP,
+				ExpandSteps.EXPAND_PRODUCTS,
 				RegroupSteps.RATIONALIZE_DENOMINATORS,
 				FractionSteps.ADD_FRACTIONS,
-				RegroupSteps.POWER_OF_NEGATIVE,
-				ExpandSteps.EXPAND_PRODUCTS
+				RegroupSteps.POWER_OF_NEGATIVE
 		};
 
 		StepNode result = sn;
@@ -57,11 +54,9 @@ public class StepStrategies {
 	public static StepNode weakRegroup(StepNode sn, SolutionBuilder sb) {
 		SimplificationStepGenerator[] weakStrategy = new SimplificationStepGenerator[] {
 				RegroupSteps.CALCULATE_INVERSE_TRIGO,
-				RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS,
+				RegroupSteps.SIMPLIFY_POWER_OF_ROOT,
 				RegroupSteps.SIMPLE_POWERS,
 				RegroupSteps.SIMPLE_ROOTS,
-				RegroupSteps.FACTOR_SQUARE,
-				RegroupSteps.SIMPLIFY_POWERS_AND_ROOTS,
 				RegroupSteps.ELIMINATE_OPPOSITES,
 				RegroupSteps.NEGATIVE_FRACTIONS,
 				RegroupSteps.DOUBLE_MINUS,
@@ -90,6 +85,7 @@ public class StepStrategies {
 
 	public static StepNode defaultExpand(StepNode sn, SolutionBuilder sb) {
 		SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
+				ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
 				ExpandSteps.EXPAND_POWERS,
 				ExpandSteps.EXPAND_PRODUCTS
 		};
@@ -165,7 +161,7 @@ public class StepStrategies {
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
 											 RegroupTracker tracker) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		StepNode newSn;
@@ -214,12 +210,42 @@ public class StepStrategies {
 		return implementStrategy(sn, sb, strategy, new RegroupTracker());
 	}
 
+	public static StepNode implementGroup(StepNode sn, SolutionStepType groupHeader, SimplificationStepGenerator[]
+			strategy, SolutionBuilder sb, RegroupTracker tracker) {
+		SolutionBuilder tempSteps = new SolutionBuilder();
+
+		String old, current = null;
+		StepNode result = sn;
+		do {
+			result = StepStrategies.implementStrategy(result, tempSteps, strategy, tracker);
+
+			old = current;
+			current = result.toString();
+		} while (!current.equals(old));
+
+		if (!result.equals(sn)) {
+			if (sb != null && groupHeader != null) {
+				sb.add(groupHeader);
+				sb.levelDown();
+				sb.addAll(tempSteps.getSteps());
+				sb.levelUp();
+			} else if (sb != null) {
+				sb.addAll(tempSteps.getSteps());
+			}
+
+			tracker.incColorTracker();
+			return result;
+		}
+
+		return sn;
+	}
+
 	public static StepNode defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb) {
 		SolveStepGenerator[] strategy = {
 				EquationSteps.SOLVE_PRODUCT,
 				EquationSteps.REGROUP,
-				EquationSteps.SUBTRACT_COMMON,
 				EquationSteps.FACTOR,
+				EquationSteps.SUBTRACT_COMMON,
 				EquationSteps.PLUSMINUS,
 				EquationSteps.MULTIPLY_THROUGH,
 				EquationSteps.SOLVE_LINEAR,
@@ -253,7 +279,7 @@ public class StepStrategies {
 
 	public static StepNode implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 
@@ -323,14 +349,6 @@ public class StepStrategies {
 
 			StepOperation toReturn = null;
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				if (so.isOperation(Operation.DIVIDE)) {
-					if (i == 0) {
-						tracker.setNumerator(true);
-					} else {
-						tracker.setDenominator(true);
-					}
-				}
-
 				StepExpression a = (StepExpression) step.apply(so.getOperand(i), sb, tracker);
 				if (toReturn == null && tracker.getColorTracker() > colorsAtStart) {
 					toReturn = new StepOperation(so.getOperation());
@@ -341,14 +359,6 @@ public class StepStrategies {
 				}
 				if (toReturn != null) {
 					toReturn.addOperand(a);
-				}
-
-				if (so.isOperation(Operation.DIVIDE)) {
-					if (i == 0) {
-						tracker.setNumerator(false);
-					} else {
-						tracker.setDenominator(false);
-					}
 				}
 			}
 

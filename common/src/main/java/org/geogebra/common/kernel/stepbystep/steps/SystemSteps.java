@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.util.debug.Log;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +18,7 @@ public class SystemSteps {
         StepEquationSystem tempSystem = ses.deepCopy();
 
         steps.add(SolutionStepType.SOLVE, ses);
+        steps.levelDown();
 
         for (int k = 0; k < n; k++) {
             int eqIndex = -1, minSolutions = -1, minComplexity = -1;
@@ -38,17 +38,10 @@ public class SystemSteps {
                         tempSteps.reset();
                         solutions = tempSystem.getEquation(i).solve(variable, tempSteps).getElements();
                     } catch (SolveFailedException e) {
-                        Log.error("failed to solve: ");
-                        Log.error(tempSystem.getEquation(i) + "");
-
                         continue;
                     }
 
                     int complexity = tempSteps.getSteps().getComplexity();
-
-                    Log.error(tempSystem.getEquation(i) + "");
-                    Log.error(variable + "");
-                    Log.error(complexity + "");
 
                     if (minSolutions == -1 || minSolutions > solutions.length ||
                             (minSolutions == solutions.length && minComplexity > complexity)) {
@@ -122,11 +115,12 @@ public class SystemSteps {
                     solveBySubstitution(newSes, steps);
                 }
 
+                steps.levelUp();
                 return new StepSet();
             }
         }
 
-
+        steps.levelUp();
         return new StepSet(tempSystem);
     }
 

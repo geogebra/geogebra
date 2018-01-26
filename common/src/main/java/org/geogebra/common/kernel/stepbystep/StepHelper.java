@@ -15,9 +15,9 @@ public class StepHelper {
 	public static StepExpression getCommon(StepExpression a, StepExpression b) {
 		if (a.isOperation(Operation.PLUS)) {
 			StepOperation op = new StepOperation(Operation.PLUS);
-			for (int i = 0; i < ((StepOperation) a).noOfOperands(); i++) {
-				if (containsExactExpression(b, ((StepOperation) a).getOperand(i))) {
-					op.addOperand(((StepOperation) a).getOperand(i));
+			for (StepExpression operand : (StepOperation) a) {
+				if (b.containsExpression(operand)) {
+					op.addOperand(operand);
 				}
 			}
 			if (op.noOfOperands() == 1) {
@@ -25,26 +25,11 @@ public class StepHelper {
 			} else if (op.noOfOperands() > 1) {
 				return op;
 			}
-		} else if (containsExactExpression(b, a)) {
+		} else if (b.containsExpression(a)) {
 			return a;
 		}
 
 		return null;
-	}
-
-	public static boolean containsExactExpression(StepExpression sn, StepExpression expr) {
-		if (sn != null && sn.equals(expr)) {
-			return true;
-		}
-		if (sn != null && sn.isOperation(Operation.PLUS)) {
-			StepOperation so = (StepOperation) sn;
-			for (int i = 0; i < so.noOfOperands(); i++) {
-				if (containsExactExpression(so.getOperand(i), expr)) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -65,8 +50,8 @@ public class StepHelper {
 				}
 			} else if (so.isOperation(Operation.PLUS)) {
 				StepExpression roots = null;
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					roots = StepNode.add(roots, getAll(so.getOperand(i), op));
+				for (StepExpression operand : so) {
+					roots = StepNode.add(roots, getAll(operand, op));
 				}
 				return roots;
 			}
@@ -101,8 +86,8 @@ public class StepHelper {
 			} else if (so.isOperation(Operation.MINUS)) {
 				return StepNode.minus(getOne(so, op));
 			} else if (so.isOperation(Operation.PLUS)) {
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					StepExpression root = getOne(so.getOperand(i), op);
+				for (StepExpression operand : so) {
+					StepExpression root = getOne(operand, op);
 					if (root != null) {
 						return root;
 					}
@@ -113,46 +98,6 @@ public class StepHelper {
 		return null;
 	}
 
-	public static int getPower(StepExpression sn) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
-
-			if (so.isOperation(Operation.POWER) && !so.getOperand(0).isConstant()) {
-				return (int) so.getOperand(1).getValue();
-			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)
-					|| so.isOperation(Operation.MINUS)) {
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					int power = getPower(so.getOperand(i));
-					if (power > 0) {
-						return power;
-					}
-				}
-			}
-		}
-
-		return 0;
-	}
-
-	public static boolean isPower(StepExpression sn) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
-
-			if (so.isOperation(Operation.POWER)) {
-				return true;
-			} else if (so.isOperation(Operation.MINUS) || so.isOperation(Operation.MULTIPLY)
-					|| so.isOperation(Operation.DIVIDE)) {
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					if (!isPower(so.getOperand(i))) {
-						return false;
-					}
-				}
-				return true;
-			}
-		}
-
-		return sn != null && sn.isConstant();
-	}
-
 	public static void getAbsoluteValues(ArrayList<StepExpression> absoluteValues, StepNode sn) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
@@ -160,8 +105,8 @@ public class StepHelper {
 			if (so.isOperation(Operation.ABS)) {
 				absoluteValues.add(so.getOperand(0));
 			} else {
-				for (int i = 0; i < so.noOfOperands(); i++) {
-					getAbsoluteValues(absoluteValues, so.getOperand(i));
+				for (StepExpression operand : so) {
+					getAbsoluteValues(absoluteValues, operand);
 				}
 			}
 		} else if (sn instanceof StepSolvable) {
@@ -191,8 +136,8 @@ public class StepHelper {
 				return (StepOperation) sn;
 			}
 
-			for (int i = 0; i < so.noOfOperands(); i++) {
-				StepOperation inverse = findInverse(so.getOperand(i), var);
+			for (StepExpression operand : so) {
+				StepOperation inverse = findInverse(operand, var);
 				if (inverse != null) {
 					return inverse;
 				}
@@ -225,24 +170,6 @@ public class StepHelper {
 		}
 
 		return null;
-	}
-
-	public static StepExpression multiplyByConstant(StepExpression a, StepExpression b) {
-		if (b.isOperation(Operation.PLUS)) {
-			StepOperation bo = (StepOperation) b;
-
-			StepOperation product = new StepOperation(Operation.PLUS);
-			for (int i = 0; i < bo.noOfOperands(); i++) {
-				if (bo.getOperand(i).isNegative()) {
-					product.addOperand(StepNode.multiply(a, bo.getOperand(i).negate()).negate());
-				} else {
-					product.addOperand(StepNode.multiply(a, bo.getOperand(i)));
-				}
-			}
-			return product;
-		}
-
-		return StepNode.multiply(a, b);
 	}
 
 	public static StepOperation findTrigonometricVariable(StepExpression sn) {
@@ -302,8 +229,8 @@ public class StepHelper {
 			}
 
 			StepOperation newSo = new StepOperation(so.getOperation());
-			for (int i = 0; i < so.noOfOperands(); i++) {
-				newSo.addOperand(swapAbsInTree(so.getOperand(i), si, variable));
+			for (StepExpression operand : so) {
+				newSo.addOperand(swapAbsInTree(operand, si, variable));
 			}
 			return newSo;
 		}
@@ -330,8 +257,8 @@ public class StepHelper {
 			return "AssumeInteger(" + sn.toString() + ", " + s + ")";
 		} else if (sn instanceof StepOperation) {
 			String temp = s;
-			for (int i = 0; i < ((StepOperation) sn).noOfOperands(); i++) {
-				temp = getAssumptions(((StepOperation) sn).getOperand(i), temp);
+			for (StepExpression operand : (StepOperation) sn) {
+				temp = getAssumptions(operand, temp);
 			}
 			return temp;
 		}
@@ -371,12 +298,8 @@ public class StepHelper {
 	}
 
 	public static StepExpression LCM(StepExpression a, StepExpression b) {
-		if (isZero(a)) {
-			return b;
-		}
-
-		if (isZero(b)) {
-			return a;
+		if (isZero(a) || isZero(b)) {
+			return null;
 		}
 
 		StepExpression aFactored = a.factor();
@@ -428,8 +351,12 @@ public class StepHelper {
 	}
 
 	public static StepExpression GCD(StepExpression a, StepExpression b) {
-		if (isZero(a) || isZero(b)) {
-			return null;
+		if (isZero(a)) {
+			return b;
+		}
+
+		if (isZero(b)) {
+			return a;
 		}
 
 		StepExpression aFactored = a.factor();

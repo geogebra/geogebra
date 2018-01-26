@@ -123,7 +123,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					integerParts[i] = so.getOperand(i).getIntegerCoefficient();
 
-					if (integerParts[i] == null || !closeToAnInteger(integerParts[i])) {
+					if (integerParts[i] == null || !integerParts[i].isInteger()) {
 						return so;
 					}
 
@@ -165,30 +165,6 @@ public enum FactorSteps implements SimplificationStepGenerator {
 			}
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
-		}
-	},
-
-	FACTOR_BINOM_STRATEGY {
-		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
-					COMPLETING_THE_SQUARE, FACTOR_BINOM_SQUARED
-			};
-
-			StepNode result = sn;
-			String old, current = null;
-
-			do {
-				result = StepStrategies.implementStrategy(result, sb, strategy, tracker);
-				old = current;
-				current = result.toString();
-			} while (!current.equals(old));
-
-			if (result != sn) {
-				tracker.incColorTracker();
-			}
-
-			return result;
 		}
 	},
 
@@ -338,17 +314,17 @@ public enum FactorSteps implements SimplificationStepGenerator {
 	FACTOR_BINOM_CUBED {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn instanceof StepOperation) {
+			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.noOfOperands() == 4) {
 					StepExpression aCube = null, bCube = null;
 
-					for (int i = 0; i < 4; i++) {
-						if (so.getOperand(i).isCube() && aCube == null && !so.getOperand(i).isNegative()) {
-							aCube = so.getOperand(i);
-						} else if (so.getOperand(i).isCube() && bCube == null) {
-							bCube = so.getOperand(i);
+					for (StepExpression operand : so) {
+						if (operand.isCube() && aCube == null && !operand.isNegative()) {
+							aCube = operand;
+						} else if (operand.isCube() && bCube == null) {
+							bCube = operand;
 						}
 					}
 
@@ -489,54 +465,54 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					var = (StepVariable) variableSet.toArray()[0];
 				}
 
-				if (var != null && so.integerCoefficients(var)) {
-					StepExpression[] polynomialForm = so.convertToPolynomial(var);
+				if (var == null || !so.integerCoefficients(var)) {
+					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+				}
 
-					long[] integerForm = new long[polynomialForm.length];
+				StepExpression[] polynomialForm = so.convertToPolynomial(var);
 
-					if (polynomialForm.length < 3) {
-						return StepStrategies.iterateThrough(this, sn, sb, tracker);
+				if (polynomialForm.length < 3) {
+					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+				}
+
+				long[] integerForm = new long[polynomialForm.length];
+				for (int i = 0; i < polynomialForm.length; i++) {
+					if (polynomialForm[i] == null) {
+						integerForm[i] = 0;
+					} else {
+						integerForm[i] = Math.round(polynomialForm[i].getValue());
 					}
+				}
 
-					for (int i = 0; i < polynomialForm.length; i++) {
-						if (polynomialForm[i] == null) {
-							integerForm[i] = 0;
-						} else {
-							integerForm[i] = Math.round(polynomialForm[i].getValue());
-						}
-					}
+				long constant = Math.abs(integerForm[0]);
+				long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
 
-					long constant = Math.abs(integerForm[0]);
-					long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
+				if (constant > 100 || highestOrder > 100) {
+					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+				}
 
-					if (constant > 100 || highestOrder > 100) {
-						return StepStrategies.iterateThrough(this, sn, sb, tracker);
-					}
+				for (long i = -constant; i <= constant; i++) {
+					for (long j = 1; j <= highestOrder; j++) {
+						if (i != 0 && constant % i == 0 && highestOrder % j == 0
+								&& isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
+							StepOperation reorganized = new StepOperation(Operation.PLUS);
 
-					for (long i = -constant; i <= constant; i++) {
-						for (long j = 1; j <= highestOrder; j++) {
-							if (i != 0 && constant % i == 0 && highestOrder % j == 0
-									&& isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
-								StepOperation reorganized = new StepOperation(Operation.PLUS);
+							for (int k = polynomialForm.length - 1; k > 0; k--) {
+								long coeff = i * integerForm[k] / j;
 
-								for (int k = polynomialForm.length - 1; k > 0; k--) {
-									long coeff = i * integerForm[k] / j;
+								reorganized.addOperand(nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
+								reorganized.addOperand(nonTrivialProduct(-coeff, nonTrivialPower(var, k - 1)));
 
-									reorganized.addOperand(nonTrivialProduct(integerForm[k], nonTrivialPower(var, k)));
-									reorganized
-											.addOperand(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)).negate());
-
-									integerForm[k - 1] += i * integerForm[k] / j;
-								}
-
-								if (!so.equals(reorganized)) {
-									tracker.incColorTracker();
-									sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
-									return reorganized;
-								} else {
-									return StepStrategies.iterateThrough(this, sn, sb, tracker);
-								}
+								integerForm[k - 1] += i * integerForm[k] / j;
 							}
+
+							tracker.addMark(reorganized, RegroupTracker.MarkType.EXPAND);
+							if (!so.equals(reorganized)) {
+								tracker.incColorTracker();
+								sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
+								return reorganized;
+							}
+							return so;
 						}
 					}
 				}
@@ -549,59 +525,46 @@ public enum FactorSteps implements SimplificationStepGenerator {
 	FACTOR_POLYNOMIAL {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			if (sn.isOperation(Operation.PLUS)) {
+			if (sn.isOperation(Operation.PLUS) && tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND)) {
 				StepOperation so = (StepOperation) sn;
 
 				Set<StepVariable> variableSet = new HashSet<>();
 				so.getListOfVariables(variableSet);
+				StepVariable var = (StepVariable) variableSet.toArray()[0];
 
-				StepVariable var = null;
-				if (variableSet.size() == 1) {
-					var = (StepVariable) variableSet.toArray()[0];
+				StepExpression[] polynomialForm = so.convertToPolynomial(var);
+
+				long[] integerForm = new long[polynomialForm.length];
+				for (int i = 0; i < polynomialForm.length; i++) {
+					if (polynomialForm[i] == null) {
+						integerForm[i] = 0;
+					} else {
+						integerForm[i] = Math.round(polynomialForm[i].getValue());
+					}
 				}
 
-				if (var != null && so.integerCoefficients(var)) {
-					StepExpression[] polynomialForm = so.convertToPolynomial(var);
-					long[] integerForm = new long[polynomialForm.length];
+				long constant = Math.abs(integerForm[0]);
+				long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
 
-					if (polynomialForm.length < 3) {
-						return StepStrategies.iterateThrough(this, sn, sb, tracker);
-					}
+				for (long i = -constant; i <= constant; i++) {
+					for (long j = 1; j <= highestOrder; j++) {
+						if (i != 0 && constant % i == 0 && highestOrder % j == 0
+								&& isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
 
-					for (int i = 0; i < polynomialForm.length; i++) {
-						if (polynomialForm[i] == null) {
-							integerForm[i] = 0;
-						} else {
-							integerForm[i] = Math.round(polynomialForm[i].getValue());
-						}
-					}
+							StepOperation factored = new StepOperation(Operation.PLUS);
 
-					long constant = Math.abs(integerForm[0]);
-					long highestOrder = Math.abs(integerForm[integerForm.length - 1]);
+							StepExpression innerSum = add(nonTrivialProduct(j, var), -i);
+							innerSum.setColor(tracker.incColorTracker());
+							for (int k = polynomialForm.length - 1; k > 0; k--) {
+								long coeff = integerForm[k] / j;
+								factored.addOperand(nonTrivialProduct(coeff, multiply(nonTrivialPower(var, k - 1),
+										innerSum)));
 
-					if (constant > 100 || highestOrder > 100) {
-						return StepStrategies.iterateThrough(this, sn, sb, tracker);
-					}
-
-					for (long i = -constant; i <= constant; i++) {
-						for (long j = 1; j <= highestOrder; j++) {
-							if (i != 0 && constant % i == 0 && highestOrder % j == 0
-									&& isEqual(so.getValueAt(var, ((double) i) / j), 0)) {
-								StepOperation factored = new StepOperation(Operation.PLUS);
-
-								StepExpression innerSum = add(nonTrivialProduct(j, var), -i);
-								innerSum.setColor(tracker.incColorTracker());
-								for (int k = polynomialForm.length - 1; k > 0; k--) {
-									long coeff = integerForm[k] / j;
-									factored.addOperand(
-											multiply(nonTrivialProduct(coeff, nonTrivialPower(var, k - 1)), innerSum));
-
-									integerForm[k - 1] += i * integerForm[k] / j;
-								}
-
-								sb.add(SolutionStepType.FACTOR_FROM_PAIR, innerSum);
-								return factored;
+								integerForm[k - 1] += i * integerForm[k] / j;
 							}
+
+							sb.add(SolutionStepType.FACTOR_FROM_PAIR, innerSum);
+							return factored;
 						}
 					}
 				}
@@ -611,32 +574,28 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	FACTOR_BINOM_STRATEGY {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					COMPLETING_THE_SQUARE,
+					FACTOR_BINOM_SQUARED
+			};
+
+			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+		}
+	},
+
 	FACTOR_POLYNOMIALS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
-					FactorSteps.FACTOR_COMMON, FactorSteps.REORGANIZE_POLYNOMIAL, FactorSteps.FACTOR_POLYNOMIAL
+					FACTOR_COMMON,
+					REORGANIZE_POLYNOMIAL,
+					FACTOR_POLYNOMIAL
 			};
 
-			SolutionBuilder factorSteps = new SolutionBuilder();
-			StepNode temp = StepStrategies.implementStrategy(sn, factorSteps, strategy);
-
-			if (!temp.equals(sn)) {
-				temp = StepStrategies.implementStrategy(temp, factorSteps, strategy);
-				temp = StepStrategies.implementStrategy(temp, factorSteps, strategy);
-
-				if (sb != null) {
-					sb.add(SolutionStepType.FACTOR_POLYNOMIAL);
-					sb.levelDown();
-					sb.addAll(factorSteps.getSteps());
-					sb.levelUp();
-				}
-
-				tracker.incColorTracker();
-				return temp;
-			}
-
-			return sn;
+			return StepStrategies.implementGroup(sn, SolutionStepType.FACTOR_POLYNOMIAL, strategy, sb, tracker);
 		}
 	};
 

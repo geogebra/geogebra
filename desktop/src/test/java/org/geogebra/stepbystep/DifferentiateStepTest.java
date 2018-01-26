@@ -34,7 +34,7 @@ public class DifferentiateStepTest {
 		d("sin(x) + cos(x) + tan(x)", "x", "(cos(x)-sin(x) + (1)/((cos(x))^(2)))");
 		d("arcsin(x) + arccos(x) + arctan(x)", "x", "(1)/(((x)^(2) + 1))");
 		d("sqrt(x) + nroot(x, 3) + nroot(x, 4)", "x",
-				"((nroot(x, 2))/((2)(x)) + (1)/((3)(nroot((x)^(2), 3))) + (1)/((4)(nroot((x)^(3), 4))))");
+				"((nroot(x, 2))/((2)(x)) + (nroot(x, 3))/((3)(x)) + (nroot(x, 4))/((4)(|x|)))");
 		d("sin(x)*cos(x)", "x", "(-(sin(x))^(2) + (cos(x))^(2))");
 		d("sin(x) / cos(x)", "x", "(((cos(x))^(2) + (sin(x))^(2)))/((cos(x))^(2))");
 		d("e^x + 3^x", "x", "((e)^(x) + (log_(e)(3))((3)^(x)))");
@@ -43,7 +43,7 @@ public class DifferentiateStepTest {
 		d("y*x", "y", "x");
 		d("(sin(x))^2", "x", "(2)(sin(x))(cos(x))");
 		d("e^(cos(x) * (ln(x))^2)", "x",
-				"((e)^((cos(x))((log_(e)(x))^(2))))((((cos(x))(2)(log_(e)(x)))/(x) + (-sin(x))((log_(e)(x))^(2))))");
+				"((e)^((cos(x))((log_(e)(x))^(2))))((((cos(x))(2)(log_(e)(x)))/(x)-(sin(x))((log_(e)(x))^(2))))");
 		d("(sin(x)^2)", "x", "(2)(sin(x))(cos(x))");
 	}
 

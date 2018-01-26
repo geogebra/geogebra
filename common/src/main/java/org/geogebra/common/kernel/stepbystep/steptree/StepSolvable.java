@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
@@ -217,8 +216,8 @@ public abstract class StepSolvable extends StepNode {
 			toMultiply.setColor(1);
 
 			if (toMultiply.isConstant()) {
-				LHS = StepHelper.multiplyByConstant(toMultiply, LHS);
-				RHS = StepHelper.multiplyByConstant(toMultiply, RHS);
+				LHS = multiply(toMultiply, LHS);
+				RHS = multiply(toMultiply, RHS);
 			} else {
 				LHS = multiply(LHS, toMultiply);
 				RHS = multiply(RHS, toMultiply);
@@ -309,7 +308,7 @@ public abstract class StepSolvable extends StepNode {
 		shouldCheckSolutions = true;
 	}
 
-	public void nthroot(int root, SolutionBuilder steps) {
+	public void nthroot(long root, SolutionBuilder steps) {
 		if (root == 0 || root == 1) {
 			return;
 		} else if (root == 2) {
