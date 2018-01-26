@@ -9,8 +9,9 @@ apply from: 'gradle-scripts/repositories.gradle'
 apply plugin: 'cpp'
 apply plugin: 'visual-studio'
 
-/* Emscripten related settings. Currently we use version 1.34.1, newer versions will currently not work correctly,
- * older versions may have problems in some Giac commands and results.
+/* Emscripten related settings. Currently we use version 1.37.22, other versions may not work correctly,
+ * or may have problems in some Giac commands and results. (With some minor modifications 1.34.1 will
+ * also work with no wasm and limited asm.js support.)
  *
  * 1. You will need to download the correct toolchain version by running the task installEmsdk.
  *    (Always take care of using the correct emscripten version and also the appropriate clang compiler,
@@ -26,10 +27,14 @@ apply plugin: 'visual-studio'
  *    by entering some big integer/real computations.) First you may need to set some environmental
  *    variables or hardcoded script variables manually. FIXME
  *    The compilation can be influenced by using the environmental variable EXT_GMPMPFR (local/emgiac).
+ *    The current prebuilt files should work properly with 1.34.1 and 1.37.22 as well.
  *
  * 3. Run the createGiacJs task. It will recompile all C++ files and then re-link the library. FIXME
  *    It can be fine-tuned by using the EMCC and EMSCRIPTEN_VER environmental variables
- *    (but usually not required to use them).
+ *    (but usually not required to use them). Additionally, you may want to set the WASM=1 option
+ *    to have the WebAssembly version. Note that you need to create the asm.js (WASM unset) version and
+ *    the WebAssembly version (WASM=1) on different runs, so it may be reasonable to store two
+ *    copies of this folder.
  */
 
 // FIXME: These settings are hardcoded at the moment, they need to be more general.
@@ -50,16 +55,23 @@ if (System.env['EXT_GMPMPFR'] != null && System.env['EXT_GMPMPFR'] == "emgiac") 
     LlvmMpfrA = "$emgiacSourceDir/giac/libmpfr.a"
     LlvmGmpA = "$emgiacSourceDir/giac/libgmp.a"
 }
-def emscriptenVer = '201503' // 1.34.1
+def emscriptenVer = '201704' // 1.37.22
 if (System.env['EMSCRIPTEN_VER'] != null) {
     emscriptenVer = System.env['EMSCRIPTEN_VER'];
+}
+def wasm = 0
+if (System.env['WASM'] != null) {
+    wasm = System.env['WASM'];
+    if (emscriptenVer != "201704") {
+       throw new GradleException("You need to have a recent emscripten to use wasm")
+    }
 }
 
 def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases'
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
 def emsdkDir = file('emsdk')
 def emsdkRunDir = file("$emsdkDir/emsdk-portable")
-def emscriptenVersion = "1.34.1"
+def emscriptenVersion = "1.37.22"
 def emscriptenDir = file("$emsdkRunDir/emscripten/$emscriptenVersion")
 
 def emccCommand = "${emscriptenDir}/emcc"
@@ -569,13 +581,21 @@ tasks.addRule("Pattern: emccCompile_<FILE>Cc: Compile <FILE>.cc into <FILE>.o.")
                     if (emscriptenVer == '201304') {
                         commandline += " -s PRECISE_I32_MUL=1" // from old Makefile (PREC)
                     }
-                    if (emscriptenVer != '201304') {
+                    if (emscriptenVer == '201503') {
                         commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1"
                         commandline += " -s PRECISE_I64_MATH=1 -Oz" // new setting
 
                     }
                     if (emscriptenVer == '201704') {
                         commandline += " -Dgammaf=tgammaf -s ALLOW_MEMORY_GROWTH=1"
+                        if (wasm) {
+                           commandline += " -s WASM=1 -s NO_EXIT_RUNTIME=1"
+                           commandline += " -s BINARYEN_METHOD='native-wasm'" // https://github.com/kripken/emscripten/wiki/WebAssembly
+                           commandline += " -s BINARYEN_TRAP_MODE='clamp'"
+                           } else {
+                           commandline += " -s BINARYEN_METHOD='asmjs'"
+                           }
+
                         commandline += " -s PRECISE_I64_MATH=1 -Oz" // new setting
                         commandline += " -DHAVE_UNISTD_H"
                     }
@@ -635,9 +655,21 @@ task emccGiacJs (dependsOn: 'emccCompile') {
             if (emscriptenVer == '201304') {
                 linkerArgs << '-s' << 'PRECISE_I32_MUL=1'
             }
-            if (emscriptenVer != '201304') {
+            if (emscriptenVer == '201503') {
                 linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1'
                 linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
+            }
+            if (emscriptenVer == '201704') {
+                linkerArgs << '-s' << 'PRECISE_I64_MATH=1'
+                if (wasm) {
+                    linkerArgs << '-s' << 'WASM=1'
+                    linkerArgs << '-s' << 'NO_EXIT_RUNTIME=1'
+                    linkerArgs << '-s' << "BINARYEN_METHOD='native-wasm'" // https://github.com/kripken/emscripten/wiki/WebAssembly
+                    linkerArgs << '-s' << "BINARYEN_TRAP_MODE='clamp'"
+                    } else {
+                    linkerArgs << '-s' << "BINARYEN_METHOD='asmjs'"
+                    }
+                linkerArgs << '-s' << 'ALLOW_MEMORY_GROWTH=1' // maybe gives warnings
             }
             linkerArgs << '-DGIAC_GGB'
             linkerArgs << '-o' << output
@@ -693,25 +725,15 @@ task installEmsdk (/*dependsOn: 'downloadEmsdk'*/) {
             workingDir emsdkRunDir
         }
         // FIXME: If already installed, this results in an error and stops.
+        // Below this may not work with older emscripten versions.
         exec {
-            commandLine "./emsdk install emscripten-$emscriptenVersion".split()
+            commandLine "./emsdk install sdk-$emscriptenVersion-64bit".split()
             workingDir emsdkRunDir
         }
         exec {
-            commandLine "./emsdk activate emscripten-$emscriptenVersion".split()
+            commandLine "./emsdk activate sdk-$emscriptenVersion-64bit".split()
             workingDir emsdkRunDir
         }
-        // This works with certain versions, but not with others.
-        // Newer emscripten versions don't need the "tag-" part.
-        exec {
-            commandLine "./emsdk install clang-tag-e$emscriptenVersion-64bit".split()
-            workingDir emsdkRunDir
-        }
-        exec {
-            commandLine "./emsdk activate clang-tag-e$emscriptenVersion-64bit".split()
-            workingDir emsdkRunDir
-        }
-        // "nodejs" must be set in ~/.emscripten under Ubuntu 14.10
     }
 }
 
