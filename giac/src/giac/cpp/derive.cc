@@ -332,15 +332,15 @@ namespace giac {
       if (vs==4 && s.sommet==at_sum){
 	gen v0=v[0],v1=v[1],v2=v[2],v3=v[3];
 	if (!is_zero(derive(v1,i,contextptr)) || !is_zero(derive(v2,i,contextptr)) || ! is_zero(derive(v3,i,contextptr)) )
-	  return gensizeerr("diff of sum with boundaries or mute variable depending on differentiation variable");
+	  return gensizeerr(gettext("diff of sum with boundaries or mute variable depending on differentiation variable"));
 	if (is_inf(v2) || is_inf(v3))
-	  *logptr(contextptr) << "Warning, assuming derivative commutes with infinite sum" << endl;
+	  *logptr(contextptr) << gettext("Warning, assuming derivative commutes with infinite sum") << endl;
 	return _sum(makesequence(derive(v0,i,contextptr),v1,v2,v3),contextptr);
       }
       if ( (vs==2 || (vs==3 && is_zero(v[2]))) && (s.sommet==at_upper_incomplete_gamma || s.sommet==at_lower_incomplete_gamma || s.sommet==at_Gamma)){
 	gen v0=v[0],v1=v[1]; 
 	if (!is_zero(derive(v0,i,contextptr)))
-	  return gensizeerr("diff of incomplete gamma with respect to non constant 1st arg not implemented");
+	  return gensizeerr(gettext("diff of incomplete gamma with respect to non constant 1st arg not implemented"));
 	// diff(int_v1^inf exp(-t)*t^(v0-1) dt)
 	gen tmp1=exp(-v1,contextptr)*pow(v1,v0-1,contextptr)*derive(v1,i,contextptr);
 	return (s.sommet==at_lower_incomplete_gamma)?tmp1:-tmp1;
@@ -802,7 +802,7 @@ namespace giac {
     vecteur ls=lidnt(s);
     for (int i=0;i<int(ls.size());++i){
       if (ls[i]==var || (var.type==_VECT && equalposcomp(*var._VECTptr,ls[i])))
-	return gensizeerr("solve error while finding critical points");
+	return gensizeerr(gettext("solve error while finding critical points"));
     }
     if (s.type==_VECT){
       vecteur res;
@@ -1036,7 +1036,7 @@ namespace giac {
 	continue;
       if (u==at_floor || u==at_ceil || u==at_round || u==at_abs || u==at_sign || u==at_max || u==at_min)
 	continue;
-      *logptr(contextptr) << g << " function not supported, doing like if it was defined" << endl;
+      *logptr(contextptr) << g << gettext(" function not supported, doing like if it was defined") << endl;
     }
   }
   gen domain(const gen & f,const gen & x,int mode,GIAC_CONTEXT){
