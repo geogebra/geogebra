@@ -450,8 +450,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			if (controller.isEditing() || geo == null) {
 				return;
 			}
-			if ((AlgebraItem.shouldShowOutputRowForAlgebraStyle(geo,
-					kernel.getAlgebraStyle())
+			if ((AlgebraItem.getDescriptionModeForGeo(geo,
+					kernel.getAlgebraStyle()) == DescriptionMode.DEFINITION_VALUE
 					&& !isLatexTrivial()) || lastTeX != null) {
 				buildItemWithTwoRows();
 				updateItemColor();

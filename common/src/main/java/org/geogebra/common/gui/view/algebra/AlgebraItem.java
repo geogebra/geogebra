@@ -57,7 +57,6 @@ public class AlgebraItem {
 							.getClassName() == Commands.NSolve) {
 				return Unicode.CAS_OUTPUT_NUMERIC + "";
 			}
-			
 		}
 
 		return getSymbolicPrefix(geo.getKernel());
@@ -86,7 +85,6 @@ public class AlgebraItem {
 		}
 
 		return !text1.equals(text2);
-
 	}
 
 	private static boolean allRHSareIntegers(GeoList geo) {
@@ -178,8 +176,8 @@ public class AlgebraItem {
 		if ("".equals(element.getDefinition(StringTemplate.defaultTemplate))) {
 			duplicate = element.getValueForInputBar();
 		} else {
-			duplicate = element.getDefinitionNoLabel(
-					StringTemplate.editorTemplate);
+			duplicate = element
+					.getDefinitionNoLabel(StringTemplate.editorTemplate);
 		}
 
 		return duplicate;
@@ -205,8 +203,8 @@ public class AlgebraItem {
 	public static boolean isCompactItem(GeoElement element) {
 		return element != null && element.getParentAlgorithm() != null
 				&& element.getParentAlgorithm().getOutput(0) != element
-				&& element.getKernel().getApplication().getSettings().getAlgebra()
-				.getTreeMode() == SortMode.ORDER;
+				&& element.getKernel().getApplication().getSettings()
+						.getAlgebra().getTreeMode() == SortMode.ORDER;
 	}
 
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
@@ -245,7 +243,6 @@ public class AlgebraItem {
 
 			return false;
 		}
-
 	}
 
 	public static boolean isTextItem(GeoElement geo) {
@@ -275,20 +272,42 @@ public class AlgebraItem {
 	}
 
 	/**
-	 * @param geoElement about we should decide if the outputrow should be shown or not
-	 * @param style      current algebrastyle
+	 * @param geoElement
+	 *            about we should decide if the outputrow should be shown or not
+	 * @param style
+	 *            current algebrastyle
 	 * @return whether the output should be shown or not
 	 */
-	public static boolean shouldShowOutputRowForAlgebraStyle(GeoElement geoElement, int style) {
-		if (style == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
-				|| (style == Kernel.ALGEBRA_STYLE_DESCRIPTION
-						&& geoElement instanceof GeoNumeric
-						&& (!geoElement.isIndependent() || (geoElement
-								.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
-								&& geoElement.getParentAlgorithm() == null)))) {
-			return true;
-		}
+	public static DescriptionMode getDescriptionModeForGeo(
+			GeoElement geoElement, int style) {
+		switch (style) {
+		case Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE:
+			return geoElement.needToShowBothRowsInAV();
 
-		return false;
+		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+			return geoElement instanceof GeoNumeric
+					&& (!geoElement.isIndependent() || (geoElement
+							.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
+							&& geoElement.getParentAlgorithm() == null))
+									? DescriptionMode.DEFINITION_VALUE
+									: DescriptionMode.DEFINITION;
+		case Kernel.ALGEBRA_STYLE_DEFINITION:
+			return DescriptionMode.DEFINITION;
+		default:
+		case Kernel.ALGEBRA_STYLE_VALUE:
+			return DescriptionMode.VALUE;
+		}
+	}
+	/**
+	 * @param geoElement
+	 *            about we should decide if the outputrow should be shown or not
+	 * @param style
+	 *            current algebrastyle
+	 * @return whether the output should be shown or not
+	 */
+	public static boolean shouldShowOutputRowForAlgebraStyle(
+			GeoElement geoElement, int style) {
+		return getDescriptionModeForGeo(geoElement,
+				style) != DescriptionMode.DEFINITION;
 	}
 }
