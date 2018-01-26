@@ -188,7 +188,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		needsUpdate = true;
 	}
 
-	protected IndexHTMLBuilder getBuilder(final Widget w) {
+	protected static IndexHTMLBuilder getBuilder(final Widget w,
+			final App app) {
 		return new IndexHTMLBuilder(false) {
 			Element sub = null;
 
@@ -369,7 +370,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private void buildPlainTextItem() {
 		if (!AlgebraItem.buildPlainTextItemSimple(geo,
-				getBuilder(getPlainTextItem()))) {
+				getBuilder(getPlainTextItem(), app))) {
 			buildItemContent();
 		}
 	}
@@ -410,7 +411,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					StringTemplate.latexTemplate);
 			definitionFromTeX(text);
 		} else if (geo != null) {
-			IndexHTMLBuilder sb = getBuilder(definitionPanel);
+			IndexHTMLBuilder sb = getBuilder(definitionPanel, app);
 			if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 				geo.addLabelTextOrHTML(geo.getDefinitionDescription(
 						StringTemplate.defaultTemplate), sb);
@@ -611,7 +612,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		else {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
-					getBuilder(getPlainTextItem()));
+					getBuilder(getPlainTextItem(), app));
 			updateItemColor();
 			// updateFont(getPlainTextItem());
 			rebuildPlaintextContent();

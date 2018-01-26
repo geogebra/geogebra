@@ -67,7 +67,7 @@ public class CheckboxTreeItem extends RadioTreeItem {
 		addAVEXWidget(content);
 
 		geo.getAlgebraDescriptionTextOrHTMLDefault(
-				getBuilder(getPlainTextItem()));
+				getBuilder(getPlainTextItem(), app));
 		content.add(getPlainTextItem());
 		checkBox.setValue(((GeoBoolean) geo).getBoolean());
 	}

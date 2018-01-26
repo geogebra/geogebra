@@ -168,15 +168,17 @@ public class AlgebraOutputPanel extends FlowPanel {
 			valuePanel.clear();
 			valuePanel.add(valCanvas);
 		} else {
-			IndexHTMLBuilder sb = new IndexHTMLBuilder(false);
+			HTML html = new HTML();
+			IndexHTMLBuilder sb = RadioTreeItem.getBuilder(html,
+					geo1.getKernel().getApplication());
 			if (AlgebraItem.needsPacking(geo1) && geo1.getKernel()
 					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
-				valuePanel.add(new HTML(sb.toString()));
 			}else{
 				geo1.getAlgebraDescriptionTextOrHTMLRHS(sb);
-				valuePanel.add(new HTML(sb.toString()));
+
 			}
+			valuePanel.add(html);
 		}
 
 		return true;
