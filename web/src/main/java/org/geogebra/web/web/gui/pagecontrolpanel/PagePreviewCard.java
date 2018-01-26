@@ -52,12 +52,6 @@ import com.google.gwt.user.client.ui.Image;
 public class PagePreviewCard extends FlowPanel implements DragStartHandler,
 DragOverHandler, DragLeaveHandler, DropHandler,
 TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
-
-	public interface ReorderListener {
-		void reorder(int srcIdx, int destIdx);
-		void dropTo(int x, int y, int pageIndex);
-	}
-	
 	private static final int LABELFONT_SIZE = 16;
 	private AppW app;
 	private Localization loc;
@@ -85,6 +79,11 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	private HandlerRegistration hrTouchEnd=null;
 	private ReorderListener reorderListener =null;
 
+	public interface ReorderListener {
+		void reorder(int srcIdx, int destIdx);
+		void dropTo(int x, int y, int pageIndex);
+	}
+
 	/**
 	 * @param app
 	 *            parent application
@@ -102,10 +101,10 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 		initGUI();
 		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
 			getElement().setAttribute("draggable", "true");
-//			addDragStartHandler(this);
-//			addDragOverHandler(this);
-//			addDragLeaveHandler(this);
-//			addDropHandler(this);
+			addDragStartHandler(this);
+			addDragOverHandler(this);
+			addDragLeaveHandler(this);
+			addDropHandler(this);
 			
 			addTouchStartHandler(this);
 			addTouchMoveHandler(this);
