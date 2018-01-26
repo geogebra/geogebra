@@ -2040,7 +2040,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 		btnLabel.setLabels();
 		btnLineStyle.setLabels();
 		btnColor.setLabels();
-		btnCrop.setText(loc.getMenu("stylebar.Crop"));
+		if (btnCrop != null) {
+			btnCrop.setText(loc.getMenu("stylebar.Crop"));
+		}
 		// set labels for ToolTips
 		setToolTips();
 	}
