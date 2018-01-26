@@ -844,13 +844,26 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private boolean updateCullingBox() {
 		EuclidianView3D view = getView3D();
-		double off = maxRWPixelDistance * 2;
-		cullingBox[0] = view.getXmin() - off;
-		cullingBox[1] = view.getXmax() + off;
-		cullingBox[2] = view.getYmin() - off;
-		cullingBox[3] = view.getYmax() + off;
-		cullingBox[4] = view.getZmin() - off;
-		cullingBox[5] = view.getZmax() + off;
+		if (getView3D().getApplication().has(Feature.DIFFERENT_AXIS_RATIO_3D)) {
+			double off = maxRWPixelDistance * 4;
+			double offScaled = off / getView3D().getXscale();
+			cullingBox[0] = view.getXmin() - offScaled;
+			cullingBox[1] = view.getXmax() + offScaled;
+			offScaled = off / getView3D().getYscale();
+			cullingBox[2] = view.getYmin() - offScaled;
+			cullingBox[3] = view.getYmax() + offScaled;
+			offScaled = off / getView3D().getZscale();
+			cullingBox[4] = view.getZmin() - offScaled;
+			cullingBox[5] = view.getZmax() + offScaled;
+		} else {
+			double off = maxRWPixelDistance * 2;
+			cullingBox[0] = view.getXmin() - off;
+			cullingBox[1] = view.getXmax() + off;
+			cullingBox[2] = view.getYmin() - off;
+			cullingBox[3] = view.getYmax() + off;
+			cullingBox[4] = view.getZmin() - off;
+			cullingBox[5] = view.getZmax() + off;
+		}
 		return true;
 	}
 
