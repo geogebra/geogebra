@@ -3056,7 +3056,7 @@ __GGB__keysVar.vi.menu = {
     "exam_current_time": "Elapsed exam time",
     "exam_custom_description": "Please decide whether the following GeoGebra Views should be available during the exam.",
     "exam_custom_header": "GeoGebra Exam",
-    "exam_end_time": "Exam End Time",
+    "exam_end_time": "End Time",
     "exam_ended": "Exam ended",
     "exam_exit_confirmation": "B\u1ea1n c\xf3 th\u1eadt s\u1ef1 mu\u1ed1n tho\xe1t ch\u01b0\u01a1ng tr\xecnh GeoGebraExam?",
     "exam_exit_header": "Tho\xe1t ch\u01b0\u01a1ng tr\xecnh GeoGebraExam?",

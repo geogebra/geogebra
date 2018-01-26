@@ -3056,7 +3056,7 @@ __GGB__keysVar.ru.menu = {
     "exam_current_time": "Elapsed exam time",
     "exam_custom_description": "Please decide whether the following GeoGebra Views should be available during the exam.",
     "exam_custom_header": "GeoGebra \u044d\u043a\u0437\u0430\u043c\u0435\u043d",
-    "exam_end_time": "Exam End Time",
+    "exam_end_time": "End Time",
     "exam_ended": "Exam ended",
     "exam_exit_confirmation": "\u0412\u044b \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u0442\u0435\u043b\u044c\u043d\u043e \u0445\u043e\u0442\u0438\u0442\u0435 \u0432\u044b\u0439\u0442\u0438 \u0438\u0437 GeoGebra Exam?",
     "exam_exit_header": "\u0412\u044b\u0439\u0442\u0438 \u0438\u0437 \u044d\u043a\u0437\u0430\u043c\u0435\u043d\u0430?",
