@@ -315,35 +315,36 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 		updateLabel();
 	}
 
-	public void addDragStartHandler(DragStartHandler handler) {
+	private void addDragStartHandler(DragStartHandler handler) {
 		hrDragStart = addDomHandler(handler, DragStartEvent.getType());
 	}
 
-	public void addDropHandler(DropHandler handler) {
+	private void addDropHandler(DropHandler handler) {
 		hrDrop = addDomHandler(handler, DropEvent.getType());
 	}
 
-	public void addDragOverHandler(DragOverHandler handler) {
+	private void addDragOverHandler(DragOverHandler handler) {
 		hrDragOver = addDomHandler(handler, DragOverEvent.getType());
 	}
 
-	public void addDragLeaveHandler(DragLeaveHandler handler) {
+	private void addDragLeaveHandler(DragLeaveHandler handler) {
 		hrDragLeave = addDomHandler(handler, DragLeaveEvent.getType());
 	}
 
+	/** TODO unused */
 	public void addDragEnterHandler(DragEnterHandler handler) {
 		hrDragEnter = addDomHandler(handler, DragEnterEvent.getType());
 	}
 
-	public void addTouchStartHandler(TouchStartHandler handler) {
+	private void addTouchStartHandler(TouchStartHandler handler) {
 		hrTouchStart = addDomHandler(handler, TouchStartEvent.getType());
 	}
 
-	public void addTouchMoveHandler(TouchMoveHandler handler) {
+	private void addTouchMoveHandler(TouchMoveHandler handler) {
 		hrTouchMove = addDomHandler(handler, TouchMoveEvent.getType());
 	}
 	
-	public void addTouchEndHandler(TouchEndHandler handler) {
+	private void addTouchEndHandler(TouchEndHandler handler) {
 		hrTouchEnd = addDomHandler(handler, TouchEndEvent.getType());
 	}
 	

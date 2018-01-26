@@ -10,7 +10,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.GgbAPIW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
@@ -29,8 +28,8 @@ public class PageListController implements PageListControllerInterface {
 	/**
 	 * list of slides (pages)
 	 */
-	protected ArrayList<PagePreviewCard> slides;
-	protected PagePreviewCard selectedCard;
+	private ArrayList<PagePreviewCard> slides;
+	private PagePreviewCard selectedCard;
 
 	/**
 	 * @param app
@@ -92,12 +91,22 @@ public class PageListController implements PageListControllerInterface {
 		}
 	}
 
+	/**
+	 * Save current file to selected card
+	 * 
+	 * @param card
+	 *            selected card
+	 */
 	public void savePreviewCard(PagePreviewCard card) {
 		if (card != null) {
 			card.setFile(app.getGgbApi().createArchiveContent(true));
 		}
 	}
 	
+	/**
+	 * @param dest
+	 *            slide to load
+	 */
 	public void changeSlide(PagePreviewCard dest) {
 		try {
 			app.resetPerspectiveParam();
@@ -200,7 +209,7 @@ public class PageListController implements PageListControllerInterface {
 				for (int i = 0; i < slides.size(); i++) {
 					JSONArray elements = new JSONArray();
 					elements.put(new JSONObject().put("id",
-							GgbAPIW.SLIDE_PREFIX + i));
+							GgbFile.SLIDE_PREFIX + i));
 					pages.put(new JSONObject().put("elements", elements));
 				}
 			}
@@ -214,10 +223,10 @@ public class PageListController implements PageListControllerInterface {
 	}
 
 	public boolean loadSlides(GgbFile archive) {
-		if (!archive.containsKey(GgbAPIW.STRUCTURE_JSON)) {
+		if (!archive.containsKey(GgbFile.STRUCTURE_JSON)) {
 			return false;
 		}
-		String structure = archive.remove(GgbAPIW.STRUCTURE_JSON);
+		String structure = archive.remove(GgbFile.STRUCTURE_JSON);
 		slides.clear();
 		Log.debug(structure);
 		try {
@@ -259,11 +268,11 @@ public class PageListController implements PageListControllerInterface {
 		selectedCard = previewCard;
 	}
 
-	private GgbFile filter(GgbFile archive, String prefix) {
+	private static GgbFile filter(GgbFile archive, String prefix) {
 		GgbFile ret = new GgbFile();
 		for (Entry<String, String> e : archive.entrySet()) {
 			if (e.getKey().startsWith(prefix + "/")
-					|| e.getKey().startsWith(GgbAPIW.SHARED_PREFIX)) {
+					|| e.getKey().startsWith(GgbFile.SHARED_PREFIX)) {
 				ret.put(e.getKey().substring(prefix.length() + 1),
 						e.getValue());
 			}
@@ -271,6 +280,12 @@ public class PageListController implements PageListControllerInterface {
 		return ret;
 	}
 
+	/**
+	 * @param srcIdx
+	 *            source index
+	 * @param destIdx
+	 *            destination index
+	 */
 	public void reorder(int srcIdx, int destIdx) {
 		PagePreviewCard src = slides.get(srcIdx);
 		slides.remove(srcIdx);
@@ -312,5 +327,34 @@ public class PageListController implements PageListControllerInterface {
 		
 		Log.debug("card was not hit");
 		return false;
+	}
+
+	/**
+	 * Updates the preview image of the active preview card
+	 */
+	public void updatePreviewImage() {
+		if (selectedCard != null) {
+			selectedCard.updatePreviewImage();
+		}
+	}
+
+	/**
+	 * load existing page
+	 * 
+	 * @param index
+	 *            index of page to load
+	 * @param newPage
+	 *            true if slide is new page
+	 */
+	protected void loadPage(int index, boolean newPage) {
+		loadSlide(selectedCard, index, newPage);
+		setCardSelected(getCards().get(index));
+	}
+
+	/**
+	 * @return all cards
+	 */
+	public ArrayList<PagePreviewCard> getSlides() {
+		return slides;
 	}
 }

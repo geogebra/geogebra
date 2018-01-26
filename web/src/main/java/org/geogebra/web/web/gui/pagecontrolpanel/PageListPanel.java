@@ -83,12 +83,22 @@ public class PageListPanel
 		plusButton.addFastClickHandler(new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
-				loadPage(addNewPreviewCard(false), true);
-				updatePreviewImage();
+				loadNewPage(false);
 			}
 		});
 		add(plusButton);
 		showPlusButton(false);
+	}
+
+	/**
+	 * Create and load a new page
+	 * 
+	 * @param selected
+	 *            whether to select it
+	 */
+	protected void loadNewPage(boolean selected) {
+		pageController.loadPage(addNewPreviewCard(selected), true);
+		pageController.updatePreviewImage();
 	}
 
 	/**
@@ -114,7 +124,7 @@ public class PageListPanel
 			mowToolbar.showPageControlButton(false);
 		}
 		setVisible(true);
-		updatePreviewImage();
+		pageController.updatePreviewImage();
 		setLabels();
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
@@ -203,21 +213,7 @@ public class PageListPanel
 	 * @param card that represents the page to load
 	 */
 	protected void loadPage(PagePreviewCard card) {
-		loadPage(card.getPageIndex(), false);
-	}
-		
-	/**
-	 * load existing page
-	 * 
-	 * @param index
-	 *            index of page to load
-	 * @param newPage
-	 *            true if slide is new page
-	 */
-	protected void loadPage(int index, boolean newPage) {
-		pageController.loadSlide(pageController.selectedCard, index,
-				newPage);
-		pageController.setCardSelected(pageController.getCards().get(index));
+		pageController.loadPage(card.getPageIndex(), false);
 	}
 
 	/**
@@ -240,23 +236,13 @@ public class PageListPanel
 		// load new slide
 		if (index == 0 && pageController.getSlideCount() == 0) {
 			// first and single slide was deleted
-			loadPage(addNewPreviewCard(true), true);
-			updatePreviewImage();
+			loadNewPage(true);
 		} else if (index == pageController.getSlideCount()) {
 			// last slide was deleted
-			loadPage(index - 1, false);
+			pageController.loadPage(index - 1, false);
 		} else {
 			// otherwise
-			loadPage(index, false);
-		}
-	}
-
-	/**
-	 * Updates the preview image of the active preview card
-	 */
-	public void updatePreviewImage() {
-		if (pageController.selectedCard != null) {
-			pageController.selectedCard.updatePreviewImage();
+			pageController.loadPage(index, false);
 		}
 	}
 
@@ -303,12 +289,15 @@ public class PageListPanel
 		PagePreviewCard dup = pageController.duplicateSlide(src);
 		dup.setReorderListener(this);
 		addPreviewCard(dup);
-		updatePreviewImage();
+		pageController.updatePreviewImage();
 	}
 
+	/**
+	 * Rebuild the panel
+	 */
 	public void update() {
 		contentPanel.clear();
-		for (PagePreviewCard card : this.pageController.slides) {
+		for (PagePreviewCard card : this.pageController.getSlides()) {
 			addPreviewCard(card);
 		}
 	}

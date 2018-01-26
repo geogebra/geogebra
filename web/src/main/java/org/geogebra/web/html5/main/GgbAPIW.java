@@ -50,10 +50,10 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class GgbAPIW extends GgbAPI {
 
-	public static final String SHARED_PREFIX = "_shared/";
-	public static final String STRUCTURE_JSON = "structure.json";
-	public static final String SLIDE_PREFIX = "_slide";
-
+	/**
+	 * @param app
+	 *            application
+	 */
 	public GgbAPIW(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -67,10 +67,6 @@ public class GgbAPIW extends GgbAPI {
 				"In HTML5 getGGBfile needs at least 1 argument");
 	}
 
-	public Context2d getContext2D() {
-		return ((AppW) app).getCanvas().getContext2d();
-	}
-
 	@Override
 	public void setBase64(String base64) {
 		resetPerspective();
@@ -82,6 +78,12 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).resetPerspectiveParam();
 	}
 
+	/**
+	 * @param base64
+	 *            base64 encoded file
+	 * @param callback
+	 *            callback when file loaded
+	 */
 	public void setBase64(String base64, final JavaScriptObject callback) {
 		if (callback != null) {
 			OpenFileListener listener = new OpenFileListener() {
@@ -97,6 +99,12 @@ public class GgbAPIW extends GgbAPI {
 		setBase64(base64);
 	}
 
+	/**
+	 * @param filename
+	 *            file URL
+	 * @param callback
+	 *            callback when file loaded
+	 */
 	public void openFile(String filename, final JavaScriptObject callback) {
 		if (callback != null) {
 			OpenFileListener listener = new OpenFileListener() {
@@ -267,6 +275,11 @@ public class GgbAPIW extends GgbAPI {
 				zipJSworkerURL(), false);
 	}
 
+	/**
+	 * @param includeThumbnail
+	 *            whether to include thumbnail
+	 * @return native JS object representing the archive
+	 */
 	public JavaScriptObject getFileJSON(boolean includeThumbnail) {
 		JavaScriptObject jso = JavaScriptObject.createObject();
 		PageListControllerInterface pageController = ((AppW) app).getPageController();
@@ -278,10 +291,10 @@ public class GgbAPIW extends GgbAPI {
 			}
 			for (int i = 0; i < pageController.getSlideCount(); i++) {
 				prepareToEntrySet(pageController.getSlide(i), jso,
-						SLIDE_PREFIX + i + "/", usage);
+						GgbFile.SLIDE_PREFIX + i + "/", usage);
 			}
-			prepareToEntrySet(shared, jso, SHARED_PREFIX, null);
-			pushIntoNativeEntry(STRUCTURE_JSON,
+			prepareToEntrySet(shared, jso, GgbFile.SHARED_PREFIX, null);
+			pushIntoNativeEntry(GgbFile.STRUCTURE_JSON,
 					pageController.getStructureJSON(), jso);
 			return jso;
 		}
@@ -499,7 +512,7 @@ public class GgbAPIW extends GgbAPI {
 		return archiveContent;
 	}
 
-	private JavaScriptObject prepareToEntrySet(GgbFile archive,
+	private static JavaScriptObject prepareToEntrySet(GgbFile archive,
 			JavaScriptObject nativeEntry, String prefix,
 			HashMap<String, Integer> usage) {
 		for (Entry<String, String> entry : archive.entrySet()) {
@@ -512,7 +525,7 @@ public class GgbAPIW extends GgbAPI {
 		return nativeEntry;
 	}
 
-	private native void pushIntoNativeEntry(String key, String value,
+	private static native void pushIntoNativeEntry(String key, String value,
 			JavaScriptObject ne) /*-{
 		if (typeof ne["archive"] === "undefined") { //needed because gwt gives an __objectId key :-(
 			ne["archive"] = [];
@@ -523,7 +536,15 @@ public class GgbAPIW extends GgbAPI {
 		ne["archive"].push(obj);
 	}-*/;
 
-	private native void getGGBZipJs(JavaScriptObject arch,
+	/**
+	 * @param arch
+	 *            archive
+	 * @param clb
+	 *            callback when zipped
+	 * @param errorClb
+	 *            callback for errors
+	 */
+	native void getGGBZipJs(JavaScriptObject arch,
 			JavaScriptObject clb, JavaScriptObject errorClb) /*-{
 
 		function encodeUTF8(string) {
@@ -653,6 +674,16 @@ public class GgbAPIW extends GgbAPI {
 
 	}-*/;
 
+	/**
+	 * @param arch
+	 *            archive
+	 * @param clb
+	 *            callback for file loaded
+	 * @param workerUrls
+	 *            URL of webworker directory (or "false" to switch them off)
+	 * @param sync
+	 *            whether zip should run synchronously
+	 */
 	void getBase64ZipJs(final JavaScriptObject arch, final JavaScriptObject clb,
 			String workerUrls, boolean sync) {
 		final boolean oldWorkers = setWorkerURL(workerUrls, sync);
@@ -1055,8 +1086,12 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).getAppletFrame().showResetIcon(show);
 	}
 
-	public void insertImage(String s) {
-		((AppW) app).urlDropHappened(s, 0, 0);
+	/**
+	 * @param url
+	 *            image URL
+	 */
+	public void insertImage(String url) {
+		((AppW) app).urlDropHappened(url, 0, 0);
 	}
 
 	/**
