@@ -21,7 +21,6 @@ import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.web.MathFieldW;
 
-
 /**
  * @author Laszlo
  *
@@ -108,7 +107,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			}
 		}, keepFocus);
 	}
-	
+
 	@Override
 	public void onEnter() {
 		if (isSuggesting()) {
@@ -139,7 +138,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 			sug.onKeyUp();
 		}
 	}
-
 
 	@Override
 	public void onDownKeyPressed() {
@@ -178,8 +176,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 		final String rawInput = app.getKernel().getInputPreviewHelper()
 				.getInput(newValue);
 		boolean textInput = isInputAsText();
-		final String input = textInput ? "\"" + rawInput + "\"": rawInput;
-		
+		final String input = textInput ? "\"" + rawInput + "\"" : rawInput;
+
 		setInputAsText(false);
 		final boolean valid = input.equals(newValue);
 
@@ -189,7 +187,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 
 			@Override
 			public void callback(GeoElementND[] geos) {
-
 				if (geos == null) {
 					setFocus(true);
 					return;
@@ -210,8 +207,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 					AlgebraItem.addSelectedGeoWithSpecialPoints(geos[0], app);
 				}
 
-				InputHelper.updateProperties(geos,
-						app.getActiveEuclidianView(), oldStep);
+				InputHelper.updateProperties(geos, app.getActiveEuclidianView(),
+						oldStep);
 				app.setScrollToShow(false);
 
 				Scheduler.get()
@@ -224,7 +221,6 @@ public class LatexTreeItemController extends RadioTreeItemController
 								} else {
 									item.setFocus(false, true);
 								}
-
 							}
 						});
 
@@ -241,8 +237,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 			err.resetError();
 		}
 		EvalInfo info = new EvalInfo(true, true).withSliders(true)
-				.withFractions(true)
-				.addDegree(app.has(Feature.AUTO_ADD_DEGREE))
+				.withFractions(true).addDegree(app.has(Feature.AUTO_ADD_DEGREE))
 				.withUserEquation(true);
 		app.getKernel().getAlgebraProcessor()
 				.processAlgebraCommandNoExceptionHandling(input, true, err,
@@ -289,7 +284,7 @@ public class LatexTreeItemController extends RadioTreeItemController
 	public void showKeyboard() {
 		app.showKeyboard(retexListener);
 	}
-	
+
 	/**
 	 * @param show
 	 *            whether to show keyboard
@@ -320,12 +315,12 @@ public class LatexTreeItemController extends RadioTreeItemController
 	 */
 	public void preventBlur() {
 		this.preventBlur = true;
-		Timer t = new Timer(){
+		Timer t = new Timer() {
 
 			@Override
 			public void run() {
-				preventBlur=false;
-			}			
+				preventBlur = false;
+			}
 		};
 		t.schedule(200);
 	}

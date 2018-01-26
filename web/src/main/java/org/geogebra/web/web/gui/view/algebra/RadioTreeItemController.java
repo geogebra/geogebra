@@ -71,10 +71,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 @SuppressWarnings("javadoc")
-public class RadioTreeItemController
-		implements ClickHandler, DoubleClickHandler, MouseDownHandler,
-		MouseUpHandler,
-		MouseMoveHandler,
+public class RadioTreeItemController implements ClickHandler,
+		DoubleClickHandler, MouseDownHandler, MouseUpHandler, MouseMoveHandler,
 		MouseOutHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler {
 
 	private static final int VERTICAL_PADDING = 20;
@@ -108,8 +106,7 @@ public class RadioTreeItemController
 	}
 
 	protected boolean isMarbleHit(int x, int y, boolean rightClick) {
-		if (item.marblePanel != null
-				&& item.marblePanel.isHit(x, y)) {
+		if (item.marblePanel != null && item.marblePanel.isHit(x, y)) {
 			if (!Browser.isTabletBrowser() && rightClick) {
 
 				onRightClick(x, y);
@@ -175,8 +172,7 @@ public class RadioTreeItemController
 				ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
 		CancelEventTimer.avRestoreWidth();
-		if (CancelEventTimer.cancelMouseEvent()
-				|| isMarbleHit(event)
+		if (CancelEventTimer.cancelMouseEvent() || isMarbleHit(event)
 				|| app.isRightClick(wrappedEvent)) {
 			return;
 		}
@@ -185,7 +181,7 @@ public class RadioTreeItemController
 			app.getGuiManager().getLayout().getDockManager()
 					.setFocusedPanel(App.VIEW_ALGEBRA);
 		}
-		
+
 		if (checkEditing()) {
 			// keep focus in editor
 			event.preventDefault();
@@ -206,7 +202,6 @@ public class RadioTreeItemController
 
 		handleAVItem(event);
 		item.updateButtonPanelPosition();
-
 	}
 
 	@Override
@@ -239,7 +234,6 @@ public class RadioTreeItemController
 		return !isMarbleHit(event) && !isWidgetHit(item.controls, event);
 	}
 
-
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -252,7 +246,6 @@ public class RadioTreeItemController
 		}
 
 		event.preventDefault();
-
 	}
 
 	@Override
@@ -388,13 +381,6 @@ public class RadioTreeItemController
 
 		}
 		updateSelection(event.isControlDown(), event.isShiftDown());
-
-		// if (app.getActiveEuclidianView()
-		// .getMode() == EuclidianConstants.MODE_MOVE
-		// || app.getActiveEuclidianView()
-		// .getMode() == EuclidianConstants.MODE_SELECTION_LISTENER) {
-		// updateSelection(event.isControlDown(), event.isShiftDown());
-		// }
 	}
 
 	/**
@@ -447,7 +433,6 @@ public class RadioTreeItemController
 		if (styleBar != null) {
 			styleBar.update(geo);
 		}
-
 	}
 
 	/**
@@ -584,9 +569,8 @@ public class RadioTreeItemController
 				// (including
 				// selected
 				// object)
-				((GuiManagerW) app.getGuiManager())
-						.showPopupMenu(selection.getSelectedGeos(), item.av,
-								point);
+				((GuiManagerW) app.getGuiManager()).showPopupMenu(
+						selection.getSelectedGeos(), item.av, point);
 			} else {// select only this object and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
@@ -639,6 +623,7 @@ public class RadioTreeItemController
 		return false;
 
 	}
+
 	public void updateSelection(boolean separated, boolean continous) {
 		GeoElement geo = item.geo;
 		if (geo == null) {
@@ -654,7 +639,6 @@ public class RadioTreeItemController
 			}
 		}
 	}
-
 
 	private AlgebraViewW getAV() {
 		return item.getAV();
@@ -689,19 +673,21 @@ public class RadioTreeItemController
 	public boolean isLongTouchHappened() {
 		return getLongTouchManager().isLongTouchHappened();
 	}
-	
-	/** 
-	 * When setting to true, all input typed treated as text,
-	 * so the newly created item will be GeoText.
+
+	/**
+	 * When setting to true, all input typed treated as text, so the newly
+	 * created item will be GeoText.
 	 * 
-	 *  used in LatexTreeItemController 
-	 *  @param value to set.  
+	 * used in LatexTreeItemController
+	 * 
+	 * @param value
+	 *            to set.
 	 */
-	protected void setInputAsText(boolean value)   {
+	protected void setInputAsText(boolean value) {
 		inputAsText = value;
 		item.setInputAsText(value);
 	}
-	
+
 	public void forceInputAsText() {
 		setInputAsText(true);
 	}
@@ -709,10 +695,8 @@ public class RadioTreeItemController
 	/**
 	 * @return if input should be treated as text item.
 	 */
-	public boolean isInputAsText()   {
-		return inputAsText || (item.geo != null
-				&& item.geo.isGeoText()
+	public boolean isInputAsText() {
+		return inputAsText || (item.geo != null && item.geo.isGeoText()
 				&& !((GeoText) item.geo).isTextCommand());
 	}
 }
-
