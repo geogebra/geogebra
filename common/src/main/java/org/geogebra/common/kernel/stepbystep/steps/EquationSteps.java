@@ -740,7 +740,8 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression linear = diff.findCoefficient(variable);
 			StepExpression constant = diff.findConstantIn(variable);
 
-			if (!isOne(cubic) || !power(quadratic, 2).regroup().equals(multiply(3, linear).regroup())) {
+			if (!isOne(cubic) || quadratic == null ||
+					!power(quadratic, 2).regroup().equals(multiply(3, linear).regroup())) {
 				return se;
 			}
 
