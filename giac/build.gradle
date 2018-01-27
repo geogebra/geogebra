@@ -71,7 +71,7 @@ def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
 def emsdkDir = file('emsdk')
 def emsdkRunDir = file("$emsdkDir/emsdk-portable")
-def emscriptenVersion = "1.37.29"
+def emscriptenVersion = "tag-1.37.29"
 def emscriptenDir = file("$emsdkRunDir/emscripten/$emscriptenVersion")
 
 def emccCommand = "${emscriptenDir}/emcc"
