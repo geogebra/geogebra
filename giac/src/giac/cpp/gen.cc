@@ -5991,7 +5991,7 @@ namespace giac {
 	return multgen_poly(*A._VECTptr,*B._VECTptr);
       if ( (A.subtype==_LIST__VECT) || (B.subtype==_LIST__VECT) )
 	return matrix_apply(A,B,contextptr,operator_times);
-      if (A.subtype==_GGBVECT || b.subtype==_GGBVECT){
+      if (A.subtype==_GGBVECT || (b.subtype==_GGBVECT && !ckmatrix(A))){
 	gen res=dotvecteur(a,b);
 	if (res.type==_VECT) res.subtype=_GGBVECT;
 	return res;
