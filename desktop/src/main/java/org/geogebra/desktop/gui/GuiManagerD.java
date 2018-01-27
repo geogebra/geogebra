@@ -158,7 +158,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	private AlgebraViewD algebraView;
 	private CASViewD casView;
 	private SpreadsheetViewD spreadsheetView;
-	private ArrayList<EuclidianViewD> euclidianView2 = new ArrayList<EuclidianViewD>();
+	private ArrayList<EuclidianViewD> euclidianView2 = new ArrayList<>();
 	private ConstructionProtocolViewD constructionProtocolView;
 	private GeoGebraMenuBar menuBar;
 	private String strCustomToolbarDefinition;
@@ -1344,7 +1344,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		Transferable transfer = transfer0;
 		BufferedImage img = null;
 		String fileName = null;
-		ArrayList<String> nameList = new ArrayList<String>();
+		ArrayList<String> nameList = new ArrayList<>();
 		boolean imageFound = false;
 
 		getApp().setWaitCursor();
@@ -2896,7 +2896,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public ArrayList<String> getRecentSymbolList() {
 		if (recentSymbolList == null) {
-			recentSymbolList = new ArrayList<String>();
+			recentSymbolList = new ArrayList<>();
 			recentSymbolList.add(Unicode.PI_STRING);
 			for (int i = 0; i < 9; i++) {
 				recentSymbolList.add("");
@@ -3243,12 +3243,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public void setToolBarDefinition(String toolBarDefinition) {
 		strCustomToolbarDefinition = toolBarDefinition;
-	}
-
-	@Override
-	public void clearAbsolutePanels() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

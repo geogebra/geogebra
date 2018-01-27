@@ -299,14 +299,6 @@ public interface GuiManagerInterface {
 
 	public void setNavBarButtonPlay();
 
-	/*
-	 * In web there are some drawable which not drawn on the canvas of euclidian
-	 * view, but added for an AbsolutePanel which hides the canvas. (e.g.
-	 * inputbox) When we remove all drawable, we must to clear this
-	 * AbsolutePanel too.
-	 */
-	public void clearAbsolutePanels();
-
 	/**
 	 * #3490 "Create sliders for a, b?" Create Sliders / Cancel Yes: create
 	 * sliders and draw line No: go back into input bar and allow user to change

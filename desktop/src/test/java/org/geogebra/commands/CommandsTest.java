@@ -895,6 +895,10 @@ public class CommandsTest extends Assert{
 		t("IntersectPath[Segment[(0,0),(4,4)],(x-2)^2+(y-2)^2=2]",
 				eval("sqrt(8)"),
 				StringTemplate.editTemplate);
+		t("IntersectPath[Segment[(0,0),(2,2)],(x-2)^2+(y-2)^2=2]",
+				eval("sqrt(2)"), StringTemplate.editTemplate);
+		t("IntersectPath[Segment[(1.5,1.5),(2,2)],(x-2)^2+(y-2)^2=2]",
+				eval("sqrt(.5)"), StringTemplate.editTemplate);
 	}
 
 	private static String indices(String string) {

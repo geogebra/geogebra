@@ -10,7 +10,6 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
 import com.google.gwt.event.dom.client.TouchEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -32,7 +31,6 @@ public class PointerEvent extends AbstractEvent {
 	private boolean shift, control, alt, meta, right, middle;
 	private int clickCount = 1;
 	private int evID;
-	private HumanInputEvent<?> nativeEvent;
 
 	private final boolean relative;
 
@@ -148,7 +146,7 @@ public class PointerEvent extends AbstractEvent {
 
 	private static void setProperties(PointerEvent destination,
 	        MouseEvent<?> source) {
-		destination.nativeEvent = source;
+		//destination.nativeEvent = source;
 		destination.alt = source.isAltKeyDown();
 		destination.control = source.isControlKeyDown();
 		destination.clickCount = "dblclick".equals(source.getNativeEvent()
@@ -247,7 +245,7 @@ public class PointerEvent extends AbstractEvent {
 			touches = event.getChangedTouches();
 		}
 		PointerEvent e = wrapEvent(touches.get(index), off);
-		e.nativeEvent = event;
+		//e.nativeEvent = event;
 		return e;
 	}
 
@@ -266,15 +264,6 @@ public class PointerEvent extends AbstractEvent {
 	 */
 	public Element getRelativeElement() {
 		return relativeElement;
-	}
-
-	/**
-	 * Returns the event that was wrapped.
-	 * 
-	 * @return native event
-	 */
-	public HumanInputEvent<?> getWrappedEvent() {
-		return nativeEvent;
 	}
 
 	public void setControl(boolean b) {

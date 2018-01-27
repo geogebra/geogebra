@@ -75,7 +75,6 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 	public AlgoIntersectSegmentConicRegion(Construction cons,
 			GeoSegment segment, GeoConic conic) {
 		super(cons);
-
 		this.segment = segment;
 		this.conic = conic;
 

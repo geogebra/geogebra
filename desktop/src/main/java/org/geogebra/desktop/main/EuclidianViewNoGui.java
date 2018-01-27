@@ -123,8 +123,9 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	public void clearView() {
-		// TODO Auto-generated method stub
-
+		resetLists();
+		updateBackgroundImage(); // clear traces and images
+		removeTextField();
 	}
 
 	@Override

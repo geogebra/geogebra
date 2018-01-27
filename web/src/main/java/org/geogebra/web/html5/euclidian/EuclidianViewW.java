@@ -283,7 +283,7 @@ public class EuclidianViewW extends EuclidianView implements
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
 		if (app.getGuiManager() != null) {
-			app.getGuiManager().clearAbsolutePanels();
+			app.getGuiManager().clearAbsolutePanels(); 
 		}
 		removeTextField();
 

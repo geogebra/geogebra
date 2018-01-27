@@ -130,4 +130,12 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public boolean isKeyboardClosedByUser();
 
 	public MathKeyboardListener getKeyboardListener(DockPanel panel);
+	/*
+	 * There are some drawable which not drawn on the canvas of euclidian
+	 * view, but added for an AbsolutePanel which hides the canvas. (e.g.
+	 * inputbox) When we remove all drawable, we must to clear this
+	 * AbsolutePanel too.
+	 */
+	public void clearAbsolutePanels();
+
 }
