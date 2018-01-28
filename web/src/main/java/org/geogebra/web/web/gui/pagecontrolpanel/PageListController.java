@@ -12,7 +12,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
-import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 
 import com.google.gwt.dom.client.Style.Position;

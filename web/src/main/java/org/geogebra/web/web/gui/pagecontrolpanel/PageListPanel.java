@@ -200,7 +200,7 @@ public class PageListPanel
 				loadPage(card);
 			}
 		});
-		};
+		}
 		
 
 		if (pageIndex < pageController.getSlideCount()) {
