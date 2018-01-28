@@ -12,7 +12,10 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
+import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
+
+import com.google.gwt.dom.client.Style.Position;
 
 /**
  * controller for page actions, such as delete or add slide
@@ -30,6 +33,8 @@ public class PageListController implements PageListControllerInterface {
 	 */
 	private ArrayList<PagePreviewCard> slides;
 	private PagePreviewCard selectedCard;
+	private int dragIndex = -1;
+	private PagePreviewCard lastDragTarget;
 
 	/**
 	 * @param app
@@ -46,7 +51,7 @@ public class PageListController implements PageListControllerInterface {
 	public ArrayList<PagePreviewCard> getCards() {
 		return slides != null ? slides : new ArrayList<PagePreviewCard>();
 	}
-
+	
 	/**
 	 * @return list of slides
 	 */
@@ -294,39 +299,60 @@ public class PageListController implements PageListControllerInterface {
 		
 	}
 
-	/**
-	 * Find card at given coordinates.
-	 * @param x client coordinate.
-	 * @param y client coordinate.
-	 * @return the card if any at (x, y), null otherwise.
-	 */
-	public PagePreviewCard findCardAt(int x, int y) {
+	@Override
+	public int cardIndexAt(int x, int y) {
+		PagePreviewCard card = cardAt(x, y);
+		return card != null ? card.getPageIndex(): -1;
+	}
+
+	@Override
+	public PagePreviewCard cardAt(int x, int y) {
+		PagePreviewCard result = null;
 		for (PagePreviewCard card: slides) {
-			if (card.isHit(x, y)) {
-				return card;
+			if (card.getPageIndex() != dragIndex && card.isHit(x, y)) {
+				result = card;
 			}
 		}
-		return null;
+		return result;
 	}
 	
-	/**
-	 * Drop the card indexed by srcIdx to position x,y.
-	 * @param x coordinate.
-	 * @param y coordinate.
-	 * @param srcIdx the card index to drop.
-	 * @return if the drop was successful or not.
-	 */
-	public boolean dropTo(int x, int y, int srcIdx) {
-		PagePreviewCard card = findCardAt(x,y);
-		if (card != null) {
-			Log.debug("drag: " + srcIdx + " drop to " + card.getPageIndex());
+	public boolean dropTo(int x, int y) {
+		int destIdx = cardIndexAt(x,y);
+		if (destIdx != -1) {
+			Log.debug("drag: " + dragIndex  + " drop to " + destIdx);
 
-			reorder(srcIdx, card.getPageIndex());
+			reorder(dragIndex, destIdx);
+			dragIndex = -1;
+			clearSpaces();
 			return true;
 		} 
 		
 		Log.debug("card was not hit");
 		return false;
+	}
+
+	public void addStyleCard(int pageIndex, String name) {
+		if (pageIndex < 0 || pageIndex > slides.size() - 1) {
+			return;
+		}
+		slides.get(pageIndex).addStyleName(name);
+	}
+
+	public void removeStyleCard(int pageIndex, String name) {
+		if (pageIndex < 0 || pageIndex > slides.size() - 1) {
+			return;
+		}
+		slides.get(pageIndex).removeStyleName(name);
+	}
+
+	public void styleCard(int pageIndex, String name) {
+		for (PagePreviewCard card: slides) {
+			if (card.getPageIndex() == pageIndex) {
+				card.addStyleName(name);			
+			} else {
+				card.removeStyleName(name);
+			}
+		}
 	}
 
 	/**
@@ -357,4 +383,56 @@ public class PageListController implements PageListControllerInterface {
 	public ArrayList<PagePreviewCard> getSlides() {
 		return slides;
 	}
+	
+
+	public void clearSpaces() {
+		clearSpaces(-1);
+	}
+
+	public void clearSpaces(int index) {
+		for (PagePreviewCard card: slides) {
+			if (index != card.getPageIndex()) {
+				card.removeStyleName("spaceBefore");
+				card.removeStyleName("spaceAfter");
+				card.removeStyleName("spaceBeforeAnimated");
+				card.removeStyleName("spaceAfterAnimated");
+			}
+		}
+	}
+
+	@Override
+	public void startDrag(PagePreviewCard card) {
+		dragIndex = card.getPageIndex();
+		card.getElement().getStyle().setPosition(Position.ABSOLUTE);
+		if (dragIndex != slides.size() - 1) {
+			lastDragTarget = card;
+			card.addStyleName("spaceBefore");
+		}
+	}
+	
+	@Override
+	public void drag(int x, int y) {
+		PagePreviewCard target = cardAt(x, y);
+		if (target == null || target == lastDragTarget) {
+			return;
+		}
+		
+		if (lastDragTarget != null) {
+			lastDragTarget.removeStyleName("spaceBeforeAnimated");
+		}
+		
+		target.addStyleName("spaceBeforeAnimated");
+		lastDragTarget = target;
+	}
+	
+	@Override
+	public void stopDrag() {
+		if (dragIndex != -1) {
+			PagePreviewCard card = slides.get(dragIndex);
+			card.getElement().getStyle().clearPosition();
+		}
+		lastDragTarget = null;
+		clearSpaces();
+	}
+
 }

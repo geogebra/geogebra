@@ -30,6 +30,12 @@ public class CancelEventTimer {
 	public static final int TIME_BETWEEN_TOUCH_AND_MOUSE = 500;
 
 	/**
+	 * amount of time (ms) in which all mouse events are ignored after a touch
+	 * event
+	 */
+	public static final int TIME_BETWEEN_TOUCH_AND_DRAG = 5000;
+
+	/**
 	 * amount of time (ms) in which background-clicks are not closing the
 	 * keyboard
 	 */
@@ -76,6 +82,15 @@ public class CancelEventTimer {
 	 */
 	public static boolean cancelMouseEvent() {
 		return System.currentTimeMillis() - lastTouchEvent < TIME_BETWEEN_TOUCH_AND_MOUSE;
+	}
+
+	/**
+	 * called at the beginning of a mouse event
+	 * 
+	 * @return whether the actual mouse event should be canceled
+	 */
+	public static boolean cancelDragEvent() {
+		return System.currentTimeMillis() - lastTouchEvent < TIME_BETWEEN_TOUCH_AND_DRAG;
 	}
 
 	/**

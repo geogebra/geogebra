@@ -7,10 +7,12 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.event.FocusListenerW;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -63,7 +65,7 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
 	private ContextMenuPagePreview contextMenu = null;
-	private static PagePreviewCard dragCard;
+	
 	/**
 	 * ggb file
 	 */
@@ -77,11 +79,14 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	private HandlerRegistration hrTouchStart=null;
 	private HandlerRegistration hrTouchMove=null;
 	private HandlerRegistration hrTouchEnd=null;
-	private ReorderListener reorderListener =null;
+	private CardListener listener =null;
 
-	public interface ReorderListener {
+	public interface CardListener {
+		void loadPage(PagePreviewCard card);
 		void reorder(int srcIdx, int destIdx);
-		void dropTo(int x, int y, int pageIndex);
+		void dropTo(int x, int y);
+		void hover(int pageIndex);
+		void makeSpace(int pageIndex, boolean before);
 	}
 
 	/**
@@ -100,15 +105,17 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 		this.image = file.get("geogebra_thumbnail.png");
 		initGUI();
 		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
-			getElement().setAttribute("draggable", "true");
-			addDragStartHandler(this);
-			addDragOverHandler(this);
-			addDragLeaveHandler(this);
-			addDropHandler(this);
-			
-			addTouchStartHandler(this);
-			addTouchMoveHandler(this);
-			addTouchEndHandler(this);
+			if (Browser.isTabletBrowser()) {
+				addTouchStartHandler(this);
+				addTouchMoveHandler(this);
+				addTouchEndHandler(this);
+			} else {
+				getElement().setAttribute("draggable", "true");
+				addDragStartHandler(this);
+				addDragOverHandler(this);
+				addDragLeaveHandler(this);
+				addDropHandler(this);
+			}
 		}
 	}
 
@@ -385,7 +392,6 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 
 	@Override
 	public void onDragStart(DragStartEvent event) {
-		dragCard = this;
 		event.setData("text", "dragging preview card");
 		event.getDataTransfer().setDragImage(getElement(), 10, 10);
 		event.stopPropagation();
@@ -415,39 +421,40 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 		removeDragStyles();
 //		removeStyleName("dragged");
 		event.preventDefault();
-		if (reorderListener != null && dragCard != null) {
-			reorderListener.reorder(dragCard.getPageIndex(), getPageIndex());
-		}
 	}
 
 
-	public ReorderListener getReorderListener() {
-		return reorderListener;
+	public CardListener getReorderListener() {
+		return listener;
 	}
 
 
-	public void setReorderListener(ReorderListener reorderListener) {
-		this.reorderListener = reorderListener;
+	public void setReorderListener(CardListener reorderListener) {
+		this.listener = reorderListener;
 	}
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
-		getElement().getStyle().setPosition(Position.ABSOLUTE);
-		dragCard = this;
+		app.getPageController().startDrag(this);
 		setDragPosition(event.getTargetTouches().get(0));
 	}
 	
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
+
 		event.preventDefault();
 		event.stopPropagation();
-		if (dragCard == null) {
-			return;
-		}
+	
+		Touch t = event.getTargetTouches().get(0);
+		setDragPosition(t);
+
+		int x = t.getClientX();
+		int y = t.getClientY();
+		app.getPageController().drag(x, y);
 		
-		setDragPosition(event.getTargetTouches().get(0));
+		
 	}
 
 
@@ -455,34 +462,37 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	public void onTouchEnd(TouchEndEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
-		if (dragCard == null) {
-			return;
-		}
-		dragCard.getElement().getStyle().clearPosition();
-		if (reorderListener != null && dragCard != null) {
+		
+		app.getPageController().stopDrag();
+		if (listener != null) {
 			Touch t = event.getTargetTouches().get(0);
 			if (t == null) {
 				t = event.getChangedTouches().get(0);
 			}
 			int x = t.getClientX();
 			int y = t.getClientY();
-			reorderListener.dropTo(x, y, dragCard.getPageIndex());
+			listener.dropTo(x, y);
 		}
-		dragCard = null;
 	}
 	
 	private void setDragPosition(Touch t) {
-		int x = t.getClientX() - getParent().getAbsoluteLeft();
+//		int x = getParent().getAbsoluteLeft();
 		int y = t.getClientY() - getParent().getAbsoluteTop();
 		
-		getElement().getStyle().setLeft(x - getOffsetWidth() / 2, Unit.PX);
+	//	getElement().getStyle().setLeft(x, Unit.PX);
 		getElement().getStyle().setTop(y - getOffsetHeight() / 2, Unit.PX);
 	}
 
 	public boolean isHit(int x, int y) {
-		return (x > getAbsoluteLeft() && y > getAbsoluteTop()
+		boolean hit = x > getAbsoluteLeft() && y > getAbsoluteTop()
 				&& x < getAbsoluteLeft() + getOffsetWidth()
-				&& y < getAbsoluteTop() + getOffsetHeight());
+				&& y < getAbsoluteTop() + getOffsetHeight();
+		
+		Log.debug("[DND] hit at (" + x + ", " + y + ") card ("
+				+ getAbsoluteLeft() + "," + getAbsoluteTop() + "," +
+				getAbsoluteLeft() + getOffsetWidth() + ","  + getAbsoluteTop() + getOffsetHeight() + "): " + hit);
+		
+		return hit;
 	}
 }
 

@@ -3,6 +3,7 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -12,7 +13,7 @@ import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.web.gui.pagecontrolpanel.PagePreviewCard.ReorderListener;
+import org.geogebra.web.web.gui.pagecontrolpanel.PagePreviewCard.CardListener;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 import org.geogebra.web.web.main.AppWapplet;
@@ -29,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class PageListPanel
-		extends PersistablePanel implements SetLabels, ReorderListener {
+		extends PersistablePanel implements SetLabels, CardListener {
 
 	private AppW app;
 	private GeoGebraFrameBoth frame;
@@ -192,12 +193,15 @@ public class PageListPanel
 			return;
 		}
 		final int pageIndex = card.getPageIndex();
+		if (!app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
 		ClickStartHandler.init(card, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				loadPage(card);
 			}
 		});
+		};
+		
 
 		if (pageIndex < pageController.getSlideCount()) {
 			contentPanel.insert(card, pageIndex);
@@ -208,11 +212,8 @@ public class PageListPanel
 		card.setLabels();
 	}
 
-	/**
-	 * 
-	 * @param card that represents the page to load
-	 */
-	protected void loadPage(PagePreviewCard card) {
+	@Override
+	public void loadPage(PagePreviewCard card) {
 		pageController.loadPage(card.getPageIndex(), false);
 	}
 
@@ -309,11 +310,19 @@ public class PageListPanel
 	}
 
 	@Override
-	public void dropTo(int x, int y, int pageIndex) {
-		if (pageController.dropTo(x, y, pageIndex)) {
+	public void dropTo(int x, int y) {
+		if (pageController.dropTo(x, y)) {
 			update();
 		}
-		
-		
+	}
+
+	@Override
+	public void hover(int pageIndex) {
+		pageController.styleCard(pageIndex, "highlight");
+	}
+
+	@Override
+	public void makeSpace(int pageIndex, boolean before) {
+		pageController.styleCard(pageIndex, "spaceBeforeAnimated");
 	}
 }	
