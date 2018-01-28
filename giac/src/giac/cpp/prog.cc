@@ -289,21 +289,41 @@ namespace giac {
     return locals.print(contextptr);
   }
 
+  // convert back increment and decrement to sto
+  static gen from_increment(const gen & g){
+    int type=0;
+    if (g.is_symb_of_sommet(at_increment))
+      type=1;
+    if (g.is_symb_of_sommet(at_decrement))
+      type=-1;
+    if (type){
+      gen & f =g._SYMBptr->feuille;
+      if (f.type!=_VECT)
+	return symbolic(at_sto,gen(makevecteur(symbolic(at_plus,makevecteur(f,type)),f),_SEQ__VECT));
+      vecteur & v = *f._VECTptr;
+      if (v.size()!=2)
+	return gensizeerr(gettext("from_increment"));
+      return symbolic(at_sto,gen(makevecteur(symbolic(at_plus,gen(makevecteur(v[0],type*v[1]),_SEQ__VECT)),v[0]),_SEQ__VECT));
+    }
+    return g;
+  }
+
   void debug_print(const gen & e,vector<string>  & v,GIAC_CONTEXT){
     if (e.type!=_SYMB){
       v.push_back(indent2(contextptr)+e.print(contextptr));
       return ;
     }
     bool is38=abs_calc_mode(contextptr)==38;
+    bool python=python_compat(contextptr);
     unary_function_ptr u=e._SYMBptr->sommet;
     gen f=e._SYMBptr->feuille;
     const unary_function_eval * uptr=dynamic_cast<const unary_function_eval *>(u.ptr());
     if (uptr && uptr->op==_ifte){
       string s=indent2(contextptr);
-      s += is38?"IF ":"if(";
+      s += python?"if ":(is38?"IF ":"if(");
       vecteur w=*f._VECTptr;
       s += w.front().print(contextptr);
-      s += is38?" THEN/ELSE":")";
+      s += python?":":(is38?" THEN/ELSE":")");
       v.push_back(s);
       debug_ptr(contextptr)->indent_spaces += 1;
       debug_print(w[1],v,contextptr);
@@ -314,7 +334,7 @@ namespace giac {
     }
     if (u==at_local){
       string s(indent2(contextptr));
-      s += is38?"LOCAL ":"local ";
+      s += python?"# local ":(is38?"LOCAL ":"local ");
       gen local_global=f._VECTptr->front(),locals(gen2vecteur(local_global)),globals(vecteur(0));
       if (local_global.type==_VECT && local_global._VECTptr->size()==2){ 
 	gen f=local_global._VECTptr->front(),b=local_global._VECTptr->back();
@@ -338,10 +358,37 @@ namespace giac {
       return;
     }
     if (uptr && uptr->op==_for){
-      string s(indent2(contextptr));
-      s += is38?"FOR(":"for(";
       vecteur w=*f._VECTptr;
-      s += w[0].print(contextptr)+";"+w[1].print(contextptr)+";"+w[2].print(contextptr)+")";
+      string s(indent2(contextptr));
+      bool done=false;
+      if (python){
+	gen inc(from_increment(w[2]));
+	if (inc.is_symb_of_sommet(at_sto) && inc._SYMBptr->feuille[1].type==_IDNT){
+	  gen index=inc._SYMBptr->feuille[1];
+	  if (inc._SYMBptr->feuille[0]==index+1 && w[0].is_symb_of_sommet(at_sto) && w[0]._SYMBptr->feuille[1]==index){
+	    gen start=w[0]._SYMBptr->feuille[0];
+	    if (w[1].type==_SYMB && (w[1]._SYMBptr->sommet==at_inferieur_egal || w[1]._SYMBptr->sommet==at_inferieur_strict) && w[1]._SYMBptr->feuille[0]==index){
+	      int large=w[1]._SYMBptr->sommet==at_inferieur_egal?1:0;
+	      gen stop=w[1]._SYMBptr->feuille[1];
+	      s += "for "+index.print(contextptr)+" in range(";
+	      if (start!=0)
+		s +=start.print(contextptr)+",";
+	      s += (stop+large).print(contextptr)+"):";
+	      done=true;
+	    }
+	  }
+	}
+      }
+      if (w[0].type==_INT_ && w[2].type==_INT_){
+	s += python?"while ":(is38?"WHILE(":"while(");
+	s += w[1].print(contextptr);
+	s += python?":":")";
+	done=true;
+      }
+      if (!done){
+	s += is38?"FOR(":"for(";
+	s += w[0].print(contextptr)+";"+w[1].print(contextptr)+";"+w[2].print(contextptr)+")";
+      }
       v.push_back(s);
       debug_ptr(contextptr)->indent_spaces += 2;
       f=f._VECTptr->back();
@@ -1844,25 +1891,6 @@ namespace giac {
   static define_unary_function_eval2_quoted (__when,&_when,_when_s,&printaswhen);
   define_unary_function_ptr5( at_when ,alias_at_when,&__when,_QUOTE_ARGUMENTS,true);
 
-  // convert back increment and decrement to sto
-  static gen from_increment(const gen & g){
-    int type=0;
-    if (g.is_symb_of_sommet(at_increment))
-      type=1;
-    if (g.is_symb_of_sommet(at_decrement))
-      type=-1;
-    if (type){
-      gen & f =g._SYMBptr->feuille;
-      if (f.type!=_VECT)
-	return symbolic(at_sto,gen(makevecteur(symbolic(at_plus,makevecteur(f,type)),f),_SEQ__VECT));
-      vecteur & v = *f._VECTptr;
-      if (v.size()!=2)
-	return gensizeerr(gettext("from_increment"));
-      return symbolic(at_sto,gen(makevecteur(symbolic(at_plus,gen(makevecteur(v[0],type*v[1]),_SEQ__VECT)),v[0]),_SEQ__VECT));
-    }
-    return g;
-  }
-
   // loop
   string printasfor(const gen & feuille,const char * sommetstr,GIAC_CONTEXT){
     if (feuille.type!=_VECT) 
@@ -1887,7 +1915,10 @@ namespace giac {
 	  if ((it+1)->type==_SYMB && ((it+1)->_SYMBptr->sommet==at_inferieur_egal || (it+1)->_SYMBptr->sommet==at_inferieur_strict) && (it+1)->_SYMBptr->feuille[0]==index){
 	    int large=(it+1)->_SYMBptr->sommet==at_inferieur_egal?1:0;
 	    gen stop=(it+1)->_SYMBptr->feuille[1];
-	    res +=  '\n'+string(ind,' ')+"for "+index.print(contextptr)+" in range("+start.print(contextptr)+","+(stop+large).print(contextptr)+"):"+'\n';
+	    res +=  '\n'+string(ind,' ')+"for "+index.print(contextptr)+" in range(";
+	    if (start!=0)
+	      res +=start.print(contextptr)+",";
+	    res +=(stop+large).print(contextptr)+"):"+'\n';
 	    ind += 4;
 	    res += string(ind,' ')+(it+3)->print(contextptr);
 	    ind -=4;

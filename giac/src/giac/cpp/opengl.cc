@@ -4335,7 +4335,29 @@ void freeglutStrokeCharacter( int character )
 #endif // ndef NO_NAMESPACE_GIAC
 
 #ifdef EMCC
-const char * gettext(const char * s) { return s; }
-#endif
+#ifdef GIAC_GGB
+const char * gettext(const char * s) { 
+  return s;
+}
+#else // GIAC_GGB
+#include "aspen_translate.h"
+bool tri2(const char4 & a,const char4 & b){
+  int res= strcmp(a[0],b[0]);
+  return res<0;
+}
+
+const char * gettext(const char * s) { 
+  int lang=language(context0); // 0 english 1 french 
+  char4 s4={s};
+  std::pair<char4 * const,char4 *const> pp=equal_range(aspen_giac_translations,aspen_giac_translations+aspen_giac_records,s4,tri2);
+  if (pp.first!=pp.second && 
+      pp.second!=aspen_giac_translations+aspen_giac_records &&
+      (*pp.first)[lang+1]){
+    return (*pp.first)[lang+1];
+  }
+  return s;
+}
+#endif // GIAC_GGB
+#endif // EMCC
 
 #endif // ndef GIAC_GGB

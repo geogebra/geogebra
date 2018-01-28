@@ -15483,7 +15483,11 @@ namespace giac {
       else
 	g=gen(v,g.subtype);
     }
-    bool push=!g.is_symb_of_sommet(at_mathml);
+    gen gp=g;
+    if (gp.is_symb_of_sommet(at_add_autosimplify))
+      gp=gp._SYMBptr->feuille;
+    bool push=!gp.is_symb_of_sommet(at_mathml) && !gp.is_symb_of_sommet(at_set_language);
+    //bool push=!g.is_symb_of_sommet(at_mathml);
     if (push){
       history_in(&C).push_back(g);
       // COUT << "hin " << g << endl;

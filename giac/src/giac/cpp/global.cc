@@ -256,7 +256,9 @@ extern "C" void Sleep(unsigned int miliSecond);
   void language(int b,GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       contextptr->globalptr->_language_=b;
+#ifndef EMCC
     else
+#endif
       _language_=b;
   }
 

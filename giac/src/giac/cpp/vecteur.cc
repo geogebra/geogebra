@@ -15525,7 +15525,7 @@ namespace giac {
       if (is_zero(tmp,contextptr)){ //is_greater(1e-8,tmp/(s*svdmax),contextptr)){
 	tmp=l2norm(*u[i]._VECTptr,contextptr);
       }
-      tmp=inv(tmp,contextptr);
+      if (!is_zero(tmp,contextptr)) tmp=inv(tmp,contextptr);
       u[i]=tmp*u[i];
     }
     reverse(u.begin(),u.end()); // put 0 SVD at the end
