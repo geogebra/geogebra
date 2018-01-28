@@ -437,7 +437,7 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
-		app.getPageController().startDrag(this);
+		app.getPageController().startDrag(pageIndex);
 		setDragPosition(event.getTargetTouches().get(0));
 	}
 	

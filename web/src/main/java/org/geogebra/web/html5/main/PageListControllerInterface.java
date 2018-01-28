@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.main;
 
-import org.geogebra.web.web.gui.pagecontrolpanel.PagePreviewCard;
 
 /**
  * Controller for multipage files
@@ -39,14 +38,6 @@ public interface PageListControllerInterface {
 	boolean loadSlides(GgbFile archiveContent);
 
 	/**
-	 * Find card at given coordinates.
-	 * @param x client coordinate.
-	 * @param y client coordinate.
-	 * @return the card if any at (x, y), null otherwise.
-	 */
-	PagePreviewCard cardAt(int x, int y);
-
-	/**
 	 * Find card index at given coordinates.
 	 * @param x client coordinate.
 	 * @param y client coordinate.
@@ -58,7 +49,7 @@ public interface PageListControllerInterface {
 	 * Starts dragging the given card.
 	 * @param card to drag.
 	 */
-	void startDrag(PagePreviewCard card);
+	void startDrag(int pageIndex);
 
 	/**
 	 * Drag the card that was started to.

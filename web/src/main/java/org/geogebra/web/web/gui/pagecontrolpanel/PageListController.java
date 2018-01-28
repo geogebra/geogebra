@@ -301,16 +301,10 @@ public class PageListController implements PageListControllerInterface {
 
 	@Override
 	public int cardIndexAt(int x, int y) {
-		PagePreviewCard card = cardAt(x, y);
-		return card != null ? card.getPageIndex(): -1;
-	}
-
-	@Override
-	public PagePreviewCard cardAt(int x, int y) {
-		PagePreviewCard result = null;
+		int result = -1;
 		for (PagePreviewCard card: slides) {
 			if (card.getPageIndex() != dragIndex && card.isHit(x, y)) {
-				result = card;
+				result = card.getPageIndex();
 			}
 		}
 		return result;
@@ -401,8 +395,9 @@ public class PageListController implements PageListControllerInterface {
 	}
 
 	@Override
-	public void startDrag(PagePreviewCard card) {
-		dragIndex = card.getPageIndex();
+	public void startDrag(int pageIndex) {
+		dragIndex = pageIndex;
+		PagePreviewCard card = slides.get(pageIndex);
 		card.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		if (dragIndex != slides.size() - 1) {
 			lastDragTarget = card;
@@ -412,7 +407,7 @@ public class PageListController implements PageListControllerInterface {
 	
 	@Override
 	public void drag(int x, int y) {
-		PagePreviewCard target = cardAt(x, y);
+		PagePreviewCard target = slides.get(cardIndexAt(x, y));
 		if (target == null || target == lastDragTarget) {
 			return;
 		}
