@@ -160,6 +160,8 @@ public class ExamEnvironment {
 				return localization.getMenu("exam_start_date");
 			case START_TIME:
 				return localization.getMenu("exam_start_time");
+			case END_TIME:
+				return localization.getMenu("exam_end_time");
 			case ACTIVITY:
 				return localization.getMenu("exam_activity");
 			case EXAM_STARTED:
@@ -178,6 +180,10 @@ public class ExamEnvironment {
 
 	public String getStartTime() {
 		return getLocalizedTimeOnly(app.getLocalization(), examStartTime);
+	}
+
+	public String getEndTime() {
+		return getLocalizedTimeOnly(app.getLocalization(), closed);
 	}
 
 	private static String getLocalizedTimeOnly(Localization loc, long time) {

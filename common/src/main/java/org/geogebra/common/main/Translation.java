@@ -7,6 +7,7 @@ public enum Translation {
     SHOW_TO_TEACHER,
     DATE,
     START_TIME,
+    END_TIME,
     ACTIVITY,
     EXAM_STARTED,
     EXAM_ENDED,
