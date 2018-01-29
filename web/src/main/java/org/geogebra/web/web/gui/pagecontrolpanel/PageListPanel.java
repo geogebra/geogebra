@@ -13,7 +13,6 @@ import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelW;
-import org.geogebra.web.web.gui.pagecontrolpanel.PagePreviewCard.CardListener;
 import org.geogebra.web.web.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.web.gui.util.PersistablePanel;
 import org.geogebra.web.web.main.AppWapplet;

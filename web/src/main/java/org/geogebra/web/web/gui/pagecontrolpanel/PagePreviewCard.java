@@ -23,16 +23,6 @@ import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.DragEnterEvent;
-import com.google.gwt.event.dom.client.DragEnterHandler;
-import com.google.gwt.event.dom.client.DragLeaveEvent;
-import com.google.gwt.event.dom.client.DragLeaveHandler;
-import com.google.gwt.event.dom.client.DragOverEvent;
-import com.google.gwt.event.dom.client.DragOverHandler;
-import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.dom.client.DragStartHandler;
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -49,8 +39,7 @@ import com.google.gwt.user.client.ui.Image;
  * @author Alicia Hofstaetter
  *
  */
-public class PagePreviewCard extends FlowPanel implements DragStartHandler,
-DragOverHandler, DragLeaveHandler, DropHandler,
+public class PagePreviewCard extends FlowPanel implements
 TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	private static final int LABELFONT_SIZE = 16;
 	private AppW app;
@@ -69,23 +58,11 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	 */
 	protected GgbFile file;
 	
-	private HandlerRegistration hrDragStart=null;
-	private HandlerRegistration hrDragEnter=null;
-	private HandlerRegistration hrDragOver=null;
-	private HandlerRegistration hrDragLeave=null;
-	private HandlerRegistration hrDrop=null;
 	private HandlerRegistration hrTouchStart=null;
 	private HandlerRegistration hrTouchMove=null;
 	private HandlerRegistration hrTouchEnd=null;
 	private CardListener listener =null;
 
-	public interface CardListener {
-		void loadPage(PagePreviewCard card);
-		void reorder(int srcIdx, int destIdx);
-		void dropTo(int x, int y);
-		void hover(int pageIndex);
-		void makeSpace(int pageIndex, boolean before);
-	}
 
 	/**
 	 * @param app
@@ -108,11 +85,8 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 				addTouchMoveHandler(this);
 				addTouchEndHandler(this);
 			} else {
-				getElement().setAttribute("draggable", "true");
-				addDragStartHandler(this);
-				addDragOverHandler(this);
-				addDragLeaveHandler(this);
-				addDropHandler(this);
+				// no drag handlers.
+				// TODO: implement with mouse handlers.
 			}
 		}
 	}
@@ -320,27 +294,6 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 		updateLabel();
 	}
 
-	private void addDragStartHandler(DragStartHandler handler) {
-		hrDragStart = addDomHandler(handler, DragStartEvent.getType());
-	}
-
-	private void addDropHandler(DropHandler handler) {
-		hrDrop = addDomHandler(handler, DropEvent.getType());
-	}
-
-	private void addDragOverHandler(DragOverHandler handler) {
-		hrDragOver = addDomHandler(handler, DragOverEvent.getType());
-	}
-
-	private void addDragLeaveHandler(DragLeaveHandler handler) {
-		hrDragLeave = addDomHandler(handler, DragLeaveEvent.getType());
-	}
-
-	/** TODO unused */
-	public void addDragEnterHandler(DragEnterHandler handler) {
-		hrDragEnter = addDomHandler(handler, DragEnterEvent.getType());
-	}
-
 	private void addTouchStartHandler(TouchStartHandler handler) {
 		hrTouchStart = addDomHandler(handler, TouchStartEvent.getType());
 	}
@@ -354,26 +307,6 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	}
 	
 	public void removeDragNDrop() {
-		if (hrDragStart != null) {
-			hrDragStart.removeHandler();
-		}
-
-		if (hrDrop != null) {
-			hrDrop.removeHandler();
-		}
-
-		if (hrDragOver != null) {
-			hrDragOver.removeHandler();
-		}
-
-		if (hrDragLeave != null) {
-			hrDragLeave.removeHandler();
-		}
-
-		if (hrDragEnter != null) {
-			hrDragEnter.removeHandler();
-		}
-		
 		if (hrTouchStart != null) {
 			hrTouchStart.removeHandler();
 		}
@@ -386,41 +319,6 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 			hrTouchEnd.removeHandler();
 		}
 	}
-
-
-	@Override
-	public void onDragStart(DragStartEvent event) {
-		event.setData("text", "dragging preview card");
-		event.getDataTransfer().setDragImage(getElement(), 10, 10);
-		event.stopPropagation();
-//		addStyleName("dragged");
-	}
-
-	private void removeDragStyles() {
-		removeStyleName("dragOver");
-		removeStyleName("dragLeave");
-	}
-
-	@Override
-	public void onDragOver(DragOverEvent event) {
-		event.preventDefault();
-		removeStyleName("dragLeave");
-		addStyleName("dragOver");
-	}
-
-	@Override
-	public void onDragLeave(DragLeaveEvent event) {
-		removeStyleName("dragOver");
-		addStyleName("dragLeave");
-	}
-
-	@Override
-	public void onDrop(DropEvent event) {
-		removeDragStyles();
-//		removeStyleName("dragged");
-		event.preventDefault();
-	}
-
 
 	public CardListener getReorderListener() {
 		return listener;
