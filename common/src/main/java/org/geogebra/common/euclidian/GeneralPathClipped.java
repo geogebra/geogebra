@@ -34,7 +34,7 @@ public class GeneralPathClipped implements GShape {
 	protected EuclidianViewInterfaceSlim view;
 	private double largestCoord;
 	private boolean needClosePath;
-	private GRectangle bounds;
+	private GRectangle2D bounds;
 	private double auxX;
 	private double auxY;
 	// first control point
@@ -44,7 +44,7 @@ public class GeneralPathClipped implements GShape {
 	private double cont2X = Double.NaN;
 	private double cont2Y = Double.NaN;
 
-	private GRectangle oldBounds;
+	private GRectangle2D oldBounds;
 
 	private GPoint2D[] tmpClipPoints = { AwtFactory.getPrototype().newPoint2D(),
 			AwtFactory.getPrototype().newPoint2D() };
@@ -370,8 +370,8 @@ public class GeneralPathClipped implements GShape {
 
 		if (bounds == null) {
 			bounds = oldBounds != null ? oldBounds
-					: AwtFactory.getPrototype().newRectangle();
-			bounds.setBounds((int) p.getX(), (int) p.getY(), 0, 0);
+					: AwtFactory.getPrototype().newRectangle2D();
+			bounds.setRect(p.getX(), p.getY(), 0, 0);
 		}
 
 		if (Math.abs(p.getX()) > largestCoord) {
@@ -468,12 +468,13 @@ public class GeneralPathClipped implements GShape {
 	@Override
 	public GRectangle getBounds() {
 		return bounds == null ? AwtFactory.getPrototype().newRectangle()
-				: bounds;
+				: bounds.getBounds();
 	}
 
 	@Override
 	public GRectangle2D getBounds2D() {
-		return getBounds();
+		return bounds == null ? AwtFactory.getPrototype().newRectangle2D()
+				: bounds;
 	}
 
 	/*

@@ -167,4 +167,9 @@ public class GGenericRectangle2DD implements GRectangle2DD {
 		return impl;
 	}
 
+	@Override
+	public void add(double x, double y) {
+		impl.add(x, y);
+	}
+
 }

@@ -33,4 +33,6 @@ public interface GRectangle2D extends GRectangularShape {
 
 	public boolean intersectsLine(double xc, double yc, double xe, double ye);
 
+	public void add(double x, double y);
+
 }

@@ -92,7 +92,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
-
 		myPointList = new ArrayList<>(500);
 	}
 
@@ -180,7 +179,6 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 			nonScaledPointList = new ArrayList<>(myPointList.size());
 			nonScaledWidth = gRectangle2D.getMaxX() - gRectangle2D.getMinX();
 			nonScaledHeight = gRectangle2D.getMaxY() - gRectangle2D.getMinY();
-
 			for (int i = 0; i < myPointList.size(); i++) {
 				double x = myPointList.get(i).getX();
 				double y = myPointList.get(i).getY();
@@ -190,9 +188,10 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 				} else {
 					nonScaledPointList.add(new GPoint2D.Double(
 							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordX(x) - gRectangle2D.getMinX(),
+									.toScreenCoordXd(x)
+									- gRectangle2D.getMinX(),
 							kernel.getApplication().getActiveEuclidianView()
-									.toScreenCoordY(y)
+									.toScreenCoordYd(y)
 									- gRectangle2D.getMinY()));
 				}
 			}

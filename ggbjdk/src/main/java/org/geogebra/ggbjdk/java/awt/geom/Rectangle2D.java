@@ -588,7 +588,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
      * @param newy the Y coordinate of the new point
      * @since 1.2
      */
-    public void add(double newx, double newy) {
+	@Override
+	public void add(double newx, double newy) {
         double x1 = Math.min(getMinX(), newx);
         double x2 = Math.max(getMaxX(), newx);
         double y1 = Math.min(getMinY(), newy);

@@ -149,7 +149,7 @@ public class DrawLocus extends Drawable {
 				Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)
 				&& geo.getGeoClassType() == GeoClass.PENSTROKE
 				&& getBounds() != null) {
-			getBoundingBox().setRectangle(getBounds());
+			getBoundingBox().setRectangle(getBounds2D());
 		}
 	}
 
@@ -169,9 +169,7 @@ public class DrawLocus extends Drawable {
 				// fill using default/hatching/image as appropriate
 				fill(g2, (geo.isInverseFill() ? getShape() : gp));
 			}
-
 		}
-
 	}
 
 	private void buildGeneralPath(ArrayList<? extends MyPoint> pointList) {
@@ -288,6 +286,13 @@ public class DrawLocus extends Drawable {
 		return gp.getBounds();
 	}
 
+	private GRectangle2D getBounds2D() {
+		if (!geo.isDefined() || !geo.isEuclidianVisible() || gp == null) {
+			return null;
+		}
+		return gp.getBounds2D();
+	}
+
 	@Override
 	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
@@ -316,7 +321,7 @@ public class DrawLocus extends Drawable {
 		updatePoints(handler, e,
 				getBoundingBox().getRectangle());
 		update();
-		getBoundingBox().setRectangle(getBounds());
+		getBoundingBox().setRectangle(getBounds2D());
 
 	}
 
