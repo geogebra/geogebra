@@ -276,6 +276,8 @@ public class CASparser implements CASParserInterface {
 						state = FA.UNDERSCORE;
 						appendcode(replaceIndices, '_');
 					}
+				} else if (c == Unicode.EULER_CHAR) {
+					replaceIndices.append('e');
 				} else if (replaceUnicode && c > 127
 						&& c != Unicode.MEASURED_ANGLE) {
 					appendcode(replaceIndices, c);
