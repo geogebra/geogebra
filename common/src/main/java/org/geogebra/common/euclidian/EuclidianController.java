@@ -8091,6 +8091,8 @@ public abstract class EuclidianController {
 			}
 			getResizedShape().updateByBoundingBoxResize(event,
 					view.getHitHandler());
+			hideDynamicStylebar();
+			view.repaintView();
 			stopCollectingMinorRepaints();
 			return;
 		}

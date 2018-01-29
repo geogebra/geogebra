@@ -2335,8 +2335,6 @@ public class DrawConic extends Drawable implements Previewable {
 		view.setShapeStroke(EuclidianStatic.getStroke(
 				conic.getLineThickness() / 2.0,
 				conic.getLineType()));
-		view.getEuclidianController().hideDynamicStylebar();
-		view.repaintView();
 	}
 
 	private void translatePointsForSideHandler(AbstractEvent e) {

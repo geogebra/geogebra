@@ -637,17 +637,15 @@ public class DrawSegment extends Drawable implements Previewable {
 		double realY = view.toRealWorldCoordY(e.getY());
 
 		if (dP1 <= dP2) {
-				s.getStartPoint().setCoords(realX, realY, 1);
+			s.getStartPoint().setCoords(realX, realY, 1);
 		} else {
-				s.getEndPoint().setCoords(realX, realY, 1);
+			s.getEndPoint().setCoords(realX, realY, 1);
 		}
 
 		s.update();
 		s.updateRepaint();
 		s.getParentAlgorithm().update();
-		this.update();
-		view.getEuclidianController().hideDynamicStylebar();
-		view.repaintView();
+		update();
 	}
 
 	/**

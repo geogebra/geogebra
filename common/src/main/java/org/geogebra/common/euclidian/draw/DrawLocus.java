@@ -294,8 +294,6 @@ public class DrawLocus extends Drawable {
 			return;
 		}
 		updateLocus(handler, e);
-		view.getEuclidianController().hideDynamicStylebar();
-		view.repaintView();
 	}
 
 	@Override

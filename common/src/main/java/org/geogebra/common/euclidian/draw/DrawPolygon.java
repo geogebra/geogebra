@@ -607,8 +607,6 @@ public class DrawPolygon extends Drawable implements Previewable {
 		view.setShapeStroke(EuclidianStatic
 				.getStroke(poly.getLineThickness() / 2.0,
 				poly.getLineType()));
-		view.getEuclidianController().hideDynamicStylebar();
-		view.repaintView();
 	}
 
 	private void updateRealPointsOfPolygon() {
