@@ -21,6 +21,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.TouchEndEvent;
@@ -29,7 +30,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 
@@ -39,8 +39,9 @@ import com.google.gwt.user.client.ui.Image;
  * @author Alicia Hofstaetter
  *
  */
-public class PagePreviewCard extends FlowPanel implements
-TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
+public class PagePreviewCard extends FlowPanel
+		implements TouchStartHandler,
+		TouchMoveHandler, TouchEndHandler, SetLabels {
 	private static final int LABELFONT_SIZE = 16;
 	private AppW app;
 	private Localization loc;
@@ -58,11 +59,7 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	 */
 	protected GgbFile file;
 	
-	private HandlerRegistration hrTouchStart=null;
-	private HandlerRegistration hrTouchMove=null;
-	private HandlerRegistration hrTouchEnd=null;
 	private CardListener listener =null;
-
 
 	/**
 	 * @param app
@@ -84,9 +81,6 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 				addTouchStartHandler(this);
 				addTouchMoveHandler(this);
 				addTouchEndHandler(this);
-			} else {
-				// no drag handlers.
-				// TODO: implement with mouse handlers.
 			}
 		}
 	}
@@ -295,34 +289,17 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	}
 
 	private void addTouchStartHandler(TouchStartHandler handler) {
-		hrTouchStart = addDomHandler(handler, TouchStartEvent.getType());
+		addDomHandler(handler, TouchStartEvent.getType());
 	}
 
 	private void addTouchMoveHandler(TouchMoveHandler handler) {
-		hrTouchMove = addDomHandler(handler, TouchMoveEvent.getType());
+		addDomHandler(handler, TouchMoveEvent.getType());
 	}
 	
 	private void addTouchEndHandler(TouchEndHandler handler) {
-		hrTouchEnd = addDomHandler(handler, TouchEndEvent.getType());
+		addDomHandler(handler, TouchEndEvent.getType());
 	}
 	
-	/**
-	 * Removes all handlers that have to do with DnD.s
-	 */
-	public void removeDragNDrop() {
-		if (hrTouchStart != null) {
-			hrTouchStart.removeHandler();
-		}
-		
-		if (hrTouchMove != null) {
-			hrTouchMove.removeHandler();
-		}
-		
-		if (hrTouchEnd != null) {
-			hrTouchEnd.removeHandler();
-		}
-	}
-
 	/**
 	 * @return the card listener.
 	 */
@@ -331,6 +308,7 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	}
 
 	/**
+	 * Sends card listener to handle them in their container.
 	 * 
 	 * @param listener
 	 *            to set.
@@ -377,10 +355,22 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 			listener.dropTo(x, y);
 		}
 	}
+
+	/**
+	 * @param x
+	 *            is unused for now.
+	 * @param y
+	 *            coordinate.
+	 */
+	public void setDragPosition(int x, int y) {
+		int top = y - getParent().getAbsoluteTop() - getOffsetHeight() / 2;
+		int left = getAbsoluteLeft() + 10;
+		getElement().getStyle().setTop(left, Unit.PX);
+		getElement().getStyle().setTop(top, Unit.PX);
+	}
 	
 	private void setDragPosition(Touch t) {
-		int y = t.getClientY() - getParent().getAbsoluteTop();
-		getElement().getStyle().setTop(y - getOffsetHeight() / 2, Unit.PX);
+		setDragPosition(t.getClientX(), t.getClientY());
 	}
 
 	/**
@@ -393,15 +383,33 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	 * @return if card was hit at (x, y).
 	 */
 	public boolean isHit(int x, int y) {
-		boolean hit = x > getAbsoluteLeft() && y > getAbsoluteTop()
-				&& x < getAbsoluteLeft() + getOffsetWidth()
-				&& y < getAbsoluteTop() + getOffsetHeight();
-		
-		Log.debug("[DND] hit at (" + x + ", " + y + ") card ("
-				+ getAbsoluteLeft() + "," + getAbsoluteTop() + "," +
-				getAbsoluteLeft() + getOffsetWidth() + ","  + getAbsoluteTop() + getOffsetHeight() + "): " + hit);
-		
+		int left = getAbsoluteLeft();
+		int top = getAbsoluteTop();
+		int right = left + getOffsetWidth();
+		int bottom = top + getOffsetHeight();
+		boolean hit = x > left && x < right && y > top && y < bottom;
+
+		Log.debug("DND hit " + getTitle() + "(" + x + ", " + y + " -> (" + left
+				+ ", " + top + ", "
+				+ right
+				+ ", " + bottom + ") " + hit);
+
 		return hit;
 	}
+
+	/**
+	 * Set position of the card as absolute.
+	 */
+	public void setAbsolutePosition() {
+		getElement().getStyle().setPosition(Position.ABSOLUTE);
+	}
+
+	/**
+	 * Clears position css property.
+	 */
+	public void clearPosition() {
+		getElement().getStyle().clearPosition();
+	}
+
 }
 

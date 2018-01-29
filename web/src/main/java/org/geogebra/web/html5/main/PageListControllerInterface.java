@@ -47,16 +47,28 @@ public interface PageListControllerInterface {
 
 	/**
 	 * Starts dragging the given card.
-	 * 
 	 * @param pageIndex
-	 *            card to drag.
+	 *            to drag.
 	 */
 	void startDrag(int pageIndex);
 
 	/**
+	 * Starts the drag of card at (x, y) if any.
+	 * 
+	 * @param x
+	 *            coordinate.
+	 * @param y
+	 *            coordinate.
+	 */
+	void startDrag(int x, int y);
+
+	/**
 	 * Drag the card that was started to.
-	 * @param x coordinate.
-	 * @param y coordinate.
+	 * 
+	 * @param x
+	 *            coordinate.
+	 * @param y
+	 *            coordinate.
 	 */
 	void drag(int x, int y);
 

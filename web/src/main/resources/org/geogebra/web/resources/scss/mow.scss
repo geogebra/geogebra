@@ -15,7 +15,7 @@
 	$floatingbtn-hover-transition: background-color 0.15s;
 	$floatingbtn-appear-transition: width 0.2s, height 0.2s, right 0.2s, margin-bottom 0.2s, visibility 0.2s;
 	$floatingbtn-img-appear-transition: width 0.2s, height 0.2s, padding 0.2s;
-	$card-space-transition: margin-top 0.8s, margin-bottom 0.8s;
+	$card-space-transition: margin-top 0.3s, margin-bottom 0.8s;
 	.mowToolbar {
 		position: relative;
 		height: 182px;
@@ -726,22 +726,10 @@
 		box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
 	}
 	
-	.mowPagePreviewCard.dragOver {
-		margin-top: 48px;
-		transition: margin-top 0.2s;
+	.mowPagePreviewCard.highlight {
+		border: 5px solid blue;
 	}
 	
-	.mowPagePreviewCard.dragLeave {
-		margin-top: 0px;
-		transition: margin-top 0.2s;
-	}
-	
-	.mowPagePreviewCard.dragged {
-		margin-top: 0px !important;
-		transform:translateX(-9999px);
-	}
-
-
 	.mowPagePreviewCard.spaceBefore {
 		margin-bottom: 0px;
 		margin-top: 180px;

@@ -19,6 +19,12 @@ import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,7 +35,8 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class PageListPanel
-		extends PersistablePanel implements SetLabels, CardListener {
+		extends PersistablePanel implements MouseDownHandler, MouseMoveHandler,
+		MouseUpHandler, SetLabels, CardListener {
 
 	private AppW app;
 	private GeoGebraFrameBoth frame;
@@ -64,6 +71,9 @@ public class PageListPanel
 		addNewPreviewCard(true);
 		frame.add(this);
 		setVisible(false);
+		addDomHandler(this, MouseDownEvent.getType());
+		addDomHandler(this, MouseMoveEvent.getType());
+		addDomHandler(this, MouseUpEvent.getType());
 	}
 
 	private void addContentPanel() {
@@ -324,4 +334,23 @@ public class PageListPanel
 	public void makeSpace(int pageIndex, boolean before) {
 		pageController.styleCard(pageIndex, "spaceBeforeAnimated");
 	}
+
+	public void onMouseDown(MouseDownEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+		app.getPageController().startDrag(event.getClientX(),
+				event.getClientY());
+	}
+
+	public void onMouseMove(MouseMoveEvent event) {
+		int x = event.getClientX();
+		int y = event.getClientY();
+		app.getPageController().drag(x, y);
+	}
+
+	public void onMouseUp(MouseUpEvent event) {
+		app.getPageController().stopDrag();
+		dropTo(event.getClientX(), event.getClientY());
+	}
+
 }	

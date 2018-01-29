@@ -14,8 +14,6 @@ import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 
-import com.google.gwt.dom.client.Style.Position;
-
 /**
  * controller for page actions, such as delete or add slide
  * 
@@ -34,6 +32,7 @@ public class PageListController implements PageListControllerInterface {
 	private PagePreviewCard selectedCard;
 	private int dragIndex = -1;
 	private PagePreviewCard lastDragTarget;
+	private PagePreviewCard dragCard;
 
 	/**
 	 * @param app
@@ -305,7 +304,8 @@ public class PageListController implements PageListControllerInterface {
 	}
 	
 	public boolean dropTo(int x, int y) {
-		int destIdx = cardIndexAt(x,y);
+		int destIdx = lastDragTarget != null ? lastDragTarget.getPageIndex()
+				: -1;
 		if (destIdx != -1) {
 			Log.debug("drag: " + dragIndex  + " drop to " + destIdx);
 
@@ -375,39 +375,74 @@ public class PageListController implements PageListControllerInterface {
 	}
 
 	@Override
+	public void startDrag(int x, int y) {
+		dragIndex = cardIndexAt(x, y);
+		if (dragIndex != -1) {
+			dragCard = slides.get(dragIndex);
+			dragCard.setAbsolutePosition();
+			if (dragIndex > 0 && dragIndex < slides.size()) {
+				// Making room to "take out" the card from list.
+				lastDragTarget = slides.get(dragIndex - 1);
+				lastDragTarget.addStyleName("spaceAfter");
+			}
+		}
+	}
+
+	@Override
 	public void startDrag(int pageIndex) {
+		clearSpaces();
 		dragIndex = pageIndex;
 		PagePreviewCard card = slides.get(pageIndex);
-		card.getElement().getStyle().setPosition(Position.ABSOLUTE);
 		if (dragIndex != slides.size() - 1) {
-			lastDragTarget = card;
-			card.addStyleName("spaceBefore");
+			card.addStyleName("spaceBeforeAnimated");
 		}
 	}
 	
 	@Override
 	public void drag(int x, int y) {
-		PagePreviewCard target = slides.get(cardIndexAt(x, y));
-		if (target == null || target == lastDragTarget) {
+		if (dragCard == null) {
 			return;
 		}
-		
-		if (lastDragTarget != null) {
-			lastDragTarget.removeStyleName("spaceBeforeAnimated");
+
+		dragCard.setDragPosition(0, y);
+
+		int idx = cardIndexAt(x, y);
+		 if (idx == -1) {
+			// Log.debug("[DND] no card at (" + x + ", " + y + ")");
+			return;
+		 }
+		 PagePreviewCard target = slides.get(idx);
+		if (target == null) {
+			return;
 		}
-		
-		target.addStyleName("spaceBeforeAnimated");
+
+		int targetIdx = target.getPageIndex();
+		int lastTargetIdx = lastDragTarget != null
+				? lastDragTarget.getPageIndex()
+				: -1;
+		if (lastTargetIdx != -1 && lastTargetIdx != targetIdx) {
+			lastDragTarget.removeStyleName("highlight");
+			lastDragTarget.removeStyleName("spaceAfterAnimated");
+			lastDragTarget.removeStyleName("spaceBeforeAnimated");
+			if (targetIdx < dragIndex) {
+				target.addStyleName("spaceBeforeAnimated");
+			} else {
+				target.addStyleName("spaceAfterAnimated");
+			}
+		}
+
+		target.addStyleName("highlight");
 		lastDragTarget = target;
 	}
 	
 	@Override
 	public void stopDrag() {
-		if (dragIndex != -1) {
-			PagePreviewCard card = slides.get(dragIndex);
-			card.getElement().getStyle().clearPosition();
+		if (dragCard != null) {
+			dragCard.clearPosition();
+
 		}
-		lastDragTarget = null;
 		clearSpaces();
+		dragCard = null;
 	}
 
 }
