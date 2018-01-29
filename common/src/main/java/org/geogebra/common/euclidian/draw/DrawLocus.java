@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
@@ -36,6 +37,7 @@ import org.geogebra.common.kernel.prover.AlgoEnvelope;
 import org.geogebra.common.kernel.prover.AlgoLocusEquation;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Drawable representation of locus
@@ -311,11 +313,53 @@ public class DrawLocus extends Drawable {
 	 */
 	private void updateLocus(EuclidianBoundingBoxHandler handler,
 			AbstractEvent e) {
-		((GeoLocus) geo).updatePoints(handler, e,
+		updatePoints(handler, e,
 				getBoundingBox().getRectangle());
 		update();
 		getBoundingBox().setRectangle(getBounds());
 
+	}
+
+	/**
+	 * Updates the points when resizing the locus with bounding box handler
+	 * 
+	 * @param handler
+	 *            handler was hit
+	 * @param event
+	 *            event to handle
+	 * @param gRectangle2D
+	 *            bounding box rectangle
+	 */
+	public void updatePoints(EuclidianBoundingBoxHandler handler,
+			AbstractEvent event, GRectangle2D gRectangle2D) {
+
+		// save the original rates when scaling first time
+		((GeoLocus) geo).saveOriginalRates(gRectangle2D);
+
+		switch (handler) {
+		case TOP:
+		case BOTTOM:
+			((GeoLocus) geo).updatePointsY(handler, event.getY(), gRectangle2D,
+					Double.NaN);
+			break;
+		case LEFT:
+		case RIGHT:
+			((GeoLocus) geo).updatePointsX(handler, event.getX(), gRectangle2D);
+			break;
+		case TOP_LEFT:
+		case BOTTOM_LEFT:
+		case TOP_RIGHT:
+		case BOTTOM_RIGHT:
+			((GeoLocus) geo).saveRatio(gRectangle2D);
+			double newWidth = ((GeoLocus) geo).updatePointsX(handler,
+					event.getX(),
+					gRectangle2D);
+			((GeoLocus) geo).updatePointsY(handler, event.getY(), gRectangle2D,
+					newWidth);
+			break;
+		default: // UNDEFINED - maybe not possible
+			Log.warn("unhandled case");
+		}
 	}
 
 	@Override

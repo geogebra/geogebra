@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
-import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.Path;
@@ -32,7 +31,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Locus of points
@@ -171,7 +169,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
-	private void saveOriginalRates(GRectangle2D gRectangle2D) {
+	public void saveOriginalRates(GRectangle2D gRectangle2D) {
 		if (nonScaledPointList == null) {
 			nonScaledPointList = new ArrayList<>(myPointList.size());
 			nonScaledWidth = gRectangle2D.getMaxX() - gRectangle2D.getMinX();
@@ -195,47 +193,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
-	/**
-	 * Updates the points when resizing the locus with bounding box handler
-	 * 
-	 * @param handler
-	 *            handler was hit
-	 * @param event
-	 *            event to handle
-	 * @param gRectangle2D
-	 *            bounding box rectangle
-	 */
-	public void updatePoints(EuclidianBoundingBoxHandler handler,
-			AbstractEvent event, GRectangle2D gRectangle2D) {
-
-		// save the original rates when scaling first time
-		saveOriginalRates(gRectangle2D);
-
-		switch (handler) {
-		case TOP:
-		case BOTTOM:
-			updatePointsY(handler, event.getY(), gRectangle2D, Double.NaN);
-			break;
-		case LEFT:
-		case RIGHT:
-			updatePointsX(handler, event.getX(), gRectangle2D);
-			break;
-		case TOP_LEFT:
-		case BOTTOM_LEFT:
-		case TOP_RIGHT:
-		case BOTTOM_RIGHT:
-			saveRatio(gRectangle2D);
-			double newWidth = updatePointsX(handler, event.getX(),
-					gRectangle2D);
-			updatePointsY(handler, event.getY(), gRectangle2D,
-					newWidth);
-			break;
-		default: // UNDEFINED - maybe not possible
-			Log.warn("unhandled case");
-		}
-	}
-
-	private void saveRatio(GRectangle2D gRectangle2D) {
+	public void saveRatio(GRectangle2D gRectangle2D) {
 		if (Double.isNaN(ratio) || Double.isInfinite(ratio)) {
 			double width = (gRectangle2D.getMaxX() - gRectangle2D.getMinX());
 			ratio = (gRectangle2D.getMaxY() - gRectangle2D.getMinY())
@@ -288,7 +246,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
-	private double updatePointsX(EuclidianBoundingBoxHandler handler,
+	public double updatePointsX(EuclidianBoundingBoxHandler handler,
 			int eventX, GRectangle2D gRectangle2D) {
 		if (nonScaledWidth == 0) {
 			return 0;
@@ -319,7 +277,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return newWidth;
 	}
 
-	private void updatePointsY(EuclidianBoundingBoxHandler handler,
+	public void updatePointsY(EuclidianBoundingBoxHandler handler,
 			int eventY, GRectangle2D gRectangle2D, double newWidth) {
 		if (nonScaledHeight == 0) {
 			return;
