@@ -1245,6 +1245,7 @@ __GGB__keysVar.fi.menu = {
     "Angle": "Kulma",
     "Angle.Help": "Valitse kolme pistett\xe4 (oikean kyljen piste, k\xe4rki, vasemman kyljen piste) tai kaksi suoraa",
     "Angle.Tool": "Kulma",
+    "AngleA": "Angle %0",
     "AngleBetween": "Kulma v\xe4lilt\xe4:",
     "AngleBetweenAB": "%0:n ja %1:n v\xe4linen kulma",
     "AngleBetweenAB.short": "%0 ... %1",

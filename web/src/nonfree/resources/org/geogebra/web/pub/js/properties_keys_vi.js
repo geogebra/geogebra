@@ -1245,6 +1245,7 @@ __GGB__keysVar.vi.menu = {
     "Angle": "G\xf3c",
     "Angle.Help": "X\xe1c \u0111\u1ecbnh 3 \u0111i\u1ec3m ho\u1eb7c 2 \u0111\u01b0\u1eddng th\u1eb3ng",
     "Angle.Tool": "G\xf3c",
+    "AngleA": "Angle %0",
     "AngleBetween": "G\xf3c gi\u1eefa:",
     "AngleBetweenAB": "G\xf3c gi\u1eefa %0, %1",
     "AngleBetweenAB.short": "%0 to %1",

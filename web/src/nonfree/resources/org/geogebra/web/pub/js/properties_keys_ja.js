@@ -1245,6 +1245,7 @@ __GGB__keysVar.ja.menu = {
     "Angle": "\u89d2\u5ea6",
     "Angle.Help": "\uff13\u70b9\u307e\u305f\u306f\uff12\u76f4\u7dda\u3092\u9078\u629e",
     "Angle.Tool": "\u89d2\u5ea6",
+    "AngleA": "Angle %0",
     "AngleBetween": "\u89d2\u5ea6:",
     "AngleBetweenAB": "%0 \u3068 %1 \u306e\u9593\u306e\u89d2\u5ea6",
     "AngleBetweenAB.short": "%0 \u304b\u3089 %1",

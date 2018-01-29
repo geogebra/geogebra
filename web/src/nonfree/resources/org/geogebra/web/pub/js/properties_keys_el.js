@@ -1245,6 +1245,7 @@ __GGB__keysVar.el.menu = {
     "Angle": "\u0393\u03c9\u03bd\u03af\u03b1",
     "Angle.Help": "\u03a4\u03c1\u03af\u03b1 \u03c3\u03b7\u03bc\u03b5\u03af\u03b1 \u03ae \u03b4\u03cd\u03bf \u03b5\u03c5\u03b8\u03b5\u03af\u03b5\u03c2 (\u03b3\u03c1\u03b1\u03bc\u03bc\u03ad\u03c2)",
     "Angle.Tool": "\u0393\u03c9\u03bd\u03af\u03b1",
+    "AngleA": "Angle %0",
     "AngleBetween": "\u0393\u03c9\u03bd\u03af\u03b1 \u039c\u03b5\u03c4\u03b1\u03be\u03cd:",
     "AngleBetweenAB": "\u0393\u03c9\u03bd\u03af\u03b1 \u03bc\u03b5\u03c4\u03b1\u03be\u03cd %0, %1",
     "AngleBetweenAB.short": "%0 \u03c3\u03b5 %1",

@@ -1245,6 +1245,7 @@ __GGB__keysVar.sr.menu = {
     "Angle": "U\ngao",
     "Angle.Help": "Izaberite tri ta\u010dke ili dve du\u017ei",
     "Angle.Tool": "Ugao",
+    "AngleA": "Angle %0",
     "AngleBetween": "Ugao izme\u0111u:",
     "AngleBetweenAB": "Ugao izme\u0111u %0 i %1",
     "AngleBetweenAB.short": "%0 to %1",

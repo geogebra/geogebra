@@ -1245,6 +1245,7 @@ __GGB__keysVar.gl.menu = {
     "Angle": "\xc1ngulo",
     "Angle.Help": "Escoller tres puntos ou d\xfaas rectas",
     "Angle.Tool": "\xc1ngulo",
+    "AngleA": "Angle %0",
     "AngleBetween": "\xc1ngulo entre:",
     "AngleBetweenAB": "\xc1ngulo entre %0, %1",
     "AngleBetweenAB.short": "%0 a %1",

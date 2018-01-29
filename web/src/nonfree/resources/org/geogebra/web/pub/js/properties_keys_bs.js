@@ -1245,6 +1245,7 @@ __GGB__keysVar.bs.menu = {
     "Angle": "Ugao",
     "Angle.Help": "Ozna\u010dite/Kreirajte tri ta\u010dke ili dvije prave",
     "Angle.Tool": "Ugao",
+    "AngleA": "Angle %0",
     "AngleBetween": "Ugao izme\u0111u:",
     "AngleBetweenAB": "Ugao izme\u0111u %0, %1",
     "AngleBetweenAB.short": "%0 do %1",

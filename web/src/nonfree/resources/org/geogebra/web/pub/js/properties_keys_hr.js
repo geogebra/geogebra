@@ -1245,6 +1245,7 @@ __GGB__keysVar.hr.menu = {
     "Angle": "Kut",
     "Angle.Help": "Odaberite tri to\u010dke ili dva pravca",
     "Angle.Tool": "Kut",
+    "AngleA": "Angle %0",
     "AngleBetween": "Kut izme\u0111u:",
     "AngleBetweenAB": "Kut izme\u0111u %0 i %1",
     "AngleBetweenAB.short": "%0 do %1",

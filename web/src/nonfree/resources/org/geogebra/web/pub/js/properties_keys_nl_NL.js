@@ -1245,6 +1245,7 @@ __GGB__keysVar.nl_NL.menu = {
     "Angle": "Hoek",
     "Angle.Help": "Drie punten of twee rechten",
     "Angle.Tool": "Hoek",
+    "AngleA": "Hoek %0",
     "AngleBetween": "Hoek tussen:",
     "AngleBetweenAB": "Hoek tussen %0, %1",
     "AngleBetweenAB.short": "%0 tot %1",

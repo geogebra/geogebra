@@ -1245,6 +1245,7 @@ __GGB__keysVar.no_NB.menu = {
     "Angle": "Vinkel",
     "Angle.Help": "Velg tre punkt eller to linjer",
     "Angle.Tool": "Vinkel",
+    "AngleA": "Angle %0",
     "AngleBetween": "Vinkel mellom:",
     "AngleBetweenAB": "Vinkel mellom %0, %1",
     "AngleBetweenAB.short": "%0 til %1",

@@ -1245,6 +1245,7 @@ __GGB__keysVar.uk.menu = {
     "Angle": "\u041a\u0443\u0442",
     "Angle.Help": "\u0412\u043a\u0430\u0436\u0456\u0442\u044c \u0442\u0440\u0438 \u0442\u043e\u0447\u043a\u0438 \u0430\u0431\u043e \u0434\u0432\u0456 \u043f\u0440\u044f\u043c\u0456",
     "Angle.Tool": "\u041a\u0443\u0442",
+    "AngleA": "Angle %0",
     "AngleBetween": "\u041a\u0443\u0442 \u043c\u0456\u0436:",
     "AngleBetweenAB": "\u041a\u0443\u0442 \u043c\u0456\u0436 %0 \u0456 %1",
     "AngleBetweenAB.short": "%0 \u0434\u043e %1",

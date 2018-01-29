@@ -1245,6 +1245,7 @@ __GGB__keysVar.sk.menu = {
     "Angle": "Uhol",
     "Angle.Help": "Vyzna\u010d tri r\xf4zne body alebo dve r\xf4zne priamky!",
     "Angle.Tool": "Uhol",
+    "AngleA": "Angle %0",
     "AngleBetween": "Uhol medzi:",
     "AngleBetweenAB": "Uhol medzi %0, %1",
     "AngleBetweenAB.short": "%0 to %1",

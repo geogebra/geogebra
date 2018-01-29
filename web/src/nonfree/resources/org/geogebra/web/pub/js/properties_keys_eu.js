@@ -1245,6 +1245,7 @@ __GGB__keysVar.eu.menu = {
     "Angle": "Angelua",
     "Angle.Help": "Hiru puntu edo bi zuzen",
     "Angle.Tool": "Angelua",
+    "AngleA": "Angle %0",
     "AngleBetween": "Bi hauen arteko angelua:",
     "AngleBetweenAB": "Angelua %0 eta %1-(r)en artean",
     "AngleBetweenAB.short": "%0-(e)tik %1-(e)ra",

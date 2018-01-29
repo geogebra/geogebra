@@ -1245,6 +1245,7 @@ __GGB__keysVar.it.menu = {
     "Angle": "Angolo",
     "Angle.Help": "Selezionare tre punti o due rette",
     "Angle.Tool": "Angolo",
+    "AngleA": "Angle %0",
     "AngleBetween": "Angolo tra:",
     "AngleBetweenAB": "Angolo tra %0, %1",
     "AngleBetweenAB.short": "da %0 a %1",

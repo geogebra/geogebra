@@ -1245,6 +1245,7 @@ __GGB__keysVar.af.menu = {
     "Angle": "Hoek",
     "Angle.Help": "Kies drie punte of twee lyne",
     "Angle.Tool": "Hoek",
+    "AngleA": "Angle %0",
     "AngleBetween": "Angle Between:",
     "AngleBetweenAB": "Angle between %0, %1",
     "AngleBetweenAB.short": "%0 to %1",

@@ -1245,6 +1245,7 @@ __GGB__keysVar.tl.menu = {
     "Angle": "Angle",
     "Angle.Help": "Pumili ng tatlong point o dalawang linya",
     "Angle.Tool": "Angle",
+    "AngleA": "Angle %0",
     "AngleBetween": "Angle Between:",
     "AngleBetweenAB": "Angle between %0, %1",
     "AngleBetweenAB.short": "%0 to %1",

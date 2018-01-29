@@ -1245,6 +1245,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Angle": "Sz\xf6g",
     "Angle.Help": "H\xe1rom pont vagy egyenesek, f\xe9legyenesek, szakaszok k\xf6z\xfcl b\xe1rmely kett\u0151",
     "Angle.Tool": "Sz\xf6g",
+    "AngleA": "Angle %0",
     "AngleBetween": "Sz\xf6g intervalluma:",
     "AngleBetweenAB": "%0 \xe9s %1 \xe1ltal meghat\xe1rozott sz\xf6g",
     "AngleBetweenAB.short": "%0 - %1",

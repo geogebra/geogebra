@@ -1245,6 +1245,7 @@ __GGB__keysVar.eo.menu = {
     "Angle": "Angulo",
     "Angle.Help": "Elektu tri punktojn a\u016d du rektojn.",
     "Angle.Tool": "Angulo",
+    "AngleA": "Angle %0",
     "AngleBetween": "Angulo inter :",
     "AngleBetweenAB": "Angulo inter %0 kaj %1",
     "AngleBetweenAB.short": "%0 \u011dis %1",

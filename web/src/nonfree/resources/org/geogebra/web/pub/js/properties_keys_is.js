@@ -1245,6 +1245,7 @@ __GGB__keysVar.is.menu = {
     "Angle": "Horn",
     "Angle.Help": "Velji\xf0 \xferj\xe1 punkta e\xf0a tv\xe6r l\xednur",
     "Angle.Tool": "Horn",
+    "AngleA": "Angle %0",
     "AngleBetween": "Horn milli:",
     "AngleBetweenAB": "Horn milli %0, %1",
     "AngleBetweenAB.short": "%0 til %1",

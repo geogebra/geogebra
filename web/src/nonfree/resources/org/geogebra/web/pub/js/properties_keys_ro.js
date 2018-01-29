@@ -1245,6 +1245,7 @@ __GGB__keysVar.ro.menu = {
     "Angle": "Unghi",
     "Angle.Help": "Selecta\u0163i trei puncte sau dou\u0103 linii",
     "Angle.Tool": "Unghi",
+    "AngleA": "Angle %0",
     "AngleBetween": "Unghi \xeentre:",
     "AngleBetweenAB": "Unghi intre %0, %1",
     "AngleBetweenAB.short": "%0 la %1",

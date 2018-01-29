@@ -1245,6 +1245,7 @@ __GGB__keysVar.sl.menu = {
     "Angle": "Kot",
     "Angle.Help": "Tri to\u010dke ali dve premici/poltraka",
     "Angle.Tool": "Kot",
+    "AngleA": "Angle %0",
     "AngleBetween": "Kot med:",
     "AngleBetweenAB": "Kot med %0, %1",
     "AngleBetweenAB.short": "%0 do %1",

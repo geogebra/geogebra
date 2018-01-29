@@ -1245,6 +1245,7 @@ __GGB__keysVar.xh.menu = {
     "Angle": "Idolo",
     "Angle.Help": "Khetha amachaphaza amathathu okanye imigca emibini",
     "Angle.Tool": "Idolo",
+    "AngleA": "Angle %0",
     "AngleBetween": "Idolo Eliphakathi:",
     "AngleBetweenAB": "Idolo eliphakathi ko %0, no %1",
     "AngleBetweenAB.short": "%0 ukuya ku %1",

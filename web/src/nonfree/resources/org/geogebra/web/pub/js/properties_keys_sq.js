@@ -1245,6 +1245,7 @@ __GGB__keysVar.sq.menu = {
     "Angle": "Kend",
     "Angle.Help": "Zgjidh tri pika ose dy drejtza",
     "Angle.Tool": "kend",
+    "AngleA": "Angle %0",
     "AngleBetween": "Kend Ndermjet:",
     "AngleBetweenAB": "Kend midis %0 dhe %1",
     "AngleBetweenAB.short": "%0 to %1",

@@ -1245,6 +1245,7 @@ __GGB__keysVar.lv.menu = {
     "Angle": "Le\u0146\u0137is",
     "Angle.Help": "Izv\u0113l\u0113ties tr\u012bs punktus vai divas l\u012bnijas",
     "Angle.Tool": "Le\u0146\u0137is",
+    "AngleA": "Angle %0",
     "AngleBetween": "Len\u0137is Starp:",
     "AngleBetweenAB": "Le\u0146\u0137is starp %0, %1",
     "AngleBetweenAB.short": "%0 to %1",

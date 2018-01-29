@@ -1245,6 +1245,7 @@ __GGB__keysVar.cy.menu = {
     "Angle": "Ongl",
     "Angle.Help": "Dewiswch dri phwynt neu ddwy linell",
     "Angle.Tool": "Ongl",
+    "AngleA": "Angle %0",
     "AngleBetween": "Ongl Rhwng:",
     "AngleBetweenAB": "Ongl rhwng %0, %1",
     "AngleBetweenAB.short": "%0 to %1",

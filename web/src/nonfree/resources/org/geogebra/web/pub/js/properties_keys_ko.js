@@ -1245,6 +1245,7 @@ __GGB__keysVar.ko.menu = {
     "Angle": "\uac01",
     "Angle.Help": "\uc138 \uc810 \ub610\ub294 \ub450 \uc9c1\uc120\uc744 \uc120\ud0dd\ud558\uc138\uc694.",
     "Angle.Tool": "\uac01",
+    "AngleA": "Angle %0",
     "AngleBetween": "\ub458 \uc0ac\uc774\uc758 \uac01:",
     "AngleBetweenAB": "%0, %1 \uc0ac\uc774\uc758 \uac01",
     "AngleBetweenAB.short": "%0 \ubd80\ud130 %1",

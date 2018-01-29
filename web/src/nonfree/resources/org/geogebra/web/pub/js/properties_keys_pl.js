@@ -1245,6 +1245,7 @@ __GGB__keysVar.pl.menu = {
     "Angle": "K\u0105t",
     "Angle.Help": "Wybierz trzy punkty lub dwie proste",
     "Angle.Tool": "K\u0105t",
+    "AngleA": "Angle %0",
     "AngleBetween": "K\u0105t pomi\u0119dzy:",
     "AngleBetweenAB": "K\u0105t pomi\u0119dzy %0, %1",
     "AngleBetweenAB.short": "%0 do %1",

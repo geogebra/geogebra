@@ -1245,6 +1245,7 @@ __GGB__keysVar.da.menu = {
     "Angle": "Vinkel",
     "Angle.Help": "Klik p\xe5 tre punkter eller to linjer",
     "Angle.Tool": "Vinkel",
+    "AngleA": "Angle %0",
     "AngleBetween": "Vinkel mellem:",
     "AngleBetweenAB": "Vinkel mellem %0 og %1",
     "AngleBetweenAB.short": "%0 til %1",

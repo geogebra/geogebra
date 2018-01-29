@@ -1245,6 +1245,7 @@ __GGB__keysVar.lt.menu = {
     "Angle": "Kampas",
     "Angle.Help": "Pasirinkite tris ta\u0161kus ir dvi tieses",
     "Angle.Tool": "Kampas",
+    "AngleA": "Angle %0",
     "AngleBetween": "Kampas tarp:",
     "AngleBetweenAB": "Kampas tarp %0 ir %1",
     "AngleBetweenAB.short": "%0 to %1",

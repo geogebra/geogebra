@@ -1245,6 +1245,7 @@ __GGB__keysVar.et.menu = {
     "Angle": "Nurk",
     "Angle.Help": "Valige kolm punkti v\xf5i kaks sirget/ kiirt/ l\xf5iku",
     "Angle.Tool": "Nurk",
+    "AngleA": "Angle %0",
     "AngleBetween": "J\xe4rgmiste objektide vaheline nurk:",
     "AngleBetweenAB": "%0 ja %1 vaheline nurk",
     "AngleBetweenAB.short": "%0 kuni %1",

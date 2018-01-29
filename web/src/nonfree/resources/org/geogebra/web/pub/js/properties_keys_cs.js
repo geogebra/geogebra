@@ -1245,6 +1245,7 @@ __GGB__keysVar.cs.menu = {
     "Angle": "\xdahel",
     "Angle.Help": "T\u0159i body nebo dv\u011b p\u0159\xedmky",
     "Angle.Tool": "\xdahel",
+    "AngleA": "Angle %0",
     "AngleBetween": "\xdahel mezi:",
     "AngleBetweenAB": "\xdahel mezi %0, %1",
     "AngleBetweenAB.short": "od %0 do %1",

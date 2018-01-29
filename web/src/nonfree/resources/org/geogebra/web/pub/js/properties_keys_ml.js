@@ -1245,6 +1245,7 @@ __GGB__keysVar.ml.menu = {
     "Angle": "Angle",
     "Angle.Help": "Select three points or two lines",
     "Angle.Tool": "\u0d15\u0d4b\u0d23\u0d4d\u200d",
+    "AngleA": "Angle %0",
     "AngleBetween": "Angle Between:",
     "AngleBetweenAB": "Angle between %0, %1",
     "AngleBetweenAB.short": "%0 \u0d2e\u0d41\u0d24\u0d32\u0d4d\u200d %1\u0d35\u0d30\u0d46",

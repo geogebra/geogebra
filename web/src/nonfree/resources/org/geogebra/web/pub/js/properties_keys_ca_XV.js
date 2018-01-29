@@ -1245,6 +1245,7 @@ __GGB__keysVar.ca_XV.menu = {
     "Angle": "Angle",
     "Angle.Help": "Seleccioneu tres punts o dos rectes",
     "Angle.Tool": "Angle",
+    "AngleA": "Angle %0",
     "AngleBetween": "Angle entre:",
     "AngleBetweenAB": "Angle definit per %0 i %1",
     "AngleBetweenAB.short": "%0 a %1",

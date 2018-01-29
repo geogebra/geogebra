@@ -1245,6 +1245,7 @@ __GGB__keysVar.in.menu = {
     "Angle": "Sudut",
     "Angle.Help": "Pilih tiga titik atau dua garis",
     "Angle.Tool": "Sudut",
+    "AngleA": "Angle %0",
     "AngleBetween": "Sudut Diantara:",
     "AngleBetweenAB": "Sudut antara %0 dan %1",
     "AngleBetweenAB.short": "%0 to %1",

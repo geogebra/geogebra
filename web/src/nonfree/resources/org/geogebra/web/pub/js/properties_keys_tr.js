@@ -1245,6 +1245,7 @@ __GGB__keysVar.tr.menu = {
     "Angle": "A\xe7\u0131",
     "Angle.Help": "\xdc\xe7 nokta veya 2 do\u011fru se\xe7iniz",
     "Angle.Tool": "A\xe7\u0131",
+    "AngleA": "Angle %0",
     "AngleBetween": "Aras\u0131ndaki A\xe7\u0131:",
     "AngleBetweenAB": "%0 ve %1 aras\u0131ndaki A\xe7\u0131",
     "AngleBetweenAB.short": "%0 den %1 e",

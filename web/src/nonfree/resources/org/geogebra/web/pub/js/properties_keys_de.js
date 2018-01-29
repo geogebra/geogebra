@@ -1245,6 +1245,7 @@ __GGB__keysVar.de.menu = {
     "Angle": "Winkel",
     "Angle.Help": "W\xe4hle drei Punkte oder zwei Geraden",
     "Angle.Tool": "Winkel",
+    "AngleA": "Angle %0",
     "AngleBetween": "Winkel zwischen:",
     "AngleBetweenAB": "Winkel zwischen %0, %1",
     "AngleBetweenAB.short": "%0 bis %1",

@@ -1245,6 +1245,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Angle": "\u89d2\u5ea6",
     "Angle.Help": "\u756b\u51fa\u4e0b\u5217\u7684\u593e\u89d2\uff1a(1)\u4e09\u9ede (2)\u5169\u7dda\u6bb5 (3)\u5169\u76f4\u7dda (4)\u5169\u5411\u91cf (5)\u591a\u908a\u5f62\u5167\u89d2",
     "Angle.Tool": "\u756b\u89d2\u5ea6",
+    "AngleA": "Angle %0",
     "AngleBetween": "\u89d2\u5ea6\u4ecb\u65bc\uff1a",
     "AngleBetweenAB": "%0 \u8207 %1 \u7684\u593e\u89d2",
     "AngleBetweenAB.short": "%0 to %1",

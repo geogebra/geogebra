@@ -1245,6 +1245,7 @@ __GGB__keysVar.ka.menu = {
     "Angle": "\u10d9\u10e3\u10d7\u10ee\u10d4",
     "Angle.Help": "\u10db\u10dd\u10dc\u10d8\u10e8\u10dc\u10d4\u10d7 3 \u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8 \u10d0\u10dc 2 \u10ec\u10e0\u10e4\u10d4",
     "Angle.Tool": "\u10d9\u10e3\u10d7\u10ee\u10d4",
+    "AngleA": "Angle %0",
     "AngleBetween": "\u10d9\u10e3\u10d7\u10ee\u10d4 \u10e8\u10dd\u10e0\u10d8\u10e1:",
     "AngleBetweenAB": "%0 -\u10e1\u10d0 \u10d3\u10d0 %1-\u10e1 \u10e8\u10dd\u10e0\u10d8\u10e1 \u10d9\u10e3\u10d7\u10ee\u10d4",
     "AngleBetweenAB.short": "%0 to %1",

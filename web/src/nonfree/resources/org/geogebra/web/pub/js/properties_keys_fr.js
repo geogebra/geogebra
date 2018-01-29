@@ -1245,6 +1245,7 @@ __GGB__keysVar.fr.menu = {
     "Angle": "Angle",
     "Angle.Help": "Point, Sommet, Point[cr\xe9\xe9s ou non], ou deux lignes",
     "Angle.Tool": "Angle",
+    "AngleA": "Angle %0",
     "AngleBetween": "Angle entre :",
     "AngleBetweenAB": "Angle entre %0 et %1",
     "AngleBetweenAB.short": "%0 \xe0 %1",
