@@ -413,8 +413,16 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		} else if (geo != null) {
 			IndexHTMLBuilder sb = getBuilder(definitionPanel, app);
 			if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
-				geo.addLabelTextOrHTML(geo.getDefinitionDescription(
+				if (AlgebraItem.needsPacking(geo)) {
+					GeoElement
+							.convertIndicesToHTML(
+									geo.getDefinitionDescription(
+											StringTemplate.defaultTemplate),
+									sb);
+				} else {
+					geo.addLabelTextOrHTML(geo.getDefinitionDescription(
 						StringTemplate.defaultTemplate), sb);
+				}
 			} else {
 				geo.addLabelTextOrHTML(
 					geo.getDefinition(StringTemplate.defaultTemplate), sb);
@@ -455,13 +463,13 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					&& !isLatexTrivial()) || lastTeX != null) {
 				buildItemWithTwoRows();
 				updateItemColor();
+			} else if (isDefinitionAndValue()
+					|| AlgebraItem.needsPacking(geo)) {
+				buildItemWithSingleRow();
 			} else {
-				if (isDefinitionAndValue()) {
-					buildItemWithSingleRow();
-				} else {
-					buildPlainTextItem();
-				}
+				buildPlainTextItem();
 			}
+
 			controls.updateSuggestions(geo);
 
 		} else {
@@ -589,7 +597,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected void buildItemWithSingleRow() {
-
 		// LaTeX
 		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
 				geo.needToShowBothRowsInAV() != DescriptionMode.DEFINITION);
@@ -608,9 +615,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				Log.debug("CANVAS to IHTML");
 			}
 			content.add(canvas);
-		}
-
-		else {
+		} else {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
 					getBuilder(getPlainTextItem(), app));
 			updateItemColor();
@@ -634,9 +639,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					MaterialDesignResources.INSTANCE.arrow_black(), 24, 24);
 			arrow.setStyleName("arrowOutputImg");
 			content.insert(arrow, 0);
-
 		}
-
 	}
 
 	protected void updateFont(Widget w) {
@@ -696,7 +699,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		if (!mayNeedOutput() && outputPanel != null) {
 			content.remove(outputPanel);
-
 		}
 		if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE
 				|| isDefinitionAndValue()) {

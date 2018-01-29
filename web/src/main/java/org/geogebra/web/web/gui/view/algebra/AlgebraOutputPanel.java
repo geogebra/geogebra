@@ -171,12 +171,10 @@ public class AlgebraOutputPanel extends FlowPanel {
 			HTML html = new HTML();
 			IndexHTMLBuilder sb = RadioTreeItem.getBuilder(html,
 					geo1.getKernel().getApplication());
-			if (AlgebraItem.needsPacking(geo1) && geo1.getKernel()
-					.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
+			if (AlgebraItem.needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);
 			}else{
 				geo1.getAlgebraDescriptionTextOrHTMLRHS(sb);
-
 			}
 			valuePanel.add(html);
 		}

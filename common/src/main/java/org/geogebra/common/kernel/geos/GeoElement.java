@@ -8537,12 +8537,7 @@ public abstract class GeoElement extends ConstructionElement
 		if ("".equals(def0)) {
 			return DescriptionMode.VALUE;
 		}
-		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
-				&& getParentAlgorithm() != null
-				&& getParentAlgorithm().getOutput(0) != this
-				&& kernel.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DESCRIPTION
-				&& kernel.getApplication().getSettings().getAlgebra()
-						.getTreeMode() == SortMode.ORDER) {
+		if (isSecondaryOutput()) {
 			return DescriptionMode.VALUE;
 		}
 		IndexHTMLBuilder sbDef = new IndexHTMLBuilder(false);
@@ -8553,6 +8548,14 @@ public abstract class GeoElement extends ConstructionElement
 
 		return !def.equals(val) ? DescriptionMode.DEFINITION_VALUE
 				: DescriptionMode.VALUE;
+	}
+
+	public boolean isSecondaryOutput() {
+		return kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
+				&& getParentAlgorithm() != null
+				&& getParentAlgorithm().getOutput(0) != this
+				&& kernel.getApplication().getSettings().getAlgebra()
+						.getTreeMode() == SortMode.ORDER;
 	}
 
 	/**

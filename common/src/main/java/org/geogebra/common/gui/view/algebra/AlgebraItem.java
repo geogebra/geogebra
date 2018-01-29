@@ -159,6 +159,7 @@ public class AlgebraItem {
 	public static boolean needsPacking(GeoElement geo) {
 		return geo != null && geo.getParentAlgorithm() != null
 				&& geo.getParentAlgorithm().getOutput().length > 1
+				&& geo.getParentAlgorithm().hasSingleOutputType()
 				&& geo.getKernel().getApplication().getSettings().getAlgebra()
 						.getTreeMode() == SortMode.ORDER;
 	}
@@ -289,6 +290,7 @@ public class AlgebraItem {
 					&& (!geoElement.isIndependent() || (geoElement
 							.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
 							&& geoElement.getParentAlgorithm() == null))
+					&& !geoElement.isSecondaryOutput()
 									? DescriptionMode.DEFINITION_VALUE
 									: DescriptionMode.DEFINITION;
 		case Kernel.ALGEBRA_STYLE_DEFINITION:
