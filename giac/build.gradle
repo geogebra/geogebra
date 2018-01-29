@@ -9,11 +9,12 @@ apply from: 'gradle-scripts/repositories.gradle'
 apply plugin: 'cpp'
 apply plugin: 'visual-studio'
 
-/* Emscripten related settings. Currently we use version 1.37.22, other versions may not work correctly,
- * or may have problems in some Giac commands and results. (With some minor modifications 1.34.1 will
- * also work with no wasm and limited asm.js support.)
+/* Emscripten related settings. Currently we use version 1.37.22 to produce the WASM build and 1.34.1 for
+ * the normal JavaScript version, other versions may not work correctly,
+ * or may have problems in some Giac commands and results. By default, 1.34.1 will be used.
  *
- * 1. You will need to download the correct toolchain version by running the task installEmsdk.
+ * 1. You will need to download the correct toolchain version by running the tasks downloadEmsdk,
+ *    then set EMSCRIPTEN_VERSION=tag-1.34.1 or tag-1.37.22, and run the task installEmsdk.
  *    (Always take care of using the correct emscripten version and also the appropriate clang compiler,
  *    otherwise you may encounter extremely strange problems on compilation time or runtime.
  *    Newer emscripten versions usually do sanity checks during the compilation and inform you
@@ -27,17 +28,26 @@ apply plugin: 'visual-studio'
  *    by entering some big integer/real computations.) First you may need to set some environmental
  *    variables or hardcoded script variables manually. FIXME
  *    The compilation can be influenced by using the environmental variable EXT_GMPMPFR (local/emgiac).
- *    The current prebuilt files should work properly with 1.34.1 and 1.37.22 as well.
+ *    Luckily, the current prebuilt files should work properly with 1.34.1 and 1.37.22 as well.
  *
- * 3. Run the createGiacJs task. It will recompile all C++ files and then re-link the library. FIXME
- *    It can be fine-tuned by using the EMCC and EMSCRIPTEN_VER environmental variables
+ * 3. Run the createGiacJs task. It will recompile all C++ files and then re-link the library.
+ *    It can be fine-tuned by using the EMSCRIPTEN_VER and EMSCRIPTEN_VERSION environmental variables
  *    (but usually not required to use them). Additionally, you may want to set the WASM=1 option
  *    to have the WebAssembly version. Note that you need to create the asm.js (WASM unset) version and
  *    the WebAssembly version (WASM=1) on different runs, so it may be reasonable to store two
- *    copies of this folder.
+ *    copies of this folder. That, is you usually need one of the following command lines:
+ *
+ *    $ EMSCRIPTEN_VER=201503 EMSCRIPTEN_VERSION=tag-1.34.1 ../gradlew clean activateEmsdk createGiacJs
+ *
+ *    or
+ *
+ *    $ EMSCRIPTEN_VER=201704 EMSCRIPTEN_VERSION=tag-1.37.22 WASM=1 ../gradlew clean activateEmsdk createGiacJs
+ *
+ *    These command lines will work only after you already ran downloadEmsdk and installEmsdk
+ *    (as described above).
  */
 
-// FIXME: These settings are hardcoded at the moment, they need to be more general.
+// FIXME: Some of these settings are hardcoded at the moment, they need to be more general.
 def externalSourceDir = "/home/autotest/gmp+mpfr-llvm"
 // You may need to download and unzip following packages:
 def gmpSourceDir = "$externalSourceDir/gmp-6.0.0"
@@ -63,7 +73,7 @@ def wasm = 0
 if (System.env['WASM'] != null) {
     wasm = System.env['WASM'];
     if (emscriptenVer != "201704") {
-       throw new GradleException("You need to have a recent emscripten to use wasm")
+       throw new GradleException("You need to use a recent emscripten to use wasm")
     }
 }
 
@@ -71,15 +81,13 @@ def emsdkUrlFolder = 'https://s3.amazonaws.com/mozilla-games/emscripten/releases
 def emsdkTgzFile = 'emsdk-portable.tar.gz'
 def emsdkDir = file('emsdk')
 def emsdkRunDir = file("$emsdkDir/emsdk-portable")
-def emscriptenVersion = "tag-1.37.29"
+def emscriptenVersion = "tag-1.34.1"
+if (System.env['EMSCRIPTEN_VERSION'] != null) {
+    emscriptenVersion = System.env['EMSCRIPTEN_VERSION'];
+}
 def emscriptenDir = file("$emsdkRunDir/emscripten/$emscriptenVersion")
 
 def emccCommand = "${emscriptenDir}/emcc"
-if (System.env['EMCC'] != null) {
-    emccCommand = System.env['EMCC']
-    println "Warning: emscripten's installation folder is set internally to ${emscriptenDir}."
-    println "This is hardcoded in the script and must be changed manually if you want to recompile GMP and MPFR."
-}
 
 // End of emscripten related settings. Huh.
 
@@ -730,6 +738,12 @@ task installEmsdk (/*dependsOn: 'downloadEmsdk'*/) {
             commandLine "./emsdk install sdk-$emscriptenVersion-64bit".split()
             workingDir emsdkRunDir
         }
+    }
+}
+
+task activateEmsdk (/*dependsOn: 'downloadEmsdk'*/) {
+    description 'Activates the emscripten SDK.'
+    doLast {
         exec {
             commandLine "./emsdk activate sdk-$emscriptenVersion-64bit".split()
             workingDir emsdkRunDir
