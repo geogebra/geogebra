@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -45,6 +46,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 	private GeoCurveCartesianND curve; // output
 	private boolean[] containsFunctions;
 	private ExpressionNode[] exp;
+	private boolean vectorFunctions;
 
 	/**
 	 * Creates new AlgoJoinPoints
@@ -81,13 +83,15 @@ public class AlgoCurveCartesian extends AlgoElement {
 		exp = new ExpressionNode[coords.length];
 		Function[] fun = new Function[coords.length];
 		containsFunctions = new boolean[coords.length];
-
+		vectorFunctions = point != null
+				&& AlgoDependentFunction.containsVectorFunctions(point);
 		for (int i = 0; i < coords.length; i++) {
 			exp[i] = kernel.convertNumberValueToExpressionNode(
 					coords[i].toGeoElement());
 			exp[i] = exp[i].replace(localVar, funVar).wrap();
 			fun[i] = new Function(exp[i], funVar);
-			containsFunctions[i] = AlgoDependentFunction
+			containsFunctions[i] = vectorFunctions
+					|| AlgoDependentFunction
 					.containsFunctions(exp[i]);
 		}
 
@@ -182,8 +186,17 @@ public class AlgoCurveCartesian extends AlgoElement {
 					// TODO: seems that we never read internationalize digits
 					// flag
 					// here ...
+					if (vectorFunctions) {
+						exp[i] = VectorArithmetic
+								.computeCoord(curve.getPointExpression(), i);
+					}
 					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(
 							exp[i].deepCopy(kernel), false);
+					if (vectorFunctions) {
+						ev = ev.wrap().replace(localVar,
+									curve.getFun(i).getFunctionVariable());
+					}
+
 					// Kernel.internationalizeDigits = internationalizeDigits;
 
 				} catch (Exception e) {
@@ -194,12 +207,7 @@ public class AlgoCurveCartesian extends AlgoElement {
 					curve.setUndefined();
 					return;
 				}
-				ExpressionNode node;
-				if (ev.isExpressionNode()) {
-					node = (ExpressionNode) ev;
-				} else {
-					node = new ExpressionNode(kernel, ev);
-				}
+				ExpressionNode node = ev.wrap();
 
 				// expandedFun.setExpression(node);
 

@@ -446,6 +446,28 @@ public class AlgoDependentFunction extends AlgoElement
 		return false;
 	}
 
+	/**
+	 * @param ev
+	 *            expression
+	 * @return whether given expression contains operation FUNCTION,
+	 *         FUNCTION_NVAR or DERIVATIVE
+	 */
+	public static boolean containsVectorFunctions(ExpressionValue ev) {
+		if (ev != null && ev.isExpressionNode()) {
+			ExpressionNode node = (ExpressionNode) ev;
+			Operation op = node.getOperation();
+			if (op.equals(Operation.VEC_FUNCTION)) {
+				return true;
+			}
+			// list(1,x) is function dependent, list(1,2) is not
+			if (op.equals(Operation.ELEMENT_OF)) {
+				return true;
+			}
+			return containsVectorFunctions(node.getLeft())
+					|| containsVectorFunctions(node.getRight());
+		}
+		return false;
+	}
 	@Override
 	public String toString(StringTemplate tpl) {
 		if (sb == null) {
