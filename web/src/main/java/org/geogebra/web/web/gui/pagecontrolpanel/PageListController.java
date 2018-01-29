@@ -45,15 +45,12 @@ public class PageListController implements PageListControllerInterface {
 	}
 
 	/**
-	 * @return list of slides
+	 * @return list of slides; never null
 	 */
 	public ArrayList<PagePreviewCard> getCards() {
 		return slides != null ? slides : new ArrayList<PagePreviewCard>();
 	}
-	
-	/**
-	 * @return list of slides
-	 */
+
 	public GgbFile getSlide(int index) {
 		if(slides == null){
 			return null;
@@ -146,7 +143,6 @@ public class PageListController implements PageListControllerInterface {
 		setCardSelected(dup);
 
 		return dup;
-
 	}
 
 	/**
@@ -268,7 +264,6 @@ public class PageListController implements PageListControllerInterface {
 		}
 		// select new card
 		previewCard.addStyleName("selected");
-		//
 		selectedCard = previewCard;
 	}
 
@@ -363,14 +358,6 @@ public class PageListController implements PageListControllerInterface {
 		loadSlide(selectedCard, index, newPage);
 		setCardSelected(getCards().get(index));
 	}
-
-	/**
-	 * @return all cards
-	 */
-	public ArrayList<PagePreviewCard> getSlides() {
-		return slides;
-	}
-	
 
 	private void clearSpaces() {
 		clearSpaces(-1);

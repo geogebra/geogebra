@@ -3259,10 +3259,19 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		this.shortLHS = shortLHS;
 	}
 
+	/**
+	 * Needed to keep strong reference to parent algo (iOS)
+	 * 
+	 * @param dependentFunction
+	 *            dependent function
+	 */
 	public void setDependentFunction(AlgoDependentFunction dependentFunction) {
 		this.dependentFunction = dependentFunction;
 	}
 
+	/**
+	 * @return parent algo (if it's dpendent function)
+	 */
 	public AlgoDependentFunction getDependentFunction() {
 		return dependentFunction;
 	}

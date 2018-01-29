@@ -835,6 +835,17 @@ public abstract class Drawable extends DrawableND {
 		return getBounds();
 	}
 
+	/**
+	 * @param x
+	 *            x-coord of top left
+	 * @param y
+	 *            y-coord of top left
+	 * @param w
+	 *            width
+	 * @param h
+	 *            height
+	 * @return frame for getBounds
+	 */
 	protected GRectangle getTempFrame(int x, int y, int w, int h) {
 		if (tempFrame == null) {
 			tempFrame = AwtFactory.getPrototype().newRectangle(x, y, w, h);

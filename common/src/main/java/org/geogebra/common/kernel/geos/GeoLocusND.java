@@ -169,6 +169,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
+	/**
+	 * Store points before scaling
+	 * 
+	 * @param gRectangle2D
+	 *            bounding box
+	 */
 	public void saveOriginalRates(GRectangle2D gRectangle2D) {
 		if (nonScaledPointList == null) {
 			nonScaledPointList = new ArrayList<>(myPointList.size());
@@ -193,6 +199,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
+	/**
+	 * Store bounding box aspect ratio
+	 * 
+	 * @param gRectangle2D
+	 *            ratio before scaling
+	 */
 	public void saveRatio(GRectangle2D gRectangle2D) {
 		if (Double.isNaN(ratio) || Double.isInfinite(ratio)) {
 			double width = (gRectangle2D.getMaxX() - gRectangle2D.getMinX());
@@ -246,6 +258,15 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		}
 	}
 
+	/**
+	 * @param handler
+	 *            bounding box handdler
+	 * @param eventX
+	 *            drag event x-coord
+	 * @param gRectangle2D
+	 *            bounding box
+	 * @return new width
+	 */
 	public double updatePointsX(EuclidianBoundingBoxHandler handler,
 			int eventX, GRectangle2D gRectangle2D) {
 		if (nonScaledWidth == 0) {
@@ -277,6 +298,16 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement
 		return newWidth;
 	}
 
+	/**
+	 * @param handler
+	 *            bounding box handdler
+	 * @param eventY
+	 *            drag event y-coord
+	 * @param gRectangle2D
+	 *            bounding box
+	 * @param newWidth
+	 *            new width
+	 */
 	public void updatePointsY(EuclidianBoundingBoxHandler handler,
 			int eventY, GRectangle2D gRectangle2D, double newWidth) {
 		if (nonScaledHeight == 0) {

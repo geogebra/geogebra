@@ -47,7 +47,9 @@ public interface PageListControllerInterface {
 
 	/**
 	 * Starts dragging the given card.
-	 * @param card to drag.
+	 * 
+	 * @param pageIndex
+	 *            card to drag.
 	 */
 	void startDrag(int pageIndex);
 

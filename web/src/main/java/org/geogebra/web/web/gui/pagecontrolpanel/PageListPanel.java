@@ -297,7 +297,7 @@ public class PageListPanel
 	 */
 	public void update() {
 		contentPanel.clear();
-		for (PagePreviewCard card : this.pageController.getSlides()) {
+		for (PagePreviewCard card : this.pageController.getCards()) {
 			addPreviewCard(card);
 		}
 	}
