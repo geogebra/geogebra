@@ -178,7 +178,7 @@ public class PageListPanel
 	 */
 	protected int addNewPreviewCard(boolean selected) {
 		final PagePreviewCard card = pageController.addSlide();
-		card.setReorderListener(this);
+		card.setCardListener(this);
 		addPreviewCard(card);
 		if (selected) {
 			pageController.setCardSelected(card);
@@ -287,7 +287,7 @@ public class PageListPanel
 	 */
 	public void duplicatePage(PagePreviewCard src) {
 		PagePreviewCard dup = pageController.duplicateSlide(src);
-		dup.setReorderListener(this);
+		dup.setCardListener(this);
 		addPreviewCard(dup);
 		pageController.updatePreviewImage();
 	}

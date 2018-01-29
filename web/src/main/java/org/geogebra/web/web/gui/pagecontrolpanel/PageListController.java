@@ -324,24 +324,18 @@ public class PageListController implements PageListControllerInterface {
 		return false;
 	}
 
-	public void addStyleCard(int pageIndex, String name) {
-		if (pageIndex < 0 || pageIndex > slides.size() - 1) {
-			return;
-		}
-		slides.get(pageIndex).addStyleName(name);
-	}
-
-	public void removeStyleCard(int pageIndex, String name) {
-		if (pageIndex < 0 || pageIndex > slides.size() - 1) {
-			return;
-		}
-		slides.get(pageIndex).removeStyleName(name);
-	}
-
+	/**
+	 * Add style to a given card, removes from all other ones.
+	 * 
+	 * @param pageIndex
+	 *            the card index to add style to.
+	 * @param name
+	 *            the style name.
+	 */
 	public void styleCard(int pageIndex, String name) {
-		for (PagePreviewCard card: slides) {
+		for (PagePreviewCard card : slides) {
 			if (card.getPageIndex() == pageIndex) {
-				card.addStyleName(name);			
+				card.addStyleName(name);
 			} else {
 				card.removeStyleName(name);
 			}
@@ -378,11 +372,11 @@ public class PageListController implements PageListControllerInterface {
 	}
 	
 
-	public void clearSpaces() {
+	private void clearSpaces() {
 		clearSpaces(-1);
 	}
 
-	public void clearSpaces(int index) {
+	private void clearSpaces(int index) {
 		for (PagePreviewCard card: slides) {
 			if (index != card.getPageIndex()) {
 				card.removeStyleName("spaceBefore");

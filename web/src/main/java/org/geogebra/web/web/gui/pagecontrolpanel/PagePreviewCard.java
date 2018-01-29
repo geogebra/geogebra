@@ -306,6 +306,9 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 		hrTouchEnd = addDomHandler(handler, TouchEndEvent.getType());
 	}
 	
+	/**
+	 * Removes all handlers that have to do with DnD.s
+	 */
 	public void removeDragNDrop() {
 		if (hrTouchStart != null) {
 			hrTouchStart.removeHandler();
@@ -320,13 +323,20 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 		}
 	}
 
-	public CardListener getReorderListener() {
+	/**
+	 * @return the card listener.
+	 */
+	public CardListener getCardListener() {
 		return listener;
 	}
 
-
-	public void setReorderListener(CardListener reorderListener) {
-		this.listener = reorderListener;
+	/**
+	 * 
+	 * @param listener
+	 *            to set.
+	 */
+	public void setCardListener(CardListener listener) {
+		this.listener = listener;
 	}
 
 	@Override
@@ -339,18 +349,15 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
-
 		event.preventDefault();
 		event.stopPropagation();
-	
+
 		Touch t = event.getTargetTouches().get(0);
 		setDragPosition(t);
 
 		int x = t.getClientX();
 		int y = t.getClientY();
 		app.getPageController().drag(x, y);
-		
-		
 	}
 
 
@@ -372,13 +379,19 @@ TouchStartHandler, TouchMoveHandler, TouchEndHandler, SetLabels {
 	}
 	
 	private void setDragPosition(Touch t) {
-//		int x = getParent().getAbsoluteLeft();
 		int y = t.getClientY() - getParent().getAbsoluteTop();
-		
-	//	getElement().getStyle().setLeft(x, Unit.PX);
 		getElement().getStyle().setTop(y - getOffsetHeight() / 2, Unit.PX);
 	}
 
+	/**
+	 * Checks if (x, y) is within the card.
+	 * 
+	 * @param x
+	 *            coordinate to check.
+	 * @param y
+	 *            coordinate to check.
+	 * @return if card was hit at (x, y).
+	 */
 	public boolean isHit(int x, int y) {
 		boolean hit = x > getAbsoluteLeft() && y > getAbsoluteTop()
 				&& x < getAbsoluteLeft() + getOffsetWidth()
