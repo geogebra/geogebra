@@ -17,6 +17,7 @@
 	
 	$shadow-elevation-2: 0px 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
 	$shadow-elevation-8: 0px 5px 5px -3px $black-2, 0px 8px 10px 1px $black-14, 0px 3px 14px 2px $black-12;
+	$shadow-elevation-16: 0px 8px 10px -5px $black-2, 0px 16px 24px 2px $black-14, 0px 6px 30px 5px $black-12;
 	
 /*****************
 *   TOOLBAR
@@ -604,7 +605,7 @@
 		position: absolute;
 		top: 0px;
 		right: 0px;
-		box-shadow: 0 6px 16px $black-28;
+		box-shadow: $shadow-elevation-16;
 		background-color: $white;
 		z-index: 98;
 		height: 100%;
@@ -663,7 +664,7 @@
 				
 		.mowImagePanel {
 			width: 220px;
-			height: calc(220px *2/3);
+			height: calc(220px * 9/16);
 			margin: auto;
 			background-repeat: no-repeat;
 			background-position: center;
@@ -671,23 +672,23 @@
 			cursor: pointer;
 		}
 		.mowTitlePanel {
-			width: calc(100% - 24px);
-			padding: 8px 8px 8px 16px;
+			width: 100%;
 			border-radius: 0 0 2px 2px;
 			background-color: $white;
 			display: flex;
 			
 			.gwt-Label {
 				font-size: 16px;
-				padding: 8px 0px 8px 0px;
+				line-height: 16px;
+				padding: 16px;
  				overflow: hidden;
 				cursor: default;
 			}
 			.mowMoreButton {
 				width: 24px;
 				height: 24px;
-				padding: 6px;
-				right: 24px;
+				padding: 12px 16px;
+				right: 16px;
 			    position: absolute;
 				opacity: 0.54;
 				cursor: pointer;
