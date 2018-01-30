@@ -1,7 +1,5 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
-import org.geogebra.common.euclidian.event.KeyEvent;
-import org.geogebra.common.euclidian.event.KeyHandler;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Feature;
@@ -10,8 +8,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.event.FocusListenerW;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.MyToggleButton;
 import org.geogebra.web.html5.gui.util.NoDragImage;
@@ -19,7 +15,6 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
@@ -32,6 +27,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * Page Preview Card showing preview of EuclidianView
@@ -42,15 +38,17 @@ import com.google.gwt.user.client.ui.Image;
 public class PagePreviewCard extends FlowPanel
 		implements TouchStartHandler,
 		TouchMoveHandler, TouchEndHandler, SetLabels {
-	private static final int LABELFONT_SIZE = 16;
+
 	private AppW app;
 	private Localization loc;
 	private int pageIndex;
 	private FlowPanel imagePanel;
 	private String image;
 	private FlowPanel titlePanel;
-	private AutoCompleteTextFieldW textField;
-	private boolean isTitleSet = false;
+	private Label titleLabel;
+	// private static final int LABELFONT_SIZE = 16;
+	// private AutoCompleteTextFieldW textField;
+	// private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
 	private ContextMenuPagePreview contextMenu = null;
 	
@@ -103,6 +101,8 @@ public class PagePreviewCard extends FlowPanel
 
 		titlePanel = new FlowPanel();
 		titlePanel.addStyleName("mowTitlePanel");
+		titleLabel = new Label("");
+		titlePanel.add(titleLabel);
 
 		add(imagePanel);
 		add(titlePanel);
@@ -111,52 +111,42 @@ public class PagePreviewCard extends FlowPanel
 		} else {
 			setPreviewImage(image);
 		}
-		addTextField();
+		// addTextField();
 		updateLabel();
 		addMoreButton();
 	}
 
-	private void addTextField() {
-		textField = InputPanelW.newTextComponent(app);
-		textField.setAutoComplete(false);
-		textField.addFocusListener(new FocusListenerW(this) {
-			@Override
-			protected void wrapFocusLost() {
-				rename();
-			}
-		});
-		textField.addKeyHandler(new KeyHandler() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					rename();
-				}
-			}
-		});
-		titlePanel.add(textField);
-	}
+	/*
+	 * private void addTextField() { textField =
+	 * InputPanelW.newTextComponent(app); textField.setAutoComplete(false);
+	 * textField.addFocusListener(new FocusListenerW(this) {
+	 * 
+	 * @Override protected void wrapFocusLost() { rename(); } });
+	 * textField.addKeyHandler(new KeyHandler() {
+	 * 
+	 * @Override public void keyReleased(KeyEvent e) { if (e.isEnterKey()) {
+	 * rename(); } } }); titlePanel.add(textField); }
+	 */
 
 	/**
 	 * remember if title was renamed
 	 */
-	protected void rename() {
-		if (textField.getText().equals(getDefaultLabel())) {
-			isTitleSet = false;
-		} else {
-			isTitleSet = true;
-		}
-		setTextFieldWidth();
-		textField.setFocus(false);
-	}
+	/*
+	 * protected void rename() { if
+	 * (textField.getText().equals(getDefaultLabel())) { isTitleSet = false; }
+	 * else { isTitleSet = true; } setTextFieldWidth();
+	 * textField.setFocus(false); }
+	 */
 
 	/**
 	 * using an approximate calculation for text field width.
 	 * 
 	 */
-	private void setTextFieldWidth() {
-		int length = LABELFONT_SIZE * (textField.getText().length() + 2);
-		textField.setWidth(Math.max(Math.min(length, 178), 10));
-	}
+	/*
+	 * private void setTextFieldWidth() { int length = LABELFONT_SIZE *
+	 * (textField.getText().length() + 2);
+	 * textField.setWidth(Math.max(Math.min(length, 178), 10)); }
+	 */
 
 
 	/**
@@ -191,15 +181,17 @@ public class PagePreviewCard extends FlowPanel
 				.getExportImageDataUrl(0.2, false));
 	}
 
-	private String getDefaultLabel() {
-		return loc.getMenu("page") + " " + (pageIndex + 1);
-	}
+	/*
+	 * private String getDefaultLabel() { return loc.getMenu("page") + " " +
+	 * (pageIndex + 1); }
+	 */
 
 	private void updateLabel() {
-		if (!isTitleSet) {
-			textField.setText(getDefaultLabel());
-			setTextFieldWidth();
-		}
+		titleLabel.setText(loc.getMenu("page") + " " + (pageIndex + 1));
+		/*
+		 * if (!isTitleSet) { textField.setText(getDefaultLabel());
+		 * setTextFieldWidth(); }
+		 */
 	}
 
 	/**
