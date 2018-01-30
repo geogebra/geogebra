@@ -991,4 +991,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		return false;
 		// only for web
 	}
+
+	@Override
+	protected StatisticsCalculator getStatCalculator() {
+		return statCalculator;
+	}
 }

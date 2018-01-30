@@ -36,6 +36,8 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
 import org.geogebra.common.gui.view.data.DataAnalysisModel.Regression;
 import org.geogebra.common.gui.view.data.DataDisplayModel.PlotType;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.io.layout.DockPanelData;
 import org.geogebra.common.io.layout.DockSplitPaneData;
 import org.geogebra.common.io.layout.Perspective;
@@ -1162,6 +1164,10 @@ public class MyXMLHandler implements DocHandler {
 				}
 				break;
 			}
+		case 's':
+			if ("statisticsCollection".equals(eName)) {
+				ok = handleStatisticsCollection(attrs);
+			}
 		default:
 			Log.error("unknown tag in <probabilityCalculator>: " + eName);
 		}
@@ -1209,6 +1215,35 @@ public class MyXMLHandler implements DocHandler {
 					.setLow(StringUtil.parseDouble(attrs.get("low")));
 			app.getSettings().getProbCalcSettings()
 					.setHigh(StringUtil.parseDouble(attrs.get("high")));
+
+			return true;
+		} catch (RuntimeException e) {
+			return false;
+		}
+	}
+
+	private boolean handleStatisticsCollection(
+			LinkedHashMap<String, String> attrs) {
+
+		try {
+			StatisticsCollection stats = new StatisticsCollection();
+			stats.mean = StringUtil.parseDouble(attrs.get("mean"));
+			stats.n = StringUtil.parseDouble(attrs.get("mean"));
+			stats.sd = StringUtil.parseDouble(attrs.get("sd"));
+			stats.count = StringUtil.parseDouble(attrs.get("count"));
+
+			stats.mean2 = StringUtil.parseDouble(attrs.get("mean2"));
+			stats.n2 = StringUtil.parseDouble(attrs.get("mean2"));
+			stats.sd2 = StringUtil.parseDouble(attrs.get("sd2"));
+			stats.count2 = StringUtil.parseDouble(attrs.get("count2"));
+
+			stats.nullHyp = StringUtil.parseDouble(attrs.get("nullHyp"));
+			stats.level = StringUtil.parseDouble(attrs.get("level"));
+			stats.selectedProcedure = Procedure.valueOf(attrs.get("procedure"));
+
+			app.getSettings().getProbCalcSettings().setCollection(stats);
+
+
 
 			return true;
 		} catch (RuntimeException e) {

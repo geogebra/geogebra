@@ -3,6 +3,7 @@ package org.geogebra.common.gui.view.probcalculator;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -21,7 +22,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 public abstract class StatisticsCalculator {
 
 	protected Construction cons;
-	protected StatisticsCollection sc;
+	protected final StatisticsCollection sc;
 	protected StatisticsCalculatorProcessor statProcessor;
 	protected StatisticsCalculatorHTML statHTML;
 	protected Kernel kernel;
@@ -34,12 +35,9 @@ public abstract class StatisticsCalculator {
 	// Procedures
 	// =========================================
 
-	/***/
-	public enum Procedure {
-		ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST, ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
-	}
 
-	protected Procedure selectedProcedure;
+
+
 
 	protected HashMap<String, Procedure> mapNameToProcedure;
 	protected HashMap<Procedure, String> mapProcedureToName;
@@ -77,15 +75,18 @@ public abstract class StatisticsCalculator {
 		this.app = app;
 		cons = app.getKernel().getConstruction();
 		kernel = cons.getKernel();
-		sc = new StatisticsCollection();
+		if (app.getSettings().getProbCalcSettings().getCollection() == null) {
+			app.getSettings().getProbCalcSettings()
+					.setCollection(new StatisticsCollection());
+		}
+		sc = app.getSettings().getProbCalcSettings().getCollection();
 		statProcessor = new StatisticsCalculatorProcessor(app, this, sc);
 		statHTML = new StatisticsCalculatorHTML(app, this, sc);
 
-		selectedProcedure = Procedure.ZMEAN_TEST;
 	}
 
 	public Procedure getSelectedProcedure() {
-		return selectedProcedure;
+		return sc.selectedProcedure;
 	}
 
 	/**
@@ -200,7 +201,7 @@ public abstract class StatisticsCalculator {
 			fldSampleStat2[i].setText("");
 		}
 
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 		default:
 			// do nothing
 			break;
@@ -330,7 +331,7 @@ public abstract class StatisticsCalculator {
 	}
 	
 	protected void updateCollectionProcedure() {
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 
 		default:
 			// do nothing
@@ -383,5 +384,9 @@ public abstract class StatisticsCalculator {
 
 	}
 
-
+	public void getXML(StringBuilder sb) {
+		if (sc != null) {
+			sc.getXML(sb);
+		}
+	}
 }

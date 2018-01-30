@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityManager;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -1153,6 +1154,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnExport.getPopupMenu().removeStyleName("gwt-MenuBar");
 		btnExport.getPopupMenu().addStyleName("gwt-ToggleButton");
 		btnExport.getPopupMenu().addStyleName("MyToggleButton");
+	}
+
+	public StatisticsCalculator getStatCalculator() {
+		return statCalculator;
 	}
 
 	/**

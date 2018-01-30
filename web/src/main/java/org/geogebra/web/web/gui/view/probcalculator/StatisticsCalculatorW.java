@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -125,7 +126,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		lblSigma.setText(loc.getMenu("StandardDeviation.short"));
 		btnCalculate.setText(loc.getMenu("Calculate"));
 
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 
 		case ZMEAN2_TEST:
 		case TMEAN2_TEST:
@@ -157,7 +158,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	}
 
 	private void setHypParameterLabel() {
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 
 		case ZMEAN_TEST:
 		case TMEAN_TEST:
@@ -232,7 +233,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			lblSampleStat2[i].setText("");
 		}
 
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 		default:
 			// do nothing
 			break;
@@ -301,8 +302,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 
 		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null && !"".equals(lblSampleStat2[0].getText())));
 
-		ckPooled.setVisible(selectedProcedure == Procedure.TMEAN2_TEST
-				|| selectedProcedure == Procedure.TMEAN2_CI);
+		ckPooled.setVisible(sc.selectedProcedure == Procedure.TMEAN2_TEST
+				|| sc.selectedProcedure == Procedure.TMEAN2_CI);
 
 		setPanelLayout();
 
@@ -313,7 +314,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		panelBasicProcedures.setVisible(false);
 		panelChiSquare.getWrappedPanel().setVisible(false);
 
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 
 		case CHISQ_TEST:
 		case GOF_TEST:
@@ -374,7 +375,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			//panelSample2.getElement().appendChild(Document.get().createBRElement());
 		}
 	   
-	   switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 		default:
 			// do nothing
 			break;
@@ -424,8 +425,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			break;
 		}
 	   
-		if (selectedProcedure == Procedure.ZMEAN2_TEST
-				|| selectedProcedure == Procedure.TMEAN2_TEST) {
+		if (sc.selectedProcedure == Procedure.ZMEAN2_TEST
+				|| sc.selectedProcedure == Procedure.TMEAN2_TEST) {
 			fldNullHyp.setText("0");
 			fldNullHyp.setEditable(false);
 		} else {
@@ -589,7 +590,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	
 	@Override
 	public void onChange(ChangeEvent event) {
-		selectedProcedure = mapNameToProcedure.get(cbProcedure.getValue(cbProcedure.getSelectedIndex()));
+		sc.selectedProcedure = mapNameToProcedure
+				.get(cbProcedure.getValue(cbProcedure.getSelectedIndex()));
 		updateGUI();
 		updateResult();
 		//setLabels();

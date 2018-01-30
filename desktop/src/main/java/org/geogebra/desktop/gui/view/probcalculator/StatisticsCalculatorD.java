@@ -29,6 +29,7 @@ import javax.swing.text.html.StyleSheet;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -194,7 +195,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 					lblSampleStat2[i], (MyTextFieldD) fldSampleStat2[i]));
 		}
 
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 		default:
 			// do nothing
 			break;
@@ -360,7 +361,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		lblSigma.setText(loc.getMenu("StandardDeviation.short"));
 		btnCalculate.setText(loc.getMenu("Calculate"));
 
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 
 		case ZMEAN2_TEST:
 		case TMEAN2_TEST:
@@ -392,7 +393,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	}
 
 	private void setHypParameterLabel() {
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 
 		case ZMEAN_TEST:
 		case TMEAN_TEST:
@@ -460,7 +461,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			lblSampleStat2[i].setText("");
 		}
 
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 		default:
 			// do nothing
 			break;
@@ -533,8 +534,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		lblSampleHeader2.setVisible((isNotEmpty(lblSampleStat2[0].getText())));
 
-		ckPooled.setVisible(selectedProcedure == Procedure.TMEAN2_TEST
-				|| selectedProcedure == Procedure.TMEAN2_CI);
+		ckPooled.setVisible(sc.selectedProcedure == Procedure.TMEAN2_TEST
+				|| sc.selectedProcedure == Procedure.TMEAN2_CI);
 
 		setPanelLayout();
 		wrappedPanel.revalidate();
@@ -550,7 +551,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		panelBasicProcedures.setVisible(false);
 		panelChiSquare.getWrappedPanel().setVisible(false);
 
-		switch (selectedProcedure) {
+		switch (sc.selectedProcedure) {
 
 		case CHISQ_TEST:
 		case GOF_TEST:
@@ -579,7 +580,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		if (source == cbProcedure && cbProcedure.getSelectedIndex() >= 0) {
-			selectedProcedure = mapNameToProcedure
+			sc.selectedProcedure = mapNameToProcedure
 					.get(cbProcedure.getSelectedItem());
 			updateGUI();
 			updateResult();

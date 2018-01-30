@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.probcalculator;
 
-
 /**
  * @author G. Sturr
  * 
@@ -8,8 +7,11 @@ package org.geogebra.common.gui.view.probcalculator;
 public class StatisticsCollection {
 
 
-	public double mean, mean2, sd, sd2, nullHyp, me, lower, upper, se, testStat,
-			P, df, level, n, n2, count, count2, total;
+	public double mean, mean2, sd, sd2, nullHyp;
+	public double me, lower, upper, se, testStat;
+	public double P, df, level, n, n2, count, count2;
+	/** output: sum of observed */
+	public double total;
 
 	public String tail;
 	public boolean pooled;
@@ -19,6 +21,12 @@ public class StatisticsCollection {
 
 	public double[][] observed, expected, diff;
 	public double[] columnSum, rowSum;
+	public Procedure selectedProcedure;
+
+	/***/
+	public enum Procedure {
+		ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST, ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI, GOF_TEST, CHISQ_TEST
+	}
 
 	/**
 	 * Construct StatisticsCollection
@@ -43,6 +51,7 @@ public class StatisticsCollection {
 		count2 = Double.NaN;
 
 		level = .95;
+		selectedProcedure = Procedure.ZMEAN_TEST;
 	}
 
 	public void setChiSqData(int rows, int columns) {
@@ -99,7 +108,31 @@ public class StatisticsCollection {
 		if (level < 0 || level > 1) {
 			level = Double.NaN;
 		}
+	}
 
+	public void getXML(StringBuilder sb) {
+		sb.append("<statisticsCollection procedure=\"");
+		sb.append(selectedProcedure.name());
+		add(sb, mean,"mean");
+		add(sb, sd, "sd");
+		add(sb, n, "n");
+		add(sb, count, "count");
+
+		add(sb, mean2,"mean2");
+		add(sb, sd2,"sd2");
+		add(sb, n2, "n2");
+		add(sb, count2, "count2");
+
+		add(sb, nullHyp, "nullHyp");
+		add(sb, level, "level");
+		sb.append("\"/>");
+	}
+
+	private void add(StringBuilder sb, double sd3, String string) {
+		sb.append("\" ");
+		sb.append(string);
+		sb.append("=\"");
+		sb.append(sd3);
 	}
 
 }

@@ -1880,8 +1880,13 @@ public abstract class ProbabilityCalculatorView
 		sb.append("\"");
 
 		sb.append("/>\n");
+		if (getStatCalculator() != null) {
+			getStatCalculator().getXML(sb);
+		}
 		sb.append("</probabilityCalculator>\n");
 	}
+
+	protected abstract StatisticsCalculator getStatCalculator();
 
 	@Override
 	public void startBatchUpdate() {

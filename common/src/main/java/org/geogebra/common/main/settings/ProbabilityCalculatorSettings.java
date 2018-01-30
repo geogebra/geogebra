@@ -4,6 +4,8 @@ package org.geogebra.common.main.settings;
 
 import java.util.LinkedList;
 
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
+
 /**
  * Settings for the probability calculator view.
  */
@@ -71,6 +73,8 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	private double low;
 
 	private double high;
+
+	private StatisticsCollection stats;
 
 	/**
 	 * @param listeners
@@ -202,5 +206,13 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 */
 	public double getHigh() {
 		return this.high;
+	}
+
+	public void setCollection(StatisticsCollection stats) {
+		this.stats = stats;
+	}
+
+	public StatisticsCollection getCollection() {
+		return stats;
 	}
 }
