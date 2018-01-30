@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.view.algebra;
 
-import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.cas.AlgoSolve;
@@ -25,7 +24,6 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Utitlity class for AV items
  */
 public class AlgebraItem {
-	private static String undefinedVariables;
 
 	/**
 	 * Changes the symbolic flag of a geo or its parent algo
@@ -49,6 +47,12 @@ public class AlgebraItem {
 		return false;
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return arrow or approx, depending on symbolic/numeric nature of the
+	 *         element
+	 */
 	public static String getOutputPrefix(GeoElement geo) {
 		if (geo instanceof HasSymbolicMode
 				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
@@ -62,6 +66,12 @@ public class AlgebraItem {
 		return getSymbolicPrefix(geo.getKernel());
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether changing symbolic/numeric for this geo will have any
+	 *         effect
+	 */
 	public static boolean isSymbolicDiffers(GeoElement geo) {
 		if (!(geo instanceof HasSymbolicMode)) {
 			return false;
@@ -106,24 +116,27 @@ public class AlgebraItem {
 		return true;
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether element is a numeric that can be written as a fraction
+	 */
 	public static boolean isGeoFraction(GeoElement geo) {
 		return geo instanceof GeoNumeric && geo.getDefinition() != null
 				&& geo.getDefinition().isFraction();
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return most relevant suggestion
+	 */
 	public static Suggestion getSuggestions(GeoElement geo) {
-		Suggestion sug = null;
-		if (undefinedVariables != null) {
-			sug = SuggestionSlider.get();
-			if (sug != null) {
-				return sug;
-			}
-		}
 		if (geo == null || geo.getKernel()
 				.getAlgebraStyle() != Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE) {
 			return null;
 		}
-
+		Suggestion sug = null;
 		boolean casEnabled = geo.getKernel().getApplication().getSettings()
 				.getCasSettings().isEnabled();
 		if (casEnabled) {
@@ -150,28 +163,59 @@ public class AlgebraItem {
 		return null;
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @param undefinedVariables
+	 *            undefined variables
+	 * @return most relevant suggestion
+	 */
+	public static Suggestion getSuggestions(GeoElement geo,
+			String undefinedVariables) {
+		Suggestion sug = null;
+		if (undefinedVariables != null) {
+			sug = SuggestionSlider.get();
+			if (sug != null) {
+				return sug;
+			}
+		}
+		return getSuggestions(geo);
+	}
+
+	/**
+	 * @param kernel
+	 *            kernel
+	 * @return symbolic prefix (depends on RTL/LTR)
+	 */
 	public static String getSymbolicPrefix(Kernel kernel) {
 		return kernel.getLocalization().rightToLeftReadingOrder
 				? Unicode.CAS_OUTPUT_PREFIX_RTL + ""
 				: Unicode.CAS_OUTPUT_PREFIX + "";
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether element is part of packed output (including header)
+	 */
 	public static boolean needsPacking(GeoElement geo) {
-		return geo != null && geo.getParentAlgorithm() != null
-				&& geo.getParentAlgorithm().getOutput().length > 1
-				&& geo.getParentAlgorithm().hasSingleOutputType()
-				&& geo.getKernel().getApplication().getSettings().getAlgebra()
-						.getTreeMode() == SortMode.ORDER;
+		return geo != null && geo.getPackedIndex() >= 0;
 	}
 
-	public static String getUndefinedValiables() {
-		return undefinedVariables;
+	/**
+	 * @param element
+	 *            element
+	 * @return whether element is part of packed output; exclude header
+	 */
+	public static boolean isCompactItem(GeoElement element) {
+		return element != null && element.getPackedIndex() > 0;
 	}
 
-	public static void setUndefinedValiables(String undefinedValiables) {
-		AlgebraItem.undefinedVariables = undefinedValiables;
-	}
-
+	/**
+	 * @param element
+	 *            element
+	 * @return formula for "Duplicate"
+	 */
 	public static String getDuplicateFormulaForGeoElement(GeoElement element) {
 		String duplicate = "";
 		if ("".equals(element.getDefinition(StringTemplate.defaultTemplate))) {
@@ -184,6 +228,11 @@ public class AlgebraItem {
 		return duplicate;
 	}
 
+	/**
+	 * @param element
+	 *            element
+	 * @return output text (LaTex or plain)
+	 */
 	public static String getOutputTextForGeoElement(GeoElement element) {
 		String outputText = "";
 		if (element.isLaTeXDrawableGeo()
@@ -201,13 +250,13 @@ public class AlgebraItem {
 		return outputText;
 	}
 
-	public static boolean isCompactItem(GeoElement element) {
-		return element != null && element.getParentAlgorithm() != null
-				&& element.getParentAlgorithm().getOutput(0) != element
-				&& element.getKernel().getApplication().getSettings()
-						.getAlgebra().getTreeMode() == SortMode.ORDER;
-	}
-
+	/**
+	 * @param geo1
+	 *            element
+	 * @param builder
+	 *            index builder
+	 * @return whether we did append something to the index builder
+	 */
 	public static boolean buildPlainTextItemSimple(GeoElement geo1,
 			IndexHTMLBuilder builder) {
 		int avStyle = geo1.getKernel().getAlgebraStyle();
@@ -246,11 +295,21 @@ public class AlgebraItem {
 		}
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether element should be represented by simple text item
+	 */
 	public static boolean isTextItem(GeoElement geo) {
 		return geo instanceof GeoText && !((GeoText) geo).isLaTeX()
 				&& !(geo).isTextCommand();
 	}
 
+	/**
+	 * @param geo
+	 *            element
+	 * @return whether we should show symbolic switch for the geo
+	 */
 	public static boolean shouldShowSymbolicOutputButton(GeoElement geo) {
 		return isSymbolicDiffers(geo) && !isTextItem(geo);
 	}
@@ -290,7 +349,7 @@ public class AlgebraItem {
 					&& (!geoElement.isIndependent() || (geoElement
 							.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
 							&& geoElement.getParentAlgorithm() == null))
-					&& !geoElement.isSecondaryOutput()
+					&& geoElement.getPackedIndex() < 1
 									? DescriptionMode.DEFINITION_VALUE
 									: DescriptionMode.DEFINITION;
 		case Kernel.ALGEBRA_STYLE_DEFINITION:

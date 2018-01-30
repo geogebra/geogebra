@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.gui.view.algebra.AlgebraController;
-import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.SwingConstants;
@@ -36,6 +35,7 @@ import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.html5.main.TimerSystemW;
 import org.geogebra.web.web.css.GuiResources;
 import org.geogebra.web.web.gui.GuiManagerW;
+import org.geogebra.web.web.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.AlgebraPanelInterface;
@@ -1746,7 +1746,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				inputPanelLatex.previewValue(geos[0]);
 			}
 		} else {
-			if (AlgebraItem.getUndefinedValiables() != null) {
+			if (WarningErrorHandler.getUndefinedValiables() != null) {
 				inputPanelLatex.buildSuggestions(null);
 			} else {
 				inputPanelLatex.clearPreviewAndSuggestions();

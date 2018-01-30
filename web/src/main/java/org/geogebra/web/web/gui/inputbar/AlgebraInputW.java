@@ -12,7 +12,6 @@ import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
@@ -26,7 +25,6 @@ import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.web.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
-import org.geogebra.web.web.gui.view.algebra.MarblePanel;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -376,56 +374,7 @@ public class AlgebraInputW extends FlowPanel
 	public static ErrorHandler getWarningHandler(final HasHelpButton input,
 			final App app2) {
 		// TODO Auto-generated method stub
-		return new ErrorHandler() {
-
-			@Override
-			public void showError(String msg) {
-				input.setError(msg);
-				input.getHelpToggle().getElement().setTitle(msg == null
-						? app2.getLocalization().getMenu("InputHelp") : msg);
-				if (app2.has(Feature.TOOLTIP_DESIGN) && !Browser.isMobile()
-						&& input.getHelpToggle() instanceof MarblePanel) {
-					((MarblePanel) input.getHelpToggle())
-							.setTitle(msg == null ? app2.getLocalization()
-									.getMenu("InputHelp") : msg);
-				}
-			}
-
-			@Override
-			public void resetError() {
-				showError(null);
-			}
-
-			@Override
-			public boolean onUndefinedVariables(String string,
-					AsyncOperation<String[]> callback) {
-				if (app2.has(Feature.INPUT_BAR_ADD_SLIDER)) {
-					input.setUndefinedVariables(string);
-
-				}
-				return false;
-			}
-
-			@Override
-			public void showCommandError(String command, String message) {
-				input.setCommandError(command);
-				if (((GuiManagerW) app2.getGuiManager())
-						.hasInputHelpPanel()) {
-					InputBarHelpPanelW helpPanel = ((GuiManagerW) app2
-							.getGuiManager()).getInputHelpPanel();
-					helpPanel.focusCommand(
-							app2.getLocalization().getCommand(command));
-					input.getHelpToggle().getElement().setTitle(
-							app2.getLocalization().getError("InvalidInput"));
-				}
-			}
-
-			@Override
-			public String getCurrentCommand() {
-				return input.getCommand();
-			}
-
-		};
+		return new WarningErrorHandler(app2, input);
 	}
 
 	@Override

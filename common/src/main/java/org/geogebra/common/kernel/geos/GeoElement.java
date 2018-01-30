@@ -8537,7 +8537,7 @@ public abstract class GeoElement extends ConstructionElement
 		if ("".equals(def0)) {
 			return DescriptionMode.VALUE;
 		}
-		if (isSecondaryOutput()) {
+		if (getPackedIndex() > 0) {
 			return DescriptionMode.VALUE;
 		}
 		IndexHTMLBuilder sbDef = new IndexHTMLBuilder(false);
@@ -8550,12 +8550,19 @@ public abstract class GeoElement extends ConstructionElement
 				: DescriptionMode.VALUE;
 	}
 
-	public boolean isSecondaryOutput() {
-		return kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
+	/**
+	 * @return -1 if this is not part of packed output; 0 for pack header, >0
+	 *         for packed items
+	 */
+	public int getPackedIndex() {
+		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
 				&& getParentAlgorithm() != null
-				&& getParentAlgorithm().getOutput(0) != this
+				&& getParentAlgorithm().hasSingleOutputType()
 				&& kernel.getApplication().getSettings().getAlgebra()
-						.getTreeMode() == SortMode.ORDER;
+						.getTreeMode() == SortMode.ORDER) {
+			return getParentAlgorithm().getOutput(0) == this ? 0 : 1;
+		}
+		return -1;
 	}
 
 	/**

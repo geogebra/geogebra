@@ -64,6 +64,7 @@ import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.inputbar.HasHelpButton;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPanelW;
 import org.geogebra.web.web.gui.inputbar.InputBarHelpPopup;
+import org.geogebra.web.web.gui.inputbar.WarningErrorHandler;
 import org.geogebra.web.web.gui.inputfield.InputSuggestions;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.AlgebraDockPanelW;
@@ -484,7 +485,9 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				&& app.getArticleElement()
 						.getDataParamShowAlgebraInput(app.getArticleElement()
 								.getDataParamShowMenuBar(false))
-				&& controller.isEditing() ? AlgebraItem.getSuggestions(geo1)
+				&& controller.isEditing()
+						? AlgebraItem.getSuggestions(geo1,
+								WarningErrorHandler.getUndefinedValiables())
 						: null;
 	}
 
@@ -525,7 +528,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	public void clearPreviewAndSuggestions() {
 		clearPreview();
-		AlgebraItem.setUndefinedValiables(null);
+		WarningErrorHandler.setUndefinedValiables(null);
 		if (controls != null) {
 			controls.updateSuggestions(null);
 		}
@@ -2293,15 +2296,11 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	@Override
 	public void setUndefinedVariables(String vars) {
-		AlgebraItem.setUndefinedValiables(vars);
+		WarningErrorHandler.setUndefinedValiables(vars);
 	}
 
 	public void clearUndefinedVariables() {
-		AlgebraItem.setUndefinedValiables(null);
-	}
-
-	public boolean hasUndefinedVariables() {
-		return (AlgebraItem.getUndefinedValiables() != null);
+		WarningErrorHandler.setUndefinedValiables(null);
 	}
 
 	public void onStopEdit() {
