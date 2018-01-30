@@ -2267,10 +2267,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 		switch (getStringType()) {
 		case LATEX:
 			if (isInsertLineBreaks()) {
-				return "\\-\\stackrel{ \\small ?}{=} ";
+				return "\\-\\questeq ";
 			}
 			// #4068 changed from \stackrel{ \small ?}{=}
-			return "\\stackrel{ \\small ?}{=} ";
+			return "\\questeq ";
 
 		case LIBRE_OFFICE:
 		case GIAC:

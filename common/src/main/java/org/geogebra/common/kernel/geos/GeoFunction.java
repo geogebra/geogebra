@@ -2732,7 +2732,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			}
 		}
 
-		return sbLaTeX.toString();
+		return sbLaTeX.toString().replace("\\questeq", "=");
 	}
 
 	private boolean collectCases(ExpressionNode condRoot,
