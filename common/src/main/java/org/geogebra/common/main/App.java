@@ -5173,4 +5173,17 @@ public abstract class App implements UpdateSelection {
 		// needs to be implemented in subclasses
 	}
 
+	/**
+	 * handle image as appropriate
+	 * web: show in lightbox
+	 * mobile: share intent (TODO)
+	 * desktop: copy to clipboard
+	 * 
+	 * @param base64image base64 encoded PNG/SVG/PDF
+	 */
+	public void handleImageExport(String base64image) {
+		// overridden in AppW, AppD, etc
+		
+	}
+
 }

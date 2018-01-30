@@ -40,6 +40,7 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
+import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -169,7 +170,9 @@ public class GgbAPID extends GgbAPIJre {
 	@Override
 	public synchronized boolean writePNGtoFile(String filename,
 			final double exportScale, final boolean transparent,
-			final double DPI) {
+			final double DPI0) {
+		
+		final double DPI = DPI0 <= 0 ? 72 : DPI0;
 
 		File file1 = null;
 		try {
@@ -200,9 +203,11 @@ public class GgbAPID extends GgbAPIJre {
 
 							return true;
 						} catch (Exception ex) {
+							ex.printStackTrace();
 							Log.debug(ex.toString());
 							return false;
 						} catch (Error ex) {
+							ex.printStackTrace();
 							Log.debug(ex.toString());
 							return false;
 						}
@@ -321,5 +326,23 @@ public class GgbAPID extends GgbAPIJre {
 		return new Rectangle2D.Double(ev.getXmin(), ev.getYmin(),
 				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
 	}
+	
+	public String exportSVG(String filename) {
+		EuclidianView view = app.getActiveEuclidianView();
+		GraphicExportDialog.exportSVG(app, view, new File(filename), true, view.getExportWidth(),
+				view.getExportHeight(), -1, -1, 1, true);
+		
+		// return value not implemented in desktop (could read file back...)
+		return null;
+	}
 
-}// class GgbAPI
+	public String exportPDF(double exportScale, String filename) {
+		EuclidianView view = app.getActiveEuclidianView();
+		GraphicExportDialog.exportPDF(app, view, new File(filename), true, view.getExportWidth(),
+				view.getExportHeight(), exportScale);
+
+		// return value not implemented in desktop (could read file back...)
+		return null;
+	}
+
+}

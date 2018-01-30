@@ -607,6 +607,8 @@ public abstract class CommandDispatcher {
 			case LaTeX:
 			case RoundedPolygon:
 			case Normalize:
+			case ExportImage:
+
 				return getBasicDispatcher().dispatch(command, kernel);
 
 			case CFactor:

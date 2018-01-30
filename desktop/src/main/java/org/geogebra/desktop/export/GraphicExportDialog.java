@@ -1112,9 +1112,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	/**
 	 * 
-	 * @param app
+	 * @param app2
 	 *            application
-	 * @param ev
+	 * @param view
 	 *            view
 	 * @param file
 	 *            target file
@@ -1127,7 +1127,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param exportScale
 	 *            scale units / cm
 	 */
-	public static void exportPDF(AppD app, EuclidianViewD ev, File file,
+	public static void exportPDF(App app2, EuclidianView view, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
 			double exportScale) {
 
@@ -1150,18 +1150,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		VectorGraphics g;
 		try {
 
-			double printingScale = ev.getPrintingScale();
+			double printingScale = view.getPrintingScale();
 
 			// TODO: why do we need this to make correct size in cm?
-			double factor = ev.getXscale() * 2.54 / 72;
-
-			// Dimension size = new Dimension(
-			// (int)(ev.getExportWidth() * printingScale / factor),
-			// (int)(ev.getExportHeight() * printingScale / factor));
+			double factor = view.getXscale() * 2.54 / 72;
 
 			Dimension size = new Dimension(
-					(int) (ev.getExportWidth() * printingScale / factor),
-					(int) (ev.getExportHeight() * printingScale / factor));
+					(int) (view.getExportWidth() * printingScale / factor),
+					(int) (view.getExportHeight() * printingScale / factor));
 
 			g = new PDFGraphics2D(file, size);
 			g.setCreator(CREATOR);
@@ -1180,7 +1176,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			((PDFGraphics2D) g).setPageSize(size);
 
 			g.startExport();
-			ev.exportPaint(g, printingScale / factor, textAsShapes
+			((EuclidianViewD)view).exportPaint(g, printingScale / factor, textAsShapes
 					? ExportType.PDF_TEXTASSHAPES : ExportType.PDF_EMBEDFONTS);
 			g.endExport();
 		} catch (FileNotFoundException e) {

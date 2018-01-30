@@ -2253,4 +2253,14 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 	}
 
+	public String exportSVG(String filename) {
+		// not implemented in Android, iOS
+		return null;
+	}
+
+	public String exportPDF(double exportScale, String filename) {
+		// not implemented in Android, iOS
+		return null;
+	}
+
 }

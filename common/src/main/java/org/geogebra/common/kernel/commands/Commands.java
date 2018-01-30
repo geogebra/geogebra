@@ -908,6 +908,8 @@ public enum Commands implements CommandsConstants,
 	Maximize(TABLE_OPTIMIZATION),
 
 	Minimize(TABLE_OPTIMIZATION),
+	
+	ExportImage(TABLE_ENGLISH),
 
 	// =================================================================
 	// commands that have been renamed so we want the new name to work
