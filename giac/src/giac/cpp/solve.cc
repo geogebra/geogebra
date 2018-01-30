@@ -244,7 +244,7 @@ namespace giac {
     gen g,g2=id._IDNTptr->eval(1,g,contextptr);
     if ((g2.type==_VECT) && (g2.subtype==_ASSUME__VECT)){
       vecteur v=*g2._VECTptr;
-      if (!v.empty() && v[0].type==_INT_ && value.type!=_IDNT && value.type!=_SYMB && !is_integer(value))
+      if (!v.empty() && v[0].type==_INT_ && (v[0].val==_INT_ || v[0].val==_ZINT) && value.type!=_IDNT && value.type!=_SYMB && !is_integer(value))
 	return false;
       if ( v.size()==3 && v[1].type==_VECT && v[2].type==_VECT){
 	for (unsigned i=0;i<v[2]._VECTptr->size();++i){
