@@ -377,6 +377,9 @@ public class Kernel {
 	private EuclidianView lastAttachedEV = null;
 	private boolean notifyViewsActive = true;
 
+	// MOB-1304 cache axes numbers
+	private HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
+
 	/**
 	 * @param app
 	 *            Application
@@ -1233,8 +1236,6 @@ public class Kernel {
 		sb.append(STRING_MINUS_PLUS);
 		sb.append(format(-x, tpl));
 	}
-
-	HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
 
 	final private String formatPiERaw(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
