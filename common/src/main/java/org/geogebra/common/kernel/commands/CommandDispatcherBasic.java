@@ -6,7 +6,6 @@ import org.geogebra.common.kernel.algos.CmdUnitVector;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * class to split off some CmdXXX classes into another jar (for faster applet

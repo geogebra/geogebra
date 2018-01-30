@@ -1,23 +1,15 @@
 package org.geogebra.common.kernel.commands;
 
-import java.util.Date;
-
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoList;
-import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.TextProperties;
-import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Localization;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GgbAPI;
