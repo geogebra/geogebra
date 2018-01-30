@@ -123,10 +123,7 @@ public class PageListController implements PageListControllerInterface {
 	 * @return the new, duplicated card.
 	 */
 	public PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
-		if (sourceCard == selectedCard) {
-			savePreviewCard(sourceCard);
-		}
-		
+		savePreviewCard(selectedCard);
 		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard);
 		int dupIdx = dup.getPageIndex();
 		
@@ -134,12 +131,12 @@ public class PageListController implements PageListControllerInterface {
 		
 		slides.add(dupIdx, dup);
 		
+		setCardSelected(dup);
+		changeSlide(dup);
 		if (!lastCard) {
 			updatePageIndexes(dupIdx);
 		}
 		
-		changeSlide(dup);
-		setCardSelected(dup);
 
 		return dup;
 	}
@@ -407,11 +404,11 @@ public class PageListController implements PageListControllerInterface {
 		dragCard.setDragPosition(0, y);
 
 		int idx = cardIndexAt(x, y);
-		 if (idx == -1) {
-			// Log.debug("[DND] no card at (" + x + ", " + y + ")");
+		if (idx == -1) {
 			return;
-		 }
-		 PagePreviewCard target = slides.get(idx);
+		}
+
+		PagePreviewCard target = slides.get(idx);
 		if (target == null) {
 			return;
 		}
