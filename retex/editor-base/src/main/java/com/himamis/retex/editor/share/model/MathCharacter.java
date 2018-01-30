@@ -108,7 +108,7 @@ public class MathCharacter extends MathComponent {
 
 	@Override
 	public String toString() {
-		return meta.getUnicode() + "";
+		return meta.getUnicodeString();
 	}
 
 	public boolean isSeparator() {

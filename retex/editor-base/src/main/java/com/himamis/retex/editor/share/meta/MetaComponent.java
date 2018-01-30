@@ -34,7 +34,7 @@ import java.io.Serializable;
  *
  * @author Bea Petrovicova
  */
-public class MetaComponent implements Serializable{
+public class MetaComponent implements Serializable {
 
     /**
 	 * MetaComponent needs to implement Serializable to be parcelable (android)
@@ -45,12 +45,14 @@ public class MetaComponent implements Serializable{
     private String texName;
     private char key;
     private char unicode;
+    private String unicodeString;
 
 	MetaComponent(Tag name, String texName, char key, char unicode) {
 		this.name = name;
         this.texName = texName;
         this.key = key;
         this.unicode = unicode;
+        this.unicodeString = Character.toString(unicode);
     }
 
 	/**
@@ -79,5 +81,12 @@ public class MetaComponent implements Serializable{
      */
     public char getUnicode() {
         return unicode;
+    }
+
+    /**
+     * Unicode value in String format.
+     */
+    public String getUnicodeString() {
+        return unicodeString;
     }
 }

@@ -44,7 +44,7 @@ public class ListMetaGroup implements MetaGroup {
 
 	public MetaComponent getComponent(String name) {
         for (MetaComponent component : components) {
-            if (component.getName().equals(name) || name.equals(Character.toString(component.getUnicode()))) {
+            if (component.getName().equals(name) || name.equals(component.getUnicodeString())) {
                 return component;
             }
         }

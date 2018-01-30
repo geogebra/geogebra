@@ -325,7 +325,7 @@ public class MetaModel {
 	 * @return a single character merged from prefix and symbol,
 	 */
 	public MetaCharacter merge(String prefix, MetaCharacter symbol) {
-		String mergeName = prefix + symbol.getUnicode();
+		String mergeName = prefix + symbol.getUnicodeString();
 		return mergeLookup.get(mergeName);
 	}
 }
