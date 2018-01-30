@@ -40,7 +40,6 @@ import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
-import org.geogebra.desktop.euclidian.EuclidianViewD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -192,7 +191,7 @@ public class GgbAPID extends GgbAPIJre {
 						try {
 							// draw graphics view into image
 							GBufferedImage img = ((AppD) getApplication())
-									.getEuclidianView1()
+									.getActiveEuclidianView()
 									.getExportImage(exportScale, transparent,
 											ExportType.PNG);
 

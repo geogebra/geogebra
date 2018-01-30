@@ -39,7 +39,7 @@ public class CmdExportImage extends CommandProcessor {
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		if (n > 1) {
+		if (MyDouble.isOdd(n)) {
 			throw argNumErr(c);
 		}
 
@@ -56,67 +56,67 @@ public class CmdExportImage extends CommandProcessor {
 		String filename = null;
 		ExportType type = ExportType.PNG;
 
-		if (n == 1) {
-			GeoElement[] arg = resArgs(c);
-			if (arg[0].isGeoText()) {
+		GeoElement[] arg = resArgs(c);
 
-				// eg "{clipboard: false, dpi:96, scale:1, transparent: true,
-				// clipboard: false, view: 1 ,format:"PNG"}";
-				String json = ((TextProperties) arg[0])
-						.toValueString(StringTemplate.maxDecimals);
-				// for testing
-				// json = "{clipboard: false, dpi:96, scale:1.1, transparent:
-				// true, clipboard: false, view: 1 ,format:'PNG'}";
-				try {
-					JSONObject options = new JSONObject(json);
-					if (options.has("dpi")) {
-						dpi = (Integer) options.get("dpi");
-					}
-					if (options.has("view")) {
-						view = (Integer) options.get("view");
-					}
-					if (options.has("type")) {
-						String typeStr = StringUtil
-								.toLowerCaseUS(options.get("type").toString());
-						switch (typeStr) {
-						default:
-						case "png":
-							type = ExportType.PNG;
-							break;
-						case "svg":
-							type = ExportType.SVG;
-							break;
-						case "pdf":
-							type = ExportType.PDF_HTML5;
-							break;
-						}
-					}
-					if (options.has("transparent")) {
-						transparent = (Boolean) options.get("transparent");
-					}
+		for (int i = 0; i < n; i += 2) {
 
-					if (options.has("width")) {
-						width = (Integer) options.get("width");
-					}
-					if (options.has("height")) {
-						height = (Integer) options.get("height");
-					}
-					if (options.has("scaleCM")) {
-						scaleCM = getDouble(options, "scaleCM");
-					}
-					if (options.has("scale")) {
-						exportScale = getDouble(options, "scale");
-					}
-					if (options.has("filename")) {
-						filename = options.getString("filename").toString();
-					}
+			GeoElement key = arg[i];
+			GeoElement value = arg[i + 1];
 
-				} catch (JSONException e) {
-					throw argErr(app, c, arg[0]);
-				}
-			} else {
-				throw argErr(app, c, arg[0]);
+			if (!key.isGeoText()) {
+				throw argErr(app, c, key);
 			}
+
+			switch (StringUtil.toLowerCaseUS(((TextProperties) key)
+					.toValueString(StringTemplate.maxDecimals))) {
+
+			case "type":
+				String typeStr = StringUtil.toLowerCaseUS(
+						value.toValueString(StringTemplate.defaultTemplate));
+				switch (typeStr) {
+				default:
+				case "png":
+					type = ExportType.PNG;
+					break;
+				case "svg":
+					type = ExportType.SVG;
+					break;
+				case "pdf":
+					type = ExportType.PDF_HTML5;
+					break;
+				}
+
+				break;
+			case "dpi":
+				dpi = (int) value.evaluateDouble();
+				break;
+			case "transparent":
+				transparent = "true".equals(
+						value.toValueString(StringTemplate.defaultTemplate));
+				break;
+			case "width":
+				width = (int) value.evaluateDouble();
+				break;
+			case "height":
+				height = (int) value.evaluateDouble();
+				break;
+			case "view":
+				view = (int) value.evaluateDouble();
+				break;
+			case "scale":
+				exportScale = value.evaluateDouble();
+				break;
+			case "scalecm":
+				scaleCM = value.evaluateDouble();
+				break;
+			case "filename":
+				filename = value.toValueString(StringTemplate.defaultTemplate);
+				break;
+			default:
+				throw argErr(app, c, key);
+
+			}
+
 		}
 
 		GgbAPI api = kernel.getApplication().getGgbApi();
@@ -133,12 +133,15 @@ public class CmdExportImage extends CommandProcessor {
 		switch (view) {
 		default:
 		case 1:
+			Log.debug("VIEW_EUCLIDIAN");
 			app.setActiveView(App.VIEW_EUCLIDIAN);
 			break;
 		case 2:
+			Log.debug("VIEW_EUCLIDIAN2");
 			app.setActiveView(App.VIEW_EUCLIDIAN2);
 			break;
 		case -1:
+			Log.debug("VIEW_EUCLIDIAN");
 			app.setActiveView(App.VIEW_EUCLIDIAN3D);
 			break;
 		}

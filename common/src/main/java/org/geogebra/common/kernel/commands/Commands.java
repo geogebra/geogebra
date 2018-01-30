@@ -909,7 +909,7 @@ public enum Commands implements CommandsConstants,
 
 	Minimize(TABLE_OPTIMIZATION),
 	
-	ExportImage(TABLE_ENGLISH),
+	ExportImage(TABLE_SCRIPTING),
 
 	// =================================================================
 	// commands that have been renamed so we want the new name to work
