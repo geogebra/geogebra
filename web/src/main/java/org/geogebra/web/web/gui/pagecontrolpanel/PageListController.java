@@ -418,7 +418,6 @@ public class PageListController implements PageListControllerInterface {
 				? lastDragTarget.getPageIndex()
 				: -1;
 		if (lastTargetIdx != -1 && lastTargetIdx != targetIdx) {
-			lastDragTarget.removeStyleName("highlight");
 			lastDragTarget.removeStyleName("spaceAfterAnimated");
 			lastDragTarget.removeStyleName("spaceBeforeAnimated");
 			if (targetIdx < dragIndex) {
@@ -427,8 +426,6 @@ public class PageListController implements PageListControllerInterface {
 				target.addStyleName("spaceAfterAnimated");
 			}
 		}
-
-		target.addStyleName("highlight");
 		lastDragTarget = target;
 	}
 	
@@ -442,4 +439,11 @@ public class PageListController implements PageListControllerInterface {
 		dragCard = null;
 	}
 
+	@Override
+	public void loadPageAt(int x, int y) {
+		int idx = cardIndexAt(x, y);
+		if (idx != -1) {
+			loadPage(idx, false);
+		}
+	}
 }

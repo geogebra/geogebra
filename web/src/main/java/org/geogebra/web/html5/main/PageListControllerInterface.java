@@ -84,4 +84,14 @@ public interface PageListControllerInterface {
 	 * @return if the drop was successful or not.
 	 */
 	boolean dropTo(int x, int y);
+
+	/**
+	 * Finds and loads card at (x, y) coordinates.
+	 * 
+	 * @param x
+	 *            coordinate.
+	 * @param y
+	 *            coordinate.
+	 */
+	void loadPageAt(int x, int y);
 }

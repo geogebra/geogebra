@@ -12,6 +12,13 @@ import com.google.gwt.user.client.ui.Widget;
  * unintentionally used for multiple purposes (e.g. open and close keyboard)
  */
 public class CancelEventTimer {
+	private enum DragState {
+		CANSTART, DRAG, NONE
+	}
+
+	private static long lastDragEvent = 0;
+
+	private static DragState dragState = DragState.NONE;
 
 	private static long lastTouchEvent = 0;
 
@@ -33,7 +40,7 @@ public class CancelEventTimer {
 	 * amount of time (ms) in which all mouse events are ignored after a touch
 	 * event
 	 */
-	public static final int TIME_BETWEEN_TOUCH_AND_DRAG = 5000;
+	public static final int TIME_BETWEEN_TOUCH_AND_DRAG = 500;
 
 	/**
 	 * amount of time (ms) in which background-clicks are not closing the
@@ -61,6 +68,43 @@ public class CancelEventTimer {
 	}
 
 	/**
+	 * called when it may be a drag start.
+	 */
+	public static void dragCanStart() {
+		lastDragEvent = System.currentTimeMillis();
+		dragState = DragState.CANSTART;
+	}
+
+	/**
+	 * @return if dragging just started.
+	 */
+	public static boolean isDragStarted() {
+		boolean result = dragState == DragState.CANSTART
+				&& System.currentTimeMillis()
+				- lastDragEvent > TIME_BETWEEN_TOUCH_AND_DRAG;
+		if (result) {
+			dragState = DragState.DRAG;
+		}
+		return result;
+
+	}
+
+	/**
+	 * 
+	 * @return if drag is happening now.
+	 */
+	public static boolean isDragging() {
+		return dragState == DragState.DRAG;
+	}
+
+	/**
+	 * Cancels drag
+	 */
+	public static void resetDrag() {
+		dragState = DragState.NONE;
+	}
+
+	/**
 	 * called at the end of any blur event
 	 */
 	public static void blurEventOccured() {
@@ -82,15 +126,6 @@ public class CancelEventTimer {
 	 */
 	public static boolean cancelMouseEvent() {
 		return System.currentTimeMillis() - lastTouchEvent < TIME_BETWEEN_TOUCH_AND_MOUSE;
-	}
-
-	/**
-	 * called at the beginning of a mouse event
-	 * 
-	 * @return whether the actual mouse event should be canceled
-	 */
-	public static boolean cancelDragEvent() {
-		return System.currentTimeMillis() - lastTouchEvent < TIME_BETWEEN_TOUCH_AND_DRAG;
 	}
 
 	/**

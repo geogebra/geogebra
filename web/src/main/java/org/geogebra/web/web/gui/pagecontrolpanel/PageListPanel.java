@@ -6,6 +6,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.FastClickHandler;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -71,9 +72,11 @@ public class PageListPanel
 		addNewPreviewCard(true);
 		frame.add(this);
 		setVisible(false);
-		addDomHandler(this, MouseDownEvent.getType());
-		addDomHandler(this, MouseMoveEvent.getType());
-		addDomHandler(this, MouseUpEvent.getType());
+		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
+			addDomHandler(this, MouseDownEvent.getType());
+			addDomHandler(this, MouseMoveEvent.getType());
+			addDomHandler(this, MouseUpEvent.getType());
+		}
 	}
 
 	private void addContentPanel() {
@@ -338,19 +341,30 @@ public class PageListPanel
 	public void onMouseDown(MouseDownEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
-		app.getPageController().startDrag(event.getClientX(),
-				event.getClientY());
+		CancelEventTimer.dragCanStart();
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
 		int x = event.getClientX();
 		int y = event.getClientY();
-		app.getPageController().drag(x, y);
+
+		if (CancelEventTimer.isDragStarted()) {
+			app.getPageController().startDrag(x, y);
+		} else if (CancelEventTimer.isDragging()) {
+			app.getPageController().drag(x, y);
+		}
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-		app.getPageController().stopDrag();
-		dropTo(event.getClientX(), event.getClientY());
-	}
+		int x = event.getClientX();
+		int y = event.getClientY();
 
+		if (CancelEventTimer.isDragging()) {
+			dropTo(x, y);
+			app.getPageController().stopDrag();
+		} else {
+			app.getPageController().loadPageAt(x, y);
+		}
+		CancelEventTimer.resetDrag();
+	}
 }	
