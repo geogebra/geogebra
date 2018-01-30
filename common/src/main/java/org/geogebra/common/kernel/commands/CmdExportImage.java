@@ -195,20 +195,27 @@ public class CmdExportImage extends CommandProcessor {
 			if (filename != null) {
 				api.writePNGtoFile(filename, exportScale, transparent, dpi);
 			} else {
-				String png = api.getPNGBase64(exportScale, transparent, 72,
-						/* copyToClipboard */false);
+				String png = api.getPNGBase64(exportScale, transparent, dpi,
+						false);
 				kernel.getApplication().handleImageExport(png);
 			}
 
 			break;
 		case SVG:
 
-			api.exportSVG(filename);
+			String svg = api.exportSVG(filename);
+
+			if (filename == null) {
+				kernel.getApplication().handleImageExport(svg);
+			}
 
 			break;
 
 		case PDF_HTML5:
-			api.exportPDF(exportScale, filename);
+			String pdf = api.exportPDF(exportScale, filename);
+			if (filename == null) {
+				kernel.getApplication().handleImageExport(pdf);
+			}
 
 			break;
 		}
