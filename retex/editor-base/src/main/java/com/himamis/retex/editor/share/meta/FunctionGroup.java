@@ -28,7 +28,7 @@ public class FunctionGroup implements MetaGroup {
 		return square ? applySquare : apply;
 	}
 
-	static boolean isAcceptable(String functionName) {
+	public static boolean isAcceptable(String functionName) {
         // Accept only functions that consist of no special characters
 		return !"".equals(functionName)
 				&& Character.areLettersOrDigits(functionName)
