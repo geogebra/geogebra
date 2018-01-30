@@ -10,8 +10,6 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.MyError;
-import org.geogebra.common.move.ggtapi.models.json.JSONException;
-import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -217,23 +215,6 @@ public class CmdExportImage extends CommandProcessor {
 
 		GeoElement[] ret1 = {};
 		return ret1;
-	}
-
-	private double getDouble(JSONObject options, String string) {
-		Object obj;
-		try {
-			obj = options.get(string);
-			if (obj instanceof Integer) {
-				return ((Integer) obj).doubleValue();
-			}
-			if (obj instanceof Double) {
-				return ((Double) obj).doubleValue();
-			}
-		} catch (JSONException e) {
-			// fall through -> NaN
-		}
-
-		return Double.NaN;
 	}
 
 }
