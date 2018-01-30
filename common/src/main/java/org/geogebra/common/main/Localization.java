@@ -1367,7 +1367,8 @@ public abstract class Localization {
 	}
 
 	protected Locale getCommandLocale() {
-		if (!Language.getLanguage(getLanguage()).hasTranslatedKeyboard()) {
+		Language language = Language.getLanguage(getLanguage());
+		if (language != null && !language.hasTranslatedKeyboard()) {
 			return Locale.ENGLISH;
 		}
 		return currentLocale;
