@@ -5390,7 +5390,6 @@ public class AppD extends App implements KeyEventDispatcher {
 	
 	@Override
 	public void handleImageExport(String base64image) {
-		Log.debug("base64image = "+base64image);
 		
 		byte[] png;
 		try {
