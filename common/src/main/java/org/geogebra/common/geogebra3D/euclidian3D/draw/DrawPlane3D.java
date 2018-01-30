@@ -37,6 +37,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	private Coords o = Coords.createInhomCoorsInD3();
 	private Coords tmpCoords1 = Coords.createInhomCoorsInD3(),
 			tmpCoords2 = Coords.createInhomCoorsInD3();
+	private Coords vn = new Coords(3);
 
 	/**
 	 * Common constructor
@@ -407,15 +408,11 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return;
 		}
 
-		if (getView3D().useClippingCube()) { // make sure the plane goes more
-												// than the clipping cube
-			setMinMax(getView3D().getClippingVertex(0),
-					getView3D().getClippingVertex(1),
-					getView3D().getClippingVertex(2),
-					getView3D().getClippingVertex(4));
+		if (getView3D().useClippingCube() || !getView3D().getSettings().hasSameScales()) {
+			// make sure the plane goes more than the clipping cube
+			setMinMax(getView3D().getClippingCubeDrawable().getVertices());
 		} else { // use interior clipping cube radius
-			setMinMax(getView3D().getCenter(),
-					getView3D().getFrustumInteriorRadius());
+			setMinMax(getView3D().getCenter(), getView3D().getFrustumInteriorRadius());
 		}
 
 	}
@@ -428,49 +425,41 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		return (GeoPlane3D) getGeoElement();
 	}
 
-	/**
-	 * sets the min/max regarding a clipping box
-	 * 
-	 * @param origin
-	 *            center of the clipping box
-	 * @param vx
-	 *            first edge
-	 * @param vy
-	 *            second edge
-	 * @param vz
-	 *            third edge
-	 */
-	private void setMinMax(Coords origin, Coords vx, Coords vy, Coords vz) {
+
+	private void setMinMax(Coords[] v) {
 		GeoPlane3D geo = getPlane();
 
 		CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
-		origin.projectPlaneInPlaneCoords(m, o);
-		minmaxXFinal[0] = o.getX();
-		minmaxYFinal[0] = o.getY();
-		minmaxXFinal[1] = o.getX();
-		minmaxYFinal[1] = o.getY();
-		Coords[] v = new Coords[3];
-		vx.projectPlaneInPlaneCoords(m, tmpCoords1);
-		v[0] = tmpCoords1.sub(o);
-		vy.projectPlaneInPlaneCoords(m, tmpCoords1);
-		v[1] = tmpCoords1.sub(o);
-		vz.projectPlaneInPlaneCoords(m, tmpCoords1);
-		v[2] = tmpCoords1.sub(o);
-		for (int i = 0; i < 3; i++) {
-			double x = v[i].getX();
-			if (x < 0) {
-				minmaxXFinal[0] += x; // sub from xmin
-			}
-			else {
-				minmaxXFinal[1] += x; // add to xmax
-			}
-			double y = v[i].getY();
-			if (y < 0) {
-				minmaxYFinal[0] += y; // sub from ymin
-			}
-			else {
-				minmaxYFinal[1] += y; // add to ymax
-			}
+		Coords vz = m.getVz();
+		if (!getView3D().scaleAndNormalizeNormalXYZ(vz, vn)) {
+			vn = vz;
+		}
+
+		v[0].projectPlaneThruVInPlaneCoords(m, vn, tmpCoords1);
+
+		minmaxXFinal[0] = tmpCoords1.getX();
+		minmaxYFinal[0] = tmpCoords1.getY();
+		minmaxXFinal[1] = tmpCoords1.getX();
+		minmaxYFinal[1] = tmpCoords1.getY();
+
+		for (int i = 1; i < v.length; i++) {
+			enlargeMinMax(v[i], m, vn);
+		}
+	}
+
+	private void enlargeMinMax(Coords v, CoordMatrix m, Coords vn) {
+		v.projectPlaneThruVInPlaneCoords(m, vn, tmpCoords1);
+		double x = tmpCoords1.getX();
+		if (x < minmaxXFinal[0]) {
+			minmaxXFinal[0] = x;
+		} else if (x > minmaxXFinal[1]) {
+			minmaxXFinal[1] = x;
+		}
+		double y = tmpCoords1.getY();
+		if (y < minmaxYFinal[0]) {
+			minmaxYFinal[0] = y;
+		} else if (y > minmaxYFinal[1]) {
+			minmaxYFinal[1] = y;
 		}
 	}
 

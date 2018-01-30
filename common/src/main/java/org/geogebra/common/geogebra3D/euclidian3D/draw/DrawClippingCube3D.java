@@ -303,6 +303,14 @@ public class DrawClippingCube3D extends Drawable3DCurves {
 
 	/**
 	 * 
+	 * @return vertices
+	 */
+	public Coords[] getVertices() {
+		return vertices;
+	}
+
+	/**
+	 * 
 	 * @return coords of the center point
 	 */
 	public Coords getCenter() {
