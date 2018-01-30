@@ -53,7 +53,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.MemoryImageSource;
-import java.awt.image.Raster;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -5393,18 +5392,15 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void handleImageExport(String base64image) {
 		Log.debug("base64image = "+base64image);
 		
-		byte[] png = Base64.decode(base64image.getBytes());
-		
-		ByteArrayInputStream bis = new ByteArrayInputStream(png);
-		
+		byte[] png;
 		try {
+			png = Base64.decode(base64image.getBytes(Charsets.UTF_8));
+			ByteArrayInputStream bis = new ByteArrayInputStream(png);
 			BufferedImage image = ImageIO.read(bis);
 			copyImageToClipboard(image);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 		
 		
 	}

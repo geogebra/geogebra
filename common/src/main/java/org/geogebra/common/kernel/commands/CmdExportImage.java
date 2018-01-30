@@ -38,11 +38,11 @@ public class CmdExportImage extends CommandProcessor {
 	@SuppressWarnings("deprecation")
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
+
 		if (n > 1) {
 			throw argNumErr(c);
 		}
-		
+
 		int dpi = -1;
 		// pixels
 		int width = -1;
@@ -52,30 +52,34 @@ public class CmdExportImage extends CommandProcessor {
 		double scaleCM = Double.NaN;
 		int view = 1;
 		boolean transparent = false;
-		//boolean copyToClipboard = true;
+		// boolean copyToClipboard = true;
 		String filename = null;
 		ExportType type = ExportType.PNG;
 
-		
-		if (n==1) {
+		if (n == 1) {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoText()) {
-				
-				// eg "{clipboard: false, dpi:96, scale:1, transparent: true, clipboard: false, view: 1 ,format:"PNG"}";
-				String json = ((TextProperties)arg[0]).toValueString(StringTemplate.maxDecimals);
+
+				// eg "{clipboard: false, dpi:96, scale:1, transparent: true,
+				// clipboard: false, view: 1 ,format:"PNG"}";
+				String json = ((TextProperties) arg[0])
+						.toValueString(StringTemplate.maxDecimals);
 				// for testing
-				//json = "{clipboard: false, dpi:96, scale:1.1, transparent: true, clipboard: false, view: 1 ,format:'PNG'}";
+				// json = "{clipboard: false, dpi:96, scale:1.1, transparent:
+				// true, clipboard: false, view: 1 ,format:'PNG'}";
 				try {
 					JSONObject options = new JSONObject(json);
 					if (options.has("dpi")) {
-						dpi = (Integer)options.get("dpi");
+						dpi = (Integer) options.get("dpi");
 					}
 					if (options.has("view")) {
-						view = (Integer)options.get("view");
+						view = (Integer) options.get("view");
 					}
 					if (options.has("type")) {
-						String typeStr = StringUtil.toLowerCaseUS(options.get("type").toString());
+						String typeStr = StringUtil
+								.toLowerCaseUS(options.get("type").toString());
 						switch (typeStr) {
+						default:
 						case "png":
 							type = ExportType.PNG;
 							break;
@@ -88,25 +92,24 @@ public class CmdExportImage extends CommandProcessor {
 						}
 					}
 					if (options.has("transparent")) {
-						transparent = (Boolean)options.get("transparent");
+						transparent = (Boolean) options.get("transparent");
 					}
-					
+
 					if (options.has("width")) {
-						width = (Integer)options.get("width");
+						width = (Integer) options.get("width");
 					}
 					if (options.has("height")) {
-						height = (Integer)options.get("height");
+						height = (Integer) options.get("height");
 					}
 					if (options.has("scaleCM")) {
-						scaleCM = getDouble(options,"scaleCM");
+						scaleCM = getDouble(options, "scaleCM");
 					}
 					if (options.has("scale")) {
-						exportScale = getDouble(options,"scale");
+						exportScale = getDouble(options, "scale");
 					}
 					if (options.has("filename")) {
 						filename = options.getString("filename").toString();
 					}
-
 
 				} catch (JSONException e) {
 					throw argErr(app, c, arg[0]);
@@ -115,18 +118,17 @@ public class CmdExportImage extends CommandProcessor {
 				throw argErr(app, c, arg[0]);
 			}
 		}
-		
+
 		GgbAPI api = kernel.getApplication().getGgbApi();
-		
+
 		Log.debug("dpi = " + dpi);
 		Log.debug("exportScale = " + exportScale);
 		Log.debug("transparent = " + transparent);
-		//Log.debug("clipboard = " + copyToClipboard);
+		// Log.debug("clipboard = " + copyToClipboard);
 		Log.debug("scaleCM = " + scaleCM);
 		Log.debug("filename = " + filename);
 		Log.debug("type = " + type);
-		
-		
+
 		// see CmdSetActiveView
 		switch (view) {
 		default:
@@ -140,7 +142,7 @@ public class CmdExportImage extends CommandProcessor {
 			app.setActiveView(App.VIEW_EUCLIDIAN3D);
 			break;
 		}
-		
+
 		EuclidianView ev = app.getActiveEuclidianView();
 		if (width > 0) {
 			double viewWidth = ev.getExportWidth();
@@ -149,15 +151,14 @@ public class CmdExportImage extends CommandProcessor {
 			double viewHeight = ev.getExportHeight();
 			exportScale = height / viewHeight;
 		} else if (scaleCM >= 0) {
-			
+
 			double viewWidth = ev.getExportWidth();
-			double xScale = ev.getXscale();	
+			double xScale = ev.getXscale();
 			double widthRW = viewWidth / xScale;
 
 			// dots per cm
 			double dpcm;
-			
-			
+
 			if (width > 0) {
 				// calculate DPI from width
 				dpcm = width / (widthRW * scaleCM);
@@ -177,44 +178,40 @@ public class CmdExportImage extends CommandProcessor {
 				// Log.debug("pixelWidth= " + pixelWidth);
 				exportScale = pixelWidth / viewWidth;
 			}
-				
-				
-			
+
 		}
-		
+
 		Log.debug("exportScale = " + exportScale);
 
-		if (exportScale <=0 || !MyDouble.isFinite(exportScale)) {
+		if (exportScale <= 0 || !MyDouble.isFinite(exportScale)) {
 			exportScale = 1;
 		}
-		
-		
-		
+
 		switch (type) {
 		default:
 		case PNG:
 			if (filename != null) {
 				api.writePNGtoFile(filename, exportScale, transparent, dpi);
 			} else {
-				String png = api.getPNGBase64(exportScale, transparent, 72, /*copyToClipboard*/false);
+				String png = api.getPNGBase64(exportScale, transparent, 72,
+						/* copyToClipboard */false);
 				kernel.getApplication().handleImageExport(png);
 			}
-			
+
 			break;
 		case SVG:
-			
+
 			api.exportSVG(filename);
-			
+
 			break;
-			
+
 		case PDF_HTML5:
 			api.exportPDF(exportScale, filename);
 
 			break;
 		}
 
-
-		GeoElement[] ret1 = { };
+		GeoElement[] ret1 = {};
 		return ret1;
 	}
 
@@ -223,20 +220,16 @@ public class CmdExportImage extends CommandProcessor {
 		try {
 			obj = options.get(string);
 			if (obj instanceof Integer) {
-				return ((Integer)obj).doubleValue();
+				return ((Integer) obj).doubleValue();
 			}
 			if (obj instanceof Double) {
-				return ((Double)obj).doubleValue();
+				return ((Double) obj).doubleValue();
 			}
 		} catch (JSONException e) {
 			// fall through -> NaN
 		}
-		
+
 		return Double.NaN;
 	}
-
-
-
-	
 
 }
