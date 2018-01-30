@@ -64,9 +64,9 @@ public class MetaModel {
 	private CharacterGroup characterGroup;
 	private ListMetaGroup arrayGroup;
 	private ListMetaGroup generalFunctionGroup;
-	private ListMetaGroup operatorGroup;
+	private MetaGroupCollection operatorGroup;
 	private HashMap<String, MetaCharacter> mergeLookup = new HashMap<String, MetaCharacter>();
-	private ListMetaGroup symbolGroup;
+	private MetaGroupCollection symbolGroup;
 
     public MetaModel() {
 		characterGroup = new CharacterGroup(); // characters/characters
@@ -195,8 +195,7 @@ public class MetaModel {
     /**
      * get component
      */
-	public MetaComponent getComponent(String name, ListMetaGroup group) {
-
+	public MetaComponent getComponent(String name, MetaGroupCollection group) {
 		return group.getComponent(name);
 	}
 

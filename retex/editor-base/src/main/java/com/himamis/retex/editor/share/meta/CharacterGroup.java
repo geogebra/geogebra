@@ -3,11 +3,11 @@ package com.himamis.retex.editor.share.meta;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CharacterGroup implements MetaGroup {
+class CharacterGroup implements MetaGroup {
 
-    private Map<String, MetaCharacter> characters = new HashMap<String, MetaCharacter>();
+    private Map<String, MetaCharacter> characters = new HashMap<>();
 
-    public MetaComponent getComponent(String name) {
+    MetaComponent getComponent(String name) {
         if (name == null || name.length() != 1) {
             return null;
         }
@@ -21,5 +21,10 @@ public class CharacterGroup implements MetaGroup {
         }
 
         return character;
+    }
+
+    @Override
+    public MetaComponent getComponent(Tag tag) {
+        return getComponent(tag.toString());
     }
 }

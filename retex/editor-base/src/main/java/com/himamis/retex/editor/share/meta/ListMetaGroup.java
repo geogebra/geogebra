@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @author Bea Petrovicova
  */
-public class ListMetaGroup implements MetaGroup {
+public class ListMetaGroup implements MetaGroupCollection {
 
     private List<MetaComponent> components;
 
@@ -42,7 +42,13 @@ public class ListMetaGroup implements MetaGroup {
         this.components = components;
     }
 
-	public MetaComponent getComponent(String name) {
+    @Override
+    public List<MetaComponent> getComponents() {
+        return components;
+    }
+
+    @Override
+    public MetaComponent getComponent(String name) {
         for (MetaComponent component : components) {
             if (component.getName().equals(name) || name.equals(component.getUnicodeString())) {
                 return component;
@@ -51,13 +57,10 @@ public class ListMetaGroup implements MetaGroup {
         return null;
     }
 
-    public List<MetaComponent> getComponents() {
-        return components;
-    }
-
-	public MetaComponent getComponent(Tag name) {
+    @Override
+	public MetaComponent getComponent(Tag tag) {
 		for (MetaComponent component : components) {
-			if (component.getName().equals(name)) {
+			if (component.getName().equals(tag)) {
 				return component;
 			}
 		}

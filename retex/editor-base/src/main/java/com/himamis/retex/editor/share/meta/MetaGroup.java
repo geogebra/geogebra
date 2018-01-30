@@ -5,12 +5,9 @@ package com.himamis.retex.editor.share.meta;
  */
 public interface MetaGroup {
 
-
-
     /**
-     * @param componentName the name of the component
+     * @param tag the component tag
      * @return the respective meta component if exists, null otherwise
      */
-	// MetaComponent getComponent(String componentName);
-
+	 MetaComponent getComponent(Tag tag);
 }
