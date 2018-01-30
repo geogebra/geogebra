@@ -7,7 +7,6 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedur
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.App;
@@ -46,10 +45,6 @@ public abstract class StatisticsCalculator {
 	// Misc
 	// =========================================
 
-	public static final String tail_left = "<";
-	public static final String tail_right = ">";
-	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
-
 	protected StringBuilder bodyText;
 
 	protected String strMean;
@@ -86,7 +81,7 @@ public abstract class StatisticsCalculator {
 	}
 
 	public Procedure getSelectedProcedure() {
-		return sc.selectedProcedure;
+		return sc.getSelectedProcedure();
 	}
 
 	/**
@@ -129,6 +124,11 @@ public abstract class StatisticsCalculator {
 	public final void updateResult() {
 
 		updateStatisticCollection();
+		recompute();
+
+	}
+
+	public void recompute() {
 		statProcessor.doCalculate();
 
 		bodyText = new StringBuilder();
@@ -169,11 +169,11 @@ public abstract class StatisticsCalculator {
 			sc.nullHyp = parseNumberText(fldNullHyp.getText());
 
 			if (btnLeftIsSelected()) {
-				sc.tail = tail_left;
+				sc.setTail(StatisticsCollection.tail_left);
 			} else if (btnRightIsSelected()) {
-				sc.tail = tail_right;
+				sc.setTail(StatisticsCollection.tail_right);
 			} else {
-				sc.tail = tail_two;
+				sc.setTail(StatisticsCollection.tail_two);
 			}
 
 			for (int i = 0; i < s1.length; i++) {
@@ -201,7 +201,7 @@ public abstract class StatisticsCalculator {
 			fldSampleStat2[i].setText("");
 		}
 
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 		default:
 			// do nothing
 			break;
@@ -248,9 +248,18 @@ public abstract class StatisticsCalculator {
 
 		fldConfLevel.setText(format(sc.level));
 		fldNullHyp.setText(format(sc.nullHyp));
-
+		updateTailCheckboxes(StatisticsCollection.tail_left.equals(sc.getTail()),
+				StatisticsCollection.tail_right.equals(sc.getTail()));
 	}
 
+	protected abstract void updateTailCheckboxes(boolean left, boolean right);
+
+	final protected boolean forceZeroHypothesis() {
+		return sc.getSelectedProcedure() == Procedure.ZPROP2_TEST
+				|| sc.getSelectedProcedure() == Procedure.ZPROP2_CI
+				|| sc.getSelectedProcedure() == Procedure.ZMEAN2_TEST
+				|| sc.getSelectedProcedure() == Procedure.TMEAN2_TEST;
+	}
 	protected void addActionListener(TextObject textObject) {
 		// not needed in web
 
@@ -331,7 +340,7 @@ public abstract class StatisticsCalculator {
 	}
 	
 	protected void updateCollectionProcedure() {
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 
 		default:
 			// do nothing

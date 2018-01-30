@@ -29,6 +29,7 @@ import javax.swing.text.html.StyleSheet;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.util.TextObject;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -61,7 +62,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	// buttons and combo boxes
 	private JRadioButton btnLeft, btnRight, btnTwo;
 	private JButton btnCalculate;
-	private JComboBox cbProcedure;
+	private JComboBox<String> cbProcedure;
 	private JCheckBox ckPooled;
 
 	// panels
@@ -195,7 +196,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 					lblSampleStat2[i], (MyTextFieldD) fldSampleStat2[i]));
 		}
 
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 		default:
 			// do nothing
 			break;
@@ -234,6 +235,13 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 							(MyTextFieldD) fldConfLevel));
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
 			break;
+		}
+
+		if (forceZeroHypothesis()) {
+			fldNullHyp.setText("0");
+			fldNullHyp.setEditable(false);
+		} else {
+			fldNullHyp.setEditable(true);
 		}
 
 		GridBagConstraints c = new GridBagConstraints();
@@ -284,16 +292,16 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		ckPooled.setSelected(false);
 		ckPooled.addActionListener(this);
 
-		cbProcedure = new JComboBox();
+		cbProcedure = new JComboBox<>();
 		cbProcedure.setRenderer(new ListSeparatorRenderer());
 		cbProcedure.addActionListener(this);
 
 		btnCalculate = new JButton();
 		btnCalculate.addActionListener(this);
 
-		btnLeft = new JRadioButton(tail_left);
-		btnRight = new JRadioButton(tail_right);
-		btnTwo = new JRadioButton(tail_two);
+		btnLeft = new JRadioButton(StatisticsCollection.tail_left);
+		btnRight = new JRadioButton(StatisticsCollection.tail_right);
+		btnTwo = new JRadioButton(StatisticsCollection.tail_two);
 		ButtonGroup group = new ButtonGroup();
 		group.add(btnLeft);
 		group.add(btnRight);
@@ -361,7 +369,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		lblSigma.setText(loc.getMenu("StandardDeviation.short"));
 		btnCalculate.setText(loc.getMenu("Calculate"));
 
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 
 		case ZMEAN2_TEST:
 		case TMEAN2_TEST:
@@ -388,12 +396,12 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		panelChiSquare.setLabels();
 
 		// reset the text in the result panel
-		updateResult();
+		recompute();
 
 	}
 
 	private void setHypParameterLabel() {
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 
 		case ZMEAN_TEST:
 		case TMEAN_TEST:
@@ -425,7 +433,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	private void setProcedureComboLabels() {
 
 		combolabelsPreprocess();
-
+		cbProcedure.removeActionListener(this);
 		cbProcedure.removeAllItems();
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN_TEST));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN_TEST));
@@ -447,7 +455,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.CHISQ_TEST));
 
 		cbProcedure.setMaximumRowCount(cbProcedure.getItemCount());
-
+		cbProcedure.addActionListener(this);
 		// TODO for testing only, remove later
 		// cbProcedure.setSelectedItem(mapProcedureToName
 		// .get(Procedure.CHISQ_TEST));
@@ -461,7 +469,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			lblSampleStat2[i].setText("");
 		}
 
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 		default:
 			// do nothing
 			break;
@@ -517,7 +525,6 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	}
 
 	private void updateGUI() {
-
 		setHypParameterLabel();
 		setSampleFieldLabels();
 		setSampleFieldText();
@@ -534,8 +541,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		lblSampleHeader2.setVisible((isNotEmpty(lblSampleStat2[0].getText())));
 
-		ckPooled.setVisible(sc.selectedProcedure == Procedure.TMEAN2_TEST
-				|| sc.selectedProcedure == Procedure.TMEAN2_CI);
+		ckPooled.setVisible(sc.getSelectedProcedure() == Procedure.TMEAN2_TEST
+				|| sc.getSelectedProcedure() == Procedure.TMEAN2_CI);
 
 		setPanelLayout();
 		wrappedPanel.revalidate();
@@ -551,7 +558,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		panelBasicProcedures.setVisible(false);
 		panelChiSquare.getWrappedPanel().setVisible(false);
 
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 
 		case CHISQ_TEST:
 		case GOF_TEST:
@@ -580,8 +587,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		if (source == cbProcedure && cbProcedure.getSelectedIndex() >= 0) {
-			sc.selectedProcedure = mapNameToProcedure
-					.get(cbProcedure.getSelectedItem());
+			sc.setSelectedProcedure(mapNameToProcedure
+					.get(cbProcedure.getSelectedItem()));
 			updateGUI();
 			updateResult();
 			// setLabels();
@@ -704,5 +711,12 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 	public void removeActionListener(TextObject obj) {
 		((MyTextFieldD) obj).removeActionListener(this);
 
+	}
+
+	@Override
+	protected void updateTailCheckboxes(boolean left, boolean right) {
+		btnLeft.setSelected(left);
+		btnRight.setSelected(right);
+		btnTwo.setSelected(!left && !right);
 	}
 }

@@ -110,7 +110,7 @@ public class StatisticsCalculatorProcessor {
 
 		level.setValue(sc.level);
 		nullHyp.setValue(sc.nullHyp);
-		tail.setTextString(sc.tail);
+		tail.setTextString(sc.getTail());
 		pooled.setValue(sc.pooled);
 
 		switch (statCalc.getSelectedProcedure()) {
@@ -424,26 +424,23 @@ public class StatisticsCalculatorProcessor {
 
 		// compute sums
 		for (int i = 0; i < sc.rows; i++) {
-			double value = parseStringData(sc.chiSquareData[i + 1][1]);
-			sc.observed[i][0] = value;
-			value = parseStringData(sc.chiSquareData[i + 1][2]);
-			sc.expected[i][0] = value;
+			for (int col = 0; col < 2; col++) {
+				double value = parseStringData(
+						sc.chiSquareData[i + 1][col + 1]);
+				sc.observed[i][col] = value;
 
-			if (!Double.isNaN(sc.observed[i][0])) {
-				sc.columnSum[0] += sc.observed[i][0];
+				if (!Double.isNaN(sc.observed[i][col])) {
+					sc.columnSum[col] += sc.observed[i][col];
+				}
 			}
-			if (!Double.isNaN(sc.observed[i][1])) {
-				sc.columnSum[1] += sc.expected[i][0];
-			}
-
 		}
 
 		// compute test statistic and chi-square contributions
 		sc.testStat = 0;
 		for (int i = 0; i < sc.rows; i++) {
-			sc.diff[i][0] = (sc.observed[i][0] - sc.expected[i][0])
-					* (sc.observed[i][0] - sc.expected[i][0])
-					/ sc.expected[i][0];
+			sc.diff[i][0] = (sc.observed[i][0] - sc.observed[i][1])
+					* (sc.observed[i][0] - sc.observed[i][1])
+					/ sc.observed[i][1];
 			sc.testStat += sc.diff[i][0];
 			// System.out.println(i + ", " + 0 + "diff: " + sc.diff[i][0]);
 		}

@@ -1228,18 +1228,19 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			StatisticsCollection stats = new StatisticsCollection();
 			stats.mean = StringUtil.parseDouble(attrs.get("mean"));
-			stats.n = StringUtil.parseDouble(attrs.get("mean"));
+			stats.n = StringUtil.parseDouble(attrs.get("n"));
 			stats.sd = StringUtil.parseDouble(attrs.get("sd"));
 			stats.count = StringUtil.parseDouble(attrs.get("count"));
 
 			stats.mean2 = StringUtil.parseDouble(attrs.get("mean2"));
-			stats.n2 = StringUtil.parseDouble(attrs.get("mean2"));
+			stats.n2 = StringUtil.parseDouble(attrs.get("n2"));
 			stats.sd2 = StringUtil.parseDouble(attrs.get("sd2"));
 			stats.count2 = StringUtil.parseDouble(attrs.get("count2"));
 
 			stats.nullHyp = StringUtil.parseDouble(attrs.get("nullHyp"));
 			stats.level = StringUtil.parseDouble(attrs.get("level"));
-			stats.selectedProcedure = Procedure.valueOf(attrs.get("procedure"));
+			stats.setTail(attrs.get("tail"));
+			stats.setSelectedProcedure(Procedure.valueOf(attrs.get("procedure")));
 
 			app.getSettings().getProbCalcSettings().setCollection(stats);
 

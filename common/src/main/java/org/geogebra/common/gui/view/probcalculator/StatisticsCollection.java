@@ -1,11 +1,15 @@
 package org.geogebra.common.gui.view.probcalculator;
 
+import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+
 /**
  * @author G. Sturr
  * 
  */
 public class StatisticsCollection {
-
+	public static final String tail_left = "<";
+	public static final String tail_right = ">";
+	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
 
 	public double mean, mean2, sd, sd2, nullHyp;
 	public double me, lower, upper, se, testStat;
@@ -13,7 +17,7 @@ public class StatisticsCollection {
 	/** output: sum of observed */
 	public double total;
 
-	public String tail;
+	private String tail;
 	public boolean pooled;
 
 	public String[][] chiSquareData;
@@ -21,7 +25,7 @@ public class StatisticsCollection {
 
 	public double[][] observed, expected, diff;
 	public double[] columnSum, rowSum;
-	public Procedure selectedProcedure;
+	private Procedure selectedProcedure;
 
 	/***/
 	public enum Procedure {
@@ -51,7 +55,7 @@ public class StatisticsCollection {
 		count2 = Double.NaN;
 
 		level = .95;
-		selectedProcedure = Procedure.ZMEAN_TEST;
+		setSelectedProcedure(Procedure.ZMEAN_TEST);
 	}
 
 	public void setChiSqData(int rows, int columns) {
@@ -112,7 +116,7 @@ public class StatisticsCollection {
 
 	public void getXML(StringBuilder sb) {
 		sb.append("<statisticsCollection procedure=\"");
-		sb.append(selectedProcedure.name());
+		sb.append(getSelectedProcedure().name());
 		add(sb, mean,"mean");
 		add(sb, sd, "sd");
 		add(sb, n, "n");
@@ -125,6 +129,9 @@ public class StatisticsCollection {
 
 		add(sb, nullHyp, "nullHyp");
 		add(sb, level, "level");
+
+		sb.append("\" tail=\"");
+		sb.append(getTail());
 		sb.append("\"/>");
 	}
 
@@ -135,4 +142,26 @@ public class StatisticsCollection {
 		sb.append(sd3);
 	}
 
+	public Procedure getSelectedProcedure() {
+		return selectedProcedure;
+	}
+
+	public void setSelectedProcedure(Procedure selectedProcedure) {
+		this.selectedProcedure = selectedProcedure;
+	}
+
+	public String getTail() {
+		return tail;
+	}
+
+	/**
+	 * @param tail
+	 *            one of &lt;, &gt;, !=
+	 */
+	public void setTail(String tail) {
+		if (tail_two.equals(tail) || tail_left.equals(tail)
+				|| tail_right.equals(tail)) {
+			this.tail = tail;
+		}
+	}
 }

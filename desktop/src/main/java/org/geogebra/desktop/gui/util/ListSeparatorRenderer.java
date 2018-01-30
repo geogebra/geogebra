@@ -19,7 +19,8 @@ import javax.swing.border.EmptyBorder;
 // ComboBox Renderer with SEPARATOR
 // ============================================================
 
-public class ListSeparatorRenderer extends JLabel implements ListCellRenderer {
+public class ListSeparatorRenderer extends JLabel
+		implements ListCellRenderer<String> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -33,7 +34,7 @@ public class ListSeparatorRenderer extends JLabel implements ListCellRenderer {
 	}
 
 	@Override
-	public Component getListCellRendererComponent(JList list, Object value,
+	public Component getListCellRendererComponent(JList list, String value,
 			int index, boolean isSelected, boolean cellHasFocus) {
 		String str = (value == null) ? "" : value.toString();
 		if (SEPARATOR.equals(str)) {

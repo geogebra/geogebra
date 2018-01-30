@@ -1,6 +1,7 @@
 package org.geogebra.web.web.gui.view.probcalculator;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
+import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
@@ -70,10 +71,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	public StatisticsCalculatorW(App app) {
 		super(app);
 		createGUI();
-    }
+	}
 
 	private void createGUI() {
-	   
 		this.wrappedPanel = new FlowPanel();
 		wrappedPanel.addStyleName("StatisticsCalculatorW");
 		
@@ -112,8 +112,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		
 		setLabels();
 		updateGUI();		
-	    
-    }
+	}
 
 	/**
 	 * Update translation
@@ -126,7 +125,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		lblSigma.setText(loc.getMenu("StandardDeviation.short"));
 		btnCalculate.setText(loc.getMenu("Calculate"));
 
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 
 		case ZMEAN2_TEST:
 		case TMEAN2_TEST:
@@ -153,12 +152,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		panelChiSquare.setLabels();
 
 		// reset the text in the result panel
-		updateResult();
+		recompute();
 
 	}
 
 	private void setHypParameterLabel() {
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 
 		case ZMEAN_TEST:
 		case TMEAN_TEST:
@@ -233,7 +232,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			lblSampleStat2[i].setText("");
 		}
 
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 		default:
 			// do nothing
 			break;
@@ -302,8 +301,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 
 		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null && !"".equals(lblSampleStat2[0].getText())));
 
-		ckPooled.setVisible(sc.selectedProcedure == Procedure.TMEAN2_TEST
-				|| sc.selectedProcedure == Procedure.TMEAN2_CI);
+		ckPooled.setVisible(sc.getSelectedProcedure() == Procedure.TMEAN2_TEST
+				|| sc.getSelectedProcedure() == Procedure.TMEAN2_CI);
 
 		setPanelLayout();
 
@@ -314,7 +313,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		panelBasicProcedures.setVisible(false);
 		panelChiSquare.getWrappedPanel().setVisible(false);
 
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 
 		case CHISQ_TEST:
 		case GOF_TEST:
@@ -375,7 +374,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			//panelSample2.getElement().appendChild(Document.get().createBRElement());
 		}
 	   
-		switch (sc.selectedProcedure) {
+		switch (sc.getSelectedProcedure()) {
 		default:
 			// do nothing
 			break;
@@ -425,8 +424,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			break;
 		}
 	   
-		if (sc.selectedProcedure == Procedure.ZMEAN2_TEST
-				|| sc.selectedProcedure == Procedure.TMEAN2_TEST) {
+		if (forceZeroHypothesis()) {
 			fldNullHyp.setText("0");
 			fldNullHyp.setEditable(false);
 		} else {
@@ -497,11 +495,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	    btnCalculate.addClickHandler(this);
 	    
 	    btnLeft = new RadioButton("tail");
-	    btnLeft.setText(tail_left);
+		btnLeft.setText(StatisticsCollection.tail_left);
 	    btnRight = new RadioButton("tail");
-	    btnRight.setText(tail_right);
+		btnRight.setText(StatisticsCollection.tail_right);
 	    btnTwo = new RadioButton("tail");
-	    btnTwo.setText(tail_two);
+		btnTwo.setText(StatisticsCollection.tail_two);
 	    
 	    FlowPanel group = new FlowPanel();
 	    group.add(btnLeft);
@@ -590,8 +588,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	
 	@Override
 	public void onChange(ChangeEvent event) {
-		sc.selectedProcedure = mapNameToProcedure
-				.get(cbProcedure.getValue(cbProcedure.getSelectedIndex()));
+		sc.setSelectedProcedure(mapNameToProcedure
+				.get(cbProcedure.getValue(cbProcedure.getSelectedIndex())));
 		updateGUI();
 		updateResult();
 		//setLabels();
@@ -685,5 +683,12 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	@Override
 	protected boolean btnLeftIsSelected() {
 		return btnLeft.getValue();
+	}
+
+	@Override
+	protected void updateTailCheckboxes(boolean left, boolean right) {
+		btnLeft.setValue(left);
+		btnRight.setValue(right);
+		btnTwo.setValue(!left && !right);
 	}
 }
