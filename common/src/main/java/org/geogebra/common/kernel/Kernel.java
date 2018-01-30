@@ -2,6 +2,7 @@ package org.geogebra.common.kernel;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -90,6 +91,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.Exercise;
+import org.geogebra.common.util.LRUMap;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
@@ -1232,10 +1234,28 @@ public class Kernel {
 		sb.append(format(-x, tpl));
 	}
 
+	HashMap<StringTemplate, LRUMap<Double, String>> formatterMaps = new HashMap<>();
+
 	final private String formatPiERaw(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
+
+		LRUMap<Double, String> formatterMap = formatterMaps.get(tpl);
+		if (formatterMap == null) {
+			formatterMap = new LRUMap<>();
+			formatterMaps.put(tpl, formatterMap);
+		} else {
+			String ret = formatterMap.get(x);
+			if (ret != null) {
+				// Log.debug("found " + x + " " + ret);
+				return ret;
+			}
+
+			// Log.debug("not found " + x);
+		}
+
 		// PI
 		if (x == Math.PI && tpl.allowPiHack()) {
+			formatterMap.put(x, tpl.getPi());
 			return tpl.getPi();
 		}
 
@@ -1250,25 +1270,30 @@ public class Kernel {
 		if (isEqual(a, aint, AXES_PRECISION)) {
 			switch (aint) {
 			case 0:
+				formatterMap.put(x, "0");
 				return "0";
 
 			case 1: // pi/2
 				sbFormat.append(tpl.getPi());
 				sbFormat.append("/2");
+				formatterMap.put(x, sbFormat.toString());
 				return sbFormat.toString();
 
 			case -1: // -pi/2
 				sbFormat.append('-');
 				sbFormat.append(tpl.getPi());
 				sbFormat.append("/2");
+				formatterMap.put(x, sbFormat.toString());
 				return sbFormat.toString();
 
 			case 2: // 2pi/2 = pi
+				formatterMap.put(x, tpl.getPi());
 				return tpl.getPi();
 
 			case -2: // -2pi/2 = -pi
 				sbFormat.append('-');
 				sbFormat.append(tpl.getPi());
+				formatterMap.put(x, sbFormat.toString());
 				return sbFormat.toString();
 
 			default:
@@ -1281,6 +1306,7 @@ public class Kernel {
 						sbFormat.append("*");
 					}
 					sbFormat.append(tpl.getPi());
+					formatterMap.put(x, sbFormat.toString());
 					return sbFormat.toString();
 				}
 				// odd
@@ -1291,6 +1317,7 @@ public class Kernel {
 				}
 				sbFormat.append(tpl.getPi());
 				sbFormat.append("/2");
+				formatterMap.put(x, sbFormat.toString());
 				return sbFormat.toString();
 			}
 		}
@@ -1304,6 +1331,7 @@ public class Kernel {
 		if (str.endsWith("E0")) {
 			sbFormat.setLength(sbFormat.length() - 2);
 		}
+		formatterMap.put(x, sbFormat.toString());
 		return sbFormat.toString();
 	}
 
@@ -1539,6 +1567,8 @@ public class Kernel {
 	 */
 	final public String formatPiE(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
+
+
 		if (app.getLocalization().unicodeZero != '0') {
 
 			String num = formatPiERaw(x, numF, tpl);
