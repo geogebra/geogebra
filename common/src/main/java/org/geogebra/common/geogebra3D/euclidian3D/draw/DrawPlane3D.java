@@ -34,7 +34,6 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	private boolean viewDirectionIsParallel;
 	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
-	private Coords o = Coords.createInhomCoorsInD3();
 	private Coords tmpCoords1 = Coords.createInhomCoorsInD3(),
 			tmpCoords2 = Coords.createInhomCoorsInD3();
 	private Coords vn = new Coords(3);
@@ -467,15 +466,14 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		GeoPlane3D geo = getPlane();
 
 		CoordMatrix m = geo.getCoordSys().getDrawingMatrix();
-		origin.projectPlaneInPlaneCoords(m, o);
+		origin.projectPlaneInPlaneCoords(m, tmpCoords1);
 
 		double a = radius * INV_SQRT_2;
 
-		minmaxXFinal[0] = o.getX() - a;
-		minmaxYFinal[0] = o.getY() - a;
-		minmaxXFinal[1] = o.getX() + a;
-		minmaxYFinal[1] = o.getY() + a;
-
+		minmaxXFinal[0] = tmpCoords1.getX() - a;
+		minmaxYFinal[0] = tmpCoords1.getY() - a;
+		minmaxXFinal[1] = tmpCoords1.getX() + a;
+		minmaxYFinal[1] = tmpCoords1.getY() + a;
 	}
 
 	@Override
