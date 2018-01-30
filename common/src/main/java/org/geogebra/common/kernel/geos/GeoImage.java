@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
 
@@ -669,7 +670,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;
-		if (flag) {
+		if (flag && !kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)) {
 			// remove startpoints
 			for (int i = 0; i < 3; i++) {
 				if (corners[i] != null) {
@@ -707,7 +708,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            number of the corner point (1, 2, 3 or 4)
 	 */
 	public void calculateCornerPoint(GeoPoint result, int n) {
-		if (hasAbsoluteScreenLocation) {
+		if (hasAbsoluteScreenLocation
+				&& !kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)) {
 			result.setUndefined();
 			return;
 		}
