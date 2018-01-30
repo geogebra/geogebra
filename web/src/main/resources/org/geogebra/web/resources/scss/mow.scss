@@ -2,9 +2,7 @@
 
 .GeoGebraFrame{
 
-/*****************
-*   TOOLBAR
-******************/	
+
 	$toolbarWidth: 600px;
 	$toolbarHeight: 56px;
 	$submenuHeight: 178px;
@@ -16,6 +14,13 @@
 	$floatingbtn-appear-transition: width 0.2s, height 0.2s, right 0.2s, margin-bottom 0.2s, visibility 0.2s;
 	$floatingbtn-img-appear-transition: width 0.2s, height 0.2s, padding 0.2s;
 	$card-space-transition: margin-top 0.3s, margin-bottom 0.8s;
+	
+	$shadow-elevation-2: 0px 3px 1px -2px $black-2, 0px 2px 2px 0px $black-14, 0px 1px 5px 0px $black-12;
+	$shadow-elevation-8: 0px 5px 5px -3px $black-2, 0px 8px 10px 1px $black-14, 0px 3px 14px 2px $black-12;
+	
+/*****************
+*   TOOLBAR
+******************/	
 	.mowToolbar {
 		position: relative;
 		height: 182px;
@@ -649,10 +654,10 @@
 		margin: 16px;
 		border-radius: 2px;
    		background-color: $white;
-   		box-shadow: 0 2px 2px 0 $black-14, 0 1px 5px 0 $black-12, 0 3px 1px -2px $black-2;
+   		box-shadow: $shadow-elevation-2;
 		
 		&:hover {
-			box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
+			box-shadow: $shadow-elevation-8;
 			transition: box-shadow .25s;
 		}
 				
@@ -666,26 +671,24 @@
 			cursor: pointer;
 		}
 		.mowTitlePanel {
-			width: calc(100% - 32px);
-			padding: 0px 16px;
+			width: calc(100% - 24px);
+			padding: 8px 8px 8px 16px;
 			border-radius: 0 0 2px 2px;
-			background-color: $mow_card_backbround;
+			background-color: $white;
 			display: flex;
 			
 			.gwt-Label {
-				font-size: 14px;
-				padding: 16px;
-				/*width: 138px;*/
+				font-size: 16px;
+				padding: 8px 0px 8px 0px;
  				overflow: hidden;
 				cursor: default;
 			}
 			.mowMoreButton {
 				width: 24px;
 				height: 24px;
-				padding: 4px;
-				right: -14px;
-			    top: 10px;
-			    position: relative;
+				padding: 6px;
+				right: 24px;
+			    position: absolute;
 				opacity: 0.54;
 				cursor: pointer;
 				
@@ -697,7 +700,14 @@
 					opacity: 1;
 				}
 		}
-		.AutoCompleteTextFieldW {
+	}
+		.mowPagePreviewCard.selected {
+		border: 2px solid $mow_highlight;
+		box-shadow: $shadow-elevation-8;
+		transition: border .25s;
+		}
+	
+		/*.AutoCompleteTextFieldW {
     				margin: 0px !important;
     				padding: 8px 0px;
     				border-radius: 2px;	
@@ -721,10 +731,8 @@
     					}
     				}
     			}
-	}
-	.mowPagePreviewCard.selected {
-		box-shadow: 0 8px 17px 0 $black-2, 0 6px 20px 0 $black-19;
-	}
+	}*/
+	
 	
 	.mowPagePreviewCard.highlight {
 		border: 5px solid blue;
