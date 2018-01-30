@@ -56,6 +56,8 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	// for absolute screen location
 	private int screenX, screenY;
+	private int[] cornerScreenX = new int[2];
+	private int[] cornerScreenY = new int[2];
 	private boolean hasAbsoluteScreenLocation = false;
 
 	// corner points for transformations
@@ -631,6 +633,14 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
+	public void setAbsoluteScreenLoc(int x, int y, int i) {
+		cornerScreenX[i] = x;
+		cornerScreenY[i] = y;
+		if (!hasScreenLocation() && (x != 0 && y != 0)) {
+			setScreenLocation(x, y);
+		}
+	}
+
 	@Override
 	public int getAbsoluteScreenLocX() {
 		return screenX;
@@ -641,43 +651,66 @@ public class GeoImage extends GeoElement implements Locateable,
 		return screenY;
 	}
 
+	public int getAbsoluteScreenLocX(int i) {
+		return cornerScreenX[i];
+	}
+
+	public int getAbsoluteScreenLocY(int i) {
+		return cornerScreenY[i];
+
+	}
+
 	@Override
 	public void setRealWorldLoc(double x, double y) {
-		GeoPoint locPoint = getStartPoint();
-		if (locPoint == null) {
-			locPoint = new GeoPoint(cons);
-			setCorner(locPoint, 0);
+		setRealWorldCoord(x, y, 0);
+	}
+
+	public void setRealWorldCoord(double x, double y, int i) {
+		GeoPoint point = corners[i];
+		if (point == null) {
+			point = new GeoPoint(cons);
+			setCorner(point, 0);
 		}
-		locPoint.setCoords(x, y, 1.0);
+		point.setCoords(x, y, 1.0);
 	}
 
 	@Override
 	public double getRealWorldLocX() {
-		if (corners[0] == null) {
-			return 0;
-		}
-		return corners[0].inhomX;
+		return getRealWorldX(0);
 	}
 
 	@Override
 	public double getRealWorldLocY() {
-		if (corners[0] == null) {
+		return getRealWorldY(0);
+	}
+
+	public double getRealWorldX(int i) {
+		if (corners[i] == null) {
 			return 0;
 		}
-		return corners[0].inhomY;
+		return corners[i].inhomX;
+	}
+
+	public double getRealWorldY(int i) {
+		if (corners[i] == null) {
+			return 0;
+		}
+		return corners[i].inhomY;
 	}
 
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;
-		if (flag && !kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)) {
+		if (flag) {
 			// remove startpoints
 			for (int i = 0; i < 3; i++) {
 				if (corners[i] != null) {
 					corners[i].getLocateableList().unregisterLocateable(this);
 				}
 			}
-			corners[1] = null;
+			if (!kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)) {
+				corners[1] = null;
+			}
 			corners[2] = null;
 		}
 	}
@@ -708,8 +741,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            number of the corner point (1, 2, 3 or 4)
 	 */
 	public void calculateCornerPoint(GeoPoint result, int n) {
-		if (hasAbsoluteScreenLocation
-				&& !kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)) {
+		if (hasAbsoluteScreenLocation) {
 			result.setUndefined();
 			return;
 		}

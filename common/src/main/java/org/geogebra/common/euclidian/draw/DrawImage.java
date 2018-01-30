@@ -103,8 +103,7 @@ public final class DrawImage extends Drawable {
 		absoluteLocation = geoImage.isAbsoluteScreenLocActive();
 
 		// ABSOLUTE SCREEN POSITION
-		if (absoluteLocation && !geo.getKernel().getApplication()
-				.has(Feature.MOW_BOUNDING_BOXES)) {
+		if (absoluteLocation) {
 			screenX = geoImage.getAbsoluteScreenLocX();
 			screenY = geoImage.getAbsoluteScreenLocY() - height;
 			labelRectangle.setBounds(screenX, screenY, width, height);
@@ -371,8 +370,7 @@ public final class DrawImage extends Drawable {
 		hitCoords[1] = y;
 
 		// convert screen to image coordinate system
-		if (!geoImage.isAbsoluteScreenLocActive() || geo.getKernel()
-				.getApplication().has(Feature.MOW_BOUNDING_BOXES)) {
+		if (!geoImage.isAbsoluteScreenLocActive()) {
 			atInverse.transform(hitCoords, 0, hitCoords, 0, 1);
 		}
 		return labelRectangle.contains(hitCoords[0], hitCoords[1]);

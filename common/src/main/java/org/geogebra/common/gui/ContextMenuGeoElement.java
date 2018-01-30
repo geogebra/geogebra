@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -602,18 +603,48 @@ public abstract class ContextMenuGeoElement {
 				boolean flag = !geoText.isAbsoluteScreenLocActive();
 				if (flag) {
 					// convert real world to screen coords
-					int x = app.getActiveEuclidianView()
-							.toScreenCoordX(geoText.getRealWorldLocX());
-					int y = app.getActiveEuclidianView()
-							.toScreenCoordY(geoText.getRealWorldLocY());
-					geoText.setAbsoluteScreenLoc(x, y);
+					if (!app.has(Feature.MOW_BOUNDING_BOXES)
+							|| !geoText.isGeoImage()) {
+						int x = app.getActiveEuclidianView()
+								.toScreenCoordX(geoText.getRealWorldLocX());
+						int y = app.getActiveEuclidianView()
+								.toScreenCoordY(geoText.getRealWorldLocY());
+						geoText.setAbsoluteScreenLoc(x, y);
+					} else {
+						int x, y;
+						for (int j = 0; j < 2; j++) {
+							x = app.getActiveEuclidianView().toScreenCoordX(
+									((GeoImage) geoText).getRealWorldX(1));
+							y = app.getActiveEuclidianView().toScreenCoordY(
+									((GeoImage) geoText).getRealWorldY(1));
+							((GeoImage) geoText).setAbsoluteScreenLoc(x, y, i);
+						}
+					}
 				} else {
 					// convert screen coords to real world
-					double x = app.getActiveEuclidianView()
-							.toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
-					double y = app.getActiveEuclidianView()
-							.toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
-					geoText.setRealWorldLoc(x, y);
+					if (!app.has(Feature.MOW_BOUNDING_BOXES)
+							|| !geoText.isGeoImage()) {
+						double x = app.getActiveEuclidianView()
+								.toRealWorldCoordX(
+										geoText.getAbsoluteScreenLocX());
+						double y = app.getActiveEuclidianView()
+								.toRealWorldCoordY(
+										geoText.getAbsoluteScreenLocY());
+						geoText.setRealWorldLoc(x, y);
+					} else {
+						double x, y;
+						for (int j = 0; j < 2; j++) {
+							x = app.getActiveEuclidianView()
+									.toRealWorldCoordX(((GeoImage) geoText)
+											.getAbsoluteScreenLocX(j));
+							y = app.getActiveEuclidianView()
+									.toRealWorldCoordY(((GeoImage) geoText)
+											.getAbsoluteScreenLocY(j));
+							((GeoImage) geoText).setRealWorldCoord(x, y, j);
+						}
+					}
+
+
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();
