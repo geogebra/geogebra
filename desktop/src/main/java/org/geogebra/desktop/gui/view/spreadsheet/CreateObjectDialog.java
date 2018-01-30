@@ -32,6 +32,7 @@ import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
+import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
@@ -307,7 +308,8 @@ public class CreateObjectDialog extends InputDialogD
 					latexFont, false, Color.black, null);
 			lblPreview.setText(" ");
 		} else {
-			lblPreview.setText(coModel.getNonLatexText());
+			lblPreview.setText(
+					coModel.getNonLatexText(new IndexHTMLBuilder(true)));
 		}
 		lblPreview.setIcon(latexIcon);
 

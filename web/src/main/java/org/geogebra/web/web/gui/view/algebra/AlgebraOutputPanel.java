@@ -169,7 +169,7 @@ public class AlgebraOutputPanel extends FlowPanel {
 			valuePanel.add(valCanvas);
 		} else {
 			HTML html = new HTML();
-			IndexHTMLBuilder sb = RadioTreeItem.getBuilder(html,
+			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(html,
 					geo1.getKernel().getApplication());
 			if (AlgebraItem.needsPacking(geo1)) {
 				geo1.getAlgebraDescriptionTextOrHTMLDefault(sb);

@@ -2,14 +2,15 @@ package org.geogebra.web.web.gui.view.spreadsheet;
 
 import org.geogebra.common.gui.view.algebra.DialogType;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel;
-import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.gui.view.spreadsheet.CreateObjectModel.ICreateObjectListener;
+import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.CardPanel;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.DrawEquationW;
 import org.geogebra.web.web.gui.dialog.InputDialogW;
+import org.geogebra.web.web.gui.view.algebra.DOMIndexHTMLBuilder;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -344,7 +345,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		} else {
 			previewPanel.setWidget(lblPreview);
 			lblPreview.getElement().removeAllChildren();
-			lblPreview.setText(coModel.getNonLatexText());
+			coModel.getNonLatexText(new DOMIndexHTMLBuilder(lblPreview, app));
 		}
 
 		

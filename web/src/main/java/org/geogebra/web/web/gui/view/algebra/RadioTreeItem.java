@@ -75,7 +75,6 @@ import org.geogebra.web.web.main.AppWFull;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DragStartEvent;
@@ -189,63 +188,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		needsUpdate = true;
 	}
 
-	protected static IndexHTMLBuilder getBuilder(final Widget w,
-			final App app) {
-		return new IndexHTMLBuilder(false) {
-			Element sub = null;
-
-			@Override
-			public void append(String s) {
-
-				if (sub == null) {
-					w.getElement()
-							.appendChild(Document.get().createTextNode(s));
-				} else {
-					sub.appendChild(Document.get().createTextNode(s));
-				}
-			}
-
-			@Override
-			public void startIndex() {
-				sub = Document.get().createElement("sub");
-				sub.getStyle().setFontSize((int) (app.getFontSize() * 0.8),
-						Unit.PX);
-			}
-
-			@Override
-			public void endIndex() {
-				if (sub != null) {
-					w.getElement().appendChild(sub);
-				}
-				sub = null;
-			}
-
-			@Override
-			public String toString() {
-				if (sub != null) {
-					endIndex();
-				}
-				return w.getElement().getInnerHTML();
-			}
-
-			@Override
-			public void clear() {
-				w.getElement().removeAllChildren();
-				sub = null;
-			}
-
-			@Override
-			public boolean canAppendRawHtml() {
-				return false;
-			}
-
-			@Override
-			public void appendHTML(String str) {
-				append(str);
-			}
-		};
-	}
-
 	/**
 	 * Minimal constructor
 	 *
@@ -265,7 +207,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		getController().setLongTouchManager(LongTouchManager.getInstance());
 		setDraggable();
-
 	}
 
 	/**
@@ -371,7 +312,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 	private void buildPlainTextItem() {
 		if (!AlgebraItem.buildPlainTextItemSimple(geo,
-				getBuilder(getPlainTextItem(), app))) {
+				new DOMIndexHTMLBuilder(getPlainTextItem(), app))) {
 			buildItemContent();
 		}
 	}
@@ -412,7 +353,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 					StringTemplate.latexTemplate);
 			definitionFromTeX(text);
 		} else if (geo != null) {
-			IndexHTMLBuilder sb = getBuilder(definitionPanel, app);
+			IndexHTMLBuilder sb = new DOMIndexHTMLBuilder(definitionPanel, app);
 			if (kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DESCRIPTION) {
 				if (AlgebraItem.needsPacking(geo)) {
 					GeoElement
@@ -620,7 +561,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			content.add(canvas);
 		} else {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(
-					getBuilder(getPlainTextItem(), app));
+					new DOMIndexHTMLBuilder(getPlainTextItem(), app));
 			updateItemColor();
 			// updateFont(getPlainTextItem());
 			rebuildPlaintextContent();

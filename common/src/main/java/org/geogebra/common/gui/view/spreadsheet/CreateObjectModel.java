@@ -295,9 +295,8 @@ public class CreateObjectModel {
 		}
 	}
 
-	public String getNonLatexText() {
-		return newGeo.toGeoElement().getAlgebraDescriptionTextOrHTMLDefault(
-				new IndexHTMLBuilder(true));
+	public String getNonLatexText(IndexHTMLBuilder sb) {
+		return newGeo.toGeoElement().getAlgebraDescriptionTextOrHTMLDefault(sb);
 	}
 
 	public CellRangeProcessor getCellRangeProcessor() {
