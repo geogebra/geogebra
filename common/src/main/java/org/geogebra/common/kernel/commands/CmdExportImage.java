@@ -144,40 +144,41 @@ public class CmdExportImage extends CommandProcessor {
 		}
 
 		EuclidianView ev = app.getActiveEuclidianView();
+		double viewWidth = ev.getExportWidth();
+		double xScale = ev.getXscale();
+		double widthRW = viewWidth / xScale;
+
 		if (width > 0) {
-			double viewWidth = ev.getExportWidth();
+			if (scaleCM > 0) {
+				// calculate DPI from width
+
+				// dots per cm
+				double dpcm = width / (widthRW * scaleCM);
+
+				dpi = (int) (dpcm * 2.54);
+
+			}
+
 			exportScale = width / viewWidth;
+
 		} else if (height > 0) {
 			double viewHeight = ev.getExportHeight();
 			exportScale = height / viewHeight;
-		} else if (scaleCM >= 0) {
+		} else if (scaleCM > 0) {
 
-			double viewWidth = ev.getExportWidth();
-			double xScale = ev.getXscale();
-			double widthRW = viewWidth / xScale;
+			// calculate width from dpi
+
+			if (dpi < 0) {
+				dpi = 300;
+			}
 
 			// dots per cm
-			double dpcm;
+			double dpcm = dpi / 2.54;
 
-			if (width > 0) {
-				// calculate DPI from width
-				dpcm = width / (widthRW * scaleCM);
-				dpi = (int) (dpcm * 2.54);
-				exportScale = width / viewWidth;
-			} else {
-				// calculate width from dpi
-
-				if (dpi < 0) {
-					dpi = 300;
-				}
-
-				dpcm = dpi / 2.54;
-
-				double pixelWidth = Math.round(dpcm * widthRW * scaleCM);
-				// Log.debug("widthRW= " + widthRW);
-				// Log.debug("pixelWidth= " + pixelWidth);
-				exportScale = pixelWidth / viewWidth;
-			}
+			double pixelWidth = Math.round(dpcm * widthRW * scaleCM);
+			// Log.debug("widthRW= " + widthRW);
+			// Log.debug("pixelWidth= " + pixelWidth);
+			exportScale = pixelWidth / viewWidth;
 
 		}
 
