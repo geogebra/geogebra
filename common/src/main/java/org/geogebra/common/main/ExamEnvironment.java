@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import java.text.NumberFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.Commands;
@@ -652,5 +653,31 @@ public class ExamEnvironment {
 		NumberFormat percentFormatter = NumberFormat.getPercentInstance(app.getLocalization().getLocale());
 
 		return percentFormatter.format(percentage);
+	}
+
+	/**
+	 * @return the localized elapsed time string
+	 */
+	public String getElapsedTimeLocalized() {
+		return timeToStringLocalized(System.currentTimeMillis());
+	}
+
+	/**
+	 * @param timestamp current timestamp
+	 * @return the localized time string
+	 */
+	private String timeToStringLocalized(long timestamp) {
+
+		if (examStartTime < 0) {
+			return String.format(app.getLocalization().getLocale(), "%02d:%02d", 0, 0);
+		}
+
+		int millis = (int) (timestamp - examStartTime);
+
+		return String.format(app.getLocalization().getLocale(), "%02d:%02d",
+				TimeUnit.MILLISECONDS.toMinutes(millis),
+				TimeUnit.MILLISECONDS.toSeconds(millis) -
+						TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
+		);
 	}
 }
