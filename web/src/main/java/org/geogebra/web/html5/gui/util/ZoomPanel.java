@@ -113,11 +113,11 @@ public class ZoomPanel extends FlowPanel
 	 */
 	public void addFullscreenButton() {
 		fullscreenBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.fullscreen_black18(), null, 18,
+				ZoomPanelResources.INSTANCE.fullscreen_black18(), null, 24,
 				app);
 		fullscreenBtn.getDownFace()
 				.setImage(new NoDragImage(ZoomPanelResources.INSTANCE
-						.fullscreen_exit_black18(), 18));
+						.fullscreen_exit_black18(), 24));
 
 		fullscreenBtn.setStyleName("zoomPanelBtn");
 
@@ -208,6 +208,7 @@ public class ZoomPanel extends FlowPanel
 				ZoomPanelResources.INSTANCE.home_zoom_black18(),
 				null, 18, app);
 		homeBtn.setStyleName("zoomPanelBtn");
+		homeBtn.addStyleName("zoomPanelBtnSmall");
 		hideHomeButton();
 		FastClickHandler handlerHome = new FastClickHandler() {
 
@@ -238,21 +239,12 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private void addZoomOutButton() {
-		if (app.isWhiteboardActive()) {
-			zoomOutBtn = new StandardButton(
+		zoomOutBtn = new StandardButton(
 					ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24,
 					app);
-		} else {
-			zoomOutBtn = new StandardButton(
-					ZoomPanelResources.INSTANCE.remove_black18(), null, 18,
-					app);
-		}
 		zoomOutBtn.setStyleName("zoomPanelBtn");
-		if (app.isWhiteboardActive()) {
-			zoomOutBtn.addStyleName("mowZoomPanelBtn");
-		}
-		FastClickHandler handlerZoomOut = new FastClickHandler() {
 
+		FastClickHandler handlerZoomOut = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
 				onZoomOutPressed();
@@ -263,20 +255,12 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private void addZoomInButton() {
-		if (app.isWhiteboardActive()) {
-			zoomInBtn = new StandardButton(
+		zoomInBtn = new StandardButton(
 					ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24,
 					app);
-		} else {
-			zoomInBtn = new StandardButton(
-					ZoomPanelResources.INSTANCE.add_black18(), null, 18, app);
-		}
 		zoomInBtn.setStyleName("zoomPanelBtn");
-		if (app.isWhiteboardActive()) {
-			zoomInBtn.addStyleName("mowZoomPanelBtn");
-		}
-		FastClickHandler handlerZoomIn = new FastClickHandler() {
 
+		FastClickHandler handlerZoomIn = new FastClickHandler() {
 			@Override
 			public void onClick(Widget source) {
 				onZoomInPressed();

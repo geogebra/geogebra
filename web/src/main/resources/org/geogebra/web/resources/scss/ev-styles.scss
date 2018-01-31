@@ -329,7 +329,7 @@
     		transition: background-color 150ms ease 0ms;
     		
     		img {
-    			padding: 9px;
+    			padding: 6px;
     			opacity: 0.54;
     		}	
     	
@@ -349,8 +349,8 @@
     			}	
     		}
     	}
-    	.mowZoomPanelBtn img {
-    		padding: 6px;
+    	.zoomPanelBtnSmall img {
+    		padding: 9px;
     	}
 		.zoomPanelHomeIn {
 			@extend .zoomPanelBtn;
