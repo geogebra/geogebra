@@ -24,6 +24,13 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 	final static public String mp3Marker = "data:audio/mp3;base64,";
 	final static public String pngMarker = "data:image/png;base64,";
+	final static public String svgMarker = "data:image/svg+xml;base64,";
+	final static public String pdfMarker = "data:application/pdf;base64,";
+	final static public String txtMarker = "data:text/plain;charset=utf-8,";
+	final static public String jpgMarker = "data:image/jpg;base64,";
+	final static public String ggbMarker = "data:application/vnd.geogebra.file;base64,";
+	final static public String gifMarker = "data:image/gif;base64,";
+
 	// table to convert a nibble to a hex char.
 	private static char[] hexChar = { '0', '1', '2', '3', '4', '5', '6', '7',
 			'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
