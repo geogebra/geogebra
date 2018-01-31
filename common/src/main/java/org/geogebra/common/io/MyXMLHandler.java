@@ -297,6 +297,8 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean sliderTagProcessed, fontTagProcessed;
 
+	private ArrayList<String> entries;
+
 	private static class GeoExpPair {
 		private GeoElement geoElement;
 		String exp;
@@ -664,6 +666,8 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_PROBABILITY_CALCULATOR:
 			if ("probabilityCalculator".equals(eName)) {
 				mode = MODE_GEOGEBRA;
+			} else {
+				endProbabilityCalculator(eName);
 			}
 			break;
 
@@ -1167,6 +1171,12 @@ public class MyXMLHandler implements DocHandler {
 		case 's':
 			if ("statisticsCollection".equals(eName)) {
 				ok = handleStatisticsCollection(attrs);
+				break;
+			}
+		case 'e':
+			if ("entry".equals(eName)) {
+				ok = handleEntry(attrs);
+				break;
 			}
 		default:
 			Log.error("unknown tag in <probabilityCalculator>: " + eName);
@@ -1175,6 +1185,15 @@ public class MyXMLHandler implements DocHandler {
 		if (!ok) {
 			Log.error("error in <probabilityCalculator>: " + eName);
 		}
+	}
+
+	private boolean handleEntry(LinkedHashMap<String, String> attrs) {
+		if (entries == null) {
+			entries = new ArrayList<>();
+		}
+		String val = attrs.get("val");
+		entries.add("".equals(val) ? null : val);
+		return true;
 	}
 
 	private boolean handleProbabilityDistribution(
@@ -1226,6 +1245,7 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 
 		try {
+			entries = null;
 			StatisticsCollection stats = new StatisticsCollection();
 			stats.mean = StringUtil.parseDouble(attrs.get("mean"));
 			stats.n = StringUtil.parseDouble(attrs.get("n"));
@@ -1241,14 +1261,30 @@ public class MyXMLHandler implements DocHandler {
 			stats.level = StringUtil.parseDouble(attrs.get("level"));
 			stats.setTail(attrs.get("tail"));
 			stats.setSelectedProcedure(Procedure.valueOf(attrs.get("procedure")));
-
+			if (!StringUtil.empty(attrs.get("columns"))) {
+				stats.columns = (int) StringUtil
+					.parseDouble(attrs.get("columns"));
+			}
 			app.getSettings().getProbCalcSettings().setCollection(stats);
-
-
 
 			return true;
 		} catch (RuntimeException e) {
+			e.printStackTrace();
 			return false;
+		}
+	}
+
+	private void endProbabilityCalculator(String name) {
+		if ("statisticsCollection".equals(name) && entries != null) {
+			StatisticsCollection stats = app.getSettings().getProbCalcSettings()
+					.getCollection();
+			int cols = stats.columns;
+			stats.chiSquareData = new String[entries.size() / cols][cols];
+
+			for (int i = 0; i < entries.size(); i++) {
+				stats.chiSquareData[i / cols][i % cols] = entries
+						.get(i);
+			}
 		}
 	}
 

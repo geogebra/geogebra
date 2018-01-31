@@ -24,6 +24,9 @@ import org.geogebra.common.kernel.statistics.AlgoZProportion2Test;
 import org.geogebra.common.kernel.statistics.AlgoZProportionEstimate;
 import org.geogebra.common.kernel.statistics.AlgoZProportionTest;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.error.ErrorHandler;
+import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * @author G.Sturr
@@ -361,7 +364,8 @@ public class StatisticsCalculatorProcessor {
 		for (int i = 0; i < sc.rows; i++) {
 			for (int j = 0; j < sc.columns; j++) {
 
-				double value = parseStringData(sc.chiSquareData[i + 1][j + 1]);
+				double value = parseStringData(sc.chiSquareData[i + 1][j + 1],
+						getErrorHandler());
 				sc.observed[i][j] = value;
 				if (!Double.isNaN(sc.observed[i][j])) {
 					sc.rowSum[i] += sc.observed[i][j];
@@ -407,6 +411,10 @@ public class StatisticsCalculatorProcessor {
 
 	}
 
+	private ErrorHandler getErrorHandler() {
+		return ErrorHelper.silent();
+	}
+
 	/**
 	 * Computes goodness of fit test results TODO: Implement using
 	 * AlgoGoodnessOfFitTest directly
@@ -426,7 +434,7 @@ public class StatisticsCalculatorProcessor {
 		for (int i = 0; i < sc.rows; i++) {
 			for (int col = 0; col < 2; col++) {
 				double value = parseStringData(
-						sc.chiSquareData[i + 1][col + 1]);
+						sc.chiSquareData[i + 1][col + 1], getErrorHandler());
 				sc.observed[i][col] = value;
 
 				if (!Double.isNaN(sc.observed[i][col])) {
@@ -476,20 +484,20 @@ public class StatisticsCalculatorProcessor {
 		return chisquared;
 	}
 
-	private double parseStringData(String s) {
+	private double parseStringData(String s, ErrorHandler handler) {
 
 		if (s == null || s.length() == 0) {
 			return Double.NaN;
 		}
-
+		Log.debug(s);
 		try {
 			String inputText = s.trim();
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
 			nv = cons.getKernel().getAlgebraProcessor()
-					.evaluateToNumeric(inputText, false);
-			return nv.getDouble();
+					.evaluateToNumeric(inputText, handler);
+			return nv == null ? Double.NaN : nv.getDouble();
 
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

@@ -43,7 +43,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	// GUI components
 	// ======================================
 	private JPanel pnlCount, pnlControl;
-	private JComboBox cbRows, cbColumns;
+	private JComboBox<String> cbRows, cbColumns;
 	private ChiSquareCellD[][] cell;
 	private JCheckBox ckExpected, ckChiDiff, ckRowPercent, ckColPercent;
 	private JLabel lblRows, lblColumns;
@@ -60,7 +60,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		super(loc, statCalc);
 		createGUI();
 		setLabels();
-
 	}
 
 	public void setLabels() {
@@ -94,7 +93,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		wrappedPanel.add(pnlControl, BorderLayout.NORTH);
 		wrappedPanel.add(p, BorderLayout.CENTER);
 		wrappedPanel.setBorder(BorderFactory.createEmptyBorder(10, 0, 10, 0));
-
 	}
 
 	private void createGUIElements() {
@@ -117,12 +115,12 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		for (int i = 0; i < num.length; i++) {
 			num[i] = "" + (i + 2);
 		}
-		cbRows = new JComboBox(num);
+		cbRows = new JComboBox<>(num);
 		cbRows.setSelectedItem("" + getSc().rows);
 		cbRows.addActionListener(this);
 		cbRows.setMaximumRowCount(12);
 
-		cbColumns = new JComboBox(num);
+		cbColumns = new JComboBox<>(num);
 		cbColumns.setSelectedItem("" + getSc().columns);
 		cbColumns.addActionListener(this);
 		cbColumns.setMaximumRowCount(12);
@@ -220,13 +218,16 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 		}
 
-		getSc().setChiSqData(Integer.parseInt((String) cbRows.getSelectedItem()),
-				Integer.parseInt((String) cbColumns.getSelectedItem()));
-
 		createCountPanel();
 		setLabels();
 		wrappedPanel.revalidate();
 		wrappedPanel.repaint();
+	}
+
+	public void updateCollection() {
+		getSc().setChiSqData(
+				Integer.parseInt((String) cbRows.getSelectedItem()),
+				Integer.parseInt((String) cbColumns.getSelectedItem()));
 	}
 
 	private void updateVisibility() {
@@ -254,10 +255,14 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		updateCellContent();
 	}
 
-	private void updateCellContent() {
+	public void updateCellContent() {
 
 		getStatProcessor().doCalculate();
-
+		for (int r = 0; r < getSc().rows + 1; r++) {
+			for (int c = 0; c < getSc().columns + 1; c++) {
+				cell[r][c].setValue(getSc().chiSquareData[r][c]);
+			}
+		}
 		for (int r = 0; r < getSc().rows; r++) {
 			for (int c = 0; c < getSc().columns; c++) {
 				if (ckExpected.isSelected()) {
@@ -319,6 +324,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			doTextFieldActionPerformed((JTextField) source);
 		}
 		if (source == cbRows || source == cbColumns) {
+			updateCollection();
 			updateGUI();
 		}
 
@@ -371,6 +377,10 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		public ChiSquareCellD(StatisticsCollection sc, int row, int column) {
 			this(sc);
 			init(row, column);
+		}
+
+		public void setValue(String string) {
+			fldInput.setText(string);
 		}
 
 		/**

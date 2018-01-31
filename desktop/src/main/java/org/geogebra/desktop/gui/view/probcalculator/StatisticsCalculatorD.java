@@ -133,7 +133,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		setLabels();
 		updateGUI();
-
+		panelChiSquare.updateCellContent();
 	}
 
 	private void createControlPanel() {
@@ -589,6 +589,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		if (source == cbProcedure && cbProcedure.getSelectedIndex() >= 0) {
 			sc.setSelectedProcedure(mapNameToProcedure
 					.get(cbProcedure.getSelectedItem()));
+			this.panelChiSquare.updateCollection();
 			updateGUI();
 			updateResult();
 			// setLabels();

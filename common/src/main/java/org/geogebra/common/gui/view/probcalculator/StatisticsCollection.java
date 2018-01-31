@@ -1,6 +1,7 @@
 package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.util.StringUtil;
 
 /**
  * @author G. Sturr
@@ -59,16 +60,20 @@ public class StatisticsCollection {
 	}
 
 	public void setChiSqData(int rows, int columns) {
+		chiSquareData = new String[rows + 2][columns + 2];
+		initComputation(rows, columns);
+	}
+
+	public void initComputation(int rows, int columns) {
 		this.rows = rows;
 		this.columns = columns;
-
-		chiSquareData = new String[rows + 2][columns + 2];
 		observed = new double[rows][columns];
 		expected = new double[rows][columns];
 		diff = new double[rows][columns];
 
 		columnSum = new double[columns];
 		rowSum = new double[rows];
+
 	}
 
 	public double getProportion() {
@@ -129,10 +134,29 @@ public class StatisticsCollection {
 
 		add(sb, nullHyp, "nullHyp");
 		add(sb, level, "level");
-
 		sb.append("\" tail=\"");
 		sb.append(getTail());
-		sb.append("\"/>");
+		if (chiSquareData != null && chiSquareData.length > 0) {
+			// add(sb, chiSquareData.length, "columns");
+			add(sb, chiSquareData[0].length, "columns");
+			sb.append("\">");
+			for (int row = 0; row < chiSquareData.length; row++) {
+				addObservedRow(sb, row);
+			}
+			sb.append("</statisticsCollection>");
+		} else {
+			sb.append("\"/>");
+		}
+	}
+
+	private void addObservedRow(StringBuilder sb, int row) {
+		for (int column = 0; column < chiSquareData[0].length; column++) {
+			sb.append("<entry val=\"");
+			if (chiSquareData[row][column] != null) {
+				sb.append(StringUtil.encodeXML(chiSquareData[row][column]));
+			}
+			sb.append("\"/>\n");
+		}
 	}
 
 	private void add(StringBuilder sb, double sd3, String string) {

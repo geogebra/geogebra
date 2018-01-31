@@ -111,7 +111,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		wrappedPanel.add(main);
 		
 		setLabels();
-		updateGUI();		
+		updateGUI();
+		panelChiSquare.updateCellContent();
 	}
 
 	/**
@@ -590,6 +591,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	public void onChange(ChangeEvent event) {
 		sc.setSelectedProcedure(mapNameToProcedure
 				.get(cbProcedure.getValue(cbProcedure.getSelectedIndex())));
+		this.panelChiSquare.updateCollection();
 		updateGUI();
 		updateResult();
 		//setLabels();

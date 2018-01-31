@@ -29,8 +29,13 @@ public abstract class ChiSquarePanel {
 		this.statCalc = statCalc;
 		this.statProcessor = statCalc.getStatProcessor();
 		this.sc = statCalc.getStatististicsCollection();
-
-		sc.setChiSqData(3, 3);
+		if (sc.chiSquareData == null) {
+			sc.setChiSqData(3, 3);
+		} else {
+			sc.initComputation(sc.chiSquareData.length - 2,
+					sc.chiSquareData.length > 0 ? sc.chiSquareData[0].length - 2
+							: 0);
+		}
 	}
 
 
