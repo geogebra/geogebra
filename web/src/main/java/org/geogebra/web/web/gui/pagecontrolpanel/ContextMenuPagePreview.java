@@ -58,7 +58,6 @@ public class ContextMenuPagePreview
 		AriaMenuItem mi = new AriaMenuItem(
 				MainMenu.getMenuBarHtml(img, loc.getMenu("Delete"), true), true,
 				new Command() {
-
 					@Override
 					public void execute() {
 						onDelete();
@@ -74,7 +73,6 @@ public class ContextMenuPagePreview
 				MainMenu.getMenuBarHtml(img, loc.getMenu("Duplicate"), true),
 				true,
 				new Command() {
-
 					@Override
 					public void execute() {
 						onDuplicate();
@@ -97,7 +95,6 @@ public class ContextMenuPagePreview
 	protected void onDuplicate() {
 		hide();
 		frame.getPageControlPanel().duplicatePage(card);
-
 	}
 
 	@Override

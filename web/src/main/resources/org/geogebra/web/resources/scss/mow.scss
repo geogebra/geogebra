@@ -744,8 +744,26 @@
 	}*/
 	
 	
-	.mowPagePreviewCard.highlight {
+	.mowPagePreviewCardDivider {
+		width: 220px;
+		height: 8px;
+		background-color: $mow_card_divider;	
+		margin: 4px 16px 4px;
+		
+	}
+
+	.mowPagePreviewCard.highlight-top {
+		margin-top: 190px;
+		margin-bottom: 0px;
 		border: 5px solid blue;
+		border-bottom: 5px black;
+	}
+	
+	.mowPagePreviewCard.highlight-bottom {
+		margin-top: 0px;
+		margin-bottom: 190px;
+		border: 5px solid purple;
+		border-top: 5px black;
 	}
 	
 	.mowPagePreviewCard.spaceBefore {

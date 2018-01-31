@@ -379,14 +379,22 @@ public class PagePreviewCard extends FlowPanel
 		int top = getAbsoluteTop();
 		int right = left + getOffsetWidth();
 		int bottom = top + getOffsetHeight();
+
 		boolean hit = x > left && x < right && y > top && y < bottom;
 
-		Log.debug("DND hit " + getTitle() + "(" + x + ", " + y + " -> (" + left
-				+ ", " + top + ", "
-				+ right
-				+ ", " + bottom + ") " + hit);
-
 		return hit;
+	}
+
+	/**
+	 * 
+	 * @param y
+	 *            to check.
+	 * @return true if y is greater than the card middle.
+	 */
+	public boolean isBellowMiddle(int y) {
+		int middle = getAbsoluteTop() + getOffsetHeight() / 2;
+		Log.debug("MIDDLE " + getPageIndex() + " m: " + middle + "y: " + y);
+		return y > middle;
 	}
 
 	/**

@@ -127,17 +127,13 @@ public class PageListController implements PageListControllerInterface {
 		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard);
 		int dupIdx = dup.getPageIndex();
 		
-		boolean lastCard = (dupIdx == slides.size());
-		
 		slides.add(dupIdx, dup);
-		
 		setCardSelected(dup);
 		changeSlide(dup);
-		if (!lastCard) {
+
+		if (dupIdx != slides.size()) {
 			updatePageIndexes(dupIdx);
 		}
-		
-
 		return dup;
 	}
 
@@ -286,7 +282,6 @@ public class PageListController implements PageListControllerInterface {
 		slides.remove(srcIdx);
 		slides.add(destIdx, src);
 		updatePageIndexes(Math.min(srcIdx, destIdx));
-		
 	}
 
 	@Override
@@ -312,7 +307,6 @@ public class PageListController implements PageListControllerInterface {
 			return true;
 		} 
 		
-		Log.debug("card was not hit");
 		return false;
 	}
 
@@ -380,7 +374,7 @@ public class PageListController implements PageListControllerInterface {
 			if (dragIndex > 0 && dragIndex < slides.size()) {
 				// Making room to "take out" the card from list.
 				lastDragTarget = slides.get(dragIndex - 1);
-				lastDragTarget.addStyleName("spaceAfter");
+				// lastDragTarget.addStyleName("spaceAfter");
 			}
 		}
 	}
@@ -389,52 +383,41 @@ public class PageListController implements PageListControllerInterface {
 	public void startDrag(int pageIndex) {
 		clearSpaces();
 		dragIndex = pageIndex;
-		PagePreviewCard card = slides.get(pageIndex);
-		if (dragIndex != slides.size() - 1) {
-			card.addStyleName("spaceBeforeAnimated");
-		}
 	}
 	
 	@Override
-	public void drag(int x, int y) {
+	public int drag(int x, int y) {
 		if (dragCard == null) {
-			return;
+			return -1;
 		}
 
 		dragCard.setDragPosition(0, y);
 
-		int idx = cardIndexAt(x, y);
+		int idx = cardIndexAt(
+				dragCard.getAbsoluteLeft() + dragCard.getOffsetWidth() / 2,
+				dragCard.getAbsoluteTop());
 		if (idx == -1) {
-			return;
+			return -1;
 		}
 
 		PagePreviewCard target = slides.get(idx);
 		if (target == null) {
-			return;
+			return -1;
 		}
 
 		int targetIdx = target.getPageIndex();
-		int lastTargetIdx = lastDragTarget != null
-				? lastDragTarget.getPageIndex()
-				: -1;
-		if (lastTargetIdx != -1 && lastTargetIdx != targetIdx) {
-			lastDragTarget.removeStyleName("spaceAfterAnimated");
-			lastDragTarget.removeStyleName("spaceBeforeAnimated");
-			if (targetIdx < dragIndex) {
-				target.addStyleName("spaceBeforeAnimated");
-			} else {
-				target.addStyleName("spaceAfterAnimated");
-			}
-		}
+
+		boolean bellowMiddle = target.isBellowMiddle(dragCard.getAbsoluteTop());
 		lastDragTarget = target;
+		return bellowMiddle ? targetIdx + 1 : targetIdx;
 	}
-	
+
 	@Override
 	public void stopDrag() {
 		if (dragCard != null) {
 			dragCard.clearPosition();
-
 		}
+
 		clearSpaces();
 		dragCard = null;
 	}

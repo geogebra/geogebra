@@ -26,6 +26,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -47,7 +48,7 @@ public class PageListPanel
 	private PersistablePanel contentPanel;
 	private StandardButton plusButton;
 	private PageListController pageController;
-
+	private FlowPanel divider = null;
 	/**
 	 * @param app
 	 *            application
@@ -76,6 +77,8 @@ public class PageListPanel
 			addDomHandler(this, MouseDownEvent.getType());
 			addDomHandler(this, MouseMoveEvent.getType());
 			addDomHandler(this, MouseUpEvent.getType());
+			divider = new FlowPanel();
+			divider.setStyleName("mowPagePreviewCardDivider");
 		}
 	}
 
@@ -206,15 +209,14 @@ public class PageListPanel
 		}
 		final int pageIndex = card.getPageIndex();
 		if (!app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
-		ClickStartHandler.init(card, new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				loadPage(card);
-			}
-		});
+			ClickStartHandler.init(card, new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					loadPage(card);
+				}
+			});
 		}
 		
-
 		if (pageIndex < pageController.getSlideCount()) {
 			contentPanel.insert(card, pageIndex);
 		} else {
@@ -351,7 +353,11 @@ public class PageListPanel
 		if (CancelEventTimer.isDragStarted()) {
 			app.getPageController().startDrag(x, y);
 		} else if (CancelEventTimer.isDragging()) {
-			app.getPageController().drag(x, y);
+			int targetIdx = app.getPageController().drag(x, y);
+			if (targetIdx != -1) {
+				// divider.removeFromParent();
+				contentPanel.insert(divider, targetIdx);
+			}
 		}
 	}
 
@@ -359,9 +365,9 @@ public class PageListPanel
 		int x = event.getClientX();
 		int y = event.getClientY();
 
+		app.getPageController().stopDrag();
 		if (CancelEventTimer.isDragging()) {
 			dropTo(x, y);
-			app.getPageController().stopDrag();
 		} else {
 			app.getPageController().loadPageAt(x, y);
 		}
