@@ -979,7 +979,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		if (ext.equals(FileExtensions.SVG)) {
 			// IE11/12 seems to require SVG to be base64 encoded
-			addExternalImage(filename, "data:image/svg+xml;base64,"
+			addExternalImage(filename, StringUtil.svgMarker
 					+ Browser.encodeBase64(content));
 		} else {
 			addExternalImage(filename, content);
@@ -3631,13 +3631,11 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public void handleImageExport(String base64image) {
 
-		Log.debug(base64image.substring(0, 10));
-		
-		if (base64image.startsWith("data:application/pdf;base64,")) {
+		if (base64image.startsWith(StringUtil.pdfMarker)) {
 			openInLightbox(base64image, true);
 		} else if (base64image.startsWith("JVBER")) {
 			// PDF without header
-			openInLightbox("data:application/pdf;base64," + base64image, true);
+			openInLightbox(StringUtil.pdfMarker + base64image, true);
 		} else if (base64image.startsWith("<svg")) {
 			// svg
 
