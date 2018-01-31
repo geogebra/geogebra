@@ -744,7 +744,7 @@ public class GGraphics2DW implements GGraphics2D {
 	public void drawRoundRect(int x, int y, int width, int height,
 	        int arcWidth, int arcHeight) {
 		// arcHeight ignored
-		roundRect(x, y, width, height, arcWidth);
+		roundRect(x, y, width, height, arcWidth / 2.0);
 		context.stroke();
 
 	}
@@ -758,7 +758,7 @@ public class GGraphics2DW implements GGraphics2D {
 	 * @param h
 	 * @param r
 	 */
-	private void roundRect(int x, int y, int w, int h, int r) {
+	private void roundRect(int x, int y, int w, int h, double r) {
 
 		// gives good approximation to circular arc
 		double K = 4 / 3 * (Math.sqrt(2) - 1);
