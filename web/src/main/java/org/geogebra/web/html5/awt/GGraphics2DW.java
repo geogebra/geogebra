@@ -743,7 +743,8 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void drawRoundRect(int x, int y, int width, int height,
 	        int arcWidth, int arcHeight) {
-		roundRect(x, y, width, height, arcHeight - arcHeight / 2);
+		// arcHeight ignored
+		roundRect(x, y, width, height, arcWidth);
 		context.stroke();
 
 	}
