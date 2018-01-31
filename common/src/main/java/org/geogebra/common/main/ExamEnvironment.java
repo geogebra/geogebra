@@ -644,40 +644,4 @@ public class ExamEnvironment {
 		return app.getLocalization().getPlainDefault("exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
 				getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
 	}
-
-	/**
-	 * @param percentage a double value, which we would like to locale formatting eg.:0.45
-	 * @return the localized formatted text of the percentage eg.:45%
-	 */
-	public String getFormattedPercentage(double percentage) {
-		NumberFormat percentFormatter = NumberFormat.getPercentInstance(app.getLocalization().getLocale());
-
-		return percentFormatter.format(percentage);
-	}
-
-	/**
-	 * @return the localized elapsed time string
-	 */
-	public String getElapsedTimeLocalized() {
-		return timeToStringLocalized(System.currentTimeMillis());
-	}
-
-	/**
-	 * @param timestamp current timestamp
-	 * @return the localized time string
-	 */
-	private String timeToStringLocalized(long timestamp) {
-
-		if (examStartTime < 0) {
-			return String.format(app.getLocalization().getLocale(), "%02d:%02d", 0, 0);
-		}
-
-		int millis = (int) (timestamp - examStartTime);
-
-		return String.format(app.getLocalization().getLocale(), "%02d:%02d",
-				TimeUnit.MILLISECONDS.toMinutes(millis),
-				TimeUnit.MILLISECONDS.toSeconds(millis) -
-						TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millis))
-		);
-	}
 }
