@@ -2444,6 +2444,11 @@ public class NoExceptionsTest {
 		t("x^3+y^3+z^3=1");
 	}
 
+	@Test
+	public void cmdExportImage() {
+		t("ExportImage[\"type\",\"svg\"]");
+	}
+
 	// @Test
 	public void runLast() {
 

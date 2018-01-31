@@ -1,9 +1,7 @@
 package org.geogebra.common.main;
 
-import java.text.NumberFormat;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.concurrent.TimeUnit;
 
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.Commands;
@@ -11,13 +9,15 @@ import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.debug.Log;
 
 public class ExamEnvironment {
-
-	private static final String MARK_CHEATING = "\u2716"; // heavy multiplication
-	private static final String MARK_NOT_CHEATING = "\u2713"; // check mark
+	/** heavy multiplication */
+	private static final String MARK_CHEATING = "\u2716";
+	/** check mark */
+	private static final String MARK_NOT_CHEATING = "\u2713";
 
 	private static final long EXAM_START_TIME_NOT_STARTED = -1;
-
+	/** exam start timestamp (milliseconds) */
 	long examStartTime = EXAM_START_TIME_NOT_STARTED;
+	/** cheating timestamps (milliseconds) */
 	protected LinkedList<Long> cheatingTimes = null;
 
 	protected enum CheatingEvent {
@@ -72,6 +72,10 @@ public class ExamEnvironment {
 		return examStartTime > 0;
 	}
 
+	/**
+	 * @param time
+	 *            timestamp in milliseconds
+	 */
 	public void setStart(long time) {
 		examStartTime = time;
 		closed = -1;
@@ -139,7 +143,6 @@ public class ExamEnvironment {
 			cheatingTimes = new LinkedList<>();
 			cheatingEvents = new LinkedList<>();
 		}
-
 	}
 
 	public boolean isCheating() {
@@ -579,6 +582,9 @@ public class ExamEnvironment {
 		wasTaskLocked = true;
 	}
 
+	/**
+	 * Add airplane mode cheating event
+	 */
 	public void airplaneModeTurnedOff() {
 		if (getStart() > 0) {
 			cheatingTimes.add(System.currentTimeMillis());
@@ -586,6 +592,9 @@ public class ExamEnvironment {
 		}
 	}
 
+	/**
+	 * Add airrplane mode stop-cheating event
+	 */
 	public void airplaneModeTurnedOn() {
 		if (getStart() > 0) {
 			cheatingTimes.add(System.currentTimeMillis());
@@ -593,6 +602,9 @@ public class ExamEnvironment {
 		}
 	}
 
+	/**
+	 * Add Wifi cheating event
+	 */
 	public void wifiEnabled() {
 		if (getStart() > 0) {
 			cheatingTimes.add(System.currentTimeMillis());
@@ -600,6 +612,9 @@ public class ExamEnvironment {
 		}
 	}
 
+	/**
+	 * Add Wifi stop-cheating event
+	 */
 	public void wifiDisabled() {
 		if (getStart() > 0) {
 			cheatingTimes.add(System.currentTimeMillis());
@@ -607,6 +622,9 @@ public class ExamEnvironment {
 		}
 	}
 
+	/**
+	 * Add Bluetooth cheating event
+	 */
 	public void bluetoothEnabled() {
 		if (getStart() > 0) {
 			cheatingTimes.add(System.currentTimeMillis());
@@ -614,6 +632,9 @@ public class ExamEnvironment {
 		}
 	}
 
+	/**
+	 * Add Bluetooth stop-cheating event
+	 */
 	public void bluetoothDisabled() {
 		if (getStart() > 0) {
 			cheatingTimes.add(System.currentTimeMillis());
