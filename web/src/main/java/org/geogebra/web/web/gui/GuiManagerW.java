@@ -2125,7 +2125,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			var a = $doc.createElement("a");
 			$doc.body.appendChild(a);
 			a.style = "display: none";
-			a.href = "data:application/vnd.geogebra.file;base64," + base64;
+			a.href = @org.geogebra.common.util.StringUtil::ggbMarker + base64;
 			a.download = title;
 			a.click();
 		}

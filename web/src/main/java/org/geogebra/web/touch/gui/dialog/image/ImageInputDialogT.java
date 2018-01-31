@@ -1,6 +1,7 @@
 package org.geogebra.web.touch.gui.dialog.image;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -204,11 +205,11 @@ public class ImageInputDialogT extends UploadImageDialog {
 	 */
 	void setPicturePreview(String pictureBase64) {
 		if (cameraIsActive) {
-			this.pictureFromCameraString = "data:image/jpg;base64," + pictureBase64;
+			this.pictureFromCameraString = StringUtil.jpgMarker + pictureBase64;
 			this.cameraPanel.clear();
 	        this.cameraPanel.getElement().getStyle().setBackgroundImage("url('" + this.pictureFromCameraString + "')");
 		} else {
-			this.pictureFromFileString = "data:image/jpg;base64," + pictureBase64;
+			this.pictureFromFileString = StringUtil.jpgMarker + pictureBase64;
 			this.picturePanel.clear();
 	        this.picturePanel.getElement().getStyle().setBackgroundImage("url('" + this.pictureFromFileString + "')");
 		}

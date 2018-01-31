@@ -204,7 +204,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 						JSONValue base64 = responses.isObject().get("response")
 						        .isObject().get("value");
 
-						String downloadUrl = "data:image/gif;base64,"
+						String downloadUrl = StringUtil.gifMarker
 						        + base64.isString().stringValue();
 						app.getFileManager().exportImage(downloadUrl,
 								"ggbanim.gif", "gif");

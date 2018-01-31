@@ -291,7 +291,8 @@ public class MyImageD implements MyImageJre {
 
 			try {
 				ImageIO.write(bi, "PNG", os);
-				return "\\imagebasesixtyfour{"+getWidth()+"}{"+getHeight()+"}{data:image/png;base64,"
+				return "\\imagebasesixtyfour{" + getWidth() + "}{" + getHeight()
+						+ "}{" + StringUtil.pngMarker
 						+ Base64.encodeToString(os.toByteArray(), false) + "}";
 			} catch (Exception e) {
 				e.printStackTrace();

@@ -297,7 +297,7 @@ public class Browser {
 	public static native String encodeSVG(String svg) /*-{
 		// can't use data:image/svg+xml;utf8 in IE11 / Edge
 		// so encode as Base64
-		return "data:image/svg+xml;base64,"
+		return @org.geogebra.common.util.StringUtil::svgMarker
 				+ btoa(unescape(encodeURIComponent(svg)));
 	}-*/;
 		
@@ -313,18 +313,21 @@ public class Browser {
 			return data.substring(0, input.length) === input;
 		}
 
-		if (startsWith(url, "data:image/png;base64,")) {
+		if (startsWith(url, @org.geogebra.common.util.StringUtil::pngMarker)) {
 			extension = "image/png";
-			header = "data:image/png;base64,";
-		} else if (startsWith(url, "data:image/svg+xml;base64,")) {
+			header = @org.geogebra.common.util.StringUtil::pngMarker;
+		} else if (startsWith(url,
+				@org.geogebra.common.util.StringUtil::svgMarker)) {
 			extension = "image/svg+xml";
-			header = "data:image/svg+xml;base64,";
-		} else if (startsWith(url, "data:application/pdf;base64,")) {
+			header = @org.geogebra.common.util.StringUtil::svgMarker;
+		} else if (startsWith(url,
+				@org.geogebra.common.util.StringUtil::pdfMarker)) {
 			extension = "application/pdf";
-			header = "data:application/pdf;base64,";
-		} else if (startsWith(url, "data:text/plain;charset=utf-8,")) {
+			header = @org.geogebra.common.util.StringUtil::pdfMarker;
+		} else if (startsWith(url,
+				@org.geogebra.common.util.StringUtil::txtMarker)) {
 			extension = "text/plain";
-			header = "data:text/plain;charset=utf-8,";
+			header = @org.geogebra.common.util.StringUtil::txtMarker;
 		} else {
 			$wnd.console.log("unknown extension " + url.substring(0, 20));
 			return;
