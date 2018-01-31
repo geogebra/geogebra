@@ -614,10 +614,10 @@ public abstract class ContextMenuGeoElement {
 						int x, y;
 						for (int j = 0; j < 2; j++) {
 							x = app.getActiveEuclidianView().toScreenCoordX(
-									((GeoImage) geoText).getRealWorldX(1));
+									((GeoImage) geoText).getRealWorldX(j));
 							y = app.getActiveEuclidianView().toScreenCoordY(
-									((GeoImage) geoText).getRealWorldY(1));
-							((GeoImage) geoText).setAbsoluteScreenLoc(x, y, i);
+									((GeoImage) geoText).getRealWorldY(j));
+							((GeoImage) geoText).setAbsoluteScreenLoc(x, y, j);
 						}
 					}
 				} else {
