@@ -80,7 +80,6 @@ public class ExamEnvironment {
 	public void startCheating(String os) {
 		maybeCheating = System.currentTimeMillis();
 		checkCheating(os); // needed for ctr+win+down
-
 	}
 
 	public void checkCheating(String os) {
@@ -146,6 +145,10 @@ public class ExamEnvironment {
 		return cheatingTimes != null;
 	}
 
+	/**
+	 * @param translation The translation identifier from the Translation enum.
+	 * @return The translation identified by the Translation parameter.
+	 */
 	public String getTranslatedString(Translation translation) {
 		Localization localization = app.getLocalization();
 		switch (translation) {
@@ -175,16 +178,38 @@ public class ExamEnvironment {
 		return null;
 	}
 
+	/**
+	 * @return The exam date in localized format.
+	 */
 	public String getDate() {
 		return getLocalizedDateOnly(app.getLocalization(), examStartTime);
 	}
 
+	/**
+	 * @return The exam start time in localized format.
+	 */
 	public String getStartTime() {
 		return getLocalizedTimeOnly(app.getLocalization(), examStartTime);
 	}
 
+	/**
+	 * @return The exam end time in localized format.
+	 */
 	public String getEndTime() {
 		return getLocalizedTimeOnly(app.getLocalization(), closed);
+	}
+
+	/**
+	 * @param withEndTime Whether the returned log string should contain the elapsed time as exam end time.
+	 * @return The (cheating) activity log.
+	 */
+	public String getActivityLog(boolean withEndTime) {
+		if (cheatingTimes == null) {
+			return "";
+		}
+		StringBuilder logBuilder = new StringBuilder();
+		appendLogTimes(app.getLocalization(), logBuilder, withEndTime);
+		return logBuilder.toString().trim();
 	}
 
 	private static String getLocalizedTimeOnly(Localization loc, long time) {
@@ -532,10 +557,10 @@ public class ExamEnvironment {
 				initLists();
 				addCheatingTime();
 				cheatingEvents.add(CheatingEvent.TASK_UNLOCKED);
-				wasTaskLocked = false;
 				Log.debug("STARTED CHEATING: task unlocked");
 			}
 		}
+		wasTaskLocked = false;
 	}
 
 	/**
@@ -547,9 +572,51 @@ public class ExamEnvironment {
 				initLists();
 				cheatingTimes.add(System.currentTimeMillis());
 				cheatingEvents.add(CheatingEvent.TASK_LOCKED);
-				wasTaskLocked = true;
 				Log.debug("STOPPED CHEATING: task locked");
 			}
+		}
+		wasTaskLocked = true;
+	}
+
+	public void airplaneModeTurnedOff() {
+		if (getStart() > 0) {
+			cheatingTimes.add(System.currentTimeMillis());
+			cheatingEvents.add(CheatingEvent.AIRPLANE_MODE_OFF);
+		}
+	}
+
+	public void airplaneModeTurnedOn() {
+		if (getStart() > 0) {
+			cheatingTimes.add(System.currentTimeMillis());
+			cheatingEvents.add(CheatingEvent.AIRPLANE_MODE_ON);
+		}
+	}
+
+	public void wifiEnabled() {
+		if (getStart() > 0) {
+			cheatingTimes.add(System.currentTimeMillis());
+			cheatingEvents.add(CheatingEvent.WIFI_ENABLED);
+		}
+	}
+
+	public void wifiDisabled() {
+		if (getStart() > 0) {
+			cheatingTimes.add(System.currentTimeMillis());
+			cheatingEvents.add(CheatingEvent.WIFI_DISABLED);
+		}
+	}
+
+	public void bluetoothEnabled() {
+		if (getStart() > 0) {
+			cheatingTimes.add(System.currentTimeMillis());
+			cheatingEvents.add(CheatingEvent.BLUETOOTH_ENABLED);
+		}
+	}
+
+	public void bluetoothDisabled() {
+		if (getStart() > 0) {
+			cheatingTimes.add(System.currentTimeMillis());
+			cheatingEvents.add(CheatingEvent.BLUETOOTH_DISABLED);
 		}
 	}
 
