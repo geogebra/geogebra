@@ -8557,6 +8557,7 @@ public abstract class GeoElement extends ConstructionElement
 	public int getPackedIndex() {
 		if (kernel.getApplication().has(Feature.AV_ITEM_DESIGN)
 				&& getParentAlgorithm() != null
+				&& getParentAlgorithm().getOutputLength() > 1
 				&& getParentAlgorithm().hasSingleOutputType()
 				&& kernel.getApplication().getSettings().getAlgebra()
 						.getTreeMode() == SortMode.ORDER) {

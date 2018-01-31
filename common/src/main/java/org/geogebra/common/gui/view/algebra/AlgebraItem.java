@@ -345,11 +345,16 @@ public class AlgebraItem {
 			return geoElement.needToShowBothRowsInAV();
 
 		case Kernel.ALGEBRA_STYLE_DESCRIPTION:
+			if (geoElement.getPackedIndex() == 0) {
+				return DescriptionMode.DEFINITION_VALUE;
+			}
+			if (geoElement.getPackedIndex() > 0) {
+				return DescriptionMode.VALUE;
+			}
 			return geoElement instanceof GeoNumeric
 					&& (!geoElement.isIndependent() || (geoElement
 							.needToShowBothRowsInAV() == DescriptionMode.DEFINITION_VALUE
 							&& geoElement.getParentAlgorithm() == null))
-					&& geoElement.getPackedIndex() < 1
 									? DescriptionMode.DEFINITION_VALUE
 									: DescriptionMode.DEFINITION;
 		case Kernel.ALGEBRA_STYLE_DEFINITION:

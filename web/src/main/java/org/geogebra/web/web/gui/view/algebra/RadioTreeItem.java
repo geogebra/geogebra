@@ -839,7 +839,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		stopEditing(newValue0, callback, true);
 	}
 
-	public final void stopEditing(String newValue0,
+	public final void stopEditing(final String newValue0,
 			final AsyncOperation<GeoElementND> callback,
 			boolean allowSliderDialog) {
 		lastTeX = null;
@@ -887,12 +887,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 							public void callback(GeoElementND geo2) {
 								if (geo2 != null) {
 									geo = geo2.toGeoElement();
-									lastTeX = null;
-									lastInput = null;
 								}
 								if (marblePanel != null) {
 									marblePanel.updateIcons(false);
 								}
+								lastTeX = null;
+								lastInput = null;
 								updateAfterRedefine(true);
 								if (callback != null) {
 									callback.callback(geo2);

@@ -8,6 +8,12 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Index builder that creates SUB elements in DOM directly
+ * 
+ * @author Zbynek
+ *
+ */
 public final class DOMIndexHTMLBuilder extends IndexHTMLBuilder {
 	private final Widget w;
 	private final App app;
