@@ -18,7 +18,7 @@ import org.geogebra.common.util.StringUtil;
  *
  * @author Michael Borcherds
  */
-public class CmdExportImage extends CommandProcessor {
+public class CmdExportImage extends CmdScripting {
 
 	/**
 	 * Create new command processor
@@ -31,7 +31,7 @@ public class CmdExportImage extends CommandProcessor {
 	}
 
 	@Override
-	final public GeoElement[] process(Command c) throws MyError {
+	final public GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		if (MyDouble.isOdd(n)) {
