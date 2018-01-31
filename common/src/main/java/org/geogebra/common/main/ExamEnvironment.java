@@ -1,5 +1,6 @@
 package org.geogebra.common.main;
 
+import java.text.NumberFormat;
 import java.util.Date;
 import java.util.LinkedList;
 
@@ -574,5 +575,15 @@ public class ExamEnvironment {
 	public String getLogHeader() {
 		return app.getLocalization().getPlainDefault("exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
 				getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
+	}
+
+	/**
+	 * @param percentage a double value, which we would like to locale formatting eg.:0.45
+	 * @return the localized formatted text of the percentage eg.:45%
+	 */
+	public String getFormattedPercentage(double percentage) {
+		NumberFormat percentFormatter = NumberFormat.getPercentInstance(app.getLocalization().getLocale());
+
+		return percentFormatter.format(percentage);
 	}
 }
