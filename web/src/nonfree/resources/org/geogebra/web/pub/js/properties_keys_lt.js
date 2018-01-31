@@ -308,6 +308,8 @@ __GGB__keysVar.lt.command = {
     "Exponential": "Eksponentinis",
     "Exponential.Syntax": "[ <Liamda>, <Kintamojo vert\u0117> ]\n[ <Liamda>, x, <Login\u0117 vert\u0117> ]",
     "Exponential.SyntaxCAS": "[ <Liamda>, <Kintamojo vert\u0117> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstremumas",
     "Extremum.Syntax": "[ <Daugianaris> ]\n[ <Funkcija>, <Pradin\u0117 x reik\u0161m\u0117>, <Galin\u0117 x reik\u0161m\u0117> ]",
     "FDistribution": "FPasiskirstymas",

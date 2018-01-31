@@ -308,6 +308,8 @@ __GGB__keysVar.eu.command = {
     "Exponential": "Esponentziala",
     "Exponential.Syntax": "[ <Lambda>, <Balio Aldakorra> ]\n[ <Lambda>, x, <Metatu Boolearra> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Balio Aldakorra> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Muturra",
     "Extremum.Syntax": "[ <Polinomioa> ]\n[ <Funtzioa>, <x-ren Hasierako Balioa>, <x-ren Amaierako Balioa> ]",
     "FDistribution": "FBanaketa",

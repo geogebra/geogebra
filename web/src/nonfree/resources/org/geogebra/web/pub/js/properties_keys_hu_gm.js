@@ -308,6 +308,8 @@ __GGB__keysVar.hu_gm.command = {
     "Exponential": "Exponenci\xe1lisEloszl\xe1s",
     "Exponential.Syntax": "[ <Lambda>, <V\xe1ltoz\xf3 \xe9rt\xe9ke> ]\n[ <Lambda>, x, <Eloszl\xe1sf\xfcggv\xe9ny logikai \xe9rt\xe9ke> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <V\xe1ltoz\xf3 \xe9rt\xe9ke> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Sz\xe9ls\u0151\xe9rt\xe9k",
     "Extremum.Syntax": "[ <Polinom> ]\n[ <F\xfcggv\xe9ny>, <Kezd\u0151 x-\xe9rt\xe9k>, <Lez\xe1r\xf3 x-\xe9rt\xe9k> ]",
     "FDistribution": "FEloszl\xe1s",

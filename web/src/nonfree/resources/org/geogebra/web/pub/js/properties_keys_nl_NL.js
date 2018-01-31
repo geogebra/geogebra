@@ -308,6 +308,8 @@ __GGB__keysVar.nl_NL.command = {
     "Exponential": "Exponenti\xebel",
     "Exponential.Syntax": "[ <Lambda>, <Variabele waarde> ]\n[ <Lambda>, x, <Boolean Cumulative> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Variabele waarde> ]",
+    "ExportImage": "AfbeeldingExporteren",
+    "ExportImage.Syntax": "[ <Eigenschap>, <Waarde>, <Eigenschap>, <Waarde>, ... ]",
     "Extremum": "Extrema",
     "Extremum.Syntax": "[ <Veeltermfuntie> ]",
     "FDistribution": "FVerdeling",

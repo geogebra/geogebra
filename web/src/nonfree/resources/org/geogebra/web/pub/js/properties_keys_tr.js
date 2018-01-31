@@ -308,6 +308,8 @@ __GGB__keysVar.tr.command = {
     "Exponential": "\xdcstel",
     "Exponential.Syntax": "[ <Lamda>, <De\u011fi\u015fken De\u011feri> ]\n[ <Lamda>, x, <Mant\u0131ksal Y\u0131\u011f\u0131lma> ]",
     "Exponential.SyntaxCAS": "[ <Lamda>, <De\u011fi\u015fken De\u011feri> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "U\xe7Nokta",
     "Extremum.Syntax": "[ <Polinom> ]\n[ <Fonksiyon>, <Ba\u015flang\u0131\xe7 x-De\u011feri>, <Biti\u015f x-De\u011feri> ]",
     "FDistribution": "FDa\u011f\u0131l\u0131m\u0131",

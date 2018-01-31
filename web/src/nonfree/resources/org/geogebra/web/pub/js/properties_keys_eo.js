@@ -308,6 +308,8 @@ __GGB__keysVar.eo.command = {
     "Exponential": "Eksponenta",
     "Exponential.Syntax": "[ <\u03bb>, <Variabla Valoro> ]\n[ <\u03bb>, x, <Bulea Akumuli> ]",
     "Exponential.SyntaxCAS": "[ <\u03bb>, <Variabla Valoro> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstremumo",
     "Extremum.Syntax": "[ <Polinomo> ]\n[ <Funkcio>, <Komenca Valoro>, <Fina Valoro> ]",
     "FDistribution": "FDistribution",

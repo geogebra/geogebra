@@ -308,6 +308,8 @@ __GGB__keysVar.lv.command = {
     "Exponential": "Eksponenci\u0101ls",
     "Exponential.Syntax": "[ <Lambda>, <Main\u012bg\u0101 v\u0113rt\u012bba> ]\n[ <Lambda>, x, <Boolean Kumul\u0101ta> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Main\u012bg\u0101 V\u0113rt\u012bba> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstr\u0113ms",
     "Extremum.Syntax": "[ <Polinoms> ]\n[ <Funkcija>, <S\u0101kuma x-V\u0113rt\u012bba>, <Beigu x-V\u0113rt\u012bba> ]",
     "FDistribution": "FSadal\u012bjums",

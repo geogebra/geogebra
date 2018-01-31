@@ -308,6 +308,8 @@ __GGB__keysVar.de_AT.command = {
     "Exponential": "Exponential",
     "Exponential.Syntax": "[ <Parameter>, <Wert der Variablen> ]\n[ <Parameter>, x, <Wahrheitswert Verteilungsfunktion> ]",
     "Exponential.SyntaxCAS": "[ <Parameter>, <Wert der Variablen> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extremum",
     "Extremum.Syntax": "[ <Polynomfunktion> ]\n[ <Funktion>, <Startwert>, <Endwert> ]",
     "FDistribution": "FVerteilung",

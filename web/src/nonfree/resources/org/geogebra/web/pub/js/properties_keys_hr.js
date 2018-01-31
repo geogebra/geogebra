@@ -308,6 +308,8 @@ __GGB__keysVar.hr.command = {
     "Exponential": "EksponencijalnaRazdioba",
     "Exponential.Syntax": "[ <lambda>, <vrijednost varijable> ]\n[ <lambda>, x, <kumulacija - logi\u010dka vrijednost> ]",
     "Exponential.SyntaxCAS": "[ <lambda>, <vrijednost varijable> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstrem",
     "Extremum.Syntax": "[ <polinom> ]\n[ <funkcija>, <po\u010detna vrijednost x>, <zavr\u0161na vrijednost x> ]",
     "FDistribution": "FRazdioba",

@@ -308,6 +308,8 @@ __GGB__keysVar.ko.command = {
     "Exponential": "\uc9c0\uc218\ubd84\ud3ec",
     "Exponential.Syntax": "[ <\ub78c\ub2e4>, <\ubcc0\ub7c9> ]\n[ <\ub78c\ub2e4>, x, <\ub204\uc801 true|false> ]",
     "Exponential.SyntaxCAS": "[ <\ub78c\ub2e4>, <\ubcc0\ub7c9> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "\uadf9\uac12",
     "Extremum.Syntax": "[ <\ub2e4\ud56d\uc2dd> ]\n[ <\ud568\uc218>, <\ucc98\uc74c x \uac12>, <\ub9c8\uc9c0\ub9c9 x \uac12> ]",
     "FDistribution": "F\ubd84\ud3ec",

@@ -308,6 +308,8 @@ __GGB__keysVar.bs.command = {
     "Exponential": "EksponencijalnaDist",
     "Exponential.Syntax": "[ <Parametar lambda>, x ]\n[ <Parametar lambda>, <Vrijednost promjenljive> ]\n[ <Parametar lambda>, <Kumulativna Boolean-logi\u010dka vrijednost> ]",
     "Exponential.SyntaxCAS": "[ <Parametar lambda>, <Vrijednost promjenljive> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstrem",
     "Extremum.Syntax": "[ <Polinom> ]\n[ <Funkcija>, <Po\u010detna x-vrijednost>, <Krajnja x-vrijednost> ]",
     "FDistribution": "FDist",

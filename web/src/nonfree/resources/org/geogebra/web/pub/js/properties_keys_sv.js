@@ -308,6 +308,8 @@ __GGB__keysVar.sv.command = {
     "Exponential": "Exponentialf\xf6rdelning",
     "Exponential.Syntax": "[ <Lambda>, <Variabelv\xe4rde> ]\n[ <Lambda>, x, <true | false (kumulativt eller ej)> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Variabelv\xe4rde> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extrempunkt",
     "Extremum.Syntax": "[ <Polynom> ]\n[ <Funktion>, <Fr\xe5n x-v\xe4rde>, <Till x-v\xe4rde> ]",
     "FDistribution": "F_f\xf6rdelning",

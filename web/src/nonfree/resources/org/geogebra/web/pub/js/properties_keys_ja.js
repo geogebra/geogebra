@@ -308,6 +308,8 @@ __GGB__keysVar.ja.command = {
     "Exponential": "Exponential",
     "Exponential.Syntax": "[ <\u03bb>, <\u5909\u6570\u5024> ]\n[ <\u03bb>, x, <Boolean Cumulative> ]",
     "Exponential.SyntaxCAS": "[ <\u03bb>, <\u5909\u6570\u5024> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extremum",
     "Extremum.Syntax": "[ <\u591a\u9805\u5f0f> ]\n[ <\u95a2\u6570>, <x\u958b\u59cb\u5024>, <x\u7d42\u4e86\u5024> ]",
     "FDistribution": "FDistribution",

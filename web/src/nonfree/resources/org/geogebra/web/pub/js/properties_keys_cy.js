@@ -308,6 +308,8 @@ __GGB__keysVar.cy.command = {
     "Exponential": "Esbonyddol",
     "Exponential.Syntax": "[ <Lambda>, x, <Cronnus Boolean> ]\n[ <Lambda>, <Gwerth y Newidyn> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, x ]\n[ <Lambda>, x, <Cronnus Boolean> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extremum",
     "Extremum.Syntax": "[ <Polynomial> ]",
     "FDistribution": "DosraniadF",

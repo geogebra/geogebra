@@ -308,6 +308,8 @@ __GGB__keysVar.ar_MA.command = {
     "Exponential": "\u0623\u0633\u064a",
     "Exponential.Syntax": "[ <\u0644\u0627\u0645\u062f\u0627>, \u0633 ]\n[ <\u0644\u0627\u0645\u062f\u0627>, <\u0642\u064a\u0645\u0629 \u0627\u0644\u0645\u062a\u063a\u064a\u0631> ]\n[ <\u0644\u0627\u0645\u062f\u0627>, \u0633, <\u0627\u0644\u0645\u0646\u0637\u0642 \u0627\u0644\u062a\u0631\u0627\u0643\u0645\u064a> ]",
     "Exponential.SyntaxCAS": "[ <\u0644\u0627\u0645\u062f\u0627>, <\u0642\u064a\u0645\u0629 \u0627\u0644\u0645\u062a\u063a\u064a\u0631> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extremum",
     "Extremum.Syntax": "[ <\u0643\u062b\u064a\u0631 \u0627\u0644\u062d\u062f\u0648\u062f> ]\n[ <\u062f\u0627\u0644\u0629>, <\u0628\u062f\u0627\u064a\u0629 \u0642\u064a\u0645\u0629-\u0633>, <\u0646\u0647\u0627\u064a\u0629 \u0642\u064a\u0645\u0629-\u0633> ]",
     "FDistribution": "\u062a\u0648\u0632\u064a\u0639_\u0623\u0641",

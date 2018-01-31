@@ -308,6 +308,8 @@ __GGB__keysVar.no_NB.command = {
     "Exponential": "Eksponential",
     "Exponential.Syntax": "[ <Lambda>, <Variabelverdi> ]\n[ <Lambda>, x, <Boolsk Kumulativ> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Variabelverdi> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstremalpunkt",
     "Extremum.Syntax": "[ <Polynom> ]\n[ <Funksjon>, <Start>, <Slutt> ]",
     "FDistribution": "FordelingF",

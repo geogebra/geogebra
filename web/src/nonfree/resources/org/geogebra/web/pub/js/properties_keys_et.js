@@ -308,6 +308,8 @@ __GGB__keysVar.et.command = {
     "Exponential": "Eksponentsiaalne",
     "Exponential.Syntax": "[ <Lambda>, <Muutuja v\xe4\xe4rtus> ]\n[ <Lambda>, x, <Kumulatiivsuse t\xf5ev\xe4\xe4rtus> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Muutuja v\xe4\xe4rtus> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstreemum",
     "Extremum.Syntax": "[ <Pol\xfcmoom> ]\n[ <Funktsioon>, <x-algv\xe4\xe4rtus>, <x-l\xf5ppv\xe4\xe4rtus> ]",
     "FDistribution": "Fjaotus",

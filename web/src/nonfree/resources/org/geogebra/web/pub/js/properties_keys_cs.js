@@ -308,6 +308,8 @@ __GGB__keysVar.cs.command = {
     "Exponential": "Exponencialni",
     "Exponential.Syntax": "[ <Lambda>, <Hodnota prom\u011bnn\xe9> ]\n[ <Lambda>, x, <Kumulativn\xed (logick\xe1 hodnota)> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Hodnota prom\u011bnn\xe9> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extrem",
     "Extremum.Syntax": "[ <Mnoho\u010dlen> ]\n[ <Funkce>, <Po\u010d\xe1te\u010dn\xed hodnota x>, <Koncov\xe1 hodnota x> ]",
     "FDistribution": "FRozdeleni",

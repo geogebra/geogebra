@@ -308,6 +308,8 @@ __GGB__keysVar.pl.command = {
     "Exponential": "Rozk\u0142adWyk\u0142adniczy",
     "Exponential.Syntax": "[ <Lambda>, <Warto\u015b\u0107 Zmiennej> ]\n[ <Lambda>, x, <Czy Skumulowany> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, x ]\n[ <Lambda>, x, <Czy Skumulowany> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstremum",
     "Extremum.Syntax": "[ <Wielomian> ]\n[ <Funkcja>, <Warto\u015b\u0107 pocz\u0105tkowa x>, <Warto\u015b\u0107 Ko\u0144cowa x> ]",
     "FDistribution": "Rozk\u0142adF",

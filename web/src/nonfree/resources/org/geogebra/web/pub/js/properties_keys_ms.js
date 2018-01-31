@@ -308,6 +308,8 @@ __GGB__keysVar.ms.command = {
     "Exponential": "Eksponen",
     "Exponential.Syntax": "[ <Lambda>, <Nilai Pembolehubah> ]\n[ <Lambda>, x, <Longgokan Boolean> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Nilai Pembolehubah> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstremum",
     "Extremum.Syntax": "[ <Polinomial> ]\n[ <Fungsi>, <Mula Nilai-x>, <Tamat Nilai-x> ]",
     "FDistribution": "TaburanF",

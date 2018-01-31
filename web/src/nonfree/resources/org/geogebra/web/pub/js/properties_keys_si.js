@@ -308,6 +308,8 @@ __GGB__keysVar.si.command = {
     "Exponential": "\u0d9d\u0dcf\u0dad\u0dd3\u0dba",
     "Exponential.Syntax": "[ <\u0dbd\u0dd0\u0db8\u0dca\u0da9>, <\u0dc0\u0dd2\u0da0\u0dbd\u0dca\u200d\u0dba \u0d85\u0d9c\u0dba> ]\n[ <\u0dbd\u0dd0\u0db8\u0dca\u0da9>, x, <\u0db6\u0dd6\u0dbd\u0dd2\u0dba \u0dc3\u0db8\u0dd4\u0da0\u0dca\u0da0\u0dba> ]",
     "Exponential.SyntaxCAS": "[ <\u0dbd\u0dd0\u0db8\u0dca\u0da9>, <\u0dc0\u0dd2\u0da0\u0dbd\u0dca\u200d\u0dba \u0d85\u0d9c\u0dba> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "\u0d85\u0db1\u0dca\u0dad\u0dca\u200d\u0dba\u0dba",
     "Extremum.Syntax": "[ <\u0db6\u0dc4\u0dd4\u0db4\u0daf_\u0db4\u0dca\u200d\u0dbb\u0d9a\u0dcf\u0dc1\u0db1\u0dba> ]",
     "FDistribution": "FDistribution",

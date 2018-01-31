@@ -308,6 +308,8 @@ __GGB__keysVar.gl.command = {
     "Exponential": "Distribuci\xf3nExponencial",
     "Exponential.Syntax": "[ <Par\xe1metro Lambda>, x, <Acumula (booleana)> ]\n[ <Par\xe1metro Lambda>, <Valor da variable> ]",
     "Exponential.SyntaxCAS": "[ <Par\xe1metro Lambda>, <Valor da variable> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extremo",
     "Extremum.Syntax": "[ <Polinomio> ]\n[ <Funci\xf3n>, <Valor x inicial>, <Valor x final> ]",
     "FDistribution": "Distribuci\xf3nF",

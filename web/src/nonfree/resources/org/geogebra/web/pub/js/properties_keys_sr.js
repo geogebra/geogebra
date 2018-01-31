@@ -308,6 +308,8 @@ __GGB__keysVar.sr.command = {
     "Exponential": "EksponencijalnaRaspodela",
     "Exponential.Syntax": "[ <lambda>, <vrednost promenljive> ]\n[ <lambda>, x, <logi\u010dki kumulativno> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Vrednost promenljive> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstrem",
     "Extremum.Syntax": "[ <polinom> ]",
     "FDistribution": "FRaspodela",

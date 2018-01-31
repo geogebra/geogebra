@@ -308,6 +308,8 @@ __GGB__keysVar.sk.command = {
     "Exponential": "Exponenci\xe1lneRozdelenie",
     "Exponential.Syntax": "[ <Lambda>, <Premenn\xe1> ]\n[ <Lambda>, x, <Logicky kumulat\xedvne> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Premenn\xe1> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extr\xe9m",
     "Extremum.Syntax": "[ <Polyn\xf3m> ]\n[ <Funkcia>, <Za\u010diatok intervalu>, <Koniec intervalu> ]",
     "FDistribution": "FRozdelenie",

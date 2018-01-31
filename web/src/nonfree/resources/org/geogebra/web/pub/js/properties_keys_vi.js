@@ -308,6 +308,8 @@ __GGB__keysVar.vi.command = {
     "Exponential": "PhanPhoiMu",
     "Exponential.Syntax": "[ <H\u1ec7 s\u1ed1 Lambda>, <Gi\xe1 tr\u1ecb bi\u1ebfn s\u1ed1> ]\n[ <H\u1ec7 s\u1ed1 Lambda>, x, <T\xedch l\u0169y Boolean> ]",
     "Exponential.SyntaxCAS": "[ <H\u1ec7 s\u1ed1 Lambda>, <Gi\xe1 tr\u1ecb bi\u1ebfn> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "CucTri",
     "Extremum.Syntax": "[ <\u0110a th\u1ee9c> ]\n[ <H\xe0m s\u1ed1>, <Gi\xe1 tr\u1ecb \u0111\u1ea7u-x>, <Gi\xe1 tr\u1ecb cu\u1ed1i-x> ]",
     "FDistribution": "PhanPhoiF",

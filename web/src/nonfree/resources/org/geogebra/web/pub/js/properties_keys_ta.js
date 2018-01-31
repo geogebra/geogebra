@@ -308,6 +308,8 @@ __GGB__keysVar.ta.command = {
     "Exponential": "Exponential",
     "Exponential.Syntax": "[ <Lambda>, <Variable Value> ]\n[ <Lambda>, <Variable Value>, <Boolean Cumulative> ]\n[ <Lambda>, x, <Boolean Cumulative> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Variable Value> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "\u0bae\u0bc1\u0ba9\u0bc8",
     "Extremum.Syntax": "[ <Polynomial> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "FDistribution": "FDistribution",

@@ -308,6 +308,8 @@ __GGB__keysVar.fi.command = {
     "Exponential": "Eksponenttijakauma",
     "Exponential.Syntax": "[ <Lambda>, <Muuttujan Arvo> ]\n[ <Lambda>, x, <Totuusarvo: kertym\xe4/ei> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Muuttujan Arvo> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "\xc4\xe4riarvopisteet",
     "Extremum.Syntax": "[ <Polynomi> ]\n[ <Funktio>, <Alkuarvo x>, <Loppuarvo x> ]",
     "FDistribution": "FJakauma",

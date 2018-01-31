@@ -308,6 +308,8 @@ __GGB__keysVar.is.command = {
     "Exponential": "Veldisv\xedsisdreifing",
     "Exponential.Syntax": "[ <Lambda>, x, <Dreififall> ]\n[ <Lambda>, x, <Gildi breytu> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, x ]\n[ <Lambda>, x, <Dreififall> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "\xdatgildi",
     "Extremum.Syntax": "[ <Margli\xf0a> ]\n[ <Fall>, <Upphafs x - gildi>, <Loka x - gildi> ]",
     "FDistribution": "FDreifing",

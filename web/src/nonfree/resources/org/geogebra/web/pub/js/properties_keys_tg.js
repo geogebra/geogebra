@@ -308,6 +308,8 @@ __GGB__keysVar.tg.command = {
     "Exponential": "Exponential",
     "Exponential.Syntax": "[ <Lambda>, <Variable Value> ]\n[ <Lambda>, <Variable Value>, <Boolean Cumulative> ]\n[ <Lambda>, x, <Boolean Cumulative> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Variable Value> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "\u042d\u043a\u0441\u0442\u0440\u0435\u043c\u0443\u043c",
     "Extremum.Syntax": "[ <\u0411\u0438\u0441\u0441\u0451\u0440\u0430\u044a\u0437\u043e\u0433\u04e3> ]\n[ <\u0444\u0443\u043d\u043a\u0441\u0438\u044f>, <\u041e\u0493\u043e\u0437\u0438 \u0430\u0440\u0437\u0438\u0448\u0438 X>, <\u0410\u043d\u04b7\u043e\u043c\u0438 \u0430\u0440\u0437\u0438\u0448\u0438 X> ]",
     "FDistribution": "FDistribution",

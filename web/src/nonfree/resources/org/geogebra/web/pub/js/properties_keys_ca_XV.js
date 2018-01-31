@@ -308,6 +308,8 @@ __GGB__keysVar.ca_XV.command = {
     "Exponential": "Exponencial",
     "Exponential.Syntax": "[ <Lambda>, <Valor variable> ]\n[ <Lambda>, x, <Acumulada true/false> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Valor variable> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extrems",
     "Extremum.Syntax": "[ <Polinomi> ]\n[ <Funci\xf3>, <valor inicial de x>, <valor final de x> ]",
     "FDistribution": "Distribuci\xf3F",

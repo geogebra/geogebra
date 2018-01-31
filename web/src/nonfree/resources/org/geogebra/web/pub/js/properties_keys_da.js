@@ -308,6 +308,8 @@ __GGB__keysVar.da.command = {
     "Exponential": "Exponentiel",
     "Exponential.Syntax": "[ <lambda>, <variabel v\xe6rdi> ]\n[ <lambda>, x, <Akkumuleret? True/False> ]",
     "Exponential.SyntaxCAS": "[ <lambda>, <variabel v\xe6rdi> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstremum",
     "Extremum.Syntax": "[ <Polynomium> ]\n[ <Funktion>, <Start x-V\xe6rdi>, <Slut x-V\xe6rdi> ]",
     "FDistribution": "FFordeling",

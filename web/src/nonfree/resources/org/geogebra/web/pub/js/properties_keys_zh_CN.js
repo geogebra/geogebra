@@ -308,6 +308,8 @@ __GGB__keysVar.zh_CN.command = {
     "Exponential": "\u6307\u6570\u5206\u5e03",
     "Exponential.Syntax": "[ <\u7387\u53c2\u6570\u03bb>, <\u53d8\u91cf\u503c> ]\n[ <\u7387\u53c2\u6570\u03bb>, x, <\u662f\u5426\u7d2f\u79ef? true|false> ]",
     "Exponential.SyntaxCAS": "[ <\u7387\u53c2\u6570\u03bb>, <\u53d8\u91cf\u503c> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "\u6781\u503c\u70b9",
     "Extremum.Syntax": "[ <\u591a\u9879\u5f0f> ]\n[ <\u8fde\u7eed\u51fd\u6570>, <x-\u8d77\u59cb\u503c>, <x-\u7ec8\u6b62\u503c> ]",
     "FDistribution": "F\u5206\u5e03",

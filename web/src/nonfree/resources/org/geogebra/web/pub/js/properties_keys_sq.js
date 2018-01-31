@@ -308,6 +308,8 @@ __GGB__keysVar.sq.command = {
     "Exponential": "Eksponencial",
     "Exponential.Syntax": "[ <Landa>, <Vlere Variabli> ]\n[ <Landa>, x, <Grumbullim Bulean> ]",
     "Exponential.SyntaxCAS": "[ <Landa>, <Vlere Variabli> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Ekstremum",
     "Extremum.Syntax": "[ <Polinomial> ]",
     "FDistribution": "ShperndarjaF",

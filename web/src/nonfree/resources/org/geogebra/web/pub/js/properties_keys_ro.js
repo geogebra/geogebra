@@ -308,6 +308,8 @@ __GGB__keysVar.ro.command = {
     "Exponential": "Exponen\u0163ial",
     "Exponential.Syntax": "[ <Lambda>, <Valoare variabil\u0103> ]\n[ <Lambda>, x, <Cumulativ Boolean> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Valoare variabil\u0103> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extrem",
     "Extremum.Syntax": "[ <Polinom> ]",
     "FDistribution": "DistribuireF",

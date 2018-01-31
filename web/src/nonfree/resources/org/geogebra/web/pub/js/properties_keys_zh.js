@@ -308,6 +308,8 @@ __GGB__keysVar.zh.command = {
     "Exponential": "Exponential",
     "Exponential.Syntax": "[ <Lambda>, <Variable Value> ]\n[ <Lambda>, <Variable Value>, <Boolean Cumulative> ]\n[ <Lambda>, x, <Boolean Cumulative> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Variable Value> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "Extremum",
     "Extremum.Syntax": "[ <Polynomial> ]\n[ <Function>, <Start x-Value>, <End x-Value> ]",
     "FDistribution": "FDistribution",

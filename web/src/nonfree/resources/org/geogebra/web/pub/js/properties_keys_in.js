@@ -308,6 +308,8 @@ __GGB__keysVar.in.command = {
     "Exponential": "Eksponensial",
     "Exponential.Syntax": "[ <Lambda>, <Nilai Variabel> ]\n[ <Lambda>, x, <Boolean kumulatif> ]",
     "Exponential.SyntaxCAS": "[ <Lambda>, <Nilai Variabel> ]",
+    "ExportImage": "ExportImage",
+    "ExportImage.Syntax": "[ <Property>, <Value>, <Property>, <Value>, ... ]",
     "Extremum": "NilaiEkstrim",
     "Extremum.Syntax": "[ <Polinom> ]",
     "FDistribution": "DistribusiF",
