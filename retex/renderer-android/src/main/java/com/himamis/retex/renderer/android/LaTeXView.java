@@ -17,23 +17,52 @@ import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.share.platform.graphics.Color;
 import com.himamis.retex.renderer.share.platform.graphics.Insets;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 public class LaTeXView extends View {
 
-    private TeXFormula mFormula;
-    private TeXIcon mTexIcon;
-    private TeXFormula.TeXIconBuilder mTexIconBuilder;
+    public static boolean SETUP_ON_BACKGROUND = false;
+
+    private ExecutorService mServicePool = Executors.newSingleThreadExecutor();
+
+    private Future<?> mTexIconBuilderFuture;
+
+    volatile private TeXFormula mFormula;
+    volatile private TeXFormula.TeXIconBuilder mTexIconBuilder;
+    volatile private TeXIcon mTexIcon;
 
     private Graphics2DA mGraphics;
 
-    private String mLatexText = "";
-    private float mSize = 20;
-    private int mStyle = TeXConstants.STYLE_DISPLAY;
-    private Color mForegroundColor = new ColorA(android.graphics.Color.BLACK);
+    volatile private String mLatexText = "";
+    volatile private float mSize = 20;
+    volatile private int mStyle = TeXConstants.STYLE_DISPLAY;
+    volatile private int mType = TeXFormula.SERIF;
+
     private int mBackgroundColor = android.graphics.Color.TRANSPARENT;
-    private int mType = TeXFormula.SERIF;
+    private Color mForegroundColor = new ColorA(android.graphics.Color.BLACK);
 
     private float mScreenDensity;
     private float mSizeScale;
+
+    private TexIconCreatorRunnable mTexIconBuilderRunnable = new TexIconCreatorRunnable();
+
+    private Runnable mCleanFormula = new Runnable() {
+        @Override
+        public void run() {
+            mFormula = null;
+            mTexIconBuilder = null;
+            mTexIcon = null;
+        }
+    };
+
+    private Runnable mCleanTexIcon = new Runnable() {
+        @Override
+        public void run() {
+            mTexIcon = null;
+        }
+    };
 
     public LaTeXView(Context context) {
         super(context);
@@ -91,9 +120,7 @@ public class LaTeXView extends View {
      */
     public void setLatexText(String latexText) {
         mLatexText = latexText;
-        mFormula = null;
-        mTexIconBuilder = null;
-        mTexIcon = null;
+        cleanFormula();
         ensureTeXIconExists();
         invalidate();
         requestLayout();
@@ -107,7 +134,7 @@ public class LaTeXView extends View {
     public void setSize(float size) {
         if (Math.abs(mSize - size) > 0.01) {
             mSize = size;
-            mTexIcon = null;
+            cleanTexIcon();
             ensureTeXIconExists();
             invalidate();
             requestLayout();
@@ -123,7 +150,7 @@ public class LaTeXView extends View {
     public void setStyle(int style) {
         if (mStyle != style) {
             mStyle = style;
-            mTexIcon = null;
+            cleanTexIcon();
             ensureTeXIconExists();
             invalidate();
             requestLayout();
@@ -139,7 +166,7 @@ public class LaTeXView extends View {
     public void setType(int type) {
         if (mType != type) {
             mType = type;
-            mTexIcon = null;
+            cleanTexIcon();
             ensureTeXIconExists();
             invalidate();
             requestLayout();
@@ -171,7 +198,7 @@ public class LaTeXView extends View {
         float newSizeScale = mScreenDensity * newConfig.fontScale;
         if (Math.abs(mSizeScale - newSizeScale) > 0.001) {
             mSizeScale = newSizeScale;
-            mTexIcon = null;
+            cleanTexIcon();
             ensureTeXIconExists();
             invalidate();
             requestLayout();
@@ -179,32 +206,29 @@ public class LaTeXView extends View {
     }
 
     private void ensureTeXIconExists() {
-        if (mFormula == null) {
-            try {
-                mFormula = new TeXFormula(mLatexText);
-            } catch (ParseException exception) {
-                mFormula = TeXFormula.getPartialTeXFormula(mLatexText);
-            }
+        createTexIcon();
+    }
+
+    private int getIconWidth() {
+        TeXIcon teXIcon = mTexIcon;
+        if (teXIcon == null) {
+            return 0;
         }
-        if (mTexIconBuilder == null) {
-            mTexIconBuilder = mFormula.new TeXIconBuilder();
+        return teXIcon.getIconWidth();
+    }
+
+    private int getIconHeight() {
+        TeXIcon teXIcon = mTexIcon;
+        if (teXIcon == null) {
+            return 0;
         }
-        if (mTexIcon == null) {
-            mTexIconBuilder.setSize(mSize * mSizeScale).setStyle(mStyle).setType(mType);
-            mTexIcon = mTexIconBuilder.build();
-        }
-        mTexIcon.setInsets(new Insets(
-                getPaddingTop(),
-                getPaddingLeft(),
-                getPaddingBottom(),
-                getPaddingRight()
-        ));
+        return teXIcon.getIconHeight();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        final int desiredWidth = mTexIcon.getIconWidth();
-        final int desiredHeight = mTexIcon.getIconHeight();
+        final int desiredWidth = getIconWidth();
+        final int desiredHeight = getIconHeight();
 
         final int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         final int widthSize = MeasureSpec.getSize(widthMeasureSpec);
@@ -235,7 +259,8 @@ public class LaTeXView extends View {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (mTexIcon == null) {
+        TeXIcon teXIcon = mTexIcon;
+        if (teXIcon == null) {
             return;
         }
 
@@ -247,7 +272,77 @@ public class LaTeXView extends View {
 
         // draw latex
         mGraphics.setCanvas(canvas);
-        mTexIcon.setForeground(mForegroundColor);
-        mTexIcon.paintIcon(null, mGraphics, 0, 0);
+        teXIcon.setForeground(mForegroundColor);
+        teXIcon.paintIcon(null, mGraphics, 0, 0);
+    }
+
+    class TexIconCreatorRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            if (mFormula == null) {
+                try {
+                    mFormula = new TeXFormula(mLatexText);
+                } catch (ParseException exception) {
+                    mFormula = TeXFormula.getPartialTeXFormula(mLatexText);
+                }
+            }
+            if (mTexIconBuilder == null) {
+                mTexIconBuilder = mFormula.new TeXIconBuilder();
+            }
+            if (mTexIcon == null) {
+                mTexIconBuilder.setSize(mSize * mSizeScale).setStyle(mStyle).setType(mType);
+                mTexIcon = mTexIconBuilder.build();
+            }
+            mTexIcon.setInsets(new Insets(
+                    getPaddingTop(),
+                    getPaddingLeft(),
+                    getPaddingBottom(),
+                    getPaddingRight()
+            ));
+            invalidateView();
+            requestLayout();
+        }
+    }
+
+    private void invalidateView() {
+        if (SETUP_ON_BACKGROUND) {
+            postInvalidate();
+        } else {
+            invalidate();
+        }
+    }
+
+    private void cleanFormula() {
+        if (SETUP_ON_BACKGROUND) {
+            mServicePool.submit(mCleanFormula);
+        } else {
+            mCleanFormula.run();
+        }
+    }
+
+    private void cleanTexIcon() {
+        if (SETUP_ON_BACKGROUND) {
+            mServicePool.submit(mCleanTexIcon);
+        } else {
+            mCleanTexIcon.run();
+        }
+    }
+
+    private void createTexIcon() {
+        if (SETUP_ON_BACKGROUND) {
+            cancelFuture();
+
+            mTexIconBuilderFuture = mServicePool.submit(mTexIconBuilderRunnable);
+        } else {
+            mTexIconBuilderRunnable.run();
+        }
+    }
+
+    private void cancelFuture() {
+        if (mTexIconBuilderFuture != null) {
+            mTexIconBuilderFuture.cancel(true);
+            mTexIconBuilderFuture = null;
+        }
     }
 }
