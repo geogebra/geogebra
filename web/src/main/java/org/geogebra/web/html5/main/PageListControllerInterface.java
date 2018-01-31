@@ -70,7 +70,7 @@ public interface PageListControllerInterface {
 	 * @param y
 	 *            coordinate.
 	 */
-	void drag(int x, int y);
+	int drag(int x, int y);
 
 	/**
 	 * Stops dragging card.
