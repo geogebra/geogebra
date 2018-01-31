@@ -12,13 +12,11 @@ import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
- * CmdGetTime
+ * CmdExportImage
  *
  * @author Michael Borcherds
- * @author Himanshu Gupta
  */
 public class CmdExportImage extends CommandProcessor {
 
@@ -33,7 +31,6 @@ public class CmdExportImage extends CommandProcessor {
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
@@ -119,27 +116,23 @@ public class CmdExportImage extends CommandProcessor {
 
 		GgbAPI api = kernel.getApplication().getGgbApi();
 
-		Log.debug("dpi = " + dpi);
-		Log.debug("exportScale = " + exportScale);
-		Log.debug("transparent = " + transparent);
-		// Log.debug("clipboard = " + copyToClipboard);
-		Log.debug("scaleCM = " + scaleCM);
-		Log.debug("filename = " + filename);
-		Log.debug("type = " + type);
+		// Log.debug("dpi = " + dpi);
+		// Log.debug("exportScale = " + exportScale);
+		// Log.debug("transparent = " + transparent);
+		// Log.debug("scaleCM = " + scaleCM);
+		// Log.debug("filename = " + filename);
+		// Log.debug("type = " + type);
 
 		// see CmdSetActiveView
 		switch (view) {
 		default:
 		case 1:
-			Log.debug("VIEW_EUCLIDIAN");
 			app.setActiveView(App.VIEW_EUCLIDIAN);
 			break;
 		case 2:
-			Log.debug("VIEW_EUCLIDIAN2");
 			app.setActiveView(App.VIEW_EUCLIDIAN2);
 			break;
 		case -1:
-			Log.debug("VIEW_EUCLIDIAN");
 			app.setActiveView(App.VIEW_EUCLIDIAN3D);
 			break;
 		}
@@ -182,8 +175,6 @@ public class CmdExportImage extends CommandProcessor {
 			exportScale = pixelWidth / viewWidth;
 
 		}
-
-		Log.debug("exportScale = " + exportScale);
 
 		if (exportScale <= 0 || !MyDouble.isFinite(exportScale)) {
 			exportScale = 1;
