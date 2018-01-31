@@ -1881,10 +1881,12 @@ public abstract class ProbabilityCalculatorView
 
 		sb.append("/>\n");
 		if (getStatCalculator() != null) {
-			getStatCalculator().getXML(sb);
+			getStatCalculator().getXML(sb, !isDistributionTabOpen());
 		}
 		sb.append("</probabilityCalculator>\n");
 	}
+
+	protected abstract boolean isDistributionTabOpen();
 
 	protected abstract StatisticsCalculator getStatCalculator();
 

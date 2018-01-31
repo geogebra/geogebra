@@ -27,6 +27,7 @@ public class StatisticsCollection {
 	public double[][] observed, expected, diff;
 	public double[] columnSum, rowSum;
 	private Procedure selectedProcedure;
+	private boolean active;
 
 	/***/
 	public enum Procedure {
@@ -59,6 +60,13 @@ public class StatisticsCollection {
 		setSelectedProcedure(Procedure.ZMEAN_TEST);
 	}
 
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
+	public boolean isActive() {
+		return active;
+	}
 	public void setChiSqData(int rows, int columns) {
 		chiSquareData = new String[rows + 2][columns + 2];
 		initComputation(rows, columns);
@@ -136,6 +144,8 @@ public class StatisticsCollection {
 		add(sb, level, "level");
 		sb.append("\" tail=\"");
 		sb.append(getTail());
+		sb.append("\" active=\"");
+		sb.append(active);
 		if (chiSquareData != null && chiSquareData.length > 0) {
 			// add(sb, chiSquareData.length, "columns");
 			add(sb, chiSquareData[0].length, "columns");

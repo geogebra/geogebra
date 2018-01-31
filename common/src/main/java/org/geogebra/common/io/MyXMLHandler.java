@@ -1259,6 +1259,7 @@ public class MyXMLHandler implements DocHandler {
 
 			stats.nullHyp = StringUtil.parseDouble(attrs.get("nullHyp"));
 			stats.level = StringUtil.parseDouble(attrs.get("level"));
+			stats.setActive(parseBoolean(attrs.get("active")));
 			stats.setTail(attrs.get("tail"));
 			stats.setSelectedProcedure(Procedure.valueOf(attrs.get("procedure")));
 			if (!StringUtil.empty(attrs.get("columns"))) {
@@ -6117,7 +6118,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            input string
 	 * @return true for "true", false otherwise
 	 */
-	protected boolean parseBoolean(String str) {
+	protected static boolean parseBoolean(String str) {
 		return "true".equals(str);
 	}
 
@@ -6128,7 +6129,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            input string
 	 * @return false for "fale", true otherwise
 	 */
-	protected boolean parseBooleanRev(String str) {
+	protected static boolean parseBooleanRev(String str) {
 		return !"false".equals(str);
 	}
 }

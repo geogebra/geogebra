@@ -227,7 +227,9 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	public void updateCollection() {
 		getSc().setChiSqData(
 				Integer.parseInt((String) cbRows.getSelectedItem()),
-				Integer.parseInt((String) cbColumns.getSelectedItem()));
+				getSc().getSelectedProcedure() == Procedure.GOF_TEST ? 2
+						: Integer.parseInt(
+								(String) cbColumns.getSelectedItem()));
 	}
 
 	private void updateVisibility() {

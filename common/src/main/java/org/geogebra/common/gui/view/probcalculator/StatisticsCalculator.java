@@ -393,8 +393,9 @@ public abstract class StatisticsCalculator {
 
 	}
 
-	public void getXML(StringBuilder sb) {
+	public void getXML(StringBuilder sb, boolean active) {
 		if (sc != null) {
+			sc.setActive(active);
 			sc.getXML(sb);
 		}
 	}

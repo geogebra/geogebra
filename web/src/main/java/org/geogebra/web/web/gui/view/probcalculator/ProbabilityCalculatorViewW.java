@@ -103,41 +103,43 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 * @param app creates new probabilitycalculatorView
 	 */
 	public ProbabilityCalculatorViewW(AppW app) {
-	   super(app);
-	   
-	   tabbedPane = new MyTabLayoutPanel(30, Unit.PX);
-	   tabbedPane.addStyleName("PropabilityCalculatorViewW");
-	   
-	   createGUIElements();
-	   createExportToEvAction();
-	   createLayoutPanels();
-	   buildProbCalcPanel();
-	   
-	   statCalculator = new StatisticsCalculatorW(app);
-	   
-	   tabbedPane = new MyTabLayoutPanel(30, Unit.PX);
-	   tabbedPane.add(probCalcPanel, loc.getMenu("Distribution"));
-	   tabbedPane.add(statCalculator.getWrappedPanel(), loc.getMenu("Statistics"));
-	   
-	   tabbedPane.addSelectionHandler(new SelectionHandler<Integer>() {
+		super(app);
 
-			@Override
-		public void onSelection(SelectionEvent<Integer> event) {
-				updateStylebarLayout();
-		   }
-	   });
-	   
-	   tabbedPane.onResize();
-	   	   
-	   setLabels();
-	   
-	   attachView();
-		settingsChanged(getApp().getSettings().getProbCalcSettings());
-	   
-	   
-	   isIniting = false;
-    }
+		tabbedPane = new MyTabLayoutPanel(30, Unit.PX);
+		tabbedPane.addStyleName("PropabilityCalculatorViewW");
+
+		createGUIElements();
+		createExportToEvAction();
+		createLayoutPanels();
+		buildProbCalcPanel();
+
+		statCalculator = new StatisticsCalculatorW(app);
+
+		tabbedPane = new MyTabLayoutPanel(30, Unit.PX);
+		tabbedPane.add(probCalcPanel, loc.getMenu("Distribution"));
+		tabbedPane.add(statCalculator.getWrappedPanel(),
+				loc.getMenu("Statistics"));
+
+		tabbedPane.addSelectionHandler(new SelectionHandler<Integer>() {
 	
+			@Override
+			public void onSelection(SelectionEvent<Integer> event) {
+				updateStylebarLayout();
+			}
+		});
+
+		tabbedPane.onResize();
+
+		setLabels();
+
+		attachView();
+		settingsChanged(getApp().getSettings().getProbCalcSettings());
+
+		tabbedPane.selectTab(getApp().getSettings().getProbCalcSettings()
+				.getCollection().isActive() ? 1 : 0);
+		isIniting = false;
+	}
+
 	/**
 	 * Updates stylebar layout
 	 */
@@ -145,12 +147,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		if (styleBar != null) {
 			styleBar.updateLayout();
 		}
-
 	}
 
 	@Override
 	public void setLabels() {
-
 		tabbedPane.setTabText(0, loc.getMenu("Distribution"));
 
 		statCalculator.setLabels();
@@ -788,9 +788,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	/**
 	 * @return wheter distribution tab is open
 	 */
+	@Override
 	public boolean isDistributionTabOpen() {
 		return tabbedPane.getSelectedIndex() == 0;
-    }
+	}
 
 	/**
 	 * @return ProbabilitiManager
@@ -1156,6 +1157,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnExport.getPopupMenu().addStyleName("MyToggleButton");
 	}
 
+	@Override
 	public StatisticsCalculator getStatCalculator() {
 		return statCalculator;
 	}

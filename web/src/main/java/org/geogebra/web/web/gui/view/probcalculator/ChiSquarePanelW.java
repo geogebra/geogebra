@@ -184,14 +184,15 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 			cbColumns.setSelectedIndex(0);
 		}
 
-			createCountPanel();
-			setLabels();
-		}
+		createCountPanel();
+		setLabels();
+	}
 		
-	void updateCollection() {
+	public void updateCollection() {
 		getSc().setChiSqData(
 				Integer.parseInt(cbRows.getValue(cbRows.getSelectedIndex())),
-				Integer.parseInt(
+				getSc().getSelectedProcedure() == Procedure.GOF_TEST ? 2
+						: Integer.parseInt(
 						cbColumns.getValue(cbColumns.getSelectedIndex())));
 
 	}
@@ -364,7 +365,6 @@ public class ChiSquarePanelW extends ChiSquarePanel implements ValueChangeHandle
 			KeyUpHandler {
     	
     	private FlowPanel wrappedPanel;
-    	
     	private AutoCompleteTextFieldW fldInput;
     	private Label[] label;
 

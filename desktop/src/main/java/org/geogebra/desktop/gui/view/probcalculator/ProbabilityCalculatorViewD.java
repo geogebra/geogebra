@@ -56,13 +56,14 @@ import org.geogebra.desktop.util.GuiResourcesD;
  * @author G. Sturr
  * 
  */
+@SuppressWarnings("javadoc")
 public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		implements ActionListener, FocusListener, ChangeListener {
 
 	private ProbabilityCalculatorStyleBarD styleBar;
 
 	// GUI elements
-	private JComboBox comboDistribution, comboProbType;
+	private JComboBox<String> comboDistribution, comboProbType;
 	private JTextField[] fldParameterArray;
 	private JTextField fldLow, fldHigh, fldResult;
 	private JLabel[] lblParameterArray;
@@ -118,9 +119,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				// System.out.println("Tab: " + tabbedPane.getSelectedIndex());
-				if (styleBar != null) {
-					styleBar.updateLayout();
-				}
+				updateStylebar();
 			}
 		});
 
@@ -131,13 +130,20 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		attachView();
 		settingsChanged(app.getSettings().getProbCalcSettings());
-
+		tabbedPane.setSelectedIndex(app.getSettings().getProbCalcSettings()
+				.getCollection().isActive() ? 1 : 0);
 		// TODO for testing only, remove later
 		// tabbedPane.setSelectedIndex(1);
 
 	}
 
 	/**************** end constructor ****************/
+
+	protected void updateStylebar() {
+		if (styleBar != null) {
+			styleBar.updateLayout();
+		}
+	}
 
 	/**
 	 * @return The style bar for this view.
@@ -167,6 +173,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 	}
 
+	@Override
 	public boolean isDistributionTabOpen() {
 		return tabbedPane.getSelectedIndex() == 0;
 	}
@@ -176,9 +183,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	// =================================================
 
 	private void createLayoutPanels() {
-
 		try {
-
 			// control panel
 			createControlPanel();
 			controlPanel.setBorder(BorderFactory.createEmptyBorder());
@@ -264,7 +269,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 	private void createGUIElements() {
 
 		setLabelArrays();
-		comboDistribution = new JComboBox();
+		comboDistribution = new JComboBox<>();
 		comboDistribution.setRenderer(getComboRenderer());
 		comboDistribution.setMaximumRowCount(
 				ProbabilityCalculatorSettings.distCount + 1);
@@ -310,7 +315,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		}
 
 		// create probability mode JComboBox and put it in a JPanel
-		comboProbType = new JComboBox();
+		comboProbType = new JComboBox<>();
 		comboProbType.setRenderer(getComboRenderer());
 		comboProbType.addActionListener(this);
 		lblProb = new JLabel();
@@ -797,9 +802,9 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 				firstXLastX[0], firstXLastX[1]);
 	}
 
-	protected void updatePrintFormat(int printDecimals, int printFigures) {
-		this.printDecimals = printDecimals;
-		this.printFigures = printFigures;
+	protected void updatePrintFormat(int printDecimals1, int printFigures1) {
+		this.printDecimals = printDecimals1;
+		this.printFigures = printFigures1;
 		updateGUI();
 		updateDiscreteTable();
 	}
@@ -954,9 +959,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 			// if null ID then use EV1 unless shift is down, then use EV2
 			if (euclidianViewID == null) {
-				euclidianViewID = ((AppD) app).getShiftDown()
-						? app.getEuclidianView2(1).getViewID()
-						: app.getEuclidianView1().getViewID();
+				euclidianViewID = idForEvent();
 			}
 
 			// do the export
@@ -972,10 +975,16 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		return (PlotPanelEuclidianViewD) super.getPlotPanel();
 	}
 
+	protected Integer idForEvent() {
+		return ((AppD) app).getShiftDown()
+				? app.getEuclidianView2(1).getViewID()
+				: app.getEuclidianView1().getViewID();
+	}
+
 	/**
 	 * Custom toggle button
 	 */
-	private JToggleButton makeButton(Icon ic) {
+	private static JToggleButton makeButton(Icon ic) {
 		JToggleButton btn = new JToggleButton(ic);
 		btn.setFocusPainted(false);
 		btn.setMargin(new Insets(0, 0, 0, 0));
