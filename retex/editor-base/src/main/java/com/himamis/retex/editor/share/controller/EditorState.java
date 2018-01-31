@@ -43,7 +43,7 @@ public class EditorState {
     }
 
     public void setCurrentOffset(int currentOffset) {
-        this.currentOffset = currentOffset;
+        this.currentOffset = currentOffset >= 0 ? currentOffset : 0;
     }
 
     public void incCurrentOffset() {
@@ -55,7 +55,9 @@ public class EditorState {
     }
 
     public void decCurrentOffset() {
-        currentOffset--;
+    	if (currentOffset > 0) {
+			currentOffset--;
+		}
     }
 
     public void addArgument(MathComponent mathComponent) {

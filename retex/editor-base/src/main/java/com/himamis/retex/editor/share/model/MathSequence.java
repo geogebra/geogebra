@@ -55,19 +55,12 @@ public class MathSequence extends MathContainer {
 		}
 		// argument = checkKorean(i, argument);
 
-        if (argument != null) {
-            argument.setParent(this);
-        }
-
-        if (i < 0) {
-            arguments.add(0, argument);
-        } else {
-            if (i < arguments.size()) {
-                arguments.add(i, argument);
-            } else {
-                arguments.add(argument);
-            }
-        }
+		if (i <= arguments.size()) {
+			if (argument != null) {
+				argument.setParent(this);
+			}
+			arguments.add(i, argument);
+		}
 
 		return true;
     }
