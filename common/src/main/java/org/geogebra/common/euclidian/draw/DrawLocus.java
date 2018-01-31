@@ -236,7 +236,7 @@ public class DrawLocus extends Drawable {
 			return t.intersects(x - hitThreshold, y - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
 		}
-		if (!isVisible) {
+		if (!isVisible || objStroke.getLineWidth() <= 0) {
 			return false;
 		}
 		if (strokedShape == null) {

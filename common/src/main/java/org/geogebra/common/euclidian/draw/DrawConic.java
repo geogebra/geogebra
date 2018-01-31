@@ -1681,21 +1681,17 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
-			if (strokedShape == null) {
-				// AND-547, initial buffer size
-				strokedShape = objStroke.createStrokedShape(shape, 100);
-			}
-			isOnBoundary = strokedShape.intersects(hitX - hitThreshold,
-					hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
-			if (!isOnBoundary && type == GeoConicNDConstants.CONIC_CIRCLE) {
-				isOnBoundary = getBoundingBox() != null
-						&& getBoundingBox().getRectangle() != null
-						&& getBoundingBox() == view.getBoundingBox()
-						&& getBoundingBox().getRectangle().intersects(
-								hitX - hitThreshold, hitY - hitThreshold,
-								2 * hitThreshold, 2 * hitThreshold)
-						&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY,
-								hitThreshold);
+			if (objStroke.getLineWidth() > 0) {
+				if (strokedShape == null) {
+					// AND-547, initial buffer size
+					strokedShape = objStroke.createStrokedShape(shape, 100);
+				}
+				isOnBoundary = strokedShape.intersects(hitX - hitThreshold,
+						hitY - hitThreshold, 2 * hitThreshold,
+						2 * hitThreshold);
+				if (!isOnBoundary && type == GeoConicNDConstants.CONIC_CIRCLE) {
+					isOnBoundary = hitBoundingBox(hitX, hitY, hitThreshold);
+				}
 			}
 			break;
 
@@ -1723,6 +1719,17 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		conic.setLastHitType(HitType.NONE);
 		return false;
+	}
+
+	private boolean hitBoundingBox(int hitX, int hitY, int hitThreshold) {
+		return getBoundingBox() != null
+				&& getBoundingBox().getRectangle() != null
+				&& getBoundingBox() == view.getBoundingBox()
+				&& getBoundingBox().getRectangle().intersects(
+						hitX - hitThreshold, hitY - hitThreshold,
+						2 * hitThreshold, 2 * hitThreshold)
+				&& getBoundingBox().hitSideOfBoundingBox(hitX, hitY,
+						hitThreshold);
 	}
 
 	/**
@@ -1753,6 +1760,9 @@ public class DrawConic extends Drawable implements Previewable {
 	 *            acceptable distance from line
 	 */
 	public boolean hitHyperbola(int hitX, int hitY, int hitThreshold) {
+		if (objStroke.getLineWidth() <= 0) {
+			return false;
+		}
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			strokedShape = objStroke.createStrokedShape(hypLeft, 300);
@@ -1778,6 +1788,9 @@ public class DrawConic extends Drawable implements Previewable {
 	 *            acceptable distance from line
 	 */
 	public boolean hitEllipse(int hitX, int hitY, int hitThreshold) {
+		if (objStroke.getLineWidth() <= 0) {
+			return false;
+		}
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			strokedShape = objStroke.createStrokedShape(shape, 148);

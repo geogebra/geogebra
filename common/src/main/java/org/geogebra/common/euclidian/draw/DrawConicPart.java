@@ -555,12 +555,14 @@ public class DrawConicPart extends Drawable implements Previewable {
 		switch (draw_type) {
 
 		case DRAW_TYPE_ELLIPSE:
-			if (strokedShape == null) {
-				// AND-547, initial buffer size
-				strokedShape = objStroke.createStrokedShape(shape, 130);
+			if (objStroke.getLineWidth() > 0) {
+				if (strokedShape == null) {
+					// AND-547, initial buffer size
+					strokedShape = objStroke.createStrokedShape(shape, 130);
+				}
+				pathHit = strokedShape.intersects(x - hitThreshold,
+						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			}
-			pathHit = strokedShape.intersects(x - hitThreshold,
-					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			if (!pathHit && geo.isFilled()) {
 				regionHit = shape.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);
