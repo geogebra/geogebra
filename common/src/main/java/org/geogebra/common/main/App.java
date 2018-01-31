@@ -4019,6 +4019,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_IOS_EXAM_LOG_DIALOG:
 			return false;
 
+		// AND-818
+		case MOB_CREATE_TEX_ICON_BACKGROUND:
+			return prerelease;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
