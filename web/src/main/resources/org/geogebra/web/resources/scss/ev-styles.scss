@@ -349,7 +349,9 @@
     			}	
     		}
     	}
-    
+    	.mowZoomPanelBtn img {
+    		padding: 6px;
+    	}
 		.zoomPanelHomeIn {
 			@extend .zoomPanelBtn;
 			opacity: 1;

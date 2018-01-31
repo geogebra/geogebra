@@ -238,9 +238,19 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private void addZoomOutButton() {
-		zoomOutBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.remove_black18(), null, 18, app);
+		if (app.isWhiteboardActive()) {
+			zoomOutBtn = new StandardButton(
+					ZoomPanelResources.INSTANCE.zoomout_black24(), null, 24,
+					app);
+		} else {
+			zoomOutBtn = new StandardButton(
+					ZoomPanelResources.INSTANCE.remove_black18(), null, 18,
+					app);
+		}
 		zoomOutBtn.setStyleName("zoomPanelBtn");
+		if (app.isWhiteboardActive()) {
+			zoomOutBtn.addStyleName("mowZoomPanelBtn");
+		}
 		FastClickHandler handlerZoomOut = new FastClickHandler() {
 
 			@Override
@@ -253,10 +263,18 @@ public class ZoomPanel extends FlowPanel
 	}
 
 	private void addZoomInButton() {
-		zoomInBtn = new StandardButton(
-				ZoomPanelResources.INSTANCE.add_black18(), null,
-				18, app);
+		if (app.isWhiteboardActive()) {
+			zoomInBtn = new StandardButton(
+					ZoomPanelResources.INSTANCE.zoomin_black24(), null, 24,
+					app);
+		} else {
+			zoomInBtn = new StandardButton(
+					ZoomPanelResources.INSTANCE.add_black18(), null, 18, app);
+		}
 		zoomInBtn.setStyleName("zoomPanelBtn");
+		if (app.isWhiteboardActive()) {
+			zoomInBtn.addStyleName("mowZoomPanelBtn");
+		}
 		FastClickHandler handlerZoomIn = new FastClickHandler() {
 
 			@Override
