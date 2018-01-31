@@ -749,7 +749,7 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	/**
-	 * Using arc, because arc to has buggy implementation in some browsers
+	 * Using bezier curves rather than arcs so that PDF export works
 	 * 
 	 * @param x
 	 * @param y
@@ -758,19 +758,27 @@ public class GGraphics2DW implements GGraphics2D {
 	 * @param r
 	 */
 	private void roundRect(int x, int y, int w, int h, int r) {
+
+		// gives good approximation to circular arc
+		double K = 4 / 3 * (Math.sqrt(2) - 1);
+
+		double right = x + w;
+		double bottom = y + h;
+
 		context.beginPath();
-		int ey = y + h;
-		int ex = x + w;
-		double r2d = Math.PI / 180;
+
 		context.moveTo(x + r, y);
-		context.lineTo(ex - r, y);
-		context.arc(ex - r, y + r, r, r2d * 270, r2d * 360, false);
-		context.lineTo(ex, ey - r);
-		context.arc(ex - r, ey - r, r, r2d * 0, r2d * 90, false);
-		context.lineTo(x + r, ey);
-		context.arc(x + r, ey - r, r, r2d * 90, r2d * 180, false);
+		context.lineTo(right - r, y);
+		context.bezierCurveTo(right + r * (K - 1), y, right, y + r * (1 - K),
+				right, y + r);
+		context.lineTo(right, bottom - r);
+		context.bezierCurveTo(right, bottom + r * (K - 1), right + r * (K - 1),
+				bottom, right - r, bottom);
+		context.lineTo(x + r, bottom);
+		context.bezierCurveTo(x + r * (1 - K), bottom, x, bottom + r * (K - 1),
+				x, bottom - r);
 		context.lineTo(x, y + r);
-		context.arc(x + r, y + r, r, r2d * 180, r2d * 270, false);
+		context.bezierCurveTo(x, y + r * (1 - K), x + r * (1 - K), y, x + r, y);
 
 		context.closePath();
 	}
