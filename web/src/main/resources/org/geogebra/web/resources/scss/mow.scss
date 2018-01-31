@@ -703,9 +703,18 @@
 		}
 	}
 		.mowPagePreviewCard.selected {
-		border: 2px solid $mow_highlight;
-		box-shadow: $shadow-elevation-8;
-		transition: border .25s;
+			border: 2px solid $mow_highlight;
+			box-shadow: $shadow-elevation-8;
+			.mowImagePanel {
+				height: calc(220px * 9/16 - 2px);
+			}
+			.gwt-Label {
+				padding-bottom: 14px;
+				padding-left: 14px;
+			}
+			.mowMoreButton {
+				padding-bottom: 10px;
+			}
 		}
 	
 		/*.AutoCompleteTextFieldW {
