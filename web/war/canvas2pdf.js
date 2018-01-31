@@ -1049,8 +1049,8 @@ PDFPage.prototype.arc = function(x, y, r, startAngle, arcAngle, counterclockwise
 
     startAngle *= 180 / Math.PI;
     arcAngle *= 180 / Math.PI;
-    width = r - 1;
-    height = r - 1;
+    var width = r - 1;
+    var height = r - 1;
 
     // 45degrees, ie max 8 arcs
     var maxAnglePerCurve = 45;
