@@ -917,6 +917,8 @@ public class AppWapplet extends AppWFull {
 			}
 			else if ("geometry".equals(appName)) {
 				v = Versions.WEB_GEOMETRY;
+			} else if ("3d".equalsIgnoreCase(appName)) {
+				v = Versions.WEB_3D_GRAPHING;
 			}
 			else if ("classic".equals(appName) || StringUtil.empty(appName)) {
 				v = Versions.WEB_FOR_BROWSER_3D;

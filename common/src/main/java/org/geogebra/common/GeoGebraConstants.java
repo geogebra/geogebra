@@ -52,6 +52,8 @@ public interface GeoGebraConstants {
 
 		WEB_GEOMETRY("w", "graphing"),
 
+		WEB_3D_GRAPHING("w", "3D"),
+
 		WEB_GRAPHING_OFFLINE("offline", "graphing"),
 
 		WEB_GEOMETRY_OFFLINE("offline", "geometry"),
