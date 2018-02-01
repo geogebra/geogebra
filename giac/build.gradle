@@ -718,11 +718,11 @@ task createGiacJs(dependsOn: 'createGiacGgbJs') {
             from 'build/binaries/giacggb.js'
             into 'build/binaries/giacggb.js'
             include ('giacggb.wasm.b64')
-            rename 'giacggb.wasm.b64', 'giac.wasm.clamp64.js'
+            rename 'giacggb.wasm.b64', 'giac.wasm.js'
             filter { line -> "if (!window.__ggb__giac) window.__ggb__giac = (typeof window.__ggb__giac !== \"undefined\" ? window.__ggb__giac : null) || {};\nwindow.__ggb__giac.wasmBinaryFile=\"data:application/wasm;base64," + line + "\";\n" }
         }
         exec {
-            commandLine "bash", "-c", "cat giac.js >> giac.wasm.clamp64.js"
+            commandLine "bash", "-c", "cat giac.js >> giac.wasm.js"
             workingDir 'build/binaries/giacggb.js'
         }
     }
