@@ -206,8 +206,9 @@ public class ZoomPanel extends FlowPanel
 	public void addZoomButtons() {
 		homeBtn = new StandardButton(
 				ZoomPanelResources.INSTANCE.home_zoom_black18(),
-				null, 24, app);
+				null, 20, app);
 		homeBtn.setStyleName("zoomPanelBtn");
+		homeBtn.addStyleName("zoomPanelBtnSmall");
 		hideHomeButton();
 		FastClickHandler handlerHome = new FastClickHandler() {
 
