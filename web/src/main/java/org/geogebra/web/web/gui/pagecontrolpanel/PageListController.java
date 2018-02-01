@@ -315,14 +315,7 @@ public class PageListController implements PageListControllerInterface,
 		return result;
 	}
 	
-	/**
-	 * 
-	 * @param x
-	 *            is unused now.
-	 * @param y
-	 * @return
-	 */
-	private boolean dropTo(int x, int y) {
+	private boolean dropTo(int y) {
 		int destIdx = lastDragTarget != null ? lastDragTarget.getPageIndex()
 				: -1;
 		if (dragIndex != -1 && destIdx != -1) {
@@ -400,14 +393,7 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
-	/**
-	 * 
-	 * @param x
-	 *            is unused for now.
-	 * @param y
-	 * @return
-	 */
-	private int doDrag(int x, int y) {
+	private int doDrag(int y) {
 		if (dragCard == null) {
 			return -1;
 		}
@@ -443,7 +429,7 @@ public class PageListController implements PageListControllerInterface,
 		if (CancelEventTimer.isDragStarted()) {
 			startDrag(x, y);
 		} else if (CancelEventTimer.isDragging()) {
-			int targetIdx = doDrag(x, y);
+			int targetIdx = doDrag(y);
 			if (targetIdx != -1) {
 				listener.insertDivider(targetIdx);
 			}
@@ -452,7 +438,7 @@ public class PageListController implements PageListControllerInterface,
 
 	private void stopDrag(int x, int y) {
 		if (CancelEventTimer.isDragging()) {
-			if (dropTo(x, y)) {
+			if (dropTo(y)) {
 				listener.update();
 			}
 		} else {
