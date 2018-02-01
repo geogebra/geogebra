@@ -1,6 +1,7 @@
 package org.geogebra.stepbystep;
 
 import org.geogebra.commands.CommandsTest;
+import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
@@ -50,6 +51,24 @@ public class GeneralUnitTests {
         remainder("4(x-3)+5", "x-3", "5");
         quotient("4(x-3)+5", "2(x-3)", "2");
         remainder("4(x-3)+5", "2(x-3)", "5");
+        quotient("3k+1", "3", "k");
+        remainder("3k+1", "3", "1");
+        quotient("3*2", "3", "2");
+    }
+
+    @Test
+    public void getCommonTest() {
+        getCommon("3", "5", "3");
+        getCommon("3+k", "3", "3");
+        getCommon("z+y+3", "z+5", "(z + 3)");
+        getCommon("l*k", "l", "l");
+        getCommon("l*k+1", "l+k+1", "(l + 1)");
+    }
+
+    @Test
+    public void GCDTest() {
+        GCD("2^(2k+1)", "2^(k+2)", "(2)^((k + 1))");
+        GCD("(x^2-3x+2)", "(x-1)", "(x-1)");
     }
 
     @Test
@@ -74,11 +93,19 @@ public class GeneralUnitTests {
     }
 
     public void quotient(String a, String b, String c) {
-        Assert.assertTrue(convert(a).quotient(convert(b)).equals(convert(c)));
+        Assert.assertEquals(c, convert(a).quotient(convert(b)).toString());
     }
 
     public void remainder(String a, String b, String c) {
-        Assert.assertTrue(convert(a).remainder(convert(b)).equals(convert(c)));
+        Assert.assertEquals(c, convert(a).remainder(convert(b)).toString());
+    }
+
+    public void getCommon(String a, String b, String c) {
+        Assert.assertEquals(c, convert(a).getCommon(convert(b)).toString());
+    }
+
+    public void GCD(String a, String b, String c) {
+        Assert.assertEquals(c, StepHelper.GCD(convert(a), convert(b)).toString());
     }
 
     private StepExpression convert(String s) {

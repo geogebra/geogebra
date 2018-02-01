@@ -130,8 +130,6 @@ public enum SolutionStepType {
 
 	PRODUCT_IS_ZERO("ProductIsZero", "Product is zero"),
 
-	TRIAL_AND_ERROR("TrialAndError", "Find the roots by trial and error, and factor them out"),
-
 	SOLVE_NUMERICALLY("SolveNumerically", "Solve numerically: "),
 
 	REGROUP_WRAPPER("RegroupExpression", "Regroup Expression"),
@@ -158,8 +156,6 @@ public enum SolutionStepType {
 
 	ADD_NUMERATORS("AddNumerators", "Add numerators"),
 
-	MULTIPLY_CONSTANTS("MultiplyConstants", "Multiply constants"),
-
 	COMMON_FRACTION("CommonFraction", "Write the product as a single fraction"),
 
 	CANCEL_FRACTION("CancelFraction", "Cancel %0 in the fraction"),
@@ -168,7 +164,9 @@ public enum SolutionStepType {
 
 	REGROUP_PRODUCTS("RegroupProducts", "Regroup products"),
 
-	MULTIPLIED_BY_ONE("MultipliedByOne", "Regroup products", "Any expression multiplied by one is itself"),
+	MULTIPLY_CONSTANTS("MultiplyConstants", "Multiply constants"),
+
+	MULTIPLIED_BY_ONE("MultipliedByOne", "Multiply constants", "Any expression multiplied by one is itself"),
 
 	EVEN_NUMBER_OF_NEGATIVES("EvenNumberOfNegative", "Multiply negatives",
 			"Multiplying an even number of negative numbers gives a positive"),
@@ -199,6 +197,8 @@ public enum SolutionStepType {
 	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative", "An odd root of a negative radicand is always negative"),
 
 	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
+
+	SPLIT_POWERS("SplitPowers", "Use power rules", "Rewrite %0 as %1"),
 
 	SPLIT_ROOTS("SplitRoots", "Use radical rules",
 			"The root of a product is equal to the product of the roots of each factor"),

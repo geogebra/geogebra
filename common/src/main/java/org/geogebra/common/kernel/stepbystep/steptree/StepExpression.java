@@ -5,6 +5,7 @@ import java.util.List;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steps.RegroupSteps;
 import org.geogebra.common.kernel.stepbystep.steps.RegroupTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
@@ -86,23 +87,23 @@ public abstract class StepExpression extends StepNode {
 
 	/**
 	 * Non-special constants are StepConstants and minus(StepConstant)s, except for
-	 * pi and e
+	 * pi, e, and infinity
 	 * 
 	 * @return whether the current node is a nonSpecialConstant
 	 */
 	public boolean nonSpecialConstant() {
-		return this instanceof StepConstant && !isEqual(getValue(), Math.PI) && !isEqual(getValue(), Math.E) &&
-				!Double.isInfinite(getValue()) || isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0)
-				.nonSpecialConstant();
+		return this instanceof StepConstant && !specialConstant()
+				|| isNegative() && negate() instanceof StepConstant && !negate().specialConstant();
 	}
 
 	/**
-	 * Special constants are pi and e
+	 * Special constants are pi and e, and infinity
 	 * 
 	 * @return whether the current node is a specialConstant
 	 */
 	public boolean specialConstant() {
-		return this instanceof StepConstant && (isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E));
+		return this instanceof StepConstant &&
+				(isEqual(getValue(), Math.PI) || isEqual(getValue(), Math.E) || Double.isInfinite(getValue()));
 	}
 
 	/**
@@ -120,6 +121,33 @@ public abstract class StepExpression extends StepNode {
 		return isOperation(Operation.NROOT) && isEqual(((StepOperation) this).getOperand(1), 2);
 	}
 
+	public StepExpression integersOfSum() {
+		if (isOperation(Operation.PLUS)) {
+			StepExpression integers = null;
+			for (StepExpression operand : (StepOperation) this) {
+				if (operand.isInteger()) {
+					integers = add(integers, operand);
+				}
+			}
+			return integers;
+		}
+
+		return null;
+	}
+
+	public StepExpression nonIntegersOfSum() {
+		if (isOperation(Operation.PLUS)) {
+			StepExpression nonIntegers = null;
+			for (StepExpression operand : (StepOperation) this) {
+				if (!operand.isInteger()) {
+					nonIntegers = add(nonIntegers, operand);
+				}
+			}
+			return nonIntegers;
+		}
+
+		return this;
+	}
 
 	/**
 	 * @param expr
@@ -305,7 +333,6 @@ public abstract class StepExpression extends StepNode {
 	/**
 	 * Check if this contains expr
 	 * for example 3+2+1 contains 1+3
-	 * and
 	 * @param expr expression to check
 	 * @return whether this contains expr
 	 */
@@ -328,12 +355,17 @@ public abstract class StepExpression extends StepNode {
 		}
 
 		if (isOperation(Operation.MULTIPLY) && expr.isOperation(Operation.MULTIPLY)) {
-			if (getIntegerCoefficient() != null && !getIntegerCoefficient().integerDivisible(expr.getIntegerCoefficient())) {
-				return false;
+			StepExpression coeffA = getIntegerCoefficient();
+			StepExpression coeffB = expr.getIntegerCoefficient();
+
+			if (coeffA != null && coeffB != null) {
+				if (coeffA.isInteger() && coeffB.isInteger()) {
+					return coeffA.integerDivisible(coeffB);
+				}
 			}
 
-			StepOperation sortedA = ((StepOperation) getNonInteger().deepCopy()).sort();
-			StepOperation sortedB = ((StepOperation) expr.getNonInteger().deepCopy()).sort();
+			StepOperation sortedA = ((StepOperation) deepCopy()).sort();
+			StepOperation sortedB = ((StepOperation) expr.deepCopy()).sort();
 
 			int j = 0;
 			for (StepExpression operand : sortedA) {
@@ -375,7 +407,7 @@ public abstract class StepExpression extends StepNode {
 		if (isOperation(Operation.PLUS)) {
 			StepExpression remainder = null;
 			for (StepExpression operand : (StepOperation) this) {
-				remainder = add(remainder, operand.remainder(expr));
+				remainder = nonTrivialSum(remainder, operand.remainder(expr));
 			}
 
 			return remainder;
@@ -405,30 +437,31 @@ public abstract class StepExpression extends StepNode {
 		if (isOperation(Operation.PLUS)) {
 			StepExpression quotient = null;
 			for (StepExpression operand : (StepOperation) this) {
-				quotient = add(quotient, operand.quotient(expr));
+				quotient = nonTrivialSum(quotient, operand.quotient(expr));
 			}
 
 			return quotient;
 		}
 
-		if (isOperation(Operation.MULTIPLY)) {
-			StepExpression quotient = null;
+		if (isOperation(Operation.MULTIPLY) && expr.isOperation(Operation.MULTIPLY)) {
+			StepExpression coeffA = getIntegerCoefficient();
+			StepExpression coeffB = expr.getIntegerCoefficient();
 
-			if (getIntegerCoefficient() != null) {
-				if(getIntegerCoefficient().integerDivisible(expr.getIntegerCoefficient())) {
-					if (expr.getIntegerCoefficient() == null) {
-						quotient = getIntegerCoefficient();
+			if (coeffA != null && coeffB != null) {
+				if (coeffA.isInteger() && coeffB.isInteger()) {
+					if(coeffA.integerDivisible(coeffB)) {
+						return multiply(Math.floor(coeffA.getValue()) / coeffB.getValue(),
+								getNonInteger().quotient(expr.getNonInteger()));
 					} else {
-						quotient = StepConstant.create(
-								Math.floor((getIntegerCoefficient().getValue()) / expr.getIntegerCoefficient().getValue()));
+						return null;
 					}
-				} else {
-					return null;
 				}
 			}
 
-			StepOperation sortedA = ((StepOperation) getNonInteger().deepCopy()).sort();
-			StepOperation sortedB = ((StepOperation) expr.getNonInteger().deepCopy()).sort();
+			StepOperation sortedA = ((StepOperation) deepCopy()).sort();
+			StepOperation sortedB = ((StepOperation) expr.deepCopy()).sort();
+
+			StepExpression quotient = null;
 
 			int j = 0;
 			for (StepExpression operand : sortedA) {
@@ -438,10 +471,86 @@ public abstract class StepExpression extends StepNode {
 					quotient = multiply(quotient, operand);
 				}
 			}
-
 			if (j == sortedB.noOfOperands()) {
 				return quotient;
 			}
+		}
+
+		if (isOperation(Operation.MULTIPLY)) {
+			StepExpression quotient = null;
+
+			boolean found = false;
+			for (StepExpression operand : (StepOperation) this) {
+				if (!found && operand.equals(expr))	{
+					found = true;
+				} else {
+					quotient = multiply(quotient, operand);
+				}
+			}
+
+			if (found) {
+				return quotient;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Finds the common part of the two expressions
+	 * For example (3+k).getCommon(3) = 3
+	 * (z+y+3).getCommon(z+5) = z+3
+	 * (l*k).getCommon(l) = l
+	 * (l*k+1).getCommon(l+k+1) = l+1
+	 * @return the common part of the two expressions
+	 */
+	public StepExpression getCommon(StepExpression expr) {
+		if (nonSpecialConstant() && expr.nonSpecialConstant()) {
+			if (getValue() < expr.getValue()) {
+				return this;
+			}
+			return expr;
+		}
+
+		if (containsExpression(expr)) {
+			return expr;
+		}
+
+		if (expr.containsExpression(this)) {
+			return this;
+		}
+
+		if (isOperation(Operation.PLUS) && expr.isOperation(Operation.PLUS)) {
+			StepExpression coeffA = integersOfSum();
+			StepExpression coeffB = expr.integersOfSum();
+
+			if (coeffA != null && coeffB != null) {
+				if (coeffA.isInteger() && coeffB.isInteger()) {
+					return add(nonIntegersOfSum().getCommon(expr.nonIntegersOfSum()), coeffA.getCommon(coeffB));
+				}
+			}
+		}
+
+		if (expr.isOperation(Operation.PLUS)) {
+			SolutionBuilder tempSteps = new SolutionBuilder();
+			RegroupTracker tempTracker = new RegroupTracker();
+
+			StepExpression common = null;
+			StepExpression current = deepCopy();
+			for (StepExpression operand : (StepOperation) expr) {
+				if (current.containsExpression(operand)) {
+					common = add(common, operand);
+					current = (StepExpression) RegroupSteps.REGROUP_SUMS.apply(subtract(current, operand), tempSteps,
+							tempTracker);
+					tempTracker.resetTracker();
+				}
+			}
+
+			return common;
+		}
+
+		if (isOperation(Operation.PLUS)) {
+			return expr.getCommon(this);
 		}
 
 		return null;
@@ -854,6 +963,28 @@ public abstract class StepExpression extends StepNode {
 
 	public static StepExpression nonTrivialPower(StepExpression a, double b) {
 		return nonTrivialPower(a, StepConstant.create(b));
+	}
+
+	public static StepExpression nonTrivialRoot(StepExpression a, StepExpression b) {
+		if (a != null && b != null) {
+			if (isEqual(b, 1)) {
+				return a.deepCopy();
+			}
+		}
+
+		return root(a, b);
+	}
+
+	public static StepExpression nonTrivialSum(StepExpression a, StepExpression b) {
+		if (a != null && b != null) {
+			if (isEqual(a, 0)) {
+				return b.deepCopy();
+			} else if (isEqual(b, 0)) {
+				return a.deepCopy();
+			}
+		}
+
+		return add(a, b);
 	}
 
 	/**

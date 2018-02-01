@@ -12,26 +12,6 @@ import org.geogebra.common.plugin.Operation;
 
 public class StepHelper {
 
-	public static StepExpression getCommon(StepExpression a, StepExpression b) {
-		if (a.isOperation(Operation.PLUS)) {
-			StepOperation op = new StepOperation(Operation.PLUS);
-			for (StepExpression operand : (StepOperation) a) {
-				if (b.containsExpression(operand)) {
-					op.addOperand(operand);
-				}
-			}
-			if (op.noOfOperands() == 1) {
-				return op.getOperand(0);
-			} else if (op.noOfOperands() > 1) {
-				return op;
-			}
-		} else if (b.containsExpression(a)) {
-			return a;
-		}
-
-		return null;
-	}
-
 	/**
 	 * @param sn
 	 *            expression tree to traverse
@@ -376,20 +356,16 @@ public class StepHelper {
 		StepExpression.getBasesAndExponents(aFactored, null, aBases, aExponents);
 		StepExpression.getBasesAndExponents(bFactored, null, bBases, bExponents);
 
-		boolean[] foundA = new boolean[aBases.size()];
-		boolean[] foundB = new boolean[bBases.size()];
+		boolean[] found = new boolean[aBases.size()];
 
 		for (int i = 0; i < aBases.size(); i++) {
 			for (int j = 0; j < bBases.size(); j++) {
 				if (aBases.get(i).equals(bBases.get(j))) {
-					boolean less = aExponents.get(i).getValue() < bExponents.get(j).getValue();
+					StepExpression common = aExponents.get(i).getCommon(bExponents.get(j));
 
-					if (!less) {
-						aExponents.set(i, StepConstant.create(0));
-						foundB[j] = true;
-					} else {
-						bExponents.set(j, StepConstant.create(0));
-						foundA[i] = true;
+					if (!isZero(common)) {
+						aExponents.set(j, common);
+						found[i] = true;
 					}
 				}
 			}
@@ -402,13 +378,8 @@ public class StepHelper {
 		}
 
 		for (int i = 0; i < aBases.size(); i++) {
-			if (foundA[i]) {
+			if (found[i]) {
 				result = StepExpression.makeFraction(result, aBases.get(i), aExponents.get(i));
-			}
-		}
-		for (int i = 0; i < bBases.size(); i++) {
-			if (foundB[i]) {
-				result = StepExpression.makeFraction(result, bBases.get(i), bExponents.get(i));
 			}
 		}
 

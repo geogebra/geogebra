@@ -137,6 +137,7 @@ public enum FractionSteps implements SimplificationStepGenerator {
         @Override
         public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
             SimplificationStepGenerator[] fractionAddition = new SimplificationStepGenerator[]{
+                    RegroupSteps.REGROUP_SUMS,
                     RegroupSteps.REGROUP_PRODUCTS,
                     RegroupSteps.DISTRIBUTE_MINUS,
                     RegroupSteps.REGROUP_SUMS,

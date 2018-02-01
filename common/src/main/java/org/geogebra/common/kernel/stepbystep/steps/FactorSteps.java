@@ -20,7 +20,7 @@ import org.geogebra.common.plugin.Operation;
 
 public enum FactorSteps implements SimplificationStepGenerator {
 
-	FACTOR_COMMON {
+	FACTOR_COMMON_SUBSTEP {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
@@ -46,10 +46,13 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					for (int j = 0; j < commonBases.size(); j++) {
 						for (int k = 0; k < currentBases.get(i).size(); k++) {
 							if (currentBases.get(i).get(k).equals(commonBases.get(j))) {
-								if (currentExponents.get(i).get(k).getValue() < commonExponents.get(j).getValue()) {
-									commonExponents.set(j, currentExponents.get(i).get(k));
+								StepExpression common = commonExponents.get(j).getCommon(
+										currentExponents.get(i).get(k));
+								commonExponents.set(j, common);
+
+								if (!isZero(common)) {
+									found[j] = true;
 								}
-								found[j] = true;
 							}
 						}
 					}
@@ -69,8 +72,11 @@ public enum FactorSteps implements SimplificationStepGenerator {
 						for (int k = 0; k < currentBases.get(i).size(); k++) {
 							if (!isEqual(commonExponents.get(j), 0)
 									&& currentBases.get(i).get(k).equals(commonBases.get(j))) {
-								StepExpression differenceOfPowers = StepConstant.create(
-										currentExponents.get(i).get(k).getValue() - commonExponents.get(j).getValue());
+								StepExpression differenceOfPowers = subtract(
+										currentExponents.get(i).get(k), commonExponents.get(j));
+								if (differenceOfPowers.canBeEvaluated() && isEqual(differenceOfPowers.getValue(), 0)) {
+									differenceOfPowers = StepConstant.create(0);
+								}
 
 								currentExponents.get(i).set(k, differenceOfPowers);
 								currentBases.get(i).get(k).setColor(tempTracker++);
@@ -590,22 +596,38 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
-					FACTOR_COMMON,
+					FACTOR_COMMON_SUBSTEP,
 					REORGANIZE_POLYNOMIAL,
 					FACTOR_POLYNOMIAL
 			};
 
 			return StepStrategies.implementGroup(sn, SolutionStepType.FACTOR_POLYNOMIAL, strategy, sb, tracker);
 		}
+	},
+
+	FACTOR_COMMON {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					RegroupSteps.ELIMINATE_OPPOSITES,
+					RegroupSteps.REGROUP_SUMS,
+					RegroupSteps.REGROUP_PRODUCTS,
+					FACTOR_COMMON_SUBSTEP
+			};
+
+			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+		}
 	};
 
 	public int type() {
-		if (this == FACTOR_BINOM_STRATEGY) {
+		switch (this) {
+		case FACTOR_BINOM_STRATEGY:
+		case FACTOR_COMMON:
 			return 2;
-		} else if (this == FACTOR_POLYNOMIALS) {
+		case FACTOR_POLYNOMIALS:
 			return 1;
+		default:
+			return 0;
 		}
-
-		return 0;
 	}
 }

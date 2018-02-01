@@ -11,6 +11,10 @@ public class StepStrategies {
 	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 				RegroupSteps.CALCULATE_INVERSE_TRIGO,
+				RegroupSteps.ELIMINATE_OPPOSITES,
+				RegroupSteps.DISTRIBUTE_MINUS,
+				RegroupSteps.DOUBLE_MINUS,
+				RegroupSteps.POWER_OF_NEGATIVE,
 				RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
 				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
 				RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
@@ -18,22 +22,17 @@ public class StepStrategies {
 				RegroupSteps.COMMON_ROOT,
 				RegroupSteps.SIMPLIFY_ROOTS,
 				RegroupSteps.NEGATIVE_FRACTIONS,
-				RegroupSteps.MULTIPLY_NEGATIVES,
 				RegroupSteps.TRIVIAL_FRACTIONS,
 				RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
 				RegroupSteps.COMMON_FRACTION,
 				RegroupSteps.REGROUP_SUMS,
 				RegroupSteps.REGROUP_PRODUCTS,
 				RegroupSteps.SIMPLE_POWERS,
-				RegroupSteps.ELIMINATE_OPPOSITES,
-				RegroupSteps.DISTRIBUTE_MINUS,
-				RegroupSteps.DOUBLE_MINUS,
 				RegroupSteps.SIMPLIFY_FRACTIONS,
 				RegroupSteps.FACTOR_FRACTIONS_SUBSTEP,
 				ExpandSteps.EXPAND_PRODUCTS,
 				RegroupSteps.RATIONALIZE_DENOMINATORS,
-				FractionSteps.ADD_FRACTIONS,
-				RegroupSteps.POWER_OF_NEGATIVE
+				FractionSteps.ADD_FRACTIONS
 		};
 
 		StepNode result = sn;
@@ -234,6 +233,7 @@ public class StepStrategies {
 			}
 
 			tracker.incColorTracker();
+			result.cleanColors();
 			return result;
 		}
 
@@ -247,12 +247,12 @@ public class StepStrategies {
 				EquationSteps.FACTOR,
 				EquationSteps.SUBTRACT_COMMON,
 				EquationSteps.PLUSMINUS,
-				EquationSteps.MULTIPLY_THROUGH,
 				EquationSteps.SOLVE_LINEAR,
+				EquationSteps.TAKE_ROOT,
 				EquationSteps.RECIPROCATE_EQUATION,
 				EquationSteps.SOLVE_LINEAR_IN_INVERSE,
-				EquationSteps.TAKE_ROOT,
 				EquationSteps.COMMON_DENOMINATOR,
+				EquationSteps.MULTIPLY_THROUGH,
 				EquationSteps.EXPAND,
 				EquationSteps.SOLVE_QUADRATIC,
 				EquationSteps.COMPLETE_CUBE,
@@ -279,7 +279,7 @@ public class StepStrategies {
 
 	public static StepNode implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
 

@@ -27,7 +27,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void factorTest() {
-		//f("2^(k+1)+2^k", "(3)(2^(k))");
+		f("2^(k+1)+2^k", "((2)^(k))(3)");
 		f("x^3 + 6 x^2 + 11 x + 6", "((x + 3))((x + 2))((x + 1))");
 		f("12x+6y+9z", "(3)(((4)(x) + (2)(y) + (3)(z)))");
 		f("3*x^2*(x+2) + 3*x*(x+2)^2", "(6)(x)((x + 2))((x + 1))");
@@ -47,6 +47,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void fractionTest() {
+		r("(2^(2k)+2^(k+1))/((2)^(k))", "((2)^(k) + 2)");
 		e("((1)/((1-((11 + nroot(13, 2)))/(9))) + ((22 + (2)(nroot(13, 2))))/((18-((9)((11 + nroot(13, 2))))/(9))))" +
 				"", "7");
 		r("3/2+4/2", "(7)/(2)");
@@ -65,6 +66,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void regroupTest() {
+		r("nroot(81x^(3)y^(4), 3)", "(3)(x)(y)(nroot((3)(y), 3))");
 		r("sqrt(x^3)", "(|x|)(nroot(x, 2))");
 		r("-((-3)*(-5)*(-6))", "90");
 		r("(-3)*(5)*(6)", "-90");

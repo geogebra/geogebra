@@ -9,6 +9,7 @@ public class RegroupTracker {
 
 	private int colorTracker;
 
+	private boolean decimalSimplify;
 	private boolean weakFactor;
 	private boolean integerFractions;
 	private boolean strongExpand;
@@ -16,8 +17,8 @@ public class RegroupTracker {
 	private List<Mark> marks;
 
 	public enum MarkType {
-		EXPAND,		// marked for expansion
-		ROOT		// marked for being under square root
+		EXPAND,			// marked for expansion
+		ROOT,			// marked for being under square root
 	}
 
 	private static class Mark {
@@ -79,6 +80,11 @@ public class RegroupTracker {
 		return this;
 	}
 
+	public RegroupTracker setDecimalSimplify() {
+		this.decimalSimplify = true;
+		return this;
+	}
+
 	public boolean getExpandSettings() {
 		return strongExpand;
 	}
@@ -89,6 +95,10 @@ public class RegroupTracker {
 
 	public boolean isIntegerFractions() {
 		return integerFractions;
+	}
+
+	public boolean isDecimalSimplify() {
+		return decimalSimplify;
 	}
 
 	public boolean wasChanged() {
