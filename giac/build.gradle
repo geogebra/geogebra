@@ -706,7 +706,7 @@ task createGiacJs(dependsOn: 'createGiacGgbJs', type: Copy) {
     into 'build/binaries/giacggb.js'
     include ('giacggb.js')
     rename 'giacggb.js', 'giac.js'
-    filter { line -> line.replace('Module', '__ggb__giac') }
+    filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
 }
 
 // Using emsdk
