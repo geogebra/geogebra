@@ -251,8 +251,8 @@ public class PagePreviewCard extends FlowPanel
 			contextMenu.hide();
 			toggleMoreButton(false);
 		} else {
-			contextMenu.show(moreBtn.getAbsoluteLeft() - 134,
-				moreBtn.getAbsoluteTop() + 33);
+			contextMenu.show(moreBtn.getAbsoluteLeft() - 122,
+					moreBtn.getAbsoluteTop() + 36);
 			toggleMoreButton(true);
 		}
 	}
