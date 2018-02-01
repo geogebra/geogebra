@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import java.util.Date;
 import java.util.LinkedList;
 
+import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.settings.Settings;
@@ -52,7 +53,7 @@ public class ExamEnvironment {
 	protected App app;
 
 	/**
-	 * 
+	 *
 	 * @param app
 	 *            application
 	 */
@@ -65,7 +66,7 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return true if exam is started
 	 */
 	public boolean isStarted() {
@@ -228,11 +229,11 @@ public class ExamEnvironment {
 		return CmdGetTime.buildLocalizedDate("\\D, \\j \\F \\Y", new Date(time),
 				loc);
 	}
-	
+
 	protected String lineBreak() {
 		return "<br>";
 	}
-	
+
 	protected void appendSettings(Localization loc, Settings settings, StringBuilder sb) {
 		// Deactivated Views
 		boolean supportsCAS = settings.getCasSettings().isEnabled();
@@ -256,7 +257,7 @@ public class ExamEnvironment {
 		}
 
 	}
-	
+
 	private void appendStartEnd(Localization loc, StringBuilder sb, boolean showEndTime) {
 		// Exam Start Date
 		sb.append(loc.getMenu("exam_start_date"));
@@ -278,9 +279,9 @@ public class ExamEnvironment {
 			sb.append(lineBreak());
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @return elapsed time
 	 */
 	public String getElapsedTime() {
@@ -288,7 +289,7 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return closed time
 	 */
 	public String getClosedTime() {
@@ -325,47 +326,47 @@ public class ExamEnvironment {
 		StringBuilder sb = new StringBuilder();
 
 		appendSettings(loc, settings, sb);
-		
+
 		appendStartEnd(loc, sb, true);
 
 		sb.append("<hr>");
 		sb.append(lineBreak());
 
 		appendLogTimes(loc, sb, true);
-		
+
 		return sb.toString();
 	}
-	
+
 	public String getLogStartEnd(Localization loc) {
 		return getLogStartEnd(loc, true);
 	}
-	
+
 	public String getLogStartEnd(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
 		appendStartEnd(loc, sb, showEndTime);
 		return sb.toString();
 	}
-	
+
 	public String getLogStartAndCurrentTime(Localization loc) {
 		StringBuilder sb = new StringBuilder();
 
 		appendStartEnd(loc, sb, false);
-		
+
 		// Exam Current Time
 		sb.append(loc.getMenu("exam_current_time"));
 		sb.append(": ");
 		sb.append(timeToString(System.currentTimeMillis()));
-		
+
 		return sb.toString();
 	}
-	
+
 	public String getLogTimes(Localization loc) {
 		return getLogTimes(loc, true);
 	}
 
 	public String getLogTimes(Localization loc, boolean showEndTime) {
 		StringBuilder sb = new StringBuilder();
-		appendLogTimes(loc, sb, showEndTime);		
+		appendLogTimes(loc, sb, showEndTime);
 		return sb.toString();
 	}
 
@@ -486,7 +487,7 @@ public class ExamEnvironment {
 
 	/**
 	 * set calculator type and setup application regarding the type
-	 * 
+	 *
 	 * @param type
 	 *            calculator type
 	 */
@@ -515,7 +516,7 @@ public class ExamEnvironment {
 
 	/**
 	 * close exam mode and reset CAS etc.
-	 * 
+	 *
 	 */
 	public void closeExam() {
 		app.enableCAS(wasCasEnabled);
@@ -650,19 +651,42 @@ public class ExamEnvironment {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return a string representation that represents if currently cheating or not
 	 */
 	public String getMarkCheatingOrNot() {
 		return isCheating() ? MARK_CHEATING : MARK_NOT_CHEATING;
 	}
 
-	/**
-	 * 
-	 * @return header for log dialogs
-	 */
-	public String getLogHeader() {
-		return app.getLocalization().getPlainDefault("exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
-				getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
-	}
+    /**
+     * @return header for log dialogs
+     */
+    public String getLogHeader() {
+        return app.getLocalization().getPlainDefault("exam_log_header_calculator_time_check", "Exam log: %0   %1 %2",
+                getCalculatorTypeName(), getElapsedTime(), getMarkCheatingOrNot());
+    }
+
+    /**
+     *
+     * @return the localized elapsed time string
+     */
+    public String getElapsedTimeLocalized() {
+        return  timeToStringLocalized(System.currentTimeMillis());
+    }
+
+    /**
+     *
+     * @param timestamp current timestamp in millis
+     * @return the localized formatted time string
+     */
+    private String timeToStringLocalized(long timestamp) {
+
+        if (examStartTime < 0) {
+            return FormatFactory.getPrototype().getTimeFormat().format(app.getLocalization().getLocale(), "%02d:%02d", 0);
+        }
+
+        int millis = (int) (timestamp - examStartTime);
+
+        return FormatFactory.getPrototype().getTimeFormat().format(app.getLocalization().getLocale(), "%02d:%02d", millis);
+    }
 }

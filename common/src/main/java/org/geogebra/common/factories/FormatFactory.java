@@ -1,7 +1,9 @@
 package org.geogebra.common.factories;
 
+import org.geogebra.common.util.DefaultTimeFormat;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.ScientificFormatAdapter;
+import org.geogebra.common.util.TimeFormatAdapter;
 
 public abstract class FormatFactory {
 	private static volatile FormatFactory prototype;
@@ -28,5 +30,9 @@ public abstract class FormatFactory {
 
 	public abstract NumberFormatAdapter getNumberFormat(String pattern,
 			int digits);
+
+	public TimeFormatAdapter getTimeFormat() {
+		return new DefaultTimeFormat();
+	}
 
 }

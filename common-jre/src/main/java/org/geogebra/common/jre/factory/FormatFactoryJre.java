@@ -3,8 +3,10 @@ package org.geogebra.common.jre.factory;
 import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.jre.util.NumberFormat;
 import org.geogebra.common.jre.util.ScientificFormat;
+import org.geogebra.common.jre.util.TimeFormat;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.ScientificFormatAdapter;
+import org.geogebra.common.util.TimeFormatAdapter;
 
 /**
  * Format factory for Desktop and Android
@@ -31,4 +33,8 @@ public class FormatFactoryJre extends FormatFactory {
 		return new NumberFormat(s, i);
 	}
 
+    @Override
+    public TimeFormatAdapter getTimeFormat() {
+        return new TimeFormat();
+    }
 }
