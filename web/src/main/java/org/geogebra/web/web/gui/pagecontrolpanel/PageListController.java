@@ -325,7 +325,7 @@ public class PageListController implements PageListControllerInterface,
 	private boolean dropTo(int x, int y) {
 		int destIdx = lastDragTarget != null ? lastDragTarget.getPageIndex()
 				: -1;
-		if (destIdx != -1) {
+		if (dragIndex != -1 && destIdx != -1) {
 			Log.debug("drag: " + dragIndex  + " drop to " + destIdx);
 
 			reorder(dragIndex, destIdx);
@@ -333,7 +333,7 @@ public class PageListController implements PageListControllerInterface,
 			clearSpaces();
 			return true;
 		} 
-		
+		clearDrag();
 		return false;
 	}
 
@@ -445,7 +445,7 @@ public class PageListController implements PageListControllerInterface,
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = doDrag(x, y);
 			if (targetIdx != -1) {
-				listener.setDivider(targetIdx);
+				listener.insertDivider(targetIdx);
 			}
 		}
 	}
@@ -458,12 +458,15 @@ public class PageListController implements PageListControllerInterface,
 		} else {
 			loadPageAt(x, y);
 		}
+		clearDrag();
+	}
+
+	private void clearDrag() {
 		CancelEventTimer.resetDrag();
 		if (dragCard != null) {
 			dragCard.removeStyleName("dragged");
 		}
-
-		clearSpaces();
+		listener.removeDivider();
 		dragCard = null;
 	}
 

@@ -16,5 +16,11 @@ public interface CardListInterface {
 	 * @param targetIdx
 	 *            The index of the card, divider will be inserted before.
 	 */
-	void setDivider(int targetIdx);
+	void insertDivider(int targetIdx);
+
+	/**
+	 * removes divider
+	 */
+	void removeDivider();
+
 }

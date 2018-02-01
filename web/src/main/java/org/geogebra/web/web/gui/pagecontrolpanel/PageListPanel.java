@@ -324,8 +324,12 @@ public class PageListPanel
 		}
 	}
 
-	public void setDivider(int targetIdx) {
-		divider.removeFromParent();
+	public void insertDivider(int targetIdx) {
+		removeDivider();
 		contentPanel.insert(divider, targetIdx);
+	}
+
+	public void removeDivider() {
+		divider.removeFromParent();
 	}
 }	
