@@ -75,6 +75,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	//TODO: 3x(x+1) to 3xx+3x1 in one step
 	EXPAND_PRODUCTS {
 		@Override 
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {

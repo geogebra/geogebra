@@ -61,8 +61,8 @@ public enum EquationSteps implements SolveStepGenerator {
 	SUBTRACT_COMMON {
 		@Override
 		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
-			StepExpression common = StepHelper.getCommon(se.getLHS(), se.getRHS());
-			if (!se.getLHS().equals(common) || !se.getRHS().equals(common)) {
+			StepExpression common = se.getLHS().nonIntegersOfSum().getCommon(se.getRHS().nonIntegersOfSum());
+			if (!se.getLHS().equals(se.getRHS()) && common != null && !common.isInteger()) {
 				se.addOrSubtract(common, steps);
 			}
 
