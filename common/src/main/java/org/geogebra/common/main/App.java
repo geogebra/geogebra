@@ -4133,7 +4133,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-650 */
 		case GGB_WEB_ASSEMBLY:
-			return false;
+			return prerelease;
 
 		case SOLVE_QUARTIC:
 			return prerelease;
