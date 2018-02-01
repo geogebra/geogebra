@@ -5142,6 +5142,10 @@ public abstract class App implements UpdateSelection {
 		return specialPointsManager;
 	}
 
+	public boolean hasSpecialPointsManager() {
+		return specialPointsManager != null;
+	}
+
 	/**
 	 * enable/disable CAS and re-init command table
 	 * 
