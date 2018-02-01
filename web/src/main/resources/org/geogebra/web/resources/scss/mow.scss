@@ -666,15 +666,19 @@
 		.mowImagePanel {
 			width: 100%;
 			height: calc(220px * 9/16);
+			border: 2px solid transparent;
+			border-bottom: none;
+			box-sizing: border-box;
 			background-repeat: no-repeat;
 			background-position: center;
-			background-size: cover;
+			background-size: 110%;
 			cursor: pointer;
 		}
 		.mowTitlePanel {
 			width: 100%;
 			border-radius: 0 0 2px 2px;
-			background-color: $selected-menuitem-background;
+			background-color: $preview-card-background;
+			box-sizing: border-box;
 			display: flex;
 			
 			.gwt-Label {
@@ -703,13 +707,15 @@
 		}
 	}
 		.mowPagePreviewCard.selected {
-			border: 2px solid $mow_highlight;
 			box-shadow: $shadow-elevation-8;
+			
 			.mowImagePanel {
-				    clip-path: inset(2px 2px 0 2px);
-				    width: calc(100% + 4px);
-				    margin-left: -2px;
-				    margin-top: -2px;   
+				    border: 2px solid $mow_highlight;
+				    border-bottom: none;
+			}
+			.mowTitlePanel {
+					border: 2px solid $mow_highlight;
+				    border-top: none;
 			}
 			.gwt-Label {
 				padding-bottom: 14px;
