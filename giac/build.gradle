@@ -711,7 +711,7 @@ task createGiacJs(dependsOn: 'createGiacGgbJs') {
             filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
         }
         exec {
-            commandLine "base64 -w0 giacggb.wasm > giacggb.wasm.b64".split()
+            commandLine "bash", "-c", "base64 -w0 giacggb.wasm > giacggb.wasm.b64"
             workingDir 'build/binaries'
         }
         copy {
@@ -722,7 +722,7 @@ task createGiacJs(dependsOn: 'createGiacGgbJs') {
             filter { line -> "window.__ggb__giac = {};\nwindow.__ggb__giac.wasmBinaryFile=\"data:application/wasm;base64," + line + "\";\n" }
         }
         exec {
-            commandLine "cat giac.js >> giac.wasm.js".split()
+            commandLine "bash", "-c", "cat giac.js >> giac.wasm.js"
             workingDir 'build/binaries'
         }
     }
