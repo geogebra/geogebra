@@ -6,6 +6,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedur
 import org.geogebra.common.main.App;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
+import org.geogebra.web.html5.gui.util.ListBoxApi;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -18,6 +19,7 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -70,11 +72,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	 */
 	public StatisticsCalculatorW(App app) {
 		super(app);
-		createGUI();
+		createGUI(new FlowPanel());
 	}
 
-	private void createGUI() {
-		this.wrappedPanel = new FlowPanel();
+	private void createGUI(FlowPanel root) {
+		this.wrappedPanel = root;
 		wrappedPanel.addStyleName("StatisticsCalculatorW");
 		
 		createGUIElements();
@@ -112,7 +114,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		
 		setLabels();
 		updateGUI();
-		panelChiSquare.updateCellContent();
+		panelChiSquare.updateVisibility();
 	}
 
 	/**
@@ -213,7 +215,8 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.GOF_TEST));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.CHISQ_TEST));
-
+		ListBoxApi.select(mapProcedureToName.get(sc.getSelectedProcedure()),
+				cbProcedure);
 		//cbProcedure.setMaximumRowCount(cbProcedure.getItemCount());
 
 		// TODO for testing only, remove later
@@ -489,17 +492,17 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	    ckPooled.setValue(false);
 	    ckPooled.addValueChangeHandler(this);
 	    
-	    cbProcedure = new ListBox();
+		cbProcedure = new ListBox();
 	    cbProcedure.addChangeHandler(this);
 	    
 	    btnCalculate = new Button();
 	    btnCalculate.addClickHandler(this);
-	    
-	    btnLeft = new RadioButton("tail");
+		String id = DOM.createUniqueId();
+		btnLeft = new RadioButton(id);
 		btnLeft.setText(StatisticsCollection.tail_left);
-	    btnRight = new RadioButton("tail");
+		btnRight = new RadioButton(id);
 		btnRight.setText(StatisticsCollection.tail_right);
-	    btnTwo = new RadioButton("tail");
+		btnTwo = new RadioButton(id);
 		btnTwo.setText(StatisticsCollection.tail_two);
 	    
 	    FlowPanel group = new FlowPanel();
@@ -692,5 +695,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		btnLeft.setValue(left);
 		btnRight.setValue(right);
 		btnTwo.setValue(!left && !right);
+	}
+
+	@Override
+	public void settingsChanged() {
+		wrappedPanel.clear();
+		createGUI(wrappedPanel);
 	}
 }

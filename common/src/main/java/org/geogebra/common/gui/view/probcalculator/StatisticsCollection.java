@@ -28,6 +28,10 @@ public class StatisticsCollection {
 	public double[] columnSum, rowSum;
 	private Procedure selectedProcedure;
 	private boolean active;
+	public boolean showExpected;
+	public boolean showDiff;
+	public boolean showColPercent;
+	public boolean showRowPercent;
 
 	/***/
 	public enum Procedure {
@@ -144,8 +148,11 @@ public class StatisticsCollection {
 		add(sb, level, "level");
 		sb.append("\" tail=\"");
 		sb.append(getTail());
-		sb.append("\" active=\"");
-		sb.append(active);
+		add(sb, active, "active");
+		add(sb, showExpected, "showExpected");
+		add(sb, showDiff, "showDiff");
+		add(sb, showRowPercent, "showRowPercent");
+		add(sb, showColPercent, "showColPercent");
 		if (chiSquareData != null && chiSquareData.length > 0) {
 			// add(sb, chiSquareData.length, "columns");
 			add(sb, chiSquareData[0].length, "columns");
@@ -170,6 +177,13 @@ public class StatisticsCollection {
 	}
 
 	private void add(StringBuilder sb, double sd3, String string) {
+		sb.append("\" ");
+		sb.append(string);
+		sb.append("=\"");
+		sb.append(sd3);
+	}
+
+	private void add(StringBuilder sb, boolean sd3, String string) {
 		sb.append("\" ");
 		sb.append(string);
 		sb.append("=\"");

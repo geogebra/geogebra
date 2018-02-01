@@ -48,8 +48,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	private JCheckBox ckExpected, ckChiDiff, ckRowPercent, ckColPercent;
 	private JLabel lblRows, lblColumns;
 
-	private boolean showColumnMargin;
-
 	private JPanel wrappedPanel;
 
 	/**
@@ -232,90 +230,11 @@ public class ChiSquarePanelD extends ChiSquarePanel
 								(String) cbColumns.getSelectedItem()));
 	}
 
-	private void updateVisibility() {
-		for (int i = 1; i < getSc().rows + 1; i++) {
-			for (int j = 1; j < getSc().columns + 1; j++) {
-				cell[i][j].setLabelVisible(1, ckExpected.isSelected());
-				cell[i][j].setLabelVisible(2, ckChiDiff.isSelected());
-				cell[i][j].setLabelVisible(3, ckRowPercent.isSelected());
-				cell[i][j].setLabelVisible(4, ckColPercent.isSelected());
-			}
-		}
-
-		// column percent for bottom margin
-		for (int r = 0; r < getSc().rows; r++) {
-			cell[r + 1][getSc().columns + 1].setLabelVisible(3,
-					ckColPercent.isSelected());
-		}
-
-		// row percent for right margin
-		for (int c = 0; c < getSc().columns; c++) {
-			cell[getSc().rows + 1][c + 1].setLabelVisible(4,
-					ckRowPercent.isSelected());
-		}
-
-		updateCellContent();
-	}
-
-	public void updateCellContent() {
-
-		getStatProcessor().doCalculate();
-		for (int r = 0; r < getSc().rows + 1; r++) {
-			for (int c = 0; c < getSc().columns + 1; c++) {
-				cell[r][c].setValue(getSc().chiSquareData[r][c]);
-			}
-		}
-		for (int r = 0; r < getSc().rows; r++) {
-			for (int c = 0; c < getSc().columns; c++) {
-				if (ckExpected.isSelected()) {
-					cell[r + 1][c + 1].setLabelText(1,
-							getStatCalc().format(getSc().expected[r][c]));
-				}
-				if (ckChiDiff.isSelected()) {
-					cell[r + 1][c + 1].setLabelText(2,
-							getStatCalc().format(getSc().diff[r][c]));
-				}
-				if (ckRowPercent.isSelected()) {
-					cell[r + 1][c + 1].setLabelText(3, getStatCalc()
-							.format(100 * getSc().observed[r][c] / getSc().rowSum[r]));
-				}
-				if (ckColPercent.isSelected()) {
-					cell[r + 1][c + 1].setLabelText(4, getStatCalc()
-							.format(100 * getSc().observed[r][c] / getSc().columnSum[c]));
-				}
-			}
-		}
-
-		// column margin
-		if (showColumnMargin) {
-			for (int r = 0; r < getSc().rows; r++) {
-				cell[r + 1][getSc().columns + 1].setLabelText(0,
-						getStatCalc().format(getSc().rowSum[r]));
-				if (ckRowPercent.isSelected()) {
-					cell[r + 1][getSc().columns + 1].setLabelText(3,
-							getStatCalc().format(100 * getSc().rowSum[r] / getSc().total));
-				}
-			}
-		}
-
-		// bottom margin
-		for (int c = 0; c < getSc().columns; c++) {
-			cell[getSc().rows + 1][c + 1].setLabelText(0,
-					getStatCalc().format(getSc().columnSum[c]));
-
-			if (ckColPercent.isSelected()) {
-				cell[getSc().rows + 1][c + 1].setLabelText(4,
-						getStatCalc().format(100 * getSc().columnSum[c] / getSc().total));
-			}
-
-		}
-
-		// bottom right corner
-		if (showColumnMargin) {
-			cell[getSc().rows + 1][getSc().columns + 1].setLabelText(0,
-					getStatCalc().format(getSc().total));
-		}
-
+	public void updateShowFlags() {
+		getSc().showExpected = ckExpected.isSelected();
+		getSc().showDiff = ckChiDiff.isSelected();
+		getSc().showRowPercent = ckRowPercent.isSelected();
+		getSc().showColPercent = ckColPercent.isSelected();
 	}
 
 	@Override
@@ -332,6 +251,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 
 		if (source == ckExpected || source == ckChiDiff
 				|| source == ckRowPercent || source == ckColPercent) {
+			updateShowFlags();
 			updateVisibility();
 		}
 
@@ -458,6 +378,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			label[index].setText(s);
 		}
 
+		@Override
 		public void setLabelVisible(int index, boolean isVisible) {
 			label[index].setVisible(isVisible);
 		}
@@ -525,6 +446,11 @@ public class ChiSquarePanelD extends ChiSquarePanel
 	 */
 	public JPanel getWrappedPanel() {
 		return wrappedPanel;
+	}
+
+	@Override
+	protected ChiSquareCell getCell(int i, int j) {
+		return cell[i][j];
 	}
 
 }

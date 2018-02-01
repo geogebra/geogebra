@@ -59,4 +59,8 @@ public class ListBoxApi {
 		}
 		return sel;
 	}
+
+	public static void select(String valueOf, ListBox cbRows) {
+		cbRows.setSelectedIndex(getIndexOf(valueOf, cbRows));
+	}
 }

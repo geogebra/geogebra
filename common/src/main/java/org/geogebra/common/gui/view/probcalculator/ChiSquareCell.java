@@ -41,4 +41,10 @@ public abstract class ChiSquareCell {
 	protected boolean isMarginCell() {
 		return isMarginCell;
 	}
+
+	public abstract void setLabelVisible(int i, boolean show);
+
+	public abstract void setLabelText(int i, String label);
+
+	public abstract void setValue(String value);
 }

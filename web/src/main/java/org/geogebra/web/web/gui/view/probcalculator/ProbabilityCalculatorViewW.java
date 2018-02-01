@@ -689,8 +689,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		// set distribution combo box
 		if (!comboDistribution.getValue(comboDistribution.getSelectedIndex())
 				.equals(getDistributionMap().get(selectedDist))) {
-			comboDistribution.setSelectedIndex(ListBoxApi.getIndexOf(
-					getDistributionMap().get(selectedDist), comboDistribution));
+			ListBoxApi.select(
+					getDistributionMap().get(selectedDist), comboDistribution);
 		}
 
 		btnCumulative.setValue(isCumulative);
@@ -772,7 +772,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		comboDistribution.addItem(getDistributionMap().get(DIST.POISSON));
 		comboDistribution.addItem(getDistributionMap().get(DIST.HYPERGEOMETRIC));
 
-		comboDistribution.setSelectedIndex(ListBoxApi.getIndexOf(getDistributionMap().get(selectedDist), comboDistribution));
+		ListBoxApi.select(getDistributionMap().get(selectedDist),
+				comboDistribution);
 		comboDistribution.addChangeHandler(this);
 
 	}

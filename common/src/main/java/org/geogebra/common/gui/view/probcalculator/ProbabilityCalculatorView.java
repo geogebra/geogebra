@@ -1402,7 +1402,9 @@ public abstract class ProbabilityCalculatorView
 			this.setInterval(pcSettings.getLow(), pcSettings.getHigh());
 
 		}
-
+		if (getStatCalculator() != null) {
+			getStatCalculator().settingsChanged();
+		}
 	}
 
 	protected abstract void setInterval(double low2, double high2);

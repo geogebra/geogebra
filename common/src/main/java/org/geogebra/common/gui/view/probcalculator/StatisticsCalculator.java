@@ -70,10 +70,6 @@ public abstract class StatisticsCalculator {
 		this.app = app;
 		cons = app.getKernel().getConstruction();
 		kernel = cons.getKernel();
-		if (app.getSettings().getProbCalcSettings().getCollection() == null) {
-			app.getSettings().getProbCalcSettings()
-					.setCollection(new StatisticsCollection());
-		}
 		sc = app.getSettings().getProbCalcSettings().getCollection();
 		statProcessor = new StatisticsCalculatorProcessor(app, this, sc);
 		statHTML = new StatisticsCalculatorHTML(app, this, sc);
@@ -398,5 +394,10 @@ public abstract class StatisticsCalculator {
 			sc.setActive(active);
 			sc.getXML(sb);
 		}
+	}
+
+	public void settingsChanged() {
+		// TODO Auto-generated method stub
+
 	}
 }

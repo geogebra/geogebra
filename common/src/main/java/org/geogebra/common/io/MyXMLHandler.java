@@ -1246,7 +1246,8 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			entries = null;
-			StatisticsCollection stats = new StatisticsCollection();
+			StatisticsCollection stats = app.getSettings().getProbCalcSettings()
+					.getCollection();
 			stats.mean = StringUtil.parseDouble(attrs.get("mean"));
 			stats.n = StringUtil.parseDouble(attrs.get("n"));
 			stats.sd = StringUtil.parseDouble(attrs.get("sd"));
@@ -1260,13 +1261,16 @@ public class MyXMLHandler implements DocHandler {
 			stats.nullHyp = StringUtil.parseDouble(attrs.get("nullHyp"));
 			stats.level = StringUtil.parseDouble(attrs.get("level"));
 			stats.setActive(parseBoolean(attrs.get("active")));
+			stats.showExpected = parseBoolean(attrs.get("showExpected"));
+			stats.showDiff = parseBoolean(attrs.get("showDiff"));
+			stats.showColPercent = parseBoolean(attrs.get("showColPercent"));
+			stats.showRowPercent = parseBoolean(attrs.get("showRowPercent"));
 			stats.setTail(attrs.get("tail"));
 			stats.setSelectedProcedure(Procedure.valueOf(attrs.get("procedure")));
 			if (!StringUtil.empty(attrs.get("columns"))) {
 				stats.columns = (int) StringUtil
 					.parseDouble(attrs.get("columns"));
 			}
-			app.getSettings().getProbCalcSettings().setCollection(stats);
 
 			return true;
 		} catch (RuntimeException e) {

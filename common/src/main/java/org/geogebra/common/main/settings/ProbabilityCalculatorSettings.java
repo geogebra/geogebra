@@ -213,6 +213,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	}
 
 	public StatisticsCollection getCollection() {
+		if (stats == null) {
+			stats = new StatisticsCollection();
+		}
 		return stats;
 	}
 }

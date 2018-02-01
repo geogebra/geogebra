@@ -28,7 +28,7 @@ public class NoExceptionsTest {
 
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppDNoGui(new LocalizationD(3), true);
+		app = new AppDNoGui(new LocalizationD(3), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
 	    // Setting the general timeout to 11 seconds. Feel free to change this.

@@ -133,7 +133,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 		setLabels();
 		updateGUI();
-		panelChiSquare.updateCellContent();
+		panelChiSquare.updateVisibility();
+		panelChiSquare.getWrappedPanel().revalidate();
 	}
 
 	private void createControlPanel() {
@@ -293,6 +294,7 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		ckPooled.addActionListener(this);
 
 		cbProcedure = new JComboBox<>();
+		cbProcedure.setSelectedItem(sc.getSelectedProcedure().toString());
 		cbProcedure.setRenderer(new ListSeparatorRenderer());
 		cbProcedure.addActionListener(this);
 
@@ -455,6 +457,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.CHISQ_TEST));
 
 		cbProcedure.setMaximumRowCount(cbProcedure.getItemCount());
+		cbProcedure.setSelectedItem(
+				mapProcedureToName.get(sc.getSelectedProcedure()));
 		cbProcedure.addActionListener(this);
 		// TODO for testing only, remove later
 		// cbProcedure.setSelectedItem(mapProcedureToName
