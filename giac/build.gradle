@@ -700,13 +700,32 @@ task createGiacGgbJs(dependsOn: 'emccGiacJs', type: Copy) {
     include ('ggb.html')
 }
 
-task createGiacJs(dependsOn: 'createGiacGgbJs', type: Copy) {
+task createGiacJs(dependsOn: 'createGiacGgbJs') {
     description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
-    from 'build/binaries/giacggb.js'
-    into 'build/binaries/giacggb.js'
-    include ('giacggb.js')
-    rename 'giacggb.js', 'giac.js'
-    filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
+    doLast {
+        copy {
+            from 'build/binaries/giacggb.js'
+            into 'build/binaries/giacggb.js'
+            include ('giacggb.js')
+            rename 'giacggb.js', 'giac.js'
+            filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
+        }
+        exec {
+            commandLine "base64 -w0 giacggb.wasm > giacggb.wasm.b64".split()
+            workingDir 'build/binaries'
+        }
+        copy {
+            from 'build/binaries/giacggb.wasm.b64'
+            into 'build/binaries/giacggb.wasm.js'
+            include ('giacggb.wasm.b64')
+            rename 'giacggb.wasm.b64', 'giac.wasm.js'
+            filter { line -> "window.__ggb__giac = {};\nwindow.__ggb__giac.wasmBinaryFile=\"data:application/wasm;base64," + line + "\";\n" }
+        }
+        exec {
+            commandLine "cat giac.js >> giac.wasm.js".split()
+            workingDir 'build/binaries'
+        }
+    }
 }
 
 // Using emsdk
