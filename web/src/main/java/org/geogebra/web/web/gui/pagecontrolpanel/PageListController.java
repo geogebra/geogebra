@@ -9,10 +9,25 @@ import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
+
+import com.google.gwt.dom.client.Touch;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseMoveEvent;
+import com.google.gwt.event.dom.client.MouseMoveHandler;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 
 /**
  * controller for page actions, such as delete or add slide
@@ -20,7 +35,9 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
  * @author csilla
  *
  */
-public class PageListController implements PageListControllerInterface {
+public class PageListController implements PageListControllerInterface,
+		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler,
+		TouchMoveHandler, TouchEndHandler {
 	/**
 	 * application {@link AppW}
 	 */
@@ -33,14 +50,18 @@ public class PageListController implements PageListControllerInterface {
 	private int dragIndex = -1;
 	private PagePreviewCard lastDragTarget;
 	private PagePreviewCard dragCard;
+	private CardListInterface listener;
 
 	/**
 	 * @param app
 	 *            {@link AppW}
+	 * @param listener
+	 *            the card listener.
 	 */
-	public PageListController(AppW app) {
+	public PageListController(AppW app, CardListInterface listener) {
 		this.app = app;
 		slides = new ArrayList<>();
+		this.listener = listener;
 	}
 
 	/**
@@ -284,8 +305,7 @@ public class PageListController implements PageListControllerInterface {
 		updatePageIndexes(Math.min(srcIdx, destIdx));
 	}
 
-	@Override
-	public int cardIndexAt(int x, int y) {
+	private int cardIndexAt(int x, int y) {
 		int result = -1;
 		for (PagePreviewCard card: slides) {
 			if (card.getPageIndex() != dragIndex && card.isHit(x, y)) {
@@ -295,7 +315,14 @@ public class PageListController implements PageListControllerInterface {
 		return result;
 	}
 	
-	public boolean dropTo(int x, int y) {
+	/**
+	 * 
+	 * @param x
+	 *            is unused now.
+	 * @param y
+	 * @return
+	 */
+	private boolean dropTo(int x, int y) {
 		int destIdx = lastDragTarget != null ? lastDragTarget.getPageIndex()
 				: -1;
 		if (destIdx != -1) {
@@ -365,32 +392,25 @@ public class PageListController implements PageListControllerInterface {
 		}
 	}
 
-	@Override
-	public void startDrag(int x, int y) {
+	private void startDrag(int x, int y) {
 		dragIndex = cardIndexAt(x, y);
 		if (dragIndex != -1) {
 			dragCard = slides.get(dragIndex);
-			dragCard.setAbsolutePosition();
-			if (dragIndex > 0 && dragIndex < slides.size()) {
-				// Making room to "take out" the card from list.
-				lastDragTarget = slides.get(dragIndex - 1);
-				// lastDragTarget.addStyleName("spaceAfter");
-			}
+			dragCard.addStyleName("dragged");
 		}
 	}
 
-	@Override
-	public void startDrag(int pageIndex) {
-		clearSpaces();
-		dragIndex = pageIndex;
-	}
-	
-	@Override
-	public int drag(int x, int y) {
+	/**
+	 * 
+	 * @param x
+	 *            is unused for now.
+	 * @param y
+	 * @return
+	 */
+	private int doDrag(int x, int y) {
 		if (dragCard == null) {
 			return -1;
 		}
-
 		dragCard.setDragPosition(0, y);
 
 		int idx = cardIndexAt(
@@ -412,21 +432,71 @@ public class PageListController implements PageListControllerInterface {
 		return bellowMiddle ? targetIdx + 1 : targetIdx;
 	}
 
-	@Override
-	public void stopDrag() {
+	private void loadPageAt(int x, int y) {
+		int idx = cardIndexAt(x, y);
+		if (idx != -1) {
+			loadPage(idx, false);
+		}
+	}
+
+	private void drag(int x, int y) {
+		if (CancelEventTimer.isDragStarted()) {
+			startDrag(x, y);
+		} else if (CancelEventTimer.isDragging()) {
+			int targetIdx = doDrag(x, y);
+			if (targetIdx != -1) {
+				listener.setDivider(targetIdx);
+			}
+		}
+	}
+
+	private void stopDrag(int x, int y) {
+		if (CancelEventTimer.isDragging()) {
+			if (dropTo(x, y)) {
+				listener.update();
+			}
+		} else {
+			loadPageAt(x, y);
+		}
+		CancelEventTimer.resetDrag();
 		if (dragCard != null) {
-			dragCard.clearPosition();
+			dragCard.removeStyleName("dragged");
 		}
 
 		clearSpaces();
 		dragCard = null;
 	}
 
-	@Override
-	public void loadPageAt(int x, int y) {
-		int idx = cardIndexAt(x, y);
-		if (idx != -1) {
-			loadPage(idx, false);
+	public void onMouseDown(MouseDownEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+		CancelEventTimer.dragCanStart();
+	}
+
+	public void onMouseMove(MouseMoveEvent event) {
+		drag(event.getClientX(), event.getClientY());
+	}
+
+	public void onMouseUp(MouseUpEvent event) {
+		stopDrag(event.getClientX(), event.getClientY());
+	}
+
+	public void onTouchStart(TouchStartEvent event) {
+		event.preventDefault();
+		event.stopPropagation();
+		CancelEventTimer.dragCanStart();
+	}
+
+	public void onTouchMove(TouchMoveEvent event) {
+		Touch t = event.getTargetTouches().get(0);
+		drag(t.getClientX(), t.getClientY());
+	}
+
+	public void onTouchEnd(TouchEndEvent event) {
+		Touch t = event.getTargetTouches().get(0);
+		if (t == null) {
+			t = event.getChangedTouches().get(0);
 		}
+		stopDrag(t.getClientX(), t.getClientY());
 	}
 }

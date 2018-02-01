@@ -5,8 +5,8 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
@@ -21,11 +21,11 @@ import org.geogebra.web.web.main.AppWapplet;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -37,8 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class PageListPanel
-		extends PersistablePanel implements MouseDownHandler, MouseMoveHandler,
-		MouseUpHandler, SetLabels, CardListener {
+		extends PersistablePanel implements SetLabels, CardListInterface {
 
 	private AppW app;
 	private GeoGebraFrameBoth frame;
@@ -61,7 +60,7 @@ public class PageListPanel
 		if (app.isWhiteboardActive()) {
 			this.mowToolbar = frame.getMOWToorbar();
 		}
-		pageController = new PageListController(app);
+		pageController = new PageListController(app, this);
 		app.setPageController(pageController);
 		initGUI();
 	}
@@ -74,9 +73,15 @@ public class PageListPanel
 		frame.add(this);
 		setVisible(false);
 		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
-			addDomHandler(this, MouseDownEvent.getType());
-			addDomHandler(this, MouseMoveEvent.getType());
-			addDomHandler(this, MouseUpEvent.getType());
+			if (Browser.isTabletBrowser()) {
+				addDomHandler(pageController, TouchStartEvent.getType());
+				addDomHandler(pageController, TouchMoveEvent.getType());
+				addDomHandler(pageController, TouchEndEvent.getType());
+			} else {
+				addDomHandler(pageController, MouseDownEvent.getType());
+				addDomHandler(pageController, MouseMoveEvent.getType());
+				addDomHandler(pageController, MouseUpEvent.getType());
+			}
 			divider = new FlowPanel();
 			divider.setStyleName("mowPagePreviewCardDivider");
 		}
@@ -194,7 +199,6 @@ public class PageListPanel
 	 */
 	protected int addNewPreviewCard(boolean selected) {
 		final PagePreviewCard card = pageController.addSlide();
-		card.setCardListener(this);
 		addPreviewCard(card);
 		if (selected) {
 			pageController.setCardSelected(card);
@@ -226,8 +230,13 @@ public class PageListPanel
 		card.setLabels();
 	}
 
-	@Override
-	public void loadPage(PagePreviewCard card) {
+	/**
+	 * Loads the given card.
+	 * 
+	 * @param card
+	 *            to load.
+	 */
+	void loadPage(PagePreviewCard card) {
 		pageController.loadPage(card.getPageIndex(), false);
 	}
 
@@ -290,7 +299,6 @@ public class PageListPanel
 	 */
 	public void reset() {
 		contentPanel.clear();
-		// start with empty new page
 		addNewPreviewCard(true);
 	}
 
@@ -302,7 +310,6 @@ public class PageListPanel
 	 */
 	public void duplicatePage(PagePreviewCard src) {
 		PagePreviewCard dup = pageController.duplicateSlide(src);
-		dup.setCardListener(this);
 		addPreviewCard(dup);
 		pageController.updatePreviewImage();
 	}
@@ -317,60 +324,8 @@ public class PageListPanel
 		}
 	}
 
-	@Override
-	public void reorder(int srcIdx, int destIdx) {
-		pageController.reorder(srcIdx, destIdx);
-		update();
-	}
-
-	@Override
-	public void dropTo(int x, int y) {
-		if (pageController.dropTo(x, y)) {
-			update();
-		}
-	}
-
-	@Override
-	public void hover(int pageIndex) {
-		pageController.styleCard(pageIndex, "highlight");
-	}
-
-	@Override
-	public void makeSpace(int pageIndex, boolean before) {
-		pageController.styleCard(pageIndex, "spaceBeforeAnimated");
-	}
-
-	public void onMouseDown(MouseDownEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-		CancelEventTimer.dragCanStart();
-	}
-
-	public void onMouseMove(MouseMoveEvent event) {
-		int x = event.getClientX();
-		int y = event.getClientY();
-
-		if (CancelEventTimer.isDragStarted()) {
-			app.getPageController().startDrag(x, y);
-		} else if (CancelEventTimer.isDragging()) {
-			int targetIdx = app.getPageController().drag(x, y);
-			if (targetIdx != -1) {
-				// divider.removeFromParent();
-				contentPanel.insert(divider, targetIdx);
-			}
-		}
-	}
-
-	public void onMouseUp(MouseUpEvent event) {
-		int x = event.getClientX();
-		int y = event.getClientY();
-
-		app.getPageController().stopDrag();
-		if (CancelEventTimer.isDragging()) {
-			dropTo(x, y);
-		} else {
-			app.getPageController().loadPageAt(x, y);
-		}
-		CancelEventTimer.resetDrag();
+	public void setDivider(int targetIdx) {
+		divider.removeFromParent();
+		contentPanel.insert(divider, targetIdx);
 	}
 }	

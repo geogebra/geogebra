@@ -2,10 +2,8 @@ package org.geogebra.web.web.gui.pagecontrolpanel;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -18,13 +16,6 @@ import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.dom.client.Touch;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -36,8 +27,7 @@ import com.google.gwt.user.client.ui.Label;
  *
  */
 public class PagePreviewCard extends FlowPanel
-		implements TouchStartHandler,
-		TouchMoveHandler, TouchEndHandler, SetLabels {
+		implements SetLabels {
 
 	private AppW app;
 	private Localization loc;
@@ -57,7 +47,6 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	protected GgbFile file;
 	
-	private CardListener listener =null;
 
 	/**
 	 * @param app
@@ -74,13 +63,6 @@ public class PagePreviewCard extends FlowPanel
 		this.loc = app.getLocalization();
 		this.image = file.get("geogebra_thumbnail.png");
 		initGUI();
-		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
-			if (Browser.isTabletBrowser()) {
-				addTouchStartHandler(this);
-				addTouchMoveHandler(this);
-				addTouchEndHandler(this);
-			}
-		}
 	}
 
 
@@ -280,74 +262,6 @@ public class PagePreviewCard extends FlowPanel
 		updateLabel();
 	}
 
-	private void addTouchStartHandler(TouchStartHandler handler) {
-		addDomHandler(handler, TouchStartEvent.getType());
-	}
-
-	private void addTouchMoveHandler(TouchMoveHandler handler) {
-		addDomHandler(handler, TouchMoveEvent.getType());
-	}
-	
-	private void addTouchEndHandler(TouchEndHandler handler) {
-		addDomHandler(handler, TouchEndEvent.getType());
-	}
-	
-	/**
-	 * @return the card listener.
-	 */
-	public CardListener getCardListener() {
-		return listener;
-	}
-
-	/**
-	 * Sends card listener to handle them in their container.
-	 * 
-	 * @param listener
-	 *            to set.
-	 */
-	public void setCardListener(CardListener listener) {
-		this.listener = listener;
-	}
-
-	@Override
-	public void onTouchStart(TouchStartEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-		app.getPageController().startDrag(pageIndex);
-		setDragPosition(event.getTargetTouches().get(0));
-	}
-	
-	@Override
-	public void onTouchMove(TouchMoveEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-
-		Touch t = event.getTargetTouches().get(0);
-		setDragPosition(t);
-
-		int x = t.getClientX();
-		int y = t.getClientY();
-		app.getPageController().drag(x, y);
-	}
-
-
-	@Override
-	public void onTouchEnd(TouchEndEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
-		
-		app.getPageController().stopDrag();
-		if (listener != null) {
-			Touch t = event.getTargetTouches().get(0);
-			if (t == null) {
-				t = event.getChangedTouches().get(0);
-			}
-			int x = t.getClientX();
-			int y = t.getClientY();
-			listener.dropTo(x, y);
-		}
-	}
-
 	/**
 	 * @param x
 	 *            is unused for now.
@@ -361,10 +275,6 @@ public class PagePreviewCard extends FlowPanel
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
 	
-	private void setDragPosition(Touch t) {
-		setDragPosition(t.getClientX(), t.getClientY());
-	}
-
 	/**
 	 * Checks if (x, y) is within the card.
 	 * 
@@ -392,9 +302,7 @@ public class PagePreviewCard extends FlowPanel
 	 * @return true if y is greater than the card middle.
 	 */
 	public boolean isBellowMiddle(int y) {
-		int middle = getAbsoluteTop() + getOffsetHeight() / 2;
-		Log.debug("MIDDLE " + getPageIndex() + " m: " + middle + "y: " + y);
-		return y > middle;
+		return y > getAbsoluteTop() + getOffsetHeight() / 2;
 	}
 
 	/**

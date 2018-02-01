@@ -754,13 +754,19 @@
 	
 	
 	.mowPagePreviewCardDivider {
-		width: 220px;
-		height: 8px;
+		width: 240px;
+		height: 18px;
 		background-color: $mow_card_divider;	
 		margin: 4px 16px 4px;
 		
 	}
 
+	.mowPagePreviewCard.dragged {
+		width: 240px;
+		position: absolute;
+	}
+		
+	
 	.mowPagePreviewCard.highlight-top {
 		margin-top: 190px;
 		margin-bottom: 0px;
