@@ -83,8 +83,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 
 	private void getSpecPoints(GeoElementND geo,
 			ArrayList<GeoElementND> retList) {
-		if (!(geo instanceof GeoFunction) || !geo.isVisible()
-				|| !geo.isDefined()) {
+		if (!shouldShowSpecialPoints(geo)) {
 			return;
 		}
 		boolean xAxis = kernel.getApplication().getActiveEuclidianView()
@@ -148,7 +147,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 			add(algoPolynomialLine.getOutput(), retList);
 			specPointAlgos.add(algoPolynomialLine);
 		}
+	}
 
+	private boolean shouldShowSpecialPoints(GeoElementND geo) {
+		return geo instanceof GeoFunction && geo.isVisible() && geo.isDefined() && geo.isEuclidianVisible();
 	}
 
 	private void add(GeoElement[] geos1, ArrayList<GeoElementND> retList) {
