@@ -519,8 +519,9 @@ public final class DrawPoint extends Drawable {
 	 */
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
+		int threshold = isPreview ? hitThreshold * 2 : hitThreshold;
 		int r = Math.max(pointSize,
-				getSelectionThreshold(hitThreshold));
+				getSelectionThreshold(threshold));
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
 		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
@@ -644,6 +645,10 @@ public final class DrawPoint extends Drawable {
 
 		double coords2[] = { x, y };
 		update(coords2, false);
+	}
+
+	public void setPreview(boolean isPreview) {
+		this.isPreview = isPreview;
 	}
 
 }

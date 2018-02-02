@@ -29,6 +29,7 @@ import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.euclidian.draw.DrawLine;
 import org.geogebra.common.euclidian.draw.DrawLine.PreviewType;
+import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
 import org.geogebra.common.euclidian.draw.DrawRay;
@@ -2001,9 +2002,18 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (specPoints != null) {
 			for (GeoElement geo : specPoints) {
 				needsRepaint = createPreviewDrawable(geo) || needsRepaint;
+				setupPreviewsSpecsPointDrawable(geo);
 			}
 		}
 		return needsRepaint;
+	}
+
+	private void setupPreviewsSpecsPointDrawable(GeoElement specialPoint) {
+		DrawableND drawable = getDrawable(specialPoint);
+		if (drawable instanceof DrawPoint) {
+			DrawPoint drawPoint = (DrawPoint) drawable;
+			drawPoint.setPreview(true);
+		}
 	}
 
 	private boolean drawableNeeded(GeoElement geo) {
