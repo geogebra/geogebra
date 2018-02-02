@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 
 abstract public class ImageManager {
 
@@ -46,8 +47,9 @@ abstract public class ImageManager {
 			ensure2ndCornerOnScreen(point1.getInhomX(), point2, app);
 		}
 		geoImage.setLabel(null);
-
-		//
+		if (app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)) {
+			centerOnScreen(geoImage, app);
+		}
 		GeoImage.updateInstances(app);
 
 	}
@@ -86,4 +88,42 @@ abstract public class ImageManager {
 		point.update();
 	}
 
+	/**
+	 * centers an image on screen
+	 * 
+	 * @param geoImage
+	 *            image to be centered
+	 * @param app
+	 *            application
+	 */
+	private static void centerOnScreen(GeoImage geoImage, App app) {
+		EuclidianView ev = app.getActiveEuclidianView();
+
+		double xmin = ev.toRealWorldCoordX(0.0);
+		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
+		double screenWidth = xmax - xmin;
+
+		double ymin = ev.toRealWorldCoordY(0.0);
+		double ymax = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
+		double screenHeight = ymax - ymin;
+
+		GeoPoint point1 = geoImage.getCorner(0);
+		GeoPoint point2 = geoImage.getCorner(1);
+		GeoPoint point3 = new GeoPoint(app.getKernel().getConstruction());
+		geoImage.calculateCornerPoint(point3, 3);
+
+		double imageWidth = point2.inhomX - point1.inhomX;
+		double imageHeight = point3.inhomY - point2.inhomY;
+
+		point1.setCoords(xmin + (screenWidth - imageWidth) / 2,
+				ymin + (screenHeight - imageHeight) / 2, 1.0);
+		point1.update();
+
+		point2.setCoords(xmin + (screenWidth + imageWidth) / 2,
+				ymin + (screenHeight - imageHeight) / 2, 1.0);
+		point2.update();
+
+		geoImage.setCorner(point1, 0);
+		geoImage.setCorner(point2, 1);
+	}
 }
