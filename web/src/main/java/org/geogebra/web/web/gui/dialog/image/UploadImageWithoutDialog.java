@@ -24,10 +24,10 @@ public class UploadImageWithoutDialog {
 	}
 
 	private void initGUI() {
-		uploadImagePanel = new UploadImagePanel(this);
-		uploadImagePanel.openFileBrowserDirectly();
 		app.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
 				ModeSetter.TOOLBAR);
+		uploadImagePanel = new UploadImagePanel(this);
+		uploadImagePanel.openFileBrowserDirectly();
 	}
 
 	/**
