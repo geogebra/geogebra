@@ -2446,7 +2446,14 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdExportImage() {
-		t("ExportImage[\"type\",\"svg\"]");
+		t("ExportImage[\"type\",\"png\"]");
+		t("ExportImage[\"scale\",0.5]");
+		t("ExportImage[\"scalecm\",2]");
+		t("ExportImage[\"dpi\",72]");
+		t("ExportImage[\"dpi\",72, \"scalecm\", 2]");
+		t("ExportImage[\"height\",300]");
+		t("ExportImage[\"width\",300]");
+		t("ExportImage[\"transparent\",true]");
 	}
 
 	// @Test
