@@ -4348,6 +4348,9 @@ public abstract class App implements UpdateSelection {
 		case WEB_SWITCH_APP_FOR_FILE:
 			return true;
 
+		case WEB_LANGUAGE_COOKIE:
+			return prerelease;
+
 		default:
 			Log.debug("missing case in Feature: " + f);
 			return false;
@@ -5179,7 +5182,10 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * 
+	 * @param ext
+	 *            extension
 	 * @param sb
+	 *            builder
 	 */
 	public void exportSbToFile(String ext, StringBuilder sb) {
 		// needs to be implemented in subclasses

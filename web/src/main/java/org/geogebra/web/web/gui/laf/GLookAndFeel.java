@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
@@ -207,10 +208,14 @@ public class GLookAndFeel implements GLookAndFeelI{
 	}
 
 	@Override
-	public void storeLanguage(String s) {
+	public void storeLanguage(String s,AppW app) {
 		Date exp = new Date(
 				System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
-		Cookies.setCookie("GeoGebraLangUI", s, exp, "geogebra.org", "/", false);
+		if (!app.has(Feature.WEB_LANGUAGE_COOKIE)) {
+			Cookies.setCookie("GeoGebraLangUI", s, exp, "geogebra.org", "/",
+					false);
+		}
+		Cookies.setCookie("lang_ui", s, exp, "geogebra.org", "/", false);
 	}
 
 	@Override

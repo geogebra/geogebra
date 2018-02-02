@@ -409,7 +409,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 	}
 
 	public static void switchLanguage(String fontStr, AppW app) {
-		app.getLAF().storeLanguage(fontStr);
+		app.getLAF().storeLanguage(fontStr, app);
 		if (app.getLoginOperation().isLoggedIn()) {
 			app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(
 					fontStr,

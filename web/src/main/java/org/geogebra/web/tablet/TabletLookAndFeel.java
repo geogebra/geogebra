@@ -11,6 +11,8 @@ import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.gui.browser.TabletSignInButton;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
 
+import com.google.gwt.storage.client.Storage;
+
 /**
  * Look and feel for tablet apps
  */
@@ -94,6 +96,14 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	@Override
 	public void toggleFullscreen(boolean full) {
 		// tablet, nothing to do
+	}
+
+	@Override
+	public void storeLanguage(String s, AppW app) {
+		Storage storage = Storage.getLocalStorageIfSupported();
+		if (storage != null) {
+			storage.setItem("GeoGebraLangUI", s);
+		}
 	}
 
 }
