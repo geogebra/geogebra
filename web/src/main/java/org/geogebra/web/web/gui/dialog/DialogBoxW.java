@@ -82,7 +82,7 @@ public class DialogBoxW extends GDialogBox {
 	/**
 	 * add resizeHandler to center the dialog
 	 */
-    private void addResizeHandler() {
+	protected void addResizeHandler() {
 	    Window.addResizeHandler(new ResizeHandler() {
 			
 			@Override

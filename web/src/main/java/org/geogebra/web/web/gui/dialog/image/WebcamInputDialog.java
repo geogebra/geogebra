@@ -67,12 +67,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		addStyleName("GeoGebraPopup");
 		addStyleName("image");
 		setGlassEnabled(true);
-		Window.addResizeHandler(new ResizeHandler() {
-			@Override
-			public void onResize(ResizeEvent event) {
-				resize();
-			}
-		});
+
 	}
 
 	private void initActions() {
@@ -93,6 +88,15 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		closeBtn.setText(loc.getMenu("Close")); // close
 	}
 
+	@Override
+	protected void addResizeHandler() {
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(ResizeEvent event) {
+				resize();
+			}
+		});
+	}
 	/**
 	 * resizes the video and its container
 	 */
