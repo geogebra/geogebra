@@ -102,7 +102,7 @@ test {
 }
 findbugs{
      ignoreFailures = true
-     excludeFilter = file("src/main/config/findbugs.xml")
+     excludeFilter = file("config/findbugs.xml")
 }
 
 // http://stackoverflow.com/questions/20638039/gradle-and-jacoco-instrument-classes-from-a-separate-subproject

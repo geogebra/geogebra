@@ -16,5 +16,5 @@ dependencies {
 
 findbugs{
      ignoreFailures = true
-     excludeFilter = file("src/main/config/findbugs.xml")
+     excludeFilter = file("config/findbugs.xml")
 }

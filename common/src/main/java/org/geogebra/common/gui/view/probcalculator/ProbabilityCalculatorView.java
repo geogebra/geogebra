@@ -836,7 +836,6 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	public GeoElement createNormalCurveOverlay(double mean, double sigma) {
-
 		AlgoNormalDF algo = new AlgoNormalDF(cons, new GeoNumeric(cons, mean),
 				new GeoNumeric(cons, sigma),
 				new GeoBoolean(cons, isCumulative));

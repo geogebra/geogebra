@@ -6,5 +6,5 @@ targetCompatibility = 1.7
 pmd {
      ignoreFailures = true
      ruleSets = []
-     ruleSetFiles = files("src/main/config/pmd.xml")
+     ruleSetFiles = files("config/pmd.xml")
 }

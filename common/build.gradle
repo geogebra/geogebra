@@ -85,11 +85,11 @@ test {
 
 findbugs{
      ignoreFailures = true
-     excludeFilter = file("src/main/config/findbugs.xml")
+     excludeFilter = file("config/findbugs.xml")
 }
 
 pmd {
      ignoreFailures = true
      ruleSets = []
-     ruleSetFiles = files("src/main/config/pmd.xml")
+     ruleSetFiles = files("config/pmd.xml")
 }
