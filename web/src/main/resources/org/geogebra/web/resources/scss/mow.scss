@@ -682,10 +682,13 @@
 			display: flex;
 			
 			.gwt-Label {
-				font-size: 16px;
-				line-height: 16px;
+				line-height: 1;
 				padding: 16px;
+				padding-right: 46px;
+				text-overflow: ellipsis;
+    			white-space: nowrap;
  				overflow: hidden;
+ 				display: block;
 				cursor: default;
 			}
 			.mowMoreButton {
@@ -710,12 +713,12 @@
 			box-shadow: $shadow-elevation-8;
 			
 			.mowImagePanel {
-				    border: 2px solid $mow_highlight;
-				    border-bottom: none;
+				border: 2px solid $mow_highlight;
+				border-bottom: none;
 			}
 			.mowTitlePanel {
-					border: 2px solid $mow_highlight;
-				    border-top: none;
+				border: 2px solid $mow_highlight;
+				border-top: none;
 			}
 			.gwt-Label {
 				padding-bottom: 14px;
