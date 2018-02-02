@@ -758,10 +758,19 @@
 	
 	.mowPagePreviewCardDivider {
 		width: 240px;
-		height: 18px;
+		height: 16px;
 		background-color: $mow_card_divider;	
 		margin: 4px 16px 4px;
-		
+	}
+	
+	.mowPagePreviewCardDivider.grow {
+		height: calc(220px * 9/16);
+		transition: height 2s ease;
+	}
+
+	.mowPagePreviewCardDivider.shrink {
+		height: 0px;
+		transition: height 2s ease;
 	}
 
 	.mowPagePreviewCard.dragged {

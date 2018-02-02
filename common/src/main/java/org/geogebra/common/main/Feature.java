@@ -276,6 +276,9 @@ public enum Feature {
 	/** MOW-336 */
 	MOW_DRAG_AND_DROP_PAGES,
 
+	/** MOW-336 */
+	MOW_DRAG_AND_DROP_ANIMATION,
+
 	/** IGR-633 */
 	MOB_IOS_EXAM_LOG_DIALOG,
 

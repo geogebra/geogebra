@@ -51,6 +51,7 @@ public class PageListController implements PageListControllerInterface,
 	private PagePreviewCard lastDragTarget;
 	private PagePreviewCard dragCard;
 	private CardListInterface listener;
+	private boolean dragAnim;
 
 	/**
 	 * @param app
@@ -62,6 +63,7 @@ public class PageListController implements PageListControllerInterface,
 		this.app = app;
 		slides = new ArrayList<>();
 		this.listener = listener;
+		dragAnim = app.has(Feature.MOW_DRAG_AND_DROP_ANIMATION);
 	}
 
 	/**
@@ -315,7 +317,7 @@ public class PageListController implements PageListControllerInterface,
 		return result;
 	}
 	
-	private boolean dropTo(int y) {
+	private boolean dropCard() {
 		int destIdx = lastDragTarget != null ? lastDragTarget.getPageIndex()
 				: -1;
 		if (dragIndex != -1 && destIdx != -1) {
@@ -414,6 +416,14 @@ public class PageListController implements PageListControllerInterface,
 		int targetIdx = target.getPageIndex();
 
 		boolean bellowMiddle = target.isBellowMiddle(dragCard.getAbsoluteTop());
+
+		if (dragAnim) {
+			if (bellowMiddle) {
+				target.addStyleName("spaceAfterAnimated");
+			} else {
+				target.addStyleName("spaceBeforeAnimated");
+			}
+		}
 		lastDragTarget = target;
 		return bellowMiddle ? targetIdx + 1 : targetIdx;
 	}
@@ -430,7 +440,7 @@ public class PageListController implements PageListControllerInterface,
 			startDrag(x, y);
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = doDrag(y);
-			if (targetIdx != -1) {
+			if (targetIdx != -1 && !dragAnim) {
 				listener.insertDivider(targetIdx);
 			}
 		}
@@ -438,7 +448,7 @@ public class PageListController implements PageListControllerInterface,
 
 	private void stopDrag(int x, int y) {
 		if (CancelEventTimer.isDragging()) {
-			if (dropTo(y)) {
+			if (dropCard()) {
 				listener.update();
 			}
 		} else {
