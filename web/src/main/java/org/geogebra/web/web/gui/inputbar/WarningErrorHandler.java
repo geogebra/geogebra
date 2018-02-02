@@ -8,11 +8,22 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.view.algebra.MarblePanel;
 
+/**
+ * Error handler for preview
+ * 
+ * @author Zbynek
+ */
 public final class WarningErrorHandler implements ErrorHandler {
 	private static String undefinedVariables;
 	private final App app2;
 	private final HasHelpButton input;
 
+	/**
+	 * @param app2
+	 *            application
+	 * @param input
+	 *            input element
+	 */
 	WarningErrorHandler(App app2, HasHelpButton input) {
 		this.app2 = app2;
 		this.input = input;

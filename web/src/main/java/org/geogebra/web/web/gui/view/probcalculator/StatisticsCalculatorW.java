@@ -31,12 +31,12 @@ import com.google.gwt.user.client.ui.TextBox;
 /**
  * @author gabor
  * 
- * Statistics calculator for web
+ *         Statistics calculator for web
  *
  */
-public class StatisticsCalculatorW extends StatisticsCalculator implements
-		ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>, BlurHandler,
-		KeyUpHandler {
+public class StatisticsCalculatorW extends StatisticsCalculator
+		implements ChangeHandler, ClickHandler, ValueChangeHandler<Boolean>,
+		BlurHandler, KeyUpHandler {
 
 	private FlowPanel wrappedPanel;
 	private FlowPanel resultPane;
@@ -52,7 +52,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	private Label lblNull;
 	private Label lblHypParameter;
 	private Label lblTailType;
-	
+
 	private Label lblConfLevel;
 	private Label lblSigma;
 	private Label[] lblSampleStat1;
@@ -78,40 +78,39 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	private void createGUI(FlowPanel root) {
 		this.wrappedPanel = root;
 		wrappedPanel.addStyleName("StatisticsCalculatorW");
-		
+
 		createGUIElements();
 		createControlPanel();
 		setInputPanelLayout();
-		
+
 		panelChiSquare = new ChiSquarePanelW(loc, this);
-		
-		//prepare result panel
+
+		// prepare result panel
 		FlowPanel resultPanel = new FlowPanel();
 		resultPanel.setStyleName("resultPanel");
 		resultPanel.add(lblResult);
 		resultPanel.add(resultPane);
-		
-		
-		//procedure panel
+
+		// procedure panel
 		FlowPanel procedurePanel = new FlowPanel();
 		procedurePanel.add(panelBasicProcedures);
 		procedurePanel.add(panelChiSquare.getWrappedPanel());
 		procedurePanel.add(resultPanel);
-		
+
 		FlowPanel procedureWrapper = new FlowPanel();
 		procedureWrapper.add(procedurePanel);
-		
+
 		scroller = new FlowPanel();
 		scroller.addStyleName("scroller");
 		scroller.add(procedureWrapper);
-		
-		//main content panel
+
+		// main content panel
 		FlowPanel main = new FlowPanel();
 		main.add(panelControl);
 		main.add(scroller);
-		
+
 		wrappedPanel.add(main);
-		
+
 		setLabels();
 		updateGUI();
 		panelChiSquare.updateVisibility();
@@ -175,14 +174,13 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			break;
 
 		case ZPROP_TEST:
-			lblHypParameter
-					.setText(loc.getMenu("HypothesizedProportion.short")
-							+ " = ");
+			lblHypParameter.setText(
+					loc.getMenu("HypothesizedProportion.short") + " = ");
 			break;
 
 		case ZPROP2_TEST:
-			lblHypParameter.setText(loc
-					.getMenu("DifferenceOfProportions.short")+ " = ");
+			lblHypParameter.setText(
+					loc.getMenu("DifferenceOfProportions.short") + " = ");
 			break;
 
 		default:
@@ -203,7 +201,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_TEST));
 
 		cbProcedure.addItem(ProbabilityCalculatorViewW.SEPARATOR);
-		
+
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.TMEAN_CI));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZMEAN2_CI));
@@ -212,22 +210,18 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.ZPROP2_CI));
 
 		cbProcedure.addItem(ProbabilityCalculatorViewW.SEPARATOR);
-		
+
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.GOF_TEST));
 		cbProcedure.addItem(mapProcedureToName.get(Procedure.CHISQ_TEST));
 		ListBoxApi.select(mapProcedureToName.get(sc.getSelectedProcedure()),
 				cbProcedure);
-		//cbProcedure.setMaximumRowCount(cbProcedure.getItemCount());
+		// cbProcedure.setMaximumRowCount(cbProcedure.getItemCount());
 
 		// TODO for testing only, remove later
 		// cbProcedure.setSelectedItem(mapProcedureToName
 		// .get(Procedure.CHISQ_TEST));
 
 	}
-
-
-
-
 
 	private void setSampleFieldLabels() {
 
@@ -297,13 +291,18 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		setSampleFieldLabels();
 		setSampleFieldText();
 		for (int i = 0; i < 3; i++) {
-			lblSampleStat1[i].setVisible(!"".equals(lblSampleStat1[i].getText()));
-			fldSampleStat1[i].setVisible(!"".equals(lblSampleStat1[i].getText()));
-			lblSampleStat2[i].setVisible(!"".equals(lblSampleStat2[i].getText()));
-			fldSampleStat2[i].setVisible(!"".equals(lblSampleStat2[i].getText()));
+			lblSampleStat1[i]
+					.setVisible(!"".equals(lblSampleStat1[i].getText()));
+			fldSampleStat1[i]
+					.setVisible(!"".equals(lblSampleStat1[i].getText()));
+			lblSampleStat2[i]
+					.setVisible(!"".equals(lblSampleStat2[i].getText()));
+			fldSampleStat2[i]
+					.setVisible(!"".equals(lblSampleStat2[i].getText()));
 		}
 
-		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null && !"".equals(lblSampleStat2[0].getText())));
+		lblSampleHeader2.setVisible((lblSampleStat2[0].getText() != null
+				&& !"".equals(lblSampleStat2[0].getText())));
 
 		ckPooled.setVisible(sc.getSelectedProcedure() == Procedure.TMEAN2_TEST
 				|| sc.getSelectedProcedure() == Procedure.TMEAN2_CI);
@@ -311,7 +310,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		setPanelLayout();
 
 	}
-	
+
 	private void setPanelLayout() {
 
 		panelBasicProcedures.setVisible(false);
@@ -333,51 +332,51 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	}
 
 	private void setInputPanelLayout() {
-	   if (panelBasicProcedures == null) {
-		   panelBasicProcedures = new FlowPanel();
-	   }
-	   
-	   if (panelSample1 == null) {
-		   panelSample1 = new FlowPanel();
-		   panelSample1.addStyleName("panelSample1");
-	   }
-	   
-	   if (panelSample2 == null) {
-		   panelSample2 = new FlowPanel();
-		   panelSample2.addStyleName("panelSample2");
-	   }
-	   
-	   if (panelTestAndCI == null) {
-		   panelTestAndCI = new FlowPanel();
-		   panelTestAndCI.addStyleName("panelTestAndCI");
-	   }
-	   
-	   // ---- add components
-	   
-	   panelBasicProcedures.clear();
-	   panelSample1.clear();
-	   panelSample2.clear();
-	   panelTestAndCI.clear();
-	   
-	   panelSample1.add(lblSampleHeader1);
-	   
-	   for (int i = 0; i < lblSampleStat1.length; i++) {
+		if (panelBasicProcedures == null) {
+			panelBasicProcedures = new FlowPanel();
+		}
+
+		if (panelSample1 == null) {
+			panelSample1 = new FlowPanel();
+			panelSample1.addStyleName("panelSample1");
+		}
+
+		if (panelSample2 == null) {
+			panelSample2 = new FlowPanel();
+			panelSample2.addStyleName("panelSample2");
+		}
+
+		if (panelTestAndCI == null) {
+			panelTestAndCI = new FlowPanel();
+			panelTestAndCI.addStyleName("panelTestAndCI");
+		}
+
+		// ---- add components
+
+		panelBasicProcedures.clear();
+		panelSample1.clear();
+		panelSample2.clear();
+		panelTestAndCI.clear();
+
+		panelSample1.add(lblSampleHeader1);
+
+		for (int i = 0; i < lblSampleStat1.length; i++) {
 			panelSample1.add(lblSampleStat1[i]);
 			panelSample1.add((AutoCompleteTextFieldW) fldSampleStat1[i]);
 			panelSample1.add(new LineBreak());
-			//panelSample1.getElement().appendChild(Document.get().createBRElement());
+			// panelSample1.getElement().appendChild(Document.get().createBRElement());
 		}
-	   
-	   //panelSample2.add(new Label(" ")); //TODO: ?????????? CSS!!!!!
-	   panelSample2.add(lblSampleHeader2);
-	   
-	   for (int i = 0; i < lblSampleStat2.length; i++) {
+
+		// panelSample2.add(new Label(" ")); //TODO: ?????????? CSS!!!!!
+		panelSample2.add(lblSampleHeader2);
+
+		for (int i = 0; i < lblSampleStat2.length; i++) {
 			panelSample2.add(lblSampleStat2[i]);
 			panelSample2.add((AutoCompleteTextFieldW) fldSampleStat2[i]);
 			panelSample2.add(new LineBreak());
-			//panelSample2.getElement().appendChild(Document.get().createBRElement());
+			// panelSample2.getElement().appendChild(Document.get().createBRElement());
 		}
-	   
+
 		switch (sc.getSelectedProcedure()) {
 		default:
 			// do nothing
@@ -394,23 +393,23 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add((AutoCompleteTextFieldW) fldNullHyp);
 				panelTestAndCI.add(lblHypParameter);
-				//panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
+				// panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 			} else {
 				// eg mu = 1.1
 				panelTestAndCI.add(lblNull);
 				panelTestAndCI.add(lblHypParameter);
 				panelTestAndCI.add((AutoCompleteTextFieldW) fldNullHyp);
-				//panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
+				// panelTestAndCI.getElement().appendChild((Document.get().createBRElement()));
 
 			}
 			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(lblTailType);
-			panelTestAndCI.add(btnLeft); 
+			panelTestAndCI.add(btnLeft);
 			panelTestAndCI.add(btnRight);
 			panelTestAndCI.add(btnTwo);
 			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(ckPooled);
-			//panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
+			// panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
 			break;
 
 		case ZMEAN_CI:
@@ -419,15 +418,14 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		case TMEAN2_CI:
 		case ZPROP_CI:
 		case ZPROP2_CI:
-
 			panelTestAndCI.add(lblConfLevel);
 			panelTestAndCI.add((AutoCompleteTextFieldW) fldConfLevel);
 			panelTestAndCI.add(new LineBreak());
 			panelTestAndCI.add(ckPooled);
-			//panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
+			// panelTestAndCI.getElement().appendChild(Document.get().createBRElement());
 			break;
 		}
-	   
+
 		if (forceZeroHypothesis()) {
 			fldNullHyp.setText("0");
 			fldNullHyp.setEditable(false);
@@ -435,23 +433,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			fldNullHyp.setEditable(true);
 		}
 
-	   panelBasicProcedures.add(panelTestAndCI);
-
-		
+		panelBasicProcedures.add(panelTestAndCI);
 		panelBasicProcedures.add(panelSample1);
-
-		
 		panelBasicProcedures.add(panelSample2);
+	}
 
-		
-
-		
-	   
-	   
-	   
-	   
-    }
-	
 	private static class LineBreak extends FlowPanel {
 		public LineBreak() {
 			this.setStyleName("lineBreak");
@@ -459,44 +445,44 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	}
 
 	private void createControlPanel() {
-	   panelControl = new FlowPanel();
-	   panelControl.addStyleName("panelControl");
-	   panelControl.add(cbProcedure);
-    }
+		panelControl = new FlowPanel();
+		panelControl.addStyleName("panelControl");
+		panelControl.add(cbProcedure);
+	}
 
 	private void addNextTabIndex(AutoCompleteTextFieldW field) {
 		field.getTextField().setTabIndex(tabIndex);
 		tabIndex++;
-	
 	}
+
 	private void createGUIElements() {
 		tabIndex = 1; // 0 as first tabindex does not work.
-	    //resultPane = new RichTextArea();
+		// resultPane = new RichTextArea();
 		resultPane = new FlowPanel();
-	    resultPane.addStyleName("resultPane");
-	    //resultPane.setEnabled(false);
-	    
-	    s1 = new double[3];
-	    s2 = new double[3];
-	    
-	    lblResult = new Label();
-	    lblResult.addStyleName("lblHeading");
-	    
-	    lblSampleHeader1 = new Label();
-	    lblSampleHeader2 = new Label();
-	    
-	    bodyText = new StringBuilder();
-	    
-	    ckPooled = new CheckBox();
-	    ckPooled.addStyleName("ckPooled");
-	    ckPooled.setValue(false);
-	    ckPooled.addValueChangeHandler(this);
-	    
+		resultPane.addStyleName("resultPane");
+		// resultPane.setEnabled(false);
+
+		s1 = new double[3];
+		s2 = new double[3];
+
+		lblResult = new Label();
+		lblResult.addStyleName("lblHeading");
+
+		lblSampleHeader1 = new Label();
+		lblSampleHeader2 = new Label();
+
+		bodyText = new StringBuilder();
+
+		ckPooled = new CheckBox();
+		ckPooled.addStyleName("ckPooled");
+		ckPooled.setValue(false);
+		ckPooled.addValueChangeHandler(this);
+
 		cbProcedure = new ListBox();
-	    cbProcedure.addChangeHandler(this);
-	    
-	    btnCalculate = new Button();
-	    btnCalculate.addClickHandler(this);
+		cbProcedure.addChangeHandler(this);
+
+		btnCalculate = new Button();
+		btnCalculate.addClickHandler(this);
 		String id = DOM.createUniqueId();
 		btnLeft = new RadioButton(id);
 		btnLeft.setText(StatisticsCollection.tail_left);
@@ -504,18 +490,18 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		btnRight.setText(StatisticsCollection.tail_right);
 		btnTwo = new RadioButton(id);
 		btnTwo.setText(StatisticsCollection.tail_two);
-	    
-	    FlowPanel group = new FlowPanel();
-	    group.add(btnLeft);
-	    group.add(btnRight);
-	    group.add(btnTwo);
-	    
-	    btnLeft.addValueChangeHandler(this);
-	    btnRight.addValueChangeHandler(this);
-	    btnTwo.addValueChangeHandler(this);
-	    btnTwo.setValue(true);
-	    
-	    lblNull = new Label();
+
+		FlowPanel group = new FlowPanel();
+		group.add(btnLeft);
+		group.add(btnRight);
+		group.add(btnTwo);
+
+		btnLeft.addValueChangeHandler(this);
+		btnRight.addValueChangeHandler(this);
+		btnTwo.addValueChangeHandler(this);
+		btnTwo.setValue(true);
+
+		lblNull = new Label();
 		lblHypParameter = new Label();
 		lblTailType = new Label();
 
@@ -525,7 +511,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		((AutoCompleteTextFieldW) fldNullHyp).enableGGBKeyboard();
 		this.addInsertHandler((AutoCompleteTextFieldW) fldNullHyp);
 		addNextTabIndex((AutoCompleteTextFieldW) fldNullHyp);
-		
+
 		lblConfLevel = new Label();
 		fldConfLevel = new AutoCompleteTextFieldW(app);
 		fldConfLevel.setColumns(fieldWidth);
@@ -534,17 +520,16 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		this.addInsertHandler((AutoCompleteTextFieldW) fldConfLevel);
 
 		addNextTabIndex((AutoCompleteTextFieldW) fldConfLevel);
-		
+
 		lblSigma = new Label();
 		fldSigma = new AutoCompleteTextFieldW(app);
 		fldSigma.setColumns(fieldWidth);
 		((AutoCompleteTextFieldW) fldSigma).addKeyUpHandler(this);
 		((AutoCompleteTextFieldW) fldSigma).enableGGBKeyboard();
 		this.addInsertHandler((AutoCompleteTextFieldW) fldSigma);
-		
+
 		addNextTabIndex((AutoCompleteTextFieldW) fldSigma);
-		
-		
+
 		lblSampleStat1 = new Label[3];
 		for (int i = 0; i < lblSampleStat1.length; i++) {
 			lblSampleStat1[i] = new Label();
@@ -552,7 +537,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		}
 
 		fldSampleStat1 = new AutoCompleteTextFieldW[3];
-		//fldSampleStat1KeyHandlers = new HandlerRegistration[3];
+		// fldSampleStat1KeyHandlers = new HandlerRegistration[3];
 		for (int i = 0; i < fldSampleStat1.length; i++) {
 			fldSampleStat1[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat1[i].setColumns(fieldWidth);
@@ -570,7 +555,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		}
 
 		fldSampleStat2 = new AutoCompleteTextFieldW[3];
-		//fldSampleStat2KeyHandlers = new HandlerRegistration[3];
+		// fldSampleStat2KeyHandlers = new HandlerRegistration[3];
 		for (int i = 0; i < fldSampleStat2.length; i++) {
 			fldSampleStat2[i] = new AutoCompleteTextFieldW(app);
 			fldSampleStat2[i].setColumns(fieldWidth);
@@ -589,7 +574,7 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 
 		resultPane.getElement().setInnerHTML(str);
 	}
-	
+
 	@Override
 	public void onChange(ChangeEvent event) {
 		sc.setSelectedProcedure(mapNameToProcedure
@@ -597,21 +582,20 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		this.panelChiSquare.updateCollection();
 		updateGUI();
 		updateResult();
-		//setLabels();
+		// setLabels();
 
 		// reset the scrollpane to the top
-		//javax.swing.SwingUtilities.invokeLater(new Runnable() {
-		//	public void run() {
-		//		scroller.getVerticalScrollBar().setValue(0);
-		//	}
-		//});
-    }
+		// javax.swing.SwingUtilities.invokeLater(new Runnable() {
+		// public void run() {
+		// scroller.getVerticalScrollBar().setValue(0);
+		// }
+		// });
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {
 		updateResult();
-    }
-
+	}
 
 	@Override
 	public void onValueChange(ValueChangeEvent<Boolean> event) {
@@ -620,11 +604,11 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 			sc.pooled = ckPooled.getValue();
 			updateResult();
 		}
-		
+
 		if (source == btnLeft || source == btnRight || source == btnTwo) {
 			updateResult();
 		}
-		
+
 		if (source == btnCalculate) {
 			updateResult();
 		}
@@ -637,11 +621,10 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 		char last = value.charAt(value.length() - 1);
 		if ((event.getNativeKeyCode() != KeyCodes.KEY_LEFT
 				&& event.getNativeKeyCode() != KeyCodes.KEY_RIGHT)
-				&& !"".equals(value) && !"-".equals(value)
-				&& last != '.') {
+				&& !"".equals(value) && !"-".equals(value) && last != '.') {
 			doTextFieldActionPerformed();
 		}
-    }
+	}
 
 	private void addInsertHandler(final AutoCompleteTextFieldW field) {
 		field.addInsertHandler(new AutoCompleteTextFieldW.InsertHandler() {
@@ -658,25 +641,25 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 
 	@Override
 	public void onBlur(BlurEvent event) {
-	    if (event.getSource() instanceof TextBox) {
-	    	doTextFieldActionPerformed();
-	    }
-	    
-    }
+		if (event.getSource() instanceof TextBox) {
+			doTextFieldActionPerformed();
+		}
+
+	}
 
 	/**
 	 * Update results when key is pressed or focus lost
 	 */
 	void doTextFieldActionPerformed() {
-		 updateResult();
-    }
+		updateResult();
+	}
 
 	/**
 	 * @return the wrapped Panel
 	 */
 	public FlowPanel getWrappedPanel() {
-	    return wrappedPanel;
-    }
+		return wrappedPanel;
+	}
 
 	@Override
 	protected void resetCaret() {

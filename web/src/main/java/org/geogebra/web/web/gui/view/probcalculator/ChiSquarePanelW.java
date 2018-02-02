@@ -209,7 +209,7 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		getSc().showColPercent = ckColPercent.getValue();
 	}
 
-	public void updateCheckboxes() {
+	private void updateCheckboxes() {
 		ckExpected.setValue(getSc().showExpected);
 		ckChiDiff.setValue(getSc().showDiff);
 		ckRowPercent.setValue(getSc().showRowPercent);
@@ -295,10 +295,14 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		updateGUI();
 	}
 
+	/**
+	 * Cell (input+output) of the table
+	 *
+	 */
 	public class ChiSquareCellW extends ChiSquareCell
 			implements FocusHandler, KeyUpHandler {
 
-		private FlowPanel wrappedPanel;
+		private FlowPanel wrappedCellPanel;
 		private AutoCompleteTextFieldW fldInput;
 		private Label[] label;
 
@@ -306,45 +310,48 @@ public class ChiSquarePanelW extends ChiSquarePanel
 
 		/**
 		 * Construct ChiSquareCell with given row, column
+		 * 
+		 * @param sc
+		 *            data
+		 * @param row
+		 *            row
+		 * @param column
+		 *            column
 		 */
 		public ChiSquareCellW(StatisticsCollection sc, int row, int column) {
 			this(sc);
 			init(row, column);
 		}
 
+		@Override
 		public void setValue(String string) {
 			fldInput.setText(string);
 		}
 
 		/**
 		 * Construct ChiSquareCell
+		 * 
+		 * @param sc
+		 *            data
 		 */
 		public ChiSquareCellW(StatisticsCollection sc) {
 			super(sc);
-			this.wrappedPanel = new FlowPanel();
-			this.wrappedPanel.addStyleName("ChiSquarePanelW");
-			fldInput = new AutoCompleteTextFieldW(statCalc.getApp());
+			this.wrappedCellPanel = new FlowPanel();
+			this.wrappedCellPanel.addStyleName("ChiSquarePanelW");
+			fldInput = new AutoCompleteTextFieldW(getStatCalc().getApp());
 			fldInput.addKeyUpHandler(this);
 			fldInput.addFocusHandler(this);
-			wrappedPanel.add(fldInput);
+			wrappedCellPanel.add(fldInput);
 
 			label = new Label[5];
+			wrappedCellPanel.add(fldInput);
 			for (int i = 0; i < label.length; i++) {
 				label[i] = new Label();
-				wrappedPanel.add(label[i]);
+				wrappedCellPanel.add(label[i]);
 			}
-			setColumns(4);
+
 			setVisualStyle();
 			hideAllLabels();
-
-		}
-
-		public void setColumns(int columns) {
-			// fldInput.setColumns(columns); no good for layout
-
-			// force a minimum width for margin cells
-			wrappedPanel.add(fldInput);
-
 		}
 
 		/**
@@ -378,14 +385,20 @@ public class ChiSquarePanelW extends ChiSquarePanel
 			return label;
 		}
 
+		@Override
 		public void setLabelText(int index, String s) {
 			label[index].setText(s);
 		}
 
+		@Override
 		public void setLabelVisible(int index, boolean isVisible) {
 			label[index].setVisible(isVisible);
 		}
 
+		/**
+		 * @param isInputCell
+		 *            whether this contains input
+		 */
 		public void setInputCell(boolean isInputCell) {
 			this.isInputCell = isInputCell;
 			setVisualStyle();
@@ -401,46 +414,51 @@ public class ChiSquarePanelW extends ChiSquarePanel
 			} else if (isHeaderCell()) {
 
 				fldInput.setVisible(true);
-				wrappedPanel.addStyleName("headercell");
+				wrappedCellPanel.addStyleName("headercell");
 				// TODO CSSfldInput.setBackground(geogebra.awt.GColorD
 				// .getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 
 			} else if (isInputCell) {
 				fldInput.setVisible(true);
-				wrappedPanel.addStyleName("inputcell");
+				wrappedCellPanel.addStyleName("inputcell");
 			} else {
 				fldInput.setVisible(true);
-				wrappedPanel.removeStyleName("headercell");
+				wrappedCellPanel.removeStyleName("headercell");
 				// TODO
 				// csswrappedPanel.setBorder(BorderFactory.createLineBorder(Color.GRAY,
 				// 1));
 				// TODO cssfldInput.setBackground(geogebra.awt.GColorD
 				// .getAwtColor(GeoGebraColorConstants.WHITE));
 			}
-
 		}
 
 		private void updateCellData() {
 			updateCellData(fldInput.getText());
 		}
 
-		// TODO attach the listener
+		/**
+		 * TODO attach the listener
+		 * 
+		 * @param e
+		 *            event
+		 */
 		public void focusLost(FocusEvent e) {
 			updateCellData();
 			getStatCalc().updateResult();
 		}
 
+		/**
+		 * @return UI component
+		 */
 		public FlowPanel getWrappedPanel() {
-			return wrappedPanel;
+			return wrappedCellPanel;
 		}
 
 		@Override
 		public void onKeyUp(KeyUpEvent e) {
-
 			updateCellData();
 			getStatCalc().updateResult();
 			updateCellContent();
-
 		}
 
 		@Override
@@ -449,7 +467,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 				((TextBox) event.getSource()).selectAll();
 			}
 		}
-
 	}
 
 	@Override
@@ -457,7 +474,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		if (event.getSource() instanceof TextBox) {
 			((TextBox) event.getSource()).selectAll();
 		}
-
 	}
 
 	@Override
