@@ -710,6 +710,12 @@ task createGiacJs(dependsOn: 'createGiacGgbJs') {
             rename 'giacggb.js', 'giac.js'
             filter { line -> line.replace('Module', '__ggb__giac').replace('"use asm";', '') }
         }
+    }
+}
+
+task createGiacWasmJs(dependsOn: 'createGiacJs') {
+    description 'Creates JavaScript version of Giac which can be embedded into GeoGebraWeb.'
+    doLast {
         exec {
             commandLine "bash", "-c", "base64 -w0 giacggb.wasm > giacggb.wasm.b64"
             workingDir 'build/binaries/giacggb.js'
