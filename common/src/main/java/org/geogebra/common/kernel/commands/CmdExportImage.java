@@ -50,6 +50,8 @@ public class CmdExportImage extends CmdScripting {
 		// boolean copyToClipboard = true;
 		String filename = null;
 		ExportType type = ExportType.PNG;
+		
+		int typeArg = -1;
 
 		GeoElement[] arg = resArgs(c);
 
@@ -66,6 +68,7 @@ public class CmdExportImage extends CmdScripting {
 					.toValueString(StringTemplate.maxDecimals))) {
 
 			case "type":
+				typeArg = 1;
 				String typeStr = StringUtil.toLowerCaseUS(
 						value.toValueString(StringTemplate.defaultTemplate));
 				switch (typeStr) {
@@ -195,6 +198,11 @@ public class CmdExportImage extends CmdScripting {
 		case SVG:
 
 			String svg = api.exportSVG(filename);
+			
+			if (svg == null) {
+				// eg SVG without filename in ggb5
+				throw argErr(app, c, arg[typeArg]);
+			}
 
 			if (filename == null) {
 				kernel.getApplication().handleImageExport(svg);

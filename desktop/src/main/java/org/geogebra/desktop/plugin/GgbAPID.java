@@ -327,6 +327,12 @@ public class GgbAPID extends GgbAPIJre {
 	}
 	
 	public String exportSVG(String filename) {
+
+		if (filename == null) {
+			// not supported
+			return null;
+		}
+
 		EuclidianView view = app.getActiveEuclidianView();
 		GraphicExportDialog.exportSVG(app, view, new File(filename), true, view.getExportWidth(),
 				view.getExportHeight(), -1, -1, 1, true);
