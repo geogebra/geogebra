@@ -628,7 +628,7 @@ public class GeoNumeric extends GeoElement
 			animationValue = value;
 		}
 
-		if (isLabelSet() && this.isSliderable()) {
+		if (isLabelSet() && this.isSliderable() && isSelected()) {
 			kernel.getApplication().readLater(this);
 		}
 	}
