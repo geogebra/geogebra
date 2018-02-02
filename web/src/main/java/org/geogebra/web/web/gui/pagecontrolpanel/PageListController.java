@@ -418,14 +418,24 @@ public class PageListController implements PageListControllerInterface,
 		boolean bellowMiddle = target.isBellowMiddle(dragCard.getAbsoluteTop());
 
 		if (dragAnim) {
-			if (bellowMiddle) {
-				target.addStyleName("spaceAfterAnimated");
-			} else {
-				target.addStyleName("spaceBeforeAnimated");
-			}
+			doDragAnimation(target);
 		}
 		lastDragTarget = target;
 		return bellowMiddle ? targetIdx + 1 : targetIdx;
+	}
+
+	private void doDragAnimation(PagePreviewCard target) {
+		boolean hitWithTop = !target.isBellowMiddle(dragCard.getAbsoluteTop());
+		boolean hitWithBottom = !target.isBellowMiddle(
+				dragCard.getAbsoluteTop()
+								+ dragCard.getOffsetHeight());
+		if (hitWithTop) {
+			target.removeStyleName("spaceAfterAnimated");
+			target.addStyleName("spaceBeforeAnimated");
+		} else if (hitWithBottom) {
+			target.removeStyleName("spaceBeforeAnimated");
+			target.addStyleName("spaceAfterAnimated");
+		}
 	}
 
 	private void loadPageAt(int x, int y) {
