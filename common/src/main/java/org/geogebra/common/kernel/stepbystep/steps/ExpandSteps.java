@@ -17,9 +17,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.noOfOperands() != 2 ||
-						!so.getOperand(0).isSum() ||
-						!so.getOperand(1).isSum()) {
+				if (so.noOfOperands() != 2 || !so.getOperand(0).isSum() || !so.getOperand(1).isSum()) {
 					return StepStrategies.iterateThrough(this, sn, sb, tracker);
 				}
 

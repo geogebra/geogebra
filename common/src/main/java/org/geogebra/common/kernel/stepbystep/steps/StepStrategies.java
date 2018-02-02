@@ -20,6 +20,7 @@ public class StepStrategies {
 				RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
 				RegroupSteps.EXPAND_ROOT,
 				RegroupSteps.COMMON_ROOT,
+				RegroupSteps.REWRITE_ROOT_UNDER_POWER,
 				RegroupSteps.SIMPLIFY_ROOTS,
 				RegroupSteps.NEGATIVE_FRACTIONS,
 				RegroupSteps.TRIVIAL_FRACTIONS,
@@ -279,7 +280,7 @@ public class StepStrategies {
 
 	public static StepNode implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 

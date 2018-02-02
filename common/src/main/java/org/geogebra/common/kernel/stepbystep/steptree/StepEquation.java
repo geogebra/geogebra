@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.debug.Log;
 
 public class StepEquation extends StepSolvable {
 
@@ -103,8 +104,20 @@ public class StepEquation extends StepSolvable {
 
 		copy.expand();
 
-		return copy.getLHS().equals(copy.getRHS()) || isEqual(LHS.getValueAt(var, val.getValue()), RHS.getValueAt(var,
-				val.getValue()));
+		if (!copy.getLHS().equals(copy.getRHS())) {
+			if (isEqual(LHS.getValueAt(var, val.getValue()), RHS.getValueAt(var, val.getValue()))) {
+				Log.error("Regroup failed at: " + this);
+				Log.error("For solution: " + val);
+				Log.error("Result: " + copy);
+				Log.error("Whereas numeric evaluation gives equality");
+
+				return true;
+			}
+
+			return false;
+		}
+
+		return true;
 	}
 
 	public StepSet solve(StepVariable sv, SolutionBuilder sb) {

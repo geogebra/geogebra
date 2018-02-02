@@ -496,6 +496,32 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	REWRITE_ROOT_UNDER_POWER {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.POWER) && ((StepOperation) sn).getOperand(0).isOperation(Operation.NROOT)) {
+				StepOperation power = (StepOperation) sn;
+				StepOperation root = (StepOperation) power.getOperand(0);
+
+				StepExpression quotient = power.getOperand(1).quotient(root.getOperand(1));
+				StepExpression remainder = power.getOperand(1).remainder(root.getOperand(1));
+
+				if (!isZero(quotient) && !isZero(remainder)) {
+					StepExpression newPower = nonTrivialProduct(quotient, root.getOperand(1));
+					StepExpression result = multiply(nonTrivialPower(root, newPower), nonTrivialPower(root, remainder));
+
+					sn.setColor(tracker.getColorTracker());
+					result.setColor(tracker.incColorTracker());
+
+					sb.add(SolutionStepType.REWRITE_AS, sn, result);
+					return result;
+				}
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
 	REWRITE_POWER_UNDER_ROOT {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -1261,6 +1287,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
+
 	POWER_OF_POWER {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
