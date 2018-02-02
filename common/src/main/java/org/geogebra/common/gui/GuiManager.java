@@ -37,7 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.util.debug.Log;
 
 public abstract class GuiManager implements GuiManagerInterface {
@@ -711,7 +711,7 @@ public abstract class GuiManager implements GuiManagerInterface {
 						.setFocusedPanel(App.VIEW_PROBABILITY_CALCULATOR);
 			} else {
 				setShowView(true, App.VIEW_PROBABILITY_CALCULATOR);
-				probCalculator.setProbabilityCalculator(DIST.NORMAL, null,
+				probCalculator.setProbabilityCalculator(Dist.NORMAL, null,
 						false);
 			}
 

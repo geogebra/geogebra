@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection.Procedure;
-import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -19,16 +18,24 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
  * @author gabor StatisticCalculator common superclass
  */
 public abstract class StatisticsCalculator {
-
-	protected Construction cons;
+	/** statistics data and settings */
 	protected final StatisticsCollection sc;
+	/** processor computes results from data */
 	protected StatisticsCalculatorProcessor statProcessor;
+	/** HTML output utility */
 	protected StatisticsCalculatorHTML statHTML;
+	/** kernel */
 	protected Kernel kernel;
+	/** width of input fields */
 	final static protected int fieldWidth = 6;
-
-	protected TextObject fldSigma, fldNullHyp, fldConfLevel;
-	protected TextObject[] fldSampleStat1, fldSampleStat2;
+	/** SD field */
+	protected TextObject fldSigma;
+	/** null hypothesis */
+	protected TextObject fldNullHyp;
+	/** confidence level */
+	protected TextObject fldConfLevel;
+	protected TextObject[] fldSampleStat1;
+	protected TextObject[] fldSampleStat2;
 
 	// =========================================
 	// Procedures
@@ -68,12 +75,10 @@ public abstract class StatisticsCalculator {
 	public StatisticsCalculator(App app) {
 		this.loc = app.getLocalization();
 		this.app = app;
-		cons = app.getKernel().getConstruction();
-		kernel = cons.getKernel();
+		kernel = app.getKernel();
 		sc = app.getSettings().getProbCalcSettings().getCollection();
 		statProcessor = new StatisticsCalculatorProcessor(app, this, sc);
 		statHTML = new StatisticsCalculatorHTML(app, this, sc);
-
 	}
 
 	public Procedure getSelectedProcedure() {
@@ -95,7 +100,7 @@ public abstract class StatisticsCalculator {
 		} else {
 			// override the default decimal place if < 4
 			int d = kernel.getPrintDecimals() < 4 ? 4
-					: cons.getKernel().getPrintDecimals();
+					: kernel.getPrintDecimals();
 			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, d,
 					false);
 		}
@@ -118,22 +123,19 @@ public abstract class StatisticsCalculator {
 	}
 
 	public final void updateResult() {
-
 		updateStatisticCollection();
 		recompute();
-
 	}
 
 	public void recompute() {
 		statProcessor.doCalculate();
 
 		bodyText = new StringBuilder();
-		bodyText.append(statHTML.getStatString());
+		statHTML.getStatString(bodyText);
 		updateResultText(bodyText.toString());
 
 		// prevent auto scrolling
 		resetCaret();
-
 	}
 
 	private double parseNumberText(String s) {
@@ -147,7 +149,7 @@ public abstract class StatisticsCalculator {
 
 			// allow input such as sqrt(2)
 			NumberValue nv;
-			nv = cons.getKernel().getAlgebraProcessor()
+			nv = kernel.getAlgebraProcessor()
 					.evaluateToNumeric(inputText, false);
 			return nv.getDouble();
 
@@ -157,6 +159,9 @@ public abstract class StatisticsCalculator {
 		return Double.NaN;
 	}
 
+	/**
+	 * Update collection from GUI
+	 */
 	final protected void updateStatisticCollection() {
 		try {
 
@@ -173,10 +178,10 @@ public abstract class StatisticsCalculator {
 			}
 
 			for (int i = 0; i < s1.length; i++) {
-				s1[i] = (parseNumberText(fldSampleStat1[i].getText()));
+				s1[i] = parseNumberText(fldSampleStat1[i].getText());
 			}
 			for (int i = 0; i < s2.length; i++) {
-				s2[i] = (parseNumberText(fldSampleStat2[i].getText()));
+				s2[i] = parseNumberText(fldSampleStat2[i].getText());
 			}
 
 			updateCollectionProcedure();
@@ -266,14 +271,30 @@ public abstract class StatisticsCalculator {
 
 	}
 
+	/**
+	 * @return whether right tail radio button is pressed
+	 */
 	abstract protected boolean btnRightIsSelected();
 
+	/**
+	 * @return whether left tail radio button is pressed
+	 */
 	abstract protected boolean btnLeftIsSelected();
 
+	/**
+	 * Prevent auto scrolling
+	 */
 	protected abstract void resetCaret();
 
+	/**
+	 * @param string
+	 *            result text
+	 */
 	protected abstract void updateResultText(String string);
 
+	/**
+	 * Initialize string - procedure mappings
+	 */
 	protected void combolabelsPreprocess() {
 		if (mapNameToProcedure == null) {
 			mapNameToProcedure = new HashMap<>();
@@ -314,7 +335,6 @@ public abstract class StatisticsCalculator {
 				Procedure.CHISQ_TEST);
 
 		for (Entry<String, Procedure> entry : mapNameToProcedure.entrySet()) {
-
 			this.mapProcedureToName.put(entry.getValue(), entry.getKey());
 		}
 	}

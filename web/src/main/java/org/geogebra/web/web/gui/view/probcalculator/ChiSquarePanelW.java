@@ -187,6 +187,9 @@ public class ChiSquarePanelW extends ChiSquarePanel
 		setLabels();
 	}
 
+	/**
+	 * Reset chi-squared data
+	 */
 	public void updateCollection() {
 		getSc().setChiSqData(
 				Integer.parseInt(cbRows.getValue(cbRows.getSelectedIndex())),
@@ -196,6 +199,9 @@ public class ChiSquarePanelW extends ChiSquarePanel
 
 	}
 
+	/**
+	 * Copy visibility flags
+	 */
 	public void updateShowFlags(){
 		getSc().showExpected = ckExpected.getValue();
 		getSc().showDiff = ckChiDiff.getValue();

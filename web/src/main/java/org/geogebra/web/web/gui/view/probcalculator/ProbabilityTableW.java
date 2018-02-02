@@ -3,7 +3,7 @@ package org.geogebra.web.web.gui.view.probcalculator;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityTable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.web.web.gui.view.data.StatTableW;
 import org.geogebra.web.web.gui.view.data.StatTableW.MyTable;
 
@@ -48,7 +48,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
     }
 	
 	@Override
-	public void setTable(DIST distType, double[] parms, int xMin, int xMax){
+	public void setTable(Dist distType, double[] parms, int xMin, int xMax){
 
 		setIniting(true);
 
@@ -115,10 +115,16 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 
 	}
 	
+	/**
+	 * @return UI component
+	 */
 	public FlowPanel getWrappedPanel() {
 		return wrappedPanel;
 	}
 	
+	/**
+	 * @return stats table
+	 */
 	public StatTableW getStatTable() {
 		return statTable;
 	}

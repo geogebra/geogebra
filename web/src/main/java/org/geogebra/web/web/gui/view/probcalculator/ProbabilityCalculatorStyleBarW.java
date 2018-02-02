@@ -1,5 +1,7 @@
 package org.geogebra.web.web.gui.view.probcalculator;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.gui.menubar.OptionsMenu;
 import org.geogebra.common.gui.view.data.PlotSettings;
 import org.geogebra.common.gui.view.probcalculator.ProbabilityCalculatorStyleBar;
@@ -32,7 +34,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	
 	private AriaMenuBar wrappedToolbar;
 	private AriaMenuItem btnRounding;
-	private MyMenuBar roundingPopup;
+	private AriaMenuBar roundingPopup;
 	private GCheckBoxMenuItem btnLineGraph;
 	private GCheckBoxMenuItem btnStepGraph;
 	private GCheckBoxMenuItem btnBarGraph;
@@ -174,7 +176,7 @@ public class ProbabilityCalculatorStyleBarW extends
 	/**
 	 * Update the menu with the current number format.
 	 */
-	private void updateMenuDecimalPlaces(MyMenuBar menu) {
+	private void updateMenuDecimalPlaces(AriaMenuBar menu) {
 		int printFigures = getProbCalc().getPrintFigures();
 		int printDecimals = getProbCalc().getPrintDecimals();
 
@@ -196,16 +198,16 @@ public class ProbabilityCalculatorStyleBarW extends
 		}
 
 		try {
-			 Object[] m = menu.getMenuItems();
-			((GRadioButtonMenuItem) m[pos]).setSelected(true);
+			ArrayList<AriaMenuItem> m = menu.getItems();
+			((GRadioButtonMenuItem) m.get(pos)).setSelected(true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
 	
-	private MyMenuBar createRoundingPopup() {
-		MyMenuBar menu = new MyMenuBar();
+	private AriaMenuBar createRoundingPopup() {
+		AriaMenuBar menu = new AriaMenuBar();
 		
 		String[] strDecimalSpaces = getApp().getLocalization().getRoundingMenu();
 		addRadioButtonMenuItems(menu, this, strDecimalSpaces,
@@ -324,14 +326,8 @@ public class ProbabilityCalculatorStyleBarW extends
 	    
     }
 	
-	private static class MyMenuBar extends AriaMenuBar {
-		
-		public Object[] getMenuItems() {
-			return super.getItems().toArray();
-		}
-		
-	}
 	
+
 	/**
 	 * @return the toolbar wrapped to this stylebar
 	 */

@@ -12,9 +12,22 @@ public class StatisticsCollection {
 	public static final String tail_right = ">";
 	public static final String tail_two = ExpressionNodeConstants.strNOT_EQUAL;
 
-	public double mean, mean2, sd, sd2, nullHyp;
-	public double me, lower, upper, se, testStat;
-	public double P, df, level, n, n2, count, count2;
+	public double mean, mean2;
+	public double sd;
+	public double sd2;
+	public double nullHyp;
+	public double me;
+	public double lower;
+	public double upper;
+	public double se;
+	public double testStat;
+	public double P;
+	public double df;
+	public double level;
+	public double n;
+	public double n2;
+	public double count;
+	public double count2;
 	/** output: sum of observed */
 	public double total;
 
@@ -131,6 +144,12 @@ public class StatisticsCollection {
 		}
 	}
 
+	/**
+	 * Add this to XML string
+	 * 
+	 * @param sb
+	 *            string builder
+	 */
 	public void getXML(StringBuilder sb) {
 		sb.append("<statisticsCollection procedure=\"");
 		sb.append(getSelectedProcedure().name());
@@ -176,14 +195,14 @@ public class StatisticsCollection {
 		}
 	}
 
-	private void add(StringBuilder sb, double sd3, String string) {
+	private static void add(StringBuilder sb, double sd3, String string) {
 		sb.append("\" ");
 		sb.append(string);
 		sb.append("=\"");
 		sb.append(sd3);
 	}
 
-	private void add(StringBuilder sb, boolean sd3, String string) {
+	private static void add(StringBuilder sb, boolean sd3, String string) {
 		sb.append("\" ");
 		sb.append(string);
 		sb.append("=\"");

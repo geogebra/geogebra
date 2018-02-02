@@ -11,7 +11,7 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
  */
 public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/** distributions */
-	public enum DIST {
+	public enum Dist {
 		/** normal */
 		NORMAL,
 		/** student */
@@ -61,10 +61,10 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * DIST_POISSON = 14;
 	 */
 	/** number of distributions */
-	public static final int distCount = DIST.values().length;
+	public static final int distCount = Dist.values().length;
 
 	private double[] parameters = { 0.0d, 1.0d };
-	private DIST distributionType = DIST.NORMAL;
+	private Dist distributionType = Dist.NORMAL;
 	private boolean isCumulative = false;
 	private boolean intervalSet = false;
 
@@ -116,9 +116,9 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 * @param distributionType
 	 *            dist type
 	 */
-	public void setDistributionType(DIST distributionType) {
+	public void setDistributionType(Dist distributionType) {
 		if (distributionType == null) {
-			this.distributionType = DIST.NORMAL; // default guard
+			this.distributionType = Dist.NORMAL; // default guard
 		} else {
 			this.distributionType = distributionType;
 		}
@@ -128,7 +128,7 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	/**
 	 * @return distribution type
 	 */
-	public DIST getDistributionType() {
+	public Dist getDistributionType() {
 		return distributionType;
 	}
 

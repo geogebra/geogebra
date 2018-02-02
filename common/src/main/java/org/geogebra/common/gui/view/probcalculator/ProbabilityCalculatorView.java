@@ -68,7 +68,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
@@ -116,7 +116,7 @@ public abstract class ProbabilityCalculatorView
 	protected boolean hasIntegral = true;
 
 	/** selected distribution mode */
-	protected DIST selectedDist = DIST.NORMAL; // default: startup with normal
+	protected Dist selectedDist = Dist.NORMAL; // default: startup with normal
 												// distribution
 
 	// distribution fields
@@ -129,8 +129,8 @@ public abstract class ProbabilityCalculatorView
 	protected boolean isCumulative = false;
 
 	// maps for the distribution ComboBox
-	private HashMap<DIST, String> distributionMap;
-	private HashMap<String, DIST> reverseDistributionMap;
+	private HashMap<Dist, String> distributionMap;
+	private HashMap<String, Dist> reverseDistributionMap;
 
 	// GeoElements
 	protected ArrayList<GeoElementND> plotGeoList;
@@ -302,7 +302,7 @@ public abstract class ProbabilityCalculatorView
 		return printFigures;
 	}
 
-	public void setProbabilityCalculator(DIST distributionType,
+	public void setProbabilityCalculator(Dist distributionType,
 			double[] parameters, boolean isCumulative) {
 
 		this.selectedDist = distributionType;
@@ -338,7 +338,7 @@ public abstract class ProbabilityCalculatorView
 	// Getters/Setters
 	// =================================================
 
-	public DIST getSelectedDist() {
+	public Dist getSelectedDist() {
 		return selectedDist;
 	}
 
@@ -589,8 +589,8 @@ public abstract class ProbabilityCalculatorView
 			// create density curve
 			densityCurve = buildDensityCurveExpression(selectedDist,
 					isCumulative);
-			if (isCumulative && (selectedDist == DIST.F
-					|| selectedDist == DIST.EXPONENTIAL)) {
+			if (isCumulative && (selectedDist == Dist.F
+					|| selectedDist == Dist.EXPONENTIAL)) {
 				pdfCurve = buildDensityCurveExpression(selectedDist, false);
 				cons.removeFromConstructionList(pdfCurve);
 			}
@@ -1768,7 +1768,7 @@ public abstract class ProbabilityCalculatorView
 	 * @param parms
 	 * @return
 	 */
-	private GeoFunction buildDensityCurveExpression(DIST type,
+	private GeoFunction buildDensityCurveExpression(Dist type,
 			boolean cumulative) {
 
 		GeoNumeric param1 = null, param2 = null;
@@ -1929,24 +1929,24 @@ public abstract class ProbabilityCalculatorView
 	}
 
 	public boolean isOverlayDefined() {
-		return !((selectedDist == DIST.CAUCHY)
-				|| (selectedDist == DIST.F && parameters[1] < 4));
+		return !((selectedDist == Dist.CAUCHY)
+				|| (selectedDist == Dist.F && parameters[1] < 4));
 	}
 
-	protected HashMap<DIST, String> getDistributionMap() {
+	protected HashMap<Dist, String> getDistributionMap() {
 		return distributionMap;
 	}
 
-	protected void setDistributionMap(HashMap<DIST, String> distributionMap) {
+	protected void setDistributionMap(HashMap<Dist, String> distributionMap) {
 		this.distributionMap = distributionMap;
 	}
 
-	protected HashMap<String, DIST> getReverseDistributionMap() {
+	protected HashMap<String, Dist> getReverseDistributionMap() {
 		return reverseDistributionMap;
 	}
 
 	protected void setReverseDistributionMap(
-			HashMap<String, DIST> reverseDistributionMap) {
+			HashMap<String, Dist> reverseDistributionMap) {
 		this.reverseDistributionMap = reverseDistributionMap;
 	}
 

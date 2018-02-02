@@ -25,8 +25,11 @@ public class StatisticsCalculatorHTML {
 	 * Constructs StatisticsCalculatorHTML
 	 * 
 	 * @param app
+	 *            application
 	 * @param statCalc
+	 *            calculator
 	 * @param sc
+	 *            data
 	 */
 	public StatisticsCalculatorHTML(App app, StatisticsCalculator statCalc,
 			StatisticsCollection sc) {
@@ -40,11 +43,8 @@ public class StatisticsCalculatorHTML {
 
 	/**
 	 * Formats a number string using local format settings.
-	 * 
-	 * @param x
-	 * @return
 	 */
-	public String format(double x) {
+	private String format(double x) {
 		return statCalc.format(x);
 	}
 
@@ -73,15 +73,20 @@ public class StatisticsCalculatorHTML {
 
 	}
 
-	public StringBuilder getStatString() {
-
-		StringBuilder sb = new StringBuilder("");
+	/**
+	 * append table with resulting stats to a stringbuilder
+	 * 
+	 * @param sb
+	 *            builder
+	 * 
+	 */
+	public void getStatString(StringBuilder sb) {
 		sb.append(statCalc.getMapProcedureToName()
-				.get(statCalc.getSelectedProcedure()));
+				.get(sc.getSelectedProcedure()));
 		sb.append(newline);
 		sb.append(newline);
 
-		switch (statCalc.getSelectedProcedure()) {
+		switch (sc.getSelectedProcedure()) {
 
 		case ZMEAN_TEST:
 
@@ -249,8 +254,6 @@ public class StatisticsCalculatorHTML {
 
 		}
 
-		// System.out.println(sb.toString());
-		return sb;
 
 	}
 

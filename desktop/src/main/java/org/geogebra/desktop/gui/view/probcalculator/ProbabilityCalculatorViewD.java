@@ -38,7 +38,7 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.ProbabilityCalculatorSettings;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
@@ -885,23 +885,23 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		comboDistribution.removeActionListener(this);
 		comboDistribution.removeAllItems();
-		comboDistribution.addItem(getDistributionMap().get(DIST.NORMAL));
-		comboDistribution.addItem(getDistributionMap().get(DIST.STUDENT));
-		comboDistribution.addItem(getDistributionMap().get(DIST.CHISQUARE));
-		comboDistribution.addItem(getDistributionMap().get(DIST.F));
-		comboDistribution.addItem(getDistributionMap().get(DIST.EXPONENTIAL));
-		comboDistribution.addItem(getDistributionMap().get(DIST.CAUCHY));
-		comboDistribution.addItem(getDistributionMap().get(DIST.WEIBULL));
-		comboDistribution.addItem(getDistributionMap().get(DIST.GAMMA));
-		comboDistribution.addItem(getDistributionMap().get(DIST.LOGNORMAL));
-		comboDistribution.addItem(getDistributionMap().get(DIST.LOGISTIC));
+		comboDistribution.addItem(getDistributionMap().get(Dist.NORMAL));
+		comboDistribution.addItem(getDistributionMap().get(Dist.STUDENT));
+		comboDistribution.addItem(getDistributionMap().get(Dist.CHISQUARE));
+		comboDistribution.addItem(getDistributionMap().get(Dist.F));
+		comboDistribution.addItem(getDistributionMap().get(Dist.EXPONENTIAL));
+		comboDistribution.addItem(getDistributionMap().get(Dist.CAUCHY));
+		comboDistribution.addItem(getDistributionMap().get(Dist.WEIBULL));
+		comboDistribution.addItem(getDistributionMap().get(Dist.GAMMA));
+		comboDistribution.addItem(getDistributionMap().get(Dist.LOGNORMAL));
+		comboDistribution.addItem(getDistributionMap().get(Dist.LOGISTIC));
 
 		comboDistribution.addItem(ListSeparatorRenderer.SEPARATOR);
 
-		comboDistribution.addItem(getDistributionMap().get(DIST.BINOMIAL));
-		comboDistribution.addItem(getDistributionMap().get(DIST.PASCAL));
-		comboDistribution.addItem(getDistributionMap().get(DIST.POISSON));
-		comboDistribution.addItem(getDistributionMap().get(DIST.HYPERGEOMETRIC));
+		comboDistribution.addItem(getDistributionMap().get(Dist.BINOMIAL));
+		comboDistribution.addItem(getDistributionMap().get(Dist.PASCAL));
+		comboDistribution.addItem(getDistributionMap().get(Dist.POISSON));
+		comboDistribution.addItem(getDistributionMap().get(Dist.HYPERGEOMETRIC));
 
 		comboDistribution.setSelectedItem(getDistributionMap().get(selectedDist));
 		comboDistribution.addActionListener(this);

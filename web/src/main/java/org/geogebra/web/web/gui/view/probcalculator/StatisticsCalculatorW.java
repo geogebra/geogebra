@@ -664,6 +664,9 @@ public class StatisticsCalculatorW extends StatisticsCalculator implements
 	    
     }
 
+	/**
+	 * Update results when key is pressed or focus lost
+	 */
 	void doTextFieldActionPerformed() {
 		 updateResult();
     }

@@ -10,9 +10,6 @@ import org.geogebra.common.main.Localization;
  */
 public abstract class ChiSquarePanel {
 
-	// ======================================
-	// GeoGebra fields
-	// ======================================
 	protected Localization loc;
 	protected StatisticsCalculator statCalc;
 	private StatisticsCalculatorProcessor statProcessor;
@@ -20,8 +17,8 @@ public abstract class ChiSquarePanel {
 	private boolean showColumnMargin;
 
 	/**
-	 * @param app
-	 *            Application
+	 * @param loc
+	 *            Localization
 	 * @param statCalc
 	 *            SatisticCalculator
 	 */

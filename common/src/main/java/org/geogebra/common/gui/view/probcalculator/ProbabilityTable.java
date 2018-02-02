@@ -2,7 +2,7 @@ package org.geogebra.common.gui.view.probcalculator;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -22,7 +22,7 @@ public abstract class ProbabilityTable {
 	private ProbabilityCalculatorView probCalc;
 	private String[] columnNames;
 
-	private DIST distType;
+	private Dist distType;
 	private int xMin;
 	private int xMax;
 	private boolean isIniting;
@@ -65,7 +65,7 @@ public abstract class ProbabilityTable {
 		setTable(distType, parms, xMin, xMax);
 	}
 
-	public abstract void setTable(DIST distType2, double[] parms2, int xMin2,
+	public abstract void setTable(Dist distType2, double[] parms2, int xMin2,
 			int xMax2);
 
 	protected ProbabilityManager getProbManager() {
@@ -84,11 +84,11 @@ public abstract class ProbabilityTable {
 		this.app = app;
 	}
 
-	protected DIST getDistType() {
+	protected Dist getDistType() {
 		return distType;
 	}
 
-	protected void setDistType(DIST distType) {
+	protected void setDistType(Dist distType) {
 		this.distType = distType;
 	}
 
@@ -108,22 +108,20 @@ public abstract class ProbabilityTable {
 		this.isIniting = isIniting;
 	}
 
-	protected int getxMax() {
-		return xMax;
-	}
-
+	/**
+	 * @return column names
+	 */
 	protected String[] getColumnNames() {
 		return columnNames;
 	}
 
-	protected void setTableModel(DIST distType1, double[] parms1, int xMin1,
+	protected void setTableModel(Dist distType1, double[] parms1, int xMin1,
 			int xMax1) {
 		this.distType = distType1;
 		this.xMin = xMin1;
 		this.xMax = xMax1;
 		this.parms = parms1;
 		setColumnNames();
-
 	}
 
 }

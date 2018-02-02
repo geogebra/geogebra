@@ -25,6 +25,12 @@ public abstract class ChiSquareCell {
 		setVisualStyle();
 	}
 
+	/**
+	 * @param row1
+	 *            row
+	 * @param column1
+	 *            column
+	 */
 	protected void init(int row1, int column1) {
 		this.row = row1;
 		this.column = column1;
@@ -42,9 +48,27 @@ public abstract class ChiSquareCell {
 		return isMarginCell;
 	}
 
+	/**
+	 * @param i
+	 *            sub-row
+	 * @param show
+	 *            whether to show info on given sub-row
+	 */
 	public abstract void setLabelVisible(int i, boolean show);
 
+	/**
+	 * @param i
+	 *            sub-row
+	 * @param label
+	 *            text of sub-row
+	 */
 	public abstract void setLabelText(int i, String label);
 
+	/**
+	 * Change value of input
+	 * 
+	 * @param value
+	 *            new value
+	 */
 	public abstract void setValue(String value);
 }

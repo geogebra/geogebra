@@ -106,7 +106,7 @@ import org.geogebra.common.main.settings.DataAnalysisSettings;
 import org.geogebra.common.main.settings.DataCollectionSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.KeyboardSettings;
-import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.DIST;
+import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
@@ -1202,7 +1202,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			int distributionType = Integer.parseInt(attrs.get("type"));
 			app.getSettings().getProbCalcSettings()
-					.setDistributionType(DIST.values()[distributionType]);
+					.setDistributionType(Dist.values()[distributionType]);
 
 			boolean isCumulative = parseBoolean(attrs.get("isCumulative"));
 			app.getSettings().getProbCalcSettings().setCumulative(isCumulative);
