@@ -1,10 +1,6 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.isEqual;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.add;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
@@ -22,8 +18,8 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.noOfOperands() != 2 ||
-						!so.getOperand(0).isOperation(Operation.PLUS) ||
-						!so.getOperand(1).isOperation(Operation.PLUS)) {
+						!so.getOperand(0).isSum() ||
+						!so.getOperand(1).isSum()) {
 					return StepStrategies.iterateThrough(this, sn, sb, tracker);
 				}
 
@@ -75,63 +71,70 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	//TODO: 3x(x+1) to 3xx+3x1 in one step
 	EXPAND_PRODUCTS {
 		@Override 
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.MULTIPLY)) {
 				StepOperation so = (StepOperation) sn;
 
-				StepExpression firstMultiplicand = null;
-				StepOperation secondMultiplicand = null; // must be a sum
+				StepExpression first = null;
+				StepExpression second = null;
 				StepExpression remaining = null;
 
 				for (StepExpression operand : so) {
-					if (firstMultiplicand == null
-							&& (secondMultiplicand != null || !operand.isOperation(Operation.PLUS))) {
-						firstMultiplicand = operand;
-					} else if (secondMultiplicand == null && operand.isOperation(Operation.PLUS)) {
-						secondMultiplicand = (StepOperation) operand;
+					if (first == null || second == null && !first.isSum() && !operand.isSum()) {
+						first = multiplyNoCopy(first, operand);
+					} else if (second == null || !second.isSum() && !operand.isSum()) {
+						second = multiplyNoCopy(second, operand);
 					} else {
-						remaining = multiply(remaining, operand);
+						remaining = multiplyNoCopy(remaining, operand);
 					}
 				}
 
-				if (firstMultiplicand != null && secondMultiplicand != null) {
-					StepOperation product = new StepOperation(Operation.PLUS);
-
-					if (!(firstMultiplicand.isInteger() || tracker.getExpandSettings() || tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
+				if (first != null && second != null && (first.isSum() || second.isSum())) {
+					if (!(first.isInteger() || tracker.getExpandSettings() ||
+							tracker.isMarked(sn, RegroupTracker.MarkType.EXPAND))) {
 						return sn;
 					}
 
-					if (firstMultiplicand.isOperation(Operation.PLUS)
-							&& secondMultiplicand.countOperation(Operation.DIVIDE) == 0) {
-						StepOperation firstMultiplicandS = (StepOperation) firstMultiplicand;
+					StepOperation product = new StepOperation(Operation.PLUS);
 
-						for (StepExpression operand : firstMultiplicandS) {
+					if (first.isSum()) {
+						for (StepExpression operand : (StepOperation) first) {
 							operand.setColor(tracker.incColorTracker());
 						}
-						for (StepExpression operand : secondMultiplicand) {
+					} else {
+						first.setColor(tracker.incColorTracker());
+					}
+
+					if (second.isSum()) {
+						for (StepExpression operand : (StepOperation) second) {
 							operand.setColor(tracker.incColorTracker());
 						}
+					} else {
+						second.setColor(tracker.incColorTracker());
+					}
 
-						for (StepExpression operand1 : firstMultiplicandS) {
-							for (StepExpression operand2 : secondMultiplicand) {
+					if (first.isSum() && second.isSum()) {
+						for (StepExpression operand1 : (StepOperation) first) {
+							for (StepExpression operand2 : (StepOperation) second) {
 								product.addOperand(multiply(operand1, operand2));
 							}
 						}
 
 						sb.add(SolutionStepType.EXPAND_SUM_TIMES_SUM);
-					} else {
-						firstMultiplicand.setColor(tracker.incColorTracker());
-						for (StepExpression operand : secondMultiplicand) {
-							operand.setColor(tracker.incColorTracker());
+					} else if (first.isSum()) {
+						for (StepExpression operand : (StepOperation) first) {
+							product.addOperand(multiply(operand, second));
 						}
 
-						for (StepExpression operand : secondMultiplicand) {
-							product.addOperand(multiply(firstMultiplicand, operand));
+						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, second);
+					} else if (second.isSum()) {
+						for (StepExpression operand : (StepOperation) second) {
+							product.addOperand(multiply(first, operand));
 						}
-						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, firstMultiplicand);
+
+						sb.add(SolutionStepType.EXPAND_SIMPLE_TIMES_SUM, first);
 					}
 
 					return multiply(product, remaining);
@@ -148,7 +151,7 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 			if (sn instanceof StepOperation && !sn.isOperation(Operation.ABS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.isOperation(Operation.POWER) && so.getOperand(0).isOperation(Operation.PLUS)
+				if (so.isOperation(Operation.POWER) && so.getOperand(0).isSum()
 						&& so.getOperand(1).getValue() > 0 && so.getOperand(1).isInteger()) {
 					StepOperation sum = (StepOperation) so.getOperand(0);
 

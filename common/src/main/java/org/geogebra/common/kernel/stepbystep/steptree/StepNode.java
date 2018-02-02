@@ -331,6 +331,24 @@ public abstract class StepNode {
 		return so;
 	}
 
+	/**
+	 * Only use if you are sure you do not want a copy
+	 * @return a * b
+	 */
+	public static StepExpression multiplyNoCopy(StepExpression a, StepExpression b) {
+		if (a == null) {
+			return b;
+		}
+		if (b == null) {
+			return a;
+		}
+
+		StepOperation so = new StepOperation(Operation.MULTIPLY);
+		so.addOperand(a);
+		so.addOperand(b);
+		return so;
+	}
+
 	public static StepExpression multiply(double a, StepExpression b) {
 		return multiply(StepConstant.create(a), b);
 	}

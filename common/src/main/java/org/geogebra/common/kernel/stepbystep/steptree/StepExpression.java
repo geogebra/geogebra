@@ -1027,6 +1027,10 @@ public abstract class StepExpression extends StepNode {
 		return isOperation(Operation.MINUS);
 	}
 
+	public boolean isSum() {
+		return isOperation(Operation.PLUS);
+	}
+
 	public static Operation getInverse(Operation op) {
 		switch (op) {
 		case SIN:
