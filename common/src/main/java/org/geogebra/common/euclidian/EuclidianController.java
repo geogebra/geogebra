@@ -9496,7 +9496,7 @@ public abstract class EuclidianController {
 		long last = event.getType() == PointerEventType.MOUSE
 				? this.lastMouseRelease : this.lastTouchRelease;
 		if (last + EuclidianConstants.DOUBLE_CLICK_DELAY > System
-				.currentTimeMillis()
+				.currentTimeMillis() && lastMouseUpLoc != null
 				&& MyMath.length(event.getX() - lastMouseUpLoc.x,
 						event.getY() - lastMouseUpLoc.y) <= 3) {
 			this.doubleClickStarted = true;
@@ -10404,7 +10404,7 @@ public abstract class EuclidianController {
 		} else {
 			this.lastTouchRelease = System.currentTimeMillis();
 		}
-		this.lastMouseUpLoc = new GPoint(x, y);
+		this.setLastMouseUpLoc(new GPoint(x, y));
 
 		app.storeUndoInfoIfSetCoordSystemOccured();
 
@@ -12426,5 +12426,9 @@ public abstract class EuclidianController {
 	 */
 	protected void hideSpecialPointPopup() {
 		// Should be implemented in subclass
+	}
+
+	public void setLastMouseUpLoc(GPoint lastMouseUpLoc) {
+		this.lastMouseUpLoc = lastMouseUpLoc;
 	}
 }

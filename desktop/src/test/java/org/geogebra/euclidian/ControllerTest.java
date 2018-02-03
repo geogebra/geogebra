@@ -31,8 +31,7 @@ public class ControllerTest {
 	@Before
 	public void clear() {
 		events.clear();
-		app.getKernel().clearConstruction(true);
-		app.getActiveEuclidianView().clearView();
+		reset();
 		app.getActiveEuclidianView().getSettings().setCoordSystem(0, 0, 50, 50,
 				false);
 		app.getActiveEuclidianView().getSettings()
@@ -41,7 +40,7 @@ public class ControllerTest {
 	
 	@After
 	public void repeatWithDrag() {
-		app.getKernel().clearConstruction(true);
+		reset();
 		for (TestEvent evt : events) {
 			app.getActiveEuclidianView().getEuclidianController()
 					.wrapMouseMoved(evt);
@@ -50,7 +49,15 @@ public class ControllerTest {
 			app.getActiveEuclidianView().getEuclidianController()
 					.wrapMouseReleased(evt);
 		}
-		checkContent(lastCheck);
+		if (!events.isEmpty()) {
+			checkContent(lastCheck);
+		}
+	}
+
+	private void reset() {
+		app.getKernel().clearConstruction(true);
+		app.getActiveEuclidianView().clearView();
+		ec.setLastMouseUpLoc(null);
 	}
 
 	@Test
