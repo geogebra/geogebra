@@ -84,25 +84,27 @@ public class AwtFactoryD extends AwtFactory {
 	@Override
 	public GBufferedImage createBufferedImage(int width, int height,
 			boolean transparency) throws OutOfMemoryError {
+		try {
+			GraphicsEnvironment ge = GraphicsEnvironment
+					.getLocalGraphicsEnvironment();
 
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
+			GraphicsDevice gs = ge.getDefaultScreenDevice();
 
-		GraphicsDevice gs = ge.getDefaultScreenDevice();
+			GraphicsConfiguration gc = gs.getDefaultConfiguration();
+			BufferedImage bufImg = gc.createCompatibleImage(width, height,
+					(transparency ? Transparency.TRANSLUCENT
+							: Transparency.BITMASK));
 
-		GraphicsConfiguration gc = gs.getDefaultConfiguration();
-		BufferedImage bufImg = gc.createCompatibleImage(width, height,
-				(transparency ? Transparency.TRANSLUCENT
-						: Transparency.BITMASK));
+			// Graphics2D g = (Graphics2D)bufImg.getGraphics();
+			// g.setBackground(new Color(0,0,0,0));
+			// g.clearRect(0,0,width,height);
 
-		// Graphics2D g = (Graphics2D)bufImg.getGraphics();
-
-		// g.setBackground(new Color(0,0,0,0));
-
-		// g.clearRect(0,0,width,height);
-
-		return new GBufferedImageD(bufImg);
-
+			return new GBufferedImageD(bufImg);
+		} catch (Exception e) {
+			// headless mode: getDefaultScreenDevice throws headless exception
+			return new GBufferedImageD(width, height,
+					GBufferedImage.TYPE_INT_ARGB);
+		}
 	}
 
 	@Override
