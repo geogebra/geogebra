@@ -1,10 +1,14 @@
 package org.geogebra.euclidian;
 
+import java.util.ArrayList;
+
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.main.AppDNoGui;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -14,6 +18,7 @@ import org.junit.Test;
 public class ControllerTest {
 	private static AppDNoGui app;
 	private static EuclidianController ec;
+	private static ArrayList<TestEvent> events = new ArrayList<>();
 
 	@BeforeClass
 	public static void setup() {
@@ -21,12 +26,33 @@ public class ControllerTest {
 		ec = app.getActiveEuclidianView().getEuclidianController();
 	}
 
+	private static String[] lastCheck;
+
 	@Before
 	public void clear() {
+		events.clear();
 		app.getKernel().clearConstruction(true);
 		app.getActiveEuclidianView().clearView();
+		app.getActiveEuclidianView().getSettings().setCoordSystem(0, 0, 50, 50,
+				false);
+		app.getActiveEuclidianView().getSettings()
+				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_OFF);
 	}
 	
+	@After
+	public void repeatWithDrag() {
+		app.getKernel().clearConstruction(true);
+		for (TestEvent evt : events) {
+			app.getActiveEuclidianView().getEuclidianController()
+					.wrapMouseMoved(evt);
+			app.getActiveEuclidianView().getEuclidianController()
+					.wrapMousePressed(evt);
+			app.getActiveEuclidianView().getEuclidianController()
+					.wrapMouseReleased(evt);
+		}
+		checkContent(lastCheck);
+	}
+
 	@Test
 	public void moveTool() {
 		app.setMode(EuclidianConstants.MODE_MOVE); // TODO 0
@@ -35,14 +61,18 @@ public class ControllerTest {
 	@Test
 	public void pointTool() {
 		app.setMode(EuclidianConstants.MODE_POINT);
-		click(10, 10);
+		click(0, 0);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)");
 	}
 
 	@Test
 	public void joinTool() {
-		app.setMode(EuclidianConstants.MODE_JOIN); // TODO 2
+		app.setMode(EuclidianConstants.MODE_JOIN);
+		click(0, 0);
+		click(100, 100);
+		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
+
 	}
 
 	@Test
@@ -83,16 +113,33 @@ public class ControllerTest {
 	@Test
 	public void circle2Tool() {
 		app.setMode(EuclidianConstants.MODE_CIRCLE_TWO_POINTS); // TODO 10
+		click(50, 50);
+		click(100, 100);
+		checkContent("A = (1, -1)", "B = (2, -2)",
+				CommandsTest.unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
 	public void circle3Tool() {
 		app.setMode(EuclidianConstants.MODE_CIRCLE_THREE_POINTS); // TODO 11
+		click(0, 0);
+		click(100, 100);
+		click(100, 0);
+		checkContent("A = (0, 0)", "B = (2, -2)", "C = (2, 0)",
+				CommandsTest.unicode("c: (x - 1)^2 + (y + 1)^2 = 2"));
 	}
 
 	@Test
 	public void conic5Tool() {
 		app.setMode(EuclidianConstants.MODE_CONIC_FIVE_POINTS); // TODO 12
+		click(50, 50);
+		click(100, 50);
+		click(50, 100);
+		click(50, 0);
+		click(0, 50);
+		checkContent("A = (1, -1)", "B = (2, -1)", "C = (1, -2)",
+				"D = (1, 0)", "E = (0, -1)",
+				"c: x y + x - y = 1");
 	}
 
 	@Test
@@ -108,7 +155,7 @@ public class ControllerTest {
 	@Test
 	public void segmentTool() {
 		app.setMode(EuclidianConstants.MODE_SEGMENT);
-		click(10, 10);
+		click(0, 0);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "f = 2.82843");
 	}
@@ -116,11 +163,11 @@ public class ControllerTest {
 	@Test
 	public void polygonTool() {
 		app.setMode(EuclidianConstants.MODE_POLYGON);
-		click(10, 10);
-		click(100, 10);
+		click(0, 0);
+		click(100, 0);
 		click(100, 100);
-		click(10, 100);
-		click(10, 10);
+		click(0, 100);
+		click(0, 0);
 		checkContent("A = (0, 0)", "B = (2, 0)", "C = (2, -2)",
 				"D = (0, -2)", "q1 = 4", "a = 2", "b = 2", "c = 2", "d = 2");
 	}
@@ -133,7 +180,7 @@ public class ControllerTest {
 	@Test
 	public void rayTool() {
 		app.setMode(EuclidianConstants.MODE_RAY);
-		click(10, 10);
+		click(0, 0);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "f: 2x + 2y = 0");
 
@@ -418,14 +465,6 @@ public class ControllerTest {
 	}
 
 	@Test
-	public void lineTool() {
-		app.setMode(EuclidianConstants.MODE_JOIN);
-		click(10, 10);
-		click(100, 100);
-		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
-	}
-
-	@Test
 	public void shapeTriangleTool() {
 		app.setMode(EuclidianConstants.MODE_SHAPE_TRIANGLE); // TODO 102
 	}
@@ -513,12 +552,16 @@ public class ControllerTest {
 
 
 	private static void click(int x, int y) {
-		ec.wrapMousePressed(new TestEvent(x, y));
-		ec.wrapMouseReleased(new TestEvent(x, y));
+		TestEvent evt = new TestEvent(x, y);
+		events.add(evt);
+		ec.wrapMousePressed(evt);
+		ec.wrapMouseReleased(evt);
 	}
 
 	private static void checkContent(String... desc) {
+		lastCheck = desc;
 		int i = 0;
+		Assert.assertEquals(desc.length, app.getGgbApi().getObjectNumber());
 		for (String label : app.getGgbApi().getAllObjectNames()) {
 			Assert.assertEquals(desc[i], app.getKernel().lookupLabel(label)
 					.toString(StringTemplate.editTemplate));
