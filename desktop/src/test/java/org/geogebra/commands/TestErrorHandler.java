@@ -40,6 +40,7 @@ public class TestErrorHandler implements ErrorHandler, ErrorLogger {
 	}
 
 	public void log(Throwable e) {
+		e.printStackTrace();
 		Assert.assertNull(e);
 	}
 
