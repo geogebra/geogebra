@@ -163,14 +163,10 @@ public class NoExceptionsTest {
 			while(t.getCause() != null){
 				t = t.getCause();
 			}
-			StackTraceElement ste[] = t.getStackTrace();
-			String out = "";
-			for(int i = 0;i<ste.length;i++){
-				out += ste[i].getClassName()+"."+ste[i].getMethodName()+":"+ste[i].getLineNumber();
-			}
+
 			syntaxes--;
 			System.out.print("-");
-			Assert.assertNull(e.getMessage()+","+t.getMessage()+out,e);
+			Assert.assertNull(e.getMessage() + "," + e.getClass(), e);
 		}
 	}
 

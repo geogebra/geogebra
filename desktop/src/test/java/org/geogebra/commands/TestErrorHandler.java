@@ -41,7 +41,13 @@ public class TestErrorHandler implements ErrorHandler, ErrorLogger {
 
 	public void log(Throwable e) {
 		e.printStackTrace();
-		Assert.assertNull(e);
+		StackTraceElement ste[] = e.getStackTrace();
+		String out = "";
+		for (int i = 0; i < ste.length; i++) {
+			out += "\n" + ste[i].getClassName() + "." + ste[i].getMethodName()
+					+ ":" + ste[i].getLineNumber();
+		}
+		Assert.fail(e.getMessage() + "\n" + out);
 	}
 
 }
