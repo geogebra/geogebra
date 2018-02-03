@@ -369,7 +369,7 @@ namespace giac {
       if ( 
 	  !need_parenthesis(*itb) || itb->is_symb_of_sommet(at_of)
 	  // (itb->type==_IDNT) || ((itb->type!=_SYMB) && is_positive(*itb,contextptr)) 
-	  || sommetstr=="<mo>=</mo>")
+	  || sommetstr=="<mo>=</mo>" || sommetstr=="<mo>≈</mo>")
 	s=gen2mathml(*itb,contextptr);
       else
 	s="<mo>(</mo>"+gen2mathml(*itb,contextptr)+"<mo>)</mo>";
@@ -378,7 +378,7 @@ namespace giac {
     for (;;){
       if (itb==itend)
 	return s;
-      if ((itb->type!=_SYMB) || sommetstr=="<mo>=</mo>")
+      if ((itb->type!=_SYMB) || sommetstr=="<mo>=</mo>" || sommetstr=="<mo>≈</mo>")
 	s += sommetstr + gen2mathml(*itb,contextptr);
       else
 	s += sommetstr + "<mo>(</mo>"+gen2mathml(*itb,contextptr)+"<mo>)</mo>";
@@ -517,8 +517,41 @@ namespace giac {
 
 
     unary_function_ptr u =mys.sommet;
-    if (u==at_equal || u==at_equal2)
-      return mathml_printsommetasoperator(mys.feuille,"<mo>=</mo>",contextptr);  
+    if (u==at_equal || u==at_equal2){
+      gen chk=eval(mys.feuille[1],1,contextptr);
+      bool eq=true;
+      if (chk.type==_DOUBLE_ || (chk.type==_CPLX && chk.subtype==3))
+	eq=false;
+#if 0 // fails in emscripten
+      if (chk.type==_DOUBLE_){
+	eq=false;
+	double d=chk._DOUBLE_val;
+	if (fabs(d)<=1e5){
+	  d=1e5*d;
+	  if (d==int(d))
+	    eq=true;
+	}
+      }
+      if (chk.type==_CPLX){
+	chk=evalf_double(chk,1,contextptr);
+	eq=false;
+	double d=chk._CPLXptr->_DOUBLE_val;
+	if (fabs(d)<=1e5){
+	  d=1e5*d;
+	  if (d==int(d)){
+	    d=(chk._CPLXptr+1)->_DOUBLE_val;
+	    if (fabs(d)<=1e5){
+	      d=1e5*d;
+	      if (d==int(d)){
+		eq=true;
+	      }
+	    }
+	  }
+	}
+      }
+#endif
+      return mathml_printsommetasoperator(mys.feuille,eq?"<mo>=</mo>":"<mo>≈</mo>",contextptr);  
+    }
     if (u==at_different)
       return mathml_printsommetasoperator(mys.feuille,"<mo>≠</mo>",contextptr);
     if (u==at_inferieur_egal)

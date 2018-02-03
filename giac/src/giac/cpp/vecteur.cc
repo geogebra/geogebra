@@ -15541,6 +15541,7 @@ namespace giac {
       if (is_strictly_positive(-u[i][i],contextptr))
 	Mp[i]=-Mp[i];
     }
+    if (s<Mp.size()) Mp.erase(Mp.begin()+s,Mp.end());
     reverse(Mp.begin(),Mp.begin()+s);
     mtran(Mp,u);
 #endif

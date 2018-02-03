@@ -24,6 +24,8 @@
 #include <string>
 #include <ctype.h>
 
+#undef _ABS // for SunOS
+
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC

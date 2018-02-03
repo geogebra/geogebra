@@ -8916,7 +8916,7 @@ namespace giac {
   const mksa_unit __boe_unit={.158987294928*0.857*41.76e9,2,1,-2,0,0,0,0,0};
   const mksa_unit __bu={0.036368736,3,0,0,0,0,0,0,0};
   const mksa_unit __buUS={0.03523907,3,0,0,0,0,0,0,0};
-  const mksa_unit __cal_unit={4.1868,2,1,-2,0,0,0,0,0};
+  const mksa_unit __cal_unit={4.184,2,1,-2,0,0,0,0,0};
   const mksa_unit __cf_unit={1.08e6,2,1,-2,0,0,0,0,0};
   const mksa_unit __chain_unit={20.1168402337,1,0,0,0,0,0,0,0};
   const mksa_unit __ct_unit={0.0002,0,1,0,0,0,0,0,0};
@@ -8949,7 +8949,7 @@ namespace giac {
   const mksa_unit __ha_unit={10000,2,0,0,0,0,0,0,0};
   const mksa_unit __hp_unit={745.699871582,2,1,-3,0,0,0,0,0};
   const mksa_unit __in_unit={0.0254,1,0,0,0,0,0,0,0};
-  const mksa_unit __inH2O_unit={248.84,-1,1,-2,0,0,0,0,0};
+  const mksa_unit __inH2O_unit={249.08193551052,-1,1,-2,0,0,0,0,0};
   const mksa_unit __inHg_unit={3386.38815789,-1,1,-2,0,0,0,0,0};
   const mksa_unit __j_unit={86400,0,0,1,0,0,0,0,0};
   const mksa_unit __kip_unit={4448.22161526,1,1,-2,0,0,0,0,0};
@@ -8970,15 +8970,15 @@ namespace giac {
   const mksa_unit __mile_unit={1609.344,1,0,0,0,0,0,0,0};
   const mksa_unit __mille_unit={1852,1,0,0,0,0,0,0,0};
   const mksa_unit __mn_unit={60,0,0,1,0,0,0,0,0};
-  const mksa_unit __mmHg_unit={133.322368421,-1,1,-2,0,0,0,0,0};
+  const mksa_unit __mmHg_unit={133.322387415,-1,1,-2,0,0,0,0,0};
   const mksa_unit __molK_unit={1,0,0,0,0,1,1,0,0};
   const mksa_unit __mph_unit={0.44704,1,0,-1,0,0,0,0,0};
   const mksa_unit __nmi_unit={1852,1,0,0,0,0,0,0,0};
   const mksa_unit __oz_unit={0.028349523125,0,1,0,0,0,0,0,0};
-  const mksa_unit __ozUK_unit={2.8413075e-5,3,0,0,0,0,0,0,0};
+  const mksa_unit __ozUK_unit={2.84130625e-5,3,0,0,0,0,0,0,0};
   const mksa_unit __ozfl_unit={2.95735295625e-5,3,0,0,0,0,0,0,0};
   const mksa_unit __ozt_unit={0.0311034768,0,1,0,0,0,0,0,0};
-  const mksa_unit __pc_unit={3.08567818585e16,1,0,0,0,0,0,0,0};
+  const mksa_unit __pc_unit={3.08567758149e16,1,0,0,0,0,0,0,0};
   const mksa_unit __pdl_unit={0.138254954376,1,1,-2,0,0,0,0,0};
   const mksa_unit __pk_unit={0.0088097675,3,0,0,0,0,0,0,0};
   const mksa_unit __psi_unit={6894.75729317,-1,1,-2,0,0,0,0,0};
@@ -9004,7 +9004,7 @@ namespace giac {
   const mksa_unit __toe_unit={41.76e9,2,1,-2,0,0,0,0,0};
   const mksa_unit __ton_unit={907.18474,0,1,0,0,0,0,0,0};
   const mksa_unit __tonUK_unit={1016.0469088,0,1,0,0,0,0,0,0};
-  const mksa_unit __torr_unit={133.322368421,-1,1,-2,0,0,0,0,0};
+  const mksa_unit __Torr_unit={133.322368421,-1,1,-2,0,0,0,0,0};
   const mksa_unit __tr_unit={2*M_PI,0,0,0,0,0,0,0,0};
   const mksa_unit __tsp_unit={4.928921614571597e-6,3,0,0,0,0,0,0,0};
   const mksa_unit __u_unit={1.6605402e-27,0,1,0,0,0,0,0,0};
@@ -9243,7 +9243,7 @@ namespace giac {
     &__toe_unit,
     &__tonUK_unit,
     &__ton_unit,
-    &__torr_unit,
+    &__Torr_unit,
     &__tr_unit,
     &__tsp_unit,
     &__u_unit,
@@ -9438,7 +9438,7 @@ namespace giac {
     "_toe",
     "_ton",
     "_tonUK",
-    "_torr",
+    "_Torr",
     "_tr",
     "_tsp",
     "_u",
@@ -9581,7 +9581,7 @@ namespace giac {
   gen _therm_unit(mksa_register("_therm",&__therm_unit));
   gen _ton_unit(mksa_register("_ton",&__ton_unit));
   gen _tonUK_unit(mksa_register("_tonUK",&__tonUK_unit));
-  gen _torr_unit(mksa_register("_torr",&__torr_unit));
+  gen _Torr_unit(mksa_register("_Torr",&__Torr_unit));
   gen _tr_unit(mksa_register("_tr",&__tr_unit)); // radian
   gen _u_unit(mksa_register("_u",&__u_unit));
   gen _yd_unit(mksa_register("_yd",&__yd_unit));

@@ -15541,10 +15541,19 @@ namespace giac {
     if (has_undef_stringerr(g,S))
       S="GIAC_ERROR: "+S;
     else {
-#if 1
       S=g.print(&C);
-#else
-      S=ingen2mathml(g,true,&C);
+#ifndef GIAC_GGB
+      if (g.type==_FRAC){
+	S += "=";	  
+	S += evalf_double(g,1,&C).print(&C);
+      }
+      if (g.type==_SYMB){
+	g=evalf_double(g,1,&C);
+	if (g.type<=_CPLX){
+	  S += "=";
+	  S += g.print(&C);
+	}
+      }
 #endif
     }
     return S.c_str();
