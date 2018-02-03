@@ -25,30 +25,30 @@ public enum Language {
 	Albanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"sq", "sq", "Albanian / Gjuha Shqipe"),
 
-	Amharic(
-					EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
-					"\u134b\u12ed\u120d", false, "am", "am",
+	Amharic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
+			"\u134b\u12ed\u120d", false, "am", "am",
 			"Amharic / \u0041\u006d\u0061\u0072\u0259\u00f1\u00f1\u0061"),
 
-	Arabic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
-			null, null, true, "ar", "ar",
-							Unicode.LEFT_TO_RIGHT_MARK + "Arabic"
-									+ Unicode.LEFT_TO_RIGHT_MARK + " / "
-									+ Unicode.RIGHT_TO_LEFT_MARK
-									+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
+	Arabic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"ar", "ar",
+			Unicode.LEFT_TO_RIGHT_MARK + "Arabic" + Unicode.LEFT_TO_RIGHT_MARK
+					+ " / " + Unicode.RIGHT_TO_LEFT_MARK
+					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
 					+ Unicode.RIGHT_TO_LEFT_MARK),
 
 	Arabic_Morocco(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "arMA", "ar_MA", "ar",
 			Unicode.LEFT_TO_RIGHT_MARK + "Arabic (Morocco)"
-					+ Unicode.LEFT_TO_RIGHT_MARK + " / " + Unicode.RIGHT_TO_LEFT_MARK
+					+ Unicode.LEFT_TO_RIGHT_MARK + " / "
+					+ Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0627\u0644\u0645\u063A\u0631\u0628)"
 					+ Unicode.RIGHT_TO_LEFT_MARK),
 
 	Arabic_Tunisia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "arTN", "ar_TN", "ar",
 			Unicode.LEFT_TO_RIGHT_MARK + "Arabic (Tunisia)"
-					+ Unicode.LEFT_TO_RIGHT_MARK + " / " + Unicode.RIGHT_TO_LEFT_MARK
+					+ Unicode.LEFT_TO_RIGHT_MARK + " / "
+					+ Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u062A\u0648\u0646\u0633)"
 					+ Unicode.RIGHT_TO_LEFT_MARK),
 
@@ -145,8 +145,8 @@ public enum Language {
 
 	// German must be before German_Austria
 	German(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
-			Unicode.CURRENCY_EURO + "",
-			null, true, "de", "de", "German / Deutsch"),
+			Unicode.CURRENCY_EURO + "", null, true, "de", "de",
+			"German / Deutsch"),
 
 	German_Austria(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO + "", null, true, "deAT", "de_AT", "de",
@@ -233,8 +233,8 @@ public enum Language {
 			"fa", "fa", "Persian / \u0641\u0627\u0631\u0633\u06CC"),
 
 	Polish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
-			Unicode.CURRENCY_EURO + "",
-			null, true, "pl", "pl", "Polish / J\u0119zyk polski"),
+			Unicode.CURRENCY_EURO + "", null, true, "pl", "pl",
+			"Polish / J\u0119zyk polski"),
 
 	// use Brazilian as the root (ie not ptBR) as there are more speakers
 	Portuguese_Brazil(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
@@ -320,8 +320,7 @@ public enum Language {
 
 	Yiddish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_SHEKEL + "", "\u05d9\u05b4", true, "ji", "ji",
-			"yi",
-			"Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9");
+			"yi", "Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9");
 
 	// Interlingua(null, true, "ia", "ia", "Interlingua",
 	// Country.UnitedStatesofAmerica);
@@ -426,8 +425,7 @@ public enum Language {
 	final public static String getClosestGWTSupportedLanguage(
 			String browserLangCode) {
 		String normalizedLanguage = (browserLangCode + "")
-				.toLowerCase(Locale.US)
-				.replace("-", "_");
+				.toLowerCase(Locale.US).replace("-", "_");
 
 		if ("he".equals(normalizedLanguage)) {
 			normalizedLanguage = "iw";
@@ -485,11 +483,11 @@ public enum Language {
 
 	final public boolean hasTranslatedKeyboard() {
 		switch (this) {
-			case Chinese_Simplified:
-			case Chinese_Traditional:
-				return false;
-			default:
-				return true;
+		case Chinese_Simplified:
+		case Chinese_Traditional:
+			return false;
+		default:
+			return true;
 		}
 	}
 }
