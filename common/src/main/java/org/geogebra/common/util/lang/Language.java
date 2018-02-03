@@ -62,7 +62,6 @@ public enum Language {
 	Basque(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "eu", "eu", "eu",
 			"Basque / Euskara"),
-	// fudge to get right flag
 
 	Bosnian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bs", "bs",
@@ -75,12 +74,10 @@ public enum Language {
 	Catalan(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "ca", "ca", "ca",
 			"Catalan / Catal\u00E0"),
-	// fudge to get right flag
 
 	Valencian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "caXV", "ca_XV", "ca",
 			"Catalan / Catal\u00E0 (Valenci\u00E0)"),
-	// fudge to get right flag
 
 	Chinese_Simplified(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u984F", true, "zhCN", "zh_CN", "zh",
@@ -121,7 +118,6 @@ public enum Language {
 			Unicode.CURRENCY_DOLLAR + "", null, true, "enAU", "en_AU", "en",
 			"English (Australia)"),
 
-	// could have esperanto.png for flag (but we don't)
 	// Esperanto(null, false, "eo","eo", "Esperanto", "esperanto"),
 
 	Estonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
@@ -142,7 +138,6 @@ public enum Language {
 	Galician(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "gl", "gl", "gl",
 			"Galician / Galego"),
-	// fudge to get right flag
 
 	Georgian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u10d8",
 			true, "ka", "ka",
@@ -319,7 +314,6 @@ public enum Language {
 
 	Welsh(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"cy", "cy", "cy", "Welsh / Cymraeg"),
-	// fudge to get right flag
 
 	Xhosa(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"xh", "xh", "Xhosa / isiXhosa"),
