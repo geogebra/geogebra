@@ -23,18 +23,20 @@ public enum Language {
 	// Afrikaans(null, false, "af","af", "Afrikaans", Country.SouthAfrica),
 
 	Albanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"sq", "sq", "Albanian / Gjuha Shqipe"),
+			"sq", "sq", "Albanian / Gjuha Shqipe", Script.LATIN),
 
 	Amharic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u134b\u12ed\u120d", false, "am", "am",
-			"Amharic / \u0041\u006d\u0061\u0072\u0259\u00f1\u00f1\u0061"),
+			"Amharic / \u0041\u006d\u0061\u0072\u0259\u00f1\u00f1\u0061",
+			Script.ETHIOPIAN),
 
 	Arabic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"ar", "ar",
 			Unicode.LEFT_TO_RIGHT_MARK + "Arabic" + Unicode.LEFT_TO_RIGHT_MARK
 					+ " / " + Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629"
-					+ Unicode.RIGHT_TO_LEFT_MARK),
+					+ Unicode.RIGHT_TO_LEFT_MARK,
+			Script.ARABIC),
 
 	Arabic_Morocco(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "arMA", "ar_MA", "ar",
@@ -42,7 +44,8 @@ public enum Language {
 					+ Unicode.LEFT_TO_RIGHT_MARK + " / "
 					+ Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u0627\u0644\u0645\u063A\u0631\u0628)"
-					+ Unicode.RIGHT_TO_LEFT_MARK),
+					+ Unicode.RIGHT_TO_LEFT_MARK,
+			Script.ARABIC),
 
 	Arabic_Tunisia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "arTN", "ar_TN", "ar",
@@ -50,243 +53,261 @@ public enum Language {
 					+ Unicode.LEFT_TO_RIGHT_MARK + " / "
 					+ Unicode.RIGHT_TO_LEFT_MARK
 					+ "\u0627\u0644\u0639\u0631\u0628\u064A\u0629 (\u062A\u0648\u0646\u0633)"
-					+ Unicode.RIGHT_TO_LEFT_MARK),
+					+ Unicode.RIGHT_TO_LEFT_MARK,
+			Script.ARABIC),
 
 	Armenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0570",
 			true, "hy", "hy",
-			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576"),
+			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576",
+			Script.ARMENIAN),
 
 	// Azerbaijani(null, null, false, "az", "az", "Azerbaijani",
 	// Country.Azerbaijan),
 
 	Basque(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "eu", "eu", "eu",
-			"Basque / Euskara"),
+			"Basque / Euskara", Script.LATIN),
 
 	Bosnian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bs", "bs",
-			"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438"),
+			"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438",
+			Script.LATIN),
 
 	Bulgarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bg", "bg",
-			"Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A"),
+			"Bulgarian / \u0431\u044A\u043B\u0433\u0430\u0440\u0441\u043A\u0438 \u0435\u0437\u0438\u043A",
+			Script.CYRILLIC),
 
 	Catalan(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "ca", "ca", "ca",
-			"Catalan / Catal\u00E0"),
+			"Catalan / Catal\u00E0", Script.LATIN),
 
 	Valencian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "caXV", "ca_XV", "ca",
-			"Catalan / Catal\u00E0 (Valenci\u00E0)"),
+			"Catalan / Catal\u00E0 (Valenci\u00E0)", Script.LATIN),
 
 	Chinese_Simplified(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u984F", true, "zhCN", "zh_CN", "zh",
-			"Chinese Simplified / \u7B80\u4F53\u4E2D\u6587"),
+			"Chinese Simplified / \u7B80\u4F53\u4E2D\u6587", Script.HANS),
 
 	Chinese_Traditional(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
 			"\u984F", true, "zhTW", "zh_TW", "zh",
-			"Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587"),
+			"Chinese Traditional / \u7E41\u9AD4\u4E2D\u6587", Script.HANT),
 
 	Croatian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "hr", "hr",
-			"Croatian / Hrvatska"),
+			"Croatian / Hrvatska", Script.LATIN),
 
 	Czech(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "cs", "cs",
-			"Czech / \u010Ce\u0161tina"),
+			"Czech / \u010Ce\u0161tina", Script.LATIN),
 
 	Danish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"da", "da", "Danish / Dansk"),
+			"da", "da", "Danish / Dansk", Script.LATIN),
 
 	Dutch_Belgium(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "nl", "nl", "nl_BE",
-			"Dutch / Nederlands (Belgi\u00eb)"),
+			"Dutch / Nederlands (Belgi\u00eb)", Script.LATIN),
 
 	Dutch(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "nlNL", "nl_NL", "nl",
-			"Dutch / Nederlands (Nederland)"),
+			"Dutch / Nederlands (Nederland)", Script.LATIN),
 
 	English_US(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DOLLAR + "" + "", null, true, "en", "en",
-			"English (US)"),
+			"English (US)", Script.LATIN),
 
 	English_UK(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_POUND + "", null, true, "enGB", "en_GB", "en",
-			"English (UK)"),
+			"English (UK)", Script.LATIN),
 
 	English_Australia(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DOLLAR + "", null, true, "enAU", "en_AU", "en",
-			"English (Australia)"),
+			"English (Australia)", Script.LATIN),
 
 	// Esperanto(null, false, "eo","eo", "Esperanto", "esperanto"),
 
 	Estonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "et", "et",
-			"Estonian / Eesti keel"),
+			"Estonian / Eesti keel", Script.LATIN),
 
 	Filipino(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"tl", "tl", "fil", "Filipino"),
+			"tl", "tl", "fil", "Filipino", Script.LATIN),
 
 	Finnish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "fi", "fi",
-			"Finnish / Suomi"),
+			"Finnish / Suomi", Script.LATIN),
 
 	French(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "fr", "fr",
-			"French / Fran\u00E7ais"),
+			"French / Fran\u00E7ais", Script.LATIN),
 
 	Galician(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "gl", "gl", "gl",
-			"Galician / Galego"),
+			"Galician / Galego", Script.LATIN),
 
 	Georgian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u10d8",
 			true, "ka", "ka",
-			"Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0"),
+			"Georgian / \u10E5\u10D0\u10E0\u10D7\u10E3\u10DA\u10D8 \u10D4\u10DC\u10D0",
+			Script.GEORGIAN),
 
 	// German must be before German_Austria
 	German(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO + "", null, true, "de", "de",
-			"German / Deutsch"),
+			"German / Deutsch", Script.LATIN),
 
 	German_Austria(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO + "", null, true, "deAT", "de_AT", "de",
-			"German / Deutsch (\u00D6sterreich)"),
+			"German / Deutsch (\u00D6sterreich)", Script.LATIN),
 
 	Greek(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "el", "el",
-			"Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC"),
+			"Greek / \u0395\u03BB\u03BB\u03B7\u03BD\u03B9\u03BA\u03AC",
+			Script.GREEK),
 
 	Hebrew(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_SHEKEL + "", "\u05d9", true, "iw", "iw", "he",
-			"Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA"),
+			"Hebrew / \u05E2\u05B4\u05D1\u05B0\u05E8\u05B4\u05D9\u05EA",
+			Script.HEBREW),
 
 	Hindi(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_INDIAN_RUPEE + "", "\u0be7", true, "hi", "hi",
-			"Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940"),
+			"Hindi / \u092E\u093E\u0928\u0915 \u0939\u093F\u0928\u094D\u0926\u0940",
+			Script.DEVANGARI),
 
 	Hungarian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO + "", null, true, "hu", "hu",
-			"Hungarian / Magyar"),
+			"Hungarian / Magyar", Script.LATIN),
 
 	Icelandic(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
-			true, "is", "is", "Icelandic / \u00CDslenska"),
+			true, "is", "is", "Icelandic / \u00CDslenska", Script.LATIN),
 
 	Indonesian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
-			true, "in", "in", "id", "Indonesian / Bahasa Indonesia"),
+			true, "in", "in", "id", "Indonesian / Bahasa Indonesia",
+			Script.LATIN),
 
 	Italian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "it", "it",
-			"Italian / Italiano"),
+			"Italian / Italiano", Script.LATIN),
 
 	// Irish(null, false, "ga", "ga", "Irish / Gaeilge", Country.Ireland),
 
 	Japanese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_YEN + "", "\uff9d", true, "ja", "ja",
-			"Japanese / \u65E5\u672C\u8A9E"),
+			"Japanese / \u65E5\u672C\u8A9E", Script.JAPANESE),
 
 	// Kannada("\u1103", false, "kn","kn", "Kannada", Country.India),
 
 	Kazakh(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"kk", "kk",
-			"Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456"),
+			"Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456",
+			Script.CYRILLIC),
 
 	Korean(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_WON + "", "\u1103", true, "ko", "ko",
-			"Korean / \uD55C\uAD6D\uB9D0"),
+			"Korean / \uD55C\uAD6D\uB9D0", Script.KOREAN),
 
 	Latvian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "lv", "lv",
-			"Latvian / Latvie\u0161u valoda"),
+			"Latvian / Latvie\u0161u valoda", Script.LATIN),
 
 	Lithuanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "lt", "lt",
-			"Lithuanian / Lietuvi\u0173 kalba"),
+			"Lithuanian / Lietuvi\u0173 kalba", Script.LATIN),
 
 	Malay(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"ms", "ms", "Malay / Bahasa Malaysia"),
+			"ms", "ms", "Malay / Bahasa Malaysia", Script.LATIN),
 
 	// Malayalam("\u0D2E", false, "ml","ml",
 	// "Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02", Country.India),
 
 	Macedonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "mk", "mk",
-			"Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438 \u0458\u0430\u0437\u0438\u043A"),
+			"Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438 \u0458\u0430\u0437\u0438\u043A",
+			Script.CYRILLIC),
 
 	// Marathi("\u092e", false, "mr","mr",
 	// "Marathi / \u092E\u0930\u093E\u0920\u0940", Country.India),
 
 	Mongolian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_TUGHRIK + "", null, true, "mn", "mn",
-			"Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B"),
+			"Mongolian / \u041C\u043E\u043D\u0433\u043E\u043B \u0445\u044D\u043B",
+			Script.MONG),
 
 	Nepalese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_RUPEE + "", "\u0947", true, "ne", "ne",
-			"Nepalese / \u0928\u0947\u092A\u093E\u0932\u0940"),
+			"Nepalese / \u0928\u0947\u092A\u093E\u0932\u0940",
+			Script.DEVANGARI),
 
 	Norwegian_Bokmal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
-			null, true, "noNO", "no_NB", "nb", "Norwegian / Bokm\u00e5l"),
+			null, true, "noNO", "no_NB", "nb", "Norwegian / Bokm\u00e5l",
+			Script.LATIN),
 
 	Norwegian_Nynorsk(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
-			null, true, "noNONY", "no_NN", "nn", "Norwegian / Nynorsk"),
+			null, true, "noNONY", "no_NN", "nn", "Norwegian / Nynorsk",
+			Script.LATIN),
 
 	Persian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"fa", "fa", "Persian / \u0641\u0627\u0631\u0633\u06CC"),
+			"fa", "fa", "Persian / \u0641\u0627\u0631\u0633\u06CC",
+			Script.ARABIC),
 
 	Polish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT,
 			Unicode.CURRENCY_EURO + "", null, true, "pl", "pl",
-			"Polish / J\u0119zyk polski"),
+			"Polish / J\u0119zyk polski", Script.LATIN),
 
 	// use Brazilian as the root (ie not ptBR) as there are more speakers
 	Portuguese_Brazil(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null,
-			null, true, "pt", "pt", "Portuguese / Portugu\u00EAs (Brasil)"),
+			null, true, "pt", "pt", "Portuguese / Portugu\u00EAs (Brasil)",
+			Script.LATIN),
 
 	Portuguese_Portugal(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "ptPT", "pt_PT", "pt",
-			"Portuguese / Portugu\u00EAs (Portugal)"),
+			"Portuguese / Portugu\u00EAs (Portugal)", Script.LATIN),
 
 	Romanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "ro", "ro",
-			"Romanian /  Rom\u00E2n\u0103"),
+			"Romanian /  Rom\u00E2n\u0103", Script.LATIN),
 
 	Russian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0439",
 			true, "ru", "ru",
-			"Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A"),
+			"Russian / \u0420\u0443\u0441\u0441\u043A\u0438\u0439 \u044F\u0437\u044B\u043A",
+			Script.CYRILLIC),
 
 	Sinhala(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_RUPEE + "", "\u0d9a", true, "si", "si",
-			"Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD"),
+			"Sinhala / \u0DC3\u0DD2\u0D82\u0DC4\u0DBD", Script.SINHALA),
 
 	Serbian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "sr", "sr",
-			"Serbian / \u0441\u0440\u043F\u0441\u043A\u0438"),
+			"Serbian / \u0441\u0440\u043F\u0441\u043A\u0438", Script.LATIN),
 
 	Slovak(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "sk", "sk",
-			"Slovak / Slovensk\u00FD jazyk"),
+			"Slovak / Slovensk\u00FD jazyk", Script.LATIN),
 
 	Slovenian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "sl", "sl",
-			"Slovenian / Sloven\u0161\u010Dina"),
+			"Slovenian / Sloven\u0161\u010Dina", Script.LATIN),
 
 	Spanish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DOLLAR + "", null, true, "es", "es",
-			"Spanish / Espa\u00F1ol"),
+			"Spanish / Espa\u00F1ol", Script.LATIN),
 
 	Spanish_UY(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DOLLAR + "", null, true, "esUY", "es_UY", "es",
-			"Spanish / Espa\u00F1ol (Uruguay)"),
+			"Spanish / Espa\u00F1ol (Uruguay)", Script.LATIN),
 
 	Spanish_ES(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "esES", "es_ES", "es",
-			"Spanish / Espa\u00F1ol (Espa\u00F1a)"),
+			"Spanish / Espa\u00F1ol (Espa\u00F1a)", Script.LATIN),
 
 	Swedish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "sv", "sv",
-			"Swedish / Svenska"),
+			"Swedish / Svenska", Script.LATIN),
 
 	Tamil(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_RUPEE + "", "\u0be7", true, "ta", "ta",
-			"Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD"),
+			"Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Script.TAMIL),
 
 	// Tajik(null, false, "tg","tg", "Tajik", Country.Tajikistan),
 
@@ -295,32 +316,34 @@ public enum Language {
 
 	Thai(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_BAHT + "", null, true, "th", "th",
-			"Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22"),
+			"Thai / \u0E20\u0E32\u0E29\u0E32\u0E44\u0E17\u0E22", Script.THAI),
 
 	Turkish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "tr", "tr",
-			"Turkish / T\u00FCrk\u00E7e"),
+			"Turkish / T\u00FCrk\u00E7e", Script.LATIN),
 
 	Ukrainian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			true, "uk", "uk",
-			"Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430"),
+			"Ukrainian / \u0423\u043A\u0440\u0430\u0457\u043D\u0441\u044C\u043A\u0430 \u043C\u043E\u0432\u0430",
+			Script.CYRILLIC),
 
 	Uyghur(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"ug", "ug", "Uyghur"),
+			"ug", "ug", "Uyghur", Script.ARABIC),
 
 	Vietnamese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DONG + "", null, true, "vi", "vi",
-			"Vietnamese / Ti\u1EBFng Vi\u1EC7t"),
+			"Vietnamese / Ti\u1EBFng Vi\u1EC7t", Script.LATIN),
 
 	Welsh(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"cy", "cy", "cy", "Welsh / Cymraeg"),
+			"cy", "cy", "cy", "Welsh / Cymraeg", Script.LATIN),
 
 	Xhosa(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
-			"xh", "xh", "Xhosa / isiXhosa"),
+			"xh", "xh", "Xhosa / isiXhosa", Script.LATIN),
 
 	Yiddish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_SHEKEL + "", "\u05d9\u05b4", true, "ji", "ji",
-			"yi", "Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9");
+			"yi", "Yiddish / \u05D9\u05D9\u05B4\u05D3\u05D9\u05E9",
+			Script.HEBREW);
 
 	// Interlingua(null, true, "ia", "ia", "Interlingua",
 	// Country.UnitedStatesofAmerica);
@@ -328,8 +351,8 @@ public enum Language {
 	final public String localeGWT;
 	final public String locale;
 	final public String localeISO6391;
+	final public Script scriptISO15924;
 	final public String name;
-	// official counties which speak that language
 	// used to determine whether to put in release versions
 	final public boolean fullyTranslated;
 	/**
@@ -347,22 +370,26 @@ public enum Language {
 	 */
 	Language(int rightAngleStyle, String currency, String testChar,
 			boolean fullyTranslated, String locale, String localeGWT,
-			String localeISO6391, String name) {
+			String localeISO6391, String name, Script scriptISO15924) {
 		this.rightAngleStyle = rightAngleStyle;
 		this.currency = currency == null ? "$" : currency;
 		this.locale = locale;
 		this.localeGWT = localeGWT;
+		if (localeGWT.length() == 5) {
+			Log.error(localeGWT + " " + localeISO6391);
+		}
 		this.name = name;
 		this.localeISO6391 = localeISO6391;
+		this.scriptISO15924 = scriptISO15924;
 		this.fullyTranslated = fullyTranslated;
 		this.testChar = testChar;
 	}
 
 	Language(int rightAngleStyle, String currency, String testChar,
 			boolean fullyTranslated, String locale, String localeGWT,
-			String name) {
+			String name, Script scriptISO15924) {
 		this(rightAngleStyle, currency, testChar, fullyTranslated, locale,
-				localeGWT, locale, name);
+				localeGWT, locale, name, scriptISO15924);
 	}
 
 	/**
