@@ -89,12 +89,16 @@ public class AwtFactoryD extends AwtFactory {
 					.getLocalGraphicsEnvironment();
 
 			GraphicsDevice gs = ge.getDefaultScreenDevice();
+			System.gc();
+			System.out.println(
+					"MEMORY FREE:"
+							+ Runtime.getRuntime().freeMemory() / 1024 / 1024);
+			System.out.println("MEMORY NEEDED:" + width * height / 256 / 1024);
 
 			GraphicsConfiguration gc = gs.getDefaultConfiguration();
 			BufferedImage bufImg = gc.createCompatibleImage(width, height,
 					(transparency ? Transparency.TRANSLUCENT
 							: Transparency.BITMASK));
-
 			// Graphics2D g = (Graphics2D)bufImg.getGraphics();
 			// g.setBackground(new Color(0,0,0,0));
 			// g.clearRect(0,0,width,height);
