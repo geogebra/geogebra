@@ -24,9 +24,11 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoDependentFunction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
+import org.geogebra.common.kernel.arithmetic.VectorArithmetic;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -46,6 +48,7 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	private GeoNumberValue[] from, to; // input
 	private GeoNumeric[] localVar; // input
 	private GeoSurfaceCartesianND surface; // output
+	private boolean vectorFunctions;
 
 	/**
 	 * Creates new algo for Surface
@@ -98,6 +101,8 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 
 		// create the curve
 		surface = createCurve(cons, point, fun);
+		vectorFunctions = point != null
+				&& AlgoDependentFunction.containsVectorFunctions(point);
 
 		setInputOutput(); // for AlgoElement
 
@@ -189,40 +194,24 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 					}
 				}
 			}
-			// if (containsFunctions[i]) {
-			// ExpressionValue ev = null;
-			// try { // needed for eg f(x)=floor(x) f'(x)
-			//
-			// // boolean internationalizeDigits =
-			// // Kernel.internationalizeDigits;
-			// // Kernel.internationalizeDigits = false;
-			// // TODO: seems that we never read internationalize digits
-			// // flag
-			// // here ...
-			// ev = AlgoDependentFunction
-			// .expandFunctionDerivativeNodes(exp[i]
-			// .deepCopy(kernel));
-			//
-			// // Kernel.internationalizeDigits = internationalizeDigits;
-			//
-			// } catch (Exception e) {
-			// e.printStackTrace();
-			// Log.debug("derivative failed");
-			// }
-			// if (ev == null) {
-			// curve.setUndefined();
-			// return;
-			// }
-			// ExpressionNode node;
-			// if (ev.isExpressionNode())
-			// node = (ExpressionNode) ev;
-			// else
-			// node = new ExpressionNode(kernel, ev);
-			//
-			// // expandedFun.setExpression(node);
-			//
-			// curve.getFun(i).setExpression(node);
-			// }
+			if (vectorFunctions) {
+				ExpressionNode exp = VectorArithmetic
+						.computeCoord(surface.getPointExpression(), i);
+				if (exp != null) {
+					for (int var = 0; var < 2; var++) {
+						exp = exp.replace(localVar[var],
+								surface.getFunctions()[i]
+										.getFunctionVariables()[var])
+							.wrap();
+					}
+					ExpressionValue ev = AlgoDependentFunction
+							.expandFunctionDerivativeNodes(exp.deepCopy(kernel),
+									false);
+					surface.getFunctions()[i].setExpression(ev.wrap());
+				} else {
+					surface.setUndefined();
+				}
+			}
 		}
 
 		// the coord-functions don't have to be updated,

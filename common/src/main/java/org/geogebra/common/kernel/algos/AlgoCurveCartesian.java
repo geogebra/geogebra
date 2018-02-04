@@ -188,14 +188,13 @@ public class AlgoCurveCartesian extends AlgoElement {
 					// here ...
 					if (vectorFunctions) {
 						exp[i] = VectorArithmetic
-								.computeCoord(curve.getPointExpression(), i);
+								.computeCoord(curve.getPointExpression(), i)
+								.replace(localVar,
+										curve.getFun(i).getFunctionVariable())
+								.wrap();
 					}
 					ev = AlgoDependentFunction.expandFunctionDerivativeNodes(
 							exp[i].deepCopy(kernel), false);
-					if (vectorFunctions) {
-						ev = ev.wrap().replace(localVar,
-									curve.getFun(i).getFunctionVariable());
-					}
 
 					// Kernel.internationalizeDigits = internationalizeDigits;
 
