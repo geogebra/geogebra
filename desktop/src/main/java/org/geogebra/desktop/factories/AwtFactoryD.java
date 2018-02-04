@@ -99,11 +99,6 @@ public class AwtFactoryD extends AwtFactory {
 
 			return new GBufferedImageD(bufImg);
 		} catch (Exception e) {
-			System.gc();
-			System.out.println("MEMORY FREE:"
-					+ Runtime.getRuntime().freeMemory() / 1024 / 1024);
-			System.out.println("MEMORY NEEDED:" + width * height / 256 / 1024);
-
 			// headless mode: getDefaultScreenDevice throws headless exception
 			return new GBufferedImageD(width, height,
 					GBufferedImage.TYPE_INT_ARGB);

@@ -176,6 +176,11 @@ public class CmdExportImage extends CmdScripting {
 			// Log.debug("widthRW= " + widthRW);
 			// Log.debug("pixelWidth= " + pixelWidth);
 			exportScale = pixelWidth / viewWidth;
+			System.out
+					.println("\nEXPORT WIDTH:" + Math.round(dpcm) + ","
+							+ viewWidth
+							+ "," + widthRW
+							+ "," + scaleCM + "," + pixelWidth);
 
 		}
 
