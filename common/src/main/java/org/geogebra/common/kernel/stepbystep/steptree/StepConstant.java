@@ -112,7 +112,7 @@ public final class StepConstant extends StepExpression {
 		} else if (Double.isInfinite(value)) {
 			return "inf";
 		}
-		return new DecimalFormat("#0.##").format(value);
+		return new DecimalFormat("#0.#########").format(value);
 	}
 
 	@Override
@@ -129,6 +129,6 @@ public final class StepConstant extends StepExpression {
 		} else if (Double.isInfinite(value)) {
 			return "\\infty";
 		}
-		return new DecimalFormat("#0.##").format(value);
+		return new DecimalFormat("#0.#########").format(value);
 	}
 }

@@ -105,6 +105,18 @@ public class RegroupStepTest {
 		e("(4y+2)^3", "((64)((y)^(3)) + (96)((y)^(2)) + (48)(y) + 8)");
 	}
 
+	@Test
+	public void decimalFractionTest() {
+		r("0.125 + 0.25", "0.375");
+		r("1/2 + 0.25", "(3)/(4)");
+		r("1/3 + 0.5 + 0.25", "(13)/(12)");
+		r("sqrt(2) + 1/3 + 0.24454", "(((150000)(nroot(2, 2)) + 86681))/(150000)");
+		r("sqrt(2) + 0.24454", "1.658753562");
+		r("sqrt(2*x) + 0.1241 + sqrt(3*x) + nroot(5, 3)", "((3.14626437)(nroot(x, 2)) + 1.834075947)");
+		r("(3*x)/(0.24) + (9*x)/(0.3325) + 0.4324*x", "(40.000069173)(x)");
+		r("(3.14)/(2.1*x) + (x)/(3.14)", "((1.495238095)/(x) + (0.318471338)(x))");
+	}
+
 	public void r(String toRegroup, String expectedResult) {
 		if (needsHeading) {
 			Throwable t = new Throwable();

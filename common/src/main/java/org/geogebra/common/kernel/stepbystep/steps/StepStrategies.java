@@ -8,43 +8,26 @@ import org.geogebra.common.util.debug.Log;
 
 public class StepStrategies {
 
-	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
-				RegroupSteps.CALCULATE_INVERSE_TRIGO,
-				RegroupSteps.ELIMINATE_OPPOSITES,
-				RegroupSteps.DISTRIBUTE_MINUS,
-				RegroupSteps.DOUBLE_MINUS,
-				RegroupSteps.POWER_OF_NEGATIVE,
-				RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
-				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
-				RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
-				RegroupSteps.EXPAND_ROOT,
-				RegroupSteps.COMMON_ROOT,
-				RegroupSteps.REWRITE_ROOT_UNDER_POWER,
-				RegroupSteps.SIMPLIFY_ROOTS,
-				RegroupSteps.NEGATIVE_FRACTIONS,
-				RegroupSteps.TRIVIAL_FRACTIONS,
-				RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
-				RegroupSteps.COMMON_FRACTION,
-				RegroupSteps.REGROUP_SUMS,
-				RegroupSteps.REGROUP_PRODUCTS,
-				RegroupSteps.SIMPLE_POWERS,
-				RegroupSteps.SIMPLIFY_FRACTIONS,
-				RegroupSteps.FACTOR_FRACTIONS_SUBSTEP,
-				ExpandSteps.EXPAND_PRODUCTS,
-				RegroupSteps.RATIONALIZE_DENOMINATORS,
-				FractionSteps.ADD_FRACTIONS
+	public static StepNode convertToFraction(StepNode sn, SolutionBuilder sb) {
+		SimplificationStepGenerator[] convertStrategy = new SimplificationStepGenerator[] {
+				RegroupSteps.CONVERT_DECIMAL_TO_FRACTION
 		};
 
-		StepNode result = sn;
-		String old, current = null;
-		do {
-			result = implementStrategy(result, sb, defaultStrategy, tracker);
-			old = current;
-			current = result.toString();
-		} while (!current.equals(old));
+		return implementStrategy(sn, sb, convertStrategy, new RegroupTracker());
+	}
 
-		return result;
+	public static StepNode decimalRegroup(StepNode sn, SolutionBuilder sb) {
+		SimplificationStepGenerator[] evaluateStrategy = new SimplificationStepGenerator[] {
+				RegroupSteps.DECIMAL_SIMPLIFY_ROOTS,
+				RegroupSteps.DECIMAL_SIMPLIFY_FRACTIONS,
+				RegroupSteps.DEFAULT_REGROUP
+		};
+
+		return implementGroup(sn, null, evaluateStrategy, sb, new RegroupTracker().setDecimalSimplify());
+	}
+
+	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		return RegroupSteps.DEFAULT_REGROUP.apply(sn, sb, tracker);
 	}
 
 	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb) {
@@ -71,35 +54,19 @@ public class StepStrategies {
 				RegroupSteps.POWER_OF_NEGATIVE
 		};
 
-		StepNode result = sn;
-		String old, current = null;
-		do {
-			result = implementStrategy(result, sb, weakStrategy);
-			old = current;
-			current = result.toString();
-		} while (!current.equals(old));
-
-		return result;
+		return implementGroup(sn, null, weakStrategy, sb, new RegroupTracker());
 	}
 
 
 	public static StepNode defaultExpand(StepNode sn, SolutionBuilder sb) {
 		SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
+				RegroupSteps.DEFAULT_REGROUP,
 				ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
 				ExpandSteps.EXPAND_POWERS,
 				ExpandSteps.EXPAND_PRODUCTS
 		};
 
-		StepNode result = sn;
-		String old, current = null;
-		do {
-			result = defaultRegroup(result, sb);
-			result = implementStrategy(result, sb, expandStrategy, new RegroupTracker().setStrongExpand());
-			old = current;
-			current = result.toString();
-		} while (!current.equals(old));
-
-		return result;
+		return implementGroup(sn, null, expandStrategy, sb, new RegroupTracker().setStrongExpand(true));
 	}
 
 	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker, boolean withRegroup) {
@@ -134,6 +101,7 @@ public class StepStrategies {
 
 	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb) {
 		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+				RegroupSteps.DEFAULT_REGROUP,
 				DifferentiationSteps.CONSTANT_COEFFICIENT,
 				DifferentiationSteps.DIFFERENTIATE_SUM,
 				DifferentiationSteps.CONSTANT_COEFFICIENT,
@@ -147,21 +115,12 @@ public class StepStrategies {
 				DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO
 		};
 
-		StepNode result = sn;
-		String old, current = null;
-		do {
-			result = defaultRegroup(result, sb);
-			result = implementStrategy(result, sb, defaultStrategy);
-			old = current;
-			current = result.toString();
-		} while (!current.equals(old));
-
-		return result;
+		return implementGroup(sn, null, defaultStrategy, sb, new RegroupTracker());
 	}
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
 											 RegroupTracker tracker) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		StepNode newSn;
@@ -171,9 +130,9 @@ public class StepStrategies {
 
 			if (printDebug) {
 				if (tracker.wasChanged()) {
-					Log.error("changed at " + simplificationStep);
-					Log.error("from: " + sn);
-					Log.error("to: " + newSn);
+					System.out.println("changed at " + simplificationStep);
+					System.out.println("from: " + sn);
+					System.out.println("to: " + newSn);
 				}
 			}
 

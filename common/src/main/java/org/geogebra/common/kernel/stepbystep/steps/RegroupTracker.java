@@ -75,8 +75,8 @@ public class RegroupTracker {
 		return this;
 	}
 
-	public RegroupTracker setStrongExpand() {
-		this.strongExpand = true;
+	public RegroupTracker setStrongExpand(boolean strongExpand) {
+		this.strongExpand = strongExpand;
 		return this;
 	}
 

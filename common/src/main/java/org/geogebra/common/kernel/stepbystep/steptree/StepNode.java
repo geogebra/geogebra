@@ -126,6 +126,9 @@ public abstract class StepNode {
 			case CSC:
 			case SEC:
 			case COT:
+			case ARCSIN:
+			case ARCCOS:
+			case ARCTAN:
 				StepExpression arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
 				return apply(arg, ((ExpressionNode) ev).getOperation());
 			case SQRT:

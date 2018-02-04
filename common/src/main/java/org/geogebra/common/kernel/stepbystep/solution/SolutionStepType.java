@@ -121,9 +121,6 @@ public enum SolutionStepType {
 
 	REPLACE_WITH_AND_REGROUP("ReplaceAWithBAndRegroup", "Replace %0 with %1 and regroup"),
 
-	RATIONAL_ROOT_THEOREM("RationalRootTheorem",
-			"A polynomial equation with integer coefficients has all of its rational roots in the form p/q, where p divides the constant term and q divides the coefficient of the highest order term"),
-
 	EXPAND_FRACTIONS("ExpandFractions", "Expand Fractions, the common denominator is: %0"),
 
 	FACTOR_DENOMINATORS("FatorDenominators", "Factor Denominators"),
@@ -135,6 +132,8 @@ public enum SolutionStepType {
 	REGROUP_WRAPPER("RegroupExpression", "Regroup Expression"),
 
 	SIMPLIFICATION_WRAPPER("SimplifyExpression", "Simplify Expression"),
+
+	CONVERT_DECIMALS("ConvertDecimals", "Convert decimals to fractions"),
 
 	DOUBLE_MINUS("DoubleMinus", "A double negative is a positive"),
 
@@ -184,7 +183,11 @@ public enum SolutionStepType {
 
 	REDUCE_ROOT_AND_POWER_EVEN("ReduceRootAndPowerEven", "Reduce the root and power", "Reduce the root and power by: %0"),
 
+	EVALUATE_FRACTION("EvaluateFraction", "Evaluate fraction"),
+
 	EVALUATE_POWER("EvaluatePower", "Evaluate power"),
+
+	EVALUATE_ROOT("EvaluateRoot", "Evaluate root"),
 
 	ZEROTH_POWER("ZerothPower", "The zeroth power of anything is one"),
 
@@ -197,6 +200,8 @@ public enum SolutionStepType {
 	ODD_ROOT_OF_NEGATIVE("OddRootOfNegative", "An odd root of a negative radicand is always negative"),
 
 	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
+
+	SPLIT_FRACTIONS("SplitFractions", "Split fractions"),
 
 	SPLIT_POWERS("SplitPowers", "Use power rules", "Rewrite %0 as %1"),
 

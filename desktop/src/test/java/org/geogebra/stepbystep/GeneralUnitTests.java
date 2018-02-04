@@ -31,6 +31,7 @@ public class GeneralUnitTests {
         equals("x+x", "2*x", false);
         equals("((1+2)*3+4)*5+6", "6+5*(4+3*(2+1))", true);
         equals("1+1", "2", false);
+        equals("arcsin(x) + arccos(x) + arctan(x)", "arcsin(x) + arccos(x) + arctan(x)", true);
     }
 
     @Test

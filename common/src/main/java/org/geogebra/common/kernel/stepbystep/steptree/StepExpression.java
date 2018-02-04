@@ -598,7 +598,8 @@ public abstract class StepExpression extends StepNode {
 	 * @return whether the current node is a square
 	 */
 	public boolean isSquare() {
-		return nonSpecialConstant() || isOperation(Operation.POWER) && isEven(((StepOperation) this).getOperand(1));
+		return nonSpecialConstant() && getValue() > 0
+				|| isOperation(Operation.POWER) && isEven(((StepOperation) this).getOperand(1));
 	}
 
 	public boolean isCube() {
@@ -672,17 +673,56 @@ public abstract class StepExpression extends StepNode {
 				isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isFraction();
 	}
 
+	public boolean containsDecimals() {
+		if (nonSpecialConstant() && !isInteger()) {
+			return true;
+		}
+
+		if (this instanceof StepOperation) {
+			for (StepExpression operand : (StepOperation) this) {
+				if (operand.containsDecimals()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public boolean containsFractions() {
+		if (isOperation(Operation.DIVIDE)) {
+			StepOperation so = (StepOperation) this;
+			if (so.getOperand(0).isInteger() && so.getOperand(1).isInteger()) {
+				return true;
+			}
+		}
+
+		if (this instanceof StepOperation) {
+			for (StepExpression operand : (StepOperation) this) {
+				if (operand.containsFractions()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	public StepExpression convertToFractions(SolutionBuilder sb) {
+		return (StepExpression) StepStrategies.convertToFraction(this, sb);
+	}
+
 	/**
-	 * @return the tree, regrouped (destroys the tree, use only in assignments)
+	 * @return the expression, regrouped
 	 */
 	public StepExpression regroup() {
 		return regroup(null);
 	}
 
 	/**
-	 * @param sb
-	 *            SolutionBuilder for the regroup steps
-	 * @return the tree, regrouped (destroys the tree, use only in assignments)
+	 * This is the default regroup. Assumes every nonSpecialConstant is an integer.
+	 * @param sb SolutionBuilder for the regroup steps
+	 * @return the expression, regrouped
 	 */
 	public StepExpression regroup(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
@@ -692,14 +732,36 @@ public abstract class StepExpression extends StepNode {
 		return this;
 	}
 
+	/**
+	 * Numeric regroup. Evaluates expressions like 1/3 and sqrt(2)..
+	 * @param sb SolutionBuilder for the regroup steps
+	 * @return the expression, regrouped
+	 */
+	public StepExpression numericRegroup(SolutionBuilder sb) {
+		if (this instanceof StepOperation) {
+			return (StepExpression) StepStrategies.decimalRegroup(this, sb);
+		}
+
+		return this;
+	}
+
 	public StepExpression regroupOutput(SolutionBuilder sb) {
 		sb.add(SolutionStepType.SIMPLIFY, this);
+
+		if (containsDecimals() && containsFractions()) {
+			StepExpression temp = convertToFractions(sb);
+			return temp.regroup(sb);
+		}
+
+		if (containsDecimals()) {
+			return numericRegroup(sb);
+		}
+
 		return regroup(sb);
 	}
 
 	/**
-	 * @return the tree, regrouped and expanded (destroys the tree, use only in
-	 *         assignments)
+	 * @return the expression, regrouped and expanded
 	 */
 	public StepExpression expand() {
 		return expand(null);
@@ -708,8 +770,7 @@ public abstract class StepExpression extends StepNode {
 	/**
 	 * @param sb
 	 *            SolutionBuilder for the expansion steps
-	 * @return the tree, regrouped and expanded (destroys the tree, use only in
-	 *         assignments)
+	 * @return the expression, regrouped and expanded
 	 */
 	public StepExpression expand(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
@@ -725,7 +786,7 @@ public abstract class StepExpression extends StepNode {
 	}
 
 	/**
-	 * @return the tree, factored (destroys the tree, use only in assignments)
+	 * @return the expression, factored
 	 */
 	public StepExpression factor() {
 		return factor(null);
@@ -734,7 +795,7 @@ public abstract class StepExpression extends StepNode {
 	/**
 	 * @param sb
 	 *            SolutionBuilder for the factoring steps
-	 * @return the tree, factored (destroys the tree, use only in assignments)
+	 * @return the expression, factored
 	 */
 	public StepExpression factor(SolutionBuilder sb) {
 		if (this instanceof StepOperation) {
@@ -768,10 +829,10 @@ public abstract class StepExpression extends StepNode {
 
 	/**
 	 * @param from
-	 *            StepNode to replace
+	 *            StepExpression to replace
 	 * @param to
-	 *            StepNode to replace with
-	 * @return the tree, replaced
+	 *            StepExpression to replace with
+	 * @return the expression, replaced
 	 */
 	public StepExpression replace(StepExpression from, StepExpression to) {
 		if (equals(from)) {
@@ -943,6 +1004,16 @@ public abstract class StepExpression extends StepNode {
 		}
 
 		return divide(nominator, denominator);
+	}
+
+	public static StepExpression simplifiedProduct(StepExpression a, StepExpression b) {
+		if (a != null && b != null) {
+			StepExpression numerator = nonTrivialProduct(a.getNumerator(), b.getNumerator());
+			StepExpression denominator = nonTrivialProduct(a.getDenominator(), b.getDenominator());
+			return divide(numerator, denominator);
+		}
+
+		return multiply(a, b);
 	}
 
 	/**

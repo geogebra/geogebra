@@ -370,40 +370,36 @@ public enum FactorSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.PLUS)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (so.noOfOperands() == 2 && so.getOperand(0).isSquare() && so.getOperand(1).isSquare()) {
-					if (!so.getOperand(0).isNegative() && so.getOperand(1).isNegative()) {
-						StepExpression a = so.getOperand(0).getSquareRoot();
-						StepExpression b = so.getOperand(1).negate().getSquareRoot();
-
-						so.getOperand(0).setColor(tracker.getColorTracker());
-						a.setColor(tracker.incColorTracker());
-						so.getOperand(1).setColor(tracker.getColorTracker());
-						b.setColor(tracker.incColorTracker());
-
-						StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
-						newProduct.addOperand(add(a, b));
-						newProduct.addOperand(subtract(a, b));
-
-						sb.add(SolutionStepType.DIFFERENCE_OF_SQUARES_FACTOR);
-						return newProduct;
-					}
-
-					if (so.getOperand(0).isNegative() && !so.getOperand(1).isNegative()) {
-						StepOperation reorganized = new StepOperation(Operation.PLUS);
-
-						so.getOperand(0).setColor(tracker.incColorTracker());
-						so.getOperand(1).setColor(tracker.incColorTracker());
-
-						reorganized.addOperand(so.getOperand(1));
-						reorganized.addOperand(so.getOperand(0));
-
-						sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
-						return reorganized;
-					}
+				if (so.noOfOperands() != 2) {
+					return so;
 				}
 
-				if (so.noOfOperands() == 2 && so.getOperand(0).isCube() && so.getOperand(1).isCube()
-						&& !tracker.isWeakFactor()) {
+				if (so.getOperand(0).isSquare() && so.getOperand(1).negate().isSquare()) {
+					StepExpression a = so.getOperand(0).getSquareRoot();
+					StepExpression b = so.getOperand(1).negate().getSquareRoot();
+
+					so.getOperand(0).setColor(tracker.getColorTracker());
+					a.setColor(tracker.incColorTracker());
+					so.getOperand(1).setColor(tracker.getColorTracker());
+					b.setColor(tracker.incColorTracker());
+
+					StepOperation newProduct = new StepOperation(Operation.MULTIPLY);
+					newProduct.addOperand(add(a, b));
+					newProduct.addOperand(subtract(a, b));
+
+					sb.add(SolutionStepType.DIFFERENCE_OF_SQUARES_FACTOR);
+					return newProduct;
+				}
+
+				if (so.getOperand(0).negate().isSquare() && so.getOperand(1).isSquare()) {
+					so.getOperand(0).setColor(tracker.incColorTracker());
+					so.getOperand(1).setColor(tracker.incColorTracker());
+
+					sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
+					return add(so.getOperand(1), so.getOperand(0));
+				}
+
+				if (so.getOperand(0).isCube() && so.getOperand(1).isCube() && !tracker.isWeakFactor()) {
 					StepExpression a = so.getOperand(0).getCubeRoot();
 					StepExpression b = so.getOperand(1).getCubeRoot();
 
@@ -436,16 +432,11 @@ public enum FactorSteps implements SimplificationStepGenerator {
 						sb.add(SolutionStepType.DIFFERENCE_OF_CUBES_FACTOR);
 						return newProduct;
 					} else if (a.isNegative() && !b.isNegative()) {
-						StepOperation reorganized = new StepOperation(Operation.PLUS);
-
 						so.getOperand(0).setColor(tracker.incColorTracker());
 						so.getOperand(1).setColor(tracker.incColorTracker());
 
-						reorganized.addOperand(so.getOperand(1));
-						reorganized.addOperand(so.getOperand(0));
-
 						sb.add(SolutionStepType.REORGANIZE_EXPRESSION);
-						return reorganized;
+						return add(so.getOperand(1), so.getOperand(0));
 					}
 				}
 
