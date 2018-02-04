@@ -178,8 +178,7 @@ public class GeoFunctionNVar extends GeoElement
 
 	@Override
 	public String getTypeString() {
-		return (isInequality != null && isInequality) ? "Inequality"
-				: "MultivariableFunction";
+		return (isInequality != null && isInequality) ? GeoClass.INEQUALITY : GeoClass.MULTIVARIABLE_FUNCTION;
 	}
 
 	@Override

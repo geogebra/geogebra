@@ -164,6 +164,10 @@ public enum GeoClass {
 	final public boolean is3D;
 	final private int priority;
 	final private int independentPriority;
+	/** for FUNCTION_NVAR: Inequality */
+	static final public String INEQUALITY = "Inequality";
+	/** for FUNCTION_NVAR: MultivariableFunction */
+	static final public String MULTIVARIABLE_FUNCTION = "MultivariableFunction";
 
 	GeoClass(String name, int priority, boolean is3D) {
 		this(name, name, priority, priority, is3D);
