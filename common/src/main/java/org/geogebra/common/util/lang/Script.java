@@ -66,7 +66,6 @@ public enum Script {
 		this(iso15924, Direction.LEFT_TO_RIGHT);
 	}
 
-
 	Script(String iso15924, Direction dir) {
 		this.iso15924 = iso15924;
 		this.direction = dir;
