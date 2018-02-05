@@ -20,6 +20,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -1463,6 +1464,22 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public void drawStringWithOutline(GGraphics2D g2c, String text, double x,
 			double y, GColor col) {
+
+		// Unicode doesn't work in PDF Export currently
+		// so draw in LaTeX (uses shapes)
+		if (app.isExporting()
+				&& ExportType.PDF_HTML5.equals(app.getExportType())
+				&& !StringUtil.isASCII(text)) {
+			// different corner for LaTeX
+			int offsetY = getFontSize();
+
+			app.getDrawEquation().drawEquation(app, null, g2c, (int) x,
+					(int) (y - offsetY), text, g2c.getFont(), false, col,
+					getBackgroundCommon(), true, false, null);
+
+			return;
+		}
+
 		if (g2c instanceof GGraphics2DW) {
 			GGraphics2DW g2 = (GGraphics2DW) g2c;
 			g2.setColor(getBackgroundCommon());

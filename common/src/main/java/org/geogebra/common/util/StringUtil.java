@@ -1529,4 +1529,25 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		return symbols;
 	}
 
+	/**
+	 * 
+	 * @param text
+	 *            string to check
+	 * @return true if text is a simple ASCII 7-bit string
+	 */
+	public static boolean isASCII(String text) {
+		if (empty(text)) {
+			return true;
+		}
+
+		for (int i = 0; i < text.length(); i++) {
+			char ch = text.charAt(i);
+			if (ch > 0x7f) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 }
