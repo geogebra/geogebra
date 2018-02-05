@@ -380,7 +380,7 @@ public class DrawLocus extends Drawable {
 		if (geo.getKernel().getApplication()
 				.has(Feature.MOW_BOUNDING_BOX_FOR_PEN_TOOL)) {
 			if (boundingBox == null) {
-				boundingBox = new BoundingBox();
+				boundingBox = new BoundingBox(false);
 			}
 			return boundingBox;
 		}

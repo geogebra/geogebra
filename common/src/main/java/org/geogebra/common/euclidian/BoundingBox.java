@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 
@@ -16,17 +17,25 @@ import org.geogebra.common.factories.AwtFactory;
  *
  */
 public class BoundingBox {
-
-
 	private GRectangle2D rectangle;
 	private ArrayList<GEllipse2DDouble> handlers;
+	private ArrayList<GLine2D> cropHandlers;
 	private int nrHandlers = 8;
+	private boolean isCropBox = false;
+	private boolean isImage = false;
 
 	/**
 	 * Make new bounding box
+	 * 
+	 * @param isImage
+	 *            true if is boundingBox of image
 	 */
-	public BoundingBox() {
-		handlers = new ArrayList<>();
+	public BoundingBox(boolean isImage) {
+		setHandlers(new ArrayList<GEllipse2DDouble>());
+		if (isImage) {
+			this.isImage = isImage;
+			setCropHandlers(new ArrayList<GLine2D>());
+		}
 	}
 
 	/**
@@ -63,6 +72,36 @@ public class BoundingBox {
 	}
 
 	/**
+	 * @return true if cropBox should be shown instead of boundingBox
+	 */
+	public boolean isCropBox() {
+		return isCropBox;
+	}
+
+	/**
+	 * @param isCropBox
+	 *            set if boundingBox or cropBox should be shown
+	 */
+	public void setCropBox(boolean isCropBox) {
+		this.isCropBox = isCropBox;
+	}
+
+	/**
+	 * @return crop handlers
+	 */
+	public ArrayList<GLine2D> getCropHandlers() {
+		return cropHandlers;
+	}
+
+	/**
+	 * @param cropHandlers
+	 *            list of crop handlers
+	 */
+	public void setCropHandlers(ArrayList<GLine2D> cropHandlers) {
+		this.cropHandlers = cropHandlers;
+	}
+
+	/**
 	 * @return number of needed handlers
 	 */
 	public int getNrHandlers() {
@@ -81,16 +120,27 @@ public class BoundingBox {
 		if (handlers == null) {
 			handlers = new ArrayList<>();
 		}
-
+		if (isImage && cropHandlers == null) {
+			cropHandlers = new ArrayList<>();
+		}
 		handlers.clear();
+		cropHandlers.clear();
 		
+
 		// init handler list
 		for (int i = 0; i < /* = */nrHandlers; i++) {
 			GEllipse2DDouble handler = AwtFactory.getPrototype()
 					.newEllipse2DDouble();
 			handlers.add(handler);
+			GLine2D cropHandler = AwtFactory.getPrototype().newLine2D();
+			cropHandlers.add(cropHandler);
 		}
+		
+		createBoundingBoxHandlers();
+	}
 
+
+	private void createBoundingBoxHandlers() {
 		if (nrHandlers == 8) {
 			// corner handlers
 			handlers.get(0).setFrameFromCenter(rectangle.getX(),
@@ -136,7 +186,6 @@ public class BoundingBox {
 			// (rectangle.getMinX() + rectangle.getMaxX()) / 2 + 3,
 			// rectangle.getMaxY() + 15 + 3);
 		}
-
 	}
 
 	/**
@@ -155,7 +204,7 @@ public class BoundingBox {
 			g2.setColor(GColor.MOW_MEBIS_TEAL);
 			g2.draw(rectangle);
 		}
-		if (handlers != null && !handlers.isEmpty()) {
+		if (handlers != null && !handlers.isEmpty() && !isCropBox) {
 			// join rotation handler and bounding box
 			// GLine2D line = AwtFactory.getPrototype().newLine2D();
 			// line.setLine((rectangle.getMinX() + rectangle.getMaxX()) / 2,
@@ -173,6 +222,7 @@ public class BoundingBox {
 				g2.draw(handlers.get(i));
 			}
 		}
+
 	}
 
 	/**

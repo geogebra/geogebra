@@ -425,7 +425,9 @@ public final class DrawImage extends Drawable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox();
+			boundingBox = new BoundingBox(
+					view.getApplication().has(Feature.MOW_CROP_IMAGE) ? true
+							: false);
 		}
 		return boundingBox;
 	}

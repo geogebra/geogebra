@@ -622,7 +622,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox();
+			boundingBox = new BoundingBox(false);
 			boundingBox.setNrHandlers(2);
 		}
 		return boundingBox;

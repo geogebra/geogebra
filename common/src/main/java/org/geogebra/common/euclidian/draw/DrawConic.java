@@ -2071,7 +2071,7 @@ public class DrawConic extends Drawable implements Previewable {
 	@Override
 	public BoundingBox getBoundingBox() {
 		if (boundingBox == null) {
-			boundingBox = new BoundingBox();
+			boundingBox = new BoundingBox(false);
 		}
 		return boundingBox;
 	}

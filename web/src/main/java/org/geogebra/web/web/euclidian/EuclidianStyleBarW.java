@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GFont;
+import org.geogebra.common.euclidian.Drawable;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
@@ -625,13 +626,20 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 			
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				if (btnCrop.isDown()) {
-					// TODO implement handler
+				if (getBtncrop() != null) {
+					Drawable dr = ((Drawable) app.getActiveEuclidianView()
+						.getDrawableFor(activeGeoList.get(0)));
+					dr.getBoundingBox().setCropBox(!getBtncrop().isDown());
+					app.getActiveEuclidianView().repaintView();
 				}
 			}
 		});
 		btnCrop.setTitle(loc.getMenu("stylebar.Crop"));
 		add(btnCrop);
+	}
+
+	public MyToggleButtonW getBtncrop() {
+		return btnCrop;
 	}
 
 	/**
