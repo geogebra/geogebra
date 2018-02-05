@@ -267,10 +267,15 @@ public class BoundingBox {
 			}
 		}
 		if (cropHandlers != null && !cropHandlers.isEmpty() && isCropBox) {
-				g2.setPaint(GColor.BLACK);
-				g2.setColor(GColor.BLACK);
-				g2.setStroke(AwtFactory.getPrototype().newBasicStroke(4.0f,
+			g2.setColor(GColor.WHITE);
+			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(6.0f,
 					GBasicStroke.CAP_SQUARE, GBasicStroke.CAP_SQUARE));
+			for (int i = 0; i < nrHandlers; i++) {
+				g2.draw(cropHandlers.get(i));
+			}
+			g2.setStroke(AwtFactory.getPrototype().newBasicStroke(4.0f,
+					GBasicStroke.CAP_SQUARE, GBasicStroke.CAP_SQUARE));
+			g2.setColor(GColor.BLACK);
 			for (int i = 0; i < nrHandlers; i++) {
 				g2.draw(cropHandlers.get(i));
 			}
