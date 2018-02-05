@@ -296,6 +296,14 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	/**
+	 * 
+	 * @return the bottom of the card.
+	 */
+	public int getBottom() {
+		return getAbsoluteTop() + getOffsetHeight();
+	}
+
+	/**
 	 * Checks if (x, y) is within the card.
 	 * 
 	 * @param x

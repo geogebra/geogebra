@@ -52,6 +52,8 @@ public class PageListController implements PageListControllerInterface,
 	private PagePreviewCard dragCard;
 	private CardListInterface listener;
 	private boolean dragAnim;
+	private int startSpaceIdx;
+
 
 	/**
 	 * @param app
@@ -392,9 +394,15 @@ public class PageListController implements PageListControllerInterface,
 	}
 	private void startDrag(int x, int y) {
 		dragIndex = cardIndexAt(x, y);
+		startSpaceIdx = -1;
 		if (dragIndex != -1) {
 			dragCard = slides.get(dragIndex);
 			dragCard.addStyleName("dragged");
+			if (dragIndex < getSlideCount() - 1) {
+				startSpaceIdx = dragIndex + 1;
+				slides.get(startSpaceIdx).addStyleName("spaceBeforeAnimated");
+
+			}
 		}
 	}
 
@@ -409,7 +417,7 @@ public class PageListController implements PageListControllerInterface,
 
 		int idx = cardIndexAt(
 				dragCard.getAbsoluteLeft() + dragCard.getOffsetWidth() / 2,
-				dragCard.getAbsoluteTop());
+				down ? dragCard.getBottom() : dragCard.getAbsoluteTop());
 		if (idx == -1) {
 			return -1;
 		}
@@ -424,17 +432,21 @@ public class PageListController implements PageListControllerInterface,
 		boolean bellowMiddle = target.isBellowMiddle(dragCard.getAbsoluteTop());
 
 		if (dragAnim) {
+			int treshold = target.getOffsetHeight() / 5;
+			Log.debug("[DND] target is " + targetIdx);
+
 			if (down) {
-				dragDown(target);
+
+				dragDown(target, treshold);
 			} else {
-				dragUp(target);
+				dragUp(target, treshold);
 			}
 		}
 		lastDragTarget = target;
 		return bellowMiddle ? targetIdx + 1 : targetIdx;
 	}
 
-	private void dragDown(PagePreviewCard target) {
+	private void dragDown(PagePreviewCard target, int treshold) {
 		int beforeIdx = target.getPageIndex() - 1;
 		if (beforeIdx > 0) {
 			for (int i = 0; i < beforeIdx; i++) {
@@ -443,8 +455,7 @@ public class PageListController implements PageListControllerInterface,
 		}
 
 		Log.debug("[DND] dragDown");
-		boolean hit = target.isBellowMiddle(
-				dragCard.getAbsoluteTop() + dragCard.getOffsetHeight());
+		boolean hit = target.getAbsoluteTop() - dragCard.getBottom() < treshold;
 		if (hit) {
 			addSpaceAfter(target);
 		} else {
@@ -452,20 +463,18 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
-	private void dragUp(PagePreviewCard target) {
+	private void dragUp(PagePreviewCard target, int treshold) {
 		int afterIdx = target.getPageIndex() + 1;
-		if (afterIdx < getSlideCount()) {
-			for (int i = afterIdx; i < getSlideCount(); i++) {
-				removeSpaceStyles(slides.get(i));
-			}
-		}
-
-		Log.debug("[DND] dragUp");
-		boolean hit = !target.isBellowMiddle(dragCard.getAbsoluteTop());
-		if (hit) {
+		PagePreviewCard afterCard = afterIdx < getSlideCount()
+				? slides.get(afterIdx)
+				: null;
+		int diff = dragCard.getAbsoluteTop() - target.getAbsoluteTop();
+		if (diff < treshold) {
+			Log.debug("[DND] hit");
 			addSpaceBefore(target);
-		} else {
-			addSpaceAfter(target);
+			if (afterCard != null) {
+				afterCard.removeStyleName("spaceBeforeAnimated");
+			}
 		}
 	}
 
