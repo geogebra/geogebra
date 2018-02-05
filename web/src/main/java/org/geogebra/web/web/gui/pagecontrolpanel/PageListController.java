@@ -373,20 +373,23 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	private void clearSpaces() {
-		clearSpaces(-1);
+		clearSpacesBut(-1);
 	}
 
-	private void clearSpaces(int index) {
+	private void clearSpacesBut(int index) {
 		for (PagePreviewCard card: slides) {
 			if (index != card.getPageIndex()) {
-				card.removeStyleName("spaceBefore");
-				card.removeStyleName("spaceAfter");
-				card.removeStyleName("spaceBeforeAnimated");
-				card.removeStyleName("spaceAfterAnimated");
+				removeSpaceStyles(card);
 			}
 		}
 	}
 
+	private static void removeSpaceStyles(PagePreviewCard card) {
+		card.removeStyleName("spaceBefore");
+		card.removeStyleName("spaceAfter");
+		card.removeStyleName("spaceBeforeAnimated");
+		card.removeStyleName("spaceAfterAnimated");
+	}
 	private void startDrag(int x, int y) {
 		dragIndex = cardIndexAt(x, y);
 		if (dragIndex != -1) {
@@ -399,6 +402,9 @@ public class PageListController implements PageListControllerInterface,
 		if (dragCard == null) {
 			return -1;
 		}
+
+		boolean down = dragCard.getDragDirection(y);
+
 		dragCard.setDragPosition(0, y);
 
 		int idx = cardIndexAt(
@@ -418,24 +424,59 @@ public class PageListController implements PageListControllerInterface,
 		boolean bellowMiddle = target.isBellowMiddle(dragCard.getAbsoluteTop());
 
 		if (dragAnim) {
-			doDragAnimation(target);
+			if (down) {
+				dragDown(target);
+			} else {
+				dragUp(target);
+			}
 		}
 		lastDragTarget = target;
 		return bellowMiddle ? targetIdx + 1 : targetIdx;
 	}
 
-	private void doDragAnimation(PagePreviewCard target) {
-		boolean hitWithTop = !target.isBellowMiddle(dragCard.getAbsoluteTop());
-		boolean hitWithBottom = !target.isBellowMiddle(
-				dragCard.getAbsoluteTop()
-								+ dragCard.getOffsetHeight());
-		if (hitWithTop) {
-			target.removeStyleName("spaceAfterAnimated");
-			target.addStyleName("spaceBeforeAnimated");
-		} else if (hitWithBottom) {
-			target.removeStyleName("spaceBeforeAnimated");
-			target.addStyleName("spaceAfterAnimated");
+	private void dragDown(PagePreviewCard target) {
+		int beforeIdx = target.getPageIndex() - 1;
+		if (beforeIdx > 0) {
+			for (int i = 0; i < beforeIdx; i++) {
+				removeSpaceStyles(slides.get(i));
+			}
 		}
+
+		Log.debug("[DND] dragDown");
+		boolean hit = target.isBellowMiddle(
+				dragCard.getAbsoluteTop() + dragCard.getOffsetHeight());
+		if (hit) {
+			addSpaceAfter(target);
+		} else {
+			addSpaceBefore(target);
+		}
+	}
+
+	private void dragUp(PagePreviewCard target) {
+		int afterIdx = target.getPageIndex() + 1;
+		if (afterIdx < getSlideCount()) {
+			for (int i = afterIdx; i < getSlideCount(); i++) {
+				removeSpaceStyles(slides.get(i));
+			}
+		}
+
+		Log.debug("[DND] dragUp");
+		boolean hit = !target.isBellowMiddle(dragCard.getAbsoluteTop());
+		if (hit) {
+			addSpaceBefore(target);
+		} else {
+			addSpaceAfter(target);
+		}
+	}
+
+	private static void addSpaceBefore(PagePreviewCard target) {
+		target.removeStyleName("spaceAfterAnimated");
+		target.addStyleName("spaceBeforeAnimated");
+	}
+
+	private static void addSpaceAfter(PagePreviewCard target) {
+		target.removeStyleName("spaceBeforeAnimated");
+		target.addStyleName("spaceAfterAnimated");
 	}
 
 	private void loadPageAt(int x, int y) {

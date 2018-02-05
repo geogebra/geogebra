@@ -269,12 +269,32 @@ public class PagePreviewCard extends FlowPanel
 	 *            coordinate.
 	 */
 	public void setDragPosition(int x, int y) {
-		int top = y - getParent().getAbsoluteTop() - getOffsetHeight() / 2;
+		int top = getTopFromDrag(y);
+
 		int left = getAbsoluteLeft() + 10;
 		getElement().getStyle().setTop(left, Unit.PX);
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
 	
+	/**
+	 * 
+	 * @param y
+	 *            the top position of the drag.
+	 * @return
+	 */
+	private int getTopFromDrag(int y) {
+		return y - getParent().getAbsoluteTop() - getOffsetHeight() / 2;
+	}
+
+	/**
+	 * @param y
+	 *            the next drag position.
+	 * @return true for drag down, false for up.
+	 */
+	public boolean getDragDirection(int y) {
+		return getAbsoluteTop() < getTopFromDrag(y);
+	}
+
 	/**
 	 * Checks if (x, y) is within the card.
 	 * 
