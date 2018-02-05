@@ -10368,9 +10368,10 @@ public abstract class EuclidianController {
 		PointerEventType type = event.getType();
 
 		if (isDraggingOccuredBeyondThreshold()) {
-			if (!EuclidianView.usesSelectionRectangleAsInput(mode) && !right
-					&& mode != EuclidianConstants.MODE_SELECT) {
+			if (shouldClearSelectionAfterMove(right)) {
 				clearSelectionsKeepLists(true, true);
+			} else {
+				dontClearSelection = true;
 			}
 		} else {
 			if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
@@ -10632,6 +10633,20 @@ public abstract class EuclidianController {
 
 		draggingOccurredBeforeRelease = false;
 
+	}
+
+	private boolean shouldClearSelectionForMove() {
+		List<GeoElement> selectedGeos = selection.getSelectedGeos();
+		return !(selectedGeos.size() == 1 && selectedGeos.get(0) instanceof GeoFunction &&
+				mode != EuclidianConstants.MODE_MOVE);
+	}
+
+	private boolean shouldClearSelectionAfterMove(boolean rightClick) {
+		boolean shouldClear = !EuclidianView.usesSelectionRectangleAsInput(mode) && !rightClick
+				&& mode != EuclidianConstants.MODE_SELECT;
+		shouldClear &= shouldClearSelectionForMove();
+
+		return shouldClear;
 	}
 
 	protected void switchPointMoveMode() {
@@ -11471,6 +11486,12 @@ public abstract class EuclidianController {
 		twoTouchStartCommon(x1, y1, x2, y2);
 	}
 
+	public void twoTouchEnd() {
+		// assume that two touches moved the view
+		draggingOccured = true;
+		draggingBeyondThreshold = true;
+	}
+
 	public void touchStartPhone(AbstractEvent e) {
 		this.mouseLoc = new GPoint(e.getX(), e.getY());
 
@@ -11542,8 +11563,6 @@ public abstract class EuclidianController {
 		}
 		return true;
 	}
-
-
 
 	final public void twoTouchStartPhone(double x1, double y1, double x2,
 			double y2) {
@@ -11622,7 +11641,9 @@ public abstract class EuclidianController {
 				originalPointY[i] = points.get(i).getCoords().getY();
 			}
 		} else {
-			clearSelections();
+			if (shouldClearSelectionForMove()) {
+				clearSelections();
+			}
 			multitouchMode = ScaleMode.view;
 			twoTouchStartCommon(x1, y1, x2, y2);
 		}
