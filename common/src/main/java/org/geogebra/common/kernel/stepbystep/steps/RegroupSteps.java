@@ -98,18 +98,10 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepExpression se = (StepExpression) sn;
 
 				if (se.nonSpecialConstant() && !se.isInteger()) {
-					double val = se.getValue();
+					String decimal = Double.toString(se.getValue()).split("\\.")[1];
 
-					long numerator = (long) Math.floor(val);
-					long denominator = 1;
-
-					val -= Math.floor(val);
-					for (int i = 0; i < 10 && !isEqual(val, 0); i++) {
-						val *= 10;
-						denominator *= 10;
-						numerator = numerator * 10 + (long) Math.floor(val);
-						val -= Math.floor(val);
-					}
+					long numerator = (long) se.getValue() + Long.parseLong(decimal);
+					long denominator = (long) Math.pow(10, decimal.length());
 
 					tracker.incColorTracker();
 					return divide(numerator, denominator);
@@ -125,7 +117,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					CONVERT_DECIMAL_TO_FRACTION_SUBSTEP,
-					SIMPLIFY_FRACTIONS
+					CANCEL_INTEGER_FRACTION
 			};
 
 			return StepStrategies.implementGroup(sn, SolutionStepType.CONVERT_DECIMALS, strategy, sb, tracker);
@@ -890,8 +882,8 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					SolutionBuilder temp = new SolutionBuilder();
 					RegroupTracker tempTracker = new RegroupTracker();
 
-					StepExpression factored = (StepExpression) StepStrategies.defaultFactor(so.deepCopy(), temp,
-							tempTracker, false);
+					StepExpression factored = (StepExpression) FactorSteps.SIMPLE_FACTOR.apply(so.deepCopy(), temp,
+							tempTracker);
 
 					if (!so.equals(factored)) {
 						sb.add(SolutionStepType.FACTOR, sn);
@@ -909,7 +901,68 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	SIMPLIFY_FRACTIONS_SUBSTEP {
+	CANCEL_INTEGER_FRACTION {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.DIVIDE)) {
+				StepOperation so = (StepOperation) sn;
+
+				List<StepExpression> bases = new ArrayList<>();
+				List<StepExpression> exponents = new ArrayList<>();
+
+				int colorsAtStart = tracker.getColorTracker();
+
+				getBasesAndExponents(so, null, bases, exponents);
+
+				for (int i = 0; i < bases.size(); i++) {
+					if (isEqual(bases.get(i), 1)) {
+						continue;
+					}
+
+					for (int j = i + 1; j < bases.size(); j++) {
+						if (isEqual(exponents.get(i), 1) && isEqual(exponents.get(j), -1)
+								&& bases.get(i).isInteger() && bases.get(j).isInteger()) {
+							long gcd = gcd(bases.get(i), bases.get(j));
+
+							if (gcd > 1) {
+								bases.get(i).setColor(tracker.getColorTracker());
+								bases.get(j).setColor(tracker.getColorTracker());
+
+								bases.set(i, StepConstant.create(bases.get(i).getValue() / gcd));
+								bases.set(j, StepConstant.create(bases.get(j).getValue() / gcd));
+
+								bases.get(i).setColor(tracker.getColorTracker());
+								bases.get(j).setColor(tracker.getColorTracker());
+
+								StepExpression toCancel = StepConstant.create(gcd);
+								toCancel.setColor(tracker.incColorTracker());
+								sb.add(SolutionStepType.CANCEL_FRACTION, toCancel);
+
+								break;
+							}
+						}
+					}
+				}
+
+				if (tracker.getColorTracker() == colorsAtStart) {
+					return StepStrategies.iterateThrough(this, sn, sb, tracker);
+				}
+
+				StepExpression newFraction = null;
+				for (int i = 0; i < bases.size(); i++) {
+					if (!isEqual(exponents.get(i), 0) && !isEqual(bases.get(i), 1)) {
+						newFraction = makeFraction(newFraction, bases.get(i), exponents.get(i));
+					}
+				}
+
+				return newFraction == null ? StepConstant.create(1) : newFraction;
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	CANCEL_FRACTION {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.MULTIPLY) || sn.isOperation(Operation.DIVIDE)) {
@@ -952,28 +1005,6 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 							sb.add(SolutionStepType.CANCEL_FRACTION, toCancel);
 							break;
-						}
-
-						if (isEqual(exponents.get(i), 1) && isEqual(exponents.get(j), -1)
-								&& bases.get(i).isInteger() && bases.get(j).isInteger()) {
-							long gcd = gcd(bases.get(i), bases.get(j));
-
-							if (gcd > 1) {
-								bases.get(i).setColor(tracker.getColorTracker());
-								bases.get(j).setColor(tracker.getColorTracker());
-
-								bases.set(i, StepConstant.create(bases.get(i).getValue() / gcd));
-								bases.set(j, StepConstant.create(bases.get(j).getValue() / gcd));
-
-								bases.get(i).setColor(tracker.getColorTracker());
-								bases.get(j).setColor(tracker.getColorTracker());
-
-								StepExpression toCancel = StepConstant.create(gcd);
-								toCancel.setColor(tracker.incColorTracker());
-								sb.add(SolutionStepType.CANCEL_FRACTION, toCancel);
-
-								break;
-							}
 						}
 					}
 				}
@@ -1558,7 +1589,8 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					REGROUP_SUMS,
 					REGROUP_PRODUCTS,
 					FACTOR_FRACTIONS_SUBSTEP,
-					SIMPLIFY_FRACTIONS_SUBSTEP
+					CANCEL_FRACTION,
+					CANCEL_INTEGER_FRACTION
 			};
 
 			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
@@ -1619,6 +1651,48 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	DECIMAL_REGROUP {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] evaluateStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.DECIMAL_SIMPLIFY_ROOTS,
+					RegroupSteps.DECIMAL_SIMPLIFY_FRACTIONS,
+					RegroupSteps.DEFAULT_REGROUP
+			};
+
+			return StepStrategies.implementGroup(sn, null, evaluateStrategy, sb, tracker.setDecimalSimplify());
+		}
+	},
+
+	WEAK_REGROUP {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] weakStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.CALCULATE_INVERSE_TRIGO,
+					RegroupSteps.ELIMINATE_OPPOSITES,
+					RegroupSteps.DOUBLE_MINUS,
+					RegroupSteps.POWER_OF_NEGATIVE,
+					RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
+					RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
+					RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
+					RegroupSteps.EXPAND_ROOT,
+					RegroupSteps.COMMON_ROOT,
+					RegroupSteps.REWRITE_ROOT_UNDER_POWER,
+					RegroupSteps.SIMPLIFY_ROOTS,
+					RegroupSteps.NEGATIVE_FRACTIONS,
+					RegroupSteps.TRIVIAL_FRACTIONS,
+					RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
+					RegroupSteps.COMMON_FRACTION,
+					RegroupSteps.REGROUP_SUMS,
+					RegroupSteps.REGROUP_PRODUCTS,
+					RegroupSteps.SIMPLE_POWERS,
+					RegroupSteps.SIMPLIFY_FRACTIONS,
+			};
+
+			return StepStrategies.implementGroup(sn, null, weakStrategy, sb, tracker);
+		}
+	},
+
 	DEFAULT_REGROUP {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -1664,6 +1738,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			case SIMPLIFY_ROOTS:
 			case SIMPLIFY_FRACTIONS:
 			case DEFAULT_REGROUP:
+			case WEAK_REGROUP:
 				return 2;
 			case RATIONALIZE_DENOMINATORS:
 			case FACTOR_FRACTIONS_SUBSTEP:

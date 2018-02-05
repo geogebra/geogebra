@@ -20,6 +20,7 @@ public abstract class StepSolvable extends StepNode {
 
 	protected boolean swapped;
 	protected boolean shouldCheckSolutions;
+	protected Boolean approximateSolution;
 
 	public void setRestriction(StepInterval restriction) {
 		this.restriction = restriction;
@@ -112,9 +113,29 @@ public abstract class StepSolvable extends StepNode {
 		return new StepArbitraryConstant("k", ++arbConstTracker, StepArbitraryConstant.ConstantType.INTEGER);
 	}
 
+	private int maxDecimal() {
+		return Math.max(LHS.maxDecimal(), RHS.maxDecimal());
+	}
+
+	private boolean containsFractions() {
+		return LHS.containsFractions() || RHS.containsFractions();
+	}
+
 	public StepSolvable regroup(SolutionBuilder sb) {
-		cleanColors();
-		StepSolvable temp = (StepSolvable) StepStrategies.defaultRegroup(this, sb);
+		StepSolvable temp = this;
+
+		if (approximateSolution == null) {
+			approximateSolution = maxDecimal() > 5 || maxDecimal() > 0 && !containsFractions();
+			if (!approximateSolution) {
+				temp = (StepSolvable) StepStrategies.convertToFraction(this, sb);
+			}
+		}
+
+		if (approximateSolution) {
+			temp = (StepSolvable) StepStrategies.decimalRegroup(temp, sb);
+		} else {
+			temp = (StepSolvable) StepStrategies.defaultRegroup(temp, sb);
+		}
 
 		LHS = temp.LHS;
 		RHS = temp.RHS;
@@ -127,8 +148,20 @@ public abstract class StepSolvable extends StepNode {
 	}
 
 	public StepSolvable expand(SolutionBuilder sb) {
-		cleanColors();
-		StepSolvable temp = (StepSolvable) StepStrategies.defaultExpand(this, sb);
+		StepSolvable temp = this;
+
+		if (approximateSolution == null) {
+			approximateSolution = maxDecimal() > 5 || maxDecimal() > 0 && !containsFractions();
+			if (!approximateSolution) {
+				temp = (StepSolvable) StepStrategies.convertToFraction(this, sb);
+			}
+		}
+
+		if (approximateSolution) {
+			temp = (StepSolvable) StepStrategies.decimalExpand(temp, sb);
+		} else {
+			temp = (StepSolvable) StepStrategies.defaultExpand(temp, sb);
+		}
 
 		LHS = temp.LHS;
 		RHS = temp.RHS;

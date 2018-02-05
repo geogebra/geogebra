@@ -608,12 +608,42 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
 		}
+	},
+
+	SIMPLE_FACTOR {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+					FactorSteps.FACTOR_COMMON,
+					FactorSteps.FACTOR_INTEGER,
+					FactorSteps.FACTOR_BINOM_STRATEGY,
+					FactorSteps.FACTOR_BINOM_CUBED,
+					FactorSteps.FACTOR_USING_FORMULA,
+					FactorSteps.FACTOR_POLYNOMIALS
+			};
+
+			return StepStrategies.implementGroup(sn, null, defaultStrategy, sb, tracker);
+		}
+	},
+
+	DEFAULT_FACTOR {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.WEAK_REGROUP,
+					FactorSteps.SIMPLE_FACTOR
+			};
+
+			return StepStrategies.implementGroup(sn, null, defaultStrategy, sb, tracker);
+		}
 	};
 
 	public int type() {
 		switch (this) {
 		case FACTOR_BINOM_STRATEGY:
 		case FACTOR_COMMON:
+		case DEFAULT_FACTOR:
+		case SIMPLE_FACTOR:
 			return 2;
 		case FACTOR_POLYNOMIALS:
 			return 1;

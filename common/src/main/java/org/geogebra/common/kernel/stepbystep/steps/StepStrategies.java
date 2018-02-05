@@ -9,21 +9,15 @@ import org.geogebra.common.util.debug.Log;
 public class StepStrategies {
 
 	public static StepNode convertToFraction(StepNode sn, SolutionBuilder sb) {
-		SimplificationStepGenerator[] convertStrategy = new SimplificationStepGenerator[] {
-				RegroupSteps.CONVERT_DECIMAL_TO_FRACTION
-		};
+		return RegroupSteps.CONVERT_DECIMAL_TO_FRACTION.apply(sn, sb, new RegroupTracker());
+	}
 
-		return implementStrategy(sn, sb, convertStrategy, new RegroupTracker());
+	public static StepNode decimalRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		return RegroupSteps.DECIMAL_REGROUP.apply(sn, sb, tracker);
 	}
 
 	public static StepNode decimalRegroup(StepNode sn, SolutionBuilder sb) {
-		SimplificationStepGenerator[] evaluateStrategy = new SimplificationStepGenerator[] {
-				RegroupSteps.DECIMAL_SIMPLIFY_ROOTS,
-				RegroupSteps.DECIMAL_SIMPLIFY_FRACTIONS,
-				RegroupSteps.DEFAULT_REGROUP
-		};
-
-		return implementGroup(sn, null, evaluateStrategy, sb, new RegroupTracker().setDecimalSimplify());
+		return decimalRegroup(sn, sb, new RegroupTracker());
 	}
 
 	public static StepNode defaultRegroup(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -34,69 +28,28 @@ public class StepStrategies {
 		return defaultRegroup(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode weakRegroup(StepNode sn, SolutionBuilder sb) {
-		SimplificationStepGenerator[] weakStrategy = new SimplificationStepGenerator[] {
-				RegroupSteps.CALCULATE_INVERSE_TRIGO,
-				RegroupSteps.SIMPLIFY_POWER_OF_ROOT,
-				RegroupSteps.SIMPLE_POWERS,
-				RegroupSteps.SIMPLE_ROOTS,
-				RegroupSteps.ELIMINATE_OPPOSITES,
-				RegroupSteps.NEGATIVE_FRACTIONS,
-				RegroupSteps.DOUBLE_MINUS,
-				RegroupSteps.TRIVIAL_FRACTIONS,
-				RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
-				RegroupSteps.COMMON_FRACTION,
-				RegroupSteps.SIMPLIFY_FRACTIONS,
-				RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
-				RegroupSteps.MULTIPLY_NEGATIVES,
-				RegroupSteps.REGROUP_SUMS,
-				RegroupSteps.REGROUP_PRODUCTS,
-				RegroupSteps.POWER_OF_NEGATIVE
-		};
-
-		return implementGroup(sn, null, weakStrategy, sb, new RegroupTracker());
+	public static StepNode decimalExpand(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		return ExpandSteps.DECIMAL_EXPAND.apply(sn, sb, tracker);
 	}
 
+	public static StepNode decimalExpand(StepNode sn, SolutionBuilder sb) {
+		return decimalExpand(sn, sb, new RegroupTracker());
+	}
+
+	public static StepNode defaultExpand(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		return ExpandSteps.DEFAULT_EXPAND.apply(sn, sb, tracker);
+	}
 
 	public static StepNode defaultExpand(StepNode sn, SolutionBuilder sb) {
-		SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
-				RegroupSteps.DEFAULT_REGROUP,
-				ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
-				ExpandSteps.EXPAND_POWERS,
-				ExpandSteps.EXPAND_PRODUCTS
-		};
-
-		return implementGroup(sn, null, expandStrategy, sb, new RegroupTracker().setStrongExpand(true));
-	}
-
-	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker, boolean withRegroup) {
-		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
-				FactorSteps.FACTOR_COMMON,
-				FactorSteps.FACTOR_INTEGER,
-				FactorSteps.FACTOR_BINOM_STRATEGY,
-				FactorSteps.FACTOR_BINOM_CUBED,
-				FactorSteps.FACTOR_USING_FORMULA,
-				FactorSteps.FACTOR_POLYNOMIALS
-		};
-
-		StepNode result = sn;
-		String old, current = null;
-
-		do {
-			result = implementStrategy(result, sb, defaultStrategy, tracker);
-			if (withRegroup) {
-				result = weakRegroup(result, sb);
-			}
-
-			old = current;
-			current = result.toString();
-		} while (!current.equals(old));
-
-		return result;
+		return defaultExpand(sn, sb, new RegroupTracker());
 	}
 
 	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-		return defaultFactor(sn, sb, tracker, true);
+		return FactorSteps.DEFAULT_FACTOR.apply(sn, sb, tracker);
+	}
+
+	public static StepNode defaultFactor(StepNode sn, SolutionBuilder sb) {
+		return defaultFactor(sn, sb, new RegroupTracker());
 	}
 
 	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb) {

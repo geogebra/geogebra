@@ -209,6 +209,34 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 
 			return newSum;
 		}
+	},
+
+	DECIMAL_EXPAND {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.DECIMAL_REGROUP,
+					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
+					ExpandSteps.EXPAND_POWERS,
+					ExpandSteps.EXPAND_PRODUCTS
+			};
+
+			return StepStrategies.implementGroup(sn, null, expandStrategy, sb, tracker.setStrongExpand(true));
+		}
+	},
+
+	DEFAULT_EXPAND {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] expandStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.DEFAULT_REGROUP,
+					ExpandSteps.EXPAND_DIFFERENCE_OF_SQUARES,
+					ExpandSteps.EXPAND_POWERS,
+					ExpandSteps.EXPAND_PRODUCTS
+			};
+
+			return StepStrategies.implementGroup(sn, null, expandStrategy, sb, tracker.setStrongExpand(true));
+		}
 	};
 
 	public int type() {

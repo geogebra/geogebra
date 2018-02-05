@@ -194,6 +194,12 @@ public class SolveStepTest {
 
 	}
 
+	// @Test
+	public void decimalSolve() {
+		t("3.14x + 2.81", "1.41", "x", "-0.445859873");
+		t("sqrt(2) + 1/3 + 0.24454*x", "(3.14)/(2.1*x)", "x", "-7.918445442", "0.772183499");
+	}
+
 	public void t(String LHS, String RHS, String variable, String... expectedSolutions) {
 		if (needsHeading) {
 			Throwable t = new Throwable();

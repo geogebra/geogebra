@@ -673,20 +673,20 @@ public abstract class StepExpression extends StepNode {
 				isOperation(Operation.MINUS) && ((StepOperation) this).getOperand(0).isFraction();
 	}
 
-	public boolean containsDecimals() {
+	public int maxDecimal() {
 		if (nonSpecialConstant() && !isInteger()) {
-			return true;
+			return Double.toString(getValue() - (long) getValue()).length() - 2;
 		}
 
 		if (this instanceof StepOperation) {
+			int max = 0;
 			for (StepExpression operand : (StepOperation) this) {
-				if (operand.containsDecimals()) {
-					return true;
-				}
+				max = Math.max(max, operand.maxDecimal());
 			}
+			return max;
 		}
 
-		return false;
+		return 0;
 	}
 
 	public boolean containsFractions() {
@@ -745,19 +745,26 @@ public abstract class StepExpression extends StepNode {
 		return this;
 	}
 
-	public StepExpression regroupOutput(SolutionBuilder sb) {
-		sb.add(SolutionStepType.SIMPLIFY, this);
+	public StepExpression adaptiveRegroup() {
+		return adaptiveRegroup(null);
+	}
 
-		if (containsDecimals() && containsFractions()) {
+	public StepExpression adaptiveRegroup(SolutionBuilder sb) {
+		if (maxDecimal() < 5 && containsFractions()) {
 			StepExpression temp = convertToFractions(sb);
 			return temp.regroup(sb);
 		}
 
-		if (containsDecimals()) {
+		if (maxDecimal() > 0) {
 			return numericRegroup(sb);
 		}
 
 		return regroup(sb);
+	}
+
+	public StepExpression regroupOutput(SolutionBuilder sb) {
+		sb.add(SolutionStepType.SIMPLIFY, this);
+		return adaptiveRegroup(sb);
 	}
 
 	/**

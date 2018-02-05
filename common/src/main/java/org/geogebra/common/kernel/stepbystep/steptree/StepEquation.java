@@ -51,6 +51,7 @@ public class StepEquation extends StepSolvable {
 		newEq.undefinedPoints = undefinedPoints == null ? null : undefinedPoints.deepCopy();
 		newEq.arbConstTracker = arbConstTracker;
 		newEq.swapped = swapped;
+		newEq.approximateSolution = approximateSolution;
 
 		return newEq;
 	}
@@ -130,7 +131,13 @@ public class StepEquation extends StepSolvable {
 
 		for (StepNode solution : solutions) {
 			if (solution instanceof StepExpression) {
-				String casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution + ")";
+				String casCommand;
+				if (approximateSolution != null && !approximateSolution) {
+					casCommand = "ApproximateSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution + ")";
+				} else {
+					casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution + ")";
+				}
+
 				String withAssumptions = StepHelper.getAssumptions(add((StepExpression) solution, add(LHS, RHS)),
 						casCommand);
 

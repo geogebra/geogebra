@@ -171,7 +171,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				StepExpression solution1 = divide(add(minus(b), root(discriminant, 2)), multiply(2, a));
 				StepExpression solution2 = divide(subtract(minus(b), root(discriminant, 2)), multiply(2, a));
 
-				return new StepSet(solution1.regroup(), solution2.regroup());
+				return new StepSet(solution1.adaptiveRegroup(), solution2.adaptiveRegroup());
 			}
 
 			return new StepSet();
