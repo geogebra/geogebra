@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import org.geogebra.common.awt.GBasicStroke;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
+import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
-import org.geogebra.common.awt.GLine2D;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 
@@ -19,7 +19,7 @@ import org.geogebra.common.factories.AwtFactory;
 public class BoundingBox {
 	private GRectangle2D rectangle;
 	private ArrayList<GEllipse2DDouble> handlers;
-	private ArrayList<GLine2D> cropHandlers;
+	private ArrayList<GGeneralPath> cropHandlers;
 	private int nrHandlers = 8;
 	private boolean isCropBox = false;
 	private boolean isImage = false;
@@ -34,7 +34,7 @@ public class BoundingBox {
 		setHandlers(new ArrayList<GEllipse2DDouble>());
 		if (isImage) {
 			this.isImage = isImage;
-			setCropHandlers(new ArrayList<GLine2D>());
+			setCropHandlers(new ArrayList<GGeneralPath>());
 		}
 	}
 
@@ -89,7 +89,7 @@ public class BoundingBox {
 	/**
 	 * @return crop handlers
 	 */
-	public ArrayList<GLine2D> getCropHandlers() {
+	public ArrayList<GGeneralPath> getCropHandlers() {
 		return cropHandlers;
 	}
 
@@ -97,7 +97,7 @@ public class BoundingBox {
 	 * @param cropHandlers
 	 *            list of crop handlers
 	 */
-	public void setCropHandlers(ArrayList<GLine2D> cropHandlers) {
+	public void setCropHandlers(ArrayList<GGeneralPath> cropHandlers) {
 		this.cropHandlers = cropHandlers;
 	}
 
@@ -125,20 +125,64 @@ public class BoundingBox {
 		}
 		handlers.clear();
 		cropHandlers.clear();
-		
-
 		// init handler list
 		for (int i = 0; i < /* = */nrHandlers; i++) {
 			GEllipse2DDouble handler = AwtFactory.getPrototype()
 					.newEllipse2DDouble();
 			handlers.add(handler);
-			GLine2D cropHandler = AwtFactory.getPrototype().newLine2D();
+			GGeneralPath cropHandler = AwtFactory.getPrototype()
+					.newGeneralPath();
 			cropHandlers.add(cropHandler);
 		}
-		
 		createBoundingBoxHandlers();
+		createCropHandlers();
 	}
 
+	private void createCropHandlers() {
+		if (nrHandlers == 8) {
+			// corner crop handlers
+			cropHandlers.get(0).moveTo(rectangle.getX(), rectangle.getY() + 10);
+			cropHandlers.get(0).lineTo(rectangle.getX(), rectangle.getY());
+			cropHandlers.get(0).lineTo(rectangle.getX() + 10, rectangle.getY());
+			cropHandlers.get(1).moveTo(rectangle.getX(),
+					rectangle.getMaxY() - 10);
+			cropHandlers.get(1).lineTo(rectangle.getX(), rectangle.getMaxY());
+			cropHandlers.get(1).lineTo(rectangle.getX() + 10,
+					rectangle.getMaxY());
+			cropHandlers.get(2).moveTo(rectangle.getMaxX() - 10,
+					rectangle.getMaxY());
+			cropHandlers.get(2).lineTo(rectangle.getMaxX(),
+					rectangle.getMaxY());
+			cropHandlers.get(2).lineTo(rectangle.getMaxX(),
+					rectangle.getMaxY() - 10);
+			cropHandlers.get(3).moveTo(rectangle.getMaxX(),
+					rectangle.getY() + 10);
+			cropHandlers.get(3).lineTo(rectangle.getMaxX(), rectangle.getY());
+			cropHandlers.get(3).lineTo(rectangle.getMaxX() - 10,
+					rectangle.getY());
+			// side handlers
+			cropHandlers.get(4).moveTo(
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2 - 5,
+					rectangle.getMinY());
+			cropHandlers.get(4).lineTo(
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 5,
+					rectangle.getMinY());
+			cropHandlers.get(5).moveTo(rectangle.getMinX(),
+					(rectangle.getMinY() + rectangle.getMaxY()) / 2 - 5);
+			cropHandlers.get(5).lineTo(rectangle.getMinX(),
+					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 5);
+			cropHandlers.get(6).moveTo(
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2 - 5,
+					rectangle.getMaxY());
+			cropHandlers.get(6).lineTo(
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 5,
+					rectangle.getMaxY());
+			cropHandlers.get(7).moveTo(rectangle.getMaxX(),
+					(rectangle.getMinY() + rectangle.getMaxY()) / 2 - 5);
+			cropHandlers.get(7).lineTo(rectangle.getMaxX(),
+					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 5);
+		}
+	}
 
 	private void createBoundingBoxHandlers() {
 		if (nrHandlers == 8) {
@@ -220,6 +264,15 @@ public class BoundingBox {
 						GBasicStroke.CAP_BUTT, GBasicStroke.JOIN_MITER));
 				g2.setColor(GColor.GEOGEBRA_GRAY);
 				g2.draw(handlers.get(i));
+			}
+		}
+		if (cropHandlers != null && !cropHandlers.isEmpty() && isCropBox) {
+				g2.setPaint(GColor.BLACK);
+				g2.setColor(GColor.BLACK);
+				g2.setStroke(AwtFactory.getPrototype().newBasicStroke(4.0f,
+					GBasicStroke.CAP_SQUARE, GBasicStroke.CAP_SQUARE));
+			for (int i = 0; i < nrHandlers; i++) {
+				g2.draw(cropHandlers.get(i));
 			}
 		}
 
