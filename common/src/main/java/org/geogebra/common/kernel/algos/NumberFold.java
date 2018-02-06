@@ -24,15 +24,15 @@ public class NumberFold implements FoldComputer {
 	@Override
 	public void add(GeoElement p, Operation op) {
 		if (op == Operation.MULTIPLY) {
-			x *= ((GeoNumberValue) p).getDouble();
+			x *= p.evaluateDouble();
 		} else {
-			x += ((GeoNumberValue) p).getDouble();
+			x += p.evaluateDouble();
 		}
 	}
 
 	@Override
 	public void setFrom(GeoElement geoElement, Kernel kernel) {
-		x = ((GeoNumberValue) geoElement).getDouble();
+		x = geoElement.evaluateDouble();
 	}
 
 	@Override
