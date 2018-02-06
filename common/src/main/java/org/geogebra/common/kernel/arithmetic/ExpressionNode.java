@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import org.geogebra.common.cas.giac.CASgiac.CustomFunctions;
+import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.export.MathmlTemplate;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -3356,10 +3357,11 @@ public class ExpressionNode extends ValidExpression
 		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
 			if (tpl.hasCASType() && right instanceof MyList) {
-				sb.append(leftStr);
-				sb.append("[");
+
 
 				if (((MyList) right).size() > 1) {
+					sb.append(leftStr);
+					sb.append("[");
 					ListValue list = (ListValue) right;
 					for (int i = 0; i < list.size(); i++) {
 						if (i != 0) {
@@ -3368,14 +3370,14 @@ public class ExpressionNode extends ValidExpression
 						sb.append("(");
 						sb.append(list.getListElement(i).toString(tpl));
 						sb.append(")-1");
+						sb.append("]");
 					}
 				} else {
-
-					sb.append("(");
-					sb.append(rightStr);
-					sb.append(")-1");
+					sb.append(Ggb2giac.ELEMENT_2.replace("_", "\\_")
+							.replace("%0", leftStr)
+							.replace("%1", rightStr));
 				}
-				sb.append("]");
+
 				break;
 			}
 
