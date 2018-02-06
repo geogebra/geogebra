@@ -49,7 +49,7 @@ public class MacroKernel extends Kernel {
 		cons = macroCons;
 
 		// does 3D as parentKernel
-		setManager3D(getParentKernel().newManager3D(this));
+		setManager3D(getSuperParentKernel().newManager3D(this));
 	}
 
 	@Override
@@ -58,10 +58,26 @@ public class MacroKernel extends Kernel {
 	}
 
 	/**
-	 * @return kernel for construction using this macro
+	 * @return kernel for construction using this macro (might return
+	 *         MacroKernel)
 	 */
 	public Kernel getParentKernel() {
 		return parentKernel;
+	}
+
+	/**
+	 * @return root kernel for construction using this macro will return either
+	 *         a "Kernel" or "Kernel3D" object
+	 */
+	public Kernel getSuperParentKernel() {
+
+		Kernel k = parentKernel;
+
+		while (k instanceof MacroKernel) {
+			k = ((MacroKernel) k).getParentKernel();
+		}
+
+		return k;
 	}
 
 	// public boolean isUseTempVariablePrefix() {
