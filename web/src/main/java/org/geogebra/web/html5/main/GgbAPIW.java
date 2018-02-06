@@ -32,6 +32,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
+import org.geogebra.web.html5.util.GifShotExporter;
 import org.geogebra.web.html5.util.ImageManagerW;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.resources.JavaScriptInjector;
@@ -1281,6 +1282,14 @@ public class GgbAPIW extends GgbAPI {
 			return pdf;
 		}
 		return null;
+	}
+
+	public String exportGIF(String sliderLabel, double timeBetweenFrames,
+			boolean isLoop, String filename) {
+		return GifShotExporter.export(kernel.getApplication(),
+				(int) timeBetweenFrames,
+				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename);
+
 	}
 
 }

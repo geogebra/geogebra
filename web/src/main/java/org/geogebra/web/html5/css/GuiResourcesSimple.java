@@ -237,4 +237,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/scss/reset.scss")
 	SassResource reset();
+
+	@Source("org/geogebra/web/resources/js/gifshot.image.min.js")
+	TextResource gifShotJs();
 }

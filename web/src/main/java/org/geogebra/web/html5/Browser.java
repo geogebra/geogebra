@@ -321,6 +321,10 @@ public class Browser {
 			extension = "image/svg+xml";
 			header = @org.geogebra.common.util.StringUtil::svgMarker;
 		} else if (startsWith(url,
+				@org.geogebra.common.util.StringUtil::gifMarker)) {
+			extension = "image/gif";
+			header = @org.geogebra.common.util.StringUtil::gifMarker;
+		} else if (startsWith(url,
 				@org.geogebra.common.util.StringUtil::pdfMarker)) {
 			extension = "application/pdf";
 			header = @org.geogebra.common.util.StringUtil::pdfMarker;
