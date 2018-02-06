@@ -827,8 +827,7 @@ public abstract class GlobalKeyDispatcher {
 					(app.getActiveEuclidianView()).getEuclidianController()
 							.zoomInOut(false,
 									key.equals(KeyCodes.MINUS)
-											|| key.equals(KeyCodes.SUBTRACT),
-									null);
+											|| key.equals(KeyCodes.SUBTRACT));
 					app.setUnsaved();
 					consumed = true;
 				}

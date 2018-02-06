@@ -39,8 +39,6 @@ public abstract class CoordSystemAnimation {
 
 	private boolean storeUndo;
 
-	private CoordSystemListener listener;
-
 	private boolean setStandard = false;
 	private double standardX, standardY;
 
@@ -214,9 +212,7 @@ public abstract class CoordSystemAnimation {
 		if (storeUndo) {
 			view.getApplication().storeUndoInfo();
 		}
-		if (getListener() != null) {
-			getListener().onCoordSystemChanged();
-		}
+		view.getEuclidianController().notifyCoordSystemListeners();
 	}
 
 	/**
@@ -236,15 +232,11 @@ public abstract class CoordSystemAnimation {
 
 	/**
 	 * Starts the animation
-	 * 
-	 * @param withListener
-	 *            animation listener
 	 */
-	public synchronized void startAnimation(CoordSystemListener withListener) {
+	public synchronized void startAnimation() {
 		if (!hasTimer()) {
 			return;
 		}
-		this.listener = withListener;
 		switch (mode) {
 		case AXES:
 			add = (newScale - oldScale) / steps;
@@ -270,9 +262,7 @@ public abstract class CoordSystemAnimation {
 
 		startTime = System.currentTimeMillis();
 		startTimer();
-		if (getListener() != null) {
-			getListener().onCoordSystemChanged();
-		}
+		view.getEuclidianController().notifyCoordSystemListeners();
 	}
 
 	/** stop timer */
@@ -283,13 +273,6 @@ public abstract class CoordSystemAnimation {
 
 	/** @return true if timer is defined */
 	protected abstract boolean hasTimer();
-
-	/**
-	 * @return current listener
-	 */
-	public CoordSystemListener getListener() {
-		return listener;
-	}
 
 	/**
 	 * @return true if there is a standard (i.e. no) zoom.

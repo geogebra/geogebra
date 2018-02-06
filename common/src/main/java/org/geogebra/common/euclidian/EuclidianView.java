@@ -5302,7 +5302,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			zoomer = newZoomer();
 		}
 		zoomer.init(px, py, zoomFactor, steps, storeUndo);
-		zoomer.startAnimation(getEuclidianController().getZoomerListener());
+		zoomer.startAnimation();
 
 	}
 
@@ -5327,8 +5327,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			axesRatioZoomer = newZoomer();
 		}
 		axesRatioZoomer.init(newRatio, storeUndo);
-		axesRatioZoomer
-				.startAnimation(getEuclidianController().getZoomerListener());
+		axesRatioZoomer.startAnimation();
 	}
 
 	/**
@@ -5392,8 +5391,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			}
 			axesRatioZoomer.init(1, false);
 			axesRatioZoomer.setStandardViewAfter(xzero, yzero);
-			axesRatioZoomer.startAnimation(
-					getEuclidianController().getZoomerListener());
+			axesRatioZoomer.startAnimation();
 		} else {
 			setAnimatedCoordSystem(xzero, yzero, STANDARD_VIEW_STEPS, false);
 		}
@@ -5458,7 +5456,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				mover = newZoomer();
 			}
 			mover.init(ox, oy, storeUndo);
-			mover.startAnimation(getEuclidianController().getZoomerListener());
+			mover.startAnimation();
 		}
 	}
 
@@ -5473,7 +5471,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			zoomerRW = newZoomer();
 		}
 		zoomerRW.initRW(xmin, xmax, ymin, ymax, steps, storeUndo);
-		zoomerRW.startAnimation(getEuclidianController().getZoomerListener());
+		zoomerRW.startAnimation();
 	}
 
 	// for use in AlgebraController

@@ -382,7 +382,7 @@ public abstract class EuclidianController {
 
 	protected double newZero, newScale;
 	private boolean objectMenuActive;
-	private CoordSystemListener zoomerListener = null;
+	private List<CoordSystemListener> zoomerListeners = new LinkedList<>();
 	private MyModeChangedListener modeChangeListener = null;
 
 	private SelectionToolPressResult lastSelectionToolPressResult = SelectionToolPressResult.DEFAULT;
@@ -8225,6 +8225,7 @@ public abstract class EuclidianController {
 				 */
 				view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
 						mouseLoc.y - startLoc.y, MOVE_VIEW);
+				app.getSpecialPointsManager().updateSelection();
 			}
 			break;
 
@@ -10548,9 +10549,7 @@ public abstract class EuclidianController {
 					return;
 				}
 			}
-			if (this.zoomerListener != null) {
-				this.zoomerListener.onCoordSystemChanged();
-			}
+			notifyCoordSystemListeners();
 		} else {
 			movedGeoElement = null;
 			// no hits: release mouse button creates a point
@@ -11302,7 +11301,7 @@ public abstract class EuclidianController {
 		}
 	}
 
-	public void zoomInOut(boolean altPressed, boolean minusPressed, CoordSystemListener listener) {
+	public void zoomInOut(boolean altPressed, boolean minusPressed) {
 		double factor = minusPressed
 				? 1d / EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR
 				: EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR;
@@ -11315,9 +11314,7 @@ public abstract class EuclidianController {
 			factor *= minusPressed ? 2d / 3d : 1.5;
 		}
 
-		this.setZoomerListener(listener);
 		zoomInOut(factor, 15);
-
 	}
 
 	public void zoomInOut(double factor, int steps) {
@@ -12405,18 +12402,22 @@ public abstract class EuclidianController {
 		this.objectMenuActive = objectMenuActive;
 	}
 
-	public CoordSystemListener getZoomerListener() {
-		return zoomerListener;
+	public void notifyCoordSystemListeners() {
+		for (CoordSystemListener listener: zoomerListeners) {
+			listener.onCoordSystemChanged();
+		}
 	}
 
-	public void setZoomerListener(CoordSystemListener zoomerListener) {
-		this.zoomerListener = zoomerListener;
+	public void addZoomerListener(CoordSystemListener zoomerListener) {
+		zoomerListeners.add(zoomerListener);
+	}
+
+	public void removeZoomerListener(CoordSystemListener zoomerListener) {
+		zoomerListeners.remove(zoomerListener);
 	}
 
 	public void onCoordSystemChanged() {
-		if (zoomerListener != null) {
-			zoomerListener.onCoordSystemChanged();
-		}
+		notifyCoordSystemListeners();
 	}
 
 	public MyModeChangedListener getModeChangeListener() {
