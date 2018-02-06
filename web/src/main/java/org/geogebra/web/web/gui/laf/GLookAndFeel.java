@@ -6,6 +6,7 @@ import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.common.util.lang.Language;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianControllerW;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
@@ -215,7 +216,10 @@ public class GLookAndFeel implements GLookAndFeelI{
 			Cookies.setCookie("GeoGebraLangUI", s, exp, "geogebra.org", "/",
 					false);
 		}
-		Cookies.setCookie("lang_ui", s, exp, "geogebra.org", "/", false);
+		Cookies.setCookie("lang_ui",
+				Language.getClosestGWTSupportedLanguage(s).getLocaleGWT(), exp,
+				"geogebra.org",
+				"/", false);
 	}
 
 	@Override

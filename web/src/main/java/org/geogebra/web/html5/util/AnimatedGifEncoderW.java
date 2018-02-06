@@ -46,7 +46,7 @@ public class AnimatedGifEncoderW {
 		jsLoaded = false;
 		this.frameDelay = frameDelay;
 		this.filename = filename;
-		gifs = new ArrayList<String>();
+		gifs = new ArrayList<>();
 		initialize();
 	}
 

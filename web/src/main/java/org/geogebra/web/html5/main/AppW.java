@@ -558,7 +558,7 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public void setLanguage(final String browserLang) {
 		final String lang = Language
-				.getClosestGWTSupportedLanguage(browserLang);
+				.getClosestGWTSupportedLanguage(browserLang).localeGWT;
 		if (scriptCallback != null) {
 			scriptCallback.cancel();
 		}
@@ -569,7 +569,6 @@ public abstract class AppW extends App implements SetLabels {
 			return;
 		}
 		if (lang == null || "".equals(lang)) {
-
 			Log.warn("language being set to empty string");
 			setLanguage("en");
 			return;

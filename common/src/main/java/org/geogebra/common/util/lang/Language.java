@@ -20,7 +20,8 @@ public enum Language {
 
 	// need to be in Alphabetical order so they appear in the menu in the right
 	// order
-	// Afrikaans(null, false, "af","af", "Afrikaans", Country.SouthAfrica),
+	Afrikaans(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
+			false, "af", "af", "Afrikaans", Script.LATIN),
 
 	Albanian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"sq", "sq", "Albanian / Gjuha Shqipe", Script.LATIN),
@@ -61,13 +62,14 @@ public enum Language {
 			"Armenian / \u0540\u0561\u0575\u0565\u0580\u0565\u0576",
 			Script.ARMENIAN),
 
-	// Azerbaijani(null, null, false, "az", "az", "Azerbaijani",
-	// Country.Azerbaijan),
-
+	Azerbaijani(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
+			false, "az", "az", "Azerbaijani", Script.LATIN),
 	Basque(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "eu", "eu", "eu",
 			"Basque / Euskara", Script.LATIN),
-
+	Bengali(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
+			Unicode.CURRENCY_EURO + "", null, true, "bn", "bn",
+			"Basque / Euskara", Script.LATIN),
 	Bosnian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bs", "bs",
 			"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438",
@@ -125,7 +127,8 @@ public enum Language {
 			Unicode.CURRENCY_DOLLAR + "", null, true, "enAU", "en_AU", "en",
 			"English (Australia)", Script.LATIN),
 
-	// Esperanto(null, false, "eo","eo", "Esperanto", "esperanto"),
+	Esperanto(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
+			false, "eo", "eo", "Esperanto", Script.LATIN),
 
 	Estonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "et", "et",
@@ -190,18 +193,27 @@ public enum Language {
 			Unicode.CURRENCY_EURO + "", null, true, "it", "it",
 			"Italian / Italiano", Script.LATIN),
 
-	// Irish(null, false, "ga", "ga", "Irish / Gaeilge", Country.Ireland),
+	// Irish(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
+	// false,
+	// "ga",
+	// "ga", "Irish / Gaeilge", Script.LATIN),
 
 	Japanese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_YEN + "", "\uff9d", true, "ja", "ja",
 			"Japanese / \u65E5\u672C\u8A9E", Script.JAPANESE),
 
-	// Kannada("\u1103", false, "kn","kn", "Kannada", Country.India),
+	Kannada(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u1103",
+			false, "kn", "kn", "Kannada", Script.KANNADA),
 
 	Kazakh(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"kk", "kk",
 			"Kazakh / \u049A\u0430\u0437\u0430\u049B \u0442\u0456\u043B\u0456",
 			Script.CYRILLIC),
+
+	Khmer(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"km", "km",
+			"Khmer",
+			Script.LATIN),
 
 	Korean(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_WON + "", "\u1103", true, "ko", "ko",
@@ -218,16 +230,21 @@ public enum Language {
 	Malay(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"ms", "ms", "Malay / Bahasa Malaysia", Script.LATIN),
 
-	// Malayalam("\u0D2E", false, "ml","ml",
-	// "Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02", Country.India),
+	Malayalam(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, "\u0D2E",
+			false,
+			"ml", "ml",
+			"Malayalam / \u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02",
+			Script.MALAYALAM),
 
 	Macedonian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "mk", "mk",
 			"Macedonian / \u041C\u0430\u043A\u0435\u0434\u043E\u043D\u0441\u043A\u0438 \u0458\u0430\u0437\u0438\u043A",
 			Script.CYRILLIC),
 
-	// Marathi("\u092e", false, "mr","mr",
-	// "Marathi / \u092E\u0930\u093E\u0920\u0940", Country.India),
+	Marathi(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, "\u092e", null,
+			false,
+			"mr", "mr", "Marathi / \u092E\u0930\u093E\u0920\u0940",
+			Script.DEVANGARI),
 
 	Mongolian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_TUGHRIK + "", null, true, "mn", "mn",
@@ -309,7 +326,9 @@ public enum Language {
 			Unicode.CURRENCY_RUPEE + "", "\u0be7", true, "ta", "ta",
 			"Tamil / \u0BA4\u0BAE\u0BBF\u0BB4\u0BCD", Script.TAMIL),
 
-	// Tajik(null, false, "tg","tg", "Tajik", Country.Tajikistan),
+	Tajik(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, false,
+			"tg",
+			"tg", "Tajik", Script.LATIN),
 
 	// Telugu("\u0C24", false, "te","te",
 	// "Telugu / \u0C24\u0C46\u0C32\u0C41\u0C17\u0C41", Country.India),
@@ -329,6 +348,9 @@ public enum Language {
 
 	Uyghur(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
 			"ug", "ug", "Uyghur", Script.ARABIC),
+
+	Uzbek(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null, true,
+			"uz", "uz", "Uzbek", Script.CYRILLIC),
 
 	Vietnamese(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_DONG + "", null, true, "vi", "vi",
@@ -446,10 +468,10 @@ public enum Language {
 		return "a";
 	}
 
-	final public static String getClosestGWTSupportedLanguage(
+	final public static Language getClosestGWTSupportedLanguage(
 			String browserLangCode) {
 		String normalizedLanguage = (browserLangCode + "")
-				.toLowerCase(Locale.US).replace("-", "_");
+				.toLowerCase(Locale.US).replace("_", "-");
 
 		if ("he".equals(normalizedLanguage)) {
 			normalizedLanguage = "iw";
@@ -468,7 +490,7 @@ public enum Language {
 		// browserLangCode example: en-US, en-GB, pt-BR, pt-pt, and de-DE
 		for (Language lang : Language.values()) {
 			if (lang.localeGWT.equalsIgnoreCase(normalizedLanguage)) {
-				return lang.localeGWT;
+				return lang;
 			}
 		}
 		// look for mother language in the hierarchy ie. the first two
@@ -476,11 +498,10 @@ public enum Language {
 		for (Language lang : Language.values()) {
 			if (lang.localeGWT
 					.equalsIgnoreCase(normalizedLanguage.substring(0, 2))) {
-				return lang.localeGWT;
+				return lang;
 			}
-
 		}
-		return "en";
+		return Language.English_US;
 
 	}
 
@@ -513,5 +534,13 @@ public enum Language {
 		default:
 			return true;
 		}
+	}
+
+	public String getLocaleGWT() {
+		// TODO Auto-generated method stub
+		String lang = this.localeISO6391.replace("nl_BE", "nl");
+		return lang.equals("nb") || lang.equals("nn")
+				|| this.locale.length() < 3 ? lang
+				: lang + "-" + this.locale.substring(2);
 	}
 }
