@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
@@ -37,6 +38,13 @@ public class CmdExportImage extends CmdScripting {
 		if (MyDouble.isOdd(n)) {
 			throw argNumErr(c);
 		}
+
+		// time between frames (ms) for animated GIF
+		int time = 200;
+		// slider name for animated GIF
+		String sliderName = null;
+		// for animated GIF
+		boolean loop = true;
 
 		int dpi = -1;
 		// pixels
@@ -82,14 +90,24 @@ public class CmdExportImage extends CmdScripting {
 				case "pdf":
 					type = ExportType.PDF_HTML5;
 					break;
+				case "gif":
+					type = ExportType.ANIMATED_GIF;
+					break;
 				}
 
 				break;
 			case "dpi":
 				dpi = (int) value.evaluateDouble();
 				break;
+			case "time":
+				time = (int) value.evaluateDouble();
+				break;
 			case "transparent":
 				transparent = "true".equals(
+						value.toValueString(StringTemplate.defaultTemplate));
+				break;
+			case "loop":
+				loop = "true".equals(
 						value.toValueString(StringTemplate.defaultTemplate));
 				break;
 			case "width":
@@ -106,6 +124,14 @@ public class CmdExportImage extends CmdScripting {
 				break;
 			case "scalecm":
 				scaleCM = value.evaluateDouble();
+				break;
+			case "slider":
+				if (value instanceof GeoNumeric) {
+					sliderName = ((GeoNumeric) value).getLabelSimple();
+				} else {
+					sliderName = value
+							.toValueString(StringTemplate.defaultTemplate);
+				}
 				break;
 			case "filename":
 				filename = value.toValueString(StringTemplate.defaultTemplate);
@@ -221,6 +247,11 @@ public class CmdExportImage extends CmdScripting {
 				kernel.getApplication().handleImageExport(pdf);
 			}
 
+			break;
+
+		case ANIMATED_GIF:
+			api.exportGIF(sliderName, time, loop,
+					filename == null ? "anim.gif" : filename);
 			break;
 		}
 
