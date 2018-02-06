@@ -1245,6 +1245,7 @@ public class GgbAPIW extends GgbAPI {
 	 * 
 	 * @return current construction as SVG
 	 */
+	@Override
 	final public String exportSVG(String filename) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
@@ -1268,6 +1269,7 @@ public class GgbAPIW extends GgbAPI {
 	 * Experimental GGB-2150
 	 * 
 	 */
+	@Override
 	final public String exportPDF(double scale, String filename) {
 		EuclidianView ev = app.getActiveEuclidianView();
 
@@ -1284,11 +1286,14 @@ public class GgbAPIW extends GgbAPI {
 		return null;
 	}
 
-	public String exportGIF(String sliderLabel, double timeBetweenFrames,
+	@Override
+	public String exportGIF(String sliderLabel, double scale,
+			double timeBetweenFrames,
 			boolean isLoop, String filename) {
 		return GifShotExporter.export(kernel.getApplication(),
 				(int) timeBetweenFrames,
-				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename);
+				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
+				scale);
 
 	}
 

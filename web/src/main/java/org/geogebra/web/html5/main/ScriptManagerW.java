@@ -860,8 +860,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPNGBase64(DZDZ)(exportScale, !!transparent, dpi, !!copyToClipboard);
 		}
 		
-		api.exportGIF = function(sliderLabel, timeBetweenFrames, isLoop, filename) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportGIF(Ljava/lang/String;DZLjava/lang/String;)(sliderLabel, timeBetweenFrames | 500, !!isLoop, filename);
+		api.exportGIF = function(sliderLabel, scale, timeBetweenFrames, isLoop, filename) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportGIF(Ljava/lang/String;DDZLjava/lang/String;)(sliderLabel, scale, timeBetweenFrames | 500, !!isLoop, filename);
 		}
 
 		api.getFileJSON = function(thumbnail) {

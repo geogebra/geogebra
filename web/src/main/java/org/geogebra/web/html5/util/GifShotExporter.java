@@ -10,7 +10,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 public class GifShotExporter {
 
 	public static String export(App app, int timeBetweenFrames, GeoNumeric slider,
-			boolean isLoop, String filename) {
+			boolean isLoop, String filename, double scale) {
 
 		app.getKernel().getAnimatonManager().stopAnimation();
 
@@ -73,8 +73,8 @@ public class GifShotExporter {
 				gifEncoder.addFrame(url);
 			}
 
-			public void finish() {
-				result = gifEncoder.finish();
+			public void finish(int width, int height) {
+				result = gifEncoder.finish(width, height);
 			}
 			
 			public String getResult() {
@@ -85,7 +85,8 @@ public class GifShotExporter {
 		app.setWaitCursor();
 
 		try {
-			exportAnimatedGIF(app, collector, slider, n, val, min, max, step);
+			exportAnimatedGIF(app, collector, slider, n, val, min, max, step,
+					scale);
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
 			ex.printStackTrace();
@@ -98,8 +99,9 @@ public class GifShotExporter {
 
 	public static void exportAnimatedGIF(App app, FrameCollectorW gifEncoder,
 			GeoNumeric num, int n, double val, double min, double max,
-			double step) {
+			double step, double scale) {
 		Log.debug("exporting animation");
+		EuclidianViewW ev = ((EuclidianViewW) app.getActiveEuclidianView());
 		for (int i = 0; i < n; i++) {
 
 			// avoid values like 14.399999999999968
@@ -107,8 +109,7 @@ public class GifShotExporter {
 			num.setValue(val);
 			num.updateRepaint();
 
-			String url = ((EuclidianViewW) app.getActiveEuclidianView())
-					.getExportImageDataUrl(1, false);
+			String url = ev.getExportImageDataUrl(scale, false);
 			if (url == null) {
 				Log.error("image null");
 			} else {
@@ -122,7 +123,11 @@ public class GifShotExporter {
 			}
 
 		}
-		gifEncoder.finish();
+
+		int width = (int) Math.round(ev.getExportWidth() * scale);
+		int height = (int) Math.round(ev.getExportHeight() * scale);
+
+		gifEncoder.finish(width, height);
 	}
 
 }

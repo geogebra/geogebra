@@ -61,25 +61,27 @@ public class AnimatedGifEncoderW {
 	/**
 	 * Finishes the internal gif object and starts rendering.
 	 */
-	public String finish() {
+	public String finish(int width, int height) {
 		finished = true;
 		if (!jsLoaded) {
 			return "";
 		}
 
 		JavaScriptObject urls = createJsArrayString(gifs);
-		return finish(urls, filename);
+		return finish(urls, filename, width, height);
 	}
 
 	private static native String finish(JavaScriptObject urls,
-			String filename) /*-{
+			String filename, double width, double height) /*-{
 
 		//console.log(urls);
 
 		$wnd.gifshot
 				.createGIF(
 						{
-							'images' : urls
+							'images' : urls,
+							'gifWidth' : width,
+							'gifHeight' : height
 						},
 						function(obj) {
 							if (!obj.error) {
@@ -97,24 +99,10 @@ public class AnimatedGifEncoderW {
 	}-*/;
 
 	public void initialize() {
-		finished = false;
-		// GWT.runAsync(new RunAsyncCallback() {
-		// public void onSuccess() {
-		Log.debug("gifshot.image.min.js loading success");
+		Log.debug("gifshot.image.min.js loading");
 				JavaScriptInjector
 						.inject(GuiResourcesSimple.INSTANCE.gifShotJs());
 				AnimatedGifEncoderW.this.jsLoaded = true;
-				if (finished) {
-					JavaScriptObject urls = createJsArrayString(gifs);
-					finish(urls, filename);
-
-				}
-		// }
-
-		// public void onFailure(Throwable reason) {
-		// Log.debug("gifsot.image.min.js loading failure");
-		// }
-		// });
 		gifs.clear();
 	}
 

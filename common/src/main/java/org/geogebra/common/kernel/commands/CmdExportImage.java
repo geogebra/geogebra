@@ -250,7 +250,7 @@ public class CmdExportImage extends CmdScripting {
 			break;
 
 		case ANIMATED_GIF:
-			api.exportGIF(sliderName, time, loop,
+			api.exportGIF(sliderName, exportScale, time, loop,
 					filename == null ? "anim.gif" : filename);
 			break;
 		}
