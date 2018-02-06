@@ -3,6 +3,7 @@ package org.geogebra.common.main;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.geogebra.common.euclidian.CoordSystemListener;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.kernel.ConstructionDefaults;
 import org.geogebra.common.kernel.Kernel;
@@ -24,7 +25,8 @@ import org.geogebra.common.plugin.EventType;
  * Special point manager.
  *
  */
-public class SpecialPointsManager implements UpdateSelection, EventListener {
+public class SpecialPointsManager implements UpdateSelection, EventListener, CoordSystemListener {
+
 	private Kernel kernel;
 	private List<GeoElement> specPoints;
 	/** Special points for preview points */
@@ -36,8 +38,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 	 */
 	public SpecialPointsManager(Kernel kernel) {
 		this.kernel = kernel;
-		kernel.getApplication().getSelectionManager().addListener(this);
-		kernel.getApplication().getEventDispatcher().addEventListener(this);
+		App app = kernel.getApplication();
+		app.getSelectionManager().addListener(this);
+		app.getEventDispatcher().addEventListener(this);
+		app.getActiveEuclidianView().getEuclidianController().addZoomerListener(this);
 	}
 
 	private List<GeoElement> getSpecPoints(GeoElement geo0,
@@ -189,5 +193,10 @@ public class SpecialPointsManager implements UpdateSelection, EventListener {
 
 	public void reset() {
 		// not needed
+	}
+
+	@Override
+	public void onCoordSystemChanged() {
+		updateSpecialPoints(null);
 	}
 }

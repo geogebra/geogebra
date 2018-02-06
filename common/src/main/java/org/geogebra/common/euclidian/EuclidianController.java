@@ -8225,7 +8225,6 @@ public abstract class EuclidianController {
 				 */
 				view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
 						mouseLoc.y - startLoc.y, MOVE_VIEW);
-				app.getSpecialPointsManager().updateSelection();
 			}
 			break;
 
