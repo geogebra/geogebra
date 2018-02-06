@@ -8479,7 +8479,7 @@ public abstract class EuclidianController {
 		} else {
 			// choose out of hits
 			// testing needed - see GGB-1982
-			geo = chooseGeo(topHits, false);
+			geo = chooseGeo(topHits, true);
 
 			if (selGeos.contains(geo)) {
 				if (app.has(Feature.SELECT_TOOL_NEW_BEHAVIOUR) && mode == EuclidianConstants.MODE_SELECT) {
