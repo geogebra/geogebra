@@ -120,22 +120,26 @@ public class BoundingBox {
 		if (handlers == null) {
 			handlers = new ArrayList<>();
 		}
-		if (cropHandlers == null) {
-			cropHandlers = new ArrayList<>();
-		}
 		handlers.clear();
-		cropHandlers.clear();
-		// init handler list
+		// init bounding box handler list
 		for (int i = 0; i < /* = */nrHandlers; i++) {
 			GEllipse2DDouble handler = AwtFactory.getPrototype()
 					.newEllipse2DDouble();
 			handlers.add(handler);
-			GGeneralPath cropHandler = AwtFactory.getPrototype()
-					.newGeneralPath();
-			cropHandlers.add(cropHandler);
 		}
 		createBoundingBoxHandlers();
-		createCropHandlers();
+		if (isImage) {
+			if (cropHandlers == null) {
+				cropHandlers = new ArrayList<>();
+			}
+			cropHandlers.clear();
+			for (int i = 0; i < /* = */nrHandlers; i++) {
+				GGeneralPath cropHandler = AwtFactory.getPrototype()
+						.newGeneralPath();
+				cropHandlers.add(cropHandler);
+			}
+			createCropHandlers();
+		}
 	}
 
 	private void createCropHandlers() {
