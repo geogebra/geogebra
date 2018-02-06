@@ -362,7 +362,7 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
-		dragCtrl.drag(event.getClientX(), event.getClientY());
+		dragCtrl.move(event.getClientX(), event.getClientY());
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
@@ -377,7 +377,7 @@ public class PageListController implements PageListControllerInterface,
 
 	public void onTouchMove(TouchMoveEvent event) {
 		Touch t = event.getTargetTouches().get(0);
-		dragCtrl.drag(t.getClientX(), t.getClientY());
+		dragCtrl.move(t.getClientX(), t.getClientY());
 	}
 
 	public void onTouchEnd(TouchEndEvent event) {
