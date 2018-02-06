@@ -64,6 +64,13 @@ public class LaTeXView extends View {
         }
     };
 
+    private Runnable mRequestLayout = new Runnable() {
+        @Override
+        public void run() {
+            requestLayout();
+        }
+    };
+
     public LaTeXView(Context context) {
         super(context);
         mScreenDensity = context.getResources().getDisplayMetrics().density;
@@ -301,7 +308,7 @@ public class LaTeXView extends View {
                     getPaddingRight()
             ));
             invalidateView();
-            requestLayout();
+            requestViewLayout();
         }
     }
 
@@ -310,6 +317,14 @@ public class LaTeXView extends View {
             postInvalidate();
         } else {
             invalidate();
+        }
+    }
+
+    private void requestViewLayout() {
+        if (SETUP_ON_BACKGROUND) {
+            post(mRequestLayout);
+        } else {
+            mRequestLayout.run();
         }
     }
 
