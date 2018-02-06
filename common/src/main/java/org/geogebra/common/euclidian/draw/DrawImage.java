@@ -30,7 +30,9 @@ import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
 import org.geogebra.common.euclidian.Drawable;
+import org.geogebra.common.euclidian.EuclidianBoundingBoxHandler;
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -432,4 +434,32 @@ public final class DrawImage extends Drawable {
 		return boundingBox;
 	}
 
+	@Override
+	public void updateByBoundingBoxResize(AbstractEvent e,
+			EuclidianBoundingBoxHandler handler) {
+		if (!geo.getKernel().getApplication()
+				.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
+			return;
+		}
+		updateImage(e, handler);
+	}
+
+	private void updateImage(AbstractEvent event,
+			EuclidianBoundingBoxHandler handler) {
+		int eventX = event.getX();
+		// int eventY = event.getY();
+		// GeoPoint A = geoImage.getCorner(0);
+		GeoPoint B = geoImage.getCorner(1);
+		switch (handler) {
+		case TOP_RIGHT:
+			B.setX(view.toRealWorldCoordX(eventX));
+			B.updateCoords();
+			B.updateRepaint();
+			break;
+
+		default:
+			break;
+		}
+		update();
+	}
 }

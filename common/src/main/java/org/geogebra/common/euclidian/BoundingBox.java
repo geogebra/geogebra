@@ -336,7 +336,7 @@ public class BoundingBox {
 	 * @param x
 	 *            - x coord of hit
 	 * @param y
-	 *            - y coord og hit
+	 *            - y coord of hit
 	 * @param hitThreshold
 	 *            - threshold
 	 * @return true if hits any side of boundingBox

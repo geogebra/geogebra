@@ -272,9 +272,12 @@ public enum Feature {
 	/** IGR-655 */
 	MOB_IOS_APP_INIT_3D,
 
-	/** MOW-360 */
+	/** MOW-360, MOW-381, MOW-382 */
 	MOW_CROP_IMAGE,
 	
+	/** MOW-379, MOW-380 */
+	MOW_IMAGE_BOUNDING_BOX,
+
 	/** MOW-336 */
 	MOW_DRAG_AND_DROP_PAGES,
 
