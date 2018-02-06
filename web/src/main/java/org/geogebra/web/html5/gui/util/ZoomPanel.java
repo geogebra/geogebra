@@ -68,7 +68,7 @@ public class ZoomPanel extends FlowPanel
 	public ZoomPanel(EuclidianView view) {
 		this.view = view;
 		this.app = (AppW) view.getApplication();
-		view.getEuclidianController().setZoomerListener(this);
+		view.getEuclidianController().addZoomerListener(this);
 		setStyleName("zoomPanel");
 		if (app.isWhiteboardActive()) {
 			if (app.has(Feature.MOW_MULTI_PAGE)) {
@@ -339,14 +339,12 @@ public class ZoomPanel extends FlowPanel
 
 	/** Zoom In button handler. */
 	protected void onZoomInPressed() {
-		getEuclidianView().getEuclidianController().zoomInOut(false, false,
-				this);
+		getEuclidianView().getEuclidianController().zoomInOut(false, false);
 	}
 
 	/** Zoom Out button handler. */
 	protected void onZoomOutPressed() {
-		getEuclidianView().getEuclidianController().zoomInOut(false, true,
-				this);
+		getEuclidianView().getEuclidianController().zoomInOut(false, true);
 	}
 
 	/** Full screen button handler. */
