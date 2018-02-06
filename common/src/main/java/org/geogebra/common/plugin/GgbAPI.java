@@ -2263,4 +2263,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		return null;
 	}
 
+	public String exportGIF(String sliderLabel, double timeBetweenFrames,
+			boolean isLoop, String filename) {
+		return "";
+	}
+
 }
