@@ -45,15 +45,67 @@ public class PageListController implements PageListControllerInterface,
 	/**
 	 * list of slides (pages)
 	 */
-	private ArrayList<PagePreviewCard> slides;
+	ArrayList<PagePreviewCard> slides;
 	private PagePreviewCard selectedCard;
-	private int dragIndex = -1;
-	private PagePreviewCard lastDragTarget;
-	private PagePreviewCard dragCard;
+
+	private DragInfo drag = new DragInfo();
 	private CardListInterface listener;
-	private boolean dragAnim;
 	private int startSpaceIdx;
 
+	private class DragInfo {
+		PagePreviewCard card = null;
+		PagePreviewCard lastTarget = null;
+
+		DragInfo() {
+			reset();
+		}
+
+		private void reset() {
+			card = null;
+			lastTarget = null;
+		}
+
+		void setIndex(int idx) {
+			if (idx >= 0 && idx < getSlideCount()) {
+				card = slides.get(idx);
+				card.addStyleName("dragged");
+			} else {
+				reset();
+			}
+		}
+
+		int index() {
+			return isValid() ? card.getPageIndex() : -1;
+		}
+
+		int dropToIndex() {
+			return lastTarget != null ? lastTarget.getPageIndex() : -1;
+		}
+
+		void setPosition(int x, int y) {
+			card.setDragPosition(x, y);
+		}
+
+		public void cancel() {
+			CancelEventTimer.resetDrag();
+			if (isValid()) {
+				card.removeStyleName("dragged");
+			}
+			reset();
+		}
+
+		public boolean getDirection(int y) {
+			return card.getDragDirection(y);
+		}
+
+		boolean isAnimated() {
+			return app.has(Feature.MOW_DRAG_AND_DROP_ANIMATION);
+		}
+
+		boolean isValid() {
+			return card != null;
+		}
+	}
 
 	/**
 	 * @param app
@@ -65,7 +117,6 @@ public class PageListController implements PageListControllerInterface,
 		this.app = app;
 		slides = new ArrayList<>();
 		this.listener = listener;
-		dragAnim = app.has(Feature.MOW_DRAG_AND_DROP_ANIMATION);
 	}
 
 	/**
@@ -312,28 +363,14 @@ public class PageListController implements PageListControllerInterface,
 	private int cardIndexAt(int x, int y) {
 		int result = -1;
 		for (PagePreviewCard card: slides) {
-			if (card.getPageIndex() != dragIndex && card.isHit(x, y)) {
+			if ((!drag.isValid() || card != drag.card)
+					&& card.isHit(x, y)) {
 				result = card.getPageIndex();
 			}
 		}
 		return result;
 	}
 	
-	private boolean dropCard() {
-		int destIdx = lastDragTarget != null ? lastDragTarget.getPageIndex()
-				: -1;
-		if (dragIndex != -1 && destIdx != -1) {
-			Log.debug("drag: " + dragIndex  + " drop to " + destIdx);
-
-			reorder(dragIndex, destIdx);
-			dragIndex = -1;
-			clearSpaces();
-			return true;
-		} 
-		clearDrag();
-		return false;
-	}
-
 	/**
 	 * Add style to a given card, removes from all other ones.
 	 * 
@@ -393,31 +430,28 @@ public class PageListController implements PageListControllerInterface,
 		card.removeStyleName("spaceAfterAnimated");
 	}
 	private void startDrag(int x, int y) {
-		dragIndex = cardIndexAt(x, y);
-		startSpaceIdx = -1;
-		if (dragIndex != -1) {
-			dragCard = slides.get(dragIndex);
-			dragCard.addStyleName("dragged");
-			if (dragIndex < getSlideCount() - 1) {
-				startSpaceIdx = dragIndex + 1;
-				slides.get(startSpaceIdx).addStyleName("spaceBeforeAnimated");
+		drag.setIndex(cardIndexAt(x, y));
 
+		if (drag.isValid() && drag.isAnimated()) {
+			if (drag.index() < getSlideCount() - 1) {
+				startSpaceIdx = drag.index() + 1;
+				slides.get(startSpaceIdx).addStyleName("spaceBeforeAnimated");
 			}
 		}
 	}
 
 	private int doDrag(int y) {
-		if (dragCard == null) {
+		if (!drag.isValid()) {
 			return -1;
 		}
 
-		boolean down = dragCard.getDragDirection(y);
+		boolean down = drag.getDirection(y);
 
-		dragCard.setDragPosition(0, y);
+		drag.setPosition(0, y);
 
 		int idx = cardIndexAt(
-				dragCard.getAbsoluteLeft() + dragCard.getOffsetWidth() / 2,
-				down ? dragCard.getBottom() : dragCard.getAbsoluteTop());
+				drag.card.getAbsoluteLeft() + drag.card.getOffsetWidth() / 2,
+				down ? drag.card.getBottom() : drag.card.getAbsoluteTop());
 		if (idx == -1) {
 			return -1;
 		}
@@ -429,20 +463,20 @@ public class PageListController implements PageListControllerInterface,
 
 		int targetIdx = target.getPageIndex();
 
-		boolean bellowMiddle = target.isBellowMiddle(dragCard.getAbsoluteTop());
+		boolean bellowMiddle = target
+				.isBellowMiddle(drag.card.getAbsoluteTop());
 
-		if (dragAnim) {
+		if (drag.isAnimated()) {
 			int treshold = target.getOffsetHeight() / 5;
 			Log.debug("[DND] target is " + targetIdx);
 
 			if (down) {
-
 				dragDown(target, treshold);
 			} else {
 				dragUp(target, treshold);
 			}
 		}
-		lastDragTarget = target;
+		drag.lastTarget = target;
 		return bellowMiddle ? targetIdx + 1 : targetIdx;
 	}
 
@@ -455,7 +489,8 @@ public class PageListController implements PageListControllerInterface,
 		}
 
 		Log.debug("[DND] dragDown");
-		boolean hit = target.getAbsoluteTop() - dragCard.getBottom() < treshold;
+		boolean hit = target.getAbsoluteTop()
+				- drag.card.getBottom() < treshold;
 		if (hit) {
 			addSpaceAfter(target);
 		} else {
@@ -468,7 +503,7 @@ public class PageListController implements PageListControllerInterface,
 		PagePreviewCard afterCard = afterIdx < getSlideCount()
 				? slides.get(afterIdx)
 				: null;
-		int diff = dragCard.getAbsoluteTop() - target.getAbsoluteTop();
+		int diff = drag.card.getAbsoluteTop() - target.getAbsoluteTop();
 		if (diff < treshold) {
 			Log.debug("[DND] hit");
 			addSpaceBefore(target);
@@ -500,7 +535,7 @@ public class PageListController implements PageListControllerInterface,
 			startDrag(x, y);
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = doDrag(y);
-			if (targetIdx != -1 && !dragAnim) {
+			if (targetIdx != -1 && !drag.isAnimated()) {
 				listener.insertDivider(targetIdx);
 			}
 		}
@@ -514,16 +549,31 @@ public class PageListController implements PageListControllerInterface,
 		} else {
 			loadPageAt(x, y);
 		}
-		clearDrag();
+		cancelDrag();
 	}
 
-	private void clearDrag() {
-		CancelEventTimer.resetDrag();
-		if (dragCard != null) {
-			dragCard.removeStyleName("dragged");
+	private boolean dropCard() {
+		if (!drag.isValid()) {
+			return false;
 		}
+
+		int srcIdx = drag.index();
+		int destIdx = drag.dropToIndex();
+
+		if (srcIdx != -1 && destIdx != -1) {
+			Log.debug("drag: " + srcIdx + " drop to " + destIdx);
+
+			reorder(srcIdx, destIdx);
+			return true;
+		}
+		return false;
+	}
+
+	private void cancelDrag() {
+		CancelEventTimer.resetDrag();
+		drag.cancel();
+		clearSpaces();
 		listener.removeDivider();
-		dragCard = null;
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
