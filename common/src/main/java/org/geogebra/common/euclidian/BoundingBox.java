@@ -120,7 +120,7 @@ public class BoundingBox {
 		if (handlers == null) {
 			handlers = new ArrayList<>();
 		}
-		if (isImage && cropHandlers == null) {
+		if (cropHandlers == null) {
 			cropHandlers = new ArrayList<>();
 		}
 		handlers.clear();
