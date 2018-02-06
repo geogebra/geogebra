@@ -430,6 +430,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		CursorController.firstField(editorState);
 		double dist = Integer.MAX_VALUE;
 		MathSequence closestComponent = null;
+		int closestOffset = -1;
 		do  {
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
@@ -441,10 +442,12 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			if (currentDist < dist) {
 				dist = currentDist;
 				closestComponent = editorState.getCurrentField();
+				closestOffset = editorState.getCurrentOffset();
 			}
 		} while (CursorController.nextCharacter(editorState));
 		if (closestComponent != null) {
 			editorState.setCurrentField(closestComponent);
+			editorState.setCurrentOffset(closestOffset);
 
 			ArrayList<Integer> list2 = new ArrayList<Integer>();
 			mathFieldController.getSelectedPath(mathFormula, list2,
@@ -470,11 +473,13 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		MathComponent cursor = editorState.getCursorField(
 				editorState.getSelectionEnd() == null || selectionLeft(x));
 		MathSequence current = editorState.getCurrentField();
+		int offset = editorState.getCurrentOffset();
 		moveToSelection(x, y);
 
 		editorState.resetSelection();
 		editorState.extendSelection(selectionLeft(x));
 		editorState.setCurrentField(current);
+		editorState.setCurrentOffset(offset);
 		editorState.extendSelection(cursor);
 
 
