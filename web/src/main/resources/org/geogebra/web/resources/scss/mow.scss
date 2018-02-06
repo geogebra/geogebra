@@ -669,6 +669,7 @@
 			border: 2px solid transparent;
 			border-bottom: none;
 			box-sizing: border-box;
+			border-radius: 2px 2px 0 0 ;
 			background-repeat: no-repeat;
 			background-position: center;
 			background-size: 110%;
@@ -710,7 +711,7 @@
 		}
 	}
 		.mowPagePreviewCard.selected {
-			box-shadow: $shadow-elevation-8;
+			box-shadow: $shadow-elevation-2;
 			
 			.mowImagePanel {
 				border: 2px solid $mow_highlight;
