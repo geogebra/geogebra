@@ -160,7 +160,7 @@ public class PagePreviewCard extends FlowPanel
 	public void updatePreviewImage() {
 		imagePanel.clear();
 		setPreviewImage(((EuclidianViewWInterface) app.getActiveEuclidianView())
-				.getExportImageDataUrl(0.2, false));
+				.getExportImageDataUrl(0.5, false));
 	}
 
 	/*

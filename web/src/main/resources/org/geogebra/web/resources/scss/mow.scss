@@ -665,7 +665,7 @@
 				
 		.mowImagePanel {
 			width: 100%;
-			height: calc(220px * 9/16);
+			height: 124px; /* 220px*9/16 */
 			border: 2px solid transparent;
 			border-bottom: none;
 			box-sizing: border-box;
