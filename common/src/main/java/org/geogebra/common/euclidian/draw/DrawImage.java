@@ -448,7 +448,7 @@ public final class DrawImage extends Drawable {
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
 		// int eventY = event.getY();
-		// GeoPoint A = geoImage.getCorner(0);
+		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
 		switch (handler) {
 		case TOP_RIGHT:
@@ -456,7 +456,11 @@ public final class DrawImage extends Drawable {
 			B.updateCoords();
 			B.updateRepaint();
 			break;
-
+		case TOP_LEFT:
+			A.setX(view.toRealWorldCoordX(eventX));
+			A.updateCoords();
+			A.updateRepaint();
+			break;
 		default:
 			break;
 		}
