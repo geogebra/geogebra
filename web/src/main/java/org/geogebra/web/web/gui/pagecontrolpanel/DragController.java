@@ -28,12 +28,14 @@ class DragController {
 
 	private class DragCard {
 		PagePreviewCard card = null;
+		PagePreviewCard target = null;
 		PagePreviewCard lastTarget = null;
 		DragCard() {
 			reset();
 		}
 		private void reset() {
 			card = null;
+			target = null;
 			lastTarget = null;
 		}
 
@@ -55,9 +57,21 @@ class DragController {
 		}
 
 		void setPosition(int x, int y) {
+			boolean down = getDirection(y);
 			card.setDragPosition(x, y);
+			findTarget(down);
 		}
 
+		private void findTarget(boolean down) {
+			int x = card.getAbsoluteLeft() + dragged.card.getOffsetWidth() / 2;
+			int y = isAnimated() ? (down ? card.getBottom() : card.getAbsoluteTop())
+						: card.getMiddle();
+			
+			int idx = cardIndexAt(x, y);
+			
+			target = idx != -1 ? cards.cardAt(idx): null;
+
+		}
 		public void cancel() {
 			CancelEventTimer.resetDrag();
 			if (isValid()) {
@@ -118,34 +132,24 @@ class DragController {
 
 		dragged.setPosition(0, y);
 
-		int idx = cardIndexAt(
-				dragged.card.getAbsoluteLeft() + dragged.card.getOffsetWidth() / 2,
-				down ? dragged.card.getBottom() : dragged.card.getAbsoluteTop());
-		if (idx == -1) {
+		if (dragged.target == null) {
 			return -1;
 		}
 
-		PagePreviewCard target = cards.cardAt(idx);
-		if (target == null) {
-			return -1;
-		}
+		int targetIdx = dragged.target.getPageIndex();
 
-		int targetIdx = target.getPageIndex();
-
-		boolean bellowMiddle = target
-				.isBellowMiddle(dragged.card.getAbsoluteTop());
+		boolean bellowMiddle = dragged.target.getMiddle() < dragged.card.getAbsoluteTop();
 
 		if (dragged.isAnimated()) {
-			int treshold = target.getOffsetHeight() / 5;
+			int treshold = dragged.target.getOffsetHeight() / 5;
 			Log.debug("[DND] target is " + targetIdx);
-
 			if (down) {
-				dragDown(target, treshold);
+				dragDown(dragged.target, treshold);
 			} else {
-				dragUp(target, treshold);
+				dragUp(dragged.target, treshold);
 			}
 		}
-		dragged.lastTarget = target;
+		dragged.lastTarget = dragged.target;
 		return bellowMiddle ? targetIdx + 1 : targetIdx;
 	}
 
@@ -233,7 +237,7 @@ class DragController {
 	}
 	
 	private int cardIndexAt(int x, int y) {
-		int result = -1;
+		int result =  - 1;
 		for (PagePreviewCard card: cards.getCards()) {
 			if ((!dragged.isValid() || card != dragged.card)
 					&& card.isHit(x, y)) {

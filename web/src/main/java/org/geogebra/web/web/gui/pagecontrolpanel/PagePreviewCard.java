@@ -270,9 +270,6 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	public void setDragPosition(int x, int y) {
 		int top = getTopFromDrag(y);
-
-		int left = getAbsoluteLeft() + 10;
-		getElement().getStyle().setTop(left, Unit.PX);
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
 	
@@ -325,26 +322,10 @@ public class PagePreviewCard extends FlowPanel
 
 	/**
 	 * 
-	 * @param y
-	 *            to check.
-	 * @return true if y is greater than the card middle.
+	 * @return the middle line of the card vertically
 	 */
-	public boolean isBellowMiddle(int y) {
-		return y > getAbsoluteTop() + getOffsetHeight() / 2;
-	}
-
-	/**
-	 * Set position of the card as absolute.
-	 */
-	public void setAbsolutePosition() {
-		getElement().getStyle().setPosition(Position.ABSOLUTE);
-	}
-
-	/**
-	 * Clears position css property.
-	 */
-	public void clearPosition() {
-		getElement().getStyle().clearPosition();
+	public int getMiddle() {
+		return getAbsoluteTop() + getOffsetHeight() / 2;
 	}
 
 }
