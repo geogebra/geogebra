@@ -375,9 +375,6 @@ public enum Language {
 		this.currency = currency == null ? "$" : currency;
 		this.locale = locale;
 		this.localeGWT = localeGWT;
-		if (localeGWT.length() == 5) {
-			Log.error(localeGWT + " " + localeISO6391);
-		}
 		this.name = name;
 		this.localeISO6391 = localeISO6391;
 		this.scriptISO15924 = scriptISO15924;
