@@ -244,6 +244,12 @@ class DragController {
 				result = card.getPageIndex();
 			}
 		}
+		if (result == -1) {
+			int lastIdx = cards.getCardCount() - 1;
+			if (cards.cardAt(lastIdx).getBottom() < y) {
+				result = lastIdx;
+			}
+		}
 		return result;
 	}
 
