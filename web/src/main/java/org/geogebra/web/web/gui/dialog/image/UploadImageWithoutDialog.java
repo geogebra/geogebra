@@ -1,7 +1,7 @@
 package org.geogebra.web.web.gui.dialog.image;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
-import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 
 /**
@@ -24,8 +24,6 @@ public class UploadImageWithoutDialog {
 	}
 
 	private void initGUI() {
-		app.getGuiManager().setMode(EuclidianConstants.MODE_MOVE,
-				ModeSetter.TOOLBAR);
 		uploadImagePanel = new UploadImagePanel(this);
 		uploadImagePanel.openFileBrowserDirectly();
 	}
@@ -37,5 +35,16 @@ public class UploadImageWithoutDialog {
 		String data = uploadImagePanel.getImageDataURL();
 		String name = uploadImagePanel.getFileName();
 		app.imageDropHappened(name, data, "");
+	}
+
+	/**
+	 * sets move mode after image mode was cancelled
+	 */
+	public void setMoveMode() {
+		if (!(app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED)
+				&& app.getMode() == EuclidianConstants.MODE_IMAGE)) {
+			return;
+		}
+		app.setMode(EuclidianConstants.MODE_MOVE);
 	}
 }

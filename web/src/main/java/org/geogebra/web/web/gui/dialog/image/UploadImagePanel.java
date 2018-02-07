@@ -97,7 +97,19 @@ public class UploadImagePanel extends VerticalPanel {
 				reader.readAsDataURL(fileToHandle);
 			}
 		}
+		// check if focus comes back from file browser (needed if file browser was canceled) 
+		$wnd.onfocus = function() {
+			panel.@org.geogebra.web.web.gui.dialog.image.UploadImagePanel::setMoveMode()();
+		}
+		// onfocus not working in firefox
+		$wnd.onmouseover = function() {
+			panel.@org.geogebra.web.web.gui.dialog.image.UploadImagePanel::setMoveMode()();
+		}
 	}-*/;
+
+	private void setMoveMode() {
+		uploadImageWithoutDialog.setMoveMode();
+	}
 
 	private void fileSelected(String fData, String fName) {
 		this.fileData = fData;

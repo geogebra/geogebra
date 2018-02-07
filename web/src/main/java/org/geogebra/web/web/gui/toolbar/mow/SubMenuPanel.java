@@ -266,6 +266,10 @@ public abstract class SubMenuPanel extends FlowPanel
 	public void onClick(Widget source) {
 		int pos = scrollPanel.getHorizontalScrollPosition();
 		int mode = Integer.parseInt(source.getElement().getAttribute("mode"));
+		if (mode == EuclidianConstants.MODE_IMAGE) {
+			// set css before file picker
+			setMode(mode);
+		}
 		app.setMode(mode);
 		scrollPanel.setHorizontalScrollPosition(pos);
 		closeFloatingMenus();
