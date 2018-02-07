@@ -537,9 +537,8 @@ public enum Language {
 	}
 
 	public String getLocaleGWT() {
-		// TODO Auto-generated method stub
 		String lang = this.localeISO6391.replace("nl_BE", "nl");
-		return lang.equals("nb") || lang.equals("nn")
+		return "nb".equals(lang) || "nn".equals(lang)
 				|| this.locale.length() < 3 ? lang
 				: lang + "-" + this.locale.substring(2);
 	}
