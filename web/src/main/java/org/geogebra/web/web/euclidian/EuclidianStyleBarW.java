@@ -570,7 +570,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 		if (app.isUnbundledOrWhiteboard()) {
 			if (app.has(Feature.MOW_CROP_IMAGE)
-					&& isImageGeoSelected()) {
+					&& isImageGeoSelected()
+					&& ev.getMode() != EuclidianConstants.MODE_SELECT) {
 				addCropButton();
 			}
 			addDeleteButton();
