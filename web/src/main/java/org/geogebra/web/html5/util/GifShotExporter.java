@@ -39,8 +39,9 @@ public class GifShotExporter {
 		case GeoElement.ANIMATION_OSCILLATING:
 			step = slider.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
-			if (Kernel.isZero(((max - min) / step * 2) - n))
+			if (Kernel.isZero(((max - min) / step * 2) - n)) {
 				n++;
+			}
 			if (n == 0) {
 				n = 1;
 			}
@@ -98,9 +99,11 @@ public class GifShotExporter {
 	}
 
 	public static void exportAnimatedGIF(App app, FrameCollectorW gifEncoder,
-			GeoNumeric num, int n, double val, double min, double max,
-			double step, double scale) {
+			GeoNumeric num, int n, double val0, double min, double max,
+			double step0, double scale) {
 		Log.debug("exporting animation");
+		double val = val0;
+		double step = step0;
 		EuclidianViewW ev = ((EuclidianViewW) app.getActiveEuclidianView());
 		for (int i = 0; i < n; i++) {
 

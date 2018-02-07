@@ -30,10 +30,9 @@ public class AnimatedGifEncoderW {
 
 	protected boolean jsLoaded;
 	private List<String> gifs;
-
 	protected boolean finished;
-
 	private String filename;
+	private boolean repeat;
 
 	/**
 	 * @param frameDelay
@@ -47,6 +46,7 @@ public class AnimatedGifEncoderW {
 		this.frameDelay = frameDelay;
 		this.filename = filename;
 		gifs = new ArrayList<>();
+		this.repeat = repeat;
 		initialize();
 	}
 
@@ -68,11 +68,11 @@ public class AnimatedGifEncoderW {
 		}
 
 		JavaScriptObject urls = createJsArrayString(gifs);
-		return finish(urls, filename, width, height);
+		return finish(urls, filename, width, height, repeat);
 	}
 
 	private static native String finish(JavaScriptObject urls,
-			String filename, double width, double height) /*-{
+			String filename, double width, double height, boolean repeat) /*-{
 
 		//console.log(urls);
 
@@ -100,9 +100,9 @@ public class AnimatedGifEncoderW {
 
 	public void initialize() {
 		Log.debug("gifshot.image.min.js loading");
-				JavaScriptInjector
-						.inject(GuiResourcesSimple.INSTANCE.gifShotJs());
-				AnimatedGifEncoderW.this.jsLoaded = true;
+		JavaScriptInjector
+				.inject(GuiResourcesSimple.INSTANCE.gifShotJs());
+		this.jsLoaded = true;
 		gifs.clear();
 	}
 
