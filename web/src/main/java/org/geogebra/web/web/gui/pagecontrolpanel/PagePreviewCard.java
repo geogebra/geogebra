@@ -321,9 +321,17 @@ public class PagePreviewCard extends FlowPanel
 
 	/**
 	 * 
+	 * @return the middle line of the card horizontally.
+	 */
+	public int getMiddleX() {
+		return getAbsoluteLeft() + getOffsetWidth() / 2;
+	}
+	
+	/**
+	 * 
 	 * @return the middle line of the card vertically
 	 */
-	public int getMiddle() {
+	public int getMiddleY() {
 		return getAbsoluteTop() + getOffsetHeight() / 2;
 	}
 

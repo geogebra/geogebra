@@ -777,33 +777,23 @@
 			
 	}
 		
-	.mowPagePreviewCard.spaceBefore {
+	.mowPagePreviewCard.space {
 		margin-bottom: 0px;
 		margin-top: 180px;
 	}
 
-	.mowPagePreviewCard.spaceAfter {
-		margin-bottom: 180px;
-		margin-top: 0px;
-	}
-
-	.mowPagePreviewCard.spaceBeforeAnimated {
-		@extend .spaceBefore;
+	.mowPagePreviewCard.spaceAnimated {
+		@extend .space;
 		transition: $card-space-transition;
 	}
-
-	.mowPagePreviewCard.spaceAfterAnimated {
-		@extend .spaceAfter;
-		transition: $card-space-transition;
-	}
-
-	.mowPagePreviewCard.noSpaceBefore {
+	
+	.mowPagePreviewCard.noSpace {
 		margin-top: 0px;
 		margin-bottom: 0px;
 	}
 
-	.mowPagePreviewCard.noSpaceBeforeAnimated {
-		@extend .noSpaceBefore;
+	.mowPagePreviewCard.noSpaceAnimated {
+		@extend .noSpace;
 		transition: $card-space-transition;
 	}
 
