@@ -8,6 +8,7 @@ public class TestEvent extends AbstractEvent {
 
 	private int x;
 	private int y;
+	public String command;
 
 	public TestEvent(int i, int j) {
 		x = i;

@@ -7,12 +7,15 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.main.AppDNoGui;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.himamis.retex.editor.share.util.Unicode;
 
 @SuppressWarnings("javadoc")
 public class ControllerTest {
@@ -32,31 +35,51 @@ public class ControllerTest {
 	public void clear() {
 		events.clear();
 		reset();
-		app.getActiveEuclidianView().getSettings().setCoordSystem(0, 0, 50, 50,
-				false);
-		app.getActiveEuclidianView().getSettings()
-				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_OFF);
 	}
-	
+
+	private static void t(String s) {
+		TestEvent evt = new TestEvent(0, 0);
+		evt.command = s;
+		events.add(evt);
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand(s, false);
+	}
+
 	@After
 	public void repeatWithDrag() {
-		reset();
-		for (TestEvent evt : events) {
-			app.getActiveEuclidianView().getEuclidianController()
-					.wrapMouseMoved(evt);
-			app.getActiveEuclidianView().getEuclidianController()
-					.wrapMousePressed(evt);
-			app.getActiveEuclidianView().getEuclidianController()
-					.wrapMouseReleased(evt);
-		}
 		if (!events.isEmpty()) {
+			reset();
+			for (TestEvent evt : events) {
+				if (evt.command != null) {
+					app.getKernel().getAlgebraProcessor()
+							.processAlgebraCommand(evt.command, false);
+				} else {
+					ec.setLastMouseUpLoc(null);
+					app.getActiveEuclidianView().getEuclidianController()
+							.wrapMouseMoved(evt);
+					app.getActiveEuclidianView().getEuclidianController()
+							.wrapMousePressed(evt);
+					app.getActiveEuclidianView().getEuclidianController()
+							.wrapMouseReleased(evt);
+				}
+			}
+
 			checkContent(lastCheck);
 		}
 	}
 
-	private void reset() {
+	private static void reset() {
 		app.getKernel().clearConstruction(true);
 		app.getActiveEuclidianView().clearView();
+		app.getSettings().beginBatch();
+		app.getActiveEuclidianView().getSettings().reset();
+		app.getActiveEuclidianView().getSettings().setShowAxes(false, false);
+
+		app.getActiveEuclidianView().getSettings().setCoordSystem(0, 0, 50, 50,
+				true);
+		app.getActiveEuclidianView().getSettings()
+				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_OFF);
+		app.getSettings().endBatch();
+		Log.debug(app.getActiveEuclidianView().getXmin());
 		ec.setLastMouseUpLoc(null);
 	}
 
@@ -84,42 +107,80 @@ public class ControllerTest {
 
 	@Test
 	public void parallelTool() {
-		app.setMode(EuclidianConstants.MODE_PARALLEL); // TODO 3
+		app.setMode(EuclidianConstants.MODE_PARALLEL);
+		t("a:x=1");
+		click(100, 100);
+		click(50, 100);
+		checkContent("a: x = 1", "A = (2, -2)", "f: x = 2");
 	}
 
 	@Test
 	public void orthogonalTool() {
-		app.setMode(EuclidianConstants.MODE_ORTHOGONAL); // TODO 4
+		app.setMode(EuclidianConstants.MODE_ORTHOGONAL);
+		t("a:x=1");
+		click(100, 100);
+		click(50, 100);
+		checkContent("a: x = 1", "A = (2, -2)", "f: y = -2");
 	}
 
 	@Test
 	public void intersectTool() {
-		app.setMode(EuclidianConstants.DEFAULT_PEN_SIZE); // TODO 5
+		app.setMode(EuclidianConstants.MODE_INTERSECT);
+		t("a:x=1");
+		t("b:y=-1");
+		click(50, 50);
+		checkContent("a: x = 1", "b: y = -1", "A = (1, -1)");
 	}
 
 	@Test
 	public void deleteTool() {
-		app.setMode(EuclidianConstants.MODE_DELETE); // TODO 6
+		app.setMode(EuclidianConstants.MODE_DELETE);
+		t("a:x=1");
+		t("b:y=-1");
+		click(50, 50);
+		checkContent("a: x = 1");
+		ec.setLastMouseUpLoc(null);
+		click(50, 50);
+
+		checkContent();
+
 	}
 
 	@Test
 	public void vectorTool() {
-		app.setMode(EuclidianConstants.MODE_VECTOR); // TODO 7
+		app.setMode(EuclidianConstants.MODE_VECTOR);
+		click(0, 0);
+		click(100, 100);
+		checkContent("A = (0, 0)", "B = (2, -2)", "u = (2, -2)");
 	}
 
 	@Test
 	public void lineBisectorTool() {
-		app.setMode(EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH); // TODO 8
+		app.setMode(EuclidianConstants.MODE_LINE_BISECTOR); // TODO: on the fly?
+		t("A = (0, 0)");
+		t("B = (2, -2)");
+		click(0, 0);
+		click(100, 100);
+		checkContent("A = (0, 0)", "B = (2, -2)", "f: -x + y = -2");
 	}
 
 	@Test
 	public void angularBisectorTool() {
-		app.setMode(EuclidianConstants.MODE_ANGULAR_BISECTOR); // TODO 9
+		app.setMode(EuclidianConstants.MODE_ANGULAR_BISECTOR); // TODO: on the
+																// fly?
+		t("A = (0, 0)");
+		t("B = (0, -2)");
+		t("C = (2, -2)");
+		click(0, 0);
+		click(0, 100);
+		click(100, 100);
+		checkContent("A = (0, 0)", "B = (0, -2)", "C = (2, -2)",
+				"f: -0.70711x + 0.70711y = -1.41421");
 	}
 
 	@Test
 	public void circle2Tool() {
-		app.setMode(EuclidianConstants.MODE_CIRCLE_TWO_POINTS); // TODO 10
+		app.setMode(EuclidianConstants.MODE_CIRCLE_TWO_POINTS);
 		click(50, 50);
 		click(100, 100);
 		checkContent("A = (1, -1)", "B = (2, -2)",
@@ -128,7 +189,7 @@ public class ControllerTest {
 
 	@Test
 	public void circle3Tool() {
-		app.setMode(EuclidianConstants.MODE_CIRCLE_THREE_POINTS); // TODO 11
+		app.setMode(EuclidianConstants.MODE_CIRCLE_THREE_POINTS);
 		click(0, 0);
 		click(100, 100);
 		click(100, 0);
@@ -138,7 +199,7 @@ public class ControllerTest {
 
 	@Test
 	public void conic5Tool() {
-		app.setMode(EuclidianConstants.MODE_CONIC_FIVE_POINTS); // TODO 12
+		app.setMode(EuclidianConstants.MODE_CONIC_FIVE_POINTS);
 		click(50, 50);
 		click(100, 50);
 		click(50, 100);
@@ -151,7 +212,14 @@ public class ControllerTest {
 
 	@Test
 	public void tangentTool() {
-		app.setMode(EuclidianConstants.MODE_TANGENTS); // TODO 13
+		app.setMode(EuclidianConstants.MODE_TANGENTS);
+		t("c: x^2+y^2=25");
+		t("A=(3,-4)");
+		click(150, 200);
+		ec.setLastMouseUpLoc(null);
+		click(200, 150);
+		checkContent(CommandsTest.unicode("c: x^2 + y^2 = 25"), "A = (3, -4)",
+				"f: 3x - 4y = 25");
 	}
 
 	@Test
@@ -190,40 +258,68 @@ public class ControllerTest {
 		click(0, 0);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "f: 2x + 2y = 0");
-
 	}
 
 	@Test
 	public void midpointTool() {
-		app.setMode(EuclidianConstants.MODE_MIDPOINT); // TODO 19
+		app.setMode(EuclidianConstants.MODE_MIDPOINT);
+		click(0, 0);
+		click(100, 100);
+		String circle = "c: x^2 + y^2 = 25";
+		t(circle);
+		click(150, 200);
+		checkContent("A = (0, 0)", "B = (2, -2)", "C = (1, -1)",
+				CommandsTest.unicode(circle), "D = (0, 0)");
 	}
 
 	@Test
 	public void circleArc3Tool() {
-		app.setMode(EuclidianConstants.DEFAULT_ERASER_SIZE); // TODO 20
+		app.setMode(EuclidianConstants.DEFAULT_ERASER_SIZE);
+		click(100, 100);
+		click(100, 0);
+		click(0, 0);
+
+
+		checkContent("A = (2, -2)", "B = (2, 0)", "C = (0, 0)", "c = 1.5708");
 	}
 
 	@Test
 	public void circleSector3Tool() {
-		app.setMode(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS); // TODO
-																			// 21
+		app.setMode(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
+		click(0, 0);
+		click(100, 100);
+		click(150, 0);
+		checkContent("A = (0, 0)", "B = (2, -2)", "C = (3, 0)",
+				"c = 3.14159");
 	}
 
 	@Test
 	public void circumcircleArc3Tool() {
-		app.setMode(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS); // TODO
-																			// 22
+		app.setMode(EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS);
+		click(0, 0);
+		click(50, 50);
+		click(100, 0);
+		checkContent("A = (0, 0)", "B = (1, -1)", "C = (2, 0)",
+				"c = " + Unicode.pi);
 	}
 
 	@Test
 	public void circumcircleSector3Tool() {
-		app.setMode(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS); // TODO
-																				// 23
+		app.setMode(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+		click(0, 0);
+		click(100, 100);
+		click(200, 0);
+		checkContent("A = (0, 0)", "B = (2, -2)", "C = (4, 0)",
+				"c = 6.28319");
+
 	}
 
 	@Test
 	public void semicircleTool() {
-		app.setMode(EuclidianConstants.MODE_SEMICIRCLE); // TODO 24
+		app.setMode(EuclidianConstants.MODE_SEMICIRCLE);
+		click(100, 100);
+		click(100, 0);
+		checkContent("A = (2, -2)", "B = (2, 0)", "c = " + Unicode.pi);
 	}
 
 	@Test
@@ -248,12 +344,32 @@ public class ControllerTest {
 
 	@Test
 	public void mirrorAtPointTool() {
-		app.setMode(EuclidianConstants.MODE_MIRROR_AT_POINT); // TODO 29
+		app.setMode(EuclidianConstants.MODE_MIRROR_AT_POINT);
+		click(0, 0);
+		click(100, 100);
+		String circle = "c: x^2 + y^2 = 25";
+		t(circle);
+		click(150, 200);
+		click(100, 100);
+		checkContent("A = (0, 0)", "B = (2, -2)", "A' = (4, -4)",
+				CommandsTest.unicode(circle),
+				CommandsTest.unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
 	}
 
 	@Test
 	public void mirrorAtLineTool() {
-		app.setMode(EuclidianConstants.MODE_MIRROR_AT_LINE); // TODO 30
+		app.setMode(EuclidianConstants.MODE_MIRROR_AT_LINE);
+		String line = "f: x - y = 4";
+		t(line);
+		click(0, 0);
+		click(100, 100);
+		String circle = "c: x^2 + y^2 = 25";
+		t(circle);
+		click(150, 200);
+		click(100, 100);
+		checkContent(line, "A = (0, 0)", "A' = (4, -4)",
+				CommandsTest.unicode(circle),
+				CommandsTest.unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));
 	}
 
 	@Test
@@ -283,8 +399,14 @@ public class ControllerTest {
 
 	@Test
 	public void angleTool() {
-		app.setMode(EuclidianConstants.MODE_ANGLE); // TODO 36
+		app.setMode(EuclidianConstants.MODE_ANGLE);
+		click(100, 100);
+		click(0, 0);
+		click(150, 0);
+		checkContent("A = (2, -2)", "B = (0, 0)", "C = (3, 0)",
+				Unicode.alpha + " = 45" + Unicode.DEGREE_STRING);
 	}
+
 
 	@Test
 	public void vectorFromPointTool() {
@@ -304,16 +426,35 @@ public class ControllerTest {
 	@Test
 	public void translateViewTool() {
 		app.setMode(EuclidianConstants.MODE_TRANSLATEVIEW); // TODO 40
+		t("C:Corner[4]");
+		checkContent("C = (-0.02, 0.02)");
+		ec.setDraggingDelay(0);
+		ec.wrapMousePressed(new TestEvent(100, 100));
+		ec.wrapMouseDragged(new TestEvent(200, 100), false);
+		ec.wrapMouseReleased(new TestEvent(200, 100));
+		checkContent("C = (-2.02, 0.02)");
+		events.clear();
 	}
 
 	@Test
 	public void zoomInTool() {
-		app.setMode(EuclidianConstants.MODE_ZOOM_IN); // TODO 41
+		app.setMode(EuclidianConstants.MODE_ZOOM_IN);
+		t("C:Corner[4]");
+		checkContent("C = (-0.02, 0.02)");
+		click(400, 300);
+		checkContent("C = (2.65333, -1.98667)");
+		events.clear();
+
 	}
 
 	@Test
 	public void zoomOutTool() {
-		app.setMode(EuclidianConstants.MODE_ZOOM_OUT); // TODO 42
+		app.setMode(EuclidianConstants.MODE_ZOOM_OUT);
+		t("C:Corner[4]");
+		checkContent("C = (-0.02, 0.02)");
+		click(400, 300);
+		checkContent("C = (-4.03, 3.03)");
+		events.clear();
 	}
 
 	@Test
@@ -568,11 +709,12 @@ public class ControllerTest {
 	private static void checkContent(String... desc) {
 		lastCheck = desc;
 		int i = 0;
-		Assert.assertEquals(desc.length, app.getGgbApi().getObjectNumber());
 		for (String label : app.getGgbApi().getAllObjectNames()) {
 			Assert.assertEquals(desc[i], app.getKernel().lookupLabel(label)
 					.toString(StringTemplate.editTemplate));
 			i++;
 		}
+		Assert.assertEquals(desc.length, app.getGgbApi().getObjectNumber());
+
 	}
 }

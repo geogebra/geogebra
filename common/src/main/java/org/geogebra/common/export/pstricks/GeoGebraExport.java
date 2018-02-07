@@ -1606,9 +1606,6 @@ public abstract class GeoGebraExport {
 
 	protected static void renameFunc(StringBuilder sb, String nameFunc,
 			String nameNew) {
-
-		Log.debug(nameFunc + " " + nameNew);
-
 		int ind = sb.indexOf(nameFunc);
 		while (ind > -1) {
 			sb.replace(ind, ind + nameFunc.length(), nameNew);

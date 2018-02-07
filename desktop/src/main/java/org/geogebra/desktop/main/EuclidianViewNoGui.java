@@ -18,7 +18,6 @@ import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.awt.GGraphics2DD;
-import org.geogebra.desktop.euclidian.MyZoomerD;
 
 /** no GUI implementation of EV */
 public class EuclidianViewNoGui extends EuclidianView {
@@ -200,7 +199,28 @@ public class EuclidianViewNoGui extends EuclidianView {
 
 	@Override
 	protected CoordSystemAnimation newZoomer() {
-		return new MyZoomerD(this);
+		return new CoordSystemAnimation(this) {
+			private boolean running = false;
+
+			@Override
+			protected void stopTimer() {
+				running = false;
+			}
+
+			@Override
+			protected void startTimer() {
+				running = true;
+				while (running) {
+					step();
+				}
+
+			}
+
+			@Override
+			protected boolean hasTimer() {
+				return true;
+			}
+		};
 	}
 
 	@Override

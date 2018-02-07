@@ -140,7 +140,6 @@ import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -390,6 +389,7 @@ public abstract class EuclidianController {
 	private ArrayList<GeoElement> moveMultipleObjectsList;
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private Hits topHits;
+	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
 
 	/**
 	 * state for selection tool over press/release
@@ -7825,8 +7825,6 @@ public abstract class EuclidianController {
 				}
 				oldLoc.x = movedGeoButton.getAbsoluteScreenLocX();
 				oldLoc.y = movedGeoButton.getAbsoluteScreenLocY();
-				Log.debug(mouseLoc);
-				Log.debug(oldLoc);
 
 				// part of snap to grid code
 				setStartPointLocation(xRW - view.toRealWorldCoordX(oldLoc.x),
@@ -8602,7 +8600,7 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean shouldCancelDrag() {
-		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY
+		if (System.currentTimeMillis() < draggingDelay 
 				+ lastMousePressedTime) {
 			// we wait at least DRAGGING_DELAY (100ms) before starting drag
 			// used for interactive boards
@@ -10157,7 +10155,6 @@ public abstract class EuclidianController {
 		boolean newPointCreated = createNewPointND(hits, onPathPossible,
 				inRegionPossible, intersectPossible, doSingleHighlighting,
 				complexPoint);
-
 		GeoElement point = this.view.getHits().getFirstHit(Test.GEOPOINT);
 		if (point != null && !newPointCreated && this.selPoints() == 1
 				&& (this.mode == EuclidianConstants.MODE_JOIN
@@ -12451,5 +12448,9 @@ public abstract class EuclidianController {
 
 	public void setLastMouseUpLoc(GPoint lastMouseUpLoc) {
 		this.lastMouseUpLoc = lastMouseUpLoc;
+	}
+
+	public void setDraggingDelay(long i) {
+		this.draggingDelay = i;
 	}
 }
