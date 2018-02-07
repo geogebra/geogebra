@@ -93,14 +93,20 @@ class DragController {
 		}
 
 		void pushUp(int treshold) {
-			int diff = card.getAbsoluteTop() - target.getAbsoluteTop();
+			//int diff = card.getAbsoluteTop() - target.getAbsoluteTop();
+			int diff = card.getMiddle() - target.getMiddle();
 			if (diff < treshold) {
 				Log.debug("[DND] hit");
-				target.removeStyleName("spaceBeforeAnimated");
-				target.addStyleName("noSpaceBeforeAnimated");
+				addSpaceBefore(target);
 				int nextIdx = target.getPageIndex() + 1;
+				if (nextIdx == index()) {
+					// skip dragging card
+					nextIdx++;
+				}
 				if (nextIdx < cards.getCardCount()) {
-					addSpaceBefore(cards.cardAt(nextIdx));
+					PagePreviewCard next = cards.cardAt(nextIdx);
+					next.removeStyleName("spaceBeforeAnimated");
+					next.addStyleName("noSpaceBeforeAnimated");				
 				}
 			}
 		}
