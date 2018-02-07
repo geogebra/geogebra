@@ -29,20 +29,32 @@ public class CmdSolve extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c, EvalInfo info) {
 		GeoElement[] args = this.resArgs(c);
-		switch(args.length){
+		switch (args.length) {
 		case 1:
-			if (args[0].isGeoList() || args[0] instanceof EquationValue
-					|| args[0].isGeoFunction()) {
-				AlgoSolve solve = new AlgoSolve(cons, args[0], type);
-
-				if (info.isLabelOutput()) {
-					solve.getOutput(0).setLabel(c.getLabel());
-				}
-				return solve.getOutput();
+			return solve(args[0], null, c, info);
+		case 2:
+			if (type == Commands.Solve || type == Commands.Solutions) {
+				throw argNumErr(c);
 			}
-			throw argErr(args[0], c);
+			if (args[1] instanceof EquationValue) {
+				return solve(args[0], args[1], c, info);
+			}
 		}
 		throw argNumErr(c);
+	}
+
+	private GeoElement[] solve(GeoElement arg, GeoElement hint, Command c,
+			EvalInfo info) {
+		if (arg.isGeoList() || arg instanceof EquationValue
+				|| arg.isGeoFunction()) {
+			AlgoSolve solve = new AlgoSolve(cons, arg, hint, type);
+
+			if (info.isLabelOutput()) {
+				solve.getOutput(0).setLabel(c.getLabel());
+			}
+			return solve.getOutput();
+		}
+		throw argErr(arg, c);
 	}
 
 }

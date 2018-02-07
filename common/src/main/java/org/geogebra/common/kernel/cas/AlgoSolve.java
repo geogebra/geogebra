@@ -35,6 +35,7 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	private GeoElement equations;
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	private Commands type;
+	private GeoElement hint;
 
 	/**
 	 * @param c
@@ -44,10 +45,12 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	 * @param type
 	 *            whether to use Solve / NSolve / NSolutions / Solutions
 	 */
-	public AlgoSolve(Construction c, GeoElement eq, Commands type) {
+	public AlgoSolve(Construction c, GeoElement eq, GeoElement hint,
+			Commands type) {
 		super(c);
 		this.type = type;
 		this.equations = eq;
+		this.hint = hint;
 		this.solutions = new GeoList(cons);
 		setInputOutput();
 		compute();
@@ -56,7 +59,8 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 
 	@Override
 	protected void setInputOutput() {
-		input = equations.asArray();
+		input = hint == null ? equations.asArray()
+				: new GeoElement[] { equations, hint };
 		setOnlyOutput(solutions);
 		setDependencies();
 
@@ -79,6 +83,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 			sb.append("}");
 		} else {
 			trig = printCAS(equations, sb) || trig;
+		}
+		if (hint != null) {
+			sb.append(',');
+			printHint(sb);
 		}
 		sb.append("]");
 		try {
@@ -215,6 +223,18 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		return false;
 		
 
+	}
+
+	private void printHint(StringBuilder sb) {
+		String definition;
+		if (hint.getDefinition() != null) {
+			definition = hint.getDefinition()
+					.toValueString(StringTemplate.prefixedDefault);
+		} else {
+			definition = hint
+					.toValueString(StringTemplate.prefixedDefault);
+		}
+		sb.append(definition);
 	}
 
 	@Override
