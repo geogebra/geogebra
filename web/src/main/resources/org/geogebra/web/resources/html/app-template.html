@@ -344,7 +344,7 @@ fontactive: function(familyName, fvd) {},
 		return location.protocol.match(/(app|file:)/) || location.host.match(/^([0-9.]*|(autotest|deploy).*geogebra.org|localhost)(:.+)?$/);
 	}
 	function showStartScreen(codebase){
-		var lang = getURLparam("lang") || getCookie("lang_ui") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";
+		var lang = getURLparam("lang") || getCookie("GeoGebraLangUI") || getLocalStorage("GeoGebraLangUI") || navigator.language || "en";
 		window.setTimeout(showInEnglish, 1000);
 		switchLang(validLang(lang), codebase);
 	}

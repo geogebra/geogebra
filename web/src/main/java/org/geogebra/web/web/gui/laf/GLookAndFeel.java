@@ -215,11 +215,12 @@ public class GLookAndFeel implements GLookAndFeelI{
 		if (!app.has(Feature.WEB_LANGUAGE_COOKIE)) {
 			Cookies.setCookie("GeoGebraLangUI", s, exp, "geogebra.org", "/",
 					false);
-		}
-		Cookies.setCookie("lang_ui",
+		} else {
+			Cookies.setCookie("GeoGebraLangUI",
 				Language.getClosestGWTSupportedLanguage(s).getLocaleGWT(), exp,
 				"geogebra.org",
 				"/", false);
+		}
 	}
 
 	@Override
