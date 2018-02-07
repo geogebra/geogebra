@@ -657,10 +657,10 @@
 		border-radius: 2px;
    		background-color: $white;
    		box-shadow: $shadow-elevation-2;
+   		transition: box-shadow .25s;
 		
 		&:hover {
 			box-shadow: $shadow-elevation-8;
-			transition: box-shadow .25s;
 		}
 				
 		.mowImagePanel {
@@ -712,7 +712,11 @@
 	}
 		.mowPagePreviewCard.selected {
 			box-shadow: $shadow-elevation-2;
+			transition: box-shadow .25s;
 			
+			&:hover {
+				box-shadow: $shadow-elevation-8;
+			}
 			.mowImagePanel {
 				border: 2px solid $mow_highlight;
 				border-bottom: none;
