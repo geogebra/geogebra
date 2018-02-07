@@ -135,6 +135,7 @@ public final class DrawImage extends Drawable {
 
 			at.translate(ax, ay); // translate to first corner A
 
+			
 			if (B == null) {
 				// we only have corner A
 				if (D == null) {
@@ -447,23 +448,44 @@ public final class DrawImage extends Drawable {
 	private void updateImage(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
-		// int eventY = event.getY();
+		int eventY = event.getY();
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
+		// GeoPoint C = geoImage.getCorner(2);
+		GeoPoint D = new GeoPoint(geoImage.cons);
 		switch (handler) {
 		case TOP_RIGHT:
+			geoImage.setCorner(null, 2);
+			if (B == null) {
+				B = new GeoPoint(geoImage.cons);
+				geoImage.calculateCornerPoint(B, 2);
+				geoImage.setCorner(B, 1);
+			}
 			B.setX(view.toRealWorldCoordX(eventX));
 			B.updateCoords();
 			B.updateRepaint();
 			break;
 		case TOP_LEFT:
+			geoImage.setCorner(null, 2);
+			if (A == null) {
+				A = new GeoPoint(geoImage.cons);
+				geoImage.calculateCornerPoint(A, 1);
+				geoImage.setCorner(A, 0);
+			}
 			A.setX(view.toRealWorldCoordX(eventX));
 			A.updateCoords();
 			A.updateRepaint();
 			break;
+		case BOTTOM_RIGHT:
+			geoImage.calculateCornerPoint(D, 4);
+			D.setEuclidianVisible(true);
+			geoImage.setCorner(D, 2);
+			geoImage.setCorner(null, 1);
+			A.setY(view.toRealWorldCoordY(eventY));
+			A.updateCoords();
+			A.updateRepaint();
 		default:
 			break;
 		}
-		update();
 	}
 }
