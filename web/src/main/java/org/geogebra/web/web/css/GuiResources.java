@@ -431,6 +431,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/general/expand24.png")
 	ImageResource expand();
 
+	@Source("org/geogebra/web/resources/css/fonts.css")
+	TextResource fonts();
+
 	// New less resources for GEOGEBRA EXAM
 	@Source("org/geogebra/web/exam/css/exam.ltr.less")
 	LessResource examStyleLTR();

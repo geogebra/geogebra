@@ -17,8 +17,8 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.mowStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.spreadsheetStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.openScreenStyle());
-		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.jqueryStyle().getText());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.jqueryStyle());
+		StyleInjector.inject(GuiResources.INSTANCE.fonts());
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
 		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
