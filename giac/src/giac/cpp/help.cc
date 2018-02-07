@@ -906,7 +906,7 @@ namespace giac {
   }
 
 #if ! (defined VISUALC || defined BESTA_OS || defined FREERTOS || defined NSPIRE || defined NSPIRE_NEWLIB)
-#ifdef WIN32
+#if defined WIN32 || !defined DT_DIR
   static int dir_select (const struct dirent *d){
     string s(d->d_name);
     // cerr << s << endl;
@@ -988,7 +988,7 @@ namespace giac {
 	else
 	  s=eps[cnt]->d_name;
 	s= subdir+s;
-#ifdef WIN32
+#if defined WIN32 || !defined DT_DIR
         int t=s.size();
         if (s[t-1]=='\\')
 	  find_all_index(s+"/",mtt,mall);

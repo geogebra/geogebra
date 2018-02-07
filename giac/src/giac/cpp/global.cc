@@ -276,7 +276,11 @@ extern "C" void Sleep(unsigned int miliSecond);
       _max_sum_sqrt_=b;
   }
 
+#ifdef GIAC_HAS_STO_38 // Prime sum(x^2,x,0,100000) crash on hardware
+  static int _max_sum_add_=10000; 
+#else
   static int _max_sum_add_=100000; 
+#endif
   int & max_sum_add(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
       return contextptr->globalptr->_max_sum_add_;
@@ -6084,6 +6088,12 @@ unsigned int ConvertUTF8toUTF16 (
   }
   
     std::string translate_at(const char * ch){
+      if (!strcmp(ch,"∡"))
+	return "polar_complex";
+      if (!strcmp(ch,"."))
+	return "dot";
+      if (!strcmp(ch,"LINEAR?"))
+	return "IS_LINEAR";
       if (!strcmp(ch,"ΔLIST"))
 	return "DELTALIST";
       if (!strcmp(ch,"ΠLIST"))

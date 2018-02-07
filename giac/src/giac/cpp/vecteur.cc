@@ -4627,7 +4627,7 @@ namespace giac {
 	std_matrix_gen2matrice_destroy(cg,res);
 	return true;
       }
-#endif // GIAC_HAS_STO38
+#endif // GIAC_HAS_STO_38
       matrix_double::const_iterator ita=ad.begin(),itaend=ad.end();
       matrix_double::const_iterator itbbeg=btrand.begin(),itb,itbend=btrand.end();
       res.clear();

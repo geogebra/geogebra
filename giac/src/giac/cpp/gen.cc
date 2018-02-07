@@ -11159,7 +11159,7 @@ namespace giac {
 
   /* I/O: Input routines */
 
-  gen chartab2gen(char * & s,GIAC_CONTEXT){
+  gen chartab2gen(char * s,GIAC_CONTEXT){
     gen res;
     // subtype=0;
     // initialize as a null _INT_
@@ -11206,7 +11206,7 @@ namespace giac {
     if (l>0 && s[l-1]=='.'){
       // make a copy of s, call chartab2gen recursivly, 
       // because some implementations of strtod do not like a . at the end
-#ifdef FREERTOS
+#if 1 // def FREERTOS
       ALLOCA(char, scopy, l+2); 
 #else
       char * scopy=(char *)alloca(l+2);

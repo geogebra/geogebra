@@ -2456,7 +2456,17 @@ namespace giac {
     // First try substitution
     if (has_i(lop(e,at_ln)))
       e=recursive_normal(expln2trig(e,contextptr),contextptr);
-    if (loptab(e,sign_floor_ceil_round_tab).empty()){
+    vecteur vsign(loptab(e,sign_floor_ceil_round_tab));
+    if (0 && direction && !vsign.empty() && !equalposcomp(sign_floor_ceil_round_tab,e._SYMBptr->sommet)){
+      // evaluate vsign first
+      vecteur res;
+      for (int i=0;i<int(vsign.size());++i){
+	res[i]=in_limit(vsign[i],x,lim_point,direction,contextptr);
+      }
+      e=subst(e,vsign,res,false,contextptr);
+      vsign.clear();
+    }
+    if (vsign.empty()){
       gen first_try=subst(e,x,lim_point,false,contextptr);
       first_try=eval(first_try,1,contextptr);
       first_try=simplifier(first_try,contextptr);
