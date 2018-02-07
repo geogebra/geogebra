@@ -1367,6 +1367,7 @@ __GGB__keysVar.fr.menu = {
     "CheckedNumerically": "(\xe9valuation par calcul)",
     "ChiSquaredContribution": "Contribution \u03a7\xb2",
     "ChiSquaredTest": "Test KhiCarr\xe9",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Choisir une couleur",
     "ChooseFromFile": "Choisir \xe0 partir d'un fichier",
     "ChooseObject": "Choisir un objet",

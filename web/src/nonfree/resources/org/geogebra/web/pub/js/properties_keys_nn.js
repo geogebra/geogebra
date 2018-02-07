@@ -1367,6 +1367,7 @@ __GGB__keysVar.nn.menu = {
     "CheckedNumerically": "(sjekka numerisk)",
     "ChiSquaredContribution": "\u03a7\xb2-bidrag",
     "ChiSquaredTest": "Kji kvadrat-test",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Vel ein farge",
     "ChooseFromFile": "Vel fr\xe5 fil",
     "ChooseObject": "Vel eit objekt",

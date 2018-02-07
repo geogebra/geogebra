@@ -1367,6 +1367,7 @@ __GGB__keysVar.zh-TW.menu = {
     "CheckedNumerically": "(\u4ee5\u6578\u503c\u65b9\u5f0f\u6aa2\u67e5)",
     "ChiSquaredContribution": "\u03a7\xb2 Contribution",
     "ChiSquaredTest": "ChiSquared Test",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "\u9078\u64c7\u984f\u8272",
     "ChooseFromFile": "\u5f9e\u6a94\u6848\u9078\u64c7",
     "ChooseObject": "\u9078\u64c7\u7269\u4ef6",

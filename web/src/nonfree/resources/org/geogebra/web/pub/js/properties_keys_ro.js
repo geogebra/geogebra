@@ -1367,6 +1367,7 @@ __GGB__keysVar.ro.menu = {
     "CheckedNumerically": "(verificat numeric)",
     "ChiSquaredContribution": "Contribu\u021bie \u03a7\xb2",
     "ChiSquaredTest": "Testul hi-p\u0103trat",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Alege\u0163i o culoare",
     "ChooseFromFile": "Alege din fi\u015fier",
     "ChooseObject": "Alege\u0163i un obiect",

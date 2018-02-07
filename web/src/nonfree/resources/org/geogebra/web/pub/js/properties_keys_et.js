@@ -1367,6 +1367,7 @@ __GGB__keysVar.et.menu = {
     "CheckedNumerically": "(numbriliselt kontrollitud)",
     "ChiSquaredContribution": "\u03a7\xb2 kasutamine",
     "ChiSquaredTest": "Hii-ruut test",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Vali v\xe4rv",
     "ChooseFromFile": "Vali failist",
     "ChooseObject": "Vali \xfcks objekt",

@@ -1367,6 +1367,7 @@ __GGB__keysVar.lv.menu = {
     "CheckedNumerically": "(p\u0101rbaud\u012bts skaitliski)",
     "ChiSquaredContribution": "\u03a7\xb2 Ieguld\u012bjums",
     "ChiSquaredTest": "hi kvadr\u0101ta tests",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Izv\u0113lies kr\u0101su",
     "ChooseFromFile": "Izv\u0113l\u0113ties no faila",
     "ChooseObject": "Izv\u0113lies objektu",

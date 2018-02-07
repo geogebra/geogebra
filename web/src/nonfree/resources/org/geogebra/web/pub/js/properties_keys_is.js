@@ -1367,6 +1367,7 @@ __GGB__keysVar.is.menu = {
     "CheckedNumerically": "(athuga\xf0 me\xf0 t\xf6lulegum reikningum)",
     "ChiSquaredContribution": "\u03a7\xb2 framlag",
     "ChiSquaredTest": "K\xedKva\xf0rat pr\xf3f",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Velja lit",
     "ChooseFromFile": "Velja \xfar skr\xe1",
     "ChooseObject": "Velji\xf0 hlut",

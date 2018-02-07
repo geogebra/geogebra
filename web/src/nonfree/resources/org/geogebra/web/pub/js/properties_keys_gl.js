@@ -1367,6 +1367,7 @@ __GGB__keysVar.gl.menu = {
     "CheckedNumerically": "(controlado numericamente)",
     "ChiSquaredContribution": "Contribuci\xf3n \u03a7\xb2",
     "ChiSquaredTest": "Test chi cadrado",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Escoller unha cor",
     "ChooseFromFile": "Selecciona dende arquivo",
     "ChooseObject": "Escoller un obxecto",

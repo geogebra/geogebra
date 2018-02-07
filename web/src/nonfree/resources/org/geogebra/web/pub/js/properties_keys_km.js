@@ -1367,6 +1367,7 @@ __GGB__keysVar.km.menu = {
     "CheckedNumerically": "(checked numerically)",
     "ChiSquaredContribution": "\u03a7\xb2 Contribution",
     "ChiSquaredTest": "ChiSquared Test",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Choose a color",
     "ChooseFromFile": "\u1787\u17d2\u179a\u17be\u179f\u179a\u17be\u179f\u1796\u17b8\u17af\u1780\u179f\u17b6\u179a",
     "ChooseObject": "Choose one object",

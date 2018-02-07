@@ -1367,6 +1367,7 @@ __GGB__keysVar.kn.menu = {
     "CheckedNumerically": "(checked numerically)",
     "ChiSquaredContribution": "\u03a7\xb2 Contribution",
     "ChiSquaredTest": "\u0c9b\u0cbf\u0cb6\u0ccd\u0c95\u0cc1\u0c85\u0cb0\u0cc6\u0ca6\u0ccd \u0cae\u0cbe\u0caa\u0ca8",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "\u0cac\u0ca3\u0ccd\u0ca3\u0cb5\u0cca\u0c82\u0ca6\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6\u0cae\u0cbe\u0ca1\u0cbf",
     "ChooseFromFile": "\u0c95\u0ca1\u0ca4\u0ca6\u0cbf\u0c82\u0ca6 \u0c86\u0caf\u0ccd\u0c95\u0cc6 \u0cae\u0cbe\u0ca1\u0cc1",
     "ChooseObject": "\u0cb5\u0cb8\u0ccd\u0ca4\u0cc1\u0cb5\u0cca\u0c82\u0ca6\u0ca8\u0ccd\u0ca8\u0cc1 \u0c86\u0caf\u0ccd\u0c95\u0cc6\u0cae\u0cbe\u0ca1\u0cbf",

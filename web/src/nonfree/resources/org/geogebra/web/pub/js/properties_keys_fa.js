@@ -1367,6 +1367,7 @@ __GGB__keysVar.fa.menu = {
     "CheckedNumerically": "\u06a9\u0646\u062a\u0631\u0644 \u0639\u062f\u062f\u06cc",
     "ChiSquaredContribution": "\u0633\u0647\u0645 \u062e\u06cc\u200c\u062f\u0648",
     "ChiSquaredTest": "\u0622\u0632\u0645\u0648\u0646 \u062e\u06cc\u200c\u062f\u0648",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "\u0627\u0646\u062a\u062e\u0627\u0628 \u0631\u0646\u06af",
     "ChooseFromFile": "\u0627\u0646\u062a\u062e\u0627\u0628 \u0627\u0632 \u067e\u0631\u0648\u0646\u062f\u0647",
     "ChooseObject": "\u06cc\u06a9 \u0634\u06cc\u0621 \u0631\u0627 \u0627\u0646\u062a\u062e\u0627\u0628 \u06a9\u0646\u06cc\u062f",

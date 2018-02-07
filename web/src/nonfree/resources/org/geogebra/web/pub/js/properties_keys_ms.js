@@ -1367,6 +1367,7 @@ __GGB__keysVar.ms.menu = {
     "CheckedNumerically": "(semak secara berangka)",
     "ChiSquaredContribution": "Sumbangan \u03a7\xb2",
     "ChiSquaredTest": "Ujian KhiKuasaDUa",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Pilih satu warna",
     "ChooseFromFile": "Pilih daripada Fail",
     "ChooseObject": "Pilih satu objek",

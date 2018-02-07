@@ -1367,6 +1367,7 @@ __GGB__keysVar.tr.menu = {
     "CheckedNumerically": "(say\u0131sal olarak denetlendi)",
     "ChiSquaredContribution": "\u03a7\xb2 Katk\u0131s\u0131",
     "ChiSquaredTest": "ChiSquare Testi",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Bir renk se\xe7in",
     "ChooseFromFile": "Dosyadan Se\xe7in",
     "ChooseObject": "Bir nesne se\xe7in",

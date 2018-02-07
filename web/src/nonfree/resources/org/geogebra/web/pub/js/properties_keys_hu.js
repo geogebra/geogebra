@@ -1367,6 +1367,7 @@ __GGB__keysVar.hu.menu = {
     "CheckedNumerically": "(numerikusan ellen\u0151rz\xf6tt)",
     "ChiSquaredContribution": "\u03a7\xb2 Eloszl\xe1s",
     "ChiSquaredTest": "KhiN\xe9gyzet Pr\xf3ba",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "V\xe1lassz sz\xednt",
     "ChooseFromFile": "F\xe1jlb\xf3l",
     "ChooseObject": "V\xe1lassz egy alakzatot",

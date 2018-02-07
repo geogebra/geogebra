@@ -1367,6 +1367,7 @@ __GGB__keysVar.ca-XV.menu = {
     "CheckedNumerically": "(comprovat num\xe8ricament)",
     "ChiSquaredContribution": "Contribuci\xf3 a \u03a7\xb2",
     "ChiSquaredTest": "Prova khi quadrat",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Selecciona un color",
     "ChooseFromFile": "Tria des d\u2019un fitxer",
     "ChooseObject": "Selecciona un objecte",

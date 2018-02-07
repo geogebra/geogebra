@@ -1367,6 +1367,7 @@ __GGB__keysVar.cs.menu = {
     "CheckedNumerically": "(zkontrolov\xe1no numericky)",
     "ChiSquaredContribution": "P\u0159\xedsp\u011bvek k \u03a7\xb2",
     "ChiSquaredTest": "\u03a7\xb2Test",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Vyberte barvu",
     "ChooseFromFile": "Vybrat ze souboru",
     "ChooseObject": "Vyberte objekt",

@@ -1367,6 +1367,7 @@ __GGB__keysVar.fi.menu = {
     "CheckedNumerically": "(tarkistettu numeerisesti)",
     "ChiSquaredContribution": "\u03a7\xb2 Panos",
     "ChiSquaredTest": "KhiinNeli\xf6Testi",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Valitse v\xe4ri",
     "ChooseFromFile": "Valitse tiedostosta",
     "ChooseObject": "Valitse objekti",

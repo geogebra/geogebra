@@ -1367,6 +1367,7 @@ __GGB__keysVar.sl.menu = {
     "CheckedNumerically": "(preveri numeri\u010dno)",
     "ChiSquaredContribution": "\u03a7\xb2 prispevek",
     "ChiSquaredTest": "Test hi kvadrat",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Izberi barvo",
     "ChooseFromFile": "Izberi iz datoteke",
     "ChooseObject": "Izberi objekt",

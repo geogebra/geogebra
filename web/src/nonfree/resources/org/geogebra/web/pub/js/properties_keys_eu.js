@@ -1367,6 +1367,7 @@ __GGB__keysVar.eu.menu = {
     "CheckedNumerically": "(zenbaki bidez kontrolatua)",
     "ChiSquaredContribution": "\u03a7\xb2 ekarpena",
     "ChiSquaredTest": "ChiKarratua Testa",
+    "ChooseCalculator": "Choose Calculator",
     "ChooseColor": "Hautatu kolorea",
     "ChooseFromFile": "Hautatu Fitxategitik",
     "ChooseObject": "Hautatu objektua",
