@@ -145,10 +145,12 @@ public class Derivative {
 		case ARCSIN:
 			return wrap(left.derivative(fv, kernel0))
 					.divide(wrap(left).square().subtractR(1).sqrt());
+		case ARCCOSD:
 		case ARCCOS:
 			return wrap(left.derivative(fv, kernel0))
 					.divide(wrap(left).square().subtractR(1).sqrt())
 					.multiply(-1);
+		case ARCTAND:
 		case ARCTAN:
 			return wrap(left.derivative(fv, kernel0))
 					.divide(wrap(left).square().plus(1));
