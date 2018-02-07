@@ -5,5 +5,4 @@ public interface FrameCollectorW {
 
 	public void finish(int width, int height);
 
-	public String getResult();
 }

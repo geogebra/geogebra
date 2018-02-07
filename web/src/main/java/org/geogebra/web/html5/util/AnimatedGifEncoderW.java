@@ -61,14 +61,14 @@ public class AnimatedGifEncoderW {
 	/**
 	 * Finishes the internal gif object and starts rendering.
 	 */
-	public String finish(int width, int height) {
+	public void finish(int width, int height) {
 		finished = true;
 		if (!jsLoaded) {
-			return "";
+			return;
 		}
 
 		JavaScriptObject urls = createJsArrayString(gifs);
-		return finish(urls, filename, width, height, repeat);
+		finish(urls, filename, width, height, repeat);
 	}
 
 	private static native String finish(JavaScriptObject urls,

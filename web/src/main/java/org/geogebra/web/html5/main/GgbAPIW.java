@@ -1287,10 +1287,10 @@ public class GgbAPIW extends GgbAPI {
 	}
 
 	@Override
-	public String exportGIF(String sliderLabel, double scale,
+	public void exportGIF(String sliderLabel, double scale,
 			double timeBetweenFrames,
 			boolean isLoop, String filename) {
-		return GifShotExporter.export(kernel.getApplication(),
+		GifShotExporter.export(kernel.getApplication(),
 				(int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
 				scale);

@@ -9,7 +9,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewW;
 
 public class GifShotExporter {
 
-	public static String export(App app, int timeBetweenFrames, GeoNumeric slider,
+	public static void export(App app, int timeBetweenFrames, GeoNumeric slider,
 			boolean isLoop, String filename, double scale) {
 
 		app.getKernel().getAnimatonManager().stopAnimation();
@@ -68,19 +68,15 @@ public class GifShotExporter {
 
 		FrameCollectorW collector = new FrameCollectorW() {
 
-			private String result;
 
 			public void addFrame(String url) {
 				gifEncoder.addFrame(url);
 			}
 
 			public void finish(int width, int height) {
-				result = gifEncoder.finish(width, height);
+				gifEncoder.finish(width, height);
 			}
 			
-			public String getResult() {
-				return result;
-			}
 		};
 
 		app.setWaitCursor();
@@ -94,8 +90,6 @@ public class GifShotExporter {
 		} finally {
 			app.setDefaultCursor();
 		}
-		
-		return collector.getResult();
 	}
 
 	public static void exportAnimatedGIF(App app, FrameCollectorW gifEncoder,

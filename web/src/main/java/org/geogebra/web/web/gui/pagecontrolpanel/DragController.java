@@ -60,11 +60,11 @@ class DragController {
 		void setPosition(int x, int y) {
 			boolean down = lastY < y;
 			card.setDragPosition(x, y);
-			findTarget(down);
+			findTarget(/* down */);
 			lastY = y;
 		}
 
-		private void findTarget(boolean down) {
+		private void findTarget(/* boolean down */) {
 	
 			int idx = cardIndexAt(card.getMiddleX(), card.getMiddleY());
 			
@@ -175,7 +175,7 @@ class DragController {
 
 		if (dragged.isAnimated()) {
 			int treshold = dragged.target.getOffsetHeight() / 5;
-			if (down) {;
+			if (down) {
 				dragged.pushDown(treshold);
 			} else {
 				dragged.pushUp(treshold);
