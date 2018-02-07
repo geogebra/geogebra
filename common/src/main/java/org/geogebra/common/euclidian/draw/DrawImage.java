@@ -455,23 +455,33 @@ public final class DrawImage extends Drawable {
 		GeoPoint D = new GeoPoint(geoImage.cons);
 		switch (handler) {
 		case TOP_RIGHT:
-			geoImage.setCorner(null, 2);
 			if (B == null) {
 				B = new GeoPoint(geoImage.cons);
 				geoImage.calculateCornerPoint(B, 2);
 				geoImage.setCorner(B, 1);
 			}
-			B.setX(view.toRealWorldCoordX(eventX));
-			B.updateCoords();
-			B.updateRepaint();
-			break;
-		case TOP_LEFT:
-			geoImage.setCorner(null, 2);
 			if (A == null) {
 				A = new GeoPoint(geoImage.cons);
 				geoImage.calculateCornerPoint(A, 1);
 				geoImage.setCorner(A, 0);
 			}
+			geoImage.setCorner(null, 2);
+			B.setX(view.toRealWorldCoordX(eventX));
+			B.updateCoords();
+			B.updateRepaint();
+			break;
+		case TOP_LEFT:
+			if (A == null) {
+				A = new GeoPoint(geoImage.cons);
+				geoImage.calculateCornerPoint(A, 1);
+				geoImage.setCorner(A, 0);
+			}
+			if (B == null) {
+				B = new GeoPoint(geoImage.cons);
+				geoImage.calculateCornerPoint(B, 2);
+				geoImage.setCorner(B, 1);
+			}
+			geoImage.setCorner(null, 2);
 			A.setX(view.toRealWorldCoordX(eventX));
 			A.updateCoords();
 			A.updateRepaint();
@@ -484,6 +494,8 @@ public final class DrawImage extends Drawable {
 			A.setY(view.toRealWorldCoordY(eventY));
 			A.updateCoords();
 			A.updateRepaint();
+		case BOTTOM_LEFT:
+
 		default:
 			break;
 		}
