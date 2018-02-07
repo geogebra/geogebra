@@ -4090,7 +4090,7 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-336 */
 		case MOW_DRAG_AND_DROP_ANIMATION:
-			return false;// canary && whiteboard;
+			return canary && whiteboard;
 
 		/** MOW-360, MOW-381, MOW-382 */
 		case MOW_CROP_IMAGE:
