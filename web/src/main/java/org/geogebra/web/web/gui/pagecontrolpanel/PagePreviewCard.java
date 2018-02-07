@@ -335,5 +335,20 @@ public class PagePreviewCard extends FlowPanel
 		return getAbsoluteTop() + getOffsetHeight() / 2;
 	}
 
+	/**
+	 * Adds space before the card for animation.
+	 */
+	public void addSpace() {
+		removeStyleName("noSpaceAnimated");
+		addStyleName("spaceAnimated");
+	}
+
+	/**
+	 * Removes space before the card for animation.
+	 */
+	public void removeSpace() {
+		removeStyleName("spaceAnimated");
+		addStyleName("noSpaceAnimated");
+	}
 }
 
