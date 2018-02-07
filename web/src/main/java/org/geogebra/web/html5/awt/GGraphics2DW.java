@@ -19,6 +19,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
@@ -623,12 +624,17 @@ public class GGraphics2DW implements GGraphics2D {
 		Shape shape2 = (Shape) shape;
 
 		doDrawShape(shape2);
-		// we should call this only if no clip was set or just after another
-		// clip to overwrite
-		// in this case we don't want to double-clip something so let's
-		// restore the context
-		// context.restoreTransform();
-		// context.saveTransform();
+		// quick hack to make sure this is called only from
+		// DrawPoint.drawClippedSection()
+		// TODO: add boolean parameter to setClip()
+		if (shape instanceof Ellipse2D.Double) {
+			// we should call this only if no clip was set or just after another
+			// clip to overwrite
+			// in this case we don't want to double-clip something so let's
+			// restore the context
+			context.restoreTransform();
+			context.saveTransform();
+		}
 		context.clip();
 	}
 
