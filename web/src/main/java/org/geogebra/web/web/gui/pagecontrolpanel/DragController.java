@@ -91,8 +91,19 @@ class DragController {
 		boolean isValid() {
 			return card != null;
 		}
-		
 
+		void pushUp(int treshold) {
+			int diff = card.getAbsoluteTop() - target.getAbsoluteTop();
+			if (diff < treshold) {
+				Log.debug("[DND] hit");
+				addSpaceBefore(target);
+				int nextIdx = target.getPageIndex() + 1;
+				if (nextIdx < cards.getCardCount()) {
+					cards.cardAt(nextIdx).removeStyleName("spaceBeforeAnimated");
+					cards.cardAt(nextIdx).addStyleName("noSpaceBeforeAnimated");
+				}
+			}
+		}
 	}
 		
 	DragController(Cards slides, App app) {
@@ -144,50 +155,17 @@ class DragController {
 			int treshold = dragged.target.getOffsetHeight() / 5;
 			Log.debug("[DND] target is " + targetIdx);
 			if (down) {
-				dragDown(dragged.target, treshold);
+//				dragDown(dragged.target, treshold);
 			} else {
-				dragUp(dragged.target, treshold);
+				dragged.pushUp(treshold);
 			}
 		}
 		dragged.lastTarget = dragged.target;
 		return bellowMiddle ? targetIdx + 1 : targetIdx;
 	}
 
-	private void dragDown(PagePreviewCard target, int treshold) {
-		int beforeIdx = target.getPageIndex() - 1;
-		if (beforeIdx > 0) {
-			for (int i = 0; i < beforeIdx; i++) {
-				removeSpaceStyles(cards.cardAt(i));
-			}
-		}
-
-		Log.debug("[DND] dragDown");
-		boolean hit = target.getAbsoluteTop()
-				- dragged.card.getBottom() < treshold;
-		if (hit) {
-			addSpaceAfter(target);
-		} else {
-			addSpaceBefore(target);
-		}
-	}
-
-	private void dragUp(PagePreviewCard target, int treshold) {
-		int afterIdx = target.getPageIndex() + 1;
-		PagePreviewCard afterCard = afterIdx < cards.getCardCount()
-				? cards.cardAt(afterIdx)
-				: null;
-		int diff = dragged.card.getAbsoluteTop() - target.getAbsoluteTop();
-		if (diff < treshold) {
-			Log.debug("[DND] hit");
-			addSpaceBefore(target);
-			if (afterCard != null) {
-				afterCard.removeStyleName("spaceBeforeAnimated");
-			}
-		}
-	}
-
 	private static void addSpaceBefore(PagePreviewCard target) {
-		target.removeStyleName("spaceAfterAnimated");
+		target.removeStyleName("noSpaceBeforeAnimated");
 		target.addStyleName("spaceBeforeAnimated");
 	}
 

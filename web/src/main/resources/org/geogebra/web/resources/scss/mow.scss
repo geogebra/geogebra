@@ -768,36 +768,11 @@
 		margin: 4px 16px 4px;
 	}
 	
-	.mowPagePreviewCardDivider.grow {
-		height: calc(220px * 9/16);
-		transition: height 2s ease;
-	}
-
-	.mowPagePreviewCardDivider.shrink {
-		height: 0px;
-		transition: height 2s ease;
-	}
-
 	.mowPagePreviewCard.dragged {
 		width: 240px;
 		position: absolute;
 	}
 		
-	
-	.mowPagePreviewCard.highlight-top {
-		margin-top: 190px;
-		margin-bottom: 0px;
-		border: 5px solid blue;
-		border-bottom: 5px black;
-	}
-	
-	.mowPagePreviewCard.highlight-bottom {
-		margin-top: 0px;
-		margin-bottom: 190px;
-		border: 5px solid purple;
-		border-top: 5px black;
-	}
-	
 	.mowPagePreviewCard.spaceBefore {
 		margin-bottom: 0px;
 		margin-top: 180px;
@@ -815,6 +790,16 @@
 
 	.mowPagePreviewCard.spaceAfterAnimated {
 		@extend .spaceAfter;
+		transition: $card-space-transition;
+	}
+
+	.mowPagePreviewCard.noSpaceBefore {
+		margin-top: 0px;
+		margin-bottom: 0px;
+	}
+
+	.mowPagePreviewCard.noSpaceBeforeAnimated {
+		@extend .noSpaceBefore;
 		transition: $card-space-transition;
 	}
 
