@@ -28,7 +28,6 @@ import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.GTemplate;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.View;
-import org.geogebra.common.kernel.advanced.AlgoDynamicCoordinates;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
@@ -1143,12 +1142,17 @@ public abstract class AlgoElement extends ConstructionElement
 
 			// don't use free points from dependent algos with expression trees
 			if (!(this instanceof DependentAlgo)) {
+				boolean allIndependent = true;
 				for (int i = 0; i < input.length; i++) {
 					if (input[i].isGeoPoint()
-							&& (input[i].isIndependent() || input[i]
-									.getParentAlgorithm() instanceof AlgoDynamicCoordinates)) {
+							&& (input[i].isIndependent()
+									|| input[i].isMoveable())) {
 						freeInputPoints.add((GeoPointND) input[i]);
+						allIndependent &= input[i].isIndependent();
 					}
+				}
+				if (!allIndependent && freeInputPoints.size() > 1) {
+					freeInputPoints.clear();
 				}
 			}
 		}
