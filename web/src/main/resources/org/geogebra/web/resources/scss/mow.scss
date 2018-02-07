@@ -769,8 +769,12 @@
 	}
 	
 	.mowPagePreviewCard.dragged {
-		width: 240px;
+		width: calc(100% - 32px);
 		position: absolute;
+		.mowMoreButton {
+			right: 0px;
+		}
+			
 	}
 		
 	.mowPagePreviewCard.spaceBefore {

@@ -96,13 +96,26 @@ class DragController {
 			int diff = card.getAbsoluteTop() - target.getAbsoluteTop();
 			if (diff < treshold) {
 				Log.debug("[DND] hit");
-				addSpaceBefore(target);
+				target.removeStyleName("spaceBeforeAnimated");
+				target.addStyleName("noSpaceBeforeAnimated");
 				int nextIdx = target.getPageIndex() + 1;
 				if (nextIdx < cards.getCardCount()) {
-					cards.cardAt(nextIdx).removeStyleName("spaceBeforeAnimated");
-					cards.cardAt(nextIdx).addStyleName("noSpaceBeforeAnimated");
+					addSpaceBefore(cards.cardAt(nextIdx));
 				}
 			}
+		}
+
+		void pushDown(int treshold) {
+//			int diff = target.getAbsoluteTop() - card.getBottom();
+//			if (diff < treshold) {
+//				Log.debug("[DND] hit");
+//				addSpaceBefore(target);
+//				int nextIdx = target.getPageIndex() + 1;
+//				if (nextIdx < cards.getCardCount()) {
+//					cards.cardAt(nextIdx).removeStyleName("spaceBeforeAnimated");
+//					cards.cardAt(nextIdx).addStyleName("noSpaceBeforeAnimated");
+//				}
+//			}
 		}
 	}
 		
@@ -155,7 +168,7 @@ class DragController {
 			int treshold = dragged.target.getOffsetHeight() / 5;
 			Log.debug("[DND] target is " + targetIdx);
 			if (down) {
-//				dragDown(dragged.target, treshold);
+				dragged.pushDown(treshold);
 			} else {
 				dragged.pushUp(treshold);
 			}
