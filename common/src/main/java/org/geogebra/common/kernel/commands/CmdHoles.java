@@ -3,7 +3,9 @@ package org.geogebra.common.kernel.commands;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoHolesPolynomial;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.geos.*;
+import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
+import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
@@ -33,8 +35,8 @@ public class CmdHoles extends CommandProcessor {
 
     final private GeoList holes(Command c, GeoFunction gf) {
 
-        AlgoHolesPolynomial algo = new AlgoHolesPolynomial(cons,
-                c.getLabel(), gf, true);
+		AlgoHolesPolynomial algo = new AlgoHolesPolynomial(cons, c.getLabel(),
+				gf);
         GeoList g = algo.getHolePoints();
         return g;
     }
