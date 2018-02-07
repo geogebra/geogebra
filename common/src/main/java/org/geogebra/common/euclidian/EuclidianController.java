@@ -8469,6 +8469,7 @@ public abstract class EuclidianController {
 		topHits.removePolygonsIfNotOnlyCS2D();
 
 		ArrayList<GeoElement> selGeos = getAppSelectedGeos();
+		removeAxes(selGeos);
 		// if object was chosen before, take it now!
 		if ((selGeos.size() == 1) && !topHits.isEmpty()
 				&& topHits.contains(selGeos.get(0))) {
@@ -10291,7 +10292,12 @@ public abstract class EuclidianController {
 		// Quick fix for GeoFunctions.
 		// TODO: call it once in the method.
 		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (EuclidianConstants.isMoveOrSelectionModeCompatibleWithDragging(mode, isDraggingOccuredBeyondThreshold())
+			if (app.has(Feature.PREVIEW_POINTS) && previewPointHits!=null && !previewPointHits.isEmpty()) {
+				hideDynamicStylebar();
+				highlightPreviewPoint(previewPointHits.get(0));
+				showSpecialPointPopup(previewPointHits);
+				previewPointHits.clear();
+			} else if (EuclidianConstants.isMoveOrSelectionModeCompatibleWithDragging(mode, isDraggingOccuredBeyondThreshold())
 					&& !event.isRightClick()) {
 				showDynamicStylebar();
 			}
@@ -10305,13 +10311,6 @@ public abstract class EuclidianController {
 		if (this.pointerUpCallback != null) {
 			runPointerCallback(pointerUpCallback);
 			this.pointerUpCallback = null;
-		}
-
-		if (app.has(Feature.DYNAMIC_STYLEBAR) && app.has(Feature.PREVIEW_POINTS) && previewPointHits!=null && !previewPointHits.isEmpty()) {
-			hideDynamicStylebar();
-			highlightPreviewPoint(previewPointHits.get(0));
-			showSpecialPointPopup(previewPointHits);
-			previewPointHits.clear();
 		}
 	}
 
