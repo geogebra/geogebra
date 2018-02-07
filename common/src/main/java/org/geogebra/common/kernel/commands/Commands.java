@@ -251,6 +251,8 @@ public enum Commands implements CommandsConstants,
 
 	Extremum(TABLE_FUNCTION),
 
+	Holes(TABLE_FUNCTION),
+
 	CurveCartesian(TABLE_FUNCTION),
 
 	ParametricDerivative(TABLE_FUNCTION),

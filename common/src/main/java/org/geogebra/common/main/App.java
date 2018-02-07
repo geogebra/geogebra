@@ -4186,6 +4186,9 @@ public abstract class App implements UpdateSelection {
 		case CONVEX_HULL_3D:
 			return canary;
 
+		case COMMAND_HOLES:
+			return prerelease;
+
 		case HANDWRITING:
 			return false;
 

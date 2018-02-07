@@ -484,6 +484,7 @@ public abstract class CommandDispatcher {
 			case Object:
 			case CountIf:
 			case Extremum:
+			case Holes:
 			case UnitVector:
 			case Text:
 			case Vector:

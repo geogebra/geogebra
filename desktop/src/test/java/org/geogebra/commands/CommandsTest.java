@@ -1810,6 +1810,13 @@ public class CommandsTest extends Assert{
 	}
 
 	@Test
+	public void cmdHoles() {
+		if (app.has(Feature.COMMAND_HOLES)) {
+			t("Holes(x/x)", "{(0, 1)}");
+		}
+	}
+
+	@Test
 	public void cmdSetLevelOfDetail() {
 		t("a:x+y", "x + y");
 		assertEquals(((GeoFunctionNVar) get("a")).getLevelOfDetail(),
