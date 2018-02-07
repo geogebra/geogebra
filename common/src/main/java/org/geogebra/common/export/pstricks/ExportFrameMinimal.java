@@ -125,4 +125,8 @@ public class ExportFrameMinimal implements ExportSettings {
 	public GeoNumeric getcbSlidersItem() {
 		return cbitem;
 	}
+
+	public void setSlider(GeoNumeric slider) {
+		cbitem = slider;
+	}
 }

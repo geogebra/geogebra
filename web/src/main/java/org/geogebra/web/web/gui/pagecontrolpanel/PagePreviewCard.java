@@ -14,7 +14,6 @@ import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 
-import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;

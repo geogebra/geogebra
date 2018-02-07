@@ -27,7 +27,7 @@ public class AlgoHolesPolynomial extends AlgoElement {
     private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
     public AlgoHolesPolynomial(Construction cons, String label,
-                               GeoFunction f, boolean labelEnabled) {
+                               GeoFunction f) {
         super(cons);
 
         this.f = f;
@@ -98,8 +98,8 @@ public class AlgoHolesPolynomial extends AlgoElement {
         }
     }
 
-    private double limit(double x, double direction) { // from AlgoLimitAbove
-        String limitString = f.getLimit(x, -1);
+	private double limit(double x, int direction) { // from AlgoLimitAbove
+		String limitString = f.getLimit(x, direction);
 
         try {
             String numStr = kernel.evaluateCachedGeoGebraCAS(limitString, arbconst);
