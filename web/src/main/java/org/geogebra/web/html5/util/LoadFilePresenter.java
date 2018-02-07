@@ -5,6 +5,7 @@ import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -109,13 +110,16 @@ public class LoadFilePresenter {
 		app.setUndoActive(undoActive);
 
 		String language = view.getDataParamLanguage();
-		if (language == null || "".equals(language)) {
+		if (StringUtil.empty(language)) {
 			language = app.getLanguageFromCookie();
+			if (!StringUtil.empty(language)) {
+				app.getLAF().storeLanguage(language, app);
+			}
 		}
 
 		if (language != null) {
 			String country = view.getDataParamCountry();
-			if (country == null || "".equals(country)) {
+			if (StringUtil.empty(country)) {
 				app.setLanguage(language);
 			} else {
 				app.setLanguage(language, country);
