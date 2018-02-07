@@ -98,13 +98,16 @@ public class UploadImagePanel extends VerticalPanel {
 			}
 		}
 		// check if focus comes back from file browser (needed if file browser was canceled) 
-		$wnd.onfocus = function() {
+		$doc.body.onfocus = function() {
 			panel.@org.geogebra.web.web.gui.dialog.image.UploadImagePanel::setMoveMode()();
 		}
-		// onfocus not working in firefox
+		// needed for firefox but not safari
 		$wnd.onmouseover = function() {
-			panel.@org.geogebra.web.web.gui.dialog.image.UploadImagePanel::setMoveMode()();
+			if ($wnd.navigator.userAgent.indexOf("Safari") == -1) {
+				panel.@org.geogebra.web.web.gui.dialog.image.UploadImagePanel::setMoveMode()();
+			}
 		}
+
 	}-*/;
 
 	private void setMoveMode() {
