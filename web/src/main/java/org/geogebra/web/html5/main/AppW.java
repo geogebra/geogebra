@@ -558,7 +558,7 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public void setLanguage(final String browserLang) {
 		final String lang = Language
-				.getClosestGWTSupportedLanguage(browserLang).localeGWT;
+				.getClosestGWTSupportedLanguage(browserLang).getLocaleGWT();
 		if (scriptCallback != null) {
 			scriptCallback.cancel();
 		}
@@ -2992,10 +2992,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
-	public void showLanguageGUI() {
-		showBrowser(getLanguageGUI());
-	}
-
 	@Override
 	public void showCustomizeToolbarGUI() {
 		showBrowser(getCustomizeToolbarGUI());
@@ -3013,13 +3009,6 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void showBrowser(HeaderPanel bg) {
 		// TODO
-	}
-
-	/**
-	 * Overwritten for AppWapplet/AppWapplication
-	 */
-	public HeaderPanel getLanguageGUI() {
-		return null;
 	}
 
 	/**

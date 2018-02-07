@@ -357,8 +357,8 @@ public abstract class LocalizationJre extends Localization {
 			if (language.fullyTranslated || prerelease) {
 				String lang = language.localeISO6391;
 				String country = "";
-				if (language.localeGWT.length() == 5) {
-					country = language.localeGWT.substring(3);
+				if (language.getLocaleGWT().length() == 5) {
+					country = language.getLocaleGWT().substring(3);
 				}
 
 				supportedLocales.add(new Locale(lang, country));

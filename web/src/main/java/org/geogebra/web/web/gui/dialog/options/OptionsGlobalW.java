@@ -316,7 +316,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 				if (!l.fullyTranslated && app.has(Feature.ALL_LANGUAGES)) {
 					continue;
 				}
-				languageList.addItem(l.name, l.localeGWT);
+				languageList.addItem(l.name, l.getLocaleGWT());
 			}
 		}
 

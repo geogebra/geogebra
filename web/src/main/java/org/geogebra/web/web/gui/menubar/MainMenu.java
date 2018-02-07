@@ -93,10 +93,6 @@ public class MainMenu extends FlowPanel
 	 * simple settings menu item
 	 */
 	GMenuBar settingsMenu;
-	/**
-	 * simple language menu item
-	 */
-	GMenuBar languageMenu;
 	private boolean loggedIn = false;
 
 	/**
@@ -253,12 +249,6 @@ public class MainMenu extends FlowPanel
 									app.getLocalization().getMenu("Settings")),
 							true);
 
-			languageMenu = new GMenuBar("Language", app);
-			this.menuPanel.add(languageMenu,
-					getSingleMenuHTML(
-							MaterialDesignResources.INSTANCE.language_black(),
-							app.getLocalization().getMenu("Language")),
-					true);
 		}
 		if (!app.getLAF().isSmart() && enableGraph
 				&& !app.isUnbundledOrWhiteboard()) {
@@ -389,10 +379,6 @@ public class MainMenu extends FlowPanel
 							app.toggleMenu();
 							return;
 						}
-						if (this.getWidget(index) == languageMenu) {
-							app.showLanguageGUI();
-							return;
-						}
 					}
 
 					if (index != -1) {
@@ -427,7 +413,7 @@ public class MainMenu extends FlowPanel
 				String title = menu.getMenuTitle().substring(0, 1).toUpperCase()
 						+ menu.getMenuTitle().substring(1);
 
-				if (menu == settingsMenu || menu == languageMenu) {
+				if (menu == settingsMenu) {
 					setStackText(index, getHTML(img, title), title, expand);
 					return;
 				}

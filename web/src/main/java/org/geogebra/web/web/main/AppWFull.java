@@ -49,7 +49,6 @@ import org.geogebra.web.web.gui.AccessibilityManagerW;
 import org.geogebra.web.web.gui.CustomizeToolbarGUI;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.HeaderPanelDeck;
-import org.geogebra.web.web.gui.LanguageGUI;
 import org.geogebra.web.web.gui.MyHeaderPanel;
 import org.geogebra.web.web.gui.app.GGWToolBar;
 import org.geogebra.web.web.gui.dialog.DialogManagerW;
@@ -87,7 +86,6 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	private DataCollection dataCollection;
 	private GuiManagerInterfaceW guiManager = null;
-	private LanguageGUI lg;
 
 	private CustomizeToolbarGUI ct;
 	/** flag to prevent infinite recursion in focusGained */
@@ -531,14 +529,6 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public final LanguageGUI getLanguageGUI() {
-		if (this.lg == null) {
-			this.lg = new LanguageGUI(this);
-		}
-		return this.lg;
-	}
-
-	@Override
 	public final void set1rstMode() {
 		GGWToolBar.set1rstMode(this);
 	}
@@ -546,9 +536,6 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	@Override
 	public final void setLabels() {
 		super.setLabels();
-		if (this.lg != null) {
-			lg.setLabels();
-		}
 		if (this.ct != null) {
 			ct.setLabels();
 		}
