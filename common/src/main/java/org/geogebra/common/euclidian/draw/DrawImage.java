@@ -117,8 +117,26 @@ public final class DrawImage extends Drawable {
 			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
 			GeoPoint B = center ? null : geoImage.getCorner(1);
 			GeoPoint D = center ? null : geoImage.getCorner(2);
+			GeoPoint C = geoImage.getCorner(3);
 			double ax = 0;
 			double ay = 0;
+
+			// we have corners C and B
+			if (C != null && D != null) {
+				if (!C.isDefined() || C.isInfinite()) {
+					isVisible = false;
+					return;
+				}
+				at.setTransform(view.getCoordTransform());
+				at.translate(D.getInhomX(), D.getInhomY());
+				double DCx = C.inhomX - D.getInhomX();
+				double DCy = C.inhomY - D.getInhomY();
+				tempAT.setTransform(DCx, DCy, -DCy, DCx, 0, 0);
+				at.concatenate(tempAT);
+				double yscale = 1.0 / width;
+				at.scale(yscale, -yscale);
+			} else {
+
 			if (A != null) {
 				if (!A.isDefined() || A.isInfinite()) {
 					isVisible = false;
@@ -134,9 +152,7 @@ public final class DrawImage extends Drawable {
 														// -> screen
 
 			at.translate(ax, ay); // translate to first corner A
-
-			
-			if (B == null) {
+				if (B == null) {
 				// we only have corner A
 				if (D == null) {
 					// use original pixel width and height of image
@@ -200,12 +216,14 @@ public final class DrawImage extends Drawable {
 				}
 			}
 
+
 			if (geoImage.isCentered()) {
 				// move image to the center
 				at.translate(-width / 2.0, -height / 2.0);
 			} else {
 				// move image up so that A becomes lower left corner
 				at.translate(0, -height);
+			}
 			}
 			labelRectangle.setBounds(0, 0, width, height);
 
@@ -448,10 +466,10 @@ public final class DrawImage extends Drawable {
 	private void updateImage(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
-		int eventY = event.getY();
+		// int eventY = event.getY();
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
-		// GeoPoint C = geoImage.getCorner(2);
+		GeoPoint C = new GeoPoint(geoImage.cons);
 		GeoPoint D = new GeoPoint(geoImage.cons);
 		switch (handler) {
 		case TOP_RIGHT:
@@ -466,6 +484,7 @@ public final class DrawImage extends Drawable {
 				geoImage.setCorner(A, 0);
 			}
 			geoImage.setCorner(null, 2);
+			geoImage.setCorner(null, 3);
 			B.setX(view.toRealWorldCoordX(eventX));
 			B.updateCoords();
 			B.updateRepaint();
@@ -482,20 +501,33 @@ public final class DrawImage extends Drawable {
 				geoImage.setCorner(B, 1);
 			}
 			geoImage.setCorner(null, 2);
+			geoImage.setCorner(null, 3);
 			A.setX(view.toRealWorldCoordX(eventX));
 			A.updateCoords();
 			A.updateRepaint();
 			break;
 		case BOTTOM_RIGHT:
 			geoImage.calculateCornerPoint(D, 4);
-			D.setEuclidianVisible(true);
 			geoImage.setCorner(D, 2);
-			geoImage.setCorner(null, 1);
-			A.setY(view.toRealWorldCoordY(eventY));
-			A.updateCoords();
-			A.updateRepaint();
+			geoImage.calculateCornerPoint(C, 3);
+			geoImage.setCorner(C, 3);
+			C.setX(view.toRealWorldCoordX(eventX));
+			C.setY(D.getInhomY());
+			C.updateCoords();
+			C.updateRepaint();
+			break;
 		case BOTTOM_LEFT:
-
+			geoImage.calculateCornerPoint(D, 4);
+			geoImage.setCorner(D, 2);
+			D.setX(view.toRealWorldCoordX(eventX));
+			D.updateCoords();
+			D.updateRepaint();
+			geoImage.calculateCornerPoint(C, 3);
+			geoImage.setCorner(C, 3);
+			C.setX(B.getInhomX());
+			C.setY(D.getInhomY());
+			C.updateCoords();
+			C.updateRepaint();
 		default:
 			break;
 		}
