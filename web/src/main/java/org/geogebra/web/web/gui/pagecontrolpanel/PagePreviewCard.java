@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -15,6 +16,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.i18n.server.testing.Parent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -40,7 +42,7 @@ public class PagePreviewCard extends FlowPanel
 	// private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
 	private ContextMenuPagePreview contextMenu = null;
-	
+	private int grabY; // where the user grabbed the card when dragging.
 	/**
 	 * ggb file
 	 */
@@ -339,8 +341,7 @@ public class PagePreviewCard extends FlowPanel
 	 * Adds space before the card for animation.
 	 */
 	public void addSpace() {
-		removeStyleName("noSpaceAnimated");
-		addStyleName("spaceAnimated");
+		addStyleName("space");
 	}
 
 	/**
@@ -360,6 +361,15 @@ public class PagePreviewCard extends FlowPanel
 	public void setMargin(int top) {
 		getElement().getStyle().setMarginTop(172 - top, Unit.PX);
 		getElement().getStyle().setMarginBottom(top, Unit.PX);
+	}
+
+
+	public int getGrabY() {
+		return grabY;
+	}
+
+
+	public void setGrabY(int y) {
 	}
 	
 	
