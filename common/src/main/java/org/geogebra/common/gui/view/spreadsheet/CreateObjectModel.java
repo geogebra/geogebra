@@ -176,7 +176,7 @@ public class CreateObjectModel {
 			}
 		}
 
-		newGeo.update();
+		newGeo.updateRepaint();
 		app.storeUndoInfo();
 	}
 
