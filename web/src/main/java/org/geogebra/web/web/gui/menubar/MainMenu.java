@@ -404,7 +404,7 @@ public class MainMenu extends FlowPanel
 			}
 
 			private void setStackText(int index, boolean expand) {
-				if (index < 0 || index > menuImgs.size()) {
+				if (index < 1 || index > menuImgs.size()) {
 					return;
 				}
 

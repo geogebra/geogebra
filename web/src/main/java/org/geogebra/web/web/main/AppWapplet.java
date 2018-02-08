@@ -668,6 +668,9 @@ public class AppWapplet extends AppWFull {
 		if (floatingMenuPanel == null) {
 			floatingMenuPanel = new FloatingMenuPanel(
 					getAppletFrame().getMenuBar(this));
+			if (!isUnbundledOrWhiteboard()) {
+				floatingMenuPanel.addStyleName("classic");
+			}
 			frame.add(floatingMenuPanel);
 		}
 

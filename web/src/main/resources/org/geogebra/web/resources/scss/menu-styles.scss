@@ -5,236 +5,256 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 .GeoGebraFrame {
 
 	.floatingMenu {
-			position: absolute;
-			top: 0px;
-			/*left: 6px;*/
-			/*padding: 8px 0px 8px 0px;*/
-			box-shadow: 0 6px 16px rgba(0,0,0,0.28);
-			/*box-shadow: 0 0 16px $black-28;*/
-			background-color: $white;
-			/*border-radius: 2px;*/
-			z-index:  100000;
-			height: 100%;
-			max-width: 100%;
-			overflow-y: auto;	
+		position: absolute;
+		top: 0px;
+		/*left: 6px;*/
+		/*padding: 8px 0px 8px 0px;*/
+		box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+		/*box-shadow: 0 0 16px $black-28;*/
+		background-color: $white;
+		/*border-radius: 2px;*/
+		z-index:  100000;
+		height: 100%;
+		max-width: 100%;
+		overflow-y: auto;	
 
-			.ggbmenubarwrapper { 
-				padding-bottom: 4px;
-			}
-			.menuLink{
-				padding-top: 8px;
-				display: inline-block;
-			}
-			.gwt-StackPanel .matStackPanelNoOpacity {
-				min-width: 232px;
-				background-color: $white;
-				img {
-					height: 24px !important;
-					width: 24px !important;
-					opacity: 1;
-				}
-				
-				.gwt-MenuItem {
-					padding-top: 0px;
-					height: 40px;
-					padding-bottom: 0px;
-					padding-right: 16px;
-					padding-left: 72px;
-					line-height: normal;
-					min-width: 232px;
-					color: $black-87;
-					
-					img {
-						height: 24px !important;
-						width: 24px !important;
-						position: absolute;
-						margin-left: -40px;	
-					}
-				
-					a { 
-						span { 
-							font-size: 90%;
-						}
-					}
-				
-					.gwt-HTML {
-						padding-top: 6px;
-						padding-left: 8px;
-					
-						.menuImg {
-							margin-left: -32px;
-							opacity: 1;
-						}
-					}
-					
-					.checkImg {
-						margin-right: 4px;
-						padding: 4px;
-						opacity: 0.54;	
-					}
-					
-					span.gwt-CheckBox.matCheckBox {
-						padding-left: 16px;
-					}
-					
-					td {
-						vertical-align: middle;
-					}
-				}
-				
-				.gwt-MenuItem:hover {
-					background-color: $selected-menuitem-background;
-					img {
-						opacity: 1;
-					}
-				
-					.checkImg {
-						opacity: 0.87;	
-					}
-					color: $black-87; 
-				}
+		.ggbmenubarwrapper { 
+			padding-bottom: 4px;
+		}
+		.menuLink{
+			padding-top: 8px;
+			display: inline-block;
+		}
+		.gwt-StackPanel .matStackPanelNoOpacity {
+			min-width: 232px;
+			background-color: $white;
+			img {
+				height: 24px;
+				width: 24px;
+				opacity: 1;
 			}
 			
-			
-			/* sub menu items */
-			.gwt-StackPanel .matStackPanel {
-				min-width: 232px;
-				background-color: $white;
-				
-				img {
-					opacity: 0.54;
-				}
-				
-			
-				.gwt-MenuItem {
-					padding-right: 16px;
-					padding-top: 0px;
-					padding-bottom: 0px;
-					padding-left: 72px;
-					line-height: 24px;
-					height: 40px;
-					min-width: 232px;
-					color: $black-87;
-					font-size: 90%;
-					
-					img {
-						height: 24px !important;
-						width: 24px !important;
-						position: absolute;
-						margin-left: -40px;	
-					}
-				}
-				
-				.gwt-MenuItem:hover {
-					background-color: $selected-menuitem-background;
-					img {
-						opacity: 0.87;
-					}
-					color: $black-87; 
-				}
-			}
-				
-			/* burger menu items */
-			.gwt-StackPanel .gwt-StackPanelItem {
-				min-width: 232px;
-				height: 48px;
-				background-color: $white;
-				padding-left: 72px;
+			.gwt-MenuItem {
 				padding-top: 0px;
+				height: 40px;
 				padding-bottom: 0px;
 				padding-right: 16px;
-				border-bottom:none;
-				border-top:none;
+				padding-left: 72px;
 				line-height: normal;
-				img {
-					height: 24px !important;
-					width: 24px !important;
-					position: absolute;
-					margin-left: -56px;	
-					opacity: 0.54;
-				}
-		
-				span {
-					font-size: 90%;	
-				}
-			
-				.expandImg, .collapseImg {
-					right: 16px;	
-					margin: 0px;
-				}
-			
-				// GeoGebra logo
-				&.gwt-StackPanelItem-first {
-					height: 56px !important;
-					background-color: $white !important;
-					
-					img {
-						opacity: 1;
-						top: 10px;
-						height: 36px !important;
-						width: 36px !important;
-						margin: 0px;
-						left: 6%;
-					}
-					
-					span {
-						font-size: 100% !important;
-					}
+				min-width: 232px;
+				color: $black-87;
 				
-					&:hover {
-						background-color: $white !important;
+				img {
+					height: 24px;
+					width: 24px;
+					position: absolute;
+					margin-left: -40px;	
+				}
+			
+				a { 
+					span { 
+						font-size: 90%;
 					}
 				}
 			
-				&.gwt-StackPanelItem-selected {
-					span {
-						color: $black;
-					}	
+				.gwt-HTML {
+					padding-top: 6px;
+					padding-left: 8px;
+				
+					.menuImg {
+						margin-left: -32px;
+						opacity: 1;
+					}
 				}
-			
-				&.gwt-StackPanelItem-below-selected { 
-					border-top: 1px solid $burger-menu-border;
+				
+				.checkImg {
+					margin-right: 4px;
+					padding: 4px;
+					opacity: 0.54;	
+				}
+				
+				span.gwt-CheckBox.matCheckBox {
+					padding-left: 16px;
+				}
+				
+				td {
+					vertical-align: middle;
 				}
 			}
 			
-			.gwt-StackPanel .gwt-StackPanelItem:hover {
+			.gwt-MenuItem:hover {
 				background-color: $selected-menuitem-background;
+				img {
+					opacity: 1;
+				}
+			
+				.checkImg {
+					opacity: 0.87;	
+				}
+				color: $black-87; 
 			}
+		}
 		
-			.gwt-StackPanel .gwt-StackPanelItem .gwt-StackPanelItem-first:hover {
- 			   background-color: white !important;
+		
+		/* sub menu items */
+		.gwt-StackPanel .matStackPanel {
+			min-width: 232px;
+			background-color: $white;
+			
+			img {
+				opacity: 0.54;
 			}
 			
-			.gwt-StackPanel .gwt-StackPanelItem-selected { 
-				border-top: 1px solid $burger-menu-border;	
+		
+			.gwt-MenuItem {
+				padding-right: 16px;
+				padding-top: 0px;
+				padding-bottom: 0px;
+				padding-left: 72px;
+				line-height: 24px;
+				height: 40px;
+				min-width: 232px;
+				color: $black-87;
+				font-size: 90%;
+				
+				img {
+					height: 24px;
+					width: 24px;
+					position: absolute;
+					margin-left: -40px;	
+				}
+			}
+			
+			.gwt-MenuItem:hover {
+				background-color: $selected-menuitem-background;
 				img {
 					opacity: 0.87;
 				}
 				color: $black-87; 
 			}
+		}
 			
-			.gwt-StackPanel {
-				list-style-type : none;
+		/* burger menu items */
+		.gwt-StackPanel .gwt-StackPanelItem {
+			min-width: 232px;
+			height: 48px;
+			background-color: $white;
+			padding-left: 72px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+			padding-right: 16px;
+			border-bottom:none;
+			border-top:none;
+			line-height: normal;
+			img {
+				height: 24px;
+				width: 24px;
+				position: absolute;
+				margin-left: -56px;	
+				opacity: 0.54;
+			}
+	
+			span {
+				font-size: 90%;	
+			}
+		
+			.expandImg, .collapseImg {
+				right: 16px;	
+				margin: 0px;
+			}
+		
+			// GeoGebra logo
+			&.gwt-StackPanelItem-first {
+				height: 56px;
+				background-color: $white !important;
+				
+				img {
+					opacity: 1;
+					top: 10px;
+					height: 36px;
+					width: 36px;
+					margin: 0px;
+					left: 6%;
+				}
+				
+				span {
+					font-size: 100% !important;
+				}
+			
+				&:hover {
+					background-color: $white !important;
+				}
+			}
+		
+			&.gwt-StackPanelItem-selected {
+				span {
+					color: $black;
+				}	
+			}
+		
+			&.gwt-StackPanelItem-below-selected { 
+				border-top: 1px solid $burger-menu-border;
+			}
+		}
+		
+		.gwt-StackPanel .gwt-StackPanelItem:hover {
+			background-color: $selected-menuitem-background;
+		}
+	
+		.gwt-StackPanel .gwt-StackPanelItem .gwt-StackPanelItem-first:hover {
+			   background-color: white !important;
+		}
+		
+		.gwt-StackPanel .gwt-StackPanelItem-selected { 
+			border-top: 1px solid $burger-menu-border;	
+			img {
+				opacity: 0.87;
+			}
+			color: $black-87; 
+		}
+		
+		.gwt-StackPanel {
+			list-style-type : none;
+		}
+		
+		&.classic{
+			top:48px;
+			right:0;
+			&.animateIn {
+				animation-name: animateInClassic;
+			}
+			&.animateOut {
+				animation-name: animateOutClassic;
 			}
 			
-	}
-	
-	.floatingMenu.animateIn {
-		animation-duration: 0.25s;
-		animation-name: animateIn;
-		overflow: auto;
+			.gwt-StackPanel .gwt-StackPanelItem, .gwt-StackPanel .gwt-StackPanelItem.gwt-StackPanelItem-first{
+				height:32px;
+				padding-left:32px;
+				img {
+					opacity: 1;
+					position:static;
+					width: 20px;
+					height: 20px;
+					margin-left:-28px;
+				}
+			}
+		}
+		&.animateIn {
+			animation-duration: 0.25s;
+			animation-name: animateIn;
+			overflow: auto;
+		}
+		&.animateOut {
+			animation-duration: 0.2s;
+			animation-name: animateOut;
+			overflow-y: auto;
+		}
 	}
 			
 	@keyframes animateIn {
 		0% {left:-320px; top:0px;}
 		50% {left:-100; top:0px;}
 		100% {left:0px; top:0px;}
-	}
-	
-	.floatingMenu.animateOut {
-		animation-duration: 0.2s;
-		animation-name: animateOut;
-		overflow-y: auto;
 	}
 			
 	@keyframes animateOut {
@@ -243,6 +263,17 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		100% {left:-320px; top:0px;}
 	}
 	
+	@keyframes animateInClassic {
+		0% {right:-320px; top:0px;}
+		50% {right:-100; top:0px;}
+		100% {right:0px; top:0px;}
+	}
+			
+	@keyframes animateOutClassic {
+		0% {right:0px; top:0px;}
+		50% {right:-220; top:0px;}
+		100% {right:-320px; top:0px;}
+	}
 }
 	
 .floatingSubMenu {
