@@ -29,16 +29,6 @@ public class KeyboardFactory {
     }
 
     /**
-     * This method will be removed, after Feature Flag is removed.
-     * Two different flags for MOB and GGB: MOB_KEYBOARD_BOX_ICONS
-     * Use {@link #createMathKeyboard()} after Feature Flags are removed.
-     */
-    public Keyboard createMathKeyboard(boolean boxIcons) {
-        KeyboardModel model = keyboardModelFactory.createMathKeyboard(defaultButtonFactory, boxIcons);
-        return new KeyboardImpl(model, null, null);
-    }
-
-    /**
      * Creates a function keyboard with the function buttons.
      *
      * @return function keyboard
@@ -97,17 +87,6 @@ public class KeyboardFactory {
      */
     public Keyboard createSpecialSymbolsKeyboard() {
         KeyboardModel model = keyboardModelFactory.createSpecialSymbolsKeyboard(defaultButtonFactory);
-        return new KeyboardImpl(model, null, null);
-    }
-
-    /**
-     * Creates a special symbols keyboard with symbols control buttons,
-     * and a button to switch to the letters keyboard.
-     *
-     * @return special symbols keyboard
-     */
-    public Keyboard createSpecialSymbolsKeyboard(boolean boxIcons) {
-        KeyboardModel model = keyboardModelFactory.createSpecialSymbolsKeyboard(defaultButtonFactory, boxIcons);
         return new KeyboardImpl(model, null, null);
     }
 }

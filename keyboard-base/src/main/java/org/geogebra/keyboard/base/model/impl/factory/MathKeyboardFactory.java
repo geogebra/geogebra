@@ -21,18 +21,6 @@ import static org.geogebra.keyboard.base.model.impl.factory.Util.addInputButton;
 
 class MathKeyboardFactory {
 
-    private boolean boxIcon = false;
-
-    /**
-     * This method will be removed if Feature Flags are removed.
-     * Two different flags for MOB and GGB: MOB_KEYBOARD_BOX_ICONS
-     * Use {@link #createMathKeyboard(ButtonFactory)} if Feature Flags are removed.
-     */
-    KeyboardModel createMathKeyboard(ButtonFactory buttonFactory, boolean useBoxIcon) {
-        boxIcon = useBoxIcon;
-        return createMathKeyboard(buttonFactory);
-    }
-
     KeyboardModel createMathKeyboard(ButtonFactory buttonFactory) {
         KeyboardModelImpl mathKeyboard = new KeyboardModelImpl();
 
@@ -75,11 +63,7 @@ class MathKeyboardFactory {
         row = mathKeyboard.nextRow(9.2f);
         addInputButton(row, buttonFactory, "(");
         addInputButton(row, buttonFactory, ")");
-        if (boxIcon) {
-            addConstantInputButton(row, buttonFactory, Resource.ABS, "|");
-        } else {
-            addInputButton(row, buttonFactory, "|a|", "|");
-        }
+        addConstantInputButton(row, buttonFactory, Resource.ABS, "|");
         addInputButton(row, buttonFactory, ",");
         addButton(row, buttonFactory.createEmptySpace(0.2f));
         addInputButton(row, buttonFactory, "0");
