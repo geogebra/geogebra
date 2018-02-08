@@ -151,7 +151,7 @@ public class CASgiacW extends CASgiac {
 
 	private native String nativeEvaluateRaw(String s, boolean showOutput,
 			boolean useExternal) /*-{
-		if (useExternal && typeof $wnd.evalGeoGebraCASExternal === 'function') {
+		if (useExternal && @org.geogebra.web.html5.Browser::externalCAS()()) {
 			return $wnd.evalGeoGebraCASExternal(s);
 		}
 		if (typeof Float64Array === 'undefined') {

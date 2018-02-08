@@ -59,8 +59,7 @@ public class Browser {
 	}-*/;
 
 	public native static boolean externalCAS() /*-{
-		return typeof $wnd.evalGeoGebraCASExternal == 'function'
-				&& $wnd.evalGeoGebraCASExternal("1+1") == "2";
+		return typeof $wnd.evalGeoGebraCASExternal == 'function';
 	}-*/;
 
 	public static boolean checkWorkerSupport(String workerpath) {
