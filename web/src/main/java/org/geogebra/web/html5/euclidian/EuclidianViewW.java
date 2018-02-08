@@ -265,7 +265,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getWidth() {
-		return (int) (this.g2p.getCoordinateSpaceWidth() / this.g2p.devicePixelRatio);
+		return (int) (this.g2p.getCoordinateSpaceWidth() / this.g2p.getDevicePixelRatio());
 	}
 
 	/**
@@ -275,7 +275,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getHeight() {
-		return (int) (this.g2p.getCoordinateSpaceHeight() / this.g2p.devicePixelRatio);
+		return (int) (this.g2p.getCoordinateSpaceHeight() / this.g2p.getDevicePixelRatio());
 	}
 
 	@Override
@@ -637,7 +637,7 @@ public class EuclidianViewW extends EuclidianView implements
 		this.evNo = newEvNo;
 
 		this.g2p = new GGraphics2DW(canvas);
-		g2p.devicePixelRatio = app.getPixelRatio();
+		g2p.setDevicePixelRatio(app.getPixelRatio());
 		g2p.setView(this);
 		if (app.getArticleElement().isDebugGraphics()) {
 			g2p.startDebug();
@@ -1205,12 +1205,12 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void setPixelRatio(double pixelRatio) {
-		if (Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
+		if (Kernel.isEqual(g2p.getDevicePixelRatio(), pixelRatio)) {
 			return;
 		}
 		int realWidth = g2p.getOffsetWidth();
 		int realHeight = g2p.getOffsetHeight();
-		g2p.devicePixelRatio = pixelRatio;
+		g2p.setDevicePixelRatio(pixelRatio);
 		if (realHeight > 0 && realWidth > 0) {
 			g2p.setCoordinateSpaceSize(realWidth, realHeight);
 			this.createImage();

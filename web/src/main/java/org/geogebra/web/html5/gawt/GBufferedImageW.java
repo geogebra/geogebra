@@ -163,7 +163,7 @@ public class GBufferedImageW implements GBufferedImage {
 	@Override
 	public GGraphics2D createGraphics() {
 		GGraphics2DW g2 = new GGraphics2DW(getCanvas(), true);
-		g2.devicePixelRatio = this.pixelRatio;
+		g2.setDevicePixelRatio(this.pixelRatio);
 		return g2;
 	}
 

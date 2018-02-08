@@ -295,9 +295,9 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 
 		@Override
-		protected void createCanvas() {
+		protected Canvas createCanvas() {
 			pRenderer = getRenderer();
-			canvas = (Canvas) pRenderer.getCanvas();
+			return (Canvas) pRenderer.getCanvas();
 		}
 
 		@Override
@@ -652,12 +652,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void setPixelRatio(double pixelRatio) {
-		if (Kernel.isEqual(g2p.devicePixelRatio, pixelRatio)) {
+		if (Kernel.isEqual(g2p.getDevicePixelRatio(), pixelRatio)) {
 			return;
 		}
 		int realWidth = g2p.getOffsetWidth();
 		int realHeight = g2p.getOffsetHeight();
-		g2p.devicePixelRatio = pixelRatio;
+		g2p.setDevicePixelRatio(pixelRatio);
 		if (realHeight > 0 && realWidth > 0) {
 			((AppW) app).ggwGraphicsView3DDimChanged(realWidth, realHeight);
 		}

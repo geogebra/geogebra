@@ -235,17 +235,29 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			return absoluteEuclidianPanel.remove(w);
 		}
 
+		/**
+		 * @return absolute panel
+		 */
 		public AbsolutePanel getAbsolutePanel() {
 			return absoluteEuclidianPanel;
 		}
 	}
 
+	/**
+	 * @return panel wrapping the Euclidian view
+	 */
 	protected abstract EuclidianPanel getEuclidianPanel();
 
+	/**
+	 * @return application
+	 */
 	public AppW getApp() {
 		return app;
 	}
 
+	/**
+	 * @return panel for positioning overlay elements (e.g. input boxes)
+	 */
 	public final AbsolutePanel getAbsolutePanel() {
 		return getEuclidianPanel() == null ? null : getEuclidianPanel()
 				.getAbsolutePanel();
@@ -283,8 +295,19 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 		}
 	}
 
+	/**
+	 * Recompute offset/scale for event handling
+	 */
 	public abstract void calculateEnvironment();
 
+	/**
+	 * Resize wrapped panel to given dimensions
+	 * 
+	 * @param width
+	 *            view width
+	 * @param height
+	 *            view height
+	 */
 	public abstract void resizeView(int width, int height);
 
 	/**

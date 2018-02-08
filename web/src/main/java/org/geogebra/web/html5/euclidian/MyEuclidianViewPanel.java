@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.Panel;
 public class MyEuclidianViewPanel extends AbsolutePanel implements
         EuclidianPanelWAbstract {
 	/** canvas */
-	protected Canvas canvas;
+	private Canvas canvas;
 	private EuclidianView ev;
 
 	/**
@@ -24,18 +24,20 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 	public MyEuclidianViewPanel(EuclidianView ev) {
 		super();
 		this.ev = ev;
-		createCanvas();
-		canvas.getElement().getStyle().setPosition(Style.Position.RELATIVE);
-		canvas.getElement().getStyle().setZIndex(0);
-		add(canvas);
+		canvas = createCanvas();
+		getCanvas().getElement().getStyle().setPosition(Style.Position.RELATIVE);
+		getCanvas().getElement().getStyle().setZIndex(0);
+		add(getCanvas());
 
 	}
 
 	/**
 	 * create the canvas
+	 * 
+	 * @return Canvas widget
 	 */
-	protected void createCanvas() {
-		canvas = Canvas.createIfSupported();
+	protected Canvas createCanvas() {
+		return Canvas.createIfSupported();
 	}
 
 	@Override
@@ -72,7 +74,7 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 	@Override
 	public void updateNavigationBar() {
 		// TODO Auto-generated method stub
-
 	}
+
 
 }

@@ -2342,6 +2342,9 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	/**
+	 * File loading callback
+	 */
 	public abstract void afterLoadFileAppOrNot();
 
 	/**
@@ -2358,7 +2361,6 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public void recalculateEnvironments() {
-
 		if (getGuiManager() != null) {
 			getGuiManager().recalculateEnvironments();
 
@@ -2524,9 +2526,6 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	@Override
-	public abstract void set1rstMode();
-
-	@Override
 	public int getGUIFontSize() {
 		return 14;
 	}
@@ -2573,6 +2572,9 @@ public abstract class AppW extends App implements SetLabels {
 		return articleElement.getDataParamId();
 	}
 
+	/**
+	 * @return frame widget
+	 */
 	public abstract HasAppletProperties getAppletFrame();
 
 	/**

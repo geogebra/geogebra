@@ -64,13 +64,14 @@ public class GGraphics2DW implements GGraphics2D {
 	/**
 	 * the pixel ratio of the canvas.
 	 */
-	public double devicePixelRatio = 1;
+	private double devicePixelRatio = 1;
 
 	private double[] coords = new double[6];
 	private boolean debug = false;
 
 	/**
 	 * @param canvas
+	 *            canvas widget
 	 */
 	public GGraphics2DW(Canvas canvas) {
 		this.canvas = canvas;
@@ -444,14 +445,14 @@ public class GGraphics2DW implements GGraphics2D {
 
 	private void setTransform(GAffineTransform Tx) {
 
-		context.setDevicePixelRatio(devicePixelRatio);
+		context.setDevicePixelRatio(getDevicePixelRatio());
 
-		context.setTransform2(devicePixelRatio * Tx.getScaleX(),
-				devicePixelRatio * Tx.getShearY(),
-				devicePixelRatio * Tx.getShearX(),
-				devicePixelRatio * Tx.getScaleY(),
-				devicePixelRatio * Tx.getTranslateX(),
-				devicePixelRatio * Tx.getTranslateY());
+		context.setTransform2(getDevicePixelRatio() * Tx.getScaleX(),
+				getDevicePixelRatio() * Tx.getShearY(),
+				getDevicePixelRatio() * Tx.getShearX(),
+				getDevicePixelRatio() * Tx.getScaleY(),
+				getDevicePixelRatio() * Tx.getTranslateX(),
+				getDevicePixelRatio() * Tx.getTranslateY());
 
 	}
 
@@ -489,13 +490,13 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	private int physicalPX(int logicalPX) {
-		return (int) (logicalPX * devicePixelRatio);
+		return (int) (logicalPX * getDevicePixelRatio());
 	}
 	public void setCoordinateSpaceSize(int width, int height) {
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
 
-		context.resetTransform(devicePixelRatio);
+		context.resetTransform(getDevicePixelRatio());
 
 		setWidth(width);
 		setHeight(height);
@@ -826,7 +827,7 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	public double getScale() {
-		return devicePixelRatio;
+		return getDevicePixelRatio();
 	}
 
 	public JLMContext2d getContext() {
@@ -923,6 +924,14 @@ public class GGraphics2DW implements GGraphics2D {
 	 */
 	public void startDebug() {
 		debug = true;
+	}
+
+	public double getDevicePixelRatio() {
+		return devicePixelRatio;
+	}
+
+	public void setDevicePixelRatio(double devicePixelRatio) {
+		this.devicePixelRatio = devicePixelRatio;
 	}
 
 
