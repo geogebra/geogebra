@@ -197,9 +197,6 @@ public enum Feature {
 
 	/** IGR-481 */
 	MOB_LINKS_TO_OTHER_APPS_IN_IOS, 
-	
-	/** AND-617 */
-	MOB_INPUT_CONTEXT_MENU,
 
 	/** GGB-2183 change sin(15) -> sin(15deg) */
 	AUTO_ADD_DEGREE,
