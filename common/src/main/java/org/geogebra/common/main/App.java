@@ -3948,11 +3948,8 @@ public abstract class App implements UpdateSelection {
 		case MOBILE_USE_FBO_FOR_3D_IMAGE_EXPORT:
 			return false;
 
-		// AND-465: dependent on the MOB_EV_SETTINGS_POPUP feature
+		// AND-465
 		case MOB_DYNAMIC_SYLEBAR:
-
-			// AND-364
-		case MOB_EV_SETTINGS_POPUP:
 			return true;
 
 		// MOB-1305
