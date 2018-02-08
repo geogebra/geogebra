@@ -195,9 +195,6 @@ public enum Feature {
 	/** GGB-2118 */
 	PREVIEW_POINTS,
 
-	/** IGR-481 */
-	MOB_LINKS_TO_OTHER_APPS_IN_IOS, 
-
 	/** GGB-2183 change sin(15) -> sin(15deg) */
 	AUTO_ADD_DEGREE,
 

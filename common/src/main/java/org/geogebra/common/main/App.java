@@ -3960,10 +3960,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_NO_LOCK_FOR_PREVIEWABLE_IN_AND_3D:
 			return true;
 
-		// IGR-481
-		case MOB_LINKS_TO_OTHER_APPS_IN_IOS:
-			return true;
-
 		// AND-637
 		case MOB_GGB_KEYBOARD_IN_SETTINGS:
 			return true;
