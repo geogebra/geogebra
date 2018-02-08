@@ -27,6 +27,7 @@ class DragController {
 	}
 
 	private class DragCard {
+		private static final int CARD_MARGIN = 16;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
 		PagePreviewCard lastTarget = null;
@@ -41,10 +42,12 @@ class DragController {
 			lastTarget = null;
 		}
 
-		void setIndex(int idx) {
+		void setIndex(int x, int y) {
+			int idx = cardIndexAt(x, y);
 			if (idx >= 0 && idx < cards.getCardCount()) {
 				card = cards.cardAt(idx);
 				card.addStyleName("dragged");
+				lastTarget = null;
 			} else {
 				reset();
 			}
@@ -79,11 +82,11 @@ class DragController {
 		private PagePreviewCard findTarget() {
 	
 			int idx = cardIndexAt(card.getMiddleX(), 
-					isAnimated() ? card.getBottom(): card.getMiddleY());
+					isAnimated() ? card.getBottom() - CARD_MARGIN: card.getMiddleY());
 
 			if (idx == -1 && isAnimated()) {
 
-				idx = cardIndexAt(card.getMiddleX(), card.getAbsoluteTop() + 16);
+				idx = cardIndexAt(card.getMiddleX(), card.getAbsoluteTop() + CARD_MARGIN);
 					
 			}
 			return idx != -1 ? cards.cardAt(idx): null;
@@ -113,7 +116,7 @@ class DragController {
 		}
 		
 		void pushDown() {
-			int h = target.getOffsetHeight() - 16;
+			int h = target.getOffsetHeight() - CARD_MARGIN;
 			int diff = card.getBottom() - lastTop;
 			if (diff < h) {
 				target.setMargin(diff);
@@ -128,9 +131,8 @@ class DragController {
 	}
 
 	void startDrag(int x, int y) {
-		dragged.setIndex(cardIndexAt(x, y));
+		dragged.setIndex(x, y);
 		if (dragged.isValid() && dragged.isAnimated()) {
-			dragged.card.setGrabY(y);
 			if (dragged.index() < cards.getCardCount() - 1) {
 				startSpaceIdx = dragged.index() + 1;
 				cards.cardAt(startSpaceIdx).addStyleName("space");

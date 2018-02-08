@@ -4,7 +4,6 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -16,7 +15,6 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.i18n.server.testing.Parent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -281,7 +279,7 @@ public class PagePreviewCard extends FlowPanel
 	 * @return
 	 */
 	private int getTopFromDrag(int y) {
-		return y - getParent().getAbsoluteTop();
+		return y -  getParent().getAbsoluteTop()  - grabY;
 	}
 
 	/**
@@ -317,7 +315,11 @@ public class PagePreviewCard extends FlowPanel
 		int bottom = top + getOffsetHeight();
 
 		boolean hit = x > left && x < right && y > top && y < bottom;
-
+		if (hit) {
+			grabY = y - top + 32;
+		} else {
+			grabY = 0;
+		}
 		return hit;
 	}
 
@@ -369,9 +371,8 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 
-	public void setGrabY(int y) {
+	public void setGrabY(final int y) {
 	}
-	
 	
 }
 

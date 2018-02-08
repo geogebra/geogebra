@@ -779,7 +779,7 @@
 		
 	.mowPagePreviewCard.space {
 		margin-bottom: 0px;
-		margin-top: 196px;
+		margin-top: calc(180px + 16px);
 	}
 
 	.mowPagePreviewCard.spaceAnimated {
