@@ -68,17 +68,17 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	}
 
 	static private void drawPlane(DrawPlane3D dp, Renderer renderer) {
-	    if (dp != null) {
-            dp.drawGeometry(renderer);
-        }
-    }
+		if (dp != null) {
+			dp.drawGeometry(renderer);
+		}
+	}
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
 		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
 		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
-            drawPlane(drawPlanes[0], renderer);
+			drawPlane(drawPlanes[0], renderer);
 			drawPlane(drawPlanes[1], renderer);
 			break;
 		case GeoQuadricNDConstants.QUADRIC_PLANE:
@@ -338,8 +338,6 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		PlotterSurface surface;
 		int type = quadric.getType();
 
-		double min, max;
-
 		switch (type) {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			Coords center = quadric.getMidpoint3D();
@@ -361,439 +359,39 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 			break;
 		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
-			center = quadric.getMidpoint3D();
-			double r0 = quadric.getHalfAxis(0);
-			double r1 = quadric.getHalfAxis(1);
-			double r2 = quadric.getHalfAxis(2);
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-			scale = getView3D().getMaxScale();
-			radius = Math.max(r0, Math.max(r1, r2));
-			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
-			Coords ev0 = quadric.getEigenvec3D(0);
-			Coords ev1 = quadric.getEigenvec3D(1);
-			Coords ev2 = quadric.getEigenvec3D(2);
-			surface.drawEllipsoid(center, ev0, ev1, ev2, r0, r1, r2, longitude);
-			setSurfaceIndex(surface.end());
+			updateEllipsoid(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
-			center = quadric.getMidpoint3D();
-			r0 = quadric.getHalfAxis(0);
-			r1 = quadric.getHalfAxis(1);
-			r2 = quadric.getHalfAxis(2);
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-			ev0 = quadric.getEigenvec3D(0);
-			ev1 = quadric.getEigenvec3D(1);
-			ev2 = quadric.getEigenvec3D(2);
-			if (vMinMax == null) {
-				vMinMax = new double[2];
-			}
-			vMinMax[0] = Double.POSITIVE_INFINITY;
-			vMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(vMinMax, center,
-					ev2.mul(r2));
-			scale = getView3D().getMaxScale();
-			// get radius at max
-			radius = Math.max(r0, r1) * Math.max(Math.abs(vMinMax[0]),
-					Math.max(Math.abs(vMinMax[1]), 1)) / r2;
-			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
-			min = DrawConic3D.asinh(vMinMax[0]);
-			max = DrawConic3D.asinh(vMinMax[1]);
-			surface.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1, r2,
-					longitude, min, max, !getView3D().useClippingCube());
-			setSurfaceIndex(surface.end());
+			updateHyperboloidOneSheet(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
-			center = quadric.getMidpoint3D();
-			r0 = quadric.getHalfAxis(0);
-			r1 = quadric.getHalfAxis(1);
-			r2 = quadric.getHalfAxis(2);
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-			ev0 = quadric.getEigenvec3D(0);
-			ev1 = quadric.getEigenvec3D(1);
-			ev2 = quadric.getEigenvec3D(2);
-			if (vMinMax == null) {
-				vMinMax = new double[2];
-			}
-			vMinMax[0] = Double.POSITIVE_INFINITY;
-			vMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(vMinMax, center,
-					ev2.mul(r2));
-			scale = getView3D().getMaxScale();
-			// get radius at max
-			radius = Math.max(r0, r1)
-					* Math.max(Math.abs(vMinMax[0]), Math.abs(vMinMax[1])) / r2;
-			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
-			if (vMinMax[0] < -1) { // bottom exists
-				min = -DrawConic3D.acosh(-vMinMax[0]);
-			} else if (vMinMax[0] <= 1) { // top ends at pole
-				min = 0;
-			} else { // top pole is cut
-				min = DrawConic3D.acosh(vMinMax[0]);
-			}
-			if (vMinMax[1] > 1) { // top exists
-				max = DrawConic3D.acosh(vMinMax[1]);
-			} else if (vMinMax[1] >= -1) { // bottom ends at pole
-				max = 0;
-			} else { // bottom pole is cut
-				max = -DrawConic3D.acosh(-vMinMax[1]);
-			}
-			surface.drawHyperboloidTwoSheets(center, ev0, ev1, ev2, r0, r1, r2,
-					longitude, min, max, !getView3D().useClippingCube());
-			setSurfaceIndex(surface.end());
+			updateHyperboloidTwoSheets(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_PARABOLOID:
-			center = quadric.getMidpoint3D();
-			r0 = quadric.getHalfAxis(0);
-			r1 = quadric.getHalfAxis(1);
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-			ev0 = quadric.getEigenvec3D(0);
-			ev1 = quadric.getEigenvec3D(1);
-			ev2 = quadric.getEigenvec3D(2);
-			if (quadric.getHalfAxis(2) < 0) {
-				ev0 = ev0.mul(-1);
-				ev2 = ev2.mul(-1);
-			}
-			if (vMinMax == null) {
-				vMinMax = new double[2];
-			}
-			vMinMax[0] = Double.POSITIVE_INFINITY;
-			vMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2);
-			if (vMinMax[1] < 0) {
-				// nothing to draw
-				setSurfaceIndex(surface.end());
-			} else {
-				scale = getView3D().getMaxScale();
-				// get radius at max
-				if (vMinMax[0] <= 0) {
-					vMinMax[0] = 0;
-				} else {
-					vMinMax[0] = Math.sqrt(vMinMax[0]);
-				}
-				vMinMax[1] = Math.sqrt(vMinMax[1]);
-				radius = Math.max(r0, r1) * vMinMax[1];
-				longitude = surface.calcSphereLongitudesNeeded(radius, scale);
-				surface.drawParaboloid(center, ev0, ev1, ev2, r0, r1, longitude,
-						vMinMax[0], vMinMax[1], !getView3D().useClippingCube());
-				setSurfaceIndex(surface.end());
-			}
+			updateParaboloid(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID:
-			center = quadric.getMidpoint3D();
-			r0 = quadric.getHalfAxis(0);
-			r1 = quadric.getHalfAxis(1);
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-			ev0 = quadric.getEigenvec3D(0);
-			ev1 = quadric.getEigenvec3D(1);
-			ev2 = quadric.getEigenvec3D(2);
-			if (uMinMax == null) {
-				uMinMax = new double[2];
-			}
-			uMinMax[0] = Double.POSITIVE_INFINITY;
-			uMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(uMinMax, center, ev0);
-			if (vMinMax == null) {
-				vMinMax = new double[2];
-			}
-			vMinMax[0] = Double.POSITIVE_INFINITY;
-			vMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev1);
-			surface.drawHyperbolicParaboloid(center, ev0, ev1, ev2, r0, r1,
-					uMinMax[0], uMinMax[1], vMinMax[0], vMinMax[1],
-					!getView3D().useClippingCube());
-			setSurfaceIndex(surface.end());
+			updateHyperbolicParaboloid(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
-			center = quadric.getMidpoint3D();
-			r2 = quadric.getHalfAxis(2);
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-			ev0 = quadric.getEigenvec3D(0);
-			ev1 = quadric.getEigenvec3D(1);
-			ev2 = quadric.getEigenvec3D(2);
-			if (vMinMax == null) {
-				vMinMax = new double[2];
-			}
-			vMinMax[0] = Double.POSITIVE_INFINITY;
-			vMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev0);
-			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
-
-				radius = quadric.getHalfAxis(0);
-
-				if (vMinMax[1] < 0) {
-					// nothing to draw
-
-				} else {
-					if (vMinMax[0] <= 0) {
-						vMinMax[0] = 0;
-					} else {
-						vMinMax[0] = Math.sqrt(vMinMax[0]);
-					}
-					vMinMax[1] = Math.sqrt(vMinMax[1]);
-					surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2,
-							vMinMax[0], vMinMax[1], quadric.getMinParameter(1),
-							quadric.getMaxParameter(1), false);
-
-					boundsMin.set(Double.POSITIVE_INFINITY);
-					boundsMax.set(Double.NEGATIVE_INFINITY);
-				}
-
-			} else {
-				if (uMinMax == null) {
-					uMinMax = new double[2];
-				}
-				uMinMax[0] = Double.POSITIVE_INFINITY;
-				uMinMax[1] = Double.NEGATIVE_INFINITY;
-				if (vMinMax[1] < 0) {
-					// nothing to draw
-
-				} else {
-					scale = getView3D().getMaxScale();
-					// get radius at max
-					if (vMinMax[0] <= 0) {
-						vMinMax[0] = 0;
-					} else {
-						vMinMax[0] = Math.sqrt(vMinMax[0]);
-					}
-					vMinMax[1] = Math.sqrt(vMinMax[1]);
-					getView3D().getMinIntervalOutsideClipping(uMinMax, center,
-							ev1);
-					surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2,
-							vMinMax[0], vMinMax[1], uMinMax[0], uMinMax[1],
-							!getView3D().useClippingCube());
-				}
-			}
-			setSurfaceIndex(surface.end());
+			updateParabolicCylinder(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
-			center = quadric.getMidpoint3D();
-			r0 = quadric.getHalfAxis(0);
-			r1 = quadric.getHalfAxis(1);
-
-			ev0 = quadric.getEigenvec3D(0);
-			ev1 = quadric.getEigenvec3D(1);
-			ev2 = quadric.getEigenvec3D(2);
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-			if (uMinMax == null) {
-				uMinMax = new double[2];
-			}
-			uMinMax[0] = Double.POSITIVE_INFINITY;
-			uMinMax[1] = Double.NEGATIVE_INFINITY;
-			getView3D().getMinIntervalOutsideClipping(uMinMax, center,
-					ev0.mul(r0));
-			if (uMinMax[0] < -1) { // bottom exists
-				min = -DrawConic3D.acosh(-uMinMax[0]);
-			} else if (uMinMax[0] <= 1) { // top ends at pole
-				min = 0;
-			} else { // top pole is cut
-				min = DrawConic3D.acosh(uMinMax[0]);
-			}
-			if (uMinMax[1] > 1) { // top exists
-				max = DrawConic3D.acosh(uMinMax[1]);
-			} else if (uMinMax[1] >= -1) { // bottom ends at pole
-				max = 0;
-			} else { // bottom pole is cut
-				max = -DrawConic3D.acosh(-uMinMax[1]);
-			}
-			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
-				radius = quadric.getHalfAxis(0);
-				double radius2 = quadric.getHalfAxis(1);
-				longitude = renderer.getGeometryManager().getLongitude(radius,
-						getView3D().getMaxScale());
-				if (min < 0) {
-					surface.drawHyperbolicCylinder(center, ev0.mul(-1), ev1,
-							ev2, radius, radius2, -max, -min,
-							quadric.getMinParameter(1),
-							quadric.getMaxParameter(1), false);
-				}
-				if (max > 0) {
-					surface.drawHyperbolicCylinder(center, ev0, ev1, ev2,
-							radius, radius2, min, max,
-							quadric.getMinParameter(1),
-							quadric.getMaxParameter(1), false);
-				}
-				boundsMin.set(Double.POSITIVE_INFINITY);
-				boundsMax.set(Double.NEGATIVE_INFINITY);
-				enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2,
-						radius, radius);
-
-			} else {
-
-				scale = getView3D().getMaxScale();
-
-				if (vMinMax == null) {
-					vMinMax = new double[2];
-				}
-				vMinMax[0] = Double.POSITIVE_INFINITY;
-				vMinMax[1] = Double.NEGATIVE_INFINITY;
-				getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2);
-				if (min < 0) {
-					surface.drawHyperbolicCylinder(center, ev0.mul(-1),
-							ev1.mul(-1), ev2, r0, r1, -max, -min, vMinMax[0],
-							vMinMax[1], !getView3D().useClippingCube());
-				}
-				if (max > 0) {
-					surface.drawHyperbolicCylinder(center, ev0, ev1, ev2, r0,
-							r1, min, max, vMinMax[0], vMinMax[1],
-							!getView3D().useClippingCube());
-				}
-				uMinMax[0] = Math.sinh(min);
-				uMinMax[1] = Math.sinh(max);
-			}
-			setSurfaceIndex(surface.end());
-
+			updateHyperbolicCylinder(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_CONE:
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-			if (quadric instanceof GeoQuadric3DPart) { // simple cone
-				double height = ((GeoQuadric3DPart) quadric)
-						.getBottomParameter()
-						- ((GeoQuadric3DPart) quadric).getTopParameter();
-				Coords top = quadric.getMidpoint3D();
-				ev1 = quadric.getEigenvec3D(0);
-				ev2 = quadric.getEigenvec3D(1);
-				radius = quadric.getHalfAxis(0);
-				double radius2 = quadric.getHalfAxis(1);
-				Coords bottomCenter = surface.cone(top, ev1, ev2,
-						quadric.getEigenvec3D(2), radius, radius2, 0,
-						2 * Math.PI, height, 1f);
-
-				boundsMin.setValues(top, 3);
-				boundsMax.setValues(top, 3);
-				radius *= height;
-				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1,
-						ev2, radius, radius2);
-
-			} else { // infinite cone
-				if (vMinMax == null) {
-					vMinMax = new double[2];
-				}
-				vMinMax[0] = Double.POSITIVE_INFINITY;
-				vMinMax[1] = Double.NEGATIVE_INFINITY;
-				getMinMax(vMinMax);
-				min = vMinMax[0];
-				max = vMinMax[1];
-				// min -= delta;
-				// max += delta;
-				// Log.debug(min+","+max);
-				center = quadric.getMidpoint3D();
-				ev1 = quadric.getEigenvec3D(0);
-				ev2 = quadric.getEigenvec3D(1);
-				Coords ev3 = quadric.getEigenvec3D(2);
-				r1 = quadric.getHalfAxis(0);
-				r2 = quadric.getHalfAxis(1);
-
-				if (min * max < 0) {
-					if (getView3D().useClippingCube()) {
-						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
-								2 * Math.PI, min, 1f);
-						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
-								2 * Math.PI, max, 1f);
-					} else {
-						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
-								2 * Math.PI, min,
-								(float) ((-9 * min - max) / (min - max)));
-						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
-								2 * Math.PI, max,
-								(float) ((-9 * max - min) / (max - min)));
-					}
-				} else {
-					if (getView3D().useClippingCube()) {
-						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
-								2 * Math.PI, min, max, false, false);
-					} else {
-						double delta = (max - min) / 10;
-						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
-								2 * Math.PI, min + delta, max - delta, false,
-								false);
-						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
-								2 * Math.PI, min, min + delta, true, false);
-						surface.cone(center, ev1, ev2, ev3, r1, r2, 0,
-								2 * Math.PI, max - delta, max, false, true);
-					}
-				}
-			}
-
-			setSurfaceIndex(surface.end());
+			updateCone(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-
-			center = quadric.getMidpoint3D();
-			ev1 = quadric.getEigenvec3D(0);
-			ev2 = quadric.getEigenvec3D(1);
-			Coords ev3 = quadric.getEigenvec3D(2);
-
-			surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
-
-			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
-				radius = quadric.getHalfAxis(0);
-				double radius2 = quadric.getHalfAxis(1);
-				longitude = renderer.getGeometryManager().getLongitude(radius,
-						getView3D().getMaxScale());
-				Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3,
-						radius, radius2, 0, 2 * Math.PI,
-						quadric.getMinParameter(1), quadric.getMaxParameter(1),
-						false, false, longitude);
-
-				boundsMin.set(Double.POSITIVE_INFINITY);
-				boundsMax.set(Double.NEGATIVE_INFINITY);
-				enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2,
-						radius, radius);
-				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1,
-						ev2, radius, radius);
-
-			} else {
-				if (vMinMax == null) {
-					vMinMax = new double[2];
-				}
-				vMinMax[0] = Double.POSITIVE_INFINITY;
-				vMinMax[1] = Double.NEGATIVE_INFINITY;
-				getMinMax(vMinMax);
-				min = vMinMax[0];
-				max = vMinMax[1];
-				r1 = quadric.getHalfAxis(0);
-				r2 = quadric.getHalfAxis(1);
-				radius = Math.max(r1, r2);
-
-				longitude = renderer.getGeometryManager().getLongitude(radius,
-						getView3D().getMaxScale());
-				if (getView3D().useClippingCube()) {
-					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, min, max, false, false, longitude);
-				} else {
-					double delta = (max - min) / 10;
-					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, min + delta, max - delta, false, false,
-							longitude);
-					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, min, min + delta, true, false,
-							longitude);
-					surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0,
-							2 * Math.PI, max - delta, max, false, true,
-							longitude);
-				}
-
-			}
-
-			setSurfaceIndex(surface.end());
-
+			updateCylinder(quadric, renderer);
 			break;
 
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
@@ -833,6 +431,438 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		return true;
+	}
+
+	private void updateEllipsoid(GeoQuadric3D quadric, Renderer renderer) {
+		Coords center = quadric.getMidpoint3D();
+		double r0 = quadric.getHalfAxis(0);
+		double r1 = quadric.getHalfAxis(1);
+		double r2 = quadric.getHalfAxis(2);
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		scale = getView3D().getMaxScale();
+		double radius = Math.max(r0, Math.max(r1, r2));
+		longitude = surface.calcSphereLongitudesNeeded(radius, scale);
+		Coords ev0 = quadric.getEigenvec3D(0);
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
+		surface.drawEllipsoid(center, ev0, ev1, ev2, r0, r1, r2, longitude);
+		setSurfaceIndex(surface.end());
+	}
+
+	private void updateHyperboloidOneSheet(GeoQuadric3D quadric,
+			Renderer renderer) {
+		Coords center = quadric.getMidpoint3D();
+		double r0 = quadric.getHalfAxis(0);
+		double r1 = quadric.getHalfAxis(1);
+		double r2 = quadric.getHalfAxis(2);
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		Coords ev0 = quadric.getEigenvec3D(0);
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
+		if (vMinMax == null) {
+			vMinMax = new double[2];
+		}
+		vMinMax[0] = Double.POSITIVE_INFINITY;
+		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2.mul(r2));
+		scale = getView3D().getMaxScale();
+		// get radius at max
+		double radius = Math.max(r0, r1) * Math.max(Math.abs(vMinMax[0]),
+				Math.max(Math.abs(vMinMax[1]), 1)) / r2;
+		longitude = surface.calcSphereLongitudesNeeded(radius, scale);
+		double min = DrawConic3D.asinh(vMinMax[0]);
+		double max = DrawConic3D.asinh(vMinMax[1]);
+		surface.drawHyperboloidOneSheet(center, ev0, ev1, ev2, r0, r1, r2,
+				longitude, min, max, !getView3D().useClippingCube());
+		setSurfaceIndex(surface.end());
+
+	}
+
+	private void updateHyperbolicParaboloid(GeoQuadric3D quadric,
+			Renderer renderer) {
+		Coords center = quadric.getMidpoint3D();
+		double r0 = quadric.getHalfAxis(0);
+		double r1 = quadric.getHalfAxis(1);
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		Coords ev0 = quadric.getEigenvec3D(0);
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
+		if (uMinMax == null) {
+			uMinMax = new double[2];
+		}
+		uMinMax[0] = Double.POSITIVE_INFINITY;
+		uMinMax[1] = Double.NEGATIVE_INFINITY;
+		getView3D().getMinIntervalOutsideClipping(uMinMax, center, ev0);
+		if (vMinMax == null) {
+			vMinMax = new double[2];
+		}
+		vMinMax[0] = Double.POSITIVE_INFINITY;
+		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev1);
+		surface.drawHyperbolicParaboloid(center, ev0, ev1, ev2, r0, r1,
+				uMinMax[0], uMinMax[1], vMinMax[0], vMinMax[1],
+				!getView3D().useClippingCube());
+		setSurfaceIndex(surface.end());
+
+	}
+
+	private void updateHyperboloidTwoSheets(GeoQuadric3D quadric,
+			Renderer renderer) {
+		double min, max;
+		Coords center = quadric.getMidpoint3D();
+		double r0 = quadric.getHalfAxis(0);
+		double r1 = quadric.getHalfAxis(1);
+		double r2 = quadric.getHalfAxis(2);
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		Coords ev0 = quadric.getEigenvec3D(0);
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
+		if (vMinMax == null) {
+			vMinMax = new double[2];
+		}
+		vMinMax[0] = Double.POSITIVE_INFINITY;
+		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2.mul(r2));
+		scale = getView3D().getMaxScale();
+		// get radius at max
+		double radius = Math.max(r0, r1)
+				* Math.max(Math.abs(vMinMax[0]), Math.abs(vMinMax[1])) / r2;
+		longitude = surface.calcSphereLongitudesNeeded(radius, scale);
+		if (vMinMax[0] < -1) { // bottom exists
+			min = -DrawConic3D.acosh(-vMinMax[0]);
+		} else if (vMinMax[0] <= 1) { // top ends at pole
+			min = 0;
+		} else { // top pole is cut
+			min = DrawConic3D.acosh(vMinMax[0]);
+		}
+		if (vMinMax[1] > 1) { // top exists
+			max = DrawConic3D.acosh(vMinMax[1]);
+		} else if (vMinMax[1] >= -1) { // bottom ends at pole
+			max = 0;
+		} else { // bottom pole is cut
+			max = -DrawConic3D.acosh(-vMinMax[1]);
+		}
+		surface.drawHyperboloidTwoSheets(center, ev0, ev1, ev2, r0, r1, r2,
+				longitude, min, max, !getView3D().useClippingCube());
+		setSurfaceIndex(surface.end());
+
+	}
+
+	private void updateParaboloid(GeoQuadric3D quadric, Renderer renderer) {
+		Coords center = quadric.getMidpoint3D();
+		double r0 = quadric.getHalfAxis(0);
+		double r1 = quadric.getHalfAxis(1);
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		Coords ev0 = quadric.getEigenvec3D(0);
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
+		if (quadric.getHalfAxis(2) < 0) {
+			ev0 = ev0.mul(-1);
+			ev2 = ev2.mul(-1);
+		}
+		if (vMinMax == null) {
+			vMinMax = new double[2];
+		}
+		vMinMax[0] = Double.POSITIVE_INFINITY;
+		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2);
+		if (vMinMax[1] < 0) {
+			// nothing to draw
+			setSurfaceIndex(surface.end());
+		} else {
+			scale = getView3D().getMaxScale();
+			// get radius at max
+			if (vMinMax[0] <= 0) {
+				vMinMax[0] = 0;
+			} else {
+				vMinMax[0] = Math.sqrt(vMinMax[0]);
+			}
+			vMinMax[1] = Math.sqrt(vMinMax[1]);
+			double radius = Math.max(r0, r1) * vMinMax[1];
+			longitude = surface.calcSphereLongitudesNeeded(radius, scale);
+			surface.drawParaboloid(center, ev0, ev1, ev2, r0, r1, longitude,
+					vMinMax[0], vMinMax[1], !getView3D().useClippingCube());
+			setSurfaceIndex(surface.end());
+		}
+
+	}
+
+	private void updateParabolicCylinder(GeoQuadric3D quadric,
+			Renderer renderer) {
+		Coords center = quadric.getMidpoint3D();
+		double r2 = quadric.getHalfAxis(2);
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		Coords ev0 = quadric.getEigenvec3D(0);
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
+		if (vMinMax == null) {
+			vMinMax = new double[2];
+		}
+		vMinMax[0] = Double.POSITIVE_INFINITY;
+		vMinMax[1] = Double.NEGATIVE_INFINITY;
+		getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev0);
+		if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
+
+			if (vMinMax[1] < 0) {
+				// nothing to draw
+
+			} else {
+				if (vMinMax[0] <= 0) {
+					vMinMax[0] = 0;
+				} else {
+					vMinMax[0] = Math.sqrt(vMinMax[0]);
+				}
+				vMinMax[1] = Math.sqrt(vMinMax[1]);
+				surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2,
+						vMinMax[0], vMinMax[1], quadric.getMinParameter(1),
+						quadric.getMaxParameter(1), false);
+
+				boundsMin.set(Double.POSITIVE_INFINITY);
+				boundsMax.set(Double.NEGATIVE_INFINITY);
+			}
+
+		} else {
+			if (uMinMax == null) {
+				uMinMax = new double[2];
+			}
+			uMinMax[0] = Double.POSITIVE_INFINITY;
+			uMinMax[1] = Double.NEGATIVE_INFINITY;
+			if (vMinMax[1] < 0) {
+				// nothing to draw
+
+			} else {
+				scale = getView3D().getMaxScale();
+				// get radius at max
+				if (vMinMax[0] <= 0) {
+					vMinMax[0] = 0;
+				} else {
+					vMinMax[0] = Math.sqrt(vMinMax[0]);
+				}
+				vMinMax[1] = Math.sqrt(vMinMax[1]);
+				getView3D().getMinIntervalOutsideClipping(uMinMax, center, ev1);
+				surface.drawParabolicCylinder(center, ev0, ev1, ev2, r2,
+						vMinMax[0], vMinMax[1], uMinMax[0], uMinMax[1],
+						!getView3D().useClippingCube());
+			}
+		}
+		setSurfaceIndex(surface.end());
+	}
+
+	private void updateCone(GeoQuadric3D quadric, Renderer renderer) {
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		if (quadric instanceof GeoQuadric3DPart) { // simple cone
+			double height = ((GeoQuadric3DPart) quadric).getBottomParameter()
+					- ((GeoQuadric3DPart) quadric).getTopParameter();
+			Coords top = quadric.getMidpoint3D();
+			Coords ev1 = quadric.getEigenvec3D(0);
+			Coords ev2 = quadric.getEigenvec3D(1);
+			double radius = quadric.getHalfAxis(0);
+			double radius2 = quadric.getHalfAxis(1);
+			Coords bottomCenter = surface.cone(top, ev1, ev2,
+					quadric.getEigenvec3D(2), radius, radius2, 0, 2 * Math.PI,
+					height, 1f);
+
+			boundsMin.setValues(top, 3);
+			boundsMax.setValues(top, 3);
+			radius *= height;
+			enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1,
+					ev2, radius, radius2);
+
+		} else { // infinite cone
+			if (vMinMax == null) {
+				vMinMax = new double[2];
+			}
+			vMinMax[0] = Double.POSITIVE_INFINITY;
+			vMinMax[1] = Double.NEGATIVE_INFINITY;
+			getMinMax(vMinMax);
+			double min = vMinMax[0];
+			double max = vMinMax[1];
+			// min -= delta;
+			// max += delta;
+			// Log.debug(min+","+max);
+			Coords center = quadric.getMidpoint3D();
+			Coords ev1 = quadric.getEigenvec3D(0);
+			Coords ev2 = quadric.getEigenvec3D(1);
+			Coords ev3 = quadric.getEigenvec3D(2);
+			double r1 = quadric.getHalfAxis(0);
+			double r2 = quadric.getHalfAxis(1);
+
+			if (min * max < 0) {
+				if (getView3D().useClippingCube()) {
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+							min, 1f);
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+							max, 1f);
+				} else {
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+							min, (float) ((-9 * min - max) / (min - max)));
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+							max, (float) ((-9 * max - min) / (max - min)));
+				}
+			} else {
+				if (getView3D().useClippingCube()) {
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+							min, max, false, false);
+				} else {
+					double delta = (max - min) / 10;
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+							min + delta, max - delta, false, false);
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+							min, min + delta, true, false);
+					surface.cone(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+							max - delta, max, false, true);
+				}
+			}
+		}
+
+		setSurfaceIndex(surface.end());
+	}
+
+	private void updateHyperbolicCylinder(GeoQuadric3D quadric,
+			Renderer renderer) {
+		double min, max;
+		double radius;
+		Coords center = quadric.getMidpoint3D();
+		double r0 = quadric.getHalfAxis(0);
+		double r1 = quadric.getHalfAxis(1);
+
+		Coords ev0 = quadric.getEigenvec3D(0);
+		Coords ev1 = quadric.getEigenvec3D(1);
+		Coords ev2 = quadric.getEigenvec3D(2);
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+		if (uMinMax == null) {
+			uMinMax = new double[2];
+		}
+		uMinMax[0] = Double.POSITIVE_INFINITY;
+		uMinMax[1] = Double.NEGATIVE_INFINITY;
+		getView3D().getMinIntervalOutsideClipping(uMinMax, center, ev0.mul(r0));
+		if (uMinMax[0] < -1) { // bottom exists
+			min = -DrawConic3D.acosh(-uMinMax[0]);
+		} else if (uMinMax[0] <= 1) { // top ends at pole
+			min = 0;
+		} else { // top pole is cut
+			min = DrawConic3D.acosh(uMinMax[0]);
+		}
+		if (uMinMax[1] > 1) { // top exists
+			max = DrawConic3D.acosh(uMinMax[1]);
+		} else if (uMinMax[1] >= -1) { // bottom ends at pole
+			max = 0;
+		} else { // bottom pole is cut
+			max = -DrawConic3D.acosh(-uMinMax[1]);
+		}
+		if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
+			radius = quadric.getHalfAxis(0);
+			double radius2 = quadric.getHalfAxis(1);
+			longitude = renderer.getGeometryManager().getLongitude(radius,
+					getView3D().getMaxScale());
+			if (min < 0) {
+				surface.drawHyperbolicCylinder(center, ev0.mul(-1), ev1, ev2,
+						radius, radius2, -max, -min, quadric.getMinParameter(1),
+						quadric.getMaxParameter(1), false);
+			}
+			if (max > 0) {
+				surface.drawHyperbolicCylinder(center, ev0, ev1, ev2, radius,
+						radius2, min, max, quadric.getMinParameter(1),
+						quadric.getMaxParameter(1), false);
+			}
+			boundsMin.set(Double.POSITIVE_INFINITY);
+			boundsMax.set(Double.NEGATIVE_INFINITY);
+			enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2,
+					radius, radius);
+
+		} else {
+
+			scale = getView3D().getMaxScale();
+
+			if (vMinMax == null) {
+				vMinMax = new double[2];
+			}
+			vMinMax[0] = Double.POSITIVE_INFINITY;
+			vMinMax[1] = Double.NEGATIVE_INFINITY;
+			getView3D().getMinIntervalOutsideClipping(vMinMax, center, ev2);
+			if (min < 0) {
+				surface.drawHyperbolicCylinder(center, ev0.mul(-1), ev1.mul(-1),
+						ev2, r0, r1, -max, -min, vMinMax[0], vMinMax[1],
+						!getView3D().useClippingCube());
+			}
+			if (max > 0) {
+				surface.drawHyperbolicCylinder(center, ev0, ev1, ev2, r0, r1,
+						min, max, vMinMax[0], vMinMax[1],
+						!getView3D().useClippingCube());
+			}
+			uMinMax[0] = Math.sinh(min);
+			uMinMax[1] = Math.sinh(max);
+		}
+		setSurfaceIndex(surface.end());
+	}
+
+	private void updateCylinder(GeoQuadric3D quadric, Renderer renderer) {
+		double min, max;
+		double radius, r1, r2;
+		Coords center = quadric.getMidpoint3D();
+		Coords ev1 = quadric.getEigenvec3D(0);
+		Coords ev2 = quadric.getEigenvec3D(1);
+		Coords ev3 = quadric.getEigenvec3D(2);
+
+		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		surface.start(getReusableSurfaceIndex());
+
+		if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
+			radius = quadric.getHalfAxis(0);
+			double radius2 = quadric.getHalfAxis(1);
+			longitude = renderer.getGeometryManager().getLongitude(radius,
+					getView3D().getMaxScale());
+			Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3,
+					radius, radius2, 0, 2 * Math.PI, quadric.getMinParameter(1),
+					quadric.getMaxParameter(1), false, false, longitude);
+
+			boundsMin.set(Double.POSITIVE_INFINITY);
+			boundsMax.set(Double.NEGATIVE_INFINITY);
+			enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2,
+					radius, radius);
+			enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1,
+					ev2, radius, radius);
+
+		} else {
+			if (vMinMax == null) {
+				vMinMax = new double[2];
+			}
+			vMinMax[0] = Double.POSITIVE_INFINITY;
+			vMinMax[1] = Double.NEGATIVE_INFINITY;
+			getMinMax(vMinMax);
+			min = vMinMax[0];
+			max = vMinMax[1];
+			r1 = quadric.getHalfAxis(0);
+			r2 = quadric.getHalfAxis(1);
+			radius = Math.max(r1, r2);
+
+			longitude = renderer.getGeometryManager().getLongitude(radius,
+					getView3D().getMaxScale());
+			if (getView3D().useClippingCube()) {
+				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+						min, max, false, false, longitude);
+			} else {
+				double delta = (max - min) / 10;
+				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+						min + delta, max - delta, false, false, longitude);
+				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+						min, min + delta, true, false, longitude);
+				surface.cylinder(center, ev1, ev2, ev3, r1, r2, 0, 2 * Math.PI,
+						max - delta, max, false, true, longitude);
+			}
+
+		}
+
+		setSurfaceIndex(surface.end());
+
 	}
 
 	private void initDrawPlanes(GeoQuadric3D quadric) {
