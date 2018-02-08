@@ -27,6 +27,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.gui.GuiManagerW;
 import org.geogebra.web.web.gui.Persistable;
+import org.geogebra.web.web.gui.app.FloatingMenuPanel;
 import org.geogebra.web.web.gui.app.GGWCommandLine;
 import org.geogebra.web.web.gui.app.GGWMenuBar;
 import org.geogebra.web.web.gui.app.GGWToolBar;
@@ -34,7 +35,6 @@ import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 import org.geogebra.web.web.gui.inputbar.AlgebraInputW;
 import org.geogebra.web.web.gui.laf.GLookAndFeel;
-import org.geogebra.web.web.gui.layout.DockGlassPaneW;
 import org.geogebra.web.web.gui.layout.DockManagerW;
 import org.geogebra.web.web.gui.layout.DockPanelW;
 import org.geogebra.web.web.gui.layout.DockSplitPaneW;
@@ -52,7 +52,6 @@ import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -64,15 +63,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class AppWapplet extends AppWFull {
 	private int spWidth;
 	private int spHeight;
-	private boolean menuShowing = false;
 	private boolean menuInited = false;
 
-	private GeoGebraFrameBoth frame;
-	private DockSplitPaneW oldSplitLayoutPanel = null; // just a technical
+
+
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
-	private View focusedView;
 	/** floating menu */
 	FloatingMenuPanel floatingMenuPanel = null;
 
@@ -138,11 +135,6 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public GeoGebraFrameBoth getAppletFrame() {
-		return frame;
-	}
-
-	@Override
 	protected void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
 		initGuiManager();
@@ -189,9 +181,6 @@ public class AppWapplet extends AppWFull {
 			oldSplitLayoutPanel = null;
 		}
 	}
-
-
-
 
 	@Override
 	public void buildApplicationPanel() {
@@ -295,7 +284,6 @@ public class AppWapplet extends AppWFull {
 			((ZoomSplitLayoutPanel) getSplitLayoutPanel()).forceLayout();
 		}
 		// updateComponentTreeUI();
-
 	}
 
 	/**
@@ -360,7 +348,6 @@ public class AppWapplet extends AppWFull {
 			};
 			timer.schedule(0);
 		}
-
 	}
 
 	@Override
@@ -404,7 +391,6 @@ public class AppWapplet extends AppWFull {
 				}
 			}
 			updatePerspective(p);
-
 		}
 
 		getScriptManager().ggbOnInit(); // put this here from Application
@@ -470,7 +456,6 @@ public class AppWapplet extends AppWFull {
 				getGuiManager().getLayout().getDockManager().adjustViews(true);
 			}
 		}
-
 	}
 
 	private static boolean algebraVisible(Perspective p2) {
@@ -485,29 +470,6 @@ public class AppWapplet extends AppWFull {
 		return false;
 	}
 
-	private class FloatingMenuPanel extends FlowPanel {
-		private GGWMenuBar menu;
-
-		public FloatingMenuPanel() {
-			addStyleName("floatingMenu");
-			menu = getAppletFrame().getMenuBar(AppWapplet.this);
-			add(menu);
-		}
-
-		/**
-		 * focus in deferred way.
-		 */
-		public void focusDeferred() {
-			menu.focusDeferred();
-		}
-
-		@Override
-		public void setVisible(boolean b) {
-			menu.setVisible(b);
-		}
-
-	}
-
 	@Override
 	public void focusLost(View v, Element el) {
 		super.focusLost(v, el);
@@ -519,28 +481,6 @@ public class AppWapplet extends AppWFull {
 
 		// if it is there in focusGained, why not put it here?
 		this.getGlobalKeyDispatcher().setFocused(false);
-	}
-
-	@Override
-	public void focusGained(View v, Element el) {
-		super.focusGained(v, el);
-		focusedView = v;
-		GeoGebraFrameW.useFocusedBorder(getArticleElement(), frame);
-
-		// we really need to set it to true
-		switch (v.getViewID()) {
-		case App.VIEW_ALGEBRA:
-		case App.VIEW_EUCLIDIAN:
-		case App.VIEW_EUCLIDIAN2:
-			this.getGlobalKeyDispatcher().setFocusedIfNotTab();
-			break;
-		default:
-			if (App.isView3D(v.getViewID())
-					|| ((v.getViewID() >= App.VIEW_EUCLIDIAN_FOR_PLANE_START) && (v
-							.getViewID() <= App.VIEW_EUCLIDIAN_FOR_PLANE_END))) {
-				this.getGlobalKeyDispatcher().setFocusedIfNotTab();
-			}
-		}
 	}
 
 	@Override
@@ -602,7 +542,6 @@ public class AppWapplet extends AppWFull {
 					.setShowAlgebraInput(showAlgebraInput()
 							&& getInputPosition() == InputPosition.algebraView);
 		}
-
 	}
 
 	@Override
@@ -720,10 +659,7 @@ public class AppWapplet extends AppWFull {
 				floatingMenuPanel.focusDeferred();
 			}
 		}, floatingMenuPanel.getElement(), "animateIn");
-
 	}
-
-
 
 	private void toggleFloatingMenu(boolean needsUpdate) {
 		if (!isFloatingMenu()) {
@@ -731,7 +667,8 @@ public class AppWapplet extends AppWFull {
 		}
 		persistWidthAndHeight();
 		if (floatingMenuPanel == null) {
-			floatingMenuPanel = new FloatingMenuPanel();
+			floatingMenuPanel = new FloatingMenuPanel(
+					getAppletFrame().getMenuBar(this));
 			frame.add(floatingMenuPanel);
 		}
 
@@ -753,23 +690,7 @@ public class AppWapplet extends AppWFull {
 		// this.splitPanelWrapper.insert(frame.getMenuBar(this), 0);
 	}
 
-	private boolean isFloatingMenu() {
-		return isUnbundledOrWhiteboard();
-	}
 
-	@Override
-	public void updateMenuHeight() {
-		if (menuShowing) {
-			int h = this.oldSplitLayoutPanel.getOffsetHeight();
-			if (!isFloatingMenu()) {
-				frame.getMenuBar(this).setPixelSize(GLookAndFeel.MENUBAR_WIDTH,
-						h);
-			} else {
-				frame.getMenuBar(this).setHeight(h + "px");
-			}
-		}
-
-	}
 
 	@Override
 	public void hideMenu() {
@@ -811,33 +732,10 @@ public class AppWapplet extends AppWFull {
 		return this.menuShowing;
 	}
 
-	@Override
-	public DockGlassPaneW getGlassPane() {
-		return frame.getGlassPane();
-	}
 
 	@Override
 	public void addToHeight(int i) {
 		this.spHeight += i;
-	}
-
-	@Override
-	public void closePopups() {
-		super.closePopups();
-		if (isUnbundledOrWhiteboard()) {
-			hideMenu();
-			closePageControlPanel();
-		}
-	}
-
-	/**
-	 * Closes the page control panel
-	 */
-	public void closePageControlPanel() {
-		if (!has(Feature.MOW_MULTI_PAGE)) {
-			return;
-		}
-		frame.getPageControlPanel().close();
 	}
 
 	/**
