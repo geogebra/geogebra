@@ -22,6 +22,11 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 
+	public AlgoAnglePolygon(Construction cons, String[] labels,
+							GeoPolygon poly) {
+		this(cons, labels, poly, false);
+	}
+
 	/**
 	 * @param cons
 	 *            construction
@@ -31,12 +36,16 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 	 *            polygon
 	 */
 	public AlgoAnglePolygon(Construction cons, String[] labels,
-			GeoPolygon poly) {
-		this(cons, poly);
+			GeoPolygon poly, boolean internalAngle) {
+		this(cons, poly, internalAngle);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
 		setLabels(labels);
 
 		update();
+	}
+
+	public AlgoAnglePolygon(Construction cons, GeoPolygon poly) {
+		this(cons, poly, false);
 	}
 
 	/**
@@ -46,8 +55,8 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 	 *            polygon
 	 * 
 	 */
-	public AlgoAnglePolygon(Construction cons, GeoPolygon poly) {
-		super(cons, false);
+	public AlgoAnglePolygon(Construction cons, GeoPolygon poly, boolean internalAngle) {
+		super(cons, internalAngle);
 		setPolyAndOrientation(poly, null);
 		algoAngle = newAlgoAnglePoints(cons);
 		outputAngles = createOutputPoints();

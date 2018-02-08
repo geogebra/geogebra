@@ -499,7 +499,15 @@ public class AlgoDispatcher {
 	 * all angles of given polygon
 	 */
 	final public GeoElement[] Angles(String[] labels, GeoPolygon poly) {
-		AlgoAnglePolygon algo = new AlgoAnglePolygon(cons, labels, poly);
+		return Angles(labels, poly, false);
+	}
+
+	/**
+	 * all angles of given polygon
+	 * @param internalAngle angles should be internal e.g. direction dependent
+	 */
+	final public GeoElement[] Angles(String[] labels, GeoPolygon poly, boolean internalAngle) {
+		AlgoAnglePolygon algo = new AlgoAnglePolygon(cons, labels, poly, internalAngle);
 		GeoElement[] angles = algo.getAngles();
 		// for (int i=0; i < angles.length; i++) {
 		// angles[i].setAlphaValue(0.0f);
