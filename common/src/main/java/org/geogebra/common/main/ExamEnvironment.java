@@ -538,9 +538,9 @@ public class ExamEnvironment {
 	public String getCalculatorTypeName(CalculatorType type) {
 		switch (type) {
 		case GRAPHING:
-			return app.getLocalization().getMenu("exam_calctype_graphing");
+			return app.getLocalization().getMenu("Graphing");
 		case SYMBOLIC:
-			return app.getLocalization().getMenu("exam_calctype_sym_graphing");
+			return app.getLocalization().getMenu("Symbolic");
 		default:
 			return "";
 		}
