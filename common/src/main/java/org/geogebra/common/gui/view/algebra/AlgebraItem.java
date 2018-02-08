@@ -295,6 +295,16 @@ public class AlgebraItem {
 		}
 	}
 
+	public static void getDefinitionText(GeoElement geoElement, int style, IndexHTMLBuilder sb) {
+		if (style == Kernel.ALGEBRA_STYLE_DESCRIPTION && needsPacking(geoElement)) {
+			String value = geoElement.getDefinitionDescription(StringTemplate.editorTemplate);
+			sb.clear();
+			sb.append(value);
+		} else {
+			buildPlainTextItemSimple(geoElement, sb);
+		}
+	}
+
 	/**
 	 * @param geo
 	 *            element
