@@ -81,15 +81,15 @@ public class CASgiacW extends CASgiac {
 		if (!casLoaded()) {
 			return "?";
 		}
-		
-		if (Browser.externalCAS()) {
+		boolean external = Browser.externalCAS();
+		if (external) {
 			// native Giac so need same initString as desktop
-			nativeEvaluateRaw(initString, false);
+			nativeEvaluateRaw(initString, false, external);
 
 		} else {
 			// #5439
 			// restart Giac before each call
-			nativeEvaluateRaw(initStringWeb, false);
+			nativeEvaluateRaw(initStringWeb, false, external);
 		}
 		
 		// GGB-850
@@ -109,37 +109,35 @@ public class CASgiacW extends CASgiac {
 			 */
 			if (function.functionName == null || (foundInInput = (exp
 				.indexOf(function.functionName) > -1))) {
-				nativeEvaluateRaw(function.definitionString, false);
+				nativeEvaluateRaw(function.definitionString, false, external);
 				/* Some commands may require additional commands to load. */
 				if (foundInInput) {
 					ArrayList<CustomFunctions> dependencies = CustomFunctions
 							.prereqs(function);
 					for (CustomFunctions dep : dependencies) {
 						Log.debug(function + " implicitly loads " + dep);
-						nativeEvaluateRaw(dep.definitionString, false);
+						nativeEvaluateRaw(dep.definitionString, false,
+								external);
 					}
 				}
 
 				// Log.debug("sending " + function);
 			}
-
-			// Log.error(function.functionName + " " +
-			// function.definitionString);
 		}
 
-
-		nativeEvaluateRaw("timeout " + (timeoutMilliseconds / 1000), false);
+		nativeEvaluateRaw("timeout " + (timeoutMilliseconds / 1000), false,
+				external);
 
 		// make sure we don't always get the same value!
 		int seed = rand.nextInt(Integer.MAX_VALUE);
-		nativeEvaluateRaw("srand(" + seed + ")", false);
+		nativeEvaluateRaw("srand(" + seed + ")", false, external);
 
 		// set to radians mode
-		nativeEvaluateRaw("angle_radian:=1", false);
+		nativeEvaluateRaw("angle_radian:=1", false, external);
 
 		// show logging in tube-beta only
 		String ret = nativeEvaluateRaw(wrapInevalfa(exp), kernel
-				.getApplication().has(Feature.TUBE_BETA));
+				.getApplication().has(Feature.TUBE_BETA), external);
 
 		return ret;
 	}
@@ -155,7 +153,8 @@ public class CASgiacW extends CASgiac {
 
 	}-*/;
 
-	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
+	private native String nativeEvaluateRaw(String s, boolean showOutput,
+			boolean useExternal) /*-{
 
 		if (typeof $wnd.evalGeoGebraCASExternal === 'function') {
 			return $wnd.evalGeoGebraCASExternal(s);
@@ -263,6 +262,10 @@ public class CASgiacW extends CASgiac {
 		}
 	}
 
+	/**
+	 * @param versionString
+	 *            version (for debugging)
+	 */
 	protected void initCAS(String versionString) {
 		Log.debug(versionString + " loading success");
 		this.kernel.getApplication().getGgbApi().initCAS();
