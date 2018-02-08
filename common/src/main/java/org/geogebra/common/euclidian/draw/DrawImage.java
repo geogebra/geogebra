@@ -121,9 +121,11 @@ public final class DrawImage extends Drawable {
 			double ax = 0;
 			double ay = 0;
 
-			// we have corners C and B
-			if (C != null && D != null) {
-				if (!C.isDefined() || C.isInfinite()) {
+			// we have corners C and D
+			if (view.getApplication().has(Feature.MOW_IMAGE_BOUNDING_BOX)
+					&& C != null && D != null) {
+				if (!C.isDefined() || C.isInfinite() || !D.isDefined()
+						|| D.isInfinite()) {
 					isVisible = false;
 					return;
 				}
@@ -136,94 +138,85 @@ public final class DrawImage extends Drawable {
 				double yscale = 1.0 / width;
 				at.scale(yscale, -yscale);
 			} else {
-
-			if (A != null) {
-				if (!A.isDefined() || A.isInfinite()) {
-					isVisible = false;
-					return;
+				if (A != null) {
+					if (!A.isDefined() || A.isInfinite()) {
+						isVisible = false;
+						return;
+					}
+					ax = A.inhomX;
+					ay = A.inhomY;
 				}
-				ax = A.inhomX;
-				ay = A.inhomY;
-			}
-
-			// set transform according to corners
-			at.setTransform(view.getCoordTransform()); // last transform: real
+				// set transform according to corners
+				at.setTransform(view.getCoordTransform()); // last transform:
+															// real
 														// world
 														// -> screen
-
-			at.translate(ax, ay); // translate to first corner A
+				at.translate(ax, ay); // translate to first corner A
 				if (B == null) {
-				// we only have corner A
-				if (D == null) {
-					// use original pixel width and height of image
-					at.scale(view.getInvXscale(),
+					// we only have corner A
+					if (D == null) {
+						// use original pixel width and height of image
+						at.scale(view.getInvXscale(),
 							// make sure old files work
 							// https://dev.geogebra.org/trac/changeset/57611
 							geo.getKernel().getApplication().fileVersionBefore(
 									new int[] { 5, 0, 397, 0 })
 											? -view.getInvXscale()
 											: -view.getInvYscale());
-				}
-				// we have corners A and D
-				else {
-					if (!D.isDefined() || D.isInfinite()) {
+					}
+					// we have corners A and D
+					else {
+						if (!D.isDefined() || D.isInfinite()) {
+							isVisible = false;
+							return;
+						}
+						// rotate to coord system (-ADn, AD)
+						double ADx = D.inhomX - ax;
+						double ADy = D.inhomY - ay;
+						tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);
+						at.concatenate(tempAT);
+						// scale height of image to 1
+						double yscale = 1.0 / height;
+						at.scale(yscale, -yscale);
+					}
+				} else {
+					if (!B.isDefined() || B.isInfinite()) {
 						isVisible = false;
 						return;
 					}
-					// rotate to coord system (-ADn, AD)
-					double ADx = D.inhomX - ax;
-					double ADy = D.inhomY - ay;
-					tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);
-					at.concatenate(tempAT);
-
-					// scale height of image to 1
-					double yscale = 1.0 / height;
-					at.scale(yscale, -yscale);
-				}
-			} else {
-				if (!B.isDefined() || B.isInfinite()) {
-					isVisible = false;
-					return;
-				}
-
-				// we have corners A and B
-				if (D == null) {
-					// rotate to coord system (AB, ABn)
-					double ABx = B.inhomX - ax;
-					double ABy = B.inhomY - ay;
-					tempAT.setTransform(ABx, ABy, -ABy, ABx, 0, 0);
-					at.concatenate(tempAT);
-
-					// scale width of image to 1
-					double xscale = 1.0 / width;
-					at.scale(xscale, -xscale);
-				} else { // we have corners A, B and D
-					if (!D.isDefined() || D.isInfinite()) {
-						isVisible = false;
-						return;
+					// we have corners A and B
+					if (D == null) {
+						// rotate to coord system (AB, ABn)
+						double ABx = B.inhomX - ax;
+						double ABy = B.inhomY - ay;
+						tempAT.setTransform(ABx, ABy, -ABy, ABx, 0, 0);
+						at.concatenate(tempAT);
+						// scale width of image to 1
+						double xscale = 1.0 / width;
+						at.scale(xscale, -xscale);
+					} else { // we have corners A, B and D
+						if (!D.isDefined() || D.isInfinite()) {
+							isVisible = false;
+							return;
+						}
+						// shear to coord system (AB, AD)
+						double ABx = B.inhomX - ax;
+						double ABy = B.inhomY - ay;
+						double ADx = D.inhomX - ax;
+						double ADy = D.inhomY - ay;
+						tempAT.setTransform(ABx, ABy, ADx, ADy, 0, 0);
+						at.concatenate(tempAT);
+						// scale width and height of image to 1
+						at.scale(1.0 / width, -1.0 / height);
 					}
-
-					// shear to coord system (AB, AD)
-					double ABx = B.inhomX - ax;
-					double ABy = B.inhomY - ay;
-					double ADx = D.inhomX - ax;
-					double ADy = D.inhomY - ay;
-					tempAT.setTransform(ABx, ABy, ADx, ADy, 0, 0);
-					at.concatenate(tempAT);
-
-					// scale width and height of image to 1
-					at.scale(1.0 / width, -1.0 / height);
 				}
-			}
-
-
-			if (geoImage.isCentered()) {
-				// move image to the center
-				at.translate(-width / 2.0, -height / 2.0);
-			} else {
-				// move image up so that A becomes lower left corner
-				at.translate(0, -height);
-			}
+				if (geoImage.isCentered()) {
+					// move image to the center
+					at.translate(-width / 2.0, -height / 2.0);
+				} else {
+					// move image up so that A becomes lower left corner
+					at.translate(0, -height);
+				}
 			}
 			labelRectangle.setBounds(0, 0, width, height);
 
@@ -515,6 +508,8 @@ public final class DrawImage extends Drawable {
 			C.setY(D.getInhomY());
 			C.updateCoords();
 			C.updateRepaint();
+			// geoImage.setCorner(null, 1);
+			// geoImage.setCorner(null, 0);
 			break;
 		case BOTTOM_LEFT:
 			geoImage.calculateCornerPoint(D, 4);
