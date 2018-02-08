@@ -3952,10 +3952,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_DYNAMIC_SYLEBAR:
 			return true;
 
-		// MOB-1305
-		case MOB_KEYBOARD_BOX_ICONS:
-			return true;
-
 		// AND-574
 		case MOB_NO_LOCK_FOR_PREVIEWABLE_IN_AND_3D:
 			return true;

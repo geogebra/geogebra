@@ -114,9 +114,6 @@ public enum Feature {
 	/** MOW-368 */
 	MOW_IMAGE_DIALOG_UNBUNDLED,
 
-	/** MOB-1305 */
-	MOB_KEYBOARD_BOX_ICONS,
-
 	/** GGB-1697 */
 	AV_ITEM_DESIGN,
 
