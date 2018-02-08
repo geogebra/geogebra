@@ -469,19 +469,20 @@ public enum Language {
 		String normalizedLanguage = (browserLangCode + "")
 				.toLowerCase(Locale.US).replace("_", "-");
 
-		if ("he".equals(normalizedLanguage)) {
-			normalizedLanguage = "iw";
-		} else if ("zh_hans_cn".equals(normalizedLanguage)) {
-			normalizedLanguage = "zh_cn";
-		} else if ("zh_hant_tw".equals(normalizedLanguage)) {
-			normalizedLanguage = "zh_tw";
+		if (normalizedLanguage.startsWith("zh")) {
+			return normalizedLanguage.contains("tw")
+					|| normalizedLanguage.contains("hant")
+							? Language.Chinese_Traditional
+							: Language.Chinese_Simplified;
 		}
 		// on iOS it's nb_no
-		else if (normalizedLanguage.startsWith("nb")) {
-			normalizedLanguage = "nb";
+		else if ("no-no-ny".equals(normalizedLanguage)) {
+			return Language.Norwegian_Nynorsk;
+		} else if (normalizedLanguage.startsWith("no")) {
+			return Language.Norwegian_Bokmal;
 		}
 
-		// browserLangCode example: en-US, en-GB, pt-BR, pt-PT, and de-DE
+		// browserLangCode example: en-US, en-GB, pt-BR, pt-pt, and de-DE
 		for (Language lang : Language.values()) {
 			if (lang.getLocaleGWT().equalsIgnoreCase(normalizedLanguage)) {
 				return lang;
@@ -491,12 +492,13 @@ public enum Language {
 		// characters
 		for (Language lang : Language.values()) {
 			if (lang.getLocaleGWT()
+					.equalsIgnoreCase(normalizedLanguage.substring(0, 2))
+					|| lang.locale
 					.equalsIgnoreCase(normalizedLanguage.substring(0, 2))) {
 				return lang;
 			}
 		}
 		return Language.English_US;
-
 	}
 
 	/**

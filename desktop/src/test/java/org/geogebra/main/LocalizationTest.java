@@ -9,7 +9,7 @@ import org.junit.Test;
 
 public class LocalizationTest {
 	@Test
-	public void gwtLocalesTest() {
+	public void gwtTranslationFilesShouldMatchLanguages() {
 		File dir = new File(
 				"../web/src/nonfree/resources/org/geogebra/web/pub/js/");
 		TreeSet<String> available = new TreeSet<>();
@@ -29,5 +29,30 @@ public class LocalizationTest {
 			sb.append(fn + "\n");
 		}
 		Assert.assertEquals("", sb.toString());
+	}
+
+	@Test
+	public void aliasesShouldBeRecognized() {
+		checkAlias(Language.Hebrew, "he", "iw");
+		checkAlias(Language.Norwegian_Bokmal, "no", "nb", "nb_NO", "no-NO",
+				"no_NO");
+		checkAlias(Language.Norwegian_Nynorsk, "nn", "no-NO-NY", "nn-NO");
+		checkAlias(Language.Chinese_Simplified, "zh", "zh-Hans-CN", "zh-CN");
+		checkAlias(Language.Chinese_Traditional, "zh_TW", "zh-Hant-TW",
+				"zh-TW");
+		checkAlias(Language.Indonesian, "id", "in");
+		checkAlias(Language.Filipino, "fil", "tl");
+		checkAlias(Language.Yiddish, "yi", "ji");
+		checkAlias(Language.Mongolian, "mn", "mn-mn");
+		checkAlias(Language.English_UK, "en-GB");
+		checkAlias(Language.English_US, "en-US", "en", "whatever");
+	}
+
+	private void checkAlias(Language lang, String... aliases) {
+		for (String alias : aliases) {
+			Assert.assertEquals(alias + " should stand for " + lang,
+					Language.getClosestGWTSupportedLanguage(alias),
+					lang);
+		}
 	}
 }
