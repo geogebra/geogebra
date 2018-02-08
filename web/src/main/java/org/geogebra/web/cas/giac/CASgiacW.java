@@ -120,8 +120,6 @@ public class CASgiacW extends CASgiac {
 								external);
 					}
 				}
-
-				// Log.debug("sending " + function);
 			}
 		}
 
@@ -143,20 +141,17 @@ public class CASgiacW extends CASgiac {
 	}
 
 	private native String setUpInitCAS(String ggbApplet) /*-{
-
 		if (!$wnd.__ggb__giac)
 			$wnd.__ggb__giac = (typeof $wnd.__ggb__giac !== "undefined" ? $wnd.__ggb__giac
 					: null)
 					|| {};
 
 		$wnd.__ggb__giac.postRun = [ $wnd[ggbApplet].initCAS ];
-
 	}-*/;
 
 	private native String nativeEvaluateRaw(String s, boolean showOutput,
 			boolean useExternal) /*-{
-
-		if (typeof $wnd.evalGeoGebraCASExternal === 'function') {
+		if (useExternal && typeof $wnd.evalGeoGebraCASExternal === 'function') {
 			return $wnd.evalGeoGebraCASExternal(s);
 		}
 		if (typeof Float64Array === 'undefined') {
@@ -185,7 +180,6 @@ public class CASgiacW extends CASgiac {
 	}
 
 	private native boolean nativeCASloaded() /*-{
-
 		return !!$wnd.__ggb__giac && !!$wnd.__ggb__giac.cwrap;
 	}-*/;
 
@@ -196,14 +190,12 @@ public class CASgiacW extends CASgiac {
 	 *            whether to use WebAssembly or JavaScript
 	 */
 	public void initialize(final boolean wasm) {
-
 		final String versionString = wasm ? "giac.wasm" : "giac.js";
 
 		if (casLoaded()) {
 			Log.debug(versionString + " is already loaded!");
 			return;
 		}
-
 
 		if (nativeCASloaded()) {
 
@@ -245,7 +237,6 @@ public class CASgiacW extends CASgiac {
 			});
 
 		} else {
-
 			GWT.runAsync(new RunAsyncCallback() {
 				@Override
 				public void onSuccess() {
@@ -274,7 +265,6 @@ public class CASgiacW extends CASgiac {
 	@Override
 	public void clearResult() {
 		// not needed
-
 	}
 
 	@Override
@@ -286,5 +276,4 @@ public class CASgiacW extends CASgiac {
 	public boolean externalCAS() {
 		return Browser.externalCAS();
 	}
-
 }
