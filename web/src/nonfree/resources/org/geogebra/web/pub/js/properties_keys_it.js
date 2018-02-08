@@ -1367,7 +1367,7 @@ __GGB__keysVar.it.menu = {
     "CheckedNumerically": "(verificato numericamente)",
     "ChiSquaredContribution": "Contributo \u03a7\xb2",
     "ChiSquaredTest": "Test ChiQuadro",
-    "ChooseCalculator": "Choose Calculator",
+    "ChooseCalculator": "Seleziona una calcolatrice",
     "ChooseColor": "Scegliere un colore",
     "ChooseFromFile": "Scegli da File",
     "ChooseObject": "Scegliere un oggetto",
