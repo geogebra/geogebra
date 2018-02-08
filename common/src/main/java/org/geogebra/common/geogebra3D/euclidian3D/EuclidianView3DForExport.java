@@ -9,10 +9,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererForExport;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
+import org.geogebra.common.plugin.Geometry3DGetter;
 
 /**
  * 3D view in the background (no display)
@@ -42,7 +44,6 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 
 	/**
 	 * 
-	 * @param format
 	 * @param xmin
 	 * @param xmax
 	 * @param ymin
@@ -54,11 +55,9 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 * @param xTickDistance
 	 * @param yTickDistance
 	 * @param zTickDistance
-	 * @return export for 3D format
 	 */
-	public StringBuilder export3D(Format format, double xmin, double xmax, double ymin, double ymax, double zmin,
-			double zmax, double xyScale,
-			double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
+	public void updateSettings(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xyScale, double xzScale, double xTickDistance, double yTickDistance, double zTickDistance) {
 		this.xmin = xmin;
 		this.xmax = xmax;
 		this.ymin = ymin;
@@ -82,7 +81,6 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 				ymax * getYscale());
 
 		setWaitForUpdate();
-		return export3D(format);
 	}
 
 	private void setNumberingDistance(EuclidianSettings3D settings, int axis, double distance) {
@@ -108,6 +106,15 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 		return false;
 	}
 
+	private void updateScene() {
+		needsNewUpdate = true;
+		while (needsNewUpdate) {
+			needsNewUpdate = false;
+			renderer.drawScene();
+		}
+		boundsSet = false;
+	}
+
 	/**
 	 * 
 	 * @param format
@@ -115,12 +122,7 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 * @return 3D export
 	 */
 	public StringBuilder export3D(Format format) {
-		needsNewUpdate = true;
-		while (needsNewUpdate) {
-			needsNewUpdate = false;
-			renderer.drawScene();
-		}
-		boundsSet = false;
+		updateScene();
 		ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(this, renderer.getGeometryManager());
 		return exportToPrinter.export(format);
 	}
@@ -136,6 +138,16 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 			return clippingCubeDrawable.updateMinMax(xmin, xmax, ymin, ymax, zmin, zmax);
 		}
 		return clippingCubeDrawable.updateMinMax();
+	}
+
+	/**
+	 * 
+	 * @param getter
+	 *            geometry getter
+	 */
+	public void export3D(Geometry3DGetter getter) {
+		updateScene();
+		getRenderer().drawable3DLists.export(new Geometry3DGetterManager(this, getter));
 	}
 
 	@Override

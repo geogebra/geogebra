@@ -2231,8 +2231,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
 				settings);
 		Format format = new FormatCollada();
-		StringBuilder export = exportView3D.export3D(format, xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale,
-				xTickDistance, yTickDistance, zTickDistance);
+		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
+		StringBuilder export = exportView3D.export3D(format);
 		app.getKernel().detach(exportView3D);
 		return export.toString();
 
@@ -2246,11 +2247,26 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
 				settings);
 		Format format = new FormatObj();
-		StringBuilder export = exportView3D.export3D(format, xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale,
-				xTickDistance, yTickDistance, zTickDistance);
+		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
+		StringBuilder export = exportView3D.export3D(format);
 		app.getKernel().detach(exportView3D);
 		return export.toString();
 
+	}
+
+	final public void exportGeometry3D(Geometry3DGetter getter, double xmin, double xmax, double ymin, double ymax,
+			double zmin, double zmax, double xyScale, double xzScale, double xTickDistance, double yTickDistance,
+			double zTickDistance) {
+		// use ad hoc 3D view for export
+		EuclidianSettings3D settings = new EuclidianSettings3D(app);
+		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
+				settings);
+		Format format = new FormatObj();
+		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
+				zTickDistance);
+		exportView3D.export3D(getter);
+		app.getKernel().detach(exportView3D);
 	}
 
 	public String exportSVG(String filename) {

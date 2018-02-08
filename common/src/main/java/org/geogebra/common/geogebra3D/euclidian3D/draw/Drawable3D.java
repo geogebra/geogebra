@@ -17,6 +17,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -716,12 +717,22 @@ public abstract class Drawable3D extends DrawableND {
 	}
 
 	/**
-	 * draw in .obj format through renderer
+	 * draw in export format through renderer
 	 * 
 	 * @param exportToPrinter3D
-	 *            renderer
+	 *            exporter
 	 */
 	public void exportToPrinter3D(ExportToPrinter3D exportToPrinter3D) {
+		// default : do nothing
+	}
+
+	/**
+	 * translate to getter through renderer
+	 * 
+	 * @param manager
+	 *            geometry getter manager
+	 */
+	public void export(Geometry3DGetterManager manager) {
 		// default : do nothing
 	}
 

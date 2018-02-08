@@ -9,6 +9,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -262,6 +263,19 @@ public class Drawable3DLists {
 			for (Drawable3D d : list) {
 				d.exportToPrinter3D(exportToPrinter3D);
 			}
+		}
+	}
+
+	/**
+	 * export to 3D printer format
+	 * 
+	 * @param manager
+	 *            geometry getter manager
+	 * 
+	 */
+	public void export(Geometry3DGetterManager manager) {
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]) {
+			d.export(manager);
 		}
 	}
 
