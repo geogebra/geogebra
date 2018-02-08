@@ -4006,7 +4006,7 @@ public abstract class App implements UpdateSelection {
 
 		// AND-818
 		case MOB_CREATE_TEX_ICON_BACKGROUND:
-			return false;
+			return prerelease;
 
 		// **********************************************************************
 		// MOBILE END
