@@ -27,6 +27,7 @@ public class CASgiacW extends CASgiac {
 	/** kernel */
 	Kernel kernel;
 	private Evaluate giac;
+	private static boolean externalCAS = Browser.externalCAS();
 
 	/**
 	 * Creates new CAS
@@ -43,7 +44,7 @@ public class CASgiacW extends CASgiac {
 
 		App.setCASVersionString("Giac/JS");
 		Log.debug("starting CAS");
-		if (Browser.externalCAS()) {
+		if (externalCAS) {
 			Log.debug("switching to external");
 			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 		} else if (Browser.supportsJsCas()) {
@@ -81,16 +82,12 @@ public class CASgiacW extends CASgiac {
 		if (!casLoaded()) {
 			return "?";
 		}
-		boolean external = Browser.externalCAS();
-		if (external) {
-			// native Giac so need same initString as desktop
-			nativeEvaluateRaw(initString, false, external);
 
-		} else {
-			// #5439
-			// restart Giac before each call
-			nativeEvaluateRaw(initStringWeb, false, external);
-		}
+		// #5439
+		// restart Giac before each call
+		// native Giac needs same initString as desktop
+		evaluateRaw(externalCAS ? initString : initStringWeb, false,
+				externalCAS);
 		
 		// GGB-850
 		CustomFunctions[] init = CustomFunctions.values();
@@ -109,35 +106,45 @@ public class CASgiacW extends CASgiac {
 			 */
 			if (function.functionName == null || (foundInInput = (exp
 				.indexOf(function.functionName) > -1))) {
-				nativeEvaluateRaw(function.definitionString, false, external);
+				evaluateRaw(function.definitionString, false, externalCAS);
 				/* Some commands may require additional commands to load. */
 				if (foundInInput) {
 					ArrayList<CustomFunctions> dependencies = CustomFunctions
 							.prereqs(function);
 					for (CustomFunctions dep : dependencies) {
 						Log.debug(function + " implicitly loads " + dep);
-						nativeEvaluateRaw(dep.definitionString, false,
-								external);
+						evaluateRaw(dep.definitionString, false,
+								externalCAS);
 					}
 				}
 			}
 		}
 
-		nativeEvaluateRaw("timeout " + (timeoutMilliseconds / 1000), false,
-				external);
+		evaluateRaw("timeout " + (timeoutMilliseconds / 1000), false,
+				externalCAS);
 
 		// make sure we don't always get the same value!
 		int seed = rand.nextInt(Integer.MAX_VALUE);
-		nativeEvaluateRaw("srand(" + seed + ")", false, external);
+		evaluateRaw("srand(" + seed + ")", false, externalCAS);
 
 		// set to radians mode
-		nativeEvaluateRaw("angle_radian:=1", false, external);
+		evaluateRaw("angle_radian:=1", false, externalCAS);
 
 		// show logging in tube-beta only
-		String ret = nativeEvaluateRaw(wrapInevalfa(exp), kernel
-				.getApplication().has(Feature.TUBE_BETA), external);
+		String ret = evaluateRaw(wrapInevalfa(exp), kernel
+				.getApplication().has(Feature.TUBE_BETA), externalCAS);
 
 		return ret;
+	}
+
+	private String evaluateRaw(String giacCommand, boolean showOutput,
+			boolean external) {
+		if (external) {
+			return nativeEvaluateRawExternal(giacCommand, showOutput);
+		}
+
+		return nativeEvaluateRaw(giacCommand, showOutput);
+
 	}
 
 	private native String setUpInitCAS(String ggbApplet) /*-{
@@ -149,11 +156,12 @@ public class CASgiacW extends CASgiac {
 		$wnd.__ggb__giac.postRun = [ $wnd[ggbApplet].initCAS ];
 	}-*/;
 
-	private native String nativeEvaluateRaw(String s, boolean showOutput,
-			boolean useExternal) /*-{
-		if (useExternal && @org.geogebra.web.html5.Browser::externalCAS()()) {
-			return $wnd.evalGeoGebraCASExternal(s);
-		}
+	private native String nativeEvaluateRawExternal(String s,
+			boolean showOutput) /*-{
+		return $wnd.evalGeoGebraCASExternal(s);
+	}-*/;
+
+	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
 		if (typeof Float64Array === 'undefined') {
 			$wnd.console.log("Typed arrays not supported, Giac won't work");
 			return "?";
@@ -274,6 +282,6 @@ public class CASgiacW extends CASgiac {
 
 	@Override
 	public boolean externalCAS() {
-		return Browser.externalCAS();
+		return externalCAS;
 	}
 }
