@@ -31,6 +31,7 @@ class DragController {
 		PagePreviewCard target = null;
 		PagePreviewCard lastTarget = null;
 		int lastY = 0;
+		int lastTop = 0;
 		DragCard() {
 			reset();
 		}
@@ -58,18 +59,30 @@ class DragController {
 		}
 
 		void setPosition(int x, int y) {
-			boolean down = lastY < y;
 			card.setDragPosition(x, y);
-			findTarget(/* down */);
 			lastY = y;
+			target = findTarget();
+			if (target != null && target != lastTarget) { 
+				onTargetChange();
+			}
 		}
 
-		private void findTarget(/* boolean down */) {
-	
-			int idx = cardIndexAt(card.getMiddleX(), card.getMiddleY());
+		private void onTargetChange() {
+			Log.debug("[DND] target change: " + target.getPageIndex());
+			lastTop = target.getAbsoluteTop();
 			
-			target = idx != -1 ? cards.cardAt(idx): null;
+		}
+		private PagePreviewCard findTarget() {
+	
+			int idx = cardIndexAt(card.getMiddleX(), 
+					isAnimated() ? card.getBottom() : card.getMiddleY());
 
+			if (idx == -1 && isAnimated()) {
+
+				idx = cardIndexAt(card.getMiddleX(), card.getAbsoluteTop());
+					
+			}
+			return idx != -1 ? cards.cardAt(idx): null;
 		}
 		public void cancel() {
 			CancelEventTimer.resetDrag();
@@ -91,43 +104,19 @@ class DragController {
 			return card != null;
 		}
 
-		void pushUp(int treshold) {
-			int diff = card.getMiddleY() - target.getMiddleY();
-			if (diff < treshold) {
-				target.addSpace();
-				int nextIdx = target.getPageIndex() + 1;
-				if (nextIdx == index()) {
-					// skip dragging card
-					nextIdx++;
-				}
-				if (nextIdx < cards.getCardCount()) {
-					cards.cardAt(nextIdx).removeSpace();				
-				}
-			}
+		void pushUp() {
 		}
 
-		void pushDown(int treshold) {
-			PagePreviewCard last = cards.cardAt(cards.getCardCount() - 1);
-			if (target == last && last.getBottom() < card.getAbsoluteTop()) {
-				target.removeSpace();
-				return;
-			}
-			
-			int diff = target.getMiddleY() - card.getBottom();
-			if (diff < treshold) {
-				target.addSpace();
-				int prevIdx = target.getPageIndex() - 1;
-				if (prevIdx == index()) {
-					// skip dragging card
-					prevIdx--;
-				}
-				if (prevIdx > -1) {
-					cards.cardAt(prevIdx).removeSpace();
-				}
+		void pushDown() {
+			int h = target.getOffsetHeight();
+			int diff = card.getBottom() - lastTop;
+			if (diff < h) {
+				Log.debug("PUSH DOWN - target: " + target.getPageIndex() + " diff: " + diff);
+				target.setMargin(diff);
 			}
 		}
 	}
-		
+	
 	DragController(Cards slides, App app) {
 		this.cards = slides;
 		this.app = app;
@@ -140,6 +129,7 @@ class DragController {
 			if (dragged.index() < cards.getCardCount() - 1) {
 				startSpaceIdx = dragged.index() + 1;
 				cards.cardAt(startSpaceIdx).addStyleName("space");
+				dragged.lastTop = cards.cardAt(startSpaceIdx).getAbsoluteTop();
 			}
 		}
 	}
@@ -174,11 +164,10 @@ class DragController {
 		boolean bellowMiddle = dragged.target.getMiddleY() < dragged.card.getAbsoluteTop();
 
 		if (dragged.isAnimated()) {
-			int treshold = dragged.target.getOffsetHeight() / 5;
 			if (down) {
-				dragged.pushDown(treshold);
+				dragged.pushDown();
 			} else {
-				dragged.pushUp(treshold);
+				dragged.pushUp();
 			}
 		}
 		dragged.lastTarget = dragged.target;
@@ -233,32 +222,13 @@ class DragController {
 				result = card.getPageIndex();
 			}
 		}
-		if (result == -1) {
-			int lastIdx = cards.getCardCount() - 1;
-			if (cards.cardAt(lastIdx).getBottom() < y) {
-				result = lastIdx;
-			}
-		}
 		return result;
 	}
 
 
 	private void clearSpaces() {
-		clearSpacesBut(-1);
-	}
-
-	private void clearSpacesBut(int index) {
 		for (PagePreviewCard card: cards.getCards()) {
-			if (index != card.getPageIndex()) {
-				removeSpaceStyles(card);
-			}
+			card.removeSpace();
 		}
-	}
-
-	private static void removeSpaceStyles(PagePreviewCard card) {
-		card.removeStyleName("noSpace");
-		card.removeStyleName("space");
-		card.removeStyleName("spaceAnimated");
-		card.removeStyleName("noSpaceAnimated");
 	}
 }

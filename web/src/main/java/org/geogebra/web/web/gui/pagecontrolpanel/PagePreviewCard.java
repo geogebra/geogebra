@@ -279,7 +279,7 @@ public class PagePreviewCard extends FlowPanel
 	 * @return
 	 */
 	private int getTopFromDrag(int y) {
-		return y - getParent().getAbsoluteTop() - getOffsetHeight() / 2;
+		return y - getParent().getAbsoluteTop();
 	}
 
 	/**
@@ -347,8 +347,21 @@ public class PagePreviewCard extends FlowPanel
 	 * Removes space before the card for animation.
 	 */
 	public void removeSpace() {
-		removeStyleName("spaceAnimated");
-		addStyleName("noSpaceAnimated");
+		removeStyleName("space");
+		getElement().getStyle().clearMarginTop();
+		getElement().getStyle().clearMarginBottom();
 	}
+
+
+	/**
+	 * Sets margin.
+	 * @param  to set.
+	 */
+	public void setMargin(int top) {
+		getElement().getStyle().setMarginTop(172 - top, Unit.PX);
+		getElement().getStyle().setMarginBottom(top, Unit.PX);
+	}
+	
+	
 }
 
