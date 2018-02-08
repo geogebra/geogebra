@@ -12,7 +12,7 @@ import org.geogebra.web.web.gui.view.algebra.RadioTreeItem;
  * Abstract factory for LaTeX related stuff
  *
  */
-public abstract class LaTeXHelper {
+public interface LaTeXHelper {
 
 	/**
 	 * @param table
@@ -23,7 +23,7 @@ public abstract class LaTeXHelper {
 	 *            controller
 	 * @return CAS editor
 	 */
-	public abstract CASTableCellEditor getCASEditor(CASTableW table, AppW app,
+	CASTableCellEditor getCASEditor(CASTableW table, AppW app,
 			CASTableControllerW ml);
 
 	/**
@@ -31,48 +31,33 @@ public abstract class LaTeXHelper {
 	 *            element
 	 * @return AV item for element
 	 */
-	public abstract RadioTreeItem getAVItem(GeoElement ob);
+	RadioTreeItem getAVItem(GeoElement ob);
 
 	/**
 	 * @param kernel
 	 *            kernel
 	 * @return AV item for input
 	 */
-	public abstract RadioTreeItem getAVInput(Kernel kernel);
-
-	/**
-	 * @param fontSize
-	 *            font size
-	 */
-	public void setFontSize(int fontSize) {
-		// MQ only
-	}
-
-	/**
-	 * @return whether input in AV is supported
-	 */
-	public boolean supportsAV() {
-		return true;
-	}
+	RadioTreeItem getAVInput(Kernel kernel);
 
 	/**
 	 * @param ob
 	 *            slider geo
 	 * @return slider item
 	 */
-	public abstract RadioTreeItem getSliderItem(GeoElement ob);
+	RadioTreeItem getSliderItem(GeoElement ob);
 
 	/**
 	 * @param ob
 	 *            bool
 	 * @return checkbox item
 	 */
-	public abstract RadioTreeItem getCheckboxItem(GeoElement ob);
+	RadioTreeItem getCheckboxItem(GeoElement ob);
 
 	/**
 	 * @param ob
 	 *            geo text
 	 * @return text item
 	 */
-	public abstract RadioTreeItem getTextItem(GeoElement ob);
+	RadioTreeItem getTextItem(GeoElement ob);
 }

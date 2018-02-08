@@ -15,7 +15,7 @@ import org.geogebra.web.web.gui.view.algebra.TextTreeItem;
 /**
  * Factory class for ReTeX based editor
  */
-public class ReTeXHelper extends LaTeXHelper {
+public class ReTeXHelper implements LaTeXHelper {
 
 
 	@Override
@@ -34,10 +34,6 @@ public class ReTeXHelper extends LaTeXHelper {
 		return new RadioTreeItem(kernel).initInput();
 	}
 
-	@Override
-	public boolean supportsAV() {
-		return false;
-	}
 
 	@Override
 	public RadioTreeItem getSliderItem(GeoElement ob) {
@@ -53,5 +49,4 @@ public class ReTeXHelper extends LaTeXHelper {
 	public RadioTreeItem getTextItem(GeoElement ob) {
 		return new TextTreeItem(ob);
 	}
-
 }

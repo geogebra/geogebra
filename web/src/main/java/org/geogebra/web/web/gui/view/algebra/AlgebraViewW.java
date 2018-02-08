@@ -40,7 +40,6 @@ import org.geogebra.web.web.gui.layout.DockSplitPaneW;
 import org.geogebra.web.web.gui.layout.GUITabs;
 import org.geogebra.web.web.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.web.gui.layout.panels.AlgebraStyleBarW;
-import org.geogebra.web.web.util.ReTeXHelper;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.core.client.Scheduler;
@@ -1948,8 +1947,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	private void updateFonts() {
 		if (mqFontSize != app.getFontSizeWeb()) {
 			mqFontSize = app.getFontSizeWeb();
-			new ReTeXHelper()
-					.setFontSize(mqFontSize);
 			if (getInputTreeItem() != null) {
 				getInputTreeItem().updateFonts();
 			}
