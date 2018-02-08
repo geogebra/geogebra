@@ -478,12 +478,10 @@ public enum Language {
 		}
 		// on iOS it's nb_no
 		else if (normalizedLanguage.startsWith("nb")) {
-			normalizedLanguage = "no_nb";
-		} else if ("nn".equals(normalizedLanguage)) {
-			normalizedLanguage = "no_nn";
+			normalizedLanguage = "nb";
 		}
 
-		// browserLangCode example: en-US, en-GB, pt-BR, pt-pt, and de-DE
+		// browserLangCode example: en-US, en-GB, pt-BR, pt-PT, and de-DE
 		for (Language lang : Language.values()) {
 			if (lang.getLocaleGWT().equalsIgnoreCase(normalizedLanguage)) {
 				return lang;
