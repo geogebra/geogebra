@@ -96,7 +96,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	private ArrayList<Runnable> waitingForLocalization;
 	private boolean localizationLoaded;
 	/** browser / tablet / win store device */
-	protected GDevice device;
+	protected final GDevice device;
 	/** material ID waiting for login */
 	String toOpen = "";
 	private PerspectivesPopup perspectivesPopup;
@@ -105,9 +105,10 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	private AccessibilityManagerInterface accessibilityManager;
 	protected boolean menuShowing = false;
-	protected GeoGebraFrameBoth frame;
+	protected final GeoGebraFrameBoth frame;
 	protected View focusedView;
-	protected DockSplitPaneW oldSplitLayoutPanel = null; // just a technical
+	protected DockSplitPaneW oldSplitLayoutPanel = null; // just a
+																// technical
 
 	/**
 	 * 
@@ -119,10 +120,14 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	 *            look and feel
 	 * @param device
 	 *            browser / tablet / win store device
+	 * @param gf
+	 *            frame
 	 */
-	protected AppWFull(ArticleElement ae, int dimension, GLookAndFeelI laf,
-			GDevice device) {
+	protected AppWFull(ArticleElement ae, int dimension,
+			GLookAndFeelI laf,
+			GDevice device, GeoGebraFrameBoth gf) {
 		super(ae, dimension, laf);
+		this.frame = gf;
 		this.device = device;
 
 		if (this.isExam()) {
@@ -449,7 +454,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * Selects Pen tool in whiteboard
 	 */
-	protected void resetPenTool() {
+	protected final void resetPenTool() {
 		if (!isWhiteboardActive()) {
 			return;
 		}
@@ -465,7 +470,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * Resets toolbar
 	 */
-	protected void resetToolbarPanel() {
+	protected final void resetToolbarPanel() {
 		GuiManagerW gm = (GuiManagerW) getGuiManager();
 		DockPanel avPanel = gm.getLayout().getDockManager()
 				.getPanel(VIEW_ALGEBRA);
@@ -544,7 +549,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	protected CustomizeToolbarGUI getCustomizeToolbarGUI() {
+	protected final CustomizeToolbarGUI getCustomizeToolbarGUI() {
 		if (this.ct == null) {
 			this.ct = new CustomizeToolbarGUI(this);
 		}
@@ -600,7 +605,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public final DialogManager getDialogManager() {
+	public DialogManager getDialogManager() {
 		if (dialogManager == null) {
 			dialogManager = new DialogManagerW(this);
 			if (getGoogleDriveOperation() != null) {
@@ -753,7 +758,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * Removed element called ggbsplash
 	 */
-	protected static void removeSplash() {
+	protected final static void removeSplash() {
 		Element el = DOM.getElementById("ggbsplash");
 		if (el != null) {
 			el.removeFromParent();
@@ -812,7 +817,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public final void updateViewSizes() {
+	public void updateViewSizes() {
 		getEuclidianViewpanel().deferredOnResize();
 		if (hasEuclidianView2(1)) {
 			((GuiManagerW) getGuiManager()).getEuclidianView2DockPanel(1)
@@ -972,7 +977,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * @return whether floating menu is used
 	 */
-	protected boolean isFloatingMenu() {
+	protected final boolean isFloatingMenu() {
 		return isUnbundledOrWhiteboard();
 	}
 

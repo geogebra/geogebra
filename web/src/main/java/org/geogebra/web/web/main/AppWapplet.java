@@ -90,8 +90,7 @@ public class AppWapplet extends AppWFull {
 	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
 			int dimension, GLookAndFeel laf,
 			GDevice device) {
-		super(ae, dimension, laf, device);
-		this.frame = gf;
+		super(ae, dimension, laf, device, gf);
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 
