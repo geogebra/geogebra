@@ -284,7 +284,7 @@ public class TabbedKeyboard extends FlowPanel {
 		switcher = new KeyboardSwitcher();
 		this.btnHandler = bh;
 		this.doubleBrackets = ((App) app).has(Feature.DOUBLE_ROUND_BRACKETS);
-		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(true),
+		KeyPanelBase keyboard = buildPanel(kbf.createMathKeyboard(),
 				bh);
 		tabs.add(keyboard);
 		// more butto must be first because of float (Firefox)
@@ -309,7 +309,7 @@ public class TabbedKeyboard extends FlowPanel {
 		switcher.addSwitch(keyboard, Unicode.ALPHA_BETA_GAMMA);
 		switcher.setSelected(0, true);
 		// add special char tab
-		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(true),
+		keyboard = buildPanel(kbf.createSpecialSymbolsKeyboard(),
 				bh);
 		keyboard.setVisible(false);
 		tabs.add(keyboard);
