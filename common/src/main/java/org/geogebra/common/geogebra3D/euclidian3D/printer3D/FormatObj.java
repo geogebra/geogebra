@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.euclidian3D.printer3D;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * .obj format
@@ -54,7 +53,6 @@ public class FormatObj implements Format {
 	public void getVerticesStart(StringBuilder sb, int count) {
 		sb.append("\n");
 		index += nextShift;
-		Log.debug("index = " + index + ", nextShift = " + nextShift);
 		nextShift = 0;
 	}
 
