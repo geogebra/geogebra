@@ -42,7 +42,7 @@ class DragController {
 		}
 
 		int index() {
-			return target == null ? target.getPageIndex() : -1;
+			return target != null ? target.getPageIndex() : -1;
 		}
 
 	}
