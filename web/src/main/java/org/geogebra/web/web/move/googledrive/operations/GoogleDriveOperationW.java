@@ -292,6 +292,10 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	private void checkIfFileMustbeOpenedFromGoogleDrive() {
 		if ("open".equals(getAction())) {
 			app.resetPerspectiveParam();
+			if (app.has(Feature.WEB_SWITCH_APP_FOR_FILE)) {
+				app.getArticleElement().setAttribute("data-param-appName",
+						"auto");
+			}
 			openFileFromGoogleDrive(googleDriveURL);
 		}
 	}
@@ -525,10 +529,6 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		String state = Location.getParameter("state");
 		Log.debug(state);
 		if (state != null && !"".equals(state)) {
-			if (app.has(Feature.WEB_SWITCH_APP_FOR_FILE)) {
-				app.getArticleElement().setAttribute("data-param-appName",
-						"auto");
-			}
 			googleDriveURL = JSON.parse(state);
 			Log.debug(googleDriveURL);
 			if (!this.loggedIn) {
