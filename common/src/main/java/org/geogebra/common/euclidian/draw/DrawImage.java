@@ -61,6 +61,10 @@ public final class DrawImage extends Drawable {
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
 	private BoundingBox boundingBox;
+	/**
+	 * the image should have at least 100 width
+	 */
+	public final static int IMG_WIDTH_THRESHOLD = 100;
 
 	/**
 	 * Creates new drawable image
@@ -469,13 +473,17 @@ public final class DrawImage extends Drawable {
 			if (B == null) {
 				B = new GeoPoint(geoImage.cons);
 				geoImage.calculateCornerPoint(B, 2);
-				geoImage.setCorner(B, 1);
 			}
 			if (A == null) {
 				A = new GeoPoint(geoImage.cons);
 				geoImage.calculateCornerPoint(A, 1);
-				geoImage.setCorner(A, 0);
 			}
+			if (eventX - view
+					.toScreenCoordXd(A.getInhomX()) <= IMG_WIDTH_THRESHOLD) {
+				return;
+			}
+			geoImage.setCorner(A, 0);
+			geoImage.setCorner(B, 1);
 			geoImage.setCorner(null, 2);
 			geoImage.setCorner(null, 3);
 			B.setX(view.toRealWorldCoordX(eventX));
@@ -483,17 +491,20 @@ public final class DrawImage extends Drawable {
 			B.updateRepaint();
 			break;
 		case TOP_LEFT:
-
 			if (A == null) {
 				A = new GeoPoint(geoImage.cons);
 				geoImage.calculateCornerPoint(A, 1);
-				geoImage.setCorner(A, 0);
 			}
 			if (B == null) {
 				B = new GeoPoint(geoImage.cons);
 				geoImage.calculateCornerPoint(B, 2);
-				geoImage.setCorner(B, 1);
 			}
+			if (view.toScreenCoordXd(B.getInhomX())
+					- eventX <= IMG_WIDTH_THRESHOLD) {
+				return;
+			}
+			geoImage.setCorner(A, 0);
+			geoImage.setCorner(B, 1);
 			geoImage.setCorner(null, 2);
 			geoImage.setCorner(null, 3);
 			A.setX(view.toRealWorldCoordX(eventX));
@@ -502,13 +513,17 @@ public final class DrawImage extends Drawable {
 			break;
 		case BOTTOM_RIGHT:
 			geoImage.calculateCornerPoint(D, 4);
-			geoImage.setCorner(D, 2);
 			geoImage.calculateCornerPoint(C, 3);
-			geoImage.setCorner(C, 3);
 			C.setX(view.toRealWorldCoordX(eventX));
 			C.setY(D.getInhomY());
 			C.updateCoords();
 			C.updateRepaint();
+			if ((eventX - view
+					.toScreenCoordXd(D.getInhomX()) <= IMG_WIDTH_THRESHOLD)) {
+				return;
+			}
+			geoImage.setCorner(D, 2);
+			geoImage.setCorner(C, 3);
 			A.setY(view.toRealWorldCoordY(getBounds().getMaxY()));
 			A.updateCoords();
 			A.updateRepaint();
@@ -519,16 +534,20 @@ public final class DrawImage extends Drawable {
 			break;
 		case BOTTOM_LEFT:
 			geoImage.calculateCornerPoint(D, 4);
-			geoImage.setCorner(D, 2);
 			D.setX(view.toRealWorldCoordX(eventX));
 			D.updateCoords();
 			D.updateRepaint();
 			geoImage.calculateCornerPoint(C, 3);
-			geoImage.setCorner(C, 3);
 			C.setX(B.getInhomX());
 			C.setY(D.getInhomY());
 			C.updateCoords();
 			C.updateRepaint();
+			if (view.toScreenCoordXd(C.getInhomX())
+					- eventX <= IMG_WIDTH_THRESHOLD) {
+				return;
+			}
+			geoImage.setCorner(D, 2);
+			geoImage.setCorner(C, 3);
 			B.setY(view.toRealWorldCoordY(getBounds().getMaxY()));
 			B.updateCoords();
 			B.updateRepaint();
