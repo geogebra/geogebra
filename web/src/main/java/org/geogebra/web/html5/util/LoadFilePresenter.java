@@ -112,7 +112,7 @@ public class LoadFilePresenter {
 		String language = view.getDataParamLanguage();
 		if (StringUtil.empty(language)) {
 			language = app.getLanguageFromCookie();
-			if (!StringUtil.empty(language)) {
+			if (!StringUtil.empty(language) && app.getLAF() != null) {
 				app.getLAF().storeLanguage(language, app);
 			}
 		}
