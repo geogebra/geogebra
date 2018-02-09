@@ -19,7 +19,6 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.openScreenStyle());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.jqueryStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.fonts());
-		loadWebFont();
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
 		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
@@ -38,12 +37,18 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 	}
 
-	private native void loadWebFont() /*-{
+	@Override
+	public native void loadWebFont(String fontUrl) /*-{
 		$wnd.WebFontConfig = {
 			custom : {
 				families : [ "mathsans" ]
 			}
 		};
+		if (fontUrl) {
+			$wnd.WebFontConfig.custom.families = [ "mathsans",
+					"geogebra-serif", "geogebra-sanserif" ];
+			$wnd.WebFontConfig.custom.urls = [ fontUrl ];
+		}
 		$wnd.WebFont && $wnd.WebFont.load($wnd.WebFontConfig);
 	}-*/;
 

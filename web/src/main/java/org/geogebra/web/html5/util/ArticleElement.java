@@ -809,4 +809,8 @@ public final class ArticleElement extends Element {
 		return height;
 	}
 
+	public String getDataParamFontsCssUrl() {
+		return getStringDataParam("fontscssurl", "");
+	}
+
 }

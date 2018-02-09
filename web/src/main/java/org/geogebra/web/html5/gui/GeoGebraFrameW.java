@@ -411,6 +411,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// public void onSuccess() {
 		ResourcesInjector
 				.injectResources();
+		ResourcesInjector.loadFont(this.ae.getDataParamFontsCssUrl());
 		// More testing is needed how can we use
 		// createApplicationSimple effectively
 		// if (ae.getDataParamGuiOff())

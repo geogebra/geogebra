@@ -144,4 +144,14 @@ public class ResourcesInjector {
 						}, false);
 	}-*/;
 
+	public static void loadFont(String dataParamFontsCssUrl) {
+		if (INSTANCE != null) {
+			INSTANCE.loadWebFont(dataParamFontsCssUrl);
+		}
+	}
+
+	protected void loadWebFont(String dataParamFontsCssUrl) {
+		// TODO Auto-generated method stub
+	}
+
 }
