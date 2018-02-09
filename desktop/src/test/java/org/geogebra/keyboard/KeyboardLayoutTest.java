@@ -1,8 +1,5 @@
 package org.geogebra.keyboard;
 
-import java.io.UnsupportedEncodingException;
-
-import org.geogebra.common.jre.util.Base64;
 import org.geogebra.keyboard.base.KeyboardFactory;
 import org.geogebra.keyboard.base.model.KeyboardModel;
 import org.geogebra.keyboard.base.model.Row;
@@ -15,20 +12,24 @@ public class KeyboardLayoutTest {
 	public void testSpecialTab() {
 		KeyboardFactory kbf = new KeyboardFactory();
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
-		StringBuilder sb = new StringBuilder();
+		StringBuilder actions = new StringBuilder();
+		StringBuilder resources = new StringBuilder();
 		for (Row row : kb.getRows()) {
 			for (WeightedButton button : row.getButtons()) {
-				sb.append(button.getResourceName() + ":"
-						+ button.getActionName());
+				resources.append(
+						button.getResourceName()
+						+ ",");
+				actions.append(button.getActionName()
+						+ ",");
 			}
 		}
-		try {
-			Assert.assertEquals(new String(
-					Base64.decode(
-							"4oieOuKInlxxdWVzdGVxOuKJn+KJoDriiaDiiKc64oin4oioOuKIqOKGkjrihpLCrDrCrOKKlzriipfiiKU64oil4oqlOuKKpUVNUFRZX0lNQUdFOk5PTkXiiIg64oiI4oqCOuKKguKKhjriiobiiKA64oig4oyKeOKMizrijIrijIh44oyJOuKMiCY6JkA6QCM6I0VNUFRZX0lNQUdFOk5PTkVFTVBUWV9JTUFHRTpOT05FWzpbXTpdOjo6IjoiVHJhbnNsYXRlLmN1cnJlbmN5OlRyYW5zbGF0ZS5jdXJyZW5jecKrOsKrwrs6wrtFTVBUWV9JTUFHRTpOT05FQkFDS1NQQUNFX0RFTEVURTpCQUNLU1BBQ0VfREVMRVRFQUJDOlNXSVRDSF9UT19BQkMsOiwnOicgOiBMRUZUX0FSUk9XOkxFRlRfQ1VSU09SUklHSFRfQVJST1c6UklHSFRfQ1VSU09SUkVUVVJOX0VOVEVSOlJFVFVSTl9FTlRFUg=="),
-					"UTF-8"), sb.toString());
-		} catch (UnsupportedEncodingException e) {
-			Assert.fail();
-		}
+
+		Assert.assertEquals(
+				"\u221E,\\questeq,\u2260,\u2227,\u2228,\u2192,\u00AC,\u2297,\u2225,\u22A5,EMPTY_IMAGE,\u2208,\u2282,\u2286,\u2220,FLOOR,CEIL,&,@,#,EMPTY_IMAGE,EMPTY_IMAGE,[,],:,\",Translate.currency,\u00AB,\u00BB,EMPTY_IMAGE,BACKSPACE_DELETE,ABC,,,\', ,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
+				resources.toString());
+		Assert.assertEquals(
+				"\u221E,\u225F,\u2260,\u2227,\u2228,\u2192,\u00AC,\u2297,\u2225,\u22A5,NONE,\u2208,\u2282,\u2286,\u2220,\u230A,\u2308,&,@,#,NONE,NONE,[,],:,\",Translate.currency,\u00AB,\u00BB,NONE,BACKSPACE_DELETE,SWITCH_TO_ABC,,,\', ,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
+				actions.toString());
+
 	}
 }

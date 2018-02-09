@@ -2262,7 +2262,6 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		EuclidianSettings3D settings = new EuclidianSettings3D(app);
 		EuclidianView3DForExport exportView3D = new EuclidianView3DForExport(new EuclidianController3DForExport(app),
 				settings);
-		Format format = new FormatObj();
 		exportView3D.updateSettings(xmin, xmax, ymin, ymax, zmin, zmax, xyScale, xzScale, xTickDistance, yTickDistance,
 				zTickDistance);
 		exportView3D.export3D(getter);

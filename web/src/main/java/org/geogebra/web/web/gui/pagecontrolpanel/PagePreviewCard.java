@@ -369,10 +369,6 @@ public class PagePreviewCard extends FlowPanel
 	public int getGrabY() {
 		return grabY;
 	}
-
-
-	public void setGrabY(final int y) {
-	}
 	
 }
 
