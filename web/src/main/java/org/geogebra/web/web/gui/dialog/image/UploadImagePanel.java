@@ -107,7 +107,10 @@ public class UploadImagePanel extends VerticalPanel {
 				panel.@org.geogebra.web.web.gui.dialog.image.UploadImagePanel::setMoveMode()();
 			}
 		}
-
+		// needed for touch devices
+		$wnd.ontouchstart = function() {
+			panel.@org.geogebra.web.web.gui.dialog.image.UploadImagePanel::setMoveMode()();
+		}
 	}-*/;
 
 	private void setMoveMode() {
