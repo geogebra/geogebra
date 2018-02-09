@@ -4003,6 +4003,10 @@ public abstract class App implements UpdateSelection {
 		// AND-818
 		case MOB_CREATE_TEX_ICON_BACKGROUND:
 			return prerelease;
+			
+		// MOB-1432
+		case MOB_ANGLES_INTERIOR_POLYGON:
+			return prerelease;
 
 		// **********************************************************************
 		// MOBILE END
