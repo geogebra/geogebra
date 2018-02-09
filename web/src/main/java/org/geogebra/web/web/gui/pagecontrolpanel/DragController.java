@@ -24,7 +24,7 @@ class DragController {
 		void clickPage(int pageIdx);
 	}
 
-	private class LastTarget {
+	private static class LastTarget {
 		PagePreviewCard target = null;
 		int top;
 		int bottom;
