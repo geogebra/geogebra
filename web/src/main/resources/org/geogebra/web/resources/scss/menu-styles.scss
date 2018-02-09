@@ -1,7 +1,7 @@
 @import 'colors';
 
 $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
-
+$classicToolbar: 50px;
 .GeoGebraFrame {
 
 	.floatingMenu {
@@ -166,7 +166,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			// GeoGebra logo
 			&.gwt-StackPanelItem-first {
 				height: 56px;
-				background-color: $white !important;
+				background-color: $white;
 				
 				img {
 					opacity: 1;
@@ -178,11 +178,11 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 				}
 				
 				span {
-					font-size: 100% !important;
+					font-size: 100%;
 				}
 			
 				&:hover {
-					background-color: $white !important;
+					background-color: $white;
 				}
 			}
 		
@@ -202,7 +202,7 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 	
 		.gwt-StackPanel .gwt-StackPanelItem .gwt-StackPanelItem-first:hover {
-			   background-color: white !important;
+			   background-color: white;
 		}
 		
 		.gwt-StackPanel .gwt-StackPanelItem-selected { 
@@ -218,8 +218,9 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 		}
 		
 		&.classic{
-			top:48px;
+			top: $classicToolbar;
 			right:0;
+			height: calc(100% - 50px);
 			&.animateIn {
 				animation-name: animateInClassic;
 			}
@@ -230,6 +231,8 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 			.gwt-StackPanel .gwt-StackPanelItem, .gwt-StackPanel .gwt-StackPanelItem.gwt-StackPanelItem-first{
 				height:32px;
 				padding-left:32px;
+				background-color:$transparent;
+				border-bottom: 1px #dcdcdc solid;
 				img {
 					opacity: 1;
 					position:static;
@@ -264,15 +267,15 @@ $shadow-dark: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	}
 	
 	@keyframes animateInClassic {
-		0% {right:-320px; top:0px;}
-		50% {right:-100; top:0px;}
-		100% {right:0px; top:0px;}
+		0% {right:-320px; top: $classicToolbar;}
+		50% {right:-100; top:$classicToolbar;}
+		100% {right:0px; top:$classicToolbar;}
 	}
 			
 	@keyframes animateOutClassic {
-		0% {right:0px; top:0px;}
-		50% {right:-220; top:0px;}
-		100% {right:-320px; top:0px;}
+		0% {right:0px; top:$classicToolbar;}
+		50% {right:-220; top:$classicToolbar;}
+		100% {right:-320px; top:$classicToolbar;}
 	}
 }
 	
