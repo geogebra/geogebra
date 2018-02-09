@@ -1613,10 +1613,9 @@ public abstract class AppW extends App implements SetLabels {
 		img.attachNativeLoadHandler(getImageManager(), new ImageLoadCallback() {
 			@Override
 			public void onLoad() {
-				int width = img.getElement().getWidth();
-				int height = img.getElement().getHeight();
-
-				geoImage.setImageFileName(imgFileName, width, height);
+				geoImage.setImageFileName(imgFileName,
+						img.getElement().getWidth(),
+						img.getElement().getHeight());
 				getGuiManager().setImageCornersFromSelection(geoImage);
 				if (getImageManager().isPreventAuxImage()) {
 					geoImage.setAuxiliaryObject(false);

@@ -98,14 +98,10 @@ abstract public class ImageManager {
 	 */
 	private static void centerOnScreen(GeoImage geoImage, App app) {
 		EuclidianView ev = app.getActiveEuclidianView();
-
-		double xmin = ev.toRealWorldCoordX(0.0);
-		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
-		double screenWidth = xmax - xmin;
-
-		double ymin = ev.toRealWorldCoordY(0.0);
-		double ymax = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
-		double screenHeight = ymax - ymin;
+		double screenWidth = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1)
+				- ev.toRealWorldCoordX(0.0);
+		double screenHeight = ev.toRealWorldCoordY(
+				(double) (ev.getHeight()) + 1) - ev.toRealWorldCoordY(0.0);
 
 		GeoPoint point1 = geoImage.getCorner(0);
 		GeoPoint point2 = geoImage.getCorner(1);
@@ -115,14 +111,16 @@ abstract public class ImageManager {
 		double imageWidth = point2.inhomX - point1.inhomX;
 		double imageHeight = point3.inhomY - point2.inhomY;
 
-		point1.setCoords(xmin + (screenWidth - imageWidth) / 2,
-				ymin + (screenHeight - imageHeight) / 2, 1.0);
+		point1.setCoords(
+				ev.toRealWorldCoordX(0.0) + (screenWidth - imageWidth) / 2,
+				ev.toRealWorldCoordY(0.0) + (screenHeight - imageHeight) / 2,
+				1.0);
 		point1.update();
-
-		point2.setCoords(xmin + (screenWidth + imageWidth) / 2,
-				ymin + (screenHeight - imageHeight) / 2, 1.0);
+		point2.setCoords(
+				ev.toRealWorldCoordX(0.0) + (screenWidth + imageWidth) / 2,
+				ev.toRealWorldCoordY(0.0) + (screenHeight - imageHeight) / 2,
+				1.0);
 		point2.update();
-
 		geoImage.setCorner(point1, 0);
 		geoImage.setCorner(point2, 1);
 	}
