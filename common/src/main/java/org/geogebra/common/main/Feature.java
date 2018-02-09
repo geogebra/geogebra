@@ -176,9 +176,6 @@ public enum Feature {
 	WEB_SWITCH_APP_FOR_FILE,
 	/** GGB-2279 */
 	WEB_LANGUAGE_COOKIE,
-	
-	/** AND-465 */
-	MOB_DYNAMIC_SYLEBAR,
 
 	/** GGB-2053 */
 	TAB_ON_GUI,
