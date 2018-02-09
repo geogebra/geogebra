@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Label;
 public class PagePreviewCard extends FlowPanel
 		implements SetLabels {
 
+	private static final int SPACE_HEIGHT = 172;
 	private AppW app;
 	private Localization loc;
 	private int pageIndex;
@@ -279,7 +280,7 @@ public class PagePreviewCard extends FlowPanel
 	 * @return
 	 */
 	private int getTopFromDrag(int y) {
-		return y -  getParent().getAbsoluteTop()  - grabY;
+		return y - getParent().getAbsoluteTop() - grabY;
 	}
 
 	/**
@@ -341,34 +342,29 @@ public class PagePreviewCard extends FlowPanel
 
 	/**
 	 * Adds space before the card for animation.
+	 * @param down 
 	 */
-	public void addSpace() {
-		addStyleName("space");
+	public void addSpace(boolean down) {
+		addStyleName(down ? "spaceOnTop": "spaceOnBottom");
 	}
 
 	/**
 	 * Removes space before the card for animation.
 	 */
 	public void removeSpace() {
-		removeStyleName("space");
+		removeStyleName("spaceOnTop");
+		removeStyleName("spaceOnBottom");
 		getElement().getStyle().clearMarginTop();
 		getElement().getStyle().clearMarginBottom();
 	}
 
-
 	/**
-	 * Sets margin.
+	 * Sets margins for drag animation.
 	 * @param  to set.
 	 */
-	public void setMargin(int top) {
-		getElement().getStyle().setMarginTop(172 - top, Unit.PX);
-		getElement().getStyle().setMarginBottom(top, Unit.PX);
+	public void setSpaceValue(int value, boolean down) {
+		int opposite = SPACE_HEIGHT - value;
+		getElement().getStyle().setMarginTop(down ? opposite: value, Unit.PX);
+		getElement().getStyle().setMarginBottom(down ? value: opposite, Unit.PX);
 	}
-
-
-	public int getGrabY() {
-		return grabY;
-	}
-	
 }
-

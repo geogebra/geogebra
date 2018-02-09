@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 class DragController {
@@ -15,7 +14,6 @@ class DragController {
 	private final Cards cards;
 	private DragCard dragged;
 	private App app;
-	private int startSpaceIdx;
 	
 	interface Cards {
 		ArrayList<PagePreviewCard> getCards();
@@ -26,20 +24,45 @@ class DragController {
 		void clickPage(int pageIdx);
 	}
 
+	private class LastTarget {
+		PagePreviewCard target = null;
+		int top;
+		int bottom;
+		
+		void reset() {
+			target = null;
+			top = 0;
+			bottom = 0;
+		}
+		
+		void setTarget(PagePreviewCard card) {
+			this.target = card;
+			top = card.getAbsoluteTop();
+			bottom = card.getBottom();
+		}
+
+		int index() {
+			return target == null ? target.getPageIndex() : -1;
+		}
+
+	}
+	
 	private class DragCard {
+	
+		
 		private static final int CARD_MARGIN = 16;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
-		PagePreviewCard lastTarget = null;
-		int lastY = 0;
-		int lastTop = 0;
+		LastTarget last = new LastTarget();
+		int lastY = -1;
 		DragCard() {
 			reset();
 		}
 		private void reset() {
 			card = null;
 			target = null;
-			lastTarget = null;
+			last.reset();
+			lastY = -1;
 		}
 
 		void setIndex(int x, int y) {
@@ -47,7 +70,7 @@ class DragController {
 			if (idx >= 0 && idx < cards.getCardCount()) {
 				card = cards.cardAt(idx);
 				card.addStyleName("dragged");
-				lastTarget = null;
+				last.reset();
 			} else {
 				reset();
 			}
@@ -57,40 +80,40 @@ class DragController {
 			return isValid() ? card.getPageIndex() : -1;
 		}
 
-		int destIndex() {
-			return lastTarget != null ? lastTarget.getPageIndex() : -1;
-		}
-
+	
 		void setPosition(int x, int y) {
 			card.setDragPosition(x, y);
+			
+			
+			boolean down = lastY < y;
+			target = findTarget(down);
 			lastY = y;
-			target = findTarget();
-			if (target != null && target != lastTarget) { 
-				onTargetChange();
-				lastTarget = target;
+			if (target != null && target != last.target) { 
+				onTargetChange(down);
+				last.setTarget(target);
 			}
 		}
 
-		private void onTargetChange() {
-			Log.debug("[DND] target change: " + target.getPageIndex());
-			lastTop = target.getAbsoluteTop();
-			if (lastTarget != null) {
-				lastTarget.removeSpace();
-				target.addSpace();
+		private void onTargetChange(boolean down) {
+			if (last.target != null) {
+				last.target.removeSpace();
+				target.addSpace(down);
 			}
 		}
-		private PagePreviewCard findTarget() {
+		private PagePreviewCard findTarget(boolean down) {
 	
+			int y1 = card.getBottom() - CARD_MARGIN;
+			int y2 = card.getAbsoluteTop() + CARD_MARGIN; 
+		
 			int idx = cardIndexAt(card.getMiddleX(), 
-					isAnimated() ? card.getBottom() - CARD_MARGIN: card.getMiddleY());
+					isAnimated() ? (down ?  y1: y2): card.getMiddleY());
 
 			if (idx == -1 && isAnimated()) {
-
-				idx = cardIndexAt(card.getMiddleX(), card.getAbsoluteTop() + CARD_MARGIN);
-					
+				idx = cardIndexAt(card.getMiddleX(), (down ?  y2: y1));
 			}
 			return idx != -1 ? cards.cardAt(idx): null;
 		}
+
 		public void cancel() {
 			CancelEventTimer.resetDrag();
 			if (isValid()) {
@@ -110,16 +133,34 @@ class DragController {
 		boolean isValid() {
 			return card != null;
 		}
-
+		
+		void start(int x, int y) {
+			setIndex(x, y);
+			if (isValid() && isAnimated()) {
+	 			if (index() < cards.getCardCount() - 1) {
+					PagePreviewCard next = cards.cardAt(index() + 1);
+					next.addStyleName("spaceOnTop");
+					last.setTarget(next);
+					}
+	 			if (index() > 0) {
+					last.bottom = cards.cardAt(index() - 1).getBottom();
+					}
+			}
+		}
+		
 		void pushUp() {
-			// TODO
+			int h = target.getOffsetHeight() - CARD_MARGIN;
+			int diff = last.bottom - card.getAbsoluteTop();
+			if (diff < h) {
+				target.setSpaceValue(diff, false);
+			}
 		}
 		
 		void pushDown() {
 			int h = target.getOffsetHeight() - CARD_MARGIN;
-			int diff = card.getBottom() - lastTop;
+			int diff = card.getBottom() - last.top;
 			if (diff < h) {
-				target.setMargin(diff);
+				target.setSpaceValue(diff, true);
 			}
 		}
 	}
@@ -130,20 +171,10 @@ class DragController {
 		dragged = new DragCard();
 	}
 
-	void startDrag(int x, int y) {
-		dragged.setIndex(x, y);
-		if (dragged.isValid() && dragged.isAnimated()) {
-			if (dragged.index() < cards.getCardCount() - 1) {
-				startSpaceIdx = dragged.index() + 1;
-				cards.cardAt(startSpaceIdx).addStyleName("space");
-				dragged.lastTop = cards.cardAt(startSpaceIdx).getAbsoluteTop();
-				}
-		}
-	}
 	
 	void move(int x, int y) {
 		if (CancelEventTimer.isDragStarted()) {
-			startDrag(x, y);
+			dragged.start(x, y);
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = drag(y);
 			if (targetIdx != -1 && !dragged.isAnimated()) {
@@ -209,10 +240,10 @@ class DragController {
 		}
 
 		int srcIdx = dragged.index();
-		int destIdx = dragged.destIndex();
+		int destIdx = dragged.last.index();
 
 		if (srcIdx != -1 && destIdx != -1) {
-			Log.debug("drag: " + srcIdx + " drop to " + destIdx);
+//			Log.debug("drag: " + srcIdx + " drop to " + destIdx);
 
 			cards.reorder(srcIdx, destIdx);
 			return true;
