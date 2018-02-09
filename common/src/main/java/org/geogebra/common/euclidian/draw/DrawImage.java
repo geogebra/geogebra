@@ -483,6 +483,7 @@ public final class DrawImage extends Drawable {
 			B.updateRepaint();
 			break;
 		case TOP_LEFT:
+
 			if (A == null) {
 				A = new GeoPoint(geoImage.cons);
 				geoImage.calculateCornerPoint(A, 1);
@@ -508,8 +509,13 @@ public final class DrawImage extends Drawable {
 			C.setY(D.getInhomY());
 			C.updateCoords();
 			C.updateRepaint();
-			// geoImage.setCorner(null, 1);
-			// geoImage.setCorner(null, 0);
+			A.setY(view.toRealWorldCoordY(getBounds().getMaxY()));
+			A.updateCoords();
+			A.updateRepaint();
+			B.setX(C.getInhomX());
+			B.setY(A.getInhomY());
+			B.updateCoords();
+			B.updateRepaint();
 			break;
 		case BOTTOM_LEFT:
 			geoImage.calculateCornerPoint(D, 4);
@@ -523,6 +529,13 @@ public final class DrawImage extends Drawable {
 			C.setY(D.getInhomY());
 			C.updateCoords();
 			C.updateRepaint();
+			B.setY(view.toRealWorldCoordY(getBounds().getMaxY()));
+			B.updateCoords();
+			B.updateRepaint();
+			A.setX(D.getInhomX());
+			A.setY(B.getInhomY());
+			A.updateCoords();
+			A.updateRepaint();
 		default:
 			break;
 		}
