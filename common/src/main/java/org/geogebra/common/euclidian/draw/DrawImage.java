@@ -469,6 +469,8 @@ public final class DrawImage extends Drawable {
 		GeoPoint C = new GeoPoint(geoImage.cons);
 		GeoPoint D = new GeoPoint(geoImage.cons);
 		switch (handler) {
+		default:
+			break;
 		case TOP_RIGHT:
 			if (B == null) {
 				B = new GeoPoint(geoImage.cons);
@@ -555,8 +557,6 @@ public final class DrawImage extends Drawable {
 			A.setY(B.getInhomY());
 			A.updateCoords();
 			A.updateRepaint();
-		default:
-			break;
 		}
 	}
 }
