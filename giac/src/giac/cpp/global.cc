@@ -6091,7 +6091,7 @@ unsigned int ConvertUTF8toUTF16 (
       if (!strcmp(ch,"∡"))
 	return "polar_complex";
       if (!strcmp(ch,"."))
-	return "dot";
+	return "struct_dot";
       if (!strcmp(ch,"LINEAR?"))
 	return "IS_LINEAR";
       if (!strcmp(ch,"ΔLIST"))

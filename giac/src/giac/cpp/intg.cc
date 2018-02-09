@@ -3842,9 +3842,49 @@ namespace giac {
   }
 #endif
 
+  bool approxint_exact(const gen &f,const gen &x,GIAC_CONTEXT){
+    if (f.type!=_SYMB || is_constant_wrt(f,x,contextptr))
+      return true;
+    unary_function_ptr & u=f._SYMBptr->sommet;
+    gen g=f._SYMBptr->feuille,a,b,c;
+    if (u==at_exp)
+      return is_quadratic_wrt(g,x,a,b,c,contextptr);
+    if (u==at_sin || u==at_cos)
+      return is_linear_wrt(g,x,a,b,contextptr);
+    if (g.type!=_VECT) return false;
+    const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
+    if (u==at_plus){
+      for (;it!=itend;++it){
+	if (!approxint_exact(*it,x,contextptr))
+	  return false;
+      }
+      return true;
+    }
+    if (u==at_prod){
+      for (;it!=itend;++it){
+	if (is_constant_wrt(*it,x,contextptr))
+	  continue;
+	if (!is_zero(a))
+	  return false;
+	a=*it;
+      }
+      return approxint_exact(a,x,contextptr);
+    }
+    return false;
+  }
+
   // nmax=max number of subdivisions (may be 1000 or more...)
   bool tegral(const gen & f,const gen & x,const gen & a_,const gen &b_,const gen & eps,int nmax,gen & value,GIAC_CONTEXT){
     gen a=evalf(a_,1,contextptr),b=evalf(b_,1,contextptr);
+    if (a==b){
+      value=0.0;
+      return true;
+    }
+    if (approxint_exact(f,x,contextptr)){
+      gen r,F=linear_integrate(f,x,r,contextptr);
+      value=subst(F,x,b,false,contextptr)-subst(F,x,a,false,contextptr);
+      return true;
+    }
     // adaptive integration, cf. Hairer
     gen i30,i30abs,err,maxerr,ERR,I30ABS;
     int maxerrpos;

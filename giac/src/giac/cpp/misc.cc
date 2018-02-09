@@ -1245,6 +1245,8 @@ namespace giac {
     if (v.size()==2){
       gen lvect=v[0];
       gen scalaire=v[1];
+      if (scalaire.type==_INT_ && ckmatrix(lvect))
+	return gramschmidt(*lvect._VECTptr,scalaire.val,contextptr);
       if (lvect.type!=_VECT)
 	return gensizeerr(contextptr);
       vecteur lv=*lvect._VECTptr;
