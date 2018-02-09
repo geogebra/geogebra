@@ -1024,7 +1024,7 @@ public class InputController {
 			return true;
 		}
 		if (ch != '(' && ch != '{' && ch != '[' && ch != '/' && ch != '|'
-				&& ch != Unicode.LFLOOR && ch != Unicode.LCEIL) {
+				&& ch != Unicode.LFLOOR && ch != Unicode.LCEIL && ch != '"') {
 			deleteSelection(editorState);
 		}
 		MetaModel meta = editorState.getMetaModel();
@@ -1050,6 +1050,19 @@ public class InputController {
 				// make sure | acts as closing | only at end of block
 				// but not after eg plus eg |x+|
 				if (nextArg == null && !isOperation) {
+					endField(editorState, ch);
+					handled = true;
+				}
+			} else if (ch == '"' && ((MathArray) parent).getCloseKey() == '"') {
+
+				MathSequence currentField = editorState.getCurrentField();
+
+				int offset = editorState.getCurrentOffset();
+
+				MathComponent nextArg = currentField.getArgument(offset);
+				MathComponent prevArg = currentField.getArgument(offset - 1);
+
+				if (nextArg == null) {
 					endField(editorState, ch);
 					handled = true;
 				}
