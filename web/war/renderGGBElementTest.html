@@ -9,18 +9,6 @@
 if (!window.console) window.console = {};
 if (!window.console.log) window.console.log = function () { };
 
-            WebFontConfig = {
-                loading: function() {},
-                active: function() {},
-                inactive: function() {},
-				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
-				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
-                fontinactive: function(familyName, fvd) {},
-                custom: {
-                    families: ["geogebra-serif", "geogebra-sans-serif" ],
-                    urls: [ "web/css/fonts.css?v=1.15" ]
-                }
-            };
 </script>
 <script src="web/js/webfont.js?v=1.15"></script>
 </head>

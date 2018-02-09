@@ -15,33 +15,6 @@ label {
 }
 </style>
 <script type="text/javascript">
-	// for IE9
-	if (!window.console)
-		window.console = {};
-	if (!window.console.log)
-		window.console.log = function() {
-		};
-
-	WebFontConfig = {
-		loading : function() {
-		},
-		active : function() {
-		},
-		inactive : function() {
-		},
-		fontloading : function(familyName, fvd) {
-			console.log("font fontloading: " + familyName);
-		},
-		fontactive : function(familyName, fvd) {
-			console.log("font active: " + familyName);
-		},
-		fontinactive : function(familyName, fvd) {
-		},
-		custom : {
-			families : [ "geogebra-serif", "geogebra-sans-serif" ],
-			urls : [ "web3d/css/fonts.css?v=1.15" ]
-		}
-	};
 
 	var params = {
 		"appName" : [ "select", "classic", "graphing", "geometry", "3d","whiteboard" ],

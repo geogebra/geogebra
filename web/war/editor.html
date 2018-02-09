@@ -7,22 +7,7 @@
 	<link rel="icon" href="favicon.ico" type="image/x-icon">
 
 <script type="text/javascript">
-// for IE9
-if (!window.console) window.console = {};
-if (!window.console.log) window.console.log = function () { };
 
-            WebFontConfig = {
-                loading: function() {},
-                active: function() {},
-                inactive: function() {},
-				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
-				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
-                fontinactive: function(familyName, fvd) {},
-                custom: {
-                    families: ["geogebra-serif", "geogebra-sans-serif" ],
-                    urls: [ "web/css/fonts.css?v=1.15" ]
-                }
-            };
             function startEdit(){
             	window.setTimeout(function(){
             		tryEditor(document.getElementById("editorContainer"));

@@ -316,19 +316,6 @@ var translation = {};
 		
 	}
 function insertScript(codebase){
- window.WebFontConfig = {
-            loading: function() {},
-            active: function() {},
-            inactive: function() {},
-fontloading: function(familyName, fvd) {},
-fontactive: function(familyName, fvd) {},
-            fontinactive: function(familyName, fvd) {},
-            custom: {
-                families: ["geogebra-serif", "geogebra-sans-serif", "mathsans" ],
-                urls: [ codebase+module+"/css/fonts.css" ]
-            }
-        };
-
 	var app = document.createElement("script");		
 	app.setAttribute("src",codebase+module+"/js/webfont.js");
 	document.head.appendChild(app);

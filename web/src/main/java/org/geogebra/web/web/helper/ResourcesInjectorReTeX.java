@@ -19,6 +19,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.openScreenStyle());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.jqueryStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.fonts());
+		loadWebFont();
 		StyleInjector.inject(KeyboardResources.INSTANCE.keyboardStyle());
 		JavaScriptInjector.inject(KeyboardResources.INSTANCE.wavesScript());
 		StyleInjector.inject(KeyboardResources.INSTANCE.wavesStyle());
@@ -36,6 +37,15 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
 
 	}
+
+	private native void loadWebFont() /*-{
+		$wnd.WebFontConfig = {
+			custom : {
+				families : [ "mathsans" ]
+			}
+		};
+		$wnd.WebFont && $wnd.WebFont.load($wnd.WebFontConfig);
+	}-*/;
 
 	/**
 	 * Runs JQ in noconflict mode; note that when running injectResourcesGUI
