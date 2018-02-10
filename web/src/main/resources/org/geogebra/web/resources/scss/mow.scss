@@ -7,6 +7,7 @@
 	$toolbarHeight: 56px;
 	$submenuHeight: 178px;
 	$pagecontrolpanelWidth: 269px;
+	$spaceHeight: calc(188px + 16px);
 	
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
@@ -777,13 +778,13 @@
 	}
 	
 	.mowPagePreviewCard.spaceOnTop {
-		margin-top: calc(180px + 16px);
+		margin-top: $spaceHeight;
 		margin-bottom: 0px;
 	}
 	
 	.mowPagePreviewCard.spaceOnBottom {
 		margin-top: 0px;
-		margin-bottom: calc(180px + 16px);
+		margin-bottom: $spaceHeight;
 	}
 
 /*****************
