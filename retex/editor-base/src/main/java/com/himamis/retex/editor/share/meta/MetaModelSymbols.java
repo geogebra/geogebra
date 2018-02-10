@@ -74,7 +74,9 @@ class MetaModelSymbols {
 		// so don't want this here
 		// collection.addComponent(createOperator("dollar", "\\$", '$'));
 
-        collection.addComponent(createOperator("times", "\\times", '*'));
+		// don't want this, see \cdot
+		// collection.addComponent(createOperator("times", "\\times", '*'));
+
         collection.addComponent(createOperator("div", "\\div", '/'));
 		collection.addComponent(
 				createOperator("ne", "!=", "\\ne", Unicode.NOTEQUAL));
