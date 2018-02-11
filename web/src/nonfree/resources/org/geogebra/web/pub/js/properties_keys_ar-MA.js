@@ -19,14 +19,14 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar.ar-MA = {};
+__GGB__keysVar["ar-MA"] = {};
 
 
 /***********************************************
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.ar-MA.colors = {
+__GGB__keysVar["ar-MA"].colors = {
     "aqua": "\u0623\u0632\u0631\u0642 \u0628\u062d\u0631\u064a",
     "black": "\u0623\u0633\u0648\u062f",
     "blue": "\u0623\u0632\u0631\u0642",
@@ -66,7 +66,7 @@ __GGB__keysVar.ar-MA.colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.ar-MA.command = {
+__GGB__keysVar["ar-MA"].command = {
     "ANOVA": "\u062a\u062d\u0644\u064a\u0644_\u0627\u0644\u062a\u0628\u0627\u064a\u0646",
     "ANOVA.Syntax": "[ <\u0642\u0627\u0626\u0645\u0629>, <\u0642\u0627\u0626\u0645\u0629>, ... ]",
     "AffineRatio": "\u0646\u0633\u0628\u0629_\u062a\u0631\u0627\u0628\u0637\u064a\u0629",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.ar-MA.command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.ar-MA.error = {
+__GGB__keysVar["ar-MA"].error = {
     "AssignmentToFixed": "\u0627\u0644\u0639\u0646\u0627\u0635\u0631 \u0627\u0644\u062b\u0627\u0628\u062a\u0629 \u0644\u0627 \u064a\u0645\u0643\u0646 \u062a\u063a\u064a\u064a\u0647\u0627",
     "CAS.GeneralErrorMessage": "\u0625\u0646\u062a\u0628\u0647 \u0644\u0644\u0645\u0639\u0637\u064a\u0627\u062a",
     "CAS.InvalidReferenceError": "\u0645\u0631\u062c\u0639 \u0623\u0648 \u0623\u0643\u062b\u0631 \u063a\u064a\u0631 \u0635\u0627\u0644\u062d",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.ar-MA.error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.ar-MA.menu = {
+__GGB__keysVar["ar-MA"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u062c\u0632\u0621 \u0639\u0634\u0631\u064a",
     "ADecimalPlaces": "%0 \u0623\u062c\u0632\u0627\u0621 \u0639\u0634\u0631\u064a\u0629",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.ar-MA.menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.ar-MA.symbols = {
+__GGB__keysVar["ar-MA"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

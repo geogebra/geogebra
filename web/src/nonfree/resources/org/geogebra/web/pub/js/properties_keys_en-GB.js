@@ -19,14 +19,14 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar.en-GB = {};
+__GGB__keysVar["en-GB"] = {};
 
 
 /***********************************************
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.en-GB.colors = {
+__GGB__keysVar["en-GB"].colors = {
     "aqua": "Aqua",
     "black": "Black",
     "blue": "Blue",
@@ -66,7 +66,7 @@ __GGB__keysVar.en-GB.colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.en-GB.command = {
+__GGB__keysVar["en-GB"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <List>, <List>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.en-GB.command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.en-GB.error = {
+__GGB__keysVar["en-GB"].error = {
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Sorry, something went wrong. Please check your input",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.en-GB.error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.en-GB.menu = {
+__GGB__keysVar["en-GB"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.en-GB.menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.en-GB.symbols = {
+__GGB__keysVar["en-GB"].symbols = {
     "S.1": "\xa3",
     "S.10": "",
     "S.11": "",
