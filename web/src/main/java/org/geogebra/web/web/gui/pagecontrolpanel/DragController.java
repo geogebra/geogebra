@@ -83,7 +83,7 @@ class DragController {
 		
 			boolean down = card.getDragDirection(y);//lastY < card.getAbsoluteTop();
 			target = findTarget(down);
-
+//			Log.debug("target " + (target != null ? target.getPageIndex(): " - "));
 			if (target != null && target != last.target) { 
 				onTargetChange(down);
 				last.setTarget(target);
@@ -149,9 +149,10 @@ class DragController {
 			boolean bellowMiddle = target.getMiddleY() < card.getAbsoluteTop();
 
 			if (isAnimated()) {
-				int h = target.getOffsetHeight() - CARD_MARGIN;
-				int diff = down ? card.getBottom() - last.top 
+				int h = PagePreviewCard.SPACE_HEIGHT - CARD_MARGIN;
+				int diff = down ? card.getBottom() - last.top  
 						: last.bottom - card.getAbsoluteTop();
+				// Log.debug("diff: " + diff + " h: " + h);
 				if (diff < h) {
 					target.setSpaceValue(diff, down);
 				}

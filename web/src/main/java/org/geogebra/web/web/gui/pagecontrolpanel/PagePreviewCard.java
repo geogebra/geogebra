@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Label;
 public class PagePreviewCard extends FlowPanel
 		implements SetLabels {
 
-	private static final int SPACE_HEIGHT = 180	 + 32;
+	static final int SPACE_HEIGHT = 188;
 	private AppW app;
 	private Localization loc;
 	private int pageIndex;
