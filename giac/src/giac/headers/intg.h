@@ -66,11 +66,12 @@ namespace giac {
   gen integrate_gen(const gen & e,const gen & f,GIAC_CONTEXT);
   gen _integrate(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_integrate ;
-  bool tegral(const gen & f,const gen & x,const gen & a,const gen &b,const gen & eps,int nmax,gen & value,GIAC_CONTEXT);
+  gen intnum(const gen & args,bool romberg_method,GIAC_CONTEXT,bool exactcheck);
+  bool tegral(const gen & f,const gen & x,const gen & a,const gen &b,const gen & eps,int nmax,gen & value,bool exactcheck,GIAC_CONTEXT);
   double rombergo(const gen & f,const gen & x, const gen & a, const gen & b, int n,GIAC_CONTEXT);
   double rombergt(const gen & f,const gen & x, const gen & a, const gen & b, int n,GIAC_CONTEXT);
   gen romberg(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,GIAC_CONTEXT);
-  gen evalf_int(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,bool romberg_method,GIAC_CONTEXT);
+  gen evalf_int(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,bool romberg_method,GIAC_CONTEXT,bool exactcheck=true);
   gen symb_romberg(const gen & a,const gen & b);
   gen _romberg(const gen & args,GIAC_CONTEXT);
   gen _gaussquad(const gen & args,GIAC_CONTEXT);

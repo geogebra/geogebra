@@ -3012,7 +3012,7 @@ namespace giac {
     if (debug_infolevel)
       *logptr(contextptr) << gettext("Checking exact value of integral with numeric approximation")<<endl;
     gen tmp2;
-    if (!tegral(f,x,a,b,1e-6,(1<<10),tmp2,contextptr))
+    if (!tegral(f,x,a,b,1e-6,(1<<10),tmp2,true,contextptr))
       return exactvalue;
     tmp2=evalf_double(tmp2,1,contextptr);
     if ( (tmp2.type!=_DOUBLE_ && tmp2.type!=_CPLX) || 
@@ -3285,7 +3285,7 @@ namespace giac {
       *x._IDNTptr->quoted=quoted;    
     if (s>4 || (approx_mode(contextptr) && (s==4)) ){
       v[1]=x;
-      return _gaussquad(gen(v,_SEQ__VECT),contextptr);
+      return intnum(gen(v,_SEQ__VECT),false,contextptr,true);
     }
     gen rem,borne_inf,borne_sup,res,v0orig,aorig,borig;
     if (s==4){
@@ -3298,7 +3298,7 @@ namespace giac {
 	ld.erase(ld.begin());
 	ld.erase(ld.begin());
 	if (ld==vecteur(1,v[1]) || ld.empty())
-	  return _gaussquad(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),contextptr);
+	  return intnum(gen(makevecteur(v[0],v[1],v[2],v[3]),_SEQ__VECT),false,contextptr,true);
       }
       v0orig=v[0];
       aorig=borne_inf=v[2];
@@ -3312,7 +3312,7 @@ namespace giac {
 	gen a,b,l,cond=lfloor.front()._SYMBptr->feuille,tmp;
 	if (lvarx(cond,x).size()>1 || !is_linear_wrt(cond,x,a,b,contextptr) ){
 	  *logptr(contextptr) << gettext("Floor definite integration: can only handle linear < or > condition") << endl;
-	  if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	  if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,true,contextptr))
 	    return undef;
 	  return res;
 	}
@@ -3395,7 +3395,7 @@ namespace giac {
 	  gen a,b,l;
 	  if (unable || !is_linear_wrt(cond,x,a,b,contextptr)){
 	    *logptr(contextptr) << gettext("Piecewise definite integration: can only handle linear < or > condition") << endl;
-	    if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	    if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,true,contextptr))
 	      return undef;
 	    return res;
 	  }
@@ -3568,7 +3568,7 @@ namespace giac {
 	sp=protect_find_singularities(primitive,*x._IDNTptr,0,contextptr);
       if (is_undef(sp)){
 	*logptr(contextptr) << gettext("Unable to find singular points of antiderivative") << endl ;
-	if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,true,contextptr))
 	  return undef;
 	return res;
       }
@@ -3579,7 +3579,7 @@ namespace giac {
     for (int i=0;i<sps;i++){
       if (sp[i].type==_DOUBLE_ || sp[i].type==_REAL || has_op(sp[i],*at_rootof)){
 	*logptr(contextptr) << gettext("Unable to handle approx. or algebraic extension singular point ")+sp[i].print(contextptr)+gettext(" of antiderivative");
-	if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,contextptr))
+	if (!tegral(v0orig,x,aorig,borig,1e-12,(1<<10),res,true,contextptr))
 	  return undef;
 	return res;
       }
@@ -3874,13 +3874,13 @@ namespace giac {
   }
 
   // nmax=max number of subdivisions (may be 1000 or more...)
-  bool tegral(const gen & f,const gen & x,const gen & a_,const gen &b_,const gen & eps,int nmax,gen & value,GIAC_CONTEXT){
+  bool tegral(const gen & f,const gen & x,const gen & a_,const gen &b_,const gen & eps,int nmax,gen & value,bool exactcheck,GIAC_CONTEXT){
     gen a=evalf(a_,1,contextptr),b=evalf(b_,1,contextptr);
     if (a==b){
       value=0.0;
       return true;
     }
-    if (approxint_exact(f,x,contextptr)){
+    if (exactcheck && approxint_exact(f,x,contextptr)){
       gen r,F=linear_integrate(f,x,r,contextptr);
       value=subst(F,x,b,false,contextptr)-subst(F,x,a,false,contextptr);
       return true;
@@ -3943,16 +3943,16 @@ namespace giac {
   }
 
   gen romberg(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,GIAC_CONTEXT){
-    return evalf_int(f0,x0,a,b,eps,nmax,true,contextptr);
+    return evalf_int(f0,x0,a,b,eps,nmax,true,contextptr,false);
   }
-  gen evalf_int(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,bool romberg_method,GIAC_CONTEXT){
+  gen evalf_int(const gen & f0,const gen & x0,const gen & a,const gen &b,const gen & eps,int nmax,bool romberg_method,GIAC_CONTEXT,bool exactcheck){
     gen x(x0),f(f0);
     if (x.type!=_IDNT){
       x=identificateur(" x");
       f=subst(f,x0,x,false,contextptr);
     }
     gen value=undef;
-    if (!romberg_method && tegral(f,x,a,b,eps,(1 << nmax),value,contextptr))
+    if (!romberg_method && tegral(f,x,a,b,eps,(1 << nmax),value,exactcheck,contextptr))
       return value;
     if (!romberg_method)
       *logptr(contextptr) << "Adaptive method failure, will try with Romberg, last approximation was " << value << endl;
@@ -4083,7 +4083,7 @@ namespace giac {
     }
     return l.front();
   }
-  gen intnum(const gen & args,bool romberg_method,GIAC_CONTEXT){
+  gen intnum(const gen & args,bool romberg_method,GIAC_CONTEXT,bool exactcheck){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ( (args.type!=_VECT) || (args._VECTptr->size()<2) )
       return gensizeerr(contextptr);
@@ -4129,7 +4129,7 @@ namespace giac {
       f=subst(f,x,tanx,false,contextptr)*(1+pow(tanx,2));
       a=atan(a,contextptr);
       b=atan(b,contextptr);
-      gen res=intnum(makesequence(f,x,a,b),romberg_method,contextptr);
+      gen res=intnum(makesequence(f,x,a,b),romberg_method,contextptr,exactcheck);
       if (!angle_radian(contextptr))
       {
 	if(angle_degree(contextptr))
@@ -4160,17 +4160,17 @@ namespace giac {
 	 || (b.type!=_DOUBLE_ && b.type!=_REAL) 
 	 )
       return symbolic(at_integrate,args);
-    return evalf_int(f,x,a,b,eps,n,romberg_method,contextptr);
+    return evalf_int(f,x,a,b,eps,n,romberg_method,contextptr,exactcheck);
   }
   gen _romberg(const gen & args,GIAC_CONTEXT) {
-    return intnum(args,true,contextptr);
+    return intnum(args,true,contextptr,false);
   }
   static const char _romberg_s []="romberg";
   static define_unary_function_eval (__romberg,&_romberg,_romberg_s);
   define_unary_function_ptr5( at_romberg ,alias_at_romberg,&__romberg,0,true);
 
   gen _gaussquad(const gen & args,GIAC_CONTEXT) {
-    return intnum(args,false,contextptr);
+    return intnum(args,false,contextptr,false);
   }
   static const char _gaussquad_s []="gaussquad";
   static define_unary_function_eval (__gaussquad,&_gaussquad,_gaussquad_s);
