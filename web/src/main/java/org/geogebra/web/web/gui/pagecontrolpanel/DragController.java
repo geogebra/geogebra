@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 class DragController {
@@ -14,6 +15,7 @@ class DragController {
 	private final Cards cards;
 	private DragCard dragged;
 	private App app;
+	private int lastY;
 	
 	interface Cards {
 		ArrayList<PagePreviewCard> getCards();
@@ -52,7 +54,8 @@ class DragController {
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
 		LastTarget last = new LastTarget();
-
+		private boolean down;
+			
 		DragCard() {
 			reset();
 		}
@@ -80,23 +83,21 @@ class DragController {
 	
 		void setPosition(int x, int y) {
 			card.setDragPosition(x, y);
-		
-			boolean down = card.getDragDirection(y);//lastY < card.getAbsoluteTop();
-			target = findTarget(down);
+			target = findTarget();
 //			Log.debug("target " + (target != null ? target.getPageIndex(): " - "));
 			if (target != null && target != last.target) { 
-				onTargetChange(down);
+				onTargetChange();
 				last.setTarget(target);
 			}
 		}
 
-		private void onTargetChange(boolean down) {
+		private void onTargetChange() {
 			if (last.target != null) {
 				last.target.removeSpace();
 				target.addSpace(down);
 			}
 		}
-		private PagePreviewCard findTarget(boolean down) {
+		private PagePreviewCard findTarget() {
 	
 			int y1 = card.getBottom() - CARD_MARGIN;
 			int y2 = card.getAbsoluteTop() + CARD_MARGIN; 
@@ -137,7 +138,9 @@ class DragController {
 				return -1;
 			}
 
-			boolean down = card.getDragDirection(y);
+			down = lastY <= y;
+			lastY = y;
+			
 			setPosition(0, y);
 
 			if (target == null) {
@@ -152,7 +155,7 @@ class DragController {
 				int h = PagePreviewCard.SPACE_HEIGHT - CARD_MARGIN;
 				int diff = down ? card.getBottom() - last.top  
 						: last.bottom - card.getAbsoluteTop();
-				// Log.debug("diff: " + diff + " h: " + h);
+			
 				if (diff < h) {
 					target.setSpaceValue(diff, down);
 				}
@@ -170,8 +173,6 @@ class DragController {
 			int destIdx = last.index();
 
 			if (srcIdx != -1 && destIdx != -1) {
-//				Log.debug("drag: " + srcIdx + " drop to " + destIdx);
-
 				cards.reorder(srcIdx, destIdx);
 				return true;
 			}
@@ -208,7 +209,7 @@ class DragController {
 
 	
 	void move(int x, int y) {
-		if (CancelEventTimer.isDragStarted()) {
+	if (CancelEventTimer.isDragStarted()) {
 			dragged.start(x, y);
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = dragged.move(y);

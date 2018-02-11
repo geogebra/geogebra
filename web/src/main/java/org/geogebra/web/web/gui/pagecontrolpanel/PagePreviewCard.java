@@ -46,6 +46,7 @@ public class PagePreviewCard extends FlowPanel
 	 * ggb file
 	 */
 	protected GgbFile file;
+	private int lastTop;
 	
 
 	/**
@@ -269,6 +270,7 @@ public class PagePreviewCard extends FlowPanel
 	 *            coordinate.
 	 */
 	public void setDragPosition(int x, int y) {
+		lastTop = getAbsoluteTop();
 		int top = getTopFromDrag(y);
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
@@ -281,15 +283,6 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	private int getTopFromDrag(int y) {
 		return y - getParent().getAbsoluteTop() - grabY;
-	}
-
-	/**
-	 * @param y
-	 *            the next drag position.
-	 * @return true for drag down, false for up.
-	 */
-	public boolean getDragDirection(int y) {
-		return getAbsoluteTop() < getTopFromDrag(y);
 	}
 
 	/**
@@ -366,5 +359,9 @@ public class PagePreviewCard extends FlowPanel
 		int opposite = SPACE_HEIGHT - value;
 		getElement().getStyle().setMarginTop(down ? opposite: value, Unit.PX);
 		getElement().getStyle().setMarginBottom(down ? value: opposite, Unit.PX);
+	}
+
+	public int getLastTop() {
+		return lastTop;
 	}
 }
