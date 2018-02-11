@@ -26,7 +26,7 @@ __GGB__keysVar.et = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["et"].colors = {
+__GGB__keysVar["et"].colors = {
     "aqua": "Veesinine (aqua)",
     "black": "Must",
     "blue": "Sinine",
@@ -66,7 +66,7 @@ __GGB__keysVar.["et"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["et"].command = {
+__GGB__keysVar["et"].command = {
     "ANOVA": "Dispersioonanal\xfc\xfcs",
     "ANOVA.Syntax": "[ <Loend>, <Loend>, ... ]",
     "AffineRatio": "Lihtsuhe",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["et"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["et"].error = {
+__GGB__keysVar["et"].error = {
     "AssignmentToFixed": "Fikseeritud objekte ei saa muuta.",
     "CAS.GeneralErrorMessage": "Kahjuks l\xe4ks midagi valesti! Kontrollige sisendit!",
     "CAS.InvalidReferenceError": "\xdcks v\xf5i enam viidet on vigased.",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["et"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["et"].menu = {
+__GGB__keysVar["et"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 k\xfcmnendkoht",
     "ADecimalPlaces": "%0 k\xfcmnendkohta",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["et"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["et"].symbols = {
+__GGB__keysVar["et"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

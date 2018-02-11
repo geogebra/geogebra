@@ -26,7 +26,7 @@ __GGB__keysVar.is = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["is"].colors = {
+__GGB__keysVar["is"].colors = {
     "aqua": "S\xe6gr\xe6nn",
     "black": "Svartur",
     "blue": "Bl\xe1r",
@@ -66,7 +66,7 @@ __GGB__keysVar.["is"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["is"].command = {
+__GGB__keysVar["is"].command = {
     "ANOVA": "Breytileikagreining",
     "ANOVA.Syntax": "[ <Listi>, <Listi>, ... ]",
     "AffineRatio": "SkiptiHlutfall",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["is"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["is"].error = {
+__GGB__keysVar["is"].error = {
     "AssignmentToFixed": "Ekki h\xe6gt a\xf0 breyta f\xf6stum hlutum",
     "CAS.GeneralErrorMessage": "\xdev\xed mi\xf0ur gengur \xfeetta inntak ekki.",
     "CAS.InvalidReferenceError": "\xd3gild tilv\xedsun",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["is"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["is"].menu = {
+__GGB__keysVar["is"].menu = {
     "ACommand": "%0 skipun",
     "ADecimalPlace": "%0 Aukastafur",
     "ADecimalPlaces": "%0 Aukastafir",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["is"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["is"].symbols = {
+__GGB__keysVar["is"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

@@ -26,7 +26,7 @@ __GGB__keysVar.sq = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["sq"].colors = {
+__GGB__keysVar["sq"].colors = {
     "aqua": "Deti",
     "black": "E zeze/I zi",
     "blue": "Blu",
@@ -66,7 +66,7 @@ __GGB__keysVar.["sq"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["sq"].command = {
+__GGB__keysVar["sq"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Liste>, <Liste>, ... ]",
     "AffineRatio": "RaportAfin",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["sq"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["sq"].error = {
+__GGB__keysVar["sq"].error = {
     "AssignmentToFixed": "Objektet fikse mund te mos ndryshohen",
     "CAS.GeneralErrorMessage": "Na vjen keq, inputi(cfare futet) nuk pranohet",
     "CAS.InvalidReferenceError": "Nje ose me shume referenca jane jo te vlefshme",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["sq"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["sq"].menu = {
+__GGB__keysVar["sq"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Pozicion Dhjetor",
     "ADecimalPlaces": "%0 Pozicione Dhjetore",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["sq"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["sq"].symbols = {
+__GGB__keysVar["sq"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

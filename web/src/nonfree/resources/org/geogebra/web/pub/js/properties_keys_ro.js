@@ -26,7 +26,7 @@ __GGB__keysVar.ro = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["ro"].colors = {
+__GGB__keysVar["ro"].colors = {
     "aqua": "Turcoaz secundar",
     "black": "Negru",
     "blue": "Albastru",
@@ -66,7 +66,7 @@ __GGB__keysVar.["ro"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["ro"].command = {
+__GGB__keysVar["ro"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <List\u0103>, <List\u0103>, ... ]",
     "AffineRatio": "RaportAfin",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["ro"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["ro"].error = {
+__GGB__keysVar["ro"].error = {
     "AssignmentToFixed": "Obiectele fixate nu pot fi modificate",
     "CAS.GeneralErrorMessage": "Ceva nu func\u0163ioneaz\u0103 corect. Verifica\u0163i intrarea.",
     "CAS.InvalidReferenceError": "Una sau mai multe referin\u021be sunt invalide",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["ro"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["ro"].menu = {
+__GGB__keysVar["ro"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 pozi\u0163ie zecimal\u0103",
     "ADecimalPlaces": "%0 pozi\u0163ii zecimale",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["ro"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["ro"].symbols = {
+__GGB__keysVar["ro"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

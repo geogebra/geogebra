@@ -26,7 +26,7 @@ __GGB__keysVar.ml = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["ml"].colors = {
+__GGB__keysVar["ml"].colors = {
     "aqua": "\u0d05\u0d16\u0d4d\u0d35",
     "black": "\u0d15\u0d31\u0d41\u0d2a\u0d4d\u0d2a\u0d4d",
     "blue": "\u0d28\u0d40\u0d32",
@@ -66,7 +66,7 @@ __GGB__keysVar.["ml"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["ml"].command = {
+__GGB__keysVar["ml"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <List>, <List>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["ml"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["ml"].error = {
+__GGB__keysVar["ml"].error = {
     "AssignmentToFixed": "\u0d38\u0d4d\u0d25\u0d3e\u0d35\u0d30 \u0d35\u0d38\u0d4d\u0d24\u0d41\u0d15\u0d4d\u0d15\u0d7e\u0d15\u0d4d\u0d15\u0d4d \u0d2e\u0d3e\u0d31\u0d4d\u0d31\u0d02 \u0d35\u0d30\u0d41\u0d24\u0d4d\u0d24\u0d30\u0d41\u0d24\u0d4d",
     "CAS.GeneralErrorMessage": "\u0d15\u0d4d\u0d37\u0d2e\u0d3f\u0d15\u0d4d\u0d15\u0d23\u0d02, \u0d0e\u0d28\u0d4d\u0d24\u0d4b \u0d24\u0d46\u0d31\u0d4d\u0d31\u0d4d \u0d2a\u0d31\u0d4d\u0d31\u0d3f\u0d2f\u0d3f\u0d30\u0d3f\u0d15\u0d4d\u0d15\u0d41\u0d28\u0d4d\u0d28\u0d41. \u0d26\u0d2f\u0d35\u0d3e\u0d2f\u0d3f \u0d24\u0d3e\u0d19\u0d4d\u0d15\u0d33\u0d41\u0d1f\u0d46 \u0d07\u0d7b\u0d2a\u0d41\u0d1f\u0d4d\u0d1f\u0d4d \u0d2a\u0d30\u0d3f\u0d36\u0d4b\u0d27\u0d3f\u0d15\u0d4d\u0d15\u0d41\u0d15",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["ml"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["ml"].menu = {
+__GGB__keysVar["ml"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0d26\u0d36\u0d3e\u0d02\u0d36 \u0d38\u0d4d\u0d25\u0d3e\u0d28\u0d02",
     "ADecimalPlaces": "%0 \u0d26\u0d36\u0d3e\u0d02\u0d36 \u0d38\u0d4d\u0d25\u0d3e\u0d28\u0d19\u0d4d\u0d19\u0d33\u0d4d\u200d",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["ml"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["ml"].symbols = {
+__GGB__keysVar["ml"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

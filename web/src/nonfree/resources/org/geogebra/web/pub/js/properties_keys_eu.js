@@ -26,7 +26,7 @@ __GGB__keysVar.eu = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["eu"].colors = {
+__GGB__keysVar["eu"].colors = {
     "aqua": "Ura",
     "black": "Beltza",
     "blue": "Urdina",
@@ -66,7 +66,7 @@ __GGB__keysVar.["eu"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["eu"].command = {
+__GGB__keysVar["eu"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Zerrenda>, <Zerrenda>, ... ]",
     "AffineRatio": "ArrazoiSinplea",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["eu"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["eu"].error = {
+__GGB__keysVar["eu"].error = {
     "AssignmentToFixed": "Objektu finkoak ezin dira aldatu.",
     "CAS.GeneralErrorMessage": "Zoritxarrez, sarrera ezin da onartu.",
     "CAS.InvalidReferenceError": "Baliogabeko erreferentzia bat edo gehiago",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["eu"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["eu"].menu = {
+__GGB__keysVar["eu"].menu = {
     "ACommand": "%0 Komandoa",
     "ADecimalPlace": "%0 Posizioko Hamartarra",
     "ADecimalPlaces": "%0 Hamartar",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["eu"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["eu"].symbols = {
+__GGB__keysVar["eu"].symbols = {
     "S.1": "\xab",
     "S.10": "{",
     "S.11": "\xc9",

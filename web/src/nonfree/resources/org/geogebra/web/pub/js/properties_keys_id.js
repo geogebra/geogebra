@@ -26,7 +26,7 @@ __GGB__keysVar.id = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["id"].colors = {
+__GGB__keysVar["id"].colors = {
     "aqua": "Biru Muda",
     "black": "Hitam",
     "blue": "Biru",
@@ -66,7 +66,7 @@ __GGB__keysVar.["id"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["id"].command = {
+__GGB__keysVar["id"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Daftar>, <Daftar>, ... ]",
     "AffineRatio": "RasioAfinitas",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["id"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["id"].error = {
+__GGB__keysVar["id"].error = {
     "AssignmentToFixed": "Objek tetap tidak dapat diubah.",
     "CAS.GeneralErrorMessage": "Maaf, masukannya tidak dapat diterima.",
     "CAS.InvalidReferenceError": "Satu atau lebih dari satu referensi tidak valid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["id"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["id"].menu = {
+__GGB__keysVar["id"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Angka Desimal",
     "ADecimalPlaces": "%0 Angka Desimal",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["id"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["id"].symbols = {
+__GGB__keysVar["id"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

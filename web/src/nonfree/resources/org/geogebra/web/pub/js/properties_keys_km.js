@@ -26,7 +26,7 @@ __GGB__keysVar.km = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["km"].colors = {
+__GGB__keysVar["km"].colors = {
     "aqua": "Aqua",
     "black": "\u1781\u17d2\u1798\u17c5",
     "blue": "\u1781\u17c0\u179c",
@@ -66,7 +66,7 @@ __GGB__keysVar.["km"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["km"].command = {
+__GGB__keysVar["km"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <List>, <List>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["km"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["km"].error = {
+__GGB__keysVar["km"].error = {
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Sorry, something went wrong. Please check your input",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["km"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["km"].menu = {
+__GGB__keysVar["km"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["km"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["km"].symbols = {
+__GGB__keysVar["km"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

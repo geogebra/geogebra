@@ -26,7 +26,7 @@ __GGB__keysVar.eo = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["eo"].colors = {
+__GGB__keysVar["eo"].colors = {
     "aqua": "Akva",
     "black": "Nigra",
     "blue": "Blua",
@@ -66,7 +66,7 @@ __GGB__keysVar.["eo"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["eo"].command = {
+__GGB__keysVar["eo"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Listo>, <Listo>, ... ]",
     "AffineRatio": "AfinaRilato",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["eo"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["eo"].error = {
+__GGB__keysVar["eo"].error = {
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Sorry, something went wrong. Please check your input",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["eo"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["eo"].menu = {
+__GGB__keysVar["eo"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 decimalo",
     "ADecimalPlaces": "%0 decimaloj",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["eo"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["eo"].symbols = {
+__GGB__keysVar["eo"].symbols = {
     "S.1": "\u0108",
     "S.10": "\u015d",
     "S.11": "\u016c",

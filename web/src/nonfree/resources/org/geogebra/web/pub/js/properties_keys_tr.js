@@ -26,7 +26,7 @@ __GGB__keysVar.tr = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["tr"].colors = {
+__GGB__keysVar["tr"].colors = {
     "aqua": "A\xe7\u0131k Deniz Mavisi",
     "black": "Siyah",
     "blue": "Mavi",
@@ -66,7 +66,7 @@ __GGB__keysVar.["tr"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["tr"].command = {
+__GGB__keysVar["tr"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Liste>, <Liste>, ... ]",
     "AffineRatio": "AfinOran\u0131",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["tr"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["tr"].error = {
+__GGB__keysVar["tr"].error = {
     "AssignmentToFixed": "Sabit nesneler de\u011fi\u015ftirilemez",
     "CAS.GeneralErrorMessage": "Maalesef girdi ge\xe7erli de\u011fil.",
     "CAS.InvalidReferenceError": "Bir veya daha fazla referans ge\xe7ersiz",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["tr"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["tr"].menu = {
+__GGB__keysVar["tr"].menu = {
     "ACommand": "%0 Komutu",
     "ADecimalPlace": "%0 Ondal\u0131k Hane",
     "ADecimalPlaces": "%0 Ondal\u0131k Haneler",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["tr"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["tr"].symbols = {
+__GGB__keysVar["tr"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

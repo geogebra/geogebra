@@ -26,7 +26,7 @@ __GGB__keysVar.lv = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["lv"].colors = {
+__GGB__keysVar["lv"].colors = {
     "aqua": "j\u016bras zils",
     "black": "Melns",
     "blue": "Zils",
@@ -66,7 +66,7 @@ __GGB__keysVar.["lv"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["lv"].command = {
+__GGB__keysVar["lv"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Saraksts>, <Saraksts>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["lv"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["lv"].error = {
+__GGB__keysVar["lv"].error = {
     "AssignmentToFixed": "Fiks\u0113tos objektus nevar izmain\u012bt",
     "CAS.GeneralErrorMessage": "Atvainojiet, kaot kas neizdev\u0101s. L\u016bdzu p\u0101rbaudiet savienojumu",
     "CAS.InvalidReferenceError": "Viena vai vair\u0101kas atsauces nav der\u012bgas",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["lv"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["lv"].menu = {
+__GGB__keysVar["lv"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Z\u012bmes aiz komata",
     "ADecimalPlaces": "%0 Z\u012bmes aiz komata",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["lv"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["lv"].symbols = {
+__GGB__keysVar["lv"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

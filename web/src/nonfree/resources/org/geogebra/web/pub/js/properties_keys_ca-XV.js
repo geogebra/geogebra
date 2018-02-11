@@ -26,7 +26,7 @@ __GGB__keysVar.ca-XV = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["ca-XV"].colors = {
+__GGB__keysVar["ca-XV"].colors = {
     "aqua": "Aigua",
     "black": "Negre",
     "blue": "Blau",
@@ -66,7 +66,7 @@ __GGB__keysVar.["ca-XV"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["ca-XV"].command = {
+__GGB__keysVar["ca-XV"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Llista>, <Llista>, ... ]",
     "AffineRatio": "Ra\xf3Simple",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["ca-XV"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["ca-XV"].error = {
+__GGB__keysVar["ca-XV"].error = {
     "AssignmentToFixed": "Els objectes fixos no es poden modificar.",
     "CAS.GeneralErrorMessage": "L'entrada no \xe9s correcta",
     "CAS.InvalidReferenceError": "Una o m\xe9s refer\xe8ncies no s\xf3n v\xe0lides.",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["ca-XV"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["ca-XV"].menu = {
+__GGB__keysVar["ca-XV"].menu = {
     "ACommand": "Comandament  %0",
     "ADecimalPlace": "%0 xifra decimal",
     "ADecimalPlaces": "%0 xifres decimals",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["ca-XV"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["ca-XV"].symbols = {
+__GGB__keysVar["ca-XV"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

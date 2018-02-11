@@ -26,7 +26,7 @@ __GGB__keysVar.pl = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["pl"].colors = {
+__GGB__keysVar["pl"].colors = {
     "aqua": "turkus",
     "black": "czarny",
     "blue": "niebieski",
@@ -66,7 +66,7 @@ __GGB__keysVar.["pl"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["pl"].command = {
+__GGB__keysVar["pl"].command = {
     "ANOVA": "AnalizaWariancji",
     "ANOVA.Syntax": "[ <Lista>, <Lista> ]",
     "AffineRatio": "StosunekAfiniczny",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["pl"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["pl"].error = {
+__GGB__keysVar["pl"].error = {
     "AssignmentToFixed": "Obiekty sta\u0142e nie mog\u0105 by\u0107 zmienione",
     "CAS.GeneralErrorMessage": "Przepraszam, wej\u015bcie jest niedopuszczalne",
     "CAS.InvalidReferenceError": "Jedno lub wi\u0119cej odwo\u0142a\u0144 jest nieprawid\u0142owe",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["pl"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["pl"].menu = {
+__GGB__keysVar["pl"].menu = {
     "ACommand": "%0 Polecenie",
     "ADecimalPlace": "%0 miejsce po przecinku",
     "ADecimalPlaces": "%0 miejsca po przecinku",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["pl"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["pl"].symbols = {
+__GGB__keysVar["pl"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

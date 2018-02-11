@@ -26,7 +26,7 @@ __GGB__keysVar.fr = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["fr"].colors = {
+__GGB__keysVar["fr"].colors = {
     "aqua": "Marine",
     "black": "Noir",
     "blue": "Bleu",
@@ -66,7 +66,7 @@ __GGB__keysVar.["fr"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["fr"].command = {
+__GGB__keysVar["fr"].command = {
     "ANOVA": "AnalyseVariance",
     "ANOVA.Syntax": "[ <Liste>, <Liste>, ... ]",
     "AffineRatio": "RapportColin\xe9arit\xe9",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["fr"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["fr"].error = {
+__GGB__keysVar["fr"].error = {
     "AssignmentToFixed": "Les objets fixes ne peuvent \xeatre chang\xe9s.",
     "CAS.GeneralErrorMessage": "D\xe9sol\xe9, la saisie n'est pas valide.",
     "CAS.InvalidReferenceError": "Une ou plusieurs r\xe9f\xe9rences ne sont pas valides.",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["fr"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["fr"].menu = {
+__GGB__keysVar["fr"].menu = {
     "ACommand": "Commande %0",
     "ADecimalPlace": "%0 d\xe9cimale",
     "ADecimalPlaces": "%0 d\xe9cimales",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["fr"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["fr"].symbols = {
+__GGB__keysVar["fr"].symbols = {
     "S.1": "\xab",
     "S.10": "\xc0",
     "S.11": "\xc9",

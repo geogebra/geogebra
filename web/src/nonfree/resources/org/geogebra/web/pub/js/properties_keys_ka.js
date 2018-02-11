@@ -26,7 +26,7 @@ __GGB__keysVar.ka = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["ka"].colors = {
+__GGB__keysVar["ka"].colors = {
     "aqua": "\u10d0\u10d9\u10d5\u10d0",
     "black": "\u10e8\u10d0\u10d5\u10d8",
     "blue": "\u10ea\u10d8\u10e1\u10e4\u10e0\u10d8",
@@ -66,7 +66,7 @@ __GGB__keysVar.["ka"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["ka"].command = {
+__GGB__keysVar["ka"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <\u10e1\u10d8\u10d0>, <\u10e1\u10d8\u10d0>, ... ]",
     "AffineRatio": "\u10d0\u10e4\u10d8\u10dc\u10e3\u10e0\u10d8\u10e4\u10d0\u10e0\u10d3\u10dd\u10d1\u10d0",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["ka"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["ka"].error = {
+__GGB__keysVar["ka"].error = {
     "AssignmentToFixed": "\u10e4\u10d8\u10e5\u10e1\u10d8\u10e0\u10d4\u10d1\u10e3\u10da\u10d8 \u10dd\u10d1\u10d8\u10d4\u10e5\u10e2\u10d4\u10d1\u10d8 \u10d5\u10d4\u10e0 \u10e8\u10d4\u10d8\u10ea\u10d5\u10da\u10d4\u10d1\u10d0",
     "CAS.GeneralErrorMessage": "\u10e8\u10d4\u10d0\u10db\u10dd\u10ec\u10db\u10d4\u10d7 \u10d7\u10e5\u10d5\u10d4\u10dc\u10d8 \u10e8\u10d4\u10e2\u10d0\u10dc\u10d8\u10e1 \u10e1\u10d8\u10dc\u10e2\u10d0\u10e5\u10e1\u10d8",
     "CAS.InvalidReferenceError": "\u10d4\u10e0\u10d7\u10d8 \u10d0\u10dc \u10e0\u10d0\u10db\u10dd\u10d3\u10d4\u10dc\u10d8\u10db\u10d4 \u10db\u10d8\u10d7\u10d8\u10d7\u10d4\u10d1\u10d0 \u10d0\u10e0\u10d0\u10e1\u10ec\u10dd\u10e0\u10d8\u10d0",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["ka"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["ka"].menu = {
+__GGB__keysVar["ka"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u10dc\u10d8\u10e8\u10d0\u10dc\u10d8 \u10db\u10eb\u10d8\u10db\u10d8\u10e1 \u10e8\u10d4\u10db\u10d3\u10d4\u10d2",
     "ADecimalPlaces": "%0 \u10dc\u10d8\u10e8\u10d0\u10dc\u10d8 \u10db\u10eb\u10d8\u10db\u10d8\u10e1 \u10e8\u10d4\u10db\u10d3\u10d4\u10d2",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["ka"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["ka"].symbols = {
+__GGB__keysVar["ka"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

@@ -26,7 +26,7 @@ __GGB__keysVar.ca = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["ca"].colors = {
+__GGB__keysVar["ca"].colors = {
     "aqua": "Aigua",
     "black": "Negre",
     "blue": "Blau",
@@ -66,7 +66,7 @@ __GGB__keysVar.["ca"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["ca"].command = {
+__GGB__keysVar["ca"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Llista>, <Llista>, ... ]",
     "AffineRatio": "Ra\xf3Simple",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["ca"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["ca"].error = {
+__GGB__keysVar["ca"].error = {
     "AssignmentToFixed": "Els objectes fixos no es poden modificar",
     "CAS.GeneralErrorMessage": "Ho sento, l'entrada no \xe9s correcta",
     "CAS.InvalidReferenceError": "Una o m\xe9s refer\xe8ncies no s\xf3n v\xe0lides",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["ca"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["ca"].menu = {
+__GGB__keysVar["ca"].menu = {
     "ACommand": "Comandament  %0",
     "ADecimalPlace": "%0 Xifra decimal",
     "ADecimalPlaces": "%0 Xifres decimals",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["ca"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["ca"].symbols = {
+__GGB__keysVar["ca"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

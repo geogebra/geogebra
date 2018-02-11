@@ -26,7 +26,7 @@ __GGB__keysVar.es-UY = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["es-UY"].colors = {
+__GGB__keysVar["es-UY"].colors = {
     "aqua": "Agua",
     "black": "Negro",
     "blue": "Azul",
@@ -66,7 +66,7 @@ __GGB__keysVar.["es-UY"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["es-UY"].command = {
+__GGB__keysVar["es-UY"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "Raz\xf3nSimple",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["es-UY"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["es-UY"].error = {
+__GGB__keysVar["es-UY"].error = {
     "AssignmentToFixed": "Los objetos fijos no pueden modificarse",
     "CAS.GeneralErrorMessage": "Algo est\xe1 fallando.  Se sugiere revisar la entrada.",
     "CAS.InvalidReferenceError": "No son v\xe1lidas una o m\xe1s referencias",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["es-UY"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["es-UY"].menu = {
+__GGB__keysVar["es-UY"].menu = {
     "ACommand": "Comando %0",
     "ADecimalPlace": "%0 lugar decimal",
     "ADecimalPlaces": "%0 cifras decimales",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["es-UY"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["es-UY"].symbols = {
+__GGB__keysVar["es-UY"].symbols = {
     "S.1": "\xab",
     "S.10": "{",
     "S.11": "\xc9",

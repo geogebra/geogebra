@@ -26,7 +26,7 @@ __GGB__keysVar.tg = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["tg"].colors = {
+__GGB__keysVar["tg"].colors = {
     "aqua": "\u041c\u0430\u0432\u04b7\u04b3\u043e\u0438 \u0431\u0430\u04b3\u0440\u04e3",
     "black": "\u0421\u0438\u0451\u04b3",
     "blue": "\u041a\u0430\u0431\u0443\u0434",
@@ -66,7 +66,7 @@ __GGB__keysVar.["tg"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["tg"].command = {
+__GGB__keysVar["tg"].command = {
     "ANOVA": "\u0410\u041d\u041e\u0412\u0410",
     "ANOVA.Syntax": "[ <\u0422\u0430\u0431\u043b\u0438\u0441\u0430>, <\u0422\u0430\u0431\u043b\u0438\u0441\u0430>, ... ]",
     "AffineRatio": "\u0410\u0444\u0444\u0438\u043d\u0435",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["tg"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["tg"].error = {
+__GGB__keysVar["tg"].error = {
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Sorry, something went wrong. Please check your input",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["tg"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["tg"].menu = {
+__GGB__keysVar["tg"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["tg"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["tg"].symbols = {
+__GGB__keysVar["tg"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

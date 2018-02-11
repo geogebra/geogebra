@@ -26,7 +26,7 @@ __GGB__keysVar.it = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["it"].colors = {
+__GGB__keysVar["it"].colors = {
     "aqua": "Acqua",
     "black": "Nero",
     "blue": "Blu",
@@ -66,7 +66,7 @@ __GGB__keysVar.["it"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["it"].command = {
+__GGB__keysVar["it"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "RapportoAffine",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["it"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["it"].error = {
+__GGB__keysVar["it"].error = {
     "AssignmentToFixed": "Non \xe8 possibile modificare gli oggetti fissati.",
     "CAS.GeneralErrorMessage": "Si \xe8 verificato un problema. Verificare i dati immessi.",
     "CAS.InvalidReferenceError": "Uno o pi\xf9 riferimenti non sono validi",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["it"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["it"].menu = {
+__GGB__keysVar["it"].menu = {
     "ACommand": "Comando %0",
     "ADecimalPlace": "%0 cifra decimale",
     "ADecimalPlaces": "%0 cifre decimali",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["it"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["it"].symbols = {
+__GGB__keysVar["it"].symbols = {
     "S.1": "{",
     "S.10": "\u20ac",
     "S.11": "$",

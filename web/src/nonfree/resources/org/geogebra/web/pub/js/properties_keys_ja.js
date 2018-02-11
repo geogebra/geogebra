@@ -26,7 +26,7 @@ __GGB__keysVar.ja = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["ja"].colors = {
+__GGB__keysVar["ja"].colors = {
     "aqua": "\u6c34\u8272",
     "black": "\u9ed2",
     "blue": "\u9752",
@@ -66,7 +66,7 @@ __GGB__keysVar.["ja"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["ja"].command = {
+__GGB__keysVar["ja"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <\u30ea\u30b9\u30c8>, <\u30ea\u30b9\u30c8>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["ja"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["ja"].error = {
+__GGB__keysVar["ja"].error = {
     "AssignmentToFixed": "\u56fa\u5b9a\u3055\u308c\u305f\u30aa\u30d6\u30b8\u30a7\u30af\u30c8\u306f\u5909\u66f4\u3067\u304d\u307e\u305b\u3093",
     "CAS.GeneralErrorMessage": "\u4f55\u304b\u9593\u9055\u3048\u3066\u3044\u307e\u3059\u3002\u5165\u529b\u3092\u78ba\u8a8d\u3057\u3066\u4e0b\u3055\u3044\u3002",
     "CAS.InvalidReferenceError": "\u53c2\u7167\u304c\u4e0d\u6b63\u3067\u3059",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["ja"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["ja"].menu = {
+__GGB__keysVar["ja"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "\u5c0f\u6570\u70b9\u4ee5\u4e0b%0\u6841",
     "ADecimalPlaces": "\u5c0f\u6570\u70b9\u4ee5\u4e0b%0\u6841",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["ja"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["ja"].symbols = {
+__GGB__keysVar["ja"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

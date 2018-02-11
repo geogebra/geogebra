@@ -26,7 +26,7 @@ __GGB__keysVar.cy = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["cy"].colors = {
+__GGB__keysVar["cy"].colors = {
     "aqua": "Morlas",
     "black": "Du",
     "blue": "Glas",
@@ -66,7 +66,7 @@ __GGB__keysVar.["cy"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["cy"].command = {
+__GGB__keysVar["cy"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Rhestr>, <Rhestr>, ... ]",
     "AffineRatio": "CymharebAffinol",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["cy"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["cy"].error = {
+__GGB__keysVar["cy"].error = {
     "AssignmentToFixed": "Ni ellir newid gwrthrychau sefydlog.",
     "CAS.GeneralErrorMessage": "Mae'r mewnbwn yn annerbyniol.",
     "CAS.InvalidReferenceError": "Mae un neu fwy o'r cyfeirnodau yn annilys",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["cy"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["cy"].menu = {
+__GGB__keysVar["cy"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 lle degol",
     "ADecimalPlaces": "%0 lle degol",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["cy"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["cy"].symbols = {
+__GGB__keysVar["cy"].symbols = {
     "S.1": "\u0175",
     "S.10": "",
     "S.11": "",

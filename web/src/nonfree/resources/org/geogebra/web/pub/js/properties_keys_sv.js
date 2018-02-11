@@ -26,7 +26,7 @@ __GGB__keysVar.sv = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["sv"].colors = {
+__GGB__keysVar["sv"].colors = {
     "aqua": "Turkos",
     "black": "Svart",
     "blue": "Bl\xe5",
@@ -66,7 +66,7 @@ __GGB__keysVar.["sv"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["sv"].command = {
+__GGB__keysVar["sv"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "Delningsf\xf6rh\xe5llande",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["sv"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["sv"].error = {
+__GGB__keysVar["sv"].error = {
     "AssignmentToFixed": "Fixerat objekt kan inte \xe4ndras",
     "CAS.GeneralErrorMessage": "Beklagar, men inmatningen \xe4r inte godk\xe4nd",
     "CAS.InvalidReferenceError": "En eller flera referenser \xe4r ogiltiga",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["sv"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["sv"].menu = {
+__GGB__keysVar["sv"].menu = {
     "ACommand": "Kommandot %0",
     "ADecimalPlace": "%0 decimaler",
     "ADecimalPlaces": "%0 decimaler",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["sv"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["sv"].symbols = {
+__GGB__keysVar["sv"].symbols = {
     "S.1": "\xfc",
     "S.10": "",
     "S.11": "",

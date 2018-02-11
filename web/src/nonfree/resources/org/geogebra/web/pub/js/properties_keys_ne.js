@@ -26,7 +26,7 @@ __GGB__keysVar.ne = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["ne"].colors = {
+__GGB__keysVar["ne"].colors = {
     "aqua": "\u092a\u093e\u0928\u0940",
     "black": "\u0915\u093e\u0932\u094b",
     "blue": "\u0928\u093f\u0932\u094b",
@@ -66,7 +66,7 @@ __GGB__keysVar.["ne"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["ne"].command = {
+__GGB__keysVar["ne"].command = {
     "ANOVA": "\u090f\u0928\u094b\u092d\u093e",
     "ANOVA.Syntax": "[ <\u0938\u0941\u091a\u0940>, <\u0938\u0941\u091a\u0940>, ... ]",
     "AffineRatio": "\u090f\u092b\u093e\u0908\u0928\u092d\u093f\u0928\u094d\u0928",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["ne"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["ne"].error = {
+__GGB__keysVar["ne"].error = {
     "AssignmentToFixed": "\u0928\u093f\u0936\u094d\u091a\u093f\u0924 \u0935\u0938\u094d\u0924\u0941\u0939\u0930\u0941 \u0928\u092c\u0926\u0932\u093f\u0928\u094d \u0938\u0915\u094d\u091b\u0928\u094d",
     "CAS.GeneralErrorMessage": "\u0938\u0930\u0940, \u0908\u0928\u092a\u0941\u091f \u0938\u094d\u0935\u0940\u0915\u093e\u0930 \u092d\u090f\u0928",
     "CAS.InvalidReferenceError": "\u090f\u0915 \u0935\u093e \u092c\u0922\u0940 \u0930\u0947\u092b\u0930\u0947\u0928\u094d\u0938\u0939\u0930\u0941 \u092c\u0947\u0920\u0940\u0915 \u091b\u0928",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["ne"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["ne"].menu = {
+__GGB__keysVar["ne"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0926\u0936\u092e\u0932\u092c \u0938\u094d\u0925\u093e\u0928",
     "ADecimalPlaces": "%0 \u0926\u0936\u092e\u0932\u092c \u0938\u094d\u0925\u093e\u0928\u0939\u0930\u0941",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["ne"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["ne"].symbols = {
+__GGB__keysVar["ne"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

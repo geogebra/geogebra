@@ -26,7 +26,7 @@ __GGB__keysVar.pt = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["pt"].colors = {
+__GGB__keysVar["pt"].colors = {
     "aqua": "C\xedano",
     "black": "Preto",
     "blue": "Azul",
@@ -66,7 +66,7 @@ __GGB__keysVar.["pt"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["pt"].command = {
+__GGB__keysVar["pt"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "Raz\xe3oAfim",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["pt"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["pt"].error = {
+__GGB__keysVar["pt"].error = {
     "AssignmentToFixed": "Objetos fixos n\xe3o podem ser modificados.",
     "CAS.GeneralErrorMessage": "Entrada inv\xe1lida! Por favor, verifique a estrutura do seu comando!",
     "CAS.InvalidReferenceError": "Uma ou mais refer\xeancias s\xe3o inv\xe1lidas",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["pt"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["pt"].menu = {
+__GGB__keysVar["pt"].menu = {
     "ACommand": "Comando %0",
     "ADecimalPlace": "%0 Casa Decimal",
     "ADecimalPlaces": "%0 Casas Decimais",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["pt"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["pt"].symbols = {
+__GGB__keysVar["pt"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

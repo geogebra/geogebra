@@ -26,7 +26,7 @@ __GGB__keysVar.bn = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["bn"].colors = {
+__GGB__keysVar["bn"].colors = {
     "aqua": "Aqua",
     "black": "\u0995\u09be\u09b2\u09cb",
     "blue": "\u09a8\u09c0\u09b2",
@@ -66,7 +66,7 @@ __GGB__keysVar.["bn"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["bn"].command = {
+__GGB__keysVar["bn"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <List>, <List>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["bn"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["bn"].error = {
+__GGB__keysVar["bn"].error = {
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Sorry, something went wrong. Please check your input",
     "CAS.InvalidReferenceError": "\u098f\u0995 \u09ac\u09be \u098f\u0995\u09be\u09a7\u09bf\u0995 \u09b0\u09c7\u09ab\u09be\u09b0\u09c7\u09a8\u09cd\u09b8 \u09ac\u09c8\u09a7 \u09a8\u09df",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["bn"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["bn"].menu = {
+__GGB__keysVar["bn"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["bn"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["bn"].symbols = {
+__GGB__keysVar["bn"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

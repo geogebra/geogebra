@@ -26,7 +26,7 @@ __GGB__keysVar.pt-PT = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["pt-PT"].colors = {
+__GGB__keysVar["pt-PT"].colors = {
     "aqua": "\xc1gua",
     "black": "Preto",
     "blue": "Azul",
@@ -66,7 +66,7 @@ __GGB__keysVar.["pt-PT"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["pt-PT"].command = {
+__GGB__keysVar["pt-PT"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "Raz\xe3oAfim",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["pt-PT"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["pt-PT"].error = {
+__GGB__keysVar["pt-PT"].error = {
     "AssignmentToFixed": "Objetos fixos n\xe3o podem ser modificados.",
     "CAS.GeneralErrorMessage": "Lamentamos, a express\xe3o que digitou n\xe3o \xe9 aceit\xe1vel",
     "CAS.InvalidReferenceError": "Uma ou mais refer\xeancias s\xe3o inv\xe1lidas",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["pt-PT"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["pt-PT"].menu = {
+__GGB__keysVar["pt-PT"].menu = {
     "ACommand": "%0 Comando",
     "ADecimalPlace": "%0 N\xfamero Decimal",
     "ADecimalPlaces": "%0 N\xfameros Decimais",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["pt-PT"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["pt-PT"].symbols = {
+__GGB__keysVar["pt-PT"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

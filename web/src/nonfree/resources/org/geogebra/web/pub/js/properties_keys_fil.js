@@ -26,7 +26,7 @@ __GGB__keysVar.fil = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["fil"].colors = {
+__GGB__keysVar["fil"].colors = {
     "aqua": "Akwa",
     "black": "Itim",
     "blue": "Asul",
@@ -66,7 +66,7 @@ __GGB__keysVar.["fil"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["fil"].command = {
+__GGB__keysVar["fil"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <List>, <List>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["fil"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["fil"].error = {
+__GGB__keysVar["fil"].error = {
     "AssignmentToFixed": "Hindi pwedeng baguhin ang fixed objects",
     "CAS.GeneralErrorMessage": "Paumanhin, may nangyaring mali. Mangyaring suriin ang iyong input",
     "CAS.InvalidReferenceError": "Isa o higit na references ay invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["fil"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["fil"].menu = {
+__GGB__keysVar["fil"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["fil"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["fil"].symbols = {
+__GGB__keysVar["fil"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

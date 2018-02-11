@@ -26,7 +26,7 @@ __GGB__keysVar.ta = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["ta"].colors = {
+__GGB__keysVar["ta"].colors = {
     "aqua": "\u0ba8\u0bc0\u0bb0\u0bcd \u0ba8\u0bc0\u0bb2\u0bae\u0bcd",
     "black": "\u0b95\u0bb0\u0bc1\u0baa\u0bcd\u0baa\u0bc1",
     "blue": "\u0ba8\u0bc0\u0bb2\u0bae\u0bcd",
@@ -66,7 +66,7 @@ __GGB__keysVar.["ta"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["ta"].command = {
+__GGB__keysVar["ta"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <\u0baa\u0b9f\u0bcd\u0b9f\u0bbf\u0baf\u0bb2\u0bcd>, <\u0baa\u0b9f\u0bcd\u0b9f\u0bbf\u0baf\u0bb2\u0bcd>, ... ]",
     "AffineRatio": "\u0b89\u0bb1\u0bb5\u0bc1\u0bb5\u0bbf\u0b95\u0bbf\u0ba4\u0bae\u0bcd",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["ta"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["ta"].error = {
+__GGB__keysVar["ta"].error = {
     "AssignmentToFixed": "\u0ba8\u0bbf\u0bb2\u0bc8\u0baf\u0bbe\u0ba9 \u0baa\u0bca\u0bb0\u0bc1\u0b9f\u0bcd\u0b95\u0bb3\u0bcd \u0bae\u0bbe\u0bb1\u0bcd\u0bb1\u0baa\u0bcd\u0baa\u0b9f\u0bbe\u0ba4\u0bbf\u0bb0\u0bc1\u0b95\u0bcd\u0b95\u0bb2\u0bbe\u0bae\u0bcd",
     "CAS.GeneralErrorMessage": "\u0bae\u0ba9\u0bcd\u0ba9\u0bbf\u0b95\u0bcd\u0b95\u0bb5\u0bc1\u0bae\u0bcd,\u0b8f\u0ba4\u0bcb \u0ba4\u0bb5\u0bb1\u0bc1 \u0b8f\u0bb1\u0bcd\u0baa\u0b9f\u0bcd\u0b9f\u0bc1\u0bb3\u0bcd\u0bb3\u0ba4\u0bc1. \u0b89\u0bb3\u0bcd\u0bb3\u0bc0\u0b9f\u0bcd\u0b9f\u0bc8 \u0b9a\u0bb0\u0bbf\u0baa\u0bbe\u0bb0\u0bcd\u0b95\u0bcd\u0b95\u0bb5\u0bc1\u0bae\u0bcd",
     "CAS.InvalidReferenceError": "\u0b92\u0bb0\u0bc1 \u0b9a\u0bbf\u0bb2 \u0b95\u0bc1\u0bb1\u0bbf\u0baa\u0bcd\u0baa\u0bc1\u0b95\u0bb3\u0bcd \u0b9a\u0bc6\u0bb2\u0bcd\u0bb2\u0bbe\u0ba4\u0bb5\u0bc8",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["ta"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["ta"].menu = {
+__GGB__keysVar["ta"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0ba4\u0b9a\u0bae \u0ba4\u0bbe\u0ba9\u0bae\u0bcd",
     "ADecimalPlaces": "%0 \u0ba4\u0b9a\u0bae \u0ba4\u0bbe\u0ba9\u0b99\u0bcd\u0b95\u0bb3\u0bcd",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["ta"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["ta"].symbols = {
+__GGB__keysVar["ta"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

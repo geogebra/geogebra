@@ -26,7 +26,7 @@ __GGB__keysVar.uz = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["uz"].colors = {
+__GGB__keysVar["uz"].colors = {
     "aqua": "Aqua",
     "black": "Black",
     "blue": "Blue",
@@ -66,7 +66,7 @@ __GGB__keysVar.["uz"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["uz"].command = {
+__GGB__keysVar["uz"].command = {
     "ANOVA": "DispersiyaviyTahlil",
     "ANOVA.Syntax": "[ <List>, <List>, ... ]",
     "AffineRatio": "AffineNisbat",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["uz"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["uz"].error = {
+__GGB__keysVar["uz"].error = {
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Sorry, something went wrong. Please check your input",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["uz"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["uz"].menu = {
+__GGB__keysVar["uz"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["uz"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["uz"].symbols = {
+__GGB__keysVar["uz"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

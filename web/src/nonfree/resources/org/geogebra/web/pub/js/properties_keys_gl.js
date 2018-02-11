@@ -26,7 +26,7 @@ __GGB__keysVar.gl = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["gl"].colors = {
+__GGB__keysVar["gl"].colors = {
     "aqua": "Auga",
     "black": "Negra",
     "blue": "Azul",
@@ -66,7 +66,7 @@ __GGB__keysVar.["gl"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["gl"].command = {
+__GGB__keysVar["gl"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "Raz\xf3nSimple",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["gl"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["gl"].error = {
+__GGB__keysVar["gl"].error = {
     "AssignmentToFixed": "Os obxectos fixos non poder ser modificados",
     "CAS.GeneralErrorMessage": "S\xedntoo, a entrada non \xe9 v\xe1lida",
     "CAS.InvalidReferenceError": "Unha ou m\xe1s referencias son inv\xe1lidas",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["gl"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["gl"].menu = {
+__GGB__keysVar["gl"].menu = {
     "ACommand": "Comando %0",
     "ADecimalPlace": "%0 cifra decimal",
     "ADecimalPlaces": "%0 cifras decimais",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["gl"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["gl"].symbols = {
+__GGB__keysVar["gl"].symbols = {
     "S.1": "\xab",
     "S.10": "{",
     "S.11": "\xc9",

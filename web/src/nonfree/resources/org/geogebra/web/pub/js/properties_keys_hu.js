@@ -26,7 +26,7 @@ __GGB__keysVar.hu = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["hu"].colors = {
+__GGB__keysVar["hu"].colors = {
     "aqua": "v\xedzk\xe9k",
     "black": "fekete",
     "blue": "k\xe9k",
@@ -66,7 +66,7 @@ __GGB__keysVar.["hu"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["hu"].command = {
+__GGB__keysVar["hu"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "AffinOszt\xf3viszony",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["hu"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["hu"].error = {
+__GGB__keysVar["hu"].error = {
     "AssignmentToFixed": "Fix alakzatok nem v\xe1ltoztathat\xf3k meg",
     "CAS.GeneralErrorMessage": "Sajnos valami hiba t\xf6rt\xe9nt. Ellen\u0151rizd a bemeneti adatokat",
     "CAS.InvalidReferenceError": "Egy vagy t\xf6bb hivatkoz\xe1s \xe9rv\xe9nytelen.",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["hu"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["hu"].menu = {
+__GGB__keysVar["hu"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "Tizedesjegyek sz\xe1ma %0",
     "ADecimalPlaces": "Tizedesjegyek sz\xe1ma %0",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["hu"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["hu"].symbols = {
+__GGB__keysVar["hu"].symbols = {
     "S.1": "\xe1",
     "S.10": "^",
     "S.11": "\xb0",

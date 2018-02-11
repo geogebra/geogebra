@@ -26,7 +26,7 @@ __GGB__keysVar.lt = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["lt"].colors = {
+__GGB__keysVar["lt"].colors = {
     "aqua": "Melsva",
     "black": "Juoda",
     "blue": "M\u0117lyna",
@@ -66,7 +66,7 @@ __GGB__keysVar.["lt"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["lt"].command = {
+__GGB__keysVar["lt"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <S\u0105ra\u0161as>, <S\u0105ra\u0161as>, ... ]",
     "AffineRatio": "NustatytiProporcij\u0105",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["lt"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["lt"].error = {
+__GGB__keysVar["lt"].error = {
     "AssignmentToFixed": "Priri\u0161ti objektai negali b\u016bti pakeisti.",
     "CAS.GeneralErrorMessage": "Atsipra\u0161au, \u012fvestis nepriimtina.",
     "CAS.InvalidReferenceError": "Viena ar daugiau nuorod\u0173 neveikia",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["lt"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["lt"].menu = {
+__GGB__keysVar["lt"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 skai\u010dius po kablelio",
     "ADecimalPlaces": "%0 skai\u010di\u0173 po kablelio",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["lt"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["lt"].symbols = {
+__GGB__keysVar["lt"].symbols = {
     "S.1": "\u0105",
     "S.10": "",
     "S.11": "",

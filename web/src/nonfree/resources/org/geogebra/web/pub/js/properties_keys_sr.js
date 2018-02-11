@@ -26,7 +26,7 @@ __GGB__keysVar.sr = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["sr"].colors = {
+__GGB__keysVar["sr"].colors = {
     "aqua": "Akvamarin",
     "black": "Crna",
     "blue": "Plava",
@@ -66,7 +66,7 @@ __GGB__keysVar.["sr"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["sr"].command = {
+__GGB__keysVar["sr"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lista>, <Lista>, ... ]",
     "AffineRatio": "KoeficijentAfinosti",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["sr"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["sr"].error = {
+__GGB__keysVar["sr"].error = {
     "AssignmentToFixed": "Nepomi\u010dni objekti se ne mogu menjati",
     "CAS.GeneralErrorMessage": "Na\u017ealost, unos nije prihvatljiv",
     "CAS.InvalidReferenceError": "Jedna ili vi\u0161e referenci su neispravne",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["sr"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["sr"].menu = {
+__GGB__keysVar["sr"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 decimalno mesto",
     "ADecimalPlaces": "%0 decimal. mesta",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["sr"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["sr"].symbols = {
+__GGB__keysVar["sr"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

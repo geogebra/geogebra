@@ -26,7 +26,7 @@ __GGB__keysVar.si = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["si"].colors = {
+__GGB__keysVar["si"].colors = {
     "aqua": "\u0d9a\u0ddc\u0dc5\u0db4\u0dcf\u0da7\u0da7 \u0dc4\u0dd4\u0dbb\u0dd4 \u0db1\u0dd2\u0dbd\u0dca",
     "black": "\u0d9a\u0dc5\u0dd4",
     "blue": "\u0db1\u0dd2\u0dbd\u0dca",
@@ -66,7 +66,7 @@ __GGB__keysVar.["si"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["si"].command = {
+__GGB__keysVar["si"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <\u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, ... ]",
     "AffineRatio": "\u0dc3\u0dbb\u0dbd\u0d85\u0db1\u0dd4\u0db4\u0dcf\u0dad\u0dba",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["si"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["si"].error = {
+__GGB__keysVar["si"].error = {
     "AssignmentToFixed": "\u0dc3\u0dca\u0dae\u0dcf\u0dc0\u0dbb \u0d9a\u0dbb\u0dca\u0db8\u0dba\u0db1\u0dca \u0dc0\u0dd9\u0db1\u0dc3\u0dca \u0db1\u0ddc\u0d9a\u0dbd \u0dba\u0dd4\u0dad\u0dd4\u0dba",
     "CAS.GeneralErrorMessage": "\u0dba\u0dd9\u0daf\u0dd4\u0db8 \u0d85\u0db1\u0dd4\u0db8\u0dad \u0d9a\u0dbd \u0db1\u0ddc\u0dc4\u0dd0\u0d9a",
     "CAS.InvalidReferenceError": "\u0db1\u0dd2\u0dbb\u0dca\u0daf\u0dda\u0dc1 \u0d91\u0d9a\u0d9a \u0dc4\u0dd9\u0dcf\u0dca \u0d9a\u0dd2\u0dc4\u0dd2\u0db4\u0dba\u0d9a \u0dc0\u0dbb\u0daf\u0d9a\u0dca \u0d85\u0dd0\u0dad",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["si"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["si"].menu = {
+__GGB__keysVar["si"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u0dc0\u0db1 \u0daf\u0dc1\u0db8 \u0dc3\u0dca\u0dae\u0dcf\u0db1\u0dba",
     "ADecimalPlaces": "%0 \u0dc0\u0db1 \u0daf\u0dc1\u0db8 \u0dc3\u0dca\u0dae\u0dcf\u0db1",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["si"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["si"].symbols = {
+__GGB__keysVar["si"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

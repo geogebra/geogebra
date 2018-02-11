@@ -26,7 +26,7 @@ __GGB__keysVar.de = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["de"].colors = {
+__GGB__keysVar["de"].colors = {
     "aqua": "Aqua",
     "black": "Schwarz",
     "blue": "Blau",
@@ -66,7 +66,7 @@ __GGB__keysVar.["de"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["de"].command = {
+__GGB__keysVar["de"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Liste>, <Liste>, ... ]",
     "AffineRatio": "Teilverh\xe4ltnis",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["de"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["de"].error = {
+__GGB__keysVar["de"].error = {
     "AssignmentToFixed": "Fixierte Objekte k\xf6nnen nicht ver\xe4ndert werden.",
     "CAS.GeneralErrorMessage": "\xdcberpr\xfcfen Sie bitte Ihre Eingabe",
     "CAS.InvalidReferenceError": "Eine oder mehrere Referenzen sind ung\xfcltig",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["de"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["de"].menu = {
+__GGB__keysVar["de"].menu = {
     "ACommand": "%0 Befehl",
     "ADecimalPlace": "%0 Dezimalstelle",
     "ADecimalPlaces": "%0 Dezimalstellen",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["de"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["de"].symbols = {
+__GGB__keysVar["de"].symbols = {
     "S.1": "{",
     "S.10": "\xfc",
     "S.11": "\xe4",

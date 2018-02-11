@@ -26,7 +26,7 @@ __GGB__keysVar.bg = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["bg"].colors = {
+__GGB__keysVar["bg"].colors = {
     "aqua": "\u0410\u043a\u0432\u0430\u043c\u0430\u0440\u0438\u043d",
     "black": "\u0427\u0435\u0440\u0435\u043d",
     "blue": "\u0421\u0438\u043d",
@@ -66,7 +66,7 @@ __GGB__keysVar.["bg"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["bg"].command = {
+__GGB__keysVar["bg"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <\u0421\u043f\u0438\u0441\u044a\u043a>, <\u0421\u043f\u0438\u0441\u044a\u043a>, ... ]",
     "AffineRatio": "\u041e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0435",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["bg"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["bg"].error = {
+__GGB__keysVar["bg"].error = {
     "AssignmentToFixed": "\u0424\u0438\u043a\u0441\u0438\u0440\u0430\u043d\u0438\u0442\u0435 \u043e\u0431\u0435\u043a\u0442\u0438 \u043d\u0435 \u0442\u0440\u044f\u0431\u0432\u0430 \u0434\u0430 \u0431\u044a\u0434\u0430\u0442 \u043f\u0440\u043e\u043c\u0435\u043d\u044f\u043d\u0438.",
     "CAS.GeneralErrorMessage": "\u0421\u044a\u0436\u0430\u043b\u044f\u0432\u0430\u043c\u0435, \u0432\u0445\u043e\u0434\u044a\u0442 \u043d\u0435 \u0435 \u043f\u0440\u0438\u0435\u043c\u043b\u0438\u0432. \u041c\u043e\u043b\u044f, \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u0442\u0435 \u043f\u0440\u0438 \u0432\u044a\u0432\u0435\u0436\u0434\u0430\u043d\u0435 \u043e\u0442\u043d\u043e\u0432\u043e.",
     "CAS.InvalidReferenceError": "\u0415\u0434\u043d\u0430 \u0438\u043b\u0438 \u043f\u043e\u0432\u0435\u0447\u0435 \u043f\u0440\u0435\u043f\u0440\u0430\u0442\u043a\u0438 \u0441\u0430 \u043d\u0435\u0432\u0430\u043b\u0438\u0434\u043d\u0438",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["bg"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["bg"].menu = {
+__GGB__keysVar["bg"].menu = {
     "ACommand": "%0 \u043a\u043e\u043c\u0430\u043d\u0434\u0430",
     "ADecimalPlace": "%0 \u0446\u0438\u0444\u0440\u0430 \u0441\u043b\u0435\u0434 \u0434\u0435\u0441\u0435\u0442\u0438\u0447\u043d\u0430\u0442\u0430 \u0437\u0430\u043f\u0435\u0442\u0430\u044f",
     "ADecimalPlaces": "%0 \u0446\u0438\u0444\u0440\u0438 \u0441\u043b\u0435\u0434 \u0434\u0435\u0441\u0435\u0442\u0438\u0447\u043d\u0430\u0442\u0430 \u0437\u0430\u043f\u0435\u0442\u0430\u044f",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["bg"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["bg"].symbols = {
+__GGB__keysVar["bg"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

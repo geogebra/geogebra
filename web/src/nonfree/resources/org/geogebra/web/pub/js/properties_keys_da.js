@@ -26,7 +26,7 @@ __GGB__keysVar.da = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["da"].colors = {
+__GGB__keysVar["da"].colors = {
     "aqua": "vand",
     "black": "sort",
     "blue": "bl\xe5",
@@ -66,7 +66,7 @@ __GGB__keysVar.["da"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["da"].command = {
+__GGB__keysVar["da"].command = {
     "ANOVA": "Variansanalyse",
     "ANOVA.Syntax": "[ <Liste>, <Liste>, ... ]",
     "AffineRatio": "Affintforhold",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["da"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["da"].error = {
+__GGB__keysVar["da"].error = {
     "AssignmentToFixed": "Faste objekter kan ikke forandres",
     "CAS.GeneralErrorMessage": "Trist, men dette input kan ikke bruges",
     "CAS.InvalidReferenceError": "En eller flere referencer er ugyldige",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["da"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["da"].menu = {
+__GGB__keysVar["da"].menu = {
     "ACommand": "%0 Kommando",
     "ADecimalPlace": "%0 decimal",
     "ADecimalPlaces": "%0 decimaler",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["da"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["da"].symbols = {
+__GGB__keysVar["da"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

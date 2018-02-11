@@ -26,7 +26,7 @@ __GGB__keysVar.xh = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["xh"].colors = {
+__GGB__keysVar["xh"].colors = {
     "aqua": "Aqua",
     "black": "Mnyama",
     "blue": "Luhlaza Okwesibhakabhaka",
@@ -66,7 +66,7 @@ __GGB__keysVar.["xh"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["xh"].command = {
+__GGB__keysVar["xh"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Uluhlu>, <Uluhlu>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["xh"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["xh"].error = {
+__GGB__keysVar["xh"].error = {
     "AssignmentToFixed": "Iizinto ezizinzileyo azinakutshintshwa",
     "CAS.GeneralErrorMessage": "Uxolo, ikhona into erongo eyenzekileyo. Phinda ujonge lento uyifakileyo.",
     "CAS.InvalidReferenceError": "Enye okanye ezinye zeereferensi zakho azivumelekanga",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["xh"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["xh"].menu = {
+__GGB__keysVar["xh"].menu = {
     "ACommand": "Umyalelo %0",
     "ADecimalPlace": "%0 Inani Lwedesimali",
     "ADecimalPlaces": "%0 Amanani Edesimali",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["xh"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["xh"].symbols = {
+__GGB__keysVar["xh"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

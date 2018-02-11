@@ -26,7 +26,7 @@ __GGB__keysVar.az = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["az"].colors = {
+__GGB__keysVar["az"].colors = {
     "aqua": "Aqua",
     "black": "Black",
     "blue": "Blue",
@@ -66,7 +66,7 @@ __GGB__keysVar.["az"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["az"].command = {
+__GGB__keysVar["az"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <List>, <List>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["az"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["az"].error = {
+__GGB__keysVar["az"].error = {
     "AssignmentToFixed": "Fixed objects may not be changed",
     "CAS.GeneralErrorMessage": "Ba\u011f\u0131\u015flay\u0131n, x\u0259ta ba\u015f verdi. L\xfctf\u0259n daxil olunan m\u0259lumat\u0131 yoxlay\u0131n",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["az"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["az"].menu = {
+__GGB__keysVar["az"].menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 Decimal Place",
     "ADecimalPlaces": "%0 Decimal Places",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["az"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["az"].symbols = {
+__GGB__keysVar["az"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

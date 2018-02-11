@@ -26,7 +26,7 @@ __GGB__keysVar.sl = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["sl"].colors = {
+__GGB__keysVar["sl"].colors = {
     "aqua": "Vodna",
     "black": "\u010crna",
     "blue": "Modra",
@@ -66,7 +66,7 @@ __GGB__keysVar.["sl"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["sl"].command = {
+__GGB__keysVar["sl"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <seznam>, <seznam>, ... ]",
     "AffineRatio": "DelitvenoRazmerje",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["sl"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["sl"].error = {
+__GGB__keysVar["sl"].error = {
     "AssignmentToFixed": "Stati\u010dnega objekta ne moremo spreminjati",
     "CAS.GeneralErrorMessage": "\u017dal ne morem obdelati tega vnosa",
     "CAS.InvalidReferenceError": "Ena ali ve\u010d povezav je napa\u010dnih",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["sl"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["sl"].menu = {
+__GGB__keysVar["sl"].menu = {
     "ACommand": "Ukaz %0",
     "ADecimalPlace": "%0 decimalno mesto",
     "ADecimalPlaces": "%0 decimalnih mest",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["sl"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["sl"].symbols = {
+__GGB__keysVar["sl"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

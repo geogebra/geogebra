@@ -26,7 +26,7 @@ __GGB__keysVar.cs = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["cs"].colors = {
+__GGB__keysVar["cs"].colors = {
     "aqua": "akvamar\xednov\xe1",
     "black": "\u010dern\xe1",
     "blue": "modr\xe1",
@@ -66,7 +66,7 @@ __GGB__keysVar.["cs"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["cs"].command = {
+__GGB__keysVar["cs"].command = {
     "ANOVA": "AnalyzaRozptylu",
     "ANOVA.Syntax": "[ <Seznam>, <Seznam>, ... ]",
     "AffineRatio": "DeliciPomer",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["cs"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["cs"].error = {
+__GGB__keysVar["cs"].error = {
     "AssignmentToFixed": "Upevn\u011bn\xe9 objekty nelze m\u011bnit",
     "CAS.GeneralErrorMessage": "Lituji, vstup nen\xed akceptovateln\xfd",
     "CAS.InvalidReferenceError": "Jeden \u010di v\xedce odkaz\u016f je neplatn\xfdch.",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["cs"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["cs"].menu = {
+__GGB__keysVar["cs"].menu = {
     "ACommand": "P\u0159\xedkaz %0",
     "ADecimalPlace": "%0 desetinn\xe9 m\xedsto",
     "ADecimalPlaces": "%0 desetinn\xfdch m\xedst",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["cs"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["cs"].symbols = {
+__GGB__keysVar["cs"].symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

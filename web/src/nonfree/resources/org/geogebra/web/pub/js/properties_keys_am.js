@@ -26,7 +26,7 @@ __GGB__keysVar.am = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["am"].colors = {
+__GGB__keysVar["am"].colors = {
     "aqua": "\u12cd\u1203\u121b",
     "black": "Tikur",
     "blue": "\u1230\u121b\u12eb\u12ca",
@@ -66,7 +66,7 @@ __GGB__keysVar.["am"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["am"].command = {
+__GGB__keysVar["am"].command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <List>, <List>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["am"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["am"].error = {
+__GGB__keysVar["am"].error = {
     "AssignmentToFixed": "\u124b\u121a \u1290\u1308\u122e\u127d \u120b\u12ed\u1208\u12c8\u1321 \u12ed\u127d\u120b\u1209",
     "CAS.GeneralErrorMessage": "\u12ed\u1245\u122d\u1273\u1363 \u12e8\u1206\u1290 \u127d\u130d\u122d \u1270\u1348\u1325\u122f\u120d. \u12e8\u12a5\u122d\u1235\u12ce\u1295 \u130d\u1265\u12d3\u1275 \u12eb\u1228\u130b\u130d\u1321",
     "CAS.InvalidReferenceError": "One or more references are invalid",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["am"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["am"].menu = {
+__GGB__keysVar["am"].menu = {
     "ACommand": "%0 \u1275\u12a5\u12db\u12dd",
     "ADecimalPlace": "%0 \u12a0\u1235\u122d\u12ee\u123d",
     "ADecimalPlaces": "%0 \u12a0\u1235\u122d\u12ee\u123d",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["am"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["am"].symbols = {
+__GGB__keysVar["am"].symbols = {
     "S.1": "\u1362",
     "S.10": "",
     "S.11": "",

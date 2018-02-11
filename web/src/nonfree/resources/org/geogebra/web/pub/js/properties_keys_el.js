@@ -26,7 +26,7 @@ __GGB__keysVar.el = {};
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar.["el"].colors = {
+__GGB__keysVar["el"].colors = {
     "aqua": "\u0391\u03c7\u03c1\u03c9\u03bc\u03bf",
     "black": "\u039c\u03b1\u03cd\u03c1\u03bf",
     "blue": "\u039c\u03c0\u03bb\u03b5",
@@ -66,7 +66,7 @@ __GGB__keysVar.["el"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar.["el"].command = {
+__GGB__keysVar["el"].command = {
     "ANOVA": "\u0391\u03bd\u03ac\u03bb\u03c5\u03c3\u03b7\u0394\u03b9\u03b1\u03c3\u03c0\u03bf\u03c1\u03ac\u03c2",
     "ANOVA.Syntax": "[ <\u039b\u03af\u03c3\u03c4\u03b1>, <\u039b\u03af\u03c3\u03c4\u03b1>, ... ]",
     "AffineRatio": "\u0391\u03c0\u03bb\u03cc\u03c2\u039b\u03cc\u03b3\u03bf\u03c2",
@@ -1114,7 +1114,7 @@ __GGB__keysVar.["el"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar.["el"].error = {
+__GGB__keysVar["el"].error = {
     "AssignmentToFixed": "\u03a4\u03b1 \u03c3\u03c4\u03b1\u03b8\u03b5\u03c1\u03ac \u03b1\u03bd\u03c4\u03b9\u03ba\u03b5\u03af\u03bc\u03b5\u03bd\u03b1 \u03b4\u03b5\u03bd \u03b1\u03bb\u03bb\u03ac\u03b6\u03bf\u03c5\u03bd",
     "CAS.GeneralErrorMessage": "\u039b\u03c5\u03c0\u03b1\u03bc\u03b1\u03b9, \u03b7 \u03b5\u03b9\u03c3\u03b1\u03b3\u03c9\u03b3\u03ae \u03b4\u03b5\u03bd \u03b3\u03af\u03bd\u03b5\u03c4\u03b1\u03b9 \u03b4\u03b5\u03ba\u03c4\u03ae",
     "CAS.InvalidReferenceError": "\u039c\u03b9\u03b1 \u03ae \u03c0\u03b5\u03c1\u03b9\u03c3\u03c3\u03cc\u03c4\u03b5\u03c1\u03b5\u03c2 \u03b1\u03bd\u03b1\u03c6\u03bf\u03c1\u03ad\u03c2 \u03b4\u03b5\u03bd \u03b5\u03af\u03bd\u03b1\u03b9 \u03ad\u03b3\u03ba\u03c5\u03c1\u03b5\u03c2",
@@ -1167,7 +1167,7 @@ __GGB__keysVar.["el"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar.["el"].menu = {
+__GGB__keysVar["el"].menu = {
     "ACommand": "%0 \u0395\u03bd\u03c4\u03bf\u03bb\u03ae",
     "ADecimalPlace": "%0 \u0394\u03b5\u03ba\u03b1\u03b4\u03b9\u03ba\u03ae \u0398\u03ad\u03c3\u03b7",
     "ADecimalPlaces": "%0 \u0394\u03b5\u03ba\u03b1\u03b4\u03b9\u03ba\u03ad\u03c2 \u0398\u03ad\u03c3\u03b5\u03b9\u03c2",
@@ -3224,7 +3224,7 @@ __GGB__keysVar.["el"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar.["el"].symbols = {
+__GGB__keysVar["el"].symbols = {
     "S.1": "x",
     "S.10": "",
     "S.11": "",
