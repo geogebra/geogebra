@@ -1861,7 +1861,7 @@ __GGB__keysVar.xh.menu = {
     "GraphicsViewAsAsymptote": "Umbono weGrafu njengo MgcaOsondelaKwiGophe",
     "GraphicsViewForPlaneA": "uMbono ka %0",
     "Graphing": "umZobo",
-    "Graphing3D": "3D Graphing Calculator",
+    "Graphing3D": "3D Graphing",
     "GraphingCalculator": "Isixhobo sokubala segrafu",
     "GraphingCalculator.short": "Isibali manani segrafu",
     "GraphingCalculator3D.Function3D": "Iifankshini zohlobo z=f(x,y)",

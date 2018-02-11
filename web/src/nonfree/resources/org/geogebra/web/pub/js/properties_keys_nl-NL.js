@@ -19,14 +19,14 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar["nl-NL"] = {};
+__GGB__keysVar.nl-NL = {};
 
 
 /***********************************************
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar["nl-NL"].colors = {
+__GGB__keysVar.nl-NL.colors = {
     "aqua": "Aqua",
     "black": "Zwart",
     "blue": "Blauw",
@@ -66,7 +66,7 @@ __GGB__keysVar["nl-NL"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar["nl-NL"].command = {
+__GGB__keysVar.nl-NL.command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Lijst>, <Lijst>, ... ]",
     "AffineRatio": "Deelverhouding",
@@ -1114,7 +1114,7 @@ __GGB__keysVar["nl-NL"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar["nl-NL"].error = {
+__GGB__keysVar.nl-NL.error = {
     "AssignmentToFixed": "Vaste objecten mogen niet gewijzigd worden",
     "CAS.GeneralErrorMessage": "Sorry, de input wordt niet aanvaard",
     "CAS.InvalidReferenceError": "Een of meerdere verwijzingen zijn ongeldig.",
@@ -1167,7 +1167,7 @@ __GGB__keysVar["nl-NL"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar["nl-NL"].menu = {
+__GGB__keysVar.nl-NL.menu = {
     "ACommand": "%0 Commando",
     "ADecimalPlace": "%0 Decimaal cijfer",
     "ADecimalPlaces": "%0 Decimale cijfers",
@@ -3224,7 +3224,7 @@ __GGB__keysVar["nl-NL"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar["nl-NL"].symbols = {
+__GGB__keysVar.nl-NL.symbols = {
     "S.1": "\xa3",
     "S.10": "",
     "S.11": "",

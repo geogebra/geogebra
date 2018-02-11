@@ -19,14 +19,14 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar["zh-TW"] = {};
+__GGB__keysVar.zh-TW = {};
 
 
 /***********************************************
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar["zh-TW"].colors = {
+__GGB__keysVar.zh-TW.colors = {
     "aqua": "\u6c34\u85cd",
     "black": "\u9ed1",
     "blue": "\u85cd",
@@ -66,7 +66,7 @@ __GGB__keysVar["zh-TW"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar["zh-TW"].command = {
+__GGB__keysVar.zh-TW.command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <\u96c6\u5408>, <\u96c6\u5408>, ... ]",
     "AffineRatio": "AffineRatio",
@@ -1114,7 +1114,7 @@ __GGB__keysVar["zh-TW"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar["zh-TW"].error = {
+__GGB__keysVar.zh-TW.error = {
     "AssignmentToFixed": "\u4e0d\u53ef\u6539\u8b8a\u56fa\u5b9a\u7684\u7269\u4ef6",
     "CAS.GeneralErrorMessage": "\u5f88\u62b1\u6b49\uff0c\u60a8\u7684\u8f38\u5165\u6709\u8aa4\uff0c\u8acb\u518d\u6aa2\u67e5\u4e00\u6b21\u3002",
     "CAS.InvalidReferenceError": "\u4e00\u500b\u4ee5\u4e0a\u7684\u53c3\u7167\u6709\u932f\u8aa4",
@@ -1167,7 +1167,7 @@ __GGB__keysVar["zh-TW"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar["zh-TW"].menu = {
+__GGB__keysVar.zh-TW.menu = {
     "ACommand": "%0 Command",
     "ADecimalPlace": "%0 \u4f4d\u5c0f\u6578",
     "ADecimalPlaces": "%0 \u4f4d\u5c0f\u6578",
@@ -1861,9 +1861,9 @@ __GGB__keysVar["zh-TW"].menu = {
     "GraphicsViewAsAsymptote": "\u532f\u51fa Asymptote \u6a94",
     "GraphicsViewForPlaneA": "%0 \u7684\u5e73\u9762\u5716",
     "Graphing": "Graphing",
-    "Graphing3D": "3D Graphing Calculator",
+    "Graphing3D": "3D Graphing",
     "GraphingCalculator": "\u8a08\u7b97\u8207\u7e6a\u5716",
-    "GraphingCalculator.short": "Graphing Calc",
+    "GraphingCalculator.short": "Graphing",
     "GraphingCalculator3D.Function3D": "z=f(x,y) functions",
     "GraphingCalculator3D.LinearEquations": "Linear Equations",
     "GrayScale": "\u7070\u968e",
@@ -3224,7 +3224,7 @@ __GGB__keysVar["zh-TW"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar["zh-TW"].symbols = {
+__GGB__keysVar.zh-TW.symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",

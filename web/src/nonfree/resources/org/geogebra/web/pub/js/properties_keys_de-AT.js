@@ -19,14 +19,14 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar["de-AT"] = {};
+__GGB__keysVar.de-AT = {};
 
 
 /***********************************************
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar["de-AT"].colors = {
+__GGB__keysVar.de-AT.colors = {
     "aqua": "Aqua",
     "black": "Schwarz",
     "blue": "Blau",
@@ -66,7 +66,7 @@ __GGB__keysVar["de-AT"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar["de-AT"].command = {
+__GGB__keysVar.de-AT.command = {
     "ANOVA": "ANOVA",
     "ANOVA.Syntax": "[ <Liste>, <Liste>, ... ]",
     "AffineRatio": "Teilverh\xe4ltnis",
@@ -1114,7 +1114,7 @@ __GGB__keysVar["de-AT"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar["de-AT"].error = {
+__GGB__keysVar.de-AT.error = {
     "AssignmentToFixed": "Fixierte Objekte k\xf6nnen nicht ver\xe4ndert werden.",
     "CAS.GeneralErrorMessage": "\xdcberpr\xfcfen Sie bitte Ihre Eingabe",
     "CAS.InvalidReferenceError": "Eine oder mehrere Referenzen sind ung\xfcltig",
@@ -1167,7 +1167,7 @@ __GGB__keysVar["de-AT"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar["de-AT"].menu = {
+__GGB__keysVar.de-AT.menu = {
     "ACommand": "%0 Befehl",
     "ADecimalPlace": "%0 Nachkommastelle",
     "ADecimalPlaces": "%0 Nachkommastellen",
@@ -3224,7 +3224,7 @@ __GGB__keysVar["de-AT"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar["de-AT"].symbols = {
+__GGB__keysVar.de-AT.symbols = {
     "S.1": "{",
     "S.10": "\xfc",
     "S.11": "\xe4",

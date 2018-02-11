@@ -1861,7 +1861,7 @@ __GGB__keysVar.mn.menu = {
     "GraphicsViewAsAsymptote": "\u0413\u0440\u0430\u0444\u0438\u043a\u0438\u0439\u0433 Asymptote-\u0440 \u0445\u0430\u0440\u0443\u0443\u043b\u0430\u0445",
     "GraphicsViewForPlaneA": "%0-\u0433 \u0445\u0430\u0440\u0430\u0445",
     "Graphing": "\u0413\u0440\u0430\u0444\u0438\u043a",
-    "Graphing3D": "3D Graphing Calculator",
+    "Graphing3D": "3D Graphing",
     "GraphingCalculator": "\u0413\u0440\u0430\u0444\u0438\u043a \u0442\u043e\u043e\u0446\u043e\u043e\u043b\u0443\u0443\u0440",
     "GraphingCalculator.short": "\u0413\u0440\u0430\u0444\u0438\u043a \u041a\u0430\u043b\u043a\u0443\u043b\u044f\u0442\u043e\u0440",
     "GraphingCalculator3D.Function3D": "z=f(x,y) \u0444\u0443\u043d\u043a\u0446\u04af\u04af\u0434",

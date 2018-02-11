@@ -1863,7 +1863,7 @@ __GGB__keysVar.ca.menu = {
     "Graphing": "Gr\xe0fics",
     "Graphing3D": "Calculadora gr\xe0fica 3D",
     "GraphingCalculator": "Calculadora gr\xe0fica",
-    "GraphingCalculator.short": "Graphing Calc",
+    "GraphingCalculator.short": "Graphing",
     "GraphingCalculator3D.Function3D": "Funcions z=f(x,y)",
     "GraphingCalculator3D.LinearEquations": "Equacions lineals",
     "GrayScale": "Escala de grisos",

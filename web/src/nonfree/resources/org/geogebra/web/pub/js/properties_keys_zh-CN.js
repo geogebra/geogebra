@@ -19,14 +19,14 @@ if (!window.__GGB__keysVar) {
     __GGB__keysVar = {};
 }
 
-__GGB__keysVar["zh-CN"] = {};
+__GGB__keysVar.zh-CN = {};
 
 
 /***********************************************
  * Translations for colors
  ***********************************************/
 
-__GGB__keysVar["zh-CN"].colors = {
+__GGB__keysVar.zh-CN.colors = {
     "aqua": "\u6c34\u84dd",
     "black": "\u9ed1\u8272",
     "blue": "\u84dd\u8272",
@@ -66,7 +66,7 @@ __GGB__keysVar["zh-CN"].colors = {
  * Translations for command
  ***********************************************/
 
-__GGB__keysVar["zh-CN"].command = {
+__GGB__keysVar.zh-CN.command = {
     "ANOVA": "\u65b9\u5dee\u5206\u6790",
     "ANOVA.Syntax": "[ <\u6570\u5b57\u5217\u88681>, <\u6570\u5b57\u5217\u88682>, ... ]",
     "AffineRatio": "\u4eff\u5c04\u6bd4\u03bb",
@@ -1114,7 +1114,7 @@ __GGB__keysVar["zh-CN"].command = {
  * Translations for error
  ***********************************************/
 
-__GGB__keysVar["zh-CN"].error = {
+__GGB__keysVar.zh-CN.error = {
     "AssignmentToFixed": "\u56fa\u5b9a\u5bf9\u8c61\u4e0d\u53ef\u66f4\u6539",
     "CAS.GeneralErrorMessage": "\u5bf9\u4e0d\u8d77, \u51fa\u9519\u4e86. \u8bf7\u68c0\u67e5\u8f93\u5165\u5185\u5bb9",
     "CAS.InvalidReferenceError": "\u4e00\u4e2a\u6216\u591a\u4e2a\u5f15\u7528\u65e0\u6548",
@@ -1167,7 +1167,7 @@ __GGB__keysVar["zh-CN"].error = {
  * Translations for menu
  ***********************************************/
 
-__GGB__keysVar["zh-CN"].menu = {
+__GGB__keysVar.zh-CN.menu = {
     "ACommand": "%0 \u6307\u4ee4",
     "ADecimalPlace": "\u4fdd\u7559 %0 \u4f4d\u5c0f\u6570",
     "ADecimalPlaces": "\u4fdd\u7559 %0 \u4f4d\u5c0f\u6570",
@@ -3224,7 +3224,7 @@ __GGB__keysVar["zh-CN"].menu = {
  * Translations for symbols
  ***********************************************/
 
-__GGB__keysVar["zh-CN"].symbols = {
+__GGB__keysVar.zh-CN.symbols = {
     "S.1": "",
     "S.10": "",
     "S.11": "",
