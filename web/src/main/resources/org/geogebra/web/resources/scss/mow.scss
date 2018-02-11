@@ -769,6 +769,7 @@
 	}
 	
 	.mowPagePreviewCard.dragged {
+		margin-top: 32px;
 		width: calc(100% - 32px);
 		position: absolute;
 		.mowMoreButton {

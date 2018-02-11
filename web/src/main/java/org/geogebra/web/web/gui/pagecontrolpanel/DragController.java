@@ -209,7 +209,7 @@ class DragController {
 
 	
 	void move(int x, int y) {
-	if (CancelEventTimer.isDragStarted()) {
+		if (CancelEventTimer.isDragStarted()) {
 			dragged.start(x, y);
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = dragged.move(y);
