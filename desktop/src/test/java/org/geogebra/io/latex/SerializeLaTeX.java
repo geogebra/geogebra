@@ -184,6 +184,12 @@ public class SerializeLaTeX {
 
 	@Test
 	public void testParseLaTeX() {
+		checkLaTeX("4+x", "4+x");
+		checkLaTeX("4-x", "4-x");
+		checkLaTeX("\\frac{4}{x}", "(4)/(x)");
+		checkLaTeX("4 \\times x", "4*x");
+		
+		
 		checkLaTeX("\\frac{x+y}{x-y}", "(x+y)/(x-y)");
 		checkLaTeX("\\sqrt{x+y}", "sqrt(x+y)");
 		checkLaTeX("\\sqrt{x}+2", "sqrt(x)+2");
@@ -376,6 +382,8 @@ public class SerializeLaTeX {
 				CommandsTest.unicode("x/sqrt(x^2+4)"));
 		testEditor("x/(" + Unicode.EULER_STRING + "^x+1)",
 				"x/(" + Unicode.EULER_STRING + "^x+1)");
+
+		testEditor("3*x", "3*x");
 	}
 
 	@Test
