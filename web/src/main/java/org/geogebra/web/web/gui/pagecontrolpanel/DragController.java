@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 class DragController {
@@ -150,20 +151,19 @@ class DragController {
 			boolean bellowMiddle = target.getMiddleY() < card.getAbsoluteTop();
 
 			if (isAnimated()) {
-				int h = PagePreviewCard.SPACE_HEIGHT - CARD_MARGIN;
-				int diff = down ? card.getBottom() - last.top  
-						: last.bottom - card.getAbsoluteTop();
-			
-				if (diff < h) {
-					target.setSpaceValue(diff, down);
-				}
+				moveAnimated();
 			}
 			
 			return bellowMiddle ? targetIdx + 1 : targetIdx;
 		}
 
 		private void setDirection(int y) {
-			boolean b = lastY <= y;
+			if (lastY == y) {
+				// to ensure strict monotonicity.
+				return;
+			}
+			
+			boolean b = lastY < y;
 			if (b != down) {
 				down = b;
 				onDirectionChange();
@@ -178,6 +178,17 @@ class DragController {
 			}
 		}
 
+		private void moveAnimated() {
+			int h = PagePreviewCard.SPACE_HEIGHT - CARD_MARGIN;
+			int diff = down ? card.getBottom() - last.top  
+						: last.bottom - card.getAbsoluteTop();
+		
+			Log.debug((down ? "down " : "up ") + " diff: " + diff);
+			if (diff > 0 && diff < h) {
+				target.setSpaceValue(diff, down);
+			}
+		}
+		
 		boolean drop() {
 			if (!isValid()) {
 				return false;
