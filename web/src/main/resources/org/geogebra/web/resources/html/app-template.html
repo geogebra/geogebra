@@ -247,16 +247,22 @@ var translation = {};
 			}
 			
 		}
-	var langs = ["af",  "ar",  "ar_MA",  "ar_TN",  "bg",  "bs",  "ca",  "ca_XV",  "cs",  "cy",  "da", 
-	"de_AT",  "de",  "el",  "en_AU",  "en_GB",  "en",  "eo",  "es_ES",  "es",  "es_UY",  "et",  "eu", 
-	"fa",  "fi",  "fr",  "gl",  "hi",  "hr",  "hu",  "hy",  "in",  "is",  "it",  "iw",
-	"ja",  "ji",  "ka",  "kk",  "km",  "kn",  "ko",  "lt",  "lv",  "mk",  "ml",  "mn",  "mr",  "ms", 
-	"ne",  "nl_NL",  "nl",  "no",  "no_NB",  "no_NN",  "pl",  "pt",  "pt_PT",  "ro",  "ru",  "si",
-	"sk",  "sl",  "sq",  "sr",  "sv",  "ta",  "tg",  "th",  "tl",  "tr",  "ty",  "ug",  "uk", 
-	"ur",  "vi",  "xh",  "zh_CN",  "zh",  "zh_TW"];
+	var langs = ["af",  "ar",  "ar-MA",  "ar-TN",  "bg",  "bs",  "ca",  "ca-XV",  "cs",  "cy",  "da", 
+	"de-AT",  "de",  "el",  "en-AU",  "en-GB",  "en",  "eo",  "es-ES",  "es",  "es-UY",  "et",  "eu", 
+	"fa",  "fi",  "fr",  "gl",  "hi",  "hr",  "hu",  "hy",  "in",  "is",  "it",  "he",
+	"ja",  "yi",  "ka",  "kk",  "km",  "kn",  "ko",  "lt",  "lv",  "mk",  "ml",  "mn",  "mr",  "ms", 
+	"ne",  "nl-NL",  "nl",  "no",  "nb",  "nn",  "pl",  "pt",  "pt-PT",  "ro",  "ru",  "si",
+	"sk",  "sl",  "sq",  "sr",  "sv",  "ta",  "tg",  "th",  "fil",  "tr",  "ty",  "ug",  "uk", 
+	"ur",  "vi",  "xh",  "zh-CN", "zh-TW"];
 	
 	function validLang(lang){
-		lang=lang.replace("-","_");
+		lang=lang.replace("_","-").replace("tl","fil").replace("ji","yi").replace("no-NO-NY","nn");
+		if(lang.substring(0,2) == "no"){
+			lang = "nb";
+		}
+		if(lang.substring(0,2) == "zh"){
+			lang = lang.indexOf("TW") > 0 || lang.indexOf("Hant") > 0 ? "zh-TW" : "zh-CN";
+		}
 		if(langs.indexOf(lang) >= 0){
 			return lang;
 		}
