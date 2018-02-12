@@ -712,12 +712,21 @@ public class InputController {
 				if (currentField.getParentIndex() == parent.getInsertIndex()) {
 					delContainer(editorState, parent, currentField);
 				}
-
 				// not a fraction, and cursor is right after the sign
 			} else {
 				if (currentField.getParentIndex() == 1) {
 					int len = parent.getArgument(0).size();
 					delContainer(editorState, parent, parent.getArgument(0));
+					editorState.setCurrentOffset(len);
+				} else if (currentField.getParentIndex() > 1) {
+					MathSequence prev = parent
+							.getArgument(currentField.getParentIndex() - 1);
+					int len = prev.size();
+					for (int i = 0; i < currentField.size(); i++) {
+						prev.addArgument(currentField.getArgument(i));
+					}
+					parent.removeArgument(currentField.getParentIndex());
+					editorState.setCurrentField(prev);
 					editorState.setCurrentOffset(len);
 				}
 			}
