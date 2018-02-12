@@ -68,6 +68,10 @@ public class ErrorHandlerW implements ErrorHandler {
 
 	}
 
+	/**
+	 * @param command
+	 *            command name
+	 */
 	protected void openCommandHelp(String command) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().openCommandHelp(command);

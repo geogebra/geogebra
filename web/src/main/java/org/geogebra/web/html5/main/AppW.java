@@ -584,8 +584,12 @@ public abstract class AppW extends App implements SetLabels {
 		} else {
 			// load keys (into a JavaScript <script> tag)
 			ScriptElement script = Document.get().createScriptElement();
-			script.setSrc(GWT.getModuleBaseURL() + "js/properties_keys_" + lang
-					+ ".js");
+			String url = GWT.getModuleBaseURL();
+			if (url.startsWith(GeoGebraConstants.CDN_APPS + "latest")) {
+				url = GeoGebraConstants.CDN_APPS
+						+ GeoGebraConstants.VERSION_STRING + "/web3d/";
+			}
+			script.setSrc(url + "js/properties_keys_" + lang + ".js");
 			scriptCallback = new ScriptLoadCallback() {
 				private boolean canceled = false;
 

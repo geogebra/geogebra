@@ -49,8 +49,11 @@ import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
+/**
+ * HTML5 version of API. The methods are exported in ScriptManagerW
+ *
+ */
 public class GgbAPIW extends GgbAPI {
-
 	/**
 	 * @param app
 	 *            application
@@ -1185,6 +1188,12 @@ public class GgbAPIW extends GgbAPI {
 		return vars.getJavaScriptObject();
 	}
 
+	/**
+	 * Remember where file was stored in WinStore app
+	 * 
+	 * @param s
+	 *            external saving path
+	 */
 	public void setExternalPath(String s) {
 		((AppW) app).setExternalPath(s);
 	}
