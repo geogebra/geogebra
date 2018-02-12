@@ -1761,6 +1761,13 @@ public class Manager3D implements Manager3DInterface {
 		return angles;
 	}
 
+	@Override
+	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly, boolean internalAngle) {
+		AlgoAnglePolygon3D algo = new AlgoAnglePolygon3D(cons, labels, poly, internalAngle);
+		GeoElement[] angles = algo.getAngles();
+		return angles;
+	}
+
 	/**
 	 * Length named label of vector v
 	 * 

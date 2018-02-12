@@ -56,12 +56,7 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 	 * 
 	 */
 	public AlgoAnglePolygon(Construction cons, GeoPolygon poly, boolean internalAngle) {
-		super(cons, internalAngle);
-		setPolyAndOrientation(poly, null);
-		algoAngle = newAlgoAnglePoints(cons);
-		outputAngles = createOutputAngles();
-		setInputOutput(); // for AlgoElement
-		compute();
+		super(cons, poly, null, internalAngle);
 	}
 
 	/**
@@ -81,16 +76,25 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 
 	@Override
 	protected int getInputLengthForXML() {
+		if (internalAngle) {
+			return super.getInputLengthForXML();
+		}
 		return getInputLengthForXMLMayNeedXOYPlane();
 	}
 
 	@Override
 	protected int getInputLengthForCommandDescription() {
+		if (internalAngle) {
+			return super.getInputLengthForCommandDescription();
+		}
 		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
 	}
 
 	@Override
 	public GeoElementND getInput(int i) {
+		if (internalAngle) {
+			return super.getInput(i);
+		}
 		return getInputMaybeXOYPlane(i);
 	}
 

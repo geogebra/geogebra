@@ -42,7 +42,19 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygonND {
 	 */
 	public AlgoAnglePolygon3D(Construction cons, String[] labels,
 			GeoPolygon poly) {
-		this(cons, labels, poly, null);
+		this(cons, labels, poly, false);
+	}
+
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param poly
+	 *            polygon
+	 */
+	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly, boolean internalAngle) {
+		this(cons, labels, poly, null, internalAngle);
 	}
 
 	/**
@@ -54,10 +66,12 @@ public class AlgoAnglePolygon3D extends AlgoAnglePolygonND {
 	 *            polygon
 	 * @param orientation
 	 *            orientation
+	 * @param internalAngle
+	 *            if angles are internal
 	 */
 	public AlgoAnglePolygon3D(Construction cons, String[] labels,
-			GeoPolygon poly, GeoDirectionND orientation) {
-		super(cons, labels, poly, orientation);
+			GeoPolygon poly, GeoDirectionND orientation, boolean internalAngle) {
+		super(cons, labels, poly, orientation, internalAngle);
 	}
 
 	@Override

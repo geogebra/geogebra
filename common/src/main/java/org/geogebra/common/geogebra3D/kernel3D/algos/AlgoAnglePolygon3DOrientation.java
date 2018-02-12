@@ -44,7 +44,7 @@ public class AlgoAnglePolygon3DOrientation extends AlgoAnglePolygon3D {
 	 */
 	public AlgoAnglePolygon3DOrientation(Construction cons, String[] labels,
 			GeoPolygon poly, GeoDirectionND orientation) {
-		super(cons, labels, poly, orientation);
+		super(cons, labels, poly, orientation, false);
 	}
 
 	@Override

@@ -801,6 +801,15 @@ public interface Manager3DInterface {
 			GeoDirectionND orientation);
 
 	/**
+	 * 
+	 * @param labels
+	 * @param poly
+	 * @param internalAngle
+	 * @return angles for the polygon, maybe internal
+	 */
+	public GeoElement[] Angles3D(String[] labels, GeoPolygon poly, boolean internalAngle);
+
+	/**
 	 * Length named label of vector v
 	 * 
 	 * @return length of the vector

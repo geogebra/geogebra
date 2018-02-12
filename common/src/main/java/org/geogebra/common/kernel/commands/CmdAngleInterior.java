@@ -27,11 +27,23 @@ public class CmdAngleInterior extends CommandProcessor {
 		if (n == 1) {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoPolygon()) {
-				return getAlgoDispatcher().Angles(c.getLabels(), (GeoPolygon) arg[0], true);
+				return process(c.getLabels(), (GeoPolygon) arg[0]);
 			}
 			throw argErr(app, c, arg[0]);
 		}
 		throw argNumErr(c);
+	}
+
+	/**
+	 * 
+	 * @param labels
+	 *            labels
+	 * @param poly
+	 *            polygon
+	 * @return interior angles for the polygon
+	 */
+	protected GeoElement[] process(String[] labels, GeoPolygon poly) {
+		return getAlgoDispatcher().Angles(labels, poly, true);
 	}
 
 }

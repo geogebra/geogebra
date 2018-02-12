@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 
 public class EuclidianControllerFor3DCompanion
@@ -63,6 +64,13 @@ public class EuclidianControllerFor3DCompanion
 
 	@Override
 	protected GeoElement[] createAngles(GeoPolygon p) {
+
+		if (ec.getApplication().has(Feature.MOB_ANGLES_INTERIOR_POLYGON)) {
+			if (p.isGeoElement3D()) {
+				return ec.kernel.getManager3D().Angles3D(null, p, true);
+			}
+			return super.createAngles(p);
+		}
 
 		GeoDirectionND orientation = ec.getView().getDirection();
 
