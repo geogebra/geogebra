@@ -52,7 +52,7 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 		super(cons);
 		setPolyAndOrientation(p, orientation);
 		algoAngle = newAlgoAnglePoints(cons);
-		outputAngles = createOutputPoints();
+		outputAngles = createOutputAngles();
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
@@ -144,7 +144,11 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 				poly.getLabel(tpl));
 	}
 
-	protected OutputHandler<GeoElement> createOutputPoints() {
+	/**
+	 * 
+	 * @return output angles handler
+	 */
+	protected OutputHandler<GeoElement> createOutputAngles() {
 		return new OutputHandler<>(new elementFactory<GeoElement>() {
 			@Override
 			public GeoAngle newElement() {

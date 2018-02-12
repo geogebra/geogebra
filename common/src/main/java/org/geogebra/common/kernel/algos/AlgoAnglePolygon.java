@@ -59,7 +59,7 @@ public class AlgoAnglePolygon extends AlgoAnglePolygonND {
 		super(cons, internalAngle);
 		setPolyAndOrientation(poly, null);
 		algoAngle = newAlgoAnglePoints(cons);
-		outputAngles = createOutputPoints();
+		outputAngles = createOutputAngles();
 		setInputOutput(); // for AlgoElement
 		compute();
 	}
