@@ -243,4 +243,5 @@ public interface GeoGebraConstants {
 	public static final String EDIT_URL_BASE = "https://www.geogebra.org/material/edit/id/";
 
 	public static final String PROFILE_URL_BASE = "https://www.geogebra.org/user/profile/id/";
+	public static final String CDN_APPS = "https://cdn.geogebra.org/apps/";
 }
