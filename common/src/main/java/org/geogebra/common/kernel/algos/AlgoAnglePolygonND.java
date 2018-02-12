@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -148,6 +149,9 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 			@Override
 			public GeoAngle newElement() {
 				GeoAngle p = newGeoAngle(cons);
+				if (internalAngle) {
+					p.setAngleStyle(AngleStyle.ANTICLOCKWISE);
+				}
 				p.setValue(0);
 				p.setParentAlgorithm(AlgoAnglePolygonND.this);
 				return p;
