@@ -7,6 +7,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
+import com.google.gwt.user.client.Timer;
+
 class DragController {
 	/**
 	 * Class to handle drag and drop cards 
@@ -39,9 +41,9 @@ class DragController {
 	}
 	
 	private class DragCard {
-//		private static final int CARD_MARGIN = 16;
+		private static final int CARD_MARGIN = 16;
 		PagePreviewCard card = null;
-//		PagePreviewCard target = null;
+		PagePreviewCard target = null;
 		LastTarget last = new LastTarget();
 		private int prevY;
 		private Boolean down;
@@ -52,7 +54,7 @@ class DragController {
 	
 		private void reset() {
 			card = null;
-//			target = null;
+			target = null;
 			down = null;
 			last.reset();
 		}
@@ -99,9 +101,43 @@ class DragController {
 				down = prevY < y;
 				Log.debug("[D] prevY: " + prevY + " y: " + y + " down: " + down);
 			}
+	
 			card.setDragPosition(x, y);
+			findTarget();
 		}
 				
+		private void findTarget() {
+			int y1 = card.getBottom();
+			int y2 = card.getAbsoluteTop(); 
+
+			int idx = cardIndexAt(card.getMiddleX(), 
+					isAnimated() ? (down ?  y1: y2): card.getMiddleY());
+
+			if (idx == -1 && isAnimated()) {
+				idx = cardIndexAt(card.getMiddleX(), (down ?  y2: y1));
+			}
+			
+			target = idx != -1 ? cards.cardAt(idx): null;
+			if (target != null && target != last.target) {
+				onTargetChange();
+			} else {
+				if (last.target != null
+						&& down && last.target.getPageIndex() == cards.getCardCount() -1) {
+					last.target.removeSpace();
+				}
+					
+				Log.debug("No target");
+			}
+		}
+
+		private void onTargetChange() {
+			Log.debug("Target changd to: " + target.getPageIndex());
+			if (last.target != null) {
+				last.target.removeSpace();
+			}
+			target.addSpace();
+			last.target = target;
+		}
 		boolean drop() {
 			if (!isValid()) {
 				return false;
