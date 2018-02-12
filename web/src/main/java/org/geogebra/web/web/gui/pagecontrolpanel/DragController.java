@@ -72,7 +72,12 @@ class DragController {
 		void start(int x, int y) {
 			prevY = y;
 			int idx = cardIndexAt(x, y);
-			if (idx >= 0 && idx < cards.getCardCount()) {
+			int count = cards.getCardCount();
+			if (idx >= 0 && idx < count) {
+				if (idx < count - 1) {
+					PagePreviewCard next = cards.cardAt(idx + 1);
+					next.addSpace();
+				}
 				card = cards.cardAt(idx);
 				card.addStyleName("dragged");
 				last.reset();
