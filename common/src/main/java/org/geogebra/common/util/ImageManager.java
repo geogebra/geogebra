@@ -76,9 +76,9 @@ abstract public class ImageManager {
 
 	private void ensure1stCornerOnScreen(GeoPointND point, App app) {
 		EuclidianView ev = app.getActiveEuclidianView();
-		double xmin = ev.getXmin();
+		double xmin = ev.toRealWorldCoordX(0.0);
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
-		double ymin = ev.getYmin();
+		double ymin = ev.toRealWorldCoordY(0.0);
 		double ymax = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
 		point.setCoords(xmin + (xmax - xmin) / 5, ymax - (ymax - ymin) / 5,
 				1.0);
@@ -96,9 +96,9 @@ abstract public class ImageManager {
 	private static void centerOnScreen(GeoImage geoImage, App app) {
 		EuclidianView ev = app.getActiveEuclidianView();
 		double screenWidth = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1)
-				- ev.getXmin();
+				- ev.toRealWorldCoordX(0.0);
 		double screenHeight = ev.toRealWorldCoordY(
-				(double) (ev.getHeight()) + 1) - ev.getYmin();
+				(double) (ev.getHeight()) + 1) - ev.toRealWorldCoordY(0.0);
 
 		GeoPoint point1 = geoImage.getCorner(0);
 		GeoPoint point2 = geoImage.getCorner(1);
@@ -109,13 +109,13 @@ abstract public class ImageManager {
 		double imageHeight = point3.inhomY - point2.inhomY;
 
 		point1.setCoords(
-				ev.getXmin() + (screenWidth - imageWidth) / 2,
-				ev.getYmin() + (screenHeight - imageHeight) / 2,
+				ev.toRealWorldCoordX(0.0) + (screenWidth - imageWidth) / 2,
+				ev.toRealWorldCoordY(0.0) + (screenHeight - imageHeight) / 2,
 				1.0);
 		point1.update();
 		point2.setCoords(
-				ev.getXmin() + (screenWidth + imageWidth) / 2,
-				ev.getYmin() + (screenHeight - imageHeight) / 2,
+				ev.toRealWorldCoordX(0.0) + (screenWidth + imageWidth) / 2,
+				ev.toRealWorldCoordY(0.0) + (screenHeight - imageHeight) / 2,
 				1.0);
 		point2.update();
 		geoImage.setCorner(point1, 0);
