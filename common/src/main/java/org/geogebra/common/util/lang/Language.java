@@ -414,7 +414,7 @@ public enum Language {
 	final public static Language getLanguage(String language) {
 		for (Language l : Language.values()) {
 			// language could be "ca" or "caXV"
-			if (l.locale.equals(language)) {
+			if (l.locale.equals(language) || l.localeISO6391.equals(language)) {
 				return l;
 			}
 		}
@@ -426,7 +426,7 @@ public enum Language {
 		}
 
 		Log.error("language not recognized: " + language);
-		return null;
+		return Language.English_US;
 	}
 
 	final public static String getDisplayName(String ggbLangCode) {
