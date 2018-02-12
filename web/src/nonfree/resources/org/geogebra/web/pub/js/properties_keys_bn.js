@@ -15,11 +15,9 @@
  * Keys translations for Bengali
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.bn = {};
+__GGB__keysVar["bn"] = {};
 
 
 /***********************************************

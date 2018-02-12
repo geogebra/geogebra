@@ -15,11 +15,9 @@
  * Keys translations for Dutch (Netherlands)
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.nl-NL = {};
+__GGB__keysVar["nl-NL"] = {};
 
 
 /***********************************************

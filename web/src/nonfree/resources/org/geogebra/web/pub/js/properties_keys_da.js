@@ -15,11 +15,9 @@
  * Keys translations for Danish
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.da = {};
+__GGB__keysVar["da"] = {};
 
 
 /***********************************************

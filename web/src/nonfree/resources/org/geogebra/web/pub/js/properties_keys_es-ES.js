@@ -15,11 +15,9 @@
  * Keys translations for Spanish (Spain)
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.es-ES = {};
+__GGB__keysVar["es-ES"] = {};
 
 
 /***********************************************

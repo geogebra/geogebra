@@ -15,11 +15,9 @@
  * Keys translations for French
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.fr = {};
+__GGB__keysVar["fr"] = {};
 
 
 /***********************************************

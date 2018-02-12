@@ -15,11 +15,9 @@
  * Keys translations for Malayalam
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.ml = {};
+__GGB__keysVar["ml"] = {};
 
 
 /***********************************************

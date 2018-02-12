@@ -15,11 +15,9 @@
  * Keys translations for Icelandic
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.is = {};
+__GGB__keysVar["is"] = {};
 
 
 /***********************************************

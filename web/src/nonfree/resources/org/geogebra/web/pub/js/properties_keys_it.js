@@ -15,11 +15,9 @@
  * Keys translations for Italian
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.it = {};
+__GGB__keysVar["it"] = {};
 
 
 /***********************************************

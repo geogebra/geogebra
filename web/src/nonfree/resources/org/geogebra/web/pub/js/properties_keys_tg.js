@@ -15,11 +15,9 @@
  * Keys translations for Tajik
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.tg = {};
+__GGB__keysVar["tg"] = {};
 
 
 /***********************************************

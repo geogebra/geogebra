@@ -15,11 +15,9 @@
  * Keys translations for English (Australia)
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.en-AU = {};
+__GGB__keysVar["en-AU"] = {};
 
 
 /***********************************************

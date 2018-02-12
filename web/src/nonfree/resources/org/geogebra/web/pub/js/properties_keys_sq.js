@@ -15,11 +15,9 @@
  * Keys translations for Albanian
  */
 /* globals __GGB__keysVar */
-if (!window.__GGB__keysVar) {
-    __GGB__keysVar = {};
-}
+__GGB__keysVar = window.__GGB__keysVar || {};
 
-__GGB__keysVar.sq = {};
+__GGB__keysVar["sq"] = {};
 
 
 /***********************************************
