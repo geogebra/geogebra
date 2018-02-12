@@ -96,11 +96,12 @@ public final class LocalizationW extends Localization
 
 	// TODO: implement getCommandLocale()
 	private String getCommandLocaleString() {
-		if (!Language.getLanguage(getLanguage()).hasTranslatedKeyboard()) {
+		Language lang = Language.getClosestGWTSupportedLanguage(getLanguage());
+		if (!lang.hasTranslatedKeyboard()) {
 			// TODO: implement if LocalizationW uses Locale rather than String
 			return "en";
 		}
-		return localeStr;
+		return lang.getLocaleGWT();
 	}
 
 	/**
