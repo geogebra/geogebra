@@ -361,6 +361,17 @@ public class CommandsTest extends Assert{
 	}
 	
 	@Test
+	public void cmdAngleInterior() {
+		t("AngleInterior[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
+				new String[] { deg("90"), deg("90"), deg("90"), deg("270"),
+						deg("90"), deg("90") });
+	}
+
+	private static String deg(String string) {
+		return string + "*" + Unicode.DEGREE_STRING;
+	}
+
+	@Test
 	public void cmdAreCongruent() {
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(1,0),(0,1)]]", "true");
 		t("AreCongruent[Segment[(0,1),(1,0)],Segment[(-1,0),(0,-1)]]", "true");
