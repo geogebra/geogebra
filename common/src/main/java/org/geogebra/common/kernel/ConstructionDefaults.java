@@ -139,8 +139,7 @@ public class ConstructionDefaults {
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_RED,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE,
 			GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE,
-			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY,
-			GColor.BLACK };
+			GeoGebraColorConstants.GEOGEBRA_OBJECT_GREY };
 
 	// DEFAULT COLORs
 	// points
