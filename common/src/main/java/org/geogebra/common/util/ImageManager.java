@@ -13,6 +13,7 @@ import org.geogebra.common.main.Feature;
 abstract public class ImageManager {
 
 	public void setCornersFromSelection(GeoImage geoImage, App app) {
+		boolean label = !app.has(Feature.MOW_IMAGE_BOUNDING_BOX);
 		ArrayList<GeoPointND> corners = new ArrayList<>();
 		for (int i = 0; i < 3; i++) {
 			GeoPoint p = getImageCornerFromSelection(i, app);
@@ -26,7 +27,9 @@ abstract public class ImageManager {
 		if (corners.size() == 0) {
 			point1 = new GeoPoint(app.getKernel().getConstruction());
 			point1.setCoords(0, 0, 1.0);
-			point1.setLabel(null);
+			if (label) {
+				point1.setLabel(null);
+			}
 			ensure1stCornerOnScreen(point1, app);
 			corners.add(point1);
 		} else if (corners.size() == 1) {
@@ -41,7 +44,9 @@ abstract public class ImageManager {
 			GeoPoint point2 = new GeoPoint(app.getKernel().getConstruction());
 			geoImage.calculateCornerPoint(point2, 2);
 			geoImage.setCorner(point2, 1);
-			point2.setLabel(null);
+			if (label) {
+				point2.setLabel(null);
+			}
 
 			// make sure 2nd corner is on screen
 			ensure2ndCornerOnScreen(point1.getInhomX(), point2, app);

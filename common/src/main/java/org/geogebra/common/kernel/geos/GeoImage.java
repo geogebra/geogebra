@@ -372,12 +372,19 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	private void updateHasAbsoluteLocation() {
 		hasAbsoluteLocation = true;
-
+		int definedPoints = 0;
 		for (int i = 0; i < corners.length; i++) {
+			if (corners[i] != null) {
+				definedPoints++;
+			}
 			if (!(corners[i] == null || corners[i].isAbsoluteStartPoint())) {
 				hasAbsoluteLocation = false;
 				return;
 			}
+		}
+		if (definedPoints > 1 && kernel.getApplication()
+				.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
+			hasAbsoluteLocation = false;
 		}
 	}
 
