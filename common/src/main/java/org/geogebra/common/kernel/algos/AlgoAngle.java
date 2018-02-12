@@ -64,7 +64,7 @@ public abstract class AlgoAngle extends AlgoElement {
 	}
 
 	@Override
-	final public Commands getClassName() {
+	public Commands getClassName() {
 		return Commands.Angle;
 	}
 

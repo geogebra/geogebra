@@ -16,6 +16,7 @@ import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -174,6 +175,14 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	public boolean getCoordsInD3(Coords[] drawCoords) {
 		// nothing to do here
 		return true;
+	}
+
+	@Override
+	final public Commands getClassName() {
+		if (internalAngle) {
+			return Commands.AngleInterior;
+		}
+		return super.getClassName();
 	}
 
 }
