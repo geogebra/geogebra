@@ -137,8 +137,7 @@ class DragController {
 				return -1;
 			}
 
-			down = lastY <= y;
-			lastY = y;
+			setDirection(y);
 			
 			setPosition(0, y);
 
@@ -161,6 +160,22 @@ class DragController {
 			}
 			
 			return bellowMiddle ? targetIdx + 1 : targetIdx;
+		}
+
+		private void setDirection(int y) {
+			boolean b = lastY <= y;
+			if (b != down) {
+				down = b;
+				onDirectionChange();
+			}
+			lastY = y;
+		}
+
+		private void onDirectionChange() {
+			if (target != null) {
+				last.bottom = target.getBottom();
+				last.top = target.getAbsoluteTop();
+			}
 		}
 
 		boolean drop() {
