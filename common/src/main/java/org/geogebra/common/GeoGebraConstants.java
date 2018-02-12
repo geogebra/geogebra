@@ -50,7 +50,7 @@ public interface GeoGebraConstants {
 
 		WEB_GRAPHING("w", "graphing"),
 
-		WEB_GEOMETRY("w", "graphing"),
+		WEB_GEOMETRY("w", "geometry"),
 
 		WEB_3D_GRAPHING("w", "3D"),
 
