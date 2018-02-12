@@ -292,7 +292,8 @@ public class GeoInputBox extends GeoButton {
 			} else {
 				final boolean imaginary = imaginaryAdded;
 				EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
-						linkedGeo.isIndependent());
+						linkedGeo.isIndependent()).withSliders(false);
+
 				kernel.getAlgebraProcessor()
 						.changeGeoElementNoExceptionHandling(linkedGeo,
 								defineText, info, true,
