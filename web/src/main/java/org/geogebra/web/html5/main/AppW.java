@@ -885,11 +885,9 @@ public abstract class AppW extends App implements SetLabels {
 					macro.setViewId(VIEW_EUCLIDIAN3D);
 				} else {
 					macro.setViewId(VIEW_EUCLIDIAN);
-
 				}
 			}
 		}
-
 	}
 
 	/**

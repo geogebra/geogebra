@@ -521,7 +521,11 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.getScreenshotBase64 = function(callback) {
 			ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getScreenshotBase64(Lcom/google/gwt/core/client/JavaScriptObject;)(callback);
-		}
+		};
+
+		api.getThumbnailBase64 = function(callback) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getThumbnailBase64()();
+		};
 
 		api.setValue = function(objName, x) {
 			// #4035 

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianView;
+import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
@@ -485,7 +486,7 @@ public class GgbAPIW extends GgbAPI {
 		// write construction thumbnails
 		if (includeThumbnail) {
 			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-					getViewForThumbnail().getCanvasBase64WithTypeString(),
+					getThumbnailBase64(),
 					archiveContent);
 		}
 
@@ -493,12 +494,27 @@ public class GgbAPIW extends GgbAPI {
 		return archiveContent;
 	}
 
-	private EuclidianViewWInterface getViewForThumbnail() {
+	public String getThumbnailBase64() {
+		return ((EuclidianViewWInterface) getViewForThumbnail())
+				.getCanvasBase64WithTypeString();
+	}
+
+	private EuclidianViewInterfaceCommon getViewForThumbnail() {
 		if (app.isEuclidianView3Dinited()
 				&& app.showView(App.VIEW_EUCLIDIAN3D)) {
-			return (EuclidianViewWInterface) app.getEuclidianView3D();
+			return app.getEuclidianView3D();
 		}
-		return ((EuclidianViewWInterface) app.getActiveEuclidianView());
+		if(app.showView(App.VIEW_EUCLIDIAN)){
+			return app.getEuclidianView1();
+		}
+		if(app.showView(App.VIEW_EUCLIDIAN2)){
+			return app.getEuclidianView2(1);
+		}
+		if (app.showView(App.VIEW_PROBABILITY_CALCULATOR)) {
+			return app.getGuiManager()
+					.getPlotPanelEuclidanView();
+		}
+		return app.getActiveEuclidianView();
 
 	}
 
