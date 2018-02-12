@@ -7,9 +7,9 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.main.MyError;
 
 /**
- * AngleInterior[ <GeoPolygon> ]
+ * InteriorAngles[ <GeoPolygon> ]
  */
-public class CmdAngleInterior extends CommandProcessor {
+public class CmdInteriorAngles extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -17,7 +17,7 @@ public class CmdAngleInterior extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdAngleInterior(Kernel kernel) {
+	public CmdInteriorAngles(Kernel kernel) {
 		super(kernel);
 	}
 

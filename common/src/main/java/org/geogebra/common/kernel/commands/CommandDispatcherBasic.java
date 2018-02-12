@@ -85,7 +85,7 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case Angle:
 			return new CmdAngle(kernel);
 		case InteriorAngles:
-			return new CmdAngleInterior(kernel);
+			return new CmdInteriorAngles(kernel);
 		case Point:
 			return new CmdPoint(kernel);
 		case Midpoint:

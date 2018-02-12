@@ -1,21 +1,21 @@
 package org.geogebra.common.geogebra3D.kernel3D.commands;
 
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.kernel.commands.CmdAngleInterior;
+import org.geogebra.common.kernel.commands.CmdInteriorAngles;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 
 /**
- * 3D processor for AngleInterior
+ * 3D processor for InteriorAngles
  *
  */
-public class CmdAngleInterior3D extends CmdAngleInterior {
+public class CmdInteriorAngles3D extends CmdInteriorAngles {
 
 	/**
 	 * @param kernel
 	 *            Kernel
 	 */
-	public CmdAngleInterior3D(Kernel kernel) {
+	public CmdInteriorAngles3D(Kernel kernel) {
 		super(kernel);
 	}
 
