@@ -257,7 +257,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Angle:
 				return new CmdAngle3D(kernel);
 
-			case AngleInterior:
+			case InteriorAngles:
 				return new CmdAngleInterior3D(kernel);
 
 			case Translate:

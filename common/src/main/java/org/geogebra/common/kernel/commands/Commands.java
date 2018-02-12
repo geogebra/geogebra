@@ -87,7 +87,7 @@ public enum Commands implements CommandsConstants,
 
 	Angle(TABLE_GEOMETRY),
 
-	AngleInterior(TABLE_GEOMETRY),
+	InteriorAngles(TABLE_GEOMETRY),
 
 	Direction(TABLE_GEOMETRY),
 

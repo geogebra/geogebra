@@ -182,7 +182,7 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	@Override
 	final public Commands getClassName() {
 		if (internalAngle) {
-			return Commands.AngleInterior;
+			return Commands.InteriorAngles;
 		}
 		return super.getClassName();
 	}

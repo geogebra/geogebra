@@ -502,7 +502,7 @@ public abstract class CommandDispatcher {
 			case Segment:
 			case Slope:
 			case Angle:
-			case AngleInterior:
+			case InteriorAngles:
 			case Point:
 			case Midpoint:
 			case Intersect:

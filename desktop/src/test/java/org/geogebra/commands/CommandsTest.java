@@ -362,7 +362,7 @@ public class CommandsTest extends Assert{
 	
 	@Test
 	public void cmdAngleInterior() {
-		t("AngleInterior[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
+		t("InteriorAngles[Polygon((0,0),(2,0),(2,1),(1,1),(1,2),(0,2))]",
 				new String[] { deg("90"), deg("90"), deg("90"), deg("270"),
 						deg("90"), deg("90") });
 	}
