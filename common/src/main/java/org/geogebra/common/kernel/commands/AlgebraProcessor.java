@@ -351,7 +351,7 @@ public class AlgebraProcessor {
 			EvalInfo info = new EvalInfo(!cons.isSuppressLabelsActive(),
 					redefineIndependent);
 			changeGeoElementNoExceptionHandling(geo, newValue,
-				info, storeUndoInfo, callback, handler);
+				info.withSliders(true), storeUndoInfo, callback, handler);
 	}
 
 	/**
@@ -475,7 +475,7 @@ public class AlgebraProcessor {
 			};
 
 			processAlgebraCommandNoExceptionHandling(newValue, false, handler,
-					changeCallback, info.withSliders(true));
+					changeCallback, info);
 			// make sure listeneres are enabled if redefinition failed
 			app.getScriptManager().enableListeners();
 			cons.registerFunctionVariable(null);
@@ -484,7 +484,7 @@ public class AlgebraProcessor {
 			newValue.setLabel(oldLabel);
 			// rename to oldLabel to enable overwriting
 			result = processAlgebraCommandNoExceptionHandling(newValue, false,
-					handler, null, info.withSliders(true));
+					handler, null, info);
 			result[0].setLabel(newLabel); // now we rename
 			app.getCompanion().recallViewCreators();
 			if (storeUndoInfo) {
