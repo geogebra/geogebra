@@ -527,7 +527,7 @@ public class ExamEnvironment {
 	 * @return name for current calculator type
 	 */
 	public String getCalculatorTypeName() {
-		return getCalculatorTypeName(calculatorType);
+		return getShortCalcTypeName(calculatorType);
 	}
 
 	/**
@@ -537,12 +537,23 @@ public class ExamEnvironment {
 	 */
 	public String getCalculatorTypeName(CalculatorType type) {
 		switch (type) {
-		case GRAPHING:
-			return app.getLocalization().getMenu("Graphing");
-		case SYMBOLIC:
-			return app.getLocalization().getMenu("Symbolic");
-		default:
-			return "";
+			case GRAPHING:
+				return app.getLocalization().getMenu("exam_calctype_graphing");
+			case SYMBOLIC:
+				return app.getLocalization().getMenu("exam_calctype_sym_graphing");
+			default:
+				return "";
+		}
+	}
+
+	public String getShortCalcTypeName(CalculatorType type) {
+		switch (type) {
+			case GRAPHING:
+				return app.getLocalization().getMenu("Graphing");
+			case SYMBOLIC:
+				return app.getLocalization().getMenu("Symbolic");
+			default:
+				return "";
 		}
 	}
 
