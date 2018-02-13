@@ -149,7 +149,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 
 	@Override
 	public SignInButton getSignInButton(App app) {
-		return new SignInButton(app, Browser.isIE9() ? 2000 : 0, null);
+		return new SignInButton(app, 0, null);
     }
 
 	@Override

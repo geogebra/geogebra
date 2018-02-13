@@ -3,7 +3,6 @@ package org.geogebra.web.web.gui.laf;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.browser.SignInButton;
 import org.geogebra.web.web.move.ggtapi.operations.BASEURL;
@@ -57,7 +56,7 @@ public class BundleLookAndFeel extends GLookAndFeel {
 
 	@Override
 	public SignInButton getSignInButton(App app) {
-		return new SignInButton(app, Browser.isIE9() ? 2000 : 0,
+		return new SignInButton(app, 0,
 				BASEURL.getCallbackUrl().replace("file://", "app://"));
 	}
 
