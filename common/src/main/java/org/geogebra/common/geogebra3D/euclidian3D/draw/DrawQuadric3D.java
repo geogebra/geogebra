@@ -452,10 +452,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	private void updateHyperboloidOneSheet(GeoQuadric3D quadric,
 			Renderer renderer) {
+		double r2 = quadric.getHalfAxis(2);
+		if (r2 == Double.POSITIVE_INFINITY) {
+			updateCylinder(quadric, renderer);
+			return;
+		}
 		Coords center = quadric.getMidpoint3D();
 		double r0 = quadric.getHalfAxis(0);
 		double r1 = quadric.getHalfAxis(1);
-		double r2 = quadric.getHalfAxis(2);
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		surface.start(getReusableSurfaceIndex());
 		Coords ev0 = quadric.getEigenvec3D(0);
