@@ -572,7 +572,6 @@ public class ConstructionDefaults {
 		GeoNumeric number = new GeoNumeric(cons);
 		// number.setLocalVariableLabel(app.getPlain("Numeric"));
 		number.setLocalVariableLabel("Numeric");
-		number.setSliderFixed(true);
 
 		/*
 		 * we have to set min/max/increment/speed here because
@@ -591,7 +590,7 @@ public class ConstructionDefaults {
 						: GeoNumeric.DEFAULT_THICKNESS);
 		number.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL, true);
 		number.setSliderBlobSize(GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
-		number.setSliderFixed(true);
+		number.setSliderFixed(false);
 		defaultGeoElements.put(DEFAULT_NUMBER, number);
 
 		// angle
