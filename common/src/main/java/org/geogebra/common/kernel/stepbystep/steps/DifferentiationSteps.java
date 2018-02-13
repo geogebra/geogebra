@@ -467,9 +467,35 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
+	},
+
+	DEFAULT_DIFFERENTIATE {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
+					RegroupSteps.DEFAULT_REGROUP,
+					DifferentiationSteps.CONSTANT_COEFFICIENT,
+					DifferentiationSteps.DIFFERENTIATE_SUM,
+					DifferentiationSteps.CONSTANT_COEFFICIENT,
+					DifferentiationSteps.DIFFERENTIATE_FRACTION,
+					DifferentiationSteps.DIFFERENTIATE_POLYNOMIAL,
+					DifferentiationSteps.DIFFERENTIATE_EXPONENTIAL,
+					DifferentiationSteps.DIFFERENTIATE_PRODUCT,
+					DifferentiationSteps.DIFFERENTIATE_ROOT,
+					DifferentiationSteps.DIFFERENTIATE_TRIGO,
+					DifferentiationSteps.DIFFERENTIATE_LOG,
+					DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO
+			};
+
+			return StepStrategies.implementGroup(sn, null, defaultStrategy, sb, new RegroupTracker());
+		}
 	};
 
 	public int type() {
+		if (this == DEFAULT_DIFFERENTIATE) {
+			return 1;
+		}
+
 		return 0;
 	}
 }

@@ -52,23 +52,12 @@ public class StepStrategies {
 		return defaultFactor(sn, sb, new RegroupTracker());
 	}
 
-	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb) {
-		SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
-				RegroupSteps.DEFAULT_REGROUP,
-				DifferentiationSteps.CONSTANT_COEFFICIENT,
-				DifferentiationSteps.DIFFERENTIATE_SUM,
-				DifferentiationSteps.CONSTANT_COEFFICIENT,
-				DifferentiationSteps.DIFFERENTIATE_FRACTION,
-				DifferentiationSteps.DIFFERENTIATE_POLYNOMIAL,
-				DifferentiationSteps.DIFFERENTIATE_EXPONENTIAL,
-				DifferentiationSteps.DIFFERENTIATE_PRODUCT,
-				DifferentiationSteps.DIFFERENTIATE_ROOT,
-				DifferentiationSteps.DIFFERENTIATE_TRIGO,
-				DifferentiationSteps.DIFFERENTIATE_LOG,
-				DifferentiationSteps.DIFFERENTIATE_INVERSE_TRIGO
-		};
+	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+		return DifferentiationSteps.DEFAULT_DIFFERENTIATE.apply(sn, sb, tracker);
+	}
 
-		return implementGroup(sn, null, defaultStrategy, sb, new RegroupTracker());
+	public static StepNode defaultDifferentiate(StepNode sn, SolutionBuilder sb) {
+		return defaultDifferentiate(sn, sb, new RegroupTracker());
 	}
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
