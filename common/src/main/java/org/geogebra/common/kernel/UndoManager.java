@@ -20,9 +20,9 @@ public abstract class UndoManager {
 	/** construction */
 	protected Construction construction;
 	/** list of undo steps */
-	protected LinkedList<AppState> undoInfoList;
+	protected LinkedList<UndoCommand> undoInfoList;
 	/** invariant: iterator.previous() is current state */
-	public ListIterator<AppState> iterator;
+	public ListIterator<UndoCommand> iterator;
 	private boolean storeUndoInfoNeededForProperties = false;
 
 	/**
@@ -32,6 +32,31 @@ public abstract class UndoManager {
 	protected interface AppState {
 		/** deletes this application state (i.e. deletes file) */
 		void delete();
+
+	}
+
+	protected class UndoCommand {
+
+		private AppState appState;
+
+		public UndoCommand(AppState appStateToAdd) {
+			this.appState = appStateToAdd;
+		}
+
+		public AppState getAppState() {
+			return appState;
+		}
+
+		public void delete() {
+			if (appState != null) {
+				appState.delete();
+			}
+
+		}
+
+		public void redo(UndoManager undoManager) {
+			undoManager.loadUndoInfo(appState);
+		}
 
 	}
 	/**
@@ -61,7 +86,7 @@ public abstract class UndoManager {
 
 		if (undoPossible()) {
 			iterator.previous();
-			loadUndoInfo(iterator.previous());
+			loadUndoInfo(iterator.previous().getAppState());
 			iterator.next();
 			updateUndoActions();
 		}
@@ -72,7 +97,7 @@ public abstract class UndoManager {
 	 */
 	public synchronized void redo() {
 		if (redoPossible()) {
-			loadUndoInfo(iterator.next());
+			iterator.next().redo(this);
 			updateUndoActions();
 		}
 	}
@@ -90,7 +115,7 @@ public abstract class UndoManager {
 	 * @return Object (the file of last undo)
 	 */
 	final public synchronized AppState getCurrentUndoInfo() {
-		AppState ret = iterator.previous();
+		AppState ret = iterator.previous().getAppState();
 		iterator.next();
 		return ret;
 	}
@@ -109,7 +134,7 @@ public abstract class UndoManager {
 	final public synchronized void restoreCurrentUndoInfo() {
 		app.getSelectionManager().storeSelectedGeosNames();
 		if (iterator != null) {
-			loadUndoInfo(iterator.previous());
+			loadUndoInfo(iterator.previous().getAppState());
 			iterator.next();
 			updateUndoActions();
 		}
@@ -196,7 +221,7 @@ public abstract class UndoManager {
 	public void pruneStateList() {
 		// remove everything after the insert position until end of
 		// list
-		AppState appState = null;
+		UndoCommand appState = null;
 		while (iterator.hasNext()) {
 			appState = iterator.next();
 			iterator.remove();

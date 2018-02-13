@@ -72,7 +72,7 @@ public class DefaultUndoManager extends UndoManager {
      */
     private synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
         AppState appStateToAdd = new DefaultAppState(undoXML.toString());
-        iterator.add(appStateToAdd);
+		iterator.add(new UndoCommand(appStateToAdd));
         pruneStateList();
         app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO, null));
     }

@@ -153,7 +153,7 @@ public class UndoManagerD extends UndoManager {
 
 					// insert undo info
 					AppState appStateToAdd = new AppStateDesktop(undoInfo);
-					iterator.add(appStateToAdd);
+					iterator.add(new UndoCommand(appStateToAdd));
 					pruneStateList();
 					app.getEventDispatcher().dispatchEvent(
 							new Event(EventType.STOREUNDO, null));
