@@ -187,8 +187,45 @@ public class CmdSetColor extends CmdScripting {
 		if (!color.isGeoText()) {
 			throw argErr(app, c, color);
 		}
-		GColor ret = GeoGebraColorConstants.getGeogebraColor(app,
-				trim(color.toValueString(StringTemplate.defaultTemplate)));
+
+		GColor ret;
+
+		String colorText = trim(
+				color.toValueString(StringTemplate.defaultTemplate));
+
+		if (colorText.startsWith("#")) {
+
+			if (colorText.length() != 7 && colorText.length() != 9) {
+				throw argErr(app, c, color);
+			}
+
+			int red;
+			int green;
+			int blue;
+			int alpha = 255;
+			String rgb;
+
+			if (colorText.length() == 7) {
+				// SetColor(text1,"#ffff00")
+				rgb = colorText.substring(1);
+			} else {
+				// eg SetBackgroundColor(text1,"#80ffff00")
+				// to set opacity of background color
+				rgb = colorText.substring(3);
+				alpha = Integer.parseInt(colorText.substring(1, 3), 16);
+
+			}
+
+			red = Integer.parseInt(rgb.substring(0, 2), 16);
+			green = Integer.parseInt(rgb.substring(2, 4), 16);
+			blue = Integer.parseInt(rgb.substring(4, 6), 16);
+
+			ret = GColor.newColor(red, green, blue, alpha);
+
+		} else {
+
+			ret = GeoGebraColorConstants.getGeogebraColor(app, colorText);
+		}
 		if (ret == null && !background) {
 			throw argErr(app, c, color);
 		}
