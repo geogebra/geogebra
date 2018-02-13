@@ -354,10 +354,19 @@ public class PageListController implements PageListControllerInterface,
 		loadPage(pageIdx, false);
 	}
 
+	/**
+	 * hide context menus of cards
+	 */
+	public void hideAllContextMenus() {
+		for (PagePreviewCard card : slides) {
+			card.hideContextMenu();
+		}
+	}
 
 	public void onMouseDown(MouseDownEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
+		hideAllContextMenus();
 		CancelEventTimer.dragCanStart();
 	}
 
@@ -372,6 +381,7 @@ public class PageListController implements PageListControllerInterface,
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
+		hideAllContextMenus();
 		CancelEventTimer.dragCanStart();
 	}
 

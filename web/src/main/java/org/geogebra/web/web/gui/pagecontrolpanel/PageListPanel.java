@@ -118,6 +118,7 @@ public class PageListPanel
 	 *            whether to select it
 	 */
 	protected void loadNewPage(boolean selected) {
+		pageController.hideAllContextMenus();
 		pageController.loadPage(addNewPreviewCard(selected), true);
 		pageController.updatePreviewImage();
 	}
@@ -166,6 +167,7 @@ public class PageListPanel
 		if (!isVisible()) {
 			return;
 		}
+		pageController.hideAllContextMenus();
 		showPlusButton(false);
 		addStyleName("animateOut");
 		app.getFrameElement().getStyle().setOverflow(Overflow.HIDDEN);

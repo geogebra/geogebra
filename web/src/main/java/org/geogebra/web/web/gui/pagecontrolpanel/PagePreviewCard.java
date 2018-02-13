@@ -214,7 +214,11 @@ public class PagePreviewCard extends FlowPanel
 		ClickStartHandler.init(moreBtn, new ClickStartHandler(true, true) {
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
-				toggleContexMenu();
+				if (isContextMenuShowing()) {
+					hideContextMenu();
+				} else {
+					showContextMenu();
+				}
 			}
 		});
 		titlePanel.add(moreBtn);
@@ -225,20 +229,38 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	/**
-	 * show context menu of preview card
+	 * @return true if context menu is showing
 	 */
-	protected void toggleContexMenu() {
+	protected boolean isContextMenuShowing() {
+		if (contextMenu == null) {
+			return false;
+		}
+		return contextMenu.isShowing();
+	}
+
+	/**
+	 * show context menu
+	 */
+	protected void showContextMenu() {
+		((PageListController) app.getPageController()).hideAllContextMenus();
 		if (contextMenu == null) {
 			contextMenu = new ContextMenuPagePreview(app, this);
 		}
-		if (contextMenu.isShowing()) {
-			contextMenu.hide();
-			toggleMoreButton(false);
-		} else {
-			contextMenu.show(moreBtn.getAbsoluteLeft() - 122,
-					moreBtn.getAbsoluteTop() + 36);
-			toggleMoreButton(true);
+		contextMenu.show(moreBtn.getAbsoluteLeft() - 122,
+				moreBtn.getAbsoluteTop() + 36);
+		toggleMoreButton(true);
+	}
+
+	/**
+	 * hide context menu
+	 */
+	public void hideContextMenu() {
+		if (contextMenu == null) {
+			return;
 		}
+		contextMenu.hide();
+		toggleMoreButton(false);
+
 	}
 	
 	private void toggleMoreButton(boolean toggle) {

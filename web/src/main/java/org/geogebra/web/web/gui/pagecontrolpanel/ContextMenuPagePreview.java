@@ -118,7 +118,6 @@ public class ContextMenuPagePreview
 	 * hides the context menu
 	 */
 	public void hide() {
-		wrappedPopup.hideMenu();
 		wrappedPopup.setMenuShown(false);
 	}
 
