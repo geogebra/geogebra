@@ -100,9 +100,14 @@ public class CASgiacW extends CASgiac {
 
 			// send only necessary init commands
 			boolean foundInInput = false;
-			/* This is very hacky here. If the input expression as string
-			 * contains an internal GeoGebra CAS command, then that command will be executed
-			 * in Giac. TODO: find a better a way.
+			/*
+			 * Check if the command uses any "extra" custom functions for
+			 * example ggbisPolynomial()
+			 * 
+			 * (using a string compare which is robust)
+			 * 
+			 * It's just possible that we will load commands that aren't needed
+			 * in rare circumstances
 			 */
 			if (function.functionName == null || (foundInInput = (exp
 				.indexOf(function.functionName) > -1))) {
