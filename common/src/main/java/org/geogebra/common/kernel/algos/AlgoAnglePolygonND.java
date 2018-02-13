@@ -143,6 +143,9 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
+		if (internalAngle) {
+			return getLoc().getPlainDefault("AnglesOfA", "Angles of %0", poly.getLabel(tpl));
+		}
 		return getLoc().getPlainDefault("AngleOfA", "Angle of %0",
 				poly.getLabel(tpl));
 	}
