@@ -335,7 +335,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		final SymbolTableW symTable = new SymbolTableW(table, 
 				isLatexSymbol, rowSize, app, colors);
 
-		if (Browser.isIE10plus()) {
+		if (Browser.isIE()) {
 		symTable.addDomHandler(new MouseDownHandler() {
 			@Override
 			public void onMouseDown(MouseDownEvent event) {

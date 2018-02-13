@@ -261,10 +261,6 @@ public class Browser {
 				.test($wnd.navigator.userAgent));
 	}-*/;
 
-	public native static boolean isIE10plus() /*-{
-		return !!$wnd.MSBlobBuilder;
-	}-*/;
-
 	public static native double getPixelRatio() /*-{
 		var testCanvas = document.createElement("canvas"), testCtx = testCanvas
 				.getContext("2d");
@@ -428,13 +424,6 @@ public class Browser {
 				e.preventDefault();
 			}, false);
 		}
-	}-*/;
-
-	public static native boolean isChromeWebApp() /*-{
-		if ($doc.isChromeWebapp()) {
-			return true;
-		}
-		return false;
 	}-*/;
 
 	public static native boolean isXWALK() /*-{

@@ -476,7 +476,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	protected void runPointerCallback(Runnable pointerUpCallback) {
-		if (Browser.isIE10plus()) {
+		if (Browser.isIE()) {
 			app.invokeLater(pointerUpCallback);
 		} else {
 			pointerUpCallback.run();
