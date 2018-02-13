@@ -546,6 +546,10 @@ public class ExamEnvironment {
 		}
 	}
 
+	/**
+	 * @param type The CalculatorType for which we want the short name
+	 * @return The short name of the CalculatorType parameter in human readable string format
+	 */
 	public String getShortCalcTypeName(CalculatorType type) {
 		switch (type) {
 			case GRAPHING:
