@@ -10230,11 +10230,10 @@ public abstract class EuclidianController {
 					view.setBoundingBox(d.getBoundingBox());
 					view.repaintView();
 					selection.addSelectedGeo(geo);
-					if (!isDraggingOccuredBeyondThreshold()) {
-						showDynamicStylebar();
-					}
 				}
-
+			}
+			if (!isDraggingOccuredBeyondThreshold()) {
+				showDynamicStylebar();
 			}
 			view.setCursor(EuclidianCursor.DEFAULT);
 			storeUndoInfo();
