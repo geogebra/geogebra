@@ -3,12 +3,16 @@ package org.geogebra.common.kernel;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 
+import java.util.ArrayList;
+
 /**
  * String based undo manager
  * 
  * @author Balazs
  */
 public class DefaultUndoManager extends UndoManager {
+
+    private ArrayList<UndoPossibleListener> mListener = new ArrayList<UndoPossibleListener>();
 
 	/**
 	 * Wrapper around string
@@ -62,6 +66,13 @@ public class DefaultUndoManager extends UndoManager {
         if (refresh) {
             restoreCurrentUndoInfo();
         }
+        informListener();
+    }
+
+    @Override
+    protected void updateUndoActions() {
+        super.updateUndoActions();
+        informListener();
     }
 
     /**
@@ -84,5 +95,19 @@ public class DefaultUndoManager extends UndoManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * inform listener that undo - action happened
+     */
+    private void informListener() {
+        for (UndoPossibleListener listener : mListener) {
+            listener.undoPossible(undoPossible());
+            listener.redoPossible(redoPossible());
+        }
+    }
+
+    public void addUndoListener(UndoPossibleListener undoPossibleListener) {
+        mListener.add(undoPossibleListener);
     }
 }
