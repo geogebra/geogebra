@@ -27,7 +27,8 @@ class DragController {
 
 	private static class LastTarget {
 		PagePreviewCard target = null;
-		
+		int top;
+		int bottom;
 		void reset() {
 			target = null;
 		}
@@ -36,9 +37,15 @@ class DragController {
 			return target != null ? target.getPageIndex() : -1;
 		}
 
+		public void setTop(int top) {
+			this.top = top;
+			Log.debug("Last top for card " + index() + ": " + top);
+		}
+
 	}
 	
 	private class DragCard {
+private static final int CARD_MARGIN = 16;
 //		private static final int CARD_MARGIN = 16;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
@@ -78,9 +85,11 @@ class DragController {
 					PagePreviewCard next = cards.cardAt(idx + 1);
 					next.addSpace();
 				}
+				
 				card = cards.cardAt(idx);
 				card.addStyleName("dragged");
 				last.reset();
+
 			} else {
 				reset();
 			}
@@ -91,9 +100,21 @@ class DragController {
 				return -1;
 			}
 			dragTo(0, y);
+
 			return 0;
 		}
 
+		private void moveAnimated() {
+			int h = PagePreviewCard.SPACE_HEIGHT - CARD_MARGIN;
+			int diff = down ? card.getBottom() - last.top  
+					: last.bottom - card.getAbsoluteTop();
+
+			Log.debug((down ? "down " : "up ") + " diff: " + diff);
+			if (diff > 0 && diff < h) {
+				target.setSpaceValue(diff, down);
+			}
+         }
+        
 		void dragTo(int x, int y) {
 			if (down == null) {
 				down = prevY < y;
@@ -101,7 +122,15 @@ class DragController {
 			}
 	
 			card.setDragPosition(x, y);
+		
 			findTarget();
+			
+			if (target != null) {
+				onTargetChange();
+				if (isAnimated()) {
+					moveAnimated();
+				}
+			}
 		}
 				
 		private void findTarget() {
@@ -116,24 +145,22 @@ class DragController {
 			}
 			
 			target = idx != -1 ? cards.cardAt(idx): null;
-			if (target != null && target != last.target) {
-				onTargetChange();
-			} else {
-				if (last.target != null
-						&& down && last.target.getPageIndex() == cards.getCardCount() -1) {
-					last.target.removeSpace();
-				}
-					
-				Log.debug("No target");
-			}
+			
+			
 		}
 
 		private void onTargetChange() {
-			Log.debug("Target changd to: " + target.getPageIndex());
+			if (target == last.target) {
+				return;
+			}
+			int idx = target.getPageIndex();
+			Log.debug("Target changd to: " + idx);
 			if (last.target != null) {
 				last.target.removeSpace();
 			}
-			target.addSpace();
+			target.addSpace();			
+			last.setTop(target.getAbsoluteTop());
+
 			last.target = target;
 		}
 		boolean drop() {
