@@ -42,6 +42,11 @@ class DragController {
 			Log.debug("Last top for card " + index() + ": " + top);
 		}
 
+		public void setBottom(int bottom) {
+			this.bottom = bottom;
+			Log.debug("Last bottom for card " + index() + ": " + bottom);
+		}
+
 	}
 	
 	private class DragCard {
@@ -106,7 +111,7 @@ private static final int CARD_MARGIN = 16;
 
 		private void moveAnimated() {
 			int h = PagePreviewCard.SPACE_HEIGHT - CARD_MARGIN;
-			int diff = down ? card.getBottom() - last.top  
+			int diff = down ? card.getAbsoluteBottom() - last.top
 					: last.bottom - card.getAbsoluteTop();
 
 			Log.debug((down ? "down " : "up ") + " diff: " + diff);
@@ -134,7 +139,7 @@ private static final int CARD_MARGIN = 16;
 		}
 				
 		private void findTarget() {
-			int y1 = card.getBottom();
+			int y1 = card.getAbsoluteBottom();
 			int y2 = card.getAbsoluteTop(); 
 
 			int idx = cardIndexAt(card.getMiddleX(), 
@@ -158,8 +163,14 @@ private static final int CARD_MARGIN = 16;
 			if (last.target != null) {
 				last.target.removeSpace();
 			}
+
+			if (idx == index() - 1 && !down && idx < cards.getCardCount() - 1) {
+				cards.cardAt(idx + 1).removeSpace();
+
+			}
 			target.addSpace();			
 			last.setTop(target.getAbsoluteTop());
+			last.setBottom(target.getAbsoluteTop());
 
 			last.target = target;
 		}

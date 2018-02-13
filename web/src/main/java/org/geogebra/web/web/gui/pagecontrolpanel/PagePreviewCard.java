@@ -290,7 +290,7 @@ public class PagePreviewCard extends FlowPanel
 	 * 
 	 * @return the bottom of the card.
 	 */
-	public int getBottom() {
+	public int getAbsoluteBottom() {
 		return getAbsoluteTop() + getOffsetHeight();
 	}
 
