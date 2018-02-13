@@ -3,22 +3,33 @@ package com.himamis.retex.editor.share.controller;
 import com.himamis.retex.editor.share.event.KeyEvent;
 import com.himamis.retex.editor.share.util.JavaKeyCodes;
 
+/**
+ * Key listener
+ */
 public class KeyListenerImpl {
 
-    private EditorState editorState;
     private CursorController cursorController;
     private InputController inputController;
 
+	/**
+	 * @param cursorController
+	 *            cursor controller
+	 * @param inputController
+	 *            input controller
+	 */
     public KeyListenerImpl(CursorController cursorController, InputController inputController) {
         this.cursorController = cursorController;
         this.inputController = inputController;
     }
 
-    public void setEditorState(EditorState editorState) {
-        this.editorState = editorState;
-    }
-
-    public boolean onKeyPressed(KeyEvent keyEvent) {
+	/**
+	 * @param keyEvent
+	 *            event
+	 * @param editorState
+	 *            editor state
+	 * @return whether event was handled
+	 */
+	public boolean onKeyPressed(KeyEvent keyEvent, EditorState editorState) {
 		switch (keyEvent.getKeyCode()) {
 		case JavaKeyCodes.VK_A:
 			if ((keyEvent.getKeyModifiers() & KeyEvent.CTRL_MASK) > 0) {
@@ -107,11 +118,22 @@ public class KeyListenerImpl {
         }
     }
 
+	/**
+	 * @param shiftDown
+	 *            whether shift is pressed
+	 */
 	public void onTab(boolean shiftDown) {
 		inputController.handleTab(shiftDown);
 	}
 
-	public boolean onKeyTyped(char ch) {
+	/**
+	 * @param ch
+	 *            key
+	 * @param editorState
+	 *            current state
+	 * @return whether event was handled
+	 */
+	public boolean onKeyTyped(char ch, EditorState editorState) {
 		return inputController.handleChar(editorState, ch);
 	}
 }

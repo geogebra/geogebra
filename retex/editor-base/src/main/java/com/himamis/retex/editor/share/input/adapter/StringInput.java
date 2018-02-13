@@ -30,6 +30,6 @@ public abstract class StringInput implements KeyboardAdapter {
 
     protected static void typeCharacter(MathFieldInternal mfi, char character) {
         KeyListenerImpl keyListener = mfi.getKeyListener();
-        keyListener.onKeyTyped(character);
+		keyListener.onKeyTyped(character, mfi.getEditorState());
     }
 }

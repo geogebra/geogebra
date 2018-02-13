@@ -130,7 +130,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         editorState.setRootComponent(formula.getRootComponent());
         editorState.setCurrentField(formula.getRootComponent());
         editorState.setCurrentOffset(editorState.getCurrentField().size());
-        keyListener.setEditorState(editorState);
         mathFieldController.update(formula, editorState, false);
     }
 
@@ -139,7 +138,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
         editorState = new EditorState(mathField.getMetaModel());
         editorState.setRootComponent(formula.getRootComponent());
         CursorController.setPath(path, getEditorState());
-        keyListener.setEditorState(editorState);
         mathFieldController.update(formula, editorState, false);
     }
 
@@ -212,7 +210,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 			}
 		}
 		boolean tab = keyEvent.getKeyCode() == JavaKeyCodes.VK_TAB;
-		boolean handled = keyListener.onKeyPressed(keyEvent);
+		boolean handled = keyListener.onKeyPressed(keyEvent, editorState);
         if (handled && !tab) {
             update();
 			if (!arrow && listener != null) {
@@ -250,7 +248,7 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 					true);
 
 			for (int i = 0; str != null && i < str.length(); i++) {
-				keyListener.onKeyTyped(str.charAt(i));
+				keyListener.onKeyTyped(str.charAt(i), editorState);
 			}
 			notifyAndUpdate();
 		}
@@ -270,7 +268,8 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 		boolean handled = alt || enter
 				|| ((keyEvent.getKeyModifiers()
 				& KeyEvent.CTRL_MASK) > 0)
-				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar());
+				|| keyListener.onKeyTyped(keyEvent.getUnicodeKeyChar(),
+						editorState);
 		if (handled && fire) {
 			notifyAndUpdate();
         }

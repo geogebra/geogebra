@@ -610,7 +610,7 @@ public class InputController {
 			}
 
 		}
-		ArrayList<MathComponent> removed = new ArrayList<MathComponent>();
+		ArrayList<MathComponent> removed = new ArrayList<>();
 		for (int i = end; i >= start; i--) {
 			removed.add(currentField.getArgument(i));
 			currentField.removeArgument(i);
@@ -641,7 +641,7 @@ public class InputController {
 
 	private static ArrayList<MathComponent> cut(MathSequence currentField,
 			int currentOffset) {
-		ArrayList<MathComponent> removed = new ArrayList<MathComponent>();
+		ArrayList<MathComponent> removed = new ArrayList<>();
 
 		for (int i = currentField.size() - 1; i >= currentOffset; i--) {
 			removed.add(currentField.getArgument(i));
@@ -1069,7 +1069,6 @@ public class InputController {
 				int offset = editorState.getCurrentOffset();
 
 				MathComponent nextArg = currentField.getArgument(offset);
-				MathComponent prevArg = currentField.getArgument(offset - 1);
 
 				if (nextArg == null) {
 					endField(editorState, ch);

@@ -11,7 +11,13 @@ import com.himamis.retex.editor.share.model.MathSequence;
 
 public class CursorController {
 
-    /** Next character &rarr; key. */
+	/**
+	 * Next character &rarr; key.
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @return whether we moved right
+	 */
 	public static boolean nextCharacter(EditorState editorState) {
         int currentOffset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();
@@ -30,7 +36,12 @@ public class CursorController {
         }
     }
 
-    /** Previous character &larr; key. */
+	/**
+	 * Previous character &larr; key.
+	 * 
+	 * @param editorState
+	 *            current state
+	 */
     public void prevCharacter(EditorState editorState) {
         int currentOffset = editorState.getCurrentOffset();
         MathSequence currentField = editorState.getCurrentField();
@@ -48,10 +59,24 @@ public class CursorController {
         }
     }
 
+	/**
+	 * Move to the beginning of the whole expression
+	 * 
+	 * @param editorState
+	 *            current state
+	 */
     public static void firstField(EditorState editorState) {
         firstField(editorState, editorState.getRootComponent());
     }
 
+	/**
+	 * Move to the beginning of a subexpression
+	 * 
+	 * @param editorState
+	 *            current state
+	 * @param component0
+	 *            subexpression
+	 */
 	public static void firstField(EditorState editorState,
 			MathContainer component0) {
 		MathContainer component = component0;
@@ -64,10 +89,22 @@ public class CursorController {
         editorState.setCurrentOffset(0);
     }
 
+	/**
+	 * Move to the end of the whole expression
+	 * 
+	 * @param editorState
+	 *            current state
+	 */
     public static void lastField(EditorState editorState) {
         lastField(editorState, editorState.getRootComponent());
     }
 
+	/**
+	 * @param editorState
+	 *            current state
+	 * @param component0
+	 *            subexpression
+	 */
 	public static void lastField(EditorState editorState,
 			MathContainer component0) {
 		MathContainer component = component0;
