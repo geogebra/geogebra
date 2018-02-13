@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 
@@ -40,13 +41,14 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
-	public StepSet solve(StepVariable sv, SolutionBuilder sb) {
-		return (StepSet) StepStrategies.defaultInequalitySolve(this, sv, sb);
+	public StepSet solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
+		return (StepSet) StepStrategies.defaultInequalitySolve(this, sv, sb, tracker);
 	}
 
 	@Override
-	public StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb) throws CASException {
-		return solve(sv, sb);
+	public StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
+			throws CASException {
+		return solve(sv, sb, new SolveTracker());
 	}
 
 	@Override
@@ -63,7 +65,7 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
-	public StepSet trivialSolution(StepVariable variable) {
+	public StepSet trivialSolution(StepVariable variable, SolveTracker tracker) {
 		if (LHS.equals(variable)) {
 			if (lessThan) {
 				return new StepSet(
@@ -76,14 +78,15 @@ public class StepInequality extends StepSolvable {
 		}
 
 		if (lessThan == LHS.getValue() < RHS.getValue()) {
-			return new StepSet(getRestriction());
+			return new StepSet(tracker.getRestriction());
 		}
 
 		return new StepSet();
 	}
 
 	@Override
-	public boolean checkSolution(StepExpression solution, StepVariable variable, SolutionBuilder sb) {
+	public boolean checkSolution(StepExpression solution, StepVariable variable, SolutionBuilder sb,
+								 SolveTracker tracker) {
 		return true;
 	}
 

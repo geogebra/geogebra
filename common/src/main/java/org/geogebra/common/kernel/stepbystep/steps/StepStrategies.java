@@ -153,7 +153,7 @@ public class StepStrategies {
 		return sn;
 	}
 
-	public static StepNode defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb) {
+	public static StepNode defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
 		SolveStepGenerator[] strategy = {
 				EquationSteps.SOLVE_PRODUCT,
 				EquationSteps.REGROUP,
@@ -179,19 +179,20 @@ public class StepStrategies {
 				EquationSteps.DIFF
 		};
 
-		return implementSolveStrategy(se, sv, sb, strategy);
+		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
 
-	public static StepNode defaultInequalitySolve(StepInequality se, StepVariable sv, SolutionBuilder sb) {
+	public static StepNode defaultInequalitySolve(StepInequality se, StepVariable sv, SolutionBuilder sb,
+												  SolveTracker tracker) {
 		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON,
 				EquationSteps.SOLVE_LINEAR, EquationSteps.EXPAND
 		};
 
-		return implementSolveStrategy(se, sv, sb, strategy);
+		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
 
 	public static StepNode implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
-			SolveStepGenerator[] strategy) {
+			SolveStepGenerator[] strategy, SolveTracker tracker) {
 		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
@@ -200,10 +201,10 @@ public class StepStrategies {
 			sb.add(SolutionStepType.GROUP_WRAPPER);
 			sb.levelDown();
 
-			if (se.getRestriction().equals(StepInterval.R)) {
+			if (tracker.getRestriction().equals(StepInterval.R)) {
 				sb.add(SolutionStepType.SOLVE_FOR, se, variable);
 			} else {
-				sb.add(SolutionStepType.SOLVE_IN, se, se.getRestriction());
+				sb.add(SolutionStepType.SOLVE_IN, se, tracker.getRestriction());
 			}
 
 			sb.levelDown();
@@ -214,7 +215,7 @@ public class StepStrategies {
 		do {
 			boolean changed = false;
 			for (int i = 0; i < strategy.length && !changed; i++) {
-				result = strategy[i].apply((StepSolvable) result.deepCopy(), variable, changes);
+				result = strategy[i].apply((StepSolvable) result.deepCopy(), variable, changes, tracker);
 
 				if (printDebug) {
 					if (changes.getSteps() != null) {
@@ -239,7 +240,7 @@ public class StepStrategies {
 		} while (!(result instanceof StepSet) && !current.equals(old));
 
 		if (result instanceof StepSet) {
-			StepSet finalSolutions = EquationSteps.checkSolutions(se, (StepSet) result, variable, changes);
+			StepSet finalSolutions = EquationSteps.checkSolutions(se, (StepSet) result, variable, changes, tracker);
 
 			if (sb != null) {
 				sb.levelUp();

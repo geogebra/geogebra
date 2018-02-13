@@ -37,7 +37,7 @@ public class StepInterval extends StepNode {
 	}
 
 	public boolean contains(StepExpression sn) {
-		if (sn.isConstant()) {
+		if (sn.canBeEvaluated()) {
 			double value = sn.getValue();
 			double leftBoundValue = leftBound.getValue();
 			double rightBoundValue = rightBound.getValue();
@@ -53,7 +53,7 @@ public class StepInterval extends StepNode {
 			return leftBoundValue < value && value < rightBoundValue;
 		}
 
-		return false;
+		return equals(R);
 	}
 
 	@Override

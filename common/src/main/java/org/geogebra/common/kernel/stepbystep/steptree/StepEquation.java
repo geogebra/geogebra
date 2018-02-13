@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
@@ -47,11 +48,7 @@ public class StepEquation extends StepSolvable {
 	@Override
 	public StepEquation deepCopy() {
 		StepEquation newEq = new StepEquation(LHS.deepCopy(), RHS.deepCopy());
-		newEq.restriction = restriction == null ? null : restriction.deepCopy();
-		newEq.undefinedPoints = undefinedPoints == null ? null : undefinedPoints.deepCopy();
-		newEq.arbConstTracker = arbConstTracker;
 		newEq.swapped = swapped;
-		newEq.approximateSolution = approximateSolution;
 
 		return newEq;
 	}
@@ -74,9 +71,9 @@ public class StepEquation extends StepSolvable {
 	}
 
 	@Override
-	public StepSet trivialSolution(StepVariable variable) {
+	public StepSet trivialSolution(StepVariable variable, SolveTracker tracker) {
 		if (LHS.equals(RHS)) {
-			return new StepSet(getRestriction());
+			return new StepSet(tracker.getRestriction());
 		}
 
 		if (LHS.equals(variable)) {
@@ -91,12 +88,12 @@ public class StepEquation extends StepSolvable {
 	}
 
 	public StepEquation regroup() {
-		return regroup(null);
+		return regroup(null, new SolveTracker());
 	}
 
 	@Override
-	public StepEquation regroup(SolutionBuilder sb) {
-		return (StepEquation) super.regroup(sb);
+	public StepEquation regroup(SolutionBuilder sb, SolveTracker tracker) {
+		return (StepEquation) super.regroup(sb, tracker);
 	}
 
 	public boolean isValid(StepVariable var, StepExpression val) {
@@ -121,18 +118,20 @@ public class StepEquation extends StepSolvable {
 		return true;
 	}
 
-	public StepSet solve(StepVariable sv, SolutionBuilder sb) {
-		return (StepSet) StepStrategies.defaultSolve(this, sv, sb);
+	public StepSet solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
+		return (StepSet) StepStrategies.defaultSolve(this, sv, sb, tracker);
 	}
 
 	@Override
 	public StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb) throws CASException {
-		StepSet solutions = solve(sv, sb);
+		SolveTracker tracker = new SolveTracker();
+		StepSet solutions = solve(sv, sb, tracker);
 
 		for (StepNode solution : solutions) {
 			if (solution instanceof StepExpression) {
 				String casCommand;
-				if (approximateSolution != null && !approximateSolution) {
+				if (tracker.isApproximate() != null && tracker.isApproximate()) {
+					Log.error("approximating");
 					casCommand = "ApproximateSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution + ")";
 				} else {
 					casCommand = "CorrectSolution(" + LHS + ", " + RHS + ", " + sv + " = " + solution + ")";
@@ -154,23 +153,18 @@ public class StepEquation extends StepSolvable {
 	}
 
 	@Override
-	public boolean checkSolution(StepExpression solution, StepVariable variable, SolutionBuilder steps) {
-		if (restriction != null) {
-			if (restriction.contains(solution)) {
-				steps.add(SolutionStepType.VALID_SOLUTION_ABS, new StepEquation(variable, solution),
-						restriction);
-			} else {
-				steps.add(SolutionStepType.INVALID_SOLUTION_ABS, new StepEquation(variable, solution),
-						restriction);
-				return false;
-			}
+	public boolean checkSolution(StepExpression solution, StepVariable variable, SolutionBuilder steps,
+								 SolveTracker tracker) {
+
+		if (!tracker.getRestriction().contains(solution)) {
+			return false;
+		}
+
+		if (isValid(variable, solution)) {
+			steps.add(SolutionStepType.VALID_SOLUTION, new StepEquation(variable, solution));
 		} else {
-			if (isValid(variable, solution)) {
-				steps.add(SolutionStepType.VALID_SOLUTION, new StepEquation(variable, solution));
-			} else {
-				steps.add(SolutionStepType.INVALID_SOLUTION, new StepEquation(variable, solution));
-				return false;
-			}
+			steps.add(SolutionStepType.INVALID_SOLUTION, new StepEquation(variable, solution));
+			return false;
 		}
 
 		return true;

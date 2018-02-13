@@ -7,5 +7,5 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 
 public interface SolveStepGenerator {
 
-	StepNode apply(StepSolvable se, StepVariable sv, SolutionBuilder sb);
+	StepNode apply(StepSolvable se, StepVariable sv, SolutionBuilder sb, SolveTracker tracker);
 }

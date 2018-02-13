@@ -27,21 +27,21 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	REGROUP {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
-			return se.regroup(steps);
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
+			return se.regroup(steps, tracker);
 		}
 	},
 
 	EXPAND {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
-			return se.expand(steps);
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
+			return se.expand(steps, tracker);
 		}
 	},
 
 	FACTOR {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (isZero(se.getLHS()) || isZero(se.getRHS())) {
 				return StepStrategies.defaultFactor(se, steps, new RegroupTracker().setWeakFactor());
 			}
@@ -52,18 +52,18 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	DIFF {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
-			se.subtract(se.getRHS(), steps);
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
+			se.subtract(se.getRHS(), steps, tracker);
 			return se;
 		}
 	},
 
 	SUBTRACT_COMMON {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression common = se.getLHS().nonIntegersOfSum().getCommon(se.getRHS().nonIntegersOfSum());
 			if (!se.getLHS().equals(se.getRHS()) && common != null && !common.isInteger()) {
-				se.addOrSubtract(common, steps);
+				se.addOrSubtract(common, steps, tracker);
 			}
 
 			return se;
@@ -72,11 +72,11 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SOLVE_LINEAR {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression diff = subtract(se.getLHS(), se.getRHS()).regroup();
 
 			if (diff.isConstantIn(variable)) {
-				return se.trivialSolution(variable);
+				return se.trivialSolution(variable, tracker);
 			}
 
 			if (!(se.degree(variable) == 0 || se.degree(variable) == 1)) {
@@ -89,23 +89,23 @@ public enum EquationSteps implements SolveStepGenerator {
 			}
 
 			StepExpression RHSlinear = se.getRHS().findExpression(variable);
-			se.addOrSubtract(RHSlinear, steps);
+			se.addOrSubtract(RHSlinear, steps, tracker);
 
 			StepExpression LHSconstant = se.getLHS().findConstantIn(variable);
-			se.addOrSubtract(LHSconstant, steps);
+			se.addOrSubtract(LHSconstant, steps, tracker);
 
 			StepExpression linearCoefficient = se.getLHS().findCoefficient(variable);
-			se.multiplyOrDivide(linearCoefficient, steps);
+			se.multiplyOrDivide(linearCoefficient, steps, tracker);
 
 			se.cleanColors();
 
-			return se.trivialSolution(variable);
+			return se.trivialSolution(variable, tracker);
 		}
 	},
 
 	SOLVE_QUADRATIC {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (se.degree(variable) != 2) {
 				return se;
 			}
@@ -114,9 +114,9 @@ public enum EquationSteps implements SolveStepGenerator {
 			double rightSquareCoeff = StepHelper.getCoefficientValue(se.getRHS(), power(variable, 2));
 
 			if (leftSquareCoeff < 0 && isZero(se.getRHS())) {
-				se.multiply(StepConstant.create(-1), steps);
+				se.multiply(StepConstant.create(-1), steps, tracker);
 			} else if (rightSquareCoeff < 0 && isZero(se.getLHS())) {
-				se.multiply(StepConstant.create(-1), steps);
+				se.multiply(StepConstant.create(-1), steps, tracker);
 				se.swapSides();
 			} else if (leftSquareCoeff < rightSquareCoeff) {
 				se.swapSides();
@@ -130,14 +130,14 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			if (isOne(a) && isEven(b) && !isZero(c)) {
 				StepExpression RHSConstant = se.getRHS().findConstantIn(variable);
-				se.addOrSubtract(subtract(se.getRHS(), RHSConstant).regroup(), steps);
+				se.addOrSubtract(subtract(se.getRHS(), RHSConstant).regroup(), steps, tracker);
 
 				StepExpression LHSConstant = se.getLHS().findConstantIn(variable);
 				StepExpression toComplete = subtract(LHSConstant, power(divide(b, 2), 2)).regroup();
 
 				steps.add(SolutionStepType.COMPLETE_THE_SQUARE);
 
-				se.addOrSubtract(toComplete, steps);
+				se.addOrSubtract(toComplete, steps, tracker);
 				se.factor(steps);
 
 				if (se.getRHS().getValue() < 0) {
@@ -148,7 +148,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			}
 
 			if (!isZero(se.getRHS())) {
-				se.subtract(se.getRHS(), steps);
+				se.subtract(se.getRHS(), steps, tracker);
 				return se;
 			}
 
@@ -165,7 +165,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			se.modify(variable,
 					divide(add(minus(b), StepNode.apply(root(discriminant, 2), Operation.PLUSMINUS)), multiply(2, a)));
 
-			se.regroup(steps);
+			se.regroup(steps, tracker);
 
 			if (discriminant.getValue() > 0) {
 				StepExpression solution1 = divide(add(minus(b), root(discriminant, 2)), multiply(2, a));
@@ -180,7 +180,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SOLVE_PRODUCT {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepOperation product = null;
 
 			if (se.getRHS().isOperation(Operation.MULTIPLY) && isZero(se.getLHS())) {
@@ -196,7 +196,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				for (StepExpression operand : product) {
 					if (!operand.isConstant()) {
 						StepEquation newEq = new StepEquation(operand, StepConstant.create(0));
-						solutions.addAll(newEq.solve(variable, steps));
+						solutions.addAll(newEq.solve(variable, steps, tracker));
 					}
 				}
 
@@ -209,7 +209,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	COMMON_DENOMINATOR {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (StepHelper.linearInInverse(se, variable) == null) {
 				return StepStrategies.defaultRegroup(se, steps, new RegroupTracker().unsetIntegerFractions());
 			}
@@ -220,7 +220,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	MULTIPLY_THROUGH {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression commonDenominator = StepConstant.create(1);
 			if (!se.getLHS().isConstant() && se.getLHS().getDenominator() != null) {
 					commonDenominator = StepHelper.LCM(se.getLHS().getDenominator(), commonDenominator);
@@ -230,14 +230,14 @@ public enum EquationSteps implements SolveStepGenerator {
 					commonDenominator = StepHelper.LCM(se.getRHS().getDenominator(), commonDenominator);
 			}
 
-			se.multiply(commonDenominator, steps);
+			se.multiply(commonDenominator, steps, tracker);
 			return se;
 		}
 	},
 
 	RECIPROCATE_EQUATION {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (StepHelper.shouldReciprocate(se.getLHS()) && StepHelper.shouldReciprocate(se.getRHS())) {
 				se.reciprocate(steps);
 			}
@@ -248,7 +248,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SIMPLIFY_TRIGONOMETRIC {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression bothSides = subtract(se.getLHS(), se.getRHS()).regroup();
 			StepOperation trigoVar = StepHelper.findTrigonometricVariable(bothSides);
 
@@ -264,7 +264,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression coeffCosineSquared = bothSides.findCoefficient(cosineSquared);
 
 			if (coeffSineSquared != null && coeffSineSquared.equals(coeffCosineSquared)) {
-				se.addOrSubtract(se.getRHS().findExpression(sineSquared), steps);
+				se.addOrSubtract(se.getRHS().findExpression(sineSquared), steps, tracker);
 
 				StepExpression newLHS = subtract(se.getLHS(), add(se.getLHS().findExpression(sineSquared),
 						se.getLHS().findExpression(cosineSquared))).regroup();
@@ -274,7 +274,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				se.modify(newLHS, newRHS);
 
 				se.replace(add(sineSquared, cosineSquared), StepConstant.create(1), steps);
-				se.regroup(steps);
+				se.regroup(steps, tracker);
 			}
 
 			bothSides = subtract(se.getLHS(), se.getRHS()).regroup();
@@ -289,23 +289,23 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			if (coeffSine != null && coeffCosine == null && coeffSineSquared != null && coeffCosineSquared != null) {
 				se.replace(cosineSquared, subtract(1, sineSquared), steps);
-				se.regroup(steps);
+				se.regroup(steps, tracker);
 			}
 
 			if (coeffSine == null && coeffCosine != null && coeffSineSquared != null && coeffCosineSquared != null) {
 				se.replace(sineSquared, subtract(1, cosineSquared), steps);
-				se.regroup(steps);
+				se.regroup(steps, tracker);
 			}
 
 			if (coeffSine != null && coeffCosine != null && coeffSineSquared == null && coeffCosineSquared == null) {
 				if (!isZero(se.getLHS().findExpression(sine))) {
-					se.addOrSubtract(se.getLHS().findExpression(cosine), steps);
-					se.addOrSubtract(se.getRHS().findExpression(sine), steps);
+					se.addOrSubtract(se.getLHS().findExpression(cosine), steps, tracker);
+					se.addOrSubtract(se.getRHS().findExpression(sine), steps, tracker);
 				} else {
-					se.addOrSubtract(se.getRHS().findExpression(cosine), steps);
+					se.addOrSubtract(se.getRHS().findExpression(cosine), steps, tracker);
 				}
 
-				se.square(steps);
+				se.square(steps, tracker);
 			}
 
 			return se;
@@ -314,7 +314,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SOLVE_LINEAR_TRIGONOMETRC {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepOperation trigoVar = StepHelper.linearInTrigonometric(se);
 
 			if (trigoVar == null) {
@@ -322,13 +322,13 @@ public enum EquationSteps implements SolveStepGenerator {
 			}
 
 			StepExpression RHSlinear = se.getRHS().findExpression(trigoVar);
-			se.addOrSubtract(RHSlinear, steps);
+			se.addOrSubtract(RHSlinear, steps, tracker);
 
 			StepExpression LHSconstant = se.getLHS().findConstantIn(variable);
-			se.addOrSubtract(LHSconstant, steps);
+			se.addOrSubtract(LHSconstant, steps, tracker);
 
 			StepExpression linearCoefficient = se.getLHS().findCoefficient(trigoVar);
-			se.multiplyOrDivide(linearCoefficient, steps);
+			se.multiplyOrDivide(linearCoefficient, steps, tracker);
 
 			return se;
 		}
@@ -336,7 +336,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SOLVE_QUADRATIC_TRIGONOMETRIC {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression trigoVar = StepHelper.quadraticInTrigonometric(se);
 
 			if (trigoVar == null) {
@@ -362,7 +362,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SOLVE_SIMPLE_TRIGONOMETRIC {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (!se.getLHS().isTrigonometric() || !se.getRHS().isConstant()) {
 				return se;
 			}
@@ -384,21 +384,21 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			if (trigoVar.getOperation() == Operation.TAN) {
 				StepExpression newRHS = add(StepNode.apply(se.getRHS(), op),
-						multiply(se.getNextArbInt(), StepConstant.PI));
+						multiply(tracker.getNextArbInt(), StepConstant.PI));
 
 				StepEquation newEq = new StepEquation(newLHS, newRHS);
-				return newEq.solve(variable, steps);
+				return newEq.solve(variable, steps, tracker);
 			}
 
 			StepExpression firstRHS = add(StepNode.apply(se.getRHS(), op),
-					multiply(multiply(2, se.getNextArbInt()), StepConstant.PI));
+					multiply(multiply(2, tracker.getNextArbInt()), StepConstant.PI));
 
 			StepEquation firstBranch = new StepEquation(newLHS, firstRHS);
-			StepSet solutions = firstBranch.solve(variable, steps);
+			StepSet solutions = firstBranch.solve(variable, steps, tracker);
 
 			if (!isEqual(se.getRHS(), 1) && !isEqual(se.getRHS(), -1)) {
 				StepExpression secondRHS = add(StepNode.apply(se.getRHS(), op),
-						multiply(multiply(2, se.getNextArbInt()), StepConstant.PI));
+						multiply(multiply(2, tracker.getNextArbInt()), StepConstant.PI));
 				StepEquation secondBranch;
 				if (trigoVar.getOperation() == Operation.SIN) {
 					secondBranch = new StepEquation(subtract(StepConstant.PI, newLHS), secondRHS);
@@ -415,7 +415,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SOLVE_IRRATIONAL {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			int sqrtNum = se.countNonConstOperation(Operation.NROOT, variable);
 
 			if (se.getRHS().countNonConstOperation(Operation.NROOT, variable) >
@@ -429,44 +429,44 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			if (sqrtNum == 1) {
 				StepExpression nonIrrational = StepHelper.getNon(se.getLHS(), Operation.NROOT);
-				se.addOrSubtract(nonIrrational, steps);
-				se.square(steps);
+				se.addOrSubtract(nonIrrational, steps, tracker);
+				se.square(steps, tracker);
 			}
 
 			if (sqrtNum == 2) {
 				StepExpression diff = subtract(se.getLHS(), se.getRHS()).regroup();
 				if (isZero(StepHelper.getNon(diff, Operation.NROOT))) {
 					StepExpression nonIrrational = StepHelper.getNon(se.getLHS(), Operation.NROOT);
-					se.addOrSubtract(nonIrrational, steps);
+					se.addOrSubtract(nonIrrational, steps, tracker);
 					if (se.getRHS().countNonConstOperation(Operation.NROOT, variable) == 2) {
 						StepExpression oneRoot = StepHelper.getOne(se.getLHS(), Operation.NROOT);
-						se.addOrSubtract(oneRoot, steps);
+						se.addOrSubtract(oneRoot, steps, tracker);
 					}
-					se.square(steps);
+					se.square(steps, tracker);
 				} else {
 					StepExpression rootsRHS = StepHelper.getAll(se.getRHS(), Operation.NROOT);
-					se.addOrSubtract(rootsRHS, steps);
+					se.addOrSubtract(rootsRHS, steps, tracker);
 					StepExpression nonIrrational = StepHelper.getNon(se.getLHS(), Operation.NROOT);
-					se.addOrSubtract(nonIrrational, steps);
-					se.square(steps);
+					se.addOrSubtract(nonIrrational, steps, tracker);
+					se.square(steps, tracker);
 				}
 			}
 
 			if (sqrtNum == 3) {
 				StepExpression nonIrrational = StepHelper.getNon(se.getLHS(), Operation.NROOT);
-				se.addOrSubtract(nonIrrational, steps);
+				se.addOrSubtract(nonIrrational, steps, tracker);
 
 				while (se.getRHS().countNonConstOperation(Operation.NROOT, variable) > 1) {
 					StepExpression oneRoot = StepHelper.getOne(se.getRHS(), Operation.NROOT);
-					se.addOrSubtract(oneRoot, steps);
+					se.addOrSubtract(oneRoot, steps, tracker);
 				}
 
 				if (se.getLHS().countNonConstOperation(Operation.NROOT, variable) == 3) {
 					StepExpression oneRoot = StepHelper.getOne(se.getLHS(), Operation.NROOT);
-					se.addOrSubtract(oneRoot, steps);
+					se.addOrSubtract(oneRoot, steps, tracker);
 				}
 
-				se.square(steps);
+				se.square(steps, tracker);
 			}
 
 			return se;
@@ -475,20 +475,22 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SOLVE_ABSOLUTE_VALUE {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (se.countOperation(Operation.ABS) == 0) {
 				return se;
 			}
 
-			if (!se.getRestriction().equals(StepInterval.R)) {
+			if (!tracker.getRestriction().equals(StepInterval.R)) {
 				steps.add(SolutionStepType.RESOLVE_ABSOLUTE_VALUES);
 
-				StepExpression LHS = StepHelper.swapAbsInTree(se.getLHS().deepCopy(), se.getRestriction(), variable);
-				StepExpression RHS = StepHelper.swapAbsInTree(se.getRHS().deepCopy(), se.getRestriction(), variable);
+				StepExpression LHS = StepHelper.swapAbsInTree(se.getLHS().deepCopy(),
+						tracker.getRestriction(), variable);
+				StepExpression RHS = StepHelper.swapAbsInTree(se.getRHS().deepCopy(),
+						tracker.getRestriction(), variable);
 				se.modify(LHS, RHS);
 
 				steps.add(se);
-				se.expand(steps);
+				se.expand(steps, tracker);
 
 				return se;
 			}
@@ -503,12 +505,12 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression nonAbsDiff = StepHelper.getNon(subtract(se.getLHS(), se.getRHS()).regroup(), Operation.ABS);
 			if (absNum == 1 && (nonAbsDiff == null || nonAbsDiff.isConstant())) {
 				StepExpression nonAbsolute = StepHelper.getNon(se.getLHS(), Operation.ABS);
-				se.addOrSubtract(nonAbsolute, steps);
+				se.addOrSubtract(nonAbsolute, steps, tracker);
 				return se;
 			} else if (absNum == 2 && (isZero(nonAbsDiff))) {
 				if (se.getLHS().countNonConstOperation(Operation.ABS, variable) == 2) {
 					StepExpression oneAbs = StepHelper.getOne(se.getLHS(), Operation.ABS);
-					se.addOrSubtract(oneAbs, steps);
+					se.addOrSubtract(oneAbs, steps, tracker);
 				}
 				return se;
 			}
@@ -540,9 +542,11 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepSet solutions = new StepSet();
 			for (int i = 1; i < roots.size(); i++) {
 				StepEquation newEq = new StepEquation(se.getLHS(), se.getRHS());
-				newEq.setRestriction(new StepInterval(roots.get(i - 1), roots.get(i), false, i != roots.size() - 1));
+				SolveTracker tempTracker = new SolveTracker();
+				tempTracker.setRestriction(new StepInterval(roots.get(i - 1), roots.get(i),
+						false, i != roots.size() - 1));
 
-				solutions.addAll(newEq.solve(variable, steps));
+				solutions.addAll(newEq.solve(variable, steps, tempTracker));
 			}
 
 			return solutions;
@@ -551,7 +555,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	PLUSMINUS {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (se.getLHS().isOperation(Operation.ABS) && se.getRHS().isOperation(Operation.ABS)
 					|| se.getRHS().isOperation(Operation.ABS) && se.getLHS().isConstantIn(variable)
 					|| se.getLHS().isOperation(Operation.ABS) && se.getRHS().isConstantIn(variable)) {
@@ -566,7 +570,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				if (!isZero(se.getRHS())) {
 					StepExpression newRHS = StepNode.apply(se.getRHS(), Operation.PLUSMINUS);
 					se.modify(se.getLHS(), newRHS);
-					se.regroup(steps);
+					se.regroup(steps, tracker);
 				}
 
 				steps.add(SolutionStepType.GROUP_WRAPPER);
@@ -588,8 +592,8 @@ public enum EquationSteps implements SolveStepGenerator {
 				StepEquation positiveBranch = new StepEquation(se.getLHS(), underPM);
 				StepEquation negativeBranch = new StepEquation(se.getLHS(), underPM.negate());
 
-				StepSet solutions = positiveBranch.solve(variable, steps);
-				solutions.addAll(negativeBranch.solve(variable, steps));
+				StepSet solutions = positiveBranch.solve(variable, steps, tracker);
+				solutions.addAll(negativeBranch.solve(variable, steps, tracker));
 
 				return solutions;
 			}
@@ -600,7 +604,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	SOLVE_LINEAR_IN_INVERSE {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression inverseVar = StepHelper.linearInInverse(se, variable);
 
 			if (inverseVar == null) {
@@ -615,10 +619,10 @@ public enum EquationSteps implements SolveStepGenerator {
 			}
 
 			StepExpression RHSlinear = se.getRHS().findExpression(inverseVar);
-			se.addOrSubtract(RHSlinear, steps);
+			se.addOrSubtract(RHSlinear, steps, tracker);
 
 			StepExpression LHSconstant = se.getLHS().findConstantIn(variable);
-			se.addOrSubtract(LHSconstant, steps);
+			se.addOrSubtract(LHSconstant, steps, tracker);
 
 			return se;
 		}
@@ -626,7 +630,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	TAKE_ROOT {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression diff = subtract(se.getLHS(), se.getRHS()).regroup();
 			StepExpression constant = diff.findConstantIn(variable);
 			StepExpression noConstDiff = subtract(diff, constant).regroup();
@@ -635,14 +639,14 @@ public enum EquationSteps implements SolveStepGenerator {
 				StepExpression RHSConstant = se.getRHS().findConstantIn(variable);
 				StepExpression RHSNonConst = subtract(se.getRHS(), RHSConstant).regroup();
 
-				se.addOrSubtract(RHSNonConst, steps);
-				se.addOrSubtract(se.getLHS().findConstantIn(variable), steps);
+				se.addOrSubtract(RHSNonConst, steps, tracker);
+				se.addOrSubtract(se.getLHS().findConstantIn(variable), steps, tracker);
 			} else if (!se.getLHS().isPower() || !se.getRHS().isPower()) {
 				if (diff.isOperation(Operation.PLUS)) {
                     StepOperation so = (StepOperation) diff;
 
                     if (so.noOfOperands() == 2 && so.getOperand(0).isPower() && so.getOperand(1).isPower()) {
-                        se.addOrSubtract(so.getOperand(1), steps);
+                        se.addOrSubtract(so.getOperand(1), steps, tracker);
                     } else {
                         return se;
                     }
@@ -654,7 +658,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			long root = StepNode.gcd(se.getLHS().getPower(), se.getRHS().getPower());
 
 			StepExpression toDivide = se.getLHS().getCoefficient();
-			se.multiplyOrDivide(toDivide, steps);
+			se.multiplyOrDivide(toDivide, steps, tracker);
 
 			if (isEven(root) && se.getRHS().isConstant() && se.getRHS().getValue() < 0) {
 				return new StepSet();
@@ -684,7 +688,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	REDUCE_TO_QUADRATIC {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			int degree = se.degree(variable);
 
 			if (degree % 2 != 0) {
@@ -697,7 +701,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				}
 			}
 
-			se.subtract(se.getRHS(), steps);
+			se.subtract(se.getRHS(), steps, tracker);
 
 			StepExpression coeffHigh = se.getLHS().findCoefficient(power(variable, degree));
 			StepExpression coeffLow = se.getLHS().findCoefficient(power(variable, ((double) degree) / 2));
@@ -713,13 +717,13 @@ public enum EquationSteps implements SolveStepGenerator {
 			newEquation = add(newEquation, constant);
 
 			StepEquation newEq = new StepEquation(newEquation.regroup(), StepConstant.create(0));
-			StepSet tempSolutions = newEq.solve(newVariable, steps);
+			StepSet tempSolutions = newEq.solve(newVariable, steps, tracker);
 
 			StepSet solutions = new StepSet();
 			for (StepNode solution : tempSolutions.getElements()) {
 				StepEquation tempEq = new StepEquation(power(variable, ((double) degree) / 2),
 						(StepExpression) solution);
-				solutions.addAll(tempEq.solve(variable, steps));
+				solutions.addAll(tempEq.solve(variable, steps, tracker));
 			}
 
 			return solutions;
@@ -728,7 +732,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	COMPLETE_CUBE {
 		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps) {
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (se.degree(variable) != 3) {
 				return se;
 			}
@@ -745,12 +749,12 @@ public enum EquationSteps implements SolveStepGenerator {
 				return se;
 			}
 
-			se.addOrSubtract(se.getRHS(), steps);
+			se.addOrSubtract(se.getRHS(), steps, tracker);
 
 			StepExpression toComplete = subtract(constant, power(divide(quadratic, 3), 3)).regroup();
 
 			steps.add(SolutionStepType.COMPLETE_THE_CUBE);
-			se.addOrSubtract(toComplete, steps);
+			se.addOrSubtract(toComplete, steps, tracker);
 
 			StepExpression newLHS = (StepExpression) StepStrategies.defaultFactor(
 					se.getLHS(), steps, new RegroupTracker().setWeakFactor());
@@ -761,7 +765,7 @@ public enum EquationSteps implements SolveStepGenerator {
 	};
 
 	public static StepSet checkSolutions(StepSolvable se, StepSet solutions, StepVariable variable,
-			SolutionBuilder steps) {
+			SolutionBuilder steps, SolveTracker tracker) {
 
 		if (solutions.size() == 0) {
 			steps.add(SolutionStepType.NO_REAL_SOLUTION);
@@ -777,13 +781,14 @@ public enum EquationSteps implements SolveStepGenerator {
 			if (sol instanceof StepExpression) {
 				StepExpression solution = (StepExpression) sol;
 
-				if (!se.checkSolution(solution, variable, temp)) {
+				if (!se.checkSolution(solution, variable, temp, tracker)) {
 					solutions.remove(solution);
 				}
 			}
 		}
 
-		if (!se.getRestriction().equals(StepInterval.R) || se.getUndefinedPoints() != null || se.shouldCheck()) {
+		if (!tracker.getRestriction().equals(StepInterval.R) ||
+				tracker.getUndefinedPoints() != null || tracker.shouldCheck()) {
 			steps.add(SolutionStepType.CHECK_VALIDITY);
 			steps.levelDown();
 			steps.addAll(temp.getSteps());

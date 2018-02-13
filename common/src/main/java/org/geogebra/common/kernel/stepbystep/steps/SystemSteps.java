@@ -91,7 +91,7 @@ public class SystemSteps {
                     steps.add(SolutionStepType.EQUATION, newEquations[j]);
                     steps.levelDown();
                     newEquations[j].replace(minVariable, solution, steps);
-                    newEquations[j].regroup(steps);
+                    newEquations[j].regroup(steps, new SolveTracker());
                     steps.levelUp();
                 }
                 steps.levelUp();
