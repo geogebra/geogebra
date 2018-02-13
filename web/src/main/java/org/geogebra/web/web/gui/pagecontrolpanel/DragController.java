@@ -7,8 +7,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
-import com.google.gwt.user.client.Timer;
-
 class DragController {
 	/**
 	 * Class to handle drag and drop cards 
@@ -41,7 +39,7 @@ class DragController {
 	}
 	
 	private class DragCard {
-		private static final int CARD_MARGIN = 16;
+//		private static final int CARD_MARGIN = 16;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
 		LastTarget last = new LastTarget();
