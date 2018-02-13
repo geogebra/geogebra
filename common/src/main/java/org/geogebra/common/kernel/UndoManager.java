@@ -35,7 +35,7 @@ public abstract class UndoManager {
 
 	}
 
-	protected class UndoCommand {
+	protected static class UndoCommand {
 
 		private AppState appState;
 
