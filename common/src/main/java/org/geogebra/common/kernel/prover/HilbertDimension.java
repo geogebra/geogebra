@@ -24,6 +24,19 @@ public class HilbertDimension {
 
 	private static Kernel kernel;
 
+	private static HashSet<HashSet<PVariable>> aMaximalSet;
+
+	/**
+	 * Get a maximum size independent set that contains the same amount element
+	 * as the Hilbert dimension of the ideal.
+	 * 
+	 * @return a maximum size independent set
+	 */
+	/* Using static here is dangerous. FIXME */
+	public static Set<PVariable> getAMaximalSet() {
+		return (Set) aMaximalSet;
+	}
+
 	private static boolean eliminationIsZero(Set<PPolynomial> polys,
 			Set<PVariable> vars, HashMap<PVariable, BigInteger> substitutions) {
 		Set<Set<PPolynomial>> eliminationIdeal;
@@ -181,19 +194,10 @@ public class HilbertDimension {
 		return dim - 1;
 	}
 
-	private static HashSet<HashSet<PVariable>> aMaximalSet;
-
-	/* Using static here is dangerous. FIXME */
-	public static Set<PVariable> getAMaximalSet() {
-		return (Set) aMaximalSet;
-	}
-
 	public static boolean isDimGreaterThan2(AlgebraicStatement as,
 			HashMap<PVariable, BigInteger> substitutions, int minDim) {
 
 		kernel = as.geoStatement.getKernel();
-		HashSet<HashSet<PVariable>> nextUseful,
-				/* lastUseful = new HashSet<>(), */ useful = new HashSet<>();
 		HashSet<PVariable> allVars = PPolynomial.getVars(as.getPolynomials());
 		// Remove substituted vars:
 		for (PVariable var : substitutions.keySet()) {
@@ -205,7 +209,7 @@ public class HilbertDimension {
 		dependentVars.removeAll(substitutions.keySet());
 		String depVars = "";
 		for (PVariable var : dependentVars) {
-			if (!depVars.equals("")) {
+			if (!"".equals(depVars)) {
 				depVars += ",";
 			}
 			depVars += var;
@@ -215,7 +219,7 @@ public class HilbertDimension {
 		freeVariables.removeAll(substitutions.keySet());
 		String freeVars = "";
 		for (PVariable var : freeVariables) {
-			if (!freeVars.equals("")) {
+			if (!"".equals(freeVars)) {
 				freeVars += ",";
 			}
 			freeVars += var;
@@ -242,8 +246,9 @@ public class HilbertDimension {
 				pos++;
 				int oldpos = pos;
 				String thischar;
-				while (!(thischar = gbasisResult.substring(pos, pos + 1))
-						.equals(",") && !thischar.equals("}")) {
+				while (!","
+						.equals(thischar = gbasisResult.substring(pos, pos + 1))
+						&& !"}".equals(thischar)) {
 					pos++;
 				}
 				String var = gbasisResult.substring(oldpos, pos);
