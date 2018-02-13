@@ -1086,8 +1086,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	@Override
-	public void fileNew() {
-
+	public final void fileNew() {
 		// clear all
 		// triggers the "do you want to save" dialog
 		// so must be called first
@@ -1095,21 +1094,23 @@ public abstract class AppW extends App implements SetLabels {
 			return;
 		}
 
-		kernel.getInputPreviewHelper().clear();
-		clearInputBar();
-
 		resetUniqueId();
-
 		setLocalID(-1);
 		resetActiveMaterial();
 
 		if (getGoogleDriveOperation() != null) {
 			getGoogleDriveOperation().resetStorageInfo();
 		}
+		resetUI();
+	}
 
+	protected void resetUI() {
+		kernel.getInputPreviewHelper().clear();
+		clearInputBar();
 		if (!has(Feature.INITIAL_PORTRAIT) && isPortrait()) {
 			adjustViews(false, false);
 		}
+
 	}
 
 	/**
@@ -3689,5 +3690,7 @@ public abstract class AppW extends App implements SetLabels {
 		elem.style.width = "100%";
 		div.appendChild(elem);
 	}-*/;
+
+
 
 }

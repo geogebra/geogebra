@@ -29,6 +29,7 @@ import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.Chapter;
 import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.move.views.EventRenderable;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.opencsv.CSVException;
 import org.geogebra.keyboard.web.HasKeyboard;
@@ -380,10 +381,8 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 
 	@Override
-	public final void fileNew() {
-		super.fileNew();
+	protected void resetUI() {
 		resetEVs();
-
 		// make sure file->new->probability does not clear the prob. calc
 		if (this.getGuiManager() != null
 				&& this.getGuiManager().hasProbabilityCalculator()) {
@@ -1020,4 +1019,24 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		}
 		frame.getPageControlPanel().close();
 	}
+
+	@Override
+	public void executeAction(EventType action) {
+		if (action == EventType.ADD_SLIDE) {
+			kernel.clearConstruction(true);
+
+			// kernel.initUndoInfo();
+			resetMaxLayerUsed();
+			setCurrentFile(null);
+			setMoveMode();
+			resetUI();
+		}
+		if (action == EventType.REMOVE_SLIDE) {
+			getPageController()
+					.removeSlide(getPageController().getSlideCount() - 1);
+			getAppletFrame().getPageControlPanel().update();
+		}
+
+	}
+
 }

@@ -98,7 +98,11 @@ public enum EventType {
 	/** Custom tool renamed */
 	RENAME_MACRO("renameMacro"),
 	/** construction cleared */
-	CLEAR("clear");
+	CLEAR("clear"),
+	/** new slide (whiteboard) */
+	ADD_SLIDE("addSlide"),
+	/** remove slide (whiteboard) */
+	REMOVE_SLIDE("removeSlide");
 
 	private String eventName;
 

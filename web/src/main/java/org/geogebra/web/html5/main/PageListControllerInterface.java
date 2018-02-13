@@ -36,4 +36,6 @@ public interface PageListControllerInterface {
 	 * @return whether it was a multislide file
 	 */
 	boolean loadSlides(GgbFile archiveContent);
+
+	void removeSlide(int idx);
 }

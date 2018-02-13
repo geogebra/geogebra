@@ -144,6 +144,10 @@ public class UndoManagerW extends UndoManager {
 
 	@Override
 	protected void loadUndoInfo(final AppState info) {
+		if (info == null) {
+			Log.warn("No undo info.");
+			return;
+		}
 		try {
 			app.getEuclidianView1().setKeepCenter(false);
 			// load from file

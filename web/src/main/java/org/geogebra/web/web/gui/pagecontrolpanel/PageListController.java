@@ -8,6 +8,7 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
@@ -103,7 +104,9 @@ public class PageListController implements PageListControllerInterface,
 		try {
 			if (newPage) {
 				// new file
-				app.fileNew();
+				app.executeAction(EventType.ADD_SLIDE);
+				app.getKernel().getConstruction().getUndoManager()
+						.storeAction(EventType.ADD_SLIDE);
 			} else {
 				// load last status of file
 				app.resetPerspectiveParam();

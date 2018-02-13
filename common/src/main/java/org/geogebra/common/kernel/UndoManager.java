@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.ListIterator;
 
 import org.geogebra.common.main.App;
+import org.geogebra.common.plugin.EventType;
 
 /**
  * Undo manager common to Desktop and Web
@@ -38,9 +39,14 @@ public abstract class UndoManager {
 	protected static class UndoCommand {
 
 		private AppState appState;
+		private EventType action;
 
 		public UndoCommand(AppState appStateToAdd) {
 			this.appState = appStateToAdd;
+		}
+
+		public UndoCommand(EventType action) {
+			this.action = action;
 		}
 
 		public AppState getAppState() {
@@ -51,11 +57,14 @@ public abstract class UndoManager {
 			if (appState != null) {
 				appState.delete();
 			}
-
 		}
 
 		public void redo(UndoManager undoManager) {
 			undoManager.loadUndoInfo(appState);
+		}
+
+		public EventType getAction() {
+			return action;
 		}
 
 	}
@@ -85,11 +94,20 @@ public abstract class UndoManager {
 	public synchronized void undo() {
 
 		if (undoPossible()) {
-			iterator.previous();
-			loadUndoInfo(iterator.previous().getAppState());
-			iterator.next();
+			UndoCommand last = iterator.previous();
+			if (last.getAction() != null) {
+				app.executeAction(revert(last.getAction()));
+			} else {
+				loadUndoInfo(iterator.previous().getAppState());
+				iterator.next();
+			}
 			updateUndoActions();
 		}
+	}
+
+	private EventType revert(EventType action) {
+		return action == EventType.ADD_SLIDE ? EventType.REMOVE_SLIDE
+				: EventType.ADD_SLIDE;
 	}
 
 	/**
@@ -272,5 +290,11 @@ public abstract class UndoManager {
 				storeUndoInfo();
 		}
 		storeUndoInfoNeededForProperties = false;
+	}
+
+	public void storeAction(EventType action) {
+		iterator.add(new UndoCommand(action));
+		this.pruneStateList();
+
 	}
 }

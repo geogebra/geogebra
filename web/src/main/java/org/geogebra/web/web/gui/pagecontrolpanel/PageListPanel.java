@@ -4,6 +4,7 @@ import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -258,6 +259,8 @@ public class PageListPanel
 		contentPanel.remove(index);
 		// remove associated ggb file
 		pageController.removeSlide(index);
+		app.getKernel().getConstruction().getUndoManager()
+				.storeAction(EventType.REMOVE_SLIDE);
 		updateIndexes(index);
 		// load new slide
 		if (index == 0 && pageController.getSlideCount() == 0) {
