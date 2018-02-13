@@ -990,6 +990,43 @@ public abstract class CASgiac implements CASGenericInterface {
 		return ret;
 	}
 
+	@Override
+	public String createGroebnerInitialsScript(
+			HashMap<PVariable, BigInteger> substitutions, String polys,
+			String freeVars, String dependantVars) {
+		/*
+		 * Example syntax (from Groebner basis tester; but in GeoGebra v1, v2,
+		 * ... are used for variables):
+		 * 
+		 * gbasis(subst([2*d1-b1-c1, 2*d2-b2-c2,2*e1-a1-c1,
+		 * 2*e2-a2-c2,2*f1-a1-b1, 2*f2-a2-b2 ,
+		 * (d1-o1)*(b1-c1)+(d2-o2)*(b2-c2),(e1-o1)*(c1-a1)+(e2-o2)*(c2-a2),
+		 * s1*d2
+		 * +a1*(s2-d2)-d1*s2-a2*(s1-d1),s1*e2+b1*(s2-e2)-e1*s2-b2*(s1-e1),(a1
+		 * -m1)*(b1-c1)+(a2-m2)*(b2-c2),
+		 * (b1-m1)*(c1-a1)+(b2-m2)*(c2-a2),z1*(b1*c2
+		 * +a1*(b2-c2)-c1*b2-a2*(b1-c1))-1, z2
+		 * *(s1*m2+o1*(s2-m2)-m1*s2-o2*(s1-m1
+		 * ))-1],[d1=0,b1=3]),[a1,a2,b1,b2,c1,c2,d1,d2,e1,e2,f1,f2,o1,
+		 * o2,s1,s2,m1,m2,z1,z2],revlex)
+		 */
+
+		String ret = "[[GB:=gbasis(";
+
+		if (substitutions != null) {
+			ret += "subst(";
+		}
+		ret += "[" + polys + "]";
+		if (substitutions != null) {
+			String substParams = substitutionsString(substitutions);
+			ret += ",[" + substParams + "])";
+		}
+		String vars = freeVars + PPolynomial.addLeadingComma(dependantVars);
+		ret += ",[" + vars + "],revlex)";
+		ret += "],[s:=size(GB)],[out:=[]],[for ii from 0 to s-1 do if (size(GB[ii])==1) out[ii]:=lvar(GB[ii]); else out[ii]:=lvar(GB[ii][1]); od],out][4]";
+		return ret;
+	}
+
 	/**
 	 * Converts substitutions to giac strings
 	 * 

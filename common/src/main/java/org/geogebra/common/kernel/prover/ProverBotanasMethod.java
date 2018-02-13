@@ -1336,6 +1336,8 @@ public class ProverBotanasMethod {
 	 */
 	public ProofResult prove(Prover prover) {
 
+		boolean investigateNonGeometricMaximalIndependentSet = false;
+
 		GeoElement statement = prover.getStatement();
 		ProverSettings proverSettings = ProverSettings.get();
 		/*
@@ -1489,21 +1491,50 @@ public class ProverBotanasMethod {
 									if (poly.isZero()) {
 										/*
 										 * Here we know that the statement is
-										 * reported to be not generally false.
-										 */
-										Log.debug(
-												"Statement is NOT GENERALLY FALSE");
+										 * may be not generally false if we
+										 * are working with a maximal independent
+										 * set of variables.
+										 */									
 										as.removeThesis();
 										int naivDim = as.getFreeVariables()
 												.size()
 												- substitutions.keySet().size();
 										Log.debug(
 												"Naive dimension = " + naivDim);
-										if (!HilbertDimension.isDimGreaterThan(
+										if (!HilbertDimension.isDimGreaterThan2(
 												as, substitutions, naivDim)) {
+											Log.debug(
+													"Statement is NOT GENERALLY FALSE");
 											return ProofResult.TRUE_ON_COMPONENTS;
 										}
-										return ProofResult.UNKNOWN;
+										if (!investigateNonGeometricMaximalIndependentSet) {
+											return ProofResult.UNKNOWN;
+										}
+										/* Check again if the statement is generally
+										 * false by using a maximum independent set
+										 * of variables.
+										 */
+										as.addNegatedThesis();
+										eliminationIdeal = PPolynomial.eliminate(
+												as.getPolynomials()
+														.toArray(new PPolynomial[as
+																.getPolynomials().size()]),
+												substitutions, k, permutation++, true,
+												false, HilbertDimension.getAMaximalSet());
+										ndgSet = eliminationIdeal.iterator();
+										while (ndgSet.hasNext()) {
+											thisNdgSet = ndgSet.next();
+											ndg = thisNdgSet.iterator();
+											while (ndg.hasNext()) {
+												poly = ndg.next();
+												if (poly.isZero()) {
+													Log.debug(
+															"Statement is NOT GENERALLY FALSE");
+													return ProofResult.TRUE_ON_COMPONENTS;
+												}
+											}
+										}
+										return ProofResult.FALSE;
 									}
 								}
 							}
@@ -1672,16 +1703,35 @@ public class ProverBotanasMethod {
 					/*
 					 * Here we know that the statement is not generally false.
 					 */
-					
 					as.removeThesis();
 					int naivDim = as.getFreeVariables().size()
 							- substitutions.keySet().size();
 					Log.debug("Naive dimension = " + naivDim);
-					if (!HilbertDimension.isDimGreaterThan(as, substitutions,
+					if (!HilbertDimension.isDimGreaterThan2(as, substitutions,
 							naivDim)) {
+						Log.debug("Statement is NOT GENERALLY FALSE");
 						return ProofResult.TRUE_ON_COMPONENTS;
 					}
-					return ProofResult.UNKNOWN;
+					if (!investigateNonGeometricMaximalIndependentSet) {
+						return ProofResult.UNKNOWN;
+					}
+					/*
+					 * Check again if the statement is generally false by using
+					 * a maximum independent set of variables.
+					 */
+					as.addNegatedThesis();
+					solvable = PPolynomial.solvable(
+							as.getPolynomials()
+									.toArray(new PPolynomial[as.getPolynomials()
+											.size()]),
+							substitutions, statement.getKernel(),
+							proverSettings.transcext,
+							HilbertDimension.getAMaximalSet());
+					if (solvable.boolVal()) {
+						Log.debug("Statement is NOT GENERALLY FALSE");
+						return ProofResult.TRUE_ON_COMPONENTS;
+					}
+					return ProofResult.FALSE;
 				}
 				/* End of checking if the statement is not generally false. */
 

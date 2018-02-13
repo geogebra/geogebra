@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.prover.ProverBotanasMethod.AlgebraicStatement;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
@@ -47,6 +48,7 @@ public class HilbertDimension {
 
 	public static boolean isDimGreaterThan(AlgebraicStatement as,
 			HashMap<PVariable, BigInteger> substitutions, int minDim) {
+
 		int dim = 0;
 
 		kernel = as.geoStatement.getKernel();
@@ -100,6 +102,8 @@ public class HilbertDimension {
 				}
 			}
 
+			Log.debug(
+					"There are " + useful.size() + " useful sets = " + useful);
 			if (useful.isEmpty()) {
 				loop = false;
 			}
@@ -175,6 +179,142 @@ public class HilbertDimension {
 		Log.debug(
 				"Sets with full dimension (" + (dim - 1) + ") = " + lastUseful);
 		return dim - 1;
+	}
+
+	private static HashSet<HashSet<PVariable>> aMaximalSet;
+
+	/* Using static here is dangerous. FIXME */
+	public static Set<PVariable> getAMaximalSet() {
+		return (Set) aMaximalSet;
+	}
+
+	public static boolean isDimGreaterThan2(AlgebraicStatement as,
+			HashMap<PVariable, BigInteger> substitutions, int minDim) {
+
+		kernel = as.geoStatement.getKernel();
+		HashSet<HashSet<PVariable>> nextUseful,
+				/* lastUseful = new HashSet<>(), */ useful = new HashSet<>();
+		HashSet<PVariable> allVars = PPolynomial.getVars(as.getPolynomials());
+		// Remove substituted vars:
+		for (PVariable var : substitutions.keySet()) {
+			allVars.remove(var);
+		}
+		HashSet<PVariable> dependentVars = new HashSet<>();
+		dependentVars.addAll(allVars);
+		dependentVars.removeAll(as.getFreeVariables());
+		dependentVars.removeAll(substitutions.keySet());
+		String depVars = "";
+		for (PVariable var : dependentVars) {
+			if (!depVars.equals("")) {
+				depVars += ",";
+			}
+			depVars += var;
+		}
+		HashSet<PVariable> freeVariables = new HashSet<>();
+		freeVariables.addAll(as.getFreeVariables());
+		freeVariables.removeAll(substitutions.keySet());
+		String freeVars = "";
+		for (PVariable var : freeVariables) {
+			if (!freeVars.equals("")) {
+				freeVars += ",";
+			}
+			freeVars += var;
+		}
+
+		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
+
+		as.computeStrings();
+		String gbasisProgram = cas.getCurrentCAS().createGroebnerInitialsScript(
+				substitutions, as.getPolys(), freeVars, depVars);
+		String gbasisResult = cas.evaluate(gbasisProgram);
+
+		// parse the result
+		// https://stackoverflow.com/a/8910767
+		int gbasisSize = gbasisResult.length()
+				- gbasisResult.replace("{", "").length() - 1;
+		HashSet<HashSet<PVariable>> initials = new HashSet<>();
+		int pos = 1;
+		for (int i = 0; i < gbasisSize; ++i) {
+			HashSet<PVariable> initial = new HashSet<>();
+			while (!gbasisResult.substring(pos, pos + 1).equals("}")) {
+				pos++;
+				// the current position must be a v
+				pos++;
+				int oldpos = pos;
+				String thischar;
+				while (!(thischar = gbasisResult.substring(pos, pos + 1))
+						.equals(",") && !thischar.equals("}")) {
+					pos++;
+				}
+				String var = gbasisResult.substring(oldpos, pos);
+				// lookup var
+				boolean found = false;
+				Iterator<PVariable> allvarsIterator = allVars.iterator();
+				while (!found) {
+					PVariable pvar = allvarsIterator.next();
+					if ((pvar.getId() + "").equals(var)) {
+						initial.add(pvar);
+						found = true;
+					}
+				} // found a var
+			} // found an initial
+			initials.add(initial);
+			pos += 2;
+		} // found all initials
+
+		// We know that the dimension is at least minDim (the naive dimension),
+		// the question is if it is greater than minDim. So we check for
+		// independent
+		// sets having exactly minDim+1 elements. If we find an independent set
+		// among them, then the Hilbert dimension is minDim+1, otherwise it is
+		// minDim. See
+		// https://www.risc.jku.at/projects/science/school/fifth/materials/GB.pdf
+		// algorithm DIMENSION_2 for details.
+
+		// It is possible that the naive dimension is the Hilbert dimension.
+		// In this case we will use the geometrically free variables.
+		aMaximalSet = new HashSet<>();
+		aMaximalSet.add(freeVariables);
+		Log.debug("The geometrically free variables should be independent: "
+				+ aMaximalSet);
+
+		int dim = minDim + 1;
+
+		while (true) {
+
+			Combinations allSubsets = new Combinations(allVars, dim);
+			boolean independentFound = false;
+
+			while (allSubsets.hasNext() && !independentFound) {
+				Set X = allSubsets.next();
+				boolean independent = true;
+				// Log.debug(X);
+				// in(g) \not\in K[X] means in(g) is not completely in X
+				Iterator<HashSet<PVariable>> initialIterator = initials
+						.iterator();
+				while (initialIterator.hasNext() && independent) {
+					HashSet<PVariable> initial = initialIterator.next();
+					if (X.containsAll(initial)) {
+						// we found an in(g) which is completely in X
+						// therefore X is not independent
+						independent = false;
+					}
+				}
+				if (independent) {
+					aMaximalSet = (HashSet<HashSet<PVariable>>) X;
+					independentFound = true;
+					Log.debug("An independent set found: " + aMaximalSet);
+				}
+			}
+
+			if (!independentFound) {
+				Log.debug("No independent set found with dimension " + dim);
+				// We did not find an independent set, so we use the last
+				// maximal set being found.
+				return dim > minDim + 1;
+			}
+			dim++;
+		}
 	}
 
 }
