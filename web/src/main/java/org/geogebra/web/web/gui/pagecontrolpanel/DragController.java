@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 class DragController {
@@ -47,13 +48,13 @@ class DragController {
 	}
 	
 	private class DragCard {
-private static final int CARD_MARGIN = 16;
-//		private static final int CARD_MARGIN = 16;
+		private static final int CARD_MARGIN = 16;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
 		LastTarget last = new LastTarget();
 		private int prevY;
 		private Boolean down;
+		private int diff;
 			
 		DragCard() {
 			reset();
@@ -96,14 +97,19 @@ private static final int CARD_MARGIN = 16;
 			if (!isValid()) {
 				return -1;
 			}
-			dragTo(0, y);
 
-			return 0;
+			dragTo(0, y);
+			if (target == null) {
+				return -1;
+			}
+			int idx = target.getPageIndex();
+
+			return y < target.getMiddleY() ? idx : idx + 1;
 		}
 
 		private void moveAnimated() {
 			int h = PagePreviewCard.SPACE_HEIGHT - CARD_MARGIN;
-			int diff = down ? card.getAbsoluteBottom() - last.top
+			diff = down ? card.getAbsoluteBottom() - last.top
 					: last.bottom - card.getAbsoluteTop();
 
 			// Log.debug((down ? "down " : "up ") + " diff: " + diff);
@@ -165,13 +171,25 @@ private static final int CARD_MARGIN = 16;
 
 			last.target = target;
 		}
-		boolean drop() {
+
+		boolean drop(int y) {
 			if (!isValid()) {
 				return false;
 			}
 
 			int srcIdx = index();
 			int destIdx = last.index();
+			if (isAnimated() && target != null) {
+				int halfCard = PagePreviewCard.SPACE_HEIGHT / 2;
+				if (down) {
+					destIdx = diff > halfCard ? target.getPageIndex() : -1;
+				} else {
+					destIdx = diff < halfCard ? target.getPageIndex() : -1;
+				}
+
+			}
+
+			Log.debug("drop " + srcIdx + " to " + destIdx);
 
 			if (srcIdx != -1 && destIdx != -1) {
 				cards.reorder(srcIdx, destIdx);
@@ -187,8 +205,6 @@ private static final int CARD_MARGIN = 16;
 			}
 			reset();
 		}
-
- 		
 	}
 	
 	DragController(Cards slides, App app) {
@@ -223,7 +239,7 @@ private static final int CARD_MARGIN = 16;
 
 	void stopDrag(int x, int y) {
 		if (CancelEventTimer.isDragging()) {
-			if (dragged.drop()) {
+			if (dragged.drop(y)) {
 				cards.getListener().update();
 			}
 		} else {
