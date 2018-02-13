@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 class DragController {
@@ -39,12 +38,10 @@ class DragController {
 
 		public void setTop(int top) {
 			this.top = top;
-			Log.debug("Last top for card " + index() + ": " + top);
 		}
 
 		public void setBottom(int bottom) {
 			this.bottom = bottom;
-			Log.debug("Last bottom for card " + index() + ": " + bottom);
 		}
 
 	}
@@ -86,11 +83,6 @@ private static final int CARD_MARGIN = 16;
 			int idx = cardIndexAt(x, y);
 			int count = cards.getCardCount();
 			if (idx >= 0 && idx < count) {
-				if (idx < count - 1) {
-					PagePreviewCard next = cards.cardAt(idx + 1);
-					next.addSpace();
-				}
-				
 				card = cards.cardAt(idx);
 				card.addStyleName("dragged");
 				last.reset();
@@ -114,7 +106,7 @@ private static final int CARD_MARGIN = 16;
 			int diff = down ? card.getAbsoluteBottom() - last.top
 					: last.bottom - card.getAbsoluteTop();
 
-			Log.debug((down ? "down " : "up ") + " diff: " + diff);
+			// Log.debug((down ? "down " : "up ") + " diff: " + diff);
 			if (diff > 0 && diff < h) {
 				target.setSpaceValue(diff, down);
 			}
@@ -123,7 +115,6 @@ private static final int CARD_MARGIN = 16;
 		void dragTo(int x, int y) {
 			if (down == null) {
 				down = prevY < y;
-				Log.debug("[D] prevY: " + prevY + " y: " + y + " down: " + down);
 			}
 	
 			card.setDragPosition(x, y);
@@ -159,7 +150,7 @@ private static final int CARD_MARGIN = 16;
 				return;
 			}
 			int idx = target.getPageIndex();
-			Log.debug("Target changd to: " + idx);
+			// Log.debug("Target changd to: " + idx);
 			if (last.target != null) {
 				last.target.removeSpace();
 			}
