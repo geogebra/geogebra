@@ -38,7 +38,8 @@ public class AlgoCenterConic extends AlgoCenterQuadricND {
 	 * @param c
 	 */
 	public AlgoCenterConic(Construction cons, String label, GeoConicND c) {
-		super(cons, label, c);
+		super(cons, c);
+		midpoint.setLabel(label);
 	}
 
 	@Override

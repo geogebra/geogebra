@@ -19,11 +19,15 @@ public class AlgoCenterQuadric extends AlgoCenterQuadricND {
 	 * constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            label
 	 * @param c
+	 *            quadric
 	 */
 	public AlgoCenterQuadric(Construction cons, String label, GeoQuadric3D c) {
-		super(cons, label, c);
+		super(cons, c);
+		midpoint.setLabel(label);
 	}
 
 	@Override

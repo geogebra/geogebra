@@ -25,12 +25,24 @@ import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 
+/**
+ * 3D polygon area
+ *
+ */
 public class AlgoAreaPoints3D extends AlgoAreaPoints {
 
 	private CoordSys coordSys;
 	private GeoPoint[] points2D;
 	private double[] tmpCoords;
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param P
+	 *            polygon vertices
+	 */
 	public AlgoAreaPoints3D(Construction cons, String label, GeoPointND[] P) {
 		super(cons, label, P);
 	}

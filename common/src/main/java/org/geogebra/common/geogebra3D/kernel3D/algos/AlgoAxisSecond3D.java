@@ -6,12 +6,22 @@ import org.geogebra.common.kernel.advanced.AlgoAxisSecond;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 
+/**
+ * Minor axis
+ */
 public class AlgoAxisSecond3D extends AlgoAxisSecond {
 	private GeoLine3D axis; // output
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            output label
+	 * @param c
+	 *            conic
+	 */
 	public AlgoAxisSecond3D(Construction cons, String label, GeoConicND c) {
 		super(cons, c);
-
 		axis = new GeoLine3D(cons);
 		finishSetup(label);
 	}
@@ -21,7 +31,6 @@ public class AlgoAxisSecond3D extends AlgoAxisSecond {
 		// axes are lines with directions of eigenvectors
 		// through midpoint b
 		axis.setCoord(getConic().getMidpoint3D(), getConic().getEigenvec3D(1));
-
 		P.setCoords(getConic().getMidpoint3D(), false);
 	}
 

@@ -31,10 +31,14 @@ import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 public class AlgoAxes3D extends AlgoAxesQuadricND {
 	private Coords midpoint;
 
-	AlgoAxes3D(Construction cons, String label, GeoQuadricND c) {
-		super(cons, label, c);
-	}
-
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param c
+	 *            quadric
+	 */
 	public AlgoAxes3D(Construction cons, String[] labels, GeoQuadricND c) {
 		super(cons, labels, c);
 	}

@@ -48,6 +48,16 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	private Coords vn = new Coords(3), tmpCoords = new Coords(3),
 			d1 = new Coords(3), d2 = new Coords(3);
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            output labels
+	 * @param g
+	 *            first line
+	 * @param h
+	 *            second line
+	 */
 	public AlgoAngularBisectorLines3D(Construction cons, String[] labels,
 			GeoLineND g, GeoLineND h) {
 		this(cons, g, h);
@@ -64,6 +74,14 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 		return EuclidianConstants.MODE_ANGULAR_BISECTOR;
 	}
 
+	/**
+	 * @param cons
+	 *            construction
+	 * @param g
+	 *            first line
+	 * @param h
+	 *            second line
+	 */
 	AlgoAngularBisectorLines3D(Construction cons, GeoLineND g, GeoLineND h) {
 		super(cons);
 		this.g = g;
@@ -98,23 +116,21 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return resulting lines
+	 */
 	public GeoLine3D[] getLines() {
 		return bisector;
 	}
 
 	// Made public for LocusEqu
-	public GeoLineND getg() {
+	private GeoLineND getg() {
 		return g;
 	}
 
 	// Made public for LocusEqu
-	public GeoLineND geth() {
+	private GeoLineND geth() {
 		return h;
-	}
-
-	// Made public for LocusEqu
-	public GeoPoint3D getB() {
-		return B;
 	}
 
 	/*

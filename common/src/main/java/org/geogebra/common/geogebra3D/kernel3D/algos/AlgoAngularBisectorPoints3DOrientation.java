@@ -19,12 +19,20 @@ public class AlgoAngularBisectorPoints3DOrientation
 	private GeoDirectionND orientation;
 
 	/**
+	 * Creates new AlgoLineBisector
+	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param A
+	 *            leg
 	 * @param B
+	 *            vertex
 	 * @param C
+	 *            leg
 	 * @param orientation
+	 *            direction
 	 */
 	public AlgoAngularBisectorPoints3DOrientation(Construction cons,
 			String label, GeoPointND A, GeoPointND B, GeoPointND C,
@@ -38,9 +46,9 @@ public class AlgoAngularBisectorPoints3DOrientation
 		this.orientation = orientation;
 
 		input = new GeoElement[4];
-		input[0] = (GeoElement) A;
-		input[1] = (GeoElement) B;
-		input[2] = (GeoElement) C;
+		input[0] = (GeoElement) getA();
+		input[1] = (GeoElement) getB();
+		input[2] = (GeoElement) getC();
 		input[3] = (GeoElement) orientation;
 	}
 
@@ -50,20 +58,23 @@ public class AlgoAngularBisectorPoints3DOrientation
 		// orientation is space
 		if (orientation == kernel.getSpace()) {
 			return getLoc().getPlain("AngleBisectorOfABCInSpace",
-					A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl),
+					getA().getLabel(tpl), getB().getLabel(tpl),
+					getC().getLabel(tpl),
 					orientation.getLabel(tpl));
 		}
 
 		// orientation is plane
 		if (orientation instanceof GeoCoordSys2D) {
 			return getLoc().getPlain("AngleBisectorOfABCParallelToD",
-					A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl),
+					getA().getLabel(tpl), getB().getLabel(tpl),
+					getC().getLabel(tpl),
 					orientation.getLabel(tpl));
 		}
 
 		// orientation is line/vector
 		return getLoc().getPlain("AngleBisectorOfABCPerpendicularToD",
-				A.getLabel(tpl), B.getLabel(tpl), C.getLabel(tpl),
+				getA().getLabel(tpl), getB().getLabel(tpl),
+				getC().getLabel(tpl),
 				orientation.getLabel(tpl));
 
 	}
@@ -86,7 +97,7 @@ public class AlgoAngularBisectorPoints3DOrientation
 			if (Kernel.isZero(vn.dotproduct(d))) {
 				super.setCoordFromFiniteB(o, d, v1);
 			} else {
-				bisector.setUndefined();
+				getLine().setUndefined();
 			}
 		}
 

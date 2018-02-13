@@ -22,12 +22,12 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
-	protected OutputHandler<GeoPolygon3D> outputPolygons;
-	protected OutputHandler<GeoSegment3D> outputSegments;
+	private OutputHandler<GeoPolygon3D> outputPolygons;
+	private OutputHandler<GeoSegment3D> outputSegments;
 
 	private GeoPointND A, B, C;
 
-	protected CoordMatrix4x4 matrix;
+	private CoordMatrix4x4 matrix;
 
 	private Coords[] coords;
 
@@ -59,10 +59,15 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	 * @param c
 	 *            construction
 	 * @param labels
+	 *            output labels
 	 * @param A
+	 *            first vertex
 	 * @param B
-	 * @param v
+	 *            second vertex
+	 * @param C
+	 *            third vertex
 	 * @param name
+	 *            solid type
 	 */
 	public AlgoArchimedeanSolidThreePoints(Construction c, String[] labels,
 			GeoPointND A, GeoPointND B, GeoPointND C, Commands name) {
@@ -141,7 +146,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 	}
 
-	protected void setInput() {
+	private void setInput() {
 		input = new GeoElement[3];
 		input[0] = (GeoElement) A;
 		input[1] = (GeoElement) B;
@@ -173,7 +178,6 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	/**
 	 * create the polyhedron (faces and edges)
 	 * 
-	 * @param polyhedron
 	 */
 	protected void createPolyhedron() {
 

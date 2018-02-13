@@ -34,8 +34,8 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 
-	protected GeoPointND A, B, C; // input
-	protected GeoLine3D bisector; // output
+	private GeoPointND A, B, C; // input
+	private GeoLine3D bisector; // output
 
 	private Coords o = new Coords(3), d = new Coords(3), v1 = new Coords(3);
 
@@ -43,24 +43,36 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 	 * Creates new AlgoLineBisector
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param A
+	 *            leg
 	 * @param B
+	 *            vertex
 	 * @param C
+	 *            leg
 	 */
 	public AlgoAngularBisectorPoints3D(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C) {
-
 		this(cons, label, A, B, C, null);
 	}
 
 	/**
+	 * Creates new AlgoLineBisector
+	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param A
+	 *            leg
 	 * @param B
+	 *            vertex
 	 * @param C
+	 *            leg
 	 * @param orientation
+	 *            direction
 	 */
 	protected AlgoAngularBisectorPoints3D(Construction cons, String label,
 			GeoPointND A, GeoPointND B, GeoPointND C,
@@ -113,22 +125,34 @@ public class AlgoAngularBisectorPoints3D extends AlgoElement3D {
 		setDependencies(); // done by AlgoElement
 	}
 
+	/**
+	 * @return result
+	 */
 	public GeoLine3D getLine() {
 		return bisector;
 	}
 
 	// Made public for LocusEqu
-	public GeoPointND getA() {
+	/**
+	 * @return leg
+	 */
+	protected GeoPointND getA() {
 		return A;
 	}
 
 	// Made public for LocusEqu
-	public GeoPointND getB() {
+	/**
+	 * @return vertex
+	 */
+	protected GeoPointND getB() {
 		return B;
 	}
 
 	// Made public for LocusEqu
-	public GeoPointND getC() {
+	/**
+	 * @return leg
+	 */
+	protected GeoPointND getC() {
 		return C;
 	}
 

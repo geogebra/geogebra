@@ -18,8 +18,11 @@ public class AlgoCenterConic3D extends AlgoCenterConic {
 	 * constructor
 	 * 
 	 * @param cons
+	 *            construction
 	 * @param label
+	 *            output label
 	 * @param c
+	 *            conic
 	 */
 	public AlgoCenterConic3D(Construction cons, String label, GeoConicND c) {
 		super(cons, label, c);
