@@ -22,27 +22,19 @@ public class Browser {
 		return false;
 	}-*/;
 
-	public static native boolean isIE() /*-{
-		// copying checking code from isFirefox() and checked from web
-		// however, this is not necessarily the best method to decide
-		if (navigator.userAgent.toLowerCase().indexOf("msie") > -1) {
-			return true;
-		}
-		return false;
-	}-*/;
-
 	/**
-	 * Better solution, copied from CopyPasteCutW originally TODO: add
-	 * toLowerCase() call to it!
+	 * Check if browser is Internet Explorer
+	 * 
+	 * (Note: only IE11 is supported now)
 	 * 
 	 * @return true if IE
 	 */
-	public static native boolean isInternetExplorer() /*-{
+	public static native boolean isIE() /*-{
 		// check if app is running in IE5 or greater
 		// clipboardData object is available from IE5 and onwards
-		var userAgent = $wnd.navigator.userAgent;
-		if ((userAgent.indexOf('MSIE ') > -1)
-				|| (userAgent.indexOf('Trident/') > -1)) {
+		var userAgent = $wnd.navigator.userAgent.toLowerCase();
+		if ((userAgent.indexOf('msie ') > -1)
+				|| (userAgent.indexOf('trident/') > -1)) {
 			return true;
 		}
 		return false;

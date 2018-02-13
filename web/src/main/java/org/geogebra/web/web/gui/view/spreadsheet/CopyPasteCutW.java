@@ -260,7 +260,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 			if (onFocusChange != null) {
 				onFocusChange.run();
 			}
-		} else if (Browser.isInternetExplorer()) {
+		} else if (Browser.isIE()) {
 			clipboard = getSystemClipboardIE();
 		} else { // use internal clipboard
 			clipboard = staticClipboardString;
