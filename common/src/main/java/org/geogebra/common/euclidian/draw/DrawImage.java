@@ -485,7 +485,8 @@ public final class DrawImage extends Drawable {
 			break;
 		case TOP_RIGHT:
 			if (eventX - view
-					.toScreenCoordXd(A.getInhomX()) <= IMG_WIDTH_THRESHOLD) {
+					.toScreenCoordXd(A.getInhomX()) <= Math
+							.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
 			geoImage.setCorner(A, 0);
@@ -498,7 +499,8 @@ public final class DrawImage extends Drawable {
 			break;
 		case TOP_LEFT:
 			if (view.toScreenCoordXd(B.getInhomX())
-					- eventX <= IMG_WIDTH_THRESHOLD) {
+					- eventX <= Math.min(IMG_WIDTH_THRESHOLD,
+							image.getWidth())) {
 				return;
 			}
 			geoImage.setCorner(A, 0);
@@ -516,8 +518,8 @@ public final class DrawImage extends Drawable {
 			C.setY(D.getInhomY());
 			C.updateCoords();
 			C.updateRepaint();
-			if ((eventX - view
-					.toScreenCoordXd(D.getInhomX()) <= IMG_WIDTH_THRESHOLD)) {
+			if (eventX - view.toScreenCoordXd(D.getInhomX()) <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
 			geoImage.setCorner(D, 2);
@@ -541,7 +543,8 @@ public final class DrawImage extends Drawable {
 			C.updateCoords();
 			C.updateRepaint();
 			if (view.toScreenCoordXd(C.getInhomX())
-					- eventX <= IMG_WIDTH_THRESHOLD) {
+					- eventX <= Math.min(IMG_WIDTH_THRESHOLD,
+							image.getWidth())) {
 				return;
 			}
 			geoImage.setCorner(D, 2);
