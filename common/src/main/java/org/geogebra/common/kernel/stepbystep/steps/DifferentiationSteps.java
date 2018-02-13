@@ -493,7 +493,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 	public int type() {
 		if (this == DEFAULT_DIFFERENTIATE) {
-			return 1;
+			return 2;
 		}
 
 		return 0;

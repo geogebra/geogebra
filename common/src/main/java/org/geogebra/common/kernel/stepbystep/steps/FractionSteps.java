@@ -140,7 +140,6 @@ public enum FractionSteps implements SimplificationStepGenerator {
                     RegroupSteps.REGROUP_SUMS,
                     RegroupSteps.REGROUP_PRODUCTS,
                     RegroupSteps.DISTRIBUTE_MINUS,
-                    RegroupSteps.REGROUP_SUMS,
                     ExpandSteps.EXPAND_PRODUCTS,
                     RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
                     ADD_NUMERATORS,

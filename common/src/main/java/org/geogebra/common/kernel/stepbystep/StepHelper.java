@@ -330,31 +330,20 @@ public class StepHelper {
 		return result;
 	}
 
-	public static StepExpression GCD(StepExpression a, StepExpression b) {
-		if (isZero(a)) {
-			return b;
-		}
+	public static StepExpression weakGCD(StepExpression a, StepExpression b) {
+		StepExpression integerA = a.getIntegerCoefficient();
+		StepExpression integerB = b.getIntegerCoefficient();
 
-		if (isZero(b)) {
-			return a;
-		}
-
-		StepExpression aFactored = a.factor();
-		StepExpression bFactored = b.factor();
-
-		StepExpression integerA = aFactored.getIntegerCoefficient();
-		StepExpression integerB = bFactored.getIntegerCoefficient();
-
-		aFactored = aFactored.getNonInteger();
-		bFactored = bFactored.getNonInteger();
+		StepExpression nonIntegerA = a.getNonInteger();
+		StepExpression nonIntegerB = b.getNonInteger();
 
 		List<StepExpression> aBases = new ArrayList<>();
 		List<StepExpression> aExponents = new ArrayList<>();
 		List<StepExpression> bBases = new ArrayList<>();
 		List<StepExpression> bExponents = new ArrayList<>();
 
-		StepExpression.getBasesAndExponents(aFactored, null, aBases, aExponents);
-		StepExpression.getBasesAndExponents(bFactored, null, bBases, bExponents);
+		StepExpression.getBasesAndExponents(nonIntegerA, null, aBases, aExponents);
+		StepExpression.getBasesAndExponents(nonIntegerB, null, bBases, bExponents);
 
 		boolean[] found = new boolean[aBases.size()];
 
@@ -384,5 +373,17 @@ public class StepHelper {
 		}
 
 		return result;
+	}
+
+	public static StepExpression GCD(StepExpression a, StepExpression b) {
+		if (isZero(a)) {
+			return b;
+		}
+
+		if (isZero(b)) {
+			return a;
+		}
+
+		return weakGCD(a.factor(), b.factor());
 	}
 }

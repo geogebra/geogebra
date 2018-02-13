@@ -878,22 +878,24 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIVIDE)) {
 				StepOperation so = (StepOperation) sn;
 
-				if (!isOne(StepHelper.GCD(so.getOperand(0), so.getOperand(1)))) {
-					SolutionBuilder temp = new SolutionBuilder();
-					RegroupTracker tempTracker = new RegroupTracker();
+				SolutionBuilder temp = new SolutionBuilder();
+				RegroupTracker tempTracker = new RegroupTracker();
 
-					StepExpression factored = (StepExpression) FactorSteps.SIMPLE_FACTOR.apply(so.deepCopy(), temp,
-							tempTracker);
+				StepExpression factoredNumerator = (StepExpression)
+						FactorSteps.SIMPLE_FACTOR.apply(so.getOperand(0).deepCopy(), temp, tempTracker);
+				StepExpression factoredDenominator = (StepExpression)
+						FactorSteps.SIMPLE_FACTOR.apply(so.getOperand(1).deepCopy(), null, new RegroupTracker());
 
-					if (!so.equals(factored)) {
-						sb.add(SolutionStepType.FACTOR, sn);
-						sb.levelDown();
-						sb.addAll(temp.getSteps());
-						sb.levelUp();
+				StepExpression result = divide(factoredNumerator, factoredDenominator);
 
-						tracker.incColorTracker();
-						return factored;
-					}
+				if (!isOne(StepHelper.weakGCD(factoredNumerator, factoredDenominator)) && !so.equals(result)) {
+					sb.add(SolutionStepType.FACTOR, sn);
+					sb.levelDown();
+					sb.addAll(temp.getSteps());
+					sb.levelUp();
+
+					tracker.incColorTracker();
+					return result;
 				}
 			}
 
@@ -1569,17 +1571,6 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	FACTOR_FRACTIONS_SUBSTEP {
-		@Override
-		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
-			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
-					FACTOR_FRACTIONS
-			};
-
-			return StepStrategies.implementGroup(sn, SolutionStepType.FACTOR_FRACTIONS, strategy, sb, tracker);
-		}
-	},
-
 	SIMPLIFY_FRACTIONS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -1588,7 +1579,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					ELIMINATE_OPPOSITES,
 					REGROUP_SUMS,
 					REGROUP_PRODUCTS,
-					FACTOR_FRACTIONS_SUBSTEP,
+					FACTOR_FRACTIONS,
 					CANCEL_FRACTION,
 					CANCEL_INTEGER_FRACTION
 			};
@@ -1717,7 +1708,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.REGROUP_PRODUCTS,
 					RegroupSteps.SIMPLE_POWERS,
 					RegroupSteps.SIMPLIFY_FRACTIONS,
-					RegroupSteps.FACTOR_FRACTIONS_SUBSTEP,
+					RegroupSteps.FACTOR_FRACTIONS,
 					ExpandSteps.EXPAND_PRODUCTS,
 					RegroupSteps.RATIONALIZE_DENOMINATORS,
 					FractionSteps.ADD_FRACTIONS
@@ -1741,7 +1732,6 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			case WEAK_REGROUP:
 				return 2;
 			case RATIONALIZE_DENOMINATORS:
-			case FACTOR_FRACTIONS_SUBSTEP:
 			case REGROUP_PRODUCTS:
 			case CONVERT_DECIMAL_TO_FRACTION:
 				return 1;
