@@ -472,18 +472,18 @@ public final class DrawImage extends Drawable {
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint C = new GeoPoint(geoImage.cons);
 		GeoPoint D = new GeoPoint(geoImage.cons);
+		if (A == null) {
+			A = new GeoPoint(geoImage.cons);
+			geoImage.calculateCornerPoint(A, 1);
+		}
+		if (B == null) {
+			B = new GeoPoint(geoImage.cons);
+			geoImage.calculateCornerPoint(B, 2);
+		}
 		switch (handler) {
 		default:
 			break;
 		case TOP_RIGHT:
-			if (B == null) {
-				B = new GeoPoint(geoImage.cons);
-				geoImage.calculateCornerPoint(B, 2);
-			}
-			if (A == null) {
-				A = new GeoPoint(geoImage.cons);
-				geoImage.calculateCornerPoint(A, 1);
-			}
 			if (eventX - view
 					.toScreenCoordXd(A.getInhomX()) <= IMG_WIDTH_THRESHOLD) {
 				return;
@@ -497,14 +497,6 @@ public final class DrawImage extends Drawable {
 			B.updateRepaint();
 			break;
 		case TOP_LEFT:
-			if (A == null) {
-				A = new GeoPoint(geoImage.cons);
-				geoImage.calculateCornerPoint(A, 1);
-			}
-			if (B == null) {
-				B = new GeoPoint(geoImage.cons);
-				geoImage.calculateCornerPoint(B, 2);
-			}
 			if (view.toScreenCoordXd(B.getInhomX())
 					- eventX <= IMG_WIDTH_THRESHOLD) {
 				return;
@@ -561,6 +553,18 @@ public final class DrawImage extends Drawable {
 			A.setY(B.getInhomY());
 			A.updateCoords();
 			A.updateRepaint();
+			break;
+		case RIGHT:
+			geoImage.setCorner(null, 3);
+			geoImage.calculateCornerPoint(D, 4);
+			geoImage.setCorner(D, 2);
+			D.setEuclidianVisible(true);
+			D.updateCoords();
+			D.updateRepaint();
+			B.setX(view.toRealWorldCoordX(eventX));
+			B.updateCoords();
+			B.updateRepaint();
+			break;
 		}
 	}
 }
