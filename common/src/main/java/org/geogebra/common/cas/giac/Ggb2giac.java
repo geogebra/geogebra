@@ -1525,7 +1525,8 @@ public class Ggb2giac {
 						+ "when(uva==uvb||length(B)==0,[?,?],[equation(line(B[0],B[0]+uva-uvb)),equation(line(B[0],B[0]+uva+uvb))])][7]");
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
 
-		p("Angle.1", "normal(regroup((%0) *180/pi)) * unicode0176u");
+		p("Angle.1",
+				"when(dim(evalf(%0))==1&&type(evalf(%0))!=DOM_COMPLEX,normal(regroup((%0) *180/pi))*unicode0176u,atan2(ycoord(%0),xcoord(%0)))");
 
 		// point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0))
 		// so we can mix 2d and 3d points
