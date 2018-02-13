@@ -57,19 +57,25 @@ public class AlgoHolesPolynomial extends AlgoElement {
 	@Override
 	public void compute() {
 		Function fun = f.getFunction();
+		res.clear();
 		solveExpr(fun.getExpression());
 	}
 
-	private void solveExpr(ExpressionNode expr) {
-		Operation operation = expr.getOperation();
-
-		if (operation == Operation.DIVIDE) {
-			solveDivision(expr);
+	private void solveExpr(ExpressionValue expr) {
+		if (expr == null || expr.isConstant()) {
+			return;
+		}
+		if(expr.isExpressionNode()){
+			ExpressionNode node = expr.wrap();
+			if (node.getOperation() == Operation.DIVIDE) {
+				solveDivision(node.getRight());
+			}
+			solveExpr(node.getLeft());
+			solveExpr(node.getRight());
 		}
 	}
 
-	private void solveDivision(ExpressionNode expr) {
-		ExpressionValue exp = expr.getRight(); // the divisor expression
+	private void solveDivision(ExpressionValue exp) {
 
 		StringBuilder sb = new StringBuilder("solve(");
 		sb.append(exp.toString(StringTemplate.prefixedDefault));
@@ -91,12 +97,12 @@ public class AlgoHolesPolynomial extends AlgoElement {
 				double below = limit(x, -1);
 
 				if (above == below) {
-					res.add(new GeoPoint(cons, x, f.value(x - 0.000000001),
+					res.add(new GeoPoint(cons, x, above,
 							1.0));
 				} else {
-					res.add(new GeoPoint(cons, x, f.value(x - 0.000000001),
+					res.add(new GeoPoint(cons, x, below,
 							1.0));
-					res.add(new GeoPoint(cons, x, f.value(x + 0.000000001),
+					res.add(new GeoPoint(cons, x, above,
 							1.0));
 				}
 			}
