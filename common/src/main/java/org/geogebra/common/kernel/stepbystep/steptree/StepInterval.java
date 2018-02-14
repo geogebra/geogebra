@@ -115,13 +115,11 @@ public class StepInterval extends StepNode {
 		if (Double.isInfinite(leftBound.getValue()) && Double.isInfinite(rightBound.getValue())) {
 			return "\\mathbb{R}";
 		}
-		StringBuilder sb = new StringBuilder();
-		sb.append(loc.intervalStartBracket(leftClosed, StringTemplate.latexTemplate));
-		sb.append(leftBound.toLaTeXString(loc, colored));
-		sb.append(",");
-		sb.append(rightBound.toLaTeXString(loc, colored));
-		sb.append(loc.intervalEndBracket(rightClosed, StringTemplate.latexTemplate));
-		return sb.toString();
+		return loc.intervalStartBracket(leftClosed, StringTemplate.latexTemplate) +
+				leftBound.toLaTeXString(loc, colored) +
+				"," +
+				rightBound.toLaTeXString(loc, colored) +
+				loc.intervalEndBracket(rightClosed, StringTemplate.latexTemplate);
 	}
 
 	@Override

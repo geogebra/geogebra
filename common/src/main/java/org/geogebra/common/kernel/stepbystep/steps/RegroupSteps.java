@@ -103,8 +103,13 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					long numerator = (long) se.getValue() + Long.parseLong(decimal);
 					long denominator = (long) Math.pow(10, decimal.length());
 
-					tracker.incColorTracker();
-					return divide(numerator, denominator);
+					StepExpression result = divide(numerator, denominator);
+
+					se.setColor(tracker.getColorTracker());
+					result.setColor(tracker.getColorTracker());
+
+					sb.add(SolutionStepType.REWRITE_DECIMAL_AS_COMMON_FRACTION, tracker.incColorTracker());
+					return result;
 				}
 			}
 
@@ -889,10 +894,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepExpression result = divide(factoredNumerator, factoredDenominator);
 
 				if (!isOne(StepHelper.weakGCD(factoredNumerator, factoredDenominator)) && !so.equals(result)) {
-					sb.add(SolutionStepType.FACTOR, sn);
-					sb.levelDown();
-					sb.addAll(temp.getSteps());
-					sb.levelUp();
+					sb.addGroup(SolutionStepType.FACTOR, temp, result);
 
 					tracker.incColorTracker();
 					return result;
@@ -952,9 +954,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 				StepExpression newFraction = null;
 				for (int i = 0; i < bases.size(); i++) {
-					if (!isEqual(exponents.get(i), 0) && !isEqual(bases.get(i), 1)) {
-						newFraction = makeFraction(newFraction, bases.get(i), exponents.get(i));
-					}
+					newFraction = makeFraction(newFraction, bases.get(i), exponents.get(i));
 				}
 
 				return newFraction == null ? StepConstant.create(1) : newFraction;

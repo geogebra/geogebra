@@ -201,6 +201,8 @@ public enum SolutionStepType {
 
 	ROOT_OF_ROOT("RootOfRoot", "Use $\\sqrt[m]{\\sqrt[n]{a}} \\equiv \\sqrt[mn]{a}$ to simplify the expression"),
 
+	REWRITE_DECIMAL_AS_COMMON_FRACTION("RewriteDecimalAsCommonFraction", "Rewrite decimal as common fraction"),
+
 	SPLIT_FRACTIONS("SplitFractions", "Split fractions"),
 
 	SPLIT_POWERS("SplitPowers", "Use power rules", "Rewrite %0 as %1"),

@@ -98,11 +98,11 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				for (int i = 0; i < commonBases.size(); i++) {
 					if (!isEqual(commonExponents.get(i), 0)) {
 						commonBases.get(i).setColor(tempTracker++);
+						common = StepExpression.makeFraction(common, commonBases.get(i), commonExponents.get(i));
 					}
-					common = StepExpression.makeFraction(common, commonBases.get(i), commonExponents.get(i));
 				}
 
-				if (isEqual(common, 1) || isEqual(common, -1)) {
+				if (isOne(common) || isEqual(common, -1)) {
 					return so;
 				}
 

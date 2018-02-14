@@ -43,7 +43,7 @@ public class DifferentiateStepTest {
 		d("y*x", "y", "x");
 		d("(sin(x))^2", "x", "(2)(sin(x))(cos(x))");
 		d("e^(cos(x) * (ln(x))^2)", "x",
-				"((e)^((cos(x))((log_(e)(x))^(2))))((((cos(x))(2)(log_(e)(x)))/(x)-(sin(x))((log_(e)(x))^(2))))");
+				"((e)^((cos(x))((log_(e)(x))^(2))))((((2)(cos(x))(log_(e)(x)))/(x)-(sin(x))((log_(e)(x))^(2))))");
 		d("(sin(x)^2)", "x", "(2)(sin(x))(cos(x))");
 	}
 

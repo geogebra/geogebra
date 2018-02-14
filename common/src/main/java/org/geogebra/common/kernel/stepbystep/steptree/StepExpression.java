@@ -1005,9 +1005,9 @@ public abstract class StepExpression extends StepNode {
 		}
 
 		if (exponent.isNegative()) {
-			denominator = nonTrivialProduct(denominator, nonTrivialPower(base, exponent.negate()));
+			denominator = multiply(denominator, nonTrivialPower(base, exponent.negate()));
 		} else {
-			nominator = nonTrivialProduct(nominator, nonTrivialPower(base, exponent));
+			nominator = multiply(nominator, nonTrivialPower(base, exponent));
 		}
 
 		return divide(nominator, denominator);

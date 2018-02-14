@@ -88,6 +88,17 @@ public class SolutionBuilder {
 		}
 	}
 
+	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group, StepNode result) {
+		add(SolutionStepType.GROUP_WRAPPER);
+		levelDown();
+		add(groupHeader);
+		levelDown();
+		addAll(group.getSteps());
+		levelUp();
+		add(SolutionStepType.EQUATION, result);
+		levelUp();
+	}
+
 	/**
 	 * Go a level down in the tree. (i.e. indent more)
 	 */

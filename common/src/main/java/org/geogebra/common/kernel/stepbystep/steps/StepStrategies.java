@@ -80,16 +80,10 @@ public class StepStrategies {
 
 			if (tracker.wasChanged()) {
 				if (sb != null) {
-					if (simplificationStep.type() == 0) { // group type
+					if (simplificationStep.type() == 0) { // substep type
 						sb.add(SolutionStepType.SUBSTEP_WRAPPER);
 						sb.levelDown();
 						sb.add(SolutionStepType.EQUATION, sn.deepCopy());
-						sb.addAll(changes.getSteps());
-						sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
-						sb.levelUp();
-					} else if (simplificationStep.type() == 1) { // substep type
-						sb.add(SolutionStepType.GROUP_WRAPPER);
-						sb.levelDown();
 						sb.addAll(changes.getSteps());
 						sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
 						sb.levelUp();
@@ -126,10 +120,7 @@ public class StepStrategies {
 
 		if (!result.equals(sn)) {
 			if (sb != null && groupHeader != null) {
-				sb.add(groupHeader);
-				sb.levelDown();
-				sb.addAll(tempSteps.getSteps());
-				sb.levelUp();
+				sb.addGroup(groupHeader, tempSteps, result);
 			} else if (sb != null) {
 				sb.addAll(tempSteps.getSteps());
 			}
