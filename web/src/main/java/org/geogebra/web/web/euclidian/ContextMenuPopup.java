@@ -114,21 +114,16 @@ public class ContextMenuPopup extends MyCJButton
 		}
 		if (isActive) {
 			ImgResourceHelper
-					.setIcon(
-							app.isUnbundled()
-									? MaterialDesignResources.INSTANCE
-											.more_vert_purple()
-									: app.isWhiteboardActive()
+					.setIcon(app.isWhiteboardActive()
 											? MaterialDesignResources.INSTANCE
 													.more_vert_mebis()
-											: AppResources.INSTANCE
-													.dots_active(),
+							: MaterialDesignResources.INSTANCE
+									.more_vert_purple(),
 							this);
 		} else {
 			ImgResourceHelper
-					.setIcon(app.isUnbundledOrWhiteboard()
-					? MaterialDesignResources.INSTANCE.more_vert_black()
-					: AppResources.INSTANCE.dots(), this);
+					.setIcon(MaterialDesignResources.INSTANCE.more_vert_black(),
+							this);
 		}
 
 	}
