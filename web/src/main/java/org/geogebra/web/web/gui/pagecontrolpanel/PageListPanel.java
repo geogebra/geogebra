@@ -201,12 +201,10 @@ public class PageListPanel
 	 * @return index of new slide
 	 */
 	protected int addNewPreviewCard(boolean selected) {
-		final PagePreviewCard card = pageController.addSlide();
-		addPreviewCard(card);
-		if (selected) {
-			pageController.setCardSelected(card);
-		}
-		return card.getPageIndex();
+		int ret = pageController.addNewPreviewCard(selected);
+		addPreviewCard(pageController.getCards()
+				.get(pageController.getSlideCount() - 1));
+		return ret;
 	}
 
 	private void addPreviewCard(final PagePreviewCard card) {

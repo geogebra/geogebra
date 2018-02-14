@@ -38,4 +38,6 @@ public interface PageListControllerInterface {
 	boolean loadSlides(GgbFile archiveContent);
 
 	void removeSlide(int idx);
+
+	int addNewPreviewCard(boolean b);
 }

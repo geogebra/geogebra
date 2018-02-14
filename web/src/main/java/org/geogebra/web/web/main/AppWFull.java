@@ -1020,23 +1020,27 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		frame.getPageControlPanel().close();
 	}
 
+	public void loadEmptySlide() {
+		kernel.clearConstruction(true);
+
+		// kernel.initUndoInfo();
+		resetMaxLayerUsed();
+		setCurrentFile(null);
+		setMoveMode();
+		resetUI();
+	}
 	@Override
 	public void executeAction(EventType action) {
 		if (action == EventType.ADD_SLIDE) {
-			kernel.clearConstruction(true);
-
-			// kernel.initUndoInfo();
-			resetMaxLayerUsed();
-			setCurrentFile(null);
-			setMoveMode();
-			resetUI();
+			getPageController().addNewPreviewCard(false);
 		}
-		if (action == EventType.REMOVE_SLIDE) {
+		else if (action == EventType.REMOVE_SLIDE) {
 			getPageController()
 					.removeSlide(getPageController().getSlideCount() - 1);
-			getAppletFrame().getPageControlPanel().update();
-		}
 
+		}
+		Log.printStacktrace(getPageController().getSlideCount() + ":" + action);
+		getAppletFrame().getPageControlPanel().update();
 	}
 
 }

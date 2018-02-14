@@ -60,7 +60,11 @@ public abstract class UndoManager {
 		}
 
 		public void redo(UndoManager undoManager) {
-			undoManager.loadUndoInfo(appState);
+			if (appState != null) {
+				undoManager.loadUndoInfo(appState);
+			} else {
+				undoManager.executeAction(action);
+			}
 		}
 
 		public EventType getAction() {
@@ -76,6 +80,10 @@ public abstract class UndoManager {
 		construction = cons;
 		app = cons.getApplication();
 		undoInfoList = new LinkedList<>();
+	}
+
+	public void executeAction(EventType action) {
+		app.executeAction(action);
 	}
 
 	/**
@@ -96,9 +104,15 @@ public abstract class UndoManager {
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
 			if (last.getAction() != null) {
-				app.executeAction(revert(last.getAction()));
+				executeAction(revert(last.getAction()));
 			} else {
-				loadUndoInfo(iterator.previous().getAppState());
+				UndoCommand prev = iterator.previous();
+				if (prev.getAppState() != null) {
+					loadUndoInfo(prev.getAppState());
+				} else {
+					executeAction(revert(prev.getAction()));
+					executeAction(prev.getAction());
+				}
 				iterator.next();
 			}
 			updateUndoActions();

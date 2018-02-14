@@ -16,6 +16,7 @@ import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.pagecontrolpanel.DragController.Cards;
+import org.geogebra.web.web.main.AppWFull;
 
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -105,7 +106,7 @@ public class PageListController implements PageListControllerInterface,
 		try {
 			if (newPage) {
 				// new file
-				app.executeAction(EventType.ADD_SLIDE);
+				((AppWFull) app).loadEmptySlide();
 				app.getKernel().getConstruction().getUndoManager()
 						.storeAction(EventType.ADD_SLIDE);
 			} else {
@@ -426,6 +427,14 @@ public class PageListController implements PageListControllerInterface,
 	@Override
 	public CardListInterface getListener() {
 		return listener;
+	}
+
+	public int addNewPreviewCard(boolean selected) {
+		final PagePreviewCard card = addSlide();
+		if (selected) {
+			setCardSelected(card);
+		}
+		return card.getPageIndex();
 	}
 
 }
