@@ -18,6 +18,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.AccessController;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -45,6 +48,7 @@ import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * <h3>GgbAPI - API for PlugLets</h3>
@@ -326,27 +330,58 @@ public class GgbAPID extends GgbAPIJre {
 				ev.getXmax() - ev.getXmin(), ev.getYmax() - ev.getYmin());
 	}
 	
-	public String exportSVG(String filename) {
+	public String exportSVG(String file0) {
 
-		if (filename == null) {
-			// not supported
-			return null;
+		String filename = file0;
+
+		if (file0 == null) {
+			String tempDir = UtilD.getTempDir();
+			filename = tempDir + "geogebra.svg";
 		}
 
+		File file = new File(filename);
+
 		EuclidianView view = app.getActiveEuclidianView();
-		GraphicExportDialog.exportSVG(app, view, new File(filename), true, view.getExportWidth(),
+		GraphicExportDialog.exportSVG(app, view, file, true,
+				view.getExportWidth(),
 				view.getExportHeight(), -1, -1, 1, true);
 		
-		// return value not implemented in desktop (could read file back...)
+		try {
+			// read file back as String
+			return new String(Files.readAllBytes(Paths.get(filename)),
+					StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			Log.error("problem reading " + filename);
+		}
+
 		return null;
+
 	}
 
-	public String exportPDF(double exportScale, String filename) {
+	public String exportPDF(double exportScale, String file0) {
+
+		String filename = file0;
+
+		if (file0 == null) {
+			String tempDir = UtilD.getTempDir();
+			filename = tempDir + "geogebra.pdf";
+		}
+
+		File file = new File(filename);
+
 		EuclidianView view = app.getActiveEuclidianView();
-		GraphicExportDialog.exportPDF(app, view, new File(filename), true, view.getExportWidth(),
+		GraphicExportDialog.exportPDF(app, view, file, true,
+				view.getExportWidth(),
 				view.getExportHeight(), exportScale);
 
-		// return value not implemented in desktop (could read file back...)
+		try {
+			// read file back as String
+			return new String(Files.readAllBytes(Paths.get(filename)),
+					StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			Log.error("problem reading " + filename);
+		}
+
 		return null;
 	}
 

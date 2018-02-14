@@ -5392,7 +5392,12 @@ public class AppD extends App implements KeyEventDispatcher {
 	
 	@Override
 	public void handleImageExport(String base64image) {
-		
+		if (base64image.startsWith("<svg") || base64image.startsWith("<?xml")
+				|| base64image.startsWith("%PDF")) {
+			copyTextToSystemClipboard(base64image);
+			return;
+		}
+
 		byte[] png;
 		try {
 			png = Base64.decode(base64image.getBytes(Charsets.UTF_8));
