@@ -75,6 +75,11 @@ public class UndoManagerD extends UndoManager {
 			f.delete();
 
 		}
+
+		public String getXml() {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 
 	private static final String TEMP_FILE_PREFIX = "GeoGebraUndoInfo";

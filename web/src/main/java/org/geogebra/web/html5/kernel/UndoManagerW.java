@@ -7,6 +7,7 @@ import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -46,7 +47,7 @@ public class UndoManagerW extends UndoManager {
 		/**
 		 * @return XML
 		 */
-		public String getXML() {
+		public String getXml() {
 			if (storage == null) {
 				return xml;
 			}
@@ -127,7 +128,8 @@ public class UndoManagerW extends UndoManager {
 		try {
 			// insert undo info
 			AppState appStateToAdd = new AppStateWeb(undoXML.toString());
-			iterator.add(new UndoCommand(appStateToAdd));
+			iterator.add(
+					new UndoCommand(appStateToAdd, ((AppW) app).getSlideID()));
 			pruneStateList();
 			app.getEventDispatcher().dispatchEvent(
 			        new Event(EventType.STOREUNDO, null));
@@ -151,7 +153,7 @@ public class UndoManagerW extends UndoManager {
 		try {
 			app.getEuclidianView1().setKeepCenter(false);
 			// load from file
-			String tempXML = ((AppStateWeb) info).getXML();
+			String tempXML = ((AppStateWeb) info).getXml();
 			if (tempXML == null) {
 				Log.error("Undo not supported.");
 			}

@@ -11,6 +11,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
@@ -199,10 +200,11 @@ public class PageListPanel
 	 * @return index of new slide
 	 */
 	protected int addNewPreviewCard(boolean selected) {
-		int ret = pageController.addNewPreviewCard(selected);
+		int index = pageController.getSlideCount();
+		pageController.addNewPreviewCard(selected, index, new GgbFile());
 		addPreviewCard(pageController.getCards()
-				.get(pageController.getSlideCount() - 1));
-		return ret;
+				.get(index));
+		return index;
 	}
 
 	private void addPreviewCard(final PagePreviewCard card) {
@@ -256,7 +258,8 @@ public class PageListPanel
 		// remove associated ggb file
 		pageController.removeSlide(index);
 		app.getKernel().getConstruction().getUndoManager()
-				.storeAction(EventType.REMOVE_SLIDE);
+				.storeAction(EventType.REMOVE_SLIDE,
+						new String[] { index + "" });
 		updateIndexes(index);
 		// load new slide
 		if (index == 0 && pageController.getSlideCount() == 0) {
@@ -320,7 +323,9 @@ public class PageListPanel
 	 */
 	public void update() {
 		contentPanel.clear();
+		int index = 0;
 		for (PagePreviewCard card : this.pageController.getCards()) {
+			card.setPageIndex(index++);
 			addPreviewCard(card);
 		}
 	}

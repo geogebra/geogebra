@@ -108,7 +108,7 @@ public class PageListController implements PageListControllerInterface,
 				// new file
 				((AppWFull) app).loadEmptySlide();
 				app.getKernel().getConstruction().getUndoManager()
-						.storeAction(EventType.ADD_SLIDE);
+						.storeAction(EventType.ADD_SLIDE, new String[0]);
 			} else {
 				// load last status of file
 				app.resetPerspectiveParam();
@@ -170,13 +170,13 @@ public class PageListController implements PageListControllerInterface,
 	 * 
 	 * @return index of the added slide
 	 */
-	public PagePreviewCard addSlide() {
+	private PagePreviewCard addSlide(int index, GgbFile ggbFile) {
 		if (slides == null) {
 			slides = new ArrayList<>();
 		}
 		PagePreviewCard previewCard = new PagePreviewCard(
-				app, slides.size(), new GgbFile());
-		slides.add(previewCard);
+				app, index, ggbFile);
+		slides.add(index, previewCard);
 		return previewCard;
 	}
 
@@ -407,12 +407,17 @@ public class PageListController implements PageListControllerInterface,
 		return listener;
 	}
 
-	public int addNewPreviewCard(boolean selected) {
-		final PagePreviewCard card = addSlide();
+	@Override
+	public void addNewPreviewCard(boolean selected, int index, GgbFile file) {
+		final PagePreviewCard card = addSlide(index, file);
 		if (selected) {
 			setCardSelected(card);
 		}
-		return card.getPageIndex();
+	}
+
+	@Override
+	public String getSlideID() {
+		return selectedCard.getPageIndex() + "";
 	}
 
 }

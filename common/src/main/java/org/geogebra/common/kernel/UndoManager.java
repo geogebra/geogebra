@@ -34,19 +34,29 @@ public abstract class UndoManager {
 		/** deletes this application state (i.e. deletes file) */
 		void delete();
 
+		String getXml();
+
 	}
 
 	protected static class UndoCommand {
 
 		private AppState appState;
 		private EventType action;
+		private String[] args;
+		private String slideID;
 
 		public UndoCommand(AppState appStateToAdd) {
 			this.appState = appStateToAdd;
 		}
 
-		public UndoCommand(EventType action) {
+		public UndoCommand(AppState appStateToAdd, String slideID) {
+			this.appState = appStateToAdd;
+			this.slideID = slideID;
+		}
+
+		public UndoCommand(EventType action, String[] args) {
 			this.action = action;
+			this.args = args;
 		}
 
 		public AppState getAppState() {
@@ -63,12 +73,31 @@ public abstract class UndoManager {
 			if (appState != null) {
 				undoManager.loadUndoInfo(appState);
 			} else {
-				undoManager.executeAction(action);
+				undoManager.executeAction(action, args);
 			}
 		}
 
 		public EventType getAction() {
 			return action;
+		}
+
+		public String[] getArgs() {
+			return args;
+		}
+
+		public void undo(UndoManager mgr) {
+			
+			if(action == EventType.ADD_SLIDE){
+				mgr.executeAction(EventType.REMOVE_SLIDE, new String[0]);
+			}
+			else if (action == EventType.REMOVE_SLIDE) {
+				mgr.executeAction(EventType.ADD_SLIDE,
+						new String[] { args[0], mgr.getCheckpoint(args[0]) });
+			}
+		}
+
+		public String getSlideID() {
+			return slideID;
 		}
 
 	}
@@ -82,8 +111,18 @@ public abstract class UndoManager {
 		undoInfoList = new LinkedList<>();
 	}
 
-	public void executeAction(EventType action) {
-		app.executeAction(action);
+	public String getCheckpoint(String string) {
+		String xml = null;
+		for (UndoCommand cmd : undoInfoList) {
+			if (cmd.getAppState() != null && cmd.getSlideID().equals(string)) {
+				xml = cmd.getAppState().getXml();
+			}
+		}
+		return xml;
+	}
+
+	public void executeAction(EventType action, String[] args) {
+		app.executeAction(action, args);
 	}
 
 	/**
@@ -104,14 +143,16 @@ public abstract class UndoManager {
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
 			if (last.getAction() != null) {
-				executeAction(revert(last.getAction()));
+				last.undo(this);
 			} else {
 				UndoCommand prev = iterator.previous();
 				if (prev.getAppState() != null) {
 					loadUndoInfo(prev.getAppState());
 				} else {
-					executeAction(revert(prev.getAction()));
-					executeAction(prev.getAction());
+					// TODO if prev is ADD_SLIDE this resets last slide; not
+					// generic
+					prev.undo(this);
+					prev.redo(this);
 				}
 				iterator.next();
 			}
@@ -119,10 +160,7 @@ public abstract class UndoManager {
 		}
 	}
 
-	private EventType revert(EventType action) {
-		return action == EventType.ADD_SLIDE ? EventType.REMOVE_SLIDE
-				: EventType.ADD_SLIDE;
-	}
+
 
 	/**
 	 * Loads next construction state from undo info list.
@@ -306,8 +344,8 @@ public abstract class UndoManager {
 		storeUndoInfoNeededForProperties = false;
 	}
 
-	public void storeAction(EventType action) {
-		iterator.add(new UndoCommand(action));
+	public void storeAction(EventType action, String[] args) {
+		iterator.add(new UndoCommand(action, args));
 		this.pruneStateList();
 
 	}

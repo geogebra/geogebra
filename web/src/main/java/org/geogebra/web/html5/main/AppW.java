@@ -3685,6 +3685,10 @@ public abstract class AppW extends App implements SetLabels {
 		div.appendChild(elem);
 	}-*/;
 
+	public String getSlideID() {
+		return getPageController() == null ? null
+				: getPageController().getSlideID();
+	}
 
 
 }

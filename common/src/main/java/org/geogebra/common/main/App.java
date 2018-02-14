@@ -5194,7 +5194,7 @@ public abstract class App implements UpdateSelection {
 		
 	}
 
-	public void executeAction(EventType action) {
+	public void executeAction(EventType action, String[] args) {
 		// TODO Auto-generated method stub
 
 	}

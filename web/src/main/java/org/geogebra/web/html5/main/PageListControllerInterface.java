@@ -39,5 +39,7 @@ public interface PageListControllerInterface {
 
 	void removeSlide(int idx);
 
-	int addNewPreviewCard(boolean b);
+	void addNewPreviewCard(boolean selected, int idx, GgbFile file);
+
+	String getSlideID();
 }
