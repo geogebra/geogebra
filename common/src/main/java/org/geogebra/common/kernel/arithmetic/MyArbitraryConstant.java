@@ -304,15 +304,14 @@ public class MyArbitraryConstant {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (!ev.isExpressionNode()) {
+			if (!ev.isExpressionNode() || arbconst == null) {
 				return ev;
 			}
 
 			ExpressionNode en = (ExpressionNode) ev;
 
-			if (arbconst != null && arbconst.isBlocking()) {
+			if (arbconst.isBlocking()) {
 				return handleSpecialCase(en);
-
 			}
 			if (en.getOperation() == Operation.MULTIPLY) {
 				if (en.getLeft() != null && en.getLeftTree()

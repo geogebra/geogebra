@@ -370,6 +370,22 @@ public class CommandsTest extends Assert{
 	private static String deg(String string) {
 		return string + "*" + Unicode.DEGREE_STRING;
 	}
+	@Test
+	public void cmdIntegral() {
+		t("Integral[ sin(x) ]", "(-cos(x))");
+		t("Integral[ x^2, x ]", "(1 / 3 * x^(3))");
+		t("Integral[ sin(x),0,pi ]", "2");
+		t("Integral[ abs(x),-2,2 ]", "4");
+		t("Integral[ sin(x), 0, 100, false ]", "NaN");
+	}
+
+	@Test
+	public void cmdIntegralInfinite() {
+		t("f=Normal(50,3,x,false)",
+				"exp(((-(x - 50)^(2))) / ((3^(2) * 2))) / ((abs(3) * sqrt((3.141592653589793 * 2))))");
+		t("norm:=Integral[f,-inf,50 ]", "0.5");
+		t("nnorm:=Integral[f,50,inf ]", "0.5");
+	}
 
 	@Test
 	public void cmdAreCongruent() {

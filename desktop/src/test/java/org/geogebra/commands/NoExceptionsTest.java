@@ -864,17 +864,8 @@ public class NoExceptionsTest {
 
 	@Test
 	public void cmdIntegralBetween() {
-
 		t("IntegralBetween[ f1, f1, n2, n3 ]");
 		t("IntegralBetween[ f1, f1, n2, n3, b1 ]");
-	}
-
-	@Test
-	public void cmdIntegral() {
-		t("Integral[ f1 ]");
-		t("Integral[ f1, x ]");
-		t("Integral[ f1, n2, n3 ]");
-		t("Integral[ f1, n2, n3, b1 ]");
 	}
 
 	@Test
