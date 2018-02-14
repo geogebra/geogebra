@@ -62,8 +62,6 @@ public class CmdExportImage extends CmdScripting {
 		// 0 = no rotation
 		double rotate = 0;
 		
-		int typeArg = -1;
-
 		GeoElement[] arg = resArgs(c);
 
 		for (int i = 0; i < n; i += 2) {
@@ -79,7 +77,6 @@ public class CmdExportImage extends CmdScripting {
 					.toValueString(StringTemplate.maxDecimals))) {
 
 			case "type":
-				typeArg = 1;
 				String typeStr = StringUtil.toLowerCaseUS(
 						value.toValueString(StringTemplate.defaultTemplate));
 				switch (typeStr) {
