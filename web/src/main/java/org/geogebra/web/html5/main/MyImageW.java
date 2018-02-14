@@ -110,5 +110,4 @@ public final class MyImageW implements MyImage {
 		return "";
 
 	}
-
 }

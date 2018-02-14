@@ -146,7 +146,6 @@ public final class DrawImage extends Drawable {
 				double yscale = 1.0 / width;
 				at.scale(yscale, -yscale);
 			} else {
-
 				if (A != null) {
 					if (!A.isDefined() || A.isInfinite()) {
 						isVisible = false;
@@ -468,7 +467,7 @@ public final class DrawImage extends Drawable {
 	private void updateImage(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
-		// int eventY = event.getY();
+		int eventY = event.getY();
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint C = new GeoPoint(geoImage.cons);
@@ -578,6 +577,15 @@ public final class DrawImage extends Drawable {
 			A.setX(view.toRealWorldCoordX(eventX));
 			A.updateCoords();
 			A.updateRepaint();
+			break;
+		case TOP:
+			geoImage.setCorner(null, 3);
+			geoImage.calculateCornerPoint(D, 4);
+			geoImage.setCorner(D, 2);
+			D.setEuclidianVisible(true);
+			D.setY(view.toRealWorldCoordY(eventY));
+			D.updateCoords();
+			D.updateRepaint();
 			break;
 		default:
 			break;
