@@ -494,7 +494,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 			e.printStackTrace();
 		}
 		h.updateAfterParsing();
-		afterLoadFileAppOrNot();
+		afterLoadFileAppOrNot(false);
 
 	}
 

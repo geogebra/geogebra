@@ -112,7 +112,7 @@ public class PageListController implements PageListControllerInterface,
 			} else {
 				// load last status of file
 				app.resetPerspectiveParam();
-				app.loadGgbFile(slides.get(i).getFile());
+				app.loadGgbFile(slides.get(i).getFile(), true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -138,7 +138,7 @@ public class PageListController implements PageListControllerInterface,
 	public void changeSlide(PagePreviewCard dest) {
 		try {
 			app.resetPerspectiveParam();
-			app.loadGgbFile(dest.getFile());
+			app.loadGgbFile(dest.getFile(), true);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -258,7 +258,7 @@ public class PageListController implements PageListControllerInterface,
 						pages.getJSONObject(i).getJSONArray("elements")
 								.getJSONObject(0).getString("id"))));
 			}
-			app.loadGgbFile(slides.get(0).getFile());
+			app.loadGgbFile(slides.get(0).getFile(), true);
 			/// TODO this breaks MVC
 			((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
 					.update();

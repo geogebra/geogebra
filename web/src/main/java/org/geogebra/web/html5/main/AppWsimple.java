@@ -100,7 +100,7 @@ public class AppWsimple extends AppW {
 	}
 
 	@Override
-	public void afterLoadFileAppOrNot() {
+	public void afterLoadFileAppOrNot(boolean asSlide) {
 
 		buildApplicationPanel();
 

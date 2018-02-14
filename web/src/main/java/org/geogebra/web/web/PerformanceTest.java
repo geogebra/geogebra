@@ -202,7 +202,7 @@ public class PerformanceTest implements EntryPoint {
 		/** Construction end */
 		app.getEuclidianView1().getGraphicsForPen()
 		        .setCoordinateSpaceSize(800, 600);
-		app.afterLoadFileAppOrNot();
+		app.afterLoadFileAppOrNot(false);
 		GeoGebraProfiler.getInstance().profileEnd();
 		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
 		// production

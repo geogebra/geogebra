@@ -157,7 +157,7 @@ public class ViewW {
 		}
 
 		try {
-			app.loadGgbFile(archiveContent);
+			app.loadGgbFile(archiveContent, false);
 			Log.debug("loadggb finished" + System.currentTimeMillis());
 		} catch (Throwable ex) {
 			ex.printStackTrace();

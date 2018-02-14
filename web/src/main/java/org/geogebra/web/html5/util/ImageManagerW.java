@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GBufferedImage;
-import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -28,18 +27,11 @@ public class ImageManagerW extends ImageManager {
 	private HashMap<String, String> externalImageSrcs = new HashMap<>();
 	private boolean preventAuxImage;
 	protected int imagesLoaded = 0;
-	private String construction, defaults2d, defaults3d, macros;
-	private MyXMLio myXMLio;
 
 	public void reset() {
 		externalImageTable = new HashMap<>();
 		externalImageSrcs = new HashMap<>();
 		imagesLoaded = 0;
-		construction = null;
-		macros = null;
-		defaults2d = null;
-		defaults3d = null;
-		myXMLio = null;
 	}
 
 	public void addExternalImage(String fileName, String src) {
@@ -56,31 +48,10 @@ public class ImageManagerW extends ImageManager {
 		return externalImageSrcs.get(StringUtil.removeLeadingSlash(fileName));
 	}
 
-	protected void checkIfAllLoaded(AppW app1) {
+	protected void checkIfAllLoaded(AppW app1, Runnable run) {
 		imagesLoaded++;
 		if (imagesLoaded == externalImageSrcs.size()) {
-			try {
-				Log.debug("images loaded");
-				// Macros (optional)
-				if (macros != null) {
-					// macros = DataUtil.utf8Decode(macros);
-					// //DataUtil.utf8Decode(macros);
-					myXMLio.processXMLString(macros, true, true);
-				}
-
-				myXMLio.processXMLString(construction, true, false);
-				// defaults (optional)
-				if (defaults2d != null) {
-					myXMLio.processXMLString(defaults2d, false, true);
-				}
-				if (defaults3d != null) {
-					myXMLio.processXMLString(defaults3d, false, true);
-				}
-				app1.afterLoadFileAppOrNot();
-				imagesLoaded = 0;
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			run.run();
 		}
 	}
 
@@ -158,13 +129,8 @@ public class ImageManagerW extends ImageManager {
 		img.setSrc(externalImageSrcs.get(imageFileName));
 	}
 
-	public void triggerImageLoading(String construction, String defaults2d,
-			String defaults3d, String macros, MyXMLio myXMLio, final AppW app) {
-		this.construction = construction;
-		this.defaults2d = defaults2d;
-		this.defaults3d = defaults3d;
-		this.macros = macros;
-		this.myXMLio = myXMLio;
+	public void triggerImageLoading(final AppW app,
+			final Runnable run) {
 
 		if (externalImageSrcs.entrySet() != null) {
 			for (Entry<String, String> imgSrc : externalImageSrcs.entrySet()) {
@@ -174,8 +140,8 @@ public class ImageManagerW extends ImageManager {
 
 					@Override
 					public void onLoad() {
-						checkIfAllLoaded(app);
-
+						checkIfAllLoaded(app, run);
+						imagesLoaded = 0;
 					}
 				});
 				img.getElement().setSrc(imgSrc.getValue());

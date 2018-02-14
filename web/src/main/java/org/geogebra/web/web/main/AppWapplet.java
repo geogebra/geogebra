@@ -350,7 +350,7 @@ public class AppWapplet extends AppWFull {
 	}
 
 	@Override
-	public void afterLoadFileAppOrNot() {
+	public void afterLoadFileAppOrNot(boolean asSlide) {
 		closePerspectivesPopup();
 		if (!getLAF().isSmart()) {
 			removeSplash();
@@ -396,8 +396,9 @@ public class AppWapplet extends AppWFull {
 										// constructor because we have to delay
 										// scripts until the EuclidianView is
 										// shown
-
-		initUndoInfoSilent();
+		if (!asSlide) {
+			initUndoInfoSilent();
+		}
 
 		getEuclidianView1().synCanvasSize();
 

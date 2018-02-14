@@ -723,11 +723,11 @@ public abstract class AppW extends App implements SetLabels {
 		return super.getReverseCommand(command);
 	}
 
-	public void loadGgbFile(GgbFile archiveContent) throws Exception {
+	public void loadGgbFile(GgbFile archiveContent, boolean asSlide) throws Exception {
 		AlgebraSettings algebraSettings = getSettings().getAlgebra();
 		algebraSettings.setModeChanged(false);
 
-		loadFile(archiveContent);
+		loadFile(archiveContent, asSlide);
 
 		if (!algebraSettings.isModeChanged()) {
 			algebraSettings.setTreeMode(SortMode.TYPE);
@@ -754,7 +754,8 @@ public abstract class AppW extends App implements SetLabels {
 		getImageManager().reset();
 	}
 
-	private void loadFile(GgbFile archiveContent) throws Exception {
+	private void loadFile(GgbFile archiveContent, final boolean asSlide)
+			throws Exception {
 		if (getPageController() != null
 				&& getPageController().loadSlides(archiveContent)) {
 			return;
@@ -765,13 +766,13 @@ public abstract class AppW extends App implements SetLabels {
 		GgbFile archive = archiveContent.duplicate();
 
 		// Handling of construction and macro file
-		String construction = archive.remove(MyXMLio.XML_FILE);
-		String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
-		String defaults2d = archive.remove(MyXMLio.XML_FILE_DEFAULTS_2D);
-		String defaults3d = null;
-		if (is3D()) {
-			defaults3d = archive.remove(MyXMLio.XML_FILE_DEFAULTS_3D);
-		}
+		final String construction = archive.remove(MyXMLio.XML_FILE);
+		final String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
+		final String defaults2d = archive.remove(MyXMLio.XML_FILE_DEFAULTS_2D);
+		final String defaults3d = is3D() ?
+
+				archive.remove(MyXMLio.XML_FILE_DEFAULTS_3D) : null;
+
 		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 		// Construction (required)
@@ -813,56 +814,49 @@ public abstract class AppW extends App implements SetLabels {
 			}
 
 			setCurrentFile(archiveContent);
-			afterLoadFileAppOrNot();
+			afterLoadFileAppOrNot(asSlide);
 			if (!hasMacroToRestore()) {
 				getGuiManager().refreshCustomToolsInToolBar();
 			}
 			getGuiManager().updateToolbar();
 			return;
 		}
+		Runnable afterImages = new Runnable() {
 
+			public void run() {
+				try {
+					setHideConstructionProtocolNavigation();
+					Log.debug("images loaded");
+					// Macros (optional)
+					if (macros != null) {
+						// macros = DataUtil.utf8Decode(macros);
+						// //DataUtil.utf8Decode(macros);
+						getXMLio().processXMLString(macros, true, true);
+					}
+
+					getXMLio().processXMLString(construction, true, false);
+					// defaults (optional)
+					if (defaults2d != null) {
+						getXMLio().processXMLString(defaults2d, false, true);
+					}
+					if (defaults3d != null) {
+						getXMLio().processXMLString(defaults3d, false, true);
+					}
+					afterLoadFileAppOrNot(asSlide);
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}
+		};
 		if (!getImageManager().hasImages()) {
-			// Process Construction
-			// construction =
-			// DataUtil.utf8Decode(construction);//DataUtil.utf8Decode(construction);
-
-			// Before opening the file,
-			// hide navigation bar for construction steps if visible.
-			// (Don't do this for ggt files.)
-			setHideConstructionProtocolNavigation();
-			// getKernel().setNotifyViewsActive(false); TODO would make things a
-			// lot faster, but problems with construction step and AV ordering
-			if (macros != null) {
-				// Log.debug("start processing macros:
-				// "+System.currentTimeMillis());
-				getXMLio().processXMLString(macros, true, true);
-				// Log.debug("end processing macros:
-				// "+System.currentTimeMillis());
-			}
-
-			// Log.debug("start processing" + System.currentTimeMillis());
-			getXMLio().processXMLString(construction, true, false);
-
-			// Log.debug("end processing" + System.currentTimeMillis());
-			// defaults (optional)
-			if (defaults2d != null) {
-				getXMLio().processXMLString(defaults2d, false, true);
-			}
-			if (defaults3d != null) {
-				getXMLio().processXMLString(defaults3d, false, true);
-			}
+			afterImages.run();
 			setCurrentFile(archiveContent);
-			afterLoadFileAppOrNot();
 			// getKernel().setNotifyViewsActive(true);
 		} else {
 			// on images do nothing here: wait for callback when images loaded.
-			getImageManager().triggerImageLoading(
-					/* DataUtil.utf8Decode( */construction/*
-															 * )/*DataUtil.
-															 * utf8Decode
-															 * (construction)
-															 */, defaults2d,
-					defaults3d, macros, getXMLio(), this);
+			getImageManager().triggerImageLoading(this, afterImages);
 			setCurrentFile(archiveContent);
 
 		}
@@ -945,7 +939,7 @@ public abstract class AppW extends App implements SetLabels {
 	public void reset() {
 		if (currentFile != null) {
 			try {
-				loadGgbFile(currentFile);
+				loadGgbFile(currentFile, false);
 			} catch (Exception e) {
 				clearConstruction();
 			}
@@ -2347,7 +2341,7 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * File loading callback
 	 */
-	public abstract void afterLoadFileAppOrNot();
+	public abstract void afterLoadFileAppOrNot(boolean asSlide);
 
 	/**
 	 * Returns the tool name and tool help text for the given tool as an HTML
