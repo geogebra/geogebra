@@ -157,8 +157,8 @@ class DragController {
 			if (target == last.target) {
 				return;
 			}
-			int idx = target.getPageIndex();
-			// Log.debug("Target changd to: " + idx);
+			// int idx = target.getPageIndex();
+			// Log.debug("Target changed to: " + idx);
 			if (last.target != null) {
 				last.target.removeSpace();
 			}
