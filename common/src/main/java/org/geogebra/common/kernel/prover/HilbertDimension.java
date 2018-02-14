@@ -209,7 +209,7 @@ public class HilbertDimension {
 		dependentVars.removeAll(substitutions.keySet());
 		StringBuilder depVars = new StringBuilder();
 		for (PVariable var : dependentVars) {
-			if (!"".equals(depVars)) {
+			if (depVars.length() > 0) {
 				depVars.append(",");
 			}
 			depVars.append(var);
@@ -219,7 +219,7 @@ public class HilbertDimension {
 		freeVariables.removeAll(substitutions.keySet());
 		StringBuilder freeVars = new StringBuilder();
 		for (PVariable var : freeVariables) {
-			if (!"".equals(freeVars)) {
+			if (freeVars.length() > 0) {
 				freeVars.append(",");
 			}
 			freeVars.append(var);
