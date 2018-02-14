@@ -246,6 +246,9 @@ public final class DrawImage extends Drawable {
 			// turns false if the image doen't want interpolation
 			needsInterpolationRenderingHint = (geoImage.isInterpolate())
 					&& (!isTranslation(at) || view.getPixelRatio() != 1);
+			if (C != null) {
+				geoImage.setCorner(null, 3);
+			}
 		}
 
 		if (isInBackground != geoImage.isInBackground()) {
