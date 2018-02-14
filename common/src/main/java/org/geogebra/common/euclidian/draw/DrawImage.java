@@ -143,8 +143,8 @@ public final class DrawImage extends Drawable {
 				double DCy = C.inhomY - D.getInhomY();
 				tempAT.setTransform(DCx, DCy, -DCy, DCx, 0, 0);
 				at.concatenate(tempAT);
-				double yscale = 1.0 / width;
-				at.scale(yscale, -yscale);
+				double xscale = 1.0 / width;
+				at.scale(xscale, -xscale);
 			} else {
 				if (A != null) {
 					if (!A.isDefined() || A.isInfinite()) {
@@ -561,6 +561,10 @@ public final class DrawImage extends Drawable {
 		case RIGHT:
 			geoImage.setCorner(null, 3);
 			geoImage.calculateCornerPoint(D, 4);
+			if (eventX - view.toScreenCoordXd(D.getInhomX()) <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
 			geoImage.setCorner(D, 2);
 			D.setEuclidianVisible(true);
 			D.updateCoords();
@@ -570,6 +574,10 @@ public final class DrawImage extends Drawable {
 			B.updateRepaint();
 			break;
 		case LEFT:
+			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
 			geoImage.setCorner(null, 3);
 			geoImage.calculateCornerPoint(D, 4);
 			geoImage.setCorner(D, 2);
@@ -582,6 +590,10 @@ public final class DrawImage extends Drawable {
 			A.updateRepaint();
 			break;
 		case TOP:
+			if (view.toScreenCoordYd(A.getInhomY()) - eventY <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
 			geoImage.setCorner(null, 3);
 			geoImage.calculateCornerPoint(D, 4);
 			geoImage.setCorner(D, 2);
@@ -593,6 +605,10 @@ public final class DrawImage extends Drawable {
 		case BOTTOM:
 			geoImage.setCorner(null, 3);
 			geoImage.calculateCornerPoint(D, 4);
+			if (eventY - view.toScreenCoordYd(D.getInhomY()) <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
 			geoImage.setCorner(D, 2);
 			D.setEuclidianVisible(true);
 			A.setY(view.toRealWorldCoordY(eventY));
