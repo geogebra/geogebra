@@ -2631,7 +2631,7 @@ namespace giac {
 	if (s==at_quote)
 	  return f;
 	f=s(f,contextptr);
-	if (f.type<_IDNT || f.type==_FRAC)
+	if (f.type<_IDNT || f.type==_FRAC || (f.type==_SYMB && contains(f,cst_pi)) )
 	  f=evalf2double_nock(f,1,contextptr);
 	return f;
       }
@@ -2641,8 +2641,14 @@ namespace giac {
       return f;
     }
     if (g0.type==_CPLX){
-      if (g0._CPLXptr->type==_DOUBLE_ && (g0._CPLXptr+1)->type==_DOUBLE_)
+      if (g0._CPLXptr->type==_DOUBLE_ && (g0._CPLXptr+1)->type==_DOUBLE_){
+#if 1
+	// maybe we should round complex numbers that are close to reals?
+	if (fabs((g0._CPLXptr+1)->_DOUBLE_val)<1e-12*fabs(g0._CPLXptr->_DOUBLE_val)) 
+	  return g0._CPLXptr->_DOUBLE_val;
+#endif
 	return g0;
+      }
       return evalf2double_nock(*g0._CPLXptr,1,contextptr)+cst_i*evalf2double_nock(*(g0._CPLXptr+1),1,contextptr);
     }
     gen g=evalf(g0,level,contextptr);
@@ -7372,6 +7378,12 @@ namespace giac {
   static gen divpoly(const polynome & p, const gen & e){
     if (p.coord.empty())
       return zero;
+    gen coefft; int pt=coefftype(p,coefft);
+    if (pt==_MOD || pt==_USER){
+      polynome res(p);
+      mulpoly(res,coefft/(e*coefft),res);
+      return res;
+    }
     gen d=gcd(Tcontent<gen>(p),e,context0);
     if (d.type==_EXT)
       d=_gcd(*d._EXTptr,context0);

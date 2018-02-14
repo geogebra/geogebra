@@ -2878,7 +2878,8 @@ namespace giac {
     }
 #endif // HAVE_LIBPARI
     polynome R(p.dim); gen r;
-    subresultant(p,q,r,R,false);
+    int rt=coefftype(p,r);
+    subresultant(p,q,r,R,rt==_MOD || rt==_USER); //false);
     return r*R;
 #if 0
     polynome R1(Tresultant<gen>(p,q));
