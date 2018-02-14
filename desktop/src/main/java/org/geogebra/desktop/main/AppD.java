@@ -4869,7 +4869,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			val += step;
 
-			if (val > max + 0.00000001 || val < min - 0.00000001) {
+			if (val > max + Kernel.STANDARD_PRECISION
+					|| val < min - Kernel.STANDARD_PRECISION) {
 				val -= 2 * step;
 				step *= -1;
 			}

@@ -18,6 +18,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.RendererWithImpl;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
@@ -279,8 +280,9 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 
 			setExportVal(getExportVal() + getExportStep());
 
-			if (getExportVal() > getExportMax() + 0.00000001
-					|| getExportVal() < getExportMin() - 0.00000001) {
+			if (getExportVal() > getExportMax() + Kernel.STANDARD_PRECISION
+					|| getExportVal() < getExportMin()
+							- Kernel.STANDARD_PRECISION) {
 				setExportVal(getExportVal() - 2 * getExportStep());
 				setExportStep(getExportStep() * -1);
 			}

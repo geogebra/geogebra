@@ -7,7 +7,16 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.plugin.Operation;
 
 public class StepHelper {
@@ -256,7 +265,7 @@ public class StepHelper {
 	}
 
 	private static boolean isEqual(double a, double b) {
-		return Math.abs(a - b) < 0.00000001;
+		return Math.abs(a - b) < Kernel.STANDARD_PRECISION;
 	}
 
 	public static StepSet getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel) throws CASException {
