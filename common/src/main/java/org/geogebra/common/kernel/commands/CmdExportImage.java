@@ -230,11 +230,6 @@ public class CmdExportImage extends CmdScripting {
 
 			String svg = api.exportSVG(filename);
 			
-			if (svg == null) {
-				// eg SVG without filename in ggb5
-				throw argErr(app, c, arg[typeArg]);
-			}
-
 			if (filename == null) {
 				kernel.getApplication().handleImageExport(svg);
 			}
