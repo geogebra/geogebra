@@ -146,6 +146,7 @@ public final class DrawImage extends Drawable {
 				double yscale = 1.0 / width;
 				at.scale(yscale, -yscale);
 			} else {
+
 				if (A != null) {
 					if (!A.isDefined() || A.isInfinite()) {
 						isVisible = false;
@@ -481,8 +482,6 @@ public final class DrawImage extends Drawable {
 			geoImage.calculateCornerPoint(B, 2);
 		}
 		switch (handler) {
-		default:
-			break;
 		case TOP_RIGHT:
 			if (eventX - view
 					.toScreenCoordXd(A.getInhomX()) <= Math
@@ -567,6 +566,20 @@ public final class DrawImage extends Drawable {
 			B.setX(view.toRealWorldCoordX(eventX));
 			B.updateCoords();
 			B.updateRepaint();
+			break;
+		case LEFT:
+			geoImage.setCorner(null, 3);
+			geoImage.calculateCornerPoint(D, 4);
+			geoImage.setCorner(D, 2);
+			D.setEuclidianVisible(true);
+			D.setX(view.toRealWorldCoordX(eventX));
+			D.updateCoords();
+			D.updateRepaint();
+			A.setX(view.toRealWorldCoordX(eventX));
+			A.updateCoords();
+			A.updateRepaint();
+			break;
+		default:
 			break;
 		}
 	}
