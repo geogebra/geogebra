@@ -58,6 +58,9 @@ public class CmdExportImage extends CmdScripting {
 		// boolean copyToClipboard = true;
 		String filename = null;
 		ExportType type = ExportType.PNG;
+		// angle (radians) to turn 3D View during animated GIF export
+		// 0 = no rotation
+		double rotate = 0;
 		
 		int typeArg = -1;
 
@@ -112,6 +115,9 @@ public class CmdExportImage extends CmdScripting {
 				break;
 			case "width":
 				width = (int) value.evaluateDouble();
+				break;
+			case "rotate":
+				rotate = value.evaluateDouble();
 				break;
 			case "height":
 				height = (int) value.evaluateDouble();
@@ -246,7 +252,7 @@ public class CmdExportImage extends CmdScripting {
 
 		case ANIMATED_GIF:
 			api.exportGIF(sliderName, exportScale, time, loop,
-					filename == null ? "anim.gif" : filename);
+					filename == null ? "anim.gif" : filename, rotate);
 			break;
 		}
 

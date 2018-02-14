@@ -116,7 +116,9 @@ public class ScriptManagerW extends ScriptManager {
 		}
 		app.callAppletJavaScript(jsFunction, args);
 		} catch (Throwable t) {
-			Log.warn("Error in user script: " + t.getMessage());
+			// Log.printStacktrace("");
+			Log.warn("Error in user script: " + jsFunction + " : "
+					+ t.getMessage());
 		}
 	}
 
@@ -131,7 +133,9 @@ public class ScriptManagerW extends ScriptManager {
 			}
 			((AppW) app).callAppletJavaScript(jsFunction, arg0, arg1);
 		} catch (Throwable t) {
-			Log.warn("Error in user script: " + t.getMessage());
+			// Log.printStacktrace("");
+			Log.warn("Error in user script: " + jsFunction + " : "
+					+ t.getMessage());
 		}
 	}
 
@@ -864,8 +868,8 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::getPNGBase64(DZDZ)(exportScale, !!transparent, dpi, !!copyToClipboard);
 		}
 		
-		api.exportGIF = function(sliderLabel, scale, timeBetweenFrames, isLoop, filename) {
-			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportGIF(Ljava/lang/String;DDZLjava/lang/String;)(sliderLabel, scale, timeBetweenFrames | 500, !!isLoop, filename);
+		api.exportGIF = function(sliderLabel, scale, timeBetweenFrames, isLoop, filename, rotate) {
+			return ggbAPI.@org.geogebra.web.html5.main.GgbAPIW::exportGIF(Ljava/lang/String;DDZLjava/lang/String;D)(sliderLabel, scale, timeBetweenFrames | 500, !!isLoop, filename, rotate | 0);
 		}
 
 		api.getFileJSON = function(thumbnail) {

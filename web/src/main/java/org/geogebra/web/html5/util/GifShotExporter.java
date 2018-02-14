@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.util;
 
+import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -10,7 +11,7 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 public class GifShotExporter {
 
 	public static void export(App app, int timeBetweenFrames, GeoNumeric slider,
-			boolean isLoop, String filename, double scale) {
+			boolean isLoop, String filename, double scale, double rotate) {
 
 		app.getKernel().getAnimatonManager().stopAnimation();
 
@@ -85,7 +86,7 @@ public class GifShotExporter {
 
 		try {
 			exportAnimatedGIF(app, collector, slider, n, val, min, max, step,
-					scale);
+					scale, rotate);
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");
 			ex.printStackTrace();
@@ -96,7 +97,7 @@ public class GifShotExporter {
 
 	public static void exportAnimatedGIF(App app, FrameCollectorW gifEncoder,
 			GeoNumeric num, int n, double val0, double min, double max,
-			double step0, double scale) {
+			double step0, double scale, double rotate) {
 		Log.debug("exporting animation");
 		double val = val0;
 		double step = step0;
@@ -111,6 +112,12 @@ public class GifShotExporter {
 			val = Kernel.checkDecimalFraction(val);
 			num.setValue(val);
 			num.updateRepaint();
+
+			if (rotate > 0 && ev instanceof EuclidianView3DInterface) {
+				((EuclidianView3DInterface) ev).setRotAnimation(-i * rotate / n,
+						false, false);
+				((EuclidianView3DInterface) ev).repaintView();
+			}
 
 			String url = ev.getExportImageDataUrl(scale, false);
 			if (url == null) {
