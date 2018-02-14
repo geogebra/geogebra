@@ -42,6 +42,7 @@ public class PagePreviewCard extends FlowPanel
 	// private boolean isTitleSet = false;
 	private MyToggleButton moreBtn;
 	private ContextMenuPagePreview contextMenu = null;
+	private PageListController controller;
 	private int grabY; // where the user grabbed the card when dragging.
 	/**
 	 * ggb file
@@ -63,6 +64,7 @@ public class PagePreviewCard extends FlowPanel
 		this.pageIndex = pageIndex;
 		this.file = file;
 		this.loc = app.getLocalization();
+		this.controller = (PageListController) app.getPageController();
 		this.image = file.get("geogebra_thumbnail.png");
 		initGUI();
 	}
@@ -207,9 +209,10 @@ public class PagePreviewCard extends FlowPanel
 							MaterialDesignResources.INSTANCE.more_vert_black()),
 					app);
 		}
-		moreBtn.getUpHoveringFace()
-				.setImage(getImage(
-						MaterialDesignResources.INSTANCE.more_vert_mebis()));
+		Image hoveringFace = getImage(
+				MaterialDesignResources.INSTANCE.more_vert_mebis());
+		moreBtn.getUpHoveringFace().setImage(hoveringFace);
+		moreBtn.getDownHoveringFace().setImage(hoveringFace);
 		moreBtn.addStyleName("mowMoreButton");
 		ClickStartHandler.init(moreBtn, new ClickStartHandler(true, true) {
 			@Override
@@ -242,13 +245,14 @@ public class PagePreviewCard extends FlowPanel
 	 * show context menu
 	 */
 	protected void showContextMenu() {
-		((PageListController) app.getPageController()).hideAllContextMenus();
+		controller.hideLastContextMenu();
 		if (contextMenu == null) {
 			contextMenu = new ContextMenuPagePreview(app, this);
 		}
 		contextMenu.show(moreBtn.getAbsoluteLeft() - 122,
 				moreBtn.getAbsoluteTop() + 36);
 		toggleMoreButton(true);
+		controller.storeContextMenu(this);
 	}
 
 	/**
