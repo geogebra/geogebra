@@ -5,7 +5,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.euclidian.EuclidianViewW;
+import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 
 public class GifShotExporter {
 
@@ -70,10 +70,12 @@ public class GifShotExporter {
 
 
 			public void addFrame(String url) {
+				// Log.debug("adding frame");
 				gifEncoder.addFrame(url);
 			}
 
 			public void finish(int width, int height) {
+				// Log.debug("finished");
 				gifEncoder.finish(width, height);
 			}
 			
@@ -98,7 +100,11 @@ public class GifShotExporter {
 		Log.debug("exporting animation");
 		double val = val0;
 		double step = step0;
-		EuclidianViewW ev = ((EuclidianViewW) app.getActiveEuclidianView());
+		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
+				.getActiveEuclidianView());
+
+		// Log.debug("using view " + ev.getViewID());
+
 		for (int i = 0; i < n; i++) {
 
 			// avoid values like 14.399999999999968
