@@ -167,8 +167,9 @@ public class AlgoLaTeX extends AlgoElement {
 			}
 			if (show) {
 				if (geoToShow.isGeoCasCell()) {
+					// input: overriding rounding is probably OK
 					text.setTextString(((GeoCasCell) geoToShow).getOutputOrInput(
-							StringTemplate.numericLatex, substitute));
+									StringTemplate.numericLatex, substitute));
 
 				} else {
 					text.setTextString(
@@ -192,7 +193,8 @@ public class AlgoLaTeX extends AlgoElement {
 								.getOutputValidExpression() != null) {
 					text.setTextString(
 							((GeoCasCell) geoToShow).getOutputValidExpression()
-									.toString(StringTemplate.numericLatex));
+									.toString(((GeoCasCell) geoToShow)
+											.getLaTeXTemplate()));
 				} else {
 					text.setTextString(
 							geoToShow.getFormulaString(tpl, substitute));

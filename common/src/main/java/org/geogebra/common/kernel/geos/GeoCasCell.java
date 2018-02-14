@@ -348,9 +348,7 @@ public class GeoCasCell extends GeoElement
 					// #5119 use same rounding as in Algebra, but avoid 3.14 ->
 					// pi hack
 					sb.append(outputVE.toAssignmentLaTeXString(
-							includesNumericCommand()
-									? StringTemplate.numericLatex
-									: StringTemplate.latexTemplateCAS,
+							getLaTeXTemplate(),
 							getAssignmentType()));
 				} else {
 					GeoElement geo = ((GeoElement) ((ExpressionNode) outputVE)
@@ -367,6 +365,14 @@ public class GeoCasCell extends GeoElement
 		}
 
 		return bold ? "\\mathbf{" + latex + "}" : latex;
+	}
+
+	/**
+	 * @return template used for LaTeX output
+	 */
+	public StringTemplate getLaTeXTemplate() {
+		return includesNumericCommand() ? StringTemplate.numericLatex
+				: StringTemplate.latexTemplateCAS;
 	}
 
 	private void appendLaTeXOutputGeo(StringBuilder sb, GeoElement geo) {
