@@ -207,29 +207,30 @@ public class HilbertDimension {
 		dependentVars.addAll(allVars);
 		dependentVars.removeAll(as.getFreeVariables());
 		dependentVars.removeAll(substitutions.keySet());
-		String depVars = "";
+		StringBuilder depVars = new StringBuilder();
 		for (PVariable var : dependentVars) {
 			if (!"".equals(depVars)) {
-				depVars += ",";
+				depVars.append(",");
 			}
-			depVars += var;
+			depVars.append(var);
 		}
 		HashSet<PVariable> freeVariables = new HashSet<>();
 		freeVariables.addAll(as.getFreeVariables());
 		freeVariables.removeAll(substitutions.keySet());
-		String freeVars = "";
+		StringBuilder freeVars = new StringBuilder();
 		for (PVariable var : freeVariables) {
 			if (!"".equals(freeVars)) {
-				freeVars += ",";
+				freeVars.append(",");
 			}
-			freeVars += var;
+			freeVars.append(var);
 		}
 
 		GeoGebraCAS cas = (GeoGebraCAS) kernel.getGeoGebraCAS();
 
 		as.computeStrings();
 		String gbasisProgram = cas.getCurrentCAS().createGroebnerInitialsScript(
-				substitutions, as.getPolys(), freeVars, depVars);
+				substitutions, as.getPolys(), freeVars.toString(),
+				depVars.toString());
 		String gbasisResult = cas.evaluate(gbasisProgram);
 
 		// parse the result
