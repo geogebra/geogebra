@@ -48,7 +48,7 @@ class DragController {
 	}
 	
 	private class DragCard {
-		private static final int CARD_MARGIN = 16;
+		;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
 		LastTarget last = new LastTarget();
@@ -86,6 +86,7 @@ class DragController {
 			if (idx >= 0 && idx < count) {
 				card = cards.cardAt(idx);
 				card.addStyleName("dragged");
+				card.setDragPosition(x, y + 2 * PagePreviewCard.MARGIN);
 				last.reset();
 
 			} else {
@@ -108,7 +109,7 @@ class DragController {
 		}
 
 		private void moveAnimated() {
-			int h = PagePreviewCard.SPACE_HEIGHT - CARD_MARGIN;
+			int h = PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN;
 			diff = down ? card.getAbsoluteBottom() - last.top
 					: last.bottom - card.getAbsoluteTop();
 
@@ -123,7 +124,7 @@ class DragController {
 				down = prevY < y;
 			}
 	
-			card.setDragPosition(x, y);
+			card.setDragPosition(x, y + 2 * PagePreviewCard.MARGIN);
 		
 			findTarget();
 			
@@ -161,11 +162,8 @@ class DragController {
 				last.target.removeSpace();
 			}
 
-			if (idx == index() - 1 && !down && idx < cards.getCardCount() - 1) {
-				cards.cardAt(idx + 1).removeSpace();
+			target.addSpaceTop();
 
-			}
-			target.addSpace();			
 			last.setTop(target.getAbsoluteTop());
 			last.setBottom(target.getAbsoluteTop());
 
@@ -205,6 +203,20 @@ class DragController {
 			}
 			reset();
 		}
+
+		public PagePreviewCard prev() {
+			if (index() > 0) {
+				return cards.cardAt(index() - 1);
+			}
+			return null;
+		}
+
+		public PagePreviewCard next() {
+			if (index() < cards.getCardCount() - 1) {
+				return cards.cardAt(index() + 1);
+			}
+			return null;
+		}
 	}
 	
 	DragController(Cards slides, App app) {
@@ -227,7 +239,13 @@ class DragController {
 	
 	void move(int x, int y) {
 		if (CancelEventTimer.isDragStarted()) {
-			dragged.start(x, y);			
+			dragged.start(x, y);
+			PagePreviewCard next = dragged.next();
+			if (next != null) {
+				next.addSpaceTop();
+				dragged.last.target = next;
+			}
+
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = dragged.move(y);
 			if (targetIdx != -1 && !dragged.isAnimated()) {

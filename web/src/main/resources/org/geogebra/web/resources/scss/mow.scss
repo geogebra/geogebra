@@ -769,23 +769,12 @@
 	}
 	
 	.mowPagePreviewCard.dragged {
-		margin-top: 32px;
+		margin-top: 0px;
 		width: calc(100% - 32px);
 		position: absolute;
 		.mowMoreButton {
 			right: 0px;
 		}
-			
-	}
-	
-	.mowPagePreviewCard.spaceOnTop {
-		margin-top: $spaceHeight;
-		margin-bottom: 0px;
-	}
-	
-	.mowPagePreviewCard.spaceOnBottom {
-		margin-top: 0px;
-		margin-bottom: $spaceHeight;
 	}
 
 /*****************

@@ -21,8 +21,8 @@ import com.google.gwt.user.client.ui.Label;
 public class PagePreviewCard extends FlowPanel
 		implements SetLabels {
 
-	private static final int MARGIN = 16;
-	static final int SPACE_HEIGHT = 188;
+	static final int MARGIN = 16;
+	static final int SPACE_HEIGHT = 172 + 2 * MARGIN;
 	private AppW app;
 	private Localization loc;
 	private int pageIndex;
@@ -274,8 +274,8 @@ public class PagePreviewCard extends FlowPanel
 	 * Adds space before the card for animation.
 	 * @param down 
 	 */
-	public void addSpace() {
-		getElement().getStyle().setMarginTop(SPACE_HEIGHT + MARGIN, Unit.PX);
+	public void addSpaceTop() {
+		getElement().getStyle().setMarginTop(SPACE_HEIGHT, Unit.PX);
 		getElement().getStyle().setMarginBottom(MARGIN, Unit.PX);
 	}
 
@@ -283,8 +283,8 @@ public class PagePreviewCard extends FlowPanel
 	 * Removes space before the card for animation.
 	 */
 	public void removeSpace() {
-		getElement().getStyle().clearMarginTop();
-		getElement().getStyle().clearMarginBottom();
+		getElement().getStyle().setMarginTop(MARGIN, Unit.PX);
+		getElement().getStyle().setMarginBottom(MARGIN, Unit.PX);
 	}
 
 	/**
