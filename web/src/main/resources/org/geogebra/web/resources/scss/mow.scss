@@ -769,12 +769,13 @@
 	}
 	
 	.mowPagePreviewCard.dragged {
-		margin-top: 0px;
+		margin: 16px;
 		width: calc(100% - 32px);
 		position: absolute;
 		.mowMoreButton {
 			right: 0px;
 		}
+	//	border: 1px solid red;
 	}
 
 /*****************

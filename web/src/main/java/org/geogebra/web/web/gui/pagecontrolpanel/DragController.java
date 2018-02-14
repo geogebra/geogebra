@@ -85,8 +85,9 @@ class DragController {
 			int count = cards.getCardCount();
 			if (idx >= 0 && idx < count) {
 				card = cards.cardAt(idx);
+				card.removeSpace();
 				card.addStyleName("dragged");
-				card.setDragPosition(x, y + 2 * PagePreviewCard.MARGIN);
+				card.setDragPosition(x, y);
 				last.reset();
 
 			} else {
@@ -124,7 +125,7 @@ class DragController {
 				down = prevY < y;
 			}
 	
-			card.setDragPosition(x, y + 2 * PagePreviewCard.MARGIN);
+			card.setDragPosition(x, y);
 		
 			findTarget();
 			
