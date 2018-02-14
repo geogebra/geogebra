@@ -1,10 +1,16 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
 import org.geogebra.common.awt.GPoint;
+import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
+import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.ClickStartHandler;
+import org.geogebra.web.html5.gui.util.MyToggleButton;
+import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.web.css.MaterialDesignResources;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.menubar.MainMenu;
@@ -13,7 +19,10 @@ import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.ui.Image;
 
 /**
  * Context Menu of Page Preview Cards
@@ -21,8 +30,8 @@ import com.google.gwt.user.client.Command;
  * @author Alicia Hofstaetter
  *
  */
-public class ContextMenuPagePreview
-		implements SetLabels {
+public class ContextMenuPagePreview extends MyToggleButton
+		implements SetLabels, CloseHandler<GPopupPanel> {
 
 	/** visible component */
 	protected GPopupMenuW wrappedPopup;
@@ -38,15 +47,42 @@ public class ContextMenuPagePreview
 	 *            associated preview card
 	 */
 	public ContextMenuPagePreview(AppW app, PagePreviewCard card) {
+		super(getImage(MaterialDesignResources.INSTANCE.more_vert_black()),
+				app);
 		this.app = app;
 		this.card = card;
 		loc = app.getLocalization();
 		frame = ((AppWapplet) app).getAppletFrame();
-		initGUI();
+		initButton();
 	}
 
-	private void initGUI() {
+	private void initButton() {
+		Image hoveringFace = getImage(
+				MaterialDesignResources.INSTANCE.more_vert_mebis());
+		getUpHoveringFace().setImage(hoveringFace);
+		getDownHoveringFace().setImage(hoveringFace);
+		addStyleName("mowMoreButton");
+
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				if (isShowing()) {
+					hide();
+				} else {
+					show();
+				}
+			}
+		});
+	}
+
+	private static Image getImage(SVGResource res) {
+		return new NoDragImage(res, 24, 24);
+	}
+
+	private void initPopup() {
 		wrappedPopup = new GPopupMenuW(app);
+		wrappedPopup.getPopupPanel().addCloseHandler(this);
+		wrappedPopup.getPopupPanel().addAutoHidePartner(this.getElement());
 		wrappedPopup.getPopupPanel().addStyleName("matMenu mowMatMenu");
 		addDeleteItem();
 		addDuplicateItem();
@@ -99,33 +135,62 @@ public class ContextMenuPagePreview
 
 	@Override
 	public void setLabels() {
-		initGUI();
+		initPopup();
+		setAltText(loc.getMenu("Options"));
 	}
 
 	/**
-	 * @param x
-	 *            screen x-coordinate
-	 * @param y
-	 *            screen y-coordinate
+	 * @return true if context menu is showing
 	 */
-	public void show(int x, int y) {
-		wrappedPopup.show(new GPoint(x, y));
+	protected boolean isShowing() {
+		return wrappedPopup.isMenuShown();
+	}
+
+	/**
+	 * show the context menu
+	 */
+	protected void show() {
+		if (wrappedPopup == null) {
+			initPopup();
+		}
+		wrappedPopup.show(
+				new GPoint(getAbsoluteLeft() - 122, getAbsoluteTop() + 36));
 		focusDeferred();
 		wrappedPopup.setMenuShown(true);
+		toggleIcon(true);
 	}
 
 	/**
-	 * hides the context menu
+	 * hide the context menu
 	 */
 	public void hide() {
+		wrappedPopup.hide();
 		wrappedPopup.setMenuShown(false);
+		toggleIcon(false);
+	}
+
+	@Override
+	public void onClose(CloseEvent<GPopupPanel> event) {
+		if (event.isAutoClosed()) {
+			wrappedPopup.setMenuShown(false);
+		}
+		toggleIcon(false);
 	}
 
 	/**
-	 * @return if context menu is showing
+	 * @param toggle
+	 *            true if active
 	 */
-	public boolean isShowing() {
-		return wrappedPopup.isMenuShown();
+	protected void toggleIcon(boolean toggle) {
+		if (toggle) {
+			getUpFace().setImage(getImage(
+					MaterialDesignResources.INSTANCE.more_vert_mebis()));
+			addStyleName("active");
+		} else {
+			getUpFace().setImage(getImage(
+					MaterialDesignResources.INSTANCE.more_vert_black()));
+			removeStyleName("active");
+		}
 	}
 
 	private void focusDeferred() {

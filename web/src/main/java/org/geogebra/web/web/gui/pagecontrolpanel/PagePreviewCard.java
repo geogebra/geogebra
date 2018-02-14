@@ -1,22 +1,15 @@
 package org.geogebra.web.web.gui.pagecontrolpanel;
 
-import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
-import org.geogebra.web.html5.gui.util.ClickStartHandler;
-import org.geogebra.web.html5.gui.util.MyToggleButton;
-import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
-import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.web.css.MaterialDesignResources;
 
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 
 /**
@@ -40,9 +33,7 @@ public class PagePreviewCard extends FlowPanel
 	// private static final int LABELFONT_SIZE = 16;
 	// private AutoCompleteTextFieldW textField;
 	// private boolean isTitleSet = false;
-	private MyToggleButton moreBtn;
-	private ContextMenuPagePreview contextMenu = null;
-	private PageListController controller;
+	private ContextMenuPagePreview contextMenu;
 	private int grabY; // where the user grabbed the card when dragging.
 	/**
 	 * ggb file
@@ -64,7 +55,6 @@ public class PagePreviewCard extends FlowPanel
 		this.pageIndex = pageIndex;
 		this.file = file;
 		this.loc = app.getLocalization();
-		this.controller = (PageListController) app.getPageController();
 		this.image = file.get("geogebra_thumbnail.png");
 		initGUI();
 	}
@@ -90,6 +80,9 @@ public class PagePreviewCard extends FlowPanel
 		titleLabel = new Label("");
 		titlePanel.add(titleLabel);
 
+		contextMenu = new ContextMenuPagePreview(app, this);
+		titlePanel.add(contextMenu);
+
 		add(imagePanel);
 		add(titlePanel);
 		if (StringUtil.empty(image)) {
@@ -99,7 +92,6 @@ public class PagePreviewCard extends FlowPanel
 		}
 		// addTextField();
 		updateLabel();
-		addMoreButton();
 	}
 
 	/*
@@ -202,91 +194,9 @@ public class PagePreviewCard extends FlowPanel
 		updateLabel();
 	}
 
-	private void addMoreButton(){
-		if (moreBtn == null) {
-			moreBtn = new MyToggleButton(
-					getImage(
-							MaterialDesignResources.INSTANCE.more_vert_black()),
-					app);
-		}
-		Image hoveringFace = getImage(
-				MaterialDesignResources.INSTANCE.more_vert_mebis());
-		moreBtn.getUpHoveringFace().setImage(hoveringFace);
-		moreBtn.getDownHoveringFace().setImage(hoveringFace);
-		moreBtn.addStyleName("mowMoreButton");
-		ClickStartHandler.init(moreBtn, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				if (isContextMenuShowing()) {
-					hideContextMenu();
-				} else {
-					showContextMenu();
-				}
-			}
-		});
-		titlePanel.add(moreBtn);
-	}
-	
-	private static Image getImage(SVGResource res) {
-		return new NoDragImage(res, 24, 24);
-	}
-
-	/**
-	 * @return true if context menu is showing
-	 */
-	protected boolean isContextMenuShowing() {
-		if (contextMenu == null) {
-			return false;
-		}
-		return contextMenu.isShowing();
-	}
-
-	/**
-	 * show context menu
-	 */
-	protected void showContextMenu() {
-		controller.hideLastContextMenu();
-		if (contextMenu == null) {
-			contextMenu = new ContextMenuPagePreview(app, this);
-		}
-		contextMenu.show(moreBtn.getAbsoluteLeft() - 122,
-				moreBtn.getAbsoluteTop() + 36);
-		toggleMoreButton(true);
-		controller.storeContextMenu(this);
-	}
-
-	/**
-	 * hide context menu
-	 */
-	public void hideContextMenu() {
-		if (contextMenu == null) {
-			return;
-		}
-		contextMenu.hide();
-		toggleMoreButton(false);
-
-	}
-	
-	private void toggleMoreButton(boolean toggle) {
-		if (toggle) {
-			moreBtn.getUpFace().setImage(getImage(
-					MaterialDesignResources.INSTANCE.more_vert_mebis()));
-			moreBtn.addStyleName("active");
-		} else {
-			moreBtn.getUpFace().setImage(getImage(
-					MaterialDesignResources.INSTANCE.more_vert_black()));
-			moreBtn.removeStyleName("active");
-		}
-	}
-
 	@Override
 	public void setLabels() {
-		if (moreBtn != null) {
-			moreBtn.setAltText(loc.getMenu("Options"));
-		}
-		if (contextMenu != null) {
-			contextMenu.setLabels();
-		}
+		contextMenu.setLabels();
 		updateLabel();
 	}
 

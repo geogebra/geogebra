@@ -152,7 +152,6 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	public PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
 		savePreviewCard(selectedCard);
-		hideLastContextMenu();
 		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard);
 		int dupIdx = dup.getPageIndex();
 		
@@ -360,29 +359,9 @@ public class PageListController implements PageListControllerInterface,
 		loadPage(pageIdx, false);
 	}
 
-	/**
-	 * hide last opened context menu of card
-	 */
-	public void hideLastContextMenu() {
-		if (contextMenuCard == null) {
-			return;
-		}
-		contextMenuCard.hideContextMenu();
-	}
-
-	/**
-	 * store last opened context menu of card
-	 * 
-	 * @param card
-	 */
-	public void storeContextMenu(PagePreviewCard card) {
-		contextMenuCard = card;
-	}
-
 	public void onMouseDown(MouseDownEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
-		hideLastContextMenu();
 		CancelEventTimer.dragCanStart();
 	}
 
@@ -397,7 +376,6 @@ public class PageListController implements PageListControllerInterface,
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
-		hideLastContextMenu();
 		CancelEventTimer.dragCanStart();
 	}
 
