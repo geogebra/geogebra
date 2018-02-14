@@ -587,6 +587,18 @@ public final class DrawImage extends Drawable {
 			D.updateCoords();
 			D.updateRepaint();
 			break;
+		case BOTTOM:
+			geoImage.setCorner(null, 3);
+			geoImage.calculateCornerPoint(D, 4);
+			geoImage.setCorner(D, 2);
+			D.setEuclidianVisible(true);
+			A.setY(view.toRealWorldCoordY(eventY));
+			A.updateCoords();
+			A.updateRepaint();
+			B.setY(view.toRealWorldCoordY(eventY));
+			B.updateCoords();
+			B.updateRepaint();
+			break;
 		default:
 			break;
 		}
