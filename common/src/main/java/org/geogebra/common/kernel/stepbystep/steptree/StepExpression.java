@@ -691,10 +691,7 @@ public abstract class StepExpression extends StepNode {
 
 	public boolean containsFractions() {
 		if (isOperation(Operation.DIVIDE)) {
-			StepOperation so = (StepOperation) this;
-			if (so.getOperand(0).isInteger() && so.getOperand(1).isInteger()) {
-				return true;
-			}
+			return maxDecimal() == 0;
 		}
 
 		if (this instanceof StepOperation) {

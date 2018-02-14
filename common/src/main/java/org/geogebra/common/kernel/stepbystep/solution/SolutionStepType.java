@@ -157,7 +157,7 @@ public enum SolutionStepType {
 
 	COMMON_FRACTION("CommonFraction", "Write the product as a single fraction"),
 
-	CANCEL_FRACTION("CancelFraction", "Cancel %0 in the fraction"),
+	CANCEL_FRACTION("CancelFraction", "Cancel common divisors", "Cancel %0 in the fraction"),
 
 	MULTIPLIED_BY_ZERO("MultipliedByZero", "Anything multiplied by zero is zero"),
 
