@@ -69,6 +69,7 @@ public class AlgoSequenceRange extends AlgoElement {
 			GeoNumberValue from,
 			GeoNumberValue upTo, GeoNumberValue step) {
 		super(cons);
+
 		type = SequenceType.RANGE;
 		var_from = from;
 		var_to = upTo;
@@ -185,15 +186,24 @@ public class AlgoSequenceRange extends AlgoElement {
 		// also see Operation.java case Sequence:
 		if (from < to) {
 
+			// Kernel.MIN_PRECISION and isInteger() check for eg
+			// Sequence(1, 2, 0.1)
+
 			// increasing list
-			for (double k = from; k <= to; k += step) {
+			for (double k = from; k <= to + Kernel.MIN_PRECISION; k += step) {
+				if (Kernel.isInteger(k)) {
+					k = Math.round(k);
+				}
 				list.addNumber(k, null);
 			}
 
 		} else {
 
 			// decreasing list
-			for (double k = from; k >= to; k -= step) {
+			for (double k = from; k >= to - Kernel.MIN_PRECISION; k -= step) {
+				if (Kernel.isInteger(k)) {
+					k = Math.round(k);
+				}
 				list.addNumber(k, null);
 			}
 
