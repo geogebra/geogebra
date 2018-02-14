@@ -682,7 +682,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 * @return the frame with casting.
 	 */
 	GeoGebraFrameBoth getFrame() {
-		return ((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame());
+		return (((AppWFull) app).getAppletFrame());
 	}
 
 	/**

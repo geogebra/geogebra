@@ -11,15 +11,25 @@ import org.geogebra.web.web.gui.util.LineStylePopup;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 
+/**
+ * Line style popup
+ */
 public class EuclidianLineStylePopup extends LineStylePopup implements
 		ILineStyleListener, SetLabels {
 	protected LineStyleModel model;
 
-	public EuclidianLineStylePopup(AppW app, Integer rows,
-			Integer columns, SelectionTable mode, boolean hasTable,
-			boolean hasSlider) {
-		super(app, LineStylePopup.getLineStyleIcons(), rows, columns,
-				mode, hasTable, hasSlider,
+	/**
+	 * @param app
+	 *            application
+	 * @param columns
+	 *            number of columns
+	 * @param hasSlider
+	 *            slider
+	 */
+	public EuclidianLineStylePopup(AppW app,
+			Integer columns, boolean hasSlider) {
+		super(app, LineStylePopup.getLineStyleIcons(), -1, columns,
+				SelectionTable.MODE_ICON, true, hasSlider,
 				LineStylePopup.createLineStyleMap(), false);
 		model = new LineStyleModel(app);
 		model.setListener(this);

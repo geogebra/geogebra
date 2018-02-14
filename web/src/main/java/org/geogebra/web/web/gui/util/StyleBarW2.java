@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianStyleBarStatic;
 import org.geogebra.common.gui.dialog.handler.ColorChangeHandler;
 import org.geogebra.common.gui.dialog.options.model.PointStyleModel;
-import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.geos.GeoImage;
@@ -41,8 +40,7 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	protected void createLineStyleBtn(int mode) {
 		btnLineStyle = app.has(Feature.MOW_COLOR_FILLING_LINE)
 				? new MOWLineStyleButton(app)
-				: new EuclidianLineStylePopup(app, -1, 5,
-				SelectionTable.MODE_ICON, true, true);
+				: new EuclidianLineStylePopup(app, 5, true);
 		btnLineStyle.getMySlider().setMinimum(1);
 		btnLineStyle.getMySlider().setMaximum(13);
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);

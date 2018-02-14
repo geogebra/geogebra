@@ -1,7 +1,6 @@
 package org.geogebra.web.web.gui.util;
 
 import org.geogebra.common.awt.GColor;
-import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.euclidian.EuclidianLineStylePopup;
@@ -26,7 +25,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	 *            GGB app.
 	 */
 	public MOWLineStyleButton(AppW app) {
-		super(app, -1, 5, SelectionTable.MODE_ICON, true, true);
+		super(app, 5, true);
 		// Rearranging content.
 		VerticalPanel panel = ((ButtonPopupMenu) getMyPopup()).getPanel();
 		panel.clear();

@@ -1039,7 +1039,6 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 					.removeSlide(getPageController().getSlideCount() - 1);
 
 		}
-		Log.printStacktrace(getPageController().getSlideCount() + ":" + action);
 		getAppletFrame().getPageControlPanel().update();
 	}
 

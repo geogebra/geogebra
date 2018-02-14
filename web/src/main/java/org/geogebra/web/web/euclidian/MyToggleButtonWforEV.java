@@ -17,6 +17,8 @@ public class MyToggleButtonWforEV extends MyToggleButtonW {
 	/**
 	 * @param img
 	 *            image
+	 * @param stylebar
+	 *            parent stylebar
 	 */
 	public MyToggleButtonWforEV(ImageResource img,
 			EuclidianStyleBarW stylebar) {
