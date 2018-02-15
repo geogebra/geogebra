@@ -83,6 +83,19 @@ class DragController {
 			card.removeSpace();
 			card.addStyleName("dragged");
 			last.reset();
+			if (down) {
+				PagePreviewCard next = next();
+				if (next != null) {
+					next.addSpaceTop();
+					last.target = next;
+				}
+			} else {
+				PagePreviewCard prev = prev();
+				if (prev != null) {
+					prev.addSpaceBottom();
+					last.target = prev;
+				}
+			}
 		}
 
 		void start(int x, int y) {
