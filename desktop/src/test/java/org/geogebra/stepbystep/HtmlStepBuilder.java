@@ -13,7 +13,18 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 			.append("<script src='https://beta.geogebra.org/scripts/jlatexmath/jlatexmath.js'></script>")
 			.append("<script src='https://beta.geogebra.org/scripts/jlatexmath/jlatexmath-tube.js'></script>")
 			.append("<style>#line {margin:2px;}</style>")
-			.append("<script>window.addEventListener(\"load\",function(){els = document.getElementsByTagName(\"CANVAS\");for(var k in els){els[k].getAttribute && GGBT_jlatexmath.drawLatexOnCanvas(els[k])};})</script>")
+			.append("<script type=\"text/javascript\"> "
+					+ "function render_visible() { "
+					+ "   els = document.getElementsByTagName(\"CANVAS\"); "
+					+ "   for(var k in els) { "
+					+ "      if (!els[k].getAttribute('rendered') && els[k].offsetParent !== null) { "
+					+ "         GGBT_jlatexmath.drawLatexOnCanvas(els[k]); "
+					+ "         els[k].setAttribute('rendered', true); "
+					+ "      } "
+					+ "   } "
+					+ "} "
+					+ "window.addEventListener(\"load\", render_visible)"
+					+ "</script>")
 			.append("<script type=\"text/javascript\"> "
 					+ "function toggle_visibility(id) { "
 					+ "   var e = document.getElementById('group' + id);"
@@ -21,11 +32,13 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 					+ "   if(e.style.display == 'none') { "
 					+ "      e.style.display = 'initial'; "
 					+ "      button.setAttribute('data-content', '\\\\Delta'); "
-					+ "      GGBT_jlatexmath.drawLatexOnCanvas(button);"
+					+ "      button.removeAttribute('rendered');"
+					+ "      render_visible();"
 					+ "   } else { "
 					+ "      e.style.display = 'none'; "
 					+ "      button.setAttribute('data-content', '\\\\nabla'); "
-					+ "      GGBT_jlatexmath.drawLatexOnCanvas(button);"
+					+ "      button.removeAttribute('rendered');"
+					+ "      render_visible();"
 					+ "   } "
 					+ "} "
 					+ "</script>")
@@ -35,6 +48,7 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 					+ "   var detailed = document.getElementById('detailed' + id); "
 					+ "   def.style.display = 'none'; "
 					+ "   detailed.style.display = 'initial'; "
+					+ "   render_visible();"
 					+ "} "
 					+ "</script>")	
 			.append("<script type=\"text/javascript\"> "
@@ -43,6 +57,7 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 					+ "   var detailed = document.getElementById('detailed' + id);"
 					+ "   def.style.display = 'initial'; "
 					+ "   detailed.style.display = 'none'; "
+					+ "   render_visible();"
 					+ "} "
 					+ "</script>");
 
