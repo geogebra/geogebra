@@ -269,7 +269,6 @@ public abstract class StepExpression extends StepNode {
 		return null;
 	}
 
-
 	public int countNonConstOperation(Operation operation, StepVariable variable) {
 		if (this instanceof StepOperation) {
 			StepOperation so = (StepOperation) this;
@@ -675,7 +674,7 @@ public abstract class StepExpression extends StepNode {
 
 	public int maxDecimal() {
 		if (nonSpecialConstant() && !isInteger()) {
-			return Double.toString(getValue() - (long) getValue()).length() - 2;
+			return Double.toString(getValue()).split("\\.")[1].length();
 		}
 
 		if (this instanceof StepOperation) {

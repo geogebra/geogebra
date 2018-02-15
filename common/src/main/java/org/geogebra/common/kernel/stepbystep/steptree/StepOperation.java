@@ -550,8 +550,6 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	@Override
 	public StepExpression getIntegerCoefficient() {
 		switch (operation) {
-		case PLUSMINUS:
-			return getOperand(0).getIntegerCoefficient();
 		case MINUS:
 			StepExpression sm = getOperand(0).getIntegerCoefficient();
 			if (sm == null) {
@@ -581,8 +579,6 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	@Override
 	public StepExpression getNonInteger() {
 		switch (operation) {
-		case PLUSMINUS:
-			return apply(getOperand(0).getNonInteger(), Operation.PLUSMINUS);
 		case MINUS:
 			return getOperand(0).getNonInteger();
 		case MULTIPLY:

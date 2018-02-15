@@ -91,7 +91,7 @@ public abstract class StepSolvable extends StepNode {
 		StepSolvable temp = this;
 
 		if (tracker != null && tracker.isApproximate() == null) {
-			tracker.setApproximate(maxDecimal() > 5 || maxDecimal() > 0 && !containsFractions());
+			tracker.setApproximate(maxDecimal() >= 5 || maxDecimal() > 0 && !containsFractions());
 			if (!tracker.isApproximate()) {
 				temp = (StepSolvable) StepStrategies.convertToFraction(this, sb);
 			}
@@ -117,7 +117,7 @@ public abstract class StepSolvable extends StepNode {
 		StepSolvable temp = this;
 
 		if (tracker != null && tracker.isApproximate() == null) {
-			tracker.setApproximate(maxDecimal() > 5 || maxDecimal() > 0 && !containsFractions());
+			tracker.setApproximate(maxDecimal() >= 5 || maxDecimal() > 0 && !containsFractions());
 			if (!tracker.isApproximate()) {
 				temp = (StepSolvable) StepStrategies.convertToFraction(this, sb);
 			}

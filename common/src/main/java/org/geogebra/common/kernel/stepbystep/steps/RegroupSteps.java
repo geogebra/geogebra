@@ -780,7 +780,8 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			List<StepExpression> constantList = new ArrayList<>();
 			double constantSum = 0;
 			for (int i = 0; i < so.noOfOperands(); i++) {
-				if (coefficients[i].nonSpecialConstant() && isOne(variables[i])) {
+				if ((coefficients[i].nonSpecialConstant() ||
+						coefficients[i].specialConstant() && tracker.isDecimalSimplify()) && isOne(variables[i])) {
 					constantList.add(coefficients[i]);
 					constantSum += coefficients[i].getValue();
 					coefficients[i] = null;
