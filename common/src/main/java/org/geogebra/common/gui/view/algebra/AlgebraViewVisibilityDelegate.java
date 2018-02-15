@@ -119,9 +119,9 @@ public class AlgebraViewVisibilityDelegate {
 
 	/**
 	 * 
-	 * @return true if an update occurred
+	 * @return true if some action needs a repaint
 	 */
-    public boolean didUpdateOccurred() {
-        return updateOccurred;
+    public boolean wantsViewToRepaint() {
+        return updateOccurred || clearOccured || !geosToRemove.isEmpty() || !geosToAdd.isEmpty();
     }
 }
