@@ -461,7 +461,7 @@ public final class DrawImage extends Drawable {
 	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
 		if (!geo.getKernel().getApplication()
-				.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
+				.has(Feature.MOW_IMAGE_BOUNDING_BOX) || absoluteLocation) {
 			return;
 		}
 		updateImage(e, handler);
