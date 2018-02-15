@@ -79,17 +79,18 @@ class DragController {
 			return card != null;
 		}
 		
+		private void prepareDragCard() {
+			card.removeSpace();
+			card.addStyleName("dragged");
+			last.reset();
+		}
+
 		void start(int x, int y) {
 			prevY = y;
 			int idx = cardIndexAt(x, y);
 			int count = cards.getCardCount();
 			if (idx >= 0 && idx < count) {
 				card = cards.cardAt(idx);
-				card.removeSpace();
-				card.addStyleName("dragged");
-				card.setDragPosition(x, y);
-				last.reset();
-
 			} else {
 				reset();
 			}
@@ -101,6 +102,7 @@ class DragController {
 			}
 
 			dragTo(0, y);
+
 			if (target == null) {
 				return -1;
 			}
@@ -113,16 +115,24 @@ class DragController {
 			int h = PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN;
 			diff = down ? card.getAbsoluteBottom() - last.top
 					: last.bottom - card.getAbsoluteTop();
+			if (down) {
+				Log.debug("down: card bottom: " + card.getAbsoluteBottom() + " - last.top: " + last.top + " = " + diff
+						+ " target: " + target.getPageIndex());
+			} else {
+				Log.debug("up: last bottom: " + last.bottom + " - card top: " + card.getAbsoluteTop() + " = " + diff
+						+ " target: " + target.getPageIndex());
 
-			Log.debug((down ? "down " : "up ") + " diff: " + diff);
+			}
 			if (diff > 0 && diff < h) {
 				target.setSpaceValue(diff, down);
 			}
          }
         
 		void dragTo(int x, int y) {
+
 			if (down == null) {
 				down = prevY < y;
+				prepareDragCard();
 			}
 	
 			card.setDragPosition(x, y);
@@ -156,8 +166,7 @@ class DragController {
 			if (target == last.target) {
 				return false;
 			}
-			// int idx = target.getPageIndex();
-			// Log.debug("Target changed to: " + idx);
+			Log.debug("Target changed to: " + target.getPageIndex());
 			if (last.target != null) {
 				last.target.removeSpace();
 			}
@@ -250,8 +259,9 @@ class DragController {
 			dragged.start(x, y);
 			PagePreviewCard next = dragged.next();
 			if (next != null) {
-				next.addSpaceTop();
-				dragged.last.target = next;
+				// next.addSpaceTop();
+				// dragged.last.target = next;
+				// dragged.onTargetChange();
 			}
 
 		} else if (CancelEventTimer.isDragging()) {
