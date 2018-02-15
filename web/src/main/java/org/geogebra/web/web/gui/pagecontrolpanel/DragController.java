@@ -182,11 +182,13 @@ class DragController {
 				return false;
 			}
 			Log.debug("Target changed to: " + target.getPageIndex());
+			boolean spaceAtTop = down;
 			if (last.target != null) {
 				last.target.removeSpace();
+				spaceAtTop = last.target.getPageIndex() < target.getPageIndex();
 			}
 
-			if (down) {
+			if (spaceAtTop) {
 				target.addSpaceTop();
 				last.setTop(target.getAbsoluteTop());
 				last.setBottom(target.getAbsoluteTop());
