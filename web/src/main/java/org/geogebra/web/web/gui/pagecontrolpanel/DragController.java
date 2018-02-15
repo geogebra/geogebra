@@ -130,16 +130,9 @@ class DragController {
 			int h = PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN;
 			diff = down ? card.getAbsoluteBottom() - last.top
 					: last.bottom - card.getAbsoluteTop();
-			if (down) {
-				Log.debug("down: card bottom: " + card.getAbsoluteBottom() + " - last.top: " + last.top + " = " + diff
-						+ " target: " + target.getPageIndex());
-			} else {
-				Log.debug("up: last bottom: " + last.bottom + " - card top: " + card.getAbsoluteTop() + " = " + diff
-						+ " target: " + target.getPageIndex());
 
-			}
-			if (diff > 0 && diff < h) {
-				target.setSpaceValue(diff, down);
+			if (diff > PagePreviewCard.MARGIN && diff < h) {
+				target.setSpaceValue(diff + PagePreviewCard.MARGIN, down);
 			}
          }
         
@@ -181,7 +174,7 @@ class DragController {
 			if (target == last.target) {
 				return false;
 			}
-			Log.debug("Target changed to: " + target.getPageIndex());
+
 			boolean spaceAtTop = down;
 			if (last.target != null) {
 				last.target.removeSpace();
