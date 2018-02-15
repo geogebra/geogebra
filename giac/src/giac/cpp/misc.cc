@@ -99,6 +99,28 @@ namespace giac {
   static define_unary_function_eval (__preval,&_preval,_preval_s);
   define_unary_function_ptr5( at_preval ,alias_at_preval,&__preval,0,true);
 
+  // characteristic must be large enough to interpolate the resultant
+  // d1+1 evaluations + there is a probab. of 2/m of bad evaluation
+  // (d1+1)*m/(m-2)<m -> m>d1+3 + we add some more for safety
+  bool interpolable_resultant(const polynome & P,int d1){
+    gen coefft;
+    int tt=coefftype(P,coefft);
+    if (tt==_USER){
+      if (galois_field * gf=dynamic_cast<galois_field *>(coefft._USERptr)){
+	gen m=gf->p;
+	if (!is_integer(m))
+	  return false;
+	return is_greater(m,d1+20,context0);
+      }
+      return true;
+    }
+    if (tt==_MOD){
+      gen m=*(coefft._MODptr+1);
+      if (!is_integer(m))
+	return false;
+      return is_greater(m,d1+20,context0);
+    }
+  }
   vecteur divided_differences(const vecteur & x,const vecteur & y){
     vecteur res(y);
     int s=int(x.size());
@@ -106,6 +128,7 @@ namespace giac {
       for (int j=s-1;j>=k;--j){
 	res[j]=(res[j]-res[j-1])/(x[j]-x[j-k]);
       }
+      //CERR << k << res << endl;
     }
     return res;
   }

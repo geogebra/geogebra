@@ -2644,6 +2644,8 @@ namespace giac {
     int n=Q.lexsorted_degree();
     // first estimate n*(a-m)+m*b 
     int d1=n*(a-m)+m*b;
+    if (!ducos && !interpolable_resultant(P,d1)) ducos=true;
+    if (!ducos && !interpolable_resultant(Q,d1)) ducos=true;
     //gen Pg=a*gen(m)*comb(m+dim-2,dim-2);
     //gen Qg=b*gen(n)*comb(n+dim-2,dim-2);
     if (//1 ||
@@ -2878,8 +2880,7 @@ namespace giac {
     }
 #endif // HAVE_LIBPARI
     polynome R(p.dim); gen r;
-    int rt=coefftype(p,r);
-    subresultant(p,q,r,R,rt==_MOD || rt==_USER); //false);
+    subresultant(p,q,r,R,false);
     return r*R;
 #if 0
     polynome R1(Tresultant<gen>(p,q));

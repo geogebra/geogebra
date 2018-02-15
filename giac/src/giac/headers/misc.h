@@ -31,6 +31,7 @@ namespace giac {
   gen _scalar_product(const gen & args,GIAC_CONTEXT);
   gen _compare(const gen & args,GIAC_CONTEXT);
   gen _preval(const gen & args,GIAC_CONTEXT);
+  bool interpolable_resultant(const polynome & P,int d1);
   vecteur divided_differences(const vecteur & x,const vecteur & y);
   gen _lagrange(const gen & args,GIAC_CONTEXT);
   gen _reorder(const gen & args,GIAC_CONTEXT);
