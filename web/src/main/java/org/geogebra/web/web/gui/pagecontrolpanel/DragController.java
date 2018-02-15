@@ -88,12 +88,14 @@ class DragController {
 				if (next != null) {
 					next.addSpaceTop();
 					last.target = next;
+					last.top = next.getAbsoluteTop();
 				}
 			} else {
 				PagePreviewCard prev = prev();
 				if (prev != null) {
 					prev.addSpaceBottom();
 					last.target = prev;
+					last.bottom = prev.getAbsoluteBottom();
 				}
 			}
 		}
