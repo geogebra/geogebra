@@ -880,7 +880,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		double min = Math.min(mu[0], mu[1]);
 		double e3;
-		if (Kernel.isEpsilonToX(mu[2], min)) {
+		if (DoubleUtil.isEpsilonToX(mu[2], min)) {
 			halfAxes[2] = Double.POSITIVE_INFINITY;
 			e3 = 1;
 		} else {

@@ -12,11 +12,14 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.euclidian.EuclidianConstants;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPoint3DInRegion;
+import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPoint3DOnPath;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.MacroKernel;
@@ -450,7 +453,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	public final void compute() {
 		if (!movingPoint.isDefined() || macroCons == null
 				|| !isPathIterable(path.toGeoElement())
-				|| !kernel.validLocus(locusPoint, movingPoint)) {
+				|| !validLocus(locusPoint, movingPoint)) {
 			locus.setUndefined();
 			return;
 		}
@@ -969,6 +972,33 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			update();
 		}
 		return false;
+	}
+
+	/**
+	 * Decide if the locus definition is valid in the sense that there is no
+	 * ad-hoc definition of a point on a path/region between the locus point and
+	 * the moving point on the dependency graph of the construction.
+	 */
+	public static boolean validLocus(GeoPointND locusPoint,
+			GeoPointND movingPoint) {
+		HashSet<GeoElement> mPChildren = new HashSet<>();
+		mPChildren.addAll(movingPoint.getAllChildren());
+		HashSet<GeoElement> lPParents = new HashSet<>();
+		lPParents.addAll(((GeoElement) locusPoint).getAllPredecessors());
+		mPChildren.retainAll(lPParents);
+		Log.debug("Elements between mover and tracer: " + mPChildren);
+		for (GeoElement ge : mPChildren) {
+			AlgoElement ae = ge.getParentAlgorithm();
+			if (ae != null && (ae instanceof AlgoPointOnPath
+					|| ae instanceof AlgoPoint3DOnPath
+					|| ae instanceof AlgoPointInRegion
+					|| ae instanceof AlgoPoint3DInRegion)) {
+				Log.debug("Element " + ge
+						+ " is defined ad-hoc by GeoGebra, no valid locus can be generated");
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

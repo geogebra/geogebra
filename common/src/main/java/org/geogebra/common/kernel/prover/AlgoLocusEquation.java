@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
+import org.geogebra.common.kernel.algos.AlgoLocusND;
 import org.geogebra.common.kernel.cas.UsesCAS;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -246,7 +247,7 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	 */
 	public void computeExplicitImplicit(boolean implicit) {
 		if (!implicit) {
-			if (!kernel.validLocus(locusPoint, movingPoint)) {
+			if (!AlgoLocusND.validLocus(locusPoint, movingPoint)) {
 				this.geoPoly.setUndefined();
 				return;
 			}

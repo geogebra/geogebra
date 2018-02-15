@@ -3,7 +3,6 @@ package org.geogebra.common.kernel;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,8 +14,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.factories.FormatFactory;
-import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPoint3DInRegion;
-import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoPoint3DOnPath;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.SetOrientation;
 import org.geogebra.common.gui.dialog.options.OptionsCAS;
@@ -26,8 +23,6 @@ import org.geogebra.common.kernel.algos.AlgoDispatcher;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIf;
 import org.geogebra.common.kernel.algos.AlgoMacro;
-import org.geogebra.common.kernel.algos.AlgoPointInRegion;
-import org.geogebra.common.kernel.algos.AlgoPointOnPath;
 import org.geogebra.common.kernel.algos.AlgoPointVector;
 import org.geogebra.common.kernel.algos.AlgoPolygon;
 import org.geogebra.common.kernel.algos.AlgoVectorPoint;
@@ -5344,32 +5339,6 @@ public class Kernel {
 			p = GeoGebraConstants.PROVER_MIN_PRECISION;
 		}
 		return p;
-	}
-
-	/**
-	 * Decide if the locus definition is valid in the sense that there is no
-	 * ad-hoc definition of a point on a path/region between the locus point and
-	 * the moving point on the dependency graph of the construction.
-	 */
-	public boolean validLocus(GeoPointND locusPoint, GeoPointND movingPoint) {
-		HashSet<GeoElement> mPChildren = new HashSet<>();
-		mPChildren.addAll(movingPoint.getAllChildren());
-		HashSet<GeoElement> lPParents = new HashSet<>();
-		lPParents.addAll(((GeoElement) locusPoint).getAllPredecessors());
-		mPChildren.retainAll(lPParents);
-		Log.debug("Elements between mover and tracer: " + mPChildren);
-		for (GeoElement ge : mPChildren) {
-			AlgoElement ae = ge.getParentAlgorithm();
-			if (ae != null && (ae instanceof AlgoPointOnPath
-					|| ae instanceof AlgoPoint3DOnPath
-					|| ae instanceof AlgoPointInRegion
-					|| ae instanceof AlgoPoint3DInRegion)) {
-				Log.debug("Element " + ge
-						+ " is defined ad-hoc by GeoGebra, no valid locus can be generated");
-				return false;
-			}
-		}
-		return true;
 	}
 
 }
