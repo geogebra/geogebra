@@ -1,7 +1,8 @@
 package org.geogebra.common.gui.view.algebra;
 
-import org.geogebra.common.kernel.geos.GeoElement;
 import java.util.TreeSet;
+
+import org.geogebra.common.kernel.geos.GeoElement;
 
 /**
  * Delegate that handles AV visibility
@@ -15,11 +16,19 @@ public class AlgebraViewVisibilityDelegate {
     private TreeSet<GeoElement> geosToAdd;
     private TreeSet<GeoElement> geosToRemove;
 
+	/**
+	 * constructor
+	 */
     public AlgebraViewVisibilityDelegate() {
         geosToAdd = new TreeSet<>();
         geosToRemove = new TreeSet<>();
     }
 
+	/**
+	 * Delegate will cache the update if view is not ready to process it
+	 * 
+	 * @return true if view can update
+	 */
     public boolean viewShouldUpdate() {
         if (isViewVisible) {
             return true;
@@ -28,6 +37,13 @@ public class AlgebraViewVisibilityDelegate {
         return false;
     }
 
+	/**
+	 * Delegate will cache the add if view is not ready to process it
+	 * 
+	 * @param geo
+	 *            geo to add
+	 * @return true if view can add
+	 */
     public boolean viewShouldAdd(GeoElement geo) {
         if (isViewVisible) {
             return true;
@@ -36,6 +52,13 @@ public class AlgebraViewVisibilityDelegate {
         return false;
     }
 
+	/**
+	 * Delegate will cache the remove if view is not ready to process it
+	 * 
+	 * @param geo
+	 *            geo to remove
+	 * @return true if view can remove
+	 */
     public boolean viewShouldRemove(GeoElement geo) {
         if (isViewVisible) {
             return true;
@@ -46,6 +69,11 @@ public class AlgebraViewVisibilityDelegate {
         return false;
     }
 
+	/**
+	 * Delegate will cache the clear if view is not ready to process it
+	 * 
+	 * @return true if view can clear
+	 */
     public boolean viewShouldClear() {
         if (isViewVisible) {
             return true;
@@ -56,10 +84,19 @@ public class AlgebraViewVisibilityDelegate {
         return false;
     }
 
+	/**
+	 * Tells the delegate the view is hidden.
+	 */
     public void onViewHidden() {
         isViewVisible = false;
     }
 
+	/**
+	 * Tells the delegate the view is shown.
+	 * 
+	 * @param view
+	 *            view to perform cached actions on
+	 */
     public void onViewShown(AlgebraView view) {
         isViewVisible = true;
         if (clearOccured) {
@@ -80,6 +117,10 @@ public class AlgebraViewVisibilityDelegate {
         }
     }
 
+	/**
+	 * 
+	 * @return true if an update occurred
+	 */
     public boolean didUpdateOccurred() {
         return updateOccurred;
     }
