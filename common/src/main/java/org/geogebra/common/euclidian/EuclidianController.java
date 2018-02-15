@@ -8087,8 +8087,10 @@ public abstract class EuclidianController {
 			default:
 				break;
 			}
-			getResizedShape().updateByBoundingBoxResize(event,
+			if (getResizedShape().getGeoElement().isSelected()) {
+				getResizedShape().updateByBoundingBoxResize(event,
 					view.getHitHandler());
+			}
 			hideDynamicStylebar();
 			view.repaintView();
 			stopCollectingMinorRepaints();
