@@ -708,15 +708,22 @@ public class GeoImage extends GeoElement implements Locateable,
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;
-		if (flag && !kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)) {
-			// remove startpoints
-			for (int i = 0; i < 3; i++) {
-				if (corners[i] != null) {
-					corners[i].getLocateableList().unregisterLocateable(this);
+		if (flag) {
+			if (kernel.getApplication().has(Feature.MOW_BOUNDING_BOXES)) {
+				if (corners[2] != null) {
+					corners[2].getLocateableList().unregisterLocateable(this);
+					corners[2] = null;
 				}
+			} else {
+				// remove startpoints
+				for (int i = 0; i < 3; i++) {
+					if (corners[i] != null) {
+						corners[i].getLocateableList().unregisterLocateable(this);
+					}
+				}
+				corners[1] = null;
+				corners[2] = null;
 			}
-			corners[1] = null;
-			corners[2] = null;
 		}
 	}
 
