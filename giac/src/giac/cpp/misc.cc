@@ -100,8 +100,11 @@ namespace giac {
   define_unary_function_ptr5( at_preval ,alias_at_preval,&__preval,0,true);
 
   // characteristic must be large enough to interpolate the resultant
-  // d1+1 evaluations + there is a probab. of 2/m of bad evaluation
-  // (d1+1)*m/(m-2)<m -> m>d1+3 + we add some more for safety
+  // d1+1 evaluations + there is a probab. of 2/p of bad evaluation
+  // (d1+1)*p/(p-2)<p -> p>d1+3 + we add some more for safety
+  // on Galois fields comparison should be (d+1)*p/(p-2)<p^m
+  // assuming interpolation is done with all fields elements
+  // We might also work in a field extension...
   bool interpolable_resultant(const polynome & P,int d1){
     gen coefft;
     int tt=coefftype(P,coefft);
@@ -120,6 +123,7 @@ namespace giac {
 	return false;
       return is_greater(m,d1+20,context0);
     }
+    return true;
   }
   vecteur divided_differences(const vecteur & x,const vecteur & y){
     vecteur res(y);
@@ -7732,7 +7736,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 
   gen _printf(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args.subtype!=_SEQ__VECT){
+      int st=step_infolevel(contextptr);
+      step_infolevel(1,contextptr);
       gprintf("%gen",vecteur(1,args),contextptr);
+      step_infolevel(st,contextptr);
       return 1;
     }
     vecteur v=*args._VECTptr;
@@ -7740,7 +7747,10 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       return 0;
     string s=*v.front()._STRNGptr;
     v.erase(v.begin());
+    int st=step_infolevel(contextptr);
+    step_infolevel(1,contextptr);
     gprintf(s,v,contextptr);
+    step_infolevel(st,contextptr);
     return 1;
   }
   static const char _printf_s []="printf";
