@@ -8,13 +8,13 @@ import java.util.List;
 import org.geogebra.common.awt.GRectangle;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.ScreenLocation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -56,7 +56,7 @@ public class LayoutAbsoluteGeos {
 				if (y1 == y2) {
 					return 0;
 				}
-				return Kernel.isGreater(y1, y2) ? -1 : 1;
+				return DoubleUtil.isGreater(y1, y2) ? -1 : 1;
 			}
 
 			int x1 = o1.getAbsoluteScreenLocX();
@@ -64,7 +64,7 @@ public class LayoutAbsoluteGeos {
 			if (x1 == x2) {
 				return 0;
 			}
-			return Kernel.isGreater(x1, x2) ? -1 : 1;
+			return DoubleUtil.isGreater(x1, x2) ? -1 : 1;
 
 		}
 	}

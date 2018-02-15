@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Finds intersection points of two polynomials (using the roots of their
@@ -117,7 +118,7 @@ public class AlgoIntersectFunctionLineNewton extends AlgoRootNewton {
 
 		double x;
 		// check for vertical line a*x + c = 0: intersection at x=-c/a
-		if (Kernel.isZero(line.y)) {
+		if (DoubleUtil.isZero(line.y)) {
 			x = -line.z / line.x;
 		}
 		// standard case

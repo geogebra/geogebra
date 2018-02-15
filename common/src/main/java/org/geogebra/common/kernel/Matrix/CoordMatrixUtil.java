@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.Matrix;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author ggb3D
@@ -187,7 +188,7 @@ public final class CoordMatrixUtil {
 			Coords direction) {
 
 		// if lines is not in the plane, return null
-		if (!Kernel.isZero(origin.getZ()) || !Kernel.isZero(direction.getZ())) {
+		if (!DoubleUtil.isZero(origin.getZ()) || !DoubleUtil.isZero(direction.getZ())) {
 			return null;
 		}
 
@@ -219,7 +220,7 @@ public final class CoordMatrixUtil {
 		if (v.isZero()) { // planes are parallel or equal
 			origin.set(plane1.getOrigin()); // planes are equal
 			plane1.getOrigin().projectPlaneInPlaneCoords(plane2, direction);
-			if (!Kernel.isZero(direction.getZ())) { // plane are not included:
+			if (!DoubleUtil.isZero(direction.getZ())) { // plane are not included:
 													// return (0,0,0,0) as
 													// origin
 				origin.set(0);

@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 	private static final double DELTA = Kernel.MIN_PRECISION * 10;
@@ -121,7 +122,7 @@ public class AlgoIntersectPolynomialPolyLine extends AlgoIntersect {
 		if (func.isDefined() && seg.isDefined()) {
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
-			if (Kernel.isZero(seg.y)) {
+			if (DoubleUtil.isZero(seg.y)) {
 				solution.setSingleRoot(-seg.z / seg.x);
 			}
 			// standard case

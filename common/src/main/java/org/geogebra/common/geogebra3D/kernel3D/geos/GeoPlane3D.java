@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Plane
@@ -177,7 +178,7 @@ public class GeoPlane3D extends GeoElement3D
 	public boolean isInRegion(GeoPointND P) {
 		Coords planeCoords = getNormalProjection(P.getInhomCoordsInD3())[1];
 		// Application.debug(P.getLabel()+":\n"+planeCoords);
-		return Kernel.isEqual(planeCoords.get(3), 0, Kernel.STANDARD_PRECISION);
+		return DoubleUtil.isEqual(planeCoords.get(3), 0, Kernel.STANDARD_PRECISION);
 	}
 
 	@Override
@@ -754,7 +755,7 @@ public class GeoPlane3D extends GeoElement3D
 		tmpCoords1.setValues(P.getDirectionInD3(), 3);
 		tmpCoords1.normalize();
 
-		if (!Kernel.isEqual(1, Math.abs(tmpCoords1.dotproduct(tmpCoords2)))) {
+		if (!DoubleUtil.isEqual(1, Math.abs(tmpCoords1.dotproduct(tmpCoords2)))) {
 			return 0;
 		}
 

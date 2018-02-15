@@ -17,13 +17,13 @@ import java.util.ArrayList;
 import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EquationSolverInterface;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Find asymptotes of ImplicitCurves
@@ -107,7 +107,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 		int tn = solver.polynomialRoots(tRoots, false);
 		int shift = 0;
 		for (int j = 1; j < tn; j++) {
-			if (Kernel.isEqual(tRoots[j - shift - 1], tRoots[j])) {
+			if (DoubleUtil.isEqual(tRoots[j - shift - 1], tRoots[j])) {
 				shift++;
 			} else {
 				if (shift > 0) {
@@ -162,7 +162,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 
 		double last = Double.NaN;
 		for (int i = 0; i < n; i++) {
-			if (!Kernel.isEqual(last, roots[i])) {
+			if (!DoubleUtil.isEqual(last, roots[i])) {
 				int r = Integer.MAX_VALUE;
 				ArrayList<Double> p = new ArrayList<>();
 				double[] divisor = new double[] { -roots[i], 1 };
@@ -200,7 +200,7 @@ public class AlgoAsymptoteImplicitPoly extends AlgoElement {
 						}
 						l = r - k;
 					} else {
-						while (Kernel.isZero(rk)) {
+						while (DoubleUtil.isZero(rk)) {
 							if (r - k <= l) {
 								rk = 0;
 								break;

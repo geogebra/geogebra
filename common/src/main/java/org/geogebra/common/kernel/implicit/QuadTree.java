@@ -5,11 +5,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Base class for quadtree algorithms
@@ -128,8 +128,8 @@ abstract class QuadTree {
 	}
 
 	private static boolean equal(MyPoint q1, MyPoint q2) {
-		return Kernel.isEqual(q1.x, q2.x, 1e-10)
-				&& Kernel.isEqual(q1.y, q2.y, 1e-10);
+		return DoubleUtil.isEqual(q1.x, q2.x, 1e-10)
+				&& DoubleUtil.isEqual(q1.y, q2.y, 1e-10);
 	}
 
 	public int addSegment(Rect r, int factor) {

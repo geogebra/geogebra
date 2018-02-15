@@ -62,6 +62,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -711,7 +712,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		angExt += angSt;
 		double r = arcSize / euclidianView.getXscale();
 		// if angle=90 and decoration=little square
-		if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+		if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
 				&& geo.isEmphasizeRightAngle() && euclidianView
 						.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE) {
 			r = r / Math.sqrt(2);
@@ -771,7 +772,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			endBeamer(codeFilledObject);
 
 			// draw the dot if angle= 90 and decoration=dot
-			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+			if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle() && euclidianView
 							.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
 				double diameter = geo.getLineThickness()
@@ -1410,7 +1411,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 					v[1] = true;
 				}
 				double val = le.evaluateDouble();
-				v[0] = !Kernel.isInteger(val);
+				v[0] = !DoubleUtil.isInteger(val);
 				return v;
 			}
 			op = le.getOperation();

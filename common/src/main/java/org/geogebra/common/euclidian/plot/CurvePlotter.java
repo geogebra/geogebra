@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -263,7 +264,7 @@ public class CurvePlotter {
 				eval1 = Cloner.clone(eval);
 				diff = view.getOnScreenDiff(eval0, eval1);
 
-				if (Kernel.isZero(diff[0]) && Kernel.isZero(diff[1])) {
+				if (DoubleUtil.isZero(diff[0]) && DoubleUtil.isZero(diff[1])) {
 					countDiffZeros++;
 				} else {
 					countDiffZeros = 0;
@@ -538,7 +539,7 @@ public class CurvePlotter {
 			int mnaxIterations) {
 		double t1 = from;
 		double t2 = to;
-		if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
+		if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION)) {
 			return true;
 		}
 
@@ -583,7 +584,7 @@ public class CurvePlotter {
 				t1 = m;
 			}
 
-			if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
+			if (DoubleUtil.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
 			 {
 				return true;
 			// System.out.println(" largest dist: " + dist + ", [" + t1 + ", "

@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.algos;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -13,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
@@ -228,7 +228,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			}
 
 			// set output intersect segments
-			if (!Kernel.isZero(P.distance(pnt))) {
+			if (!DoubleUtil.isZero(P.distance(pnt))) {
 				if (getConic().isInRegion((P.inhomX + pnt.inhomX) / 2.0d,
 						(P.inhomY + pnt.inhomY) / 2.0d)) {
 
@@ -243,7 +243,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 					break;
 				}
 			}
-			if (!Kernel.isZero(pnt.distance(Q))) {
+			if (!DoubleUtil.isZero(pnt.distance(Q))) {
 				if (getConic().isInRegion((pnt.inhomX + Q.inhomX) / 2.0d,
 						(pnt.inhomY + Q.inhomY) / 2.0d)) {
 
@@ -304,7 +304,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 			// counting no of output segments and assigning them as output
 			for (int i = 0; i < 3; i++) {
-				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
 							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
 									/ 2.0d,
@@ -385,7 +385,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 			// counting no of output segments and assining them as output
 			for (int i = 0; i < 4; i++) {
-				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
 							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
 									/ 2.0d,
@@ -475,7 +475,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 
 			// counting no of output segments and assining them as output
 			for (int i = 0; i < 4; i++) {
-				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
 							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
 									/ 2.0d,

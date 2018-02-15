@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.HasDebugString;
 
 /**
@@ -662,7 +663,7 @@ public class Polynomial implements HasDebugString {
 			} else if (this.degree() == 0) {
 				terms.get(0).coefficient = terms.get(0).coefficient.wrap()
 						.power(rt);
-			} else if (!Kernel.isInteger(power) || Kernel.isGreater(0, power)) {
+			} else if (!DoubleUtil.isInteger(power) || DoubleUtil.isGreater(0, power)) {
 				equ.setIsPolynomial(false);
 			} else {
 				this.power((int) power, equ, keepFraction);

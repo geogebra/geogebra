@@ -1,6 +1,6 @@
 package org.geogebra.common.kernel.Matrix;
 
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * class for 3 double (x, y, z)
@@ -70,7 +70,7 @@ public class CoordsDouble3 extends Coords3 {
 	@Override
 	public void normalizeIfPossible() {
 		double l = Math.sqrt(x * x + y * y + z * z);
-		if (!Kernel.isZero(l)) {
+		if (!DoubleUtil.isZero(l)) {
 			mulInside(1 / l);
 		}
 	}

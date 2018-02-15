@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.kernelND.GeoVecInterface;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -328,7 +329,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					.getBoolean() == ((BooleanValue) rt).getBoolean());
 		} else if (lt instanceof NumberValue && rt instanceof NumberValue) {
 			return new MyBoolean(kernel,
-					Kernel.isEqual(lt.evaluateDouble(), rt.evaluateDouble()));
+					DoubleUtil.isEqual(lt.evaluateDouble(), rt.evaluateDouble()));
 		} else if (lt instanceof TextValue && rt instanceof TextValue) {
 
 			String strL = ((TextValue) lt).toValueString(tpl);
@@ -1037,13 +1038,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// check if we have a/b with a and b integers
 		double a = node.getLeft().evaluateDouble();
 		long al = Math.round(a);
-		if (Kernel.isEqual(a, al)) { // a is integer
+		if (DoubleUtil.isEqual(a, al)) { // a is integer
 			double b = node.getRight().evaluateDouble();
 			long bl = Math.round(b);
 			if (b == 0) {
 				// (x^a)^(1/0)
 				return (Double.NaN);
-			} else if (Kernel.isEqual(b, bl)) { // b is
+			} else if (DoubleUtil.isEqual(b, bl)) { // b is
 												// integer
 				// divide through greatest common divisor of a
 				// and b

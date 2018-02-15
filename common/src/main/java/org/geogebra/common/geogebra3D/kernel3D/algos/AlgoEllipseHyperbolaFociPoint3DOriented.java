@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -10,6 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoEllipseHyperbolaFociPoint3DOriented
 		extends AlgoEllipseHyperbolaFociPoint3D {
@@ -50,11 +50,11 @@ public class AlgoEllipseHyperbolaFociPoint3DOriented
 		Coords d1 = Bc.sub(Ac);
 
 		// check if plane (ABC) and vn are orthogonal
-		if (!Kernel.isZero(d1.dotproduct(vn))) {
+		if (!DoubleUtil.isZero(d1.dotproduct(vn))) {
 			return false;
 		}
 
-		if (!Kernel.isZero(Cc.sub(Ac).dotproduct(vn))) {
+		if (!DoubleUtil.isZero(Cc.sub(Ac).dotproduct(vn))) {
 			return false;
 		}
 

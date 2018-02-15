@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algorithm for computation of tangent curve
@@ -154,10 +155,10 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 			// avoid evaluation of dF1/dx
 			// TODO: have a more reasonable choice; also we use standard
 			// precision rather than working precision (might not be a problem)
-			if (Kernel.isEqual(0,
+			if (DoubleUtil.isEqual(0,
 					this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
 					Kernel.STANDARD_PRECISION_SQRT)
-					&& Kernel.isEqual(0,
+					&& DoubleUtil.isEqual(0,
 							this.poly.derivativeY(ip[i].inhomX, ip[i].inhomY),
 							Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;

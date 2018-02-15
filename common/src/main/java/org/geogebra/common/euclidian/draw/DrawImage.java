@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -271,10 +272,10 @@ public final class DrawImage extends Drawable {
 	}
 
 	private static boolean isTranslation(GAffineTransform at2) {
-		return Kernel.isEqual(at2.getScaleX(), 1.0, Kernel.MAX_PRECISION)
-				&& Kernel.isEqual(at2.getScaleY(), 1.0, Kernel.MAX_PRECISION)
-				&& Kernel.isEqual(at2.getShearX(), 0.0, Kernel.MAX_PRECISION)
-				&& Kernel.isEqual(at2.getShearY(), 0.0, Kernel.MAX_PRECISION);
+		return DoubleUtil.isEqual(at2.getScaleX(), 1.0, Kernel.MAX_PRECISION)
+				&& DoubleUtil.isEqual(at2.getScaleY(), 1.0, Kernel.MAX_PRECISION)
+				&& DoubleUtil.isEqual(at2.getShearX(), 0.0, Kernel.MAX_PRECISION)
+				&& DoubleUtil.isEqual(at2.getShearY(), 0.0, Kernel.MAX_PRECISION);
 	}
 
 	/**

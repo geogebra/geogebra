@@ -3,10 +3,10 @@ package org.geogebra.common.main.settings;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Settings for 3D view
@@ -107,9 +107,9 @@ public class EuclidianSettings3D extends EuclidianSettings {
 
 	private void updateScaleHelpers() {
 		hasSameScales = true;
-		if (!Kernel.isEqual(xscale, yscale)) {
+		if (!DoubleUtil.isEqual(xscale, yscale)) {
 			hasSameScales = false;
-		} else if (!Kernel.isEqual(xscale, zscale)) {
+		} else if (!DoubleUtil.isEqual(xscale, zscale)) {
 			hasSameScales = false;
 		}
 
@@ -577,12 +577,12 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		sb.append("\t<projection type=\"");
 		sb.append(getProjection());
 		getXMLForStereo(sb);
-		if (!Kernel.isEqual(projectionObliqueAngle,
+		if (!DoubleUtil.isEqual(projectionObliqueAngle,
 				EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT)) {
 			sb.append("\" obliqueAngle=\"");
 			sb.append(projectionObliqueAngle);
 		}
-		if (!Kernel.isEqual(projectionObliqueFactor,
+		if (!DoubleUtil.isEqual(projectionObliqueFactor,
 				EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT)) {
 			sb.append("\" obliqueFactor=\"");
 			sb.append(projectionObliqueFactor);

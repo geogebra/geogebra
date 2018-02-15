@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.arithmetic.VectorValue;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.mathIT.Riemann;
@@ -307,7 +308,7 @@ final public class GeoVec2D extends ValidExpression
 	 * @return true if both vectors have equal coords
 	 */
 	public boolean isEqual(GeoVec2D v) {
-		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);
+		return DoubleUtil.isEqual(x, v.x) && DoubleUtil.isEqual(y, v.y);
 	}
 
 	/**
@@ -321,7 +322,7 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	public boolean linDep(GeoVec2D v) {
 		// v = l* w <=> det(v, w) = o
-		return Kernel.isZero(det(this, v));
+		return DoubleUtil.isZero(det(this, v));
 	}
 
 	/**
@@ -1433,7 +1434,7 @@ final public class GeoVec2D extends ValidExpression
 			x = x / z1;
 			y = y / z1;
 		} else {
-			if (!Kernel.isZero(z1)) {
+			if (!DoubleUtil.isZero(z1)) {
 				// for a Vector, if z1!=0 then the answer can't be represented
 				// by a 2D vector
 				// so set undefined

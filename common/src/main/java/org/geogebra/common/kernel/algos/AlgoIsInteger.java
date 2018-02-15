@@ -13,11 +13,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Returns whether an object is an integer
@@ -63,7 +63,7 @@ public class AlgoIsInteger extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
+		outputBoolean.setValue(DoubleUtil.isInteger(inputGeo.getDouble()));
 	}
 
 }

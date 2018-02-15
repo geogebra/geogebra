@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.discrete.delaunay;
 
 import java.util.Comparator;
 
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -414,15 +414,15 @@ class Compare implements Comparator<Point_dt> {
 	}
 
 	public static boolean greaterThan(double x, double y) {
-		return Kernel.isGreater(x, y);
+		return DoubleUtil.isGreater(x, y);
 	}
 
 	public static boolean lessThan(double x, double y) {
-		return Kernel.isGreater(y, x);
+		return DoubleUtil.isGreater(y, x);
 	}
 
 	public static boolean equals(double x, double y) {
-		return Kernel.isEqual(x, y);
+		return DoubleUtil.isEqual(x, y);
 	}
 
 }

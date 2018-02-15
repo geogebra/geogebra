@@ -1,12 +1,12 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GgbMat;
 
 public class AlgoMatrixRank extends AlgoElement {
@@ -47,7 +47,7 @@ public class AlgoMatrixRank extends AlgoElement {
 		for (int i = 0; i < rows; i++) {
 			boolean onlyZeros = true;
 			for (int j = 0; j < cols; j++) {
-				if (!Kernel.isZero(matrix.getEntry(i, j))) {
+				if (!DoubleUtil.isZero(matrix.getEntry(i, j))) {
 					onlyZeros = false;
 					break;
 				}

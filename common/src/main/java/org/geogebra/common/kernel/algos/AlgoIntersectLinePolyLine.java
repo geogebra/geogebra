@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algo for intersection of a line with a polyLine
@@ -150,7 +151,7 @@ public class AlgoIntersectLinePolyLine extends AlgoElement {
 
 			Coords coords = segStart.crossProduct(segEnd).crossProduct(gCoords);
 
-			if (Kernel.isZero(coords.getLast())) {
+			if (DoubleUtil.isZero(coords.getLast())) {
 				if (((GeoLine) g).isOnPath(segStart, Kernel.STANDARD_PRECISION)
 						&& ((GeoLine) g).isOnPath(segEnd,
 								Kernel.STANDARD_PRECISION)) {

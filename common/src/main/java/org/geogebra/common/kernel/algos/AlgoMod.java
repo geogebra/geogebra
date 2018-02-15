@@ -18,10 +18,10 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes Mod[a, b]
@@ -60,8 +60,8 @@ public class AlgoMod extends AlgoTwoNumFunction {
 			// double mod = Math.round(a.getDouble());
 			// double bInt = Math.abs(Math.round(b.getDouble()));
 
-			double aVal = Kernel.checkInteger(a.getDouble());
-			double bAbs = Kernel.checkInteger(Math.abs(b.getDouble()));
+			double aVal = DoubleUtil.checkInteger(a.getDouble());
+			double bAbs = DoubleUtil.checkInteger(Math.abs(b.getDouble()));
 
 			if (Math.abs(aVal) > MyDouble.LARGEST_INTEGER
 					|| bAbs > MyDouble.LARGEST_INTEGER) {

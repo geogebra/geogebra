@@ -20,7 +20,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -28,6 +27,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -129,13 +129,13 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 
 				// same center
 				if (o1.equalsForKernel(o2)) {
-					if (Kernel.isZero(r1) && Kernel.isZero(r2)) {
+					if (DoubleUtil.isZero(r1) && DoubleUtil.isZero(r2)) {
 						// single point
 						GeoConic3D.setSinglePoint(circle, o1);
 						return;
 					}
 
-					if (Kernel.isEqual(r1, r2)) {
+					if (DoubleUtil.isEqual(r1, r2)) {
 						// undefined
 						circle.setUndefined();
 						return;
@@ -151,7 +151,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 				v.calcNorm();
 				double d = v.getNorm();
 
-				if (Kernel.isGreater(d, r1 + r2)) {
+				if (DoubleUtil.isGreater(d, r1 + r2)) {
 					// no intersection : empty
 					circle.empty();
 					return;

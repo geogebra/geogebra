@@ -62,7 +62,7 @@ public final class MyMath {
 			return Double.NaN;
 		}
 
-		if (Kernel.isZero(a)) {
+		if (DoubleUtil.isZero(a)) {
 			return 0.0;
 		} else if (a > 0.0) {
 			return 1.0;
@@ -110,13 +110,13 @@ public final class MyMath {
 	public static double asin(double a) {
 
 		if (a > 1) {
-			if (Kernel.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
+			if (DoubleUtil.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
 				return Math.asin(1);
 			}
 		}
 
 		if (a < -1) {
-			if (Kernel.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
+			if (DoubleUtil.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
 				return Math.asin(-1);
 			}
 		}
@@ -130,13 +130,13 @@ public final class MyMath {
 	public static double acos(double a) {
 
 		if (a > 1) {
-			if (Kernel.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
+			if (DoubleUtil.isEqual(a, 1, Kernel.MAX_DOUBLE_PRECISION)) {
 				return Math.acos(1);
 			}
 		}
 
 		if (a < -1) {
-			if (Kernel.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
+			if (DoubleUtil.isEqual(a, -1, Kernel.MAX_DOUBLE_PRECISION)) {
 				return Math.acos(-1);
 			}
 		}
@@ -169,7 +169,7 @@ public final class MyMath {
 
 	public static double csc(double a) {
 		double sin = Math.sin(a);
-		if (Kernel.isZero(sin)) {
+		if (DoubleUtil.isZero(sin)) {
 			return Double.NaN;
 		}
 
@@ -180,7 +180,7 @@ public final class MyMath {
 
 		// problem with eg sec(270deg)
 		double cos = Math.cos(a);
-		if (Kernel.isZero(cos)) {
+		if (DoubleUtil.isZero(cos)) {
 			return Double.NaN;
 		}
 
@@ -189,7 +189,7 @@ public final class MyMath {
 
 	public static double cot(double a) {
 		double sin = Math.sin(a);
-		if (Kernel.isZero(sin)) {
+		if (DoubleUtil.isZero(sin)) {
 			return Double.NaN; // not infinity (1/0)
 		}
 		return Math.cos(a) / sin;
@@ -425,8 +425,8 @@ public final class MyMath {
 			if (n0 < 1d || r < 0d || n0 < r) {
 				return 0d;
 			}
-			if (!Kernel.isEqual(Math.round(n0), n0)
-					|| !Kernel.isEqual(Math.round(r), r)) {
+			if (!DoubleUtil.isEqual(Math.round(n0), n0)
+					|| !DoubleUtil.isEqual(Math.round(r), r)) {
 				return 0d;
 			}
 

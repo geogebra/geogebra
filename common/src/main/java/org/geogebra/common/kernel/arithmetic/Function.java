@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -222,7 +223,7 @@ public class Function extends FunctionNVar
 		ExpressionValue left = expression.getLeft();
 
 		// translate x
-		if (!Kernel.isZero(vx)) {
+		if (!DoubleUtil.isZero(vx)) {
 			if (isLeaf && left == fVars[0]) { // special case: f(x) = x
 				expression = shiftXnode(vx, 0);
 			} else {
@@ -233,7 +234,7 @@ public class Function extends FunctionNVar
 		}
 
 		// translate y
-		if (!Kernel.isZero(vy)) {
+		if (!DoubleUtil.isZero(vy)) {
 			// f(x) = f(x) + vy
 			translateY(vy);
 		}
@@ -278,7 +279,7 @@ public class Function extends FunctionNVar
 		if (expression.isLeaf() && expression.getLeft() != fVars[0]
 				&& (expression.getLeft() instanceof NumberValue)) {
 			MyDouble c = ((NumberValue) expression.getLeft()).getNumber();
-			c.set(Kernel.checkDecimalFraction(c.getDouble() + vy));
+			c.set(DoubleUtil.checkDecimalFraction(c.getDouble() + vy));
 			expression.setLeft(c);
 			return expression;
 		} else if (expression.getOperation() == Operation.IF) {
@@ -575,7 +576,7 @@ public class Function extends FunctionNVar
 						return false;
 					}
 					if (node.getOperation().equals(Operation.POWER)) {
-						if (Kernel.isZero(rightVal)) {
+						if (DoubleUtil.isZero(rightVal)) {
 							// left^0 = 1
 							return addPolynomialFactors(new MyDouble(kernel, 1),
 									l, symbolic, rootFindingSimplification,
@@ -587,7 +588,7 @@ public class Function extends FunctionNVar
 									assumeFalseIfCASNeeded);
 						}
 					} else { // division
-						if (Kernel.isZero(rightVal)) {
+						if (DoubleUtil.isZero(rightVal)) {
 							// left / 0 = undefined
 							return false;
 						}

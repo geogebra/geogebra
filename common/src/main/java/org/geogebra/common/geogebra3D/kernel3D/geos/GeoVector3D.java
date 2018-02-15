@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -155,9 +156,9 @@ public class GeoVector3D extends GeoVec4D
 		Coords c1 = getCoords();
 		Coords c2 = v1.getCoordsInD3();
 
-		return Kernel.isEqual(c1.getX(), c2.getX())
-				&& Kernel.isEqual(c1.getY(), c2.getY())
-				&& Kernel.isEqual(c1.getZ(), c2.getZ());
+		return DoubleUtil.isEqual(c1.getX(), c2.getX())
+				&& DoubleUtil.isEqual(c1.getY(), c2.getY())
+				&& DoubleUtil.isEqual(c1.getZ(), c2.getZ());
 
 	}
 
@@ -359,7 +360,7 @@ public class GeoVector3D extends GeoVec4D
 		}
 
 		// cartesian 2D / polar / complex not possible
-		if (!Kernel.isZero(getZ())) {
+		if (!DoubleUtil.isZero(getZ())) {
 			if (getMode() == Kernel.COORD_POLAR) {
 				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(),
 						getY(), getZ(), sb);

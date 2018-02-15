@@ -13,8 +13,8 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -305,7 +305,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 			}
 
 			mi = new JCheckBoxMenuItem(sb.toString());
-			mi.setSelected(Kernel.isEqual(axesRatios[i], scaleRatio));
+			mi.setSelected(DoubleUtil.isEqual(axesRatios[i], scaleRatio));
 			mi.setActionCommand("" + axesRatios[i]);
 			mi.addActionListener(al);
 			mi.setBackground(wrappedPopup.getBackground());

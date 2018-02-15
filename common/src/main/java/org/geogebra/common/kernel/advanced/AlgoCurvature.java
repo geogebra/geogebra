@@ -1,13 +1,13 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author Victor Franco Espino, Markus Hohenwarter
@@ -67,7 +67,7 @@ public class AlgoCurvature extends AlgoElement {
 
 	@Override
 	public final void compute() {
-		if (f.isDefined() && Kernel.isZero(A.getInhomZ())) {
+		if (f.isDefined() && DoubleUtil.isZero(A.getInhomZ())) {
 			K.setValue(f.evaluateCurvature(A.getInhomX()));
 		} else {
 			K.setUndefined();

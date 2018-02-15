@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.geos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -13,6 +12,7 @@ import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoQuadric3DPartInterface;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -188,11 +188,11 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	protected Coords[] getProjection(Coords willingCoords,
 			Coords willingDirection, double t1, double t2) {
 
-		if (Kernel.isGreater(t2, t1)) {
+		if (DoubleUtil.isGreater(t2, t1)) {
 			return getProjectionSorted(willingCoords, willingDirection, t1, t2);
 		}
 
-		if (Kernel.isGreater(t1, t2)) {
+		if (DoubleUtil.isGreater(t1, t2)) {
 			return getProjectionSorted(willingCoords, willingDirection, t2, t1);
 		}
 
@@ -202,11 +202,11 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 
 	@Override
 	protected boolean checkParameters(double[] parameters) {
-		if (Kernel.isGreater(getMinParameter(1), parameters[1])) {
+		if (DoubleUtil.isGreater(getMinParameter(1), parameters[1])) {
 			parameters[1] = getMinParameter(1);
 			return false;
 		}
-		if (Kernel.isGreater(parameters[1], getMaxParameter(1))) {
+		if (DoubleUtil.isGreater(parameters[1], getMaxParameter(1))) {
 			parameters[1] = getMaxParameter(1);
 			return false;
 		}
@@ -233,9 +233,9 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 				willingCoords.add(willingDirection.mul(t1)), tmpDouble2);
 
 		// check if first parameters are inside
-		if (Kernel.isGreater(getMinParameter(1), tmpDouble2[1])) {
+		if (DoubleUtil.isGreater(getMinParameter(1), tmpDouble2[1])) {
 			tmpDouble2[1] = getMinParameter(1);
-		} else if (Kernel.isGreater(tmpDouble2[1], getMaxParameter(1))) {
+		} else if (DoubleUtil.isGreater(tmpDouble2[1], getMaxParameter(1))) {
 			tmpDouble2[1] = getMaxParameter(1);
 		} else {
 			return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]),
@@ -248,9 +248,9 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		// first parameters are outside, check second parameters
 		super.getNormalProjectionParameters(
 				willingCoords.add(willingDirection.mul(t2)), tmpDouble2bis);
-		if (Kernel.isGreater(getMinParameter(1), tmpDouble2bis[1])) {
+		if (DoubleUtil.isGreater(getMinParameter(1), tmpDouble2bis[1])) {
 			tmpDouble2bis[1] = getMinParameter(1);
-		} else if (Kernel.isGreater(tmpDouble2bis[1], getMaxParameter(1))) {
+		} else if (DoubleUtil.isGreater(tmpDouble2bis[1], getMaxParameter(1))) {
 			tmpDouble2bis[1] = getMaxParameter(1);
 		} else {
 			return new Coords[] { getPoint(tmpDouble2bis[0], tmpDouble2bis[1]),
@@ -265,7 +265,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		Coords l2 = getPoint(tmpDouble2bis[0], tmpDouble2bis[1]);
 		double d1 = l1.distLine(willingCoords, willingDirection);
 		double d2 = l2.distLine(willingCoords, willingDirection);
-		if (Kernel.isGreater(d1, d2)) {
+		if (DoubleUtil.isGreater(d1, d2)) {
 			return new Coords[] { getPoint(tmpDouble2bis[0], tmpDouble2bis[1]),
 					new Coords(tmpDouble2bis) };
 		}
@@ -324,7 +324,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		// min="+min+", max="+max+", type="+type);
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			if (!Kernel.isEqual(getHalfAxis(0), getHalfAxis(1))) {
+			if (!DoubleUtil.isEqual(getHalfAxis(0), getHalfAxis(1))) {
 				area = EllipticArcLength.getEllipseCircumference(getHalfAxis(0),
 						getHalfAxis(1)) * (max - min);
 			} else {
@@ -332,7 +332,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 			}
 			break;
 		case QUADRIC_CONE:
-			if (!Kernel.isEqual(getHalfAxis(0), getHalfAxis(1))) {
+			if (!DoubleUtil.isEqual(getHalfAxis(0), getHalfAxis(1))) {
 				double h = max - min;
 				double a = getHalfAxis(0) * h;
 				double b = getHalfAxis(1) * h;

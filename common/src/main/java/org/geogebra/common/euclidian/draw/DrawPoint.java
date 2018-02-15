@@ -32,7 +32,6 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoIntersectAbstract;
@@ -45,6 +44,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -143,7 +143,7 @@ public final class DrawPoint extends Drawable {
 		} else {
 			// looks if it's on view
 			Coords p = view.getCoordsForView(P.getInhomCoordsInD3());
-			if (!Kernel.isZero(p.getZ())) {
+			if (!DoubleUtil.isZero(p.getZ())) {
 				isVisible = false;
 			} else {
 				coords1[0] = p.getX();

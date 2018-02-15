@@ -51,6 +51,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -71,7 +72,7 @@ public class ExpressionNode extends ValidExpression
 		public boolean check(ExpressionValue v) {
 			return v.isExpressionNode()
 					&& ((ExpressionNode) v).getOperation() == Operation.DIVIDE
-					&& Kernel.isZero(v.evaluateDouble())
+					&& DoubleUtil.isZero(v.evaluateDouble())
 					&& ((ExpressionNode) v).getLeft().evaluateDouble() != 0;
 		}
 	};
@@ -419,7 +420,7 @@ public class ExpressionNode extends ValidExpression
 					.evaluate(StringTemplate.defaultTemplate);
 			if (eval instanceof NumberValue) {
 				// we only simplify numbers that have integer values
-				if (Kernel.isInteger(eval.evaluateDouble())) {
+				if (DoubleUtil.isInteger(eval.evaluateDouble())) {
 					if (node.inspect(TRICKY_DIVISION_CHECKER)) {
 						node.simplifyConstantIntegers();
 						return left2;
@@ -3941,7 +3942,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public static boolean isEqual(ExpressionValue ev1, ExpressionValue ev2) {
 		if (ev1 instanceof NumberValue && ev2 instanceof NumberValue) {
-			return Kernel.isEqual(ev1.evaluateDouble(), ev2.evaluateDouble(),
+			return DoubleUtil.isEqual(ev1.evaluateDouble(), ev2.evaluateDouble(),
 					Kernel.STANDARD_PRECISION);
 		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {
 			return ((TextValue) ev1)
@@ -4458,7 +4459,7 @@ public class ExpressionNode extends ValidExpression
 			// don't use Kernel.isZero() to check == 0
 			// as can lose leading coefficient of polynomial
 			return new ExpressionNode(kernel, 0);
-		} else if (Kernel.isEqual(1, d)) {
+		} else if (DoubleUtil.isEqual(1, d)) {
 			return this;
 		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY,
@@ -4475,7 +4476,7 @@ public class ExpressionNode extends ValidExpression
 			// don't use Kernel.isZero() to check == 0
 			// as can lose leading coefficient of polynomial
 			return new ExpressionNode(kernel, 0);
-		} else if (Kernel.isEqual(1, d)) {
+		} else if (DoubleUtil.isEqual(1, d)) {
 			return this;
 		}
 		return new ExpressionNode(kernel, new MyDouble(kernel, d),
@@ -4488,9 +4489,9 @@ public class ExpressionNode extends ValidExpression
 	 * @return result of multiply
 	 */
 	public ExpressionNode power(double d) {
-		if (Kernel.isZero(d)) {
+		if (DoubleUtil.isZero(d)) {
 			return new ExpressionNode(kernel, 1);
-		} else if (Kernel.isEqual(1, d) || isConstantDouble(this, 1)
+		} else if (DoubleUtil.isEqual(1, d) || isConstantDouble(this, 1)
 				|| isConstantDouble(this, 0)) {
 			return this;
 		}
@@ -4681,7 +4682,7 @@ public class ExpressionNode extends ValidExpression
 					setOperation(Operation.CBRT);
 					hit = true;
 				} else if (!rightLeaf.getRight().unwrap().isExpressionNode()
-						&& Kernel.isInteger(
+						&& DoubleUtil.isInteger(
 								rightLeaf.getRight().evaluateDouble())
 						&& rightLeaf.getRight().evaluateDouble() <= maxRoot) {
 					setOperation(Operation.NROOT);
@@ -4819,7 +4820,7 @@ public class ExpressionNode extends ValidExpression
 				double index = right.evaluateDouble();
 				if (!Double.isNaN(index) && !Double.isInfinite(index)) {
 
-					if (Kernel.isZero(index + 1)) {
+					if (DoubleUtil.isZero(index + 1)) {
 						return new ExpressionNode(kernel0, left, Operation.LOG,
 								null);
 					}
@@ -4833,11 +4834,11 @@ public class ExpressionNode extends ValidExpression
 					if (!Double.isNaN(base) && !Double.isInfinite(base)) {
 
 						// 1^x
-						if (Kernel.isEqual(base, 1)) {
+						if (DoubleUtil.isEqual(base, 1)) {
 							return wrap(fv);
 						}
 
-						if (Kernel.isGreater(base, 0)) {
+						if (DoubleUtil.isGreater(base, 0)) {
 							return this.divide(wrap(left).ln());
 						}
 					}
@@ -4852,7 +4853,7 @@ public class ExpressionNode extends ValidExpression
 					if (!Double.isNaN(coeff)) {
 
 						// (exp)^-1 -> ln(abs(exp))
-						if (Kernel.isEqual(index, -1)) {
+						if (DoubleUtil.isEqual(index, -1)) {
 							return wrap(left).abs().ln().divide(coeff);
 						}
 						return wrap(left).power(index + 1)
@@ -4862,7 +4863,7 @@ public class ExpressionNode extends ValidExpression
 					coeff = getLinearCoefficientDiv(fv, left);
 
 					if (!Double.isNaN(coeff)) {
-						if (Kernel.isEqual(index, -1)) {
+						if (DoubleUtil.isEqual(index, -1)) {
 							// (exp)^-1 -> ln(abs(exp))
 							return wrap(left).abs().ln().multiply(coeff);
 						}
@@ -5726,7 +5727,7 @@ public class ExpressionNode extends ValidExpression
 				ExpressionValue exponent = ((ExpressionNode) left).getRight()
 						.unwrap();
 				if (exponent.isConstant()
-						&& Kernel.isEqual(-1, exponent.evaluateDouble())) {
+						&& DoubleUtil.isEqual(-1, exponent.evaluateDouble())) {
 					return kernel.inverseTrig(op, right);
 				}
 				return new ExpressionNode(kernel, right, op, null)
@@ -5767,7 +5768,7 @@ public class ExpressionNode extends ValidExpression
 				&& this.getOperation() == Operation.POWER
 				&& this.getRight() instanceof NumberValue) {
 			double d = this.getRight().evaluateDouble();
-			if (Kernel.isInteger(d) && d % 2 == 0) {
+			if (DoubleUtil.isInteger(d) && d % 2 == 0) {
 				return true;
 			}
 		}
@@ -5962,7 +5963,7 @@ public class ExpressionNode extends ValidExpression
 
 				boolean pi = false;
 				double piDiv = lt / Math.PI;
-				if (Kernel.isInteger(piDiv) && !Kernel.isZero(piDiv)) {
+				if (DoubleUtil.isInteger(piDiv) && !DoubleUtil.isZero(piDiv)) {
 					lt = piDiv;
 					pi = true;
 				}
@@ -5974,8 +5975,8 @@ public class ExpressionNode extends ValidExpression
 					resolve = ltVal.deepCopy(kernel).wrap();
 					return;
 				}
-				if (Kernel.isInteger(rt) && Kernel.isInteger(lt)
-						&& !Kernel.isZero(rt) && Math.abs(lt) < 1E15
+				if (DoubleUtil.isInteger(rt) && DoubleUtil.isInteger(lt)
+						&& !DoubleUtil.isZero(rt) && Math.abs(lt) < 1E15
 						&& Math.abs(rt) < 1E15) {
 
 					double g = Math
@@ -6062,7 +6063,7 @@ public class ExpressionNode extends ValidExpression
 					&& right.unwrap() instanceof MyDouble) {
 				double lt = left.evaluateDouble();
 				double rt = right.evaluateDouble();
-				if (Kernel.isInteger(lt) && Kernel.isInteger(rt)) {
+				if (DoubleUtil.isInteger(lt) && DoubleUtil.isInteger(rt)) {
 					return true;
 				}
 			}

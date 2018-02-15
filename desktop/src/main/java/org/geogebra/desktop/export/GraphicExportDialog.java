@@ -52,9 +52,9 @@ import org.freehep.util.UserProperties;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -630,7 +630,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		case FIXED_SIZE:
 
 			// what the user typed in the "100 screen pixels = x cm" textfield
-			double screenPixels = Kernel.checkDecimalFraction(
+			double screenPixels = DoubleUtil.checkDecimalFraction(
 					100 * ev.getPrintingScale() / ev.getXscale());
 
 			// double screenPixelsY = 100 * ev.getPrintingScale() /

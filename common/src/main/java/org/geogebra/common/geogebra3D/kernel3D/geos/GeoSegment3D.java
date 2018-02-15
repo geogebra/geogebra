@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
@@ -21,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 
 /**
@@ -219,7 +219,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 	@Override
 	public boolean respectLimitedPath(Coords p, double eps) {
 
-		if (Kernel.isEqual(p.getW(), 0, eps)) {
+		if (DoubleUtil.isEqual(p.getW(), 0, eps)) {
 			return false;
 		}
 		double d = p.sub(getStartInhomCoords()).dotproduct(getDirectionInD3());
@@ -506,8 +506,8 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public boolean respectLimitedPath(double parameter) {
-		return Kernel.isGreaterEqual(parameter, 0)
-				&& Kernel.isGreaterEqual(1, parameter);
+		return DoubleUtil.isGreaterEqual(parameter, 0)
+				&& DoubleUtil.isGreaterEqual(1, parameter);
 	}
 
 	/**
@@ -581,7 +581,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 
 	@Override
 	public ExtendedBoolean isCongruent(GeoElement geo) {
-		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment() && Kernel
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment() && DoubleUtil
 				.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
 	}
 

@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 
@@ -28,7 +29,7 @@ public class GifShotExporter {
 		case GeoElement.ANIMATION_DECREASING:
 			step = -slider.getAnimationStep();
 			n = (int) ((max - min) / -step);
-			if (Kernel.isZero(((max - min) / -step) - n)) {
+			if (DoubleUtil.isZero(((max - min) / -step) - n)) {
 				n++;
 			}
 			if (n == 0) {
@@ -40,7 +41,7 @@ public class GifShotExporter {
 		case GeoElement.ANIMATION_OSCILLATING:
 			step = slider.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
-			if (Kernel.isZero(((max - min) / step * 2) - n)) {
+			if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
 				n++;
 			}
 			if (n == 0) {
@@ -54,7 +55,7 @@ public class GifShotExporter {
 		default:
 			step = slider.getAnimationStep();
 			n = (int) ((max - min) / step);
-			if (Kernel.isZero(((max - min) / step) - n)) {
+			if (DoubleUtil.isZero(((max - min) / step) - n)) {
 				n++;
 			}
 			if (n == 0) {
@@ -109,7 +110,7 @@ public class GifShotExporter {
 		for (int i = 0; i < n; i++) {
 
 			// avoid values like 14.399999999999968
-			val = Kernel.checkDecimalFraction(val);
+			val = DoubleUtil.checkDecimalFraction(val);
 			num.setValue(val);
 			num.updateRepaint();
 

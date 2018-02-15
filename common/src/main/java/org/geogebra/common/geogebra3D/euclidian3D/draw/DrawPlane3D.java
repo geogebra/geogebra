@@ -8,12 +8,12 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class for drawing 3D planes.
@@ -494,7 +494,7 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 	}
 
 	private void checkViewDirectionIsParallel() {
-		if (Kernel.isZero(getPlane().getCoordSys().getEquationVector()
+		if (DoubleUtil.isZero(getPlane().getCoordSys().getEquationVector()
 				.dotproduct(getView3D().getEyePosition()))) {
 			viewDirectionIsParallel = true;
 		} else {

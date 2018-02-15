@@ -18,10 +18,10 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes Div[a, b]
@@ -45,8 +45,8 @@ public class AlgoDiv extends AlgoTwoNumFunction {
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 
-			double numerator = Kernel.checkInteger(a.getDouble());
-			double denominator = Kernel.checkInteger(b.getDouble());
+			double numerator = DoubleUtil.checkInteger(a.getDouble());
+			double denominator = DoubleUtil.checkInteger(b.getDouble());
 
 			if (Math.abs(numerator) > MyDouble.LARGEST_INTEGER
 					|| Math.abs(denominator) > MyDouble.LARGEST_INTEGER) {
@@ -56,7 +56,7 @@ public class AlgoDiv extends AlgoTwoNumFunction {
 
 			double fraction = numerator / denominator;
 			double integer = Math.round(fraction);
-			if (Kernel.isEqual(fraction, integer)) {
+			if (DoubleUtil.isEqual(fraction, integer)) {
 				num.setValue(integer);
 			} else if (denominator > 0) {
 				double div = Math.floor(fraction);

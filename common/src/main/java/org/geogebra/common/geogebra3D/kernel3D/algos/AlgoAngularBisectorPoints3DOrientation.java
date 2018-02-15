@@ -1,13 +1,13 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author mathieu
@@ -94,7 +94,7 @@ public class AlgoAngularBisectorPoints3DOrientation
 			super.setCoordFromFiniteB(o, d1, v1);
 
 		} else { // check if d is orthogonal to orientation
-			if (Kernel.isZero(vn.dotproduct(d))) {
+			if (DoubleUtil.isZero(vn.dotproduct(d))) {
 				super.setCoordFromFiniteB(o, d, v1);
 			} else {
 				getLine().setUndefined();

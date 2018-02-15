@@ -87,6 +87,7 @@ import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.plugin.script.JsScript;
 import org.geogebra.common.plugin.script.Script;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.LaTeXCache;
@@ -6891,10 +6892,10 @@ public abstract class GeoElement extends ConstructionElement
 
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
 			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
-				x = Kernel.checkDecimalFraction(x);
+				x = DoubleUtil.checkDecimalFraction(x);
 			}
 			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
-				y = Kernel.checkDecimalFraction(y);
+				y = DoubleUtil.checkDecimalFraction(y);
 			}
 
 			// set translated point coords
@@ -8490,8 +8491,8 @@ public abstract class GeoElement extends ConstructionElement
 		}
 		if (definition.unwrap() instanceof NumberValue) {
 			double val = evaluateDouble();
-			return MyDouble.isFinite(val) && !Kernel.isEqual(val, Math.PI)
-					&& !Kernel.isEqual(val, Math.E);
+			return MyDouble.isFinite(val) && !DoubleUtil.isEqual(val, Math.PI)
+					&& !DoubleUtil.isEqual(val, Math.E);
 		}
 		return true;
 

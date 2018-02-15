@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -201,7 +202,7 @@ public class DrawAxis {
 				}
 			}
 
-			view.axesNumberingDistances[0] = Kernel
+			view.axesNumberingDistances[0] = DoubleUtil
 					.checkDecimalFraction(view.axesNumberingDistances[0]);
 
 			if (view.logAxes[0]) {
@@ -406,7 +407,7 @@ public class DrawAxis {
 		// tick, exception is for positive only
 		double axesStep = view.getYscale() * view.axesNumberingDistances[1]; // pixelstep
 		if (view.getPositiveAxes()[1]
-				&& (Kernel.isGreaterEqual(view.axisCross[0], view.getYmin()))) {
+				&& (DoubleUtil.isGreaterEqual(view.axisCross[0], view.getYmin()))) {
 			// start labels at the y-axis instead of screen border
 			// be careful: view.axisCross[1] = x value for which the y-axis
 			// crosses,
@@ -534,7 +535,7 @@ public class DrawAxis {
 					}
 				}
 				if (drawMajorTicks[1] && (!view.showAxes[0]
-						|| !Kernel.isEqual(rw, view.axisCross[0]))) {
+						|| !DoubleUtil.isEqual(rw, view.axisCross[0]))) {
 					g2.setStroke(view.tickStroke);
 					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 				}
@@ -720,7 +721,7 @@ public class DrawAxis {
 				/ (Math.log10(view.getYmax()) - Math.log10(view.getYmin()));
 		double pix = (Math.log10(view.getYmax()) - Math.log10(pow)) * axisStep;
 		if (view.getPositiveAxes()[1]
-				&& (Kernel.isGreaterEqual(rw, view.getYmin()))) {
+				&& (DoubleUtil.isGreaterEqual(rw, view.getYmin()))) {
 			// start labels at the y-axis instead of screen border
 			// be careful: view.axisCross[1] = x value for which the y-axis
 			// crosses,
@@ -817,7 +818,7 @@ public class DrawAxis {
 					}
 				}
 				if (drawMajorTicks[1] && (!view.showAxes[0]
-						|| !Kernel.isEqual(rw, view.axisCross[0]))) {
+						|| !DoubleUtil.isEqual(rw, view.axisCross[0]))) {
 					g2.setStroke(view.tickStroke);
 					g2.drawStraightLine(xBig, pix, xZeroTick, pix);
 				}
@@ -875,7 +876,7 @@ public class DrawAxis {
 		double smallTickOffset = 0;
 		double axesStep = view.getXscale() * view.axesNumberingDistances[0]; // pixelstep
 		if (view.getPositiveAxes()[0]
-				&& (Kernel.isGreaterEqual(view.axisCross[1], view.getXmin()))) {
+				&& (DoubleUtil.isGreaterEqual(view.axisCross[1], view.getXmin()))) {
 			// start labels at the y-axis instead of screen border
 			// be careful: view.axisCross[1] = x value for which the y-axis
 			// crosses,
@@ -987,7 +988,7 @@ public class DrawAxis {
 				}
 				// big tick
 				if (drawMajorTicks[0]
-						&& (!view.showAxes[1] || !Kernel.isEqual(pix,
+						&& (!view.showAxes[1] || !DoubleUtil.isEqual(pix,
 								view.toScreenCoordX(view.axisCross[1])))) {
 					g2.setStroke(view.tickStroke);
 					g2.drawStraightLine(pix, yZeroTick, pix, yBig);
@@ -1087,7 +1088,7 @@ public class DrawAxis {
 
 				// big tick
 				if (drawMajorTicks[0]
-						&& (!view.showAxes[1] || !Kernel.isEqual(pix,
+						&& (!view.showAxes[1] || !DoubleUtil.isEqual(pix,
 								view.toScreenCoordX(view.axisCross[1])))) {
 					g2.setStroke(view.tickStroke);
 					g2.drawStraightLine(pix, yZeroTick, pix, yBig);
@@ -1134,7 +1135,7 @@ public class DrawAxis {
 					labelno);
 		}
 		return view.kernel.formatPiE(
-				Kernel.checkDecimalFraction(
+				DoubleUtil.checkDecimalFraction(
 						labelno * view.axesNumberingDistances[axis]),
 				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
 	}
@@ -1150,7 +1151,7 @@ public class DrawAxis {
 	 */
 	public static String tickDescriptionLog(EuclidianView view, double num,
 			int axis) {
-		return view.kernel.formatPiE(Kernel.checkDecimalFraction(num),
+		return view.kernel.formatPiE(DoubleUtil.checkDecimalFraction(num),
 				view.axesNumberFormat[axis], StringTemplate.defaultTemplate);
 	}
 

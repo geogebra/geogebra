@@ -20,12 +20,12 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -71,7 +71,7 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
 			return;
 		}
 
-		if (!getAngle().isDefined() || Kernel.isZero(getAngle().getValue())) {
+		if (!getAngle().isDefined() || DoubleUtil.isZero(getAngle().getValue())) {
 			return;
 		}
 

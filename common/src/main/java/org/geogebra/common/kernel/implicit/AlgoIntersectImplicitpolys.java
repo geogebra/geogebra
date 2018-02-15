@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.algos.AlgoSimpleRootsPolynomial;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -313,14 +314,14 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			double glc = 0; // greatest leading coefficient
 			for (int i = k; i < n; i++) {
 				double lc = PolynomialUtils.getLeadingCoeff(mat[i][k]);
-				if (!Kernel.isZero(lc)) {
+				if (!DoubleUtil.isZero(lc)) {
 					if (Math.abs(lc) > Math.abs(glc)) {
 						glc = lc;
 						r = i;
 					}
 				}
 			}
-			if (Kernel.isZero(glc)) {
+			if (DoubleUtil.isZero(glc)) {
 				det = new PolynomialFunction(new double[] { 0 });
 				break;
 			} else if (r > k) {
@@ -466,7 +467,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 		int nrRoots = getRoots(roots, solver);
 		int nrDeRoots = getRoots(rootsDerivative, solver);
 		for (int i = 0; i < nrDeRoots; i++) {
-			if (Kernel.isEqual(poly.value(rootsDerivative[i]), 0, epsilon)) {
+			if (DoubleUtil.isEqual(poly.value(rootsDerivative[i]), 0, epsilon)) {
 				if (nrRoots < roots.length) {
 					roots[nrRoots++] = rootsDerivative[i];
 				}
@@ -481,7 +482,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			int n = c.length - 1;
 			if (n > 0) {
 				double x = -c[n - 1] / n / c[n];
-				if (Kernel.isEqual(poly.value(x), 0)) {
+				if (DoubleUtil.isEqual(poly.value(x), 0)) {
 					roots[0] = x;
 					return 1;
 				}
@@ -494,7 +495,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 			double lastErr = err * 2;
 			while (err < lastErr && err > Kernel.STANDARD_PRECISION) {
 				double devVal = derivative.value(x);
-				if (!Kernel.isZero(devVal)) {
+				if (!DoubleUtil.isZero(devVal)) {
 					x = x - poly.value(x) / devVal;
 				} else {
 					break;
@@ -502,7 +503,7 @@ public class AlgoIntersectImplicitpolys extends AlgoSimpleRootsPolynomial {
 				lastErr = err;
 				err = Math.abs(poly.value(x));
 			}
-			if (Kernel.isEqual(poly.value(x), 0, epsilon)) {
+			if (DoubleUtil.isEqual(poly.value(x), 0, epsilon)) {
 				roots[0] = x;
 				return 1;
 			}

@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -116,7 +117,7 @@ public class AlgoSurdTextPoint extends AlgoSurdText {
 			} else if (p.isGeoElement3D()) {
 				// we need to check if z == 0
 				Coords coords = p.getInhomCoordsInD3();
-				if (Kernel.isZero(coords.getZ())) {
+				if (DoubleUtil.isZero(coords.getZ())) {
 					// z==0 so 2D coords
 					append2dCoords(coords, false);
 				} else {

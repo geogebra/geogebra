@@ -22,7 +22,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -30,6 +29,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.HasShortSyntax;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -129,7 +129,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 				.isZero()) {
 			// one normal vector is perpendicular to the difference of the two
 			// two origins
-			if (Kernel.isZero(plane2.getCoordSys().getOrigin()
+			if (DoubleUtil.isZero(plane2.getCoordSys().getOrigin()
 					.sub(plane1.getCoordSys().getOrigin())
 					.dotproduct(plane1.getDirectionInD3()))) {
 				return RESULTCATEGORY_CONTAINED;
@@ -150,7 +150,7 @@ public class AlgoIntersectPlanes extends AlgoIntersectCoordSys
 		if (cs1.getNormal().crossProduct(cs2.getNormal()).isZero()) {
 			// one normal vector is perpendicular to the difference of the two
 			// two origins
-			if (Kernel.isZero(cs2.getOrigin().sub(cs1.getOrigin())
+			if (DoubleUtil.isZero(cs2.getOrigin().sub(cs1.getOrigin())
 					.dotproduct(cs1.getNormal()))) {
 				return RESULTCATEGORY_CONTAINED;
 			}

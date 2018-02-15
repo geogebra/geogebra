@@ -16,13 +16,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.input3D.EuclidianViewInput3DCompanion.StationaryCoords;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Euclidian controller creator for 3D controller with 3D input
@@ -166,11 +166,11 @@ public class EuclidianControllerInput3DCompanion extends
 		public int compareTo(StickyPoint sp) {
 
 			// check distance
-			if (Kernel.isGreater(sp.getDistanceAbs(), this.getDistanceAbs())) {
+			if (DoubleUtil.isGreater(sp.getDistanceAbs(), this.getDistanceAbs())) {
 				return -1;
 			}
 
-			if (Kernel.isGreater(this.getDistanceAbs(), sp.getDistanceAbs())) {
+			if (DoubleUtil.isGreater(this.getDistanceAbs(), sp.getDistanceAbs())) {
 				return 1;
 			}
 
@@ -226,12 +226,12 @@ public class EuclidianControllerInput3DCompanion extends
 		public int compareTo(StickyPointForDirection spd) {
 
 			// compare cosinus
-			if (Kernel.isGreater(Math.abs(spd.distanceOrtho * distanceOrigin),
+			if (DoubleUtil.isGreater(Math.abs(spd.distanceOrtho * distanceOrigin),
 					Math.abs(distanceOrtho * spd.distanceOrigin))) {
 				return -1;
 			}
 
-			if (Kernel.isGreater(Math.abs(distanceOrtho * spd.distanceOrigin), Math
+			if (DoubleUtil.isGreater(Math.abs(distanceOrtho * spd.distanceOrigin), Math
 					.abs(spd.distanceOrtho * distanceOrigin))) {
 				return 1;
 			}
@@ -339,7 +339,7 @@ public class EuclidianControllerInput3DCompanion extends
 								double distanceOrigin = sp2.point
 										.distance(sp.point);
 								// prevent same points
-								if (!Kernel.isZero(distanceOrigin)) {
+								if (!DoubleUtil.isZero(distanceOrigin)) {
 									stickyPointsForDirection
 											.add(new StickyPointForDirection(
 													sp, sp2, distanceOrigin));

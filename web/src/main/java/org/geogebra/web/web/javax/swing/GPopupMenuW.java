@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.AccessibilityManagerInterface;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
@@ -149,7 +149,7 @@ public class GPopupMenuW implements AttachedToDOM {
 			newPoz = true;
 		}
 
-		if (newPoz || !Kernel.isEqual(1, getScaleX())) {
+		if (newPoz || !DoubleUtil.isEqual(1, getScaleX())) {
 			popupPanel.setPopupPosition(left, top);
 			// App.debug(left + "x" + top);
 		}

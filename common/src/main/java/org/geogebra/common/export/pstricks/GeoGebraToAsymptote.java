@@ -69,6 +69,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -783,7 +784,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// StringBuilder tempsb = new StringBuilder();
 		startTransparentFill(codeFilledObject);
 		// if right angle and decoration is a little square
-		if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+		if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
 				&& geo.isEmphasizeRightAngle() && euclidianView
 						.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE) {
 			r = r / Math.sqrt(2);
@@ -826,7 +827,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			endTransparentFill(geo, codeFilledObject);
 
 			// draw the [circular?] dot if right angle and decoration is dot
-			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+			if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle() && euclidianView
 							.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
 				double diameter = geo.getLineThickness()

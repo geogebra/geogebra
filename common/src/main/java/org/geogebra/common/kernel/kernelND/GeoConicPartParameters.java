@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Parameters for 2D/3D GeoConicPart
@@ -74,8 +75,8 @@ public class GeoConicPartParameters {
 	final public boolean isEqual(GeoConicPartParameters other) {
 		return posOrientation == other.posOrientation
 				&& conicPartType == other.conicPartType
-				&& Kernel.isEqual(paramStart, other.paramStart)
-				&& Kernel.isEqual(paramEnd, other.paramEnd);
+				&& DoubleUtil.isEqual(paramStart, other.paramStart)
+				&& DoubleUtil.isEqual(paramEnd, other.paramEnd);
 	}
 
 	/**
@@ -180,8 +181,8 @@ public class GeoConicPartParameters {
 	}
 
 	private void setExtentEllipse(double startParam, double endParam) {
-		paramStart = Kernel.convertToAngleValue(startParam);
-		paramEnd = Kernel.convertToAngleValue(endParam);
+		paramStart = DoubleUtil.convertToAngleValue(startParam);
+		paramEnd = DoubleUtil.convertToAngleValue(endParam);
 		paramExtent = paramEnd - paramStart;
 		if (paramExtent < 0) {
 			paramExtent += Kernel.PI_2;
@@ -347,7 +348,7 @@ public class GeoConicPartParameters {
 		double lx = secondVecX - firstVecX;
 		double ly = secondVecY - firstVecY;
 
-		return Kernel.isGreaterEqual(vx * ly - vy * lx, 0);
+		return DoubleUtil.isGreaterEqual(vx * ly - vy * lx, 0);
 	}
 
 	private double computeArg(double x0, double y0) {

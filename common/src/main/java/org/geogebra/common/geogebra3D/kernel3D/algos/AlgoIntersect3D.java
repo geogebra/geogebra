@@ -14,11 +14,11 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.AlgoIntersectND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 public abstract class AlgoIntersect3D extends AlgoIntersectND {
 
@@ -91,7 +91,7 @@ public abstract class AlgoIntersect3D extends AlgoIntersectND {
 			z = (PInhom.getZ() - refInhom.getZ());
 			lengthSqr = x * x + y * y + z * z;
 			// if two distances are equal, smaller index gets priority
-			if (Kernel.isGreater(mindist, lengthSqr)) {
+			if (DoubleUtil.isGreater(mindist, lengthSqr)) {
 				mindist = lengthSqr;
 				minIndex = i;
 			}

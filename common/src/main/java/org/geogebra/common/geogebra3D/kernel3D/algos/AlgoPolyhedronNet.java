@@ -9,7 +9,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedronNet;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -19,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algo that compute the net for a polyhedron
@@ -226,7 +226,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 		Coords v2 = projectCoords.sub(o);
 		double d2 = pointCoords.distLine(o, vs);
 		double angle;
-		if (Kernel.isEqual(dist, d2)) {
+		if (DoubleUtil.isEqual(dist, d2)) {
 			angle = Math.PI / 2;
 		} else {
 			angle = Math.asin(dist / d2);
@@ -309,7 +309,7 @@ public abstract class AlgoPolyhedronNet extends AlgoElement3D {
 
 		double f = v.getDouble();
 
-		if (Kernel.isGreater(f, 1) || Kernel.isGreater(0, f)) {
+		if (DoubleUtil.isGreater(f, 1) || DoubleUtil.isGreater(0, f)) {
 			setUndefined();
 			return;
 		}

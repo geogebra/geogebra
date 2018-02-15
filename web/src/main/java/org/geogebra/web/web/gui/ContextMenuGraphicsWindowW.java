@@ -4,9 +4,9 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.gui.menubar.MyActionListener;
 import org.geogebra.common.gui.menubar.RadioButtonMenuBar;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.html5.gui.util.AriaMenuBar;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.main.AppW;
@@ -343,7 +343,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		}
 		int selPos = 0;
 		while ((selPos < actionCommands.length)
-		        && !Kernel.isEqual(Double.parseDouble(actionCommands[selPos]),
+		        && !DoubleUtil.isEqual(Double.parseDouble(actionCommands[selPos]),
 		                scaleRatio)) {
 			selPos++;
 		}

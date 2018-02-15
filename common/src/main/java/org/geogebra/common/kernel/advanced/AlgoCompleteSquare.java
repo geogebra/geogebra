@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -16,6 +15,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoCompleteSquare extends AlgoElement {
 
@@ -59,7 +59,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		double[] checkpoints = { 1000, -1000, Math.PI, Math.E };
 		for (int i = 0; i < checkpoints.length; i++) {
 			double x = checkpoints[i];
-			if (!Kernel.isZero(p * x * x + q * x + r - f.value(x))) {
+			if (!DoubleUtil.isZero(p * x * x + q * x + r - f.value(x))) {
 				// Log.debug(p + "," + q + "," + r + ","
 				// + (p * x * x + q * x + r - f.evaluate(x)));
 				isQuadratic = false;
@@ -78,7 +78,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 			degInt = coefs.size() - 1;
 			isQuadratic = coefs.isDefined() && coefs.get(0).isDefined();
 			for (int i = 1; i < degInt; i++) {
-				if (2 * i != degInt && !Kernel
+				if (2 * i != degInt && !DoubleUtil
 						.isZero(((GeoNumeric) coefs.get(i)).getDouble())) {
 					isQuadratic = false;
 				}
@@ -91,7 +91,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		}
 
 		if (MyDouble.isOdd(degInt) || degInt < 2 || !isQuadratic
-				|| Kernel.isZero(p)) {
+				|| DoubleUtil.isZero(p)) {
 			square.setUndefined();
 			return;
 		}

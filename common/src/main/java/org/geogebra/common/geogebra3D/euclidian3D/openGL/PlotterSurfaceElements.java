@@ -1,9 +1,9 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class PlotterSurfaceElements extends PlotterSurface {
@@ -510,7 +510,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 			if (fading) {
 				double chMin;
-				if (Kernel.isZero(min)) {
+				if (DoubleUtil.isZero(min)) {
 					chMin = 0;
 				} else {
 					chMin = Math.cosh(min);
@@ -519,7 +519,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 					}
 				}
 				double chMax;
-				if (Kernel.isZero(max)) {
+				if (DoubleUtil.isZero(max)) {
 					chMax = 0;
 				} else {
 					chMax = Math.cosh(max);
@@ -574,7 +574,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 			this.max = max;
 
 			if (fading) {
-				if (Kernel.isZero(min)) {
+				if (DoubleUtil.isZero(min)) {
 					middleFading = 0;
 					maxFadingEndTop = max * max;
 					maxFadingStartTop = maxFadingEndTop * 0.9;
@@ -708,13 +708,13 @@ public class PlotterSurfaceElements extends PlotterSurface {
 		double zMax = o.getZ() + frustumRadius;
 
 		latitudeMaxTop = latitude;
-		if (Kernel.isGreater(z + radius, zMax)) {
+		if (DoubleUtil.isGreater(z + radius, zMax)) {
 			double angle = Math.asin((zMax - z) / radius);
 			latitudeMaxTop = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}
 
 		latitudeMaxBottom = latitude;
-		if (Kernel.isGreater(zMin, z - radius)) {
+		if (DoubleUtil.isGreater(zMin, z - radius)) {
 			double angle = Math.asin((z - zMin) / radius);
 			latitudeMaxBottom = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}
@@ -1480,7 +1480,7 @@ public class PlotterSurfaceElements extends PlotterSurface {
 
 		double lineFading = 0;
 		if (fading) {
-			if (Kernel.isZero(min)) {
+			if (DoubleUtil.isZero(min)) {
 				maxFadingEndTop = max * max;
 				maxFadingStartTop = maxFadingEndTop * 0.9;
 				middleFading = -1;

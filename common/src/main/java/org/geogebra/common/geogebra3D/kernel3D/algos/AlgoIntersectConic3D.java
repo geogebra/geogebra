@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -170,7 +171,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 
 		// project line on conic coord sys
 		Coords dp = cs.getNormalProjection(d)[1];
-		if (!Kernel.isZero(dp.getZ())) { // line intersect conic coord sys
+		if (!DoubleUtil.isZero(dp.getZ())) { // line intersect conic coord sys
 			Coords globalCoords = new Coords(4);
 			Coords inPlaneCoords = new Coords(4);
 			o.projectPlaneThruV(cs.getMatrixOrthonormal(), d, globalCoords,
@@ -187,7 +188,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 			}
 		} else {// line parallel to conic coord sys
 			Coords op = cs.getNormalProjection(o)[1];
-			if (!Kernel.isZero(op.getZ())) {// line not included
+			if (!DoubleUtil.isZero(op.getZ())) {// line not included
 				setPointsUndefined(); // TODO infinite points ?
 			} else {// line included
 				g2d.setCoords(dp.getY(), -dp.getX(),

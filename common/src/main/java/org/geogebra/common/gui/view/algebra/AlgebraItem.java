@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.IndexHTMLBuilder;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -100,11 +101,11 @@ public class AlgebraItem {
 	private static boolean allRHSareIntegers(GeoList geo) {
 		for (int i = 0; i < geo.size(); i++) {
 			if (geo.get(i) instanceof GeoLine
-					&& !Kernel.isInteger(((GeoLine) geo.get(i)).getZ())) {
+					&& !DoubleUtil.isInteger(((GeoLine) geo.get(i)).getZ())) {
 				return false;
 			}
 			if (geo.get(i) instanceof GeoPlaneND
-					&& !Kernel.isInteger(((GeoPlaneND) geo.get(i)).getCoordSys()
+					&& !DoubleUtil.isInteger(((GeoPlaneND) geo.get(i)).getCoordSys()
 							.getEquationVector().getW())) {
 				return false;
 			}

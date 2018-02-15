@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 1D linear object in space (segment, line, ...)
@@ -453,7 +454,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	public boolean isOnFullLine(Coords p, double eps) {
 		Coords cross;
 
-		if (Kernel.isZero(p.getW())) {// infinite point : check direction
+		if (DoubleUtil.isZero(p.getW())) {// infinite point : check direction
 			cross = p.crossProduct(getDirectionInD3());
 			return cross.equalsForKernel(0, Kernel.MIN_PRECISION);
 		}

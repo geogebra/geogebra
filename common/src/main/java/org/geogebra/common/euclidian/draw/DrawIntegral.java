@@ -21,7 +21,6 @@ import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.kernel.AlgoCasCellInterface;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Draws definite Integral of a GeoFunction
@@ -128,7 +128,7 @@ public class DrawIntegral extends DrawFunctionArea {
 
 		// plot definite integral
 
-		if (Kernel.isEqual(aRW, bRW)) {
+		if (DoubleUtil.isEqual(aRW, bRW)) {
 			gp.moveTo(ax, y0);
 			gp.lineTo(ax, view.toScreenCoordYd(f.value(aRW)));
 			gp.lineTo(ax, y0);

@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algorithm for spline.
@@ -208,7 +209,7 @@ public class AlgoSpline extends AlgoElement {
 			}
 			for (int j = degreeValue - 1; j > -1; j--) {
 				for (i = 0; i < dimension; i++) {
-					if (j == 0 && Kernel.isZero(
+					if (j == 0 && DoubleUtil.isZero(
 							parameters[i][k + degreeValue - 1 - j],
 							Kernel.MAX_PRECISION)) {
 						continue;

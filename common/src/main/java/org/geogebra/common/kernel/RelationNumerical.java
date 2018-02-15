@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Markus' original code has been extensively rewritten. On the other hand, the
@@ -375,7 +376,7 @@ public class RelationNumerical {
 	 * description of the relation between two numbers a, b (equal, unequal)
 	 */
 	final private Set<Report> relation(GeoNumberValue a, GeoNumberValue b) {
-		Boolean bool = Kernel.isEqual(a.getDouble(), b.getDouble());
+		Boolean bool = DoubleUtil.isEqual(a.getDouble(), b.getDouble());
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
 		register(bool, RelationCommand.AreEqual, str);
 		return reports;
@@ -388,7 +389,7 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoSegmentND a, GeoSegmentND b) {
 		Boolean bool;
 		String str;
-		if (Kernel.isEqual(a.evaluateDouble(), b.evaluateDouble())) {
+		if (DoubleUtil.isEqual(a.evaluateDouble(), b.evaluateDouble())) {
 
 			if (a.isEqual(b)) {
 				register(true, null,
@@ -426,8 +427,8 @@ public class RelationNumerical {
 	final private Set<Report> relation(GeoSegmentND a, GeoSegmentND b,
 			GeoSegmentND c) {
 		/* Checking if the objects/lengths are equal. */
-		if (Kernel.isEqual(a.getDouble(), b.getDouble())
-				&& Kernel.isEqual(b.getDouble(), c.getDouble())) {
+		if (DoubleUtil.isEqual(a.getDouble(), b.getDouble())
+				&& DoubleUtil.isEqual(b.getDouble(), c.getDouble())) {
 			if (a.isEqual(b) && b.isEqual(c)) {
 				register(true, null, equalityString((GeoElement) a,
 						(GeoElement) b, (GeoElement) c, true));
@@ -672,7 +673,7 @@ public class RelationNumerical {
 		register(bool, null, str);
 		// TODO: No prover support for conic equality yet.
 
-		bool = Kernel.isEqual(a.evaluateDouble(), b.evaluateDouble());
+		bool = DoubleUtil.isEqual(a.evaluateDouble(), b.evaluateDouble());
 		int type = a.getConicPartType();
 		if (type == b.getConicPartType()) {
 			if (type == GeoConicNDConstants.CONIC_PART_ARC) {

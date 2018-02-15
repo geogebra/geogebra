@@ -1,6 +1,6 @@
 package org.geogebra.web.html5;
 
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.html5.main.StringHandler;
 
 import com.google.gwt.core.client.GWT;
@@ -224,7 +224,7 @@ public class Browser {
 
 		String transform = "scale(" + externalScale + "," + externalScale + ")";
 
-		if (Kernel.isEqual(externalScale, 1)) {
+		if (DoubleUtil.isEqual(externalScale, 1)) {
 			transform = "none";
 		}
 		String pos = x + "% " + y + "%";

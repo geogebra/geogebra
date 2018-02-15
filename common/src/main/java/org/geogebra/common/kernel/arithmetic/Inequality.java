@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -144,7 +145,7 @@ public class Inequality {
 		Double coefY = normal.getCoefficient(fv[1]);
 		Double coefX = normal.getCoefficient(fv[0]);
 		Function fun = null;
-		if (coefY != null && !Kernel.isZero(coefY) && !Double.isNaN(coefY)
+		if (coefY != null && !DoubleUtil.isZero(coefY) && !Double.isNaN(coefY)
 				&& coefX == null) {
 			coef = new MyDouble(kernel, -coefY);
 			isAboveBorder = coefY > 0;
@@ -154,7 +155,7 @@ public class Inequality {
 			m.simplifyLeafs();
 			fun = new Function(m, fv[0]);
 			type = IneqType.INEQUALITY_PARAMETRIC_Y;
-		} else if (coefX != null && !Kernel.isZero(coefX)
+		} else if (coefX != null && !DoubleUtil.isZero(coefX)
 				&& !Double.isNaN(coefX) && coefY == null) {
 			coef = new MyDouble(kernel, -coefX);
 			isAboveBorder = coefX > 0;
@@ -164,13 +165,13 @@ public class Inequality {
 			m.simplifyLeafs();
 			fun = new Function(m, fv[1]);
 			type = IneqType.INEQUALITY_PARAMETRIC_X;
-		} else if (coefX != null && Kernel.isZero(coefX) && coefY == null) {
+		} else if (coefX != null && DoubleUtil.isZero(coefX) && coefY == null) {
 			zeroDummy0 = new MyDouble(kernel, 0);
 			normal.replace(fv[0], zeroDummy0).wrap();
 			init1varFunction(1);
 			type = funBorder.isPolynomialFunction(false)
 					? IneqType.INEQUALITY_1VAR_Y : IneqType.INEQUALITY_INVALID;
-		} else if (coefY != null && Kernel.isZero(coefY) && coefX == null) {
+		} else if (coefY != null && DoubleUtil.isZero(coefY) && coefX == null) {
 			zeroDummy1 = new MyDouble(kernel, 0);
 			normal.replace(fv[1], zeroDummy1).wrap();
 			init1varFunction(0);

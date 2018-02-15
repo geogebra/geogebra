@@ -21,7 +21,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrixUtil;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAngleLinesND;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -97,7 +97,7 @@ public class AlgoAngleLines3D extends AlgoAngleLinesND {
 			// check if lines are opposite rays
 			if (!((GeoElement) getg()).isGeoRay()
 					|| !((GeoElement) geth()).isGeoRay()
-					|| Kernel.isGreaterEqual(v1.dotproduct(v2), 0)) {
+					|| DoubleUtil.isGreaterEqual(v1.dotproduct(v2), 0)) {
 				getAngle().setValue(0);
 				o = Coords.UNDEFINED; // for drawing
 				return;

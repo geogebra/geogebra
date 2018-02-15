@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 3D brush, drawing circular-section curves.
@@ -378,7 +379,7 @@ public class PlotterBrush implements PathPlotter {
 			lengthInScene = length;
 		}
 
-		if (Kernel.isEqual(length, 0, Kernel.STANDARD_PRECISION)) {
+		if (DoubleUtil.isEqual(length, 0, Kernel.STANDARD_PRECISION)) {
 			return;
 		}
 

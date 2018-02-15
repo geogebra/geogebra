@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoUnitVector;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -10,6 +9,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoUnitVector3D extends AlgoUnitVector {
 
@@ -31,7 +31,7 @@ public class AlgoUnitVector3D extends AlgoUnitVector {
 		length = coords.norm();
 		if (!normalize) {
 			((GeoVector3D) u).setCoords(coords);
-		} else if (Kernel.isZero(length)) {
+		} else if (DoubleUtil.isZero(length)) {
 			u.setUndefined();
 		} else {
 			((GeoVector3D) u).setCoords(coords.mul(1 / length));

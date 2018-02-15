@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
@@ -562,7 +563,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 						: getNumberFromInput(tfBlobSize.getText().trim())
 								.getDouble();
 		model.applyBlobSize(blob);
-		if (Kernel.isEqual(blob, 1)) {
+		if (DoubleUtil.isEqual(blob, 1)) {
 			tfBlobSize.setText(String.valueOf(1));
 		}
 	}
@@ -576,7 +577,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 						: getNumberFromInput(tfLineThickness.getText().trim())
 								.getDouble() * 2;
 		model.applyLineThickness(thickness);
-		if (Kernel.isEqual(thickness, 2)) {
+		if (DoubleUtil.isEqual(thickness, 2)) {
 			tfLineThickness.setText(String.valueOf(1));
 		}
 	}

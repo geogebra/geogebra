@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.geos.PointProperties;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.KeyCodes;
@@ -1519,11 +1520,11 @@ public abstract class GlobalKeyDispatcher {
 							// 2.8
 							if (num.isGeoAngle()) {
 								newValue = Kernel.PI_180
-										* Kernel.checkDecimalFraction(
+										* DoubleUtil.checkDecimalFraction(
 												newValue * Kernel.CONST_180_PI,
 												1 / numStep);
 							} else {
-								newValue = Kernel.checkDecimalFraction(newValue,
+								newValue = DoubleUtil.checkDecimalFraction(newValue,
 										1 / numStep);
 							}
 						}

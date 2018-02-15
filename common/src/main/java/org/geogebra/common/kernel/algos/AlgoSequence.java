@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -272,7 +273,7 @@ public class AlgoSequence extends AlgoElement {
 				updateLocalVar(currentVal);
 				addElement(i);
 				currentVal += step;
-				if (Kernel.isInteger(currentVal)) {
+				if (DoubleUtil.isInteger(currentVal)) {
 					currentVal = Math.round(currentVal);
 				}
 				i++;
@@ -402,7 +403,7 @@ public class AlgoSequence extends AlgoElement {
 			listElement.update();
 
 			currentVal += step;
-			if (Kernel.isInteger(currentVal)) {
+			if (DoubleUtil.isInteger(currentVal)) {
 				currentVal = Math.round(currentVal);
 			}
 			i++;

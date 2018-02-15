@@ -19,13 +19,13 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 3D representation of a {@link GeoElement3D}
@@ -989,7 +989,7 @@ public abstract class Drawable3D extends DrawableND {
 
 		}
 
-		if (Kernel.isRatioEqualTo1(this.zPickNear, d.zPickNear)) {
+		if (DoubleUtil.isRatioEqualTo1(this.zPickNear, d.zPickNear)) {
 			GeoElement geo1 = this.getGeoElement();
 			GeoElement geo2 = d.getGeoElement();
 			if (geo1 == geo2) {

@@ -12,6 +12,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Parent (number+direction) for changing coords of prism, cylinder, etc.
@@ -215,7 +216,7 @@ public class ChangeableCoordParent {
 				-viewDirection.dotproduct3(direction)));
 		double ld = direction2.dotproduct3(direction2);
 
-		if (Kernel.isZero(ld)) {
+		if (DoubleUtil.isZero(ld)) {
 			return false;
 		}
 

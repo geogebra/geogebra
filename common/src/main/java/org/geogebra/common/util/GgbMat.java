@@ -169,7 +169,7 @@ public class GgbMat extends Array2DRowRealMatrix {
 				int i = r;
 				// make sure we don't use a leader which is almost zero
 				// http://www.geogebra.org/forum/viewtopic.php?f=1&t=25684
-				while (Kernel.isZero(data[i][lead])) {
+				while (DoubleUtil.isZero(data[i][lead])) {
 					data[i][lead] = 0;
 					i++;
 					if (i == rowCount) {
@@ -300,7 +300,7 @@ public class GgbMat extends Array2DRowRealMatrix {
 	public boolean hasOnlyIntegers() {
 		for (int i = 0; i < data.length; i++) {
 			for (int j = 0; j < data[i].length; j++) {
-				if (!Kernel.isInteger(data[i][j])) {
+				if (!DoubleUtil.isInteger(data[i][j])) {
 					return false;
 				}
 			}

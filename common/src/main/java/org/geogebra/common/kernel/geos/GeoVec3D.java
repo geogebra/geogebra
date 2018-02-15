@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -296,16 +297,16 @@ public abstract class GeoVec3D extends GeoElement
 		double y2 = v.y / n2;
 		double z2 = v.z / n2;
 
-		return Kernel.isEqual(x1 * y2, x2 * y1)
-				&& Kernel.isEqual(z1 * y2, z2 * y1)
-				&& Kernel.isEqual(x1 * z2, x2 * z1);
+		return DoubleUtil.isEqual(x1 * y2, x2 * y1)
+				&& DoubleUtil.isEqual(z1 * y2, z2 * y1)
+				&& DoubleUtil.isEqual(x1 * z2, x2 * z1);
 	}
 
 	/**
 	 * @return tue if all coords are zero
 	 */
 	final public boolean isZero() {
-		return Kernel.isZero(x) && Kernel.isZero(y) && Kernel.isZero(z);
+		return DoubleUtil.isZero(x) && DoubleUtil.isZero(y) && DoubleUtil.isZero(z);
 	}
 
 	/**
@@ -425,8 +426,8 @@ public abstract class GeoVec3D extends GeoElement
 			return;
 		}
 
-		if (Kernel.isZero(A.getZ())) {// A is direction
-			if (Kernel.isZero(B.getZ())) {
+		if (DoubleUtil.isZero(A.getZ())) {// A is direction
+			if (DoubleUtil.isZero(B.getZ())) {
 				// g is undefined
 				g.setUndefined();
 			} else {
@@ -435,7 +436,7 @@ public abstract class GeoVec3D extends GeoElement
 						A.getX() * B.getInhom(1) - A.getY() * B.getInhom(0));
 			}
 		} else { // through point A
-			if (Kernel.isZero(B.getZ())) {
+			if (DoubleUtil.isZero(B.getZ())) {
 				// B is direction
 				g.setCoords(B.getY(), -B.getX(),
 						B.getX() * A.getInhom(1) - B.getY() * A.getInhom(0));

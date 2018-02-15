@@ -1,9 +1,9 @@
 package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class for drawing surfaces.
@@ -705,14 +705,14 @@ public class PlotterSurface {
 
 		int latitudeMaxTop = 0;
 		latitudeMaxTop = latitude;
-		if (Kernel.isGreater(z + radius, zMax)) {
+		if (DoubleUtil.isGreater(z + radius, zMax)) {
 			double angle = Math.asin((zMax - z) / radius);
 			latitudeMaxTop = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}
 
 		int latitudeMaxBottom = 0;
 		latitudeMaxBottom = latitude;
-		if (Kernel.isGreater(zMin, z - radius)) {
+		if (DoubleUtil.isGreater(zMin, z - radius)) {
 			double angle = Math.asin((z - zMin) / radius);
 			latitudeMaxBottom = (int) (latitude * 2 * angle / Math.PI) + 2;
 		}

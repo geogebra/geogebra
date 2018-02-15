@@ -27,7 +27,6 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipShape;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircle;
 import org.geogebra.common.kernel.algos.AlgoConicPartCircumcircle;
@@ -41,6 +40,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -202,7 +202,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			M = ((GeoConicND) conicPart).getMidpoint3D().getInhomCoords();
 		} else {
 			M = view.getCoordsForView(((GeoConicND) conicPart).getMidpoint3D());
-			if (!Kernel.isZero(M.getZ())) {// check if in view
+			if (!DoubleUtil.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
 			}
@@ -217,7 +217,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 			} else {
 				ev[j] = view.getCoordsForView(
 						((GeoConicND) conicPart).getEigenvec3D(j));
-				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+				if (!DoubleUtil.isZero(ev[j].getZ())) {// check if in view
 					isVisible = false;
 					return;
 				}
@@ -278,12 +278,12 @@ public class DrawConicPart extends Drawable implements Previewable {
 			drawRay2.setGeoElement((GeoElement) conicPart);
 		}
 		Coords s = view.getCoordsForView(conicPart.getOrigin3D(0));
-		if (!Kernel.isZero(s.getZ())) {
+		if (!DoubleUtil.isZero(s.getZ())) {
 			isVisible = false;
 			return;
 		}
 		Coords e = view.getCoordsForView(conicPart.getSegmentEnd3D());
-		if (!Kernel.isZero(e.getZ())) {
+		if (!DoubleUtil.isZero(e.getZ())) {
 			isVisible = false;
 			return;
 		}
@@ -455,7 +455,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 				Coords c = view
 						.getCoordsForView(prevPoints.get(i).getCoordsInD3());
 				// Log.debug("\n"+c);
-				if (!Kernel.isZero(c.getZ())) {
+				if (!DoubleUtil.isZero(c.getZ())) {
 					previewTempPoints[i].setUndefined();
 				} else {
 					previewTempPoints[i].setCoords(c.projectInfDim(), true);
@@ -471,12 +471,12 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 			// avoid random line when mouse is over one of the 2 initial points
 			if (prevPoints.size() == 2) {
-				if (Kernel.isEqual(prevPoints.get(0).getInhomX(), xRW) && Kernel
+				if (DoubleUtil.isEqual(prevPoints.get(0).getInhomX(), xRW) && DoubleUtil
 						.isEqual(previewTempPoints[0].getInhomY(), yRW)) {
 					isVisible = false;
 					return;
 				}
-				if (Kernel.isEqual(prevPoints.get(1).getInhomX(), xRW) && Kernel
+				if (DoubleUtil.isEqual(prevPoints.get(1).getInhomX(), xRW) && DoubleUtil
 						.isEqual(previewTempPoints[1].getInhomY(), yRW)) {
 					isVisible = false;
 					return;

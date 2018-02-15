@@ -50,6 +50,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -209,7 +210,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		 * 
 		 */
 		if (!rightHandSide.containsFreeFunctionVariable(null)
-				&& Kernel.isEqual(rightHandSide.evaluateDouble(), 0)
+				&& DoubleUtil.isEqual(rightHandSide.evaluateDouble(), 0)
 				&& eqn.mayBePolynomial()) {
 			ExpressionNode copyLeft = leftHandSide.deepCopy(kernel);
 			// get factors without power of left side
@@ -375,7 +376,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					setUndefined();
 				}
 				isConstant = isConstant
-						&& (Kernel.isZero(coeff[i][j]) || (i == 0 && j == 0));
+						&& (DoubleUtil.isZero(coeff[i][j]) || (i == 0 && j == 0));
 			}
 		}
 	}
@@ -733,13 +734,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				double px = -x / 2;
 				double py = -y / 2;
 
-				if (Kernel.isEpsilon(xy, 1) && Kernel.isEpsilon(xxy, 1)
-						&& Kernel.isEpsilon(xyy, 1) && Kernel.isEpsilon(xxyy, 1)
-						&& !Kernel.isEpsilon(yy, 1)
-						&& Kernel
+				if (DoubleUtil.isEpsilon(xy, 1) && DoubleUtil.isEpsilon(xxy, 1)
+						&& DoubleUtil.isEpsilon(xyy, 1) && DoubleUtil.isEpsilon(xxyy, 1)
+						&& !DoubleUtil.isEpsilon(yy, 1)
+						&& DoubleUtil
 								.isEpsilon(xx / yy - 1,
 										1)
-						&& Kernel.isEpsilon((px /= xx) * px + (py /= xx) * py
+						&& DoubleUtil.isEpsilon((px /= xx) * px + (py /= xx) * py
 								- constant / xx, 1)) {
 
 					// add single point to locus
@@ -922,7 +923,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 		if (PI.isGeoElement3D()) {
 			Coords coords = PI.getInhomCoordsInD3();
-			if (!Kernel.isZero(coords.getZ())) {
+			if (!DoubleUtil.isZero(coords.getZ())) {
 				return false;
 			}
 			px = coords.getX();
@@ -1316,9 +1317,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			if (qX == null && qY == null && degXpX <= 1 && degYpX <= 1
 					&& degXpY <= 1 && degYpY <= 1) {
 				if ((degXpX != 1 || degYpX != 1 || pX[1].length == 1
-						|| Kernel.isZero(pX[1][1]))
+						|| DoubleUtil.isZero(pX[1][1]))
 						&& (degXpY != 1 || degYpY != 1 || pY[1].length == 1
-								|| Kernel.isZero(pY[1][1]))) {
+								|| DoubleUtil.isZero(pY[1][1]))) {
 					if (pX.length > 0) {
 						if (pX[0].length > 0) {
 							a = pX[0][0];
@@ -1342,7 +1343,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 						bx = pY[1][0];
 					}
 					double det = ax * by - bx * ay;
-					if (!Kernel.isZero(det)) {
+					if (!DoubleUtil.isZero(det)) {
 						double[][] iX = new double[][] {
 								{ (b * ay - a * by) / det, -ay / det },
 								{ by / det } };
@@ -1357,7 +1358,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 									&& isIndependent()) {
 								GeoPoint point = (GeoPoint) ((AlgoPointOnPath) elem)
 										.getP();
-								if (!Kernel.isZero(point.getZ())) {
+								if (!DoubleUtil.isZero(point.getZ())) {
 									double x = point.getX() / point.getZ();
 									double y = point.getY() / point.getZ();
 									double px = evalPolyCoeffAt(x, y, iX);
@@ -1720,7 +1721,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 						dx = derivativeX(fx, fy);
 						dy = derivativeY(fx, fy);
 						dx = Math.abs(dx) + Math.abs(dy);
-						if (Kernel.isZero(dx, 0.001)) {
+						if (DoubleUtil.isZero(dx, 0.001)) {
 							rect.singular = true;
 						}
 						this.grid[i - 1][j - 1] = rect;
@@ -1840,7 +1841,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			double x1 = onScreen(pt.getInhomX(), this.x, this.x + this.w);
 			double y1 = onScreen(pt.getInhomY(), this.y, this.y + this.h);
 			double d1 = evaluateImplicitCurve(x1, y1);
-			if (Kernel.isZero(d1)) {
+			if (DoubleUtil.isZero(d1)) {
 				pt.setCoords(new Coords(x1, y1, 1.0), false);
 				return;
 			}
@@ -1853,11 +1854,11 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 					int count = 0;
 					mx = x1;
 					my = y1;
-					while (!Kernel.isZero(d2) && count < 64) {
+					while (!DoubleUtil.isZero(d2) && count < 64) {
 						mx = 0.5 * (x1 + x2);
 						my = 0.5 * (y1 + y2);
 						md = evaluateImplicitCurve(mx, my);
-						if (Kernel.isZero(md)) {
+						if (DoubleUtil.isZero(md)) {
 							pt.setCoords(new Coords(mx, my, 1.0), false);
 							return;
 						}
@@ -2074,7 +2075,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			if (i == solutionColumn - 1) {
 				solution[i] = 1;
 			} else {
-				solution[i] = (Kernel.isZero(partialSolution[j])) ? 0
+				solution[i] = (DoubleUtil.isZero(partialSolution[j])) ? 0
 						: partialSolution[j];
 				j++;
 			}

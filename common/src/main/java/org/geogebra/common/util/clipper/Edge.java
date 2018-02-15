@@ -1,7 +1,7 @@
 package org.geogebra.common.util.clipper;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.clipper.Clipper.ClipType;
 import org.geogebra.common.util.clipper.Clipper.Direction;
 import org.geogebra.common.util.clipper.Clipper.PolyFillType;
@@ -61,7 +61,7 @@ class Edge {
 	}
 
 	static boolean slopesEqual(Edge e1, Edge e2) {
-		return Kernel.isEqual(e1.getDelta().getY() * e2.getDelta().getX(),
+		return DoubleUtil.isEqual(e1.getDelta().getY() * e2.getDelta().getX(),
 				e1.getDelta().getX() * e2.getDelta().getY());
 
 	}

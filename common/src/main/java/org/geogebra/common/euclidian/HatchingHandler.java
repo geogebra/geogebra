@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -97,7 +98,7 @@ public class HatchingHandler {
 		int xInt = (int) Math.abs(Math.round((x)));
 		int yInt = (int) Math.abs(Math.round((y)));
 		if (angle == 0 // horizontal
-				|| Kernel.isEqual(Kernel.PI_HALF, angle, 10E-8)) { // vertical
+				|| DoubleUtil.isEqual(Kernel.PI_HALF, angle, 10E-8)) { // vertical
 
 			xInt = (int) dist;
 			yInt = xInt;
@@ -137,7 +138,7 @@ public class HatchingHandler {
 			case CHESSBOARD:
 				fill = "#" + StringUtil.toHexString(color);
 				stroke = "stroke:none";
-				if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
+				if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
 					dist = dist * Math.sin(angle);
 				}
 				svgString = drawChessboardSVG(angle, dist);
@@ -152,8 +153,8 @@ public class HatchingHandler {
 				Log.debug("not supported");
 				//$FALL-THROUGH$
 			case BRICK:
-				if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)
-						|| Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
+				if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)
+						|| DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) {
 					// startY = startX = xInt / 2;
 					height = width *= 2;
 				}
@@ -208,7 +209,7 @@ public class HatchingHandler {
 		case CHESSBOARD:
 			drawChessboard(angle, dist, g2d);
 			// multiply for sin for to have the same size in 0 and 45
-			if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
+			if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
 				dist = dist * Math.sin(angle);
 			}
 			// use a frame around middle square of our 3 x 3 grid
@@ -229,8 +230,8 @@ public class HatchingHandler {
 			drawWeaving(angle, xInt / 2, g2d);
 			break;
 		case BRICK:
-			if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)
-					|| Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
+			if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)
+					|| DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) {
 				startY = startX = xInt / 2;
 				height = width *= 2;
 			}
@@ -368,7 +369,7 @@ public class HatchingHandler {
 	}
 
 	private void drawWeaving(double angle, int dist, GGraphics2D g2d) {
-		if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
+		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
 			g2d.drawLine(2 * dist, dist, 5 * dist, 4 * dist);
 			g2d.drawLine(3 * dist, 0, 5 * dist, 2 * dist);
 			g2d.drawLine(3 * dist, 2 * dist, 0, 5 * dist);
@@ -412,19 +413,19 @@ public class HatchingHandler {
 	}
 
 	private void drawBricks(double angle, int xInt, int yInt, GGraphics2D g2d) {
-		if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)) {
+		if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)) {
 			rect.setRect(xInt / 2.0, yInt, 2 * xInt, yInt);
 			g2d.draw(rect);
 			g2d.drawLine(xInt + xInt / 2, yInt / 2, xInt + xInt / 2, yInt);
 			g2d.drawLine(xInt + xInt / 2, yInt * 2, xInt + xInt / 2,
 					yInt * 2 + yInt / 2);
-		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
+		} else if (DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) {
 			rect.setRect(xInt, yInt / 2.0, xInt, 2 * yInt);
 			g2d.draw(rect);
 			g2d.drawLine(xInt / 2, yInt + yInt / 2, xInt, yInt + yInt / 2);
 			g2d.drawLine(xInt * 2, yInt + yInt / 2, 2 * xInt + xInt / 2,
 					yInt + yInt / 2);
-		} else if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
+		} else if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
 			g2d.drawLine(xInt * 3, 0, 0, yInt * 3);
 			g2d.drawLine(xInt * 3, yInt, xInt, yInt * 3);
 			g2d.drawLine(xInt * 2, 0, 0, yInt * 2);
@@ -441,7 +442,7 @@ public class HatchingHandler {
 
 		svgReset();
 
-		if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)) {
+		if (angle == 0 || DoubleUtil.isEqual(Math.PI, angle, 10E-8)) {
 
 			// rectangle
 			svgMoveTo(0, yInt / 2.0);
@@ -454,7 +455,7 @@ public class HatchingHandler {
 			svgDrawLine(xInt, 0, xInt, yInt / 2.0);
 			svgDrawLine(xInt, yInt * 1.5, xInt, yInt * 2);
 
-		} else if (Kernel.isEqual(Kernel.PI_HALF, angle, 10E-8)) {
+		} else if (DoubleUtil.isEqual(Kernel.PI_HALF, angle, 10E-8)) {
 
 			// rect.setRect(xInt/2, 0, xInt/2, 1.5 * yInt);
 			// g2d.draw(rect);
@@ -466,7 +467,7 @@ public class HatchingHandler {
 
 			svgDrawLine(0, yInt, xInt / 2.0, yInt);
 			svgDrawLine(xInt * 1.5, yInt, 2 * xInt, yInt);
-		} else if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
+		} else if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) {
 			svgDrawLine(0, yInt, xInt, 0);
 			svgDrawLine(xInt / 2.0, yInt / 2.0, xInt, yInt);
 			// avoid missing pixels bottom-left
@@ -504,7 +505,7 @@ public class HatchingHandler {
 
 	private boolean drawChessboard(double angle, double hatchDist,
 			GGraphics2D g2d) {
-		if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
+		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
 			double dist = (hatchDist * Math.sin(angle));
 			path.moveTo(dist / 2, dist / 2 - 1);
 			path.lineTo(2 * dist + dist / 2, dist / 2 - 1);
@@ -526,7 +527,7 @@ public class HatchingHandler {
 
 	private String drawChessboardSVG(double angle, double dist) {
 		svgReset();
-		if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
+		if (DoubleUtil.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
 			
 			svgMoveTo(dist, 0);
 			svgLineTo(2 * dist, dist);
@@ -645,7 +646,7 @@ public class HatchingHandler {
 			g2d.drawLine(0, yInt, xInt * 3, yInt);
 			g2d.drawLine(0, yInt * 2, xInt * 3, yInt * 2);
 
-		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
+		} else if (DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
 			g2d.drawLine(xInt, 0, xInt, yInt * 3);
 			g2d.drawLine(xInt * 2, 0, xInt * 2, yInt * 3);
 
@@ -668,7 +669,7 @@ public class HatchingHandler {
 			svgDrawLine(0, 0, xInt, 0);
 			svgDrawLine(0, yInt, xInt, yInt);
 
-		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
+		} else if (DoubleUtil.isEqual(Math.PI / 2, angle, 10E-8)) { // vertical
 			svgDrawLine(0, 0, 0, yInt);
 			svgDrawLine(xInt, 0, xInt, yInt);
 

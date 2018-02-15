@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * This class provides functionality for work with polynomials. It allows one to
@@ -49,7 +50,7 @@ public class PolynomialUtils {
 			cpclone[i] = cp[i];
 		}
 		int degD = cd.length - 1;
-		while (degD >= 0 && Kernel.isZero(cd[degD])) {
+		while (degD >= 0 && DoubleUtil.isZero(cd[degD])) {
 			degD--;
 		}
 		if (degD < 0) { // => division by zero
@@ -102,7 +103,7 @@ public class PolynomialUtils {
 	 */
 	public static int getDegree(double[] c) {
 		for (int i = c.length - 1; i >= 0; i--) {
-			if (!Kernel.isZero(c[i])) {
+			if (!DoubleUtil.isZero(c[i])) {
 				return i;
 			}
 		}
@@ -160,7 +161,7 @@ public class PolynomialUtils {
 		double[][] newCoeffMinDeg = null;
 		for (int i = coeff.length - 1; i >= 0; i--) {
 			for (int j = coeff[i].length - 1; j >= 0; j--) {
-				if (!Kernel.isZero(coeff[i][j])) {
+				if (!DoubleUtil.isZero(coeff[i][j])) {
 					if (newCoeffMinDeg == null) {
 						newCoeffMinDeg = new double[i + 1][];
 					}
@@ -246,7 +247,7 @@ public class PolynomialUtils {
 				qy = line[2];
 			}
 			double det = px * qy - py * qx;
-			if (Kernel.isZero(det)) {
+			if (DoubleUtil.isZero(det)) {
 				break;
 			}
 			x -= (p * qy - q * py) / det;

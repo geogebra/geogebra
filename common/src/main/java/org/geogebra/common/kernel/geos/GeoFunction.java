@@ -65,6 +65,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -1528,7 +1529,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		if (!MyDouble.isFinite(v2) || Math.abs(v2) > 1E8) {
 			return false;
 		}
-		return !Kernel.isEqual(v1, v2, Kernel.MIN_PRECISION);
+		return !DoubleUtil.isEqual(v1, v2, Kernel.MIN_PRECISION);
 	}
 
 	/**
@@ -1987,7 +1988,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			}
 
 			if (!GeoFunction.CASError(gradientStrMinus, false)
-					&& !Kernel.isZero(grad)) {
+					&& !DoubleUtil.isZero(grad)) {
 				sbCasCommand.setLength(0);
 				sbCasCommand.append("Limit(");
 				sbCasCommand.append(funVarStr[0]); // function expression
@@ -2385,7 +2386,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	@Override
 	public void dilate(NumberValue r, Coords S) {
 		double rd = r.getNumber().getDouble(), a = S.getX(), b = S.getY();
-		if (Kernel.isZero(rd)) {
+		if (DoubleUtil.isZero(rd)) {
 			setUndefined();
 			return;
 		}
@@ -2888,7 +2889,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			}
 			// If[x==1,2,If[x==3,4,5]]
 			if (b.upper != null && b.lower != null && (b.condition != null)
-					&& Kernel.isEqual(b.upper.doubleValue(),
+					&& DoubleUtil.isEqual(b.upper.doubleValue(),
 							b.lower.doubleValue())) {
 				getFunction().getFunctionVariable().set(b.upper);
 				ExpressionValue v = b.condition
@@ -2955,7 +2956,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					ret.append(" ");
 					ret.append(kernel.format(upper, tpl));
 				} else if (lower != null && upper != null) {
-					if (Kernel.isEqual(lower, upper) && !lowerSharp
+					if (DoubleUtil.isEqual(lower, upper) && !lowerSharp
 							&& !upperSharp) {
 						ret.append(varString);
 						ret.append(" = ");
@@ -3005,7 +3006,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 					ret.append(kernel.format(upper, tpl));
 					ret.append("</cn></apply>");
 				} else if (lower != null && upper != null) {
-					if (Kernel.isEqual(lower, upper) && !lowerSharp
+					if (DoubleUtil.isEqual(lower, upper) && !lowerSharp
 							&& !upperSharp) {
 						ret.append("<apply>");
 						ret.append("<eq/>");

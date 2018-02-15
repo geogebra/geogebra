@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.StringUtil;
 
@@ -875,7 +876,7 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public void setLockedAxesRatio(double ratio) {
-		if (Kernel.isEqual(lockedAxesRatio, ratio)) {
+		if (DoubleUtil.isEqual(lockedAxesRatio, ratio)) {
 			return;
 		}
 		lockedAxesRatio = ratio;
@@ -936,7 +937,7 @@ public class EuclidianSettings extends AbstractSettings {
 		if (drawBorderAxes[i]) {
 			sbxml.append("\" axisCrossEdge=\"");
 			sbxml.append(true);
-		} else if (!Kernel.isZero(axisCross[i]) && !drawBorderAxes[i]) {
+		} else if (!DoubleUtil.isZero(axisCross[i]) && !drawBorderAxes[i]) {
 			sbxml.append("\" axisCross=\"");
 			sbxml.append(axisCross[i]);
 		}

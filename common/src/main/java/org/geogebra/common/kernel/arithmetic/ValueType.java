@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel.arithmetic;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoCurveCartesian;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Possible value types of expression after evaluation
@@ -250,7 +250,7 @@ public enum ValueType {
 		case POWER:
 			if ((left.getValueType() == ValueType.NONCOMPLEX2D
 					|| left.getValueType() == ValueType.VECTOR3D)
-					&& Kernel.isEqual(2, right.evaluateDouble())) {
+					&& DoubleUtil.isEqual(2, right.evaluateDouble())) {
 				return ValueType.NUMBER;
 			}
 			return left.getValueType();

@@ -91,6 +91,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -374,7 +375,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		addOffsetForTranslation(o);
 
 		// getting new position of the point
-		if (Kernel.isEqual(
+		if (DoubleUtil.isEqual(
 				view3D.getHittingDirection()
 						.dotproduct(getCurrentPlane().getVz()),
 				0.0, Kernel.STANDARD_PRECISION)) {

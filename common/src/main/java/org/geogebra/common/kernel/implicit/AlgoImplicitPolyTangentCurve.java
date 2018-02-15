@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algorithm for computation of tangent curve
@@ -142,7 +143,7 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 
 	@Override
 	public boolean vecDefined() {
-		return point.isDefined() && Kernel.isZero(point.getInhomZ());
+		return point.isDefined() && DoubleUtil.isZero(point.getInhomZ());
 	}
 
 	@Override
@@ -154,8 +155,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 					point.getInhomY());
 			double dfdy = this.poly.derivativeY(point.getInhomX(),
 					point.getInhomY());
-			if (!Kernel.isEqual(dfdx, 0, 1E-5)
-					|| !Kernel.isEqual(dfdy, 0, 1E-5)) {
+			if (!DoubleUtil.isEqual(dfdx, 0, 1E-5)
+					|| !DoubleUtil.isEqual(dfdy, 0, 1E-5)) {
 				tangents.getElement(n).setCoords(dfdx, dfdy,
 						-dfdx * point.getInhomX() - dfdy * point.getInhomY());
 				n++;
@@ -166,8 +167,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 		}
 		for (int i = 0; i < ip.length; i++) {
 
-			if (Kernel.isEqual(ip[i].inhomX, point.getInhomX(), 1E-2)
-					&& Kernel.isEqual(ip[i].inhomY, point.getInhomY(), 1E-2)) {
+			if (DoubleUtil.isEqual(ip[i].inhomX, point.getInhomX(), 1E-2)
+					&& DoubleUtil.isEqual(ip[i].inhomY, point.getInhomY(), 1E-2)) {
 				continue;
 			}
 
@@ -185,10 +186,10 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 			// avoid evaluation of dF1/dx
 			// TODO: have a more reasonable choice; also we use standard
 			// precision rather than working precision (might not be a problem)
-			if (Kernel.isEqual(0,
+			if (DoubleUtil.isEqual(0,
 					this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
 					Kernel.STANDARD_PRECISION_SQRT)
-					&& Kernel.isEqual(0,
+					&& DoubleUtil.isEqual(0,
 							this.poly.derivativeY(ip[i].inhomX, ip[i].inhomY),
 							Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;

@@ -118,7 +118,7 @@ public class MyMath2 {
 	final public static double gamma(double x) {
 
 		// Michael Borcherds 2008-05-04
-		if (x <= 0 && Kernel.isEqual(x, Math.round(x))) {
+		if (x <= 0 && DoubleUtil.isEqual(x, Math.round(x))) {
 			return Double.NaN; // negative integers
 		}
 
@@ -393,7 +393,7 @@ public class MyMath2 {
 	 * @return rieman zeta of val
 	 */
 	public static double zeta(double val) {
-		if (val < 0 && Kernel.isInteger(val / 2)) {
+		if (val < 0 && DoubleUtil.isInteger(val / 2)) {
 			return 0;
 		}
 

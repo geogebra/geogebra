@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Inverts a function only works if there is one "x" in the function
@@ -263,15 +264,15 @@ public class AlgoFunctionInvert extends AlgoElement {
 						double index = (((NumberValue) (right
 								.evaluate(StringTemplate.maxPrecision)))
 										.getDouble());
-						if (Kernel.isEqual(index, 3)) {
+						if (DoubleUtil.isEqual(index, 3)) {
 							// inverse of x^3 is cbrt(x)
 							newRoot = new ExpressionNode(kernel, newRoot,
 									Operation.CBRT, null);
-						} else if (Kernel.isEqual(index, 2)) {
+						} else if (DoubleUtil.isEqual(index, 2)) {
 							// inverse of x^2 is sqrt(x)
 							newRoot = new ExpressionNode(kernel, newRoot,
 									Operation.SQRT, null);
-						} else if (Kernel.isEqual(index, -1)) {
+						} else if (DoubleUtil.isEqual(index, -1)) {
 							// inverse of x^-1 is x^-1
 							newRoot = new ExpressionNode(kernel, newRoot,
 									Operation.POWER,

@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.geos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.PathMoverGeneric;
 import org.geogebra.common.kernel.PathParameter;
@@ -31,6 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author Markus Hohenwarter
@@ -409,7 +409,7 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 
 	@Override
 	public boolean respectLimitedPath(double parameter) {
-		return Kernel.isGreaterEqual(parameter, 0);
+		return DoubleUtil.isGreaterEqual(parameter, 0);
 	}
 
 	@Override

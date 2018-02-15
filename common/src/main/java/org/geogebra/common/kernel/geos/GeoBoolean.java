@@ -20,7 +20,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.BooleanValue;
 import org.geogebra.common.kernel.arithmetic.MyBoolean;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -203,7 +203,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		if (geo.isGeoNumeric()) { // eg SetValue[checkbox, 0]
 			// 1 = true
 			// 0 = false
-			setValue(Kernel.isZero(((GeoNumeric) geo).getDouble() - 1));
+			setValue(DoubleUtil.isZero(((GeoNumeric) geo).getDouble() - 1));
 			isDefined = true;
 		} else {
 			GeoBoolean b = (GeoBoolean) geo;

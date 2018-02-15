@@ -13,13 +13,13 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
@@ -1205,7 +1205,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void setPixelRatio(double pixelRatio) {
-		if (Kernel.isEqual(g2p.getDevicePixelRatio(), pixelRatio)) {
+		if (DoubleUtil.isEqual(g2p.getDevicePixelRatio(), pixelRatio)) {
 			return;
 		}
 		int realWidth = g2p.getOffsetWidth();

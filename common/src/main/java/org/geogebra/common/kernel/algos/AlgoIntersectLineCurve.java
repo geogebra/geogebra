@@ -33,6 +33,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algo for intersection of a line with a curve adapted from
@@ -136,7 +137,7 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 		// ax + by + c
 		ExpressionNode enx, eny;
 
-		if (Kernel.isZero(coeffs.getZ())) {
+		if (DoubleUtil.isZero(coeffs.getZ())) {
 			enx = new ExpressionNode(kernel,
 					new MyDouble(kernel, coeffs.getX()), Operation.MULTIPLY,
 					xFun);

@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -518,7 +519,7 @@ public class AlgoDependentFunction extends AlgoElement
 							NumberValue num = (NumberValue) evR;
 							double val = num.getDouble();
 
-							if (val > 0d && Kernel.isInteger(val)) {
+							if (val > 0d && DoubleUtil.isInteger(val)) {
 
 								// eg f''' if val == 3
 								return geo.getLabelSimple()

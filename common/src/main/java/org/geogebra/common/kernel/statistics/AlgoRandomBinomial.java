@@ -13,11 +13,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoTwoNumFunction;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes RandomNormal[a, b]
@@ -66,7 +66,7 @@ public class AlgoRandomBinomial extends AlgoTwoNumFunction
 
 	@Override
 	public void setRandomValue(double d0) {
-		double d = Math.round(Kernel.checkInteger(d0));
+		double d = Math.round(DoubleUtil.checkInteger(d0));
 
 		if (d >= 0 && d <= a.getDouble()) {
 			num.setValue(d);

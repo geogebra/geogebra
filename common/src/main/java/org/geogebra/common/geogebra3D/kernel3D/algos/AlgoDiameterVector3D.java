@@ -20,12 +20,12 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDiameterVectorND;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -71,7 +71,7 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 
 		// check direction is parallel to coord sys
 		direction = c.getCoordSys().getNormalProjection(v.getCoordsInD3())[1];
-		if (!Kernel.isZero(direction.getZ())) {
+		if (!DoubleUtil.isZero(direction.getZ())) {
 			diameter.setUndefined();
 			return;
 		}
@@ -83,7 +83,7 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 		diameter2D.getCoords(diameterCoords);
 		diameterDirection = c.getCoordSys().getVector(-diameterCoords[1],
 				diameterCoords[0]);
-		if (Kernel.isZero(diameterCoords[0])) {
+		if (DoubleUtil.isZero(diameterCoords[0])) {
 			diameterOrigin = c.getCoordSys().getPoint(0,
 					-diameterCoords[2] / diameterCoords[1]);
 		} else {

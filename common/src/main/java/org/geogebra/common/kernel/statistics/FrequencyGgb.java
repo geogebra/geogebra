@@ -1,7 +1,7 @@
 package org.geogebra.common.kernel.statistics;
 
 import org.apache.commons.math3.stat.Frequency;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Extension of the Apache Commons Frequency class. Modifies the addValue()
@@ -18,7 +18,7 @@ public class FrequencyGgb extends Frequency {
 	@Override
 	public void addValue(Comparable<?> v) {
 		if (v instanceof Double) {
-			Double v2 = Kernel.checkDecimalFraction((Double) v);
+			Double v2 = DoubleUtil.checkDecimalFraction((Double) v);
 			super.addValue(v2);
 			return;
 		}

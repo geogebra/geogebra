@@ -18,13 +18,13 @@ import java.util.ConcurrentModificationException;
 
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoDrawingPadCorner extends AlgoElement {
@@ -51,11 +51,11 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 
 	private void registerEV(double absCorner) {
 		cons.registerEuclidianViewCE(this);
-		if (Kernel.isEqual(number.getDouble(), 11)) {
+		if (DoubleUtil.isEqual(number.getDouble(), 11)) {
 			cons.registerCorner11(this);
 			return;
 		}
-		if (Kernel.isEqual(number.getDouble(), absCorner)) {
+		if (DoubleUtil.isEqual(number.getDouble(), absCorner)) {
 			cons.registerCorner5(this);
 		}
 

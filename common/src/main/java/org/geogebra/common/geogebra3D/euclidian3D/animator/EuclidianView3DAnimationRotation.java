@@ -3,6 +3,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.animator;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.euclidian3D.animator.EuclidianView3DAnimator.AnimationType;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * animation for rotation
@@ -43,8 +44,8 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 		// if (aNew,bNew)=(0degrees,90degrees), then change it to
 		// (90degrees,90degrees) to have correct
 		// xOy orientation
-		if (Kernel.isEqual(aNew, 0, Kernel.STANDARD_PRECISION)
-				&& Kernel.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
+		if (DoubleUtil.isEqual(aNew, 0, Kernel.STANDARD_PRECISION)
+				&& DoubleUtil.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
 			aNew = -90;
 		}
 
@@ -56,9 +57,9 @@ public class EuclidianView3DAnimationRotation extends EuclidianView3DAnimation {
 		}
 
 		if (checkSameValues) {
-			if (Kernel.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION)) {
-				if (Kernel.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)) {
-					if (!Kernel.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
+			if (DoubleUtil.isEqual(aOld, aNew, Kernel.STANDARD_PRECISION)) {
+				if (DoubleUtil.isEqual(bOld, bNew, Kernel.STANDARD_PRECISION)) {
+					if (!DoubleUtil.isEqual(Math.abs(bNew), 90, Kernel.STANDARD_PRECISION)) {
 						aNew += 180;
 					}
 					bNew *= -1;

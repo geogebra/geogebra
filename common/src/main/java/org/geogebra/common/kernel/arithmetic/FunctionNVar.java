@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MaxSizeHashMap;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
@@ -880,11 +881,11 @@ public class FunctionNVar extends ValidExpression
 	public void translate(double vx, double vy) {
 
 		// translate x
-		if (!Kernel.isZero(vx)) {
+		if (!DoubleUtil.isZero(vx)) {
 			translateX(expression, vx, 0);
 		}
 		// translate y
-		if (!Kernel.isZero(vy)) {
+		if (!DoubleUtil.isZero(vy)) {
 			translateX(expression, vy, 1);
 		}
 
@@ -910,7 +911,7 @@ public class FunctionNVar extends ValidExpression
 	 */
 	public void translate(double vx, double vy, double vz) {
 		int zIndex;
-		if (!Kernel.isZero(vz) && (zIndex = getVarIndex("z")) != -1) {
+		if (!DoubleUtil.isZero(vz) && (zIndex = getVarIndex("z")) != -1) {
 			translateX(expression, vz, zIndex);
 		}
 		translate(vx, vy);
@@ -951,7 +952,7 @@ public class FunctionNVar extends ValidExpression
 				switch (en.getOperation()) {
 				case PLUS:
 					temp = num.getDouble() - vx;
-					if (Kernel.isZero(temp)) {
+					if (DoubleUtil.isZero(temp)) {
 						expression = expression.replace(en, fVars[varNo])
 								.wrap();
 					} else if (temp < 0) {
@@ -964,7 +965,7 @@ public class FunctionNVar extends ValidExpression
 
 				case MINUS:
 					temp = num.getDouble() + vx;
-					if (Kernel.isZero(temp)) {
+					if (DoubleUtil.isZero(temp)) {
 						expression = expression.replace(en, fVars[varNo])
 								.wrap();
 					} else if (temp < 0) {
@@ -1037,7 +1038,7 @@ public class FunctionNVar extends ValidExpression
 				switch (en.getOperation()) {
 				case MULTIPLY:
 					temp = num.getDouble() / vx;
-					if (Kernel.isEqual(1, temp)) {
+					if (DoubleUtil.isEqual(1, temp)) {
 						expression = expression.replace(en, fVars[varNo])
 								.wrap();
 					} else {
@@ -1047,7 +1048,7 @@ public class FunctionNVar extends ValidExpression
 
 				case DIVIDE:
 					temp = num.getDouble() * vx;
-					if (Kernel.isEqual(1, temp)) {
+					if (DoubleUtil.isEqual(1, temp)) {
 						expression = expression.replace(en, fVars[varNo])
 								.wrap();
 					} else {
@@ -1074,7 +1075,7 @@ public class FunctionNVar extends ValidExpression
 				switch (en.getOperation()) {
 				case MULTIPLY:
 					temp = num.getDouble() / vx;
-					if (Kernel.isEqual(1, temp)) {
+					if (DoubleUtil.isEqual(1, temp)) {
 						expression = expression.replace(en, fVars[varNo])
 								.wrap();
 					} else {
@@ -1123,7 +1124,7 @@ public class FunctionNVar extends ValidExpression
 	 */
 	protected ExpressionNode shiftXnode(double vx0, int varNo) {
 		ExpressionNode node;
-		double vx = Kernel.checkDecimalFraction(vx0);
+		double vx = DoubleUtil.checkDecimalFraction(vx0);
 		if (vx > 0) {
 			node = new ExpressionNode(kernel, fVars[varNo], Operation.MINUS,
 					new MyDouble(kernel, vx));
@@ -1142,7 +1143,7 @@ public class FunctionNVar extends ValidExpression
 	 * @return node coefficient * variable
 	 */
 	protected ExpressionNode multXnode(double vx0, int varNo) {
-		double vx = Kernel.checkDecimalFraction(1 / vx0);
+		double vx = DoubleUtil.checkDecimalFraction(1 / vx0);
 
 		return new ExpressionNode(kernel, new MyDouble(kernel, vx),
 				Operation.MULTIPLY, fVars[varNo]);

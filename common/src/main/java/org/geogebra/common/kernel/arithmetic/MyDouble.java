@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoVec2D;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.MyMath2;
 import org.geogebra.common.util.StringUtil;
@@ -378,7 +379,7 @@ public class MyDouble extends ValidExpression
 
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
-		if (Kernel.isZero(b.val)
+		if (DoubleUtil.isZero(b.val)
 				&& (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
 			c.set(Double.NaN);
 			return;
@@ -400,7 +401,7 @@ public class MyDouble extends ValidExpression
 
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
-		if (Kernel.isZero(b) && (Double.isInfinite(a) || Double.isNaN(a))) {
+		if (DoubleUtil.isZero(b) && (Double.isInfinite(a) || Double.isNaN(a))) {
 			return Double.NaN;
 		}
 
@@ -423,7 +424,7 @@ public class MyDouble extends ValidExpression
 
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
-		if (Kernel.isZero(b.val)
+		if (DoubleUtil.isZero(b.val)
 				&& (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
 			c.set(Double.NaN);
 			return;
@@ -456,7 +457,7 @@ public class MyDouble extends ValidExpression
 	 * make sure cos(2790 degrees) gives zero
 	 */
 	private void checkZero() {
-		if (Kernel.isZero(val)) {
+		if (DoubleUtil.isZero(val)) {
 			val = 0;
 		}
 	}
@@ -469,7 +470,7 @@ public class MyDouble extends ValidExpression
 	final public MyDouble tan() {
 		// Math.tan() gives a very large number for tan(pi/2)
 		// but should be undefined for pi/2, 3pi/2, 5pi/2, etc.
-		if (Kernel.isEqual(Math.abs(val) % Math.PI, Kernel.PI_HALF)) {
+		if (DoubleUtil.isEqual(Math.abs(val) % Math.PI, Kernel.PI_HALF)) {
 			val = Double.NaN;
 		} else {
 			val = Math.tan(val);
@@ -655,10 +656,10 @@ public class MyDouble extends ValidExpression
 		// 59degrees
 		if (angleDim == 1 && angleUnit == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180 * Math
-					.floor(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
+					.floor(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
-			set(Math.floor(Kernel.checkInteger(val)));
+			set(Math.floor(DoubleUtil.checkInteger(val)));
 		}
 		return this;
 	}
@@ -673,10 +674,10 @@ public class MyDouble extends ValidExpression
 		// kernel.checkInteger() needed otherwise ceil(241deg) fails
 		if (angleDim == 1 && angleUnit == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180 * Math
-					.ceil(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
+					.ceil(DoubleUtil.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
-			set(Math.ceil(Kernel.checkInteger(val)));
+			set(Math.ceil(DoubleUtil.checkInteger(val)));
 		}
 		return this;
 	}
@@ -707,7 +708,7 @@ public class MyDouble extends ValidExpression
 	 * @return rounded value
 	 */
 	final public MyDouble round(double digits, int angleUnit) {
-		if (!Kernel.isInteger(digits)) {
+		if (!DoubleUtil.isInteger(digits)) {
 			set(Double.NaN);
 		}
 		double pow = Math.pow(10, digits);
@@ -1140,7 +1141,7 @@ public class MyDouble extends ValidExpression
 	public int compareTo(Object arg0) {
 		if (arg0 instanceof MyDouble) {
 			MyDouble d = (MyDouble) arg0;
-			if (Kernel.isEqual(val, d.getDouble())) {
+			if (DoubleUtil.isEqual(val, d.getDouble())) {
 				return 0;
 			}
 			return val - d.getDouble() < 0 ? -1 : 1;
@@ -1155,7 +1156,7 @@ public class MyDouble extends ValidExpression
 		}
 
 		if (d instanceof MyDouble) {
-			return Kernel.isEqual(((MyDouble) d).getDouble(), val);
+			return DoubleUtil.isEqual(((MyDouble) d).getDouble(), val);
 		}
 		return false;
 	}

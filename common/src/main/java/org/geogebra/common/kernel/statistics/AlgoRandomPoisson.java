@@ -13,13 +13,13 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.SetRandomValue;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath2;
 
 /**
@@ -162,7 +162,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 
 	@Override
 	public void setRandomValue(double d0) {
-		double d = Math.round(Kernel.checkInteger(d0));
+		double d = Math.round(DoubleUtil.checkInteger(d0));
 
 		if (d >= 0) {
 			num.setValue(d);

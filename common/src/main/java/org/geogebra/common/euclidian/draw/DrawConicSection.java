@@ -11,10 +11,10 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.clipping.ClipShape;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicSectionInterface;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class for drawing a conic section (limited quadric and plane)
@@ -123,7 +123,7 @@ public class DrawConicSection extends DrawConic {
 
 			// try first segment
 			A = view.getCoordsForView(ellipsePoint(m, ev0, ev1, r0, r1, end0));
-			if (Kernel.isZero(A.getZ())) {
+			if (DoubleUtil.isZero(A.getZ())) {
 				B = view.getCoordsForView(
 						ellipsePoint(m, ev0, ev1, r0, r1, start1));
 			} else { // try second segment
@@ -138,7 +138,7 @@ public class DrawConicSection extends DrawConic {
 					ellipsePoint(m, ev0, ev1, r0, r1, start0));
 		}
 
-		if (Kernel.isZero(B.getZ())) {
+		if (DoubleUtil.isZero(B.getZ())) {
 			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
 			}
@@ -201,7 +201,7 @@ public class DrawConicSection extends DrawConic {
 
 		// check if in view
 		Coords M = view.getCoordsForView(conic.getMidpoint3D());
-		if (!Kernel.isZero(M.getZ())) {// check if in view
+		if (!DoubleUtil.isZero(M.getZ())) {// check if in view
 			updateEllipseEdge();
 			onlyEdge = true;
 			return;
@@ -211,7 +211,7 @@ public class DrawConicSection extends DrawConic {
 		}
 		for (int j = 0; j < 2; j++) {
 			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+			if (!DoubleUtil.isZero(ev[j].getZ())) {// check if in view
 				updateEllipseEdge();
 				onlyEdge = true;
 				return;
@@ -322,7 +322,7 @@ public class DrawConicSection extends DrawConic {
 		double x, y;
 
 		for (int i = 0; i < 4; i++) {
-			if (Kernel.isZero(endPoints[i].getZ())) {
+			if (DoubleUtil.isZero(endPoints[i].getZ())) {
 				if (numPoints == -1) { // first point
 					x = endPoints[i].getX();
 					y = endPoints[i].getY();
@@ -376,7 +376,7 @@ public class DrawConicSection extends DrawConic {
 		Coords A = view.getCoordsForView(m.copy().addInsideMul(d, getStart(0)));
 		Coords B = view.getCoordsForView(m.copy().addInsideMul(d, getEnd(0)));
 
-		if (Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
+		if (DoubleUtil.isZero(A.getZ()) && DoubleUtil.isZero(B.getZ())) {
 			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
 			}
@@ -459,7 +459,7 @@ public class DrawConicSection extends DrawConic {
 		Coords B = view.getCoordsForView(
 				m.copy().addInsideMul(ev1, u).addInsideMul(ev2, v));
 
-		if (Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
+		if (DoubleUtil.isZero(A.getZ()) && DoubleUtil.isZero(B.getZ())) {
 			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
 			}
@@ -520,7 +520,7 @@ public class DrawConicSection extends DrawConic {
 			}
 		}
 
-		if (A != null && Kernel.isZero(A.getZ()) && Kernel.isZero(B.getZ())) {
+		if (A != null && DoubleUtil.isZero(A.getZ()) && DoubleUtil.isZero(B.getZ())) {
 			if (line == null) {
 				line = AwtFactory.getPrototype().newLine2D();
 			}

@@ -16,6 +16,7 @@ import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -88,8 +89,8 @@ public class MyPoint extends GPoint2D implements Point {
 	 * @return true if points are equal (Kernel.MIN_PRECISION)
 	 */
 	public boolean isEqual(double px, double py) {
-		return Kernel.isEqual(x, px, Kernel.MIN_PRECISION)
-				&& Kernel.isEqual(y, py, Kernel.MIN_PRECISION);
+		return DoubleUtil.isEqual(x, px, Kernel.MIN_PRECISION)
+				&& DoubleUtil.isEqual(y, py, Kernel.MIN_PRECISION);
 	}
 
 	@Override

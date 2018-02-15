@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicSectionInterface;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -75,11 +76,11 @@ public class GeoConicSection extends GeoConic3D
 			}
 
 			// compare values
-			if (Kernel.isGreater(parameter.value, value)) {
+			if (DoubleUtil.isGreater(parameter.value, value)) {
 				return -1;
 			}
 
-			if (Kernel.isGreater(value, parameter.value)) {
+			if (DoubleUtil.isGreater(value, parameter.value)) {
 				return 1;
 			}
 
@@ -169,15 +170,15 @@ public class GeoConicSection extends GeoConic3D
 			}
 
 			// set parameters
-			paramStart[0] = Kernel.convertToAngleValue(end1);
-			paramEnd[0] = Kernel.convertToAngleValue(start2);
+			paramStart[0] = DoubleUtil.convertToAngleValue(end1);
+			paramEnd[0] = DoubleUtil.convertToAngleValue(start2);
 			paramExtent[0] = paramEnd[0] - paramStart[0];
 			if (paramExtent[0] < 0) {
 				paramExtent[0] += Kernel.PI_2;
 			}
 
-			paramStart[1] = Kernel.convertToAngleValue(end2);
-			paramEnd[1] = Kernel.convertToAngleValue(start1);
+			paramStart[1] = DoubleUtil.convertToAngleValue(end2);
+			paramEnd[1] = DoubleUtil.convertToAngleValue(start1);
 			paramExtent[1] = paramEnd[1] - paramStart[1];
 			if (paramExtent[1] < 0) {
 				paramExtent[1] += Kernel.PI_2;
@@ -385,10 +386,10 @@ public class GeoConicSection extends GeoConic3D
 
 	private void sortParameters() {
 		for (int i = 0; i < 2; i++) {
-			if (Kernel.isZero(paramStart[i])) {
+			if (DoubleUtil.isZero(paramStart[i])) {
 				paramStart[i] = 0;
 			}
-			if (Kernel.isZero(paramEnd[i])) {
+			if (DoubleUtil.isZero(paramEnd[i])) {
 				paramEnd[i] = 0;
 			}
 			// if (Math.abs(paramStart[i])>Math.abs(paramEnd[i])){

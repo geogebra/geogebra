@@ -19,11 +19,11 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -119,8 +119,8 @@ public class AlgoAnglePoints extends AlgoAnglePointsND {
 		wx = C.inhomX - bx;
 		wy = C.inhomY - by;
 
-		if (Kernel.isZero(vx) && Kernel.isZero(vy)
-				|| Kernel.isZero(wx) && Kernel.isZero(wy)) {
+		if (DoubleUtil.isZero(vx) && DoubleUtil.isZero(vy)
+				|| DoubleUtil.isZero(wx) && DoubleUtil.isZero(wy)) {
 			angle.setUndefined();
 			return;
 		}

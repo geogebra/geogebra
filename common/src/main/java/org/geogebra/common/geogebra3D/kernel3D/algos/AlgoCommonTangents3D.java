@@ -31,6 +31,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Two tangents through point P to conic section c
@@ -146,7 +147,7 @@ public class AlgoCommonTangents3D extends AlgoCommonTangentsND {
 	private void polarLine(GeoPoint output) {
 		polar = new GeoLine(cons);
 		c2d.polarLine(output, polar);
-		if (!Kernel.isZero(polar.x)) {
+		if (!DoubleUtil.isZero(polar.x)) {
 			currentTangent.setCoord(
 					c.getCoordSys().getPoint(-polar.z / polar.x, 0),
 				c.getCoordSys().getVector(-polar.y, polar.x));

@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 
@@ -178,7 +179,7 @@ public class AlgoSequenceRange extends AlgoElement {
 			if (to < from) {
 				step = -step;
 			}
-			if (Kernel.isZero(step) || step < 0) {
+			if (DoubleUtil.isZero(step) || step < 0) {
 				list.setUndefined();
 				return;
 			}
@@ -191,7 +192,7 @@ public class AlgoSequenceRange extends AlgoElement {
 
 			// increasing list
 			for (double k = from; k <= to + Kernel.MIN_PRECISION; k += step) {
-				if (Kernel.isInteger(k)) {
+				if (DoubleUtil.isInteger(k)) {
 					k = Math.round(k);
 				}
 				list.addNumber(k, null);
@@ -201,7 +202,7 @@ public class AlgoSequenceRange extends AlgoElement {
 
 			// decreasing list
 			for (double k = from; k >= to - Kernel.MIN_PRECISION; k -= step) {
-				if (Kernel.isInteger(k)) {
+				if (DoubleUtil.isInteger(k)) {
 					k = Math.round(k);
 				}
 				list.addNumber(k, null);

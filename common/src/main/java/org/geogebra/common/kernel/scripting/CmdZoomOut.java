@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * ZoomOut
@@ -39,7 +40,7 @@ public class CmdZoomOut extends CmdScripting {
 
 				double factor = numGeo.getDouble();
 
-				if (Kernel.isZero(factor)) {
+				if (DoubleUtil.isZero(factor)) {
 					throw argErr(app, c, arg[0]);
 				}
 

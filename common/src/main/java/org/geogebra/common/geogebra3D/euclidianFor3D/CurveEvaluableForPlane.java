@@ -3,10 +3,10 @@ package org.geogebra.common.geogebra3D.euclidianFor3D;
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * For 3D curve, evaluator that returns NaN when z != 0
@@ -40,7 +40,7 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 			parentOutInView = companion.getCoordsForView(parentOut);
 			double z = parentOutInView.getZ();
 
-			if (!Kernel.isZero(z)) {
+			if (!DoubleUtil.isZero(z)) {
 				return Double.NaN;
 			}
 
@@ -72,7 +72,7 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 		parent.evaluateCurve(t, parentOut.val);
 		parentOutInView = companion.getCoordsForView(parentOut);
 		double z = parentOutInView.getZ();
-		if (Double.isInfinite(z) || Double.isNaN(z) || !Kernel.isZero(z)) {
+		if (Double.isInfinite(z) || Double.isNaN(z) || !DoubleUtil.isZero(z)) {
 			out[0] = Double.NaN;
 		} else {
 			for (int i = 0; i < out.length; i++) {

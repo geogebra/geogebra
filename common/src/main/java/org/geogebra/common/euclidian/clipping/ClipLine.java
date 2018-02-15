@@ -1,7 +1,7 @@
 package org.geogebra.common.euclidian.clipping;
 
 import org.geogebra.common.awt.GPoint2D;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Clipping of lines to the inside of a rectangle. This is useful as a
@@ -227,7 +227,7 @@ public class ClipLine {
 				}
 			}
 		}
-		if (!Double.isNaN(p1x) && Kernel.isEqual(p1y, (ymin + yhack))) {
+		if (!Double.isNaN(p1x) && DoubleUtil.isEqual(p1y, (ymin + yhack))) {
 			// use different sequence if a lower corner of clipping rectangle is
 			// hit
 

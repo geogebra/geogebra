@@ -16,7 +16,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -27,6 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Circular arc or sector defined by the circle's center, one point on the
@@ -196,7 +196,7 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 			Coords startCoords = startPoint.getInhomCoordsInD3();
 			Coords v1 = startCoords.sub(centerCoords);
 			Coords v2 = endPoint.getInhomCoordsInD3().sub(centerCoords);
-			if (Kernel.isGreater(0, v1.dotproduct(v2))) {
+			if (DoubleUtil.isGreater(0, v1.dotproduct(v2))) {
 				semiCircle(centerCoords, v1);
 				return;
 			}

@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedronNet;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -20,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
@@ -345,7 +345,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 		double f = v.getDouble();
 
-		if (Kernel.isGreater(f, 1) || Kernel.isGreater(0, f)) {
+		if (DoubleUtil.isGreater(f, 1) || DoubleUtil.isGreater(0, f)) {
 			setUndefined();
 			return;
 		}
@@ -411,7 +411,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 					.getDirectionInD3();
 
 			int sgn = 1;
-			if (Kernel.isGreater(o1.distance(o), 0)) {
+			if (DoubleUtil.isGreater(o1.distance(o), 0)) {
 				sgn = -1;
 			}
 
@@ -425,7 +425,7 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 			double d2 = cCoord.distLine(o, vs);
 			double angle;
-			if (Kernel.isEqual(dist, d2)) {
+			if (DoubleUtil.isEqual(dist, d2)) {
 				angle = Math.PI / 2;
 			} else {
 				angle = Math.asin(dist / d2);

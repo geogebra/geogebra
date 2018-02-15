@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -15,6 +14,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -270,8 +270,8 @@ public class AlgoSlopeField extends AlgoElement {
 						double numD = num.evaluate(xx, yy);
 						double denD = den.evaluate(xx, yy);
 
-						if (Kernel.isZero(denD)) {
-							if (Kernel.isZero(numD)) {
+						if (DoubleUtil.isZero(denD)) {
+							if (DoubleUtil.isZero(numD)) {
 								// just a dot
 								al.add(new MyPoint(xx, yy, SegmentType.MOVE_TO));
 								al.add(new MyPoint(xx, yy, SegmentType.LINE_TO));

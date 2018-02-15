@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -252,8 +253,8 @@ public class AlgoIntersectImplicitpolyPolyLine extends AlgoIntersect {
 		}
 
 		for (int i = 0; i < nrRealRoots; ++i) {
-			if (Kernel.isGreater(roots[i], max, Kernel.STANDARD_PRECISION)
-					|| Kernel.isGreater(min, roots[i],
+			if (DoubleUtil.isGreater(roots[i], max, Kernel.STANDARD_PRECISION)
+					|| DoubleUtil.isGreater(min, roots[i],
 							Kernel.STANDARD_PRECISION)) {
 				roots[i] = Double.NaN;
 			}

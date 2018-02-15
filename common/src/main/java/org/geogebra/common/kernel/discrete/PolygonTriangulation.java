@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -292,18 +293,18 @@ public class PolygonTriangulation {
 			}
 
 			// smallest x
-			if (Kernel.isGreater(p2.x, x, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(p2.x, x, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(x, p2.x, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(x, p2.x, POINT_DELTA)) {
 				return 1;
 			}
 
 			// then smallest y
-			if (Kernel.isGreater(p2.y, y, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(p2.y, y, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(y, p2.y, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(y, p2.y, POINT_DELTA)) {
 				return 1;
 			}
 
@@ -361,18 +362,18 @@ public class PolygonTriangulation {
 		final public int compareToOnly(Point p2) {
 
 			// smallest x
-			if (Kernel.isGreater(p2.x, x, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(p2.x, x, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(x, p2.x, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(x, p2.x, POINT_DELTA)) {
 				return 1;
 			}
 
 			// then smallest y
-			if (Kernel.isGreater(p2.y, y, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(p2.y, y, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(y, p2.y, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(y, p2.y, POINT_DELTA)) {
 				return 1;
 			}
 
@@ -393,18 +394,18 @@ public class PolygonTriangulation {
 		final public int compareTo(double x1, double y1) {
 
 			// smallest x
-			if (Kernel.isGreater(x1, x, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(x1, x, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(x, x1, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(x, x1, POINT_DELTA)) {
 				return 1;
 			}
 
 			// then smallest y
-			if (Kernel.isGreater(y1, y, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(y1, y, POINT_DELTA)) {
 				return -1;
 			}
-			if (Kernel.isGreater(y, y1, POINT_DELTA)) {
+			if (DoubleUtil.isGreater(y, y1, POINT_DELTA)) {
 				return 1;
 			}
 
@@ -494,12 +495,12 @@ public class PolygonTriangulation {
 				return 0;
 			}
 
-			if (Kernel.isGreater(seg.orientation, orientation,
+			if (DoubleUtil.isGreater(seg.orientation, orientation,
 					ORIENTATION_DELTA)) {
 				return -1;
 			}
 
-			if (Kernel.isGreater(orientation, seg.orientation,
+			if (DoubleUtil.isGreater(orientation, seg.orientation,
 					ORIENTATION_DELTA)) {
 				return 1;
 			}
@@ -703,8 +704,8 @@ public class PolygonTriangulation {
 	 */
 	private Point addPointToChain(Point point, double x, double y, String name,
 			int nameId) {
-		if (!Kernel.isEqual(point.x, x, POINT_DELTA)
-				|| !Kernel.isEqual(point.y, y, POINT_DELTA)) {
+		if (!DoubleUtil.isEqual(point.x, x, POINT_DELTA)
+				|| !DoubleUtil.isEqual(point.y, y, POINT_DELTA)) {
 			point.next = new Point(x, y, point.id + 1);
 			setName(point.next, name, nameId);
 			point.next.prev = point;
@@ -772,8 +773,8 @@ public class PolygonTriangulation {
 		int n = point.id + 1;
 
 		// check first point <> last point
-		if (Kernel.isEqual(point.x, firstPoint.x, POINT_DELTA)
-				&& Kernel.isEqual(point.y, firstPoint.y, POINT_DELTA)) {
+		if (DoubleUtil.isEqual(point.x, firstPoint.x, POINT_DELTA)
+				&& DoubleUtil.isEqual(point.y, firstPoint.y, POINT_DELTA)) {
 			firstPoint = firstPoint.next;
 			n--;
 		}
@@ -819,16 +820,16 @@ public class PolygonTriangulation {
 					+ (prevPoint.orientationToNext * 180 / Math.PI));
 			debug(prevPoint.name + "/" + point.name + "/" + nextPoint.name
 					+ " : " + (delta * 180 / Math.PI));
-			if (Kernel.isZero(delta, ORIENTATION_DELTA)) { // point aligned
+			if (DoubleUtil.isZero(delta, ORIENTATION_DELTA)) { // point aligned
 				// remove point
 				prevPoint.next = nextPoint;
 				nextPoint.prev = prevPoint;
 				removedPoints++;
 				point = nextPoint;
-			} else if (Kernel.isEqual(delta, Math.PI, ORIENTATION_DELTA)) { // U-turn
+			} else if (DoubleUtil.isEqual(delta, Math.PI, ORIENTATION_DELTA)) { // U-turn
 				debug("U-turn");
-				if (Kernel.isEqual(nextPoint.x, prevPoint.x, POINT_DELTA)
-						&& Kernel.isEqual(nextPoint.y, prevPoint.y,
+				if (DoubleUtil.isEqual(nextPoint.x, prevPoint.x, POINT_DELTA)
+						&& DoubleUtil.isEqual(nextPoint.y, prevPoint.y,
 								POINT_DELTA)) {
 					// same point
 					debug(prevPoint.name + "==" + nextPoint.name);
@@ -845,7 +846,7 @@ public class PolygonTriangulation {
 					point.next = nextPoint.next;
 					nextPoint.next.prev = point;
 					removedPoints += 2;
-				} else if (Kernel.isGreater(0,
+				} else if (DoubleUtil.isGreater(0,
 						(nextPoint.x - prevPoint.x) * (point.x - prevPoint.x)
 								+ (nextPoint.y - prevPoint.y)
 										* (point.y - prevPoint.y),
@@ -954,7 +955,7 @@ public class PolygonTriangulation {
 		// check if (angle sum) == (n-2)*pi
 		debug((deltaSum * 180 / Math.PI) + " , "
 				+ (pointLengthMinus2 - 2) * 180);
-		convex = convex && Kernel.isEqual(Math.abs(deltaSum),
+		convex = convex && DoubleUtil.isEqual(Math.abs(deltaSum),
 				pointLengthMinus2 * Math.PI);
 
 		if (convex) {
@@ -1210,7 +1211,7 @@ public class PolygonTriangulation {
 								pt.x - segment.leftPoint.x);
 						// error(segment.leftPoint.name+pt.name+" :
 						// "+orientation);
-						if (Kernel.isEqual(orientation, segment.orientation,
+						if (DoubleUtil.isEqual(orientation, segment.orientation,
 								ORIENTATION_DELTA)) {
 							error("(1)" + pt.name + " aligned with " + segment);
 
@@ -1242,7 +1243,7 @@ public class PolygonTriangulation {
 								pt.x - segment.leftPoint.x);
 						// error(segment.leftPoint.name+pt.name+" :
 						// "+orientation);
-						if (Kernel.isEqual(orientation, segment.orientation,
+						if (DoubleUtil.isEqual(orientation, segment.orientation,
 								ORIENTATION_DELTA)) {
 							error("(2)" + pt.name + " aligned with " + segment);
 
@@ -1567,7 +1568,7 @@ public class PolygonTriangulation {
 
 		debug(x + "," + y + "," + z);
 
-		if (!Kernel.isZero(z, POINT_DELTA)) {
+		if (!DoubleUtil.isZero(z, POINT_DELTA)) {
 			// create intersection point
 			// Point pt = new Point(x/z, y/z);
 			double x1 = x / z;
@@ -1665,7 +1666,7 @@ public class PolygonTriangulation {
 		// (point.orientationToNext*180/Math.PI))+ Unicode.degreeChar +
 		// ", "+point.next.name);
 		Segment segment;
-		if (Kernel.isGreater(point.orientationToNext, -Math.PI / 2) && Kernel
+		if (DoubleUtil.isGreater(point.orientationToNext, -Math.PI / 2) && DoubleUtil
 				.isGreaterEqual(Math.PI / 2, point.orientationToNext)) { // point
 																			// is
 																			// left
@@ -2123,7 +2124,7 @@ public class PolygonTriangulation {
 					Point v = stack.pop();
 					dx2 = v.x - vi.x;
 					dy2 = v.y - vi.y;
-					if (Kernel.isGreater(dx1 * dy2, dx2 * dy1)
+					if (DoubleUtil.isGreater(dx1 * dy2, dx2 * dy1)
 							^ (viChain != Chain.BELOW)) { // not same
 															// orientation
 						stack.push(v); // re-push v in stack

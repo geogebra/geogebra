@@ -6,11 +6,11 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * General path clipped with methods for CurvePlotter
@@ -61,9 +61,9 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 			return;
 		}
 
-		boolean distant = !Kernel.isEqual(x, point.getX(),
+		boolean distant = !DoubleUtil.isEqual(x, point.getX(),
 				view.getMinPixelDistance())
-				|| !Kernel.isEqual(y, point.getY(), view.getMinPixelDistance());
+				|| !DoubleUtil.isEqual(y, point.getY(), view.getMinPixelDistance());
 		if (lineTo == SegmentType.CONTROL || lineTo == SegmentType.CURVE_TO
 				|| lineTo == SegmentType.ARC_TO
 				|| lineTo == SegmentType.AUXILIARY) {
@@ -168,7 +168,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 			drawTo(x0, y0, true);
 		} else if (moveToAllowed == Gap.RESET_XMIN) {
 			double d = getCurrentPoint().getY();
-			if (!Kernel.isEqual(d, y0)) {
+			if (!DoubleUtil.isEqual(d, y0)) {
 				drawTo(-10, d, true);
 				drawTo(-10, y0, true);
 			}
@@ -176,7 +176,7 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 		} else if (moveToAllowed == Gap.RESET_XMAX) {
 			double d = getCurrentPoint().getY();
-			if (!Kernel.isEqual(d, y0)) {
+			if (!DoubleUtil.isEqual(d, y0)) {
 				drawTo(view.getWidth() + 10, d, true);
 				drawTo(view.getWidth() + 10, y0, true);
 			}
@@ -184,14 +184,14 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
 
 		} else if (moveToAllowed == Gap.RESET_YMIN) {
 			double d = getCurrentPoint().getX();
-			if (!Kernel.isEqual(d, x0)) {
+			if (!DoubleUtil.isEqual(d, x0)) {
 				drawTo(d, -10, true);
 				drawTo(x0, -10, true);
 			}
 			drawTo(x0, y0, true);
 		} else if (moveToAllowed == Gap.RESET_YMAX) {
 			double d = getCurrentPoint().getX();
-			if (!Kernel.isEqual(d, x0)) {
+			if (!DoubleUtil.isEqual(d, x0)) {
 				drawTo(getCurrentPoint().getX(), view.getHeight() + 10, true);
 				drawTo(x0, view.getHeight() + 10, true);
 			}

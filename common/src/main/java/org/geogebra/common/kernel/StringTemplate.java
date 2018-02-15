@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.ScientificFormatAdapter;
 import org.geogebra.common.util.StringUtil;
@@ -2876,7 +2877,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	public static String[] printLimitedWidth(double decimal, Kernel kernel,
 			String[] parts) {
 		if (Math.abs(decimal) < 1E4
-				&& (Math.abs(decimal) > 1E-4 || Kernel.isZero(decimal))) {
+				&& (Math.abs(decimal) > 1E-4 || DoubleUtil.isZero(decimal))) {
 			parts[0] = kernel.format(decimal, defaultTemplate);
 			parts[1] = null;
 			return parts;

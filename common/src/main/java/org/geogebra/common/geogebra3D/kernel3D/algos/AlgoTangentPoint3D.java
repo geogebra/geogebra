@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.kernelND.AlgoIntersectND;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Two tangents through point P to conic section c
@@ -61,7 +62,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 			polar.getCoords(polarCoords);
 			polarDirection = c.getCoordSys().getVector(-polarCoords[1],
 					polarCoords[0]);
-			if (Kernel.isZero(polarCoords[0])) {
+			if (DoubleUtil.isZero(polarCoords[0])) {
 				polarOrigin = c.getCoordSys().getPoint(0,
 						-polarCoords[2] / polarCoords[1]);
 			} else {
@@ -92,7 +93,7 @@ public class AlgoTangentPoint3D extends AlgoTangentPointND {
 
 		coords2D = c.getCoordSys()
 				.getNormalProjection(P.getInhomCoordsInD3())[1];
-		if (!Kernel.isZero(coords2D.getZ())) {
+		if (!DoubleUtil.isZero(coords2D.getZ())) {
 			return true;
 		}
 

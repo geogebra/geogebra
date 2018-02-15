@@ -33,7 +33,6 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation;
 import org.geogebra.common.kernel.discrete.PolygonTriangulation.Convexity;
@@ -47,6 +46,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -166,7 +166,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 		if (geo.isShape()) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
-				if (Kernel.isEqual(getBoundingBox().getRectangle().getHeight(),
+				if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getHeight(),
 						getBoundingBox().getRectangle().getWidth(), 2)) {
 					setIsSquare(true);
 				}
@@ -202,7 +202,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		// first point
 		Coords v = getCoords(0);
-		if (!Kernel.isZero(v.getZ())) {
+		if (!DoubleUtil.isZero(v.getZ())) {
 			return false;
 		}
 		coords[0] = v.getX();
@@ -216,7 +216,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 		for (int i = 1; i < length; i++) {
 			v = getCoords(i);
-			if (!Kernel.isZero(v.getZ())) {
+			if (!DoubleUtil.isZero(v.getZ())) {
 				return false;
 			}
 			coords[0] = v.getX();
@@ -322,9 +322,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 						}
 
 						for (double ang2 = 0; ang2 < 180; ang2 += 15) {
-							if (Kernel.isEqual(ang2, angle)) {
+							if (DoubleUtil.isEqual(ang2, angle)) {
 								continue;
-							} else if (Kernel.isEqual(ang2, 90)) {
+							} else if (DoubleUtil.isEqual(ang2, 90)) {
 								l2.setCoords(1.0, 0, -px2);
 							} else {
 								double gradient2 = Math
@@ -915,7 +915,7 @@ public class DrawPolygon extends Drawable implements Previewable {
 				int j = 0;
 				for (int i = 0; i < poly.getPointsLength(); i++) {
 					vertices[i] = poly.getPointND(i).getCoords();
-					if (!Kernel.isZero(vertices[i].getZ())) {
+					if (!DoubleUtil.isZero(vertices[i].getZ())) {
 						return;
 					}
 					j++;

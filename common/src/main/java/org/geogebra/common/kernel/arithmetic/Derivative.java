@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -450,7 +451,7 @@ public class Derivative {
 	private static ExpressionNode derivativePower(ExpressionValue left,
 			ExpressionValue right, FunctionVariable fv, Kernel kernel0) {
 		if (right.isNumberValue() && !right.contains(fv)) {
-			if (Kernel.isZero(right.evaluateDouble())) {
+			if (DoubleUtil.isZero(right.evaluateDouble())) {
 				return wrap(new MyDouble(kernel0, 0d));
 			}
 			ExpressionNode ret = null;
@@ -480,12 +481,12 @@ public class Derivative {
 	private static ExpressionNode derivativeConstantPower(ExpressionValue left,
 			ExpressionValue right, FunctionVariable fv, Kernel kernel0) {
 		double rightDoub = right.evaluateDouble();
-		if (Kernel.isEqual(rightDoub, 2)) {
+		if (DoubleUtil.isEqual(rightDoub, 2)) {
 			return wrap(left).multiply(left.derivative(fv, kernel0)).multiply(
 					right);
 		}
 		// not an integer, convert to x^(a/b)
-		if (!Kernel.isInteger(rightDoub)) {
+		if (!DoubleUtil.isInteger(rightDoub)) {
 
 			double[] fraction = AlgoFractionText.decimalToFraction(rightDoub,
 					Kernel.STANDARD_PRECISION);

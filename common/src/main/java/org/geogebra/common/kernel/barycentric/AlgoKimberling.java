@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.barycentric;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -9,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.AlgoKimberlingWeightsParams;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -108,7 +108,7 @@ public class AlgoKimberling extends AlgoElement {
 			double wC = kernel.getApplication().kimberlingWeight(
 					new AlgoKimberlingWeightsParams(k, c, a, b));
 			double w = wA + wB + wC;
-			if (Double.isNaN(w) || Kernel.isZero(w)) {
+			if (Double.isNaN(w) || DoubleUtil.isZero(w)) {
 				M.setUndefined();
 			} else {
 				GeoPoint.setBarycentric(A, B, C, wA, wB, wC, w, M);

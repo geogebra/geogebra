@@ -18,7 +18,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
@@ -28,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algorithm for intersection of two PolyLines
@@ -239,10 +239,10 @@ public class AlgoIntersectPolyLines extends AlgoElement {
 				// checks whether the cross product(this.dummyPoint[4]) actually
 				// an intersection point
 				if (this.dummyPoint[4].isDefined()) {
-					if (!(Kernel
+					if (!(DoubleUtil
 							.isZero(this.dummySegment[0]
 									.distance(this.dummyPoint[4]))
-							&& Kernel.isZero(this.dummySegment[1]
+							&& DoubleUtil.isZero(this.dummySegment[1]
 									.distance(this.dummyPoint[4])))) {
 						this.dummyPoint[4].setUndefined();
 					}

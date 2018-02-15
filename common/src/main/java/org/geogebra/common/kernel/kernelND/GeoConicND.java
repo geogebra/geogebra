@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.integration.EllipticArcLength;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.MyMath;
@@ -1115,25 +1116,25 @@ public abstract class GeoConicND extends GeoQuadricND
 		case GeoConicNDConstants.CONIC_CIRCLE:
 			// x^2 + y^2 = r^2
 			double radius2 = halfAxes[0] * halfAxes[0];
-			result = Kernel.isEqual(px * px / radius2 + py * py / radius2, 1,
+			result = DoubleUtil.isEqual(px * px / radius2 + py * py / radius2, 1,
 					eps);
 			break;
 
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			// x^2/a^2 + y^2/b^2 = 1
-			result = Kernel.isEqual(px * px / (halfAxes[0] * halfAxes[0])
+			result = DoubleUtil.isEqual(px * px / (halfAxes[0] * halfAxes[0])
 					+ py * py / (halfAxes[1] * halfAxes[1]), 1, eps);
 			break;
 
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			// x^2/a^2 - y^2/b^2 = 1
-			result = Kernel.isEqual(px * px / (halfAxes[0] * halfAxes[0]),
+			result = DoubleUtil.isEqual(px * px / (halfAxes[0] * halfAxes[0]),
 					1 + py * py / (halfAxes[1] * halfAxes[1]), eps);
 			break;
 
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			// y^2 = 2 p x
-			result = Kernel.isEqual(py * py, 2 * p * px, eps);
+			result = DoubleUtil.isEqual(py * py, 2 * p * px, eps);
 			break;
 		}
 
@@ -1484,11 +1485,11 @@ public abstract class GeoConicND extends GeoQuadricND
 		case CONIC_ELLIPSE:
 		case CONIC_HYPERBOLA:
 			// xy vanished
-			return (Kernel.isZero(matrix[3]));
+			return (DoubleUtil.isZero(matrix[3]));
 
 		case CONIC_PARABOLA:
 			// x\u00b2 or y\u00b2 vanished
-			return Kernel.isZero(matrix[0]) || Kernel.isZero(matrix[1]);
+			return DoubleUtil.isZero(matrix[0]) || DoubleUtil.isZero(matrix[1]);
 
 		default:
 		case CONIC_LINE:
@@ -1507,8 +1508,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (type == CONIC_LINE) {
 			return false;
 		}
-		return !Kernel.isZero(matrix[5]) && Kernel.isZero(matrix[3])
-				&& Kernel.isZero(matrix[1]);
+		return !DoubleUtil.isZero(matrix[5]) && DoubleUtil.isZero(matrix[3])
+				&& DoubleUtil.isZero(matrix[1]);
 	}
 
 	/**
@@ -1519,8 +1520,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	 */
 	@Override
 	final public boolean isVertexformPossible() {
-		return !Kernel.isZero(matrix[0]) && !Kernel.isZero(matrix[5])
-				&& Kernel.isZero(matrix[1]) && Kernel.isZero(matrix[3]);
+		return !DoubleUtil.isZero(matrix[0]) && !DoubleUtil.isZero(matrix[5])
+				&& DoubleUtil.isZero(matrix[1]) && DoubleUtil.isZero(matrix[3]);
 	}
 
 	/**
@@ -1532,14 +1533,14 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	final public boolean isConicformPossible() {
 		// directrix parallel with xAxis
-		if (!Kernel.isZero(matrix[0]) && !Kernel.isZero(matrix[5])
-				&& Kernel.isZero(matrix[1]) && Kernel.isZero(matrix[3])) {
+		if (!DoubleUtil.isZero(matrix[0]) && !DoubleUtil.isZero(matrix[5])
+				&& DoubleUtil.isZero(matrix[1]) && DoubleUtil.isZero(matrix[3])) {
 			return true;
 		}
 
 		// directrix parallel with yAxis
-		if (!Kernel.isZero(matrix[1]) && !Kernel.isZero(matrix[4])
-				&& Kernel.isZero(matrix[0]) && Kernel.isZero(matrix[3])) {
+		if (!DoubleUtil.isZero(matrix[1]) && !DoubleUtil.isZero(matrix[4])
+				&& DoubleUtil.isZero(matrix[0]) && DoubleUtil.isZero(matrix[3])) {
 			return true;
 		}
 
@@ -1820,13 +1821,13 @@ public abstract class GeoConicND extends GeoQuadricND
 				return sbToValueString;
 
 			case CONIC_ELLIPSE:
-				if (Kernel.isZero(coeffs[1])) { // xy coeff = 0
+				if (DoubleUtil.isZero(coeffs[1])) { // xy coeff = 0
 					double coeff0, coeff1;
 					// we have to check the first eigenvector: it could be (1,0)
 					// or (0,1)
 					// if it is (0,1) we have to swap the coefficients of x^2
 					// and y^2
-					if (Kernel.isZero(eigenvec[0].getY())) {
+					if (DoubleUtil.isZero(eigenvec[0].getY())) {
 						coeff0 = halfAxes[0];
 						coeff1 = halfAxes[1];
 					} else {
@@ -1834,7 +1835,7 @@ public abstract class GeoConicND extends GeoQuadricND
 						coeff1 = halfAxes[0];
 					}
 
-					if (Kernel.isZero(b.getX())) {
+					if (DoubleUtil.isZero(b.getX())) {
 						sbToValueString.append("x");
 						sbToValueString.append(squared);
 					} else {
@@ -1846,7 +1847,7 @@ public abstract class GeoConicND extends GeoQuadricND
 					sbToValueString.append(" / ");
 					sbToValueString.append(kernel.format(coeff0 * coeff0, tpl));
 					sbToValueString.append(" + ");
-					if (Kernel.isZero(b.getY())) {
+					if (DoubleUtil.isZero(b.getY())) {
 						sbToValueString.append("y");
 						sbToValueString.append(squared);
 					} else {
@@ -1865,14 +1866,14 @@ public abstract class GeoConicND extends GeoQuadricND
 						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
 
 			case CONIC_HYPERBOLA:
-				if (Kernel.isZero(coeffs[1])) { // xy coeff = 0
+				if (DoubleUtil.isZero(coeffs[1])) { // xy coeff = 0
 					char firstVar, secondVar;
 					double b1, b2;
 					// we have to check the first eigenvector: it could be (1,0)
 					// or (0,1)
 					// if it is (0,1) we have to swap the x and y, needs isZero
 					// for #4248
-					if (Kernel.isZero(eigenvec[0].getY())) {
+					if (DoubleUtil.isZero(eigenvec[0].getY())) {
 						firstVar = 'x';
 						secondVar = 'y';
 						b1 = b.getX();
@@ -1884,7 +1885,7 @@ public abstract class GeoConicND extends GeoQuadricND
 						b2 = b.getX();
 					}
 
-					if (Kernel.isZero(b1)) {
+					if (DoubleUtil.isZero(b1)) {
 						sbToValueString.append(firstVar);
 						sbToValueString.append(squared);
 					} else {
@@ -1899,7 +1900,7 @@ public abstract class GeoConicND extends GeoQuadricND
 					sbToValueString.append(
 							kernel.format(halfAxes[0] * halfAxes[0], tpl));
 					sbToValueString.append(" - ");
-					if (Kernel.isZero(b2)) {
+					if (DoubleUtil.isZero(b2)) {
 						sbToValueString.append(secondVar);
 						sbToValueString.append(squared);
 					} else {
@@ -1921,10 +1922,10 @@ public abstract class GeoConicND extends GeoQuadricND
 						KEEP_LEADING_SIGN, true, false, '=', tpl, true);
 
 			case CONIC_PARABOLA:
-				if (!Kernel.isZero(coeffs[2])) {
+				if (!DoubleUtil.isZero(coeffs[2])) {
 					return kernel.buildExplicitConicEquation(coeffs, myVars, 2,
 							KEEP_LEADING_SIGN, tpl);
-				} else if (!Kernel.isZero(coeffs[0])) {
+				} else if (!DoubleUtil.isZero(coeffs[0])) {
 					return kernel.buildExplicitConicEquation(coeffs, myVars, 0,
 							KEEP_LEADING_SIGN, tpl);
 				} else {
@@ -2159,7 +2160,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		double r = B.distance(C);
 
 		// check radius
-		if (Kernel.isZero(r)) {
+		if (DoubleUtil.isZero(r)) {
 			r = 0;
 		} else if (r < 0) {
 			defined = false;
@@ -2191,7 +2192,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		double r = geoSegment.getLength();
 
 		// check radius
-		if (Kernel.isZero(r)) {
+		if (DoubleUtil.isZero(r)) {
 			r = 0;
 		} else if (r < 0) {
 			defined = false;
@@ -2271,7 +2272,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				norm = entry;
 			}
 			if (Math.abs(norm) > entry && 0.001 > entry
-					&& !Kernel.isZero(entry)) {
+					&& !DoubleUtil.isZero(entry)) {
 				norm = entry;
 			}
 		}
@@ -2778,13 +2779,13 @@ public abstract class GeoConicND extends GeoQuadricND
 		if (oldTransform == null) {
 			oldTransform = AwtFactory.getPrototype().newAffineTransform();
 		}
-		boolean eigenVectorsSame = Kernel.isEqual(transform.getScaleX(),
+		boolean eigenVectorsSame = DoubleUtil.isEqual(transform.getScaleX(),
 				oldTransform.getScaleX(), Kernel.MIN_PRECISION)
-				|| Kernel.isEqual(transform.getScaleY(),
+				|| DoubleUtil.isEqual(transform.getScaleY(),
 						oldTransform.getScaleY(), Kernel.MIN_PRECISION)
-				|| Kernel.isEqual(transform.getShearX(),
+				|| DoubleUtil.isEqual(transform.getShearX(),
 						oldTransform.getShearX(), Kernel.MIN_PRECISION)
-				|| Kernel.isEqual(transform.getShearY(),
+				|| DoubleUtil.isEqual(transform.getShearY(),
 						oldTransform.getShearY(), Kernel.MIN_PRECISION);
 
 		if (!eigenVectorsSame) {
@@ -2861,7 +2862,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		 * maxAbs; } else { eps = kernel.getSTANDARD_PRECISION() * maxAbs *
 		 * maxAbs; //TODO: Also need to care for small coeff }
 		 */
-		return Kernel.isEqual(matrix[0] * matrix[1], matrix[3] * matrix[3],
+		return DoubleUtil.isEqual(matrix[0] * matrix[1], matrix[3] * matrix[3],
 				this.errDetS);
 	}
 
@@ -2871,7 +2872,7 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	final private void classifyMidpointConic(boolean degenerate) {
 		// calc eigenvalues and eigenvectors
-		if (Kernel.isZero(matrix[3])) {
+		if (DoubleUtil.isZero(matrix[3])) {
 			// special case: submatrix S is allready diagonal
 			eigenval[0] = matrix[0];
 			eigenval[1] = matrix[1];
@@ -2913,11 +2914,11 @@ public abstract class GeoConicND extends GeoQuadricND
 		// beta lets us distinguish between Ellipse, Hyperbola,
 		// single singlePoint and intersecting lines
 		// if (Kernel.isZero(beta)) {
-		if (degenerate || Kernel.isZero(beta)) {
+		if (degenerate || DoubleUtil.isZero(beta)) {
 			findEigenvectors();
 			// single point or intersecting lines
 			mu[0] = eigenval[0] / eigenval[1];
-			if (Kernel.isZero(mu[0])) {
+			if (DoubleUtil.isZero(mu[0])) {
 				mu[0] = 0.0;
 				intersectingLines(mu);
 			} else if (mu[0] < 0.0d) {
@@ -2995,7 +2996,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	final private void ellipse(double[] mu1) {
 
 		// circle
-		if (Kernel.isEqual(mu1[0] / mu1[1], 1.0)) {
+		if (DoubleUtil.isEqual(mu1[0] / mu1[1], 1.0)) {
 
 			// sets eigen vecs parallel to Ox and Oy
 			eigenvecX = 1;
@@ -3079,13 +3080,13 @@ public abstract class GeoConicND extends GeoQuadricND
 
 	final private void classifyParabolicConic(boolean degenerate) {
 		// calc eigenvalues and first eigenvector
-		if (Kernel.isZero(matrix[3])) {
+		if (DoubleUtil.isZero(matrix[3])) {
 			// special cases: submatrix S is allready diagonal
 			// either A[0] or A[1] have to be zero (due to detS = 0)
-			if (Kernel.isZero(matrix[0])) {
+			if (DoubleUtil.isZero(matrix[0])) {
 
 				// special case: the submatrix S is zero!!!
-				if (Kernel.isZero(matrix[1])) {
+				if (DoubleUtil.isZero(matrix[1])) {
 					handleSzero();
 					return;
 				}
@@ -3125,7 +3126,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			c.setY(matrix[5] * eigenvecX - matrix[4] * eigenvecY);
 		}
 
-		if (degenerate || Kernel.isZero(c.getX())) {
+		if (degenerate || DoubleUtil.isZero(c.getX())) {
 			findEigenvectors();
 			// b = T . (0, -c.y/lambda)
 			temp = c.getY() / lambda;
@@ -3134,7 +3135,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			 */
 			setMidpoint(new double[] { temp * eigenvecY, -temp * eigenvecX });
 			mu[0] = -temp * temp + matrix[2] / lambda;
-			if (Kernel.isZero(mu[0])) {
+			if (DoubleUtil.isZero(mu[0])) {
 				doubleLine();
 			} else if (mu[0] < 0) {
 				mu[0] = Math.sqrt(-mu[0]);
@@ -3180,8 +3181,8 @@ public abstract class GeoConicND extends GeoQuadricND
 	// if S is the zero matrix, set conic as double line or empty
 	final private void handleSzero() {
 		// conic is line 2*A[4] * x + 2*A[5] * y + A[2] = 0
-		if (Kernel.isZero(matrix[4])) {
-			if (Kernel.isZero(matrix[5])) {
+		if (DoubleUtil.isZero(matrix[4])) {
+			if (DoubleUtil.isZero(matrix[5])) {
 				empty();
 				return;
 			}
@@ -3425,8 +3426,8 @@ public abstract class GeoConicND extends GeoQuadricND
 		double lambda1 = 0.0;
 		boolean aZero, bZero, equal = true;
 		for (int i = 0; i < 6; i++) {
-			aZero = Kernel.isZero(matrix[i]);
-			bZero = Kernel.isZero(B[i]);
+			aZero = DoubleUtil.isZero(matrix[i]);
+			bZero = DoubleUtil.isZero(B[i]);
 
 			// A[i] == 0 and B[i] != 0 => not equal
 			if (aZero && !bZero) {
@@ -3439,7 +3440,7 @@ public abstract class GeoConicND extends GeoQuadricND
 					lambda1 = matrix[i] / B[i];
 				// check equality
 				} else {
-					equal = Kernel.isEqual(matrix[i], lambda1 * B[i]);
+					equal = DoubleUtil.isEqual(matrix[i], lambda1 * B[i]);
 				}
 			}
 			// leaf loop
@@ -3767,7 +3768,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	@Override
 	public boolean isInRegion(double x0, double y0) {
 
-		return Kernel.isGreaterEqual(
+		return DoubleUtil.isGreaterEqual(
 				evaluate(x0, y0) / evaluateInSignificantPoint(), 0);
 
 	}
@@ -4272,7 +4273,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		GeoConicND conic = (GeoConicND) geo;
 		// Circles are congruent if their radius are of equal length:
 		if (this.isCircle() && conic.isCircle()) {
-			return ExtendedBoolean.newExtendedBoolean((Kernel
+			return ExtendedBoolean.newExtendedBoolean((DoubleUtil
 					.isEqual(this.getCircleRadius(), conic.getCircleRadius())));
 		}
 
@@ -4293,7 +4294,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d2 = getKernel().getAlgoDispatcher()
 						.getNewAlgoClosestPoint(cons, d, F).getP().distance(F);
 				return ExtendedBoolean
-						.newExtendedBoolean(Kernel.isEqual(d1, d2));
+						.newExtendedBoolean(DoubleUtil.isEqual(d1, d2));
 			}
 			// TODO: Handle the other case(s).
 		}
@@ -4320,7 +4321,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d2_ = F1.distance(P) + F2.distance(P);
 
 				return ExtendedBoolean.newExtendedBoolean(
-						(Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
+						(DoubleUtil.isEqual(d1, d1_)) && (DoubleUtil.isEqual(d2, d2_)));
 			}
 			// TODO: Handle the other case(s).
 		}
@@ -4349,7 +4350,7 @@ public abstract class GeoConicND extends GeoQuadricND
 				double d2_ = Math.abs(F1.distance(P) - F2.distance(P));
 
 				return ExtendedBoolean.newExtendedBoolean(
-						(Kernel.isEqual(d1, d1_)) && (Kernel.isEqual(d2, d2_)));
+						(DoubleUtil.isEqual(d1, d1_)) && (DoubleUtil.isEqual(d2, d2_)));
 				// TODO: Consider unifying this case with the ellipse case.
 			}
 			// TODO: Handle the other case(s).

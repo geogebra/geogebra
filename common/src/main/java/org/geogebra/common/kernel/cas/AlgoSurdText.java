@@ -28,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMathExact.MyDecimal;
 import org.geogebra.common.util.MyMathExact.MyDecimalMatrix;
 import org.geogebra.common.util.debug.Log;
@@ -226,7 +227,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 			double decimal = num.getDouble();
 
-			if (Kernel.isEqual(decimal - Math.round(decimal), 0.0,
+			if (DoubleUtil.isEqual(decimal - Math.round(decimal), 0.0,
 					Kernel.MAX_PRECISION)) {
 				sb.append(kernel.format(Math.round(decimal), tpl));
 			} else {
@@ -299,7 +300,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			StringTemplate tpl) {
 
 		// Zero Test: Is num 0?
-		if (Kernel.isZero(number)) {
+		if (DoubleUtil.isZero(number)) {
 			sBuilder.append(kernel.format(0, tpl));
 			return;
 		}
@@ -314,7 +315,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		ValidExpression ve = sbToCAS(fitter.formalSolution);
 
 		if (fitter.formalSolution.length() > 0
-				&& Kernel.isEqual(ve.evaluateDouble(), number)) {
+				&& DoubleUtil.isEqual(ve.evaluateDouble(), number)) {
 			sBuilder.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve,
 					null, tpl, null, kernel));
 			return;
@@ -331,43 +332,43 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			for (int i = 0; i < list.size(); i++) {
 				double x = list.get(i).evaluateDouble();
 
-				if (Kernel.isEqual(x, Math.PI)) {
+				if (DoubleUtil.isEqual(x, Math.PI)) {
 					values.add(Math.PI);
 					names.add("pi");
-				} else if (Kernel.isEqual(x, 1 / Math.PI)) {
+				} else if (DoubleUtil.isEqual(x, 1 / Math.PI)) {
 					values.add(1 / Math.PI);
 					names.add("1/pi");
-				} else if (Kernel.isEqual(x, Math.PI * Math.PI)) {
+				} else if (DoubleUtil.isEqual(x, Math.PI * Math.PI)) {
 					values.add(Math.PI * Math.PI);
 					names.add("pi^2");
-				} else if (Kernel.isEqual(x, Math.sqrt(Math.PI))) {
+				} else if (DoubleUtil.isEqual(x, Math.sqrt(Math.PI))) {
 					values.add(Math.sqrt(Math.PI));
 					names.add("sqrt(pi)");
-				} else if (Kernel.isEqual(x, Math.E)) {
+				} else if (DoubleUtil.isEqual(x, Math.E)) {
 					values.add(Math.E);
 					names.add(Unicode.EULER_STRING);
-				} else if (Kernel.isEqual(x, 1 / Math.E)) {
+				} else if (DoubleUtil.isEqual(x, 1 / Math.E)) {
 					values.add(1 / Math.E);
 					names.add("1/" + Unicode.EULER_STRING);
-				} else if (Kernel.isEqual(x, Math.E * Math.E)) {
+				} else if (DoubleUtil.isEqual(x, Math.E * Math.E)) {
 					values.add(Math.E * Math.PI);
 					names.add(Unicode.EULER_STRING + "^2");
-				} else if (Kernel.isEqual(x, Math.sqrt(Math.E))) {
+				} else if (DoubleUtil.isEqual(x, Math.sqrt(Math.E))) {
 					values.add(Math.sqrt(Math.E));
 					names.add("sqrt(" + Unicode.EULER_STRING + ")");
 				} else {
 					int j;
 					for (j = 2; j < 100; j++) {
 						double sqrt = Math.sqrt(j);
-						if (!Kernel.isInteger(sqrt)
-								&& Kernel.isEqual(x, sqrt)) {
+						if (!DoubleUtil.isInteger(sqrt)
+								&& DoubleUtil.isEqual(x, sqrt)) {
 							values.add(sqrt);
 							names.add("sqrt(" + j + ")");
 							break;
 						}
 
 						double ln = Math.log(j);
-						if (Kernel.isEqual(x, ln)) {
+						if (DoubleUtil.isEqual(x, ln)) {
 							values.add(ln);
 							names.add("ln(" + j + ")");
 							break;
@@ -430,7 +431,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		// t1 = t2;
 
 		if (fitter0.formalSolution.length() > 0
-				&& Kernel.isEqual(ve0.evaluateDouble(), y)) {
+				&& DoubleUtil.isEqual(ve0.evaluateDouble(), y)) {
 			sb1.append(kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,
 					tpl, null, kernel));
 
@@ -637,7 +638,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 				ExpressionNode en;
 
-				if (Kernel.isZero(b1)) {
+				if (DoubleUtil.isZero(b1)) {
 					// eg SurdText[0.33]
 					// eg SurdText[0.235]
 					en = new ExpressionNode(kernel, a);
@@ -696,7 +697,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 	protected void PSLQappendQuadratic(StringBuilder sBuilder, double num1,
 			StringTemplate tpl) {
 
-		if (Kernel.isZero(num1)) {
+		if (DoubleUtil.isZero(num1)) {
 			sBuilder.append("0");
 			return;
 		}
@@ -788,7 +789,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 
 			ExpressionNode en;
-			if (Kernel.isZero(b1)) {
+			if (DoubleUtil.isZero(b1)) {
 				// eg SurdText[0.33]
 				// eg SurdText[0.235]
 				en = new ExpressionNode(kernel, a);
@@ -1021,7 +1022,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				for (int k = 0; k < n; k++) {
 					xB[i] += x[k] * B[k][i];
 				}
-				if (Kernel.isEqual(xB[i], 0, AccuracyFactor / normX)) {
+				if (DoubleUtil.isEqual(xB[i], 0, AccuracyFactor / normX)) {
 
 					solutionFound = true;
 
@@ -1749,9 +1750,9 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 															// exception
 				}
 
-				if (Kernel.isGreater(this.sig, m2.sig, 10E-7)) {
+				if (DoubleUtil.isGreater(this.sig, m2.sig, 10E-7)) {
 					return 1;
-				} else if (Kernel.isGreater(m2.sig, this.sig, 10E-7)) {
+				} else if (DoubleUtil.isGreater(m2.sig, this.sig, 10E-7)) {
 					return -1;
 				}
 
@@ -2024,10 +2025,10 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 				w[3][j] = w[1][j] * w[1][j] - 4 * w[0][j] * w[2][j];
 
-				if (Kernel.isZero(w[2][j])) { // w[0][j]+w[1][j]x=0
-					if (Kernel.isZero(w[1][j])) {
+				if (DoubleUtil.isZero(w[2][j])) { // w[0][j]+w[1][j]x=0
+					if (DoubleUtil.isZero(w[1][j])) {
 						penalties[3][j] = 10000; // bad case
-					} else if (Kernel.isEqual(Math.abs(w[1][j]), 1.0)) {
+					} else if (DoubleUtil.isEqual(Math.abs(w[1][j]), 1.0)) {
 						// an
 																		// integer
 						penalties[3][j] = 0;
@@ -2035,18 +2036,18 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 						penalties[3][j] = 1;
 					}
 				} else {
-					if (Kernel.isEqual(Math.abs(w[2][j]), 0.5)) { // 0 or 2 or 4
-						if (Kernel.isZero(w[3][j])) {
+					if (DoubleUtil.isEqual(Math.abs(w[2][j]), 0.5)) { // 0 or 2 or 4
+						if (DoubleUtil.isZero(w[3][j])) {
 							penalties[3][j] = 0;
-						} else if (Kernel.isZero(w[1][j])) {
+						} else if (DoubleUtil.isZero(w[1][j])) {
 							penalties[3][j] = 2;
 						} else {
 							penalties[3][j] = 4;
 						}
 					} else { // 1 or 3 or 5
-						if (Kernel.isZero(w[3][j])) {
+						if (DoubleUtil.isZero(w[3][j])) {
 							penalties[3][j] = 1;
-						} else if (Kernel.isZero(w[1][j])) {
+						} else if (DoubleUtil.isZero(w[1][j])) {
 							penalties[3][j] = 3;
 						} else {
 							penalties[3][j] = 5;
@@ -2215,7 +2216,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				formalSolution.append(BString.toString());
 				formalSolution.append(")");
 
-				if (!Kernel.isZero(discr)) {
+				if (!DoubleUtil.isZero(discr)) {
 					if (num1 * 2 * Cvalue + Bvalue >= 0) {
 						formalSolution.append("+");
 					} else {

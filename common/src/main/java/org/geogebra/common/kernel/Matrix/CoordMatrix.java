@@ -14,7 +14,7 @@ package org.geogebra.common.kernel.Matrix;
 
 import java.util.ArrayList;
 
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Simple matrix description with basic linear algebra methods.
@@ -563,7 +563,7 @@ public class CoordMatrix {
 
 			for (int j = 1; j <= getColumns(); j++) {
 				double v = get(i, j);
-				if (Kernel.isZero(v)) {
+				if (DoubleUtil.isZero(v)) {
 					v = 0;
 				}
 				s.append("  ");
@@ -1082,7 +1082,7 @@ public class CoordMatrix {
 		public void divideAndSub(double[][] matrix, ArrayList<Integer> stack,
 				int step, int index, double value) {
 
-			if (Kernel.isZero(value)) {
+			if (DoubleUtil.isZero(value)) {
 				// no non-zero value at this step: pass
 				return;
 			}
@@ -1099,7 +1099,7 @@ public class CoordMatrix {
 		 */
 		private void divideFirst0(int index) {
 
-			if (Kernel.isZero(res[0])) {
+			if (DoubleUtil.isZero(res[0])) {
 				sol[index] = 1; // arbitrary non-zero value
 			} else {
 				sol[index] = Double.NaN; // not possible
@@ -1117,7 +1117,7 @@ public class CoordMatrix {
 			int index0 = 0;
 			for (int index : stack) {
 				double factor = matrix[index][0];
-				if (!Kernel.isZero(factor)) {
+				if (!DoubleUtil.isZero(factor)) {
 					divideFirst(index, factor);
 					nonZeroIndices[index] = true;
 					manageZeroSteps(); // set sol = 1 for zero steps
@@ -1133,8 +1133,8 @@ public class CoordMatrix {
 		public void calcSol(int index, int step, double[][] matrix,
 				ArrayList<Integer> stack, double value) {
 			double s = res[step]; // value at (step, index) is 1
-			if (Kernel.isZero(value)) {
-				if (Kernel.isZero(s)) {
+			if (DoubleUtil.isZero(value)) {
+				if (DoubleUtil.isZero(s)) {
 					s = 1; // arbitrary non-zero value
 				} else {
 					s = Double.NaN; // not possible
@@ -1167,7 +1167,7 @@ public class CoordMatrix {
 
 		@Override
 		public boolean handleZeroValue(double value, int step) {
-			return Kernel.isZero(value);
+			return DoubleUtil.isZero(value);
 		}
 
 		public void init(int length) {
@@ -1178,7 +1178,7 @@ public class CoordMatrix {
 
 			for (int i = 0; i < nonZeroIndices.length; i++) {
 				if (!nonZeroIndices[i]) {
-					if (Kernel.isZero(res[i])) {
+					if (DoubleUtil.isZero(res[i])) {
 						sol[i] = 1; // arbitrary non-zero value
 					} else {
 						sol[i] = Double.NaN; // not possible

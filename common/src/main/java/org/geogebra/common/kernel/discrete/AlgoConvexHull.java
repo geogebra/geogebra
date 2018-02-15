@@ -17,7 +17,6 @@ import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.GraphAlgo;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Mode of a list. Adapted from AlgoMode
@@ -167,7 +167,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 			double y) {
 		for (int i = 0; i < vl2.size(); i++) {
 			Point2D p = vl2.get(i);
-			if (Kernel.isEqual(p.getX(), x) && Kernel.isEqual(p.getY(), y)) {
+			if (DoubleUtil.isEqual(p.getX(), x) && DoubleUtil.isEqual(p.getY(), y)) {
 				return true;
 			}
 		}

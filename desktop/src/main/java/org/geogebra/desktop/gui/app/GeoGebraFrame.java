@@ -65,6 +65,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.AppId;
@@ -931,7 +932,7 @@ public class GeoGebraFrame extends JFrame
 					case GeoElement.ANIMATION_DECREASING:
 						step = -num.getAnimationStep();
 						n = (int) ((max - min) / -step);
-						if (Kernel.isZero(((max - min) / -step) - n)) {
+						if (DoubleUtil.isZero(((max - min) / -step) - n)) {
 							n++;
 						}
 						if (n == 0) {
@@ -942,7 +943,7 @@ public class GeoGebraFrame extends JFrame
 					case GeoElement.ANIMATION_OSCILLATING:
 						step = num.getAnimationStep();
 						n = (int) ((max - min) / step) * 2;
-						if (Kernel.isZero(((max - min) / step * 2) - n)) {
+						if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
 							n++;
 						}
 						if (n == 0) {
@@ -954,7 +955,7 @@ public class GeoGebraFrame extends JFrame
 						// GeoElement.ANIMATION_INCREASING_ONCE:
 						step = num.getAnimationStep();
 						n = (int) ((max - min) / step);
-						if (Kernel.isZero(((max - min) / step) - n)) {
+						if (DoubleUtil.isZero(((max - min) / step) - n)) {
 							n++;
 						}
 						if (n == 0) {
@@ -1024,7 +1025,7 @@ public class GeoGebraFrame extends JFrame
 						Log.debug("exporting frame " + i + "of " + n);
 
 						// avoid values like 14.399999999999968
-						val = Kernel.checkDecimalFraction(val);
+						val = DoubleUtil.checkDecimalFraction(val);
 
 						num.setValue(val);
 						num.updateRepaint();

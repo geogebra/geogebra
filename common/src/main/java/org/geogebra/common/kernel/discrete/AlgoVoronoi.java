@@ -7,7 +7,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
@@ -17,6 +16,7 @@ import org.geogebra.common.kernel.discrete.delaunay.Triangle_dt;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Voronoi diagram
@@ -180,8 +180,8 @@ public class AlgoVoronoi extends AlgoDiscrete {
 
 					// return 0 if endpoints the same
 					// so no duplicates in the TreeMap
-					if (Kernel.isEqual(p1.getX(), p2.getX())
-							&& Kernel.isEqual(p1.getY(), p2.getY())) {
+					if (DoubleUtil.isEqual(p1.getX(), p2.getX())
+							&& DoubleUtil.isEqual(p1.getY(), p2.getY())) {
 						// Application.debug("equal2");
 						return 0;
 					}

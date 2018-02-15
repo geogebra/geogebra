@@ -54,6 +54,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -487,7 +488,7 @@ public class GeoNumeric extends GeoElement
 	final public boolean isEqual(GeoElementND geo) {
 		// return false if it's a different type, otherwise use equals() method
 		if (geo.isGeoNumeric()) {
-			return Kernel.isEqual(value, ((GeoNumeric) geo).value);
+			return DoubleUtil.isEqual(value, ((GeoNumeric) geo).value);
 		}
 		return false;
 	}
@@ -589,7 +590,7 @@ public class GeoNumeric extends GeoElement
 
 		if (getAnimationStep() > Kernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			val = Kernel.checkDecimalFraction(val);
+			val = DoubleUtil.checkDecimalFraction(val);
 		}
 
 		return val;
@@ -1323,7 +1324,7 @@ public class GeoNumeric extends GeoElement
 		double max = getIntervalMax();
 		double increment = getAnimationStep();
 		int n = 1 + (int) Math.round((max - min) / increment);
-		return Kernel.checkDecimalFraction(
+		return DoubleUtil.checkDecimalFraction(
 				Math.floor(kernel.getApplication().getRandomNumber() * n)
 						* increment + min);
 	}
@@ -1508,7 +1509,7 @@ public class GeoNumeric extends GeoElement
 
 		if (getAnimationStep() > Kernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			newValue = Kernel.checkDecimalFraction(newValue);
+			newValue = DoubleUtil.checkDecimalFraction(newValue);
 		}
 
 		// change slider's value without changing animationValue
@@ -1532,7 +1533,7 @@ public class GeoNumeric extends GeoElement
 				public int compare(GeoNumberValue itemA, GeoNumberValue itemB) {
 
 					double comp = itemA.getDouble() - itemB.getDouble();
-					if (Kernel.isZero(comp)) {
+					if (DoubleUtil.isZero(comp)) {
 						// don't return 0 for equal objects, otherwise the
 						// TreeSet deletes duplicates
 						return itemA.getConstructionIndex() > itemB

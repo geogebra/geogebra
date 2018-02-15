@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 
 /**
@@ -226,7 +227,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		if (defined) {
 			length = startPoint.distance(endPoint);
 
-			if (Kernel.isZero(length)) {
+			if (DoubleUtil.isZero(length)) {
 				length = 0;
 			}
 		} else {
@@ -734,8 +735,8 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	@Override
 	public boolean respectLimitedPath(double parameter) {
-		return Kernel.isGreaterEqual(parameter, 0)
-				&& Kernel.isGreaterEqual(1, parameter);
+		return DoubleUtil.isGreaterEqual(parameter, 0)
+				&& DoubleUtil.isGreaterEqual(1, parameter);
 	}
 
 	/**
@@ -876,7 +877,7 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 
 	@Override
 	public ExtendedBoolean isCongruent(GeoElement geo) {
-		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment() && Kernel
+		return ExtendedBoolean.newExtendedBoolean(geo.isGeoSegment() && DoubleUtil
 				.isEqual(getLength(), ((GeoSegmentND) geo).getLength()));
 	}
 

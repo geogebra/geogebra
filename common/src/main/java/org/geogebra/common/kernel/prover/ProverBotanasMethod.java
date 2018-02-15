@@ -45,6 +45,7 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.ProverSettings;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.Prover;
 import org.geogebra.common.util.Prover.NDGCondition;
@@ -1972,7 +1973,7 @@ public class ProverBotanasMethod {
 								Coords co = gc.getMidpoint();
 								Coords cp = ((GeoPoint) freePoint).getCoords();
 								if (co.get(3) == 1.0 && cp.get(3) == 1.0
-										&& Kernel.isEqual(co.get(1),
+										&& DoubleUtil.isEqual(co.get(1),
 												cp.get(1))) {
 									/*
 									 * first coordinates are equal, so the

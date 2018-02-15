@@ -15,7 +15,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimitedOrPart;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -24,6 +23,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Compute the ends of a limited quadric
@@ -145,9 +145,9 @@ public class AlgoQuadricEnds extends AlgoElement3D {
 
 		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_CYLINDER
 				|| quadric.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
-			if (Kernel.isZero(quadric.getHalfAxis(0))
+			if (DoubleUtil.isZero(quadric.getHalfAxis(0))
 					&& (Double.isNaN(quadric.getHalfAxis(1))
-							|| Kernel.isZero(quadric.getHalfAxis(1)))) {
+							|| DoubleUtil.isZero(quadric.getHalfAxis(1)))) {
 				// cylinder or cone equal to a segment
 				sections[0].setSinglePoint(o1);
 				sections[1].setSinglePoint(o2);

@@ -73,6 +73,7 @@ import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
@@ -324,7 +325,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		// infinite point
 		// #5202
 		if (!Double.isNaN(v.getW())
-				&& Kernel.isEpsilon(v.getW(), v.getX(), v.getY(), v.getZ())) {
+				&& DoubleUtil.isEpsilon(v.getW(), v.getX(), v.getY(), v.getZ())) {
 			isInfinite = true;
 			isDefined = !(Double.isNaN(v.get(1)) || Double.isNaN(v.get(2))
 					|| Double.isNaN(v.get(3)));
@@ -491,7 +492,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		tmpCoordsLength3.setY(tmpCoords1.getY() / w);
 		tmpCoordsLength3.setZ(1);
 
-		return Kernel.isZero(tmpCoords1.getZ());
+		return DoubleUtil.isZero(tmpCoords1.getZ());
 
 	}
 
@@ -1037,7 +1038,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		} else if (getMode() == Kernel.COORD_SPHERICAL) {
 			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(),
 					p.getY(), p.getZ(), sbToString);
-		} else if (!Kernel.isZero(p.getZ())) {
+		} else if (!DoubleUtil.isZero(p.getZ())) {
 			if (getMode() == Kernel.COORD_POLAR) {
 				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(),
 						p.getY(), p.getZ(), sbToString);
@@ -1074,9 +1075,9 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		if (isFinite() && P.isFinite()) {
 			Coords c1 = getInhomCoords();
 			Coords c2 = P.getInhomCoordsInD3();
-			return Kernel.isEqual(c1.getX(), c2.getX())
-					&& Kernel.isEqual(c1.getY(), c2.getY())
-					&& Kernel.isEqual(c1.getZ(), c2.getZ());
+			return DoubleUtil.isEqual(c1.getX(), c2.getX())
+					&& DoubleUtil.isEqual(c1.getY(), c2.getY())
+					&& DoubleUtil.isEqual(c1.getZ(), c2.getZ());
 		} else if (isInfinite() && P.isInfinite()) {
 			Coords c1 = getCoords();
 			Coords c2 = P.getCoordsInD3();
@@ -1670,7 +1671,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			((GeoPoint3D) p).setCoords(this.getCoords(), false);
 		} else {
 			Coords coords = this.getCoords();
-			if (!Kernel.isZero(coords.getZ())) {
+			if (!DoubleUtil.isZero(coords.getZ())) {
 				p.setUndefined();
 			} else {
 				GeoPoint.pointChanged(p, coords.getX(), coords.getY(),

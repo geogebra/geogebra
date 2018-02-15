@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -682,11 +683,11 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 				Math.max(1, Math.abs(2 * d) + Math.abs(u) + Math.abs(w)) * eps);
 
 		// Erzeugende, Asymptote oder Treffgerade
-		if (Kernel.isZero(u, eps)) {
+		if (DoubleUtil.isZero(u, eps)) {
 			// Erzeugende oder Asymptote
-			if (Kernel.isZero(d, eps)) {
+			if (DoubleUtil.isZero(d, eps)) {
 				// Erzeugende
-				if (Kernel.isZero(w, eps)) {
+				if (DoubleUtil.isZero(w, eps)) {
 					sol[0].setUndefined();
 					sol[1].setUndefined();
 					return INTERSECTION_PRODUCING_LINE;
@@ -716,7 +717,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		// Tangente
 
 		// if (AbstractKernel.isZero(dis)) {
-		if (Kernel.isEqual(dis, 0, delta)) {
+		if (DoubleUtil.isEqual(dis, 0, delta)) {
 			double t1 = -d / u;
 			sol[0].setCoords(px + t1 * y, py - t1 * x, 1.0);
 			sol[1].setCoords(sol[0]);

@@ -15,12 +15,12 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Compute one end of a limited quadric
@@ -144,9 +144,9 @@ public abstract class AlgoQuadricEnd extends AlgoElement3D {
 					|| quadric
 							.getType() == GeoQuadricNDConstants.QUADRIC_CONE) {
 				// cylinder or cone equal to a segment
-				if (Kernel.isZero(quadric.getHalfAxis(0))
+				if (DoubleUtil.isZero(quadric.getHalfAxis(0))
 						&& (Double.isNaN(quadric.getHalfAxis(1))
-								|| Kernel.isZero(quadric.getHalfAxis(1)))) {
+								|| DoubleUtil.isZero(quadric.getHalfAxis(1)))) {
 					section.setSinglePoint(getOrigin(o1, o2));
 					return;
 				}

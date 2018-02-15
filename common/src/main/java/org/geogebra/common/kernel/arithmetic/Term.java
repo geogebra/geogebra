@@ -22,6 +22,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -134,7 +135,7 @@ public class Term implements Comparable<Object> {
 	 * @return true if coeff is integer
 	 */
 	boolean hasIntegerCoeff() {
-		return Kernel.isInteger(coefficient.evaluateDouble());
+		return DoubleUtil.isInteger(coefficient.evaluateDouble());
 	}
 
 	/**

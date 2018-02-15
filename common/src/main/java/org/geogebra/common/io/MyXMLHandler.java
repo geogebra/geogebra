@@ -117,6 +117,7 @@ import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.util.Assignment;
 import org.geogebra.common.util.Assignment.Result;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.Exercise;
 import org.geogebra.common.util.GeoAssignment;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
@@ -567,7 +568,7 @@ public class MyXMLHandler implements DocHandler {
 			try {
 				ggbFileFormat = StringUtil.parseDouble(attrs.get("format"));
 
-				ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
+				ggbFileFormat = DoubleUtil.checkDecimalFraction(ggbFileFormat);
 
 				if (ggbFileFormat > FORMAT) {
 					Log.warn("Newer file format: " + ggbFileFormat);
@@ -1864,7 +1865,7 @@ public class MyXMLHandler implements DocHandler {
 				double tickDist = StringUtil.parseDouble(strTickDist);
 				GeoNumeric distNum = new GeoNumeric(cons, tickDist);
 				if (StringUtil.empty(tickExpr)
-						&& Kernel.isInteger(tickDist * 24 / Math.PI)) {
+						&& DoubleUtil.isInteger(tickDist * 24 / Math.PI)) {
 					int num = (int) Math.round(tickDist * 24 / Math.PI);
 					int gcd = (int) Kernel.gcd(num, 24);
 					int den = 24 / gcd;
@@ -2996,7 +2997,7 @@ public class MyXMLHandler implements DocHandler {
 	private void handleConstruction(LinkedHashMap<String, String> attrs) {
 		try {
 			cons.setAllowUnboundedAngles(
-					Kernel.isGreaterEqual(ggbFileFormat, 4.4));
+					DoubleUtil.isGreaterEqual(ggbFileFormat, 4.4));
 			String title = attrs.get("title");
 			String author = attrs.get("author");
 			String date = attrs.get("date");

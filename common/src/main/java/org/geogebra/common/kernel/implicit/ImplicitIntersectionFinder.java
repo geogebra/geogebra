@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Collection of static methods to find intersection of implicit with line, function, conic and
@@ -164,7 +165,7 @@ public final class ImplicitIntersectionFinder {
 				det = jx1 * jy2 - jx2 * jy1;
 
 				// check singularity
-				if (Kernel.isZero(det)) {
+				if (DoubleUtil.isZero(det)) {
 					break;
 				}
 
@@ -189,12 +190,12 @@ public final class ImplicitIntersectionFinder {
 					break;
 				}
 				delta1 = delta2;
-				if (Kernel.isZero(delta1, ACCURACY)) {
+				if (DoubleUtil.isZero(delta1, ACCURACY)) {
 					smooth++;
 				}
 			}
 
-			if (!Kernel.isZero(delta1, ACCURACY)) {
+			if (!DoubleUtil.isZero(delta1, ACCURACY)) {
 				// unfortunately our guess was very bad, repeat with other guess
 				continue;
 			}
@@ -222,16 +223,16 @@ public final class ImplicitIntersectionFinder {
 		double eps = ROOT_ACCURACY; // find good value...
 		while (it.hasNext()) {
 			double[] p = it.next();
-			if (Kernel.isGreater(p[0], pair[0], eps)) {
+			if (DoubleUtil.isGreater(p[0], pair[0], eps)) {
 				it.previous();
 				break;
 			}
-			if (Kernel.isEqual(p[0], pair[0], eps)) {
-				if (Kernel.isGreater(p[1], pair[1], eps)) {
+			if (DoubleUtil.isEqual(p[0], pair[0], eps)) {
+				if (DoubleUtil.isGreater(p[1], pair[1], eps)) {
 					it.previous();
 					break;
 				}
-				if (Kernel.isEqual(p[1], pair[1], eps))
+				if (DoubleUtil.isEqual(p[1], pair[1], eps))
 				 {
 					return; // do not add
 				}
@@ -280,7 +281,7 @@ public final class ImplicitIntersectionFinder {
 
 			delta1 = Math.abs(f1) + Math.abs(f2);
 
-			if (!Kernel.isZero(delta1, ACCURACY)) {
+			if (!DoubleUtil.isZero(delta1, ACCURACY)) {
 
 				x = evals[0];
 				y = evals[1];
@@ -297,7 +298,7 @@ public final class ImplicitIntersectionFinder {
 
 					det = jx1 * jy2 - jx2 * jy1;
 
-					if (Kernel.isZero(det)) {
+					if (DoubleUtil.isZero(det)) {
 						break;
 					}
 
@@ -321,7 +322,7 @@ public final class ImplicitIntersectionFinder {
 
 					} while (delta2 >= delta1 && lambda > MIN_LAMBDA);
 
-					if (delta2 >= delta1 || Kernel.isZero(delta2, ACCURACY)) {
+					if (delta2 >= delta1 || DoubleUtil.isZero(delta2, ACCURACY)) {
 						delta1 = delta2;
 						break;
 					}
@@ -336,7 +337,7 @@ public final class ImplicitIntersectionFinder {
 
 					norm = dx * dx + dy * dy;
 
-					if (Kernel.isZero(norm)) {
+					if (DoubleUtil.isZero(norm)) {
 						break;
 					}
 
@@ -353,7 +354,7 @@ public final class ImplicitIntersectionFinder {
 				}
 			}
 
-			if (!Kernel.isZero(delta1, ACCURACY)) {
+			if (!DoubleUtil.isZero(delta1, ACCURACY)) {
 				// unfortunately our guess was very bad, repeat with other guess
 				continue;
 			}

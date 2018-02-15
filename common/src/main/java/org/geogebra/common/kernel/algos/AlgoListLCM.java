@@ -15,11 +15,11 @@ package org.geogebra.common.kernel.algos;
 import java.math.BigInteger;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * LCM of a list. adapted from AlgoListMax
@@ -78,17 +78,17 @@ public class AlgoListLCM extends AlgoElement {
 		}
 
 		double nd = ((GeoNumeric) (geoList.get(0))).getDouble();
-		if (!Kernel.isInteger(nd)) {
+		if (!DoubleUtil.isInteger(nd)) {
 			num.setUndefined();
 			return;
 		}
 
-		BigInteger lcm = BigInteger.valueOf((long) Kernel.checkInteger(nd));
+		BigInteger lcm = BigInteger.valueOf((long) DoubleUtil.checkInteger(nd));
 
 		for (int i = 1; i < geoList.size(); i++) {
 			nd = ((GeoNumeric) (geoList.get(i))).getDouble();
 
-			if (!Kernel.isInteger(nd)) {
+			if (!DoubleUtil.isInteger(nd)) {
 				num.setUndefined();
 				return;
 			}

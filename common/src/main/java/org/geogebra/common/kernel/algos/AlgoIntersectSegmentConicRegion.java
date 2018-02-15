@@ -11,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -175,7 +176,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			}
 
 			// set output intersect segments
-			if (!Kernel.isZero(P.distance(pnt))) {
+			if (!DoubleUtil.isZero(P.distance(pnt))) {
 				if (getConic().isInRegion((P.inhomX + pnt.inhomX) / 2.0d,
 						(P.inhomY + pnt.inhomY) / 2.0d)) {
 
@@ -185,7 +186,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 					break;
 				}
 			}
-			if (!Kernel.isZero(pnt.distance(Q))) {
+			if (!DoubleUtil.isZero(pnt.distance(Q))) {
 				if (getConic().isInRegion((pnt.inhomX + Q.inhomX) / 2.0d,
 						(pnt.inhomY + Q.inhomY) / 2.0d)) {
 
@@ -243,7 +244,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			// counting no of output segments and assining them as output
 			count = 0;
 			for (int i = 0; i < 3; i++) {
-				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
 							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
 									/ 2.0d,
@@ -333,7 +334,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			// counting no of output segments and assining them as output
 			count = 0;
 			for (int i = 0; i < 4; i++) {
-				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
 							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
 									/ 2.0d,
@@ -431,7 +432,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			// counting no of output segments and assining them as output
 			count = 0;
 			for (int i = 0; i < 4; i++) {
-				if (!Kernel.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
+				if (!DoubleUtil.isZero(pnt[order[i]].distance(pnt[order[i + 1]]))) {
 					if (getConic().isInRegion(
 							(pnt[order[i]].inhomX + pnt[order[i + 1]].inhomX)
 									/ 2.0d,
@@ -645,10 +646,10 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 				// checks whether the cross product(intersection point) is
 				// actually an intersection point
 				if (closureIntersect[0].isDefined()) {
-					if (!(Kernel
+					if (!(DoubleUtil
 							.isZero(closureSegments[0]
 									.distance(closureIntersect[0]))
-							&& Kernel.isZero(
+							&& DoubleUtil.isZero(
 									segment.distance(closureIntersect[0])))) {
 						closureIntersect[0].setUndefined();
 					}
@@ -656,7 +657,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 				if (closureIntersect[0].isDefined()) {
 					for (int i = 0; i < 2; i++) {
-						if (Kernel.isZero(closureIntersect[0]
+						if (DoubleUtil.isZero(closureIntersect[0]
 								.distanceSqr(intersectPoints[i]))) {
 							closureIntersect[0].setUndefined();
 						}
@@ -679,10 +680,10 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 					// checks whether the cross product(intersection point) is
 					// actually an intersection point
 					if (closureIntersect[i].isDefined()) {
-						if (!(Kernel
+						if (!(DoubleUtil
 								.isZero(closureSegments[i]
 										.distance(closureIntersect[i]))
-								&& Kernel.isZero(segment
+								&& DoubleUtil.isZero(segment
 										.distance(closureIntersect[i])))) {
 							closureIntersect[i].setUndefined();
 						}
@@ -690,7 +691,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 					if (closureIntersect[i].isDefined()) {
 						for (int j = 0; j < 2; j++) {
-							if (Kernel.isZero(closureIntersect[i]
+							if (DoubleUtil.isZero(closureIntersect[i]
 									.distanceSqr(intersectPoints[j]))) {
 								closureIntersect[i].setUndefined();
 							}

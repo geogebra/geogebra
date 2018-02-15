@@ -13,10 +13,10 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.AlgoIntersectND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 public abstract class AlgoIntersect extends AlgoIntersectND {
 
@@ -77,7 +77,7 @@ public abstract class AlgoIntersect extends AlgoIntersectND {
 			y = (P[i].inhomY - refPoint.getInhomY());
 			lengthSqr = x * x + y * y;
 			// if two distances are equal, smaller index gets priority
-			if (Kernel.isGreater(mindist, lengthSqr)) {
+			if (DoubleUtil.isGreater(mindist, lengthSqr)) {
 				mindist = lengthSqr;
 				minIndex = i;
 			}

@@ -15,11 +15,11 @@ package org.geogebra.common.kernel.algos;
 import java.math.BigInteger;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * GCD of a list. adapted from AlgoListMax
@@ -78,22 +78,22 @@ public class AlgoListGCD extends AlgoElement {
 
 		double value = ((GeoNumeric) (geoList.get(0))).getDouble();
 		// check if first value is quite integer
-		if (!Kernel.isInteger(value)) {
+		if (!DoubleUtil.isInteger(value)) {
 			num.setUndefined();
 			return;
 		}
 
-		BigInteger gcd = BigInteger.valueOf((long) Kernel.checkInteger(value));
+		BigInteger gcd = BigInteger.valueOf((long) DoubleUtil.checkInteger(value));
 
 		for (int i = 1; i < geoList.size(); i++) {
 			value = ((GeoNumeric) (geoList.get(i))).getDouble();
 			// check if value is quite integer
-			if (!Kernel.isInteger(value)) {
+			if (!DoubleUtil.isInteger(value)) {
 				num.setUndefined();
 				return;
 			}
 			BigInteger n = BigInteger
-					.valueOf((long) Kernel.checkInteger(value));
+					.valueOf((long) DoubleUtil.checkInteger(value));
 			gcd = gcd.gcd(n);
 		}
 

@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.geos;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoRayPointVector3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Transform;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -15,6 +14,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoRayND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 3D ray
@@ -92,7 +92,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	@Override
 	public boolean respectLimitedPath(Coords p, double eps) {
-		if (Kernel.isEqual(p.getW(), 0, eps)) {
+		if (DoubleUtil.isEqual(p.getW(), 0, eps)) {
 			return false;
 		}
 		double d = p.sub(getStartInhomCoords()).dotproduct(getDirectionInD3());
@@ -232,7 +232,7 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	@Override
 	public boolean respectLimitedPath(double parameter) {
-		return Kernel.isGreaterEqual(parameter, 0);
+		return DoubleUtil.isGreaterEqual(parameter, 0);
 	}
 
 	@Override

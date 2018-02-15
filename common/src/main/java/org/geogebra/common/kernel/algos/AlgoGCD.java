@@ -15,9 +15,9 @@ package org.geogebra.common.kernel.algos;
 import java.math.BigInteger;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes GCD[a, b]
@@ -47,12 +47,12 @@ public class AlgoGCD extends AlgoTwoNumFunction {
 				return;
 			}
 
-			if (Kernel.isInteger(a.getDouble())
-					&& Kernel.isInteger(b.getDouble())) {
+			if (DoubleUtil.isInteger(a.getDouble())
+					&& DoubleUtil.isInteger(b.getDouble())) {
 				BigInteger i1 = BigInteger
-						.valueOf((long) Kernel.checkInteger(a.getDouble()));
+						.valueOf((long) DoubleUtil.checkInteger(a.getDouble()));
 				BigInteger i2 = BigInteger
-						.valueOf((long) Kernel.checkInteger(b.getDouble()));
+						.valueOf((long) DoubleUtil.checkInteger(b.getDouble()));
 
 				i1 = i1.gcd(i2);
 

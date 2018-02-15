@@ -26,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.roots.RealRootUtil;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 //import org.apache.commons.math3.analysis.solvers.UnivariateRealSolverFactory;
@@ -271,8 +272,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 */
 	public static final double[] findRoots(GeoFunction f, double l, double r,
 			int samples) {
-		if (Kernel.isEqual(l, r)) {
-			return Kernel.isZero(f.value(l)) ? new double[] { l }
+		if (DoubleUtil.isEqual(l, r)) {
+			return DoubleUtil.isZero(f.value(l)) ? new double[] { l }
 					: new double[0];
 		}
 		double[] y = new double[samples + 1]; //

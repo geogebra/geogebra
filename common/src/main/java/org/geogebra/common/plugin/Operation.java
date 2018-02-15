@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -255,7 +256,7 @@ public enum Operation {
 				double b = rt.evaluateDouble();
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
-				return new MyBoolean(ev.getKernel(), Kernel.isGreater(b, a),
+				return new MyBoolean(ev.getKernel(), DoubleUtil.isGreater(b, a),
 						defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
@@ -277,7 +278,7 @@ public enum Operation {
 				double b = rt.evaluateDouble();
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
-				return new MyBoolean(ev.getKernel(), Kernel.isGreater(a, b),
+				return new MyBoolean(ev.getKernel(), DoubleUtil.isGreater(a, b),
 						defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
@@ -300,7 +301,7 @@ public enum Operation {
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
-						Kernel.isGreaterEqual(b, a), defined);
+						DoubleUtil.isGreaterEqual(b, a), defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl)
@@ -323,7 +324,7 @@ public enum Operation {
 				boolean defined = MyDouble.isFinite(a) && MyDouble.isFinite(b);
 
 				return new MyBoolean(ev.getKernel(),
-						Kernel.isGreaterEqual(a, b), defined);
+						DoubleUtil.isGreaterEqual(a, b), defined);
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl)
@@ -601,7 +602,7 @@ public enum Operation {
 						.evaluateDouble();
 				if (keyList.size() == 1) {
 					double ret = Double.NaN;
-					if (Kernel.isEqual(max, x)) {
+					if (DoubleUtil.isEqual(max, x)) {
 						ret = valueList.getListElement(0).evaluateDouble();
 					}
 					return new MyDouble(ev.getKernel(), ret);
@@ -846,8 +847,8 @@ public enum Operation {
 
 				if (lt instanceof NumberValue) {
 					MyDouble root = ((NumberValue) lt).getNumber();
-					if (Kernel.isGreater(0, root.getDouble())
-							&& Kernel.isInteger(n) && Math.round(n) % 2 == 1) {
+					if (DoubleUtil.isGreater(0, root.getDouble())
+							&& DoubleUtil.isInteger(n) && Math.round(n) % 2 == 1) {
 						MyDouble.powDoubleSgnChange(root, exp, root);
 					} else {
 						MyDouble.pow(root, exp, root);

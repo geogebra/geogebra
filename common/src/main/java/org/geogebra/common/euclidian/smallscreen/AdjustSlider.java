@@ -1,8 +1,8 @@
 package org.geogebra.common.euclidian.smallscreen;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -52,8 +52,8 @@ public class AdjustSlider extends AdjustWidget {
 			return true;
 		}
 
-		if (Kernel.isEqual(x, origX) && origX + origWidth < view.getWidth()
-				&& Kernel.isEqual(origWidth, width) && Kernel.isEqual(y, origY)
+		if (DoubleUtil.isEqual(x, origX) && origX + origWidth < view.getWidth()
+				&& DoubleUtil.isEqual(origWidth, width) && DoubleUtil.isEqual(y, origY)
 				&& origY < view.getHeight()) {
 			return true;
 		}
@@ -66,10 +66,10 @@ public class AdjustSlider extends AdjustWidget {
 			return true;
 		}
 
-		if (Kernel.isEqual(x, origX) && origX < view.getViewWidth() - MARGIN_X
-				&& Kernel.isEqual(y, origY)
+		if (DoubleUtil.isEqual(x, origX) && origX < view.getViewWidth() - MARGIN_X
+				&& DoubleUtil.isEqual(y, origY)
 				&& origY < view.getViewHeight() - MARGIN_Y
-				&& origY - origWidth > 0 && Kernel.isEqual(origWidth, width)) {
+				&& origY - origWidth > 0 && DoubleUtil.isEqual(origWidth, width)) {
 			Log.debug("VSlider " + number.getLabelSimple() + " is ON screen");
 			return true;
 		}

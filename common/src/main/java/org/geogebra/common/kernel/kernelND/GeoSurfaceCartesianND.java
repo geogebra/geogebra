@@ -2,7 +2,6 @@ package org.geogebra.common.kernel.kernelND;
 
 import org.apache.commons.math3.util.Cloner;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
@@ -21,6 +20,7 @@ import org.geogebra.common.kernel.geos.Dilateable;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.Translateable;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Abstract class for cartesian curves in any dimension
@@ -576,7 +576,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 				uvOut[1] = getMaxParameter(1);
 			}
 
-			if (Kernel.isZero(gnorm)) {
+			if (DoubleUtil.isZero(gnorm)) {
 				return true;
 			}
 
@@ -707,7 +707,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 			// if bivariate vector is small enough: point found
 			double error = bivariateVector.calcSquareNorm();
-			if (Kernel.isZero(error)) {
+			if (DoubleUtil.isZero(error)) {
 				return error;
 			}
 

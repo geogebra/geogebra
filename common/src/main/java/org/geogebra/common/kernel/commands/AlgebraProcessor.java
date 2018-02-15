@@ -110,6 +110,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -1133,7 +1134,7 @@ public class AlgebraProcessor {
 
 				// if forGeo is a slider, the value might be out of range
 				// in which case we mustn't set the definition
-				if (Kernel.isEqual(forGeo.getDouble(), nv.getDouble())
+				if (DoubleUtil.isEqual(forGeo.getDouble(), nv.getDouble())
 						&& en.isConstant()) {
 					forGeo.setDefinition(en);
 				}
@@ -2183,7 +2184,7 @@ public class AlgebraProcessor {
 			}
 		} else if (cx.getOperation() == Operation.POWER) {
 			if (cx.getRight().unwrap() instanceof MyDouble
-					&& Kernel.isEqual(2, cx.getRight().evaluateDouble())) {
+					&& DoubleUtil.isEqual(2, cx.getRight().evaluateDouble())) {
 				ExpressionValue[] left = arrayOfZeros(3);
 				int degL = getPolyCoeffs(cx.getLeftTree(), left,
 						new ExpressionNode(kernel, 1), loc2);

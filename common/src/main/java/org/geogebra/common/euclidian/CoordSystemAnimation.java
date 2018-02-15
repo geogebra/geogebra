@@ -1,6 +1,6 @@
 package org.geogebra.common.euclidian;
 
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * AbstractZoomer is responsible for animated zooming of Euclidian View
@@ -249,7 +249,7 @@ public abstract class CoordSystemAnimation {
 		case MOVE:
 			dx = view.getXZero() - px;
 			dy = view.getYZero() - py;
-			if (Kernel.isZero(dx) && Kernel.isZero(dy)) {
+			if (DoubleUtil.isZero(dx) && DoubleUtil.isZero(dy)) {
 				return;
 			}
 			// setDrawMode(DRAW_MODE_DIRECT_DRAW);
@@ -278,6 +278,6 @@ public abstract class CoordSystemAnimation {
 	 * @return true if there is a standard (i.e. no) zoom.
 	 */
 	public boolean isStandardZoom() {
-		return Kernel.checkInteger(newScale) == EuclidianView.SCALE_STANDARD;
+		return DoubleUtil.checkInteger(newScale) == EuclidianView.SCALE_STANDARD;
 	}
 }

@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.DoubleUtil;
 
 public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 
@@ -146,8 +147,8 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 		}
 
 		for (int i = 0; i < nrRealRoots; ++i) {
-			if (Kernel.isGreater(roots[i], max, Kernel.STANDARD_PRECISION)
-					|| Kernel.isGreater(min, roots[i],
+			if (DoubleUtil.isGreater(roots[i], max, Kernel.STANDARD_PRECISION)
+					|| DoubleUtil.isGreater(min, roots[i],
 							Kernel.STANDARD_PRECISION)) {
 				roots[i] = Double.NaN;
 			}

@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.LabelManager;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Finds all real roots of a polynomial. TODO: extend for rational functions
@@ -301,7 +302,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// check if the intersection points are really on the functions
 			// due to interval restrictions this might not be the case
 			for (int i = 0; i < solution.curRealRoots; i++) {
-				if (!Kernel.isEqual(fun.value(solution.curRoots[i]),
+				if (!DoubleUtil.isEqual(fun.value(solution.curRoots[i]),
 						g.value(solution.curRoots[i]),
 						Kernel.MIN_PRECISION)) {
 					solution.removeRoot(i);
@@ -331,7 +332,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			yValFunction = fun;
 
 			// check for vertical line a*x + c = 0: intersection at x=-c/a
-			if (Kernel.isZero(line.y)) {
+			if (DoubleUtil.isZero(line.y)) {
 				solution.setSingleRoot(-line.z / line.x);
 			}
 			// standard case

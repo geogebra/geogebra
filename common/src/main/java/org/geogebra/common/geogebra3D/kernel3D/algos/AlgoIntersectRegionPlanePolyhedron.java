@@ -30,7 +30,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
@@ -38,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algo for intersection of a plane with a polyhedron, outputs polygons
@@ -101,10 +101,10 @@ public class AlgoIntersectRegionPlanePolyhedron
 		@Override
 		public int compareTo(CoordsWithParent o) {
 			// first compare parameters
-			if (Kernel.isGreater(parameter, o.parameter)) {
+			if (DoubleUtil.isGreater(parameter, o.parameter)) {
 				return 1;
 			}
-			if (Kernel.isGreater(o.parameter, parameter)) {
+			if (DoubleUtil.isGreater(o.parameter, parameter)) {
 				return -1;
 			}
 
@@ -453,7 +453,7 @@ public class AlgoIntersectRegionPlanePolyhedron
 		setIntersectionLine();
 
 		// check if polygon is included in the plane
-		if (d1.isZero() && !(Kernel.isZero(o1.getW()))) {// then include all
+		if (d1.isZero() && !(DoubleUtil.isZero(o1.getW()))) {// then include all
 															// edges of the
 															// polygon
 
@@ -1151,10 +1151,10 @@ public class AlgoIntersectRegionPlanePolyhedron
 
 			// 2) check if one value is lower
 			for (int i = 0; i < o1.val.length; i++) {
-				if (Kernel.isGreater(o.val[i], o1.val[i])) {
+				if (DoubleUtil.isGreater(o.val[i], o1.val[i])) {
 					return -1;
 				}
-				if (Kernel.isGreater(o1.val[i], o.val[i])) {
+				if (DoubleUtil.isGreater(o1.val[i], o.val[i])) {
 					return 1;
 				}
 			}

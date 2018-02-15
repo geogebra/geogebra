@@ -167,6 +167,7 @@ import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
@@ -4854,7 +4855,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		for (int i = 0; i < n; i++) {
 
 			// avoid values like 14.399999999999968
-			val = Kernel.checkDecimalFraction(val);
+			val = DoubleUtil.checkDecimalFraction(val);
 
 			num.setValue(val);
 			num.updateRepaint();

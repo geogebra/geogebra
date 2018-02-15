@@ -60,6 +60,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.statistics.AlgoHistogram;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
@@ -96,7 +97,7 @@ public abstract class GeoGebraExport {
 	}
 
 	protected String format(double d) {
-		String ret = kernel.format(Kernel.checkDecimalFraction(d), tpl);
+		String ret = kernel.format(DoubleUtil.checkDecimalFraction(d), tpl);
 
 		ret = StringUtil.cannonicNumber2(ret);
 
@@ -1575,7 +1576,7 @@ public abstract class GeoGebraExport {
 		while (x <= b) {
 			double y = f.value(x);
 			if (!Double.isNaN(y)) {
-				if (Kernel.isEqual(x, a)) {
+				if (DoubleUtil.isEqual(x, a)) {
 					return a;
 				} else if (step < PRECISION_XRANGE_FUNCTION) {
 					return x;

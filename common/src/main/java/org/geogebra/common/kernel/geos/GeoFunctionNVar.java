@@ -47,6 +47,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -581,7 +582,7 @@ public class GeoFunctionNVar extends GeoElement
 					double coeffVal = coeff.evaluateDouble();
 					// Log.debug("coeff is for " + i + " " + j + " is " +
 					// coeffVal);
-					if (!Kernel.isZero(coeffVal)) {
+					if (!DoubleUtil.isZero(coeffVal)) {
 						// one coefficient different -> definitely not equal
 						// polynomials
 						return false;
@@ -776,7 +777,7 @@ public class GeoFunctionNVar extends GeoElement
 		tmp[0] = coords.getX();
 		tmp[1] = coords.getY();
 		double z = fun.evaluate(tmp);
-		return Kernel.isEqual(coords.getZ(), z);
+		return DoubleUtil.isEqual(coords.getZ(), z);
 
 	}
 
@@ -798,7 +799,7 @@ public class GeoFunctionNVar extends GeoElement
 						myY = P.getY2D();
 				double bestDist = (bestY - myY) * (bestY - myY)
 						+ (bestX - myX) * (bestX - myX);
-				if (Kernel.isZero(bestDist)) { // not the best distance, since P
+				if (DoubleUtil.isZero(bestDist)) { // not the best distance, since P
 												// is
 					// not in region
 					bestDist = Double.POSITIVE_INFINITY;
@@ -945,7 +946,7 @@ public class GeoFunctionNVar extends GeoElement
 	}
 
 	final private static boolean isTooFar(double[] xyzf, double zScale) {
-		return !Kernel.isEqual(xyzf[2], xyzf[3],
+		return !DoubleUtil.isEqual(xyzf[2], xyzf[3],
 				Kernel.STANDARD_PRECISION_SQRT / zScale);
 	}
 

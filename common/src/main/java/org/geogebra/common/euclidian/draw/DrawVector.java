@@ -33,12 +33,12 @@ import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -110,7 +110,7 @@ public class DrawVector extends Drawable implements Previewable {
 		P = v.getStartPoint();
 		if (P != null && !P.isInfinite()) {
 			coords = view.getCoordsForView(P.getInhomCoordsInD3());// P.getCoordsInD3();
-			if (!Kernel.isZero(coords.getZ())) {
+			if (!DoubleUtil.isZero(coords.getZ())) {
 				isVisible = false;
 				return;
 			}
@@ -123,7 +123,7 @@ public class DrawVector extends Drawable implements Previewable {
 
 		// vector
 		coords = view.getCoordsForView(v.getCoordsInD3());// v.getCoordsInD3();
-		if (!Kernel.isZero(coords.getZ())) {
+		if (!DoubleUtil.isZero(coords.getZ())) {
 			isVisible = false;
 			return;
 		}

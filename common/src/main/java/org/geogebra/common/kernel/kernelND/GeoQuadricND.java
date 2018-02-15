@@ -24,6 +24,7 @@ import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Traceable;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Abstract class describing quadrics in n-dimension space. Extended by
@@ -323,7 +324,7 @@ public abstract class GeoQuadricND extends GeoElement
 	public void setSphereND(Coords M, double rad) {
 		double r = rad;
 		// check radius
-		if (Kernel.isZero(r)) {
+		if (DoubleUtil.isZero(r)) {
 			r = 0;
 		} else if (r < 0) {
 			defined = false;
@@ -392,7 +393,7 @@ public abstract class GeoQuadricND extends GeoElement
 				setFirstEigenvector(new double[] { 1, 0 });
 				findEigenvectors();
 			}
-		} else if (Kernel.isZero(r)) { // radius == 0
+		} else if (DoubleUtil.isZero(r)) { // radius == 0
 			singlePoint();
 		} else { // radius < 0 or radius = infinite
 			empty();
@@ -553,7 +554,7 @@ public abstract class GeoQuadricND extends GeoElement
 		}
 
 		for (int i = 0; i < dimension; i++) {
-			if (Kernel.isZero(getMidpoint().get(i + 1))) {
+			if (DoubleUtil.isZero(getMidpoint().get(i + 1))) {
 				sbToValueString.append(VAR_STRING[i]);
 				sbToValueString.append(squared);
 			} else {

@@ -20,7 +20,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -31,6 +30,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -112,7 +112,7 @@ public abstract class AlgoConicFociLength3D extends AlgoConicFociLengthND {
 		Coords d1 = Bc.sub(Ac);
 
 		// check if line (AB) and vn are orthogonal
-		if (!Kernel.isZero(d1.dotproduct(vn))) {
+		if (!DoubleUtil.isZero(d1.dotproduct(vn))) {
 			conic.setUndefined();
 			return;
 		}

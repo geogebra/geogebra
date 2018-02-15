@@ -3,7 +3,6 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MatrixTransformable;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -11,6 +10,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.discrete.tsp.impl.Point;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class for polylines created using pen
@@ -83,7 +83,7 @@ public class GeoLocusStroke extends GeoLocus
 				if (!(!points.isEmpty()
 						&& points.get(points.size() - 1).getSegmentType() == pt
 						.getSegmentType()
-						&& Kernel.isZero(points.get(points.size() - 1)
+						&& DoubleUtil.isZero(points.get(points.size() - 1)
 								.distance((Point) pt)))) {
 					points.add(pt);
 				}

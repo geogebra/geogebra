@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.Geo3DVecInterface;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVecInterface;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -238,7 +239,7 @@ final public class Geo3DVec extends ValidExpression
 	 * @return whether they are equal, ignoring z
 	 */
 	public boolean equals(GeoVec2D v) {
-		return Kernel.isEqual(x, v.getX()) && Kernel.isEqual(y, v.getY());
+		return DoubleUtil.isEqual(x, v.getX()) && DoubleUtil.isEqual(y, v.getY());
 	}
 
 	/**
@@ -388,7 +389,7 @@ final public class Geo3DVec extends ValidExpression
 	public static void complexMultiply(GeoVecInterface a,
 			GeoVecInterface b, GeoVec2D c) {
 
-		if (!Kernel.isZero(a.getZ()) || !Kernel.isZero(b.getZ())) {
+		if (!DoubleUtil.isZero(a.getZ()) || !DoubleUtil.isZero(b.getZ())) {
 			c.setX(Double.NaN);
 			c.setY(Double.NaN);
 			c.setMode(Kernel.COORD_COMPLEX);
@@ -486,8 +487,8 @@ final public class Geo3DVec extends ValidExpression
 	@Override
 	public boolean isEqual(Geo3DVecInterface vec) {
 		Geo3DVec v = (Geo3DVec) vec;
-		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y)
-				&& Kernel.isEqual(z, v.z);
+		return DoubleUtil.isEqual(x, v.x) && DoubleUtil.isEqual(y, v.y)
+				&& DoubleUtil.isEqual(z, v.z);
 	}
 
 	/**
@@ -559,7 +560,7 @@ final public class Geo3DVec extends ValidExpression
 
 		double w = m * xx + n * yy + o * zz + p * ww;
 
-		if (vector && !Kernel.isZero(w)) {
+		if (vector && !DoubleUtil.isZero(w)) {
 			x = Double.NaN;
 			y = Double.NaN;
 			z = Double.NaN;

@@ -8,9 +8,9 @@ import java.io.PrintWriter;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.DrawableList;
 import org.geogebra.common.euclidian.DrawableList.Link;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -37,8 +37,8 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 	public SVGExtensions(OutputStream file, Dimension size, double cmWidth,
 			double cmHeight) throws IOException {
 		super(file, size);
-		this.cmWidth = Kernel.checkDecimalFraction(cmWidth);
-		this.cmHeight = Kernel.checkDecimalFraction(cmHeight);
+		this.cmWidth = DoubleUtil.checkDecimalFraction(cmWidth);
+		this.cmHeight = DoubleUtil.checkDecimalFraction(cmHeight);
 	}
 
 	public void startGroup(String s) {

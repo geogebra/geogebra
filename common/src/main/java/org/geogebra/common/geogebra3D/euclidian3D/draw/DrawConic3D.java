@@ -10,7 +10,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D;
 import org.geogebra.common.geogebra3D.euclidian3D.printer3D.ExportToPrinter3D.Type;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.arithmetic.Functional2Var;
@@ -19,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author ggb3D
@@ -816,7 +816,7 @@ public class DrawConic3D extends Drawable3DCurves
 			Coords v = origin.sub(m);
 			v.calcNorm();
 			double centersDistance = v.getNorm();
-			if (Kernel.isGreater(centersDistance, frustumRadius)) {
+			if (DoubleUtil.isGreater(centersDistance, frustumRadius)) {
 				visible = Visible.TOTALLY_OUTSIDE;
 			} else {
 				visible = Visible.TOTALLY_INSIDE;

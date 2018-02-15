@@ -20,13 +20,13 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -127,7 +127,7 @@ public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 	@Override
 	public final void compute() {
 		if (g != null) {
-			if (g.isDefined() && !Kernel.isZero(g.y)) {
+			if (g.isDefined() && !DoubleUtil.isZero(g.y)) {
 				slope.setValue(-g.x / g.y);
 			} else {
 				slope.setUndefined();

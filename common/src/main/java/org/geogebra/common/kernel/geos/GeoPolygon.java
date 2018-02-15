@@ -57,6 +57,7 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 
@@ -988,7 +989,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public boolean hasSameArea(GeoElement geo) {
 		// return false if it's a different type
 		if (geo.isGeoPolygon()) {
-			return Kernel.isEqual(getArea(), ((GeoPolygon) geo).getArea());
+			return DoubleUtil.isEqual(getArea(), ((GeoPolygon) geo).getArea());
 		}
 		return false;
 	}
@@ -1138,7 +1139,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 						double d4 = 2 * Math.PI
 								- ((GeoAngle) anglesPoly2[1]).getDouble();
 						// first two angle values are congruent
-						if (Kernel.isEqual(d1, d2) && Kernel.isEqual(d3, d4)) {
+						if (DoubleUtil.isEqual(d1, d2) && DoubleUtil.isEqual(d3, d4)) {
 							break;
 						}
 						double d5 = 2 * Math.PI
@@ -1150,7 +1151,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 						// first two angle values from anglesPoly1 equals to
 						// last
 						// two angle values from anglesPoly2
-						if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d3, d6)) {
+						if (DoubleUtil.isEqual(d1, d5) && DoubleUtil.isEqual(d3, d6)) {
 							break;
 						}
 						anglesPoly2 = shiftAngles(anglesPoly2);
@@ -1168,7 +1169,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 						double d4 = 2 * Math.PI
 								- ((GeoAngle) anglesPoly2[1]).getDouble();
 						// first two angle values are congruent
-						if (Kernel.isEqual(d1, d2) && Kernel.isEqual(d3, d4)) {
+						if (DoubleUtil.isEqual(d1, d2) && DoubleUtil.isEqual(d3, d4)) {
 							break;
 						}
 						double d5 = 2 * Math.PI
@@ -1180,7 +1181,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 						// first two angle values from anglesPoly1 equals to
 						// last
 						// two angle values from anglesPoly2
-						if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d3, d6)) {
+						if (DoubleUtil.isEqual(d1, d5) && DoubleUtil.isEqual(d3, d6)) {
 							break;
 						}
 						anglesPoly2 = shiftAngles(anglesPoly2);
@@ -1198,7 +1199,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 								- ((GeoAngle) anglesPoly1[1]).getDouble();
 						double d4 = ((GeoAngle) anglesPoly2[1]).getDouble();
 						// first two angle values are congruent
-						if (Kernel.isEqual(d1, d2) && Kernel.isEqual(d3, d4)) {
+						if (DoubleUtil.isEqual(d1, d2) && DoubleUtil.isEqual(d3, d4)) {
 							break;
 						}
 						double d5 = ((GeoAngle) anglesPoly2[anglesPoly2.length
@@ -1208,7 +1209,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 						// first two angle values from anglesPoly1 equals to
 						// last
 						// two angle values from anglesPoly2
-						if (Kernel.isEqual(d1, d5) && Kernel.isEqual(d3, d6)) {
+						if (DoubleUtil.isEqual(d1, d5) && DoubleUtil.isEqual(d3, d6)) {
 							break;
 						}
 						anglesPoly2 = shiftAngles(anglesPoly2);
@@ -1253,7 +1254,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		// case the geo is a GeoNumeric, e.g. area using formula
 		// we can check whether the areas are equal or not
 		if (geo instanceof GeoNumeric) {
-			if (Kernel.isEqual(this.getArea(), ((GeoNumeric) geo).getValue())) {
+			if (DoubleUtil.isEqual(this.getArea(), ((GeoNumeric) geo).getValue())) {
 				return ExtendedBoolean.TRUE;
 			}
 		}
@@ -1306,7 +1307,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 							- ((GeoAngle) anglesPoly1[i]).getDouble();
 					double d2 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly2[i]).getDouble();
-					if (!Kernel.isEqual(d1, d2)) {
+					if (!DoubleUtil.isEqual(d1, d2)) {
 						return false;
 					}
 				}
@@ -1319,7 +1320,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					double d1 = ((GeoAngle) anglesPoly1[i]).getDouble();
 					double d2 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly2[i]).getDouble();
-					if (!Kernel.isEqual(d1, d2)) {
+					if (!DoubleUtil.isEqual(d1, d2)) {
 						return false;
 					}
 				}
@@ -1332,7 +1333,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					double d1 = 2 * Math.PI
 							- ((GeoAngle) anglesPoly1[i]).getDouble();
 					double d2 = ((GeoAngle) anglesPoly2[i]).getDouble();
-					if (!Kernel.isEqual(d1, d2)) {
+					if (!DoubleUtil.isEqual(d1, d2)) {
 						return false;
 					}
 				}
@@ -1368,7 +1369,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					double d2 = 360 * Math.PI / 180
 							- ((GeoAngle) anglesPoly2[anglesPoly2.length - i
 									- 1]).getDouble();
-					if (!Kernel.isEqual(d1, d2)) {
+					if (!DoubleUtil.isEqual(d1, d2)) {
 						return false;
 					}
 				}
@@ -1381,7 +1382,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 					double d2 = 360 * Math.PI / 180
 							- ((GeoAngle) anglesPoly2[anglesPoly2.length - i
 									- 1]).getDouble();
-					if (!Kernel.isEqual(d1, d2)) {
+					if (!DoubleUtil.isEqual(d1, d2)) {
 						return false;
 					}
 				}
@@ -1394,7 +1395,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 							- ((GeoAngle) anglesPoly1[i]).getDouble();
 					double d2 = ((GeoAngle) anglesPoly2[anglesPoly2.length - i
 							- 1]).getDouble();
-					if (!Kernel.isEqual(d1, d2)) {
+					if (!DoubleUtil.isEqual(d1, d2)) {
 						return false;
 					}
 				}
@@ -1912,10 +1913,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			p1 = getPoint(secondPoint);
 			// Application.debug(" p1 ("+secondPoint+") =
 			// "+p1.inhomX+","+p1.inhomY);
-			if (!Kernel.isEqual(p0.inhomX, p1.inhomX,
+			if (!DoubleUtil.isEqual(p0.inhomX, p1.inhomX,
 					Kernel.STANDARD_PRECISION)) {
 				secondPointFound = true;
-			} else if (!Kernel.isEqual(p0.inhomY, p1.inhomY,
+			} else if (!DoubleUtil.isEqual(p0.inhomY, p1.inhomY,
 					Kernel.STANDARD_PRECISION))
 			 {
 				secondPointFound = true;
@@ -1971,22 +1972,22 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		double x1 = px1, x2 = px2, y1 = py1, y2 = py2;
 		double eps = Kernel.STANDARD_PRECISION;
 
-		if (Kernel.isZero(y1)) { // first point on (Ox)
-			if (Kernel.isZero(y2)) { // second point on (Ox)
-				if (Kernel.isGreaterEqual(0, x1 * x2)) {
+		if (DoubleUtil.isZero(y1)) { // first point on (Ox)
+			if (DoubleUtil.isZero(y2)) { // second point on (Ox)
+				if (DoubleUtil.isGreaterEqual(0, x1 * x2)) {
 					return 2;
 				}
 				// ignore the segment on 0x if it is whole on left or right
 				return -1;
 			}
 			// only first point is on (Ox)
-			if (Kernel.isZero(x1)) {
+			if (DoubleUtil.isZero(x1)) {
 				return 2;
 			}
 			return y2 > eps && x1 > eps ? 1 : -1;
-		} else if (Kernel.isZero(y2)) {
+		} else if (DoubleUtil.isZero(y2)) {
 			// only second point is on (0x)
-			if (Kernel.isZero(x2)) {
+			if (DoubleUtil.isZero(x2)) {
 				return 2;
 			}
 			return y1 > eps && x2 > eps ? 1 : -1;
@@ -2102,7 +2103,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		for (int i = 1; i < getPointsLength(); i++) {
 			double x1 = getPointX(i);
 			double y1 = getPointY(i);
-			if (!Kernel.isEqual(x0, x1) || !Kernel.isEqual(y0, y1)) {
+			if (!DoubleUtil.isEqual(x0, x1) || !DoubleUtil.isEqual(y0, y1)) {
 				xList.add(x1);
 				yList.add(y1);
 				x0 = x1;
@@ -2116,8 +2117,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		 */
 
 		// remove last point if equals first points
-		if (Kernel.isEqual(xList.get(0), xList.get(n - 1))
-				&& Kernel.isEqual(yList.get(0), yList.get(n - 1))) {
+		if (DoubleUtil.isEqual(xList.get(0), xList.get(n - 1))
+				&& DoubleUtil.isEqual(yList.get(0), yList.get(n - 1))) {
 			/*
 			 * if (n==4){ return true; }
 			 */
@@ -2141,9 +2142,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		double dy2 = y2 - y1;
 
 		// calc first orientation
-		int orientation = Kernel.compare(dy1 * dx2, dx1 * dy2);
+		int orientation = DoubleUtil.compare(dy1 * dx2, dx1 * dy2);
 		if (orientation == 0) {
-			if (Kernel.isGreater(0, dx1 * dx2 + dy1 * dy2)) { // U-turn
+			if (DoubleUtil.isGreater(0, dx1 * dx2 + dy1 * dy2)) { // U-turn
 				answer = false;
 			}
 		}
@@ -2158,13 +2159,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			y2 = yList.get(i);
 			dx2 = x2 - x1;
 			dy2 = y2 - y1;
-			int orientation2 = Kernel.compare(dy1 * dx2, dx1 * dy2);
+			int orientation2 = DoubleUtil.compare(dy1 * dx2, dx1 * dy2);
 			// Log.debug(""+answer+","+hasAngle360);
 			// Log.debug("i : "+i+" -- orientations :
 			// "+orientation+","+orientation2);
 
 			if (!hasAngle360 && orientation2 == 0) { // U-turn
-				if (Kernel.isGreater(0, dx1 * dx2 + dy1 * dy2)) {
+				if (DoubleUtil.isGreater(0, dx1 * dx2 + dy1 * dy2)) {
 					answer = false;
 				}
 			}

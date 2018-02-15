@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -21,6 +20,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -81,7 +81,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 
 		super.compute();
 
-		if (line != null && Kernel.isZero(line.y)) {
+		if (line != null && DoubleUtil.isZero(line.y)) {
 			// the vertical line solution is filtered in super.compute already
 			return;
 		}

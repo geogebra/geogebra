@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -46,7 +47,7 @@ public class AdjustScreen {
 			if (y1 == y2) {
 				return 0;
 			}
-			return Kernel.isGreater(y2, y1) ? -1 : 1;
+			return DoubleUtil.isGreater(y2, y1) ? -1 : 1;
 		}
 	}
 
@@ -62,7 +63,7 @@ public class AdjustScreen {
 			if (x1 == x2) {
 				return 0;
 			}
-			return Kernel.isGreater(x2, x1) ? -1 : 1;
+			return DoubleUtil.isGreater(x2, x1) ? -1 : 1;
 		}
 	}
 

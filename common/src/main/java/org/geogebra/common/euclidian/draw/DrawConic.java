@@ -42,7 +42,6 @@ import org.geogebra.common.euclidian.clipping.ClipShape;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordMatrix;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -70,6 +69,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -442,7 +442,7 @@ public class DrawConic extends Drawable implements Previewable {
 		if (geo.isShape()) {
 			if (getBounds() != null) {
 				getBoundingBox().setRectangle(getBounds());
-				if (Kernel.isEqual(getBoundingBox().getRectangle().getHeight(),
+				if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getHeight(),
 						getBoundingBox().getRectangle().getWidth(), 2)) {
 					setIsCircle(true);
 				}
@@ -519,7 +519,7 @@ public class DrawConic extends Drawable implements Previewable {
 		// looks if it's on view
 		Coords p = view.getCoordsForView(conic.getMidpoint3D());
 		// Log.debug("\n"+view+"\n"+p);
-		if (!Kernel.isZero(p.getZ())) {
+		if (!DoubleUtil.isZero(p.getZ())) {
 			isVisible = false;
 			return;
 		}
@@ -623,7 +623,7 @@ public class DrawConic extends Drawable implements Previewable {
 			if (conic.type == GeoConicNDConstants.CONIC_PARALLEL_LINES) {
 				val1 *= conic.evaluate(conic.b.getX(), conic.b.getY());
 			}
-			if (!Kernel.isZero(val1)) {
+			if (!DoubleUtil.isZero(val1)) {
 				return (val1 > 0) ^ shape.contains(xTry[i], yTry[i]);
 			}
 		}
@@ -672,7 +672,7 @@ public class DrawConic extends Drawable implements Previewable {
 				M = conic.getMidpoint3D().getInhomCoords();
 			} else {
 				M = view.getCoordsForView(conic.getMidpoint3D());
-				if (!Kernel.isZero(M.getZ())) {// check if in view
+				if (!DoubleUtil.isZero(M.getZ())) {// check if in view
 					isVisible = false;
 					return;
 				}
@@ -680,7 +680,7 @@ public class DrawConic extends Drawable implements Previewable {
 				for (int j = 0; j < 2; j++) {
 					Coords evCoords = view
 							.getCoordsForView(conic.getEigenvec3D(j));
-					if (!Kernel.isZero(evCoords.getZ())) {// check if in view
+					if (!DoubleUtil.isZero(evCoords.getZ())) {// check if in view
 						isVisible = false;
 						return;
 					}
@@ -695,14 +695,14 @@ public class DrawConic extends Drawable implements Previewable {
 			// draw arc according to midpoint position
 			// of the arc
 			Coords M = view.getCoordsForView(conic.getMidpoint3D());
-			if (!Kernel.isZero(M.getZ())) {// check if in view
+			if (!DoubleUtil.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
 			}
 			// check if eigen vec are in view
 			for (int j = 0; j < 2; j++) {
 				Coords evCoords = view.getCoordsForView(conic.getEigenvec3D(j));
-				if (!Kernel.isZero(evCoords.getZ())) {// check if in view
+				if (!DoubleUtil.isZero(evCoords.getZ())) {// check if in view
 					isVisible = false;
 					return;
 				}
@@ -965,7 +965,7 @@ public class DrawConic extends Drawable implements Previewable {
 			M = conic.getMidpoint3D().getInhomCoords();
 		} else {
 			M = view.getCoordsForView(conic.getMidpoint3D());
-			if (!Kernel.isZero(M.getZ())) {// check if in view
+			if (!DoubleUtil.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
 			}
@@ -981,7 +981,7 @@ public class DrawConic extends Drawable implements Previewable {
 		} else {
 			for (int j = 0; j < 2; j++) {
 				ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+				if (!DoubleUtil.isZero(ev[j].getZ())) {// check if in view
 					isVisible = false;
 					return;
 				}
@@ -1043,7 +1043,7 @@ public class DrawConic extends Drawable implements Previewable {
 			M = conic.getMidpoint3D().getInhomCoords();
 		} else {
 			M = view.getCoordsForView(conic.getMidpoint3D());
-			if (!Kernel.isZero(M.getZ())) {// check if in view
+			if (!DoubleUtil.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
 			}
@@ -1058,7 +1058,7 @@ public class DrawConic extends Drawable implements Previewable {
 		} else {
 			for (int j = 0; j < 2; j++) {
 				ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+				if (!DoubleUtil.isZero(ev[j].getZ())) {// check if in view
 					isVisible = false;
 					return;
 				}
@@ -1256,7 +1256,7 @@ public class DrawConic extends Drawable implements Previewable {
 			M = conic.getMidpoint3D().getInhomCoords();
 		} else {
 			M = view.getCoordsForView(conic.getMidpoint3D());
-			if (!Kernel.isZero(M.getZ())) {// check if in view
+			if (!DoubleUtil.isZero(M.getZ())) {// check if in view
 				isVisible = false;
 				return;
 			}
@@ -1271,7 +1271,7 @@ public class DrawConic extends Drawable implements Previewable {
 		} else {
 			for (int j = 0; j < 2; j++) {
 				ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
-				if (!Kernel.isZero(ev[j].getZ())) {// check if in view
+				if (!DoubleUtil.isZero(ev[j].getZ())) {// check if in view
 					isVisible = false;
 					return;
 				}

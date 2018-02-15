@@ -5,12 +5,12 @@ import java.util.TreeMap;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.HasSegments;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 
@@ -89,7 +89,7 @@ public class AlgoIntersectPlanePolyhedron extends AlgoIntersectLinePolygon3D {
 				globalCoords, inPlaneCoords);
 
 		// check if projection is intersection point
-		if (!Kernel.isZero(globalCoords.getW())
+		if (!DoubleUtil.isZero(globalCoords.getW())
 				&& seg.respectLimitedPath(-inPlaneCoords.get(3))) {
 			return globalCoords;
 		}

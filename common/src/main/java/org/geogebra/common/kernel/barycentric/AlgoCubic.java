@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.barycentric;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
@@ -15,6 +14,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.main.AlgoCubicSwitchParams;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -111,7 +111,7 @@ public class AlgoCubic extends AlgoElement {
 		String equation = "";
 
 		double det = (-x2 + x3) * (y1 - y3) + (x1 - x3) * (y2 - y3);
-		if (Kernel.isZero(det)) {
+		if (DoubleUtil.isZero(det)) {
 			poly.setUndefined();
 			return;
 		}

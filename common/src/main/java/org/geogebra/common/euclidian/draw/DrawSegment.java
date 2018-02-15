@@ -35,12 +35,12 @@ import org.geogebra.common.euclidian.clipping.ClipLine;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -110,13 +110,13 @@ public class DrawSegment extends Drawable implements Previewable {
 
 		Coords A = view.getCoordsForView(s.getStartInhomCoords());
 		// check if in view
-		if (!Kernel.isZero(A.getZ()) || !A.isFinite()) {
+		if (!DoubleUtil.isZero(A.getZ()) || !A.isFinite()) {
 			isVisible = false;
 			return;
 		}
 		Coords B = view.getCoordsForView(s.getEndInhomCoords());
 		// check if in view
-		if (!Kernel.isZero(B.getZ()) || !B.isFinite()) {
+		if (!DoubleUtil.isZero(B.getZ()) || !B.isFinite()) {
 			isVisible = false;
 			return;
 		}
@@ -656,19 +656,19 @@ public class DrawSegment extends Drawable implements Previewable {
 	 * @return number of handler for mouse location
 	 */
 	public EuclidianBoundingBoxHandler getHandler(GPoint mouseLoc) {
-		if (Kernel.isEqual(getBoundingBox().getRectangle().getMinX(),
+		if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getMinX(),
 				mouseLoc.x)) {
 			// upper left corner
-			if (Kernel.isEqual(getBoundingBox().getRectangle().getMinY(),
+			if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getMinY(),
 					mouseLoc.y, 3)) {
 				return EuclidianBoundingBoxHandler.TOP_LEFT;
 			}
 			// bottom left corner
 			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
-		} else if (Kernel.isEqual(getBoundingBox().getRectangle().getMaxX(),
+		} else if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getMaxX(),
 				mouseLoc.x, 3)) {
 			// upper right corner
-			if (Kernel.isEqual(getBoundingBox().getRectangle().getMinY(),
+			if (DoubleUtil.isEqual(getBoundingBox().getRectangle().getMinY(),
 					mouseLoc.y, 3)) {
 				return EuclidianBoundingBoxHandler.TOP_RIGHT;
 			}

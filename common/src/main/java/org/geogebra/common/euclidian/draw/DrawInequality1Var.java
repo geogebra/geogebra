@@ -11,7 +11,6 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -22,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author Zbynek
@@ -140,7 +140,7 @@ public class DrawInequality1Var extends Drawable {
 	// e.g. -x
 	private static boolean isVariableNegated(ExpressionNode expr) {
 		if (expr.getOperation().equals(Operation.MULTIPLY)
-				&& Kernel.isEqual(expr.getLeft().evaluateDouble(), -1)
+				&& DoubleUtil.isEqual(expr.getLeft().evaluateDouble(), -1)
 				&& expr.getRight() instanceof FunctionVariable) {
 			return true;
 		}
@@ -159,7 +159,7 @@ public class DrawInequality1Var extends Drawable {
 	 * @return true if min bound was set
 	 */
 	public boolean isMinBoundSet() {
-		return !Kernel.isEqual(minBound, -1000000);
+		return !DoubleUtil.isEqual(minBound, -1000000);
 	}
 
 	/**

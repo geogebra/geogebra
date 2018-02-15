@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
@@ -19,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoVertexIneq extends AlgoElement {
@@ -483,7 +483,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	private void intLinearY(Inequality a, Inequality b) {
 		GeoPoint[] bz = b.getZeros();
 		GeoLine af = a.getLineBorder();
-		if (Kernel.isZero(af.getX())) {
+		if (DoubleUtil.isZero(af.getX())) {
 			return;
 		}
 		for (GeoPoint bp : bz) {
@@ -499,7 +499,7 @@ public class AlgoVertexIneq extends AlgoElement {
 	private void intLinearX(Inequality a, Inequality b) {
 		GeoPoint[] bz = b.getZeros();
 		GeoLine af = a.getLineBorder();
-		if (Kernel.isZero(af.getY())) {
+		if (DoubleUtil.isZero(af.getY())) {
 			return;
 		}
 		for (GeoPoint bp : bz) {

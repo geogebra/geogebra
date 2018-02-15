@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPoly;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoVec3D;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
@@ -161,7 +162,7 @@ public class AlgoIntersectNpFunctionPolyLine extends AlgoRootNewton {
 		Coords temp;
 		double x;
 		// check for vertical line a*x + c = 0: intersection at x=-c/a
-		if (Kernel.isZero(seg.y)) {
+		if (DoubleUtil.isZero(seg.y)) {
 			x = -seg.z / seg.x;
 		}
 		// standard case

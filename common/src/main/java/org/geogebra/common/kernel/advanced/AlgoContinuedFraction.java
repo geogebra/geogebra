@@ -21,6 +21,7 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoContinuedFraction extends AlgoElement {
 
@@ -217,7 +218,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 			steps++;
 
 			// we are too close to integer, next step would be uncertain
-			if (Kernel.isEqual(Z, Math.floor(Z))) {
+			if (DoubleUtil.isEqual(Z, Math.floor(Z))) {
 				denom[steps] = (long) Math.floor(Z);
 				dotsNeeded = false;
 				steps++;
@@ -233,7 +234,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 			}
 
 		} while ((maxSteps == 0 || steps < maxSteps)
-				&& !Kernel.isEqual(Z, Math.floor(Z)) && steps < denom.length);
+				&& !DoubleUtil.isEqual(Z, Math.floor(Z)) && steps < denom.length);
 		return steps;
 	}
 

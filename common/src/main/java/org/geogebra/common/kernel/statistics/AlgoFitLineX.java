@@ -13,13 +13,13 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * FitLineY of a list. adapted from AlgoListMax
@@ -121,7 +121,7 @@ public class AlgoFitLineX extends AlgoElement {
 		g.z = -Sxy * muy + Syy * mux;
 
 		// #5294
-		if (Kernel.isZero(g.x) || Kernel.isZero(g.y) || Kernel.isZero(g.z)) {
+		if (DoubleUtil.isZero(g.x) || DoubleUtil.isZero(g.y) || DoubleUtil.isZero(g.z)) {
 			return;
 		}
 

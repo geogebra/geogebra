@@ -20,12 +20,12 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAnglePointsND;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -100,7 +100,7 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 		v2.calcNorm();
 		double l2 = v2.getNorm();
 
-		if (Kernel.isZero(l1) || Kernel.isZero(l2)) {
+		if (DoubleUtil.isZero(l1) || DoubleUtil.isZero(l2)) {
 			getAngle().setUndefined();
 			return;
 		}
@@ -146,12 +146,12 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 	 */
 	protected static final double acos(double c) {
 		// case where c is a bit more than 1
-		if (Kernel.isEqual(c, 1) && c > 1) {
+		if (DoubleUtil.isEqual(c, 1) && c > 1) {
 			return 0;
 		}
 
 		// case where c is a bit less than -1
-		if (Kernel.isEqual(c, -1) && c < -1) {
+		if (DoubleUtil.isEqual(c, -1) && c < -1) {
 			return Math.PI;
 		}
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Path;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.Region;
@@ -35,6 +34,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.DialogManager.CreateGeoForRotate;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class that creates geos for EuclidianController. Needed for special 3D stuff.
@@ -539,8 +539,8 @@ public class EuclidianControllerCompanion {
 	 *            mouse move event
 	 */
 	public void movePoint(boolean repaint, AbstractEvent event) {
-		ec.movedGeoPoint.setCoords(Kernel.checkDecimalFraction(ec.xRW),
-				Kernel.checkDecimalFraction(ec.yRW), 1.0);
+		ec.movedGeoPoint.setCoords(DoubleUtil.checkDecimalFraction(ec.xRW),
+				DoubleUtil.checkDecimalFraction(ec.yRW), 1.0);
 
 		if (event.isAltDown()) {
 
@@ -622,8 +622,8 @@ public class EuclidianControllerCompanion {
 		ec.checkZooming(forPreviewable);
 
 		GeoPointND ret = ec.getAlgoDispatcher().Point(
-				Kernel.checkDecimalFraction(ec.xRW),
-				Kernel.checkDecimalFraction(ec.yRW), complex);
+				DoubleUtil.checkDecimalFraction(ec.xRW),
+				DoubleUtil.checkDecimalFraction(ec.yRW), complex);
 		ret.setLabel(null);
 		return ret;
 	}
@@ -640,8 +640,8 @@ public class EuclidianControllerCompanion {
 	protected GeoPointND createNewPoint(boolean forPreviewable, Path path,
 			boolean complex) {
 		return createNewPoint(null, forPreviewable, path,
-				Kernel.checkDecimalFraction(ec.xRW),
-				Kernel.checkDecimalFraction(ec.yRW), 0, complex, true);
+				DoubleUtil.checkDecimalFraction(ec.xRW),
+				DoubleUtil.checkDecimalFraction(ec.yRW), 0, complex, true);
 	}
 
 	/**
@@ -656,8 +656,8 @@ public class EuclidianControllerCompanion {
 	protected GeoPointND createNewPoint(boolean forPreviewable, Region region,
 			boolean complex) {
 		return ec.createNewPoint(null, forPreviewable, region,
-				Kernel.checkDecimalFraction(ec.xRW),
-				Kernel.checkDecimalFraction(ec.yRW), 0, complex, true);
+				DoubleUtil.checkDecimalFraction(ec.xRW),
+				DoubleUtil.checkDecimalFraction(ec.yRW), 0, complex, true);
 	}
 
 	/**

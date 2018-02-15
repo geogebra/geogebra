@@ -1,8 +1,8 @@
 package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * for cylinders
@@ -22,7 +22,7 @@ public class AlgoQuadricComputerCylinder extends AlgoQuadricComputer {
 	@Override
 	public double getNumber(double v) {
 
-		if (Kernel.isZero(v)) {
+		if (DoubleUtil.isZero(v)) {
 			return 0;
 		} else if (v < 0) {
 			return Double.NaN;

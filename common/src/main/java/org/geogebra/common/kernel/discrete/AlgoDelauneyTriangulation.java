@@ -7,7 +7,6 @@ import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.commands.Commands;
@@ -17,6 +16,7 @@ import org.geogebra.common.kernel.discrete.delaunay.Triangle_dt;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -143,18 +143,18 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 
 					// return 0 if endpoints the same
 					// so no duplicates in the TreeMap
-					if (Kernel.isEqual(p1A.getX(), p2B.getX())
-							&& Kernel.isEqual(p1A.getY(), p2B.getY())
-							&& Kernel.isEqual(p2A.getX(), p1B.getX())
-							&& Kernel.isEqual(p2A.getY(), p1B.getY())) {
+					if (DoubleUtil.isEqual(p1A.getX(), p2B.getX())
+							&& DoubleUtil.isEqual(p1A.getY(), p2B.getY())
+							&& DoubleUtil.isEqual(p2A.getX(), p1B.getX())
+							&& DoubleUtil.isEqual(p2A.getY(), p1B.getY())) {
 						// Application.debug("equal2");
 						return 0;
 					}
 					// check this one second (doesn't occur in practice)
-					if (Kernel.isEqual(p1A.getX(), p1B.getX())
-							&& Kernel.isEqual(p1A.getY(), p1B.getY())
-							&& Kernel.isEqual(p2A.getX(), p2B.getX())
-							&& Kernel.isEqual(p2A.getY(), p2B.getY())) {
+					if (DoubleUtil.isEqual(p1A.getX(), p1B.getX())
+							&& DoubleUtil.isEqual(p1A.getY(), p1B.getY())
+							&& DoubleUtil.isEqual(p2A.getX(), p2B.getX())
+							&& DoubleUtil.isEqual(p2A.getY(), p2B.getY())) {
 						// Application.debug("equal1");
 						return 0;
 					}

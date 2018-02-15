@@ -54,11 +54,11 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EVProperty;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.awt.GColorD;
@@ -944,7 +944,7 @@ public class EuclidianViewD extends EuclidianView
 			}
 
 			// add yAxis scale too?
-			if (!Kernel.isEqual(getScaleRatio(), 1.0)) {
+			if (!DoubleUtil.isEqual(getScaleRatio(), 1.0)) {
 				sb.append(" (x), ");
 				double yPrintScale = (printingScale * getYscale())
 						/ getXscale();

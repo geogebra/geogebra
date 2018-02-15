@@ -11,6 +11,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -693,11 +694,11 @@ public class EuclidianOptionsModel {
 				Kernel.MAX_PRECISION);
 		StringBuilder sb = new StringBuilder();
 		if (frac[1] < 361) {
-			if (!Kernel.isEqual(1, frac[0])) {
+			if (!DoubleUtil.isEqual(1, frac[0])) {
 				sb.append(Math.round(frac[0]));
 			}
 			sb.append(Unicode.pi);
-			if (!Kernel.isEqual(1, frac[1])) {
+			if (!DoubleUtil.isEqual(1, frac[1])) {
 				sb.append("/");
 				sb.append(Math.round(frac[1]));
 			}

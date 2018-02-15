@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoDrawingPadCorner;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -11,6 +10,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.App;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Extends AlgoDrawingPadCorner for 3D view
@@ -56,7 +56,7 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 	 * @return true if nv has a value for 3D view (at this very moment)
 	 */
 	static final public boolean is3D(NumberValue nv) {
-		return Kernel.isEqual(nv.getDouble(), -1);
+		return DoubleUtil.isEqual(nv.getDouble(), -1);
 	}
 
 	@Override

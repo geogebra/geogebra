@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -14,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.implicit.GeoImplicitCurve;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -247,7 +247,7 @@ public class AlgoContourPlot extends AlgoElement {
 		FunctionVariable[] fvars = f.getFunctionVariables();
 		xstep = (xmax - xmin) / (divisionPoints - 1.0);
 		ystep = (ymax - ymin) / (divisionPoints - 1.0);
-		if (Kernel.isEqual(xstep, 0) || Kernel.isEqual(ystep, 0)) {
+		if (DoubleUtil.isEqual(xstep, 0) || DoubleUtil.isEqual(ystep, 0)) {
 			list.setUndefined();
 			return;
 		}
@@ -274,7 +274,7 @@ public class AlgoContourPlot extends AlgoElement {
 					}
 				}
 			}
-			if (Kernel.isEqual(max, min)) {
+			if (DoubleUtil.isEqual(max, min)) {
 				list.setUndefined();
 				return;
 			}

@@ -8,7 +8,6 @@ import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator;
 import org.apache.commons.math3.ode.sampling.StepHandler;
 import org.apache.commons.math3.ode.sampling.StepInterpolator;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -18,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.geos.GeoLocus;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -113,7 +113,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 	public final void compute() {
 		if (!b.isDefined() || !c.isDefined() || !f.isDefined() || !x.isDefined()
 				|| !y.isDefined() || !yDot.isDefined() || !step.isDefined()
-				|| !end.isDefined() || Kernel.isZero(step.getDouble())) {
+				|| !end.isDefined() || DoubleUtil.isZero(step.getDouble())) {
 			locus.setUndefined();
 			return;
 		}

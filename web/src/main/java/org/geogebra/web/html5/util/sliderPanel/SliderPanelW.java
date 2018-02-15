@@ -3,6 +3,7 @@ package org.geogebra.web.html5.util.sliderPanel;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.Dom;
@@ -52,7 +53,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void setMinimum(double min, boolean degrees) {
-		if (currentMin == null || !Kernel.isEqual(currentMin, min)) {
+		if (currentMin == null || !DoubleUtil.isEqual(currentMin, min)) {
 			currentMin = min;
 			slider.setMinimum(min);
 			printParts(minLabel, min, degrees);
@@ -78,7 +79,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void setMaximum(double max, boolean degrees) {
-		if (currentMax == null || !Kernel.isEqual(currentMax, max)) {
+		if (currentMax == null || !DoubleUtil.isEqual(currentMax, max)) {
 			currentMax = max;
 			slider.setMaximum(max);
 			printParts(maxLabel, max, degrees);
@@ -86,7 +87,7 @@ public class SliderPanelW extends FlowPanel implements HasChangeHandlers,
 	}
 
 	public void setStep(double step) {
-		if (currentStep == null || !Kernel.isEqual(currentStep, step)) {
+		if (currentStep == null || !DoubleUtil.isEqual(currentStep, step)) {
 			currentStep = step;
 			slider.setStep(step);
 		}

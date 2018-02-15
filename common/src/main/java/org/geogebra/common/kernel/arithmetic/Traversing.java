@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -189,7 +190,7 @@ public interface Traversing {
 					ExpressionValue arg = en.getLeft().unwrap();
 					// Log.debug("arg " + arg.toString() + " " + arg.getClass()
 					// + " " + arg.evaluateDouble());
-					if (arg.isLeaf() && arg.isConstant() && !Kernel
+					if (arg.isLeaf() && arg.isConstant() && !DoubleUtil
 							.isInteger(180 * arg.evaluateDouble() / Math.PI)) {
 
 						ExpressionNode argDegrees = new ExpressionNode(kernel,
@@ -1049,7 +1050,7 @@ public interface Traversing {
 						.toString(StringTemplate.defaultTemplate)
 						.equals(var.toString(StringTemplate.defaultTemplate))) {
 					// keep mult
-				} else if (Kernel.isEqual(deg.evaluateDouble(), 1)) {
+				} else if (DoubleUtil.isEqual(deg.evaluateDouble(), 1)) {
 					CASGenericInterface cas = kernel.getGeoGebraCAS()
 							.getCurrentCAS();
 					Command derivCommand = new Command(kernel, "Derivative",

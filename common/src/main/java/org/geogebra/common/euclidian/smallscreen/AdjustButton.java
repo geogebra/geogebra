@@ -1,8 +1,8 @@
 package org.geogebra.common.euclidian.smallscreen;
 
 import org.geogebra.common.euclidian.EuclidianView;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoButton;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class AdjustButton extends AdjustWidget {
@@ -41,14 +41,14 @@ public class AdjustButton extends AdjustWidget {
 	 * @return if button is on screen horizontally.
 	 */
 	public boolean isXOnScreen() {
-		return Kernel.isEqual(x, origX) && x + width < view.getViewWidth();
+		return DoubleUtil.isEqual(x, origX) && x + width < view.getViewWidth();
 	}
 
 	/**
 	 * @return if button is on screen vertically.
 	 */
 	public boolean isYOnScreen() {
-		return Kernel.isEqual(y, origY) && y + height < view.getViewHeight();
+		return DoubleUtil.isEqual(y, origY) && y + height < view.getViewHeight();
 	}
 
 

@@ -2,10 +2,10 @@ package org.geogebra.common.geogebra3D.euclidianFor3D;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.draw.DrawAngle;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoAngle;
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author mathieu
@@ -26,7 +26,7 @@ public class DrawAngleFor3D extends DrawAngle {
 	@Override
 	public boolean inView(Coords point) {
 		// Coords p = view.getCoordsForView(point);
-		return Kernel.isZero(point.getZ());
+		return DoubleUtil.isZero(point.getZ());
 	}
 
 	@Override

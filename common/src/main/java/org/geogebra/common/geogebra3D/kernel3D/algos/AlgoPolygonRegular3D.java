@@ -3,7 +3,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPolygonRegularND;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -12,6 +11,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Regular polygon with 3D points
@@ -113,7 +113,7 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 		vAB = coordsB.sub(coordsA);
 		vDirection = direction.getDirectionInD3();
 
-		if (!Kernel.isZero(vAB.dotproduct(vDirection))) {
+		if (!DoubleUtil.isZero(vAB.dotproduct(vDirection))) {
 			getPoly().setUndefined();
 
 			// set also points (and thus segments) undefined

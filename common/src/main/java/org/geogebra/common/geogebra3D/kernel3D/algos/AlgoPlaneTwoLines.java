@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -10,6 +9,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -76,7 +76,7 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 		Coords vn = va.crossProduct(vb);
 		Coords oo = ob.sub(oa);
 
-		if (!Kernel.isZero(vn.dotproduct(oo))) {
+		if (!DoubleUtil.isZero(vn.dotproduct(oo))) {
 			// lines are not in the same plane
 			coordsys.setUndefined();
 			return;

@@ -6,7 +6,6 @@ import org.geogebra.common.euclidianForPlane.EuclidianViewForPlaneCompanionInter
 import org.geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import org.geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Region;
 import org.geogebra.common.kernel.Matrix.CoordMatrix4x4;
@@ -29,6 +28,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class extending {@link GeoPolygon} in 3D world.
@@ -383,7 +383,7 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 			d2.setSub(p, o);
 
 			// check if the vertex lies on the coord sys
-			if (!Kernel.isZero(vn.dotproduct3(d2))) {
+			if (!DoubleUtil.isZero(vn.dotproduct3(d2))) {
 				coordSys.setUndefined();
 				return false;
 			}

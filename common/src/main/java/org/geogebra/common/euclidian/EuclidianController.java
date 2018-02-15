@@ -139,6 +139,7 @@ import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -831,9 +832,9 @@ public abstract class EuclidianController {
 					&& geo.isIndependent()) {
 				for (int j = 0; j < persistentStickyPointList.size(); j++) {
 					GeoPointND geo2 = persistentStickyPointList.get(j);
-					if (Kernel.isEqual(geo2.getInhomX(),
+					if (DoubleUtil.isEqual(geo2.getInhomX(),
 							((GeoPoint) geo).getInhomX())
-							&& Kernel.isEqual(geo2.getInhomY(),
+							&& DoubleUtil.isEqual(geo2.getInhomY(),
 									((GeoPoint) geo).getInhomY())) {
 						geo.setEuclidianVisible(false);
 						String geolabel = geo.getLabelSimple();
@@ -6120,8 +6121,8 @@ public abstract class EuclidianController {
 
 	protected void movePointWithOffset(boolean repaint) {
 		movedGeoPoint.setCoords(
-				Kernel.checkDecimalFraction(xRW - transformCoordsOffset[0]),
-				Kernel.checkDecimalFraction(yRW - transformCoordsOffset[1]),
+				DoubleUtil.checkDecimalFraction(xRW - transformCoordsOffset[0]),
+				DoubleUtil.checkDecimalFraction(yRW - transformCoordsOffset[1]),
 				1.0);
 		movedGeoPoint.updateCascade();
 
@@ -6346,11 +6347,11 @@ public abstract class EuclidianController {
 						.getExpression();
 
 				if (Operation.isSimpleFunction(en.getOperation())) {
-					if (Double.isNaN(initxRW) || Kernel.isZero(initxRW)) {
+					if (Double.isNaN(initxRW) || DoubleUtil.isZero(initxRW)) {
 						initxRW = xRW;
 						initFactor = 1;
 					} else {
-						if (!Kernel.isZero(xRW)) {
+						if (!DoubleUtil.isZero(xRW)) {
 							movedGeoFunction.getFunction()
 									.dilateX(xRW / initxRW / initFactor);
 							initFactor = xRW / initxRW;
@@ -6467,12 +6468,12 @@ public abstract class EuclidianController {
 
 		if (movedSlider.getAnimationStep() > Kernel.MIN_PRECISION) {
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
-			val = Kernel.checkDecimalFraction(val);
+			val = DoubleUtil.checkDecimalFraction(val);
 		}
 
 		if (movedSlider.isGeoAngle()) {
 
-			val = Kernel.checkDecimalFraction(val * Kernel.CONST_180_PI)
+			val = DoubleUtil.checkDecimalFraction(val * Kernel.CONST_180_PI)
 					/ Kernel.CONST_180_PI;
 
 		}
@@ -6486,7 +6487,7 @@ public abstract class EuclidianController {
 		// clicking just moves slider up one "notch"
 		// better for touch screens
 
-		if (Kernel.isEqual(val, movedSlider.getValue())) {
+		if (DoubleUtil.isEqual(val, movedSlider.getValue())) {
 			return val;
 		}
 
@@ -6503,7 +6504,7 @@ public abstract class EuclidianController {
 					movedSlider.getIntervalMin());
 		}
 
-		return Kernel.checkDecimalFraction(ret);
+		return DoubleUtil.checkDecimalFraction(ret);
 	}
 
 	/**
@@ -7637,7 +7638,7 @@ public abstract class EuclidianController {
 				if ((f instanceof GeoPoint)
 						&& movedGeoImplicitCurve.isParentOf(f)) {
 					GeoPoint g = (GeoPoint) f;
-					if (!Kernel.isZero(g.getZ())) {
+					if (!DoubleUtil.isZero(g.getZ())) {
 						moveDependentPoints.add(g);
 						tempDependentPointX.add(g.getX() / g.getZ());
 						tempDependentPointY.add(g.getY() / g.getZ());

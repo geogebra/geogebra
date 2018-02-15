@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -115,9 +116,9 @@ public class AlgoIntersectCS1D2D extends AlgoIntersectCoordSys {
 	 */
 	public static ConfigLinePlane getConfigLinePlane(GeoLineND line,
 			GeoCoordSys2D plane) {
-		if (Kernel.isZero(
+		if (DoubleUtil.isZero(
 				line.getDirectionInD3().dotproduct(plane.getDirectionInD3()))) {
-			if (Kernel.isZero(
+			if (DoubleUtil.isZero(
 					line.getPointInD(3, 0).getInhomCoordsInSameDimension()
 							.sub(plane.getCoordSys().getOrigin())
 							.dotproduct(plane.getDirectionInD3()))) {

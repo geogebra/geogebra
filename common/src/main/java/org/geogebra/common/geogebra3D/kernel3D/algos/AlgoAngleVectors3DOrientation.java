@@ -2,12 +2,12 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoAngle3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * angle for three points, oriented
@@ -67,7 +67,7 @@ public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D {
 			return;
 		}
 
-		if (!getAngle().isDefined() || Kernel.isZero(getAngle().getValue())) {
+		if (!getAngle().isDefined() || DoubleUtil.isZero(getAngle().getValue())) {
 			return;
 		}
 

@@ -58,6 +58,7 @@ import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -165,7 +166,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		if (geo.isGeoPoint()) {
 			GeoPointND p = (GeoPointND) geo;
 			double[] coords = p.getCoordsInD3().get();
-			if (Kernel.isZero(coords[2])) {
+			if (DoubleUtil.isZero(coords[2])) {
 				setCoords(coords);
 			} else {
 				setUndefined();
@@ -404,7 +405,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 		if (!(isFinite() && v.isFinite())) {
 			return false;
 		}
-		return Kernel.isEqual(x, v.x) && Kernel.isEqual(y, v.y);
+		return DoubleUtil.isEqual(x, v.x) && DoubleUtil.isEqual(y, v.y);
 	}
 
 	/***********************************************************

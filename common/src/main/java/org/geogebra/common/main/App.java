@@ -89,6 +89,7 @@ import org.geogebra.common.plugin.script.GgbScript;
 import org.geogebra.common.plugin.script.Script;
 import org.geogebra.common.sound.SoundManager;
 import org.geogebra.common.util.CopyPaste;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.ImageManager;
@@ -3078,8 +3079,8 @@ public abstract class App implements UpdateSelection {
 	 */
 	public int getRandomIntegerBetween(double low, double high) {
 		// make sure 4.000000001 is not rounded up to 5
-		double a = Kernel.checkInteger(low);
-		double b = Kernel.checkInteger(high);
+		double a = DoubleUtil.checkInteger(low);
+		double b = DoubleUtil.checkInteger(high);
 
 		// Math.floor/ceil to make sure
 		// RandomBetween[3.2, 4.7] is between 3.2 and 4.7

@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel.Matrix;
 
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Class describing 1D, 2D and 3D coordinate systems.
@@ -187,14 +188,14 @@ public class CoordSys {
 	 */
 
 	public Coords getPoint(double x, double y, double z) {
-		if (Kernel.isZero(z)) {
+		if (DoubleUtil.isZero(z)) {
 			return getVector(x, y);
 		}
 		return getPoint(x / z, y / z);
 	}
 
 	public Coords getPoint(double x, double y, double z, Coords result) {
-		if (Kernel.isZero(z)) {
+		if (DoubleUtil.isZero(z)) {
 			return getVector(x, y, result);
 		}
 		return getPoint(x / z, y / z, result);
@@ -331,7 +332,7 @@ public class CoordSys {
 			break;
 		case 1:
 			Coords vx = getVx();
-			if (Kernel.isZero(vx.getX())) {
+			if (DoubleUtil.isZero(vx.getX())) {
 				addVectorWithoutCheckMadeCoordSys(
 						new Coords(0, -vx.getZ(), vx.getY(), 0));
 			} else {
@@ -404,7 +405,7 @@ public class CoordSys {
 			break;
 		case 0: // add first vector
 			// check if v==0
-			if (!Kernel.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)) {
+			if (!DoubleUtil.isEqual(v.norm(), 0, Kernel.STANDARD_PRECISION)) {
 				setVx(v);
 				setMadeCoordSys(1);
 			}
@@ -454,7 +455,7 @@ public class CoordSys {
 		// negative
 		for (int i = 1; i <= 3; i++) {
 			double coeff = equationVector.get(i);
-			if (Kernel.isZero(coeff)) {
+			if (DoubleUtil.isZero(coeff)) {
 				zeros++;
 			} else {
 				negative = (coeff < 0);
@@ -568,7 +569,7 @@ public class CoordSys {
 		boolean originSet = false;
 		double val = vals[vals.length - 1];
 		for (int i = 0; i < vals.length - 1 && !originSet; i++) {
-			if (!Kernel.isEpsilon(vals[i], val)) {
+			if (!DoubleUtil.isEpsilon(vals[i], val)) {
 				o.set(i + 1, -val / vals[i]);
 				originSet = true;
 			}

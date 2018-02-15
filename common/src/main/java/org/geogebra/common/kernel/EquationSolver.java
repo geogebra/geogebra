@@ -25,6 +25,7 @@ import org.apache.commons.math3.complex.Complex;
 import org.geogebra.common.kernel.algos.AlgoRootNewton;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -178,7 +179,7 @@ public class EquationSolver implements EquationSolverInterface {
 
 		} else if (Math.abs(b) < eps * Math.abs(a)) { // a*x^2 + c = 0
 			double x2 = -c / a;
-			if (Kernel.isZero(x2, eps)) {
+			if (DoubleUtil.isZero(x2, eps)) {
 				res[roots++] = 0;
 			} else if (x2 < 0) { // no roots
 				return 0;
@@ -1051,12 +1052,12 @@ public class EquationSolver implements EquationSolverInterface {
 
 					double compReal = itemA.getReal() - itemB.getReal();
 
-					if (Kernel.isZero(compReal)) {
+					if (DoubleUtil.isZero(compReal)) {
 						double compImaginary = itemA.getImaginary()
 								- itemB.getImaginary();
 
 						// if real parts equal, sort on imaginary
-						if (!Kernel.isZero(compImaginary)) {
+						if (!DoubleUtil.isZero(compImaginary)) {
 							return compImaginary < 0 ? -1 : +1;
 						}
 

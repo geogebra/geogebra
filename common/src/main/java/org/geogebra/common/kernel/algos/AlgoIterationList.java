@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -23,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoFunctionNVar;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -570,7 +570,7 @@ public class AlgoIterationList extends AlgoElement {
 		}
 		double nUdouble = ((GeoNumberValue) startValue1).getDouble();
 		int nU = (int) Math.round(nUdouble);
-		if (!Kernel.isEqual(nU, nUdouble)) {
+		if (!DoubleUtil.isEqual(nU, nUdouble)) {
 			list.setUndefined();
 			return;
 		}

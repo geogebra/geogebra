@@ -20,13 +20,13 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoPolarLineND;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -77,7 +77,7 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 		// check if point lies on conic coord sys
 		coords2D = c.getCoordSys()
 				.getNormalProjection(P.getInhomCoordsInD3())[1];
-		if (!Kernel.isZero(coords2D.getZ())) {
+		if (!DoubleUtil.isZero(coords2D.getZ())) {
 			polar.setUndefined();
 			return;
 		}
@@ -92,7 +92,7 @@ public class AlgoPolarLine3D extends AlgoPolarLineND {
 		polar2D.getCoords(polarCoords);
 		polarDirection = c.getCoordSys().getVector(-polarCoords[1],
 				polarCoords[0]);
-		if (Kernel.isZero(polarCoords[0])) {
+		if (DoubleUtil.isZero(polarCoords[0])) {
 			polarOrigin = c.getCoordSys().getPoint(0,
 					-polarCoords[2] / polarCoords[1]);
 		} else {

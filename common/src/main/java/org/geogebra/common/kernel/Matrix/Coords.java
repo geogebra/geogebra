@@ -14,6 +14,7 @@ package org.geogebra.common.kernel.Matrix;
 
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -587,7 +588,7 @@ public class Coords {
 		double value = (u.getY() * v.getZ() - u.getZ() * v.getY()) * getX()
 				+ (u.getZ() * v.getX() - u.getX() * v.getZ()) * getY()
 				+ (u.getX() * v.getY() - u.getY() * v.getX()) * getZ();
-		return Kernel.isZero(value);
+		return DoubleUtil.isZero(value);
 	}
 
 	/**
@@ -661,15 +662,15 @@ public class Coords {
 		double value;
 
 		value = val[1] * v.val[2] - val[2] * v.val[1];
-		if (!Kernel.isZero(value)) {
+		if (!DoubleUtil.isZero(value)) {
 			return true;
 		}
 		value = val[2] * v.val[0] - val[0] * v.val[2];
-		if (!Kernel.isZero(value)) {
+		if (!DoubleUtil.isZero(value)) {
 			return true;
 		}
 		value = val[0] * v.val[1] - val[1] * v.val[0];
-		if (!Kernel.isZero(value)) {
+		if (!DoubleUtil.isZero(value)) {
 			return true;
 		}
 
@@ -687,14 +688,14 @@ public class Coords {
 		while (notFound && index < getLength()) {
 			double c1 = val[index];
 			double c2 = v.val[index];
-			if (Kernel.isZero(c1)) {
-				if (!Kernel.isZero(c2)) {
+			if (DoubleUtil.isZero(c1)) {
+				if (!DoubleUtil.isZero(c2)) {
 					return true;
 				}
 				// c1 and c2 are 0: continue
 			} else {
 				// c1 is not 0
-				if (Kernel.isZero(c2)) {
+				if (DoubleUtil.isZero(c2)) {
 					return true;
 				}
 				// c2 is not 0
@@ -708,7 +709,7 @@ public class Coords {
 		// with non zero coords, verify other coords are dependents
 		while (index < getLength()) {
 			double value = r1 * v.val[index] - val[index] * r2;
-			if (!Kernel.isZero(value)) {
+			if (!DoubleUtil.isZero(value)) {
 				return true;
 			}
 			index++;
@@ -812,7 +813,7 @@ public class Coords {
 		for (int i = 0; i < len; i++) {
 			double v = val[i] * normInv;
 			// check if v is near to be one direction vector
-			if (checkOneDirection && Kernel.isEqual(Math.abs(v), 1)) {
+			if (checkOneDirection && DoubleUtil.isEqual(Math.abs(v), 1)) {
 				if (v < 0) {
 					ret.val[i] = -1;
 				} else {
@@ -859,7 +860,7 @@ public class Coords {
 		for (int i = 0; i < rows; i++) {
 			double v = vector.val[i] * normInv;
 			// check if v is near to be one direction vector
-			if (checkOneDirection && Kernel.isEqual(Math.abs(v), 1)) {
+			if (checkOneDirection && DoubleUtil.isEqual(Math.abs(v), 1)) {
 				if (v < 0) {
 					val[i] = -1;
 				} else {
@@ -1075,7 +1076,7 @@ public class Coords {
 	public void projectPlane(Coords vx, Coords vy, Coords vz, Coords o,
 			double[] globalCoords, double[] inPlaneCoords) {
 
-		if (Kernel.isEqual((vx.crossProduct(vy)).dotproduct(vz), 0,
+		if (DoubleUtil.isEqual((vx.crossProduct(vy)).dotproduct(vz), 0,
 				Kernel.STANDARD_PRECISION)) {
 			// direction of projection is parallel to the plane : point is
 			// infinite
@@ -1251,7 +1252,7 @@ public class Coords {
 
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
-		if (Kernel.isEqual(v3.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
+		if (DoubleUtil.isEqual(v3.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
 			projectPlane(m, globalCoords, inPlaneCoords);
 			return;
 		}
@@ -1265,7 +1266,7 @@ public class Coords {
 			Coords globalCoords) {
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
-		if (Kernel.isEqual(v3.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
+		if (DoubleUtil.isEqual(v3.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
 			projectPlane(m, globalCoords);
 			return;
 		}
@@ -1276,7 +1277,7 @@ public class Coords {
 	public void projectPlaneThruVIfPossible(Coords vx, Coords vy, Coords vz,
 			Coords o, Coords v, Coords globalCoords) {
 		// check if v is parallel to plane
-		if (Kernel.isEqual(vz.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
+		if (DoubleUtil.isEqual(vz.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
 			projectPlane(vx, vy, vz, o, globalCoords);
 			return;
 		}
@@ -1289,7 +1290,7 @@ public class Coords {
 
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
-		if (Kernel.isEqual(v3.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
+		if (DoubleUtil.isEqual(v3.dotproduct(v), 0.0, Kernel.STANDARD_PRECISION)) {
 			projectPlaneInPlaneCoords(m, inPlaneCoords);
 			return;
 		}
@@ -1326,7 +1327,7 @@ public class Coords {
 
 		// check if v is parallel to plane
 		Coords v3 = m.getColumn(3);
-		if (Kernel.isZero(v3.dotproduct(v))) {
+		if (DoubleUtil.isZero(v3.dotproduct(v))) {
 			Coords firstProjection = Coords.createInhomCoorsInD3();
 			oldCoords.projectLine(this, v, firstProjection, null);
 			firstProjection.projectPlane(m, globalCoords, inPlaneCoords);
@@ -1437,7 +1438,7 @@ public class Coords {
 
 		Coords V3 = V.crossProduct(V2);
 
-		if (Kernel.isEqual(V3.norm(), 0.0, Kernel.STANDARD_PRECISION)) {
+		if (DoubleUtil.isEqual(V3.norm(), 0.0, Kernel.STANDARD_PRECISION)) {
 			project.set(this);
 			return;
 		}
@@ -1603,7 +1604,7 @@ public class Coords {
 
 		int r = rows;
 
-		if (Kernel.isEqual(val[r - 1], 1)) {
+		if (DoubleUtil.isEqual(val[r - 1], 1)) {
 			return this;
 		}
 
@@ -1640,7 +1641,7 @@ public class Coords {
 	 */
 	public void setInhomCoords() {
 
-		if (Kernel.isEqual(val[rows - 1], 1)) {
+		if (DoubleUtil.isEqual(val[rows - 1], 1)) {
 			return;
 		}
 
@@ -1744,7 +1745,7 @@ public class Coords {
 	public boolean equalsForKernel(Coords v, double precision) {
 		int len = getLength();
 		for (int i = 0; i < len; i++) {
-			if (!Kernel.isEqual(val[i], v.val[i], precision)) {
+			if (!DoubleUtil.isEqual(val[i], v.val[i], precision)) {
 				return false;
 			}
 		}
@@ -1763,7 +1764,7 @@ public class Coords {
 	public boolean equalsForKernel(Coords v) {
 		int len = getLength();
 		for (int i = 0; i < len; i++) {
-			if (!Kernel.isEqual(val[i], v.val[i])) {
+			if (!DoubleUtil.isEqual(val[i], v.val[i])) {
 				return false;
 			}
 		}
@@ -1792,7 +1793,7 @@ public class Coords {
 	public boolean isZero() {
 		int len = getLength();
 		for (int i = 0; i < len; i++) {
-			if (!Kernel.isEqual(val[i], 0, Kernel.STANDARD_PRECISION)) {
+			if (!DoubleUtil.isEqual(val[i], 0, Kernel.STANDARD_PRECISION)) {
 				return false;
 			}
 		}
@@ -1806,7 +1807,7 @@ public class Coords {
 	 */
 	public boolean isZero(int dim) {
 		for (int i = 0; i < dim; i++) {
-			if (!Kernel.isEqual(val[i], 0, Kernel.STANDARD_PRECISION)) {
+			if (!DoubleUtil.isEqual(val[i], 0, Kernel.STANDARD_PRECISION)) {
 				return false;
 			}
 		}
@@ -1827,7 +1828,7 @@ public class Coords {
 	public boolean equalsForKernel(double value, double precision) {
 		int len = getLength();
 		for (int i = 0; i < len; i++) {
-			if (!Kernel.isEqual(this.val[i], value, precision)) {
+			if (!DoubleUtil.isEqual(this.val[i], value, precision)) {
 				return false;
 			}
 		}
@@ -1966,7 +1967,7 @@ public class Coords {
 	 */
 	public void completeOrthonormalKeepInXOYPlaneIfPossible3(Coords vn1) {
 
-		if (!Kernel.isZero(val[0]) || !Kernel.isZero(val[1])) {
+		if (!DoubleUtil.isZero(val[0]) || !DoubleUtil.isZero(val[1])) {
 			vn1.val[0] = -val[1];
 			vn1.val[1] = val[0];
 			vn1.val[2] = 0;
@@ -2276,7 +2277,7 @@ public class Coords {
 			return new Coords(getX(), 0, getY());
 		default:
 			for (int i = 3; i <= dim; i++) {
-				if (Double.isNaN(get(i)) || !Kernel.isZero(get(i))) {
+				if (Double.isNaN(get(i)) || !DoubleUtil.isZero(get(i))) {
 					return new Coords(Double.NaN, Double.NaN, Double.NaN);
 				}
 			}
@@ -2315,7 +2316,7 @@ public class Coords {
 			break;
 		default:
 			for (int i = 3; i <= dim; i++) {
-				if (Double.isNaN(v.get(i)) || !Kernel.isZero(v.get(i))) {
+				if (Double.isNaN(v.get(i)) || !DoubleUtil.isZero(v.get(i))) {
 					setX(Double.NaN);
 					setY(Double.NaN);
 					setZ(Double.NaN);
@@ -2354,7 +2355,7 @@ public class Coords {
 	 */
 	public boolean isPointDefined() {
 
-		if (Kernel.isZero(getW())) {
+		if (DoubleUtil.isZero(getW())) {
 			return false;
 		}
 
@@ -2435,7 +2436,7 @@ public class Coords {
 		boolean zero = true;
 		int i = 0;
 		while (i < val.length && zero) {
-			if (!Kernel.isZero(val[i])) {
+			if (!DoubleUtil.isZero(val[i])) {
 				zero = false;
 			} else {
 				i++;
@@ -2646,12 +2647,12 @@ public class Coords {
 	}
 
 	public static void xyToCoordSystem(Coords coords, Coords vec) {
-		if (!Kernel.isZero(vec.getZ())) {
+		if (!DoubleUtil.isZero(vec.getZ())) {
 			coords.setZ(-vec.getX() * coords.getX() / vec.getZ()
 					- vec.getY() * coords.getY() / vec.getZ()
 					- vec.getW() / vec.getZ());
 		} else {
-			if (!Kernel.isZero(vec.getY())) {
+			if (!DoubleUtil.isZero(vec.getY())) {
 				double oldY = coords.getY();
 				coords.setY(-vec.getX() * coords.getX() / vec.getY()
 

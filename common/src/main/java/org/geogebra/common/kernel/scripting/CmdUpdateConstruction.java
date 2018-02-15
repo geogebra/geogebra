@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.MyError;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * UpdateConstruction
@@ -37,7 +38,7 @@ public class CmdUpdateConstruction extends CmdScripting {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0] instanceof NumberValue) {
 				double val = arg[0].evaluateDouble();
-				if (Kernel.isInteger(val)) {
+				if (DoubleUtil.isInteger(val)) {
 					app.getKernel().updateConstruction(true, (int) val);
 					app.setUnsaved();
 					return arg;

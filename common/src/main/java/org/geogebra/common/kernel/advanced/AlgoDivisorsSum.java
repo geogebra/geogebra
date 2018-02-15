@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.cas.AlgoPrimeFactorization;
 import org.geogebra.common.kernel.commands.Commands;
@@ -9,6 +8,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 public class AlgoDivisorsSum extends AlgoElement {
@@ -41,7 +41,7 @@ public class AlgoDivisorsSum extends AlgoElement {
 
 	@Override
 	public void compute() {
-		if (!factorList.isDefined() || !Kernel.isInteger(number.getDouble())) {
+		if (!factorList.isDefined() || !DoubleUtil.isInteger(number.getDouble())) {
 			result.setUndefined();
 			return;
 		}

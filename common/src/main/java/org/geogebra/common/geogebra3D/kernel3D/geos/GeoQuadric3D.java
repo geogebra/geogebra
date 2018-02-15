@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.HasVolume;
 import org.geogebra.common.kernel.kernelND.Region3D;
 import org.geogebra.common.kernel.kernelND.RotateableND;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -199,7 +200,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		double v =  max * max * max;
 
-		if (Kernel.isEpsilonWithPrecision(detS, v, Kernel.STANDARD_PRECISION_CUBE)) {
+		if (DoubleUtil.isEpsilonWithPrecision(detS, v, Kernel.STANDARD_PRECISION_CUBE)) {
 			classifyNoMidpointQuadric();
 		} else {
 			classifyMidpointQuadric();
@@ -231,8 +232,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// + eigenval[2]);
 
 		// check if others eigenvalues are 0
-		if (Kernel.isZero(eigenval[0])) {
-			if (Kernel.isZero(eigenval[1])) {
+		if (DoubleUtil.isZero(eigenval[0])) {
+			if (DoubleUtil.isZero(eigenval[1])) {
 				// three eigenvalues = 0: one plane
 				getPlanes();
 				planes[0].setEquation(matrix[7], matrix[8], matrix[9],
@@ -243,7 +244,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				// two eigenvalues = 0
 				twoZeroEigenvalues(eigenval[1]);
 			}
-		} else if (Kernel.isZero(eigenval[1])) {
+		} else if (DoubleUtil.isZero(eigenval[1])) {
 			// two eigenvalues = 0
 			twoZeroEigenvalues(eigenval[0]);
 		} else {
@@ -259,7 +260,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			tmpCoords.setValues(eigenvecND[0], 3);
 			tmpCoords2.setValues(eigenvecND[2], 3);
 
-			if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
+			if (DoubleUtil.isRatioEqualTo1(eigenval[0], eigenval[1])) {
 				// find from eigenvalue = 0, since both others are equal
 				findEigenvector(eigenval[2], eigenvecND[2]);
 				eigenvecND[2].normalize();
@@ -315,9 +316,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			// check other eigenvalues
 			if (eigenval[0] * eigenval[1] > 0) {
 				double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
-				if (Kernel.isZero(z)) {
+				if (DoubleUtil.isZero(z)) {
 					// cylinder
-					if (Kernel.isZero(m)) {
+					if (DoubleUtil.isZero(m)) {
 						// single line
 						singleLine(-x / eigenval[0], -y / eigenval[1]);
 					} else if (eigenval[0] * m < 0) {
@@ -335,9 +336,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 			} else { // x and y eigenvalue of different signs
 				double m = x * x / eigenval[0] + y * y / eigenval[1] - d;
-				if (Kernel.isZero(z)) {
+				if (DoubleUtil.isZero(z)) {
 					// cylinder
-					if (Kernel.isZero(m)) {
+					if (DoubleUtil.isZero(m)) {
 						// intersecting planes
 						intersectingPlanes(-x / eigenval[0], -y / eigenval[1]);
 					} else {
@@ -488,8 +489,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setSemiDiagonalizedMatrix();
 
 		// check degree 1 coeffs
-		if (!Kernel.isZero(semiDiagMatrix.get(1, 4))
-				|| !Kernel.isZero(semiDiagMatrix.get(2, 4))) {
+		if (!DoubleUtil.isZero(semiDiagMatrix.get(1, 4))
+				|| !DoubleUtil.isZero(semiDiagMatrix.get(2, 4))) {
 			// parabolic cylinder
 			parabolicCylinder(value);
 		} else {
@@ -500,7 +501,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			// get case
 			double c = a / value;
 			double m = c * c - b / value;
-			if (Kernel.isZero(m)) {
+			if (DoubleUtil.isZero(m)) {
 				parallelPlanes(0, c);
 			} else if (m > 0) {
 				parallelPlanes(Math.sqrt(m), c);
@@ -767,7 +768,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// degenerate ? (beta is det of 4x4 matrix)
 		double beta = matrix[7] * x + matrix[8] * y + matrix[9] * z + matrix[3];
 
-		if (Kernel.isZero(beta)) {
+		if (DoubleUtil.isZero(beta)) {
 			cone();
 		} else {
 			if (eigenval[0] > 0) {
@@ -972,7 +973,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			eigenvecND[2].mulInside3(-1);
 		}
 
-		if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
+		if (DoubleUtil.isRatioEqualTo1(eigenval[0], eigenval[1])) {
 			// eigenval[0] == eigenval[1]
 			completeOrthonormalRatioEqualTo1(eigenvecND[0], eigenvecND[1],
 					eigenvecND[2]);
@@ -1113,8 +1114,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		Log.debug(eigenval[0]+","+eigenval[1]+","+eigenval[2]+","+beta);
 		
 		// sphere
-		if (Kernel.isEqual(eigenval[0] / eigenval[1], 1.0)
-				&& Kernel.isEqual(eigenval[0] / eigenval[2], 1.0)) {
+		if (DoubleUtil.isEqual(eigenval[0] / eigenval[1], 1.0)
+				&& DoubleUtil.isEqual(eigenval[0] / eigenval[2], 1.0)) {
 
 			mu[0] = -eigenval[0] / beta;
 			mu[1] = -eigenval[1] / beta;
@@ -1327,21 +1328,21 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			}
 		}
 
-		if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[1])) {
+		if (DoubleUtil.isRatioEqualTo1(eigenval[0], eigenval[1])) {
 			// eigenval[2] of multiplicity 1
 			computeEigenVectorMultiplicity1(matrix, eigenval[2], eigenvec[2]);
 			eigenvec[2].normalize();
 			completeOrthonormalRatioEqualTo1(eigenvec[0], eigenvec[1],
 					eigenvec[2]);
 			// eigenvec[2].completeOrthonormal3(eigenvec[0], eigenvec[1]);
-		} else if (Kernel.isRatioEqualTo1(eigenval[0], eigenval[2])) {
+		} else if (DoubleUtil.isRatioEqualTo1(eigenval[0], eigenval[2])) {
 			// eigenval[1] of multiplicity 1
 			computeEigenVectorMultiplicity1(matrix, eigenval[1], eigenvec[1]);
 			eigenvec[1].normalize();
 			completeOrthonormalRatioEqualTo1(eigenvec[2], eigenvec[0],
 					eigenvec[1]);
 			// eigenvec[1].completeOrthonormal3(eigenvec[2], eigenvec[0]);
-		} else if (Kernel.isRatioEqualTo1(eigenval[1], eigenval[2])) {
+		} else if (DoubleUtil.isRatioEqualTo1(eigenval[1], eigenval[2])) {
 			// eigenval[0] of multiplicity 1
 			computeEigenVectorMultiplicity1(matrix, eigenval[0], eigenvec[0]);
 			eigenvec[0].normalize();
@@ -1532,9 +1533,9 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		if (c < 0 || s < 0) {
 			defined = false;
-		} else if (Kernel.isZero(c)) {
+		} else if (DoubleUtil.isZero(c)) {
 			defined = false;// TODO if c=0 then draws a plane
-		} else if (Kernel.isZero(s)) {
+		} else if (DoubleUtil.isZero(s)) {
 			defined = false;// TODO if s=0 then draws a line
 		} else {
 			r = s / c;
@@ -1623,7 +1624,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// check direction
 
 		// check radius
-		if (Kernel.isZero(r)) {
+		if (DoubleUtil.isZero(r)) {
 			r = 0;
 		} else if (r < 0) {
 			defined = false;
@@ -2641,7 +2642,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		double b = sm.get(1, 2);
 		double c = sm.get(2, 2);
 
-		if (Kernel.isEpsilon(a, b, c)) { // this can happen with degenerate
+		if (DoubleUtil.isEpsilon(a, b, c)) { // this can happen with degenerate
 											// cases
 			double t = c / -b;
 			return getProjection(willingCoords, willingDirection, t, t);
@@ -2794,7 +2795,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 */
 	public boolean isInRegion(Coords coords) {
 		// calc tP.S.P
-		return Kernel
+		return DoubleUtil
 				.isZero(coords.dotproduct(getSymetricMatrix().mul(coords)));
 	}
 
@@ -2834,8 +2835,8 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			eigenMatrix.pivotDegenerate(tmpCoords, source);
 			// project on eigen xOy plane
 			// when we are already on axis, pick a direction "at random"
-			if (Kernel.isZero(tmpCoords.getX())
-					&& Kernel.isZero(tmpCoords.getY())) {
+			if (DoubleUtil.isZero(tmpCoords.getX())
+					&& DoubleUtil.isZero(tmpCoords.getY())) {
 				return getEigenvec3D(0).copyVector();
 			}
 			tmpCoords.setZ(0);
@@ -2938,7 +2939,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 				double t1Shift = 0;
 
-				if (!Kernel.isZero(tmpCoords.getZ())) {
+				if (!DoubleUtil.isZero(tmpCoords.getZ())) {
 					plane = planes[1];
 					planeMatrix = plane.getCoordSys().getMatrixOrthonormal();
 					if (!p1.hasWillingDirection()) { // use normal direction for

@@ -21,7 +21,6 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.CoordSys;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.SymbolicParametersBotanaAlgo;
@@ -40,6 +39,7 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 import org.geogebra.common.plugin.GeoClass;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -185,7 +185,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 			// circle being reflected has zero radius
 			// and it's at center of mirror
-			if (Kernel.isZero(r2) && Kernel.isZero(dist)) {
+			if (DoubleUtil.isZero(r2) && DoubleUtil.isZero(dist)) {
 
 				setUndefined();
 				update();
@@ -194,7 +194,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 			}
 
 			// does circle being inverted pass through center of the other?
-			if (Kernel.isEqual(dist, r2)) {
+			if (DoubleUtil.isEqual(dist, r2)) {
 				double dx = x2 - x1;
 				double dy = y2 - y1;
 				// (x3,y3) is reflection of reflection of (x1+2dx,x1+2dy) an
@@ -226,7 +226,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 			// center of new circle
 			double centerX, centerY;
 
-			if (Kernel.isZero(dist)) {
+			if (DoubleUtil.isZero(dist)) {
 				// circle being mirrored has same centre as mirror -> centre
 				// doesn't change
 				centerX = x1;
@@ -274,7 +274,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 				double dist2 = ((perpX - mx) * (perpX - mx)
 						+ (perpY - my) * (perpY - my));
 				// if line goes through center, we keep it
-				if (!Kernel.isZero(dist2)) {
+				if (!DoubleUtil.isZero(dist2)) {
 					double sf = r * r / dist2;
 					// GeoPoint p =new GeoPoint(cons,null,a+sf*(perpX-a),
 					// b+sf*(perpY-b) ,1.0);
@@ -505,7 +505,7 @@ public class GeoConic extends GeoConicND implements ConicMirrorable,
 
 		classifyConic(false);
 		if (coeff.length <= 2 && coeff[0].length <= 2
-				&& Kernel.isZero(evalCoeff(coeff, 1, 1))) {
+				&& DoubleUtil.isZero(evalCoeff(coeff, 1, 1))) {
 			type = CONIC_LINE;
 		}
 	}

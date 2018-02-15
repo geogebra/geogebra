@@ -39,6 +39,7 @@ import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.roots.RealRootUtil;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -163,9 +164,9 @@ public class GeoCurveCartesian extends GeoCurveCartesianND
 		super.setInterval(startParam, endParam);
 
 		// update isClosedPath, i.e. startPoint == endPoint
-		this.isClosedPath = Kernel.isEqual(getFun(0).value(startParam),
+		this.isClosedPath = DoubleUtil.isEqual(getFun(0).value(startParam),
 				getFun(0).value(endParam), Kernel.MIN_PRECISION)
-				&& Kernel.isEqual(getFun(1).value(startParam),
+				&& DoubleUtil.isEqual(getFun(1).value(startParam),
 						getFun(1).value(endParam), Kernel.MIN_PRECISION);
 	}
 

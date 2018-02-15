@@ -1,6 +1,5 @@
 package org.geogebra.common.gui.dialog.options.model;
 
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
@@ -10,6 +9,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHelper;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AnimationStepModel extends OptionsModel {
 	private ITextFieldListener listener;
@@ -33,7 +33,7 @@ public class AnimationStepModel extends OptionsModel {
 		for (int i = 0; i < getGeosLength(); i++) {
 			temp = getGeoAt(i);
 			// same object visible value
-			if (!Kernel.isEqual(geo0.getAnimationStep(),
+			if (!DoubleUtil.isEqual(geo0.getAnimationStep(),
 					temp.getAnimationStep())) {
 				equalStep = false;
 			}

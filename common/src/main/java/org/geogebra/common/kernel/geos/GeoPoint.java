@@ -77,6 +77,7 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.ExtendedBoolean;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.StringUtil;
@@ -459,7 +460,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 						endPosition.getX());
 				double oldAngle = Math.atan2(inhomY, inhomX);
 
-				double angle = Kernel.convertToAngleValue(
+				double angle = DoubleUtil.convertToAngleValue(
 						yvar.getDouble() - oldAngle + endAngle);
 				// angle outsid of slider range
 				if (((GeoNumeric) yvar).isIntervalMinActive()
@@ -867,7 +868,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	final public void updateCoords() {
 		// infinite point
 		// #5202
-		if (!Double.isNaN(z) && Kernel.isEpsilon(z, x, y)) {
+		if (!Double.isNaN(z) && DoubleUtil.isEpsilon(z, x, y)) {
 			isInfinite = true;
 			isDefined = !(Double.isNaN(x) || Double.isNaN(y));
 			inhomX = Double.NaN;
@@ -980,8 +981,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 		// both finite
 		if (isFinite() && P.isFinite()) {
-			return Kernel.isEqual(inhomX, P.inhomX)
-					&& Kernel.isEqual(inhomY, P.inhomY);
+			return DoubleUtil.isEqual(inhomX, P.inhomX)
+					&& DoubleUtil.isEqual(inhomY, P.inhomY);
 		} else if (isInfinite() && P.isInfinite()) {
 			return linDep(P);
 		} else {
@@ -1074,7 +1075,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 * @return true if they are in the same place
 	 */
 	final public static boolean samePosition(GeoPoint P, GeoPoint Q) {
-		return Kernel.isZero(P.distance(Q));
+		return DoubleUtil.isZero(P.distance(Q));
 	}
 
 	/**
@@ -1117,7 +1118,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		double eps = Math.max(Kernel.MIN_PRECISION,
 				Kernel.MIN_PRECISION * A.z * B.z * C.z);
 
-		return Kernel.isEqual(sum1, sum2, eps);
+		return DoubleUtil.isEqual(sum1, sum2, eps);
 	}
 
 	/**
@@ -1163,12 +1164,12 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				* Math.sqrt((dx * cz - cx * dz) * (dx * cz - cx * dz)
 						+ (dy * cz - cy * dz) * (dy * cz - cy * dz));
 
-		if (Kernel.isZero((ab * cd + bc * ad - ac * bd) / (az * bz * cz * dz),
+		if (DoubleUtil.isZero((ab * cd + bc * ad - ac * bd) / (az * bz * cz * dz),
 				Kernel.MIN_PRECISION)
-				|| Kernel.isZero(
+				|| DoubleUtil.isZero(
 						(ab * cd + ac * bd - bc * ad) / (az * bz * cz * dz),
 						Kernel.MIN_PRECISION)
-				|| Kernel.isZero(
+				|| DoubleUtil.isZero(
 						(bc * ad + ac * bd - ab * cd) / (az * bz * cz * dz),
 						Kernel.MIN_PRECISION)) {
 			return true;
@@ -1983,11 +1984,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 					double compX = itemA.inhomX - itemB.inhomX;
 
-					if (Kernel.isZero(compX)) {
+					if (DoubleUtil.isZero(compX)) {
 						double compY = itemA.inhomY - itemB.inhomY;
 
 						// if x-coords equal, sort on y-coords
-						if (!Kernel.isZero(compY)) {
+						if (!DoubleUtil.isZero(compY)) {
 							return compY < 0 ? -1 : +1;
 						}
 
@@ -2147,7 +2148,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			coords2D.setZ(1);
 
 			// check if point is included in the plane
-			return Kernel.isZero(tmpCoords.getZ());
+			return DoubleUtil.isZero(tmpCoords.getZ());
 		}
 
 		return true;
@@ -2558,10 +2559,10 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 			// round to decimal fraction, e.g. 2.800000000001 to 2.8
 			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
-				x1 = Kernel.checkDecimalFraction(x1);
+				x1 = DoubleUtil.checkDecimalFraction(x1);
 			}
 			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
-				y1 = Kernel.checkDecimalFraction(y1);
+				y1 = DoubleUtil.checkDecimalFraction(y1);
 			}
 
 			// set translated point coords

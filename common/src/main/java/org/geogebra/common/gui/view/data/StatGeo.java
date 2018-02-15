@@ -51,6 +51,7 @@ import org.geogebra.common.kernel.statistics.AlgoStandardDeviation;
 import org.geogebra.common.kernel.statistics.AlgoStemPlot;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
@@ -1015,12 +1016,12 @@ public class StatGeo {
 			// yMin = yMin < 0 ? 0 : Math.log10(yMin);
 			// yMax = yMax < 0 ? yMin : Math.log10(yMax);
 			// }
-			double xBuffer = Kernel.isEqual(xMax, xMin) ? DEFAULT_BUFFER
+			double xBuffer = DoubleUtil.isEqual(xMax, xMin) ? DEFAULT_BUFFER
 					: xBufferScale * (xMax - xMin);
 			settings.xMin = xMin - xBuffer;
 			settings.xMax = xMax + xBuffer;
 
-			double yBuffer = Kernel.isEqual(yMax, yMin) ? DEFAULT_BUFFER
+			double yBuffer = DoubleUtil.isEqual(yMax, yMin) ? DEFAULT_BUFFER
 					: yBufferScale * (yMax - yMin);
 
 			settings.yMin = yMin - yBuffer;

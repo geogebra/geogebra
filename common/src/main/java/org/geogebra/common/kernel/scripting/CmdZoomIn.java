@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * ZoomIn
@@ -46,7 +47,7 @@ public class CmdZoomIn extends CmdScripting {
 				double py = ev.getHeight() / 2.0; // mouseLoc.y;
 
 				double factor = numGeo.getDouble();
-				if (Kernel.isZero(factor)) {
+				if (DoubleUtil.isZero(factor)) {
 					throw argErr(app, c, arg[0]);
 				}
 
@@ -117,7 +118,7 @@ public class CmdZoomIn extends CmdScripting {
 			double px = ev.toScreenCoordXd(coords.getX());
 			double py = ev.toScreenCoordYd(coords.getY());
 
-			if (!Kernel.isZero(factor)) {
+			if (!DoubleUtil.isZero(factor)) {
 
 				ev.zoom(px, py, factor, 4, true);
 

@@ -27,7 +27,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.plot.CurvePlotter;
 import org.geogebra.common.euclidian.plot.GeneralPathClippedForCurvePlotter;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.VarString;
 import org.geogebra.common.kernel.advanced.AlgoFunctionInvert;
@@ -43,6 +42,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.kernelND.CurveEvaluable;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.debug.Log;
 
@@ -117,7 +117,7 @@ public class DrawParametricCurve extends Drawable {
 			}
 		}
 		GPoint labelPoint;
-		if (Kernel.isEqual(min, max)) {
+		if (DoubleUtil.isEqual(min, max)) {
 			double[] eval = new double[2];
 			curve.evaluateCurve(min, eval);
 			view.toScreenCoords(eval);

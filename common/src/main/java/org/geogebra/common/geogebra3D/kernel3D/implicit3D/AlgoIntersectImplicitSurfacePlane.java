@@ -1,7 +1,6 @@
 package org.geogebra.common.geogebra3D.kernel3D.implicit3D;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
@@ -14,6 +13,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.HasShortSyntax;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoPlaneND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Finds intersection path of surface and plane
@@ -64,7 +64,7 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 		curve.setPlaneEquation(norm);
 		FunctionVariable x = surface.getExpression().getFunctionVariables()[0];
 		FunctionVariable y = surface.getExpression().getFunctionVariables()[1];
-		if (!Kernel.isZero(norm.getZ())) {
+		if (!DoubleUtil.isZero(norm.getZ())) {
 			double a = norm.getX() / norm.getZ();
 			double b = norm.getY() / norm.getZ();
 			double d = norm.getW() / norm.getZ();
@@ -73,7 +73,7 @@ public class AlgoIntersectImplicitSurfacePlane extends AlgoElement
 			VariableReplacer.addVars("z", substZ);
 			curve.getTransformedCoordSys().setZequal(a, b, 1, d);
 		} else {
-			if (Kernel.isZero(norm.getY())) {
+			if (DoubleUtil.isZero(norm.getY())) {
 				double a = -norm.getW() / norm.getX();
 				ExpressionNode substX = new ExpressionNode(kernel, a);
 				VariableReplacer.addVars("x", substX);

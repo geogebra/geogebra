@@ -49,6 +49,7 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.adapters.MirrorAdapter;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -446,7 +447,7 @@ public class AlgoMirror extends AlgoTransformation implements
 		GeoVec2D mirrorCentre = mirrorConic.getTranslationVector();
 		double dist = MyMath.length(arcCentre.getX() - mirrorCentre.getX(),
 				arcCentre.getY() - mirrorCentre.getY());
-		return !Kernel.isGreater(dist, ((GeoConicPart) arc).halfAxes[0]);
+		return !DoubleUtil.isGreater(dist, ((GeoConicPart) arc).halfAxes[0]);
 	}
 
 	@Override

@@ -58,6 +58,7 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 public class FunctionInspectorModel {
 
@@ -355,8 +356,8 @@ public class FunctionInspectorModel {
 			GeoPoint p = ((GeoPoint) rootGeos[i]);
 			if (p.isDefined()) {
 				double rt = p.inhomX;
-				if (Kernel.isGreaterEqual(rt, xMin)
-						&& Kernel.isGreaterEqual(xMax, rt)) {
+				if (DoubleUtil.isGreaterEqual(rt, xMin)
+						&& DoubleUtil.isGreaterEqual(xMax, rt)) {
 					root = rt;
 					count++;
 				}

@@ -25,7 +25,6 @@ import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.PathNormalizer;
 import org.geogebra.common.kernel.PathParameter;
 import org.geogebra.common.kernel.Matrix.Coords;
@@ -33,6 +32,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -181,7 +181,7 @@ public class AlgoIntersectPlaneQuadricLimited
 			}
 
 			// check if top parameters are equal : then no hole for top
-			if (Kernel.isEqual(topParameters[0], topParameters[1])) {
+			if (DoubleUtil.isEqual(topParameters[0], topParameters[1])) {
 				topParameters[0] = Double.NaN;
 			}
 
@@ -192,7 +192,7 @@ public class AlgoIntersectPlaneQuadricLimited
 			if (Double.isNaN(topParameters[0])) {
 				if (!Double.isNaN(bottomParameters[0])) {
 					// if parameters are equal, no hole
-					if (Kernel.isEqual(bottomParameters[0],
+					if (DoubleUtil.isEqual(bottomParameters[0],
 							bottomParameters[1])) {
 						if (planeOutsideAxis()) { // just single point
 							setSinglePoint(bottomP[0], topP[0]);
@@ -243,11 +243,11 @@ public class AlgoIntersectPlaneQuadricLimited
 														// hyperbola is
 														// completely outside
 					conic.setUndefined();
-				} else if (Kernel.isEqual(topParameters[0], topParameters[1])) { // single
+				} else if (DoubleUtil.isEqual(topParameters[0], topParameters[1])) { // single
 																					// point
 					setSinglePoint(topP[0], topP[1]);
 				}
-			} else if (Kernel.isEqual(bottomParameters[0],
+			} else if (DoubleUtil.isEqual(bottomParameters[0],
 					bottomParameters[1])) { // single
 											// point
 				setSinglePoint(bottomP[0], bottomP[1]);
@@ -309,18 +309,18 @@ public class AlgoIntersectPlaneQuadricLimited
 		}
 
 		// check if min > parameter
-		if (Kernel.isGreater(min, parameter)) {
+		if (DoubleUtil.isGreater(min, parameter)) {
 			// check if parameter is close to min in comparison to max - min
-			if (Kernel.isEpsilonToX(min - parameter, max - min)) {
+			if (DoubleUtil.isEpsilonToX(min - parameter, max - min)) {
 				return false;
 			}
 			return true;
 		}
 
 		// check if max < parameter
-		if (Kernel.isGreater(parameter, max)) {
+		if (DoubleUtil.isGreater(parameter, max)) {
 			// check if parameter is close to max in comparison to max - min
-			if (Kernel.isEpsilonToX(parameter - max, max - min)) {
+			if (DoubleUtil.isEpsilonToX(parameter - max, max - min)) {
 				return false;
 			}
 			return true;

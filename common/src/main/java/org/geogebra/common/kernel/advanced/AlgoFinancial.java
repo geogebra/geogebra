@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
 import org.apache.commons.math3.analysis.solvers.NewtonSolver;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.AlgoRootNewton;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -197,11 +197,11 @@ public class AlgoFinancial extends AlgoElement {
 				result.setUndefined();
 				return;
 			}
-			if (Kernel.isZero(rate)) {
-				nper = Kernel.checkInteger(-(pv + fv) / pmt);
+			if (DoubleUtil.isZero(rate)) {
+				nper = DoubleUtil.checkInteger(-(pv + fv) / pmt);
 			} else {
 				double pmt2 = pmt * (1 + rate * pmtType);
-				nper = Kernel.checkInteger(
+				nper = DoubleUtil.checkInteger(
 						Math.log((pmt2 - rate * fv) / (pmt2 + rate * pv))
 								/ Math.log(1 + rate));
 			}
@@ -337,7 +337,7 @@ public class AlgoFinancial extends AlgoElement {
 			Log.debug("problem with Brent Solver" + e.getMessage());
 		}
 
-		if (Kernel.isEqual(rate, 1) || Double.isInfinite(rate)
+		if (DoubleUtil.isEqual(rate, 1) || Double.isInfinite(rate)
 				|| Double.isNaN(rate)) {
 			rate = 0.1;
 		}
@@ -386,7 +386,7 @@ public class AlgoFinancial extends AlgoElement {
 		if (geoNper == null || !geoNper.isDefined()) {
 			return false;
 		}
-		nper = Kernel.checkInteger(geoNper.evaluateDouble());
+		nper = DoubleUtil.checkInteger(geoNper.evaluateDouble());
 		// number of periods must be positive
 
 		// check for NaN not needed as NaN > 0 returns false

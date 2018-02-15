@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.algos.AlgoTangentLineND;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -95,7 +96,7 @@ public class AlgoTangentLine3D extends AlgoTangentLineND {
 
 		direction3D = g.getDirectionInD3();
 		direction = c.getCoordSys().getNormalProjection(direction3D)[1];
-		if (!Kernel.isZero(direction.getZ())) {
+		if (!DoubleUtil.isZero(direction.getZ())) {
 			return true;
 		}
 

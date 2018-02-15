@@ -8,7 +8,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoSurfaceCartesian3D;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.Matrix.CoordsDouble3;
@@ -21,6 +20,7 @@ import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -373,13 +373,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 
 			uDelta = uBorderMax - uBorderMin;
-			if (Kernel.isZero(uDelta)) {
+			if (DoubleUtil.isZero(uDelta)) {
 				setSurfaceIndex(-1);
 				setWireframeInvisible();
 				return true;
 			}
 			vDelta = vBorderMax - vBorderMin;
-			if (Kernel.isZero(vDelta)) {
+			if (DoubleUtil.isZero(vDelta)) {
 				setSurfaceIndex(-1);
 				setWireframeInvisible();
 				return true;
@@ -1350,7 +1350,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					if (previous.p.isFinalUndefined()) {
 						// previous undefined -- current defined : create
 						// intermediate
-						if (Kernel.isEqual(previous.u, current.u)) {
+						if (DoubleUtil.isEqual(previous.u, current.u)) {
 							findV(current, previous, BOUNDARY_SPLIT,
 									cornerToDrawStillToSplit[index]);
 						} else {
@@ -1366,7 +1366,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					if (previous.p.isNotFinalUndefined()) {
 						// previous defined -- current undefined : create
 						// intermediate
-						if (Kernel.isEqual(previous.u, current.u)) {
+						if (DoubleUtil.isEqual(previous.u, current.u)) {
 							findV(previous, current, BOUNDARY_SPLIT,
 									cornerToDrawStillToSplit[index]);
 						} else {

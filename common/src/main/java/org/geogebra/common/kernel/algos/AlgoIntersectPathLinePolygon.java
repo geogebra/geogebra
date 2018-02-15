@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoSegmentND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algo for intersection of a line with the interior of a polygon
@@ -260,7 +261,7 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	final private static boolean onSegment(double t) {
 		// t=0 and t=1 can be ignored: vertices will be added by
 		// addPolygonPoints()
-		return Kernel.isGreater(t, 0) && Kernel.isGreater(1, t);
+		return DoubleUtil.isGreater(t, 0) && DoubleUtil.isGreater(1, t);
 	}
 
 

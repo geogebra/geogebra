@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.commands.Commands;
@@ -36,6 +35,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -243,7 +243,7 @@ public class AlgoRotatePoint extends AlgoTransformation
 			double angleDoubleVal = angle.getDouble();
 			double angleDoubleValDeg = angleDoubleVal / Math.PI * 180;
 			int angleValDeg = (int) angleDoubleValDeg;
-			if (!Kernel.isInteger(angleDoubleValDeg)) {
+			if (!DoubleUtil.isInteger(angleDoubleValDeg)) {
 				// unhandled angle, not an integer degree
 				throw new NoSymbolicParametersException();
 			}

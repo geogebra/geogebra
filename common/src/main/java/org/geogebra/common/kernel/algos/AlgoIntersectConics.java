@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
@@ -356,7 +357,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 					}
 				}
 
-				if (Kernel.isGreaterEqual(gap / 2, minDistance)) {
+				if (DoubleUtil.isGreaterEqual(gap / 2, minDistance)) {
 					P[i].setCoordsFromPoint(
 							preexistPoints.get(closestPointIndex));
 				}
@@ -1080,7 +1081,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements
 		double m2 = Double.NaN;
 		for (int i = 0; i < 6 && Double.isNaN(m2); i++) {
 			double m1 = c1matrix[i];
-			if (!Kernel.isZero(m1, eps)) {
+			if (!DoubleUtil.isZero(m1, eps)) {
 				m2 = c2matrix[i] / m1;
 			}
 		}

@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.barycentric;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -15,6 +14,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
 import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author Darko Drakulic
@@ -149,7 +149,7 @@ public class AlgoTriangleCurve extends AlgoElement
 		double y3 = -C.inhomY;
 
 		double det = (x2 - x3) * (y1 - y3) + (x3 - x1) * (y2 - y3);
-		if (Kernel.isZero(det)) {
+		if (DoubleUtil.isZero(det)) {
 			poly.setUndefined();
 		} else {
 			ycoef[0].setValue((x3 - x2) / det);

@@ -15,7 +15,6 @@ package org.geogebra.common.kernel.statistics;
 import java.util.ArrayList;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoBarChart;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.TableAlgo;
@@ -25,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * FrequencyTable[] algorithm based on AlgoFrequency
@@ -304,10 +304,10 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				if (useDens) {
 					if (scale != null) {
 						double scaleValue = scale.getDouble();
-						if (Kernel.isEqual(scaleValue, 1.0)) {
+						if (DoubleUtil.isEqual(scaleValue, 1.0)) {
 							strHeader[1] = getLoc()
 									.getMenu("FrequencyTable.Count");
-						} else if (Kernel.isEqual(scaleValue * dataList.size(),
+						} else if (DoubleUtil.isEqual(scaleValue * dataList.size(),
 								1)) {
 							strHeader[1] = getLoc().getMenu(
 									"FrequencyTable.RelativeFrequency");

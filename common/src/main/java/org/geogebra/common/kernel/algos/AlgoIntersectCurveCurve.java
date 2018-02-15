@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -27,6 +26,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -417,10 +417,10 @@ public class AlgoIntersectCurveCurve extends AlgoIntersectLineCurve
 
 	private void checkPointInRange(double p1, double p2, GeoPoint point) {
 		// check parameters in range
-		if (Kernel.isGreaterEqual(p1, curve.getMinParameter())
-				&& Kernel.isGreaterEqual(curve.getMaxParameter(), p1)
-				&& Kernel.isGreaterEqual(p2, curve2.getMinParameter())
-				&& Kernel.isGreaterEqual(curve2.getMaxParameter(), p2)) {
+		if (DoubleUtil.isGreaterEqual(p1, curve.getMinParameter())
+				&& DoubleUtil.isGreaterEqual(curve.getMaxParameter(), p1)
+				&& DoubleUtil.isGreaterEqual(p2, curve2.getMinParameter())
+				&& DoubleUtil.isGreaterEqual(curve2.getMaxParameter(), p2)) {
 
 			double x = curve.getFun(0).value(p1);
 			double y = curve.getFun(1).value(p1);

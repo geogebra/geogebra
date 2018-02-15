@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -181,7 +182,7 @@ public class DrawAngle extends Drawable implements Previewable {
 
 		isVisible = true;
 
-		if (!geo.isEuclidianVisible() || Kernel.isZero(angle.getValue())) {
+		if (!geo.isEuclidianVisible() || DoubleUtil.isZero(angle.getValue())) {
 			setNotVisible();
 			// we may return here; the object is not offscreen, but invisible.
 			return;
@@ -246,7 +247,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		show90degrees = view
 				.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 				&& angle.isEmphasizeRightAngle()
-				&& Kernel.isEqual(angExt, Kernel.PI_HALF);
+				&& DoubleUtil.isEqual(angExt, Kernel.PI_HALF);
 
 		// set coords to screen coords of vertex
 		coords[0] = m[0];

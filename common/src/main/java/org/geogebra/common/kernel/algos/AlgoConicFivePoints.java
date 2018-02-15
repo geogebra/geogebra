@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -261,7 +262,7 @@ public class AlgoConicFivePoints extends AlgoElement
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
 				// e12 is much bigger than any matrix entry
-				if (!Kernel.isZero(M[i][j], Kernel.MIN_PRECISION)
+				if (!DoubleUtil.isZero(M[i][j], Kernel.MIN_PRECISION)
 						&& Math.abs(e12) > 1E10 * M[i][j]) {
 					return true;
 				}
@@ -271,7 +272,7 @@ public class AlgoConicFivePoints extends AlgoElement
 	}
 
 	private static boolean shouldInvert(double d) {
-		return (!Kernel.isZero(d) && Math.abs(d) < MULTIPLIER_MIN)
+		return (!DoubleUtil.isZero(d) && Math.abs(d) < MULTIPLIER_MIN)
 				|| Math.abs(d) > MULTIPLIER_MAX;
 	}
 

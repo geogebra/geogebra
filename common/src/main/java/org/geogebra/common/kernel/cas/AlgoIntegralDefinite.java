@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Integral of a function (GeoFunction)
@@ -261,7 +262,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// check for equal bounds
 		double lowerLimit = a.getDouble();
 		double upperLimit = b.getDouble();
-		if (Kernel.isEqual(lowerLimit, upperLimit)) {
+		if (DoubleUtil.isEqual(lowerLimit, upperLimit)) {
 			n.setValue(0);
 			return;
 		}
@@ -494,13 +495,13 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 
 			area = sum * step / 2.0;
 
-			if (!Kernel.isZero(startx - lowerLimit)) {
+			if (!DoubleUtil.isZero(startx - lowerLimit)) {
 				// h (a+b) /2
 				area += (startx - lowerLimit)
 						* (f.value(startx) + f.value(lowerLimit)) / 2.0;
 			}
 
-			if (!Kernel.isZero(endx - upperLimit)) {
+			if (!DoubleUtil.isZero(endx - upperLimit)) {
 				// h (a+b) /2
 				area += (upperLimit - endx)
 						* (f.value(endx) + f.value(upperLimit)) / 2.0;
@@ -512,7 +513,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 					* (f.value(lowerLimit) + f.value(upperLimit)) / 2.0;
 		}
 
-		return Kernel.checkDecimalFraction(area) * multiplier;
+		return DoubleUtil.checkDecimalFraction(area) * multiplier;
 
 	}
 
@@ -758,7 +759,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 		// else Application.debug(a+" "+b+" error",1);
 
 		// check if both results are equal
-		boolean equal = !error && Kernel.isEqual(firstSum, secondSum,
+		boolean equal = !error && DoubleUtil.isEqual(firstSum, secondSum,
 				Kernel.STANDARD_PRECISION);
 
 		if (equal) {

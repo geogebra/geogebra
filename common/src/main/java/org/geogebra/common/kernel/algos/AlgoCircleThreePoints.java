@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -34,6 +33,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 //import geogebra.kernel.kernelND.GeoConicND;
@@ -193,8 +193,8 @@ public class AlgoCircleThreePoints extends AlgoElement
 		// Log.debug("\n"+ax+","+ay+"\n"+bx+","+by+"\n"+cx+","+cy);
 
 		// same points
-		if (Kernel.isEqual(ax, bx) && Kernel.isEqual(ay, by)) { // A = B
-			if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)) { // A = B = C
+		if (DoubleUtil.isEqual(ax, bx) && DoubleUtil.isEqual(ay, by)) { // A = B
+			if (DoubleUtil.isEqual(ax, cx) && DoubleUtil.isEqual(ay, cy)) { // A = B = C
 				circle.setCircle(getA(), 0.0); // single point
 				return;
 			} // else{ // A = B <> C
@@ -204,14 +204,14 @@ public class AlgoCircleThreePoints extends AlgoElement
 			circle.setCircle(center, getA());
 			return;
 			// }
-		} else if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)) { // A = C
+		} else if (DoubleUtil.isEqual(ax, cx) && DoubleUtil.isEqual(ay, cy)) { // A = C
 																		// <> B
 			ABx = bx - ax;
 			ABy = by - ay;
 			center.setCoords(-ABy, ABx, 0.0d);
 			circle.setCircle(center, getA());
 			return;
-		} else if (Kernel.isEqual(bx, cx) && Kernel.isEqual(by, cy)) { // B = C
+		} else if (DoubleUtil.isEqual(bx, cx) && DoubleUtil.isEqual(by, cy)) { // B = C
 																		// <> A
 			ACx = cx - ax;
 			ACy = cy - ay;
@@ -256,7 +256,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 
 		// A, B, C are collinear: set M to infinite point
 		// in perpendicular direction of AB
-		if (Kernel.isZero(maxDet)) {
+		if (DoubleUtil.isZero(maxDet)) {
 			center.setCoords(-ABy, ABx, 0.0d);
 			circle.setCircle(center, getA());
 		}

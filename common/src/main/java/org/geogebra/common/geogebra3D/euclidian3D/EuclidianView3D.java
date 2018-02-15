@@ -118,6 +118,7 @@ import org.geogebra.common.main.settings.AbstractSettings;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
@@ -1888,11 +1889,11 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public boolean isZeroStandard() {
-		return Kernel.isEqual(xZero, XZERO_SCENE_STANDARD)
-				&& Kernel.isEqual(yZero, YZERO_SCENE_STANDARD)
-				&& Kernel.isEqual(zZero, ZZERO_SCENE_STANDARD)
-				&& Kernel.isEqual(a, ANGLE_ROT_OZ)
-				&& Kernel.isEqual(b, ANGLE_ROT_XOY);
+		return DoubleUtil.isEqual(xZero, XZERO_SCENE_STANDARD)
+				&& DoubleUtil.isEqual(yZero, YZERO_SCENE_STANDARD)
+				&& DoubleUtil.isEqual(zZero, ZZERO_SCENE_STANDARD)
+				&& DoubleUtil.isEqual(a, ANGLE_ROT_OZ)
+				&& DoubleUtil.isEqual(b, ANGLE_ROT_XOY);
 	}
 
 	@Override
@@ -3017,12 +3018,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		sb.append(getSettings().getProjection());
 
 		getXMLForStereo(sb);
-		if (!Kernel.isEqual(projectionObliqueAngle,
+		if (!DoubleUtil.isEqual(projectionObliqueAngle,
 				EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT)) {
 			sb.append("\" obliqueAngle=\"");
 			sb.append(projectionObliqueAngle);
 		}
-		if (!Kernel.isEqual(projectionObliqueFactor,
+		if (!DoubleUtil.isEqual(projectionObliqueFactor,
 				EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT)) {
 			sb.append("\" obliqueFactor=\"");
 			sb.append(projectionObliqueFactor);
@@ -4053,13 +4054,13 @@ public abstract class EuclidianView3D extends EuclidianView
 			z2 = p2[2];
 		}
 
-		if (Kernel.isGreater(getZmin(), z1, tolerance)
-				&& Kernel.isGreater(getZmin(), z2, tolerance)) {
+		if (DoubleUtil.isGreater(getZmin(), z1, tolerance)
+				&& DoubleUtil.isGreater(getZmin(), z2, tolerance)) {
 			return true;
 		}
 
-		if (Kernel.isGreater(z1, getZmax(), tolerance)
-				&& Kernel.isGreater(z2, getZmax(), tolerance)) {
+		if (DoubleUtil.isGreater(z1, getZmax(), tolerance)
+				&& DoubleUtil.isGreater(z2, getZmax(), tolerance)) {
 			return true;
 		}
 
@@ -4221,16 +4222,16 @@ public abstract class EuclidianView3D extends EuclidianView
 		double dz = boundsMax2.getZ() - boundsMin2.getZ();
 
 		double scale = Double.POSITIVE_INFINITY;
-		if (!Kernel.isZero(dx)) {
+		if (!DoubleUtil.isZero(dx)) {
 			scale = dx0 / dx;
 		}
-		if (!Kernel.isZero(dy)) {
+		if (!DoubleUtil.isZero(dy)) {
 			double v = dy0 / dy;
 			if (scale > v) {
 				scale = v;
 			}
 		}
-		if (!Kernel.isZero(dz)) {
+		if (!DoubleUtil.isZero(dz)) {
 			double v = dz0 / dz;
 			if (scale > v) {
 				scale = v;
@@ -4245,7 +4246,7 @@ public abstract class EuclidianView3D extends EuclidianView
 			return;
 		}
 
-		if (Kernel.isZero(scale)) {
+		if (DoubleUtil.isZero(scale)) {
 			return;
 		}
 
@@ -4311,7 +4312,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *            scale
 	 */
 	public void setFontScale(double scale) {
-		if (!Kernel.isEqual(scale, fontScale)) {
+		if (!DoubleUtil.isEqual(scale, fontScale)) {
 			fontScale = scale;
 			updateDrawableFontSize();
 		}
@@ -4635,9 +4636,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	public boolean isStandardView() {
 		if (app.has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
 			return isZeroStandard()
-					&& Kernel.isEqual(getXscale(), SCALE_STANDARD)
-					&& Kernel.isEqual(getYscale(), SCALE_STANDARD)
-					&& Kernel.isEqual(getZscale(), SCALE_STANDARD);
+					&& DoubleUtil.isEqual(getXscale(), SCALE_STANDARD)
+					&& DoubleUtil.isEqual(getYscale(), SCALE_STANDARD)
+					&& DoubleUtil.isEqual(getZscale(), SCALE_STANDARD);
 		}
 		return super.isStandardView();
 	}

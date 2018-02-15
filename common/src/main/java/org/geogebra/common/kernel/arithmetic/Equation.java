@@ -25,6 +25,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -705,7 +706,7 @@ public class Equation extends ValidExpression implements EquationValue {
 		}
 		for (ExpressionValue ev : this.variableDegrees) {
 			double exp = ev.evaluateDouble();
-			if (!Kernel.isInteger(exp) || Kernel.isGreater(0, exp)) {
+			if (!DoubleUtil.isInteger(exp) || DoubleUtil.isGreater(0, exp)) {
 				return false;
 			}
 		}

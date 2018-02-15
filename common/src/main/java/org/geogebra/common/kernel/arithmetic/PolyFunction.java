@@ -17,6 +17,7 @@ import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.roots.RealRootDerivFunction;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Fast polynomial evaluation of Function
@@ -91,7 +92,7 @@ public class PolyFunction
 	public double[] getCoeffsCopyNoTrailingZeros() {
 		int offset = 0;
 		for (int i = 0; i < coeffs.length; i++) {
-			if (!Kernel.isZero(coeffs[i])) {
+			if (!DoubleUtil.isZero(coeffs[i])) {
 				offset = i;
 				break;
 			}
@@ -280,12 +281,12 @@ public class PolyFunction
 		}
 
 		// linear coefficient
-		if (!Kernel.isZero(coeffs[1])) {
+		if (!DoubleUtil.isZero(coeffs[1])) {
 			en = en.plus(fvEn.multiply(getCoeff(1, fraction, kernel)));
 		}
 
 		// constant term
-		if (!Kernel.isZero(coeffs[0])) {
+		if (!DoubleUtil.isZero(coeffs[0])) {
 			en = en.plus(getCoeff(0, fraction, kernel));
 		}
 
@@ -322,8 +323,8 @@ public class PolyFunction
 			a = coeffs;
 		}
 		for (int i = 0; i < b.length; i++) {
-			if ((i >= a.length && !Kernel.isZero(b[i]))
-					|| (i < a.length && !Kernel.isEqual(a[i], b[i]))) {
+			if ((i >= a.length && !DoubleUtil.isZero(b[i]))
+					|| (i < a.length && !DoubleUtil.isEqual(a[i], b[i]))) {
 				return false;
 			}
 		}
@@ -336,7 +337,7 @@ public class PolyFunction
 	 * @return whether constant coefficient is zero
 	 */
 	public boolean hasZeroRoot() {
-		return coeffs.length > 0 && Kernel.isZero(coeffs[0]);
+		return coeffs.length > 0 && DoubleUtil.isZero(coeffs[0]);
 	}
 
 	@Override

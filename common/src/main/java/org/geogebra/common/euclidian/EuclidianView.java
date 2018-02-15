@@ -79,6 +79,7 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.AsyncOperation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
@@ -1199,28 +1200,28 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double tolerance = EuclidianStatic.CLIP_DISTANCE / getYscale();
 
 		// bottom
-		if (Kernel.isGreater(getYmin(), p1[1], tolerance)
-				&& Kernel.isGreater(getYmin(), p2[1], tolerance)) {
+		if (DoubleUtil.isGreater(getYmin(), p1[1], tolerance)
+				&& DoubleUtil.isGreater(getYmin(), p2[1], tolerance)) {
 			return true;
 		}
 
 		// top
-		if (Kernel.isGreater(p1[1], getYmax(), tolerance)
-				&& Kernel.isGreater(p2[1], getYmax(), tolerance)) {
+		if (DoubleUtil.isGreater(p1[1], getYmax(), tolerance)
+				&& DoubleUtil.isGreater(p2[1], getYmax(), tolerance)) {
 			return true;
 		}
 
 		tolerance = EuclidianStatic.CLIP_DISTANCE / getXscale();
 
 		// left
-		if (Kernel.isGreater(getXmin(), p1[0], tolerance)
-				&& Kernel.isGreater(getXmin(), p2[0], tolerance)) {
+		if (DoubleUtil.isGreater(getXmin(), p1[0], tolerance)
+				&& DoubleUtil.isGreater(getXmin(), p2[0], tolerance)) {
 			return true;
 		}
 
 		// right
-		if (Kernel.isGreater(p1[0], getXmax(), tolerance)
-				&& Kernel.isGreater(p2[0], getXmax(), tolerance)) {
+		if (DoubleUtil.isGreater(p1[0], getXmax(), tolerance)
+				&& DoubleUtil.isGreater(p2[0], getXmax(), tolerance)) {
 			return true;
 		}
 
@@ -1754,7 +1755,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (automaticAxesNumberingDistances[axis]) {
 			// force same unit if scales are same, see #1082
 			if ((axis == 1) && automaticAxesNumberingDistances[0]
-					&& Kernel.isEqual(getXscale(), getYscale())) {
+					&& DoubleUtil.isEqual(getXscale(), getYscale())) {
 
 				if (piAxisUnit[0] == piAxisUnit[1]) {
 					axesNumberingDistances[1] = axesNumberingDistances[0];
@@ -1770,8 +1771,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				axesNumberingDistances[axis] = Math.PI;
 			} else {
 				// see #2682
-				double pot = Kernel.checkDecimalFraction(Math.pow(10, exp));
-				double n = Kernel.checkDecimalFraction(units / pot);
+				double pot = DoubleUtil.checkDecimalFraction(Math.pow(10, exp));
+				double n = DoubleUtil.checkDecimalFraction(units / pot);
 
 				if (n > 5) {
 					axesNumberingDistances[axis] = 5 * pot;
@@ -3804,14 +3805,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		sb.setLength(0);
 		sb.append('(');
 		sb.append(kernel.format(
-				Kernel.checkDecimalFraction(euclidianController.xRW), tpl));
+				DoubleUtil.checkDecimalFraction(euclidianController.xRW), tpl));
 		if (kernel.getCoordStyle() == Kernel.COORD_STYLE_AUSTRIAN) {
 			sb.append(" | ");
 		} else {
 			sb.append(", ");
 		}
 		sb.append(kernel.format(
-				Kernel.checkDecimalFraction(euclidianController.yRW), tpl));
+				DoubleUtil.checkDecimalFraction(euclidianController.yRW), tpl));
 		sb.append(')');
 
 		g2.setColor(GColor.DARK_GRAY);
@@ -4024,7 +4025,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		// vertical
 		double pix = startX2;
 		for (int j = 0; pix <= getWidth(); j++) {
-			if ((!Kernel.isEqual(pix, xCrossPix) || !showAxes[0])
+			if ((!DoubleUtil.isEqual(pix, xCrossPix) || !showAxes[0])
 					&& pix > xAxisStart - Kernel.MIN_PRECISION) {
 				tempLine.setLine(pix, 0, pix, yAxisEnd);
 				g2.draw(tempLine);
@@ -4493,11 +4494,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double pix = getYZero() - (rw * getYscale());
 		double axesStep = getYscale() * axesNumberingDistances[1]; // pixelstep
 
-		axesNumberingDistances[1] = Kernel
+		axesNumberingDistances[1] = DoubleUtil
 				.checkDecimalFraction(axesNumberingDistances[1]);
 
 		int count = 0;
-		double rwBase = Kernel.checkDecimalFraction(rw);
+		double rwBase = DoubleUtil.checkDecimalFraction(rw);
 
 		// for (; pix <= yAxisHeight; rw -= axesNumberingDistances[1], pix +=
 		// axesStep) {
@@ -4505,7 +4506,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 			// 285, 285.1, 285.2 -> rounding problems
 			rw = rwBase
-					- Kernel.checkDecimalFraction(axesNumberingDistances[1]
+					- DoubleUtil.checkDecimalFraction(axesNumberingDistances[1]
 							* count);
 
 			if (pix <= maxY) {
@@ -5080,7 +5081,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	private static boolean hasVisibleObjects(GRectangle rect) {
-		return !(Kernel.isZero(rect.getHeight()) || Kernel.isZero(rect
+		return !(DoubleUtil.isZero(rect.getHeight()) || DoubleUtil.isZero(rect
 				.getWidth()));
 	}
 
@@ -5334,8 +5335,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return true if axes are standard positioned
 	 */
 	public boolean isZeroStandard() {
-		return (Kernel.isEqual(xZero, getXZeroStandard())
-				&& Kernel.isEqual(yZero, getYZeroStandard()))
+		return (DoubleUtil.isEqual(xZero, getXZeroStandard())
+				&& DoubleUtil.isEqual(yZero, getYZeroStandard()))
 				|| (isZeroStandardForSmallScreen()
 						&& !app.has(Feature.CENTER_STANDARD_VIEW));
 	}
@@ -5348,9 +5349,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// Log.debug("[std] yZero: " + yZero + " h/1.6: " + getHeight() /
 			// 1.6);
 
-			return Kernel.checkInteger(xZero) == Kernel
+			return DoubleUtil.checkInteger(xZero) == DoubleUtil
 					.checkInteger(getWidth() / 3.0)
-					|| Kernel.checkInteger(yZero) == Kernel
+					|| DoubleUtil.checkInteger(yZero) == DoubleUtil
 							.checkInteger(getHeight() / 1.6);
 		}
 		return false;
@@ -5443,7 +5444,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		double ox = originX + (getXZero() - originX) * f;
 		double oy = originY + (getYZero() - originY) * f;
 
-		if (!Kernel.isEqual(getXscale(), newScale)) {
+		if (!DoubleUtil.isEqual(getXscale(), newScale)) {
 			// different scales: zoom back to standard view
 			double factor = newScale / getXscale();
 			zoom((ox - (getXZero() * factor)) / (1.0 - factor),

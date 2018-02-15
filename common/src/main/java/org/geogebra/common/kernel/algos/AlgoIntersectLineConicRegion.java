@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoConic;
@@ -30,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoRay;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -150,7 +150,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					lines[1].changeSign();
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t)) {
+					if (DoubleUtil.isGreater(tMin, t)) {
 						lines[1].setUndefined();
 					} else {
 						((GeoSegment) lines[3]).set(Q[0], g.endPoint, g);
@@ -167,7 +167,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					((GeoRay) lines[3]).set(Q[0], g);
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t)) {
+					if (DoubleUtil.isGreater(tMin, t)) {
 						lines[1].setUndefined();
 					} else {
 						((GeoSegment) lines[3]).set(Q[0], g.endPoint, g);
@@ -191,7 +191,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t)) {
+					if (DoubleUtil.isGreater(tMin, t)) {
 						lines[1].setUndefined();
 					} else {
 						((GeoSegment) lines[3]).set(Q[0], g.endPoint, g);
@@ -203,7 +203,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					((GeoRay) lines[3]).set(Q[0], g);
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t)) {
+					if (DoubleUtil.isGreater(tMin, t)) {
 						lines[1].setUndefined();
 					} else {
 						((GeoSegment) lines[3]).set(Q[0], g.endPoint, g);
@@ -243,7 +243,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					lines[1].changeSign();
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(tMin, t1)) {
+					if (DoubleUtil.isGreater(tMin, t1)) {
 						lines[1].setUndefined();
 					} else {
 						((GeoSegment) lines[1]).set(Q[j0], g.endPoint, g);
@@ -255,7 +255,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					((GeoRay) lines[3]).set(Q[j1], g);
 					numberOfOutputLines++;
 				} else {
-					if (Kernel.isGreater(t2, tMax)) {
+					if (DoubleUtil.isGreater(t2, tMax)) {
 						lines[3].setUndefined();
 					} else {
 						((GeoSegment) lines[3]).set(Q[j1], g.endPoint, g);
@@ -268,12 +268,12 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 
 				// set line[2]
 
-				if (Kernel.isGreater(t1, tMax) || Kernel.isGreater(tMin, t2)) {
+				if (DoubleUtil.isGreater(t1, tMax) || DoubleUtil.isGreater(tMin, t2)) {
 					lines[2].setUndefined();
 				} else {
 					((GeoSegment) lines[2]).set(
-							Kernel.isGreater(tMin, t1) ? g.startPoint : Q[j0],
-							Kernel.isGreater(t2, tMax) ? g.endPoint : Q[j1], g);
+							DoubleUtil.isGreater(tMin, t1) ? g.startPoint : Q[j0],
+							DoubleUtil.isGreater(t2, tMax) ? g.endPoint : Q[j1], g);
 					numberOfOutputLines++;
 				}
 			}
@@ -323,7 +323,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	}
 
 	private static boolean inOpenInterval(double t, double a, double b) {
-		return Kernel.isGreater(b, t) && Kernel.isGreater(t, a);
+		return DoubleUtil.isGreater(b, t) && DoubleUtil.isGreater(t, a);
 	}
 
 	void initCurrentPartIsInRegion() {
@@ -354,7 +354,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			ex = c.getEigenvec(0);
 			if (numberOfLineParts == 2) {
 
-				currentPartIsInRegion = Kernel.isGreater(0,
+				currentPartIsInRegion = DoubleUtil.isGreater(0,
 						g.getCoords().dotproduct(ex));
 			}
 			break;
@@ -364,8 +364,8 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			if (numberOfLineParts == 2) {
 				c.pointChanged(Q[0]);
 				t0 = Q[0].getPathParameter().getT();
-				currentPartIsInRegion = Kernel.isGreater(1, t0)
-						^ Kernel.isGreater(g.getCoords().dotproduct(ex), 0);
+				currentPartIsInRegion = DoubleUtil.isGreater(1, t0)
+						^ DoubleUtil.isGreater(g.getCoords().dotproduct(ex), 0);
 			} else if (numberOfLineParts == 3) {
 				c.pointChanged(Q[0]);
 				c.pointChanged(Q[1]);
@@ -375,8 +375,8 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 				// two intersection points are on different branches
 				// namely: truth value of [t0 in (-1,1)] and [t1 in (-1,1)]
 				// should be different
-				currentPartIsInRegion = Kernel.isGreater(1, t0)
-						^ Kernel.isGreater(1, t1);
+				currentPartIsInRegion = DoubleUtil.isGreater(1, t0)
+						^ DoubleUtil.isGreater(1, t1);
 			}
 			break;
 		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
@@ -388,7 +388,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 				t0 = Q[0].getPathParameter().getT();
 				currentPartIsInRegion = (inOpenInterval(t0, 1, 2)
 						|| inOpenInterval(t0, -1, 0))
-						^ Kernel.isGreater(g.getCoords().dotproduct(ex), 0);
+						^ DoubleUtil.isGreater(g.getCoords().dotproduct(ex), 0);
 			} else if (numberOfLineParts == 3) {
 				c.pointChanged(Q[0]);
 				c.pointChanged(Q[1]);
@@ -406,7 +406,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 			break;
 		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 			if (numberOfLineParts == 1) {
-				if (Kernel.isGreater(-g.z / ((g.x) * (g.x) + (g.y) * (g.y)), 0)) {
+				if (DoubleUtil.isGreater(-g.z / ((g.x) * (g.x) + (g.y) * (g.y)), 0)) {
 					currentPartIsInRegion = true;
 				}
 			}

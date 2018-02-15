@@ -3,12 +3,12 @@ package org.geogebra.common.kernel.advanced;
 import java.math.BigInteger;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 
 /**
@@ -76,7 +76,7 @@ public class AlgoToBase extends AlgoElement {
 		in = in + 1 / power > Math.ceil(in) ? Math.ceil(in) : in;
 		BigInteger bi = BigInteger.valueOf((long) in);
 		String intPart = StringUtil.toUpperCaseUS(bi.toString(b));
-		if (Kernel.isInteger(in)) {
+		if (DoubleUtil.isInteger(in)) {
 			result.setTextString(intPart);
 		} else {
 

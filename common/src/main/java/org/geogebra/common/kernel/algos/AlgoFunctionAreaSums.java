@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -26,6 +25,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.optimization.ExtremumFinderI;
 import org.geogebra.common.kernel.optimization.NegativeRealRootFunction;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Superclass for lower/upper sum of function f in interval [a, b] with n
@@ -687,7 +687,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 					visibleMax) / SAMPLE_PIXELS;
 
 			double subStep = Math.abs(visibleMax - visibleMin) / noOfSamples;
-			boolean doSubSamples = !Kernel.isZero(subStep)
+			boolean doSubSamples = !DoubleUtil.isZero(subStep)
 					&& Math.abs(STEP) > subStep;
 			boolean positiveStep = STEP >= 0;
 			for (int i = 0; i < N; i++) {
@@ -1018,7 +1018,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 						// check which class this datum is in
 						for (int j = 1; j < N; j++) {
-							if (Kernel.isGreater(leftBorder[j], datum)) {
+							if (DoubleUtil.isGreater(leftBorder[j], datum)) {
 								yval[j - 1] += valueFrequency;
 								break;
 							}
@@ -1034,7 +1034,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 
 						// check which class this datum is in
 						for (int j = 1; j < N; j++) {
-							if (Kernel.isGreaterEqual(leftBorder[j], datum)) {
+							if (DoubleUtil.isGreaterEqual(leftBorder[j], datum)) {
 								yval[j - 1] += valueFrequency;
 								break;
 							}

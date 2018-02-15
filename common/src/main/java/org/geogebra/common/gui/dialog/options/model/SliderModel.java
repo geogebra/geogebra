@@ -10,6 +10,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.DoubleUtil;
 
 public class SliderModel extends OptionsModel {
 	public final static int TEXT_FIELD_FRACTION_DIGITS = 8;
@@ -94,24 +95,24 @@ public class SliderModel extends OptionsModel {
 			// the interval even if it's empty
 			if (num0.getIntervalMinObject() == null
 					|| temp.getIntervalMinObject() == null
-					|| !Kernel.isEqual(num0.getIntervalMin(),
+					|| !DoubleUtil.isEqual(num0.getIntervalMin(),
 							temp.getIntervalMin())) {
 				equalMin = false;
 			}
 			if (num0.getIntervalMaxObject() == null
 					|| temp.getIntervalMaxObject() == null
-					|| !Kernel.isEqual(num0.getIntervalMax(),
+					|| !DoubleUtil.isEqual(num0.getIntervalMax(),
 							temp.getIntervalMax())) {
 				equalMax = false;
 			}
-			if (!Kernel.isEqual(num0.getSliderWidth(), temp.getSliderWidth())) {
+			if (!DoubleUtil.isEqual(num0.getSliderWidth(), temp.getSliderWidth())) {
 				equalWidth = false;
 			}
-			if (!Kernel.isEqual(num0.getLineThickness(),
+			if (!DoubleUtil.isEqual(num0.getLineThickness(),
 					temp.getLineThickness())) {
 				equalLineThickness = false;
 			}
-			if (!Kernel.isEqual(num0.getSliderBlobSize(),
+			if (!DoubleUtil.isEqual(num0.getSliderBlobSize(),
 					temp.getSliderBlobSize())) {
 				equalBlobSize = false;
 			}

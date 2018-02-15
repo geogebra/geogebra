@@ -14,6 +14,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author ggb3D
@@ -255,7 +256,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron {
 		}
 
 		// check if vn is ortho to AB
-		if (!Kernel.isZero(vn.dotproduct(v1))) {
+		if (!DoubleUtil.isZero(vn.dotproduct(v1))) {
 			setUndefined();
 			return;
 		}

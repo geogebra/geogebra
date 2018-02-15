@@ -15,6 +15,7 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.geos.GeoAngle;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * @author ggb3D
@@ -92,7 +93,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 		GeoAngle angle = (GeoAngle) getGeoElement();
 		angleValue = angle.getDouble();
 
-		if (Kernel.isZero(angleValue)) { // nothing to display
+		if (DoubleUtil.isZero(angleValue)) { // nothing to display
 			setGeometryIndex(-1);
 			setSurfaceIndex(-1);
 			angleVisible = false;
@@ -179,7 +180,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 			show90degrees = getView3D()
 					.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 					&& angle.isEmphasizeRightAngle()
-					&& Kernel.isEqual(angleValue, Kernel.PI_HALF);
+					&& DoubleUtil.isEqual(angleValue, Kernel.PI_HALF);
 
 			// outline
 			PlotterBrush brush = renderer.getGeometryManager().getBrush();
@@ -420,7 +421,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 		hitting.origin.projectPlaneInPlaneCoords(v1, vn2, hitting.direction,
 				center, tmpCoords);
 
-		if (Kernel.isZero(tmpCoords.getW())) {
+		if (DoubleUtil.isZero(tmpCoords.getW())) {
 			return false;
 		}
 

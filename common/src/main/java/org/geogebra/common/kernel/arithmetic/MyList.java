@@ -30,6 +30,7 @@ import org.geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.GgbMat;
 import org.geogebra.common.util.debug.Log;
 
@@ -272,7 +273,7 @@ public class MyList extends ValidExpression
 			double power = value.evaluateDouble();
 			// Application.debug("matrix ^ "+power);
 
-			if (!Kernel.isInteger(power)) {
+			if (!DoubleUtil.isInteger(power)) {
 				listElements.clear();
 				return;
 			}

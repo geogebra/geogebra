@@ -62,6 +62,7 @@ import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.StringUtil;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -104,7 +105,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		case GeoElement.ANIMATION_DECREASING:
 			step = -num.getAnimationStep();
 			n = (int) ((max - min) / -step);
-			if (Kernel.isZero(((max - min) / -step) - n)) {
+			if (DoubleUtil.isZero(((max - min) / -step) - n)) {
 				n++;
 			}
 			if (n == 0) {
@@ -115,7 +116,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		case GeoElement.ANIMATION_OSCILLATING:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
-			if (Kernel.isZero(((max - min) / step * 2) - n)) {
+			if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
 				n++;
 			}
 			if (n == 0) {
@@ -127,7 +128,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					// GeoElement.ANIMATION_INCREASING_ONCE:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step);
-			if (Kernel.isZero(((max - min) / step) - n)) {
+			if (DoubleUtil.isZero(((max - min) / step) - n)) {
 				n++;
 			}
 			if (n == 0) {
@@ -219,7 +220,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		// draw elements, and generate code
 		for (it = 0; it < j + 1; it++) {
 			// avoid values like 14.399999999999968
-			val = Kernel.checkDecimalFraction(val);
+			val = DoubleUtil.checkDecimalFraction(val);
 
 			num.setValue(val);
 			num.updateRepaint();
@@ -760,7 +761,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 		angExt += angSt;
 		double r = arcSize / euclidianView.getXscale();
 		// if angle=90 and decoration=little square
-		if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+		if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
 				&& geo.isEmphasizeRightAngle() && euclidianView
 						.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE) {
 			r = r / Math.sqrt(2);
@@ -820,7 +821,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 			endBeamer(codeFilledObject);
 
 			// draw the dot if angle= 90 and decoration=dot
-			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+			if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle() && euclidianView
 							.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
 				double diameter = geo.getLineThickness()
@@ -1448,7 +1449,7 @@ public abstract class GeoGebraToPdf extends GeoGebraExport {
 					v[1] = true;
 				}
 				double val1 = le.evaluateDouble();
-				v[0] = !Kernel.isInteger(val1);
+				v[0] = !DoubleUtil.isInteger(val1);
 				return v;
 			}
 			op = le.getOperation();

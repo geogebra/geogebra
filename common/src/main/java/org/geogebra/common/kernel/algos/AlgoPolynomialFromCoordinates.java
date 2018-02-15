@@ -27,6 +27,7 @@ import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Fit a Polynomial exactly to a set of coordinates. Unstable above about 12
@@ -238,8 +239,8 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			MyDouble coeffMyDouble = null;
 			// check for poly != null rather than k != n-1 in case the leading
 			// coefficient was 0, eg FitPoly[{(1,-1),(0,0),(-1,-1),(2,-4)},3]
-			if (Kernel.isEqual(coeff, 1.0)
-					|| (poly != null && Kernel.isEqual(coeff, -1.0))) {
+			if (DoubleUtil.isEqual(coeff, 1.0)
+					|| (poly != null && DoubleUtil.isEqual(coeff, -1.0))) {
 				if (powerExp == null) {
 					partExp = new MyDouble(kernel, 1.0);
 				} else {

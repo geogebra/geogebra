@@ -15,9 +15,9 @@ package org.geogebra.common.kernel.algos;
 import java.math.BigInteger;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Computes LCM[a, b]
@@ -47,7 +47,7 @@ public class AlgoLCM extends AlgoTwoNumFunction {
 				return;
 			}
 			// this is the only case whwn gcd == zero
-			if (Kernel.isZero(a.getDouble()) && Kernel.isZero(b.getDouble())) {
+			if (DoubleUtil.isZero(a.getDouble()) && DoubleUtil.isZero(b.getDouble())) {
 				num.setValue(0);
 				return;
 			}

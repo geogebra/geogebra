@@ -66,6 +66,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoVectorND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.NumberFormatAdapter;
 import org.geogebra.common.util.StringUtil;
 
@@ -619,7 +620,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		angExt += angSt;
 		double r = arcSize / euclidianView.getXscale();
 		// if angle=90degrees and decoration=little square
-		if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+		if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
 				&& geo.isEmphasizeRightAngle() && euclidianView
 						.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE) {
 			r = r / Math.sqrt(2);
@@ -694,7 +695,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			 * code.append(")\\closepath}\n"); endBeamer(code);
 			 */
 			// draw the dot if angle= 90 and decoration=dot
-			if (Kernel.isEqual(geo.getValue(), Kernel.PI_HALF)
+			if (DoubleUtil.isEqual(geo.getValue(), Kernel.PI_HALF)
 					&& geo.isEmphasizeRightAngle() && euclidianView
 							.getRightAngleStyle() == EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT) {
 				double diameter = geo.getLineThickness()

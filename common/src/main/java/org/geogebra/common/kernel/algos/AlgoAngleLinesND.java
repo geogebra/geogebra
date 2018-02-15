@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.algos;
 
 import org.geogebra.common.euclidian.draw.DrawAngle;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -30,6 +29,7 @@ import org.geogebra.common.kernel.geos.GeoVec3D;
 import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -193,7 +193,7 @@ public abstract class AlgoAngleLinesND extends AlgoAngle
 
 		Coords center;
 
-		if (Kernel.isZero(n[2])) {
+		if (DoubleUtil.isZero(n[2])) {
 			center = g.getStartInhomCoords().copyVector();
 		} else {
 			center = new Coords(n[0] / n[2], n[1] / n[2], 0, 1);

@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.statistics;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
@@ -23,6 +22,7 @@ import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * FitLineY of a list. adapted from AlgoListMax
@@ -99,7 +99,7 @@ public class AlgoFitLineY extends AlgoElement {
 				double y;
 				if (geo.isGeoElement3D()) {
 					Coords coords = ((GeoPointND) geo).getInhomCoordsInD3();
-					if (!Kernel.isZero(coords.getZ())) {
+					if (!DoubleUtil.isZero(coords.getZ())) {
 						g.setUndefined();
 						return;
 					}
@@ -141,7 +141,7 @@ public class AlgoFitLineY extends AlgoElement {
 		g.z = -Sxy * mux + Sxx * muy;
 
 		// #5294
-		if (Kernel.isZero(g.x) || Kernel.isZero(g.y) || Kernel.isZero(g.z)) {
+		if (DoubleUtil.isZero(g.x) || DoubleUtil.isZero(g.y) || DoubleUtil.isZero(g.z)) {
 			return;
 		}
 

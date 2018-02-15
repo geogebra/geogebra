@@ -37,6 +37,7 @@ import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
 
 /**
@@ -173,7 +174,7 @@ public class AlgoDistancePointObject extends AlgoElement
 		double right = INTERVAL_START;
 		while ((roots = AlgoRoots.findRoots(geoFunc, x - left, y + right,
 				(int) ((left + right) * 10))) == null
-				&& Kernel.isGreater(MAX_INTERVAL, left)) {
+				&& DoubleUtil.isGreater(MAX_INTERVAL, left)) {
 			left *= INTERVAL_GROWTH;
 			right *= INTERVAL_GROWTH;
 		}
@@ -185,7 +186,7 @@ public class AlgoDistancePointObject extends AlgoElement
 		for (int i = 1; i < roots.length; i++) {
 			double val = MyMath.distancePointFunctionAt(function, x, y,
 					roots[i]);
-			if (Kernel.isGreater(min, val)) {
+			if (DoubleUtil.isGreater(min, val)) {
 				min = val;
 				k = i;
 			}
@@ -229,7 +230,7 @@ public class AlgoDistancePointObject extends AlgoElement
 		for (int i = 1; i < nrOfRoots; i++) {
 			double val = MyMath.distancePointFunctionAt(polyFunction, x, y,
 					eq[i]);
-			if (Kernel.isGreater(min, val)) {
+			if (DoubleUtil.isGreater(min, val)) {
 				min = val;
 				k = i;
 			}

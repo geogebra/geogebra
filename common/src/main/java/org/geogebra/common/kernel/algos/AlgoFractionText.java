@@ -20,6 +20,7 @@ import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Algo for converting decimals to fractions
@@ -260,8 +261,8 @@ public class AlgoFractionText extends AlgoElement {
 			appendInfinity(sb, tpl, frac[0]);
 		} else {
 			appendFraction(sb, tpl,
-					kernel.format(Kernel.checkDecimalFraction(frac[0]), tpl),
-					kernel.format(Kernel.checkDecimalFraction(frac[1]), tpl));
+					kernel.format(DoubleUtil.checkDecimalFraction(frac[0]), tpl),
+					kernel.format(DoubleUtil.checkDecimalFraction(frac[1]), tpl));
 		}
 	}
 

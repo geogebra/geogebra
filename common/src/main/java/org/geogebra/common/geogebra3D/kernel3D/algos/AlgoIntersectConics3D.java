@@ -38,6 +38,7 @@ import org.geogebra.common.kernel.geos.LabelManager;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.kernelND.GeoQuadricND;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  *
@@ -244,7 +245,7 @@ public class AlgoIntersectConics3D extends AlgoIntersect3D {
 		} else { // parallel plane
 
 			Coords op = csA.getNormalProjection(csB.getOrigin())[1];
-			if (!Kernel.isZero(op.getZ())) {// coord sys strictly parallel
+			if (!DoubleUtil.isZero(op.getZ())) {// coord sys strictly parallel
 				setPointsUndefined(pts); // TODO infinite points ?
 			} else {// coord sys included
 

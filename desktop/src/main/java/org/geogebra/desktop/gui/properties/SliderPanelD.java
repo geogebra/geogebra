@@ -35,6 +35,7 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.AngleTextField;
 import org.geogebra.desktop.gui.GuiManagerD;
@@ -397,14 +398,14 @@ public class SliderPanelD extends JPanel
 		} else if (source == tfBlobSize) {
 			double blob = value.getDouble() <= 0 ? 1 : value.getDouble();
 			model.applyBlobSize(blob);
-			if (Kernel.isEqual(blob, 1)) {
+			if (DoubleUtil.isEqual(blob, 1)) {
 				tfBlobSize.setText(String.valueOf(1));
 			}
 		} else if (source == tfLineThickness) {
 			double thickness = value.getDouble() * 2 <= 0 ? 2
 					: value.getDouble() * 2;
 			model.applyLineThickness(thickness);
-			if (Kernel.isEqual(thickness, 2)) {
+			if (DoubleUtil.isEqual(thickness, 2)) {
 				tfLineThickness.setText(String.valueOf(1));
 			}
 		}

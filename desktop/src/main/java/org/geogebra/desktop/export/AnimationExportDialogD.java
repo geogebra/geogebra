@@ -22,10 +22,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.geogebra.common.euclidian3D.EuclidianView3DInterface;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.AnimationExportSlider;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.AnimatedGifEncoder;
@@ -299,7 +299,7 @@ public class AnimationExportDialogD extends JDialog {
 		case GeoElement.ANIMATION_DECREASING:
 			step = -num.getAnimationStep();
 			n = (int) ((max - min) / -step);
-			if (Kernel.isZero(((max - min) / -step) - n)) {
+			if (DoubleUtil.isZero(((max - min) / -step) - n)) {
 				n++;
 			}
 			if (n == 0) {
@@ -310,7 +310,7 @@ public class AnimationExportDialogD extends JDialog {
 		case GeoElement.ANIMATION_OSCILLATING:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
-			if (Kernel.isZero(((max - min) / step * 2) - n)) {
+			if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
 				n++;
 			}
 			if (n == 0) {
@@ -322,7 +322,7 @@ public class AnimationExportDialogD extends JDialog {
 					// GeoElement.ANIMATION_INCREASING_ONCE:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step);
-			if (Kernel.isZero(((max - min) / step) - n)) {
+			if (DoubleUtil.isZero(((max - min) / step) - n)) {
 				n++;
 			}
 			if (n == 0) {

@@ -2,7 +2,6 @@ package org.geogebra.common.geogebra3D.kernel3D.algos;
 
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoIntersectCoordSysCurve;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -14,6 +13,7 @@ import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 	protected OutputHandler<GeoElement> outputPoints;
@@ -48,7 +48,7 @@ public class AlgoIntersectPlaneCurve extends AlgoIntersectCoordSysCurve {
 		// ax + by + cz = d
 		ExpressionNode enx;
 
-		if (Kernel.isZero(coeffs.getW())) {
+		if (DoubleUtil.isZero(coeffs.getW())) {
 			enx = new ExpressionNode(kernel, 0);
 			for (int i = 0; i < curve.getDimension(); i++) {
 				enx = enx.plus(new ExpressionNode(kernel,

@@ -29,13 +29,13 @@ import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.ConstructionDefaults;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * 
@@ -147,7 +147,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		for (int i = 0; i < pts.length; i++) {
 
 			v = getCoords(i);
-			if (pts[i].isDefined() && Kernel.isZero(v.getZ())) {
+			if (pts[i].isDefined() && DoubleUtil.isZero(v.getZ())) {
 				coords[0] = v.getX();
 				coords[1] = v.getY();
 				view.toScreenCoords(coords);

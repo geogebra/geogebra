@@ -1,7 +1,7 @@
 package org.geogebra.common.geogebra3D.euclidian3D.animator;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * animation for zoom
@@ -42,12 +42,12 @@ public class EuclidianView3DAnimationAxesRatio extends EuclidianView3DAnimationS
 		yScaleStart = view3D.getYscale();
 		zScaleStart = view3D.getZscale();
 		xScaleEnd = xScaleStart;
-		if (Double.isNaN(zoomFactorY) || Kernel.isGreaterEqual(0, zoomFactorY)) {
+		if (Double.isNaN(zoomFactorY) || DoubleUtil.isGreaterEqual(0, zoomFactorY)) {
 			yScaleEnd = yScaleStart;
 		} else {
 			yScaleEnd = xScaleStart * zoomFactorY;
 		}
-		if (Double.isNaN(zoomFactorZ) || Kernel.isGreaterEqual(0, zoomFactorZ)) {
+		if (Double.isNaN(zoomFactorZ) || DoubleUtil.isGreaterEqual(0, zoomFactorZ)) {
 			zScaleEnd = zScaleStart;
 		} else {
 			zScaleEnd = xScaleStart * zoomFactorZ;

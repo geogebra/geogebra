@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.advanced;
 
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
@@ -25,6 +24,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 
 /**
  * Taylor series of a function (GeoFunction)
@@ -133,7 +133,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 		}
 
 		ExpressionNode series = null; // expression for the Taylor series
-		if (!Kernel.isZero(coeff)) {
+		if (!DoubleUtil.isZero(coeff)) {
 			series = new ExpressionNode(kernel, new MyDouble(kernel, coeff));
 		}
 
@@ -144,7 +144,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 			ExpressionValue diffExp;
 
 			// build the expression (x - a)
-			if (Kernel.isZero(ad)) { // only x
+			if (DoubleUtil.isZero(ad)) { // only x
 				diffExp = fVar;
 			} else if (ad > 0) { // (x - a)
 				diffExp = new ExpressionNode(kernel, fVar, Operation.MINUS,
@@ -175,7 +175,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 				if (Double.isNaN(coeff) || Double.isInfinite(coeff)) {
 					g.setUndefined();
 					return;
-				} else if (Kernel.isZero(coeff))
+				} else if (DoubleUtil.isZero(coeff))
 				 {
 					continue; // this part vanished
 				}
@@ -201,7 +201,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 				// (k-thDerivative of f at a) * (x - a)^k / k!
 				ExpressionValue partExp;
 				MyDouble coeffMyDouble = null;
-				if (Kernel.isEqual(coeff, 1.0)) {
+				if (DoubleUtil.isEqual(coeff, 1.0)) {
 					partExp = powerExp;
 				} else {
 					coeffMyDouble = new MyDouble(kernel, coeff);

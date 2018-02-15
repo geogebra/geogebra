@@ -9,7 +9,6 @@ import org.apache.commons.math3.linear.SingularValueDecomposition;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.kernel.Construction;
-import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import org.geogebra.common.kernel.algos.AlgoFocus;
 import org.geogebra.common.kernel.algos.AlgoFunctionFreehand;
@@ -32,6 +31,7 @@ import org.geogebra.common.kernel.kernelND.GeoSegmentND;
 import org.geogebra.common.kernel.statistics.AlgoFitImplicit;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -252,12 +252,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		GeoList list = new GeoList(cons);
 		// checkDecimalFraction() -> shorter XML
 		list.add(new GeoNumeric(cons,
-				Kernel.checkDecimalFraction(view.toRealWorldCoordX(minX))));
+				DoubleUtil.checkDecimalFraction(view.toRealWorldCoordX(minX))));
 		list.add(new GeoNumeric(cons,
-				Kernel.checkDecimalFraction(view.toRealWorldCoordX(maxX))));
+				DoubleUtil.checkDecimalFraction(view.toRealWorldCoordX(maxX))));
 		for (int i = 0; i < n; i++) {
 			list.add(new GeoNumeric(cons,
-					Kernel.checkDecimalFraction(freehand1[i])));
+					DoubleUtil.checkDecimalFraction(freehand1[i])));
 		}
 
 		// create the freehand function
