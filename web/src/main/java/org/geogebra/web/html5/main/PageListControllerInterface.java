@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.plugin.EventType;
 
 /**
  * Controller for multipage files
@@ -37,9 +38,9 @@ public interface PageListControllerInterface {
 	 */
 	boolean loadSlides(GgbFile archiveContent);
 
-	void removeSlide(int idx);
-
-	void addNewPreviewCard(boolean selected, int idx, GgbFile file);
 
 	String getSlideID();
+
+
+	void executeAction(EventType action, String[] args);
 }

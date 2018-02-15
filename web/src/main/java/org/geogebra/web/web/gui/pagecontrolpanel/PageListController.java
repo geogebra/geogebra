@@ -17,6 +17,7 @@ import org.geogebra.web.html5.main.PageListControllerInterface;
 import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.web.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.web.main.AppWFull;
+import org.geogebra.web.web.main.AppWapplet;
 
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -149,11 +150,26 @@ public class PageListController implements PageListControllerInterface,
 	 *            to duplicate.
 	 * @return the new, duplicated card.
 	 */
-	public PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
+	public PagePreviewCard duplicateSlideStoreUndo(PagePreviewCard sourceCard) {
+		PagePreviewCard ret = duplicateSlide(sourceCard);
+		app.getKernel().getConstruction().getUndoManager().storeAction(
+				EventType.DUPLICATE_SLIDE,
+				new String[] { sourceCard.getPageIndex() + "" });
+		return ret;
+	}
+
+	/**
+	 * Duplicates slide
+	 * 
+	 * @param sourceCard
+	 *            to duplicate.
+	 * @return the new, duplicated card.
+	 */
+	private PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
+
 		savePreviewCard(selectedCard);
 		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard);
 		int dupIdx = dup.getPageIndex();
-		
 		slides.add(dupIdx, dup);
 		setCardSelected(dup);
 		changeSlide(dup);
@@ -347,11 +363,11 @@ public class PageListController implements PageListControllerInterface,
 	 * @param newPage
 	 *            true if slide is new page
 	 */
-	protected void loadPage(int index, boolean newPage) {
+	public void loadPage(int index, boolean newPage) {
 		loadSlide(selectedCard, index, newPage);
 		setCardSelected(getCards().get(index));
 	}
-	
+
 
 	@Override
 	public void clickPage(int pageIdx) {
@@ -406,7 +422,15 @@ public class PageListController implements PageListControllerInterface,
 		return listener;
 	}
 
-	@Override
+
+	/**
+	 * @param selected
+	 *            whether to select
+	 * @param index
+	 *            position to insert
+	 * @param file
+	 *            GeoGebra file (single slide)
+	 */
 	public void addNewPreviewCard(boolean selected, int index, GgbFile file) {
 		final PagePreviewCard card = addSlide(index, file);
 		if (selected) {
@@ -417,6 +441,31 @@ public class PageListController implements PageListControllerInterface,
 	@Override
 	public String getSlideID() {
 		return selectedCard.getPageIndex() + "";
+	}
+
+	public void executeAction(EventType action, String[] args) {
+		if (action == EventType.ADD_SLIDE) {
+			int idx = args.length > 0 ? Integer.parseInt(args[0])
+					: getSlideCount();
+			GgbFile file = new GgbFile();
+			if (args.length > 1) {
+				file.put("geogebra.xml", args[1]);
+			}
+			String perspXML = app.getGgbApi().getPerspectiveXML();
+			addNewPreviewCard(false, idx, file);
+			loadSlide(null, idx, false);
+			setCardSelected(getCards().get(idx));
+			updatePreviewImage();
+			app.getGgbApi().setPerspective(perspXML);
+		} else if (action == EventType.REMOVE_SLIDE) {
+
+			removeSlide(getSlideCount() - 1);
+
+		} else if (action == EventType.DUPLICATE_SLIDE) {
+			duplicateSlide(slides.get(Integer.parseInt(args[0])));
+		}
+		((AppWapplet) app).getAppletFrame().getPageControlPanel().update();
+
 	}
 
 }

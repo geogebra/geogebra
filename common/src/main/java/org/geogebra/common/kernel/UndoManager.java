@@ -90,6 +90,10 @@ public abstract class UndoManager {
 			if(action == EventType.ADD_SLIDE){
 				mgr.executeAction(EventType.REMOVE_SLIDE, new String[0]);
 			}
+			else if (action == EventType.DUPLICATE_SLIDE) {
+				mgr.executeAction(EventType.REMOVE_SLIDE,
+						new String[] { (Integer.parseInt(args[0]) + 1) + "" });
+			}
 			else if (action == EventType.REMOVE_SLIDE) {
 				mgr.executeAction(EventType.ADD_SLIDE,
 						new String[] { args[0], mgr.getCheckpoint(args[0]) });

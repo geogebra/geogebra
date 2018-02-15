@@ -258,22 +258,7 @@ public class MyXMLHandler implements DocHandler {
 	private ArrayList<DockSplitPaneData> tmp_panes;
 	private ArrayList<DockPanelData> tmp_views;
 
-	/**
-	 * Backward compatibility for version < 3.03 where no layout component was
-	 * used. Temporary storage for the split divider location of the split panes
-	 * #1/#2.
-	 */
-	private int tmp_sp1, tmp_sp2;
-
-	/**
-	 * If the split divider is horizontal. (version < 3.03)
-	 */
-	private boolean tmp_spHorizontal = true;
-
-	/**
-	 * If the algebra or spreadsheet view is visible. (version < 3.03)
-	 */
-	private boolean tmp_showAlgebra, tmp_showSpreadsheet;
+	private CompatibilityLayout compLayout = new CompatibilityLayout();
 
 	/**
 	 * flag so that we can reset EVSettings the first time we get them (for EV1
@@ -400,7 +385,7 @@ public class MyXMLHandler implements DocHandler {
 		fontTagProcessed = false;
 		lineStyleTagProcessed = false;
 		symbolicTagProcessed = false;
-		tmp_spHorizontal = true;
+		compLayout = new CompatibilityLayout();
 
 		initKernelVars();
 
@@ -2149,7 +2134,7 @@ public class MyXMLHandler implements DocHandler {
 			if ("show".equals(eName)) {
 				ok = handleGuiShow(app, attrs);
 			} else if ("splitDivider".equals(eName)) {
-				ok = handleSplitDivider(attrs);
+				ok = compLayout.handleSplitDivider(attrs);
 			} else if ("settings".equals(eName)) {
 				ok = handleGuiSettings(app, attrs);
 			}
@@ -2199,148 +2184,11 @@ public class MyXMLHandler implements DocHandler {
 	 * Take care of backward compatibility for the dynamic layout component
 	 */
 	private void createCompabilityLayout() {
-		int splitOrientation = tmp_spHorizontal
-				? SwingConstants.HORIZONTAL_SPLIT
-				: SwingConstants.VERTICAL_SPLIT;
-		String defEV, defSV, defAV;
-		// we have to create the definitions for the single views manually to
-		// prevent nullpointers
-		if (splitOrientation == SwingConstants.HORIZONTAL_SPLIT) {
-			if (tmp_showSpreadsheet && tmp_showAlgebra) {
-				defEV = "1,3";
-				defSV = "1,1";
-				defAV = "3";
-			} else {
-				if (tmp_showSpreadsheet) {
-					defEV = "3";
-					defSV = "1";
-					defAV = "3,3"; // not used directly
-				} else {
-					defEV = "1";
-					defAV = "3";
-					defSV = "1,1"; // not used directly
-				}
-			}
-		} else {
-			if (tmp_showSpreadsheet && tmp_showAlgebra) {
-				defEV = "0";
-				defAV = "2,0";
-				defSV = "2,2";
-			} else {
-				if (tmp_showSpreadsheet) {
-					defEV = "0";
-					defSV = "2";
-					defAV = "0,0"; // not used directly
-				} else {
-					defEV = "2";
-					defAV = "0";
-					defSV = "2,2"; // not used directly
-				}
-			}
-		}
-
-		GDimension evSize = app.getSettings().getEuclidian(1)
-				.getPreferredSize();
-
-		// calculate window dimensions
-		int width = evSize.getWidth();
-		int height = evSize.getHeight();
-
-		// minimal size for documents, necessary for GeoGebra < 3
-		if (width <= 100 || height <= 100) {
-			width = 600;
-			height = 440;
-		}
-
-		int ssize = 200;
-		if (tmp_showSpreadsheet) {
-			if (splitOrientation == SwingConstants.HORIZONTAL_SPLIT) {
-				ssize = app.getSettings().getSpreadsheet().preferredSize()
-						.getWidth();
-			} else {
-				ssize = app.getSettings().getSpreadsheet().preferredSize()
-						.getHeight();
-			}
-		}
-
-		// construct default xml data in case we're using an old version which
-		// didn't
-		// store the layout xml.
-		DockPanelData[] dpXml = new DockPanelData[] {
-				new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false,
-						AwtFactory.getPrototype().newRectangle(400, 400), defEV,
-						width),
-				new DockPanelData(App.VIEW_ALGEBRA, null, tmp_showAlgebra,
-						false, false,
-						AwtFactory.getPrototype().newRectangle(200, 400), defAV,
-						(tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2 : 200),
-				new DockPanelData(App.VIEW_SPREADSHEET, null,
-						tmp_showSpreadsheet, false, false,
-						AwtFactory.getPrototype().newRectangle(400, 400), defSV,
-						ssize) };
-		tmp_perspective.setDockPanelData(dpXml);
-		tmp_perspective.setShowToolBar(true);
-
-		if (splitOrientation == SwingConstants.HORIZONTAL_SPLIT) {
-			if (tmp_showSpreadsheet) {
-				width += 5 + ssize;
-			}
-
-			if (tmp_showAlgebra) {
-				width += 5 + tmp_sp2;
-			}
-		} else {
-			if (tmp_showSpreadsheet) {
-				height += 5 + ssize;
-			}
-			if (tmp_showAlgebra) {
-				height += 5 + tmp_sp2;
-			}
-		}
-
-		DockSplitPaneData[] spXml;
-
-		// use two split panes in case all three views are visible
-		if (tmp_showSpreadsheet && tmp_showAlgebra) {
-			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-					? width : height);
-			double relative1 = (double) tmp_sp2 / total;
-			double relative2 = (double) tmp_sp1 / (total - tmp_sp2);
-			spXml = new DockSplitPaneData[] {
-					new DockSplitPaneData("", relative1, splitOrientation),
-					new DockSplitPaneData(
-							(splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-									? "1" : "2"),
-							relative2, splitOrientation) };
-		} else {
-			int total = (splitOrientation == SwingConstants.HORIZONTAL_SPLIT
-					? width : height);
-			double relative;
-			if (tmp_showSpreadsheet) {
-				relative = tmp_sp1 / (double) total;
-			} else {
-				relative = tmp_sp2 / (double) total;
-			}
-			spXml = new DockSplitPaneData[] {
-					new DockSplitPaneData("", relative, splitOrientation) };
-		}
-
-		// additional space for toolbar and others, we add this here
-		// as it shouldn't influence the relative positions of the
-		// split pane dividers above
-		width += 15;
-		height += 90;
-
-		if (tmp_perspective.getShowInputPanel()) {
-			height += 50;
-		}
-
-		tmp_perspective.setSplitPaneData(spXml);
+		this.compLayout.update(tmp_perspective, app);
 
 		tmp_perspectives = new ArrayList<>();
 		tmp_perspectives.add(tmp_perspective);
-		app.setPreferredSize(
-				AwtFactory.getPrototype().newDimension(width, height));
+		app.setPreferredSize(compLayout.getDimension());
 		app.setTmpPerspectives(tmp_perspectives);
 	}
 
@@ -2348,25 +2196,12 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		try {
 
-			/*
-			 * TODO: iterator() function caused error in GWT. Why?
-			 * 
-			 * //Iterator<String> it = attrs.keySet().iterator(); Set<String>
-			 * temp = attrs.keySet(); Iterator<String> it = temp.iterator();
-			 * 
-			 * int colCounter = 0; boolean[] colsVis = new
-			 * boolean[attrs.keySet().size()]; while (it.hasNext()) { Object ob
-			 * = attrs.get(it.next()); boolean isVisible = parseBoolean((String)
-			 * ob); colsVis[colCounter++] = isVisible; }
-			 */
-
 			boolean[] colsVis = new boolean[attrs.keySet().size()];
 
 			ArrayList<String> keys = new ArrayList<>(attrs.keySet());
 			for (String key : keys) {
 				int k = Integer.parseInt(key.substring(3));
 				colsVis[k] = Boolean.parseBoolean(attrs.get(key));
-
 			}
 
 			ConstructionProtocolSettings cpSettings = app.getSettings()
@@ -2448,9 +2283,10 @@ public class MyXMLHandler implements DocHandler {
 			// backward compatibility to versions without the layout component
 			// if (ggbFileFormat < 3.3) {// also used in some special, newer
 			// files
-			tmp_showAlgebra = parseBoolean(attrs.get("algebraView"));
+			compLayout.showAlgebra = parseBoolean(attrs.get("algebraView"));
 
-			tmp_showSpreadsheet = parseBoolean(attrs.get("spreadsheetView"));
+			compLayout.showSpreadsheet = parseBoolean(
+					attrs.get("spreadsheetView"));
 
 			String str = attrs.get("auxiliaryObjects");
 			boolean auxiliaryObjects = (str != null && "true".equals(str));
@@ -2510,52 +2346,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	/**
-	 * Kept for backward compatibility with version < 3.3
-	 * 
-	 * @param attrs
-	 * @return
-	 */
-	private boolean handleSplitDivider(LinkedHashMap<String, String> attrs) {
-		try {
-			tmp_sp1 = 0;
-			tmp_sp2 = 0;
-			tmp_spHorizontal = !"false".equals(attrs.get("horizontal"));
 
-			// There were just two panels in GeoGebra < 3.2, therefore just one
-			// split divider position
-			// may be given. 'loc' in < 3.2 corresponds to 'loc2' in 3.2+.
-			if (attrs.get("loc2") == null) {
-				attrs.put("loc2", attrs.get("loc"));
-				attrs.put("loc", "0"); // prevent NP exception in
-										// Integer.parseInt()
-			}
-
-			if (tmp_spHorizontal) {
-				tmp_sp1 = Integer.parseInt(attrs.get("loc"));
-				tmp_sp2 = Integer.parseInt(attrs.get("loc2"));
-			} else {
-				String strLocVert = attrs.get("locVertical");
-				if (strLocVert != null) {
-					tmp_sp1 = Integer.parseInt(strLocVert);
-				} else {
-					tmp_sp1 = Integer.parseInt(attrs.get("loc"));
-				}
-
-				String strLocVert2 = attrs.get("locVertical2");
-				if (strLocVert2 != null) {
-					tmp_sp2 = Integer.parseInt(strLocVert2);
-				} else {
-					tmp_sp2 = Integer.parseInt(attrs.get("loc2"));
-				}
-			}
-			return true;
-		} catch (RuntimeException e) {
-			tmp_sp1 = 0;
-			tmp_sp2 = 0;
-			return false;
-		}
-	}
 
 	private boolean handleToolbar(LinkedHashMap<String, String> attrs) {
 		try {
@@ -6086,7 +5877,6 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleAlgebraViewShowAuxiliaryObjects(
 			LinkedHashMap<String, String> attrs) {
-
 		try {
 			boolean b = parseBoolean(attrs.get("show"));
 			app.getSettings().getAlgebra().setShowAuxiliaryObjects(b);

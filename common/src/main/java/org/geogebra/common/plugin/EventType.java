@@ -102,7 +102,9 @@ public enum EventType {
 	/** new slide (whiteboard) */
 	ADD_SLIDE("addSlide"),
 	/** remove slide (whiteboard) */
-	REMOVE_SLIDE("removeSlide");
+	REMOVE_SLIDE("removeSlide"),
+	/** duplicate slide (whiteboard) */
+	DUPLICATE_SLIDE("duplicateSlide");
 
 	private String eventName;
 

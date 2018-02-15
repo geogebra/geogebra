@@ -43,7 +43,6 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.javax.swing.GImageIconW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ViewW;
@@ -1033,21 +1032,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 	@Override
 	public void executeAction(EventType action, String[] args) {
-		if (action == EventType.ADD_SLIDE) {
-			int idx = args.length > 0 ? Integer.parseInt(args[0])
-					: getPageController().getSlideCount();
-			GgbFile file = new GgbFile();
-			if(args.length>1){
-				file.put("geogebra.xml", args[1]);
-			}
-			getPageController().addNewPreviewCard(false, idx, file);
-		}
-		else if (action == EventType.REMOVE_SLIDE) {
-			getPageController()
-					.removeSlide(getPageController().getSlideCount() - 1);
-
-		}
-		getAppletFrame().getPageControlPanel().update();
+		getPageController().executeAction(action, args);
 	}
 
 }

@@ -313,7 +313,7 @@ public class PageListPanel
 	 *            to duplicate page at.
 	 */
 	public void duplicatePage(PagePreviewCard src) {
-		PagePreviewCard dup = pageController.duplicateSlide(src);
+		PagePreviewCard dup = pageController.duplicateSlideStoreUndo(src);
 		addPreviewCard(dup);
 		pageController.updatePreviewImage();
 	}
