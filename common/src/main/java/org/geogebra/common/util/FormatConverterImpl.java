@@ -36,7 +36,7 @@ public class FormatConverterImpl implements FormatConverter {
 					.getValidExpressionNoExceptionHandling(expression);
 			// parses OK as GGB, not LaTeX
 			return false;
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			// fall through
 		}
 
