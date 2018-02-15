@@ -875,8 +875,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		// set halfAxes = radius
 		halfAxes[0] = Math.sqrt(1.0d / mu[0]);
 		halfAxes[1] = Math.sqrt(1.0d / mu[1]);
-		halfAxes[2] = MyDouble.exactEqual(mu[2], 0) ? Double.POSITIVE_INFINITY
-				: Math.sqrt(-1.0d / mu[2]);
+
+		double min = Math.min(mu[0], mu[1]);
+		if (Kernel.isEpsilonToX(mu[2], min)) {
+			halfAxes[2] = Double.POSITIVE_INFINITY;
+		} else {
+			halfAxes[2] = Math.sqrt(-1.0d / mu[2]);
+		}
 
 		// set the diagonal values
 		for (int i = 0; i < 3; i++) {
