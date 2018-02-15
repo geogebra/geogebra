@@ -24,6 +24,7 @@ import javax.swing.DefaultListSelectionModel;
 
 import org.geogebra.common.jre.io.MyXMLioJre;
 import org.geogebra.common.kernel.Construction;
+import org.geogebra.common.kernel.UndoCommand;
 import org.geogebra.common.kernel.UndoManager;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.Event;

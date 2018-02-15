@@ -66,7 +66,6 @@ public class PageListController implements PageListControllerInterface,
 		slides = new ArrayList<>();
 		this.listener = listener;
 		dragCtrl = new DragController(this, app);
-		
 	}
 
 	/**
@@ -153,8 +152,7 @@ public class PageListController implements PageListControllerInterface,
 	public PagePreviewCard duplicateSlideStoreUndo(PagePreviewCard sourceCard) {
 		PagePreviewCard ret = duplicateSlide(sourceCard);
 		app.getKernel().getConstruction().getUndoManager().storeAction(
-				EventType.DUPLICATE_SLIDE,
-				new String[] { sourceCard.getPageIndex() + "" });
+				EventType.DUPLICATE_SLIDE, sourceCard.getPageIndex() + "");
 		return ret;
 	}
 
@@ -321,12 +319,18 @@ public class PageListController implements PageListControllerInterface,
 	 *            destination index
 	 */
 	public void reorder(int srcIdx, int destIdx) {
+		doReorder(srcIdx, destIdx);
+		app.getKernel().getConstruction().getUndoManager()
+				.storeAction(EventType.MOVE_SLIDE, srcIdx + "", destIdx + "");
+	}
+
+
+	private void doReorder(int srcIdx, int destIdx) {
 		PagePreviewCard src = slides.get(srcIdx);
 		slides.remove(srcIdx);
 		slides.add(destIdx, src);
 		updatePageIndexes(Math.min(srcIdx, destIdx));
 	}
-
 
 	/**
 	 * Add style to a given card, removes from all other ones.
@@ -463,6 +467,8 @@ public class PageListController implements PageListControllerInterface,
 
 		} else if (action == EventType.DUPLICATE_SLIDE) {
 			duplicateSlide(slides.get(Integer.parseInt(args[0])));
+		} else if (action == EventType.MOVE_SLIDE) {
+			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		}
 		((AppWapplet) app).getAppletFrame().getPageControlPanel().update();
 

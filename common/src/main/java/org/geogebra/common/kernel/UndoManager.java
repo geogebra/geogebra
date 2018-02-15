@@ -38,73 +38,6 @@ public abstract class UndoManager {
 
 	}
 
-	protected static class UndoCommand {
-
-		private AppState appState;
-		private EventType action;
-		private String[] args;
-		private String slideID;
-
-		public UndoCommand(AppState appStateToAdd) {
-			this.appState = appStateToAdd;
-		}
-
-		public UndoCommand(AppState appStateToAdd, String slideID) {
-			this.appState = appStateToAdd;
-			this.slideID = slideID;
-		}
-
-		public UndoCommand(EventType action, String[] args) {
-			this.action = action;
-			this.args = args;
-		}
-
-		public AppState getAppState() {
-			return appState;
-		}
-
-		public void delete() {
-			if (appState != null) {
-				appState.delete();
-			}
-		}
-
-		public void redo(UndoManager undoManager) {
-			if (appState != null) {
-				undoManager.loadUndoInfo(appState);
-			} else {
-				undoManager.executeAction(action, args);
-			}
-		}
-
-		public EventType getAction() {
-			return action;
-		}
-
-		public String[] getArgs() {
-			return args;
-		}
-
-		public void undo(UndoManager mgr) {
-			
-			if(action == EventType.ADD_SLIDE){
-				mgr.executeAction(EventType.REMOVE_SLIDE, new String[0]);
-			}
-			else if (action == EventType.DUPLICATE_SLIDE) {
-				mgr.executeAction(EventType.REMOVE_SLIDE,
-						new String[] { (Integer.parseInt(args[0]) + 1) + "" });
-			}
-			else if (action == EventType.REMOVE_SLIDE) {
-				mgr.executeAction(EventType.ADD_SLIDE,
-						new String[] { args[0], mgr.getCheckpoint(args[0]) });
-			}
-		}
-
-		public String getSlideID() {
-			return slideID;
-		}
-
-	}
 	/**
 	 * @param cons
 	 *            construction
@@ -147,7 +80,7 @@ public abstract class UndoManager {
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
 			if (last.getAction() != null) {
-				last.undo(this);
+				last.undoAction(this);
 			} else {
 				UndoCommand prev = iterator.previous();
 				if (prev.getAppState() != null) {
@@ -155,7 +88,7 @@ public abstract class UndoManager {
 				} else {
 					// TODO if prev is ADD_SLIDE this resets last slide; not
 					// generic
-					prev.undo(this);
+					prev.undoAction(this);
 					prev.redo(this);
 				}
 				iterator.next();
@@ -348,7 +281,7 @@ public abstract class UndoManager {
 		storeUndoInfoNeededForProperties = false;
 	}
 
-	public void storeAction(EventType action, String[] args) {
+	public void storeAction(EventType action, String... args) {
 		iterator.add(new UndoCommand(action, args));
 		this.pruneStateList();
 
