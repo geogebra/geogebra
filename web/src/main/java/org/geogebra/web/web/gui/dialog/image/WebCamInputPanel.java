@@ -104,8 +104,13 @@ public class WebCamInputPanel extends VerticalPanel {
 								},
 								function(err) {
 									deniedByUser = true;
+									if (err.name == "NotFoundError") {
+										that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
+									}
+									if (err.name == "NotAllowedError") {
+										that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showPermissionDeniedDialog()();
+									}
 									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error from WebCam: "+err);
-									that.@org.geogebra.web.web.gui.dialog.image.WebCamInputPanel::showPermissionDeniedDialog()();
 								});
 				setTimeout(
 						function() {

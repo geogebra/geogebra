@@ -1,10 +1,8 @@
 package org.geogebra.web.web.gui.dialog.image;
 
-import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.Localization;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.dialog.DialogBoxW;
 
@@ -24,7 +22,7 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 	private AppW app1;
 	private FlowPanel mainPanel;
 	private FlowPanel buttonPanel;
-	private Button cancelBtn;
+	private Button dismissBtn;
 	private Label text;
 	private DialogType dialogType;
 
@@ -59,18 +57,22 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 
 	private void initGUI() {
 		text = new Label();
-		cancelBtn = new Button("");
-		cancelBtn.addClickHandler(this);
-		buttonPanel = new FlowPanel();
-		buttonPanel.setStyleName("DialogButtonPanel");
-		buttonPanel.add(cancelBtn);
-
 		mainPanel = new FlowPanel();
 		mainPanel.add(text);
-		mainPanel.add(buttonPanel);
 		add(mainPanel);
 		addStyleName("GeoGebraPopup");
 		addStyleName("mowPermissionDialog");
+
+		if (dialogType != DialogType.PERMISSION_REQUEST) {
+			dismissBtn = new Button("");
+			dismissBtn.addClickHandler(this);
+			buttonPanel = new FlowPanel();
+			buttonPanel.setStyleName("DialogButtonPanel");
+			buttonPanel.add(dismissBtn);
+			mainPanel.add(buttonPanel);
+		} else {
+			addStyleName("noButtons");
+		}
 	}
 
 	/**
@@ -80,21 +82,14 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		Localization loc = app1.getLocalization();
 		String message = "";
 		String caption = "";
-		cancelBtn.setText(loc.getMenu("OK"));
+		if (dialogType != DialogType.PERMISSION_REQUEST) {
+			dismissBtn.setText(loc.getMenu("dismiss"));
+		}
 
 		switch (dialogType) {
 		case PERMISSION_REQUEST:
 			caption = loc.getMenu("Webcam.Request");
-			if (app1.getVersion() == Versions.WEB_FOR_DESKTOP) {
-				message = "";
-			} else if (Browser.isFirefox()) {
-				message = loc.getMenu("Webcam.Firefox");
-			} else if (Browser.isEdge()) {
-				message = loc.getMenu("Webcam.Edge");
-			} else {
-				message = loc.getMenu("Webcam.Chrome");
-			}
-			cancelBtn.setText(loc.getMenu("Cancel"));
+			message = loc.getMenu("Webcam.Request.Message");
 			break;
 		case PERMISSION_DENIED:
 			caption = loc.getMenu("Webcam.Denied.Caption");
@@ -115,7 +110,7 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
-		if (source == cancelBtn) {
+		if (source == dismissBtn) {
 			cancel();
 		}
 	}
