@@ -1163,7 +1163,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				boolean isMarked = tracker.isMarked(so, RegroupTracker.MarkType.ROOT);
 
 				for (int i = 0; i < bases.size(); i++) {
-					if (isEqual(exponents.get(i), 0)) {
+					if (exponents.get(i) == null) {
 						continue;
 					}
 
@@ -1178,7 +1178,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 					boolean foundCommon = false;
 					for (int j = i + 1; j < bases.size(); j++) {
-						if (isEqual(exponents.get(j), 0)) {
+						if (exponents.get(j) == null) {
 							continue;
 						}
 
@@ -1191,7 +1191,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 							bases.get(j).setColor(tracker.getColorTracker());
 
 							exponents.set(i, add(exponents.get(i), exponents.get(j)));
-							exponents.set(j, StepConstant.create(0));
+							exponents.set(j, null);
 						}
 					}
 
@@ -1205,7 +1205,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 				StepExpression newProduct = null;
 				for (int i = 0; i < bases.size(); i++) {
-					if (!isEqual(exponents.get(i), 0) && !isEqual(bases.get(i), 1)) {
+					if (exponents.get(i) != null) {
 						newProduct = makeFraction(newProduct, bases.get(i), exponents.get(i));
 					}
 				}

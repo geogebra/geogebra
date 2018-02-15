@@ -127,6 +127,7 @@ public class SolveStepTest {
 
 	@Test
 	public void cubicEquations() {
+		t("x^2 * x", "x", "x", "-1", "0", "1");;
 		t("x^3", "x", "x", "-1", "0", "1");
 		t("x^3 + 3 * a * x^2 + 3 * a^2 * x + 1", "0", "x", "(nroot(((a)^(3)-1), 3)-a)");
 		t("x^3+1", "4", "x", "nroot(3, 3)");
