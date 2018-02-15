@@ -92,10 +92,10 @@ public class Browser {
 	 * @return whether we are running under iOS
 	 */
 	public static native String getMobileOperatingSystem()/*-{
-		var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+		var userAgent = $wnd.navigator.userAgent;
 
-		//iOS detection from: http://sackoverflow.com/a/9039885/177710
-		if (/Mac|iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+		//iOS detection from: http://stackoverflow.com/a/9039885/177710
+		if (/Mac|iPad|iPhone|iPod/.test(userAgent) && !$wnd.MSStream) {
 			return "iOS";
 		}
 		return "unknown";
@@ -123,7 +123,13 @@ public class Browser {
 	 * @return true if WebAssembly supported
 	 */
 	public static native boolean webAssemblySupported()/*-{
-		return !!$wnd.WebAssembly;
+
+		// currently iOS11 giac.wasm gives slightly wrong results
+		// eg Numeric(fractionalPart(2.7)) gives 0.6999999999999 rather than 0.7
+		var iOS = /iPad|iPhone|iPod/.test($wnd.navigator.userAgent)
+				&& !$wnd.MSStream;
+
+		return !iOS && !!$wnd.WebAssembly;
 	}-*/;
 
 	public static native boolean supportsPointerEvents(boolean usePen)/*-{
