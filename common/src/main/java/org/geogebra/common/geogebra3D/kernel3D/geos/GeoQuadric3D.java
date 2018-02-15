@@ -77,6 +77,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	private Coords tmpCoords2, tmpCoords3, tmpCoords4, tmpCoords5;
 	private CoordMatrix tmpMatrix4x2, tmpMatrix2x4;
 	private CoordMatrix4x4 tmpMatrix4x4;
+	private double[] tmpEqn;
 
 	private Coords tmpCoords = new Coords(4);
 
@@ -877,10 +878,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		halfAxes[1] = Math.sqrt(1.0d / mu[1]);
 
 		double min = Math.min(mu[0], mu[1]);
+		double e3;
 		if (Kernel.isEpsilonToX(mu[2], min)) {
 			halfAxes[2] = Double.POSITIVE_INFINITY;
+			e3 = 1;
 		} else {
 			halfAxes[2] = Math.sqrt(-1.0d / mu[2]);
+			e3 = halfAxes[2];
 		}
 
 		// set the diagonal values
@@ -890,7 +894,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		diagonal[3] = -1;
 
 		// eigen matrix
-		setEigenMatrix(halfAxes[0], halfAxes[1], halfAxes[2]);
+		setEigenMatrix(halfAxes[0], halfAxes[1], e3);
 
 		// set type
 		type = QUADRIC_HYPERBOLOID_ONE_SHEET;
@@ -2006,13 +2010,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					Math.sin(u) * Math.cos(v), Math.sin(v));
 			break;
 		case QUADRIC_HYPERBOLOID_ONE_SHEET:
-			double ch = Math.cosh(DrawConic3D.asinh(v));
-			point.setMulPoint(eigenMatrix, Math.cos(u) * ch, Math.sin(u) * ch,
-					v);
+			if (getHalfAxis(2) == Double.POSITIVE_INFINITY) {
+				point.setMulPoint(eigenMatrix, Math.cos(u), Math.sin(u), v);
+			} else {
+				double ch = Math.cosh(DrawConic3D.asinh(v));
+				point.setMulPoint(eigenMatrix, Math.cos(u) * ch, Math.sin(u) * ch, v);
+			}
 			break;
-
 		case QUADRIC_HYPERBOLOID_TWO_SHEETS:
-			double t;
+			double t, ch;
 			if (v < -1) {
 				t = -DrawConic3D.acosh(-v);
 				ch = v;
@@ -2700,12 +2706,25 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		double a = sm.get(1, 1);
 		double b = sm.get(1, 2);
 		double c = sm.get(2, 2);
-		double Delta = b * b - a * c;
+		
+		if (tmpEqn == null) {
+			tmpEqn = new double[3];
+		}
+		tmpEqn[0] = c;
+		tmpEqn[1] = 2 * b;
+		tmpEqn[2] = a;
 
-		if (Delta >= 0) {
-			double t1 = (-b - Math.sqrt(Delta)) / a;
-			double t2 = (-b + Math.sqrt(Delta)) / a;
+		int nRoots = EquationSolver.solveQuadratic(tmpEqn);
 
+		if (nRoots > 0) {
+			double t1, t2;
+			if (tmpEqn[0] < tmpEqn[1]) {
+				t1 = tmpEqn[0];
+				t2 = tmpEqn[1];
+			} else {
+				t1 = tmpEqn[1];
+				t2 = tmpEqn[0];
+			}
 			tmpCoords.setAdd(willingCoords,
 					tmpCoords.setMul(willingDirection, t1));
 			getNormalProjectionParameters(tmpCoords, parameters1);
