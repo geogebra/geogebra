@@ -279,6 +279,11 @@ public class PagePreviewCard extends FlowPanel
 		getElement().getStyle().setMarginBottom(MARGIN, Unit.PX);
 	}
 
+	public void addSpaceBottom() {
+		getElement().getStyle().setMarginTop(MARGIN, Unit.PX);
+		getElement().getStyle().setMarginBottom(SPACE_HEIGHT, Unit.PX);
+	}
+
 	/**
 	 * Removes space before the card for animation.
 	 */
@@ -290,9 +295,9 @@ public class PagePreviewCard extends FlowPanel
 	/**
 	 * Removes space before the card for animation.
 	 */
-	public void removeSpaceAsHalf() {
-		getElement().getStyle().setMarginTop(2 * MARGIN, Unit.PX);
-		getElement().getStyle().setMarginBottom(MARGIN, Unit.PX);
+	public void clearSpace() {
+		getElement().getStyle().setMarginTop(0, Unit.PX);
+		getElement().getStyle().setMarginBottom(0, Unit.PX);
 	}
 
 	/**
@@ -302,7 +307,7 @@ public class PagePreviewCard extends FlowPanel
 	 *            set.
 	 */
 	public void setSpaceValue(int value, boolean down) {
-		int opposite = SPACE_HEIGHT - value;
+		int opposite = SPACE_HEIGHT  - value;
 		getElement().getStyle().setMarginTop(down ? opposite: value, Unit.PX);
 		getElement().getStyle().setMarginBottom(down ? value: opposite, Unit.PX);
 	}

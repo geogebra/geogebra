@@ -114,7 +114,7 @@ class DragController {
 			diff = down ? card.getAbsoluteBottom() - last.top
 					: last.bottom - card.getAbsoluteTop();
 
-			// Log.debug((down ? "down " : "up ") + " diff: " + diff);
+			Log.debug((down ? "down " : "up ") + " diff: " + diff);
 			if (diff > 0 && diff < h) {
 				target.setSpaceValue(diff, down);
 			}
@@ -130,8 +130,7 @@ class DragController {
 			findTarget();
 			
 			if (target != null) {
-				onTargetChange();
-				if (isAnimated()) {
+				if (!onTargetChange() && isAnimated()) {
 					moveAnimated();
 				}
 			}
@@ -153,9 +152,9 @@ class DragController {
 			
 		}
 
-		private void onTargetChange() {
+		private boolean onTargetChange() {
 			if (target == last.target) {
-				return;
+				return false;
 			}
 			// int idx = target.getPageIndex();
 			// Log.debug("Target changed to: " + idx);
@@ -163,12 +162,20 @@ class DragController {
 				last.target.removeSpace();
 			}
 
-			target.addSpaceTop();
+			if (down) {
+				target.addSpaceTop();
+				last.setTop(target.getAbsoluteTop());
+				last.setBottom(target.getAbsoluteTop());
+			} else {
+				target.addSpaceBottom();
+				last.setTop(target.getAbsoluteTop());
+				last.setBottom(target.getAbsoluteBottom());
+			}
 
-			last.setTop(target.getAbsoluteTop());
-			last.setBottom(target.getAbsoluteTop());
+
 
 			last.target = target;
+			return true;
 		}
 
 		boolean drop(int y) {
