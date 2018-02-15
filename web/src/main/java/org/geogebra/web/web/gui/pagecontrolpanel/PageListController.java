@@ -50,7 +50,6 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	ArrayList<PagePreviewCard> slides;
 	private PagePreviewCard selectedCard;
-	private PagePreviewCard contextMenuCard;
 
 	private DragController dragCtrl;
 	private CardListInterface listener;

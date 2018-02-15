@@ -68,11 +68,12 @@ public class AnimatedGifEncoderW {
 		}
 
 		JavaScriptObject urls = createJsArrayString(gifs);
-		finish(urls, filename, width, height, repeat);
+		finish(urls, filename, width, height, repeat, frameDelay * 0.001);
 	}
 
 	private static native String finish(JavaScriptObject urls,
-			String filename, double width, double height, boolean repeat) /*-{
+			String filename, double width, double height, boolean repeat,
+			double delaySeconds) /*-{
 
 		//console.log(urls);
 
@@ -81,7 +82,8 @@ public class AnimatedGifEncoderW {
 						{
 							'images' : urls,
 							'gifWidth' : width,
-							'gifHeight' : height
+							'gifHeight' : height,
+							'interval' : delaySeconds
 						},
 						function(obj) {
 							if (!obj.error) {
