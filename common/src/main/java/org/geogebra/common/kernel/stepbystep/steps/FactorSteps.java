@@ -638,17 +638,12 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		}
 	};
 
-	public int type() {
-		switch (this) {
-		case FACTOR_BINOM_STRATEGY:
-		case FACTOR_COMMON:
-		case DEFAULT_FACTOR:
-		case SIMPLE_FACTOR:
-			return 2;
-		case FACTOR_POLYNOMIALS:
-			return 1;
-		default:
-			return 0;
-		}
+	@Override
+	public boolean isGroupType() {
+		return this == FACTOR_BINOM_STRATEGY
+				|| this == FACTOR_COMMON
+				|| this == DEFAULT_FACTOR
+				|| this == SIMPLE_FACTOR
+				|| this == FACTOR_POLYNOMIALS;
 	}
 }

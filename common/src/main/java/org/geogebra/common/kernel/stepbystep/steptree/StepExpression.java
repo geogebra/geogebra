@@ -43,7 +43,7 @@ public abstract class StepExpression extends StepNode {
 	public abstract boolean canBeEvaluated();
 
 	/**
-	 * @return the numeric value of the tree.
+	 * @return the numeric value of the expression.
 	 */
 	public abstract double getValue();
 
@@ -52,12 +52,12 @@ public abstract class StepExpression extends StepNode {
 	 *            the name of the variable to be replaced
 	 * @param value
 	 *            the value to be replaced with
-	 * @return the value of the tree after replacement
+	 * @return the value of the expression after replacement
 	 */
 	public abstract double getValueAt(StepVariable variable, double value);
 
 	/**
-	 * @return the non-variable coefficient of the tree (ex: 3 sqrt(3) x -> 3
+	 * @return the non-variable coefficient of the expression (ex: 3 sqrt(3) x -> 3
 	 *         sqrt(3))
 	 */
 	public StepExpression getCoefficient() {
@@ -65,7 +65,7 @@ public abstract class StepExpression extends StepNode {
 	}
 
 	/**
-	 * @return the variable part of the tree (ex: 3 x (1/sqrt(x)) -> x (1/sqrt(x)))
+	 * @return the variable part of the expression (ex: 3 x (1/sqrt(x)) -> x (1/sqrt(x)))
 	 */
 	public StepExpression getVariable() {
 		return getVariableIn(null);
@@ -76,12 +76,12 @@ public abstract class StepExpression extends StepNode {
 	public abstract StepExpression getVariableIn(StepVariable sv);
 
 	/**
-	 * @return the StepConstant coefficient of the tree (ex: 3 sqrt(3) -> 3)
+	 * @return the StepConstant coefficient of the expression (ex: 3 sqrt(3) -> 3)
 	 */
 	public abstract StepExpression getIntegerCoefficient();
 
 	/**
-	 * @return the non-StepConstant part of the tree (ex: 3 sqrt(3) -> sqrt(3))
+	 * @return the non-StepConstant part of the expression (ex: 3 sqrt(3) -> sqrt(3))
 	 */
 	public abstract StepExpression getNonInteger();
 

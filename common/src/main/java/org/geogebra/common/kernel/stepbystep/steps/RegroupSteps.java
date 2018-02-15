@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
@@ -895,7 +896,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepExpression result = divide(factoredNumerator, factoredDenominator);
 
 				if (!isOne(StepHelper.weakGCD(factoredNumerator, factoredDenominator)) && !so.equals(result)) {
-					sb.addGroup(SolutionStepType.FACTOR, temp, result);
+					sb.addGroup(new SolutionStep(SolutionStepType.FACTOR, sn), temp, result);
 
 					tracker.incColorTracker();
 					return result;
@@ -1724,20 +1725,15 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	};
 
-	public int type() {
-		switch (this) {
-			case FACTOR_FRACTIONS:
-			case SIMPLIFY_ROOTS:
-			case SIMPLIFY_FRACTIONS:
-			case DEFAULT_REGROUP:
-			case WEAK_REGROUP:
-				return 2;
-			case RATIONALIZE_DENOMINATORS:
-			case REGROUP_PRODUCTS:
-			case CONVERT_DECIMAL_TO_FRACTION:
-				return 1;
-			default:
-				return 0;
-		}
+	@Override
+	public boolean isGroupType() {
+		return this == FACTOR_FRACTIONS
+                || this == SIMPLIFY_ROOTS
+                || this == SIMPLIFY_FRACTIONS
+                || this == DEFAULT_REGROUP
+                || this == WEAK_REGROUP
+                || this == RATIONALIZE_DENOMINATORS
+                || this == REGROUP_PRODUCTS
+                || this == CONVERT_DECIMAL_TO_FRACTION;
 	}
 }

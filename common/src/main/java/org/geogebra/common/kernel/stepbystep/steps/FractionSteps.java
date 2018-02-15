@@ -152,11 +152,8 @@ public enum FractionSteps implements SimplificationStepGenerator {
         }
     };
 
-    public int type() {
-        if (this == ADD_FRACTIONS) {
-            return 1;
-        }
-
-        return 0;
+    @Override
+    public boolean isGroupType() {
+        return this == ADD_FRACTIONS;
     }
 }

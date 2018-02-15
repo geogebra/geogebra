@@ -80,15 +80,15 @@ public class StepStrategies {
 
 			if (tracker.wasChanged()) {
 				if (sb != null) {
-					if (simplificationStep.type() == 0) { // substep type
+					if (simplificationStep.isGroupType()) {
+						sb.addAll(changes.getSteps());
+					} else {
 						sb.add(SolutionStepType.SUBSTEP_WRAPPER);
 						sb.levelDown();
 						sb.add(SolutionStepType.EQUATION, sn.deepCopy());
 						sb.addAll(changes.getSteps());
 						sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
 						sb.levelUp();
-					} else { // strategy type
-						sb.addAll(changes.getSteps());
 					}
 				}
 

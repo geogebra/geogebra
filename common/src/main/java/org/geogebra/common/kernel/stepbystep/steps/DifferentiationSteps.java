@@ -491,11 +491,8 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 		}
 	};
 
-	public int type() {
-		if (this == DEFAULT_DIFFERENTIATE) {
-			return 2;
-		}
-
-		return 0;
+	@Override
+	public boolean isGroupType() {
+		return this == DEFAULT_DIFFERENTIATE;
 	}
 }

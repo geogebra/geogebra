@@ -239,7 +239,8 @@ public enum ExpandSteps implements SimplificationStepGenerator {
 		}
 	};
 
-	public int type() {
-		return 0;
+	@Override
+	public boolean isGroupType() {
+		return this == DEFAULT_EXPAND || this == DEFAULT_EXPAND;
 	}
 }
