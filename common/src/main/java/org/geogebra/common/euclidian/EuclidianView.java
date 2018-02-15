@@ -3595,7 +3595,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g
 	 *            graphics
 	 */
-	final protected void clearBackground(GGraphics2D g) {
+	protected void clearBackground(GGraphics2D g) {
 		g.setColor(getBackgroundCommon());
 		g.updateCanvasColor();
 		g.fillRect(getMinXScreen(), getMinYScreen(),
