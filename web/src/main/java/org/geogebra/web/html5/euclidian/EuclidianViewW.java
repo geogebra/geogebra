@@ -1513,10 +1513,6 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private class DrawLaTeXCallBack implements Runnable {
 
-		public DrawLaTeXCallBack() {
-			//
-		}
-
 		@Override
 		public void run() {
 			repaintView();
