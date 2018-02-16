@@ -107,11 +107,14 @@ public class Relation {
 					Localization loc = ra.getConstruction().getApplication()
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
+					String or = loc.getMenu("Symbol.Or").toLowerCase();
 					rel.setInfo("<html>");
 					if (result != null && !result) {
 						// Prove==false
 						rel.setInfo(rel.getInfo() + relInfo + "<br><b>"
-								+ loc.getMenu("ButNotGenerallyTrue") + "</b>");
+								+ loc.getMenuDefault("GenerallyFalse",
+										"(generally false)")
+								+ "</b>");
 						app.setDefaultCursor();
 					} else {
 						// We don't show the second information unless
@@ -136,13 +139,24 @@ public class Relation {
 								if (result != null && result) {
 									// Using Prove's result (since ProveDetails
 									// couldn't find any interesting):
+									String gt = loc.getMenu("GenerallyTrue");
+									int gtl = gt.length();
+									// the first ) and
+									// the second ( will be removed
 									rel.setInfo(
-											rel.getInfo() + loc.getMenu("GenerallyTrue"));
+											rel.getInfo()
+													+ gt.substring(0, gtl - 1)
+													+ " " + or + " "
+													+ loc.getMenuDefault(
+															"PartiallyTrue",
+															"(partially true)")
+															.substring(1));
 								} else {
 									// Prove==ProveDetails==undefined
 									rel.setInfo(
 											rel.getInfo() + loc
-													.getMenu("PossiblyGenerallyTrue"));
+													.getMenu(
+															"CheckedNumerically"));
 								}
 							} else if ("1".equals(ndgResult[0])) {
 								// ProveDetails=={true}
@@ -155,7 +169,8 @@ public class Relation {
 							} else { // "0"
 								Log.error(
 										"Internal error in prover: Prove==true <-> ProveDetails==false");
-								rel.setInfo(rel.getInfo() + loc.getMenu("ButNotGenerallyTrue"));
+								rel.setInfo(rel.getInfo() + loc.getMenuDefault(
+										"GenerallyFalse", "(generally false)"));
 							}
 							rel.setInfo(rel.getInfo() + "</b>");
 						} else {
