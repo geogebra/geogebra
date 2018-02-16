@@ -15,6 +15,7 @@ class DragController {
 	private final Cards cards;
 	private DragCard dragged;
 	private App app;
+	PagePreviewCard clicked;
 	
 	interface Cards {
 		ArrayList<PagePreviewCard> getCards();
@@ -106,7 +107,6 @@ class DragController {
 			int count = cards.getCardCount();
 			if (idx >= 0 && idx < count) {
 				card = cards.cardAt(idx);
-				cards.clickPage(idx);
 			} else {
 				reset();
 			}
@@ -172,6 +172,7 @@ class DragController {
 		}
 
 		private boolean onTargetChange() {
+			clicked = null;
 			if (target == last.target) {
 				return false;
 			}
@@ -264,6 +265,11 @@ class DragController {
 		return result;
 	}
 
+	public void start(int x, int y) {
+		int idx = cardIndexAt(x, y);
+		clicked = idx == -1 ? null : cards.cardAt(idx);
+		CancelEventTimer.dragCanStart();
+	}
 	
 	void move(int x, int y) {
 		if (CancelEventTimer.isDragStarted()) {
@@ -278,12 +284,15 @@ class DragController {
 	}
 
 
-	void stopDrag(int x, int y) {
-		if (CancelEventTimer.isDragging()) {
+	void stop(int x, int y) {
+		if (clicked != null) {
+			cards.clickPage(clicked.getPageIndex());
+		} else if (CancelEventTimer.isDragging()) {
 			if (dragged.drop(y)) {
 				cards.getListener().update();
 			}
 		}
+
 		cancel();
 	}
 
@@ -300,4 +309,5 @@ class DragController {
 			card.removeSpace();
 		}
 	}
+
 }

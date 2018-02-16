@@ -10,7 +10,6 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
@@ -381,7 +380,7 @@ public class PageListController implements PageListControllerInterface,
 	public void onMouseDown(MouseDownEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
-		CancelEventTimer.dragCanStart();
+		dragCtrl.start(event.getClientX(), event.getClientY());
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
@@ -389,13 +388,14 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-		dragCtrl.stopDrag(event.getClientX(), event.getClientY());
+		dragCtrl.stop(event.getClientX(), event.getClientY());
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
-		CancelEventTimer.dragCanStart();
+		Touch t = event.getTargetTouches().get(0);
+		dragCtrl.start(t.getClientX(), t.getClientY());
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
@@ -408,7 +408,7 @@ public class PageListController implements PageListControllerInterface,
 		if (t == null) {
 			t = event.getChangedTouches().get(0);
 		}
-		dragCtrl.stopDrag(t.getClientX(), t.getClientY());
+		dragCtrl.stop(t.getClientX(), t.getClientY());
 	}
 
 	@Override
