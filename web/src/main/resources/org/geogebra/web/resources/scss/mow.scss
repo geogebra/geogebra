@@ -8,6 +8,7 @@
 	$submenuHeight: 178px;
 	$pagecontrolpanelWidth: 269px;
 	$spaceHeight: calc(188px + 16px);
+	$always_on_top: 9999;
 	
 	$mowsubmenu-transition: bottom 0.2s cubic-bezier(0.4, 0, 1, 1);
 	$pagecontrol-transition: right 0.25s cubic-bezier(0.4, 0, 1, 1);
@@ -772,6 +773,7 @@
 		margin: 16px;
 		width: calc(100% - 32px);
 		position: absolute;
+		z-index: $always_on_top;
 		.mowMoreButton {
 			right: 0px;
 		}
