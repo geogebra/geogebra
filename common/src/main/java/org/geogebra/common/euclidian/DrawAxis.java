@@ -251,13 +251,11 @@ public class DrawAxis {
 			// GDimension dim = view.getApplication().getDrawEquation()
 			// .measureEquation(view.getApplication(), geo,
 			// view.axesLabels[0], font, false);
-			g2.saveTransform();
 			view.getApplication().getDrawEquation().drawEquation(
 					view.getApplication(), geo, g2,
 					x - 2, 10,
 					view.axesLabels[1], font, serif(view.axesLabels[1]),
 					GColor.BLACK, null, true, false, view.getCallBack());
-			g2.restoreTransform();
 		} else if (!view.axesLabels[1].contains("_")) {
 			layout.draw(g2, x,
 					(int) (5 + layout.getAscent()));
@@ -283,7 +281,6 @@ public class DrawAxis {
 					.measureEquation(
 					view.getApplication(), geo, 
 					view.axesLabels[0], font, false);
-			g2.saveTransform();
 
 			view.getApplication().getDrawEquation().drawEquation(
 					view.getApplication(), geo, g2,
@@ -292,7 +289,6 @@ public class DrawAxis {
 					view.axesLabels[0], font, serif(view.axesLabels[0]),
 					GColor.BLACK, null, true,
 					false, view.getCallBack());
-			g2.restoreTransform();
 		} else if (!view.axesLabels[0].contains("_")) {
 			layout.draw(g2, (int) (view.getWidth() - 10 - layout.getAdvance()),
 					y);
