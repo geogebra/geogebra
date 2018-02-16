@@ -76,7 +76,6 @@ public abstract class UndoManager {
 	 * Loads previous construction state from undo info list.
 	 */
 	public synchronized void undo() {
-
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
 			if (last.getAction() != null) {
@@ -96,8 +95,6 @@ public abstract class UndoManager {
 			updateUndoActions();
 		}
 	}
-
-
 
 	/**
 	 * Loads next construction state from undo info list.
@@ -284,6 +281,5 @@ public abstract class UndoManager {
 	public void storeAction(EventType action, String... args) {
 		iterator.add(new UndoCommand(action, args));
 		this.pruneStateList();
-
 	}
 }

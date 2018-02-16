@@ -970,7 +970,6 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 				frame.getMenuBar(this).setHeight(h + "px");
 			}
 		}
-
 	}
 
 	/**
@@ -983,8 +982,8 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 
 	@Override
 	public final boolean isWhiteboardActive() {
-		return activePerspective == 6
-				|| "7".equals(getArticleElement().getDataParamPerspective());
+		return "whiteboard"
+						.equals(getArticleElement().getDataParamAppName());
 	}
 
 	@Override
