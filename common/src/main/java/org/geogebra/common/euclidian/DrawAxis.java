@@ -284,13 +284,14 @@ public class DrawAxis {
 					view.getApplication(), geo, 
 					view.axesLabels[0], font, false);
 			g2.saveTransform();
+
 			view.getApplication().getDrawEquation().drawEquation(
 					view.getApplication(), geo, g2,
 					view.getWidth() - 5 - dim.getWidth(),
 					y + 4 - dim.getHeight(),
 					view.axesLabels[0], font, serif(view.axesLabels[0]),
 					GColor.BLACK, null, true,
-					false, null);
+					false, view.getCallBack());
 			g2.restoreTransform();
 		} else if (!view.axesLabels[0].contains("_")) {
 			layout.draw(g2, (int) (view.getWidth() - 10 - layout.getAdvance()),

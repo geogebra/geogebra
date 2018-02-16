@@ -135,6 +135,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private GBufferedImage cacheImage;
 
+	private Runnable callBack;
+
 	/**
 	 * @param euclidianViewPanel
 	 * @param euclidiancontroller
@@ -1491,6 +1493,32 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 		g2c.setColor(col);
 		g2c.drawString(text, x, y);
+
+	}
+
+	/**
+	 * 
+	 * @return callback (for JLM)
+	 */
+	@Override
+	public Runnable getCallBack() {
+		if (callBack == null) {
+			callBack = new DrawLaTeXCallBack();
+		}
+
+		return callBack;
+	}
+
+	private class DrawLaTeXCallBack implements Runnable {
+
+		public DrawLaTeXCallBack() {
+			//
+		}
+
+		@Override
+		public void run() {
+			repaintView();
+		}
 
 	}
 

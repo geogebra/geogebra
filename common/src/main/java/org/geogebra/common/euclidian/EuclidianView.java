@@ -6316,4 +6316,13 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		cacheGraphics = null;
 	}
 
+	/**
+	 * 
+	 * @return null or callback to refresh view - needed for LaTeX in web
+	 */
+	public Runnable getCallBack() {
+		// overridden in web project
+		return null;
+	}
+
 }
