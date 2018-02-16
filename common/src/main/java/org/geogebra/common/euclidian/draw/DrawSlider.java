@@ -29,6 +29,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
@@ -263,6 +264,27 @@ public class DrawSlider extends Drawable {
 		Log.debug("x = "+x+", min = "+line.getP1().getX()+", max = "+line.getP2().getX());
 
 		return line.intersects(x - r, y - r, 2 * r, 2 * r);
+	}
+
+	/**
+	 * Returns true if the slider line was hit, false for fixed sliders
+	 * 
+	 * @param x
+	 *            mouse x-coord
+	 * @param y
+	 *            mouse y-coord
+	 * @param hitThreshold
+	 *            threshold
+	 * @return true if the slider line was hit, but not the blob
+	 */
+	public boolean hitSliderNotBlob(int x, int y, int hitThreshold) {
+		int r = hitThreshold + Math.max(lineThickness, GeoNumeric.DEFAULT_SLIDER_THICKNESS);
+		if (!line.intersects(x - r, y - r, 2 * r, 2 * r)) {
+			return false;
+		}
+		int r2 = hitThreshold * App.DEFAULT_THRESHOLD_FACTOR_FOR_BLOB_IN_SLIDER
+				+ Math.max(diameter, GeoNumeric.DEFAULT_SLIDER_BLOB_SIZE);
+		return x < coords[0] - r2 || x > coords[0] + r2;
 	}
 
 	@Override

@@ -172,6 +172,7 @@ public abstract class App implements UpdateSelection {
 	/** data collection view (web only) */
 	public static final int VIEW_DATA_COLLECTION = 43;
 	public static final int DEFAULT_THRESHOLD = 3;
+	public static final int DEFAULT_THRESHOLD_FACTOR_FOR_BLOB_IN_SLIDER = 3;
 	/**
 	 * minimal font size
 	 */
