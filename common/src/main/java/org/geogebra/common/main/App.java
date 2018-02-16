@@ -4249,7 +4249,7 @@ public abstract class App implements UpdateSelection {
 
 		/** GGB-1876 */
 		case DOUBLE_ROUND_BRACKETS:
-			return prerelease;
+			return true;
 
 		case DEFAULT_OBJECT_STYLES:
 			return relaunch || isNativeMobileAppWithNewUI();
