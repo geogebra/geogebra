@@ -49,7 +49,7 @@ public abstract class CanvasDrawable extends Drawable {
 
 		return app.getDrawEquation().drawEquation(app, geo0, g2, x, y, text,
 				font, serif, geo.getObjectColor(), geo.getBackgroundColor(),
-				false, false, view.getCallBack());
+				false, false, firstCall ? view.getCallBack(geo) : null);
 	}
 
 	public static GDimension measureLatex(App app,

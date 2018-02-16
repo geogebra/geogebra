@@ -17,6 +17,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Draws axes in 2D
@@ -30,6 +31,8 @@ public class DrawAxis {
 	private Integer beforeZeroX;
 	// used for deciding if there is a number to close for "0" on the y axis
 	private Integer beforeZeroY;
+	private boolean firstCallX = true;
+	private boolean firstCallY = true;
 	/**
 	 * @param euclidianView
 	 *            view
@@ -243,6 +246,7 @@ public class DrawAxis {
 	}
 
 	private void drawAxisLabelY(GGraphics2D g2, int x, GFontRenderContext frc) {
+		Log.printStacktrace("");
 		GFont font = view.getFontLine().deriveFont(view.axesLabelsStyle[1]);
 		GTextLayout layout = AwtFactory.getPrototype()
 				.newTextLayout(view.axesLabels[1], font, frc);
@@ -255,7 +259,8 @@ public class DrawAxis {
 					view.getApplication(), geo, g2,
 					x - 2, 10,
 					view.axesLabels[1], font, serif(view.axesLabels[1]),
-					GColor.BLACK, null, true, false, view.getCallBack());
+					GColor.BLACK, null, true, false,
+					firstCallY ? view.getCallBack(geo) : null);
 		} else if (!view.axesLabels[1].contains("_")) {
 			layout.draw(g2, x,
 					(int) (5 + layout.getAscent()));
@@ -288,7 +293,9 @@ public class DrawAxis {
 					y + 4 - dim.getHeight(),
 					view.axesLabels[0], font, serif(view.axesLabels[0]),
 					GColor.BLACK, null, true,
-					false, view.getCallBack());
+					false, firstCallX ? view.getCallBack(geo) : null);
+
+			firstCallX = false;
 		} else if (!view.axesLabels[0].contains("_")) {
 			layout.draw(g2, (int) (view.getWidth() - 10 - layout.getAdvance()),
 					y);

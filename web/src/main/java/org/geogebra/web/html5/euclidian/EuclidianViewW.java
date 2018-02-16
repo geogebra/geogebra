@@ -6,6 +6,7 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
+import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -13,6 +14,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
@@ -1503,19 +1505,31 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @return callback (for JLM)
 	 */
 	@Override
-	public Runnable getCallBack() {
-		if (callBack == null) {
-			callBack = new DrawLaTeXCallBack();
+	public Runnable getCallBack(GeoElement geo) {
+
+		if (geo instanceof GeoAxis) {
+			return new DrawLaTeXCallBack(geo);
 		}
 
-		return callBack;
+		return null;
 	}
 
 	private class DrawLaTeXCallBack implements Runnable {
 
+		private GeoElement geo;
+
+		public DrawLaTeXCallBack(GeoElement geo) {
+			this.geo = geo;
+		}
+
 		@Override
 		public void run() {
-			repaintView();
+			DrawableND drawable = getDrawable(geo);
+			if (drawable != null) {
+				drawable.update();
+			}
+			// geo.getDrawAlgorithm().euclidianViewUpdate()
+			// repaintView();
 		}
 
 	}

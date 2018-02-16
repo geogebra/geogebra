@@ -141,7 +141,7 @@ public final class DrawBoolean extends Drawable {
 						geoBool.getCaption(StringTemplate.defaultTemplate),
 						g2.getFont(), false, geoBool.getObjectColor(),
 						geoBool.getBackgroundColor(), false, false,
-						view.getCallBack());
+						firstCall ? view.getCallBack(geo) : null);
 			} else {
 				g2.setPaint(geo.getObjectColor());
 				GTextLayout layout = getTextLayout(labelDesc,

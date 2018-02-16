@@ -341,6 +341,7 @@ public class Graphics2DW implements Graphics2DInterface {
 	private void notifyDrawingFinishedCallback() {
 		if (drawingFinishedCallback != null) {
 			drawingFinishedCallback.onDrawingFinished();
+			drawingFinishedCallback = null;
 		}
 	}
 

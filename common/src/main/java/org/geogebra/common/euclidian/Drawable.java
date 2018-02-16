@@ -106,6 +106,8 @@ public abstract class Drawable extends DrawableND {
 
 	private GRectangle tempFrame;
 
+	protected boolean firstCall = true;
+
 	// boolean createdByDrawList = false;
 
 	@Override
@@ -230,7 +232,8 @@ public abstract class Drawable extends DrawableND {
 					geo.getKernel().getApplication(), geo, g2, xLabel,
 					yLabel - offsetY, label.substring(1, label.length() - 1),
 					g2.getFont(), serif, g2.getColor(), g2.getBackground(),
-					true, false, view.getCallBack());
+					true, false, firstCall ? view.getCallBack(geo) : null);
+			firstCall = false;
 			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.getWidth(),
 					dim.getHeight());
 			return;
@@ -364,7 +367,7 @@ public abstract class Drawable extends DrawableND {
 				EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 						view.getTempGraphics2D(font), geo, g2, font, fgColor,
 				bgColor, labelDesc, xLabel, yLabel, isSerif(),
-				view.getCallBack(),
+				firstCall ? view.getCallBack(geo) : null,
 				labelRectangle);
 	}
 

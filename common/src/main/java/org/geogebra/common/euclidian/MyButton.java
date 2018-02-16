@@ -39,6 +39,7 @@ public class MyButton implements Observer {
 	private double textHeight;
 	private double textWidth;
 	private GBasicStroke borderStroke;
+	private boolean firstCall = true;
 
 	private final static int MARGIN_TOP = 6;
 	private final static int MARGIN_BOTTOM = 5;
@@ -349,7 +350,7 @@ public class MyButton implements Observer {
 					geoButton.getCaption(StringTemplate.defaultTemplate), font,
 					false, geoButton.getObjectColor(),
 					geoButton.getBackgroundColor(), false, false,
-					view.getCallBack());
+					firstCall ? view.getCallBack(geoButton) : null);
 		} else {
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
 					xPos, yPos);
