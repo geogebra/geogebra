@@ -4008,7 +4008,7 @@ public abstract class App implements UpdateSelection {
 			
 		// MOB-1432
 		case MOB_ANGLES_INTERIOR_POLYGON:
-			return prerelease;
+			return true;
 
 		// MOB-1462
 		case MOB_AND_DO_NOT_UPDATE_AV_IF_HIDDEN:
