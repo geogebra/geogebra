@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
@@ -45,6 +46,8 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	 *            construction
 	 * @param eq
 	 *            equation or list thereof
+	 * @param hint
+	 *            variables or variable = initial value
 	 * @param type
 	 *            whether to use Solve / NSolve / NSolutions / Solutions
 	 */
@@ -205,7 +208,10 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 		ExpressionValue definitionObject = null;
 
 		if (equations2.getDefinition() != null) {
-			definitionObject = equations2.getDefinition();
+			definitionObject = equations2.getDefinition()
+					.deepCopy(equations2.getKernel())
+					.traverse(FunctionExpander.getCollector());
+
 			definition = definitionObject
 					.toValueString(StringTemplate.prefixedDefault);
 		} else {
