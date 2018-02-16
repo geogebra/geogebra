@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -114,8 +113,7 @@ public class AlgoSequence extends AlgoElement {
 		}
 
 		expressionParentAlgo = expression.getParentAlgorithm();
-		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
-
+		expIsFunctionOrCurve = expression instanceof ReplaceChildrenByValues;
 
 		list = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
@@ -356,8 +354,8 @@ public class AlgoSequence extends AlgoElement {
 		// by their current values
 		if (expIsFunctionOrCurve) {
 			// GeoFunction
-			if (listElement instanceof CasEvaluableFunction) {
-				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
+			if (listElement instanceof ReplaceChildrenByValues) {
+				ReplaceChildrenByValues f = (ReplaceChildrenByValues) listElement;
 				f.replaceChildrenByValues(var);
 			}
 		}

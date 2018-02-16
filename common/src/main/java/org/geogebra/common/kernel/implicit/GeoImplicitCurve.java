@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
+import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
@@ -62,7 +63,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		Traceable, Translateable, Dilateable, Mirrorable, ConicMirrorable,
-		Transformable, PointRotateable, GeoImplicit {
+		Transformable, PointRotateable, GeoImplicit, ReplaceChildrenByValues {
 	/**
 	 * Movements around grid [TOP, BOTTOM, LEFT, RIGHT,TOP_FAR, BOTTOM_FAR,
 	 * LEFT_FAR, RIGHT_FAR]
@@ -2436,7 +2437,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return super.needToShowBothRowsInAV();
 	}
 
+	@Override
 	public boolean setTypeFromXML(String style, String parameter) {
 		return false;
+	}
+
+	@Override
+	public void replaceChildrenByValues(GeoElement var) {
+		this.expression.getFunctionExpression().replaceChildrenByValues(var);
 	}
 }

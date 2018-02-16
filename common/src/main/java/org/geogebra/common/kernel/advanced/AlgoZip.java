@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.algos.DrawInformationAlgo;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.commands.Commands;
-import org.geogebra.common.kernel.geos.CasEvaluableFunction;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoNumeric;
@@ -91,7 +90,7 @@ public class AlgoZip extends AlgoElement {
 		varCount = vars.length;
 
 		expressionParentAlgo = expression.getParentAlgorithm();
-		expIsFunctionOrCurve = expression instanceof CasEvaluableFunction;
+		expIsFunctionOrCurve = expression instanceof ReplaceChildrenByValues;
 
 		list = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
@@ -287,8 +286,8 @@ public class AlgoZip extends AlgoElement {
 		// by their current values
 		if (expIsFunctionOrCurve) {
 			// GeoFunction
-			if (listElement instanceof CasEvaluableFunction) {
-				CasEvaluableFunction f = (CasEvaluableFunction) listElement;
+			if (listElement instanceof ReplaceChildrenByValues) {
+				ReplaceChildrenByValues f = (ReplaceChildrenByValues) listElement;
 				for (int i = 0; i < varCount; i++) {
 					f.replaceChildrenByValues(vars[i]);
 				}

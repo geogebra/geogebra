@@ -17,6 +17,7 @@ import java.util.TreeMap;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
+import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 
 /**
@@ -25,7 +26,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
  * 
  * @author Markus Hohenwarter
  */
-public interface CasEvaluableFunction extends GeoElementND {
+public interface CasEvaluableFunction
+		extends GeoElementND, ReplaceChildrenByValues {
 
 	/**
 	 * Sets this function by applying a GeoGebraCAS command to a function.
@@ -69,12 +71,6 @@ public interface CasEvaluableFunction extends GeoElementND {
 	 *            key for which value should be deleted
 	 */
 	public void clearCasEvalMap(String string);
-
-	/**
-	 * @param var
-	 *            variable whose children need replacing
-	 */
-	public void replaceChildrenByValues(GeoElement var);
 
 	/**
 	 * Prins CAS cache to XML
