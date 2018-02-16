@@ -1152,7 +1152,11 @@ public abstract class AlgoElement extends ConstructionElement
 					}
 				}
 				if (!allIndependent && freeInputPoints.size() > 1) {
-					freeInputPoints.clear();
+					for (int i = freeInputPoints.size() - 1; i >= 0; i--) {
+						if (!freeInputPoints.get(i).isIndependent()) {
+							freeInputPoints.remove(i);
+						}
+					}
 				}
 			}
 		}
