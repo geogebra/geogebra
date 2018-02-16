@@ -256,7 +256,7 @@ public class DrawAxis {
 					view.getApplication(), geo, g2,
 					x - 2, 10,
 					view.axesLabels[1], font, serif(view.axesLabels[1]),
-					GColor.BLACK, null, true, false, null);
+					GColor.BLACK, null, true, false, view.getCallBack());
 			g2.restoreTransform();
 		} else if (!view.axesLabels[1].contains("_")) {
 			layout.draw(g2, x,

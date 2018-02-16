@@ -348,7 +348,8 @@ public class MyButton implements Observer {
 			app.getDrawEquation().drawEquation(app, geoButton, g, xPos, yPos,
 					geoButton.getCaption(StringTemplate.defaultTemplate), font,
 					false, geoButton.getObjectColor(),
-					geoButton.getBackgroundColor(), false, false, null);
+					geoButton.getBackgroundColor(), false, false,
+					view.getCallBack());
 		} else {
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
 					xPos, yPos);

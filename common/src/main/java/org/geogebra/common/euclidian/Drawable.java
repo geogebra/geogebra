@@ -230,7 +230,7 @@ public abstract class Drawable extends DrawableND {
 					geo.getKernel().getApplication(), geo, g2, xLabel,
 					yLabel - offsetY, label.substring(1, label.length() - 1),
 					g2.getFont(), serif, g2.getColor(), g2.getBackground(),
-					true, false, null);
+					true, false, view.getCallBack());
 			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.getWidth(),
 					dim.getHeight());
 			return;

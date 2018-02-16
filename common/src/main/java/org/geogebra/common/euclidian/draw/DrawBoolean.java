@@ -140,7 +140,8 @@ public final class DrawBoolean extends Drawable {
 				app.getDrawEquation().drawEquation(app, geoBool, g2, posX, posY,
 						geoBool.getCaption(StringTemplate.defaultTemplate),
 						g2.getFont(), false, geoBool.getObjectColor(),
-						geoBool.getBackgroundColor(), false, false, null);
+						geoBool.getBackgroundColor(), false, false,
+						view.getCallBack());
 			} else {
 				g2.setPaint(geo.getObjectColor());
 				GTextLayout layout = getTextLayout(labelDesc,

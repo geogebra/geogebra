@@ -1475,6 +1475,8 @@ public class EuclidianViewW extends EuclidianView implements
 			// different corner for LaTeX
 			int offsetY = getFontSize();
 
+			// no callback as we're exporting
+			// so font will be loaded already
 			app.getDrawEquation().drawEquation(app, null, g2c, (int) x,
 					(int) (y - offsetY), text, g2c.getFont(), false, col,
 					getBackgroundCommon(), true, false, null);
