@@ -7,6 +7,7 @@ import org.geogebra.common.factories.FormatFactory;
 import org.geogebra.common.kernel.commands.CmdGetTime;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.main.settings.Settings;
+import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
 public class ExamEnvironment {
@@ -46,6 +47,7 @@ public class ExamEnvironment {
 
 	private CalculatorType calculatorType;
 	private boolean wasCasEnabled, wasTaskLocked;
+	private TimeFormatAdapter timeFormatter;
 
 	/**
 	 * application
@@ -59,6 +61,7 @@ public class ExamEnvironment {
 	 */
 	public ExamEnvironment(App app) {
 		this.app = app;
+		timeFormatter = FormatFactory.getPrototype().getTimeFormat();
 	}
 
 	public long getStart() {
@@ -697,11 +700,11 @@ public class ExamEnvironment {
     private String timeToStringLocalized(long timestamp) {
 
         if (examStartTime < 0) {
-            return FormatFactory.getPrototype().getTimeFormat().format(app.getLocalization().getLocale(), "%02d:%02d", 0);
+            return timeFormatter.format(app.getLocalization().getLocale(), "%02d:%02d", 0);
         }
 
         int millis = (int) (timestamp - examStartTime);
 
-        return FormatFactory.getPrototype().getTimeFormat().format(app.getLocalization().getLocale(), "%02d:%02d", millis);
+        return timeFormatter.format(app.getLocalization().getLocale(), "%02d:%02d", millis);
     }
 }
