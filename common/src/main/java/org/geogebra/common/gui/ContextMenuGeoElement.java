@@ -19,6 +19,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -612,7 +613,13 @@ public abstract class ContextMenuGeoElement {
 						geoText.setAbsoluteScreenLoc(x, y);
 					} else {
 						int x, y;
-						for (int j = 0; j < 2; j++) {
+						GeoPoint corner2 = ((GeoImage) geoText).getCorner(2);
+						if (corner2 == null) {
+							corner2 = new GeoPoint(geoText.getConstruction());
+							((GeoImage) geoText).calculateCornerPoint(corner2, 4);
+							((GeoImage) geoText).setCorner(corner2, 2);
+						}						
+						for (int j = 0; j < 3; j++) {
 							x = app.getActiveEuclidianView().toScreenCoordX(
 									((GeoImage) geoText).getRealWorldX(j));
 							y = app.getActiveEuclidianView().toScreenCoordY(
@@ -633,7 +640,7 @@ public abstract class ContextMenuGeoElement {
 						geoText.setRealWorldLoc(x, y);
 					} else {
 						double x, y;
-						for (int j = 0; j < 2; j++) {
+						for (int j = 0; j < 3; j++) {
 							x = app.getActiveEuclidianView()
 									.toRealWorldCoordX(((GeoImage) geoText)
 											.getAbsoluteScreenLocX(j));

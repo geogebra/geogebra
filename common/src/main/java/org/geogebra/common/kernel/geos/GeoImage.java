@@ -643,7 +643,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setAbsoluteScreenLoc(int x, int y, int i) {
 		cornerScreenX[i] = x;
 		cornerScreenY[i] = y;
-		if (!hasScreenLocation() && (x != 0 && y != 0)) {
+		if (!hasScreenLocation() && (x != 0 && y != 0) && i == 0) {
 			setScreenLocation(x, y);
 		}
 	}
@@ -676,7 +676,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		GeoPoint point = corners[i];
 		if (point == null) {
 			point = new GeoPoint(cons);
-			setCorner(point, 0);
+			setCorner(point, i);
 		}
 		point.setCoords(x, y, 1.0);
 	}
