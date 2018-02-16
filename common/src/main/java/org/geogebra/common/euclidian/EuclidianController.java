@@ -11829,7 +11829,7 @@ public abstract class EuclidianController {
 
 	private void moveAttachDetach(boolean repaint, AbstractEvent event) {
 		if (movedGeoPoint.isPointOnPath() || movedGeoPoint.isPointInRegion()) {
-			int th = view.getCapturingThreshold(PointerEventType.MOUSE);
+			int th = app.getCapturingThreshold(PointerEventType.MOUSE);
 			app.setCapturingThreshold(INCREASED_THRESHOLD_FACTOR * th);
 			this.view.setHits(new GPoint(event.getX(), event.getY()),
 					event.getType());
