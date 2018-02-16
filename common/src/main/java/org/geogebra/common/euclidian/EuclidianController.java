@@ -7725,7 +7725,7 @@ public abstract class EuclidianController {
 			if (d instanceof DrawSlider && movedGeoElement.isEuclidianVisible()
 					&& mouseLoc != null) {
 				// otherwise using Move Tool -> move dot
-				if (isMoveSliderExpected(app.getCapturingThreshold(type))) {
+				if (isMoveSliderExpected(view.getCapturingThreshold(type))) {
 					moveMode = MOVE_SLIDER;
 					if (movedGeoNumeric.isAbsoluteScreenLocActive()) {
 						oldLoc.setLocation(
@@ -10150,7 +10150,7 @@ public abstract class EuclidianController {
 		double distance = Math.sqrt((p.x - q.getX()) * (p.x - q.getX())
 				+ (p.y - q.getY()) * (p.y - q.getY()));
 		return distance < DrawPoint
-				.getSelectionThreshold(app.getCapturingThreshold(q.getType()));
+				.getSelectionThreshold(view.getCapturingThreshold(q.getType()));
 	}
 
 	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
@@ -11829,7 +11829,7 @@ public abstract class EuclidianController {
 
 	private void moveAttachDetach(boolean repaint, AbstractEvent event) {
 		if (movedGeoPoint.isPointOnPath() || movedGeoPoint.isPointInRegion()) {
-			int th = app.getCapturingThreshold(PointerEventType.MOUSE);
+			int th = view.getCapturingThreshold(PointerEventType.MOUSE);
 			app.setCapturingThreshold(INCREASED_THRESHOLD_FACTOR * th);
 			this.view.setHits(new GPoint(event.getX(), event.getY()),
 					event.getType());

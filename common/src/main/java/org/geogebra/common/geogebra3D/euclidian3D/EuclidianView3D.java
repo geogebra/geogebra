@@ -1901,7 +1901,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		renderer.setHits(p, getCapturingThreshold(type));
 		if (type == PointerEventType.TOUCH
 				&& hitsEmptyOrOnlyContainsXOYPlane()) {
-			renderer.setHits(p, getCapturingThresholdForTouch(type));
+			renderer.setHits(p, getCapturingThreshold(type) * 3);
 		}
 
 		hasMouse = true;
@@ -1922,10 +1922,6 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	public int getCapturingThreshold(PointerEventType type) {
 		return getCompanion().getCapturingThreshold(type);
-	}
-
-	public int getCapturingThresholdForTouch(PointerEventType type) {
-		return app.getCapturingThreshold(type) * 3;
 	}
 
 	public DrawAxis3D getAxisDrawable(int i) {

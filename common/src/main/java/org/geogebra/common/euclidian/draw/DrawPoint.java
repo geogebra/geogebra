@@ -548,7 +548,7 @@ public final class DrawPoint extends Drawable {
 		}
 
 		int selRadius = pointSize + HIGHLIGHT_OFFSET;
-		int minRadius = view.getApplication().getCapturingThreshold(
+		int minRadius = view.getCapturingThreshold(
 				PointerEventType.MOUSE) + SELECTION_RADIUS_MIN;
 		if (selRadius < minRadius) {
 			selRadius = minRadius;
