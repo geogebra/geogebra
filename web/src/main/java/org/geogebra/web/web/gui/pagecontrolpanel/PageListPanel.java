@@ -338,4 +338,14 @@ public class PageListPanel
 	public void removeDivider() {
 		divider.removeFromParent();
 	}
+
+	@Override
+	public void hideScrollbar() {
+		scrollPanel.addStyleName("noVerticalScrollbar");
+	}
+
+	@Override
+	public void restoreScrollbar() {
+		scrollPanel.removeStyleName("noVerticalScrollbar");
+	}
 }	

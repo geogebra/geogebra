@@ -106,6 +106,7 @@ class DragController {
 			int count = cards.getCardCount();
 			if (idx >= 0 && idx < count) {
 				card = cards.cardAt(idx);
+				cards.clickPage(idx);
 			} else {
 				reset();
 			}
@@ -267,13 +268,7 @@ class DragController {
 	void move(int x, int y) {
 		if (CancelEventTimer.isDragStarted()) {
 			dragged.start(x, y);
-			PagePreviewCard next = dragged.next();
-			if (next != null) {
-				// next.addSpaceTop();
-				// dragged.last.target = next;
-				// dragged.onTargetChange();
-			}
-
+			cards.getListener().hideScrollbar();
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = dragged.move(y);
 			if (targetIdx != -1 && !dragged.isAnimated()) {
@@ -288,16 +283,15 @@ class DragController {
 			if (dragged.drop(y)) {
 				cards.getListener().update();
 			}
-		} else {
-			int idx = cardIndexAt(x, y);
-			if (idx != -1) {
-				cards.clickPage(idx);
-			}
 		}
-		
+		cancel();
+	}
+
+	void cancel() {
 		CancelEventTimer.resetDrag();
 		dragged.cancel();
 		clearSpaces();
+		cards.getListener().restoreScrollbar();
 		cards.getListener().removeDivider();
 	}
 

@@ -619,6 +619,9 @@
 			overflow-y: auto;
 		}
 		
+		.mowPageControlScrollPanel.noVerticalScrollbar {
+			overflow-y: hidden;	
+		}
 		.mowPageControlContentPanel {
 			width: 100%;
 			height: 100%;

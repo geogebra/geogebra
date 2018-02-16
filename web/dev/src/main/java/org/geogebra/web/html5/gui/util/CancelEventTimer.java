@@ -16,8 +16,6 @@ public class CancelEventTimer {
 		CANSTART, DRAG, NONE
 	}
 
-	private static long lastDragEvent = 0;
-
 	private static DragState dragState = DragState.NONE;
 
 	private static long lastTouchEvent = 0;
@@ -71,7 +69,6 @@ public class CancelEventTimer {
 	 * called when it may be a drag start.
 	 */
 	public static void dragCanStart() {
-		lastDragEvent = System.currentTimeMillis();
 		dragState = DragState.CANSTART;
 	}
 
@@ -79,14 +76,9 @@ public class CancelEventTimer {
 	 * @return if dragging just started.
 	 */
 	public static boolean isDragStarted() {
-		boolean result = dragState == DragState.CANSTART
-				&& System.currentTimeMillis()
-				- lastDragEvent > TIME_BETWEEN_TOUCH_AND_DRAG;
-		if (result) {
-			dragState = DragState.DRAG;
-		}
+		boolean result = dragState == DragState.CANSTART;
+		dragState = DragState.DRAG;
 		return result;
-
 	}
 
 	/**

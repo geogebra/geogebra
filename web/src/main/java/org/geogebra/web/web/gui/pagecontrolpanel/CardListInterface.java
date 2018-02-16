@@ -23,4 +23,8 @@ public interface CardListInterface {
 	 */
 	void removeDivider();
 
+	void hideScrollbar();
+
+	void restoreScrollbar();
+
 }
