@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
@@ -92,5 +93,17 @@ public class StepInequality extends StepSolvable {
 
 	public void flip() {
 		lessThan = !lessThan;
+	}
+
+	public static StepInequality from(String LHS, String op, String RHS,
+			Parser parser) {
+		StepExpression _LHS = (StepExpression) StepNode.getStepTree(LHS,
+				parser);
+		StepExpression _RHS = (StepExpression) StepNode.getStepTree(RHS,
+				parser);
+
+		boolean lessThan = op.contains("<");
+		boolean strong = !op.contains("=");
+		return new StepInequality(_LHS, _RHS, lessThan, strong);
 	}
 }

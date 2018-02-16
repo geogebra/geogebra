@@ -8,6 +8,7 @@ import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.Traversing;
@@ -22,6 +23,8 @@ import org.geogebra.common.kernel.kernelND.GeoPlaneND;
 import org.geogebra.common.kernel.parser.ParseException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.Operation;
@@ -273,13 +276,62 @@ public class AlgoSolve extends AlgoElement implements UsesCAS, HasSteps {
 	 */
 	@Override
 	public void getSteps(StepGuiBuilder builder) {
-		StepEquation se = new StepEquation(equations.getDefinitionNoLabel(StringTemplate.defaultTemplate),
-				kernel.getParser());
+		if (equations.isGeoList()) {
+			if (((GeoList) equations).size() == 1) {
+				getStepsSingle(((GeoList) equations).get(0), builder);
+			} else {
+				// TODO system
+			}
+		} else {
+			getStepsSingle(equations, builder);
+		}
+	}
 
+	private void getStepsSingle(GeoElement geo, StepGuiBuilder builder) {
+		StepSolvable se;
+		if (geo instanceof FunctionalNVar
+				&& ((FunctionalNVar) geo).isBooleanFunction()) {
+			ExpressionNode expr = ((FunctionalNVar) geo)
+					.getFunctionExpression();
+			String operator = asString(expr.getOperation());
+			if (operator.isEmpty()) {
+				return;
+			}
+			String lhs = expr.getLeft().wrap()
+					.toString(StringTemplate.maxDecimals);
+			String rhs = expr.getRight().wrap()
+					.toString(StringTemplate.maxDecimals);
+			se = StepInequality.from(
+					lhs,
+					operator,
+					rhs,
+					getKernel().getParser());
+		} else {
+			se = new StepEquation(					geo
+					.getDefinitionNoLabel(StringTemplate.defaultTemplate),
+				kernel.getParser());
+		}
 		SolutionBuilder sb = new SolutionBuilder();
 		se.solve(new StepVariable("x"), sb);
 
 		sb.getSteps().getListOfSteps(builder, kernel.getLocalization());
+
+	}
+
+	private static String asString(Operation operation) {
+		switch (operation) {
+		case LESS:
+			return "<";
+		case LESS_EQUAL:
+			return "<=";
+		case GREATER:
+			return ">";
+		case GREATER_EQUAL:
+			return ">=";
+		default:
+			return "";
+		}
+
 	}
 
 	@Override

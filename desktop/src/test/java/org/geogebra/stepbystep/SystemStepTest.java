@@ -8,7 +8,8 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
+import org.geogebra.common.kernel.stepbystep.steptree.StepEquationSystem;
 import org.geogebra.common.main.App;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -61,12 +62,11 @@ public class SystemStepTest {
             stepEquations.add(new StepEquation(eq, app.getKernel().getParser()));
         }
 
-        StepNode[] solutions = new StepNode[0];
         SolutionBuilder steps = new SolutionBuilder();
         StepEquationSystem ses = new StepEquationSystem(stepEquations.toArray(new StepEquation[0]));
 
         try {
-            solutions = ses.solve(steps).getElements();
+			ses.solve(steps).getElements();
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);
             e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());

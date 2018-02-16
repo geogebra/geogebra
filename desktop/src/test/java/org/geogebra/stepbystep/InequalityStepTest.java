@@ -7,7 +7,9 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steptree.*;
+import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -50,20 +52,15 @@ public class InequalityStepTest {
         }
         htmlBuilder.addHeading("Testcase " + (caseCounter++), 2);
 
-        StepExpression _LHS = (StepExpression) StepNode.getStepTree(LHS, app.getKernel().getParser());
-        StepExpression _RHS = (StepExpression) StepNode.getStepTree(RHS, app.getKernel().getParser());
-        StepVariable var = new StepVariable(variable);
-
-        boolean lessThan = op.contains("<");
-        boolean strong = !op.contains("=");
-
+		StepInequality ineq = StepInequality.from(LHS, op, RHS,
+				app.getKernel().getParser());
+		StepVariable var = new StepVariable(variable);
         SolutionBuilder steps = new SolutionBuilder();
 
         StepNode[] solutions = new StepNode[0];
 
         try {
-            solutions = new StepInequality(_LHS, _RHS, lessThan, strong).solveAndCompareToCAS(app.getKernel(), var,
-                    steps)
+			solutions = ineq.solveAndCompareToCAS(app.getKernel(), var, steps)
                     .getElements();
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);
@@ -104,6 +101,6 @@ public class InequalityStepTest {
 
     @AfterClass
     public static void printHtml() {
-        htmlBuilder.printReport("solve.html");
+		htmlBuilder.printReport("inequalities.html");
     }
 }
