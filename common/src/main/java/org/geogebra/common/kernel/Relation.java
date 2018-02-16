@@ -108,12 +108,15 @@ public class Relation {
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
 					String or = loc.getMenu("Symbol.Or").toLowerCase();
+					String partiallyTrue = loc.getMenuDefault("PartiallyTrue",
+							"(partially true)");
+					String generallyFalse = loc.getMenuDefault("GenerallyFalse",
+							"(generally false)");
 					rel.setInfo("<html>");
 					if (result != null && !result) {
 						// Prove==false
 						rel.setInfo(rel.getInfo() + relInfo + "<br><b>"
-								+ loc.getMenuDefault("GenerallyFalse",
-										"(generally false)")
+								+ generallyFalse
 								+ "</b>");
 						app.setDefaultCursor();
 					} else {
@@ -139,17 +142,17 @@ public class Relation {
 								if (result != null && result) {
 									// Using Prove's result (since ProveDetails
 									// couldn't find any interesting):
-									String gt = loc.getMenu("GenerallyTrue");
-									int gtl = gt.length();
+									String generallyTrue = loc
+											.getMenu("GenerallyTrue");
+									int gtl = generallyTrue.length();
 									// the first ) and
 									// the second ( will be removed
 									rel.setInfo(
 											rel.getInfo()
-													+ gt.substring(0, gtl - 1)
+													+ generallyTrue.substring(0,
+															gtl - 1)
 													+ " " + or + " "
-													+ loc.getMenuDefault(
-															"PartiallyTrue",
-															"(partially true)")
+													+ partiallyTrue
 															.substring(1));
 								} else {
 									// Prove==ProveDetails==undefined
@@ -164,13 +167,11 @@ public class Relation {
 							} else if ("2".equals(ndgResult[0])) {
 								// ProveDetails=={true,"c"}
 								rel.setInfo(rel.getInfo()
-										+ loc.getMenuDefault("PartiallyTrue",
-												"(partially true)"));
+										+ partiallyTrue);
 							} else { // "0"
 								Log.error(
 										"Internal error in prover: Prove==true <-> ProveDetails==false");
-								rel.setInfo(rel.getInfo() + loc.getMenuDefault(
-										"GenerallyFalse", "(generally false)"));
+								rel.setInfo(rel.getInfo() + generallyFalse);
 							}
 							rel.setInfo(rel.getInfo() + "</b>");
 						} else {
