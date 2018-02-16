@@ -3077,7 +3077,7 @@ __GGB__keysVar["uk"].menu = {
     "exam_ended": "\u0406\u0441\u043f\u0438\u0442 \u0437\u0430\u043a\u0456\u043d\u0447\u0435\u043d\u043e",
     "exam_exit_confirmation": "\u0412\u0438 \u0434\u0456\u0439\u0441\u043d\u043e \u0431\u0430\u0436\u0430\u0454\u0442\u0435 \u0432\u0438\u0439\u0442\u0438 \u0437 \u0420\u0435\u0436\u0438\u043c\u0443 \u0406\u0441\u043f\u0438\u0442?",
     "exam_exit_header": "\u0412\u0438\u0439\u0442\u0438 \u0437  \u0406\u0441\u043f\u0438\u0442\u0443?",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 The status bar shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "The status bar shows timer information during the exam.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",

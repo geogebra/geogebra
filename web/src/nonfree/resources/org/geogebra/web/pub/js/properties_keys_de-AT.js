@@ -3077,7 +3077,7 @@ __GGB__keysVar["de-AT"].menu = {
     "exam_ended": "Ende der Pr\xfcfung",
     "exam_exit_confirmation": "Willst du den Pr\xfcfungsmodus wirklich beenden?",
     "exam_exit_header": "Pr\xfcfung beenden?",
-    "exam_instructions_before_start": "\u2022 Warte bis dein/e LehrerIn dir sagt, Start zu dr\xfccken\n\u2022 Verlasse die GeoGebra App nicht w\xe4hrend der Pr\xfcfung\n\u2022 Das Pr\xfcfungsprotokoll zeigt Zeitangaben w\xe4hrend der Pr\xfcfung\n\u2022 Gr\xfcne Statusleiste = Alles in Ordnung\n\u2022 Rote Statusleiste = Alarm (du hast die GeoGebra App verlassen)",
+    "exam_instructions_before_start": "Das Pr\xfcfungsprotokoll zeigt Zeitangaben w\xe4hrend der Pr\xfcfung.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Flugmodus deaktiviert",
     "exam_log_airplane_mode_on": "Flugmodus ist aktiviert",

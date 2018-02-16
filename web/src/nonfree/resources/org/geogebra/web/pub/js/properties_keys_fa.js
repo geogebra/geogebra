@@ -3077,7 +3077,7 @@ __GGB__keysVar["fa"].menu = {
     "exam_ended": "Exam ended",
     "exam_exit_confirmation": "\u0648\u0627\u0642\u0639\u0627 \u0645\u06cc \u062e\u0648\u0627\u0647\u06cc\u062f \u0627\u0632\u0645\u0648\u0646 \u062c\u0626\u0648\u062c\u0628\u0631\u0627 \u0631\u0627 \u062a\u0631\u06a9 \u06a9\u0646\u06cc\u062f \u0648 \u06a9\u0627\u0645\u067e\u06cc\u0648\u062a\u0631 \u062e\u0648\u062f \u0631\u0627 \u062e\u0627\u0645\u0648\u0634 \u06a9\u0646\u06cc\u062f\u061f",
     "exam_exit_header": "\u0622\u0632\u0645\u0648\u0646 \u062c\u0626\u0648\u062c\u0628\u0631\u0627 \u0631\u0627 \u062a\u0631\u06a9 \u0645\u06cc \u06a9\u0646\u06cc\u062f\u061f",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 The status bar shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "The status bar shows timer information during the exam.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",

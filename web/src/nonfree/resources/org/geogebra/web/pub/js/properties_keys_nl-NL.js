@@ -3077,7 +3077,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "exam_ended": "Examenmodus be\xebindigd",
     "exam_exit_confirmation": "Wil jij GeoGebraExam sluiten?",
     "exam_exit_header": "Sluit GeoGebraExam af?",
-    "exam_instructions_before_start": "\u2022 Wacht tot je leerkracht je zegt op Start te klikken\n\u2022 Ga niet uit de GeoGebra app tijdens het examen\n\u2022 Een logboek toont tijdens het examen een klok\n\u2022 Groene statusbalk = Alles OK\n\u2022 Rode statusbalk = Waarschuwing (je ging uit de GeoGebra app)",
+    "exam_instructions_before_start": "Een logboek toont tijdens het examen een klok.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Vliegtuigmodus uitgeschakeld",
     "exam_log_airplane_mode_on": "Vliegtuigmodus ingeschakeld",

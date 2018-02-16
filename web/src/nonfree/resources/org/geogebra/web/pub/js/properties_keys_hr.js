@@ -3077,7 +3077,7 @@ __GGB__keysVar["hr"].menu = {
     "exam_ended": "Ispitni na\u010din zavr\u0161en",
     "exam_exit_confirmation": "\u017delite li stvarno napustiti GeoGebra ispit?",
     "exam_exit_header": "\u017delte li napustiti ispitni na\u010din?",
-    "exam_instructions_before_start": "\u2022 Po\u010dekajte svoga u\u010ditelja da vam ka\u017ee \"Pokreni ispit\"\n\u2022 Ne napu\u0161tajte Geogebrinu aplikaciju za vrijeme ispita\n\u2022 Prijava na ispit prikazuje podatke o vremenu tijekom ispita\n\u2022 Zelena statusna traka zna\u010di sve je u redu\n\u2022 Crvena statusna traka upozorava da ste napustili Geogebrinu aplikaciju",
+    "exam_instructions_before_start": "Prijava na ispit prikazuje podatke o vremenu tijekom ispita.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Izvanmre\u017eni na\u010din rada isklju\u010den",
     "exam_log_airplane_mode_on": "Avionski na\u010din uklju\u010den",

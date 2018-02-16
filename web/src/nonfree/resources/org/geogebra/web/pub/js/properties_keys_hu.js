@@ -3077,7 +3077,7 @@ __GGB__keysVar["hu"].menu = {
     "exam_ended": "A vizsga v\xe9get \xe9rt",
     "exam_exit_confirmation": "Val\xf3ban el k\xedv\xe1nja hagyni a GeoGebra vizsgam\xf3dot?",
     "exam_exit_header": "V\xe9ge a vizsg\xe1nak?",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 The status bar shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "The status bar shows timer information during the exam.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",

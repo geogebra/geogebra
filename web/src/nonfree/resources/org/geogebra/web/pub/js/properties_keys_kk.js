@@ -3077,7 +3077,7 @@ __GGB__keysVar["kk"].menu = {
     "exam_ended": "\u0415\u043c\u0442\u0438\u0445\u0430\u043d \u0430\u044f\u049b\u0442\u0430\u043b\u0434\u044b",
     "exam_exit_confirmation": "\u0421\u0456\u0437 \u0448\u044b\u043d\u044b\u043c\u0435\u043d \u0434\u0435 GeoGebra \u0415\u043c\u0442\u0438\u0445\u0430\u043d \u0440\u0435\u0436\u0438\u043c\u0456\u043d\u0435\u043d \u0448\u044b\u0493\u044b\u043f \u043a\u043e\u043c\u043f\u044c\u044e\u0442\u0435\u0440\u0456\u04a3\u0456\u0437\u0434\u0456 \u04e9\u0448\u0456\u0440\u0433\u0456\u04a3\u0456\u0437 \u043a\u0435\u043b\u0435 \u043c\u0435?",
     "exam_exit_header": "GeoGebraExam \u0436\u04af\u0439\u0435\u0441\u0456\u043d\u0435\u043d \u0448\u044b\u0493\u0430\u0441\u044b\u0437 \u0431\u0430?",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 The status bar shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "The status bar shows timer information during the exam.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "\u04b0\u0448\u0443 \u0440\u0435\u0436\u0438\u043c\u0456 \u049b\u043e\u0441\u044b\u043b\u044b\u043f \u0442\u04b1\u0440\u0493\u0430\u043d \u0436\u043e\u049b",
     "exam_log_airplane_mode_on": "\u04b0\u0448\u0443 \u0440\u0435\u0436\u0438\u043c\u0456 \u049b\u043e\u0441\u044b\u043b\u044b\u043f \u0442\u04b1\u0440",

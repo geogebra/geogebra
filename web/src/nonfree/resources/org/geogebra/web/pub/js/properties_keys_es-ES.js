@@ -3077,7 +3077,7 @@ __GGB__keysVar["es-ES"].menu = {
     "exam_ended": "Finalizado el Modo Examen",
     "exam_exit_confirmation": "\xbfDe verdad quieres dejar abandonar el Modo Examen?",
     "exam_exit_header": "\xbfSalir del Modo Examen?",
-    "exam_instructions_before_start": "\u2022 Espera a que tu profesor te diga cu\xe1ndo empezar\n\u2022 No abandones la aplicaci\xf3n GeoGebra durante el examen\n\u2022 Puedes ver  la informaci\xf3n del tiempo transcurrido durante el examen\n\u2022 Barra de t\xedtulo verde = Todo est\xe1 bien\n\u2022 Barra de t\xedtulo roja = Alerta de trampa (abandonaste GeoGebra)",
+    "exam_instructions_before_start": "Puedes ver  la informaci\xf3n del tiempo transcurrido durante el examen.",
     "exam_lock_button": "Bloquear aplicaci\xf3n",
     "exam_log_airplane_mode_off": "Modo avi\xf3n desactivado",
     "exam_log_airplane_mode_on": "Modo avi\xf3n activado",

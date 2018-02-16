@@ -3077,7 +3077,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "exam_ended": "Acabat el mode examen",
     "exam_exit_confirmation": "Est\xe0s segur que vols deixar el mode examen i desconnectar el teu ordinador?",
     "exam_exit_header": "Voleu sortir del mode examen?",
-    "exam_instructions_before_start": "\u2022 Wait for your teacher to tell you when to press \"Start\"\n\u2022 Don\'t leave the GeoGebra app during the exam\n\u2022 The status bar shows timer information during the exam\n\u2022 Green status bar = All good\n\u2022 Red status bar = Cheating Alert (you left the GeoGebra app)",
+    "exam_instructions_before_start": "The status bar shows timer information during the exam.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Airplane mode turned off",
     "exam_log_airplane_mode_on": "Airplane mode turned on",

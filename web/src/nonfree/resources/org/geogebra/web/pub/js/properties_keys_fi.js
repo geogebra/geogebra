@@ -3077,7 +3077,7 @@ __GGB__keysVar["fi"].menu = {
     "exam_ended": "Koetila p\xe4\xe4ttyi",
     "exam_exit_confirmation": "Haluatko varmasti poistua koetilasta?",
     "exam_exit_header": "Poistu koetilasta?",
-    "exam_instructions_before_start": "\u2022 Odota, ett\xe4 opettaja antaa luvan aloittaa kokeen.\n\u2022 \xc4l\xe4 poistu GeoGebra-sovelmasta kokeen aikana.\n\u2022 Loki n\xe4ytt\xe4\xe4 tapahtumat kokeen aikana.\n\u2022 Vihre\xe4 tilarivi = Kaikki kunnossa.\n\u2022 Punainen tilarivi = Lunttaush\xe4lytys (poistuit sovelmasta).",
+    "exam_instructions_before_start": "Loki n\xe4ytt\xe4\xe4 tapahtumat kokeen aikana.",
     "exam_lock_button": "Lukitse appi",
     "exam_log_airplane_mode_off": "Lentokonetila pois p\xe4\xe4lt\xe4",
     "exam_log_airplane_mode_on": "Lentokonetila p\xe4\xe4ll\xe4",

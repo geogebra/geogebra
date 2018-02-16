@@ -3077,7 +3077,7 @@ __GGB__keysVar["is"].menu = {
     "exam_ended": "Pr\xf3fi loki\xf0",
     "exam_exit_confirmation": "Viltu h\xe6tta \xed GeoGebra Exam?",
     "exam_exit_header": "H\xe6tta \xed pr\xf3fham?",
-    "exam_instructions_before_start": "\u2022 B\xedddu eftir a\xf0 kennarinn \xfeinn leyfi ykkur a\xf0 \"Hefja pr\xf3f\"\n\u2022 Ekki loka GeoGebru me\xf0an \xe1 pr\xf3finu stendur\n\u2022 Pr\xf3fdagb\xf3k s\xfdnir uppl\xfdsingar um t\xedmasetningar me\xf0an \xe1 pr\xf3fi stendur\n\u2022 Gr\xe6n st\xf6\xf0ustika = Allt \xed lagi\n\u2022 Rau\xf0 st\xf6\xf0ustika = Svindla\xf0v\xf6run (\xfe\xfa loka\xf0ir GeoGebru)",
+    "exam_instructions_before_start": "Pr\xf3fdagb\xf3k s\xfdnir uppl\xfdsingar um t\xedmasetningar me\xf0an \xe1 pr\xf3fi stendur.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Flugv\xe9larstilling er \xf3virk",
     "exam_log_airplane_mode_on": "Flugv\xe9larstilling er virk",

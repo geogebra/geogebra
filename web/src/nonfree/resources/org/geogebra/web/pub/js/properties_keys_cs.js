@@ -3077,7 +3077,7 @@ __GGB__keysVar["cs"].menu = {
     "exam_ended": "Zkou\u0161ka ukon\u010dena",
     "exam_exit_confirmation": "Opravdu chcete ukon\u010dit zkou\u0161ku?",
     "exam_exit_header": "Ukon\u010dit zkou\u0161ku?",
-    "exam_instructions_before_start": "\u2022 Po\u010dkejte a\u017e v\xe1m u\u010ditel d\xe1 pokyn zm\xe1\u010dknout tla\u010d\xedtko Start\n\u2022 Nezav\xedrejte GeoGebru b\u011bhem zkou\u0161ky\n\u2022 Z\xe1znam zkou\u010dky zobrazuje \u010das od za\u010d\xe1tku zkou\u0161ky\n\u2022 Zelen\xfd stavov\xfd panel = v\u0161echno OK\n\u2022 \u010cerven\xfd stavov\xfd panel = podez\u0159en\xed z podvodu (do\u0161lo k opu\u0161t\u011bn\xed GeoGebry)",
+    "exam_instructions_before_start": "Z\xe1znam zkou\u010dky zobrazuje \u010das od za\u010d\xe1tku zkou\u0161ky.",
     "exam_lock_button": "Zamknout aplikaci",
     "exam_log_airplane_mode_off": "Letov\xfd re\u017eim vypnut",
     "exam_log_airplane_mode_on": "Letov\xfd re\u017eim vypnut",

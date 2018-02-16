@@ -3077,7 +3077,7 @@ __GGB__keysVar["sv"].menu = {
     "exam_ended": "Provl\xe4get avslutades",
     "exam_exit_confirmation": "Vill du verkligen avsluta provl\xe4get?",
     "exam_exit_header": "Avsluta provl\xe4get?",
-    "exam_instructions_before_start": "\u2022 V\xe4nta tills din l\xe4rare ber dig klicka p\xe5 \"Starta provet\"\n\u2022 L\xe4mna inte GeoGebra-appen under provet\n\u2022 En logg med provdata visar tiden under provet\n\u2022 Gr\xf6n status = Allt v\xe4l\n\u2022 R\xf6d status = Fuskvarning (du l\xe4mnade GeoGebra-appen)",
+    "exam_instructions_before_start": "En logg med provdata visar tiden under provet.",
     "exam_lock_button": "Lock app",
     "exam_log_airplane_mode_off": "Flygplansl\xe4get avst\xe4ngt",
     "exam_log_airplane_mode_on": "Plygplansl\xe4get aktiverat",
