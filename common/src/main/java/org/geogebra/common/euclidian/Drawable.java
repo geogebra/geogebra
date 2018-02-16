@@ -363,7 +363,8 @@ public abstract class Drawable extends DrawableND {
 			GColor fgColor, GColor bgColor) {
 				EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 						view.getTempGraphics2D(font), geo, g2, font, fgColor,
-				bgColor, labelDesc, xLabel, yLabel, isSerif(), null,
+				bgColor, labelDesc, xLabel, yLabel, isSerif(),
+				view.getCallBack(),
 				labelRectangle);
 	}
 
