@@ -428,7 +428,7 @@ public class MouseTouchGestureController {
 	private boolean onlyJitter(double oldStartX, double oldStartY,
 			double oldEndX, double oldEndY, double newStartX, double newStartY,
 			double newEndX, double newEndY) {
-		double capThreshold = ec.getView().getCapturingThreshold(PointerEventType.TOUCH);
+		double capThreshold = app.getCapturingThreshold(PointerEventType.TOUCH);
 		return Math.abs(oldStartX - newStartX) < capThreshold
 				&& Math.abs(oldStartY - newStartY) < capThreshold
 				&& Math.abs(oldEndX - newEndX) < capThreshold
