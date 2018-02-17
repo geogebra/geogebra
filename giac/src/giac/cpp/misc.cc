@@ -99,21 +99,36 @@ namespace giac {
   static define_unary_function_eval (__preval,&_preval,_preval_s);
   define_unary_function_ptr5( at_preval ,alias_at_preval,&__preval,0,true);
 
+  // return suitable gen for interpolation
+  // if possible return j, if j is too large, return a GF element
+  gen interpolate_xi(int j,const gen &coeff){
+    if (coeff.type==_MOD){
+    }
+    if (coeff.type!=_USER)
+      return j; 
+    if (galois_field * gf=dynamic_cast<galois_field *>(coeff._USERptr)){
+      if (j<gf->p.val)
+	return j;
+      galois_field g(*gf); // copy
+      g.a=_revlist(_convert(makesequence(j,change_subtype(_BASE,_INT_MAPLECONVERSION),gf->p),context0),context0);
+      return g;
+    }
+    return j;
+  }
   // characteristic must be large enough to interpolate the resultant
   // d1+1 evaluations + there is a probab. of 2/p of bad evaluation
   // (d1+1)*p/(p-2)<p -> p>d1+3 + we add some more for safety
   // on Galois fields comparison should be (d+1)*p/(p-2)<p^m
   // assuming interpolation is done with all fields elements
   // We might also work in a field extension...
-  bool interpolable_resultant(const polynome & P,int d1){
-    gen coefft;
+  bool interpolable_resultant(const polynome & P,int d1,gen & coefft){
     int tt=coefftype(P,coefft);
     if (tt==_USER){
       if (galois_field * gf=dynamic_cast<galois_field *>(coefft._USERptr)){
 	gen m=gf->p;
 	if (!is_integer(m))
 	  return false;
-	return is_greater(m,d1+20,context0);
+	return is_greater(pow(m,gf->P._VECTptr->size()-1),d1+20,context0);
       }
       return true;
     }

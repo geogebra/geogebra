@@ -3804,8 +3804,10 @@ namespace giac {
 	  if ( (f1_num.type==_POLY) && (f2_num.type==_POLY)){
 	    const polynome & pp=*f1_num._POLYptr;
 	    const polynome & qp=*f2_num._POLYptr;
-	    if (!interpolable_resultant(pp,d) || !interpolable_resultant(qp,d))
+	    gen coeff;
+	    if (!interpolable_resultant(pp,d,coeff) || !interpolable_resultant(qp,d,coeff))
 	      return gensizeerr(gettext("Characteristic is too small"));
+	    if (coeff.type==_USER) j=0;
 	    int dim=pp.dim;
 	    vecteur vp,vq,vp0,vq0;
 	    polynome2poly1(pp,1,vp);
@@ -3823,18 +3825,21 @@ namespace giac {
 	    for (int i=0;i<=d;++i,++j){
 	      if (debug_infolevel)
 		CERR << CLOCK()*1e-6 << " interp horner " << i << endl;
+	      gen xi;
 	      for (;;++j){
 		// find evaluation preserving degree in x
 		if (0 && j==0)
 		  CERR << "j" << endl;
-		gen hp=horner(vp0,j);
-		gen hq=horner(vq0,j);
-		if (!is_zero(hp) && !is_zero(hq))
+		xi=interpolate_xi(j,coeff);
+		gen hp=horner(vp0,xi);
+		gen hq=horner(vq0,xi);
+		if (!is_zero(hp) && !is_zero(hq)){
 		  break;
+		}
 	      }
-	      X[i]=j;
-	      gen gp=horner(vp,j);
-	      gen gq=horner(vq,j);
+	      X[i]=xi;
+	      gen gp=horner(vp,xi);
+	      gen gq=horner(vq,xi);
 	      if (debug_infolevel)
 		CERR << CLOCK()*1e-6 << " interp resultant " << j << ", " << 100*double(i)/(d+1) << "% done" << endl;
 	      if (gp.type==_POLY && gq.type==_POLY){
@@ -3870,6 +3875,7 @@ namespace giac {
 		tmp.back() += R[i];
 	      tmp.swap(resp);
 	    }
+	    resp=trim(resp,0);
 	    vecteur & lf=*l.front()._VECTptr;
 	    lf.erase(lf.begin()); // remove y
 	    if (debug_infolevel)
