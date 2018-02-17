@@ -411,6 +411,7 @@ public class PageListController implements PageListControllerInterface,
 		dragCtrl.stop(t.getClientX(), t.getClientY());
 	}
 
+	// Cards Interface
 	@Override
 	public PagePreviewCard cardAt(int index) {
 		return slides.get(index);
@@ -419,6 +420,11 @@ public class PageListController implements PageListControllerInterface,
 	@Override
 	public int getCardCount() {
 		return getSlideCount();
+	}
+
+	@Override
+	public void selectCard(PagePreviewCard card) {
+		setCardSelected(card);
 	}
 
 	@Override

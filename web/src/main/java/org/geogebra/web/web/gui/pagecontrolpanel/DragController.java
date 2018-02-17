@@ -22,6 +22,8 @@ class DragController {
 		int getCardCount();
 		CardListInterface getListener();
 		PagePreviewCard cardAt(int index); 
+
+		void selectCard(PagePreviewCard card);
 		void reorder(int srcIdx, int destIdx);
 		void clickPage(int pageIdx);
 	}
@@ -107,6 +109,7 @@ class DragController {
 			int count = cards.getCardCount();
 			if (idx >= 0 && idx < count) {
 				card = cards.cardAt(idx);
+				cards.selectCard(card);
 			} else {
 				reset();
 			}
