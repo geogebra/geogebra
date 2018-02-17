@@ -25,7 +25,8 @@ class DragController {
 
 		void selectCard(PagePreviewCard card);
 		void reorder(int srcIdx, int destIdx);
-		void clickPage(int pageIdx);
+
+		void clickPage(int pageIdx, boolean select);
 	}
 
 	private static class LastTarget {
@@ -289,11 +290,15 @@ class DragController {
 
 	void stop(int x, int y) {
 		if (clicked != null) {
-			cards.clickPage(clicked.getPageIndex());
+			cards.clickPage(clicked.getPageIndex(), true);
 		} else if (CancelEventTimer.isDragging()) {
 			if (dragged.drop(y)) {
 				cards.getListener().update();
 			}
+			if (dragged.isValid()) {
+				cards.clickPage(dragged.index(), false);
+			}
+
 		}
 
 		cancel();

@@ -99,8 +99,11 @@ public class PageListController implements PageListControllerInterface,
 		if (slides == null) {
 			return;
 		}
-		// save file status of currently selected card
-		savePreviewCard(curSelCard);
+		if (curSelCard != null) {
+			// save file status of currently selected card
+			// it is not needed after drag for example.
+			savePreviewCard(curSelCard);
+		}
 		try {
 			if (newPage) {
 				// new file
@@ -373,8 +376,11 @@ public class PageListController implements PageListControllerInterface,
 
 
 	@Override
-	public void clickPage(int pageIdx) {
-		loadPage(pageIdx, false);
+	public void clickPage(int pageIdx, boolean select) {
+		loadSlide(null, pageIdx, false);
+		if (select) {
+			setCardSelected(getCards().get(pageIdx));
+		}
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
@@ -424,6 +430,9 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void selectCard(PagePreviewCard card) {
+		if (selectedCard != null) {
+			savePreviewCard(selectedCard);
+		}
 		setCardSelected(card);
 	}
 
