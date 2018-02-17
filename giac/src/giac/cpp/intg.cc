@@ -835,7 +835,7 @@ namespace giac {
 	gen imc;
 	bool quad=imaxb.type==_SYMB && is_quadratic_wrt(imaxb._SYMBptr->feuille,gen_x,ima,imb,imc,contextptr);
 	if (!coeffnotpoly && quad && !is_zero(ima)){
-	  imc=_trig2exp(coeff*imaxb,contextptr);
+	  imc=_trig2exp(coeff*exp(reaxb,contextptr)*imaxb,contextptr);
 	  res += integrate_linearizable(imc,gen_x,remains_to_integrate,intmode,contextptr);
 	  continue;
 	}

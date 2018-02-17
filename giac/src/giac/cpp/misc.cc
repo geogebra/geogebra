@@ -129,7 +129,7 @@ namespace giac {
 	gen m=gf->p;
 	if (!is_integer(m))
 	  return false;
-	return is_greater(pow(m,gf->P._VECTptr->size()-1),d1+20,contextptr);
+	return is_greater(pow(m,gf->P._VECTptr->size()-1,contextptr),d1+20,contextptr);
       }
       return true;
     }
