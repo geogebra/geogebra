@@ -2645,8 +2645,8 @@ namespace giac {
     // first estimate n*(a-m)+m*b 
     int d1=n*(a-m)+m*b;
     gen coeffP;
-    if (!ducos && !interpolable_resultant(P,d1,coeffP)) ducos=true;
-    if (!ducos && !interpolable_resultant(Q,d1,coeffP)) ducos=true;
+    if (!ducos && !interpolable_resultant(P,d1,coeffP,false,context0)) ducos=true;
+    if (!ducos && !interpolable_resultant(Q,d1,coeffP,false,context0)) ducos=true;
     //gen Pg=a*gen(m)*comb(m+dim-2,dim-2);
     //gen Qg=b*gen(n)*comb(n+dim-2,dim-2);
     if (//1 ||

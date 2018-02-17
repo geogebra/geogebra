@@ -3805,8 +3805,8 @@ namespace giac {
 	    const polynome & pp=*f1_num._POLYptr;
 	    const polynome & qp=*f2_num._POLYptr;
 	    gen coeff;
-	    if (!interpolable_resultant(pp,d,coeff) || !interpolable_resultant(qp,d,coeff))
-	      return gensizeerr(gettext("Characteristic is too small"));
+	    if (!interpolable_resultant(pp,d,coeff,true,contextptr) || !interpolable_resultant(qp,d,coeff,true,contextptr))
+	      return gensizeerr(gettext("Not enough elements in field to interpolate. Try in a field extension"));
 	    if (coeff.type==_USER) j=0;
 	    int dim=pp.dim;
 	    vecteur vp,vq,vp0,vq0;

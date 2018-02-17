@@ -120,15 +120,16 @@ namespace giac {
   // (d1+1)*p/(p-2)<p -> p>d1+3 + we add some more for safety
   // on Galois fields comparison should be (d+1)*p/(p-2)<p^m
   // assuming interpolation is done with all fields elements
-  // We might also work in a field extension...
-  bool interpolable_resultant(const polynome & P,int d1,gen & coefft){
-    int tt=coefftype(P,coefft);
+  bool interpolable_resultant(const polynome & P,int d1,gen & coefft,bool extend,GIAC_CONTEXT){
+    int tt=coefft.type;
+    if (tt!=_USER)
+      tt=coefftype(P,coefft);
     if (tt==_USER){
       if (galois_field * gf=dynamic_cast<galois_field *>(coefft._USERptr)){
 	gen m=gf->p;
 	if (!is_integer(m))
 	  return false;
-	return is_greater(pow(m,gf->P._VECTptr->size()-1),d1+20,context0);
+	return is_greater(pow(m,gf->P._VECTptr->size()-1),d1+20,contextptr);
       }
       return true;
     }
@@ -136,7 +137,14 @@ namespace giac {
       gen m=*(coefft._MODptr+1);
       if (!is_integer(m))
 	return false;
-      return is_greater(m,d1+20,context0);
+      if (is_greater(m,d1+20,contextptr))
+	return true;
+      if (!extend || !_isprime(m,contextptr).val)
+	return false;
+      // build a suitable field extension...
+      int n=int(std::ceil(std::log(d1+20.0)/std::log(evalf_double(m,1,contextptr)._DOUBLE_val)));
+      coefft=_galois_field(makesequence(m,n),contextptr);
+      return true;
     }
     return true;
   }
@@ -147,7 +155,7 @@ namespace giac {
       for (int j=s-1;j>=k;--j){
 	res[j]=(res[j]-res[j-1])/(x[j]-x[j-k]);
       }
-      //CERR << k << res << endl;
+      CERR << k << res << endl;
     }
     return res;
   }

@@ -5159,7 +5159,7 @@ namespace giac {
       return ext_sub(a,b,contextptr);
     case _POLY__INT_: case _POLY__ZINT: case _POLY__DOUBLE_: case _POLY__FLOAT_: case _POLY__CPLX: case _POLY__MOD: case _POLY__REAL: case _POLY__USER:
       return subpoly(*a._POLYptr,b);
-    case _INT___POLY: case _ZINT__POLY: case _DOUBLE___POLY: case _FLOAT___POLY: case _CPLX__POLY: case _MOD__POLY:
+    case _INT___POLY: case _ZINT__POLY: case _DOUBLE___POLY: case _FLOAT___POLY: case _CPLX__POLY: case _MOD__POLY:case _USER__POLY: case _REAL__POLY: 
       return subpoly(a,*b._POLYptr);        
     case _MOD__MOD:
 #ifdef SMARTPTR64
