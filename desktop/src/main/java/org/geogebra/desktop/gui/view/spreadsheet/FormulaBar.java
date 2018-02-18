@@ -121,7 +121,8 @@ public class FormulaBar extends JToolBar
 
 		private void updateCellEditor(DocumentEvent documentEvent) {
 
-			view.getSpreadsheetTable().updateEditor(fldFormula.getText());
+			((MyTableD) view.getSpreadsheetTable())
+					.updateEditor(fldFormula.getText());
 		}
 	};
 

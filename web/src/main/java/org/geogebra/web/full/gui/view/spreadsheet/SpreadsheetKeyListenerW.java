@@ -5,7 +5,6 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.SpreadsheetTableModelW;
 
@@ -605,8 +604,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 				if (ce instanceof MyCellEditorW && ceType == GeoClass.DEFAULT
 						&& !"".equals(str)) {
 					((MyCellEditorW) ce).setText(str);
-					((AutoCompleteTextFieldW) ((MyCellEditorW) ce)
-					        .getTextfield())
+					((MyCellEditorW) ce).getTextfield()
 					        .setCaretPosition(((MyCellEditorW) ce)
 					                .getEditingValue().length());
 				}

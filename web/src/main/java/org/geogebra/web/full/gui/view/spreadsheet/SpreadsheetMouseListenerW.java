@@ -60,6 +60,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	private LongTouchManager longTouchManager;
 
 	private int numberOfTouches = 0;
+	private boolean isOverDot = false;
+	private boolean isDragingDot = false;
 	
 	/*************************************************
 	 * Constructor
@@ -112,7 +114,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		if (!editEnabled) {
 			return;
 		}
-		if (table.isOverDot) { // auto-fill down if dragging dot is double-clicked
+		if (isOverDot) { // auto-fill down if dragging dot is double-clicked
 			// TODO handleAutoFillDown();
 			return;
 		}
@@ -211,9 +213,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			view.requestFocus();
 		}
 
-		if (table.isOverDot) {
+		if (isOverDot) {
 			if (table.showCanDragBlueDot()) {
-				table.isDragingDot = true;
+				isDragingDot = true;
 			}
 		} else {
 			if (!isCurrentSelection(point)) {
@@ -334,7 +336,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			showContextMenu(event);
 		}
 
-		if (table.isDragingDot) {
+		if (isDragingDot) {
 			boolean success = doDragCopy();
 			if (success) {
 				app.storeUndoInfo();
@@ -418,8 +420,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private void resetDraggingFlags() {
-		table.isOverDot = false;
-		table.isDragingDot = false;
+		isOverDot = false;
+		isDragingDot = false;
 		table.draggingToRow = -1;
 		table.draggingToColumn = -1;
 	}
@@ -532,7 +534,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			}
 
 			// handle dot drag
-			if (table.isDragingDot) {
+			if (isDragingDot) {
 
 				eConsumed = true;
 				int mouseX = getAbsoluteX(event);
@@ -706,8 +708,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 			Rectangle2D dotRect = new Rectangle2D.Double(dotX - s / 2, dotY - s
 			        / 2, s, s);
 			boolean overDot = dotRect.contains(point.getX(), point.getY());
-			if (table.isOverDot != overDot) {
-				table.isOverDot = overDot;
+			if (isOverDot != overDot) {
+				isOverDot = overDot;
 
 				if (table.showCanDragBlueDot()) {
 					table.repaint();

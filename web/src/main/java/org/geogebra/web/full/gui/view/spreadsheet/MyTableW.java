@@ -137,10 +137,8 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private GColor selectionRectangleColor = SELECTED_RECTANGLE_COLOR;
 
 	// Dragging vars
-	protected boolean isDragingDot = false;
 	protected int draggingToRow = -1;
 	protected int draggingToColumn = -1;
-	protected boolean isOverDot = false;
 	protected boolean isDragging = false;
 
 	protected boolean showRowHeader = true;
@@ -1646,11 +1644,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				return true;
 			}
 			if (!view.getShowFormulaBar()) {
-
 				if (getEditorController().redefineIfNeeded(geo)) {
-						return true;
-					}
-
+					return true;
+				}
 			}
 		}
 		// STANDARD case: in cell editing
@@ -1776,13 +1772,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		// the JTable mousePressed listener catch double clicks and invoke the
 		// editor
 		return true;
-	}
-
-	@Override
-	public void updateEditor(String text) {
-		if (this.isEditing()) {
-			editor.setText(text);
-		}
 	}
 
 	public void finishEditing(boolean editNext) {

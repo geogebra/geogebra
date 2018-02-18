@@ -76,10 +76,9 @@ public class MyCellEditorW implements BaseCellEditor {
 			@Override
 			public void onInsert(String text) {
 				if (!editing) {
-					String current = autoCompleteTextField.getText();
 				((SpreadsheetViewW) app.getGuiManager().getSpreadsheetView())
 						.letterOrDigitTyped();
-					autoCompleteTextField.setText(current);
+					autoCompleteTextField.setText(text);
 				}
 
 			}
@@ -94,7 +93,6 @@ public class MyCellEditorW implements BaseCellEditor {
 		if (!autoCompleteTextField.hasFocus() && !table.isDragging) {
 			autoCompleteTextField.setText(text);
 		}
-
 	}
 
 	public AutoCompleteTextFieldW getTableCellEditorWidget(MyTableW table0,

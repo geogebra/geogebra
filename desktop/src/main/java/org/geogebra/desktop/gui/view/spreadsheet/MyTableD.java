@@ -1472,7 +1472,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		return true;
 	}
 
-	@Override
+	/** Set editor text */
 	public void updateEditor(String text) {
 		if (this.isEditing()) {
 			editor.setText(text);

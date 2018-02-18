@@ -21,8 +21,6 @@ public interface MyTableInterface {
 
 	public void repaintAll();
 
-	public void updateEditor(String text);
-
 	public int getSelectionType();
 
 	public void selectionChanged();
