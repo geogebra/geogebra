@@ -171,8 +171,6 @@ public class ViewW {
 		// it should load after the images are loaded
 
 		Log.debug("file loaded");
-		// This is used also by touch where dialog manager is null
-		app.notifyFileLoaded();
 
 		// reiniting of navigation bar, to show the correct numbers on the label
 		if (app.getGuiManager() != null && app.getUseFullGui()) {

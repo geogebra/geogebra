@@ -995,28 +995,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
-	/**
-	 * @param ob
-	 *            geo element
-	 * @return AV item
-	 */
-	public final static RadioTreeItem createAVItem(final GeoElement ob) {
-		RadioTreeItem ti = null;
-		if (SliderTreeItemRetex.match(ob)) {
-			ti = new SliderTreeItemRetex(ob);
-		} else if (CheckboxTreeItem.match(ob)) {
-			ti = new CheckboxTreeItem(ob);
-		} else if (TextTreeItem.match(ob)) {
-			ti = new TextTreeItem(ob);
-		} else {
-			ti = new RadioTreeItem(ob);
-		}
-		ti.setUserObject(ob);
-		ti.addStyleName("avItem");
 
-
-		return ti;
-	}
 	/**
 	 * Remove this node from the model.
 	 * 
@@ -1154,7 +1133,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 
 			TreeItem parent = getParentNode(geo, forceLayer);
-			RadioTreeItem node = createAVItem(geo);
+			RadioTreeItem node = ItemFactory.createAVItem(geo);
 
 			addRadioTreeItem(parent, node);
 

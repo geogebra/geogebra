@@ -84,14 +84,7 @@ public class CheckboxTreeItem extends RadioTreeItem {
 		main.add(controls);
 	}
 	
-	/**
-	 * @param geo
-	 *            element
-	 * @return if geo matches to CheckboxTreeItem.
-	 */
-	public static boolean match(GeoElement geo) {
-		return geo instanceof GeoBoolean && geo.isSimple();
-	}
+
 
 	public static CheckboxTreeItem as(TreeItem ti) {
 		return (CheckboxTreeItem) ti;

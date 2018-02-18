@@ -12,7 +12,7 @@
   <set-property-fallback name="user.agent" value="safari"/>
   
   <!-- Specify the paths for translatable code                    -->
-  <source path="web"/>
+  <source path="full"/>
   <source path="editor"/>
   <source path="plugin"/>
   <public path="pub" />

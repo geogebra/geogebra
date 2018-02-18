@@ -947,8 +947,8 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	protected boolean typeChanged() {
-		return (isSliderItem() != SliderTreeItemRetex.match(geo))
-				|| (isCheckBoxItem() != CheckboxTreeItem.match(geo));
+		return (isSliderItem() != ItemFactory.matchSlider(geo))
+				|| (isCheckBoxItem() != ItemFactory.matchCheckbox(geo));
 	}
 
 	private void cancelDV() {

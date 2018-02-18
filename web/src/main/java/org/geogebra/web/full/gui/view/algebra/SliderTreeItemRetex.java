@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.web.full.gui.view.algebra;
 
-import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
@@ -254,18 +253,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	@Override
 	public boolean isInputTreeItem() {
 		return false;
-	}
-
-	/**
-	 * 
-	 * @param geo
-	 *            geo element
-	 * @return if geo matches to SliderTreeItem.
-	 */
-	public static boolean match(GeoElement geo) {
-		return geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
-				&& MyDouble.isFinite(((GeoNumeric) geo).value);
 	}
 
 	@Override

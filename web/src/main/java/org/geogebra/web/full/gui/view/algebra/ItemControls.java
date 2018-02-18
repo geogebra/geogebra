@@ -219,12 +219,11 @@ public class ItemControls extends FlowPanel
 	 */
 	private static boolean animPanelFits(GeoElement geo) {
 		if(geo instanceof GeoNumeric){
-			return SliderTreeItemRetex.match(geo);
+			return ItemFactory.matchSlider(geo);
 		}
 		return geo.getKernel()
 				.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_DEFINITION_AND_VALUE
 				&& !(geo instanceof GeoTurtle);
-
 	}
 
 	/**
