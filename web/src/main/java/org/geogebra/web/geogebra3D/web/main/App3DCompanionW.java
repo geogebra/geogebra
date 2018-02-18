@@ -9,11 +9,11 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.web.full.gui.layout.DockManagerW;
+import org.geogebra.web.full.gui.layout.LayoutW;
 import org.geogebra.web.geogebra3D.web.euclidianForPlane.EuclidianControllerForPlaneW;
 import org.geogebra.web.geogebra3D.web.euclidianForPlane.EuclidianViewForPlaneW;
 import org.geogebra.web.geogebra3D.web.gui.layout.panels.EuclidianDockPanelForPlaneW;
-import org.geogebra.web.web.gui.layout.DockManagerW;
-import org.geogebra.web.web.gui.layout.LayoutW;
 
 /**
  * 

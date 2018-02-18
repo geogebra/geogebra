@@ -3,12 +3,12 @@ package org.geogebra.web.geogebra3D.web.gui.layout.panels;
 import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelWAbstract;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.ContextMenuGraphicsWindow3DW;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;

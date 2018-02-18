@@ -2,13 +2,13 @@ package org.geogebra.web.touch.gui.dialog.image;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.tablet.Tablet;
 import org.geogebra.web.touch.PhoneGapManager;
-import org.geogebra.web.web.gui.dialog.image.UploadImageDialog;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;

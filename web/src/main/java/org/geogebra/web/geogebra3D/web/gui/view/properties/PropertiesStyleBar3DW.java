@@ -2,13 +2,13 @@ package org.geogebra.web.geogebra3D.web.gui.view.properties;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.ImageFactory;
+import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.gui.properties.PropertiesStyleBarW;
+import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.css.MaterialDesignResources;
-import org.geogebra.web.web.gui.ImageFactory;
-import org.geogebra.web.web.gui.images.SvgPerspectiveResources;
-import org.geogebra.web.web.gui.properties.PropertiesStyleBarW;
-import org.geogebra.web.web.gui.properties.PropertiesViewW;
 
 /**
  * Style bar for properties view (in 3D)

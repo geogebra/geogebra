@@ -12,6 +12,12 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.AppCompanion;
 import org.geogebra.common.main.DialogManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
+import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.dialog.DialogManager3DW;
+import org.geogebra.web.full.gui.laf.GLookAndFeel;
+import org.geogebra.web.full.main.AppWapplet;
+import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
@@ -23,12 +29,6 @@ import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.web.gui.dialog.DialogManager3DW;
-import org.geogebra.web.web.gui.laf.GLookAndFeel;
-import org.geogebra.web.web.main.AppWapplet;
-import org.geogebra.web.web.main.GDevice;
 
 /** 3D applet */
 public class AppWapplet3D extends AppWapplet {

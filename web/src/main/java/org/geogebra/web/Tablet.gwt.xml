@@ -7,8 +7,8 @@
 
   <source path='tablet'/>
   
-  <replace-with class="org.geogebra.web.web.gui.applet.AppletFactory2D">
-    <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
+  <replace-with class="org.geogebra.web.full.gui.applet.AppletFactory2D">
+    <when-type-is class="org.geogebra.web.full.gui.applet.AppletFactory" />    
   </replace-with>
   
   <!-- Compile only one permutation -->

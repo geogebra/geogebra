@@ -2,14 +2,14 @@ package org.geogebra.web.geogebra3D.web.gui.view.properties;
 
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.main.OptionType;
+import org.geogebra.web.full.gui.dialog.options.OptionPanelW;
+import org.geogebra.web.full.gui.dialog.options.OptionsEuclidianW;
+import org.geogebra.web.full.gui.properties.PropertiesStyleBarW;
+import org.geogebra.web.full.gui.properties.PropertiesViewW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import org.geogebra.web.geogebra3D.web.gui.dialog.options.OptionsEuclidian3DW;
 import org.geogebra.web.geogebra3D.web.gui.dialog.options.OptionsEuclidianForPlaneW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.dialog.options.OptionPanelW;
-import org.geogebra.web.web.gui.dialog.options.OptionsEuclidianW;
-import org.geogebra.web.web.gui.properties.PropertiesStyleBarW;
-import org.geogebra.web.web.gui.properties.PropertiesViewW;
 
 /**
  * Just adding 3D view for properties

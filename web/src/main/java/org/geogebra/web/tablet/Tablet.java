@@ -4,18 +4,18 @@ import java.util.ArrayList;
 
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.SilentProfiler;
+import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.applet.AppletFactory;
+import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
+import org.geogebra.web.full.gui.browser.BrowseGUI;
+import org.geogebra.web.full.gui.laf.GLookAndFeel;
+import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
-import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.applet.AppletFactory;
-import org.geogebra.web.web.gui.applet.GeoGebraFrameBoth;
-import org.geogebra.web.web.gui.browser.BrowseGUI;
-import org.geogebra.web.web.gui.laf.GLookAndFeel;
-import org.geogebra.web.web.main.GDevice;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;

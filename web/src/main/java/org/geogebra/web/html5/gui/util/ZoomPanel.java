@@ -11,6 +11,7 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.web.full.gui.layout.GUITabs;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.FastClickHandler;
@@ -18,7 +19,6 @@ import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
-import org.geogebra.web.web.gui.layout.GUITabs;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;

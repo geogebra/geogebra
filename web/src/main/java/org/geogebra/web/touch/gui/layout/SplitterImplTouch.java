@@ -1,7 +1,7 @@
 package org.geogebra.web.touch.gui.layout;
 
-import org.geogebra.web.web.gui.layout.SplitterImpl;
-import org.geogebra.web.web.gui.layout.ZoomSplitLayoutPanel.Splitter;
+import org.geogebra.web.full.gui.layout.SplitterImpl;
+import org.geogebra.web.full.gui.layout.ZoomSplitLayoutPanel.Splitter;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;

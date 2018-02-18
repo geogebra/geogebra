@@ -3,13 +3,13 @@ package org.geogebra.web.tablet;
 import org.geogebra.common.GeoGebraConstants.Versions;
 import org.geogebra.common.main.App;
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.full.gui.browser.MaterialListElement;
+import org.geogebra.web.full.gui.browser.SignInButton;
+import org.geogebra.web.full.gui.browser.TabletSignInButton;
+import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.tablet.gui.browser.TabletMaterialElement;
-import org.geogebra.web.web.gui.browser.MaterialListElement;
-import org.geogebra.web.web.gui.browser.SignInButton;
-import org.geogebra.web.web.gui.browser.TabletSignInButton;
-import org.geogebra.web.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.storage.client.Storage;
 

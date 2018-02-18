@@ -12,12 +12,12 @@ import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.web.full.gui.browser.BrowseGUI;
+import org.geogebra.web.full.gui.dialog.DialogManagerW;
+import org.geogebra.web.full.main.FileManager;
+import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
-import org.geogebra.web.web.gui.browser.BrowseGUI;
-import org.geogebra.web.web.gui.dialog.DialogManagerW;
-import org.geogebra.web.web.main.FileManager;
-import org.geogebra.web.web.util.SaveCallback;
 
 
 public class WinFileManager extends FileManager {

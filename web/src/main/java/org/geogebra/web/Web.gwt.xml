@@ -4,10 +4,10 @@
   <inherits name='org.geogebra.web.WebND'/>
 
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='org.geogebra.web.web.Web'/>
+  <entry-point class='org.geogebra.web.full.Web'/>
   
-  <replace-with class="org.geogebra.web.web.gui.applet.AppletFactory2D">
-    <when-type-is class="org.geogebra.web.web.gui.applet.AppletFactory" />    
+  <replace-with class="org.geogebra.web.full.gui.applet.AppletFactory2D">
+    <when-type-is class="org.geogebra.web.full.gui.applet.AppletFactory" />    
   </replace-with>
   <!-- Compile only one permutation -->
   <collapse-all-properties />

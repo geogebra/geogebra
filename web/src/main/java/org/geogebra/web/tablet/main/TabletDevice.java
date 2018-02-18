@@ -1,13 +1,13 @@
 package org.geogebra.web.tablet.main;
 
+import org.geogebra.web.full.gui.browser.BrowseGUI;
+import org.geogebra.web.full.main.FileManager;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.tablet.Tablet;
 import org.geogebra.web.tablet.TabletFileManager;
 import org.geogebra.web.tablet.gui.browser.TabletBrowseGUI;
 import org.geogebra.web.touch.FileManagerT;
 import org.geogebra.web.touch.main.TouchDevice;
-import org.geogebra.web.web.gui.browser.BrowseGUI;
-import org.geogebra.web.web.main.FileManager;
 
 public class TabletDevice extends TouchDevice {
 

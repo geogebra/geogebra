@@ -7,8 +7,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.plugin.SensorLogger;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.web.full.gui.view.dataCollection.DataCollectionView;
 import org.geogebra.web.html5.util.JSON;
-import org.geogebra.web.web.gui.view.dataCollection.DataCollectionView;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.json.client.JSONString;

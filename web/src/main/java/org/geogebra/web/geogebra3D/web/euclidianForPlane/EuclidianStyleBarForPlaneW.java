@@ -3,7 +3,7 @@ package org.geogebra.web.geogebra3D.web.euclidianForPlane;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import org.geogebra.common.main.OptionType;
-import org.geogebra.web.web.euclidian.EuclidianStyleBarW;
+import org.geogebra.web.full.euclidian.EuclidianStyleBarW;
 
 /**
  * Stylebar for view for plane

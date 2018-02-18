@@ -1,9 +1,9 @@
 package org.geogebra.web.tablet.gui.browser;
 
 import org.geogebra.common.move.ggtapi.models.Material;
+import org.geogebra.web.full.gui.GuiManagerW;
+import org.geogebra.web.full.gui.browser.MaterialListElement;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.GuiManagerW;
-import org.geogebra.web.web.gui.browser.MaterialListElement;
 
 public class TabletMaterialElement extends MaterialListElement {
 

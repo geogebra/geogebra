@@ -1,8 +1,8 @@
 package org.geogebra.web.tablet.gui.browser;
 
+import org.geogebra.web.full.gui.browser.MaterialListPanel;
+import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.browser.MaterialListPanel;
-import org.geogebra.web.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.user.client.Window;
 

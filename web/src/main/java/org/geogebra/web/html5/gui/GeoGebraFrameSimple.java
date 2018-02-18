@@ -34,7 +34,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	}
 
 	/**
-	 * Main entry points called by geogebra.web.Web.startGeoGebra()
+	 * Main entry points called by geogebra.web.html5.WebSimple.startGeoGebra()
 	 * 
 	 * @param geoGebraMobileTags
 	 *            list of &lt;article&gt; elements of the web page

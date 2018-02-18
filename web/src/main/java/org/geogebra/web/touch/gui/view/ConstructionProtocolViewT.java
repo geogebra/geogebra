@@ -1,8 +1,8 @@
 package org.geogebra.web.touch.gui.view;
 
+import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolViewW;
 import org.geogebra.web.html5.awt.GFontW;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.web.gui.view.consprotocol.ConstructionProtocolViewW;
 
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;

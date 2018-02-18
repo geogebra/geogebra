@@ -5,7 +5,7 @@ import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.settings.EuclidianSettings3D;
-import org.geogebra.web.web.gui.layout.DockPanelW;
+import org.geogebra.web.full.gui.layout.DockPanelW;
 
 import com.google.gwt.core.client.JsArrayNumber;
 import com.google.gwt.user.client.ui.RootPanel;

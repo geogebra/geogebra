@@ -1,0 +1,255 @@
+package org.geogebra.web.full.gui.properties;
+
+import java.util.HashMap;
+
+import org.geogebra.common.main.App;
+import org.geogebra.common.main.OptionType;
+import org.geogebra.keyboard.web.KeyboardResources;
+import org.geogebra.web.full.css.GuiResources;
+import org.geogebra.web.full.css.MaterialDesignResources;
+import org.geogebra.web.full.gui.ImageFactory;
+import org.geogebra.web.full.gui.images.AppResources;
+import org.geogebra.web.full.gui.images.SvgPerspectiveResources;
+import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.html5.gui.util.AriaMenuBar;
+import org.geogebra.web.html5.gui.util.AriaMenuItem;
+import org.geogebra.web.html5.gui.util.ImgResourceHelper;
+import org.geogebra.web.html5.gui.util.NoDragImage;
+
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.ui.FlowPanel;
+
+/**
+ * @author gabor
+ * Creates PropertiesStyleBar for Web
+ *
+ */
+public class PropertiesStyleBarW extends
+        org.geogebra.common.gui.view.properties.PropertiesStyleBar {
+
+	private static OptionType OptionTypesImpl[] = {
+		// Implemented types of the web
+			OptionType.GLOBAL, OptionType.OBJECTS, OptionType.EUCLIDIAN,
+			OptionType.EUCLIDIAN2,
+			OptionType.EUCLIDIAN_FOR_PLANE, OptionType.EUCLIDIAN3D,
+			OptionType.SPREADSHEET, OptionType.CAS, OptionType.ALGEBRA
+	};
+	
+	/**
+	 * view
+	 */
+	protected PropertiesViewW propertiesView;
+	/** app */
+	protected App app;
+	private FlowPanel wrappedPanel;
+	//private PopupMenuButton btnOption;
+	/** maps options to buttons */
+	private HashMap<OptionType, AriaMenuItem> buttonMap;
+
+	private AriaMenuItem currentButton;
+
+	/**
+	 * @param propertiesView
+	 *            properties view
+	 * @param app
+	 *            application
+	 */
+	public PropertiesStyleBarW(PropertiesViewW propertiesView, App app) {
+		this.propertiesView = propertiesView;
+		this.app = app;
+		
+		this.wrappedPanel = new FlowPanel();
+		wrappedPanel.setStyleName("propertiesStyleBar");
+		/*AGbtnOption.setHorizontalTextPosition(SwingConstants.RIGHT);
+		Dimension d = btnOption.getPreferredSize();
+		d.width = menu.getPreferredSize().width;
+		btnOption.setPreferredSize(d);*/
+		
+		buildGUI();
+		updateGUI();
+		
+		
+	}
+	
+	/**
+	 * @param type
+	 *            option type
+	 * @param visible
+	 *            whether to show it
+	 */
+	protected void setButtonVisible(OptionType type, boolean visible) {
+		buttonMap.get(type).setVisible(visible);
+	}
+
+	/**
+	 * Show/hide the right buttons
+	 */
+	public void updateGUI() {
+
+		setButtonVisible(OptionType.GLOBAL, true);
+
+		setButtonVisible(OptionType.OBJECTS,
+				app.getSelectionManager().selectedGeosSize() > 0);
+		
+		setButtonVisible(OptionType.EUCLIDIAN,
+				app.getGuiManager()
+						.showView(App.VIEW_EUCLIDIAN));
+		
+		setButtonVisible(OptionType.EUCLIDIAN2,
+				app.getGuiManager()
+						.showView(App.VIEW_EUCLIDIAN2));
+
+		setButtonVisible(OptionType.SPREADSHEET,
+				app.getGuiManager().showView(App.VIEW_SPREADSHEET));
+
+		setButtonVisible(OptionType.CAS,
+				app.getGuiManager().showView(App.VIEW_CAS));
+    }
+
+	
+	private void buildGUI() {
+		final AriaMenuBar toolbar = new AriaMenuBar() {
+			@Override
+			public void onBrowserEvent(Event event) {
+				super.onBrowserEvent(event);
+				// by default first click gives focus, second click executes: we
+				// want execute on first click
+				if (DOM.eventGetType(event) == Event.ONMOUSEDOWN
+						|| DOM.eventGetType(event) == Event.ONTOUCHSTART) {
+					AriaMenuItem item = this.getSelectedItem();
+					runCommand(item);
+				}
+			}
+
+			private void runCommand(AriaMenuItem item) {
+				if (item != null) {
+					ScheduledCommand cmd = item.getScheduledCommand();
+					if (cmd != null) {
+						cmd.execute();
+					}
+				}
+			}
+
+			@Override
+			protected App getApp() {
+				return app;
+			}
+		};
+		
+		toolbar.setStyleName("menuProperties");	
+		toolbar.sinkEvents(Event.ONMOUSEDOWN | Event.ONTOUCHSTART);
+		toolbar.setFocusOnHoverEnabled(false);
+		NoDragImage closeImage = new NoDragImage(
+				KeyboardResources.INSTANCE.keyboard_close_black(), 24, 24);
+		closeImage.addStyleName("closeButton");
+		toolbar.addItem(new AriaMenuItem(closeImage.getElement().getString(),
+				true, new ScheduledCommand() {
+
+					public void execute() {
+						propertiesView.close();
+					}
+		}));
+		buttonMap = new HashMap<>();
+		
+		for (final OptionType type : OptionTypesImpl) {
+			if (typeAvailable(type)){
+				final PropertiesButton btn = new PropertiesButton(app,
+						getMenuHtml(type), new Command() {
+
+					@Override
+					public void execute() {
+						propertiesView.setOptionPanel(type, 0);
+						selectButton(type);
+					}
+				});
+				btn.setTitle(propertiesView.getTypeString(type));
+				toolbar.addItem(btn);
+				buttonMap.put(type, btn);
+
+
+			}
+		}
+			this.getWrappedPanel().add(toolbar);
+	    
+    }
+	
+	/**
+	 * @param type type
+	 * @return true if the type is really available
+	 */
+	protected boolean typeAvailable(OptionType type){
+		return type != OptionType.EUCLIDIAN3D
+				&& type != OptionType.EUCLIDIAN_FOR_PLANE;
+	}
+	
+	/**
+	 * @param type
+	 *            option type
+	 */
+	protected void selectButton(OptionType type) {
+		if(currentButton != null){
+			this.currentButton.removeStyleName("selected");
+		}
+		currentButton = buttonMap.get(type);
+		currentButton.addStyleName("selected");
+	    
+    }
+
+
+
+
+	private String getMenuHtml(OptionType type) {
+		String typeString = "";//propertiesView.getTypeString(type);
+		return MainMenu.getMenuBarHtml(getTypeIcon(type), typeString);
+    }
+	
+
+
+	/**
+	 * @param type
+	 *            option type
+	 * @return icon URL
+	 */
+	protected String getTypeIcon(OptionType type) {
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		switch (type) {
+		case GLOBAL:
+			return MaterialDesignResources.INSTANCE.gear().getSafeUri()
+					.asString();
+		case DEFAULTS:
+			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
+		case SPREADSHEET:
+			return ImgResourceHelper.safeURI(pr.menu_icon_spreadsheet24());
+		case EUCLIDIAN:
+			return MaterialDesignResources.INSTANCE.geometry()
+									.getSafeUri().asString();
+		case EUCLIDIAN2:
+			return ImgResourceHelper.safeURI(pr.menu_icon_graphics224());
+		case CAS:
+			return ImgResourceHelper.safeURI(pr.menu_icon_cas24());
+		case ALGEBRA:
+			return MaterialDesignResources.INSTANCE.graphing().getSafeUri()
+					.asString();
+		case OBJECTS:
+			//return AppResources.INSTANCE.options_objects24().getSafeUri().asString();
+			return GuiResources.INSTANCE.properties_object().getSafeUri().asString();
+		case LAYOUT:
+			return AppResources.INSTANCE.options_layout24().getSafeUri().asString();
+		}
+		return null;
+    }
+
+
+
+	/**
+	 * @return stylebar panel
+	 */
+	public FlowPanel getWrappedPanel() {
+	    return wrappedPanel;
+    }
+
+
+}

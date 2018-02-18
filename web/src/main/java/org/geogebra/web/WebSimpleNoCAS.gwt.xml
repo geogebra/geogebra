@@ -11,8 +11,8 @@
   <source path='plugin'/>
   <public path='pub' />
   
-  <replace-with class="org.geogebra.web.web.gui.PNGImageFactory">
-    <when-type-is class="org.geogebra.web.web.gui.ImageFactory" />    
+  <replace-with class="org.geogebra.web.full.gui.PNGImageFactory">
+    <when-type-is class="org.geogebra.web.full.gui.ImageFactory" />    
   </replace-with>
   
    <replace-with class="org.geogebra.web.html5.factories.NoCASFactory">
