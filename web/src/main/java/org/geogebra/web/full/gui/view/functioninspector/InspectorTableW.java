@@ -236,28 +236,19 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		for (int row = 1; row < getRowCount(); row++) {
 			setCellWidget(row, col, "inspectorTableData", "");
 		}
-		
-    }
-
-	public void setCellEditable(int row, int col) {
-	    model.setCellEditable(row, col);
-	    setEditorInCell(row + 1, col);
 	}
 
-	public KeyHandler getKeyHandler() {
-	    return keyHandler;
-    }
+	public void setCellEditable(int row, int col) {
+		model.setCellEditable(row, col);
+		setEditorInCell(row + 1, col);
+	}
 
 	public void addKeyHandler(KeyHandler keyHandler) {
-	    this.keyHandler = keyHandler;
-    }
-
-	public BlurHandler getBlurHandler() {
-	    return blurHandler;
-    }
+		this.keyHandler = keyHandler;
+	}
 
 	public void setBlurHandler(BlurHandler blurHandler) {
-	    this.blurHandler = blurHandler;
-    }
+		this.blurHandler = blurHandler;
+	}
 
 }

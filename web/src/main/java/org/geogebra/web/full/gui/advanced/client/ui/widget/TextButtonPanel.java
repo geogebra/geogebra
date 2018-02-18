@@ -53,10 +53,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	private Image choiceButtonImage;
 	/** this flag means whether it's possible to enter a custom text */
 	private boolean customTextAllowed;
-	/** a falg meaning whether the widget locked */
-	private boolean locked;
-	/** a locking panel to lock the screen */
-	private LockingPanel lockingPanel;
+
 	/** choice button visibility flag */
 	private boolean choiceButtonVisible;
 	/** widget width */
@@ -202,15 +199,6 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	}
 
 	/**
-	 * Checks whether the controls palced on this panel are enabled.
-	 *
-	 * @return a result of check.
-	 */
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	/**
 	 * Enables or disables the controls inside the panel.
 	 *
 	 * @param enabled
@@ -325,7 +313,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 *
 	 * @return Value for property 'choiceButtonImage'.
 	 */
-	protected Image getChoiceButtonImage() {
+	private Image getChoiceButtonImage() {
 		if (choiceButtonImage == null) {
 			choiceButtonImage = new Image(
 					GuiResources.INSTANCE.little_triangle_down());
@@ -334,58 +322,11 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	}
 
 	/**
-	 * Getter for property 'locked'.
-	 *
-	 * @return Value for property 'locked'.
-	 */
-	public boolean isLocked() {
-		return locked;
-	}
-
-	/**
-	 * This method locks the screen.
-	 */
-	public void lock() {
-		setLocked(true);
-		getLockingPanel().lock();
-	}
-
-	/**
-	 * This method unlocks the screen and redisplays the widget.
-	 */
-	public void unlock() {
-		getLockingPanel().unlock();
-		setLocked(false);
-	}
-
-	/**
-	 * Setter for property 'locked'.
-	 *
-	 * @param locked
-	 *            Value to set for property 'locked'.
-	 */
-	protected void setLocked(boolean locked) {
-		this.locked = locked;
-	}
-
-	/**
-	 * Getter for property 'lockingPanel'.
-	 *
-	 * @return Value for property 'lockingPanel'.
-	 */
-	protected LockingPanel getLockingPanel() {
-		if (lockingPanel == null) {
-			lockingPanel = new LockingPanel();
-		}
-		return lockingPanel;
-	}
-
-	/**
 	 * Getter for property 'width'.
 	 *
 	 * @return Value for property 'width'.
 	 */
-	protected String getWidth() {
+	private String getWidth() {
 		return width;
 	}
 
@@ -394,7 +335,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 *
 	 * @return Value for property 'height'.
 	 */
-	protected String getHeight() {
+	private String getHeight() {
 		return height;
 	}
 

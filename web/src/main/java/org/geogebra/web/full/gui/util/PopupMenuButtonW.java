@@ -29,7 +29,6 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -662,23 +661,5 @@ public class PopupMenuButtonW extends MyCJButton
 	 */
 	public void setChangeEventHandler(StyleBarW2 handler){
 		this.changeEventHandler = handler;
-	}
-
-	/**
-	 * @param handler
-	 *            - mouse out
-	 * @return handler
-	 */
-	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-		return addDomHandler(handler, MouseOutEvent.getType());
-	}
-
-	/**
-	 * @param handler
-	 *            - mouse over
-	 * @return handler
-	 */
-	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-		return addDomHandler(handler, MouseOverEvent.getType());
 	}
 }

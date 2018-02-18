@@ -13,10 +13,9 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.DockManagerW;
 import org.geogebra.web.full.gui.layout.DockSplitPaneW;
 import org.geogebra.web.full.gui.layout.GUITabs;
+import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
-import org.geogebra.web.full.gui.view.algebra.LatexTreeItemController;
-import org.geogebra.web.full.gui.view.algebra.RadioTreeItem;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
@@ -779,18 +778,8 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 */
 	public MathKeyboardListener updateKeyboardListener(
 			MathKeyboardListener ml) {
-		if (tabAlgebra.aview != null
-				&& tabAlgebra.aview.getInputTreeItem() != ml) {
-			return ml;
-		}
-		// if no retex editor yet
-		if (!(ml instanceof RadioTreeItem)) {
-			return ml;
-		}
-		LatexTreeItemController itemController = ((RadioTreeItem) ml)
-				.getLatexController();
-		itemController.initAndShowKeyboard(false);
-		return itemController.getRetexListener();
+		return AlgebraDockPanelW
+				.updateKeyboardListenerForView(this.tabAlgebra.aview, ml);
 	}
 
 	/**

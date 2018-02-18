@@ -135,18 +135,7 @@ public class AlgebraDockPanelW extends DockPanelW
 
 	@Override
 	public MathKeyboardListener updateKeyboardListener(MathKeyboardListener ml) {
-		if (aview == null || aview.getInputTreeItem() != ml) {
-			return ml;
-		}
-
-		// if no retex editor yet
-		if (!(ml instanceof RadioTreeItem)) {
-			return ml;
-		}
-		LatexTreeItemController itemController = ((RadioTreeItem) ml)
-				.getLatexController();
-		itemController.initAndShowKeyboard(false);
-		return itemController.getRetexListener();
+		return updateKeyboardListenerForView(aview, ml);
 	}
 
 	@Override
@@ -213,5 +202,20 @@ public class AlgebraDockPanelW extends DockPanelW
 			return getResources().settings();
 		}
 		return getResources().styleBar_algebraView();
+	}
+
+	public static MathKeyboardListener updateKeyboardListenerForView(
+			AlgebraViewW aview, MathKeyboardListener ml) {
+		if (aview != null && aview.getInputTreeItem() != ml) {
+			return ml;
+		}
+		// if no retex editor yet
+		if (!(ml instanceof RadioTreeItem)) {
+			return ml;
+		}
+		LatexTreeItemController itemController = ((RadioTreeItem) ml)
+				.getLatexController();
+		itemController.initAndShowKeyboard(false);
+		return itemController.getRetexListener();
 	}
 }

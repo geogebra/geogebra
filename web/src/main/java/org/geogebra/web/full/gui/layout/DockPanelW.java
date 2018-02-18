@@ -453,8 +453,6 @@ public abstract class DockPanelW extends ResizeComposite
 
 		titleBarPanel.add(titleBarPanelContent);
 
-		
-
 		if(closeIcon == null){
 			closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
 		}
@@ -1473,8 +1471,6 @@ public abstract class DockPanelW extends ResizeComposite
 	public boolean isStyleBarEmpty() {
 		return false;
 	}
-
-
 
 	public GDimension getEstimatedSize() {
 		switch (getViewId()) {

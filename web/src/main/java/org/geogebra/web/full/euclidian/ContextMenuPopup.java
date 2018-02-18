@@ -20,7 +20,6 @@ import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
-import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
  * context menu
@@ -128,23 +127,6 @@ public class ContextMenuPopup extends MyCJButton
 
 	}
 
-	/**
-	 * @param handler
-	 *            - mouse out
-	 * @return handler
-	 */
-	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-		return addDomHandler(handler, MouseOutEvent.getType());
-	}
-
-	/**
-	 * @param handler
-	 *            - mouse over
-	 * @return handler
-	 */
-	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-		return addDomHandler(handler, MouseOverEvent.getType());
-	}
 
 	/**
 	 * show the menu

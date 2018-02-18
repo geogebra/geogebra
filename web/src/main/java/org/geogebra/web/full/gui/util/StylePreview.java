@@ -22,12 +22,12 @@ public abstract class StylePreview extends Composite {
 	protected AppW app;
 
 	public StylePreview(AppW app, int width, int height) {
-		setCanvas(Canvas.createIfSupported());
-		getCanvas().setCoordinateSpaceWidth(width);
-		getCanvas().setCoordinateSpaceHeight(height);
-		initWidget(getCanvas());
+		Canvas canvas = Canvas.createIfSupported();
+		canvas.setCoordinateSpaceWidth(width);
+		canvas.setCoordinateSpaceHeight(height);
+		initWidget(canvas);
 		this.app = app;
-		g2 = new GGraphics2DW(getCanvas());
+		g2 = new GGraphics2DW(canvas);
 		createPreviewGeo();
 		setMarginY(height / 2 - 1);
 	}
@@ -43,13 +43,6 @@ public abstract class StylePreview extends Composite {
 	 */
 	public void clear() {
 		g2.clearRect(0, 0, getOffsetWidth(), getOffsetHeight());
-	}
-	public Canvas getCanvas() {
-		return canvas;
-	}
-
-	public void setCanvas(Canvas canvas) {
-		this.canvas = canvas;
 	}
 
 	public int getMarginX() {
@@ -67,6 +60,4 @@ public abstract class StylePreview extends Composite {
 	public void setMarginY(int marginY) {
 		this.marginY = marginY;
 	}
-
-
 }

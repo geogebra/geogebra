@@ -9,6 +9,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
+import com.google.gwt.event.dom.client.MouseOverEvent;
+import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -183,5 +187,25 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 */
 	public void setToolTipText(String toolTipText) {
 		setTitle(toolTipText);
+	}
+
+	/**
+	 * @param handler
+	 *            - mouse out
+	 * @return handler
+	 */
+	public final HandlerRegistration addMouseOutHandler(
+			MouseOutHandler handler) {
+		return addDomHandler(handler, MouseOutEvent.getType());
+	}
+
+	/**
+	 * @param handler
+	 *            - mouse over
+	 * @return handler
+	 */
+	public final HandlerRegistration addMouseOverHandler(
+			MouseOverHandler handler) {
+		return addDomHandler(handler, MouseOverEvent.getType());
 	}
 }

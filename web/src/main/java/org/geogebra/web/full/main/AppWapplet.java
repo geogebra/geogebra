@@ -65,8 +65,6 @@ public class AppWapplet extends AppWFull {
 	private int spHeight;
 	private boolean menuInited = false;
 
-
-
 	// helper
 	// variable
 	private HorizontalPanel splitPanelWrapper = null;
