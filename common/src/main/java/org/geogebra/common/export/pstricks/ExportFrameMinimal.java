@@ -8,7 +8,7 @@ public class ExportFrameMinimal implements ExportSettings {
 	private boolean gnuPlot = false;
 	private boolean usePairName;
 	private double latexWidth;
-	private boolean showAxes;
+	private boolean showAxes = true;
 	private boolean exportPointSymbol = true;
 	private int fillType;
 	private int fontSize = 10;

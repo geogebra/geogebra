@@ -90,6 +90,8 @@ public class Pstricks {
 		t("SetColor(g,\"RED\")");
 		t("SetColor(h,\"GREEN\")");
 		t("SetColor(c,\"BLACK\")");
+		t("Angle(A)");
+		t("Angle(xAxis, yAxis)");
 		for (int i = 0; i < 9; i++) {
 			t("Pt"+i+"=(0,"+i+")");
 			t("SetPointStyle(Pt" + i + "," + i + ")");
