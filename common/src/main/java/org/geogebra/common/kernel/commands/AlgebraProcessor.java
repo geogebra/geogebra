@@ -2500,7 +2500,7 @@ public class AlgebraProcessor {
 		}
 
 		if (equ.isFunctionDependent()) {
-			return processImplicitPoly(equ, def, info);
+			return functionOrImplicitPoly(equ, def, info);
 		}
 		int deg = equ.mayBePolynomial() && !equ.hasVariableDegree()
 				&& !equ.isForcedImplicitPoly()
@@ -2536,7 +2536,8 @@ public class AlgebraProcessor {
 				.trim();
 
 		if ("y".equals(lhsStr)
-				&& !equ.getRHS().containsFreeFunctionVariable("y")) {
+				&& !equ.getRHS().containsFreeFunctionVariable("y")
+				&& !equ.getRHS().containsFreeFunctionVariable("z")) {
 
 			Function fun = new Function(equ.getRHS());
 			// try to use label of equation
