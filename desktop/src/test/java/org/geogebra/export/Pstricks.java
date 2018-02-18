@@ -90,6 +90,10 @@ public class Pstricks {
 		t("SetColor(g,\"RED\")");
 		t("SetColor(h,\"GREEN\")");
 		t("SetColor(c,\"BLACK\")");
+		for (int i = 0; i < 9; i++) {
+			t("Pt"+i+"=(0,"+i+")");
+			t("SetPointStyle(Pt" + i + "," + i + ")");
+		}
 	}
 
 	private static String generate(GeoGebraExport ps) {

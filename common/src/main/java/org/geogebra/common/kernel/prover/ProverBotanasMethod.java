@@ -1070,15 +1070,18 @@ public class ProverBotanasMethod {
 									PolynomialNode polyRoot = new PolynomialNode();
 									// build polynomial to parsed expression
 									((AlgoDependentBoolean) algo)
+											.getProverAdapter()
 											.buildPolynomialTree(
 													(ExpressionNode) resultVE,
 													polyRoot);
 									((AlgoDependentBoolean) algo)
+											.getProverAdapter()
 											.expressionNodeToPolynomial(
 													(ExpressionNode) resultVE,
 													polyRoot);
 									while (polyRoot.getPoly() == null) {
 										((AlgoDependentBoolean) algo)
+												.getProverAdapter()
 												.expressionNodeToPolynomial(
 														(ExpressionNode) resultVE,
 														polyRoot);
@@ -1127,17 +1130,18 @@ public class ProverBotanasMethod {
 								root = (ExpressionNode) list.getListElement(0);
 							}
 
-							((AlgoDependentBoolean) algo)
+							((AlgoDependentBoolean) algo).getProverAdapter()
 									.buildPolynomialTree(root, polyRoot);
-							((AlgoDependentBoolean) algo)
+							((AlgoDependentBoolean) algo).getProverAdapter()
 									.expressionNodeToPolynomial(root, polyRoot);
 							while (polyRoot.getPoly() == null) {
-								((AlgoDependentBoolean) algo)
+								((AlgoDependentBoolean) algo).getProverAdapter()
 										.expressionNodeToPolynomial(root,
 												polyRoot);
 							}
 							/* get distance polynomials */
 							ArrayList<PPolynomial> extraPolys = ((AlgoDependentBoolean) algo)
+									.getProverAdapter()
 									.getExtraPolys();
 							statements = new PPolynomial[1][extraPolys.size()
 									+ 1];

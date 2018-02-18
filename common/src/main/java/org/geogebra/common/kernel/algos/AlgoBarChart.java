@@ -1297,19 +1297,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	public void setBarColor(GColor color, int numBar) {
-		if (color == null) {
-			if (tags.containsKey(numBar)) {
-				tags.get(numBar).remove(0);
-			}
-			return;
-		}
-		if (tags.containsKey(numBar)) {
-			tags.get(numBar).put(0, color);
-		} else {
-			HashMap<Integer, Object> hm = new HashMap<>();
-			hm.put(0, color);
-			tags.put(numBar, hm);
-		}
+		setTag(0, color, numBar);
 	}
 
 	public GColor getBarColor(int numBar) {
@@ -1351,13 +1339,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	public void setBarFillType(FillType fillType, int numBar) {
-		if (tags.containsKey(numBar)) {
-			tags.get(numBar).put(2, fillType);
-		} else {
-			HashMap<Integer, Object> hm = new HashMap<>();
-			hm.put(2, fillType);
-			tags.put(numBar, hm);
-		}
+		setTag(2, fillType, numBar);
 	}
 
 	public FillType getBarFillType(int numBar) {
@@ -1376,19 +1358,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	public void setBarSymbol(String symbol, int numBar) {
-		if (symbol == null) {
-			if (tags.containsKey(numBar)) {
-				tags.get(numBar).remove(3);
-			}
-			return;
-		}
-		if (tags.containsKey(numBar)) {
-			tags.get(numBar).put(3, symbol);
-		} else {
-			HashMap<Integer, Object> hm = new HashMap<>();
-			hm.put(3, symbol);
-			tags.put(numBar, hm);
-		}
+		setTag(3, symbol, numBar);
 	}
 
 	public String getBarSymbol(int numBar) {
@@ -1400,19 +1370,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	public void setBarImage(String image, int numBar) {
-		if (image == null) {
-			if (tags.containsKey(numBar)) {
-				tags.get(numBar).remove(4);
-			}
-			return;
-		}
-		if (tags.containsKey(numBar)) {
-			tags.get(numBar).put(4, image);
-		} else {
-			HashMap<Integer, Object> hm = new HashMap<>();
-			hm.put(4, image);
-			tags.put(numBar, hm);
-		}
+		setTag(4, image, numBar);
 	}
 
 	public String getBarImage(int numBar) {
@@ -1424,19 +1382,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	public void setBarHatchDistance(int distance, int numBar) {
-		if (distance == -1) {
-			if (tags.containsKey(numBar)) {
-				tags.get(numBar).remove(5);
-			}
-			return;
-		}
-		if (tags.containsKey(numBar)) {
-			tags.get(numBar).put(5, distance);
-		} else {
-			HashMap<Integer, Object> hm = new HashMap<>();
-			hm.put(5, distance);
-			tags.put(numBar, hm);
-		}
+		setIntTag(5, distance, numBar);
 	}
 
 	public int getBarHatchDistance(int numBar) {
@@ -1448,27 +1394,51 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	}
 
 	public void setBarHatchAngle(int angle, int numBar) {
+		setIntTag(6, angle, numBar);
+	}
+
+	private void setIntTag(int i, int angle, int numBar) {
 		if (angle == -1) {
 			if (tags.containsKey(numBar)) {
-				tags.get(numBar).remove(6);
+				tags.get(numBar).remove(i);
 			}
 			return;
 		}
 		if (tags.containsKey(numBar)) {
-			tags.get(numBar).put(6, angle);
+			tags.get(numBar).put(i, angle);
 		} else {
 			HashMap<Integer, Object> hm = new HashMap<>();
-			hm.put(6, angle);
+			hm.put(i, angle);
+			tags.put(numBar, hm);
+		}
+	}
+
+	private void setTag(int key, Object value, int numBar) {
+		if (value == null) {
+			if (tags.containsKey(numBar)) {
+				tags.get(numBar).remove(key);
+			}
+			return;
+		}
+		if (tags.containsKey(numBar)) {
+			tags.get(numBar).put(key, value);
+		} else {
+			HashMap<Integer, Object> hm = new HashMap<>();
+			hm.put(key, value);
 			tags.put(numBar, hm);
 		}
 	}
 
 	public int getBarHatchAngle(int numBar) {
-		HashMap<Integer, Object> hm = tags.get(numBar);
-		if (hm != null && hm.get(6) != null) {
-			return ((Integer) hm.get(6)).intValue();
+		Object tag = getTag(6, numBar);
+		if (tag != null) {
+			return ((Integer) tag).intValue();
 		}
 		return -1;
+	}
+
+	private Object getTag(int i, int numBar) {
+		return tags.get(numBar) == null ? null : tags.get(numBar).get(i);
 	}
 
 	public void barXml(StringBuilder sb) {
@@ -1495,8 +1465,7 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				sb.append("\t\t<tag key=\"barHatchDistance\" barNumber=\"");
 				sb.append(i);
 				sb.append("\" value=\"");
-				sb.append(getBarHatchDistance(i)
-);
+				sb.append(getBarHatchDistance(i));
 				sb.append("\"/>\n");
 			}
 			if (getBarHatchAngle(i) != -1) {

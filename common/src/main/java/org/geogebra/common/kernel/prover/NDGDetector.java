@@ -101,7 +101,8 @@ public class NDGDetector {
 		if (statement.getParentAlgorithm() instanceof AlgoDependentBoolean) {
 			// list of segments -> variables
 			ArrayList<Entry<GeoElement, PVariable>> varSubstListOfSegs = ((AlgoDependentBoolean) statement
-					.getParentAlgorithm()).getVarSubstListOfSegs();
+					.getParentAlgorithm()).getProverAdapter()
+							.getVarSubstListOfSegs();
 			// create list of variables -> segments
 			HashMap<PVariable, GeoElement> geos = new HashMap<>();
 			if (varSubstListOfSegs != null) {

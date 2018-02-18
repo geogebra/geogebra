@@ -926,6 +926,10 @@ public class CommandsTest extends Assert{
 				eval("sqrt(2)"), StringTemplate.editTemplate);
 		t("IntersectPath[Segment[(1.5,1.5),(2,2)],(x-2)^2+(y-2)^2=2]",
 				eval("sqrt(.5)"), StringTemplate.editTemplate);
+		t("IntersectPath[Cube[(0,0),(sqrt(2),0),(sqrt(2),sqrt(2))],x+y+z=sqrt(2)]",
+				new String[] { "1.73205", "(1.41421, 0, 0)", "(0, 1.41421, 0)",
+						"(0, 0, 1.41421)", "2", "2", "2" },
+				StringTemplate.editTemplate);
 	}
 
 	private static String indices(String string) {
@@ -1394,9 +1398,8 @@ public class CommandsTest extends Assert{
 	public void cmdVertex() {
 		t("Vertex[ x^2/9+y^2/4 =1 ]",
 				new String[] { "(-3, 0)", "(3, 0)", "(0, -2)", "(0, 2)" });
-		t("Vertex[ x>y && x>0 && x^2+y^2 < 2 ]",
-				new String[] { "(0, 0)", "(-1, -1)", "(1, 1)", "(0, -1.41421)",
-						"(0, 1.41421)" },
+		t("Unique({Vertex[ x>y && x>0 && x^2+y^2 < 2 && 4x>y^3 && 4y> x^3]})",
+				"{(0, 0), (-1, -1), (1, 1), (-2, -2), (2, 2), (0, -1.41421), (0, 1.41421), (-0.55189, -1.30208), (0.55189, 1.30208), (-1.30208, -0.55189), (1.30208, 0.55189)}",
 				StringTemplate.editTemplate);
 		t("Vertex[ Polygon[(0,0),(1,0),(0,1)] ]",
 				new String[] { "(0, 0)", "(1, 0)", "(0, 1)" });

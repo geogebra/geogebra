@@ -1,5 +1,6 @@
-package org.geogebra.common.kernel.algos;
+package org.geogebra.common.kernel.prover.adapters;
 
+import org.geogebra.common.kernel.algos.AlgoDependentNumber;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -9,13 +10,8 @@ import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
-public class BotanaEllipseHyperbolaLength {
-	private PVariable[] botanaVars;
-	private PPolynomial[] botanaPolynomials;
+public class BotanaEllipseHyperbolaLength extends ProverAdapter {
 
-	public PVariable[] getVars() {
-		return botanaVars;
-	}
 
 	public PPolynomial[] getBotanaPolynomials(GeoPointND focus1,
 			GeoPointND focus2, GeoNumberValue length)

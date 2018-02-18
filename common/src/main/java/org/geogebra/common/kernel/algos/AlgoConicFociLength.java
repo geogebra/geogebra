@@ -29,6 +29,7 @@ import org.geogebra.common.kernel.kernelND.GeoDirectionND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.prover.NoSymbolicParametersException;
+import org.geogebra.common.kernel.prover.adapters.BotanaEllipseHyperbolaLength;
 import org.geogebra.common.kernel.prover.polynomial.PPolynomial;
 import org.geogebra.common.kernel.prover.polynomial.PVariable;
 
@@ -79,7 +80,7 @@ public abstract class AlgoConicFociLength extends AlgoConicFociLengthND
 		if (botanaParams == null) {
 			botanaParams = new BotanaEllipseHyperbolaLength();
 		}
-		return botanaParams.getVars();
+		return botanaParams.getBotanaVars();
 	}
 
 	@Override
