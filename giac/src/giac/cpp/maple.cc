@@ -314,6 +314,7 @@ namespace giac {
     init_context((context *) ((void *) contextptr));
     gen res= _rm_all_vars(args,contextptr);
     *logptr(contextptr) << "============== restarted ===============" << endl;
+    _srand(_time(gen(vecteur(0),_SEQ__VECT),contextptr),contextptr);
     return res;
   }
   static const char _restart_s []="restart";
@@ -338,6 +339,9 @@ namespace giac {
   gen _time(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
     if (a.type==_VECT && a.subtype==_SEQ__VECT){
+#ifdef GIAC_HAS_STO_38
+      return PrimeGetNow()/1000.;
+#endif
       return total_time(contextptr);
     }
     double delta;
