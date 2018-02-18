@@ -15,6 +15,8 @@ import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.web.gui.util.ScriptArea;
 import org.geogebra.web.web.gui.view.algebra.InputPanelW;
 
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -25,23 +27,35 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+/**
+ * Dialog for creating buttons and inputboxes
+ *
+ */
 public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboardPopup {
 
-	AutoCompleteTextFieldW tfCaption;
+	private AutoCompleteTextFieldW tfCaption;
 	private FlowPanel btPanel;
 	private ButtonDialogModel model;
 	private Button btOK, btCancel;
 	private FlowPanel optionPane;
-	AppW app;
-	ScriptArea tfScript;
+	private ScriptArea tfScript;
 	private Localization loc;
 	
-	public ButtonDialogW(final AppW app, int x, int y, boolean textField) {
+	/**
+	 * @param app
+	 *            app
+	 * @param x
+	 *            position
+	 * @param y
+	 *            position
+	 * @param inputBox
+	 *            whether this is for inputbox
+	 */
+	public ButtonDialogW(final AppW app, int x, int y, boolean inputBox) {
 		super(false, true, null, app.getPanel(), app);
 
-		this.app = app;
 		this.loc = app.getLocalization();
-		model = new ButtonDialogModel(app, x, y, textField);
+		model = new ButtonDialogModel(app, x, y, inputBox);
 		addStyleName("GeoGebraPopup");
 		createGUI();	
 		this.setGlassEnabled(true);
@@ -58,7 +72,6 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 				app.hideKeyboard();
 			}
 		});
-
 	}
 
 	private void createGUI() {
@@ -89,65 +102,30 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		captionPanel.add(captionLabel);
 		captionPanel.add(ip);
 		captionPanel.addStyleName("captionPanel");
-		//captionLabel.getElement().getParentElement().addClassName("tdForCaptionLabel");
-		//captionLabel.getElement().getParentElement().setAttribute("style","vertical-align: middle");
 				
 		// combo box to link GeoElement to TextField
-//		comboModel = new DefaultComboBoxModel();
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction().
 									getGeoSetNameDescriptionOrder();			
 		
 		final ListBox cbAdd = new ListBox();
 		cbAdd.addItem("");
-		
 		if (model.isTextField()) {
 			// lists for combo boxes to select input and output objects
 			// fill combobox models
-			Iterator<GeoElement> it = sortedSet.iterator();
-
-			while (it.hasNext()) {
-				GeoElement geo = it.next();				
+			for (GeoElement geo : sortedSet) {
 				if (!geo.isGeoImage() && !(geo.isGeoButton()) && !(geo.isGeoBoolean())) {
-//					comboModel.addElement(geo);
 					String str = geo.toString(StringTemplate.defaultTemplate);
 					cbAdd.addItem(str);
-//					if (width < fm.stringWidth(str))
-//						width = fm.stringWidth(str);
 				}
 			}	
 
 			if (cbAdd.getItemCount() > 1) {
-				cbAdd.addClickHandler(new ClickHandler(){
+				cbAdd.addChangeHandler(new ChangeHandler() {
 
 					@Override
-					public void onClick(ClickEvent event) {
-						String text = cbAdd.getItemText(cbAdd.getSelectedIndex());
-						if("".equals(text.trim())){
-							model.setLinkedGeo(null);
-						}
-						GeoElement geo = getGeo(text);
-						if (geo==null) {
-							return;
-						}
-						model.setLinkedGeo(geo);
-                    }
-					
-					public GeoElement getGeo(String text) {
-						TreeSet<GeoElement> sortedSet1 = app.getKernel()
-						        .getConstruction()
-						        .getGeoSetNameDescriptionOrder();
-						Iterator<GeoElement> it1 = sortedSet1.iterator();
-						while (it1.hasNext()) {
-							GeoElement geo = it1.next();
-							if (text.equals(geo
-							        .toString(StringTemplate.defaultTemplate))) {
-								return geo;
-							}
-
-						} 
-						return null;
+					public void onChange(ChangeEvent event) {
+						updateModel(cbAdd);
 					}
-					
 				});
 			}
 		}
@@ -159,7 +137,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		}
 		tfScript = new ScriptArea();
 		
-		tfScript.enableGGBKeyboard(app);
+		tfScript.enableGGBKeyboard((AppW) app);
 
 		FlowPanel scriptPanel = new FlowPanel();
 		scriptPanel.add(scriptLabel);
@@ -204,13 +182,41 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 		//Make this dialog display it.	
 		setWidget(optionPane);
 		this.addStyleName("buttonDialog");
-		//this.getElement().getElementsByTagName("table").getItem(0).setAttribute("cellpadding", "5px");
-    }
+	}
+
+	/**
+	 * Update linked geo in model
+	 * 
+	 * @param cbAdd
+	 *            list of geos
+	 */
+	protected void updateModel(ListBox cbAdd) {
+		String text = cbAdd.getItemText(cbAdd.getSelectedIndex());
+		if ("".equals(text.trim())) {
+			model.setLinkedGeo(null);
+		}
+		GeoElement geo = getGeo(text);
+		if (geo == null) {
+			return;
+		}
+		model.setLinkedGeo(geo);
+	}
+
+	private GeoElement getGeo(String text) {
+		TreeSet<GeoElement> sortedSet1 = app.getKernel().getConstruction()
+				.getGeoSetNameDescriptionOrder();
+		Iterator<GeoElement> it1 = sortedSet1.iterator();
+		while (it1.hasNext()) {
+			GeoElement geo = it1.next();
+			if (text.equals(geo.toString(StringTemplate.defaultTemplate))) {
+				return geo;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {
-//	    AbstractApplication.debug(((Widget) event.getSource()).getElement().getAttribute("action"));
-	
 		Object source = event.getSource();				
 		if (source == btOK) {
 			model.apply(tfCaption.getText(), tfScript.getText());
@@ -222,8 +228,6 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 			hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
 		} 
-		
-		
-    }
+	}
 
 }
