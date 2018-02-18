@@ -52,6 +52,7 @@ public class ImageManagerW extends ImageManager {
 		imagesLoaded++;
 		if (imagesLoaded == externalImageSrcs.size()) {
 			run.run();
+			imagesLoaded = 0;
 		}
 	}
 
@@ -141,7 +142,6 @@ public class ImageManagerW extends ImageManager {
 					@Override
 					public void onLoad() {
 						checkIfAllLoaded(app, run);
-						imagesLoaded = 0;
 					}
 				});
 				img.getElement().setSrc(imgSrc.getValue());
