@@ -182,19 +182,19 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Indicator whether this panel is the last one in the main frame. In this
 	 * case no title bar will be visible, but just the stylebar.
 	 */
-	private boolean isAlone;
+	private boolean alone;
 
 	/**
 	 * Indicator whether this panel is hidden. A hidden panel is not visible,
 	 * but it's View component is still attached to the kernel.
 	 */
-	private boolean isHidden;
+	private boolean hidden;
 
 	/**
 	 * Flag to determine if the frame field will be created as a JDialog (true)
 	 * or as a JFram (false). Default is false.
 	 */
-	private boolean isDialog = false;
+	private boolean dialog = false;
 
 	/**
 	 * Images for Stylingbar
@@ -249,7 +249,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * 
 	 */
 	public boolean isDialog() {
-		return isDialog;
+		return dialog;
 	}
 
 	/**
@@ -260,7 +260,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 *            false then it will be created as a JFrame
 	 */
 	public void setDialog(boolean isDialog) {
-		this.isDialog = isDialog;
+		this.dialog = isDialog;
 	}
 
 	/**
@@ -317,7 +317,7 @@ public abstract class DockPanelW extends ResizeComposite
 		this.menuOrder = menuOrder;
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
-		this.isAlone = false;
+		this.alone = false;
 	}
 
 	/**
@@ -860,11 +860,11 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @param isAlone
 	 */
 	public void setAlone(boolean isAlone) {
-		if (this.isAlone == isAlone) {
+		if (this.alone == isAlone) {
 			return;
 		}
 
-		this.isAlone = isAlone;
+		this.alone = isAlone;
 
 		if (isVisible()) {
 			updatePanel(true);
@@ -875,21 +875,21 @@ public abstract class DockPanelW extends ResizeComposite
 	 * @return If this panel thinks it's the last visible one in the main frame.
 	 */
 	public boolean isAlone() {
-		return isAlone;
+		return alone;
 	}
 
 	/**
 	 * @return If this panel is hidden but not permanently removed.
 	 */
 	public boolean isHidden() {
-		return isHidden;
+		return hidden;
 	}
 
 	/**
 	 * Sets the the isHidden flag (no other action)
 	 */
 	public void setHidden(boolean isHidden) {
-		this.isHidden = isHidden;
+		this.hidden = isHidden;
 	}
 
 	/**

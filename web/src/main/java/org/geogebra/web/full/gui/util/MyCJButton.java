@@ -30,7 +30,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	
 	private Label button;
 	/** whether this is enabled */
-	boolean isEnabled;
+	boolean enabled;
 	private ImageOrText icon;
 	private Label buttonContent;
 	private boolean imageMode = false;
@@ -53,7 +53,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		
 		initWidget(button);
 		setStyleName("MyCanvasButton");
-		isEnabled = true;
+		enabled = true;
 		app = appl;
     }
 
@@ -76,7 +76,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
-		if (!isEnabled) {
+		if (!enabled) {
 			return;
 		}
 
@@ -88,7 +88,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
-		if (!isEnabled) {
+		if (!enabled) {
 			return;
 		}
 		setDownState(true);
@@ -131,7 +131,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 * @return {@code true} if button is enabled
 	 */
 	protected boolean isEnabled() {
-		return isEnabled ;
+		return enabled ;
 	}
 	
 	/**
@@ -139,7 +139,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 *            boolean
 	 */
 	public void setEnabled(boolean enabled) {
-		isEnabled = enabled;
+		this.enabled = enabled;
 		if (enabled) {
 			removeStyleName("disabled");
 		} else {
@@ -160,7 +160,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (!isEnabled) {
+				if (!enabled) {
 					return;
 				}
 				handler.onClick(event);

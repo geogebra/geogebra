@@ -23,7 +23,7 @@ public class DataCollection implements WebSocketListener {
 	private WebsocketLogger sensorLogger;
 	private DataCollectionView dataView;
 	private AppW app;
-	private ArrayList<Frequency> frequencies = new ArrayList<>();
+	private ArrayList<FrequencyCounter> frequencies = new ArrayList<>();
 
 	/**
 	 * 
@@ -40,12 +40,12 @@ public class DataCollection implements WebSocketListener {
 	}
 
 	private void initFreq() {
-		this.frequencies.add(new Frequency(Types.ACCELEROMETER_X, this));
-		this.frequencies.add(new Frequency(Types.MAGNETIC_FIELD_X, this));
-		this.frequencies.add(new Frequency(Types.ORIENTATION_X, this));
-		this.frequencies.add(new Frequency(Types.PROXIMITY, this));
-		this.frequencies.add(new Frequency(Types.LIGHT, this));
-		this.frequencies.add(new Frequency(Types.LOUDNESS, this));
+		this.frequencies.add(new FrequencyCounter(Types.ACCELEROMETER_X, this));
+		this.frequencies.add(new FrequencyCounter(Types.MAGNETIC_FIELD_X, this));
+		this.frequencies.add(new FrequencyCounter(Types.ORIENTATION_X, this));
+		this.frequencies.add(new FrequencyCounter(Types.PROXIMITY, this));
+		this.frequencies.add(new FrequencyCounter(Types.LIGHT, this));
+		this.frequencies.add(new FrequencyCounter(Types.LOUDNESS, this));
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class DataCollection implements WebSocketListener {
 
 	@Override
 	public void onDataReceived(Types sensor, double timestamp, int dataCount) {
-		for (Frequency freq : this.frequencies) {
+		for (FrequencyCounter freq : this.frequencies) {
 			if (freq.getType().equals(sensor)) {
 				freq.addTimestamp(timestamp, dataCount);
 			}

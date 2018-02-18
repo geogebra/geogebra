@@ -23,12 +23,10 @@ public class ResourcesInjector {
 
 
 	private static boolean resourcesInjected = false;
-	private static ResourcesInjector INSTANCE;
+	private static ResourcesInjector instance;
 
 	/**
-	 * @param forceReTeX
-	 *            whether to force retex only style (=exclude MQ)
-	 * 
+	 * Inject all JS/CSS resources
 	 */
 	public static void injectResources() {
 		if (resourcesInjected) {
@@ -40,8 +38,8 @@ public class ResourcesInjector {
 		// insert zip.js
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
 
-		if (INSTANCE == null) {
-			INSTANCE = (ResourcesInjector) GWT.create(ResourcesInjector.class);
+		if (instance == null) {
+			instance = (ResourcesInjector) GWT.create(ResourcesInjector.class);
 		}
 
 
@@ -56,7 +54,7 @@ public class ResourcesInjector {
 
 		injectLTRstyles();
 		injectScss();
-		INSTANCE.injectResourcesGUI();
+		instance.injectResourcesGUI();
 
 		Browser.setWebWorkerSupported(Location
 				.getParameter("GeoGebraDebug") == null
@@ -145,8 +143,8 @@ public class ResourcesInjector {
 	}-*/;
 
 	public static void loadFont(String dataParamFontsCssUrl) {
-		if (INSTANCE != null) {
-			INSTANCE.loadWebFont(dataParamFontsCssUrl);
+		if (instance != null) {
+			instance.loadWebFont(dataParamFontsCssUrl);
 		}
 	}
 

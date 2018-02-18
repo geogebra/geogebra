@@ -24,7 +24,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	/**
 	 * default width of table
 	 */
-	public static int DEFAULT_WIDTH = 200;
+	public static final int DEFAULT_WIDTH = 200;
 	private FlowPanel wrappedPanel;
 	private StatTableW statTable;
 	/**

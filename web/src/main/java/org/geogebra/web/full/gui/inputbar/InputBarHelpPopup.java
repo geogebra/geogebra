@@ -51,19 +51,19 @@ public class InputBarHelpPopup extends GPopupPanel implements HasKeyboardPopup {
 	@Override
 	public void hide(boolean autoClosed) {
 		super.hide(autoClosed);
-		toggleButton(false);
+		setButtonValue(false);
 	}
 
 	@Override
 	public void show() {
 		super.show();
-		toggleButton(true);
+		setButtonValue(true);
 	}
 
 	/**
 	 * 
 	 */
-	private void toggleButton(boolean value) {
+	private void setButtonValue(boolean value) {
 		if (this.toggleButton != null) {
 			this.toggleButton.setValue(value);
 		}

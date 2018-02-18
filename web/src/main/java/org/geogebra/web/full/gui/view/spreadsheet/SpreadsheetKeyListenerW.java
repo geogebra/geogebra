@@ -52,7 +52,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		// e.preventDefault();
 
 		// pass the event on to the cell editor if editing
-		if (table.isEditing) {
+		if (table.editing) {
 			table.sendEditorKeyDownEvent(e);
 			return;
 		}
@@ -570,7 +570,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 		}
 
 		// pass the event on to the cell editor if editing
-		if (table.isEditing) {
+		if (table.editing) {
 			table.sendEditorKeyPressEvent(e);
 			return;
 		}

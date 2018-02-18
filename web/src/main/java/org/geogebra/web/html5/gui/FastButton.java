@@ -53,7 +53,7 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 
 	private boolean touchMoved = false;
 	private int touchId;
-	private boolean isActive;
+	private boolean active;
 	private final List<FastClickHandler> handlers;
 	private AccessibilityButton acc;
 	/**
@@ -84,14 +84,14 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 		} else {
 			onDisablePressStyle();
 		}
-		this.isActive = active;
+		this.active = active;
 	}
 
 	/**
 	 * @return whether it's enabled
 	 */
 	public boolean isActive() {
-		return this.isActive;
+		return this.active;
 	}
 
 	/**

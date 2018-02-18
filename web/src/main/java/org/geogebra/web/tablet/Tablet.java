@@ -12,7 +12,6 @@ import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.WebSimple;
-import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.tablet.main.TabletDevice;
 import org.geogebra.web.touch.PhoneGapManager;
@@ -64,22 +63,11 @@ public class Tablet implements EntryPoint {
 
 		exportGGBElementRenderer();
 
-		run();
+		loadAppletAsync();
 
 		// phoneGap.initializePhoneGap();
 		WebSimple.registerSuperdevExceptionHandler();
 	}
-
-	private void run() {
-			// we dont want to parse out of the box sometimes...
-		if (!calledFromExtension()) {
-			loadAppletAsync();
-		} else {
-			loadExtensionAsync();
-		}
-
-	}
-
 	/**
 	 * (Android) back button handler
 	 */
@@ -91,25 +79,6 @@ public class Tablet implements EntryPoint {
 				appFrame.hideBrowser((BrowseGUI) guiManager.getBrowseView());
 			}
 		}
-	}
-
-	private void loadExtensionAsync() {
-		// GWT.runAsync(new RunAsyncCallback() {
-
-		// public void onSuccess() {
-		ResourcesInjector.injectResources();
-		exportArticleTagRenderer();
-		// export other methods if needed
-		// call the registered methods if any
-		GGW_ext_webReady();
-		// }
-
-		// public void onFailure(Throwable reason) {
-		// TODO Auto-generated method stub
-
-		// }
-		// });
-
 	}
 
 	/**

@@ -84,9 +84,21 @@
 	<exclude name="PreserveStackTrace"/>
 	
 	</rule>
-	
+	<rule ref="rulesets/java/naming.xml">
+		<exclude name="ShortVariable" />
+		<exclude name="LongVariable" />
+		<exclude name="ShortClassName" />
+		<exclude name="BooleanGetMethodName" />		
+		<exclude name="PackageCase" />
+		<exclude name="AvoidFieldNameMatchingMethodName" />
+		<exclude name="MethodNamingConventions" />
+		<exclude name="VariableNamingConventions" />
+		<exclude name="AbstractNaming" />
+		<exclude name="ShortMethodName" />
+	</rule>
 	<rule ref="rulesets/java/basic.xml">
 		<exclude name="CollapsibleIfStatements" />
+		
 		<exclude name="AvoidDecimalLiteralsInBigDecimalConstructor" />	
 		<exclude name="AvoidUsingHardCodedIP" />	
 	</rule>

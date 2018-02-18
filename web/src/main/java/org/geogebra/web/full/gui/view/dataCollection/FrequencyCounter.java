@@ -7,7 +7,7 @@ import org.geogebra.common.plugin.SensorLogger.Types;
 /**
  * 
  */
-public class Frequency {
+public class FrequencyCounter {
 	
 	/** time in ms to keep the last received data */
 	private final static int TIME_TO_KEEP = 1000;
@@ -26,7 +26,7 @@ public class Frequency {
 	 * @param data
 	 *            {@link DataCollection}
 	 */
-	public Frequency(Types type, DataCollection data) {
+	public FrequencyCounter(Types type, DataCollection data) {
 		this.type = type;
 		this.data = data;
 	}

@@ -62,22 +62,9 @@ public class Web implements EntryPoint {
 
 		// setLocaleToQueryParam();
 
-		run();
+		loadAppletAsync();
 		allowRerun();
 		// just debug for now
-
-	}
-
-	private static void run() {
-
-			// we dont want to parse out of the box sometimes...
-			if (!calledFromExtension()) {
-				loadAppletAsync();
-			} else {
-				loadExtensionAsync();
-			}
-
-
 	}
 
 	// TODO: what about global preview events?

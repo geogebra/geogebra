@@ -57,8 +57,11 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	 * Threshold for the selection rectangle distance squared (10 pixel circle)
 	 */
 	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
+	/**
+	 * Threshold for the freehand tool distance squared (10 pixel circle)
+	 */
 	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
-	private int DELAY_UNTIL_MOVE_FINISH = 150;
+	private int delayUntilMoveFinish = 150;
 
 	/**
 	 * flag for blocking the scaling of the axes
@@ -247,7 +250,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 				GeoGebraProfiler.incrementMoveEventsIgnored();
 				if (wasWaiting) {
 					this.repaintTimer
-							.schedule(DELAY_UNTIL_MOVE_FINISH);
+							.schedule(delayUntilMoveFinish);
 				}
 				return;
 			}
@@ -303,8 +306,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.waitingMouseMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
 		GeoGebraProfiler.incrementDragTime(dragTime);
-		if (dragTime > DELAY_UNTIL_MOVE_FINISH) {
-			DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
+		if (dragTime > delayUntilMoveFinish) {
+			delayUntilMoveFinish = dragTime + 10;
 		}
 
 		moveCounter++;
@@ -468,7 +471,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			GeoGebraProfiler.incrementMoveEventsIgnored();
 			if (wasWaiting) {
 				this.repaintTimer
-						.schedule(DELAY_UNTIL_MOVE_FINISH);
+						.schedule(delayUntilMoveFinish);
 			}
 			if (ec.getView().getMode() != EuclidianConstants.MODE_FREEHAND_SHAPE
 					&& ec.getView().getMode() != EuclidianConstants.MODE_PEN) {
@@ -497,8 +500,8 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		this.waitingTouchMove = null;
 		int dragTime = (int) (System.currentTimeMillis() - time);
 		GeoGebraProfiler.incrementDragTime(dragTime);
-		if (dragTime > DELAY_UNTIL_MOVE_FINISH) {
-			DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
+		if (dragTime > delayUntilMoveFinish) {
+			delayUntilMoveFinish = dragTime + 10;
 		}
 
 		moveCounter++;
@@ -696,7 +699,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	}
 
 	public void resetDelay() {
-		DELAY_UNTIL_MOVE_FINISH = 150;
+		delayUntilMoveFinish = 150;
 	}
 
 	public void closePopups() {

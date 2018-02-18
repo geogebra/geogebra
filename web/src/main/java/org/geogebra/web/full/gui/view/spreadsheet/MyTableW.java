@@ -144,9 +144,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected boolean showRowHeader = true;
 	protected boolean showColumnHeader = true;
 
-	protected boolean isEditing = false;
-
-
+	protected boolean editing = false;
 
 	boolean repaintAll = false;// sometimes only the repainting of
 	                           // borders/background is needed
@@ -345,7 +343,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * @return whether editor is active
 	 */
 	public boolean isEditing() {
-		return isEditing;
+		return editing;
 	}
 
 	/**
@@ -1650,10 +1648,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			}
 		}
 		// STANDARD case: in cell editing
-		if (isCellEditable(row, col) && !isEditing) {
+		if (isCellEditable(row, col) && !editing) {
 			switch (getCellEditorType(row, col)) {
 			case DEFAULT:
-				isEditing = true;
+				editing = true;
 
 				AutoCompleteTextFieldW w = ((MyCellEditorW) getCellEditor())
 						.getTableCellEditorWidget(this, ob, false,
@@ -1706,7 +1704,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				// at all,
 				// because we don't know when to stop editing
 
-				isEditing = false;
+				editing = false;
 				positionEditorPanel(false, 0, 0);
 
 				renderSelection();
@@ -1775,7 +1773,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	}
 
 	public void finishEditing(boolean editNext) {
-		isEditing = false;
+		editing = false;
 
 		// hide the editor
 		positionEditorPanel(false, 0, 0);

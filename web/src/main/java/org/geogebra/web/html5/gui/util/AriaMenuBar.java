@@ -432,7 +432,7 @@ public class AriaMenuBar extends Widget {
 	/**
 	 * @return whether mouseover should select items
 	 */
-	public boolean getFocusOnHover() {
+	public boolean isFocusOnHover() {
 		return focusOnHover;
 	}
 

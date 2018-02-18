@@ -226,7 +226,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * symbol buttons with data-param-allowSymbolTable parameter)
 	 */
 	private boolean allowSymbolTables = true;
-	private boolean allowStyleBar = true;
+	private boolean stylebarAllowed = true;
 	private TimerSystemW timers;
 	HashMap<String, String> revTranslateCommandTable = new HashMap<>();
 	private Runnable closeBroserCallback;
@@ -1348,14 +1348,14 @@ public abstract class AppW extends App implements SetLabels {
 	 *            whether stylebar can be shown also when menubar is hidden
 	 */
 	public void setAllowStyleBar(boolean flag) {
-		allowStyleBar = flag;
+		stylebarAllowed = flag;
 	}
 
 	/**
 	 * @return whether it's allowed to show stylebar even if menubar closed
 	 */
 	public boolean isStyleBarAllowed() {
-		return allowStyleBar;
+		return stylebarAllowed;
 	}
 
 	@Override

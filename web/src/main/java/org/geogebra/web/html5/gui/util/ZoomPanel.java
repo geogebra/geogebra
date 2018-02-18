@@ -49,7 +49,6 @@ public class ZoomPanel extends FlowPanel
 	 */
 	boolean isFullScreen = false;
 
-	private FlowPanel zoomPanel = this;
 	/** application */
 	private AppW app;
 	private EuclidianView view;
@@ -145,7 +144,7 @@ public class ZoomPanel extends FlowPanel
 				}
 			}
 		});
-		zoomPanel.add(fullscreenBtn);
+		add(fullscreenBtn);
 	}
 
 	/**
@@ -181,7 +180,7 @@ public class ZoomPanel extends FlowPanel
 			app.recalculateEnvironments();
 		}
 
-		Browser.scale(zoomPanel.getElement(), 1, 0, 0);
+		Browser.scale(getElement(), 1, 0, 0);
 	}
 
 	/**
@@ -223,13 +222,13 @@ public class ZoomPanel extends FlowPanel
 			homeBtn.addTabHandler(this);
 		}
 
-		zoomPanel.add(homeBtn);
+		add(homeBtn);
 		if (!Browser.isMobile()) {
 			addZoomInButton();
 			addZoomOutButton();
 		}
 
-		ClickStartHandler.init(zoomPanel, new ClickStartHandler(true, true) {
+		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
 
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
@@ -251,7 +250,7 @@ public class ZoomPanel extends FlowPanel
 			}
 		};
 		zoomOutBtn.addFastClickHandler(handlerZoomOut);
-		zoomPanel.add(zoomOutBtn);
+		add(zoomOutBtn);
 	}
 
 	private void addZoomInButton() {
@@ -270,7 +269,7 @@ public class ZoomPanel extends FlowPanel
 		if (app.has(Feature.TAB_ON_GUI)) {
 			zoomInBtn.addTabHandler(this);
 		}
-		zoomPanel.add(zoomInBtn);
+		add(zoomInBtn);
 	}
 
 	/**
@@ -432,7 +431,7 @@ public class ZoomPanel extends FlowPanel
 		double yscale = Window.getClientHeight() / app.getHeight();
 		double scale = getDeviceScale(xscale, yscale);
 		Browser.scale(scaler, scale, 0, 0);
-		Browser.scale(zoomPanel.getElement(), 1 / scale, 120, 100);
+		Browser.scale(getElement(), 1 / scale, 120, 100);
 		container.getStyle().setPosition(Position.ABSOLUTE);
 		double marginLeft = 0;
 		double marginTop = 0;

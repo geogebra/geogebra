@@ -14,7 +14,7 @@ public class InputZSpace3DW extends Input3D {
 
 	private ZSpaceGwt zSpace;
 
-	private static double EYE_SEP_HALF = 0.035;
+	private static final double EYE_SEP_HALF = 0.035;
 
 	private double toPixelRatio = 3600;
 

@@ -41,7 +41,7 @@ public class ToolBarW extends FlowPanel
 	private ArrayList<ModeToggleMenuW> modeToggleMenus;
 	protected UnorderedList menuList;
 	private GGWToolBar tb;
-	private boolean isMobileToolbar;
+	private boolean mobileToolbar;
 	private boolean isMouseDown = false;
 	private int mousePosition;
 	private int toolbarPosition;
@@ -244,10 +244,10 @@ public class ToolBarW extends FlowPanel
 	protected ModeToggleMenuW createModeToggleMenu(AppW app, Vector<Integer> menu, int order) {
 		// toolbarVecSize is i.e. 12 for AV, 14 for 3D
 		if (maxButtons < getToolbarVecSize() || (maxButtons < 11 && getToolbarVecSize() < 11)) {
-			isMobileToolbar = true;
+			mobileToolbar = true;
 			return new ModeToggleMenuP(app, menu, this, order, submenuPanel);
 		}
-		isMobileToolbar = false;
+		mobileToolbar = false;
 		return new ModeToggleMenuW(app, menu, this, order);
 	}
 	
@@ -360,7 +360,7 @@ public class ToolBarW extends FlowPanel
 		}
 
 		if (getToolbarVecSize() < 11) {
-			if ((isMobileToolbar && max >= 11) || !isMobileToolbar && max < 11) {
+			if ((mobileToolbar && max >= 11) || !mobileToolbar && max < 11) {
 				this.maxButtons = max;
 				closeAllSubmenu();
 				buildGui();
@@ -369,8 +369,8 @@ public class ToolBarW extends FlowPanel
 		}
 		// make sure gui is only rebuilt when necessary (when state changes
 		// between web view and mobile view)
-		else if ((isMobileToolbar && max >= getToolbarVecSize())
-				|| (!isMobileToolbar && max < getToolbarVecSize())) {
+		else if ((mobileToolbar && max >= getToolbarVecSize())
+				|| (!mobileToolbar && max < getToolbarVecSize())) {
 			this.maxButtons = max;
 			closeAllSubmenu();
 			buildGui();
@@ -389,7 +389,7 @@ public class ToolBarW extends FlowPanel
 
 	@Override
 	public boolean isMobileToolbar() {
-		return isMobileToolbar;
+		return mobileToolbar;
 	}
 
 	public int getMaxButtons() {

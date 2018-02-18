@@ -36,12 +36,12 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * @see ComboBox
  * 
  * @author <a href="mailto:sskladchikov@gmail.com">Sergey Skladchikov</a>
- * @param <TypeOfSelectedValue>
+ * @param <T>
  *            value type
  * @since 1.2.0
  */
-public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
-		implements AdvancedWidget, HasValue<TypeOfSelectedValue>,
+public abstract class TextButtonPanel<T> extends SimplePanel
+		implements AdvancedWidget, HasValue<T>,
 		HasInputElement {
 	/** widget layout */
 	private FlexTable layout;
@@ -60,8 +60,6 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	private String width;
 	/** widget height */
 	private String height;
-	/** enabled panel controls flag */
-	private boolean enabled;
 
 	private EnterAction enterAction = EnterAction.OPEN_DROP_DOWN;
 	private final AppW app;
@@ -205,7 +203,6 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 	 *            is a flag that means whether the controls must be enabled.
 	 */
 	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
 		getSelectedValue().setEditable(enabled);
 		getChoiceButton().setEnabled(enabled);
 	}
