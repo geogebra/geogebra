@@ -202,8 +202,7 @@ public class PageListPanel
 	protected int addNewPreviewCard(boolean selected) {
 		int index = pageController.getSlideCount();
 		pageController.addNewPreviewCard(selected, index, new GgbFile());
-		addPreviewCard(pageController.getCards()
-				.get(index));
+		addPreviewCard(pageController.getCard(index));
 		return index;
 	}
 

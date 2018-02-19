@@ -48,7 +48,7 @@ public class PageListController implements PageListControllerInterface,
 	/**
 	 * list of slides (pages)
 	 */
-	ArrayList<PagePreviewCard> slides;
+	final ArrayList<PagePreviewCard> slides;
 	private PagePreviewCard selectedCard;
 
 	private DragController dragCtrl;
@@ -71,13 +71,14 @@ public class PageListController implements PageListControllerInterface,
 	 * @return list of slides; never null
 	 */
 	public ArrayList<PagePreviewCard> getCards() {
-		return slides != null ? slides : new ArrayList<PagePreviewCard>();
+		return slides;
+	}
+
+	public PagePreviewCard getCard(int i) {
+		return slides.get(i);
 	}
 
 	public GgbFile getSlide(int index) {
-		if(slides == null){
-			return null;
-		}
 		if(selectedCard == slides.get(index)){
 			return app.getGgbApi().createArchiveContent(true);
 		}
@@ -96,9 +97,6 @@ public class PageListController implements PageListControllerInterface,
 	 *            true if slide is new slide
 	 */
 	public void loadSlide(PagePreviewCard curSelCard, int i, boolean newPage) {
-		if (slides == null) {
-			return;
-		}
 		if (curSelCard != null) {
 			// save file status of currently selected card
 			// it is not needed after drag for example.
@@ -186,9 +184,6 @@ public class PageListController implements PageListControllerInterface,
 	 * @return index of the added slide
 	 */
 	private PagePreviewCard addSlide(int index, GgbFile ggbFile) {
-		if (slides == null) {
-			slides = new ArrayList<>();
-		}
 		PagePreviewCard previewCard = new PagePreviewCard(
 				app, index, ggbFile);
 		slides.add(index, previewCard);
@@ -202,7 +197,7 @@ public class PageListController implements PageListControllerInterface,
 	 *            of the slide to be removed
 	 */
 	public void removeSlide(int index) {
-		if (slides == null || index >= slides.size()) {
+		if (index >= slides.size()) {
 			return;
 		}
 		slides.remove(index);
@@ -223,7 +218,7 @@ public class PageListController implements PageListControllerInterface,
 			return;
 		}
 		// clear preview card list
-		slides = new ArrayList<>();
+		slides.clear();
 		// clear gui
 		((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
 				.reset();
@@ -240,14 +235,14 @@ public class PageListController implements PageListControllerInterface,
 			JSONObject book = new JSONObject();
 			JSONObject chapter = new JSONObject();
 			JSONArray pages = new JSONArray();
-			if (slides != null) {
-				for (int i = 0; i < slides.size(); i++) {
-					JSONArray elements = new JSONArray();
-					elements.put(new JSONObject().put("id",
-							GgbFile.SLIDE_PREFIX + i));
-					pages.put(new JSONObject().put("elements", elements));
-				}
+
+			for (int i = 0; i < slides.size(); i++) {
+				JSONArray elements = new JSONArray();
+				elements.put(
+						new JSONObject().put("id", GgbFile.SLIDE_PREFIX + i));
+				pages.put(new JSONObject().put("elements", elements));
 			}
+
 			chapter.put("pages", pages);
 			book.put("chapters", new JSONArray().put(chapter));
 			return book.toString();
@@ -371,7 +366,7 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	public void loadPage(int index, boolean newPage) {
 		loadSlide(selectedCard, index, newPage);
-		setCardSelected(getCards().get(index));
+		setCardSelected(getCard(index));
 	}
 
 
@@ -379,7 +374,7 @@ public class PageListController implements PageListControllerInterface,
 	public void clickPage(int pageIdx, boolean select) {
 		loadSlide(null, pageIdx, false);
 		if (select) {
-			setCardSelected(getCards().get(pageIdx));
+			setCardSelected(getCard(pageIdx));
 		}
 	}
 
@@ -473,7 +468,7 @@ public class PageListController implements PageListControllerInterface,
 			String perspXML = app.getGgbApi().getPerspectiveXML();
 			addNewPreviewCard(false, idx, file);
 			loadSlide(null, idx, false);
-			setCardSelected(getCards().get(idx));
+			setCardSelected(getCard(idx));
 			updatePreviewImage();
 			app.getGgbApi().setPerspective(perspXML);
 		} else if (action == EventType.REMOVE_SLIDE) {
