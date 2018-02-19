@@ -3,14 +3,13 @@ package org.geogebra.web.full.gui;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
-import org.geogebra.common.util.Util;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.dialog.image.UploadImageDialog;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ImageManagerW;
 
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -170,20 +169,9 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		String data;
 		data = ImageResizer.resizeImage(imgDataURL, ICON_WIDTH, ICON_HEIGHT);
 
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zipDirectory = md5e.encrypt(data);
-
-		String fn = fileName;
-		int index = fileName.lastIndexOf('/');
-		if (index != -1) {
-			fn = fn.substring(index + 1, fn.length()); // filename
-			                                           // without
-		}
-		fn = Util.processFilename(fn);
-
 		// filename will be of form
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"Mobi
-		iconFileName = zipDirectory + '/' + fn;
+		iconFileName = ImageManagerW.getMD5FileName(fileName, data);
 
 		app.getImageManager().addExternalImage(iconFileName, data);
 		icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));

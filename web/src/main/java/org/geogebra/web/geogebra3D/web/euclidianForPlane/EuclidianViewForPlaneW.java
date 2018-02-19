@@ -59,7 +59,7 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	 * @return panel component
 	 */
 	public Widget getComponent() {
-		return EVPanel.getAbsolutePanel();
+		return evPanel.getAbsolutePanel();
 	}
 
 	// @Override
@@ -74,7 +74,7 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	 * @return dock panel
 	 */
 	public EuclidianDockPanelForPlaneW getDockPanel() {
-		return (EuclidianDockPanelForPlaneW) EVPanel;
+		return (EuclidianDockPanelForPlaneW) evPanel;
 	}
 
 	@Override

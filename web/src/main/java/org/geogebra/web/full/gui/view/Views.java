@@ -86,31 +86,31 @@ public class Views {
 		}
 	}
 
-	final private static ArrayList<ViewType> basicViews = new ArrayList<>();
-	final private static ArrayList<ViewType> extensions = new ArrayList<>();
+	final private static ArrayList<ViewType> BASIC_VIEWS = new ArrayList<>();
+	final private static ArrayList<ViewType> EXTENSIONS = new ArrayList<>();
 	static {
-		basicViews.add(ViewType.ALGEBRA);
-		basicViews.add(ViewType.CAS);
-		basicViews.add(ViewType.GRAPHICS);
-		basicViews.add(ViewType.GRAPHICS_2);
-		basicViews.add(ViewType.GRAPHICS_3D);
-		basicViews.add(ViewType.SPREADSHEET);
-		basicViews.add(ViewType.PROBABILITY);
-		extensions.add(ViewType.CONSTRUCTION_PROTOCOL);
+		BASIC_VIEWS.add(ViewType.ALGEBRA);
+		BASIC_VIEWS.add(ViewType.CAS);
+		BASIC_VIEWS.add(ViewType.GRAPHICS);
+		BASIC_VIEWS.add(ViewType.GRAPHICS_2);
+		BASIC_VIEWS.add(ViewType.GRAPHICS_3D);
+		BASIC_VIEWS.add(ViewType.SPREADSHEET);
+		BASIC_VIEWS.add(ViewType.PROBABILITY);
+		EXTENSIONS.add(ViewType.CONSTRUCTION_PROTOCOL);
 	}
 
 	/**
 	 * @return list of "real" views
 	 */
 	public static ArrayList<ViewType> getViews() {
-		return basicViews;
+		return BASIC_VIEWS;
 	}
 
 	/**
 	 * @return list of "view-extensions"
 	 */
 	public static ArrayList<ViewType> getViewExtensions() {
-		return extensions;
+		return EXTENSIONS;
 	}
 
 	/**
@@ -118,8 +118,8 @@ public class Views {
 	 */
 	public static ArrayList<ViewType> getAll() {
 		ArrayList<ViewType> all = new ArrayList<>();
-		all.addAll(basicViews);
-		all.addAll(extensions);
+		all.addAll(BASIC_VIEWS);
+		all.addAll(EXTENSIONS);
 		return all;
 	}
 
@@ -128,6 +128,6 @@ public class Views {
 	 * @return number of real views + view-extensions
 	 */
 	public static int numOfViews() {
-		return basicViews.size() + extensions.size();
+		return BASIC_VIEWS.size() + EXTENSIONS.size();
 	}
 }

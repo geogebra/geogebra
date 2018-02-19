@@ -1524,20 +1524,7 @@ public abstract class AppW extends App implements SetLabels {
 	public void imageDropHappened(String imgFileName, String fileStr,
 			String notUsed) {
 
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zip_directory = md5e.encrypt(fileStr);
-
-		String fn = imgFileName;
-		int index = imgFileName.lastIndexOf('/');
-		if (index != -1) {
-			fn = fn.substring(index + 1, fn.length()); // filename without
-		}
-		// path
-		fn = org.geogebra.common.util.Util.processFilename(fn);
-
-		// filename will be of form
-		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-		fn = zip_directory + '/' + fn;
+		String fn = ImageManagerW.getMD5FileName(imgFileName, fileStr);
 
 		doDropHappened(fn, fileStr);
 	}

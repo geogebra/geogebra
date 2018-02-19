@@ -64,29 +64,29 @@ public class InputZSpace3DW extends Input3D {
 		double tr = m00 + m11 + m22;
 
 		if (tr > 0) { 
-			double S = Math.sqrt(tr+1.0) * 2; // S=4*qw 
-			orientation[3] = 0.25 * S;
-			orientation[0] = (m21 - m12) / S;
-			orientation[1] = (m02 - m20) / S;
-			orientation[2] = (m10 - m01) / S;
+			double s = Math.sqrt(tr+1.0) * 2; // S=4*qw 
+			orientation[3] = 0.25 * s;
+			orientation[0] = (m21 - m12) / s;
+			orientation[1] = (m02 - m20) / s;
+			orientation[2] = (m10 - m01) / s;
 		} else if ((m00 > m11)&(m00 > m22)) { 
-			double S = Math.sqrt(1.0 + m00 - m11 - m22) * 2; // S=4*qx 
-			orientation[3] = (m21 - m12) / S;
-			orientation[0] = 0.25 * S;
-			orientation[1] = (m01 + m10) / S;
-			orientation[2] = (m02 + m20) / S;
+			double s = Math.sqrt(1.0 + m00 - m11 - m22) * 2; // S=4*qx 
+			orientation[3] = (m21 - m12) / s;
+			orientation[0] = 0.25 * s;
+			orientation[1] = (m01 + m10) / s;
+			orientation[2] = (m02 + m20) / s;
 		} else if (m11 > m22) { 
-			double S = Math.sqrt(1.0 + m11 - m00 - m22) * 2; // S=4*qy
-			orientation[3] = (m02 - m20) / S;
-			orientation[0] = (m01 + m10) / S;
-			orientation[1] = 0.25 * S;
-			orientation[2] = (m12 + m21) / S;
+			double s = Math.sqrt(1.0 + m11 - m00 - m22) * 2; // S=4*qy
+			orientation[3] = (m02 - m20) / s;
+			orientation[0] = (m01 + m10) / s;
+			orientation[1] = 0.25 * s;
+			orientation[2] = (m12 + m21) / s;
 		} else { 
-			double S = Math.sqrt(1.0 + m22 - m00 - m11) * 2; // S=4*qz
-			orientation[3] = (m10 - m01) / S;
-			orientation[0] = (m02 + m20) / S;
-			orientation[1] = (m12 + m21) / S;
-			orientation[2] = 0.25 * S;
+			double s = Math.sqrt(1.0 + m22 - m00 - m11) * 2; // S=4*qz
+			orientation[3] = (m10 - m01) / s;
+			orientation[0] = (m02 + m20) / s;
+			orientation[1] = (m12 + m21) / s;
+			orientation[2] = 0.25 * s;
 		}
 	}
 

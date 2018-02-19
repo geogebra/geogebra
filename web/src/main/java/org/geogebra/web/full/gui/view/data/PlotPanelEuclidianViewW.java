@@ -102,7 +102,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	
 
 	public Widget getComponent() {
-	    return EVPanel.getAbsolutePanel();
+	    return evPanel.getAbsolutePanel();
     }
 	
 	@Override

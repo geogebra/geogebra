@@ -21,7 +21,7 @@ public class WebsocketLogger extends SensorLogger {
 
 	private WebSocketConnection connection = null;
 	private ArrayList<WebSocketListener> listeners = new ArrayList<>();
-	private String websocket_url;
+	private String websocketUrl;
 
 	public WebsocketLogger(Kernel kernel) {
 		super(kernel);
@@ -30,32 +30,32 @@ public class WebsocketLogger extends SensorLogger {
 	private void constructUrl() {
 		boolean secure = false;
 		if (Window.Location.getProtocol().equals("https:")) {
-			this.websocket_url = "wss:";
+			this.websocketUrl = "wss:";
 			secure = true;
 		} else {
-			this.websocket_url = "ws:";
+			this.websocketUrl = "ws:";
 
 		}
 		if (appID != null && appID.indexOf(".") > -1) {
-			this.websocket_url += appID + ":8080";
+			this.websocketUrl += appID + ":8080";
 		} else {
 			if (secure) {
-				this.websocket_url += GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL
+				this.websocketUrl += GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL
 						+ ":"
 						+ GeoGebraConstants.DATA_LOGGING_WEBSOCKET_SECURE_PORT;
 			} else {
-				this.websocket_url += GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL
+				this.websocketUrl += GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL
 						+ ":" + GeoGebraConstants.DATA_LOGGING_WEBSOCKET_PORT;
 			}
 		}
-		Log.debug(this.websocket_url);
+		Log.debug(this.websocketUrl);
 	}
 
 	private void createConnection() {
 		if (this.connection == null
 		        || this.connection.getReadyState() != WebSocketConnection.OPEN) {
 			constructUrl();
-			this.connection = WebSocketFactory.create(this.websocket_url);
+			this.connection = WebSocketFactory.create(this.websocketUrl);
 			this.connection.onOpen(new OpenEventHandler() {
 
 				@Override

@@ -75,128 +75,128 @@ public class PerformanceTest implements EntryPoint {
 		Construction cons = kernel.getConstruction();
 
 		/** Construction start */
-		GeoPoint A = new GeoPoint(cons, 0, 0, 1);
-		A.setLabel("A");
+		GeoPoint ptA = new GeoPoint(cons, 0, 0, 1);
+		ptA.setLabel("A");
 
-		ExpressionNode exB = new MyVecNode(kernel, A.wrap()
-		        .apply(Operation.XCOORD).wrap().plus(5), A.wrap().apply(
+		ExpressionNode exB = new MyVecNode(kernel, ptA.wrap()
+		        .apply(Operation.XCOORD).wrap().plus(5), ptA.wrap().apply(
 		        Operation.YCOORD)).wrap();
-		GeoPoint B = new AlgoDependentPoint(cons, "B", exB, false).getPoint();
+		GeoPoint ptB = new AlgoDependentPoint(cons, "B", exB, false).getPoint();
 
-		ExpressionNode exC = new MyVecNode(kernel, B.wrap()
-		        .apply(Operation.XCOORD).wrap(), B.wrap()
+		ExpressionNode exC = new MyVecNode(kernel, ptB.wrap()
+		        .apply(Operation.XCOORD).wrap(), ptB.wrap()
 		        .apply(Operation.YCOORD).wrap().plus(3)).wrap();
-		GeoPoint C = new AlgoDependentPoint(cons, "C", exC, false).getPoint();
+		GeoPoint ptC = new AlgoDependentPoint(cons, "C", exC, false).getPoint();
 
-		ExpressionNode exD = new MyVecNode(kernel, A.wrap()
-		        .apply(Operation.XCOORD).wrap(), A.wrap()
+		ExpressionNode exD = new MyVecNode(kernel, ptA.wrap()
+		        .apply(Operation.XCOORD).wrap(), ptA.wrap()
 		        .apply(Operation.YCOORD).wrap().plus(3)).wrap();
-		GeoPoint D = new AlgoDependentPoint(cons, "D", exD, false).getPoint();
+		GeoPoint ptD = new AlgoDependentPoint(cons, "D", exD, false).getPoint();
 
-		GeoPoint E = new AlgoMidpoint(cons, "E", B, C).getPoint();
+		GeoPoint ptE = new AlgoMidpoint(cons, "E", ptB, ptC).getPoint();
 
-		GeoSegment a = new AlgoJoinPointsSegment(cons, "a", E, C).getSegment();
+		GeoSegment a = new AlgoJoinPointsSegment(cons, "a", ptE, ptC).getSegment();
 
-		GeoPointND F = new AlgoPointOnPath(cons, a, 5, 2).getP();
-		F.setLabel("F");
+		GeoPointND ptF = new AlgoPointOnPath(cons, a, 5, 2).getP();
+		ptF.setLabel("F");
 
 		AlgoPolygonRegular regPoly1 = new AlgoPolygonRegular(cons,
-		        new String[] { "poly1", "f", "c", "g", "h", "G", "H" }, F, C,
+		        new String[] { "poly1", "f", "c", "g", "h", "G", "H" }, ptF, ptC,
 		        new GeoNumeric(cons, 4));
-		GeoPoint G = regPoly1.getPoly().getPoint(2);
-		GeoPoint H = regPoly1.getPoly().getPoint(3);
+		GeoPoint ptG = regPoly1.getPoly().getPoint(2);
+		GeoPoint ptH = regPoly1.getPoly().getPoint(3);
 
-		new AlgoJoinPointsSegment(cons, "b", D, A).getSegment();
+		new AlgoJoinPointsSegment(cons, "b", ptD, ptA).getSegment();
 
-		GeoSegment d = new AlgoJoinPointsSegment(cons, "d", A, B).getSegment();
+		GeoSegment d = new AlgoJoinPointsSegment(cons, "d", ptA, ptB).getSegment();
 
-		GeoSegment e = new AlgoJoinPointsSegment(cons, "e", B, C).getSegment();
+		GeoSegment e = new AlgoJoinPointsSegment(cons, "e", ptB, ptC).getSegment();
 
-		GeoSegment i = new AlgoJoinPointsSegment(cons, "i", C, D).getSegment();
+		GeoSegment i = new AlgoJoinPointsSegment(cons, "i", ptC, ptD).getSegment();
 
-		GeoConic k = new AlgoCirclePointRadius(cons, D,
-		        new AlgoDistancePoints(cons, C, F).getDistance()).getCircle();
+		GeoConic k = new AlgoCirclePointRadius(cons, ptD,
+		        new AlgoDistancePoints(cons, ptC, ptF).getDistance()).getCircle();
 		k.setLabel("k");
 
-		GeoConic p = new AlgoCirclePointRadius(cons, A,
-		        new AlgoDistancePoints(cons, C, F).getDistance()).getCircle();
+		GeoConic p = new AlgoCirclePointRadius(cons, ptA,
+		        new AlgoDistancePoints(cons, ptC, ptF).getDistance()).getCircle();
 		p.setLabel("p");
-		GeoConic q = new AlgoCirclePointRadius(cons, B,
-		        new AlgoDistancePoints(cons, C, F).getDistance()).getCircle();
+		GeoConic q = new AlgoCirclePointRadius(cons, ptB,
+		        new AlgoDistancePoints(cons, ptC, ptF).getDistance()).getCircle();
 		q.setLabel("q");
-		GeoPoint L = new AlgoIntersectSingle("L", new AlgoIntersectLineConic(
+		GeoPoint ptL = new AlgoIntersectSingle("L", new AlgoIntersectLineConic(
 		        cons, i, k), 0).getPoint();
 
-		GeoPoint M = new AlgoIntersectSingle("M", new AlgoIntersectLineConic(
+		GeoPoint ptM = new AlgoIntersectSingle("M", new AlgoIntersectLineConic(
 		        cons, d, p), 0).getPoint();
 
-		GeoPoint N = new AlgoIntersectSingle("L", new AlgoIntersectLineConic(
+		GeoPoint ptN = new AlgoIntersectSingle("L", new AlgoIntersectLineConic(
 		        cons, e, q), 0).getPoint();
 
 		AlgoPolygonRegular regPoly2 = new AlgoPolygonRegular(cons,
-		        new String[] { "poly2", "j", "l", "o", "n", "O", "P" }, L, D,
+		        new String[] { "poly2", "j", "l", "o", "n", "O", "P" }, ptL, ptD,
 		        new GeoNumeric(cons, 4));
-		GeoPoint O = regPoly2.getPoly().getPoint(2);
-		GeoPoint P = regPoly2.getPoly().getPoint(3);
+		GeoPoint ptO = regPoly2.getPoly().getPoint(2);
+		GeoPoint ptP = regPoly2.getPoly().getPoint(3);
 
 		AlgoPolygonRegular regPoly3 = new AlgoPolygonRegular(cons,
-		        new String[] { "poly3", "m", "r", "s", "t", "Q", "R" }, A, M,
+		        new String[] { "poly3", "m", "r", "s", "t", "Q", "R" }, ptA, ptM,
 		        new GeoNumeric(cons, 4));
-		GeoPoint Q = regPoly3.getPoly().getPoint(2);
-		GeoPoint R = regPoly3.getPoly().getPoint(3);
+		GeoPoint ptQ = regPoly3.getPoly().getPoint(2);
+		GeoPoint ptR = regPoly3.getPoly().getPoint(3);
 
 		AlgoPolygonRegular regPoly4 = new AlgoPolygonRegular(cons,
-		        new String[] { "poly4", "a1", "b1", "c1", "d1", "S", "T" }, B,
-		        N, new GeoNumeric(cons, 4));
-		GeoPoint S = regPoly4.getPoly().getPoint(2);
-		GeoPoint T = regPoly4.getPoly().getPoint(3);
+		        new String[] { "poly4", "a1", "b1", "c1", "d1", "S", "T" }, ptB,
+		        ptN, new GeoNumeric(cons, 4));
+		GeoPoint ptS = regPoly4.getPoly().getPoint(2);
+		GeoPoint ptT = regPoly4.getPoly().getPoint(3);
 
-		new AlgoPolygon(cons, null, new GeoPointND[] { Q, M, T, S })
+		new AlgoPolygon(cons, null, new GeoPointND[] { ptQ, ptM, ptT, ptS })
 				.getOutput();
 
-		new AlgoPolygon(cons, null, new GeoPointND[] { S, N, F, H })
+		new AlgoPolygon(cons, null, new GeoPointND[] { ptS, ptN, ptF, ptH })
 				.getOutput();
 
-		new AlgoPolygon(cons, null, new GeoPointND[] { H, G, L, P })
+		new AlgoPolygon(cons, null, new GeoPointND[] { ptH, ptG, ptL, ptP })
 				.getOutput();
 
-		new AlgoPolygon(cons, null, new GeoPointND[] { O, R, Q, P })
+		new AlgoPolygon(cons, null, new GeoPointND[] { ptO, ptR, ptQ, ptP })
 				.getOutput();
 
-		new AlgoPolygon(cons, null, new GeoPointND[] { Q, S, H, P })
+		new AlgoPolygon(cons, null, new GeoPointND[] { ptQ, ptS, ptH, ptP })
 				.getOutput();
 
-		new AlgoJoinPointsSegment(cons, "e1", Q, M)
+		new AlgoJoinPointsSegment(cons, "e1", ptQ, ptM)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "f1", M, T)
+		new AlgoJoinPointsSegment(cons, "f1", ptM, ptT)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "g1", T, S)
+		new AlgoJoinPointsSegment(cons, "g1", ptT, ptS)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "h1", A, M)
+		new AlgoJoinPointsSegment(cons, "h1", ptA, ptM)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "i1", A, R)
+		new AlgoJoinPointsSegment(cons, "i1", ptA, ptR)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "j1", T, B)
+		new AlgoJoinPointsSegment(cons, "j1", ptT, ptB)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "k1", B, N)
+		new AlgoJoinPointsSegment(cons, "k1", ptB, ptN)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "l1", (GeoPoint) F, C)
+		new AlgoJoinPointsSegment(cons, "l1", (GeoPoint) ptF, ptC)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "m1", C, G)
+		new AlgoJoinPointsSegment(cons, "m1", ptC, ptG)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "n1", L, D)
+		new AlgoJoinPointsSegment(cons, "n1", ptL, ptD)
 		        .getSegment();
 
-		new AlgoJoinPointsSegment(cons, "p1", D, O)
+		new AlgoJoinPointsSegment(cons, "p1", ptD, ptO)
 		        .getSegment();
 
 		/** Construction end */

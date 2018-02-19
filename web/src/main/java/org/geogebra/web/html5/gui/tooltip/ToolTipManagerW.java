@@ -134,7 +134,7 @@ public final class ToolTipManagerW {
 	private String helpURL;
 
 	/** Singleton instance of ToolTipManager. */
-	final static ToolTipManagerW sharedInstance = new ToolTipManagerW();
+	final static ToolTipManagerW SHARED_INSTANCE = new ToolTipManagerW();
 
 	/*****************************************************
 	 * Constructor
@@ -149,7 +149,7 @@ public final class ToolTipManagerW {
 	 * @return Singleton instance of this class
 	 */
 	public static ToolTipManagerW sharedInstance() {
-		return sharedInstance;
+		return SHARED_INSTANCE;
 	}
 
 	private void initTooltipManagerW() {

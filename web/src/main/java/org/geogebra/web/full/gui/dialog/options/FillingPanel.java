@@ -15,8 +15,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
-import org.geogebra.common.util.MD5EncrypterGWTImpl;
-import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.FileInputDialog;
@@ -33,6 +31,7 @@ import org.geogebra.web.html5.gui.util.ImageOrText;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.SliderPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.util.ImageManagerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
@@ -149,31 +148,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			reader.readAsDataURL(fileToHandle);
 			return true;
 		}-*/;
-
-		public void applyImage(String fileName, String fileData) {
-			MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-			String zip_directory = md5e.encrypt(fileData);
-
-			String fn = fileName;
-			int index = fn.lastIndexOf('/');
-			if (index != -1) {
-				fn = fn.substring(index + 1, fn.length()); // filename without
-			}
-			// path
-			fn = Util.processFilename(fn);
-
-			// filename will be of form
-			// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-			fn = zip_directory + '/' + fn;
-
-			Construction cons = app.getKernel().getConstruction();
-			app.getImageManager().addExternalImage(fn, fileData);
-			GeoImage geoImage = new GeoImage(cons);
-			app.getImageManager().triggerSingleImageLoading(fn, geoImage);
-			model.applyImage(fn);
-			Log.debug("Applying " + fn + " from dialog");
-
-		}
 
 	}
 
@@ -365,26 +339,9 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		setLabels();
 	}
 
-	protected String getImageFileName(String fileName, String fileData) {
-
-		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zip_directory = md5e.encrypt(fileData);
-
-		String fn = fileName;
-		int index = fileName.lastIndexOf('/');
-		if (index != -1) {
-			fn = fn.substring(index + 1, fn.length()); // filename without
-		}
-		fn = Util.processFilename(fn);
-
-		// filename will be of form
-		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-		return zip_directory + '/' + fn;
-	}
-
 	public void applyImage(String fileName0, String fileData) {
 
-		String fileName = getImageFileName(fileName0, fileData);
+		String fileName = ImageManagerW.getMD5FileName(fileName0, fileData);
 
 		Construction cons = app.getKernel().getConstruction();
 		app.getImageManager().addExternalImage(fileName, fileData);

@@ -71,7 +71,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class EuclidianView3DW extends EuclidianView3D implements
 		EuclidianViewWInterface {
 
-	private EuclidianPanelWAbstract EVPanel;
+	private EuclidianPanelWAbstract evPanel;
 
 	private boolean isInFocus = false;
 
@@ -97,7 +97,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 */
 	public EuclidianView3DW(EuclidianController3D ec, EuclidianSettings settings) {
 		super(ec, settings);
-		initBaseComponents(EVPanel, ec);
+		initBaseComponents(evPanel, ec);
 
 		// initView(true);
 
@@ -170,7 +170,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	private void setEvNo() {
-
 		this.evNo = EVNO_3D;
 	}
 
@@ -185,44 +184,43 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		canvas.addKeyDownHandler(gkd);
 		canvas.addKeyUpHandler(gkd);
 		canvas.addKeyPressHandler(gkd);
-
 	}
 
 	private void registerMouseTouchGestureHandlers(
 	        EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController3DW euclidiancontroller) {
-		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
-		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
+		Widget absPanel = euclidianViewPanel.getAbsolutePanel();
+		absPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
 
 		if (!Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))
 				|| !app.has(Feature.MOW_PEN_EVENTS)) {
-			evPanel.addDomHandler(euclidiancontroller,
+			absPanel.addDomHandler(euclidiancontroller,
 					MouseMoveEvent.getType());
-			evPanel.addDomHandler(euclidiancontroller,
+			absPanel.addDomHandler(euclidiancontroller,
 					MouseOverEvent.getType());
-			evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
+			absPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
 			if (((AppW) app).getLAF() == null
 					|| !((AppW) app).getLAF().isSmart()) {
-				evPanel.addDomHandler(euclidiancontroller,
+				absPanel.addDomHandler(euclidiancontroller,
 						MouseDownEvent.getType());
 			}
-			evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
+			absPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 		}
 
 		if (Browser.supportsPointerEvents(app.has(Feature.MOW_PEN_EVENTS))) {
 			pointerHandler = new PointerEventHandler((IsEuclidianController) euclidianController,
 					euclidiancontroller.getOffsets());
-			PointerEventHandler.attachTo(evPanel.getElement(), pointerHandler,
+			PointerEventHandler.attachTo(absPanel.getElement(), pointerHandler,
 					app.has(Feature.MOW_PEN_EVENTS));
 			return;
 		}
-		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
-		evPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
+		absPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
+		absPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
+		absPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
+		absPanel.addDomHandler(euclidiancontroller, TouchCancelEvent.getType());
+		absPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
+		absPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
+		absPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
 
 	}
 
@@ -259,7 +257,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 * @return panel component
 	 */
 	public Widget getComponent() {
-		return EVPanel.getAbsolutePanel();
+		return evPanel.getAbsolutePanel();
 	}
 
 	// //////////////////////////////////////////////////////////
@@ -365,7 +363,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	protected void createPanel() {
-		EVPanel = newMyEuclidianViewPanel();
+		evPanel = newMyEuclidianViewPanel();
 
 	}
 
@@ -461,16 +459,16 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public void add(GBox box) {
-		if (EVPanel != null) {
-			EVPanel.getAbsolutePanel().add(GBoxW.getImpl(box),
+		if (evPanel != null) {
+			evPanel.getAbsolutePanel().add(GBoxW.getImpl(box),
 			        (int) box.getBounds().getX(), (int) box.getBounds().getY());
 		}
 	}
 
 	@Override
 	public void remove(GBox box) {
-		if (EVPanel != null) {
-			EVPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
+		if (evPanel != null) {
+			evPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
 		}
 	}
 
