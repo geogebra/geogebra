@@ -379,20 +379,24 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
+		Log.debug("[DRG] onMouseDown");
 		event.preventDefault();
 		event.stopPropagation();
 		dragCtrl.start(event.getClientX(), event.getClientY());
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
+		Log.debug("[DRG] onMouseMove");
 		dragCtrl.move(event.getClientX(), event.getClientY());
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
+		Log.debug("[DRG] onMouseUp");
 		dragCtrl.stop(event.getClientX(), event.getClientY());
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
+		Log.debug("[DRG] onTouchStart");
 		event.preventDefault();
 		event.stopPropagation();
 		Touch t = event.getTargetTouches().get(0);
@@ -400,11 +404,13 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
+		Log.debug("[DRG] onTouchMove");
 		Touch t = event.getTargetTouches().get(0);
 		dragCtrl.move(t.getClientX(), t.getClientY());
 	}
 
 	public void onTouchEnd(TouchEndEvent event) {
+		Log.debug("[DRG] onTouchEnd");
 		Touch t = event.getTargetTouches().get(0);
 		if (t == null) {
 			t = event.getChangedTouches().get(0);
