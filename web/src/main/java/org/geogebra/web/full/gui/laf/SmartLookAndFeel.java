@@ -87,7 +87,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 		evPanel.addDomHandler(sh, TouchStartEvent.getType());
 		evPanel.addDomHandler(sh, TouchEndEvent.getType());
 		evPanel.addDomHandler(sh, TouchMoveEvent.getType());
-		evPanel.addDomHandler(CancelEvents.instance, TouchCancelEvent.getType());
+		evPanel.addDomHandler(CancelEvents.INSTANCE, TouchCancelEvent.getType());
 		return true;
 	}
 	

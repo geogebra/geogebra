@@ -22,7 +22,7 @@ import com.himamis.retex.editor.share.model.Korean;
 public class InputSuggestions implements HasSuggestions {
 	protected AutoCompleteDictionary dict;
 	private ScrollableSuggestionDisplay sug;
-	public static final int querylimit = 5000;
+	public static final int QUERY_LIMIT = 5000;
 	private List<String> completions;
 	StringBuilder curWord;
 	protected CompletionsPopup popup;
@@ -96,7 +96,7 @@ public class InputSuggestions implements HasSuggestions {
 						"Korean:" + Korean.unflattenKorean(curWord.toString()));
 				popup.requestSuggestions(
 						new SuggestOracle.Request(this.curWord.toString(),
-								querylimit), popupCallback);
+								QUERY_LIMIT), popupCallback);
 			}
 		} else {
 			hideSuggestions();

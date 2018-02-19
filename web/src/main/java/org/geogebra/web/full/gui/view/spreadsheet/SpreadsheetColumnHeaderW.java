@@ -338,7 +338,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			return;
 		}
 		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.instance);
+		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
 		onPointerDown(event);
 	}
 
@@ -348,7 +348,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			return;
 		}
 		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.instance);
+		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
 		onPointerUp(event);
 	}
 
@@ -362,7 +362,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			return;
 		}
 		e.preventDefault();
-		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.instance);
+		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.INSTANCE);
 		onPointerMove(event);
 	}
 	
@@ -582,7 +582,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	public void onTouchEnd(TouchEndEvent event) {
 		longTouchManager.cancelTimer();
 		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
+		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
 		onPointerUp(e);
 	    CancelEventTimer.touchEventOccured();
     }
@@ -590,7 +590,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
+		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
 		if (doColumnResize) {
 			// resizing a column cancel long touch
 			longTouchManager.cancelTimer();
@@ -604,7 +604,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
-		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
+		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
 		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
 		onPointerDown(e);
 		CancelEventTimer.touchEventOccured();

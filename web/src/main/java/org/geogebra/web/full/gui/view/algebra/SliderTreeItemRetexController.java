@@ -54,7 +54,7 @@ public class SliderTreeItemRetexController extends LatexTreeItemController
 			return;
 		}
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
-				ZeroOffset.instance);
+				ZeroOffset.INSTANCE);
 		onPointerMove(wrappedEvent);
 	}
 

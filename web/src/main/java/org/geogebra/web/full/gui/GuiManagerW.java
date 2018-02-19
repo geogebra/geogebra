@@ -2347,8 +2347,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		String url = GGWToolBar.getImageURL(mode, getApp());
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		String fn = "geogebra_tool_" + mode;
-		String zip_directory = md5e.encrypt(fn);
-		fn = zip_directory + "/" + fn;
+		String zipDirectory = md5e.encrypt(fn);
+		fn = zipDirectory + "/" + fn;
 		getApp().getImageManager().addExternalImage(fn, url);
 		getApp().getImageManager().triggerSingleImageLoading(fn, geoImage);
 		return fn;

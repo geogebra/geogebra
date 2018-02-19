@@ -96,7 +96,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 	protected boolean isMarbleHit(MouseEvent<?> evt) {
 		return isMarbleHit(
-				PointerEvent.wrapEventAbsolute(evt, ZeroOffset.instance));
+				PointerEvent.wrapEventAbsolute(evt, ZeroOffset.INSTANCE));
 	}
 
 	protected boolean isMarbleHit(PointerEvent wrappedEvent) {
@@ -169,7 +169,7 @@ public class RadioTreeItemController implements ClickHandler,
 		event.stopPropagation();
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
-				ZeroOffset.instance);
+				ZeroOffset.INSTANCE);
 		onPointerDown(wrappedEvent);
 		CancelEventTimer.avRestoreWidth();
 		if (CancelEventTimer.cancelMouseEvent() || isMarbleHit(event)
@@ -263,7 +263,7 @@ public class RadioTreeItemController implements ClickHandler,
 		boolean active = isEditing();
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(touches.get(0),
-				ZeroOffset.instance);
+				ZeroOffset.INSTANCE);
 		if (isMarbleHit(wrappedEvent)) {
 			return;
 		}
@@ -316,7 +316,7 @@ public class RadioTreeItemController implements ClickHandler,
 		}
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0),
-				ZeroOffset.instance);
+				ZeroOffset.INSTANCE);
 		onPointerMove(wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
@@ -334,7 +334,7 @@ public class RadioTreeItemController implements ClickHandler,
 		}
 
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
-				ZeroOffset.instance);
+				ZeroOffset.INSTANCE);
 
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
@@ -496,7 +496,7 @@ public class RadioTreeItemController implements ClickHandler,
 	private void editOnTap(boolean active, MouseEvent<?> event) {
 
 		editOnTap(active,
-				PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
+				PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE));
 	}
 
 	protected boolean editOnTap(boolean active, PointerEvent wrappedEvent) {
@@ -590,7 +590,7 @@ public class RadioTreeItemController implements ClickHandler,
 			return;
 		}
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
-				ZeroOffset.instance);
+				ZeroOffset.INSTANCE);
 		onPointerUp(wrappedEvent);
 	}
 

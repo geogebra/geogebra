@@ -883,7 +883,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	 *            ggb file URL
 	 */
 	public final static void loadURL_GGB(String ggburl) {
-		ViewW.fileLoader.getView().processFileName(ggburl);
+		ViewW.FILE_LOADER.getView().processFileName(ggburl);
 	}
 
 	@Override

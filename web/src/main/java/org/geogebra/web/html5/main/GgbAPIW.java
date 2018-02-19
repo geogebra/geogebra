@@ -146,10 +146,10 @@ public class GgbAPIW extends GgbAPI {
 	 * 
 	 * @param exportScale
 	 * @param transparent
-	 * @param DPI
+	 * @param dpi
 	 * @return png as String with "data:image/png;base64," header
 	 */
-	private String getPNG(double exportScale, boolean transparent, double DPI) {
+	private String getPNG(double exportScale, boolean transparent, double dpi) {
 		String url;
 
 		EuclidianViewWInterface ev = ((EuclidianViewWInterface) app
@@ -160,12 +160,12 @@ public class GgbAPIW extends GgbAPI {
 		url = ((EuclidianViewWInterface) app.getActiveEuclidianView())
 				.getExportImageDataUrl(exportScale, transparent);
 
-		if (MyDouble.isFinite(DPI) && DPI > 0 && ev instanceof EuclidianViewW) {
+		if (MyDouble.isFinite(dpi) && dpi > 0 && ev instanceof EuclidianViewW) {
 
 			JavaScriptInjector
 					.inject(GuiResourcesSimple.INSTANCE.rewritePHYS());
 
-			url = addDPI(url, DPI);
+			url = addDPI(url, dpi);
 
 		}
 
@@ -174,17 +174,17 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public boolean writePNGtoFile(String filename, double exportScale,
-			boolean transparent, double DPI) {
+			boolean transparent, double dpi) {
 
 		// make browser save/download PNG file
-		Browser.exportImage(getPNG(exportScale, transparent, DPI), filename);
+		Browser.exportImage(getPNG(exportScale, transparent, dpi), filename);
 
 		return true;
 	}
 
 	@Override
 	public String getPNGBase64(double exportScale, boolean transparent,
-			double DPI, boolean copyToClipboard) {
+			double dpi, boolean copyToClipboard) {
 		if (app.getGuiManager() != null) {
 			app.getGuiManager().getLayout().getDockManager().ensureFocus();
 
@@ -195,7 +195,7 @@ public class GgbAPIW extends GgbAPI {
 								exportScale, transparent));
 			}
 		}
-		return pngBase64(getPNG(exportScale, transparent, DPI));
+		return pngBase64(getPNG(exportScale, transparent, dpi));
 	}
 
 	private static String pngBase64(String pngURL) {
@@ -457,7 +457,7 @@ public class GgbAPIW extends GgbAPI {
 		}
 		getKernel().getConstruction().getConstructionDefaults()
 				.getDefaultsXML(defaults2d, defaults3d);
-		String geogebra_javascript = getKernel().getLibraryJavaScript();
+		String geogebraJavascript = getKernel().getLibraryJavaScript();
 
 		if (!"".equals(macroXml)) {
 			writeMacroImages(archiveContent);
@@ -474,8 +474,8 @@ public class GgbAPIW extends GgbAPI {
 					defaults3d.toString());
 		}
 
-		if (!StringUtil.emptyTrim(geogebra_javascript)) {
-			archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebra_javascript);
+		if (!StringUtil.emptyTrim(geogebraJavascript)) {
+			archiveContent.put(MyXMLio.JAVASCRIPT_FILE, geogebraJavascript);
 		}
 
 		archiveContent.put(MyXMLio.XML_FILE, constructionXml);

@@ -73,7 +73,7 @@ public class Web implements EntryPoint {
 	// this could be done easily now with a boolean parameter
 	private native void allowRerun() /*-{
 		$wnd.ggbRerun = function() {
-			@org.geogebra.web.full.Web::run()();
+			@org.geogebra.web.full.Web::loadAppletAsync()();
 		}
 	}-*/;
 

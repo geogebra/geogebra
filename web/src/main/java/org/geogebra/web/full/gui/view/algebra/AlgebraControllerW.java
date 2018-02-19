@@ -48,7 +48,7 @@ public class AlgebraControllerW extends AlgebraController
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.instance);
+		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.INSTANCE);
 		event.setIsRightClick(true);
 		mousePressed(event);
 	}
@@ -97,7 +97,7 @@ public class AlgebraControllerW extends AlgebraController
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
+		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE));
 	}
 
 
@@ -105,7 +105,7 @@ public class AlgebraControllerW extends AlgebraController
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), ZeroOffset.instance);
+		AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), ZeroOffset.INSTANCE);
 		Element el = Element.as(event.getNativeEvent().getEventTarget());
 		
 		if (el == ((AlgebraViewW) getView()).getElement()) {
@@ -123,7 +123,7 @@ public class AlgebraControllerW extends AlgebraController
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
+		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.INSTANCE);
 		Element el = Element.as(event.getNativeEvent().getEventTarget());
 		
 		if (el == ((AlgebraViewW) getView()).getElement()) {

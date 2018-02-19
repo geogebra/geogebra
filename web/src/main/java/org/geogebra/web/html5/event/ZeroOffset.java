@@ -5,8 +5,8 @@ import java.util.LinkedList;
 import org.geogebra.common.euclidian.event.PointerEventType;
 
 public class ZeroOffset implements HasOffsets {
-
-	public static final ZeroOffset instance = new ZeroOffset();
+	/** singleton instance */
+	public static final ZeroOffset INSTANCE = new ZeroOffset();
 	private LinkedList<PointerEvent> mousePool = new LinkedList<>();
 	private LinkedList<PointerEvent> touchPool = new LinkedList<>();
 

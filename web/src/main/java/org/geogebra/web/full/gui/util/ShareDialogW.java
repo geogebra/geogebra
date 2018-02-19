@@ -171,11 +171,11 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 		String title = StringUtil.empty(app.getActiveMaterial().getTitle()) ? app
 				.getKernel().getConstruction().getTitle()
 				: app.getActiveMaterial().getTitle();
-		String source_desc = (app.getActiveMaterial() != null) ? "&source="
+		String sourceDesc = (app.getActiveMaterial() != null) ? "&source="
 				+ app.getActiveMaterial().getId() + "&desc=" + title : "";
 		Anchor edmodolink = new Anchor(new NoDragImage(AppResources.INSTANCE
 				.social_edmodo().getSafeUri().asString()).toString(), true,
-				"http://www.edmodo.com/home?share=1 " + source_desc + "&url="
+				"http://www.edmodo.com/home?share=1 " + sourceDesc + "&url="
 						+ GeoGebraConstants.TUBE_URL_SHORT + sharingKey,
 				"_blank");
 		edmodolink.addClickHandler(closePopupHandler);

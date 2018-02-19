@@ -171,7 +171,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 		data = ImageResizer.resizeImage(imgDataURL, ICON_WIDTH, ICON_HEIGHT);
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zip_directory = md5e.encrypt(data);
+		String zipDirectory = md5e.encrypt(data);
 
 		String fn = fileName;
 		int index = fileName.lastIndexOf('/');
@@ -183,7 +183,7 @@ public class ToolNameIconPanelW extends VerticalPanel implements BlurHandler,
 
 		// filename will be of form
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"Mobi
-		iconFileName = zip_directory + '/' + fn;
+		iconFileName = zipDirectory + '/' + fn;
 
 		app.getImageManager().addExternalImage(iconFileName, data);
 		icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));

@@ -17,20 +17,13 @@ import com.google.gwt.resources.client.ImageResource;
  */
 public class GeoGebraIconW {
 
-	private static StyleBarResources LafIcons = StyleBarResources.INSTANCE;
+	private static StyleBarResources lafIcons = StyleBarResources.INSTANCE;
 	private static MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
-	/*
-	 * private static ImageResource[] pointStyleIcons = {
-	 * (LafIcons.point_full()), (LafIcons.point_cross_diag()),
-	 * (LafIcons.point_empty()), (LafIcons.point_cross()),
-	 * (LafIcons.point_diamond()), (LafIcons.point_diamond_empty()),
-	 * (LafIcons.point_up()), (LafIcons.point_down()), (LafIcons.point_right()),
-	 * (LafIcons.point_left())};
-	 */
+
 
 	private static ImageResource[] gridStyleIcons = {
-			(LafIcons.stylingbar_empty()), (LafIcons.grid()),
-			(LafIcons.polar_grid()), (LafIcons.isometric_grid()) };
+			(lafIcons.stylingbar_empty()), (lafIcons.grid()),
+			(lafIcons.polar_grid()), (lafIcons.isometric_grid()) };
 
 	private static SVGResource[] pointStyleSVGIcons = {
 			matIcons.point_full(),
@@ -39,13 +32,6 @@ public class GeoGebraIconW {
 			matIcons.point_diamond_empty(), matIcons.point_up(),
 			matIcons.point_down(), matIcons.point_right(),
 			matIcons.point_left(), matIcons.point_no_outline() };
-
-	/*
-	 * private static ImageResource[] lineStyleIcons = { LafIcons.line_solid(),
-	 * LafIcons.line_dashed_long(), LafIcons.line_dashed_short(),
-	 * LafIcons.line_dotted(), LafIcons.line_dash_dot(),
-	 * LafIcons.point_cross_diag() };
-	 */
 	
 	private static SVGResource[] lineStyleSVGIcons = {
 			matIcons.line_solid(),
@@ -58,12 +44,6 @@ public class GeoGebraIconW {
 			matIcons.pattern_dots(), matIcons.pattern_cross_hatching(),
 			matIcons.pattern_honeycomb() };
 
-	/*
-	 * private static ImageResource[] fillStyleIcons = {
-	 * (LafIcons.pattern_filled()), (LafIcons.pattern_hatching()),
-	 * (LafIcons.pattern_dots()), (LafIcons.pattern_cross_hatching()),
-	 * (LafIcons.pattern_honeycomb()) };
-	 */
 	/**
 	 * creates LineStyle icon
 	 * 

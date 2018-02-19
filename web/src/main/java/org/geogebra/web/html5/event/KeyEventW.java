@@ -7,7 +7,7 @@ import org.geogebra.common.util.debug.Log;
 public final class KeyEventW
 		extends org.geogebra.common.euclidian.event.KeyEvent {
 
-	private static final LinkedList<KeyEventW> pool = new LinkedList<>();
+	private static final LinkedList<KeyEventW> POOL = new LinkedList<>();
 	private com.google.gwt.event.dom.client.KeyPressEvent event;
 
 	private KeyEventW(com.google.gwt.event.dom.client.KeyPressEvent e) {
@@ -17,17 +17,17 @@ public final class KeyEventW
 
 	public static KeyEventW wrapEvent(
 	        com.google.gwt.event.dom.client.KeyPressEvent e) {
-		if (!pool.isEmpty()) {
-			KeyEventW wrap = pool.getLast();
+		if (!POOL.isEmpty()) {
+			KeyEventW wrap = POOL.getLast();
 			wrap.event = e;
-			pool.removeLast();
+			POOL.removeLast();
 			return wrap;
 		}
 		return new KeyEventW(e);
 	}
 
 	public void release() {
-		KeyEventW.pool.add(this);
+		KeyEventW.POOL.add(this);
 	}
 
 	@Override

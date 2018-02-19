@@ -1487,10 +1487,10 @@ public abstract class AppW extends App implements SetLabels {
 		// available
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
-		String zip_directory = md5e.encrypt(url);
+		String zipDirectory = md5e.encrypt(url);
 
 		// with dummy extension, maybe gif or jpg in real
-		String imgFileName = zip_directory + ".png";
+		String imgFileName = zipDirectory + ".png";
 
 		String fn = imgFileName;
 		int index = imgFileName.lastIndexOf('/');
@@ -1502,7 +1502,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		// filename will be of form
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
-		imgFileName = zip_directory + '/' + fn;
+		imgFileName = zipDirectory + '/' + fn;
 
 		doDropHappened(imgFileName, url);
 		if (insertImageCallback != null) {
@@ -1697,12 +1697,12 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * 
-	 * @param this_app
+	 * @param thisApp
 	 *            application
 	 * @return a kernel
 	 */
-	protected Kernel newKernel(App this_app) {
-		return new Kernel(this_app, new GeoFactory());
+	protected Kernel newKernel(App thisApp) {
+		return new Kernel(thisApp, new GeoFactory());
 	}
 
 	/**

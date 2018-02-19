@@ -22,7 +22,7 @@ public class ViewW {
 	private AppW app;
 
 	/** Loads file into active GeoGebraFrame */
-	public static final LoadFilePresenter fileLoader = new LoadFilePresenter();
+	public static final LoadFilePresenter FILE_LOADER = new LoadFilePresenter();
 
 	public ViewW(Element container, AppW app) {
 		this.app = app;

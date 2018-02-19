@@ -12,10 +12,9 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
-import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.himamis.retex.editor.share.util.Unicode;
 
-public abstract class InputDialogRotateW extends AngleInputDialogW implements KeyUpHandler {
+public abstract class InputDialogRotateW extends AngleInputDialogW {
 
 
 	GeoPolygon[] polys;
@@ -23,14 +22,14 @@ public abstract class InputDialogRotateW extends AngleInputDialogW implements Ke
 	
 	protected EuclidianController ec;
 
-	final protected static String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING; // 45
+	final protected static String DEFAULT_ROTATE_ANGLE = Unicode.FORTY_FIVE_DEGREES_STRING; // 45
 																				// degrees
 
 	public InputDialogRotateW(AppW app, String title,
 			InputHandler handler, GeoPolygon[] polys, 
 			GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getLocalization().getMenu("Angle"), title,
-				defaultRotateAngle, false,
+				DEFAULT_ROTATE_ANGLE, false,
 				handler, false);
 
 		this.polys = polys;

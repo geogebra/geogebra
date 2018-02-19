@@ -446,8 +446,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public static void handleLoadFile(ArticleElement articleElement, AppW app) {
 		ViewW view = new ViewW(articleElement, app);
-		ViewW.fileLoader.setView(view);
-		ViewW.fileLoader.onPageLoad();
+		ViewW.FILE_LOADER.setView(view);
+		ViewW.FILE_LOADER.onPageLoad();
 	}
 
 	/**
@@ -663,7 +663,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		this.ae.removeFromParent();
 		this.ae = null;
 		this.app = null;
-		ViewW.fileLoader.setView(null);
+		ViewW.FILE_LOADER.setView(null);
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
 		}

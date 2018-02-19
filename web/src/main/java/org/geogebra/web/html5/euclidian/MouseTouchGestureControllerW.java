@@ -190,7 +190,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void handleLongTouch(int x, int y) {
 		Log.debug("LONG TOUCH");
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
-		        ZeroOffset.instance);
+		        ZeroOffset.INSTANCE);
 		if (!app.isUnbundled()) {
 			event.setIsRightClick(true);
 		}
@@ -332,7 +332,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			// offset again
 			ec.wrapMouseReleased(new PointerEvent(ec.mouseLoc.x,
 			        ec.mouseLoc.y,
-			        PointerEventType.TOUCH, ZeroOffset.instance));
+			        PointerEventType.TOUCH, ZeroOffset.INSTANCE));
 		} else {
 			// multitouch-event
 			// ignore next touchMove and touchEnd events with one touch

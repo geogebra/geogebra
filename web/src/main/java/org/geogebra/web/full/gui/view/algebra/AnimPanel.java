@@ -36,7 +36,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	/**
 	 * Animation speeds
 	 */
-	final static double animSpeeds[] = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
+	final static double ANIM_SPEEDS[] = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
 			1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	private final RadioTreeItem radioTreeItem;
 	private MyToggleButtonW btnSpeedDown;
@@ -349,7 +349,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void setSpeed() {
-		double speed = animSpeeds[this.speedIndex];
+		double speed = ANIM_SPEEDS[this.speedIndex];
 		this.radioTreeItem.geo.setAnimationSpeed(speed);
 		setSpeedText(speed);
 	}
@@ -389,7 +389,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	}
 
 	private void speedUp() {
-		if (this.speedIndex < animSpeeds.length - 1) {
+		if (this.speedIndex < ANIM_SPEEDS.length - 1) {
 			this.speedIndex++;
 			setSpeed();
 		}

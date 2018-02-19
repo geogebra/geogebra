@@ -89,7 +89,7 @@ public class OptionsPanelW extends FlowPanel
 	private ListBox cbLogAxes;
 	private Localization loc;
 
-	private final static int fieldWidth = 8;
+	private final static int FIELD_WIDTH = 8;
 
 	private class PropertyChangeHandler implements ClickHandler {
 		@Override
@@ -343,7 +343,7 @@ public class OptionsPanelW extends FlowPanel
 		ckAutoBarWidth = new CheckBox();
 		ckAutoBarWidth.addClickHandler(this);
 		lblBarWidth = new Label();
-		fldBarWidth = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldBarWidth = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
 		fldBarWidth.setEditable(true);
 		fldBarWidth.addKeyHandler(new PropertyKeyHandler(fldBarWidth));
 		fldBarWidth.addBlurHandler(this);
@@ -439,12 +439,12 @@ public class OptionsPanelW extends FlowPanel
 		fldYMax.addBlurHandler(this);
 
 		lblXInterval = new Label();
-		fldXInterval = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldXInterval = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
 		fldXInterval.addKeyHandler(new PropertyKeyHandler(fldXInterval));
 		fldXInterval.addBlurHandler(this);
 
 		lblYInterval = new Label();
-		fldYInterval = new AutoCompleteTextFieldW(fieldWidth, app);
+		fldYInterval = new AutoCompleteTextFieldW(FIELD_WIDTH, app);
 		fldYInterval.addKeyHandler(new PropertyKeyHandler(fldYInterval));
 		fldYInterval.addBlurHandler(this);
 

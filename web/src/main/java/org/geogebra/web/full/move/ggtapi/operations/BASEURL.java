@@ -12,15 +12,15 @@ public final class BASEURL {
 	/**
 	 * the start of the url
 	 */
-	public static final String urlStart = buildBaseURL();
+	public static final String URL_START = buildBaseURL();
 	/**
 	 * the html that opens the window
 	 */
-	public static final String opener = "html/opener.html";
+	public static final String OPENER = "html/opener.html";
 	/**
 	 * the callback
 	 */
-	public static final String callbackHTML = "html/ggtcallback.html";
+	public static final String CALLBACK_HTML = "html/ggtcallback.html";
 
 	private static String buildBaseURL() {
 		return GWT.getModuleBaseForStaticFiles();
@@ -31,13 +31,13 @@ public final class BASEURL {
 	 */
 	public static String getCallbackUrl() {
 
-		return BASEURL.urlStart + BASEURL.callbackHTML;
+		return BASEURL.URL_START + BASEURL.CALLBACK_HTML;
 	}
 
 	/**
 	 * @return the url that will redirect the window to GGT login
 	 */
 	public static String getOpenerUrl() {
-		return BASEURL.urlStart + BASEURL.opener;
+		return BASEURL.URL_START + BASEURL.OPENER;
 	}
 }

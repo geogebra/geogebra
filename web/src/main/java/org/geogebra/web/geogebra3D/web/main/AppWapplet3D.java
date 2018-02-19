@@ -53,8 +53,8 @@ public class AppWapplet3D extends AppWapplet {
 	}
 
 	@Override
-	protected Kernel newKernel(App this_app) {
-		return new Kernel3D(this_app, new GeoFactory3D());
+	protected Kernel newKernel(App thisApp) {
+		return new Kernel3D(thisApp, new GeoFactory3D());
 	}
 
 	@Override

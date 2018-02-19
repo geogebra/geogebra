@@ -49,8 +49,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	GPaint currentPaint = GColor.newColor(255, 255, 255, 255);
 
-	private double[] dash_array = null;
-	private boolean nativeDashUsed = false;
+	private double[] dashArray = null;
 	private JsArrayNumber jsarrn;
 
 	private int canvasWidth;
@@ -397,7 +396,7 @@ public class GGraphics2DW implements GGraphics2D {
 			} else {
 				setStrokeDash(context, null);
 			}
-			dash_array = dasharr;
+			dashArray = dasharr;
 		}
 	}
 
@@ -408,13 +407,10 @@ public class GGraphics2DW implements GGraphics2D {
 
 		if (typeof ctx.setLineDash === 'function') {
 			ctx.setLineDash(dasharray);
-			this.@org.geogebra.web.html5.awt.GGraphics2DW::nativeDashUsed = true;
 		} else if (typeof ctx.mozDash !== 'undefined') {
 			ctx.mozDash = dasharray;
-			this.@org.geogebra.web.html5.awt.GGraphics2DW::nativeDashUsed = true;
 		} else if (typeof ctx.webkitLineDash !== 'undefined') {
 			ctx.webkitLineDash = dasharray;
-			this.@org.geogebra.web.html5.awt.GGraphics2DW::nativeDashUsed = true;
 		}
 
 	}-*/;
@@ -471,7 +467,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 		return new GBasicStrokeW(context.getLineWidth(),
 		        GBasicStrokeW.getCap(context.getLineCap()),
-				GBasicStrokeW.getJoin(context.getLineJoin()), 0, dash_array);
+				GBasicStrokeW.getJoin(context.getLineJoin()), 0, dashArray);
 	}
 
 	@Override
@@ -703,12 +699,12 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void setClip(int x, int y, int width, int height) {
 
-		double[] dash_array_save = dash_array;
-		dash_array = null;
+		double[] dashArraySave = dashArray;
+		dashArray = null;
 		GShape sh = AwtFactory.getPrototype().newRectangle(x, y,
 		        width, height);
 		setClip(sh);
-		dash_array = dash_array_save;
+		dashArray = dashArraySave;
 
 		/*
 		 * alternative: makes clipping bad, see #3212
@@ -818,7 +814,7 @@ public class GGraphics2DW implements GGraphics2D {
 
 	@Override
 	public void setTransparent() {
-		setComposite(GAlphaCompositeW.Src);
+		setComposite(GAlphaCompositeW.SRC);
 	}
 
 	public void fillWith(GColor color) {
