@@ -146,12 +146,13 @@ public class UndoManagerW extends UndoManager {
 	}
 
 	@Override
-	protected void loadUndoInfo(final AppState info) {
+	protected void loadUndoInfo(final AppState info, String slideID) {
 		if (info == null) {
 			Log.warn("No undo info.");
 			return;
 		}
 		try {
+			app.setActiveSlide(slideID);
 			app.getEuclidianView1().setKeepCenter(false);
 			// load from file
 			String tempXML = ((AppStateWeb) info).getXml();

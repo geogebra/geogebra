@@ -207,7 +207,8 @@ public class UndoManagerD extends UndoManager {
 	 * restore info at position pos of undo list
 	 */
 	@Override
-	final protected synchronized void loadUndoInfo(final AppState info) {
+	final protected synchronized void loadUndoInfo(final AppState info,
+			String slideID) {
 
 		InputStream is = null;
 

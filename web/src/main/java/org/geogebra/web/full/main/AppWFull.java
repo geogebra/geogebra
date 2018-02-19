@@ -1031,7 +1031,15 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 	}
 	@Override
 	public void executeAction(EventType action, String[] args) {
-		getPageController().executeAction(action, args);
+		if (getPageController() != null) {
+			getPageController().executeAction(action, args);
+		}
+	}
+
+	public void setActiveSlide(String slideID) {
+		if (getPageController() != null) {
+			getPageController().setActiveSlide(slideID);
+		}
 	}
 
 }

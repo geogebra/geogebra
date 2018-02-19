@@ -1,9 +1,9 @@
 package org.geogebra.common.kernel;
 
+import java.util.ArrayList;
+
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
-
-import java.util.ArrayList;
 
 /**
  * String based undo manager
@@ -89,7 +89,7 @@ public class DefaultUndoManager extends UndoManager {
     }
 
     @Override
-    protected void loadUndoInfo(AppState state) {
+	protected void loadUndoInfo(AppState state, String slideID) {
         try {
             processXML(((DefaultAppState) state).getXml());
         } catch (Exception e) {

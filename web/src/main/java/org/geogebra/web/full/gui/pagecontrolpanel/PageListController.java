@@ -74,6 +74,11 @@ public class PageListController implements PageListControllerInterface,
 		return slides;
 	}
 
+	/**
+	 * @param i
+	 *            index
+	 * @return preview card at given index
+	 */
 	public PagePreviewCard getCard(int i) {
 		return slides.get(i);
 	}
@@ -473,20 +478,27 @@ public class PageListController implements PageListControllerInterface,
 			}
 			String perspXML = app.getGgbApi().getPerspectiveXML();
 			addNewPreviewCard(false, idx, file);
-			loadSlide(null, idx, false);
+			loadSlide(null, idx, file.isEmpty());
 			setCardSelected(getCard(idx));
 			updatePreviewImage();
 			app.getGgbApi().setPerspective(perspXML);
 		} else if (action == EventType.REMOVE_SLIDE) {
-
-			removeSlide(getSlideCount() - 1);
-
+			if (getSlideCount() > 1) {
+				removeSlide(getSlideCount() - 1);
+				loadSlide(null, getSlideCount() - 1, false);
+				setCardSelected(getCard(getSlideCount() - 1));
+			}
 		} else if (action == EventType.DUPLICATE_SLIDE) {
 			duplicateSlide(slides.get(Integer.parseInt(args[0])));
 		} else if (action == EventType.MOVE_SLIDE) {
 			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		}
 		((AppWapplet) app).getAppletFrame().getPageControlPanel().update();
+
+	}
+
+	public void setActiveSlide(String slideID) {
+		selectCard(slides.get(Integer.parseInt(slideID)));
 
 	}
 

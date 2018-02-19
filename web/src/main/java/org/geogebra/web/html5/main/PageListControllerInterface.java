@@ -43,4 +43,6 @@ public interface PageListControllerInterface {
 
 
 	void executeAction(EventType action, String[] args);
+
+	void setActiveSlide(String slideID);
 }

@@ -78,20 +78,7 @@ public abstract class UndoManager {
 	public synchronized void undo() {
 		if (undoPossible()) {
 			UndoCommand last = iterator.previous();
-			if (last.getAction() != null) {
-				last.undoAction(this);
-			} else {
-				UndoCommand prev = iterator.previous();
-				if (prev.getAppState() != null) {
-					loadUndoInfo(prev.getAppState());
-				} else {
-					// TODO if prev is ADD_SLIDE this resets last slide; not
-					// generic
-					prev.undoAction(this);
-					prev.redo(this);
-				}
-				iterator.next();
-			}
+			last.undo(this, iterator);
 			updateUndoActions();
 		}
 	}
@@ -138,7 +125,7 @@ public abstract class UndoManager {
 	final public synchronized void restoreCurrentUndoInfo() {
 		app.getSelectionManager().storeSelectedGeosNames();
 		if (iterator != null) {
-			loadUndoInfo(iterator.previous().getAppState());
+			loadUndoInfo(iterator.previous().getAppState(), null);
 			iterator.next();
 			updateUndoActions();
 		}
@@ -209,7 +196,7 @@ public abstract class UndoManager {
 	 * @param state
 	 *            stored state
 	 */
-	protected abstract void loadUndoInfo(AppState state);
+	protected abstract void loadUndoInfo(AppState state, String slideID);
 
 	/**
 	 * Clears all undo information

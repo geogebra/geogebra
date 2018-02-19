@@ -1,7 +1,10 @@
 package org.geogebra.common.kernel;
 
+import java.util.ListIterator;
+
 import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.common.util.debug.Log;
 
 public class UndoCommand {
 
@@ -36,7 +39,7 @@ public class UndoCommand {
 
 	public void redo(UndoManager undoManager) {
 		if (appState != null) {
-			undoManager.loadUndoInfo(appState);
+			undoManager.loadUndoInfo(appState, slideID);
 		} else {
 			undoManager.executeAction(action, args);
 		}
@@ -69,6 +72,30 @@ public class UndoCommand {
 
 	public String getSlideID() {
 		return slideID;
+	}
+
+	public void undo(UndoManager undoManager,
+			ListIterator<UndoCommand> iterator) {
+		if (getAction() != null) {
+			Log.debug("UNDOING" + action);
+			undoAction(undoManager);
+		} else {
+			UndoCommand prev = iterator.previous();
+			if (prev.getAppState() != null) {
+				Log.debug("UNDO FOR" + prev.getSlideID());
+				undoManager.loadUndoInfo(prev.getAppState(), prev.getSlideID());
+				iterator.next();
+			} else {
+				// TODO if prev is ADD_SLIDE this resets last slide; not
+				// generic
+				Log.debug("RE-UNDOING" + prev.action);
+				prev.undoAction(undoManager);
+				prev.redo(undoManager);
+			}
+
+
+		}
+
 	}
 
 }
