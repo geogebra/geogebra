@@ -130,129 +130,106 @@ public final class DrawImage extends Drawable {
 			double ax = 0;
 			double ay = 0;
 
-			// we have corners C and D
-			if (view.getApplication().has(Feature.MOW_IMAGE_BOUNDING_BOX)
-					&& C != null && D != null) {
-				if (!C.isDefined() || C.isInfinite() || !D.isDefined()
-						|| D.isInfinite()) {
+			if (A != null) {
+				if (!A.isDefined() || A.isInfinite()) {
 					isVisible = false;
 					return;
 				}
-				at.setTransform(view.getCoordTransform());
-				at.translate(D.getInhomX(), D.getInhomY());
-				double DCx = C.inhomX - D.getInhomX();
-				double DCy = C.inhomY - D.getInhomY();
-				tempAT.setTransform(DCx, DCy, -DCy, DCx, 0, 0);
-				at.concatenate(tempAT);
-				double xscale = 1.0 / width;
-				at.scale(xscale, -xscale);
-			} else {
-				if (A != null) {
-					if (!A.isDefined() || A.isInfinite()) {
-						isVisible = false;
-						return;
-					}
-					ax = A.inhomX;
-					ay = A.inhomY;
-				}
-				// set transform according to corners
-				at.setTransform(view.getCoordTransform()); // last transform:
-															// real
+				ax = A.inhomX;
+				ay = A.inhomY;
+			}
+			// set transform according to corners
+			at.setTransform(view.getCoordTransform()); // last transform:
+														// real
 														// world
 														// -> screen
-				at.translate(ax, ay); // translate to first corner A
-				if (B == null) {
-					// we only have corner A
-					if (D == null) {
-						// use original pixel width and height of image
-						at.scale(view.getInvXscale(),
+			at.translate(ax, ay); // translate to first corner A
+			if (B == null) {
+				// we only have corner A
+				if (D == null) {
+					// use original pixel width and height of image
+					at.scale(view.getInvXscale(),
 							// make sure old files work
 							// https://dev.geogebra.org/trac/changeset/57611
 							geo.getKernel().getApplication().fileVersionBefore(
 									new int[] { 5, 0, 397, 0 })
 											? -view.getInvXscale()
 											: -view.getInvYscale());
-					}
-					// we have corners A and D
-					else {
-						if (!D.isDefined() || D.isInfinite()) {
-							isVisible = false;
-							return;
-						}
-						// rotate to coord system (-ADn, AD)
-						double ADx = D.inhomX - ax;
-						double ADy = D.inhomY - ay;
-						tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);
-						at.concatenate(tempAT);
-						// scale height of image to 1
-						double yscale = 1.0 / height;
-						at.scale(yscale, -yscale);
-					}
-				} else {
-					if (!B.isDefined() || B.isInfinite()) {
+				}
+				// we have corners A and D
+				else {
+					if (!D.isDefined() || D.isInfinite()) {
 						isVisible = false;
 						return;
 					}
-					// we have corners A and B
-					if (D == null) {
-						// rotate to coord system (AB, ABn)
-						double ABx = B.inhomX - ax;
-						double ABy = B.inhomY - ay;
-						tempAT.setTransform(ABx, ABy, -ABy, ABx, 0, 0);
-						at.concatenate(tempAT);
-						// scale width of image to 1
-						double xscale = 1.0 / width;
-						at.scale(xscale, -xscale);
-					} else { // we have corners A, B and D
-						if (!D.isDefined() || D.isInfinite()) {
-							isVisible = false;
-							return;
-						}
-						// shear to coord system (AB, AD)
-						double ABx = B.inhomX - ax;
-						double ABy = B.inhomY - ay;
-						double ADx = D.inhomX - ax;
-						double ADy = D.inhomY - ay;
-						tempAT.setTransform(ABx, ABy, ADx, ADy, 0, 0);
-						at.concatenate(tempAT);
-						// scale width and height of image to 1
-						at.scale(1.0 / width, -1.0 / height);
+					// rotate to coord system (-ADn, AD)
+					double ADx = D.inhomX - ax;
+					double ADy = D.inhomY - ay;
+					tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);
+					at.concatenate(tempAT);
+					// scale height of image to 1
+					double yscale = 1.0 / height;
+					at.scale(yscale, -yscale);
+				}
+			} else {
+				if (!B.isDefined() || B.isInfinite()) {
+					isVisible = false;
+					return;
+				}
+				// we have corners A and B
+				if (D == null) {
+					// rotate to coord system (AB, ABn)
+					double ABx = B.inhomX - ax;
+					double ABy = B.inhomY - ay;
+					tempAT.setTransform(ABx, ABy, -ABy, ABx, 0, 0);
+					at.concatenate(tempAT);
+					// scale width of image to 1
+					double xscale = 1.0 / width;
+					at.scale(xscale, -xscale);
+				} else { // we have corners A, B and D
+					if (!D.isDefined() || D.isInfinite()) {
+						isVisible = false;
+						return;
 					}
-				}
-				if (geoImage.isCentered()) {
-					// move image to the center
-					at.translate(-width / 2.0, -height / 2.0);
-				} else {
-					// move image up so that A becomes lower left corner
-					at.translate(0, -height);
+					// shear to coord system (AB, AD)
+					double ABx = B.inhomX - ax;
+					double ABy = B.inhomY - ay;
+					double ADx = D.inhomX - ax;
+					double ADy = D.inhomY - ay;
+					tempAT.setTransform(ABx, ABy, ADx, ADy, 0, 0);
+					at.concatenate(tempAT);
+					// scale width and height of image to 1
+					at.scale(1.0 / width, -1.0 / height);
 				}
 			}
-			labelRectangle.setBounds(0, 0, width, height);
-
-			// calculate bounding box for isInside
-			classicBoundingBox.setBounds(0, 0, width, height);
-			GShape shape = at.createTransformedShape(classicBoundingBox);
-			classicBoundingBox = shape.getBounds();
-
-			try {
-				// for hit testing
-				atInverse = at.createInverse();
-			} catch (Exception e) {
-				isVisible = false;
-				return;
+			if (geoImage.isCentered()) {
+				// move image to the center
+				at.translate(-width / 2.0, -height / 2.0);
+			} else {
+				// move image up so that A becomes lower left corner
+				at.translate(0, -height);
 			}
-
-			// improve rendering for sheared and scaled images (translations
-			// don't need this)
-			// turns false if the image doen't want interpolation
-			needsInterpolationRenderingHint = (geoImage.isInterpolate())
-					&& (!isTranslation(at) || view.getPixelRatio() != 1);
-
-			// MOW-380
-			// if (C != null) {
-			// geoImage.setCorner(null, 3);
-			// }
 		}
+		labelRectangle.setBounds(0, 0, width, height);
+
+		// calculate bounding box for isInside
+		classicBoundingBox.setBounds(0, 0, width, height);
+		GShape shape = at.createTransformedShape(classicBoundingBox);
+		classicBoundingBox = shape.getBounds();
+
+		try {
+			// for hit testing
+			atInverse = at.createInverse();
+		} catch (Exception e) {
+			isVisible = false;
+			return;
+		}
+
+		// improve rendering for sheared and scaled images (translations
+		// don't need this)
+		// turns false if the image doen't want interpolation
+		needsInterpolationRenderingHint = (geoImage.isInterpolate())
+				&& (!isTranslation(at) || view.getPixelRatio() != 1);
 
 		if (isInBackground != geoImage.isInBackground()) {
 			isInBackground = !isInBackground;
@@ -473,11 +450,10 @@ public final class DrawImage extends Drawable {
 	private void updateImage(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
-		int eventY = event.getY();
+		// int eventY = event.getY();
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
-		GeoPoint C = new GeoPoint(geoImage.cons);
-		GeoPoint D = new GeoPoint(geoImage.cons);
+		GeoPoint D = geoImage.getCorner(2);
 		if (A == null) {
 			A = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(A, 1);
@@ -486,140 +462,37 @@ public final class DrawImage extends Drawable {
 			B = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(B, 2);
 		}
+		if (D == null) {
+			D = new GeoPoint(geoImage.cons);
+			geoImage.calculateCornerPoint(D, 3);
+		}
 		switch (handler) {
 		case TOP_RIGHT:
-			if (eventX - view
-					.toScreenCoordXd(A.getInhomX()) <= Math
-							.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			geoImage.setCorner(A, 0);
-			geoImage.setCorner(B, 1);
-			geoImage.setCorner(null, 2);
-			geoImage.setCorner(null, 3);
-			B.setX(view.toRealWorldCoordX(eventX));
-			B.updateCoords();
-			B.updateRepaint();
 			break;
 		case TOP_LEFT:
-			if (view.toScreenCoordXd(B.getInhomX())
-					- eventX <= Math.min(IMG_WIDTH_THRESHOLD,
-							image.getWidth())) {
-				return;
-			}
-			geoImage.setCorner(A, 0);
-			geoImage.setCorner(B, 1);
-			geoImage.setCorner(null, 2);
-			geoImage.setCorner(null, 3);
-			A.setX(view.toRealWorldCoordX(eventX));
-			A.updateCoords();
-			A.updateRepaint();
 			break;
 		case BOTTOM_RIGHT:
-			geoImage.calculateCornerPoint(D, 4);
-			geoImage.calculateCornerPoint(C, 3);
-			C.setX(view.toRealWorldCoordX(eventX));
-			C.setY(D.getInhomY());
-			C.updateCoords();
-			C.updateRepaint();
-			if (eventX - view.toScreenCoordXd(D.getInhomX()) <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			geoImage.setCorner(D, 2);
-			geoImage.setCorner(C, 3);
-			A.setY(view.toRealWorldCoordY(getBounds().getMaxY()));
-			A.updateCoords();
-			A.updateRepaint();
-			B.setX(C.getInhomX());
-			B.setY(A.getInhomY());
-			B.updateCoords();
-			B.updateRepaint();
 			break;
 		case BOTTOM_LEFT:
-			geoImage.calculateCornerPoint(D, 4);
-			D.setX(view.toRealWorldCoordX(eventX));
-			D.updateCoords();
-			D.updateRepaint();
-			geoImage.calculateCornerPoint(C, 3);
-			C.setX(B.getInhomX());
-			C.setY(D.getInhomY());
-			C.updateCoords();
-			C.updateRepaint();
-			if (view.toScreenCoordXd(C.getInhomX())
-					- eventX <= Math.min(IMG_WIDTH_THRESHOLD,
-							image.getWidth())) {
-				return;
-			}
-			geoImage.setCorner(D, 2);
-			geoImage.setCorner(C, 3);
-			B.setY(view.toRealWorldCoordY(getBounds().getMaxY()));
-			B.updateCoords();
-			B.updateRepaint();
-			A.setX(D.getInhomX());
-			A.setY(B.getInhomY());
-			A.updateCoords();
-			A.updateRepaint();
 			break;
 		case RIGHT:
-			geoImage.setCorner(null, 3);
-			geoImage.calculateCornerPoint(D, 4);
 			if (eventX - view.toScreenCoordXd(D.getInhomX()) <= Math
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			geoImage.setCorner(D, 2);
-			D.setEuclidianVisible(true);
-			D.updateCoords();
-			D.updateRepaint();
 			B.setX(view.toRealWorldCoordX(eventX));
 			B.updateCoords();
 			B.updateRepaint();
+			D.setX(A.getInhomX());
+			D.updateCoords();
+			D.updateRepaint();
+			geoImage.setCorner(D, 2);
 			break;
 		case LEFT:
-			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			geoImage.setCorner(null, 3);
-			geoImage.calculateCornerPoint(D, 4);
-			geoImage.setCorner(D, 2);
-			D.setEuclidianVisible(true);
-			D.setX(view.toRealWorldCoordX(eventX));
-			D.updateCoords();
-			D.updateRepaint();
-			A.setX(view.toRealWorldCoordX(eventX));
-			A.updateCoords();
-			A.updateRepaint();
 			break;
 		case TOP:
-			if (view.toScreenCoordYd(A.getInhomY()) - eventY <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			geoImage.setCorner(null, 3);
-			geoImage.calculateCornerPoint(D, 4);
-			geoImage.setCorner(D, 2);
-			D.setEuclidianVisible(true);
-			D.setY(view.toRealWorldCoordY(eventY));
-			D.updateCoords();
-			D.updateRepaint();
 			break;
 		case BOTTOM:
-			geoImage.setCorner(null, 3);
-			geoImage.calculateCornerPoint(D, 4);
-			if (eventY - view.toScreenCoordYd(D.getInhomY()) <= Math
-					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
-				return;
-			}
-			geoImage.setCorner(D, 2);
-			D.setEuclidianVisible(true);
-			A.setY(view.toRealWorldCoordY(eventY));
-			A.updateCoords();
-			A.updateRepaint();
-			B.setY(view.toRealWorldCoordY(eventY));
-			B.updateCoords();
-			B.updateRepaint();
 			break;
 		default:
 			break;
