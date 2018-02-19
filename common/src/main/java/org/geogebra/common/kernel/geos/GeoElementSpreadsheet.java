@@ -27,11 +27,11 @@ public class GeoElementSpreadsheet {
 			.compile("^(\\$?)([A-Z]+)(\\$?)([1-9][0-9]*)$");
 
 	/** regex group with "$" or "" for column */
-	public final static int MATCH_COLUMN_$ = 1;
+	public final static int MATCH_COLUMN_DOLLAR = 1;
 	/** regex group for column name */
 	public final static int MATCH_COLUMN = 2;
 	/** regex group with "$" or "" for row */
-	public final static int MATCH_ROW_$ = 3;
+	public final static int MATCH_ROW_DOLLAR = 3;
 	/** regex group for row number */
 	public final static int MATCH_ROW = 4;
 

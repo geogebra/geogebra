@@ -53,8 +53,8 @@ public class MaterialListElement extends FlowPanel
 	private FlowPanel materialElementContent;
 	private FlowPanel background;
 	protected FlowPanel infoPanel;
-	protected boolean isLocal;
-	protected boolean isOwnMaterial;
+	protected boolean localMaterial;
+	protected boolean ownMaterial;
 	protected Label title;
 	protected Label sharedBy;
 	private TextBox renameTitleBox;
@@ -102,8 +102,8 @@ public class MaterialListElement extends FlowPanel
 		this.loc = app.getLocalization();
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.material = m;
-		this.isLocal = isLocal;
-		this.isOwnMaterial = app.getLoginOperation().owns(m);
+		this.localMaterial = isLocal;
+		this.ownMaterial = app.getLoginOperation().owns(m);
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
 		if (!isLocal) {
@@ -169,7 +169,7 @@ public class MaterialListElement extends FlowPanel
 
 	protected void addTextInfo() {
 		this.infoPanel.add(this.title);
-		if (isOwnMaterial) {
+		if (ownMaterial) {
 			initRenameTextBox();
 		}
 		if (!isLocal()) {
@@ -178,7 +178,7 @@ public class MaterialListElement extends FlowPanel
 	}
 
 	protected void addOptions() {
-		if (isOwnMaterial && !isLocal()) {
+		if (ownMaterial && !isLocal()) {
 			addEditButton();
 			addViewButton();
 			addRenameButton();
@@ -508,7 +508,7 @@ public class MaterialListElement extends FlowPanel
 	 * 
 	 */
 	protected void openDefault() {
-		if (isOwnMaterial) {
+		if (ownMaterial) {
 			((DialogManagerW) app.getDialogManager()).getSaveDialog()
 					.showIfNeeded(editMaterial);
 		} else {
@@ -533,7 +533,7 @@ public class MaterialListElement extends FlowPanel
 	 * 
 	 */
 	protected void onEdit() {
-		if (!isLocal) {
+		if (!localMaterial) {
 			Log.debug(material.getType().toString());
 			if (material.getType() == MaterialType.book) {
 				((GeoGebraTubeAPIW) app.getLoginOperation()
@@ -733,7 +733,7 @@ public class MaterialListElement extends FlowPanel
 		 * if (this.favoriteButton != null) {
 		 * this.favoriteButton.setVisible(show); }
 		 */
-		if (isOwnMaterial && !isLocal()) {
+		if (ownMaterial && !isLocal()) {
 			this.sharedBy.setVisible(true);
 			this.viewButton.setVisible(show);
 			this.deleteButton.setVisible(show);
@@ -816,6 +816,6 @@ public class MaterialListElement extends FlowPanel
 	 * @return true if this material belongs to the signed in user
 	 */
 	public boolean isOwn() {
-		return this.isOwnMaterial;
+		return this.ownMaterial;
 	}
 }

@@ -58,7 +58,7 @@ public class AccessibilityButton implements AccessibilityInterface {
 	}
 
 	@Override
-	public void ignoreTab() {
+	public void setIgnoreTab() {
 		ignoreTab = true;
 	}
 

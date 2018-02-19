@@ -14,7 +14,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
 	private boolean wasAirplaneModeOn, wasWifiEnabled, wasBluetoothEnabled, wasScreenOn;
 	private GTimer checkTaskLockTimer = null;
 	private GTimer checkScreenState = null;
-	private boolean isCheating;
+	private boolean cheating;
 
 	/**
 	 * @param app
@@ -36,7 +36,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
         // screen should be on when started
         wasScreenOn = true;
         // no cheat at start
-        isCheating = false;
+        cheating = false;
 
         if (app.getVersion().isAndroidWebview()) {
             setJavascriptTargetToExamEnvironment();
@@ -176,7 +176,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
      */
-    public void airplaneModeTurnedOff() {
+	@Override
+	public void airplaneModeTurnedOff() {
         Log.debug("ExamEnvironmentW: airplane mode turned off");
         if (getStart() > 0) {
             initLists();
@@ -192,7 +193,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
      */
-    public void airplaneModeTurnedOn() {
+	@Override
+	public void airplaneModeTurnedOn() {
         Log.debug("ExamEnvironmentW: airplane mode turned on");
         if (getStart() > 0) {
             initLists();
@@ -200,7 +202,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.AIRPLANE_MODE_ON);
                 wasAirplaneModeOn = true;
-                isCheating = true;
+                cheating = true;
                 Log.debug("STOPPED CHEATING: airplane mode on");
             }
         }
@@ -209,7 +211,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
      */
-    public void wifiEnabled() {
+	@Override
+	public void wifiEnabled() {
         Log.debug("ExamEnvironmentW: wifi enabled");
         if (getStart() > 0) {
             initLists();
@@ -217,7 +220,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.WIFI_ENABLED);
                 wasWifiEnabled = true;
-                isCheating = true;
+                cheating = true;
                 Log.debug("STARTED CHEATING: wifi enabled");
             }
         }
@@ -226,7 +229,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
      */
-    public void wifiDisabled() {
+	@Override
+	public void wifiDisabled() {
         Log.debug("ExamEnvironmentW: wifi disabled");
         if (getStart() > 0) {
             initLists();
@@ -243,7 +247,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
      */
-    public void bluetoothEnabled() {
+	@Override
+	public void bluetoothEnabled() {
         Log.debug("ExamEnvironmentW: bluetooth enabled");
         if (getStart() > 0) {
             initLists();
@@ -251,7 +256,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
                 cheatingTimes.add(System.currentTimeMillis());
                 cheatingEvents.add(CheatingEvent.BLUETOOTH_ENABLED);
                 wasBluetoothEnabled = true;
-                isCheating = true;
+                cheating = true;
                 Log.debug("STARTED CHEATING: bluetooth enabled");
             }
         }
@@ -260,7 +265,8 @@ public class ExamEnvironmentW extends ExamEnvironment {
     /**
      * this method is called through js (see exportGeoGebraAndroidMethods())
      */
-    public void bluetoothDisabled() {
+	@Override
+	public void bluetoothDisabled() {
         Log.debug("ExamEnvironmentW: bluetooth disabled");
         if (getStart() > 0) {
             initLists();
@@ -276,7 +282,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
     @Override
 	public boolean isCheating() {
 		if (app.getVersion().isAndroidWebview()) {
-            return isCheating;
+            return cheating;
         }
 
         return super.isCheating();
@@ -328,7 +334,7 @@ public class ExamEnvironmentW extends ExamEnvironment {
 	@Override
 	protected void addCheatingTime() {
 		super.addCheatingTime();
-		isCheating = true;
+		cheating = true;
 	}
 
 }

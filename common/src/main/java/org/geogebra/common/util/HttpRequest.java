@@ -12,7 +12,7 @@ public abstract class HttpRequest {
 	/**
 	 * the default HTTP request timeout in seconds
 	 */
-	protected int DEFAULT_TIMEOUT = 10;
+	protected static final int DEFAULT_TIMEOUT = 10;
 	/**
 	 * current timeout for HTTP requests
 	 */

@@ -47,10 +47,8 @@ import com.himamis.retex.editor.web.MathFieldW;
  * ReTeX editor for CAS
  *
  */
-public class CASLaTeXEditor extends FlowPanel
- implements CASEditorW,
-		MathKeyboardListener,
-		MathFieldListener, BlurHandler {
+public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
+		MathKeyboardListener, MathFieldListener, BlurHandler {
 	/** suggestions */
 	InputSuggestions sug;
 	private final MathFieldW mf;

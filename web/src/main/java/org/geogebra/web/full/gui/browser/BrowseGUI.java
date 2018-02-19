@@ -294,7 +294,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			final Material material = getLastSelected().getMaterial();
 			app.setSyncStamp(Math.max(material.getModified(),
 			        material.getSyncStamp()));
-			if (getLastSelected().isLocal) {
+			if (getLastSelected().localMaterial) {
 				String key = material.getTitle();
 				app.getKernel()
 				        .getConstruction()
@@ -306,8 +306,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 							material.getSharingKeyOrId(), material.getTitle());
 				}
 				app.setLocalID(material.getLocalID());
-			} else if (!getLastSelected().isLocal
-			        && getLastSelected().isOwnMaterial) {
+			} else if (!getLastSelected().localMaterial
+			        && getLastSelected().ownMaterial) {
 				app.getKernel().getConstruction().setTitle(material.getTitle());
 				app.updateMaterialURL(material.getId(),
 						material.getSharingKeyOrId(), material.getTitle());

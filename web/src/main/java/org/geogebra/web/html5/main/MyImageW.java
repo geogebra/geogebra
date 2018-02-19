@@ -20,7 +20,7 @@ public final class MyImageW implements MyImage {
 	private Canvas canv;
 	private int width = 0;
 	private int height = 0;
-	private boolean isSVG;
+	private boolean svg;
 
 	/**
 	 * @param im
@@ -30,7 +30,7 @@ public final class MyImageW implements MyImage {
 	 */
 	public MyImageW(ImageElement im, boolean isSVG) {
 		this.img = im;
-		this.isSVG = isSVG;
+		this.svg = isSVG;
 
 		width = img.getWidth();
 		height = img.getHeight();
@@ -63,7 +63,7 @@ public final class MyImageW implements MyImage {
 
 	@Override
 	public boolean isSVG() {
-		return isSVG;
+		return svg;
 	}
 
 	@Override

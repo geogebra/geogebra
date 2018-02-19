@@ -181,7 +181,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private PropertiesView propertiesView;
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
-	private ToolBarW updateToolBar = null;
+	private ToolBarW toolbarForUpdate = null;
 	private DataCollectionView dataCollectionView;
 	private VirtualKeyboardGUI onScreenKeyboard;
 
@@ -1868,8 +1868,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 
 		final int ret = toolbarPanel.setMode(mode, m);
-		if (this.updateToolBar != null) {
-			this.updateToolBar.buildGui();
+		if (this.toolbarForUpdate != null) {
+			this.toolbarForUpdate.buildGui();
 		}
 		// layout.getDockManager().setToolbarMode(mode);
 		return ret;
@@ -2043,7 +2043,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	 *            will be updated every time setMode(int) is called
 	 */
 	public void setToolBarForUpdate(final ToolBarW toolBar) {
-		this.updateToolBar = toolBar;
+		this.toolbarForUpdate = toolBar;
 	}
 
 	@Override

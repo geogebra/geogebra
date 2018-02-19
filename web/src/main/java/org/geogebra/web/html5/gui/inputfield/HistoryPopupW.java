@@ -18,7 +18,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
         KeyUpHandler, ChangeHandler {
 
 	private AutoCompleteW textField;
-	private boolean isDownPopup;
+	private boolean downPopup;
 	private ListBox historyList;
 	private String originalTextEditorContent;
 
@@ -38,7 +38,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	}
 
 	public void setDownPopup(boolean isDownPopup) {
-		this.isDownPopup = isDownPopup;
+		this.downPopup = isDownPopup;
 	}
 
 	public void showPopup() {
@@ -72,7 +72,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	}
 
 	public boolean isDownPopup() {
-		return isDownPopup;
+		return downPopup;
 	}
 
 	@Override

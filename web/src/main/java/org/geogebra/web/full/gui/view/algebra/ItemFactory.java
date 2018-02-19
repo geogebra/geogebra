@@ -5,6 +5,9 @@ import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 
+/**
+ * Helper methods for creating new AV items
+ */
 public class ItemFactory {
 	/**
 	 * 

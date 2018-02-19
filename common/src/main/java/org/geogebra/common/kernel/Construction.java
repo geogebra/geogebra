@@ -2236,15 +2236,15 @@ public class Construction {
 		 * remove all "$" signs from label and try again.
 		 */
 		if (label1.indexOf('$') > -1) {
-			StringBuilder labelWithout$ = new StringBuilder(
+			StringBuilder labelWithoutDollar = new StringBuilder(
 					label1.length() - 1);
 			for (int i = 0; i < label1.length(); i++) {
 				char ch = label1.charAt(i);
 				if (ch != '$') {
-					labelWithout$.append(ch);
+					labelWithoutDollar.append(ch);
 				}
 			}
-			String labelString = labelWithout$.toString();
+			String labelString = labelWithoutDollar.toString();
 			// allow automatic creation of elements
 			geo = lookupLabel(labelString, allowAutoCreate);
 			if (geo != null) {
@@ -2254,7 +2254,7 @@ public class Construction {
 			if (labelString.charAt(0) >= '0' && labelString.charAt(0) <= '9') {
 				int cell = 0;
 				try {
-					cell = Integer.parseInt(labelWithout$.toString());
+					cell = Integer.parseInt(labelWithoutDollar.toString());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

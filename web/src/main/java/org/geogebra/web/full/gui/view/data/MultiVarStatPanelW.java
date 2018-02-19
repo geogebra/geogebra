@@ -14,7 +14,7 @@ import org.geogebra.web.html5.main.AppW;
 public class MultiVarStatPanelW extends BasicStatTableW implements
 		MultiVarStatTableListener {
 
-	private boolean isMinimalTable = false;
+	private boolean minimalTable = false;
 
 	/***************************************************
 	 * Constructs a MultiVarStatPanel
@@ -29,9 +29,8 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	}
 
 	public void setMinimalTable(boolean isMinimalTable) {
-		this.isMinimalTable = isMinimalTable;
+		this.minimalTable = isMinimalTable;
 		initStatTable();
-
 	}
 
 	@Override
@@ -44,7 +43,7 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 		String[] colNames = getModel().getColumnNames();
 		String[] ext = new String[colNames.length + 1];
 		ext[0] = "";
-   	System.arraycopy(colNames, 0, ext, 1, colNames.length);
+		System.arraycopy(colNames, 0, ext, 1, colNames.length);
 		return ext;
 	}
 
@@ -52,19 +51,14 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	public int getRowCount() {
 		return getModel().getRowCount() - 1;
 	}
-	
-	
-	
 
 	@Override
 	protected void initStatTable() {
-
 		statTable = new StatTableW();
 		statTable.setStatTable(getModel().getRowCount(), getModel().getRowNames(),
 				getColumnCount() + 1, getColumnNames());
 		clear();
 		add(statTable);
-		
 	}
 	
 	@Override
@@ -84,13 +78,12 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 
 	@Override
 	public boolean isMinimalTable() {
-		// TODO Auto-generated method stub
-		return isMinimalTable;
+		return minimalTable;
 	}
 
 	@Override
-    public void setValueAt(double value, int row, int column) {
-		   super.setValueAt(value, row, column + 1);
-	    }
+	public void setValueAt(double value, int row, int column) {
+		super.setValueAt(value, row, column + 1);
+	}
 
 }

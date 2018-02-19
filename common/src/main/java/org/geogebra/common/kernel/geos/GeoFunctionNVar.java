@@ -72,7 +72,7 @@ public class GeoFunctionNVar extends GeoElement
 	/** helper for pointin region dichotomy */
 	public static final int DICHO_MID = 2;
 
-	static private int DICHO_MAX_STEP = 20;
+	private static final int DICHO_MAX_STEP = 20;
 
 	private static FunctionExpander functionExpander;
 

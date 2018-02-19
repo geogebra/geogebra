@@ -77,14 +77,14 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 
 public class ExtremumFinder implements ExtremumFinderI {
 
-	private int MAX_ITERATIONS = 100;
+	private int maxIterations = 100;
 
 	/**
 	 * @param iterations
 	 *            maximum iterations
 	 */
 	public void setMaxIterations(int iterations) {
-		MAX_ITERATIONS = iterations;
+		maxIterations = iterations;
 	}
 
 	/**
@@ -219,7 +219,7 @@ public class ExtremumFinder implements ExtremumFinderI {
 
 		while (Math.abs(x - xm) > (t2 - .5 * (b - a))) {
 
-			if (iterations > MAX_ITERATIONS) {
+			if (iterations > maxIterations) {
 				return Double.NaN;
 			}
 			iterations++;

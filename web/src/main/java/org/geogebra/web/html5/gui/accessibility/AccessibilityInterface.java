@@ -23,7 +23,7 @@ public interface AccessibilityInterface {
 	 * Makes sure that TAB key is ignored.
 	 * FocusWidget does not allow -1 as tabIndex by default. 
 	 */
-	public void ignoreTab();
+	public void setIgnoreTab();
 	
 	/**
 	 * Set alternate text that is proper for screen readers.

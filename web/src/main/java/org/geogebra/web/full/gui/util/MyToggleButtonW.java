@@ -205,7 +205,7 @@ public class MyToggleButtonW extends ToggleButton implements MouseDownHandler {
 	 * key.
 	 * 
 	 */
-	public void ignoreTab() {
+	public void setIgnoreTab() {
 		this.ignoreTab = true;
 	}
 

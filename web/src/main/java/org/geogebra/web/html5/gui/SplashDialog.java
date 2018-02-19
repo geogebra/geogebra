@@ -20,7 +20,7 @@ public class SplashDialog extends SimplePanel {
 
 	boolean appLoaded = false;
 	boolean timerEllapsed = false;
-	boolean isPreviewExists = false;
+	boolean previewExists = false;
 	private Element article;
 
 	private Timer t = new Timer() {
@@ -39,11 +39,11 @@ public class SplashDialog extends SimplePanel {
 			GeoGebraFrameW frame) {
 		this.article = article;
 		this.geogebraFrame = frame;
-		isPreviewExists = checkIfPreviewExists(article)
+		previewExists = checkIfPreviewExists(article)
 				|| AppConfigDefault
 						.isUnbundledOrWhiteboard(article.getDataParamAppName());
 
-		if (!isPreviewExists) {
+		if (!previewExists) {
 			FlowPanel panel = new FlowPanel();
 			Style style = panel.getElement().getStyle();
 			style.setPosition(Position.ABSOLUTE);
@@ -128,7 +128,7 @@ public class SplashDialog extends SimplePanel {
 	}
 
 	public boolean isPreviewExists() {
-		return isPreviewExists;
+		return previewExists;
 	}
 
 }

@@ -692,11 +692,11 @@ public class RelativeCopy {
 		MatchResult m = GeoElementSpreadsheet.spreadsheetPattern.exec(name);
 
 		// $ or ""
-		String m1 = m.getGroup(GeoElementSpreadsheet.MATCH_COLUMN_$);
+		String m1 = m.getGroup(GeoElementSpreadsheet.MATCH_COLUMN_DOLLAR);
 		// column eg A
 		String m2 = m.getGroup(GeoElementSpreadsheet.MATCH_COLUMN);
 		// $ or ""
-		String m3 = m.getGroup(GeoElementSpreadsheet.MATCH_ROW_$);
+		String m3 = m.getGroup(GeoElementSpreadsheet.MATCH_ROW_DOLLAR);
 		// row eg 23
 		String m4 = m.getGroup(GeoElementSpreadsheet.MATCH_ROW);
 

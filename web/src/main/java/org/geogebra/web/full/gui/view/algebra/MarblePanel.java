@@ -279,7 +279,7 @@ public class MarblePanel extends FlowPanel
 		btnPlus.getUpHoveringFace().setImage(hoverImg);
 		btnPlus.getDownHoveringFace().setImage(hoverImg);
 		if (item.getApplication().has(Feature.TAB_ON_GUI)) {
-			btnPlus.ignoreTab();
+			btnPlus.setIgnoreTab();
 			btnPlus.addKeyDownHandler(this);
 			btnPlus.setAltText(btnPlus.getTitle());
 		}

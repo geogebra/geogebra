@@ -145,12 +145,12 @@ public class Variable extends ValidExpression {
 		if (name.indexOf('$') > -1 && !(geo instanceof GeoCasCell)
 				&& !(geo instanceof GeoDummyVariable)) {
 			// row and/or column dollar sign present?
-			boolean col$ = name.indexOf('$') == 0;
-			boolean row$ = name.length() > 2 && name.indexOf('$', 1) > -1;
+			boolean colDollar = name.indexOf('$') == 0;
+			boolean rowDollar = name.length() > 2 && name.indexOf('$', 1) > -1;
 			Operation operation = Operation.NO_OPERATION;
-			if (row$ && col$) {
+			if (rowDollar && colDollar) {
 				operation = Operation.$VAR_ROW_COL;
-			} else if (row$) {
+			} else if (rowDollar) {
 				operation = Operation.$VAR_ROW;
 			} else {
 				// if (col$)

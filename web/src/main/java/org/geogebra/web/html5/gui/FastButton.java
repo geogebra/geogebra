@@ -312,8 +312,8 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 	}
 	
 	@Override
-	public void ignoreTab() {
-		acc.ignoreTab();
+	public void setIgnoreTab() {
+		acc.setIgnoreTab();
 	}
 
 	@Override

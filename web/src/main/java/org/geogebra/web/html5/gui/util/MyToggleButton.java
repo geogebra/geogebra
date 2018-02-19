@@ -116,7 +116,7 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 	}
 	
 	@Override
-	public void ignoreTab() {
-		acc.ignoreTab();
+	public void setIgnoreTab() {
+		acc.setIgnoreTab();
 	}
 }

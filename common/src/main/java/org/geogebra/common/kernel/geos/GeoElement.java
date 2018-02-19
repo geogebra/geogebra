@@ -3410,24 +3410,24 @@ public abstract class GeoElement extends ConstructionElement
 	 * Returns the spreadsheet reference name of this GeoElement using $ signs
 	 * for absolute spreadsheet reference names like A$1 or $A$1.
 	 * 
-	 * @param col$
+	 * @param colDollar
 	 *            true if col has $
-	 * @param row$
+	 * @param rowDollar
 	 *            true if row has $
 	 * @return spreadsheet reference name of this GeoElement with $ signs
 	 */
-	public String getSpreadsheetLabelWithDollars(final boolean col$,
-			final boolean row$) {
+	public String getSpreadsheetLabelWithDollars(final boolean colDollar,
+			final boolean rowDollar) {
 		final String colName = GeoElementSpreadsheet
 				.getSpreadsheetColumnName(spreadsheetCoords.x);
 		final String rowName = Integer.toString(spreadsheetCoords.y + 1);
 
 		final StringBuilder sb = new StringBuilder(label.length() + 2);
-		if (col$) {
+		if (colDollar) {
 			sb.append('$');
 		}
 		sb.append(colName);
-		if (row$) {
+		if (rowDollar) {
 			sb.append('$');
 		}
 		sb.append(rowName);

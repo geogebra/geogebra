@@ -37,7 +37,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
         implements EventRenderable, GoogleDriveOperation {
 
 	private static final String GoogleApiJavaScriptSrc = "https://apis.google.com/js/client.js?onload=GGW_loadGoogleDrive";
-	private boolean isDriveLoaded;
+	private boolean driveLoaded;
 	private AppW app;
 	private boolean loggedIn;
 	private JavaScriptObject googleDriveURL;
@@ -146,7 +146,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}-*/;
 
 	private void googleDriveLoaded() {
-		this.isDriveLoaded = true;
+		this.driveLoaded = true;
 		onEvent(new GoogleDriveLoadedEvent());
 	}
 
@@ -154,7 +154,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 * @return if google drive loaded or not
 	 */
 	public boolean isDriveLoaded() {
-		return isDriveLoaded;
+		return driveLoaded;
 	}
 
 	/**
@@ -270,7 +270,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	public void requestDriveLogin() {
-		if (this.isDriveLoaded) {
+		if (this.driveLoaded) {
 			this.login(true);
 			this.getModel().setLoggedInFromGoogleDrive(true);
 		} else {

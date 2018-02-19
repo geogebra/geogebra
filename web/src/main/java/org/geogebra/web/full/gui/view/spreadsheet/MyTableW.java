@@ -2765,11 +2765,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	}
 
-	public void allowAutoEdit() {
+	public void setAllowAutoEdit() {
 		if (editor != null) {
-			editor.allowAutoEdit();
+			editor.setAllowAutoEdit();
 		}
-
 	}
 
 	public SpreadsheetModeProcessor getSpreadsheetModeProcessor() {

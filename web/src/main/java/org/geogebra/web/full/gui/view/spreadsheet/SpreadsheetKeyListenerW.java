@@ -56,7 +56,7 @@ public class SpreadsheetKeyListenerW implements KeyDownHandler, KeyPressHandler 
 			table.sendEditorKeyDownEvent(e);
 			return;
 		}
-		table.allowAutoEdit();
+		table.setAllowAutoEdit();
 		int keyCode = e.getNativeKeyCode();// .getKeyCode();
 		// Application.debug(keyCode+"");
 		// boolean shiftDown = e.isShiftDown();

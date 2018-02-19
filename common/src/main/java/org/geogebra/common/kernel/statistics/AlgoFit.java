@@ -50,9 +50,9 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 	private int functionsize = 0; // cols in M
 	// private GeoFunctionable[] functionarray = null;
 	private FunctionListND functionarray;
-	private RealMatrix M = null;
-	private RealMatrix Y = null;
-	private RealMatrix P = null;
+	private RealMatrix matM = null;
+	private RealMatrix matY = null;
+	private RealMatrix matP = null;
 
 	/**
 	 * @param cons
@@ -111,9 +111,9 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			fitfunction.setUndefined();
 			return;
 		}
-		M = new Array2DRowRealMatrix(datasize, functionsize);
-		Y = new Array2DRowRealMatrix(datasize, 1);
-		P = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
+		matM = new Array2DRowRealMatrix(datasize, functionsize);
+		matY = new Array2DRowRealMatrix(datasize, 1);
+		matP = new Array2DRowRealMatrix(functionsize, 1); // Solution parameters
 
 		if (!pointlist.isDefined() || // Lot of things can go wrong...
 				!functionlist.isDefined() || (functionsize > datasize)
@@ -139,12 +139,12 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			}
 
 			// Solve for parametermatrix P:
-			DecompositionSolver solver = new QRDecomposition(M).getSolver();
+			DecompositionSolver solver = new QRDecomposition(matM).getSolver();
 			if (solver.isNonSingular()) {
-				P = solver.solve(Y);
+				matP = solver.solve(matY);
 
 				fitfunction = functionarray.makeFunction(fitfunction,
-						functionlist, P);
+						functionlist, matP);
 
 			} else {
 				fitfunction.setUndefined();
@@ -176,8 +176,8 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 			}
 		} // for all functions
 			// Make matrixes with the right values: M*P=Y
-		M = new Array2DRowRealMatrix(datasize, functionsize);
-		Y = new Array2DRowRealMatrix(datasize, 1);
+		matM = new Array2DRowRealMatrix(datasize, functionsize);
+		matY = new Array2DRowRealMatrix(datasize, 1);
 		for (int r = 0; r < datasize; r++) {
 			geo = pointlist.get(r);
 			if (!geo.isGeoPoint()) {
@@ -185,9 +185,9 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 				return false;
 			} // if not point
 			point = (GeoPointND) geo;
-			Y.setEntry(r, 0, functionarray.extractValueCoord(point));
+			matY.setEntry(r, 0, functionarray.extractValueCoord(point));
 			for (int c = 0; c < functionsize; c++) {
-				M.setEntry(r, c, functionarray.evaluate(c, point));
+				matM.setEntry(r, c, functionarray.evaluate(c, point));
 			}
 		} // for rows (=datapoints)
 			// mprint("M:",M);
@@ -202,7 +202,7 @@ public class AlgoFit extends AlgoElement implements FitAlgo {
 		double[] ret = new double[functionsize];
 		for (int i = 0; i < functionsize; i++) {
 			// reverse order
-			ret[i] = P.getEntry(functionsize - i - 1, 0);
+			ret[i] = matP.getEntry(functionsize - i - 1, 0);
 		}
 
 		return ret;

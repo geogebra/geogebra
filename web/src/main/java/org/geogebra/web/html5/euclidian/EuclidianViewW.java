@@ -90,7 +90,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	public GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
-	public GGraphics2DW g4copy = null;
+	private GGraphics2DW g4copy = null;
 	private GColor backgroundColor = GColor.WHITE;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 
@@ -105,7 +105,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	private long lastRepaint;
 
-	public boolean isInFocus = false;
+	private boolean inFocus = false;
 
 	AppW app = (AppW) super.app;
 
@@ -971,14 +971,14 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void focusLost() {
-		if (isInFocus) {
-			this.isInFocus = false;
+		if (inFocus) {
+			this.inFocus = false;
 		}
 	}
 
 	public void focusGained() {
-		if (!isInFocus) {
-			this.isInFocus = true;
+		if (!inFocus) {
+			this.inFocus = true;
 			if (getCanvas() != null) {
 				this.app.focusGained(this, getCanvas().getElement());
 			}
@@ -987,7 +987,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public boolean isInFocus() {
-		return isInFocus;
+		return inFocus;
 	}
 
 	public void setDefaultCursor() {

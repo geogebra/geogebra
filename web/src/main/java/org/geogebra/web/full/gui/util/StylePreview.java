@@ -14,8 +14,6 @@ import com.google.gwt.user.client.ui.Composite;
  */
 public abstract class StylePreview extends Composite {
 	/** The value canvas next to the slider */
-	private Canvas canvas;
-
 	protected GGraphics2DW g2;
 	private int marginX = 0;
 	private int marginY;

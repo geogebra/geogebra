@@ -169,8 +169,8 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 		setSpeedText(this.radioTreeItem.geo.getAnimationSpeed());
 
 		if (radioTreeItem.app.has(Feature.TAB_ON_GUI)) {
-			btnSpeedUp.ignoreTab();
-			btnSpeedDown.ignoreTab();
+			btnSpeedUp.setIgnoreTab();
+			btnSpeedDown.setIgnoreTab();
 		}
 
 		speedPanel.add(btnSpeedDown);
@@ -208,7 +208,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 									.getSafeUri(),
 							0, 0, 24, 24, false, false)));
 			if (radioTreeItem.app.has(Feature.TAB_ON_GUI)) {
-				btnPlay.ignoreTab();
+				btnPlay.setIgnoreTab();
 			}
 		} else {
 			btnPlay = new MyToggleButtonW(

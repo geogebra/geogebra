@@ -51,9 +51,6 @@ public class MyCellEditorW implements BaseCellEditor {
 	// so we can return to that column when <enter> pressed
 	private int tabReturnCol = -1;
 
-	public boolean allowProcessGeo() {
-		return allowProcessGeo;
-	}
 
 	public void setAllowProcessGeo(boolean allowProcessGeo) {
 		this.allowProcessGeo = allowProcessGeo;
@@ -243,8 +240,6 @@ public class MyCellEditorW implements BaseCellEditor {
 			// this should be deferred so that browser cannot steal focus from
 			// SS
 			autoCompleteTextField.getTextField().setFocus(true);
-
-
 		}
 
 		return success;
@@ -541,9 +536,8 @@ public class MyCellEditorW implements BaseCellEditor {
 		return autoCompleteTextField.isSuggesting();
 	}
 
-	public void allowAutoEdit() {
+	public void setAllowAutoEdit() {
 		this.allowAutoEdit = true;
-
 	}
 
 	protected int getTabReturnCol() {

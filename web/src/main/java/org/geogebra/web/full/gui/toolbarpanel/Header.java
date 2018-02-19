@@ -154,7 +154,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 		});
 		btnAlgebra.addKeyDownHandler(this);
 		AriaHelper.hide(btnAlgebra);
-		btnAlgebra.ignoreTab();
+		btnAlgebra.setIgnoreTab();
 	}
 
 	private void createToolsButton() {
@@ -176,7 +176,7 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 
 		btnTools.addKeyDownHandler(this);
 		AriaHelper.hide(btnTools);
-		btnTools.ignoreTab();
+		btnTools.setIgnoreTab();
 	}
 
 	/**

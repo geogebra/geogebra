@@ -60,12 +60,6 @@ public class DockManagerW extends DockManager {
 	private ExtendedBoolean portrait = ExtendedBoolean.UNKNOWN;
 	
 	/**
-	 * False if the application is running in unsigned mode. We can only listen to 
-	 * euclidian view focus changes in this case.
-	 */
-	private boolean hasFullFocusSystem;	
-	
-	/**
 	 * The root split pane.
 	 */
 	DockSplitPaneW rootPane;
@@ -1737,14 +1731,6 @@ public class DockManagerW extends DockManager {
 			panel.add(rootPane);
 		}
 		panelsMoved = false;
-	}
-
-	/**
-	 * @return True if all focus may change between all views, false if just
-	 * the euclidian views are affected by this. 
-	 */
-	public boolean hasFullFocusSystem() {
-		return hasFullFocusSystem;
 	}
 
 	

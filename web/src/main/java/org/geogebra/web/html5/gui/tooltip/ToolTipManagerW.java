@@ -193,7 +193,7 @@ public final class ToolTipManagerW {
 		if (!StringUtil.empty(helpURL) && app != null) {
 			if (this.linkType == ToolTipLinkType.ViewSavedFile) {
 				app.share();
-			}else{
+			} else {
 				app.getFileManager().open(helpURL);
 			}
 			hideAllToolTips();

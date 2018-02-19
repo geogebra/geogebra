@@ -116,7 +116,7 @@ public class ItemControls extends FlowPanel
 							24),
 					radioTreeItem.app);
 
-			btnMore.ignoreTab();
+			btnMore.setIgnoreTab();
 
 			btnMore.getUpHoveringFace()
 					.setImage(new NoDragImage(

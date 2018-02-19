@@ -225,7 +225,7 @@ public class Tools extends FlowPanel implements SetLabels {
 				btn.addStyleName("plusPadding");
 			}
 			btn.getElement().setAttribute("mode", mode + "");
-			btn.ignoreTab();
+			btn.setIgnoreTab();
 			btn.addFastClickHandler(new FastClickHandler() {
 
 				@Override

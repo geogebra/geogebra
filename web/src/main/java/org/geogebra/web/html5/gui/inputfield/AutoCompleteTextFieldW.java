@@ -121,7 +121,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * Flag to determine if text must start with "=" to activate autoComplete;
 	 * used with spreadsheet cells
 	 */
-	private boolean isEqualsRequired = false;
+	private boolean equalSignRequired = false;
 
 	/**
 	 * Flag to determine if Tab key should behave like usual or disabled.
@@ -130,7 +130,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	private int columns = 0;
 	private boolean forCAS;
 	private InsertHandler insertHandler = null;
-	private boolean isSuggestionJustHappened = false;
+	private boolean suggestionJustHappened = false;
 	private GeoInputBox geoUsedForInputBox;
 	/**
 	 * Pattern to find an argument description as found in the syntax
@@ -472,7 +472,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		String text = getText();
 		updateCurrentWord(false);
 		completions = null;
-		if (isEqualsRequired && !text.startsWith("=")) {
+		if (equalSignRequired && !text.startsWith("=")) {
 			return null;
 		}
 
@@ -1366,11 +1366,11 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 *         need to run the enter code again
 	 */
 	public boolean isSuggestionJustHappened() {
-		return isSuggestionJustHappened;// && !isSuggestionClickJustHappened;
+		return suggestionJustHappened;// && !isSuggestionClickJustHappened;
 	}
 
 	public void setIsSuggestionJustHappened(boolean b) {
-		isSuggestionJustHappened = b;
+		suggestionJustHappened = b;
 	}
 
 	/* Hopefully happens only on click */
@@ -1382,7 +1382,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	@Override
 	public void onSelection(SelectionEvent<Suggestion> event) {
-		isSuggestionJustHappened = true;
+		suggestionJustHappened = true;
 		int index = completions
 				.indexOf(event.getSelectedItem().getReplacementString());
 		validateAutoCompletion(index, getCompletions());
@@ -1631,12 +1631,12 @@ public class AutoCompleteTextFieldW extends FlowPanel
 
 	/** returns if text must start with "=" to activate autocomplete */
 	public boolean isEqualsRequired() {
-		return isEqualsRequired;
+		return equalSignRequired;
 	}
 
 	/** sets flag to require text starts with "=" to activate autocomplete */
 	public void setEqualsRequired(boolean isEqualsRequired) {
-		this.isEqualsRequired = isEqualsRequired;
+		this.equalSignRequired = isEqualsRequired;
 	}
 
 	public void setCASInput(boolean b) {

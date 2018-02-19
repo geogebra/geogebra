@@ -55,7 +55,8 @@ final public class GeoVec2D extends ValidExpression
 
 	private double x = Double.NaN;
 	private double y = Double.NaN;
-	private static int MAXIT = 100; // Maximum number of iterations allowed.
+	private static final int MAXIT = 100; // Maximum number of iterations
+											// allowed in Ei.
 
 	private int mode; // POLAR or CARTESIAN
 

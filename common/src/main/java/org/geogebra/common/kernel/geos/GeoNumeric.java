@@ -81,7 +81,7 @@ public class GeoNumeric extends GeoElement
 	/** placeholder for autostep */
 	public static final double AUTO_STEP = Double.NaN;
 
-	private static int DEFAULT_SLIDER_WIDTH_RW = 4;
+	private static final int DEFAULT_SLIDER_WIDTH_RW = 4;
 	/** default slider width in pixels */
 	public final static int DEFAULT_SLIDER_WIDTH_PIXEL = 200;
 	/** default slider blob size */

@@ -348,8 +348,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 */
 	public void removeMaterial(final Material mat) {
 		for(final MaterialListElement matElem : this.materials) {
-			if (matElem.isLocal && mat.getTitle().equals(matElem.getMaterial().getTitle()) ||
-					matElem.isOwnMaterial && matElem.getMaterial().equals(mat)) {
+			if (matElem.localMaterial && mat.getTitle().equals(matElem.getMaterial().getTitle()) ||
+					matElem.ownMaterial && matElem.getMaterial().equals(mat)) {
 				
 				this.materials.remove(matElem);
 				this.remove(matElem);
@@ -387,7 +387,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 		for(final MaterialListElement matElem : this.materials) {
 			if (matElem.getMaterial().getId() > 0
 			        && matElem.getMaterial().getId() == material.getId()
-					|| matElem.isLocal
+					|| matElem.localMaterial
 							&& MaterialsManager
 									.getFileKey(matElem.getMaterial())
 									.equals(MaterialsManager
@@ -404,7 +404,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	public void removeUsersMaterials() {
 		final List<Material> delete = new ArrayList<>();
 	    for (final MaterialListElement elem : this.materials) {
-	    	if (elem.isOwnMaterial) {
+	    	if (elem.ownMaterial) {
 	    		delete.add(elem.getMaterial());
 	    	}
 	    }
