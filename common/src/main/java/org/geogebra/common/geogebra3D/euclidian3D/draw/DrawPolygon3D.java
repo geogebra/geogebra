@@ -721,8 +721,13 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 				} else if (prop == GProperty.HIGHLIGHT) {
 					setWaitForUpdateColor();
 					EuclidianView3D view3D = getView3D();
-					for (GeoSegmentND seg : ((GeoPolygon) getGeoElement()).getSegments()) {
-						view3D.updateHighlight(seg);
+
+					GeoSegmentND[] segs = ((GeoPolygon) getGeoElement())
+							.getSegments();
+					if (segs != null) {
+						for (GeoSegmentND seg : segs) {
+							view3D.updateHighlight(seg);
+						}
 					}
 				} else if (prop == GProperty.VISIBLE) {
 					setWaitForUpdateVisibility();
