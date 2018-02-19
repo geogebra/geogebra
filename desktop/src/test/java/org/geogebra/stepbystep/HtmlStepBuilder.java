@@ -10,6 +10,10 @@ import org.geogebra.test.util.ReportBuilder;
  */
 public class HtmlStepBuilder implements StepGuiBuilder {
 	private StringBuilder sb = new StringBuilder()
+			.append("<!DOCTYPE html>")
+			.append("<html>")
+			.append("<head>")
+			.append("<meta charset=\"UTF-8\">")
 			.append("<script src='https://beta.geogebra.org/scripts/jlatexmath/jlatexmath.js'></script>")
 			.append("<script src='https://beta.geogebra.org/scripts/jlatexmath/jlatexmath-tube.js'></script>")
 			.append("<style>#line {margin:2px;}</style>")
@@ -59,7 +63,9 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 					+ "   detailed.style.display = 'none'; "
 					+ "   render_visible();"
 					+ "} "
-					+ "</script>");
+					+ "</script>")
+			.append("</head>")
+			.append("<body>");
 
 	private int indent = 1;
 
@@ -141,6 +147,8 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	 * @return HTML content
 	 */
 	public String getHtml() {
+		sb.append("</body>");
+		sb.append("</html>");
 		return sb.toString();
 	}
 

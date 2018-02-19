@@ -2,11 +2,11 @@ package org.geogebra.stepbystep;
 
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.solution.*;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.junit.AfterClass;
@@ -78,6 +78,93 @@ public class GeneralUnitTests {
         nthpower(8, 3, 8);
         nthpower(108, 2, 36);
         nthpower(12, 2, 4);
+    }
+
+    @Test
+    public void simpleTableTest() {
+        SolutionTable table = new SolutionTable(
+                new StepVariable("x"),
+                StepConstant.NEG_INF,
+                StepConstant.create(-2),
+                StepConstant.create(3),
+                StepConstant.POS_INF
+        );
+
+        table.addRow(
+                StepNode.add(new StepVariable("x"), StepConstant.create(2)),
+                TableElementType.NEGATIVE,
+                TableElementType.NEGATIVE,
+                TableElementType.ZERO,
+                TableElementType.POSITIVE,
+                TableElementType.POSITIVE,
+                TableElementType.POSITIVE,
+                TableElementType.POSITIVE
+        );
+
+        table.addRow(
+                StepNode.subtract(new StepVariable("x"), StepConstant.create(3)),
+                TableElementType.NEGATIVE,
+                TableElementType.NEGATIVE,
+                TableElementType.NEGATIVE,
+                TableElementType.NEGATIVE,
+                TableElementType.ZERO,
+                TableElementType.POSITIVE,
+                TableElementType.POSITIVE
+        );
+
+        HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
+        htmlBuilder.addLatexRow(table.toLaTeXString(app.getLocalization()));
+        htmlBuilder.printReport("table.html");
+    }
+
+    @Test
+    public void complexTableTest() {
+        StepVariable var = new StepVariable("x");
+
+        SolutionTable table = new SolutionTable(
+                new StepVariable("x"),
+                StepConstant.NEG_INF,
+                StepConstant.create(-2),
+                StepConstant.create(-1),
+                StepConstant.POS_INF
+        );
+
+        table.addRow(
+                StepNode.multiply(var, StepNode.power(StepConstant.E, var)),
+                TableElementType.VSPACE,
+                TableElementType.CONCAVE_DECREASING,
+                TableElementType.VSPACE,
+                TableElementType.CONVEX_DECREASING,
+                TableElementType.VSPACE,
+                TableElementType.CONVEX_INCREASING,
+                TableElementType.VSPACE
+        );
+
+        table.addRow(
+                StepNode.multiply(StepNode.add(var, StepConstant.create(1)), StepNode.power(StepConstant.E, var)),
+                TableElementType.NEGATIVE,
+                TableElementType.NEGATIVE,
+                TableElementType.NEGATIVE,
+                TableElementType.NEGATIVE,
+                TableElementType.ZERO,
+                TableElementType.POSITIVE,
+                TableElementType.POSITIVE
+        );
+
+        table.addRow(
+                StepNode.multiply(StepNode.add(var, StepConstant.create(2)), StepNode.power(StepConstant.E, var)),
+                TableElementType.NEGATIVE,
+                TableElementType.NEGATIVE,
+                TableElementType.ZERO,
+                TableElementType.POSITIVE,
+                TableElementType.POSITIVE,
+                TableElementType.POSITIVE,
+                TableElementType.POSITIVE
+        );
+
+        HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
+        htmlBuilder.addLatexRow(table.toLaTeXString(app.getLocalization()));
+        htmlBuilder.printReport("table.html");
     }
 
     public void nthpower(int a, int b, int c) {
