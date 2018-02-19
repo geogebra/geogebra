@@ -449,7 +449,7 @@ public final class DrawImage extends Drawable {
 	private void updateImage(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
-		// int eventY = event.getY();
+		int eventY = event.getY();
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint D = geoImage.getCorner(2);
@@ -501,6 +501,15 @@ public final class DrawImage extends Drawable {
 			geoImage.setCorner(D, 2);
 			break;
 		case TOP:
+			if (view.toScreenCoordYd(A.getInhomY()) - eventY <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
+			D.setY(view.toRealWorldCoordY(eventY));
+			D.setX(A.getInhomX());
+			D.updateCoords();
+			D.updateRepaint();
+			geoImage.setCorner(D, 2);
 			break;
 		case BOTTOM:
 			break;
