@@ -12,7 +12,6 @@ import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.full.gui.util.PersistablePanel;
 import org.geogebra.web.full.main.AppWapplet;
-import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -75,15 +74,15 @@ public class PageListPanel
 		frame.add(this);
 		setVisible(false);
 		if (app.has(Feature.MOW_DRAG_AND_DROP_PAGES)) {
-			if (Browser.isTabletBrowser()) {
+			// if (Browser.isTabletBrowser()) {
 				addDomHandler(pageController, TouchStartEvent.getType());
 				addDomHandler(pageController, TouchMoveEvent.getType());
 				addDomHandler(pageController, TouchEndEvent.getType());
-			} else {
+			// } else {
 				addDomHandler(pageController, MouseDownEvent.getType());
 				addDomHandler(pageController, MouseMoveEvent.getType());
 				addDomHandler(pageController, MouseUpEvent.getType());
-			}
+			// }
 			divider = new FlowPanel();
 			divider.setStyleName("mowPagePreviewCardDivider");
 		}
