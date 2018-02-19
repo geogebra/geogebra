@@ -259,6 +259,8 @@ public class DrawAxis {
 					view.axesLabels[1], font, serif(view.axesLabels[1]),
 					GColor.BLACK, null, true, false,
 					firstCallY ? view.getCallBack(geo) : null);
+
+			firstCallY = false;
 		} else if (!view.axesLabels[1].contains("_")) {
 			layout.draw(g2, x,
 					(int) (5 + layout.getAscent()));

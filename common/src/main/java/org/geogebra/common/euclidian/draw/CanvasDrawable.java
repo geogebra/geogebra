@@ -47,9 +47,12 @@ public abstract class CanvasDrawable extends Drawable {
 			serif = ((TextProperties) geo0).isSerifFont();
 		}
 
-		return app.getDrawEquation().drawEquation(app, geo0, g2, x, y, text,
+		GDimension ret = app.getDrawEquation().drawEquation(app, geo0, g2, x, y,
+				text,
 				font, serif, geo.getObjectColor(), geo.getBackgroundColor(),
 				false, false, firstCall ? view.getCallBack(geo) : null);
+		firstCall = false;
+		return ret;
 	}
 
 	public static GDimension measureLatex(App app,

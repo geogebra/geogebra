@@ -369,6 +369,7 @@ public abstract class Drawable extends DrawableND {
 				bgColor, labelDesc, xLabel, yLabel, isSerif(),
 				firstCall ? view.getCallBack(geo) : null,
 				labelRectangle);
+		firstCall = false;
 	}
 
 	/**

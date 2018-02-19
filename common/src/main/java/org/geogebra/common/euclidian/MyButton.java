@@ -351,6 +351,7 @@ public class MyButton implements Observer {
 					false, geoButton.getObjectColor(),
 					geoButton.getBackgroundColor(), false, false,
 					firstCall ? view.getCallBack(geoButton) : null);
+			firstCall = false;
 		} else {
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
 					xPos, yPos);
