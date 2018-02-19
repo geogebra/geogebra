@@ -4010,10 +4010,6 @@ public abstract class App implements UpdateSelection {
 		case MOB_ANGLES_INTERIOR_POLYGON:
 			return true;
 
-		// MOB-1462
-		case MOB_AND_DO_NOT_UPDATE_AV_IF_HIDDEN:
-			return prerelease;
-
 		// MOB-1259
 		case MOB_INCREASE_TOUCHABLE_AREA:
 			return prerelease;
