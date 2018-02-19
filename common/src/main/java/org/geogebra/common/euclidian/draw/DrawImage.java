@@ -126,7 +126,6 @@ public final class DrawImage extends Drawable {
 			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
 			GeoPoint B = center ? null : geoImage.getCorner(1);
 			GeoPoint D = center ? null : geoImage.getCorner(2);
-			GeoPoint C = geoImage.getCorner(3);
 			double ax = 0;
 			double ay = 0;
 
@@ -489,6 +488,17 @@ public final class DrawImage extends Drawable {
 			geoImage.setCorner(D, 2);
 			break;
 		case LEFT:
+			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
+			A.setX(view.toRealWorldCoordX(eventX));
+			A.updateCoords();
+			A.updateRepaint();
+			D.setX(A.getInhomX());
+			D.updateCoords();
+			D.updateRepaint();
+			geoImage.setCorner(D, 2);
 			break;
 		case TOP:
 			break;
