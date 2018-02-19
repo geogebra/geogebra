@@ -7201,12 +7201,15 @@ namespace giac {
 	  // find degrees wrt main variable
 	  int polydim=0;
 	  int totaldeg=0;
+	  gen coeffp; int tt=0;
 	  vector<int> maxdegj(a0s);
 	  for (unsigned int i=0;i<as;++i){
 	    int maxdegi=0;
 	    for (unsigned int j=0;j<a0s;++j){
 	      gen & tmp = (*res[i]._VECTptr)[j];
 	      if (tmp.type==_POLY){
+		if (tt!=_USER)
+		  tt=coefftype(*tmp._POLYptr,coeffp);
 		polydim=tmp._POLYptr->dim;
 		const int & curdeg=tmp._POLYptr->lexsorted_degree();
 		if (curdeg>maxdegi)
@@ -7222,12 +7225,14 @@ namespace giac {
 	    if (debug_infolevel)
 	      CERR << CLOCK()*1e-6 << " det: begin interp" << endl;
 	    totaldeg=std::min(totaldeg,total_degree(maxdegj));
-	    int shift=totaldeg/2;
+	    if (!interpolable(totaldeg+1,coeffp,true,contextptr))
+	      return 0;
+	    int shift=coeffp.type?0:totaldeg/2;
 	    proba_epsilon(contextptr) /= totaldeg;
 	    vecteur X(totaldeg+1),Y(totaldeg+1),Z(totaldeg+1);
 	    int x=0;
 	    for (;x<=totaldeg;++x){
-	      int realx=x-shift;
+	      gen realx=interpolate_xi(x-shift,coeffp);
 	      X[x]=realx;
 	      vecteur resx;
 	      resx.reserve(totaldeg+1);

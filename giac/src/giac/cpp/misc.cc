@@ -124,6 +124,11 @@ namespace giac {
     int tt=coefft.type;
     if (tt!=_USER)
       tt=coefftype(P,coefft);
+    return interpolable(d1,coefft,extend,contextptr);
+  }
+
+  bool interpolable(int d1,gen & coefft,bool extend,GIAC_CONTEXT){
+    int tt=coefft.type;
     if (tt==_USER){
       if (galois_field * gf=dynamic_cast<galois_field *>(coefft._USERptr)){
 	gen m=gf->p;
@@ -155,7 +160,7 @@ namespace giac {
       for (int j=s-1;j>=k;--j){
 	res[j]=(res[j]-res[j-1])/(x[j]-x[j-k]);
       }
-      CERR << k << res << endl;
+      //CERR << k << res << endl;
     }
     return res;
   }

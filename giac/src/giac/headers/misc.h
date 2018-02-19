@@ -32,6 +32,7 @@ namespace giac {
   gen _compare(const gen & args,GIAC_CONTEXT);
   gen _preval(const gen & args,GIAC_CONTEXT);
   bool interpolable_resultant(const polynome & P,int d1,gen &coefft,bool extend,GIAC_CONTEXT);
+  bool interpolable(int d1,gen & coefft,bool extend,GIAC_CONTEXT);
   // if possible return j, if j is too large, return a GF element
   gen interpolate_xi(int j,const gen &coeff);
   vecteur divided_differences(const vecteur & x,const vecteur & y);
