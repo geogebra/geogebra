@@ -17,7 +17,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.MyMath;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Draws axes in 2D
@@ -246,7 +245,6 @@ public class DrawAxis {
 	}
 
 	private void drawAxisLabelY(GGraphics2D g2, int x, GFontRenderContext frc) {
-		Log.printStacktrace("");
 		GFont font = view.getFontLine().deriveFont(view.axesLabelsStyle[1]);
 		GTextLayout layout = AwtFactory.getPrototype()
 				.newTextLayout(view.axesLabels[1], font, frc);
