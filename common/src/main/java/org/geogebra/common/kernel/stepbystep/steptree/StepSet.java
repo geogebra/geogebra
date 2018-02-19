@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.geogebra.common.main.Localization;
 
-public class StepSet extends StepNode implements Iterable<StepNode> {
+public class StepSet extends StepLogical implements Iterable<StepNode> {
 
 	private Set<StepNode> elements;
 
@@ -46,6 +46,11 @@ public class StepSet extends StepNode implements Iterable<StepNode> {
 	}
 
 	@Override
+	public boolean contains(StepExpression se) {
+		return elements.contains(se);
+	}
+
+	@Override
 	public StepSet deepCopy() {
 		StepSet ss = new StepSet();
 		for (StepNode sn : elements) {
@@ -70,12 +75,33 @@ public class StepSet extends StepNode implements Iterable<StepNode> {
 	}
 
 	@Override
-	public String toLaTeXString(Localization loc, boolean colored) {
-		return null;
+	public String toLaTeXString(Localization loc) {
+		return toLaTeXString(loc, false);
 	}
 
 	@Override
-	public Iterator iterator() {
+	public String toLaTeXString(Localization loc, boolean colored) {
+		if (colored && color != 0) {
+			return "\\fgcolor{" + getColorHex() + "}{" + convertToString(loc, false) + "}";
+		}
+		return convertToString(loc, colored);
+	}
+
+	private String convertToString(Localization loc, boolean colored) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("\\left{");
+
+		for (StepNode sn : this) {
+			sb.append(sn.toLaTeXString(loc, colored));
+			sb.append(", ");
+		}
+
+		sb.append("\\right}");
+		return sb.toString();
+	}
+
+	@Override
+	public Iterator<StepNode> iterator() {
 		return elements.iterator();
 	}
 

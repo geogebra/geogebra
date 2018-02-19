@@ -86,8 +86,7 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
-	public boolean checkSolution(StepExpression solution, StepVariable variable, SolutionBuilder sb,
-								 SolveTracker tracker) {
+	public boolean checkSolution(StepSolution solution, SolutionBuilder sb, SolveTracker tracker) {
 		return true;
 	}
 

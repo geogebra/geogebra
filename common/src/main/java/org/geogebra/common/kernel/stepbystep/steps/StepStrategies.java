@@ -220,7 +220,7 @@ public class StepStrategies {
 		} while (!(result instanceof StepSet) && !current.equals(old));
 
 		if (result instanceof StepSet) {
-			StepSet finalSolutions = EquationSteps.checkSolutions(se, (StepSet) result, variable, changes, tracker);
+			StepSet finalSolutions = EquationSteps.checkSolutions(se, (StepSet) result, changes, tracker);
 
 			if (sb != null) {
 				sb.levelUp();

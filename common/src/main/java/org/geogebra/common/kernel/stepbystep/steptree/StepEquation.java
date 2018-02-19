@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
+import java.util.Map;
+
 public class StepEquation extends StepSolvable {
 
 	public StepEquation(StepExpression LHS, StepExpression RHS) {
@@ -73,15 +75,15 @@ public class StepEquation extends StepSolvable {
 	@Override
 	public StepSet trivialSolution(StepVariable variable, SolveTracker tracker) {
 		if (LHS.equals(RHS)) {
-			return new StepSet(tracker.getRestriction());
+			return new StepSet(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
 		}
 
 		if (LHS.equals(variable)) {
-			return new StepSet(RHS);
+			return new StepSet(StepSolution.simpleSolution(variable, RHS, tracker));
 		}
 
 		if (RHS.equals(variable)) {
-			return new StepSet(LHS);
+			return new StepSet(StepSolution.simpleSolution(variable, LHS, tracker));
 		}
 
 		return new StepSet();
@@ -96,16 +98,24 @@ public class StepEquation extends StepSolvable {
 		return (StepEquation) super.regroup(sb, tracker);
 	}
 
-	public boolean isValid(StepVariable var, StepExpression val) {
+	public boolean isValid(StepSolution ss) {
 		StepEquation copy = deepCopy();
-		copy.replace(var, val);
+
+		for (Map.Entry<StepVariable, StepNode> pair : ss.getVariableSolutionPairs()) {
+			if (pair.getValue() instanceof StepExpression) {
+				copy = copy.replace(pair.getKey(), (StepExpression) pair.getValue());
+			} else {
+				Log.error("Solution is interval, cannot check yet");
+				return true;
+			}
+		}
 
 		copy.expand();
 
 		if (!copy.getLHS().equals(copy.getRHS())) {
-			if (isEqual(LHS.getValueAt(var, val.getValue()), RHS.getValueAt(var, val.getValue()))) {
+			if (isEqual(copy.LHS.getValue(), copy.RHS.getValue())) {
 				Log.error("Regroup failed at: " + this);
-				Log.error("For solution: " + val);
+				Log.error("For solution: " + ss);
 				Log.error("Result: " + copy);
 				Log.error("Whereas numeric evaluation gives equality");
 
@@ -153,20 +163,19 @@ public class StepEquation extends StepSolvable {
 	}
 
 	@Override
-	public boolean checkSolution(StepExpression solution, StepVariable variable, SolutionBuilder steps,
-								 SolveTracker tracker) {
-
-		if (!tracker.getRestriction().contains(solution)) {
-			return false;
-		}
-
-		if (isValid(variable, solution)) {
-			steps.add(SolutionStepType.VALID_SOLUTION, new StepEquation(variable, solution));
+	public boolean checkSolution(StepSolution solution, SolutionBuilder steps, SolveTracker tracker) {
+		if (isValid(solution)) {
+			steps.add(SolutionStepType.VALID_SOLUTION, solution);
 		} else {
-			steps.add(SolutionStepType.INVALID_SOLUTION, new StepEquation(variable, solution));
+			steps.add(SolutionStepType.INVALID_SOLUTION, solution);
 			return false;
 		}
 
 		return true;
+	}
+
+	@Override
+	public StepEquation replace(StepExpression from, StepExpression to) {
+		return (StepEquation) super.replace(from, to);
 	}
 }

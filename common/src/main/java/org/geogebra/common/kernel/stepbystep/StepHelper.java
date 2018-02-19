@@ -7,16 +7,7 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.parser.ParseException;
-import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSolvable;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
 public class StepHelper {
@@ -207,9 +198,11 @@ public class StepHelper {
 		return null;
 	}
 
-	public static StepExpression swapAbsInTree(StepExpression sn, StepInterval si, StepVariable variable) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
+	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl, StepVariable variable) {
+		if (se instanceof StepOperation && sl instanceof StepInterval) {
+			StepOperation so = (StepOperation) se;
+			StepInterval si = (StepInterval) sl;
+
 			if (so.isOperation(Operation.ABS)) {
 				if (isNegative(so.getOperand(0), si.getLeftBound(), si.getRightBound(), variable)) {
 					return StepNode.minus(so.getOperand(0));
@@ -224,7 +217,7 @@ public class StepHelper {
 			return newSo;
 		}
 
-		return sn;
+		return se;
 	}
 
 	private static boolean isNegative(StepExpression x, StepExpression a, StepExpression b, StepVariable variable) {

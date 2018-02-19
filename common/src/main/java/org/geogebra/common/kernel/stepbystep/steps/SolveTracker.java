@@ -1,14 +1,15 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import org.geogebra.common.kernel.stepbystep.steptree.StepArbitraryConstant;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepInterval;
-import org.geogebra.common.kernel.stepbystep.steptree.StepSet;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SolveTracker {
 
-    private StepInterval restriction;
+    private StepLogical restriction;
     private StepSet undefinedPoints;
+    private List<StepSolvable> conditions;
 
     private int arbConstTracker;
 
@@ -31,8 +32,20 @@ public class SolveTracker {
         return shouldCheckSolutions;
     }
 
-    public void setRestriction(StepInterval restriction) {
-        this.restriction = restriction;
+    public void addRestriction(StepInterval restriction) {
+        this.restriction = StepNode.intersect(this.restriction, restriction);
+    }
+
+    public void addCondition(StepSolvable condition) {
+        if (conditions == null) {
+            conditions = new ArrayList<>();
+        }
+
+        conditions.add(condition);
+    }
+
+    public List<StepSolvable> getConditions() {
+        return conditions;
     }
 
     public void addUndefinedPoint(StepExpression point) {
@@ -43,7 +56,7 @@ public class SolveTracker {
         }
     }
 
-    public StepInterval getRestriction() {
+    public StepLogical getRestriction() {
         if (restriction == null) {
             return StepInterval.R;
         }

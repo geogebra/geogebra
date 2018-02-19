@@ -51,8 +51,7 @@ public abstract class StepSolvable extends StepNode {
 	public abstract StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
 			throws CASException;
 
-	public abstract boolean checkSolution(StepExpression solution, StepVariable variable, SolutionBuilder sb,
-										  SolveTracker tracker);
+	public abstract boolean checkSolution(StepSolution solution, SolutionBuilder sb, SolveTracker tracker);
 
 	public abstract StepSolvable deepCopy();
 

@@ -70,7 +70,7 @@ public class SystemSteps {
             }
 
             if (solutions.length == 1) {
-                StepExpression solution = (StepExpression) solutions[0];
+                StepExpression solution = (StepExpression) ((StepSolution) solutions[0]).getValue(minVariable);
 
                 StepEquation[] newEquations = new StepEquation[n];
                 for (int j = 0; j < n; j++) {
@@ -100,7 +100,7 @@ public class SystemSteps {
                 steps.add(SolutionStepType.EQUATION, tempSystem);
             } else {
                 for (StepNode solutionNode : solutions) {
-                    StepExpression solution = (StepExpression) solutionNode;
+                    StepExpression solution = (StepExpression) ((StepSolution) solutionNode).getValue(minVariable);
 
                     StepEquation[] newEquations = new StepEquation[n];
                     for (int j = 0; j < n; j++) {

@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.stepbystep.steptree;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.Localization;
 
-public class StepInterval extends StepNode {
+public class StepInterval extends StepLogical {
 
 	private StepExpression leftBound;
 	private StepExpression rightBound;

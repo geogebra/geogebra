@@ -1,14 +1,7 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.differentiate;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.divide;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.logarithm;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.minus;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.multiply;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.root;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
@@ -369,7 +362,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 
 					StepExpression result = null;
 					if (trigo.isOperation(Operation.SIN)) {
-						result = StepNode.apply(argument, Operation.COS);
+						result = cos(argument);
 
 						if (argument.equals(variable)) {
 							sb.add(SolutionStepType.DIFF_SIN, tracker.getColorTracker());
@@ -377,7 +370,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 							sb.add(SolutionStepType.DIFF_SIN_CHAIN, tracker.getColorTracker());
 						}
 					} else if (trigo.isOperation(Operation.COS)) {
-						result = minus(StepNode.apply(argument, Operation.SIN));
+						result = minus(sin(argument));
 
 						if (argument.equals(variable)) {
 							sb.add(SolutionStepType.DIFF_COS, tracker.getColorTracker());
@@ -385,7 +378,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 							sb.add(SolutionStepType.DIFF_COS_CHAIN, tracker.getColorTracker());
 						}
 					} else if(trigo.isOperation(Operation.TAN)) {
-						result = divide(1, power(StepNode.apply(argument, Operation.COS), 2));
+						result = divide(1, power(cos(argument), 2));
 
 						if (argument.equals(variable)) {
 							sb.add(SolutionStepType.DIFF_TAN, tracker.getColorTracker());
@@ -441,7 +434,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 							sb.add(SolutionStepType.DIFF_ARCCOS_CHAIN, tracker.getColorTracker());
 						}
 					} else if (trigo.isOperation(Operation.ARCTAN)) {
-						result = divide(1, StepNode.add(power(argument, 2), 1));
+						result = divide(1, add(power(argument, 2), 1));
 
 						if (argument.equals(variable)) {
 							sb.add(SolutionStepType.DIFF_ARCTAN, tracker.getColorTracker());

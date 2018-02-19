@@ -130,7 +130,7 @@ public abstract class StepNode {
 			case ARCCOS:
 			case ARCTAN:
 				StepExpression arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
-				return apply(arg, ((ExpressionNode) ev).getOperation());
+				return applyOp(((ExpressionNode) ev).getOperation(), arg);
 			case SQRT:
 				return root((StepExpression) convertExpression(((ExpressionNode) ev).getLeft()), 2);
 			case MINUS:
@@ -280,7 +280,17 @@ public abstract class StepNode {
 		return power;
 	}
 
-	public static StepExpression add(StepExpression a, StepExpression b) {
+	public static StepExpression applyOp(Operation op, StepExpression a) {
+		if (a == null) {
+			return null;
+		}
+
+		StepOperation so = new StepOperation(op);
+		so.addOperand(a.deepCopy());
+		return so;
+	}
+
+	private static StepExpression applyBinaryOp(Operation op, StepExpression a, StepExpression b) {
 		if (a == null) {
 			return b == null ? null : b.deepCopy();
 		}
@@ -288,10 +298,43 @@ public abstract class StepNode {
 			return a.deepCopy();
 		}
 
-		StepOperation so = new StepOperation(Operation.PLUS);
+		StepOperation so = new StepOperation(op);
 		so.addOperand(a.deepCopy());
 		so.addOperand(b.deepCopy());
 		return so;
+	}
+
+	private static StepExpression applyNullableBinaryOp(Operation op, StepExpression a, StepExpression b) {
+		if (a == null) {
+			return null;
+		}
+		if (b == null) {
+			return a.deepCopy();
+		}
+
+		StepOperation so = new StepOperation(op);
+		so.addOperand(a.deepCopy());
+		so.addOperand(b.deepCopy());
+		return so;
+	}
+
+	private static StepLogical doSetOperation(SetOperation op, StepLogical a, StepLogical b) {
+		if (a == null) {
+			return b == null ? null : b.deepCopy();
+		}
+		if (b == null) {
+			return a.deepCopy();
+		}
+
+		StepSetOperation sso = new StepSetOperation(op);
+		sso.addOperand(a.deepCopy());
+		sso.addOperand(b.deepCopy());
+
+		return sso;
+	}
+
+	public static StepExpression add(StepExpression a, StepExpression b) {
+		return applyBinaryOp(Operation.PLUS, a, b);
 	}
 
 	public static StepExpression add(StepExpression a, double b) {
@@ -311,27 +354,11 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression minus(StepExpression a) {
-		if (a == null) {
-			return null;
-		}
-
-		StepOperation so = new StepOperation(Operation.MINUS);
-		so.addOperand(a.deepCopy());
-		return so;
+		return applyOp(Operation.MINUS, a);
 	}
 
 	public static StepExpression multiply(StepExpression a, StepExpression b) {
-		if (a == null) {
-			return b == null ? null : b.deepCopy();
-		}
-		if (b == null) {
-			return a.deepCopy();
-		}
-
-		StepOperation so = new StepOperation(Operation.MULTIPLY);
-		so.addOperand(a.deepCopy());
-		so.addOperand(b.deepCopy());
-		return so;
+		return applyBinaryOp(Operation.MULTIPLY, a, b);
 	}
 
 	/**
@@ -358,11 +385,7 @@ public abstract class StepNode {
 
 	public static StepExpression divide(StepExpression a, StepExpression b) {
 		if (a == null) {
-			if (b == null) {
-				return null;
-			}
-
-			return divide(StepConstant.create(1), b);
+			return b == null ? null : divide(StepConstant.create(1), b);
 		}
 		if (b == null) {
 			return a.deepCopy();
@@ -387,17 +410,7 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression power(StepExpression a, StepExpression b) {
-		if (a == null) {
-			return null;
-		}
-		if (b == null) {
-			return a.deepCopy();
-		}
-
-		StepOperation so = new StepOperation(Operation.POWER);
-		so.addOperand(a.deepCopy());
-		so.addOperand(b.deepCopy());
-		return so;
+		return applyNullableBinaryOp(Operation.POWER, a, b);
 	}
 
 	public static StepExpression power(StepExpression a, double b) {
@@ -405,17 +418,7 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression root(StepExpression a, StepExpression b) {
-		if (a == null) {
-			return null;
-		}
-		if (b == null) {
-			return a.deepCopy();
-		}
-
-		StepOperation so = new StepOperation(Operation.NROOT);
-		so.addOperand(a.deepCopy());
-		so.addOperand(b.deepCopy());
-		return so;
+		return applyNullableBinaryOp(Operation.NROOT, a, b);
 	}
 
 	public static StepExpression root(StepExpression a, double b) {
@@ -423,49 +426,43 @@ public abstract class StepNode {
 	}
 
 	public static StepExpression logarithm(StepExpression a, StepExpression b) {
-		if (a == null) {
-			return null;
-		}
-		if (b == null) {
-			return a.deepCopy();
-		}
-
-		StepOperation so = new StepOperation(Operation.LOG);
-		so.addOperand(a.deepCopy());
-		so.addOperand(b.deepCopy());
-		return so;
+		return applyNullableBinaryOp(Operation.LOG, a, b);
 	}
 
 	public static StepExpression logarithm(double a, StepExpression b) {
 		return logarithm(StepConstant.create(a), b);
 	}
 
-	public static StepExpression abs(StepExpression a) {
-		if (a == null) {
-			return null;
-		}
-
-		StepOperation so = new StepOperation(Operation.ABS);
-		so.addOperand(a.deepCopy());
-		return so;
-	}
-
-	public static StepExpression apply(StepExpression a, Operation op) {
-		if (a == null) {
-			return null;
-		}
-
-		StepOperation so = new StepOperation(op);
-		so.addOperand(a.deepCopy());
-		return so;
-	}
-
 	public static StepExpression differentiate(StepExpression a, StepVariable b) {
-		StepOperation so = new StepOperation(Operation.DIFF);
-		so.addOperand(a.deepCopy());
-		so.addOperand(b.deepCopy());
+		return applyNullableBinaryOp(Operation.DIFF, a, b);
+	}
 
-		return so;
+	public static StepExpression plusminus(StepExpression a) {
+		return applyOp(Operation.PLUSMINUS, a);
+	}
+
+	public static StepExpression abs(StepExpression a) {
+		return applyOp(Operation.ABS, a);
+	}
+
+	public static StepExpression sin(StepExpression a) {
+		return applyOp(Operation.SIN, a);
+	}
+
+	public static StepExpression cos(StepExpression a) {
+		return applyOp(Operation.COS, a);
+	}
+
+	public static StepLogical intersect(StepLogical a, StepLogical b) {
+		return doSetOperation(SetOperation.INTERSECT, a, b);
+	}
+
+	public static StepLogical union(StepLogical a, StepLogical b) {
+		return doSetOperation(SetOperation.UNION, a, b);
+	}
+
+	public static StepLogical subtract(StepLogical a, StepLogical b) {
+		return doSetOperation(SetOperation.DIFFERENCE, a, b);
 	}
 
 	public static long gcd(StepExpression a, StepExpression b) {

@@ -9,8 +9,9 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.Operation;
 
 public class StepOperation extends StepExpression implements Iterable<StepExpression> {
-	private List<StepExpression> operands;
+
 	private Operation operation;
+	private List<StepExpression> operands;
 
 	public StepOperation(Operation op) {
 		operation = op;
@@ -31,11 +32,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	public void addOperand(StepExpression sn) {
 		if (sn != null) {
-			if (isOperation(Operation.PLUS) && sn.isOperation(Operation.PLUS)) {
-				for (StepExpression operand : (StepOperation) sn) {
-					addOperand(operand);
-				}
-			} else if (isOperation(Operation.MULTIPLY) && sn.isOperation(Operation.MULTIPLY)) {
+			if (isOperation(Operation.PLUS) && sn.isOperation(Operation.PLUS)
+					|| isOperation(Operation.MULTIPLY) && sn.isOperation(Operation.MULTIPLY)) {
 				for (StepExpression operand : (StepOperation) sn) {
 					addOperand(operand);
 				}
@@ -64,14 +62,14 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		if (obj instanceof StepOperation) {
 			StepOperation so = (StepOperation) obj;
 
-			if (so.operation != operation) {
+			if (so.operation != operation || so.operands.size() != operands.size()) {
 				return false;
 			}
 
 			StepOperation copyOfThis = deepCopy().sort();
 			StepOperation copyOfThat = so.deepCopy().sort();
 
-			return copyOfThis.exactEquals(copyOfThat);
+			return copyOfThis.operands.equals(copyOfThat.operands);
 		}
 
 		return false;
@@ -98,19 +96,6 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		}
 
 		return this;
-	}
-
-	private boolean exactEquals(StepOperation so) {
-		if (so.noOfOperands() == noOfOperands()) {
-			for (int i = 0; i < noOfOperands(); i++) {
-				if (!so.getOperand(i).equals(getOperand(i))) {
-					return false;
-				}
-			}
-			return true;
-		}
-
-		return false;
 	}
 
 	@Override
@@ -153,7 +138,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			case POWER:
 				int temp = getOperand(0).degree(var);
 
-				if (temp != -1 && closeToAnInteger(getOperand(1).getValue())) {
+				if (temp != -1 && getOperand(1).isInteger()) {
 					return (int) (temp * getOperand(1).getValue());
 				}
 
@@ -221,7 +206,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			double exponent = operands.get(1).getValue();
 
 			if (base < 0) {
-				if (closeToAnInteger(exponent) && Math.round(exponent) % 2 == 1) {
+				if (isOdd(exponent)) {
 					return -Math.pow(-base, 1 / exponent);
 				}
 			}
