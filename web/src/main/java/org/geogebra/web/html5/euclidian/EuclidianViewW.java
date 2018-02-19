@@ -13,7 +13,6 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
-import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
@@ -1505,11 +1504,8 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public Runnable getCallBack(GeoElement geo) {
-		if (geo instanceof GeoAxis) {
-			return new DrawLaTeXCallBack(geo);
-		}
 
-		return null;
+		return new DrawLaTeXCallBack(geo);
 	}
 
 	private class DrawLaTeXCallBack implements Runnable {
@@ -1522,7 +1518,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 		@Override
 		public void run() {
-			Log.debug("Repaint from:" + geo);
+			Log.debug("Repaint from view " + evNo + ": " + geo);
 			repaintView();
 		}
 
