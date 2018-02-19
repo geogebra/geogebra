@@ -372,6 +372,9 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void clickPage(int pageIdx, boolean select) {
+		if (selectedCard != null) {
+			savePreviewCard(selectedCard);
+		}
 		loadSlide(null, pageIdx, false);
 		if (select) {
 			setCardSelected(getCard(pageIdx));
