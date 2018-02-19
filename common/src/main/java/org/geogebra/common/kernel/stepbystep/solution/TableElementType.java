@@ -16,13 +16,13 @@ public enum TableElementType implements TableElement {
 
     CONCAVE("\\frown"),
 
-    CONVEX_INCREASING("\\rotatebox{90}{\u2937}"),
+    CONVEX_INCREASING("\u2934"),
 
-    CONVEX_DECREASING("\\text{\u2937}"),
+    CONVEX_DECREASING("\u2937"),
 
-    CONCAVE_INCREASING("\\rotatebox{90}{\u2937}"),
+    CONCAVE_INCREASING("\\rotatebox{90}{\u2935}"),
 
-    CONCAVE_DECREASING("\\rotatebox{90}{\u2936}"),
+    CONCAVE_DECREASING("\u2935"),
 
     INVALID("|"),
 
