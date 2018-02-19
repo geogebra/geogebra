@@ -5094,7 +5094,6 @@ public abstract class App implements UpdateSelection {
 	 *            set how rounded buttons are
 	 */
 	public void setButtonRounding(double percent) {
-
 		if (!MyDouble.isFinite(percent)) {
 			this.buttonRounding = 0.2;
 		} else if (percent < 0) {
@@ -5207,6 +5206,10 @@ public abstract class App implements UpdateSelection {
 	public void executeAction(EventType action, String[] args) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setActiveSlide(String slideID) {
+		// TODO Auto-generated method stub
 	}
 
 }
