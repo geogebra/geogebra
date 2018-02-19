@@ -512,6 +512,20 @@ public final class DrawImage extends Drawable {
 			geoImage.setCorner(D, 2);
 			break;
 		case BOTTOM:
+			if (eventY - view.toScreenCoordYd(D.getInhomY()) <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
+			D.setX(A.getInhomX());
+			D.updateCoords();
+			D.updateRepaint();
+			geoImage.setCorner(D, 2);
+			A.setY(view.toRealWorldCoordY(eventY));
+			A.updateCoords();
+			A.updateRepaint();
+			B.setY(view.toRealWorldCoordY(eventY));
+			B.updateCoords();
+			B.updateRepaint();
 			break;
 		default:
 			break;
