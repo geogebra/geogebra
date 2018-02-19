@@ -84,8 +84,12 @@ class MetaModelSymbols {
 				Unicode.QUESTEQ));
         collection.addComponent(createOperator("equiv", "NaN", "\\equiv", '\u2261'));
 
-        collection.addComponent(createOperator("neg", "!", "\\neg", '!'));
-		collection.addComponent(createOperator("vee", "||", "\\vee", Unicode.OR));
+		// don't want this, ! should be factorial
+		// also used for !=
+		// collection.addComponent(createOperator("neg", "!", "\\neg", '!'));
+
+		collection
+				.addComponent(createOperator("vee", "||", "\\vee", Unicode.OR));
 		collection.addComponent(
 				createOperator("wedge", "&&", "\\wedge", Unicode.AND));
 		collection.addComponent(createOperator("implication", "->", "\\implies",
