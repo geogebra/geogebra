@@ -6,7 +6,6 @@ import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.euclidian.CoordSystemAnimation;
-import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.EuclidianCursor;
 import org.geogebra.common.euclidian.EuclidianStyleBar;
@@ -1523,12 +1522,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 		@Override
 		public void run() {
-			DrawableND drawable = getDrawable(geo);
-			if (drawable != null) {
-				drawable.update();
-			}
-			// geo.getDrawAlgorithm().euclidianViewUpdate()
-			// repaintView();
+			Log.debug("Repaint from:" + geo);
+			repaintView();
 		}
 
 	}
