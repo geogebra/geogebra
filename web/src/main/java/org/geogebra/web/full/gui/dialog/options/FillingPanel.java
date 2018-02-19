@@ -139,7 +139,7 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 				if (reader.readyState === reader.DONE) {
 					var fileData = reader.result;
 					var fileName = fileToHandle.name;
-					appl.@org.geogebra.web.full.gui.dialog.options.FillingPanel.MyImageFileInputDialog::applyImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
+					appl.@org.geogebra.web.full.gui.dialog.options.FillingPanel.MyImageFileInputDialog::applyFillImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
 					if (callback != null) {
 						callback();
 					}
@@ -148,6 +148,11 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 			reader.readAsDataURL(fileToHandle);
 			return true;
 		}-*/;
+
+		public void applyFillImage(String name, String url) {
+			applyImage(name, url);
+
+		}
 
 	}
 

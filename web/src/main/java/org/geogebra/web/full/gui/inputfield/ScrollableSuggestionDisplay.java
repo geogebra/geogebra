@@ -20,7 +20,7 @@ public final class ScrollableSuggestionDisplay extends
 	// I checked this from web-styles.css (5px padding plus 16px font size)
 	// maybe em-size is 19px, 120% of 16px font size... but smaller is OK
 	// TODO: improve it, if we can... this still seems smaller (but OK)
-	public final static int lineWidth = 29;
+	public final static int LINE_HEIGHT = 29;
 	private HasSuggestions editor;
 	private ScrollPanel scrollable;
 
@@ -30,14 +30,12 @@ public final class ScrollableSuggestionDisplay extends
 		this.editor = ed;
 	}
 
-
-
 	@Override
 	protected void moveSelectionDown() {
 		super.moveSelectionDown();
 		if (scrollable != null) {
 			scrollable.setVerticalScrollPosition(scrollable
-			        .getVerticalScrollPosition() + lineWidth);
+			        .getVerticalScrollPosition() + LINE_HEIGHT);
 		}
 	}
 
@@ -46,7 +44,7 @@ public final class ScrollableSuggestionDisplay extends
 		super.moveSelectionUp();
 		if (scrollable != null) {
 			scrollable.setVerticalScrollPosition(scrollable
-			        .getVerticalScrollPosition() - lineWidth);
+			        .getVerticalScrollPosition() - LINE_HEIGHT);
 		}
 	}
 

@@ -56,7 +56,7 @@ public class PenSubMenu extends SubMenuPanel {
 	boolean colorsEnabled;
 	// preset colors black, green, teal,blue, purple,magenta, red, carrot,
 	// yellow
-	private final static String hexColors[] = { "000000", "2E7D32", "00A8A8",
+	private final static String HEX_COLORS[] = { "000000", "2E7D32", "00A8A8",
 			"1565C0", "6557D2", "CC0099", "D32F2F", "DB6114", "FFCC00" };
 	private GColor lastSelectedColor = null;
 
@@ -117,11 +117,11 @@ public class PenSubMenu extends SubMenuPanel {
 	private void createColorPanel() {
 		colorPanel = new FlowPanel();
 		colorPanel.addStyleName("colorPanel");
-		btnColor = new Label[hexColors.length];
-		penColor = new GColor[hexColors.length];
-		for (int i = 0; i < hexColors.length; i++) {
+		btnColor = new Label[HEX_COLORS.length];
+		penColor = new GColor[HEX_COLORS.length];
+		for (int i = 0; i < HEX_COLORS.length; i++) {
 			penColor[i] = GColor
-					.newColorRGB(Integer.parseInt(hexColors[i], 16));
+					.newColorRGB(Integer.parseInt(HEX_COLORS[i], 16));
 			btnColor[i] = createColorButton(penColor[i], i);
 		}
 		btnCustomColor = new StandardButton(

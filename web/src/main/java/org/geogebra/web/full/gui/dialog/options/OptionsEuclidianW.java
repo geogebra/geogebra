@@ -96,7 +96,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 		
 	protected class GridTab extends EuclidianTab {
-		private static final int iconHeight = 24;
+		private static final int ICON_HEIGHT = 24;
 		CheckBox cbShowGrid;
 		private FormLabel lbPointCapturing;
 		private ListBox pointCapturingStyleList;
