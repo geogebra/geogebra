@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 class DragController {
@@ -208,7 +207,7 @@ class DragController {
 				return false;
 			}
 
-			if (!isAnimated()) {
+			if (isAnimated()) {
 				return dropAnimated(y);
 			}
 
@@ -225,7 +224,7 @@ class DragController {
 		boolean dropAnimated(int y) {
 
 			int srcIdx = index();
-			int destIdx = -1;
+			int destIdx = last.target != null ? last.target.getPageIndex() : -1;
 			if (target != null) {
 				destIdx = target.getPageIndex();
 				boolean dragUnderTarget = card.getAbsoluteBottom() > target.getAbsoluteBottom();
@@ -235,7 +234,6 @@ class DragController {
 					destIdx++;
 				}
 			} else {
-				Log.debug("Target is null");
 				if (card.getAbsoluteBottom() < cards.cardAt(0).getAbsoluteTop()) {
 					destIdx = 0;
 				} else if (card.getAbsoluteTop() > cards.cardAt(cards.getCardCount() - 1).getAbsoluteTop()) {
