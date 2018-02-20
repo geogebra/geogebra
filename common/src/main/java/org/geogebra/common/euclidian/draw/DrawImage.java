@@ -475,6 +475,10 @@ public final class DrawImage extends Drawable {
 		case TOP_LEFT:
 			break;
 		case BOTTOM_RIGHT:
+			if (eventX - view.toScreenCoordXd(D.getInhomX()) <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
 			D.setX(A.getInhomX());
 			D.updateCoords();
 			D.updateRepaint();
@@ -496,6 +500,7 @@ public final class DrawImage extends Drawable {
 			A.updateRepaint();
 			break;
 		case BOTTOM_LEFT:
+
 			break;
 		case RIGHT:
 			if (eventX - view.toScreenCoordXd(D.getInhomX()) <= Math
