@@ -222,32 +222,26 @@ class DragController {
 		}
 
 		boolean dropAnimated(int y) {
-
-			int srcIdx = index();
-			int destIdx = last.target != null ? last.target.getPageIndex() : -1;
+			int dropToIdx = -1;
 			if (target != null) {
-				destIdx = target.getPageIndex();
+				dropToIdx = target.getPageIndex();
 				boolean dragUnderTarget = card.getAbsoluteBottom() > target.getAbsoluteBottom();
-				if (down && !dragUnderTarget && destIdx > 0) {
-					destIdx--;
-				} else if (!down && dragUnderTarget && destIdx < cards.getCardCount() - 1) {
-					destIdx++;
+				if (down && !dragUnderTarget && dropToIdx > 0) {
+					dropToIdx--;
+				} else if (!down && dragUnderTarget && dropToIdx < cards.getCardCount() - 1) {
+					dropToIdx++;
 				}
-			} else {
-				if (card.getAbsoluteBottom() < cards.cardAt(0).getAbsoluteTop()) {
-					destIdx = 0;
-				} else if (card.getAbsoluteTop() > cards.cardAt(cards.getCardCount() - 1).getAbsoluteTop()) {
-					destIdx = cards.getCardCount() - 1;
-				}
-
+			} else if (last.target != null) {
+				dropToIdx = last.target.getPageIndex();
 			}
 
-			if (srcIdx != -1 && destIdx != -1) {
-				cards.reorder(srcIdx, destIdx);
+			if (index() != -1 && dropToIdx != -1) {
+				cards.reorder(index(), dropToIdx);
 				return true;
 			}
 			return false;
 		}
+
 		public void cancel() {
 			CancelEventTimer.resetDrag();
 			if (isValid()) {
