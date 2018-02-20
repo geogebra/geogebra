@@ -29,7 +29,7 @@ public class AlgebraViewVisibilityDelegate {
 	 * 
 	 * @return true if view can update
 	 */
-    public boolean viewShouldUpdate() {
+    public boolean shouldViewUpdate() {
         if (isViewVisible) {
             return true;
         }
@@ -44,7 +44,7 @@ public class AlgebraViewVisibilityDelegate {
 	 *            geo to add
 	 * @return true if view can add
 	 */
-    public boolean viewShouldAdd(GeoElement geo) {
+    public boolean shouldViewAdd(GeoElement geo) {
         if (isViewVisible) {
             return true;
         }
@@ -59,7 +59,7 @@ public class AlgebraViewVisibilityDelegate {
 	 *            geo to remove
 	 * @return true if view can remove
 	 */
-    public boolean viewShouldRemove(GeoElement geo) {
+    public boolean shouldViewRemove(GeoElement geo) {
         if (isViewVisible) {
             return true;
         }
@@ -74,7 +74,7 @@ public class AlgebraViewVisibilityDelegate {
 	 * 
 	 * @return true if view can clear
 	 */
-    public boolean viewShouldClear() {
+    public boolean shouldViewClear() {
         if (isViewVisible) {
             return true;
         }
