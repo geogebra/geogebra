@@ -4697,6 +4697,8 @@ namespace giac {
     if (args.type!=_VECT || is_undef(args))
       return args;
     vecteur & v = *args._VECTptr;
+    if (v.size()==3)
+      return _powmod(args,contextptr); // Python 3 compat
     if (v.size()!=2)
       return gensizeerr(gettext("bad pow ")+args.print(contextptr));
     const gen & a =v.front();

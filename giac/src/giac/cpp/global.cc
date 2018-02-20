@@ -6046,7 +6046,13 @@ unsigned int ConvertUTF8toUTF16 (
 	progpos=cur.find("def");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
 	  pythonmode=true;
-	  s += cur.substr(0,progpos)+"function"+cur.substr(progpos+3,pos-progpos-3)+"\n";
+	  // should remove possible returned type, between -> ... and :
+	  string entete=cur.substr(progpos+3,pos-progpos-3);
+	  int posfleche=entete.find("->");
+	  if (posfleche>0 || posfleche<entete.size())
+	    entete=entete.substr(0,posfleche);
+	  // FIXME warning for + * concatenate lists in Python
+	  s += cur.substr(0,progpos)+"function"+entete+"\n";
 	  stack.push_back(int_string(ws,"ffunction"));
 	  continue;
 	}
