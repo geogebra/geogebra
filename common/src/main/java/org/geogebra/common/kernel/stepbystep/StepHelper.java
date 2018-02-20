@@ -7,6 +7,8 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.parser.ParseException;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
@@ -161,21 +163,30 @@ public class StepHelper {
 		return nthDegreeInExpression(diff, var, findExpressionInVariable(diff, var), 2);
 	}
 
-	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl, StepVariable variable) {
+	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl, StepVariable variable,
+											   SolutionBuilder steps, int colorTracker[]) {
 		if (se instanceof StepOperation && sl instanceof StepInterval) {
 			StepOperation so = (StepOperation) se;
 			StepInterval si = (StepInterval) sl;
 
 			if (so.isOperation(Operation.ABS)) {
-				if (isNegative(so.getOperand(0), si.getLeftBound(), si.getRightBound(), variable)) {
-					return StepNode.minus(so.getOperand(0));
+				StepExpression underAbs = so.getOperand(0);
+				underAbs.setColor(++colorTracker[0]);
+
+				if (isNegative(underAbs, si.getLeftBound(), si.getRightBound(), variable)) {
+					StepExpression result = StepNode.minus(so.getOperand(0));
+					result.setColor(colorTracker[0]);
+					steps.add(SolutionStepType.IS_NEGATIVE_IN, underAbs, sl);
+					return result;
 				}
-				return so.getOperand(0);
+
+				steps.add(SolutionStepType.IS_POSITIVE_IN, underAbs, sl);
+				return underAbs.deepCopy();
 			}
 
 			StepOperation newSo = new StepOperation(so.getOperation());
 			for (StepExpression operand : so) {
-				newSo.addOperand(swapAbsInTree(operand, si, variable));
+				newSo.addOperand(swapAbsInTree(operand, si, variable, steps, colorTracker));
 			}
 			return newSo;
 		}
@@ -183,7 +194,7 @@ public class StepHelper {
 		return se;
 	}
 
-	private static boolean isNegative(StepExpression x, StepExpression a, StepExpression b, StepVariable variable) {
+	public static boolean isNegative(StepExpression x, StepExpression a, StepExpression b, StepVariable variable) {
 		StepExpression evaluateAt;
 
 		if (Double.isInfinite(a.getValue()) && a.getValue() < 0) {

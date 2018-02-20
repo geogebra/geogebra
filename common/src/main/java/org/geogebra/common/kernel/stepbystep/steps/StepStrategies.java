@@ -82,12 +82,7 @@ public class StepStrategies {
 					if (simplificationStep.isGroupType()) {
 						sb.addAll(changes.getSteps());
 					} else {
-						sb.add(SolutionStepType.SUBSTEP_WRAPPER);
-						sb.levelDown();
-						sb.add(SolutionStepType.EQUATION, sn.deepCopy());
-						sb.addAll(changes.getSteps());
-						sb.add(SolutionStepType.EQUATION, newSn.deepCopy());
-						sb.levelUp();
+						sb.addSubsteps(sn, newSn, changes);
 					}
 				}
 

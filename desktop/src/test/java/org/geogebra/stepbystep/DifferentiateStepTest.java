@@ -7,7 +7,6 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;

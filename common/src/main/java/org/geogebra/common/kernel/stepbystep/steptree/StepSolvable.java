@@ -23,6 +23,10 @@ public abstract class StepSolvable extends StepNode {
 		LHS = temp;
 	}
 
+	public boolean isSwapped() {
+		return swapped;
+	}
+
 	public int countNonConstOperation(Operation operation, StepVariable variable) {
 		return LHS.countNonConstOperation(operation, variable) +
 				RHS.countNonConstOperation(operation, variable);

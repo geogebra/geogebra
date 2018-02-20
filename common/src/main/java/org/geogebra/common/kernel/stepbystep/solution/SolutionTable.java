@@ -1,12 +1,15 @@
 package org.geogebra.common.kernel.stepbystep.solution;
 
+import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
+import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.Localization;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SolutionTable {
+public class SolutionTable extends SolutionStep {
 
     private StepExpression[] header;
     private List<TableElement[]> rows;
@@ -20,7 +23,47 @@ public class SolutionTable {
         rows.add(row);
     }
 
-    public String toLaTeXString(Localization loc) {
+    public static SolutionTable createSignTable(StepVariable variable, List<StepExpression> roots,
+                                                List<StepExpression> expressions) {
+        StepExpression[] header = new StepExpression[1 + roots.size()];
+        header[0] = variable;
+        for (int i = 0; i < roots.size(); i++) {
+            header[i + 1] = roots.get(i);
+        }
+
+        SolutionTable table = new SolutionTable(header);
+
+        for (StepExpression expression : expressions) {
+            List<TableElement> row = new ArrayList<>();
+            row.add(expression);
+            for (int i = 0; i < roots.size(); i++) {
+                double value = expression.getValueAt(variable, roots.get(i).getValue());
+                if (StepNode.isEqual(value, 0)) {
+                    row.add(TableElementType.ZERO);
+                } else if (value < 0) {
+                    row.add(TableElementType.NEGATIVE);
+                } else {
+                    row.add(TableElementType.POSITIVE);
+                }
+
+                if (i == roots.size() - 1) {
+                    break;
+                }
+
+                if (StepHelper.isNegative(expression, roots.get(i), roots.get(i + 1), variable)) {
+                    row.add(TableElementType.NEGATIVE);
+                } else {
+                    row.add(TableElementType.POSITIVE);
+                }
+            }
+            table.addRow(row.toArray(new TableElement[0]));
+        }
+
+        return table;
+    }
+
+    @Override
+    public String getDefault(Localization loc) {
         StringBuilder sb = new StringBuilder();
 
         sb.append("\\begin{tabular}{r | *{");
@@ -53,4 +96,8 @@ public class SolutionTable {
         return sb.toString();
     }
 
+    @Override
+    public String getDetailed(Localization loc) {
+        return getDefault(loc);
+    }
 }

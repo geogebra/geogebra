@@ -30,27 +30,27 @@ public class SolutionBuilder {
 	}
 
 	/**
-	 * Creates a new solution step and adds it to the tree
+	 * Creates a new solution line and adds it to the tree
 	 * 
 	 * @param type
-	 *            SolutionStepType of the SolutionStep
+	 *            SolutionStepType of the SolutionLine
 	 * @param color
-	 *            color assigned to the SolutionStep
+	 *            color assigned to the SolutionLine
 	 */
 	public void add(SolutionStepType type, int color) {
-		add(new SolutionStep(type, color));
+		add(new SolutionLine(type, color));
 	}
 
 	/**
-	 * Creates a new solutions step and adds it to the tree
+	 * Creates a new solutions line and adds it to the tree
 	 * 
 	 * @param type
-	 *            SolutionStepType of the SolutionStep
+	 *            SolutionStepType of the SolutionLine
 	 * @param arguments
-	 *            StepNode arguments of the SolutionStep
+	 *            StepNode arguments of the SolutionLine
 	 */
 	public void add(SolutionStepType type, StepNode... arguments) {
-		add(new SolutionStep(type, arguments));
+		add(new SolutionLine(type, arguments));
 	}
 
 	/**
@@ -89,16 +89,25 @@ public class SolutionBuilder {
 	}
 
 	public void addGroup(SolutionStepType groupHeader, SolutionBuilder group, StepNode result) {
-		addGroup(new SolutionStep(groupHeader), group, result);
+		addGroup(new SolutionLine(groupHeader), group, result);
 	}
 
-	public void addGroup(SolutionStep groupHeader, SolutionBuilder group, StepNode result) {
+	public void addGroup(SolutionLine groupHeader, SolutionBuilder group, StepNode result) {
 		add(SolutionStepType.GROUP_WRAPPER);
 		levelDown();
 		add(groupHeader);
 		levelDown();
 		addAll(group.getSteps());
 		levelUp();
+		add(SolutionStepType.EQUATION, result);
+		levelUp();
+	}
+
+	public void addSubsteps(StepNode original, StepNode result, SolutionBuilder substeps) {
+		add(SolutionStepType.SUBSTEP_WRAPPER);
+		levelDown();
+		add(SolutionStepType.EQUATION, original);
+		addAll(substeps.getSteps());
 		add(SolutionStepType.EQUATION, result);
 		levelUp();
 	}

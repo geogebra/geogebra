@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.solution.SolutionStep;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
@@ -896,7 +896,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepExpression result = divide(factoredNumerator, factoredDenominator);
 
 				if (!isOne(StepHelper.weakGCD(factoredNumerator, factoredDenominator)) && !so.equals(result)) {
-					sb.addGroup(new SolutionStep(SolutionStepType.FACTOR, sn), temp, result);
+					sb.addGroup(new SolutionLine(SolutionStepType.FACTOR, sn), temp, result);
 
 					tracker.incColorTracker();
 					return result;

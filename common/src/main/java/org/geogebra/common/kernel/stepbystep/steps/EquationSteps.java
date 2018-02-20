@@ -5,9 +5,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
@@ -470,48 +472,62 @@ public enum EquationSteps implements SolveStepGenerator {
 			}
 
 			if (!tracker.getRestriction().equals(StepInterval.R)) {
-				steps.add(SolutionStepType.RESOLVE_ABSOLUTE_VALUES);
+				SolutionBuilder tempSteps = new SolutionBuilder();
+				int[] colorTracker = new int[] {0};
+				StepExpression LHS = StepHelper.swapAbsInTree(se.getLHS(),
+						tracker.getRestriction(), variable, tempSteps, colorTracker);
+				StepExpression RHS = StepHelper.swapAbsInTree(se.getRHS(),
+						tracker.getRestriction(), variable, tempSteps, colorTracker);
 
-				StepExpression LHS = StepHelper.swapAbsInTree(se.getLHS().deepCopy(),
-						tracker.getRestriction(), variable);
-				StepExpression RHS = StepHelper.swapAbsInTree(se.getRHS().deepCopy(),
-						tracker.getRestriction(), variable);
+				StepSolvable original = se.deepCopy();
 				se.modify(LHS, RHS);
 
-				steps.add(se);
-				se.expand(steps, tracker);
+				steps.addSubsteps(original, se, tempSteps);
 
+				se.expand(steps, tracker);
 				return se;
 			}
 
 			int absNum = se.countNonConstOperation(Operation.ABS, variable);
 
-			if (se.getRHS().countNonConstOperation(Operation.ABS, variable) >
-					se.getLHS().countNonConstOperation(Operation.ABS, variable)) {
-				se.swapSides();
-			}
-
 			StepExpression nonAbsDiff = StepHelper.getNon(subtract(se.getLHS(), se.getRHS()).regroup(), Operation.ABS);
-			if (absNum == 1 && (nonAbsDiff == null || nonAbsDiff.isConstant())) {
-				StepExpression nonAbsolute = StepHelper.getNon(se.getLHS(), Operation.ABS);
-				se.addOrSubtract(nonAbsolute, steps, tracker);
-				return se;
-			} else if (absNum == 2 && (isZero(nonAbsDiff))) {
+			if (absNum == 2 && (isZero(nonAbsDiff))) {
+				se.addOrSubtract(nonAbsDiff, steps, tracker);
+
+				if (se.getRHS().countNonConstOperation(Operation.ABS, variable) >
+						se.getLHS().countNonConstOperation(Operation.ABS, variable)) {
+					se.swapSides();
+				}
+
 				if (se.getLHS().countNonConstOperation(Operation.ABS, variable) == 2) {
 					StepExpression oneAbs = StepHelper.getOne(se.getLHS(), Operation.ABS);
 					se.addOrSubtract(oneAbs, steps, tracker);
 				}
+
+				if (se.getLHS().isNegative() && se.getRHS().isNegative()) {
+					se.multiplyOrDivide(StepConstant.create(-1), steps, tracker);
+				}
+
+				if (se.getLHS().isNegative() || se.getRHS().isNegative()) {
+					throw new SolveFailedException(steps.getSteps());
+				}
+
 				return se;
 			}
 
 			ArrayList<StepExpression> absoluteValues = new ArrayList<>();
 			StepHelper.getAbsoluteValues(absoluteValues, se);
 
+			steps.add(SolutionStepType.ROOTS_AND_SIGN_TABLE);
+			steps.levelDown();
+
 			StepSet tempSolutions = new StepSet();
 			for (StepExpression absoluteValue : absoluteValues) {
 				StepEquation tempEq = new StepEquation(absoluteValue, StepConstant.create(0));
-				tempSolutions.addAll(tempEq.solve(variable, null));
+				tempSolutions.addAll(tempEq.solve(variable, steps));
 			}
+
+			steps.levelUp();
 
 			List<StepExpression> roots = new ArrayList<>();
 			for(StepNode sn : tempSolutions.getElements()) {
@@ -528,9 +544,18 @@ public enum EquationSteps implements SolveStepGenerator {
 			roots.add(0, StepConstant.NEG_INF);
 			roots.add(StepConstant.POS_INF);
 
+            SolutionTable signTable = SolutionTable.createSignTable(variable, roots, absoluteValues);
+            steps.add(signTable);
+
 			StepSet solutions = new StepSet();
 			for (int i = 1; i < roots.size(); i++) {
-				StepEquation newEq = new StepEquation(se.getLHS(), se.getRHS());
+				StepEquation newEq;
+				if (se.isSwapped()) {
+					newEq = new StepEquation(se.getRHS(), se.getLHS());
+				} else {
+					newEq = new StepEquation(se.getLHS(), se.getRHS());
+				}
+
 				SolveTracker tempTracker = new SolveTracker();
 				tempTracker.addRestriction(new StepInterval(roots.get(i - 1), roots.get(i),
 						false, i != roots.size() - 1));
@@ -549,6 +574,10 @@ public enum EquationSteps implements SolveStepGenerator {
 					|| se.getRHS().isOperation(Operation.ABS) && se.getLHS().isConstantIn(variable)
 					|| se.getLHS().isOperation(Operation.ABS) && se.getRHS().isConstantIn(variable)) {
 
+				se.getLHS().setColor(1);
+				se.getRHS().setColor(2);
+				StepSolvable original = se.deepCopy();
+
 				if (se.getLHS().isOperation(Operation.ABS)) {
 					se.modify(((StepOperation) se.getLHS()).getOperand(0), se.getRHS());
 				}
@@ -562,8 +591,9 @@ public enum EquationSteps implements SolveStepGenerator {
 					se.regroup(steps, tracker);
 				}
 
-				steps.add(SolutionStepType.GROUP_WRAPPER);
+				steps.add(SolutionStepType.SUBSTEP_WRAPPER);
 				steps.levelDown();
+				steps.add(original);
 				steps.add(SolutionStepType.RESOLVE_ABSOLUTE_VALUES);
 				steps.add(se);
 				steps.levelUp();

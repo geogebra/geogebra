@@ -73,7 +73,14 @@ public enum SolutionStepType {
 
 	INVALID_SOLUTION_ABS("ValidSolutionAbs", "%0 \\notin %1"),
 
-	RESOLVE_ABSOLUTE_VALUES("ResolveAbsoluteValues", "Resolve Absolute Values"),
+	ROOTS_AND_SIGN_TABLE("FindRootsAndCreateSignTable", "Find the roots of the absolute values and create sign table"),
+
+	RESOLVE_ABSOLUTE_VALUES("ResolveAbsoluteValues", "Resolve Absolute Values", "\\left|a\\right| = \\left|b\\right| " +
+			"\\implies a = \\pm b"),
+
+	IS_POSITIVE_IN("IsPositiveIn", "Resolve Absolute Values", "%0 \\ge 0 in %1"),
+
+	IS_NEGATIVE_IN("IsNegativeIn", "Resolve Absolute Values", "%0 \\le 0 in %1"),
 
 	SQUARE_ROOT("TakeSquareRoot", "Take square root of both sides"),
 

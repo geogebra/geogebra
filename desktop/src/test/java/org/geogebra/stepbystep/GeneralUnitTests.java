@@ -8,10 +8,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -113,7 +110,7 @@ public class GeneralUnitTests {
         );
 
         HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
-        htmlBuilder.addLatexRow(table.toLaTeXString(app.getLocalization()));
+        htmlBuilder.addLatexRow(table.getDefault(app.getLocalization()));
         htmlBuilder.printReport("table.html");
     }
 
@@ -163,7 +160,7 @@ public class GeneralUnitTests {
         );
 
         HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
-        htmlBuilder.addLatexRow(table.toLaTeXString(app.getLocalization()));
+        htmlBuilder.addLatexRow(table.getDefault(app.getLocalization()));
         htmlBuilder.printReport("table.html");
     }
 
