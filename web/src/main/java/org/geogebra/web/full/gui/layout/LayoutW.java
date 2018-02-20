@@ -208,6 +208,7 @@ public class LayoutW extends Layout implements SettingListener {
 
 	/**
 	 * @param index
+	 *            perspective index
 	 * @return perspective at given index
 	 */
 	public Perspective getPerspective(int index) {
@@ -312,7 +313,7 @@ public class LayoutW extends Layout implements SettingListener {
 				// is updated, so we have to take care of this by ourself
 				if (!panels[i].isOpenInFrame() && panels[i].isVisible()) {
 					DockSplitPaneW parent = panels[i].getParentSplitPane();
-					if (parent
+					if (parent != null && parent
 							.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 						panels[i].setEmbeddedSize(panels[i].getWidth());
 					} else {
