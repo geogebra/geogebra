@@ -823,8 +823,9 @@
 		text-align:center;
 	}
 	.mowPermissionDialog{
-		max-width: calc(100% - 80px);
+		width: calc(100% - 80px);
    		min-width: 250px;
+   		max-width: 476px; // 500px - (8px + 16px) padding
    		max-height: calc(100% - 48px);
 		.Caption{
 			margin-right: 16px;
