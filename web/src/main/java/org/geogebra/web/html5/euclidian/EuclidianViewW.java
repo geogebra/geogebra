@@ -13,6 +13,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.MyXMLio;
 import org.geogebra.common.javax.swing.GBox;
+import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.main.App;
@@ -1516,10 +1517,23 @@ public class EuclidianViewW extends EuclidianView implements
 			this.geo = geo;
 		}
 
+		/**
+		 * GGB-2301 repaint after font loaded Special case needed for GeoAxis as
+		 * drawn to background image (problem on retina)
+		 */
 		@Override
 		public void run() {
 			Log.debug("Repaint from view " + evNo + ": " + geo);
+			if (geo instanceof GeoAxis) {
+				app.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						updateBackgroundImage();
+					}
+				});
+			}
 			repaintView();
+
 		}
 
 	}
