@@ -4012,7 +4012,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1462
 		case MOB_AND_DO_NOT_UPDATE_AV_IF_HIDDEN:
-			return prerelease;
+			return true;
 
 		// MOB-1259
 		case MOB_INCREASE_TOUCHABLE_AREA:
