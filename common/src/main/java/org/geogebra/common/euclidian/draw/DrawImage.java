@@ -492,6 +492,20 @@ public final class DrawImage extends Drawable {
 			geoImage.setCorner(D, 2);
 			break;
 		case TOP_LEFT:
+			width = B.getInhomX() - view.toRealWorldCoordX(
+					view.getEuclidianController().getDragStartPoint().x);
+			height = B.getInhomY() - view.toRealWorldCoordY(
+					view.getEuclidianController().getDragStartPoint().y);
+			A.setX(view.toRealWorldCoordX(eventX));
+			A.updateCoords();
+			A.updateRepaint();
+			D.setX(A.getInhomX());
+			newWidth = B.getInhomX() - A.getInhomX();
+			newHeight = (height * newWidth) / width;
+			D.setY(B.getInhomY() - newHeight);
+			D.updateCoords();
+			D.updateRepaint();
+			geoImage.setCorner(D, 2);
 			break;
 		case BOTTOM_RIGHT:
 			if (eventX - view.toScreenCoordXd(D.getInhomX()) <= Math
