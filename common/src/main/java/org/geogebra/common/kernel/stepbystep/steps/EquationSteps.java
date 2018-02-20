@@ -93,6 +93,28 @@ public enum EquationSteps implements SolveStepGenerator {
 		}
 	},
 
+	SOLVE_LINEAR_IN_EXPRESSION {
+		@Override
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
+			StepOperation expression = StepHelper.linearInExpression(se, variable);
+
+			if (expression == null) {
+				return se;
+			}
+
+			StepExpression RHSlinear = se.getRHS().findExpression(expression);
+			se.addOrSubtract(RHSlinear, steps, tracker);
+
+			StepExpression LHSconstant = subtract(se.getLHS(), se.getLHS().findExpression(expression)).regroup();
+			se.addOrSubtract(LHSconstant, steps, tracker);
+
+			StepExpression linearCoefficient = se.getLHS().findCoefficient(expression);
+			se.multiplyOrDivide(linearCoefficient, steps, tracker);
+
+			return se;
+		}
+	},
+
 	SOLVE_QUADRATIC {
 		@Override
 		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
@@ -170,6 +192,33 @@ public enum EquationSteps implements SolveStepGenerator {
 		}
 	},
 
+	SOLVE_QUADRATIC_IN_EXPRESSION {
+		@Override
+		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
+			StepExpression expression = StepHelper.quadraticInExpression(se, variable);
+
+			if (expression == null) {
+				return se;
+			}
+
+			StepVariable newVariable = new StepVariable("t");
+
+			StepEquation replaced = new StepEquation(se.getLHS().replace(expression, newVariable),
+					se.getRHS().replace(expression, newVariable));
+
+			StepSet allSolutions = new StepSet();
+			StepSet tempSolutions = replaced.solve(newVariable, steps);
+
+			for (StepNode solution : tempSolutions.getElements()) {
+				StepEquation newEq = new StepEquation(expression,
+						(StepExpression) ((StepSolution) solution).getValue(newVariable));
+				allSolutions.addAll(newEq.solve(variable, steps));
+			}
+
+			return allSolutions;
+		}
+	},
+
 	SOLVE_PRODUCT {
 		@Override
 		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
@@ -202,11 +251,7 @@ public enum EquationSteps implements SolveStepGenerator {
 	COMMON_DENOMINATOR {
 		@Override
 		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			if (StepHelper.linearInInverse(se, variable) == null) {
-				return StepStrategies.defaultRegroup(se, steps, new RegroupTracker().unsetIntegerFractions());
-			}
-
-			return se;
+			return StepStrategies.defaultRegroup(se, steps, new RegroupTracker().unsetIntegerFractions());
 		}
 	},
 
@@ -242,9 +287,9 @@ public enum EquationSteps implements SolveStepGenerator {
 		@Override
 		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression bothSides = subtract(se.getLHS(), se.getRHS()).regroup();
-			StepOperation trigoVar = StepHelper.findTrigonometricVariable(bothSides);
+			StepOperation trigoVar = StepHelper.findExpressionInVariable(bothSides, variable);
 
-			if (trigoVar == null) {
+			if (trigoVar == null || !trigoVar.isTrigonometric()) {
 				return se;
 			}
 
@@ -301,55 +346,6 @@ public enum EquationSteps implements SolveStepGenerator {
 			}
 
 			return se;
-		}
-	},
-
-	SOLVE_LINEAR_TRIGONOMETRC {
-		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			StepOperation trigoVar = StepHelper.linearInTrigonometric(se);
-
-			if (trigoVar == null) {
-				return se;
-			}
-
-			StepExpression RHSlinear = se.getRHS().findExpression(trigoVar);
-			se.addOrSubtract(RHSlinear, steps, tracker);
-
-			StepExpression LHSconstant = se.getLHS().findConstantIn(variable);
-			se.addOrSubtract(LHSconstant, steps, tracker);
-
-			StepExpression linearCoefficient = se.getLHS().findCoefficient(trigoVar);
-			se.multiplyOrDivide(linearCoefficient, steps, tracker);
-
-			return se;
-		}
-	},
-
-	SOLVE_QUADRATIC_TRIGONOMETRIC {
-		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			StepExpression trigoVar = StepHelper.quadraticInTrigonometric(se);
-
-			if (trigoVar == null) {
-				return se;
-			}
-
-			StepVariable newVariable = new StepVariable("t");
-
-			StepEquation trigonometricReplaced = new StepEquation(se.getLHS().replace(trigoVar, newVariable),
-					se.getRHS().replace(trigoVar, newVariable));
-
-			StepSet allSolutions = new StepSet();
-			StepSet tempSolutions = trigonometricReplaced.solve(newVariable, steps);
-
-			for (StepNode solution : tempSolutions.getElements()) {
-				StepEquation newEq = new StepEquation(trigoVar,
-						(StepExpression) ((StepSolution) solution).getValue(newVariable));
-				allSolutions.addAll(newEq.solve(variable, steps));
-			}
-
-			return allSolutions;
 		}
 	},
 
@@ -592,32 +588,6 @@ public enum EquationSteps implements SolveStepGenerator {
 
 				return solutions;
 			}
-
-			return se;
-		}
-	},
-
-	SOLVE_LINEAR_IN_INVERSE {
-		@Override
-		public StepNode apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			StepExpression inverseVar = StepHelper.linearInInverse(se, variable);
-
-			if (inverseVar == null) {
-				return se;
-			}
-
-			StepExpression diff = subtract(se.getLHS(), se.getRHS()).regroup();
-			StepExpression constant = diff.findConstantIn(variable);
-
-			if (isZero(subtract(diff, constant).regroup())) {
-				return new StepSet();
-			}
-
-			StepExpression RHSlinear = se.getRHS().findExpression(inverseVar);
-			se.addOrSubtract(RHSlinear, steps, tracker);
-
-			StepExpression LHSconstant = se.getLHS().findConstantIn(variable);
-			se.addOrSubtract(LHSconstant, steps, tracker);
 
 			return se;
 		}

@@ -4,7 +4,6 @@ import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
-import org.geogebra.common.util.debug.Log;
 
 public class StepStrategies {
 
@@ -62,7 +61,7 @@ public class StepStrategies {
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
 											 RegroupTracker tracker) {
-		final boolean printDebug = true;
+		final boolean printDebug = false;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		StepNode newSn;
@@ -143,7 +142,7 @@ public class StepStrategies {
 				EquationSteps.SOLVE_LINEAR,
 				EquationSteps.TAKE_ROOT,
 				EquationSteps.RECIPROCATE_EQUATION,
-				EquationSteps.SOLVE_LINEAR_IN_INVERSE,
+				EquationSteps.SOLVE_LINEAR_IN_EXPRESSION,
 				EquationSteps.COMMON_DENOMINATOR,
 				EquationSteps.MULTIPLY_THROUGH,
 				EquationSteps.EXPAND,
@@ -153,8 +152,7 @@ public class StepStrategies {
 				EquationSteps.SOLVE_ABSOLUTE_VALUE,
 				EquationSteps.SOLVE_IRRATIONAL,
 				EquationSteps.SIMPLIFY_TRIGONOMETRIC,
-				EquationSteps.SOLVE_QUADRATIC_TRIGONOMETRIC,
-				EquationSteps.SOLVE_LINEAR_TRIGONOMETRC,
+				EquationSteps.SOLVE_QUADRATIC_IN_EXPRESSION,
 				EquationSteps.SOLVE_SIMPLE_TRIGONOMETRIC,
 				EquationSteps.DIFF
 		};
@@ -173,7 +171,7 @@ public class StepStrategies {
 
 	public static StepNode implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy, SolveTracker tracker) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
 
@@ -199,8 +197,8 @@ public class StepStrategies {
 
 				if (printDebug) {
 					if (changes.getSteps() != null) {
-						Log.error("changed at " + strategy[i]);
-						Log.error("to: " + result);
+						System.out.println("changed at " + strategy[i]);
+						System.out.println("to: " + result);
 					}
 				}
 

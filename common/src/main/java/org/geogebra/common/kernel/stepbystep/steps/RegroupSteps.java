@@ -1695,6 +1695,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.DISTRIBUTE_MINUS,
 					RegroupSteps.DOUBLE_MINUS,
 					RegroupSteps.POWER_OF_NEGATIVE,
+					RegroupSteps.POWER_OF_POWER,
 					RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
 					RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
 					RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,

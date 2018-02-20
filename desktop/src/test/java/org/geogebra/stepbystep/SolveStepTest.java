@@ -62,6 +62,21 @@ public class SolveStepTest {
 	}
 
 	@Test
+	public void linearInExpression() {
+		//TODO: Strengthen replace so that this can also be solved as linear in expression
+		t("3/x+4", "5/x-2", "x", "x = (1)/(3)");
+		t("3*(2x+1)^2+4", "5*(2x+1)^2-2", "x", "x = -((nroot(3, 2) + 1))/(2)", "x = ((nroot(3, 2)-1))/(2)");
+		t("8*|x+7|+4", "-6*|x+7|+6", "x", "x = -(48)/(7)", "x = -(50)/(7)");
+		t("3*sin(x)+4", "5*sin(x)-2", "x");
+	}
+
+	// @Test
+	public void quadraticInExpression() {
+		//TODO: Strengthen find expression and replace so that this can also be solved as quadratic in expression
+		t("3*(2x+1)^4+4", "5*(2x+1)^2-2", "x");
+	}
+
+	@Test
 	public void rationalEquations() {
 		t("1/x", "2/3", "x", "x = (3)/(2)");
 		t("1/x", "2/(3x-1)", "x", "x = 1");

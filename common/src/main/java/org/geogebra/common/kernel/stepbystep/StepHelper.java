@@ -107,63 +107,21 @@ public class StepHelper {
 		return sn.isConstant();
 	}
 
-	public static StepOperation findInverse(StepNode sn, StepVariable var) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
+	public static StepOperation findExpressionInVariable(StepExpression se, StepVariable var) {
+		if (se instanceof StepOperation) {
+			StepOperation so = (StepOperation) se;
 
-			if (so.isOperation(Operation.DIVIDE) && so.getOperand(0).isConstantIn(var) &&
-					!so.getOperand(1).isConstantIn(var)) {
-				return (StepOperation) sn;
+			if ((so.isOperation(Operation.ABS) || so.isOperation(Operation.NROOT)
+					|| so.isOperation(Operation.DIVIDE) && so.getOperand(0).isConstantIn(var)
+					|| so.isTrigonometric())
+					&& !so.isConstantIn(var)) {
+				return so;
 			}
 
 			for (StepExpression operand : so) {
-				StepOperation inverse = findInverse(operand, var);
-				if (inverse != null) {
-					return inverse;
-				}
-			}
-			return null;
-		} else if (sn instanceof StepSolvable) {
-			StepSolvable se = (StepSolvable) sn;
-
-			StepOperation temp = findInverse(se.getLHS(), var);
-			if (temp != null) {
-				return temp;
-			}
-
-			return findInverse(se.getRHS(), var);
-		}
-
-		return null;
-	}
-
-	public static StepOperation linearInInverse(StepSolvable se, StepVariable var) {
-		StepOperation inverse = findInverse(se, var);
-
-		StepSolvable withVariable = se.deepCopy();
-		withVariable.replace(inverse, new StepVariable("a"));
-		StepSolvable withConstant = se.deepCopy();
-		withConstant.replace(inverse, StepConstant.create(1));
-
-		if (inverse != null && withVariable.degree(new StepVariable("a")) == 1 && withConstant.degree(var) == 0) {
-			return inverse;
-		}
-
-		return null;
-	}
-
-	public static StepOperation findTrigonometricVariable(StepExpression sn) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
-
-			if (so.isTrigonometric()) {
-				return (StepOperation) sn;
-			}
-
-			for (StepExpression operand : so) {
-				StepOperation trigo = findTrigonometricVariable(operand);
-				if (trigo != null) {
-					return trigo;
+				StepOperation expression = findExpressionInVariable(operand, var);
+				if (expression != null) {
+					return expression;
 				}
 			}
 			return null;
@@ -172,30 +130,35 @@ public class StepHelper {
 		return null;
 	}
 
-	public static StepOperation linearInTrigonometric(StepSolvable ss) {
-		StepOperation trigoVar = findTrigonometricVariable(StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup());
-		StepVariable toReplace = new StepVariable("x");
+	public static StepOperation nthDegreeInExpression(StepExpression se, StepVariable originalVar, StepOperation expr,
+													  int n) {
+		if (expr == null) {
+			return null;
+		}
 
-		int degree = ss.deepCopy().replace(trigoVar, toReplace).degree(toReplace);
+		StepVariable replacementVar = new StepVariable("a");
+		if (originalVar.equals(replacementVar)) {
+			replacementVar = new StepVariable("x");
+		}
 
-		if (degree == 1) {
-			return trigoVar;
+		StepExpression withVariable = se.deepCopy().replace(expr, replacementVar);
+		StepExpression withConstant = se.deepCopy().replace(expr, StepConstant.create(1));
+
+		if (withVariable.degree(new StepVariable("a")) == n && withConstant.degree(originalVar) == 0) {
+			return expr;
 		}
 
 		return null;
 	}
 
-	public static StepOperation quadraticInTrigonometric(StepSolvable ss) {
-		StepOperation trigoVar = findTrigonometricVariable(StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup());
-		StepVariable toReplace = new StepVariable("x");
+	public static StepOperation linearInExpression(StepSolvable ss, StepVariable var) {
+		StepExpression diff = StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup();
+		return nthDegreeInExpression(diff, var, findExpressionInVariable(diff, var), 1);
+	}
 
-		int degree = ss.deepCopy().replace(trigoVar, toReplace).degree(toReplace);
-
-		if (degree == 2) {
-			return trigoVar;
-		}
-
-		return null;
+	public static StepOperation quadraticInExpression(StepSolvable ss, StepVariable var) {
+		StepExpression diff = StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup();
+		return nthDegreeInExpression(diff, var, findExpressionInVariable(diff, var), 2);
 	}
 
 	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl, StepVariable variable) {
@@ -293,46 +256,31 @@ public class StepHelper {
 		aFactored = aFactored.getNonInteger();
 		bFactored = bFactored.getNonInteger();
 
-		List<StepExpression> aBases = new ArrayList<>();
-		List<StepExpression> aExponents = new ArrayList<>();
-		List<StepExpression> bBases = new ArrayList<>();
-		List<StepExpression> bExponents = new ArrayList<>();
-
-		StepExpression.getBasesAndExponents(aFactored, null, aBases, aExponents);
-		StepExpression.getBasesAndExponents(bFactored, null, bBases, bExponents);
-
-		for (int i = 0; i < aBases.size(); i++) {
-			for (int j = 0; j < bBases.size(); j++) {
-				if (aBases.get(i).equals(bBases.get(j))) {
-					boolean less = aExponents.get(i).getValue() < bExponents.get(j).getValue();
-
-					if (less) {
-						aExponents.set(i, StepConstant.create(0));
-					} else {
-						bExponents.set(j, StepConstant.create(0));
-					}
-				}
-			}
+		StepExpression constant;
+		if (!isZero(integerA) && !isZero(integerB)) {
+			constant = StepConstant.create(StepNode.lcm(integerA, integerB));
+		} else {
+			constant = StepNode.multiply(integerA, integerB);
 		}
 
-		StepExpression result = null;
+		StepExpression GCD = weakGCD(aFactored, bFactored);
 
-		if (integerA != null && integerB != null) {
-			result = StepConstant.create(StepNode.lcm(integerA, integerB));
+		if (aFactored == null || bFactored == null || GCD == null) {
+			return StepNode.multiply(constant, StepNode.multiply(aFactored, bFactored));
 		}
 
-		for (int i = 0; i < aBases.size(); i++) {
-			result = StepExpression.makeFraction(result, aBases.get(i), aExponents.get(i));
-		}
-
-		for (int i = 0; i < bBases.size(); i++) {
-			result = StepExpression.makeFraction(result, bBases.get(i), bExponents.get(i));
-		}
-
-		return result;
+		return StepNode.multiply(constant, StepNode.multiply(aFactored, bFactored).quotient(GCD));
 	}
 
 	public static StepExpression weakGCD(StepExpression a, StepExpression b) {
+		if (isZero(a)) {
+			return b;
+		}
+
+		if (isZero(b)) {
+			return a;
+		}
+
 		StepExpression integerA = a.getIntegerCoefficient();
 		StepExpression integerB = b.getIntegerCoefficient();
 
@@ -355,7 +303,7 @@ public class StepHelper {
 					StepExpression common = aExponents.get(i).getCommon(bExponents.get(j));
 
 					if (!isZero(common)) {
-						aExponents.set(j, common);
+						aExponents.set(i, common);
 						found[i] = true;
 					}
 				}

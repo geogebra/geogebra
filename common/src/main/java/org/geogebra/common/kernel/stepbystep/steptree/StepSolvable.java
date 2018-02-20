@@ -227,7 +227,7 @@ public abstract class StepSolvable extends StepNode {
 			steps.levelDown();
 			steps.add(this);
 
-			expand(steps, tracker);
+			regroup(steps, tracker);
 			steps.levelUp();
 			steps.add(this);
 			steps.levelUp();
@@ -249,7 +249,7 @@ public abstract class StepSolvable extends StepNode {
 			steps.levelDown();
 			steps.add(this);
 
-			expand(steps, tracker);
+			regroup(steps, tracker);
 			steps.levelUp();
 			steps.add(this);
 			steps.levelUp();
