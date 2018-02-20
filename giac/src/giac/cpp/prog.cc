@@ -1057,6 +1057,14 @@ namespace giac {
 	  v2.push_back(newid);
 	  continue;
 	}
+	if (thetype==at_integrate){ // int==integrate
+	  v1.push_back(theid);
+	  newid=*it=gen(theid.print(contextptr)+"_i",contextptr);
+	  if (egal!=0)
+	    *it=symb_equal(*it,egal);
+	  v2.push_back(newid);
+	  continue;
+	}
       }
       if (it->type!=_IDNT && it->type!=_CPLX){
 	v1.push_back(*it);
@@ -4836,9 +4844,11 @@ namespace giac {
   }
   gen _has(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
-      if ( (args.type!=_VECT) || (args._VECTptr->size()!=2))
-          return symb_has(args);
-      return equalposcomp(*_lname(args._VECTptr->front(),contextptr)._VECTptr,args._VECTptr->back());
+    if ( (args.type!=_VECT) || (args._VECTptr->size()!=2))
+      return symb_has(args);
+    gen tmp(_lname(args._VECTptr->front(),contextptr));
+    if (tmp.type!=_VECT) return tmp;
+    return equalposcomp(*tmp._VECTptr,args._VECTptr->back());
   }
   static const char _has_s []="has";
   static define_unary_function_eval (__has,&_has,_has_s);
@@ -10513,7 +10523,7 @@ namespace giac {
       f=symbolic(u,f);
     }
     f=eval(f,eval_level(contextptr),contextptr);
-    if (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_extend || u==at_rotate || u==at_shift || u==at_suppress)
+    if (u==at_revlist || u==at_reverse || u==at_sort || u==at_append || u==at_prepend || u==at_concat || u==at_extend || u==at_rotate || u==at_shift || u==at_suppress || u==at_insert)
       return sto(f,a,contextptr);
     return f;
   }
