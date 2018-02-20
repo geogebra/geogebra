@@ -486,7 +486,8 @@ public class GgbAPIW extends GgbAPI {
 		// write construction thumbnails
 		if (includeThumbnail) {
 			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-					getThumbnailBase64(),
+					((EuclidianViewWInterface) getViewForThumbnail())
+							.getCanvasBase64WithTypeString(),
 					archiveContent);
 		}
 
@@ -496,7 +497,8 @@ public class GgbAPIW extends GgbAPI {
 
 	public String getThumbnailBase64() {
 		return ((EuclidianViewWInterface) getViewForThumbnail())
-				.getCanvasBase64WithTypeString();
+				.getCanvasBase64WithTypeString()
+				.substring(StringUtil.pngMarker.length());
 	}
 
 	private EuclidianViewInterfaceCommon getViewForThumbnail() {
