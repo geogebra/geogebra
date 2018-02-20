@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 class DragController {
@@ -207,13 +208,40 @@ class DragController {
 				return false;
 			}
 
+			if (!isAnimated()) {
+				return dropAnimated(y);
+			}
+
 			int srcIdx = index();
 			int destIdx = last.index();
-			if (isAnimated() && target != null) {
+
+			if (srcIdx != -1 && destIdx != -1) {
+				cards.reorder(srcIdx, destIdx);
+				return true;
+			}
+			return false;
+		}
+
+		boolean dropAnimated(int y) {
+
+			int srcIdx = index();
+			int destIdx = -1;
+			if (target != null) {
 				destIdx = target.getPageIndex();
-				if (card.getAbsoluteTop() < target.getAbsoluteTop()) {
+				boolean dragUnderTarget = card.getAbsoluteBottom() > target.getAbsoluteBottom();
+				if (down && !dragUnderTarget && destIdx > 0) {
 					destIdx--;
+				} else if (!down && dragUnderTarget && destIdx < cards.getCardCount() - 1) {
+					destIdx++;
 				}
+			} else {
+				Log.debug("Target is null");
+				if (card.getAbsoluteBottom() < cards.cardAt(0).getAbsoluteTop()) {
+					destIdx = 0;
+				} else if (card.getAbsoluteTop() > cards.cardAt(cards.getCardCount() - 1).getAbsoluteTop()) {
+					destIdx = cards.getCardCount() - 1;
+				}
+
 			}
 
 			if (srcIdx != -1 && destIdx != -1) {
@@ -222,7 +250,6 @@ class DragController {
 			}
 			return false;
 		}
-		
 		public void cancel() {
 			CancelEventTimer.resetDrag();
 			if (isValid()) {
