@@ -453,6 +453,10 @@ public final class DrawImage extends Drawable {
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint D = geoImage.getCorner(2);
+		double width = 1;
+		double height = 1;
+		double newWidth = 1;
+		double newHeight = 1;
 		if (A == null) {
 			A = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(A, 1);
@@ -471,6 +475,25 @@ public final class DrawImage extends Drawable {
 		case TOP_LEFT:
 			break;
 		case BOTTOM_RIGHT:
+			D.setX(A.getInhomX());
+			D.updateCoords();
+			D.updateRepaint();
+			geoImage.setCorner(D, 2);
+			height = view.toRealWorldCoordY(
+					view.getEuclidianController().getDragStartPoint().y)
+					- D.getInhomY();
+			width = view.toRealWorldCoordX(
+					view.getEuclidianController().getDragStartPoint().x)
+					- D.getInhomX();
+			B.setX(view.toRealWorldCoordX(eventX));
+			newWidth = B.getInhomX() - D.getInhomX();
+			newHeight = (height * newWidth) / width;
+			B.setY(D.getInhomY() + newHeight);
+			B.updateCoords();
+			B.updateRepaint();
+			A.setY(B.getInhomY());
+			A.updateCoords();
+			A.updateRepaint();
 			break;
 		case BOTTOM_LEFT:
 			break;

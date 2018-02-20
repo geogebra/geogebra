@@ -27,6 +27,7 @@ import org.geogebra.common.euclidian.controller.MouseTouchGestureController;
 import org.geogebra.common.euclidian.draw.DrawConic;
 import org.geogebra.common.euclidian.draw.DrawConicPart;
 import org.geogebra.common.euclidian.draw.DrawDropDownList;
+import org.geogebra.common.euclidian.draw.DrawImage;
 import org.geogebra.common.euclidian.draw.DrawPoint;
 import org.geogebra.common.euclidian.draw.DrawPolyLine;
 import org.geogebra.common.euclidian.draw.DrawPolygon;
@@ -391,6 +392,8 @@ public abstract class EuclidianController {
 	protected ArrayList<GeoElement> previewPointHits = new ArrayList<>();
 	private Hits topHits;
 	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
+
+	public GPoint dragStartPoint;
 
 	/**
 	 * state for selection tool over press/release
@@ -4408,6 +4411,14 @@ public abstract class EuclidianController {
 
 	final protected void setMouseLocation(AbstractEvent event) {
 		getCompanion().setMouseLocation(event);
+	}
+
+	public void setDragStartPoint(AbstractEvent event) {
+		dragStartPoint = new GPoint(event.getX(), event.getY());
+	}
+
+	public GPoint getDragStartPoint() {
+		return dragStartPoint == null ? new GPoint() : dragStartPoint;
 	}
 
 	protected void setMouseLocation(boolean alt, int x, int y) {
@@ -9587,6 +9598,9 @@ public abstract class EuclidianController {
 				if (d instanceof DrawSegment) {
 					nrHandler = ((DrawSegment) d).getHandler(mouseLoc);
 				}
+				if (d instanceof DrawImage) {
+					setDragStartPoint(event);
+				}
 				switch (nrHandler) {
 				case TOP_LEFT:
 				case BOTTOM_RIGHT:
@@ -9630,6 +9644,9 @@ public abstract class EuclidianController {
 					//oldShapeMode = mode;
 					//mode = EuclidianConstants.MODE_MOVE;
 					setResizedShape(d);
+					if (d instanceof DrawImage) {
+						setDragStartPoint(event);
+					}
 				} else if (view.getHits().size() == 1
 						&& view.getHits().get(0) != null
 						&& view.getHits().get(0).isShape()) {
