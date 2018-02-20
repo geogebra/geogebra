@@ -500,6 +500,10 @@ public final class DrawImage extends Drawable {
 			A.updateRepaint();
 			break;
 		case BOTTOM_LEFT:
+			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
+					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
+				return;
+			}
 			height = view.toRealWorldCoordY(
 					view.getEuclidianController().getDragStartPoint().y)
 					- D.getInhomY();
