@@ -53,7 +53,6 @@ public class LoadFilePresenter {
 		view.adjustScale();
 		final AppW app = view.getApplication();
 		boolean fileOpened = true;
-		boolean specialPerspective = false;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
 		if (!tryReloadDataInStorage()) {
@@ -80,7 +79,6 @@ public class LoadFilePresenter {
 				});
 			} else {
 				fileOpened = false;
-				specialPerspective = openEmptyApp(app);
 			}
 		}
 
@@ -137,10 +135,11 @@ public class LoadFilePresenter {
 		app.setButtonShadows(view.getDataParamButtonShadows());
 		app.setButtonRounding(view.getDataParamButtonRounding());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
-		if (!specialPerspective) {
-			app.updateToolBar();
-		}
+
 		if (!fileOpened) {
+			if (!openEmptyApp(app)) {
+				app.updateToolBar();
+			}
 			GeoGebraProfiler.getInstance().profileEnd();
 			app.getScriptManager().ggbOnInit();
 		}
@@ -256,8 +255,7 @@ public class LoadFilePresenter {
 		}
 		app.updateHeaderVisible();
 		app.setPreferredSize(
-				new GDimensionW((int) app.getAppletWidth(),
-						(int) app.getAppletHeight()));
+				new GDimensionW(app.getAppletWidth(), app.getAppletHeight()));
 		app.loadPreferences(p);
 
 		if (app.has(Feature.CENTER_STANDARD_VIEW)) {

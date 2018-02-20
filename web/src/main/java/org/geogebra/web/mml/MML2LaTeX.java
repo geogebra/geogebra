@@ -16,17 +16,16 @@ import com.google.gwt.core.client.EntryPoint;
  */
 public class MML2LaTeX implements EntryPoint {
 
-	final private static MathMLParser mathmlParserLaTeX = new MathMLParser(
+	final private static MathMLParser MATHML_PARSER_LATEX = new MathMLParser(
 			false);
 
 	private static String convert(String mml) {
-		return mathmlParserLaTeX.parse(mml, false, false);
+		return MATHML_PARSER_LATEX.parse(mml, false, false);
 	}
 
 	@Override
 	public void onModuleLoad() {
 		exportJS();
-	
 	}
 
 	private native void exportJS() /*-{
@@ -34,8 +33,4 @@ public class MML2LaTeX implements EntryPoint {
 			return @org.geogebra.web.mml.MML2LaTeX::convert(Ljava/lang/String;)(mml);
 		}
 	}-*/;
-
-
-
-	
 }

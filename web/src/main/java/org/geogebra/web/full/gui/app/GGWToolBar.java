@@ -518,20 +518,28 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		if (app.isUndoRedoEnabled()) {
 			addUndoPanel();
 		}
+		this.menuBarShowing = false;
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
 				app.getArticleElement().getDataParamApp()){
-			SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+			initMenuButton();
+
+			if (!exam && app.enableFileFeatures()) {
+				initOpenSearchButton();
+
+				// switch toolbar color back to grey
+			}
+
+			if (!exam) {
+				resetToolbarColor(getElement());
+			}
+			this.rightButtonPanel.add(openMenuButton);
+		}
+
+	}
+
+	private void initMenuButton() {
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		this.menuBarShowing = true;
-			// openMenuButton = new StandardButton(pr.button_open_menu(), null,
-			// 32);
-			//
-			// openMenuButton.addFastClickHandler(new FastClickHandler() {
-			// @Override
-			// public void onClick(Widget source) {
-			// app.hideKeyboard();
-			// app.closePopups();
-			// GGWToolBar.this.app.toggleMenu();
-			// }
 
 			openMenuButton = new StandardButton(pr.menu_header_open_menu(),
 					null, 32, app);
@@ -563,56 +571,40 @@ public class GGWToolBar extends Composite implements RequiresResize,
             }
 		}, KeyUpEvent.getType());
 
-		if (!exam && app.enableFileFeatures()) {
-				// openSearchButton = new
-				// StandardButton(pr.button_open_search(),
-				// null, 32);
-				// openSearchButton.addFastClickHandler(new FastClickHandler() {
-				// @Override
-				// public void onClick(Widget source) {
-				// app.openSearch(null);
-				// }
-				// });
+	}
 
-			
-			
-				openSearchButton = new StandardButton(
-						pr.menu_header_open_search(), null, 32, 32, app);
-				openSearchButton.getUpFace().setImage(
-						getImage(pr.menu_header_open_search(), 32));
-				openSearchButton.getUpHoveringFace().setImage(
-						getImage(pr.menu_header_open_search_hover(), 32));
+	private void initOpenSearchButton() {
+		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
+		openSearchButton = new StandardButton(pr.menu_header_open_search(),
+				null, 32, 32, app);
+		openSearchButton.getUpFace()
+				.setImage(getImage(pr.menu_header_open_search(), 32));
+		openSearchButton.getUpHoveringFace()
+				.setImage(getImage(pr.menu_header_open_search_hover(), 32));
 
-				openSearchButton.addFastClickHandler(new FastClickHandler() {
-					@Override
-					public void onClick(Widget source) {
-						app.openSearch(null);
-					}
-				});
-		
-			openSearchButton.addDomHandler(new KeyUpHandler(){
-				@Override
-				public void onKeyUp(KeyUpEvent event) {
-					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-						app.openSearch(null);
-					}
-					if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
-						GGWToolBar.this.selectMenuButton(1);
-					}
-					if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT){
-						GGWToolBar.this.toolBar.selectMenu(-1);
-					}
+		openSearchButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick(Widget source) {
+				app.openSearch(null);
+			}
+		});
+
+		openSearchButton.addDomHandler(new KeyUpHandler() {
+			@Override
+			public void onKeyUp(KeyUpEvent event) {
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					app.openSearch(null);
 				}
-			}, KeyUpEvent.getType());
-			
-			this.rightButtonPanel.add(openSearchButton);
-			
-			// switch toolbar color back to grey 
-			resetToolbarColor(getElement());
-			
-		}
-		this.rightButtonPanel.add(openMenuButton); 
-		}
+				if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+					GGWToolBar.this.selectMenuButton(1);
+				}
+				if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+					GGWToolBar.this.toolBar.selectMenu(-1);
+				}
+			}
+		}, KeyUpEvent.getType());
+
+		this.rightButtonPanel.add(openSearchButton);
 
 	}
 

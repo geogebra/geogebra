@@ -424,7 +424,6 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void translate(double tx, double ty) {
 		context.translate2(tx, ty);
-
 	}
 
 	@Override
@@ -433,23 +432,21 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	@Override
-	public void transform(GAffineTransform Tx) {
-		context.transform2(Tx.getScaleX(), Tx.getShearY(), Tx.getShearX(),
-				Tx.getScaleY(), Tx.getTranslateX(),
-				Tx.getTranslateY());
+	public void transform(GAffineTransform tx) {
+		context.transform2(tx.getScaleX(), tx.getShearY(), tx.getShearX(),
+				tx.getScaleY(), tx.getTranslateX(),
+				tx.getTranslateY());
 	}
 
-	private void setTransform(GAffineTransform Tx) {
-
+	private void setTransform(GAffineTransform tx) {
 		context.setDevicePixelRatio(getDevicePixelRatio());
 
-		context.setTransform2(getDevicePixelRatio() * Tx.getScaleX(),
-				getDevicePixelRatio() * Tx.getShearY(),
-				getDevicePixelRatio() * Tx.getShearX(),
-				getDevicePixelRatio() * Tx.getScaleY(),
-				getDevicePixelRatio() * Tx.getTranslateX(),
-				getDevicePixelRatio() * Tx.getTranslateY());
-
+		context.setTransform2(getDevicePixelRatio() * tx.getScaleX(),
+				getDevicePixelRatio() * tx.getShearY(),
+				getDevicePixelRatio() * tx.getShearX(),
+				getDevicePixelRatio() * tx.getScaleY(),
+				getDevicePixelRatio() * tx.getTranslateX(),
+				getDevicePixelRatio() * tx.getTranslateY());
 	}
 
 	@Override

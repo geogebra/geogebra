@@ -752,7 +752,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			// do not attach old toolbar
 			return;
 		}
-
 		// reusing old toolbar is probably a good decision
 		if (ggwToolBar == null) {
 			ggwToolBar = new GGWToolBar();
@@ -766,8 +765,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		} else {
 			insert(ggwToolBar, 0);
 		}
-
-
 	}
 
 	private void attachMOWToolbar(AppW app1) {
@@ -791,7 +788,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			// set pen as start tool
 			app1.setMode(EuclidianConstants.MODE_PEN, ModeSetter.TOOLBAR);
 		}
-
 	}
 
 	/**

@@ -38,7 +38,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 	private Button btPrint;
 	private Button btCancel;
 	/** view list */
-	ListBox m_cbView;
+	ListBox cbView;
 	/** print panel */
 	FlowPanel printPanel;
 	private SimplePanel scalePanelHolder;
@@ -98,7 +98,7 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		btCancel.getElement().getStyle().setMargin(3, Style.Unit.PX);
 		btCancel.addClickHandler(this);
 
-		m_cbView = new ListBox();
+		cbView = new ListBox();
 
 		// app.forEachView(new App.ViewCallback() {
 		// public void run(int viewID, String viewName) {
@@ -109,51 +109,51 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 
 		// We can print EVs yet
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN)) {
-			m_cbView.addItem(loc.getMenu("DrawingPad"), App.VIEW_EUCLIDIAN
+			cbView.addItem(loc.getMenu("DrawingPad"), App.VIEW_EUCLIDIAN
 					+ "");
 		}
 		if (app.getGuiManager().showView(App.VIEW_EUCLIDIAN2)) {
-			m_cbView.addItem(loc.getMenu("DrawingPad2"), App.VIEW_EUCLIDIAN2
+			cbView.addItem(loc.getMenu("DrawingPad2"), App.VIEW_EUCLIDIAN2
 					+ "");
 		}
 
 		if (app.getGuiManager().showView(App.VIEW_ALGEBRA)) {
-			m_cbView.addItem(loc.getMenu("AlgebraWindow"), App.VIEW_ALGEBRA
+			cbView.addItem(loc.getMenu("AlgebraWindow"), App.VIEW_ALGEBRA
 					+ "");
 		}
 
 		if (app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-			m_cbView.addItem(loc.getMenu("ConstructionProtocol"),
+			cbView.addItem(loc.getMenu("ConstructionProtocol"),
 					App.VIEW_CONSTRUCTION_PROTOCOL + "");
 		}
 
-		if (m_cbView.getItemCount() == 0) {
+		if (cbView.getItemCount() == 0) {
 			this.setVisible(false);
 			this.hide(false);
 		}
 
-		if (m_cbView.getItemCount() != 0) {
+		if (cbView.getItemCount() != 0) {
 
 			DockPanelW focusedPanel = ((GuiManagerW) app.getGuiManager())
 					.getLayout().getDockManager().getFocusedPanel();
 			if (focusedPanel == null) {
-				m_cbView.setItemSelected(0, true); // setSelectedItem(loc.getMenu("AllViews"));
+				cbView.setItemSelected(0, true); // setSelectedItem(loc.getMenu("AllViews"));
 			} else {
 				String title = loc.getMenu(focusedPanel.getViewTitle());
-				int index = m_cbView.getItemCount() - 1;
-				while (!m_cbView.getValue(index).equals(title) && index != 0) {
+				int index = cbView.getItemCount() - 1;
+				while (!cbView.getValue(index).equals(title) && index != 0) {
 					index--;
 				}
 
-				m_cbView.setItemSelected(index, true);
+				cbView.setItemSelected(index, true);
 			}
 
-			m_cbView.addChangeHandler(this);
+			cbView.addChangeHandler(this);
 
 			FlowPanel buttonPanel = new FlowPanel();
 			buttonPanel.addStyleName("DialogButtonPanel");
 
-			centerPanel.add(m_cbView);
+			centerPanel.add(cbView);
 			scalePanelHolder = new SimplePanel();
 			centerPanel.add(scalePanelHolder);
 			buttonPanel.add(btPrint);
@@ -197,12 +197,12 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 		if (event.getSource() == btPrint || event.getSource() == btCancel) {
 			hide();
 			if (event.getSource() == btPrint) {
-				if ((m_cbView.getSelectedValue()
+				if ((cbView.getSelectedValue()
 						.equals(App.VIEW_EUCLIDIAN + ""))
-						|| (m_cbView.getSelectedValue()
+						|| (cbView.getSelectedValue()
 								.equals(App.VIEW_EUCLIDIAN2 + ""))) {
 					Log.debug("print EV");
-					createPreview(m_cbView.getSelectedValue());
+					createPreview(cbView.getSelectedValue());
 				} else {
 					Window.print();
 					removePrintPanelFromDOM();
@@ -220,24 +220,24 @@ public class PrintPreviewW extends DialogBoxW implements ClickHandler,
 
 	private void addScalePanelOrCreatePreview() {
 		AppW appw = (AppW) app;
-		if ((App.VIEW_EUCLIDIAN + "").equals(m_cbView.getSelectedValue())) {
+		if ((App.VIEW_EUCLIDIAN + "").equals(cbView.getSelectedValue())) {
 			scalePanelHolder.add(new PrintScalePanelW(appw, app
 					.getEuclidianView1()));
 			btPrint.setEnabled(true);
-		} else if ((App.VIEW_EUCLIDIAN2 + "").equals(m_cbView
+		} else if ((App.VIEW_EUCLIDIAN2 + "").equals(cbView
 				.getSelectedValue())) {
 			scalePanelHolder
 					.add(new PrintScalePanelW(appw, app
 					.getEuclidianView2(1)));
 			btPrint.setEnabled(true);
 		} else {
-			createPreview(m_cbView.getSelectedValue());
+			createPreview(cbView.getSelectedValue());
 		}
 	}
 
 	@Override
 	public void onChange(ChangeEvent event) {
-		if (event.getSource() == m_cbView) {
+		if (event.getSource() == cbView) {
 			scalePanelHolder.clear();
 			addScalePanelOrCreatePreview();
 		}

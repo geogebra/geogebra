@@ -114,6 +114,7 @@ import org.geogebra.web.html5.event.PointerEvent;
 import org.geogebra.web.html5.gui.AlgebraInput;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
+import org.geogebra.web.html5.gui.ToolBarInterface;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
 import org.geogebra.web.html5.gui.textbox.GTextBox;
 import org.geogebra.web.html5.gui.util.ImgResourceHelper;
@@ -1794,33 +1795,33 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void showMenuBar(final boolean show) {
 		getApp().getArticleElement().setAttribute("data-param-showMenuBar",
 				show + "");
-		if (!show) {
-			GGWToolBar tb = ((AppWapplet) getApp()).getAppletFrame().getToolbar();
-			if (tb != null) {
-				tb.onResize();
-				tb.updateActionPanel();
-			}
-		} else {
-			((AppWapplet) getApp()).getAppletFrame().attachMenubar(getApp());
+		if (show) {
+			showToolBar(true);
 		}
+		GGWToolBar tb = ((AppWapplet) getApp()).getAppletFrame().getToolbar();
+		if (tb != null) {
+			tb.onResize();
+			tb.updateActionPanel();
+		}
+
 		getApp().closePopups();
 	}
 
 	@Override
 	public void showToolBar(final boolean show) {
-		if (((AppWFull) getApp()).getToolbar() != null) {
-			getApp().closePopups();
-			if (((AppWFull) getApp()).getToolbar().isVisible() != show) {
-
-				((AppWFull) getApp()).getToolbar().setVisible(show);
-				((AppWFull) getApp()).addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
-						: GLookAndFeel.TOOLBAR_HEIGHT);
-				((AppWFull) getApp()).updateCenterPanel();
-				((AppWFull) getApp()).getAppletFrame().refreshKeyboard();
-			}
-		} else if (show) {
-			((AppWapplet) getApp()).getAppletFrame().attachToolbar(getApp());
-			getApp().closePopups();
+		ToolBarInterface tb = ((AppWFull) getApp()).getToolbar();
+		boolean currentlyVisible = tb != null && tb
+				.isVisible();
+		if (currentlyVisible != show) {
+			getApp().setShowToolBar(show);
+			getApp().getArticleElement()
+					.removeAttribute("data-param-showToolBar");
+			((AppWFull) getApp()).persistWidthAndHeight();
+			((AppWFull) getApp())
+					.addToHeight(show ? -GLookAndFeel.TOOLBAR_HEIGHT
+							: GLookAndFeel.TOOLBAR_HEIGHT);
+			((AppWFull) getApp()).updateCenterPanelAndViews();
+			((AppWFull) getApp()).getAppletFrame().refreshKeyboard();
 		}
 
 	}

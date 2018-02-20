@@ -75,11 +75,11 @@ public class ScientificFormat implements ScientificFormatAdapter {
 	 * Sets the number of significant digits for the formatted number
 	 */
 	@Override
-	public void setSigDigits(int SigDigit) {
-		if (SigDigit < 1) {
+	public void setSigDigits(int sigDigit) {
+		if (sigDigit < 1) {
 			throw new IllegalArgumentException("sigDigit");
 		}
-		sigDigit = SigDigit;
+		this.sigDigit = sigDigit;
 		decimalFormat = null;
 	}
 

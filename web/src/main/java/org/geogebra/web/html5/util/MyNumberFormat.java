@@ -391,7 +391,7 @@ public class MyNumberFormat {
 	private String negativeSuffix = "";
 
 	// Locale specific symbol collection.
-	private static final NumberConstants numberConstants = new MyNumberConstants();
+	private static final NumberConstants NUMBER_CONSTANTS = new MyNumberConstants();
 
 	// The pattern to use for formatting and parsing.
 	private final String pattern;
@@ -420,7 +420,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getDecimalFormat() {
 		if (cachedDecimalFormat == null) {
 			cachedDecimalFormat = new MyNumberFormat(
-					numberConstants.decimalPattern());
+					NUMBER_CONSTANTS.decimalPattern());
 		}
 		return cachedDecimalFormat;
 	}
@@ -448,7 +448,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getPercentFormat() {
 		if (cachedPercentFormat == null) {
 			cachedPercentFormat = new MyNumberFormat(
-					numberConstants.percentPattern());
+					NUMBER_CONSTANTS.percentPattern());
 		}
 		return cachedPercentFormat;
 	}
@@ -462,7 +462,7 @@ public class MyNumberFormat {
 	public static MyNumberFormat getScientificFormat() {
 		if (cachedScientificFormat == null) {
 			cachedScientificFormat = new MyNumberFormat(
-					numberConstants.scientificPattern());
+					NUMBER_CONSTANTS.scientificPattern());
 		}
 		return cachedScientificFormat;
 	}
@@ -714,7 +714,7 @@ public class MyNumberFormat {
 	 */
 	public String format(double number0) {
 		if (Double.isNaN(number0)) {
-			return numberConstants.notANumber();
+			return NUMBER_CONSTANTS.notANumber();
 		}
 		boolean isNegative = ((number0 < 0.0)
 				|| (number0 == 0.0 && 1 / number0 < 0.0));
@@ -727,7 +727,7 @@ public class MyNumberFormat {
 		StringBuilder buf = new StringBuilder();
 		if (Double.isInfinite(number)) {
 			buf.append(isNegative ? negativePrefix : positivePrefix);
-			buf.append(numberConstants.infinity());
+			buf.append(NUMBER_CONSTANTS.infinity());
 			buf.append(isNegative ? negativeSuffix : positiveSuffix);
 			return buf.toString();
 		}
@@ -917,11 +917,11 @@ public class MyNumberFormat {
 		}
 
 		// Process digits or special values, and find decimal position.
-		if (valueOnly.equals(numberConstants.infinity())) {
-			inOutPos[0] += numberConstants.infinity().length();
+		if (valueOnly.equals(NUMBER_CONSTANTS.infinity())) {
+			inOutPos[0] += NUMBER_CONSTANTS.infinity().length();
 			ret = Double.POSITIVE_INFINITY;
-		} else if (valueOnly.equals(numberConstants.notANumber())) {
-			inOutPos[0] += numberConstants.notANumber().length();
+		} else if (valueOnly.equals(NUMBER_CONSTANTS.notANumber())) {
+			inOutPos[0] += NUMBER_CONSTANTS.notANumber().length();
 			ret = Double.NaN;
 		} else {
 			int[] tempPos = { 0 };
@@ -973,8 +973,8 @@ public class MyNumberFormat {
 		char decimalSeparator;
 		char groupingSeparator;
 
-		decimalSeparator = numberConstants.decimalSeparator().charAt(0);
-		groupingSeparator = numberConstants.groupingSeparator().charAt(0);
+		decimalSeparator = NUMBER_CONSTANTS.decimalSeparator().charAt(0);
+		groupingSeparator = NUMBER_CONSTANTS.groupingSeparator().charAt(0);
 
 		// Set these transient fields, which will be adjusted/used by the
 		// routines
@@ -1003,7 +1003,7 @@ public class MyNumberFormat {
 			addExponent(digits);
 			// the above call has invalidated digitsLength == digits.length()
 		}
-		char zeroChar = numberConstants.zeroDigit().charAt(0);
+		char zeroChar = NUMBER_CONSTANTS.zeroDigit().charAt(0);
 		if (zeroChar != '0') {
 			localizeDigits(digits, zeroChar);
 		}
@@ -1103,7 +1103,7 @@ public class MyNumberFormat {
 	 * Returns the NumberConstants instance for this formatter.
 	 */
 	protected NumberConstants getNumberConstants() {
-		return numberConstants;
+		return NUMBER_CONSTANTS;
 	}
 
 	/**
@@ -1133,10 +1133,10 @@ public class MyNumberFormat {
 	 * @param digits
 	 */
 	private void addExponent(StringBuilder digits) {
-		digits.append(numberConstants.exponentialSymbol());
+		digits.append(NUMBER_CONSTANTS.exponentialSymbol());
 		if (exponent < 0) {
 			exponent = -exponent;
-			digits.append(numberConstants.minusSign());
+			digits.append(NUMBER_CONSTANTS.minusSign());
 		}
 		String exponentDigits = String.valueOf(exponent);
 		for (int i = exponentDigits.length(); i < minExponentDigits; ++i) {
@@ -1249,7 +1249,7 @@ public class MyNumberFormat {
 		if ('0' <= ch && ch <= '0' + 9) {
 			return (ch - '0');
 		} else {
-			char zeroChar = numberConstants.zeroDigit().charAt(0);
+			char zeroChar = NUMBER_CONSTANTS.zeroDigit().charAt(0);
 			return ((zeroChar <= ch && ch <= zeroChar + 9) ? (ch - zeroChar)
 					: -1);
 		}
@@ -1362,7 +1362,7 @@ public class MyNumberFormat {
 						}
 						multiplier = 100;
 					}
-					affix.append(numberConstants.percent());
+					affix.append(NUMBER_CONSTANTS.percent());
 					break;
 				case PATTERN_PER_MILLE:
 					if (!inNegativePattern) {
@@ -1373,7 +1373,7 @@ public class MyNumberFormat {
 						}
 						multiplier = 1000;
 					}
-					affix.append(numberConstants.perMill());
+					affix.append(NUMBER_CONSTANTS.perMill());
 					break;
 				case PATTERN_MINUS:
 					affix.append("-");
@@ -1403,9 +1403,9 @@ public class MyNumberFormat {
 		boolean sawExponent = false;
 		boolean sawDigit = false;
 		int scale = 1;
-		String decimal = numberConstants.decimalSeparator();
-		String grouping = numberConstants.groupingSeparator();
-		String exponentChar = numberConstants.exponentialSymbol();
+		String decimal = NUMBER_CONSTANTS.decimalSeparator();
+		String grouping = NUMBER_CONSTANTS.groupingSeparator();
+		String exponentChar = NUMBER_CONSTANTS.exponentialSymbol();
 
 		StringBuilder normalizedText = new StringBuilder();
 		for (; pos[0] < text.length(); ++pos[0]) {
@@ -1433,7 +1433,7 @@ public class MyNumberFormat {
 				sawExponent = true;
 			} else if (ch == '+' || ch == '-') {
 				normalizedText.append(ch);
-			} else if (ch == numberConstants.percent().charAt(0)) {
+			} else if (ch == NUMBER_CONSTANTS.percent().charAt(0)) {
 				if (scale != 1) {
 					break;
 				}
@@ -1442,7 +1442,7 @@ public class MyNumberFormat {
 					++pos[0];
 					break;
 				}
-			} else if (ch == numberConstants.perMill().charAt(0)) {
+			} else if (ch == NUMBER_CONSTANTS.perMill().charAt(0)) {
 				if (scale != 1) {
 					break;
 				}
@@ -1492,7 +1492,7 @@ public class MyNumberFormat {
 			pos += parseAffix(pattern, pos, affix, true);
 			negativeSuffix = affix.toString();
 		} else {
-			negativePrefix = numberConstants.minusSign() + positivePrefix;
+			negativePrefix = NUMBER_CONSTANTS.minusSign() + positivePrefix;
 			negativeSuffix = positiveSuffix;
 		}
 	}

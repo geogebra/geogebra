@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class PropertiesStyleBarW extends
         org.geogebra.common.gui.view.properties.PropertiesStyleBar {
 
-	private static OptionType OptionTypesImpl[] = {
+	private static final OptionType OPTION_TYPE_IMPL[] = {
 		// Implemented types of the web
 			OptionType.GLOBAL, OptionType.OBJECTS, OptionType.EUCLIDIAN,
 			OptionType.EUCLIDIAN2,
@@ -154,7 +154,7 @@ public class PropertiesStyleBarW extends
 		}));
 		buttonMap = new HashMap<>();
 		
-		for (final OptionType type : OptionTypesImpl) {
+		for (final OptionType type : OPTION_TYPE_IMPL) {
 			if (typeAvailable(type)){
 				final PropertiesButton btn = new PropertiesButton(app,
 						getMenuHtml(type), new Command() {

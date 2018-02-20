@@ -108,7 +108,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	private PopupMenuButtonW btnLabelStyle;
 	private PopupMenuButtonW btnAngleInterval;
 	private PopupMenuButtonW btnShowGrid;
-	private PopupMenuButtonW btnShowAxes_new;
+	private PopupMenuButtonW btnAxesStyle;
 	protected PopupMenuButtonW btnPointCapture;
 	protected PopupMenuButtonW btnChangeView;
 	protected FillingStyleButton btnFilling;
@@ -759,7 +759,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	 */
 	protected void addAxesAndGridButtons() {
 		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
-			add(btnShowAxes_new);
+			add(btnAxesStyle);
 		} else {
 			add(btnShowAxes);
 		}
@@ -791,7 +791,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	}
 
 	protected PopupMenuButtonW getAxesPopupMenuButton() {
-		return btnShowAxes_new;
+		return btnAxesStyle;
 	}
 
 	protected PopupMenuButtonW getAxesOrGridPopupMenuButton() {
@@ -814,7 +814,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected PopupMenuButtonW[] newPopupBtnList() {
 		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) { // axes menu added if feature
 													// flag is true
-			return new PopupMenuButtonW[] { btnShowAxes_new,
+			return new PopupMenuButtonW[] { btnAxesStyle,
 					getAxesOrGridPopupMenuButton(), btnColor, btnBgColor,
 					btnTextColor, btnFilling, btnLineStyle, btnPointStyle,
 					btnTextSize,
@@ -914,9 +914,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				axes[i] = GeoGebraIconW.createAxesStyleIconMat(
 						EuclidianView.getAxesStyle(i));
 			}
-			btnShowAxes_new = new AxesPopup(app, axes,
+			btnAxesStyle = new AxesPopup(app, axes,
 					SelectionTable.MODE_ICON);
-			btnShowAxes_new.addPopupHandler(this);
+			btnAxesStyle.addPopupHandler(this);
 		} else {
 			btnShowAxes = new MyToggleButtonWforEV(
 					StyleBarResources.INSTANCE.axes(), this);
@@ -1683,7 +1683,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 
 	protected void updateAxesAndGridGUI() {
 		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
-			btnShowAxes_new.setSelectedIndex(axesIndex(ev));
+			btnAxesStyle.setSelectedIndex(axesIndex(ev));
 		} else {
 			btnShowAxes.removeValueChangeHandler();
 			btnShowAxes.setSelected(ev.getShowXaxis());
@@ -1745,9 +1745,9 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				setGridType(ev, btnShowGrid.getSelectedIndex());
 			}
 			return true;
-		} else if (source == btnShowAxes_new) {
-			if (btnShowAxes_new.getSelectedValue() != null) {
-				setAxesLineType(ev, btnShowAxes_new.getSelectedIndex());
+		} else if (source == btnAxesStyle) {
+			if (btnAxesStyle.getSelectedValue() != null) {
+				setAxesLineType(ev, btnAxesStyle.getSelectedIndex());
 			}
 		}
 		return false;
@@ -2059,7 +2059,7 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		if (app.has(Feature.MOW_AXES_STYLE_SUBMENU)) {
-			btnShowAxes_new
+			btnAxesStyle
 					.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
 		} else {
 			btnShowAxes.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));

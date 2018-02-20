@@ -119,10 +119,10 @@ public class GDecoratorPanel extends SimplePanel {
 	 *            the style name
 	 * @return the new row {@link Element}
 	 */
-	static Element createTR(String styleName, boolean RTL) {
+	static Element createTR(String styleName, boolean rtl) {
 		Element trElem = DOM.createTR();
 		setStyleName(trElem, styleName);
-		if (RTL) {
+		if (rtl) {
 			DOM.appendChild(trElem, createTD(styleName + "Right"));
 			DOM.appendChild(trElem, createTD(styleName + "Center"));
 			DOM.appendChild(trElem, createTD(styleName + "Left"));
