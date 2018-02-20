@@ -1482,7 +1482,7 @@ __GGB__keysVar["zh-CN"].menu = {
     "CopyAsImage": "\u590d\u5236\u56fe\u7247",
     "CopyAsLaTeX": "\u590d\u5236LaTeX",
     "CopyAsLibreOfficeFormula": "\u590d\u5236LibreOffice\u516c\u5f0f",
-    "CopyImage": "\u590d\u5236\u56fe\u50cf",
+    "CopyImage": "\u590d\u5236\u56fe\u7247",
     "CopyImageAsSVG": "\u590d\u5236SVG\u56fe\u7247",
     "CopyInput": "\u590d\u5236\u8f93\u5165",
     "CopyOfA": "%0 \u7684\u526f\u672c",
