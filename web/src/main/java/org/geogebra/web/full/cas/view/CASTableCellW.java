@@ -107,8 +107,11 @@ public class CASTableCellW extends VerticalPanel {
 	 *            field for editing
 	 * @param newText
 	 *            editor content to overwrite current
+	 * @param asText
+	 *            whether this is plain text mode
 	 */
-	public void startEditing(CASEditorW casEditorW, String newText) {
+	public void startEditing(CASEditorW casEditorW, String newText,
+			boolean asText) {
 		clear();
 		textField = casEditorW;
 		add(textField.toWidget());
@@ -120,6 +123,7 @@ public class CASTableCellW extends VerticalPanel {
 					getCASCell()
 							.getLaTeXInput(StringTemplate.latexTemplateJLM));
 		}
+		textField.setEditAsText(asText);
 		textField.setText(newText == null ? textBeforeEdit : newText);
 		casEditorW.ensureEditing();
 		add(outputPanel);

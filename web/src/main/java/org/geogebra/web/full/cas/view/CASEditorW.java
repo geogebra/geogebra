@@ -51,4 +51,10 @@ public interface CASEditorW extends CASTableCellEditor, AutoCompleteW {
 	 *            mouse / touch event that moved the caret
 	 */
 	public void adjustCaret(HumanInputEvent<?> event);
+
+	/**
+	 * @param asText
+	 *            whether this should be plain text mode
+	 */
+	public void setEditAsText(boolean asText);
 }

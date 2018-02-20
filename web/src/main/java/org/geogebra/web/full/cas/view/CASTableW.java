@@ -217,13 +217,15 @@ public class CASTableW extends Grid implements CASTable {
 		Log.debug(n + ":" + (w == null ? "null" : w.getClass()));
 		if (w instanceof CASTableCellW) {
 			// App.debug("cell found");
+			GeoCasCell casCell = this.getGeoCasCell(n);
+			boolean asText = casCell != null && casCell.isUseAsText();
 			editing = (CASTableCellW) w;
 			((CASEditorW) getEditor()).resetInput();
 			((CASEditorW) getEditor())
 					.setAutocomplete(editing.getCASCell() == null
 							|| !editing.getCASCell().isUseAsText());
 			editing.startEditing(((CASEditorW) getEditor()),
-					newText);
+					newText, asText);
 		}
 	}
 

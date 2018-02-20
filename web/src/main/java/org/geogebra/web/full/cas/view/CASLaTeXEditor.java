@@ -5,20 +5,18 @@ import java.util.List;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
-import org.geogebra.common.io.latex.ParseException;
-import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.FormatConverterImpl;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.editor.MathFieldProcessing;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.inputfield.InputSuggestions;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.algebra.RetexKeyboardListener;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.util.ReTeXHelper;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -37,7 +35,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.event.MathFieldListener;
-import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.model.MathSequence;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
@@ -60,6 +57,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	private boolean autocomplete = true;
 	private Widget dummy;
 	private Canvas canvas;
+	private boolean editAsText;
 
 	/**
 	 * @param table
@@ -174,15 +172,7 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 	public void setText(String text0) {
 		// removeDummy();
 		if (mf != null) {
-			Parser parser = new Parser(mf.getMetaModel());
-			MathFormula formula;
-			try {
-				formula = parser.parse(text0);
-				mf.setFormula(formula);
-			} catch (ParseException e) {
-				Log.warn("Problem parsing: " + text0);
-				e.printStackTrace();
-			}
+			ReTeXHelper.setText(mf, text0, editAsText);
 		}
 		// updateLineHeight();
 	}
@@ -403,12 +393,19 @@ public class CASLaTeXEditor extends FlowPanel implements CASEditorW,
 		// not needed
 	}
 
+	@Override
 	public void insertInput(String input) {
 		mf.insertString(input);
 	}
 
+	@Override
 	public void adjustCaret(HumanInputEvent<?> event) {
 		mf.adjustCaret(EventUtil.getTouchOrClickClientX(event),
 				EventUtil.getTouchOrClickClientY(event));
+	}
+
+	@Override
+	public void setEditAsText(boolean asText) {
+		this.editAsText = asText;
 	}
 }

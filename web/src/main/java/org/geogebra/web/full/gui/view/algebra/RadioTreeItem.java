@@ -23,8 +23,6 @@ import org.geogebra.common.gui.view.algebra.AlgebraItem;
 import org.geogebra.common.gui.view.algebra.AlgebraView;
 import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.io.latex.GeoGebraSerializer;
-import org.geogebra.common.io.latex.ParseException;
-import org.geogebra.common.io.latex.Parser;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoPointOnPath;
@@ -57,6 +55,7 @@ import org.geogebra.web.full.gui.layout.panels.AlgebraDockPanelW;
 import org.geogebra.web.full.gui.layout.panels.AlgebraPanelInterface;
 import org.geogebra.web.full.gui.util.Resizer;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.full.util.ReTeXHelper;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.inputfield.AbstractSuggestionDisplay;
 import org.geogebra.web.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -92,7 +91,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.UIObject;
 import com.google.gwt.user.client.ui.Widget;
-import com.himamis.retex.editor.share.model.MathFormula;
 import com.himamis.retex.editor.share.serializer.TeXSerializer;
 import com.himamis.retex.editor.share.util.Unicode;
 import com.himamis.retex.editor.web.MathFieldW;
@@ -1860,29 +1858,12 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		if (!"".equals(text0)) {
 			removeDummy();
 		}
-		if (this.isTextItem() && mf != null) {
-			parseText("");
-			mf.setPlainTextMode(true);
-			mf.insertString(text0);
-		} else if (mf != null) {
-			parseText(text0);
-		}
+		ReTeXHelper.setText(mf, text0, this.isTextItem());
+		updateEditorAriaLabel(text0);
 		updatePreview();
 	}
 
-	private void parseText(String text0) {
-		Parser parser = new Parser(mf.getMetaModel());
-		MathFormula formula;
-		try {
-			formula = parser.parse(text0);
-			mf.setFormula(formula);
-			updateEditorAriaLabel(text0);
-		} catch (ParseException e) {
-			Log.warn("Problem parsing: " + text0);
-			e.printStackTrace();
-		}
 
-	}
 
 	@Override
 	public void setLabels() {
