@@ -2305,6 +2305,22 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
+	 * @return x coord of drag start point in real world coordinate
+	 */
+	public double getRealDragStartCoordX() {
+		return toRealWorldCoordX(
+				getEuclidianController().getDragStartPoint().getX());
+	}
+
+	/**
+	 * @return y coord of drag start point in real world coordinate
+	 */
+	public double getRealDragStartCoordY() {
+		return toRealWorldCoordY(
+				getEuclidianController().getDragStartPoint().getY());
+	}
+
+	/**
 	 * says that label hit needs to be refreshed
 	 */
 	public void setLabelHitNeedsRefresh() {

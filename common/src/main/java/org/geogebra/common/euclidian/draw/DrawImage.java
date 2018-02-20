@@ -475,10 +475,8 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			height = A.getInhomY() - view.toRealWorldCoordY(
-					view.getEuclidianController().getDragStartPoint().y);
-			width = view.toRealWorldCoordX(
-					view.getEuclidianController().getDragStartPoint().x)
+			height = A.getInhomY() - view.getRealDragStartCoordY();
+			width = view.getRealDragStartCoordX()
 					- D.getInhomX();
 			B.setX(view.toRealWorldCoordX(eventX));
 			newWidth = B.getInhomX() - D.getInhomX();
@@ -496,10 +494,8 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			width = B.getInhomX() - view.toRealWorldCoordX(
-					view.getEuclidianController().getDragStartPoint().x);
-			height = B.getInhomY() - view.toRealWorldCoordY(
-					view.getEuclidianController().getDragStartPoint().y);
+			width = B.getInhomX() - view.getRealDragStartCoordX();
+			height = B.getInhomY() - view.getRealDragStartCoordY();
 			A.setX(view.toRealWorldCoordX(eventX));
 			A.updateCoords();
 			A.updateRepaint();
@@ -520,11 +516,9 @@ public final class DrawImage extends Drawable {
 			D.updateCoords();
 			D.updateRepaint();
 			geoImage.setCorner(D, 2);
-			height = view.toRealWorldCoordY(
-					view.getEuclidianController().getDragStartPoint().y)
+			height = view.getRealDragStartCoordY()
 					- D.getInhomY();
-			width = view.toRealWorldCoordX(
-					view.getEuclidianController().getDragStartPoint().x)
+			width = view.getRealDragStartCoordX()
 					- D.getInhomX();
 			B.setX(view.toRealWorldCoordX(eventX));
 			newWidth = B.getInhomX() - D.getInhomX();
@@ -541,11 +535,9 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			height = view.toRealWorldCoordY(
-					view.getEuclidianController().getDragStartPoint().y)
+			height = view.getRealDragStartCoordY()
 					- D.getInhomY();
-			width = B.getInhomX() - view.toRealWorldCoordX(
-					view.getEuclidianController().getDragStartPoint().x);
+			width = B.getInhomX() - view.getRealDragStartCoordX();
 			A.setX(view.toRealWorldCoordX(eventX));
 			newWidth = B.getInhomX() - A.getInhomX();
 			newHeight = (height * newWidth) / width;
