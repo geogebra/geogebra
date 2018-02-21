@@ -31,7 +31,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -261,7 +260,8 @@ public class DrawSlider extends Drawable {
 		// slider a bit
 		// return !number.isSliderFixed() && line.intersects(x-2, y-2, 4,4);
 
-		Log.debug("x = "+x+", min = "+line.getP1().getX()+", max = "+line.getP2().getX());
+		// Log.debug("x = "+x+", min = "+line.getP1().getX()+", max =
+		// "+line.getP2().getX());
 
 		return line.intersects(x - r, y - r, 2 * r, 2 * r);
 	}
