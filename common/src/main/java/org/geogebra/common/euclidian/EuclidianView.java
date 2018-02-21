@@ -2916,7 +2916,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            - bounding box for select
 	 */
 	public void setBoundingBox(BoundingBox boundingBox) {
-		if (this.boundingBox != null) {
+		// if old bounding box reset -> reset crop properties
+		if (this.boundingBox != null && boundingBox != null
+				&& boundingBox.equals(this.boundingBox)) {
+			boundingBox.setCropBox(this.boundingBox.isCropBox());
+		}
+		// end croping if geo deselected or other geo selected
+		if ((boundingBox == null || !boundingBox.equals(this.boundingBox))
+				&& this.boundingBox != null) {
 			this.boundingBox.setCropBox(false);
 		}
 		this.boundingBox = boundingBox;
