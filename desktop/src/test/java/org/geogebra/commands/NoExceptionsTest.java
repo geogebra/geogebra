@@ -1664,6 +1664,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdSlowPlot() {
 		t("SlowPlot[ f1 ]");
+		t("SlowPlot[ f1, false ]");
 	}
 
 	@Test
