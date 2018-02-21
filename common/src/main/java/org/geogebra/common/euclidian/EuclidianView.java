@@ -2916,11 +2916,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 *            - bounding box for select
 	 */
 	public void setBoundingBox(BoundingBox boundingBox) {
-		if (this.boundingBox != null && boundingBox != null) {
-			boundingBox.setCropBox(this.boundingBox.isCropBox());
-		} else if (this.boundingBox != null && boundingBox == null) {
+		if (this.boundingBox != null) {
 			this.boundingBox.setCropBox(false);
-
 		}
 		this.boundingBox = boundingBox;
 	}
