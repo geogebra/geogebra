@@ -6343,7 +6343,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * 
 	 * @return null or callback to refresh view - needed for LaTeX in web
 	 */
-	public Runnable getCallBack(GeoElement geo) {
+	public Runnable getCallBack(GeoElement geo, boolean firstCall) {
 		// overridden in web project
 		return null;
 	}

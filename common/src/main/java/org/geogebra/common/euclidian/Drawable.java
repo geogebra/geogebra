@@ -232,7 +232,7 @@ public abstract class Drawable extends DrawableND {
 					geo.getKernel().getApplication(), geo, g2, xLabel,
 					yLabel - offsetY, label.substring(1, label.length() - 1),
 					g2.getFont(), serif, g2.getColor(), g2.getBackground(),
-					true, false, firstCall ? view.getCallBack(geo) : null);
+					true, false, view.getCallBack(geo, firstCall));
 			firstCall = false;
 			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.getWidth(),
 					dim.getHeight());
@@ -367,7 +367,7 @@ public abstract class Drawable extends DrawableND {
 				EuclidianStatic.drawMultilineLaTeX(view.getApplication(),
 						view.getTempGraphics2D(font), geo, g2, font, fgColor,
 				bgColor, labelDesc, xLabel, yLabel, isSerif(),
-				firstCall ? view.getCallBack(geo) : null,
+				view.getCallBack(geo, firstCall),
 				labelRectangle);
 		firstCall = false;
 	}

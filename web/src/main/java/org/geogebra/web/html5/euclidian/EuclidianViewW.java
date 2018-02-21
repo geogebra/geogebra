@@ -1504,9 +1504,9 @@ public class EuclidianViewW extends EuclidianView implements
 	 * @return callback (for JLM)
 	 */
 	@Override
-	public Runnable getCallBack(GeoElement geo) {
+	public Runnable getCallBack(GeoElement geo, boolean firstCall) {
 
-		return new DrawLaTeXCallBack(geo);
+		return firstCall ? new DrawLaTeXCallBack(geo) : null;
 	}
 
 	private class DrawLaTeXCallBack implements Runnable {

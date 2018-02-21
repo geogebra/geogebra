@@ -350,7 +350,7 @@ public class MyButton implements Observer {
 					geoButton.getCaption(StringTemplate.defaultTemplate), font,
 					false, geoButton.getObjectColor(),
 					geoButton.getBackgroundColor(), false, false,
-					firstCall ? view.getCallBack(geoButton) : null);
+					view.getCallBack(geoButton, firstCall));
 			firstCall = false;
 		} else {
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),

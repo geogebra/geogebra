@@ -258,7 +258,7 @@ public class DrawAxis {
 					x - 2, 10,
 					view.axesLabels[1], font, serif(view.axesLabels[1]),
 					GColor.BLACK, null, true, false,
-					firstCallY ? view.getCallBack(geo) : null);
+					view.getCallBack(geo, firstCallY));
 
 			firstCallY = false;
 		} else if (!view.axesLabels[1].contains("_")) {
@@ -293,7 +293,7 @@ public class DrawAxis {
 					y + 4 - dim.getHeight(),
 					view.axesLabels[0], font, serif(view.axesLabels[0]),
 					GColor.BLACK, null, true,
-					false, firstCallX ? view.getCallBack(geo) : null);
+					false, view.getCallBack(geo, firstCallX));
 
 			firstCallX = false;
 		} else if (!view.axesLabels[0].contains("_")) {

@@ -53,26 +53,25 @@ public class DrawEquationW extends DrawEquation {
 			Graphics2DW g3 = new Graphics2DW(((GGraphics2DW) g2).getContext());
 			g3.setDrawingFinishedCallback(new DrawingFinishedCallback() {
 
-				@Override
-				public void onDrawingFinished() {
-					((GGraphics2DW) g2).updateCanvasColor();
-					if (callback != null) {
-						callback.run();
-					}
-
+			@Override
+			public void onDrawingFinished(boolean async) {
+				((GGraphics2DW) g2).updateCanvasColor();
+				if (callback != null) {
+					callback.run();
 				}
-			});
-			icon.paintIcon(new HasForegroundColor() {
-				@Override
-				public Color getForegroundColor() {
+			}
+		});
+		icon.paintIcon(new HasForegroundColor() {
+			@Override
+			public Color getForegroundColor() {
 				return FactoryProvider.getInstance().getGraphicsFactory()
-							.createColor(fgColor.getRed(), fgColor.getGreen(),
-									fgColor.getBlue());
-				}
-			}, g3, x, y);
-			((GGraphics2DW) g2).updateCanvasColor();
-			g3.maybeNotifyDrawingFinishedCallback();
-			return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
+						.createColor(fgColor.getRed(), fgColor.getGreen(),
+								fgColor.getBlue());
+			}
+		}, g3, x, y);
+		((GGraphics2DW) g2).updateCanvasColor();
+		g3.maybeNotifyDrawingFinishedCallback(false);
+		return new GDimensionW(icon.getIconWidth(), icon.getIconHeight());
 
 	}
 

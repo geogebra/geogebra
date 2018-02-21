@@ -141,7 +141,7 @@ public final class DrawBoolean extends Drawable {
 						geoBool.getCaption(StringTemplate.defaultTemplate),
 						g2.getFont(), false, geoBool.getObjectColor(),
 						geoBool.getBackgroundColor(), false, false,
-						firstCall ? view.getCallBack(geo) : null);
+						view.getCallBack(geo, firstCall));
 				firstCall = false;
 			} else {
 				g2.setPaint(geo.getObjectColor());

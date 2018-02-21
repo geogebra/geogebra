@@ -124,8 +124,8 @@ public class JlmLib {
 		// set the callback
 		g2.setDrawingFinishedCallback(new DrawingFinishedCallback() {
 			@Override
-			public void onDrawingFinished() {
-				callJavascriptCallback(callback);
+			public void onDrawingFinished(boolean async) {
+				callJavascriptCallback(callback, async);
 			}
 		});
 
@@ -137,15 +137,16 @@ public class JlmLib {
 				return fgColor;
 			}
 		}, g2, x, y);
-		g2.maybeNotifyDrawingFinishedCallback();
+		g2.maybeNotifyDrawingFinishedCallback(false);
 
 		// return {width, height}
 		return createReturnValue(icon, ratio);
 	}
 
-	private static native void callJavascriptCallback(JavaScriptObject cb) /*-{
+	private static native void callJavascriptCallback(JavaScriptObject cb,
+			boolean async) /*-{
 		if (cb != null) {
-			cb();
+			cb(async);
 		}
 	}-*/;
 

@@ -50,7 +50,7 @@ public abstract class CanvasDrawable extends Drawable {
 		GDimension ret = app.getDrawEquation().drawEquation(app, geo0, g2, x, y,
 				text,
 				font, serif, geo.getObjectColor(), geo.getBackgroundColor(),
-				false, false, firstCall ? view.getCallBack(geo) : null);
+				false, false, view.getCallBack(geo, firstCall));
 		firstCall = false;
 		return ret;
 	}

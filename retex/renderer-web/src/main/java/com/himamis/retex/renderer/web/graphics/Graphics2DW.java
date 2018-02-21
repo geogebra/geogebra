@@ -308,14 +308,14 @@ public class Graphics2DW implements Graphics2DInterface {
 				public void onFontLoaded(AsyncLoadedFont font) {
 					fdc.doDraw();
 					charDrawingRequests -= 1;
-					maybeNotifyDrawingFinishedCallback();
+					maybeNotifyDrawingFinishedCallback(true);
 				}
 
 				@Override
 				public void onFontError(AsyncLoadedFont font) {
 					GWT.log("Error loading font " + font);
 					charDrawingRequests -= 1;
-					maybeNotifyDrawingFinishedCallback();
+					maybeNotifyDrawingFinishedCallback(true);
 				}
 			});
 
@@ -328,9 +328,9 @@ public class Graphics2DW implements Graphics2DInterface {
 		this.drawingFinishedCallback = drawingFinishedCallback;
 	}
 	
-	public void maybeNotifyDrawingFinishedCallback() {
+	public void maybeNotifyDrawingFinishedCallback(boolean async) {
 		if (!hasUnprocessedCharDrawingRequests()) {
-			notifyDrawingFinishedCallback();
+			notifyDrawingFinishedCallback(async);
 		}
 	}
 	
@@ -338,9 +338,9 @@ public class Graphics2DW implements Graphics2DInterface {
 		return charDrawingRequests > 0;
 	}
 	
-	private void notifyDrawingFinishedCallback() {
+	private void notifyDrawingFinishedCallback(boolean async) {
 		if (drawingFinishedCallback != null) {
-			drawingFinishedCallback.onDrawingFinished();
+			drawingFinishedCallback.onDrawingFinished(async);
 			drawingFinishedCallback = null;
 		}
 	}

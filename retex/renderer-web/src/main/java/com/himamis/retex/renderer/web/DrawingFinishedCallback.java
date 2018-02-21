@@ -52,6 +52,6 @@ public interface DrawingFinishedCallback {
 	/**
 	 * Called when the drawing has finished.
 	 */
-	void onDrawingFinished();
+	void onDrawingFinished(boolean async);
 
 }
