@@ -4911,10 +4911,13 @@ unsigned int ConvertUTF8toUTF16 (
       }
       unlock_syms_mutex();  
     }
+    int xc=xcas_mode(contextptr);
+    if (xc==0 && python_compat(contextptr))
+      xc=256;
     if (abs_calc_mode(contextptr)==38)
-      res.push_back(xcas_mode(contextptr));
+      res.push_back(xc);
     else
-      res.push_back(symbolic(at_xcas_mode,xcas_mode(contextptr)));
+      res.push_back(symbolic(at_xcas_mode,xc));
     return res;
   }
 
@@ -6028,7 +6031,11 @@ unsigned int ConvertUTF8toUTF16 (
 	progpos=cur.find("for");
 	if (progpos>=0 && progpos<cs && instruction_at(cur,progpos,3)){
 	  pythonmode=true;
+	  // for _ -> for x_
 	  cur=cur.substr(0,pos);
+	  if (progpos+5<cs && cur[progpos+3]==' ' && cur[progpos+4]=='_' && cur[progpos+5]==' '){
+	    cur.insert(cur.begin()+progpos+4,'x');
+	  }
 	  convert_python(cur,contextptr);
 	  s += cur+" do\n";
 	  stack.push_back(int_string(ws,"od"));

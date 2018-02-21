@@ -332,8 +332,11 @@ namespace giac {
   }
 
   static string & add_print_pow(string & s,const symbolic & g,GIAC_CONTEXT){
-    if (g.feuille.type!=_VECT || g.feuille._VECTptr->size()!=2)
-      return add_print(s,g.feuille,contextptr);
+    if (g.feuille.type!=_VECT || g.feuille._VECTptr->size()!=2){
+      s += "pow(";
+      add_print(s,g.feuille,contextptr);
+      return s+=')';
+    }
     gen pui=g.feuille._VECTptr->back();
     gen arg=g.feuille._VECTptr->front();
 #ifndef GIAC_HAS_STO_38
