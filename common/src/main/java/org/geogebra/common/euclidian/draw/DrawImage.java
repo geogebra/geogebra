@@ -26,6 +26,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
@@ -447,10 +448,41 @@ public final class DrawImage extends Drawable {
 				|| absoluteLocation) {
 			return;
 		}
-		updateImage(e, handler);
+		if (boundingBox.isCropBox()) {
+			if (!geo.getKernel().getApplication().has(Feature.MOW_CROP_IMAGE)) {
+				return;
+			}
+			updateImageCrop(e, handler);
+		} else {
+			if (!geo.getKernel().getApplication()
+					.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
+				return;
+			}
+			updateImageResize(e, handler);
+		}
 	}
 
-	private void updateImage(AbstractEvent event,
+	private void updateImageCrop(AbstractEvent event,
+			EuclidianBoundingBoxHandler handler) {
+		// int eventX = event.getX();
+		int eventY = event.getY();
+		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
+		switch (handler) {
+		case BOTTOM:
+			rect.setRect(getBounds().getX(), getBounds().getY(),
+					getBounds().getWidth(), eventY - getBounds().getY());
+			break;
+		case TOP:
+			rect.setRect(getBounds().getX(), eventY, getBounds().getWidth(),
+					getBounds().getMaxY() - eventY);
+			break;
+		default:
+			break;
+		}
+		boundingBox.setRectangle(rect);
+	}
+
+	private void updateImageResize(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
 		int eventY = event.getY();
