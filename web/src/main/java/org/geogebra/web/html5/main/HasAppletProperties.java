@@ -37,21 +37,6 @@ public interface HasAppletProperties {
 	 */
 	public void resetAutoSize();
 
-
-
-	/**
-	 * @param show
-	 * 
-	 *            wheter show the toolbar in geogebra-web applets or not
-	 */
-	public void showToolBar(boolean show);
-	/**
-	 * @param show
-	 * 
-	 *            wheter show the algebrainput in geogebra-web applets or not
-	 */
-	public void showAlgebraInput(boolean show);
-
 	/**
 	 * @param show
 	 * 

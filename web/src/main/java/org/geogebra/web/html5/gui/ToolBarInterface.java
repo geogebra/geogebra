@@ -14,6 +14,6 @@ public interface ToolBarInterface {
 
 	public boolean isMobileToolbar();
 
-	public boolean isVisible();
+	public boolean isShown();
 
 }

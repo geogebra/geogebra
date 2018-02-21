@@ -752,7 +752,7 @@ public class AppWapplet extends AppWFull {
 			newHeight -= ((AlgebraInputW) getGuiManager().getAlgebraInput())
 					.getOffsetHeight();
 		}
-		if (getToolbar()!=null && getToolbar().isVisible()){
+		if (getToolbar() != null && getToolbar().isShown()) {
 			newHeight -= ((GGWToolBar) getToolbar()).getOffsetHeight();
 		}
 

@@ -41,8 +41,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 
-
-
 	/** The application */
 	public AppW app;
 
@@ -573,30 +571,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		if (app.getArticleElement().getDataParamWidth() > 0) {
 			setFramePixelSize(app.getArticleElement().getDataParamWidth(),
 					app.getArticleElement().getDataParamHeight());
-		}
-	}
-
-	/**
-	 * @param show
-	 * 
-	 *            wheter show the toolbar in geogebra-web applets or not
-	 */
-	@Override
-	public void showToolBar(boolean show) {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().showToolBar(show);
-		}
-	}
-
-	/**
-	 * @param show
-	 * 
-	 *            wheter show the algebrainput in geogebra-web applets or not
-	 */
-	@Override
-	public void showAlgebraInput(boolean show) {
-		if (app.getGuiManager() != null) {
-			app.getGuiManager().showAlgebraInput(show);
 		}
 	}
 

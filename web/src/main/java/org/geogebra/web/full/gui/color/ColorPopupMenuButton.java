@@ -303,10 +303,17 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		}
 	}
 
+	/**
+	 * @return colors
+	 */
 	public GColor[] getColorSet() {
 		return colorSet;
 	}
 
+	/**
+	 * @param colorSet
+	 *            colors
+	 */
 	public void setColorSet(GColor[] colorSet) {
 		this.colorSet = colorSet;
 	}

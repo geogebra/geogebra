@@ -1811,7 +1811,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public void showToolBar(final boolean show) {
 		ToolBarInterface tb = ((AppWFull) getApp()).getToolbar();
 		boolean currentlyVisible = tb != null && tb
-				.isVisible();
+				.isShown();
 		if (currentlyVisible != show) {
 			getApp().setShowToolBar(show);
 			getApp().getArticleElement()

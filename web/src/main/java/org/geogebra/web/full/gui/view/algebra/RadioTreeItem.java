@@ -2035,7 +2035,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			text = geo.getLaTeXDescriptionRHS(false,
 					StringTemplate.editTemplate);
 		} else if (geo != null) {
-			Log.debug("EDIT:" + geo.getDefinitionForEditor());
 			text = geo.getDefinitionForEditor();
 		}
 

@@ -1058,7 +1058,9 @@ public class GgbAPIW extends GgbAPI {
 	 *            wheter show the toolbar in geogebra-web applets or not
 	 */
 	public void showToolBar(boolean show) {
-		((AppW) app).getAppletFrame().showToolBar(show);
+		if (app.getGuiManager() != null) {
+			((GuiManagerInterfaceW) app.getGuiManager()).showToolBar(show);
+		}
 	}
 
 	/**

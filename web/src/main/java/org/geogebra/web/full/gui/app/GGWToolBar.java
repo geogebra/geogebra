@@ -1313,10 +1313,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		if (toolBar.isMobileToolbar() && !toolBar.isVisible()) {
 			int maxButtons = getMaxButtons((int) width);
 			int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel.getWidget(0)).getButtonCount();
-
 			submenuScrollPanel.setWidth((maxButtons - 1) * 45 + "px");
 			submenuPanel.setWidth((submenuButtonCount) * 45 + "px");
-
 		}
 	}
 
@@ -1364,5 +1362,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		return toolBar != null && toolBar.isMobileToolbar();
 	}
 
+	@Override
+	public boolean isShown() {
+		return isVisible() && isAttached();
+	}
 
 }
