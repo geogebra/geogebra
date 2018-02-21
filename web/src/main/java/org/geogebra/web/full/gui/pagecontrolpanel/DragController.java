@@ -103,16 +103,9 @@ class DragController {
 			}
 		}
 
-		void start(int x, int y) {
+		void start(int y) {
 			prevY = y;
-			int idx = cardIndexAt(x, y);
-			int count = cards.getCardCount();
-			if (idx >= 0 && idx < count) {
-				card = cards.cardAt(idx);
-				cards.selectCard(card);
-			} else {
-				reset();
-			}
+			card = clicked;
 		}
 
 		int move(int y) {
@@ -292,14 +285,14 @@ class DragController {
 			clicked = null;
 		} else {
 			clicked = cards.cardAt(idx);
-			cards.getListener().hideScrollbar();
+			cards.selectCard(clicked);
 			CancelEventTimer.dragCanStart();
 		}
 	}
 	
 	void move(int x, int y) {
 		if (CancelEventTimer.isDragStarted()) {
-			dragged.start(x, y);
+			dragged.start(y);
 		} else if (CancelEventTimer.isDragging()) {
 			int targetIdx = dragged.move(y);
 			if (targetIdx != -1 && !dragged.isAnimated()) {
