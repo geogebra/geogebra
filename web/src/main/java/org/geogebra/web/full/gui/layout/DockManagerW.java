@@ -1854,8 +1854,8 @@ public class DockManagerW extends DockManager {
 		}
 
 		AlgebraViewW av = ((AlgebraViewW) app.getAlgebraView());
-		double avHeight = kbHeight;
-		avHeight += Math.max(av.getInputTreeItem().getOffsetHeight(), 80);
+		double avHeight = Math.max(av.getInputTreeItem().getOffsetHeight(),
+				120);
 		double appHeight = app.getHeight();
 		ToolbarPanel toolbar = null;
 		if (app.isUnbundled()) {
