@@ -293,10 +293,7 @@ class DragController {
 			@Override
 			public void run() {
 				if (!dragged.autoMove()) {
-					cards.reorder(dragged.index(), dragged.dropToIdx);
-					cards.getListener().update();
-					DragController.this.cancel();
-					this.cancel();
+					onDrop();
 				}
 			}
 		};
@@ -384,4 +381,10 @@ class DragController {
 		}
 	}
 
+	void onDrop() {
+		cards.reorder(dragged.index(), dragged.dropToIdx);
+		cards.getListener().update();
+		cancel();
+		dropAnimTimer.cancel();
+	}
 }
