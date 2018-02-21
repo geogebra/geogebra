@@ -214,18 +214,28 @@ class DragController {
 			return false;
 		}
 
+		int getDropIndex(PagePreviewCard t) {
+			if (t == null) {
+				return -1;
+			}
+
+			int idx = t.getPageIndex();
+			boolean dragUnderTarget = card.getAbsoluteBottom() > t.getAbsoluteBottom();
+			if (down && !dragUnderTarget && idx > 0) {
+				idx--;
+			} else if (!down && dragUnderTarget && idx < cards.getCardCount() - 1) {
+				idx++;
+			}
+
+			return idx;
+
+		}
 		boolean dropAnimated(int y) {
 			int dropToIdx = -1;
 			if (target != null) {
-				dropToIdx = target.getPageIndex();
-				boolean dragUnderTarget = card.getAbsoluteBottom() > target.getAbsoluteBottom();
-				if (down && !dragUnderTarget && dropToIdx > 0) {
-					dropToIdx--;
-				} else if (!down && dragUnderTarget && dropToIdx < cards.getCardCount() - 1) {
-					dropToIdx++;
-				}
+				dropToIdx = getDropIndex(target);
 			} else if (last.target != null) {
-				dropToIdx = last.target.getPageIndex();
+				dropToIdx = getDropIndex(last.target);
 			}
 
 			if (index() != -1 && dropToIdx != -1) {
