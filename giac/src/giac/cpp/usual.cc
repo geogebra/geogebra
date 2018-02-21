@@ -5974,6 +5974,10 @@ namespace giac {
   static define_unary_function_eval (__iquorem,&giac::_iquorem,_iquorem_s);
   define_unary_function_ptr5( at_iquorem ,alias_at_iquorem,&__iquorem,0,true);
 
+  static const char _divmod_s []="divmod";
+  static define_unary_function_eval (__divmod,&giac::_iquorem,_divmod_s);
+  define_unary_function_ptr5( at_divmod ,alias_at_divmod,&__divmod,0,true);
+
   static symbolic symb_quorem(const gen & a,const gen & b){    return symbolic(at_quorem,makevecteur(a,b));  }
   gen quorem(const gen & a,const gen & b){
     if ((a.type!=_VECT) || (b.type!=_VECT))

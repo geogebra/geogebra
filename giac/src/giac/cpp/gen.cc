@@ -4313,6 +4313,8 @@ namespace giac {
 	return sym_add(b,a,contextptr);
       if (a.subtype==_POINT__VECT && b.subtype==_POINT__VECT)
 	return gen(addvecteur(*a._VECTptr,*b._VECTptr),0);
+      if (a.subtype==0 && b.subtype==0 && python_compat(contextptr))
+	*logptr(contextptr) << gettext("Warning + is vector addition, run concat(list1,list2) for concatenation") << endl;
       return gen(addvecteur(*a._VECTptr,*b._VECTptr),a.subtype?a.subtype:b.subtype);
     case _MAP__MAP:
       {
@@ -5929,6 +5931,8 @@ namespace giac {
 	  return A;
 	// if (a.type==_POLY) return b*(*a._POLYptr);
       }
+      if (A.type==_INT_ && B.subtype==0 && python_compat(contextptr))
+	*logptr(contextptr) << gettext("Warning, * is vector multiplication. Run concat(seq(list,n)) to replicate a list.") << endl;
       return multgen_poly(A,*B._VECTptr,B.subtype); // gen(multvecteur(a,*b._VECTptr),b.subtype);
     }
     case _VECT__VECT: {
@@ -8228,6 +8232,7 @@ namespace giac {
 	if (a==_FLOAT_ && b==at_float) return true;
 	if (a==_DOUBLE_ && b==at_real) return true;
 	if (a==_CPLX && b==at_complex) return true;
+	if ( (a==_INT_||a==_ZINT) && b==at_int) return true;
       }
       if (b.type==_INT_ && b.subtype==_INT_TYPE && a.type==_FUNC)
 	return operator_equal(b,a,contextptr);

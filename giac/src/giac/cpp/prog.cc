@@ -1057,7 +1057,7 @@ namespace giac {
 	  v2.push_back(newid);
 	  continue;
 	}
-	if (thetype==at_integrate){ // int==integrate
+	if (thetype==at_integrate || thetype==at_int){ // int==integrate
 	  v1.push_back(theid);
 	  newid=*it=gen(theid.print(contextptr)+"_i",contextptr);
 	  if (egal!=0)
@@ -10532,18 +10532,25 @@ namespace giac {
   define_unary_function_ptr5( at_struct_dot ,alias_at_struct_dot,&__struct_dot,_QUOTE_ARGUMENTS,true);
 
   gen _giac_assert(const gen & args,GIAC_CONTEXT){
-    gen test=equaltosame(args);
+    gen test=args;
+    string msg(gettext("assert failure: ")+args.print(contextptr));
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2){
+      test=args._VECTptr->back();
+      if (test.type==_STRNG) msg=*test._STRNGptr; else msg=test.print(contextptr);
+      test=args._VECTptr->front();
+    }
+    test=equaltosame(test);
     int evallevel=eval_level(contextptr);
     test=equaltosame(test).eval(evallevel,contextptr);
     if (!is_integer(test))
       test=test.evalf_double(evallevel,contextptr);
     if (!is_integral(test) || test.val!=1)
-      return gensizeerr(gettext("assert failure: ")+args.print(contextptr));
+      return gensizeerr(msg);
     return 1;
   }
   static const char _giac_assert_s []="assert";
   static define_unary_function_eval (__giac_assert,&_giac_assert,_giac_assert_s);
-  define_unary_function_ptr5( at_giac_assert ,alias_at_giac_assert,&__giac_assert,_QUOTE_ARGUMENTS,true);
+  define_unary_function_ptr5( at_giac_assert ,alias_at_giac_assert,&__giac_assert,_QUOTE_ARGUMENTS,T_RETURN);
 
   gen _index(const gen & args,GIAC_CONTEXT){
     if (args.type!=_VECT || args._VECTptr->size()!=2)
