@@ -52,7 +52,7 @@ public class RegroupUnitTests {
 
     @Test
     public void simplifyFractionTest() {
-        simplifyFraction("(2^(2k)+2^(k+1))/((2)^(k))", "((2)^(k) + (2)^(1))");
+        simplifyFraction("(2^(2k)+2^(k+1))/((2)^(k))", "((2)^(k) + 2)");
     }
 
     public void regroupProduct(String a, String b) {

@@ -184,7 +184,9 @@ public enum SolutionStepType {
 
 	ODD_POWER_NEGATIVE("OddPowerNegative", "An odd power of a negative number is a negative"),
 
-	NEGATIVE_NUM_DENOM("NegativeNumeratorOrDenominator", "Use \\frac{-a}{b} = \\frac{a}{-b} = -\\frac{a}{b}"),
+	NEGATIVE_NUM_AND_DENOM("NegativeNumeratorAndDenominator", "Use \\frac{-a}{-b} = \\frac{a}{b}"),
+
+	NEGATIVE_NUM_OR_DENOM("NegativeNumeratorOrDenominator", "Use \\frac{-a}{b} = \\frac{a}{-b} = -\\frac{a}{b}"),
 
 	REDUCE_ROOT_AND_POWER("ReduceRootAndPower", "Reduce the root and power", "Reduce the root and power by: %0"),
 
@@ -192,15 +194,15 @@ public enum SolutionStepType {
 
 	EVALUATE_FRACTION("EvaluateFraction", "Evaluate fraction"),
 
-	EVALUATE_POWER("EvaluatePower", "Evaluate power"),
+	EVALUATE_POWER("EvaluatePower", "Evaluate powers"),
 
-	EVALUATE_ROOT("EvaluateRoot", "Evaluate root"),
+	EVALUATE_ROOT("EvaluateRoot", "Evaluate roots"),
 
-	ZEROTH_POWER("ZerothPower", "The zeroth power of anything is one"),
+	ZEROTH_POWER("ZerothPower", "Evaluate powers", "The zeroth power of anything is one"),
 
-	FIRST_POWER("FirstPower", "The first power of anything is itself"),
+	FIRST_POWER("FirstPower", "Evaluate powers", "The first power of anything is itself"),
 
-	FIRST_ROOT("FirstRoot", "The first root of anything is itself"),
+	FIRST_ROOT("FirstRoot", "Evaluate roots", "The first root of anything is itself"),
 
 	ROOT_OF_ONE("RootOfOne", "Any root of 1 is 1"),
 

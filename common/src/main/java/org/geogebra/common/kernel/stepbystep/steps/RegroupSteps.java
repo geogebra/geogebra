@@ -2,8 +2,7 @@ package org.geogebra.common.kernel.stepbystep.steps;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
@@ -14,6 +13,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.kernel.stepbystep.steptree.StepOperation;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 public enum RegroupSteps implements SimplificationStepGenerator {
 
@@ -879,6 +879,61 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 		}
 	},
 
+	FACTOR_MINUS_FROM_SUMS {
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.DIVIDE)) {
+				StepOperation so = (StepOperation) sn;
+
+				List<StepExpression> basesNumerator = new ArrayList<>();
+				List<StepExpression> exponentsNumerator = new ArrayList<>();
+				List<StepExpression> basesDenominator = new ArrayList<>();
+				List<StepExpression> exponentsDenominator = new ArrayList<>();
+
+				getBasesAndExponents(so.getOperand(0), null,
+						basesNumerator, exponentsNumerator, true);
+				getBasesAndExponents(so.getOperand(1), null,
+						basesDenominator, exponentsDenominator, true);
+
+				for (int i = 0; i < basesNumerator.size(); i++) {
+					if (!basesNumerator.get(i).isSum()) {
+						continue;
+					}
+
+					for (int j = 0; j < basesDenominator.size(); j++) {
+						if (basesDenominator.get(j).isSum()) {
+							StepOperation negated = new StepOperation(Operation.PLUS);
+							for (StepExpression operand : (StepOperation) basesDenominator.get(j)) {
+								negated.addOperand(operand.negate());
+							}
+
+							Log.error("numerator: " + basesNumerator.get(i));
+							Log.error("denominator: " + basesDenominator.get(j));
+							Log.error("negated: " + negated);
+
+							if (negated.equals(basesNumerator.get(i))) {
+								basesNumerator.get(i).setColor(tracker.getColorTracker());
+								basesDenominator.get(j).setColor(tracker.getColorTracker());
+								negated.setColor(tracker.incColorTracker());
+								basesDenominator.set(j, negated.negate());
+								sb.add(SolutionStepType.FACTOR_MINUS);
+							}
+						}
+					}
+				}
+
+				StepExpression denominator = null;
+				for (int i = 0; i < basesDenominator.size(); i++) {
+					denominator = multiply(denominator,
+							nonTrivialProduct(basesDenominator.get(i), exponentsDenominator.get(i)));
+				}
+
+				return divide(so.getOperand(0), denominator);
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
 	FACTOR_FRACTIONS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
@@ -1069,17 +1124,20 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 				StepExpression result = null;
-				if (so.getOperand(0).isNegative()) {
+				if (so.getOperand(0).isNegative() && so.getOperand(1).isNegative()) {
+					result = divide(so.getOperand(0).negate(), so.getOperand(1).negate());
+					sb.add(SolutionStepType.NEGATIVE_NUM_AND_DENOM);
+				} else if (so.getOperand(0).isNegative()) {
 					result = divide(so.getOperand(0).negate(), so.getOperand(1)).negate();
+					sb.add(SolutionStepType.NEGATIVE_NUM_OR_DENOM);
 				} else if (so.getOperand(1).isNegative()) {
 					result = divide(so.getOperand(0), so.getOperand(1).negate()).negate();
+					sb.add(SolutionStepType.NEGATIVE_NUM_OR_DENOM);
 				}
 
 				if (result != null) {
 					sn.setColor(tracker.getColorTracker());
 					result.setColor(tracker.incColorTracker());
-
-					sb.add(SolutionStepType.NEGATIVE_NUM_DENOM);
 					return result;
 				}
 			}
@@ -1158,22 +1216,11 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				List<StepExpression> bases = new ArrayList<>();
 				List<StepExpression> exponents = new ArrayList<>();
 
-				getBasesAndExponents(so, null, bases, exponents);
-
-				boolean isMarked = tracker.isMarked(so, RegroupTracker.MarkType.ROOT);
+				getBasesAndExponents(so, null, bases, exponents, true);
 
 				for (int i = 0; i < bases.size(); i++) {
 					if (exponents.get(i) == null) {
 						continue;
-					}
-
-					boolean foundInteger = isMarked;
-					if (bases.get(i).isInteger()) {
-						for (int j = i; j < bases.size() && !foundInteger; j++) {
-							if (bases.get(i).equals(bases.get(j)) && !isEqual(exponents.get(j), 1)) {
-								foundInteger = true;
-							}
-						}
 					}
 
 					boolean foundCommon = false;
@@ -1183,10 +1230,6 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 						}
 
 						if (bases.get(i).equals(bases.get(j))) {
-							if (bases.get(i).isInteger() && !foundInteger) {
-								continue;
-							}
-
 							foundCommon = true;
 							bases.get(j).setColor(tracker.getColorTracker());
 
@@ -1215,10 +1258,6 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				}
 			}
 
-			if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(0).isOperation(Operation.MULTIPLY)) {
-				tracker.addMark(((StepOperation) sn).getOperand(0), RegroupTracker.MarkType.ROOT);
-			}
-
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
 		}
 	},
@@ -1240,6 +1279,76 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 						return result;
 					}
 				}
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	REWRITE_AS_EXPONENTIAL {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.MULTIPLY)) {
+				StepOperation so = (StepOperation) sn;
+
+				List<StepExpression> bases = new ArrayList<>();
+				List<StepExpression> exponents = new ArrayList<>();
+				getBasesAndExponents(so, null, bases, exponents);
+
+				List<StepExpression> basesToConvert = new ArrayList<>();
+				for (int i = 0; i < bases.size(); i++) {
+					for (int j = i + 1; j < bases.size(); j++) {
+						if (bases.get(i).isInteger() && bases.get(j).isInteger() &&
+								(!isEqual(exponents.get(i), 1) || !isEqual(exponents.get(j), 1))) {
+							long valA = Math.round(bases.get(i).getValue());
+							long valB = Math.round(bases.get(j).getValue());
+
+							double baseA = Math.pow(valA, 1.0 / StepNode.getIntegerPower(valA));
+							double baseB = Math.pow(valB, 1.0 / StepNode.getIntegerPower(valB));
+
+							Log.error("a: " + bases.get(i));
+							Log.error("b: " + bases.get(j));
+
+							if (isEqual(baseA, baseB)) {
+								if (!isEqual(bases.get(i), baseA)) {
+									basesToConvert.add(bases.get(i));
+								}
+
+								if (!isEqual(bases.get(j), baseB)) {
+									basesToConvert.add(bases.get(j));
+								}
+							}
+						}
+					}
+				}
+
+				if (basesToConvert.isEmpty()) {
+					return sn;
+				}
+
+				for (int i = 0; i < bases.size(); i++) {
+					if (basesToConvert.contains(bases.get(i))) {
+						long value = Math.round(bases.get(i).getValue());
+						double exponent = StepNode.getIntegerPower(value);
+						double base = Math.pow(value, 1 / exponent);
+
+						StepExpression result = power(StepConstant.create(base), exponent);
+
+						bases.get(i).setColor(tracker.getColorTracker());
+						result.setColor(tracker.incColorTracker());
+
+						sb.add(SolutionStepType.REWRITE_AS, bases.get(i), result);
+
+						bases.set(i, result);
+					}
+				}
+
+				StepExpression result = null;
+				for (int i = 0; i < bases.size(); i++) {
+					result = multiply(result, nonTrivialPower(bases.get(i), exponents.get(i)));
+				}
+
+				return result;
 			}
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
@@ -1276,6 +1385,33 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					return StepStrategies.iterateThrough(this, sn, sb, tracker);
 				}
 
+				/*
+				If the expression is under root, then we shouldn't regroup 3*3 to 9, because
+				3^2 is probably better. Also, 2*2^3 should be 2^4
+				 */
+				List<StepExpression> bases = new ArrayList<>();
+				List<StepExpression> exponents = new ArrayList<>();
+				getBasesAndExponents(so, null, bases, exponents);
+
+				boolean foundCommon = false;
+				for (int i = 0; i < bases.size(); i++) {
+					for (int j = i + 1; j < bases.size(); j++) {
+						if (bases.get(i).equals(bases.get(j))) {
+							if (!isEqual(exponents.get(i), 1) || !isEqual(exponents.get(j), 1)) {
+								return sn;
+							} else {
+								foundCommon = true;
+							}
+						}
+					}
+				}
+
+				Log.error("found for " + so + " > " + foundCommon);
+
+				if (tracker.isMarked(sn, RegroupTracker.MarkType.ROOT) && foundCommon) {
+					return sn;
+				}
+
 				StepExpression newConstant = StepConstant.create(Math.abs(constantValue));
 
 				if (constantList.size() > 1) {
@@ -1292,6 +1428,10 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				} else {
 					return multiply(newConstant, nonConstant);
 				}
+			}
+
+			if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(0).isOperation(Operation.MULTIPLY)) {
+				tracker.addMark(((StepOperation) sn).getOperand(0), RegroupTracker.MarkType.ROOT);
 			}
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
@@ -1581,7 +1721,9 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					ELIMINATE_OPPOSITES,
 					REGROUP_SUMS,
 					REGROUP_PRODUCTS,
+					SIMPLE_POWERS,
 					FACTOR_FRACTIONS,
+					FACTOR_MINUS_FROM_SUMS,
 					CANCEL_FRACTION,
 					CANCEL_INTEGER_FRACTION
 			};
@@ -1596,8 +1738,8 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
 					MULTIPLIED_BY_ZERO,
 					MULTIPLY_NEGATIVES,
-					COLLECT_LIKE_TERMS_PRODUCT,
 					MULTIPLY_CONSTANTS,
+					COLLECT_LIKE_TERMS_PRODUCT,
 					REGROUP_SUMS
 			};
 
@@ -1706,9 +1848,10 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.NEGATIVE_FRACTIONS,
 					RegroupSteps.TRIVIAL_FRACTIONS,
 					RegroupSteps.REWRITE_COMPLEX_FRACTIONS,
-					RegroupSteps.COMMON_FRACTION,
 					RegroupSteps.REGROUP_SUMS,
+					RegroupSteps.REWRITE_AS_EXPONENTIAL,
 					RegroupSteps.REGROUP_PRODUCTS,
+					RegroupSteps.COMMON_FRACTION,
 					RegroupSteps.SIMPLE_POWERS,
 					RegroupSteps.SIMPLIFY_FRACTIONS,
 					RegroupSteps.FACTOR_FRACTIONS,

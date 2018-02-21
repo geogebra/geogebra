@@ -382,13 +382,13 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 					sp.append(" ");
 				}
 
-				boolean parantheses = operands.get(i).isOperation(Operation.PLUS) || operands.get(i).isNegative();
+				boolean parentheses = operands.get(i).isOperation(Operation.PLUS) || operands.get(i).isNegative();
 
-				if (parantheses) {
+				if (parentheses) {
 					sp.append("\\left(");
 				}
 				sp.append(operands.get(i).toLaTeXString(loc, colored));
-				if (parantheses) {
+				if (parentheses) {
 					sp.append("\\right)");
 				}
 			}
@@ -461,8 +461,8 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 	}
 
 	private static boolean requiresDot(StepExpression a, StepExpression b) {
-		return (a.nonSpecialConstant() && b.nonSpecialConstant())
-				|| (a instanceof StepVariable && b.nonSpecialConstant()) || (a instanceof StepVariable && a.equals(b))
+		return b.nonSpecialConstant()
+				|| (a instanceof StepVariable && a.equals(b))
 				|| (b.isOperation(Operation.POWER) && requiresDot(a, ((StepOperation) b).getOperand(0)));
 	}
 

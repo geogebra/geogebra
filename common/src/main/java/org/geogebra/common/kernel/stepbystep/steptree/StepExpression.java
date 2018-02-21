@@ -746,7 +746,7 @@ public abstract class StepExpression extends StepNode {
 	}
 
 	public StepExpression adaptiveRegroup(SolutionBuilder sb) {
-		if (maxDecimal() < 5 && containsFractions()) {
+		if (0 < maxDecimal() && maxDecimal() < 5 && containsFractions()) {
 			StepExpression temp = convertToFractions(sb);
 			return temp.regroup(sb);
 		}
@@ -934,27 +934,35 @@ public abstract class StepExpression extends StepNode {
 	}
 
 	public static void getBasesAndExponents(StepExpression sn, StepExpression currentExp, List<StepExpression> bases,
-			List<StepExpression> exponents) {
+											List<StepExpression> exponents) {
+		getBasesAndExponents(sn, currentExp, bases, exponents, false);
+	}
+
+	public static void getBasesAndExponents(StepExpression sn, StepExpression currentExp, List<StepExpression> bases,
+			List<StepExpression> exponents, boolean weak) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
 
 			switch (so.getOperation()) {
 			case MULTIPLY:
 				for (StepExpression operand : so) {
-					getBasesAndExponents(operand, currentExp, bases, exponents);
+					getBasesAndExponents(operand, currentExp, bases, exponents, weak);
 				}
 				return;
 			case MINUS:
 				if (!so.getOperand(0).nonSpecialConstant()) {
 					bases.add(StepConstant.create(-1));
 					exponents.add(StepConstant.create(1));
-					getBasesAndExponents(so.getOperand(0), currentExp, bases, exponents);
+					getBasesAndExponents(so.getOperand(0), currentExp, bases, exponents, weak);
 					return;
 				}
 				break;
 			case DIVIDE:
-				getBasesAndExponents(so.getOperand(0), currentExp, bases, exponents);
-				getBasesAndExponents(so.getOperand(1), multiply(-1, currentExp), bases, exponents);
+				if (weak) {
+					break;
+				}
+				getBasesAndExponents(so.getOperand(0), currentExp, bases, exponents, weak);
+				getBasesAndExponents(so.getOperand(1), multiply(-1, currentExp), bases, exponents, weak);
 				return;
 			case POWER:
 				bases.add(so.getOperand(0));

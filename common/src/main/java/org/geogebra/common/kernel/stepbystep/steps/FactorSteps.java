@@ -86,8 +86,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 					StepExpression currentProduct = null;
 					for (int j = 0; j < currentBases.get(i).size(); j++) {
-						currentProduct = StepExpression.makeFraction(currentProduct, currentBases.get(i).get(j),
-								currentExponents.get(i).get(j));
+						currentProduct = nonTrivialProduct(currentProduct,
+								nonTrivialPower(currentBases.get(i).get(j), currentExponents.get(i).get(j)));
 					}
 
 					result.addOperand(currentProduct);
@@ -98,7 +98,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				for (int i = 0; i < commonBases.size(); i++) {
 					if (!isEqual(commonExponents.get(i), 0)) {
 						commonBases.get(i).setColor(tempTracker++);
-						common = StepExpression.makeFraction(common, commonBases.get(i), commonExponents.get(i));
+						common = nonTrivialProduct(common,
+								nonTrivialPower(commonBases.get(i), commonExponents.get(i)));
 					}
 				}
 

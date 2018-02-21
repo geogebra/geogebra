@@ -112,6 +112,7 @@ public class SolutionLine extends SolutionStep {
 							&& line.type == ((SolutionLine) substeps.get(i)).type
 							&& line.colors != null) {
 						((SolutionLine) substeps.get(i)).colors.addAll(line.colors);
+						return;
 					}
 				}
 			}

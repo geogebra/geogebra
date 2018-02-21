@@ -1707,7 +1707,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 						break;
 
 					default: // GeoGebra syntax
-						char firstLeft = leftStr.charAt(0);
 						lastLeft = leftStr.charAt(leftStr.length() - 1);
 						firstRight = rightStr.charAt(0);
 						// check if we need a multiplication sign, see #414
