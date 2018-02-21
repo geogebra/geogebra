@@ -315,6 +315,8 @@ namespace giac {
   extern const unary_function_ptr * const  at_decrement;
   extern const unary_function_ptr * const  at_multcrement;
   extern const unary_function_ptr * const  at_divcrement;
+  extern const unary_function_ptr * const  at_iquosto;
+  extern const unary_function_ptr * const  at_iremsto;
   gen sto(const gen & a,const gen & b,GIAC_CONTEXT);
   gen sto(const gen & a,const gen & b,bool in_place,GIAC_CONTEXT);  
   gen _sto(const gen & g,const context * contextptr);

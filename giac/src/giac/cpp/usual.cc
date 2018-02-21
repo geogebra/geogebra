@@ -4062,12 +4062,13 @@ namespace giac {
     return printasincdec(feuille,'/',true,contextptr);
   }
 
-  static gen increment(const gen & var,const gen & val_orig,bool negatif,bool mult,GIAC_CONTEXT){
+  // mult==0 for +/-, mult=1 for * and /, mult==2 for iquo (negatif=false), mult==3 for irem (negatif=false)
+  static gen increment(const gen & var,const gen & val_orig,bool negatif,int mult,GIAC_CONTEXT){
     if (var.type!=_IDNT)
       return gentypeerr(gettext("Increment"));
     gen val=val_orig.eval(1,contextptr);
     if (negatif)
-      val=mult?inv(val,contextptr):-val;
+      val=mult==1?inv(val,contextptr):-val;
     if (contextptr){
       sym_tab::iterator it,itend;
       const context * cptr=contextptr;
@@ -4085,10 +4086,25 @@ namespace giac {
       }
       if (!cptr){
 	gen prev=eval(var,1,contextptr);
-	return sto(mult?(prev*val):(prev+val),var,contextptr);
-	// return gensizeerr(gettext("Increment"));
+	if (mult==0)
+	  return sto(prev+val,var,contextptr);
+	if (mult==1)
+	  return sto(prev*val,var,contextptr);
+	if (mult==2)
+	  return sto(_iquo(makesequence(prev,val),contextptr),var,contextptr);
+	if (mult==3)
+	  return sto(_irem(makesequence(prev,val),contextptr),var,contextptr);
+	return gensizeerr(gettext("Increment"));
       }
-      return it->second=mult?(it->second*val):(it->second+val);
+      if (mult==0)
+	return it->second=(it->second+val);
+      if (mult==1)
+	return it->second=(it->second*val);
+      if (mult==2)
+	return it->second=_iquo(makesequence(it->second,val),contextptr);
+      if (mult==3)
+	return it->second=_irem(makesequence(it->second,val),contextptr);
+      return gensizeerr(gettext("Increment"));
     }
     if (!var._IDNTptr->localvalue)
       var._IDNTptr->localvalue = new vecteur;
@@ -4097,7 +4113,15 @@ namespace giac {
       return w->back()=w->back()+val;
     if (!var._IDNTptr->value)
       return gensizeerr(gettext("Non assigned variable"));
-    return *var._IDNTptr->value=mult?(*var._IDNTptr->value*val):(*var._IDNTptr->value+val);
+    if (mult==0)
+      return *var._IDNTptr->value=(*var._IDNTptr->value+val);
+    if (mult==1)
+      return *var._IDNTptr->value=(*var._IDNTptr->value*val);
+    if (mult==2)
+      return *var._IDNTptr->value=_iquo(makesequence(*var._IDNTptr->value,val),contextptr);
+    if (mult==3)
+      return *var._IDNTptr->value=_irem(makesequence(*var._IDNTptr->value,val),contextptr);
+    return gensizeerr(gettext("Increment"));    
   }
   gen _increment(const gen & a,const context * contextptr){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
@@ -4105,7 +4129,7 @@ namespace giac {
       return increment(a,1,false,false,contextptr);
     if (a._VECTptr->size()!=2)
       return gentypeerr(contextptr);
-    return increment(a._VECTptr->front(),a._VECTptr->back(),false,false,contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,0,contextptr);
   }
   static const char _increment_s []="increment";
   static define_unary_function_eval4_index (151,__increment,&giac::_increment,_increment_s,&printasincrement,&texprintasincrement);
@@ -4117,7 +4141,7 @@ namespace giac {
       return increment(a,1,true,false,contextptr);
     if (a._VECTptr->size()!=2)
       return gentypeerr(contextptr);
-    return increment(a._VECTptr->front(),a._VECTptr->back(),true,false,contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),true,0,contextptr);
   }
   static const char _decrement_s []="decrement";
   static define_unary_function_eval4_index (153,__decrement,&giac::_decrement,_decrement_s,&printasdecrement,&texprintasdecrement);
@@ -4129,7 +4153,7 @@ namespace giac {
       return increment(a,1,false,true,contextptr);
     if (a.type!=_VECT || a._VECTptr->size()!=2)
       return gentypeerr(contextptr);
-    return increment(a._VECTptr->front(),a._VECTptr->back(),false,true,contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,1,contextptr);
   }
   static const char _multcrement_s []="multcrement";
   static define_unary_function_eval4_index (155,__multcrement,&giac::_multcrement,_multcrement_s,&printasmultcrement,&texprintasmultcrement);
@@ -4141,11 +4165,35 @@ namespace giac {
       return increment(a,1,true,true,contextptr);
     if (a._VECTptr->size()!=2)
       return gentypeerr(contextptr);
-    return increment(a._VECTptr->front(),a._VECTptr->back(),true,true,contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),true,1,contextptr);
   }
   static const char _divcrement_s []="divcrement";
   static define_unary_function_eval4_index (157,__divcrement,&giac::_divcrement,_divcrement_s,&printasdivcrement,&texprintasdivcrement);
   define_unary_function_ptr5( at_divcrement ,alias_at_divcrement,&__divcrement,_QUOTE_ARGUMENTS,true); 
+
+  gen _iquosto(const gen & a,const context * contextptr){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return increment(a,1,true,true,contextptr);
+    if (a._VECTptr->size()!=2)
+      return gentypeerr(contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,2,contextptr);
+  }
+  static const char _iquosto_s []="iquosto";
+  static define_unary_function_eval (__iquosto,&_iquosto,_iquosto_s);
+  define_unary_function_ptr5( at_iquosto ,alias_at_iquosto,&__iquosto,_QUOTE_ARGUMENTS,true);
+
+  gen _iremsto(const gen & a,const context * contextptr){
+    if ( a.type==_STRNG && a.subtype==-1) return  a;
+    if (a.type!=_VECT)
+      return increment(a,1,true,true,contextptr);
+    if (a._VECTptr->size()!=2)
+      return gentypeerr(contextptr);
+    return increment(a._VECTptr->front(),a._VECTptr->back(),false,3,contextptr);
+  }
+  static const char _iremsto_s []="iremsto";
+  static define_unary_function_eval (__iremsto,&_iremsto,_iremsto_s);
+  define_unary_function_ptr5( at_iremsto ,alias_at_iremsto,&__iremsto,_QUOTE_ARGUMENTS,true);
 
   bool is_assumed_real(const gen & g,GIAC_CONTEXT){
     if (g.type!=_IDNT)

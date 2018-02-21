@@ -525,6 +525,8 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "/"                     index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_DIV;
 "/%"                     index_status(yyextra)=0; (*yylval)=gen(at_iquo,2); return T_MOD;
 "%/"                     index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_MOD;
+"/%="                     index_status(yyextra)=0; (*yylval)=gen(at_iquosto,2); return T_MOD;
+"%/="                     index_status(yyextra)=0; (*yylval)=gen(at_iremsto,2); return T_MOD;
 "/="                    index_status(yyextra)=0; (*yylval)=gen(at_divcrement,1); return T_DIV;
 "./"                     index_status(yyextra)=0; (*yylval)=gen(at_pointdivision,2); return T_DIV;
 "'/'"                   index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;

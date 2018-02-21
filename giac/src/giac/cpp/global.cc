@@ -5691,7 +5691,7 @@ unsigned int ConvertUTF8toUTF16 (
 	++pos;
 	continue;
       }
-      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!=';' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && (pos==int(cur.size())-1 || (cur[pos+1]!='=' && cur[pos+1]!='<'))){
+      if (curch=='=' && prevch!='>' && prevch!='<' && prevch!='!' && prevch!=':' && prevch!=';' && prevch!='=' && prevch!='+' && prevch!='-' && prevch!='*' && prevch!='/' && prevch!='%' && (pos==int(cur.size())-1 || (cur[pos+1]!='=' && cur[pos+1]!='<'))){
 	cur.insert(cur.begin()+pos,':');
 	++pos;
 	continue;
@@ -6051,7 +6051,6 @@ unsigned int ConvertUTF8toUTF16 (
 	  int posfleche=entete.find("->");
 	  if (posfleche>0 || posfleche<entete.size())
 	    entete=entete.substr(0,posfleche);
-	  // FIXME warning for + * concatenate lists in Python
 	  s += cur.substr(0,progpos)+"function"+entete+"\n";
 	  stack.push_back(int_string(ws,"ffunction"));
 	  continue;
