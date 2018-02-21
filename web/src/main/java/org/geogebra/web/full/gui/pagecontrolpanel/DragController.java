@@ -6,7 +6,10 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
+import com.google.gwt.user.client.Timer;
+
 class DragController {
+	private static final int DROPANIM_SPEED = 15;
 	/**
 	 * Class to handle drag and drop cards 
 	 * @author laszlo 
@@ -15,7 +18,8 @@ class DragController {
 	private DragCard dragged;
 	private App app;
 	PagePreviewCard clicked;
-	
+	private Timer dropAnimTimer;
+
 	interface Cards {
 		ArrayList<PagePreviewCard> getCards();
 		int getCardCount();
@@ -52,12 +56,15 @@ class DragController {
 	
 	private class DragCard {
 		;
+		private static final int AUTOMOVE_SPEED = 10;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
 		LastTarget last = new LastTarget();
 		private int prevY;
 		private Boolean down;
 		private int diff;
+		private int dropToIdx;
+		private boolean dropBellow;
 			
 		DragCard() {
 			reset();
@@ -150,7 +157,17 @@ class DragController {
 				}
 			}
 		}
-				
+
+		boolean autoMove() {
+			if (diff >= PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN || diff <= PagePreviewCard.MARGIN) {
+				return false;
+			}
+			int d = (dropBellow ? 1 : -1) * AUTOMOVE_SPEED;
+			card.setTopBy(d);
+			moveAnimated();
+			return true;
+		}
+
 		private void findTarget() {
 			int y1 = card.getAbsoluteBottom();
 			int y2 = card.getAbsoluteTop(); 
@@ -226,12 +243,13 @@ class DragController {
 			} else if (!down && dragUnderTarget && idx < cards.getCardCount() - 1) {
 				idx++;
 			}
+			dropBellow = dragUnderTarget;
 
 			return idx;
 
 		}
 		boolean dropAnimated(int y) {
-			int dropToIdx = -1;
+			dropToIdx = -1;
 			if (target != null) {
 				dropToIdx = getDropIndex(target);
 			} else if (last.target != null) {
@@ -239,7 +257,6 @@ class DragController {
 			}
 
 			if (index() != -1 && dropToIdx != -1) {
-				cards.reorder(index(), dropToIdx);
 				return true;
 			}
 			return false;
@@ -272,6 +289,18 @@ class DragController {
 		this.cards = slides;
 		this.app = app;
 		dragged = new DragCard();
+		dropAnimTimer = new Timer() {
+			@Override
+			public void run() {
+				if (!dragged.autoMove()) {
+					cards.reorder(dragged.index(), dragged.dropToIdx);
+					cards.getListener().update();
+					DragController.this.cancel();
+					this.cancel();
+				}
+			}
+		};
+
 	}
 
 	private int cardIndexAt(int x, int y) {
@@ -301,6 +330,10 @@ class DragController {
 	}
 	
 	void move(int x, int y) {
+		if (dropAnimTimer.isRunning()) {
+			return;
+		}
+
 		if (CancelEventTimer.isDragStarted()) {
 			dragged.start(y);
 		} else if (CancelEventTimer.isDragging()) {
@@ -317,6 +350,10 @@ class DragController {
 			cards.clickPage(clicked.getPageIndex(), true);
 		} else if (CancelEventTimer.isDragging()) {
 			if (dragged.drop(y)) {
+				if (dragged.isAnimated()) {
+					createDropAnimation();
+					return;
+				}
 				cards.getListener().update();
 			}
 			if (dragged.isValid()) {
@@ -326,6 +363,11 @@ class DragController {
 		}
 
 		cancel();
+	}
+
+	private void createDropAnimation() {
+		CancelEventTimer.resetDrag();
+		dropAnimTimer.scheduleRepeating(DROPANIM_SPEED);
 	}
 
 	void cancel() {
