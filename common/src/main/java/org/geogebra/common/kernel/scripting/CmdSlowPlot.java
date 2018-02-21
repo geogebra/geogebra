@@ -6,18 +6,21 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.Function;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
-import org.geogebra.common.kernel.commands.CommandProcessor;
+import org.geogebra.common.kernel.commands.CmdScripting;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunction;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 /**
  * SlowPlot
  */
-public class CmdSlowPlot extends CommandProcessor {
+public class CmdSlowPlot extends CmdScripting {
 	/**
 	 * Create new command processor
 	 * 
@@ -29,13 +32,26 @@ public class CmdSlowPlot extends CommandProcessor {
 	}
 
 	@Override
-	public GeoElement[] process(Command c) throws MyError {
+	@SuppressFBWarnings({ "SF_SWITCH_FALLTHROUGH",
+			"missing break is deliberate" })
+	public GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		GeoElement[] arg;
 		arg = resArgs(c);
 
+		// true
+		int repeat = 1;
+
 		switch (n) {
+		case 2:
+			// true -> 1
+			// false -> 0
+			// infinity -> 2147483647
+			// undefined -> 0
+			repeat = (int) arg[1].evaluateDouble();
+			Log.debug("repeat = " + repeat);
+			//$FALL-THROUGH$
 		case 1:
 			if (arg[0].isGeoFunctionable()) {
 
@@ -50,7 +66,9 @@ public class CmdSlowPlot extends CommandProcessor {
 				var.setIntervalMax(1.0);
 				var.setAnimating(true);
 				var.setAnimationStep(0.01);
-				var.setAnimationType(GeoElement.ANIMATION_INCREASING);
+				var.setAnimationType(
+						repeat == 1 ? GeoElement.ANIMATION_INCREASING
+								: GeoElement.ANIMATION_INCREASING_ONCE);
 				var.update();
 				FunctionVariable x = new FunctionVariable(cons.getKernel());
 				GeoElement corner1 = new AlgoDrawingPadCorner(cons,
@@ -84,4 +102,5 @@ public class CmdSlowPlot extends CommandProcessor {
 			throw argNumErr(c);
 		}
 	}
+
 }
