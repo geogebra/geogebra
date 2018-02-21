@@ -77,7 +77,7 @@ public class WebCamInputPanel extends VerticalPanel {
 		if ($wnd.navigator.getMedia) {
 			try {
 				var browserAlreadyAllowed = false;
-				var deniedByUser = false;
+				var accessDenied = false;
 				$wnd.navigator
 						.getMedia(
 								{
@@ -85,6 +85,7 @@ public class WebCamInputPanel extends VerticalPanel {
 								},
 								function(bs) {
 									browserAlreadyAllowed = true;
+									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
 									if ($wnd.URL && $wnd.URL.createObjectURL) {
 										video.src = $wnd.URL
 												.createObjectURL(bs);
@@ -100,19 +101,26 @@ public class WebCamInputPanel extends VerticalPanel {
 										el.firstChild.style.display = "none";
 									}
 									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::stream = bs;
-									that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::hidePermissionDialog()();
 								},
 								function(err) {
-									deniedByUser = true;
-									if (err.name == "NotFoundError") {
+									accessDenied = true;
+									// camera not found or not working
+									if (err.name == "NotFoundError"
+											|| err.name == "DevicesNotFoundError"
+											|| err.name == "TrackStartError"
+											|| err.name == "NotReadableError"
+											|| err.name == "SourceUnavailableError"
+											|| err.name == "Error") {
 										that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showErrorDialog()();
-									} else {
+										// permission denied by user
+									} else if (err.name == "PermissionDeniedError"
+											|| err.name == "NotAllowedError") {
 										that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showPermissionDeniedDialog()();
 									}
-									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error from WebCam: "+err +" || Name: " + err.name);
+									@org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("Error from WebCam: " + err.name);
 								});
 				function accessRequest() {
-					if (!browserAlreadyAllowed && !deniedByUser) {
+					if (!browserAlreadyAllowed && !accessDenied) {
 						that.@org.geogebra.web.full.gui.dialog.image.WebCamInputPanel::showRequestDialog()();
 					}
 				}
