@@ -8107,6 +8107,7 @@ public abstract class EuclidianController {
 				break;
 			}
 			if (getResizedShape().getGeoElement().isSelected()) {
+				dontClearSelection = true;
 				getResizedShape().updateByBoundingBoxResize(event,
 					view.getHitHandler());
 			}
@@ -10661,11 +10662,22 @@ public abstract class EuclidianController {
 				mode != EuclidianConstants.MODE_MOVE);
 	}
 
+	private boolean wasBoundingBoxDrag() {
+		// do not deselect during resizing with bounding/crop box
+		List<GeoElement> selectedGeos = selection.getSelectedGeos();
+		if (selectedGeos.size() == 1) {
+			DrawableND d = view.getDrawable(selectedGeos.get(0));
+			return d != null && ((Drawable) d).getBoundingBox() != null
+					&& view.boundingBox.equals(((Drawable) d).getBoundingBox());
+		}
+		return false;
+	}
+
 	private boolean shouldClearSelectionAfterMove(boolean rightClick) {
 		boolean shouldClear = !EuclidianView.usesSelectionRectangleAsInput(mode) && !rightClick
-				&& mode != EuclidianConstants.MODE_SELECT;
+				&& mode != EuclidianConstants.MODE_SELECT
+				&& !wasBoundingBoxDrag();
 		shouldClear &= shouldClearSelectionForMove();
-
 		return shouldClear;
 	}
 

@@ -623,6 +623,8 @@ public class EuclidianStyleBarW extends StyleBarW2 implements
 				MaterialDesignResources.INSTANCE.crop_black(),
 				24));
 		btnCrop.addStyleName("btnCrop");
+		btnCrop.setDown(
+				app.getActiveEuclidianView().getBoundingBox().isCropBox());
 		ClickStartHandler.init(btnCrop, new ClickStartHandler(true,true) {
 			
 			@Override
