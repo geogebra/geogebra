@@ -215,7 +215,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 			} else if (value == userIndex) {
 				geo.setToUser();
 			} else if (value == parametricIndex) {
-				geo.setToParametric();
+				geo.setToParametric(null);
 			} else if (value == vertexformIndex) {
 				geo.setToVertexform();
 			} else if (value == conicformIndex) {

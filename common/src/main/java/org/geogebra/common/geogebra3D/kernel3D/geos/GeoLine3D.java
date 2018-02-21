@@ -9,6 +9,8 @@ import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
+import org.geogebra.common.kernel.geos.XMLBuilder;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
@@ -195,13 +197,8 @@ public class GeoLine3D extends GeoCoordSys1D {
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-
 		getCoordsXML(sb);
-
-		sb.append("\t<eqnStyle style=\"parametric\" parameter=\"");
-		sb.append(parameter);
-		sb.append("\"/>\n");
-
+		XMLBuilder.appendEquationTypeLine(sb, GeoLine.PARAMETRIC, parameter);
 	}
 
 	/**

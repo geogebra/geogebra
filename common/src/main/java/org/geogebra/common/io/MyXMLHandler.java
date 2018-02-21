@@ -91,6 +91,7 @@ import org.geogebra.common.kernel.implicit.GeoImplicit;
 import org.geogebra.common.kernel.kernelND.CoordStyle;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
+import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.parser.GParser;
 import org.geogebra.common.kernel.parser.Parser;
@@ -4063,12 +4064,19 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleEqnStyle(LinkedHashMap<String, String> attrs) {
+		String style = attrs.get("style");
+		String parameter = attrs.get("parameter");
 		if (geo instanceof EquationValue) {
-			String style = attrs.get("style");
-			String parameter = attrs.get("parameter");
 			if (!((EquationValue) geo).setTypeFromXML(style, parameter)) {
 				Log.error("unknown style for conic in <eqnStyle>: " + style);
 			}
+		}
+		else if (geo instanceof GeoLineND
+				&& "parametric".equals(style)) {
+			((GeoLineND) geo).setToParametric(parameter);
+		}
+		else if (geo instanceof GeoConicND && "parametric".equals(style)) {
+			((GeoConicND) geo).setToParametric(parameter);
 		}
 		else {
 			Log.error("wrong element type for <eqnStyle>: " + geo.getClass());

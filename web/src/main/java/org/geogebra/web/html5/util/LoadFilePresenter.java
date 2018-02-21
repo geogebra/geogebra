@@ -105,8 +105,6 @@ public class LoadFilePresenter {
 						.getStoreUndoListeners().size() > 0)
 				&& view.getDataParamEnableUndoRedo();
 
-		app.setUndoActive(undoActive);
-
 		String language = view.getDataParamLanguage();
 		if (StringUtil.empty(language)) {
 			language = app.getLanguageFromCookie();
@@ -141,8 +139,14 @@ public class LoadFilePresenter {
 				app.updateToolBar();
 			}
 			GeoGebraProfiler.getInstance().profileEnd();
+			// only do this after app initialized
+			app.setUndoActive(undoActive);
 			app.getScriptManager().ggbOnInit();
+		} else {
+			// only do this after app initialized
+			app.setUndoActive(undoActive);
 		}
+
 	}
 
 	/**

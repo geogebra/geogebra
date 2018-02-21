@@ -173,6 +173,7 @@ public class UndoManagerW extends UndoManager {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			Log.debug(e);
 			restoreCurrentUndoInfo();
 			Log.error("Undo exception:" + e.getMessage());
 		} catch (Error err) {

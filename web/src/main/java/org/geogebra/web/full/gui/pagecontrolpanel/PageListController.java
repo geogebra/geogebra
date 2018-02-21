@@ -470,12 +470,23 @@ public class PageListController implements PageListControllerInterface,
 			if (args.length > 1) {
 				file.put("geogebra.xml", args[1]);
 			}
-			String perspXML = app.getGgbApi().getPerspectiveXML();
+
 			addNewPreviewCard(false, idx, file);
-			loadSlide(null, idx, file.isEmpty());
+
+			if (file.isEmpty()) {
+				// new file
+				((AppWFull) app).loadEmptySlide();
+
+			} else {
+				String perspXML = app.getGgbApi().getPerspectiveXML();
+				// load last status of file
+				changeSlide(slides.get(idx));
+				app.getGgbApi().setPerspective(perspXML);
+			}
+
 			setCardSelected(getCard(idx));
 			updatePreviewImage();
-			app.getGgbApi().setPerspective(perspXML);
+
 		} else if (action == EventType.REMOVE_SLIDE) {
 			if (getSlideCount() > 1) {
 				removeSlide(getSlideCount() - 1);
@@ -492,7 +503,7 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	public void setActiveSlide(String slideID) {
-		selectCard(slides.get(Integer.parseInt(slideID)));
+		selectCard(slides.get(slideID == null ? 0 : Integer.parseInt(slideID)));
 
 	}
 

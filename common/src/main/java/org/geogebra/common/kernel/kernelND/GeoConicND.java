@@ -1448,9 +1448,17 @@ public abstract class GeoConicND extends GeoQuadricND
 		setToStringMode(EQUATION_EXPLICIT);
 	}
 
-	/** Changes equation mode to Explicit */
-	final public void setToParametric() {
+	/**
+	 * Changes equation mode to Explicit
+	 * 
+	 * @param parameter
+	 *            new parameter name
+	 */
+	final public void setToParametric(String parameter) {
 		setToStringMode(EQUATION_PARAMETRIC);
+		if (parameter != null) {
+			this.parameter = parameter;
+		}
 	}
 
 	/** Changes equation mode to Explicit */
@@ -3644,7 +3652,6 @@ public abstract class GeoConicND extends GeoQuadricND
 			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
 		}
 		sb.append("/>\n");
-
 		XMLBuilder.appendEquationTypeConic(sb, this.toStringMode, parameter);
 	}
 
@@ -4587,7 +4594,7 @@ public abstract class GeoConicND extends GeoQuadricND
 		} else if ("explicit".equals(style)) {
 			setToExplicit();
 		} else if ("parametric".equals(style)) {
-			setToParametric();
+			setToParametric(parameter);
 		} else if ("user".equals(style)) {
 			setToUser();
 		} else if ("vertex".equals(style)) {
