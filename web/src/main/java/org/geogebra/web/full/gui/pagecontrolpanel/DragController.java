@@ -384,6 +384,7 @@ class DragController {
 	void onDrop() {
 		cards.reorder(dragged.index(), dragged.dropToIdx);
 		cards.getListener().update();
+		cards.clickPage(dragged.index(), false);
 		cancel();
 		dropAnimTimer.cancel();
 	}
