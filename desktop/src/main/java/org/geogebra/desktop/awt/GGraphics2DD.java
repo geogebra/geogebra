@@ -458,4 +458,11 @@ public class GGraphics2DD implements GGraphics2D {
 		affineTransform = null;
 	}
 
+	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
+			int dy) {
+		impl.drawImage(((MyImageD) img).getImage(), dx, dy, dx + sw, dy + sh,
+				sx, sy, sx + sh, sy + sh, null);
+		
+	}
+
 }

@@ -304,6 +304,16 @@ public final class DrawImage extends Drawable {
 						.setInterpolationHint(needsInterpolationRenderingHint);
 
 				g3.drawImage(image, 0, 0);
+
+				// g3.setComposite(
+				// AwtFactory.getPrototype().newAlphaComposite(0.5));
+				//
+				// g3.drawImage(image, 0, 0);
+				// g3.setComposite(
+				// AwtFactory.getPrototype().newAlphaComposite(alpha));
+				// g3.drawImage(image, 20, 20, image.getWidth() - 40,
+				// image.getHeight() - 40, 20, 20);
+
 				g3.restoreTransform();
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image

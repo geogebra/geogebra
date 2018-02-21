@@ -879,6 +879,13 @@ public class GGraphics2DW implements GGraphics2D {
 	}
 
 	@Override
+	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
+			int dy) {
+		context.drawImage(((MyImageW) img).getImage(), sx, sy, sw, sh, dx, dy,
+				sw, sh);
+	}
+
+	@Override
 	public void saveTransform() {
 		context.saveTransform();
 	}

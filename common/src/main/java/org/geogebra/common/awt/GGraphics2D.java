@@ -388,4 +388,7 @@ public interface GGraphics2D {
 	 */
 	public abstract void endAndDrawGeneralPath();
 
+	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
+			int dy);
+
 }
