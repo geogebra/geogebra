@@ -140,11 +140,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		@Override
 		public String escapeString(String string) {
-			String value = string.replaceAll("\\\\", "\\\\backslash ")
+			return string.replaceAll("\\\\", "\\\\backslash ")
 					.replaceAll("([&%$#{}_])", "\\\\$1")
 					.replaceAll("~", "\u223C ")
 					.replaceAll("\\^", "\\\\^{\\ } ");
-			return value;
 		}
 	};
 	static {
@@ -810,7 +809,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return ret;
 	}
 
-	final private String printVariableName(final StringType printForm,
+	private String printVariableName(final StringType printForm,
 			final String label) {
 		switch (printForm) {
 		case GIAC:
@@ -1695,14 +1694,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 						char lastLeft = leftStr.charAt(leftStr.length() - 1);
 						char firstRight = rightStr.charAt(0);
 						showMultiplicationSign =
+								StringUtil.isDigit(firstRight) ||
 								// left is digit or ends with }, e.g. exponent,
 								// fraction
 								(StringUtil.isDigit(lastLeft)
 										|| (lastLeft == '}')) &&
 								// right is digit or fraction
-										(StringUtil.isDigit(firstRight)
-												|| rightStr
-														.startsWith("\\frac"));
+										rightStr.startsWith("\\frac");
 						multiplicationSpaceNeeded = !(right instanceof MySpecialDouble
 								&& Unicode.DEGREE_STRING.equals(
 										right.toString(defaultTemplate)));
@@ -1725,16 +1723,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 							// it's needed except for number * character,
 							// e.g. 23x
 							// need to check start and end for eg A1 * A2
-							boolean leftIsNumber = left.isLeaf()
-									&& (StringUtil.isDigit(firstLeft)
-											|| (firstLeft == '-'))
-									&& StringUtil.isDigit(lastLeft);
-
-							// check if we need a multiplication space:
-							// all cases except number * character, e.g. 3x
-							multiplicationSpaceNeeded = showMultiplicationSign
-									|| !(leftIsNumber
-											&& !Character.isDigit(firstRight));
+							multiplicationSpaceNeeded = !left.wrap().endsInNumber(valueForm) ||
+									Character.isDigit(firstRight);
 						}
 					}
 
@@ -2726,8 +2716,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * 
 	 * @param scientificStr
 	 *            string in scientific notation
-	 * @param tpl
-	 *            string template for output
 	 * @return formated string in scientific notation (except for Giac)
 	 */
 	public String convertScientificNotation(String scientificStr) {
@@ -2781,7 +2769,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			return originalString.replace('E', 'e');
 		}
 
-		if (originalString.indexOf("E-") > -1) {
+		if (originalString.contains("E-")) {
 
 			String[] s = originalString.split("E-");
 
@@ -2799,7 +2787,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// 2^2.2E-1 is different to 2^22/100
 			return "(" + s[0] + "/1" + StringUtil.repeat('0', i) + ")";
 
-		} else if (originalString.indexOf("E") > -1) {
+		} else if (originalString.contains("E")) {
 			String[] s = originalString.split("E");
 
 			int i = Integer.parseInt(s[1]);
@@ -2888,8 +2876,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		// returns string like 3456E-7
 		String str = kernel.format(decimal, stl);
 
-		String[] strs = str.split("E");
-		return strs;
+		return str.split("E");
 	}
 
 	public String escapeString(String string) {
@@ -3065,20 +3052,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	public String squared() {
-		String squared;
 		switch (getStringType()) {
 		case LATEX:
-			squared = "^{2}";
-			break;
+			return "^{2}";
 
 		case GIAC:
-			squared = "^2";
-			break;
+			return "^2";
 
 		default:
-			squared = "\u00b2";
+			return "\u00b2";
 		}
-		return squared;
 	}
 
 	public boolean degreeMode() {

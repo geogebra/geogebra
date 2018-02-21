@@ -6044,6 +6044,20 @@ public class ExpressionNode extends ValidExpression
 		return ev instanceof BooleanValue && ((BooleanValue) ev).getBoolean();
 	}
 
+	public boolean endsInNumber(boolean valueForm) {
+		if (operation == Operation.NO_OPERATION && getLeft() instanceof NumberValue) {
+			return getLeft() instanceof MyDouble && getLeft().isConstant()
+					|| valueForm && getLeft().isGeoElement()
+					&& !((GeoElement) getLeft()).isLabelSet();
+		}
+
+		if (operation == Operation.MULTIPLY) {
+			return getRight().wrap().endsInNumber(valueForm);
+		}
+
+		return false;
+	}
+
 	/**
 	 * Check whether denominator and numerator are both independent integers
 	 * 
