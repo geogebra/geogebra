@@ -464,7 +464,7 @@ public final class DrawImage extends Drawable {
 
 	private void updateImageCrop(AbstractEvent event,
 			EuclidianBoundingBoxHandler handler) {
-		// int eventX = event.getX();
+		int eventX = event.getX();
 		int eventY = event.getY();
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		switch (handler) {
@@ -475,6 +475,15 @@ public final class DrawImage extends Drawable {
 		case TOP:
 			rect.setRect(getBounds().getX(), eventY, getBounds().getWidth(),
 					getBounds().getMaxY() - eventY);
+			break;
+		case LEFT:
+			rect.setRect(eventX, getBounds().getY(),
+					getBounds().getMaxX() - eventX, getBounds().getHeight());
+			break;
+		case RIGHT:
+			rect.setRect(getBounds().getX(), getBounds().getY(),
+					eventX - getBounds().getX(),
+					getBounds().getHeight());
 			break;
 		default:
 			break;
