@@ -316,7 +316,7 @@ public class BoundingBox {
 	 */
 	public int hitHandlers(int x, int y, int hitThreshold) {
 		int index = -1;
-		if (!handlers.isEmpty()) {
+		if (!handlers.isEmpty() && !isCropBox) {
 			for (int i = 0; i < handlers.size(); i++) {
 				GEllipse2DDouble point = handlers.get(i);
 				int r = getSelectionThreshold(hitThreshold);
@@ -324,6 +324,19 @@ public class BoundingBox {
 						+ point.getBounds().getWidth() / 2 - x;
 				double dy = point.getBounds().getY()
 						+ point.getBounds().getHeight() / 2 - y;
+				if (dx < r && dx > -r && dx * dx + dy * dy <= r * r) {
+					return i;
+				}
+			}
+		}
+		if (cropHandlers != null && !cropHandlers.isEmpty() && isCropBox) {
+			for (int i = 0; i < cropHandlers.size(); i++) {
+				GGeneralPath cropHandler = cropHandlers.get(i);
+				int r = getSelectionThreshold(hitThreshold);
+				double dx = cropHandler.getBounds().getX()
+						+ cropHandler.getBounds().getWidth() / 2 - x;
+				double dy = cropHandler.getBounds().getY()
+						+ cropHandler.getBounds().getHeight() / 2 - y;
 				if (dx < r && dx > -r && dx * dx + dy * dy <= r * r) {
 					return i;
 				}
