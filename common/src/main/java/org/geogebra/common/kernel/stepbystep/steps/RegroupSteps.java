@@ -941,20 +941,16 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 				SolutionBuilder temp = new SolutionBuilder();
-				RegroupTracker tempTracker = new RegroupTracker();
 
-				StepExpression factoredNumerator = (StepExpression)
-						FactorSteps.SIMPLE_FACTOR.apply(so.getOperand(0).deepCopy(), temp, tempTracker);
-				StepExpression factoredDenominator = (StepExpression)
-						FactorSteps.SIMPLE_FACTOR.apply(so.getOperand(1).deepCopy(), null, new RegroupTracker());
+				StepOperation factored = (StepOperation)
+						FactorSteps.SIMPLE_FACTOR.apply(so.deepCopy(), temp, new RegroupTracker());
 
-				StepExpression result = divide(factoredNumerator, factoredDenominator);
-
-				if (!isOne(StepHelper.weakGCD(factoredNumerator, factoredDenominator)) && !so.equals(result)) {
-					sb.addGroup(new SolutionLine(SolutionStepType.FACTOR, sn), temp, result);
+				if (!isOne(StepHelper.weakGCD(factored.getOperand(0), factored.getOperand(1)))
+						&& !so.equals(factored)) {
+					sb.addGroup(new SolutionLine(SolutionStepType.FACTOR, sn), temp, factored);
 
 					tracker.incColorTracker();
-					return result;
+					return factored;
 				}
 			}
 
