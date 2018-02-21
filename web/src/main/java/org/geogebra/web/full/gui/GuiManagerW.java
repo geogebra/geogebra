@@ -212,7 +212,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		this.device = device;
 
 		this.objectPool = new ObjectPool();
-		// AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
 	@Override
@@ -918,12 +917,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 	@Override
 	public void updateToolbar() {
-		// if (toolbarPanel != null) {
-		// toolbarPanel.buildGui();
-		// }
-
 		if (layout != null) {
-			// AG layout.getDockManager().updateToolbars();
 			if (getToolbarPanel() != null) {
 				getToolbarPanel().updateToolbarPanel();
 			}
@@ -1812,6 +1806,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		ToolBarInterface tb = ((AppWFull) getApp()).getToolbar();
 		boolean currentlyVisible = tb != null && tb
 				.isShown();
+		if (!show) {
+			showMenuBar(false);
+		}
 		if (currentlyVisible != show) {
 			getApp().setShowToolBar(show);
 			getApp().getArticleElement()
@@ -1822,6 +1819,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 							: GLookAndFeel.TOOLBAR_HEIGHT);
 			((AppWFull) getApp()).updateCenterPanelAndViews();
 			((AppWFull) getApp()).getAppletFrame().refreshKeyboard();
+			if (show) {
+				updateToolbar();
+			}
 		}
 
 	}

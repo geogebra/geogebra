@@ -95,7 +95,8 @@ public class AppWapplet extends AppWFull {
 		this.useFullGui = !isApplet() || ae.getDataParamShowAlgebraInput(false)
 				|| ae.getDataParamShowToolBar(false)
 				|| ae.getDataParamShowMenuBar(false)
-				|| ae.getDataParamEnableRightClick();
+				|| ae.getDataParamEnableRightClick()
+				|| !isStartedWithFile();
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 				+ GeoGebraConstants.BUILD_DATE + " "
@@ -363,6 +364,7 @@ public class AppWapplet extends AppWFull {
 		}
 		frame.setApplication(this);
 		if (!isUsingFullGui()) {
+			Log.printStacktrace("");
 			buildSingleApplicationPanel();
 			Perspective current = getTmpPerspective(null);
 			if (current != null && current.getToolbarDefinition() != null) {
