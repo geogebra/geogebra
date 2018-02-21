@@ -100,8 +100,7 @@ public final class DrawImage extends Drawable {
 
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
-			alphaComp = AwtFactory.getPrototype()
-					.newAlphaComposite(alpha);
+			alphaComp = AwtFactory.getPrototype().newAlphaComposite(alpha);
 		}
 
 		image = geoImage.getFillImage();
@@ -111,13 +110,9 @@ public final class DrawImage extends Drawable {
 
 		// ABSOLUTE SCREEN POSITION
 		if (absoluteLocation) {
-			if(geo.getKernel().getApplication().has(Feature.MOW_BOUNDING_BOXES)){
-				labelRectangle.setBounds(0, 0, width, height);
-			} else {
-				screenX = geoImage.getAbsoluteScreenLocX();
-				screenY = geoImage.getAbsoluteScreenLocY() - height;
-				labelRectangle.setBounds(screenX, screenY, width, height);				
-			}
+			screenX = geoImage.getAbsoluteScreenLocX();
+			screenY = geoImage.getAbsoluteScreenLocY() - height;
+			labelRectangle.setBounds(screenX, screenY, width, height);
 		}
 
 		// RELATIVE SCREEN POSITION
@@ -128,7 +123,6 @@ public final class DrawImage extends Drawable {
 			GeoPoint D = center ? null : geoImage.getCorner(2);
 			double ax = 0;
 			double ay = 0;
-
 			if (A != null) {
 				if (!A.isDefined() || A.isInfinite()) {
 					isVisible = false;
@@ -137,12 +131,14 @@ public final class DrawImage extends Drawable {
 				ax = A.inhomX;
 				ay = A.inhomY;
 			}
+
 			// set transform according to corners
-			at.setTransform(view.getCoordTransform()); // last transform:
-														// real
+			at.setTransform(view.getCoordTransform()); // last transform: real
 														// world
 														// -> screen
+
 			at.translate(ax, ay); // translate to first corner A
+
 			if (B == null) {
 				// we only have corner A
 				if (D == null) {
@@ -166,6 +162,7 @@ public final class DrawImage extends Drawable {
 					double ADy = D.inhomY - ay;
 					tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);
 					at.concatenate(tempAT);
+
 					// scale height of image to 1
 					double yscale = 1.0 / height;
 					at.scale(yscale, -yscale);
@@ -175,6 +172,7 @@ public final class DrawImage extends Drawable {
 					isVisible = false;
 					return;
 				}
+
 				// we have corners A and B
 				if (D == null) {
 					// rotate to coord system (AB, ABn)
@@ -182,6 +180,7 @@ public final class DrawImage extends Drawable {
 					double ABy = B.inhomY - ay;
 					tempAT.setTransform(ABx, ABy, -ABy, ABx, 0, 0);
 					at.concatenate(tempAT);
+
 					// scale width of image to 1
 					double xscale = 1.0 / width;
 					at.scale(xscale, -xscale);
@@ -190,6 +189,7 @@ public final class DrawImage extends Drawable {
 						isVisible = false;
 						return;
 					}
+
 					// shear to coord system (AB, AD)
 					double ABx = B.inhomX - ax;
 					double ABy = B.inhomY - ay;
@@ -197,10 +197,12 @@ public final class DrawImage extends Drawable {
 					double ADy = D.inhomY - ay;
 					tempAT.setTransform(ABx, ABy, ADx, ADy, 0, 0);
 					at.concatenate(tempAT);
+
 					// scale width and height of image to 1
 					at.scale(1.0 / width, -1.0 / height);
 				}
 			}
+
 			if (geoImage.isCentered()) {
 				// move image to the center
 				at.translate(-width / 2.0, -height / 2.0);
@@ -208,27 +210,27 @@ public final class DrawImage extends Drawable {
 				// move image up so that A becomes lower left corner
 				at.translate(0, -height);
 			}
+			labelRectangle.setBounds(0, 0, width, height);
+
+			// calculate bounding box for isInside
+			classicBoundingBox.setBounds(0, 0, width, height);
+			GShape shape = at.createTransformedShape(classicBoundingBox);
+			classicBoundingBox = shape.getBounds();
+
+			try {
+				// for hit testing
+				atInverse = at.createInverse();
+			} catch (Exception e) {
+				isVisible = false;
+				return;
+			}
+
+			// improve rendering for sheared and scaled images (translations
+			// don't need this)
+			// turns false if the image doen't want interpolation
+			needsInterpolationRenderingHint = (geoImage.isInterpolate())
+					&& (!isTranslation(at) || view.getPixelRatio() != 1);
 		}
-		labelRectangle.setBounds(0, 0, width, height);
-
-		// calculate bounding box for isInside
-		classicBoundingBox.setBounds(0, 0, width, height);
-		GShape shape = at.createTransformedShape(classicBoundingBox);
-		classicBoundingBox = shape.getBounds();
-
-		try {
-			// for hit testing
-			atInverse = at.createInverse();
-		} catch (Exception e) {
-			isVisible = false;
-			return;
-		}
-
-		// improve rendering for sheared and scaled images (translations
-		// don't need this)
-		// turns false if the image doen't want interpolation
-		needsInterpolationRenderingHint = (geoImage.isInterpolate())
-				&& (!isTranslation(at) || view.getPixelRatio() != 1);
 
 		if (isInBackground != geoImage.isInBackground()) {
 			isInBackground = !isInBackground;
@@ -243,8 +245,8 @@ public final class DrawImage extends Drawable {
 		if (!view.isBackgroundUpdating() && isInBackground) {
 			view.updateBackgroundImage();
 		}
-		if (geo.getKernel().getApplication().has(
-				Feature.MOW_BOUNDING_BOXES) && getBounds() != null) {
+		if (geo.getKernel().getApplication().has(Feature.MOW_BOUNDING_BOXES)
+				&& getBounds() != null) {
 			getBoundingBox().setRectangle(getBounds());
 		}
 	}
