@@ -63,6 +63,7 @@ public final class DrawImage extends Drawable {
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
 	private BoundingBox boundingBox;
+	private double originalRatio = Double.NaN;
 	/**
 	 * the image should have at least 100 width
 	 */
@@ -469,6 +470,11 @@ public final class DrawImage extends Drawable {
 					.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
 				return;
 			}
+			if (Double.isNaN(originalRatio)) {
+				double width = geoImage.getImageScreenWidth();
+				double height = geoImage.getImageScreenHeight();
+				originalRatio = height / width;
+			}
 			updateImageResize(e, handler);
 		}
 	}
@@ -547,8 +553,8 @@ public final class DrawImage extends Drawable {
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint D = geoImage.getCorner(2);
-		double width = 1;
-		double height = 1;
+		// double width = 1;
+		// double height = 1;
 		double newWidth = 1;
 		double newHeight = 1;
 		if (A == null) {
@@ -569,12 +575,9 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			height = A.getInhomY() - view.getRealDragStartCoordY();
-			width = view.getRealDragStartCoordX()
-					- D.getInhomX();
 			B.setX(view.toRealWorldCoordX(eventX));
 			newWidth = B.getInhomX() - D.getInhomX();
-			newHeight = (height * newWidth) / width;
+			newHeight = -originalRatio * newWidth;
 			B.updateCoords();
 			B.updateRepaint();
 			D.setX(A.getInhomX());
@@ -588,14 +591,12 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			width = B.getInhomX() - view.getRealDragStartCoordX();
-			height = B.getInhomY() - view.getRealDragStartCoordY();
 			A.setX(view.toRealWorldCoordX(eventX));
 			A.updateCoords();
 			A.updateRepaint();
 			D.setX(A.getInhomX());
 			newWidth = B.getInhomX() - A.getInhomX();
-			newHeight = (height * newWidth) / width;
+			newHeight = -originalRatio * newWidth;
 			D.setY(B.getInhomY() - newHeight);
 			D.updateCoords();
 			D.updateRepaint();
@@ -610,12 +611,9 @@ public final class DrawImage extends Drawable {
 			D.updateCoords();
 			D.updateRepaint();
 			geoImage.setCorner(D, 2);
-			height = view.getRealDragStartCoordY() - D.getInhomY();
-			width = view.getRealDragStartCoordX()
-					- D.getInhomX();
 			B.setX(view.toRealWorldCoordX(eventX));
 			newWidth = B.getInhomX() - D.getInhomX();
-			newHeight = (height * newWidth) / width;
+			newHeight = -originalRatio * newWidth;
 			B.setY(D.getInhomY() + newHeight);
 			B.updateCoords();
 			B.updateRepaint();
@@ -628,12 +626,9 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			height = view.getRealDragStartCoordY()
-					- D.getInhomY();
-			width = B.getInhomX() - view.getRealDragStartCoordX();
 			A.setX(view.toRealWorldCoordX(eventX));
 			newWidth = B.getInhomX() - A.getInhomX();
-			newHeight = (height * newWidth) / width;
+			newHeight = -originalRatio * newWidth;
 			A.setY(D.getInhomY() + newHeight);
 			A.updateCoords();
 			A.updateRepaint();

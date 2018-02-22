@@ -232,6 +232,28 @@ public class GeoImage extends GeoElement implements Locateable,
 		inBackground = flag;
 	}
 
+	public double getImageScreenWidth() {
+		for (int i = 0; i < 3; i++) {
+			if (getCorner(i) == null || !getCorner(i).isDefined()) {
+				GeoPoint tmp = new GeoPoint(cons);
+				calculateCornerPoint(tmp, i == 2 ? 4 : i + 1);
+				setCorner(tmp, i);
+			}
+		}
+		return getCorner(1).getInhomX() - getCorner(0).getInhomX();
+	}
+
+	public double getImageScreenHeight() {
+		for (int i = 0; i < 3; i++) {
+			if (getCorner(i) == null || !getCorner(i).isDefined()) {
+				GeoPoint tmp = new GeoPoint(cons);
+				calculateCornerPoint(tmp, i == 2 ? 4 : i + 1);
+				setCorner(tmp, i);
+			}
+		}
+		return getCorner(2).getInhomY() - getCorner(0).getInhomY();
+	}
+
 	/**
 	 * Tries to load the image using the given fileName.
 	 * 
