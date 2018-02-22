@@ -476,6 +476,10 @@ public final class DrawImage extends Drawable {
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
 		int eventY = event.getY();
+		double width = 1;
+		double height = 1;
+		double newWidth = 1;
+		double newHeight = 1;
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		switch (handler) {
 		case BOTTOM:
@@ -494,6 +498,14 @@ public final class DrawImage extends Drawable {
 			rect.setRect(getBounds().getX(), getBounds().getY(),
 					eventX - getBounds().getX(),
 					getBounds().getHeight());
+			break;
+		case BOTTOM_RIGHT:
+			width = view.getScreenDragStartCoordX() - getBounds().getMinX();
+			height = view.getScreenDragStartCoordY() - getBounds().getMinY();
+			newWidth = eventX - getBounds().getMinX();
+			newHeight = (height * newWidth) / width;
+			rect.setRect(getBounds().getX(), getBounds().getY(), newWidth,
+					newHeight);
 			break;
 		default:
 			break;
