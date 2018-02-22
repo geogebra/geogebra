@@ -3800,8 +3800,12 @@ namespace giac {
       if (u==at_exp)
 	return exp(re(f,contextptr),contextptr);
     }
-    if ( (u==at_pow) && (is_zero(im(f._VECTptr->back(),contextptr),contextptr)))
+    if ( (u==at_pow) && (is_zero(im(f._VECTptr->back(),contextptr),contextptr))){
+      gen fback=f._VECTptr->back();
+      if (fback.type==_INT_ && (fback.val % 2==0))
+	return pow(abs(f._VECTptr->front(),contextptr),fback,contextptr);
       return new_ref_symbolic(symbolic(u,makesequence(abs(f._VECTptr->front(),contextptr),f._VECTptr->back())));
+    }
     if (u==at_inv)
       return inv(abs(f,contextptr),contextptr);
     if (u==at_prod)
