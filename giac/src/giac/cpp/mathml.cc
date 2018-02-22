@@ -1034,94 +1034,6 @@ namespace giac {
     return s;
   }
 
-  static string svg_circle(const gen & diameter0, const gen & diameter1, const gen & angle1,const gen & angle2,svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
-    string s="";
-    gen center=evalf_double(_evalc((diameter0+diameter1)/2,contextptr),1,contextptr);
-    gen centerx,centery;
-    reim(center,centerx,centery,contextptr);
-    double cx=evalf_double(centerx,1,contextptr)._DOUBLE_val;
-    double cy=evalf_double(centery,1,contextptr)._DOUBLE_val;
-    gen d01=evalf_double(_evalc(diameter1-diameter0,contextptr),1,contextptr);
-    gen rotg=arg(d01,0);
-    double rot=evalf_double(rotg,1,contextptr)._DOUBLE_val;
-    gen di,dr;
-    reim(d01,dr,di,contextptr);
-    double did=di._DOUBLE_val,drd=dr._DOUBLE_val;
-    // COUT << center << " " << d01 << " " << drd << " " << did << endl;
-    double r=std::sqrt(drd*drd+did*did)/2.0;
-    // COUT << r << endl;
-    double a1=evalf_double(angle1,1,contextptr)._DOUBLE_val+rot;
-    double a2=evalf_double(angle2,1,contextptr)._DOUBLE_val+rot;
-    if (a2<a1) std::swap(a1,a2);
-    bool arc=std::abs(a2-a1-2*M_PI)>1e-4;
-    if (arc){ // bezier curve is safer...
-      int n=100;
-      vecteur v; v.reserve(n+1);
-      complex<double> c(cx,cy);
-      complex<double> ca=std::exp(complex<double>(0,a1));
-      if (attr.fill_polygon){
-	for (double i=0;i<n/2;++i){
-	  v.push_back(gen(c+(2.0*i*r)/double(n)*ca));
-	}
-      }
-      for (int i=0;i<=n;++i){
-	double theta=a1+i*(a2-a1)/n;
-	v.push_back(gen(c+r*std::exp(complex<double>(0,theta))));
-      }
-      if (attr.fill_polygon){
-	ca=std::exp(complex<double>(0,a2));
-	for (double i=n/2-1;i>=0;--i){
-	  v.push_back(gen(c+(2.0*i*r)/double(n)*ca));
-	}
-      }
-      return svg_bezier_curve(v,attr,legende,xmin,xmax,ymin,ymax,contextptr);
-    }
-    s= string(arc?"<path ":"<circle ");
-    if (attr.ie){
-      // COUT << xmin << " " << xmax << " " << ymin << " " << ymax << " " << svg_epaisseur1 << " " << attr.width << endl;
-      double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
-      // COUT << thickness << endl;
-      s = s+" stroke-width=\""+print_DOUBLE_(thickness,5)+"\" stroke=\""+color_string(attr);
-    }
-    else
-      s = s+"vector-effect=\"non-scaling-stroke\" stroke=\""+color_string(attr)+"\"  stroke-width=\""+print_INT_(attr.width);
-    // COUT << s << endl;
-    if (attr.fill_polygon)
-      s = s+"\" fill=\""+color_string(attr)+"\" ";
-    else
-      s = s+"\" fill=\"none\" ";
-    if (arc){
-      // arc of circle: compute start.x, start.y, end.x end.y
-      // from polar coord (radius,a1) and (radius,a2)
-      // largeArcFlag=1 if a2-a1>=M_PI
-      // <path d="M start.x start.y 
-      //          A radius radius rotation largeArcFlag 0 end.x end.y
-      //          L center.x center.y Z">
-      // move to start, arc to end, segment to center, loop to start
-      s = s+" d=\"M "+print_DOUBLE_(cx+r*std::cos(a1),5)+" "+print_DOUBLE_(cy+r*std::sin(a1),5);
-#if 1
-      s = s+" A " + print_DOUBLE_(r,5)+ " "+print_DOUBLE_(r,5)+" 0"+((a2-a1<M_PI)?" 0 1 ":" 1 1 ");
-#else
-      s = s+" A " + print_DOUBLE_(r,5)+ " "+print_DOUBLE_(r,5)+" "+print_DOUBLE_(rot*rad2deg_d,5)+((a2-a1<M_PI)?" 0 1 ":" 1 1 ");
-#endif
-      s = s+ print_DOUBLE_(cx+r*std::cos(a2),5)+" "+print_DOUBLE_(cy+r*std::sin(a2),5);
-      if (attr.fill_polygon)
-	s = s+" L "+print_DOUBLE_(cx,5)+" "+print_DOUBLE_(cy,5)+" Z";
-      s = s+"\" />\n";
-      //CERR << s << endl;
-    }
-    else 
-      s = s + "cx=\""+centerx.print(contextptr)+"\" cy=\""
-	+ centery.print(contextptr)+"\" r=\""
-	+ print_DOUBLE_(r,contextptr)
-	+ "\" />\n";
-    if (legende!="")
-      s = s+svg_text(evalf(center+r,1,contextptr),legende,attr,xmin,xmax,ymin,ymax,contextptr);
-    // COUT << s << endl;
-    return s;
-  }
-
-
   static string svg_segment(gen A, gen B, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     string s;
     // gen thickness((xmax+ymax-xmin-ymin)/svg_epaisseur1);
@@ -1175,6 +1087,99 @@ namespace giac {
     }
     return s;
   }
+
+  static string svg_circle(const gen & diameter0, const gen & diameter1, const gen & angle1,const gen & angle2,svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
+    string s="";
+    gen center=evalf_double(_evalc((diameter0+diameter1)/2,contextptr),1,contextptr);
+    gen centerx,centery;
+    reim(center,centerx,centery,contextptr);
+    double cx=evalf_double(centerx,1,contextptr)._DOUBLE_val;
+    double cy=evalf_double(centery,1,contextptr)._DOUBLE_val;
+    gen d01=evalf_double(_evalc(diameter1-diameter0,contextptr),1,contextptr);
+    gen rotg=arg(d01,0);
+    double rot=evalf_double(rotg,1,contextptr)._DOUBLE_val;
+    gen di,dr;
+    reim(d01,dr,di,contextptr);
+    double did=di._DOUBLE_val,drd=dr._DOUBLE_val;
+    // COUT << center << " " << d01 << " " << drd << " " << did << endl;
+    double r=std::sqrt(drd*drd+did*did)/2.0;
+    // COUT << r << endl;
+    double a1=evalf_double(angle1,1,contextptr)._DOUBLE_val+rot;
+    double a2=evalf_double(angle2,1,contextptr)._DOUBLE_val+rot;
+    if (a2<a1) std::swap(a1,a2);
+    bool arc=std::abs(a2-a1-2*M_PI)>1e-4;
+    if (arc){ // bezier curve is safer...
+      int n=100;
+      vecteur v; v.reserve(n+1);
+      complex<double> c(cx,cy);
+      complex<double> ca=std::exp(complex<double>(0,a1));
+      if (attr.fill_polygon){
+	for (double i=0;i<n/2;++i){
+	  v.push_back(gen(c+(2.0*i*r)/double(n)*ca));
+	}
+      }
+      for (int i=0;i<=n;++i){
+	double theta=a1+i*(a2-a1)/n;
+	v.push_back(gen(c+r*std::exp(complex<double>(0,theta))));
+      }
+      if (attr.fill_polygon){
+	ca=std::exp(complex<double>(0,a2));
+	for (double i=n/2-1;i>=0;--i){
+	  v.push_back(gen(c+(2.0*i*r)/double(n)*ca));
+	}
+      }
+      if (attr.type_line>4){
+	reverse(v.begin(),v.end());
+	s=svg_vecteur(v[v.size()/2],v[v.size()/2+1],attr,"",xmin,xmax,ymin,ymax,contextptr);
+      }
+      return s=s+svg_bezier_curve(v,attr,legende,xmin,xmax,ymin,ymax,contextptr);
+      // return svg_bezier_curve(v,attr,legende,xmin,xmax,ymin,ymax,contextptr);
+    }
+    s= string(arc?"<path ":"<circle ");
+    if (attr.ie){
+      // COUT << xmin << " " << xmax << " " << ymin << " " << ymax << " " << svg_epaisseur1 << " " << attr.width << endl;
+      double thickness=geo_thickness(xmin,xmax,ymin,ymax)/svg_epaisseur1*attr.width;
+      // COUT << thickness << endl;
+      s = s+" stroke-width=\""+print_DOUBLE_(thickness,5)+"\" stroke=\""+color_string(attr);
+    }
+    else
+      s = s+"vector-effect=\"non-scaling-stroke\" stroke=\""+color_string(attr)+"\"  stroke-width=\""+print_INT_(attr.width);
+    // COUT << s << endl;
+    if (attr.fill_polygon)
+      s = s+"\" fill=\""+color_string(attr)+"\" ";
+    else
+      s = s+"\" fill=\"none\" ";
+    if (arc){
+      // arc of circle: compute start.x, start.y, end.x end.y
+      // from polar coord (radius,a1) and (radius,a2)
+      // largeArcFlag=1 if a2-a1>=M_PI
+      // <path d="M start.x start.y 
+      //          A radius radius rotation largeArcFlag 0 end.x end.y
+      //          L center.x center.y Z">
+      // move to start, arc to end, segment to center, loop to start
+      s = s+" d=\"M "+print_DOUBLE_(cx+r*std::cos(a1),5)+" "+print_DOUBLE_(cy+r*std::sin(a1),5);
+#if 1
+      s = s+" A " + print_DOUBLE_(r,5)+ " "+print_DOUBLE_(r,5)+" 0"+((a2-a1<M_PI)?" 0 1 ":" 1 1 ");
+#else
+      s = s+" A " + print_DOUBLE_(r,5)+ " "+print_DOUBLE_(r,5)+" "+print_DOUBLE_(rot*rad2deg_d,5)+((a2-a1<M_PI)?" 0 1 ":" 1 1 ");
+#endif
+      s = s+ print_DOUBLE_(cx+r*std::cos(a2),5)+" "+print_DOUBLE_(cy+r*std::sin(a2),5);
+      if (attr.fill_polygon)
+	s = s+" L "+print_DOUBLE_(cx,5)+" "+print_DOUBLE_(cy,5)+" Z";
+      s = s+"\" />\n";
+      //CERR << s << endl;
+    }
+    else 
+      s = s + "cx=\""+centerx.print(contextptr)+"\" cy=\""
+	+ centery.print(contextptr)+"\" r=\""
+	+ print_DOUBLE_(r,contextptr)
+	+ "\" />\n";
+    if (legende!="")
+      s = s+svg_text(evalf(center+r,1,contextptr),legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    // COUT << s << endl;
+    return s;
+  }
+
 
   static string svg_point(gen center, svg_attribut attr, string legende,double xmin,double xmax,double ymin,double ymax,GIAC_CONTEXT){
     double svg_width=xmax-xmin;
@@ -1347,7 +1352,7 @@ namespace giac {
 	v[0]=gen(v[0].print(contextptr),contextptr);
       if (v[0].type==_SYMB){ 
 	symbolic figure=*v[0]._SYMBptr; 
-	if (figure.sommet == at_curve){
+	if (figure.sommet == at_curve ){
 	  //CERR << attr.ysurx << endl;
 	  gen curve=figure.feuille[1];
 	  string s;
@@ -1385,6 +1390,8 @@ namespace giac {
 	  }
 	  else
 	    diametre=f;
+	  if (f.type==_VECT && f._VECTptr->size()>=4)
+	    attr.type_line = 5;
 	  if (diametre.type==_VECT && diametre._VECTptr->size()>=2){
 	    vecteur v=*diametre._VECTptr;
 	    return svg_circle(v[0],v[1], angle1,angle2,attr, name,xmin,xmax,ymin,ymax,contextptr);

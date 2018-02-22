@@ -314,7 +314,8 @@ namespace giac {
     init_context((context *) ((void *) contextptr));
     gen res= _rm_all_vars(args,contextptr);
     *logptr(contextptr) << "============== restarted ===============" << endl;
-    _srand(_time(gen(vecteur(0),_SEQ__VECT),contextptr),contextptr);
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->empty())
+      _srand(_time(gen(vecteur(0),_SEQ__VECT),contextptr),contextptr);
     return res;
   }
   static const char _restart_s []="restart";
