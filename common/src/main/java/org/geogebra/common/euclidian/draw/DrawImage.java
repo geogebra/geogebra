@@ -111,8 +111,7 @@ public final class DrawImage extends Drawable {
 		absoluteLocation = geoImage.isAbsoluteScreenLocActive();
 
 		// ABSOLUTE SCREEN POSITION
-		if (absoluteLocation && !geo.getKernel().getApplication().has(
-				Feature.MOW_PIN_IMAGE)) {
+		if (absoluteLocation){
 			screenX = geoImage.getAbsoluteScreenLocX();
 			screenY = geoImage.getAbsoluteScreenLocY() - height;
 			labelRectangle.setBounds(screenX, screenY, width, height);
