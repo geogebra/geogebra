@@ -140,7 +140,7 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 				}
 			});
 		}
-		if (this.getArticleElement().getDataParamShowMenuBar(false)) {
+		if (this.getArticleElement().getDataParamApp()) {
 			maybeStartAutosave();
 		}
 
