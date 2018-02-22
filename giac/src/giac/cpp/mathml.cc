@@ -712,6 +712,26 @@ namespace giac {
     
   }
 
+  bool axes_off(const gen & g){
+    if (g.type==_VECT){
+      vecteur & v = *g._VECTptr;
+      int vs=int(v.size());
+      for (int i=0;i<vs;++i){
+	if (axes_off(v[i]))
+	  return true;
+	if (v[i].is_symb_of_sommet(at_equal)){
+	  gen f=v[i]._SYMBptr->feuille;
+	  if (f.type==_VECT && f._VECTptr->size()==2){
+	    vecteur w=*f._VECTptr;
+	    if (w.front()==_AXES && w.back()==0)
+	      return true;
+	  }
+	}
+      }
+    }
+    return false;
+  }
+
   // before making a user transformation on the frame, 
   // collect pixon instructions in g
   string svg_preamble_pixel(const gen &g,double svg_width_cm, double svg_height_cm,double xmin,double xmax,double ymin,double ymax,bool ortho,bool xml){
@@ -773,7 +793,9 @@ namespace giac {
     svg_dx_dy(svg_width, svg_height, dx, dy);
     double i_min_x= xmin/dx;
     double i_min_y= ymin/dy;
-  
+    // check axe=0 inside g
+    if (axes_off(g))
+      return buffer;
     //grille  
     double x,y;
     double xthickness((xmax-xmin)/svg_epaisseur1/3),ythickness((ymax-ymin)/svg_epaisseur1/3);
@@ -997,14 +1019,15 @@ namespace giac {
     if (i%2==1)
       s=s+re(v[i],contextptr).print(contextptr)+" "+im(v[i],contextptr).print(contextptr)+" ";
     s=s+"\" />\n ";
-    // on ??crit la l??gende
-    //recherche d'un point dans le cadre pour ancrer la l??gende
-    for (i=0 ; i<signed(v.size()) ; i++){
-      if (is_positive(re(v[i],contextptr)-xmin,contextptr) 
-	  && is_positive(im(v[i],contextptr)-ymin,contextptr)
-	  && is_positive(xmax-re(v[i],contextptr),contextptr) 
-	  && is_positive(ymax-im(v[i],contextptr),contextptr) ){
-	s = s+svg_text(v[i],legende,attr,xmin,xmax,ymin,ymax,contextptr);
+    //recherche d'un point dans le cadre pour ancrer la legende
+    int vs=int(v.size());
+    for (i=0;i<vs; i++){
+      int j=i<vs/2?vs/2+i:i-vs/2;
+      gen R,I; 
+      reim(v[j],R,I,contextptr);
+      if (is_positive(R-xmin,contextptr) && is_positive(I-ymin,contextptr)
+	  && is_positive(xmax-R,contextptr) && is_positive(ymax-I,contextptr) ){
+	s = s+svg_text(v[j],legende,attr,xmin,xmax,ymin,ymax,contextptr);
 	break;
       }
     }
