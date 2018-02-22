@@ -388,7 +388,22 @@ public interface GGraphics2D {
 	 */
 	public abstract void endAndDrawGeneralPath();
 
+	/**
+	 * @param img
+	 *            source
+	 * @param sx
+	 *            source min x
+	 * @param sy
+	 *            source min y
+	 * @param sw
+	 *            source width
+	 * @param sh
+	 *            source height
+	 * @param dx
+	 *            dest rect min x
+	 * @param dy
+	 *            dest rect min y
+	 */
 	public void drawImage(MyImage img, int sx, int sy, int sw, int sh, int dx,
 			int dy);
-
 }

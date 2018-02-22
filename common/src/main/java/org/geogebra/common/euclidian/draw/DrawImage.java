@@ -311,8 +311,15 @@ public final class DrawImage extends Drawable {
 				if (getBoundingBox().isCropBox()) {
 					g3.setComposite(
 							AwtFactory.getPrototype().newAlphaComposite(1.0f));
-					g3.drawImage(image, 40, 40, image.getWidth() - 80,
-							image.getHeight() - 80, 40, 40);
+					g3.drawImage(image, 0, 0,
+							(int) (image.getWidth()
+									* getBoundingBox().getRectangle().getWidth()
+									/ getBounds().getWidth()),
+							(int) (image.getHeight()
+									* getBoundingBox().getRectangle()
+											.getHeight()
+									/ getBounds().getHeight()),
+							0, 0);
 				}
 
 				g3.restoreTransform();
@@ -489,55 +496,70 @@ public final class DrawImage extends Drawable {
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		switch (handler) {
 		case BOTTOM:
-			rect.setRect(getBounds().getX(), getBounds().getY(),
-					getBounds().getWidth(), eventY - getBounds().getY());
+			rect.setRect(getBoundingBox().getRectangle().getX(),
+					getBoundingBox().getRectangle().getY(),
+					getBoundingBox().getRectangle().getWidth(),
+					eventY - getBoundingBox().getRectangle().getY());
 			break;
 		case TOP:
-			rect.setRect(getBounds().getX(), eventY, getBounds().getWidth(),
-					getBounds().getMaxY() - eventY);
+			rect.setRect(getBoundingBox().getRectangle().getX(), eventY,
+					getBoundingBox().getRectangle().getWidth(),
+					getBoundingBox().getRectangle().getMaxY() - eventY);
 			break;
 		case LEFT:
-			rect.setRect(eventX, getBounds().getY(),
-					getBounds().getMaxX() - eventX, getBounds().getHeight());
+			rect.setRect(eventX, getBoundingBox().getRectangle().getY(),
+					getBoundingBox().getRectangle().getMaxX() - eventX,
+					getBoundingBox().getRectangle().getHeight());
 			break;
 		case RIGHT:
-			rect.setRect(getBounds().getX(), getBounds().getY(),
-					eventX - getBounds().getX(),
-					getBounds().getHeight());
+			rect.setRect(getBoundingBox().getRectangle().getX(),
+					getBoundingBox().getRectangle().getY(),
+					eventX - getBoundingBox().getRectangle().getX(),
+					getBoundingBox().getRectangle().getHeight());
 			break;
 		case BOTTOM_RIGHT:
-			width = view.getScreenDragStartCoordX() - getBounds().getMinX();
-			height = view.getScreenDragStartCoordY() - getBounds().getMinY();
-			newWidth = eventX - getBounds().getMinX();
-			newHeight = (height * newWidth) / width;
-			rect.setRect(getBounds().getX(), getBounds().getY(), newWidth,
+			width = view.getScreenDragStartCoordX()
+					- getBoundingBox().getRectangle().getMinX();
+			height = view.getScreenDragStartCoordY()
+					- getBoundingBox().getRectangle().getMinY();
+			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
+			newHeight = -originalRatio * newWidth;
+			rect.setRect(getBoundingBox().getRectangle().getX(),
+					getBoundingBox().getRectangle().getY(), newWidth,
 					newHeight);
 			break;
 		case BOTTOM_LEFT:
-			width = getBounds().getMaxX() - view.getScreenDragStartCoordX();
-			height = view.getScreenDragStartCoordY() - getBounds().getMinY();
-			newWidth = getBounds().getMaxX() - eventX;
+			width = getBoundingBox().getRectangle().getMaxX()
+					- view.getScreenDragStartCoordX();
+			height = view.getScreenDragStartCoordY()
+					- getBoundingBox().getRectangle().getMinY();
+			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
 			newHeight = (height * newWidth) / width;
-			rect.setRect(getBounds().getMaxX() - newWidth,
-					getBounds().getY(), newWidth,
+			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
+					getBoundingBox().getRectangle().getY(), newWidth,
 					newHeight);
 			break;
 		case TOP_RIGHT:
-			width = view.getScreenDragStartCoordX() - getBounds().getMinX();
-			height = getBounds().getMaxY() - view.getScreenDragStartCoordY();
-			newWidth = eventX - getBounds().getMinX();
+			width = view.getScreenDragStartCoordX()
+					- getBoundingBox().getRectangle().getMinX();
+			height = getBoundingBox().getRectangle().getMaxY()
+					- view.getScreenDragStartCoordY();
+			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
 			newHeight = (height * newWidth) / width;
-			rect.setRect(getBounds().getX(), getBounds().getMaxY() - newHeight,
+			rect.setRect(getBoundingBox().getRectangle().getX(),
+					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth,
 					newHeight);
 			break;
 		case TOP_LEFT:
-			width = getBounds().getMaxX() - view.getScreenDragStartCoordX();
-			height = getBounds().getMaxY() - view.getScreenDragStartCoordY();
-			newWidth = getBounds().getMaxX() - eventX;
+			width = getBoundingBox().getRectangle().getMaxX()
+					- view.getScreenDragStartCoordX();
+			height = getBoundingBox().getRectangle().getMaxY()
+					- view.getScreenDragStartCoordY();
+			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
 			newHeight = (height * newWidth) / width;
-			rect.setRect(getBounds().getMaxX() - newWidth,
-					getBounds().getMaxY() - newHeight,
+			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
+					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth, newHeight);
 		default:
 			break;
@@ -552,8 +574,6 @@ public final class DrawImage extends Drawable {
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint D = geoImage.getCorner(2);
-		// double width = 1;
-		// double height = 1;
 		double newWidth = 1;
 		double newHeight = 1;
 		if (A == null) {
