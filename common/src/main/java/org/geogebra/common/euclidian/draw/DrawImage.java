@@ -525,6 +525,14 @@ public final class DrawImage extends Drawable {
 					newWidth,
 					newHeight);
 			break;
+		case TOP_LEFT:
+			width = getBounds().getMaxX() - view.getScreenDragStartCoordX();
+			height = getBounds().getMaxY() - view.getScreenDragStartCoordY();
+			newWidth = getBounds().getMaxX() - eventX;
+			newHeight = (height * newWidth) / width;
+			rect.setRect(getBounds().getMaxX() - newWidth,
+					getBounds().getMaxY() - newHeight,
+					newWidth, newHeight);
 		default:
 			break;
 		}
