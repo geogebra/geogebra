@@ -10670,8 +10670,11 @@ public abstract class EuclidianController {
 
 	private boolean wasBoundingBoxDrag() {
 		// do not deselect during resizing with bounding/crop box
+		if (selection == null) {
+			return false;
+		}
 		List<GeoElement> selectedGeos = selection.getSelectedGeos();
-		if (selectedGeos.size() == 1) {
+		if (selectedGeos != null && selectedGeos.size() == 1) {
 			DrawableND d = view.getDrawable(selectedGeos.get(0));
 			return d != null && ((Drawable) d).getBoundingBox() != null
 					&& view.boundingBox.equals(((Drawable) d).getBoundingBox());
