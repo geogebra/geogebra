@@ -99,6 +99,9 @@ public enum Feature {
 	/** MOW-55 */
 	MOW_BOUNDING_BOXES,
 
+	/** MOW-320 */
+	MOW_PIN_IMAGE,
+	
 	/** MOW-239 */
 	MOW_IMPROVE_CONTEXT_MENU,
 

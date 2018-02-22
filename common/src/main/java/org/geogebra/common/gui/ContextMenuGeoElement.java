@@ -604,7 +604,7 @@ public abstract class ContextMenuGeoElement {
 				boolean flag = !geoText.isAbsoluteScreenLocActive();
 				if (flag) {
 					// convert real world to screen coords
-					if (!app.has(Feature.MOW_BOUNDING_BOXES)
+					if (!app.has(Feature.MOW_PIN_IMAGE)
 							|| !geoText.isGeoImage()) {
 						int x = app.getActiveEuclidianView()
 								.toScreenCoordX(geoText.getRealWorldLocX());
@@ -629,7 +629,7 @@ public abstract class ContextMenuGeoElement {
 					}
 				} else {
 					// convert screen coords to real world
-					if (!app.has(Feature.MOW_BOUNDING_BOXES)
+					if (!app.has(Feature.MOW_PIN_IMAGE)
 							|| !geoText.isGeoImage()) {
 						double x = app.getActiveEuclidianView()
 								.toRealWorldCoordX(
