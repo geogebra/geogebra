@@ -68,7 +68,7 @@ class DragController {
 		DragCard() {
 			reset();
 		}
-	
+
 		private void reset() {
 			card = null;
 			target = null;
@@ -87,7 +87,7 @@ class DragController {
 		boolean isValid() {
 			return card != null;
 		}
-		
+
 		private void prepareDragCard() {
 			card.removeSpace();
 			card.addStyleName("dragged");
@@ -137,8 +137,8 @@ class DragController {
 			if (diff > PagePreviewCard.MARGIN && diff < h) {
 				target.setSpaceValue(diff + PagePreviewCard.MARGIN, down);
 			}
-         }
-        
+		}
+
 		void dragTo(int x, int y) {
 
 			if (down == null) {
@@ -176,12 +176,10 @@ class DragController {
 					isAnimated() ? (down ?  y1: y2): card.getMiddleY());
 
 			if (idx == -1 && isAnimated()) {
-				idx = cardIndexAt(card.getMiddleX(), (down ?  y2: y1));
+				idx = cardIndexAt(card.getMiddleX(), down ? y2 : y1);
 			}
 			
 			target = idx != -1 ? cards.cardAt(idx): null;
-			
-			
 		}
 
 		private boolean onTargetChange() {
@@ -205,8 +203,6 @@ class DragController {
 				last.setTop(target.getAbsoluteTop());
 				last.setBottom(target.getAbsoluteBottom());
 			}
-
-
 
 			last.target = target;
 			return true;

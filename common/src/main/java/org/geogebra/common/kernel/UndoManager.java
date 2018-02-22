@@ -66,7 +66,8 @@ public abstract class UndoManager {
 		return state;
 	}
 
-	public void executeAction(EventType action, AppState state, String[] args) {
+	public void executeAction(EventType action, AppState state,
+			String... args) {
 		app.executeAction(action, state, args);
 	}
 

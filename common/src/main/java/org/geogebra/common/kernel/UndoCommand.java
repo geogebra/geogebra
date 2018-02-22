@@ -63,7 +63,7 @@ public class UndoCommand {
 		}
 		else if (action == EventType.REMOVE_SLIDE) {
 			mgr.executeAction(EventType.ADD_SLIDE,
-					mgr.getCheckpoint(args[0]), new String[] { args[0] });
+					mgr.getCheckpoint(args[0]), args[0], args[1]);
 		} else if (action == EventType.MOVE_SLIDE) {
 			mgr.executeAction(EventType.MOVE_SLIDE, null,
 					new String[] { args[1], args[0] });

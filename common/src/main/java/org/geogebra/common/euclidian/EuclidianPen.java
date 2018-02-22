@@ -453,16 +453,17 @@ public class EuclidianPen implements GTimerListener {
 			GPoint p2 = penPoints.size() >= 2
 					? penPoints.get(penPoints.size() - 2) : null;
 			GPoint p3 = tailStart(newPoint);
-
-			if (dist > MAX_POINT_DIST || p3 == null || p2 == null) {
-				penPoints.add(newPoint);
-				addPointRepaint();
-			} else if (dist > MIN_POINT_DIST) {
-				p2.x = (p1.x + p2.x) / 2;
-				p2.y = (p1.y + p2.y) / 2;
-				p1.x = newPoint.x;
-				p1.y = newPoint.y;
-				addPointRepaint();
+			if (dist > MIN_POINT_DIST) {
+				if (dist > MAX_POINT_DIST || p3 == null || p2 == null) {
+					penPoints.add(newPoint);
+					addPointRepaint();
+				} else {
+					p2.x = (p1.x + p2.x) / 2;
+					p2.y = (p1.y + p2.y) / 2;
+					p1.x = newPoint.x;
+					p1.y = newPoint.y;
+					addPointRepaint();
+				}
 			}
 		}
 

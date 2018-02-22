@@ -120,7 +120,8 @@ public class PageListPanel
 	 */
 	protected void loadNewPage(boolean selected) {
 		pageController.loadNewPage(addNewPreviewCard(selected));
-		pageController.updatePreviewImage();
+		app.getKernel().getConstruction().getUndoManager()
+				.storeAction(EventType.ADD_SLIDE, new String[0]);
 	}
 
 	/**
@@ -258,13 +259,12 @@ public class PageListPanel
 		pageController.removeSlide(index);
 		app.getKernel().getConstruction().getUndoManager()
 				.storeAction(EventType.REMOVE_SLIDE,
-						new String[] { index + "" });
+						index + "", pageController.getSlideCount() + "");
 		updateIndexes(index);
 		// load new slide
 		if (index == 0 && pageController.getSlideCount() == 0) {
 			// first and single slide was deleted
 			pageController.loadNewPage(addNewPreviewCard(true));
-			pageController.updatePreviewImage();
 		} else if (index == pageController.getSlideCount()) {
 			// last slide was deleted
 			pageController.loadPage(index - 1);

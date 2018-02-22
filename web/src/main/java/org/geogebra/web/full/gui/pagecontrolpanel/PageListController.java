@@ -111,18 +111,6 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
-	private void loadNewSlide(int i) {
-		try {
-
-			// new file
-			((AppWFull) app).loadEmptySlide();
-
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
 	/**
 	 * Save current file to selected card
 	 * 
@@ -169,7 +157,6 @@ public class PageListController implements PageListControllerInterface,
 	 * @return the new, duplicated card.
 	 */
 	private PagePreviewCard duplicateSlide(PagePreviewCard sourceCard) {
-
 		savePreviewCard(selectedCard);
 		PagePreviewCard dup = PagePreviewCard.duplicate(sourceCard);
 		int dupIdx = dup.getPageIndex();
@@ -373,6 +360,10 @@ public class PageListController implements PageListControllerInterface,
 		setCardSelected(index);
 	}
 
+	/**
+	 * @param index
+	 *            card index
+	 */
 	public void setCardSelected(int index) {
 		setCardSelected(getCard(index));
 	}
@@ -385,10 +376,9 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	public void loadNewPage(int index) {
 		savePreviewCard(selectedCard);
-		loadNewSlide(index);
-		app.getKernel().getConstruction().getUndoManager()
-				.storeAction(EventType.ADD_SLIDE, new String[0]);
+		((AppWFull) app).loadEmptySlide();
 		setCardSelected(index);
+		updatePreviewImage();
 	}
 
 	@Override
@@ -486,8 +476,9 @@ public class PageListController implements PageListControllerInterface,
 			if (state != null) {
 				file.put("geogebra.xml", state.getXml());
 			}
-
-			addNewPreviewCard(false, idx, file);
+			if (args.length < 2 || !"0".equals(args[1])) {
+				addNewPreviewCard(false, idx, file);
+			}
 
 			if (file.isEmpty()) {
 				// new file
@@ -500,14 +491,14 @@ public class PageListController implements PageListControllerInterface,
 				app.getGgbApi().setPerspective(perspXML);
 			}
 
-			setCardSelected(getCard(idx));
+			setCardSelected(idx);
 			updatePreviewImage();
 
 		} else if (action == EventType.REMOVE_SLIDE) {
 			if (getSlideCount() > 1) {
 				removeSlide(getSlideCount() - 1);
 				loadSlide(getSlideCount() - 1);
-				setCardSelected(getCard(getSlideCount() - 1));
+				setCardSelected(getSlideCount() - 1);
 			}
 		} else if (action == EventType.DUPLICATE_SLIDE) {
 			duplicateSlide(slides.get(Integer.parseInt(args[0])));
@@ -521,7 +512,6 @@ public class PageListController implements PageListControllerInterface,
 
 	public void setActiveSlide(String slideID) {
 		selectCard(slides.get(slideID == null ? 0 : Integer.parseInt(slideID)));
-
 	}
 
 }
