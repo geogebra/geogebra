@@ -531,7 +531,13 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			List<StepExpression> roots = new ArrayList<>();
 			for(StepNode sn : tempSolutions.getElements()) {
-				roots.add((StepExpression) ((StepSolution) sn).getValue(variable));
+				StepExpression rootValue = (StepExpression) ((StepSolution) sn).getValue(variable);
+				if (!rootValue.canBeEvaluated()) {
+					throw new SolveFailedException(steps.getSteps());
+				}
+				if (!roots.contains(rootValue)) {
+					roots.add(rootValue);
+				}
 			}
 
 			Collections.sort(roots, new Comparator<StepExpression>() {

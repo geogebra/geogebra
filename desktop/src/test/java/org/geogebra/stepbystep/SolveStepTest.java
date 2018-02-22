@@ -135,6 +135,7 @@ public class SolveStepTest {
 
 	@Test
 	public void absoluteValueEquations() {
+		t("|x|^2", "|x^2|", "x", "x in (-inf, 0]", "x in (0, inf)");
 		//TODO: get back to this special case when we have systems
 		t("|x-4|", "-|2-3*x|", "x", "fail");
 		t("4*|2x-10|-3", "7*|x+1|+|5x-4|+2+x", "x", "x = -(38)/(3)", "x = (32)/(21)");
