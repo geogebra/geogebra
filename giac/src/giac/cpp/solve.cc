@@ -398,14 +398,16 @@ namespace giac {
   static void solve_ckrange(const identificateur & x,vecteur & v,int isolate_mode,GIAC_CONTEXT){
     vecteur w,excluded(find_excluded(x,contextptr));
     // assumption on x, either range or integer
-    if (find_range(x,w,contextptr)==2){
+    int fr=find_range(x,w,contextptr);
+    if (fr>=2){
       int s=int(v.size());
       for (int i=0;i<s;++i){
 	if (is_integer(v[i]))
 	  w.push_back(v[i]);
       }
       v=w;
-      return;
+      if (fr==2)
+	return;
     }
     if (w.size()!=1 || w.front().type!=_VECT)
       return;

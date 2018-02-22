@@ -1642,6 +1642,7 @@ namespace giac {
 	vecteur v=*g2._VECTptr;
 	if ( (v.size()==3) && (v.front()==vecteur(0) || v.front()==_DOUBLE_ || v.front()==_ZINT || v.front()==_SYMB || v.front()==0) && (v[1].type==_VECT)){
 	  a=*v[1]._VECTptr;
+	  if (v.front()==_ZINT) return 3;
 	  return 1;
 	}
 	if (v.size()==1 && v.front()==_ZINT)
