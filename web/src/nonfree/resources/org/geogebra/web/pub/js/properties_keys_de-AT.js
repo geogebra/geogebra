@@ -3059,7 +3059,7 @@ __GGB__keysVar["de-AT"].menu = {
     "equal": "gleich",
     "exam_accept_app_self_lock": "Please allow \"App Self-Lock\" before starting the exam",
     "exam_accept_pin": "Bitte erlauben Sie \"Fenster anheften\" vor dem Start der Pr\xfcfung.",
-    "exam_activity": "Activity",
+    "exam_activity": "Aktivit\xe4t",
     "exam_alert": "Alarm",
     "exam_calctype_3D_sym_graphing": "3D CAS Rechner",
     "exam_calctype_3D_sym_graphing_desc": "Numerische und symbolische (CAS) Berechnungen, 2D Grafikansicht, 3D Grafikansicht",

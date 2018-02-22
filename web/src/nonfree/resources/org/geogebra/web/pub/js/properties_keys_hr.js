@@ -2938,7 +2938,7 @@ __GGB__keysVar["hr"].menu = {
     "UntitledConstruction": "Bez naslova",
     "Up": "Gore",
     "Upload": "Postavi",
-    "UploadError": "Servisu GeoGebra nije mogu\u0107e pristupiti. Prekinut prijenos sadr\u017eaja. (Error Code: %0)",
+    "UploadError": "Pristup servisu GeoGebra nije mogu\u0107. Prekinut je prijenos sadr\u017eaja. (Error Code: %0)",
     "UploadGeoGebraTube": "Postavljanje na GeoGebra",
     "UploadPrepare": "Pripremanje postavljanja",
     "UpperLimit": "Gornja granica",

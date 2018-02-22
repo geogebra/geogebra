@@ -907,7 +907,7 @@ __GGB__keysVar["ug"].command = {
     "SlopeField": "SlopeField",
     "SlopeField.Syntax": "[ <f(x, y)> ]\n[ <f(x, y)>, <Number n> ]\n[ <f(x, y)>, <Number n>, <Length Multiplier a> ]\n[ <f(x, y)>, <Number n>, <Length Multiplier a>, <Min x>, <Min y>, <Max x>, <Max y> ]",
     "SlowPlot": "SlowPlot",
-    "SlowPlot.Syntax": "[ <Function> ]",
+    "SlowPlot.Syntax": "[ <Function> ]\n[ <Function>, <Boolean Repeat> ]",
     "Solutions": "Solutions",
     "Solutions.Syntax": "[ <Equation> ]",
     "Solutions.SyntaxCAS": "[ <Equation> ]\n[ <Equation>, <Variable> ]\n[ <List of Equations>, <List of Variables> ]",
