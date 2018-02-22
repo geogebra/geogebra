@@ -78,6 +78,23 @@ public class GeneralUnitTests {
     }
 
     @Test
+    public void positiveTest() {
+        isPositive("exp(x)", true);
+        isPositive("e^x", true);
+        isPositive("x^x", false);
+        isPositive("x^2", true);
+        isPositive("(x^2)^x", true);
+        isPositive("2+3", true);
+        isPositive("2+x", false);
+        isPositive("e^x", true);
+        isPositive("|x| + x^2", true);
+        isPositive("|x| - x^2", false);
+        isPositive("x^(2k)", false);
+        isPositive("x^(2k+1)", false);
+        isPositive("x^2*y^4", true);
+    }
+
+    @Test
     public void simpleTableTest() {
         SolutionTable table = new SolutionTable(
                 new StepVariable("x"),
@@ -171,6 +188,10 @@ public class GeneralUnitTests {
     public void equals(String a, String b, boolean eq) {
         Assert.assertEquals(convert(a).equals(convert(b)), eq);
         Assert.assertEquals(convert(b).equals(convert(a)), eq);
+    }
+
+    public void isPositive(String a, boolean pos) {
+        Assert.assertEquals(convert(a).isPositive(), pos);
     }
 
     public void contains(String a, String b, boolean cont) {

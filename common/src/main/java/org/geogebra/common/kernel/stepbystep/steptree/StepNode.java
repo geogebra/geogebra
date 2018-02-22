@@ -153,6 +153,9 @@ public abstract class StepNode implements TableElement {
 			case LOG2:
 				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
 				return logarithm(StepConstant.create(2), arg);
+			case EXP:
+				arg = (StepExpression) convertExpression(((ExpressionNode) ev).getLeft());
+				return power(StepConstant.E, arg);
 			case MULTIPLY:
 				if (((ExpressionNode) ev).getLeft().isConstant()
 						&& ((ExpressionNode) ev).getLeft().evaluateDouble() == -1) {
@@ -509,14 +512,6 @@ public abstract class StepNode implements TableElement {
 
 	public static boolean isOne(StepExpression a) {
 		return a == null || isEqual(a, 1);
-	}
-
-	public static boolean isEven(double d) {
-		return isEqual(d % 2, 0);
-	}
-
-	public static boolean isEven(StepExpression se) {
-		return se.isInteger() && isEven(se.getValue());
 	}
 
 	public static boolean isOdd(double d) {

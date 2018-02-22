@@ -28,6 +28,8 @@ public class DifferentiateStepTest {
 
 	@Test
 	public void differentiateTest() {
+		d("2^3", "x", "0");
+		d("x^x", "x", "((e)^((log_(e)(x))(x)))((log_(e)(x) + 1))");
 		d("12x + 6x^2 + x^3", "x", "(12 + (12)(x) + (3)((x)^(2)))");
 		d("log(x) + log_3(x)", "x", "((1)/(x) + (1)/((log_(e)(3))(x)))");
 		d("sin(x) + cos(x) + tan(x)", "x", "(cos(x)-sin(x) + (1)/((cos(x))^(2)))");

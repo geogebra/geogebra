@@ -326,6 +326,14 @@ public enum SolutionStepType {
 
 	EVALUATE_INVERSE_TRIGO("EvaluateInverseTrigo", "Evaluate inverse trigonometric function"),
 
+	POSITIVE_UNDER_ABSOLUTE_VALUE("PositiveUnderAbsoluteValue", "Use rules for absolute values", "The absolute value of a positive value is itself"),
+
+	NEGATIVE_UNDER_ABSOLUTE_VALUE("NegativeUnderAbsoluteValue", "Use rules for absolute values", "The absolute value " +
+			"of a negative value is the negation of itself"),
+
+	EVEN_POWER_OF_ABSOLUTE_VALUE("EvenPowerOfAbsoluteValue", "Use rules for absolute values", "An even power of an " +
+			"absolute value is already positive"),
+
 	DIFFERENTIATE("Derivate", "Derivate %0"),
 
 	DIFF_SUM("SumRule", "Use the sum rule",

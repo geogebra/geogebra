@@ -46,11 +46,11 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 			if (sn.isOperation(Operation.DIFF)) {
 				StepOperation so = (StepOperation) sn;
 
-				StepOperation toDifferentiate = (StepOperation) so.getOperand(0);
+				StepExpression toDifferentiate = so.getOperand(0);
 				StepVariable variable = (StepVariable) so.getOperand(1);
 
 				if (toDifferentiate.isConstantIn(variable)) {
-					StepExpression result = StepConstant.create(1);
+					StepExpression result = StepConstant.create(0);
 
 					toDifferentiate.setColor(tracker.getColorTracker());
 					result.setColor(tracker.incColorTracker());
@@ -256,7 +256,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 								multiply(logarithm(StepConstant.E, base), exponent));
 						sb.add(SolutionStepType.REWRITE_AS, power, result);
 
-						return result;
+						return differentiate(result, variable);
 					}
 				}
 			}
@@ -467,6 +467,7 @@ public enum DifferentiationSteps implements SimplificationStepGenerator {
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
 					RegroupSteps.DEFAULT_REGROUP,
+					DifferentiationSteps.DIFFERENTIATE_CONSTANT,
 					DifferentiationSteps.CONSTANT_COEFFICIENT,
 					DifferentiationSteps.DIFFERENTIATE_SUM,
 					DifferentiationSteps.CONSTANT_COEFFICIENT,

@@ -1447,7 +1447,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				StepOperation so = (StepOperation) sn;
 
 				if (so.getOperand(0).isNegative()) {
-					if (isEven(so.getOperand(1))) {
+					if (so.getOperand(1).isEven()) {
 						StepExpression result = power(so.getOperand(0).negate(), so.getOperand(1));
 
 						so.setColor(tracker.getColorTracker());
@@ -1525,7 +1525,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 
 					StepExpression result;
 
-					if (isEven(gcd) && (exponent2 == null || !isEven(exponent2.getValue()))
+					if (gcd.isEven() && (exponent2 == null || !exponent2.isEven())
 							&& !(argument.canBeEvaluated() && argument.getValue() > 0)) {
 						result = nonTrivialRoot(nonTrivialPower(abs(argument), exponent2), exponent1);
 						sb.add(SolutionStepType.REDUCE_ROOT_AND_POWER_EVEN, gcd);
@@ -1668,6 +1668,74 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 			}
 
 			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	ABSOLUTE_VALUE_OF_POSITIVE {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.ABS)) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.getOperand(0).isPositive()) {
+					so.setColor(tracker.getColorTracker());
+
+					sb.add(SolutionStepType.POSITIVE_UNDER_ABSOLUTE_VALUE, tracker.incColorTracker());
+					return so.getOperand(0).deepCopy();
+				}
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	ABSOLUTE_VALUE_OF_NEGATIVE {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.ABS)) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.getOperand(0).isNegative()) {
+					so.setColor(tracker.getColorTracker());
+
+					sb.add(SolutionStepType.NEGATIVE_UNDER_ABSOLUTE_VALUE, tracker.incColorTracker());
+					return so.getOperand(0).negate();
+				}
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	EVEN_POWER_OF_ABSOLUTE_VALUE {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.POWER)) {
+				StepOperation so = (StepOperation) sn;
+
+				if (so.getOperand(0).isOperation(Operation.ABS)
+						&& so.getOperand(1).isEven()) {
+					so.setColor(tracker.getColorTracker());
+
+					sb.add(SolutionStepType.EVEN_POWER_OF_ABSOLUTE_VALUE, tracker.incColorTracker());
+					return power(((StepOperation) so.getOperand(0)).getOperand(0), so.getOperand(1));
+				}
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	SIMPLIFY_ABSOLUTE_VALUES {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
+					ABSOLUTE_VALUE_OF_POSITIVE,
+					ABSOLUTE_VALUE_OF_NEGATIVE,
+					EVEN_POWER_OF_ABSOLUTE_VALUE
+			};
+
+			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
 		}
 	},
 
@@ -1816,6 +1884,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 					RegroupSteps.DOUBLE_MINUS,
 					RegroupSteps.POWER_OF_NEGATIVE,
 					RegroupSteps.POWER_OF_POWER,
+					RegroupSteps.SIMPLIFY_ABSOLUTE_VALUES,
 					RegroupSteps.DISTRIBUTE_ROOT_OVER_FRACTION,
 					RegroupSteps.DISTRIBUTE_POWER_OVER_PRODUCT,
 					RegroupSteps.DISTRIBUTE_POWER_OVER_FRACION,
@@ -1856,6 +1925,7 @@ public enum RegroupSteps implements SimplificationStepGenerator {
                 || this == WEAK_REGROUP
                 || this == RATIONALIZE_DENOMINATORS
                 || this == REGROUP_PRODUCTS
-                || this == CONVERT_DECIMAL_TO_FRACTION;
+                || this == CONVERT_DECIMAL_TO_FRACTION
+				|| this == SIMPLIFY_ABSOLUTE_VALUES;
 	}
 }

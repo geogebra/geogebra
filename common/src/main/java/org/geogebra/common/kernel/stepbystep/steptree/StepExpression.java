@@ -559,6 +559,10 @@ public abstract class StepExpression extends StepNode {
 		return isInteger() && (expr == null || expr.isInteger() && isEqual(getValue() % expr.getValue(), 0));
 	}
 
+	public boolean isEven() {
+		return isConstant() && isZero(remainder(StepConstant.create(2)));
+	}
+
 	public boolean containsSquareRoot() {
 		if (isSquareRoot()) {
 			return true;
@@ -591,6 +595,39 @@ public abstract class StepExpression extends StepNode {
 	}
 
 	/**
+	 * Using some simple heuristics (such as, even powers are positive,
+	 * exponentials, sum of positives, etc.), checks if the expression
+	 * if positive for all values of the variables.
+	 * @return whether the expression is provably positive
+	 */
+	public boolean isPositive() {
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
+
+			switch (so.getOperation()) {
+			case PLUS:
+			case MULTIPLY:
+				for (StepExpression operand : so) {
+					if (!operand.isPositive()) {
+						return false;
+					}
+				}
+				return true;
+			case POWER:
+				return so.getOperand(0).isPositive()
+						|| so.getOperand(1).isEven();
+			case ABS:
+				return true;
+			}
+
+			return false;
+		}
+
+		// StepConstants are always positive!
+		return this instanceof StepConstant;
+	}
+
+	/**
 	 * A square is an expression of the form a^(2n), or a nonSpecialConstant. This
 	 * definition is useful for factoring
 	 * 
@@ -598,7 +635,7 @@ public abstract class StepExpression extends StepNode {
 	 */
 	public boolean isSquare() {
 		return nonSpecialConstant() && getValue() > 0
-				|| isOperation(Operation.POWER) && isEven(((StepOperation) this).getOperand(1));
+				|| isOperation(Operation.POWER) && ((StepOperation) this).getOperand(1).isEven();
 	}
 
 	public boolean isCube() {

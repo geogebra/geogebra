@@ -142,7 +142,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression b = difference.findCoefficient(variable);
 			StepExpression c = difference.findConstantIn(variable);
 
-			if (isOne(a) && isEven(b) && !isZero(c)) {
+			if (isOne(a) && b.isEven() && !isZero(c)) {
 				StepExpression RHSConstant = se.getRHS().findConstantIn(variable);
 				se.addOrSubtract(subtract(se.getRHS(), RHSConstant).regroup(), steps, tracker);
 
@@ -661,7 +661,7 @@ public enum EquationSteps implements SolveStepGenerator {
 			StepExpression toDivide = se.getLHS().getCoefficient();
 			se.multiplyOrDivide(toDivide, steps, tracker);
 
-			if (isEven(root) && se.getRHS().isConstant() && se.getRHS().getValue() < 0) {
+			if (isEqual(root % 2, 0) && se.getRHS().isConstant() && se.getRHS().getValue() < 0) {
 				return new StepSet();
 			}
 

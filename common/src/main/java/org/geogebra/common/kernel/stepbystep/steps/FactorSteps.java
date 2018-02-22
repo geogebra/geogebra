@@ -199,7 +199,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 					StepExpression b = second.findCoefficient(first.getSquareRoot());
 
-					if (b != null && isEven(b)) {
+					if (b != null && b.isEven()) {
 						double toComplete = third.getValue() - b.getValue() * b.getValue() / 4;
 
 						if (toComplete < 0) {
