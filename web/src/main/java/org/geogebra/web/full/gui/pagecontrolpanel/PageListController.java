@@ -94,31 +94,30 @@ public class PageListController implements PageListControllerInterface,
 	/**
 	 * loads the slide with index i from the list
 	 * 
-	 * @param curSelCard
-	 *            currently selected card
-	 * 
 	 * @param i
 	 *            index of the slide to load
 	 * @param newPage
 	 *            true if slide is new slide
 	 */
-	public void loadSlide(PagePreviewCard curSelCard, int i, boolean newPage) {
-		if (curSelCard != null) {
-			// save file status of currently selected card
-			// it is not needed after drag for example.
-			savePreviewCard(curSelCard);
-		}
+	private void loadSlide(int i) {
 		try {
-			if (newPage) {
-				// new file
-				((AppWFull) app).loadEmptySlide();
-				app.getKernel().getConstruction().getUndoManager()
-						.storeAction(EventType.ADD_SLIDE, new String[0]);
-			} else {
+
 				// load last status of file
 				app.resetPerspectiveParam();
 				app.loadGgbFile(slides.get(i).getFile(), true);
-			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void loadNewSlide(int i) {
+		try {
+
+			// new file
+			((AppWFull) app).loadEmptySlide();
+
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -278,7 +277,7 @@ public class PageListController implements PageListControllerInterface,
 			/// TODO this breaks MVC
 			((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
 					.update();
-			setCardSelected(slides.get(0));
+			setCardSelected(0);
 		} catch (Exception e) {
 			Log.debug(e);
 			// TODO Auto-generated catch block
@@ -367,20 +366,36 @@ public class PageListController implements PageListControllerInterface,
 	 * 
 	 * @param index
 	 *            index of page to load
-	 * @param newPage
-	 *            true if slide is new page
 	 */
-	public void loadPage(int index, boolean newPage) {
-		loadSlide(selectedCard, index, newPage);
+	public void loadPage(int index) {
+		savePreviewCard(selectedCard);
+		loadSlide(index);
+		setCardSelected(index);
+	}
+
+	public void setCardSelected(int index) {
 		setCardSelected(getCard(index));
 	}
 
+	/**
+	 * load existing page
+	 * 
+	 * @param index
+	 *            index of page to load
+	 */
+	public void loadNewPage(int index) {
+		savePreviewCard(selectedCard);
+		loadNewSlide(index);
+		app.getKernel().getConstruction().getUndoManager()
+				.storeAction(EventType.ADD_SLIDE, new String[0]);
+		setCardSelected(index);
+	}
 
 	@Override
 	public void clickPage(int pageIdx, boolean select) {
-		loadSlide(null, pageIdx, false);
+		loadSlide(pageIdx);
 		if (select) {
-			setCardSelected(getCard(pageIdx));
+			setCardSelected(pageIdx);
 		}
 	}
 
@@ -491,7 +506,7 @@ public class PageListController implements PageListControllerInterface,
 		} else if (action == EventType.REMOVE_SLIDE) {
 			if (getSlideCount() > 1) {
 				removeSlide(getSlideCount() - 1);
-				loadSlide(null, getSlideCount() - 1, false);
+				loadSlide(getSlideCount() - 1);
 				setCardSelected(getCard(getSlideCount() - 1));
 			}
 		} else if (action == EventType.DUPLICATE_SLIDE) {

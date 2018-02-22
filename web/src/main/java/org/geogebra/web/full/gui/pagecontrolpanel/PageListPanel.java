@@ -119,7 +119,7 @@ public class PageListPanel
 	 *            whether to select it
 	 */
 	protected void loadNewPage(boolean selected) {
-		pageController.loadPage(addNewPreviewCard(selected), true);
+		pageController.loadNewPage(addNewPreviewCard(selected));
 		pageController.updatePreviewImage();
 	}
 
@@ -237,7 +237,7 @@ public class PageListPanel
 	 *            to load.
 	 */
 	void loadPage(PagePreviewCard card) {
-		pageController.loadPage(card.getPageIndex(), false);
+		pageController.loadPage(card.getPageIndex());
 	}
 
 	/**
@@ -263,13 +263,14 @@ public class PageListPanel
 		// load new slide
 		if (index == 0 && pageController.getSlideCount() == 0) {
 			// first and single slide was deleted
-			loadNewPage(true);
+			pageController.loadNewPage(addNewPreviewCard(true));
+			pageController.updatePreviewImage();
 		} else if (index == pageController.getSlideCount()) {
 			// last slide was deleted
-			pageController.loadPage(index - 1, false);
+			pageController.loadPage(index - 1);
 		} else {
 			// otherwise
-			pageController.loadPage(index, false);
+			pageController.loadPage(index);
 		}
 	}
 
