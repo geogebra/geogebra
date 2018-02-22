@@ -55,7 +55,6 @@ class DragController {
 	}
 	
 	private class DragCard {
-		;
 		private static final int AUTOMOVE_SPEED = 10;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
@@ -159,7 +158,8 @@ class DragController {
 		}
 
 		boolean autoMove() {
-			if (diff >= PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN || diff <= PagePreviewCard.MARGIN) {
+			if (target == null || diff >= PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN
+					|| diff <= PagePreviewCard.MARGIN) {
 				return false;
 			}
 			int d = (dropBellow ? 1 : -1) * AUTOMOVE_SPEED;
@@ -297,7 +297,6 @@ class DragController {
 				}
 			}
 		};
-
 	}
 
 	private int cardIndexAt(int x, int y) {
@@ -356,9 +355,7 @@ class DragController {
 			if (dragged.isValid()) {
 				cards.clickPage(dragged.index(), false);
 			}
-
 		}
-
 		cancel();
 	}
 
@@ -380,7 +377,6 @@ class DragController {
 			card.removeSpace();
 		}
 	}
-
 	void onDrop() {
 		cards.reorder(dragged.index(), dragged.dropToIdx);
 		cards.getListener().update();
