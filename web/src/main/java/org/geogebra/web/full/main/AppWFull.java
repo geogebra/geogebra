@@ -16,6 +16,7 @@ import org.geogebra.common.io.layout.Perspective;
 import org.geogebra.common.io.layout.PerspectiveDecoder;
 import org.geogebra.common.javax.swing.GOptionPane;
 import org.geogebra.common.kernel.ModeSetter;
+import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.DialogManager;
@@ -1030,9 +1031,9 @@ public abstract class AppWFull extends AppW implements HasKeyboard {
 		resetUI();
 	}
 	@Override
-	public void executeAction(EventType action, String[] args) {
+	public void executeAction(EventType action, AppState state, String[] args) {
 		if (getPageController() != null) {
-			getPageController().executeAction(action, args);
+			getPageController().executeAction(action, state, args);
 		}
 	}
 

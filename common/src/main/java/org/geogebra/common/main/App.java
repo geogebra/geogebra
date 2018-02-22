@@ -56,6 +56,7 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.kernel.UndoManager;
+import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.commands.CommandDispatcher;
@@ -5207,7 +5208,7 @@ public abstract class App implements UpdateSelection {
 		
 	}
 
-	public void executeAction(EventType action, String[] args) {
+	public void executeAction(EventType action, AppState state, String[] args) {
 		// TODO Auto-generated method stub
 
 	}

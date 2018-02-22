@@ -371,7 +371,7 @@ public class AppWapplet extends AppWFull {
 				getGuiManager().setGeneralToolBarDefinition(
 						current.getToolbarDefinition());
 			}
-		} else {
+		} else if (!asSlide) {
 			((DockManagerW) getGuiManager().getLayout().getDockManager())
 					.init(frame);
 			Perspective p = null;

@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import java.util.ArrayList;
 import java.util.Map.Entry;
 
+import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
@@ -462,13 +463,13 @@ public class PageListController implements PageListControllerInterface,
 		return selectedCard.getPageIndex() + "";
 	}
 
-	public void executeAction(EventType action, String[] args) {
+	public void executeAction(EventType action, AppState state, String[] args) {
 		if (action == EventType.ADD_SLIDE) {
 			int idx = args.length > 0 ? Integer.parseInt(args[0])
 					: getSlideCount();
 			GgbFile file = new GgbFile();
-			if (args.length > 1) {
-				file.put("geogebra.xml", args[1]);
+			if (state != null) {
+				file.put("geogebra.xml", state.getXml());
 			}
 
 			addNewPreviewCard(false, idx, file);
@@ -499,6 +500,7 @@ public class PageListController implements PageListControllerInterface,
 			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		}
 		((AppWapplet) app).getAppletFrame().getPageControlPanel().update();
+		((AppWapplet) app).getAppletFrame().getPageControlPanel().open();
 
 	}
 

@@ -3621,7 +3621,7 @@ public abstract class AppW extends App implements SetLabels {
 	}-*/;
 
 	public String getSlideID() {
-		return getPageController() == null ? null
+		return getPageController() == null ? "0"
 				: getPageController().getSlideID();
 	}
 

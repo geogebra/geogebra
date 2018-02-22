@@ -31,7 +31,7 @@ public abstract class UndoManager {
 	 * Interface for application state
 	 *
 	 */
-	protected interface AppState {
+	public interface AppState {
 		/** deletes this application state (i.e. deletes file) */
 		void delete();
 
@@ -49,18 +49,25 @@ public abstract class UndoManager {
 		undoInfoList = new LinkedList<>();
 	}
 
-	public String getCheckpoint(String string) {
-		String xml = null;
-		for (UndoCommand cmd : undoInfoList) {
+	public AppState getCheckpoint(String string) {
+		AppState state = null;
+		int steps = 0;
+		while (iterator.hasPrevious()) {
+			UndoCommand cmd = iterator.previous();
+			steps++;
 			if (cmd.getAppState() != null && cmd.getSlideID().equals(string)) {
-				xml = cmd.getAppState().getXml();
+				state = cmd.getAppState();
+				break;
 			}
 		}
-		return xml;
+		for (int i = 0; i < steps; i++) {
+			iterator.next();
+		}
+		return state;
 	}
 
-	public void executeAction(EventType action, String[] args) {
-		app.executeAction(action, args);
+	public void executeAction(EventType action, AppState state, String[] args) {
+		app.executeAction(action, state, args);
 	}
 
 	/**
@@ -99,6 +106,7 @@ public abstract class UndoManager {
 	 */
 	protected void updateUndoActions() {
 		app.updateActions();
+		debugStates();
 	}
 
 	/**

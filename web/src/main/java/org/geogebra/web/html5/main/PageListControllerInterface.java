@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.main;
 
+import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.plugin.EventType;
 
 /**
@@ -42,7 +43,7 @@ public interface PageListControllerInterface {
 	String getSlideID();
 
 
-	void executeAction(EventType action, String[] args);
+	void executeAction(EventType action, AppState state, String[] args);
 
 	void setActiveSlide(String slideID);
 }

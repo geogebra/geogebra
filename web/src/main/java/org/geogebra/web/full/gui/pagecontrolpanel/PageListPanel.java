@@ -148,6 +148,7 @@ public class PageListPanel
 		setVisible(true);
 		pageController.updatePreviewImage();
 		setLabels();
+		removeStyleName("animateOut");
 		addStyleName("animateIn");
 		final Style style = app.getFrameElement().getStyle();
 		style.setOverflow(Overflow.HIDDEN);

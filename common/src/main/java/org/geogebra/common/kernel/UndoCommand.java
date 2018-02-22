@@ -41,7 +41,7 @@ public class UndoCommand {
 		if (appState != null) {
 			undoManager.loadUndoInfo(appState, slideID);
 		} else {
-			undoManager.executeAction(action, args);
+			undoManager.executeAction(action, null, args);
 		}
 	}
 
@@ -55,17 +55,17 @@ public class UndoCommand {
 
 	public void undoAction(UndoManager mgr) {
 		if(action == EventType.ADD_SLIDE){
-			mgr.executeAction(EventType.REMOVE_SLIDE, new String[0]);
+			mgr.executeAction(EventType.REMOVE_SLIDE, null, new String[0]);
 		}
 		else if (action == EventType.DUPLICATE_SLIDE) {
-			mgr.executeAction(EventType.REMOVE_SLIDE,
+			mgr.executeAction(EventType.REMOVE_SLIDE, null,
 					new String[] { (Integer.parseInt(args[0]) + 1) + "" });
 		}
 		else if (action == EventType.REMOVE_SLIDE) {
 			mgr.executeAction(EventType.ADD_SLIDE,
-					new String[] { args[0], mgr.getCheckpoint(args[0]) });
+					mgr.getCheckpoint(args[0]), new String[] { args[0] });
 		} else if (action == EventType.MOVE_SLIDE) {
-			mgr.executeAction(EventType.MOVE_SLIDE,
+			mgr.executeAction(EventType.MOVE_SLIDE, null,
 					new String[] { args[1], args[0] });
 		}
 	}
@@ -89,8 +89,15 @@ public class UndoCommand {
 				// TODO if prev is ADD_SLIDE this resets last slide; not
 				// generic
 				Log.debug("RE-UNDOING" + prev.action);
-				prev.undoAction(undoManager);
-				prev.redo(undoManager);
+				if(prev.action == EventType.DUPLICATE_SLIDE ||  prev.action == EventType.ADD_SLIDE){
+					prev.undoAction(undoManager);
+					prev.redo(undoManager);
+				} else {
+					undoManager.loadUndoInfo(
+							undoManager.getCheckpoint(prev.args[0]),
+							getSlideID());
+				}
+				iterator.next();
 			}
 
 
