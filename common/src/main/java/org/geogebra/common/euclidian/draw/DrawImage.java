@@ -645,7 +645,7 @@ public final class DrawImage extends Drawable {
 			geoImage.setCorner(D, 2);
 			break;
 		case RIGHT:
-			if (eventX - view.toScreenCoordXd(D.getInhomX()) <= Math
+			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
