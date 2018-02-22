@@ -516,6 +516,15 @@ public final class DrawImage extends Drawable {
 					getBounds().getY(), newWidth,
 					newHeight);
 			break;
+		case TOP_RIGHT:
+			width = view.getScreenDragStartCoordX() - getBounds().getMinX();
+			height = getBounds().getMaxY() - view.getScreenDragStartCoordY();
+			newWidth = eventX - getBounds().getMinX();
+			newHeight = (height * newWidth) / width;
+			rect.setRect(getBounds().getX(), getBounds().getMaxY() - newHeight,
+					newWidth,
+					newHeight);
+			break;
 		default:
 			break;
 		}
@@ -527,7 +536,6 @@ public final class DrawImage extends Drawable {
 		int eventX = event.getX();
 		int eventY = event.getY();
 		GeoPoint A = geoImage.getCorner(0);
-
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint D = geoImage.getCorner(2);
 		double width = 1;
