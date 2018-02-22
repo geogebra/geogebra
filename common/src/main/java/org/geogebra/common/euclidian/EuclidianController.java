@@ -4413,8 +4413,8 @@ public abstract class EuclidianController {
 		getCompanion().setMouseLocation(event);
 	}
 
-	public void setDragStartPoint(AbstractEvent event) {
-		dragStartPoint = new GPoint(event.getX(), event.getY());
+	public void setDragStartPoint(int index) {
+		dragStartPoint = view.getBoundingBox().getHandlerCenter(index);
 	}
 
 	public GPoint getDragStartPoint() {
@@ -9600,7 +9600,10 @@ public abstract class EuclidianController {
 					nrHandler = ((DrawSegment) d).getHandler(mouseLoc);
 				}
 				if (d instanceof DrawImage) {
-					setDragStartPoint(event);
+					int handlerNr = d.getBoundingBox().hitHandlers(
+							event.getX(), event.getY(),
+							app.getCapturingThreshold(event.getType()));
+					setDragStartPoint(handlerNr);
 				}
 				switch (nrHandler) {
 				case TOP_LEFT:
@@ -9646,7 +9649,10 @@ public abstract class EuclidianController {
 					//mode = EuclidianConstants.MODE_MOVE;
 					setResizedShape(d);
 					if (d instanceof DrawImage) {
-						setDragStartPoint(event);
+						int handlerNr = d.getBoundingBox().hitHandlers(
+								event.getX(), event.getY(),
+								app.getCapturingThreshold(event.getType()));
+						setDragStartPoint(handlerNr);
 					}
 				} else if (view.getHits().size() == 1
 						&& view.getHits().get(0) != null

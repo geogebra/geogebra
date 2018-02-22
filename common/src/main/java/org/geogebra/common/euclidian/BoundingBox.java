@@ -7,6 +7,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GEllipse2DDouble;
 import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.factories.AwtFactory;
 
@@ -23,6 +24,10 @@ public class BoundingBox {
 	private int nrHandlers = 8;
 	private boolean isCropBox = false;
 	private boolean isImage = false;
+	/**
+	 * size of handler
+	 */
+	public static final int HANDLER_RADIUS = 5;
 
 	/**
 	 * Make new bounding box
@@ -61,6 +66,26 @@ public class BoundingBox {
 	 */
 	public ArrayList<GEllipse2DDouble> getHandlers() {
 		return handlers;
+	}
+
+	/**
+	 * @param index
+	 *            of handler
+	 * @return handler
+	 */
+	public GEllipse2DDouble getHandler(int index) {
+		return handlers.get(index);
+	}
+
+	/**
+	 * @param index
+	 *            of handler
+	 * @return point with center coordinates of handler
+	 */
+	public GPoint getHandlerCenter(int index) {
+		int x = (int) (handlers.get(index).getBounds().getMinX() + HANDLER_RADIUS);
+		int y = (int) (handlers.get(index).getBounds().getMinY() + HANDLER_RADIUS);
+		return new GPoint(x, y);
 	}
 
 	/**
@@ -157,6 +182,7 @@ public class BoundingBox {
 					rectangle.getMaxY());
 			cropHandlers.get(2).lineTo(rectangle.getMaxX(),
 					rectangle.getMaxY());
+
 			cropHandlers.get(2).lineTo(rectangle.getMaxX(),
 					rectangle.getMaxY() - 10);
 			cropHandlers.get(3).moveTo(rectangle.getMaxX(),
@@ -193,40 +219,47 @@ public class BoundingBox {
 			// corner handlers
 			handlers.get(0).setFrameFromCenter(rectangle.getX(),
 					rectangle.getY(),
-					rectangle.getX() + 5, rectangle.getY() + 5);
+					rectangle.getX() + HANDLER_RADIUS,
+					rectangle.getY() + HANDLER_RADIUS);
 			handlers.get(1).setFrameFromCenter(rectangle.getX(),
-					rectangle.getMaxY(), rectangle.getX() + 5,
-					rectangle.getMaxY() + 5);
+					rectangle.getMaxY(), rectangle.getX() + HANDLER_RADIUS,
+					rectangle.getMaxY() + HANDLER_RADIUS);
 			handlers.get(2).setFrameFromCenter(
 				rectangle.getMaxX(), rectangle.getMaxY(),
-					rectangle.getMaxX() + 5, rectangle.getMaxY() + 5);
+					rectangle.getMaxX() + HANDLER_RADIUS,
+					rectangle.getMaxY() + HANDLER_RADIUS);
 			handlers.get(3).setFrameFromCenter(
 					rectangle.getMaxX(), rectangle.getY(),
-					rectangle.getMaxX() + 5, rectangle.getY() + 5);
+					rectangle.getMaxX() + HANDLER_RADIUS,
+					rectangle.getY() + HANDLER_RADIUS);
 
 			// side handlers
 			// top
 			handlers.get(4).setFrameFromCenter(
 				(rectangle.getMinX() + rectangle.getMaxX()) / 2,
 				rectangle.getMinY(),
-					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 5,
-					rectangle.getMinY() + 5);
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2
+							+ HANDLER_RADIUS,
+					rectangle.getMinY() + HANDLER_RADIUS);
 			// left
 			handlers.get(5).setFrameFromCenter(rectangle.getMinX(),
 				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
-					rectangle.getMinX() + 5,
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 5);
+					rectangle.getMinX() + HANDLER_RADIUS,
+					(rectangle.getMinY() + rectangle.getMaxY()) / 2
+							+ HANDLER_RADIUS);
 			// bottom
 			handlers.get(6).setFrameFromCenter(
 				(rectangle.getMinX() + rectangle.getMaxX()) / 2,
 				rectangle.getMaxY(),
-					(rectangle.getMinX() + rectangle.getMaxX()) / 2 + 5,
-					rectangle.getMaxY() + 5);
+					(rectangle.getMinX() + rectangle.getMaxX()) / 2
+							+ HANDLER_RADIUS,
+					rectangle.getMaxY() + HANDLER_RADIUS);
 			// right
 			handlers.get(7).setFrameFromCenter(rectangle.getMaxX(),
 				(rectangle.getMinY() + rectangle.getMaxY()) / 2,
-					rectangle.getMaxX() + 5,
-					(rectangle.getMinY() + rectangle.getMaxY()) / 2 + 5);
+					rectangle.getMaxX() + HANDLER_RADIUS,
+					(rectangle.getMinY() + rectangle.getMaxY()) / 2
+							+ HANDLER_RADIUS);
 			// handler for rotation
 			// handlers.get(8).setFrameFromCenter(
 			// (rectangle.getMinX() + rectangle.getMaxX()) / 2,
