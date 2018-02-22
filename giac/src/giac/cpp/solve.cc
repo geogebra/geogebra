@@ -1188,7 +1188,7 @@ namespace giac {
 	if (lfd>1)
 	  eps=lfd*eps;
       }
-      if ((is_greater(eps,testeq,contextptr) || test!=1) &&
+      if ((is_greater(eps,testeq,contextptr) && test!=1) &&
 	  (equalposcomp(excluded_not_singu,l) || equalposcomp(singu,l) ||
 	   ( !(direction %2) && equalposcomp(veq_not_singu,l))) 
 	  )
