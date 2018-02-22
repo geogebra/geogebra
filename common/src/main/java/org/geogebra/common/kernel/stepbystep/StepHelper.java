@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
 
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
+
 public class StepHelper {
 
 	/**
@@ -227,14 +229,6 @@ public class StepHelper {
 		return coeff == null ? 0 : coeff.getValue();
 	}
 
-	private static boolean isZero(StepExpression sn) {
-		return sn == null || isEqual(sn.getValue(), 0);
-	}
-
-	private static boolean isEqual(double a, double b) {
-		return Math.abs(a - b) < Kernel.STANDARD_PRECISION;
-	}
-
 	public static StepSet getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel) throws CASException {
 		try {
 			String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + se + ", " + variable + ")", null);
@@ -276,11 +270,11 @@ public class StepHelper {
 
 		StepExpression GCD = weakGCD(aFactored, bFactored);
 
-		if (aFactored == null || bFactored == null || GCD == null) {
-			return StepNode.multiply(constant, StepNode.multiply(aFactored, bFactored));
+		if (aFactored == null || bFactored == null || isOne(GCD)) {
+			return multiply(constant, multiply(aFactored, bFactored));
 		}
 
-		return StepNode.multiply(constant, StepNode.multiply(aFactored, bFactored).quotient(GCD));
+		return multiply(constant, multiply(aFactored, bFactored).quotient(GCD));
 	}
 
 	public static StepExpression weakGCD(StepExpression a, StepExpression b) {
@@ -298,13 +292,22 @@ public class StepHelper {
 		StepExpression nonIntegerA = a.getNonInteger();
 		StepExpression nonIntegerB = b.getNonInteger();
 
+		StepExpression result = null;
+		if (integerA != null && integerB != null) {
+			result = StepConstant.create(StepNode.gcd(integerA, integerB));
+		}
+
+		if (nonIntegerA == null || nonIntegerB == null) {
+			return result == null ? StepConstant.create(1) : result;
+		}
+
 		List<StepExpression> aBases = new ArrayList<>();
 		List<StepExpression> aExponents = new ArrayList<>();
 		List<StepExpression> bBases = new ArrayList<>();
 		List<StepExpression> bExponents = new ArrayList<>();
 
-		StepExpression.getBasesAndExponents(nonIntegerA, null, aBases, aExponents);
-		StepExpression.getBasesAndExponents(nonIntegerB, null, bBases, bExponents);
+		nonIntegerA.getBasesAndExponents(aBases, aExponents);
+		nonIntegerB.getBasesAndExponents(bBases, bExponents);
 
 		boolean[] found = new boolean[aBases.size()];
 
@@ -321,19 +324,13 @@ public class StepHelper {
 			}
 		}
 
-		StepExpression result = null;
-
-		if (integerA != null && integerB != null) {
-			result = StepConstant.create(StepNode.gcd(integerA, integerB));
-		}
-
 		for (int i = 0; i < aBases.size(); i++) {
 			if (found[i]) {
-				result = StepExpression.makeFraction(result, aBases.get(i), aExponents.get(i));
+				result = multiply(result, nonTrivialPower(aBases.get(i), aExponents.get(i)));
 			}
 		}
 
-		return result;
+		return result == null ? StepConstant.create(1) : result;
 	}
 
 	public static StepExpression GCD(StepExpression a, StepExpression b) {

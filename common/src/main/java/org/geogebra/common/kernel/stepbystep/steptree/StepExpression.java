@@ -933,48 +933,33 @@ public abstract class StepExpression extends StepNode {
 		return null;
 	}
 
-	public static void getBasesAndExponents(StepExpression sn, StepExpression currentExp, List<StepExpression> bases,
-											List<StepExpression> exponents) {
-		getBasesAndExponents(sn, currentExp, bases, exponents, false);
-	}
-
-	public static void getBasesAndExponents(StepExpression sn, StepExpression currentExp, List<StepExpression> bases,
-			List<StepExpression> exponents, boolean weak) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
+	public void getBasesAndExponents(List<StepExpression> bases, List<StepExpression> exponents) {
+		if (this instanceof StepOperation) {
+			StepOperation so = (StepOperation) this;
 
 			switch (so.getOperation()) {
 			case MULTIPLY:
 				for (StepExpression operand : so) {
-					getBasesAndExponents(operand, currentExp, bases, exponents, weak);
+					operand.getBasesAndExponents(bases, exponents);
 				}
 				return;
 			case MINUS:
 				if (!so.getOperand(0).nonSpecialConstant()) {
 					bases.add(StepConstant.create(-1));
 					exponents.add(StepConstant.create(1));
-					getBasesAndExponents(so.getOperand(0), currentExp, bases, exponents, weak);
+					so.getOperand(0).getBasesAndExponents(bases, exponents);
 					return;
 				}
 				break;
-			case DIVIDE:
-				if (weak) {
-					break;
-				}
-				getBasesAndExponents(so.getOperand(0), currentExp, bases, exponents, weak);
-				getBasesAndExponents(so.getOperand(1), multiply(-1, currentExp), bases, exponents, weak);
-				return;
 			case POWER:
 				bases.add(so.getOperand(0));
-				exponents.add(nonTrivialProduct(currentExp, so.getOperand(1)));
+				exponents.add(so.getOperand(1));
 				return;
 			}
 		}
 
-		if (sn != null) {
-			bases.add(sn);
-			exponents.add(currentExp == null ? StepConstant.create(1) : currentExp);
-		}
+		bases.add(this);
+		exponents.add(StepConstant.create(1));
 	}
 
 	public StepExpression reciprocate() {
@@ -990,28 +975,20 @@ public abstract class StepExpression extends StepNode {
 		}
 	}
 
-	/**
-	 * calculates currentFraction * base ^ exponent, and writes it in a nice form
-	 * i.e.: makeFraction((x+1)/x, x+1, 1) -> ((x+1)(x+1))/x,
-	 * makeFraction((x+1)/(x(x+1)), x, -1) -> (x+1)/(x(x+1)x)
-	 */
-	public static StepExpression makeFraction(StepExpression currentFraction, StepExpression base,
-			StepExpression exponent) {
-		StepExpression nominator;
-		StepExpression denominator;
+	public static StepExpression makeFraction(
+			List<StepExpression> basesNumerator, List<StepExpression> exponentsNumerator,
+			List<StepExpression> basesDenominator, List<StepExpression> exponentsDenominator) {
+		StepExpression nominator = null;
+		StepExpression denominator = null;
 
-		if (currentFraction != null && currentFraction.isOperation(Operation.DIVIDE)) {
-			nominator = ((StepOperation) currentFraction).getOperand(0);
-			denominator = ((StepOperation) currentFraction).getOperand(1);
-		} else {
-			nominator = currentFraction;
-			denominator = null;
+		for (int i = 0; i < basesNumerator.size(); i++) {
+			nominator = multiply(nominator,
+					nonTrivialPower(basesNumerator.get(i), exponentsNumerator.get(i)));
 		}
 
-		if (exponent.isNegative()) {
-			denominator = multiply(denominator, nonTrivialPower(base, exponent.negate()));
-		} else {
-			nominator = multiply(nominator, nonTrivialPower(base, exponent));
+		for (int i = 0; i < basesDenominator.size(); i++) {
+			denominator = multiply(denominator,
+					nonTrivialPower(basesDenominator.get(i), exponentsDenominator.get(i)));
 		}
 
 		return divide(nominator, denominator);

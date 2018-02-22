@@ -29,7 +29,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 				List<StepExpression> commonBases = new ArrayList<>();
 				List<StepExpression> commonExponents = new ArrayList<>();
 
-				StepExpression.getBasesAndExponents(so.getOperand(0), null, commonBases, commonExponents);
+				so.getOperand(0).getBasesAndExponents(commonBases, commonExponents);
 
 				List<List<StepExpression>> currentBases = new ArrayList<>();
 				List<List<StepExpression>> currentExponents = new ArrayList<>();
@@ -38,8 +38,7 @@ public enum FactorSteps implements SimplificationStepGenerator {
 					currentBases.add(new ArrayList<StepExpression>());
 					currentExponents.add(new ArrayList<StepExpression>());
 
-					StepExpression.getBasesAndExponents(so.getOperand(i), null, currentBases.get(i),
-							currentExponents.get(i));
+					so.getOperand(i).getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
 
 					boolean[] found = new boolean[commonBases.size()];
 
