@@ -302,17 +302,17 @@ public final class DrawImage extends Drawable {
 				// improve rendering quality for transformed images
 				Object oldInterpolationHint = g3
 						.setInterpolationHint(needsInterpolationRenderingHint);
-
+				if (getBoundingBox().isCropBox()) {
+					g3.setComposite(
+							AwtFactory.getPrototype().newAlphaComposite(0.5f));
+				}
 				g3.drawImage(image, 0, 0);
-
-				// g3.setComposite(
-				// AwtFactory.getPrototype().newAlphaComposite(0.5));
-				//
-				// g3.drawImage(image, 0, 0);
-				// g3.setComposite(
-				// AwtFactory.getPrototype().newAlphaComposite(alpha));
-				// g3.drawImage(image, 20, 20, image.getWidth() - 40,
-				// image.getHeight() - 40, 20, 20);
+				if (getBoundingBox().isCropBox()) {
+					g3.setComposite(
+							AwtFactory.getPrototype().newAlphaComposite(1.0f));
+					g3.drawImage(image, 40, 40, image.getWidth() - 80,
+							image.getHeight() - 80, 40, 40);
+				}
 
 				g3.restoreTransform();
 				if (!isInBackground && geo.doHighlighting()) {
