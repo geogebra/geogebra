@@ -68,6 +68,7 @@ public final class DrawImage extends Drawable {
 	 * the image should have at least 100 width
 	 */
 	public final static int IMG_WIDTH_THRESHOLD = 100;
+	public final static int IMG_CROP_THRESHOLD = 50;
 
 	/**
 	 * Creates new drawable image
@@ -494,22 +495,46 @@ public final class DrawImage extends Drawable {
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		switch (handler) {
 		case BOTTOM:
+			if (eventY - getBoundingBox().getRectangle().getY() <= Math
+					.min(IMG_CROP_THRESHOLD, image.getHeight())
+					|| eventY - getBoundingBox().getRectangle()
+							.getY() > getBounds().getHeight()) {
+				return;
+			}
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getY(),
 					getBoundingBox().getRectangle().getWidth(),
 					eventY - getBoundingBox().getRectangle().getY());
 			break;
 		case TOP:
+			if (getBoundingBox().getRectangle().getMaxY() - eventY <= Math
+					.min(IMG_CROP_THRESHOLD, image.getHeight())
+					|| getBoundingBox().getRectangle().getMaxY()
+							- eventY > getBounds().getHeight()) {
+				return;
+			}
 			rect.setRect(getBoundingBox().getRectangle().getX(), eventY,
 					getBoundingBox().getRectangle().getWidth(),
 					getBoundingBox().getRectangle().getMaxY() - eventY);
 			break;
 		case LEFT:
+			if (getBoundingBox().getRectangle().getMaxX() - eventX <= Math
+					.min(IMG_CROP_THRESHOLD, image.getWidth())
+					|| getBoundingBox().getRectangle().getMaxX()
+							- eventX > getBounds().getWidth()) {
+				return;
+			}
 			rect.setRect(eventX, getBoundingBox().getRectangle().getY(),
 					getBoundingBox().getRectangle().getMaxX() - eventX,
 					getBoundingBox().getRectangle().getHeight());
 			break;
 		case RIGHT:
+			if (eventX - getBoundingBox().getRectangle().getX() <= Math
+					.min(IMG_CROP_THRESHOLD, image.getWidth())
+					|| eventX - getBoundingBox().getRectangle()
+							.getX() > getBounds().getWidth()) {
+				return;
+			}
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getY(),
 					eventX - getBoundingBox().getRectangle().getX(),
