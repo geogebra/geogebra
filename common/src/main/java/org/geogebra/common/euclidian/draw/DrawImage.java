@@ -316,7 +316,11 @@ public final class DrawImage extends Drawable {
 				if (getBoundingBox().isCropBox()) {
 					g3.setComposite(
 							AwtFactory.getPrototype().newAlphaComposite(1.0f));
-					g3.drawImage(image, 0, 0,
+					g3.drawImage(image,
+							(int) (getBoundingBox().getRectangle().getX()
+									- getBounds().getX()),
+							(int) (getBoundingBox().getRectangle().getY()
+									- getBounds().getY()),
 							(int) (image.getWidth()
 									* getBoundingBox().getRectangle().getWidth()
 									/ getBounds().getWidth()),
@@ -324,7 +328,10 @@ public final class DrawImage extends Drawable {
 									* getBoundingBox().getRectangle()
 											.getHeight()
 									/ getBounds().getHeight()),
-							0, 0);
+							(int) (getBoundingBox().getRectangle().getX()
+									- getBounds().getX()),
+							(int) (getBoundingBox().getRectangle().getY()
+									- getBounds().getY()));
 				}
 
 				g3.restoreTransform();
