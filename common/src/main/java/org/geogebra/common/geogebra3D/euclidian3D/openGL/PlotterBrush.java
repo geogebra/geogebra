@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawVector;
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.euclidian.plot.PathPlotter;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrushSection.TickStep;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.MyPoint;
 import org.geogebra.common.kernel.SegmentType;
@@ -206,16 +207,27 @@ public class PlotterBrush implements PathPlotter {
 	 * @param point
 	 */
 	public void moveTo(Coords point) {
+		moveTo(point, TickStep.NOT);
+	}
+
+	/**
+	 * move to point and draw curve part
+	 * 
+	 * @param point
+	 * @param tick
+	 *            if drawing a tick
+	 */
+	public void moveTo(Coords point, TickStep tick) {
 
 		// update start and end sections
 		if (justStarted) {
-			end.set(start, point, thickness, true);
+			end.set(start, point, thickness, true, tick);
 			justStarted = false;
 		} else {
 			PlotterBrushSection tmp = start;
 			start = end;
 			end = tmp;
-			end.set(start, point, thickness, false);
+			end.set(start, point, thickness, false, tick);
 		}
 
 		join();
@@ -502,7 +514,7 @@ public class PlotterBrush implements PathPlotter {
 			} else {
 				setThickness(factor * ARROW_WIDTH);
 			}
-			moveTo(tmpCoords3);
+			drawArrowBaseOuter(tmpCoords3);
 			setThickness(0);
 			moveTo(p2);
 			break;
@@ -545,6 +557,15 @@ public class PlotterBrush implements PathPlotter {
 	protected void drawArrowBase(float arrowPos, Coords arrowBase) {
 		setTextureType(TEXTURE_AFFINE);
 		setTextureX(1 - arrowPos);
+		moveTo(arrowBase);
+	}
+
+	/**
+	 * draw arrow base (outer)
+	 * 
+	 * @param arrowBase
+	 */
+	protected void drawArrowBaseOuter(Coords arrowBase) {
 		moveTo(arrowBase);
 	}
 

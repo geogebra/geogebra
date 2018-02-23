@@ -9,8 +9,10 @@ import org.geogebra.common.geogebra3D.euclidian3D.Hitting;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush.Ticks;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterManager;
 import org.geogebra.common.kernel.Matrix.Coords;
 import org.geogebra.common.kernel.kernelND.GeoAxisND;
+import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -353,6 +355,13 @@ public class DrawAxis3D extends DrawLine3D {
 	@Override
 	public boolean hasPickableLable() {
 		return false;
+	}
+
+	@Override
+	public void export(Geometry3DGetterManager manager) {
+		if (isVisible()) {
+			manager.export(getGeometryIndex(), getGeoElement().getObjectColor(), 1, GeometryType.AXIS);
+		}
 	}
 
 }

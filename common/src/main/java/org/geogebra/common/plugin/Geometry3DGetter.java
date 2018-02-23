@@ -6,9 +6,30 @@ package org.geogebra.common.plugin;
 public interface Geometry3DGetter {
 
 	/**
-	 * start new geometry
+	 * geometry type so the getter can sort in several parts
 	 */
-	public void startGeometry();
+	public enum GeometryType {
+		/** geometry from an axis */
+		AXIS,
+		/** geometry from a surface */
+		SURFACE
+	}
+
+	/**
+	 * 
+	 * @param type
+	 *            geometry type
+	 * @return true if it handles the geometry type
+	 */
+	public boolean handles(GeometryType type);
+
+	/**
+	 * start new geometry
+	 * 
+	 * @param type
+	 *            geometry type
+	 */
+	public void startGeometry(GeometryType type);
 
 	/**
 	 * add vertex, normal, color element

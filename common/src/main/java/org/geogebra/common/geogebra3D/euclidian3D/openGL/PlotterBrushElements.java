@@ -2,6 +2,7 @@ package org.geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import org.geogebra.common.euclidian.plot.CurvePlotter.Gap;
 import org.geogebra.common.geogebra3D.euclidian3D.openGL.ManagerShaders.TypeElement;
+import org.geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrushSection.TickStep;
 import org.geogebra.common.kernel.Matrix.Coords;
 
 /**
@@ -170,20 +171,20 @@ public class PlotterBrushElements extends PlotterBrush {
 	@Override
 	protected void drawTick(Coords p1b, Coords p2b, float i,
 			float ticksThickness, float lineThickness) {
-		// setTextureType(TEXTURE_AFFINE);
 		setTextureX(i);
 		moveTo(p1b);
-		setTextureX(0); //
-		moveTo(p1b); //
+		setTextureX(0);
+		moveTo(p1b, TickStep.START);
 		setThickness(ticksThickness);
-		// setTextureType(TEXTURE_CONSTANT_0);
-		setTextureX(0); //
-		moveTo(p1b);
-		moveTo(p2b);
+		setTextureX(0);
+		moveTo(p1b, TickStep.START);
+		moveTo(p1b, TickStep.MIDDLE);
+		moveTo(p2b, TickStep.MIDDLE);
+		moveTo(p2b, TickStep.END);
 		setThickness(lineThickness);
-		moveTo(p2b);
-		setTextureX(i); //
-		moveTo(p2b); //
+		moveTo(p2b, TickStep.END);
+		setTextureX(i);
+		moveTo(p2b, TickStep.OUT);
 	}
 
 	@Override
@@ -191,7 +192,13 @@ public class PlotterBrushElements extends PlotterBrush {
 		setTextureX(1 - arrowPos);
 		moveTo(arrowBase);
 		setTextureX(0);
-		moveTo(arrowBase);
+		moveTo(arrowBase, TickStep.START);
+	}
+
+	@Override
+	protected void drawArrowBaseOuter(Coords arrowBase) {
+		moveTo(arrowBase, TickStep.START);
+		moveTo(arrowBase, TickStep.OUT);
 	}
 
 }

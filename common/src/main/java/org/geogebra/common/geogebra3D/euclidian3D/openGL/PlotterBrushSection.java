@@ -11,6 +11,22 @@ import org.geogebra.common.kernel.Matrix.Coords;
  */
 public class PlotterBrushSection {
 
+	/**
+	 * Tick drawing step
+	 */
+	public enum TickStep {
+		/** not drawing a tick */
+		NOT,
+		/** starts a tick/arrow */
+		START,
+		/** in middle (outer part) of the tick */
+		MIDDLE,
+		/** ends a tick */
+		END,
+		/** out of a tick drawing */
+		OUT
+	}
+
 	private Manager manager;
 
 	/** center and clock vectors */
@@ -26,7 +42,7 @@ public class PlotterBrushSection {
 	double length;
 
 	/** normal (for caps) */
-	private Coords normal = null;
+	public Coords normal = null;
 
 	/** normal deviation along direction */
 	private double normalDevD = 0;
@@ -97,52 +113,74 @@ public class PlotterBrushSection {
 	}
 
 	public void set(PlotterBrushSection s, Coords point, float thickness,
-			boolean updateClock) {
+			boolean updateClock, TickStep tick) {
 		setCenter(point);
 		this.thickness = thickness;
 
-		direction.setSub(center, s.center);
-
-		if (center.equalsForKernel(s.center, Kernel.STANDARD_PRECISION)) {
-			if (this.thickness < s.thickness) {
-				normal.set(s.direction);
-			} else {
-				normal.setMul(s.direction, -1);
-			}
-			s.normal.set(normal);
-			// keep last direction
+		switch (tick) {
+		case START:
+			normal.setMul(s.direction, -1);
 			direction.set(s.direction);
-
-			normalDevD = 0;
-		} else {
-			// calc normal deviation
-			double dt = this.thickness - s.thickness;
-			if (dt != 0) {
-				direction.calcNorm();
-				double l = direction.getNorm();
-				double h = Math.sqrt(l * l + dt * dt);
-				normalDevD = -dt / h;
-				normalDevN = l / h;
-
-				// normalDevD = 0.0000; normalDevN = 1;
-
-				s.normalDevD = normalDevD;
-				s.normalDevN = normalDevN;
-				// Application.debug("dt="+dt+",normalDev="+normalDevD+","+normalDevN);
-			} else {
-				normalDevD = 0;
-			}
-
-			direction.normalize();
-			s.direction.set(direction);
+			break;
+		case MIDDLE:
 			normal.setUndefined();
-			s.normal.setUndefined();
+			normalDevD = 0;
+			direction.set(s.direction);
+			break;
+		case END:
+			normal.set(s.direction);
+			direction.set(s.direction);
+			break;
+		case OUT:
+			// normal will be set at next step
+			direction.set(s.direction);
+			break;
+		case NOT:
+		default:
+			direction.setSub(center, s.center);
 
-			// calc new clocks
-			if (updateClock) {
-				direction.completeOrthonormal(s.clockU, s.clockV);
+			if (center.equalsForKernel(s.center, Kernel.STANDARD_PRECISION)) {
+				if (this.thickness < s.thickness) {
+					normal.set(s.direction);
+				} else {
+					normal.setMul(s.direction, -1);
+				}
+				s.normal.set(normal);
+				// keep last direction
+				direction.set(s.direction);
+
+				normalDevD = 0;
+			} else {
+				// calc normal deviation
+				double dt = this.thickness - s.thickness;
+				if (dt != 0) {
+					direction.calcNorm();
+					double l = direction.getNorm();
+					double h = Math.sqrt(l * l + dt * dt);
+					normalDevD = -dt / h;
+					normalDevN = l / h;
+
+					// normalDevD = 0.0000; normalDevN = 1;
+
+					s.normalDevD = normalDevD;
+					s.normalDevN = normalDevN;
+					// Application.debug("dt="+dt+",normalDev="+normalDevD+","+normalDevN);
+				} else {
+					normalDevD = 0;
+				}
+
+				direction.normalize();
+				s.direction.set(direction);
+				normal.setUndefined();
+				s.normal.setUndefined();
+
+				// calc new clocks
+				if (updateClock) {
+					direction.completeOrthonormal(s.clockU, s.clockV);
+				}
+
 			}
-
+			break;
 		}
 		clockU.set(s.clockU);
 		clockV.set(s.clockV);

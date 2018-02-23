@@ -147,7 +147,11 @@ public class EuclidianView3DForExport extends EuclidianView3D {
 	 */
 	public void export3D(Geometry3DGetter getter) {
 		updateScene();
-		getRenderer().drawable3DLists.export(new Geometry3DGetterManager(this, getter));
+		Geometry3DGetterManager m = new Geometry3DGetterManager(this, getter);
+		for (int i = 0; i < 3; i++) {
+			getAxisDrawable(i).export(m);
+		}
+		getRenderer().drawable3DLists.export(m);
 	}
 
 	@Override

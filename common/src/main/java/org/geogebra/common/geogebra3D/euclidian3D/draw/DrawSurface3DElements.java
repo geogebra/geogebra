@@ -9,6 +9,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Geometry3DGetterMana
 import org.geogebra.common.kernel.Matrix.Coords3;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import org.geogebra.common.plugin.Geometry3DGetter.GeometryType;
 
 /**
  * Draw 3D surface with GL drawElements()
@@ -133,8 +134,8 @@ public class DrawSurface3DElements extends DrawSurface3D {
 	public void export(Geometry3DGetterManager manager) {
 		if (isVisible()) {
 			GeoElement geo = getGeoElement();
-			manager.export(getSurfaceIndex(), geo.getObjectColor(), geo.getAlphaValue());
-			manager.export(getGeometryIndex(), GColor.BLACK, 1);
+			manager.export(getSurfaceIndex(), geo.getObjectColor(), geo.getAlphaValue(), GeometryType.SURFACE);
+			manager.export(getGeometryIndex(), GColor.BLACK, 1, GeometryType.SURFACE);
 		}
 	}
 
