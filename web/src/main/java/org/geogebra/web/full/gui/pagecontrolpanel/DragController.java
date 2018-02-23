@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.user.client.Timer;
@@ -289,8 +288,9 @@ class DragController {
 			PagePreviewCard dropTo;
 			if (dropBellow) {
 				dropTo = cards.cardAt(dropToIdx - 1);
-				autoMoveToY = dropTo.getAbsoluteBottom();
-				Log.debug("AUTOMOVE 1 (dropToIdx - 1) " + autoMoveToY);
+				autoMoveToY = down ? last.top : dropTo.getAbsoluteBottom() - PagePreviewCard.MARGIN;
+				// Log.debug("AUTOMOVE 1 " + (down ? "last.top" : "(dropToIdx - 1) ") +
+				// autoMoveToY);
 				if (card.getAbsoluteTop() > autoMoveToY) {
 					dropBellow = false;
 				}
@@ -298,10 +298,10 @@ class DragController {
 				if (dropToIdx > 0) {
 					dropTo = cards.cardAt(dropToIdx - 1);
 					autoMoveToY = dropTo.getAbsoluteBottom() + PagePreviewCard.MARGIN;
-					Log.debug("AUTOMOVE 2 (bottom+margin): " + autoMoveToY);
+					// Log.debug("AUTOMOVE 2 (bottom+margin): " + autoMoveToY);
 				} else {
 					autoMoveToY = PagePreviewCard.MARGIN;
-					Log.debug("AUTOMOVE 3 (margin only): " + autoMoveToY);
+					// Log.debug("AUTOMOVE 3 (margin only): " + autoMoveToY);
 				}
 				if (card.getAbsoluteTop() < autoMoveToY) {
 					dropBellow = true;
