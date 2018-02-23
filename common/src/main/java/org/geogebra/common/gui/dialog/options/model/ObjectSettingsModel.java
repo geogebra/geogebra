@@ -357,6 +357,8 @@ abstract public class ObjectSettingsModel {
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+            } catch (Error e) {
+                e.printStackTrace();
             }
 
         }
