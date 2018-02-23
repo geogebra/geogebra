@@ -542,6 +542,10 @@ public final class DrawImage extends Drawable {
 			break;
 		case BOTTOM_RIGHT:
 			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
+			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
+					|| newWidth > getBounds().getWidth()) {
+				return;
+			}
 			newHeight = originalRatio * newWidth;
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getY(), newWidth,
@@ -549,6 +553,10 @@ public final class DrawImage extends Drawable {
 			break;
 		case BOTTOM_LEFT:
 			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
+			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
+					|| newWidth > getBounds().getWidth()) {
+				return;
+			}
 			newHeight = originalRatio * newWidth;
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
 					getBoundingBox().getRectangle().getY(), newWidth,
@@ -556,6 +564,10 @@ public final class DrawImage extends Drawable {
 			break;
 		case TOP_RIGHT:
 			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
+			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
+					|| newWidth > getBounds().getWidth()) {
+				return;
+			}
 			newHeight = originalRatio * newWidth;
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
@@ -564,6 +576,10 @@ public final class DrawImage extends Drawable {
 			break;
 		case TOP_LEFT:
 			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
+			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
+					|| newWidth > getBounds().getWidth()) {
+				return;
+			}
 			newHeight = originalRatio * newWidth;
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
