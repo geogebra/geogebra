@@ -707,6 +707,7 @@ public final class DrawImage extends Drawable {
 			D.updateCoords();
 			D.updateRepaint();
 			geoImage.setCorner(D, 2);
+			originalRatio = Double.NaN;
 			break;
 		case LEFT:
 			if (view.toScreenCoordXd(B.getInhomX()) - eventX <= Math
@@ -720,6 +721,7 @@ public final class DrawImage extends Drawable {
 			D.updateCoords();
 			D.updateRepaint();
 			geoImage.setCorner(D, 2);
+			originalRatio = Double.NaN;
 			break;
 		case TOP:
 			if (view.toScreenCoordYd(A.getInhomY()) - eventY <= Math
@@ -731,6 +733,7 @@ public final class DrawImage extends Drawable {
 			D.updateCoords();
 			D.updateRepaint();
 			geoImage.setCorner(D, 2);
+			originalRatio = Double.NaN;
 			break;
 		case BOTTOM:
 			if (eventY - view.toScreenCoordYd(D.getInhomY()) <= Math
@@ -747,6 +750,7 @@ public final class DrawImage extends Drawable {
 			B.setY(view.toRealWorldCoordY(eventY));
 			B.updateCoords();
 			B.updateRepaint();
+			originalRatio = Double.NaN;
 			break;
 		default:
 			break;
