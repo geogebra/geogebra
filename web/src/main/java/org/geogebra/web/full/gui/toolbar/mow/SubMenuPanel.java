@@ -227,7 +227,9 @@ public abstract class SubMenuPanel extends FlowPanel
 		button.addStyleName("mowToolButton");
 		if (mode == EuclidianConstants.MODE_VIDEO
 				|| mode == EuclidianConstants.MODE_AUDIO
-				|| mode == EuclidianConstants.MODE_GEOGEBRA) {
+				|| mode == EuclidianConstants.MODE_GEOGEBRA
+				|| (mode == EuclidianConstants.MODE_CAMERA
+						&& !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED))) {
 			button.addStyleName("inactiveToolButton");
 		}
 		button.setTitle(app.getLocalization()
