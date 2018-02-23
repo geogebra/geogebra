@@ -1684,7 +1684,16 @@ public class DrawConic extends Drawable implements Previewable {
 			if (objStroke.getLineWidth() > 0) {
 				if (strokedShape == null) {
 					// AND-547, initial buffer size
-					strokedShape = objStroke.createStrokedShape(shape, 100);
+					try {
+						// org.geogebra.ggbjdk.java.awt.geom.IllegalPathStateException:
+						// org.geogebra.ggbjdk.java.awt.geom.Path2D$Double.needRoom
+						// (Path2D.java:263)
+						strokedShape = objStroke.createStrokedShape(shape, 100);
+					} catch (Exception e) {
+						Log.error("problem creating circle/parabola shape: "
+								+ e.getMessage());
+						return false;
+					}
 				}
 				isOnBoundary = strokedShape.intersects(hitX - hitThreshold,
 						hitY - hitThreshold, 2 * hitThreshold,
