@@ -46,11 +46,9 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset().getText());
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
-				.getText());
-		StyleInjector.inject(
-				GuiResourcesSimple.INSTANCE.modernStyleGlobal().getText());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyleGlobal());
 
 		injectLTRstyles();
 		injectScss();
@@ -86,10 +84,9 @@ public class ResourcesInjector {
 	}
 
 	private static void injectLTRstyles() {
-		StyleInjector.inject(GuiResourcesSimple.INSTANCE.generalStyleLTR()
-				.getText());
+		StyleInjector.inject(GuiResourcesSimple.INSTANCE.generalStyleLTR());
 		StyleInjector
-				.inject(GuiResourcesSimple.INSTANCE.avStyleLTR().getText());
+				.inject(GuiResourcesSimple.INSTANCE.avStyleLTR());
 
 	}
 

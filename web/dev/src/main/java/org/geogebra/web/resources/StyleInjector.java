@@ -218,8 +218,6 @@ public class StyleInjector {
 	}
 
 	private static final ArrayList<String> toInject = new ArrayList<>();
-	private static final ArrayList<String> toInjectAtEnd = new ArrayList<>();
-	private static final ArrayList<String> toInjectAtStart = new ArrayList<>();
 
 	private static ScheduledCommand flusher = new ScheduledCommand() {
 		@Override
@@ -258,17 +256,7 @@ public class StyleInjector {
 	 *            the CSS contents of the stylesheet
 	 */
 	public static void inject(TextResource css) {
-		inject(css.getText());
-	}
-
-	/**
-	 * Add a stylesheet to the document.
-	 * 
-	 * @param css
-	 *            the CSS contents of the stylesheet
-	 */
-	public static void inject(String css) {
-		inject(css, false);
+		inject(css.getText(), false);
 	}
 
 	/**
@@ -286,75 +274,6 @@ public class StyleInjector {
 		toInject.add(css);
 		inject(immediate);
 	}
-
-	/**
-	 * Add stylesheet data to the document as though it were declared after all
-	 * stylesheets previously created by {@link #inject(String)}.
-	 * 
-	 * @param css
-	 *            the CSS contents of the stylesheet
-	 */
-	public static void injectAtEnd(String css) {
-		injectAtEnd(css, false);
-	}
-
-	/**
-	 * Add stylesheet data to the document as though it were declared after all
-	 * stylesheets previously created by {@link #inject(String)}.
-	 * 
-	 * @param css
-	 *            the CSS contents of the stylesheet
-	 * @param immediate
-	 *            if <code>true</code> the DOM will be updated immediately
-	 *            instead of just before returning to the event loop. Using this
-	 *            option excessively will decrease performance, especially if
-	 *            used with an inject-css-on-init coding pattern
-	 */
-	public static void injectAtEnd(String css, boolean immediate) {
-		toInjectAtEnd.add(css);
-		inject(immediate);
-	}
-
-
-
-	/**
-	 * Add a stylesheet to the document.
-	 * <p>
-	 * The returned StyleElement cannot be implemented consistently across all
-	 * browsers. Specifically, <strong>applications that need to run on Internet
-	 * Explorer should not use this method. Call {@link #inject(String)}
-	 * instead.</strong>
-	 * 
-	 * @param contents
-	 *            the CSS contents of the stylesheet
-	 * @return the StyleElement that contains the newly-injected CSS (unreliable
-	 *         on Internet Explorer)
-	 */
-	public static StyleElement injectStylesheet(String contents) {
-		toInject.add(contents);
-		return flush(toInject);
-	}
-
-	/**
-	 * Add stylesheet data to the document as though it were declared after all
-	 * stylesheets previously created by {@link #injectStylesheet(String)}.
-	 * <p>
-	 * The returned StyleElement cannot be implemented consistently across all
-	 * browsers. Specifically, <strong>applications that need to run on Internet
-	 * Explorer should not use this method. Call {@link #injectAtEnd(String)}
-	 * instead.</strong>
-	 * 
-	 * @param contents
-	 *            the CSS contents of the stylesheet
-	 * @return the StyleElement that contains the newly-injected CSS (unreliable
-	 *         on Internet Explorer)
-	 */
-	public static StyleElement injectStylesheetAtEnd(String contents) {
-		toInjectAtEnd.add(contents);
-		return flush(toInjectAtEnd);
-	}
-
-
 
 	/**
 	 * Replace the contents of a previously-injected stylesheet. Updating the
@@ -383,15 +302,6 @@ public class StyleInjector {
 		StyleElement toReturn = null;
 		StyleElement maybeReturn;
 
-		if (toInjectAtStart.size() != 0) {
-			String css = StringUtil.join("", toInjectAtStart);
-			maybeReturn = StyleInjectorImpl.IMPL.injectStyleSheetAtStart(css);
-			if (toInjectAtStart == which) {
-				toReturn = maybeReturn;
-			}
-			toInjectAtStart.clear();
-		}
-
 		if (toInject.size() != 0) {
 			String css = StringUtil.join("", toInject);
 			maybeReturn = StyleInjectorImpl.IMPL.injectStyleSheet(css);
@@ -399,15 +309,6 @@ public class StyleInjector {
 				toReturn = maybeReturn;
 			}
 			toInject.clear();
-		}
-
-		if (toInjectAtEnd.size() != 0) {
-			String css = StringUtil.join("", toInjectAtEnd);
-			maybeReturn = StyleInjectorImpl.IMPL.injectStyleSheetAtEnd(css);
-			if (toInjectAtEnd == which) {
-				toReturn = maybeReturn;
-			}
-			toInjectAtEnd.clear();
 		}
 
 		needsInjection = false;
