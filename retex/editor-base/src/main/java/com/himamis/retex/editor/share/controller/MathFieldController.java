@@ -99,7 +99,7 @@ public class MathFieldController {
 			System.out.println(selectionEnd);
 			System.out.println(serializedFormula);
 		} catch (Error e) {
-			e.printStackTrace();
+			System.err.println(e.getCause() != null ? e.getCause() : e);
 		}
 
     }

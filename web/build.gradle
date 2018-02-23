@@ -61,7 +61,7 @@ dependencies {
         'com.google.gwt:gwt-dev:$gwtCompilerVersion',
         'com.asual.lesscss:lesscss-engine:1.3.0'
 
-    testCompile 'junit:junit:4.+', 'com.google.gwt.gwtmockito:gwtmockito:1.1.8'
+    testCompile 'junit:junit:4.+', 'com.google.gwt.gwtmockito:gwtmockito:1.1.8', "com.google.gwt:gwt-user:$gwtCompilerVersion"
 }
 
 def devModule = 'org.geogebra.web.SuperWeb'

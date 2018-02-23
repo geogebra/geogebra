@@ -12,9 +12,12 @@ import org.junit.runner.RunWith;
 
 import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.DOM;
+import com.google.gwtmockito.GwtMockito;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
+import com.himamis.retex.renderer.share.platform.FactoryProvider;
 import com.himamis.retex.renderer.web.parser.NodeW;
+import com.himamis.retex.renderer.web.resources.xml.XmlResources;
 
 @RunWith(GwtMockitoTestRunner.class)
 @WithClassesToStub({ ArticleElement.class, TextAreaElement.class, NodeW.class })
@@ -22,6 +25,10 @@ public class UndoTest {
 
 	@Test
 	public void createUndo() {
+		GwtMockito.useProviderForType(XmlResources.class,
+				new TextResourceProvider());
+		
+		FactoryProvider.setInstance(new MockFactoryProviderGWT());
 		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(new AppletFactory3D(), new GLookAndFeel(), new BrowserDevice(), false);
 		fr.ae = ArticleElement.as(DOM.createElement("article"));
 		fr.runAsyncAfterSplash();
