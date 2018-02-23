@@ -652,7 +652,7 @@ public class DrawInequality extends Drawable {
 		FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
 
 		if (fun.getVarNumber() == coords.length) {
-			return ((FunctionalNVar) geo).getFunction().evaluateBoolean(coords);
+			return fun.evaluateBoolean(coords);
 		}
 
 		Log.error("problem with hit calculation for "
