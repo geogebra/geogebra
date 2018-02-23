@@ -36,6 +36,7 @@ import org.geogebra.common.kernel.geos.GeoPolyLine;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -370,7 +371,13 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (isVisible) {
 			if (strokedShape == null) {
 				// AND-547, initial buffer size
-				strokedShape = objStroke.createStrokedShape(gp, 100);
+				try {
+					strokedShape = objStroke.createStrokedShape(gp, 100);
+				} catch (Exception e) {
+					Log.error("problem creating Polyline shape: "
+							+ e.getMessage());
+					return false;
+				}
 			}
 			boolean intersects = strokedShape.intersects(x - hitThreshold,
 					y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
@@ -424,7 +431,13 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		if (isVisible) {
 			if (strokedShape == null) {
 				// AND-547, initial buffer size
-				strokedShape = objStroke.createStrokedShape(gp, 100);
+				try {
+					strokedShape = objStroke.createStrokedShape(gp, 100);
+				} catch (Exception e) {
+					Log.error("problem creating Polyline shape: "
+							+ e.getMessage());
+					return false;
+				}
 			}
 			boolean intersects = strokedShape.intersects(rect);
 			if (!intersects && pointList != null) {

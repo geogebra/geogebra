@@ -241,7 +241,12 @@ public class DrawLocus extends Drawable {
 		}
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
-			strokedShape = objStroke.createStrokedShape(gp, 2500);
+			try {
+				strokedShape = objStroke.createStrokedShape(gp, 2500);
+			} catch (Exception e) {
+				Log.error("problem creating Locus shape: " + e.getMessage());
+				return false;
+			}
 		}
 		return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold);

@@ -355,7 +355,13 @@ public class DrawParametricCurve extends Drawable {
 
 			if (strokedShape == null) {
 				// AND-547, initial buffer size
-				strokedShape = objStroke.createStrokedShape(gp, 800);
+				try {
+					strokedShape = objStroke.createStrokedShape(gp, 800);
+				} catch (Exception e) {
+					Log.error(
+							"problem creating Curve shape: " + e.getMessage());
+					return false;
+				}
 			}
 			if (geo.isFilled()) {
 				return t.intersects(x - hitThreshold, y - hitThreshold,
@@ -411,7 +417,13 @@ public class DrawParametricCurve extends Drawable {
 			GShape t = geo.isInverseFill() ? getShape() : gp;
 			if (strokedShape == null) {
 				// AND-547, initial buffer size
-				strokedShape = objStroke.createStrokedShape(gp, 800);
+				try {
+					strokedShape = objStroke.createStrokedShape(gp, 800);
+				} catch (Exception e) {
+					Log.error(
+							"problem creating Curve shape: " + e.getMessage());
+					return false;
+				}
 			}
 			if (geo.isFilled()) {
 				return t.intersects(rect);
