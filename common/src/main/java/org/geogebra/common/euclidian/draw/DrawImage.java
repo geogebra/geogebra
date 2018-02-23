@@ -113,9 +113,13 @@ public final class DrawImage extends Drawable {
 
 		// ABSOLUTE SCREEN POSITION
 		if (absoluteLocation){
-			screenX = geoImage.getAbsoluteScreenLocX();
-			screenY = geoImage.getAbsoluteScreenLocY() - height;
-			labelRectangle.setBounds(screenX, screenY, width, height);
+			if(geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
+				labelRectangle.setBounds(0, 0, width, height);
+			} else {
+				screenX = geoImage.getAbsoluteScreenLocX();
+				screenY = geoImage.getAbsoluteScreenLocY() - height;
+				labelRectangle.setBounds(screenX, screenY, width, height);				
+			}
 		}
 
 		// RELATIVE SCREEN POSITION
