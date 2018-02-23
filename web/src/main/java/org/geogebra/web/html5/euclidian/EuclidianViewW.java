@@ -159,6 +159,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void initClickStartHandler() {
+		if (g2p == null) {
+			return;
+		}
 		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
 			@Override
 			public void onClickStart(final int x, final int y,
@@ -269,7 +272,9 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getWidth() {
-		return (int) (this.g2p.getCoordinateSpaceWidth() / this.g2p.getDevicePixelRatio());
+		return g2p == null ? 0
+				: (int) (this.g2p.getCoordinateSpaceWidth()
+						/ this.g2p.getDevicePixelRatio());
 	}
 
 	/**
@@ -279,7 +284,9 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getHeight() {
-		return (int) (this.g2p.getCoordinateSpaceHeight() / this.g2p.getDevicePixelRatio());
+		return g2p == null ? 0
+				: (int) (this.g2p.getCoordinateSpaceHeight()
+						/ this.g2p.getDevicePixelRatio());
 	}
 
 	@Override
@@ -639,12 +646,13 @@ public class EuclidianViewW extends EuclidianView implements
 
 		final Canvas canvas = euclidianViewPanel.getCanvas();
 		this.evNo = newEvNo;
-
-		this.g2p = new GGraphics2DW(canvas);
-		g2p.setDevicePixelRatio(appW.getPixelRatio());
-		g2p.setView(this);
-		if (appW.getArticleElement().isDebugGraphics()) {
-			g2p.startDebug();
+		if (canvas != null) {
+			this.g2p = new GGraphics2DW(canvas);
+			g2p.setDevicePixelRatio(appW.getPixelRatio());
+			g2p.setView(this);
+			if (appW.getArticleElement().isDebugGraphics()) {
+				g2p.startDebug();
+			}
 		}
 		updateFonts();
 		initView(true);
@@ -661,7 +669,9 @@ public class EuclidianViewW extends EuclidianView implements
 		registerDragDropHandlers(euclidianViewPanel,(EuclidianControllerW) euclidiancontroller);
 
 		updateFirstAndLast(true, true);
-
+		if (canvas == null) {
+			return;
+		}
 		canvas.addAttachHandler(new AttachEvent.Handler() {
 			@Override
 			public void onAttachOrDetach(AttachEvent ae) {
@@ -736,6 +746,9 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	static final public void updateFirstAndLast(EuclidianViewWInterface ev,
 			boolean anyway) {
+		if (ev.getCanvas() == null) {
+			return;
+		}
 		ev.getCanvas().setTabIndex(GeoGebraFrameW.GRAPHICS_VIEW_TABINDEX);
 		if (firstInstance == null) {
 			firstInstance = ev;
@@ -821,10 +834,11 @@ public class EuclidianViewW extends EuclidianView implements
 	}-*/;
 
 	private void registerKeyHandlers(Canvas canvas) {
-
+		if (canvas != null) {
 		canvas.addKeyDownHandler(this.appW.getGlobalKeyDispatcher());
 		canvas.addKeyUpHandler(this.appW.getGlobalKeyDispatcher());
 		canvas.addKeyPressHandler(this.appW.getGlobalKeyDispatcher());
+		}
 
 	}
 
@@ -1199,7 +1213,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public Canvas getCanvas() {
-		return g2p.getCanvas();
+		return g2p != null ? g2p.getCanvas() : null;
 	}
 
 	@Override

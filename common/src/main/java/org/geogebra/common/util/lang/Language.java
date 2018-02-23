@@ -490,12 +490,14 @@ public enum Language {
 		}
 		// look for mother language in the hierarchy ie. the first two
 		// characters
-		for (Language lang : Language.values()) {
-			if (lang.getLocaleGWT()
-					.equalsIgnoreCase(normalizedLanguage.substring(0, 2))
-					|| lang.locale
-					.equalsIgnoreCase(normalizedLanguage.substring(0, 2))) {
-				return lang;
+		if (normalizedLanguage.length() >= 2) {
+			for (Language lang : Language.values()) {
+				if (lang.getLocaleGWT()
+						.equalsIgnoreCase(normalizedLanguage.substring(0, 2))
+						|| lang.locale.equalsIgnoreCase(
+								normalizedLanguage.substring(0, 2))) {
+					return lang;
+				}
 			}
 		}
 		return Language.English_US;

@@ -138,7 +138,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		getHiddenTextArea();
 
 		// el.getElement().setTabIndex(1);
-		this.ctx = canvas.getContext2d();
+		if (canvas != null) {
+			this.ctx = canvas.getContext2d();
+		}
 		SelectionBox.touchSelection = false;
 
 		mathFieldInternal.setSelectionMode(true);
@@ -147,6 +149,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		mathFieldInternal.setFormula(MathFormula.newFormula(sMetaModel));
 		initTimer();
 		instances.add(this);
+		if (canvas == null) {
+			return;
+		}
 		canvas.addDomHandler(new MouseDownHandler() {
 
 			@Override

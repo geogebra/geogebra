@@ -16,9 +16,11 @@
 package org.geogebra.web.resources;
 
 
+import java.util.ArrayList;
+
+import org.geogebra.common.util.StringUtil;
+
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
@@ -215,12 +217,9 @@ public class StyleInjector {
 		}
 	}
 
-	private static final JsArrayString toInject = JavaScriptObject
-	        .createArray().cast();
-	private static final JsArrayString toInjectAtEnd = JavaScriptObject
-	        .createArray().cast();
-	private static final JsArrayString toInjectAtStart = JavaScriptObject
-	        .createArray().cast();
+	private static final ArrayList<String> toInject = new ArrayList<>();
+	private static final ArrayList<String> toInjectAtEnd = new ArrayList<>();
+	private static final ArrayList<String> toInjectAtStart = new ArrayList<>();
 
 	private static ScheduledCommand flusher = new ScheduledCommand() {
 		@Override
@@ -284,7 +283,7 @@ public class StyleInjector {
 	 *            used with an inject-css-on-init coding pattern
 	 */
 	public static void inject(String css, boolean immediate) {
-		toInject.push(css);
+		toInject.add(css);
 		inject(immediate);
 	}
 
@@ -312,37 +311,11 @@ public class StyleInjector {
 	 *            used with an inject-css-on-init coding pattern
 	 */
 	public static void injectAtEnd(String css, boolean immediate) {
-		toInjectAtEnd.push(css);
+		toInjectAtEnd.add(css);
 		inject(immediate);
 	}
 
-	/**
-	 * Add stylesheet data to the document as though it were declared before all
-	 * stylesheets previously created by {@link #inject(String)}.
-	 * 
-	 * @param css
-	 *            the CSS contents of the stylesheet
-	 */
-	public static void injectAtStart(String css) {
-		injectAtStart(css, false);
-	}
 
-	/**
-	 * Add stylesheet data to the document as though it were declared before all
-	 * stylesheets previously created by {@link #inject(String)}.
-	 * 
-	 * @param css
-	 *            the CSS contents of the stylesheet
-	 * @param immediate
-	 *            if <code>true</code> the DOM will be updated immediately
-	 *            instead of just before returning to the event loop. Using this
-	 *            option excessively will decrease performance, especially if
-	 *            used with an inject-css-on-init coding pattern
-	 */
-	public static void injectAtStart(String css, boolean immediate) {
-		toInjectAtStart.unshift(css);
-		inject(immediate);
-	}
 
 	/**
 	 * Add a stylesheet to the document.
@@ -358,7 +331,7 @@ public class StyleInjector {
 	 *         on Internet Explorer)
 	 */
 	public static StyleElement injectStylesheet(String contents) {
-		toInject.push(contents);
+		toInject.add(contents);
 		return flush(toInject);
 	}
 
@@ -377,28 +350,11 @@ public class StyleInjector {
 	 *         on Internet Explorer)
 	 */
 	public static StyleElement injectStylesheetAtEnd(String contents) {
-		toInjectAtEnd.push(contents);
+		toInjectAtEnd.add(contents);
 		return flush(toInjectAtEnd);
 	}
 
-	/**
-	 * Add stylesheet data to the document as though it were declared before any
-	 * stylesheet previously created by {@link #injectStylesheet(String)}.
-	 * <p>
-	 * The returned StyleElement cannot be implemented consistently across all
-	 * browsers. Specifically, <strong>applications that need to run on Internet
-	 * Explorer should not use this method. Call
-	 * {@link #injectAtStart(String, boolean)} instead.</strong>
-	 * 
-	 * @param contents
-	 *            the CSS contents of the stylesheet
-	 * @return the StyleElement that contains the newly-injected CSS (unreliable
-	 *         on Internet Explorer)
-	 */
-	public static StyleElement injectStylesheetAtStart(String contents) {
-		toInjectAtStart.unshift(contents);
-		return flush(toInjectAtStart);
-	}
+
 
 	/**
 	 * Replace the contents of a previously-injected stylesheet. Updating the
@@ -423,35 +379,35 @@ public class StyleInjector {
 	/**
 	 * The <code>which</code> parameter is used to support the deprecated API.
 	 */
-	private static StyleElement flush(JavaScriptObject which) {
+	private static StyleElement flush(ArrayList<String> which) {
 		StyleElement toReturn = null;
 		StyleElement maybeReturn;
 
-		if (toInjectAtStart.length() != 0) {
-			String css = toInjectAtStart.join("");
+		if (toInjectAtStart.size() != 0) {
+			String css = StringUtil.join("", toInjectAtStart);
 			maybeReturn = StyleInjectorImpl.IMPL.injectStyleSheetAtStart(css);
 			if (toInjectAtStart == which) {
 				toReturn = maybeReturn;
 			}
-			toInjectAtStart.setLength(0);
+			toInjectAtStart.clear();
 		}
 
-		if (toInject.length() != 0) {
-			String css = toInject.join("");
+		if (toInject.size() != 0) {
+			String css = StringUtil.join("", toInject);
 			maybeReturn = StyleInjectorImpl.IMPL.injectStyleSheet(css);
 			if (toInject == which) {
 				toReturn = maybeReturn;
 			}
-			toInject.setLength(0);
+			toInject.clear();
 		}
 
-		if (toInjectAtEnd.length() != 0) {
-			String css = toInjectAtEnd.join("");
+		if (toInjectAtEnd.size() != 0) {
+			String css = StringUtil.join("", toInjectAtEnd);
 			maybeReturn = StyleInjectorImpl.IMPL.injectStyleSheetAtEnd(css);
 			if (toInjectAtEnd == which) {
 				toReturn = maybeReturn;
 			}
-			toInjectAtEnd.setLength(0);
+			toInjectAtEnd.clear();
 		}
 
 		needsInjection = false;

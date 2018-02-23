@@ -107,10 +107,12 @@ public class AppWapplet extends AppWFull {
 		this.euclidianViewPanel = new EuclidianDockPanelW(this, allowStylebar());
 		// (EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
-		canvas.setWidth("1px");
-		canvas.setHeight("1px");
-		canvas.setCoordinateSpaceHeight(1);
-		canvas.setCoordinateSpaceWidth(1);
+		if (canvas != null) {
+			canvas.setWidth("1px");
+			canvas.setHeight("1px");
+			canvas.setCoordinateSpaceHeight(1);
+			canvas.setCoordinateSpaceWidth(1);
+		}
 		initCoreObjects(this);
 		afterCoreObjectsInited();
 		resetFonts();

@@ -94,7 +94,7 @@ public class MathFieldController {
 			renderer.setInsets(new Insets(1, 1, 1, 1));
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
-		} catch (Exception e) {
+		} catch (Throwable e) {
 			System.out.println(selectionStart);
 			System.out.println(selectionEnd);
 			System.out.println(serializedFormula);

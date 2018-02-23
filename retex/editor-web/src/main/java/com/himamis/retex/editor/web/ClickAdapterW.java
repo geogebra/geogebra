@@ -118,6 +118,9 @@ public class ClickAdapterW
 
 
 	public void listenTo(Widget html) {
+		if (html == null) {
+			return;
+		}
 		widget = html;
 		html.addDomHandler(this, MouseDownEvent.getType());
 		html.addDomHandler(this, MouseMoveEvent.getType());

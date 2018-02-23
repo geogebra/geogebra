@@ -76,9 +76,12 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		if (euclidianpanel == null) {
 			euclidianpanel = new EuclidianPanel(this);
 			eview1 = Canvas.createIfSupported();
-			eview1.getElement().getStyle().setPosition(Style.Position.RELATIVE);
-			eview1.getElement().getStyle().setZIndex(0);
-			euclidianpanel.getAbsolutePanel().add(eview1);
+			if (eview1 != null) {
+				eview1.getElement().getStyle()
+						.setPosition(Style.Position.RELATIVE);
+				eview1.getElement().getStyle().setZIndex(0);
+				euclidianpanel.getAbsolutePanel().add(eview1);
+			}
 		}
 
 		return euclidianpanel;
