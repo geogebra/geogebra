@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.user.client.Timer;
@@ -142,9 +141,9 @@ class DragController {
 		}
 
 		void dragTo(int x, int y) {
-
+			boolean currentDirection = prevY < y;
 			if (down == null) {
-				down = prevY < y;
+				down = currentDirection;
 				prepareDragCard();
 			}
 	
@@ -152,16 +151,18 @@ class DragController {
 		
 			findTarget();
 			
-			if (target != null) {
-				if (!onTargetChange() && isAnimated()) {
+			if (target != null && isAnimated()) {
+				boolean targetChange = onTargetChange();
+				if (!targetChange) {
 					moveAnimated();
+				} else if (targetChange) {
+					down = currentDirection;
 				}
 			}
 		}
 
 		int cyc = 0;
 		boolean autoMove() {
-			Log.debug("[AAAAAAA] top: " + card.getAbsoluteTop() + " to " + autoMoveToY);
 			if (card.getAbsoluteTop() == autoMoveToY || cyc == 200) {
 				cyc = 0;
 				return false;
