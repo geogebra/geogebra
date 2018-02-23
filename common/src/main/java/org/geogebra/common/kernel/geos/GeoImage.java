@@ -232,6 +232,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		inBackground = flag;
 	}
 
+	/**
+	 * @return img width in screen coord
+	 */
 	public double getImageScreenWidth() {
 		for (int i = 0; i < 3; i++) {
 			if (getCorner(i) == null || !getCorner(i).isDefined()) {
@@ -243,6 +246,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		return getCorner(1).getInhomX() - getCorner(0).getInhomX();
 	}
 
+	/**
+	 * @return img height in screen coord
+	 */
 	public double getImageScreenHeight() {
 		for (int i = 0; i < 3; i++) {
 			if (getCorner(i) == null || !getCorner(i).isDefined()) {
