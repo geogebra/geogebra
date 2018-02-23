@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.user.client.Timer;
@@ -287,14 +288,23 @@ class DragController {
 		public void initAutoMove() {
 			PagePreviewCard dropTo;
 			if (dropBellow) {
-				dropTo = cards.cardAt(dropToIdx);
-				autoMoveToY = last.top;
+				dropTo = cards.cardAt(dropToIdx - 1);
+				autoMoveToY = dropTo.getAbsoluteBottom();
+				Log.debug("AUTOMOVE 1 (dropToIdx - 1) " + autoMoveToY);
+				if (card.getAbsoluteTop() > autoMoveToY) {
+					dropBellow = false;
+				}
 			} else {
 				if (dropToIdx > 0) {
 					dropTo = cards.cardAt(dropToIdx - 1);
 					autoMoveToY = dropTo.getAbsoluteBottom() + PagePreviewCard.MARGIN;
+					Log.debug("AUTOMOVE 2 (bottom+margin): " + autoMoveToY);
 				} else {
 					autoMoveToY = PagePreviewCard.MARGIN;
+					Log.debug("AUTOMOVE 3 (margin only): " + autoMoveToY);
+				}
+				if (card.getAbsoluteTop() < autoMoveToY) {
+					dropBellow = true;
 				}
 			}
 		}
@@ -386,6 +396,7 @@ class DragController {
 		clearSpaces();
 		cards.getListener().restoreScrollbar();
 		cards.getListener().removeDivider();
+		dropAnimTimer.cancel();
 	}
 
 	private void clearSpaces() {
@@ -398,6 +409,5 @@ class DragController {
 		cards.getListener().update();
 		cards.clickPage(dragged.index(), false);
 		cancel();
-		dropAnimTimer.cancel();
 	}
 }
