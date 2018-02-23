@@ -167,7 +167,7 @@ public class DrawConic extends Drawable implements Previewable {
 	private ArrayList<GeoLineND> prevLines;
 	private ArrayList<GeoConicND> prevConics;
 	private GeoPoint[] previewTempPoints;
-	private GeoLine previewTempLine;
+	private GeoLineND previewTempLine;
 	private GeoNumeric previewTempRadius;
 	private int previewMode, neededPrevPoints;
 	private boolean isPreview = false;
@@ -304,7 +304,7 @@ public class DrawConic extends Drawable implements Previewable {
 		if (selectedLines.size() == 0) {
 			previewTempLine = new GeoLine(cons);
 		} else {
-			previewTempLine = (GeoLine) selectedLines.get(0);
+			previewTempLine = selectedLines.get(0);
 		}
 
 		previewTempPoints = new GeoPoint[1];
@@ -1991,11 +1991,12 @@ public class DrawConic extends Drawable implements Previewable {
 
 			isVisible = prevLines.size() == 1;
 
-			if (prevLines.size() > 0) {
+			if (prevLines.size() > 0 && previewTempLine instanceof GeoLine) {
 				GeoLineND lND = prevLines.get(0);
 				Coords equation = lND
 						.getCartesianEquationVector(view.getMatrix());
-				previewTempLine.setCoords(equation.getX(), equation.getY(),
+				((GeoLine) previewTempLine).setCoords(equation.getX(),
+						equation.getY(),
 						equation.getZ());
 			}
 
