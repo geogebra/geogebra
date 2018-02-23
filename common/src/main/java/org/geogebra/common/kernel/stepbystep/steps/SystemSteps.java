@@ -5,12 +5,14 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class SystemSteps {
 
-    public static StepSet solveBySubstitution(StepEquationSystem ses, SolutionBuilder steps) {
+    public static List<StepSolution> solveBySubstitution(StepEquationSystem ses, SolutionBuilder steps) {
         int n = ses.getEquations().length;
         boolean[] solved = new boolean[n];
 
@@ -32,22 +34,22 @@ public class SystemSteps {
                 tempSystem.getEquation(i).getListOfVariables(variableSet);
 
                 for (StepVariable variable : variableSet) {
-                    StepNode[] solutions;
+                    List<StepSolution> solutions;
 
                     try {
                         tempSteps.reset();
-                        solutions = tempSystem.getEquation(i).solve(variable, tempSteps).getElements();
+                        solutions = tempSystem.getEquation(i).solve(variable, tempSteps);
                     } catch (SolveFailedException e) {
                         continue;
                     }
 
                     int complexity = tempSteps.getSteps().getComplexity();
 
-                    if (minSolutions == -1 || minSolutions > solutions.length ||
-                            (minSolutions == solutions.length && minComplexity > complexity)) {
+                    if (minSolutions == -1 || minSolutions > solutions.size() ||
+                            (minSolutions == solutions.size() && minComplexity > complexity)) {
                         eqIndex = i;
                         minVariable = variable;
-                        minSolutions = solutions.length;
+                        minSolutions = solutions.size();
                         minComplexity = complexity;
                     }
                 }
@@ -59,7 +61,8 @@ public class SystemSteps {
             solved[eqIndex] = true;
 
             tempSteps.reset();
-            StepNode[] solutions = tempSystem.getEquation(eqIndex).solve(minVariable, tempSteps).getElements();
+            StepSolution[] solutions = tempSystem.getEquation(eqIndex).solve(minVariable, tempSteps)
+                    .toArray(new StepSolution[0]);
 
             if (tempSteps.getSteps().getComplexity() != 2) {
                 steps.addAll(tempSteps.getSteps());
@@ -70,7 +73,7 @@ public class SystemSteps {
             }
 
             if (solutions.length == 1) {
-                StepExpression solution = (StepExpression) ((StepSolution) solutions[0]).getValue(minVariable);
+                StepExpression solution = (StepExpression) solutions[0].getValue(minVariable);
 
                 StepEquation[] newEquations = new StepEquation[n];
                 for (int j = 0; j < n; j++) {
@@ -116,12 +119,12 @@ public class SystemSteps {
                 }
 
                 steps.levelUp();
-                return new StepSet();
+                return new ArrayList<>();
             }
         }
 
         steps.levelUp();
-        return new StepSet(tempSystem);
+        return new ArrayList<>();
     }
 
 }

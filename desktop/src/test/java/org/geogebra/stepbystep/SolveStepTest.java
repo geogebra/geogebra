@@ -7,10 +7,7 @@ import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
-import org.geogebra.common.kernel.stepbystep.steptree.StepEquation;
-import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
-import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
-import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
+import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
 import org.junit.AfterClass;
@@ -37,6 +34,12 @@ public class SolveStepTest {
 	private static HtmlStepBuilder htmlBuilder = new HtmlStepBuilder();
 	private boolean needsHeading;
 	private static int caseCounter = 0;
+
+	// @Test
+	public void problematicRange() {
+		t("x/x", "1", "x");
+		t("sqrt(x)/sqrt(x)", "1", "x");
+	}
 
 	@Test
 	public void multipleVariables() {
@@ -239,7 +242,8 @@ public class SolveStepTest {
 		StepNode[] solutions = new StepNode[0];
 
 		try {
-			solutions = new StepEquation(_LHS, _RHS).solveAndCompareToCAS(app.getKernel(), var, steps).getElements();
+			solutions = new StepEquation(_LHS, _RHS).solveAndCompareToCAS(app.getKernel(), var, steps)
+					.toArray(new StepSolution[0]);
 		} catch (SolveFailedException e) {
 			htmlBuilder.addHeading("Failed: ", 4);
 			e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());

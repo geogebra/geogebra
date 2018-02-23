@@ -16,6 +16,44 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
 public class StepHelper {
 
+	public static void getDenominators(StepNode sn, List<StepExpression> denominators) {
+		if (sn instanceof StepOperation) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.DIVIDE)) {
+				denominators.add(so.getOperand(1));
+			}
+
+			for (StepExpression operand : so) {
+				getDenominators(operand, denominators);
+			}
+		}
+
+		if (sn instanceof StepSolvable) {
+			getDenominators(((StepSolvable) sn).getLHS(), denominators);
+			getDenominators(((StepSolvable) sn).getRHS(), denominators);
+		}
+	}
+
+	public static void getRoots(StepNode sn, List<StepExpression> roots) {
+		if (sn instanceof StepOperation) {
+			StepOperation so = (StepOperation) sn;
+
+			if (so.isOperation(Operation.NROOT) && so.getOperand(1).isEven()) {
+				roots.add(so.getOperand(0));
+			}
+
+			for (StepExpression operand : so) {
+				getRoots(operand, roots);
+			}
+		}
+
+		if (sn instanceof StepSolvable) {
+			getRoots(((StepSolvable) sn).getLHS(), roots);
+			getRoots(((StepSolvable) sn).getRHS(), roots);
+		}
+	}
+
 	/**
 	 * @param sn
 	 *            expression tree to traverse
@@ -229,21 +267,21 @@ public class StepHelper {
 		return coeff == null ? 0 : coeff.getValue();
 	}
 
-	public static StepSet getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel) throws CASException {
+	public static List<StepNode> getCASSolutions(StepEquation se, StepVariable variable, Kernel kernel)
+			throws CASException {
 		try {
 			String s = kernel.evaluateCachedGeoGebraCAS("Solutions(" + se + ", " + variable + ")", null);
 			MyList solutionList = (MyList) kernel.getParser().parseGeoGebraExpression(s).unwrap();
 
-			StepSet solutions = new StepSet();
-
+			List<StepNode> solutions = new ArrayList<>();
 			for (int i = 0; i < solutionList.getLength(); i++) {
-				solutions.addElement(StepNode.convertExpression(solutionList.getListElement(i)));
+				solutions.add(StepNode.convertExpression(solutionList.getListElement(i)));
 			}
 
 			return solutions;
 		} catch (ParseException e) {
 			e.printStackTrace();
-			return new StepSet();
+			return new ArrayList<>();
 		}
 	}
 

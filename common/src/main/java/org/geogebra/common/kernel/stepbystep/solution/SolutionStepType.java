@@ -73,6 +73,10 @@ public enum SolutionStepType {
 
 	INVALID_SOLUTION_ABS("ValidSolutionAbs", "%0 \\notin %1"),
 
+	FIND_UNDEFINED_POINTS("FindUndefinedPoints", "Find undefined points"),
+
+	DETERMINE_THE_DEFINED_RANGE("DetermineTheDefinedRange", "Determine the defined range"),
+
 	ROOTS_AND_SIGN_TABLE("FindRootsAndCreateSignTable", "Find the roots of the absolute values and create sign table"),
 
 	RESOLVE_ABSOLUTE_VALUES("ResolveAbsoluteValues", "Resolve Absolute Values", "\\left|a\\right| = \\left|b\\right| " +

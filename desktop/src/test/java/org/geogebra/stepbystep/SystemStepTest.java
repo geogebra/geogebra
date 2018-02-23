@@ -66,7 +66,7 @@ public class SystemStepTest {
         StepEquationSystem ses = new StepEquationSystem(stepEquations.toArray(new StepEquation[0]));
 
         try {
-			ses.solve(steps).getElements();
+			ses.solve(steps);
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);
             e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());

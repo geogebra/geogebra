@@ -12,6 +12,8 @@ import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class StepEquation extends StepSolvable {
@@ -73,20 +75,22 @@ public class StepEquation extends StepSolvable {
 	}
 
 	@Override
-	public StepSet trivialSolution(StepVariable variable, SolveTracker tracker) {
+	public List<StepSolution> trivialSolution(StepVariable variable, SolveTracker tracker) {
+		List<StepSolution> solutions = new ArrayList<>();
+
 		if (LHS.equals(RHS)) {
-			return new StepSet(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
+			solutions.add(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
 		}
 
 		if (LHS.equals(variable)) {
-			return new StepSet(StepSolution.simpleSolution(variable, RHS, tracker));
+			solutions.add(StepSolution.simpleSolution(variable, RHS, tracker));
 		}
 
 		if (RHS.equals(variable)) {
-			return new StepSet(StepSolution.simpleSolution(variable, LHS, tracker));
+			solutions.add(StepSolution.simpleSolution(variable, LHS, tracker));
 		}
 
-		return new StepSet();
+		return solutions;
 	}
 
 	public StepEquation regroup() {
@@ -98,7 +102,7 @@ public class StepEquation extends StepSolvable {
 		return (StepEquation) super.regroup(sb, tracker);
 	}
 
-	public boolean isValid(StepSolution ss) {
+	public boolean isValid(StepSolution ss, SolutionBuilder steps) {
 		StepEquation copy = deepCopy();
 
 		for (Map.Entry<StepVariable, StepNode> pair : ss.getVariableSolutionPairs()) {
@@ -110,7 +114,7 @@ public class StepEquation extends StepSolvable {
 			}
 		}
 
-		copy.expand();
+		copy.expand(steps, new SolveTracker());
 
 		if (!copy.getLHS().equals(copy.getRHS())) {
 			if (isEqual(copy.LHS.getValue(), copy.RHS.getValue())) {
@@ -128,14 +132,15 @@ public class StepEquation extends StepSolvable {
 		return true;
 	}
 
-	public StepSet solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
-		return (StepSet) StepStrategies.defaultSolve(this, sv, sb, tracker);
+	public List<StepSolution> solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
+		return StepStrategies.defaultSolve(this, sv, sb, tracker);
 	}
 
 	@Override
-	public StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb) throws CASException {
+	public List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
+			throws CASException {
 		SolveTracker tracker = new SolveTracker();
-		StepSet solutions = solve(sv, sb, tracker);
+		List<StepSolution> solutions = solve(sv, sb, tracker);
 
 		for (StepNode solution : solutions) {
 			if (solution instanceof StepExpression) {
@@ -153,7 +158,7 @@ public class StepEquation extends StepSolvable {
 				String result = kernel.evaluateCachedGeoGebraCAS(withAssumptions, null);
 
 				if (!"true".equals(result)) {
-					StepSet CASSolutions = StepHelper.getCASSolutions(this, sv, kernel);
+					List<StepNode> CASSolutions = StepHelper.getCASSolutions(this, sv, kernel);
 					throw new CASConflictException(sb.getSteps(), solutions, CASSolutions);
 				}
 			}
@@ -164,14 +169,13 @@ public class StepEquation extends StepSolvable {
 
 	@Override
 	public boolean checkSolution(StepSolution solution, SolutionBuilder steps, SolveTracker tracker) {
-		if (isValid(solution)) {
+		if (isValid(solution, steps)) {
 			steps.add(SolutionStepType.VALID_SOLUTION, solution);
+			return true;
 		} else {
 			steps.add(SolutionStepType.INVALID_SOLUTION, solution);
 			return false;
 		}
-
-		return true;
 	}
 
 	@Override

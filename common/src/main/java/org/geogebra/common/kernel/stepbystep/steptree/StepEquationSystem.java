@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.stepbystep.steps.SystemSteps;
 import org.geogebra.common.main.Localization;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class StepEquationSystem extends StepNode {
 
@@ -32,7 +33,7 @@ public class StepEquationSystem extends StepNode {
         return Arrays.hashCode(equations);
     }
 
-    public StepSet solve(SolutionBuilder steps) {
+    public List<StepSolution> solve(SolutionBuilder steps) {
         return SystemSteps.solveBySubstitution(this, steps);
     }
 

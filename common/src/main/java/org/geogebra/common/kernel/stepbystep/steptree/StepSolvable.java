@@ -9,6 +9,8 @@ import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.plugin.Operation;
 
+import java.util.List;
+
 public abstract class StepSolvable extends StepNode {
 
 	protected StepExpression LHS;
@@ -44,15 +46,15 @@ public abstract class StepSolvable extends StepNode {
 	 * Solves "variable ? constant" and "constant ? constant" type equations and inequalities
 	 * @return the solution - a set containing either a constant StepExpression or a StepInterval
 	 */
-	public abstract StepSet trivialSolution(StepVariable variable, SolveTracker tracker);
+	public abstract List<StepSolution> trivialSolution(StepVariable variable, SolveTracker tracker);
 
-	public StepSet solve(StepVariable sv, SolutionBuilder sb) {
+	public List<StepSolution> solve(StepVariable sv, SolutionBuilder sb) {
 		return solve(sv, sb, new SolveTracker());
 	}
 
-	public abstract StepSet solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker);
+	public abstract List<StepSolution> solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker);
 
-	public abstract StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
+	public abstract List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
 			throws CASException;
 
 	public abstract boolean checkSolution(StepSolution solution, SolutionBuilder sb, SolveTracker tracker);
@@ -139,12 +141,18 @@ public abstract class StepSolvable extends StepNode {
 	}
 
 	public StepSolvable factor() {
-		return factor(null);
+		return factor(null, false);
 	}
 
-	public StepSolvable factor(SolutionBuilder sb) {
+	public StepSolvable factor(SolutionBuilder sb, boolean weak) {
 		cleanColors();
-		StepSolvable temp = (StepSolvable) StepStrategies.defaultFactor(this, sb, new RegroupTracker());
+
+		RegroupTracker tracker = new RegroupTracker();
+		if (weak) {
+			tracker.setWeakFactor();
+		}
+
+		StepSolvable temp = (StepSolvable) StepStrategies.defaultFactor(this, sb, tracker);
 
 		LHS = temp.getLHS();
 		RHS = temp.getRHS();

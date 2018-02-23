@@ -6,13 +6,13 @@ import java.util.Set;
 
 import org.geogebra.common.main.Localization;
 
-public class StepSet extends StepLogical implements Iterable<StepNode> {
+public class StepSet extends StepLogical implements Iterable<StepExpression> {
 
-	private Set<StepNode> elements;
+	private Set<StepExpression> elements;
 
-	public StepSet(StepNode... elements) {
+	public StepSet(StepExpression... elements) {
 		this.elements = new HashSet<>();
-		for (StepNode element : elements) {
+		for (StepExpression element : elements) {
 			this.elements.add(element.deepCopy());
 		}
 	}
@@ -21,20 +21,16 @@ public class StepSet extends StepLogical implements Iterable<StepNode> {
 		return elements.toArray(new StepNode[0]);
 	}
 
-	public void addElement(StepNode se) {
+	public void addElement(StepExpression se) {
 		elements.add(se);
 	}
 
-	public void remove(StepNode sn) {
+	public void remove(StepExpression sn) {
 		elements.remove(sn);
 	}
 
 	public void addAll(StepSet ss) {
 		elements.addAll(ss.elements);
-	}
-
-	public boolean elementOf(StepNode se) {
-		return elements.contains(se);
 	}
 
 	public int size() {
@@ -53,11 +49,25 @@ public class StepSet extends StepLogical implements Iterable<StepNode> {
 	@Override
 	public StepSet deepCopy() {
 		StepSet ss = new StepSet();
-		for (StepNode sn : elements) {
+		for (StepExpression sn : elements) {
 			ss.addElement(sn.deepCopy());
 		}
 		
 		return ss;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof StepSet) {
+			return ((StepSet) obj).elements.equals(elements);
+		}
+
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return elements.hashCode();
 	}
 
 	@Override
@@ -89,19 +99,19 @@ public class StepSet extends StepLogical implements Iterable<StepNode> {
 
 	private String convertToString(Localization loc, boolean colored) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("\\left{");
 
 		for (StepNode sn : this) {
+			if (!"".equals(sb.toString())) {
+				sb.append(", ");
+			}
 			sb.append(sn.toLaTeXString(loc, colored));
-			sb.append(", ");
 		}
 
-		sb.append("\\right}");
-		return sb.toString();
+		return "\\left\\{ " + sb.toString() + " \\right\\}";
 	}
 
 	@Override
-	public Iterator<StepNode> iterator() {
+	public Iterator<StepExpression> iterator() {
 		return elements.iterator();
 	}
 

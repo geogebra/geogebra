@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.steptree.StepInequality;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
+import org.geogebra.common.kernel.stepbystep.steptree.StepSolution;
 import org.geogebra.common.kernel.stepbystep.steptree.StepVariable;
 import org.geogebra.common.main.App;
 import org.junit.AfterClass;
@@ -38,10 +39,10 @@ public class InequalityStepTest {
 
     @Test
     public void linearInequality() {
-        i("3x + 2", "<=", "5", "x", "(-inf, 1]");
-        i("3x + 2", "<", "5", "x", "(-inf, 1)");
-        i("2x + 1", ">", "9x+7", "x", "(-(6)/(7), inf)");
-        i("2x + 1", ">=", "9x+7", "x", "[-(6)/(7), inf)");
+        i("3x + 2", "<=", "5", "x", "x in (-inf, 1]");
+        i("3x + 2", "<", "5", "x", "x in (-inf, 1)");
+        i("2x + 1", ">", "9x+7", "x", "x in (-(6)/(7), inf)");
+        i("2x + 1", ">=", "9x+7", "x", "x in [-(6)/(7), inf)");
     }
 
     public void i(String LHS, String op, String RHS, String variable, String... expectedSolutions) {
@@ -61,7 +62,7 @@ public class InequalityStepTest {
 
         try {
 			solutions = ineq.solveAndCompareToCAS(app.getKernel(), var, steps)
-                    .getElements();
+                    .toArray(new StepSolution[0]);
         } catch (SolveFailedException e) {
             htmlBuilder.addHeading("Failed: ", 4);
             e.getSteps().getListOfSteps(htmlBuilder, app.getLocalization());

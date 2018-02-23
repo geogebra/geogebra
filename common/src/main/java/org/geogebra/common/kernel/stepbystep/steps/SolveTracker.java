@@ -56,6 +56,14 @@ public class SolveTracker {
         }
     }
 
+    public void addUndefinedPoints(StepSet points) {
+        if (undefinedPoints == null) {
+            undefinedPoints = points.deepCopy();
+        } else {
+            undefinedPoints.addAll(points);
+        }
+    }
+
     public StepLogical getRestriction() {
         if (restriction == null) {
             return StepInterval.R;

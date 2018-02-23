@@ -5,6 +5,8 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 
+import java.util.List;
+
 public class StepStrategies {
 
 	public static StepNode convertToFraction(StepNode sn, SolutionBuilder sb) {
@@ -127,8 +129,10 @@ public class StepStrategies {
 		return sn;
 	}
 
-	public static StepNode defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
+	public static List<StepSolution> defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb, SolveTracker
+			tracker) {
 		SolveStepGenerator[] strategy = {
+				//EquationSteps.FIND_DEFINED_RANGE,
 				EquationSteps.SOLVE_PRODUCT,
 				EquationSteps.REGROUP,
 				EquationSteps.FACTOR,
@@ -155,7 +159,7 @@ public class StepStrategies {
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
 
-	public static StepNode defaultInequalitySolve(StepInequality se, StepVariable sv, SolutionBuilder sb,
+	public static List<StepSolution> defaultInequalitySolve(StepInequality se, StepVariable sv, SolutionBuilder sb,
 												  SolveTracker tracker) {
 		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON,
 				EquationSteps.SOLVE_LINEAR, EquationSteps.EXPAND
@@ -164,7 +168,7 @@ public class StepStrategies {
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
 	}
 
-	public static StepNode implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
+	public static List<StepSolution> implementSolveStrategy(StepSolvable se, StepVariable variable, SolutionBuilder sb,
 			SolveStepGenerator[] strategy, SolveTracker tracker) {
 		final boolean printDebug = true;
 
@@ -183,37 +187,35 @@ public class StepStrategies {
 			sb.levelDown();
 		}
 
-		StepNode result = se;
-		String old, current = null;
+		StepSolvable equation = se.deepCopy();
+
+		List<StepSolution> result = null;
+		boolean changed;
 		do {
-			boolean changed = false;
+			changed = false;
 			for (int i = 0; i < strategy.length && !changed; i++) {
-				result = strategy[i].apply((StepSolvable) result.deepCopy(), variable, changes, tracker);
+				result = strategy[i].apply(equation, variable, changes, tracker);
 
 				if (printDebug) {
 					if (changes.getSteps() != null) {
 						System.out.println("changed at " + strategy[i]);
-						System.out.println("to: " + result);
+						System.out.println("to: " + equation);
 					}
 				}
 
-				if (changes.getSteps().getSubsteps() != null || result instanceof StepSet) {
+				if (changes.getSteps().getSubsteps() != null || result != null) {
 					if (sb != null) {
 						sb.addAll(changes.getSteps());
 					}
 
-					result.cleanColors();
 					changes.reset();
 					changed = true;
 				}
 			}
+		} while (result == null && changed);
 
-			old = current;
-			current = result.toString();
-		} while (!(result instanceof StepSet) && !current.equals(old));
-
-		if (result instanceof StepSet) {
-			StepSet finalSolutions = EquationSteps.checkSolutions(se, (StepSet) result, changes, tracker);
+		if (result != null) {
+			List<StepSolution> finalSolutions = EquationSteps.checkSolutions(se, result, changes, tracker);
 
 			if (sb != null) {
 				sb.levelUp();

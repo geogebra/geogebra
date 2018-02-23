@@ -8,6 +8,9 @@ import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StepInequality extends StepSolvable {
 
 	private boolean lessThan;
@@ -42,12 +45,12 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
-	public StepSet solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
-		return (StepSet) StepStrategies.defaultInequalitySolve(this, sv, sb, tracker);
+	public List<StepSolution> solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
+		return StepStrategies.defaultInequalitySolve(this, sv, sb, tracker);
 	}
 
 	@Override
-	public StepSet solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
+	public List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
 			throws CASException {
 		return solve(sv, sb, new SolveTracker());
 	}
@@ -66,23 +69,25 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
-	public StepSet trivialSolution(StepVariable variable, SolveTracker tracker) {
+	public List<StepSolution> trivialSolution(StepVariable variable, SolveTracker tracker) {
+		List<StepSolution> solutions = new ArrayList<>();
+
 		if (LHS.equals(variable)) {
 			if (lessThan) {
-				return new StepSet(
-						new StepInterval(StepConstant.NEG_INF, RHS, false, !strong)
-				);
+				solutions.add(StepSolution.simpleSolution(variable,
+						new StepInterval(StepConstant.NEG_INF, RHS, false, !strong), tracker));
+			} else {
+				solutions.add(StepSolution.simpleSolution(variable,
+						new StepInterval(RHS, StepConstant.POS_INF, !strong, false), tracker));
 			}
-			return new StepSet(
-					new StepInterval(RHS, StepConstant.POS_INF, !strong, false)
-				);
 		}
 
-		if (lessThan == LHS.getValue() < RHS.getValue()) {
-			return new StepSet(tracker.getRestriction());
+		if (LHS.canBeEvaluated() && RHS.canBeEvaluated() && lessThan == LHS.getValue() < RHS.getValue()) {
+			solutions.add(StepSolution.simpleSolution(variable,
+					tracker.getRestriction(), tracker));
 		}
 
-		return new StepSet();
+		return solutions;
 	}
 
 	@Override
