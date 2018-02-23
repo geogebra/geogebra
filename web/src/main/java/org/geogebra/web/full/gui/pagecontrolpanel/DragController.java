@@ -161,13 +161,10 @@ class DragController {
 			}
 		}
 
-		int cyc = 0;
 		boolean autoMove() {
-			if (card.getAbsoluteTop() == autoMoveToY || cyc == 200) {
-				cyc = 0;
+			if (card.getAbsoluteTop() == autoMoveToY) {
 				return false;
 			}
-			cyc++;
 			int d = (dropBellow ? 1 : -1) * AUTOMOVE_SPEED;
 			card.setTopBy(d);
 
