@@ -41,6 +41,7 @@ import org.geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import org.geogebra.common.kernel.kernelND.GeoConicPartND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -517,7 +518,13 @@ public class DrawConicPart extends Drawable implements Previewable {
 			}
 			if (strokedShape == null) {
 				// AND-547, initial buffer size
-				strokedShape = objStroke.createStrokedShape(shape, 130);
+				try {
+					strokedShape = objStroke.createStrokedShape(shape, 130);
+				} catch (Exception e) {
+					Log.error("problem creating ellipse (part) shape: "
+							+ e.getMessage());
+					return false;
+				}
 			}
 			return strokedShape.intersects(rect);
 
@@ -558,7 +565,16 @@ public class DrawConicPart extends Drawable implements Previewable {
 			if (objStroke.getLineWidth() > 0) {
 				if (strokedShape == null) {
 					// AND-547, initial buffer size
-					strokedShape = objStroke.createStrokedShape(shape, 130);
+					try {
+						// org.geogebra.ggbjdk.java.awt.geom.IllegalPathStateException:
+						// org.geogebra.ggbjdk.java.awt.geom.Path2D$Double.needRoom
+						// (Path2D.java:263)
+						strokedShape = objStroke.createStrokedShape(shape, 130);
+					} catch (Exception e) {
+						Log.error("problem creating ellipse (part) shape: "
+								+ e.getMessage());
+						return false;
+					}
 				}
 				pathHit = strokedShape.intersects(x - hitThreshold,
 						y - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);

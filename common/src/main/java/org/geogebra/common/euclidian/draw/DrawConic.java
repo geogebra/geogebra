@@ -1773,9 +1773,15 @@ public class DrawConic extends Drawable implements Previewable {
 			return false;
 		}
 		if (strokedShape == null) {
-			// AND-547, initial buffer size
-			strokedShape = objStroke.createStrokedShape(hypLeft, 300);
-			strokedShape2 = objStroke.createStrokedShape(hypRight, 300);
+			try {
+				// AND-547, initial buffer size
+				strokedShape = objStroke.createStrokedShape(hypLeft, 300);
+				strokedShape2 = objStroke.createStrokedShape(hypRight, 300);
+			} catch (Exception e) {
+				Log.error(
+						"problem creating hyperbola shape: " + e.getMessage());
+				return false;
+			}
 		}
 		return strokedShape.intersects(hitX - hitThreshold, hitY - hitThreshold,
 				2 * hitThreshold, 2 * hitThreshold)
@@ -1802,7 +1808,12 @@ public class DrawConic extends Drawable implements Previewable {
 		}
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
-			strokedShape = objStroke.createStrokedShape(shape, 148);
+			try {
+				strokedShape = objStroke.createStrokedShape(shape, 148);
+			} catch (Exception e) {
+				Log.error("problem creating ellipse shape: " + e.getMessage());
+				return false;
+			}
 		}
 		return (strokedShape.intersects(hitX - hitThreshold,
 				hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold))
