@@ -10669,6 +10669,9 @@ public abstract class EuclidianController {
 	}
 
 	private boolean wasBoundingBoxDrag() {
+		if (!app.isWhiteboardActive()) {
+			return false;
+		}
 		// do not deselect during resizing with bounding/crop box
 		if (selection == null || view.boundingBox == null) {
 			return false;

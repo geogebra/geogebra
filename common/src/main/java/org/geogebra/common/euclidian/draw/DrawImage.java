@@ -466,6 +466,11 @@ public final class DrawImage extends Drawable {
 				|| absoluteLocation) {
 			return;
 		}
+		if (Double.isNaN(originalRatio)) {
+			double width = geoImage.getImageScreenWidth();
+			double height = geoImage.getImageScreenHeight();
+			originalRatio = height / width;
+		}
 		if (boundingBox.isCropBox()) {
 			if (!geo.getKernel().getApplication().has(Feature.MOW_CROP_IMAGE)) {
 				return;
@@ -476,11 +481,6 @@ public final class DrawImage extends Drawable {
 					.has(Feature.MOW_IMAGE_BOUNDING_BOX)) {
 				return;
 			}
-			if (Double.isNaN(originalRatio)) {
-				double width = geoImage.getImageScreenWidth();
-				double height = geoImage.getImageScreenHeight();
-				originalRatio = height / width;
-			}
 			updateImageResize(e, handler);
 		}
 	}
@@ -489,8 +489,6 @@ public final class DrawImage extends Drawable {
 			EuclidianBoundingBoxHandler handler) {
 		int eventX = event.getX();
 		int eventY = event.getY();
-		double width = 1;
-		double height = 1;
 		double newWidth = 1;
 		double newHeight = 1;
 		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
@@ -518,46 +516,30 @@ public final class DrawImage extends Drawable {
 					getBoundingBox().getRectangle().getHeight());
 			break;
 		case BOTTOM_RIGHT:
-			width = view.getScreenDragStartCoordX()
-					- getBoundingBox().getRectangle().getMinX();
-			height = view.getScreenDragStartCoordY()
-					- getBoundingBox().getRectangle().getMinY();
 			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
-			newHeight = -originalRatio * newWidth;
+			newHeight = originalRatio * newWidth;
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getY(), newWidth,
 					newHeight);
 			break;
 		case BOTTOM_LEFT:
-			width = getBoundingBox().getRectangle().getMaxX()
-					- view.getScreenDragStartCoordX();
-			height = view.getScreenDragStartCoordY()
-					- getBoundingBox().getRectangle().getMinY();
 			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
-			newHeight = (height * newWidth) / width;
+			newHeight = originalRatio * newWidth;
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
 					getBoundingBox().getRectangle().getY(), newWidth,
 					newHeight);
 			break;
 		case TOP_RIGHT:
-			width = view.getScreenDragStartCoordX()
-					- getBoundingBox().getRectangle().getMinX();
-			height = getBoundingBox().getRectangle().getMaxY()
-					- view.getScreenDragStartCoordY();
 			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
-			newHeight = (height * newWidth) / width;
+			newHeight = originalRatio * newWidth;
 			rect.setRect(getBoundingBox().getRectangle().getX(),
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth,
 					newHeight);
 			break;
 		case TOP_LEFT:
-			width = getBoundingBox().getRectangle().getMaxX()
-					- view.getScreenDragStartCoordX();
-			height = getBoundingBox().getRectangle().getMaxY()
-					- view.getScreenDragStartCoordY();
 			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
-			newHeight = (height * newWidth) / width;
+			newHeight = originalRatio * newWidth;
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth, newHeight);
