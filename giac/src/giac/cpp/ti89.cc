@@ -1105,8 +1105,11 @@ namespace giac {
     if (g.type==_INT_ || g.type==_DOUBLE_)
       return _tourne_gauche(g,contextptr);
     vecteur v(1,g);
-    if (g.type==_VECT && g.subtype==_SEQ__VECT)
+    if (g.type==_VECT && g.subtype==_SEQ__VECT){
       v=*g._VECTptr;
+      if (v.empty())
+	return _tourne_gauche(g,contextptr);
+    }
     if (v.size()<2 || !is_integral(v[1]) || v[1].type!=_INT_)
       return g;
     if (v[0].type==_STRNG)
@@ -1144,8 +1147,11 @@ namespace giac {
     }
 #endif
     vecteur v(1,g);
-    if (g.type==_VECT && g.subtype==_SEQ__VECT)
+    if (g.type==_VECT && g.subtype==_SEQ__VECT){
       v=*g._VECTptr;
+      if (v.empty())
+	return _tourne_droite(g,contextptr);
+    }
     if (v.size()<2 || !is_integral(v[1]) || v[1].type!=_INT_)
       return g;
     if (v[0].type==_STRNG){

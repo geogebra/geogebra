@@ -13787,7 +13787,7 @@ namespace giac {
 
   static const char _penup_s []="penup";
   static define_unary_function_eval (__penup,&_leve_crayon,_penup_s);
-  define_unary_function_ptr5( at_penup ,alias_at_penup,&__penup,0,true);
+  define_unary_function_ptr5( at_penup ,alias_at_penup,&__penup,0,T_LOGO);
 
   gen _baisse_crayon(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -13802,7 +13802,7 @@ namespace giac {
 
   static const char _pendown_s []="pendown";
   static define_unary_function_eval (__pendown,&_baisse_crayon,_pendown_s);
-  define_unary_function_ptr5( at_pendown ,alias_at_pendown,&__pendown,0,true);
+  define_unary_function_ptr5( at_pendown ,alias_at_pendown,&__pendown,0,T_LOGO);
 
   gen _ecris(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -13853,6 +13853,10 @@ namespace giac {
   static define_unary_function_eval2 (__saute,&_saute,_saute_s,&printastifunction);
   define_unary_function_ptr5( at_saute ,alias_at_saute,&__saute,0,T_LOGO);
 
+  static const char _jump_s []="jump";
+  static define_unary_function_eval2 (__jump,&_saute,_jump_s,&printastifunction);
+  define_unary_function_ptr5( at_jump ,alias_at_jump,&__jump,0,T_LOGO);
+
   gen _pas_de_cote(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     _leve_crayon(0,contextptr);
@@ -13864,6 +13868,10 @@ namespace giac {
   static const char _pas_de_cote_s []="pas_de_cote";
   static define_unary_function_eval2 (__pas_de_cote,&_pas_de_cote,_pas_de_cote_s,&printastifunction);
   define_unary_function_ptr5( at_pas_de_cote ,alias_at_pas_de_cote,&__pas_de_cote,0,T_LOGO);
+
+  static const char _skip_s []="skip";
+  static define_unary_function_eval2 (__skip,&_pas_de_cote,_skip_s,&printastifunction);
+  define_unary_function_ptr5( at_skip ,alias_at_skip,&__skip,0,T_LOGO);
 
   gen _cache_tortue(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
@@ -13987,7 +13995,7 @@ namespace giac {
 
   static const char _pencolor_s []="pencolor";
   static define_unary_function_eval (__pencolor,&_crayon,_pencolor_s);
-  define_unary_function_ptr5( at_pencolor ,alias_at_pencolor,&__pencolor,0,true);
+  define_unary_function_ptr5( at_pencolor ,alias_at_pencolor,&__pencolor,0,T_LOGO);
 
 
   gen _efface(const gen & g,GIAC_CONTEXT){
@@ -14005,6 +14013,10 @@ namespace giac {
   static const char _efface_s []="efface";
   static define_unary_function_eval2 (__efface,&_efface,_efface_s,&printastifunction);
   define_unary_function_ptr5( at_efface ,alias_at_efface,&__efface,0,T_LOGO);
+
+  static const char _clearscreen_s []="clearscreen";
+  static define_unary_function_eval2 (__clearscreen,&_efface,_clearscreen_s,&printastifunction);
+  define_unary_function_ptr5( at_clearscreen ,alias_at_clearscreen,&__clearscreen,0,T_LOGO);
 
   gen _vers(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;

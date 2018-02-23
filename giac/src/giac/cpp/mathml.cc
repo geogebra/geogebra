@@ -550,7 +550,10 @@ namespace giac {
 	}
       }
 #endif
-      return mathml_printsommetasoperator(mys.feuille,eq?"<mo>=</mo>":"<mo>≈</mo>",contextptr);  
+      if (eq)
+	return mathml_printsommetasoperator(mys.feuille,"<mo>=</mo>",contextptr);  
+      else
+	return mathml_printsommetasoperator(mys.feuille,"<mo>≈</mo>",contextptr);
     }
     if (u==at_different)
       return mathml_printsommetasoperator(mys.feuille,"<mo>≠</mo>",contextptr);
