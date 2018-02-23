@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.user.client.Timer;
 
 class DragController {
-	private static final int DROPANIM_SPEED = 15;
+	private static final int DROPANIM_SPEED = 10;
 	/**
 	 * Class to handle drag and drop cards 
 	 * @author laszlo 
@@ -19,6 +20,7 @@ class DragController {
 	private App app;
 	PagePreviewCard clicked;
 	private Timer dropAnimTimer;
+	private int autoMoveToY;
 
 	interface Cards {
 		ArrayList<PagePreviewCard> getCards();
@@ -55,7 +57,7 @@ class DragController {
 	}
 	
 	private class DragCard {
-		private static final int AUTOMOVE_SPEED = 10;
+		private static final int AUTOMOVE_SPEED = 1;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
 		LastTarget last = new LastTarget();
@@ -157,13 +159,17 @@ class DragController {
 			}
 		}
 
+		int cyc = 0;
 		boolean autoMove() {
-			if (target == null || diff >= PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN
-					|| diff <= PagePreviewCard.MARGIN) {
+			Log.debug("[AAAAAAA] top: " + card.getAbsoluteTop() + " to " + autoMoveToY);
+			if (card.getAbsoluteTop() == autoMoveToY || cyc == 200) {
+				cyc = 0;
 				return false;
 			}
+			cyc++;
 			int d = (dropBellow ? 1 : -1) * AUTOMOVE_SPEED;
 			card.setTopBy(d);
+
 			moveAnimated();
 			return true;
 		}
@@ -279,6 +285,21 @@ class DragController {
 			}
 			return null;
 		}
+
+		public void initAutoMove() {
+			PagePreviewCard dropTo;
+			if (dropBellow) {
+				dropTo = cards.cardAt(dropToIdx);
+				autoMoveToY = last.top;
+			} else {
+				if (dropToIdx > 0) {
+					dropTo = cards.cardAt(dropToIdx - 1);
+					autoMoveToY = dropTo.getAbsoluteBottom() + PagePreviewCard.MARGIN;
+				} else {
+					autoMoveToY = PagePreviewCard.MARGIN;
+				}
+			}
+		}
 	}
 	
 	DragController(Cards slides, App app) {
@@ -357,6 +378,7 @@ class DragController {
 
 	private void createDropAnimation() {
 		CancelEventTimer.resetDrag();
+		dragged.initAutoMove();
 		dropAnimTimer.scheduleRepeating(DROPANIM_SPEED);
 	}
 
