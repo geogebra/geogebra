@@ -41,6 +41,7 @@ import org.geogebra.web.html5.gui.view.autocompletion.GSuggestBox;
 import org.geogebra.web.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GlobalKeyDispatcherW;
+import org.geogebra.web.html5.util.Dom;
 
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.RepeatingCommand;
@@ -569,7 +570,10 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	@Override
 	public void setFont(GFont font) {
 		actualFontSize = font.getSize();
-		textField.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
+		Dom.setImportant(textField.getElement().getStyle(), "font-size",
+				font.getSize() + "px");
+		// textField.getElement().getStyle().setFontSize(font.getSize(),
+		// Unit.PX);
 
 		if (showSymbolButton != null) {
 			showSymbolButton.getElement().getStyle().setFontSize(font.getSize(),

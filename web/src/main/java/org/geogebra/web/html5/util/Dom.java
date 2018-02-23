@@ -5,6 +5,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.EventTarget;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.UIObject;
 
 /**
@@ -54,6 +55,10 @@ public final class Dom {
 		return elem.querySelector("." + className);
 	}-*/;
 
+	public static native void setImportant(Style style, String property,
+			String val)/*-{
+		style.setProperty(property, val, "important");
+	}-*/;
 	/**
 	 * 
 	 * @param event
