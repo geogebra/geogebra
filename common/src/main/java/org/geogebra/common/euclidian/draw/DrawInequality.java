@@ -14,6 +14,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.StringTemplate;
+import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionalNVar;
 import org.geogebra.common.kernel.arithmetic.IneqTree;
 import org.geogebra.common.kernel.arithmetic.Inequality;
@@ -647,8 +648,17 @@ public class DrawInequality extends Drawable {
 				.getVarString(StringTemplate.defaultTemplate).equals("y")) {
 			return ((GeoFunction) geo).getFunction().evaluateBoolean(coords[1]);
 		}
-		return ((FunctionalNVar) geo).getFunction().evaluateBoolean(coords);
 
+		FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
+
+		if (fun.getVarNumber() == coords.length) {
+			return ((FunctionalNVar) geo).getFunction().evaluateBoolean(coords);
+		}
+
+		Log.error("problem with hit calculation for "
+				+ geo.getDefinitionForInputBar());
+
+		return false;
 	}
 
 	@Override
