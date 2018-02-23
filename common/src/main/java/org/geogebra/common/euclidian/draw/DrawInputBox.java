@@ -240,7 +240,7 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 		}
 
 		int length = geoInputBox.getLength();
-		if (length != oldLength) {
+		if (length != oldLength && isSelectedForInput()) {
 			getTextField().setColumns(length);
 			getTextField().prepareShowSymbolButton(
 					length > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH);
@@ -266,8 +266,11 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 				* geoInputBox.getFontSizeMultiplier()));
 
 		updateGeoIntputBox();
-
-		updateStyle(getTextField());
+		if (isSelectedForInput()) {
+			updateStyle(getTextField());
+		} else {
+			textFont = getTextFont(geoInputBox.getText());
+		}
 
 		getBox().revalidate();
 
@@ -290,9 +293,8 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 	}
 
 	private void updateStyle(AutoCompleteTextField tf) {
-		GFont vFont = view.getFont();
-		textFont = view.getApplication().getFontCanDisplay(tf.getText(), false,
-				vFont.getStyle(), getLabelFontSize());
+
+		textFont = getTextFont(tf.getText());
 
 		tf.setOpaque(true);
 		tf.setFont(textFont);
@@ -312,6 +314,12 @@ public class DrawInputBox extends CanvasDrawable implements RemoveNeeded {
 
 		tf.setFocusable(true);
 		tf.setEditable(true);
+	}
+
+	private GFont getTextFont(String text) {
+		GFont vFont = view.getFont();
+		return view.getApplication().getFontCanDisplay(text, false,
+				vFont.getStyle(), getLabelFontSize());
 	}
 
 	/**
