@@ -81,7 +81,6 @@ public class AlgoANOVA extends AlgoElement {
 	public final void compute() {
 
 		int size = geoList.size();
-		// System.out.println(geoList.toOutputValueString());
 		// exit if less than two data lists
 		if (size < 2) {
 			result.setUndefined();

@@ -225,7 +225,12 @@ public class EuclidianViewW extends EuclidianView implements
 	@Override
 	public final GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
 		if (this.g2dtemp == null) {
-			this.g2dtemp = new GGraphics2DW(Canvas.createIfSupported());
+			Canvas canvas = Canvas.createIfSupported();
+			if (canvas == null) {
+				this.g2dtemp = new GGraphics2DE();
+			} else {
+				this.g2dtemp = new GGraphics2DW(canvas);
+			}
 		}
 		this.g2dtemp.setFont(fontForGraphics);
 		return this.g2dtemp;

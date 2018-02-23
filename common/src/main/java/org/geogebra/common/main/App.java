@@ -5208,11 +5208,24 @@ public abstract class App implements UpdateSelection {
 		
 	}
 
+	/**
+	 * @param action
+	 *            command to execute
+	 * @param state
+	 *            file content
+	 * @param args
+	 *            arguments
+	 * 
+	 */
 	public void executeAction(EventType action, AppState state, String[] args) {
 		// TODO Auto-generated method stub
 
 	}
 
+	/**
+	 * @param slideID
+	 *            slide name
+	 */
 	public void setActiveSlide(String slideID) {
 		// TODO Auto-generated method stub
 	}

@@ -94,10 +94,12 @@ public class MathFieldController {
 			renderer.setInsets(new Insets(1, 1, 1, 1));
 			mathField.setTeXIcon(renderer);
 			mathField.fireInputChangedEvent();
-		} catch (Throwable e) {
+		} catch (Exception e) {
 			System.out.println(selectionStart);
 			System.out.println(selectionEnd);
 			System.out.println(serializedFormula);
+		} catch (Error e) {
+			e.printStackTrace();
 		}
 
     }

@@ -123,7 +123,6 @@ public class TeXFormulaParser {
 			//Object[] argValues = getArgumentValues(args);
 			// create TeXFormula object
 			// String code = "TeXFormula.predefinedTeXFormulasAsString.put(\"%s\", \"%s\");";
-			// System.out.println(String.format(code, formulaName, argValues[0]));
 			try {
 				throw new UnsupportedOperationException("Not implemented");
 				//TeXFormula f = TeXFormula.class.getConstructor(argClasses).newInstance(argValues);

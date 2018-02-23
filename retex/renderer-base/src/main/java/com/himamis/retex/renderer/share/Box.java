@@ -357,14 +357,12 @@ public abstract class Box {
 	}
 
 	public boolean getSelectedPath(ArrayList<Integer> list, int depth) {
-
 		for (int idx = 0; idx < children.size(); idx++) {
 			if (children.get(idx).getSelectedPath(list, depth + 1)) {
 				list.add(idx);
 				return true;
 			}
 		}
-		// System.out.println(this + " BOX " + this.foreground);
 		if (this instanceof CursorBox) {
 			return true;
 		}

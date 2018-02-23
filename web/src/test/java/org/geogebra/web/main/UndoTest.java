@@ -6,6 +6,7 @@ import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -13,9 +14,10 @@ import com.google.gwt.dom.client.TextAreaElement;
 import com.google.gwt.user.client.DOM;
 import com.google.gwtmockito.GwtMockitoTestRunner;
 import com.google.gwtmockito.WithClassesToStub;
+import com.himamis.retex.renderer.web.parser.NodeW;
 
 @RunWith(GwtMockitoTestRunner.class)
-@WithClassesToStub({ ArticleElement.class, TextAreaElement.class })
+@WithClassesToStub({ ArticleElement.class, TextAreaElement.class, NodeW.class })
 public class UndoTest {
 
 	@Test
@@ -24,6 +26,16 @@ public class UndoTest {
 		fr.ae = ArticleElement.as(DOM.createElement("article"));
 		fr.runAsyncAfterSplash();
 		AppW app = (AppW) fr.getApplication();
-		app.getKernel().storeUndoInfo();
+		app.setUndoRedoEnabled(true);
+		app.setUndoActive(true);
+		app.getKernel().getConstruction().initUndoInfo();
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand("x", true);
+		app.getKernel().getAlgebraProcessor().processAlgebraCommand("-x", true);
+
+		Assert.assertEquals(2, app.getKernel().getConstruction()
+				.getUndoManager().getHistorySize());
+		app.getGgbApi().undo();
+		Assert.assertEquals(1, app.getKernel().getConstruction()
+				.getUndoManager().getHistorySize());
 	}
 }

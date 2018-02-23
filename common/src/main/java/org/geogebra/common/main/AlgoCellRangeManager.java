@@ -47,18 +47,15 @@ public class AlgoCellRangeManager {
 	 */
 	public void updateCellRangeAlgos(GeoElement geo, GPoint location,
 			boolean isRemoveAction) {
-
 		if (geo == null || algos == null) {
 			return;
 		}
 
 		for (AlgoCellRange algo : algos.values()) {
-			// System.out.println("geo label: " + geo.getLabelSimple());
 			if (algo.getCellRange().contains(location)) {
 				algo.updateList(geo, isRemoveAction);
 			}
 		}
-
 	}
 
 	/**
@@ -70,18 +67,15 @@ public class AlgoCellRangeManager {
 	 *            location on spreadsheet
 	 */
 	public void addToCellRangeAlgos(GeoElement geo, GPoint location) {
-
 		if (geo == null || algos == null) {
 			return;
 		}
 
 		for (AlgoCellRange algo : algos.values()) {
-			// System.out.println("geo label: " + geo.getLabelSimple());
 			if (algo.getCellRange().contains(location)) {
 				algo.addToList(geo, location);
 			}
 		}
-
 	}
 
 	/**

@@ -425,7 +425,6 @@ public class MathFieldInternal implements KeyListener, FocusListener, ClickListe
 	}
 
 	private void moveToSelectionIterative(int x, int y) {
-		// System.out.println("SELECTION" + list);
 		CursorController.firstField(editorState);
 		double dist = Integer.MAX_VALUE;
 		MathSequence closestComponent = null;

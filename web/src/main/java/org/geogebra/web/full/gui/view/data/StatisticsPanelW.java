@@ -206,7 +206,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	@Override
 	public void updatePanel() {
-		// System.out.println("============= update stat panel");
 		if (statTable == null) {
 			return;
 		}

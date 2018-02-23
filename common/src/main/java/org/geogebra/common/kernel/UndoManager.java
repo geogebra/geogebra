@@ -290,4 +290,8 @@ public abstract class UndoManager {
 					+ ":" + cmd.getSlideID());
 		}
 	}
+
+	public int getHistorySize() {
+		return this.iterator.previousIndex();
+	}
 }
