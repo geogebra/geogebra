@@ -608,6 +608,7 @@ public final class DrawImage extends Drawable {
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth, newHeight);
+			break;
 		default:
 			break;
 		}
