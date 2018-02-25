@@ -46,4 +46,6 @@ public interface PageListControllerInterface {
 	void executeAction(EventType action, AppState state, String[] args);
 
 	void setActiveSlide(String slideID);
+
+	void reorder(int i, int j);
 }

@@ -270,7 +270,7 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	public String getDataParamPrerelease() {
 		// TODO Auto-generated method stub
-		return "true";
+		return "canary";
 	}
 
 	public String getDataParamTubeID() {

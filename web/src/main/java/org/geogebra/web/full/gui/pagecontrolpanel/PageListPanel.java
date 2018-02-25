@@ -144,7 +144,9 @@ public class PageListPanel
 	public void open() {
 		if (app.isWhiteboardActive()) {
 			dockPanel.hideZoomPanel();
-			mowToolbar.showPageControlButton(false);
+			if (mowToolbar != null) {
+				mowToolbar.showPageControlButton(false);
+			}
 		}
 		setVisible(true);
 		pageController.updatePreviewImage();

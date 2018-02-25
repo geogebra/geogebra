@@ -227,6 +227,9 @@ public class MathFieldW implements MathField, IsWidget, MathFieldAsync {
 		this.lastIcon = icon;
 
 		double height = computeHeight(icon);
+		if (ctx == null) {
+			return;
+		}
 		ctx.getCanvas().getStyle().setHeight(height,
 				Unit.PX);
 

@@ -332,6 +332,9 @@ public class EuclidianViewW extends EuclidianView implements
 		int height = (int) Math.floor(getExportHeight() * scale);
 
 		Canvas c4 = Canvas.createIfSupported();
+		if (c4 == null) {
+			return null; // mockito
+		}
 		c4.setCoordinateSpaceWidth(width);
 		c4.setCoordinateSpaceHeight(height);
 		c4.setWidth(width + "px");
@@ -346,7 +349,8 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency) {
-		return getExportImageCanvas(scale, transparency).toDataUrl();
+		Canvas c = getExportImageCanvas(scale, transparency);
+		return c == null ? "" : c.toDataUrl();
 	}
 
 	@Override
@@ -554,6 +558,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public String getCanvasBase64WithTypeString() {
+		if (g2p == null) {
+			return "";
+		}
 		return getCanvasBase64WithTypeString(g2p.getCoordinateSpaceWidth(),
 		        g2p.getCoordinateSpaceHeight(), bgGraphics == null ? null
 		                : ((GGraphics2DW) bgGraphics).getCanvas(),
@@ -1016,7 +1023,8 @@ public class EuclidianViewW extends EuclidianView implements
 	private void setCursorClass(String className) {
 		// IMPORTANT: do nothing if we already have the classname,
 		// app.resetCursor is VERY expensive in IE
-		if (!g2p.getCanvas().getElement().hasClassName(className)) {
+		if (g2p != null
+				&& !g2p.getCanvas().getElement().hasClassName(className)) {
 			this.appW.resetCursor();
 			g2p.getCanvas().setStyleName("");
 			g2p.getCanvas().addStyleName(className);

@@ -3064,9 +3064,7 @@ public abstract class AppW extends App implements SetLabels {
 			prerelease = true;
 		} else if ("true".equals(prereleaseStr)) {
 			this.prerelease = true;
-
 		}
-
 	}
 
 	/**
