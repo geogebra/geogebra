@@ -39,6 +39,7 @@ import org.geogebra.web.html5.gui.util.MathKeyboardListener;
 import org.geogebra.web.html5.gui.util.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.debug.LoggerW;
 import org.geogebra.web.html5.util.keyboard.VirtualKeyboardW;
@@ -103,7 +104,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElement article,
+	protected AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI laf) {
 		AppW application = factory.getApplet(article, this, laf, this.device);
 		getArticleMap().put(article.getId(), application);
@@ -945,7 +946,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 		this.keyboardShowing = keyboardShowing;
 	}
 
-	private void initPageControlPanel(AppW app1) {
+	public void initPageControlPanel(AppW app1) {
 		if (!app1.has(Feature.MOW_MULTI_PAGE)) {
 			return;
 		}

@@ -11,7 +11,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.layout.panels.EuclidianDockPanelW;
 import org.geogebra.web.full.gui.toolbar.mow.MOWToolbar;
 import org.geogebra.web.full.gui.util.PersistablePanel;
-import org.geogebra.web.full.main.AppWapplet;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -55,7 +55,7 @@ public class PageListPanel
 	 */
 	public PageListPanel(AppW app) {
 		this.app = app;
-		this.frame = ((AppWapplet) app).getAppletFrame();
+		this.frame = ((AppWFull) app).getAppletFrame();
 		this.dockPanel = (EuclidianDockPanelW) (app.getGuiManager().getLayout()
 				.getDockManager().getPanel(App.VIEW_EUCLIDIAN));
 		if (app.isWhiteboardActive()) {
@@ -118,7 +118,7 @@ public class PageListPanel
 	 * @param selected
 	 *            whether to select it
 	 */
-	protected void loadNewPage(boolean selected) {
+	public void loadNewPage(boolean selected) {
 		pageController.loadNewPage(addNewPreviewCard(selected));
 		app.getKernel().getConstruction().getUndoManager()
 				.storeAction(EventType.ADD_SLIDE, new String[0]);

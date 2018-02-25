@@ -11,6 +11,7 @@ import org.geogebra.web.html5.euclidian.EuclidianSimplePanelW;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window;
@@ -36,7 +37,7 @@ public class AppWsimple extends AppW {
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWsimple(ArticleElement ae, GeoGebraFrameW gf,
+	public AppWsimple(ArticleElementInterface ae, GeoGebraFrameW gf,
 	        final boolean undoActive) {
 		super(ae, 2, null);
 		this.frame = gf;
@@ -64,7 +65,7 @@ public class AppWsimple extends AppW {
 		setUndoActive(undoActive);
 		afterCoreObjectsInited();
 		resetFonts();
-		Browser.removeDefaultContextMenu(this.getArticleElement());
+		Browser.removeDefaultContextMenu(this.getArticleElement().getElement());
 		if (Browser.runningLocal() && ArticleElement.isEnableUsageStats()) {
 			new GeoGebraTubeAPIWSimple(has(Feature.TUBE_BETA), ae)
 			        .checkAvailable(null);
@@ -137,7 +138,8 @@ public class AppWsimple extends AppW {
 	@Override
 	public void focusGained(View v, Element el) {
 		super.focusGained(v, el);
-		GeoGebraFrameW.useFocusedBorder(getArticleElement(), frame);
+		GeoGebraFrameW.useFocusedBorder(getArticleElement(),
+				frame);
 		Log.debug("AppWsimple_focusGained");
 
 		// if focusLost sets this to false, it is probably

@@ -6,6 +6,7 @@ import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.AppWsimple;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -26,7 +27,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 	}
 
 	@Override
-	protected AppW createApplication(ArticleElement article,
+	protected AppW createApplication(ArticleElementInterface article,
 	        GLookAndFeelI laf) {
 		AppWsimple appl = new AppWsimple(article, this, true);
 		getArticleMap().put(article.getId(), appl);

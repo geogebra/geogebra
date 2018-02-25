@@ -549,7 +549,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 	 * @return the frame with casting.
 	 */
 	GeoGebraFrameBoth getFrame() {
-		return ((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame());
+		return (((AppWFull) app).getAppletFrame());
 	}
 
 	/**

@@ -29,7 +29,6 @@ import org.geogebra.web.full.gui.layout.panels.ToolbarDockPanelW;
 import org.geogebra.web.full.gui.toolbarpanel.ToolbarPanel;
 import org.geogebra.web.full.gui.view.algebra.AlgebraViewW;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.main.AppWapplet;
 import org.geogebra.web.html5.awt.GDimensionW;
 import org.geogebra.web.html5.gui.GuiManagerInterfaceW;
 import org.geogebra.web.html5.main.AppW;
@@ -311,7 +310,7 @@ public class DockManagerW extends DockManager {
 			int windowHeight;
 			// TODO this is how the layout should work in all cases, only the
 			// old AppWApplication needs the other way
-			if (app instanceof AppWapplet) {
+			if (app instanceof AppWFull) {
 
 				// Emulate the way split panes in Java applets are sized:
 				// 2) Use the ggb xml window size to set dividers

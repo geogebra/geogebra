@@ -6,7 +6,7 @@ import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import org.geogebra.common.util.HttpRequest;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.HttpRequestW;
 
 import com.google.gwt.core.client.GWT;
@@ -15,9 +15,8 @@ import com.google.gwt.user.client.Window.Location;
 
 public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
-
-
-	public GeoGebraTubeAPIWSimple(boolean beta, ArticleElement articleElement) {
+	public GeoGebraTubeAPIWSimple(boolean beta,
+			ArticleElementInterface articleElement) {
 		super(beta);
 		if (!StringUtil.empty(articleElement.getMaterialsAPIurl())) {
 			setURL(articleElement.getMaterialsAPIurl());

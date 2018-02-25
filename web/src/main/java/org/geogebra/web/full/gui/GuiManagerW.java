@@ -102,7 +102,6 @@ import org.geogebra.web.full.gui.view.spreadsheet.SpreadsheetViewW;
 import org.geogebra.web.full.helper.ObjectPool;
 import org.geogebra.web.full.html5.AttachedToDOM;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.main.AppWapplet;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.full.util.keyboard.AutocompleteProcessing;
 import org.geogebra.web.full.util.keyboard.GTextBoxProcessing;
@@ -247,7 +246,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		if (getApp().has(Feature.MOW_TOOLBAR)
 				&& getApp().isWhiteboardActive()) {
-			(((AppWapplet) getApp()).getAppletFrame()).updateMOWToorbar();
+			(((AppWFull) getApp()).getAppletFrame()).updateMOWToorbar();
 			return;
 		}
 
@@ -1792,7 +1791,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (show) {
 			showToolBar(true);
 		}
-		GGWToolBar tb = ((AppWapplet) getApp()).getAppletFrame().getToolbar();
+		GGWToolBar tb = ((AppWFull) getApp()).getAppletFrame().getToolbar();
 		if (tb != null) {
 			tb.onResize();
 			tb.updateActionPanel();
@@ -1835,7 +1834,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (algebraInput != null) {
 			algebraInput.setVisible(show);
 		} else {
-			((AppWapplet) getApp()).attachAlgebraInput();
+			((AppWFull) getApp()).attachAlgebraInput();
 		}
 
 		getApp().setShowAlgebraInput(show, false);
@@ -1864,7 +1863,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return mode;
 		}
 		if (getApp().has(Feature.MOW_TOOLBAR)) {
-			(((AppWapplet) getApp()).getAppletFrame()).setMOWToorbarMode(mode);
+			(((AppWFull) getApp()).getAppletFrame()).setMOWToorbarMode(mode);
 			return mode;
 		}
 

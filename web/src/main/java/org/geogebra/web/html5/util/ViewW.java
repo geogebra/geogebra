@@ -20,13 +20,16 @@ public class ViewW {
 
 	private Element container;
 	private AppW app;
+	private ArticleElementInterface parameters;
 
 	/** Loads file into active GeoGebraFrame */
 	public static final LoadFilePresenter FILE_LOADER = new LoadFilePresenter();
 
-	public ViewW(Element container, AppW app) {
+	public ViewW(Element container, AppW app,
+			ArticleElementInterface parameters) {
 		this.app = app;
 		this.container = container;
+		this.parameters = parameters;
 	}
 
 	public static String checkLAF() {
@@ -49,100 +52,100 @@ public class ViewW {
 	}
 
 	public String getDataParamFileName() {
-		return ((ArticleElement) container).getDataParamFileName();
+		return getArticleElement().getDataParamFileName();
 	}
 
 	public String getDataParamJSON() {
-		return ((ArticleElement) container).getDataParamJSON();
+		return getArticleElement().getDataParamJSON();
 	}
 
 	public String getDataParamBase64String() {
-		return ((ArticleElement) container).getDataParamBase64String();
+		return getArticleElement().getDataParamBase64String();
 	}
 
 	public String getDataParamLanguage() {
-		return ((ArticleElement) container).getDataParamLanguage();
+		return getArticleElement().getDataParamLanguage();
 	}
 
 	public String getDataParamCountry() {
-		return ((ArticleElement) container).getDataParamCountry();
+		return getArticleElement().getDataParamCountry();
 	}
 
 	public boolean getDataParamUseBrowserForJS() {
-		return ((ArticleElement) container).getDataParamUseBrowserForJS();
+		return getArticleElement().getDataParamUseBrowserForJS();
 	}
 
 	public boolean getDataParamEnableLabelDrags() {
-		return ((ArticleElement) container).getDataParamEnableLabelDrags();
+		return getArticleElement().getDataParamEnableLabelDrags();
 	}
 
 	public boolean getDataParamEnableUndoRedo() {
-		return ((ArticleElement) container).getDataParamEnableUndoRedo();
+		return getArticleElement().getDataParamEnableUndoRedo();
 	}
 
 	public boolean getDataParamEnableRightClick() {
-		return ((ArticleElement) container).getDataParamEnableRightClick();
+		return getArticleElement().getDataParamEnableRightClick();
 	}
 
 	public boolean getDataParamShowMenuBar(boolean def) {
-		return ((ArticleElement) container).getDataParamShowMenuBar(def);
+		return getArticleElement().getDataParamShowMenuBar(def);
 	}
 
 	public boolean getDataParamShowAlgebraInput(boolean def) {
-		return ((ArticleElement) container).getDataParamShowAlgebraInput(def);
+		return getArticleElement().getDataParamShowAlgebraInput(def);
 	}
 
 	public boolean getDataParamShowToolBar(boolean def) {
-		return ((ArticleElement) container).getDataParamShowToolBar(def);
+		return getArticleElement().getDataParamShowToolBar(def);
 	}
 
 	public boolean getDataParamShowToolBarHelp() {
-		// return ((ArticleElement) container).getDataParamShowToolBarHelp();
+		// return getArticleElement().getDataParamShowToolBarHelp();
 		return false;
 	}
 
 	public boolean getDataParamShiftDragZoomEnabled() {
-		return ((ArticleElement) container).getDataParamShiftDragZoomEnabled();
+		return getArticleElement().getDataParamShiftDragZoomEnabled();
 	}
 
 	public boolean getDataParamShowResetIcon() {
-		return ((ArticleElement) container).getDataParamShowResetIcon();
+		return getArticleElement().getDataParamShowResetIcon();
 	}
 
 	public boolean getDataParamButtonShadows() {
-		return ((ArticleElement) container).getDataParamButtonShadows();
+		return getArticleElement().getDataParamButtonShadows();
 	}
 
 	public double getDataParamButtonRounding() {
-		return ((ArticleElement) container).getDataParamButtonRounding();
+		return getArticleElement().getDataParamButtonRounding();
 	}
 
 	public boolean getDataParamShowAnimationButton() {
-		return ((ArticleElement) container).getDataParamShowAnimationButton();
+		return getArticleElement().getDataParamShowAnimationButton();
 	}
 
 	public int getDataParamCapturingThreshold() {
-		return ((ArticleElement) container).getDataParamCapturingThreshold();
+		return getArticleElement().getDataParamCapturingThreshold();
 	}
 
 	public boolean getDataParamAllowSymbolTable() {
-		return ((ArticleElement) container).getDataParamAllowSymbolTable();
+		return getArticleElement().getDataParamAllowSymbolTable();
 	}
 
 	public boolean getDataParamErrorDialogsActive() {
-		return ((ArticleElement) container).getDataParamErrorDialogsActive();
+		return getArticleElement().getDataParamErrorDialogsActive();
 	}
 
 	public String getDataParamPerspective() {
-		return ((ArticleElement) container).getDataParamPerspective();
+		return getArticleElement().getDataParamPerspective();
 	}
 
 	public boolean getDataParamAllowStyleBar() {
-		return ((ArticleElement) container).getDataParamAllowStyleBar();
+		return getArticleElement().getDataParamAllowStyleBar();
 	}
 
-	public ArticleElement getArticleElement() {
-		return ((ArticleElement) container);
+	public ArticleElementInterface getArticleElement() {
+		return parameters == null ? ((ArticleElement) container) : parameters;
 	}
 
 	private native void log(Object ex)/*-{
@@ -405,7 +408,7 @@ public class ViewW {
 	}
 
 	public boolean getDataParamApp() {
-		return ((ArticleElement) container).getDataParamApp();
+		return getArticleElement().getDataParamApp();
 	}
 
 	/**
@@ -437,10 +440,10 @@ public class ViewW {
 	}-*/;
 
 	public void adjustScale() {
-		((ArticleElement) this.container).adjustScale();
+		getArticleElement().adjustScale();
 	}
 
 	public String getDataParamTubeID() {
-		return ((ArticleElement) this.container).getDataParamTubeID();
+		return getArticleElement().getDataParamTubeID();
 	}
 }

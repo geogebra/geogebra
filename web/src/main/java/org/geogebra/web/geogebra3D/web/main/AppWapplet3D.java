@@ -16,7 +16,7 @@ import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.dialog.DialogManager3DW;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
-import org.geogebra.web.full.main.AppWapplet;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianView3DW;
@@ -28,10 +28,10 @@ import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.main.GgbFile;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 
 /** 3D applet */
-public class AppWapplet3D extends AppWapplet {
+public class AppWapplet3D extends AppWFull {
 	private EuclidianView3DW euclidianView3D;
 	private EuclidianController3DW euclidianController3D;
 
@@ -47,9 +47,9 @@ public class AppWapplet3D extends AppWapplet {
 	 * @param device
 	 *            browser or tablet
 	 */
-	public AppWapplet3D(ArticleElement ae, GeoGebraFrameBoth gf,
+	public AppWapplet3D(ArticleElementInterface ae, GeoGebraFrameBoth gf,
 			GLookAndFeel laf, GDevice device) {
-		super(ae, gf, 3, laf, device);
+		super(ae, 3, laf, device, gf);
 	}
 
 	@Override

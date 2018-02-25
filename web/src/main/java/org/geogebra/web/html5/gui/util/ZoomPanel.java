@@ -18,7 +18,7 @@ import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.TabHandler;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
@@ -96,7 +96,7 @@ public class ZoomPanel extends FlowPanel
 	 * Updates fullscreen button and article.
 	 */
 	public void updateFullscreen() {
-		ArticleElement ae = app.getArticleElement();
+		ArticleElementInterface ae = app.getArticleElement();
 		if (!ae.getDataParamApp() && isFullScreen) {
 			scaleApplet(ae.getParentElement(),
 					ae.getParentElement().getParentElement());
@@ -353,7 +353,7 @@ public class ZoomPanel extends FlowPanel
 		if (app.getArticleElement().getDataParamFitToScreen()) {
 			container = null;
 		} else {
-			ArticleElement ae = app.getArticleElement();
+			ArticleElementInterface ae = app.getArticleElement();
 			final Element scaler = ae.getParentElement();
 			container = scaler.getParentElement();
 			if (!isFullScreen) {

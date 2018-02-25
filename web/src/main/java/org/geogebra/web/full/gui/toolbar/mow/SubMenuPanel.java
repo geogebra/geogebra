@@ -7,7 +7,7 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.common.main.Feature;
 import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.full.main.AppWapplet;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.FastClickHandler;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.util.StandardButton;
@@ -288,7 +288,7 @@ public abstract class SubMenuPanel extends FlowPanel
 			app.toggleMenu();
 		}
 		if (app.has(Feature.MOW_MULTI_PAGE)) {
-			((AppWapplet) app).getAppletFrame().getPageControlPanel().close();
+			((AppWFull) app).getAppletFrame().getPageControlPanel().close();
 		}
 	}
 

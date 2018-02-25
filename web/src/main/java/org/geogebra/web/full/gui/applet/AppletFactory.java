@@ -3,7 +3,7 @@ package org.geogebra.web.full.gui.applet;
 import org.geogebra.web.full.main.GDevice;
 import org.geogebra.web.html5.gui.laf.GLookAndFeelI;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 
 /**
  * Factory for either 2D or 3D applets
@@ -21,7 +21,7 @@ public interface AppletFactory {
 	 *            browser / tablet; used for file sync
 	 * @return applet
 	 */
-	public AppW getApplet(ArticleElement ae, GeoGebraFrameBoth frame,
+	public AppW getApplet(ArticleElementInterface ae, GeoGebraFrameBoth frame,
 			GLookAndFeelI laf, GDevice device);
 
 }

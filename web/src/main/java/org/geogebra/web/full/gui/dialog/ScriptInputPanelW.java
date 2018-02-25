@@ -17,7 +17,6 @@ import org.geogebra.common.gui.dialog.options.model.ScriptInputModel.IScriptInpu
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.ScriptType;
 import org.geogebra.common.util.AsyncOperation;
-import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.util.ScriptArea;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
@@ -146,7 +145,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 */
 	protected void showKeyboard() {
 		app.updateKeyBoardField(textArea);
-		((GeoGebraFrameBoth) ((AppWFull) app).getAppletFrame())
+		((AppWFull) app).getAppletFrame()
 				.showKeyBoard(true, textArea, false);
 		CancelEventTimer.keyboardSetVisible();
 

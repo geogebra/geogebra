@@ -20,7 +20,7 @@ import org.geogebra.web.full.gui.dialog.options.OptionsLayoutW;
 import org.geogebra.web.full.gui.dialog.options.OptionsObjectW;
 import org.geogebra.web.full.gui.dialog.options.OptionsSpreadsheetW;
 import org.geogebra.web.full.gui.util.PersistablePanel;
-import org.geogebra.web.full.main.AppWapplet;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.tabpanel.MultiRowsTabPanel;
@@ -574,12 +574,12 @@ public class PropertiesViewW extends PropertiesView
 		if (!isFloatingAttached()) {
 			wrappedPanel.setVisible(true);
 			wrappedPanel.addStyleName("floatingSettings");
-			((AppWapplet) app).getAppletFrame().add(wrappedPanel);
+			((AppWFull) app).getAppletFrame().add(wrappedPanel);
 			setFloatingAttached(true);
 		}
 		final Style style = ((AppW) app).getFrameElement().getStyle();
 		style.setOverflow(Overflow.HIDDEN);
-		((AppWapplet) app).centerAndResizePopups();
+		((AppWFull) app).centerAndResizePopups();
 		wrappedPanel.removeStyleName("animateOut");
 		wrappedPanel.addStyleName("animateIn");
 		CSSAnimation.runOnAnimation(new Runnable() {
@@ -615,7 +615,7 @@ public class PropertiesViewW extends PropertiesView
 	 */
 	protected void onFloatingSettingsClose() {
 		app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
-		((AppWapplet) app).getAppletFrame().remove(wrappedPanel);
+		((AppWFull) app).getAppletFrame().remove(wrappedPanel);
 		setFloatingAttached(false);
 		((AppW) app).getFrameElement().getStyle()
 				.setOverflow(Overflow.VISIBLE);

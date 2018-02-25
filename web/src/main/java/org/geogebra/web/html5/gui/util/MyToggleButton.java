@@ -106,7 +106,7 @@ public class MyToggleButton extends ToggleButton implements AccessibilityInterfa
 		if (mayFocus) {
 			super.setFocus(focus);
 		} else if (app.has(Feature.HELP_AND_SHORTCUTS_IMPROVEMENTS)) {
-			((AppW) app).getArticleElement().focus();
+			((AppW) app).getArticleElement().getElement().focus();
 		}
 	}
 

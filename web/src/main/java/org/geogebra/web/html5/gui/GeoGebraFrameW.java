@@ -11,6 +11,7 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.HasAppletProperties;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ViewW;
 import org.geogebra.web.html5.util.debug.LoggerW;
@@ -56,7 +57,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 
 	private static HashMap<String, AppW> articleMap = new HashMap<>();
 	/** Article element */
-	public ArticleElement ae;
+	public ArticleElementInterface ae;
 
 	private int computedWidth = 0;
 	private int computedHeight = 0;
@@ -224,9 +225,9 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	public void updateArticleHeight() {
 		int margin = ae.getDataParamMarginTop();
 		if (AppW.smallScreen() || margin <= 0) {
-			ae.getStyle().setHeight(100, Unit.PCT);
+			ae.getElement().getStyle().setHeight(100, Unit.PCT);
 		} else {
-			ae.getStyle().setProperty("height",
+			ae.getElement().getStyle().setProperty("height",
 					"calc(100% - " + margin + "px)");
 		}
 	}
@@ -292,12 +293,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		return computedHeight;
 	}
 
-	private static void setBorder(ArticleElement ae, GeoGebraFrameW gf,
+	private static void setBorder(ArticleElementInterface ae, GeoGebraFrameW gf,
 	        String dpBorder, int px) {
-		setBorder(ae, gf.getStyleElement(), dpBorder, px);
+		setBorder(ae.getElement(), gf.getStyleElement(), dpBorder, px);
 	}
 
-	private static void setBorder(ArticleElement ae, Element gfE,
+	private static void setBorder(Element ae, Element gfE,
 			String dpBorder, int px) {
 		ae.getStyle().setBorderWidth(0, Style.Unit.PX);
 		ae.getStyle().setBorderStyle(Style.BorderStyle.SOLID);
@@ -317,7 +318,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @param gf
 	 *            frame
 	 */
-	public static void useDataParamBorder(ArticleElement ae, GeoGebraFrameW gf) {
+	public static void useDataParamBorder(ArticleElementInterface ae,
+			GeoGebraFrameW gf) {
 		// Log.debug("useDataParamBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		int thickness = ae.getBorderThickness() / 2;
@@ -332,7 +334,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		        GeoGebraConstants.APPLET_FOCUSED_CLASSNAME);
 		gf.getElement().addClassName(
 		        GeoGebraConstants.APPLET_UNFOCUSED_CLASSNAME);
-		ae.getStyle().setOutlineStyle(OutlineStyle.NONE);
+		ae.getElement().getStyle().setOutlineStyle(OutlineStyle.NONE);
 	}
 
 	/**
@@ -365,7 +367,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @param gf
 	 *            frame
 	 */
-	public static void useFocusedBorder(ArticleElement ae, GeoGebraFrameW gf) {
+	public static void useFocusedBorder(ArticleElementInterface ae,
+			GeoGebraFrameW gf) {
 		// Log.debug("useFocusedBorder - " + ae.getClassName());
 		String dpBorder = ae.getDataParamBorder();
 		gf.getElement().removeClassName(
@@ -402,7 +405,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 */
 	public void runAsyncAfterSplash() {
 		final GeoGebraFrameW inst = this;
-		final ArticleElement articleElement = this.ae;
+		final ArticleElementInterface articleElement = this.ae;
 
 		// GWT.runAsync(new RunAsyncCallback() {
 
@@ -442,8 +445,10 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 * @param app
 	 *            app
 	 */
-	public static void handleLoadFile(ArticleElement articleElement, AppW app) {
-		ViewW view = new ViewW(articleElement, app);
+	public static void handleLoadFile(ArticleElementInterface articleElement,
+			AppW app) {
+		ViewW view = new ViewW(articleElement.getElement(), app,
+				articleElement);
 		ViewW.FILE_LOADER.setView(view);
 		ViewW.FILE_LOADER.onPageLoad();
 	}
@@ -472,7 +477,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	 *            look and feel
 	 * @return the newly created instance of Application
 	 */
-	protected abstract AppW createApplication(ArticleElement article,
+	protected abstract AppW createApplication(ArticleElementInterface article,
 			GLookAndFeelI lookAndFeel);
 
 	/**
@@ -634,7 +639,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		GeoGebraFrameW.getInstances()
 				.remove(
 		        GeoGebraFrameW.getInstances().indexOf(this));
-		this.ae.removeFromParent();
+		this.ae.getElement().removeFromParent();
 		this.ae = null;
 		this.app = null;
 		ViewW.FILE_LOADER.setView(null);

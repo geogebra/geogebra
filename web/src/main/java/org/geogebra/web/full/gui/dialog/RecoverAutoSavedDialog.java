@@ -2,7 +2,6 @@ package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.main.AppWapplet;
 import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -25,7 +24,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	private String materialJSON;
 	
 	/**
-	 * only used from {@link AppWapplet} with menu
+	 * only used from {@link AppWFull} with menu
 	 * 
 	 * @param app
 	 *            {@link AppW}

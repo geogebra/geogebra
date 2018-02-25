@@ -119,6 +119,7 @@ import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.sound.GTimerW;
 import org.geogebra.web.html5.sound.SoundManagerW;
 import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.Dom;
 import org.geogebra.web.html5.util.ImageLoadCallback;
 import org.geogebra.web.html5.util.ImageManagerW;
@@ -188,7 +189,7 @@ public abstract class AppW extends App implements SetLabels {
 	protected MaterialsManagerI fm;
 	private Material activeMaterial;
 
-	protected final ArticleElement articleElement;
+	protected final ArticleElementInterface articleElement;
 
 	protected EuclidianPanelWAbstract euclidianViewPanel;
 	protected Canvas canvas;
@@ -257,7 +258,8 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param laf
 	 *            (null for webSimple) {@link GLookAndFeelI}
 	 */
-	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf) {
+	protected AppW(ArticleElementInterface ae, int dimension,
+			GLookAndFeelI laf) {
 		super(getVersion(ae, dimension, laf));
 		if ("graphing".equals(ae.getDataParamAppName())) {
 			this.initialPerspective = "1";
@@ -278,7 +280,7 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		this.loc = new LocalizationW(dimension);
 		this.articleElement = ae;
-		ArticleElement.addNativeFocusHandler(articleElement, this);
+		ArticleElement.addNativeFocusHandler(articleElement.getElement(), this);
 		this.laf = laf;
 
 		getTimerSystem();
@@ -340,7 +342,8 @@ public abstract class AppW extends App implements SetLabels {
 		return Window.getClientWidth() < 600 || Window.getClientHeight() < 600;
 	}
 
-	private static Versions getVersion(ArticleElement ae, int dimension,
+	private static Versions getVersion(ArticleElementInterface ae,
+			int dimension,
 			GLookAndFeelI laf2) {
 		return laf2 == null ? Versions.WEB_FOR_BROWSER_SIMPLE
 				: laf2.getVersion(dimension, ae.getDataParamAppName());
@@ -739,13 +742,13 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void loadGgbFileAsBase64Again(String dataUrl) {
 		prepareReloadGgbFile();
-		ViewW view = new ViewW(null, this);
+		ViewW view = new ViewW(null, this, null);
 		view.processBase64String(dataUrl);
 	}
 
 	public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
 		prepareReloadGgbFile();
-		ViewW view = new ViewW(null, this);
+		ViewW view = new ViewW(null, this, null);
 		view.processBinaryString(binary);
 	}
 
@@ -1931,7 +1934,7 @@ public abstract class AppW extends App implements SetLabels {
 		return true;
 	}
 
-	public ArticleElement getArticleElement() {
+	public ArticleElementInterface getArticleElement() {
 		return articleElement;
 	}
 
@@ -2526,7 +2529,7 @@ public abstract class AppW extends App implements SetLabels {
 	public void loseFocus() {
 		// probably this is called on ESC, so the reverse
 		// should happen on ENTER
-		Element ret = nativeLoseFocus(articleElement);
+		Element ret = nativeLoseFocus(articleElement.getElement());
 		if (ret != null) {
 			setLastActive(ret);
 			setAnyAppFocused(false);

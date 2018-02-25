@@ -8,7 +8,7 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
-import org.geogebra.web.full.main.AppWapplet;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.ClickStartHandler;
@@ -52,7 +52,7 @@ public class ContextMenuPagePreview extends MyToggleButton
 		this.app = app;
 		this.card = card;
 		loc = app.getLocalization();
-		frame = ((AppWapplet) app).getAppletFrame();
+		frame = ((AppWFull) app).getAppletFrame();
 		initButton();
 	}
 

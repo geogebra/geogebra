@@ -8,7 +8,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GeoGebraTubeAPIWSimple;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.WindowW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -41,7 +41,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 * @param articleElement
 	 */
 	public GeoGebraTubeAPIW(ClientInfo client, boolean beta,
-			ArticleElement articleElement) {
+			ArticleElementInterface articleElement) {
 		super(beta, articleElement);
 		this.client = client;
 	}

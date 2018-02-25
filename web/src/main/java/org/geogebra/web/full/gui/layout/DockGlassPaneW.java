@@ -7,7 +7,7 @@ import org.geogebra.common.gui.layout.DockComponent;
 import org.geogebra.common.javax.swing.SwingConstants;
 import org.geogebra.ggbjdk.java.awt.geom.Rectangle;
 import org.geogebra.web.html5.gui.util.ClickEndHandler;
-import org.geogebra.web.html5.util.ArticleElement;
+import org.geogebra.web.html5.util.ArticleElementInterface;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
@@ -50,7 +50,7 @@ public class DockGlassPaneW extends AbsolutePanel implements
 	private com.google.gwt.event.shared.HandlerRegistration reg0, reg1, reg2;
 
 
-	private ArticleElement ae;
+	private ArticleElementInterface ae;
 
 	/**********************************************
 	 * Constructs a DockGlassPane
@@ -74,7 +74,7 @@ public class DockGlassPaneW extends AbsolutePanel implements
 
 	}
 	
-	public void setArticleElement(ArticleElement ae){
+	public void setArticleElement(ArticleElementInterface ae) {
 		this.ae = ae; 
 	}
 
@@ -407,7 +407,7 @@ public class DockGlassPaneW extends AbsolutePanel implements
 		}
 	}
 
-	public ArticleElement getArticleElement() {
+	public ArticleElementInterface getArticleElement() {
 		return ae;
 	}
 

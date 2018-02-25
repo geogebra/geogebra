@@ -4,7 +4,7 @@ import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 import org.geogebra.web.full.gui.view.consprotocol.ConstructionProtocolNavigationW;
-import org.geogebra.web.full.main.AppWapplet;
+import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.gui.util.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -281,9 +281,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	@Override
 	public void onResize() {
 		super.onResize();
-		if (((AppWapplet) app).getAppletFrame().getMOWToorbar() != null
+		if (((AppWFull) app).getAppletFrame().getMOWToorbar() != null
 				&& app.isWhiteboardActive()) {
-			((AppWapplet) app).getAppletFrame().getMOWToorbar()
+			((AppWFull) app).getAppletFrame().getMOWToorbar()
 					.updateFloatingButtonsPosition();
 		}
 	}

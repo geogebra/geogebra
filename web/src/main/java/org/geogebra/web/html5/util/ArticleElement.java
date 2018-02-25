@@ -25,7 +25,7 @@ import com.google.gwt.user.client.Window.Location;
  * Class for the HTML5 &lt;article&gt; tag
  */
 @TagName(ArticleElement.TAG)
-public final class ArticleElement extends Element {
+public final class ArticleElement extends Element implements ArticleElementInterface {
 	/** tag name */
 	static final String TAG = "article";
 
@@ -51,9 +51,10 @@ public final class ArticleElement extends Element {
 		// needed for GWT
 	}
 
-	/**
-	 * Clear the content of this element
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#clear()
 	 */
+	@Override
 	public void clear() {
 		this.setInnerHTML("");
 	}
@@ -70,10 +71,10 @@ public final class ArticleElement extends Element {
 		}
 	}-*/;
 
-	/**
-	 * @return the data-param-id article attribute as String if set else
-	 *         AppWeb.DEFAULT_APPLET_ID
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamId()
 	 */
+	@Override
 	public String getDataParamId() {
 		String ret = this.getAttribute("data-param-id");
 		if (("".equals(ret)) || !ret.matches("[A-Za-z0-9_]+")) {
@@ -82,128 +83,114 @@ public final class ArticleElement extends Element {
 		return ret;
 	}
 
-	/**
-	 * @return the data-param-filename article attribute as String if set else
-	 *         empty String
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamFileName()
 	 */
+	@Override
 	public String getDataParamFileName() {
 		return getStringDataParam("filename", "");
 	}
 
-	/**
-	 * @return data-param-json (string encoded ZIP file stucture)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamJSON()
 	 */
+	@Override
 	public String getDataParamJSON() {
 		return getStringDataParam("json", "");
 	}
 
-	/**
-	 * Determines if the "data-param-enableLabelDrags" article attribute is set
-	 * to true
-	 * 
-	 * @return the data-param-enableLabelDrags (default: true)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamEnableLabelDrags()
 	 */
+	@Override
 	public boolean getDataParamEnableLabelDrags() {
 		return getBoolDataParam("enableLabelDrags", true);
 	}
 
-	/**
-	 * Determines if the "data-param-enableUndoRedo" article attribute is set to
-	 * true
-	 * 
-	 * @return the data-param-enableUndoRedo (default: true)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamEnableUndoRedo()
 	 */
+	@Override
 	public boolean getDataParamEnableUndoRedo() {
 		return getBoolDataParam("enableUndoRedo", true);
 	}
 
-	/**
-	 * Determines if the "data-param-enableRightClick" article attribute is set
-	 * to true
-	 * 
-	 * @return the data-param-enableRightClick (default: true)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamEnableRightClick()
 	 */
+	@Override
 	public boolean getDataParamEnableRightClick() {
 		return getBoolDataParam("enableRightClick", true);
 	}
 	
-	/**
-	 * @param def
-	 *            fallback if parameter not set
-	 * @return data-param-enableCAS: whether CAS is enabled
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamEnableCAS(boolean)
 	 */
+	@Override
 	public boolean getDataParamEnableCAS(boolean def) {
 		return getBoolDataParam("enableCAS", def);
 	}
 
-	/**
-	 * @param def
-	 *            fallback if parameter not set
-	 * @return data-param-enable3D: whether 3D is enabled
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamEnable3D(boolean)
 	 */
+	@Override
 	public boolean getDataParamEnable3D(boolean def) {
 		return getBoolDataParam("enable3D", def);
 	}
 
-	/**
-	 * @param def
-	 *            fallback if parameter not set
-	 * @return data-param-enableGraphing: whether graphing, commands and vectors
-	 *         are enabled
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamEnableGraphing(boolean)
 	 */
+	@Override
 	public boolean getDataParamEnableGraphing(boolean def) {
 		return getBoolDataParam("enableGraphing", def);
 	}
 
-	/**
-	 * @return true, if there is data-param-enableGraphing attribute, and it is
-	 *         not an empty string
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#hasDataParamEnableGraphing()
 	 */
+	@Override
 	public boolean hasDataParamEnableGraphing() {
 		return !"".equals(this.getAttribute("data-param-enableGraphing"));
 	}
 
-	/**
-	 * @return rounding; consists of integer and suffix that determines whether
-	 *         significant figures are used (s) and whether fractions are
-	 *         prefered (r)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamRounding()
 	 */
+	@Override
 	public String getDataParamRounding() {
 		return this.getAttribute("data-param-rounding");
 	}
 
-	/**
-	 * @return the data-param-ggbbase64 article attribute as String if set else
-	 *         empty String
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamBase64String()
 	 */
+	@Override
 	public String getDataParamBase64String() {
 		return getStringDataParam("ggbbase64", "");
 	}
 
-	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return the data-param-showMenuBar (default: false)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowMenuBar(boolean)
 	 */
+	@Override
 	public boolean getDataParamShowMenuBar(boolean def) {
 		return getBoolDataParam("showMenuBar", def) || getDataParamApp();
 	}
 
-	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return data-param-allowStylebar: whether to have stylebar; no effect
-	 *         when menu is present
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamAllowStyleBar(boolean)
 	 */
+	@Override
 	public boolean getDataParamAllowStyleBar(boolean def) {
 		return getBoolDataParam("allowStyleBar", def);
 	}
 
-	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return the data-param-showToolBar (default: false)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowToolBar(boolean)
 	 */
+	@Override
 	public boolean getDataParamShowToolBar(boolean def) {
 		if (getDataParamShowMenuBar(false) || getDataParamApp()) {
 			return true;
@@ -211,11 +198,10 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("showToolBar", def);
 	}
 
-	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return whether to show toolbar help (tooltips)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowToolBarHelp(boolean)
 	 */
+	@Override
 	public boolean getDataParamShowToolBarHelp(boolean def) {
 		if (!getDataParamShowToolBar(false) && !getDataParamApp()) {
 			return false;
@@ -223,28 +209,26 @@ public final class ArticleElement extends Element {
 		return getBoolDataParam("showToolBarHelp", def);
 	}
 
-	/**
-	 * 
-	 * @return the data-param-customToolBar (default: null)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamCustomToolBar()
 	 */
+	@Override
 	public String getDataParamCustomToolBar() {
 		return getStringDataParam("customToolBar", "");
 	}
 
-	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return the data-param-showAlgebraInput (default: true)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowAlgebraInput(boolean)
 	 */
+	@Override
 	public boolean getDataParamShowAlgebraInput(boolean def) {
 		return getBoolDataParam("showAlgebraInput", def);
 	}
 	
-	/**
-	 * @param def
-	 *            fallback if parameter is not set
-	 * @return input position (top / bottom / AV)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getAlgebraPosition(org.geogebra.common.main.App.InputPosition)
 	 */
+	@Override
 	public InputPosition getAlgebraPosition(InputPosition def) {
 		String pos = getStringDataParam("algebraInputPosition", "")
 				.toLowerCase().trim();
@@ -260,24 +244,26 @@ public final class ArticleElement extends Element {
 		return def;
 	}
 
-	/**
-	 * @return the data-param-showResetIcon (default: false)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowResetIcon()
 	 */
+	@Override
 	public boolean getDataParamShowResetIcon() {
 		return getBoolDataParam("showResetIcon", false);
 	}
 
-	/**
-	 * @return the data-param-showAnimationButton (default: true)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowAnimationButton()
 	 */
+	@Override
 	public boolean getDataParamShowAnimationButton() {
 		return getBoolDataParam("showAnimationButton", true);
 	}
 
-	/**
-	 * @return pixel distance from point that counts as hit, defaults to
-	 *         {@link App#DEFAULT_THRESHOLD}
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamCapturingThreshold()
 	 */
+	@Override
 	public int getDataParamCapturingThreshold() {
 		int threshold = App.DEFAULT_THRESHOLD;
 		if ("".equals(this.getAttribute("data-param-capturingThreshold"))) {
@@ -293,43 +279,42 @@ public final class ArticleElement extends Element {
 		return threshold;
 	}
 
-	/**
-	 * eg "de"
-	 * 
-	 * @return the data-param-showResetIcon (default: null)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamLanguage()
 	 */
+	@Override
 	public String getDataParamLanguage() {
 		return this.getAttribute("data-param-language");
 	}
 
-	/**
-	 * 
-	 * eg "AT"
-	 * 
-	 * @return the data-param-showResetIcon (default: null)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamCountry()
 	 */
+	@Override
 	public String getDataParamCountry() {
 		return this.getAttribute("data-param-country");
 	}
 
-	/**
-	 * 
-	 * @return the data-param-useBrowserForJS (default: false)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamUseBrowserForJS()
 	 */
+	@Override
 	public boolean getDataParamUseBrowserForJS() {
 		return getBoolDataParam("useBrowserForJS", false);
 	}
 
-	/**
-	 * @return the data-param-enableShiftDragZoom (default: true)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShiftDragZoomEnabled()
 	 */
+	@Override
 	public boolean getDataParamShiftDragZoomEnabled() {
 		return getBoolDataParam("enableShiftDragZoom", true);
 	}
 
-	/**
-	 * @return integer value of the data-param-width, 0 if not present
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamWidth()
 	 */
+	@Override
 	public int getDataParamWidth() {
 		return getIntegerAttribute("width", 0);
 
@@ -348,50 +333,59 @@ public final class ArticleElement extends Element {
 		return fallback;
 	}
 
-	/**
-	 * @return integer value of the data-param-height, 0 if not present
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamHeight()
 	 */
+	@Override
 	public int getDataParamHeight() {
 		return getIntegerAttribute("height", 0);
 	}
 
-	/**
-	 * @return wheter the applet should fit to screen
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamFitToScreen()
 	 */
+	@Override
 	public boolean getDataParamFitToScreen() {
 		return getBoolDataParam("fittoscreen", false) || getDataParamApp();
 	}
 
-	/**
-	 * @return border color (valid CSS color)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamBorder()
 	 */
+	@Override
 	public String getDataParamBorder() {
 		return this.getAttribute("data-param-borderColor");
 	}
 
-	/**
-	 * @return the data-param-showLogging (default: false)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowLogging()
 	 */
+	@Override
 	public boolean getDataParamShowLogging() {
 		return !"false".equals(getStringDataParam("showLogging", "false"))
 				|| (Location.getParameter("GeoGebraDebug") != null);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#isDebugGraphics()
+	 */
+	@Override
 	public boolean isDebugGraphics() {
 		return "graphics".equals(getStringDataParam("showLogging", "false"));
 	}
 
-	/**
-	 * @return the data-param-allowSymbolTable (default: true)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamAllowSymbolTable()
 	 */
+	@Override
 	public boolean getDataParamAllowSymbolTable() {
 		return getBoolDataParam("allowSymbolTable", true);
 	}
 
-	/**
-	 * 
-	 * @return that the article element has (inherited) direction attribute
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#isRTL()
 	 */
+	@Override
 	public native boolean isRTL() /*-{
 		var style = $wnd.getComputedStyle(this);
 		return style && style.direction === "rtl";
@@ -442,18 +436,18 @@ public final class ArticleElement extends Element {
 		return envScale(this, type, true);
 	}
 
-	/**
-	 * @return get CSS scale of parent element
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getParentScaleX()
 	 */
+	@Override
 	public double getParentScaleX() {
 		return envScale(this.getParentElement(), "x", false);
 	}
 
-	/**
-	 * Read scale value and cache it
-	 * 
-	 * @return the CSS scale attached to the article element
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getScaleX()
 	 */
+	@Override
 	public double getScaleX() {
 		// no instance fields in subclasses of Element, so no way to assign it
 		// to
@@ -464,11 +458,10 @@ public final class ArticleElement extends Element {
 		return Double.parseDouble(this.getAttribute("data-scalex"));
 	}
 
-	/**
-	 * Read cached scale value or compute it, do not cache it
-	 * 
-	 * @return the CSS scale attached to the article element
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#readScaleX()
 	 */
+	@Override
 	public double readScaleX() {
 		if ("".equals(this.getAttribute("data-scalex"))) {
 			return envScale("x");
@@ -476,10 +469,10 @@ public final class ArticleElement extends Element {
 		return Double.parseDouble(this.getAttribute("data-scalex"));
 	}
 
-	/**
-	 * @return the CSS scale attached to the article element
-	 * 
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getScaleY()
 	 */
+	@Override
 	public double getScaleY() {
 		// no instance fields in subclasses of Element, so no way to asign it to
 		// a simple field
@@ -489,68 +482,74 @@ public final class ArticleElement extends Element {
 		return Double.parseDouble(this.getAttribute("data-scaley"));
 	}
 
-	/**
-	 * @return default false
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamAllowStyleBar()
 	 */
+	@Override
 	public boolean getDataParamAllowStyleBar() {
 		return getBoolDataParam("allowStyleBar", false);
 	}
 
-	/**
-	 * @return whwether to use app mode (forces fit to screen and most UIs
-	 *         visible)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamApp()
 	 */
+	@Override
 	public boolean getDataParamApp() {
 		return getBoolDataParam("app", false);
 	}
 
-	/**
-	 * Running in screenshot generator mode allows some optimizations
-	 * 
-	 * @return whether we are running the applet as screenshot generator
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamScreenshotGenerator()
 	 */
+	@Override
 	public boolean getDataParamScreenshotGenerator() {
 		return getBoolDataParam("screenshotGenerator", false);
 	}
 
-	/**
-	 * @return look and feel
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamLAF()
 	 */
+	@Override
 	public String getDataParamLAF() {
 		return getStringDataParam("laf", "");
 	}
 
-	/**
-	 * @return whether focus prevented (use in multiple applets)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#preventFocus()
 	 */
+	@Override
 	public boolean preventFocus() {
 		return getBoolDataParam("preventFocus", false);
 	}
 
-	/**
-	 * @return client ID for API
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataClientID()
 	 */
+	@Override
 	public String getDataClientID() {
 		return getStringDataParam("clientid", "");
 	}
 
-	/**
-	 * @return perspective
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamPerspective()
 	 */
+	@Override
 	public String getDataParamPerspective() {
 		return getStringDataParam("perspective", "");
 	}
 
-	/**
-	 * @return graphing, geometry or classic; defaults to classic
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamAppName()
 	 */
+	@Override
 	public String getDataParamAppName() {
 		return getStringDataParam("appName", "classic").toLowerCase(Locale.US);
 	}
 
-	/**
-	 * @return data-param-scale: the parameter for CSS scaling
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamScale()
 	 */
+	@Override
 	public double getDataParamScale() {
 		String scale = this.getAttribute("data-param-scale");
 		if (scale.length() < 1) {
@@ -566,17 +565,18 @@ public final class ArticleElement extends Element {
 
 	}
 
-	/**
-	 * @return whether focus prevented (use in multiple applets)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamButtonShadows()
 	 */
+	@Override
 	public boolean getDataParamButtonShadows() {
 		return getBoolDataParam("buttonShadows", false);
 	}
 
-	/**
-	 * @return data-param-buttonRounding: the parameter for how rounded buttons
-	 *         are (0-1)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamButtonRounding()
 	 */
+	@Override
 	public double getDataParamButtonRounding() {
 		String rounding = this.getAttribute("data-param-buttonRounding");
 		if (rounding.length() < 1) {
@@ -592,10 +592,10 @@ public final class ArticleElement extends Element {
 
 	}
 
-	/**
-	 * Sync data-scale params with external environment
-	 * 
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#adjustScale()
 	 */
+	@Override
 	public void adjustScale() {
 		if (getDataParamApp()
 		        || (getAttribute("data-scalex") != null && !""
@@ -613,9 +613,10 @@ public final class ArticleElement extends Element {
 
 	}
 
-	/**
-	 * Remove cached scale values
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#resetScale()
 	 */
+	@Override
 	public void resetScale() {
 		setAttribute("data-scalex", "" + envScale("x"));
 		setAttribute("data-scaley", "" + envScale("y"));
@@ -632,32 +633,34 @@ public final class ArticleElement extends Element {
 						.trim().toLowerCase());
 	}
 
-	/**
-	 * @return data-param-prerelease: whether to use some beta features
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamPrerelease()
 	 */
+	@Override
 	public String getDataParamPrerelease() {
 		return getAttribute("data-param-prerelease").trim().toLowerCase();
 	}
 
-	/**
-	 * @return material ID (or sharing code) to open on startup
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamTubeID()
 	 */
+	@Override
 	public String getDataParamTubeID() {
 		return getAttribute("data-param-tubeid");
 	}
 
-	/**
-	 * @param def
-	 *            fallback if parameter not set
-	 * @return whether to show "welcome" tooltip
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowStartTooltip(boolean)
 	 */
+	@Override
 	public boolean getDataParamShowStartTooltip(boolean def) {
 		return getBoolDataParam("showTutorialLink", def);
 	}
 
-	/**
-	 * @return whether to enable file menu
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamEnableFileFeatures()
 	 */
+	@Override
 	public boolean getDataParamEnableFileFeatures() {
 		return getBoolDataParam("enableFileFeatures", true);
 	}
@@ -678,14 +681,10 @@ public final class ArticleElement extends Element {
 		return articleNodes;
 	}
 
-	/**
-	 * Set the ID of this article to something unique; prefer getDataParamId,
-	 * append number in case of conflicts. If not set, use a string that
-	 * contains i
-	 * 
-	 * @param i
-	 *            number for id if fdataParamId not set
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#initID(int)
 	 */
+	@Override
 	public void initID(int i) {
 		String paramID = getDataParamId();
 		if (paramID.equals(getId())) {
@@ -705,9 +704,10 @@ public final class ArticleElement extends Element {
 
 	}
 
-	/**
-	 * @return whether error dialogs should be active, defaults to true
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamErrorDialogsActive()
 	 */
+	@Override
 	public boolean getDataParamErrorDialogsActive() {
 		return getBoolDataParam("errorDialogsActive", true);
 	}
@@ -719,52 +719,58 @@ public final class ArticleElement extends Element {
 		return ((CASFactory) GWT.create(CASFactory.class)).isEnabled();
 	}
 
-	/**
-	 * @return URL of materials plaftform API (empty string if not set)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getMaterialsAPIurl()
 	 */
+	@Override
 	public String getMaterialsAPIurl() {
 		return this.getAttribute("data-param-materialsApi");
 	}
 
-	/**
-	 * @return URL of materials plaftform API (empty string if not set)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getLoginAPIurl()
 	 */
+	@Override
 	public String getLoginAPIurl() {
 		return this.getAttribute("data-param-loginApi");
 	}
 
-	/**
-	 * @return whether to allow apps picker (for classic)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowAppsPicker()
 	 */
+	@Override
 	public boolean getDataParamShowAppsPicker() {
 		return getBoolDataParam("showAppsPicker", false);
 	}
 
-	/**
-	 * @return total thickness of borders (left + right = top + bottom)
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getBorderThickness()
 	 */
+	@Override
 	public int getBorderThickness() {
 		return getDataParamFitToScreen() ? 0 : 2;
 	}
 
-	/**
-	 * @return whether to show zoom buttons, defaults to false
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowZoomButtons()
 	 */
+	@Override
 	public boolean getDataParamShowZoomButtons() {
 		return getBoolDataParam("showZoomButtons", false);
 	}
 
-	/**
-	 * @return whether to show fullscreen button, defaults to false
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowFullscreenButton()
 	 */
+	@Override
 	public boolean getDataParamShowFullscreenButton() {
 		return getBoolDataParam("showFullscreenButton", false);
 	}
 
-	/**
-	 * @return whether suggestions buttons should be shown; default true if not
-	 *         set
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamShowSuggestionButtons()
 	 */
+	@Override
 	public boolean getDataParamShowSuggestionButtons() {
 		return getBoolDataParam("showSuggestionButtons", true);
 	}
@@ -781,17 +787,18 @@ public final class ArticleElement extends Element {
 				: this.getAttribute(attr);
 	}
 
-	/**
-	 * @return how much space should be left above the applet in fit-to-screen
-	 *         mode
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamMarginTop()
 	 */
+	@Override
 	public int getDataParamMarginTop() {
 		return this.getIntegerAttribute("marginTop", 0);
 	}
 
-	/**
-	 * @return height based on height and fitToScreen parameters
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#computeHeight()
 	 */
+	@Override
 	public int computeHeight() {
 		// do we have data-param-height?
 		int height = getDataParamHeight() - getBorderThickness();
@@ -809,8 +816,16 @@ public final class ArticleElement extends Element {
 		return height;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.geogebra.web.html5.util.ArticleElementInterface#getDataParamFontsCssUrl()
+	 */
+	@Override
 	public String getDataParamFontsCssUrl() {
 		return getStringDataParam("fontscssurl", "");
+	}
+
+	public ArticleElement getElement() {
+		return this;
 	}
 
 }

@@ -14,7 +14,6 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
-import org.geogebra.web.full.main.AppWapplet;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
@@ -505,8 +504,8 @@ public class PageListController implements PageListControllerInterface,
 		} else if (action == EventType.MOVE_SLIDE) {
 			doReorder(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
 		}
-		((AppWapplet) app).getAppletFrame().getPageControlPanel().update();
-		((AppWapplet) app).getAppletFrame().getPageControlPanel().open();
+		((AppWFull) app).getAppletFrame().getPageControlPanel().update();
+		((AppWFull) app).getAppletFrame().getPageControlPanel().open();
 
 	}
 
