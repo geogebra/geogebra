@@ -317,6 +317,8 @@ public class Derivative {
 							null))
 					.multiply((left).derivative(fv, kernel0));
 
+		case ROUND2:
+		case ROUND:
 		case FLOOR:
 		case CEIL:
 			return new ExpressionNode(kernel0, 0);
@@ -393,9 +395,6 @@ public class Derivative {
 		case RANDOM:
 			break;
 		case REAL:
-			break;
-		case ROUND2:
-		case ROUND:
 			break;
 		case SET_DIFFERENCE:
 			break;
