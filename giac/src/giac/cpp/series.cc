@@ -2550,6 +2550,8 @@ namespace giac {
     if (has_i(e_copy)) {
       e_copy=subst(e_copy,tan_tab,tan2sincos_tab,true,contextptr);
       e_copy=subst(e_copy,exp_tab,exp2sincos_tab,true,contextptr);
+      if (has_i(lop(e_copy,at_erfs)))
+	return gensizeerr(gettext("erf/erfc/erfs with complex argument not yet implemented in limit"));
     }
     // Rewrite constants
     vecteur rv=rlvar(e_copy,false),cv;
