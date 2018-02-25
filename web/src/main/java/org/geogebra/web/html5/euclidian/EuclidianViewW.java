@@ -1509,7 +1509,7 @@ public class EuclidianViewW extends EuclidianView implements
 			g2.setColor(getBackgroundCommon());
 			String old = g2.getContext().getLineJoin();
 			g2.getContext().setLineJoin(LineJoin.BEVEL);
-			g2.setStrokeLineWidth(getFontAxes().getSize() / 3d);
+			g2.setStrokeLineWidth(3);
 			g2.drawStringStroke(text, x, y);
 			g2.getContext().setLineJoin(old);
 		}
