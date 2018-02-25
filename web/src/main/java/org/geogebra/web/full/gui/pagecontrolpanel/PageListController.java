@@ -495,9 +495,12 @@ public class PageListController implements PageListControllerInterface,
 
 		} else if (action == EventType.REMOVE_SLIDE) {
 			if (getSlideCount() > 1) {
-				removeSlide(getSlideCount() - 1);
-				loadSlide(getSlideCount() - 1);
-				setCardSelected(getSlideCount() - 1);
+				int index = args.length > 0 ? Integer.parseInt(args[0])
+						: getSlideCount() - 1;
+				removeSlide(index);
+				int toLoad = index > 0 ? index - 1 : index;
+				loadSlide(toLoad);
+				setCardSelected(toLoad);
 			}
 		} else if (action == EventType.DUPLICATE_SLIDE) {
 			duplicateSlide(slides.get(Integer.parseInt(args[0])));

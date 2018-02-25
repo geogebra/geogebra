@@ -2,6 +2,7 @@ package org.geogebra.web.main;
 
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
+import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.full.main.BrowserDevice;
 import org.geogebra.web.geogebra3D.AppletFactory3D;
@@ -38,18 +39,30 @@ public class UndoTest {
 		app.getAppletFrame().getPageControlPanel().loadNewPage(false);
 		shouldHaveUndoPoints(2);
 		shouldHaveSlides(2);
-		slideShouldHaveObjects(1, 0);
 		slideShouldHaveObjects(0, 1);
-		
+		slideShouldHaveObjects(1, 0);
+
 		app.getPageController().reorder(0, 1);
 		app.getAppletFrame().getPageControlPanel().update();
-		slideShouldHaveObjects(1, 1);
 		slideShouldHaveObjects(0, 0);
+		slideShouldHaveObjects(1, 1);
 
 		app.getGgbApi().undo();
-		slideShouldHaveObjects(1, 0);
 		slideShouldHaveObjects(0, 1);
+		slideShouldHaveObjects(1, 0);
 
+
+		app.getAppletFrame().getPageControlPanel().duplicatePage(
+				((PageListController) app.getPageController()).getCard(0));
+		shouldHaveSlides(3);
+		slideShouldHaveObjects(0, 1);
+		slideShouldHaveObjects(1, 1);
+		slideShouldHaveObjects(2, 0);
+
+		app.getGgbApi().undo();
+		shouldHaveSlides(2);
+		slideShouldHaveObjects(0, 1);
+		slideShouldHaveObjects(1, 0);
 	}
 
 	private void slideShouldHaveObjects(int slide, int expectedCount) {

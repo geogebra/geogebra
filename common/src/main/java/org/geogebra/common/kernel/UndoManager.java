@@ -107,7 +107,7 @@ public abstract class UndoManager {
 	 */
 	protected void updateUndoActions() {
 		app.updateActions();
-		debugStates();
+		// debugStates();
 	}
 
 	/**

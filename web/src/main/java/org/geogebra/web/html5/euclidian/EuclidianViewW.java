@@ -261,7 +261,9 @@ public class EuclidianViewW extends EuclidianView implements
 	public final void doRepaint2() {
 		long time = System.currentTimeMillis();
 		this.updateBackgroundIfNecessary();
-		paint(this.g2p);
+		if (g2p != null) {
+			paint(this.g2p);
+		}
 		// if we have pen tool in action
 		// repaint the preview line
 		getEuclidianController().setCollectedRepaints(false);
@@ -553,7 +555,9 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void synCanvasSize() {
-		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
+		if (g2p != null) {
+			setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
+		}
 	}
 
 	@Override

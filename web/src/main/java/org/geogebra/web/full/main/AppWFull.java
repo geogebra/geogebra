@@ -1402,7 +1402,9 @@ public class AppWFull extends AppW implements HasKeyboard {
 
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
-		frame.splash.canNowHide();
+		if (frame.splash != null) {
+			frame.splash.canNowHide();
+		}
 
 		if (isUsingFullGui()) {
 			if (needsSpreadsheetTableModel()) {
