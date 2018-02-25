@@ -21,8 +21,11 @@ import org.geogebra.common.kernel.arithmetic.MyNumberPair;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.Test;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -131,7 +134,13 @@ public class AlgoIf extends AlgoElement {
 			result.setUndefined();
 			return;
 		}
-		result.set(newResult);
+		if (result instanceof GeoList && newResult instanceof GeoNumeric) {
+			// do nothing
+			Log.debug(
+					"don't want to call GeoList.set(GeoNumeric) here, please check");
+		} else {
+			result.set(newResult);
+		}
 		if (!newResult.isIndependent()) {
 			result.setDefinition(newResult.getDefinition() == null ? null
 					: newResult.getDefinition().deepCopy(kernel));
