@@ -208,7 +208,7 @@ public class GeoList extends GeoElement
 		reuseDefinition(geo);
 		if (geo.isGeoNumeric()) { // eg SetValue[list, 2]
 			// 1 -> first element
-			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble(), true);
+			setSelectedIndex(-1 + (int) ((GeoNumeric) geo).getDouble(), false);
 			isDefined = true;
 
 			return;
@@ -1693,9 +1693,7 @@ public class GeoList extends GeoElement
 			updateCascade();
 			getKernel().notifyRepaint();
 			getKernel().storeUndoInfo();
-
 		}
-
 	}
 
 	/*
