@@ -178,15 +178,30 @@ namespace giac {
   static define_unary_function_eval (__sizes,&_sizes,_sizes_s);
   define_unary_function_ptr5( at_sizes ,alias_at_sizes,&__sizes,0,true);
 
+  longlong lcm(int a,int b){
+    int d=gcd(a,b);
+    return (a/d)*longlong(b);
+  }
+
+  int lcm(const vector<int> & v){
+    vector<int>::const_iterator it=v.begin(),itend=v.end();
+    if (itend==it) return 0;
+    if (itend==it+1) return *it;
+    int r=lcm(*it,*(it+1));
+    for (it+=2;it<itend;++it)
+      r=lcm(r,*it);
+    return r;
+  }
+
   static int cyclesorder(const vector< vector<int> > & v,GIAC_CONTEXT){
     vector<int> ss;
     ss=sizes(v);   
-    return(_lcm(vector_int_2_vecteur(ss,contextptr),contextptr).val);
+    return lcm(ss);
   } 
   static int permuorder(const vector<int> & p,GIAC_CONTEXT){
     vector< vector<int> > c;  
     c=permu2cycles(p);
-    return(_lcm(vector_int_2_vecteur(sizes(c),contextptr),contextptr).val);
+    return lcm(sizes(c));
   }
 
   gen _permuorder(const gen & args,GIAC_CONTEXT){
@@ -302,7 +317,7 @@ namespace giac {
       return w;
     }
     gen n=args;
-    if (!is_integral(n) || n.type!=_INT_) 
+    if (!is_integral(n) || n.type!=_INT_ || n.val<=0) 
       return gensizeerr(contextptr);
     return vector_int_2_vecteur(randperm(n.val),contextptr);
   }
