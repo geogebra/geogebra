@@ -158,11 +158,6 @@ public class GeoLocusStroke extends GeoLocus
 	}
 
 	@Override
-	public boolean isIndependent() {
-		return true;
-	}
-
-	@Override
 	public boolean isAlgebraDuplicateable() {
 		return false;
 	}
