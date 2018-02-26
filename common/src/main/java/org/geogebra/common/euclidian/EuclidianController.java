@@ -12449,7 +12449,9 @@ public abstract class EuclidianController {
 
 	public void notifyCoordSystemListeners() {
 		for (CoordSystemListener listener: zoomerListeners) {
-			listener.onCoordSystemChanged();
+			if (listener != null) {
+				listener.onCoordSystemChanged();
+			}
 		}
 	}
 
