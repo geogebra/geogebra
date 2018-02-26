@@ -112,7 +112,7 @@ class DragController {
 
 			if (down) {
 				addSpaceTop();
-				if (clicked.getPageIndex() == 0) {
+				if (card.getPageIndex() == 0) {
 					last.top = next().getAbsoluteTop();
 				}
 			} else {
@@ -331,7 +331,7 @@ class DragController {
 	}
 	
 	void move(int x, int y) {
-		if (dropAnimTimer.isRunning()) {
+		if (CancelEventTimer.noDrag() || dropAnimTimer.isRunning()) {
 			return;
 		}
 
