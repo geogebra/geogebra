@@ -256,7 +256,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	private ArrayList<GeoElement> hitPointOrBoundary, hitFilling, hitLabel;
 
 	// Map (geo, drawable) for GeoElements and Drawables
-	private HashMap<GeoElement, DrawableND> drawableMap = new HashMap<>(
+	private final HashMap<GeoElement, DrawableND> drawableMap = new HashMap<>(
 			500);
 
 	private ArrayList<GeoPointND> stickyPointList = new ArrayList<>();
@@ -2478,7 +2478,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void setMode(int mode2) {
 		setMode(mode2, ModeSetter.TOOLBAR);
-
 	}
 
 	@Override
@@ -2511,6 +2510,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	@Override
 	final public DrawableND getDrawableFor(GeoElementND geo) {
 		return drawableMap.get(geo);
+	}
+
+	@Override
+	public boolean hasVisibleObjects() {
+		for (GeoElement geo : drawableMap.keySet()) {
+			if (geo.isEuclidianVisible()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@Override

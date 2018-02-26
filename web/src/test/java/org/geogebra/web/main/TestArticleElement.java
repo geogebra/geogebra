@@ -8,6 +8,14 @@ import com.google.gwt.user.client.DOM;
 
 public class TestArticleElement implements ArticleElementInterface {
 
+	private String appName;
+	private String prerelease;
+
+	public TestArticleElement(String prerelease, String appName) {
+		this.prerelease = prerelease;
+		this.appName = appName;
+	}
+
 	public void clear() {
 		// TODO Auto-generated method stub
 
@@ -45,17 +53,17 @@ public class TestArticleElement implements ArticleElementInterface {
 
 	public boolean getDataParamEnableCAS(boolean def) {
 		// TODO Auto-generated method stub
-		return false;
+		return def;
 	}
 
 	public boolean getDataParamEnable3D(boolean def) {
 		// TODO Auto-generated method stub
-		return false;
+		return def;
 	}
 
 	public boolean getDataParamEnableGraphing(boolean def) {
 		// TODO Auto-generated method stub
-		return false;
+		return def;
 	}
 
 	public boolean hasDataParamEnableGraphing() {
@@ -239,13 +247,12 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	public String getDataParamAppName() {
-		// TODO Auto-generated method stub
-		return "whiteboard";
+		return appName;
 	}
 
 	public double getDataParamScale() {
 		// TODO Auto-generated method stub
-		return 0;
+		return 1;
 	}
 
 	public boolean getDataParamButtonShadows() {
@@ -269,8 +276,7 @@ public class TestArticleElement implements ArticleElementInterface {
 	}
 
 	public String getDataParamPrerelease() {
-		// TODO Auto-generated method stub
-		return "canary";
+		return prerelease;
 	}
 
 	public String getDataParamTubeID() {

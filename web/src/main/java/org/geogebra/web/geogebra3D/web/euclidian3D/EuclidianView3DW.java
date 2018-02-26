@@ -24,6 +24,7 @@ import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWInterface;
 import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
+import org.geogebra.web.geogebra3D.web.euclidian3DnoWebGL.RendererWnoWebGL;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
@@ -102,13 +103,14 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		// initView(true);
 
 		getRenderer().init();
-		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				((AppW) getApplication()).closePopups();
-			}
-		});
-
+		if (g2p != null) {
+			ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y, PointerEventType type) {
+					((AppW) getApplication()).closePopups();
+				}
+			});
+		}
 	}
 
 
@@ -117,9 +119,10 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 		Canvas canvas = euclidianViewPanel.getCanvas();
 		setEvNo();
-
-		this.g2p = new GGraphics2DW(canvas);
-		g2p.setView(this);
+		if (canvas != null) {
+			this.g2p = new GGraphics2DW(canvas);
+			g2p.setView(this);
+		}
 
 		updateFonts();
 		initView(true);
@@ -132,31 +135,31 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		        (EuclidianController3DW) euclidiancontroller);
 
 		updateFirstAndLast(true, true);
+		if (canvas != null) {
+			canvas.addAttachHandler(new AttachEvent.Handler() {
+				@Override
+				public void onAttachOrDetach(AttachEvent ae) {
+					// see attach handler of EuclidianViewW
+					updateFirstAndLast(ae.isAttached(), false);
+				}
+			});
 
-		canvas.addAttachHandler(new AttachEvent.Handler() {
-			@Override
-			public void onAttachOrDetach(AttachEvent ae) {
-				// see attach handler of EuclidianViewW
-				updateFirstAndLast(ae.isAttached(), false);
-			}
-		});
+			canvas.addBlurHandler(new BlurHandler() {
+				@Override
+				public void onBlur(BlurEvent be) {
+					focusLost();
+					EuclidianViewW.cycle(EuclidianView3DW.this);
+				}
+			});
 
-		canvas.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent be) {
-				focusLost();
-				EuclidianViewW.cycle(EuclidianView3DW.this);
-			}
-		});
-
-		canvas.addFocusHandler(new FocusHandler() {
-			@Override
-			public void onFocus(FocusEvent fe) {
-				focusGained();
-				EuclidianViewW.selectNextGeoOnTab(EuclidianView3DW.this);
-			}
-		});
-
+			canvas.addFocusHandler(new FocusHandler() {
+				@Override
+				public void onFocus(FocusEvent fe) {
+					focusGained();
+					EuclidianViewW.selectNextGeoOnTab(EuclidianView3DW.this);
+				}
+			});
+		}
 		EuclidianSettings es = this.app.getSettings().getEuclidian(3);
 		settingsChanged(es);
 		es.addListener(this);
@@ -181,9 +184,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	private void registerKeyHandlers(Canvas canvas) {
 		GlobalKeyDispatcherW gkd = ((AppW) this.app).getGlobalKeyDispatcher();
-		canvas.addKeyDownHandler(gkd);
-		canvas.addKeyUpHandler(gkd);
-		canvas.addKeyPressHandler(gkd);
+		if (canvas != null) {
+			canvas.addKeyDownHandler(gkd);
+			canvas.addKeyUpHandler(gkd);
+			canvas.addKeyPressHandler(gkd);
+		}
 	}
 
 	private void registerMouseTouchGestureHandlers(
@@ -342,7 +347,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 */
 	@Override
 	public int getWidth() {
-		return (int) (this.g2p.getCoordinateSpaceWidth() / getPixelRatio());
+		return g2p == null ? 0
+				: (int) (this.g2p.getCoordinateSpaceWidth() / getPixelRatio());
 	}
 
 	/**
@@ -352,7 +358,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	 */
 	@Override
 	public int getHeight() {
-		return (int) (this.g2p.getCoordinateSpaceHeight() / getPixelRatio());
+		return g2p == null ? 0
+				: (int) (this.g2p.getCoordinateSpaceHeight() / getPixelRatio());
 	}
 
 	@Override
@@ -369,7 +376,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	protected Renderer createRenderer() {
-			return new RendererWithImplW(this);
+		Canvas webGLcanvas = Canvas.createIfSupported();
+		if (webGLcanvas == null) {
+			return new RendererWnoWebGL(this);
+		}
+		return new RendererWithImplW(this, webGLcanvas);
 
 	}
 
@@ -476,7 +487,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		// IMPORTANT: do nothing if we already have the classname,
 		// app.resetCursor is VERY expensive in IE
 		Canvas canvas = (Canvas) this.getRenderer().getCanvas();
-		if (!canvas.getElement().hasClassName(className)) {
+		if (canvas != null && !canvas.getElement().hasClassName(className)) {
 			((AppW) this.app).resetCursor();
 			canvas.setStyleName("");
 			canvas.addStyleName(className);
@@ -505,7 +516,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	@Override
 	public Canvas getCanvas() {
-		return g2p.getCanvas();
+		return g2p == null ? null : g2p.getCanvas();
 	}
 
 	/**

@@ -4,6 +4,7 @@ import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.awt.GGraphics2DW;
+import org.geogebra.web.html5.euclidian.GGraphics2DE;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
@@ -34,28 +35,28 @@ public class GBufferedImageW implements GBufferedImage {
 		} else {
 			canv = canvas;
 		}
-
-		canv.setCoordinateSpaceWidth((int) (width * pixelRatio));
-		canv.setCoordinateSpaceHeight((int) (height * pixelRatio));
-		canv.setWidth(width + "px");
-		canv.setHeight(height + "px");
-		Context2d c2d = canv.getContext2d();
-		if (opaque) {
-			// com.google.gwt.canvas.dom.client.FillStrokeStyle fss =
-			// c2d.getStrokeStyle();
-			// com.google.gwt.canvas.dom.client.FillStrokeStyle fsf =
-			// c2d.getFillStyle();
-			c2d.setGlobalCompositeOperation(Context2d.Composite.COPY);
-			c2d.setStrokeStyle(CssColor.make("rgba(255,255,255,1.0)"));
-			c2d.setFillStyle(CssColor.make("rgba(255,255,255,1.0)"));
-			c2d.fillRect(0, 0, width, height);
-			// c2d.setStrokeStyle(fss);
-			// c2d.setFillStyle(fsf);
+		if (canv != null) {
+			canv.setCoordinateSpaceWidth((int) (width * pixelRatio));
+			canv.setCoordinateSpaceHeight((int) (height * pixelRatio));
+			canv.setWidth(width + "px");
+			canv.setHeight(height + "px");
+			Context2d c2d = canv.getContext2d();
+			if (opaque) {
+				// com.google.gwt.canvas.dom.client.FillStrokeStyle fss =
+				// c2d.getStrokeStyle();
+				// com.google.gwt.canvas.dom.client.FillStrokeStyle fsf =
+				// c2d.getFillStyle();
+				c2d.setGlobalCompositeOperation(Context2d.Composite.COPY);
+				c2d.setStrokeStyle(CssColor.make("rgba(255,255,255,1.0)"));
+				c2d.setFillStyle(CssColor.make("rgba(255,255,255,1.0)"));
+				c2d.fillRect(0, 0, width, height);
+				// c2d.setStrokeStyle(fss);
+				// c2d.setFillStyle(fsf);
+			}
+			if (pixelRatio != 1) {
+				c2d.scale(pixelRatio, pixelRatio);
+			}
 		}
-		if (pixelRatio != 1) {
-			c2d.scale(pixelRatio, pixelRatio);
-		}
-
 		// img = getImageElement();
 	}
 
@@ -142,12 +143,14 @@ public class GBufferedImageW implements GBufferedImage {
 	public Canvas getCanvas() {
 		if (canv == null) {
 			canv = makeCanvas();
-			canv.setCoordinateSpaceWidth(img.getWidth());
-			canv.setCoordinateSpaceHeight(img.getHeight());
-			canv.setWidth(getWidth() + "px");
-			canv.setHeight(getWidth() + "px");
-			Context2d c2d = canv.getContext2d();
-			c2d.drawImage(img, 0, 0);
+			if (canv != null) {
+				canv.setCoordinateSpaceWidth(img.getWidth());
+				canv.setCoordinateSpaceHeight(img.getHeight());
+				canv.setWidth(getWidth() + "px");
+				canv.setHeight(getWidth() + "px");
+				Context2d c2d = canv.getContext2d();
+				c2d.drawImage(img, 0, 0);
+			}
 		}
 		return canv;
 	}
@@ -162,6 +165,9 @@ public class GBufferedImageW implements GBufferedImage {
 
 	@Override
 	public GGraphics2D createGraphics() {
+		if (getCanvas() == null) {
+			return new GGraphics2DE();
+		}
 		GGraphics2DW g2 = new GGraphics2DW(getCanvas(), true);
 		g2.setDevicePixelRatio(this.pixelRatio);
 		return g2;

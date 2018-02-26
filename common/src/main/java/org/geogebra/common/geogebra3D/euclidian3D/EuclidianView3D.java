@@ -4582,7 +4582,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				ExportToPrinter3D exportToPrinter = new ExportToPrinter3D(EuclidianView3D.this,
 						renderer.getGeometryManager());
 				StringBuilder export = exportToPrinter.export(format);
-				app.exportSbToFile(format.getExtension(), export);
+				getApplication().exportSbToFile(format.getExtension(), export);
 			}
 		});
 	}
@@ -4615,7 +4615,6 @@ public abstract class EuclidianView3D extends EuclidianView
 	public double getAngleB() {
 		return b;
 	}
-
 
 	@Override
 	public void setStandardView(boolean storeUndo) {
@@ -4674,5 +4673,9 @@ public abstract class EuclidianView3D extends EuclidianView
 	 */
 	public boolean drawsLabels() {
 		return true;
+	}
+
+	public boolean hasVisibleObjects() {
+		return drawable3DLists != null && !drawable3DLists.isEmpty();
 	}
 }

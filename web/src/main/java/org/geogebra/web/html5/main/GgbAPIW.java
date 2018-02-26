@@ -501,23 +501,40 @@ public class GgbAPIW extends GgbAPI {
 				.substring(StringUtil.pngMarker.length());
 	}
 
-	private EuclidianViewInterfaceCommon getViewForThumbnail() {
+	public EuclidianViewInterfaceCommon getViewForThumbnail() {
+		EuclidianViewInterfaceCommon ret = getViewForThumbnail(true);
+		if (ret == null) {
+			ret = getViewForThumbnail(false);
+		}
+		if (ret == null) {
+			ret = app.getActiveEuclidianView();
+		}
+		Log.debug(ret.getViewID());
+		return ret;
+	}
+
+	private EuclidianViewInterfaceCommon getViewForThumbnail(
+			boolean needsObjects) {
 		if (app.isEuclidianView3Dinited()
-				&& app.showView(App.VIEW_EUCLIDIAN3D)) {
+				&& app.showView(App.VIEW_EUCLIDIAN3D)
+				&& (!needsObjects
+						|| app.getEuclidianView3D().hasVisibleObjects())) {
 			return app.getEuclidianView3D();
 		}
-		if(app.showView(App.VIEW_EUCLIDIAN)){
+		if (app.showView(App.VIEW_EUCLIDIAN)
+				&& (!needsObjects
+						|| app.getEuclidianView1().hasVisibleObjects())) {
 			return app.getEuclidianView1();
 		}
-		if(app.showView(App.VIEW_EUCLIDIAN2)){
+		if (app.showView(App.VIEW_EUCLIDIAN2)
+				&& (!needsObjects
+						|| app.getEuclidianView2(1).hasVisibleObjects())) {
 			return app.getEuclidianView2(1);
 		}
 		if (app.showView(App.VIEW_PROBABILITY_CALCULATOR)) {
-			return app.getGuiManager()
-					.getPlotPanelEuclidanView();
+			return app.getGuiManager().getPlotPanelEuclidanView();
 		}
-		return app.getActiveEuclidianView();
-
+		return null;
 	}
 
 	/**

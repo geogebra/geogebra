@@ -751,4 +751,13 @@ public class Drawable3DLists {
 		return null;
 	}
 
+	public boolean isEmpty() {
+		for (Drawable3DList list : lists) {
+			if (!list.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 }

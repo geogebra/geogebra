@@ -5,6 +5,7 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.openGL.RendererWithImplW;
 import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.html5.util.ScriptLoadCallback;
 
+import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -22,7 +23,7 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 	private ZSpaceGwt zSpace;
 
 	public RendererWithImplZSpaceW(final EuclidianViewInput3DW view) {
-		super(view);
+		super(view, Canvas.createIfSupported());
 
 		ScriptElement matrixScript = Document.get().createScriptElement();
 		matrixScript.setSrc(GWT.getModuleBaseURL() + "js/gl-matrix-min.js");

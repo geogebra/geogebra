@@ -1084,6 +1084,9 @@ public abstract class RendererImplShaders extends RendererImpl {
 		// Each shaderProgram must have
 		// one vertex shader and one fragment shader.
 		shaderProgram = glCreateProgram();
+		if (shaderProgram == null) {
+			return;
+		}
 		glAttachShader(vertShader);
 		glAttachShader(fragShader);
 

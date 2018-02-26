@@ -174,6 +174,9 @@ public class Browser {
 		return webglSupported.booleanValue();
 	}
 
+	public static void mockWebGL() {
+		webglSupported = true;
+	}
 	/*
 	 * http://stackoverflow.com/questions/11871077/proper-way-to-detect-webgl-
 	 * support

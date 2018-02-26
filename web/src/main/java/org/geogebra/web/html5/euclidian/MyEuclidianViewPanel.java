@@ -25,9 +25,12 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 		super();
 		this.ev = ev;
 		canvas = createCanvas();
-		getCanvas().getElement().getStyle().setPosition(Style.Position.RELATIVE);
-		getCanvas().getElement().getStyle().setZIndex(0);
-		add(getCanvas());
+		if (canvas != null) {
+			getCanvas().getElement().getStyle()
+					.setPosition(Style.Position.RELATIVE);
+			getCanvas().getElement().getStyle().setZIndex(0);
+			add(getCanvas());
+		}
 
 	}
 

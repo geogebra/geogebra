@@ -183,6 +183,10 @@ public interface EuclidianViewInterfaceCommon
 	public DrawableND getDrawableFor(GeoElementND geo);
 
 	/**
+	 * @return whether the view has some visible objects
+	 */
+	public boolean hasVisibleObjects();
+	/**
 	 * 
 	 * @return string description of plane from the view was created
 	 */
