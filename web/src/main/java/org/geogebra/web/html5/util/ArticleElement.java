@@ -828,4 +828,8 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		return this;
 	}
 
+	public boolean useCompatibilityCookie() {
+		return this.getBoolDataParam("useCompatibilityCookie", false);
+	}
+
 }

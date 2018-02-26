@@ -17,6 +17,7 @@ var latestVersion="5.0.374.0";
 var module = "web3d";
 var lookAndFeel = "";
 var prerelease = false;
+var useCompatibilityCookie = true;
 var debug = false;
 var startDelay = 0;
 var marginTop = 0;
@@ -471,6 +472,9 @@ function insertScript(codebase){
 		if(e("ggw")){
 			if(lookAndFeel){
 				e("ggw").setAttribute("data-param-laf",lookAndFeel);
+			}
+			if(useCompatibilityCookie){
+				e("ggw").setAttribute("data-param-useCompatibilityCookie", useCompatibilityCookie);
 			}
 			if(location.host.indexOf("beta") == 0 || getURLparam("prerelease") || prerelease){
 				setPrerelease(prerelease || "true");

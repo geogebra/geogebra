@@ -378,4 +378,9 @@ public class TestArticleElement implements ArticleElementInterface {
 		return DOM.createElement("article");
 	}
 
+	public boolean useCompatibilityCookie() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

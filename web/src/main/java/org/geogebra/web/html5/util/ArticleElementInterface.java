@@ -417,4 +417,6 @@ public interface ArticleElementInterface {
 
 	Element getElement();
 
+	boolean useCompatibilityCookie();
+
 }

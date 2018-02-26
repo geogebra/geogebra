@@ -177,8 +177,6 @@ public enum Feature {
 	GEO_AV_DESCRIPTION,
 
 	WEB_SWITCH_APP_FOR_FILE,
-	/** GGB-2279 */
-	WEB_LANGUAGE_COOKIE,
 
 	/** GGB-2053 */
 	TAB_ON_GUI,
