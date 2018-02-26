@@ -97,6 +97,13 @@ public class CancelEventTimer {
 	}
 
 	/**
+	 * returns true if no drag has happened.
+	 */
+	public static boolean noDrag() {
+		return dragState == DragState.NONE;
+	}
+
+	/**
 	 * called at the end of any blur event
 	 */
 	public static void blurEventOccured() {
