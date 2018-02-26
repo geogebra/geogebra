@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.user.client.Timer;
 
 class DragController {
-	private static final int DROPANIM_SPEED = 10;
+	private static final int DROPANIM_SPEED = 5;
 	/**
 	 * Class to handle drag and drop cards 
 	 * @author laszlo 
@@ -169,6 +170,10 @@ class DragController {
 				return false;
 			}
 			int d = (dropBellow ? 1 : -1) * AUTOMOVE_SPEED;
+			if (card == null) {
+				Log.debug("Should never happen");
+				return false;
+			}
 			card.setTopBy(d);
 			moveAnimated();
 			return true;
