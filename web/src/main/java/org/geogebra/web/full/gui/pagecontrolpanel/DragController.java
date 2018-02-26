@@ -9,7 +9,7 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import com.google.gwt.user.client.Timer;
 
 class DragController {
-	private static final int DROPANIM_SPEED = 15;
+	private static final int DROPANIM_SPEED = 10;
 	/**
 	 * Class to handle drag and drop cards 
 	 * @author laszlo 
@@ -54,7 +54,7 @@ class DragController {
 	}
 	
 	private class DragCard {
-		private static final int AUTOMOVE_SPEED = 10;
+		private static final int AUTOMOVE_SPEED = 1;
 		PagePreviewCard card = null;
 		PagePreviewCard target = null;
 		LastTarget last = new LastTarget();
@@ -138,10 +138,10 @@ class DragController {
 		}
 
 		private void moveAnimated() {
-			int h = PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN;
+			int h = PagePreviewCard.SPACE_HEIGHT;// - PagePreviewCard.MARGIN;
 			diff = down ? card.getAbsoluteBottom() - last.top
 					: last.bottom - card.getAbsoluteTop();
-			if (diff > PagePreviewCard.MARGIN && diff < h) {
+			if (diff > 0 && diff < h) {
 				target.setSpaceValue(diff + PagePreviewCard.MARGIN, down);
 			}
 		}
@@ -165,7 +165,7 @@ class DragController {
 		}
 
 		boolean autoMove() {
-			if (diff >= PagePreviewCard.SPACE_HEIGHT - PagePreviewCard.MARGIN || diff <= PagePreviewCard.MARGIN) {
+			if (diff >= PagePreviewCard.SPACE_HEIGHT - 2 * PagePreviewCard.MARGIN || diff < 0) {
 				return false;
 			}
 			int d = (dropBellow ? 1 : -1) * AUTOMOVE_SPEED;

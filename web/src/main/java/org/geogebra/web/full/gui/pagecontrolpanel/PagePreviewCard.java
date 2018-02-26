@@ -3,6 +3,7 @@ package org.geogebra.web.full.gui.pagecontrolpanel;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 import org.geogebra.web.html5.main.AppW;
@@ -321,6 +322,8 @@ public class PagePreviewCard extends FlowPanel
 		int opposite = SPACE_HEIGHT  - value + MARGIN;
 		getElement().getStyle().setMarginTop(down ? opposite: value, Unit.PX);
 		getElement().getStyle().setMarginBottom(down ? value: opposite, Unit.PX);
+		Log.debug("[DND] space value: " + value + " opposite: " + opposite + " down: " + down);
+
 	}
 
 	public Integer getLastTop() {
