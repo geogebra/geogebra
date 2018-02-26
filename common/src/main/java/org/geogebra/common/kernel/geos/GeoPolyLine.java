@@ -353,6 +353,10 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 				pp.t += (points.length - 1);
 			}
 			index = (int) Math.floor(pp.t);
+			
+			if (index >= points.length - 1) {
+				index = points.length - 2;
+			}
 		}
 		setSegmentPoints((GeoPoint) points[index],
 				(GeoPoint) points[index + 1]);
