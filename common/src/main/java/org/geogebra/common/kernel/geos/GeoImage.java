@@ -633,9 +633,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	private void getXMLabsScreenLoc(StringBuilder sb) {
 		sb.append("\t<absoluteScreenLocation x=\"");
-		sb.append(screenX);
+		sb.append(getAbsoluteScreenLocX());
 		sb.append("\" y=\"");
-		sb.append(screenY);
+		sb.append(getAbsoluteScreenLocY());
 		sb.append("\"/>");
 	}
 
@@ -678,11 +678,17 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public int getAbsoluteScreenLocX() {
+		if(kernel.getApplication().has(Feature.MOW_PIN_IMAGE)){
+			return getAbsoluteScreenLocX(0);
+		}
 		return screenX;
 	}
 
 	@Override
 	public int getAbsoluteScreenLocY() {
+		if(kernel.getApplication().has(Feature.MOW_PIN_IMAGE)){
+			return getAbsoluteScreenLocY(0);
+		}
 		return screenY;
 	}
 
