@@ -64,10 +64,14 @@ public final class DrawImage extends Drawable {
 	private double[] hitCoords = new double[2];
 	private BoundingBox boundingBox;
 	private double originalRatio = Double.NaN;
+	private boolean wasCroped = false;
 	/**
-	 * the image should have at least 100 width
+	 * the image should have at least 100px width
 	 */
 	public final static int IMG_WIDTH_THRESHOLD = 100;
+	/**
+	 * the croped image should have at least 50px width
+	 */
 	public final static int IMG_CROP_THRESHOLD = 50;
 
 	/**
@@ -312,8 +316,10 @@ public final class DrawImage extends Drawable {
 					g3.setComposite(
 							AwtFactory.getPrototype().newAlphaComposite(0.5f));
 				}
-				g3.drawImage(image, 0, 0);
-				if (getBoundingBox().isCropBox()) {
+				if (!wasCroped || getBoundingBox().isCropBox()) {
+					g3.drawImage(image, 0, 0);
+				}
+				if (getBoundingBox().isCropBox() || wasCroped) {
 					g3.setComposite(
 							AwtFactory.getPrototype().newAlphaComposite(1.0f));
 					GPoint2D ptScr = AwtFactory.getPrototype().newPoint2D(
@@ -481,6 +487,7 @@ public final class DrawImage extends Drawable {
 			if (!geo.getKernel().getApplication().has(Feature.MOW_CROP_IMAGE)) {
 				return;
 			}
+			wasCroped = true;
 			if (Double.isNaN(originalRatio)) {
 				double rectWidth = getBoundingBox().getRectangle().getWidth();
 				double rectHeight = getBoundingBox().getRectangle().getHeight();
