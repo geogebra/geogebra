@@ -579,8 +579,17 @@ namespace giac {
     // check if g may be integrated using the residue formula
     gen A,B,P;
     int typeint=rational?2:is_meromorphic(g,x,A,B,P,contextptr);
-    if (typeint==6 && a==minus_inf && b==plus_inf && is_zero(P) && is_constant_wrt(A,x,contextptr) && is_constant_wrt(B,x,contextptr) && is_strictly_positive(-A[0],contextptr)){
+    if (typeint==6 && a==minus_inf && b==plus_inf && is_zero(P) && is_constant_wrt(A,x,contextptr) && lvarxwithinv(B,x,contextptr).size()<2 && is_strictly_positive(-A[0],contextptr)){
       gen A_(A[0]),B_(A[1]),C_(A[2]);
+      gen der(2*A_*x+B_),tmp(B);
+      B=0;
+      while (!is_zero(tmp,contextptr)){
+	tmp=_quorem(makesequence(tmp,der,x),contextptr);
+	if (tmp.type!=_VECT || tmp._VECTptr->size()!=2)
+	  return false;
+	B += tmp._VECTptr->back();
+	tmp=-derive(tmp._VECTptr->front(),x,contextptr);
+      }
       // int(exp(A_*x^2+B_*x+C_)*B,x,-inf,inf)
       // =int(exp(A_*(x+B_/2/A_)^2+(-B_^2/4/A_+C_))*B,x,-inf,inf)
       // =sqrt(pi/A_)*B*exp(B_^2/4/A_-C_)
