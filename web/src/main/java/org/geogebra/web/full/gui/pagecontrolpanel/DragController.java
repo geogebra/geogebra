@@ -92,7 +92,7 @@ class DragController {
 			if (next != null) {
 				next.addSpaceTop();
 				last.target = next;
-				last.top = next.getAbsoluteTop();
+				last.top = next.getComputedTop();
 			}
 		}
 
@@ -101,7 +101,7 @@ class DragController {
 			if (prev != null) {
 				prev.addSpaceBottom();
 				last.target = prev;
-				last.bottom = prev.getAbsoluteBottom();
+				last.bottom = prev.getComputedBottom();
 			}
 		}
 
@@ -113,7 +113,7 @@ class DragController {
 			if (down) {
 				addSpaceTop();
 				if (card.getPageIndex() == 0) {
-					last.top = next().getAbsoluteTop();
+					last.top = next().getComputedTop();
 				}
 			} else {
 				addSpaceBottom();
@@ -199,7 +199,7 @@ class DragController {
 				spaceAtTop = last.target.getPageIndex() < target.getPageIndex();
 			}
 
-			int top = PagePreviewCard.MARGIN + target.getPageIndex() * PagePreviewCard.SPACE_HEIGHT;
+			int top = target.getComputedTop();
 			if (spaceAtTop) {
 				target.addSpaceTop();
 				last.setTop(top);
@@ -207,7 +207,7 @@ class DragController {
 			} else {
 				target.addSpaceBottom();
 				last.setTop(top);
-				last.setBottom(top + PagePreviewCard.SPACE_HEIGHT);
+				last.setBottom(target.getComputedBottom());
 			}
 
 

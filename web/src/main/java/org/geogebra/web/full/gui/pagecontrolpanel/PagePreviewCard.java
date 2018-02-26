@@ -326,7 +326,12 @@ public class PagePreviewCard extends FlowPanel
 
 	}
 
-	public Integer getLastTop() {
-		return lastTop;
+	public int getComputedTop() {
+		return MARGIN + pageIndex * SPACE_HEIGHT;
+
+	}
+	
+	public int getComputedBottom() {
+		return getComputedTop() + SPACE_HEIGHT;
 	}
 }
