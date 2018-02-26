@@ -519,8 +519,7 @@ public final class DrawImage extends Drawable {
 		case BOTTOM:
 			if (eventY - getBoundingBox().getRectangle().getY() <= Math
 					.min(IMG_CROP_THRESHOLD, image.getHeight())
-					|| eventY - getBoundingBox().getRectangle()
-							.getY() > getBounds().getHeight()) {
+					|| eventY > getBounds().getMaxY()) {
 				return;
 			}
 			rect.setRect(getBoundingBox().getRectangle().getX(),
@@ -532,8 +531,7 @@ public final class DrawImage extends Drawable {
 		case TOP:
 			if (getBoundingBox().getRectangle().getMaxY() - eventY <= Math
 					.min(IMG_CROP_THRESHOLD, image.getHeight())
-					|| getBoundingBox().getRectangle().getMaxY()
-							- eventY > getBounds().getHeight()) {
+					|| eventY < getBounds().getMinY()) {
 				return;
 			}
 			rect.setRect(getBoundingBox().getRectangle().getX(), eventY,
@@ -544,8 +542,7 @@ public final class DrawImage extends Drawable {
 		case LEFT:
 			if (getBoundingBox().getRectangle().getMaxX() - eventX <= Math
 					.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| getBoundingBox().getRectangle().getMaxX()
-							- eventX > getBounds().getWidth()) {
+					|| eventX < getBounds().getMinX()) {
 				return;
 			}
 			rect.setRect(eventX, getBoundingBox().getRectangle().getY(),
@@ -556,8 +553,7 @@ public final class DrawImage extends Drawable {
 		case RIGHT:
 			if (eventX - getBoundingBox().getRectangle().getX() <= Math
 					.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| eventX - getBoundingBox().getRectangle()
-							.getX() > getBounds().getWidth()) {
+					|| eventX > getBounds().getMaxX()) {
 				return;
 			}
 			rect.setRect(getBoundingBox().getRectangle().getX(),
