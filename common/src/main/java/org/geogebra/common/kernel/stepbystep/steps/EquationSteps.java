@@ -9,6 +9,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 import org.geogebra.common.plugin.Operation;
+import org.geogebra.common.util.debug.Log;
 
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
 
@@ -16,42 +17,99 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	FIND_DEFINED_RANGE {
 		@Override
-		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			List<StepExpression> denominators = new ArrayList<>();
-			List<StepExpression> roots = new ArrayList<>();
+		public List<StepSolution>  apply(StepSolvable se, StepVariable variable, SolutionBuilder steps,
+										 SolveTracker tracker) {
+			if (tracker.shouldCheck() || !tracker.getRestriction().equals(StepInterval.R)
+					|| !tracker.getUndefinedPoints().emptySet()) {
+				return null;
+			}
 
-			StepHelper.getDenominators(se, denominators);
-			StepHelper.getRoots(se, roots);
+			try {
+				Set<StepExpression> roots = new HashSet<>();
+				StepHelper.getRoots(se, roots);
 
-			SolutionBuilder undefinedPointsSteps = new SolutionBuilder();
+				StepLogical restriction = null;
+				SolutionBuilder restrictionsSteps = new SolutionBuilder();
 
-			StepSet undefinedPoints = new StepSet();
-			for (StepExpression denominator : denominators) {
-				List<StepSolution> solutions = new StepEquation(denominator, StepConstant.create(0))
-						.solve(variable, undefinedPointsSteps);
-				for (StepSolution solution : solutions) {
-					undefinedPoints.addElement((StepExpression) solution.getValue(variable));
+				for (StepExpression root : roots) {
+					List<StepSolution> solutions = new StepInequality(root, StepConstant.create(0), false, false)
+							.solve(variable, restrictionsSteps);
+
+					for (StepNode solution : solutions) {
+						restriction = intersect(restriction, (StepInterval)
+								((StepSolution) solution).getValue(variable));
+					}
 				}
-			}
 
-			if (!undefinedPoints.equals(tracker.getUndefinedPoints())) {
-				steps.addGroup(SolutionStepType.FIND_UNDEFINED_POINTS, undefinedPointsSteps, undefinedPoints);
-				tracker.addUndefinedPoints(undefinedPoints);
-			}
-
-			SolutionBuilder restrictionsSteps = new SolutionBuilder();
-
-			for (StepExpression root : roots) {
-				List<StepSolution> solutions = new StepInequality(root, StepConstant.create(0), false, false)
-						.solve(variable, restrictionsSteps);
-				for (StepNode solution : solutions) {
-					tracker.addRestriction((StepInterval) ((StepSolution) solution).getValue(variable));
+				if (restriction != null && !StepInterval.R.equals(restriction)) {
+					steps.addGroup(SolutionStepType.DETERMINE_THE_DEFINED_RANGE,
+							restrictionsSteps, restriction);
+					tracker.addRestriction(restriction);
 				}
+			} catch (SolveFailedException e) {
+				tracker.setShouldCheckSolutions();
+				return null;
 			}
 
-			if (!tracker.getRestriction().equals(StepInterval.R)) {
-				steps.addGroup(SolutionStepType.DETERMINE_THE_DEFINED_RANGE,
-						restrictionsSteps, tracker.getRestriction());
+			try {
+				Set<StepExpression> denominators = new HashSet<>();
+				StepHelper.getDenominators(se, denominators);
+
+				StepSet undefinedPoints = new StepSet();
+				SolutionBuilder undefinedPointsSteps = new SolutionBuilder();
+
+				for (StepExpression denominator : denominators) {
+					List<StepSolution> solutions = new StepEquation(denominator, StepConstant.create(0))
+							.solve(variable, undefinedPointsSteps);
+
+					for (StepSolution solution : solutions) {
+						undefinedPoints.addElement((StepExpression) solution.getValue(variable));
+					}
+				}
+
+				if (!undefinedPoints.emptySet()) {
+					steps.addGroup(SolutionStepType.FIND_UNDEFINED_POINTS,
+							undefinedPointsSteps, undefinedPoints);
+					tracker.addUndefinedPoints(undefinedPoints);
+				}
+			} catch (SolveFailedException e) {
+				tracker.setShouldCheckSolutions();
+			}
+
+			return null;
+		}
+	},
+
+	TRIVIAL_EQUATIONS {
+		@Override
+		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps,
+										SolveTracker tracker) {
+			StepSolution solution = null;
+
+			if (se.getLHS().equals(se.getRHS())) {
+				solution = StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker);
+				steps.addSubstep(se, solution, SolutionStepType.STATEMENT_IS_TRUE);
+			}
+
+			if (se.getLHS().equals(variable) && se.getRHS().isConstantIn(variable)) {
+				solution = StepSolution.simpleSolution(variable, se.getRHS(), tracker);
+			}
+
+			if (se.getRHS().equals(variable) && se.getLHS().isConstantIn(variable)) {
+				solution = StepSolution.simpleSolution(variable, se.getLHS(), tracker);
+			}
+
+			if (solution == null && se.getLHS().isConstantIn(variable) && se.getRHS().isConstantIn(variable)) {
+				steps.add(SolutionStepType.STATEMENT_IS_FALSE);
+				return new ArrayList<>();
+			}
+
+			if (solution != null) {
+				List<StepSolution> solutions = new ArrayList<>();
+				solutions.add(solution);
+
+				Log.error(solutions.toString());
+				return solutions;
 			}
 
 			return null;
@@ -108,18 +166,12 @@ public enum EquationSteps implements SolveStepGenerator {
 	SOLVE_LINEAR {
 		@Override
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
-			StepExpression diff = subtract(se.getLHS(), se.getRHS()).regroup();
-
-			if (diff.isConstantIn(variable)) {
-				return se.trivialSolution(variable, tracker);
-			}
-
 			if (!(se.degree(variable) == 0 || se.degree(variable) == 1)) {
 				return null;
 			}
 
-			if (StepHelper.getCoefficientValue(se.getLHS(), variable) < StepHelper.getCoefficientValue(se.getRHS(),
-					variable)) {
+			if (StepHelper.getCoefficientValue(se.getLHS(), variable) <
+					StepHelper.getCoefficientValue(se.getRHS(), variable)) {
 				se.swapSides();
 			}
 
@@ -134,7 +186,7 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			se.cleanColors();
 
-			return se.trivialSolution(variable, tracker);
+			return null;
 		}
 	},
 
@@ -813,30 +865,44 @@ public enum EquationSteps implements SolveStepGenerator {
 
 	public static List<StepSolution> checkSolutions(StepSolvable se, List<StepSolution> solutions,
 													SolutionBuilder steps, SolveTracker tracker) {
-
-		if (solutions.size() == 0) {
-			steps.add(SolutionStepType.NO_REAL_SOLUTION);
-			return new ArrayList<>();
-		} else if (solutions.size() == 1) {
-			steps.add(SolutionStepType.SOLUTION, solutions.toArray(new StepSolution[] {}));
-		} else {
-			steps.add(SolutionStepType.SOLUTIONS, solutions.toArray(new StepSolution[] {}));
+		if (tracker.getRestriction().equals(StepInterval.R) &&
+				tracker.getUndefinedPoints().emptySet() && !tracker.shouldCheck()) {
+			return solutions;
 		}
-
-		SolutionBuilder temp = new SolutionBuilder();
 
 		List<StepSolution> finalSolutions = new ArrayList<>();
-		for (StepSolution sol : solutions) {
-			if (se.checkSolution(sol, temp, tracker)) {
-				finalSolutions.add(sol);
-			}
-		}
+		for (StepSolution solution : solutions) {
+			if (solution.getValue() instanceof StepLogical && !tracker.getUndefinedPoints().emptySet()) {
+				StepLogical newValue = subtract((StepLogical) solution.getValue(), tracker.getUndefinedPoints());
+				StepSolution newSolution = StepSolution.simpleSolution(solution.getVariable(), newValue, tracker);
 
-		if (!tracker.getRestriction().equals(StepInterval.R) ||
-				tracker.getUndefinedPoints() != null || tracker.shouldCheck()) {
-			steps.add(SolutionStepType.CHECK_VALIDITY);
-			steps.levelDown();
-			steps.addAll(temp.getSteps());
+				steps.addSubstep(solution, newSolution,
+						SolutionStepType.EXCLUDE_UNDEFINED_POINTS, tracker.getUndefinedPoints());
+				finalSolutions.add(newSolution);
+				continue;
+			}
+
+			if (solution.getValue() instanceof StepExpression) {
+				StepExpression value = (StepExpression) solution.getValue();
+
+				if (tracker.getUndefinedPoints().contains(value)) {
+
+					continue;
+				}
+
+				if (!tracker.getRestriction().contains(value)) {
+
+					continue;
+				}
+
+				if (tracker.shouldCheck()) {
+					if (!se.checkSolution(solution.getVariable(), value, steps, tracker)) {
+						continue;
+					}
+				}
+			}
+
+			finalSolutions.add(solution);
 		}
 
 		return finalSolutions;

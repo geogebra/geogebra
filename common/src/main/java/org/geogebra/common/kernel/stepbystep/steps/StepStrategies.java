@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StepStrategies {
@@ -132,9 +133,10 @@ public class StepStrategies {
 	public static List<StepSolution> defaultSolve(StepEquation se, StepVariable sv, SolutionBuilder sb, SolveTracker
 			tracker) {
 		SolveStepGenerator[] strategy = {
-				//EquationSteps.FIND_DEFINED_RANGE,
+				EquationSteps.FIND_DEFINED_RANGE,
 				EquationSteps.SOLVE_PRODUCT,
 				EquationSteps.REGROUP,
+				EquationSteps.TRIVIAL_EQUATIONS,
 				EquationSteps.FACTOR,
 				EquationSteps.SUBTRACT_COMMON,
 				EquationSteps.PLUSMINUS,
@@ -161,8 +163,12 @@ public class StepStrategies {
 
 	public static List<StepSolution> defaultInequalitySolve(StepInequality se, StepVariable sv, SolutionBuilder sb,
 												  SolveTracker tracker) {
-		SolveStepGenerator[] strategy = { EquationSteps.REGROUP, EquationSteps.SUBTRACT_COMMON,
-				EquationSteps.SOLVE_LINEAR, EquationSteps.EXPAND
+		SolveStepGenerator[] strategy = {
+				EquationSteps.REGROUP,
+				InequalitySteps.TRIVIAL_SOLUTION,
+				EquationSteps.SUBTRACT_COMMON,
+				EquationSteps.SOLVE_LINEAR,
+				EquationSteps.EXPAND
 		};
 
 		return implementSolveStrategy(se, sv, sb, strategy, tracker);
@@ -218,8 +224,17 @@ public class StepStrategies {
 			List<StepSolution> finalSolutions = EquationSteps.checkSolutions(se, result, changes, tracker);
 
 			if (sb != null) {
-				sb.levelUp();
 				sb.addAll(changes.getSteps());
+				sb.levelUp();
+
+				if (finalSolutions.size() == 0) {
+					sb.add(SolutionStepType.NO_REAL_SOLUTION);
+					return new ArrayList<>();
+				} else if (finalSolutions.size() == 1) {
+					sb.add(SolutionStepType.SOLUTION, finalSolutions.toArray(new StepSolution[] {}));
+				} else {
+					sb.add(SolutionStepType.SOLUTIONS, finalSolutions.toArray(new StepSolution[] {}));
+				}
 				sb.levelUp();
 			}
 

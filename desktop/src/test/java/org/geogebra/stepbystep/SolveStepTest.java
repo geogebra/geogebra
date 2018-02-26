@@ -35,10 +35,11 @@ public class SolveStepTest {
 	private boolean needsHeading;
 	private static int caseCounter = 0;
 
-	// @Test
+	@Test
 	public void problematicRange() {
-		t("x/x", "1", "x");
-		t("sqrt(x)/sqrt(x)", "1", "x");
+		t("x/x", "1", "x", "x in R \\ {0}");
+		//TODO: implement simplifications for StepLogical
+		t("sqrt(x)/sqrt(x)", "1", "x", "x in [0, inf) \\ {0}");
 	}
 
 	@Test
@@ -125,7 +126,7 @@ public class SolveStepTest {
 		t("sqrt(3x+1)", "x+1", "x", "x = 0", "x = 1");
 		t("sqrt(3x+1)", "x+1+sqrt(2x+3)", "x", "fail");
 		t("2x+10", "x+1+sqrt(5x-4)", "x");
-		t("sqrt(3x-4)", "sqrt(4x-3)", "x", "x = -1");
+		t("sqrt(3x-4)", "sqrt(4x-3)", "x");
 		t("sqrt(x)+sqrt(x+1)+sqrt(x+2)", "2", "x", "fail");
 		t("sqrt(x)+1", "sqrt(x+1)+sqrt(x+2)+1", "x");
 		t("sqrt(x-1)", "sqrt(x)", "x");

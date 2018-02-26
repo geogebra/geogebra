@@ -8,7 +8,6 @@ import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class StepInequality extends StepSolvable {
@@ -21,6 +20,14 @@ public class StepInequality extends StepSolvable {
 		this.RHS = RHS;
 		this.lessThan = lessThan;
 		this.strong = strong;
+	}
+
+	public boolean isLessThan() {
+		return lessThan;
+	}
+
+	public boolean isStrong() {
+		return strong;
 	}
 
 	@Override
@@ -69,29 +76,8 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
-	public List<StepSolution> trivialSolution(StepVariable variable, SolveTracker tracker) {
-		List<StepSolution> solutions = new ArrayList<>();
-
-		if (LHS.equals(variable)) {
-			if (lessThan) {
-				solutions.add(StepSolution.simpleSolution(variable,
-						new StepInterval(StepConstant.NEG_INF, RHS, false, !strong), tracker));
-			} else {
-				solutions.add(StepSolution.simpleSolution(variable,
-						new StepInterval(RHS, StepConstant.POS_INF, !strong, false), tracker));
-			}
-		}
-
-		if (LHS.canBeEvaluated() && RHS.canBeEvaluated() && lessThan == LHS.getValue() < RHS.getValue()) {
-			solutions.add(StepSolution.simpleSolution(variable,
-					tracker.getRestriction(), tracker));
-		}
-
-		return solutions;
-	}
-
-	@Override
-	public boolean checkSolution(StepSolution solution, SolutionBuilder sb, SolveTracker tracker) {
+	public boolean checkSolution(StepVariable variable, StepExpression value,
+								 SolutionBuilder sb, SolveTracker tracker) {
 		return true;
 	}
 

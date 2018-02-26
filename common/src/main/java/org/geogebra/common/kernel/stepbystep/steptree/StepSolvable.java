@@ -42,12 +42,6 @@ public abstract class StepSolvable extends StepNode {
 		return subtract(LHS.findCoefficient(expr), RHS.findCoefficient(expr));
 	}
 
-	/**
-	 * Solves "variable ? constant" and "constant ? constant" type equations and inequalities
-	 * @return the solution - a set containing either a constant StepExpression or a StepInterval
-	 */
-	public abstract List<StepSolution> trivialSolution(StepVariable variable, SolveTracker tracker);
-
 	public List<StepSolution> solve(StepVariable sv, SolutionBuilder sb) {
 		return solve(sv, sb, new SolveTracker());
 	}
@@ -57,7 +51,8 @@ public abstract class StepSolvable extends StepNode {
 	public abstract List<StepSolution> solveAndCompareToCAS(Kernel kernel, StepVariable sv, SolutionBuilder sb)
 			throws CASException;
 
-	public abstract boolean checkSolution(StepSolution solution, SolutionBuilder sb, SolveTracker tracker);
+	public abstract boolean checkSolution(StepVariable variable, StepExpression value,
+										  SolutionBuilder steps, SolveTracker tracker);
 
 	public abstract StepSolvable deepCopy();
 

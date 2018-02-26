@@ -1023,6 +1023,10 @@ public enum RegroupSteps implements SimplificationStepGenerator {
 				int colorsAtStart = tracker.getColorTracker();
 
 				for (int i = 0; i < basesNumerator.size(); i++) {
+					if (isOne(basesNumerator.get(i))) {
+						continue;
+					}
+
 					for (int j = 0; j < basesDenominator.size(); j++) {
 						StepExpression common = exponentsNumerator.get(i).getCommon(exponentsDenominator.get(j));
 

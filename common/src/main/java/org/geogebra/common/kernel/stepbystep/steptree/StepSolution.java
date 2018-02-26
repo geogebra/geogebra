@@ -40,6 +40,30 @@ public class StepSolution extends StepNode {
         }
     }
 
+    /**
+     * For simple solutions (only one variable)
+     * @return variable of solution
+     */
+    public StepVariable getVariable() {
+        if (values.size() == 1) {
+            return (StepVariable) values.keySet().toArray()[0];
+        }
+
+        return null;
+    }
+
+    /**
+     * For simple solutions (only one variable)
+     * @return value of solution
+     */
+    public StepNode getValue() {
+        if (values.size() == 1) {
+            return getValue(getVariable());
+        }
+
+        return null;
+    }
+
     public StepNode getValue(StepVariable variable) {
         return values.get(variable);
     }

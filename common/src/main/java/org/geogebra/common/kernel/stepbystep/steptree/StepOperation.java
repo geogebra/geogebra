@@ -106,7 +106,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 			}
 		}
 
-		return true;
+		return operation != Operation.PLUSMINUS;
 	}
 
 	@Override

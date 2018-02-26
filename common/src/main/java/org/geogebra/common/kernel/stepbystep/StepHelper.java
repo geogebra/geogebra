@@ -2,6 +2,7 @@ package org.geogebra.common.kernel.stepbystep;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.geogebra.common.kernel.CASException;
 import org.geogebra.common.kernel.Kernel;
@@ -16,7 +17,7 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
 public class StepHelper {
 
-	public static void getDenominators(StepNode sn, List<StepExpression> denominators) {
+	public static void getDenominators(StepNode sn, Set<StepExpression> denominators) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
 
@@ -35,7 +36,7 @@ public class StepHelper {
 		}
 	}
 
-	public static void getRoots(StepNode sn, List<StepExpression> roots) {
+	public static void getRoots(StepNode sn, Set<StepExpression> roots) {
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
 

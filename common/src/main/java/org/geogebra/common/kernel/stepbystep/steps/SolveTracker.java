@@ -32,7 +32,7 @@ public class SolveTracker {
         return shouldCheckSolutions;
     }
 
-    public void addRestriction(StepInterval restriction) {
+    public void addRestriction(StepLogical restriction) {
         this.restriction = StepNode.intersect(this.restriction, restriction);
     }
 
@@ -73,6 +73,10 @@ public class SolveTracker {
     }
 
     public StepSet getUndefinedPoints() {
+        if (undefinedPoints == null) {
+            return new StepSet();
+        }
+
         return undefinedPoints;
     }
 

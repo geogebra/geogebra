@@ -7,6 +7,7 @@ import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.Localization;
 
 public enum SolutionStepType {
+
 	WRAPPER("", ""),
 
 	GROUP_WRAPPER("", ""),
@@ -62,6 +63,15 @@ public enum SolutionStepType {
 			return loc.getMenuLaTeX(getKey(), getDetailed(), serializedColored.toString()) + colorText(color);
 		}
 	},
+
+	STATEMENT_IS_TRUE("StatementIsTrue", "The statement is true"),
+
+	STATEMENT_IS_FALSE("StatementIsFalse", "The statement is false"),
+
+	EXCLUDE_UNDEFINED_POINTS("ExcludeUndefinedPoints", "Exclude undefined points",
+			"Exclude undefined points: %0"),
+
+	PLUG_IN_AND_CHECK("PlugInAndCheck", "Plug in and check the solution"),
 
 	CHECK_VALIDITY("CheckingValidityOfSolutions", "Checking validity of solutions"),
 

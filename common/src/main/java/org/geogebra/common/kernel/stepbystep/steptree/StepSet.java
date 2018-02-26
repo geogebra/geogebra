@@ -73,15 +73,15 @@ public class StepSet extends StepLogical implements Iterable<StepExpression> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("{");
 
 		for (StepNode sn : this) {
+			if (!"".equals(sb.toString())) {
+				sb.append(", ");
+			}
 			sb.append(sn.toString());
-			sb.append(", ");
 		}
 
-		sb.append("}");
-		return sb.toString();
+		return "{" + sb.toString() + "}";
 	}
 
 	@Override

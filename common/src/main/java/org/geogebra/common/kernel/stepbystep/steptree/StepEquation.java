@@ -12,9 +12,7 @@ import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.debug.Log;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class StepEquation extends StepSolvable {
 
@@ -74,25 +72,6 @@ public class StepEquation extends StepSolvable {
 		return LHS.toLaTeXString(loc, colored) + " = " + RHS.toLaTeXString(loc, colored);
 	}
 
-	@Override
-	public List<StepSolution> trivialSolution(StepVariable variable, SolveTracker tracker) {
-		List<StepSolution> solutions = new ArrayList<>();
-
-		if (LHS.equals(RHS)) {
-			solutions.add(StepSolution.simpleSolution(variable, tracker.getRestriction(), tracker));
-		}
-
-		if (LHS.equals(variable)) {
-			solutions.add(StepSolution.simpleSolution(variable, RHS, tracker));
-		}
-
-		if (RHS.equals(variable)) {
-			solutions.add(StepSolution.simpleSolution(variable, LHS, tracker));
-		}
-
-		return solutions;
-	}
-
 	public StepEquation regroup() {
 		return regroup(null, new SolveTracker());
 	}
@@ -100,36 +79,6 @@ public class StepEquation extends StepSolvable {
 	@Override
 	public StepEquation regroup(SolutionBuilder sb, SolveTracker tracker) {
 		return (StepEquation) super.regroup(sb, tracker);
-	}
-
-	public boolean isValid(StepSolution ss, SolutionBuilder steps) {
-		StepEquation copy = deepCopy();
-
-		for (Map.Entry<StepVariable, StepNode> pair : ss.getVariableSolutionPairs()) {
-			if (pair.getValue() instanceof StepExpression) {
-				copy = copy.replace(pair.getKey(), (StepExpression) pair.getValue());
-			} else {
-				Log.error("Solution is interval, cannot check yet");
-				return true;
-			}
-		}
-
-		copy.expand(steps, new SolveTracker());
-
-		if (!copy.getLHS().equals(copy.getRHS())) {
-			if (isEqual(copy.LHS.getValue(), copy.RHS.getValue())) {
-				Log.error("Regroup failed at: " + this);
-				Log.error("For solution: " + ss);
-				Log.error("Result: " + copy);
-				Log.error("Whereas numeric evaluation gives equality");
-
-				return true;
-			}
-
-			return false;
-		}
-
-		return true;
 	}
 
 	public List<StepSolution> solve(StepVariable sv, SolutionBuilder sb, SolveTracker tracker) {
@@ -168,14 +117,28 @@ public class StepEquation extends StepSolvable {
 	}
 
 	@Override
-	public boolean checkSolution(StepSolution solution, SolutionBuilder steps, SolveTracker tracker) {
-		if (isValid(solution, steps)) {
-			steps.add(SolutionStepType.VALID_SOLUTION, solution);
-			return true;
-		} else {
-			steps.add(SolutionStepType.INVALID_SOLUTION, solution);
+	public boolean checkSolution(StepVariable variable, StepExpression value,
+								 SolutionBuilder steps, SolveTracker tracker) {
+		SolutionBuilder tempSteps = new SolutionBuilder();
+		StepEquation copy = deepCopy().replace(variable, value);
+		copy.expand(tempSteps, new SolveTracker());
+
+		steps.addGroup(SolutionStepType.PLUG_IN_AND_CHECK, tempSteps, copy);
+
+		if (!copy.getLHS().equals(copy.getRHS())) {
+			if (isEqual(copy.LHS.getValue(), copy.RHS.getValue())) {
+				Log.error("Regroup failed at: " + this);
+				Log.error("For solution: " + variable + " = " + value);
+				Log.error("Result: " + copy);
+				Log.error("Whereas numeric evaluation gives equality");
+
+				return true;
+			}
+
 			return false;
 		}
+
+		return true;
 	}
 
 	@Override
