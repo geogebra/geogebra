@@ -62,6 +62,8 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 	 *            application
 	 * @param view
 	 *            view
+	 * @param table
+	 *            table
 	 * @param formatHandler
 	 *            formatter
 	 */

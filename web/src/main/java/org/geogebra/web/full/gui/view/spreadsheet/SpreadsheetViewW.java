@@ -418,7 +418,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			}
 
 			// Mark this cell to be resized by height
-			table.cellResizeHeightSet.add(new GPoint(location.x, location.y));
+			table.addResizeHeight(new GPoint(location.x, location.y));
 
 			// put geos with special editors in the oneClickEditMap
 			if (geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList()) {
@@ -520,7 +520,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		sb.append("\t<prefCellSize ");
 		sb.append(" width=\"");
-		sb.append(table.preferredColumnWidth);
+		sb.append(table.preferredColumnWidth());
 		sb.append("\"");
 		sb.append(" height=\"");
 		sb.append(table.minimumRowHeight
@@ -893,7 +893,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		settings().removeListener(this);
 		settings().getWidthMap().clear();
-		settings().setPreferredColumnWidth(table.preferredColumnWidth);
+		settings().setPreferredColumnWidth(table.preferredColumnWidth());
 		settings().addListener(this);
 	}
 

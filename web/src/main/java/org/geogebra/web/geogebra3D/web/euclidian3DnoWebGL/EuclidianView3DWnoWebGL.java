@@ -55,12 +55,12 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	@Override
 	public void repaint() {
 		if (thumb != null) {
-			this.g2p.drawImage(thumb, 0, 0);
+			getG2P().drawImage(thumb, 0, 0);
 		}
 
-		this.g2p.setColor(GColor.BLACK);
+		getG2P().setColor(GColor.BLACK);
 		if (!getApplication().isScreenshotGenerator()) {
-			this.g2p.drawString(
+			getG2P().drawString(
 					getApplication().getLocalization().getMenu("NoWebGL"), 10,
 					20);
 		}
@@ -93,11 +93,11 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	 * Update the image size
 	 */
 	public void onResize() {
-		g2p.setCoordinateSpaceSize(this.getWidth(), this.getHeight());
-		g2p.getCanvas().getElement().getParentElement().getStyle()
-		        .setWidth(g2p.getCoordinateSpaceWidth(), Unit.PX);
-		g2p.getCanvas().getElement().getParentElement().getStyle()
-		        .setHeight(g2p.getCoordinateSpaceHeight(), Unit.PX);
+		getG2P().setCoordinateSpaceSize(this.getWidth(), this.getHeight());
+		getG2P().getCanvas().getElement().getParentElement().getStyle()
+				.setWidth(getG2P().getCoordinateSpaceWidth(), Unit.PX);
+		getG2P().getCanvas().getElement().getParentElement().getStyle()
+				.setHeight(getG2P().getCoordinateSpaceHeight(), Unit.PX);
 	}
 
 }

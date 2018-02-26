@@ -88,7 +88,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	final public static int DELAY_BETWEEN_MOVE_EVENTS = 15;
 
-	public GGraphics2DW g2p = null;
+	private GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
 	private GGraphics2DW g4copy = null;
 	private GColor backgroundColor = GColor.WHITE;

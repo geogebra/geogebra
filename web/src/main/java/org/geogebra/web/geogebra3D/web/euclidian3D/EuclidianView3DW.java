@@ -76,7 +76,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private boolean isInFocus = false;
 
 	/** graphics */
-	public GGraphics2DW g2p = null;
+	private GGraphics2DW g2p = null;
 
 	private PointerEventHandler pointerHandler;
 

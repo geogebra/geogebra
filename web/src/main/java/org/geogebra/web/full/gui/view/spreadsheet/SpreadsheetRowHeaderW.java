@@ -492,7 +492,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 		case KeyCodes.KEY_DELETE: // delete
 		case KeyCodes.KEY_BACKSPACE: // delete on MAC
-			boolean storeUndo = table.copyPasteCut.delete(0, table.minSelectionRow,
+			boolean storeUndo = table.getCopyPasteCut().delete(0,
+					table.minSelectionRow,
 			        table.getModel().getColumnCount() - 1,
 			        table.maxSelectionRow);
 			if (storeUndo) {
@@ -811,7 +812,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 	public void onPaste(String text) {
 		if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
-			boolean storeUndo = ((CopyPasteCutW)table.copyPasteCut).paste(0,
+			boolean storeUndo = ((CopyPasteCutW) table.getCopyPasteCut()).paste(
+					0,
 			        table.minSelectionRow, table.getModel()
 			                .getColumnCount() - 1, table.maxSelectionRow, text);
 			if (storeUndo) {
@@ -834,7 +836,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			@Override
 			public void execute() {
 				if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
-					((CopyPasteCutW)table.copyPasteCut).copy(0, table.minSelectionRow, table
+					((CopyPasteCutW) table.getCopyPasteCut()).copy(0,
+							table.minSelectionRow, table
 					        .getModel().getColumnCount() - 1,
 					        table.maxSelectionRow, altDown, true);
 				}
@@ -855,11 +858,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			@Override
 			public void execute() {
 				if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
-					((CopyPasteCutW)table.copyPasteCut).copy(0, table.minSelectionRow, table
+					((CopyPasteCutW) table.getCopyPasteCut()).copy(0,
+							table.minSelectionRow, table
 					        .getModel().getColumnCount() - 1,
 					        table.maxSelectionRow, false, true);
 				}
-				boolean storeUndo = table.copyPasteCut.delete(0,
+				boolean storeUndo = table.getCopyPasteCut().delete(0,
 				        table.minSelectionRow,
 				        table.getModel().getColumnCount() - 1,
 				        table.maxSelectionRow);

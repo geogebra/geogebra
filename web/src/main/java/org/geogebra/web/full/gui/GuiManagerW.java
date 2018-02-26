@@ -268,7 +268,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void showPopupMenu(final ArrayList<GeoElement> selectedGeos,
 	        final EuclidianViewInterfaceCommon view, final GPoint mouseLoc) {
-		showPopupMenu(selectedGeos, ((EuclidianViewW) view).g2p.getCanvas(),
+		showPopupMenu(selectedGeos,
+				((EuclidianViewW) view).getG2P().getCanvas(),
 		        mouseLoc);
 	}
 
@@ -548,7 +549,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public void showDrawingPadPopup(final EuclidianViewInterfaceCommon view,
 	        final GPoint mouseLoc) {
-		showDrawingPadPopup(((EuclidianViewW) view).g2p.getCanvas(), mouseLoc);
+		showDrawingPadPopup(((EuclidianViewW) view).getG2P().getCanvas(),
+				mouseLoc);
 	}
 
 	@Override

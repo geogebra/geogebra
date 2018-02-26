@@ -102,7 +102,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		String name = GeoElementSpreadsheet.getSpreadsheetColumnName(colIndex);
 		grid.setText(0, colIndex, name);
 
-		int columnWidth = table.preferredColumnWidth;
+		int columnWidth = table.preferredColumnWidth();
 		grid.getColumnFormatter().getElement(colIndex).getStyle()
 		        .setWidth(columnWidth, Style.Unit.PX);
 

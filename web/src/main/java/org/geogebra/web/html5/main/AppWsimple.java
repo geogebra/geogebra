@@ -118,9 +118,7 @@ public class AppWsimple extends AppW {
 
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
-		if (frame.splash != null) {
-			frame.splash.canNowHide();
-		}
+		frame.hideSplash();
 
 		setDefaultCursor();
 		GeoGebraFrameW.useDataParamBorder(getArticleElement(), frame);

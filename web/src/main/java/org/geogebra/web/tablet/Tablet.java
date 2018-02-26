@@ -72,9 +72,9 @@ public class Tablet implements EntryPoint {
 	 * (Android) back button handler
 	 */
 	public static void goBack() {
-		if (appFrame != null && appFrame.app != null) {
+		if (appFrame != null && appFrame.getApplication() != null) {
 			if (appFrame.isHeaderPanelOpen()) {
-				GuiManagerW guiManager = (GuiManagerW) appFrame.app
+				GuiManagerW guiManager = (GuiManagerW) appFrame.getApplication()
 				        .getGuiManager();
 				appFrame.hideBrowser((BrowseGUI) guiManager.getBrowseView());
 			}

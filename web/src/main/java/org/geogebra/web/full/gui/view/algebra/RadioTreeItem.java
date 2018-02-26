@@ -150,7 +150,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	protected AlgebraView av;
 	protected boolean latex = false;
 
-	public FlowPanel latexItem;
+	private FlowPanel latexItem;
 	private FlowPanel plainTextItem;
 
 	// GTextBox tb;

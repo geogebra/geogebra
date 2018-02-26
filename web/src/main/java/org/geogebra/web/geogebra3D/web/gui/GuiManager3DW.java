@@ -61,7 +61,7 @@ public class GuiManager3DW extends GuiManagerW {
 		// clear highlighting and selections in views
 		getApp().getActiveEuclidianView().resetMode();
 		getDrawingPadpopupMenu3D(p.x, p.y).show(
-		        ((EuclidianView3DW) view).g2p.getCanvas(), p.x, p.y);
+				((EuclidianView3DW) view).getG2P().getCanvas(), p.x, p.y);
 	}
 
 	private ContextMenuGeoElementW getDrawingPadpopupMenu3D(int x, int y) {

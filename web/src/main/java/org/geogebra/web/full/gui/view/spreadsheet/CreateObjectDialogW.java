@@ -83,7 +83,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		MyTableW table = (MyTableW) view.getSpreadsheetTable();
 		coModel = new CreateObjectModel(app, objectType, this);
 		coModel.setCellRangeProcessor(table.getCellRangeProcessor());
-		coModel.setSelectedCellRanges(table.selectedCellRanges);
+		coModel.setSelectedCellRanges(table.getSelectedCellRanges());
 		// cp = table.getCellRangeProcessor();
 		// selectedCellRanges = table.selectedCellRanges;
 		//

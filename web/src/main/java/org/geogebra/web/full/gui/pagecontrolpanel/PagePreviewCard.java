@@ -59,7 +59,6 @@ public class PagePreviewCard extends FlowPanel
 		initGUI();
 	}
 
-
 	/**
 	 * Duplicates card with pageIndex incremented by 1.
 	 * @param source to duplicate.

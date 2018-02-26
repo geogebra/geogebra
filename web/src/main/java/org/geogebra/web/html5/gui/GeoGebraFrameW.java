@@ -43,12 +43,12 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 	private static ArrayList<GeoGebraFrameW> instances = new ArrayList<>();
 
 	/** The application */
-	public AppW app;
+	protected AppW app;
 
 	/**
 	 * Splash Dialog to get it work quickly
 	 */
-	public SplashDialog splash;
+	private SplashDialog splash;
 
 	private static SpanElement firstDummy = null;
 	private static SpanElement lastDummy = null;
@@ -645,6 +645,15 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		ViewW.FILE_LOADER.setView(null);
 		if (GeoGebraFrameW.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
+		}
+	}
+
+	/**
+	 * Hide
+	 */
+	public void hideSplash() {
+		if (splash != null) {
+			splash.canNowHide();
 		}
 	}
 

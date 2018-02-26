@@ -89,7 +89,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	private MyCellEditorW editor;
 
 	/** copy/paste utility */
-	public CopyPasteCut copyPasteCut;
+	private CopyPasteCut copyPasteCut;
 
 	// protected SpreadsheetColumnControllerW.ColumnHeaderRenderer
 	// columnHeaderRenderer;
@@ -109,7 +109,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * added when selecting with ctrl-down. The first element is the most
 	 * recently selected cell range.
 	 */
-	public ArrayList<CellRange> selectedCellRanges;
+	private ArrayList<CellRange> selectedCellRanges;
 
 	// These keep track of internal selection using actual ranges and do not
 	// use -1 flags for row and column.
@@ -152,19 +152,16 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// Cells to be resized on next repaint are put in these HashSets.
 	// A cell is added to a set when editing is done. The cells are removed
 	// after a repaint in MyTable.
-	public HashSet<GPoint> cellResizeHeightSet;
-	public HashSet<GPoint> cellResizeWidthSet;
+	private HashSet<GPoint> cellResizeHeightSet;
+	private HashSet<GPoint> cellResizeWidthSet;
 
 	private ArrayList<GPoint> adjustedRowHeights = new ArrayList<>();
 	private boolean doRecordRowHeights = true;
 
-	public int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
+	private int preferredColumnWidth = SpreadsheetSettings.TABLE_CELL_WIDTH;
 
 	// there should be place left for the textfield
-	public int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT + 4;
-	// the textfield is this much smaller than the row height and column width
-	public static int minusRowHeight = 2; // 12;
-	public static int minusColumnWidth = 2; // 14;
+	protected int minimumRowHeight = SpreadsheetSettings.TABLE_CELL_HEIGHT + 4;
 
 	private HashMap<GPoint, GeoElement> oneClickEditMap = new HashMap<>();
 	private boolean allowEditing = false;
@@ -208,7 +205,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 
 	private FlowPanel cornerContainerUpperRight;
 
-	public Grid dummyTable;
+	protected Grid dummyTable;
 
 	private boolean autoScrolls = true;
 
@@ -2777,5 +2774,9 @@ public class MyTableW implements /* FocusListener, */MyTable {
 					this);
 		}
 		return this.spredsheetModeProcessor;
+	}
+
+	public void addResizeHeight(GPoint gPoint) {
+		cellResizeHeightSet.add(gPoint);
 	}
 }

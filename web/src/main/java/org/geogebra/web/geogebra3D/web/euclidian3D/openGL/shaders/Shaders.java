@@ -10,7 +10,7 @@ import com.google.gwt.resources.client.TextResource;
  */
 public interface Shaders extends ClientBundle {
 	/** singleton instance */
-	public static Shaders INSTANCE = GWT.create(Shaders.class);
+	public static final Shaders INSTANCE = GWT.create(Shaders.class);
 
 	/**
 	 * @return shader for old GPUs

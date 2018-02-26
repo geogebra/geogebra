@@ -19,7 +19,7 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers,
 	private Slider slider;
 	//private Label minLabel;
 	//private Label maxLabel;
-	public Label sliderLabel;
+	private Label sliderLabel;
 
 	public SliderPanel() {
 		this(0, 100);

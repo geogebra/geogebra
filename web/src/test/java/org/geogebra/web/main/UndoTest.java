@@ -63,6 +63,15 @@ public class UndoTest {
 		shouldHaveSlides(2);
 		slideShouldHaveObjects(0, 1);
 		slideShouldHaveObjects(1, 0);
+
+		app.getAppletFrame().getPageControlPanel().removePage(0);
+		shouldHaveSlides(1);
+		slideShouldHaveObjects(0, 0);
+
+		app.getGgbApi().undo();
+		shouldHaveSlides(2);
+		slideShouldHaveObjects(0, 1);
+		slideShouldHaveObjects(1, 0);
 	}
 
 	private void slideShouldHaveObjects(int slide, int expectedCount) {

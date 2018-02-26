@@ -42,6 +42,7 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
+@SuppressWarnings("javadoc")
 public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		implements HasOffsets {
 
@@ -51,7 +52,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	private PointerEvent waitingTouchMove = null;
 	private PointerEvent waitingMouseMove = null;
 
-	public EnvironmentStyleW style = new EnvironmentStyleW();
+	private EnvironmentStyleW style = new EnvironmentStyleW();
 
 	/**
 	 * Threshold for the selection rectangle distance squared (10 pixel circle)
