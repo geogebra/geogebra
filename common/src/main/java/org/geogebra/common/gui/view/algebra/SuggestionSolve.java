@@ -54,7 +54,16 @@ public class SuggestionSolve extends Suggestion {
 	private static Suggestion getMulti(GeoElement geo, String[] vars) {
 		GeoElementND prev = geo;
 		do {
-			prev = geo.getConstruction().getPrevious(prev);
+
+			GeoElementND newPrev = geo.getConstruction().getPrevious(prev);
+
+			if (newPrev == prev) {
+				// eg happens for polygons
+				return null;
+			}
+
+			prev = newPrev;
+
 			if (Equation.isAlgebraEquation(prev)
 					&& subset(
 					((EquationValue) prev).getEquationVariables(), vars)
