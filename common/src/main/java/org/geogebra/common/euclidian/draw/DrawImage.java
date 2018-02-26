@@ -117,12 +117,11 @@ public final class DrawImage extends Drawable {
 
 		// ABSOLUTE SCREEN POSITION
 		if (absoluteLocation){
+			screenX = geoImage.getAbsoluteScreenLocX();
+			screenY = geoImage.getAbsoluteScreenLocY() - height;
+			labelRectangle.setBounds(screenX, screenY, width, height);
 			if(geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
-				labelRectangle.setBounds(0, 0, width, height);
-			} else {
-				screenX = geoImage.getAbsoluteScreenLocX();
-				screenY = geoImage.getAbsoluteScreenLocY() - height;
-				labelRectangle.setBounds(screenX, screenY, width, height);				
+				classicBoundingBox.setBounds(screenX, screenY, width, height);
 			}
 		}
 
@@ -296,8 +295,7 @@ public final class DrawImage extends Drawable {
 				g3.setComposite(alphaComp);
 			}
 
-			if (absoluteLocation && !geo.getKernel().getApplication()
-					.has(Feature.MOW_PIN_IMAGE)) {
+			if (absoluteLocation) {
 				g3.drawImage(image, screenX, screenY);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
@@ -412,7 +410,7 @@ public final class DrawImage extends Drawable {
 		hitCoords[1] = y;
 
 		// convert screen to image coordinate system
-		if (!geoImage.isAbsoluteScreenLocActive() || geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+		if (!geoImage.isAbsoluteScreenLocActive()) {
 			atInverse.transform(hitCoords, 0, hitCoords, 0, 1);
 		}
 		return labelRectangle.contains(hitCoords[0], hitCoords[1]);
