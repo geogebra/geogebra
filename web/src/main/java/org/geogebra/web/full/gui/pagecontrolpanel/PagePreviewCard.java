@@ -205,7 +205,6 @@ public class PagePreviewCard extends FlowPanel
 	 *            coordinate.
 	 */
 	public void setDragPosition(int x, int y) {
-		lastTop = getAbsoluteTop();
 		int top = getTopFromDrag(y);
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
