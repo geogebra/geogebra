@@ -199,14 +199,15 @@ class DragController {
 				spaceAtTop = last.target.getPageIndex() < target.getPageIndex();
 			}
 
+			int top = PagePreviewCard.MARGIN + target.getPageIndex() * PagePreviewCard.SPACE_HEIGHT;
 			if (spaceAtTop) {
 				target.addSpaceTop();
-				last.setTop(target.getAbsoluteTop());
-				last.setBottom(target.getAbsoluteTop());
+				last.setTop(top);
+				last.setBottom(top);
 			} else {
 				target.addSpaceBottom();
-				last.setTop(target.getAbsoluteTop());
-				last.setBottom(target.getAbsoluteBottom());
+				last.setTop(top);
+				last.setBottom(top + PagePreviewCard.SPACE_HEIGHT);
 			}
 
 
