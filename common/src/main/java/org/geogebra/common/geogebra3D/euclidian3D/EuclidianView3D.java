@@ -4618,24 +4618,17 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public void setStandardView(boolean storeUndo) {
-		if (app.has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
-			setAnimatedCoordSystem(STANDARD_VIEW_STEPS);
-			animator.setRotAnimation(ANGLE_ROT_OZ, ANGLE_ROT_XOY, false, true, storeUndo);
-		} else {
-			super.setStandardView(storeUndo);
-		}
+		setAnimatedCoordSystem(STANDARD_VIEW_STEPS);
+		animator.setRotAnimation(ANGLE_ROT_OZ, ANGLE_ROT_XOY, false, true, storeUndo);
 	}
 
 
 	@Override
 	public boolean isStandardView() {
-		if (app.has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
-			return isZeroStandard()
-					&& DoubleUtil.isEqual(getXscale(), SCALE_STANDARD)
-					&& DoubleUtil.isEqual(getYscale(), SCALE_STANDARD)
-					&& DoubleUtil.isEqual(getZscale(), SCALE_STANDARD);
-		}
-		return super.isStandardView();
+		return isZeroStandard()
+				&& DoubleUtil.isEqual(getXscale(), SCALE_STANDARD)
+				&& DoubleUtil.isEqual(getYscale(), SCALE_STANDARD)
+				&& DoubleUtil.isEqual(getZscale(), SCALE_STANDARD);
 	}
 
 	@Override

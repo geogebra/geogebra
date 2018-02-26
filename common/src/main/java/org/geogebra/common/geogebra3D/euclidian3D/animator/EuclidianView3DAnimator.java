@@ -227,10 +227,8 @@ public class EuclidianView3DAnimator {
 	 * stops the animations
 	 */
 	synchronized public void stopAnimation() {
-		if (view3D.getApplication().has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
-			if (getAnimationType() != AnimationType.OFF) {
-				view3D.getEuclidianController().onCoordSystemChanged();
-			}
+		if (getAnimationType() != AnimationType.OFF) {
+			view3D.getEuclidianController().onCoordSystemChanged();
 		}
 		animation = null;
 		animationList.clear();
@@ -240,9 +238,7 @@ public class EuclidianView3DAnimator {
 	 * ends the current animation
 	 */
 	synchronized void endAnimation() {
-		if (view3D.getApplication().has(Feature.MOB_STANDARD_VIEW_BUTTON_3D)) {
-			view3D.getEuclidianController().onCoordSystemChanged();
-		}
+		view3D.getEuclidianController().onCoordSystemChanged();
 		animation = animationList.poll();
 		if (animation != null) {
 			animation.setupForStart();
