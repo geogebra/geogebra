@@ -566,8 +566,9 @@ public final class DrawImage extends Drawable {
 			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
 			newHeight = originalRatio * newWidth;
 			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| newWidth > getBounds().getWidth()
-					|| newHeight > getBounds().getHeight()) {
+					|| eventX > getBounds().getMaxX()
+					|| getBoundingBox().getRectangle().getY()
+							+ newHeight > getBounds().getMaxY()) {
 				return;
 			}
 			rect.setRect(getBoundingBox().getRectangle().getX(),
@@ -578,8 +579,9 @@ public final class DrawImage extends Drawable {
 			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
 			newHeight = originalRatio * newWidth;
 			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| newWidth > getBounds().getWidth()
-					|| newHeight > getBounds().getHeight()) {
+					|| eventX < getBounds().getMinX()
+					|| getBoundingBox().getRectangle().getY()
+							+ newHeight > getBounds().getMaxY()) {
 				return;
 			}
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
@@ -590,8 +592,9 @@ public final class DrawImage extends Drawable {
 			newWidth = eventX - getBoundingBox().getRectangle().getMinX();
 			newHeight = originalRatio * newWidth;
 			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| newWidth > getBounds().getWidth()
-					|| newHeight > getBounds().getHeight()) {
+					|| eventX > getBounds().getMaxX()
+					|| getBoundingBox().getRectangle().getMaxY()
+							- newHeight < getBounds().getMinY()) {
 				return;
 			}
 			rect.setRect(getBoundingBox().getRectangle().getX(),
@@ -603,8 +606,9 @@ public final class DrawImage extends Drawable {
 			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
 			newHeight = originalRatio * newWidth;
 			if (newWidth <= Math.min(IMG_CROP_THRESHOLD, image.getWidth())
-					|| newWidth > getBounds().getWidth()
-					|| newHeight > getBounds().getHeight()) {
+					|| eventX < getBounds().getMinX()
+					|| getBoundingBox().getRectangle().getMaxY()
+							- newHeight < getBounds().getMinY()) {
 				return;
 			}
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
