@@ -4192,7 +4192,7 @@ public abstract class App implements UpdateSelection {
 		case HANDWRITING:
 			return false;
 		case WEB_CLASSIC_FLOATING_MENU:
-			return prerelease;
+			return canary;
 		// GGB-92
 		case AV_DEFINITION_AND_VALUE:
 			if (isDesktop()) {
