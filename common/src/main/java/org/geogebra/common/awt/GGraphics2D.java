@@ -332,10 +332,9 @@ public interface GGraphics2D {
 
 	public abstract void drawRect(int x, int y, int width, int height);
 
-	public abstract void setClip(int xAxisStart, int i, int width,
-			int yAxisEnd);
+	public abstract void setClip(int x, int y, int width, int height);
 
-	public abstract void setClip(int xAxisStart, int i, int width, int yAxisEnd,
+	public abstract void setClip(int x, int y, int width, int height,
 			boolean restoreSaveContext);
 
 	public abstract void drawRoundRect(int x, int y, int width, int height,

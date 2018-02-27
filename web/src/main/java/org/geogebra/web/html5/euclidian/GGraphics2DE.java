@@ -139,7 +139,7 @@ public class GGraphics2DE implements GGraphics2D {
 
 	}
 
-	public void setClip(GShape shape, boolean saveRestoreContext) {
+	public void setClip(GShape shape, boolean restoreSaveContext) {
 		// TODO Auto-generated method stub
 
 	}

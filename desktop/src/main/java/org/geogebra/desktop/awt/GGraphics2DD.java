@@ -249,6 +249,7 @@ public class GGraphics2DD implements GGraphics2D {
 		impl.drawLine(x1, y1, x2, y2);
 	}
 
+	@Override
 	public void setClip(GShape shape, boolean restoreSaveContext) {
 		setClip(shape);
 	}
@@ -273,6 +274,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	}
 
+	@Override
 	public void setClip(int x, int y, int width, int height,
 			boolean restoreSaveContext) {
 		setClip(x, y, width, height);
