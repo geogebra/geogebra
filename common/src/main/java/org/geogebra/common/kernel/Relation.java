@@ -110,8 +110,8 @@ public class Relation {
 					String or = loc.getMenu("Symbol.Or").toLowerCase();
 					String trueOnParts = loc.getMenuDefault("TrueOnParts",
 							"(true on parts)");
-					String generallyFalse = loc.getMenuDefault("GenerallyFalse",
-							"(generally false)");
+					String generallyFalse = loc.getMenuDefault("FalseInGeneral",
+							"(false in general)");
 					rel.setInfo("<html>");
 					if (result != null && !result) {
 						// Prove==false
