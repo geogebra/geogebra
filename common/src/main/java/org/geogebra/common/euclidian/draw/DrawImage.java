@@ -630,6 +630,7 @@ public final class DrawImage extends Drawable {
 		GeoPoint D = geoImage.getCorner(2);
 		double newWidth = 1;
 		double newHeight = 1;
+		double rwEventX = view.toRealWorldCoordX(eventX);
 		if (A == null) {
 			A = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(A, 1);
@@ -648,8 +649,8 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			B.setX(view.toRealWorldCoordX(eventX));
-			newWidth = B.getInhomX() - D.getInhomX();
+			B.setX(rwEventX);
+			newWidth = rwEventX - D.getInhomX();
 			newHeight = -originalRatio * newWidth;
 			B.updateCoords();
 			B.updateRepaint();
@@ -664,11 +665,11 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			A.setX(view.toRealWorldCoordX(eventX));
+			A.setX(rwEventX);
 			A.updateCoords();
 			A.updateRepaint();
-			D.setX(A.getInhomX());
-			newWidth = B.getInhomX() - A.getInhomX();
+			D.setX(rwEventX);
+			newWidth = B.getInhomX() - rwEventX;
 			newHeight = -originalRatio * newWidth;
 			D.setY(B.getInhomY() - newHeight);
 			D.updateCoords();
@@ -684,8 +685,8 @@ public final class DrawImage extends Drawable {
 			D.updateCoords();
 			D.updateRepaint();
 			geoImage.setCorner(D, 2);
-			B.setX(view.toRealWorldCoordX(eventX));
-			newWidth = B.getInhomX() - D.getInhomX();
+			B.setX(rwEventX);
+			newWidth = rwEventX - D.getInhomX();
 			newHeight = -originalRatio * newWidth;
 			B.setY(D.getInhomY() + newHeight);
 			B.updateCoords();
@@ -699,8 +700,8 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			A.setX(view.toRealWorldCoordX(eventX));
-			newWidth = B.getInhomX() - A.getInhomX();
+			A.setX(rwEventX);
+			newWidth = B.getInhomX() - rwEventX;
 			newHeight = -originalRatio * newWidth;
 			A.setY(D.getInhomY() + newHeight);
 			A.updateCoords();
@@ -718,7 +719,7 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			B.setX(view.toRealWorldCoordX(eventX));
+			B.setX(rwEventX);
 			B.updateCoords();
 			B.updateRepaint();
 			D.setX(A.getInhomX());
@@ -732,7 +733,7 @@ public final class DrawImage extends Drawable {
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
 				return;
 			}
-			A.setX(view.toRealWorldCoordX(eventX));
+			A.setX(rwEventX);
 			A.updateCoords();
 			A.updateRepaint();
 			D.setX(A.getInhomX());
