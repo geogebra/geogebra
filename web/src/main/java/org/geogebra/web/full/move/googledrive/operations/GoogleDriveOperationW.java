@@ -67,12 +67,15 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	/**
-	 * @return
+	 * @return filename
 	 */
 	public String getFileName() {
 		return driveBase64FileName;
 	}
 
+	/**
+	 * @return file description
+	 */
 	public String getFileDescription() {
 		return driveBase64description;
 	}

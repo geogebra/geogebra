@@ -22,9 +22,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class AlgebraDockPanelW extends DockPanelW
 		implements AlgebraPanelInterface {
 
-	ScrollPanel algebrap;
-	SimplePanel simplep;
-	AlgebraViewW aview = null;
+	private ScrollPanel algebrap;
+	private SimplePanel simplep;
+	private AlgebraViewW aview = null;
 	private int savedScrollPosition;
 
 	public AlgebraDockPanelW() {
@@ -36,7 +36,6 @@ public class AlgebraDockPanelW extends DockPanelW
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
-
 	}
 
 	@Override
@@ -76,14 +75,23 @@ public class AlgebraDockPanelW extends DockPanelW
 
 				@Override
 				public void onClick(ClickEvent event) {
-					int bt = simplep.getAbsoluteTop()
-							+ simplep.getOffsetHeight();
-					if (event.getClientY() > bt) {
-						app.getSelectionManager().clearSelectedGeos();
-						av.resetItems(true);
-					}
+					algebraPanelClicked(av, event);
 				}
 			}, ClickEvent.getType());
+		}
+	}
+
+	/**
+	 * @param av
+	 *            algebra view
+	 * @param event
+	 *            click event
+	 */
+	protected void algebraPanelClicked(AlgebraViewW av, ClickEvent event) {
+		int bt = simplep.getAbsoluteTop() + simplep.getOffsetHeight();
+		if (event.getClientY() > bt) {
+			app.getSelectionManager().clearSelectedGeos();
+			av.resetItems(true);
 		}
 	}
 
@@ -151,7 +159,7 @@ public class AlgebraDockPanelW extends DockPanelW
 
 				@Override
 				public void execute() {
-					algebrap.scrollToBottom();
+					scrollAVToBottom();
 				}
 			});
 			return;

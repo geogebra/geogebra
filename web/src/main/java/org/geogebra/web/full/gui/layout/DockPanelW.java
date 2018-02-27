@@ -518,10 +518,8 @@ public abstract class DockPanelW extends ResizeComposite
 						public void onClickStart(int x, int y,
 								PointerEventType type) {
 							startDragging();
-
 						}
 					});
-
 			dragPanel.setVisible(false);
 			if (dragIcon == null) {
 				dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());

@@ -55,17 +55,11 @@ public class AlgoLocusStroke extends AlgoElement
 		// poly = new GeoPolygon(cons, points);
 		// updatePointArray already covered compute
 		input = new GeoElement[1];
-		// for (int i = 0; i < points.length; i++) {
-		// input[i] = (GeoElement) points[i];
-		// }
 
-		input[0] = new GeoBoolean(cons, true); // dummy to
-												// force
-												// PolyLine[...,
-												// true]
+		// dummy to force PolyLine[..., true]
+		input[0] = new GeoBoolean(cons, true);
 
 		setInputOutput(); // for AlgoElement
-
 	}
 
 	@Override
@@ -160,14 +154,12 @@ public class AlgoLocusStroke extends AlgoElement
 				List<MyPoint> partOfStroke = unfiltered;
 
 				if (partOfStroke.size() == 1) {
-
 					pointList.add(
 							partOfStroke.get(0).withType(SegmentType.LINE_TO));
 				} else if (partOfStroke.size() == 2) {
 					pointList.add(
 							partOfStroke.get(1).withType(SegmentType.LINE_TO));
 				} else if (partOfStroke.size() > 1) {
-
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
 
@@ -191,10 +183,8 @@ public class AlgoLocusStroke extends AlgoElement
 							pointList.add(
 									endpoint.withType(SegmentType.LINE_TO));
 						}
-
 					}
 				}
-
 				index = index + Math.max(unfiltered.size(), 1);
 			}
 			poly.setPoints(pointList);

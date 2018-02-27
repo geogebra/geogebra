@@ -94,6 +94,8 @@ public class EuclidianStatic {
 	 *            stroke width
 	 * @param type
 	 *            stroke type (EuclidianStyleConstants.LINE_TYPE_*)
+	 * @param join
+	 *            join type, se GBasicStroke constants
 	 * @return stroke
 	 */
 	public static GBasicStroke getStroke(double width, int type, int join) {
