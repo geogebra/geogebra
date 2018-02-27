@@ -74,12 +74,6 @@ public class UndoManagerD extends UndoManager {
 				"don't need to check return value" })
 		public void delete() {
 			f.delete();
-
-		}
-
-		public String getXml() {
-			// TODO Auto-generated method stub
-			return null;
 		}
 	}
 

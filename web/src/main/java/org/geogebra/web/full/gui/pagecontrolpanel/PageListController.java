@@ -392,20 +392,24 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
 		dragCtrl.start(event.getClientX(), event.getClientY());
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		dragCtrl.move(event.getClientX(), event.getClientY());
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		dragCtrl.stop(event.getClientX(), event.getClientY());
 	}
 
+	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		event.preventDefault();
 		event.stopPropagation();
@@ -413,11 +417,13 @@ public class PageListController implements PageListControllerInterface,
 		dragCtrl.start(t.getClientX(), t.getClientY());
 	}
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		Touch t = event.getTargetTouches().get(0);
 		dragCtrl.move(t.getClientX(), t.getClientY());
 	}
 
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		Touch t = event.getTargetTouches().get(0);
 		if (t == null) {
@@ -471,6 +477,7 @@ public class PageListController implements PageListControllerInterface,
 		return selectedCard.getFile().getID() + "";
 	}
 
+	@Override
 	public void executeAction(EventType action, AppState state, String[] args) {
 		if (action == EventType.ADD_SLIDE) {
 			int idx = args.length > 0 ? Integer.parseInt(args[0])
@@ -478,7 +485,8 @@ public class PageListController implements PageListControllerInterface,
 			GgbFile file = args.length < 2 ? new GgbFile()
 					: new GgbFile(args[1]);
 			if (state != null) {
-				file.put("geogebra.xml", state.getXml());
+				file.put("geogebra.xml", app.getKernel().getConstruction()
+						.getUndoManager().getXML(state));
 			}
 			if (idx >= 0) {
 				addNewPreviewCard(false, idx, file);
@@ -521,6 +529,7 @@ public class PageListController implements PageListControllerInterface,
 
 	}
 
+	@Override
 	public void setActiveSlide(String slideID) {
 		if (slideID == null) {
 			selectCard(slides.get(0));
@@ -535,24 +544,21 @@ public class PageListController implements PageListControllerInterface,
 
 	}
 
+	@Override
 	public void sendEvent(Event evt) {
 		if (evt.getType() == EventType.UNDO) {
 			savePreviewCard(selectedCard);
 		}
 	}
 
+	@Override
 	public void reset() {
 		// TODO Auto-generated method stub
-
 	}
 
+	@Override
 	public void saveSelected() {
 		this.savePreviewCard(selectedCard);
 		System.out.println(selectedCard.getPageIndex());
 	}
-
-	public void clearPage(int i) {
-		this.slides.get(0).getFile().clear();
-	}
-
 }

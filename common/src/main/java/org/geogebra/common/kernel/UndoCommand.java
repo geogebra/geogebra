@@ -5,6 +5,11 @@ import java.util.ListIterator;
 import org.geogebra.common.kernel.UndoManager.AppState;
 import org.geogebra.common.plugin.EventType;
 
+/**
+ * Item of undo list; can be either a checkpoint or undoable action
+ * 
+ * @author Zbynek
+ */
 public class UndoCommand {
 
 	private AppState appState;
@@ -12,30 +17,58 @@ public class UndoCommand {
 	private String[] args;
 	private String slideID;
 
+	/**
+	 * @param appStateToAdd
+	 *            checkpoint state
+	 */
 	public UndoCommand(AppState appStateToAdd) {
 		this.appState = appStateToAdd;
 	}
 
+	/**
+	 * @param appStateToAdd
+	 *            checkpoint state
+	 * @param slideID
+	 *            slide identifier
+	 */
 	public UndoCommand(AppState appStateToAdd, String slideID) {
 		this.appState = appStateToAdd;
 		this.slideID = slideID;
 	}
 
+	/**
+	 * @param action
+	 *            action
+	 * @param args
+	 *            action arguments
+	 */
 	public UndoCommand(EventType action, String[] args) {
 		this.action = action;
 		this.args = args;
 	}
 
+	/**
+	 * @return checkpoint state
+	 */
 	public AppState getAppState() {
 		return appState;
 	}
 
+	/**
+	 * Delete associated checkpoint state if applicable
+	 */
 	public void delete() {
 		if (appState != null) {
 			appState.delete();
 		}
 	}
 
+	/**
+	 * Execute the command again
+	 * 
+	 * @param undoManager
+	 *            undo manager
+	 */
 	public void redo(UndoManager undoManager) {
 		if (appState != null) {
 			undoManager.loadUndoInfo(appState, slideID);
@@ -44,14 +77,26 @@ public class UndoCommand {
 		}
 	}
 
+	/**
+	 * @return action
+	 */
 	public EventType getAction() {
 		return action;
 	}
 
+	/**
+	 * @return action arguments
+	 */
 	public String[] getArgs() {
 		return args;
 	}
 
+	/**
+	 * Revert the action of this command
+	 * 
+	 * @param mgr
+	 *            undo manager
+	 */
 	public void undoAction(UndoManager mgr) {
 		if(action == EventType.ADD_SLIDE){
 			mgr.executeAction(EventType.REMOVE_SLIDE, null, new String[0]);
@@ -72,10 +117,19 @@ public class UndoCommand {
 		}
 	}
 
+	/**
+	 * @return slide ID
+	 */
 	public String getSlideID() {
 		return slideID;
 	}
 
+	/**
+	 * @param undoManager
+	 *            undo manager
+	 * @param iterator
+	 *            pointer to current undo point in manager
+	 */
 	public void undo(UndoManager undoManager,
 			ListIterator<UndoCommand> iterator) {
 		if (getAction() != null) {

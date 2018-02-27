@@ -34,8 +34,6 @@ public abstract class UndoManager {
 		/** deletes this application state (i.e. deletes file) */
 		void delete();
 
-		String getXml();
-
 	}
 
 	/**
@@ -48,6 +46,11 @@ public abstract class UndoManager {
 		undoInfoList = new LinkedList<>();
 	}
 
+	/**
+	 * @param string
+	 *            slide ID
+	 * @return last state of given slide
+	 */
 	public AppState getCheckpoint(String string) {
 		AppState state = null;
 		int steps = 0;
@@ -65,6 +68,14 @@ public abstract class UndoManager {
 		return state;
 	}
 
+	/**
+	 * @param action
+	 *            action type
+	 * @param state
+	 *            state to restore if applicable
+	 * @param args
+	 *            action arguments
+	 */
 	public void executeAction(EventType action, AppState state,
 			String... args) {
 		app.executeAction(action, state, args);
@@ -204,6 +215,8 @@ public abstract class UndoManager {
 	 * 
 	 * @param state
 	 *            stored state
+	 * @param slideID
+	 *            slide identifier
 	 */
 	protected abstract void loadUndoInfo(AppState state, String slideID);
 
@@ -274,6 +287,12 @@ public abstract class UndoManager {
 		storeUndoInfoNeededForProperties = false;
 	}
 
+	/**
+	 * @param action
+	 *            action type
+	 * @param args
+	 *            action arguments
+	 */
 	public void storeAction(EventType action, String... args) {
 		iterator.add(new UndoCommand(action, args));
 		this.pruneStateList();
@@ -281,11 +300,19 @@ public abstract class UndoManager {
 		updateUndoActions();
 	}
 
+	/**
+	 * @return number of available undo points
+	 */
 	public int getHistorySize() {
 		return this.iterator.previousIndex();
 	}
 
-	public String getSlideID() {
+	/**
+	 * @param state
+	 *            checkpoint
+	 * @return XML of the checkpoint
+	 */
+	public String getXML(AppState state) {
 		return null;
 	}
 }

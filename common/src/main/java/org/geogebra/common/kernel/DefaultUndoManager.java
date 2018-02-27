@@ -12,7 +12,7 @@ import org.geogebra.common.plugin.EventType;
  */
 public class DefaultUndoManager extends UndoManager {
 
-    private ArrayList<UndoPossibleListener> mListener = new ArrayList<UndoPossibleListener>();
+	private ArrayList<UndoPossibleListener> mListener = new ArrayList<>();
 
 	/**
 	 * Wrapper around string
@@ -107,6 +107,10 @@ public class DefaultUndoManager extends UndoManager {
         }
     }
 
+	/**
+	 * @param undoPossibleListener
+	 *            undo listener
+	 */
     public void addUndoListener(UndoPossibleListener undoPossibleListener) {
         mListener.add(undoPossibleListener);
     }

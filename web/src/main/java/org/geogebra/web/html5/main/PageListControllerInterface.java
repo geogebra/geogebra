@@ -39,17 +39,51 @@ public interface PageListControllerInterface {
 	 */
 	boolean loadSlides(GgbFile archiveContent);
 
-
+	/**
+	 * @return Identifier of current slide, e.g. _slide0
+	 */
 	String getSlideID();
 
-
+	/**
+	 * Replay an action
+	 * 
+	 * @param action
+	 *            action type
+	 * @param state
+	 *            state to restore
+	 * @param args
+	 *            action parameters
+	 */
 	void executeAction(EventType action, AppState state, String[] args);
 
+	/**
+	 * Select a slide
+	 * 
+	 * @param slideID
+	 *            slide identifier
+	 */
 	void setActiveSlide(String slideID);
 
+	/**
+	 * Move source slide to target index
+	 * 
+	 * @param i
+	 *            source
+	 * @param j
+	 *            target
+	 */
 	void reorder(int i, int j);
 
-	void clickPage(int i, boolean b);
+	/**
+	 * @param idx
+	 *            page index
+	 * @param selected
+	 *            whether to select
+	 */
+	void clickPage(int idx, boolean selected);
 
+	/**
+	 * Persist currently selected page
+	 */
 	void saveSelected();
 }
