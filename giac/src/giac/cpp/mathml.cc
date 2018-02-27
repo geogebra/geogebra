@@ -1661,6 +1661,20 @@ namespace giac {
 	return "&Im"+s+';'+sadd;
       if (s=="re")
 	return "&Re"+sadd;
+      if (s=="RR")
+	return "ℝ";
+      if (s=="QQ")
+	return "ℚ";
+      if (s=="ZZ")
+	return "ℤ";
+      if (s=="CC")
+	return "ℂ";
+      if (s=="NN")
+	return "ℕ";
+      if (s=="HH")
+	return "ℍ";
+      if (s=="PP")
+	return "ℙ";
       break;
     case 3:
       if (s=="chi" || s=="phi" || s=="Phi" || s=="eta" || s=="rho" || s=="tau" || s=="psi" || s=="Psi")

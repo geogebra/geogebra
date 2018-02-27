@@ -1155,7 +1155,7 @@ namespace giac {
 		  res=0;
 		  vecteur v=*ganv._VECTptr;
 		  gen facti=pow(expo_a,-2,contextptr);
-		  for (int i=1;i<v.size();++i){
+		  for (int i=1;i<int(v.size());++i){
 		    gen coeff=v[v.size()-i-1];
 		    if (!is_zero(coeff))
 		      res += coeff*facti*Zeta(i+1,contextptr);

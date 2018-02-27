@@ -614,6 +614,7 @@ namespace giac {
 	if (tst==1 && p.type==_INT_){
 	  ref_gen_user * resptr=new ref_gen_user(*gfptr);
 	  gf_add(*a._VECTptr,*gptr->a._VECTptr,p.val,*gfptr->a._VECTptr);
+	  delete gfptr;
 	  return resptr;
 	}
 	environment env;
@@ -724,6 +725,7 @@ namespace giac {
 	  }
 	  // if (absize==1) return ab.front()?zero:makemod(ab.front(),p); // does not work chk_fhan12
 	  vector_int2vecteur(ab,*gfptr->a._VECTptr);
+	  delete gfptr;
 	  return resptr; // galois_field(p,P,x,resdbg,false);
 	}
 	environment env;
