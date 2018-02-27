@@ -62,7 +62,7 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 	 *         on each side, <b>false</b> otherwise
 	 */
 	@Factory
-	public static <T> Matcher<String> equalToPolynomialEquation(String expected) {
+	public static Matcher<String> equalToPolynomialEquation(String expected) {
 		return new IsEqualPolynomialEquation(expected);
 	}
 

@@ -113,8 +113,7 @@ final class ChainEnd {
     public double getX() {
         if (etag == AreaOp.ETAG_ENTER) {
             return tail.getXBot();
-        } else {
-            return head.getXBot();
         }
+		return head.getXBot();
     }
 }

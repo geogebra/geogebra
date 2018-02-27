@@ -633,9 +633,8 @@ public abstract class Path2D implements Shape {
 		public final GPathIterator getPathIterator(GAffineTransform at) {
             if (at == null) {
                 return new CopyIterator(this);
-            } else {
-                return new TxIterator(this, at);
             }
+			return new TxIterator(this, at);
         }
 
         /**
@@ -999,14 +998,13 @@ public abstract class Path2D implements Shape {
             int mask = (pi.getWindingRule() == WIND_NON_ZERO ? -1 : 1);
             int cross = Curve.pointCrossingsForPath(pi, x, y);
             return ((cross & mask) != 0);
-        } else {
-            /* Either x or y was infinite or NaN.
-             * A NaN always produces a negative response to any test
-             * and Infinity values cannot be "inside" any path so
-             * they should return false as well.
-             */
-            return false;
         }
+		/* Either x or y was infinite or NaN.
+		 * A NaN always produces a negative response to any test
+		 * and Infinity values cannot be "inside" any path so
+		 * they should return false as well.
+		 */
+		return false;
     }
 
     /**
@@ -1044,14 +1042,13 @@ public abstract class Path2D implements Shape {
             }
             int mask = (windingRule == WIND_NON_ZERO ? -1 : 1);
             return ((pointCrossings(x, y) & mask) != 0);
-        } else {
-            /* Either x or y was infinite or NaN.
-             * A NaN always produces a negative response to any test
-             * and Infinity values cannot be "inside" any path so
-             * they should return false as well.
-             */
-            return false;
         }
+		/* Either x or y was infinite or NaN.
+		 * A NaN always produces a negative response to any test
+		 * and Infinity values cannot be "inside" any path so
+		 * they should return false as well.
+		 */
+		return false;
     }
 
     /**

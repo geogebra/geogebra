@@ -66,7 +66,7 @@ public class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String> {
 	}
 
 	@Factory
-	public static <T> Matcher<String> equalToIgnoreWhitespaces(
+	public static Matcher<String> equalToIgnoreWhitespaces(
 			CASTestLogger logger, String input, String expectedResult,
 			String... validResults) {
 		return new IsEqualStringIgnoreWhitespaces(logger, input,

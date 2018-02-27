@@ -7,9 +7,8 @@ public class GWTMath {
 		double r = Math.abs(f1 % f2);
 		if (Double.isNaN(r) || r == f2 || r <= Math.abs(f2) / 2.0) {
 			return r;
-		} else {
-			return Math.signum(f1) * (r - f2);
 		}
+		return Math.signum(f1) * (r - f2);
 	}
 
 }

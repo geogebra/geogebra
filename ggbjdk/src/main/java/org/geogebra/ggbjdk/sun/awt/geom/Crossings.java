@@ -193,9 +193,8 @@ public abstract class Crossings {
     {
         if (y0 <= y1) {
             return accumulateLine(x0, y0, x1, y1, 1);
-        } else {
-            return accumulateLine(x1, y1, x0, y0, -1);
         }
+		return accumulateLine(x1, y1, x0, y0, -1);
     }
 
     public boolean accumulateLine(double x0, double y0,
