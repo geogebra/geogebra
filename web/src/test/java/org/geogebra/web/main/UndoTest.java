@@ -87,6 +87,9 @@ public class UndoTest {
 		shouldHaveSlides(1);
 		slideShouldHaveObjects(0, 2);
 
+		app.getGgbApi().redo();
+		shouldHaveSlides(1);
+		slideShouldHaveObjects(0, 0);
 	}
 
 	@Test

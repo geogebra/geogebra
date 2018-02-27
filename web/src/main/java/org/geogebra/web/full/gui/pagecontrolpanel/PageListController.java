@@ -509,6 +509,8 @@ public class PageListController implements PageListControllerInterface,
 				loadSlide(toLoad);
 				setCardSelected(toLoad);
 			}
+		} else if (action == EventType.CLEAR_SLIDE) {
+			loadNewPage(0);
 		} else if (action == EventType.DUPLICATE_SLIDE) {
 			duplicateSlide(slides.get(Integer.parseInt(args[0])));
 		} else if (action == EventType.MOVE_SLIDE) {
