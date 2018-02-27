@@ -139,6 +139,11 @@ public class GGraphics2DE implements GGraphics2D {
 
 	}
 
+	public void setClip(GShape shape, boolean saveRestoreContext) {
+		// TODO Auto-generated method stub
+
+	}
+
 	public void resetClip() {
 		// TODO Auto-generated method stub
 
@@ -149,9 +154,14 @@ public class GGraphics2DE implements GGraphics2D {
 
 	}
 
-	public void setClip(int xAxisStart, int i, int width, int yAxisEnd) {
+	public void setClip(int x, int y, int width, int height) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setClip(int x, int y, int width, int height,
+			boolean restoreSaveContext) {
+		// TODO Auto-generated method stub
 	}
 
 	public void drawRoundRect(int x, int y, int width, int height, int arcWidth,

@@ -326,12 +326,17 @@ public interface GGraphics2D {
 
 	public abstract void setClip(GShape shape);
 
+	public abstract void setClip(GShape shape, boolean restoreSaveContext);
+
 	public void resetClip();
 
 	public abstract void drawRect(int x, int y, int width, int height);
 
 	public abstract void setClip(int xAxisStart, int i, int width,
 			int yAxisEnd);
+
+	public abstract void setClip(int xAxisStart, int i, int width, int yAxisEnd,
+			boolean restoreSaveContext);
 
 	public abstract void drawRoundRect(int x, int y, int width, int height,
 			int arcWidth, int arcHeight);

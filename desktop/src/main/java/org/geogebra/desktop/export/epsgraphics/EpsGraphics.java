@@ -847,6 +847,11 @@ abstract public class EpsGraphics implements GGraphics2D {
 		setClip(AwtFactory.getPrototype().newRectangle(x, y, width, height));
 	}
 
+	public void setClip(int x, int y, int width, int height,
+			boolean restoreSaveContext) {
+		setClip(x, y, width, height);
+	}
+
 	/**
 	 * Gets the current clipping area.
 	 */
@@ -889,6 +894,10 @@ abstract public class EpsGraphics implements GGraphics2D {
 			}
 			_clip = null;
 		}
+	}
+
+	public void setClip(GShape clip, boolean restoreSaveContext) {
+		setClip(clip);
 	}
 
 	/**

@@ -312,7 +312,7 @@ public final class DrawDropDownList extends CanvasDrawable
 				if (clip) {
 					// Log.debug("CLIPPING");
 					g2.setClip(rectLeft, ctrlUpY, (int) item.rect.getWidth(),
-							(int) (rectDown.getY() - ctrlUpY));
+							(int) (rectDown.getY() - ctrlUpY), true);
 				}
 			}
 			int itemHeight = dimItem.getHeight();

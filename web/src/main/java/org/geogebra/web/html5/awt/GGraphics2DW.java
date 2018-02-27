@@ -19,7 +19,6 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.ggbjdk.java.awt.geom.Ellipse2D;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
@@ -608,8 +607,12 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
-	@Override
 	public void setClip(GShape shape) {
+		setClip(shape, true);
+	}
+
+	@Override
+	public void setClip(GShape shape, boolean setContext) {
 		if (shape == null) {
 			Log.warn("Set clip should not be called with null, use resetClip instead");
 			resetClip();
@@ -621,7 +624,10 @@ public class GGraphics2DW implements GGraphics2D {
 		// quick hack to make sure this is called only from
 		// DrawPoint.drawClippedSection()
 		// TODO: add boolean parameter to setClip()
-		if (shape instanceof Ellipse2D.Double) {
+		// old hack
+		// if (shape instanceof Ellipse2D.Double) {
+		// needed for dropdowns on iOS after scrolling for some reason
+		if (setContext) {
 			// we should call this only if no clip was set or just after another
 			// clip to overwrite
 			// in this case we don't want to double-clip something so let's
@@ -693,14 +699,19 @@ public class GGraphics2DW implements GGraphics2D {
 
 	}
 
-	@Override
 	public void setClip(int x, int y, int width, int height) {
+		setClip(x, y, width, height, false);
+	}
+
+	@Override
+	public void setClip(int x, int y, int width, int height,
+			boolean setContext) {
 
 		double[] dashArraySave = dashArray;
 		dashArray = null;
 		GShape sh = AwtFactory.getPrototype().newRectangle(x, y,
 		        width, height);
-		setClip(sh);
+		setClip(sh, setContext);
 		dashArray = dashArraySave;
 
 		/*
