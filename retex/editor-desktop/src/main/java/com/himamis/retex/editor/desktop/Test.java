@@ -30,8 +30,6 @@ import java.text.Normalizer;
 
 import javax.swing.JFrame;
 
-import com.himamis.retex.editor.share.controller.EditorState;
-import com.himamis.retex.editor.share.controller.InputController;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
 import com.himamis.retex.editor.share.event.MathFieldListener;
 import com.himamis.retex.editor.share.model.Korean;
@@ -49,9 +47,9 @@ public class Test  {
 		final MathFieldD mathField = new MathFieldD();
 		
 		MathFieldInternal mathFieldInternal = mathField.getInternal();
-		InputController inputController = mathFieldInternal
-				.getInputController();
-		EditorState editorState = mathFieldInternal.getEditorState();
+		//InputController inputController = mathFieldInternal
+		//		.getInputController();
+		//EditorState editorState = mathFieldInternal.getEditorState();
 		
 		mathFieldInternal.setFieldListener(new MathFieldListener() {
 
