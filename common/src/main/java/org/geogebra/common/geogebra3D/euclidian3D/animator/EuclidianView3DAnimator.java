@@ -4,7 +4,6 @@ import java.util.LinkedList;
 
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.Log;
 
 /**
