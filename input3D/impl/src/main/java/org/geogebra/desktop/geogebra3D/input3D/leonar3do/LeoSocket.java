@@ -155,7 +155,7 @@ public class LeoSocket {
  
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        System.out.printf("Connection closed: %d - %s%n", statusCode, reason);
+        System.out.printf("Connection closed: %d - %s%n", Integer.valueOf(statusCode), reason);
         //this.session = null;
     }
     

@@ -15,7 +15,7 @@ public class Input3DFactory {
 
 	public enum Input3DExceptionType {
 		INSTALL, INSTALL_RUNTIMES, RUN, ALREADY_USED, NOT_UP_TO_DATE, UNKNOWN
-	};
+	}
 	
 	@SuppressWarnings("serial")
 	static public class Input3DException extends Exception {
