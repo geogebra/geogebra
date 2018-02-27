@@ -3621,7 +3621,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            graphics
 	 */
-	protected void drawObjects(GGraphics2D g2) {
+	public void drawObjects(GGraphics2D g2) {
 		if (maxCachedLayer >= 0 && getCacheGraphics() != null) {
 			g2.drawImage(getCacheGraphics(), 0, 0);
 		}

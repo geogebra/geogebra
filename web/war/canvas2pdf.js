@@ -266,6 +266,10 @@
 	        this.doc.end();
 	    };
 
+	    canvas2pdf.PdfContext.prototype.addPage = function() {
+	    	this.doc.addPage();
+	    };
+
 	    canvas2pdf.PdfContext.prototype.save = function() {
 	        this.doc.save();
 	    };
@@ -762,11 +766,19 @@
 	    return a
 	};
 	PDFPages.prototype.getObject = function(a) {
+		
+		var refs = "[";
+		for (var i = 0 ; i < this.pages.length ; i++) {
+			refs += this.pages[i].id;
+			refs += " 0 R ";
+		}
+		
+		refs += "]";
 
 	    var props = {
 	        "Type": "Pages",
 	        "Count": this.pages.length,
-	        "Kids": new PDFReference("[3 0 R]")
+	        "Kids": new PDFReference(refs)
 	    };
 	    return PDFObject.makeObject(props, this.id);
 	};

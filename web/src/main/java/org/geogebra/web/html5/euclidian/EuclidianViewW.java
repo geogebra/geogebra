@@ -386,24 +386,46 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public String getExportPDF(double scale) {
+
+		boolean page2 = getViewID() == App.VIEW_EUCLIDIAN
+				&& app.hasEuclidianView2(1);
+
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
+
+		EuclidianView view2 = null;
+		if (page2) {
+			view2 = app.getEuclidianView2(1);
+			width = (int) Math.max(width,
+					Math.floor(view2.getExportWidth() * scale));
+			height = (int) Math.max(height,
+					Math.floor(view2.getExportHeight() * scale));
+		}
 
 		if (!canvas2PdfLoaded()) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.canvas2Pdf());
 		}
 
-		JavaScriptObject ctx = getCanvas2PDF(width, height);
+		Context2d ctx = getCanvas2PDF(width, height).cast();
 
 		if (ctx == null) {
 			Log.debug("canvas2PDF not found");
 			return "";
 		}
 
-		g4copy = new GGraphics2DW((Context2d) ctx.cast());
+		g4copy = new GGraphics2DW(ctx);
 		this.appW.setExporting(ExportType.PDF_HTML5, scale);
+
 		exportPaintPre(g4copy, scale, false);
 		drawObjects(g4copy);
+
+		// include view 2 as 2nd page
+		if (page2) {
+			addPagePDF(ctx);
+			view2.exportPaintPre(g4copy, scale, false);
+			view2.drawObjects(g4copy);
+		}
+
 		this.appW.setExporting(ExportType.NONE, 1);
 		return getPDF(ctx);
 	}
@@ -415,6 +437,10 @@ public class EuclidianViewW extends EuclidianView implements
 		}
 
 		return null;
+	}-*/;
+
+	private native void addPagePDF(JavaScriptObject ctx) /*-{
+		ctx.addPage();
 	}-*/;
 
 	private native String getSerializedSvg(JavaScriptObject ctx) /*-{
