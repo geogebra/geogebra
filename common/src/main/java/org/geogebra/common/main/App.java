@@ -4042,7 +4042,7 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-320 */
 		case MOW_PIN_IMAGE:
-			return prerelease && whiteboard;
+			return canary && whiteboard;
 			
 		case MOW_PEN_IS_LOCUS:
 			return prerelease;
@@ -4090,7 +4090,7 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-360, MOW-381, MOW-382 */
 		case MOW_CROP_IMAGE:
-			return prerelease && whiteboard;
+			return canary && whiteboard;
 
 		/** MOW-379, MOW-380 */
 		case MOW_IMAGE_BOUNDING_BOX:
