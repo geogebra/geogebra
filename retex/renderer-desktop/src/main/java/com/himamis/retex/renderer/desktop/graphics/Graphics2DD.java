@@ -202,7 +202,7 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 
-	private BufferedImage base64ToBufferedImage(ImageBase64 image) {
+	private static BufferedImage base64ToBufferedImage(ImageBase64 image) {
 		String pngBase64 = image.getBase64();
 
 		final String pngMarker = "data:image/png;base64,";
