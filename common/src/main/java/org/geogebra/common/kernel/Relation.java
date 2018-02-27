@@ -155,7 +155,6 @@ public class Relation {
 													+ " " + or + " "
 													+ trueOnParts
 															.substring(1));
-									// this could be partially true, FIXME
 								} else {
 									// Prove==ProveDetails==undefined
 									rel.setInfo(
