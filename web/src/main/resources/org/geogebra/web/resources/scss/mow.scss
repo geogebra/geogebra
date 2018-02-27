@@ -840,6 +840,9 @@
 			padding-bottom: 32px;
 		}
 	}
+	.mowPermissionDialog.narrowDialog {
+		max-width: 376px; // 400px - (8px + 16px) padding
+	}
 }
 
 

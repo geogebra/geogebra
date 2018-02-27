@@ -106,6 +106,10 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		}
 		text.setText(message);
 		getCaption().setText(caption);
+
+		if (message.length() < 80) {
+			addStyleName("narrowDialog");
+		}
 	}
 
 	public void onClick(ClickEvent event) {
