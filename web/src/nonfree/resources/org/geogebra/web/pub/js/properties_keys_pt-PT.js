@@ -1734,6 +1734,7 @@ __GGB__keysVar["pt-PT"].menu = {
     "Factor": "Fator",
     "Factor.Help": "Encontrar fatores",
     "Fading": "Desvanecimento",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Ajuda R\xe1pida",
     "File": "Ficheiro",
     "File.HTML": "Ficheiro: html",

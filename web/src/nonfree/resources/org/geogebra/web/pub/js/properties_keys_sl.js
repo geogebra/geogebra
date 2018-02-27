@@ -1734,6 +1734,7 @@ __GGB__keysVar["sl"].menu = {
     "Factor": "Razstavi",
     "Factor.Help": "Najdi faktorje",
     "Fading": "Zameglitev",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Enostavna pomo\u010d",
     "File": "Datoteka",
     "File.HTML": "Datoteka: html",

@@ -1734,6 +1734,7 @@ __GGB__keysVar["lv"].menu = {
     "Factor": "Faktors",
     "Factor.Help": "Atrod Reizin\u0101t\u0101jus",
     "Fading": "\u0112not",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Neliela pal\u012bdz\u012bba",
     "File": "Fails",
     "File.HTML": "Fails: html",

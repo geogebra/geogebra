@@ -1734,6 +1734,7 @@ __GGB__keysVar["xh"].menu = {
     "Factor": "uMahluli",
     "Factor.Help": "Funa iifactors",
     "Fading": "Iyadodobala",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Uncedo Olukhawulezileyo",
     "File": "Ifayile",
     "File.HTML": "File: html",

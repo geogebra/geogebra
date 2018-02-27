@@ -1734,6 +1734,7 @@ __GGB__keysVar["hu"].menu = {
     "Factor": "Szorzatt\xe1 alak\xedt",
     "Factor.Help": "Sz\xe1mok \xe9s kifejez\xe9sek szorzatt\xe1 alak\xedt\xe1sa",
     "Fading": "Elhalv\xe1nyul\xe1s",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Gyors s\xfag\xf3",
     "File": "F\xe1jl",
     "File.HTML": "F\xe1jl: html",

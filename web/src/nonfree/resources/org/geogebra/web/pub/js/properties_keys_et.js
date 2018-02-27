@@ -1734,6 +1734,7 @@ __GGB__keysVar["et"].menu = {
     "Factor": "Tegur",
     "Factor.Help": "Leiab tegurid",
     "Fading": "Vaibumine",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Kiire abi",
     "File": "Fail",
     "File.HTML": "Fail: html",

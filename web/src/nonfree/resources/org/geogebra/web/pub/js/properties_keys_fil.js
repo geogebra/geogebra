@@ -1734,6 +1734,7 @@ __GGB__keysVar["fil"].menu = {
     "Factor": "Factor",
     "Factor.Help": "Finds factors",
     "Fading": "Fading",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Fast Help",
     "File": "File",
     "File.HTML": "Talatag: html",

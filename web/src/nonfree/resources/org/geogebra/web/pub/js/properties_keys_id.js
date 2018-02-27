@@ -1734,6 +1734,7 @@ __GGB__keysVar["id"].menu = {
     "Factor": "Faktor",
     "Factor.Help": "Cari Faktor-faktor",
     "Fading": "Fading",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Bantuan Cepat",
     "File": "Berkas",
     "File.HTML": "File: html",

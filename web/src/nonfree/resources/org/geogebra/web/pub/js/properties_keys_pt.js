@@ -1734,6 +1734,7 @@ __GGB__keysVar["pt"].menu = {
     "Factor": "Fatorar",
     "Factor.Help": "Decomp\xf5e em fatores",
     "Fading": "Atenua\xe7\xe3o",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Ajuda R\xe1pida",
     "File": "Arquivo",
     "File.HTML": "Arquivo: HTML",

@@ -1734,6 +1734,7 @@ __GGB__keysVar["am"].menu = {
     "Factor": "Factor",
     "Factor.Help": "Finds factors of selected line",
     "Fading": "Fading",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "\u1348\u1323\u1295 \u12a5\u1308\u12db",
     "File": "\u134b\u12ed\u120d",
     "File.HTML": "\u134b\u12ed\u120d: html",

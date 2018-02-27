@@ -1734,6 +1734,7 @@ __GGB__keysVar["fr"].menu = {
     "Factor": "Factoriser",
     "Factor.Help": "Cherche la factorisation",
     "Fading": "Att\xe9nuation",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Aide rapide",
     "File": "Fichier",
     "File.HTML": "Fichier : html",

@@ -1734,6 +1734,7 @@ __GGB__keysVar["yi"].menu = {
     "Factor": "\u05e4\u05bf\u05d0\u05b7\u05e7\u05d8\u05d0\u05b8\u05e8\u05d9\u05d6\u05d9\u05e8\u05df",
     "Factor.Help": "\u05d6\u05d5\u05db\u05d8 \u05e4\u05bf\u05d0\u05b7\u05e7\u05d8\u05d0\u05b8\u05e8\u05df",
     "Fading": "\u05d0\u05b8\u05e4\u05bc\u05d1\u05dc\u05d9\u05d9\u05da",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "\u05d2\u05d9\u05db\u05e2 \u05d4\u05d9\u05dc\u05e3",
     "File": "\u05d8\u05e2\u05e7\u05e2",
     "File.HTML": "\u05d8\u05e2\u05e7\u05e2: html",

@@ -1734,6 +1734,7 @@ __GGB__keysVar["it"].menu = {
     "Factor": "Fattorizza",
     "Factor.Help": "Scomponi in fattori il contenuto della riga selezionata",
     "Fading": "Dissolvenza",
+    "FalseInGeneral": "(falso in generale)",
     "FastHelp": "Guida rapida",
     "File": "File",
     "File.HTML": "File: html",

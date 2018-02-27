@@ -1734,6 +1734,7 @@ __GGB__keysVar["fi"].menu = {
     "Factor": "Jaa tekij\xf6ihin",
     "Factor.Help": "Jakaa lausekkeen tekij\xf6ihin",
     "Fading": "H\xe4ivytys",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Pikaohje",
     "File": "Tiedosto",
     "File.HTML": "Tiedosto: html",

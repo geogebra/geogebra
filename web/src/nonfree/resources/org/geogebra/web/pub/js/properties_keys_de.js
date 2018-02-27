@@ -1734,6 +1734,7 @@ __GGB__keysVar["de"].menu = {
     "Factor": "Faktorisiere",
     "Factor.Help": "Findet Faktoren der ausgew\xe4hlten Zeile",
     "Fading": "Abblendung",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Kurzhilfe",
     "File": "Datei",
     "File.HTML": "Datei: HTML",

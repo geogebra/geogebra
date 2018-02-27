@@ -1734,6 +1734,7 @@ __GGB__keysVar["sq"].menu = {
     "Factor": "Faktor",
     "Factor.Help": "Gjen faktoret",
     "Fading": "Zbehese",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Ndihme e Shpejte",
     "File": "Fajell(Dokument)",
     "File.HTML": "Dokument: html",

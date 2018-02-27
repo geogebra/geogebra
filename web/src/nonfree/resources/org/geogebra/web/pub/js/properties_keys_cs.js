@@ -1734,6 +1734,7 @@ __GGB__keysVar["cs"].menu = {
     "Factor": "Faktor",
     "Factor.Help": "Nal\xe9zt faktory",
     "Fading": "Zmizen\xed",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Rychl\xe1 n\xe1pov\u011bda",
     "File": "Soubor",
     "File.HTML": "Soubor: html",

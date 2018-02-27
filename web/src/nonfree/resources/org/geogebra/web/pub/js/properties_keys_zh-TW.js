@@ -1734,6 +1734,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "Factor": "\u5206\u89e3",
     "Factor.Help": "\u56e0\u5f0f\u5206\u89e3",
     "Fading": "\u6de1\u51fa",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "\u5feb\u901f\u8aaa\u660e",
     "File": "\u6a94\u6848",
     "File.HTML": "\u6a94\u6848\uff1aHTML",

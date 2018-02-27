@@ -1734,6 +1734,7 @@ __GGB__keysVar["eu"].menu = {
     "Factor": "Faktorizatu",
     "Factor.Help": "Faktoreak aurkitzen ditu",
     "Fading": "Desagertzea",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Laguntza Azkarra",
     "File": "Fitxategia",
     "File.HTML": "Fitxategia: html",

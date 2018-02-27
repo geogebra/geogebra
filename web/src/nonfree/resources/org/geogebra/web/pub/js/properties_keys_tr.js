@@ -1734,6 +1734,7 @@ __GGB__keysVar["tr"].menu = {
     "Factor": "\xc7arpan",
     "Factor.Help": "\xc7arpanlar\u0131 bul",
     "Fading": "Soluyor",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "H\u0131zl\u0131 Yard\u0131m",
     "File": "Dosya",
     "File.HTML": "Dosya: html",

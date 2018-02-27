@@ -1734,6 +1734,7 @@ __GGB__keysVar["ro"].menu = {
     "Factor": "Factor",
     "Factor.Help": "G\u0103se\u015fte factori",
     "Fading": "Decolorare",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Ajutor rapid",
     "File": "Fi\u015fier",
     "File.HTML": "Fi\u0219ier: html",

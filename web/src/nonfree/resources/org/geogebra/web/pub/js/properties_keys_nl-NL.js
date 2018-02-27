@@ -1734,6 +1734,7 @@ __GGB__keysVar["nl-NL"].menu = {
     "Factor": "Ontbinden",
     "Factor.Help": "Ontbind in factoren",
     "Fading": "Vervagen",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Snelgids",
     "File": "Bestand",
     "File.HTML": "Bestand: html",

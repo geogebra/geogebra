@@ -1734,6 +1734,7 @@ __GGB__keysVar["sr"].menu = {
     "Factor": "Faktor",
     "Factor.Help": "Pronalazi faktore",
     "Fading": "Pretapanje",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Brza pomo\u0107",
     "File": "Datoteka",
     "File.HTML": "Datoteka: html",

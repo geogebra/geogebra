@@ -1734,6 +1734,7 @@ __GGB__keysVar["gl"].menu = {
     "Factor": "Factoriza",
     "Factor.Help": "Acha factores",
     "Fading": "Atenuaci\xf3n",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Axuda r\xe1pida",
     "File": "Ficheiro",
     "File.HTML": "Arquivo: html",

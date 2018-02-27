@@ -1734,6 +1734,7 @@ __GGB__keysVar["vi"].menu = {
     "Factor": "Th\u1eeba s\u1ed1",
     "Factor.Help": "T\xecm c\xe1c th\u1eeba s\u1ed1",
     "Fading": "M\u1edd \u0111i",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Tr\u1ee3 gi\xfap nhanh",
     "File": "H\u1ed3 s\u01a1",
     "File.HTML": "T\u1eadp tin: html",

@@ -1734,6 +1734,7 @@ __GGB__keysVar["es-ES"].menu = {
     "Factor": "Factoriza",
     "Factor.Help": "Encuentra los factores del n\xfamero",
     "Fading": "Difusi\xf3n",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Ayuda r\xe1pida",
     "File": "Archivo",
     "File.HTML": "Archivo: html",

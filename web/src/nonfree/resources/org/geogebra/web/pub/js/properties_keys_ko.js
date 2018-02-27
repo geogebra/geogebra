@@ -1734,6 +1734,7 @@ __GGB__keysVar["ko"].menu = {
     "Factor": "\uc778\uc218\ubd84\ud574",
     "Factor.Help": "\uc120\ud0dd\ub41c \uc904\uc758 \uc778\uc218\ub97c \uad6c\ud569\ub2c8\ub2e4.",
     "Fading": "\ud398\uc774\ub529",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "\ube60\ub978 \ub3c4\uc6c0\ub9d0",
     "File": "\ud30c\uc77c",
     "File.HTML": "\ud30c\uc77c: html",

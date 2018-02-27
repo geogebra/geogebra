@@ -1734,6 +1734,7 @@ __GGB__keysVar["th"].menu = {
     "Factor": "\u0e15\u0e31\u0e27\u0e1b\u0e23\u0e30\u0e01\u0e2d\u0e1a",
     "Factor.Help": "\u0e2b\u0e32\u0e15\u0e31\u0e27\u0e1b\u0e23\u0e30\u0e01\u0e2d\u0e1a",
     "Fading": "\u0e40\u0e1f\u0e14\u0e14\u0e34\u0e07",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "\u0e27\u0e34\u0e18\u0e35\u0e43\u0e0a\u0e49\u0e41\u0e1a\u0e1a\u0e25\u0e31\u0e14",
     "File": "\u0e44\u0e1f\u0e25\u0e4c",
     "File.HTML": "\u0e44\u0e1f\u0e25\u0e4c: html",

@@ -1734,6 +1734,7 @@ __GGB__keysVar["sk"].menu = {
     "Factor": "Faktoriz\xe1cia",
     "Factor.Help": "Rozklad na s\xfa\u010din",
     "Fading": "Slabnutie",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "R\xfdchla n\xe1poveda",
     "File": "S\xfabor",
     "File.HTML": "S\xfabor: html",

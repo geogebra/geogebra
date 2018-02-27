@@ -1734,6 +1734,7 @@ __GGB__keysVar["cy"].menu = {
     "Factor": "Ffactor",
     "Factor.Help": "Darganfod Ffactorau",
     "Fading": "Fading",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Cymorth cyflym",
     "File": "Ffeil",
     "File.HTML": "Ffeil: html",

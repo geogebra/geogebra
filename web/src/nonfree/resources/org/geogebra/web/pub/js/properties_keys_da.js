@@ -1734,6 +1734,7 @@ __GGB__keysVar["da"].menu = {
     "Factor": "Faktor",
     "Factor.Help": "Omskriver til faktorer",
     "Fading": "Udtoning",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Kvikhj\xe6lp",
     "File": "Fil",
     "File.HTML": "Fil: html",

@@ -1734,6 +1734,7 @@ __GGB__keysVar["bg"].menu = {
     "Factor": "\u0424\u0430\u043a\u0442\u043e\u0440",
     "Factor.Help": "\u041d\u0430\u043c\u0438\u0440\u0430\u043d\u0435 \u043d\u0430 \u0434\u0435\u043b\u0438\u0442\u0435\u043b\u0438",
     "Fading": "\u041f\u0440\u0435\u043b\u0438\u0432\u0430\u043d\u0435",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "\u0411\u044a\u0440\u0437 \u043f\u043e\u043c\u043e\u0449\u043d\u0438\u043a",
     "File": "\u0424\u0430\u0439\u043b",
     "File.HTML": "\u0424\u0430\u0439\u043b: html",

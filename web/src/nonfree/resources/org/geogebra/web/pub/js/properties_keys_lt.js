@@ -1734,6 +1734,7 @@ __GGB__keysVar["lt"].menu = {
     "Factor": "Faktorius",
     "Factor.Help": "Suranda faktorius",
     "Fading": "I\u0161blukimas",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Greita pagalba",
     "File": "Dokumentas",
     "File.HTML": "Dokumentas: html",

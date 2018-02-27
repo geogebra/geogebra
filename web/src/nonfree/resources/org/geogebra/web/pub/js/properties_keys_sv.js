@@ -1734,6 +1734,7 @@ __GGB__keysVar["sv"].menu = {
     "Factor": "Faktor",
     "Factor.Help": "Hitta faktorer",
     "Fading": "Toning",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Snabbhj\xe4lp",
     "File": "Arkiv",
     "File.HTML": "Fil: html",

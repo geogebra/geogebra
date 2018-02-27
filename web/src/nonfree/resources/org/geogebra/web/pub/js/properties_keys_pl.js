@@ -1734,6 +1734,7 @@ __GGB__keysVar["pl"].menu = {
     "Factor": "Czynniki",
     "Factor.Help": "Znajduje rozk\u0142ad na czynniki",
     "Fading": "Zblakni\u0119cie",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Szybka pomoc",
     "File": "Plik",
     "File.HTML": "Plik: html",

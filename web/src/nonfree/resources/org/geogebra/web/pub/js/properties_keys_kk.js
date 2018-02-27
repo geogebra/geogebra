@@ -1734,6 +1734,7 @@ __GGB__keysVar["kk"].menu = {
     "Factor": "\u041a\u04e9\u0431\u0435\u0439\u0442\u043a\u0456\u0448",
     "Factor.Help": "\u041a\u04e9\u0431\u0435\u0439\u0442\u043a\u0456\u0448\u0442\u0435\u0440\u0434\u0456 \u0442\u0430\u0431\u0443",
     "Fading": "Fading",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "\u0416\u0435\u0434\u0435\u043b \u0436\u04d9\u0440\u0434\u0435\u043c",
     "File": "\u0424\u0430\u0439\u043b",
     "File.HTML": "\u0424\u0430\u0439\u043b: html",

@@ -1734,6 +1734,7 @@ __GGB__keysVar["nn"].menu = {
     "Factor": "Faktoriser",
     "Factor.Help": "Finn faktorar",
     "Fading": "Nedtoning",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Rask hjelp",
     "File": "Fil",
     "File.HTML": "Fil: html",

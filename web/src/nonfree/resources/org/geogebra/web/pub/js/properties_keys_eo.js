@@ -1734,6 +1734,7 @@ __GGB__keysVar["eo"].menu = {
     "Factor": "Faktoroj",
     "Factor.Help": "Eltrovi faktorojn",
     "Fading": "Fado",
+    "FalseInGeneral": "(false in general)",
     "FastHelp": "Rapida helpo",
     "File": "Dosiero",
     "File.HTML": "Dosiero : html",
