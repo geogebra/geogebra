@@ -15,16 +15,41 @@ public class GgbFile extends HashMap<String, String> {
 
 	/** default value */
 	private static final long serialVersionUID = 1L;
+	private String id;
+
+	private static int counter = 0;
+
+	public GgbFile() {
+		this.id = SLIDE_PREFIX + counter;
+		incCounter();
+		System.err.println(id);
+	}
+
+	public GgbFile(String id) {
+		this.id = id;
+	}
+
+	private static void incCounter() {
+		counter++;
+	}
 
 	/**
 	 * @return a file with the same content
 	 */
-	public GgbFile duplicate() {
-		GgbFile copy = new GgbFile();
+	public GgbFile duplicate(String id) {
+		GgbFile copy = id == null ? new GgbFile() : new GgbFile(id);
 		for (Entry<String, String> entry : entrySet()) {
 			copy.put(entry.getKey(), entry.getValue());
 		}
 		return copy;
+	}
+
+	public String getID() {
+		return id;
+	}
+
+	public void setID(String id) {
+		this.id = id;
 	}
 
 }

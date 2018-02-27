@@ -5,7 +5,6 @@ import java.util.ListIterator;
 
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.EventType;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Undo manager common to Desktop and Web
@@ -282,16 +281,11 @@ public abstract class UndoManager {
 		updateUndoActions();
 	}
 
-	public void debugStates() {
-		for (UndoCommand cmd : this.undoInfoList) {
-			Log.debug(cmd.getAction() + ":"
-					+ (cmd.getArgs() == null ? "-"
-							: String.join(",", cmd.getArgs()))
-					+ ":" + cmd.getSlideID());
-		}
-	}
-
 	public int getHistorySize() {
 		return this.iterator.previousIndex();
+	}
+
+	public String getSlideID() {
+		return null;
 	}
 }

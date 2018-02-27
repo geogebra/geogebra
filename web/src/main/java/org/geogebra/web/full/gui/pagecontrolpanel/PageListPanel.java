@@ -258,22 +258,30 @@ public class PageListPanel
 		// remove preview card
 		contentPanel.remove(index);
 		// remove associated ggb file
-		pageController.removeSlide(index);
-		app.getKernel().getConstruction().getUndoManager()
-				.storeAction(EventType.REMOVE_SLIDE,
-						index + "", pageController.getSlideCount() + "");
-		updateIndexes(index);
-		// load new slide
-		if (index == 0 && pageController.getSlideCount() == 0) {
-			// first and single slide was deleted
-			pageController.loadNewPage(addNewPreviewCard(true));
-		} else if (index == pageController.getSlideCount()) {
-			// last slide was deleted
-			pageController.loadPage(index - 1);
+		String id = pageController.getSlide(index).getID();
+		if (index == 0 && pageController.getSlideCount() == 1) {
+			app.getKernel().getConstruction().getUndoManager().storeAction(
+					EventType.CLEAR_SLIDE, id);
+			pageController.loadNewPage(0);
 		} else {
-			// otherwise
-			pageController.loadPage(index);
+
+			pageController.removeSlide(index);
+			app.getKernel().getConstruction().getUndoManager()
+					.storeAction(EventType.REMOVE_SLIDE, index + "", id,
+							pageController.getSlideCount() + "");
+			updateIndexes(index);
+			// load new slide
+
+			if (index == pageController.getSlideCount()) {
+				// last slide was deleted
+				pageController.loadPage(index - 1);
+			} else {
+				// otherwise
+				pageController.loadPage(index);
+			}
+
 		}
+
 	}
 
 	/**

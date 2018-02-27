@@ -9,6 +9,8 @@ import org.geogebra.common.move.ggtapi.models.json.JSONArray;
 import org.geogebra.common.move.ggtapi.models.json.JSONException;
 import org.geogebra.common.move.ggtapi.models.json.JSONObject;
 import org.geogebra.common.move.ggtapi.models.json.JSONTokener;
+import org.geogebra.common.plugin.Event;
+import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
@@ -40,7 +42,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  */
 public class PageListController implements PageListControllerInterface,
 		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler,
-		TouchMoveHandler, TouchEndHandler, Cards {
+		TouchMoveHandler, TouchEndHandler, Cards, EventListener {
 	/**
 	 * application {@link AppW}
 	 */
@@ -65,6 +67,7 @@ public class PageListController implements PageListControllerInterface,
 		slides = new ArrayList<>();
 		this.listener = listener;
 		dragCtrl = new DragController(this, app);
+		app.getEventDispatcher().addEventListener(this);
 	}
 
 	/**
@@ -85,7 +88,8 @@ public class PageListController implements PageListControllerInterface,
 
 	public GgbFile getSlide(int index) {
 		if(selectedCard == slides.get(index)){
-			return app.getGgbApi().createArchiveContent(true);
+			return app.getGgbApi().createArchiveContent(true,
+					slides.get(index).getFile());
 		}
 		return slides.get(index).getFile();
 	}
@@ -101,9 +105,9 @@ public class PageListController implements PageListControllerInterface,
 	private void loadSlide(int i) {
 		try {
 
-				// load last status of file
-				app.resetPerspectiveParam();
-				app.loadGgbFile(slides.get(i).getFile(), true);
+			// load last status of file
+			app.resetPerspectiveParam();
+			app.loadGgbFile(slides.get(i).getFile(), true);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -118,7 +122,7 @@ public class PageListController implements PageListControllerInterface,
 	 */
 	public void savePreviewCard(PagePreviewCard card) {
 		if (card != null) {
-			card.setFile(app.getGgbApi().createArchiveContent(true));
+			app.getGgbApi().createArchiveContent(true, card.getFile());
 		}
 	}
 	
@@ -259,7 +263,7 @@ public class PageListController implements PageListControllerInterface,
 						pages.getJSONObject(i).getJSONArray("elements")
 								.getJSONObject(0).getString("id"))));
 			}
-			app.loadGgbFile(slides.get(0).getFile(), true);
+			app.loadGgbFile(slides.get(0).getFile(), false);
 			/// TODO this breaks MVC
 			((GeoGebraFrameBoth) app.getAppletFrame()).getPageControlPanel()
 					.update();
@@ -464,21 +468,24 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public String getSlideID() {
-		return selectedCard.getPageIndex() + "";
+		return selectedCard.getFile().getID() + "";
 	}
 
 	public void executeAction(EventType action, AppState state, String[] args) {
 		if (action == EventType.ADD_SLIDE) {
 			int idx = args.length > 0 ? Integer.parseInt(args[0])
 					: getSlideCount();
-			GgbFile file = new GgbFile();
+			GgbFile file = args.length < 2 ? new GgbFile()
+					: new GgbFile(args[1]);
 			if (state != null) {
 				file.put("geogebra.xml", state.getXml());
 			}
-			if (args.length < 2 || !"0".equals(args[1])) {
+			if (idx >= 0) {
 				addNewPreviewCard(false, idx, file);
+			} else {
+				slides.get(0).setFile(file);
 			}
-
+			idx = Math.max(idx, 0);
 			if (file.isEmpty()) {
 				// new file
 				((AppWFull) app).loadEmptySlide();
@@ -513,7 +520,37 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	public void setActiveSlide(String slideID) {
-		selectCard(slides.get(slideID == null ? 0 : Integer.parseInt(slideID)));
+		if (slideID == null) {
+			selectCard(slides.get(0));
+		} else {
+			for (PagePreviewCard card : slides) {
+				if (slideID.equals(card.getFile().getID())) {
+					selectCard(card);
+					return;
+				}
+			}
+		}
+
+	}
+
+	public void sendEvent(Event evt) {
+		if (evt.getType() == EventType.UNDO) {
+			savePreviewCard(selectedCard);
+		}
+	}
+
+	public void reset() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void saveSelected() {
+		this.savePreviewCard(selectedCard);
+		System.out.println(selectedCard.getPageIndex());
+	}
+
+	public void clearPage(int i) {
+		this.slides.get(0).getFile().clear();
 	}
 
 }

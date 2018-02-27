@@ -558,7 +558,6 @@ public class MOWToolbar extends FlowPanel {
 	public void updateFloatingButtonsPosition() {
 		EuclidianDockPanelW dp = (EuclidianDockPanelW) (app.getGuiManager()
 				.getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN));
-
 		if (!app.has(Feature.MOW_MULTI_PAGE)) {
 			if (app.getWidth() > MAX_TOOLBAR_WIDTH + FLOATING_BTNS_WIDTH) {
 				dp.setZoomPanelBottom(true);

@@ -374,6 +374,9 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 	 *            true if needs to be set, false if needs to be removed
 	 */
 	public void setZoomPanelBottom(boolean add) {
+		if (zoomPanel == null) {
+			return;
+		}
 		if (add) {
 			zoomPanel.getElement().getStyle().setBottom(0, Unit.PX);
 		} else {

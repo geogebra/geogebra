@@ -48,4 +48,8 @@ public interface PageListControllerInterface {
 	void setActiveSlide(String slideID);
 
 	void reorder(int i, int j);
+
+	void clickPage(int i, boolean b);
+
+	void saveSelected();
 }

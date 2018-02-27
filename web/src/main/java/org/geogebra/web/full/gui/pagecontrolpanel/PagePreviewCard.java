@@ -64,7 +64,8 @@ public class PagePreviewCard extends FlowPanel
 	 * @return The duplicated card.
 	 */
 	public static PagePreviewCard duplicate(PagePreviewCard source) {
-		return new PagePreviewCard(source.app, source.getPageIndex() + 1, source.getFile().duplicate());
+		return new PagePreviewCard(source.app, source.getPageIndex() + 1,
+				source.getFile().duplicate(null));
 	}
 	
 	private void initGUI() {

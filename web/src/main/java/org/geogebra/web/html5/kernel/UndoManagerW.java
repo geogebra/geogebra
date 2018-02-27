@@ -180,4 +180,8 @@ public class UndoManagerW extends UndoManager {
 			Log.error("Undo error:" + err.getMessage());
 		}
 	}
+
+	public String getSlideID() {
+		return ((AppW) app).getSlideID();
+	}
 }

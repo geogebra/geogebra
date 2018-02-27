@@ -303,7 +303,8 @@ public class GgbAPIW extends GgbAPI {
 					pageController.getStructureJSON(), jso);
 			return jso;
 		}
-		GgbFile archiveContent = createArchiveContent(includeThumbnail);
+		GgbFile archiveContent = new GgbFile();
+		createArchiveContent(includeThumbnail, archiveContent);
 		return prepareToEntrySet(archiveContent, jso, "", null);
 	}
 
@@ -441,8 +442,9 @@ public class GgbAPIW extends GgbAPI {
 	 *            whether to include thumbnail
 	 * @return zip archive (as a map)
 	 */
-	public GgbFile createArchiveContent(boolean includeThumbnail) {
-		GgbFile archiveContent = new GgbFile();
+	public GgbFile createArchiveContent(boolean includeThumbnail,
+			GgbFile archiveContent) {
+		archiveContent.clear();
 		boolean isSaving = getKernel().isSaving();
 		// return getNativeBase64(includeThumbnail);
 		getKernel().setSaving(true);

@@ -765,7 +765,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		beforeLoadFile();
 
-		GgbFile archive = archiveContent.duplicate();
+		GgbFile archive = archiveContent.duplicate("tmp");
 
 		// Handling of construction and macro file
 		final String construction = archive.remove(MyXMLio.XML_FILE);
@@ -3622,7 +3622,7 @@ public abstract class AppW extends App implements SetLabels {
 	}-*/;
 
 	public String getSlideID() {
-		return getPageController() == null ? "0"
+		return getPageController() == null ? GgbFile.SLIDE_PREFIX + "0"
 				: getPageController().getSlideID();
 	}
 
