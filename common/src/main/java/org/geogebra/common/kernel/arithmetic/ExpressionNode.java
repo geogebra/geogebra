@@ -6045,12 +6045,13 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	public boolean endsInNumber(boolean valueForm) {
-		if (operation == Operation.NO_OPERATION && getLeft() instanceof NumberValue) {
-			return getLeft() instanceof MyDouble
+		if (operation == Operation.NO_OPERATION
+				&& getLeft() instanceof NumberValue) {
+			return (getLeft() instanceof MyDouble
 					&& !(getLeft() instanceof MySpecialDouble)
-					&& getLeft().isConstant()
-					|| valueForm && getLeft().isGeoElement()
-					&& !((GeoElement) getLeft()).isLabelSet();
+					&& getLeft().isConstant())
+					|| (valueForm && getLeft().isGeoElement()
+							&& !((GeoElement) getLeft()).isLabelSet());
 		}
 
 		if (operation == Operation.MULTIPLY) {
