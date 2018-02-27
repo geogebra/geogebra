@@ -4013,7 +4013,7 @@ public abstract class App implements UpdateSelection {
 
 		// MOB-1259
 		case MOB_INCREASE_TOUCHABLE_AREA:
-			return prerelease;
+			return true;
 
 		// **********************************************************************
 		// MOBILE END
