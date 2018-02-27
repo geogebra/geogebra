@@ -27,6 +27,7 @@ public class FloatingMenuPanel extends FlowPanel {
 
 	@Override
 	public void setVisible(boolean b) {
+		super.setVisible(b);
 		menu.setVisible(b);
 	}
 
