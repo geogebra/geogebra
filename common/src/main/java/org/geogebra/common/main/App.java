@@ -4301,6 +4301,10 @@ public abstract class App implements UpdateSelection {
 		case GEO_AV_DESCRIPTION:
 			return relaunch;
 
+		/** MOB-390 GGB */
+		case WHOLE_PAGE_DRAG:
+			return prerelease;
+
 		/** GGB-2053 */
 		case TAB_ON_GUI:
 			return true;

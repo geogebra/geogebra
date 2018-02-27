@@ -9,6 +9,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.debug.GeoGebraProfiler;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.Browser;
@@ -235,12 +236,18 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void onTouchMove(TouchMoveEvent event) {
 		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
-		JsArray<Touch> targets = event.getTargetTouches();
+		if (app.has(Feature.WHOLE_PAGE_DRAG)) {
+			longTouchManager.cancelTimer();
+			return;
+		}
 		event.stopPropagation();
 		event.preventDefault();
+
+		JsArray<Touch> targets = event.getTargetTouches();
 		if (targets.length() == 1 && !ignoreEvent) {
 			if (time < this.lastMoveEvent
 			        + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS) {
+
 				PointerEvent e = PointerEvent.wrapEvent(
 				        targets.get(targets.length() - 1), this,
 				        event.getRelativeElement());
@@ -274,6 +281,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		} else {
 			longTouchManager.cancelTimer();
 		}
+
 		CancelEventTimer.touchEventOccured();
 	}
 
@@ -344,7 +352,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.resetModeAfterFreehand();
 	}
 
-
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
@@ -355,6 +362,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
 				longTouchManager.scheduleTimer((LongTouchHandler) ec, e.getX(),
 				        e.getY());
+				if (app.has(Feature.WHOLE_PAGE_DRAG)) {
+					return;
+				}
 			}
 			// inputBoxFocused = ec.textfieldJustFocusedW(e.getX(), e.getY(),
 			// e.getType());
@@ -465,6 +475,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 		if (time < this.lastMoveEvent
 		        + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS) {
+
 			boolean wasWaiting = waitingTouchMove != null
 			        || waitingMouseMove != null;
 			this.waitingMouseMove = e;
