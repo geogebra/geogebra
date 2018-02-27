@@ -108,8 +108,8 @@ public class Relation {
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
 					String or = loc.getMenu("Symbol.Or").toLowerCase();
-					String partiallyTrue = loc.getMenuDefault("PartiallyTrue",
-							"(partially true)");
+					String trueOnParts = loc.getMenuDefault("TrueOnParts",
+							"(true on parts)");
 					String generallyFalse = loc.getMenuDefault("GenerallyFalse",
 							"(generally false)");
 					rel.setInfo("<html>");
@@ -152,7 +152,7 @@ public class Relation {
 													+ generallyTrue.substring(0,
 															gtl - 1)
 													+ " " + or + " "
-													+ partiallyTrue
+													+ trueOnParts
 															.substring(1));
 								} else {
 									// Prove==ProveDetails==undefined
@@ -167,7 +167,7 @@ public class Relation {
 							} else if ("2".equals(ndgResult[0])) {
 								// ProveDetails=={true,"c"}
 								rel.setInfo(rel.getInfo()
-										+ partiallyTrue);
+										+ trueOnParts);
 							} else { // "0"
 								Log.error(
 										"Internal error in prover: Prove==true <-> ProveDetails==false");
