@@ -1391,6 +1391,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		if (coeff != null) {
 			for (int i = coeff.length - 1; i >= 0; i--) {
 				zs = 0;
+				if (coeff[i] == null) {
+					return Double.NaN;
+				}
 				for (int j = coeff[i].length - 1; j >= 0; j--) {
 					zs = y * zs + coeff[i][j];
 				}
