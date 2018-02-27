@@ -108,8 +108,9 @@ public class Relation {
 							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
 					String or = loc.getMenu("Symbol.Or").toLowerCase();
-					String trueOnParts = loc.getMenuDefault("TrueOnParts",
-							"(true on parts)");
+					String trueOnParts = loc.getMenuDefault(
+							"TrueOnPartsFalseOnParts",
+							"(true on parts, false on parts)");
 					String generallyFalse = loc.getMenuDefault("FalseInGeneral",
 							"(false in general)");
 					rel.setInfo("<html>");
@@ -154,6 +155,7 @@ public class Relation {
 													+ " " + or + " "
 													+ trueOnParts
 															.substring(1));
+									// this could be partially true, FIXME
 								} else {
 									// Prove==ProveDetails==undefined
 									rel.setInfo(
