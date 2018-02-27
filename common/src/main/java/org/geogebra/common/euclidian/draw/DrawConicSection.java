@@ -150,7 +150,7 @@ public class DrawConicSection extends DrawConic {
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		shape = transform.createTransformedShape(line);
+		fillShape = transform.createTransformedShape(line);
 	}
 
 	@Override
@@ -180,7 +180,7 @@ public class DrawConicSection extends DrawConic {
 	public boolean hitEllipse(int hitX, int hitY, int hitThreshold) {
 
 		if (onlyEdge) {
-			return shape.intersects(hitX - hitThreshold, hitY - hitThreshold,
+			return fillShape.intersects(hitX - hitThreshold, hitY - hitThreshold,
 					2 * hitThreshold, 2 * hitThreshold);
 		}
 
@@ -275,10 +275,10 @@ public class DrawConicSection extends DrawConic {
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's
 																// diagonal
 		if (xradius < BIG_RADIUS && yradius < BIG_RADIUS) {
-			shape = transform.createTransformedShape(arcs);
+			fillShape = transform.createTransformedShape(arcs);
 		} else {
 			// clip big arc at screen
-			shape = ClipShape.clipToRect(arcs, transform, -1, -1,
+			fillShape = ClipShape.clipToRect(arcs, transform, -1, -1,
 					view.getWidth() + 2, view.getHeight() + 2);
 		}
 
@@ -363,7 +363,7 @@ public class DrawConicSection extends DrawConic {
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		shape = transform.createTransformedShape(path);
+		fillShape = transform.createTransformedShape(path);
 
 	}
 
@@ -388,22 +388,22 @@ public class DrawConicSection extends DrawConic {
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		shape = transform.createTransformedShape(line);
+		fillShape = transform.createTransformedShape(line);
 	}
 
 	@Override
 	protected void drawLines(GGraphics2D g2) {
 
-		fill(g2, shape);
+		fill(g2, fillShape);
 		if (geo.doHighlighting()) {
 			g2.setStroke(selStroke);
 			g2.setColor(geo.getSelColor());
-			g2.draw(shape);
+			g2.draw(fillShape);
 		}
 
 		g2.setStroke(objStroke);
 		g2.setColor(geo.getObjectColor());
-		g2.draw(shape);
+		g2.draw(fillShape);
 
 		if (labelVisible) {
 			g2.setFont(view.getFontConic());
@@ -471,7 +471,7 @@ public class DrawConicSection extends DrawConic {
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		shape = transform.createTransformedShape(line);
+		fillShape = transform.createTransformedShape(line);
 	}
 
 	@Override
@@ -532,7 +532,7 @@ public class DrawConicSection extends DrawConic {
 
 		// transform to screen coords
 		transform.setTransform(view.getCoordTransform());
-		shape = transform.createTransformedShape(line);
+		fillShape = transform.createTransformedShape(line);
 	}
 
 	@Override
@@ -584,23 +584,23 @@ public class DrawConicSection extends DrawConic {
 
 	@Override
 	protected void updateHyperbolaSetShape() {
-		shape = hyp;
+		fillShape = hyp;
 	}
 
 	@Override
 	protected void drawHyperbola(GGraphics2D g2) {
 
-		fill(g2, shape);
+		fill(g2, fillShape);
 
 		if (geo.doHighlighting()) {
 			g2.setStroke(selStroke);
 			g2.setColor(geo.getSelColor());
-			g2.draw(shape);
+			g2.draw(fillShape);
 		}
 
 		g2.setStroke(objStroke);
 		g2.setColor(geo.getObjectColor());
-		g2.draw(shape);
+		g2.draw(fillShape);
 
 		if (labelVisible) {
 			g2.setFont(view.getFontConic());

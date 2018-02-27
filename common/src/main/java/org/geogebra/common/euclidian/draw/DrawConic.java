@@ -124,7 +124,7 @@ public class DrawConic extends Drawable implements Previewable {
 	protected GAffineTransform transform = AwtFactory.getPrototype()
 			.newAffineTransform();
 	/** shape to be filled (eg. ellipse, space between paralel lines) */
-	protected GShape shape;
+	protected GShape fillShape;
 
 	// CONIC_ELLIPSE
 	private boolean firstEllipse = true;
@@ -189,8 +189,8 @@ public class DrawConic extends Drawable implements Previewable {
 	@Override
 	public GArea getShape() {
 		GArea area = super.getShape() != null ? super.getShape()
-				: (shape == null ? AwtFactory.getPrototype().newArea()
-						: AwtFactory.getPrototype().newArea(shape));
+				: (fillShape == null ? AwtFactory.getPrototype().newArea()
+						: AwtFactory.getPrototype().newArea(fillShape));
 		// Log.debug(conic.isInverseFill() + "," + shape +
 		// ","+super.getShape());
 		if (conic.isInverseFill()) {
@@ -360,7 +360,7 @@ public class DrawConic extends Drawable implements Previewable {
 		default:
 		case GeoConicNDConstants.CONIC_EMPTY:
 			setShape(null);
-			shape = null;
+			fillShape = null;
 			break;
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			updateSinglePoint();
@@ -461,12 +461,12 @@ public class DrawConic extends Drawable implements Previewable {
 	 * @return if hyperbola intersects the screen
 	 */
 	protected boolean checkCircleEllipseParabolaOnScreen(GRectangle viewRect) {
-		boolean includesScreenCompletely = shape.contains(viewRect);
+		boolean includesScreenCompletely = fillShape.contains(viewRect);
 
 		// offScreen = includesScreenCompletely or the shape does not
 		// intersect the view rectangle
 		boolean offScreen = includesScreenCompletely
-				|| !shape.getBounds2D().intersects(viewRect);
+				|| !fillShape.getBounds2D().intersects(viewRect);
 		if (!geo.isFilled()) {
 			// no filling
 			return !offScreen;
@@ -501,7 +501,7 @@ public class DrawConic extends Drawable implements Previewable {
 		// as it may be equal to the single point. Point (b.x+1,0) differs in
 		// one coord.
 
-		shape = null;
+		fillShape = null;
 
 		if (firstPoint) {
 			firstPoint = false;
@@ -546,7 +546,7 @@ public class DrawConic extends Drawable implements Previewable {
 	 * Updates the lines and shape so that positive part is colored
 	 */
 	protected void updateLines() {
-		shape = null;
+		fillShape = null;
 
 		if (firstLines) {
 			firstLines = false;
@@ -588,22 +588,22 @@ public class DrawConic extends Drawable implements Previewable {
 				|| conic.type == GeoConicNDConstants.CONIC_LINE) {
 
 			if (drawLines[0].isVisible()) {
-				shape = drawLines[0].getShape(true);
+				fillShape = drawLines[0].getShape(true);
 				if (conic.type != GeoConicNDConstants.CONIC_LINE)
 				{
-					((GArea) shape).exclusiveOr(drawLines[1].getShape(true));
+					((GArea) fillShape).exclusiveOr(drawLines[1].getShape(true));
 					// FIXME: buggy when conic(RW(0),RW(0))=0
 				}
 
 				if (negativeColored()) {
 					GArea complement = AwtFactory.getPrototype()
 							.newArea(view.getBoundingPath());
-					complement.subtract((GArea) shape);
-					shape = complement;
+					complement.subtract((GArea) fillShape);
+					fillShape = complement;
 
 				}
 			} else {
-				shape = null;
+				fillShape = null;
 			}
 
 		}
@@ -624,7 +624,7 @@ public class DrawConic extends Drawable implements Previewable {
 				val1 *= conic.evaluate(conic.b.getX(), conic.b.getY());
 			}
 			if (!DoubleUtil.isZero(val1)) {
-				return (val1 > 0) ^ shape.contains(xTry[i], yTry[i]);
+				return (val1 > 0) ^ fillShape.contains(xTry[i], yTry[i]);
 			}
 		}
 		return false;
@@ -778,7 +778,7 @@ public class DrawConic extends Drawable implements Previewable {
 					updateEllipse();
 					return;
 				}
-				shape = circle = AwtFactory.getPrototype().newRectangle(-1, -1,
+				fillShape = circle = AwtFactory.getPrototype().newRectangle(-1, -1,
 						view.getWidth() + 2, view.getHeight() + 2);
 
 				arcFiller = null;
@@ -819,7 +819,7 @@ public class DrawConic extends Drawable implements Previewable {
 				arcFiller = gp;
 			}
 		}
-		shape = circle;
+		fillShape = circle;
 
 		// set label position
 		xLabel = (int) (mx - radius / 2.0);
@@ -1006,13 +1006,13 @@ public class DrawConic extends Drawable implements Previewable {
 		int BIG_RADIUS = view.getWidth() + view.getHeight(); // > view's
 																// diagonal
 		if (xRadius < BIG_RADIUS && yRadius < BIG_RADIUS) {
-			shape = transform.createTransformedShape(ellipse);
+			fillShape = transform.createTransformedShape(ellipse);
 		} else {
 			// clip big arc at screen
 			// shape=ClipShape.clipToRect(shape,ellipse, transform, new
 			// Rectangle(-1,
 			// -1, view.getWidth() + 2, view.getHeight() + 2));
-			shape = ClipShape.clipToRect(ellipse, transform, -1, -1,
+			fillShape = ClipShape.clipToRect(ellipse, transform, -1, -1,
 					view.getWidth() + 2, view.getHeight() + 2);
 
 		}
@@ -1308,7 +1308,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		updateParabolaPath();
 
-		shape = parabola;
+		fillShape = parabola;
 
 		updateParabolaLabelCoords();
 
@@ -1439,13 +1439,13 @@ public class DrawConic extends Drawable implements Previewable {
 			if (geo.doHighlighting()) {
 				g2.setStroke(selStroke);
 				g2.setColor(geo.getSelColor());
-				g2.draw(shape);
+				g2.draw(fillShape);
 			}
 
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
 			if (geo.getLineThickness() > 0) {
-				g2.draw(shape);
+				g2.draw(fillShape);
 			}
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());
@@ -1464,7 +1464,7 @@ public class DrawConic extends Drawable implements Previewable {
 		if (conic.isInverseFill()) {
 			fill(g2, getShape());
 		} else {
-			fill(g2, shape); // fill using default/hatching/image as
+			fill(g2, fillShape); // fill using default/hatching/image as
 								// appropriate
 		}
 		if (arcFiller != null && !conic.isInverseFill())
@@ -1488,7 +1488,7 @@ public class DrawConic extends Drawable implements Previewable {
 		if (conic.isInverseFill()) {
 			fill(g2, getShape());
 		} else {
-			fill(g2, shape == null ? getShape() : shape);
+			fill(g2, fillShape == null ? getShape() : fillShape);
 		}
 	}
 
@@ -1567,7 +1567,7 @@ public class DrawConic extends Drawable implements Previewable {
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
 			// shape is null for 3D ellipse
-			return shape == null ? null : shape.getBounds();
+			return fillShape == null ? null : fillShape.getBounds();
 		case GeoConicNDConstants.CONIC_PARABOLA:
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			// might need another formula for flat hyperbolae, max() prevents
@@ -1616,7 +1616,7 @@ public class DrawConic extends Drawable implements Previewable {
 			fillEllipseParabola(g2);
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
-			g2.draw(shape);
+			g2.draw(fillShape);
 
 			break;
 
@@ -1688,7 +1688,7 @@ public class DrawConic extends Drawable implements Previewable {
 						// org.geogebra.ggbjdk.java.awt.geom.IllegalPathStateException:
 						// org.geogebra.ggbjdk.java.awt.geom.Path2D$Double.needRoom
 						// (Path2D.java:263)
-						strokedShape = objStroke.createStrokedShape(shape, 100);
+						strokedShape = objStroke.createStrokedShape(fillShape, 100);
 					} catch (Exception e) {
 						Log.error("problem creating circle/parabola shape: "
 								+ e.getMessage());
@@ -1809,7 +1809,7 @@ public class DrawConic extends Drawable implements Previewable {
 		if (strokedShape == null) {
 			// AND-547, initial buffer size
 			try {
-				strokedShape = objStroke.createStrokedShape(shape, 148);
+				strokedShape = objStroke.createStrokedShape(fillShape, 148);
 			} catch (Exception e) {
 				Log.error("problem creating ellipse shape: " + e.getMessage());
 				return false;
@@ -1835,8 +1835,8 @@ public class DrawConic extends Drawable implements Previewable {
 
 		case GeoConicNDConstants.CONIC_CIRCLE:
 		case GeoConicNDConstants.CONIC_ELLIPSE:
-			return rect != null && shape != null
-					&& rect.contains(shape.getBounds());
+			return rect != null && fillShape != null
+					&& rect.contains(fillShape.getBounds());
 		}
 
 		return false;
@@ -1854,8 +1854,8 @@ public class DrawConic extends Drawable implements Previewable {
 		if (geo.isFilled()) {
 			return super.intersectsRectangle(rect);
 		}
-		if (shape != null) {
-			return shape.intersects(rect) && !shape.contains(rect);
+		if (fillShape != null) {
+			return fillShape.intersects(rect) && !fillShape.contains(rect);
 		}
 		if (super.getShape() != null) {
 			return super.getShape().intersects(rect)
