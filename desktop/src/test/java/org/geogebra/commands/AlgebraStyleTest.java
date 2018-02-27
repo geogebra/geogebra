@@ -505,5 +505,38 @@ public class AlgebraStyleTest extends Assert {
 		deg("sin((1deg,2))", "0.0003 + 0.03491" + Unicode.IMAGINARY);
 	}
 
+	@Test
+	public void multiplicationShouldNotHaveExtraBrackets() {
+		mult("3x*5x", "3x 5x", "(((3)*(x))*(5))*(x)");
+		mult("pi*x", Unicode.pi + " x", "(pi)*(x)");
+		mult("3*4*x", "12x", "(12)*(x)");
+		mult("3*(4*x)", "3 (4x)", "(3)*((4)*(x))");
+		mult("3*4", "3 (4)", "12", "(3)*(4)");
+		t("a1=7");
+		mult("3a1*x", "3a1 x", "3 (7) x", "((3)*(7))*(x)");
+		mult("a1*a1*a1*x", "a1 a1 a1 x", "7 (7) 7 x", "(((7)*(7))*(7))*(x)");
+
+	}
+	private static void mult(String def, String expect, String expectGiac) {
+		mult(def, expect, expect, expectGiac);
+	}
+
+	private static void mult(String def, String expectDef, String expectVal,
+			String expectGiac) {
+		mult(def, expectVal, StringTemplate.editTemplate, true);
+		mult(def, expectVal, StringTemplate.editorTemplate, true);
+		mult(def, expectDef, StringTemplate.editorTemplate, false);
+		mult(expectDef, expectVal, StringTemplate.editTemplate, true);
+		mult(def, expectGiac, StringTemplate.giacTemplate, true);
+	}
+
+	private static void mult(String def, String expect, StringTemplate tpl, boolean val) {
+		GeoElementND[] geo = ap.processAlgebraCommandNoExceptionHandling(def,
+				false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
+				null);
+		String res = val ? geo[0].toValueString(tpl) : geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
+		Assert.assertEquals(expect, res);
+
+	}
 
 }

@@ -1707,7 +1707,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 						break;
 
 					default: // GeoGebra syntax
-						char firstLeft = leftStr.charAt(0);
 						lastLeft = leftStr.charAt(leftStr.length() - 1);
 						firstRight = rightStr.charAt(0);
 						// check if we need a multiplication sign, see #414
@@ -1723,16 +1722,13 @@ public class StringTemplate implements ExpressionNodeConstants {
 							// it's needed except for number * character,
 							// e.g. 23x
 							// need to check start and end for eg A1 * A2
-							boolean leftIsNumber = left.isLeaf()
-									&& (StringUtil.isDigit(firstLeft)
-											|| (firstLeft == '-'))
-									&& StringUtil.isDigit(lastLeft);
+							boolean leftIsNumber = left.wrap()
+									.endsInNumber(valueForm);
 
 							// check if we need a multiplication space:
 							// all cases except number * character, e.g. 3x
 							// pi*x DOES need a multiply
-							multiplicationSpaceNeeded = showMultiplicationSign
-									|| !(leftIsNumber
+							multiplicationSpaceNeeded = !(leftIsNumber
 											&& !Character.isDigit(firstRight));
 						}
 					}
