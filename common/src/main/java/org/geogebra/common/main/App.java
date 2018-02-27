@@ -3985,7 +3985,7 @@ public abstract class App implements UpdateSelection {
 
 		// AND-785
 		case MOB_AND_CHECKBOXES_AND_STATUS_BAR:
-			return prerelease;
+			return true;
 
 		// IGR-588, AND-695
 		case MOB_OUTPUTROW_IN_DESC_MODE:
