@@ -1227,10 +1227,15 @@ public class DrawConic extends Drawable implements Previewable {
 	 * set shape for hyperbola
 	 */
 	protected void updateHyperbolaSetShape() {
-		setShape(AwtFactory.getPrototype().newArea(hypLeft));
-		// geogebra.awt.Area.getAWTArea(super.getShape()).add(new
-		// Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
-		super.getShape().add(AwtFactory.getPrototype().newArea(hypRight));
+		try {
+			setShape(AwtFactory.getPrototype().newArea(hypLeft));
+			// geogebra.awt.Area.getAWTArea(super.getShape()).add(new
+			// Area(geogebra.awt.GenericShape.getAwtShape(hypRight)));
+			super.getShape().add(AwtFactory.getPrototype().newArea(hypRight));
+		} catch (Exception e) {
+			setShape(null);
+			Log.error("problem in updateHyperbolaSetShape: " + e.getMessage());
+		}
 	}
 
 	/**
