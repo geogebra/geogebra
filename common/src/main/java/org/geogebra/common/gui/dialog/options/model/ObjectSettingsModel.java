@@ -473,8 +473,8 @@ abstract public class ObjectSettingsModel {
     /**
      * @return the current alpha value of the geoElement
      */
-    public float getAlpha() {
-        return geoElement != null ? (float) geoElement.getAlphaValue() : 1;
+	public double getAlpha() {
+		return geoElement != null ? geoElement.getAlphaValue() : 1;
     }
 
     /**

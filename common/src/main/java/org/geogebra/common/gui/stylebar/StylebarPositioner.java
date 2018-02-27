@@ -133,7 +133,8 @@ public class StylebarPositioner {
         } else {
             if (isPoint) {
                 left = center
-                        ? (gRectangle2D.getMaxX() + gRectangle2D.getMinX()) / 2 - ((float) popupWidth / 2)
+						? (gRectangle2D.getMaxX() + gRectangle2D.getMinX()) / 2
+								- ((double) popupWidth / 2)
                         : gRectangle2D.getMaxX();
             } else {
                 left = gRectangle2D.getMaxX();
