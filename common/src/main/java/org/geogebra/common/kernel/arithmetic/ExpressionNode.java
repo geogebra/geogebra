@@ -6046,7 +6046,9 @@ public class ExpressionNode extends ValidExpression
 
 	public boolean endsInNumber(boolean valueForm) {
 		if (operation == Operation.NO_OPERATION && getLeft() instanceof NumberValue) {
-			return getLeft() instanceof MyDouble && getLeft().isConstant()
+			return getLeft() instanceof MyDouble
+					&& !(getLeft() instanceof MySpecialDouble)
+					&& getLeft().isConstant()
 					|| valueForm && getLeft().isGeoElement()
 					&& !((GeoElement) getLeft()).isLabelSet();
 		}
