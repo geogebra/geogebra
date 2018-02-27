@@ -23,6 +23,7 @@ import org.geogebra.common.kernel.algos.ConstructionElement;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
@@ -3602,19 +3603,23 @@ public class Construction {
 	/**
 	 * @param ce1
 	 *            construction element
-	 * @return previous element in construction order
+	 * @param check
+	 *            filter
+	 * @return previous element in construction order that fits the filter
 	 */
-	public GeoElementND getPrevious(GeoElementND ce1) {
+	public GeoElementND getPrevious(GeoElementND ce1, Inspecting check) {
 		ConstructionElement ce = ce1.getParentAlgorithm() != null
 				? ce1.getParentAlgorithm()
 				: ce1.toGeoElement();
 
 		int idx = ceList.indexOf(ce);
-		if (idx >= 1) {
-			return ceList.get(idx - 1).getGeoElements()[0];
+		if (idx < 0) {
+			idx = ceList.size();
 		}
-		if (idx < 0 && ce != null && ce != getLastGeoElement()) {
-			return getLastGeoElement();
+		for (int i = idx - 1; i >= 0; i--) {
+			if(check.check(ceList.get(i).getGeoElements()[0])){
+				return ceList.get(i).getGeoElements()[0];
+			}
 		}
 		return null;
 	}

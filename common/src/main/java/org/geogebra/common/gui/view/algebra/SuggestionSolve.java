@@ -3,6 +3,8 @@ package org.geogebra.common.gui.view.algebra;
 import org.geogebra.common.kernel.algos.GetCommand;
 import org.geogebra.common.kernel.arithmetic.Equation;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
+import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
@@ -11,7 +13,7 @@ import org.geogebra.common.util.StringUtil;
 
 public class SuggestionSolve extends Suggestion {
 	
-	private static Suggestion SINGLE_SOLVE = new SuggestionSolve();
+	private static final Suggestion SINGLE_SOLVE = new SuggestionSolve();
 	private String[] labels;
 
 
@@ -51,26 +53,26 @@ public class SuggestionSolve extends Suggestion {
 		return null;
 	}
 
-	private static Suggestion getMulti(GeoElement geo, String[] vars) {
-		GeoElementND prev = geo;
-		do {
+	private static Suggestion getMulti(GeoElement geo, final String[] vars) {
 
-			GeoElementND newPrev = geo.getConstruction().getPrevious(prev);
+		GeoElementND prev = geo.getConstruction().getPrevious(geo,
+				new Inspecting() {
 
-			if (newPrev == prev) {
-				// eg happens for polygons
-				return null;
-			}
+					public boolean check(ExpressionValue prev) {
+						// TODO Auto-generated method stub
+						return Equation.isAlgebraEquation((GeoElement) prev)
+								&& subset(((EquationValue) prev)
+										.getEquationVariables(), vars)
+								&& !hasDependentAlgo((GeoElement) prev,
+										SINGLE_SOLVE);
+					}
+				});
 
-			prev = newPrev;
 
-			if (Equation.isAlgebraEquation(prev)
-					&& subset(
-					((EquationValue) prev).getEquationVariables(), vars)
-					&& !hasDependentAlgo(prev, SINGLE_SOLVE)) {
-				return new SuggestionSolve(prev.getLabelSimple());
-			}
-		} while (prev != null);
+
+		if (prev != null) {
+			return new SuggestionSolve(prev.getLabelSimple());
+		}
 		return null;
 	}
 

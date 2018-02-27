@@ -173,6 +173,17 @@ public interface CASGenericInterface extends SettingListener {
 	 */
 	boolean externalCAS();
 
+	/**
+	 * @param substitutions
+	 *            substitutions
+	 * @param polys
+	 *            polynomials
+	 * @param freeVars
+	 *            free variables
+	 * @param dependantVars
+	 *            dependent variables
+	 * @return Groebner script
+	 */
 	String createGroebnerInitialsScript(
 			HashMap<PVariable, BigInteger> substitutions,
 			String polys, String freeVars, String dependantVars);

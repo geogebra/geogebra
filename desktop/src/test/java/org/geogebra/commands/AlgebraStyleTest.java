@@ -3,6 +3,7 @@ package org.geogebra.commands;
 import java.util.Locale;
 
 import org.geogebra.common.gui.view.algebra.AlgebraItem;
+import org.geogebra.common.gui.view.algebra.SuggestionSolve;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
@@ -10,6 +11,7 @@ import org.geogebra.common.kernel.commands.AlgebraProcessor;
 import org.geogebra.common.kernel.commands.EvalInfo;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.kernelND.GeoConicND;
@@ -349,7 +351,6 @@ public class AlgebraStyleTest extends Assert {
 
 	@Test
 	public void dependentPointsShouldHaveTextDescriptions() {
-
 		app.getKernel().setAlgebraStyle(Kernel.ALGEBRA_STYLE_DESCRIPTION);
 		IndexHTMLBuilder builder = new IndexHTMLBuilder(false);
 		t("P=(1,0)");
@@ -362,7 +363,55 @@ public class AlgebraStyleTest extends Assert {
 		t("R=2*P");
 		AlgebraItem.buildPlainTextItemSimple(getGeo("R"), builder);
 		Assert.assertEquals("R = 2P", builder.toString());
+	}
 
+	@Test
+	public void equationsShouldHaveSuggestion() {
+		t("A=(1,1)");
+		t("B=(0,1)");
+		t("C=(1,0)");
+		t("p=Polygon(A,B,C)");
+		t("r:x=y");
+		Assert.assertNull(SuggestionSolve.get(getGeo("r")));
+		t("r:x=2x+1");
+		Assert.assertNotNull(SuggestionSolve.get(getGeo("r")));
+	}
+
+	@Test
+	public void systemsShouldHaveSuggestion() {
+		t("A=(1,1)");
+		t("B=(0,1)");
+		t("C=(1,0)");
+		t("p=Polygon(A,B,C)");
+		t("r:x=y");
+		Assert.assertNull(SuggestionSolve.get(getGeo("r")));
+		t("q:x=y+1");
+		Assert.assertNotNull(SuggestionSolve.get(getGeo("q")));
+	}
+
+	@Test
+	public void previewEquationsShouldHaveSuggestion() {
+		t("A=(1,1)");
+		t("B=(0,1)");
+		t("C=(1,0)");
+		t("p=Polygon(A,B,C)");
+		GeoLine line = new GeoLine(app.getKernel().getConstruction());
+		line.setCoords(1, 1, 1);
+		Assert.assertNull(SuggestionSolve.get(line));
+		line.setCoords(1, 0, 1);
+		Assert.assertNotNull(SuggestionSolve.get(line));
+	}
+
+	@Test
+	public void previewSystemsShouldHaveSuggestion() {
+		t("A=(1,1)");
+		t("B=(0,1)");
+		t("C=(1,0)");
+		t("p=Polygon(A,B,C)");
+		t("r:x=y");
+		GeoLine line = new GeoLine(app.getKernel().getConstruction());
+		line.setCoords(1, 1, 1);
+		Assert.assertNotNull(SuggestionSolve.get(line));
 	}
 
 	@Test
