@@ -119,6 +119,7 @@ public class Drawable3DListsForView extends Drawable3DLists {
 		}
 	}
 
+	@Override
 	public void drawTranspClosedNotCurved(Renderer renderer) {
 		super.drawTranspClosedNotCurved(renderer);
 		if (renderer.getGeometryManager().packBuffers()) {

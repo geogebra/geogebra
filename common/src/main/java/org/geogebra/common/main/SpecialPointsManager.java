@@ -174,6 +174,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		return specPoints;
 	}
 
+	@Override
 	public void updateSelection(boolean updateProperties) {
 		updateSelection();
 	}
@@ -185,12 +186,14 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 		updateSpecialPoints(null);
 	}
 
+	@Override
 	public void sendEvent(Event evt) {
 		if (evt.type == EventType.DESELECT) {
 			updateSelection();
 		}
 	}
 
+	@Override
 	public void reset() {
 		// not needed
 	}

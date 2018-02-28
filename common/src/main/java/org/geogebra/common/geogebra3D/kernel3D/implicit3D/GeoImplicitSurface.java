@@ -1059,8 +1059,8 @@ public class GeoImplicitSurface extends GeoElement3D
 		return false;
 	}
 
+	@Override
 	public void setToImplicit() {
 		// TODO Auto-generated method stub
-
 	}
 }

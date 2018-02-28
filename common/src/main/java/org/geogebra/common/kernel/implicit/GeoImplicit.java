@@ -64,11 +64,6 @@ public interface GeoImplicit extends Path, EquationValue {
 	int getDegY();
 
 	/**
-	 * Switch to user input form
-	 */
-	void setToUser();
-
-	/**
 	 * @param dx
 	 *            horizontal shift
 	 * @param dy
@@ -90,11 +85,6 @@ public interface GeoImplicit extends Path, EquationValue {
 	 * @return whether the print form is input
 	 */
 	boolean isInputForm();
-
-	/**
-	 * Switch print form to expanded
-	 */
-	void setToImplicit();
 
 	/**
 	 * @param equation

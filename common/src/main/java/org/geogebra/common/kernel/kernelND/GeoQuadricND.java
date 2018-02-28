@@ -696,22 +696,42 @@ public abstract class GeoQuadricND extends GeoElement
 		return super.needToShowBothRowsInAV();
 	}
 
+	/**
+	 * Returns whether specific equation representation is possible.
+	 * 
+	 * @return true iff specific equation representation is possible.
+	 */
 	public boolean isSpecificPossible() {
 		return false;
 	}
 
+	/**
+	 * Returns wheter explicit parabola equation representation (y = a x\u00b2 +
+	 * b x + c) is possible.
+	 * 
+	 * @return true iff explicit equation is possible
+	 */
 	public boolean isExplicitPossible() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * Returns wheter vertex form of parabola equation representation (y = a
+	 * (x-h)\u00b2 + k) is possible.
+	 * 
+	 * @return true if vertex form equation is possible
+	 */
 	public boolean isVertexformPossible() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
+	/**
+	 * Returns wheter conic form of parabola equation representation ( 4p(y - k)
+	 * = (x - h)^2 is possible.
+	 * 
+	 * @return true if conic form equation is possible
+	 */
 	public boolean isConicformPossible() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

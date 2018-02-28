@@ -219,7 +219,7 @@ public abstract class GeoElement extends ConstructionElement
 	private boolean algebraVisible = true;
 	private boolean labelVisible = true;
 	private boolean isConsProtBreakpoint; // in construction protocol
-	private boolean isAlgoMacroOutput; // is an output object of a macro
+	private boolean algoMacroOutput; // is an output object of a macro
 										// construction
 	/** fixed (cannot be moved or deleted) */
 	protected boolean fixed = false;
@@ -338,7 +338,7 @@ public abstract class GeoElement extends ConstructionElement
 	private EuclidianViewInterfaceSlim viewForValueString;
 
 	private boolean autoColor;
-	private boolean isEmptySpreadsheetCell = false;
+	private boolean emptySpreadsheetCell = false;
 	private LaTeXCache latexCache = null;
 	private SpreadsheetTraceSettings traceSettings;
 	/** Spreadsheet tracing on/off flag */
@@ -1142,7 +1142,7 @@ public abstract class GeoElement extends ConstructionElement
 	 */
 	@Override
 	public void setObjColor(final GColor color) {
-		isColorSet = !this.isDefaultGeo() || !this.isGeoNumeric();
+		isColorSet = !isDefaultGeo() || !isGeoNumeric();
 		objColor = color == null ? GColor.BLACK : color;
 		fillColor = objColor;
 		setAlphaValue(alphaValue);
@@ -1790,12 +1790,8 @@ public abstract class GeoElement extends ConstructionElement
 		this.autoColor = sequential;
 	}
 
-	/**
-	 * Also copy advanced settings of this object.
-	 * 
-	 * @param geo
-	 *            source geo
-	 */
+
+	@Override
 	public void setAdvancedVisualStyle(final GeoElement geo) {
 		setVisualStyle(geo);
 
@@ -3667,7 +3663,7 @@ public abstract class GeoElement extends ConstructionElement
 					return str;
 				}
 				chars = lineLabels;
-			} else if (this instanceof GeoPenStroke || this instanceof GeoLocusStroke) {
+			} else if (isPenStroke()) {
 				// needs to come before PolyLine (subclass)
 				return defaultNumberedLabel("penStroke", false); // Name.penStroke
 			} else if (isGeoPolyLine()) {
@@ -3804,14 +3800,14 @@ public abstract class GeoElement extends ConstructionElement
 	 *            empty spreadsheet cell flag
 	 */
 	public void setEmptySpreadsheetCell(boolean isEmptySpreadsheetCell) {
-		this.isEmptySpreadsheetCell = isEmptySpreadsheetCell;
+		this.emptySpreadsheetCell = isEmptySpreadsheetCell;
 	}
 
 	/**
 	 * @return empty spreadsheet cell flag
 	 */
 	public boolean isEmptySpreadsheetCell() {
-		return isEmptySpreadsheetCell;
+		return emptySpreadsheetCell;
 	}
 
 	/**
@@ -4946,7 +4942,7 @@ public abstract class GeoElement extends ConstructionElement
 	final public String getLongDescriptionHTML(final boolean colored,
 			final boolean addHTMLtag) {
 		if ((algoParent == null) || this instanceof TextValue
-				|| this instanceof GeoPenStroke || this instanceof GeoPointND) {
+				|| isPenStroke() || this instanceof GeoPointND) {
 			return getNameDescriptionHTML(colored, addHTMLtag);
 		}
 		final StringBuilder sbLongDescHTML = new StringBuilder();
@@ -6610,10 +6606,8 @@ public abstract class GeoElement extends ConstructionElement
 	 *            - true, if geo was created with shape tool
 	 */
 	public void setIsShape(boolean isShape) {
-		// this.isShape = isShape;
+		// overridden for conics & polygons
 	}
-
-
 
 	@Override
 	final public boolean contains(final ExpressionValue ev) {
@@ -6717,7 +6711,7 @@ public abstract class GeoElement extends ConstructionElement
 	/**
 	 * @return true for strokes
 	 */
-	public boolean isGeoLocusStroke() {
+	public boolean isPenStroke() {
 		return false;
 	}
 
@@ -7023,7 +7017,7 @@ public abstract class GeoElement extends ConstructionElement
 	 * @return true for macro outputs
 	 */
 	final public boolean isAlgoMacroOutput() {
-		return isAlgoMacroOutput;
+		return algoMacroOutput;
 	}
 
 	/**
@@ -7031,7 +7025,7 @@ public abstract class GeoElement extends ConstructionElement
 	 *            mark/unmark this geo as macro output
 	 */
 	public void setAlgoMacroOutput(final boolean isAlgoMacroOutput) {
-		this.isAlgoMacroOutput = isAlgoMacroOutput;
+		this.algoMacroOutput = isAlgoMacroOutput;
 	}
 
 	/**
@@ -8363,7 +8357,7 @@ public abstract class GeoElement extends ConstructionElement
 
 	@Override
 	public boolean evaluatesToNumber(boolean def) {
-		return this.isNumberValue();
+		return isNumberValue();
 	}
 
 	/**

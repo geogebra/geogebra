@@ -1318,6 +1318,10 @@ public class MyDouble extends ValidExpression
 		return getDouble();
 	}
 
+	/**
+	 * @return whether this is printed using digits (eg 2, 1E7) rather than
+	 *         letters (pi, e)
+	 */
 	public boolean isDigits() {
 		return true;
 	}

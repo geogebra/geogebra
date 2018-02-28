@@ -2033,6 +2033,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		return super.needToShowBothRowsInAV();
 	}
 
+	@Override
 	public boolean setTypeFromXML(String style, String parameter) {
 		if ("implicit".equals(style)) {
 			setToImplicit();

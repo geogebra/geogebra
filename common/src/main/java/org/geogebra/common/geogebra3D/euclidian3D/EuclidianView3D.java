@@ -504,6 +504,7 @@ public abstract class EuclidianView3D extends EuclidianView
 	/**
 	 * @return gl renderer
 	 */
+	@Override
 	public Renderer getRenderer() {
 		return renderer;
 	}
@@ -4668,6 +4669,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		return true;
 	}
 
+	@Override
 	public boolean hasVisibleObjects() {
 		return drawable3DLists != null && !drawable3DLists.isEmpty();
 	}

@@ -58,12 +58,12 @@ public class SuggestionSolve extends Suggestion {
 		GeoElementND prev = geo.getConstruction().getPrevious(geo,
 				new Inspecting() {
 
-					public boolean check(ExpressionValue prev) {
-						// TODO Auto-generated method stub
-						return Equation.isAlgebraEquation((GeoElement) prev)
-								&& subset(((EquationValue) prev)
+					@Override
+					public boolean check(ExpressionValue var) {
+						return Equation.isAlgebraEquation((GeoElement) var)
+								&& subset(((EquationValue) var)
 										.getEquationVariables(), vars)
-								&& !hasDependentAlgo((GeoElement) prev,
+								&& !hasDependentAlgo((GeoElement) var,
 										SINGLE_SOLVE);
 					}
 				});

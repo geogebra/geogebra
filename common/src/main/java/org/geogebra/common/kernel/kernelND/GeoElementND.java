@@ -724,6 +724,12 @@ public interface GeoElementND extends ExpressionValue {
 
 	public void setHighlighted(final boolean flag);
 
+	/**
+	 * Also copy advanced settings of this object.
+	 * 
+	 * @param geo
+	 *            source geo
+	 */
 	void setAdvancedVisualStyle(GeoElement defaultGeo);
 
 }

@@ -861,10 +861,12 @@ public class Equation extends ValidExpression implements EquationValue {
 		// only needed for geos
 	}
 
+	@Override
 	public boolean setTypeFromXML(String style, String parameter) {
 		return false;
 	}
 
+	@Override
 	public void setToImplicit() {
 		// only for geos
 	}

@@ -657,7 +657,7 @@ public abstract class EuclidianController {
 		boolean firstMoveable = true;
 		for (int i = 0; i < getAppSelectedGeos().size(); i++) {
 			geo = getAppSelectedGeos().get(i);
-			if ((geo.isIndependent() || geo.isGeoLocusStroke())
+			if ((geo.isIndependent() || geo.isPenStroke())
 					&& geo.isMoveable()) {
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {

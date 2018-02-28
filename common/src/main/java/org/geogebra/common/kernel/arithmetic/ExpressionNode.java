@@ -6044,6 +6044,12 @@ public class ExpressionNode extends ValidExpression
 		return ev instanceof BooleanValue && ((BooleanValue) ev).getBoolean();
 	}
 
+	/**
+	 * @param valueForm
+	 *            whether numerics are written as value or variable name
+	 * @return whether this is a product of 1 or more elements, the last of
+	 *         which is a number: eg 2 or x*2
+	 */
 	public boolean endsInNumber(boolean valueForm) {
 		if (operation == Operation.NO_OPERATION
 				&& getLeft() instanceof NumberValue) {

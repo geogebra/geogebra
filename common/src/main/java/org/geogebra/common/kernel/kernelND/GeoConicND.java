@@ -1476,11 +1476,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		setToStringMode(EQUATION_CONICFORM);
 	}
 
-	/**
-	 * Returns whether specific equation representation is possible.
-	 * 
-	 * @return true iff specific equation representation is possible.
-	 */
 	@Override
 	final public boolean isSpecificPossible() {
 		switch (type) {
@@ -1505,12 +1500,6 @@ public abstract class GeoConicND extends GeoQuadricND
 		}
 	}
 
-	/**
-	 * Returns wheter explicit parabola equation representation (y = a x\u00b2 +
-	 * b x + c) is possible.
-	 * 
-	 * @return true iff explicit equation is possible
-	 */
 	@Override
 	final public boolean isExplicitPossible() {
 		if (type == CONIC_LINE) {
@@ -1520,24 +1509,12 @@ public abstract class GeoConicND extends GeoQuadricND
 				&& DoubleUtil.isZero(matrix[1]);
 	}
 
-	/**
-	 * Returns wheter vertex form of parabola equation representation (y = a
-	 * (x-h)\u00b2 + k) is possible.
-	 * 
-	 * @return true if vertex form equation is possible
-	 */
 	@Override
 	final public boolean isVertexformPossible() {
 		return !DoubleUtil.isZero(matrix[0]) && !DoubleUtil.isZero(matrix[5])
 				&& DoubleUtil.isZero(matrix[1]) && DoubleUtil.isZero(matrix[3]);
 	}
 
-	/**
-	 * Returns wheter conic form of parabola equation representation ( 4p(y - k)
-	 * = (x - h)^2 is possible.
-	 * 
-	 * @return true if conic form equation is possible
-	 */
 	@Override
 	final public boolean isConicformPossible() {
 		// directrix parallel with xAxis

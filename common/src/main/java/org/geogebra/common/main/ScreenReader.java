@@ -58,7 +58,7 @@ public class ScreenReader {
 				}
 			}
 			if ((geo0.isGeoButton() && !geo0.isGeoInputBox())
-					|| geo0.isGeoLocusStroke()) {
+					|| geo0.isPenStroke()) {
 				appendSentence(sb, "PressEnterToOpenSettings", app);
 			} else if (!geo0.isGeoInputBox()) {
 				appendSentence(sb, "PressEnterToEdit", app);

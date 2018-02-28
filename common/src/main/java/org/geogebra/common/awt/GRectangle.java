@@ -22,6 +22,7 @@ public interface GRectangle extends GRectangle2D {
 
 	public void add(GRectangle bb);
 
+	@Override
 	public void add(double x, double y);
 
 	// public boolean contains(PathPoint prevP);

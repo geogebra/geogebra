@@ -36,6 +36,7 @@ public class AlgoHolesPolynomial extends AlgoElement {
 		res.setEuclidianVisible(true);
 	}
 
+	@Override
 	public Commands getClassName() {
 		return Commands.Holes;
 	}

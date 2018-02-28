@@ -19,6 +19,7 @@ public class AppConfigDefault implements AppConfig {
 		return -1;
 	}
 
+	@Override
 	public String getAppTitle() {
 		return "math_apps";
 	}

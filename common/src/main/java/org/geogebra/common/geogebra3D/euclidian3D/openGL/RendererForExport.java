@@ -36,6 +36,7 @@ public class RendererForExport extends RendererWithImpl {
 		return new ManagerShadersElementsGlobalBuffer(this, view3D);
 	}
 
+	@Override
 	public void drawScene() {
 		updateViewAndDrawables();
 	}
