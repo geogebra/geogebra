@@ -426,4 +426,13 @@ public class UtilD extends Util {
 
 	}
 
+	/**
+	 * GGB-2312
+	 * 
+	 * @return true for Java 7
+	 */
+	public static boolean isJava7() {
+		return System.getProperty("java.version").startsWith("1.7.");
+	}
+
 }

@@ -5421,4 +5421,25 @@ public class AppD extends App implements KeyEventDispatcher {
 		
 	}
 
+	public void showReinstallMessage() {
+		// FullReinstallNeeded
+		
+		
+		
+		Object[] options = { loc.getMenu("Cancel"), loc.getMenu("Download") };
+		int n = JOptionPane.showOptionDialog(mainComp, loc.getMenu("FullReinstallNeeded"),
+				GeoGebraConstants.APPLICATION_NAME + " - "
+						+ getLocalization().getError("Error"),
+				JOptionPane.YES_NO_OPTION,
+				JOptionPane.QUESTION_MESSAGE, null,
+				options, // the titles of buttons
+				options[1]); // default button title
+
+		if (n == 1) {
+			showURLinBrowser(GeoGebraConstants.INSTALLERS_URL);
+		}
+
+		
+	}
+
 }

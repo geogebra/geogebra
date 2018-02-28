@@ -46,6 +46,7 @@ import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.UtilD;
 
 /**
  * Dialog to manage existing user defined tools (macros).
@@ -210,7 +211,11 @@ public class ToolManagerDialogD extends javax.swing.JDialog
 					} else if (src == btSave) {
 						saveTools(toolList);
 					} else if (src == btShare) {
-						uploadToGeoGebraTube(toolList);
+						if (UtilD.isJava7()) {
+							app.showReinstallMessage();
+						} else {
+							uploadToGeoGebraTube(toolList);
+						}
 					}
 				}
 

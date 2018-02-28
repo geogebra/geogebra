@@ -54,6 +54,7 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
+import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -202,6 +203,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (UtilD.isJava7()) {
+					app.showReinstallMessage();
+					return;
+				}
+
 				app.getGuiManager().login();
 			}
 		};

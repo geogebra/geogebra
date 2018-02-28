@@ -35,6 +35,7 @@ import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.move.ggtapi.models.LoginOperationD;
 import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -279,7 +280,11 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				exportGeoGebraTubeAction.actionPerformed(e);
+				if (UtilD.isJava7()) {
+					app.showReinstallMessage();
+				} else {
+					exportGeoGebraTubeAction.actionPerformed(e);
+				}
 			}
 		};
 
@@ -346,6 +351,11 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+				if (UtilD.isJava7()) {
+					app.showReinstallMessage();
+					return;
+				}
 
 				// Check if javafx is available
 				boolean javaFx22Available = false;
