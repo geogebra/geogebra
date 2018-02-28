@@ -110,27 +110,6 @@ public class UtilD extends Util {
 	}
 
 	/**
-	 * Returns the main version number of the current JRE, e.g. 1.4 for version
-	 * 1.4.2_03
-	 */
-	public static double getJavaVersion() {
-		String vm_version = System.getProperty("java.version");
-		if (vm_version == null) {
-			return Double.NaN;
-		}
-
-		if (vm_version.startsWith("1.4.2")) {
-			return 1.42;
-		}
-		vm_version = vm_version.substring(0, 3);
-		try {
-			return Double.parseDouble(vm_version);
-		} catch (Exception e) {
-			return Double.NaN;
-		}
-	}
-
-	/**
 	 * Returns the index of ob in array a
 	 * 
 	 * @return -1 if ob is not in a
@@ -148,7 +127,7 @@ public class UtilD extends Util {
 	}
 
 	/**
-	 * Adds keylistener recursivley to all subcomponents of container.
+	 * Adds keylistener recursively to all subcomponents of container.
 	 * 
 	 * @param l
 	 */

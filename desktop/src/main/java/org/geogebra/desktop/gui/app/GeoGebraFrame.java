@@ -81,7 +81,6 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.util.FrameCollector;
 import org.geogebra.desktop.util.HttpRequestD;
-import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -309,16 +308,6 @@ public class GeoGebraFrame extends JFrame
 			} catch (Throwable t) {
 				System.err.println("problem setting AppId: " + t.getMessage());
 			}
-		}
-
-		// check java version
-		double javaVersion = UtilD.getJavaVersion();
-		if (javaVersion < 1.5) {
-			JOptionPane.showMessageDialog(null,
-					"Sorry, GeoGebra cannot be used with your Java version "
-							+ javaVersion
-							+ "\nPlease visit http://www.java.com to get a newer version of Java.");
-			return;
 		}
 
 		if (AppD.MAC_OS) {
