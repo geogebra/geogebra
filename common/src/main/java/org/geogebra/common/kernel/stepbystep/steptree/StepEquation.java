@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.stepbystep.CASConflictException;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steps.SolveTracker;
 import org.geogebra.common.kernel.stepbystep.steps.StepStrategies;
@@ -119,11 +120,15 @@ public class StepEquation extends StepSolvable {
 	@Override
 	public boolean checkSolution(StepVariable variable, StepExpression value,
 								 SolutionBuilder steps, SolveTracker tracker) {
+
+		StepEquation copy = deepCopy();
+
 		SolutionBuilder tempSteps = new SolutionBuilder();
-		StepEquation copy = deepCopy().replace(variable, value);
+
+		copy.replace(variable, value, tempSteps);
 		copy.expand(tempSteps, new SolveTracker());
 
-		steps.addGroup(SolutionStepType.PLUG_IN_AND_CHECK, tempSteps, copy);
+		steps.addGroup(new SolutionLine(SolutionStepType.PLUG_IN_AND_CHECK, value), tempSteps, copy);
 
 		if (!copy.getLHS().equals(copy.getRHS())) {
 			if (isEqual(copy.LHS.getValue(), copy.RHS.getValue())) {

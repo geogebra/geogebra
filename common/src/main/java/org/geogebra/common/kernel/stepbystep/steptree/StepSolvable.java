@@ -338,13 +338,17 @@ public abstract class StepSolvable extends StepNode {
 	}
 
 	public void replace(StepExpression from, StepExpression to, SolutionBuilder steps) {
-		LHS = LHS.replace(from, to);
-		RHS = RHS.replace(from, to);
+		from.setColor(1);
+		to.setColor(1);
 
-		steps.add(SolutionStepType.GROUP_WRAPPER);
-		steps.levelDown();
-		steps.add(SolutionStepType.REPLACE_WITH, from, to);
-		steps.add(this);
-		steps.levelUp();
+		replace(from, from);
+		StepSolvable original = deepCopy();
+		replace(from, to);
+
+		steps.addSubstep(original, this, SolutionStepType.REPLACE_WITH, from, to);
+
+		from.cleanColors();
+		to.cleanColors();
+		cleanColors();
 	}
 }

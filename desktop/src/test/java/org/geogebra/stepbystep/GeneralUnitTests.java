@@ -181,6 +181,16 @@ public class GeneralUnitTests {
         htmlBuilder.printReport("table.html");
     }
 
+    @Test
+    public void weakGCDTest() {
+        weakGCD("x*x", "x*1", "x");
+        weakGCD("((4)(x)-1)(6)((x)^(2))", "-(((4)(x)-1))(13)(x)", "(((4)(x)-1))(x)");
+    }
+
+    public void weakGCD(String a, String b, String c) {
+        Assert.assertEquals(c, StepHelper.weakGCD(convert(a), convert(b)).toString());
+    }
+
     public void nthpower(int a, int b, int c) {
         Assert.assertEquals(c, StepNode.largestNthPower(StepConstant.create(a), b));
     }

@@ -17,48 +17,232 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
 public class StepHelper {
 
-	public static void getDenominators(StepNode sn, Set<StepExpression> denominators) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
+	public static abstract class Condition {
+		public abstract StepNode isTrueFor(StepNode sn);
 
-			if (so.isOperation(Operation.DIVIDE)) {
-				denominators.add(so.getOperand(1));
+		public static final Condition underAbs = new Condition() {
+			@Override
+			public StepNode isTrueFor(StepNode sn) {
+				if(sn.isOperation(Operation.ABS)) {
+					return ((StepOperation) sn).getOperand(0);
+				}
+				return null;
 			}
+		};
 
-			for (StepExpression operand : so) {
-				getDenominators(operand, denominators);
+		public static final Condition underEvenRoot = new Condition() {
+			@Override
+			public StepNode isTrueFor(StepNode sn) {
+				if (sn.isOperation(Operation.NROOT)
+						&& ((StepOperation) sn).getOperand(1).isEven()) {
+					return ((StepOperation) sn).getOperand(0);
+				}
+				return null;
+			}
+		};
+
+		public static final Condition plusminusToPlus = new Condition() {
+			@Override
+			public StepNode isTrueFor(StepNode sn) {
+				if (sn.isOperation(Operation.PLUSMINUS)) {
+					return ((StepOperation) sn).getOperand(0);
+				}
+				return null;
+			}
+		};
+
+		public static final Condition plusminusToMinus = new Condition() {
+			@Override
+			public StepNode isTrueFor(StepNode sn) {
+				if (sn.isOperation(Operation.PLUSMINUS)) {
+					return minus(((StepOperation) sn).getOperand(0));
+				}
+				return null;
+			}
+		};
+
+		public static final Condition isDenominator = new Condition() {
+			@Override
+			public StepNode isTrueFor(StepNode sn) {
+				if(sn.isOperation(Operation.DIVIDE)) {
+					return ((StepOperation) sn).getOperand(1);
+				}
+				return null;
+			}
+		};
+	}
+
+	/**
+	 * Finds the first expression which adheres to the condition
+	 * @param sn expression to search
+	 * @param c condition
+	 * @return the first expression which adheres to the condition
+	 */
+	public static StepExpression findExpression(StepExpression sn, Condition c) {
+		StepNode value = c.isTrueFor(sn);
+		if (value != null) {
+			return (StepExpression) value;
+		}
+
+		if (sn instanceof StepOperation) {
+			for (StepExpression operand : (StepOperation) sn) {
+				StepExpression expression = findExpression(operand, c);
+				if (expression != null) {
+					return expression;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	public static void getAll(StepNode sn, Set<StepExpression> values, Condition c) {
+		StepNode value = c.isTrueFor(sn);
+		if (value != null) {
+			values.add((StepExpression) value);
+		}
+
+		if (sn instanceof StepOperation) {
+			for (StepExpression operand : (StepOperation) sn) {
+				getAll(operand, values, c);
 			}
 		}
 
 		if (sn instanceof StepSolvable) {
-			getDenominators(((StepSolvable) sn).getLHS(), denominators);
-			getDenominators(((StepSolvable) sn).getRHS(), denominators);
+			getAll(((StepSolvable) sn).getLHS(), values, c);
+			getAll(((StepSolvable) sn).getRHS(), values, c);
 		}
 	}
 
-	public static void getRoots(StepNode sn, Set<StepExpression> roots) {
+	public static StepNode replaceFirst(StepNode sn, Condition c) {
+		StepNode value = c.isTrueFor(sn);
+		if (value != null) {
+			return value.deepCopy();
+		}
+
 		if (sn instanceof StepOperation) {
 			StepOperation so = (StepOperation) sn;
+			StepOperation result = new StepOperation(so.getOperation());
 
-			if (so.isOperation(Operation.NROOT) && so.getOperand(1).isEven()) {
-				roots.add(so.getOperand(0));
+			boolean found = false;
+			for (StepExpression operand : (StepOperation) sn) {
+				if (!found) {
+					StepExpression replaced = (StepExpression) replaceFirst(operand, c);
+					if (replaced != null) {
+						result.addOperand(replaced);
+						found = true;
+						continue;
+					}
+				}
+				result.addOperand(operand.deepCopy());
 			}
 
-			for (StepExpression operand : so) {
-				getRoots(operand, roots);
-			}
+			return found ? result : null;
 		}
 
 		if (sn instanceof StepSolvable) {
-			getRoots(((StepSolvable) sn).getLHS(), roots);
-			getRoots(((StepSolvable) sn).getRHS(), roots);
+			StepSolvable replaced = (StepSolvable) sn.deepCopy();
+
+			StepExpression lhs = (StepExpression) replaceFirst(replaced.getLHS(), c);
+			StepExpression rhs = (StepExpression) replaceFirst(replaced.getRHS(), c);
+
+			if (lhs != null) {
+				replaced.modify(lhs, replaced.getRHS());
+			} else if (rhs != null) {
+				replaced.modify(replaced.getLHS(), rhs);
+			}
+
+			return replaced;
 		}
+
+		return null;
+	}
+
+	public static void getAbsoluteValues(StepNode sn, Set<StepExpression> absoluteValues) {
+		getAll(sn, absoluteValues, Condition.underAbs);
+	}
+
+	public static void getDenominators(StepNode sn, Set<StepExpression> denominators) {
+		getAll(sn, denominators, Condition.isDenominator);
+	}
+
+	public static void getRoots(StepNode sn, Set<StepExpression> roots) {
+		getAll(sn, roots, Condition.underEvenRoot);
+	}
+
+	public static StepOperation findTrigonometricExpression(StepExpression se, final StepVariable sv) {
+		return (StepOperation) findExpression(se, new Condition() {
+			@Override
+			public StepNode isTrueFor(StepNode sn) {
+				if (sn instanceof StepOperation) {
+					StepOperation so = (StepOperation) sn;
+					if (so.isTrigonometric() && !so.isConstantIn(sv)) {
+						return so;
+					}
+				}
+				return null;
+			}
+		});
+	}
+
+	public static StepExpression nthDegreeInExpression(StepSolvable ss, final StepVariable var, int n) {
+		StepExpression diff = StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup();
+
+		StepExpression expr = findExpression(diff, new Condition() {
+			@Override
+			public StepNode isTrueFor(StepNode sn) {
+				if (sn instanceof StepOperation) {
+					StepOperation so = (StepOperation) sn;
+
+					if (so.isOperation(Operation.ABS) || so.isOperation(Operation.NROOT)
+							|| so.isOperation(Operation.DIVIDE) && so.getOperand(0).isConstantIn(var)
+							|| so.isTrigonometric() && !so.isConstantIn(var)) {
+						return so;
+					}
+				}
+				return null;
+			}
+		});
+
+		if (expr == null) {
+			return null;
+		}
+
+		StepVariable replacementVar = new StepVariable("a");
+		if (var.equals(replacementVar)) {
+			replacementVar = new StepVariable("x");
+		}
+
+		StepExpression withVariable = diff.deepCopy().replace(expr, replacementVar);
+		StepExpression withConstant = diff.deepCopy().replace(expr, StepConstant.create(1));
+
+		if (withVariable.degree(new StepVariable("a")) == n && withConstant.degree(var) == 0) {
+			return expr;
+		}
+
+		return null;
+	}
+
+	public static StepOperation linearInExpression(StepSolvable ss, StepVariable var) {
+		return (StepOperation) nthDegreeInExpression(ss, var, 1);
+	}
+
+	public static StepOperation quadraticInExpression(StepSolvable ss, StepVariable var) {
+		return (StepOperation) nthDegreeInExpression(ss, var, 2);
+	}
+
+	public static StepSolvable replaceWithPlus(StepSolvable ss) {
+		return (StepSolvable) replaceFirst(ss, Condition.plusminusToPlus);
+	}
+
+	public static StepSolvable replaceWithMinus(StepSolvable ss) {
+		return (StepSolvable) replaceFirst(ss, Condition.plusminusToMinus);
 	}
 
 	/**
 	 * @param sn
 	 *            expression tree to traverse
-	 * @return sum of all the subexpressions containing square roots
+	 * @return sum of all the subexpressions containing op
 	 */
 	public static StepExpression getAll(StepExpression sn, Operation op) {
 		if (sn instanceof StepOperation) {
@@ -69,6 +253,7 @@ public class StepHelper {
 			} else if (so.isOperation(Operation.MULTIPLY) || so.isOperation(Operation.DIVIDE)
 					|| so.isOperation(Operation.MINUS)) {
 				if (so.countOperation(op) > 0) {
+
 					return so;
 				}
 			} else if (so.isOperation(Operation.PLUS)) {
@@ -121,25 +306,6 @@ public class StepHelper {
 		return null;
 	}
 
-	public static void getAbsoluteValues(ArrayList<StepExpression> absoluteValues, StepNode sn) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
-
-			if (so.isOperation(Operation.ABS)) {
-				absoluteValues.add(so.getOperand(0));
-			} else {
-				for (StepExpression operand : so) {
-					getAbsoluteValues(absoluteValues, operand);
-				}
-			}
-		} else if (sn instanceof StepSolvable) {
-			StepSolvable se = (StepSolvable) sn;
-			
-			getAbsoluteValues(absoluteValues, se.getLHS());
-			getAbsoluteValues(absoluteValues, se.getRHS());
-		}
-	}
-
 	public static boolean shouldReciprocate(StepExpression sn) {
 		if (sn.isOperation(Operation.DIVIDE)) {
 			StepOperation so = (StepOperation) sn;
@@ -148,60 +314,6 @@ public class StepHelper {
 		}
 
 		return sn.isConstant();
-	}
-
-	public static StepOperation findExpressionInVariable(StepExpression se, StepVariable var) {
-		if (se instanceof StepOperation) {
-			StepOperation so = (StepOperation) se;
-
-			if ((so.isOperation(Operation.ABS) || so.isOperation(Operation.NROOT)
-					|| so.isOperation(Operation.DIVIDE) && so.getOperand(0).isConstantIn(var)
-					|| so.isTrigonometric())
-					&& !so.isConstantIn(var)) {
-				return so;
-			}
-
-			for (StepExpression operand : so) {
-				StepOperation expression = findExpressionInVariable(operand, var);
-				if (expression != null) {
-					return expression;
-				}
-			}
-			return null;
-		}
-
-		return null;
-	}
-
-	public static StepOperation nthDegreeInExpression(StepExpression se, StepVariable originalVar, StepOperation expr,
-													  int n) {
-		if (expr == null) {
-			return null;
-		}
-
-		StepVariable replacementVar = new StepVariable("a");
-		if (originalVar.equals(replacementVar)) {
-			replacementVar = new StepVariable("x");
-		}
-
-		StepExpression withVariable = se.deepCopy().replace(expr, replacementVar);
-		StepExpression withConstant = se.deepCopy().replace(expr, StepConstant.create(1));
-
-		if (withVariable.degree(new StepVariable("a")) == n && withConstant.degree(originalVar) == 0) {
-			return expr;
-		}
-
-		return null;
-	}
-
-	public static StepOperation linearInExpression(StepSolvable ss, StepVariable var) {
-		StepExpression diff = StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup();
-		return nthDegreeInExpression(diff, var, findExpressionInVariable(diff, var), 1);
-	}
-
-	public static StepOperation quadraticInExpression(StepSolvable ss, StepVariable var) {
-		StepExpression diff = StepNode.subtract(ss.getLHS(), ss.getRHS()).regroup();
-		return nthDegreeInExpression(diff, var, findExpressionInVariable(diff, var), 2);
 	}
 
 	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl, StepVariable variable,
@@ -334,6 +446,9 @@ public class StepHelper {
 		StepExpression result = null;
 		if (integerA != null && integerB != null) {
 			result = StepConstant.create(StepNode.gcd(integerA, integerB));
+			if (!(integerA.isNegative() && integerB.isNegative()) && result.isNegative()) {
+				result = result.negate();
+			}
 		}
 
 		if (nonIntegerA == null || nonIntegerB == null) {
@@ -357,6 +472,7 @@ public class StepHelper {
 
 					if (!isZero(common)) {
 						aExponents.set(i, common);
+						bExponents.set(j, null);
 						found[i] = true;
 					}
 				}
@@ -365,7 +481,7 @@ public class StepHelper {
 
 		for (int i = 0; i < aBases.size(); i++) {
 			if (found[i]) {
-				result = multiply(result, nonTrivialPower(aBases.get(i), aExponents.get(i)));
+				result = nonTrivialProduct(result, nonTrivialPower(aBases.get(i), aExponents.get(i)));
 			}
 		}
 

@@ -9,7 +9,6 @@ import org.geogebra.common.kernel.stepbystep.steps.SimplificationStepGenerator;
 import org.geogebra.common.kernel.stepbystep.steptree.StepExpression;
 import org.geogebra.common.kernel.stepbystep.steptree.StepNode;
 import org.geogebra.common.main.App;
-import org.geogebra.common.util.debug.Log;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -46,8 +45,8 @@ public class RegroupUnitTests {
 
     @Test
     public void factorCommonTest() {
-        factorCommon("2^k + 2^(k+1)", "((2)^(k))(((2)^(0) + (2)^(1)))");
-        factorCommon("2^(2k)+2^(k+1)", "((2)^(k))(((2)^(k) + (2)^(1)))");
+        factorCommon("2^k + 2^(k+1)", "((2)^(k))((1 + 2))");
+        factorCommon("2^(2k)+2^(k+1)", "((2)^(k))(((2)^(k) + 2))");
     }
 
     @Test
@@ -68,7 +67,7 @@ public class RegroupUnitTests {
     }
 
     public void factorCommon(String a, String b) {
-        test(FactorSteps.FACTOR_COMMON, a, b);
+        test(FactorSteps.FACTOR_COMMON_SUBSTEP, a, b);
     }
 
     public void simplifyFraction(String a, String b) {

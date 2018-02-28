@@ -64,11 +64,12 @@ public class StepStrategies {
 
 	public static StepNode implementStrategy(StepNode sn, SolutionBuilder sb, SimplificationStepGenerator[] strategy,
 											 RegroupTracker tracker) {
-		final boolean printDebug = false;
+		final boolean printDebug = true;
 
 		SolutionBuilder changes = new SolutionBuilder();
 		StepNode newSn;
 
+		sn.cleanColors();
 		for (SimplificationStepGenerator simplificationStep : strategy) {
 			newSn = simplificationStep.apply(sn, changes, tracker);
 
@@ -90,6 +91,7 @@ public class StepStrategies {
 				}
 
 				tracker.resetTracker();
+				sn.cleanColors();
 				newSn.cleanColors();
 				return newSn;
 			}
@@ -123,7 +125,6 @@ public class StepStrategies {
 			}
 
 			tracker.incColorTracker();
-			result.cleanColors();
 			return result;
 		}
 
@@ -136,10 +137,11 @@ public class StepStrategies {
 				EquationSteps.FIND_DEFINED_RANGE,
 				EquationSteps.SOLVE_PRODUCT,
 				EquationSteps.REGROUP,
+				EquationSteps.SEPARATE_PLUSMINUS,
 				EquationSteps.TRIVIAL_EQUATIONS,
 				EquationSteps.FACTOR,
 				EquationSteps.SUBTRACT_COMMON,
-				EquationSteps.PLUSMINUS,
+				EquationSteps.SOLVE_SIMPLE_ABSOLUTE_VALUE,
 				EquationSteps.SOLVE_LINEAR,
 				EquationSteps.TAKE_ROOT,
 				EquationSteps.RECIPROCATE_EQUATION,

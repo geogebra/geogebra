@@ -504,6 +504,10 @@ public abstract class StepExpression extends StepNode {
 	 * @return the common part of the two expressions
 	 */
 	public StepExpression getCommon(StepExpression expr) {
+		if (expr == null) {
+			return null;
+		}
+
 		if (nonSpecialConstant() && expr.nonSpecialConstant()) {
 			if (getValue() < expr.getValue()) {
 				return this;
@@ -1012,23 +1016,23 @@ public abstract class StepExpression extends StepNode {
 		}
 	}
 
+	public static StepExpression makeProduct(List<StepExpression> bases, List<StepExpression> exponents) {
+		StepExpression product = null;
+
+		for (int i = 0; i < bases.size(); i++) {
+			if (exponents.get(i) != null) {
+				product = multiply(product, nonTrivialPower(bases.get(i), exponents.get(i)));
+			}
+		}
+
+		return product;
+	}
+
 	public static StepExpression makeFraction(
 			List<StepExpression> basesNumerator, List<StepExpression> exponentsNumerator,
 			List<StepExpression> basesDenominator, List<StepExpression> exponentsDenominator) {
-		StepExpression nominator = null;
-		StepExpression denominator = null;
-
-		for (int i = 0; i < basesNumerator.size(); i++) {
-			nominator = multiply(nominator,
-					nonTrivialPower(basesNumerator.get(i), exponentsNumerator.get(i)));
-		}
-
-		for (int i = 0; i < basesDenominator.size(); i++) {
-			denominator = multiply(denominator,
-					nonTrivialPower(basesDenominator.get(i), exponentsDenominator.get(i)));
-		}
-
-		return divide(nominator, denominator);
+		return divide(makeProduct(basesNumerator, exponentsNumerator),
+				makeProduct(basesDenominator, exponentsDenominator));
 	}
 
 	public static StepExpression simplifiedProduct(StepExpression a, StepExpression b) {

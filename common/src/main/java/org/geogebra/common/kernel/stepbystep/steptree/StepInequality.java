@@ -68,6 +68,14 @@ public class StepInequality extends StepSolvable {
 	}
 
 	@Override
+	public String toString() {
+		return LHS.toString() +
+				(lessThan ? " <" : " >") +
+				(strong ? " " : "= ") +
+				RHS.toString();
+	}
+
+	@Override
 	public String toLaTeXString(Localization loc, boolean colored) {
 		return LHS.toLaTeXString(loc, colored) +
 				(lessThan ? " \\l" : " \\g") +

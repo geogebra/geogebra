@@ -19,6 +19,7 @@ public class RegroupTracker {
 	public enum MarkType {
 		EXPAND,			// marked for expansion
 		ROOT,			// marked for being under square root
+		FACTOR 			// marked for factoring common
 	}
 
 	private static class Mark {

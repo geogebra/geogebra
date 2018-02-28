@@ -5,6 +5,7 @@ import java.util.*;
 import org.geogebra.common.kernel.stepbystep.SolveFailedException;
 import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
+import org.geogebra.common.kernel.stepbystep.solution.SolutionLine;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionTable;
 import org.geogebra.common.kernel.stepbystep.steptree.*;
@@ -267,26 +268,33 @@ public enum EquationSteps implements SolveStepGenerator {
 
 			StepExpression discriminant = subtract(power(b, 2), multiply(4, multiply(a, c)));
 
-			steps.add(SolutionStepType.USE_QUADRATIC_FORMULA, a, b, c);
-			steps.levelDown();
+			SolutionBuilder tempSteps = new SolutionBuilder();
 
-			steps.add(SolutionStepType.QUADRATIC_FORMULA, variable);
+			tempSteps.add(SolutionStepType.QUADRATIC_FORMULA, variable);
 			se.modify(variable,
 					divide(add(minus(b), plusminus(root(discriminant, 2))), multiply(2, a)));
 
-			se.regroup(steps, tracker);
+			se.regroup(tempSteps, tracker);
 
-			if (discriminant.getValue() > 0) {
-				StepExpression solution1 = divide(add(minus(b), root(discriminant, 2)), multiply(2, a));
-				StepExpression solution2 = divide(subtract(minus(b), root(discriminant, 2)), multiply(2, a));
+			steps.addGroup(new SolutionLine(SolutionStepType.USE_QUADRATIC_FORMULA, a, b, c), tempSteps, se);
 
-				List<StepSolution> solutions = new ArrayList<>();
-				solutions.add(StepSolution.simpleSolution(variable, solution1.adaptiveRegroup(), tracker));
-				solutions.add(StepSolution.simpleSolution(variable, solution2.adaptiveRegroup(), tracker));
-				return solutions;
+			discriminant = discriminant.regroup();
+
+			if (discriminant.canBeEvaluated() && discriminant.getValue() < 0) {
+				return new ArrayList<>();
 			}
 
-			return new ArrayList<>();
+			if (!discriminant.isPositive() && !(discriminant.canBeEvaluated() && discriminant.getValue() > 0)) {
+				tracker.addCondition(new StepInequality(discriminant, StepConstant.create(0), false, false));
+			}
+
+			StepExpression solution1 = divide(add(minus(b), root(discriminant, 2)), multiply(2, a));
+			StepExpression solution2 = divide(subtract(minus(b), root(discriminant, 2)), multiply(2, a));
+
+			List<StepSolution> solutions = new ArrayList<>();
+			solutions.add(StepSolution.simpleSolution(variable, solution1.adaptiveRegroup(), tracker));
+			solutions.add(StepSolution.simpleSolution(variable, solution2.adaptiveRegroup(), tracker));
+			return solutions;
 		}
 	},
 
@@ -334,7 +342,7 @@ public enum EquationSteps implements SolveStepGenerator {
 				for (StepExpression operand : product) {
 					if (!operand.isConstant()) {
 						StepEquation newEq = new StepEquation(operand, StepConstant.create(0));
-						solutions.addAll(newEq.solve(variable, steps, tracker));
+						solutions.addAll(newEq.solve(variable, steps, new SolveTracker()));
 					}
 				}
 				return solutions;
@@ -387,9 +395,9 @@ public enum EquationSteps implements SolveStepGenerator {
 		@Override
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			StepExpression bothSides = subtract(se.getLHS(), se.getRHS()).regroup();
-			StepOperation trigoVar = StepHelper.findExpressionInVariable(bothSides, variable);
+			StepOperation trigoVar = StepHelper.findTrigonometricExpression(bothSides, variable);
 
-			if (trigoVar == null || !trigoVar.isTrigonometric()) {
+			if (trigoVar == null) {
 				return null;
 			}
 
@@ -613,8 +621,8 @@ public enum EquationSteps implements SolveStepGenerator {
 				return null;
 			}
 
-			ArrayList<StepExpression> absoluteValues = new ArrayList<>();
-			StepHelper.getAbsoluteValues(absoluteValues, se);
+			Set<StepExpression> absoluteValues = new HashSet<>();
+			StepHelper.getAbsoluteValues(se, absoluteValues);
 
 			steps.add(SolutionStepType.ROOTS_AND_SIGN_TABLE);
 			steps.levelDown();
@@ -671,7 +679,30 @@ public enum EquationSteps implements SolveStepGenerator {
 		}
 	},
 
-	PLUSMINUS {
+	SEPARATE_PLUSMINUS {
+		@Override
+		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps,
+										SolveTracker tracker) {
+			if (se.countOperation(Operation.PLUSMINUS) == 0) {
+				return null;
+			}
+
+			StepSolvable replacedPlus = StepHelper.replaceWithPlus(se);
+			StepSolvable replacedMinus = StepHelper.replaceWithMinus(se);
+
+			List<StepSolution> solutions = new ArrayList<>();
+
+			solutions.addAll(replacedPlus.solve(variable, steps, tracker));
+			solutions.addAll(replacedMinus.solve(variable, steps, tracker));
+
+			return solutions;
+		}
+	},
+
+	/**
+	 * Solve simple absolute value equations, such as |f(x)| = a, and |f(x)| = |g(x)|
+	 */
+	SOLVE_SIMPLE_ABSOLUTE_VALUE {
 		@Override
 		public List<StepSolution> apply(StepSolvable se, StepVariable variable, SolutionBuilder steps, SolveTracker tracker) {
 			if (se.getLHS().isOperation(Operation.ABS) && se.getRHS().isOperation(Operation.ABS)
@@ -695,32 +726,7 @@ public enum EquationSteps implements SolveStepGenerator {
 					se.regroup(steps, tracker);
 				}
 
-				steps.add(SolutionStepType.SUBSTEP_WRAPPER);
-				steps.levelDown();
-				steps.add(original);
-				steps.add(SolutionStepType.RESOLVE_ABSOLUTE_VALUES);
-				steps.add(se);
-				steps.levelUp();
-
-				return null;
-			}
-
-			if (se.getRHS().isOperation(Operation.PLUSMINUS)) {
-				StepExpression underPM = ((StepOperation) se.getRHS()).getOperand(0);
-
-				List<StepSolution> solutions = new ArrayList<>();
-				if (underPM.isConstantIn(variable) && se.getLHS().equals(variable)) {
-					solutions.add(StepSolution.simpleSolution(variable, underPM, tracker));
-					solutions.add(StepSolution.simpleSolution(variable, underPM.negate(), tracker));
-				} else {
-					StepEquation positiveBranch = new StepEquation(se.getLHS(), underPM);
-					StepEquation negativeBranch = new StepEquation(se.getLHS(), underPM.negate());
-
-					solutions.addAll(positiveBranch.solve(variable, steps, tracker));
-					solutions.addAll(negativeBranch.solve(variable, steps, tracker));
-				}
-
-				return solutions;
+				steps.addSubstep(original, se, SolutionStepType.RESOLVE_ABSOLUTE_VALUES);
 			}
 
 			return null;

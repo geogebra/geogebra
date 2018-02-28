@@ -36,6 +36,13 @@ public class SolveStepTest {
 	private static int caseCounter = 0;
 
 	@Test
+	public void conditionalSolution() {
+		t("a*x^2+b*x+c", "0", "x",
+				"x = ((-b + nroot(((b)^(2)-(4)(a)(c)), 2)))/((2)(a)) if ((b)^(2)-(4)(a)(c)) >= 0",
+				"x = ((-b-nroot(((b)^(2)-(4)(a)(c)), 2)))/((2)(a)) if ((b)^(2)-(4)(a)(c)) >= 0");
+	}
+
+	@Test
 	public void problematicRange() {
 		t("x/x", "1", "x", "x in R \\ {0}");
 		//TODO: implement simplifications for StepLogical
@@ -69,7 +76,7 @@ public class SolveStepTest {
 	public void linearInExpression() {
 		//TODO: Strengthen replace so that this can also be solved as linear in expression
 		t("3/x+4", "5/x-2", "x", "x = (1)/(3)");
-		t("3*(2x+1)^2+4", "5*(2x+1)^2-2", "x", "x = -((nroot(3, 2) + 1))/(2)", "x = ((nroot(3, 2)-1))/(2)");
+		t("3*(2x+1)^2+4", "5*(2x+1)^2-2", "x", "x = ((-nroot(3, 2)-1))/(2)", "x = ((nroot(3, 2)-1))/(2)");
 		t("8*|x+7|+4", "-6*|x+7|+6", "x", "x = -(48)/(7)", "x = -(50)/(7)");
 		t("3*sin(x)+4", "5*sin(x)-2", "x");
 	}
@@ -86,15 +93,15 @@ public class SolveStepTest {
 		t("1/x", "2/(3x-1)", "x", "x = 1");
 		t("1/x", "4x", "x", "x = (1)/(2)", "x = -(1)/(2)");
 		t("1/(1+x)-2x/(2+x)", "7", "x", "x = ((-11 + nroot(13, 2)))/(9)", "x = -((11 + nroot(13, 2)))/(9)");
-		t("1/x-1/(x+1)", "3", "x", "x = ((-3 + nroot(21, 2)))/(6)", "x = -((3 + nroot(21, 2)))/(6)");
+		t("1/x-1/(x+1)", "3", "x", "x = ((-3 + nroot(21, 2)))/(6)", "x = ((-3-nroot(21, 2)))/(6)");
 		t("x-1/x", "2x", "x");
 		t("9", "x/3-x/4", "x", "x = 108");
 		t("x+1/(x-1)", "2x-1", "x", "x = 0", "x = 2");
 		t("1/(x-6)+x/(x-2)", "4/(x^2-8x+12)", "x", "x = -1");
 		t("x/(1-x)", "(3+x)/x", "x", "x = ((-1 + nroot(7, 2)))/(2)", "x = -((1 + nroot(7, 2)))/(2)");
 		t("((1)/(x)+1)^(2)", "((1)/(x+3)-2)^(2)", "x", "x = ((-3 + nroot(5, 2)))/(2)",
-				"x = -((3 + nroot(5, 2)))/(2)", "x = ((-1 + nroot(13, 2)))/(2)", "x = -((1 + nroot(13, 2)))/(2)");
-		t("(1/x+3)^2", "6", "x", "x = -((nroot(6, 2) + 3))/(3)", "x = ((nroot(6, 2)-3))/(3)");
+				"x = ((-3-nroot(5, 2)))/(2)", "x = ((-1 + nroot(13, 2)))/(2)", "x = ((-1-nroot(13, 2)))/(2)");
+		t("(1/x+3)^2", "6", "x", "x = ((nroot(6, 2)-3))/(3)", "x = -((nroot(6, 2) + 3))/(3)");
 	}
 
 	@Test
@@ -115,7 +122,7 @@ public class SolveStepTest {
 		t("3x^2+3x+3", "x^2-x-2", "x");
 		t("(x-2)^2-x^2", "-x^2", "x", "x = 2");
 		t("(x+1)(x+2)", "(2x+3)(x+4)", "x", "x = (nroot(6, 2)-4)", "x = (-nroot(6, 2)-4)");
-		t("-x^2-x+1", "0", "x", "x = -((1 + nroot(5, 2)))/(2)", "x = ((-1 + nroot(5, 2)))/(2)");
+		t("-x^2-x+1", "0", "x", "x = ((-1-nroot(5, 2)))/(2)", "x = ((-1 + nroot(5, 2)))/(2)");
 		// TODO: Conditional solutions
 		// t("-2*a*x^2-2*a*x+2*a", "0", "x", "((-1-nroot(5, 2)))/(2) if a != 0", "((-1 + nroot(5, 2)))/(2) if a !=
 		// 0", "R, if a == 0");

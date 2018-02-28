@@ -71,7 +71,7 @@ public enum SolutionStepType {
 	EXCLUDE_UNDEFINED_POINTS("ExcludeUndefinedPoints", "Exclude undefined points",
 			"Exclude undefined points: %0"),
 
-	PLUG_IN_AND_CHECK("PlugInAndCheck", "Plug in and check the solution"),
+	PLUG_IN_AND_CHECK("PlugInAndCheck", "Plug in and check if %0 is a correct solution"),
 
 	CHECK_VALIDITY("CheckingValidityOfSolutions", "Checking validity of solutions"),
 
@@ -226,6 +226,8 @@ public enum SolutionStepType {
 
 	REWRITE_DECIMAL_AS_COMMON_FRACTION("RewriteDecimalAsCommonFraction", "Rewrite decimal as common fraction"),
 
+	SPLIT_PRODUCTS("SplitProducts", "Split products for factoring"),
+
 	SPLIT_FRACTIONS("SplitFractions", "Split fractions"),
 
 	SPLIT_POWERS("SplitPowers", "Use power rules", "Rewrite %0 as %1"),
@@ -283,7 +285,9 @@ public enum SolutionStepType {
 
 	BINOM_CUBED_DIFF_FACTOR("BinomCubed", "Use $a^3 - 3a^2b + 3ab^2 - b^3 \\equiv (a+b)^3$ to factor"),
 
-	FACTOR_COMMON("FactorOutA", "Factor out %0"),
+	FACTOR_OUT("FactorOutA", "Factor out %0"),
+
+	FACTOR_COMMON("FactorCommon", "Factor common"),
 
 	FACTOR_POLYNOMIAL("FactorPolynomial", "Factor polynomial"),
 

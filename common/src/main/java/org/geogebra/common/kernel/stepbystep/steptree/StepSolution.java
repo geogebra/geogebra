@@ -111,7 +111,7 @@ public class StepSolution extends StepNode {
             conditionString.append(condition.toString());
         }
 
-        return solutionString.toString() + "if " + conditionString.toString();
+        return solutionString.toString() + " if " + conditionString.toString();
     }
 
     @Override
@@ -144,11 +144,11 @@ public class StepSolution extends StepNode {
         StringBuilder conditionString = new StringBuilder();
         for (StepSolvable condition : conditions) {
             if (!"".equals(conditionString.toString())) {
-                conditionString.append(" and ");
+                conditionString.append(" \\text{ and } ");
             }
             conditionString.append(condition.toLaTeXString(loc, colored));
         }
 
-        return solutionString.toString() + " if " + conditionString.toString();
+        return solutionString.toString() + " \\text{ if } " + conditionString.toString();
     }
 }

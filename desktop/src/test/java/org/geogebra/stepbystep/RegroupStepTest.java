@@ -42,6 +42,7 @@ public class RegroupStepTest {
 
 	@Test
 	public void factorTest() {
+		f("x^2+x", "(x)((x + 1))");
 		f("2^(k+1)+2^k", "((2)^(k))(3)");
 		f("x^3 + 6 x^2 + 11 x + 6", "((x + 3))((x + 2))((x + 1))");
 		f("12x+6y+9z", "(3)(((4)(x) + (2)(y) + (3)(z)))");

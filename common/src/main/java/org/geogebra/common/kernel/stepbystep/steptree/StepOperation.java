@@ -288,9 +288,6 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 				}
 				ss.append(operands.get(i).toString());
 			}
-			if (operands.size() == 0) {
-				ss.append("0");
-			}
 			ss.append(")");
 			return ss.toString();
 		case MINUS:

@@ -8,6 +8,7 @@ import org.geogebra.common.main.Localization;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class SolutionTable extends SolutionStep {
 
@@ -24,7 +25,7 @@ public class SolutionTable extends SolutionStep {
     }
 
     public static SolutionTable createSignTable(StepVariable variable, List<StepExpression> roots,
-                                                List<StepExpression> expressions) {
+                                                Set<StepExpression> expressions) {
         StepExpression[] header = new StepExpression[1 + roots.size()];
         header[0] = variable;
         for (int i = 0; i < roots.size(); i++) {

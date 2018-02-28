@@ -1,14 +1,10 @@
 package org.geogebra.common.kernel.stepbystep.steps;
 
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialPower;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.nonTrivialProduct;
-import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.*;
+import static org.geogebra.common.kernel.stepbystep.steptree.StepExpression.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import org.geogebra.common.kernel.stepbystep.StepHelper;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionBuilder;
 import org.geogebra.common.kernel.stepbystep.solution.SolutionStepType;
 import org.geogebra.common.kernel.stepbystep.steptree.StepConstant;
@@ -20,7 +16,7 @@ import org.geogebra.common.plugin.Operation;
 
 public enum FactorSteps implements SimplificationStepGenerator {
 
-	FACTOR_COMMON_SUBSTEP {
+	SPLIT_PRODUCTS {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			if (sn.isOperation(Operation.PLUS)) {
@@ -31,82 +27,140 @@ public enum FactorSteps implements SimplificationStepGenerator {
 
 				so.getOperand(0).getBasesAndExponents(commonBases, commonExponents);
 
+				for (int i = 0; i < commonBases.size(); i++) {
+					commonBases.set(i, commonBases.get(i).deepCopy());
+					commonExponents.set(i, commonExponents.get(i).deepCopy());
+				}
+
 				List<List<StepExpression>> currentBases = new ArrayList<>();
 				List<List<StepExpression>> currentExponents = new ArrayList<>();
 
 				for (int i = 0; i < so.noOfOperands(); i++) {
 					currentBases.add(new ArrayList<StepExpression>());
 					currentExponents.add(new ArrayList<StepExpression>());
-
 					so.getOperand(i).getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
 
-					boolean[] found = new boolean[commonBases.size()];
-
 					for (int j = 0; j < commonBases.size(); j++) {
-						for (int k = 0; k < currentBases.get(i).size(); k++) {
-							if (currentBases.get(i).get(k).equals(commonBases.get(j))) {
-								StepExpression common = commonExponents.get(j).getCommon(
-										currentExponents.get(i).get(k));
-								commonExponents.set(j, common);
-
-								if (!isZero(common)) {
-									found[j] = true;
-								}
-							}
+						int index = currentBases.get(i).indexOf(commonBases.get(j));
+						if (index != -1) {
+							commonExponents.set(j, currentExponents.get(i).get(index).getCommon(
+									commonExponents.get(j)));
+						} else {
+							commonExponents.set(j, null);
 						}
 					}
+				}
 
-					for (int j = 0; j < commonBases.size(); j++) {
-						if (!found[j]) {
-							commonExponents.set(j, StepConstant.create(0));
-						}
-					}
+				StepExpression common = makeProduct(commonBases, commonExponents);
+
+				if (isOne(common)) {
+					return so;
 				}
 
 				StepOperation result = new StepOperation(Operation.PLUS);
 
+				for (int i = 0; i < currentBases.size(); i++) {
+					StepExpression current = null;
+					for (int j = 0; j < currentBases.get(i).size(); j++) {
+						int index = commonBases.indexOf(currentBases.get(i).get(j));
+						if (index != -1 && !isZero(commonExponents.get(index))) {
+							StepExpression differenceOfPowers = subtract(
+									currentExponents.get(i).get(j), commonExponents.get(index));
+							differenceOfPowers = (StepExpression) RegroupSteps.WEAK_REGROUP.apply(
+									differenceOfPowers, null, new RegroupTracker());
+							if (!isZero(differenceOfPowers)) {
+								currentExponents.get(i).get(j).setColor(tracker.getColorTracker());
+								currentBases.get(i).get(j).setColor(tracker.getColorTracker());
+
+								currentExponents.get(i).set(j, differenceOfPowers);
+								currentExponents.get(i).get(j).setColor(tracker.getColorTracker());
+
+								commonBases.get(index).setColor(tracker.getColorTracker());
+								commonExponents.get(index).setColor(tracker.incColorTracker());
+								current = nonTrivialProduct(current,
+										nonTrivialPower(commonBases.get(index), commonExponents.get(index)));
+								commonBases.get(index).cleanColors();
+								commonExponents.get(index).cleanColors();
+							}
+						}
+
+						current = nonTrivialProduct(current,
+								nonTrivialPower(currentBases.get(i).get(j), currentExponents.get(i).get(j)));
+					}
+
+					if (common.equals(current)) {
+						current = multiply(current, StepConstant.create(1));
+					}
+
+					result.addOperand(current);
+				}
+
+				tracker.incColorTracker();
+				sb.add(SolutionStepType.SPLIT_PRODUCTS);
+				tracker.addMark(result, RegroupTracker.MarkType.FACTOR);
+				return result;
+			}
+
+			return StepStrategies.iterateThrough(this, sn, sb, tracker);
+		}
+	},
+
+	FACTOR_COMMON {
+		@Override
+		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
+			if (sn.isOperation(Operation.PLUS) && tracker.isMarked(sn, RegroupTracker.MarkType.FACTOR)) {
+				StepOperation so = (StepOperation) sn;
+
+				StepExpression common = so.getOperand(0);
+				for (int i = 1; i < so.noOfOperands(); i++) {
+					common = StepHelper.weakGCD(common, so.getOperand(i));
+				}
+
+				if (isOne(common)) {
+					return sn;
+				}
+
+				List<StepExpression> commonBases = new ArrayList<>();
+				List<StepExpression> commonExponents = new ArrayList<>();
+
+				common.getBasesAndExponents(commonBases, commonExponents);
+
+				List<List<StepExpression>> currentBases = new ArrayList<>();
+				List<List<StepExpression>> currentExponents = new ArrayList<>();
+
+				int commonColor = tracker.getColorTracker();
+				common.setColor(tracker.incColorTracker());
+
+				StepOperation result = new StepOperation(Operation.PLUS);
+
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					int tempTracker = tracker.getColorTracker();
+					currentBases.add(new ArrayList<StepExpression>());
+					currentExponents.add(new ArrayList<StepExpression>());
+					so.getOperand(i).getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
+
 					for (int j = 0; j < commonBases.size(); j++) {
 						for (int k = 0; k < currentBases.get(i).size(); k++) {
-							if (!isEqual(commonExponents.get(j), 0)
-									&& currentBases.get(i).get(k).equals(commonBases.get(j))) {
-								StepExpression differenceOfPowers = subtract(
-										currentExponents.get(i).get(k), commonExponents.get(j));
-								if (differenceOfPowers.canBeEvaluated() && isEqual(differenceOfPowers.getValue(), 0)) {
-									differenceOfPowers = StepConstant.create(0);
-								}
-
-								currentExponents.get(i).set(k, differenceOfPowers);
-								currentBases.get(i).get(k).setColor(tempTracker++);
+							if (currentBases.get(i).get(k).equals(commonBases.get(j))
+									&& currentExponents.get(i).get(k).equals(commonExponents.get(j))) {
+								currentBases.get(i).get(k).setColor(commonColor);
+								currentExponents.get(i).get(k).setColor(commonColor);
+								currentExponents.get(i).set(k, null);
+								break;
 							}
 						}
 					}
 
-					StepExpression currentProduct = null;
 					for (int j = 0; j < currentBases.get(i).size(); j++) {
-						currentProduct = nonTrivialProduct(currentProduct,
-								nonTrivialPower(currentBases.get(i).get(j), currentExponents.get(i).get(j)));
+						if (currentExponents.get(i).get(j) != null) {
+							currentBases.get(i).get(j).setColor(tracker.getColorTracker());
+							currentExponents.get(i).get(j).setColor(tracker.getColorTracker());
+						}
 					}
 
-					result.addOperand(currentProduct);
-				}
+					tracker.incColorTracker();
 
-				int tempTracker = tracker.getColorTracker();
-				StepExpression common = null;
-				for (int i = 0; i < commonBases.size(); i++) {
-					if (!isEqual(commonExponents.get(i), 0)) {
-						commonBases.get(i).setColor(tempTracker++);
-						common = nonTrivialProduct(common,
-								nonTrivialPower(commonBases.get(i), commonExponents.get(i)));
-					}
+					result.addOperand(makeProduct(currentBases.get(i), currentExponents.get(i)));
 				}
-
-				if (isOne(common) || isEqual(common, -1)) {
-					return so;
-				}
-
-				tracker.setColorTracker(tempTracker);
 
 				sb.add(SolutionStepType.FACTOR_COMMON, common);
 				return multiply(common, result);
@@ -554,8 +608,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 							innerSum.setColor(tracker.incColorTracker());
 							for (int k = polynomialForm.length - 1; k > 0; k--) {
 								long coeff = integerForm[k] / j;
-								factored.addOperand(nonTrivialProduct(coeff, multiply(nonTrivialPower(var, k - 1),
-										innerSum)));
+								factored.addOperand(multiply(innerSum,
+										nonTrivialProduct(coeff, nonTrivialPower(var, k - 1))));
 
 								integerForm[k - 1] += i * integerForm[k] / j;
 							}
@@ -587,7 +641,6 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
-					FACTOR_COMMON_SUBSTEP,
 					REORGANIZE_POLYNOMIAL,
 					FACTOR_POLYNOMIAL
 			};
@@ -596,17 +649,15 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		}
 	},
 
-	FACTOR_COMMON {
+	FACTOR_COMMON_SUBSTEP {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] strategy = new SimplificationStepGenerator[] {
-					RegroupSteps.ELIMINATE_OPPOSITES,
-					RegroupSteps.REGROUP_SUMS,
-					RegroupSteps.REGROUP_PRODUCTS,
-					FACTOR_COMMON_SUBSTEP
+					FACTOR_COMMON,
+					SPLIT_PRODUCTS
 			};
 
-			return StepStrategies.implementGroup(sn, null, strategy, sb, tracker);
+			return StepStrategies.implementGroup(sn, SolutionStepType.FACTOR_COMMON, strategy, sb, tracker);
 		}
 	},
 
@@ -614,7 +665,8 @@ public enum FactorSteps implements SimplificationStepGenerator {
 		@Override
 		public StepNode apply(StepNode sn, SolutionBuilder sb, RegroupTracker tracker) {
 			SimplificationStepGenerator[] defaultStrategy = new SimplificationStepGenerator[] {
-					FactorSteps.FACTOR_COMMON,
+					FactorSteps.FACTOR_COMMON_SUBSTEP,
+					RegroupSteps.REGROUP_SUMS,
 					FactorSteps.FACTOR_INTEGER,
 					FactorSteps.FACTOR_BINOM_STRATEGY,
 					FactorSteps.FACTOR_BINOM_CUBED,
@@ -641,9 +693,9 @@ public enum FactorSteps implements SimplificationStepGenerator {
 	@Override
 	public boolean isGroupType() {
 		return this == FACTOR_BINOM_STRATEGY
-				|| this == FACTOR_COMMON
 				|| this == DEFAULT_FACTOR
 				|| this == SIMPLE_FACTOR
-				|| this == FACTOR_POLYNOMIALS;
+				|| this == FACTOR_POLYNOMIALS
+				|| this == FACTOR_COMMON_SUBSTEP;
 	}
 }

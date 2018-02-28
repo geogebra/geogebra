@@ -103,17 +103,18 @@ public class SolutionLine extends SolutionStep {
 			substeps = new ArrayList<>();
 		}
 
-		if (s instanceof SolutionLine) {
+		if (type == SolutionStepType.SUBSTEP_WRAPPER && s instanceof SolutionLine
+				&& ((SolutionLine) s).parameters == null) {
 			SolutionLine line = (SolutionLine) s;
 
-			if (type == SolutionStepType.SUBSTEP_WRAPPER && line.parameters == null) {
-				for (int i = 1; i < substeps.size(); i++) {
-					if (substeps.get(i) instanceof SolutionLine
-							&& line.type == ((SolutionLine) substeps.get(i)).type
-							&& line.colors != null) {
+			for (int i = 1; i < substeps.size(); i++) {
+				if (substeps.get(i) instanceof SolutionLine
+						&& line.type == ((SolutionLine) substeps.get(i)).type) {
+					if (line.colors != null) {
 						((SolutionLine) substeps.get(i)).colors.addAll(line.colors);
-						return;
 					}
+
+					return;
 				}
 			}
 		}
