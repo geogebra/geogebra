@@ -2897,6 +2897,7 @@ __GGB__keysVar["hy"].menu = {
     "TreeModeView": "\u054f\u0565\u057d\u0561\u056f\u0561\u057e\u0578\u0580\u0565\u0574 \u0585\u0562\u0575\u0565\u056f\u057f\u0576\u0565\u0580\u0576 \u0568\u057d\u057f \u057f\u0565\u057d\u0584\u056b",
     "Triangle": "\u0535\u057c\u0561\u0576\u056f\u0575\u0578\u0582\u0576",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "Tutorial",
     "Tutorials": "\u0534\u0561\u057d\u0565\u0580",

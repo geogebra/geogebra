@@ -2897,6 +2897,7 @@ __GGB__keysVar["cs"].menu = {
     "TreeModeView": "Se\u0159adit objekty podle pohledu",
     "Triangle": "Troj\xfaheln\xedk",
     "TriangleABCnonDegenerate": "Troj\xfaheln\xedk %0 nen\xed degenerovan\xfd",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "\u017delva",
     "Tutorial": "Tutori\xe1l",
     "Tutorials": "Tutori\xe1ly",

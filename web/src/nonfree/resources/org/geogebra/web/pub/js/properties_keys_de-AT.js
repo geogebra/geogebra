@@ -2897,6 +2897,7 @@ __GGB__keysVar["de-AT"].menu = {
     "TreeModeView": "Objekte nach Grafik-Ansichten sortieren",
     "Triangle": "Dreieck",
     "TriangleABCnonDegenerate": "Dreieck %0 ist nicht entartet",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "Anleitung",
     "Tutorials": "Anleitungen",

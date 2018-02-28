@@ -2897,6 +2897,7 @@ __GGB__keysVar["vi"].menu = {
     "TreeModeView": "S\u1eafp x\u1ebfp c\xe1c \u0111\u1ed1i t\u01b0\u1ee3ng theo c\xe1ch hi\u1ec3n th\u1ecb",
     "Triangle": "H\xecnh tam gi\xe1c",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "H\u01b0\u1edbng d\u1eabn h\u1ecdc",
     "Tutorials": "H\u01b0\u1edbng d\u1eabn",

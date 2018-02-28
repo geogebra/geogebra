@@ -2897,6 +2897,7 @@ __GGB__keysVar["fa"].menu = {
     "TreeModeView": "\u0645\u0631\u062a\u0628 \u06a9\u0631\u062f\u0646 \u0627\u0634\u06cc\u0627\u0621 \u0628\u0631 \u0627\u0633\u0627\u0633 \u0646\u0645\u0627",
     "Triangle": "\u0645\u062b\u0644\u062b",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "\u0644\u0627\u06a9 \u067e\u0634\u062a",
     "Tutorial": "\u0622\u0645\u0648\u0632\u0634",
     "Tutorials": "\u062e\u0648\u062f \u0622\u0645\u0648\u0632",

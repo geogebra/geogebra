@@ -2897,6 +2897,7 @@ __GGB__keysVar["ca-XV"].menu = {
     "TreeModeView": "Classifica els objectes per vista",
     "Triangle": "Triangle",
     "TriangleABCnonDegenerate": "El triangle %0 no \xe9s un triangle degenerat",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Tortuga",
     "Tutorial": "Programa d'aprenentatge",
     "Tutorials": "Programes d'aprenentatge",

@@ -2897,6 +2897,7 @@ __GGB__keysVar["fi"].menu = {
     "TreeModeView": "J\xe4rjest\xe4 objektit n\xe4kym\xe4n mukaan",
     "Triangle": "Kolmio",
     "TriangleABCnonDegenerate": "Kolmio %0 on ep\xe4-degeneroitunut",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Kilpikonna",
     "Tutorial": "Opetusohjelma",
     "Tutorials": "Ohjeet",

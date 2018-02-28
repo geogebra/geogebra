@@ -2897,6 +2897,7 @@ __GGB__keysVar["ko"].menu = {
     "TreeModeView": "\ubcf4\uae30\uc5d0 \uc758\ud55c \ub300\uc0c1 \uc815\ub82c",
     "Triangle": "\uc0bc\uac01\ud615",
     "TriangleABCnonDegenerate": "\uc0bc\uac01\ud615 %0 \uc740(\ub294) \uc138 \uaf2d\uc9d3\uc810\uc774 \ud55c \uc9c1\uc120 \uc704\uc5d0 \uc788\uc9c0 \uc54a\uc2b5\ub2c8\ub2e4.",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "\uac70\ubd81\uc774",
     "Tutorial": "\ud29c\ud1a0\ub9ac\uc5bc",
     "Tutorials": "\ud29c\ud1a0\ub9ac\uc5bc",

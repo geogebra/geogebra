@@ -2897,6 +2897,7 @@ __GGB__keysVar["sq"].menu = {
     "TreeModeView": "Grupo Objekte sipas Pamjes",
     "Triangle": "Trekendesh",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Breshke",
     "Tutorial": "Tutorial",
     "Tutorials": "Tutoriale",

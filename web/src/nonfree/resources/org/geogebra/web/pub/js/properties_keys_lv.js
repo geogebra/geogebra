@@ -2897,6 +2897,7 @@ __GGB__keysVar["lv"].menu = {
     "TreeModeView": "\u0160\u0137irot objektus p\u0113c skata",
     "Triangle": "Trijst\u016bris",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "konsult\u0101cja",
     "Tutorials": "Rokasgr\u0101mata",

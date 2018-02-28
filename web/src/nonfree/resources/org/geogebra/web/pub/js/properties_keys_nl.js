@@ -2897,6 +2897,7 @@ __GGB__keysVar["nl"].menu = {
     "TreeModeView": "Sorteer objecten per venster",
     "Triangle": "Driehoek",
     "TriangleABCnonDegenerate": "Driehoek %0 is niet-degenereerd",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "Initiatiehandleiding",
     "Tutorials": "Initiatiehandleidingen",

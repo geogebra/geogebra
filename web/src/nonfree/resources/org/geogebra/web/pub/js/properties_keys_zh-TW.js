@@ -2897,6 +2897,7 @@ __GGB__keysVar["zh-TW"].menu = {
     "TreeModeView": "\u4f9d\u7e6a\u5716\u5340\u6392\u5e8f",
     "Triangle": "\u4e09\u89d2\u5f62",
     "TriangleABCnonDegenerate": "%0 \u70ba\u300c\u975e\u9000\u5316\u300d\u4e09\u89d2\u5f62",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "\u6d77\u9f9c",
     "Tutorial": "\u6559\u5b78",
     "Tutorials": "\u6559\u5b78",

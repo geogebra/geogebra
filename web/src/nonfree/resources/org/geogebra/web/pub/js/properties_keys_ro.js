@@ -2897,6 +2897,7 @@ __GGB__keysVar["ro"].menu = {
     "TreeModeView": "ASortare obiecte dup\u0103 vizualizare",
     "Triangle": "Triunghi",
     "TriangleABCnonDegenerate": "Triunghiul %0 este non-degenerat",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "Tutorial",
     "Tutorials": "Manuale",

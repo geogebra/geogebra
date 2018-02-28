@@ -2897,6 +2897,7 @@ __GGB__keysVar["sk"].menu = {
     "TreeModeView": "Zoradi\u0165 objekty pod\u013ea vzh\u013eadu",
     "Triangle": "Trojuholn\xedk",
     "TriangleABCnonDegenerate": "Trojuholn\xedk %0 nie je degenerovan\xfd",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Korytna\u010dka",
     "Tutorial": "N\xe1vod",
     "Tutorials": "N\xe1vody",

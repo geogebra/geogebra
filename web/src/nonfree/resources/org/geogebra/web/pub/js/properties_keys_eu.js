@@ -2897,6 +2897,7 @@ __GGB__keysVar["eu"].menu = {
     "TreeModeView": "Ordenatu Objektuak Bistaren arabera",
     "Triangle": "Triangelua",
     "TriangleABCnonDegenerate": "%0 triangelua ez-endekatua da",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Dortoka",
     "Tutorial": "Gida",
     "Tutorials": "Gidak",

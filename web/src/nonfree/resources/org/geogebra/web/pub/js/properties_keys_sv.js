@@ -2897,6 +2897,7 @@ __GGB__keysVar["sv"].menu = {
     "TreeModeView": "Sortera objekt efter ritomr\xe5de",
     "Triangle": "Triangel",
     "TriangleABCnonDegenerate": "Triangel %0 \xe4r inte degenererad",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "Guide",
     "Tutorials": "Guider",

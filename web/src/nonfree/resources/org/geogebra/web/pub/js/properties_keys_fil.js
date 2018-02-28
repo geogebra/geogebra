@@ -2897,6 +2897,7 @@ __GGB__keysVar["fil"].menu = {
     "TreeModeView": "Ayusin ang mga Bagay sa View",
     "Triangle": "Tatsulok",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Pawikan",
     "Tutorial": "Tutorial",
     "Tutorials": "Tutorials",

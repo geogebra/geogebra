@@ -2897,6 +2897,7 @@ __GGB__keysVar["id"].menu = {
     "TreeModeView": "Urutka Objek berdasarkan Tampilan",
     "Triangle": "Segitiga",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Kura-kura",
     "Tutorial": "Tutorial",
     "Tutorials": "Tutorial",

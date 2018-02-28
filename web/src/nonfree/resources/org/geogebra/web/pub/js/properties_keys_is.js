@@ -2897,6 +2897,7 @@ __GGB__keysVar["is"].menu = {
     "TreeModeView": "Ra\xf0a hlutum eftir s\xfdn",
     "Triangle": "\xder\xedhyrningur",
     "TriangleABCnonDegenerate": "\xder\xedhyrningur %0 er \xf3\xfarkynja\xf0ur",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Skjaldbaka",
     "Tutorial": "Kennsluefni",
     "Tutorials": "Kennsluefni",

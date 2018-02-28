@@ -2897,6 +2897,7 @@ __GGB__keysVar["sl"].menu = {
     "TreeModeView": "Uredi objekte glede na pogled",
     "Triangle": "Trikotnik",
     "TriangleABCnonDegenerate": "Trikotnik %0 ni izrojen",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "\u017delva",
     "Tutorial": "Navodila",
     "Tutorials": "Navodila",

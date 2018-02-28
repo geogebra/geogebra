@@ -2897,6 +2897,7 @@ __GGB__keysVar["cy"].menu = {
     "TreeModeView": "Didoli'r gwrthrychau yn \xf4l eu gwedd",
     "Triangle": "Triongl",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "Tutorial",
     "Tutorials": "Gwersi",

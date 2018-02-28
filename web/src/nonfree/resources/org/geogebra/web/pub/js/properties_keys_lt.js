@@ -2897,6 +2897,7 @@ __GGB__keysVar["lt"].menu = {
     "TreeModeView": "Ru\u0161iuoti objektus pagal vaizd\u0105",
     "Triangle": "Trikampis",
     "TriangleABCnonDegenerate": "%0 trikampis yra nei\u0161sigim\u0119s",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "V\u0117\u017eliukas",
     "Tutorial": "Vadov\u0117lis",
     "Tutorials": "Mokymai",

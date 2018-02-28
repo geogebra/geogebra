@@ -2897,6 +2897,7 @@ __GGB__keysVar["hr"].menu = {
     "TreeModeView": "Razvrstaj objekte prema prikazu",
     "Triangle": "Trokut",
     "TriangleABCnonDegenerate": "Trokut %0 je nedegenerativan",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Kornja\u010da",
     "Tutorial": "Vodi\u010d",
     "Tutorials": "Upute",

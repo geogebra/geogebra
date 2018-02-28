@@ -2897,6 +2897,7 @@ __GGB__keysVar["nb"].menu = {
     "TreeModeView": "Sorter objekt etter utseende",
     "Triangle": "Trekant",
     "TriangleABCnonDegenerate": "Trekanten %0 er ikke degenerert",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Skilpadde",
     "Tutorial": "Oppl\xe6ring",
     "Tutorials": "Oppl\xe6ring",

@@ -2897,6 +2897,7 @@ __GGB__keysVar["it"].menu = {
     "TreeModeView": "Ordina gli oggetti - per Vista",
     "Triangle": "Triangolo",
     "TriangleABCnonDegenerate": "Il triangolo %0 \xe8 non degenere",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Tartaruga",
     "Tutorial": "Tutorial",
     "Tutorials": "Tutorial",

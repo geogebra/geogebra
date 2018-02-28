@@ -2897,6 +2897,7 @@ __GGB__keysVar["tr"].menu = {
     "TreeModeView": "Nesneleri g\xf6r\xfcn\xfcm\xfcne g\xf6re s\u0131rala",
     "Triangle": "\xdc\xe7gen",
     "TriangleABCnonDegenerate": "\xdc\xe7gen %0 \xe7ak\u0131\u015f\u0131k de\u011fil(non-degenerate)",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Kaplumba\u011fa",
     "Tutorial": "\xd6\u011fretici malzeme",
     "Tutorials": "\xd6\u011fretici malzemeler",

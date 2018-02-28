@@ -2897,6 +2897,7 @@ __GGB__keysVar["et"].menu = {
     "TreeModeView": "Sorteeri objektid vaate j\xe4rgi",
     "Triangle": "Kolmnurk",
     "TriangleABCnonDegenerate": "Triangle %0 is non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Kilpkonn",
     "Tutorial": "\xd5petus",
     "Tutorials": "\xd5petused",

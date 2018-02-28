@@ -2897,6 +2897,7 @@ __GGB__keysVar["xh"].menu = {
     "TreeModeView": "Sota iZinto ngeMbonakalo yazo",
     "Triangle": "uNxantathu",
     "TriangleABCnonDegenerate": "uNxantathu %0 u non-degenerate",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "iTurtle",
     "Tutorial": "iTyuthoriyali",
     "Tutorials": "iiTutorials",

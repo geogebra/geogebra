@@ -2897,6 +2897,7 @@ __GGB__keysVar["da"].menu = {
     "TreeModeView": "Sorter objekter efter vindue",
     "Triangle": "Trekant",
     "TriangleABCnonDegenerate": "Trekant %0s hj\xf8rner ligger ikke p\xe5 en ret linje",
+    "TrueOnPartsFalseOnParts": "(true on parts, false on parts)",
     "Turtle": "Turtle",
     "Tutorial": "Instruktion",
     "Tutorials": "Vejledninger",
