@@ -1317,4 +1317,8 @@ public class MyDouble extends ValidExpression
 	public double evaluateDouble() {
 		return getDouble();
 	}
+
+	public boolean isDigits() {
+		return true;
+	}
 }

@@ -515,6 +515,10 @@ public class AlgebraStyleTest extends Assert {
 		t("a1=7");
 		mult("3a1*x", "3a1 x", "3 (7) x", "((3)*(7))*(x)");
 		mult("a1*a1*a1*x", "a1 a1 a1 x", "7 (7) 7 x", "(((7)*(7))*(7))*(x)");
+		t("a1=pi");
+		mult("3a1*x", "3a1 x", "3%p x", "((3)*(pi))*(x)");
+		mult("a1*a1*a1*x", "a1 a1 a1 x", "%p %p %p x",
+				"(((pi)*(pi))*(pi))*(x)");
 
 	}
 	private static void mult(String def, String expect, String expectGiac) {
@@ -535,7 +539,7 @@ public class AlgebraStyleTest extends Assert {
 				false, TestErrorHandler.INSTANCE, new EvalInfo(true, true),
 				null);
 		String res = val ? geo[0].toValueString(tpl) : geo[0].toGeoElement().getLaTeXDescriptionRHS(false, tpl);
-		Assert.assertEquals(expect, res);
+		Assert.assertEquals(expect.replace("%p", Unicode.PI_STRING), res);
 
 	}
 

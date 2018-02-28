@@ -119,4 +119,9 @@ public class FunctionVariable extends MyDouble {
 		return super.hashCode();
 	}
 
+	@Override
+	public boolean isDigits() {
+		return false;
+	}
+
 }

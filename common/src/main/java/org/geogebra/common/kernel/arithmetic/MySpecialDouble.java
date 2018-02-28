@@ -214,4 +214,8 @@ public class MySpecialDouble extends MyDouble {
 		return super.hashCode();
 	}
 
+	@Override
+	public boolean isDigits() {
+		return StringUtil.isDigit(strToString.charAt(0));
+	}
 }

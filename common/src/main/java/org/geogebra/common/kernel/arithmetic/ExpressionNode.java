@@ -6048,8 +6048,7 @@ public class ExpressionNode extends ValidExpression
 		if (operation == Operation.NO_OPERATION
 				&& getLeft() instanceof NumberValue) {
 			return (getLeft() instanceof MyDouble
-					&& !(getLeft() instanceof MySpecialDouble)
-					&& getLeft().isConstant())
+					&& ((MyDouble) getLeft()).isDigits())
 					|| (valueForm && getLeft().isGeoElement()
 							&& !((GeoElement) getLeft()).isLabelSet());
 		}
