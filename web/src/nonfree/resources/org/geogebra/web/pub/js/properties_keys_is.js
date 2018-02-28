@@ -1797,6 +1797,7 @@ __GGB__keysVar["is"].menu = {
     "FrequencyTable.Frequency": "T\xed\xf0ni",
     "FrequencyTable.RelativeFrequency": "Hlutfallsleg t\xed\xf0ni",
     "FrequencyType": "T\xed\xf0ni ger\xf0",
+    "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "Fylla \xfat \xed skj\xe1",
     "Function": "Fall",
     "Function.acos": "arccos",

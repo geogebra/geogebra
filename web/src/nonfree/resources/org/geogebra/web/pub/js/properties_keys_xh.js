@@ -1797,6 +1797,7 @@ __GGB__keysVar["xh"].menu = {
     "FrequencyTable.Frequency": "iFrikhwensi",
     "FrequencyTable.RelativeFrequency": "iRelative Frequency",
     "FrequencyType": "Uhlobo lweFrequency",
+    "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "iscreen esigcweleyo",
     "Function": "iFunction",
     "Function.acos": "acos",

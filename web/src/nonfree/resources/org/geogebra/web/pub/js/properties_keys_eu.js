@@ -1797,6 +1797,7 @@ __GGB__keysVar["eu"].menu = {
     "FrequencyTable.Frequency": "Maiztasuna",
     "FrequencyTable.RelativeFrequency": "Maiztasun Erlatiboa",
     "FrequencyType": "Maiztasun-Mota",
+    "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "Pantaila Osoa",
     "Function": "Funtzioa",
     "Function.acos": "acos",

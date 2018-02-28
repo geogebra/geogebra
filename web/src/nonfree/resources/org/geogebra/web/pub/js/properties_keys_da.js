@@ -1797,6 +1797,7 @@ __GGB__keysVar["da"].menu = {
     "FrequencyTable.Frequency": "Frekvens",
     "FrequencyTable.RelativeFrequency": "Relativ Frekvens",
     "FrequencyType": "Type",
+    "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "Fuldsk\xe6rm",
     "Function": "Funktion",
     "Function.acos": "arccos",

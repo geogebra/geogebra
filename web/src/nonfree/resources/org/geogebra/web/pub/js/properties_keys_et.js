@@ -1797,6 +1797,7 @@ __GGB__keysVar["et"].menu = {
     "FrequencyTable.Frequency": "Sagedus",
     "FrequencyTable.RelativeFrequency": "Suhteline sagedus",
     "FrequencyType": "Sageduse t\xfc\xfcp",
+    "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "Fullscreen",
     "Function": "Funktsioon",
     "Function.acos": "acos",

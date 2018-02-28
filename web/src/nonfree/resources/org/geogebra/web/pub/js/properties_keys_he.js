@@ -1797,6 +1797,7 @@ __GGB__keysVar["he"].menu = {
     "FrequencyTable.Frequency": "\u05e9\u05db\u05d9\u05d7\u05d5\u05ea",
     "FrequencyTable.RelativeFrequency": "\u05e9\u05db\u05d9\u05d7\u05d5\u05ea \u05d9\u05d7\u05e1\u05d9\u05ea",
     "FrequencyType": "\u05e1\u05d5\u05d2 \u05ea\u05d3\u05d9\u05e8\u05d5\u05ea",
+    "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
     "Fullscreen": "\u05de\u05e1\u05da \u05de\u05dc\u05d0",
     "Function": "\u05e4\u05d5\u05e0\u05e7\u05e6\u05d9\u05d4",
     "Function.acos": "acos",
