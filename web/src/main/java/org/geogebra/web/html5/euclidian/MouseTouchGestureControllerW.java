@@ -237,12 +237,13 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
 
+		boolean killEvent = true;
 		JsArray<Touch> targets = event.getTargetTouches();
 		if (targets.length() == 1 && !ignoreEvent) {
 			PointerEvent e0 = PointerEvent.wrapEvent(targets.get(0), this, event.getRelativeElement());
-			if (app.has(Feature.WHOLE_PAGE_DRAG)) {
+			if (isWholePageDrag()) {
 				longTouchManager.rescheduleTimerIfRunning((LongTouchHandler) ec, e0.getX(), e0.getY(), true);
-				return;
+				killEvent = false;
 			}
 
 			if (time < this.lastMoveEvent
@@ -281,8 +282,10 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 			longTouchManager.cancelTimer();
 		}
 
-		event.stopPropagation();
-		event.preventDefault();
+		if (killEvent) {
+			event.stopPropagation();
+			event.preventDefault();
+		}
 
 		CancelEventTimer.touchEventOccured();
 	}
@@ -357,14 +360,18 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
+		CancelEventTimer.touchEventOccured();
+		moveCounter = 0;
+		ignoreEvent = false;
 		final boolean inputBoxFocused = false;
+
 		ec.setDefaultEventType(PointerEventType.TOUCH, true);
 		if (targets.length() == 1) {
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
 			if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
 				longTouchManager.scheduleTimer((LongTouchHandler) ec, e.getX(),
 				        e.getY());
-				if (app.has(Feature.WHOLE_PAGE_DRAG)) {
+				if (isWholePageDrag()) {
 					return;
 				}
 			}
@@ -380,12 +387,13 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		if (!inputBoxFocused) {
 			preventTouchIfNeeded(event);
 		}
-		CancelEventTimer.touchEventOccured();
 
-		moveCounter = 0;
-		ignoreEvent = false;
 	}
 
+
+	private boolean isWholePageDrag() {
+		return app.has(Feature.WHOLE_PAGE_DRAG) && ec.getView().getHits().isEmpty();
+	}
 
 	public void preventTouchIfNeeded(TouchStartEvent event) {
 		if ((!ec.isTextfieldHasFocus()) && (!comboBoxHit())) {
