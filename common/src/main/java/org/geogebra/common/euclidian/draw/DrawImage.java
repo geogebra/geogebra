@@ -26,7 +26,6 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
-import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
@@ -63,6 +62,7 @@ public final class DrawImage extends Drawable {
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
 	private BoundingBox boundingBox;
+	private GRectangle cropBox;
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
 	/**
@@ -258,7 +258,7 @@ public final class DrawImage extends Drawable {
 		}
 		if (geo.getKernel().getApplication().has(
 				Feature.MOW_PIN_IMAGE) && getBounds() != null) {
-			getBoundingBox().setRectangle(getBounds());
+				getBoundingBox().setRectangle(getBounds());
 		}
 	}
 
@@ -327,15 +327,11 @@ public final class DrawImage extends Drawable {
 							getBoundingBox().getRectangle().getY());
 					GPoint2D ptDst = AwtFactory.getPrototype().newPoint2D();
 					atInverse.transform(ptScr, ptDst);
+					GShape shape = atInverse.createTransformedShape(getBoundingBox().getRectangle());
 					g3.drawImage(image,
 							(int) ptDst.getX(), (int) ptDst.getY(),
-							(int) (image.getWidth()
-									* getBoundingBox().getRectangle().getWidth()
-									/ getBounds().getWidth()),
-							(int) (image.getHeight()
-									* getBoundingBox().getRectangle()
-											.getHeight()
-									/ getBounds().getHeight()),
+							(int) shape.getBounds().getWidth(),
+							(int) shape.getBounds().getHeight(),
 							(int) ptDst.getX(), (int) ptDst.getY());
 				}
 
@@ -474,6 +470,13 @@ public final class DrawImage extends Drawable {
 		return boundingBox;
 	}
 
+	/**
+	 * @return crop box
+	 */
+	public GRectangle getCropBox() {
+		return cropBox;
+	}
+
 	@Override
 	public void updateByBoundingBoxResize(AbstractEvent e,
 			EuclidianBoundingBoxHandler handler) {
@@ -514,7 +517,7 @@ public final class DrawImage extends Drawable {
 		int eventY = event.getY();
 		double newWidth = 1;
 		double newHeight = 1;
-		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
+		GRectangle rect = AwtFactory.getPrototype().newRectangle();
 		switch (handler) {
 		case BOTTOM:
 			if (eventY - getBoundingBox().getRectangle().getY() <= Math
@@ -601,6 +604,9 @@ public final class DrawImage extends Drawable {
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth,
 					newHeight);
+			if (rect.getBounds().getMaxY() > getBounds().getMaxY()) {
+				return;
+			}
 			break;
 		case TOP_LEFT:
 			newWidth = getBoundingBox().getRectangle().getMaxX() - eventX;
@@ -614,11 +620,16 @@ public final class DrawImage extends Drawable {
 			rect.setRect(getBoundingBox().getRectangle().getMaxX() - newWidth,
 					getBoundingBox().getRectangle().getMaxY() - newHeight,
 					newWidth, newHeight);
+			if (rect.getBounds().getMaxY() > getBounds().getMaxY()) {
+				return;
+			}
 			break;
 		default:
 			break;
 		}
 		boundingBox.setRectangle(rect);
+		// remember last crop box position
+		cropBox = rect;
 	}
 
 	private void updateImageResize(AbstractEvent event,
