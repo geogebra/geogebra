@@ -54,7 +54,8 @@ public class CmdPolyLine extends CommandProcessor {
 			}
 			if (arg[0].isGeoPoint()) {
 
-				if (!arg[1].isGeoPoint()) {
+				if (!arg[1].isGeoPoint() && !(arg[1].isGeoBoolean()
+						&& arg[1].evaluateDouble() > 0)) {
 					throw argErr(app, c, arg[1]);
 				}
 
