@@ -1,5 +1,9 @@
 package org.geogebra.common.kernel.prover;
 
+import java.math.BigInteger;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.Construction;
@@ -144,6 +148,12 @@ public class AlgoAreEqual extends AlgoElement
 
 		if (inputElement1 instanceof GeoSegment
 				&& inputElement2 instanceof GeoSegment) {
+			botanaPolynomials = new PPolynomial[1][1];
+			// The segments are AB and CD. AB is the same as CD iff
+			// (a1=c1 and a2=c2 and b1=d1 and b2=d2) or
+			// (a1=c2 and a2=c1 and b1=d1 and b2=d2) or
+			// (a1=c1 and a2=c2 and b1=d2 and b2=d1) or
+			// (a1=c2 and a2=c1 and b1=d2 and b2=d1) or
 			// currently unimplemented
 			throw new NoSymbolicParametersException();
 		}
@@ -325,7 +335,8 @@ public class AlgoAreEqual extends AlgoElement
 				// Create n1-n2=var as a ValidExpression
 				resultVE = cas.getCASparser()
 						.parseGeoGebraCASInputAndResolveDummyVars(
-								n1.getDefinition() + "-" + n2.getDefinition(),
+								n1.getDefinition() + "-(" + n2.getDefinition()
+										+ ")",
 								kernel, null);
 			} else {
 				// Create n1-s=var as a ValidExpression
@@ -342,13 +353,18 @@ public class AlgoAreEqual extends AlgoElement
 			// Obtain the polynomials
 			PPolynomial[] result = adn.getBotanaPolynomials(n1); // n1 unused
 			int no = result.length;
-			botanaPolynomials = new PPolynomial[1][no + 1];
+			botanaPolynomials = new PPolynomial[1][no];
 			for (int i = 0; i < no; ++i) {
-				botanaPolynomials[0][i + 1] = result[i];
+				botanaPolynomials[0][(i - 1 + no) % no] = result[i];
+				// use the first equation as last (it will be denied),
+				// the order of the other eqs remains the same
 			}
 			PVariable[] botanaVars = adn.getBotanaVars(n1); // n1 unused
 			// Add the equation var=0 to the polynomial list
-			botanaPolynomials[0][0] = new PPolynomial(botanaVars[0]);
+			Map<PVariable, BigInteger> m = new HashMap();
+			m.put(botanaVars[0], BigInteger.ZERO);
+			botanaPolynomials[0][no - 1] = botanaPolynomials[0][no - 1]
+					.substitute(m);
 			// This AlgoDependentNumber is not needed anymore
 			n1.getConstruction().removeFromAlgorithmList(adn);
 			return botanaPolynomials;
