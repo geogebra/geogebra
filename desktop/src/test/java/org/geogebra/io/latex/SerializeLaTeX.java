@@ -235,6 +235,17 @@ public class SerializeLaTeX {
 	@Test
 	public void testKorean() {
 
+		testEditor("\u3147\u314F\u3139\u314D\u314F", "\uC54C\uD30C");
+		testEditor("\u314A\u315C\u3139\u3131\u314F", "\uCD9C\uAC00");
+		
+		testEditor("\u3142", "\u3142");
+		testEditor("\u3142\u315C", "\uBD80");
+		testEditor("\u3142\u315C\u3134", "\uBD84");
+		testEditor("\u3142\u315C\u3134\u314E", "\uBD86");
+
+		testEditor("\u3142\u315C\u3134\u314E\u3150", "\uBD84\uD574");
+		testEditor("\u3142\u315C\u3134\u314E\u3155", "\uBD84\uD600");
+		testEditor("\u3142\u315C\u3134\u314E\u315B", "\uBD84\uD6A8");
 
 		testEditor("\u314D\u3157\u314E", "\uD407");
 		testEditor("\u3141\u3163\u3142\u315C\u3134",

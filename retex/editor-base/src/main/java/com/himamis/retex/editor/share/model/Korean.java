@@ -72,7 +72,18 @@ public class Korean {
 
 	public static Character tailToLead(char ch) {
 		
-		return getKoreanTailToLead().get(ch);
+		if (Korean.isKoreanLeadChar(ch, false)) {
+			return ch;
+		}
+
+		Character ret = getKoreanTailToLead().get(ch);
+
+		// if (ret == null) {
+		// System.err.println("possible problem with " + ch + " " +
+		// toHexString(ch));
+		// }
+
+		return ret;
 	}
 
 	static HashMap<Character, Character> getKoreanTailToLead() {
@@ -1138,13 +1149,38 @@ public class Korean {
 					Korean.tailToLead(lastCharFlat.charAt(2)) + "" + newChar)
 					.charAt(0);
 
+			// System.err.println(
+			// "test = "
+			// + Korean.tailToLead(lastCharFlat.charAt(2)));
 
-			// System.err.println("lastCharFlat2 = " + lastCharFlat2 + " "
-			// + toJavaString("" + lastCharFlat2));
+			if (Korean.tailToLead(lastCharFlat.charAt(2)) != null) {
+				// System.err.println("lastCharFlat = " + lastCharFlat + " "
+				// + toJavaString("" + lastCharFlat));
+				// System.err.println("newNewChar = " + newNewChar + " "
+				// + toJavaString("" + newNewChar));
 
+				ret[0] = newLastChar;
+				ret[1] = newNewChar;
+				return ret;
+			}
+
+			String unmerged = unmergeDoubleCharacterToLeadTail(
+					lastCharFlat.charAt(2));
+
+			// System.err.println("Korean.tailToLead(unmerged.charAt(1)) = "
+			// + Korean.tailToLead(unmerged.charAt(1)));
+
+			newLastChar = Korean.unflattenKorean(
+					lastCharFlat.substring(0, 2) + "" + unmerged.charAt(0))
+					.charAt(0);
+
+			newNewChar = Korean.unflattenKorean(
+					Korean.tailToLead(unmerged.charAt(1)) + "" + newChar)
+					.charAt(0);
 			ret[0] = newLastChar;
 			ret[1] = newNewChar;
 			return ret;
+
 
 		}
 
@@ -1296,6 +1332,15 @@ public class Korean {
 		hexSB.append(hexChar[(i & 0xf0) >>> 4]);
 		hexSB.append(hexChar[i & 0x0f]); // look up low nibble char
 		return hexSB.toString();
+	}
+
+	final public static String toHexString(String s) {
+
+		StringBuilder hexSB = new StringBuilder(8);
+		for (int i = 0; i < s.length(); i++) {
+			sb.append(toHexString(s.charAt(i)));
+		}
+		return sb.toString();
 	}
 
 	public static boolean isCompatibilityChar(char ch) {
