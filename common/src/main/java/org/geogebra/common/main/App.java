@@ -4015,6 +4015,10 @@ public abstract class App implements UpdateSelection {
 		case MOB_INCREASE_TOUCHABLE_AREA:
 			return true;
 
+		// AND-875
+		case MOB_LOAD_SAVE_FOR_PRE_LOLLIPOP:
+			return false;
+
 		// **********************************************************************
 		// MOBILE END
 		// *********************************************************

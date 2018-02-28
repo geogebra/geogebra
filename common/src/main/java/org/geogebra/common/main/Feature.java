@@ -283,6 +283,8 @@ public enum Feature {
 	/** MOB-1259 */
 	MOB_INCREASE_TOUCHABLE_AREA,
 
+	/** AND-875 */
+	MOB_LOAD_SAVE_FOR_PRE_LOLLIPOP
 
 }
 
