@@ -248,9 +248,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 			if (time < this.lastMoveEvent
 			        + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS) {
-
-
-
 				boolean wasWaiting = waitingTouchMove != null
 				        || waitingMouseMove != null;
 				this.waitingTouchMove = e0;
@@ -392,7 +389,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 
 	private boolean isWholePageDrag() {
-		return app.has(Feature.WHOLE_PAGE_DRAG) && ec.getView().getHits().isEmpty();
+		return app.has(Feature.WHOLE_PAGE_DRAG) && !app.isShiftDragZoomEnabled() && ec.getView().getHits().isEmpty();
 	}
 
 	public void preventTouchIfNeeded(TouchStartEvent event) {
