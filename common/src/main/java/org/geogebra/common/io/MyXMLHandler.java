@@ -98,6 +98,7 @@ import org.geogebra.common.kernel.parser.Parser;
 import org.geogebra.common.kernel.prover.AlgoProve;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.InputPosition;
+import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.error.ErrorHandler;
@@ -4812,7 +4813,11 @@ public class MyXMLHandler implements DocHandler {
 			double x = Double.parseDouble(attrs.get("x"));
 			double y = Double.parseDouble(attrs.get("y"));
 			if (absolute) {
-				absLoc.setAbsoluteScreenLoc((int) x, (int) y);
+				if(app.has(Feature.MOW_PIN_IMAGE) && absLoc.isGeoImage()){
+					((GeoImage)absLoc).setAbsoluteScreenLoc((int) x, (int) y, 0);
+				} else {
+					absLoc.setAbsoluteScreenLoc((int) x, (int) y);					
+				}
 				absLoc.setAbsoluteScreenLocActive(true);
 			} else {
 				absLoc.setRealWorldLoc(x, y);
