@@ -105,6 +105,7 @@ public final class DrawImage extends Drawable {
     }
 	
 	private void debug(String d) {
+		// TODO
 		// Log.debug(d);
 	}
 
