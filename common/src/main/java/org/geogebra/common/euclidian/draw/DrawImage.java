@@ -97,6 +97,17 @@ public final class DrawImage extends Drawable {
 		update();
 	}
 
+	private GeoPoint getTempPoint(int i) {
+        return new GeoPoint(geoImage.getConstruction(), geoImage.getKernel().getApplication().getActiveEuclidianView()
+				.toRealWorldCoordX(geoImage.getAbsoluteScreenLocX(i)),
+				geoImage.getKernel().getApplication().getActiveEuclidianView()
+				.toRealWorldCoordY(geoImage.getAbsoluteScreenLocY(i)), 1.0);
+    }
+	
+	private void debug(String d) {
+		// Log.debug(d);
+	}
+
 	@Override
 	public void update() {
 		isVisible = geo.isEuclidianVisible();
@@ -116,22 +127,38 @@ public final class DrawImage extends Drawable {
 		absoluteLocation = geoImage.isAbsoluteScreenLocActive();
 
 		// ABSOLUTE SCREEN POSITION
-		if (absoluteLocation){
-			if(geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
-				labelRectangle.setBounds(0, 0, width, height);
-			} else {
-				screenX = geoImage.getAbsoluteScreenLocX();
-				screenY = geoImage.getAbsoluteScreenLocY() - height;
-				labelRectangle.setBounds(screenX, screenY, width, height);				
-			}
+		if (absoluteLocation && !geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
+			screenX = geoImage.getAbsoluteScreenLocX();
+			screenY = geoImage.getAbsoluteScreenLocY() - height;
+			labelRectangle.setBounds(screenX, screenY, width, height);				
 		}
 
-		// RELATIVE SCREEN POSITION
+		// RELATIVE SCREEN POSITION || (ABSOLUTE SCREEN POSITION && has(Feature.MOW_PINNED_IMAGE) )
 		else {
+			GeoPoint A, B, D;
 			boolean center = geoImage.isCentered();
-			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
-			GeoPoint B = center ? null : geoImage.getCorner(1);
-			GeoPoint D = center ? null : geoImage.getCorner(2);
+			if(absoluteLocation){
+				A = getTempPoint(center ? 3 : 0);
+				B = center ? null : getTempPoint(1);
+				D = center ? null : getTempPoint(2);
+			} else {
+				A = geoImage.getCorner(center ? 3 : 0);
+				B = center ? null : geoImage.getCorner(1);
+				D = center ? null : geoImage.getCorner(2);    
+			}
+			
+			debug("points in update: ");
+			if (A != null) {
+				debug("A: " + A.getInhomX() + ", " + A.getInhomY());
+			}
+			if (B != null) {
+				debug("B: " + B.getInhomX() + ", " + B.getInhomY());
+			}
+			if (D != null) {
+				debug("D: " + D.getInhomX() + ", " + D.getInhomY());
+			}
+            
+
 			double ax = 0;
 			double ay = 0;
 			if (A != null) {
