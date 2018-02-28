@@ -236,24 +236,23 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public void onTouchMove(TouchMoveEvent event) {
 		GeoGebraProfiler.incrementDrags();
 		long time = System.currentTimeMillis();
-		if (app.has(Feature.WHOLE_PAGE_DRAG)) {
-			longTouchManager.cancelTimer();
-			return;
-		}
-		event.stopPropagation();
-		event.preventDefault();
 
 		JsArray<Touch> targets = event.getTargetTouches();
 		if (targets.length() == 1 && !ignoreEvent) {
+			PointerEvent e0 = PointerEvent.wrapEvent(targets.get(0), this, event.getRelativeElement());
+			if (app.has(Feature.WHOLE_PAGE_DRAG)) {
+				longTouchManager.rescheduleTimerIfRunning((LongTouchHandler) ec, e0.getX(), e0.getY(), true);
+				return;
+			}
+
 			if (time < this.lastMoveEvent
 			        + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS) {
 
-				PointerEvent e = PointerEvent.wrapEvent(
-				        targets.get(targets.length() - 1), this,
-				        event.getRelativeElement());
+
+
 				boolean wasWaiting = waitingTouchMove != null
 				        || waitingMouseMove != null;
-				this.waitingTouchMove = e;
+				this.waitingTouchMove = e0;
 				this.waitingMouseMove = null;
 				GeoGebraProfiler.incrementMoveEventsIgnored();
 				if (wasWaiting) {
@@ -281,6 +280,9 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		} else {
 			longTouchManager.cancelTimer();
 		}
+
+		event.stopPropagation();
+		event.preventDefault();
 
 		CancelEventTimer.touchEventOccured();
 	}
