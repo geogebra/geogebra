@@ -282,8 +282,8 @@ public class MyImageD implements MyImageJre {
 
 	}
 
+	@Override
 	public String toLaTeXStringBase64() {
-
 		if (!isSVG() && img instanceof BufferedImage) {
 			BufferedImage bi = (BufferedImage) img;
 

@@ -33,6 +33,7 @@ public class MacroTest {
 		ToolCreationDialogModel macroBuilder = new ToolCreationDialogModel(app,
 				new ToolInputOutputListener() {
 
+					@Override
 					public void updateLists() {
 						// no UI to update
 					}

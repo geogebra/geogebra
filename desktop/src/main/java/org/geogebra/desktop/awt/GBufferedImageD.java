@@ -60,6 +60,7 @@ public class GBufferedImageD implements GBufferedImage {
 		impl.flush();
 	}
 
+	@Override
 	public String getBase64() {
 		return StringUtil.pngMarker + GgbAPID.base64encode(impl, 72);
 	}

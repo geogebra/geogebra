@@ -112,6 +112,7 @@ public class WebcamPermissionDialog extends DialogBoxW implements ClickHandler {
 		}
 	}
 
+	@Override
 	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		if (source == dismissBtn) {

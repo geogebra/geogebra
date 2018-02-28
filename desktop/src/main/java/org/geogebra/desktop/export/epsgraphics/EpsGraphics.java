@@ -847,6 +847,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 		setClip(AwtFactory.getPrototype().newRectangle(x, y, width, height));
 	}
 
+	@Override
 	public void setClip(int x, int y, int width, int height,
 			boolean restoreSaveContext) {
 		setClip(x, y, width, height);
@@ -896,6 +897,7 @@ abstract public class EpsGraphics implements GGraphics2D {
 		}
 	}
 
+	@Override
 	public void setClip(GShape clip, boolean restoreSaveContext) {
 		setClip(clip);
 	}

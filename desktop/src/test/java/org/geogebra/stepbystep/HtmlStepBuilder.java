@@ -75,11 +75,13 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	private boolean addDefaultButton;
 	private boolean addDetailedButton;
 
+	@Override
 	public void addPlainRow(String equations) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void addLatexRow(String equations) {
 		sb.append("<br><canvas class=\"latex\" id=\"line\" style=\"height:0.5em;margin-left:"
 				+ indent
@@ -100,11 +102,13 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 
 	}
 
+	@Override
 	public void show() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void startGroup() {
 		indent++;
 		groupCnt++;
@@ -116,12 +120,14 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	}
 
 
+	@Override
 	public void endGroup() {
 		indent--;
 
 		sb.append("</span>");
 	}
 
+	@Override
 	public void startDefault() {
 		alternativeCnt++;
 
@@ -129,16 +135,19 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 		addDefaultButton = true;
 	}
 
+	@Override
 	public void switchToDetailed() {
 		sb.append("</span>");
 		sb.append("<span id = 'detailed" + alternativeCnt + "' style='display: none'>");
 		addDetailedButton = true;
 	}
 
+	@Override
 	public void endDetailed() {
 		sb.append("</span>");
 	}
 
+	@Override
 	public void linebreak() {
 		sb.append("<br>");
 	}

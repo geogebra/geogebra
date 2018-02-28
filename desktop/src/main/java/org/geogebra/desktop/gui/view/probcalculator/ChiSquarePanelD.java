@@ -301,6 +301,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			init(row, column);
 		}
 
+		@Override
 		public void setValue(String string) {
 			fldInput.setText(string);
 		}
@@ -374,6 +375,7 @@ public class ChiSquarePanelD extends ChiSquarePanel
 			return label;
 		}
 
+		@Override
 		public void setLabelText(int index, String s) {
 			label[index].setText(s);
 		}
@@ -382,8 +384,6 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		public void setLabelVisible(int index, boolean isVisible) {
 			label[index].setVisible(isVisible);
 		}
-
-
 
 		@Override
 		protected void setVisualStyle() {

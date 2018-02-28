@@ -805,6 +805,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	public final OpenFileListener getUpdateTitleCallback(
 			final Material material) {
 		return new OpenFileListener() {
+			@Override
 			public final void onOpenFile() {
 				AppWFull.this.updateMaterialURL(material.getId(),
 						material.getSharingKey(), material.getTitle());

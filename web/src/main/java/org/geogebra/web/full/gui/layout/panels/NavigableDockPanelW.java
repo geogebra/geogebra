@@ -46,6 +46,7 @@ public abstract class NavigableDockPanelW extends DockPanelW {
 		return innerPanel;
 	}
 
+	@Override
 	protected abstract ResourcePrototype getViewIcon();
 
 	protected abstract Panel getViewPanel();

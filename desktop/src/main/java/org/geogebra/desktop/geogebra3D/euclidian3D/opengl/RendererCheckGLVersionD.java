@@ -446,6 +446,7 @@ public class RendererCheckGLVersionD extends RendererWithImpl
 		return createAlphaTexture(sizeX, sizeY, buf);
 	}
 
+	@Override
 	public int createAlphaTexture(int sizeX, int sizeY, byte[] buf) {
 		enableTextures2D();
 

@@ -456,6 +456,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				this.device);
 	}
 
+	@Override
 	public void loadWebcam() {
 		if (getApp().getToolbar() != null) {
 			getApp().getToolbar().closeAllSubmenu();
@@ -2542,6 +2543,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				summary = new ArrayList<>();
 				showDetails.addClickHandler(new ClickHandler(){
 
+					@Override
 					public void onClick(ClickEvent event) {
 						event.getSource();
 						for (Widget line : swap) {

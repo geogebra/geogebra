@@ -500,18 +500,22 @@ public class SliderPanelD extends JPanel
 		lbWidthUnit.setText(text);
 	}
 
+	@Override
 	public void setBlobSizeText(String text) {
 		tfBlobSize.setText(text);
 	}
 
+	@Override
 	public void setBlobColor(GColor color) {
 		// TODO implement desktop
 	}
 
+	@Override
 	public void setLineColor(GColor color) {
 		// TODO implement desktop
 	}
 
+	@Override
 	public void setLineThicknessSizeText(String text) {
 		tfLineThickness.setText(text);
 	}

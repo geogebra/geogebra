@@ -801,6 +801,7 @@ public class AppDNoGui extends App {
 
 	}
 
+	@Override
 	public boolean is3D() {
 		return true;
 	}

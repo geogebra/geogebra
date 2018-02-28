@@ -22,46 +22,55 @@ public class NameModelTest {
 		app = CommandsTest.createApp();
 		model = new NameValueModel(app, new INameValueListener() {
 
+			@Override
 			public void setNameText(String text) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void setDefinitionText(String text) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void setCaptionText(String text) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void updateGUI(boolean showDefinition, boolean showCaption) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void updateDefLabel() {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void updateCaption(String text) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public void updateName(String text) {
 				// TODO Auto-generated method stub
 
 			}
 
+			@Override
 			public Object updatePanel(Object[] geos2) {
 				// TODO Auto-generated method stub
 				return null;
 			}
 
+			@Override
 			public void update(boolean isEqualVal, boolean isEqualMode,
 					int mode) {
 				// TODO Auto-generated method stub

@@ -41,6 +41,7 @@ public class TestErrorHandler implements ErrorHandler, ErrorLogger {
 		// nothing to do
 	}
 
+	@Override
 	public void log(Throwable e) {
 		e.printStackTrace();
 		Throwable cause = e.getCause() == null ? e : e.getCause();

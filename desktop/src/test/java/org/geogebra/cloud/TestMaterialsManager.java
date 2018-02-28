@@ -19,17 +19,20 @@ public class TestMaterialsManager extends MaterialsManager {
 		this.app = app;
 	}
 
+	@Override
 	public void openMaterial(Material material) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void delete(Material material, boolean permanent,
 			Runnable onSuccess) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void uploadUsersMaterials(ArrayList<SyncEvent> events) {
 		System.out.println("" + stockStore.size());
 		if (this.stockStore == null || this.stockStore.size() <= 0) {
@@ -60,11 +63,13 @@ public class TestMaterialsManager extends MaterialsManager {
 		}
 	}
 
+	@Override
 	public void getUsersMaterials() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void search(String query) {
 		// TODO Auto-generated method stub
 
@@ -75,82 +80,98 @@ public class TestMaterialsManager extends MaterialsManager {
 		rename(newTitle, mat, null);
 	}
 
+	@Override
 	public void rename(String newTitle, Material mat, Runnable callback) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void setFileProvider(Provider google) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public Provider getFileProvider() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void autoSave(int counter) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public String getAutosaveJSON() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
+	@Override
 	public void restoreAutoSavedFile(String json) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void deleteAutoSavedFile() {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean save(App app) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void saveLoggedOut(App app) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean shouldKeep(int i) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void export(App app) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void exportImage(String url, String string, String extension) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public boolean hasBase64(Material material) {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
+	@Override
 	public void nativeShare(String s, String string) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void showExportAsPictureDialog(String url, String filename,
 			String extension, String titleKey, App app) {
 		// TODO Auto-generated method stub
 
 	}
 
+	@Override
 	public void refreshAutosaveTimestamp() {
 		// TODO Auto-generated method stub
 
@@ -207,10 +228,12 @@ public class TestMaterialsManager extends MaterialsManager {
 	}
 	
 	
+	@Override
 	public void open(String url, String name, String features){
 		// TODO: implement this?
 	}
 	
+	@Override
 	public void open(String url){
 		// TODO: implement this?
 	}

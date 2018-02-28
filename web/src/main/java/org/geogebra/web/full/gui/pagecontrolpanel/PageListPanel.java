@@ -331,6 +331,7 @@ public class PageListPanel
 	/**
 	 * Rebuild the panel
 	 */
+	@Override
 	public void update() {
 		contentPanel.clear();
 		int index = 0;
@@ -340,11 +341,13 @@ public class PageListPanel
 		}
 	}
 
+	@Override
 	public void insertDivider(int targetIdx) {
 		removeDivider();
 		contentPanel.insert(divider, targetIdx);
 	}
 
+	@Override
 	public void removeDivider() {
 		divider.removeFromParent();
 	}

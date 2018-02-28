@@ -113,6 +113,7 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		// all openable formats are saveable in Desktop
 	}
 
+	@Override
 	public String toLaTeXStringBase64() {
 		if (image.isSVG()) {
 			Log.debug("SVG not supported in LaTeX");
@@ -120,7 +121,6 @@ public class GeoElementGraphicsAdapterD extends GeoElementGraphicsAdapter {
 		}
 
 		return image.toLaTeXStringBase64();
-
 	}
 
 }

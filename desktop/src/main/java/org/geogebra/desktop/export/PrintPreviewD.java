@@ -379,6 +379,7 @@ public class PrintPreviewD extends JDialog {
 					public void run() {
 						SwingUtilities.invokeLater(new Runnable() {
 
+							@Override
 							public void run() {
 								setCursor(Cursor.getPredefinedCursor(
 										Cursor.WAIT_CURSOR));

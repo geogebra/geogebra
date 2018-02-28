@@ -128,19 +128,19 @@ public class TitlePanel extends JPanel {
 	private void addDocListener(final JTextField authorField2) {
 		authorField2.getDocument().addDocumentListener(new DocumentListener() {
 
+			@Override
 			public void insertUpdate(DocumentEvent e) {
 				fireTextFieldUpdate(authorField2);
-
 			}
 
+			@Override
 			public void removeUpdate(DocumentEvent e) {
 				fireTextFieldUpdate(authorField2);
-
 			}
 
+			@Override
 			public void changedUpdate(DocumentEvent e) {
 				fireTextFieldUpdate(authorField2);
-
 			}
 		});
 

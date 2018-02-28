@@ -386,6 +386,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		return listSelModel;
 	}
 
+	@Override
 	public void resetItems(boolean unselectAll) {
 		// nothing to do in desktop
 	}

@@ -20,6 +20,7 @@ public class MockApp {
 		GwtMockito.useProviderForType(PopupImpl.class,
 				new FakeProvider<PopupImpl>() {
 
+					@Override
 					public PopupImpl getFake(Class<?> type) {
 						return new PopupImpl();
 					}

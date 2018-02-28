@@ -36,10 +36,12 @@ public final class TextResourceProvider
 			filename = src.toString().split("\\[|\\]")[1];
 		}
 
+		@Override
 		public String getName() {
 			return name;
 		}
 
+		@Override
 		public String getText() {
 			// TODO Auto-generated method stub
 			return read("../retex/renderer-web/src/main/resources/" + filename);

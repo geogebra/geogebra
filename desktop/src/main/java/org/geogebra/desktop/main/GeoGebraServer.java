@@ -43,6 +43,7 @@ public class GeoGebraServer {
 	}
 
 	class MyHandlerJSON implements HttpHandler {
+		@Override
 		public void handle(HttpExchange t) throws IOException {
 
 			app.reset();

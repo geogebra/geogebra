@@ -73,6 +73,7 @@ public class PageListController implements PageListControllerInterface,
 	/**
 	 * @return list of slides; never null
 	 */
+	@Override
 	public ArrayList<PagePreviewCard> getCards() {
 		return slides;
 	}
@@ -86,6 +87,7 @@ public class PageListController implements PageListControllerInterface,
 		return slides.get(i);
 	}
 
+	@Override
 	public GgbFile getSlide(int index) {
 		if(selectedCard == slides.get(index)){
 			return app.getGgbApi().createArchiveContent(true,
@@ -203,6 +205,7 @@ public class PageListController implements PageListControllerInterface,
 	 * 
 	 * @return number of slides
 	 */
+	@Override
 	public int getSlideCount() {
 		return slides.size();
 	}
@@ -225,6 +228,7 @@ public class PageListController implements PageListControllerInterface,
 		}
 	}
 
+	@Override
 	public String getStructureJSON() {
 		try {
 			JSONObject book = new JSONObject();
@@ -247,6 +251,7 @@ public class PageListController implements PageListControllerInterface,
 		return "{}";
 	}
 
+	@Override
 	public boolean loadSlides(GgbFile archive) {
 		if (!archive.containsKey(GgbFile.STRUCTURE_JSON)) {
 			return false;
@@ -310,6 +315,7 @@ public class PageListController implements PageListControllerInterface,
 	 * @param destIdx
 	 *            destination index
 	 */
+	@Override
 	public void reorder(int srcIdx, int destIdx) {
 		doReorder(srcIdx, destIdx);
 		app.getKernel().getConstruction().getUndoManager()

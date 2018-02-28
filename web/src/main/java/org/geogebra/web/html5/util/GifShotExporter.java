@@ -71,11 +71,13 @@ public class GifShotExporter {
 		FrameCollectorW collector = new FrameCollectorW() {
 
 
+			@Override
 			public void addFrame(String url) {
 				// Log.debug("adding frame");
 				gifEncoder.addFrame(url);
 			}
 
+			@Override
 			public void finish(int width, int height) {
 				// Log.debug("finished");
 				gifEncoder.finish(width, height);

@@ -25,6 +25,7 @@ public class ReportBuilder extends AsyncOperation<String> {
 		System.out.println("file:///" + f.getAbsolutePath());
 	}
 
+	@Override
 	public void callback(String content) {
 		try {
 			isw.write(content);

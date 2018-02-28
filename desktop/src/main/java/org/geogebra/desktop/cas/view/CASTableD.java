@@ -925,6 +925,7 @@ public class CASTableD extends JTable implements CASTable {
 		return this.editor != null;
 	}
 
+	@Override
 	public boolean keepEditing(boolean failure, int rowNum) {
 		return failure;
 	}

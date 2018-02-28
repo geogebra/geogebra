@@ -825,6 +825,7 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		Runnable afterImages = new Runnable() {
 
+			@Override
 			public void run() {
 				try {
 					setHideConstructionProtocolNavigation();

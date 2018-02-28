@@ -102,6 +102,7 @@ public class TubeAPITest extends Assert {
 
 		uploadMaterial(api, titles, 0, new IdCallback() {
 
+			@Override
 			public void handle(int id) {
 				uploadMaterial(api, titles, id, null);
 
@@ -127,6 +128,7 @@ public class TubeAPITest extends Assert {
 		api.uploadMaterial(id, "O", "testfile" + new Date() + Math.random(),
 				circleBase64, new MaterialCallbackI() {
 
+					@Override
 					public void onLoaded(List<Material> result,
 							ArrayList<Chapter> meta) {
 						if (result.size() > 0) {
@@ -142,6 +144,7 @@ public class TubeAPITest extends Assert {
 
 					}
 
+					@Override
 					public void onError(Throwable exception) {
 						exception.printStackTrace();
 						Assert.assertNull(exception.getMessage());
@@ -161,6 +164,7 @@ public class TubeAPITest extends Assert {
 
 		api.getUsersOwnMaterials(new MaterialCallbackI() {
 
+			@Override
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
 
@@ -169,6 +173,7 @@ public class TubeAPITest extends Assert {
 					final Material mFinal = m;
 					api.deleteMaterial(m, new MaterialCallbackI() {
 
+						@Override
 						public void onLoaded(List<Material> result1,
 								ArrayList<Chapter> meta1) {
 
@@ -176,6 +181,7 @@ public class TubeAPITest extends Assert {
 
 						}
 
+						@Override
 						public void onError(Throwable exception) {
 							// TODO Auto-generated method stub
 
@@ -187,6 +193,7 @@ public class TubeAPITest extends Assert {
 
 			}
 
+			@Override
 			public void onError(Throwable exception) {
 				exception.printStackTrace();
 				Assert.assertNull(exception.getMessage());
@@ -227,6 +234,7 @@ public class TubeAPITest extends Assert {
 		app.getLoginOperation().getGeoGebraTubeAPI().sync(0,
 				new SyncCallback() {
 
+					@Override
 			public void onSync(ArrayList<SyncEvent> events) {
 				man.uploadUsersMaterials(events);
 

@@ -1940,6 +1940,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return app;
 	}
 
+	@Override
 	public Element getInputElement() {
 		return getTextField().getElement();
 	}

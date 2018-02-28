@@ -70,6 +70,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract
 		return euclidianpanel;
 	}
 
+	@Override
 	public SVGResource getViewIcon() {
 		if (app != null && app.has(Feature.DYNAMIC_STYLEBAR)) {
 			return getResources().settings();

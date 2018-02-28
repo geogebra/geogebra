@@ -148,6 +148,7 @@ public class PropertiesStyleBarW extends
 		toolbar.addItem(new AriaMenuItem(closeImage.getElement().getString(),
 				true, new ScheduledCommand() {
 
+					@Override
 					public void execute() {
 						propertiesView.close();
 					}

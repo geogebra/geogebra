@@ -824,10 +824,12 @@ public final class ArticleElement extends Element implements ArticleElementInter
 		return getStringDataParam("fontscssurl", "");
 	}
 
+	@Override
 	public ArticleElement getElement() {
 		return this;
 	}
 
+	@Override
 	public boolean useCompatibilityCookie() {
 		return this.getBoolDataParam("useCompatibilityCookie", false);
 	}
