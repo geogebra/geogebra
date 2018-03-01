@@ -361,27 +361,26 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		moveCounter = 0;
 		ignoreEvent = false;
 		final boolean inputBoxFocused = false;
-
 		ec.setDefaultEventType(PointerEventType.TOUCH, true);
 		if (targets.length() == 1) {
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
 			if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
 				longTouchManager.scheduleTimer((LongTouchHandler) ec, e.getX(),
 				        e.getY());
-				if (isWholePageDrag()) {
-					return;
-				}
 			}
 			// inputBoxFocused = ec.textfieldJustFocusedW(e.getX(), e.getY(),
 			// e.getType());
 			onPointerEventStart(e);
+			if (isWholePageDrag()) {
+				return;
+			}
 		} else if (targets.length() == 2) {
 			longTouchManager.cancelTimer();
 			twoTouchStart(targets.get(0), targets.get(1));
 		} else {
 			longTouchManager.cancelTimer();
 		}
-		if (!inputBoxFocused) {
+		if (!inputBoxFocused && !isWholePageDrag()) {
 			preventTouchIfNeeded(event);
 		}
 
@@ -389,7 +388,16 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 
 
 	private boolean isWholePageDrag() {
-		return app.has(Feature.WHOLE_PAGE_DRAG) && !app.isShiftDragZoomEnabled() && ec.getView().getHits().isEmpty();
+		boolean result = app.has(Feature.WHOLE_PAGE_DRAG) && ec.getMode() == EuclidianConstants.MODE_MOVE
+				&& !app.isShiftDragZoomEnabled()
+				&& ec.getView().getHits().isEmpty();
+		debug("Whole page drag: " + (result ? "TRUE" : "FALSE"));
+
+		return result;
+	}
+
+	private void debug(String msg) {
+		Log.debug("[WPD] " + msg);
 	}
 
 	public void preventTouchIfNeeded(TouchStartEvent event) {
