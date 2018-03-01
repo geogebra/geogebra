@@ -1649,10 +1649,25 @@ namespace giac {
       return gensizeerr(contextptr);
     bool unnamed= name.type!=_IDNT && !name.is_symb_of_sommet(at_double_deux_points);
     v=*eval(v,eval_level(contextptr),contextptr)._VECTptr;
+    int pos,l,c=0,shift=abs_calc_mode(contextptr)==38; //  && v[1].subtype==_LIST__VECT;
+    if (v[0].type==_STRNG && v[1].type==_STRNG && v[2].type==_STRNG){
+      string s(*v[0]._STRNGptr),f(*v[1]._STRNGptr),rep(*v[2]._STRNGptr),res;
+      int fs=int(f.size());
+      for (;;){
+	int pos=s.find(f);
+	if (pos<0 || pos>int(s.size())-fs)
+	  break;
+	res += s.substr(0,pos)+rep;
+	s=s.substr(pos+fs,int(s.size())-pos-fs);
+      }
+      res += s;
+      if (unnamed)
+	return string2gen(res,false);
+      return sto(string2gen(res,false),name,contextptr);
+    }
+    v[1]=_floor(v[1],contextptr);
     if (v[0].type!=_VECT || v[2].type!=_VECT)
       return gentypeerr(contextptr);
-    v[1]=_floor(v[1],contextptr);
-    int pos,l,c=0,shift=abs_calc_mode(contextptr)==38; //  && v[1].subtype==_LIST__VECT;
     vecteur w0=*v[0]._VECTptr,w2=*v[2]._VECTptr,argv;
     if (ckmatrix(v[0])){
       mdims(w0,l,c);
