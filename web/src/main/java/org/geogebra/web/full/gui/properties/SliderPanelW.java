@@ -367,51 +367,52 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 
 	private void createBlobColorChooserBtn(final AppW app) {
 		blobColorChooserBtn = new MyCJButton(app);
-		updateBlobOrLineColorButton(model.getBlobColor(),
-				true);
+		updateBlobOrLineColorButton(model.getBlobColor(), true);
 		blobColorChooserBtn.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				((DialogManagerW) app.getDialogManager())
-						.showColorChooserDialog(
-								getModel().getBlobColor(),
-						new ColorChangeHandler() {
-
-							@Override
-							public void onForegroundSelected() {
-								// do nothing
-							}
-
-							@Override
-							public void onColorChange(GColor color) {
-										getModel().applyBlobColor(color);
-										updateBlobOrLineColorButton(color,
-												true);
-							}
-
-							@Override
-							public void onClearBackground() {
-								// do nothing
-							}
-
-							@Override
-							public void onBackgroundSelected() {
-								// do nothing
-							}
-
-							@Override
-							public void onAlphaChange() {
-								// do nothing
-							}
-
-							@Override
-							public void onBarSelected() {
-								// do nothing
-							}
-						});
+						.showColorChooserDialog(getModel().getBlobColor(),
+								getBlobColorHandler());
 			}
 		});
+	}
+
+	protected ColorChangeHandler getBlobColorHandler() {
+		return new ColorChangeHandler() {
+
+			@Override
+			public void onForegroundSelected() {
+				// do nothing
+			}
+
+			@Override
+			public void onColorChange(GColor color) {
+				getModel().applyBlobColor(color);
+				updateBlobOrLineColorButton(color, true);
+			}
+
+			@Override
+			public void onClearBackground() {
+				// do nothing
+			}
+
+			@Override
+			public void onBackgroundSelected() {
+				// do nothing
+			}
+
+			@Override
+			public void onAlphaChange() {
+				// do nothing
+			}
+
+			@Override
+			public void onBarSelected() {
+				// do nothing
+			}
+		};
 	}
 
 	/**
@@ -436,44 +437,45 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			public void onClick(ClickEvent event) {
 				((DialogManagerW) app.getDialogManager())
 						.showColorChooserDialog(getModel().getLineColor(),
-								new ColorChangeHandler() {
-
-									@Override
-									public void onForegroundSelected() {
-										// do nothing
-									}
-
-									@Override
-									public void onColorChange(GColor color) {
-										getModel().applyLineColor(
-												getColorWithOpacity(color));
-										updateBlobOrLineColorButton(
-												getColorWithOpacity(color),
-												false);
-									}
-
-									@Override
-									public void onClearBackground() {
-										// do nothing
-									}
-
-									@Override
-									public void onBackgroundSelected() {
-										// do nothing
-									}
-
-									@Override
-									public void onAlphaChange() {
-										// do nothing
-									}
-
-									@Override
-									public void onBarSelected() {
-										// do nothing
-									}
-								});
+								getLineColorHandler());
 			}
 		});
+	}
+
+	protected ColorChangeHandler getLineColorHandler() {
+		return new ColorChangeHandler() {
+
+			@Override
+			public void onForegroundSelected() {
+				// do nothing
+			}
+
+			@Override
+			public void onColorChange(GColor color) {
+				getModel().applyLineColor(getColorWithOpacity(color));
+				updateBlobOrLineColorButton(getColorWithOpacity(color), false);
+			}
+
+			@Override
+			public void onClearBackground() {
+				// do nothing
+			}
+
+			@Override
+			public void onBackgroundSelected() {
+				// do nothing
+			}
+
+			@Override
+			public void onAlphaChange() {
+				// do nothing
+			}
+
+			@Override
+			public void onBarSelected() {
+				// do nothing
+			}
+		};
 	}
 
 	/**
@@ -657,17 +659,16 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 			lbSliderHorizontal.addItem(comboStr[i]);
 		}
 		lbSliderHorizontal.setSelectedIndex(selectedIndex);
-		minLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("min") : loc.getMenu("min") +  ":");
-		maxLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("max") :loc.getMenu("max") + ":");
-		widthLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)? loc.getMenu("Width"):loc.getMenu("Width") + ":");
-		blobSizeLabel.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
-				? loc.getMenu("Size") : loc.getMenu("Size") + ":");
+		String suffix = kernel.getApplication().has(Feature.DIALOG_DESIGN) ? ""
+				: ":";
+		minLabel.setText(loc.getMenu("min") + suffix);
+		maxLabel.setText(loc.getMenu("max") + suffix);
+		widthLabel.setText(loc.getMenu("Width") + suffix);
+		blobSizeLabel.setText(loc.getMenu("Size") + suffix);
 		blobColorLbl.setText(loc.getMenu("Color") + ":");
 		lineColorLbl.setText(loc.getMenu("Color") + ":");
 		lineThicknessLabel
-				.setText(kernel.getApplication().has(Feature.DIALOG_DESIGN)
-						? loc.getMenu("Thickness")
-						: loc.getMenu("Thickness") + ":");
+				.setText(loc.getMenu("Thickness") + suffix);
 		transparencyLabel
 				.setText(loc.getMenu("LineOpacity") + ":");
 		model.setLabelForWidthUnit();

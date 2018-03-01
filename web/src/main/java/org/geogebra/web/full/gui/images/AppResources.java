@@ -20,7 +20,7 @@ public interface AppResources extends ClientBundle {
 	ImageResource pin();
 
 	@Source("org/geogebra/common/icons/png/web/general/geogebra32.png")
-	ImageResource GeoGebraTube();
+	ImageResource geogebraLogo();
 
 	@Source("org/geogebra/common/icons/png/web/general/aux_folder.gif")
 	ImageResource aux_folder();

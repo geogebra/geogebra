@@ -1209,14 +1209,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	private void createBasicTab() {
 		basicTab = makeOptionsTab("Properties.Basic");
-		CheckboxPanel rightAnglePanel;
-		CheckboxPanel listAsComboPanel;
-		CheckboxPanel trimmedIntersectionLinesPanel;
-		CheckboxPanel allowOutlyingIntersectionsPanel;
-		CheckboxPanel fixCheckboxPanel;
-		CheckboxPanel fixPanel;
-		CheckboxPanel auxPanel;
-		CheckboxPanel tracePanel;
 		CheckboxPanel animatingPanel = null;
 		CheckboxPanel bgImagePanel = null;
 		ReflexAnglePanel reflexAnglePanel = null;
@@ -1236,7 +1228,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			checkboxPanel.add(labelPanel.getWidget());
 		}
 
-		tracePanel = new CheckboxPanel("ShowTrace", loc,
+		CheckboxPanel tracePanel = new CheckboxPanel("ShowTrace", loc,
 				new TraceModel(null, app));
 		checkboxPanel.add(tracePanel.getWidget());
 		basicTab.add(checkboxPanel);
@@ -1247,11 +1239,11 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			checkboxPanel.add(animatingPanel.getWidget());
 		}
 
-		fixPanel = new CheckboxPanel("FixObject", loc,
+		CheckboxPanel fixPanel = new CheckboxPanel("FixObject", loc,
 				new FixObjectModel(null, app));
 		checkboxPanel.add(fixPanel.getWidget());
 
-		auxPanel = new CheckboxPanel("AuxiliaryObject", loc,
+		CheckboxPanel auxPanel = new CheckboxPanel("AuxiliaryObject", loc,
 				new AuxObjectModel(null, app));
 		checkboxPanel.add(auxPanel.getWidget());
 
@@ -1267,19 +1259,21 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			reflexAnglePanel.getWidget().setStyleName("optionsPanel");
 		}
 
-		listAsComboPanel = new ListAsComboPanel();
-		rightAnglePanel = new CheckboxPanel("EmphasizeRightAngle", loc,
+		CheckboxPanel listAsComboPanel = new ListAsComboPanel();
+		CheckboxPanel rightAnglePanel = new CheckboxPanel("EmphasizeRightAngle",
+				loc,
 				new RightAngleModel(null, app));
-		trimmedIntersectionLinesPanel = new CheckboxPanel("ShowTrimmed", loc,
+		CheckboxPanel trimmedIntersectionLinesPanel = new CheckboxPanel(
+				"ShowTrimmed", loc,
 				new TrimmedIntersectionLinesModel(null, app));
 
 		// tabList.add(comboBoxPanel);
-		allowOutlyingIntersectionsPanel = new CheckboxPanel(
+		CheckboxPanel allowOutlyingIntersectionsPanel = new CheckboxPanel(
 				"allowOutlyingIntersections", loc,
 				new OutlyingIntersectionsModel(null, app));
 		basicTab.add(allowOutlyingIntersectionsPanel.getWidget());
 
-		fixCheckboxPanel = new CheckboxPanel("FixCheckbox", loc,
+		CheckboxPanel fixCheckboxPanel = new CheckboxPanel("FixCheckbox", loc,
 				new FixCheckboxModel(null, app));
 		basicTab.add(fixCheckboxPanel.getWidget());
 

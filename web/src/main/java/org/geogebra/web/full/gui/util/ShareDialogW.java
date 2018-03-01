@@ -108,7 +108,7 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 
 		// Geogebra
 		NoDragImage geogebraimg = new NoDragImage(AppResources.INSTANCE
-				.GeoGebraTube().getSafeUri().asString());
+				.geogebraLogo().getSafeUri().asString());
 		PushButton geogebrabutton = new PushButton(geogebraimg,
 				new ClickHandler() {
 

@@ -325,12 +325,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 	 * Creates a display panel to hold an image, e.g. tabletext
 	 */
 	private void createImagePanel() {
-
 		imagePanel = new FlowPanel();
 		latexCanvas = Canvas.createIfSupported();
 		imagePanel.add(latexCanvas);
 		imagePanel.setStyleName("daImagePanel");
-
 	}
 
 	/**
@@ -365,7 +363,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 		numClassesPanel = new FlowPanel();
 		numClassesPanel.add(sliderNumClasses);
 		numClassesPanel.add(fldNumClasses);
-
 	}
 
 	/**
@@ -576,24 +573,19 @@ public class DataDisplayPanelW extends FlowPanel implements
 			
 		}
 
-		else if (source == btnExport) {
-		}
-
-		else 
-			if (source == lbDisplayType) {
-				int idx = lbDisplayType.getSelectedIndex();
-				if (idx != -1) {
-					PlotType t = plotTypes.get(idx);
-					getModel().setSelectedPlot(t); 
-					getModel().updatePlot(true);
-				}
-
-				if (optionsPanel.isVisible()) {
-					optionsPanel.setPanel(getModel().getSelectedPlot());
-					resize();
-				}
-
+		else if (source == lbDisplayType) {
+			int idx = lbDisplayType.getSelectedIndex();
+			if (idx != -1) {
+				PlotType t = plotTypes.get(idx);
+				getModel().setSelectedPlot(t);
+				getModel().updatePlot(true);
 			}
+
+			if (optionsPanel.isVisible()) {
+				optionsPanel.setPanel(getModel().getSelectedPlot());
+				resize();
+			}
+		}
 	}
 
 	private void doTextFieldActionPerformed(Object source) {
