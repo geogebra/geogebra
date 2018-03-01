@@ -490,7 +490,7 @@
 	};
 
 	PDFKitMini.prototype.addPage = function() {
-	    this.currentPage = new PDFPage(this, this.pageWidth, this.pageHeight);
+	    this.currentPage = new PDFPage(this, this.pageWidth, this.pageHeight, this.pages.id);
 	    this.add(this.currentPage);
 	    this.pages.addPage(this.currentPage);
 	    var a = new PDFStream();
@@ -783,7 +783,7 @@
 	    return PDFObject.makeObject(props, this.id);
 	};
 
-	function PDFPage(pdf0, width0, height0) {
+	function PDFPage(pdf0, width0, height0, pagesID) {
 	    this.pdf = pdf0;
 	    this.fonts = [];
 	    this.images = [];
@@ -799,6 +799,7 @@
 	    // initial transform, identity matrix
 	    this.width = 72 * width0;
 	    this.height = 72 * height0;
+	    this.pagesID = pagesID;
 	    this._ctm = [1, 0, 0, 1, 0, 0];
 	}
 	PDFPage.prototype.setStream = function(a) {
@@ -1184,6 +1185,8 @@
 	    var props = {
 	        "Type": "Page"
 	    };
+	    
+	    props["Parent"] = new PDFReference(this.pagesID + " 0 R");
 
 	    props["MediaBox"] = [0, 0, this.width, this.height];
 
