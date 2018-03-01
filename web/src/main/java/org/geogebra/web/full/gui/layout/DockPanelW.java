@@ -117,7 +117,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * If there is a style bar associated with this panel.
 	 */
 	private boolean hasStyleBar = false;
-	
+
 	private int embeddedDimWidth, embeddedDimHeight;
 
 	private ShowKeyboardButton keyboardButton;
@@ -280,8 +280,8 @@ public abstract class DockPanelW extends ResizeComposite
 	 *            The location of this view in the view menu, -1 if the view
 	 *            should not appear at all
 	 */
-	public DockPanelW(int id, String title, String toolbar,
-			boolean hasStyleBar, int menuOrder) {
+	public DockPanelW(int id, String title, String toolbar, boolean hasStyleBar,
+			int menuOrder) {
 		this(id, title, toolbar, hasStyleBar, menuOrder, '\u0000');
 	}
 
@@ -304,9 +304,8 @@ public abstract class DockPanelW extends ResizeComposite
 	 *            The shortcut character which can be used to make this view
 	 *            visible
 	 */
-	public DockPanelW(int id, String title, String toolbar,
-			boolean hasStyleBar, int menuOrder,
-			char menuShortcut) {
+	public DockPanelW(int id, String title, String toolbar, boolean hasStyleBar,
+			int menuOrder, char menuShortcut) {
 		this.id = id;
 		this.title = title;
 		this.defaultToolbarString = toolbar;
@@ -390,8 +389,6 @@ public abstract class DockPanelW extends ResizeComposite
 		// buildGUI();
 	}
 
-
-
 	/**
 	 * @return height in pixels
 	 */
@@ -444,16 +441,16 @@ public abstract class DockPanelW extends ResizeComposite
 		titleBarPanel = new FlowPanel();
 		titleBarPanel.setStyleName("TitleBarPanel");
 		titleBarPanel.addStyleName("cursor_drag");
-		
-//		kbButtonSpace = new SimplePanel();
-		
+
+		// kbButtonSpace = new SimplePanel();
+
 		titleBarPanelContent = new FlowPanel();
 
 		updateStyles();
 
 		titleBarPanel.add(titleBarPanelContent);
 
-		if(closeIcon == null){
+		if (closeIcon == null) {
 			closeIcon = new Image(GuiResources.INSTANCE.dockbar_close());
 		}
 		closeButton = new PushButton(closeIcon);
@@ -469,7 +466,7 @@ public abstract class DockPanelW extends ResizeComposite
 		closeButtonPanel.setStyleName("closeButtonPanel");
 		closeButtonPanel.setVisible(isStyleBarEmpty());
 		closeButtonPanel.add(closeButton);
-		
+
 		titleBarPanelContent.add(styleBarPanel);
 		addDragPanel();
 
@@ -482,7 +479,7 @@ public abstract class DockPanelW extends ResizeComposite
 		if (this.isStyleBarEmpty()) {
 			titleBarPanel.add(closeButtonPanel);
 		}
-		
+
 		tryBuildZoomPanel();
 
 		if (app.getGuiManager().isDraggingViews()) {
@@ -556,8 +553,6 @@ public abstract class DockPanelW extends ResizeComposite
 		// overridden in EV
 	}
 
-	
-
 	/**
 	 * Switch panel to drag mode
 	 */
@@ -616,7 +611,6 @@ public abstract class DockPanelW extends ResizeComposite
 				32, 24, app);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 
-
 		if (!showStyleBar && viewImage != null) {
 			toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
 		}
@@ -651,8 +645,7 @@ public abstract class DockPanelW extends ResizeComposite
 					public void setPosition(int offsetWidth, int offsetHeight) {
 						contextMenu.getWrappedPopup().getPopupPanel()
 								.setPopupPosition(
-										(int) app.getWidth() - offsetWidth,
-										y);
+										(int) app.getWidth() - offsetWidth, y);
 						contextMenu.focusDeferred();
 					}
 				});
@@ -688,7 +681,7 @@ public abstract class DockPanelW extends ResizeComposite
 			if (app.getSettings().getLayout().showTitleBar()
 					&& (app.allowStylebar() || needsResetIcon()
 							|| forceCloseButton())) {
-				
+
 				dockPanel.addNorth(titleBarPanel, 0);
 			}
 
@@ -796,10 +789,10 @@ public abstract class DockPanelW extends ResizeComposite
 		public double getCenterWidth() {
 			return super.getCenterWidth();
 		}
-		
+
 		@Override
 		public void add(Widget w) {
-			if(this.getCenter()!=null){
+			if (this.getCenter() != null) {
 				Log.error("TODO: dock panel filled twice");
 				this.remove(this.getCenter());
 			}
@@ -903,7 +896,7 @@ public abstract class DockPanelW extends ResizeComposite
 			component = loadComponent();
 		}
 		setLayout(deferred);
-			//ignore
+		// ignore
 	}
 
 	/**
@@ -924,7 +917,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Update fonts.
 	 */
 	public void updateFonts() {
-		//TODO implement or delete
+		// TODO implement or delete
 	}
 
 	/**
@@ -935,7 +928,7 @@ public abstract class DockPanelW extends ResizeComposite
 	protected void closePanel(boolean isPermanent) {
 		dockManager.closePanel(this, isPermanent);
 	}
-	
+
 	@Override
 	public void closePanel() {
 		closePanel(true);
@@ -969,7 +962,8 @@ public abstract class DockPanelW extends ResizeComposite
 		styleBarPanel.setVisible(isStyleBarVisible());
 		if (isStyleBarVisible()) {
 			setStyleBar();
-			styleBar.setVisible(showStyleBar && !app.getGuiManager().isDraggingViews());
+			styleBar.setVisible(
+					showStyleBar && !app.getGuiManager().isDraggingViews());
 		}
 		if (styleBar instanceof SpreadsheetStyleBarW
 				|| styleBar instanceof CASStylebarW
@@ -977,12 +971,14 @@ public abstract class DockPanelW extends ResizeComposite
 			setStyleBarLongVisibility(isStyleBarVisible());
 		}
 	}
-	
+
 	/**
-	 * Sets style bar visibility to true and false.
-	 * When visible, style bar occupies a space of a full row (instead of floating).
-	 * E.g. in CASView and SpreadsheetView
-	 * @param value true to show style bar
+	 * Sets style bar visibility to true and false. When visible, style bar
+	 * occupies a space of a full row (instead of floating). E.g. in CASView and
+	 * SpreadsheetView
+	 * 
+	 * @param value
+	 *            true to show style bar
 	 */
 	private void setStyleBarLongVisibility(boolean value) {
 		// in applets title bar may be null and view menu still enabled
@@ -1067,8 +1063,8 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public DockPanelData createInfo() {
 		return new DockPanelData(id, getToolbarString(), visible, openInFrame,
-		        showStyleBar, new Rectangle(frameBounds),
-		        embeddedDef, embeddedSize);
+				showStyleBar, new Rectangle(frameBounds), embeddedDef,
+				embeddedSize);
 	}
 
 	/**
@@ -1100,18 +1096,18 @@ public abstract class DockPanelW extends ResizeComposite
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
 		if (app != null) {
-			app.dispatchEvent(new Event(EventType.SHOW_STYLE_BAR, null, "["
-				+ showStyleBar + "," + getViewId() + "]"));
+			app.dispatchEvent(new Event(EventType.SHOW_STYLE_BAR, null,
+					"[" + showStyleBar + "," + getViewId() + "]"));
 		}
-//		if (this.toggleStyleBarButton != null) {
-//			this.toggleStyleBarButton.getElement().removeAllChildren();
-//			this.toggleStyleBarButton.getElement().appendChild(getToggleImage(showStyleBar).getElement());
-//			if(!showStyleBar && viewImage != null){
-//				toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
-//			} else {
-//				toggleStyleBarButton.removeStyleName("toggleStyleBarViewIcon");
-//			}
-//		}
+		// if (this.toggleStyleBarButton != null) {
+		// this.toggleStyleBarButton.getElement().removeAllChildren();
+		// this.toggleStyleBarButton.getElement().appendChild(getToggleImage(showStyleBar).getElement());
+		// if(!showStyleBar && viewImage != null){
+		// toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
+		// } else {
+		// toggleStyleBarButton.removeStyleName("toggleStyleBarViewIcon");
+		// }
+		// }
 	}
 
 	/**
@@ -1119,15 +1115,15 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	public boolean isStyleBarVisible() {
 		if (id == App.VIEW_EUCLIDIAN || id == App.VIEW_EUCLIDIAN2
-		        || id == App.VIEW_ALGEBRA) {
+				|| id == App.VIEW_ALGEBRA) {
 			if (!app.getSettings().getLayout().isAllowingStyleBar()) {
 				return false;
 			}
 		}
 		return (showStyleBar /*
-							 * || !(theRealTitleBarPanel.isVisible() &&
-							 * theRealTitleBarPanel.isAttached())
-							 */);
+								 * || !(theRealTitleBarPanel.isVisible() &&
+								 * theRealTitleBarPanel.isAttached())
+								 */);
 	}
 
 	/**
@@ -1188,7 +1184,6 @@ public abstract class DockPanelW extends ResizeComposite
 	public boolean isVisible() {
 		return visible;
 	}
-
 
 	/** @return Whether this has focus */
 	public boolean hasFocus() {
@@ -1273,7 +1268,7 @@ public abstract class DockPanelW extends ResizeComposite
 		if (hasToolbar()) {
 			((GuiManagerW) app.getGuiManager())
 					.setActivePanelAndToolbar(getViewId());
-		} 
+		}
 	}
 
 	/**
@@ -1347,14 +1342,13 @@ public abstract class DockPanelW extends ResizeComposite
 	public boolean hasToolbar() {
 		return defaultToolbarString != null;
 	}
-	
+
 	/**
 	 * @return If this panel can customize its toolbar.
 	 */
-	public boolean canCustomizeToolbar(){
+	public boolean canCustomizeToolbar() {
 		return hasToolbar();
 	}
-
 
 	/**
 	 * @return The definition string associated with this toolbar.
@@ -1430,22 +1424,21 @@ public abstract class DockPanelW extends ResizeComposite
 		setVisible(visible);
 	}
 
-
 	public void enableDragging(boolean drag) {
 		if (dragPanel == null) {
 			return;
 		}
-		
+
 		// titleBarPanelContent is unvisible, when it's empty
 		// so is has to be shown/hidden when dragmode changes
 		titleBarPanelContent.setVisible(drag || !isStyleBarEmpty());
 		dragPanel.setVisible(drag);
-		
+
 		// hide close button when in dragmode
 		closeButtonPanel.setVisible(!drag);
-		//TODO view menu?
+		// TODO view menu?
 
-		if(drag){
+		if (drag) {
 			titleBarPanelContent.removeStyleName("TitleBarPanelContent");
 			titleBarPanelContent.addStyleName("DragPanel");
 		} else {
@@ -1473,24 +1466,28 @@ public abstract class DockPanelW extends ResizeComposite
 	public GDimension getEstimatedSize() {
 		switch (getViewId()) {
 		case App.VIEW_EUCLIDIAN:
-			return new GDimensionW(app.getSettings().getEuclidian(1)
-			        .getPreferredSize().getWidth(), app.getSettings()
-			        .getEuclidian(1).getPreferredSize().getHeight());
+			return new GDimensionW(
+					app.getSettings().getEuclidian(1).getPreferredSize()
+							.getWidth(),
+					app.getSettings().getEuclidian(1).getPreferredSize()
+							.getHeight());
 		case App.VIEW_EUCLIDIAN2:
-			return new GDimensionW(app.getSettings().getEuclidian(2)
-			        .getPreferredSize().getWidth(), app.getSettings()
-			        .getEuclidian(2).getPreferredSize().getHeight());
+			return new GDimensionW(
+					app.getSettings().getEuclidian(2).getPreferredSize()
+							.getWidth(),
+					app.getSettings().getEuclidian(2).getPreferredSize()
+							.getHeight());
 		case App.VIEW_SPREADSHEET:
-			return new GDimensionW(app.getSettings().getSpreadsheet()
-			        .preferredSize().getWidth(), app.getSettings()
-			        .getSpreadsheet().preferredSize().getHeight());
+			return new GDimensionW(
+					app.getSettings().getSpreadsheet().preferredSize()
+							.getWidth(),
+					app.getSettings().getSpreadsheet().preferredSize()
+							.getHeight());
 		}
 
 		// probably won't work
 		return new GDimensionW(getOffsetWidth(), getOffsetHeight());
 	}
-
-
 
 	/**
 	 * embedded dimensions (calculated when perspective is set)
@@ -1524,45 +1521,48 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Initializes the view-specific icon of the DockPanel
 	 * 
-	 * @param imageResource: the icon the be shown
+	 * @param imageResource:
+	 *            the icon the be shown
 	 */
-	public void setViewImage(ResourcePrototype imageResource){
+	public void setViewImage(ResourcePrototype imageResource) {
 		this.viewImage = imageResource;
 	}
-	
-	private ResourcePrototype getToggleImage(boolean showing){
-		if(showing){
-			if(triangleRight == null){
+
+	private ResourcePrototype getToggleImage(boolean showing) {
+		if (showing) {
+			if (triangleRight == null) {
 				triangleRight = new Image(
-				        GuiResources.INSTANCE.dockbar_triangle_right());
+						GuiResources.INSTANCE.dockbar_triangle_right());
 			}
 			return GuiResources.INSTANCE.dockbar_triangle_right();
 		}
 		if (getViewIcon() != null) {
 			return getViewIcon();
 		}
-		if(triangleLeft == null){
+		if (triangleLeft == null) {
 			triangleLeft = new Image(
-			        GuiResources.INSTANCE.dockbar_triangle_left());
+					GuiResources.INSTANCE.dockbar_triangle_left());
 		}
 		return GuiResources.INSTANCE.dockbar_triangle_left();
 	}
 
 	protected abstract ResourcePrototype getViewIcon();
 
-	public void setStyleBarRightOffset(int offset){
-		if(this.titleBarPanel != null){
-			this.titleBarPanel.getElement().getStyle().setPosition(Position.ABSOLUTE);
-			this.titleBarPanel.getElement().getStyle().setRight(offset, Unit.PX);
+	public void setStyleBarRightOffset(int offset) {
+		if (this.titleBarPanel != null) {
+			this.titleBarPanel.getElement().getStyle()
+					.setPosition(Position.ABSOLUTE);
+			this.titleBarPanel.getElement().getStyle().setRight(offset,
+					Unit.PX);
 		}
 	}
 
-	public void showStyleBarPanel(boolean show){
-		if(this.titleBarPanel != null){
+	public void showStyleBarPanel(boolean show) {
+		if (this.titleBarPanel != null) {
 			this.titleBarPanel.setVisible(show);
 		}
 	}
-	
+
 	public boolean isStyleBarPanelShown() {
 		if (titleBarPanel != null) {
 			return this.titleBarPanel.isVisible()
@@ -1577,9 +1577,8 @@ public abstract class DockPanelW extends ResizeComposite
 
 	public void addToToolbar(int mode) {
 		this.toolbarString = ToolBar.addMode(toolbarString, mode);
-	    
-    }
 
+	}
 
 	public void setCloseButtonVisible(boolean isVisible) {
 		if (closeButtonPanel == null) {
@@ -1613,9 +1612,8 @@ public abstract class DockPanelW extends ResizeComposite
 				app.getGuiManager().updatePropertiesViewStylebar();
 			}
 		}
-		
-		
-		if(!app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)){
+
+		if (!app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
 			// hide the keyboard-button, when the view is closed
 			if (keyboardButton != null && !visible) {
 				keyboardButton.hide();
@@ -1686,8 +1684,7 @@ public abstract class DockPanelW extends ResizeComposite
 	@Override
 	public boolean onTab(Widget source, boolean shiftDown) {
 		if (source == graphicsContextMenuBtn && !shiftDown) {
-			app.getAccessibilityManager().
-				focusNext(graphicsContextMenuBtn);
+			app.getAccessibilityManager().focusNext(graphicsContextMenuBtn);
 			return true;
 		}
 

@@ -34,15 +34,17 @@ import com.google.gwt.user.client.ui.RadioButton;
  * @author G. Sturr
  * 
  */
-public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, BlurHandler, StatPanelInterfaceW {
+public class OneVarInferencePanelW extends FlowPanel
+		implements ClickHandler, BlurHandler, StatPanelInterfaceW {
 	// ggb fields
 	private AppW app;
 	private Kernel kernel;
 	private DataAnalysisViewW statDialog;
 	private StatTableW resultTable;
-	
+
 	// GUI
-	private Label lblHypParameter, lblTailType, lblNull, lblConfLevel,lblSigma, lblResultHeader;
+	private Label lblHypParameter, lblTailType, lblNull, lblConfLevel, lblSigma,
+			lblResultHeader;
 	private Button btnCalculate;
 	private AutoCompleteTextFieldW fldNullHyp, fldConfLevel, fldSigma;
 	private RadioButton btnLeft, btnRight, btnTwo;
@@ -50,22 +52,13 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	private FlowPanel testPanel, intPanel, mainPanel, resultPanel;
 	private FlowPanel sigmaPanel;
 	private int fieldWidth = 6;
-	
-
-
-
 
 	// statistics
-
-
-
-
 
 	// flags
 	private boolean isIniting;
 	private boolean isTest = true;
 	private boolean isZProcedure;
-	
 
 	private LocalizationW loc;
 	private boolean enablePooled;
@@ -73,31 +66,34 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 	private class ParamKeyHandler implements KeyHandler {
 		private Object source;
+
 		public ParamKeyHandler(Object source) {
 			this.source = source;
 		}
+
 		@Override
 		public void keyReleased(KeyEvent e) {
-	        if (e.isEnterKey()) {
-	        	actionPerformed(source);
-	        }
-        }
+			if (e.isEnterKey()) {
+				actionPerformed(source);
+			}
+		}
 	}
-	
+
 	private class ParamBlurHandler implements BlurHandler {
 		private Object source;
+
 		public ParamBlurHandler(Object source) {
 			this.source = source;
 		}
+
 		@Override
 		public void onBlur(BlurEvent event) {
-			   actionPerformed(source);
-		            
-        }
-		
+			actionPerformed(source);
+
+		}
+
 	}
-	
-	
+
 	/***************************************
 	 * Construct a OneVarInference panel
 	 */
@@ -105,27 +101,24 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		isIniting = true;
 		this.app = app;
-		this.loc = (LocalizationW)app.getLocalization();
+		this.loc = (LocalizationW) app.getLocalization();
 		this.kernel = app.getKernel();
 		this.model = new OneVarModel();
 		this.statDialog = statDialog;
 		this.statDialog.getController().loadDataLists(true);
 		this.createGUIElements();
-		
+
 		this.updateGUI();
 		this.setLabels();
 
 		isIniting = false;
 	}
-	
 
+	// ============================================================
+	// Create GUI
+	// ============================================================
 
-	//============================================================
-	//           Create GUI 
-	//============================================================
-
-	private void createGUIElements(){
-
+	private void createGUIElements() {
 
 		btnLeft = new RadioButton(OneVarModel.tail_left);
 		btnRight = new RadioButton(OneVarModel.tail_right);
@@ -141,20 +134,19 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		lbAltHyp = new ListBox();
 		lbAltHyp.addChangeHandler(new ChangeHandler() {
-			
+
 			@Override
 			public void onChange(ChangeEvent event) {
 				actionPerformed(lbAltHyp);
 			}
 		});
 
-
 		lblNull = new Label();
 		lblNull.setStyleName("panelTitle");
 		lblHypParameter = new Label();
 		lblTailType = new Label();
 		lblTailType.setStyleName("panelTitle");
-		
+
 		fldNullHyp = (new InputPanelW(app, -1, false)).getTextComponent();
 		fldNullHyp.setColumns(fieldWidth);
 		fldNullHyp.setText("" + 0);
@@ -179,58 +171,52 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		sigmaPanel = new FlowPanel();
 		sigmaPanel.add(LayoutUtilW.panelRowIndent(lblSigma, fldSigma));
-//		// test panel	
+		// // test panel
 		testPanel = new FlowPanel();
 		testPanel.add(lblNull);
 		testPanel.add(LayoutUtilW.panelRowIndent(lblHypParameter, fldNullHyp));
 		testPanel.add(lblTailType);
 		testPanel.add(LayoutUtilW.panelRowIndent(lbAltHyp));
-//		// CI panel	
+		// // CI panel
 		intPanel = new FlowPanel();
 		intPanel.add(lblConfLevel);
-		intPanel.add(fldConfLevel);	
-//
-//		// result panel	
+		intPanel.add(fldConfLevel);
+		//
+		// // result panel
 		resultTable = new StatTableW();
 		resultTable.setStyleName("daStatistics");
 		setResultTable();
 
-		
 		resultPanel = new FlowPanel();
 		resultPanel.add(lblResultHeader);
 		resultPanel.add(resultTable);
-//
-//
-//
+		//
+		//
+		//
 		// main panel
 		mainPanel = new FlowPanel();
 		add(mainPanel);
 		add(resultPanel);
 	}
 
-
-	private void updateMainPanel(){
+	private void updateMainPanel() {
 		mainPanel.clear();
 
-		if(isZProcedure) {
+		if (isZProcedure) {
 			mainPanel.add(sigmaPanel);
 		}
 
-		if(isTest) {
+		if (isTest) {
 			mainPanel.add(testPanel);
-		}
-		else {
+		} else {
 			mainPanel.add(intPanel);
 		}
 
 		mainPanel.add(resultPanel);
 
-
 	}
 
-
-
-	private void  setResultTable(){
+	private void setResultTable() {
 
 		ArrayList<String> nameList = model.getNameList(loc);
 
@@ -240,21 +226,20 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 	}
 
-
-	private void updateResultTable(){
-
+	private void updateResultTable() {
 
 		evaluate();
 		String cInt = statDialog.format(model.getMean()) + " \u00B1 "
 				+ statDialog.format(model.getMe());
-		
+
 		switch (model.selectedPlot) {
 		default:
 			// do nothing
 			break;
 		case StatisticsModel.INFER_ZTEST:
 			resultTable.setValueAt(statDialog.format(model.getP()), 0, 1);
-			resultTable.setValueAt(statDialog.format(model.getTestStat()), 1, 1);
+			resultTable.setValueAt(statDialog.format(model.getTestStat()), 1,
+					1);
 			resultTable.setValueAt("", 2, 1);
 			resultTable.setValueAt(statDialog.format(model.getN()), 3, 1);
 			resultTable.setValueAt(statDialog.format(model.getMean()), 4, 1);
@@ -262,7 +247,8 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 		case StatisticsModel.INFER_TTEST:
 			resultTable.setValueAt(statDialog.format(model.getP()), 0, 1);
-			resultTable.setValueAt(statDialog.format(model.getTestStat()), 1, 1);
+			resultTable.setValueAt(statDialog.format(model.getTestStat()), 1,
+					1);
 			resultTable.setValueAt(statDialog.format(model.getDf()), 2, 1);
 			resultTable.setValueAt(statDialog.format(model.getSe()), 3, 1);
 			resultTable.setValueAt("", 4, 1);
@@ -271,7 +257,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 			break;
 
 		case StatisticsModel.INFER_ZINT:
-			resultTable.setValueAt(cInt,0,1);
+			resultTable.setValueAt(cInt, 0, 1);
 			resultTable.setValueAt(statDialog.format(model.getLower()), 1, 1);
 			resultTable.setValueAt(statDialog.format(model.getUpper()), 2, 1);
 			resultTable.setValueAt(statDialog.format(model.getMe()), 3, 1);
@@ -281,7 +267,7 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 			break;
 
 		case StatisticsModel.INFER_TINT:
-			resultTable.setValueAt(cInt,0,1);
+			resultTable.setValueAt(cInt, 0, 1);
 			resultTable.setValueAt(statDialog.format(model.getLower()), 1, 1);
 			resultTable.setValueAt(statDialog.format(model.getUpper()), 2, 1);
 			resultTable.setValueAt(statDialog.format(model.getMe()), 3, 1);
@@ -295,18 +281,14 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 	}
 
+	// ============================================================
+	// Updates and Event Handlers
+	// ============================================================
 
-
-
-	//============================================================
-	//           Updates and Event Handlers
-	//============================================================
-
-	
 	@Override
 	public void setLabels() {
 
-		lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = " );
+		lblHypParameter.setText(loc.getMenu("HypothesizedMean.short") + " = ");
 		lblNull.setText(loc.getMenu("NullHypothesis") + ": ");
 		lblTailType.setText(loc.getMenu("AlternativeHypothesis") + ": ");
 		lblConfLevel.setText(loc.getMenu("ConfidenceLevel") + ": ");
@@ -315,14 +297,13 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		btnCalculate.setText(loc.getMenu("Calculate"));
 	}
 
-
 	/** Helper method for updateGUI() */
-	private void updateNumberField(AutoCompleteTextFieldW fld,  double n){
+	private void updateNumberField(AutoCompleteTextFieldW fld, double n) {
 		fld.setText(statDialog.format(n));
-		//fld.setCaretPosition(0);
+		// fld.setCaretPosition(0);
 	}
 
-	private void updateGUI(){
+	private void updateGUI() {
 
 		isTest = (model.selectedPlot == StatisticsModel.INFER_ZTEST
 				|| model.selectedPlot == StatisticsModel.INFER_TTEST);
@@ -335,22 +316,21 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 		updateNumberField(fldSigma, model.sigma);
 		updateCBAlternativeHyp();
 		setResultTable();
-		updateResultTable();	
+		updateResultTable();
 		updateMainPanel();
 	}
 
-
-	private void updateCBAlternativeHyp(){
+	private void updateCBAlternativeHyp() {
 		lbAltHyp.clear();
 		lbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
 				+ OneVarModel.tail_right + " "
 				+ statDialog.format(model.hypMean));
 		lbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
-				+ OneVarModel.tail_left
-				+ " " + statDialog.format(model.hypMean));
+				+ OneVarModel.tail_left + " "
+				+ statDialog.format(model.hypMean));
 		lbAltHyp.addItem(loc.getMenu("HypothesizedMean.short") + " "
-				+ OneVarModel.tail_two
-				+ " " + statDialog.format(model.hypMean));
+				+ OneVarModel.tail_two + " "
+				+ statDialog.format(model.hypMean));
 
 		if (model.tail == OneVarModel.tail_right) {
 			lbAltHyp.setSelectedIndex(0);
@@ -360,25 +340,22 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 			lbAltHyp.setSelectedIndex(2);
 		}
 
-
 	}
 
-
-
 	public void actionPerformed(Object source) {
-		if(isIniting) {
+		if (isIniting) {
 			return;
 		}
 
 		if (source instanceof AutoCompleteTextFieldW) {
-			doTextFieldActionPerformed((AutoCompleteTextFieldW)source);
+			doTextFieldActionPerformed((AutoCompleteTextFieldW) source);
 		}
 
-		else if(source == lbAltHyp){
+		else if (source == lbAltHyp) {
 
-			if(lbAltHyp.getSelectedIndex() == 0) {
+			if (lbAltHyp.getSelectedIndex() == 0) {
 				model.tail = OneVarModel.tail_right;
-			} else if(lbAltHyp.getSelectedIndex() == 1) {
+			} else if (lbAltHyp.getSelectedIndex() == 1) {
 				model.tail = OneVarModel.tail_left;
 			} else {
 				model.tail = OneVarModel.tail_two;
@@ -391,26 +368,26 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 	}
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
-		if(isIniting) {
+		if (isIniting) {
 			return;
 		}
 
 		Double value = model.evaluateExpression(kernel,
 				source.getText().trim());
 
-		if(source == fldConfLevel){
+		if (source == fldConfLevel) {
 			model.confLevel = value;
 			evaluate();
 			updateGUI();
 		}
 
-		else if(source == fldNullHyp){
+		else if (source == fldNullHyp) {
 			model.hypMean = value;
 			evaluate();
 			updateGUI();
 		}
 
-		else if(source == fldSigma){
+		else if (source == fldSigma) {
 			model.sigma = value;
 			evaluate();
 			updateGUI();
@@ -418,29 +395,23 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 	}
 
-
-	public void setSelectedPlot(int selectedPlot){
+	public void setSelectedPlot(int selectedPlot) {
 		model.selectedPlot = selectedPlot;
 		updateGUI();
 	}
 
 	@Override
-	public void updatePanel(){
+	public void updatePanel() {
 		evaluate();
 		updateGUI();
 		updateResultTable();
 	}
 
+	// ============================================================
+	// Computation
+	// ============================================================
 
-
-
-
-	//============================================================
-	//          Computation
-	//============================================================
-
-
-	private void evaluate(){
+	private void evaluate() {
 
 		GeoList dataList = statDialog.getController().getDataSelected();
 		double[] sample = statDialog.getController().getValueArray(dataList);
@@ -449,36 +420,26 @@ public class OneVarInferencePanelW extends FlowPanel implements ClickHandler, Bl
 
 	}
 
-
-
-	//============================================================
-	//           GUI  Utilities
-	//============================================================
-
-
-
-
+	// ============================================================
+	// GUI Utilities
+	// ============================================================
 
 	public void onFocus(FocusEvent event) {
-	    // TODO Auto-generated method stub
-    }
-
-
+		// TODO Auto-generated method stub
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {
-	    actionPerformed(event.getSource());
-    }
-
-
+		actionPerformed(event.getSource());
+	}
 
 	@Override
 	public void onBlur(BlurEvent event) {
-	    // TODO Auto-generated method stub
-		doTextFieldActionPerformed((AutoCompleteTextFieldW)(event.getSource()));
-   
-    }
+		// TODO Auto-generated method stub
+		doTextFieldActionPerformed(
+				(AutoCompleteTextFieldW) (event.getSource()));
 
+	}
 
 	public boolean isEnablePooled() {
 		return enablePooled;

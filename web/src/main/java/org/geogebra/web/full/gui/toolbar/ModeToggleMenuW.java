@@ -40,10 +40,9 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-
-public class ModeToggleMenuW extends ListItem implements MouseDownHandler, MouseUpHandler, 
-TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHandler{
-
+public class ModeToggleMenuW extends ListItem
+		implements MouseDownHandler, MouseUpHandler, TouchStartHandler,
+		TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHandler {
 
 	protected FlowPanel tbutton;
 	protected ToolbarSubmenuW submenu;
@@ -53,13 +52,13 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	protected ToolBarW toolbar;
 
 	protected final Vector<Integer> menu;
-	
-	
+
 	private boolean wasMenuShownOnMouseDown;
 
 	protected int order;
 
-	public ModeToggleMenuW(AppW appl, Vector<Integer> menu1, ToolBarW tb, int order) {
+	public ModeToggleMenuW(AppW appl, Vector<Integer> menu1, ToolBarW tb,
+			int order) {
 		super();
 		this.order = order;
 		this.app = appl;
@@ -72,15 +71,16 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	protected void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
-		Image toolbarImg = new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(menu.get(0).intValue()),32);
+		Image toolbarImg = new NoDragImage(((GGWToolBar) app.getToolbar())
+				.getImageURL(menu.get(0).intValue()), 32);
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
-		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
+		tbutton.getElement().setAttribute("mode", menu.get(0).intValue() + "");
 		tbutton.getElement().setAttribute("isMobile", "false");
 		addDomHandlers(tbutton);
 		addPasteHandlerTo(tbutton.getElement());
 		this.add(tbutton);
-    }
+	}
 
 	public native void addPasteHandlerTo(Element elem) /*-{
 		var self = this;
@@ -169,18 +169,18 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		return new ToolbarSubmenuW(app, order);
 	}
 
-	public void setButtonTabIndex(int index){
+	public void setButtonTabIndex(int index) {
 		tbutton.getElement().setTabIndex(index);
 	}
 
-	public UnorderedList getItemList(){
+	public UnorderedList getItemList() {
 		if (submenu != null) {
 			return submenu.getItemList();
 		}
 		return null;
 	}
-	
-	public void addDomHandlers(Widget w){
+
+	public void addDomHandlers(Widget w) {
 		w.addDomHandler(this, MouseDownEvent.getType());
 		w.addDomHandler(this, MouseUpEvent.getType());
 		w.addDomHandler(this, TouchStartEvent.getType());
@@ -189,12 +189,12 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		w.addDomHandler(this, MouseOutEvent.getType());
 		w.addDomHandler(this, KeyUpEvent.getType());
 	}
-	
+
 	/**
 	 * Sets the menu visible if it exists
 	 */
 	public void showMenu() {
-		if(this.submenu == null){
+		if (this.submenu == null) {
 			this.buildGui();
 		}
 		if (submenu != null) {
@@ -212,9 +212,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			submenu.setVisible(false);
 		}
 	}
-	
+
 	/**
-	 * @param visible if true sets the menu visible, otherwise it hides it
+	 * @param visible
+	 *            if true sets the menu visible, otherwise it hides it
 	 */
 	public void setMenuVisibility(boolean visible) {
 		if (submenu == null) {
@@ -226,34 +227,38 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			hideMenu();
 		}
 	}
-	
+
 	public boolean selectMode(int mode, ModeSetter m) {
 		String modeText = mode + "";
 		boolean imageDialog = mode == EuclidianConstants.MODE_IMAGE;
-		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
+		// If there is only one menuitem, there is no submenu -> set the button
+		// selected, if the mode is the same.
 		if (menu.size() == 1 && !imageDialog) {
 			if (menu.get(0) == mode) {
-				
 
 				showToolTipBottom(mode, m);
 				this.setCssToSelected();
-				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
-								//remove, if it will be updated without this.
+				toolbar.update(); // TODO! needed to regenerate the toolbar, if
+									// we want to see the border.
+									// remove, if it will be updated without
+									// this.
 				return true;
 			}
 			return false;
 		}
 		boolean needsGUI = false;
 		if (getItemList() == null) {
-			if (menu.get(0) == mode){
-				
+			if (menu.get(0) == mode) {
+
 				this.setCssToSelected();
-				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
-								//remove, if it will be updated without this.
+				toolbar.update(); // TODO! needed to regenerate the toolbar, if
+									// we want to see the border.
+									// remove, if it will be updated without
+									// this.
 				return true;
 			}
-			for(Integer i: this.menu){
-				if(i == mode){
+			for (Integer i : this.menu) {
+				if (i == mode) {
 					needsGUI = true;
 				}
 			}
@@ -264,7 +269,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		if (needsGUI) {
 			buildGui();
 		}
-		
+
 		for (int i = 0; i < getItemList().getWidgetCount(); i++) {
 			Widget mi = getItemList().getWidget(i); // submenuitems
 			// found item for mode?
@@ -273,29 +278,26 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				if (!imageDialog) {
 					selectItem(mi);
 				}
-				
+
 				showToolTipBottom(mode, m);
 				return true;
 			}
 		}
-//		tbutton.getElement().setAttribute("isSelected", "false");
+		// tbutton.getElement().setAttribute("isSelected", "false");
 		return false;
 	}
 
-	
-
-
 	public int getFirstMode() {
-		if (menu.size() == 0){
+		if (menu.size() == 0) {
 			return -1;
 		}
-		
+
 		int firstmode = menu.get(0);
 		return firstmode;
 	}
-	
+
 	void selectItem(Widget mi) {
-		
+
 		final String miMode = mi.getElement().getAttribute("mode");
 		// check if the menu item is already selected
 		if (tbutton.getElement().getAttribute("isSelected").equals("true")
@@ -303,7 +305,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			return;
 		}
 
-		tbutton.getElement().setAttribute("mode",miMode);
+		tbutton.getElement().setAttribute("mode", miMode);
 		//
 		tbutton.clear();
 		Image buttonImage = new NoDragImage(((GGWToolBar) app.getToolbar())
@@ -318,30 +320,33 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		setCssToSelected();
 
 	}
-	
-	
-	private void setCssToSelected(){
-		ArrayList<ModeToggleMenuW> modeToggleMenus = toolbar.getModeToggleMenus();
+
+	private void setCssToSelected() {
+		ArrayList<ModeToggleMenuW> modeToggleMenus = toolbar
+				.getModeToggleMenus();
 		for (int i = 0; i < modeToggleMenus.size(); i++) {
 			ModeToggleMenuW mtm = modeToggleMenus.get(i);
 			if (mtm != this) {
-				mtm.getToolbarButtonPanel().getElement().getStyle().setBorderWidth(1, Unit.PX);
-				mtm.getToolbarButtonPanel().getElement().setAttribute("isSelected","false");
+				mtm.getToolbarButtonPanel().getElement().getStyle()
+						.setBorderWidth(1, Unit.PX);
+				mtm.getToolbarButtonPanel().getElement()
+						.setAttribute("isSelected", "false");
 			}
 		}
-		//Set border width explicitly to make sure browser actually does that 
+		// Set border width explicitly to make sure browser actually does that
 		// (otherwise the thicker border applies on next browser event)
-		getToolbarButtonPanel().getElement().setAttribute("isSelected","true");
-		getToolbarButtonPanel().getElement().getStyle().setBorderWidth(2, Unit.PX);
+		getToolbarButtonPanel().getElement().setAttribute("isSelected", "true");
+		getToolbarButtonPanel().getElement().getStyle().setBorderWidth(2,
+				Unit.PX);
 	}
-	
-	public void addSeparator(){
-		//TODO
+
+	public void addSeparator() {
+		// TODO
 	}
 
 	public void onEnd(DomEvent<?> event) {
-		int mode = Integer.parseInt(event.getRelativeElement().getAttribute(
-				"mode"));
+		int mode = Integer
+				.parseInt(event.getRelativeElement().getAttribute("mode"));
 		if (mode < 999 || mode > 2000) {
 			app.hideKeyboard();
 		}
@@ -349,12 +354,14 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		event.stopPropagation();
 		if (event.getSource() == tbutton) { // if click ended on the button
 			// if enter was pressed
-			if ((event instanceof KeyUpEvent) && ((KeyUpEvent)event).getNativeKeyCode() == KeyCodes.KEY_ENTER){
+			if ((event instanceof KeyUpEvent) && ((KeyUpEvent) event)
+					.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 				setMenuVisibility(!isMenuShown());
 			}
-				// if submenu was open
-				if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent && app.getLAF().isSmart())) {
-					hideMenu();
+			// if submenu was open
+			if (wasMenuShownOnMouseDown && !(event instanceof TouchEndEvent
+					&& app.getLAF().isSmart())) {
+				hideMenu();
 			}
 		} else { // click ended on menu item
 			hideMenu();
@@ -362,35 +369,36 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 
 		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-		//if we click the toolbar button, only interpret it as real click if there is only one tool in this menu
-		app.setMode(
-				mode,
-				event.getSource() == tbutton && menu.size() > 1 ? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
+		// if we click the toolbar button, only interpret it as real click if
+		// there is only one tool in this menu
+		app.setMode(mode, event.getSource() == tbutton && menu.size() > 1
+				? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
 		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 
 		tbutton.getElement().focus();
 	}
 
 	@Override
-    public void onTouchStart(TouchStartEvent event) {
+	public void onTouchStart(TouchStartEvent event) {
 		if (event.getSource() == tbutton) {
-	    	onStart(event);
-	    	CancelEventTimer.touchEventOccured();
-	    } else { // clicked on a submenu list item
-	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()
-	    }
+			onStart(event);
+			CancelEventTimer.touchEventOccured();
+		} else { // clicked on a submenu list item
+			event.stopPropagation(); // the submenu doesn't close as a popup,
+										// see GeoGebraAppFrame init()
+		}
 		event.preventDefault();
-    }
+	}
 
 	@Override
-    public void onTouchEnd(TouchEndEvent event) {
+	public void onTouchEnd(TouchEndEvent event) {
 		onEnd(event);
 		CancelEventTimer.touchEventOccured();
-    }
+	}
 
 	@Override
-    public void onMouseUp(MouseUpEvent event) {
-		if(CancelEventTimer.cancelMouseEvent()){
+	public void onMouseUp(MouseUpEvent event) {
+		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
 		onEnd(event);
@@ -399,24 +407,25 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 					&& this.app.getActiveEuclidianView()
 							.getEuclidianController() != null) {
 				((IsEuclidianController) this.app.getActiveEuclidianView()
-						.getEuclidianController()).setActualSticky(
-								event.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+						.getEuclidianController()).setActualSticky(event
+								.getNativeButton() == NativeEvent.BUTTON_RIGHT);
 			}
 		}
 	}
 
 	@Override
-    public void onMouseDown(MouseDownEvent event) {
+	public void onMouseDown(MouseDownEvent event) {
 		if (event.getSource() == tbutton
-		        && !CancelEventTimer.cancelMouseEvent()) {
-	    	onStart(event);
-	    } else { // clicked on a submenu list item
+				&& !CancelEventTimer.cancelMouseEvent()) {
+			onStart(event);
+		} else { // clicked on a submenu list item
 			showTooltipFor(event);
-	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()
-	    }
-	    event.preventDefault();
-    }
-	
+			event.stopPropagation(); // the submenu doesn't close as a popup,
+										// see GeoGebraAppFrame init()
+		}
+		event.preventDefault();
+	}
+
 	/**
 	 * Handles the touchstart and mousedown events on main tools.
 	 * 
@@ -438,7 +447,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			}
 		}
 	}
-	
+
 	protected void showTooltipFor(HumanInputEvent<?> event) {
 
 		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
@@ -446,8 +455,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		if (event.getSource() == tbutton) {
 			mode = menu.get(0);
 		} else {
-			mode = Integer.parseInt(event.getRelativeElement().getAttribute(
-					"mode"));
+			mode = Integer
+					.parseInt(event.getRelativeElement().getAttribute("mode"));
 		}
 		if (mode >= 0) {
 			// if we click the toolbar button, only interpret it as real
@@ -469,10 +478,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	/*
-	public void hideToolTip(){
-		ToolTipManagerW.sharedInstance().hideToolTip();
-	}*/
-	
+	 * public void hideToolTip(){
+	 * ToolTipManagerW.sharedInstance().hideToolTip(); }
+	 */
+
 	/**
 	 * @return true if the menu is open
 	 */
@@ -495,20 +504,20 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			showMenu();
 		}
 	}
-	
+
 	@Override
-    public void onMouseOut(MouseOutEvent event) {
+	public void onMouseOut(MouseOutEvent event) {
 		// Avoid opening submenu, if a user presses a button for a while,
-		// then move on an another button without mouseup. 
-		if(event.getSource() == tbutton){
+		// then move on an another button without mouseup.
+		if (event.getSource() == tbutton) {
 			return;
 		}
-		//submenu's menuitem won't be highlighted
+		// submenu's menuitem won't be highlighted
 		setHovered(event.getRelativeElement(), false);
-    }
+	}
 
 	private static void setHovered(Element el, boolean hovered) {
-		if (hovered){
+		if (hovered) {
 			el.addClassName("hovered");
 		} else {
 			el.removeClassName("hovered");
@@ -518,8 +527,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	@Override
 	public void onKeyUp(KeyUpEvent event) {
 		int keyCode = event.getNativeKeyCode();
-	
-		switch (keyCode){
+
+		switch (keyCode) {
 		default:
 			// do nothing
 			break;
@@ -529,60 +538,66 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		case KeyCodes.KEY_RIGHT:
 		case KeyCodes.KEY_LEFT:
 			int indexOfButton = toolbar.getModeToggleMenus().indexOf(this);
-			if (keyCode == KeyCodes.KEY_RIGHT){
+			if (keyCode == KeyCodes.KEY_RIGHT) {
 				indexOfButton++;
 			} else {
 				indexOfButton--;
-			}				
-			
-			if (indexOfButton >= 0 && indexOfButton < toolbar.getModeToggleMenus().size()){
+			}
+
+			if (indexOfButton >= 0
+					&& indexOfButton < toolbar.getModeToggleMenus().size()) {
 				selectMenu(indexOfButton);
-			}else{
+			} else {
 				toolbar.selectMenuButton(indexOfButton < 0 ? -1 : 0);
 			}
 			break;
 		case KeyCodes.KEY_DOWN:
-			if (event.getSource() == tbutton){
-				if(isMenuShown()){
+			if (event.getSource() == tbutton) {
+				if (isMenuShown()) {
 					this.getItemList().getWidget(0).getElement().focus();
 				} else {
 					showMenu();
 					this.getItemList().getWidget(0).getElement().focus();
 				}
 			} else {
-				Element nextSiblingElement = event.getRelativeElement().getNextSiblingElement();
-				if (nextSiblingElement != null){
+				Element nextSiblingElement = event.getRelativeElement()
+						.getNextSiblingElement();
+				if (nextSiblingElement != null) {
 					nextSiblingElement.focus();
 				} else {
-					event.getRelativeElement().getParentElement().getFirstChildElement().focus();
+					event.getRelativeElement().getParentElement()
+							.getFirstChildElement().focus();
 				}
 			}
 			break;
 		case KeyCodes.KEY_UP:
-			if (event.getSource() instanceof ListItem){
-				Element previousSiblingElement = event.getRelativeElement().getPreviousSiblingElement();
-				if (previousSiblingElement != null){
+			if (event.getSource() instanceof ListItem) {
+				Element previousSiblingElement = event.getRelativeElement()
+						.getPreviousSiblingElement();
+				if (previousSiblingElement != null) {
 					previousSiblingElement.focus();
 				} else {
-					UnorderedList parentUL = (UnorderedList)((ListItem)(event.getSource())).getParent(); 
-					parentUL.getWidget(parentUL.getWidgetCount()-1).getElement().focus();
+					UnorderedList parentUL = (UnorderedList) ((ListItem) (event
+							.getSource())).getParent();
+					parentUL.getWidget(parentUL.getWidgetCount() - 1)
+							.getElement().focus();
 				}
-				
+
 			}
 			break;
 		}
-    }
+	}
 
-	private void selectMenu(int index){
+	private void selectMenu(int index) {
 		ModeToggleMenuW mtm2 = toolbar.getModeToggleMenus().get(index);
-	
+
 		mtm2.tbutton.getElement().focus();
-		if(isMenuShown()){
+		if (isMenuShown()) {
 			hideMenu();
 			mtm2.showMenu();
 		}
 	}
-	
+
 	/**
 	 * @return the panel containing the toolbar button
 	 */
@@ -591,7 +606,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void addModes(Vector<Integer> menu2) {
-		if(this.submenu == null){
+		if (this.submenu == null) {
 			this.buildGui();
 		}
 		for (int k = 0; k < menu2.size(); k++) {
@@ -610,12 +625,12 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 				}
 			}
 		}
-	    
-    }
+
+	}
 
 	public void setMaxHeight(double d) {
-	    if(submenu != null){
-	    	this.submenu.setMaxHeight((int)d);
+		if (submenu != null) {
+			this.submenu.setMaxHeight((int) d);
 		}
-    }
+	}
 }

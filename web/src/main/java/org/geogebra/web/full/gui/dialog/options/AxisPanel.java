@@ -24,9 +24,10 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ListBox;
 
-public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListener {
+public class AxisPanel extends FlowPanel
+		implements SetLabels, IAxisModelListener {
 
-	private AxisModel model;
+	protected AxisModel model;
 
 	protected CheckBox cbShowAxis, cbAxisNumber, cbManualTicks, cbPositiveAxis,
 			cbDrawAtBorder, cbAllowSelection;
@@ -42,15 +43,19 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	private FormLabel axisUnitLabel;
 
 	private AppW app;
-	protected EuclidianView view;
+	private EuclidianView view;
 
 	private Localization loc;
-	
-	
+
 	/******************************************************
 	 * @param app
+	 *            application
 	 * @param view
+	 *            view
 	 * @param axis
+	 *            axis
+	 * @param view3D
+	 *            3D?
 	 */
 	public AxisPanel(AppW app, EuclidianView view, int axis, boolean view3D) {
 
@@ -60,37 +65,40 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		model = new AxisModel(app, view, axis, this);
 
 		this.addStyleName("axisPanel");
-		
+
 		String strAxisEn = model.getAxisName();
 		// this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
 
 		// show axis
 		cbShowAxis = new CheckBox(loc.getMenu("Show" + strAxisEn));
-		cbShowAxis.addClickHandler(new ClickHandler(){
+		cbShowAxis.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				model.showAxis(cbShowAxis.getValue());
-			}});
+			}
+		});
 
 		// show numbers
 		cbAxisNumber = new CheckBox(loc.getMenu("ShowAxisNumbers"));
-		cbAxisNumber.addClickHandler(new ClickHandler(){
+		cbAxisNumber.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				model.showAxisNumbers(cbAxisNumber.getValue());
-			}});
+			}
+		});
 
 		// show positive axis only
 		cbPositiveAxis = new CheckBox(loc.getMenu("PositiveDirectionOnly"));
-		cbPositiveAxis.addClickHandler(new ClickHandler(){
+		cbPositiveAxis.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				model.applyPositiveAxis(cbPositiveAxis.getValue());
 
-			}});
+			}
+		});
 
 		// allow axis selection
 		cbAllowSelection = new CheckBox(loc.getMenu("SelectionAllowed"));
@@ -108,15 +116,16 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 				.setFor(lbTickStyle);
 		model.fillTicksCombo();
 
-		lbTickStyle.addChangeHandler(new ChangeHandler(){
+		lbTickStyle.addChangeHandler(new ChangeHandler() {
 
 			@Override
 			public void onChange(ChangeEvent event) {
 				int type = lbTickStyle.getSelectedIndex();
 				model.applyTickStyle(type);
-				//				view.updateBackground();
-				//				updatePanel();
-			}});
+				// view.updateBackground();
+				// updatePanel();
+			}
+		});
 
 		FlowPanel showTicksPanel = new FlowPanel();
 		showTicksPanel.add(axisTicks);
@@ -124,27 +133,28 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		// distance
 		cbManualTicks = new CheckBox(loc.getMenu("TickDistance") + ":");
-		cbManualTicks.addClickHandler(new ClickHandler(){
+		cbManualTicks.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				boolean isTickDistanceOn = cbManualTicks.getValue(); 
+				boolean isTickDistanceOn = cbManualTicks.getValue();
 				model.applyTickDistance(isTickDistanceOn);
 				ncbTickDist.setEnabled(isTickDistanceOn);
 				if (isTickDistanceOn) {
 					model.applyTickDistance(ncbTickDist.getValue());
 				}
 
-			}});
+			}
+		});
 
-
-		ncbTickDist = new NumberListBox(app){
+		ncbTickDist = new NumberListBox(app) {
 
 			@Override
-            protected void onValueChange(String value) {
+			protected void onValueChange(String value) {
 				model.applyTickDistance(ncbTickDist.getValue());
-           
-            }};
+
+			}
+		};
 
 		FlowPanel distancePanel = new FlowPanel();
 		distancePanel.add(cbManualTicks);
@@ -154,34 +164,34 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		comboAxisLabel = new ComboBoxW(app) {
 
 			@Override
-            protected void onValueChange(String value) {
-				String text = comboAxisLabel.getValue().trim();
+			protected void onValueChange(String value) {
+				String text = getValue().trim();
 				model.applyAxisLabel(text);
-            
-            }};
+			}
+		};
 		comboAxisLabel.setEnabled(true);
-        model.fillAxisCombo();
-		
+		model.fillAxisCombo();
+
 		axisLabel = new FormLabel(loc.getMenu("AxisLabel") + ":")
 				.setFor(comboAxisLabel);
 
 		comboUnitLabel = new ComboBoxW(app) {
 
 			@Override
-            protected void onValueChange(String value) {
-				String text = comboUnitLabel.getValue().trim();
+			protected void onValueChange(String value) {
+				String text = getValue().trim();
 				model.applyUnitLabel(text);
-          
-            }};
+			}
+		};
 
-            model.fillUnitLabel();
+		model.fillUnitLabel();
 		axisUnitLabel = new FormLabel(loc.getMenu("AxisUnitLabel") + ":")
 				.setFor(comboUnitLabel);
 		comboUnitLabel.setEnabled(true);
 		FlowPanel labelPanel = new FlowPanel();
 		labelPanel.add(axisLabel);
 		labelPanel.add(comboAxisLabel);
-		
+
 		FlowPanel unitPanel = new FlowPanel();
 		unitPanel.add(axisUnitLabel);
 		unitPanel.add(comboUnitLabel);
@@ -200,26 +210,28 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 				if (e.isEnterKey()) {
 					model.applyCrossing(tfCross.getText());
 				}
-			}});
+			}
+		});
 
-		tfCross.addFocusListener(new FocusListenerW(this){
+		tfCross.addFocusListener(new FocusListenerW(this) {
 			@Override
-			protected void wrapFocusLost(){
+			protected void wrapFocusLost() {
 				model.applyCrossing(tfCross.getText());
-			}	
+			}
 		});
 
 		crossAt = new FormLabel(loc.getMenu("CrossAt") + ":").setFor(tfCross);
 		cbDrawAtBorder = new CheckBox(loc.getMenu("StickToEdge"));
-		cbDrawAtBorder.addClickHandler(new ClickHandler(){
+		cbDrawAtBorder.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
 				model.applyDrawAtBorder(cbDrawAtBorder.getValue());
-			}});
+			}
+		});
 
-
-		FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross, cbDrawAtBorder);
+		FlowPanel crossPanel = LayoutUtilW.panelRow(crossAt, tfCross,
+				cbDrawAtBorder);
 
 		cbShowAxis.setStyleName("checkBoxPanel");
 		cbAxisNumber.setStyleName("checkBoxPanel");
@@ -230,7 +242,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		unitPanel.setStyleName("listBoxPanel");
 		tfCross.setStyleName("numberInput");
 		cbAllowSelection.setStyleName("checkBoxPanel");
-		
+
 		// add all panels
 		add(cbShowAxis);
 		add(cbAxisNumber);
@@ -239,28 +251,32 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		add(showTicksPanel);
 		add(labelPanel);
 		add(unitPanel);
-		if (!view3D){
+		if (!view3D) {
 			add(crossPanel);
 		}
 		add(cbAllowSelection);
 		updatePanel();
 	}
-	
-	public void updateView(EuclidianView view) {
-		this.view = view;
-		model.setView(view);
+
+	/**
+	 * @param eView
+	 *            view to set
+	 */
+	public void updateView(EuclidianView eView) {
+		this.view = eView;
+		model.setView(eView);
 	}
 
+	/**
+	 * Update UI
+	 */
 	public void updatePanel() {
 		int axis = model.getAxis();
 		cbAxisNumber.setValue(view.getShowAxesNumbers()[axis]);
 
-
-		cbManualTicks
-		.setValue(!view.isAutomaticAxesNumberingDistance()[axis]);
+		cbManualTicks.setValue(!view.isAutomaticAxesNumberingDistance()[axis]);
 		ncbTickDist.setSelectedId(model.getAxisDistance());
 		ncbTickDist.setEnabled(cbManualTicks.getValue());
-
 
 		comboAxisLabel.setSelectedId(view.getAxesLabels(true)[axis]);
 		comboUnitLabel.setSelectedId(view.getAxesUnitLabels()[axis]);
@@ -277,7 +293,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		} else {
 			tfCross.setText("" + view.getAxesCross()[axis]);
 		}
-	
+
 		tfCross.setVisible(!view.getDrawBorderAxes()[axis]);
 		cbPositiveAxis.setValue(view.getPositiveAxes()[axis]);
 
@@ -286,6 +302,10 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 	}
 
+	/**
+	 * @param value
+	 *            whether to show axis
+	 */
 	public void setShowAxis(boolean value) {
 		cbShowAxis.setValue(value);
 	}
@@ -294,7 +314,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 	public void setLabels() {
 		String strAxisEn = model.getAxisName();
 		// this.setBorder(LayoutUtil.titleBorder(loc.getMenu(strAxisEn)));
-		//		this.setBorder(LayoutUtil.titleBorder(null));
+		// this.setBorder(LayoutUtil.titleBorder(null));
 		cbShowAxis.setText(loc.getMenu("Show" + strAxisEn));
 		cbAxisNumber.setText(loc.getMenu("ShowAxisNumbers"));
 		cbManualTicks.setText(loc.getMenu("TickDistance") + ":");
@@ -307,40 +327,31 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		cbAllowSelection.setText(loc.getMenu("SelectionAllowed"));
 	}
 
-	protected double parseDouble(String text) {
-		if (text == null || "".equals(text)) {
-			return Double.NaN;
-		}
-		return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
-	}
 
-	protected String getString() {
-		return model.getAxisName();
-	}
 	//
-	//	public void updateFont() {
-	//		Font font = app.getPlainFont();
+	// public void updateFont() {
+	// Font font = app.getPlainFont();
 	//
-	//		setFont(font);
+	// setFont(font);
 	//
-	//		cbShowAxis.setFont(font);
-	//		cbAxisNumber.setFont(font);
-	//		cbManualTicks.setFont(font);
-	//		axisTicks.setFont(font);
-	//		cbPositiveAxis.setFont(font);
-	//		axisLabel.setFont(font);
-	//		axisUnitLabel.setFont(font);
-	//		crossAt.setFont(font);
-	//		stickToEdge.setFont(font);
+	// cbShowAxis.setFont(font);
+	// cbAxisNumber.setFont(font);
+	// cbManualTicks.setFont(font);
+	// axisTicks.setFont(font);
+	// cbPositiveAxis.setFont(font);
+	// axisLabel.setFont(font);
+	// axisUnitLabel.setFont(font);
+	// crossAt.setFont(font);
+	// stickToEdge.setFont(font);
 	//
-	//		ncbTickDist.setFont(font);
+	// ncbTickDist.setFont(font);
 	//
-	//		lbTickStyle.setFont(font);
-	//		lbAxisLabel.setFont(font);
-	//		lbUnitLabel.setFont(font);
+	// lbTickStyle.setFont(font);
+	// lbAxisLabel.setFont(font);
+	// lbUnitLabel.setFont(font);
 	//
-	//		tfCross.setFont(font);
-	//	}
+	// tfCross.setFont(font);
+	// }
 
 	@Override
 	public void addTickItem(String item) {
@@ -349,13 +360,13 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 	@Override
 	public void addAxisLabelItem(String item) {
-		comboAxisLabel.addItem(item == null ? "": item);
-	} 
+		comboAxisLabel.addItem(item == null ? "" : item);
+	}
 
 	@Override
 	public void addUnitLabelItem(String item) {
-		comboUnitLabel.addItem(item == null ? "": item);
-	} 
+		comboUnitLabel.addItem(item == null ? "" : item);
+	}
 
 	@Override
 	public void setCrossText(String text) {

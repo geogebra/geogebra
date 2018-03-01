@@ -66,7 +66,9 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 public class ConstructionProtocolViewW extends ConstructionProtocolView
 		implements SetLabels, SettingListener, PrintableW {
 
-	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
+	/**
+	 * contains a scrollPanel with the {@link #table constructionstep-table}
+	 **/
 	public FlowPanel cpPanel;
 	/** table with constructionsteps **/
 	protected CellTable<RowData> table;
@@ -87,10 +89,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	CellTable<RowData> headerTable;
 	MyPanel outerScrollPanel;
 
-
 	/**
 	 * 
-	 * @param app {@link AppW}
+	 * @param app
+	 *            {@link AppW}
 	 */
 	public ConstructionProtocolViewW(final AppW app) {
 		cpPanel = new FlowPanel();
@@ -102,39 +104,37 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 		table = new CellTable<>();
 		table.addStyleName("cpTable");
-				
-//		first attempt with flextable
-//		table = new FlexTable();
-//		for (int k = 0; k < data.columns.length; k++) {
-//			if ((data.columns[k].getTitle() == "number") ||
-//					(data.columns[k].getTitle() == "name") ||
-//					(data.columns[k].getTitle() == "definition"))
-//				table.setText(0, k, data.columns[k].getTitle());
-//		}		
-//		
-//		
 
-		
+		// first attempt with flextable
+		// table = new FlexTable();
+		// for (int k = 0; k < data.columns.length; k++) {
+		// if ((data.columns[k].getTitle() == "number") ||
+		// (data.columns[k].getTitle() == "name") ||
+		// (data.columns[k].getTitle() == "definition"))
+		// table.setText(0, k, data.columns[k].getTitle());
+		// }
+		//
+		//
+
 		scrollPane = new ScrollPanel(table);
-
 
 		scrollPane.setStyleName("cpScrollPanel");
 		addHeader();
 		cpPanel.add(scrollPane);
 		cpPanel.addStyleName("cpPanel");
-		
+
 		addDragDropHandlers();
-		
+
 		addHeaderClickHandler();
 
-		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
+		ConstructionProtocolSettings cps = app.getSettings()
+				.getConstructionProtocol();
 		settingsChanged(cps);
 		cps.addListener(this);
-		
 
 		initGUI();
 	}
-	
+
 	private void addHeader() {
 		headerTable = new CellTable<>();
 		headerTable.addStyleName("headerTable");
@@ -185,14 +185,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		rowCountChanged();
 
 		setHeaderSizes();
-
 	}
 
-
-
 	public void setHeaderSizes() {
-
-
 
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
@@ -206,7 +201,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 					return;
 				}
 
-
 				NodeList<Element> firstRow = tableRows.getItem(0)
 						.getElementsByTagName("td");
 
@@ -216,9 +210,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				}
 
 				int tableWidth = table.getOffsetWidth();
-				headerTable.getElement().getStyle()
-						.setWidth(tableWidth, Unit.PX);
-
+				headerTable.getElement().getStyle().setWidth(tableWidth,
+						Unit.PX);
 
 			}
 
@@ -232,21 +225,20 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		public void onResize() {
 			setHeaderSizes();
 		}
-
 	}
 
 	/**
-	 * adds handlers for dragging rows. Overridden for touch. 
+	 * adds handlers for dragging rows. Overridden for touch.
 	 */
-    protected void addDragDropHandlers() {
-       	table.addDomHandler(new DragStartHandler() {
-			
+	protected void addDragDropHandlers() {
+		table.addDomHandler(new DragStartHandler() {
+
 			@Override
 			public void onDragStart(DragStartEvent event) {
 				handleDrag(event.getNativeEvent().getClientY());
 			}
 		}, DragStartEvent.getType());
-		
+
 		table.addDomHandler(new DragEndHandler() {
 			@Override
 			public void onDragEnd(DragEndEvent event) {
@@ -263,14 +255,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				handleDrop(event.getNativeEvent().getClientY());
 			}
 		}, DragEndEvent.getType());
-    }
+	}
 
-    /**
-	 * @param y coordinate of dragStart
+	/**
+	 * @param y
+	 *            coordinate of dragStart
 	 */
-    protected void handleDrag(int y) {
-        for (int i = 0; i < table.getRowCount(); i++) {
-			if (y > table.getRowElement(i).getAbsoluteTop() && y < table.getRowElement(i).getAbsoluteBottom()) {
+	protected void handleDrag(int y) {
+		for (int i = 0; i < table.getRowCount(); i++) {
+			if (y > table.getRowElement(i).getAbsoluteTop()
+					&& y < table.getRowElement(i).getAbsoluteBottom()) {
 				draggedRow = table.getRowElement(i);
 				draggedRow.addClassName("isDragging");
 				GeoElement geo = data.getRow(i).getGeo();
@@ -280,42 +274,46 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				return;
 			}
 		}
-    }
-    
-    /**
-     * @param y coordinate of dropTarget
-     */
-    protected void handleDrop(int y) {
-    	for (int i = 0; i < table.getRowCount(); i++) {
-    		if ((y > table.getRowElement(i).getAbsoluteTop() && y < table.getRowElement(i).getAbsoluteBottom()) ||
-    				//dragEnd happens below the last row
-    				(i == table.getRowCount()-1 && y > table.getRowElement(i).getAbsoluteBottom())) {
-    			int dropIndex = data.getConstructionIndex(i);
-    			if (dropIndex == dragIndex) {
-    				//no changes necessary
-    				return;
-    			}
-    			if (dropIndex < minIndex || dropIndex > maxIndex) {
-    				//drop not possible
-    				//TODO change cursor style before releasing mouse
+	}
+
+	/**
+	 * @param y
+	 *            coordinate of dropTarget
+	 */
+	protected void handleDrop(int y) {
+		for (int i = 0; i < table.getRowCount(); i++) {
+			if ((y > table.getRowElement(i).getAbsoluteTop()
+					&& y < table.getRowElement(i).getAbsoluteBottom()) ||
+			// dragEnd happens below the last row
+					(i == table.getRowCount() - 1 && y > table.getRowElement(i)
+							.getAbsoluteBottom())) {
+				int dropIndex = data.getConstructionIndex(i);
+				if (dropIndex == dragIndex) {
+					// no changes necessary
+					return;
+				}
+				if (dropIndex < minIndex || dropIndex > maxIndex) {
+					// drop not possible
+					// TODO change cursor style before releasing mouse
 					ToolTipManagerW.sharedInstance().showBottomMessage(
 							"Drop not possible", true, (AppW) app);
-    				return;
-    			}
-    			boolean kernelChanged = ((ConstructionTableDataW)data).moveInConstructionList(dragIndex, dropIndex);
-    			if (kernelChanged) {
-    				app.storeUndoInfo();
-    			}
-       			return;
-    		}
-    	}
-    }
+					return;
+				}
+				boolean kernelChanged = ((ConstructionTableDataW) data)
+						.moveInConstructionList(dragIndex, dropIndex);
+				if (kernelChanged) {
+					app.storeUndoInfo();
+				}
+				return;
+			}
+		}
+	}
 
-    @Override
-	public void setLabels(){
-    	initGUI();
-    }
-    
+	@Override
+	public void setLabels() {
+		initGUI();
+	}
+
 	public CellTable<RowData> getTable() {
 		return table;
 	}
@@ -325,15 +323,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 */
 	private static void clearTable(CellTable<RowData> tb) {
 		int colCount = tb.getColumnCount();
-		for(int i=0; i<colCount; i++){
+		for (int i = 0; i < colCount; i++) {
 			tb.removeColumn(0);
 		}
 	}
 
-
-
 	private void addColumnsForTable(CellTable<RowData> tb) {
-		
+
 		for (int i = 0; i < data.getColumnCount(); i++) {
 			if (data.columns[i].isVisible()) {
 				String title = data.columns[i].getTitle();
@@ -387,15 +383,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			popupMenu.addItem(app.getLocalization().getMenu("Close"),
 					new ScheduledCommand() {
 
-				@Override
-				public void execute() {
-					app.getGuiManager().setShowView(false,
-							App.VIEW_CONSTRUCTION_PROTOCOL);
-					app.updateMenubar();
-					((AppW) app).fireViewsChangedEvent();
-				}
+						@Override
+						public void execute() {
+							app.getGuiManager().setShowView(false,
+									App.VIEW_CONSTRUCTION_PROTOCOL);
+							app.updateMenubar();
+							((AppW) app).fireViewsChangedEvent();
+						}
 
-			});
+					});
 
 			popupMenu.addVerticalSeparator();
 		}
@@ -435,8 +431,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		popupMenu.addVerticalSeparator();
 
 		miShowOnlyBreakpoints = new GCheckBoxMenuItem(
-				app
-						.getLocalization().getMenu("ShowOnlyBreakpoints"),
+				app.getLocalization().getMenu("ShowOnlyBreakpoints"),
 				new ScheduledCommand() {
 
 					@Override
@@ -449,8 +444,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 				}, true, app);
 		miShowOnlyBreakpoints.setForceCheckbox(true);
-		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction()
-				.showOnlyBreakpoints(), popupMenu.getPopupMenu());
+		miShowOnlyBreakpoints.setSelected(
+				app.getKernel().getConstruction().showOnlyBreakpoints(),
+				popupMenu.getPopupMenu());
 		popupMenu.addItem(miShowOnlyBreakpoints);
 
 	}
@@ -467,8 +463,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 				Log.debug("imgElement: " + imgElement.toString());
 
 				if (el.equals(imgElement)) { // three-dot menu
-					popupMenu.show(new GPoint(el.getAbsoluteLeft(), el
-							.getAbsoluteBottom()));
+					popupMenu.show(new GPoint(el.getAbsoluteLeft(),
+							el.getAbsoluteBottom()));
 				}
 			}
 		};
@@ -485,47 +481,36 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		} else if ("Name".equals(title)) {
 			col = getColumnName();
 		} else if ("ToolbarIcon".equals(title)) {
-
-				col = getColumnToolbarIcon();
-
+			col = getColumnToolbarIcon();
 		} else if ("Description".equals(title)) {
 			col = getColumnDescription();
 		} else if ("Definition".equals(title)) {
-
-				col = getColumnDefinition();
-
+			col = getColumnDefinition();
 		} else if ("Value".equals(title)) {
 			col = getColumnValue();
 		} else if ("Caption".equals(title)) {
-
-				col = getColumnCaptionSimple();
-
+			col = getColumnCaptionSimple();
 		} else { // if ("Breakpoint".equals(title)) {
-
-				col = getColumnBreakpoint();
-
+			col = getColumnBreakpoint();
 		}
-		
-		return col;
 
+		return col;
 	}
 
 	/*
 	 * Add a number column to show the id.
 	 */
 	private static Column<RowData, Number> getColumnId() {
-	    Cell<Number> idCell = new NumberCell();
-	    Column<RowData, Number> idColumn = new Column<RowData, Number>(idCell) {
-	      @Override
-	      public Number getValue(RowData object) {
-	        return object.getIndex();
-	      }
-	    };
+		Cell<Number> idCell = new NumberCell();
+		Column<RowData, Number> idColumn = new Column<RowData, Number>(idCell) {
+			@Override
+			public Number getValue(RowData object) {
+				return object.getIndex();
+			}
+		};
 
 		return idColumn;
-		
 	}
-
 
 	private static class Base64ImageCell extends AbstractCell<String> {
 
@@ -560,25 +545,24 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 */
 	private static Column<RowData, SafeHtml> getColumnName() {
 		Column<RowData, SafeHtml> nameColumn = new Column<RowData, SafeHtml>(
-		        new SafeHtmlCell()) {
-			
+				new SafeHtmlCell()) {
+
 			@Override
-            public SafeHtml getValue(RowData object) {
+			public SafeHtml getValue(RowData object) {
 				return SafeHtmlUtils.fromTrustedString(object.getName());
 			}
 
-		};    
+		};
 		return nameColumn;
 	}
-
 
 	/*
 	 * Add a text column to show the description.
 	 */
 	private static Column<RowData, SafeHtml> getColumnDescription() {
 		Column<RowData, SafeHtml> defColumn = new Column<RowData, SafeHtml>(
-		        new SafeHtmlCell()) {
-			
+				new SafeHtmlCell()) {
+
 			@Override
 			public SafeHtml getValue(RowData object) {
 				return SafeHtmlUtils.fromTrustedString(object.getDescription());
@@ -593,7 +577,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 */
 	private static Column<RowData, SafeHtml> getColumnValue() {
 		Column<RowData, SafeHtml> valColumn = new Column<RowData, SafeHtml>(
-		        new SafeHtmlCell()) {
+				new SafeHtmlCell()) {
 
 			@Override
 			public SafeHtml getValue(RowData object) {
@@ -603,7 +587,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		};
 		return valColumn;
 	}
-	
+
 	/*
 	 * Add a text column to show the command.
 	 */
@@ -619,7 +603,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		};
 		return commandColumn;
 	}
-	
+
 	private Column<RowData, String> getColumnCaptionSimple() {
 
 		Column<RowData, String> col = new Column<RowData, String>(
@@ -644,9 +628,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		});
 
 		return col;
-		
-	}	
 
+	}
 
 	public class MyEditCell extends EditTextCell {
 		private int focusedRow = -1;
@@ -687,12 +670,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 			}
 
-			super.onBrowserEvent(
-					context,
-					parent,
-					(String) table.getColumn(context.getColumn()).getValue(
-							data.getRow(context.getIndex())), event,
-					valueUpdater);
+			super.onBrowserEvent(context, parent,
+					(String) table.getColumn(context.getColumn())
+							.getValue(data.getRow(context.getIndex())),
+					event, valueUpdater);
 
 		}
 	}
@@ -727,7 +708,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-		ConstructionProtocolSettings cps = (ConstructionProtocolSettings)settings;
+		ConstructionProtocolSettings cps = (ConstructionProtocolSettings) settings;
 
 		boolean gcv[] = cps.getColsVisibility();
 		if (gcv != null) {
@@ -737,14 +718,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		}
 
 		initGUI();
-//		update();
+		// update();
 		getData().initView();
-//		repaint();	
+		// repaint();
 	}
-	
+
 	/**
-     * @param colsVisibility intended visibility of columns 
-     */
+	 * @param colsVisibility
+	 *            intended visibility of columns
+	 */
 	private void setColsVisibility(boolean[] colsVisibility) {
 
 		int k = Math.min(colsVisibility.length, data.columns.length);
@@ -755,10 +737,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	}
 
-	
 	@Override
 	public void scrollToConstructionStep() {
-		if(kernel.isViewReiniting()){
+		if (kernel.isViewReiniting()) {
 			return;
 		}
 		if (table != null) {
@@ -768,7 +749,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			}
 
 			int step = kernel.getConstructionStep();
-			int row = -1; //it's possible that ConsStep == 0, so we need index -1 to deselect all rows
+			int row = -1; // it's possible that ConsStep == 0, so we need index
+							// -1 to deselect all rows
 			for (int i = 0; i < rowCount; i++) {
 				if (data.getConstructionIndex(i) <= step) {
 					row = i;
@@ -785,26 +767,25 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 				}
 			});
-			
-			
+
 		}
 	}
-	
+
 	/**
 	 * marks the rows (up to {@code index}) selected
-	 * @param index int
+	 * 
+	 * @param index
+	 *            int
 	 */
 	void markRowsActive(int index) {
 		for (int i = 0; i < table.getRowCount(); i++) {
 			try {
 				if (i <= index) {
-					GColor color = data.getRow(i).getGeo()
-							.getAlgebraColor();
-					table.getRowElement(i).setAttribute(
-							"style", "color:" + GColor.getColorString(color));
+					GColor color = data.getRow(i).getGeo().getAlgebraColor();
+					table.getRowElement(i).setAttribute("style",
+							"color:" + GColor.getColorString(color));
 				} else {
-					table.getRowElement(i).setAttribute(
-							"style", "opacity:0.5");
+					table.getRowElement(i).setAttribute("style", "opacity:0.5");
 				}
 			} catch (IndexOutOfBoundsException e) {
 				Log.debug("OutOfBounds:" + i + "," + table.getRowCount() + ","
@@ -812,36 +793,36 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			}
 		}
 	}
-	
+
 	/**
 	 * @return widget representing this view
 	 */
-	public FlowPanel getCpPanel(){
+	public FlowPanel getCpPanel() {
 		return cpPanel;
 	}
 
 	public ScrollPanel getOuterScrollPanel() {
 		return outerScrollPanel;
 	}
-	
+
 	/**
 	 * Make all currrent rows draggable
 	 */
 	void makeTableRowsDragable() {
-	    for (int i = 0; i < table.getRowCount(); i++) {
+		for (int i = 0; i < table.getRowCount(); i++) {
 			try {
-	    		table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
+				table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
 			} catch (Exception e) {
 				Log.debug("Out of bounds");
 			}
-	    }
-    }	
-	
+		}
+	}
+
 	/**
 	 * Rebuild construction table
 	 */
-	public void tableInit(){
-//		data.updateAll();
+	public void tableInit() {
+		// data.updateAll();
 		table.setRowCount(data.getrowList().size());
 		table.setVisibleRange(0, data.getrowList().size());
 		table.setRowData(0, data.getrowList());
@@ -850,28 +831,30 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 	void rowCountChanged() {
 		app.invokeLater(new Runnable() {
-	    	@Override
-			public void run(){
-	    		makeTableRowsDragable();
-	    	}
-	    });
+			@Override
+			public void run() {
+				makeTableRowsDragable();
+			}
+		});
 		scrollToConstructionStep();
 	}
+
 	/**
 	 * Web implementation of ConstructionTableData
 	 */
-	class ConstructionTableDataW extends ConstructionTableData{
+	class ConstructionTableDataW extends ConstructionTableData {
 
 		private boolean rowsChanged;
 		private boolean needsUpdate;
 		private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 
 		/**
-		 * @param gui gui element on which we delegate setLabels
+		 * @param gui
+		 *            gui element on which we delegate setLabels
 		 */
-		public ConstructionTableDataW(SetLabels gui){
+		public ConstructionTableDataW(SetLabels gui) {
 			super(gui);
-//			ctDataImpl = new MyGAbstractTableModel();
+			// ctDataImpl = new MyGAbstractTableModel();
 		}
 
 		@Override
@@ -907,10 +890,13 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			rowsChanged = true;
 			needsUpdate = true;
 		}
+
 		/**
 		 * 
-		 * @param fromIndex from
-		 * @param toIndex to
+		 * @param fromIndex
+		 *            from
+		 * @param toIndex
+		 *            to
 		 * @return whether something changed
 		 */
 		public boolean moveInConstructionList(int fromIndex, int toIndex) {
@@ -925,14 +911,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 			}
 			return changed;
 		}
-		
+
 		@Override
-		public void fireTableRowsInserted(int firstRow, int lastRow){
+		public void fireTableRowsInserted(int firstRow, int lastRow) {
 			rowsChanged = true;
 			needsUpdate = true;
 			repaintView();
 		}
-		
+
 		@Override
 		public void fireTableRowsUpdated(int firstRow, int lastRow) {
 			// TODO: maybe it's not necessary to reinit the all table
@@ -941,14 +927,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		}
 
 		@Override
-		public void fireTableRowsDeleted(int firstRow, int lastRow){
+		public void fireTableRowsDeleted(int firstRow, int lastRow) {
 			rowsChanged = true;
 			needsUpdate = true;
 			repaintView();
 		}
 
 		@Override
-        public void updateAll(){
+		public void updateAll() {
 			int size = rowList.size();
 
 			for (int i = 0; i < size; ++i) {
@@ -981,11 +967,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 * @return stylebar
 	 */
 	public StyleBarW getStyleBar() {
-	    if(styleBar == null){
+		if (styleBar == null) {
 			styleBar = new ConstructionProtocolStyleBarW(this, (AppW) this.app);
-	    }
-	    return styleBar;
-    }
+		}
+		return styleBar;
+	}
 
 	@Override
 	public void getPrintable(final FlowPanel printPanel, Button btPrint) {
@@ -1019,20 +1005,15 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 		previewTable.setRowData(0, data.getrowList());
 		previewTable.setWidth(w + "px");
 
-
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 
 			@Override
 			public void execute() {
 				Log.debug("width: " + previewTable.getOffsetWidth());
-				Log.debug("zoom: " + scaledWidth / previewTable.getOffsetWidth());
-				previewTable
-						.getElement()
-						.getStyle()
-						.setProperty(
-								"zoom",
-								(scaledWidth / previewTable.getOffsetWidth())
-										+ "");
+				Log.debug(
+						"zoom: " + scaledWidth / previewTable.getOffsetWidth());
+				previewTable.getElement().getStyle().setProperty("zoom",
+						(scaledWidth / previewTable.getOffsetWidth()) + "");
 			}
 		});
 	}

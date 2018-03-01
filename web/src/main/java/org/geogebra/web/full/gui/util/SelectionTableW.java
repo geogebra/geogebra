@@ -9,8 +9,6 @@ import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-
-
 public class SelectionTableW extends Grid implements ClickHandler {
 	private int selectedColumn = -1;
 	private int selectedRow = -1;
@@ -32,7 +30,7 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		this(data, rows, columns, mode);
 		isMultiselectionEnabled = ms;
 	}
-	
+
 	/**
 	 * @param data
 	 *            images / texts for the table
@@ -50,29 +48,29 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		int rows = rows0;
 		int columns = columns0;
 
-		//=======================================
+		// =======================================
 		// determine the dimensions of the table
 
-		// rows = -1, cols = -1  ==> square table to fit data
-		if(rows == -1 && columns == -1){
+		// rows = -1, cols = -1 ==> square table to fit data
+		if (rows == -1 && columns == -1) {
 			rows = (int) Math.floor(Math.sqrt(data.length));
 			columns = (int) Math.ceil(data.length / (double) rows);
 		}
 
-		// rows = -1  ==> fixed cols, rows added to fit data
-		else if(rows == -1){
+		// rows = -1 ==> fixed cols, rows added to fit data
+		else if (rows == -1) {
 			rows = (int) (Math.ceil(data.length / (double) columns));
 		}
 
 		// cols = -1 ==> fixed rows, cols added to fit data
-		else if(columns == -1){
+		else if (columns == -1) {
 			columns = (int) (Math.ceil(data.length / (double) rows));
 		}
-		
+
 		numRows = rows;
 		numColumns = columns;
-		resize(numRows,numColumns);
-		
+		resize(numRows, numColumns);
+
 		// set the table model with the data
 		populateModel(data);
 		addClickHandler(this);
@@ -81,8 +79,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 		if (this.mode.equals(SelectionTable.MODE_ICON)) {
 			setBorderStyleForCells();
 		}
-    }
-	
+	}
+
 	public void initSelectedItems(boolean[] si) {
 		selecteditems = si;
 		clearSelection(0);
@@ -123,31 +121,31 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	private void clearSelection(int def) {
 		selectedColumn = def;
 		selectedRow = 0;
-	   clearSelectedCells();
-    }
+		clearSelectedCells();
+	}
 
 	private void clearSelectedCells() {
-	    for (int i = 0; i < getRowCount(); i++) {
-	    	for (int j = 0; j < getCellCount(i); j++) {
-	    		Widget w = getWidget(i,j);
-	    		if (w != null) {
-	    			w.removeStyleName("selected");
-	    		}
-	    	}
-	    }
-    }
+		for (int i = 0; i < getRowCount(); i++) {
+			for (int j = 0; j < getCellCount(i); j++) {
+				Widget w = getWidget(i, j);
+				if (w != null) {
+					w.removeStyleName("selected");
+				}
+			}
+		}
+	}
 
 	/**
 	 * @return selected index of the table
 	 */
 	public int getSelectedIndex() {
 		int index = this.getColumnCount() * this.selectedRow
-		        + this.selectedColumn;
-		if(index <-1) {
+				+ this.selectedColumn;
+		if (index < -1) {
 			index = -1;
 		}
-		return index;	
-    }
+		return index;
+	}
 
 	/**
 	 * sets the given index as selected. if {@code index = -1} the selection is
@@ -156,8 +154,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 * @param index
 	 *            {@code int}
 	 */
-	public void setSelectedIndex(int index){
-		if(index == -1){
+	public void setSelectedIndex(int index) {
+		if (index == -1) {
 			this.clearSelection(-1);
 			return;
 		}
@@ -193,77 +191,79 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	 */
 	public void populateModel(ImageOrText[] data) {
 		values = data;
-	  	if (data.length > 0) {
+		if (data.length > 0) {
 			populateModelCallback(data);
-	  	}
-    }
+		}
+	}
 
 	private void populateModelCallback(ImageOrText[] data) {
-	    int r=0;
-	    int c=0;
-	    if (isIniting ) {
-			for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
+		int r = 0;
+		int c = 0;
+		if (isIniting) {
+			for (int i = 0; i < Math.min(data.length,
+					this.numRows * this.numColumns); i++) {
 				setWidget(r, c, createWidget(data[i]));
 				++c;
-				if(c == this.numColumns){
+				if (c == this.numColumns) {
 					c = 0;
 					++r;
 				}
 			}
 			isIniting = false;
 		} else if (mode != SelectionTable.MODE_TEXT) {
-	    	for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
+			for (int i = 0; i < Math.min(data.length,
+					this.numRows * this.numColumns); i++) {
 				if (getWidget(r, c) instanceof Label) {
 					data[i].applyToLabel((Label) getWidget(r, c));
 
 					++c;
-					if(c == this.numColumns){
+					if (c == this.numColumns) {
 						c = 0;
 						++r;
 					}
 				}
 			}
-	    }
-    }
+		}
+	}
 
 	private Widget createWidget(ImageOrText object) {
-		
+
 		Widget w = null;
-		if(object == null){
+		if (object == null) {
 			return w;
 		}
 		switch (mode) {
 		case MODE_TEXT:
 		case MODE_ICON:
 			w = new Label();
-			object.applyToLabel((Label)w);
+			object.applyToLabel((Label) w);
 			break;
 		default:
 		case MODE_LATEX:
 			break;
-	  	}
+		}
 		return w;
-    }
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {
-	   Cell clicked = getCellForEvent(event);
-	   
-	   if(clicked == null){
-		   return;
-	   }
-	   
+		Cell clicked = getCellForEvent(event);
+
+		if (clicked == null) {
+			return;
+		}
+
 		selectedColumn = clicked.getCellIndex();
 		selectedRow = clicked.getRowIndex();
 		if (!isMultiselectionEnabled) {
 			clearSelectedCells();
 		}
-	   Widget w = getWidget(clicked.getRowIndex(),clicked.getCellIndex());
-	   if (w != null) {
+		Widget w = getWidget(clicked.getRowIndex(), clicked.getCellIndex());
+		if (w != null) {
 			if (isMultiselectionEnabled) {
 				// TODO check for -1 col.count.
 				int index = (getColumnCount() == -1) ? selectedColumn
-				        : selectedRow * getColumnCount() + selectedColumn;
+						: selectedRow * getColumnCount() + selectedColumn;
 				selecteditems[index] = !selecteditems[index];
 				if (selecteditems[index]) {
 					w.addStyleName("selected");
@@ -274,8 +274,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 				w.addStyleName("selected");
 			}
 
-	   }
-    }
+		}
+	}
 
 	/**
 	 * @param index
@@ -298,14 +298,14 @@ public class SelectionTableW extends Grid implements ClickHandler {
 			return getValueAt(this.selectedRow, this.selectedColumn);
 		}
 		return null;
-    }
+	}
 
 	private ImageOrText getValueAt(int row, int column) {
-		if(values == null || values.length <= row * this.numColumns + column){
+		if (values == null || values.length <= row * this.numColumns + column) {
 			return null;
 		}
 		return values[row * this.numColumns + column];
-    }
+	}
 
 	/**
 	 * to update the text of the {@link ImageOrText}
@@ -316,8 +316,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	public void updateText(ImageOrText[] data) {
 		int r = 0;
 		int c = 0;
-		for (int i = 0; i < Math.min(data.length, this.numRows
-		        * this.numColumns); i++) {
+		for (int i = 0; i < Math.min(data.length,
+				this.numRows * this.numColumns); i++) {
 			if (getWidget(r, c) instanceof Label) {
 				((Label) getWidget(r, c)).setText(data[i].getText());
 

@@ -50,11 +50,10 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Toolbar for web, includes ToolbarW, undo panel and search / menu
  */
-public class GGWToolBar extends Composite implements RequiresResize,
-		ToolBarInterface, SetLabels {
+public class GGWToolBar extends Composite
+		implements RequiresResize, ToolBarInterface, SetLabels {
 
 	static private ToolbarResources myIconResourceBundle = ToolbarSvgResources.INSTANCE;
-	
 
 	private ArrayList<ToolBarW> toolbars;
 	/** application */
@@ -72,7 +71,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	private boolean inited = false;
 	private Integer activeToolbar = -1;
 	private boolean menuBarShowing = false;
-	
+
 	private FlowPanel rightButtonPanel;
 	private StandardButton openSearchButton;
 	private StandardButton openMenuButton;
@@ -95,10 +94,11 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	public GGWToolBar() {
 		toolBarPanel = new FlowPanel();
 		toolBarPanel.addStyleName("ggbtoolbarpanel");
-		//this makes it draggable on SMART board
+		// this makes it draggable on SMART board
 		toolBarPanel.addStyleName("smart-nb-draggable");
-		//For app we set this also in GGWFrameLayoutPanel, but for applets we must set it here 
-		toolBarPanel.setHeight(GLookAndFeelI.TOOLBAR_HEIGHT+"px");
+		// For app we set this also in GGWFrameLayoutPanel, but for applets we
+		// must set it here
+		toolBarPanel.setHeight(GLookAndFeelI.TOOLBAR_HEIGHT + "px");
 		initWidget(toolBarPanel);
 	}
 
@@ -108,17 +108,17 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	public boolean isInited() {
 		return inited;
 	}
-	
+
 	/**
 	 * @param viewID
 	 *            view ID
 	 */
-	public void setActiveToolbar(Integer viewID){
+	public void setActiveToolbar(Integer viewID) {
 		if (activeToolbar.equals(viewID)) {
 			return;
 		}
 		activeToolbar = viewID;
-		for(ToolBarW bar:toolbars){
+		for (ToolBarW bar : toolbars) {
 			bar.setActiveView(viewID);
 			bar.closeAllSubmenu();
 		}
@@ -127,7 +127,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	/**
 	 * Initialization of the GGWToolbar.
 	 * 
-	 * @param app1 application
+	 * @param app1
+	 *            application
 	 */
 	public void init(AppW app1) {
 
@@ -150,8 +151,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
 
-
-
 		toolBarPanel.addStyleName("toolbarPanel");
 
 		if (app.isExam()) {
@@ -159,19 +158,16 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 		toolBPanel.setStyleName("toolBPanel");
 		toolBPanel.addStyleName("overflow");
-		
-		//toolBarPanel.setSize("100%", "100%");
+
+		// toolBarPanel.setSize("100%", "100%");
 		toolBar.init(app1);
 		addToolbar(toolBar);
-		
-		
-		//Adds the Open and Options Button for SMART
-		
+
+		// Adds the Open and Options Button for SMART
+
 		addRightButtonPanel();
-		
+
 	}
-
-
 
 	/**
 	 * Update class name for south/north toolbar
@@ -190,14 +186,13 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 	}
 
-	//undo-redo buttons
-	private void addUndoPanel(){
+	// undo-redo buttons
+	private void addUndoPanel() {
 		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 
-
 		redoButton = new StandardButton(pr.menu_header_redo(), null, 32, app);
-		redoButton.getUpHoveringFace().setImage(
-				getImage(pr.menu_header_redo_hover(), 32));
+		redoButton.getUpHoveringFace()
+				.setImage(getImage(pr.menu_header_redo_hover(), 32));
 
 		redoButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -208,16 +203,13 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		});
 
 		redoButton.addStyleName("redoButton");
-		//redoButton.getElement().addClassName("button");
+		// redoButton.getElement().addClassName("button");
 
 		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 
-
-
-		undoButton = new StandardButton(
-				pr.menu_header_undo(), null, 32, app);
-		undoButton.getUpHoveringFace().setImage(
-				getImage(pr.menu_header_undo_hover(), 32));
+		undoButton = new StandardButton(pr.menu_header_undo(), null, 32, app);
+		undoButton.getUpHoveringFace()
+				.setImage(getImage(pr.menu_header_undo_hover(), 32));
 
 		undoButton.addFastClickHandler(new FastClickHandler() {
 			@Override
@@ -228,9 +220,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		});
 
 		undoButton.addStyleName("undoButton");
-		//undoButton.getElement().addClassName("button");
+		// undoButton.getElement().addClassName("button");
 
-		//toolBarPanel.add(redoButton);
+		// toolBarPanel.add(redoButton);
 		updateUndoActions();
 		rightButtonPanel.add(undoButton);
 		rightButtonPanel.add(redoButton);
@@ -260,30 +252,28 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
 			@Override
 			public void execute(double timestamp) {
-				if(app.getExam()!=null){
+				if (app.getExam() != null) {
 					String os = Browser.getMobileOperatingSystem();
 					app.getExam().checkCheating(os);
 					if (app.getExam().isCheating()) {
 						makeRed(getElement());
 					}
 
-					timer.setText(app.getExam().timeToString(
-							System.currentTimeMillis()));
+					timer.setText(app.getExam()
+							.timeToString(System.currentTimeMillis()));
 
 					AnimationScheduler.get().requestAnimationFrame(this);
 				}
 			}
 
-
 		});
 		// check and log window resize and focus on window
 		visibilityEventMain(isTablet());
 
-
 		FlowPanel fp = new FlowPanel();
 		fp.add(timer);
-		Image info = new Image(GuiResourcesSimple.INSTANCE.dialog_info()
-				.getSafeUri());
+		Image info = new Image(
+				GuiResourcesSimple.INSTANCE.dialog_info().getSafeUri());
 		info.setStyleName("examInfo");
 		fp.add(info);
 
@@ -316,8 +306,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 				} else {
 					app.showMessage(
-						app.getExam().getLog(app.getLocalization(),
-								app.getSettings()),
+							app.getExam().getLog(app.getLocalization(),
+									app.getSettings()),
 							loc.getMenu("exam_log_header") + " "
 									+ app.getVersionString(),
 							null, null);
@@ -328,12 +318,11 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		return fp;
 
 	}
-	
-		
+
 	/**
 	 * @param element
-	 *            element to be changed to red
-	 *            timer text elements get changed to white
+	 *            element to be changed to red timer text elements get changed
+	 *            to white
 	 */
 	native void makeRed(Element element) /*-{
 		element.style.setProperty("background-color", "red", "important");
@@ -344,17 +333,17 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			timerElements[i].style.setProperty("color", "white", "important");
 		}
 	}-*/;
-	
+
 	/**
 	 * 
 	 * @param element
-	 * 			element to be reset
-	 * 			resets background-color to none - color goes back to inherited
+	 *            element to be reset resets background-color to none - color
+	 *            goes back to inherited
 	 */
 	native void resetToolbarColor(Element element) /*-{
 		element.style.setProperty("background-color", "", "");
 	}-*/;
-	
+
 	private void startCheating() {
 		if (app.getExam() != null) {
 			String os = Browser.getMobileOperatingSystem();
@@ -367,8 +356,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			app.getExam().stopCheating();
 		}
 	}
-
-
 
 	private boolean isTablet() {
 		return app.getLAF().isTablet()
@@ -468,10 +455,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 	}-*/ ;
 
-	
-
 	// Undo, redo, open, menu (and exam mode)
-	private void addRightButtonPanel(){
+	private void addRightButtonPanel() {
 
 		this.rightButtonPanel = new FlowPanel();
 		this.rightButtonPanel.setStyleName("rightButtonPanel");
@@ -496,7 +481,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			if (!app.getSettings().getCasSettings().isEnabled()) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()
-				        .setTextDecoration(TextDecoration.LINE_THROUGH);
+						.setTextDecoration(TextDecoration.LINE_THROUGH);
 				nocas.getElement().setClassName("timer");
 				// do not add CAS to toolBar for tablet exam apps
 				if (!app.getArticleElement().hasDataParamEnableGraphing()) {
@@ -506,7 +491,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
 				Label no3d = new Label("3D");
 				no3d.getElement().getStyle()
-				        .setTextDecoration(TextDecoration.LINE_THROUGH);
+						.setTextDecoration(TextDecoration.LINE_THROUGH);
 				no3d.getElement().setClassName("timer");
 				// do not add 3D to toolBar for tablet exam apps
 				if (!app.getArticleElement().hasDataParamEnableGraphing()) {
@@ -519,8 +504,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			addUndoPanel();
 		}
 		this.menuBarShowing = false;
-		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
-				app.getArticleElement().getDataParamApp()){
+		if (app.getArticleElement().getDataParamShowMenuBar(false)
+				|| app.getArticleElement().getDataParamApp()) {
 			initMenuButton();
 
 			if (!exam && app.enableFileFeatures()) {
@@ -541,34 +526,34 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		SvgPerspectiveResources pr = ImageFactory.getPerspectiveResources();
 		this.menuBarShowing = true;
 
-			openMenuButton = new StandardButton(pr.menu_header_open_menu(),
-					null, 32, app);
+		openMenuButton = new StandardButton(pr.menu_header_open_menu(), null,
+				32, app);
 
-			openMenuButton.getUpHoveringFace().setImage(
-					getImage(pr.menu_header_open_menu_hover(), 32));
+		openMenuButton.getUpHoveringFace()
+				.setImage(getImage(pr.menu_header_open_menu_hover(), 32));
 
-			openMenuButton.addFastClickHandler(new FastClickHandler() {
-				@Override
-				public void onClick(Widget source) {
-					app.hideKeyboard();
-					app.closePopups();
-					GGWToolBar.this.app.toggleMenu();
-				}
-			});
+		openMenuButton.addFastClickHandler(new FastClickHandler() {
+			@Override
+			public void onClick(Widget source) {
+				app.hideKeyboard();
+				app.closePopups();
+				GGWToolBar.this.app.toggleMenu();
+			}
+		});
 
-		openMenuButton.addDomHandler(new KeyUpHandler(){
+		openMenuButton.addDomHandler(new KeyUpHandler() {
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-	            	GGWToolBar.this.app.toggleMenu();
-	            }
-	            if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT){
-	            	GGWToolBar.this.selectMenuButton(0);
-	            }
-	            if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
-	            	GGWToolBar.this.toolBar.selectMenu(0);
-	            }
-            }
+				if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+					GGWToolBar.this.app.toggleMenu();
+				}
+				if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT) {
+					GGWToolBar.this.selectMenuButton(0);
+				}
+				if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT) {
+					GGWToolBar.this.toolBar.selectMenu(0);
+				}
+			}
 		}, KeyUpEvent.getType());
 
 	}
@@ -624,17 +609,18 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	 */
 	public void updateToolbarPanel() {
 		toolBPanel.clear();
-		for(ToolBarW toolbar : toolbars) {
-			if(toolbar != null) {
+		for (ToolBarW toolbar : toolbars) {
+			if (toolbar != null) {
 				toolbar.buildGui();
-				//TODO
-				//toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
+				// TODO
+				// toolbarPanel.add(toolbar,
+				// Integer.toString(getViewId(toolbar)));
 				toolBPanel.add(toolbar);
 			}
 		}
-		
-		//TODO
-		//toolbarPanel.show(Integer.toString(activeToolbar));
+
+		// TODO
+		// toolbarPanel.show(Integer.toString(activeToolbar));
 		onResize();
 		if (app.isExam() && !app.enableGraphing()) {
 			toolBPanel.setVisible(false);
@@ -662,16 +648,17 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	 *            mode ID
 	 * @return HTML fragment
 	 */
-	public String getImageHtml(int mode){
+	public String getImageHtml(int mode) {
 		String url = getImageURL(mode);
-		return (url.length()>0) ? "<img src=\""+url+"\" width=\"32\">" : "";
+		return (url.length() > 0) ? "<img src=\"" + url + "\" width=\"32\">"
+				: "";
 	}
 
 	@Override
 	public String getImageURL(int mode) {
 		return getImageURL(mode, app);
 	}
-	
+
 	/**
 	 * @param mode
 	 *            tool / mode
@@ -680,13 +667,12 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	 * @return tool image URL
 	 */
 	public static String getImageURL(int mode, AppW app) {
-		
 
-//		String modeText = app.getKernel().getModeText(mode);
-//		// bugfix for Turkish locale added Locale.US
-//		String iconName = "mode_" +StringUtil.toLowerCase(modeText)
-//				+ "_32";
-//
+		// String modeText = app.getKernel().getModeText(mode);
+		// // bugfix for Turkish locale added Locale.US
+		// String iconName = "mode_" +StringUtil.toLowerCase(modeText)
+		// + "_32";
+		//
 
 		// macro
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
@@ -694,13 +680,15 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			try {
 				Macro macro = app.getKernel().getMacro(macroID);
 				String iconName = macro.getIconFileName();
-				if (iconName == null || iconName.length()==0) {
+				if (iconName == null || iconName.length() == 0) {
 					// default icon
 					return ImgResourceHelper
 							.safeURI(myIconResourceBundle.mode_tool_32());
 				}
 				// use image as icon
-				Image img = new NoDragImage(app.getImageManager().getExternalImageSrc(iconName),32);
+				Image img = new NoDragImage(
+						app.getImageManager().getExternalImageSrc(iconName),
+						32);
 
 				return img.getUrl();
 			} catch (Exception e) {
@@ -708,10 +696,10 @@ public class GGWToolBar extends Composite implements RequiresResize,
 				return "";
 			}
 		}
-		
+
 		return ImgResourceHelper
 				.safeURI(getImageURLNotMacro(myIconResourceBundle, mode));
-		
+
 	}
 
 	/**
@@ -883,7 +871,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		case EuclidianConstants.MODE_MOVE:
 			return resourceBundle.mode_move_32();
-			
+
 		case EuclidianConstants.MODE_SELECT:
 			return resourceBundle.mode_select_32();
 
@@ -892,10 +880,10 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		case EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS:
 			return resourceBundle.mode_multivarstats_32();
-			
+
 		case EuclidianConstants.MODE_CAS_NUMERIC:
 			return resourceBundle.mode_numeric_32();
-			
+
 		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
 			return resourceBundle.mode_nsolve_32();
 
@@ -990,7 +978,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			return resourceBundle.mode_text_32();
 
 		case EuclidianConstants.MODE_TEXTFIELD_ACTION:
-			
+
 			return resourceBundle.mode_textfieldaction_32();
 
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
@@ -998,7 +986,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		case EuclidianConstants.MODE_TRANSLATEVIEW:
 			return resourceBundle.mode_translateview_32();
-			
+
 		case EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS:
 			return resourceBundle.mode_twovarstats_32();
 
@@ -1016,11 +1004,11 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		case EuclidianConstants.MODE_ZOOM_OUT:
 			return resourceBundle.mode_zoomout_32();
-			
-			/*
-			 * 3D
-			 */
-			
+
+		/*
+		 * 3D
+		 */
+
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
 			return resourceBundle.mode_circleaxispoint_32();
 
@@ -1065,7 +1053,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		case EuclidianConstants.MODE_PYRAMID:
 			return resourceBundle.mode_pyramid_32();
-			
+
 		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
 			return resourceBundle.mode_rotatearoundline_32();
 
@@ -1086,10 +1074,10 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 		case EuclidianConstants.MODE_VOLUME:
 			return resourceBundle.mode_volume_32();
-			
+
 		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			return resourceBundle.mode_orthogonalthreed_32();
-			
+
 		/** WHITEBOARD TOOLS */
 		case EuclidianConstants.MODE_SHAPE_LINE:
 			return resourceBundle.mode_shape_line_32();
@@ -1138,14 +1126,14 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		}
 
 	}
-	
+
 	/**
 	 * @return tool bar
 	 */
-	public ToolBarW getToolBar(){
+	public ToolBarW getToolBar() {
 		return toolBar;
 	}
-	
+
 	/**
 	 * Select a mode.
 	 * 
@@ -1156,28 +1144,29 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	@Override
 	public int setMode(int mode, ModeSetter ms) {
 		return toolbars.get(0).setMode(mode, ms);
-    }
-	
+	}
+
 	/**
 	 * @param toolbar
 	 * @return The ID of the dock panel associated with the passed toolbar or -1
 	 */
 	private static int getViewId(ToolBarW toolbar) {
-		return (toolbar.getDockPanel() != null ? toolbar.getDockPanel()
-				.getViewId() : -1);
+		return (toolbar.getDockPanel() != null
+				? toolbar.getDockPanel().getViewId() : -1);
 	}
-	
+
 	@Override
-	protected void onAttach(){
+	protected void onAttach() {
 		super.onAttach();
 		// gwt sets openSearcButton's tabindex to 0 at onAttach (see
 		// FocusWidget.onAttach())
-		// but we don't want to select openSearchButton with tab, so tabindex will
+		// but we don't want to select openSearchButton with tab, so tabindex
+		// will
 		// be set back to -1 after attach all time.
-		if(this.openSearchButton != null){
+		if (this.openSearchButton != null) {
 			this.openSearchButton.setTabIndex(-1);
 		}
-		if(this.openMenuButton != null){
+		if (this.openMenuButton != null) {
 			this.openMenuButton.setTabIndex(-1);
 		}
 	}
@@ -1201,8 +1190,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		} else {
 			this.openMenuButton.getElement().addClassName("selectedButton");
 		}
-	    
-    }
+
+	}
 
 	/**
 	 * Deselect both menu and open
@@ -1210,46 +1199,45 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	public void deselectButtons() {
 		this.openSearchButton.getElement().removeClassName("selectedButton");
 		this.openMenuButton.getElement().removeClassName("selectedButton");
-    }
+	}
 
 	/**
 	 * Reset the right panel to include menubar; checks if menubar is already
 	 * attached
 	 */
 	public void attachMenubar() {
-		if(!this.menuBarShowing){
+		if (!this.menuBarShowing) {
 			this.rightButtonPanel.removeFromParent();
 			this.addRightButtonPanel();
 		}
-    }
+	}
 
 	/**
 	 * Update enabled/disabled for undo and redo
 	 */
 	public void updateUndoActions() {
-		if(undoButton != null){
+		if (undoButton != null) {
 			this.undoButton.setEnabled(app.getKernel().undoPossible());
 		}
-		if(this.redoButton != null){
+		if (this.redoButton != null) {
 			this.redoButton.setEnabled(app.getKernel().redoPossible());
 		}
 	}
 
 	@Override
-    public void onResize() {
+	public void onResize() {
 		setToolbarWidth(app.getWidth());
 	}
-
 
 	/**
 	 * @param width
 	 *            pixel width
 	 */
 	public void setToolbarWidth(double width) {
-		 if(toolbars.get(0).getGroupCount() < 0){ 
-	 	        return; 
+		if (toolbars.get(0).getGroupCount() < 0) {
+			return;
 		}
-		 
+
 		int maxButtons = getMaxButtons((int) width);
 		if (maxButtons > 0) {
 			toolbars.get(0).setMaxButtons(maxButtons);
@@ -1270,7 +1258,6 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			rightButtonPanel.removeStyleName("rightButtonPanelMobile");
 		}
 
-
 	}
 
 	/**
@@ -1282,10 +1269,10 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		int extraButtons = 0;
 		if (app.isUndoRedoEnabled()) {
 			extraButtons = 95;
-		 }
-		 if(app.showMenuBar()){
+		}
+		if (app.showMenuBar()) {
 			extraButtons += 90;
-		 }
+		}
 		if (app.isExam()) {
 			extraButtons += 95;
 			if (!app.getSettings().getEuclidian(-1).isEnabled()) {
@@ -1312,7 +1299,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	public void setSubmenuDimensions(double width) {
 		if (toolBar.isMobileToolbar() && !toolBar.isVisible()) {
 			int maxButtons = getMaxButtons((int) width);
-			int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel.getWidget(0)).getButtonCount();
+			int submenuButtonCount = ((ToolbarSubmenuP) submenuPanel
+					.getWidget(0)).getButtonCount();
 			submenuScrollPanel.setWidth((maxButtons - 1) * 45 + "px");
 			submenuPanel.setWidth((submenuButtonCount) * 45 + "px");
 		}
@@ -1333,17 +1321,17 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		if (app.getToolbar() == null) {
 			return;
 		}
-		if (((GGWToolBar)app.getToolbar()).getToolBar() == null) {
+		if (((GGWToolBar) app.getToolbar()).getToolBar() == null) {
 			return;
 		}
 		if (app.isWhiteboardActive()) {
 			app.setMode(EuclidianConstants.MODE_PEN, ModeSetter.DOCK_PANEL);
 		} else {
-		app.setMode(((GGWToolBar)app.getToolbar()).
-				getToolBar().getFirstMode(),
-		        ModeSetter.DOCK_PANEL);
+			app.setMode(
+					((GGWToolBar) app.getToolbar()).getToolBar().getFirstMode(),
+					ModeSetter.DOCK_PANEL);
 		}
-    }
+	}
 
 	@Override
 	public void closeAllSubmenu() {

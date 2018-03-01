@@ -187,9 +187,8 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		dimPanel = new FlowPanel();
 		addToDimPanel(dimTitle);
 		FlowPanel[] axisRangePanel = new FlowPanel[4];
-		MinMaxType[] fields = new MinMaxType[] {
-				MinMaxType.minX, MinMaxType.maxX,
-				MinMaxType.minY, MinMaxType.maxY };
+		MinMaxType[] fields = new MinMaxType[] { MinMaxType.minX,
+				MinMaxType.maxX, MinMaxType.minY, MinMaxType.maxY };
 		for (int i = 0; i < fields.length; i++) {
 			dimLabel[i] = new FormLabel();
 			dimField[i] = this.optionsEuclidianW.getTextField();
@@ -599,20 +598,17 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 			@Override
 			public void onChange(ChangeEvent event) {
 				model.applyTooltipMode(
-						BasicTab.this.lbTooltips
-								.getSelectedIndex());
+						BasicTab.this.lbTooltips.getSelectedIndex());
 			}
 		});
 
-		this.rightAngleStyleListBox
-				.addChangeHandler(new ChangeHandler() {
-					@Override
-					public void onChange(ChangeEvent event) {
-						model.applyRightAngleStyle(
-								BasicTab.this.rightAngleStyleListBox
-										.getSelectedIndex());
-					}
-				});
+		this.rightAngleStyleListBox.addChangeHandler(new ChangeHandler() {
+			@Override
+			public void onChange(ChangeEvent event) {
+				model.applyRightAngleStyle(BasicTab.this.rightAngleStyleListBox
+						.getSelectedIndex());
+			}
+		});
 	}
 
 	private void updateRightAngleCombo() {
@@ -625,8 +621,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 	protected void fillMiscPanel() {
 		miscPanel.add(
 				LayoutUtilW.panelRow(backgroundColorLabel, btBackgroundColor));
-		miscPanel.add(LayoutUtilW.panelRow(tooltips,
-				this.lbTooltips));
+		miscPanel.add(LayoutUtilW.panelRow(tooltips, this.lbTooltips));
 		miscPanel.add(LayoutUtilW.panelRow(cbShowMouseCoords));
 		miscPanel.add(LayoutUtilW.panelRow(rightAngleStyleLabel,
 				this.rightAngleStyleListBox));
@@ -661,8 +656,7 @@ public class BasicTab extends OptionsEuclidianW.EuclidianTab {
 		cbShowMouseCoords.setText(
 				this.optionsEuclidianW.loc.getMenu("ShowMouseCoordinates"));
 
-		index = this.rightAngleStyleListBox
-				.getSelectedIndex();
+		index = this.rightAngleStyleListBox.getSelectedIndex();
 
 		updateRightAngleCombo();
 		this.rightAngleStyleListBox.setSelectedIndex(index);

@@ -22,12 +22,12 @@ import com.google.gwt.user.client.ui.Label;
 /**
  * @author gabor
  * 
- * MyCanvasJbutton a Canvas that used as a button
+ *         MyCanvasJbutton a Canvas that used as a button
  *
  */
-public class MyCJButton extends Composite implements MouseDownHandler,
-        MouseUpHandler, HasSetIcon {
-	
+public class MyCJButton extends Composite
+		implements MouseDownHandler, MouseUpHandler, HasSetIcon {
+
 	private Label button;
 	/** whether this is enabled */
 	boolean enabled;
@@ -36,13 +36,13 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	private boolean imageMode = false;
 	// used only for feature flag
 	private App app;
-	
+
 	/**
 	 * Creates a new button
-	 * @param appl TODO
 	 * 
+	 * @param appl
+	 *            TODO
 	 */
-	
 	public MyCJButton(App appl) {
 		button = new Label("");
 		buttonContent = new Label("");
@@ -50,12 +50,12 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		button.getElement().appendChild(buttonContent.getElement());
 		button.addMouseDownHandler(this);
 		button.addMouseUpHandler(this);
-		
+
 		initWidget(button);
 		setStyleName("MyCanvasButton");
 		enabled = true;
 		app = appl;
-    }
+	}
 
 	/**
 	 * @return {@link Label}
@@ -95,35 +95,34 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		if (app.has(Feature.OPENING_DYNAMIC_STYLEBAR_ON_FIXED_GEOS)) {
 			event.stopPropagation();
 		}
-
 	}
-	
+
 	private void setDownState(boolean downState) {
-	   //TODO less visible
-	   if(downState){
-		   this.addStyleName("selected");
-	   }else{
-		   this.removeStyleName("selected");
-	   }
-    }
-	
+		// TODO less visible
+		if (downState) {
+			this.addStyleName("selected");
+		} else {
+			this.removeStyleName("selected");
+		}
+	}
+
 	@Override
 	public void setIcon(ImageOrText icon) {
-		if(this.imageMode && icon.getUrl() == null){
+		if (this.imageMode && icon.getUrl() == null) {
 			return;
 		}
-		if(icon.getUrl() != null){
+		if (icon.getUrl() != null) {
 			this.imageMode = true;
-		}		
+		}
 		this.icon = icon;
 		icon.applyToLabel(buttonContent);
 		setDownState(false);
 	}
-	
+
 	/**
 	 * @return {@link ImageOrText}
 	 */
-	public ImageOrText getIcon(){
+	public ImageOrText getIcon() {
 		return this.icon;
 	}
 
@@ -131,9 +130,9 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 * @return {@code true} if button is enabled
 	 */
 	protected boolean isEnabled() {
-		return enabled ;
+		return enabled;
 	}
-	
+
 	/**
 	 * @param enabled
 	 *            boolean
@@ -167,7 +166,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 			}
 		});
 	}
-	
+
 	/**
 	 * adds the given clickhandler to the button
 	 * 
