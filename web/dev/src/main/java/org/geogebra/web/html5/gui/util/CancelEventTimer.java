@@ -20,6 +20,8 @@ public class CancelEventTimer {
 
 	private static long lastTouchEvent = 0;
 
+	private static long lastDragEvent = 0;
+
 	private static long lastKeyboardEvent = 0;
 
 	private static long lastBlurEvent = 0;
@@ -38,7 +40,7 @@ public class CancelEventTimer {
 	 * amount of time (ms) in which all mouse events are ignored after a touch
 	 * event
 	 */
-	public static final int TIME_BETWEEN_TOUCH_AND_DRAG = 500;
+	public static final int TIME_BETWEEN_TOUCH_AND_DRAG = 1500;
 
 	/**
 	 * amount of time (ms) in which background-clicks are not closing the
@@ -69,7 +71,9 @@ public class CancelEventTimer {
 	 * called when it may be a drag start.
 	 */
 	public static void dragCanStart() {
+		lastDragEvent = System.currentTimeMillis();
 		dragState = DragState.CANSTART;
+
 	}
 
 	/**
@@ -155,8 +159,18 @@ public class CancelEventTimer {
 	}
 
 	/**
-	 * called after Algebra View should restore its original width (after
-	 * editing an item)
+	 * Called to check if the drag should be canceled to enable long tap scroll to
+	 * happen.
+	 * 
+	 * @return true if drag should be canceled.
+	 */
+	public static boolean cancelDragEvent() {
+		return System.currentTimeMillis() - lastDragEvent < TIME_BETWEEN_TOUCH_AND_DRAG;
+	}
+
+	/**
+	 * called after Algebra View should restore its original width (after editing an
+	 * item)
 	 */
 	public static void avRestoreWidth() {
 		avRestoreWidthEvent = System.currentTimeMillis();

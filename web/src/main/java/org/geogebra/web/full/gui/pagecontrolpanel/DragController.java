@@ -337,6 +337,10 @@ class DragController {
 	}
 	
 	void move(int x, int y) {
+		if (CancelEventTimer.cancelDragEvent()) {
+			return;
+		}
+
 		if (CancelEventTimer.noDrag() || dropAnimTimer.isRunning()) {
 			return;
 		}
