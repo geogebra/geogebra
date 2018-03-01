@@ -163,8 +163,13 @@ public class GeoImage extends GeoElement implements Locateable,
 		hasAbsoluteScreenLocation = img.hasAbsoluteScreenLocation;
 
 		if (hasAbsoluteScreenLocation) {
-			screenX = img.screenX;
-			screenY = img.screenY;
+			if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
+				cornerScreenX[0] = img.cornerScreenX[0];
+				cornerScreenY[0] = img.cornerScreenY[0];
+			} else {
+				screenX = img.screenX;
+				screenY = img.screenY;
+			}
 		} else {
 			hasAbsoluteLocation = true;
 			for (int i = 0; i < corners.length; i++) {
@@ -661,6 +666,9 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public void setAbsoluteScreenLoc(int x, int y) {
+		if(kernel.getApplication().has(Feature.MOW_PIN_IMAGE)){
+			setAbsoluteScreenLoc(x, y, 0);
+		}
 		screenX = x;
 		screenY = y;
 		if (!hasScreenLocation() && (x != 0 && y != 0)) {

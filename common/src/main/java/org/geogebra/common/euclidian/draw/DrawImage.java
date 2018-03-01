@@ -128,25 +128,21 @@ public final class DrawImage extends Drawable {
 		absoluteLocation = geoImage.isAbsoluteScreenLocActive();
 
 		// ABSOLUTE SCREEN POSITION
-		if (absoluteLocation && !geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
+		if (absoluteLocation){
 			screenX = geoImage.getAbsoluteScreenLocX();
 			screenY = geoImage.getAbsoluteScreenLocY() - height;
-			labelRectangle.setBounds(screenX, screenY, width, height);				
+			labelRectangle.setBounds(screenX, screenY, width, height);
+			if(geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
+				classicBoundingBox.setBounds(screenX, screenY, width, height);
+			}
 		}
 
-		// RELATIVE SCREEN POSITION || (ABSOLUTE SCREEN POSITION && has(Feature.MOW_PINNED_IMAGE) )
+		// RELATIVE SCREEN POSITION
 		else {
-			GeoPoint A, B, D;
 			boolean center = geoImage.isCentered();
-			if(absoluteLocation){
-				A = getTempPoint(center ? 3 : 0);
-				B = center ? null : getTempPoint(1);
-				D = center ? null : getTempPoint(2);
-			} else {
-				A = geoImage.getCorner(center ? 3 : 0);
-				B = center ? null : geoImage.getCorner(1);
-				D = center ? null : geoImage.getCorner(2);    
-			}
+			GeoPoint A = geoImage.getCorner(center ? 3 : 0);
+			GeoPoint B = center ? null : geoImage.getCorner(1);
+			GeoPoint D = center ? null : geoImage.getCorner(2);
 			
 			debug("points in update: ");
 			if (A != null) {
@@ -324,8 +320,7 @@ public final class DrawImage extends Drawable {
 				g3.setComposite(alphaComp);
 			}
 
-			if (absoluteLocation && !geo.getKernel().getApplication()
-					.has(Feature.MOW_PIN_IMAGE)) {
+			if (absoluteLocation) {
 				g3.drawImage(image, screenX, screenY);
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
@@ -436,7 +431,7 @@ public final class DrawImage extends Drawable {
 		hitCoords[1] = y;
 
 		// convert screen to image coordinate system
-		if (!geoImage.isAbsoluteScreenLocActive() || geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+		if (!geoImage.isAbsoluteScreenLocActive()) {
 			atInverse.transform(hitCoords, 0, hitCoords, 0, 1);
 		}
 		return labelRectangle.contains(hitCoords[0], hitCoords[1]);
