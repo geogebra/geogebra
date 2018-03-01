@@ -423,17 +423,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			String html = CopyPasteCutW.getClipboardContents(null);
 			// AppW.nativeConsole("from clipboard = " + html);
 
-			// for testing
-			// html = "<!--StartFragment--><img
-			// src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoCAYAAACM/rhtAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAYRJREFUeNrslq9ywkAQxi+Zqip0FY+QyLriK1qDLbxBXwFbQ2trktqaVOAjkckbUFVVgcIeu3dfZpJMG/IXGGa/mQ2Bye3+2N3bi1IikUgkEl20nP5c6Qe6ePiSkuuvM/mPDKY3ZLpkG0CfDGxEFgDmF/fPsAC/adyPjlxiEzBGSddkn2S70kPXZFOyW1tyNaFw2yMAFuBCAFaJAWdtId0W6YsawCk8E2JN1DRYQ0DuJ3VH9lITLg/5btcaH0MAcvObUnE23lpkfoG1M/jqE9CMiyXm27zD2J2jF5d1R1ANQD2mC5fl2zZ5Z03gK4DvLoBmx3Jj8+djmzHxRxa31peC7+oZ6R7IXDZOqDRO2uMJm1qfxndclUm3oueSHFw4wGtAmINM/uvJEqDmMRCjrFwKfxi4AqSPWJGNzQwFQO3h/ExyJV0ALlWDy8TwETMreQImz7EHuhHvrA+y18ObQd/Q5b4hyYr8/tTYlDwjn8jG2Vmsz/mF9QqpFYlEIpFIdBrtBRgAu5eF1CVUIv4AAAAASUVORK5CYII=\"
-			// style=\"text-rendering: optimizeLegibility; border: 0px; color:
-			// rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
-			// font-style: normal; font-variant: normal; font-weight: normal;
-			// letter-spacing: normal; line-height: normal; orphans: auto;
-			// text-align: start; text-indent: 0px; text-transform: none;
-			// white-space: normal; widows: 1; word-spacing: 0px;
-			// -webkit-text-stroke-width: 0px;\"><!--EndFragment-->";
-
 			Log.debug("trying to paste image " + html);
 
 			int pngBase64index = html.indexOf(StringUtil.pngMarker);
@@ -505,7 +494,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		// Build inner text for a style element that handles font size
 		// =============================================================
-		String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu, .DialogBox, .gwt-PopupPanel, .ToolTip, .gwt-SuggestBoxPopup";
+		String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu, .DialogBox, "
+				+ ".gwt-PopupPanel, .ToolTip, .gwt-SuggestBoxPopup";
 		innerText += "{font-size: " + fontsizeString + " !important}";
 
 		innerText += ".GeoGebraMenuImage{height: " + imagesize + "px; width: "

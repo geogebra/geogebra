@@ -715,7 +715,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		Object source = event.getSource();
 		if (source == comboDistribution) {
 
-			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution.getValue(comboDistribution.getSelectedIndex()).equals(SEPARATOR)) {
+			if (comboDistribution.getSelectedIndex() > -1 && !comboDistribution
+					.getValue(comboDistribution.getSelectedIndex())
+					.equals(SEPARATOR)) {
 				if (!selectedDist.equals(this.getReverseDistributionMap()
 						.get(comboDistribution.getValue(comboDistribution.getSelectedIndex())))) {
 
@@ -799,8 +801,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 */
 	@Override
 	public ProbabilityManager getProbManager() {
-	   return probManager;
-    }
+		return probManager;
+	}
 
 	/**
 	 * @param decimals
@@ -813,7 +815,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		this.printFigures = figures;
 		updateGUI();
 		updateDiscreteTable();
-    }
+	}
 	
 	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
 		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
@@ -824,15 +826,13 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		};
 
 		public MyTabLayoutPanel(int splitterSize, Unit px) {
-	        super(splitterSize, px);
-	        this.addDomHandler(this, ClickEvent.getType());
-        }
-		
+			super(splitterSize, px);
+			this.addDomHandler(this, ClickEvent.getType());
+		}
+
 		@Override
 		public final void onResize() {
-			//int width = probCalcPanel.getOffsetWidth() - ((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() - 50;
 			tabResized();
-
 		}
 
 		public void deferredOnResize() {
@@ -850,7 +850,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	 */
 	public EuclidianViewW getPlotPanelEuclidianView() {
 		return getPlotPanel();
-    }
+	}
 
 	/**
 	 * Tab resize callback
@@ -870,7 +870,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			plotPanelPlus.setWidth(width + "px");
 		}
 
-
 		if (height > 0) {
 			((ProbabilityTableW) getTable()).getWrappedPanel()
 					.setPixelSize(((ProbabilityTableW) getTable()).getStatTable()
@@ -878,7 +877,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			// ((ProbabilityTableW) table).getWrappedPanel().setHeight(height +
 			// "px");
 		}
-
 	}
 
 	@Override

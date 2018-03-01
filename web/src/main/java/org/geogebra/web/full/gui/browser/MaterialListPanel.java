@@ -26,9 +26,9 @@ import com.google.gwt.user.client.ui.Label;
 /**
  * contains all available materials
  */
-public class MaterialListPanel extends FlowPanel implements ResizeListener,
-        ShowDetailsListener {
-	
+public class MaterialListPanel extends FlowPanel
+		implements ResizeListener, ShowDetailsListener {
+
 	private final static long MIN_DIFFERNCE_TO_SCROLL = 1000;
 	/** application */
 	protected AppW app;
@@ -48,17 +48,19 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	long lastDefaultStyle = 0;
 
 	/**
-	 * @param app {@link AppW}
+	 * @param app
+	 *            {@link AppW}
 	 */
 	public MaterialListPanel(final AppW app) {
 		this.app = app;
 		this.userMaterialsCB = getUserMaterialsCB();
 		this.ggtMaterialsCB = getGgtMaterialsCB();
-		this.setPixelSize((int)app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, 
-				(int)app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.setPixelSize(
+				(int) app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH,
+				(int) app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		this.setStyleName("materialListPanel");
 		this.addDomHandler(new ClickHandler() {
-			
+
 			@Override
 			public void onClick(final ClickEvent event) {
 				if (lastSelected != null) {
@@ -66,19 +68,20 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 				}
 			}
 		}, ClickEvent.getType());
-		
+
 		this.addDomHandler(new ScrollHandler() {
-			
+
 			@Override
 			public void onScroll(final ScrollEvent event) {
-				if (lastSelected != null && System.currentTimeMillis() - lastScroll > MIN_DIFFERNCE_TO_SCROLL) {
+				if (lastSelected != null && System.currentTimeMillis()
+						- lastScroll > MIN_DIFFERNCE_TO_SCROLL) {
 					setDefaultStyle(false);
 				}
 			}
 		}, ScrollEvent.getType());
-		
+
 		this.addDomHandler(new TouchMoveHandler() {
-			
+
 			@Override
 			public void onTouchMove(final TouchMoveEvent event) {
 				if (lastSelected != null) {
@@ -89,7 +92,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	}
 
 	private MaterialCallback getGgtMaterialsCB() {
-	    return new MaterialCallback() {
+		return new MaterialCallback() {
 			@Override
 			public void onError(final Throwable exception) {
 				// FIXME implement Error Handling!
@@ -99,31 +102,34 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 
 			@Override
 			public void onLoaded(final List<Material> response,
-			        ArrayList<Chapter> meta) {
+					ArrayList<Chapter> meta) {
 				addGGTMaterials(response, meta);
 			}
 		};
-    }
+	}
 
 	private MaterialCallback getUserMaterialsCB() {
-	    return new MaterialCallback() {
-			
+		return new MaterialCallback() {
+
 			@Override
 			public void onLoaded(final List<Material> parseResponse,
-			        ArrayList<Chapter> meta) {
+					ArrayList<Chapter> meta) {
 				addUsersMaterials(parseResponse);
 
 			}
 		};
-    }
+	}
 
 	/**
-	 * sets all {@link MaterialListElement materials} to the
-	 * default style (not selected, not disabled)
-	 * @param force boolean
+	 * sets all {@link MaterialListElement materials} to the default style (not
+	 * selected, not disabled)
+	 * 
+	 * @param force
+	 *            boolean
 	 */
 	public void setDefaultStyle(boolean force) {
-		if(!force && System.currentTimeMillis() < this.lastDefaultStyle + 3000){
+		if (!force
+				&& System.currentTimeMillis() < this.lastDefaultStyle + 3000) {
 			return;
 		}
 		this.lastDefaultStyle = System.currentTimeMillis();
@@ -132,35 +138,34 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			mat.setDefaultStyle();
 		}
 	}
-	
-	
+
 	/**
 	 * loads featured materials and (if user is logged in) users materials
 	 */
-    public void loadAllMaterials() {
+	public void loadAllMaterials() {
 		clearMaterials();
 		loadLocal();
 		if (this.app.getLoginOperation().isLoggedIn()) {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-			        .getUsersMaterials(this.userMaterialsCB);
+					.getUsersMaterials(this.userMaterialsCB);
 		} else {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-			        .getFeaturedMaterials(this.ggtMaterialsCB);
+					.getFeaturedMaterials(this.ggtMaterialsCB);
 		}
 	}
-    
+
 	/**
 	 * loads users materials from ggt
 	 */
 	public void loadUsersMaterials() {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-		        .getUsersMaterials(this.userMaterialsCB);
+				.getUsersMaterials(this.userMaterialsCB);
 	}
 
 	/**
 	 * adds the local saved materials (localStorage) of current loggedIn user
 	 */
-    private void loadLocal() {
+	private void loadLocal() {
 		app.getFileManager().getUsersMaterials();
 	}
 
@@ -173,7 +178,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 *            list of book chapters
 	 */
 	public final void addGGTMaterials(final List<Material> matList,
-	        final ArrayList<Chapter> chapters) {
+			final ArrayList<Chapter> chapters) {
 		if (chapters == null || chapters.size() < 2) {
 			for (final Material mat : matList) {
 				addMaterial(mat, true, false);
@@ -184,7 +189,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 				int[] materialIDs = chapters.get(i).getMaterials();
 				for (int j = 0; j < materialIDs.length; j++) {
 					addMaterial(findMaterial(matList, materialIDs[j]), true,
-					        false);
+							false);
 				}
 			}
 		}
@@ -198,6 +203,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 		}
 		return null;
 	}
+
 	private void addHeading(String title) {
 		Label chapterLabel = new Label(title);
 		chapterLabel.addStyleName("ggbChapterName");
@@ -206,7 +212,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 
 	/**
 	 * Adds the given {@link Material materials}.
-	 * @param matList List<Material>
+	 * 
+	 * @param matList
+	 *            List<Material>
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
 
@@ -215,8 +223,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 		}
 
 	}
-	
-	
+
 	/**
 	 * adds the given material to the list of {@link MaterialListElement
 	 * materials} and the preview-panel. if the {@link Material material}
@@ -230,7 +237,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 * @param isLocal
 	 *            boolean
 	 */
-	public void addMaterial(final Material mat, final boolean insertAtEnd, final boolean isLocal) {
+	public void addMaterial(final Material mat, final boolean insertAtEnd,
+			final boolean isLocal) {
 		if (mat == null) {
 			return;
 		}
@@ -243,9 +251,10 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			if (mat.getLocalID() == -1) {
 				mat.setLocalID(oldLocalID);
 				mat.setSyncStamp(Math.max(matElem.getMaterial().getSyncStamp(),
-				        mat.getSyncStamp()));
+						mat.getSyncStamp()));
 			}
-			if (mat.getThumbnail() == null || mat.getThumbnail().length() == 0) {
+			if (mat.getThumbnail() == null
+					|| mat.getThumbnail().length() == 0) {
 				if (oldThumbnailIsBase64) {
 					mat.setThumbnailBase64(oldThumbnail);
 				} else {
@@ -263,57 +272,67 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	}
 
 	/**
-	 * The actual creation happens in LAF as it needs to be different for phone / tablet / web / widgets
-	 * @param mat {@link Material}
-	 * @param isLocal boolean
+	 * The actual creation happens in LAF as it needs to be different for phone
+	 * / tablet / web / widgets
+	 * 
+	 * @param mat
+	 *            {@link Material}
+	 * @param isLocal
+	 *            boolean
 	 */
-	private final void addNewMaterial(final Material mat, final boolean insertAtEnd, final boolean isLocal) {
-		final MaterialListElement preview = ((GLookAndFeel)app.getLAF()).getMaterialElement(mat, this.app, isLocal);
+	private final void addNewMaterial(final Material mat,
+			final boolean insertAtEnd, final boolean isLocal) {
+		final MaterialListElement preview = ((GLookAndFeel) app.getLAF())
+				.getMaterialElement(mat, this.app, isLocal);
 		this.materials.add(preview);
 		preview.setShowDetailsListener(this);
 
 		if (insertAtEnd) {
 			this.add(preview);
 		} else {
-			this.insert(preview,0);
+			this.insert(preview, 0);
 		}
 	}
 
 	/**
-	 * clears the list of existing {@link MaterialListElement materials} and the {@link MaterialListPanel preview-panel}
+	 * clears the list of existing {@link MaterialListElement materials} and the
+	 * {@link MaterialListPanel preview-panel}
 	 */
 	public void clearMaterials() {
 		this.materials.clear();
 		this.clear();
 	}
-	
+
 	/**
 	 * @return {@link MaterialListElement} last selected material
 	 */
 	public MaterialListElement getChosenMaterial() {
 		return this.lastSelected;
 	}
-	
+
 	/**
 	 * sets all materials to disabled
 	 */
 	public void disableMaterials() {
-	    for (final MaterialListElement mat : this.materials) {
-	    	mat.disableMaterial();
-	    }
-    }
+		for (final MaterialListElement mat : this.materials) {
+			mat.disableMaterial();
+		}
+	}
 
 	/**
-	 * @param materialElement {@link MaterialListElement}
+	 * @param materialElement
+	 *            {@link MaterialListElement}
 	 */
 	public void rememberSelected(final MaterialListElementI materialElement) {
 		this.lastSelected = (MaterialListElement) materialElement;
 	}
-	
+
 	/**
 	 * clears the {@link MaterialListPanel} and adds the found materials to it.
 	 * if query == "" all materials (featured and users) are loaded.
-	 * @param query String
+	 * 
+	 * @param query
+	 *            String
 	 */
 	public void displaySearchResults(final String query) {
 		clearMaterials();
@@ -327,37 +346,46 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 
 	/**
 	 * search for materials in localStorage (offline saved files)
-	 * @param query String
+	 * 
+	 * @param query
+	 *            String
 	 */
 	private void searchLocal(final String query) {
 		this.app.getFileManager().search(query);
 	}
-	
-	/**
-	 * search GeoGebraTube
-	 * @param query String
-	 */
-	protected void searchGgt(final String query) {
-		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI()).search(
-				query, this.ggtMaterialsCB);
-    }
 
 	/**
-	 * removes the given material from the list of {@link MaterialListElement materials} and the {@link MaterialListPanel preview-panel}
-	 * @param mat {@link Material}
+	 * search GeoGebraTube
+	 * 
+	 * @param query
+	 *            String
+	 */
+	protected void searchGgt(final String query) {
+		((GeoGebraTubeAPIW) this.app.getLoginOperation().getGeoGebraTubeAPI())
+				.search(query, this.ggtMaterialsCB);
+	}
+
+	/**
+	 * removes the given material from the list of {@link MaterialListElement
+	 * materials} and the {@link MaterialListPanel preview-panel}
+	 * 
+	 * @param mat
+	 *            {@link Material}
 	 */
 	public void removeMaterial(final Material mat) {
-		for(final MaterialListElement matElem : this.materials) {
-			if (matElem.localMaterial && mat.getTitle().equals(matElem.getMaterial().getTitle()) ||
-					matElem.ownMaterial && matElem.getMaterial().equals(mat)) {
-				
+		for (final MaterialListElement matElem : this.materials) {
+			if (matElem.localMaterial
+					&& mat.getTitle().equals(matElem.getMaterial().getTitle())
+					|| matElem.ownMaterial
+							&& matElem.getMaterial().equals(mat)) {
+
 				this.materials.remove(matElem);
 				this.remove(matElem);
 				return;
 			}
 		}
 	}
-		
+
 	/**
 	 * 
 	 */
@@ -375,23 +403,25 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 
 	/**
 	 * refreshes the preview of the {@link MaterialListElement material}
-	 * @param material {@link Material}
-	 * @param isLocal boolean
+	 * 
+	 * @param material
+	 *            {@link Material}
+	 * @param isLocal
+	 *            boolean
 	 */
 	public void refreshMaterial(final Material material,
 			final boolean isLocal) {
 		addMaterial(material, false, isLocal);
-    }
-	
-	private MaterialListElement getMaterialListElement(final Material material) {
-		for(final MaterialListElement matElem : this.materials) {
+	}
+
+	private MaterialListElement getMaterialListElement(
+			final Material material) {
+		for (final MaterialListElement matElem : this.materials) {
 			if (matElem.getMaterial().getId() > 0
-			        && matElem.getMaterial().getId() == material.getId()
-					|| matElem.localMaterial
-							&& MaterialsManager
-									.getFileKey(matElem.getMaterial())
-									.equals(MaterialsManager
-											.getFileKey(material))) {
+					&& matElem.getMaterial().getId() == material.getId()
+					|| matElem.localMaterial && MaterialsManager
+							.getFileKey(matElem.getMaterial())
+							.equals(MaterialsManager.getFileKey(material))) {
 				return matElem;
 			}
 		}
@@ -403,29 +433,33 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 */
 	public void removeUsersMaterials() {
 		final List<Material> delete = new ArrayList<>();
-	    for (final MaterialListElement elem : this.materials) {
-	    	if (elem.ownMaterial) {
-	    		delete.add(elem.getMaterial());
-	    	}
-	    }
-	    for (final Material deleteElem : delete) {
-	    	removeMaterial(deleteElem);
-	    }
-    }
+		for (final MaterialListElement elem : this.materials) {
+			if (elem.ownMaterial) {
+				delete.add(elem.getMaterial());
+			}
+		}
+		for (final Material deleteElem : delete) {
+			removeMaterial(deleteElem);
+		}
+	}
 
 	@Override
 	public void onShowDetails(FlowPanel content) {
-		int elementBottom = content.getAbsoluteTop() + content.getElement().getClientHeight();
-		int panelBottom = this.getAbsoluteTop() + this.getElement().getClientHeight();
+		int elementBottom = content.getAbsoluteTop()
+				+ content.getElement().getClientHeight();
+		int panelBottom = this.getAbsoluteTop()
+				+ this.getElement().getClientHeight();
 
-		if(panelBottom < elementBottom){
+		if (panelBottom < elementBottom) {
 			lastScroll = System.currentTimeMillis();
-			this.getElement().setScrollTop(this.getElement().getScrollTop() + elementBottom - panelBottom);
-		} else if(content.getAbsoluteTop() < this.getAbsoluteTop()){
+			this.getElement().setScrollTop(this.getElement().getScrollTop()
+					+ elementBottom - panelBottom);
+		} else if (content.getAbsoluteTop() < this.getAbsoluteTop()) {
 			lastScroll = System.currentTimeMillis();
-			this.getElement().setScrollTop(this.getElement().getScrollTop() + content.getAbsoluteTop() - this.getAbsoluteTop());
+			this.getElement().setScrollTop(this.getElement().getScrollTop()
+					+ content.getAbsoluteTop() - this.getAbsoluteTop());
 		}
-    }
+	}
 
 	/**
 	 * @return last selected {@link MaterialListElement material}

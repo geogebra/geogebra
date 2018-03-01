@@ -25,15 +25,13 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 
-
 /**
  * Algebra controller for web;
  *
  */
 public class AlgebraControllerW extends AlgebraController
 		implements MouseMoveHandler, MouseDownHandler, TouchStartHandler,
-		TouchEndHandler,
-		TouchMoveHandler, LongTouchHandler {
+		TouchEndHandler, TouchMoveHandler, LongTouchHandler {
 
 	private LongTouchManager longTouchManager;
 
@@ -48,11 +46,11 @@ public class AlgebraControllerW extends AlgebraController
 
 	@Override
 	public void handleLongTouch(int x, int y) {
-		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.INSTANCE);
+		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
+				ZeroOffset.INSTANCE);
 		event.setIsRightClick(true);
 		mousePressed(event);
 	}
-
 
 	private void mousePressed(AbstractEvent e) {
 		getView().cancelEditItem();
@@ -60,35 +58,33 @@ public class AlgebraControllerW extends AlgebraController
 
 		// RIGHT CLICK
 		if (rightClick) {
-			// The default algebra menu will be created here (not for GeoElements).
-			// LEFT CLICK	
+			// The default algebra menu will be created here (not for
+			// GeoElements).
+			// LEFT CLICK
 		} else {
-			
-			//hide dialogs if they are open
-			((GuiManagerW)app.getGuiManager()).removePopup();
+
+			// hide dialogs if they are open
+			((GuiManagerW) app.getGuiManager()).removePopup();
 
 			// When a single, new selection is made with no key modifiers
 			// we need to handle selection in mousePressed, not mouseClicked.
 			// By doing this selection early, a DnD drag will come afterwards
-			// and grab the new selection. 
-			// All other selection types must be handled later in mouseClicked. 
-			// In this case a DnD drag starts first and grabs the previously selected 
+			// and grab the new selection.
+			// All other selection types must be handled later in mouseClicked.
+			// In this case a DnD drag starts first and grabs the previously
+			// selected
 			// geos (e.g. cntrl-selected or EV selected) as the user expects.
 
 			// skipSelection = false; // flag to prevent duplicate selection in
 			// MouseClicked
 
-			// view.getPathForLocation is not yet implemented, but if it will be, note Window.getScrollLeft() (ticket #4049)
-
 		}
 
 	}
 
-
-
-	//=====================================================
-	// Drag and Drop 
-	//=====================================================
+	// =====================================================
+	// Drag and Drop
+	// =====================================================
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
@@ -97,41 +93,42 @@ public class AlgebraControllerW extends AlgebraController
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE));
+		mousePressed(
+				PointerEvent.wrapEventAbsolute(event, ZeroOffset.INSTANCE));
 	}
-
-
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), ZeroOffset.INSTANCE);
+		AbstractEvent e = PointerEvent.wrapEvent(
+				targets.get(targets.length() - 1), ZeroOffset.INSTANCE);
 		Element el = Element.as(event.getNativeEvent().getEventTarget());
-		
+
 		if (el == ((AlgebraViewW) getView()).getElement()) {
 			longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY());
 		}
 		CancelEventTimer.touchEventOccured();
-    }
+	}
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		longTouchManager.cancelTimer();
 		CancelEventTimer.touchEventOccured();
-    }
+	}
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.INSTANCE);
+		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),
+				ZeroOffset.INSTANCE);
 		Element el = Element.as(event.getNativeEvent().getEventTarget());
-		
+
 		if (el == ((AlgebraViewW) getView()).getElement()) {
 			longTouchManager.scheduleTimer(this, e.getX(), e.getY());
 		}
 		mousePressed(e);
 		CancelEventTimer.touchEventOccured();
-    }
+	}
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {

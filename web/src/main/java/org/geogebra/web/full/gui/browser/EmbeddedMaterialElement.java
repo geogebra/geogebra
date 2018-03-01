@@ -11,32 +11,38 @@ import org.geogebra.web.full.move.ggtapi.models.MaterialCallback;
 import org.geogebra.web.html5.main.AppW;
 
 public class EmbeddedMaterialElement extends MaterialListElement {
-	
-	public EmbeddedMaterialElement(final Material m, final AppW app, final boolean isLocal) {
+
+	public EmbeddedMaterialElement(final Material m, final AppW app,
+			final boolean isLocal) {
 		super(m, app, isLocal);
 	}
-	@Override
-    public String getInsertWorksheetTitle(Material m) {
-	    return m.getType() == MaterialType.book ? null : "insert_worksheet";
-    }
-	
-	@Override
-    public void onView() {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(getMaterial().getId()+"", new MaterialCallback(){
 
-			@Override
-			        public void onLoaded(List<Material> parseResponse,
-			                ArrayList<Chapter> meta) {
-	            loadNative(parseResponse.get(0).toJson().toString());
-	            
-            }
+	@Override
+	public String getInsertWorksheetTitle(Material m) {
+		return m.getType() == MaterialType.book ? null : "insert_worksheet";
+	}
 
-			private native void loadNative(String data) /*-{
+	@Override
+	public void onView() {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+				.getItem(getMaterial().getId() + "", new MaterialCallback() {
+
+					@Override
+					public void onLoaded(List<Material> parseResponse,
+							ArrayList<Chapter> meta) {
+						loadNative(parseResponse.get(0).toJson().toString());
+					}
+				});
+	}
+
+	/**
+	 * @param data
+	 *            JSON material data
+	 */
+	protected native void loadNative(String data) /*-{
 		if ($wnd.loadWorksheet) {
 			$wnd.loadWorksheet(JSON.parse(data));
 		}
 	}-*/;
-       });
-    }
 
 }

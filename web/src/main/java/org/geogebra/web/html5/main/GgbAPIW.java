@@ -212,9 +212,10 @@ public class GgbAPIW extends GgbAPI {
 		if (value) {
 			str = geo.toValueString(StringTemplate.latexTemplate);
 		} else {
-			str = geo instanceof GeoCasCell ? ((GeoCasCell) geo)
-					.getLaTeXInput(StringTemplate.latexTemplate) : geo
-					.toString(StringTemplate.latexTemplate);
+			str = geo instanceof GeoCasCell
+					? ((GeoCasCell) geo)
+							.getLaTeXInput(StringTemplate.latexTemplate)
+					: geo.toString(StringTemplate.latexTemplate);
 		}
 		DrawEquationW.paintOnCanvasOutput(geo, str, c, app.getFontSizeWeb());
 		return c.toDataUrl().substring(StringUtil.pngMarker.length());
@@ -255,8 +256,8 @@ public class GgbAPIW extends GgbAPI {
 				|| "tabletWin".equals(GWT.getModuleName())) {
 			return "false";
 		}
-		return Browser.webWorkerSupported() ? GWT.getModuleBaseURL()
-				+ "js/zipjs/" : "false";
+		return Browser.webWorkerSupported()
+				? GWT.getModuleBaseURL() + "js/zipjs/" : "false";
 	}
 
 	/**
@@ -276,8 +277,7 @@ public class GgbAPIW extends GgbAPI {
 		GgbFile archiveContent = createMacrosArchive();
 		JavaScriptObject jso = JavaScriptObject.createObject();
 		getBase64ZipJs(prepareToEntrySet(archiveContent, jso, "", null),
-				callback,
-				zipJSworkerURL(), false);
+				callback, zipJSworkerURL(), false);
 	}
 
 	/**
@@ -287,7 +287,8 @@ public class GgbAPIW extends GgbAPI {
 	 */
 	public JavaScriptObject getFileJSON(boolean includeThumbnail) {
 		JavaScriptObject jso = JavaScriptObject.createObject();
-		PageListControllerInterface pageController = ((AppW) app).getPageController();
+		PageListControllerInterface pageController = ((AppW) app)
+				.getPageController();
 		if (pageController != null) {
 			HashMap<String, Integer> usage = new HashMap<>();
 			GgbFile shared = new GgbFile();
@@ -388,7 +389,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param callback
 	 *            callback
 	 */
-	public void getMacrosBase64(boolean includeThumbnail, StringHandler callback) {
+	public void getMacrosBase64(boolean includeThumbnail,
+			StringHandler callback) {
 		getMacrosBase64(includeThumbnail, nativeCallback(callback));
 	}
 
@@ -517,20 +519,17 @@ public class GgbAPIW extends GgbAPI {
 
 	private EuclidianViewInterfaceCommon getViewForThumbnail(
 			boolean needsObjects) {
-		if (app.isEuclidianView3Dinited()
-				&& app.showView(App.VIEW_EUCLIDIAN3D)
+		if (app.isEuclidianView3Dinited() && app.showView(App.VIEW_EUCLIDIAN3D)
 				&& (!needsObjects
 						|| app.getEuclidianView3D().hasVisibleObjects())) {
 			return app.getEuclidianView3D();
 		}
-		if (app.showView(App.VIEW_EUCLIDIAN)
-				&& (!needsObjects
-						|| app.getEuclidianView1().hasVisibleObjects())) {
+		if (app.showView(App.VIEW_EUCLIDIAN) && (!needsObjects
+				|| app.getEuclidianView1().hasVisibleObjects())) {
 			return app.getEuclidianView1();
 		}
-		if (app.showView(App.VIEW_EUCLIDIAN2)
-				&& (!needsObjects
-						|| app.getEuclidianView2(1).hasVisibleObjects())) {
+		if (app.showView(App.VIEW_EUCLIDIAN2) && (!needsObjects
+				|| app.getEuclidianView2(1).hasVisibleObjects())) {
 			return app.getEuclidianView2(1);
 		}
 		if (app.showView(App.VIEW_PROBABILITY_CALCULATOR)) {
@@ -560,7 +559,7 @@ public class GgbAPIW extends GgbAPI {
 			if (usage == null || usage.get(entry.getKey()) == null
 					|| usage.get(entry.getKey()) < 2) {
 				pushIntoNativeEntry(prefix + entry.getKey(), entry.getValue(),
-					nativeEntry);
+						nativeEntry);
 			}
 		}
 		return nativeEntry;
@@ -585,8 +584,8 @@ public class GgbAPIW extends GgbAPI {
 	 * @param errorClb
 	 *            callback for errors
 	 */
-	native void getGGBZipJs(JavaScriptObject arch,
-			JavaScriptObject clb, JavaScriptObject errorClb) /*-{
+	native void getGGBZipJs(JavaScriptObject arch, JavaScriptObject clb,
+			JavaScriptObject errorClb) /*-{
 
 		function encodeUTF8(string) {
 			var n, c1, enc, utftext = [], start = 0, end = 0, stringl = string.length;
@@ -879,8 +878,7 @@ public class GgbAPIW extends GgbAPI {
 		}
 	}
 
-	private void writeMacroImages(ArrayList<Macro> macros,
-			GgbFile archive) {
+	private void writeMacroImages(ArrayList<Macro> macros, GgbFile archive) {
 		if (macros == null) {
 			return;
 		}
@@ -889,8 +887,7 @@ public class GgbAPIW extends GgbAPI {
 			// save all images in macro construction
 			Macro macro = macros.get(i);
 			// macro may contain images GGB-1865
-			writeConstructionImages(macro.getMacroConstruction(), "",
-					archive);
+			writeConstructionImages(macro.getMacroConstruction(), "", archive);
 			String fileName = macro.getIconFileName();
 			if (fileName != null && !fileName.isEmpty()) {
 				String url = ((ImageManagerW) app.getImageManager())
@@ -916,8 +913,6 @@ public class GgbAPIW extends GgbAPI {
 			 */
 		}
 	}
-
-
 
 	private void writeConstructionImages(Construction cons, String filePath,
 			GgbFile archive) {
@@ -968,10 +963,9 @@ public class GgbAPIW extends GgbAPI {
 				addImageToZip(filePath + fileName, dataURL, archive);
 			} else {
 				// not supported, so saved as PNG
-				addImageToZip(
-						filePath
-								+ StringUtil.changeFileExtension(fileName,
-										FileExtensions.PNG), dataURL, archive);
+				addImageToZip(filePath + StringUtil
+						.changeFileExtension(fileName, FileExtensions.PNG),
+						dataURL, archive);
 			}
 		}
 	}
@@ -997,7 +991,9 @@ public class GgbAPIW extends GgbAPI {
 
 		// TODO
 		// String svgAsXML =
-		// "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\" r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\" /></svg>";
+		// "<svg width=\"100\" height=\"100\"> <circle cx=\"50\" cy=\"50\"
+		// r=\"40\" stroke=\"green\" stroke-width=\"4\" fill=\"yellow\"
+		// /></svg>";
 		String svgAsXML = svg.getAttribute("src");
 
 		// remove eg data:image/svg+xml;base64,
@@ -1063,12 +1059,10 @@ public class GgbAPIW extends GgbAPI {
 		((AppW) app).getAppletFrame().setSize(width, height);
 	}
 
-
-
 	private void setArticleParam(String name, int value) {
 		((AppW) app).getArticleElement().setAttribute("data-param-" + name,
 				value + "");
-		
+
 	}
 
 	/**
@@ -1165,13 +1159,15 @@ public class GgbAPIW extends GgbAPI {
 	 * If you don't want that a Standard Exercise (using all the Macros in the
 	 * Construction and setting each fraction to 100) will be created, check if
 	 * this is a Exercise with {@link #isExercise()} first. <br>
-	 * Hint will be empty unless specified otherwise with the ExerciseBuilder. <br />
+	 * Hint will be empty unless specified otherwise with the ExerciseBuilder.
+	 * <br />
 	 * Fraction will be 0 or 1 unless specified otherwise with the
 	 * ExerciseBuilder. <br />
 	 * Result will be in {@link Result},i.e: <br />
 	 * CORRECT, The assignment is CORRECT <br />
 	 * WRONG, if the assignment is WRONG and we can't tell why <br />
-	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check <br />
+	 * NOT_ENOUGH_INPUTS if there are not enough input geos, so we cannot check
+	 * <br />
 	 * WRONG_INPUT_TYPES, if there are enough input geos, but one or more are of
 	 * the wrong type <br />
 	 * WRONG_OUTPUT_TYPE, if there is no output geo matching our macro <br />
@@ -1257,19 +1253,20 @@ public class GgbAPIW extends GgbAPI {
 		getScreenshotURL(((AppW) app).getPanel().getElement(), callback);
 	}
 
-	public native void getScreenshotURL(Element el, JavaScriptObject callback)/*-{
-		var canvas = document.createElement("canvas");
-		canvas.height = el.offsetHeight;
-		canvas.width = el.offsetWidth;
-		var context = canvas.getContext('2d');
-		el.className = el.className + " ggbScreenshot";
-		$wnd.domvas.toImage(el, function() {
-			// Look ma, I just converted this element to an image and can now to funky stuff!
-			context.drawImage(this, 0, 0);
-			el.className = el.className.replace(/\bggbScreenshot\b/, '');
-			callback(@org.geogebra.web.html5.main.GgbAPIW::pngBase64(Ljava/lang/String;)(canvas.toDataURL()));
-		});
-	}-*/;
+	public native void getScreenshotURL(Element el,
+			JavaScriptObject callback)/*-{
+										var canvas = document.createElement("canvas");
+										canvas.height = el.offsetHeight;
+										canvas.width = el.offsetWidth;
+										var context = canvas.getContext('2d');
+										el.className = el.className + " ggbScreenshot";
+										$wnd.domvas.toImage(el, function() {
+										// Look ma, I just converted this element to an image and can now to funky stuff!
+										context.drawImage(this, 0, 0);
+										el.className = el.className.replace(/\bggbScreenshot\b/, '');
+										callback(@org.geogebra.web.html5.main.GgbAPIW::pngBase64(Ljava/lang/String;)(canvas.toDataURL()));
+										});
+										}-*/;
 
 	public static native boolean setWorkerURL(String workerUrls,
 			boolean sync) /*-{
@@ -1336,10 +1333,9 @@ public class GgbAPIW extends GgbAPI {
 
 	@Override
 	public void exportGIF(String sliderLabel, double scale,
-			double timeBetweenFrames,
-			boolean isLoop, String filename, double rotate) {
-		GifShotExporter.export(kernel.getApplication(),
-				(int) timeBetweenFrames,
+			double timeBetweenFrames, boolean isLoop, String filename,
+			double rotate) {
+		GifShotExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
 				scale, rotate);
 

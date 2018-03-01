@@ -81,12 +81,12 @@ public class ProbabilityCalculatorStyleBarW extends
 	 * Update UI
 	 */
 	void updateGUI() {
-		btnLineGraph.setVisible(((ProbabilityCalculatorViewW) getProbCalc()).getProbManager().isDiscrete(
+		btnLineGraph.setVisible(getProbCalc().getProbManager().isDiscrete(
 				getProbCalc().getSelectedDist()));
-		btnStepGraph.setVisible(((ProbabilityCalculatorViewW) getProbCalc()).getProbManager().isDiscrete(
+		btnStepGraph.setVisible(getProbCalc().getProbManager().isDiscrete(
 				getProbCalc().getSelectedDist()));
-		btnBarGraph.setVisible(((ProbabilityCalculatorViewW) getProbCalc()).getProbManager().isDiscrete(
-				getProbCalc().getSelectedDist()));
+		btnBarGraph.setVisible(getProbCalc().getProbManager()
+				.isDiscrete(getProbCalc().getSelectedDist()));
 
 		btnLineGraphHandler.removeHandler();
 		btnStepGraphHandler.removeHandler();
