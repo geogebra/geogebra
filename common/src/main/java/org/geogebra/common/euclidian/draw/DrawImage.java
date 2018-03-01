@@ -99,13 +99,6 @@ public final class DrawImage extends Drawable {
 		update();
 	}
 
-	private GeoPoint getTempPoint(int i) {
-        return new GeoPoint(geoImage.getConstruction(), geoImage.getKernel().getApplication().getActiveEuclidianView()
-				.toRealWorldCoordX(geoImage.getAbsoluteScreenLocX(i)),
-				geoImage.getKernel().getApplication().getActiveEuclidianView()
-				.toRealWorldCoordY(geoImage.getAbsoluteScreenLocY(i)), 1.0);
-    }
-	
 	private void debug(String d) {
 		if(debug1){
 			Log.debug(d);
