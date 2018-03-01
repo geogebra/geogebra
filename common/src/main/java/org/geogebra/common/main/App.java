@@ -4019,7 +4019,11 @@ public abstract class App implements UpdateSelection {
 		case MOB_LOAD_SAVE_FOR_PRE_LOLLIPOP:
 			return false;
 
-		// **********************************************************************
+		case MOB_DEFAULT_SLIDER_INCERMENT_VALUE:
+			return false;
+
+
+			// **********************************************************************
 		// MOBILE END
 		// *********************************************************
 		// **********************************************************************
