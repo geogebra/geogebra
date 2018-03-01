@@ -1459,58 +1459,61 @@ namespace giac {
 
 
   static string symbolic2mathml(const symbolic & mys, string &svg,GIAC_CONTEXT){
-
     string opstring(mys.sommet.ptr()->print(contextptr));
-    bool of=mys.sommet==at_of;
-    if (of || mys.sommet==at_at) {
-      gen g=mys.feuille[1];
+    const unary_function_ptr & mysommet=mys.sommet;
+    const gen & myfeuille=mys.feuille;
+    bool of=mysommet==at_of;
+    if (of || mysommet==at_at) {
+      gen g=myfeuille[1];
       if (of)
-	return gen2mathml(mys.feuille[0],svg,contextptr)+"<mo>(</mo>"+gen2mathml(g,svg,contextptr)+"<mo>)</mo>";
+	return gen2mathml(myfeuille[0],svg,contextptr)+"<mo>(</mo>"+gen2mathml(g,svg,contextptr)+"<mo>)</mo>";
       g+=array_start(contextptr);
-      return "<msub><mrow>"+gen2mathml(mys.feuille[0],svg,contextptr)+"</mrow><mrow>"+gen2mathml(g,svg,contextptr)+"</mrow></msub>";
+      return "<msub><mrow>"+gen2mathml(myfeuille[0],svg,contextptr)+"</mrow><mrow>"+gen2mathml(g,svg,contextptr)+"</mrow></msub>";
     }
-    if (opstring!="/" && (mys.sommet.ptr()->texprint || mys.sommet==at_different))  
+    if (opstring!="/" && (mysommet.ptr()->texprint || mysommet==at_different))  
       return mathml_print(mys,contextptr);
-    if (mys.sommet==at_pnt) { 
+    if (mysommet==at_pnt) { 
       svg=svg+symbolic2svg(mys,gnuplot_xmin,gnuplot_xmax,gnuplot_ymin,gnuplot_ymax,1.0,contextptr);
       return "<mtext>"+mys.print(contextptr)+"</mtext>";
     }
+    if (mysommet==at_member && myfeuille.type==_VECT && myfeuille._VECTptr->size()==2)
+      return gen2mathml(myfeuille._VECTptr->front(),svg,contextptr)+"<mtext>∈</mtext>"+gen2mathml(myfeuille._VECTptr->back(),svg,contextptr);
     gen tmp,value;
-    if (mys.sommet==at_rootof && (tmp=mys.feuille).type==_VECT && tmp._VECTptr->size()==2 && tmp._VECTptr->front().type==_VECT && has_rootof_value(tmp._VECTptr->back(),value,contextptr)){
+    if (mysommet==at_rootof && (tmp=myfeuille).type==_VECT && tmp._VECTptr->size()==2 && tmp._VECTptr->front().type==_VECT && has_rootof_value(tmp._VECTptr->back(),value,contextptr)){
       value=horner_rootof(*tmp._VECTptr->front()._VECTptr,value,contextptr);
       return gen2mathml(value,svg,contextptr);
     }
-    if ( (mys.feuille.type==_VECT) && (mys.feuille._VECTptr->empty()) )
-      return string(provisoire_mbox_begin)+mys.sommet.ptr()->print(contextptr)+string("()")+string(provisoire_mbox_end);
-    if ( (mys.feuille.type!=_VECT) || (mys.feuille._VECTptr->front().type==_VECT)){
-      if (mys.sommet==at_factorial){
-	if (mys.feuille.type==_SYMB)
-	  return "<mrow><mo>(</mo>" + gen2mathml(mys.feuille,contextptr) +"<mo>)</mo></mrow><mtext>!</mtext>";
-	return gen2mathml(mys.feuille,contextptr)+"<mtext>!</mtext>";
+    if ( (myfeuille.type==_VECT) && (myfeuille._VECTptr->empty()) )
+      return string(provisoire_mbox_begin)+mysommet.ptr()->print(contextptr)+string("()")+string(provisoire_mbox_end);
+    if ( (myfeuille.type!=_VECT) || (myfeuille._VECTptr->front().type==_VECT)){
+      if (mysommet==at_factorial){
+	if (myfeuille.type==_SYMB)
+	  return "<mrow><mo>(</mo>" + gen2mathml(myfeuille,contextptr) +"<mo>)</mo></mrow><mtext>!</mtext>";
+	return gen2mathml(myfeuille,contextptr)+"<mtext>!</mtext>";
       }
-      if ((mys.sommet==at_neg) || (mys.sommet==at_plus)){
-	if (mys.feuille.type!=_SYMB) 
-	  return string("<mo>")+mys.sommet.ptr()->print(contextptr)+"</mo>"+gen2mathml(mys.feuille,contextptr); 
-	if (mys.feuille._SYMBptr->sommet==at_inv || mys.feuille._SYMBptr->sommet==at_pow )
-	  return string("<mo>")+mys.sommet.ptr()->print(contextptr)+"</mo>"+gen2mathml(mys.feuille,contextptr) ;
-	return string("<mo>")+mys.sommet.ptr()->print(contextptr)+"</mo>"+string("<mrow><mo>(</mo>") 
-	  + gen2mathml(mys.feuille,contextptr) +string("<mo>)</mo></mrow>");
+      if ((mysommet==at_neg) || (mysommet==at_plus)){
+	if (myfeuille.type!=_SYMB) 
+	  return string("<mo>")+mysommet.ptr()->print(contextptr)+"</mo>"+gen2mathml(myfeuille,contextptr); 
+	if (myfeuille._SYMBptr->sommet==at_inv || myfeuille._SYMBptr->sommet==at_pow )
+	  return string("<mo>")+mysommet.ptr()->print(contextptr)+"</mo>"+gen2mathml(myfeuille,contextptr) ;
+	return string("<mo>")+mysommet.ptr()->print(contextptr)+"</mo>"+string("<mrow><mo>(</mo>") 
+	  + gen2mathml(myfeuille,contextptr) +string("<mo>)</mo></mrow>");
       }
-      if (mys.sommet==at_inv){
-	return string("<mfrac><mrow><mn>1</mn></mrow><mrow>") + gen2mathml(mys.feuille,contextptr) 
+      if (mysommet==at_inv){
+	return string("<mfrac><mrow><mn>1</mn></mrow><mrow>") + gen2mathml(myfeuille,contextptr) 
 	  + string("</mrow></mfrac>");
       }
-      if (mys.sommet==at_pow) {
-	 return "<msup><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr)+"</mrow><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)+"</mrow></msup>";
+      if (mysommet==at_pow) {
+	 return "<msup><mrow>"+gen2mathml((*(myfeuille._VECTptr))[0],contextptr)+"</mrow><mrow>"+gen2mathml((*(myfeuille._VECTptr))[1],contextptr)+"</mrow></msup>";
       }
-      return string(provisoire_mbox_begin) +mys.sommet.ptr()->print(contextptr)+ string(provisoire_mbox_end)
-	+ "<mrow><mo>(</mo>" + gen2mathml(mys.feuille,contextptr) +"<mo>)</mo></mrow>" ;
+      return string(provisoire_mbox_begin) +mysommet.ptr()->print(contextptr)+ string(provisoire_mbox_end)
+	+ "<mrow><mo>(</mo>" + gen2mathml(myfeuille,contextptr) +"<mo>)</mo></mrow>" ;
     }
     string s;
-    int l=mys.feuille._VECTptr->size();
-    if ( mys.sommet==at_plus ){
+    int l=myfeuille._VECTptr->size();
+    if ( mysommet==at_plus ){
       for (int i=0;i<l;++i){
-	gen e((*(mys.feuille._VECTptr))[i]);
+	gen e((*(myfeuille._VECTptr))[i]);
 	if ((e.type==_SYMB) && (e._SYMBptr->sommet==at_neg)){
 	  if ( (e._SYMBptr->feuille).type==_SYMB && (e._SYMBptr->feuille)._SYMBptr->sommet==at_plus)
 	    s = s+string("<mo>-</mo><mrow><mo>(</mo>")
@@ -1532,12 +1535,12 @@ namespace giac {
       } // end_for
       return s;
     }
-    if (mys.sommet==at_prod) {
+    if (mysommet==at_prod) {
       vecteur num;
       vecteur den;
       for (int i=0;i<l;++i){
 
-	gen e((*(mys.feuille._VECTptr))[i]);
+	gen e((*(myfeuille._VECTptr))[i]);
 	if ( (e.type==_SYMB) && (e._SYMBptr->sommet==at_inv) )
 	  den.push_back(e._SYMBptr->feuille);
 	else {
@@ -1558,19 +1561,19 @@ namespace giac {
 	+prod_vect2mathml_no_bra(den,contextptr)+"</mrow></mfrac>";
     } // end if sommet_is_prod
 
-    if (mys.sommet==at_pow){
-      if ( (mys.feuille._VECTptr->back()==plus_one_half)  ){
-    return "<msqrt><mrow>"+gen2mathml(mys.feuille._VECTptr->front(),contextptr)+"</mrow></msqrt>";
+    if (mysommet==at_pow){
+      if ( (myfeuille._VECTptr->back()==plus_one_half)  ){
+    return "<msqrt><mrow>"+gen2mathml(myfeuille._VECTptr->front(),contextptr)+"</mrow></msqrt>";
       }
-      if ( (mys.feuille._VECTptr->back()==minus_one_half ) || 
-	   (mys.feuille._VECTptr->back()==fraction(minus_one,plus_two) ) )
-	return "<mfrac><mn>1</mn><msqrt>"+gen2mathml(mys.feuille._VECTptr->front(),contextptr)+"</msqrt></mfrac>";
-      string s0=gen2mathml((*(mys.feuille._VECTptr))[0],contextptr),s1=gen2mathml((*(mys.feuille._VECTptr))[1],contextptr);
+      if ( (myfeuille._VECTptr->back()==minus_one_half ) || 
+	   (myfeuille._VECTptr->back()==fraction(minus_one,plus_two) ) )
+	return "<mfrac><mn>1</mn><msqrt>"+gen2mathml(myfeuille._VECTptr->front(),contextptr)+"</msqrt></mfrac>";
+      string s0=gen2mathml((*(myfeuille._VECTptr))[0],contextptr),s1=gen2mathml((*(myfeuille._VECTptr))[1],contextptr);
       string s_bra="<msup><mfenced open=\"(\" close=\")\"><mrow>("+s0+")</mrow></mfenced><mrow>"+s1+"</mrow></msup>";
       string s_no_bra= "<msup><mrow> "+s0+"</mrow><mrow>"+s1+"</mrow></msup>";
-      if (mys.feuille._VECTptr->front().type==_SYMB){
+      if (myfeuille._VECTptr->front().type==_SYMB){
 
-	symbolic mantisse(*mys.feuille._VECTptr->front()._SYMBptr);
+	symbolic mantisse(*myfeuille._VECTptr->front()._SYMBptr);
 	if ( (mantisse.feuille.type==_VECT) && (mantisse.feuille._VECTptr->empty()) )
 	  return s_bra;
 	if ( (mantisse.feuille.type!=_VECT) || (mantisse.feuille._VECTptr->front().type==_VECT))
@@ -1580,16 +1583,16 @@ namespace giac {
 	else
 	  return  s_no_bra;
       }
-      else if (mys.feuille._VECTptr->front().type==_FRAC)
+      else if (myfeuille._VECTptr->front().type==_FRAC)
 	return s_bra;
-      else if (mys.feuille._VECTptr->front().type==_CPLX){
-          if  (is_zero(im(mys.feuille._VECTptr->front(),contextptr))) return s_no_bra;
+      else if (myfeuille._VECTptr->front().type==_CPLX){
+          if  (is_zero(im(myfeuille._VECTptr->front(),contextptr))) return s_no_bra;
           else return s_bra;
       }
       //F.H 2*(-1)^n
       //_REAL et _DOUBLE_ inutiles (-1.5)^n passe en exp
-      else if ((mys.feuille._VECTptr->front().type==_INT_)||(mys.feuille._VECTptr->front().type==_ZINT)){
-	if  (is_positive(mys.feuille._VECTptr->front(),contextptr)) return s_no_bra;
+      else if ((myfeuille._VECTptr->front().type==_INT_)||(myfeuille._VECTptr->front().type==_ZINT)){
+	if  (is_positive(myfeuille._VECTptr->front(),contextptr)) return s_no_bra;
           else return s_bra;
       }
       else
@@ -1597,13 +1600,13 @@ namespace giac {
     }
 
     if (opstring=="/") { //at_division non reconnu
-      return "<mfrac><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[0],contextptr)
-	+"</mrow><mrow>"+gen2mathml((*(mys.feuille._VECTptr))[1],contextptr)+"</mrow></mfrac>";
+      return "<mfrac><mrow>"+gen2mathml((*(myfeuille._VECTptr))[0],contextptr)
+	+"</mrow><mrow>"+gen2mathml((*(myfeuille._VECTptr))[1],contextptr)+"</mrow></mfrac>";
     } 
 
     s = string(provisoire_mbox_begin)+opstring + string(provisoire_mbox_end) +"<mrow><mo>(</mo>";
     for (int i=0;;++i){
-      s = s+gen2mathml((*(mys.feuille._VECTptr))[i],contextptr);
+      s = s+gen2mathml((*(myfeuille._VECTptr))[i],contextptr);
       if (i==l-1)
 	return s+"<mo>)</mo></mrow>";
       s = s+',';
@@ -1658,23 +1661,23 @@ namespace giac {
       if (s=="mu" || s=="nu" || s=="pi" || s=="xi" || s=="Xi")
 	return "&"+s+';'+sadd;
       if (s=="im")
-	return "&Im"+s+';'+sadd;
+	return "&Im;"+sadd;
       if (s=="re")
-	return "&Re"+sadd;
+	return "&Re;"+sadd;
       if (s=="RR")
-	return "ℝ";
+	return "ℝ"+sadd;
       if (s=="QQ")
-	return "ℚ";
+	return "ℚ"+sadd;
       if (s=="ZZ")
-	return "ℤ";
+	return "ℤ"+sadd;
       if (s=="CC")
-	return "ℂ";
+	return "ℂ"+sadd;
       if (s=="NN")
-	return "ℕ";
+	return "ℕ"+sadd;
       if (s=="HH")
-	return "ℍ";
+	return "ℍ"+sadd;
       if (s=="PP")
-	return "ℙ";
+	return "ℙ"+sadd;
       break;
     case 3:
       if (s=="chi" || s=="phi" || s=="Phi" || s=="eta" || s=="rho" || s=="tau" || s=="psi" || s=="Psi")
@@ -1685,12 +1688,16 @@ namespace giac {
 	return "&"+s+';'+sadd;
       break;
     case 5:
-      if (s=="alpha" || s=="delta" || s=="Delta" || s=="gamma" || s=="Gamma" || s=="kappa" || s=="theta" || s=="Theta" || s=="sigma" || s=="Sigma" || s=="Omega" || s=="omega" || s=="aleph")
-	return "&"+s+';'+sadd;      
+      if (s=="alpha" || s=="delta" || s=="Delta" || s=="gamma" || s=="Gamma" || s=="kappa" || s=="theta" || s=="Theta" || s=="sigma" || s=="Sigma" || s=="Omega" || s=="omega" || s=="aleph" || s=="nabla" 
+	  // || s=="empty" || s=="oplus" || s=="exist" 
+	  )
+	return "&"+s+';'+sadd;
       break;
     case 6:
-      if (s=="lambda" || s=="Lambda" || s=="approx")
-	return "&"+s+';'+sadd;      
+      if (s=="lambda" || s=="Lambda" || s=="approx" 
+	  // || s=="forall" || s=="otimes"
+	  )
+	return "&"+s+';'+sadd;
       break;
     case 7:
       if (s=="epsilon" || s=="product")
