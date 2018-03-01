@@ -503,7 +503,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * Show buttons (tabs, close) of the header.
 	 */
 	public void showButtons() {
-		center.removeStyleName("hidden");
+		if (center != null) {
+			center.removeStyleName("hidden");
+		}
 		rightSide.removeStyleName("hidden");
 	}
 
@@ -511,7 +513,9 @@ class Header extends FlowPanel implements KeyDownHandler, TabHandler {
 	 * Hide buttons (eg. during animation).
 	 */
 	public void hideButons() {
-		center.addStyleName("hidden");
+		if (center != null) {
+			center.addStyleName("hidden");
+		}
 		rightSide.addStyleName("hidden");
 	}
 

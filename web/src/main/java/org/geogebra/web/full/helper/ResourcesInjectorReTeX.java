@@ -7,12 +7,15 @@ import org.geogebra.web.html5.js.ResourcesInjector;
 import org.geogebra.web.resources.JavaScriptInjector;
 import org.geogebra.web.resources.StyleInjector;
 
+import com.google.gwt.core.client.JavaScriptObject;
+
 public class ResourcesInjectorReTeX extends ResourcesInjector {
 	@Override
 	protected void injectResourcesGUI() {
 		JavaScriptInjector.inject(GuiResources.INSTANCE.propertiesKeysJS());
+		JavaScriptObject oldQuery = getOldJQuery();
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
-		jQueryNoConflict();
+		jQueryNoConflict(oldQuery);
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jqueryUI());
 		StyleInjector.inject(GuiResources.INSTANCE.mowStyle());
 		StyleInjector.inject(GuiResources.INSTANCE.spreadsheetStyle());
@@ -37,6 +40,12 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 	}
 
+	private native JavaScriptObject getOldJQuery() /*-{
+		var oldQuery = $wnd.jQuery;
+		delete ($wnd.jQuery);
+		return $wnd.jQuery;
+	}-*/;
+
 	@Override
 	public native void loadWebFont(String fontUrl) /*-{
 		$wnd.WebFontConfig = {
@@ -55,10 +64,13 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 	/**
 	 * Runs JQ in noconflict mode; note that when running injectResourcesGUI
 	 * twice jQuery is undefined on the second run
+	 * 
+	 * @param oldQuery
 	 */
-	private native void jQueryNoConflict() /*-{
+	private native void jQueryNoConflict(JavaScriptObject oldQuery) /*-{
 		if ($wnd.jQuery && $wnd.jQuery.noConflict) {
 			$wnd.$ggbQuery = $wnd.jQuery.noConflict(true);
 		}
+		$wnd.jQuery = oldQuery;
 	}-*/;
 }
