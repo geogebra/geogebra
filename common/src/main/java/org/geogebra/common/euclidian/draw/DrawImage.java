@@ -40,6 +40,7 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -65,6 +66,7 @@ public final class DrawImage extends Drawable {
 	private GRectangle cropBox;
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
+	private boolean debug1 = false;
 	/**
 	 * the image should have at least 100px width
 	 */
@@ -105,8 +107,9 @@ public final class DrawImage extends Drawable {
     }
 	
 	private void debug(String d) {
-		// TODO
-		// Log.debug(d);
+		if(debug1){
+			Log.debug(d);
+		}
 	}
 
 	@Override
