@@ -16,6 +16,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
@@ -27,6 +28,8 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.ScrollEvent;
+import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchEndHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
@@ -42,7 +45,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
  */
 public class PageListController implements PageListControllerInterface,
 		MouseDownHandler, MouseMoveHandler, MouseUpHandler, TouchStartHandler,
-		TouchMoveHandler, TouchEndHandler, Cards, EventListener {
+		TouchMoveHandler, TouchEndHandler, ScrollHandler, Cards, EventListener {
 	/**
 	 * application {@link AppW}
 	 */
@@ -566,5 +569,14 @@ public class PageListController implements PageListControllerInterface,
 	public void saveSelected() {
 		this.savePreviewCard(selectedCard);
 		System.out.println(selectedCard.getPageIndex());
+	}
+
+	@Override
+	public void onScroll(ScrollEvent event) {
+		if (CancelEventTimer.noDrag()) {
+			return;
+		}
+
+		dragCtrl.cancel();
 	}
 }

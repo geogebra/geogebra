@@ -94,6 +94,7 @@ public class PageListPanel
 		contentPanel = new PersistablePanel();
 		contentPanel.addStyleName("mowPageControlContentPanel");
 		scrollPanel.add(contentPanel);
+		scrollPanel.addScrollHandler(pageController);
 		add(scrollPanel);
 	}
 
