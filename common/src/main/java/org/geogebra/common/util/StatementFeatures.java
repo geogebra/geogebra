@@ -246,6 +246,15 @@ class StatementFeatures {
 		csv_data += data + ",";
 	}
 
+	private static String nodeLabel(GeoElement geo) {
+
+		String simpleNodeLabel = geo.getLabelSimple();
+		if (simpleNodeLabel != null) {
+			return "$" + simpleNodeLabel + "$";
+		}
+		return null;
+	}
+
 	/**
 	 * @param statement
 	 *            element
@@ -272,9 +281,20 @@ class StatementFeatures {
 		types = new ArrayList<>();
 		objs = new ArrayList<>();
 
+		StringBuilder nodes = new StringBuilder("[");
+		StringBuilder nodes_created = new StringBuilder("[");
+		boolean firstNode = true;
+		boolean firstNodesCreated = true;
+		String nodeLabel = null;
+		
 		int number_of_nodes = 0, free = 0, edges = 0;
+
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
+			StringBuilder node_edges = new StringBuilder(" (");
+			nodeLabel = nodeLabel(geo);
+			node_edges.append(nodeLabel(geo)).append(",[");
+			boolean firstEdge = true;
 			TreeSet<GeoElement> children = geo.getAllChildren();
 			int out = 0;
 			for (GeoElement child : children) {
@@ -288,9 +308,25 @@ class StatementFeatures {
 					}
 					if (directChild && !child.equals(statement)) {
 						out++;
+						if (!firstEdge) {
+							node_edges.append(",");
+						} else {
+							firstEdge = false;						
+						}
+						node_edges.append(nodeLabel(child));
 					}
-				}
+				}				
 			}
+			node_edges.append("])");
+			if (out > 0 && nodeLabel != null) {
+				if (!firstNode) {
+					nodes.append(",");
+				} else {
+					firstNode = false;
+				}
+				nodes.append(node_edges);
+			}
+			
 			int in = 0;
 			AlgoElement ae = geo.getParentAlgorithm();
 			String algo = "Free Point";
@@ -315,15 +351,26 @@ class StatementFeatures {
 			} else {
 				free++;
 			}
-			if (!geo.equals(statement)) {
+			if (!geo.equals(statement) && geo.getLabelSimple() != null) {
 				geo_nodes.add(algo);
 				types.add(geo.getTypeString());
 				nodes_in_deg.add(in);
 				nodes_out_deg.add(out);
 				nodes_deg.add(in + out);
+
+				if (!firstNodesCreated) {
+					nodes_created.append(",");
+				} else {
+					firstNodesCreated = false;
+				}
+				nodes_created.append(" (").append(nodeLabel(geo)).append(",")
+						.append(algo).append(")");
+
 				number_of_nodes++;
 			}
 		}
+		nodes.append("]");
+		nodes_created.append("]");
 
 		computeNodeLongestPath(statement, 0);
 		longestPath--;
@@ -394,6 +441,9 @@ class StatementFeatures {
 		}
 		digraph.append("}");
 		Log.debug(digraph);
+		
+		Log.debug("portfolio nodes_created: " + nodes_created);
+		Log.debug("portfolio nodes: " + nodes);
 	}
 
 }
