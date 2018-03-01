@@ -1797,7 +1797,7 @@ __GGB__keysVar["nl"].menu = {
     "FrequencyTable.Frequency": "Frequentie",
     "FrequencyTable.RelativeFrequency": "Relatieve frequentie",
     "FrequencyType": "Frequentietype",
-    "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
+    "FullReinstallNeeded": "Sorry, je moet GeoGebra Klassiek 5 volledig opnieuw installeren om deze toepassing mogelijk te maken.",
     "Fullscreen": "Volledig scherm",
     "Function": "Functie",
     "Function.acos": "acos",

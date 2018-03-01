@@ -1797,7 +1797,7 @@ __GGB__keysVar["it"].menu = {
     "FrequencyTable.Frequency": "Frequenza",
     "FrequencyTable.RelativeFrequency": "Frequenza relativa",
     "FrequencyType": "Tipo di frequenza",
-    "FullReinstallNeeded": "Sorry, you need a full reinstall of GeoGebra Classic 5 to enable this functionality.",
+    "FullReinstallNeeded": "Per attivare questa funzionalit\xe0 \xe8 necessario reinstallare GeoGebra Classico 5.",
     "Fullscreen": "Schermo intero",
     "Function": "Funzione",
     "Function.acos": "acos",
