@@ -393,10 +393,11 @@ public class GeoImage extends GeoElement implements Locateable,
 			corners[number].getLocateableList().registerLocateable(this);
 		}
 
-		// absolute screen position should be deactivated
-		setAbsoluteScreenLocActive(false);
-		updateHasAbsoluteLocation();
-
+		if (!kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
+			// absolute screen position should be deactivated
+			setAbsoluteScreenLocActive(false);
+			updateHasAbsoluteLocation();
+		}
 	}
 
 	/**
@@ -795,7 +796,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            number of the corner point (1, 2, 3 or 4)
 	 */
 	public void calculateCornerPoint(GeoPoint result, int n) {
-		if (hasAbsoluteScreenLocation) {
+		if (hasAbsoluteScreenLocation && !kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 			result.setUndefined();
 			return;
 		}

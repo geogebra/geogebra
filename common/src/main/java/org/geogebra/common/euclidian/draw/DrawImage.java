@@ -67,6 +67,8 @@ public final class DrawImage extends Drawable {
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
 	private boolean debug1 = false;
+	private double scaleX = 1;
+	private double scaleY = 1;
 	/**
 	 * the image should have at least 100px width
 	 */
@@ -105,6 +107,27 @@ public final class DrawImage extends Drawable {
 		}
 	}
 
+	private void debugPoints(GeoPoint A, GeoPoint B, GeoPoint D){
+		if (!debug1) {
+			return;
+		}
+		if (A != null) {
+			debug("A: " + A.getInhomX() + ", " + A.getInhomY());
+		} else {
+			debug("A is null");
+		}
+		if (B != null) {
+			debug("B: " + B.getInhomX() + ", " + B.getInhomY());
+		} else {
+			debug("B is null");
+		}
+		if (D != null) {
+			debug("D: " + D.getInhomX() + ", " + D.getInhomY());
+		} else {
+			debug("D is null");
+		}
+	}
+	
 	@Override
 	public void update() {
 		isVisible = geo.isEuclidianVisible();
@@ -127,10 +150,15 @@ public final class DrawImage extends Drawable {
 		if (absoluteLocation){
 			screenX = geoImage.getAbsoluteScreenLocX();
 			screenY = geoImage.getAbsoluteScreenLocY() - height;
-			labelRectangle.setBounds(screenX, screenY, width, height);
 			if(geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
-				classicBoundingBox.setBounds(screenX, screenY, width, height);
+				if (geoImage.getCorner(1) != null) {
+					scaleX = (view.toScreenCoordXd(geoImage.getCorner(1).inhomX) - screenX) / width;
+				} else {
+					scaleY = (view.toScreenCoordXd(geoImage.getCorner(2).inhomY) - screenY) / height;
+				}
+				classicBoundingBox.setBounds(screenX, screenY, (int) (width * scaleX), (int) (height * scaleY));
 			}
+			labelRectangle.setBounds(screenX, screenY, (int) (width * scaleX), (int) (height * scaleY));
 		}
 
 		// RELATIVE SCREEN POSITION
@@ -141,16 +169,7 @@ public final class DrawImage extends Drawable {
 			GeoPoint D = center ? null : geoImage.getCorner(2);
 			
 			debug("points in update: ");
-			if (A != null) {
-				debug("A: " + A.getInhomX() + ", " + A.getInhomY());
-			}
-			if (B != null) {
-				debug("B: " + B.getInhomX() + ", " + B.getInhomY());
-			}
-			if (D != null) {
-				debug("D: " + D.getInhomX() + ", " + D.getInhomY());
-			}
-            
+			debugPoints(A, B, D);    
 
 			double ax = 0;
 			double ay = 0;
@@ -317,7 +336,12 @@ public final class DrawImage extends Drawable {
 			}
 
 			if (absoluteLocation) {
+				g3.saveTransform();
+				g3.translate(screenX, screenY);
+				g3.scale(scaleX, scaleY);
+				g3.translate(-screenX, -screenY);
 				g3.drawImage(image, screenX, screenY);
+				g3.restoreTransform();
 				if (!isInBackground && geo.doHighlighting()) {
 					// draw rectangle around image
 					g3.setStroke(selStroke);
@@ -502,7 +526,7 @@ public final class DrawImage extends Drawable {
 		if (!(geo.getKernel().getApplication()
 				.has(Feature.MOW_IMAGE_BOUNDING_BOX) && geo.getKernel().getApplication()
 						.has(Feature.MOW_CROP_IMAGE))
-				|| absoluteLocation) {
+				|| (absoluteLocation && !geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE))) {
 			return;
 		}
 		if (boundingBox.isCropBox()) {
@@ -658,6 +682,10 @@ public final class DrawImage extends Drawable {
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint D = geoImage.getCorner(2);
+
+		debug("points in updateImageResize");
+		debugPoints(A, B, D);
+
 		double newWidth = 1;
 		double newHeight = 1;
 		double rwEventX = view.toRealWorldCoordX(eventX);
@@ -673,6 +701,10 @@ public final class DrawImage extends Drawable {
 			D = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(D, 3);
 		}
+
+		debug("points in updateImageResize - after calculating points");
+		debugPoints(A, B, D);
+
 		switch (handler) {
 		case TOP_RIGHT:
 			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
@@ -804,5 +836,8 @@ public final class DrawImage extends Drawable {
 		default:
 			break;
 		}
+
+		debug("points in updateImageResize - after moving handler");
+		debugPoints(A, B, D);
 	}
 }
