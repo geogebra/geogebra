@@ -149,14 +149,20 @@ public final class DrawImage extends Drawable {
 		// ABSOLUTE SCREEN POSITION
 		if (absoluteLocation){
 			screenX = geoImage.getAbsoluteScreenLocX();
-			screenY = geoImage.getAbsoluteScreenLocY() - height;
 			if(geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
 				if (geoImage.getCorner(1) != null) {
 					scaleX = (view.toScreenCoordXd(geoImage.getCorner(1).inhomX) - screenX) / width;
-				} else {
-					scaleY = (view.toScreenCoordXd(geoImage.getCorner(2).inhomY) - screenY) / height;
 				}
+				if (geoImage.getCorner(2) != null) {
+					scaleY = (geoImage.getAbsoluteScreenLocY() - view.toScreenCoordYd(geoImage.getCorner(2).inhomY))
+							/ height;
+				}
+
+				screenY = (int) (geoImage.getAbsoluteScreenLocY() - height * scaleY);
+
 				classicBoundingBox.setBounds(screenX, screenY, (int) (width * scaleX), (int) (height * scaleY));
+			} else {
+				screenY = geoImage.getAbsoluteScreenLocY() - height;
 			}
 			labelRectangle.setBounds(screenX, screenY, (int) (width * scaleX), (int) (height * scaleY));
 		}
