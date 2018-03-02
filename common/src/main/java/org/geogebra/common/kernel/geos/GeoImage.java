@@ -752,12 +752,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;
 		if (flag) {
-			if (kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
-				if (corners[2] != null) {
-					corners[2].getLocateableList().unregisterLocateable(this);
-					corners[2] = null;
-				}
-			} else {
+			if (!kernel.getApplication().has(Feature.MOW_PIN_IMAGE)) {
 				// remove startpoints
 				for (int i = 0; i < 3; i++) {
 					if (corners[i] != null) {
