@@ -4020,7 +4020,7 @@ public abstract class App implements UpdateSelection {
 			return false;
 
 		case MOB_DEFAULT_SLIDER_INCERMENT_VALUE:
-			return false;
+			return prerelease;
 
 
 			// **********************************************************************
