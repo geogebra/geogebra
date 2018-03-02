@@ -36,7 +36,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	/**
 	 * Animation speeds
 	 */
-	final static double ANIM_SPEEDS[] = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
+	final static double[] ANIM_SPEEDS = { 0.05, 0.1, 0.15, 0.2, 0.35, 0.75, 1,
 			1.5, 2, 3.5, 4, 5, 6, 7, 10, 15, 20 };
 	private final RadioTreeItem radioTreeItem;
 	private MyToggleButtonW btnSpeedDown;

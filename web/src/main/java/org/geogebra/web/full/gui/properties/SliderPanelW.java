@@ -742,7 +742,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	 *            result geoElement
 	 */
 	public void applyAll(GeoElement geoResult) {
-		Object geos[] =  {geoResult};
+		Object[] geos = { geoResult };
 		model.setGeos(geos);
 		model.applyFixed(cbSliderFixed.getValue());
 		model.applyRandom(cbRandom.getValue());

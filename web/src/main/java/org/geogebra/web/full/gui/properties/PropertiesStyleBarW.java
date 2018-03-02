@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 public class PropertiesStyleBarW extends
         org.geogebra.common.gui.view.properties.PropertiesStyleBar {
 
-	private static final OptionType OPTION_TYPE_IMPL[] = {
+	private static final OptionType[] OPTION_TYPE_IMPL = {
 		// Implemented types of the web
 			OptionType.GLOBAL, OptionType.OBJECTS, OptionType.EUCLIDIAN,
 			OptionType.EUCLIDIAN2,

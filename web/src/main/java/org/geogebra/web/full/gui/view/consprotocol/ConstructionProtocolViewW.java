@@ -710,7 +710,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	public void settingsChanged(AbstractSettings settings) {
 		ConstructionProtocolSettings cps = (ConstructionProtocolSettings) settings;
 
-		boolean gcv[] = cps.getColsVisibility();
+		boolean[] gcv = cps.getColsVisibility();
 		if (gcv != null) {
 			if (gcv.length > 0) {
 				setColsVisibility(gcv);
@@ -728,13 +728,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 	 *            intended visibility of columns
 	 */
 	private void setColsVisibility(boolean[] colsVisibility) {
-
 		int k = Math.min(colsVisibility.length, data.columns.length);
 
 		for (int i = 0; i < k; i++) {
 			data.columns[i].setVisible(colsVisibility[i]);
 		}
-
 	}
 
 	@Override
@@ -767,7 +765,6 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView
 
 				}
 			});
-
 		}
 	}
 

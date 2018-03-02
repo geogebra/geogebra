@@ -47,8 +47,8 @@ public class PenSubMenu extends SubMenuPanel {
 	private FlowPanel penPanel;
 	private FlowPanel colorPanel;
 	private FlowPanel sizePanel;
-	private Label btnColor[];
-	private GColor penColor[];
+	private Label[] btnColor;
+	private GColor[] penColor;
 	private SliderPanelW slider;
 	private StandardButton btnCustomColor;
 	private PenPreview preview;
@@ -56,7 +56,7 @@ public class PenSubMenu extends SubMenuPanel {
 	boolean colorsEnabled;
 	// preset colors black, green, teal,blue, purple,magenta, red, carrot,
 	// yellow
-	private final static String HEX_COLORS[] = { "000000", "2E7D32", "00A8A8",
+	private final static String[] HEX_COLORS = { "000000", "2E7D32", "00A8A8",
 			"1565C0", "6557D2", "CC0099", "D32F2F", "DB6114", "FFCC00" };
 	private GColor lastSelectedColor = null;
 

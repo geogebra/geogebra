@@ -22,7 +22,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 public class MOWColorButton extends ColorPopupMenuButton {
 	private static final int FILL_TYPES_COUNT = 5;
 	private SelectionTableW fillTable;
-	private FillType fillTypes[] = { FillType.STANDARD, FillType.HATCH,
+	private FillType[] fillTypes = { FillType.STANDARD, FillType.HATCH,
 			FillType.DOTTED, FillType.CROSSHATCHED, FillType.HONEYCOMB };
 	/**
 	 * @param app

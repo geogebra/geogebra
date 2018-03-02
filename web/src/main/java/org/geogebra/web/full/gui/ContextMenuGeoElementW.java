@@ -1481,7 +1481,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		AriaMenuBar mnu = new AriaMenuBar();
 		// mnu.addStyleName("gwt-PopupPanel");
 		// mnu.addStyleName("contextMenuSubmenu");
-		GeoElement geos[] = { getGeo() };
+		GeoElement[] geos = { getGeo() };
 		final ShowLabelModel model = new ShowLabelModel(app, null);
 		model.setGeos(geos);
 		for (int i = 0; i < labels.length; i++) {
@@ -1518,7 +1518,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement
 		AriaMenuBar mnu = new AriaMenuBar();
 		// mnu.addStyleName("gwt-PopupPanel");
 		// mnu.addStyleName("contextMenuSubmenu");
-		GeoElement geos[] = { getGeo() };
+		GeoElement[] geos = { getGeo() };
 		final ReflexAngleModel model = new ReflexAngleModel(app, false);
 		model.setGeos(geos);
 

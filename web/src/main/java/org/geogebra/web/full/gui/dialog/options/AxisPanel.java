@@ -42,7 +42,6 @@ public class AxisPanel extends FlowPanel
 	private FormLabel axisLabel;
 	private FormLabel axisUnitLabel;
 
-	private AppW app;
 	private EuclidianView view;
 
 	private Localization loc;
@@ -58,8 +57,6 @@ public class AxisPanel extends FlowPanel
 	 *            3D?
 	 */
 	public AxisPanel(AppW app, EuclidianView view, int axis, boolean view3D) {
-
-		this.app = app;
 		this.loc = app.getLocalization();
 		this.view = view;
 		model = new AxisModel(app, view, axis, this);
