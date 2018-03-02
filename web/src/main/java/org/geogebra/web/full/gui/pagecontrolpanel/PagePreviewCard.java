@@ -327,7 +327,8 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	public int getComputedTop() {
-		return MARGIN + pageIndex * (CARD_HEIGHT + MARGIN);
+		int visibleHeight = getParent().getParent().getOffsetHeight();
+		return MARGIN + (pageIndex * (CARD_HEIGHT + MARGIN) % visibleHeight);
 
 	}
 	

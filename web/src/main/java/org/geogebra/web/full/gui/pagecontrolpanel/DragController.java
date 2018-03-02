@@ -44,8 +44,10 @@ class DragController {
 			if (scroll()) {
 				int pos = cards.getListener().getVerticalScrollPosition();
 				if (scrollDown) {
-					dragged.card.setTop(pos);
+					pos += cards.getListener().getScrollParentHeight() - PagePreviewCard.SPACE_HEIGHT
+							- PagePreviewCard.MARGIN;
 				}
+				dragged.card.setTop(pos);
 			} else {
 				cancel();
 			}
@@ -210,10 +212,6 @@ class DragController {
 
 			card.setDragPosition(x, y);
 			return true;
-		}
-
-		private void debug(String msg) {
-			Log.debug("[DNDSCROLL] " + msg);
 		}
 
 		boolean autoMove() {
