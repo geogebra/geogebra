@@ -415,9 +415,8 @@ class StatementFeatures {
 		generateStatistics("types", types, obj_types);
 		generateStatistics("objs", objs, null);
 		csvAdd("statement size", number_of_nodes - free);
-
-		Log.debug("portfolio csv_header:" + csv_header);
-		Log.debug("portfolio csv_data:" + csv_data);
+		csvAdd("nodes created", "\"" + nodes_created + "\"");
+		csvAdd("nodes", "\"" + nodes.toString() + "\"");
 
 		StringBuilder digraph = new StringBuilder("digraph dependencies { ");
 		Iterator<ArrayList<GeoElement>> it2 = deps.iterator();
@@ -440,10 +439,12 @@ class StatementFeatures {
 			digraph.append("; ");
 		}
 		digraph.append("}");
-		Log.debug(digraph);
-		
-		Log.debug("portfolio nodes_created: " + nodes_created);
-		Log.debug("portfolio nodes: " + nodes);
+
+		csvAdd("digraph", "\"" + digraph + "\"");
+
+		Log.debug("portfolio csv_header:" + csv_header);
+		Log.debug("portfolio csv_data:" + csv_data);
+
 	}
 
 }
