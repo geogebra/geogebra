@@ -37,8 +37,8 @@ import com.google.gwt.i18n.client.constants.NumberConstants;
  * amounts ("$123")</li>
  * <li><b>Predefined standard patterns</b> that can be used both for parsing and
  * formatting, including {@link #getDecimalFormat() decimal},
- * {@link #getCurrencyFormat() currency}, {@link #getPercentFormat()
- * percentages}, and {@link #getScientificFormat() scientific}</li>
+ * {@link #getPercentFormat() percentages}, and {@link #getScientificFormat()
+ * scientific}</li>
  * <li><b>Custom patterns</b> and supporting features designed to make it
  * possible to parse and format numbers in any locale, including support for
  * Western, Arabic, and Indic digits</li>
@@ -467,7 +467,6 @@ public class MyNumberFormat {
 		return cachedScientificFormat;
 	}
 
-
 	/**
 	 * Specify whether all new MyNumberFormat instances will use latin digits
 	 * and related characters rather than the localized ones.
@@ -613,6 +612,7 @@ public class MyNumberFormat {
 	 * Remap a localized separator to an equivalent latin one.
 	 *
 	 * @param separator
+	 *            separator
 	 * @return delocalized separator character
 	 */
 	protected static String remapSeparator(String separator) {
@@ -633,7 +633,9 @@ public class MyNumberFormat {
 	 * as "35" and a returned scale of -1).
 	 *
 	 * @param buf
+	 *            builder
 	 * @param val
+	 *            value
 	 * @return scale to apply to the result
 	 */
 	// @VisibleForTesting
@@ -678,26 +680,14 @@ public class MyNumberFormat {
 	 * @return non-localized string representation of {@code d}
 	 */
 	private static native String toPrecision(double d, int digits) /*-{
-		return d.toPrecision(digits);
-	}-*/;
-
-
+																	return d.toPrecision(digits);
+																	}-*/;
 
 	/**
 	 * Constructs a format object based on the specified settings.
 	 *
-	 * @param numberConstants
-	 *            the locale-specific number constants to use for this format --
-	 *            **NOTE** subclasses passing their own instance here should pay
-	 *            attention to {@link #forcedLatinDigits()} and remap localized
-	 *            symbols using
-	 *            {@link #createLatinNumberConstants(NumberConstants)}
 	 * @param pattern
 	 *            pattern that specify how number should be formatted
-	 * @param cdata
-	 *            currency data that should be used
-	 * @param userSuppliedPattern
-	 *            true if the pattern was supplied by the user
 	 */
 	protected MyNumberFormat(String pattern) {
 		this.pattern = pattern;
@@ -721,7 +711,7 @@ public class MyNumberFormat {
 		double number;
 		if (isNegative) {
 			number = -number0;
-		}else{
+		} else {
 			number = number0;
 		}
 		StringBuilder buf = new StringBuilder();
@@ -1054,7 +1044,7 @@ public class MyNumberFormat {
 	/**
 	 * Format a possibly scaled long value.
 	 *
-	 * @param value
+	 * @param value0
 	 *            value to format
 	 * @param scale
 	 *            the number of places to the right the decimal point should be
@@ -1067,7 +1057,7 @@ public class MyNumberFormat {
 		double value;
 		if (isNegative) {
 			value = -value0;
-		}else{
+		} else {
 			value = value0;
 		}
 		value *= multiplier;
@@ -1131,6 +1121,7 @@ public class MyNumberFormat {
 	 * Add exponent suffix.
 	 *
 	 * @param digits
+	 *            string builder
 	 */
 	private void addExponent(StringBuilder digits) {
 		digits.append(NUMBER_CONSTANTS.exponentialSymbol());
@@ -1147,7 +1138,9 @@ public class MyNumberFormat {
 
 	/**
 	 * @param digits
+	 *            string builder
 	 * @param decimalSeparator
+	 *            separator
 	 */
 	private void addZeroAndDecimal(StringBuilder digits,
 			char decimalSeparator) {
@@ -1168,6 +1161,7 @@ public class MyNumberFormat {
 	 * removing excess trailing zeroes.
 	 *
 	 * @param digits
+	 *            string builder
 	 */
 	private void adjustFractionDigits(StringBuilder digits) {
 		// adjust fraction digits as required
@@ -1200,6 +1194,7 @@ public class MyNumberFormat {
 	 * exponential notation.
 	 *
 	 * @param digits
+	 *            string builder
 	 */
 	private void computeExponent(StringBuilder digits) {
 		// always trim leading zeros
@@ -1245,22 +1240,23 @@ public class MyNumberFormat {
 	 *            character that represents a digit
 	 * @return the digit value
 	 */
-	private int getDigit(char ch) {
+	private static int getDigit(char ch) {
 		if ('0' <= ch && ch <= '0' + 9) {
 			return (ch - '0');
-		} else {
-			char zeroChar = NUMBER_CONSTANTS.zeroDigit().charAt(0);
-			return ((zeroChar <= ch && ch <= zeroChar + 9) ? (ch - zeroChar)
-					: -1);
 		}
+		char zeroChar = NUMBER_CONSTANTS.zeroDigit().charAt(0);
+		return ((zeroChar <= ch && ch <= zeroChar + 9) ? (ch - zeroChar) : -1);
 	}
 
 	/**
 	 * Insert grouping separators if needed.
 	 *
 	 * @param digits
+	 *            string builder
 	 * @param groupingSeparator
+	 *            separator
 	 * @param g
+	 *            group size (or 0 to do nothing)
 	 */
 	private void insertGroupingSeparators(StringBuilder digits,
 			char groupingSeparator, int g) {
@@ -1471,6 +1467,7 @@ public class MyNumberFormat {
 	 * Method parses provided pattern, result is stored in member variables.
 	 *
 	 * @param pattern
+	 *            pattern
 	 */
 	private void parsePattern(String pattern) {
 		int pos = 0;
@@ -1650,6 +1647,7 @@ public class MyNumberFormat {
 	 * Remove excess leading zeros or add some if we don't have enough.
 	 *
 	 * @param digits
+	 *            string builder
 	 */
 	private void processLeadingZeros(StringBuilder digits) {
 		// make sure we have enough trailing zeros
@@ -1693,6 +1691,7 @@ public class MyNumberFormat {
 	 * Propagate a carry from incrementing the {@code i+1}'th digit.
 	 *
 	 * @param digits
+	 *            string builder
 	 * @param k
 	 *            digit to start incrementing
 	 */

@@ -42,6 +42,7 @@
         <module name="OneStatementPerLine"/>
          <module name="MethodParamPad"/>
         <module name="UpperEll"/>
+        <module name="NonEmptyAtclauseDescription"/>
         <module name="ArrayTypeStyle"/>
         <module name="LineLength">
             <property name="max" value="120"/>

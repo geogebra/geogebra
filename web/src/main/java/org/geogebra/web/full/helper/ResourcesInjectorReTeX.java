@@ -37,13 +37,12 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 		StyleInjector.inject(GuiResources.INSTANCE.perspectivesPopupScss());
 
 		StyleInjector.inject(GuiResources.INSTANCE.snackbarScss());
-
 	}
 
 	private native JavaScriptObject getOldJQuery() /*-{
 		var oldQuery = $wnd.jQuery;
-		delete ($wnd.jQuery);
-		return $wnd.jQuery;
+		delete($wnd.jQuery);
+		return oldQuery;
 	}-*/;
 
 	@Override

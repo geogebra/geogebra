@@ -36,8 +36,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.himamis.retex.editor.share.util.Unicode;
 
-public class InputDialogW extends InputDialog implements ClickHandler,
-		SetLabels, KeyUpHandler, KeyPressHandler {
+public class InputDialogW extends InputDialog
+		implements ClickHandler, SetLabels, KeyUpHandler, KeyPressHandler {
 
 	protected final AppW app;
 
@@ -59,11 +59,11 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	protected final Localization loc;
 	private boolean showingError = false;
-	
-	public InputDialogW(boolean modal, AppW app, boolean hasKeyboard){
+
+	public InputDialogW(boolean modal, AppW app, boolean hasKeyboard) {
 		this.app = app;
 		this.loc = app.getLocalization();
-		if (hasKeyboard){
+		if (hasKeyboard) {
 			wrappedPopup = new DialogBoxKbW(false, modal, this, app.getPanel(),
 					app);
 		} else {
@@ -73,7 +73,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	}
 
 	public InputDialogW(AppW app, String message, String title,
-	        String initString, boolean autoComplete, InputHandler handler,
+			String initString, boolean autoComplete, InputHandler handler,
 			boolean modal, boolean selectInitText) {
 
 		this(app, message, title, initString, autoComplete, handler, modal,
@@ -82,21 +82,27 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	/**
 	 * @param app
+	 *            application
 	 * @param message
+	 *            message text
 	 * @param title
+	 *            title
 	 * @param initString
+	 *            initial content
 	 * @param autoComplete
+	 *            whether to allow autocompletion
 	 * @param handler
+	 *            input callback
 	 * @param modal
+	 *            whether it's modal
 	 * @param selectInitText
-	 * @param geo
-	 * @param checkBox
+	 *            whether to select text after opening
 	 * @param type
+	 *            dialog type
 	 */
 	public InputDialogW(AppW app, String message, String title,
-	        String initString, boolean autoComplete, InputHandler handler,
-			boolean modal, final boolean selectInitText,
-			DialogType type) {
+			String initString, boolean autoComplete, InputHandler handler,
+			boolean modal, final boolean selectInitText, DialogType type) {
 
 		this(modal, app, true);
 
@@ -109,7 +115,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		centerAndFocus(selectInitText);
 
 	}
-	
+
 	public static class DialogBoxKbW extends DialogBoxW
 			implements HasKeyboardPopup {
 
@@ -117,7 +123,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 				Panel panel, App app) {
 			super(b, modal, inputDialogW, panel, app);
 		}
-		
+
 	}
 
 	protected void centerAndFocus(final boolean selectInitText) {
@@ -150,8 +156,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		setInitString(initString);
 
 		createGUI(title, message, true, DEFAULT_COLUMNS, 1, true, false,
-				geo != null, false,
-				DialogType.GeoGebraEditor);
+				geo != null, false, DialogType.GeoGebraEditor);
 
 		centerAndFocus(false);
 
@@ -163,35 +168,46 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 				false);
 	}
 
-	public InputDialogW(AppW app2, String message, String title2, String initString,
-            boolean autoComplete, InputHandler handler, boolean selectInitText) {
+	public InputDialogW(AppW app2, String message, String title2,
+			String initString, boolean autoComplete, InputHandler handler,
+			boolean selectInitText) {
 		this(app2, message, title2, initString, autoComplete, handler, false,
 				selectInitText);
-    }
+	}
 
 	/**
 	 * @param title1
+	 *            title
 	 * @param message
+	 *            message
 	 * @param autoComplete
+	 *            whether to use autocomplete
 	 * @param columns
+	 *            number of columns
 	 * @param rows
+	 *            number of rows (for text tool)
 	 * @param showSymbolPopupIcon
+	 *            whether to show smbol popup
 	 * @param selectInitText
+	 *            whether to select text
 	 * @param showProperties
+	 *            whether to show properties button
 	 * @param showApply
+	 *            whether to show apply button
 	 * @param type
+	 *            dialog type
 	 */
 	protected void createGUI(String title1, String message,
-	        boolean autoComplete, int columns, int rows,
+			boolean autoComplete, int columns, int rows,
 			boolean showSymbolPopupIcon, boolean selectInitText,
-	        boolean showProperties, boolean showApply, DialogType type) {
+			boolean showProperties, boolean showApply, DialogType type) {
 
 		this.title = title1;
 
 		// Create components to be displayed
 		inputPanel = new InputPanelW(getInitString(), app, rows, columns,
-		        showSymbolPopupIcon/* , type */);
-		
+				showSymbolPopupIcon/* , type */);
+
 		if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 
 			app.registerPopup(wrappedPopup);
@@ -207,27 +223,29 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		// add key handler for ENTER if inputPanel uses a text field
 		if (inputPanel.getTextComponent() != null) {
-			inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
-			inputPanel.getTextComponent().addFocusListener(new FocusListenerW(this));
-			inputPanel.getTextComponent().getTextField().getValueBox().addKeyPressHandler(this);
+			inputPanel.getTextComponent().getTextField().getValueBox()
+					.addKeyUpHandler(this);
+			inputPanel.getTextComponent()
+					.addFocusListener(new FocusListenerW(this));
+			inputPanel.getTextComponent().getTextField().getValueBox()
+					.addKeyPressHandler(this);
 		}
-		
-		
-		// message panel 
+
+		// message panel
 		messagePanel = new VerticalPanel();
 		String[] lines = message.split("\n");
 		for (String item : lines) {
 			messagePanel.add(new Label(item));
 		}
 		messagePanel.addStyleName("Dialog-messagePanel");
-		
+
 		errorPanel = new VerticalPanel();
 		errorPanel.addStyleName("Dialog-errorPanel");
-		
+
 		// create buttons
 		btProperties = new Button();
 		btProperties.addClickHandler(this);
-	
+
 		btOK = new Button();
 		btOK.addClickHandler(this);
 
@@ -237,7 +255,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		btApply = new Button();
 		btApply.addClickHandler(this);
-	
+
 		// create button panel
 		btPanel = new FlowPanel();
 		btPanel.addStyleName("DialogButtonPanel");
@@ -253,7 +271,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 		setLabels();
 
-
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.addStyleName("Dialog-content");
 		centerPanel.add(messagePanel);
@@ -264,23 +281,22 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		wrappedPopup.setWidget(centerPanel);
 
 	}
-	
+
 	/**
 	 * Handles button clicks for dialog.
-	 */	
-    @Override
+	 */
+	@Override
 	public void onClick(ClickEvent e) {
 		actionPerformed(e);
 	}
-	
+
 	protected void closeIOSKeyboard() {
 		// implemented in TextInputDialog
 	}
-	
+
 	protected void actionPerformed(DomEvent event) {
 		Widget source = (Widget) event.getSource();
-		if (source == btOK
-		        || sourceShouldHandleOK(source)) {
+		if (source == btOK || sourceShouldHandleOK(source)) {
 			closeIOSKeyboard();
 			inputText = inputPanel.getText();
 			processInputHandler(new AsyncOperation<Boolean>() {
@@ -315,24 +331,25 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	protected void cancel() {
 		setVisible(false);
 	}
+
 	public void setVisible(boolean visible) {
-		
-		inputPanel.setVisible(visible);		
-		if (visible){
+
+		inputPanel.setVisible(visible);
+		if (visible) {
 			wrappedPopup.show();
 			inputPanel.setTextComponentFocus();
-		}else{
+		} else {
 			forceHideKeyboard();
 			wrappedPopup.hide();
 		}
 	}
-	
-	private native void forceHideKeyboard() /*-{
-		if ($wnd.android && $wnd.android.callPlugin) {
-			$wnd.android.callPlugin("CloseKeyboard", []);
-		}
 
-	}-*/;
+	private native void forceHideKeyboard() /*-{
+											if ($wnd.android && $wnd.android.callPlugin) {
+											$wnd.android.callPlugin("CloseKeyboard", []);
+											}
+											
+											}-*/;
 
 	@Override
 	public void setLabels() {
@@ -344,9 +361,9 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	}
 
 	@Override
-    public void onKeyUp(KeyUpEvent event) {
-		//enter press
-		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+	public void onKeyUp(KeyUpEvent event) {
+		// enter press
+		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
 			actionPerformed(event);
 			return;
 		}
@@ -354,8 +371,8 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	}
 
 	@Override
-    public void showError(String msg) {
-		if(msg == null){
+	public void showError(String msg) {
+		if (msg == null) {
 			showingError = false;
 
 		} else if (!showingError) {
@@ -366,18 +383,18 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 				errorPanel.add(new Label(item));
 			}
 		}
-	    
-    }
+
+	}
 
 	/**
-	 * @param source the event source
+	 * @param source
+	 *            the event source
 	 * @return true if the source widget should handle the OK event
 	 */
 	protected boolean sourceShouldHandleOK(Object source) {
 		return (inputPanel.getTextComponent() != null && source == inputPanel
-                .getTextComponent().getTextField().getValueBox());
+				.getTextComponent().getTextField().getValueBox());
 	}
-
 
 	@Override
 	public void showCommandError(String command, String message) {

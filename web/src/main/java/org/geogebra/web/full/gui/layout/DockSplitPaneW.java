@@ -18,8 +18,8 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Florian Sonner, adapted by G.Sturr for web
  */
-public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponent {
-
+public class DockSplitPaneW extends ZoomSplitLayoutPanel
+		implements DockComponent {
 
 	private Widget leftComponent;
 	private Widget rightComponent;
@@ -32,7 +32,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 	private int dividerLocation;
 
 	private AppW app;
-
 
 	/**
 	 * For calling the onResize method in a deferred way
@@ -54,18 +53,13 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 
-	/* other option; maybe not so good...
-	public void deferredOnResize() {
-		for (Widget c : getChildren()) {
-			if (c instanceof DockSplitPaneW) {
-				((DockSplitPaneW)c).deferredOnResize();
-			} else if (c instanceof DockPanelW) {
-				((DockPanelW)c).deferredOnResize();
-			} else if (c instanceof RequiresResize) {
-				((RequiresResize)c).onResize();
-			}
-		}
-	}*/
+	/*
+	 * other option; maybe not so good... public void deferredOnResize() { for
+	 * (Widget c : getChildren()) { if (c instanceof DockSplitPaneW) {
+	 * ((DockSplitPaneW)c).deferredOnResize(); } else if (c instanceof
+	 * DockPanelW) { ((DockPanelW)c).deferredOnResize(); } else if (c instanceof
+	 * RequiresResize) { ((RequiresResize)c).onResize(); } } }
+	 */
 
 	/*********************************************
 	 * Constructs a DockSplitPaneW with default horizontal orientation
@@ -78,6 +72,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 	 * Constructs a DockSplitPaneW with given orientation
 	 * 
 	 * @param newOrientation
+	 *            orientation
+	 * @param app
+	 *            application
 	 */
 	public DockSplitPaneW(int newOrientation, AppW app) {
 		super(1 / app.getArticleElement().getScaleX());
@@ -103,8 +100,8 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 
 	@Override
 	public boolean hasSplittersFrozen() {
-		return app.isApplet() && !app.isRightClickEnabled() && !app
-				.showMenuBar();
+		return app.isApplet() && !app.isRightClickEnabled()
+				&& !app.showMenuBar();
 	}
 
 	public double computeDividerLocationRecursive() {
@@ -112,9 +109,10 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		double sizeLeft = 0;
 
 		if (getLeftComponent() instanceof DockSplitPaneW) {
-			sizeLeft = ((DockSplitPaneW)getLeftComponent()).computeSizeRecursive(orientation);
+			sizeLeft = ((DockSplitPaneW) getLeftComponent())
+					.computeSizeRecursive(orientation);
 		} else if (getLeftComponent() instanceof DockPanelW) {
-			sizeLeft = ((DockPanelW)getLeftComponent()).getEmbeddedSize();
+			sizeLeft = ((DockPanelW) getLeftComponent()).getEmbeddedSize();
 		}
 
 		double sizeAll = computeSizeRecursive(orientation);
@@ -140,15 +138,17 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 
 		if (orientation == parentOrientation) {
 			if (getLeftComponent() instanceof DockSplitPaneW) {
-				size += ((DockSplitPaneW)getLeftComponent()).computeSizeRecursive(orientation);
+				size += ((DockSplitPaneW) getLeftComponent())
+						.computeSizeRecursive(orientation);
 			} else if (getLeftComponent() instanceof DockPanelW) {
-				size += ((DockPanelW)getLeftComponent()).getEmbeddedSize();
+				size += ((DockPanelW) getLeftComponent()).getEmbeddedSize();
 			}
 
 			if (getRightComponent() instanceof DockSplitPaneW) {
-				size += ((DockSplitPaneW)getRightComponent()).computeSizeRecursive(orientation);
+				size += ((DockSplitPaneW) getRightComponent())
+						.computeSizeRecursive(orientation);
 			} else if (getRightComponent() instanceof DockPanelW) {
-				size += ((DockPanelW)getRightComponent()).getEmbeddedSize();
+				size += ((DockPanelW) getRightComponent()).getEmbeddedSize();
 			}
 
 			return size;
@@ -157,24 +157,30 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		double size2 = 0;
 
 		if (getLeftComponent() instanceof DockSplitPaneW) {
-			size = ((DockSplitPaneW)getLeftComponent()).computeSizeRecursive(parentOrientation);
+			size = ((DockSplitPaneW) getLeftComponent())
+					.computeSizeRecursive(parentOrientation);
 		} else if (getLeftComponent() instanceof DockPanelW) {
 			// if orientation is different, use settings instead of embeddedSize
 			if (parentOrientation == SwingConstants.VERTICAL_SPLIT) {
-				size = ((DockPanelW)getLeftComponent()).getEstimatedSize().getHeight();
+				size = ((DockPanelW) getLeftComponent()).getEstimatedSize()
+						.getHeight();
 			} else {
-				size = ((DockPanelW)getLeftComponent()).getEstimatedSize().getWidth();
+				size = ((DockPanelW) getLeftComponent()).getEstimatedSize()
+						.getWidth();
 			}
 		}
 
 		if (getRightComponent() instanceof DockSplitPaneW) {
-			size2 = ((DockSplitPaneW)getRightComponent()).computeSizeRecursive(parentOrientation);
+			size2 = ((DockSplitPaneW) getRightComponent())
+					.computeSizeRecursive(parentOrientation);
 		} else if (getRightComponent() instanceof DockPanelW) {
 			// if orientation is different, use settings instead of embeddedSize
 			if (parentOrientation == SwingConstants.VERTICAL_SPLIT) {
-				size2 = ((DockPanelW)getRightComponent()).getEstimatedSize().getHeight();
+				size2 = ((DockPanelW) getRightComponent()).getEstimatedSize()
+						.getHeight();
 			} else {
-				size2 = ((DockPanelW)getRightComponent()).getEstimatedSize().getWidth();
+				size2 = ((DockPanelW) getRightComponent()).getEstimatedSize()
+						.getWidth();
 			}
 		}
 
@@ -218,13 +224,12 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		return resizeWeight;
 	}
 
-
-
 	/**
 	 * Return the component which is opposite to the parameter.
 	 * 
 	 * @param component
-	 * @return
+	 *            component
+	 * @return opposite part of the split pane
 	 */
 	public Widget getOpposite(Widget component) {
 		if (component == leftComponent) {
@@ -299,7 +304,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 				add(rightComponent);
 			}
 		}
-		
+
 		// otherwise put the single component into the resizing pane
 		else if (leftComponent != null) {
 			if (orientation == SwingConstants.HORIZONTAL_SPLIT) {
@@ -326,22 +331,28 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		updateUI();
 		forceLayout();
 		if (getLeftComponent() instanceof DockSplitPaneW) {
-			((DockSplitPaneW)getLeftComponent()).setComponentsSilentRecursive();
-		} /*else if (getLeftComponent() instanceof DockPanelW) {
-			((DockPanelW)getLeftComponent()).updatePanel();
-		}*/
+			((DockSplitPaneW) getLeftComponent())
+					.setComponentsSilentRecursive();
+		} /*
+			 * else if (getLeftComponent() instanceof DockPanelW) {
+			 * ((DockPanelW)getLeftComponent()).updatePanel(); }
+			 */
 		if (getRightComponent() instanceof DockSplitPaneW) {
-			((DockSplitPaneW)getRightComponent()).setComponentsSilentRecursive();
-		} /*else if (getRightComponent() instanceof DockPanelW) {
-			((DockPanelW)getRightComponent()).updatePanel();
-		}*/
+			((DockSplitPaneW) getRightComponent())
+					.setComponentsSilentRecursive();
+		} /*
+			 * else if (getRightComponent() instanceof DockPanelW) {
+			 * ((DockPanelW)getRightComponent()).updatePanel(); }
+			 */
 	}
 
 	/**
 	 * Replace a component from the split pane with another.
 	 * 
 	 * @param component
+	 *            component
 	 * @param replacement
+	 *            replacement component
 	 */
 	public void replaceComponent(Widget component, Widget replacement) {
 		if (component == leftComponent) {
@@ -352,7 +363,6 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 			throw new IllegalArgumentException();
 		}
 	}
-
 
 	/**
 	 * Update the UI by drawing the divider just if the dividerVisible attribute
@@ -405,20 +415,19 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		if (orientation1 == getOrientation()) {
 			if (getResizeWeight() == 0) {
 				setDividerLocationRecursive(
-				        checkLocation(savedDividerLocation, size), size,
-				        orientation1);
+						checkLocation(savedDividerLocation, size), size,
+						orientation1);
 			} else if (DoubleUtil.isEqual(getResizeWeight(), 0.5)) {
 				if (savedSize == 0) {
 					savedSize = 1;
 				}
-				setDividerLocationRecursive((size * savedDividerLocation)
-				        / savedSize, size, orientation1);
-			} else {
 				setDividerLocationRecursive(
-				        size
-				                - checkLocation(savedSize
-				                        - savedDividerLocation, size), size,
-				        orientation1);
+						(size * savedDividerLocation) / savedSize, size,
+						orientation1);
+			} else {
+				setDividerLocationRecursive(size
+						- checkLocation(savedSize - savedDividerLocation, size),
+						size, orientation1);
 			}
 		} else {
 			propagateDividerLocation(size, size, orientation1);
@@ -445,21 +454,21 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 	}
 
 	private void setDividerLocationRecursive(int location, int size,
-	        int orientation1) {
+			int orientation1) {
 		setDividerLocation(location);
 		// AbstractApplication.debug("location = "+location);
 		propagateDividerLocation(location, size - location, orientation1);
 	}
 
 	private void propagateDividerLocation(int sizeLeft, int sizeRight,
-	        int orientation1) {
+			int orientation1) {
 		if (getLeftComponent() != null) {
-			((DockComponent) getLeftComponent()).updateDividerLocation(
-			        sizeLeft, orientation1);
+			((DockComponent) getLeftComponent()).updateDividerLocation(sizeLeft,
+					orientation1);
 		}
 		if (getRightComponent() != null) {
-			((DockComponent) getRightComponent()).updateDividerLocation(
-			        sizeRight, orientation1);
+			((DockComponent) getRightComponent())
+					.updateDividerLocation(sizeRight, orientation1);
 		}
 	}
 
@@ -467,10 +476,10 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 	public String toString(String prefix) {
 		String prefix2 = prefix + "-";
 		return "\n" + prefix + "split=" + getDividerLocation() + "\n" + prefix
-		        + "width=" + getOffsetWidth() + "\n" + prefix + "left"
-		        + ((DockComponent) getLeftComponent()).toString(prefix2) + "\n"
-		        + prefix + "right"
-		        + ((DockComponent) getRightComponent()).toString(prefix2);
+				+ "width=" + getOffsetWidth() + "\n" + prefix + "left"
+				+ ((DockComponent) getLeftComponent()).toString(prefix2) + "\n"
+				+ prefix + "right"
+				+ ((DockComponent) getRightComponent()).toString(prefix2);
 
 	}
 
@@ -480,11 +489,11 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		boolean takesNewSpaceRight = false;
 
 		if ((getLeftComponent() != null)
-		        && ((DockComponent) getLeftComponent()).updateResizeWeight()) {
+				&& ((DockComponent) getLeftComponent()).updateResizeWeight()) {
 			takesNewSpaceLeft = true;
 		}
 		if ((getRightComponent() != null)
-		        && ((DockComponent) getRightComponent()).updateResizeWeight()) {
+				&& ((DockComponent) getRightComponent()).updateResizeWeight()) {
 			takesNewSpaceRight = true;
 		}
 
@@ -538,23 +547,22 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 			splitPaneInfo.clear();
 
 			// get window dimensions
-			// TODO: Are these the correct dimensions needed for calculations below?
+			// TODO: Are these the correct dimensions needed for calculations
+			// below?
 			// e.g. do we include menubar height?
 			windowWidth = (int) app.getWidth();
 			windowHeight = (int) app.getHeight();
-			
+
 			saveSplitPane("", rootPane);
 
 			DockSplitPaneData[] info = new DockSplitPaneData[splitPaneInfo
-			        .size()];
+					.size()];
 			return splitPaneInfo.toArray(info);
 		}
 
 		/**
 		 * Save a split pane into the splitPaneInfo array list
 		 * 
-		 * @param parentLocation0
-		 * @param parent
 		 */
 		private void saveSplitPane(String parentLocation0,
 				DockSplitPaneW parent) {
@@ -564,14 +572,14 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 			// orientation
 			if (parent.getOrientation() == SwingConstants.HORIZONTAL_SPLIT) {
 				dividerLocation = (double) parent.getDividerLocation()
-				        / windowWidth;
+						/ windowWidth;
 			} else {
 				dividerLocation = (double) parent.getDividerLocation()
-				        / windowHeight;
+						/ windowHeight;
 			}
 
 			splitPaneInfo.add(new DockSplitPaneData(parentLocation0,
-			        dividerLocation, parent.getOrientation()));
+					dividerLocation, parent.getOrientation()));
 			String parentLocation = parentLocation0;
 			if (parentLocation.length() > 0) {
 				parentLocation += ",";
@@ -579,12 +587,12 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 
 			if (parent.getLeftComponent() instanceof DockSplitPaneW) {
 				saveSplitPane(parentLocation + "0",
-				        (DockSplitPaneW) parent.getLeftComponent());
+						(DockSplitPaneW) parent.getLeftComponent());
 			}
 
 			if (parent.getRightComponent() instanceof DockSplitPaneW) {
 				saveSplitPane(parentLocation + "1",
-				        (DockSplitPaneW) parent.getRightComponent());
+						(DockSplitPaneW) parent.getRightComponent());
 			}
 		}
 	}
@@ -592,41 +600,42 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 	@Override
 	public void onResize() {
 		if (this.getWidgetCount() > 0) {
-		// If the split pane gets really narrow and right view is hidden,
+			// If the split pane gets really narrow and right view is hidden,
 			if (orientation == SwingConstants.HORIZONTAL_SPLIT
 					&& getOffsetWidth() > 0
-		        && getOffsetWidth() < this.getWidget(0).getOffsetWidth()) {
-			this.setWidgetSize(this.getWidget(0), this.getOffsetWidth());
-		}
-			else if (orientation == SwingConstants.VERTICAL_SPLIT
-					&& getOffsetHeight() > 0
-		        && getOffsetHeight() < this.getWidget(0).getOffsetHeight()) {
-			this.setWidgetSize(this.getWidget(0), this.getOffsetHeight());
-		}
+					&& getOffsetWidth() < this.getWidget(0).getOffsetWidth()) {
+				this.setWidgetSize(this.getWidget(0), this.getOffsetWidth());
+			} else if (orientation == SwingConstants.VERTICAL_SPLIT
+					&& getOffsetHeight() > 0 && getOffsetHeight() < this
+							.getWidget(0).getOffsetHeight()) {
+				this.setWidgetSize(this.getWidget(0), this.getOffsetHeight());
+			}
 		}
 		// it's only important to resize components so that
 		// the divider should be inside
 		if (getLeftComponent() instanceof RequiresResize) {
-			((RequiresResize)getLeftComponent()).onResize();
+			((RequiresResize) getLeftComponent()).onResize();
 		}
 
 		if (getRightComponent() instanceof DockSplitPaneW) {
-			((RequiresResize)getRightComponent()).onResize();
-			((DockSplitPaneW)getRightComponent()).checkDividerIsOutside();
+			((RequiresResize) getRightComponent()).onResize();
+			((DockSplitPaneW) getRightComponent()).checkDividerIsOutside();
 		} else if (getRightComponent() instanceof RequiresResize) {
-			((RequiresResize)getRightComponent()).onResize();
+			((RequiresResize) getRightComponent()).onResize();
 		}
 
 		if (orientation == SwingConstants.HORIZONTAL_SPLIT) {
-			if (getLeftComponent() != null && getLeftComponent().getOffsetWidth() > 0) {
+			if (getLeftComponent() != null
+					&& getLeftComponent().getOffsetWidth() > 0) {
 				setDividerLocationSilent(getLeftComponent().getOffsetWidth());
 			}
 		} else {
-			if (getLeftComponent() != null && getLeftComponent().getOffsetHeight() > 0) {
+			if (getLeftComponent() != null
+					&& getLeftComponent().getOffsetHeight() > 0) {
 				setDividerLocationSilent(getLeftComponent().getOffsetHeight());
 			}
 		}
-    }
+	}
 
 	public void checkDividerIsOutside() {
 
@@ -687,6 +696,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 		this.preferredHeight = height;
 		this.preferredWidth = width;
 	}
+
 	public int getEstimateWidth() {
 		return getOffsetWidth() > 0 ? getOffsetWidth() : preferredWidth;
 	}

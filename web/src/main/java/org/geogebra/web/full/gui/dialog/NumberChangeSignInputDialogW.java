@@ -7,22 +7,24 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.CheckBox;
 
+/**
+ * Dialog for one number and changing sign
+ */
 public class NumberChangeSignInputDialogW extends InputDialogW {
 	private boolean changingSign;
 	private CheckBox checkBox;
 
 	/**
 	 * 
-	 * @param app
-	 * @param message
-	 * @param title
-	 * @param initString
-	 * @param handler
+	 * @param app application
+	 * @param message message
+	 * @param title title
+	 * @param initString initial content
+	 * @param handler input handler
 	 * @param changingSign
 	 *            says if the sign has to be changed
 	 * @param checkBoxText
 	 *            label for checkbox
-	 * @param extruder
 	 */
 	public NumberChangeSignInputDialogW(AppW app, String message, String title,
 			String initString, NumberChangeSignInputHandler handler,

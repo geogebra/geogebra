@@ -61,7 +61,9 @@ public class GeoTextEditor extends RichTextArea {
 	 * Constructor
 	 * 
 	 * @param app
+	 *            application
 	 * @param editPanel
+	 *            editor panel
 	 */
 	public GeoTextEditor(App app, ITextEditPanel editPanel) {
 
@@ -92,7 +94,6 @@ public class GeoTextEditor extends RichTextArea {
 
 		createEditPopup();
 		registerHandlers();
-
 	}
 
 	private void registerHandlers() {
@@ -132,8 +133,8 @@ public class GeoTextEditor extends RichTextArea {
 
 				showEditPopup(false);
 
-				Element target = Element.as(event.getNativeEvent()
-				        .getEventTarget());
+				Element target = Element
+						.as(event.getNativeEvent().getEventTarget());
 
 				if (DYNAMIC_TEXT_CLASS
 						.equalsIgnoreCase(target.getClassName())) {
@@ -160,7 +161,7 @@ public class GeoTextEditor extends RichTextArea {
 		// supported
 
 		getBody().setAttribute("style",
-		        "font-family:" + fontFamily + "; font-size:" + fontSize + "px");
+				"font-family:" + fontFamily + "; font-size:" + fontSize + "px");
 	}
 
 	private Document getDocument() {
@@ -206,7 +207,6 @@ public class GeoTextEditor extends RichTextArea {
 		}
 	}-*/;
 
-
 	/**
 	 * 
 	 * @return
@@ -247,6 +247,7 @@ public class GeoTextEditor extends RichTextArea {
 
 		return sb.toString();
 	}
+
 	public void handlePaste() {
 		// setDynamicText();
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -275,6 +276,7 @@ public class GeoTextEditor extends RichTextArea {
 	 * element which is then replaced with the actual element to be inserted.
 	 * 
 	 * @param elem
+	 *            input element
 	 */
 	public void insertElement(Element elem) {
 		String dummyURL = dummyImageURL();
@@ -295,7 +297,8 @@ public class GeoTextEditor extends RichTextArea {
 			if (child.getNodeType() == Node.ELEMENT_NODE) {
 
 				// image node?
-				if (((Element) child).getPropertyString("src").equals(dummyURL)) {
+				if (((Element) child).getPropertyString("src")
+						.equals(dummyURL)) {
 					return child;
 
 				} else if (node.hasChildNodes()) {
@@ -364,7 +367,7 @@ public class GeoTextEditor extends RichTextArea {
 	public void insertTextString(String str0, boolean isLatex) {
 
 		boolean convertGreekLetters = !app.getLocalization().getLanguage()
-		        .equals("gr");
+				.equals("gr");
 
 		if (str0 != null) {
 			String str = str0;
@@ -420,12 +423,13 @@ public class GeoTextEditor extends RichTextArea {
 	 * Parses a node into a list of DynamicTextElements
 	 * 
 	 * @param list
+	 *            parsed dynamic texts
 	 * @param node
-	 * @return
+	 *            HTML node
+	 * @return updated dynamic text
 	 */
 	public ArrayList<DynamicTextElement> getDynamicTextListRecursive(
-	        ArrayList<DynamicTextElement> list, Node node) {
-
+			ArrayList<DynamicTextElement> list, Node node) {
 		if (node == null) {
 			return list;
 		}
@@ -436,7 +440,7 @@ public class GeoTextEditor extends RichTextArea {
 			if (child.getNodeType() == Node.TEXT_NODE) {
 				if (child.getNodeValue() != null) {
 					list.add(new DynamicTextElement(child.getNodeValue(),
-					        DynamicTextType.STATIC));
+							DynamicTextType.STATIC));
 				}
 
 			} else if (child.getNodeType() == Node.ELEMENT_NODE) {
@@ -446,15 +450,16 @@ public class GeoTextEditor extends RichTextArea {
 				// convert input element to dynamic text string
 				if (DYNAMIC_TEXT_CLASS
 						.equals(((Element) child).getClassName())) {
-					list.add(new DynamicTextElement(((Element) child)
-					        .getPropertyString("value"), DynamicTextType.VALUE));
+					list.add(new DynamicTextElement(
+							((Element) child).getPropertyString("value"),
+							DynamicTextType.VALUE));
 
 					// convert DIV or P (browser dependent) to newline
 				} else if ("div".equalsIgnoreCase(tagName)
-				        || "p".equalsIgnoreCase(tagName)) {
+						|| "p".equalsIgnoreCase(tagName)) {
 
 					list.add(new DynamicTextElement("\n",
-					        DynamicTextType.STATIC));
+							DynamicTextType.STATIC));
 
 					// parse the inner HTML of this element
 					getDynamicTextListRecursive(list, child);
@@ -471,28 +476,28 @@ public class GeoTextEditor extends RichTextArea {
 	// ======================================================
 
 	protected void showEditPopup(boolean isVisible) {
-
 		if (isVisible) {
 			textEditPopup
-			        .setPopupPositionAndShow(new PopupPanel.PositionCallback() {
-				        @Override
+					.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
+						@Override
 						public void setPosition(int offsetWidth,
-				                int offsetHeight) {
+								int offsetHeight) {
 
-					        int left = (getAbsoluteLeft() + getOffsetWidth()
-					                / 2 - offsetWidth / 2);
-					        int top = (getAbsoluteTop() + getOffsetHeight() / 2 - offsetHeight / 2);
+							int left = (getAbsoluteLeft() + getOffsetWidth() / 2
+									- offsetWidth / 2);
+							int top = (getAbsoluteTop() + getOffsetHeight() / 2
+									- offsetHeight / 2);
 
-					        textEditPopup.setPopupPosition(left, top);
-					        Scheduler.get().scheduleDeferred(
-					                new Scheduler.ScheduledCommand() {
-						                @Override
+							textEditPopup.setPopupPosition(left, top);
+							Scheduler.get().scheduleDeferred(
+									new Scheduler.ScheduledCommand() {
+										@Override
 										public void execute() {
-							                editBox.setFocus(true);
-						                }
-					                });
-				        }
-			        });
+											editBox.setFocus(true);
+										}
+									});
+						}
+					});
 			textEditPopup.getElement().getStyle().setZIndex(1000);
 		} else {
 			textEditPopup.hide();

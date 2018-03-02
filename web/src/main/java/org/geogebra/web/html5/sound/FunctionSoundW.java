@@ -14,8 +14,8 @@ import jsinterop.annotations.JsType;
  *
  */
 @JsType
-public final class FunctionSoundW extends FunctionSound implements
-		FunctionAudioListener {
+public final class FunctionSoundW extends FunctionSound
+		implements FunctionAudioListener {
 
 	public static final FunctionSoundW INSTANCE = new FunctionSoundW();
 	private WebAudioWrapper waw = WebAudioWrapper.INSTANCE;
@@ -35,8 +35,8 @@ public final class FunctionSoundW extends FunctionSound implements
 		if (!initStreamingAudio(getSampleRate(), getBitDepth())) {
 			Log.error("Cannot initialize streaming audio");
 		}
-
 	}
+
 	/**
 	 * Initializes instances of AudioFormat and SourceDataLine
 	 * 
@@ -44,7 +44,7 @@ public final class FunctionSoundW extends FunctionSound implements
 	 *            = 8000, 16000, 11025, 16000, 22050, or 44100
 	 * @param bitDepth
 	 *            = 8 or 16
-	 * @return
+	 * @return success
 	 */
 	@Override
 	protected boolean initStreamingAudio(int sampleRate, int bitDepth) {
@@ -53,7 +53,6 @@ public final class FunctionSoundW extends FunctionSound implements
 		}
 
 		waw.setListener(this);
-
 
 		return true;
 	}
@@ -64,10 +63,15 @@ public final class FunctionSoundW extends FunctionSound implements
 	 * will be clipped to this range otherwise.
 	 * 
 	 * @param geoFunction
+	 *            function
 	 * @param min
+	 *            start
 	 * @param max
+	 *            end
 	 * @param sampleRate
+	 *            sample rate
 	 * @param bitDepth
+	 *            bit depth
 	 */
 
 	@Override
@@ -103,7 +107,6 @@ public final class FunctionSoundW extends FunctionSound implements
 	private void generateFunctionSound() {
 		waw.start(getMin(), getMax(), getSampleRate());
 	}
-
 
 	/**
 	 * Stops function sound
