@@ -27,4 +27,24 @@ public interface CardListInterface {
 
 	void restoreScrollbar();
 
+	/**
+	 * Scroll the panel by diff.
+	 * 
+	 * @param diff
+	 *            to scroll by.
+	 * @return if scroll has reached the end.
+	 */
+	boolean scrollBy(int diff);
+
+	/**
+	 * 
+	 * @return the vertical scroll position of the cards.
+	 */
+	int getVerticalScrollPosition();
+
+	/**
+	 * 
+	 * @return the height of the visible area of the scroll panel.
+	 */
+	int getScrollParentHeight();
 }

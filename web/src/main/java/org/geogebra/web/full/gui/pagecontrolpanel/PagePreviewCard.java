@@ -210,6 +210,10 @@ public class PagePreviewCard extends FlowPanel
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
 
+	public void setTop(int top) {
+		getElement().getStyle().setTop(top, Unit.PX);
+	}
+
 	/**
 	 * Gets the top of card without margin.
 	 */

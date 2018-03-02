@@ -20,6 +20,7 @@ class DragController {
 	private App app;
 	PagePreviewCard clicked;
 	private Timer dropAnimTimer;
+	private ScrollTimer scrollTimer;
 
 	interface Cards {
 		ArrayList<PagePreviewCard> getCards();
@@ -31,6 +32,34 @@ class DragController {
 		void reorder(int srcIdx, int destIdx);
 
 		void clickPage(int pageIdx, boolean select);
+	}
+
+	private class ScrollTimer extends Timer {
+		private static final int SCROLL_TIME = 20;
+		private static final int SCROLL_SPEED = 10;
+		private boolean scrollDown;
+
+		@Override
+		public void run() {
+			if (scroll()) {
+				int pos = cards.getListener().getVerticalScrollPosition();
+				if (scrollDown) {
+					dragged.card.setTop(pos);
+				}
+			} else {
+				cancel();
+			}
+		}
+
+		private boolean scroll() {
+			return cards.getListener().scrollBy((scrollDown ? 1 : -1) * SCROLL_SPEED);
+		}
+
+		public void start(boolean b) {
+			scrollDown = b;
+			scheduleRepeating(SCROLL_TIME);
+		}
+
 	}
 
 	private static class LastTarget {
@@ -153,7 +182,9 @@ class DragController {
 				prepareDragCard();
 			}
 	
-			card.setDragPosition(x, y);
+			if (!setCardPosition(x, y)) {
+				return;
+			}
 			findTarget();
 			
 			if (target != null && isAnimated()) {
@@ -163,6 +194,26 @@ class DragController {
 					moveAnimated();
 				}
 			}
+		}
+
+		private boolean setCardPosition(int x, int y) {
+			int diff = y - prevY;
+			boolean d = diff > 0;
+			if (scrollTimer.isRunning()) {
+				return false;
+			} else if (!d && card.getAbsoluteTop() <= PagePreviewCard.MARGIN) {
+				scrollTimer.start(false);
+			}
+			if (d && card.getAbsoluteBottom() > cards.getListener().getScrollParentHeight()) {
+				scrollTimer.start(true);
+			}
+
+			card.setDragPosition(x, y);
+			return true;
+		}
+
+		private void debug(String msg) {
+			Log.debug("[DNDSCROLL] " + msg);
 		}
 
 		boolean autoMove() {
@@ -307,7 +358,10 @@ class DragController {
 			}
 		};
 
+		scrollTimer = new ScrollTimer();
+
 	}
+
 
 	private int cardIndexAt(int x, int y) {
 		int result =  - 1;
@@ -387,6 +441,7 @@ class DragController {
 		clearSpaces();
 		cards.getListener().restoreScrollbar();
 		cards.getListener().removeDivider();
+		scrollTimer.cancel();
 	}
 
 	private void clearSpaces() {

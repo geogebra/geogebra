@@ -362,4 +362,21 @@ public class PageListPanel
 	public void restoreScrollbar() {
 		scrollPanel.removeStyleName("noVerticalScrollbar");
 	}
+
+	@Override
+	public boolean scrollBy(int diff) {
+		int pos = getVerticalScrollPosition() + diff;
+		scrollPanel.setVerticalScrollPosition(pos);
+		return pos > scrollPanel.getMinimumVerticalScrollPosition()
+				|| pos < scrollPanel.getMaximumVerticalScrollPosition();
+	}
+
+	@Override
+	public int getVerticalScrollPosition() {
+		return scrollPanel.getVerticalScrollPosition();
+	}
+
+	public int getScrollParentHeight() {
+		return scrollPanel.getParent().getOffsetHeight();
+	}
 }	
