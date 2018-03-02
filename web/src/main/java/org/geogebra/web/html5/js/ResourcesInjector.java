@@ -42,9 +42,7 @@ public class ResourcesInjector {
 			instance = (ResourcesInjector) GWT.create(ResourcesInjector.class);
 		}
 
-
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
-
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.domvas());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.reset());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle());
@@ -70,7 +68,6 @@ public class ResourcesInjector {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.inflateJs());
 		}
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.dataViewJs());
-
 	}
 
 	/**
@@ -79,22 +76,19 @@ public class ResourcesInjector {
 	 * 
 	 */
 	protected void injectResourcesGUI() {
-		// TODO Auto-generated method stub
-
+		// overridden elsewhere
 	}
 
 	private static void injectLTRstyles() {
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.generalStyleLTR());
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.avStyleLTR());
-
 	}
 
 	private static void injectScss() {
 		StyleInjector
 				.inject(GuiResourcesSimple.INSTANCE.colorsScss());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.layoutScss());
-
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.evStyleScss());
 	}
 
@@ -146,7 +140,6 @@ public class ResourcesInjector {
 	}
 
 	protected void loadWebFont(String dataParamFontsCssUrl) {
-		// TODO Auto-generated method stub
+		// intentionally
 	}
-
 }

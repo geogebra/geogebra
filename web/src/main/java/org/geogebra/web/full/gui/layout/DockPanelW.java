@@ -510,7 +510,6 @@ public abstract class DockPanelW extends ResizeComposite
 			dragPanel.setStyleName("dragPanel");
 			ClickStartHandler.init(dragPanel,
 					new ClickStartHandler(true, false) {
-
 						@Override
 						public void onClickStart(int x, int y,
 								PointerEventType type) {
@@ -525,7 +524,6 @@ public abstract class DockPanelW extends ResizeComposite
 				 * needed for IE
 				 */
 				dragIcon.addDragHandler(new DragHandler() {
-
 					@Override
 					public void onDrag(DragEvent event) {
 						event.preventDefault();

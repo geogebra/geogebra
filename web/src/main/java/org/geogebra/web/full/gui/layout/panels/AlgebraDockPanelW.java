@@ -65,7 +65,6 @@ public class AlgebraDockPanelW extends DockPanelW
 				simplep.remove(aview);
 				algebrap.remove(simplep);
 			}
-
 			simplep = new SimplePanel(aview = av);
 			algebrap.add(simplep);
 			simplep.addStyleName("algebraSimpleP");
@@ -153,7 +152,6 @@ public class AlgebraDockPanelW extends DockPanelW
 		if (item == null) {
 			return;
 		}
-
 		if (item.isInputTreeItem()) {
 			Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
@@ -177,13 +175,10 @@ public class AlgebraDockPanelW extends DockPanelW
 
 	private void doScrollToActiveItem() {
 		final RadioTreeItem item = aview.getActiveTreeItem();
-
 		int spH = algebrap.getOffsetHeight();
 		int top = item.getElement().getOffsetTop();
 		int relTop = top - savedScrollPosition;
-
 		if (spH < relTop + item.getOffsetHeight()) {
-
 			int pos = top + item.getOffsetHeight() - spH;
 			algebrap.setVerticalScrollPosition(pos);
 		} else {

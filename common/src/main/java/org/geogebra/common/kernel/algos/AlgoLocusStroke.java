@@ -117,7 +117,6 @@ public class AlgoLocusStroke extends AlgoElement
 		// stroke is: (A),(?),(A),(B) -> size 4
 		if (canBeBezierCurve(data) && poly.getKernel().getApplication()
 				.has(Feature.MOW_PEN_SMOOTHING)) {
-
 			pointList.clear();
 			for (int i = 0; i < initialIndex; i++) {
 				pointList.add(data.get(i));
@@ -136,7 +135,6 @@ public class AlgoLocusStroke extends AlgoElement
 			// SegmentType.MOVE_TO);
 			while (index <= data.size()) {
 				// TODO
-
 				// separator for XML
 				List<MyPoint> unfiltered = getPartOfPenStroke(index, data);
 				if (!pointList.isEmpty()
@@ -152,7 +150,6 @@ public class AlgoLocusStroke extends AlgoElement
 							unfiltered.get(0).withType(SegmentType.MOVE_TO));
 				}
 				List<MyPoint> partOfStroke = unfiltered;
-
 				if (partOfStroke.size() == 1) {
 					pointList.add(
 							partOfStroke.get(0).withType(SegmentType.LINE_TO));
@@ -162,7 +159,6 @@ public class AlgoLocusStroke extends AlgoElement
 				} else if (partOfStroke.size() > 1) {
 					ArrayList<double[]> controlPoints = getControlPoints(
 							partOfStroke);
-
 					for (int i = 1; i < partOfStroke.size(); i++) {
 						MyPoint ctrl1 = new MyPoint(controlPoints.get(0)[i - 1],
 								controlPoints.get(1)[i - 1],
