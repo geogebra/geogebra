@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.arithmetic.Command;
 import org.geogebra.common.kernel.arithmetic.EquationValue;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoFunction;
 
 /**
  * Allows use of CAS commands Solve and NSolve in input bar
@@ -46,7 +47,7 @@ public class CmdSolve extends CommandProcessor {
 	private GeoElement[] solve(GeoElement arg, GeoElement hint, Command c,
 			EvalInfo info) {
 		if (arg.isGeoList() || arg instanceof EquationValue
-				|| arg.isGeoFunction()) {
+				|| arg instanceof GeoFunction) {
 			AlgoSolve solve = new AlgoSolve(cons, arg, hint, type);
 
 			if (info.isLabelOutput()) {
