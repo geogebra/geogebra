@@ -45,7 +45,6 @@ import com.google.gwt.user.client.ui.Widget;
 public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		SettingListener, SetLabels, PrintableW {
 
-
 	// ggb fields
 	protected AppW app;
 	private Kernel kernel;
@@ -65,20 +64,21 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	// toolbar manager
 	SpreadsheetToolbarManagerW toolbarManager;
 
-
 	// current toolbar mode
 	private int mode = -1;
 
 	boolean repaintScheduled = false;// to repaint less often, make it
-	                                         // quicker
+										// quicker
 
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
 	private boolean allowSettingUpdate = true;
 
 	GPoint scrollPos = new GPoint();
-	
-	//false, if user close keyboard with X button, in this case, keyboard won't appear if a user click in a cell later, he should open it with keyboard button
+
+	// false, if user close keyboard with X button, in this case, keyboard won't
+	// appear if a user click in a cell later, he should open it with keyboard
+	// button
 	private boolean keyboardEnabled = true;
 	private boolean scrollToShow = false;
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
@@ -255,8 +255,8 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 
 		// autoscroll to new cell's location
 		if (scrollToShow) {
-			table.scrollRectToVisible(table.getCellRect(location.y, location.x,
-			        true));
+			table.scrollRectToVisible(
+					table.getCellRect(location.y, location.x, true));
 		}
 	}
 
@@ -568,7 +568,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 			sb.append("/>\n");
 		}
 
-
 		settings().getLayoutXML(sb);
 
 		// cell formats
@@ -831,8 +830,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		return settings().equalsRequired();
 	}
 
-
-
 	@Override
 	public void updateCellFormat(String cellFormat) {
 		if (!allowSettingUpdate) {
@@ -965,12 +962,12 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		setColumnWidthsFromSettings();
 
 		// cell format
-		getSpreadsheetTable().getCellFormatHandler().processXMLString(
-		        settings().cellFormat());
+		getSpreadsheetTable().getCellFormatHandler()
+				.processXMLString(settings().cellFormat());
 
 		// preferredSize
-		setPreferredSize(settings().preferredSize().getWidth(), settings()
-				.preferredSize().getHeight());
+		setPreferredSize(settings().preferredSize().getWidth(),
+				settings().preferredSize().getHeight());
 
 		// initial position
 		// TODO not working yet ...
@@ -1036,7 +1033,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	@Override
 	public boolean hasFocus() {
 		return ((DockManagerW) app.getGuiManager().getLayout().getDockManager())
-		        .getFocusedViewId() == App.VIEW_SPREADSHEET;
+				.getFocusedViewId() == App.VIEW_SPREADSHEET;
 		/*
 		 * TODO if (table == null) return false; return table.hasFocus() ||
 		 * rowHeader.hasFocus () || (table.getTableHeader () != null && table
@@ -1064,9 +1061,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	@Override
 	public boolean isShowing() {
 		// if this is attached, we shall make sure its parents are visible too
-		return spreadsheetWrapper.isVisible()
-		        && spreadsheetWrapper.isAttached() && table != null
-		        && table.getGrid().isVisible() && table.getGrid().isAttached();
+		return spreadsheetWrapper.isVisible() && spreadsheetWrapper.isAttached()
+				&& table != null && table.getGrid().isVisible()
+				&& table.getGrid().isAttached();
 	}
 
 	protected void onLoad() {
@@ -1146,7 +1143,6 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 	}
 
 	public void onResize(int width, int height) {
-
 
 		// Log.debug("spreadsheet wrapper size: " + width + " , " + height);
 		if (width <= 0 || height <= 0) {

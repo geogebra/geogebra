@@ -7,7 +7,7 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.CheckBox;
 
-public class NumberChangeSignInputDialogW extends InputDialogW{
+public class NumberChangeSignInputDialogW extends InputDialogW {
 	private boolean changingSign;
 	private CheckBox checkBox;
 
@@ -18,34 +18,36 @@ public class NumberChangeSignInputDialogW extends InputDialogW{
 	 * @param title
 	 * @param initString
 	 * @param handler
-	 * @param changingSign says if the sign has to be changed
-	 * @param extruder 
+	 * @param changingSign
+	 *            says if the sign has to be changed
+	 * @param checkBoxText
+	 *            label for checkbox
+	 * @param extruder
 	 */
-	public NumberChangeSignInputDialogW(AppW app, String message,
-			String title, String initString, 
-			NumberChangeSignInputHandler handler, 
+	public NumberChangeSignInputDialogW(AppW app, String message, String title,
+			String initString, NumberChangeSignInputHandler handler,
 			boolean changingSign, String checkBoxText) {
-		super(app, message, title, initString, false, 
-				handler, true,
-				false, 
-				 DialogType.TextArea);
-		this.checkBox = new CheckBox(checkBoxText,true);
-		this.changingSign=changingSign;
+		super(app, message, title, initString, false, handler, true, false,
+				DialogType.TextArea);
+		this.checkBox = new CheckBox(checkBoxText, true);
+		this.changingSign = changingSign;
 	}
-	
+
 	@Override
 	protected void processInputHandler(AsyncOperation<Boolean> callback) {
-//		Construction cons = app.getKernel().getConstruction();
-//		boolean oldVal = cons.isSuppressLabelsActive();
-//		cons.setSuppressLabelCreation(true);
-//		boolean success =  ((NumberChangeSignInputHandler) inputHandler).processInput(inputText,changingSign && checkBox.getValue());
-//		cons.setSuppressLabelCreation(oldVal);
-//		if(success){
-//			//TODO callback to actually extrude
-//		}
-//		return success;
-		
-		((NumberChangeSignInputHandler) getInputHandler()).processInput(inputText,
-				changingSign && checkBox.getValue(), this, callback);
+		// Construction cons = app.getKernel().getConstruction();
+		// boolean oldVal = cons.isSuppressLabelsActive();
+		// cons.setSuppressLabelCreation(true);
+		// boolean success = ((NumberChangeSignInputHandler)
+		// inputHandler).processInput(inputText,changingSign &&
+		// checkBox.getValue());
+		// cons.setSuppressLabelCreation(oldVal);
+		// if(success){
+		// //TODO callback to actually extrude
+		// }
+		// return success;
+
+		((NumberChangeSignInputHandler) getInputHandler()).processInput(
+				inputText, changingSign && checkBox.getValue(), this, callback);
 	}
 }

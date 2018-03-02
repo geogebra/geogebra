@@ -10,11 +10,11 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author gabor
  * 
- * ProabilityCalculator dockpanel for Web
+ *         ProabilityCalculator dockpanel for Web
  *
  */
 public class ProbabilityCalculatorDockPanelW extends DockPanelW {
-	
+
 	/**
 	 * default width of this panel
 	 */
@@ -22,8 +22,8 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	private App app;
 
 	/**
-	 * @param app App
-	 * Creates panel
+	 * @param app
+	 *            App Creates panel
 	 */
 	public ProbabilityCalculatorDockPanelW(App app) {
 		super(App.VIEW_PROBABILITY_CALCULATOR, // view id
@@ -35,22 +35,25 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 		);
 
 		this.app = app;
-		//this.setOpenInFrame(true);
+		// this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);
-		
-	    //this.app = app;
-    }
+
+		// this.app = app;
+	}
+
 	@Override
-    public void onResize(){
+	public void onResize() {
 		super.onResize();
 		if (app.getGuiManager().hasProbabilityCalculator()) {
 			((ProbabilityCalculatorViewW) app.getGuiManager()
 					.getProbabilityCalculator()).onResize();
 		}
 	}
+
 	@Override
 	protected Widget loadComponent() {
-		return ((ProbabilityCalculatorViewW) app.getGuiManager().getProbabilityCalculator()).getWrapperPanel();
+		return ((ProbabilityCalculatorViewW) app.getGuiManager()
+				.getProbabilityCalculator()).getWrapperPanel();
 	}
 
 	@Override
@@ -61,16 +64,17 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadStyleBar() {
-		return ((ProbabilityCalculatorViewW) app.getGuiManager().getProbabilityCalculator()).getStyleBar().getWrappedToolBar();
+		return ((ProbabilityCalculatorViewW) app.getGuiManager()
+				.getProbabilityCalculator()).getStyleBar().getWrappedToolBar();
 	}
-	
+
 	@Override
-	public boolean isStyleBarEmpty(){
+	public boolean isStyleBarEmpty() {
 		return true;
 	}
-	
+
 	@Override
-    public ResourcePrototype getIcon() {
+	public ResourcePrototype getIcon() {
 		return getResources().menu_icon_probability();
 	}
 

@@ -23,7 +23,6 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class AngleInputDialogW extends InputDialogW {
-	
 
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;
@@ -33,8 +32,9 @@ public class AngleInputDialogW extends InputDialogW {
 	/**
 	 * Input Dialog for a GeoAngle object.
 	 */
-	public AngleInputDialogW(AppW app,  String message, String title, String initString,
-					boolean autoComplete, InputHandler handler, boolean modal) {
+	public AngleInputDialogW(AppW app, String message, String title,
+			String initString, boolean autoComplete, InputHandler handler,
+			boolean modal) {
 		super(modal, app, true);
 		setInputHandler(handler);
 		setInitString(initString);
@@ -50,8 +50,9 @@ public class AngleInputDialogW extends InputDialogW {
 		rbPanel.setStyleName("DialogRbPanel");
 		rbPanel.add(rbCounterClockWise);
 		rbPanel.add(rbClockWise);
-		
-		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false, false, false, DialogType.GeoGebraEditor);
+
+		createGUI(title, message, autoComplete, DEFAULT_COLUMNS, 1, true, false,
+				false, false, DialogType.GeoGebraEditor);
 
 		VerticalPanel centerPanel = new VerticalPanel();
 		centerPanel.add(messagePanel);
@@ -59,17 +60,16 @@ public class AngleInputDialogW extends InputDialogW {
 		centerPanel.add(errorPanel);
 		centerPanel.add(rbPanel);
 		((VerticalPanel) wrappedPopup.getWidget()).insert(centerPanel, 0);
-		
+
 		wrappedPopup.center();
 		inputPanel.getTextComponent().getTextField().setFocus(true);
-		
+
 	}
 
 	public boolean isCounterClockWise() {
 		return rbCounterClockWise.getValue();
 	}
 
-	
 	@Override
 	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();
@@ -100,7 +100,7 @@ public class AngleInputDialogW extends InputDialogW {
 			}
 		} catch (Exception ex) {
 			afterActionPerformed(false);
-			// do nothing on uninitializedValue		
+			// do nothing on uninitializedValue
 		}
 
 	}

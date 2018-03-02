@@ -41,8 +41,8 @@ import com.himamis.retex.editor.share.util.Unicode;
  * @author G. Sturr
  * 
  */
-public class TextEditPanel extends VerticalPanel implements ClickHandler,
-        FocusHandler, ITextEditPanel {
+public class TextEditPanel extends VerticalPanel
+		implements ClickHandler, FocusHandler, ITextEditPanel {
 
 	protected AppW app;
 	protected DynamicTextProcessor dTProcessor;
@@ -51,7 +51,6 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	protected TextPreviewPanelW previewer;
 
 	protected ToggleButton btnInsert;
-
 
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
@@ -76,20 +75,23 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		editor = new GeoTextEditor(app, this);
 		editor.addStyleName("textEditor");
-		
+
 		createToolBar();
-		
+
 		// TODO: advancedPanel is slow loading. Make this happen on demand.
 		advancedPanel = new TextEditAdvancedPanel(app, this);
 		previewer = advancedPanel.getPreviewer();
-		
-		disclosurePanel = new DisclosurePanel(GuiResources.INSTANCE.triangle_down(), GuiResources.INSTANCE.triangle_right(), loc.getMenu("Advanced"));
+
+		disclosurePanel = new DisclosurePanel(
+				GuiResources.INSTANCE.triangle_down(),
+				GuiResources.INSTANCE.triangle_right(),
+				loc.getMenu("Advanced"));
 		disclosurePanel.setContent(advancedPanel);
-		disclosurePanel. getContent().removeStyleName("content");
-		disclosurePanel.getContent().addStyleName(
-		        "textEditorDisclosurePanelContent");
-		disclosurePanel.getHeader().addStyleName(
-		        "textEditorDisclosurePanelHeader");
+		disclosurePanel.getContent().removeStyleName("content");
+		disclosurePanel.getContent()
+				.addStyleName("textEditorDisclosurePanelContent");
+		disclosurePanel.getHeader()
+				.addStyleName("textEditorDisclosurePanelHeader");
 
 		// build our panel
 		setSize("100%", "100%");
@@ -119,9 +121,9 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		} else {
 			editor.updateFonts();
 			previewer.updateFonts();
-			advancedPanel.updateGeoList(); 
+			advancedPanel.updateGeoList();
 			updatePreviewPanel();
-			
+
 		}
 	}
 
@@ -140,10 +142,11 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 			return;
 		}
 		boolean wasLaTeX = isLatex();
-		boolean isLaTeX = previewer.updatePreviewText(editGeo, dTProcessor
-				.buildGeoGebraString(
-				editor.getDynamicTextList(), isLatex()), isLatex(),
-				mayDetectLaTeX);
+		boolean isLaTeX = previewer
+				.updatePreviewText(editGeo,
+						dTProcessor.buildGeoGebraString(
+								editor.getDynamicTextList(), isLatex()),
+						isLatex(), mayDetectLaTeX);
 		if (!wasLaTeX && isLaTeX) {
 			btnLatex.setValue(true);
 			if (editGeo != null) {
@@ -190,7 +193,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	public void setLabels() {
 
 		disclosurePanel.getHeaderTextAccessor()
-		        .setText(loc.getMenu("Advanced"));
+				.setText(loc.getMenu("Advanced"));
 		if (!app.has(Feature.DIALOG_DESIGN)) {
 			btnBold.setText(loc.getMenu("Bold.Short"));
 			btnItalic.setText(loc.getMenu("Italic.Short"));
@@ -208,7 +211,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		sl = new GeoElementSelectionListener() {
 			@Override
 			public void geoElementSelected(GeoElement geo,
-			        boolean addToSelection) {
+					boolean addToSelection) {
 				if (geo != editGeo) {
 					editor.insertGeoElement(geo);
 				}
@@ -265,8 +268,6 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		btnInsert = new ToggleButton(Unicode.alpha + "");
 		btnInsert.addClickHandler(this);
 
-		
-		
 		if (app.has(Feature.DIALOG_DESIGN)) {
 			btnBold = new MyToggleButtonW(
 					new ImageResourcePrototype(
@@ -290,18 +291,17 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		}
 		btnItalic.addClickHandler(this);
 		btnItalic.addStyleName("btnItalic");
-		
+
 		btnSerif = new MyToggleButtonW(loc.getMenu("Serif"));
 		btnSerif.addClickHandler(this);
 		btnSerif.addStyleName("btnSerif");
-		
+
 		String latexTr = loc.getMenu("LaTeXFormula");
 		btnLatex = new MyToggleButtonW(latexTr);
 		btnLatex.addClickHandler(this);
 		btnLatex.addStyleName("btnLatex");
-		
+
 		// TODO: put styles in css stylesheet
-		
 
 		HorizontalPanel leftPanel = new HorizontalPanel();
 		leftPanel.setSpacing(2);
@@ -336,11 +336,10 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	 * @return Current editor content converted to a GeoText string.
 	 */
 	public String getText() {
-		Log.debug("ggb text string: "
-		        + dTProcessor.buildGeoGebraString(editor.getDynamicTextList(),
-		                isLatex()));
+		Log.debug("ggb text string: " + dTProcessor
+				.buildGeoGebraString(editor.getDynamicTextList(), isLatex()));
 		return dTProcessor.buildGeoGebraString(editor.getDynamicTextList(),
-		        isLatex());
+				isLatex());
 	}
 
 	/**
@@ -352,7 +351,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	public void setText(GeoText geo) {
 
 		ArrayList<DynamicTextElement> list = dTProcessor
-		        .buildDynamicTextList(geo);
+				.buildDynamicTextList(geo);
 
 		editor.setText(list);
 
@@ -368,9 +367,9 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 			btnSerif.setValue(geo.isSerifFont());
 			int style = geo.getFontStyle();
 			btnBold.setValue(style == GFont.BOLD
-			        || style == (GFont.BOLD + GFont.ITALIC));
+					|| style == (GFont.BOLD + GFont.ITALIC));
 			btnItalic.setValue(style == GFont.ITALIC
-			        || style == (GFont.BOLD + GFont.ITALIC));
+					|| style == (GFont.BOLD + GFont.ITALIC));
 		}
 
 		updatePreviewPanel();
@@ -399,8 +398,8 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	public void insertTextString(String text, boolean isLatex) {
 		editor.insertTextString(text, isLatex);
 	}
-	
-	public void updateFonts(){
+
+	public void updateFonts() {
 		editor.updateFonts();
 	}
 

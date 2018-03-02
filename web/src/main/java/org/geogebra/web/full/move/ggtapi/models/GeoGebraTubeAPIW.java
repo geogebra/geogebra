@@ -3,7 +3,6 @@ package org.geogebra.web.full.move.ggtapi.models;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.ggtapi.models.ClientInfo;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
-import org.geogebra.common.move.ggtapi.models.Material;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.main.AppW;
@@ -32,21 +31,19 @@ import com.google.gwt.json.client.JSONValue;
  */
 public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
-
 	/**
-	 * @param url
-	 *            String
+	 * @param beta
+	 *            whether to use beta
 	 * @param client
 	 *            {@link ClientInfo}
 	 * @param articleElement
+	 *            parameters
 	 */
 	public GeoGebraTubeAPIW(ClientInfo client, boolean beta,
 			ArticleElementInterface articleElement) {
 		super(beta, articleElement);
 		this.client = client;
 	}
-
-
 
 	// /**
 	// * Return a list of all Materials from the specified author
@@ -58,9 +55,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	// throw new UnsupportedOperationException();
 	// }
 
-
-
-
 	/**
 	 * Copies the user data from the API response to this user.
 	 * 
@@ -68,7 +62,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 */
 	@Override
 	public boolean parseUserDataFromResponse(GeoGebraTubeUser user,
-	        String result) {
+			String result) {
 		try {
 			JSONValue tokener = JSONParser.parseStrict(result);
 
@@ -80,29 +74,29 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 			if (userinfo.get("user_id") instanceof JSONNumber) {
 				user.setUserId((int) (((JSONNumber) userinfo.get("user_id"))
-				        .doubleValue()));
+						.doubleValue()));
 			} else {
-				user.setUserId(Integer.parseInt(((JSONString) userinfo
-				        .get("user_id")).stringValue()));
+				user.setUserId(Integer.parseInt(
+						((JSONString) userinfo.get("user_id")).stringValue()));
 			}
-			user.setUserName(((JSONString) userinfo.get("username"))
-			        .stringValue());
-			user.setRealName(((JSONString) userinfo.get("realname"))
-			        .stringValue());
-			user.setIdentifier(((JSONString) userinfo.get("identifier"))
-			        .stringValue());
+			user.setUserName(
+					((JSONString) userinfo.get("username")).stringValue());
+			user.setRealName(
+					((JSONString) userinfo.get("realname")).stringValue());
+			user.setIdentifier(
+					((JSONString) userinfo.get("identifier")).stringValue());
 			if (userinfo.get("image") instanceof JSONString) {
-				user.setImageURL(((JSONString) userinfo.get("image"))
-				        .stringValue());
+				user.setImageURL(
+						((JSONString) userinfo.get("image")).stringValue());
 			}
 			if (userinfo.get("lang_ui") instanceof JSONString) {
-				user.setLanguage(((JSONString) userinfo.get("lang_ui"))
-				        .stringValue());
+				user.setLanguage(
+						((JSONString) userinfo.get("lang_ui")).stringValue());
 			}
 
 			if (userinfo.get("token") instanceof JSONString) {
-				user.setToken(((JSONString) userinfo.get("token"))
-				        .stringValue());
+				user.setToken(
+						((JSONString) userinfo.get("token")).stringValue());
 			}
 
 			// Further fields are not parsed yet, because they are not needed
@@ -134,25 +128,24 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		return true;
 	}
 
-
-
 	/**
 	 * @param app
 	 *            {@link AppW}
 	 * @param sliderName
-	 *            {@link Material}
-	 * @param cb
-	 *            {@link MaterialCallback}
+	 *            slider name
+	 * @param timing
+	 *            delay between frames
+	 * @param isLoop
+	 *            whether to loop
 	 */
 	public void exportAnimGif(final AppW app, String sliderName, int timing,
-	        boolean isLoop) {
+			boolean isLoop) {
 
 		String data = createGifResponsePage(app.getLocalization());
-		final JavaScriptObject gifWnd = app.getLAF().isTablet() ? null : WindowW.openFromData(data);
-		WindowW.postMessage(gifWnd,
-				StringUtil.toHTMLString(app.getLocalization()
-						.getMenu(
-		                "AnimatedGIF.Processing")));
+		final JavaScriptObject gifWnd = app.getLAF().isTablet() ? null
+				: WindowW.openFromData(data);
+		WindowW.postMessage(gifWnd, StringUtil.toHTMLString(
+				app.getLocalization().getMenu("AnimatedGIF.Processing")));
 
 		RequestCallback cb = new RequestCallback() {
 
@@ -168,50 +161,44 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 						}
 						Log.debug("[ANIMGIF] respData is: " + respData);
 						JSONValue responseObject = JSONParser
-						        .parseStrict(respData);
+								.parseStrict(respData);
 						if (responseObject == null
-						        || responseObject.isObject() == null) {
+								|| responseObject.isObject() == null) {
 							Log.debug("[ANIMGIF] responseObject is null");
-							WindowW.postMessage(gifWnd, StringUtil
-							        .toHTMLString(app.getLocalization()
-							                .getPlain("AnimatedGIF.ErrorA",
-							                        respData)));
+							WindowW.postMessage(gifWnd, StringUtil.toHTMLString(
+									app.getLocalization().getPlain(
+											"AnimatedGIF.ErrorA", respData)));
 							return;
 						}
 
-						JSONValue responses = responseObject.isObject().get(
-						        "responses");
+						JSONValue responses = responseObject.isObject()
+								.get("responses");
 
 						if (responses == null || responses.isObject() == null) {
 							JSONValue error = responseObject.isObject()
-							        .get("error").isObject().get("-type")
-							        .isString();
+									.get("error").isObject().get("-type")
+									.isString();
 							Log.debug("[ANIMGIF] error is " + error.toString());
 
-							WindowW.postMessage(
-							        gifWnd,
-							        StringUtil
-							                .toHTMLString(app
-							                        .getLocalization()
-							                        .getPlain(
-							                "AnimatedGIF.ErrorA",
-							                " " + error.toString() + " ("
-							                                        + response
-							                                                .getStatusCode())));
+							WindowW.postMessage(gifWnd, StringUtil.toHTMLString(
+									app.getLocalization().getPlain(
+											"AnimatedGIF.ErrorA", " "
+													+ error.toString() + " ("
+													+ response
+															.getStatusCode())));
 							return;
 						}
 
 						JSONValue base64 = responses.isObject().get("response")
-						        .isObject().get("value");
+								.isObject().get("value");
 
 						String downloadUrl = StringUtil.gifMarker
-						        + base64.isString().stringValue();
+								+ base64.isString().stringValue();
 						app.getFileManager().exportImage(downloadUrl,
 								"ggbanim.gif", "gif");
-						WindowW.postMessage(gifWnd, StringUtil.toHTMLString(app
-								.getLocalization()
-								.getMenu(
-						                "AnimatedGIF.Success")));
+						WindowW.postMessage(gifWnd,
+								StringUtil.toHTMLString(app.getLocalization()
+										.getMenu("AnimatedGIF.Success")));
 					} catch (Throwable t) {
 						Log.debug(t.getMessage());
 						Log.debug("'" + response + "'");
@@ -229,11 +216,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, getUrl());
 
 		Log.debug("[URL] " + getUrl());
-		String req = AnimGifRequest.getRequestElement(
-				app.getGgbApi().getBase64(), sliderName,
-		        timing,
-		        isLoop)
-		        .toJSONString(client);
+		String req = AnimGifRequest
+				.getRequestElement(app.getGgbApi().getBase64(), sliderName,
+						timing, isLoop)
+				.toJSONString(client);
 		Log.debug("[REQUEST]: " + req);
 		try {
 			rb.setHeader("Content-type", "text/plain");
@@ -244,44 +230,46 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		}
 	}
 
-
 	private static String createGifResponsePage(Localization loc) {
-	    StringBuilder sb = new StringBuilder();
-	    sb.append("<!doctype html> \n");
-	    sb.append("	 <html> \n");
-	 	sb.append("  <head>\n");
-	    sb.append("    <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n");
+		StringBuilder sb = new StringBuilder();
+		sb.append("<!doctype html> \n");
+		sb.append("	 <html> \n");
+		sb.append("  <head>\n");
+		sb.append(
+				"    <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n");
 		sb.append("    <title>"
 				+ StringUtil.toHTMLString(loc.getMenu("AnimatedGIFExport"))
-		        + "</title>\n");
-	    sb.append("    <script>\n");
-	    sb.append("	window.addEventListener('message',function(event) {\n");
-	    sb.append("		console.log('received response:  ',event.data);\n");
-	    sb.append("		var result = document.getElementById('result');\n");
-	    sb.append("		result.innerHTML = event.data;\n");
-	    sb.append("		var button = document.getElementById('close');\n");
-	    sb.append("		button.setAttribute('style', 'display: block');\n");
-	    sb.append("		},false);\n");
-	    sb.append("    </script>\n");
-	    sb.append("  </head>\n");
+				+ "</title>\n");
+		sb.append("    <script>\n");
+		sb.append("	window.addEventListener('message',function(event) {\n");
+		sb.append("		console.log('received response:  ',event.data);\n");
+		sb.append("		var result = document.getElementById('result');\n");
+		sb.append("		result.innerHTML = event.data;\n");
+		sb.append("		var button = document.getElementById('close');\n");
+		sb.append("		button.setAttribute('style', 'display: block');\n");
+		sb.append("		},false);\n");
+		sb.append("    </script>\n");
+		sb.append("  </head>\n");
 
-	    sb.append("  <body>\n");
-	    sb.append("    <iframe src=\"javascript:''\" id=\"__gwt_historyFrame\" tabIndex='-1' style=\"position:absolute;width:0;height:0;border:0\"></iframe>\n");
+		sb.append("  <body>\n");
+		sb.append(
+				"    <iframe src=\"javascript:''\" id=\"__gwt_historyFrame\" tabIndex='-1'"
+						+ " style=\"position:absolute;width:0;height:0;border:0\"></iframe>\n");
 		sb.append("	<h1>"
 				+ StringUtil.toHTMLString(loc.getMenu("CreatingAnimatedGIF"))
-		        + "</h1>\n");
-		sb.append("	<p id=\"result\">"
-		        + StringUtil.toHTMLString(loc
-						.getMenu("AnimatedGIF.Calculating"))
-				+ "</p>\n");
-	    sb.append("	<button type=\"button\" id=\"close\" onclick=\"window.close();\" style=\"display: none;\">Close</button>\n");
-	    sb.append("   </body>\n");
-	    sb.append("</html>\n");
-	    		
-	    return sb.toString();
-    }
+				+ "</h1>\n");
+		sb.append(
+				"	<p id=\"result\">"
+						+ StringUtil.toHTMLString(
+								loc.getMenu("AnimatedGIF.Calculating"))
+						+ "</p>\n");
+		sb.append(
+				"	<button type=\"button\" id=\"close\" onclick=\"window.close();\""
+						+ " style=\"display: none;\">Close</button>\n");
+		sb.append("   </body>\n");
+		sb.append("</html>\n");
 
-
-
+		return sb.toString();
+	}
 
 }

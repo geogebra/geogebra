@@ -142,16 +142,16 @@ public class Tools extends FlowPanel implements SetLabels {
 	public void buildGui() {
 		this.clear();
 		mToolCategorization = new ToolCategorization(app,
-				app.getSettings().getToolbarSettings().getType(), app.getSettings().getToolbarSettings().getToolsetLevel(), false);
+				app.getSettings().getToolbarSettings().getType(),
+				app.getSettings().getToolbarSettings().getToolsetLevel(),
+				false);
 		String def = app.getGuiManager().getCustomToolbarDefinition();
 		if (app.isUnbundled3D()) {
 			def = app.getGuiManager().getLayout().getDockManager()
 					.getPanel(App.VIEW_EUCLIDIAN3D).getToolbarString();
 		}
-		mToolCategorization
-				.resetTools(def);
-		categories = mToolCategorization
-				.getCategories();
+		mToolCategorization.resetTools(def);
+		categories = mToolCategorization.getCategories();
 		categoryPanelList = new ArrayList<>();
 		for (int i = 0; i < categories.size(); i++) {
 			CategoryPanel catPanel = new CategoryPanel(categories.get(i));
@@ -163,7 +163,7 @@ public class Tools extends FlowPanel implements SetLabels {
 
 	@Override
 	public void setLabels() {
-		if (categoryPanelList!=null && !categoryPanelList.isEmpty()) {
+		if (categoryPanelList != null && !categoryPanelList.isEmpty()) {
 			for (CategoryPanel categoryPanel : categoryPanelList) {
 				categoryPanel.setLabels();
 			}
@@ -272,12 +272,12 @@ public class Tools extends FlowPanel implements SetLabels {
 	public void showTooltip(int modeMove) {
 		if (allowTooltips()) {
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
-					app.getToolTooltipHTML(modeMove),
-					((GuiManagerW) app.getGuiManager())
-							.getTooltipURL(modeMove),
-					ToolTipLinkType.Help, app,
-					app.getAppletFrame().isKeyboardShowing());
+			ToolTipManagerW.sharedInstance()
+					.showBottomInfoToolTip(app.getToolTooltipHTML(modeMove),
+							((GuiManagerW) app.getGuiManager()).getTooltipURL(
+									modeMove),
+							ToolTipLinkType.Help, app,
+							app.getAppletFrame().isKeyboardShowing());
 			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 		}
 

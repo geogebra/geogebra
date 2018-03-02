@@ -130,7 +130,7 @@ public class ProbabilityCalculatorStyleBarW extends
 		
 		btnBarGraph = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.bar_graph()), false);
 		btnBarGraphHandler = btnBarGraph.addValueChangeHandler(this);
-		
+
 		MyToggleButtonW btnGrid = new MyToggleButtonW(
 				StyleBarResources.INSTANCE.grid());
 		btnGrid.setSelected(getProbCalc().getPlotSettings().showGrid);
@@ -145,22 +145,7 @@ public class ProbabilityCalculatorStyleBarW extends
 			}
 		});
 		
-//		btnExport = new MenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.export16()));
-//		btnExport.setScheduledCommand(new ScheduledCommand() {
-//			
-//			public void execute() {
-//				
-//				Window.open(((EuclidianViewW) ((ProbabilityCalculatorViewW)probCalc).plotPanel).getExportImageDataUrl(3, true),
-//				        "_blank", null);
-//				
-//				
-//			}
-//		});
-		
-//		btnNormalOverlay = new GCheckBoxMenuItem(SafeHtmlFactory.getImageHtml(AppResources.INSTANCE.normal_overlay()), false);
-//		btnNormalOverlayHandler = btnNormalOverlay.addValueChangeHandler(this);
-	    
-    }
+	}
 
 	private void buildOptionsButton() {
 	    roundingPopup = createRoundingPopup();

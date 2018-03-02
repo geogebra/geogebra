@@ -282,12 +282,15 @@ public class ViewW {
 			      if (entry.filename.match(imageRegex)) {
 				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(filename+" : image");
 				      var filenameParts = filename.split(".");
-				      entry.getData(new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length - 1]), function (data) {
+				      var dataWriter = new $wnd.zip.Data64URIWriter("image/"+filenameParts[filenameParts.length - 1]);
+				      entry.getData(dataWriter, function (data) {
 				      view.@org.geogebra.web.html5.util.ViewW::putIntoArchiveContent(Ljava/lang/String;Ljava/lang/String;)(filename,data);
 				      });
 			      } else {
 				      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)(entry.filename+" : text");
-				      if ($wnd.zip.useWebWorkers === false || (typeof $wnd.zip.forceDataURIWriter !== "undefined" && $wnd.zip.forceDataURIWriter === true)) {
+				      var forceDataURI = typeof $wnd.zip.forceDataURIWriter !== "undefined" 
+				          && $wnd.zip.forceDataURIWriter === true;
+				      if ($wnd.zip.useWebWorkers === false || forceDataURI) {
 					      @org.geogebra.common.util.debug.Log::debug(Ljava/lang/String;)("no worker of forced dataURIWriter");
 					      entry.getData(new $wnd.zip.Data64URIWriter("text/plain"), function(data) {
 					      var decoded = $wnd.atob(data.substr(data.indexOf(",")+1));

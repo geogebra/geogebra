@@ -1255,18 +1255,18 @@ public class GgbAPIW extends GgbAPI {
 
 	public native void getScreenshotURL(Element el,
 			JavaScriptObject callback)/*-{
-										var canvas = document.createElement("canvas");
-										canvas.height = el.offsetHeight;
-										canvas.width = el.offsetWidth;
-										var context = canvas.getContext('2d');
-										el.className = el.className + " ggbScreenshot";
-										$wnd.domvas.toImage(el, function() {
-										// Look ma, I just converted this element to an image and can now to funky stuff!
-										context.drawImage(this, 0, 0);
-										el.className = el.className.replace(/\bggbScreenshot\b/, '');
-										callback(@org.geogebra.web.html5.main.GgbAPIW::pngBase64(Ljava/lang/String;)(canvas.toDataURL()));
-										});
-										}-*/;
+		var canvas = document.createElement("canvas");
+		canvas.height = el.offsetHeight;
+		canvas.width = el.offsetWidth;
+		var context = canvas.getContext('2d');
+		el.className = el.className + " ggbScreenshot";
+		$wnd.domvas.toImage(el, function() {
+			// Look ma, I just converted this element to an image and can now to funky stuff!
+			context.drawImage(this, 0, 0);
+			el.className = el.className.replace(/\bggbScreenshot\b/, '');
+			callback(@org.geogebra.web.html5.main.GgbAPIW::pngBase64(Ljava/lang/String;)(canvas.toDataURL()));
+		});
+	}-*/;
 
 	public static native boolean setWorkerURL(String workerUrls,
 			boolean sync) /*-{

@@ -36,14 +36,14 @@ public class ImageInputDialogT extends UploadImageDialog {
 	private boolean cameraIsActive;
 	private PictureCallback pictureCallback;
 
-	
 	/**
-	 * @param app {@link App}
+	 * @param app
+	 *            {@link App}
 	 */
 	public ImageInputDialogT(final App app) {
 		super((AppW) app, PREVIEW_WIDTH, PREVIEW_HEIGHT);
 		this.pictureCallback = new PictureCallback() {
-			
+
 			@Override
 			public void onSuccess(final String pictureBase64) {
 				setPicturePreview(pictureBase64);
@@ -55,8 +55,8 @@ public class ImageInputDialogT extends UploadImageDialog {
 						"Couldn't open chosen image", true, (AppW) app);
 			}
 		};
-		
-		if (!Tablet.useCordova()){
+
+		if (!Tablet.useCordova()) {
 			exportJavascriptMethods();
 		}
 	}
@@ -65,76 +65,79 @@ public class ImageInputDialogT extends UploadImageDialog {
 	protected void initGUI() {
 		super.initGUI();
 		listPanel.add(camera = new Label(""));
-		
+
 		initFilePanel();
 		initCameraPanel();
 	}
-	
+
 	private void initCameraPanel() {
 		cameraPanel = new SimplePanel();
 		cameraPanel.setStyleName("inputPanel");
-		cameraPanel.setSize(PREVIEW_WIDTH+"px", PREVIEW_HEIGHT+"px");
-    }
+		cameraPanel.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
+	}
 
 	private void initFilePanel() {
 		this.options = new PictureOptions(ImageInputDialogT.PICTURE_QUALITY);
-		this.options.setSourceType(PictureOptions.PICTURE_SOURCE_TYPE_SAVED_PHOTO_ALBUM);//.PICTURE_SOURCE_TYPE_PHOTO_LIBRARY);
-		
+		this.options.setSourceType(
+				PictureOptions.PICTURE_SOURCE_TYPE_SAVED_PHOTO_ALBUM);// .PICTURE_SOURCE_TYPE_PHOTO_LIBRARY);
+
 		filePanel = new FlowPanel();
 		filePanel.add(chooseFromFile = new StandardButton(
 				app.getLocalization().getMenu("ChooseFromFile"), app));
 		chooseFromFile.addStyleName("gwt-Button");
 		chooseFromFile.addFastClickHandler(new FastClickHandler() {
-			
+
 			@Override
 			public void onClick(Widget source) {
 				openFromFileClicked();
 			}
 		});
-		
+
 		filePanel.add(picturePanel = new SimplePanel());
 		picturePanel.setStyleName("inputPanel");
 		picturePanel.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
-    }
+	}
 
 	/**
 	 * Callback for file open button
 	 */
 	void openFromFileClicked() {
-		if (Tablet.useCordova()){
-			PhoneGapManager.getPhoneGap().getCamera().getPicture(options, this.pictureCallback);
-		}else{
-			openFromFileClickedNative();		
+		if (Tablet.useCordova()) {
+			PhoneGapManager.getPhoneGap().getCamera().getPicture(options,
+					this.pictureCallback);
+		} else {
+			openFromFileClickedNative();
 		}
 	}
-	
+
 	private native void openFromFileClickedNative() /*-{
 		if ($wnd.android) {
 			$wnd.android.openFromFileClickedNative();
 		}
 	}-*/;
-	
+
 	@Override
 	protected void initActions() {
 		super.initActions();
 		camera.addClickHandler(this);
 	}
-	
+
 	@Override
 	public void setLabels() {
 		super.setLabels();
-		//TODO Translation needed
+		// TODO Translation needed
 		camera.setText("Camera");
 	}
-	
+
 	@Override
-    public void onClick(ClickEvent event) {
+	public void onClick(ClickEvent event) {
 		Object source = event.getSource();
 		if (source == insertBtn) {
 			if (location != null && !location.isLabelSet()) {
 				location.setLabel(null);
-	    	}
-			if (this.cameraIsActive && !"".equals(this.pictureFromCameraString)) {
+			}
+			if (this.cameraIsActive
+					&& !"".equals(this.pictureFromCameraString)) {
 				app.imageDropHappened("devicePicture",
 						this.pictureFromCameraString, "");
 			} else if (!this.cameraIsActive
@@ -142,16 +145,16 @@ public class ImageInputDialogT extends UploadImageDialog {
 				app.imageDropHappened("devicePicture",
 						this.pictureFromFileString, "");
 			}
-	    	hide();
-	    } else if (source == cancelBtn) {
-	      	app.getImageManager().setPreventAuxImage(false);
-	  	   	hide();
-	    } else if (source == upload) {
-	    	uploadClicked();
-	    } else if (source == camera) {
-	    	cameraClicked();
-	    }
-    }
+			hide();
+		} else if (source == cancelBtn) {
+			app.getImageManager().setPreventAuxImage(false);
+			hide();
+		} else if (source == upload) {
+			uploadClicked();
+		} else if (source == camera) {
+			cameraClicked();
+		}
+	}
 
 	@Override
 	protected void uploadClicked() {
@@ -166,7 +169,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.camera.removeStyleDependentName("highlighted");
 		this.inputPanel.setWidget(this.filePanel);
 	}
-	
+
 	/**
 	 * Callback for camera button
 	 */
@@ -181,18 +184,18 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.camera.addStyleDependentName("highlighted");
 		this.upload.removeStyleDependentName("highlighted");
 		this.inputPanel.setWidget(this.cameraPanel);
-		PictureOptions pictureOptions = new PictureOptions(ImageInputDialogT.PICTURE_QUALITY);
+		PictureOptions pictureOptions = new PictureOptions(
+				ImageInputDialogT.PICTURE_QUALITY);
 		pictureOptions.setAllowEdit(false);
 		pictureOptions.setCorrectOrientation(true);
 
-		if (Tablet.useCordova()){
-			PhoneGapManager.getPhoneGap().getCamera().getPicture(
-			pictureOptions,
-			this.pictureCallback);
-		}else{			
+		if (Tablet.useCordova()) {
+			PhoneGapManager.getPhoneGap().getCamera().getPicture(pictureOptions,
+					this.pictureCallback);
+		} else {
 			getCameraPictureNative();
 		}
-    }
+	}
 
 	private native void getCameraPictureNative() /*-{
 		if ($wnd.android) {
@@ -201,22 +204,25 @@ public class ImageInputDialogT extends UploadImageDialog {
 	}-*/;
 
 	/**
-	 * @param pictureBase64 String
+	 * @param pictureBase64
+	 *            String
 	 */
 	void setPicturePreview(String pictureBase64) {
 		if (cameraIsActive) {
 			this.pictureFromCameraString = StringUtil.jpgMarker + pictureBase64;
 			this.cameraPanel.clear();
-	        this.cameraPanel.getElement().getStyle().setBackgroundImage("url('" + this.pictureFromCameraString + "')");
+			this.cameraPanel.getElement().getStyle().setBackgroundImage(
+					"url('" + this.pictureFromCameraString + "')");
 		} else {
 			this.pictureFromFileString = StringUtil.jpgMarker + pictureBase64;
 			this.picturePanel.clear();
-	        this.picturePanel.getElement().getStyle().setBackgroundImage("url('" + this.pictureFromFileString + "')");
+			this.picturePanel.getElement().getStyle().setBackgroundImage(
+					"url('" + this.pictureFromFileString + "')");
 		}
 
-        imageAvailable();
-    }
-	
+		imageAvailable();
+	}
+
 	@Override
 	public void hide() {
 		super.hide();
@@ -225,20 +231,23 @@ public class ImageInputDialogT extends UploadImageDialog {
 		this.pictureFromCameraString = "";
 		this.pictureFromFileString = "";
 	}
-	
+
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
 		$wnd.imageInputDialogT_catchImage = $entry(function(data) {
 			that.@org.geogebra.web.touch.gui.dialog.image.ImageInputDialogT::catchImage(Ljava/lang/String;)(data);
 		});
 	}-*/;
-	
+
 	/**
 	 * this method is called through js (see exportGeoGebraAndroidMethods())
+	 * 
+	 * @param data
+	 *            image data
 	 */
 	public void catchImage(String data) {
 		setPicturePreview(data);
-	
+
 	}
 
 }

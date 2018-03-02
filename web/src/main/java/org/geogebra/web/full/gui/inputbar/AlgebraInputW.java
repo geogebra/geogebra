@@ -43,10 +43,10 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * @author gabor
  * 
- * InputBar for GeoGebraWeb
+ *         InputBar for GeoGebraWeb
  *
  */
-public class AlgebraInputW extends FlowPanel 
+public class AlgebraInputW extends FlowPanel
 		implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler,
 		RequiresResize, AlgebraInput, HasHelpButton {
 	/** app */
@@ -55,14 +55,13 @@ public class AlgebraInputW extends FlowPanel
 	protected InputPanelW inputPanel;
 	/** text component */
 	protected AutoCompleteTextFieldW inputField;
-	//protected FlowPanel innerPanel;
+	// protected FlowPanel innerPanel;
 	/** button for help */
 	protected MyToggleButton btnHelpToggle;
 	/** help popup */
 	protected InputBarHelpPopup helpPopup;
-	//	protected PopupPanel helpPopup;
+	// protected PopupPanel helpPopup;
 	private boolean focused = false;
-
 
 	/**
 	 * @param app1
@@ -99,44 +98,41 @@ public class AlgebraInputW extends FlowPanel
 		inputField.addHistoryPopup(app.getInputPosition() == InputPosition.top);
 
 		updateIcons(false);
-		//new Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
+		// new
+		// Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
 		btnHelpToggle.addStyleName("inputHelp-toggleButton");
 
 		btnHelpToggle.addClickHandler(this);
 
-		//labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
-		//labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
-
-
+		// labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		// labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
 
 		// TODO: eastPanel should hold the command help button
-		//eastPanel = new FlowPanel();
-
+		// eastPanel = new FlowPanel();
 
 		// place all components in an inner panel
-		//innerPanel = new FlowPanel();	    
-		//innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
-		//innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
+		// innerPanel = new FlowPanel();
+		// innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
+		// innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
 		add(inputPanel);
-		//innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
-		//innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
-		//setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
+		// innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
+		// innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
+		// setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
 
 		// add innerPanel to wrapper (this panel)
-		//setVerticalAlignment(ALIGN_MIDDLE);
-		//add(innerPanel);
-		//add(eastPanel);
-		//setCellVerticalAlignment(this, ALIGN_MIDDLE);
+		// setVerticalAlignment(ALIGN_MIDDLE);
+		// add(innerPanel);
+		// add(eastPanel);
+		// setCellVerticalAlignment(this, ALIGN_MIDDLE);
 		if (app.showInputHelpToggle()) {
 			add(btnHelpToggle);
 		}
 
 		setLabels();
 
-		//setInputFieldWidth();
+		// setInputFieldWidth();
 
 	}
-
 
 	private void updateIcons(boolean warning) {
 		if (btnHelpToggle == null) {
@@ -144,16 +140,15 @@ public class AlgebraInputW extends FlowPanel
 		}
 		btnHelpToggle.getUpFace().setImage(new NoDragImage(
 				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
- : GuiResources.INSTANCE.icon_help())
-								.getSafeUri()
+						: GuiResources.INSTANCE.icon_help()).getSafeUri()
 								.asString(),
 				24));
-				// new
-				// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
+		// new
+		// Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()),
 		btnHelpToggle.getDownFace().setImage(new NoDragImage(
 				(warning ? GuiResourcesSimple.INSTANCE.icon_dialog_warning()
- : GuiResources.INSTANCE.icon_help())
-						.getSafeUri().asString(),
+						: GuiResources.INSTANCE.icon_help()).getSafeUri()
+								.asString(),
 				24));
 
 	}
@@ -173,15 +168,15 @@ public class AlgebraInputW extends FlowPanel
 
 	@Override
 	public void onResize() {
-		if(app == null){
+		if (app == null) {
 			return;
 		}
 		if (!app.isApplet()) {
-			setInputFieldWidth((int)app.getWidth());
+			setInputFieldWidth((int) app.getWidth());
 		}
 
 		// hide the help popup
-		//		btnHelpToggle.setValue(false);
+		// btnHelpToggle.setValue(false);
 		setShowInputHelpPanel(false);
 	}
 
@@ -189,7 +184,7 @@ public class AlgebraInputW extends FlowPanel
 	 * updates labels according to current locale
 	 */
 	public void setLabels() {
-		if(app == null){
+		if (app == null) {
 			return;
 		}
 		Localization loc = app.getLocalization();
@@ -231,12 +226,11 @@ public class AlgebraInputW extends FlowPanel
 
 		int pos = inputField.getCaretPosition();
 		String oldText = inputField.getText();
-		String newText = 
-				oldText.substring(0, pos) + str +
-				oldText.substring(pos);			 			
+		String newText = oldText.substring(0, pos) + str
+				+ oldText.substring(pos);
 
 		inputField.setText(newText);
-		inputField.setCaretPosition(pos + str.length());		
+		inputField.setCaretPosition(pos + str.length());
 		inputField.requestFocus();
 	}
 
@@ -245,10 +239,12 @@ public class AlgebraInputW extends FlowPanel
 				.getDockManager().getPanel(App.VIEW_ALGEBRA);
 
 	}
+
 	@Override
 	public void onFocus(FocusEvent event) {
 		if (((AlgebraViewW) app.getGuiManager().getAlgebraView())
-				.isNodeTableEmpty() && !getAlgebraDockPanel().hasLongStyleBar()) {
+				.isNodeTableEmpty()
+				&& !getAlgebraDockPanel().hasLongStyleBar()) {
 			getAlgebraDockPanel().showStyleBarPanel(false);
 		}
 		Object source = event.getSource();
@@ -270,14 +266,13 @@ public class AlgebraInputW extends FlowPanel
 	public void onKeyUp(KeyUpEvent event) {
 		// the input field may have consumed this event
 		// for auto completion
-		//then it don't come here if (e.isConsumed()) return;
+		// then it don't come here if (e.isConsumed()) return;
 
 		int keyCode = event.getNativeKeyCode();
-		app.getKernel()
-				.getInputPreviewHelper()
-					.updatePreviewFromInputBar(inputField.getText(),
-							getWarningHandler(this, app));
-		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
+		app.getKernel().getInputPreviewHelper().updatePreviewFromInputBar(
+				inputField.getText(), getWarningHandler(this, app));
+		if (keyCode == GWTKeycodes.KEY_ENTER
+				&& !inputField.isSuggestionJustHappened()) {
 			onEnterPressed(true);
 
 		} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V
@@ -329,7 +324,6 @@ public class AlgebraInputW extends FlowPanel
 
 					app.setScrollToShow(false);
 
-
 					inputField.addToHistory(input);
 					if (!getTextField().getText().equals(input)) {
 						inputField.addToHistory(getTextField().getText());
@@ -344,11 +338,9 @@ public class AlgebraInputW extends FlowPanel
 					.addDegree(app.getKernel()
 							.getAngleUnit() == Kernel.ANGLE_DEGREE)
 					.withUserEquation(true);
-			app.getKernel()
-					.getAlgebraProcessor()
+			app.getKernel().getAlgebraProcessor()
 					.processAlgebraCommandNoExceptionHandling(input, true,
 							getErrorHandler(valid, explicit), info, callback);
-
 
 		} catch (Exception ee) {
 			inputField.addToHistory(getTextField().getText());
@@ -437,7 +429,7 @@ public class AlgebraInputW extends FlowPanel
 	}
 
 	@Override
-	public void requestFocus(){
+	public void requestFocus() {
 		inputField.requestFocus();
 	}
 
@@ -454,7 +446,7 @@ public class AlgebraInputW extends FlowPanel
 		}
 	}
 
-	private void setHelpPopup(){
+	private void setHelpPopup() {
 		if (helpPopup == null && app != null) {
 			helpPopup = new InputBarHelpPopup(this.app, this.inputField,
 					"helpPopup");
@@ -474,27 +466,34 @@ public class AlgebraInputW extends FlowPanel
 	 *            whether inputhelp should be shown
 	 */
 	public void setShowInputHelpPanel(boolean show) {
-		
+
 		if (show) {
-			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app.getGuiManager()
-			        .getInputHelpPanel();
-			helpPanel.updateGUI(
-					((GuiManagerW) app.getGuiManager()).getRootComponent()
-							.getOffsetHeight(),
-					1);
+			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app
+					.getGuiManager().getInputHelpPanel();
+			helpPanel.updateGUI(((GuiManagerW) app.getGuiManager())
+					.getRootComponent().getOffsetHeight(), 1);
 			setHelpPopup();
-		
-			helpPopup
-					.setPopupPositionAndShow(new GPopupPanel.PositionCallback() {
-				@Override
-				public void setPosition(int offsetWidth, int offsetHeight) {
-					helpPopup.getElement().getStyle().setProperty("left", "auto");
-					helpPopup.getElement().getStyle().setProperty("top", "auto");
-					helpPopup.getElement().getStyle().setRight(0, Unit.PX);
-					helpPopup.getElement().getStyle().setBottom(getOffsetHeight()*app.getArticleElement().getScaleX(), Unit.PX);
-					helpPopup.show();
-				}
-			});
+
+			helpPopup.setPopupPositionAndShow(
+					new GPopupPanel.PositionCallback() {
+						@Override
+						public void setPosition(int offsetWidth,
+								int offsetHeight) {
+							helpPopup.getElement().getStyle()
+									.setProperty("left", "auto");
+							helpPopup.getElement().getStyle().setProperty("top",
+									"auto");
+							helpPopup.getElement().getStyle().setRight(0,
+									Unit.PX);
+							helpPopup.getElement().getStyle()
+									.setBottom(
+											getOffsetHeight()
+													* app.getArticleElement()
+															.getScaleX(),
+											Unit.PX);
+							helpPopup.show();
+						}
+					});
 			((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel())
 					.focusCommand(inputField.getCommand());
 
@@ -511,14 +510,15 @@ public class AlgebraInputW extends FlowPanel
 	/**
 	 * @return whether this has focus
 	 */
-	public boolean hasFocus(){
-		return this.focused || AutoCompleteTextFieldW.isShowSymbolButtonFocused();
+	public boolean hasFocus() {
+		return this.focused
+				|| AutoCompleteTextFieldW.isShowSymbolButtonFocused();
 	}
 
 	/**
 	 * @return text field
 	 */
-	public AutoCompleteTextFieldW getTextField(){
+	public AutoCompleteTextFieldW getTextField() {
 		return this.inputField;
 	}
 

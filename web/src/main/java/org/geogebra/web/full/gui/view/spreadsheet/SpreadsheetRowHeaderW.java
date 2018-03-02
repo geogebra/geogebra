@@ -54,9 +54,8 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
-        MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyDownHandler, LongTouchHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler
-
-{
+		MouseMoveHandler, ClickHandler, DoubleClickHandler, KeyDownHandler,
+		LongTouchHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler {
 	private static final long serialVersionUID = 1L;
 	private AppW app;
 	private MyTableW table;
@@ -71,7 +70,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	protected int row0 = -1;
 
 	private boolean isMouseDown = false;
-	
+
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -104,7 +103,6 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	// ============================================
 
 	private void registerListeners() {
-
 		grid.addDomHandler(this, MouseDownEvent.getType());
 		grid.addDomHandler(this, MouseUpEvent.getType());
 		grid.addDomHandler(this, MouseMoveEvent.getType());
@@ -113,7 +111,6 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		grid.addDomHandler(this, TouchStartEvent.getType());
 		grid.addDomHandler(this, TouchMoveEvent.getType());
 		grid.addDomHandler(this, TouchEndEvent.getType());
-
 	}
 
 	private void prepareGUI() {
@@ -134,7 +131,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		}
 
 		focusPanel = new AdvancedFocusPanel();
-		//focusPanel.addKeyDownHandler(this);
+		// focusPanel.addKeyDownHandler(this);
 		focusPanel.addDomHandler(this, KeyDownEvent.getType());
 		addPasteHandlerTo(focusPanel.getTextarea());
 
@@ -159,8 +156,10 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		Element elm = grid.getCellFormatter().getElement(rowIndex, 0);
 
 		elm.addClassName("SVheader");
-		/*elm.getStyle().setBackgroundColor(
-		        MyTableW.BACKGROUND_COLOR_HEADER.toString());*/
+		/*
+		 * elm.getStyle().setBackgroundColor(
+		 * MyTableW.BACKGROUND_COLOR_HEADER.toString());
+		 */
 	}
 
 	/**
@@ -207,13 +206,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	 *            new row height
 	 */
 	public void setRowHeight(int rowIndex, int rowHeight) {
-
 		if (rowIndex >= grid.getRowCount()) {
 			return;
 		}
 
 		grid.getRowFormatter().getElement(rowIndex).getStyle()
-		        .setHeight(rowHeight, Style.Unit.PX);
+				.setHeight(rowHeight, Style.Unit.PX);
 	}
 
 	/**
@@ -221,49 +219,57 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	 */
 	public void renderSelection() {
 
-		/*String defaultBackground = MyTableW.BACKGROUND_COLOR_HEADER.toString();
-		String selectedBackground = MyTableW.SELECTED_BACKGROUND_COLOR_HEADER
-		        .toString();*/
+		/*
+		 * String defaultBackground =
+		 * MyTableW.BACKGROUND_COLOR_HEADER.toString(); String
+		 * selectedBackground = MyTableW.SELECTED_BACKGROUND_COLOR_HEADER
+		 * .toString();
+		 */
 
 		for (int rowIndex = 0; rowIndex < grid.getRowCount(); rowIndex++) {
-			/*Style s = grid.getCellFormatter().getElement(rowIndex, 0)
-			        .getStyle();*/
+			/*
+			 * Style s = grid.getCellFormatter().getElement(rowIndex, 0)
+			 * .getStyle();
+			 */
 
 			if (table.getSelectionType() == MyTableInterface.COLUMN_SELECT) {
-				//setBgColorIfNeeded(s, defaultBackground);
+				// setBgColorIfNeeded(s, defaultBackground);
 				updateCellSelection(false, rowIndex);
 			} else {
 				if (table.selectedRowSet.contains(rowIndex)
-				        || (rowIndex >= table.minSelectionRow && rowIndex <= table.maxSelectionRow)) {
-					//setBgColorIfNeeded(s, selectedBackground);
+						|| (rowIndex >= table.minSelectionRow
+								&& rowIndex <= table.maxSelectionRow)) {
+					// setBgColorIfNeeded(s, selectedBackground);
 					updateCellSelection(true, rowIndex);
 				} else {
-					//setBgColorIfNeeded(s, defaultBackground);
+					// setBgColorIfNeeded(s, defaultBackground);
 					updateCellSelection(false, rowIndex);
 				}
 			}
 		}
 	}
-	
+
 	/**
-	 * Added "selected" class to the table headers of the selected cell
-	 * needed for css styling
+	 * Added "selected" class to the table headers of the selected cell needed
+	 * for css styling
+	 * 
 	 * @param selected
 	 * @param index
 	 */
 	private void updateCellSelection(boolean selected, int index) {
-		if(selected) {
+		if (selected) {
 			grid.getCellFormatter().addStyleName(index, 0, "selected");
 		} else {
 			grid.getCellFormatter().removeStyleName(index, 0, "selected");
 		}
 	}
 
-	/* Steffi: not needed anymore -> NOW: updateCellSelection
-	 * private static void setBgColorIfNeeded(Style s, String bgColor) {
-		if (!s.getBackgroundColor().equals(bgColor))
-			s.setBackgroundColor(bgColor);
-	}*/
+	/*
+	 * Steffi: not needed anymore -> NOW: updateCellSelection private static
+	 * void setBgColorIfNeeded(Style s, String bgColor) { if
+	 * (!s.getBackgroundColor().equals(bgColor)) s.setBackgroundColor(bgColor);
+	 * }
+	 */
 
 	/**
 	 * Update the rowHeader list when row selection changes in the table
@@ -306,10 +312,10 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	private static int getBoundary(PointerEventType eventType) {
 		return eventType == PointerEventType.MOUSE ? 3 : 6;
 	}
-	
+
 	public static int getAbsoluteX(MouseEvent e, AppW app) {
-		return (int) ((e.getClientX() + Window.getScrollLeft()) / app
-		        .getArticleElement().getScaleX());
+		return (int) ((e.getClientX() + Window.getScrollLeft())
+				/ app.getArticleElement().getScaleX());
 	}
 
 	public int getAbsoluteX(MouseEvent e) {
@@ -317,8 +323,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	}
 
 	public static int getAbsoluteY(MouseEvent e, AppW app) {
-		return (int) ((e.getClientY() + Window.getScrollTop()) / app
-		        .getArticleElement().getScaleY());
+		return (int) ((e.getClientY() + Window.getScrollTop())
+				/ app.getArticleElement().getScaleY());
 	}
 
 	public int getAbsoluteY(MouseEvent e) {
@@ -376,13 +382,11 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	@Override
 	public void onDoubleClick(DoubleClickEvent event) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void onClick(ClickEvent event) {
 		// TODO Auto-generated method stub
-
 	}
 
 	// transfer focus to the table
@@ -405,7 +409,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 	@Override
 	public void onKeyDown(KeyDownEvent e) {
-		//App.debug("row header key down");
+		// App.debug("row header key down");
 		e.stopPropagation();
 		int keyCode = e.getNativeKeyCode();
 
@@ -443,10 +447,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 				// select topmost cell in first column left of the selection
 				if (table.minSelectionRow >= 0) {
 					table.setSelection(0, table.minSelectionRow + 1);
-				}
-				else {
+				} else {
 					table.setSelection(0, table.minSelectionRow);
-				// table.requestFocus();
+					// table.requestFocus();
 				}
 			}
 			break;
@@ -454,48 +457,48 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		case KeyCodes.KEY_C:
 			// control + c
 			// handled in browser copy event! ctrlDown implied
-			//if (ctrlDown && table.minSelectionRow != -1
-			//        && table.maxSelectionRow != -1) {
-			//	table.copyPasteCut.copy(0, table.minSelectionRow, table
-			//	        .getModel().getColumnCount() - 1,
-			//	        table.maxSelectionRow, altDown);
-			//}
+			// if (ctrlDown && table.minSelectionRow != -1
+			// && table.maxSelectionRow != -1) {
+			// table.copyPasteCut.copy(0, table.minSelectionRow, table
+			// .getModel().getColumnCount() - 1,
+			// table.maxSelectionRow, altDown);
+			// }
 			break;
 
 		case KeyCodes.KEY_V: // control + v
 			// handled in browser paste event! ctrlDown implied
-			//if (ctrlDown && table.minSelectionRow != -1
-			 //       && table.maxSelectionRow != -1) {
-			//	boolean storeUndo = table.copyPasteCut.paste(0,
-			//	        table.minSelectionRow, table.getModel()
-			//	                .getColumnCount() - 1, table.maxSelectionRow);
-			//	if (storeUndo)
-			//		app.storeUndoInfo();
-			//}
+			// if (ctrlDown && table.minSelectionRow != -1
+			// && table.maxSelectionRow != -1) {
+			// boolean storeUndo = table.copyPasteCut.paste(0,
+			// table.minSelectionRow, table.getModel()
+			// .getColumnCount() - 1, table.maxSelectionRow);
+			// if (storeUndo)
+			// app.storeUndoInfo();
+			// }
 			break;
 
 		case KeyCodes.KEY_X: // control + x
 			// handled in browser cut event! ctrlDown implied
-			//if (ctrlDown && table.minSelectionRow != -1
-			//        && table.maxSelectionRow != -1) {
-			//	table.copyPasteCut.copy(0, table.minSelectionRow, table
-			//	        .getModel().getColumnCount() - 1,
-			//	        table.maxSelectionRow, altDown);
-			//}
-			//boolean storeUndo = table.copyPasteCut.delete(0,
-			//        table.minSelectionRow,
-			//        table.getModel().getColumnCount() - 1,
-			//        table.maxSelectionRow);
-			//if (storeUndo)
-			//	app.storeUndoInfo();
+			// if (ctrlDown && table.minSelectionRow != -1
+			// && table.maxSelectionRow != -1) {
+			// table.copyPasteCut.copy(0, table.minSelectionRow, table
+			// .getModel().getColumnCount() - 1,
+			// table.maxSelectionRow, altDown);
+			// }
+			// boolean storeUndo = table.copyPasteCut.delete(0,
+			// table.minSelectionRow,
+			// table.getModel().getColumnCount() - 1,
+			// table.maxSelectionRow);
+			// if (storeUndo)
+			// app.storeUndoInfo();
 			break;
 
 		case KeyCodes.KEY_DELETE: // delete
 		case KeyCodes.KEY_BACKSPACE: // delete on MAC
 			boolean storeUndo = table.getCopyPasteCut().delete(0,
 					table.minSelectionRow,
-			        table.getModel().getColumnCount() - 1,
-			        table.maxSelectionRow);
+					table.getModel().getColumnCount() - 1,
+					table.maxSelectionRow);
 			if (storeUndo) {
 				app.storeUndoInfo();
 			}
@@ -510,9 +513,10 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	public void setTop(int top) {
 		container.getElement().getStyle().setTop(top, Unit.PX);
 	}
-	
-	public int getTop(){
-		return container.getParent().getAbsoluteTop() - container.getAbsoluteTop();
+
+	public int getTop() {
+		return container.getParent().getAbsoluteTop()
+				- container.getAbsoluteTop();
 	}
 
 	public static class MyFocusPanel extends SimplePanel implements Focusable {
@@ -553,8 +557,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		event.preventDefault();
 		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.INSTANCE);
 		onPointerUp(e);
-	    CancelEventTimer.touchEventOccured();
-    }
+		CancelEventTimer.touchEventOccured();
+	}
 
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
@@ -564,11 +568,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			// resizing a column cancel long touch
 			longTouchManager.cancelTimer();
 		} else {
-			longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY(), false);
+			longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY(),
+					false);
 		}
 		onPointerMove(e);
 		CancelEventTimer.touchEventOccured();
-    }
+	}
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
@@ -577,12 +582,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
 		onPointerDown(e);
 		CancelEventTimer.touchEventOccured();
-    }
+	}
 
 	@Override
 	public void handleLongTouch(int x, int y) {
 		showContextMenu(x, y, false);
-    }
+	}
 
 	private void onPointerDown(PointerEvent e) {
 		Event.setCapture(grid.getElement());
@@ -594,14 +599,16 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			table.getEditor().setAllowProcessGeo(false);
 			table.finishEditing(false);
 		}
-		
+
 		requestFocus();
 
 		boolean shiftPressed = e.isShiftDown();
 		boolean rightClick = (e.isRightClick());
 
-		int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app);
-		int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app);
+		int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(),
+				app);
+		int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(),
+				app);
 
 		GPoint p = new GPoint(x, y);
 		resizingRow = getResizingRow(p, getBoundary(e.getType()));
@@ -642,7 +649,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			}
 		}
 	}
-	
+
 	private void onPointerMove(PointerEvent e) {
 		// Show resize cursor when mouse is over a row boundary
 		HumanInputEvent<?> event = e.getWrappedEvent();
@@ -650,7 +657,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 				SpreadsheetMouseListenerW.getAbsoluteX(event, app),
 				SpreadsheetMouseListenerW.getAbsoluteY(event, app));
 		int r = this.getResizingRow(p, getBoundary(e.getType()));
-		if (r >= 0 && !getCursor().equals(Style.Cursor.ROW_RESIZE.getCssName())) {
+		if (r >= 0
+				&& !getCursor().equals(Style.Cursor.ROW_RESIZE.getCssName())) {
 			setRowResizeCursor();
 		} else if (r < 0
 				&& !getCursor().equals(Style.Cursor.DEFAULT.getCssName())) {
@@ -664,9 +672,11 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			}
 
 			// On mouse drag either resize or select a row
-			int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app);
-			int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app);
-			
+			int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(),
+					app);
+			int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(),
+					app);
+
 			if (resizingRow >= 0) {
 				// resize row
 				int newHeight = y - mouseYOffset;
@@ -696,7 +706,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			}
 		}
 	}
-	
+
 	private void onPointerUp(PointerEvent e) {
 		Event.releaseCapture(grid.getElement());
 		isMouseDown = false;
@@ -709,17 +719,19 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			}
 
 			GPoint p = table.getIndexFromPixel(
-			        SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app),
-			        SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app));
+					SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(),
+							app),
+					SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(),
+							app));
 			if (p == null) {
 				return;
 			}
 
 			// if click is outside current selection then change selection
 			if (p.getY() < table.minSelectionRow
-			        || p.getY() > table.maxSelectionRow
-			        || p.getX() < table.minSelectionColumn
-			        || p.getX() > table.maxSelectionColumn) {
+					|| p.getY() > table.maxSelectionRow
+					|| p.getX() < table.minSelectionColumn
+					|| p.getX() > table.maxSelectionColumn) {
 
 				// switch to row selection mode and select row
 				if (table.getSelectionType() != MyTableInterface.ROW_SELECT) {
@@ -742,7 +754,7 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 			// App.debug("min/max " + table.minSelectionRow + " , " +
 			// table.maxSelectionRow);
 			if (table.minSelectionRow != -1 && table.maxSelectionRow != -1
-			        && (table.maxSelectionRow - table.minSelectionRow > 0)) {
+					&& (table.maxSelectionRow - table.minSelectionRow > 0)) {
 				if (table.isSelectAll()) {
 					table.setRowHeight(rowHeight, true);
 				} else {
@@ -759,13 +771,13 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		}
 
 	}
-	
+
 	private void showContextMenu(int x, int y, boolean relative) {
 		if (!app.letShowPopupMenu()) {
 			return;
 		}
 		SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
-		        .getGuiManager()).getSpreadsheetContextMenu(table);
+				.getGuiManager()).getSpreadsheetContextMenu(table);
 		GPopupMenuW popup = (GPopupMenuW) contextMenu.getMenuContainer();
 		if (relative) {
 			popup.show(grid, x, y);
@@ -813,9 +825,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	public void onPaste(String text) {
 		if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
 			boolean storeUndo = ((CopyPasteCutW) table.getCopyPasteCut()).paste(
-					0,
-			        table.minSelectionRow, table.getModel()
-			                .getColumnCount() - 1, table.maxSelectionRow, text);
+					0, table.minSelectionRow,
+					table.getModel().getColumnCount() - 1,
+					table.maxSelectionRow, text);
 			if (storeUndo) {
 				app.storeUndoInfo();
 			}
@@ -835,11 +847,12 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
+				if (table.minSelectionRow != -1
+						&& table.maxSelectionRow != -1) {
 					((CopyPasteCutW) table.getCopyPasteCut()).copy(0,
-							table.minSelectionRow, table
-					        .getModel().getColumnCount() - 1,
-					        table.maxSelectionRow, altDown, true);
+							table.minSelectionRow,
+							table.getModel().getColumnCount() - 1,
+							table.maxSelectionRow, altDown, true);
 				}
 			}
 		});
@@ -857,16 +870,17 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				if (table.minSelectionRow != -1 && table.maxSelectionRow != -1) {
+				if (table.minSelectionRow != -1
+						&& table.maxSelectionRow != -1) {
 					((CopyPasteCutW) table.getCopyPasteCut()).copy(0,
-							table.minSelectionRow, table
-					        .getModel().getColumnCount() - 1,
-					        table.maxSelectionRow, false, true);
+							table.minSelectionRow,
+							table.getModel().getColumnCount() - 1,
+							table.maxSelectionRow, false, true);
 				}
 				boolean storeUndo = table.getCopyPasteCut().delete(0,
-				        table.minSelectionRow,
-				        table.getModel().getColumnCount() - 1,
-				        table.maxSelectionRow);
+						table.minSelectionRow,
+						table.getModel().getColumnCount() - 1,
+						table.maxSelectionRow);
 				if (storeUndo) {
 					app.storeUndoInfo();
 				}

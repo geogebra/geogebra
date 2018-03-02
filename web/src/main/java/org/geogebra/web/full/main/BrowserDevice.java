@@ -35,24 +35,22 @@ public class BrowserDevice implements GDevice {
 			super();
 			this.setStyleName("button");
 			final Image icon = new Image(
-			        BrowseResources.INSTANCE.location_local());
+					BrowseResources.INSTANCE.location_local());
 			final Element span = DOM.createElement("span");
-			span.setAttribute(
-			        "style",
-			        "position: absolute; width: 50px; height: 50px; padding: 10px; top: 0px; left: 0px; overflow: hidden;");
+			span.setAttribute("style",
+					"position: absolute; top: 0px; left: 0px; "
+							+ "width: 50px; height: 50px; padding: 10px;  overflow: hidden;");
 			span.setInnerHTML("<img src=\"" + icon.getUrl() + "\"/>");
 			Element form = DOM.createElement("form");
 			input = DOM.createElement("input");
 			input.setAttribute("type", "file");
-			input.setAttribute(
-			        "style",
-			        "width: 500px; height: 60px; font-size: 56px;"
-			                + "opacity: 0; position: absolute; right: 0px; top: 0px; cursor: pointer;");
+			input.setAttribute("style",
+					"width: 500px; height: 60px; font-size: 56px;"
+							+ "opacity: 0; position: absolute; right: 0px; top: 0px; cursor: pointer;");
 			form.appendChild(input);
 			span.appendChild(form);
 
 			DOM.insertChild(getElement(), span, 0);
-
 		}
 
 		/**
@@ -138,6 +136,5 @@ public class BrowserDevice implements GDevice {
 		}
 
 	}
-
 
 }
