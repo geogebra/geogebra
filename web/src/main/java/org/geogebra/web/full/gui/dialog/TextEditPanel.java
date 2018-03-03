@@ -65,6 +65,7 @@ public class TextEditPanel extends VerticalPanel
 
 	/*****************************************************
 	 * @param app
+	 *            application
 	 */
 	public TextEditPanel(App app) {
 		super();
@@ -381,18 +382,20 @@ public class TextEditPanel extends VerticalPanel
 	 * GeoElement. The element is inserted at the current caret position.
 	 * 
 	 * @param geo
+	 *            element
 	 */
 	@Override
 	public void insertGeoElement(GeoElement geo) {
 		editor.insertGeoElement(geo);
-
 	}
 
 	/**
 	 * Inserts a text string into the editor at the current caret position.
 	 * 
 	 * @param text
+	 *            string literal
 	 * @param isLatex
+	 *            whether it's latex
 	 */
 	@Override
 	public void insertTextString(String text, boolean isLatex) {

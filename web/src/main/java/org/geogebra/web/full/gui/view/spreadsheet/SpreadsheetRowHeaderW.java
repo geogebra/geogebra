@@ -75,7 +75,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 	/**
 	 * @param app
+	 *            application
 	 * @param table
+	 *            spreadsheet table
 	 */
 	public SpreadsheetRowHeaderW(AppW app, MyTableW table) {
 
@@ -166,7 +168,6 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	 * updates header row count to match table row count
 	 */
 	public void updateRowCount() {
-
 		if (grid.getRowCount() >= table.getRowCount()) {
 			return;
 		}
@@ -254,7 +255,9 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 	 * for css styling
 	 * 
 	 * @param selected
+	 *            whether to select
 	 * @param index
+	 *            row index
 	 */
 	private void updateCellSelection(boolean selected, int index) {
 		if (selected) {

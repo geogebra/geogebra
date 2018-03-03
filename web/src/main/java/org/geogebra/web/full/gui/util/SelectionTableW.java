@@ -21,9 +21,13 @@ public class SelectionTableW extends Grid implements ClickHandler {
 
 	/**
 	 * @param data
+	 *            items
 	 * @param rows
+	 *            number of rows
 	 * @param columns
+	 *            number of columns
 	 * @param mode
+	 *            mode
 	 */
 	public SelectionTableW(ImageOrText[] data, Integer rows, Integer columns,
 			SelectionTable mode, boolean ms) {
