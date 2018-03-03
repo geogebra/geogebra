@@ -49,7 +49,7 @@ class DragController {
 				}
 				dragged.card.setTop(pos);
 			} else {
-				cancel();
+				this.cancel();
 			}
 		}
 
