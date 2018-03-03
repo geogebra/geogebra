@@ -9118,6 +9118,7 @@ namespace giac {
     &__StdT_unit,
     &__Sv_unit,
     &__T_unit,
+    &__Torr_unit,
     &__V_unit,
     &__Vm_unit,
     &__W_unit,
@@ -9264,13 +9265,14 @@ namespace giac {
     &__toe_unit,
     &__tonUK_unit,
     &__ton_unit,
-    &__Torr_unit,
     &__tr_unit,
     &__tsp_unit,
     &__u_unit,
     &__yd_unit,
     &__yr_unit,
+#ifndef VISUALC
     &__micron_unit
+#endif
   };
   const unsigned unitptr_tab_length=sizeof(unitptr_tab)/sizeof(mksa_unit *);
   const char * const unitname_tab[]={
@@ -9465,8 +9467,10 @@ namespace giac {
     "_u",
     "_yd",
     "_yr",
+#ifndef VISUALC
     "_\u03BC"
     // "_µ"
+#endif
   };
 
   const char * const * const unitname_tab_end=unitname_tab+unitptr_tab_length;

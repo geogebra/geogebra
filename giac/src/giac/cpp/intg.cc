@@ -3880,10 +3880,20 @@ namespace giac {
       value=0.0;
       return true;
     }
-    if (exactcheck && approxint_exact(f,x,contextptr)){
-      gen r,F=linear_integrate(f,x,r,contextptr);
-      value=subst(F,x,b,false,contextptr)-subst(F,x,a,false,contextptr);
-      return true;
+    if (exactcheck){
+      vecteur vf(1,x);
+      rlvarx(f,x,vf);
+      if (0 && vf.size()<=1){ // dangerous
+	gen r,F=linear_integrate(exact(f,contextptr),x,r,contextptr);
+	value=_limit(makesequence(F,x,exact(b,contextptr),-1),contextptr)-_limit(makesequence(F,x,exact(a,contextptr),1),contextptr);
+	value=evalf(value,1,contextptr);
+	return true;
+      }
+      if (approxint_exact(f,x,contextptr)){
+	gen r,F=linear_integrate(f,x,r,contextptr);
+	value=subst(F,x,b,false,contextptr)-subst(F,x,a,false,contextptr);
+	return true;
+      }
     }
     // adaptive integration, cf. Hairer
     gen i30,i30abs,err,maxerr,ERR,I30ABS;
@@ -4680,7 +4690,7 @@ namespace giac {
     if ( sumab(e,x,a,b,res,true,contextptr) )
       return res;
     gen remains_to_sum;
-#ifdef EMCC
+#if defined EMCC || defined GIAC_HAS_STO_38
     res=sum(e,x,remains_to_sum,contextptr);
 #else
     gen oldx=eval(x,1,contextptr),X(x);
