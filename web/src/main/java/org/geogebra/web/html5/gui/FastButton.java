@@ -16,14 +16,16 @@ import com.google.gwt.user.client.ui.CustomButton;
 
 /**
  * 
- * GWT Implementation influenced by Google's FastPressElement: <a
- * href=https://developers
- * .google.com/mobile/articles/fast_buttons>FastButtons</a>
+ * GWT Implementation influenced by Google's FastPressElement:
  * 
- * Using Code examples and comments from: <a
- * href=http://stackoverflow.com/questions
- * /9596807/converting-gwt-click-events-to-touch-events>Converting GWT
- * ClickEvents to TouchEvents</a>
+ * <a href=
+ * "https://developers.google.com/mobile/articles/fast_buttons">FastButtons</a>
+ * 
+ * Using Code examples and comments from:
+ * 
+ * <a href=
+ * "http://stackoverflow.com/questions/9596807/converting-gwt-click-events-to-touch-events">Converting
+ * GWT ClickEvents to TouchEvents</a>
  * 
  * The FastButton is used to avoid the 300ms delay on mobile devices (Only do
  * this if you want to ignore the possibility of a double tap - The browser

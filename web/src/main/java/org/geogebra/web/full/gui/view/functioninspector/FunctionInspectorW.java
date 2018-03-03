@@ -82,11 +82,12 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	/**
 	 * @param app
+	 *            application
 	 * @param selectedGeo
+	 *            function
 	 */
 	public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
-		Log.debug("[!!!] constructor");
 		Window.addResizeHandler(new ResizeHandler() {
 			@Override
 			public void onResize(final ResizeEvent event) {
@@ -346,7 +347,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	/**
-	 * @return
+	 * @return button panel
 	 */
 	private FlowPanel createBtnPanel() {
 		FlowPanel btnPanel = new FlowPanel();

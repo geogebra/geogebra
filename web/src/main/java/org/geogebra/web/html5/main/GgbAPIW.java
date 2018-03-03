@@ -145,8 +145,11 @@ public class GgbAPIW extends GgbAPI {
 	/**
 	 * 
 	 * @param exportScale
+	 *            scale
 	 * @param transparent
+	 *            whether to use ransparent background
 	 * @param dpi
+	 *            dots per inch eg. for paste to Word
 	 * @return png as String with "data:image/png;base64," header
 	 */
 	private String getPNG(double exportScale, boolean transparent, double dpi) {
@@ -175,10 +178,8 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public boolean writePNGtoFile(String filename, double exportScale,
 			boolean transparent, double dpi) {
-
 		// make browser save/download PNG file
 		Browser.exportImage(getPNG(exportScale, transparent, dpi), filename);
-
 		return true;
 	}
 
@@ -202,6 +203,13 @@ public class GgbAPIW extends GgbAPI {
 		return pngURL.substring(StringUtil.pngMarker.length());
 	}
 
+	/**
+	 * @param label
+	 *            object label
+	 * @param value
+	 *            whether to use value string
+	 * @return base64 encoded PNG of LaTeX formula
+	 */
 	public String getLaTeXBase64(String label, boolean value) {
 		Canvas c = Canvas.createIfSupported();
 		GeoElement geo = kernel.lookupLabel(label);
@@ -241,10 +249,8 @@ public class GgbAPIW extends GgbAPI {
 							.inject(GuiResourcesSimple.INSTANCE.deflateJs());
 					getGGBZipJs(arch, callback, null);
 				}
-
 			}
 		}));
-
 	}
 
 	/**
@@ -323,7 +329,6 @@ public class GgbAPIW extends GgbAPI {
 				}
 			}
 		}
-
 	}
 
 	public void setFileJSON(JavaScriptObject obj) {

@@ -216,8 +216,6 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	/**
 	 * updates the entries of the given {@link GeoListBox}
 	 * 
-	 * @param box
-	 * @param availableObjects
 	 * @param usedObjects
 	 *            {@link ArrayList}
 	 */
@@ -300,6 +298,7 @@ public abstract class SensorSetting extends FlowPanel implements SetLabels {
 	 * shows/hides the label with the "real" frequency
 	 * 
 	 * @param visible
+	 *            whether to show real frequency
 	 */
 	private void setRealFreqVisible(boolean visible) {
 		if (this.realFreqContainer != null) {

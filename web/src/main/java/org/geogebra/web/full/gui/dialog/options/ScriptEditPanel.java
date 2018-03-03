@@ -32,8 +32,6 @@ class ScriptEditPanel extends OptionPanel {
 	 */
 	public ScriptEditPanel(ScriptEditorModel model0, final AppW app) {
 		this.loc = app.getLocalization();
-		int row = 35;
-		int column = 15;
 		setModel(model0);
 		model0.setListener(this);
 		tabbedPane = new TabPanel();

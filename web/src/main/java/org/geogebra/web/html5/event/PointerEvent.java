@@ -232,8 +232,10 @@ public class PointerEvent extends AbstractEvent {
 	 * Wraps a single touch event.
 	 * 
 	 * @param event
+	 *            event
 	 * @param off
-	 * @return
+	 *            offset
+	 * @return wrapped event
 	 */
 	public static PointerEvent wrapEvent(TouchEvent<?> event, HasOffsets off) {
 		JsArray<Touch> touches = null;
@@ -277,17 +279,28 @@ public class PointerEvent extends AbstractEvent {
 		return nativeEvent;
 	}
 
-	public void setControl(boolean b) {
-		this.control = b;
-
+	/**
+	 * @param control
+	 *            whether control is pressed
+	 */
+	public void setControl(boolean control) {
+		this.control = control;
 	}
 
-	public void setShift(boolean b) {
-		this.shift = b;
+	/**
+	 * @param shift
+	 *            whether shift is pressed
+	 */
+	public void setShift(boolean shift) {
+		this.shift = shift;
 	}
 
-	public void setAlt(boolean b) {
-		this.alt = b;
+	/**
+	 * @param alt
+	 *            whether alt is pressed
+	 */
+	public void setAlt(boolean alt) {
+		this.alt = alt;
 	}
 
 }

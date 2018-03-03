@@ -1762,7 +1762,9 @@ public class EuclidianStyleBarW extends StyleBarW2
 	 * process the action performed
 	 * 
 	 * @param source
+	 *            event source
 	 * @param targetGeos
+	 *            selected objects
 	 */
 	@Override
 	protected boolean processSource(Object source,
@@ -1963,6 +1965,7 @@ public class EuclidianStyleBarW extends StyleBarW2
 
 	/**
 	 * @param ev
+	 *            view
 	 * @return current axis type
 	 */
 	public static int axesIndex(EuclidianView ev) {

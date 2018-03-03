@@ -395,10 +395,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	}
 
 	/**
-	 * if user is offline, save local. </br>if user is online and </br>- has
-	 * chosen GOOGLE, {@code uploadToDrive} </br>- material was already saved as
-	 * PUBLIC or SHARED, than only update (API) </br>- material is new or was
-	 * private, than link to GGT
+	 * <li>if user is offline, save local.</li>
+	 * 
+	 * <li>if user is online and has chosen GOOGLE, {@code uploadToDrive}</li>
+	 * 
+	 * <li>material was already saved as PUBLIC or SHARED, than only update
+	 * (API)</li>
+	 * 
+	 * <li>material is new or was private, than link to GGT</li>
 	 */
 	protected void onSave() {
 	   if (app.getFileManager().getFileProvider() == Provider.LOCAL) {

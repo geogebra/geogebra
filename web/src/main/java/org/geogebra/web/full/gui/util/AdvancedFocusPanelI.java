@@ -11,8 +11,10 @@ public interface AdvancedFocusPanelI extends IsWidget {
 
 	/**
 	 * @param handler
+	 *            event handler
 	 * @param type
-	 * @return
+	 *            event type
+	 * @return registration
 	 */
 	public <H extends EventHandler> HandlerRegistration addDomHandler(
 			H handler, DomEvent.Type<H> type);

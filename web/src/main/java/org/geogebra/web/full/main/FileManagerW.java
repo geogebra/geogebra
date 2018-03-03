@@ -28,7 +28,7 @@ import com.google.gwt.storage.client.Storage;
  * Manager for files from {@link Storage localStorage}
  * 
  * JSON including the base64 and metadata is stored under
- * "file_<local id>_<title>" key. The id field inside JSON is for Tube id, is
+ * "file_[local-id]_[title]" key. The id field inside JSON is for Tube id, is
  * not affected by local id. Local id can still be found inside title => we need
  * to extract title after we load file from LS.
  *

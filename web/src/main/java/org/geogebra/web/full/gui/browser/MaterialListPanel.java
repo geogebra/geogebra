@@ -173,7 +173,7 @@ public class MaterialListPanel extends FlowPanel
 	 * adds the new materials (matList) - GeoGebraTube only
 	 * 
 	 * @param matList
-	 *            List<Material>
+	 *            List of materials
 	 * @param chapters
 	 *            list of book chapters
 	 */
@@ -214,7 +214,7 @@ public class MaterialListPanel extends FlowPanel
 	 * Adds the given {@link Material materials}.
 	 * 
 	 * @param matList
-	 *            List<Material>
+	 *            List of materials
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
 

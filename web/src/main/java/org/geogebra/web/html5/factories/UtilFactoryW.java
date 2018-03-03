@@ -11,8 +11,9 @@ import org.geogebra.web.html5.util.URLEncoderW;
 import org.geogebra.web.html5.util.debug.LoggerW;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Web implementations for various
- *         utils
+ * Web implementations for various utils
+ * 
+ * @author Zoltan Kovacs
  */
 public class UtilFactoryW extends UtilFactory {
 
