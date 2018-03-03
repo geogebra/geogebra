@@ -3,7 +3,10 @@ package org.geogebra.web.html5.util;
 import org.geogebra.common.util.URLEncoder;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Implements URL encoding for web
+ * Implements URL encoding for web
+ * 
+ * @author Zoltan Kovacs
+ * 
  */
 public class URLEncoderW extends URLEncoder {
 

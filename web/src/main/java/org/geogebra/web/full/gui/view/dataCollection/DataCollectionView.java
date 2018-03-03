@@ -120,7 +120,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.settings = app.getSettings().getDataCollection();
 		this.settings.addListener(this);
 
-
 		createGUI();
 		this.addDomHandler(new ClickHandler() {
 
@@ -244,6 +243,7 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 * adds SharingCode to the given panel
 	 * 
 	 * @param setting
+	 *            wrapping panel
 	 */
 	private void addSharingCode(FlowPanel setting) {
 		FlowPanel appIDpanel = new FlowPanel();
@@ -299,8 +299,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 
 	/**
 	 * adds frequency to the given panel
-	 * 
-	 * @param setting
 	 */
 	private void addFrequency(FlowPanel setting) {
 		this.freqPanel = new FlowPanel();
@@ -545,8 +543,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 	 * {@link #usedObjects}, adds it to the list of {@link #availableObjects}
 	 * and stops logging data.
 	 * 
-	 * @param geo
-	 * @param listBox
 	 */
 	private void setGeoUnused(GeoElement geo, GeoListBox listBox) {
 		this.availableObjects.add(geo);

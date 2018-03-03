@@ -66,16 +66,15 @@ public class LayoutW extends Layout implements SettingListener {
 		}
 	}
 
-		
-
-
 	/**
 	 * Add a new dock panel to the list of known panels.
 	 * 
-	 * Attention: This method has to be called as early as possible in the application
-	 * life cycle (e.g. before loading a file, before constructing the ViewMenu). 
+	 * Attention: This method has to be called as early as possible in the
+	 * application life cycle (e.g. before loading a file, before constructing
+	 * the ViewMenu).
 	 * 
 	 * @param dockPanel
+	 *            panel
 	 */
 	public void registerPanel(DockPanelW dockPanel) {
 		dockManager.registerPanel(dockPanel);
@@ -244,6 +243,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 * Add a new perspective to the list of available perspectives.
 	 * 
 	 * @param perspective
+	 *            perspective
 	 */
 	public void addPerspective(Perspective perspective) {
 		perspectives.add(perspective);
@@ -253,6 +253,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 * Remove a perspective identified by the object.
 	 * 
 	 * @param perspective
+	 *            perspective
 	 */
 	public void removePerspective(Perspective perspective) {
 		if(perspectives.contains(perspective)) {
@@ -264,6 +265,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 * Remove a perspective identified by the index.
 	 * 
 	 * @param index
+	 *            perspective index
 	 */
 	public void removePerspective(int index) {
 		if(index >= 0 && index < perspectives.size()) {
@@ -284,6 +286,7 @@ public class LayoutW extends Layout implements SettingListener {
 	 * Create a perspective for the current layout.
 	 * 
 	 * @param id
+	 *            perspective ID
 	 * @return a perspective for the current layout.
 	 */
 	@Override
@@ -365,6 +368,7 @@ public class LayoutW extends Layout implements SettingListener {
 
 	/**
 	 * @param viewId
+	 *            view ID
 	 * @return If just the view associated to viewId is visible
 	 */
 	@Override

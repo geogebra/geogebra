@@ -9,7 +9,15 @@ import org.geogebra.common.kernel.kernelND.GeoLineND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.web.html5.main.AppW;
 
+/**
+ * Dialog manager for 3D
+ *
+ */
 public class DialogManager3DW extends DialogManagerW {
+	/**
+	 * @param app
+	 *            application
+	 */
 	public DialogManager3DW(AppW app) {
 		super(app);
 	}
@@ -17,7 +25,9 @@ public class DialogManager3DW extends DialogManagerW {
 	/**
 	 * 
 	 * @param title
-	 * @param geoPoint
+	 *            title
+	 * @param center
+	 *            sphere center
 	 */
 	@Override
 	public void showNumberInputDialogSpherePointRadius(String title,
@@ -34,6 +44,7 @@ public class DialogManager3DW extends DialogManagerW {
 	 * for creating a cone
 	 * 
 	 * @param title
+	 *            title
 	 * @param a
 	 *            basis center
 	 * @param b

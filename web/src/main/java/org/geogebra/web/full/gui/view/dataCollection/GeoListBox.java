@@ -58,7 +58,9 @@ public class GeoListBox extends ListBox {
 	 * @param sensor
 	 *            {@link SensorSetting} to which this GeoListBox belongs
 	 * @param app
+	 *            application
 	 * @param dataCollectionSettings
+	 *            settings
 	 */
 	public GeoListBox(Types type, SensorSetting sensor, AppW app,
 			DataCollectionSettings dataCollectionSettings) {

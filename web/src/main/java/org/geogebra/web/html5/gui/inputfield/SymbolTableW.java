@@ -25,8 +25,15 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	 * Constructs a SymbolTable
 	 * 
 	 * @param app
+	 *            application
 	 * @param symbolStrings
-	 * @param symbolToolTips
+	 *            symbols
+	 * @param isLatex
+	 *            for latex ?
+	 * @param rowLength
+	 *            row length
+	 * @param colors
+	 *            colors
 	 */
 	public SymbolTableW(String[] symbolStrings,
 			boolean isLatex, int rowLength, App app, GColor[] colors) {
@@ -45,9 +52,8 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	/**
 	 * Constructs a SymbolTable
 	 * 
-	 * @param appw
 	 * @param symbolStrings
-	 * @param symbolToolTips
+	 *            symbols
 	 */
 	public SymbolTableW(String[] symbolStrings) {
 		this(symbolStrings, false, 10, null, null);
@@ -98,10 +104,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 		        + clickCell.getCellIndex();
 
 		setSelectedCellIndex(cellIndex);
-
 	}
-
-
 
 	public int getSelectedCellIndex() {
 		return selectedCellIndex;

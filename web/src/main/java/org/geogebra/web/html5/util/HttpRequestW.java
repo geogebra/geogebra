@@ -12,8 +12,9 @@ import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org> Implements HTTP requests and
- *         responses for web.
+ * Implements HTTP requests and responses for web.
+ * 
+ * @author Zoltan Kovacs
  */
 public class HttpRequestW extends HttpRequest {
 

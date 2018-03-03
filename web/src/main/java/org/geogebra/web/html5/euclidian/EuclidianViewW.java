@@ -141,9 +141,13 @@ public class EuclidianViewW extends EuclidianView implements
 
 	/**
 	 * @param euclidianViewPanel
+	 *            panel
 	 * @param euclidiancontroller
+	 *            controller
 	 * @param evNo
+	 *            Euclidian view number (1,2)
 	 * @param settings
+	 *            settings
 	 */
 	public EuclidianViewW(EuclidianPanelWAbstract euclidianViewPanel,
 			EuclidianController euclidiancontroller, int evNo,
@@ -784,7 +788,9 @@ public class EuclidianViewW extends EuclidianView implements
 
 	/**
 	 * @param ev
+	 *            view
 	 * @param anyway
+	 *            whether to update even unattached view
 	 */
 	static final public void updateFirstAndLast(EuclidianViewWInterface ev,
 			boolean anyway) {

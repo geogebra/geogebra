@@ -53,10 +53,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 	 *            application
 	 * @param geo
 	 *            element
-	 * @param cols
-	 *            number of columns
-	 * @param rows
-	 *            number of rows
 	 * @param updateScript
 	 *            whether this is for update script
 	 * @param forceJavaScript
@@ -133,12 +129,9 @@ public class ScriptInputPanelW extends FlowPanel implements
 				                						.getSelectedIndex()]);
             }});
 
-
-		
 		add(inputPanel);
 		add(btPanel);
 	}
-
 
 	/**
 	 * Shows the keyboard.
@@ -148,28 +141,13 @@ public class ScriptInputPanelW extends FlowPanel implements
 		((AppWFull) app).getAppletFrame()
 				.showKeyBoard(true, textArea, false);
 		CancelEventTimer.keyboardSetVisible();
-
 	}
 
 	/**
-	 * Returns the inputPanel and sets its preferred size from the given row and
-	 * column value. Includes option to hide/show line numbering.
+	 * Returns the inputPanel
 	 * 
-	 * @param row
-	 * @param column
-	 * @param showLineNumbers
-	 * @return
+	 * @return input panel
 	 */
-	public FlowPanel getInputPanel(int row, int column, boolean showLineNumbers) {
-//
-//		GDimensionW dim = inputPanel.getTextAreaComponent().getPreferredSizeFromRowColumn(row, column);
-//		inputPanel.setPreferredSize(dim);
-//		inputPanel.setShowLineNumbering(showLineNumbers);
-
-		return inputPanel;
-
-	}
-
 	public FlowPanel getInputPanel() {
 		return inputPanel;
 	}

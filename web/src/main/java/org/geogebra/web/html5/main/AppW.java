@@ -1107,7 +1107,6 @@ public abstract class AppW extends App implements SetLabels {
 		if (!has(Feature.INITIAL_PORTRAIT) && isPortrait()) {
 			adjustViews(false, false);
 		}
-
 	}
 
 	/**
@@ -1242,7 +1241,9 @@ public abstract class AppW extends App implements SetLabels {
 	 * Opens the ggb or ggt file
 	 * 
 	 * @param fileToHandle
+	 *            file
 	 * @param callback
+	 *            callback
 	 * @return returns true, if fileToHandle is ggb or ggt file, otherwise
 	 *         returns false. Note that If the function returns true, it's don't
 	 *         mean, that the file opening was successful, and the opening
@@ -1308,7 +1309,6 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void openMaterial(String id, Runnable onError) {
 		// only with GUI
-
 	}
 
 	/**
@@ -1456,6 +1456,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	/**
 	 * @param viewId
+	 *            view ID
 	 * @return the plotpanel euclidianview
 	 */
 	public EuclidianViewW getPlotPanelEuclidianView(int viewId) {
@@ -1523,7 +1524,6 @@ public abstract class AppW extends App implements SetLabels {
 	 *            - the image data url
 	 * @param notUsed
 	 *            - not used
-	 * @param loc
 	 */
 	public void imageDropHappened(String imgFileName, String fileStr,
 			String notUsed) {
@@ -1534,8 +1534,8 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	/**
-	 * @param pt
-	 *            drop location TODO make sure it's used
+	 * @param imgFileName
+	 *            filename
 	 */
 	private void doDropHappened(final String imgFileName, String fileStr) {
 
@@ -1968,10 +1968,15 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * 
 	 * @param evPanel
+	 *            view panel
 	 * @param ec
+	 *            controller
 	 * @param showEvAxes
+	 *            show axes?
 	 * @param showEvGrid
+	 *            show grid ?
 	 * @param id
+	 *            euclidian view id
 	 * @param settings
 	 *            view settings
 	 * @return new euclidian view
@@ -2940,12 +2945,13 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	/**
-	 * Overwritten for AppWapplet/AppWapplication
+	 * Overwritten for AppFull
 	 * 
-	 * @param bg
+	 * @param hp
+	 *            panel with header
 	 */
-	public void showBrowser(HeaderPanel bg) {
-		// TODO
+	public void showBrowser(HeaderPanel hp) {
+		// only for full app
 	}
 
 	/**
@@ -2993,7 +2999,6 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void setCloseBrowserCallback(Runnable runnable) {
 		this.closeBroserCallback = runnable;
-
 	}
 
 	public void onBrowserClose() {

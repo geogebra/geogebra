@@ -538,6 +538,9 @@ public abstract class DockPanelW extends ResizeComposite
 		}
 	}
 
+	/**
+	 * Reset stylebar
+	 */
 	public void resetStylebar() {
 		updateStyles();
 		addDragPanel();
@@ -847,6 +850,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * this panel is visible.
 	 * 
 	 * @param isAlone
+	 *            whether this is in own window
 	 */
 	public void setAlone(boolean isAlone) {
 		if (this.alone == isAlone) {
@@ -876,6 +880,9 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Sets the the isHidden flag (no other action)
+	 * 
+	 * @param isHidden
+	 *            hidden flag
 	 */
 	public void setHidden(boolean isHidden) {
 		this.hidden = isHidden;
@@ -883,6 +890,9 @@ public abstract class DockPanelW extends ResizeComposite
 
 	/**
 	 * Update the panel.
+	 * 
+	 * @param deferred
+	 *            whether to update it from a timer
 	 */
 	public final void updatePanel(boolean deferred) {
 
@@ -922,6 +932,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * Close this panel.
 	 * 
 	 * @param isPermanent
+	 *            whether it should be also detached from kernel
 	 */
 	protected void closePanel(boolean isPermanent) {
 		dockManager.closePanel(this, isPermanent);
@@ -1069,6 +1080,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * If this view should open in a frame. Has no immediate effect.
 	 * 
 	 * @param openInFrame
+	 *            whether this is in frame
 	 */
 	public void setOpenInFrame(boolean openInFrame) {
 		this.openInFrame = openInFrame;
@@ -1090,6 +1102,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * If the stylebar of this view should be visible. Has no immediate effect.
 	 * 
 	 * @param showStyleBar
+	 *            whether to show stylebar
 	 */
 	public void setShowStyleBar(boolean showStyleBar) {
 		this.showStyleBar = showStyleBar;
@@ -1133,10 +1146,17 @@ public abstract class DockPanelW extends ResizeComposite
 		return hasStyleBar;
 	}
 
+	/**
+	 * @param frameBounds
+	 *            frame bounds
+	 */
 	public void setFrameBounds(Rectangle frameBounds) {
 		this.frameBounds = frameBounds;
 	}
 
+	/**
+	 * @return frame bounds
+	 */
 	public Rectangle getFrameBounds() {
 		return this.frameBounds;
 	}
@@ -1362,6 +1382,7 @@ public abstract class DockPanelW extends ResizeComposite
 	 * is used for backward compability. Has no visible effect.
 	 * 
 	 * @param toolbarString
+	 *            toolbar definition
 	 */
 	public void setToolbarString(String toolbarString) {
 		if (toolbarString == null && hasToolbar()) {
@@ -1519,7 +1540,7 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Initializes the view-specific icon of the DockPanel
 	 * 
-	 * @param imageResource:
+	 * @param imageResource
 	 *            the icon the be shown
 	 */
 	public void setViewImage(ResourcePrototype imageResource) {
@@ -1655,7 +1676,6 @@ public abstract class DockPanelW extends ResizeComposite
 	}
 
 	public void showResetIcon() {
-
 		StandardButton resetIcon = new StandardButton(
 				GuiResourcesSimple.INSTANCE.viewRefresh(), null, 24, app);
 		resetIcon.addFastClickHandler(new FastClickHandler() {
@@ -1672,7 +1692,6 @@ public abstract class DockPanelW extends ResizeComposite
 		} else {
 			titleBarPanelContent.add(resetIcon);
 		}
-
 	}
 
 	public void setToolMode(boolean toolMode) {

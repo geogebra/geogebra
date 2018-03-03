@@ -29,7 +29,7 @@ public class ArticleTest {
 		}
 		try {
 			URL u = new URL(
-					"https://wiki.geogebra.org/s/en/api.php?action=query&prop=revisions&titles=Reference:Applet_Parameters&rvprop=timestamp%7Cuser%7Ccomment%7Ccontent&format=json");
+					"https://wiki.geogebra.org/s/en/api.php?action=query&prop=revisions&titles=Reference:GeoGebra_App_Parameters&rvprop=timestamp%7Cuser%7Ccomment%7Ccontent&format=json");
 			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
 			huc.setConnectTimeout(10000);
 			huc.setRequestMethod("GET");

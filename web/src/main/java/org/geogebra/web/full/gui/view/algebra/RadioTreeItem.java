@@ -190,6 +190,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 * Minimal constructor
 	 *
 	 * @param kernel
+	 *            kernel
 	 */
 	public RadioTreeItem(Kernel kernel) {
 		super();
@@ -257,12 +258,10 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 
 		marblePanel = new MarblePanel(this);
 		main.add(marblePanel);
-
 	}
 
 	protected void styleContent() {
 		content.addStyleName("elemText");
-
 	}
 
 	protected void createControls() {
@@ -973,6 +972,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	 *            whether this is for valid string (false = last valid substring
 	 *            used)
 	 * @param withSliders
+	 *            whether to allow slider creation
 	 * @return error handler
 	 */
 	protected final ErrorHandler getErrorHandler(final boolean valid,

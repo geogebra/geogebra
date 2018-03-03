@@ -766,10 +766,15 @@ public class GGraphics2DW implements GGraphics2D {
 	 * Using bezier curves rather than arcs so that PDF export works
 	 * 
 	 * @param x
+	 *            left
 	 * @param y
+	 *            top
 	 * @param w
+	 *            width
 	 * @param h
+	 *            height
 	 * @param r
+	 *            radius
 	 */
 	private void roundRect(int x, int y, int w, int h, double r) {
 
@@ -802,7 +807,6 @@ public class GGraphics2DW implements GGraphics2D {
 	        int arcWidth, int arcHeight) {
 		roundRect(x, y, width, height, arcHeight - arcHeight / 2);
 		context.fill("evenodd");
-
 	}
 
 	public ImageData getImageData(int x, int y, int width, int height) {

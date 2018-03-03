@@ -48,17 +48,17 @@ class ScriptEditPanel extends OptionPanel {
 		// add(td.getInputPanel(), BorderLayout.NORTH);
 		// add(td2.getInputPanel(), BorderLayout.CENTER);
 		clickScriptPanel = new FlowPanel();
-		clickScriptPanel.add(clickDialog.getInputPanel(row, column, true));
+		clickScriptPanel.add(clickDialog.getInputPanel());
 		clickScriptPanel
 		.add(clickDialog.getButtonPanel());
 
 		updateScriptPanel = new FlowPanel();
 		updateScriptPanel.add(
-				updateDialog.getInputPanel(row, column, true));
+				updateDialog.getInputPanel());
 		updateScriptPanel.add(updateDialog.getButtonPanel());
 
 		globalScriptPanel = new FlowPanel();
-		globalScriptPanel.add(globalDialog.getInputPanel(row, column, true));
+		globalScriptPanel.add(globalDialog.getInputPanel());
 		globalScriptPanel.add(globalDialog.getButtonPanel());
 		setWidget(tabbedPane);
 

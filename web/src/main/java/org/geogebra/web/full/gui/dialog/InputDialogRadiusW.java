@@ -21,9 +21,13 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 	/**
 	 * 
 	 * @param app
+	 *            application
 	 * @param title
+	 *            title
 	 * @param handler
+	 *            input handler
 	 * @param kernel
+	 *            kernel
 	 */
 	public InputDialogRadiusW(AppW app, String title, InputHandler handler,
 			Kernel kernel) {
