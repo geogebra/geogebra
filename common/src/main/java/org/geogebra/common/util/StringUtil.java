@@ -1350,14 +1350,14 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * 
 	 * @param str
 	 *            string to check
-	 * @return true if str contains any of \ ^ _
+	 * @return true if str contains any of "\" "^{" "_" (and not "/")
 	 */
 	public static boolean containsLaTeX(String str) {
-		if (str == null) {
+		if (str == null || str.contains("/")) {
 			return false;
 		}
 
-		if (str.contains("\\") || str.contains("^") || str.contains("_")) {
+		if (str.contains("\\") || str.contains("^{") || str.contains("_")) {
 			return true;
 		}
 
