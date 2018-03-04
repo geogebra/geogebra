@@ -142,6 +142,7 @@ public class PageListController implements PageListControllerInterface,
 			e.printStackTrace();
 		}
 	}
+
 	/**
 	 * Duplicates slide
 	 * 

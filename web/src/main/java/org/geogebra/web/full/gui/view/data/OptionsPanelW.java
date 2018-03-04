@@ -43,20 +43,41 @@ public class OptionsPanelW extends FlowPanel
 	private StatPanelSettings settings;
 
 	// histogram panel GUI
-	private CheckBox ckCumulative, ckManual, ckOverlayNormal, ckOverlayPolygon,
-			ckShowFrequencyTable, ckShowHistogram;
-	private RadioButton rbRelative, rbNormalized, rbFreq, rbLeftRule,
-			rbRightRule;
-	private Label lblFreqType, lblOverlay, lblClassRule;
-	private FlowPanel freqPanel, showPanel;
-	private Label lbClassTitle, lbFreqTitle, lbShowTitle, lbDimTitle;
+	private CheckBox ckCumulative;
+	private CheckBox ckManual;
+	private CheckBox ckOverlayNormal;
+	private CheckBox ckOverlayPolygon;
+	private CheckBox ckShowFrequencyTable;
+	private CheckBox ckShowHistogram;
+	private RadioButton rbRelative;
+	private RadioButton rbNormalized;
+	private RadioButton rbFreq;
+	private RadioButton rbLeftRule;
+	private RadioButton rbRightRule;
+	private Label lblFreqType;
+	private Label lblOverlay;
+	private Label lblClassRule;
+	private FlowPanel freqPanel;
+	private FlowPanel showPanel;
+	private Label lbClassTitle;
+	private Label lbFreqTitle;
+	private Label lbShowTitle;
+	private Label lbDimTitle;
 	// graph panel GUI
 	private CheckBox ckAutoWindow, ckShowGrid;
-	private Label lblXMin, lblXMax, lblYMin, lblYMax, lblXInterval,
-			lblYInterval;
-	AutoCompleteTextFieldW fldXMin, fldXMax;
+	private Label lblXMin;
+	private Label lblXMax;
+	private Label lblYMin;
+	private Label lblYMax;
+	private Label lblXInterval;
+	private Label lblYInterval;
+	AutoCompleteTextFieldW fldXMin;
+	AutoCompleteTextFieldW fldXMax;
 
-	private AutoCompleteTextFieldW fldYMin, fldYMax, fldXInterval, fldYInterval;
+	private AutoCompleteTextFieldW fldYMin;
+	private AutoCompleteTextFieldW fldYMax;
+	private AutoCompleteTextFieldW fldXInterval;
+	private AutoCompleteTextFieldW fldYInterval;
 	private boolean showYAxisSettings = true;
 
 	// bar chart panel GUI

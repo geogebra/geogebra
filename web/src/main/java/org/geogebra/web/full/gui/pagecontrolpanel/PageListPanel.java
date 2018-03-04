@@ -49,6 +49,7 @@ public class PageListPanel
 	private StandardButton plusButton;
 	private PageListController pageController;
 	private FlowPanel divider = null;
+
 	/**
 	 * @param app
 	 *            application

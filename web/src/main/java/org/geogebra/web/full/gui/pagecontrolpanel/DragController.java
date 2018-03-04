@@ -24,11 +24,15 @@ class DragController {
 
 	interface Cards {
 		ArrayList<PagePreviewCard> getCards();
+
 		int getCardCount();
+
 		CardListInterface getListener();
+
 		PagePreviewCard cardAt(int index); 
 
 		void selectCard(PagePreviewCard card);
+
 		void reorder(int srcIdx, int destIdx);
 
 		void clickPage(int pageIdx, boolean select);
@@ -39,6 +43,7 @@ class DragController {
 		private static final int SCROLL_SPEED = 10;
 		private boolean scrollDown;
 		private int autoScrollY;
+
 		@Override
 		public void run() {
 			if (scroll()) {
@@ -50,7 +55,7 @@ class DragController {
 				dragged.card.setTop(pos);
 				dragged.handleTarget(pos);
 			} else {
-				AutoScrollTimer.this.cancel();
+				cancel();
 			}
 		}
 
@@ -68,7 +73,7 @@ class DragController {
 			boolean d = diff > 0;
 			if (autoScroll.isRunning()) {
 				if (d != scrollDown) {
-					AutoScrollTimer.this.cancel();
+					cancel();
 				}
 			} else if (!d && dragged.card.getAbsoluteTop() <= PagePreviewCard.MARGIN) {
 				start(false);
@@ -84,6 +89,7 @@ class DragController {
 		PagePreviewCard target = null;
 		int top;
 		int bottom;
+
 		void reset() {
 			target = null;
 		}
@@ -303,8 +309,8 @@ class DragController {
 			dropBellow = dragUnderTarget;
 
 			return idx;
-
 		}
+
 		boolean dropAnimated(int y) {
 			dropToIdx = -1;
 			if (target != null) {
@@ -312,7 +318,6 @@ class DragController {
 			} else if (last.target != null) {
 				dropToIdx = getDropIndex(last.target);
 			}
-
 
 			if (index() != -1 && dropToIdx != -1) {
 				return true;

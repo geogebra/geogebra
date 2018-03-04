@@ -51,11 +51,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 	protected class BasicTab3D extends BasicTab {
 
 		private CheckBox cbYAxisVertical;
-		private CheckBox cbUseClipping, cbShowClipping;
-		private FlowPanel clippingOptionsPanel, boxSizePanel;
-		private Label clippingOptionsTitle, boxSizeTitle;
-		private RadioButton radioClippingSmall, radioClippingMedium,
-				radioClippingLarge;
+		private CheckBox cbUseClipping;
+		private CheckBox cbShowClipping;
+		private FlowPanel clippingOptionsPanel;
+		private FlowPanel boxSizePanel;
+		private Label clippingOptionsTitle;
+		private Label boxSizeTitle;
+		private RadioButton radioClippingSmall;
+		private RadioButton radioClippingMedium;
+		private RadioButton radioClippingLarge;
 		private CheckBox cbUseLight;
 
 		/**
@@ -63,9 +67,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		 */
 		public BasicTab3D(OptionsEuclidianW o) {
 			super(o);
-
 			addClippingOptionsPanel();
-
 		}
 
 		@Override

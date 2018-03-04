@@ -345,10 +345,16 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 	private class NamePanel extends OptionPanel
 			implements IObjectNameListener, ErrorHandler {
 		ObjectNameModel model;
-		AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
+		AutoCompleteTextFieldW tfName;
+		AutoCompleteTextFieldW tfDefinition;
+		AutoCompleteTextFieldW tfCaption;
 
-		private FormLabel nameLabel, defLabel, captionLabel;
-		private InputPanelW inputPanelName, inputPanelDef, inputPanelCap;
+		private FormLabel nameLabel;
+		private FormLabel defLabel;
+		private FormLabel captionLabel;
+		private InputPanelW inputPanelName;
+		private InputPanelW inputPanelDef;
+		private InputPanelW inputPanelCap;
 
 		private FlowPanel mainWidget;
 		private FlowPanel nameStrPanel;
@@ -362,6 +368,7 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		GeoElementND currentGeoForFocusLost = null;
 
 		String redefinitionForFocusLost = "";
+
 		public NamePanel() {
 			model = new ObjectNameModel(app, this);
 
@@ -753,12 +760,19 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 
 	private class ColorFunctionPanel extends OptionPanel
 			implements IColorFunctionListener {
+
 		ColorFunctionModel model;
 		private InputPanelW inputPanelA;
-		private AutoCompleteTextFieldW tfRed, tfGreen, tfBlue, tfAlpha;
+		private AutoCompleteTextFieldW tfRed;
+		private AutoCompleteTextFieldW tfGreen;
+		private AutoCompleteTextFieldW tfBlue;
+		private AutoCompleteTextFieldW tfAlpha;
 		private Label btRemove;
 		private Label title;
-		private FormLabel nameLabelR, nameLabelG, nameLabelB, nameLabelA;
+		private FormLabel nameLabelR;
+		private FormLabel nameLabelG;
+		private FormLabel nameLabelB;
+		private FormLabel nameLabelA;
 
 		ListBox cbColorSpace;
 		int colorSpace = GeoElement.COLORSPACE_RGB;

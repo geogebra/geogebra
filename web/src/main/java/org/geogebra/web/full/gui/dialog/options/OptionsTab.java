@@ -101,7 +101,8 @@ public class OptionsTab extends FlowPanel {
 	private MultiRowsTabPanel tabPanel;
 	private Localization loc;
 	private boolean inited = false;
-	private boolean focused = false, updated = true;
+	private boolean focused = false;
+	private boolean updated = true;
 	
 	/**
 	 * @param app
@@ -835,7 +836,8 @@ public class OptionsTab extends FlowPanel {
 		SliderPanel thicknessSlider;
 		private Label opacitySliderLabel;
 		SliderPanel opacitySlider;
-		private Label popupLabel, styleHiddenLabel;
+		private Label popupLabel;
+		private Label styleHiddenLabel;
 		LineStylePopup btnLineStyle;
 		private FlowPanel stylePanel;
 		private FlowPanel styleHiddenPanel;
@@ -1386,6 +1388,7 @@ public class OptionsTab extends FlowPanel {
 
 		protected ImageCornerModel model;
 		protected Localization localization;
+
 		public ImageCorner(int cornerIdx, AppW app) {
 			super(app, "CornerModel");
 			this.localization = app.getLocalization();
@@ -1446,6 +1449,7 @@ public class OptionsTab extends FlowPanel {
 		public void setIcon(ImageResource res) {
 			// No icon for center point.
 		}
+
 		@Override
 		public void setLabels() {
 			super.setLabels();
@@ -1608,6 +1612,7 @@ public class OptionsTab extends FlowPanel {
 
 		private OptionsTab tab;
 		CenterImageModel model;
+
 		public CenterImagePanel(CenterImageModel model, AppW app, OptionsTab tab) {
 			super("CenterImage", app.getLocalization(), model);
 			this.tab = tab;
@@ -1620,6 +1625,7 @@ public class OptionsTab extends FlowPanel {
 		}
 		
 	}
+
 	private static class LineEqnPanel extends ListBoxPanel {
 
 		public LineEqnPanel(LineEqnModel model, AppW app) {
