@@ -6713,7 +6713,7 @@ namespace giac {
 	    temp=M[ltemp][c];
 	    if (debug_infolevel>2)
 	      print_debug_info(temp);
-	    if (!is_zero(temp,contextptr) && temp.islesscomplexthan(pivot)){
+	    if (!is_zero(temp,contextptr) && (is_zero(pivot) || temp.islesscomplexthan(pivot))){
 	      pivot=temp;
 	      pivotline=ltemp;
 	    }
