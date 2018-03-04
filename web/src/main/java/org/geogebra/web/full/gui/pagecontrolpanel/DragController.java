@@ -20,7 +20,7 @@ class DragController {
 	private App app;
 	PagePreviewCard clicked;
 	private Timer dropAnimTimer;
-	private ScrollTimer scrollTimer;
+	private AutoScrollTimer autoScroll;
 
 	interface Cards {
 		ArrayList<PagePreviewCard> getCards();
@@ -34,11 +34,11 @@ class DragController {
 		void clickPage(int pageIdx, boolean select);
 	}
 
-	private class ScrollTimer extends Timer {
+	private class AutoScrollTimer extends Timer {
 		private static final int SCROLL_TIME = 20;
 		private static final int SCROLL_SPEED = 10;
 		private boolean scrollDown;
-
+		private int autoScrollY;
 		@Override
 		public void run() {
 			if (scroll()) {
@@ -48,6 +48,7 @@ class DragController {
 							- PagePreviewCard.MARGIN;
 				}
 				dragged.card.setTop(pos);
+				dragged.handleTarget(pos);
 			} else {
 				this.cancel();
 			}
@@ -61,7 +62,24 @@ class DragController {
 			scrollDown = b;
 			scheduleRepeating(SCROLL_TIME);
 		}
-
+		
+		public boolean checkIfNeeded(int y) {
+			int diff = y - autoScrollY;
+			boolean d = diff > 0;
+			if (autoScroll.isRunning()) {
+				if (d != scrollDown) {
+					this.cancel();
+				}
+				return false;
+			} else if (!d && dragged.card.getAbsoluteTop() <= PagePreviewCard.MARGIN) {
+				start(false);
+			}
+			if (d && dragged.card.getAbsoluteBottom() > cards.getListener().getScrollParentHeight()) {
+				start(true);
+			}
+			autoScrollY = y;
+			return true;
+		}
 	}
 
 	private static class LastTarget {
@@ -95,7 +113,7 @@ class DragController {
 		private int diff;
 		private int dropToIdx;
 		private boolean dropBellow;
-			
+
 		DragCard() {
 			reset();
 		}
@@ -183,12 +201,12 @@ class DragController {
 				down = prevY <= y;
 				prepareDragCard();
 			}
-	
-			if (!setCardPosition(x, y)) {
-				return;
-			}
+			card.setDragPosition(x, y);
+			handleTarget(y);
+		}
+
+		public void handleTarget(int y) {
 			findTarget();
-			
 			if (target != null && isAnimated()) {
 				if (onTargetChange()) {
 					down = prevY < y;
@@ -196,22 +214,6 @@ class DragController {
 					moveAnimated();
 				}
 			}
-		}
-
-		private boolean setCardPosition(int x, int y) {
-			int diff = y - prevY;
-			boolean d = diff > 0;
-			if (scrollTimer.isRunning()) {
-				return false;
-			} else if (!d && card.getAbsoluteTop() <= PagePreviewCard.MARGIN) {
-				scrollTimer.start(false);
-			}
-			if (d && card.getAbsoluteBottom() > cards.getListener().getScrollParentHeight()) {
-				scrollTimer.start(true);
-			}
-
-			card.setDragPosition(x, y);
-			return true;
 		}
 
 		boolean autoMove() {
@@ -356,7 +358,7 @@ class DragController {
 			}
 		};
 
-		scrollTimer = new ScrollTimer();
+		autoScroll = new AutoScrollTimer();
 
 	}
 
@@ -400,6 +402,7 @@ class DragController {
 		if (CancelEventTimer.isDragStarted()) {
 			dragged.start(y);
 		} else if (CancelEventTimer.isDragging()) {
+			autoScroll.checkIfNeeded(y);
 			int targetIdx = dragged.move(y);
 			if (targetIdx != -1 && !dragged.isAnimated()) {
 				cards.getListener().insertDivider(targetIdx);
@@ -439,7 +442,7 @@ class DragController {
 		clearSpaces();
 		cards.getListener().restoreScrollbar();
 		cards.getListener().removeDivider();
-		scrollTimer.cancel();
+		autoScroll.cancel();
 	}
 
 	private void clearSpaces() {
