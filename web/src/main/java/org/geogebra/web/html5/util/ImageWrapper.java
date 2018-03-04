@@ -13,7 +13,6 @@ public class ImageWrapper {
 
 	/**
 	 * @param imageManager
-	 * 
 	 *            Images in gwt event system not loaded when src added, only
 	 *            when attached to dom. So we must hack it.
 	 */
@@ -56,7 +55,9 @@ public class ImageWrapper {
 	 * Native event handler
 	 * 
 	 * @param event
+	 *            event name
 	 * @param callback
+	 *            callback
 	 */
 	public void on(String event, ImageLoadCallback callback) {
 		nativeon(getElement(), event, callback);

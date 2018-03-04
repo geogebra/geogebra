@@ -455,6 +455,7 @@ public class RadioTreeItemController implements ClickHandler,
 
 	/**
 	 * @param ctrl
+	 *            whether control was pressed
 	 */
 	protected void startEdit(boolean ctrl) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();

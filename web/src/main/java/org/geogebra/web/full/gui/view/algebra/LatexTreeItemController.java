@@ -42,11 +42,11 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	@Override
-	protected void startEdit(boolean substituteNumbers) {
+	protected void startEdit(boolean ctrl) {
 		if (item.isInputTreeItem() && item.onEditStart()) {
 			setOnScreenKeyboardTextField();
 		} else {
-			super.startEdit(substituteNumbers);
+			super.startEdit(ctrl);
 		}
 	}
 

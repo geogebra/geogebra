@@ -101,13 +101,13 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 
 	private DataSource dataSource;
 
-
-
 	/*************************************************
 	 * Constructs the view.
 	 * 
 	 * @param app
+	 *            application
 	 * @param mode
+	 *            initial mode
 	 */
 	public DataAnalysisViewW(AppW app, int mode) {
 		this.app = app;

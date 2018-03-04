@@ -991,6 +991,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	/**
 	 * 
 	 * @param algc
+	 *            algebra controller
 	 * @return new algebra view
 	 */
 	protected AlgebraViewW newAlgebraView(final AlgebraControllerW algc) {

@@ -118,12 +118,11 @@ public class OptionsPanelW extends FlowPanel
 	 * Constructs an OptionPanel
 	 * 
 	 * @param app
-	 *            App
-	 * @param settings
-	 * @param statDialog
-	 *            statDialog
-	 * @param settings
-	 *            settings
+	 *            Application
+	 * @param model
+	 *            data model
+	 * @param dyModel
+	 *            display model
 	 */
 	public OptionsPanelW(AppW app, DataAnalysisModel model,
 			DataDisplayModel dyModel) {

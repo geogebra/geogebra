@@ -209,11 +209,10 @@ public class GeoTextEditor extends RichTextArea {
 
 	/**
 	 * 
-	 * @return
+	 * @return content as HTML without formatting
 	 */
 	public String getUnformattedContent() {
 		return getUnformattedContent(getBody());
-
 	}
 
 	private String getUnformattedContent(Node e) {

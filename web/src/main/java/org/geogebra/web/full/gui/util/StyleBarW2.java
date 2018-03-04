@@ -83,7 +83,9 @@ public abstract class StyleBarW2 extends StyleBarW implements PopupMenuHandler {
 	 * process the action performed
 	 * 
 	 * @param source
+	 *            event source
 	 * @param targetGeos
+	 *            selected objects
 	 */
 	protected boolean processSource(Object source,
 			ArrayList<GeoElement> targetGeos) {

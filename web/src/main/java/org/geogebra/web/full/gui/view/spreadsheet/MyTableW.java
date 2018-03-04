@@ -2167,12 +2167,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * Sets the table mode
 	 * 
 	 * @param tableMode
+	 *            mode from the MyTable.TABLE_ values
 	 */
 	@Override
 	public void setTableMode(int tableMode) {
-
 		if (tableMode == MyTable.TABLE_MODE_AUTOFUNCTION) {
-
 			if (!initAutoFunction()) {
 				return;
 			}
@@ -2202,7 +2201,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 * GUI is adjusted to handle selection drag with an autoFunction
 	 */
 	protected boolean initAutoFunction() {
-
 		// Selection is a single cell.
 		// The selected cell is the target cell. Allow the user to drag a new
 		// selection for the

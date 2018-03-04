@@ -27,9 +27,8 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * 
  * @author Florian Sonner, adapted by G.Sturr
  */
-public class DockGlassPaneW extends AbsolutePanel implements
- MouseMoveHandler,
-		TouchMoveHandler {
+public class DockGlassPaneW extends AbsolutePanel
+		implements MouseMoveHandler, TouchMoveHandler {
 
 	private boolean dragInProgress = false;
 
@@ -97,6 +96,7 @@ public class DockGlassPaneW extends AbsolutePanel implements
 	 * Start the dragging process by adding the mouse listeners.
 	 * 
 	 * @param state
+	 *            drag state
 	 */
 	public void startDrag(DnDState state) {
 		// we need capture for touch; otherwise touch move events go to
@@ -192,7 +192,10 @@ public class DockGlassPaneW extends AbsolutePanel implements
 	/**
 	 * Calculate where the panel would be placed if the mouse is released.
 	 * 
-	 * @param event
+	 * @param mouseX
+	 *            mouse x-coord
+	 * @param mouseY
+	 *            mouse y-coord
 	 */
 	public void mouseDragged(int mouseX, int mouseY) {
 

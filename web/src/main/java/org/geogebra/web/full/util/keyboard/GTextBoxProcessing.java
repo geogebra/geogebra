@@ -29,12 +29,10 @@ public class GTextBoxProcessing implements KeyboardListener {
 		}
 
 		field.setFocus(focus);
-
 	}
 
 	@Override
 	public void onEnter() {
-
 		NativeEvent event2 = Document.get().createKeyDownEvent(false, false,
 				false, false, ENTER);
 		field.onBrowserEvent(Event.as(event2));
@@ -60,7 +58,6 @@ public class GTextBoxProcessing implements KeyboardListener {
 			field.setText(newText);
 			field.setCursorPos(start);
 		}
-		
 	}
 
 	@Override
@@ -73,6 +70,7 @@ public class GTextBoxProcessing implements KeyboardListener {
 	 * only for {@link GTextBox}
 	 * 
 	 * @param text
+	 *            text to be inserted
 	 */
 	private void insertAtEnd(String text) {
 		String oldText = field.getText();

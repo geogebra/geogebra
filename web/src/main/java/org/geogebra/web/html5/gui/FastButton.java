@@ -249,6 +249,7 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 	 * difficult.
 	 * 
 	 * @param event
+	 *            touch move event
 	 */
 	private void onTouchMove(Event event) {
 

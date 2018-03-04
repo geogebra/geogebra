@@ -997,10 +997,10 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 
 	/**
-	 * Remove this node from the model.
+	 * Remove this node and prune empty branches
 	 * 
 	 * @param node
-	 * @param model
+	 *            node to be removed
 	 */
 	private void removeFromModel(TreeItem node) {
 		node.remove();

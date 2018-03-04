@@ -41,7 +41,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 
 	private native JavaScriptObject getOldJQuery() /*-{
 		var oldQuery = $wnd.jQuery;
-		delete($wnd.jQuery);
+		delete ($wnd.jQuery);
 		return oldQuery;
 	}-*/;
 
@@ -65,6 +65,7 @@ public class ResourcesInjectorReTeX extends ResourcesInjector {
 	 * twice jQuery is undefined on the second run
 	 * 
 	 * @param oldQuery
+	 *            value of window.jQuery before we started loading
 	 */
 	private native void jQueryNoConflict(JavaScriptObject oldQuery) /*-{
 		if ($wnd.jQuery && $wnd.jQuery.noConflict) {

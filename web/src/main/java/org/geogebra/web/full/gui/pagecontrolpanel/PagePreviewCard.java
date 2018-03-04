@@ -230,7 +230,7 @@ public class PagePreviewCard extends FlowPanel
 	 * 
 	 * @param y
 	 *            the top position of the drag.
-	 * @return
+	 * @return top of the card after drag
 	 */
 	private int getTopFromDrag(int y) {
 		return y - getParent().getAbsoluteTop() - grabY + MARGIN;
@@ -286,7 +286,6 @@ public class PagePreviewCard extends FlowPanel
 
 	/**
 	 * Adds space before the card for animation.
-	 * @param down 
 	 */
 	public void addSpaceTop() {
 		getElement().getStyle().setMarginTop(SPACE_HEIGHT, Unit.PX);
@@ -329,7 +328,6 @@ public class PagePreviewCard extends FlowPanel
 	public int getComputedTop() {
 		int visibleHeight = getParent().getParent().getOffsetHeight();
 		return MARGIN + (pageIndex * (CARD_HEIGHT + MARGIN) % visibleHeight);
-
 	}
 	
 	public int getComputedBottom() {

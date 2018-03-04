@@ -47,10 +47,11 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 * Constructor
 	 * 
 	 * @param app
+	 *            application
 	 * @param statDialog
+	 *            data analysis view
 	 */
 	public StatisticsPanelW(AppW app, DataAnalysisViewW statDialog) {
-
 		this.app = app;
 		this.statDialog = statDialog;
 		this.daModel = statDialog.getModel();

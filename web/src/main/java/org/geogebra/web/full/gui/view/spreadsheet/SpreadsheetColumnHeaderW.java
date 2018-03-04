@@ -213,10 +213,13 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	}
 	
 	/**
-	 * Added "selected" class to the table headers of the selected cell
-	 * needed for css styling
+	 * Added "selected" class to the table headers of the selected cell needed
+	 * for css styling
+	 * 
 	 * @param selected
+	 *            whether to select
 	 * @param index
+	 *            column index
 	 */
 	private void updateCellSelection(boolean selected, int index) {
 		if(selected) {

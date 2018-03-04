@@ -20,7 +20,9 @@ public class MultiVarStatPanelW extends BasicStatTableW implements
 	 * Constructs a MultiVarStatPanel
 	 * 
 	 * @param app
+	 *            application
 	 * @param statDialog
+	 *            data analysis view
 	 */
 	public MultiVarStatPanelW(AppW app, DataAnalysisViewW statDialog) {
 		super(app, statDialog, false);

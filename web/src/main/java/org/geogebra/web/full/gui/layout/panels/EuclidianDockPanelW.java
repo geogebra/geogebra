@@ -51,14 +51,21 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	
 	/**
 	 * This constructor is used by the applet
+	 * 
 	 * @param application
+	 *            application
 	 * @param stylebar
+	 *            whether to use stylebar
 	 */
 	public EuclidianDockPanelW(AppW application, boolean stylebar) {
 		this(stylebar);
 		attachApp(application);
 	}
 
+	/**
+	 * @param application
+	 *            application
+	 */
 	public void attachApp(AppW application) {
 		app = application;
 

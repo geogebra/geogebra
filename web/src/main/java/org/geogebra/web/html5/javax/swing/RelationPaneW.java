@@ -22,8 +22,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Web implementation of the Relation Tool information window.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org> Thanks to Laszlo Gal and Judit
- *         Elias for many hints.
+ * @author Zoltan Kovacs. Thanks to Laszlo Gal and Judit Elias for many hints.
  */
 
 public class RelationPaneW extends GDialogBox

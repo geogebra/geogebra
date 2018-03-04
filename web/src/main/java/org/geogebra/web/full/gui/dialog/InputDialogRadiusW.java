@@ -11,8 +11,10 @@ import org.geogebra.web.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.DomEvent;
 
-
-
+/**
+ * Circle or sphere dialog
+ *
+ */
 public abstract class InputDialogRadiusW extends InputDialogW{
 
 	/** current kernel */
@@ -67,8 +69,7 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 					public void callback(Boolean ok) {
 						cons.setSuppressLabelCreation(oldVal);
 						if (ok) {
-							GeoElement circle = createOutput(((NumberInputHandler) getInputHandler())
-									.getNum());
+							GeoElement circle = createOutput(getNumber());
 							GeoElement[] geos = { circle };
 							app.storeUndoInfoAndStateForModeStarting();
 							kernel.getApplication().getActiveEuclidianView()
@@ -81,8 +82,16 @@ public abstract class InputDialogRadiusW extends InputDialogW{
 	}
 
 	/**
+	 * @return input as number
+	 */
+	protected GeoNumberValue getNumber() {
+		return ((NumberInputHandler) getInputHandler()).getNum();
+	}
+
+	/**
 	 * 
 	 * @param num
+	 *            radius value
 	 * @return the circle
 	 */
 	abstract protected GeoElement createOutput(GeoNumberValue num);

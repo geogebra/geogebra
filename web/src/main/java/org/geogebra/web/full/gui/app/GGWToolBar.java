@@ -1148,6 +1148,7 @@ public class GGWToolBar extends Composite
 
 	/**
 	 * @param toolbar
+	 *            toolbar
 	 * @return The ID of the dock panel associated with the passed toolbar or -1
 	 */
 	private static int getViewId(ToolBarW toolbar) {

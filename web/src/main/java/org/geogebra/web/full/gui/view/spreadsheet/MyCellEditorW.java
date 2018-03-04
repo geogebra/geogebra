@@ -255,10 +255,9 @@ public class MyCellEditorW implements BaseCellEditor {
 	 * Attempts to create or redefine the cell geo using the current editing
 	 * string
 	 * 
-	 * @return
+	 * @return success
 	 */
 	private boolean processGeo() {
-
 		try {
 
 			if (allowProcessGeo) {

@@ -19,7 +19,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
  */
 public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
-	private AppW app;
 	private DataAnalysisViewW daView;
 	private Button btnPrint;
 	private MyToggleButtonW btnShowStatistics, btnShowPlot2, btnShowData;
@@ -28,12 +27,13 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 	/**
 	 * @param app
+	 *            application
 	 * @param statDialog
+	 *            statistics dialog
 	 */
 	public DataAnalysisStyleBarW(AppW app, DataAnalysisViewW statDialog) {
 		super(app, App.VIEW_DATA_ANALYSIS);
 		this.daView = statDialog;
-		this.app = app;
 	//	this.setFloatable(false);
 		createGUI();
 		updateGUI();
@@ -194,13 +194,11 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		else if (source == btnPrint) {
 			daView.doPrint();
 		}
-
 	}
 
 	@Override
     public void setOpen(boolean showStyleBar) {
 	    // TODO Auto-generated method stub
-	    
     }
 
 	@Override

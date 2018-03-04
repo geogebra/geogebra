@@ -11,7 +11,7 @@ import com.google.gwt.user.client.Window;
 /**
  * GeoGebraLogger implementation for the web platform
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class LoggerW extends Log {
 
@@ -19,7 +19,6 @@ public class LoggerW extends Log {
 	 * Constructor
 	 */
 	public LoggerW() {
-
 		// needed for IE9
 		initConsole();
 	}

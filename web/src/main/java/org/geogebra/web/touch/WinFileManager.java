@@ -29,7 +29,6 @@ public class WinFileManager extends FileManager {
 	@Override
 	public void autoSave(int counter) {
 		// not in touch either
-
 	}
 
 	@Override
@@ -223,6 +222,7 @@ public class WinFileManager extends FileManager {
 
 	/**
 	 * @param sh
+	 *            handler that uploads the files
 	 */
 	public native void nativeUploadUsersMaterials(StringHandler sh) /*-{
 		var that = this;

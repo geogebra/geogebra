@@ -35,9 +35,9 @@ public class TextPreviewPanelW extends TextPreviewer {
 
 	/**
 	 * @param kernel
+	 *            kernel
 	 */
 	public TextPreviewPanelW(Kernel kernel) {
-
 		super(kernel);
 	}
 
@@ -59,6 +59,7 @@ public class TextPreviewPanelW extends TextPreviewer {
 	 * these dimensions.
 	 * 
 	 * @param previewGeo
+	 *            preview content
 	 */
 	@Override
 	protected void updateViewportSize(GeoText previewGeo) {
@@ -122,6 +123,9 @@ public class TextPreviewPanelW extends TextPreviewer {
 		return evPanel;
 	}
 
+	/**
+	 * Update UI size
+	 */
 	public void onResize() {
 		getEVPanel().onResize();
 	}
@@ -141,7 +145,6 @@ public class TextPreviewPanelW extends TextPreviewer {
 			// we do it here
 			this.setShowAxes(false, false);
 			this.showGrid(false);
-			
 		}
 
 		/**
@@ -217,11 +220,6 @@ public class TextPreviewPanelW extends TextPreviewer {
 			// TODO Auto-generated method stub
 
 		}
-
-	}
-
-	public void setText(String buildGeoGebraString) {
-		// TODO Auto-generated method stub
 
 	}
 

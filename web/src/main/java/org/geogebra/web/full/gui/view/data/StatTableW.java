@@ -1,11 +1,7 @@
 package org.geogebra.web.full.gui.view.data;
 
-import java.util.HashMap;
-
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.util.debug.Log;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -22,15 +18,13 @@ import com.google.gwt.user.client.ui.Widget;
 public class StatTableW extends FlowPanel {
 
 	private MyTable myTable;
+
 	/**
-	 * @param app App
+	 * Create new stats table
 	 */
 	public StatTableW() {
-	    
 	    initTable();
 	}
-	    
-    
 
 	private void initTable() {
 	    myTable = new MyTable();
@@ -72,14 +66,6 @@ public class StatTableW extends FlowPanel {
 		} else {
 			//setRowHeaderView(null);
 		}
-
-		//myTable.setPreferredScrollableViewportSize(myTable.getPreferredSize());
-		// statTable.setMinimumSize(statTable.getPreferredSize());
-
-		//this.revalidate();
-
-		//repaint();
-
 	}
 	
 	/**
@@ -96,46 +82,12 @@ public class StatTableW extends FlowPanel {
 			}
 		}
 	}
-	
-	/**
-	 * Sets the table cells that will use a ComboBox
-	 * 
-	 * @param cellMap
-	 */
-	public void setComboBoxCells(HashMap<GPoint, String[]> cell,
-			ScheduledCommand al) {
 
-		/*TODO: if (comboBoxEditorMap == null)
-			comboBoxEditorMap = new HashMap<Point, MyComboBoxEditor>();
-		comboBoxEditorMap.clear();
-		if (comboBoxRendererMap == null)
-			comboBoxRendererMap = new HashMap<Point, MyComboBoxRenderer>();
-		comboBoxRendererMap.clear();
-
-		for (Point cell : cellMap.keySet()) {
-
-			// get the String data for this combo box
-			String[] items = cellMap.get(cell);
-
-			// extract the menu items and the combo box label
-			String comboBoxLabel = items[items.length - 1];
-			String[] comboBoxItems = new String[items.length - 1];
-			System.arraycopy(items, 0, comboBoxItems, 0, comboBoxItems.length);
-
-			// create the comboBox editors/renderers and map them
-			comboBoxEditorMap.put(cell, new MyComboBoxEditor(comboBoxItems));
-			comboBoxRendererMap.put(cell, new MyComboBoxRenderer(comboBoxLabel,
-					comboBoxItems));
-
-		}*/
-	}
-	
 	public void setLabels(String[] rowNames, String[] columnNames) {
 		setLabels(rowNames, columnNames, true);
 	}
 	
 	public void setLabels(String[] rowNames, String[] columnNames, boolean hasHeader) {
-
 		// set column names
 		if (columnNames != null && rowNames != null) {
 			myTable.resize(rowNames.length + 1, columnNames.length + 1);

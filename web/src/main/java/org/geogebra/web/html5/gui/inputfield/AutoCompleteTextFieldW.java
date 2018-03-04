@@ -1535,16 +1535,17 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	 * 
 	 * @param index
 	 *            index of the chosen command in the completions list
-	 * @param completions
+	 * @param completionList
+	 *            list of completions
 	 * @return false if completions list is null or index < 0 or index >
 	 *         completions.size()
 	 * @author Arnaud
 	 */
-	public boolean validateAutoCompletion(int index, List<String> completions) {
-		if (completions == null || index < 0 || index >= completions.size()) {
+	public boolean validateAutoCompletion(int index, List<String> completionList) {
+		if (completionList == null || index < 0 || index >= completionList.size()) {
 			return false;
 		}
-		String command = completions.get(index);
+		String command = completionList.get(index);
 		// String text = getText();
 		// StringBuilder sb = new StringBuilder();
 		// sb.append(text.substring(0, curWordStart));

@@ -11,8 +11,10 @@ import com.google.gwt.user.client.ui.Widget;
 public class PropertiesDockPanelW extends DockPanelW {
 
 	private PropertiesViewW view;
+	
 	/**
 	 * @param app
+	 *            application
 	 */
 	public PropertiesDockPanelW(AppW app) {
 		super(

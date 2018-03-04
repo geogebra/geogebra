@@ -492,14 +492,17 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 * Converts a java string to a SafeHTML string with newline characters
 	 * replaced by paragraph tags. This tag is required for the hanging indent
 	 * css style used to format syntax descriptions.
-	 * @param b 
-	 * @param ret 
+	 * 
+	 * @param cas
+	 *            whether to format it as CAS syntax
+	 * @param ret
+	 *            list of labels
 	 */
-	private void formattedHTMLString(ArrayList<Widget> ret, String s, boolean b) {
+	private void formattedHTMLString(ArrayList<Widget> ret, String s, boolean cas) {
 		String[]lines = s.split("\n");
 		for(String line: lines){
 			Label syntax = syntaxLabel(line);
-			if(b){
+			if(cas){
 				syntax.addStyleName("inputHelp-CAScmdSyntax");
 			}
 			ret.add(syntax);

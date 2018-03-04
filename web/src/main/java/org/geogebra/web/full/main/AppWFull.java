@@ -1496,7 +1496,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	/**
 	 * Check if just the euclidian view is visible in the document just loaded.
 	 * 
-	 * @return
+	 * @return whether just ev1 is isible
 	 */
 	private boolean isJustEuclidianVisible() {
 		Perspective docPerspective = getTmpPerspective(null);

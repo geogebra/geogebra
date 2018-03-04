@@ -20,7 +20,7 @@ import org.geogebra.common.util.debug.Log;
 /**
  * A non-threaded version of Recio's method.
  * 
- * @author Zoltan Kovacs <zoltan@geogebra.org>
+ * @author Zoltan Kovacs
  */
 public class ProverReciosMethodW extends AbstractProverReciosMethod {
 

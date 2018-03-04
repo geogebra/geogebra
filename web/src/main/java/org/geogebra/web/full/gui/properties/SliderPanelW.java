@@ -46,7 +46,8 @@ import com.google.gwt.user.client.ui.TabPanel;
 public class SliderPanelW extends OptionPanel implements ISliderOptionsListener {
 
 	private SliderModel model;
-	private AngleTextFieldW tfMin, tfMax;
+	private AngleTextFieldW tfMin;
+	private AngleTextFieldW tfMax;
 	private AutoCompleteTextFieldW tfWidth;
 	private AutoCompleteTextFieldW tfBlobSize;
 	private AutoCompleteTextFieldW tfLineThickness;
@@ -66,17 +67,19 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	private Label maxLabel;
 	private Label widthLabel;
 	private Label widthUnitLabel;
-	private CheckBox cbSliderFixed, cbRandom;
+	private CheckBox cbSliderFixed;
+	private CheckBox cbRandom;
 	private ListBox lbSliderHorizontal;
 
 	private AnimationStepPanelW stepPanel;
 	private AnimationSpeedPanelW speedPanel;
 	private Kernel kernel;
-	private FlowPanel intervalPanel, sliderPanel, animationPanel;
+	private FlowPanel intervalPanel;
+	private FlowPanel sliderPanel;
+	private FlowPanel animationPanel;
 	private FlowPanel widthPanel;
 	private FlowPanel sliderStylePanel;
 	private boolean useTabbedPane;
-
 
 	private CheckboxPanel avPanel;
 	private Localization loc;
@@ -638,6 +641,7 @@ public class SliderPanelW extends OptionPanel implements ISliderOptionsListener 
 	public CheckBox getCbRandom() {
 		return cbRandom;
 	}
+
 	/**
 	 * @return slider for transparency
 	 */

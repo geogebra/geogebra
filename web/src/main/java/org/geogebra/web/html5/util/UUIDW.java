@@ -118,7 +118,7 @@ public final class UUIDW implements Serializable, Comparable<UUIDW> {
 	 * altered from http://www.broofa.com/Tools/Math.uuid.js under the MIT
 	 * license.
 	 *
-	 * @return
+	 * @return UUID string
 	 */
 	private static native String generateUUIDString() /*-{
 		var chars = '0123456789ABCDEF'.split(''), uuid = [];

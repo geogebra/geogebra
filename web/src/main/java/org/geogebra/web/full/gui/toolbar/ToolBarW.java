@@ -49,22 +49,12 @@ public class ToolBarW extends FlowPanel
 	private int maxButtons = 200;
 
 	/**
-	 * Creates general toolbar. There is no app parameter here, because of
-	 * UiBinder. After instantiate the ToolBar, call init(Application app) as
-	 * well.
-	 */
-	public ToolBarW(GGWToolBar tb) {
-		this.tb = tb;
-		this.addStyleName("GGWToolbar");
-		this.addDomHandler(this, ClickEvent.getType());
-
-	}
-
-	/**
 	 * Constructor for responsive toolbar
 	 * 
 	 * @param tb
+	 *            toolbar panel
 	 * @param submenuPanel
+	 *            submenu panel
 	 */
 	public ToolBarW(GGWToolBar tb, FlowPanel submenuPanel) {
 		this.tb = tb;

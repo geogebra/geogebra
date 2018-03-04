@@ -13,10 +13,9 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 
 	private StyleBarW cpStyleBar;
 
-
-	
 	/**
 	 * @param app
+	 *            application
 	 */
 	public ConstructionProtocolDockPanelW(AppW app) {
 		super(

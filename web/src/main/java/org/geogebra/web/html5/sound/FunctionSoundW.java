@@ -88,7 +88,8 @@ public final class FunctionSoundW extends FunctionSound
 	/**
 	 * Pauses/resumes sound generation
 	 * 
-	 * @param doPause
+	 * @param resume
+	 *            whether to resume
 	 */
 	@Override
 	public void pause(boolean resume) {
@@ -112,7 +113,6 @@ public final class FunctionSoundW extends FunctionSound
 	 * Stops function sound
 	 */
 	public void stopSound() {
-
 		waw.stop();
 	}
 

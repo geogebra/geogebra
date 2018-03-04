@@ -32,6 +32,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 	 * Constructor
 	 * 
 	 * @param table
+	 *            spreadsheet table
 	 */
 	public SpreadsheetContextMenuW(MyTable table) {
 		super(table);
@@ -62,7 +63,7 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 		        true, new Command() {
 			        @Override
 					public void execute() {
-				        popup.setVisible(false);
+						hidePopup();
 			        }
 		        });
 		if (app.isUnbundled()) {
@@ -71,6 +72,13 @@ public class SpreadsheetContextMenuW extends SpreadsheetContextMenu {
 			title.addStyleName("menuTitle");
 		}
 		popup.addItem(title);
+	}
+
+	/**
+	 * Hide the menu popup
+	 */
+	protected void hidePopup() {
+		popup.setVisible(false);
 	}
 
 	/**

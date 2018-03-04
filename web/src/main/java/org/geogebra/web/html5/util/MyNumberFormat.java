@@ -680,8 +680,8 @@ public class MyNumberFormat {
 	 * @return non-localized string representation of {@code d}
 	 */
 	private static native String toPrecision(double d, int digits) /*-{
-																	return d.toPrecision(digits);
-																	}-*/;
+		return d.toPrecision(digits);
+	}-*/;
 
 	/**
 	 * Constructs a format object based on the specified settings.
@@ -1720,6 +1720,7 @@ public class MyNumberFormat {
 	 * Round the value at the requested place, propagating any carry backward.
 	 *
 	 * @param digits
+	 *            string bilder
 	 */
 	private void roundValue(StringBuilder digits) {
 		// TODO(jat): other rounding modes?

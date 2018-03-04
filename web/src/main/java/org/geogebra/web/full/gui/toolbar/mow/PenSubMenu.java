@@ -91,7 +91,8 @@ public class PenSubMenu extends SubMenuPanel {
 	 * Create color buttons for selecting pen color
 	 * 
 	 * @param aColor
-	 * @return
+	 *            color
+	 * @return button
 	 */
 	private Label createColorButton(GColor aColor, final int colorIndex) {
 		ImageOrText color = GeoGebraIconW.createColorSwatchIcon(1, null,
@@ -109,11 +110,11 @@ public class PenSubMenu extends SubMenuPanel {
 				}
 
 				selectColor(colorIndex);
-
 			}
 		});
 		return label;
 	}
+
 	private void createColorPanel() {
 		colorPanel = new FlowPanel();
 		colorPanel.addStyleName("colorPanel");

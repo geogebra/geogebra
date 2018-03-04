@@ -21,10 +21,12 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements
 	int oldWidth = 0;
 
 	Canvas eview1 = null;// static foreground
+	
 	/**
 	 * This constructor is used by the applet
 	 * 
 	 * @param application
+	 *            application
 	 */
 	public EuclidianSimplePanelW(AppW application) {
 		super();

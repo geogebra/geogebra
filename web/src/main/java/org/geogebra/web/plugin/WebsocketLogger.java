@@ -185,6 +185,7 @@ public class WebsocketLogger extends SensorLogger {
 	 * the {@link DataCollectionView}
 	 * 
 	 * @param json
+	 *            availability data from WS
 	 */
 	private void handleAvailableSensors(JavaScriptObject json) {
 		handleAvailable(json, Types.ACCELEROMETER_X);
