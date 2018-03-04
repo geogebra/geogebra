@@ -375,7 +375,7 @@ class DragController {
 	public void start(int x, int y) {
 		
 		if (clicked != null || dragged.isValid()) {
-			cancel();
+			cancelDrag();
 		}
 
 		int idx = cardIndexAt(x, y);
@@ -429,7 +429,7 @@ class DragController {
 
 		}
 
-		cancel();
+		cancelDrag();
 	}
 
 	private void createDropAnimation() {
@@ -437,7 +437,7 @@ class DragController {
 		dropAnimTimer.scheduleRepeating(DROPANIM_SPEED);
 	}
 
-	void cancel() {
+	void cancelDrag() {
 		CancelEventTimer.resetDrag();
 		dragged.cancel();
 		clearSpaces();
@@ -457,6 +457,6 @@ class DragController {
 		cards.reorder(dragged.index(), dragged.dropToIdx);
 		cards.getListener().update();
 		cards.clickPage(dragged.index(), false);
-		cancel();
+		cancelDrag();
 	}
 }
