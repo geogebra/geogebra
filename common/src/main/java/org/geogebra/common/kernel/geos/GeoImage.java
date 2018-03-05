@@ -144,8 +144,10 @@ public class GeoImage extends GeoElement implements Locateable,
 			}
 		}
 
-		if (corners[0] == null) {
-			corners[0] = tempPoints[0];
+		int index = centered ? CENTER_INDEX : 0;
+
+		if (corners[index] == null) {
+			corners[index] = tempPoints[index];
 		}
 	}
 
@@ -153,6 +155,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void set(GeoElementND geo) {
 		GeoImage img = (GeoImage) geo;
 		setImageFileName(img.getGraphicsAdapter().getImageFileName());
+
+		centered = img.centered;
 
 		// macro output: don't set corners
 		if (cons != geo.getConstruction() && isAlgoMacroOutput()) {
