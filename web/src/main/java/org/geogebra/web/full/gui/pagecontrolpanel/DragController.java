@@ -39,6 +39,7 @@ class DragController {
 	}
 
 	private class AutoScrollTimer extends Timer {
+		private static final int CANCEL_THRESHOLD = 10;
 		private static final int SCROLL_TIME = 100;
 		private static final int SCROLL_SPEED = 10;
 		private boolean scrollDown;
@@ -51,14 +52,10 @@ class DragController {
 				if (scrollDown) {
 					pos += cards.getListener().getScrollParentHeight() - PagePreviewCard.SPACE_HEIGHT
 							- PagePreviewCard.MARGIN;
-
-					dragged.move(pos);
-				} else {
-
-					dragged.move(-pos);
 				}
+
 				dragged.card.setTop(pos);
-				// dragged.handleTarget(pos);
+				dragged.handleTarget(pos);
 			} else {
 				onScrollCancel();
 			}
@@ -76,15 +73,18 @@ class DragController {
 		
 		public void checkIfNeeded(int y) {
 			int diff = y - autoScrollY;
+			int scrollPos = cards.getListener().getVerticalScrollPosition();
 			boolean d = diff > 0;
 			if (autoScroll.isRunning()) {
-				if (d != scrollDown) {
+				if ((d != scrollDown && Math.abs(diff) > CANCEL_THRESHOLD) || (!scrollDown && scrollPos == 0)) {
 					onScrollCancel();
 				}
-			} else if (!d && dragged.card.getAbsoluteTop() <= PagePreviewCard.MARGIN) {
+			} else if (!d && dragged.card.getAbsoluteTop() <= PagePreviewCard.MARGIN
+					&& scrollPos > 0) {
 				start(false);
 			}
-			if (d && dragged.card.getAbsoluteBottom() > cards.getListener().getScrollParentHeight()) {
+			if (d && dragged.card.getAbsoluteBottom() > cards.getListener().getScrollParentHeight()
+					- PagePreviewCard.MARGIN) {
 				start(true);
 			}
 			autoScrollY = y;
@@ -368,11 +368,8 @@ class DragController {
 				}
 			}
 		};
-
 		autoScroll = new AutoScrollTimer();
-
 	}
-
 
 	private int cardIndexAt(int x, int y) {
 		int result =  - 1;
@@ -418,6 +415,7 @@ class DragController {
 		} else if (CancelEventTimer.isDragging()) {
 			autoScroll.checkIfNeeded(y);
 			if (autoScroll.isRunning()) {
+				dragged.card.grabCard(y);
 				return;
 			}
 			int targetIdx = dragged.move(y);
