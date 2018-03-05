@@ -16,10 +16,8 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
-import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.geos.GeoSegment;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.kernel.geos.Traceable;
@@ -604,47 +602,20 @@ public abstract class ContextMenuGeoElement {
 				boolean flag = !geoText.isAbsoluteScreenLocActive();
 				if (flag) {
 					// convert real world to screen coords
-					if (!app.has(Feature.MOW_PIN_IMAGE)
-							|| !geoText.isGeoImage()) {
-						int x = app.getActiveEuclidianView()
-								.toScreenCoordX(geoText.getRealWorldLocX());
-						int y = app.getActiveEuclidianView()
-								.toScreenCoordY(geoText.getRealWorldLocY());
-						geoText.setAbsoluteScreenLoc(x, y);
-					} else {
-						int x, y;
-						GeoPoint corner2 = ((GeoImage) geoText).getCorner(2);
-						if (corner2 == null) {
-							corner2 = new GeoPoint(geoText.getConstruction());
-							((GeoImage) geoText).calculateCornerPoint(corner2, 4);
-							((GeoImage) geoText).setCorner(corner2, 2);
-						}						
-						for (int j = 0; j < 3; j++) {
-							x = app.getActiveEuclidianView().toScreenCoordX(
-									((GeoImage) geoText).getRealWorldX(j));
-							y = app.getActiveEuclidianView().toScreenCoordY(
-									((GeoImage) geoText).getRealWorldY(j));
-							((GeoImage) geoText).setAbsoluteScreenLoc(x, y, j);
-						}
-					}
+					int x = app.getActiveEuclidianView().toScreenCoordX(geoText.getRealWorldLocX());
+					int y = app.getActiveEuclidianView().toScreenCoordY(geoText.getRealWorldLocY());
+					geoText.setAbsoluteScreenLoc(x, y);
+
 				} else {
 					// convert screen coords to real world
-					if (!app.has(Feature.MOW_PIN_IMAGE)
-							|| !geoText.isGeoImage()) {
-						double x = app.getActiveEuclidianView()
-								.toRealWorldCoordX(
-										geoText.getAbsoluteScreenLocX());
-						double y = app.getActiveEuclidianView()
-								.toRealWorldCoordY(
-										geoText.getAbsoluteScreenLocY());
-						geoText.setRealWorldLoc(x, y);
-					}
+					double x = app.getActiveEuclidianView().toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
+					double y = app.getActiveEuclidianView().toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
+					geoText.setRealWorldLoc(x, y);
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();
 			} else if (getGeo().isPinnable()) {
-				EuclidianStyleBarStatic.applyFixPosition(geos2, isSelected,
-						app.getActiveEuclidianView());
+				EuclidianStyleBarStatic.applyFixPosition(geos2, isSelected, app.getActiveEuclidianView());
 			}
 		}
 

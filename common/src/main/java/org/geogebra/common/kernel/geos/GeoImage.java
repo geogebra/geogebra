@@ -34,6 +34,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
+import org.geogebra.common.util.debug.Log;
 
 /**
  * Image with given filename and corners
@@ -66,6 +67,9 @@ public class GeoImage extends GeoElement implements Locateable,
 	private double[] tempCoords = new double[2];
 	private ArrayList<GeoPointND> al = null;
 	private boolean centered = false;
+
+	private double scaleX = 1;
+	private double scaleY = 1;
 
 	/**
 	 * Creates new image
@@ -1254,5 +1258,25 @@ public class GeoImage extends GeoElement implements Locateable,
 		corners[idx].remove();
 		kernel.notifyRemove(corners[idx]);
 		corners[idx] = null;
+	}
+
+	public void setScaleX(double s) {
+		Log.debug("setScaleX: " + s);
+		scaleX = s;
+	}
+
+	public double getScaleX() {
+		Log.debug("getScaleX: " + scaleX);
+		return scaleX;
+	}
+
+	public void setScaleY(double s) {
+		Log.debug("setScaleY : " + s);
+		scaleY = s;
+	}
+
+	public double getScaleY() {
+		Log.debug("getScaleY: " + scaleY);
+		return scaleY;
 	}
 }

@@ -67,8 +67,6 @@ public final class DrawImage extends Drawable {
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
 	private boolean debug1 = false;
-	private double scaleX = 1;
-	private double scaleY = 1;
 	/**
 	 * the image should have at least 100px width
 	 */
@@ -148,20 +146,14 @@ public final class DrawImage extends Drawable {
 
 		// ABSOLUTE SCREEN POSITION
 		if (absoluteLocation){
-			screenX = view.toScreenCoordX(geoImage.getCorner(0).inhomX);
-			if(geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)){
-				if (geoImage.getCorner(1) != null) {
-					scaleX = (view.toScreenCoordXd(geoImage.getCorner(1).inhomX) - screenX) / width;
-				}
-				if (geoImage.getCorner(2) != null) {
-					scaleY = (view.toScreenCoordYd(geoImage.getCorner(0).inhomY)
-							- view.toScreenCoordYd(geoImage.getCorner(2).inhomY))
-							/ height;
-				}
-				screenY = (int) (view.toScreenCoordY(geoImage.getCorner(0).inhomY) - height * scaleY);
+			// scaleX and scaleY should be 1 if there is no MOW_PIN_IMAGE
+			// feature flag, so in that case there is no any effect of these
+			double scaleX = geoImage.getScaleX();
+			double scaleY = geoImage.getScaleY();
+			screenX = geoImage.getAbsoluteScreenLocX();
+			screenY = (int) (geoImage.getAbsoluteScreenLocY() - height * scaleY);
+			if (geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
 				classicBoundingBox.setBounds(screenX, screenY, (int) (width * scaleX), (int) (height * scaleY));
-			} else {
-				screenY = geoImage.getAbsoluteScreenLocY() - height;
 			}
 			labelRectangle.setBounds(screenX, screenY, (int) (width * scaleX), (int) (height * scaleY));
 		}
@@ -343,7 +335,7 @@ public final class DrawImage extends Drawable {
 			if (absoluteLocation) {
 				g3.saveTransform();
 				g3.translate(screenX, screenY);
-				g3.scale(scaleX, scaleY);
+				g3.scale(geoImage.getScaleX(), geoImage.getScaleY());
 				g3.translate(-screenX, -screenY);
 				g3.drawImage(image, screenX, screenY);
 				g3.restoreTransform();
@@ -556,7 +548,37 @@ public final class DrawImage extends Drawable {
 				originalRatio = height / width;
 			}
 			updateImageResize(e, handler);
+
+			if (!geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+				return;
+			}
+			
+			updateScaleAndLocation();
 		}
+	}
+
+	private void updateScaleAndLocation() {
+		int width = geoImage.getFillImage().getWidth();
+		int height = geoImage.getFillImage().getHeight();
+		double scaleX;
+		double scaleY;
+		if (geoImage.getCorner(1) != null) {
+			scaleX = (view.toScreenCoordXd(geoImage.getCorner(1).inhomX)
+					- view.toScreenCoordXd(geoImage.getCorner(0).inhomX)) / width;
+		} else {
+			scaleX = 1;
+		}
+		if (geoImage.getCorner(2) != null) {
+			scaleY = (view.toScreenCoordYd(geoImage.getCorner(0).inhomY)
+					- view.toScreenCoordYd(geoImage.getCorner(2).inhomY))
+					/ height;
+		} else {
+			scaleY = 1;
+		}
+		geoImage.setScaleX(scaleX);
+		geoImage.setScaleY(scaleY);
+		geoImage.setAbsoluteScreenLoc(view.toScreenCoordX(geoImage.getCorner(0).inhomX),
+				view.toScreenCoordY(geoImage.getCorner(0).inhomY));
 	}
 
 	private void updateImageCrop(AbstractEvent event,
