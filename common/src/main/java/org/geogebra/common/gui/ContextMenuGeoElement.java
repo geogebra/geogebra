@@ -638,20 +638,7 @@ public abstract class ContextMenuGeoElement {
 								.toRealWorldCoordY(
 										geoText.getAbsoluteScreenLocY());
 						geoText.setRealWorldLoc(x, y);
-					} else {
-						double x, y;
-						for (int j = 0; j < 3; j++) {
-							x = app.getActiveEuclidianView()
-									.toRealWorldCoordX(((GeoImage) geoText)
-											.getAbsoluteScreenLocX(j));
-							y = app.getActiveEuclidianView()
-									.toRealWorldCoordY(((GeoImage) geoText)
-											.getAbsoluteScreenLocY(j));
-							((GeoImage) geoText).setRealWorldCoord(x, y, j);
-						}
 					}
-
-
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();
