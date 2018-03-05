@@ -551,9 +551,10 @@ public final class DrawImage extends Drawable {
 
 			if (!geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
 				return;
+			}			
+			if (absoluteLocation && geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+				geoImage.updateScaleAndLocation();
 			}
-			
-			geoImage.updateScaleAndLocation();
 		}
 	}
 

@@ -611,9 +611,27 @@ public abstract class ContextMenuGeoElement {
 					}
 				} else {
 					// convert screen coords to real world
-					double x = app.getActiveEuclidianView().toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
-					double y = app.getActiveEuclidianView().toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
-					geoText.setRealWorldLoc(x, y);
+					if (geoText.isGeoImage() && geoText.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+						double realMinX = app.getActiveEuclidianView()
+								.toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
+						double realMaxX = app.getActiveEuclidianView().toRealWorldCoordX(
+								geoText.getAbsoluteScreenLocX() + ((GeoImage) geoText).getFillImage().getWidth()
+										* ((GeoImage) geoText).getScaleX());
+						double realMinY = app.getActiveEuclidianView()
+								.toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
+						double height = ((GeoImage) geoText).getFillImage().getHeight()
+								* ((GeoImage) geoText).getScaleY();
+						double realMaxY = app.getActiveEuclidianView()
+								.toRealWorldCoordY(geoText.getAbsoluteScreenLocY() - height);
+						((GeoImage) geoText).setRealWorldCoord(realMinX, realMinY, 0);
+						((GeoImage) geoText).setRealWorldCoord(realMaxX, realMinY, 1);
+						((GeoImage) geoText).setRealWorldCoord(realMinX, realMaxY, 2);
+						((GeoImage) geoText).setRealWorldCoord(realMaxX, realMaxY, 3);
+					} else {
+						double x = app.getActiveEuclidianView().toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
+						double y = app.getActiveEuclidianView().toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
+						geoText.setRealWorldLoc(x, y);
+					}
 				}
 				geoText.setAbsoluteScreenLocActive(flag);
 				geoText.updateRepaint();
