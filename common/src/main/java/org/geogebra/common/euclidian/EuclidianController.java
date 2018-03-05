@@ -6217,6 +6217,9 @@ public abstract class EuclidianController {
 
 	protected final void moveImage(boolean repaint) {
 		if (movedGeoImage.isAbsoluteScreenLocActive()) {
+			if (app.has(Feature.MOW_PIN_IMAGE)) {
+				return;
+			}
 			// movedGeoImage.setAbsoluteScreenLoc( oldLoc.x +
 			// mouseLoc.x-startLoc.x,
 			// oldLoc.y + mouseLoc.y-startLoc.y);
