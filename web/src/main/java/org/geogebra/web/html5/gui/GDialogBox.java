@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package org.geogebra.web.html5.gui;
 
 import org.geogebra.common.main.App;
@@ -154,7 +155,8 @@ public class GDialogBox extends GDecoratedPopupPanel
 
 	private Caption caption;
 	private boolean dragging;
-	private int dragStartX, dragStartY;
+	private int dragStartX;
+	private int dragStartY;
 	private int windowWidth;
 	private int clientLeft;
 	private int clientTop;
@@ -225,8 +227,6 @@ public class GDialogBox extends GDecoratedPopupPanel
 			endDragging(event);
 		}
 	}
-
-
 
 	/**
 	 * Creates an empty dialog box. It should not be shown until its child

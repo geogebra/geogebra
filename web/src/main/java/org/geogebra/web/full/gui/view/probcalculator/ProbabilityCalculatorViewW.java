@@ -73,7 +73,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private MyToggleButtonW btnIntervalRight;
 	private Label[] lblParameterArray;
 	private AutoCompleteTextFieldW[] fldParameterArray;
-	private ListBox comboProbType, comboDistribution;
+	private ListBox comboProbType;
+	private ListBox comboDistribution;
 	private Label lblProb;
 	private Label lblProbOf;
 	private Label lblBetween;
@@ -95,7 +96,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	private StatisticsCalculatorW statCalculator;
 	private MyTabLayoutPanel tabbedPane;
 	private ProbabilityCalculatorStyleBarW styleBar;
-	private HandlerRegistration comboProbHandler, comboDistributionHandler;
+	private HandlerRegistration comboProbHandler;
+	private HandlerRegistration comboDistributionHandler;
 	private GPopupMenuW btnExport;
 	private MyToggleButtonW btnNormalOverlay;
 	
@@ -579,12 +581,12 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		updateIntervalProbability();
 		updateGUI();
 	}
+
 	/**
 	 * Sets the distribution type. This will destroy all GeoElements and create
 	 * new ones.
 	 */
 	protected void updateDistribution() {
-
 		hasIntegral = !isCumulative;
 		createGeoElements();
 		// setSliderDefaults();
@@ -737,7 +739,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 
 	@Override
 	protected void setProbabilityComboBoxMenu() {
-
 		comboProbType.clear();
 		comboProbHandler.removeHandler();
 		if (isCumulative) {
@@ -752,7 +753,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 	}
 
 	private void setDistributionComboBoxMenu() {
-
 		comboDistributionHandler.removeHandler();
 		comboDistribution.clear();
 		comboDistribution.addItem(getDistributionMap().get(Dist.NORMAL));
@@ -768,7 +768,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		
 		comboDistribution.addItem(SEPARATOR);
 
-
 		comboDistribution.addItem(getDistributionMap().get(Dist.BINOMIAL));
 		comboDistribution.addItem(getDistributionMap().get(Dist.PASCAL));
 		comboDistribution.addItem(getDistributionMap().get(Dist.POISSON));
@@ -777,11 +776,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		ListBoxApi.select(getDistributionMap().get(selectedDist),
 				comboDistribution);
 		comboDistribution.addChangeHandler(this);
-
 	}
-
-	
-	
 
 	@Override
 	public void setTypeSelectedIndex(int idx) {

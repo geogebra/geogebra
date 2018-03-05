@@ -21,7 +21,9 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 	private DataAnalysisViewW daView;
 	private Button btnPrint;
-	private MyToggleButtonW btnShowStatistics, btnShowPlot2, btnShowData;
+	private MyToggleButtonW btnShowStatistics;
+	private MyToggleButtonW btnShowPlot2;
+	private MyToggleButtonW btnShowData;
 	private MyToggleButtonW btnExport;
 	private MyToggleButtonW btnSwapXY;
 
@@ -76,11 +78,9 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		add(btnShowPlot2);
 		add(btnSwapXY);
 		// add(createDataSourcePanel());
-
 	}
 
 	public void updateGUI() {
-
 		DataAnalysisModel model = daView.getModel();
 		btnShowStatistics.setSelected(model.showStatPanel());
 		if (model.showStatPanel() && daView.getStatisticsPanel().isVisible()) {

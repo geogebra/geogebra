@@ -21,7 +21,8 @@ public class OptionsCASW extends OptionsCAS implements OptionPanelW,
 
 	private AppW app;
 	private FlowPanel optionsPanel;
-	private CheckBox showRoots, showNavigation;
+	private CheckBox showRoots;
+	private CheckBox showNavigation;
 
 	/**
 	 * @param app

@@ -57,8 +57,10 @@ public class ToolCreationDialogW extends DialogBoxW implements
 	private VerticalPanel mainWidget;
 	private FlowPanel bottomWidget;
 	private TabPanel tabPanel;
-	private ListBox outputAddLB, outputLB;
-	private ListBox inputAddLB, inputLB;
+	private ListBox outputAddLB;
+	private ListBox outputLB;
+	private ListBox inputAddLB;
+	private ListBox inputLB;
 	private ToolNameIconPanelW toolNameIconPanel;
 	private AsyncOperation<Macro> returnHandler;
 	private Localization loc;

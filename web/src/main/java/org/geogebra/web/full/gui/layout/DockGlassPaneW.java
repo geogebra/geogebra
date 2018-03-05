@@ -16,6 +16,7 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbsolutePanel;
@@ -46,7 +47,9 @@ public class DockGlassPaneW extends AbsolutePanel
 
 	private SimplePanel previewPanel;
 
-	private com.google.gwt.event.shared.HandlerRegistration reg0, reg1, reg2;
+	private HandlerRegistration reg0;
+	private HandlerRegistration reg1;
+	private HandlerRegistration reg2;
 
 
 	private ArticleElementInterface ae;

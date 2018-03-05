@@ -19,7 +19,8 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 public class SmartTouchHandler implements TouchStartHandler, TouchEndHandler,
 		TouchMoveHandler {
 	private final EuclidianControllerW ec;
-	private Touch t1, t2;
+	private Touch t1;
+	private Touch t2;
 
 	/**
 	 * @param ec

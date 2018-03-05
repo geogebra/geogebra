@@ -31,11 +31,12 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
         ValueChangeHandler<Boolean>, PopupMenuHandler {
 
-
 	private MyTableW table;
 	private CellFormat formatHandler;
 
-	private MyToggleButtonW btnLeftAlign, btnCenterAlign, btnRightAlign;
+	private MyToggleButtonW btnLeftAlign;
+	private MyToggleButtonW btnCenterAlign;
+	private MyToggleButtonW btnRightAlign;
 	private MyToggleButtonW btnBold;
 	private MyToggleButtonW btnItalic;
 	private ColorPopupMenuButton btnBgColor;

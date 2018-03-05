@@ -27,10 +27,16 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 	private AlgebraStyleListBox description;
 	private Label descriptionLabel;
 
-	private CheckBox cbShowFormulaBar, cbShowGrid, cbShowRowHeader,
-	        cbShowColumnHeader, cbShowHScrollbar, cbShowVScrollbar,
-	        cbAllowSpecialEditor, cbAllowToolTips, cbPrependCommands,
-	        cbEnableAutoComplete;
+	private CheckBox cbShowFormulaBar;
+	private CheckBox cbShowGrid;
+	private CheckBox cbShowRowHeader;
+	private CheckBox cbShowColumnHeader;
+	private CheckBox cbShowHScrollbar;
+	private CheckBox cbShowVScrollbar;
+	private CheckBox cbAllowSpecialEditor;
+	private CheckBox cbAllowToolTips;
+	private CheckBox cbPrependCommands;
+	private CheckBox cbEnableAutoComplete;
 	private CheckBox cbShowNavigation;
 
 	/**

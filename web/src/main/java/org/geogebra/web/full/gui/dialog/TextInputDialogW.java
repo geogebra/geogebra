@@ -139,8 +139,8 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		if (isTextMode) {
 			app.setMode(EuclidianConstants.MODE_TEXT);
 		}
-
 	}
+
 	/**
 	 * Updates latex / serif / font size of the text from GUI
 	 * 
@@ -159,7 +159,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		if (editor.isLatex()) {
 			t.setSerifFont(true);
 		}
-
 	}
 
 	/**

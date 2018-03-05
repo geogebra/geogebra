@@ -7,8 +7,12 @@ import com.google.gwt.canvas.dom.client.CanvasGradient;
 import com.google.gwt.canvas.dom.client.Context2d;
 
 public class GGradientPaintW implements GGradientPaint {
-	private GColor color1, color2;
-	private double x1, x2, y1, y2;
+	private GColor color1;
+	private GColor color2;
+	private double x1;
+	private double x2;
+	private double y1;
+	private double y2;
 
 	public CanvasGradient getGradient(Context2d c) {
 		CanvasGradient gradient = c.createLinearGradient(x1, y1, x2, y2);

@@ -29,12 +29,17 @@ public class AxisPanel extends FlowPanel
 
 	protected AxisModel model;
 
-	protected CheckBox cbShowAxis, cbAxisNumber, cbManualTicks, cbPositiveAxis,
-			cbDrawAtBorder, cbAllowSelection;
+	protected CheckBox cbShowAxis;
+	protected CheckBox cbAxisNumber;
+	protected CheckBox cbManualTicks;
+	protected CheckBox cbPositiveAxis;
+	protected CheckBox cbDrawAtBorder;
+	protected CheckBox cbAllowSelection;
 
 	protected NumberListBox ncbTickDist;
 	protected ListBox lbTickStyle;
-	private ComboBoxW comboAxisLabel, comboUnitLabel;
+	private ComboBoxW comboAxisLabel;
+	private ComboBoxW comboUnitLabel;
 	protected AutoCompleteTextFieldW tfCross;
 
 	private FormLabel crossAt;

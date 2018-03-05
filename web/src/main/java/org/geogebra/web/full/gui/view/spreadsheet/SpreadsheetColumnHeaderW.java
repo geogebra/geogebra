@@ -55,7 +55,8 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	private FlowPanel container;
 	private FocusPanel focusPanel;
 
-	private int mouseXOffset, resizingColumn = -1;
+	private int mouseXOffset;
+	private int resizingColumn = -1;
 
 	private boolean isMouseDown = false;
 
@@ -70,7 +71,6 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	 * Constructor
 	 */
 	public SpreadsheetColumnHeaderW(AppW app, MyTableW table) {
-
 		this.app = app;
 		this.table = table;
 

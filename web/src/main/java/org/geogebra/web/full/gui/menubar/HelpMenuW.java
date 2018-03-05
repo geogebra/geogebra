@@ -20,7 +20,11 @@ public class HelpMenuW extends GMenuBar implements BooleanRenderable {
 	protected static final String ABOUT_WINDOW_PARAMS = "width=720,height=600,"
 			+ "scrollbars=yes,toolbar=no,location=no,directories=no,"
 			+ "menubar=no,status=no,copyhistory=no";
-	private AriaMenuItem tutorials, forum, manual, about, bug;
+	private AriaMenuItem tutorials;
+	private AriaMenuItem forum;
+	private AriaMenuItem manual;
+	private AriaMenuItem about;
+	private AriaMenuItem bug;
 
 	/**
 	 * @param app

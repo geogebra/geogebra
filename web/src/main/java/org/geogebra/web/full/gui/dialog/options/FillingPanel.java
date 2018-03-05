@@ -57,7 +57,10 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 	private Label angleSliderTitle;
 	private Label distanceSliderTitle;
 
-	private FlowPanel opacityPanel, hatchFillPanel, imagePanel, anglePanel;
+	private FlowPanel opacityPanel;
+	private FlowPanel hatchFillPanel;
+	private FlowPanel imagePanel;
+	private FlowPanel anglePanel;
 	private Label lblSelectedSymbol;
 	private Label lblMsgSelected;
 	private Button btnOpenFile;

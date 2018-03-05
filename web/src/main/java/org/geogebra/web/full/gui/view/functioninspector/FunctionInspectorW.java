@@ -77,7 +77,8 @@ public class FunctionInspectorW extends FunctionInspector {
 	AutoCompleteTextFieldW fldLow;
 	AutoCompleteTextFieldW fldHigh;
 	private InspectorTableW tableXY;
-	private GridModel modelXY, modelInterval;
+	private GridModel modelXY;
+	private GridModel modelInterval;
 
 	PopupMenuButtonW btnAddColumn;
 	private MyCJButton btnRemoveColumn;

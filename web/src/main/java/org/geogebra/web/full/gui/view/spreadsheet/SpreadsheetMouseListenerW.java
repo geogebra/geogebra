@@ -44,7 +44,8 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
         LongTouchHandler {
 
 	protected String selectedCellName;
-	protected String prefix, postfix;
+	protected String prefix;
+	protected String postfix;
 
 	private final AppW app;
 	private SpreadsheetViewW view;

@@ -56,7 +56,8 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 	private VerticalPanel mainWidget;
 	private FlowPanel bottomWidget;
-	private Button btApply, btTest;
+	private Button btApply;
+	private Button btTest;
 	private FlexTable assignmentsTable;
 	private FlexTable checkAssignmentsTable;
 
@@ -308,6 +309,7 @@ public class ExerciseBuilderDialog extends DialogBoxW implements ClickHandler,
 
 		return fractions;
 	}
+
 	/**
 	 * @param assignment
 	 *            the assignment for which the TextBox should set the hint

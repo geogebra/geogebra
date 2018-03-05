@@ -13,6 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
+
 package org.geogebra.web.html5.gui;
 
 import java.util.ArrayList;
@@ -146,7 +147,10 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 
 	private AnimationType animType = AnimationType.CENTER;
 
-	private boolean autoHide, previewAllNativeEvents, modal, showing;
+	private boolean autoHide;
+	private boolean previewAllNativeEvents;
+	private boolean modal;
+	private boolean showing;
 	private boolean autoHideOnHistoryEvents;
 
 	private List<Element> autoHidePartners;
@@ -245,7 +249,8 @@ public class GPopupPanel extends SimplePanel implements SourcesPopupEvents,
 		/**
 		 * The offset height and width of the current {@link PopupPanel}.
 		 */
-		private int offsetHeight, offsetWidth = -1;
+		private int offsetHeight;
+		private int offsetWidth = -1;
 
 		/**
 		 * A boolean indicating whether we are showing or hiding the popup.

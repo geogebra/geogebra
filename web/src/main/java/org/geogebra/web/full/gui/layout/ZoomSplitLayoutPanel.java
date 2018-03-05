@@ -1,19 +1,9 @@
 /*
- * Copyright 2009 Google Inc.
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
+ * Based on SplitLayoutPanel (Copyright 2009 Google Inc., Apache license)
+ * */
+
 package org.geogebra.web.full.gui.layout;
+
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
@@ -109,41 +99,43 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
   }
 
   public abstract class Splitter extends Widget {
-    protected final Widget target;
+		protected final Widget target;
 
-    private int offset;
-    private boolean mouseDown;
-    private ScheduledCommand layoutCommand;
+		private int offset;
+		private boolean mouseDown;
+		private ScheduledCommand layoutCommand;
 
-    private final boolean reverse;
-    private int minSize;
-    private int snapClosedSize = -1;
-    private double centerSize, syncedCenterSize;
+		private final boolean reverse;
+		private int minSize;
+		private int snapClosedSize = -1;
+		private double centerSize;
+		private double syncedCenterSize;
 
-    private boolean toggleDisplayAllowed = false;
-    private double lastClick = 0;
+		private boolean toggleDisplayAllowed = false;
+		private double lastClick = 0;
 
-	private ZoomSplitLayoutPanel splitPanel;
-	
-	protected SplitterImpl impl = GWT.create(SplitterImpl.class);
+		private ZoomSplitLayoutPanel splitPanel;
 
-    public Splitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
-      this.target = target;
-      this.reverse = reverse;
-      this.splitPanel = splitPanel;
+		protected SplitterImpl impl = GWT.create(SplitterImpl.class);
 
-      setElement(impl.createElement(this));
-      sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE
-          | Event.ONDBLCLICK | Event.ONTOUCHSTART | Event.ONTOUCHMOVE 
-          | Event.ONTOUCHEND);
-    }
+		public Splitter(Widget target, boolean reverse,
+				ZoomSplitLayoutPanel splitPanel) {
+			this.target = target;
+			this.reverse = reverse;
+			this.splitPanel = splitPanel;
 
-    public double getZoom(){
-    	return this.splitPanel.zoom;
-    }
+			setElement(impl.createElement(this));
+			sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE
+					| Event.ONDBLCLICK | Event.ONTOUCHSTART | Event.ONTOUCHMOVE
+					| Event.ONTOUCHEND);
+		}
 
-    @Override
-    public void onBrowserEvent(Event event) {
+		public double getZoom() {
+			return this.splitPanel.zoom;
+		}
+
+		@Override
+		public void onBrowserEvent(Event event) {
 			if (!impl.shouldHandleEvent(event, mouseDown)) {
 				return;
 			}
@@ -160,15 +152,15 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 			case Event.ONMOUSEDOWN:
 				startDrag(event);
 				break;
-
+	
 			case Event.ONTOUCHEND:
-				splitter = impl.getSplitterElement();
+					splitter = impl.getSplitterElement();
 				splitter.removeClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
 				endDrag(event);
 				break;
 			case Event.ONMOUSEUP:
 				endDrag(event);
-				break;
+					break;
 
 			case Event.ONMOUSEMOVE:
 			case Event.ONTOUCHMOVE:
@@ -191,10 +183,10 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 					((LayoutData) target.getLayoutData()).hidden = false;
 					setAssociatedWidgetSize(size);
 					event.preventDefault();
-				}
+					}
 				break;
-			}
-    }
+				}
+		}
 
 		private void endDrag(Event event) {
 			if (splitPanel.hasSplittersFrozen()) {

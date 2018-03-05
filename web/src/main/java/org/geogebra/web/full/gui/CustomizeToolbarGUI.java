@@ -55,7 +55,8 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	/** application **/
 	AppW app;
 	private CustomizeToolbarHeaderPanel header;
-	private Label lblAllTools, lblUsedTools;
+	private Label lblAllTools;
+	private Label lblUsedTools;
 	/** contains the {@link #toolTree} of the used tools **/
 	ScrollPanel usedToolsPanelContent;
 	/**

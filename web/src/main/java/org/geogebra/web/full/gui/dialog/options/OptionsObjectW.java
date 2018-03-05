@@ -778,8 +778,10 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 		int colorSpace = GeoElement.COLORSPACE_RGB;
 		boolean allowSetComboBoxLabels = true;
 
-		private String defaultR = "0", defaultG = "0", defaultB = "0",
-				defaultA = "1";
+		private String defaultR = "0";
+		private String defaultG = "0";
+		private String defaultB = "0";
+		private String defaultA = "1";
 
 		boolean processed = false;
 

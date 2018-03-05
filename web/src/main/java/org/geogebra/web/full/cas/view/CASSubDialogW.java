@@ -35,7 +35,9 @@ import com.google.gwt.view.client.ListDataProvider;
  */
 public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 
-	private Button btSub, btEval, btNumeric;
+	private Button btSub;
+	private Button btEval;
+	private Button btNumeric;
 	private VerticalPanel optionPane;
 	private ScrollPanel tablePane;
 	private HorizontalPanel btPanel;

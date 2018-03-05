@@ -64,7 +64,8 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 
 	AdvancedFocusPanel focusPanel;
 
-	private int mouseYOffset, resizingRow = -1;
+	private int mouseYOffset;
+	private int resizingRow = -1;
 	private boolean doRowResize = false;
 
 	protected int row0 = -1;

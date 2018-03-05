@@ -109,8 +109,13 @@ public class EuclidianViewW extends EuclidianView implements
 
 	AppW appW = (AppW) super.app;
 
-	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
-			downArrowImage, playImageHL, pauseImageHL;
+	protected ImageElement resetImage;
+	protected ImageElement playImage;
+	protected ImageElement pauseImage;
+	protected ImageElement upArrowImage;
+	protected ImageElement downArrowImage;
+	protected ImageElement playImageHL;
+	protected ImageElement pauseImageHL;
 
 	protected EuclidianPanelWAbstract evPanel;
 	private PointerEventHandler pointerHandler;

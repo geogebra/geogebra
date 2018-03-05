@@ -55,8 +55,10 @@ public class TextEditPanel extends VerticalPanel
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
 
-	private MyToggleButtonW btnBold, btnItalic;
-	private MyToggleButtonW btnSerif, btnLatex;
+	private MyToggleButtonW btnBold;
+	private MyToggleButtonW btnItalic;
+	private MyToggleButtonW btnSerif;
+	private MyToggleButtonW btnLatex;
 	private GeoElementSelectionListener sl;
 	private DisclosurePanel disclosurePanel;
 	private Localization loc;

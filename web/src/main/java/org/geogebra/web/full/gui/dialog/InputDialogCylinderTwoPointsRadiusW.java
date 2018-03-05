@@ -9,14 +9,14 @@ import org.geogebra.web.html5.main.AppW;
 
 public class InputDialogCylinderTwoPointsRadiusW extends InputDialogRadiusW {
 
-	private GeoPointND a, b;
+	private GeoPointND a;
+	private GeoPointND b;
 
 	public InputDialogCylinderTwoPointsRadiusW(AppW app, String title,
             InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
 	    super(app, title, handler, kernel);
 	    this.a = a;
 	    this.b = b; 
-	    
     }
 
 	@Override

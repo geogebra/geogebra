@@ -39,8 +39,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	private AxesAndPlanePopup btnShowAxesAndPlane;
 
-
-
 	private PopupMenuButtonW btnViewProjection;
 
 	/**
@@ -161,7 +159,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 
 	private class RotateViewPopup extends PopupMenuButtonForView3D {
-		private ImageOrText pauseIcon, playIcon;
+		private ImageOrText pauseIcon;
+		private ImageOrText playIcon;
 
 		public RotateViewPopup(ImageResource playIcon, ImageResource pauseIcon) {
 			super();

@@ -29,7 +29,12 @@ public class PointerEvent extends AbstractEvent {
 	private GPoint point = new GPoint(0, 0);
 	private PointerEventType type;
 	private HasOffsets off;
-	private boolean shift, control, alt, meta, right, middle;
+	private boolean shift;
+	private boolean control;
+	private boolean alt;
+	private boolean meta;
+	private boolean right;
+	private boolean middle;
 	private int clickCount = 1;
 	private int evID;
 	private HumanInputEvent<?> nativeEvent;

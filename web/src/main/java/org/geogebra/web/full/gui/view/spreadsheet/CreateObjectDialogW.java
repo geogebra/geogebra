@@ -41,12 +41,14 @@ public class CreateObjectDialogW extends InputDialogW implements
 		 ICreateObjectListener {
 
 	private CreateObjectModel coModel;
-	private Label lblObject, lblName;
+	private Label lblObject;
+	private Label lblName;
 
 	private CheckBox ckSort;
 	/** transpose checkbox */
 	CheckBox ckTranspose;
-	private RadioButton btnValue, btnObject;
+	private RadioButton btnValue;
+	private RadioButton btnObject;
 	/** switch scan between rows and columns */
 	ListBox cbScanOrder;
 
@@ -78,7 +80,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 	 *            resulting object type
 	 */
 	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType) {
-
 		super(false, app, false);
 		MyTableW table = (MyTableW) view.getSpreadsheetTable();
 		coModel = new CreateObjectModel(app, objectType, this);
@@ -92,14 +93,10 @@ public class CreateObjectDialogW extends InputDialogW implements
 		createGUI(coModel.getTitle(), coModel.getTitle(), false, 16, 1, false, false, false,
 				showApply, DialogType.GeoGebraEditor);
 
-
 		createAdditionalGUI();
-
 
 		isIniting = false;
 		setLabels();
-		
-		// setTitle((String) model.getElementAt(objectType));
 
 		// optionPane.add(inputPanel, BorderLayout.CENTER);
 		typeList.setSelectedIndex(objectType);
@@ -108,7 +105,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 		centerAndFocus(false);//
 	
 		updateGUI();
-		
 	}
 
 	/**
@@ -117,8 +113,8 @@ public class CreateObjectDialogW extends InputDialogW implements
 	void objectTypeChanged() {
 		coModel.setObjectType(typeList.getSelectedIndex());
 		coModel.createNewGeo(fldName.getText());
-
 	}
+
 	private void createAdditionalGUI() {
 
 	//	model = new DefaultListModel();

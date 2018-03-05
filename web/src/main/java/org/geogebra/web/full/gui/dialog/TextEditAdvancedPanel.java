@@ -58,7 +58,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 	private VerticalPanel latexPanel;
 	private TextPreviewPanelW previewer;
 	private Localization loc;
-	private Label previewLabel, latexLabel;
+	private Label previewLabel;
+	private Label latexLabel;
 
 	public TextEditAdvancedPanel(App app, ITextEditPanel editPanel) {
 		super(30, Unit.PX);
@@ -107,8 +108,8 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 			}
 		}, MouseDownEvent.getType());
 	}
-	private void registerListeners() {
 
+	private void registerListeners() {
 		// update the geoPanel when selected
 		addSelectionHandler(new SelectionHandler<Integer>() {
 			@Override

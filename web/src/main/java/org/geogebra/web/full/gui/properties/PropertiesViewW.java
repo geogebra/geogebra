@@ -45,7 +45,9 @@ public class PropertiesViewW extends PropertiesView
 
 	// option panels
 	private OptionsDefaultsW defaultsPanel;
-	private OptionsEuclidianW euclidianPanel, euclidianPanel2, euclidianPanel3D;
+	private OptionsEuclidianW euclidianPanel;
+	private OptionsEuclidianW euclidianPanel2;
+	private OptionsEuclidianW euclidianPanel3D;
 	private OptionsSpreadsheetW spreadsheetPanel;
 	private OptionsCASW casPanel;
 	private OptionsLayoutW layoutPanel;

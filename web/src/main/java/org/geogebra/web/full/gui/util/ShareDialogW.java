@@ -37,7 +37,8 @@ public class ShareDialogW extends DialogBoxW implements ClickHandler {
 	private HorizontalPanel iconPanel;
 	private VerticalPanel emailPanel;
 	// private HorizontalPanel imagePanel; for future use - to share images
-	private Button btSendMail, btCancel;
+	private Button btSendMail;
+	private Button btCancel;
 	String sharingKey = "";
 	private TextBox recipient;
 	private TextArea message;

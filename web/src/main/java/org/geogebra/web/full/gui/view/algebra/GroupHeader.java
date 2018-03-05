@@ -56,7 +56,8 @@ public class GroupHeader extends FlowPanel {
 	 */
 	public static class OpenButton extends SimplePanel
 	{
-		private SafeUri showUrl, hiddenUrl;
+		private SafeUri showUrl;
+		private SafeUri hiddenUrl;
 		private Image img;
 
 		/**

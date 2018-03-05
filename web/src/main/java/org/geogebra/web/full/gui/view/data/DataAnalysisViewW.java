@@ -65,9 +65,11 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	private DataPanelW dataPanel;
 	private StatisticsPanelW statisticsPanel;
 	private RegressionPanelW regressionPanel;
-	private DataDisplayPanelW dataDisplayPanel1, dataDisplayPanel2;
+	private DataDisplayPanelW dataDisplayPanel1;
+	private DataDisplayPanelW dataDisplayPanel2;
 
-	private SplitLayoutPanel comboPanelSplit, mainSplit;
+	private SplitLayoutPanel comboPanelSplit;
+	private SplitLayoutPanel mainSplit;
 
 	/**
 	 * For calling the onResize method in a deferred way

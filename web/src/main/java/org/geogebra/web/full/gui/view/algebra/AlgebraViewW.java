@@ -125,7 +125,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	/**
 	 * Nodes for tree mode MODE_DEPENDENCY
 	 */
-	private TreeItem depNode, indNode;
+	private TreeItem depNode;
+	private TreeItem indNode;
 	private TreeItem auxiliaryNode;
 
 	/**
@@ -164,7 +165,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return algebraController;
 	}
 
-
 	/**
 	 * Creates new AV
 	 * 
@@ -197,7 +197,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	}
 
-
 	/**
 	 * Scroll handler
 	 */
@@ -210,6 +209,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			getInputTreeItem().setItemWidth(getFullWidth());
 		}
 	}
+
 	private void initGUI(AlgebraControllerW algCtrl) {
 		// add listener
 		addDomHandler(algCtrl, MouseDownEvent.getType());

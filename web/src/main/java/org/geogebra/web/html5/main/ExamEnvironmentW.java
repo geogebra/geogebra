@@ -11,7 +11,10 @@ import org.geogebra.common.util.debug.Log;
  */
 public class ExamEnvironmentW extends ExamEnvironment {
 
-	private boolean wasAirplaneModeOn, wasWifiEnabled, wasBluetoothEnabled, wasScreenOn;
+	private boolean wasAirplaneModeOn;
+	private boolean wasWifiEnabled;
+	private boolean wasBluetoothEnabled;
+	private boolean wasScreenOn;
 	private GTimer checkTaskLockTimer = null;
 	private GTimer checkScreenState = null;
 	private boolean cheating;

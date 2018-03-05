@@ -14,13 +14,13 @@ import com.google.gwt.user.client.ui.TabPanel;
  */
 class ScriptEditPanel extends OptionPanel {
 
-
-	/**
-	 * 
-	 */
-	private ScriptInputPanelW clickDialog, updateDialog, globalDialog;
+	private ScriptInputPanelW clickDialog;
+	private ScriptInputPanelW updateDialog;
+	private ScriptInputPanelW globalDialog;
 	private TabPanel tabbedPane;
-	private FlowPanel clickScriptPanel, updateScriptPanel, globalScriptPanel;
+	private FlowPanel clickScriptPanel;
+	private FlowPanel updateScriptPanel;
+	private FlowPanel globalScriptPanel;
 	private Localization loc;
 
 	/**

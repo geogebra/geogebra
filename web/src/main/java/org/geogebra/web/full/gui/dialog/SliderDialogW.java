@@ -52,9 +52,12 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class SliderDialogW extends DialogBoxW
 implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboardPopup
 {
-	private Button btOK, btCancel;
+	private Button btOK;
+	private Button btCancel;
 	private AutoCompleteTextFieldW tfLabel;
-	private RadioButton rbNumber, rbAngle, rbInteger;
+	private RadioButton rbNumber;
+	private RadioButton rbAngle;
+	private RadioButton rbInteger;
 	private SliderPanelW sliderPanel;
 	
 	private VerticalPanel mainWidget;

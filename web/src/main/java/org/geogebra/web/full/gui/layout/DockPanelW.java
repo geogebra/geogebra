@@ -118,7 +118,8 @@ public abstract class DockPanelW extends ResizeComposite
 	 */
 	private boolean hasStyleBar = false;
 
-	private int embeddedDimWidth, embeddedDimHeight;
+	private int embeddedDimWidth;
+	private int embeddedDimHeight;
 
 	private ShowKeyboardButton keyboardButton;
 
@@ -199,7 +200,10 @@ public abstract class DockPanelW extends ResizeComposite
 	/**
 	 * Images for Stylingbar
 	 */
-	private Image triangleRight, triangleLeft, dragIcon, closeIcon;
+	private Image triangleRight;
+	private Image triangleLeft;
+	private Image dragIcon;
+	private Image closeIcon;
 
 	/** dock panel */
 	MyDockLayoutPanel dockPanel;

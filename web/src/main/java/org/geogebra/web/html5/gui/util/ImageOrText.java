@@ -12,7 +12,8 @@ import com.google.gwt.user.client.ui.Label;
 public class ImageOrText {
 	private String url = null;
 	private String text = null;
-	private GColor bgColor = null, fgColor = null;
+	private GColor bgColor = null;
+	private GColor fgColor = null;
 	private int bgSize;
 	private String className;
 

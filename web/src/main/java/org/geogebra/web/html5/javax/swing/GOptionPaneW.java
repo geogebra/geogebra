@@ -36,11 +36,15 @@ public class GOptionPaneW extends GDialogBox
 		implements ClickHandler, HasKeyboardPopup {
 
 	private App mApp;
-	private String title, mMessage, initialSelectionValue;
-	private Button btnOK, btnCancel;
+	private String title;
+	private String mMessage;
+	private String initialSelectionValue;
+	private Button btnOK;
+	private Button btnCancel;
 	private Button[] optionButtons;
 	private String[] optionNames;
-	private int optionType, messageType;
+	private int optionType;
+	private int messageType;
 	private boolean requiresReturnValue;
 	private Localization loc;
 	private AsyncOperation<String[]> returnHandler;

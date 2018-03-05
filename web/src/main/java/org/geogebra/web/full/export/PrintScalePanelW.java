@@ -21,13 +21,16 @@ import com.google.gwt.user.client.ui.TextBox;
  */
 public class PrintScalePanelW extends FlowPanel {
 
-	private TextBox tfScale1, tfScale2, tfScaleFixed;
+	private TextBox tfScale1;
+	private TextBox tfScale2;
+	private TextBox tfScaleFixed;
 
 	private EuclidianView ev;
 	// private NumberFormat nf;
 
 	private ListBox exportMode;
-	private FlowPanel cmModePanel, fixedSizeModePanel;
+	private FlowPanel cmModePanel;
+	private FlowPanel fixedSizeModePanel;
 
 	// private boolean noAction = false;
 	/** for each field remember if update handller is running */

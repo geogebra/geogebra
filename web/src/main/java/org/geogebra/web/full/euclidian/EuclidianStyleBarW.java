@@ -103,7 +103,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	private boolean visible;
 
 	// // buttons and lists of buttons
-	private ColorPopupMenuButton btnBgColor, btnTextColor;
+	private ColorPopupMenuButton btnBgColor;
+	private ColorPopupMenuButton btnTextColor;
 	private PopupMenuButtonW btnTextSize;
 	private PopupMenuButtonW btnLabelStyle;
 	private PopupMenuButtonW btnAngleInterval;
@@ -117,7 +118,8 @@ public class EuclidianStyleBarW extends StyleBarW2
 	MyToggleButtonW btnBold;
 	MyToggleButtonW btnItalic;
 
-	private MyToggleButtonW btnFixPosition, btnFixObject;
+	private MyToggleButtonW btnFixPosition;
+	private MyToggleButtonW btnFixObject;
 
 	protected MyCJButton btnStandardView;
 	protected MyCJButton btnCloseView;

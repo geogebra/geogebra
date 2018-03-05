@@ -13,7 +13,8 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class InputDialogConeTwoPointsRadiusW extends InputDialogRadiusW {
 
-	private GeoPointND a, b;
+	private GeoPointND a;
+	private GeoPointND b;
 
 	/**
 	 * 

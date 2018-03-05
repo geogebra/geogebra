@@ -46,14 +46,19 @@ public class InputDialogW extends InputDialog
 
 	protected InputPanelW inputPanel;
 
-	protected Button btApply, btProperties, btCancel, btOK, btHelp;
+	protected Button btApply;
+	protected Button btProperties;
+	protected Button btCancel;
+	protected Button btOK;
+	protected Button btHelp;
 	protected GDialogBox wrappedPopup;
 
 	protected GeoElement geo;
 
 	private String title;
 
-	protected VerticalPanel messagePanel, errorPanel;
+	protected VerticalPanel messagePanel;
+	protected VerticalPanel errorPanel;
 
 	protected FlowPanel btPanel;
 
@@ -345,11 +350,11 @@ public class InputDialogW extends InputDialog
 	}
 
 	private native void forceHideKeyboard() /*-{
-											if ($wnd.android && $wnd.android.callPlugin) {
-											$wnd.android.callPlugin("CloseKeyboard", []);
-											}
-											
-											}-*/;
+		if ($wnd.android && $wnd.android.callPlugin) {
+			$wnd.android.callPlugin("CloseKeyboard", []);
+		}
+
+	}-*/;
 
 	@Override
 	public void setLabels() {

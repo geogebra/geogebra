@@ -19,7 +19,8 @@ import org.geogebra.web.html5.main.AppW;
  */
 public class PropertiesView3DW extends PropertiesViewW {
 
-	private OptionsEuclidianW euclidianPanel3D, euclidianForPlanePanel;
+	private OptionsEuclidianW euclidianPanel3D;
+	private OptionsEuclidianW euclidianForPlanePanel;
 
 	/**
 	 * Constructor

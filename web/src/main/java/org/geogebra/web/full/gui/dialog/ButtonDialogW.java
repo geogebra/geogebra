@@ -36,7 +36,8 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler, HasKeyboa
 	private AutoCompleteTextFieldW tfCaption;
 	private FlowPanel btPanel;
 	private ButtonDialogModel model;
-	private Button btOK, btCancel;
+	private Button btOK;
+	private Button btCancel;
 	private FlowPanel optionPane;
 	private ScriptArea tfScript;
 	private Localization loc;

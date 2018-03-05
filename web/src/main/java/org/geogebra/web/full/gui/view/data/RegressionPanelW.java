@@ -42,7 +42,8 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 	// regression panel objects
 	private Label lblEqn;
 
-	private ListBox lbRegression, lbPolyOrder;
+	private ListBox lbRegression;
+	private ListBox lbPolyOrder;
 	private Label lblEvaluate;
 	private AutoCompleteTextFieldW fldInputX;
 

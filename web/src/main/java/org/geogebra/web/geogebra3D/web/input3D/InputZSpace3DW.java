@@ -18,11 +18,15 @@ public class InputZSpace3DW extends Input3D {
 
 	private double toPixelRatio = 3600;
 
-	private double[] inputPosition, inputDirection, inputOrientation;
+	private double[] inputPosition;
+	private double[] inputDirection;
+	private double[] inputOrientation;
 
 	private double[][] inputGlassesPosition;
 	private double eyeSeparation;
-	private boolean isRightPressed, isLeftPressed, isThirdButtonPressed;
+	private boolean isRightPressed;
+	private boolean isLeftPressed;
+	private boolean isThirdButtonPressed;
 	private boolean hasStylusNotIntersectingPhysicalScreen = true;
 
 	public InputZSpace3DW() {

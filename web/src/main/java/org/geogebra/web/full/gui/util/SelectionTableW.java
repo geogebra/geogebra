@@ -13,7 +13,8 @@ public class SelectionTableW extends Grid implements ClickHandler {
 	private int selectedColumn = -1;
 	private int selectedRow = -1;
 	private SelectionTable mode;
-	private int numRows, numColumns;
+	private int numRows;
+	private int numColumns;
 	private boolean isIniting = true;
 	private ImageOrText[] values;
 	private boolean isMultiselectionEnabled;

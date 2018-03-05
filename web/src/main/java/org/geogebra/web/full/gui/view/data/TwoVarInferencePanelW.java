@@ -29,7 +29,9 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private DataAnalysisViewW daView;
 	private StatTableW resultTable;
 
-	private ListBox lbTitle1, lbTitle2, lbAltHyp;
+	private ListBox lbTitle1;
+	private ListBox lbTitle2;
+	private ListBox lbAltHyp;
 	private Label lblTitle1;
 	private Label lblTitle2;
 	private Label lblHypParameter;

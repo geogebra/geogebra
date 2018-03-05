@@ -10,7 +10,8 @@ import org.geogebra.web.html5.main.AppW;
 import com.google.gwt.event.dom.client.DomEvent;
 
 public class InputDialogRegularPolygonW extends InputDialogW{
-	private GeoPointND geoPoint1, geoPoint2;
+	private GeoPointND geoPoint1;
+	private GeoPointND geoPoint2;
 	private EuclidianController ec;
 
 	public InputDialogRegularPolygonW(AppW app, EuclidianController ec, String title,
@@ -20,7 +21,6 @@ public class InputDialogRegularPolygonW extends InputDialogW{
 
 		geoPoint1 = point1;
 		geoPoint2 = point2;
-		
 		this.ec = ec;
 	}
 
