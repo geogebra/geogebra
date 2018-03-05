@@ -756,6 +756,31 @@ public class GeoImage extends GeoElement implements Locateable,
 		return corners[i].inhomY;
 	}
 
+	public void updateScaleAndLocation() {
+		int width = getFillImage().getWidth();
+		int height = getFillImage().getHeight();
+		double scaleX;
+		double scaleY;
+		if (getCorner(1) != null) {
+			scaleX = (getKernel().getApplication().getActiveEuclidianView().toScreenCoordXd(getCorner(1).inhomX)
+					- getKernel().getApplication().getActiveEuclidianView().toScreenCoordXd(getCorner(0).inhomX))
+					/ width;
+		} else {
+			scaleX = 1;
+		}
+		if (getCorner(2) != null) {
+			scaleY = (getKernel().getApplication().getActiveEuclidianView().toScreenCoordYd(getCorner(0).inhomY)
+					- getKernel().getApplication().getActiveEuclidianView().toScreenCoordYd(getCorner(2).inhomY))
+					/ height;
+		} else {
+			scaleY = scaleX;
+		}
+		setScaleX(scaleX);
+		setScaleY(scaleY);
+		setAbsoluteScreenLoc(getKernel().getApplication().getActiveEuclidianView().toScreenCoordX(getCorner(0).inhomX),
+				getKernel().getApplication().getActiveEuclidianView().toScreenCoordY(getCorner(0).inhomY));
+	}
+
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;

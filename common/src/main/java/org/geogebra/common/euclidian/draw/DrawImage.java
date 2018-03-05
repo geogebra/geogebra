@@ -553,32 +553,8 @@ public final class DrawImage extends Drawable {
 				return;
 			}
 			
-			updateScaleAndLocation();
+			geoImage.updateScaleAndLocation();
 		}
-	}
-
-	private void updateScaleAndLocation() {
-		int width = geoImage.getFillImage().getWidth();
-		int height = geoImage.getFillImage().getHeight();
-		double scaleX;
-		double scaleY;
-		if (geoImage.getCorner(1) != null) {
-			scaleX = (view.toScreenCoordXd(geoImage.getCorner(1).inhomX)
-					- view.toScreenCoordXd(geoImage.getCorner(0).inhomX)) / width;
-		} else {
-			scaleX = 1;
-		}
-		if (geoImage.getCorner(2) != null) {
-			scaleY = (view.toScreenCoordYd(geoImage.getCorner(0).inhomY)
-					- view.toScreenCoordYd(geoImage.getCorner(2).inhomY))
-					/ height;
-		} else {
-			scaleY = 1;
-		}
-		geoImage.setScaleX(scaleX);
-		geoImage.setScaleY(scaleY);
-		geoImage.setAbsoluteScreenLoc(view.toScreenCoordX(geoImage.getCorner(0).inhomX),
-				view.toScreenCoordY(geoImage.getCorner(0).inhomY));
 	}
 
 	private void updateImageCrop(AbstractEvent event,

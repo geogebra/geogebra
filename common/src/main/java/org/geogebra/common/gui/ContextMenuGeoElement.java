@@ -16,6 +16,7 @@ import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.kernel.geos.GeoSegment;
@@ -605,7 +606,9 @@ public abstract class ContextMenuGeoElement {
 					int x = app.getActiveEuclidianView().toScreenCoordX(geoText.getRealWorldLocX());
 					int y = app.getActiveEuclidianView().toScreenCoordY(geoText.getRealWorldLocY());
 					geoText.setAbsoluteScreenLoc(x, y);
-
+					if (geoText.isGeoImage() && geoText.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+						((GeoImage) geoText).updateScaleAndLocation();
+					}
 				} else {
 					// convert screen coords to real world
 					double x = app.getActiveEuclidianView().toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
