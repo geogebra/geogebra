@@ -12,7 +12,9 @@ public interface Geometry3DGetter {
 		/** geometry from an axis */
 		AXIS,
 		/** geometry from a surface */
-		SURFACE
+		SURFACE,
+		/** geometry from a curve or line */
+		CURVE
 	}
 
 	/**

@@ -135,7 +135,7 @@ public class DrawSurface3DElements extends DrawSurface3D {
 		if (isVisible()) {
 			GeoElement geo = getGeoElement();
 			manager.export(getSurfaceIndex(), geo.getObjectColor(), geo.getAlphaValue(), GeometryType.SURFACE);
-			manager.export(getGeometryIndex(), GColor.BLACK, 1, GeometryType.SURFACE);
+			manager.export(getGeometryIndex(), GColor.BLACK, 1, GeometryType.CURVE);
 		}
 	}
 
