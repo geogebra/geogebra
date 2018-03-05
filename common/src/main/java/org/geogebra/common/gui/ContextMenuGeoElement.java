@@ -625,6 +625,10 @@ public abstract class ContextMenuGeoElement {
 								.toRealWorldCoordY(geoText.getAbsoluteScreenLocY() - height);
 						((GeoImage) geoText).setRealWorldCoord(realMinX, realMinY, 0);
 						((GeoImage) geoText).setRealWorldCoord(realMaxX, realMinY, 1);
+						// C point created or updated - the next bug fixed with
+						// this:
+						// insert an image, scale with right side corner point,
+						// pin, scale the view, unpin => image was sheared
 						((GeoImage) geoText).setRealWorldCoord(realMinX, realMaxY, 2);
 						((GeoImage) geoText).setRealWorldCoord(realMaxX, realMaxY, 3);
 					} else {

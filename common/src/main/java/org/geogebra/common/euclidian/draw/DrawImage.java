@@ -40,7 +40,6 @@ import org.geogebra.common.kernel.geos.GeoImage;
 import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * 
@@ -66,7 +65,6 @@ public final class DrawImage extends Drawable {
 	private GRectangle cropBox;
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
-	private boolean debug1 = false;
 	/**
 	 * the image should have at least 100px width
 	 */
@@ -97,33 +95,6 @@ public final class DrawImage extends Drawable {
 		selStroke = AwtFactory.getPrototype().newMyBasicStroke(1.5f);
 
 		update();
-	}
-
-	private void debug(String d) {
-		if(debug1){
-			Log.debug(d);
-		}
-	}
-
-	private void debugPoints(GeoPoint A, GeoPoint B, GeoPoint D){
-		if (!debug1) {
-			return;
-		}
-		if (A != null) {
-			debug("A: " + A.getInhomX() + ", " + A.getInhomY());
-		} else {
-			debug("A is null");
-		}
-		if (B != null) {
-			debug("B: " + B.getInhomX() + ", " + B.getInhomY());
-		} else {
-			debug("B is null");
-		}
-		if (D != null) {
-			debug("D: " + D.getInhomX() + ", " + D.getInhomY());
-		} else {
-			debug("D is null");
-		}
 	}
 	
 	@Override
@@ -165,9 +136,6 @@ public final class DrawImage extends Drawable {
 			GeoPoint B = center ? null : geoImage.getCorner(1);
 			GeoPoint D = center ? null : geoImage.getCorner(2);
 			
-			debug("points in update: ");
-			debugPoints(A, B, D);    
-
 			double ax = 0;
 			double ay = 0;
 			if (A != null) {
@@ -686,10 +654,6 @@ public final class DrawImage extends Drawable {
 		GeoPoint A = geoImage.getCorner(0);
 		GeoPoint B = geoImage.getCorner(1);
 		GeoPoint D = geoImage.getCorner(2);
-
-		debug("points in updateImageResize");
-		debugPoints(A, B, D);
-
 		double newWidth = 1;
 		double newHeight = 1;
 		double rwEventX = view.toRealWorldCoordX(eventX);
@@ -705,10 +669,6 @@ public final class DrawImage extends Drawable {
 			D = new GeoPoint(geoImage.cons);
 			geoImage.calculateCornerPoint(D, 3);
 		}
-
-		debug("points in updateImageResize - after calculating points");
-		debugPoints(A, B, D);
-
 		switch (handler) {
 		case TOP_RIGHT:
 			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
@@ -840,8 +800,5 @@ public final class DrawImage extends Drawable {
 		default:
 			break;
 		}
-
-		debug("points in updateImageResize - after moving handler");
-		debugPoints(A, B, D);
 	}
 }

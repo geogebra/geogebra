@@ -34,7 +34,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.StringUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Image with given filename and corners
@@ -685,6 +684,16 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 	}
 
+	/**
+	 * Sets the offset of i. corner.
+	 * 
+	 * @param x
+	 *            x offset (in pixels)
+	 * @param y
+	 *            y offset (in pixels)
+	 * @param i
+	 *            i number of corner
+	 */
 	public void setAbsoluteScreenLoc(int x, int y, int i) {
 		cornerScreenX[i] = x;
 		cornerScreenY[i] = y;
@@ -709,10 +718,16 @@ public class GeoImage extends GeoElement implements Locateable,
 		return screenY;
 	}
 
+	/**
+	 * Gets the x offset of i. corner.
+	 */
 	public int getAbsoluteScreenLocX(int i) {
 		return cornerScreenX[i];
 	}
 
+	/**
+	 * Gets the y offset of i. corner.
+	 */
 	public int getAbsoluteScreenLocY(int i) {
 		return cornerScreenY[i];
 
@@ -723,6 +738,14 @@ public class GeoImage extends GeoElement implements Locateable,
 		setRealWorldCoord(x, y, 0);
 	}
 
+	/**
+	 * Sets real world coordinates of i. corner.
+	 * 
+	 * @param x
+	 *            real world x coordinate
+	 * @param y
+	 *            real world y coordinate
+	 */
 	public void setRealWorldCoord(double x, double y, int i) {
 		GeoPoint point = corners[i];
 		if (point == null) {
@@ -742,6 +765,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		return getRealWorldY(0);
 	}
 
+	/**
+	 * Gets the x real world coordinates of the i. corner.
+	 */
 	public double getRealWorldX(int i) {
 		if (corners[i] == null) {
 			return 0;
@@ -749,6 +775,9 @@ public class GeoImage extends GeoElement implements Locateable,
 		return corners[i].inhomX;
 	}
 
+	/**
+	 * Gets the y real world coordinates of the i. corner.
+	 */
 	public double getRealWorldY(int i) {
 		if (corners[i] == null) {
 			return 0;
@@ -756,6 +785,10 @@ public class GeoImage extends GeoElement implements Locateable,
 		return corners[i].inhomY;
 	}
 
+	/**
+	 * Updates the scale accordingly of the current corner points, and updates
+	 * the absolute screen location.
+	 */
 	public void updateScaleAndLocation() {
 		int width = getFillImage().getWidth();
 		int height = getFillImage().getHeight();
@@ -1285,23 +1318,37 @@ public class GeoImage extends GeoElement implements Locateable,
 		corners[idx] = null;
 	}
 
+	/**
+	 * Sets the scale of original width.
+	 * 
+	 * @param s
+	 *            new scale
+	 */
 	public void setScaleX(double s) {
-		Log.debug("setScaleX: " + s);
 		scaleX = s;
 	}
 
+	/**
+	 * Gets the scale of original width.
+	 */
 	public double getScaleX() {
-		Log.debug("getScaleX: " + scaleX);
 		return scaleX;
 	}
 
+	/**
+	 * Sets the scale of original height.
+	 * 
+	 * @param s
+	 *            new scale
+	 */
 	public void setScaleY(double s) {
-		Log.debug("setScaleY : " + s);
 		scaleY = s;
 	}
 
+	/**
+	 * Gets the scale of original height.
+	 */
 	public double getScaleY() {
-		Log.debug("getScaleY: " + scaleY);
 		return scaleY;
 	}
 }
