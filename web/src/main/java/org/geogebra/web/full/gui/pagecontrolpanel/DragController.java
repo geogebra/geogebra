@@ -40,7 +40,7 @@ class DragController {
 
 	private class AutoScrollTimer extends Timer {
 		private static final int SCROLL_TIME = 20;
-		private static final int SCROLL_SPEED = 10;
+		private static final int SCROLL_SPEED = 100;
 		private boolean scrollDown;
 		private int autoScrollY;
 
@@ -51,8 +51,13 @@ class DragController {
 				if (scrollDown) {
 					pos += cards.getListener().getScrollParentHeight() - PagePreviewCard.SPACE_HEIGHT
 							- PagePreviewCard.MARGIN;
+
+					dragged.move(pos);
+				} else {
+
+					dragged.move(-pos);
 				}
-				dragged.card.setTop(pos);
+				// dragged.card.setTop(pos);
 				// dragged.handleTarget(pos);
 			} else {
 				onScrollCancel();
@@ -178,6 +183,7 @@ class DragController {
 		void start(int y) {
 			prevY = y;
 			card = clicked;
+			card.grabCard(y);
 		}
 
 		int move(int y) {

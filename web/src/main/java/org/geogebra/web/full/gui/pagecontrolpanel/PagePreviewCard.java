@@ -260,12 +260,19 @@ public class PagePreviewCard extends FlowPanel
 		int bottom = top + getOffsetHeight();
 
 		boolean hit = x > left && x < right && y > top && y < bottom;
-		if (hit) {
-			grabY = y - top + 32;
-		} else {
-			grabY = 0;
-		}
+		// if (hit) {
+		// grabY = y - top + 32;
+		// } else {
+		// grabY = 0;
+		// }
 		return hit;
+	}
+
+	/**
+	 * Make card grabbed (by pointer) at y.
+	 */
+	public void grabCard(int y) {
+		grabY = y - getAbsoluteTop() + 2 * MARGIN;
 	}
 
 	/**
