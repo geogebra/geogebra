@@ -24,6 +24,7 @@ public class MOWColorButton extends ColorPopupMenuButton {
 	private SelectionTableW fillTable;
 	private FillType[] fillTypes = { FillType.STANDARD, FillType.HATCH,
 			FillType.DOTTED, FillType.CROSSHATCHED, FillType.HONEYCOMB };
+
 	/**
 	 * @param app
 	 *            GGB application.

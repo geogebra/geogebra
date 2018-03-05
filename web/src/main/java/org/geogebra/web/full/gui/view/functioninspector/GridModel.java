@@ -18,17 +18,23 @@ public class GridModel {
 	public interface IGridListener {
 		/** Column/header operations */
 		void appendColumn(String name);
+
 		void setHeaders(String[] names);
+
 		void updateHeader(int col, String title);
+
 		void removeColumn();
 
 		/** Body cell operations */
 		void updateDataCell(int row, int col, DataCell cell);
+
 		void removeLastCell(int row);
 
 		/** Row operations */
 		void addRow(List<DataCell> row);
+
 		void removeAllRows();
+
 		void removeLastRow();
 	}
 	

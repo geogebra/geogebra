@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
 */
+
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.gui.InputHandler;
@@ -27,7 +28,8 @@ public class AngleInputDialogW extends InputDialogW {
 	public static final int DEFAULT_COLUMNS = 30;
 	public static final int DEFAULT_ROWS = 10;
 
-	protected RadioButton rbCounterClockWise, rbClockWise;
+	protected RadioButton rbCounterClockWise;
+	protected RadioButton rbClockWise;
 
 	/**
 	 * Input Dialog for a GeoAngle object.

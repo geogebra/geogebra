@@ -70,8 +70,12 @@ public class FunctionInspectorW extends FunctionInspector {
 	PopupMenuButtonW btnOptions;
 	// private MenuBar btnOptions;
 
-	private Label lblGeoName, lblStep, lblInterval;
-	AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
+	private Label lblGeoName;
+	private Label lblStep;
+	private Label lblInterval;
+	AutoCompleteTextFieldW fldStep;
+	AutoCompleteTextFieldW fldLow;
+	AutoCompleteTextFieldW fldHigh;
 	private InspectorTableW tableXY;
 	private GridModel modelXY, modelInterval;
 

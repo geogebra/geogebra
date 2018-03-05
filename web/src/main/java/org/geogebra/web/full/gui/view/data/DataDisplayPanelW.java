@@ -76,7 +76,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	// data view mode
 	// display panels
 	private DeckPanel displayDeckPanel;
-	private FlowPanel metaPlotPanel, plotPanelNorth, plotPanelSouth;
+	private FlowPanel metaPlotPanel;
+	private FlowPanel plotPanelNorth;
+	private FlowPanel plotPanelSouth;
 	private PlotPanelEuclidianViewW plotPanel;
 
 	private Canvas latexCanvas;
@@ -112,8 +114,10 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 	private FlowPanel imagePanel;
 
-	private Label lblTitleX, lblTitleY;
-	private AutoCompleteTextFieldW fldTitleX, fldTitleY;
+	private Label lblTitleX;
+	private Label lblTitleY;
+	private AutoCompleteTextFieldW fldTitleX;
+	private AutoCompleteTextFieldW fldTitleY;
 	private FrequencyTablePanelW frequencyTable;
 	private GPopupMenuW btnExport;
 	private AutoCompleteTextFieldW fldNumClasses;
@@ -133,9 +137,8 @@ public class DataDisplayPanelW extends FlowPanel implements
 	 *            daView
 	 */
 	public DataDisplayPanelW(DataAnalysisViewW daView) {
-
 		this.app = daView.getApp();
-		this.loc = (LocalizationW) app.getLocalization();
+		this.loc = app.getLocalization();
 		daModel = daView.getModel();
 		setModel(new DataDisplayModel(daModel, this));
 		this.daView = daView;
@@ -156,13 +159,11 @@ public class DataDisplayPanelW extends FlowPanel implements
 	 *            the data analysis mode
 	 */
 	public void setPanel(PlotType plotIndex, int mode) {
-
 		getModel().updatePlot(plotIndex, mode);
 		setLabels();
 		getModel().updatePlot(true);
 		optionsPanel.setVisible(false);
 		btnOptions.setValue(false);
-		
 	}
 
 	// ==============================================
@@ -280,7 +281,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 	 */
 	@Override
 	public void setLabels() {
-
 		createDisplayTypeComboBox();
 
 		lblStart.setText(loc.getMenu("Start") + " ");
@@ -293,14 +293,12 @@ public class DataDisplayPanelW extends FlowPanel implements
 
 		optionsPanel.setLabels();
 		btnOptions.setToolTipText(loc.getMenu("Options"));
-
 	}
 
 	/**
 	 * Creates the ListBox that selects display type
 	 */
 	private void createDisplayTypeComboBox() {
-
 		if (lbDisplayType == null) {
 			lbDisplayType = new ListBox();
 			lbDisplayType.addChangeHandler(new ChangeHandler() {
@@ -318,7 +316,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 		}
 
 		getModel().fillDisplayTypes();
-
 	}
 
 	/**
@@ -402,6 +399,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		stemAdjustPanel = new FlowPanel();
 		stemAdjustPanel.add(LayoutUtilW.panelRow(minus, none, plus));
 	}
+
 	/**
 	 * Creates a control panel for manually setting classes
 	 */

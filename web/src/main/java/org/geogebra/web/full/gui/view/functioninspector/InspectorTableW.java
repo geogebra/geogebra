@@ -88,6 +88,7 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		}
 		return value;
 	}
+
 	private void setEditorInCell(int row, int col) {
 		if (row == -1 || col == -1) {
 			return;
@@ -98,7 +99,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 	}
 	
 	private void updateRowStyle(Cell cell, String style) {
-		
 		if (cell == null) {
 			return;
 		}
@@ -121,8 +121,8 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 			// making sure it is not removed meanwile
 			getRowFormatter().setStyleName(selectedRow, "");
 		}
-		
 	}
+
 	@Override
 	public void updateHeader(int col, String title) {
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", title);

@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.web.full.gui.dialog;
 
 import java.util.ArrayList;
@@ -52,7 +53,8 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		GeoElementSelectionListener, HasKeyboardPopup {
 
 	private AutoCompleteTextFieldW tfCaption;
-	private Button btOK, btCancel;
+	private Button btOK;
+	private Button btCancel;
 	private FlowPanel optionPane;
 	private GeoListBox gbObjects;
 	private GeoAttachedListBox gbList;

@@ -64,7 +64,8 @@ public class OptionsPanelW extends FlowPanel
 	private Label lbShowTitle;
 	private Label lbDimTitle;
 	// graph panel GUI
-	private CheckBox ckAutoWindow, ckShowGrid;
+	private CheckBox ckAutoWindow;
+	private CheckBox ckShowGrid;
 	private Label lblXMin;
 	private Label lblXMax;
 	private Label lblYMin;
@@ -93,8 +94,12 @@ public class OptionsPanelW extends FlowPanel
 	private CheckBox ckShowLines;
 
 	// panels
-	private FlowPanel histogramPanel, graphPanel, classesPanel,
-			scatterplotPanel, barChartPanel, boxPlotPanel;
+	private FlowPanel histogramPanel;
+	private FlowPanel graphPanel;
+	private FlowPanel classesPanel;
+	private FlowPanel scatterplotPanel;
+	private FlowPanel barChartPanel;
+	private FlowPanel boxPlotPanel;
 	private FlowPanel mainPanel;
 	private TabPanel tabPanel;
 

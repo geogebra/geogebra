@@ -197,6 +197,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private Localization loc;
 
 	private AccessibilityManagerW accessibilityManager = null;
+
 	/**
 	 * 
 	 * @param app
@@ -257,7 +258,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (getToolbarPanelV2() != null) {
 			getToolbarPanelV2().updateUndoRedoActions();
 		}
-
 	}
 
 	@Override
@@ -933,6 +933,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public boolean hasInputHelpPanel() {
 		return inputHelpPanel != null;
 	}
+
 	@Override
 	public InputBarHelpPanelW getInputHelpPanel() {
 		if (inputHelpPanel == null) {
@@ -945,7 +946,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public void reInitHelpPanel(boolean forCAS) {
-
 		if (inputHelpPanel != null) {
 			if (forCAS) {
 				getApp().getCommandDictionaryCAS();
@@ -1599,6 +1599,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	public int getActiveToolbarId() {
 		return toolbarID;
 	}
+
 	@Override
 	public void setActivePanelAndToolbar(final int viewID) {
 		if (getApp().has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME)) {
@@ -2181,8 +2182,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	@Override
 	public boolean getKeyboardShouldBeShownFlag() {
 		return onScreenKeyboard != null && onScreenKeyboard.shouldBeShown();
-
 	}
+
 	public VirtualKeyboardGUI getOnScreenKeyboard(
 			MathKeyboardListener textField,
 			UpdateKeyBoardListener listener) {

@@ -30,8 +30,13 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private StatTableW resultTable;
 
 	private ListBox lbTitle1, lbTitle2, lbAltHyp;
-	private Label lblTitle1, lblTitle2, lblHypParameter, lblTailType, lblNull,
-			lblConfLevel, lblResultHeader;
+	private Label lblTitle1;
+	private Label lblTitle2;
+	private Label lblHypParameter;
+	private Label lblTailType;
+	private Label lblNull;
+	private Label lblConfLevel;
+	private Label lblResultHeader;
 	private AutoCompleteTextFieldW fldNullHyp;
 	private FlowPanel resultPanel;
 	private CheckBox ckEqualVariances;
@@ -47,6 +52,7 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 	private boolean enablePooled;
 	private CheckBox ckPooled;
 	private Localization loc;
+
 	/**
 	 * Construct a TwoVarInference panel
 	 */

@@ -289,14 +289,25 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		private ProjectionButtons projectionButtons;
 
-		private FlowPanel orthoPanel, perspPanel, obliquePanel, glassesPanel;
-		private Label orthoTitle, perspTitle, obliqueTitle, glassesTitle;
+		private FlowPanel orthoPanel;
+		private FlowPanel perspPanel;
+		private FlowPanel obliquePanel;
+		private FlowPanel glassesPanel;
+		private Label orthoTitle;
+		private Label perspTitle;
+		private Label obliqueTitle;
+		private Label glassesTitle;
 
-		private AutoCompleteTextFieldW tfPersp, tfGlassesEyeSep, tfObliqueAngle,
-				tfObliqueFactor;
-		private FormLabel tfPerspLabel, tfGlassesLabel, tfObliqueAngleLabel,
-				tfObliqueFactorLabel;
-		private CheckBox cbGlassesGray, cbGlassesShutDownGreen;
+		private AutoCompleteTextFieldW tfPersp;
+		private AutoCompleteTextFieldW tfGlassesEyeSep;
+		private AutoCompleteTextFieldW tfObliqueAngle;
+		private AutoCompleteTextFieldW tfObliqueFactor;
+		private FormLabel tfPerspLabel;
+		private FormLabel tfGlassesLabel;
+		private FormLabel tfObliqueAngleLabel;
+		private FormLabel tfObliqueFactorLabel;
+		private CheckBox cbGlassesGray;
+		private CheckBox cbGlassesShutDownGreen;
 
 		private class ProjectionButtons implements ClickHandler {
 
@@ -304,7 +315,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			private int buttonSelected;
 
 			ProjectionButtons() {
-
 				buttons = new MyToggleButtonW[4];
 
 				buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new MyToggleButtonW(

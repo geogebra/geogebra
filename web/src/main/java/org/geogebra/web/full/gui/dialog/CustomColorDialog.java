@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.Label;
 
 public class CustomColorDialog extends DialogBoxW {
 	
-    
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 258;
 	private ColorComponent red;
@@ -46,6 +45,7 @@ public class CustomColorDialog extends DialogBoxW {
 	private class ColorComponent extends FlowPanel {
 		private Slider slider;
 		private GSpinnerW spinner;
+
 		public ColorComponent() {
 			setStyleName("colorComponent");
 			

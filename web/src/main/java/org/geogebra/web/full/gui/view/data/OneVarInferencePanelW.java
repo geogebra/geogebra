@@ -43,13 +43,24 @@ public class OneVarInferencePanelW extends FlowPanel
 	private StatTableW resultTable;
 
 	// GUI
-	private Label lblHypParameter, lblTailType, lblNull, lblConfLevel, lblSigma,
-			lblResultHeader;
+	private Label lblHypParameter;
+	private Label lblTailType;
+	private Label lblNull;
+	private Label lblConfLevel;
+	private Label lblSigma;
+	private Label lblResultHeader;
 	private Button btnCalculate;
-	private AutoCompleteTextFieldW fldNullHyp, fldConfLevel, fldSigma;
-	private RadioButton btnLeft, btnRight, btnTwo;
+	private AutoCompleteTextFieldW fldNullHyp;
+	private AutoCompleteTextFieldW fldConfLevel;
+	private AutoCompleteTextFieldW fldSigma;
+	private RadioButton btnLeft;
+	private RadioButton btnRight;
+	private RadioButton btnTwo;
 	private ListBox lbAltHyp;
-	private FlowPanel testPanel, intPanel, mainPanel, resultPanel;
+	private FlowPanel testPanel;
+	private FlowPanel intPanel;
+	private FlowPanel mainPanel;
+	private FlowPanel resultPanel;
 	private FlowPanel sigmaPanel;
 	private int fieldWidth = 6;
 
