@@ -7860,7 +7860,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
       if (c==';') 
 	semi=true;
       else {
-	if (c!=' ')
+	if (c!=' ' && c!='\n')
 	  semi=false;
       }
       res += c;
