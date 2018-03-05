@@ -255,17 +255,11 @@ public class PagePreviewCard extends FlowPanel
 	 */
 	public boolean isHit(int x, int y) {
 		int left = getAbsoluteLeft();
-		int top = getAbsoluteTop();
+		int top = getComputedTop();
 		int right = left + getOffsetWidth();
-		int bottom = top + getOffsetHeight();
+		int bottom = getComputedBottom();
 
-		boolean hit = x > left && x < right && y > top && y < bottom;
-		// if (hit) {
-		// grabY = y - top + 32;
-		// } else {
-		// grabY = 0;
-		// }
-		return hit;
+		return x > left && x < right && y > top && y < bottom;
 	}
 
 	/**
@@ -333,8 +327,8 @@ public class PagePreviewCard extends FlowPanel
 	}
 
 	public int getComputedTop() {
-		int visibleHeight = getParent().getParent().getOffsetHeight();
-		return MARGIN + (pageIndex * (CARD_HEIGHT + MARGIN) % visibleHeight);
+		// int visibleHeight = getParent().getParent().getOffsetHeight();
+		return MARGIN + (pageIndex * (CARD_HEIGHT + MARGIN));
 	}
 	
 	public int getComputedBottom() {

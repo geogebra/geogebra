@@ -200,8 +200,9 @@ class DragController {
 
 		private void moveAnimated() {
 			int h = PagePreviewCard.SPACE_HEIGHT;// - PagePreviewCard.MARGIN;
-			diff = down ? card.getAbsoluteBottom() - last.top
-					: last.bottom - card.getAbsoluteTop();
+			diff = down ? computedY(card.getAbsoluteBottom()) - last.top
+					: last.bottom - computedY(card.getAbsoluteTop());
+
 			if (diff > 0 && diff < h) {
 				target.setSpaceValue(diff + PagePreviewCard.MARGIN, down);
 			}
@@ -242,8 +243,8 @@ class DragController {
 		}
 
 		private void findTarget() {
-			int y1 = card.getAbsoluteBottom();
-			int y2 = card.getAbsoluteTop();
+			int y1 = computedY(card.getAbsoluteBottom());
+			int y2 = computedY(card.getAbsoluteTop());
 
 			int idx = cardIndexAt(card.getMiddleX(), 
 					isAnimated() ? (down ?  y1: y2): card.getMiddleY());
@@ -385,12 +386,11 @@ class DragController {
 	}
 
 	public void start(int x, int y) {
-		
 		if (clicked != null || dragged.isValid()) {
 			cancelDrag();
 		}
 
-		int idx = cardIndexAt(x, y);
+		int idx = cardIndexAt(x, computedY(y));
 		if (idx == -1) {
 			clicked = null;
 		} else {
@@ -400,7 +400,11 @@ class DragController {
 		}
 	}
 	
-	void move(int x, int y) {
+	int computedY(int y) {
+		return y + cards.getListener().getVerticalScrollPosition();
+	}
+
+	void move(int x, int y0) {
 		if (CancelEventTimer.cancelDragEvent()) {
 			return;
 		}
@@ -408,7 +412,7 @@ class DragController {
 		if (CancelEventTimer.noDrag() || dropAnimTimer.isRunning()) {
 			return;
 		}
-
+		int y = computedY(y0);
 		if (CancelEventTimer.isDragStarted()) {
 			dragged.start(y);
 		} else if (CancelEventTimer.isDragging()) {
@@ -423,12 +427,11 @@ class DragController {
 		}
 	}
 
-
 	void stop(int x, int y) {
 		if (clicked != null) {
 			cards.clickPage(clicked.getPageIndex(), true);
 		} else if (CancelEventTimer.isDragging()) {
-			if (dragged.drop(y)) {
+			if (dragged.drop(computedY(y))) {
 				if (dragged.isAnimated()) {
 					createDropAnimation();
 					return;
@@ -476,4 +479,5 @@ class DragController {
 		autoScroll.cancel();
 		clearSpaces();
 	}
+
 }
