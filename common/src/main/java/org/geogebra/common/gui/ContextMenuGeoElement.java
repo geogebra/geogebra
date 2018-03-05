@@ -612,25 +612,7 @@ public abstract class ContextMenuGeoElement {
 				} else {
 					// convert screen coords to real world
 					if (geoText.isGeoImage() && geoText.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
-						double realMinX = app.getActiveEuclidianView()
-								.toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
-						double realMaxX = app.getActiveEuclidianView().toRealWorldCoordX(
-								geoText.getAbsoluteScreenLocX() + ((GeoImage) geoText).getFillImage().getWidth()
-										* ((GeoImage) geoText).getScaleX());
-						double realMinY = app.getActiveEuclidianView()
-								.toRealWorldCoordY(geoText.getAbsoluteScreenLocY());
-						double height = ((GeoImage) geoText).getFillImage().getHeight()
-								* ((GeoImage) geoText).getScaleY();
-						double realMaxY = app.getActiveEuclidianView()
-								.toRealWorldCoordY(geoText.getAbsoluteScreenLocY() - height);
-						((GeoImage) geoText).setRealWorldCoord(realMinX, realMinY, 0);
-						((GeoImage) geoText).setRealWorldCoord(realMaxX, realMinY, 1);
-						// C point created or updated - the next bug fixed with
-						// this:
-						// insert an image, scale with right side corner point,
-						// pin, scale the view, unpin => image was sheared
-						((GeoImage) geoText).setRealWorldCoord(realMinX, realMaxY, 2);
-						((GeoImage) geoText).setRealWorldCoord(realMaxX, realMaxY, 3);
+						((GeoImage) geoText).screenToReal();
 					} else {
 						double x = app.getActiveEuclidianView().toRealWorldCoordX(geoText.getAbsoluteScreenLocX());
 						double y = app.getActiveEuclidianView().toRealWorldCoordY(geoText.getAbsoluteScreenLocY());

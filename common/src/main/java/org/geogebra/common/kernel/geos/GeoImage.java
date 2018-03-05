@@ -814,6 +814,30 @@ public class GeoImage extends GeoElement implements Locateable,
 				getKernel().getApplication().getActiveEuclidianView().toScreenCoordY(getCorner(0).inhomY));
 	}
 
+	/**
+	 * Updates the real world coordinates accordingly of the current real world
+	 * coordinates.
+	 */
+	public void screenToReal() {
+		double realMinX = this.getKernel().getApplication().getActiveEuclidianView()
+				.toRealWorldCoordX(getAbsoluteScreenLocX());
+		double realMaxX = this.getKernel().getApplication().getActiveEuclidianView()
+				.toRealWorldCoordX(getAbsoluteScreenLocX() + getFillImage().getWidth() * getScaleX());
+		double realMinY = this.getKernel().getApplication().getActiveEuclidianView()
+				.toRealWorldCoordY(getAbsoluteScreenLocY());
+		double height = getFillImage().getHeight() * getScaleY();
+		double realMaxY = this.getKernel().getApplication().getActiveEuclidianView()
+				.toRealWorldCoordY(getAbsoluteScreenLocY() - height);
+		setRealWorldCoord(realMinX, realMinY, 0);
+		setRealWorldCoord(realMaxX, realMinY, 1);
+		// C point created or updated - the next bug fixed with
+		// this:
+		// insert an image, scale with right side corner point,
+		// pin, scale the view, unpin => image was sheared
+		setRealWorldCoord(realMinX, realMaxY, 2);
+		setRealWorldCoord(realMaxX, realMaxY, 3);
+	}
+
 	@Override
 	public void setAbsoluteScreenLocActive(boolean flag) {
 		hasAbsoluteScreenLocation = flag;

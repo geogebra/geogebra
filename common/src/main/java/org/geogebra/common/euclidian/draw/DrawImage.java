@@ -515,6 +515,11 @@ public final class DrawImage extends Drawable {
 				double height = geoImage.getImageScreenHeight();
 				originalRatio = height / width;
 			}
+			if (absoluteLocation && geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
+				// updates the current coordinates of corner points
+				geoImage.screenToReal();
+			}
+			geoImage.updateScaleAndLocation();
 			updateImageResize(e, handler);
 
 			if (!geo.getKernel().getApplication().has(Feature.MOW_PIN_IMAGE)) {
