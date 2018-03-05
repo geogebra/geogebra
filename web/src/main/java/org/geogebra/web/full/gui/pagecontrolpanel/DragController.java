@@ -53,9 +53,9 @@ class DragController {
 							- PagePreviewCard.MARGIN;
 				}
 				dragged.card.setTop(pos);
-				dragged.handleTarget(pos);
+				// dragged.handleTarget(pos);
 			} else {
-				cancel();
+				onScrollCancel();
 			}
 		}
 
@@ -65,6 +65,7 @@ class DragController {
 
 		public void start(boolean b) {
 			scrollDown = b;
+			clearSpaces();
 			scheduleRepeating(SCROLL_TIME);
 		}
 		
@@ -73,7 +74,7 @@ class DragController {
 			boolean d = diff > 0;
 			if (autoScroll.isRunning()) {
 				if (d != scrollDown) {
-					cancel();
+					onScrollCancel();
 				}
 			} else if (!d && dragged.card.getAbsoluteTop() <= PagePreviewCard.MARGIN) {
 				start(false);
@@ -463,5 +464,10 @@ class DragController {
 		cards.getListener().update();
 		cards.clickPage(dragged.index(), false);
 		cancelDrag();
+	}
+
+	void onScrollCancel() {
+		autoScroll.cancel();
+		clearSpaces();
 	}
 }
