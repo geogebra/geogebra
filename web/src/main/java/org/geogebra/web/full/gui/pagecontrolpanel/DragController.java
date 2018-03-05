@@ -39,8 +39,8 @@ class DragController {
 	}
 
 	private class AutoScrollTimer extends Timer {
-		private static final int SCROLL_TIME = 20;
-		private static final int SCROLL_SPEED = 100;
+		private static final int SCROLL_TIME = 100;
+		private static final int SCROLL_SPEED = 10;
 		private boolean scrollDown;
 		private int autoScrollY;
 
@@ -57,7 +57,7 @@ class DragController {
 
 					dragged.move(-pos);
 				}
-				// dragged.card.setTop(pos);
+				dragged.card.setTop(pos);
 				// dragged.handleTarget(pos);
 			} else {
 				onScrollCancel();
