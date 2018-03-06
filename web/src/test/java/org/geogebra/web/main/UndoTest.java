@@ -3,6 +3,7 @@ package org.geogebra.web.main;
 import org.geogebra.web.full.gui.pagecontrolpanel.PageListController;
 import org.geogebra.web.full.main.AppWFull;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -90,6 +91,12 @@ public class UndoTest {
 		app.getGgbApi().redo();
 		shouldHaveSlides(1);
 		slideShouldHaveObjects(0, 0);
+	}
+
+
+	@Before
+	public void rootPanel() {
+		this.getClass().getClassLoader().setDefaultAssertionStatus(false);
 	}
 
 	@Test

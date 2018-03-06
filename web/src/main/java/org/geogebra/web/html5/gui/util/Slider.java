@@ -1,5 +1,6 @@
 package org.geogebra.web.html5.gui.util;
 
+import org.geogebra.common.util.StringUtil;
 import org.geogebra.web.html5.awt.GDimensionW;
 
 import com.google.gwt.dom.client.Document;
@@ -56,7 +57,8 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 
 	@Override
 	public Integer getValue() {
-		return Integer.valueOf(getRangeValue(range));
+		return StringUtil.empty(getRangeValue(range)) ? 0
+				: Integer.valueOf(getRangeValue(range));
 	}
 
 	private native String getRangeValue(Element range) /*-{
