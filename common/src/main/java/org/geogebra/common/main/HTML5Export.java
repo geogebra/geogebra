@@ -51,6 +51,7 @@ public class HTML5Export {
 		sb.append("\"enableRightClick\":false,\n");
 		sb.append("\"errorDialogsActive\":false,\n");
 		sb.append("\"useBrowserForJS\":false,\n");
+		sb.append("\"allowStyleBar\":false,\n");
 		sb.append("\"preventFocus\":false,\n");
 		sb.append("\"showZoomButtons\":true,\n");
 		sb.append("\"showFullscreenButton\":true,\n");
@@ -67,7 +68,7 @@ public class HTML5Export {
 
 		sb.append(
 				"// use this instead of ggbBase64 to load a material from geogebra.org\n");
-		sb.append("// \"material_id\":12345,\n");
+		sb.append("// \"material_id\":\"RHYH3UQ8\",\n");
 
 		sb.append("// use this instead of ggbBase64 to load a .ggb file\n");
 		sb.append("// \"filename\":\"myfile.ggb\",\n");
@@ -75,7 +76,7 @@ public class HTML5Export {
 		sb.append("\"ggbBase64\":\"");
 		// don't include preview bitmap
 		sb.append(app.getGgbApi().getBase64(false));
-		sb.append("\"};\n");
+		sb.append("\",\n};\n");
 
 		// eg var views =
 		// {"is3D":1,"AV":0,"SV":0,"CV":0,"EV2":0,"CP":0,"PC":0,"DA":0,"FI":0,"PV":0,"macro":0};
