@@ -51,8 +51,6 @@ public class ExamDialog {
 		WAIT_FOR_AIRPLANE_MODE, WAIT_FOR_TASK_LOCK, CAN_START_EXAM
 	}
 
-
-
 	/**
 	 * @param app
 	 *            application
@@ -211,7 +209,6 @@ public class ExamDialog {
 			}
 		});
 	}
-
 
 	/**
 	 * Cancel button handler
@@ -447,7 +444,6 @@ public class ExamDialog {
 		dialogState = DialogState.CAN_START_EXAM;
 	}
 
-
 	private void askForTaskLock() {
 		Log.debug("ask for task lock");
 		ExamEnvironmentW.startLockTask();
@@ -490,17 +486,14 @@ public class ExamDialog {
 		return $wnd.GeoGebraExamAndroidJsBinder.updateFullscreenStatusOn();
 	}-*/;
 
-
 	private static native void stopLockTask() /*-{
 		$wnd.GeoGebraExamAndroidJsBinder.stopLockTask();
 	}-*/;
-
 
 	private static native boolean setJavascriptTargetToExamDialog() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder
 				.setJavascriptTargetToExamDialog();
 	}-*/;
-
 
 	private static native boolean isAirplaneModeOn() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.isAirplaneModeOn();
@@ -547,7 +540,6 @@ public class ExamDialog {
 		}
 		exitAppJs();
 	}
-
 
 	private static native void setWifiOffIfNeeded() /*-{
 		$wnd.GeoGebraExamAndroidJsBinder.setWifiOffIfNeeded();

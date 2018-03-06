@@ -11,7 +11,6 @@ import org.geogebra.web.geogebra3D.web.euclidian3D.EuclidianController3DW;
 
 public class EuclidianControllerInput3DW extends EuclidianController3DW {
 
-
 	protected Input3D input3D;
 
 	public EuclidianControllerInput3DW(Kernel kernel, Input3D input3D) {
@@ -20,9 +19,7 @@ public class EuclidianControllerInput3DW extends EuclidianController3DW {
 		this.input3D = input3D;
 
 		((EuclidianControllerInput3DCompanion) companion).setInput3D(input3D);
-
 	}
-
 
 	@Override
 	public void updateInput3D() {
@@ -56,7 +53,6 @@ public class EuclidianControllerInput3DW extends EuclidianController3DW {
 		}
 
 		super.wrapMouseReleased(e);
-
 	}
 
 	private void processRightRelease() {

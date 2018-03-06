@@ -166,10 +166,8 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 				doTextFieldActionPerformed(fldConfLevel);
 			}
 		});
-		
 
 		lblResultHeader = new Label();
-
 
 		// test panel
 		testPanel = new FlowPanel();
@@ -198,7 +196,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		mainPanel = new FlowPanel();
 		add(ckPooled);
 		add(mainPanel);
-
 	}
 
 	private void updateMainPanel() {
@@ -250,7 +247,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	/** Helper method for updateGUI() */
 	private void updateNumberField(AutoCompleteTextFieldW fld, double n) {
-
 		fld.setText(daView.format(n));
 	}
 
@@ -268,8 +264,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		}
 		updateGUI();
 	}
-
-
 
 	@Override
 	public void setLabels() {
@@ -293,11 +287,8 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 
 	@Override
 	public void updatePanel() {
-
-
 		model.updateResults();
 		updateGUI();
-
 	}
 
 	public void actionPerformed(Object source) {
@@ -316,7 +307,6 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		else if (source == ckEqualVariances) {
 			model.setPooled(ckEqualVariances.getValue());
 		}
-
 	}
 
 	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
@@ -335,20 +325,17 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 			model.setHypMean(value);
 			updateGUI();
 		}
-
 	}
-
 
 	private Integer[] selectedDataIndex() {
 		return twoStatPanel.getSelectedDataIndex();
 	}
 
-
 	@Override
 	public void setStatTable(int row, String[] rowNames, int length,
             String[] columnNames) {
 		resultTable.setStatTable(1, null, columnNames.length, columnNames);
-	  }
+	}
 
 	@Override
 	public void setFormattedValueAt(double value, int row, int col) {
@@ -388,6 +375,5 @@ public class TwoVarInferencePanelW extends FlowPanel implements StatPanelInterfa
 		this.enablePooled = enablePooled;
 		ckPooled.setVisible(enablePooled);
 	}
-
 
 }

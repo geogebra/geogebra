@@ -218,9 +218,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 		if (glContext == null) {
 			Window.alert("Sorry, Your Browser doesn't support WebGL!");
 		}
-
-
-
 	}
 
 	private static native WebGLRenderingContext getBufferedContext(
@@ -343,7 +340,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 	protected final void unselectFBO() {
 		// TODO implement?
 	}
-
 
 	@Override
 	protected void needExportImage(double scale, int w, int h) {

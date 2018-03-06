@@ -20,8 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class CASDockPanelW extends NavigableDockPanelW {
 
-	CASViewW casView;
-
+	private CASViewW casView;
 
 	public CASDockPanelW(App appl) {
 		super(App.VIEW_CAS, // view id
@@ -31,10 +30,6 @@ public class CASDockPanelW extends NavigableDockPanelW {
 				4, // menu order
 				'K' // ctrl-shift-K
 		);
-
-		// initWidget(toplevel = new SimpleLayoutPanel());
-		// ancestor = new VerticalPanelSmart();
-		// toplevel.add(ancestor);
 
 		app = (AppW) appl;
 	}

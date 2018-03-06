@@ -127,7 +127,6 @@ public class CopyPasteCutW extends CopyPasteCut {
 		}
 	}
 
-
 	private Runnable getFocusCallback() {
 		return new Runnable() {
 			@Override

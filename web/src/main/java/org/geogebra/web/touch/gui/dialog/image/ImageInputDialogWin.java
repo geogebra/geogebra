@@ -10,7 +10,6 @@ import org.geogebra.common.main.App;
  */
 public class ImageInputDialogWin extends ImageInputDialogT {
 	
-	
 	/**
 	 * @param app
 	 *            application
@@ -32,7 +31,4 @@ public class ImageInputDialogWin extends ImageInputDialogT {
 			$wnd.android.callPlugin("Camera", [ 1 ]);
 		}
 	}-*/;
-
-
-	
 }

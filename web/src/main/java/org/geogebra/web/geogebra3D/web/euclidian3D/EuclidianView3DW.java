@@ -113,7 +113,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		}
 	}
 
-
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController euclidiancontroller) {
 
@@ -308,7 +307,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			super.onResize();
 			getEuclidianController().calculateEnvironment();
 		}
-
 	}
 
 	/**
@@ -381,7 +379,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 			return new RendererWnoWebGL(this);
 		}
 		return new RendererWithImplW(this, webGLcanvas);
-
 	}
 
 	@Override
@@ -410,13 +407,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	protected void setHeight(int h) {
 		// TODO: not clear what should we do
-
 	}
 
 	@Override
 	protected void setWidth(int h) {
 		// TODO: not clear what should we do
-
 	}
 
 	@Override
@@ -429,7 +424,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	@Override
 	protected void updateSizeKeepDrawables() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -438,9 +432,6 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		focusGained();
 		return true;
 	}
-
-
-
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {

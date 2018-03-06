@@ -61,7 +61,6 @@ public class TabletDeviceWin extends TouchDevice {
 			$wnd.android.callPlugin("OpenDialog", [ 1 ]);
 		}
 	}-*/;
-	
 
 	@Override
 	public boolean isOffline(AppW app) {

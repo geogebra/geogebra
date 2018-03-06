@@ -11,26 +11,21 @@ import org.geogebra.web.html5.main.AppW;
 
 public class InputDialogRotatePointW extends InputDialogRotateW {
 
-
 	private GeoPointND[] points;
 	
 	public InputDialogRotatePointW(AppW app, String title,
 			InputHandler handler, GeoPolygon[] polys, GeoPointND[] points,
 			GeoElement[] selGeos, EuclidianController ec) {
 		super(app, title, handler, polys, selGeos, ec);
-
-		this.points = points;	}
-
+		this.points = points;
+	}
 
 	@Override
 	protected void processInput(AsyncOperation<String> callback) {
-
 		DialogManager.rotateObject(app, inputPanel.getText(),
 				rbClockWise.getValue(), polys,
 				new DialogManager.CreateGeoForRotatePoint(points[0]), selGeos,
 				ec, this,
 				callback);
-		
-
 	}
 }

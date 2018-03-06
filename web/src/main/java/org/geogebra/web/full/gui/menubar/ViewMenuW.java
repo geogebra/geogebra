@@ -187,7 +187,6 @@ public class ViewMenuW extends GMenuBar {
 		update();
 	}
 
-
 	private void addToMenu(final ViewType e) {
 		final GCheckBoxMenuItem newItem = new GCheckBoxMenuItem(
 				MainMenu.getMenuBarHtml(ImgResourceHelper.safeURI(e.getIcon()),

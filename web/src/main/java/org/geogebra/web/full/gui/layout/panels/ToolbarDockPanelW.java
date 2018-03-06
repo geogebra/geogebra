@@ -22,12 +22,11 @@ import com.google.gwt.user.client.ui.Widget;
 public class ToolbarDockPanelW extends DockPanelW
 		implements AlgebraPanelInterface {
 
-
 	private ToolbarPanel toolbar;
 	private boolean toolMode;
 
 	/**
-	 * 
+	 * New panel with AV and tools
 	 */
 	public ToolbarDockPanelW() {
 		super(
@@ -38,7 +37,6 @@ public class ToolbarDockPanelW extends DockPanelW
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
-		
 	}
 	
 	@Override

@@ -51,7 +51,6 @@ public class DockGlassPaneW extends AbsolutePanel
 	private HandlerRegistration reg1;
 	private HandlerRegistration reg2;
 
-
 	private ArticleElementInterface ae;
 
 	/**********************************************

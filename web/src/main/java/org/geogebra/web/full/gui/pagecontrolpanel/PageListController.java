@@ -326,7 +326,6 @@ public class PageListController implements PageListControllerInterface,
 				.storeAction(EventType.MOVE_SLIDE, srcIdx + "", destIdx + "");
 	}
 
-
 	private void doReorder(int srcIdx, int destIdx) {
 		PagePreviewCard src = slides.get(srcIdx);
 		slides.remove(srcIdx);
@@ -477,7 +476,6 @@ public class PageListController implements PageListControllerInterface,
 		return listener;
 	}
 
-
 	/**
 	 * @param selected
 	 *            whether to select
@@ -562,7 +560,6 @@ public class PageListController implements PageListControllerInterface,
 				}
 			}
 		}
-
 	}
 
 	@Override

@@ -32,6 +32,7 @@ import org.geogebra.web.html5.util.ArticleElementInterface;
 
 /** 3D applet */
 public class AppWapplet3D extends AppWFull {
+
 	private EuclidianView3DW euclidianView3D;
 	private EuclidianController3DW euclidianController3D;
 
@@ -68,12 +69,10 @@ public class AppWapplet3D extends AppWFull {
 		return euclidianView3D;
 	}
 
-
 	@Override
 	protected GuiManagerW newGuiManager() {
 		return new GuiManager3DW(this, getDevice());
 	}
-
 
 	@Override
 	public boolean supportsView(int viewID) {

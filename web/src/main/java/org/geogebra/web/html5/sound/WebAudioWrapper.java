@@ -48,7 +48,6 @@ public class WebAudioWrapper {
 		}
 	}-*/;
 
-
 	public native void start(double min, double max, int sampleRate) /*-{
 		if (!this.@org.geogebra.web.html5.sound.WebAudioWrapper::isSupported()()) {
 			return;
@@ -70,7 +69,6 @@ public class WebAudioWrapper {
 	public double getValueAt(double t) {
 		return listener.getValueAt(t);
 	}
-
 
 	private static native void onAudioProcess(JavaScriptObject e) /*-{
 		var data = e.outputBuffer.getChannelData(0);

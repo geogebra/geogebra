@@ -157,14 +157,11 @@ public class LayoutW extends Layout implements SettingListener {
 			app.updateContentPane();
 		}
 
-
 		app.dispatchEvent(new Event(EventType.PERSPECTIVE_CHANGE, null));
 		return changed;
 		// old behaviour: just updating center, instead of updateContentPane
 		// app.refreshSplitLayoutPanel();
-
 	}
-
 	
 	private static boolean mayHaveKeyboard(DockPanelData dp) {
 		return (dp.getViewId() == App.VIEW_ALGEBRA
@@ -274,7 +271,6 @@ public class LayoutW extends Layout implements SettingListener {
 			Log.debug("Invalid perspective index: " + index);
 		}
 	}
-	
 	
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
@@ -399,7 +395,6 @@ public class LayoutW extends Layout implements SettingListener {
 		// if the view wasn't found at all we return false as well
 		return foundView;
     }
-
 
 	public AppW getApplication() {
 	    return app;

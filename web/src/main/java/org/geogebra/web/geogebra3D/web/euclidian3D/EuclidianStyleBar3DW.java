@@ -70,7 +70,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	}
 
-
 	@Override
 	protected void createButtons() {
 
@@ -133,7 +132,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnViewProjection.setSelectedIndex(((EuclidianSettings3D) ev
 				.getSettings()).getProjection());
 		btnViewProjection.addPopupHandler(this);
-
 	}
 
 	@Override
@@ -149,14 +147,12 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnChangeView = new ProjectionPopup(app, directionIcons);
 		btnChangeView.setIcon(directionIcons[getView().getProjection()]);
 		btnChangeView.addPopupHandler(this);
-
 	}
 
 	@Override
 	protected boolean isBackground() {
 		return (btnShowGrid3D != null && btnShowGrid3D.isVisible());
 	}
-
 
 	private class RotateViewPopup extends PopupMenuButtonForView3D {
 		private ImageOrText pauseIcon;
@@ -216,7 +212,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 						&& mode != EuclidianConstants.MODE_PEN);
 			}
 		}
-
 	}
 
 	@Override
@@ -227,37 +222,34 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		}
 
 		return false;
-
 	}
 
 	@Override
 	protected void setDirection(int si) {
-
-			switch (si) {
-			default:
-			case 0: // standard view
-				getView().setStandardView(true);
-				break;
-			case 1: // show all objects
+		switch (si) {
+		default:
+		case 0: // standard view
+			getView().setStandardView(true);
+			break;
+		case 1: // show all objects
 			getView().setViewShowAllObjects(true, false);
-				break;
-			case 2: // standard view orientation
-				getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
-						EuclidianView3D.ANGLE_ROT_XOY, false);
-				break;
+			break;
+		case 2: // standard view orientation
+			getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
+					EuclidianView3D.ANGLE_ROT_XOY, false);
+			break;
 
-			// views parallel to axes
-			case 3:
-				getView().setRotAnimation(-90, 90, true);
-				break;
-			case 4:
-				getView().setRotAnimation(-90, 0, true);
-				break;
-			case 5:
-				getView().setRotAnimation(0, 0, true);
-				break;
-			}
-
+		// views parallel to axes
+		case 3:
+			getView().setRotAnimation(-90, 90, true);
+			break;
+		case 4:
+			getView().setRotAnimation(-90, 0, true);
+			break;
+		case 5:
+			getView().setRotAnimation(0, 0, true);
+			break;
+		}
 	}
 
 	@Override
@@ -304,7 +296,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	protected void addBtnRotateView() {
 		add(btnViewProjection);
 		add(btnRotateView);
-
 	}
 
 	@Override

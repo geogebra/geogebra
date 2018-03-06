@@ -76,7 +76,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 			addNavigationBar();
 		}
 	}
-
 	
 	@Override
 	protected Widget loadComponent() {

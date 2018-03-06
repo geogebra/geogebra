@@ -19,7 +19,6 @@ import org.geogebra.web.full.util.SaveCallback;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.StringHandler;
 
-
 public class WinFileManager extends FileManager {
 
 	public WinFileManager(final AppW app) {
@@ -39,13 +38,11 @@ public class WinFileManager extends FileManager {
 	@Override
 	public void restoreAutoSavedFile(String json) {
 		// not in touch either
-
 	}
 
 	@Override
 	public void deleteAutoSavedFile() {
 		// not in touch either
-
 	}
 
 	@Override
@@ -125,7 +122,6 @@ public class WinFileManager extends FileManager {
 
 			}
 		});
-
 	}
 
 	void doOpen(Material mat) {
@@ -160,7 +156,6 @@ public class WinFileManager extends FileManager {
 					public void onSuccess(String fileID) {
 						getApp().setLocalID(Integer.parseInt(fileID));
 						cb.onSaved(mat, true);
-
 					}
 
 					@Override
@@ -169,7 +164,6 @@ public class WinFileManager extends FileManager {
 
 					}
 				});
-
 	}
 
 	protected native void doSave(String base64, int id, String title,
@@ -217,7 +211,6 @@ public class WinFileManager extends FileManager {
 				}
 			}
 		});
-
 	}
 
 	/**
@@ -234,7 +227,6 @@ public class WinFileManager extends FileManager {
 		}
 	}-*/;
 
-
 	private void addMaterials(String jsString) {
 		JSONTokener tok = new JSONTokener(jsString);
 		try {
@@ -248,7 +240,6 @@ public class WinFileManager extends FileManager {
 		} catch (Exception e) {
 
 		}
-
 	}
 
 	@Override
@@ -324,8 +315,6 @@ public class WinFileManager extends FileManager {
 			});
 	}
 
-
-
 	/**
 	 * @param data
 	 *            base64
@@ -336,8 +325,7 @@ public class WinFileManager extends FileManager {
 	 * @param onFailure
 	 *            failure handler
 	 */
-	native void saveDialog(String data, String title,
- StringHandler onSuccess,
+	native void saveDialog(String data, String title, StringHandler onSuccess,
 			StringHandler onFailure)/*-{
 		var that = this;
 		if ($wnd.android && $wnd.android.callPlugin) {
@@ -380,8 +368,7 @@ public class WinFileManager extends FileManager {
 
 	@Override
 	public void refreshAutosaveTimestamp() {
-		// TODO Auto-generated method stub
-
+		// no autosave timestamp
 	}
 
 }

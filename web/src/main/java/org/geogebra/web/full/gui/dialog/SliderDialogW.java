@@ -112,7 +112,6 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 		number.setSliderLocation(x, y, true);
 		angle.setSliderLocation(x, y, true);
 		
-				
 		geoResult = null;
 
 		setWidget(mainWidget = new VerticalPanel());
@@ -257,7 +256,6 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 		return geoResult;
 	}
 
-
 	@Override
 	public void onClick(ClickEvent e) {
 		Element target = e.getNativeEvent().getEventTarget().cast();
@@ -309,16 +307,13 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>, HasKeyboard
 		sliderPanelUpdate(geos);
 	}
 
-
 	private void sliderPanelUpdate(Object[] geos) {
 		sliderPanel.updatePanel(geos);
 	}
 
-
 	@Override
 	public void onChange(ChangeEvent event) {
 	    // TODO Auto-generated method stub
-	    
     }
 	
 }

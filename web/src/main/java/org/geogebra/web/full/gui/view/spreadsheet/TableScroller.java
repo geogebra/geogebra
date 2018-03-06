@@ -96,7 +96,6 @@ public class TableScroller extends ScrollPanel implements ScrollHandler {
 		Scheduler.get().scheduleDeferred(scrollRectCommand);
 	}
 
-
 	Scheduler.ScheduledCommand scrollRectCommand = new Scheduler.ScheduledCommand() {
 		@Override
 		public void execute() {

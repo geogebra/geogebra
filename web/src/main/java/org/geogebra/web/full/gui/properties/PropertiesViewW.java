@@ -436,7 +436,6 @@ public class PropertiesViewW extends PropertiesView
 		getObjectPanel().forgetGeoAdded();
 	}
 
-
 	@Override
 	public void updateSelection(ArrayList<GeoElement> geos) {
 		if (geos.size() != 0 && optionType != OptionType.OBJECTS) {

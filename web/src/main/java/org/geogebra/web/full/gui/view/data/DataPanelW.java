@@ -81,7 +81,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 	private void buildDataTable() {
 		dataTable = new StatTableW();
-		
 	}
 
 	private void createGUI() {
@@ -95,7 +94,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		add(scrollPane);
 		setLabels();
 	}
-
 
 	@Override
 	public void setLabels() {
@@ -183,9 +181,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		}
 
 		updateSelectionList(dataArray);
-
 	}
-
 	
 	private void populateDataTable(ArrayList<GeoElement> dataArray) {
 
@@ -202,7 +198,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 			populateRegressionDataTable(dataArray);
 
 		}
-
 	}
 //
 //	/**
@@ -252,8 +247,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 //
 //		}
 //	}
-
-	
 //}
 	
 	/**
@@ -272,7 +265,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 * Mark all items as enabled
 	 */
 	public void enableAll() {
-
 		for (int i = 0; i < selectionList.length; ++i) {
 			if (!selectionList[i]) {
 				statController.updateSelectedDataList(i, true);
@@ -281,10 +273,9 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 				if (w instanceof CheckBox) {
 					((CheckBox)w).setValue(true);
 				}
-		
 			}
-			
 		}
+
 		cbEnableAll.setValue(true);
 		cbEnableAll.setEnabled(false);
 	}
@@ -305,6 +296,5 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	public void onResize() {
 	    scrollPane.setHeight(getOffsetHeight() - lblHeader.getOffsetHeight() + "px");
     }
-
 
 }

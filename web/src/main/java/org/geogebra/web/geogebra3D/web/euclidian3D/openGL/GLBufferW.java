@@ -28,8 +28,6 @@ public class GLBufferW implements GLBuffer {
 		currentLength = 0;
 	}
 
-
-
 	@Override
 	public boolean isEmpty() {
 		return isEmpty;
@@ -77,7 +75,6 @@ public class GLBufferW implements GLBuffer {
 	public void rewind() {
 		index = 0;
 	}
-
 
 	@Override
 	public void set(ArrayList<Double> array, int length) {

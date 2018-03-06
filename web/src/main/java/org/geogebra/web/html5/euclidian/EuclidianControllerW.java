@@ -120,7 +120,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	public EuclidianControllerW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
-
 	}
 
 	@Override
@@ -162,7 +161,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void twoTouchMove(Touch touch, Touch touch2) {
 		mtg.twoTouchMove(touch, touch2);
 	}
-
 
 	@Override
 	public void onTouchEnd(TouchEndEvent event) {
@@ -280,11 +278,8 @@ public class EuclidianControllerW extends EuclidianController implements
 		return mtg.hitResetIcon();
 	}
 
-
-
 	@Override
 	public boolean textfieldJustFocused(int x, int y, PointerEventType type) {
-
 
 		if (isComboboxFocused()) {
 			// Log.info("isComboboxFocused!");
@@ -368,9 +363,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		return processed;
 	}
 
-
-
-
 	@Override
 	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
 	        Hits hits) {
@@ -426,7 +418,6 @@ public class EuclidianControllerW extends EuclidianController implements
 			geo0.setRealWorldLoc(ev.toRealWorldCoordX(mtg.touchEventX(x)),
 					ev.toRealWorldCoordY(mtg.touchEventY(y)));
 			geo0.updateRepaint();
-
 		}
 	}
 
@@ -439,7 +430,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void closePopups(int x, int y, PointerEventType type) {
 		PointerEvent wrap = new PointerEvent(x, y, type, mtg);
 		((AppW) app).closePopups(wrap.getX(), wrap.getY());
-
 	}
 
 	@Override

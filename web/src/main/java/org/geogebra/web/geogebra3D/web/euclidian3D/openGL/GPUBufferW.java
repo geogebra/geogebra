@@ -22,5 +22,4 @@ public class GPUBufferW implements GPUBuffer {
 		return impl;
 	}
 
-
 }

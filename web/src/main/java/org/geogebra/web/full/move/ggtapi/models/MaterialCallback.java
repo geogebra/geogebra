@@ -11,8 +11,6 @@ import org.geogebra.web.html5.gui.tooltip.ToolTipManagerW;
 
 public abstract class MaterialCallback implements MaterialCallbackI {
 
-
-
 	@Override
 	public void onError(Throwable exception) {
 		Log.error("Tube API error:" + exception.getMessage());
@@ -24,7 +22,6 @@ public abstract class MaterialCallback implements MaterialCallbackI {
 	@Override
 	public void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
 		// onLoaded(result);
-
 	}
 
 }

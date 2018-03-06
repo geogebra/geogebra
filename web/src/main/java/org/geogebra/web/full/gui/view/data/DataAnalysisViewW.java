@@ -81,7 +81,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		}
 	};
 
-
 	Scheduler.ScheduledCommand deferredDataPanelOnRes = new Scheduler.ScheduledCommand() {
 		@Override
 		public void execute() {
@@ -98,7 +97,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 				dataPanel.onResize();
 			}
 		}
-		
 	};
 
 	private DataSource dataSource;
@@ -127,13 +125,10 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		model.setIniting(false);
 	}
 
-
-	/*************************************************
-	 * END constructor
+	/**
+	 * @param mode
+	 *            app mode
 	 */
-
-
-
 	public void changeMode(int mode) {
 		model = new DataAnalysisModel(app, this, daCtrl);
 		setView(dataSource, mode, true);
@@ -142,13 +137,11 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	protected void setView(DataSource dataSource, int mode,
 			boolean forceModeUpdate) {
 		
-		
 		dataSource.setFrequencyFromColumn(true);
 
 		dataSource.setDataListFromSelection(mode);
 		dataDisplayPanel1 = new DataDisplayPanelW(this);
 		dataDisplayPanel2 = new DataDisplayPanelW(this);
-
 
 		comboPanelSplit = new SplitLayoutPanel();
 		comboPanelSplit.setStyleName("comboSplitLayout");
@@ -163,7 +156,6 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 		//		updateFonts();
 		setLabels();
 		updateGUI();
-
 	}
 
 	public Widget getStyleBar() {
@@ -193,21 +185,18 @@ public class DataAnalysisViewW extends FlowPanel implements View,
 	public void setPlotPanelOVRawData(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
 		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
-
 	}
 
 	@Override
 	public void setPlotPanelOVFrequency(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.BARCHART, mode);
 		dataDisplayPanel2.setPanel(PlotType.BOXPLOT, mode);
-
 	}
 
 	@Override
 	public void setPlotPanelOVClass(int mode) {
 		dataDisplayPanel1.setPanel(PlotType.HISTOGRAM, mode);
 		dataDisplayPanel2.setPanel(PlotType.HISTOGRAM, mode);
-
 	}
 
 	@Override

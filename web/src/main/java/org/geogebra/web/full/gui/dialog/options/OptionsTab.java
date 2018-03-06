@@ -991,7 +991,6 @@ public class OptionsTab extends FlowPanel {
 		public void setLineOpacityVisible(boolean value) {
 			opacitySlider.setVisible(value);
 		}
-
 	}
 
 	private class AngleArcSizePanel extends OptionPanel implements
@@ -1036,7 +1035,6 @@ public class OptionsTab extends FlowPanel {
 		public void setValue(int value) {
 			slider.setValue(value);
 		}
-
 	}
 
 	private class SlopeTriangleSizePanel extends OptionPanel implements
@@ -1104,8 +1102,7 @@ public class OptionsTab extends FlowPanel {
 		// enableFilling(!value);
 		// }
 
-	} // IneqPanel
-
+	}
 
 	private class TextFieldSizePanel extends OptionPanel implements
 			ITextFieldListener {

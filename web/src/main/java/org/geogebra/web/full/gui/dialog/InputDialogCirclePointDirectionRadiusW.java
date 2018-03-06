@@ -10,8 +10,6 @@ import org.geogebra.web.html5.main.AppW;
 
 public class InputDialogCirclePointDirectionRadiusW extends InputDialogRadiusW {
 
-	
-
 	private GeoPointND geoPoint;
 	private GeoDirectionND forAxis;
 

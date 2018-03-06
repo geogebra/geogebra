@@ -92,7 +92,6 @@ public class ToolBarW extends FlowPanel
 		this.app = app1;
 	}
 
-
 	/**
 	 * @return The dock panel associated with this toolbar or null if this is
 	 *         the general toolbar.
@@ -175,7 +174,6 @@ public class ToolBarW extends FlowPanel
 
 			this.mode = tmpMode;
 			app.getKernel().notifyModeChanged(mode, ModeSetter.DOCK_PANEL);
-
 		}
 
 		return tmpMode;
@@ -229,7 +227,6 @@ public class ToolBarW extends FlowPanel
 			// end of Feature.TOOLBAR_ON_SMALL_SCREENS
 		}
 	}
-
 
 	protected ModeToggleMenuW createModeToggleMenu(AppW app, Vector<Integer> menu, int order) {
 		// toolbarVecSize is i.e. 12 for AV, 14 for 3D
@@ -297,9 +294,6 @@ public class ToolBarW extends FlowPanel
 		}
 	}
 
-
-	
-
 	/**
 	 * 
 	 * @return true if any of the submenus are opened
@@ -322,7 +316,6 @@ public class ToolBarW extends FlowPanel
 
 	public void selectMenuButton(int index) {
 		tb.selectMenuButton(index);
-
 	}
 
 	public void selectMenu(int index) {
@@ -400,7 +393,6 @@ public class ToolBarW extends FlowPanel
 			}
 		}
 	}
-
 
 	@Override
 	public void onMouseOut(MouseOutEvent event) {

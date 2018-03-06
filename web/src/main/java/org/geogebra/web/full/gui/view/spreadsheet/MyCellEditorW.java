@@ -51,11 +51,9 @@ public class MyCellEditorW implements BaseCellEditor {
 	// so we can return to that column when <enter> pressed
 	private int tabReturnCol = -1;
 
-
 	public void setAllowProcessGeo(boolean allowProcessGeo) {
 		this.allowProcessGeo = allowProcessGeo;
 	}
-
 
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		autoCompleteTextField.setAutoComplete(enableAutoComplete);

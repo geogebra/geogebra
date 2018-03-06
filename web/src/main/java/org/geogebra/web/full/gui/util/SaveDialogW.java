@@ -113,9 +113,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 	private Visibility defaultVisibility = Visibility.Shared;
 	private Localization loc;
 
-	// private MaterialCallback materialCB;
-
-
 	/**
 	 * @param app
 	 *            AppW
@@ -172,7 +169,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		app.setDefaultCursor();
 		dontSaveButton.setEnabled(true);
 		app.closePopupsNoTooltips();
-
 	}
 
 	/**
@@ -230,7 +226,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 				hide();
 			}
 
-
 			@Override
 			public void onError(final Throwable exception) {
 				Log.error("SAVE Error" + exception.getMessage());
@@ -265,7 +260,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler,
 		return Math.max(System.currentTimeMillis() / 1000,
 		        app.getSyncStamp() + 1);
 	}
-
 
 	private HorizontalPanel getTitelPanel() {
 		final HorizontalPanel titlePanel = new HorizontalPanel();

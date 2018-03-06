@@ -105,8 +105,6 @@ public class GLookAndFeel implements GLookAndFeelI{
 		}
 	}
 	
-	
-	
 	/**
 	 * @return app type for API calls
 	 */
@@ -124,8 +122,6 @@ public class GLookAndFeel implements GLookAndFeelI{
 	public String getLoginListener() {
 	    return null;
     }
-
-	
 
 	@Override
 	public boolean isEmbedded() {

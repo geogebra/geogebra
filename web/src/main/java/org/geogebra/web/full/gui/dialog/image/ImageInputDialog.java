@@ -49,7 +49,6 @@ public class ImageInputDialog extends UploadImageDialog {
 		}
 	}
 	
-	
 	@Override
 	protected void uploadClicked() {
 		super.uploadClicked();

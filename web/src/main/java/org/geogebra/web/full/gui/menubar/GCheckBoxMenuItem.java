@@ -132,7 +132,5 @@ public class GCheckBoxMenuItem extends AriaMenuItem {
         }
 		
 	}
-	
-	
 
 }

@@ -199,7 +199,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		ec.wrapMouseReleased(event);
 	}
 
-
 	public void onGestureChange(GestureChangeEvent event) {
 		// AbstractEvent e =
 		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
@@ -385,7 +384,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		}
 
 	}
-
 
 	private boolean isWholePageDrag() {
 		boolean result = app.has(Feature.WHOLE_PAGE_DRAG) && ec.getMode() == EuclidianConstants.MODE_MOVE
@@ -646,9 +644,6 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 	public LinkedList<PointerEvent> getMouseEventPool() {
 		return mousePool;
 	}
-
-
-
 
 	@Override
 	public LinkedList<PointerEvent> getTouchEventPool() {

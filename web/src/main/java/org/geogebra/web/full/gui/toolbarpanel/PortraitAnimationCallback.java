@@ -10,7 +10,6 @@ import com.google.gwt.dom.client.Style.Overflow;
  */
 public class PortraitAnimationCallback extends HeaderAnimationCallback {
 
-
 	private AppW app;
 
 	/**
@@ -22,7 +21,6 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 	public PortraitAnimationCallback(Header header, AppW app) {
 		super(header, 0, 0);
 		this.app = app;
-
 	}
 
 	@Override
@@ -34,7 +32,7 @@ public class PortraitAnimationCallback extends HeaderAnimationCallback {
 			header.toolbarPanel.onOpen();
 		}
 		// header.hideCenter();
-		}
+	}
 
 	@Override
 	protected void onEnd() {

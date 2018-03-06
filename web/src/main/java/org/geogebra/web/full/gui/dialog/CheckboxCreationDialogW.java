@@ -119,7 +119,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 		public void remove(int idx) {
 			removeItem(idx);
 			geos.remove(idx);
-	        
         }
 	}
 	
@@ -292,7 +291,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 
 		// Make this dialog display it.
 		setWidget(optionPane);
-		
 	}
 
 	public void actionPerformed(Object src) {
@@ -303,7 +301,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 			hide();
 		}
 	}
-
 
 	private void apply() {
 		// create new GeoBoolean
@@ -349,7 +346,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 	@Override
 	public void setVisible(boolean flag) {
 		if (!isModal()) {
-
 			if (flag) {
 				// app.setMoveMode();
 				app.getSelectionManager().addSelectionListener(this);
@@ -358,7 +354,6 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 				app.setSelectionListenerMode(null);
 				app.setMode(EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX);
 			}
-
 		}
 		// if (app.has(Feature.KEYBOARD_BEHAVIOUR)) {
 		// if (flag) {
@@ -370,6 +365,5 @@ public class CheckboxCreationDialogW extends DialogBoxW implements
 
 		super.setVisible(flag);
 	}
-
 
 }

@@ -18,7 +18,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
-
 public class InspectorTableW extends FlexTable implements IGridListener {
 	private static final int HEADER_ROW = 0;
 	private GridModel model;
@@ -128,7 +127,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		setCellWidget(HEADER_ROW, col, "inspectorTableHeader", title);
     }
 	
-	
 	@Override
 	public void updateDataCell(int row, int col, DataCell value) {
 		// Cells at row 0 are headers.
@@ -140,7 +138,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		//		+ " col: " + col);
 		Widget widget = getWidget(row, col);
 		
-		
 		if (widget != null) {
 			if (widget == cellEditor) {
 				((AutoCompleteTextFieldW)widget).setText(value.toString());
@@ -150,7 +147,6 @@ public class InspectorTableW extends FlexTable implements IGridListener {
 		} else {
 			setCellWidget(row, col, "inspectorTableData", value);
 		}
-
 	}
 
 	protected void setCellWidget(int row, int col, String style, DataCell cell) {

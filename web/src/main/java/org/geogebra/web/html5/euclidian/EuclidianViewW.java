@@ -181,7 +181,6 @@ public class EuclidianViewW extends EuclidianView implements
 				}
 			}
 		});
-
 	}
 
 	/**
@@ -210,8 +209,6 @@ public class EuclidianViewW extends EuclidianView implements
 		initBaseComponents(evPanel, euclidiancontroller, viewNo, settings);
 		initClickStartHandler();
 	}
-
-
 
 	@Override
 	public final GFont getFont() {
@@ -1401,9 +1398,7 @@ public class EuclidianViewW extends EuclidianView implements
 			}
 
 			return;
-		 
 		}
-
 	}
 
 	private void addDummyDiv() {
@@ -1419,7 +1414,6 @@ public class EuclidianViewW extends EuclidianView implements
 		dummyDiv.getElement().getStyle().setTop(-1000.0, Unit.PX);
 		dummyDiv.getElement().getStyle().setPosition(Position.ABSOLUTE);
 	}
-
 
 	@Override
 	public void readText(final String text) {

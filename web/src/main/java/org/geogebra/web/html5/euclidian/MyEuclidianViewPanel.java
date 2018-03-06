@@ -31,7 +31,6 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 			getCanvas().getElement().getStyle().setZIndex(0);
 			add(getCanvas());
 		}
-
 	}
 
 	/**
@@ -60,7 +59,6 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 
 	@Override
 	public EuclidianView getEuclidianView() {
-
 		return ev;
 	}
 
@@ -78,6 +76,5 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements
 	public void updateNavigationBar() {
 		// TODO Auto-generated method stub
 	}
-
 
 }

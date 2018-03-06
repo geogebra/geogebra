@@ -204,8 +204,6 @@ public class PenSubMenu extends SubMenuPanel {
 		closeFloatingMenus();
 	}
 
-
-
 	private void doSelectPen() {
 		pen.getElement().setAttribute("selected", "true");
 		setColorsEnabled(true);

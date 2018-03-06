@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -19,7 +18,6 @@ public class GeoGebraIconW {
 
 	private static StyleBarResources lafIcons = StyleBarResources.INSTANCE;
 	private static MaterialDesignResources matIcons = MaterialDesignResources.INSTANCE;
-
 
 	private static ImageResource[] gridStyleIcons = {
 			(lafIcons.stylingbar_empty()), (lafIcons.grid()),
@@ -234,22 +232,22 @@ public class GeoGebraIconW {
 	 */
 	public static ImageOrText createAxesStyleIcon(int id) {
 		ImageResource url = null;
-			switch (id) {
-			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
-				url = GuiResources.INSTANCE.deco_axes_arrow();
-				break;
-			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
-				url = GuiResources.INSTANCE.deco_axes_arrows();
-				break;
-			case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
-				url = GuiResources.INSTANCE.deco_axes_arrow_filled();
-				break;
-			case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
-				url = GuiResources.INSTANCE.deco_axes_arrows_filled();
-				break;
-			default:
-				url = GuiResources.INSTANCE.deco_axes_none();
-			}
+		switch (id) {
+		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
+			url = GuiResources.INSTANCE.deco_axes_arrow();
+			break;
+		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
+			url = GuiResources.INSTANCE.deco_axes_arrows();
+			break;
+		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW_FILLED:
+			url = GuiResources.INSTANCE.deco_axes_arrow_filled();
+			break;
+		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS_FILLED:
+			url = GuiResources.INSTANCE.deco_axes_arrows_filled();
+			break;
+		default:
+			url = GuiResources.INSTANCE.deco_axes_none();
+		}
 
 		return new ImageOrText(url);
 	}

@@ -151,13 +151,10 @@ public abstract class FileManager extends MaterialsManager {
 
 	}
 
-
 	@Override
 	public boolean shouldKeep(int id) {
 		return true;
 	}
-
-
 
 	@Override
 	public void setFileProvider(Provider provider) {
@@ -168,10 +165,6 @@ public abstract class FileManager extends MaterialsManager {
 	public Provider getFileProvider() {
 		return this.provider;
 	}
-
-
-
-
 
 	@Override
 	public void openMaterial(final Material material) {
@@ -218,8 +211,6 @@ public abstract class FileManager extends MaterialsManager {
 		}
 		return true;
 	}
-
-
 
 	@Override
 	public native void nativeShare(String base64, String title)/*-{

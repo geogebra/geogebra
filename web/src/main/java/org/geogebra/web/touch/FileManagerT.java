@@ -247,7 +247,6 @@ public class FileManagerT extends FileManager {
 						Log.debug("DELETE Could not get file: " + key
 				                + FILE_EXT);
 			        }
-
 		        });
 	}
 
@@ -596,9 +595,7 @@ public class FileManagerT extends FileManager {
 			        public void onFailure(final FileError error) {
 				        cb.onError();
 			        }
-
 		        });
-
 	}
 
 	/**
@@ -631,19 +628,17 @@ public class FileManagerT extends FileManager {
 										nextFreeID++;
 									}
 
-
-
 									@Override
-					        public void onFailure(final FileError error) {
-						        //
-					        }
+									public void onFailure(
+											final FileError error) {
+										//
+									}
 				        });
 			}
 
 			@Override
 			public void onFailure(FileError reason) {
 				// TODO Auto-generated method stub
-
 			}
 		});
 	}
@@ -811,13 +806,12 @@ public class FileManagerT extends FileManager {
 
 	@Override
 	public void setTubeID(String localID, Material mat) {
-		this.createMetaData(localID, mat, null);
-
+		createMetaData(localID, mat, null);
 	}
 
 	@Override
     public void openMaterial(final Material material) {
-		this.getBase64(getFileKey(material),
+		getBase64(getFileKey(material),
 		        new Callback<String, FileError>() {
 
 			@Override

@@ -23,7 +23,6 @@ import com.himamis.retex.editor.web.MathFieldW;
  */
 public class ReTeXHelper implements LaTeXHelper {
 
-
 	@Override
 	public CASTableCellEditor getCASEditor(CASTableW table, AppW app,
 			CASTableControllerW ml) {
@@ -39,7 +38,6 @@ public class ReTeXHelper implements LaTeXHelper {
 	public RadioTreeItem getAVInput(Kernel kernel) {
 		return new RadioTreeItem(kernel).initInput();
 	}
-
 
 	@Override
 	public RadioTreeItem getSliderItem(GeoElement ob) {

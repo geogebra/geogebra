@@ -62,13 +62,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/js/domvas.js")
 	TextResource domvas();
 
-//	@Source("org/geogebra/web/resources/js/WebMIDIAPIWrapper.js")
-//	TextResource webMidiAPIWrapperJs();
-//
-//	@Source("org/geogebra/web/resources/js/midi/jasmid.js")
-//	TextResource jasmidJs();
-
-
 	@Source("org/geogebra/web/resources/css/web-styles.less")
 	LessResource modernStyle();
 
@@ -115,45 +108,8 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("org/geogebra/web/resources/scss/colors.scss")
 	SassResource colorsScss();
 
-
 	@Source("org/geogebra/web/resources/scss/layout.scss")
 	SassResource layoutScss();
-
-
-	// don't include these anywhere!
-	// they are only here, because otherwise they are not compiled on browser
-	// refresh and then I cannot see the changes!
-	// ---------------------------------------------------------------
-	// @Source("org/geogebra/web/resources/css/functions.less")
-	// LessResource styleFunctions();
-	//
-	// @Source("org/geogebra/web/resources/css/directions.less")
-	// LessResource styleDirections();
-	//
-	// @Source("org/geogebra/web/resources/css/definitions.less")
-	// LessResource styleDefinitions();
-	//
-	// @Source("org/geogebra/web/resources/css/general.less")
-	// LessResource generalStyle();
-	//
-	// @Source("org/geogebra/web/resources/css/av.less")
-	// LessResource avStyle();
-	//
-	// @Source("org/geogebra/web/resources/css/av.ltr.less")
-	// LessResource avStyleLTR();
-	//
-	// @Source("org/geogebra/web/resources/css/av.rtl.less")
-	// LessResource avStyleRTL();
-
-	// @Source("org/geogebra/web/resources/css/headerbar.less")
-	// LessResource headerbarStyle();
-
-	// EXAM
-	// @Source("org/geogebra/web/exam/css/exam.less")
-	// LessResource examStyle();
-
-	// don't include files above
-	// -----------------------------------------------------------------
 
 	@Source("org/geogebra/web/resources/css/jquery-ui.css")
 	TextResource jqueryStyle();
@@ -163,9 +119,6 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/images/spinner.gif")
 	ImageResource getGeoGebraWebSpinner();
-
-	// @Source("org/geogebra/web/resources/images/spinner.html")
-	// TextResource ggbSpinnerHtml();
 
 	@Source("org/geogebra/web/resources/images/ggbSplash.html")
 	TextResource ggbSplashHtml();

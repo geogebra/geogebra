@@ -422,7 +422,6 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler {
 		}
 		return geo.isGeoBoolean() || geo.isGeoButton() || geo.isGeoList();
 	}
-    
 	
 	private void updateSpecialEditor(Grid table, GeoElement geo, int row,
 	        int column) {

@@ -389,5 +389,4 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		}
     }
 
-
 }

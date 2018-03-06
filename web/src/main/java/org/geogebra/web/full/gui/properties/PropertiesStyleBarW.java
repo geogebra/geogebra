@@ -70,8 +70,6 @@ public class PropertiesStyleBarW extends
 		
 		buildGUI();
 		updateGUI();
-		
-		
 	}
 	
 	/**
@@ -108,7 +106,6 @@ public class PropertiesStyleBarW extends
 		setButtonVisible(OptionType.CAS,
 				app.getGuiManager().showView(App.VIEW_CAS));
     }
-
 	
 	private void buildGUI() {
 		final AriaMenuBar toolbar = new AriaMenuBar() {
@@ -196,18 +193,12 @@ public class PropertiesStyleBarW extends
 		}
 		currentButton = buttonMap.get(type);
 		currentButton.addStyleName("selected");
-	    
     }
-
-
-
 
 	private String getMenuHtml(OptionType type) {
 		String typeString = "";//propertiesView.getTypeString(type);
 		return MainMenu.getMenuBarHtml(getTypeIcon(type), typeString);
     }
-	
-
 
 	/**
 	 * @param type
@@ -243,14 +234,10 @@ public class PropertiesStyleBarW extends
 		return null;
     }
 
-
-
 	/**
 	 * @return stylebar panel
 	 */
 	public FlowPanel getWrappedPanel() {
 	    return wrappedPanel;
     }
-
-
 }

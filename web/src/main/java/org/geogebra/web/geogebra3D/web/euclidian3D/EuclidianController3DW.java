@@ -103,7 +103,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		setKernel(kernel);
 		// RealSense.initIfSupported(this);
 		// RealSense.createInstance();
-
 	}
 
 	@Override
@@ -133,7 +132,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	public void onGestureStart(GestureStartEvent event) {
 		mtg.onGestureStart(event);
 	}
-
 
 	@Override
 	public void onTouchCancel(TouchCancelEvent event) {
@@ -177,13 +175,10 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg.onPointerEventStart(event);
 	}
 
-
 	@Override
 	public void onMouseWheel(MouseWheelEvent event) {
 		mtg.onMouseWheel(event);
 	}
-
-
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
@@ -210,25 +205,20 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg.onMouseDown(event);
 	}
 
-
 	@Override
 	protected void initToolTipManager() {
 		mtg.initToolTipManager();
-
 	}
 
 	@Override
 	protected void resetToolTipManager() {
 		mtg.resetToolTipManager();
-
 	}
 
 	@Override
 	protected boolean hitResetIcon() {
 		return mtg.hitResetIcon();
 	}
-
-
 
 	/**
 	 * @return the multiplier that must be used to multiply the native event
@@ -248,12 +238,10 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 	@Override
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
-
 		oldCenterX3D = (int) (x1 + x2) / 2;
 		oldCenterY3D = (int) (y1 + y2) / 2;
 
 		twoTouchStartCommon(x1, y1, x2, y2);
-
 	}
 
 	@Override
@@ -302,27 +290,21 @@ public class EuclidianController3DW extends EuclidianController3D implements
 			oldCenterY3D = centerY;
 			this.oldDistance = newZoomDistance;
 		}
-
-
 	}
 
-	// /////////////////////////////////////////////////////
-	// specific methods for 3D controller
-	// /////////////////////////////////////////////////////
-
+	/*
+	 * specific methods for 3D controller
+	 */
 
 	@Override
 	protected void updateSelectionRectangle(boolean keepScreenRatio) {
-		// TODO
-
+		// no selection rectangle
 	}
 
 	@Override
 	protected void processMouseMoved(AbstractEvent e) {
-
 		super.processMouseMoved(e);
 		processMouseMoved();
-
 	}
 
 	@Override
@@ -341,7 +323,6 @@ public class EuclidianController3DW extends EuclidianController3D implements
 
 			super.wrapMouseDragged(event, startCapture);
 		}
-
 	}
 
 	@Override
@@ -352,13 +333,11 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	@Override
 	public void setActualSticky(boolean b) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void closePopups(int x, int y, PointerEventType type) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

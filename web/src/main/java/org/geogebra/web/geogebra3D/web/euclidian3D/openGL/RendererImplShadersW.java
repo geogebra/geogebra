@@ -100,7 +100,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		vertShader = getShader(
 				WebGLRenderingContext.VERTEX_SHADER,
 				ShaderProvider.getVertexShader(needsSmallFragmentShader, true));
-
 	}
 
 	@Override
@@ -152,7 +151,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		vboTextureCoords.set(glContext.createBuffer());
 		vboIndices.set(glContext.createBuffer());
 	}
-
 
 	@Override
 	final protected void createBufferFor(GPUBuffer buffer) {

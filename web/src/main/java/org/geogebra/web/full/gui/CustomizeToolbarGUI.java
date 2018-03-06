@@ -179,7 +179,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		protected void addDefaultLeaf(TreeItem item, DraggableTool tool) {
 			setupItem(item, tool);
 			tool.addTool(tool.duplicate());
-
 		}
 
 		public void insertTool(int idxBefore, DraggableTool tool) {
@@ -203,7 +202,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				item = insertItem(idxBefore, tool);
 				addDefaultLeaf(item, tool);
 			}
-
 		}
 
 		@Override
@@ -354,8 +352,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			addStyleName("insertAfterBorder");
 		}
 
-
-
 		public boolean isInTree() {
 			return treeItem != null;
 		}
@@ -395,7 +391,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			toolTree.checkBranch(treeItem);
 
 			return item;
-
 		}
 
 		public TreeItem insertTool(int idxBefore, DraggableTool tool) {
@@ -425,13 +420,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			} else {
 				// comes from allTools list
 				item = setupItem(treeItem.insertItem(idxBefore, tool), tool);
-
 			}
 
 			toolTree.checkBranch(treeItem);
 
 			return item;
-
 		}
 
 		void removeFromTree() {
@@ -513,7 +506,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			}
 
 			return (branch.getChildIndex(treeItem) == branch.getChildCount() - 1 && !isTopHit(y));
-
 		}
 
 		void removeHighligts() {
@@ -567,8 +559,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			return (y > getAbsoluteTop() && y < getAbsoluteTop()
 			        + getOffsetHeight() / 2);
 		}
-
-
 
 		public void addDropHandler(DropHandler handler) {
 			hrDrop = addDomHandler(handler, DropEvent.getType());

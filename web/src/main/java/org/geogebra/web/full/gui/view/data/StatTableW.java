@@ -109,7 +109,6 @@ public class StatTableW extends FlowPanel {
 			Log.debug(e);
 		}
 	}
-
 	
 	/**
 	 * @author gabor
@@ -144,12 +143,15 @@ public class StatTableW extends FlowPanel {
 		}
 		
 		public boolean isCellEditable(int rowIndex, int colIndex) {
-			
 			return allowCellEdith;
 		}
 		
-		
-
+		/**
+		 * Update selection after click
+		 * 
+		 * @param event
+		 *            click event
+		 */
 		public void handleSelection(ClickEvent event) {
 	       Cell c = this.getCellForEvent(event);
 	       Element parentRow = c.getElement().getParentElement();
@@ -182,7 +184,6 @@ public class StatTableW extends FlowPanel {
 		    	   parentRow.addClassName("selected");
 		       }
         }
-			
 
 		private void clearSelectionFrom(Cell c) {
 			if (c != null) {
@@ -190,7 +191,6 @@ public class StatTableW extends FlowPanel {
 		        	getRowFormatter().getElement(i).removeClassName("selected");
 		        }
 			}
-	        
         }
 
 		private void clearSelection(Cell c) {
@@ -289,16 +289,11 @@ public class StatTableW extends FlowPanel {
 		public void setValueAt(String str, int row, int col) {
 	        setWidget(row, col, new Label(str));
         }
-
-		
-		
 	}
 
 	public void setValueAt(String value, int row, int column) {
 	   myTable.setWidget(row, column, new Label(value));
     }
-
-
 
 	public MyTable getTable() {
 	    return myTable;

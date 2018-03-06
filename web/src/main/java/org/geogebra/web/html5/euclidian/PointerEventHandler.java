@@ -116,7 +116,6 @@ public class PointerEventHandler {
 		if ((modifiers & 1) > 0) {
 			e.setIsRightClick(true);
 		}
-
 	}
 
 	private void singleMove(double x, double y, int type, int modifiers) {
@@ -133,7 +132,6 @@ public class PointerEventHandler {
 		adjust(e, modifiers);
 		this.tc.onPointerEventEnd(e);
 	}
-
 
 	private void setPointerType(int i, boolean pointerDown) {
 		this.tc.setDefaultEventType(types[i], pointerDown);

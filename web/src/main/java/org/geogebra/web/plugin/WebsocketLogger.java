@@ -167,7 +167,6 @@ public class WebsocketLogger extends SensorLogger {
 		}
 	}
 
-
 	private void handleIDchecked(boolean correctID) {
 		for (WebSocketListener listener : this.listeners) {
 			listener.onIDchecked(correctID);

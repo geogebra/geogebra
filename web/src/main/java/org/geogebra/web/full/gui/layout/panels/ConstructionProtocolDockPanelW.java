@@ -31,8 +31,6 @@ public class ConstructionProtocolDockPanelW extends NavigableDockPanelW {
 		this.setEmbeddedSize(300);
 	}
 
-
-
 	@Override
 	protected Widget loadStyleBar() {
 		if (cpStyleBar == null) {

@@ -113,7 +113,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 			}
 		});
 
-
 		//
 		// textArea.addClickHandler(new ClickHandler(){
 		//
@@ -154,7 +153,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 		return inputPanel;
 	}
 
-
 	private void processInput() {
 		String inputText = textArea.getText();
 		model.processInput(inputText, new AsyncOperation<Boolean>() {
@@ -170,17 +168,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	void applyScript() {
 		processInput();
 		model.setGeo(model.getGeo());
-		
-		
 	}
-	
-
-	// private void setJSMode(boolean flag){
-	// javaScript = flag;
-	// ((GeoGebraEditorPane) inputPanel.getTextComponent()).setEditorKit(flag ?
-	// "javascript":"geogebra");
-	// }
-
 
 	/**
 	 * apply edit modifications
@@ -192,34 +180,9 @@ public class ScriptInputPanelW extends FlowPanel implements
 		}
 	}
 
-//	public void changedUpdate(DocumentEvent e) {
-//		// nothing to do
-//
-//	}
-//
-//	public void insertUpdate(DocumentEvent e) {
-//		model.handleDocumentEvent();
-//
-//	}
-//
-//	public void removeUpdate(DocumentEvent e) {
-//		model.handleDocumentEvent();
-//
-//	}
-
-	
-	public void updateFonts() {
-
-//		Font font = app.getPlainFont();
-//		languageSelector.setFont(font);
-		
-
-	}
-
 	@Override
 	public void setInputText(String text) {
 		textArea.setText(text);
-
 	}
 
 	@Override
@@ -235,7 +198,6 @@ public class ScriptInputPanelW extends FlowPanel implements
 		languageSelector.setSelectedIndex(index);
 //		editor.setEditorKit(name);
 //		editor.getDocument().addDocumentListener(this);
-
 	}
 
 	public void setGeo(GeoElement button) {

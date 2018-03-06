@@ -30,8 +30,6 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	 */
 	public PlotPanelEuclidianViewW(Kernel kernel) {
 		super(new PlotPanelEuclidianControllerW(kernel), EVNO_GENERAL, null);
-
-	
 		
 		if (commonFields == null) {
 			setCommonFields();
@@ -41,19 +39,14 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		// properly initialized
 		setPreferredSize(new GDimensionW(ProbabilityCalculatorDockPanelW.DEFAULT_WIDTH, DEFAULT_HEIGHT));
 		updateSize();
-
-		
-		
 	}
 	
 	private void setCommonFields() {
 		// set fields
-				commonFields = new PlotPanelEuclidianViewCommon(
-						false);	
-				commonFields.setPlotSettings(new PlotSettings());
+		commonFields = new PlotPanelEuclidianViewCommon(false);
+		commonFields.setPlotSettings(new PlotSettings());
 
-				setViewId(kernel);
-				
+		setViewId(kernel);
 	}
 	
 	/*********** End Constructor **********************/
@@ -75,7 +68,6 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		}
 		return commonFields.getViewID();
 	}
-
 
 	@Override
 	public void setViewId(Kernel kernel) {
@@ -100,7 +92,9 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 		super.updateSizeKeepDrawables();
 	}
 	
-
+	/**
+	 * @return panel wrapping the view
+	 */
 	public Widget getComponent() {
 	    return evPanel.getAbsolutePanel();
     }
@@ -109,6 +103,5 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	public boolean isPlotPanel() {
 		return true;
 	}
-
 
 }

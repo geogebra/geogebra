@@ -570,8 +570,6 @@ public class OptionsObjectW extends OptionsObject implements OptionPanelW {
 			// app.setComponentOrientation(this);
 		}
 
-
-
 		public void updateDef(GeoElementND geo) {
 
 			// do nothing if called by doActionPerformed

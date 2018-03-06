@@ -1,13 +1,11 @@
 package org.geogebra.web.full.gui.layout.panels;
 
-
 import org.geogebra.common.main.App;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.layout.DockPanelW;
 
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
-
 
 public class DataCollectionDockPanelW extends DockPanelW {
 	

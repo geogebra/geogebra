@@ -68,11 +68,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			}
 		});
 		optionType = OptionType.ALGEBRA;
-
 	}
 
 	private void createColorBtn() {
-
 		btnColor = new ColorPopupMenuButton(app,
 				ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
@@ -167,7 +165,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		}
 		setToolTips();
 	}
-
 
 	private void addTreeModeButton() {
 		supportedModes.clear();
@@ -267,7 +264,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		return ImageOrText.convert(modes);
     }
 
-
 	private ImageOrText[] getDescriptionModes() {
 		return ImageOrText.convert(AlgebraSettings.getDescriptionModes(app));
 	}
@@ -278,8 +274,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		descriptionButton.setToolTipText(app.getLocalization().getMenu(
 				"AlgebraDescriptions"));
 	}
-
-
 
 	@Override
 	public void setOpen(boolean showStyleBar) {
@@ -298,7 +292,6 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		this.descriptionButton.getMyTable().updateText(getDescriptionModes());
 		setToolTips();
 	}
-
 
 	@Override
 	protected void handleEventHandlers(Object source) {

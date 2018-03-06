@@ -435,11 +435,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			addOnlyFor2D(stylePanel);
 		}
 		
-		
 		protected void addOnlyFor2D(Widget w){
 			mainPanel.add(w);
 		}
-
 
 		@Override
 		public void setLabels() {

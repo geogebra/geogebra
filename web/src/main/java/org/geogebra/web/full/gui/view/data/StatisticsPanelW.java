@@ -42,7 +42,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	private AppW app;
 	private DataAnalysisModel daModel;
 
-
 	/*************************************
 	 * Constructor
 	 * 
@@ -139,7 +138,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		}
 		return anovaTable;
 	}
-
 
 	private OneVarInferencePanelW getOneVarInferencePanel() {
 		if (oneVarInferencePanel == null) {

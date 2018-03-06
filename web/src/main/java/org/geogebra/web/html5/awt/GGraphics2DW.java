@@ -605,7 +605,6 @@ public class GGraphics2DW implements GGraphics2D {
 		context.lineTo(x2, y2);
 		context.closePath();
 		context.stroke();
-
 	}
 
 	@Override
@@ -893,7 +892,6 @@ public class GGraphics2DW implements GGraphics2D {
 	@Override
 	public void drawImage(MyImage img, int x, int y) {
 		context.drawImage(((MyImageW) img).getImage(), x, y);
-
 	}
 
 	@Override
@@ -951,6 +949,5 @@ public class GGraphics2DW implements GGraphics2D {
 	public void setDevicePixelRatio(double devicePixelRatio) {
 		this.devicePixelRatio = devicePixelRatio;
 	}
-
 
 }

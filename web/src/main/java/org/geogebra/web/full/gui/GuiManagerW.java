@@ -1352,7 +1352,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return true;
 	}
 
-
 	@Override
 	public void detachProbabilityCalculatorView() {
 		getProbabilityCalculator();
@@ -1487,7 +1486,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			bar.removeMenus();
 			bar.init(getApp());
 		}
-
 	}
 
 	public void updatePrintMenu() {
@@ -1749,7 +1747,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return false;
 	}
 
-
 	@Override
 	public GOptionPaneW getOptionPane() {
 		if (optionPane == null) {
@@ -1817,7 +1814,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				updateToolbar();
 			}
 		}
-
 	}
 
 	/**
@@ -1837,7 +1833,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		getApp().closePopups();
 	}
-
 
 	@Override
 	public int setToolbarMode(final int mode, ModeSetter m) {
@@ -1868,7 +1863,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 		// layout.getDockManager().setToolbarMode(mode);
 		return ret;
-		// return mode;
 	}
 
 	private int getAlgebraInputHeight() {

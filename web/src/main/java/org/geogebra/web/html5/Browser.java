@@ -225,8 +225,6 @@ public class Browser {
 
 	}-*/;
 
-
-
 	public static void scale(Element parent, double externalScale, int x, int y) {
 		if (externalScale < 0) {
 			return;
@@ -289,7 +287,6 @@ public class Browser {
 		return @org.geogebra.common.util.StringUtil::svgMarker
 				+ btoa(unescape(encodeURIComponent(svg)));
 	}-*/;
-		
 
 	public static native void exportImage(String url, String title) /*-{
 		//idea from http://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript/16245768#16245768

@@ -34,14 +34,10 @@ public class RendererWnoWebGL extends RendererWithImplW {
 		// no webGL context here...
 	}
 
-
-
 	@Override
 	public void drawScene() {
 		// no webGL context here...
 	}
-
-
 
 	@Override
 	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
@@ -60,10 +56,8 @@ public class RendererWnoWebGL extends RendererWithImplW {
 
 	@Override
 	public void setTextureNearest() {
-
 		// no webGL context here...
 	}
-
 
 	@Override
 	protected void setDepthFunc() {
@@ -84,6 +78,5 @@ public class RendererWnoWebGL extends RendererWithImplW {
 	public void createDummyTexture() {
 		// no webGL context here...
 	}
-
 
 }

@@ -78,8 +78,6 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 		//statTable.getTable().getElement().focus();
 		setIniting(false);
 	}
-	
-
 
 	@Override
 	public void setSelectionByRowValue(int lowValue, int highValue) {
@@ -109,7 +107,6 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 					// TODO Auto-generated catch block
 				//	e.printStackTrace();
 				//}
-
 	}
 	
 	/**
@@ -125,7 +122,6 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	public StatTableW getStatTable() {
 		return statTable;
 	}
-	
 	
 	@Override
 	public void onClick(ClickEvent event) {

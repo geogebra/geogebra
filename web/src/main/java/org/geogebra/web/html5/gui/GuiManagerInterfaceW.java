@@ -67,7 +67,6 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public BrowseViewI getBrowseView();
 
-
 	public void showToolBar(boolean show);
 
 	public void showMenuBar(boolean show);

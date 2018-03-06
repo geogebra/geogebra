@@ -202,7 +202,6 @@ public class DataCollectionView extends FlowPanel implements View, SetLabels,
 		this.dataCollectionTab.add(this.sensorSettings);
 	}
 
-
 	private void addConnection() {
 		FlowPanel connection = new FlowPanel();
 		connection.addStyleName("connection");

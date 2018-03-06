@@ -194,14 +194,12 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		        .evaluateToPoint(
 		                "Export_" + idx + "=CopyFreeObject[Corner[" + corner
 		                        + "]]",
- ErrorHelper.silent(), false);
+						ErrorHelper.silent(), false);
 
 		ret.setEuclidianVisible(false);
 
 		return ret;
-
 	}
-
 
 	private void export() {
 		// implementation taken and modified from
@@ -233,6 +231,5 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		p2.remove();
 		app.dispatchEvent(new Event(EventType.EXPORT, null, "[\"gif\"]"));
 	}
-
 
 }
