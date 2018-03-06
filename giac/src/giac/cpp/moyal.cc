@@ -478,7 +478,9 @@ namespace giac {
   }
   static gen normal_icdf(const gen & g_orig,GIAC_CONTEXT){
     gen g=evalf_double(g_orig,1,contextptr);
-    if (g.type!=_DOUBLE_ || g._DOUBLE_val<0 || g._DOUBLE_val>1)
+    if (g.type!=_DOUBLE_ )
+      return symbolic(at_normal_icdf,g);
+    if (g._DOUBLE_val<0 || g._DOUBLE_val>1)
       return gensizeerr(contextptr);
     if (g._DOUBLE_val==0)
       return minus_inf;
