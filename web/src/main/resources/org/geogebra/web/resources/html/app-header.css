@@ -68,14 +68,10 @@
 
 .startscreen{
 	position: absolute;
-	text-align:center;
-	left:50%;
-	top:50%;
-	transform: translate(-50%,-50%);
+	top: 33px;
 	width: 100%;
-
+	height:calc(100% - 33px);
 }
-
 
 .startscreen .logo{
 	width: 35%;
