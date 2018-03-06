@@ -410,7 +410,7 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
-		dragCtrl.move(event.getClientX(), event.getClientY());
+		dragCtrl.move(event.getClientX(), event.getClientY(), false);
 	}
 
 	@Override
@@ -429,7 +429,7 @@ public class PageListController implements PageListControllerInterface,
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		Touch t = event.getTargetTouches().get(0);
-		dragCtrl.move(t.getClientX(), t.getClientY());
+		dragCtrl.move(t.getClientX(), t.getClientY(), true);
 	}
 
 	@Override

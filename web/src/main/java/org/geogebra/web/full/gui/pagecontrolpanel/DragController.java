@@ -401,8 +401,8 @@ class DragController {
 		return y + cards.getListener().getVerticalScrollPosition();
 	}
 
-	void move(int x, int y0) {
-		if (CancelEventTimer.cancelDragEvent()) {
+	void move(int x, int y0, boolean touch) {
+		if (touch && CancelEventTimer.cancelDragEvent()) {
 			return;
 		}
 
