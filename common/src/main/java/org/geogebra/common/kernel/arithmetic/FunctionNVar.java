@@ -793,7 +793,7 @@ public class FunctionNVar extends ValidExpression
 		} else if (op.equals(Operation.NOT)) {
 			return initIneqs(leftTree, functional, tree, !negate);
 		} else if (op.equals(Operation.IMPLICATION)) {
-			tree.setOperation(Operation.OR);
+			tree.setOperation(adjustOp(Operation.OR, negate));
 			tree.setLeft(new IneqTree());
 			tree.setRight(new IneqTree());
 			return initIneqs(leftTree, functional, tree.getLeft(), !negate)
