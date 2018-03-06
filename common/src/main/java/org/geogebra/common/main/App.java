@@ -4311,7 +4311,7 @@ public abstract class App implements UpdateSelection {
 
 		/** MOW-390 GGB */
 		case WHOLE_PAGE_DRAG:
-			return prerelease;
+			return true;
 
 		/** GGB-2053 */
 		case TAB_ON_GUI:
