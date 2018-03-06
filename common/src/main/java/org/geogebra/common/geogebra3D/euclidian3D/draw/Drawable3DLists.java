@@ -19,7 +19,6 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * 
  * @author ggb3D
  * 
- *
  */
 public class Drawable3DLists {
 
@@ -31,6 +30,9 @@ public class Drawable3DLists {
 
 	private boolean waitForReset = false;
 
+	/**
+	 * Array list with debugging toString
+	 */
 	protected static class Drawable3DList extends ArrayList<Drawable3D> {
 
 		private static final long serialVersionUID = 1L;
@@ -46,7 +48,6 @@ public class Drawable3DLists {
 				sb.append("\n");
 			}
 			return sb.toString();
-
 		}
 	}
 
@@ -54,6 +55,7 @@ public class Drawable3DLists {
 	 * default constructor
 	 * 
 	 * @param view3D
+	 *            view
 	 */
 	public Drawable3DLists(EuclidianView3D view3D) {
 		this.view3D = view3D;
@@ -78,13 +80,12 @@ public class Drawable3DLists {
 	 * add a list of drawables
 	 * 
 	 * @param list
+	 *            list of drawabls to be added
 	 */
 	public void add(LinkedList<Drawable3D> list) {
-
 		for (Drawable3D d : list) {
 			add(d);
 		}
-
 	}
 
 	/**
@@ -107,12 +108,12 @@ public class Drawable3DLists {
 	 * remove all drawables contained in the list
 	 * 
 	 * @param list
+	 *            list of drawables to be removed
 	 */
 	public void remove(LinkedList<Drawable3D> list) {
 		for (Drawable3D d : list) {
 			remove(d);
 		}
-
 	}
 
 	/**
@@ -233,6 +234,7 @@ public class Drawable3DLists {
 	 * draw hidden parts not dashed
 	 * 
 	 * @param renderer
+	 *            renderer
 	 */
 	final public void drawHiddenNotTextured(Renderer renderer) {
 		// points TODO hidden aspect ?
@@ -248,7 +250,6 @@ public class Drawable3DLists {
 		}
 
 		renderer.resetCenter();
-
 	}
 
 	/**
@@ -283,6 +284,7 @@ public class Drawable3DLists {
 	 * draw surfaces that are not transparent
 	 * 
 	 * @param renderer
+	 *            renderer
 	 */
 	public void drawNotTransparentSurfaces(Renderer renderer) {
 
@@ -312,6 +314,7 @@ public class Drawable3DLists {
 	 * draw closed surfaces that are not transparent
 	 * 
 	 * @param renderer
+	 *            renderer
 	 */
 	public void drawNotTransparentSurfacesClosed(Renderer renderer) {
 
@@ -346,6 +349,7 @@ public class Drawable3DLists {
 	 * draw clipped surfaces that are not transparent
 	 * 
 	 * @param renderer
+	 *            renderer
 	 */
 	public void drawNotTransparentSurfacesClipped(Renderer renderer) {
 
@@ -438,6 +442,7 @@ public class Drawable3DLists {
 	 * draw transparent closed surfaces
 	 * 
 	 * @param renderer
+	 *            renderer
 	 */
 	public void drawTranspClosedNotCurved(Renderer renderer) {
 
@@ -469,9 +474,9 @@ public class Drawable3DLists {
 	 * draw transparent closed surfaces
 	 * 
 	 * @param renderer
+	 *            renderer
 	 */
 	public void drawTranspClosedCurved(Renderer renderer) {
-
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLOSED_SURFACES_CURVED]
 				.iterator(); d.hasNext();) {
 			d.next().drawTransp(renderer);
@@ -483,16 +488,15 @@ public class Drawable3DLists {
 			((DrawList3D) d.next()).getDrawable3DLists()
 					.drawTranspClosedCurved(renderer);
 		}
-
 	}
 
 	/**
 	 * draw transparent clipped surfaces
 	 * 
 	 * @param renderer
+	 *            renderer
 	 */
 	public void drawTranspClipped(Renderer renderer) {
-
 		for (Iterator<Drawable3D> d = lists[Drawable3D.DRAW_TYPE_CLIPPED_SURFACES]
 				.iterator(); d.hasNext();) {
 			d.next().drawTransp(renderer);
@@ -503,7 +507,6 @@ public class Drawable3DLists {
 			((DrawList3D) d.next()).getDrawable3DLists()
 					.drawTranspClipped(renderer);
 		}
-
 	}
 
 	/**
@@ -568,7 +571,6 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawNotAbsoluteText(Renderer renderer) {
-
 		// texts
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
 			((DrawText3D) d).drawNotAbsolutePosition(renderer);
@@ -578,7 +580,6 @@ public class Drawable3DLists {
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 			((DrawList3D) d).getDrawable3DLists().drawNotAbsoluteText(renderer);
 		}
-
 	}
 
 	/**
@@ -588,7 +589,6 @@ public class Drawable3DLists {
 	 *            opengl context
 	 */
 	public void drawAbsoluteText(Renderer renderer) {
-
 		// texts
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
 			((DrawText3D) d).drawAbsolutePosition(renderer);
@@ -598,7 +598,6 @@ public class Drawable3DLists {
 		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
 			((DrawList3D) d).getDrawable3DLists().drawAbsoluteText(renderer);
 		}
-
 	}
 
 	/**
@@ -628,7 +627,6 @@ public class Drawable3DLists {
 			((DrawList3D) d.next()).getDrawable3DLists()
 					.drawSurfacesForHiding(renderer);
 		}
-
 	}
 
 	/**
@@ -662,7 +660,6 @@ public class Drawable3DLists {
 			((DrawList3D) d.next()).getDrawable3DLists()
 					.drawClosedSurfacesForHiding(renderer);
 		}
-
 	}
 
 	/**
@@ -684,7 +681,6 @@ public class Drawable3DLists {
 			((DrawList3D) d.next()).getDrawable3DLists()
 					.drawClippedSurfacesForHiding(renderer);
 		}
-
 	}
 
 	/**
@@ -751,6 +747,9 @@ public class Drawable3DLists {
 		return null;
 	}
 
+	/**
+	 * @return whether all lists are empty
+	 */
 	public boolean isEmpty() {
 		for (Drawable3DList list : lists) {
 			if (!list.isEmpty()) {
