@@ -16,6 +16,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
+import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
@@ -403,6 +404,9 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseDown(MouseDownEvent event) {
+		if (Browser.isAndroid()) {
+			return;
+		}
 		event.preventDefault();
 		event.stopPropagation();
 		dragCtrl.start(event.getClientX(), event.getClientY());
@@ -410,18 +414,22 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
+		if (Browser.isAndroid()) {
+			return;
+		}
 		dragCtrl.move(event.getClientX(), event.getClientY(), false);
 	}
 
 	@Override
 	public void onMouseUp(MouseUpEvent event) {
+		if (Browser.isAndroid()) {
+			return;
+		}
 		dragCtrl.stop(event.getClientX(), event.getClientY());
 	}
 
 	@Override
 	public void onTouchStart(TouchStartEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
 		Touch t = event.getTargetTouches().get(0);
 		dragCtrl.start(t.getClientX(), t.getClientY());
 	}
@@ -429,7 +437,11 @@ public class PageListController implements PageListControllerInterface,
 	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		Touch t = event.getTargetTouches().get(0);
-		dragCtrl.move(t.getClientX(), t.getClientY(), true);
+		if (dragCtrl.move(t.getClientX(), t.getClientY(), true)) {
+			event.preventDefault();
+			event.stopPropagation();
+		}
+
 	}
 
 	@Override

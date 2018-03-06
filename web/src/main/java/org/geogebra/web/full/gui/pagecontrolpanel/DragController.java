@@ -401,13 +401,13 @@ class DragController {
 		return y + cards.getListener().getVerticalScrollPosition();
 	}
 
-	void move(int x, int y0, boolean touch) {
+	boolean move(int x, int y0, boolean touch) {
 		if (touch && CancelEventTimer.cancelDragEvent()) {
-			return;
+			return false;
 		}
 
 		if (CancelEventTimer.noDrag() || dropAnimTimer.isRunning()) {
-			return;
+			return false;
 		}
 		int y = computedY(y0);
 		if (CancelEventTimer.isDragStarted()) {
@@ -416,13 +416,14 @@ class DragController {
 			autoScroll.checkIfNeeded(y);
 			if (autoScroll.isRunning()) {
 				dragged.card.grabCard(y);
-				return;
+				return true;
 			}
 			int targetIdx = dragged.move(y);
 			if (targetIdx != -1 && !dragged.isAnimated()) {
 				cards.getListener().insertDivider(targetIdx);
 			}
 		}
+		return true;
 	}
 
 	void stop(int x, int y) {
