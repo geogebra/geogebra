@@ -4,27 +4,23 @@ using UnityEngine;
 
 public class ReflectionProbePosition : MonoBehaviour {
 
-    public Camera myCamera;
-    public  float distanceyCamera = -1.21f;
+    public Camera camera;
+    public  float distanceCamera = -1.21f;
 
 	// Use this for initialization
 	void Start () {
 
-
         transform.position = transform.position + new Vector3(0, -1.23f, 0f);
-
     }
 	
 	// Update is called once per frame
 	void Update () {
 
-        if (myCamera = null)
+        if (camera = null)
         {
-            myCamera = Camera.main;
+            camera = Camera.main;
         }
         //this.gameObject.transform.position = myCamera.transform.position;
         //this.gameObject.transform.position.y = distanceyCamera;
-
-
     }
 }

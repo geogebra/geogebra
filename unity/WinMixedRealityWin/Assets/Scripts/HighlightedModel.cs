@@ -6,59 +6,53 @@ using UnityEngine.UI;
 
 public class HighlightedModel : MonoBehaviour, IFocusable, IInputClickHandler {
 
-    public Color NormalColor;
-    public Color HiglitColor;
+    public Color normalColor;
+    public Color highlightColor;
 
-    public float HighlightedSize = 1.2f;
+    public float highlightedSize = 1.2f;
     private Vector3 _originTransform;
-
-    public GameObject WorkModel;
-    public GameObject HihlightedText;
-
-    public GameObject InstructionText;
+    public GameObject workModel;
+    public GameObject hihlightedText;
+    public GameObject instructionText;
 
     #region Members
     [HideInInspector]
-    public GameManager GameManager;
-    public GameObject gameManager;
+    public GameManager gameManager;
+    public GameObject gameManagerObj;
     #endregion
 
     private void Start()
     {
         // Assign GameManager
-        gameManager = GameObject.Find("GameManager");
+        gameManagerObj = GameObject.Find("GameManager");
 
         _originTransform = this.transform.localScale;
-        HihlightedText.SetActive(false);
-        
+        hihlightedText.SetActive(false);      
     }
     public void OnFocusEnter()
     {
-        this.transform.localScale = transform.localScale * HighlightedSize;
-        HihlightedText.SetActive(true);
+        this.transform.localScale = transform.localScale * highlightedSize;
+        hihlightedText.SetActive(true);
     }
 
     public void OnFocusExit()
     {
         this.transform.localScale = _originTransform;
-        HihlightedText.SetActive(false);
+        hihlightedText.SetActive(false);
     }
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
         Debug.Log("You clicked on me");
-        gameManager.GetComponent<GameManager>().TempModel = WorkModel;
-        gameManager.GetComponent<GameManager>().TempText = InstructionText;
-        gameManager.GetComponent<GameManager>().OnButtonPressed();
-        
-
+        gameManagerObj.GetComponent<GameManager>().tempModel = workModel;
+        gameManagerObj.GetComponent<GameManager>().tempText = instructionText;
+        gameManagerObj.GetComponent<GameManager>().OnButtonPressed();
     }
 
     void TaskOnClick()
     {
         Debug.Log("You clicked on me");
-        gameManager.GetComponent<GameManager>().TempModel = WorkModel;
-        gameManager.GetComponent<GameManager>().OnButtonPressed();
-        
+        gameManagerObj.GetComponent<GameManager>().tempModel = workModel;
+        gameManagerObj.GetComponent<GameManager>().OnButtonPressed();      
     }
 }

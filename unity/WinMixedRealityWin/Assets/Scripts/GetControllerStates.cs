@@ -75,7 +75,6 @@ namespace HoloToolkit.Unity
         }
 
         // public Varables to get infoState
-
         [Space(10)]
         [Header("Sources Motion Controller")]
         [Space(10)]
@@ -129,8 +128,6 @@ namespace HoloToolkit.Unity
         public bool TouchpadPressedRight;
         public bool TouchpadTouchedRight;
         public Vector2 TouchpadPositionRight;
-
-
 
         private void Start()
         {
@@ -201,8 +198,7 @@ namespace HoloToolkit.Unity
 
                 // Text label display
                 if (controllerState.Handedness.Equals(InteractionSourceHandedness.Left))
-                {
-              
+                {             
                     PointerPositionLeft = controllerState.PointerPosition;
                     PointerRotationLeft = controllerState.PointerRotation;
                     GripPositionLeft = controllerState.GripPosition;
@@ -216,9 +212,6 @@ namespace HoloToolkit.Unity
                     TouchpadPressedLeft = controllerState.TouchpadPressed;
                     TouchpadTouchedLeft = controllerState.TouchpadTouched;
                     TouchpadPositionLeft = controllerState.TouchpadPosition;
-
-
-
                 }
                 else if (controllerState.Handedness.Equals(InteractionSourceHandedness.Right))
                 {
@@ -255,11 +248,5 @@ namespace HoloToolkit.Unity
 #endif
             return toReturn.Substring(0, Math.Max(0, toReturn.Length - 2));
         }
-
-
-        private void Update()
-        {
-
-         }
     }
 }

@@ -13,21 +13,17 @@ public class ItemInput : MonoBehaviour, IInputClickHandler
     public GameObject gameManager;
     #endregion
 
-    public GameObject ButtonModel;
-
+    public GameObject buttonModel;
 
     private void Start()
     {
         gameManager = GameObject.Find("GameManager");
-
-
     }
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
         Debug.Log("OnInputClick");
-       // gameManager.GetComponent<GameManager>().CheckForItem(itemName);
-        
+       // gameManager.GetComponent<GameManager>().CheckForItem(itemName);       
     }
 
     /* void TaskOnClick()
@@ -35,13 +31,7 @@ public class ItemInput : MonoBehaviour, IInputClickHandler
         gameManager.GetComponent<GameManager>().TempModel = ButtonModel;
         gameManager.GetComponent<GameManager>().OnButtonPressed();
     }
-
-    public void OnMouseDown()
-    {
-        
-    }
     */
-
 }
 
 

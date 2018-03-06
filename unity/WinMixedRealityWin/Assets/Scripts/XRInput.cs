@@ -132,8 +132,6 @@ namespace Demonixis.Toolbox.XR
 
                 }
 
-
-
                 return instance;
 
             }
@@ -185,8 +183,6 @@ namespace Demonixis.Toolbox.XR
                 else if (XRSettings.loadedDeviceName == "OpenVR")
 
                     return true;
-
-
 
                 return false;
 

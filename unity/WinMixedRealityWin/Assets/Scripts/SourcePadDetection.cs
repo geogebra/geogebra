@@ -12,7 +12,6 @@ using UnityEngine.XR.WSA.Input;
 
 public class SourcePadDetection : MonoBehaviour
 {
-
     GameObject DetectionObject;
     GameObject GetInput;
 
@@ -24,7 +23,6 @@ public class SourcePadDetection : MonoBehaviour
         }
 
        // GetInput = DetectionObject.GetComponent<ControllerStates>();
-
     }
 	
 	// Update is called once per frame
@@ -36,8 +34,7 @@ public class SourcePadDetection : MonoBehaviour
     {
         if ( obj.state.touchpadTouched)
         {
-            print("Touchpad touched.");
-            
+            print("Touchpad touched.");            
         }
     }
 

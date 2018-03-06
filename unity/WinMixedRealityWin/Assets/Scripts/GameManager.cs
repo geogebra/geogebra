@@ -14,74 +14,68 @@ public class GameManager : MonoBehaviour {
     public GameObject cloneScreen;
     #endregion
 
+    //Models to show
+    [Header("Models")]
+    [Space(5)]
+    public GameObject basicModel;
+    public GameObject footballModel;
+    public GameObject functionModel;
+    public GameObject kleinModel;
+    public GameObject lissajousModel;
+    public GameObject penroseModel;
+    public GameObject ruledSurfaceModel;
+    public GameObject sierpinskiModel;
+    public GameObject tempModel;
 
+    //Spawner point
+    [Header("Spawn Point")]
+    [Space(5)]
+    public GameObject modelSpawner;
 
-    public GameObject BasicModel;
-    public GameObject FootballModel;
-    public GameObject FunctionModel;
-    public GameObject KleinModel;
-    public GameObject LissajousModel;
-    public GameObject PenroseModel;
-    public GameObject RuledSurfaceModel;
-    public GameObject SierpinskiModel;
-    public GameObject TempModel;
-
-    public GameObject ModelSpawner;
-
-    public GameObject TempText;
-    public GameObject TempTextSecondScreen;
-    public GameObject DisplayedText;
+    [Header("Temp text")]
+    [Space(5)]
+    public GameObject tempText;
+    public GameObject tempTextSecondScreen;
+    public GameObject displayedText;
 
 	// Use this for initialization
 	void Start () {
-
         #region Find reference in case of missing referenece
 
         // Models
-        if (BasicModel == null)
-            BasicModel = GameObject.Find("Basic");
+        if (basicModel == null)
+            basicModel = GameObject.Find("Basic");
 
-        if (FootballModel == null)
-            FootballModel = GameObject.Find("Football");
+        if (footballModel == null)
+            footballModel = GameObject.Find("Football");
 
-        if (FunctionModel == null)
-            FunctionModel = GameObject.Find("Function");
+        if (functionModel == null)
+            functionModel = GameObject.Find("Function");
 
-        if (KleinModel == null)
-            KleinModel = GameObject.Find("Klein");
+        if (kleinModel == null)
+            kleinModel = GameObject.Find("Klein");
 
-        if (LissajousModel == null)
-            LissajousModel = GameObject.Find("Lissajous");
+        if (lissajousModel == null)
+            lissajousModel = GameObject.Find("Lissajous");
 
-        if (PenroseModel == null)
-            PenroseModel = GameObject.Find("Penrose");
+        if (penroseModel == null)
+            penroseModel = GameObject.Find("Penrose");
 
-        if (RuledSurfaceModel == null)
-            RuledSurfaceModel = GameObject.Find("RuledSurface");
+        if (ruledSurfaceModel == null)
+            ruledSurfaceModel = GameObject.Find("RuledSurface");
 
-        if (SierpinskiModel == null)
-            SierpinskiModel = GameObject.Find("Sierpinski");
-
-
+        if (sierpinskiModel == null)
+            sierpinskiModel = GameObject.Find("Sierpinski");
 
         // SPAWN POINT
-        if (ModelSpawner == null)
-            ModelSpawner = GameObject.Find("ModelsSpawner");
-
+        if (modelSpawner == null)
+            modelSpawner = GameObject.Find("ModelsSpawner");
 
         // Second Screen
-        if (TempTextSecondScreen == null)
-            TempTextSecondScreen = GameObject.Find("SecondScreenCanvas");
-
+        if (tempTextSecondScreen == null)
+            tempTextSecondScreen = GameObject.Find("SecondScreenCanvas");
 
         #endregion
-
-    }
-
-    // Update is called once per frame
-    void Update () {
-     
-
     }
     
     public void OnButtonPressed ()
@@ -95,38 +89,27 @@ public class GameManager : MonoBehaviour {
         }
         
         // Create GameObject
-        Instantiate(TempModel, ModelSpawner.transform.localPosition, Quaternion.identity);
-
+        Instantiate(tempModel, modelSpawner.transform.localPosition, Quaternion.identity);
 
         // Change Text on the screen
-        if (DisplayedText == null)
+        if (displayedText == null)
         {
-            DisplayedText = TempText;
-            DisplayedText.GetComponent<Text>().enabled = true;
+            displayedText = tempText;
+            displayedText.GetComponent<Text>().enabled = true;
         } else
         {
-            DisplayedText.GetComponent<Text>().enabled = false;
-            DisplayedText = TempText;
-            DisplayedText.GetComponent<Text>().enabled = true;
+            displayedText.GetComponent<Text>().enabled = false;
+            displayedText = tempText;
+            displayedText.GetComponent<Text>().enabled = true;
         }
 
-        //Activate sceond screen
+        //Activate scecond screen
         cloneScreen.GetComponent<CloneScreenText>().CheckStatus();
-
-
-        print("thecurrent model is " + TempModel);
+        //print("the current model is " + TempModel);
     }
 
     public void CheckForItem(string ModelName)
     {
         Debug.Log(ModelName);
     }
-
-    public void MakeScreenshot ()
-    {
-
-    }
-
-    
-
 }

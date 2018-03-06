@@ -4,27 +4,14 @@ using UnityEngine;
 
 public class LookAtCamera : MonoBehaviour {
 
-    public Camera myCamera;
-
-
-	// Use this for initialization
-	void Start () {
-		
-	}
+    public Camera camera;
 	
-	// Update is called once per frame
-
-
     void Update()
     {
-         if (myCamera == null)
+         if (camera == null)
          {
-             myCamera = Camera.main;
+             camera = Camera.main;
          }
-         transform.rotation = Quaternion.LookRotation(transform.position - myCamera.transform.position);
-    }
-        
-    
-
-    
+         transform.rotation = Quaternion.LookRotation(transform.position - camera.transform.position);
+    } 
 }
