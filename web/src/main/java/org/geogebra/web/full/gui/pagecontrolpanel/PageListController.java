@@ -441,7 +441,7 @@ public class PageListController implements PageListControllerInterface,
 			event.preventDefault();
 			event.stopPropagation();
 		}
-
+			 
 	}
 
 	@Override

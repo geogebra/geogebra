@@ -40,7 +40,7 @@ public class CancelEventTimer {
 	 * amount of time (ms) in which all mouse events are ignored after a touch
 	 * event
 	 */
-	public static final int TIME_BETWEEN_TOUCH_AND_DRAG = 1500;
+	public static final int TIME_BETWEEN_TOUCH_AND_DRAG = 1000;
 
 	/**
 	 * amount of time (ms) in which background-clicks are not closing the
@@ -101,7 +101,7 @@ public class CancelEventTimer {
 	}
 
 	/**
-	 * returns true if no drag has happened.
+	 * @return true if no drag has happened.
 	 */
 	public static boolean noDrag() {
 		return dragState == DragState.NONE;

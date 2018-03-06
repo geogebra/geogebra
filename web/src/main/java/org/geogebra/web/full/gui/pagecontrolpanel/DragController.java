@@ -9,6 +9,12 @@ import org.geogebra.web.html5.gui.util.CancelEventTimer;
 
 import com.google.gwt.user.client.Timer;
 
+/**
+ * Class
+ * 
+ * @author laszlo
+ *
+ */
 class DragController {
 	private static final int DROPANIM_SPEED = 5;
 	/**
@@ -18,23 +24,56 @@ class DragController {
 	private final Cards cards;
 	private DragCard dragged;
 	private App app;
+
+	/** The page which the pointer was down at start. */
 	PagePreviewCard clicked;
 	private Timer dropAnimTimer;
 	private AutoScrollTimer autoScroll;
 
+	/** interface to query the list of cards */
 	interface Cards {
+		/** @return all the cards in list */
 		ArrayList<PagePreviewCard> getCards();
 
+		/** @return the number of cards */
 		int getCardCount();
 
+		/** @return the listener of the list panel */
 		CardListInterface getListener();
 
+		/**
+		 * @param index
+		 *            card index to get.
+		 * @return the card at given index
+		 */
 		PagePreviewCard cardAt(int index); 
 
+		/**
+		 * Select the card.
+		 * 
+		 * @param card
+		 *            to select.
+		 */
 		void selectCard(PagePreviewCard card);
 
+		/**
+		 * Change the position of two cards.
+		 * 
+		 * @param srcIdx
+		 *            the source index (the dragged one)
+		 * @param destIdx
+		 *            the destination index (to drop the card)
+		 */
 		void reorder(int srcIdx, int destIdx);
 
+		/**
+		 * Perform a click on the given page.
+		 * 
+		 * @param pageIdx
+		 *            the index of the page to click.
+		 * @param select
+		 *            true if the page should also be selected.
+		 */
 		void clickPage(int pageIdx, boolean select);
 	}
 
@@ -356,6 +395,14 @@ class DragController {
 		}
 	}
 	
+	/**
+	 * Costructor
+	 * 
+	 * @param slides
+	 *            the cards interface.
+	 * @param app
+	 *            The application.
+	 */
 	DragController(Cards slides, App app) {
 		this.cards = slides;
 		this.app = app;
@@ -382,6 +429,14 @@ class DragController {
 		return result;
 	}
 
+	/**
+	 * Called at pointer (mouse or touch) down.
+	 * 
+	 * @param x
+	 *            coordinate.
+	 * @param y
+	 *            coordinate.
+	 */
 	public void start(int x, int y) {
 		if (clicked != null || dragged.isValid()) {
 			cancelDrag();
@@ -397,10 +452,29 @@ class DragController {
 		}
 	}
 	
+	/**
+	 * Converts absolute (screen) y coordinate to the one that is between 0 and the
+	 * whole height of cards in panel, which is scroll independent.
+	 * 
+	 * @param y
+	 *            absolute coordinate.
+	 * @return scroll independent coordinate.
+	 */
 	int computedY(int y) {
 		return y + cards.getListener().getVerticalScrollPosition();
 	}
 
+	/**
+	 * Called at pointer (mouse or touch) move.
+	 * 
+	 * @param x
+	 *            coordinate.
+	 * @param y0
+	 *            coordinate.
+	 * @param touch
+	 *            Whether move event comes from touch or desktop.
+	 * @return true if drag has occurred.
+	 */
 	boolean move(int x, int y0, boolean touch) {
 		if (touch && CancelEventTimer.cancelDragEvent()) {
 			return false;
@@ -426,6 +500,14 @@ class DragController {
 		return true;
 	}
 
+	/**
+	 * Called at pointer (mouse or touch) up.
+	 * 
+	 * @param x
+	 *            coordinate.
+	 * @param y
+	 *            coordinate.
+	 */
 	void stop(int x, int y) {
 		if (clicked != null) {
 			cards.clickPage(clicked.getPageIndex(), true);
@@ -451,6 +533,9 @@ class DragController {
 		dropAnimTimer.scheduleRepeating(DROPANIM_SPEED);
 	}
 
+	/**
+	 * Cancels the drag in progress.
+	 */
 	void cancelDrag() {
 		CancelEventTimer.resetDrag();
 		dragged.cancel();
@@ -466,6 +551,9 @@ class DragController {
 		}
 	}
 
+	/**
+	 * Called on drop the card.
+	 */
 	void onDrop() {
 		dropAnimTimer.cancel();
 		cards.reorder(dragged.index(), dragged.dropToIdx);
@@ -474,6 +562,9 @@ class DragController {
 		cancelDrag();
 	}
 
+	/**
+	 * Called if the scroll by dragging should be canceled.
+	 */
 	void onScrollCancel() {
 		autoScroll.cancel();
 		clearSpaces();

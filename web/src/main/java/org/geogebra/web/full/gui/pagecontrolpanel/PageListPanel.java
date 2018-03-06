@@ -377,6 +377,7 @@ public class PageListPanel
 		return scrollPanel.getVerticalScrollPosition();
 	}
 
+	@Override
 	public int getScrollParentHeight() {
 		return scrollPanel.getParent().getOffsetHeight();
 	}

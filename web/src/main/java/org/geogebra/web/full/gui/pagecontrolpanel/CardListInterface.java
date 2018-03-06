@@ -23,8 +23,10 @@ public interface CardListInterface {
 	 */
 	void removeDivider();
 
+	/** Hide the scrollbar */
 	void hideScrollbar();
 
+	/** Show the scrollbar if it was visible before. */
 	void restoreScrollbar();
 
 	/**

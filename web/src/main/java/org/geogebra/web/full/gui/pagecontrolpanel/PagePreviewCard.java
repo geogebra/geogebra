@@ -21,8 +21,13 @@ import com.google.gwt.user.client.ui.Label;
 public class PagePreviewCard extends FlowPanel
 		implements SetLabels {
 
+	/** Margin of the cards. */
 	static final int MARGIN = 16;
+
+	/** Height of a card without margins */
 	static final int CARD_HEIGHT = 172;
+
+	/** Space needed for the card to drag. */
 	static final int SPACE_HEIGHT = CARD_HEIGHT + 2 * MARGIN;
 	private AppW app;
 	private Localization loc;
@@ -210,17 +215,28 @@ public class PagePreviewCard extends FlowPanel
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
 
+	/**
+	 * 
+	 * @param top
+	 *            to set.
+	 */
 	public void setTop(int top) {
 		getElement().getStyle().setTop(top, Unit.PX);
 	}
 
 	/**
-	 * Gets the top of card without margin.
+	 * @return the top of card without margin.
 	 */
 	public int getTop() {
 		return getElement().getOffsetTop() - MARGIN;
 	}
 	
+	/**
+	 * Change the top by a given value.
+	 * 
+	 * @param value
+	 *            to change by.
+	 */
 	public void setTopBy(int value) {
 		int top = getTop() + value;
 		getElement().getStyle().setTop(top, Unit.PX);
@@ -264,6 +280,9 @@ public class PagePreviewCard extends FlowPanel
 
 	/**
 	 * Make card grabbed (by pointer) at y.
+	 * 
+	 * @param y
+	 *            coordinate where user has grabbed the card.
 	 */
 	public void grabCard(int y) {
 		grabY = y - getAbsoluteTop() + 2 * MARGIN;
@@ -293,6 +312,9 @@ public class PagePreviewCard extends FlowPanel
 		getElement().getStyle().setMarginBottom(MARGIN, Unit.PX);
 	}
 
+	/**
+	 * Adds space after the card for animation.
+	 */
 	public void addSpaceBottom() {
 		getElement().getStyle().setMarginTop(MARGIN, Unit.PX);
 		getElement().getStyle().setMarginBottom(SPACE_HEIGHT, Unit.PX);
@@ -317,8 +339,10 @@ public class PagePreviewCard extends FlowPanel
 	/**
 	 * Sets margins for drag animation.
 	 * 
-	 * @param to
-	 *            set.
+	 * @param value
+	 *            to set.
+	 * @param down
+	 *            the direction of the drag animation
 	 */
 	public void setSpaceValue(int value, boolean down) {
 		int opposite = SPACE_HEIGHT  - value + MARGIN;
@@ -326,11 +350,18 @@ public class PagePreviewCard extends FlowPanel
 		getElement().getStyle().setMarginBottom(down ? value: opposite, Unit.PX);
 	}
 
+	/**
+	 * 
+	 * @return the scroll independent top based on the card index.
+	 */
 	public int getComputedTop() {
-		// int visibleHeight = getParent().getParent().getOffsetHeight();
 		return MARGIN + (pageIndex * (CARD_HEIGHT + MARGIN));
 	}
 	
+	/**
+	 * 
+	 * @return the scroll independent bottom based on the card index.
+	 */
 	public int getComputedBottom() {
 		return getComputedTop() + CARD_HEIGHT;
 	}
