@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class NavigableDockPanelW extends DockPanelW {
 	private ConstructionProtocolNavigationW consProtNav;
 	private InnerPanel innerPanel;
+
 	public NavigableDockPanelW(int id, String title, String toolbar,
 			boolean hasStyleBar, int menuOrder, char menuShortcut) {
 		super(id, title, toolbar, hasStyleBar, menuOrder, menuShortcut);

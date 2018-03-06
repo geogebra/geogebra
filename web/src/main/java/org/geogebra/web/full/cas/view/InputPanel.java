@@ -52,6 +52,7 @@ public interface InputPanel extends IsWidget, HasText {
 			c.setCoordinateSpaceHeight(1);
 			c.setCoordinateSpaceWidth(1);
 		}
+
 		@Override
 		public void setText(String input) {
 			this.text = input;

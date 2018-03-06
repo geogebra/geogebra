@@ -18,6 +18,7 @@ public class MOWLineStyleButton extends EuclidianLineStylePopup {
 	private static final int CANVAS_WIDTH = 30;
 	private static final int CANVAS_HEIGHT = 20;
 	private LineStylePreview preview;
+
 	/**
 	 * Constructor
 	 * 

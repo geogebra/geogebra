@@ -33,7 +33,6 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 	private GColor defaultColor;
 	private HashMap<String, Integer> lookupMap;
 
-
 	private boolean enableTable;
 	private boolean hasSlider;
 
@@ -109,6 +108,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonW
 		}
 		setLabels();
 	}
+
 	/**
 	 * @param visible
 	 *            {@code boolean}

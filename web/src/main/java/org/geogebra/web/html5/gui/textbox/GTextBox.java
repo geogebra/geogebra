@@ -35,6 +35,7 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 	public GTextBox(Element e) {
 		super(e);
 	}
+
 	public GTextBox() {
 		this(false, null);
 	}
@@ -88,6 +89,7 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 	public void setPopupCallback(HasSymbolPopup element) {
 		this.showSymbolElement = element;
 	}
+
 	@Override
 	public void showPopup(boolean show) {
 		if (showSymbolElement != null) {

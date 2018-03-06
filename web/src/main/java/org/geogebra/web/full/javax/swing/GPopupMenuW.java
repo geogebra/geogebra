@@ -53,6 +53,7 @@ public class GPopupMenuW implements AttachedToDOM {
 	private boolean menuShown = false;
 
 	private boolean horizontal;
+
 	/**
 	 * @param app
 	 * 

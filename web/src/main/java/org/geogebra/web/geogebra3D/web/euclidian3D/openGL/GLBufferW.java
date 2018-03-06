@@ -19,6 +19,7 @@ public class GLBufferW implements GLBuffer {
 	private int index = 0;
 
 	private int currentLength;
+
 	/**
 	 * constructor from float array
 	 */

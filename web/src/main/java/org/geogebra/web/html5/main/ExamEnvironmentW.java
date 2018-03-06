@@ -55,8 +55,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
         }
     }
 
-
-
     private void watchTaskLock() {
         Log.debug("watch task lock");
 
@@ -76,9 +74,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
         }, 1000);
         checkTaskLockTimer.startRepeat();
     }
-
-
-
 
     private void watchScreenState() {
         Log.debug("watch screen state");
@@ -127,7 +122,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
     public static native boolean isScreenOff() /*-{
 		return $wnd.GeoGebraExamAndroidJsBinder.isScreenOff();
 	}-*/;
-
 
     @Override
 	public void exit() {
@@ -290,7 +284,6 @@ public class ExamEnvironmentW extends ExamEnvironment {
 
         return super.isCheating();
     }
-
 
     @Override
 	protected void addCheatingWindowsLeft(long time){

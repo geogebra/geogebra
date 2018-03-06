@@ -18,10 +18,10 @@ public class GTimerW implements GTimer {
 			public void run() {
 				GTimerW.this.listener.onRun();
 			}
-
 		};
 		setDelay(delay);
 	}
+
 	@Override
 	public void start() {
 		timer.schedule(delay);

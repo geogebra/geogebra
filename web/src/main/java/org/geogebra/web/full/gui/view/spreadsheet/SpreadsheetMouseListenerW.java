@@ -276,8 +276,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		return false;
 	}
 
-
-
 	private void startEditDragging() {
 		int caretPos = editor.getCaretPosition();
 		String text = editor.getEditingValue();

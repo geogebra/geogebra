@@ -83,6 +83,7 @@ public interface StackPanelInterface extends InsertPanel, EventListener {
 	   */
 	public void setStackText(int index, @IsSafeHtml String text,
 			boolean asHTML);
+
 	/**
 	   * Shows the widget at the specified child index.
 	   *

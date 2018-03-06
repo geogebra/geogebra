@@ -88,6 +88,7 @@ public class DrawEquationW extends DrawEquation {
 	public static void setPrintScale(double t) {
 		printScale = t;
 	}
+
 	/**
 	 * @param geo
 	 *            geo element, used for color and app
@@ -192,7 +193,6 @@ public class DrawEquationW extends DrawEquation {
 		return Math.ceil(w * ratio) / ratio;
 	}
 
-
 	@Override
 	public GDimension measureEquation(App app, GeoElement geo0, String text,
 			GFont font, boolean serif) {
@@ -203,7 +203,6 @@ public class DrawEquationW extends DrawEquation {
 	@Override
 	public void checkFirstCall(App app) {
 		checkFirstCallStatic();
-
 	}
 
 	private static void checkFirstCallStatic() {
@@ -213,7 +212,6 @@ public class DrawEquationW extends DrawEquation {
 			StringBuilder initJLM = DrawEquation.getJLMCommands();
 			initJLaTeXMath = new TeXFormula(initJLM.toString());
 		}
-
 	}
 
 	@Override

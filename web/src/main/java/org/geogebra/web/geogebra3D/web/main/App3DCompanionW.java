@@ -25,6 +25,7 @@ public class App3DCompanionW extends App3DCompanion {
 
 	private EuclidianDockPanelForPlaneW panel;
 	private ArrayList<EuclidianDockPanelForPlaneW> panelForPlaneList;
+
 	/**
 	 * constructor
 	 * 

@@ -484,6 +484,7 @@ public class GGraphics2DW implements GGraphics2D {
 	private int physicalPX(int logicalPX) {
 		return (int) (logicalPX * getDevicePixelRatio());
 	}
+
 	public void setCoordinateSpaceSize(int width, int height) {
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));

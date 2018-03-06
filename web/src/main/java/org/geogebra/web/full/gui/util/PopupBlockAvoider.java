@@ -8,6 +8,7 @@ public class PopupBlockAvoider {
 	public PopupBlockAvoider(){
 		showURLinBrowserWaiterFixedDelay();
 	}
+
 	public native void showURLinBrowserWaiterFixedDelay() /*-{
 		this.@org.geogebra.web.full.gui.util.PopupBlockAvoider::showURLinBrowserPageUrl = null;
 		var that = this;

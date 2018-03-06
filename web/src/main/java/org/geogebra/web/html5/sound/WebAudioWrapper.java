@@ -18,6 +18,7 @@ public class WebAudioWrapper {
 	public interface FunctionAudioListener {
 		double getValueAt(double t);
 	}
+
 	private WebAudioWrapper() {
 		supported = !Browser.isIE() && !Browser.isFirefox();
 		init();

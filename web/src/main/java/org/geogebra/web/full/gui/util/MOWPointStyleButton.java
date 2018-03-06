@@ -123,6 +123,7 @@ public class MOWPointStyleButton extends PointStylePopup {
 		getMySlider().setWidth("140px");
 		setLabels();
 	}
+
 	/**
 	 * No text (but canvas) for slider so leave this empty.
 	 */

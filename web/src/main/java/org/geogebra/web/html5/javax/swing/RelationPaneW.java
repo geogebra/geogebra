@@ -46,6 +46,7 @@ public class RelationPaneW extends GDialogBox
 	public RelationPaneW(boolean autoHide, Panel root, App app) {
 		super(autoHide, root, app);
 	}
+
 	@Override
 	public void setGlassEnabled(boolean enabled) {
 		super.setGlassEnabled(enabled);

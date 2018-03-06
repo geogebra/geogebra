@@ -36,8 +36,6 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}
 
-
-
 	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);	
 	}
@@ -149,7 +147,6 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(callback, false, null);
 	}
 
-
 	@Override
 	public void openMaterial(final Material material) {
 		String fileName = getFileKey(material);
@@ -215,7 +212,6 @@ public class TabletFileManager extends FileManagerT {
 		runCallback(cb, result > 0, result);	
 	}
 
-
 	private native void saveFileNative(int id, String title, String base64, String metaDatas, int callback) /*-{
 		if ($wnd.android) {
 			$wnd.android.saveFile(id, title, base64, metaDatas, callback);
@@ -264,7 +260,6 @@ public class TabletFileManager extends FileManagerT {
 		listLocalFilesNative(callbackParent);
 	}
 
-
 	@Override
 	public void upload(final Material mat) {
 		int callback = addNewCallback(new MyCallback() {
@@ -281,7 +276,6 @@ public class TabletFileManager extends FileManagerT {
 		});
 		getBase64(getFileKey(mat), callback);
 	}
-
 
 	@Override
 	protected void updateFile(final String key, final long modified,
@@ -323,8 +317,6 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}-*/;
 
-
-
 	@Override
 	public void open(String url, String name, String features){
 		openUrlInBrowser(url, name, features);
@@ -341,9 +333,6 @@ public class TabletFileManager extends FileManagerT {
 		}
 	}-*/;
 
-
-
-
 	@Override
 	public void rename(final String newTitle, final Material mat,
 			final Runnable callback) {
@@ -358,7 +347,8 @@ public class TabletFileManager extends FileManagerT {
 				if (callback != null){
 					callback.run();
 				}					
-			}			
+			}
+
 			@Override
 			public void onFailure(Object reason) {
 				// not needed					
@@ -372,7 +362,6 @@ public class TabletFileManager extends FileManagerT {
 			$wnd.android.rename(oldKey, newKey, metaData, callback);
 		}
 	}-*/;
-
 
 	/**
 	 * this method is called through js (see exportJavascriptMethods())
@@ -405,7 +394,6 @@ public class TabletFileManager extends FileManagerT {
 			}
 		});
 		deleteNative(getFileKey(mat), callback);
-
 	}
 
 	private native void overwriteMetaDataNative(String key, String metaData, int callback)/*-{
@@ -440,9 +428,6 @@ public class TabletFileManager extends FileManagerT {
 		overwriteMetaDataNative(localID, mat.toJson().toString(), NO_CALLBACK);
 	}
 
-
-
-
 	private native void exportJavascriptMethods() /*-{
 		var that = this;
 		$wnd.tabletFileManager_catchListLocalFiles = $entry(function(length,
@@ -475,7 +460,6 @@ public class TabletFileManager extends FileManagerT {
 			that.@org.geogebra.web.tablet.TabletFileManager::catchOverwriteMetaData(I)(callback);
 		});
 	}-*/;
-
 
 	private native void debugNative(String s) /*-{
 		if ($wnd.android) {

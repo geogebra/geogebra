@@ -56,6 +56,7 @@ public abstract class ComboBoxPanel extends OptionPanel
 	}
 	
 	protected abstract void onComboBoxChange();
+
 	@Override
     public void setLabels() {
 		getLabel().setText(loc.getMenu(getTitle()) + ":");

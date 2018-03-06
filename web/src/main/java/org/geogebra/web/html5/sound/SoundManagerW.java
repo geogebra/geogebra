@@ -19,6 +19,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	private AppW app;
 	private boolean mp3active=true;
 	private Map<String, Element> urlToAudio = new HashMap<>();
+
 	/**
 	 * @param app
 	 *            App
@@ -94,7 +95,6 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		// } else {
 		// playMP3(url);
 		// }
-		
 	}
 
 	// MidiSoundW getMidiSound() {
@@ -108,12 +108,14 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	public void stopCurrentSound() {
 		// getMidiSound().stop();
 	}
+
 	protected void onCanPlay(Element audio, String url){
 		urlToAudio.put(url, audio);
 		if (mp3active) {
 			playAudioElement(audio);
 		}
 	}
+
 	private native void playAudioElement(Element audio) /*-{
 		audio.play();
 	}-*/;	
@@ -128,10 +130,13 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		var that = this;
 		audioElement.setAttribute('src', url);
 		audioElement.load();
-		audioElement.addEventListener("canplay", function() {
-			that.@org.geogebra.web.html5.sound.SoundManagerW::onCanPlay(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement,url);
-		});
-		
+		audioElement
+				.addEventListener(
+						"canplay",
+						function() {
+							that.@org.geogebra.web.html5.sound.SoundManagerW::onCanPlay(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement,url);
+						});
+
 	}-*/;
 	
 	@Override

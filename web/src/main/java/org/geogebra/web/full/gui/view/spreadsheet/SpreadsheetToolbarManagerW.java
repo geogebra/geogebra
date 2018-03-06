@@ -20,15 +20,11 @@ public class SpreadsheetToolbarManagerW {
 
 	private CreateObjectDialogW id;
 
-
 	public SpreadsheetToolbarManagerW(AppW app, SpreadsheetViewW view){
-
 		this.app = app;
 		this.view = view;
 		this.table = (MyTableW) view.getSpreadsheetTable();
 	}
-
-
 
 	public void  handleModeChange(int mode){
 
@@ -37,16 +33,13 @@ public class SpreadsheetToolbarManagerW {
 
 		switch (mode) {	
 
-		
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LIST:
-
 			//if(!app.getSelectedGeos().isEmpty() && prevMode == mode){
 			if (!table.getSelectedCellRanges().get(0).isEmpty()) {
 				id = new CreateObjectDialogW(app,view, CreateObjectModel.TYPE_LIST);
 				id.setVisible(true);
 			}
 			break;
-
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_LISTOFPOINTS:
 			if (table.getCellRangeProcessor()
@@ -56,7 +49,6 @@ public class SpreadsheetToolbarManagerW {
 
 			break;
 
-
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_MATRIX:
 			if (table.getCellRangeProcessor()
 					.isCreateMatrixPossible(table.getSelectedCellRanges())) {
@@ -64,7 +56,6 @@ public class SpreadsheetToolbarManagerW {
 				id.setVisible(true);
 			}
 			break;
-
 
 		case EuclidianConstants.MODE_SPREADSHEET_CREATE_TABLETEXT:
 			if (table.getCellRangeProcessor()
@@ -81,8 +72,6 @@ public class SpreadsheetToolbarManagerW {
 				id.setVisible(true);
 			}
 			break;
-
-
 			
 		case EuclidianConstants.MODE_SPREADSHEET_SUM:
 		case EuclidianConstants.MODE_SPREADSHEET_AVERAGE:
@@ -99,13 +88,6 @@ public class SpreadsheetToolbarManagerW {
 		default:
 			// ignore other modes
 		}				
-
 	}
-
-
-
-
-
-
 
 }

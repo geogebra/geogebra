@@ -51,6 +51,7 @@ public class AnimPanel extends FlowPanel implements ClickHandler {
 	private AnimPanelListener listener = null;
 	private Label lblSpeedValue;
 	private List<CustomButton> buttons = new ArrayList<>();
+
 	/**
 	 * Callback for play button
 	 */

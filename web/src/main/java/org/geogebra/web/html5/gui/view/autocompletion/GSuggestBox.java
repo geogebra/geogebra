@@ -151,6 +151,7 @@ public class GSuggestBox extends Composite
 			setNewSelection(suggestion);
 		}
 	};
+
 	/**
 	 * The callback used when a user selects a {@link Suggestion}.
 	 */

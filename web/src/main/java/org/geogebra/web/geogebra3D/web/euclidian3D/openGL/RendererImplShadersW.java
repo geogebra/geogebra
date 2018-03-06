@@ -55,7 +55,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	public RendererImplShadersW(Renderer renderer, EuclidianView3D view) {
 		super(renderer, view);
 		Log.debug("============== RendererImplShadersW: Renderer with shaders created");
-
 	}
 
 	/**
@@ -70,10 +69,8 @@ public class RendererImplShadersW extends RendererImplShaders {
 	}
 
 	private WebGLRenderingContext getGL() {
-
 		return glContext;
 	}
-
 
 	private WebGLShader getShader(int type, String source) {
 		WebGLShader shader = glContext.createShader(type);
@@ -104,9 +101,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 				WebGLRenderingContext.VERTEX_SHADER,
 				ShaderProvider.getVertexShader(needsSmallFragmentShader, true));
 
-
-
-
 	}
 
 	@Override
@@ -126,7 +120,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 				name);
 	}
 
-
 	@Override
 	final protected void glLinkProgram() {
 		glContext.linkProgram((WebGLProgram) shaderProgram);
@@ -138,7 +131,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 		// use the program
 		glContext.useProgram((WebGLProgram) shaderProgram);
-
 	}
 
 	@Override
@@ -146,7 +138,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		return glContext.getUniformLocation((WebGLProgram) shaderProgram,
 				name);
 	}
-
 
 	@Override
 	final protected void createVBOs() {
@@ -168,7 +159,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		buffer.set(glContext.createBuffer());
 	}
 
-
 	@Override
 	final protected int getStoreBufferNumBytes(int length, int size) {
 		return length * size * 4; // 4 bytes per float
@@ -187,7 +177,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 
 	}
 
-
 	@Override
 	final protected void bindBuffer(int bufferType, GPUBuffer buffer) {
 		glContext.bindBuffer(bufferType, ((GPUBufferW) buffer).get());
@@ -202,7 +191,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	final protected int getGL_ARRAY_BUFFER() {
 		return WebGLRenderingContext.ARRAY_BUFFER;
 	}
-
 
 	@Override
 	protected void vertexAttribPointer(int attrib, int size) {
@@ -227,12 +215,10 @@ public class RendererImplShadersW extends RendererImplShaders {
 		glContext.enableVertexAttribArray(attrib);
 	}
 
-
 	@Override
 	protected void glBufferData(int numBytes, GLBuffer fb) {
 		glContext.bufferData(WebGLRenderingContext.ARRAY_BUFFER,
 				((GLBufferW) fb).getBuffer(), GL_TYPE_DRAW_TO_BUFFER);
-
 	}
 
 	@Override
@@ -241,9 +227,7 @@ public class RendererImplShadersW extends RendererImplShaders {
 				.bufferData(WebGLRenderingContext.ELEMENT_ARRAY_BUFFER,
 						((GLBufferIndicesW) arrayI).getBuffer(),
 						GL_TYPE_DRAW_TO_BUFFER);
-
 	}
-
 
 	@Override
 	public void draw(Manager.Type type, int length) {
@@ -281,9 +265,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 				values);
 	}
 
-
-
-
 	@Override
 	final protected void glUseProgram(Object program) {
 		glContext.useProgram((WebGLProgram) program);
@@ -293,7 +274,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	final protected void glDisableVertexAttribArray(int attrib) {
 		glContext.disableVertexAttribArray(attrib);
 	}
-
 
 	@Override
 	final protected void glDetachAndDeleteShader(Object program, Object shader) {
@@ -313,7 +293,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		glContext.uniform4f((WebGLUniformLocation) location, a, b, c, d);
 	}
 
-
 	@Override
 	final protected void glUniform4fv(Object location, float[] values) {
 		glContext.uniform4fv((WebGLUniformLocation) location, values);
@@ -328,7 +307,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	public void setColorMaterial() {
 		// not used in WebGL
 	}
-
 	
 	@Override
 	protected void glViewPort(int width, int height) {
@@ -358,7 +336,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		return Renderer.LIGHT_POSITION_W;
 	}
 
-
 	@Override
 	final protected void glCullFace(int flag) {
 		getGL().cullFace(flag);
@@ -373,7 +350,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	final protected int getGL_BACK() {
 		return WebGLRenderingContext.BACK;
 	}
-
 
 	@Override
 	public void setBufferLeft() {
@@ -394,7 +370,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	final protected void glDepthMask(boolean flag) {
 		getGL().depthMask(flag);
 	}
-
 
 	@Override
 	public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
@@ -446,7 +421,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 		// not used in web
 	}
 
-
 	@Override
 	public int getGL_BLEND() {
 		return WebGLRenderingContext.BLEND;
@@ -476,7 +450,6 @@ public class RendererImplShadersW extends RendererImplShaders {
 	public int getGL_DEPTH_TEST() {
 		return WebGLRenderingContext.DEPTH_TEST;
 	}
-
 
 	/**
 	 * create alpha texture from image for the label

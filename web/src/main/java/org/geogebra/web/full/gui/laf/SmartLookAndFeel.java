@@ -66,6 +66,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
     public boolean copyToClipboardSupported(){
 		return false;
 	}
+
 	@Override
     public String getLoginListener() {
 	    return "loginListener";

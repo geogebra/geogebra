@@ -66,8 +66,6 @@ public class GridModel {
 		}
 	}
 
-
-
 	public GridModel(int col, IGridListener listener) {
 		columnCount = col;
 		rowCount = 0;
@@ -76,7 +74,6 @@ public class GridModel {
 		data = new ArrayList<>();
 		editCell = null;
 	}         
-
 
 	public void setHeader(int col, String title) {
 		if (col < getColumnCount())  {
@@ -103,13 +100,11 @@ public class GridModel {
 		if (col < columnCount && row < rowCount)  {
 			List<DataCell> list = data.get(row);
 			result = list.get(col);
-			
 		}
 		// Log.debug("[GRIDMODEL] = " + result);
 		
 		return result;
 	}
-
 
 	public String getHeader(int col) {
 		if (col < getColumnCount())  {
@@ -123,7 +118,6 @@ public class GridModel {
 		listener.removeAllRows();
 	}
 
-	
 	public void addRow(List<DataCell> row) {
 		// Log.debug("[GRIDMODEL] addRow(" + row + ")");
 		data.add(row);
@@ -145,7 +139,6 @@ public class GridModel {
 			headers.add(title);
 		}
 		listener.setHeaders(names);
-
 	}
 
 	public int getColumnCount() {
@@ -190,7 +183,6 @@ public class GridModel {
 	    listener.removeLastRow();
     }
 
-
 	public void addColumn(String name) {
 		columnCount++;
 		headers.add(name);
@@ -214,15 +206,11 @@ public class GridModel {
 			} else {
 				// Log.debug("Warning: rowData size is " + rowData.size());
 			}
-			
-			
 		}
 		
 		listener.removeColumn();
 		columnCount--;
-
 	}
-
 
 	public void setCellEditable(int row, int col) {
 		if (editCell != null) {

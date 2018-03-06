@@ -524,7 +524,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		setLabels();
 	}
 
-
 	/**
 	 * returns settings in XML format
 	 * 
@@ -579,8 +578,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 
 	}
-
-
 
 	private void setCollapsedNodes(int[] collapsedNodes) {
 		if (collapsedNodes == null) {
@@ -674,7 +671,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			}
 		}
-
 	}
 
 	@Override
@@ -814,7 +810,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			} // addItem(rootLayer);
 			break;
 		}
-
 	}
 
 	/**
@@ -967,7 +962,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		return parent;
 	}
 
-
 	private static String getGroupName(TreeItem child) {
 		return child.getUserObject() instanceof String
 				? ((String) child.getUserObject()) : "_";
@@ -1090,8 +1084,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			}
 		}
-
-
 	}
 
 	private int count(TreeItem parent) {
@@ -1174,7 +1166,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		updateSelection();
 	}
 
-
 	@Override
 	public void changeLayer(GeoElement g, int oldLayer, int newLayer) {
 		if (this.treeMode.equals(SortMode.LAYER)) {
@@ -1187,7 +1178,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			}
 
 			this.add(g, newLayer, false);
-
 		}
 	}
 
@@ -1207,7 +1197,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 			inputPanelLatex.updateButtonPanelPosition();
 		}
 	}
-
 
 	@Override
 	public void clearView() {
@@ -1656,11 +1645,8 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private void stopCurrentEditor() {
 		if (getActiveTreeItem() != null) {
-
 			getActiveTreeItem().onEnter(false);
-
 		}
-
 	}
 
 	/**
@@ -1832,7 +1818,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		expandWidth(expanded);
 		setWidths(expanded);
-
 	}
 
 	private void redefine(GeoElement geo) {
@@ -1857,7 +1842,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -1932,8 +1916,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 	}
 
-
-
 	/**
 	 * @param ratio
 	 *            pixel ratio
@@ -1958,7 +1940,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		}
 		this.repaintView();
 	}
-
 
 	private static boolean updateAndSetLabels(TreeItem ti) {
 		if (ti instanceof RadioTreeItem) {
@@ -2124,8 +2105,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		cancelEditItem();
 		stopCurrentEditor();
 		restoreWidth(false);
-
-
 	}
 
 	/**
@@ -2134,7 +2113,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public AVSelectionController getSelectionCtrl() {
 		return selectionCtrl;
 	}
-
 
 	/**
 	 * Gets the original width before AV expansion to restore original width
@@ -2158,7 +2136,6 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 	public boolean isAttachedToKernel() {
 		return attached;
 	}
-
 
 	private static void addLeaf(HasTreeItems printItem, RadioTreeItem leaf) {
 		RadioTreeItem printLeaf = leaf.copy();

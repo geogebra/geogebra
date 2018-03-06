@@ -88,6 +88,7 @@ public class Views {
 
 	final private static ArrayList<ViewType> BASIC_VIEWS = new ArrayList<>();
 	final private static ArrayList<ViewType> EXTENSIONS = new ArrayList<>();
+
 	static {
 		BASIC_VIEWS.add(ViewType.ALGEBRA);
 		BASIC_VIEWS.add(ViewType.CAS);

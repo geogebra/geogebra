@@ -68,6 +68,7 @@ public class Tablet implements EntryPoint {
 		// phoneGap.initializePhoneGap();
 		WebSimple.registerSuperdevExceptionHandler();
 	}
+
 	/**
 	 * (Android) back button handler
 	 */

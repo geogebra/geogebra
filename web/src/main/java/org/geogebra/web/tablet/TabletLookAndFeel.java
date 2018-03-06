@@ -24,6 +24,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	public TabletLookAndFeel() {
 		ToolTipManagerW.setEnabled(false);
 	}
+
 	@Override
 	public void addWindowClosingHandler(AppW app) {
 		// no close message on tablet

@@ -59,6 +59,7 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	private NameValueModel model;
 	private TabbedKeyboard kbd;
 	private FlowPanel namePanel;
+
 	/**
 	 * label related popup
 	 * 

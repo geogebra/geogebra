@@ -17,10 +17,10 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * Algebra view marble to show or hide geos
  *
  */
-public class Marble extends SimplePanel
-{
+public class Marble extends SimplePanel {
 	private RadioTreeItem gc;
 	private Image imgText = null;
+
 	/**
 	 * Toggle visibility of corresponding geo
 	 */

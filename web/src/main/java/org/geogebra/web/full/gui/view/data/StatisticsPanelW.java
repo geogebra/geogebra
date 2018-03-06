@@ -89,7 +89,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 	 * mode
 	 */
 	private void setInferencePanel() {
-
 		if (inferencePanel == null) {
 			return;
 		}
@@ -116,11 +115,8 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 			break;
 
 		case StatisticsModel.INFER_ANOVA:
-
 			inferencePanel.add(getAnovaTable());
 			inferencePanel.add(getMinMVStatPanel());
-			
-
 			break;
 
 		default:
@@ -135,8 +131,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 
 		selectionPanel = new FlowPanel();
 		selectionPanel.add(lbInferenceMode);
-
-
 	}
 
 	private ANOVATableW getAnovaTable() {
@@ -158,7 +152,6 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 		if (twoVarInferencePanel == null) {
 			twoVarInferencePanel = new TwoVarInferencePanelW(app, statDialog);
 		}
-
 
 		return twoVarInferencePanel;
 	}
@@ -195,11 +188,9 @@ public class StatisticsPanelW extends FlowPanel implements StatPanelInterfaceW,
 			lbInferenceMode.clear();
 		}
 		
-
-
 		model.fillInferenceModes();
-
 	}
+
 	@Override
 	public void setLabels() {
 		statTable.setLabels();

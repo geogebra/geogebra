@@ -30,6 +30,7 @@ import com.himamis.retex.renderer.web.font.opentype.Opentype;
 public class Editor implements EntryPoint, MathFieldListener {
 	private JlmEditorLib library;
 	private Opentype opentype;
+
 	@Override
 	public void onModuleLoad() {
 		if (FactoryProvider.getInstance() == null) {

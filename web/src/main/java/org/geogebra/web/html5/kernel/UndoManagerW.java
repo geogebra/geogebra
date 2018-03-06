@@ -180,6 +180,7 @@ public class UndoManagerW extends UndoManager {
 			Log.error("Undo error:" + err.getMessage());
 		}
 	}
+
 	@Override
 	public String getXML(AppState state) {
 		return ((AppStateWeb) state).getXml();

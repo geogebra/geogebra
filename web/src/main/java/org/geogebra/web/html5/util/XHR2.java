@@ -15,6 +15,7 @@ public class XHR2 extends XMLHttpRequest {
 	protected XHR2() {
 		// needed for GWT
 	}
+
 	/** @return new XHR */
 	public static native XHR2 create() /*-{
 		return new $wnd.XMLHttpRequest();

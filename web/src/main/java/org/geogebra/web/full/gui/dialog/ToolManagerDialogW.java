@@ -48,10 +48,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 
-
-public class ToolManagerDialogW extends DialogBoxW implements
- ClickHandler,
-        ToolManagerDialogListener, MacroChangeListener {
+public class ToolManagerDialogW extends DialogBoxW implements ClickHandler,
+		ToolManagerDialogListener, MacroChangeListener {
 
 	AppW app;
 	final LocalizationW loc;
@@ -77,6 +75,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private static class MacroListBox extends ListBox {
 		List<Macro> macros;
+
 		public MacroListBox() {
 			macros = new ArrayList<>();
 		}
@@ -110,6 +109,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			setItemText(idx, getMacroText(macro));
 
 		}
+
 		public void addMacro(Macro macro) {
 			macros.add(macro);
 			addItem(getMacroText(macro));
@@ -218,15 +218,12 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			}
 			String[] options = { loc.getMenu("DeleteTool"),
 					loc.getMenu("DontDeleteTool") };
-			app.getGuiManager()
-					.getOptionPane()
-					.showOptionDialog(app, message, question,
- 0,
-							GOptionPane.QUESTION_MESSAGE,
-							null, options, new AsyncOperation<String[]>() {
+			app.getGuiManager().getOptionPane().showOptionDialog(app, message,
+					question, 0, GOptionPane.QUESTION_MESSAGE, null, options,
+					new AsyncOperation<String[]>() {
 
 						@Override
-								public void callback(String[] dialogResult) {
+						public void callback(String[] dialogResult) {
 
 							if ("0".equals(dialogResult[0])) {
 
@@ -282,7 +279,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		addStyleName("GeoGebraPopup");
 		getCaption().setText(loc.getMenu("Tool.Manage"));
 
-
 		FlowPanel panel = new FlowPanel();
 
 		FlowPanel toolListPanel = new FlowPanel();
@@ -297,7 +293,8 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 		toolList.setVisibleItemCount(6);
 
-		FlowPanel centerPanel = LayoutUtilW.panelRow(toolList, createListUpDownRemovePanel());
+		FlowPanel centerPanel = LayoutUtilW.panelRow(toolList,
+				createListUpDownRemovePanel());
 		centerPanel.setStyleName("manageToolsList");
 		toolListPanel.add(centerPanel);
 
@@ -329,7 +326,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		macroPanel.setMacroChangeListener(this);
 		panel.add(macroPanel);
 
-
 		FlowPanel closePanel = new FlowPanel();
 		btClose = new Button(loc.getMenu("Close"));
 		closePanel.add(btClose);
@@ -349,7 +345,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			}
 
 		});
-
 
 	}
 
@@ -380,7 +375,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolList.setSelectedIndex(0);
 		updateMacroPanel();
 	}
-
 
 	/**
 	 * Saves all selected tools in a new file.
@@ -430,7 +424,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		}
 
 		List<Integer> sel = ListBoxApi.getSelectionIndexes(toolList);
-		int selSize = sel.size(); 
+		int selSize = sel.size();
 
 		if (src == btUp) {
 			Log.debug("Up");
@@ -466,6 +460,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		refreshCustomToolsInToolBar();
 
 	}
+
 	@Override
 	public void onMacroChange(Macro macro) {
 		Macro m = toolList.getSelectedMacro();
@@ -477,7 +472,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolList.setSelectedMacro(m);
 
 	}
-	
+
 	@Override
 	public void onShowToolChange(Macro macro) {
 		onMacroChange(macro);

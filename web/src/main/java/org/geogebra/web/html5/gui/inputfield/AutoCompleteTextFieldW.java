@@ -158,6 +158,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 	public interface InsertHandler {
 		void onInsert(String text);
 	}
+
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
 	 * given Application for autocomplete look up. A default model is created

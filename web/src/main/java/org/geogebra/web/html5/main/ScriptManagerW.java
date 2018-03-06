@@ -94,6 +94,7 @@ public class ScriptManagerW extends ScriptManager {
 	private static String toString(Object o) {
 		return o == null ? null : o.toString();
 	}
+
 	@Override
 	public void callJavaScript(String jsFunction, Object[] args) {
 		try {

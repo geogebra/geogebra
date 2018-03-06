@@ -105,6 +105,7 @@ public class AVSelectionController {
 			selection.toggleSelectedGeo(geo);
 		}
 	}
+
 	private void continuousDependent(GeoElement geo) {
 		boolean nowSelecting = true;
 		boolean selecting = false;

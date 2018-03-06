@@ -649,7 +649,6 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			}
 
 		}.schedule(500);
-
 	}
 
 	/**
@@ -669,8 +668,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrameW implements
 			ml.setFocus(true, true);
 			ml.ensureEditing();
 		}
-
 	}
+
 	@Override
 	public boolean isKeyboardShowing() {
 		return this.keyboardShowing;

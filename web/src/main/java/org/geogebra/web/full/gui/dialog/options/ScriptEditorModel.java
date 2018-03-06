@@ -20,12 +20,12 @@ public class ScriptEditorModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void setListener(ScriptEditPanel listener) {
 		this.listener = listener;
 	}
+
 	@Override
 	public PropertyListener getListener() {
 		return listener;

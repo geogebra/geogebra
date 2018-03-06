@@ -383,6 +383,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			zoomPanel.getElement().getStyle().clearBottom();
 		}
 	}
+
 	/**
 	 * Focus the next available element on GUI. after geos.
 	 */
@@ -413,6 +414,7 @@ public abstract class EuclidianDockPanelWAbstract extends DockPanelW
 			focusLastGUIElement();
 		}
 	}
+
 	/**
 	 * Checks if zoom panel fit on Euclidian View with given height and
 	 * shows/hides it respectively.

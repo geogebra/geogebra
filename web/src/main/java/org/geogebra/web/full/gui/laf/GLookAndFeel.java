@@ -45,14 +45,12 @@ public class GLookAndFeel implements GLookAndFeelI{
 	@Override
 	public MainMenu getMenuBar(AppW app) {
 		return new MainMenu(app);
-
     }
 
 	@Override
 	public boolean undoRedoSupported() {
 	    return true;
     }
-	
 	
 	@Override
 	public boolean isSmart() {
@@ -63,6 +61,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 	public boolean isTablet() {
 		return false;
 	}
+
 	/**
 	 * Sets message to be shown when user wants to close the window
 	 * (makes no sense for SMART widget)

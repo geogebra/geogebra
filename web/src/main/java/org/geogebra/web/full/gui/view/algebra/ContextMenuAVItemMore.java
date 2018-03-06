@@ -30,6 +30,7 @@ public class ContextMenuAVItemMore implements SetLabels {
 	private AppW app;
 	/** parent item */
 	RadioTreeItem item;
+
 	/**
 	 * Creates new context menu
 	 * 

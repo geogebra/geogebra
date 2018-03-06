@@ -20,9 +20,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /** Data panel */
 public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
-		RequiresResize
-	
-{
+		RequiresResize {
 	private DataAnalysisViewW daView;
 	private DataAnalysisControllerW statController;
 
@@ -40,6 +38,7 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 	
 	private class DataClickHandler implements ClickHandler {
 		private int index;
+
 		public DataClickHandler(int index) {
 			this.index = index;
 		}
@@ -48,7 +47,6 @@ public class DataPanelW extends FlowPanel implements StatPanelInterfaceW,
 		public void onClick(ClickEvent event) {
 	        onDataClick(index);
         }
-		
 	}
 	
 	/*************************************************

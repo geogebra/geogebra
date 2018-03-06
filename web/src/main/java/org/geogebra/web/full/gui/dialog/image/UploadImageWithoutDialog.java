@@ -14,6 +14,7 @@ public class UploadImageWithoutDialog {
 
 	private UploadImagePanel uploadImagePanel;
 	private AppW app;
+
 	/**
 	 * @param app
 	 *            application

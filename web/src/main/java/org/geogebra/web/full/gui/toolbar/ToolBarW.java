@@ -261,6 +261,7 @@ public class ToolBarW extends FlowPanel
 	public int getToolbarVecSize() {
 		return this.getToolbarVec().size();
 	}
+
 	/**
 	 * @return The default definition of this toolbar with macros.
 	 */
@@ -268,8 +269,6 @@ public class ToolBarW extends FlowPanel
 
 		return ToolBar.getAllTools(app);
 	}
-
-
 
 	public void setActiveView(Integer viewID) {
 		activeView = viewID;

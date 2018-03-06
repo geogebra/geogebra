@@ -153,6 +153,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 	private HorizontalPanel splitPanelWrapper = null;
 	/** floating menu */
 	FloatingMenuPanel floatingMenuPanel = null;
+
 	/**
 	 * 
 	 * @param ae
@@ -1116,6 +1117,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		setMoveMode();
 		resetUI();
 	}
+
 	@Override
 	public void executeAction(EventType action, AppState state, String[] args) {
 		if (getPageController() != null) {

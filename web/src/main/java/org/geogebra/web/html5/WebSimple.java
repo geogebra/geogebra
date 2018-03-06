@@ -22,7 +22,6 @@ public class WebSimple implements EntryPoint {
 	/**
 	 * set true if Google Api Js loaded
 	 */
-
 	@Override
 	public void onModuleLoad() {
 		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null
@@ -64,7 +63,6 @@ public class WebSimple implements EntryPoint {
 			@Override
 			public void onFailure(Throwable reason) {
 				// TODO Auto-generated method stub
-
 			}
 		});
 	}
@@ -75,28 +73,28 @@ public class WebSimple implements EntryPoint {
 	 */
 	public static void registerSuperdevExceptionHandler() {
 		GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-					@Override
-					public void onUncaughtException(Throwable t) {
-						Throwable cause = t;
-						while (cause.getCause() != null) {
-							cause = cause.getCause();
-						}
-						Object nativeCause = cause instanceof JavaScriptException
-								&& ((JavaScriptException) cause).getThrown() != null ? ((JavaScriptException) cause)
-								.getThrown() : cause;
-						log(nativeCause);
+			@Override
+			public void onUncaughtException(Throwable t) {
+				Throwable cause = t;
+				while (cause.getCause() != null) {
+					cause = cause.getCause();
+				}
+				Object nativeCause = cause instanceof JavaScriptException
+						&& ((JavaScriptException) cause).getThrown() != null
+								? ((JavaScriptException) cause).getThrown()
+								: cause;
+				log(nativeCause);
 			}
 
-					public native void log(Object t) /*-{
+			public native void log(Object t) /*-{
 		console && console.log && console.log(t);
 	}-*/;
 
 				});
 	}
+
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
-
 		GeoGebraFrameSimple.main(geoGebraMobileTags);
-
 	}
 
 	private native void exportGGBElementRenderer() /*-{

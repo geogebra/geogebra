@@ -600,16 +600,13 @@ public class DataDisplayPanelW extends FlowPanel implements
 		getModel().updatePlot(true);
 	}
 
-
 	public void detachView() {
 		// plotPanel.detachView();
 	}
 
 	public void attachView() {
 		plotPanel.attachView();
-
 	}
-
 
 	@Override
 	public void updatePanel() {
@@ -637,7 +634,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 		metaPlotPanel.add(plotPanelNorth);
 		metaPlotPanel.add(plotPanel.getComponent());
 		metaPlotPanel.add(plotPanelSouth);
-		
 	}
 
 	@Override
@@ -688,7 +684,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 		displayDeckPanel.showWidget(METAPLOT_IDX);
 	}
 	
-
 	@Override
 	public void updateStemPlot(String latex) {
 		btnOptions.setVisible(false);
@@ -702,7 +697,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 		}
 
 		displayDeckPanel.showWidget(IMAGE_IDX);
-
 	}
 
 	@Override
@@ -737,8 +731,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 	public void setModel(DataDisplayModel model) {
 		this.model = model;
 	}
-
-
 
 	public void resize(int offsetWidth, int offsetHeight, boolean update) {
 		int w = offsetWidth;
@@ -781,9 +773,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		}
 
 		imagePanel.setPixelSize(width, height);
-		
 	}
-
 
 	public void resize(boolean update) {
 	    resize(getOffsetWidth(), getOffsetHeight(), update);

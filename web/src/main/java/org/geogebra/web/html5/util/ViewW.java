@@ -212,11 +212,9 @@ public class ViewW {
 		GgbAPIW.setWorkerURL(workerUrls, false);
 		populateArchiveContent(workerUrls, this, ggbReader);
 	}
+
 	private native void populateArchiveContent(String workerUrls, ViewW view,
 			JavaScriptObject ggbReader) /*-{
-	                                                      
-	                                                      
-	                                                      
       // Writer for ASCII strings
       function ASCIIWriter() {
 	      var that = this, data;

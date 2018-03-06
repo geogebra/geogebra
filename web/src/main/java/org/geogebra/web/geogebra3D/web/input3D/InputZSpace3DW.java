@@ -287,7 +287,6 @@ public class InputZSpace3DW extends Input3D {
 
 	}
 
-
 	@Override
 	public boolean hasMouseDirection() {
 		return true;
@@ -298,18 +297,14 @@ public class InputZSpace3DW extends Input3D {
 		return inputDirection;
 	}
 
-
 	@Override
 	public double getDefaultRotationXOY() {
-		// TODO Auto-generated method stub
 		return 30;
 	}
-
 
 	@Override
 	public void setSpecificSettings(EuclidianSettings3D settings) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -332,7 +327,6 @@ public class InputZSpace3DW extends Input3D {
 		return false;
 	}
 
-
 	@Override
 	public boolean useQuaternionsForRotate() {
 		return false;
@@ -347,7 +341,6 @@ public class InputZSpace3DW extends Input3D {
 	public double getDefaultRotationOz() {
 		return 270;
 	}
-
 
 	@Override
 	public boolean shouldStoreStereoToXML() {

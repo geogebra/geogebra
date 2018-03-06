@@ -1418,6 +1418,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	protected GPoint getPixel(int column, int row, boolean min) {
 		return getPixel(column, row, min, true);
 	}
+
 	protected GPoint getPixel(int column, int row, boolean min, boolean scaleOffset) {
 
 		if (column < 0 || row < 0 || column >= this.getColumnCount()
@@ -1440,7 +1441,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		        .getArticleElement().getScaleX()) + offx;
 			top = (int) ((wt.getAbsoluteTop() - offy) / app.getArticleElement()
 		        .getScaleY()) + offy;
-		}else{
+		} else {
 			left = (int) ((wt.getAbsoluteLeft()) / app
 			        .getArticleElement().getScaleX());
 			top = (int) ((wt.getAbsoluteTop() ) / app.getArticleElement()
@@ -1557,6 +1558,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public GRectangle getCellRect(int row, int column, boolean spacing) {
 		return getCellRect(row, column, spacing, true);
 	}
+
 	/**
 	 * @param spacing
 	 *            whether to include border -- TODO unused
@@ -1722,6 +1724,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		}
 		return controller;
 	}
+
 	public int convertColumnIndexToModel(int viewColumnIndex) {
 		return viewColumnIndex;
 	}

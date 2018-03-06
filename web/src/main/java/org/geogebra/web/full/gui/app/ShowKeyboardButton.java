@@ -140,15 +140,14 @@ public class ShowKeyboardButton extends SimplePanel {
 	 *            {@link Widget} to receive the text input
 	 */
 	public void show(boolean show, MathKeyboardListener textField) {
-
 		if (show && (parent.isVisible()
 				|| app.has(Feature.SHOW_ONE_KEYBOARD_BUTTON_IN_FRAME))) {
 			setVisible(true);
 		} else {
 			setVisible(false);
 		}
-
 	}
+
 	/**
 	 * Hide the button
 	 */

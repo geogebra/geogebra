@@ -9,10 +9,10 @@ import org.geogebra.web.full.gui.dialog.options.OptionsTab.CornerPointsPanel;
 
 public class CornerPointsModel extends OptionsModel {
 	private CornerPointsPanel listener;
+
 	public CornerPointsModel(App app) {
 		super(app);
 	}
-
 
 	@Override
 	protected boolean isValidAt(int index) {
@@ -23,7 +23,6 @@ public class CornerPointsModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

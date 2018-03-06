@@ -164,7 +164,6 @@ public class Browser {
 		}
 
 		return "https://" + url;
-
 	}
 
 	public static boolean supportsWebGL() {
@@ -177,7 +176,9 @@ public class Browser {
 	public static void mockWebGL() {
 		webglSupported = true;
 	}
-	/*
+
+	/**
+	 * Native check for WebGL support based on
 	 * http://stackoverflow.com/questions/11871077/proper-way-to-detect-webgl-
 	 * support
 	 */

@@ -182,9 +182,9 @@ public class SliderWJquery extends FocusWidget
 		ValueChangeEvent.fireIfNotEqual(this, curValue, val);
 		curValue = val;
 	}
+
 	@Override
 	public void onMouseMove(MouseMoveEvent event) {
-
 		// event.stopPropagation();
 		slideValue();
 	}

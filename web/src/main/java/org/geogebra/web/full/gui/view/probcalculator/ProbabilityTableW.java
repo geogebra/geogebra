@@ -18,8 +18,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *
  */
 public class ProbabilityTableW extends ProbabilityTable implements ClickHandler {
-	
-	
 
 	/**
 	 * default width of table
@@ -27,6 +25,7 @@ public class ProbabilityTableW extends ProbabilityTable implements ClickHandler 
 	public static final int DEFAULT_WIDTH = 200;
 	private FlowPanel wrappedPanel;
 	private StatTableW statTable;
+
 	/**
 	 * @param app Application
 	 * @param probCalc ProbablityCalculator

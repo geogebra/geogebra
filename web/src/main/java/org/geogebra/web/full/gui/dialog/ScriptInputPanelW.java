@@ -9,6 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
+
 package org.geogebra.web.full.gui.dialog;
 
 import org.geogebra.common.euclidian.event.PointerEventType;
@@ -46,6 +47,7 @@ public class ScriptInputPanelW extends FlowPanel implements
 	private ScriptArea textArea;
 	private FlowPanel btPanel;
 	private AppW app;
+
 	/**
 	 * Input Dialog for a GeoButton object
 	 * 

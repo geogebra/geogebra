@@ -74,30 +74,24 @@ public class RendererWithImplW extends RendererWithImpl implements
 		super();
 	}
 
-
 	@Override
 	public Canvas getCanvas() {
 		return webGLCanvas;
 	}
 
-
 	@Override
 	public void setLineWidth(double width) {
 		// TODO Auto-generated method stub
-
 	}
-
 
 	@Override
 	public void resumeAnimator() {
 		// no need in web
-
 	}
 
 	@Override
 	protected void disableStencilLines() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -162,7 +156,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 				WebGLRenderingContext.TEXTURE_WRAP_T,
 				WebGLRenderingContext.CLAMP_TO_EDGE); // prevent repeating the
 														// texture
-
 	}
 
 	@Override
@@ -191,7 +184,6 @@ public class RendererWithImplW extends RendererWithImpl implements
 		glContext.blendFunc(WebGLRenderingContext.SRC_ALPHA,
 				WebGLRenderingContext.ONE_MINUS_SRC_ALPHA);
 	}
-
 
 	@Override
 	public void enableTextures2D() {

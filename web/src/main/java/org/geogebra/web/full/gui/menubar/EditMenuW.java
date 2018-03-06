@@ -19,6 +19,7 @@ public class EditMenuW extends GMenuBar {
 	final SelectionManager selection;
 	private boolean valid = true;
 	private Localization loc;
+
 	/**
 	 * Constructs the "Edit" menu
 	 * 

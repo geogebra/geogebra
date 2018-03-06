@@ -657,8 +657,8 @@ public class FileManagerT extends FileManager {
 				nextFreeID = fileID + 1;
 			}
 		}
-
 	}
+
 	/**
 	 * create metaData.
 	 * 
@@ -797,13 +797,11 @@ public class FileManagerT extends FileManager {
 	@Override
 	public void restoreAutoSavedFile(String json) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void deleteAutoSavedFile() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

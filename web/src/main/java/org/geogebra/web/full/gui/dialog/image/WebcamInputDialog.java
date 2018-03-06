@@ -67,7 +67,6 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 		addStyleName("GeoGebraPopup");
 		addStyleName("image");
 		setGlassEnabled(true);
-
 	}
 
 	private void initActions() {
@@ -97,6 +96,7 @@ public class WebcamInputDialog extends DialogBoxW implements ClickHandler {
 			}
 		});
 	}
+
 	/**
 	 * resizes the video and its container
 	 */

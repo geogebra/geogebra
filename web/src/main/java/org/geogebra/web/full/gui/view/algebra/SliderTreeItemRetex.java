@@ -34,7 +34,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 
 	private static final int SLIDER_EXT = 15;
 
-
 	/**
 	 * Slider to be shown as part of the extended Slider entries
 	 */
@@ -52,7 +51,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	 */
 
 	private ScheduledCommand resizeCmd = new ScheduledCommand() {
-
 
 		@Override
 		public void execute() {
@@ -85,9 +83,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		styleContentPanel();
 		doUpdate();
 		deferredResize();
-
 	}
-
 
 	@Override
 	protected RadioTreeItemController createController() {
@@ -97,6 +93,7 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	private SliderTreeItemRetexController getSliderController() {
 		return (SliderTreeItemRetexController) getController();
 	}
+
 	private void createSliderGUI() {
 		content.addStyleName("noPadding");
 		if (!num.isEuclidianVisible()) {
@@ -173,7 +170,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		minMaxPanel.setVisible(false);
 	}
 
-
 	@Override
 	protected void styleContentPanel() {
 		sliderContent.addStyleName("avItemContent");
@@ -224,15 +220,11 @@ public class SliderTreeItemRetex extends RadioTreeItem
 		updateColor();
 	}
 
-
-
 	@Override
 	public void onResize() {
 		deferredResize();
 		super.onResize();
 	}
-
-
 
 	@Override
 	public void setDraggable() {
@@ -259,7 +251,6 @@ public class SliderTreeItemRetex extends RadioTreeItem
 	public void setSliderVisible(boolean visible) {
 		sliderPanel.setVisible(visible);
 	}
-
 
 	@Override
 	public void selectItem(boolean selected) {

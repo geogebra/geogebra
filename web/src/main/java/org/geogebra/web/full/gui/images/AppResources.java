@@ -9,7 +9,6 @@ public interface AppResources extends ClientBundle {
 	
 	AppResources INSTANCE = GWT.create(AppResources.class);
 
-
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-options.png")
 	ImageResource view_properties16();
 
@@ -40,18 +39,14 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png16x16/cumulative_distribution.png")
 	ImageResource cumulative_distribution();
 
-
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-delete.png")
 	ImageResource delete_small();
-
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-copy.png")
 	ImageResource edit_copy();
 
-
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-cut.png")
 	ImageResource edit_cut();
-
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-edit-paste.png")
 	ImageResource edit_paste();
@@ -89,16 +84,11 @@ public interface AppResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/png/web/stylingbar/stylingbar_object_fixed.png")
 	ImageResource objectFixed();
 
-
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-options-labeling.png")
 	ImageResource mode_showhidelabel_16();
 
-
 	@Source("org/geogebra/common/icons/png/web/menu_icons/mode_showhideobject.png")
 	ImageResource mode_showhideobject_16();
-
-	// @Source("org/geogebra/common/icons/png/web/general/options-advanced24.png")
-	// ImageResource options_advanced24();
 
 	@Source("org/geogebra/common/icons/png/web/general/options-defaults224.png")
 	ImageResource options_defaults224();
@@ -120,7 +110,6 @@ public interface AppResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/png/web/general/tangent_line.png")
 	ImageResource tangent_line();
-
 
 	@Source("org/geogebra/common/icons/png/web/menu_icons/menu-trace-on.png")
 	ImageResource trace_on();

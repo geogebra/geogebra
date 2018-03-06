@@ -25,6 +25,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 			setLoginURL(articleElement.getLoginAPIurl());
 		}
 	}
+
 	@Override
 	protected HttpRequest createHttpRequest() {
 		return new HttpRequestW();

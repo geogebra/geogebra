@@ -57,6 +57,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 	public static MinMaxPanel getOpenedPanel() {
 		return openedMinMaxPanel;
 	}
+
 	/**
 	 * Closes min/max/step settings panel of the slider and restores its size if
 	 * needed.
@@ -92,7 +93,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		openedMinMaxPanel = panel;
 	}
 
-
 	/**
 	 * Input field for MinMaxPanel
 	 */
@@ -126,7 +126,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			if (e.getNativeKeyCode() == GWTKeycodes.KEY_ESCAPE) {
 				listener.cancel();
 			}
-
 		}
 
 		@Override
@@ -138,7 +137,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		protected void fieldFocus() {
 			super.fieldFocus();
 			selectAll();
-
 		}
 
 	}
@@ -206,7 +204,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		});
 
 		update();
-
 	}
 
 	/**
@@ -243,12 +240,12 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		setAlt(tfMin, "Minimum");
 		setAlt(tfMax, "Maximum");
 		setAlt(tfStep, "Step");
-
 	}
 
 	private void setAlt(AVField fld, String key) {
 		AriaHelper.setLabel(fld, app.getLocalization().getMenu(key));
 	}
+
 	/**
 	 * Show the panel
 	 */

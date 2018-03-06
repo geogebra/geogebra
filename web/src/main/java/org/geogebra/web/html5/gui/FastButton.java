@@ -58,6 +58,7 @@ public abstract class FastButton extends CustomButton implements AccessibilityIn
 	private boolean active;
 	private final List<FastClickHandler> handlers;
 	private AccessibilityButton acc;
+
 	/**
 	 * New fast button
 	 */

@@ -27,6 +27,7 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 	private boolean tabOverGeos = false;
 	private SelectionManager selection;
 	private Widget anchor;
+
 	/**
 	 * Constructor.
 	 * 

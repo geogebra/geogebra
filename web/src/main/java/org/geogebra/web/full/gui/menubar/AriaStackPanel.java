@@ -206,6 +206,7 @@ public class AriaStackPanel extends ComplexPanel
 	public Widget getWidget(int index) {
 		return items.get(index);
 	}
+
 	/**
 	 * Sets the text associated with a child by its index.
 	 *

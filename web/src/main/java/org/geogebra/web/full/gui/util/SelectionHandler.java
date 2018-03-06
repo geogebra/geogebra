@@ -1,6 +1,7 @@
 package org.geogebra.web.full.gui.util;
 
 import com.google.gwt.dom.client.Element;
+
 /**
  * Handle native selection mode
  * @author Zbynek, based on snippet from the Internet

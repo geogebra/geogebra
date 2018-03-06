@@ -529,6 +529,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			}
 		}
 	}
+
 	/**
 	 * @return if toolbar is open or not.
 	 */
@@ -687,6 +688,7 @@ public class ToolbarPanel extends FlowPanel implements MyModeChangedListener {
 			tabTools.onResize();
 		}
 	}
+
 	/**
 	 * Shows/hides full toolbar.
 	 */

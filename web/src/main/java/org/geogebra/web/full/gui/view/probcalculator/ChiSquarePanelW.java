@@ -269,7 +269,6 @@ public class ChiSquarePanelW extends ChiSquarePanel
 
 		ListBoxApi.select(String.valueOf(getSc().columns), cbColumns);
 		cbColumns.addChangeHandler(this);
-
 	}
 
 	// @Override
@@ -288,7 +287,7 @@ public class ChiSquarePanelW extends ChiSquarePanel
 	protected ChiSquareCell getCell(int i, int j) {
 		return cell[i][j];
 	}
-	// @Override
+
 	@Override
 	public void onChange(ChangeEvent event) {
 		updateCollection();

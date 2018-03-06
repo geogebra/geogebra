@@ -21,6 +21,7 @@ public class CheckboxPanel extends OptionPanel implements
 		setModel(m);
 		m.setListener(this);
 	}
+
 	public CheckboxPanel(final String title, Localization loc) {
 		this.loc = loc;
 		checkbox = new CheckBox();
@@ -29,7 +30,6 @@ public class CheckboxPanel extends OptionPanel implements
 		this.titleId = title;
 
 		getCheckbox().addClickHandler(this);
-
 	}
 
 	@Override
@@ -45,6 +45,7 @@ public class CheckboxPanel extends OptionPanel implements
 	public CheckBox getCheckbox() {
 		return checkbox;
 	}
+
 	@Override
 	public void onClick(ClickEvent event) {
 		((BooleanOptionModel) getModel()).applyChanges(getCheckbox()

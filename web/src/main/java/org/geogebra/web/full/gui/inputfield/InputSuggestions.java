@@ -37,7 +37,6 @@ public class InputSuggestions implements HasSuggestions {
 		popup = new CompletionsPopup();
 		popup.addTextField(component);
 		sug = new ScrollableSuggestionDisplay(this, app.getPanel(), app);
-
 	}
 
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
@@ -230,6 +229,7 @@ public class InputSuggestions implements HasSuggestions {
 	public void setFocus() {
 		sug.setFocus(true);
 	}
+
 	public boolean isSuggesting() {
 		return sug.isSuggestionListShowing();
 	}

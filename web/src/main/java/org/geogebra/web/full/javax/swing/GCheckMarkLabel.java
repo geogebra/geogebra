@@ -44,10 +44,10 @@ public class GCheckMarkLabel extends GCheckMarkPanel {
 			getCmd().execute();
 		}
 	}
+
 	@Override
 	protected void createContents() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

@@ -60,12 +60,8 @@ public class InputPanelW extends FlowPanel{
 		// set up the text component:
 		// either a textArea, textfield or HTML textpane
 		if (rows > 1) {
-
 			textAreaComponent = new TextEditPanel(app);
-
-
 		} else {
-
 			textComponent = new AutoCompleteTextFieldW(columns, app);
 
 			textComponent.prepareShowSymbolButton(showSymbolPopup);
@@ -76,7 +72,6 @@ public class InputPanelW extends FlowPanel{
 				textAreaComponent.setText(initText);
 			}
 			add(textAreaComponent);
-
 		}
 		//
 		else {

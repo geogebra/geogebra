@@ -32,6 +32,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 	private FlowPanel buttons;
 	private int selectedViewId = GENERAL;
 	private CustomizeToolbarListener listener;
+
 	/**
 	 * Listens to updates of the toolbar
 	 */

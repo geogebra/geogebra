@@ -39,6 +39,7 @@ public class MathFieldProcessing implements KeyboardListener {
 		this.mf = mf;
 		this.doubleBrakets = false;
 	}
+
 	@Override
 	public void setFocus(boolean focus) {
 		mf.setFocus(focus);

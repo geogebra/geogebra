@@ -15,6 +15,7 @@ public final class Dom {
 	private Dom() {
 		// no public constructor
 	}
+
 	/**
 	 * @param className
 	 *            class name
@@ -55,10 +56,19 @@ public final class Dom {
 		return elem.querySelector("." + className);
 	}-*/;
 
+	/**
+	 * @param style
+	 *            style
+	 * @param property
+	 *            property name
+	 * @param val
+	 *            property value
+	 */
 	public static native void setImportant(Style style, String property,
 			String val)/*-{
 		style.setProperty(property, val, "important");
 	}-*/;
+
 	/**
 	 * 
 	 * @param event
