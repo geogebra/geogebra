@@ -2518,7 +2518,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 
 				if (right.isExpressionNode() && ((ExpressionNode) right)
-						.getOperation() == Operation.DIVIDE) {
+						.getOperation() == Operation.DIVIDE
+						&& right.isConstant()) {
 					ExpressionNode enR = (ExpressionNode) right;
 
 					// was simplify(surd, causes problems
