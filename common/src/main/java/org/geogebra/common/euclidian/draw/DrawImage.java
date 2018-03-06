@@ -538,7 +538,7 @@ public final class DrawImage extends Drawable {
 		int eventY = event.getY();
 		double newWidth = 1;
 		double newHeight = 1;
-		GRectangle2D rect = AwtFactory.getPrototype().newRectangle();
+		GRectangle2D rect = AwtFactory.getPrototype().newRectangle2D();
 		switch (handler) {
 		case BOTTOM:
 			if (eventY - getBoundingBox().getRectangle().getY() <= Math
