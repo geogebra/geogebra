@@ -26,6 +26,7 @@ import org.geogebra.common.awt.GGeneralPath;
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPoint2D;
 import org.geogebra.common.awt.GRectangle;
+import org.geogebra.common.awt.GRectangle2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.BoundingBox;
@@ -62,7 +63,7 @@ public final class DrawImage extends Drawable {
 	private GGeneralPath highlighting;
 	private double[] hitCoords = new double[2];
 	private BoundingBox boundingBox;
-	private GRectangle cropBox;
+	private GRectangle2D cropBox;
 	private double originalRatio = Double.NaN;
 	private boolean wasCroped = false;
 	/**
@@ -482,7 +483,7 @@ public final class DrawImage extends Drawable {
 	 * @return crop box
 	 */
 	public GRectangle getCropBox() {
-		return cropBox;
+		return cropBox.getBounds();
 	}
 
 	@Override
@@ -537,7 +538,7 @@ public final class DrawImage extends Drawable {
 		int eventY = event.getY();
 		double newWidth = 1;
 		double newHeight = 1;
-		GRectangle rect = AwtFactory.getPrototype().newRectangle();
+		GRectangle2D rect = AwtFactory.getPrototype().newRectangle();
 		switch (handler) {
 		case BOTTOM:
 			if (eventY - getBoundingBox().getRectangle().getY() <= Math
@@ -707,6 +708,7 @@ public final class DrawImage extends Drawable {
 			D.updateRepaint();
 			geoImage.setCorner(D, 2);
 			break;
+
 		case BOTTOM_RIGHT:
 			if (eventX - view.toScreenCoordXd(A.getInhomX()) <= Math
 					.min(IMG_WIDTH_THRESHOLD, image.getWidth())) {
