@@ -64,7 +64,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void testPriority() {
+	public void shouldKeppPriorityUnaryBinary() {
 		checkSameStructure("x(x+1)^2", "x*(x+1)^2");
 		checkSameStructure(Unicode.SQUARE_ROOT + "x(x+1)", "sqrt(x)*(x+1)");
 		checkSameStructure("x(x+1)!", "x*(x+1)!");
@@ -150,7 +150,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void priorityTest() {
+	public void shouldKeepPriorityTwoBinary() {
 		Kernel kernel = app.getKernel();
 		for (Operation top : Operation.values()) {
 			if (!binary(top)) {
@@ -196,7 +196,8 @@ public class ParserTest {
 				&& op != Operation.FUNCTION && op != Operation.FUNCTION_NVAR
 				&& op != Operation.VEC_FUNCTION && op != Operation.DERIVATIVE
 				&& op != Operation.IF
-				&& op != Operation.IF_ELSE && op != Operation.SUM;
+				&& op != Operation.IF_ELSE && op != Operation.SUM
+				&& op != Operation.INVERSE_NORMAL;
 	}
 
 	private void checkStable(ExpressionNode left) {
