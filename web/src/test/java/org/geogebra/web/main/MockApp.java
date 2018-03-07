@@ -1,5 +1,6 @@
 package org.geogebra.web.main;
 
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.laf.GLookAndFeel;
 import org.geogebra.web.full.main.AppWFull;
@@ -29,6 +30,19 @@ public class MockApp {
 		FactoryProvider.setInstance(new MockFactoryProviderGWT());
 		GeoGebraFrameBoth fr = new GeoGebraFrameBoth(new AppletFactory3D(),
 				new GLookAndFeel(), new BrowserDevice(), false);
+		Log.setLogger(new Log() {
+
+			@Override
+			protected void print(String logEntry, Level level) {
+				System.out.println(logEntry);
+			}
+
+			@Override
+			public void doPrintStacktrace(String message) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		fr.ae = ae;
 		fr.runAsyncAfterSplash();
 		AppWFull app = (AppWFull) fr.getApplication();

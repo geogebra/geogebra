@@ -52,4 +52,8 @@ public class GgbFile extends HashMap<String, String> {
 		this.id = id;
 	}
 
+	public static int getCounter() {
+		return counter;
+	}
+
 }

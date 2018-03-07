@@ -3628,7 +3628,8 @@ public abstract class AppW extends App implements SetLabels {
 	}-*/;
 
 	public String getSlideID() {
-		return getPageController() == null ? GgbFile.SLIDE_PREFIX + "0"
+		return getPageController() == null
+				? GgbFile.SLIDE_PREFIX + GgbFile.getCounter()
 				: getPageController().getSlideID();
 	}
 
