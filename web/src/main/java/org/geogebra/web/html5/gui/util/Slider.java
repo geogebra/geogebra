@@ -57,7 +57,7 @@ public class Slider extends FocusWidget implements HasChangeHandlers,
 
 	@Override
 	public Integer getValue() {
-		return StringUtil.empty(getRangeValue(range)) ? 0
+		return StringUtil.empty(getRangeValue(range)) ? Integer.valueOf(0)
 				: Integer.valueOf(getRangeValue(range));
 	}
 
