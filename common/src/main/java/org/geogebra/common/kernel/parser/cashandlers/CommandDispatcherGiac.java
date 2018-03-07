@@ -145,6 +145,8 @@ public class CommandDispatcherGiac {
 		/** symbolic sum */
 		sum(Operation.SUM),
 
+		normal_icdf(Operation.INVERSE_NORMAL),
+
 		/** If[] */
 		piecewise(Operation.IF_ELSE),
 
@@ -250,6 +252,7 @@ public class CommandDispatcherGiac {
 		try {
 			cmd = GiacCommands.valueOf(cmdName);
 		} catch (Exception Ex) {
+			Ex.printStackTrace();
 			Log.error(
 					"Unknown CAS command " + cmdName + ", arguments: " + args);
 			return null;
@@ -461,7 +464,7 @@ public class CommandDispatcherGiac {
 			case sign:
 			case floor:
 			case ceiling:
-
+			case normal_icdf:
 				if (args.getLength() != 1) {
 
 					// eg Derivative[zeta(x)] -> Zeta(1,x) which GeoGebra

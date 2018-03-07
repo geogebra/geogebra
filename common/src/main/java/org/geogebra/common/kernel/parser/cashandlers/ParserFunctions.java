@@ -234,7 +234,7 @@ public class ParserFunctions {
 
 		put(1, "expIntegral", Operation.EI);
 		put(1, "ExpIntegral", Operation.EI, null);
-		// functions that come from Reduce
+		// functions that come from CAS / Giac
 		put(2, "gGbInTeGrAl", Operation.INTEGRAL, null);
 		put(2, "gGbSuBsTiTuTiOn", Operation.SUBSTITUTION, null);
 		put(4, "gGbSuM", Operation.SUM, null);

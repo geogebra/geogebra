@@ -3568,6 +3568,17 @@ public class ExpressionNode extends ValidExpression
 				// AbstractApplication.debug(sb);
 			}
 			break;
+		case INVERSE_NORMAL:
+			// Giac only
+			if (stringType == StringType.GIAC) {
+				sb.append("normal\\_icdf(");
+			} else {
+				sb.append("InverseNormal(0,1,");
+
+			}
+			sb.append(leftStr);
+			sb.append(")");
+			break;
 		case SUM:
 			if (stringType == StringType.LATEX) {
 				sb.append("\\sum_{");

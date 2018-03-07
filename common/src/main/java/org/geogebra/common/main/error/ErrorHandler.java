@@ -3,7 +3,7 @@ package org.geogebra.common.main.error;
 import org.geogebra.common.util.AsyncOperation;
 
 /**
- * Class capable of sisplaying error messages in the UI
+ * Class capable of displaying error messages in the UI
  */
 public interface ErrorHandler {
 	/**

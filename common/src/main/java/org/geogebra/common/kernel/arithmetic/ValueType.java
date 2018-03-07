@@ -262,6 +262,7 @@ public enum ValueType {
 
 		case SUBSTITUTION:
 			break;
+		case INVERSE_NORMAL:
 		case SUM:
 			break;
 		case SEQUENCE:
