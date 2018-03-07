@@ -392,3 +392,62 @@
 .startscreen .mowSubMenuContent {
 	overflow: hidden !important;
 }
+
+.toolPane{
+	right: 0px;
+	bottom: 0px;
+	 position: absolute;
+	left: 0px;
+	top: 0px;
+	overflow:hidden;
+	width:380px;
+}
+.paneSplit {
+	
+    position: absolute;
+    overflow-x: hidden;
+    overflow-y: hidden !important;
+    left: 380px;
+    top: 0px;
+    bottom: 0px;
+    width: 8px;
+	}
+.drawingPane {
+	position: absolute; overflow: hidden; left: 388px; top: 0px; right: 0px; bottom: 0px;
+}
+.startscreen .undoRedoPanel{
+	left: 380px;
+}
+.visibleTools{
+	overflow: hidden;
+    position: relative;
+    zoom: 1;
+    height: 100%;
+    left: 0px;
+}
+.startscreen .GeoGebraFrame .toolbar .tools{
+	left: 0;
+}
+@media (orientation: Portrait) { 
+	.toolPane {
+		top: auto;
+		height:300px;
+		width:100%;
+	}
+	
+	.paneSplit {
+		position: absolute;
+		overflow-x: hidden;
+		overflow-y: hidden !important;
+		left: 0;
+	}
+	
+	.startscreen .undoRedoPanel {
+		left:0;
+	}
+	
+	.drawingPane {
+	 left: 0;
+	 bottom: 300px;
+	}
+}
