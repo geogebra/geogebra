@@ -109,7 +109,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			// If GeoGebraTube is not available we disable the item and
 			// listen to the event that tube becomes available
-			if (!signIn.isTubeAvailable()) {
+			if (!signIn.isTubeAvailable() && !UtilD.isJava7()) {
 				loadURLAction.setEnabled(false);
 				signIn.getView().add(this);
 			}
