@@ -131,10 +131,22 @@ public abstract class CASgiac implements CASGenericInterface {
 		GGBIS_POLYNOMIAL("ggbisPolynomial", "ggbisPolynomial(a):= when (size(lname(a)) == 1, is_polynomial(a,lname(a)[0])," + "when (size(lname(a)) == 2, is_polynomial(a,lname(a)[0]) && is_polynomial(a,lname(a)[1]), ?))"),
 
 		/**
+		 * test if "=" or "%=" or ">" or ">=" - needed for eg
+		 * LeftSide({a,b}={1,2})
+		 */
+		GGB_IS_EQUALS("ggb_is_equals", "ggb_is_equals(a):=when(a=='='||a=='%=',true,false)"),
+
+		/**
+		 * test if "=" or "%=" or ">" or ">=" - needed for eg
+		 * LeftSide({a,b}={1,2})
+		 */
+		GGB_IS_GREATER_OR_GREATER_THAN_OR_EQUALS("ggb_is_gt_or_ge_or_equals", "ggb_is_gt_or_ge_or_equals(a):=when(a=='>'||a=='>='||a=='='||a=='%=',true,false)"),
+
+		/**
 		 * test if "=" or "%=" or inequality - needed for eg
 		 * LeftSide({a,b}={1,2})
 		 */
-		GGB_IS_EQUALS_OR_INEQUALITY("ggb_is_equals_or_ineq", "ggb_is_equals_or_ineq(a):=when(a=='<'||a=='<='||a=='>'||a=='>='||a=='='||a=='%=',true,false)"),
+		GGB_IS_LESS_THAN("ggb_is_less_than", "ggb_is_less_than(a):=when(a=='<'||a=='<=',true,false)"),
 
 		/**
 		 * now implemented natively in Giac. This is just for reference /
