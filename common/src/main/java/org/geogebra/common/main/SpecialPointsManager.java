@@ -32,6 +32,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	/** Special points for preview points */
 	private List<AlgoElement> specPointAlgos = new ArrayList<>();
 
+	private List<SpecialPointsListener> specialPointsListeners = new ArrayList<>();
+
 	/**
 	 * @param kernel
 	 *            kernel
@@ -82,7 +84,8 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	public void updateSpecialPoints(GeoElement geo) {
 		getSpecPoints(geo, kernel.getApplication().getSelectionManager()
 				.getSelectedGeos());
-		kernel.notifyUpdateSpecPointsPreviewOnEV(specPoints);
+
+		fireSpecialPointsChangedEvent();
 	}
 
 	private void getSpecPoints(GeoElementND geo,
@@ -201,5 +204,19 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 	@Override
 	public void onCoordSystemChanged() {
 		updateSpecialPoints(null);
+	}
+
+	public void registerSpecialPointsListener(SpecialPointsListener listener) {
+		specialPointsListeners.add(listener);
+	}
+
+	public void deregisterSpecialPointsListener(SpecialPointsListener listener) {
+		specialPointsListeners.remove(listener);
+	}
+
+	private void fireSpecialPointsChangedEvent() {
+		for (SpecialPointsListener listener: specialPointsListeners) {
+			listener.specialPointsChanged(this, specPoints);
+		}
 	}
 }

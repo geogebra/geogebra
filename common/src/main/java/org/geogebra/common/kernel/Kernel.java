@@ -78,6 +78,8 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.SpecialPointsListener;
+import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.plugin.Event;
 import org.geogebra.common.plugin.EventType;
@@ -102,7 +104,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * 
  * @author Markus
  */
-public class Kernel {
+public class Kernel implements SpecialPointsListener {
 
 	/**
 	 * Maximal number of spreadsheet columns if these are increased above 32000,
@@ -5301,6 +5303,11 @@ public class Kernel {
 				view.updatePreviewFromInputBar(geos);
 			}
 		}
+	}
+
+	@Override
+	public void specialPointsChanged(SpecialPointsManager manager, List<GeoElement> specialPoints) {
+		notifyUpdateSpecPointsPreviewOnEV(specialPoints);
 	}
 
 	public final void notifyUpdateSpecPointsPreviewOnEV(List<GeoElement> geos) {

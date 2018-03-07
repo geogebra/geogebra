@@ -133,6 +133,8 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoElementSelectionListener;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.SelectionManager;
+import org.geogebra.common.main.SpecialPointsListener;
+import org.geogebra.common.main.SpecialPointsManager;
 import org.geogebra.common.main.error.ErrorHelper;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
@@ -148,7 +150,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 
 @SuppressWarnings("javadoc")
-public abstract class EuclidianController {
+public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * max value for alpha to consider an object transparent (i.e. we can see
@@ -10342,14 +10344,14 @@ public abstract class EuclidianController {
 
 		// Quick fix for GeoFunctions.
 		// TODO: call it once in the method.
-		if (app.has(Feature.DYNAMIC_STYLEBAR)) {
-			if (app.has(Feature.PREVIEW_POINTS) && previewPointHits!=null && !previewPointHits.isEmpty()) {
+		if (app.has(Feature.DYNAMIC_STYLEBAR)
+				&& EuclidianConstants.isMoveOrSelectionModeCompatibleWithDragging(mode, isDraggingOccuredBeyondThreshold()) && !event.isRightClick()) {
+			if (app.has(Feature.PREVIEW_POINTS) && previewPointHits != null && !previewPointHits.isEmpty()) {
 				hideDynamicStylebar();
 				highlightPreviewPoint(previewPointHits.get(0));
 				showSpecialPointPopup(previewPointHits);
 				previewPointHits.clear();
-			} else if (EuclidianConstants.isMoveOrSelectionModeCompatibleWithDragging(mode, isDraggingOccuredBeyondThreshold())
-					&& !event.isRightClick()) {
+			} else {
 				showDynamicStylebar();
 			}
 		}
@@ -12521,5 +12523,12 @@ public abstract class EuclidianController {
 
 	public void setDraggingDelay(long i) {
 		this.draggingDelay = i;
+	}
+
+	@Override
+	public void specialPointsChanged(SpecialPointsManager manager, List<GeoElement> specialPoints) {
+		if (specialPoints == null) {
+			previewPointHits.clear();
+		}
 	}
 }

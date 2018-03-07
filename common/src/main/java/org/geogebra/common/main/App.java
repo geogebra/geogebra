@@ -5161,6 +5161,8 @@ public abstract class App implements UpdateSelection {
 	public SpecialPointsManager getSpecialPointsManager() {
 		if (this.specialPointsManager == null) {
 			specialPointsManager = new SpecialPointsManager(kernel);
+			specialPointsManager.registerSpecialPointsListener(kernel);
+			specialPointsManager.registerSpecialPointsListener(euclidianController);
 		}
 		return specialPointsManager;
 	}
