@@ -302,7 +302,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return super.commandTableSwitch(c);
 			}
 		} catch (RuntimeException e) {
-			Log.debug("command not found / CAS command called");
+			Log.debug("command not found / CAS command called: " + cmdName);
 		}
 		return null;
 	}
