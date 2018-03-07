@@ -206,6 +206,7 @@ public abstract class EuclidianController {
 	private static final float ZOOM_RECTANGLE_SNAP_RATIO = 1.2f;
 	private static final int ZOOM_RECT_THRESHOLD = 30;
 	protected static final int DRAG_THRESHOLD = 10;
+	private static final int MOVE_VIEW_THRESHOLD = 50;
 	/**
 	 * factor by which hit-threshold is increased while dragging for
 	 * attachDetach (while the point is attached to a Path or Region)
@@ -289,6 +290,7 @@ public abstract class EuclidianController {
 	protected int previousPointCapturing;
 	protected ArrayList<GeoPointND> persistentStickyPointList = new ArrayList<>();
 	protected GPoint startLoc;
+	private GPoint lastStartLoc;
 	protected GPoint lastMouseLoc;
 	protected GPoint oldLoc = new GPoint();
 	protected GPoint2D.Double lineEndPoint = null;
@@ -394,6 +396,7 @@ public abstract class EuclidianController {
 	private long draggingDelay = EuclidianConstants.DRAGGING_DELAY;
 
 	public GPoint dragStartPoint;
+	private boolean snapMoveView = true;
 
 	/**
 	 * state for selection tool over press/release
@@ -8239,13 +8242,7 @@ public abstract class EuclidianController {
 						&& mode != EuclidianConstants.MODE_TRANSLATEVIEW) {
 					view.setCursor(EuclidianCursor.MOVE);
 				}
-				/*
-				 * view.setCoordSystem(xZeroOld + mouseLoc.x - startLoc.x,
-				 * yZeroOld + mouseLoc.y - startLoc.y, view.getXscale(),
-				 * view.getYscale());
-				 */
-				view.setCoordSystemFromMouseMove(mouseLoc.x - startLoc.x,
-						mouseLoc.y - startLoc.y, MOVE_VIEW);
+				moveView();
 			}
 			break;
 
@@ -8265,6 +8262,26 @@ public abstract class EuclidianController {
 		}
 		stopCollectingMinorRepaints();
 		kernel.notifyRepaint();
+	}
+
+	private void moveView() {
+		int dx = mouseLoc.x - startLoc.x;
+		int dy = mouseLoc.y - startLoc.y;
+
+		if (app.has(Feature.MOW_MOVING_CANVAS)) {
+			if (startLoc != lastStartLoc) {
+				snapMoveView = true;
+			}
+			if (Math.abs(dx) <= MOVE_VIEW_THRESHOLD && snapMoveView) {
+				dx = 0; // move up/down
+			} else if (Math.abs(dy) <= MOVE_VIEW_THRESHOLD && snapMoveView) {
+				dy = 0; // move left/right
+			} else {
+				snapMoveView = false; // release snap
+			}
+			lastStartLoc = startLoc;
+		}
+		view.setCoordSystemFromMouseMove(dx, dy, MOVE_VIEW);
 	}
 
 	protected void scaleXAxis(boolean repaint) {

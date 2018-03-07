@@ -4111,6 +4111,10 @@ public abstract class App implements UpdateSelection {
 		case MOW_BOUNDING_BOX_FOR_PEN_TOOL:
 			return prerelease && whiteboard;
 
+		/** MOW-345 */
+		case MOW_MOVING_CANVAS:
+			return canary && whiteboard;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************

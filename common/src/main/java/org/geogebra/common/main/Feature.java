@@ -268,6 +268,9 @@ public enum Feature {
 	/** MOW-336 */
 	MOW_DRAG_AND_DROP_ANIMATION,
 
+	/** MOW-345 */
+	MOW_MOVING_CANVAS,
+
 	/** IGR-633 */
 	MOB_IOS_EXAM_LOG_DIALOG,
 
