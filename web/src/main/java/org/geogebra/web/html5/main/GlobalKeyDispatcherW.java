@@ -167,8 +167,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 				case Event.ONKEYUP:
 					// not TAB and not ENTER
 					preventIfNotTabOrEnter(event, appfocused);
-
-
 				}
 			}
 
@@ -210,7 +208,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			if (!appfocused) {
 				event.cancel();
 			}
-
 		}
 	}
 
@@ -295,7 +292,6 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 			}
 		}
 		return null;
-
 	}
 
 	private static Element getParentWithClassName(Element child,
@@ -563,7 +559,7 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 
 	private static boolean preventBrowserCtrl(KeyCodes kc, boolean shift) {
 		return kc == KeyCodes.S || kc == KeyCodes.O
-				|| (kc == KeyCodes.D && shift);
+				|| (kc == KeyCodes.D && shift) || (kc == KeyCodes.C && shift);
 	}
 
 	// public static native void printActiveElement() /*-{
