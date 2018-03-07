@@ -137,9 +137,7 @@ public class ZoomPanel extends FlowPanel
 
 			@Override
 			public void handle(String obj) {
-				if ("true".equals(obj)) {
-					onFullscreen();
-				} else {
+				if (!"true".equals(obj)) {
 					onExitFullscreen();
 				}
 			}
@@ -381,9 +379,7 @@ public class ZoomPanel extends FlowPanel
 					@Override
 					public void run() {
 						scaleApplet(scaler, container);
-						if (ipad) {
-							onFullscreen();
-						}
+						onFullscreen();
 					}
 				};
 				// delay scaling to make sure scrollbars disappear
