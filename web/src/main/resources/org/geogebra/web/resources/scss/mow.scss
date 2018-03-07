@@ -804,6 +804,10 @@
 	    width: fit-content;
 	    visibility: hidden;
 	}
+
+	.mowPagePreviewCard.dragCanStart {
+		box-shadow: $shadow-elevation-8 !important;
+	}
 	
 /*****************
 *   WEBCAM DIALOG

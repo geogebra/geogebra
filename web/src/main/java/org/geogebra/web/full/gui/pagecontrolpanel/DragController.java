@@ -207,6 +207,7 @@ class DragController {
 		private void prepareDragCard() {
 			card.removeSpace();
 			card.addStyleName("dragged");
+
 			last.reset();
 
 			if (down) {
@@ -223,6 +224,7 @@ class DragController {
 			prevY = y;
 			card = clicked;
 			card.grabCard(y);
+			card.addStyleName("dragCanStart");
 		}
 
 		int move(int y) {
@@ -376,6 +378,7 @@ class DragController {
 			CancelEventTimer.resetDrag();
 			if (isValid()) {
 				card.removeStyleName("dragged");
+				card.removeStyleName("dragCanStart");
 			}
 			reset();
 		}

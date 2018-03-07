@@ -17,6 +17,7 @@ import org.geogebra.web.full.gui.applet.GeoGebraFrameBoth;
 import org.geogebra.web.full.gui.pagecontrolpanel.DragController.Cards;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.Browser;
+import org.geogebra.web.html5.gui.util.CancelEventTimer;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.GgbFile;
 import org.geogebra.web.html5.main.PageListControllerInterface;
@@ -582,10 +583,8 @@ public class PageListController implements PageListControllerInterface,
 
 	@Override
 	public void onScroll(ScrollEvent event) {
-		// if (CancelEventTimer.noDrag()) {
-		// return;
-		// }
-		//
-		// dragCtrl.cancel();
+		if (!CancelEventTimer.isDragging()) {
+			dragCtrl.cancelDrag();
+		}
 	}
 }
