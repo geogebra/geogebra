@@ -32,13 +32,14 @@ public class OnPostRenderCamera : MonoBehaviour
 
         // Test current resolution
         print("Screen.currentResolution = " + Screen.currentResolution);
-        renderedTexture = new Texture2D(Screen.currentResolution.width, Screen.currentResolution.height);
+        //renderedTexture = new Texture2D(Screen.currentResolution.width, Screen.currentResolution.height);
+        renderedTexture = new Texture2D(1760, 1760);
         print("renderedTextured created " + renderedTexture.width + "x" + renderedTexture.height);
 
         mat.mainTexture = renderedTexture;
 
         //coroutine = TestScreenshot();
-        StartCoroutine(TestScreensthotFunction());
+        //StartCoroutine(TestScreensthotFunction());
     }
 
     // Update is called once per frame
@@ -58,8 +59,10 @@ public class OnPostRenderCamera : MonoBehaviour
     {
         if (grab)
         {
+            print("grab is true");
             //Rect rect = new Rect(0, 0, Screen.width, Screen.height);
-            Rect rect = new Rect(0, 0, Screen.currentResolution.width, Screen.currentResolution.height);
+            //Rect rect = new Rect(0, 0, Screen.currentResolution.width, Screen.currentResolution.height); 1760
+            Rect rect = new Rect(0, 0, 1760, 1760);
             print("new Rect Created " + rect.width + "x" + rect.height);
             renderedTexture.ReadPixels(rect, 0, 0);
             renderedTexture.Apply();

@@ -156,7 +156,8 @@ public class PhotoMechanic : MonoBehaviour
             print("objName is " + objName.ToString().ToUpper());
 
             screen_Shot_File_Name = objName + arrayInt + System.DateTime.Now.ToString("_yyyy-MM-dd-HHmmss") + ".png";
-        } else
+        }
+        else
         {
             screen_Shot_File_Name = arrayInt + System.DateTime.Now.ToString("_yyyy-MM-dd-HHmmss") + ".png";
         }
