@@ -1143,7 +1143,10 @@ public class RelativeCopy {
 		if (app.getSettings().getSpreadsheet().equalsRequired()
 				&& text != null) {
 
-			if (!((text.charAt(0) == '=') || isNumber(text))) {
+			boolean possibleString = text.startsWith("\"")
+					&& text.endsWith("\"");
+
+			if (!possibleString && !isNumber(text)) {
 				text = "\"" + text + "\"";
 			}
 		}
