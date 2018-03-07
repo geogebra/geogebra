@@ -4022,6 +4022,9 @@ public abstract class App implements UpdateSelection {
 		case MOB_DEFAULT_SLIDER_INCERMENT_VALUE:
 			return prerelease;
 
+		 case MOB_TABBED_SETTINGS_PANEL:
+			return prerelease;
+
 
 			// **********************************************************************
 		// MOBILE END
