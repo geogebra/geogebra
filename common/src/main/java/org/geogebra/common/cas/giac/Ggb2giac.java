@@ -1684,6 +1684,9 @@ public class Ggb2giac {
 		// +
 		// "(ggbans[0],ggbans[1])][1]");
 
+		// make sure Midpoint(Segment((a,b), (c,d))) gives an error
+		p("MidPoint.1", "?");
+
 		// normal: nice form for Midpoint[(1/2,pi),(1,1)]
 		// factor: nice form for Midpoint[(a,b),(c,d)]
 		p("Midpoint.2",

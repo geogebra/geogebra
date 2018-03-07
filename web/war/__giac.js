@@ -2168,6 +2168,7 @@ var __giac = [ {},
 { cat:"Normal", cmd:"InverseNormal(1,2,0.4)", result:"0.4933057937284", round:"0.49" },
 { cat:"Line", cmd:"Line((1,2), Vector(3,4))", result:"y = 4 / 3 x + 2 / 3"},
 { cat:"Line", cmd:"Line((a,b), Vector(c,d))", result:"y = (-a d + b c) / c + d x / c"},
+{ cat:"Midpoint", cmd:"Midpoint(Segment((a,b), (c,d)))", result:"?", notes:"not supported in CAS"},
 //JSONEND
 //{ cat:"Line", cmd:"PerpendicularLine((1,2), Vector(3,4))", result:"" },
 //{ cat:"Line", cmd:"PerpendicularLine((a,b), Vector(c,d))", result:""},
