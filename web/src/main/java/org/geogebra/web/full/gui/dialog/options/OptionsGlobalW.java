@@ -408,6 +408,12 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		}
 	}
 
+	/**
+	 * @param fontStr
+	 *            selected language
+	 * @param app
+	 *            see {@link AppW}{
+	 */
 	public static void switchLanguage(String fontStr, AppW app) {
 		app.getLAF().storeLanguage(fontStr, app);
 		if (app.getLoginOperation().isLoggedIn()) {
@@ -415,9 +421,7 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 					fontStr,
 					app.getLoginOperation().getModel().getLoginToken());
 		}
-
 		app.setUnsaved();
-
 		// On changing language from LTR/RTL the page will
 		// reload.
 		// The current workspace will be saved, and load
@@ -428,7 +432,6 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		// TODO change direction if Localization
 		// .rightToLeftReadingOrder(current.localeGWT) !=
 		// app.getLocalization().rightToLeftReadingOrder
-
 		app.setLanguage(fontStr);
 	}
 

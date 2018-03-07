@@ -210,6 +210,9 @@ public interface ArticleElementInterface {
 	 */
 	boolean getDataParamShowLogging();
 
+	/**
+	 * @return true if debug graphics
+	 */
 	boolean isDebugGraphics();
 
 	/**
@@ -405,18 +408,43 @@ public interface ArticleElementInterface {
 	 */
 	int computeHeight();
 
+	/**
+	 * @return fonts dataParam
+	 */
 	String getDataParamFontsCssUrl();
 
+	/**
+	 * @return id
+	 */
 	String getId();
 
-	void setAttribute(String string, String string2);
+	/**
+	 * @param attributeName
+	 *            attribute name
+	 * @param value
+	 *            value of attribute
+	 */
+	void setAttribute(String attributeName, String value);
 
+	/**
+	 * @param string
+	 *            attribute which should be removed
+	 */
 	void removeAttribute(String string);
 
+	/**
+	 * @return parent element
+	 */
 	Element getParentElement();
 
+	/**
+	 * @return element
+	 */
 	Element getElement();
 
+	/**
+	 * @return true if uses compatibility cookie
+	 */
 	boolean useCompatibilityCookie();
 
 }

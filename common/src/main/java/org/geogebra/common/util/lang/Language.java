@@ -64,12 +64,15 @@ public enum Language {
 
 	Azerbaijani(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, null, null,
 			false, "az", "Azerbaijani", Script.LATIN),
+
 	Basque(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "eu", "eu",
 			"Basque / Euskara", Script.LATIN),
+
 	Bengali(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bn",
 			"Basque / Euskara", Script.LATIN),
+
 	Bosnian(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE,
 			Unicode.CURRENCY_EURO + "", null, true, "bs",
 			"Bosnian / \u0431\u043E\u0441\u0430\u043D\u0441\u043A\u0438",
@@ -366,7 +369,6 @@ public enum Language {
 
 	// Interlingua(null, true, "ia", "ia", "Interlingua",
 	// Country.UnitedStatesofAmerica);
-
 	final public String locale;
 	final public String localeISO6391;
 	final public Script scriptISO15924;
@@ -418,22 +420,18 @@ public enum Language {
 				return l;
 			}
 		}
-
 		for (Language l : Language.values()) {
 			if (l.locale.substring(0, 2).equals(language)) {
 				return l;
 			}
 		}
-
 		Log.error("language not recognized: " + language);
 		return Language.English_US;
 	}
 
 	final public static String getDisplayName(String ggbLangCode) {
-
 		// eg change en_GB to enGB
 		String shortLangCode = ggbLangCode.replaceAll("_", "");
-
 		for (Language l : Language.values()) {
 			if (l.locale.equals(shortLangCode)
 					|| l.getLocaleGWT().replaceAll("_", "")
@@ -441,9 +439,7 @@ public enum Language {
 				return l.name;
 			}
 		}
-
 		Log.error("language not found: " + shortLangCode);
-
 		return null;
 	}
 
@@ -459,7 +455,6 @@ public enum Language {
 				return l.testChar == null ? "a" : l.testChar;
 			}
 		}
-
 		Log.error("language not found: " + language);
 		return "a";
 	}
