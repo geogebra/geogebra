@@ -2166,7 +2166,11 @@ var __giac = [ {},
 { cat:"Solve", cmd:"Solve(|x|^2 = |x^2|)", result:"{x= x}"},
 { cat:"Integral", cmd:"Integral((-1) / 160 floor(x)² + 1 / 10 floor(x) + 2 / 5,15,16)", result:"79 / 160" },
 { cat:"Normal", cmd:"InverseNormal(1,2,0.4)", result:"0.4933057937284", round:"0.49" },
+{ cat:"Line", cmd:"Line((1,2), Vector(3,4))", result:"y = 4 / 3 x + 2 / 3"},
+{ cat:"Line", cmd:"Line((a,b), Vector(c,d))", result:"y = (-a d + b c) / c + d x / c"},
 //JSONEND
+//{ cat:"Line", cmd:"PerpendicularLine((1,2), Vector(3,4))", result:"" },
+//{ cat:"Line", cmd:"PerpendicularLine((a,b), Vector(c,d))", result:""},
 // 3/44*sqrt(22)*pi*sign(sqrt(22))*sign(cbrt(3))-3/44*sqrt(22)*pi*sign(sqrt(22))+3/22*sqrt(22)*atan(11/(4*sqrt(22)))-3/22*sqrt(22)*atan(22/(sqrt(22)*cbrt(3)))+11*ln((cbrt(3))^2+22)-11*ln(86)-1/2*(cbrt(3))^2+32
 //{ cat:"Simplify", cmd:"Simplify((sqrt(22)*32-11*sqrt(22)*ln(86)-3*atan(8/sqrt(22)))/sqrt(22)-1/2*((3^(1/3))^2*sqrt(22)-sqrt(22)*22*ln((3^(1/3))^2+22)-6*atan(3^(1/3)/sqrt(22)))/sqrt(22))", result:"" },
 //{ cat:"CountIf", cmd:"CountIf(x(A) < 3, A, {(0, 1), (4, 2), (2, 2)})", result:"2" },
