@@ -65,7 +65,7 @@ dependencies {
     testCompile 'junit:junit:4.+', 'com.google.gwt.gwtmockito:gwtmockito:1.1.8', "com.google.gwt:gwt-user:$gwtCompilerVersion"
 }
 
-def devModule = 'org.geogebra.web.SuperWeb'
+def devModule = project.findProperty("gmodule") ?: 'org.geogebra.web.SuperWeb'
 
 gwt {
     gwtVersion = gwtCompilerVersion

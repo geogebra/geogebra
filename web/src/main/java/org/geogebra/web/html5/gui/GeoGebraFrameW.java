@@ -431,12 +431,6 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		// need to call setLabels here
 		// to print DockPanels' titles
 		inst.app.setLabels();
-		// }
-
-		// public void onFailure(Throwable reason) {
-		// App.debug("Async load failed");
-		// }
-		// });
 	}
 
 	/**
@@ -512,12 +506,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 					+ "px");
 			app.persistWidthAndHeight();
 		} else {
-			setWidth(width - app.getArticleElement().getBorderThickness()
-					+ "px");
-			app.getEuclidianViewpanel().setPixelSize(width, getOffsetHeight());
-
-			// maybe onResize is OK too
-			app.getEuclidianViewpanel().deferredOnResize();
+			setSizeSimple(width, getOffsetHeight());
 		}
 	}
 
@@ -534,13 +523,21 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 					+ "px");
 			app.persistWidthAndHeight();
 		} else {
-			setHeight(height - app.getArticleElement().getBorderThickness()
-					+ "px");
-			app.getEuclidianViewpanel().setPixelSize(getOffsetWidth(), height);
-
-			// maybe onResize is OK too
-			app.getEuclidianViewpanel().deferredOnResize();
+			setSizeSimple(getOffsetWidth(), height);
 		}
+	}
+
+	private void setSizeSimple(int width, int height) {
+		int innerHeight = height - app.getArticleElement().getBorderThickness();
+		int innerWidth = width - app.getArticleElement().getBorderThickness();
+		setHeight(innerHeight + "px");
+		setWidth(innerWidth + "px");
+		app.setAppletHeight(innerHeight);
+		app.setAppletWidth(innerWidth);
+		app.getEuclidianViewpanel().setPixelSize(innerWidth, innerHeight);
+
+		// maybe onResize is OK too
+		app.getEuclidianViewpanel().deferredOnResize();
 	}
 
 	/**
@@ -560,6 +557,8 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 			app.getGuiManager().resize(width, height);
 			setFramePixelSize(width, height);
 			app.persistWidthAndHeight();
+		} else {
+			setSizeSimple(width, height);
 		}
 	}
 
