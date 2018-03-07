@@ -1068,6 +1068,18 @@ namespace giac {
     vx_var=x;
     int save=calc_mode(contextptr);
     calc_mode(0,contextptr);
+#ifdef GIAC_HAS_STO_38
+    // HP Prime: if there is a M0-M9 identifier, this will not work
+    vecteur fid(lidnt(f));
+    for (unsigned i=0;i<fid.size();++i){
+      gen fidi=fid[i];
+      if (fidi.type==_IDNT){
+	const char * ch=fidi._IDNTptr->id_name;
+	if (strlen(ch)==2 && ch[0]=='M' && ch[1]>='0' && ch[1]<='9')
+	  return gensizeerr("Home matrix variable "+ string(ch)+" not allowed. Store your matrix in a CAS variable first");
+      }
+    }
+#endif
     f=remove_equal(eval(f,eval_level(contextptr),contextptr));
     if (ckmatrix(f)){
       vecteur v = *f._VECTptr;

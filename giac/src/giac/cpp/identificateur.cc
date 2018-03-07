@@ -1073,7 +1073,8 @@ namespace giac {
     // if (!ref_count) return false; // does not work for cst ref identificateur
     if (contextptr){ // Look for local variables...
       // If 38 is there, let it look at variable priorities, but ONLY looking at local for the moment! We do not want to look as globals as they might need to be quoted...
-      if (storcl_38!=NULL && !No38Lookup && abs_calc_mode(contextptr)==38 && storcl_38(evaled,NULL,id_name,undef,false,contextptr, NULL, true)) return true;
+      if (storcl_38!=NULL && !No38Lookup && abs_calc_mode(contextptr)==38 && storcl_38(evaled,NULL,id_name,undef,false,contextptr, NULL, true)) 
+	return true;
       const context * cur=contextptr;
       for (;cur->previous;cur=cur->previous){
 	sym_tab::const_iterator it=cur->tabptr->find(id_name);
@@ -1088,7 +1089,8 @@ namespace giac {
       if (cur->quoted_global_vars && !cur->quoted_global_vars->empty() && equalposcomp(*cur->quoted_global_vars,orig)) 
 	return false;
       // If 38 is there, look again, but now it is allowed to look at local and globals!
-      if (storcl_38!=NULL && !No38Lookup && abs_calc_mode(contextptr)==38 && storcl_38(evaled,NULL,id_name,undef,false,contextptr, NULL, false)) return true;
+      if (storcl_38!=NULL && !No38Lookup && abs_calc_mode(contextptr)==38 && storcl_38(evaled,NULL,id_name,undef,false,contextptr, NULL, false))
+	return true;
       // printsymtab(cur->tabptr);
       sym_tab::const_iterator it=cur->tabptr->find(id_name);
       if (it==cur->tabptr->end()){

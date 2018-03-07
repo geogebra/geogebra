@@ -3760,6 +3760,10 @@ namespace giac {
       return pnt_attrib(gen(makevecteur(e,e+n),_LINE__VECT),attributs,contextptr);
     } // end f hyperplan
     if (f.type==_VECT && f._VECTptr->size()==2){ // args=point,line
+      if (f.subtype==_GGBVECT){
+	f=-f[1]+cst_i*f[0];
+	return _droite(makesequence(e,e+f),contextptr);
+      }
       M=f._VECTptr->front();
       f=f._VECTptr->back()-M;
     }
