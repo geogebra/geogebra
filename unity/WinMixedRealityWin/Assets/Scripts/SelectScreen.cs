@@ -35,7 +35,7 @@ public class SelectScreen : MonoBehaviour,IFocusable, IInputClickHandler {
 
     public void OnInputClicked(InputClickedEventData eventData)
     {
-        gameManagerObj.GetComponent<PhotoMechanic>().SelectItem(this.gameObject);
+        gameManagerObj.GetComponent<ScreenshotManager>().SelectItem(this.gameObject);
         //throw new System.NotImplementedException();
     }
 }

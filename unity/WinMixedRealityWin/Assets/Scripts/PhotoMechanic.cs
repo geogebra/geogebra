@@ -199,6 +199,7 @@ public class PhotoMechanic : MonoBehaviour
         fourthObj = photoPreview4;
 
         // Swaping textures
+        /*
         photoPreview4.GetComponent<Renderer>().material.mainTexture = 
             photoPreview3.GetComponent<Renderer>().material.mainTexture;
 
@@ -213,6 +214,11 @@ public class PhotoMechanic : MonoBehaviour
                 LoadPNG(Application.dataPath + "/GeoGebraMR/" + screen_Shot_File_Name);
 
         PhotoSelection(firstObj);
+        */
+        photoPreview4.GetComponent<Renderer>().material = new Material(photoPreview3.GetComponent<Renderer>().material);
+        photoPreview3.GetComponent<Renderer>().material = new Material(photoPreview2.GetComponent<Renderer>().material);
+        photoPreview2.GetComponent<Renderer>().material = new Material(photoPreview1.GetComponent<Renderer>().material);
+        photoPreview1.GetComponent<Renderer>().material = new Material(photoPreviewMain.GetComponent<Renderer>().material);
     }
 
     //Gallery Image Selesction from Game

@@ -45,14 +45,7 @@ public class OnPostRenderCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Press space to start the screen grab
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            grab = true;
-            Debug.Log("Space pressed");
-        }
-
-        filePath = getFilePath.ToString();
+        //filePath = getFilePath.ToString();
     }
 
     private void OnPostRender()
@@ -61,7 +54,9 @@ public class OnPostRenderCamera : MonoBehaviour
         {
             print("grab is true");
             //Rect rect = new Rect(0, 0, Screen.width, Screen.height);
-            //Rect rect = new Rect(0, 0, Screen.currentResolution.width, Screen.currentResolution.height); 1760
+            //Rect rect = new Rect(0, 0, Screen.currentResolution.width, Screen.currentResolution.height); 
+
+            // resolution for immersive headset is 1760
             Rect rect = new Rect(0, 0, 1760, 1760);
             print("new Rect Created " + rect.width + "x" + rect.height);
             renderedTexture.ReadPixels(rect, 0, 0);
