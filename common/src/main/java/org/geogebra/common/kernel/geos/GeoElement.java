@@ -6709,6 +6709,14 @@ public abstract class GeoElement extends ConstructionElement
 	}
 
 	/**
+	 * @return true for audio elements
+	 */
+	@Override
+	public boolean isGeoAudio() {
+		return false;
+	}
+
+	/**
 	 * @return true for strokes
 	 */
 	public boolean isPenStroke() {

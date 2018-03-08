@@ -1,6 +1,7 @@
 package org.geogebra.common.kernel;
 
 import org.geogebra.common.kernel.geos.GeoAngle;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoButton;
@@ -58,6 +59,8 @@ public class GeoFactory {
 		case 'a': // angle
 			if ("angle".equals(type)) {
 				return new GeoAngle(cons1);
+			} else if ("audio".equals(type)) {
+				return new GeoAudio(cons1);
 			}
 			return new GeoAxis(cons1, 1);
 

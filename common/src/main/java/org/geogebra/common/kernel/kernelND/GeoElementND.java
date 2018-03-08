@@ -323,6 +323,11 @@ public interface GeoElementND extends ExpressionValue {
 	boolean isGeoButton();
 
 	/**
+	 * @return whether this is an audio
+	 */
+	boolean isGeoAudio();
+
+	/**
 	 * @return caption template including %v, %n, ...
 	 */
 	String getRawCaption();

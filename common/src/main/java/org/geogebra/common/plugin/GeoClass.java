@@ -151,6 +151,9 @@ public enum GeoClass {
 	/** SPACE */
 	SPACE("Space", 160, true),
 
+	/** AUDIO */
+	AUDIO("Audio", 160, false),
+
 	/** DEFAULT */
 	DEFAULT("Default", 160, false);
 
