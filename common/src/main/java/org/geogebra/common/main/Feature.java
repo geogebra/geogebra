@@ -271,6 +271,9 @@ public enum Feature {
 	/** MOW-345 */
 	MOW_MOVING_CANVAS,
 
+	/** MOW-349 */
+	MOW_AUDIO_TOOL,
+
 	/** IGR-633 */
 	MOB_IOS_EXAM_LOG_DIALOG,
 

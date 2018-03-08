@@ -4115,6 +4115,10 @@ public abstract class App implements UpdateSelection {
 		case MOW_MOVING_CANVAS:
 			return canary && whiteboard;
 
+		/** MOW-349 */
+		case MOW_AUDIO_TOOL:
+			return canary && whiteboard;
+
 		// **********************************************************************
 		// MOW END
 		// *********************************************************
