@@ -19,15 +19,13 @@ public class InputDialogRotateAxisW extends InputDialogRotateW {
             EuclidianController ec) {
 		super(app, title, handler, polys, selGeos, ec);
 		this.lines = selectedLines;
-    }
+	}
 
 	@Override
 	protected void processInput(AsyncOperation<String> callback) {
 		EuclidianController3D.rotateObject(app,
 				inputPanel.getText(), rbClockWise.getValue(), polys, lines,
 				selGeos, (EuclidianController3D) ec, this, callback);
-    }
-
-	
+	}
 
 }

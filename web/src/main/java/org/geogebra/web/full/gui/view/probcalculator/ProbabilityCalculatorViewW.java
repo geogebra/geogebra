@@ -703,13 +703,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 		btnNormalOverlay.setValue(isShowNormalOverlay());
 	}
 
-
 	private void updateLowHigh() {
 		// set low/high interval field values
 		fldLow.setText("" + format(getLow()));
 		// fldLow.setCaretPosition(0);
 		fldHigh.setText("" + format(getHigh()));
-
 	}
 
 	@Override
@@ -907,9 +905,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			   btnIntervalBetween.setValue(false);
 		   }
 	   }
-	   
     }
-	
+
 	/**
 	 * @param source
 	 *            changed source
@@ -921,7 +918,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 			return;
 		}
 		try {
-	
 			String inputText = source.getText().trim();
 			boolean update = true;
 			if (!"".equals(inputText)) {
@@ -997,9 +993,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 							updateGUI();
 						}
 					}
-
 				}
-
 			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -1019,7 +1013,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView
 				}
 			}
 		});
-
 	}
 
 	@Override

@@ -229,7 +229,6 @@ public class CASTableW extends Grid implements CASTable {
 		}
 	}
 
-
 	@Override
 	public CASTableCellEditor getEditor() {
 		if (editor == null) {

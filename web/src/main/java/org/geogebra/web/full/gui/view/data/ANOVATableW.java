@@ -18,31 +18,28 @@ public class ANOVATableW extends BasicStatTableW {
 
 	@Override
 	protected void initStatTable() {
-
 		statTable = new StatTableW();
 		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(),
 				COLUMN_COUNT, getColumnNames());
 		clear();
 		add(statTable);
 	}
-	
+
 	@Override
 	public String[] getColumnNames() {
 		String[] colNames = getModel().getColumnNames();
 		String[] ext = new String[colNames.length + 1];
 		ext[0] = "";
-   	System.arraycopy(colNames, 0, ext, 1, colNames.length);
+		System.arraycopy(colNames, 0, ext, 1, colNames.length);
 		return ext;
 	}
-	
+
 	@Override
 	public void updatePanel() {
-
 		GeoList dataList = daView.getController().getDataSelected();
 		statTable.setStatTable(ROW_COUNT, getModel().getRowNames(),
 				COLUMN_COUNT, getColumnNames());
 
-		
 		AnovaStats stats = ANOVAStatTableModel.getStatsSilent(dataList);
 		if(stats!=null){
 			// first column, degrees of freedom
@@ -64,9 +61,7 @@ public class ANOVATableW extends BasicStatTableW {
 
 			// fifth column, P value
 			statTable.setValueAt(daView.format(stats.getP()), 0, 5);
-
 		}
 	}
 
-	
 }

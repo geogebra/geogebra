@@ -62,14 +62,12 @@ public class SignInButton extends Button implements EventRenderable{
 			signInDialog.close();
 			signInDialog = null;
 		}
-    }
-
+	}
 
 	@Override
-    public void renderEvent(BaseEvent event) {
-	    if(event instanceof LoginEvent && this.loginChecker != null){
-	    	this.loginChecker.cancel();
-	    }
-	    
-    }
+	public void renderEvent(BaseEvent event) {
+		if (event instanceof LoginEvent && this.loginChecker != null) {
+			this.loginChecker.cancel();
+		}
+	}
 }

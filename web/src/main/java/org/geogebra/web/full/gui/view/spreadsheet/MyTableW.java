@@ -1594,7 +1594,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	// target selection frame
 	// =============================
 
-
 	public GRectangle getTargetcellFrame() {
 		return targetcellFrame;
 	}
@@ -1602,8 +1601,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	public void setTargetcellFrame(GRectangle targetcellFrame) {
 		this.targetcellFrame = targetcellFrame;
 	}
-
-
 
 	/**
 	 * @param point
@@ -2724,12 +2721,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 		scroller.setShowHScrollBar(showHScrollBar);
 	}
 
-
 	public void setEnableAutoComplete(boolean enableAutoComplete) {
 		editor.setEnableAutoComplete(enableAutoComplete);
 	}
 
-	
 	/**
 	 * 
 	 * @param toolTipText
@@ -2737,7 +2732,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 	 *            tool tip is turned off
 	 */
 	public void setToolTipText(String toolTipText) {
-
 		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
 	}
 
@@ -2760,7 +2754,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				}
 			}
 		}
-
 	}
 
 	public void setAllowAutoEdit() {

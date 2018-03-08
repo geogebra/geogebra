@@ -12,7 +12,6 @@ import org.geogebra.web.html5.main.AppW;
 public class DataAnalysisControllerW extends DataAnalysisController {
 
 	private DataAnalysisViewW view;
-	
 
 	public DataAnalysisControllerW(AppW app, DataAnalysisViewW view) {
 		super(app);
@@ -39,7 +38,6 @@ public class DataAnalysisControllerW extends DataAnalysisController {
 		if (view.getDataPanel() != null && view.getModel().showDataPanel()) {
 			view.getDataPanel().updatePanel();
 		}
-		
 	}
 
 	@Override
@@ -47,13 +45,11 @@ public class DataAnalysisControllerW extends DataAnalysisController {
 		if (view.getRegressionPanel() != null) {
 			view.getRegressionPanel().updateRegressionPanel();
 		}
-
 	}
 
 	@Override
 	protected void clearPredictionPanel() {
 		view.getRegressionPanel().clearPredictionPanel();
-
 	}
 
 	@Override

@@ -27,7 +27,6 @@ public class OfficeLookAndFeel extends SmartLookAndFeel{
 	    return "office";
     }
 
-	
 	@Override
 	public SignInButton getSignInButton(App app) {
 		return new SignInButton(app, 2000, null);

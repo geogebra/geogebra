@@ -35,8 +35,6 @@ public class AVTreeItem extends TreeItem {
 		if (w != null) {
 			w.getStyle().setBackgroundColor("#FFFFFF");
 		}
-
 	}
-
 
 }

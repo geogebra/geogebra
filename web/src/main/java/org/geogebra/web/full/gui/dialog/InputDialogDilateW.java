@@ -33,10 +33,8 @@ public class InputDialogDilateW extends InputDialogW {
 		this.selGeos = selGeos;
 		this.kernel = kernel;	
 		this.ec = ec;
-
 	}
 
-	
 	@Override
 	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();

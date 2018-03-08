@@ -50,7 +50,6 @@ public class PointStylePopup extends PopupMenuButtonW
 				SelectionTable.MODE_ICON, false, true, model, isTealBorder);
 	}
 
-
 	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode,
 			boolean hasTable, boolean hasSlider, PointStyleModel model,
@@ -58,14 +57,14 @@ public class PointStylePopup extends PopupMenuButtonW
 		super(app, data, rows, columns, mode, hasTable, hasSlider, null,
 				isTealBorder);
 		getMyPopup().addStyleName("pointSizeSlider");
-	    this.model = model;
+		this.model = model;
 		euclidian3D = false;
-    }
+	}
 
 	public void setModel(PointStyleModel model) {
 		this.model = model;
 	}
-	
+
 	@Override
 	public void update(Object[] geos) {
 		updatePanel(geos);
@@ -102,15 +101,13 @@ public class PointStylePopup extends PopupMenuButtonW
 		}
 		return this;
 	}
-	
 
-	//			setSliderValue(((PointProperties) geo).getPointSize());
 	@Override
 	public void handlePopupActionEvent(){
 		super.handlePopupActionEvent();
- 		model.applyChanges(getSelectedIndex());
+		model.applyChanges(getSelectedIndex());
 	}
-	
+
 	@Override
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
@@ -135,14 +132,12 @@ public class PointStylePopup extends PopupMenuButtonW
 	@Override
 	public void addItem(String item) {
 	    // TODO Auto-generated method stub
-	    
-    }
+	}
 
 	@Override
 	public void setSelectedItem(String item) {
 	    // TODO Auto-generated method stub
-	    
-    }
+	}
 
 	public boolean isEuclidian3D() {
 		return euclidian3D;
@@ -155,12 +150,10 @@ public class PointStylePopup extends PopupMenuButtonW
 	@Override
 	public void clearItems() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public void addItem(GeoElement item) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

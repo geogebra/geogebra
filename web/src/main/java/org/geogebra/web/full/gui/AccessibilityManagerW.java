@@ -83,7 +83,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 			focusZoom(false);
 		}
 	}
-	
 
 	private void focusNextWidget(FocusWidget source) {
 		if (app.isMenuShowing()) {
@@ -99,7 +98,6 @@ public class AccessibilityManagerW implements AccessibilityManagerInterface {
 		if (app.isMenuShowing()) {
 			return;
 		}
-
 
 		if (source.getTabIndex() == GUITabs.MENU) {
 				if (!focusInput(false)) {

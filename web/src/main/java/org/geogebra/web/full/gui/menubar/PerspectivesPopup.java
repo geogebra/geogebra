@@ -37,7 +37,6 @@ public class PerspectivesPopup {
 			"geometry/", "spreadsheet/", "cas/", "3d/", "probability/", "exam/",
 			"" };
 
-
 	/**
 	 * @param app
 	 *            application
@@ -62,8 +61,6 @@ public class PerspectivesPopup {
 		box.addStyleName("perspectivesBox");
 
 		box.getCaption().asWidget().addStyleName("perspectivesCaption");
-		
-
 	}
 
 	/**
@@ -131,7 +128,6 @@ public class PerspectivesPopup {
 
 		box.getCaption()
 				.setText(app.getLocalization().getMenu("CreateYourOwn"));
-
 	}
 
 	private void addPerspective(int i, ResourcePrototype icon) {
@@ -148,10 +144,7 @@ public class PerspectivesPopup {
 			rowPanel.removeStyleName("perspectiveHighlighted");
 		}
 		contentPanel.add(rowPanel);
-
 	}
-
-
 
 	private HorizontalPanel addPerspectiveRow(ResourcePrototype icon,
 			String menuID, final int index, final int defID) {

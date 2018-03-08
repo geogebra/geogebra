@@ -44,14 +44,12 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 			toggleCheckbox();
 		}
 
-
 		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
 				item.adjustStyleBar();
 			}
 		});
-
 	}
 
 	@Override
@@ -74,13 +72,11 @@ public class CheckBoxTreeItemController extends LatexTreeItemController {
 		});
 	}
 
-
 	private void toggleCheckbox() {
 		GeoBoolean bool = (GeoBoolean) item.geo;
 		bool.setValue(!bool.getBoolean());
 		item.geo.updateCascade();
 		item.kernel.notifyRepaint();
-
 	}
 
 	@Override

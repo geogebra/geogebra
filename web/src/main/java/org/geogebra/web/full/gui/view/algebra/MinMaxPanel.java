@@ -80,7 +80,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 
 		openedMinMaxPanel.hide(restore);
 		openedMinMaxPanel = null;
-
 	}
 
 	/**
@@ -138,7 +137,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 			super.fieldFocus();
 			selectAll();
 		}
-
 	}
 
 	/**
@@ -182,7 +180,6 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		tfMin.addKeyHandler(this);
 		tfMax.addKeyHandler(this);
 		tfStep.addKeyHandler(this);
-
 
 		tfStep.addFocusHandler(new FocusHandler() {
 
@@ -278,9 +275,7 @@ public class MinMaxPanel extends AdvancedFlowPanel implements SetLabels,
 		this.sliderTreeItem.deferredResize();
 		setVisible(false);
 		this.sliderTreeItem.setAnimPanelVisible(true);
-
 	}
-
 
 	@Override
 	public void keyReleased(KeyEvent e) {

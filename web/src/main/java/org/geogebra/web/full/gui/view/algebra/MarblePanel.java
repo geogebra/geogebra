@@ -61,7 +61,6 @@ public class MarblePanel extends FlowPanel
 			return;
 		}
 
-		
 		if (item.getGeo() != null) {
 			marble.setChecked(item.geo.isEuclidianVisible());
 			add(marble);
@@ -200,9 +199,7 @@ public class MarblePanel extends FlowPanel
 				}
 			}
 		}
-
 	}
-
 
 	private void initHelpToggle() {
 		if (btnHelpToggle == null) {

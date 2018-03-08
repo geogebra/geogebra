@@ -59,7 +59,6 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 
 		String insertString = "";
 
-
 		switch (Character.toChars(e.getNativeEvent().getCharCode())[0]) {
 		default:
 			// do nothing
@@ -108,7 +107,6 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 			setText(sb.toString());
 			setCursorPos(pos + insertString.length());
 		}
-
 	}
 
 	@Override
@@ -166,7 +164,6 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler,
 			}
 		});
 	}
-
 
 	@Override
 	public int removeDummyCursor() {

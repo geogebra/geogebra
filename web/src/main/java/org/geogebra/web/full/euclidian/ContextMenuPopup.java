@@ -50,9 +50,7 @@ public class ContextMenuPopup extends MyCJButton
 		updateLocation();
 		createPopup();
 		addStyleName("MyCanvasButton-borderless");
-
 	}
-
 
 	private void updateLocation() {
 		int x = getAbsoluteLeft();

@@ -40,12 +40,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 		implements CloseHandler<GPopupPanel>, MouseOverHandler, SetLabels,
 		INameValueListener {
 
-	// private static final int LABEL_MODE_NAME_ONLY = GeoElement.LABEL_NAME;
-	// private static final int LABEL_MODE_NAME_AND_VALUE =
-	// GeoElement.LABEL_NAME_VALUE;
-	// private static final int LABEL_MODE_VALUE_ONLY = 2;
-	// private static final int LABEL_MODE_CAPTION = GeoElement.LABEL_CAPTION;
-
 	/**
 	 * popup menu
 	 */
@@ -92,14 +86,11 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 			@Override
 			public void onClickEnd(int x, int y, PointerEventType type) {
 				// only stop
-
 			}
 		});
 
 		getMyPopup().addCloseHandler(this);
-
 		createDialog();
-
 	}
 
 	private void createDialog() {
@@ -131,7 +122,6 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 				}
 			}
 		});
-
 
 		Command nameValueCmd = new Command() {
 
@@ -176,13 +166,10 @@ public class LabelSettingsPopup extends PopupMenuButtonW
 	public void onClose(CloseEvent<GPopupPanel> event) {
 		model.applyNameChange(tfName.getText(), app.getErrorHandler());
 	}
-	
-
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

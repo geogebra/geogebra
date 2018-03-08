@@ -83,8 +83,6 @@ public class CheckboxTreeItem extends RadioTreeItem {
 		main.add(content);
 		main.add(controls);
 	}
-	
-
 
 	public static CheckboxTreeItem as(TreeItem ti) {
 		return (CheckboxTreeItem) ti;

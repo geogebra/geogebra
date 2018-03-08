@@ -343,8 +343,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 			lblPreview.getElement().removeAllChildren();
 			coModel.getNonLatexText(new DOMIndexHTMLBuilder(lblPreview, app));
 		}
-
-		
 	}
 
 	/**
@@ -356,35 +354,30 @@ public class CreateObjectDialogW extends InputDialogW implements
 	void apply(Widget source) {
 		if (source == fldName) {
 			doTextFieldActionPerformed();
-
 		}
-		else 
-			// btCancel acts as create for now
-			if (source == btCancel) {
-				coModel.cancel();
+		else if (source == btCancel) {
+			coModel.cancel();
 
-			} else if (source == btApply) {
-				// processInput();
+		} else if (source == btApply) {
+			// processInput();
 
-				// btOK acts as cancel for now
-			} else if (source == btOK) {
-				coModel.ok();
-			}
+		} else if (source == btOK) {
+			coModel.ok();
+		}
 
-			else if (source == btnObject) {
-				btnValue.setValue(!btnObject.getValue());
-				coModel.createNewGeo(fldName.getText());
-			} else if (source == btnValue) {
-				btnObject.setValue(!btnValue.getValue());
-				coModel.createNewGeo(fldName.getText());
-			}
+		else if (source == btnObject) {
+			btnValue.setValue(!btnObject.getValue());
+			coModel.createNewGeo(fldName.getText());
+		} else if (source == btnValue) {
+			btnObject.setValue(!btnValue.getValue());
+			coModel.createNewGeo(fldName.getText());
+		}
 
-			else if (source == cbScanOrder || source == cbLeftRightOrder
-					|| source == ckTranspose) {
-				coModel.createNewGeo(fldName.getText());
-			}
+		else if (source == cbScanOrder || source == cbLeftRightOrder
+				|| source == ckTranspose) {
+			coModel.createNewGeo(fldName.getText());
+		}
 	}
-
 
 	@Override
 	protected void actionPerformed(DomEvent event) {

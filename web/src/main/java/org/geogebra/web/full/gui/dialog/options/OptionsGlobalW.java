@@ -59,6 +59,9 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 		 */
 		ListBox fontSizeList;
 		private FormLabel lblLanguage;
+		/**
+		 * language setting
+		 */
 		ListBox languageList;
 		private StandardButton saveSettingsBtn;
 		private StandardButton restoreSettingsBtn;
@@ -203,11 +206,14 @@ public class OptionsGlobalW implements OptionPanelW, SetLabels {
 			});
 		}
 
-
+		/**
+		 * Update combobox from language locale
+		 */
 		void setLanguageInComboBox() {
-			String font = app.getLocalization().getLocaleStr();
+			String localeStr = app.getLocalization().getLocaleStr();
 			for (int i = 0; i < languageList.getItemCount(); i++) {
-				if (languageList.getValue(i).startsWith(String.valueOf(font))) {
+				if (languageList.getValue(i)
+						.startsWith(String.valueOf(localeStr))) {
 					languageList.setSelectedIndex(i);
 					return;
 				}

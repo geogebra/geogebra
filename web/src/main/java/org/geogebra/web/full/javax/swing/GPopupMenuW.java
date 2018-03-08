@@ -108,11 +108,6 @@ public class GPopupMenuW implements AttachedToDOM {
 		}
 	}
 
-	// public void add(MenuItem mi) {
-	// impl.addItem(mi);
-	//
-	// }
-
 	/**
 	 * @param v
 	 *            whether to show this
@@ -280,12 +275,6 @@ public class GPopupMenuW implements AttachedToDOM {
 				: MaterialDesignResources.INSTANCE
 						.arrow_drop_right_black();
 	}
-
-	// public void addItem(final MenuItem item) {
-	// addHideCommandFor(item);
-	// popupMenu.addItem(item);
-	// popupMenuSize++;
-	// }
 
 	/**
 	 * @param item
@@ -492,7 +481,6 @@ public class GPopupMenuW implements AttachedToDOM {
 	 */
 	public void addItem(GCheckBoxMenuItem item) {
 		addItem(item.getMenuItem());
-
 	}
 
 	/**
@@ -634,8 +622,6 @@ public class GPopupMenuW implements AttachedToDOM {
 			}
 			super.onBrowserEvent(event);
 		}
-
-
 
 		@Override
 		public boolean moveSelectionDown() {

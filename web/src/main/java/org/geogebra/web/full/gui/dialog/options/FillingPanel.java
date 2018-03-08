@@ -85,7 +85,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 	private class MyImageFileInputDialog extends FileInputDialog {
 
-
 		public MyImageFileInputDialog(AppW app, GeoPoint location) {
 			super(app, location);
 			createGUI();
@@ -98,7 +97,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 		@Override
 		protected void createGUI() {
 			super.createGUI();
-
 			addGgbChangeHandler(getInputWidget().getElement());
 		}
 
@@ -154,7 +152,6 @@ public class FillingPanel extends OptionPanel implements IFillingListener {
 
 		public void applyFillImage(String name, String url) {
 			applyImage(name, url);
-
 		}
 
 	}

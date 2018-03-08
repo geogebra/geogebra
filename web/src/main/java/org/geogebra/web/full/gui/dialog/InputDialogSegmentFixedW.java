@@ -25,7 +25,6 @@ public class InputDialogSegmentFixedW extends InputDialogW {
 		this.kernel = kernel;
 	}
 
-	
 	@Override
 	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();

@@ -1863,8 +1863,6 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		updatePreview();
 	}
 
-
-
 	@Override
 	public void setLabels() {
 		if (dummyLabel != null) {

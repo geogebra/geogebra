@@ -31,10 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class SearchPanel extends FlowPanel implements BooleanRenderable {
-	
 
-
-//	private FlowPanel searchPanel;
 	private TextBox query;
 	private FastButton cancelButton;
 	private final List<SearchListener> listeners;
@@ -111,11 +108,9 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		if (this.op != null) {
 			this.op.getView().add(this);
 		}
-		
-		
+
 		setLabels();
 	}
-
 
 	void doSearch() {
 		fireSearchEvent();

@@ -16,14 +16,13 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public abstract class InputDialogRotateW extends AngleInputDialogW {
 
-
 	GeoPolygon[] polys;
 	GeoElement[] selGeos;
 	
 	protected EuclidianController ec;
 
-	final protected static String DEFAULT_ROTATE_ANGLE = Unicode.FORTY_FIVE_DEGREES_STRING; // 45
-																				// degrees
+	/** 45 degrees */
+	final protected static String DEFAULT_ROTATE_ANGLE = Unicode.FORTY_FIVE_DEGREES_STRING;
 
 	public InputDialogRotateW(AppW app, String title,
 			InputHandler handler, GeoPolygon[] polys, 
@@ -34,7 +33,6 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 
 		this.polys = polys;
 		this.selGeos = selGeos;
-
 		this.ec = ec;
 
 		this.inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
@@ -44,7 +42,7 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 	 * Handles button clicks for dialog.
 	 */	
 	@Override
-    public void onClick(ClickEvent e) {
+	public void onClick(ClickEvent e) {
 		actionPerformed(e);
 	}
 	
@@ -68,7 +66,6 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 							inputPanel.getTextComponent().hideTablePopup();
 							app.getActiveEuclidianView().requestFocusInWindow();
 						}
-
 					}
 				});
 
@@ -91,21 +88,6 @@ public abstract class InputDialogRotateW extends AngleInputDialogW {
 
 	protected abstract void processInput(AsyncOperation<String> op);
 
-/*
-	@Override
-	public void windowGainedFocus(WindowEvent arg0) {
-		if (!isModal()) {
-			app.setCurrentSelectionListener(null);
-		}
-		app.getGuiManager().setCurrentTextfield(this, true);
-	}
-
-	public void keyTyped(KeyEvent e) {
-	}
-
-	public void keyPressed(KeyEvent e) {
-	}
-*/
 	/*
 	 * auto-insert degree symbol when appropriate
 	 */

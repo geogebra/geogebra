@@ -22,7 +22,6 @@ public class PenPreview extends StylePreview {
 	 */
 	public PenPreview(AppW app, int width, int height) {
 		super(app, width, height);
-
 	}
 
 	@Override
@@ -38,7 +37,5 @@ public class PenPreview extends StylePreview {
 		pen.drawStylePreview(g2, pen.getPenColor(), pen.getLineThickness(),
 				getMarginX(), getMarginY(), 30);
 	}
-
-
 
 }

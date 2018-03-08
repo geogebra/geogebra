@@ -24,7 +24,6 @@ public class InputDialogRegularPolygonW extends InputDialogW{
 		this.ec = ec;
 	}
 
-	
 	@Override
 	protected void actionPerformed(DomEvent e) {
 		Object source = e.getSource();

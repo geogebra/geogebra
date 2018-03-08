@@ -1,6 +1,5 @@
 package org.geogebra.web.full.gui.util;
 
-
 public class PopupBlockAvoider {
 
 	private String showURLinBrowserPageUrl = null;

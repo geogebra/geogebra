@@ -388,7 +388,6 @@ public class MainMenu extends FlowPanel
 				super.onBrowserEvent(event);
 			}
 
-
 			private void setExpandStyles(int index) {
 				GMenuBar mi = app.has(Feature.TAB_ON_MENU) ? getMenuAt(index)
 						: menus.get(index - 1);
