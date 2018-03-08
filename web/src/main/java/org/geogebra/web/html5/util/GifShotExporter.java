@@ -5,6 +5,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
@@ -12,7 +13,8 @@ import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
 public class GifShotExporter {
 
 	public static void export(App app, int timeBetweenFrames, GeoNumeric slider,
-			boolean isLoop, String filename, double scale, double rotate) {
+			boolean isLoop, String filename, double scale, double rotate,
+			boolean gif) {
 
 		app.getKernel().getAnimatonManager().stopAnimation();
 
@@ -65,21 +67,20 @@ public class GifShotExporter {
 			break;
 		}
 
-		final AnimatedGifEncoderW gifEncoder = new AnimatedGifEncoderW(
-				timeBetweenFrames, isLoop, filename);
+		final Encoder encoder = getEncoder(timeBetweenFrames, isLoop, filename);
 
 		FrameCollectorW collector = new FrameCollectorW() {
 
 			@Override
 			public void addFrame(String url) {
 				// Log.debug("adding frame");
-				gifEncoder.addFrame(url);
+				encoder.addFrame(url);
 			}
 
 			@Override
 			public void finish(int width, int height) {
 				// Log.debug("finished");
-				gifEncoder.finish(width, height);
+				encoder.finish(width, height);
 			}
 			
 		};
@@ -88,18 +89,28 @@ public class GifShotExporter {
 
 		try {
 			exportAnimatedGIF(app, collector, slider, n, val, min, max, step,
-					scale, rotate);
+					scale, rotate, gif ? ExportType.PNG : ExportType.WEBP);
 		} catch (Exception ex) {
-			app.showError("SaveFileFailed");
+			app.localizeAndShowError("SaveFileFailed");
+			Log.debug(ex.getMessage());
 			ex.printStackTrace();
 		} finally {
 			app.setDefaultCursor();
 		}
 	}
 
-	public static void exportAnimatedGIF(App app, FrameCollectorW gifEncoder,
+	private static Encoder getEncoder(int timeBetweenFrames, boolean isLoop,
+			String filename) {
+		if (filename.endsWith(".webm")) {
+			return new WebMEncoderW(timeBetweenFrames, isLoop, filename);
+		}
+		
+		return new AnimatedGifEncoderW(timeBetweenFrames, isLoop, filename);
+	}
+
+	public static void exportAnimatedGIF(App app, FrameCollectorW encoder,
 			GeoNumeric num, int n, double val0, double min, double max,
-			double step0, double scale, double rotate) {
+			double step0, double scale, double rotate, ExportType format) {
 		Log.debug("exporting animation");
 		double val = val0;
 		double step = step0;
@@ -121,11 +132,11 @@ public class GifShotExporter {
 				((EuclidianView3DInterface) ev).repaintView();
 			}
 
-			String url = ev.getExportImageDataUrl(scale, false);
+			String url = ev.getExportImageDataUrl(scale, false, format);
 			if (url == null) {
 				Log.error("image null");
 			} else {
-				gifEncoder.addFrame(url);
+				encoder.addFrame(url);
 			}
 			val += step;
 
@@ -140,7 +151,7 @@ public class GifShotExporter {
 		int width = (int) Math.round(ev.getExportWidth() * scale);
 		int height = (int) Math.round(ev.getExportHeight() * scale);
 
-		gifEncoder.finish(width, height);
+		encoder.finish(width, height);
 	}
 
 }

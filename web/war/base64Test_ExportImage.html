@@ -3,19 +3,9 @@
 <head>
 <title>GeoGebra dynamic worksheet</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script>
-function ggbOnInit(id){
-	if(id=="applet1"){
-		function onChange(){
-			applet2.setFileJSON(applet1.getFileJSON());
-		}
-		applet1.registerAddListener(onChange);
-		applet1.registerUpdateListener(onChange);
-	}
-}
-</script>
 
 <script src = "canvas2pdf.js.removefortesting"></script>
+<script src = "whammy.js.removefortesting"></script>
 </head>
 
 <body>

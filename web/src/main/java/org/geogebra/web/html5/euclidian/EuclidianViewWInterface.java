@@ -7,6 +7,7 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
+import org.geogebra.common.main.App.ExportType;
 
 import com.google.gwt.canvas.client.Canvas;
 
@@ -74,6 +75,9 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	public GGraphics2DWI getG2P();
 
 	public void resetPointerEventHandler();
+
+	public String getExportImageDataUrl(double scale, boolean b,
+			ExportType format);
 
 	public String getExportImageDataUrl(double scale, boolean b);
 

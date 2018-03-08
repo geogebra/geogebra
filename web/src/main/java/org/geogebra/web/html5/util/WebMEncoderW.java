@@ -11,12 +11,11 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 
 /**
- * Wrapper class for the gif.js library.
- * 
- * @author bencze
- * @author Laszlo Gal - GifShot integration
+ * Wrapper class for the Whammy.js library.
+ *
+ * adapted from GifShot class
  */
-public class AnimatedGifEncoderW implements Encoder {
+public class WebMEncoderW implements Encoder {
 
 	/**
 	 * Reference to the gif object created internally.
@@ -29,7 +28,7 @@ public class AnimatedGifEncoderW implements Encoder {
 	private int frameDelay;
 
 	protected boolean jsLoaded;
-	private List<String> gifs;
+	private List<String> images;
 	protected boolean finished;
 	private String filename;
 	private boolean repeat;
@@ -40,12 +39,12 @@ public class AnimatedGifEncoderW implements Encoder {
 	 * @param repeat
 	 *            true to repeat the animation
 	 */
-	public AnimatedGifEncoderW(int frameDelay, boolean repeat,
+	public WebMEncoderW(int frameDelay, boolean repeat,
 			String filename) {
 		jsLoaded = false;
 		this.frameDelay = frameDelay;
 		this.filename = filename;
-		gifs = new ArrayList<>();
+		images = new ArrayList<>();
 		this.repeat = repeat;
 		initialize();
 	}
@@ -55,7 +54,7 @@ public class AnimatedGifEncoderW implements Encoder {
 	 *            adds a new frame
 	 */
 	public void addFrame(String url) {
-		gifs.add(url);
+		images.add(url);
 	}
 
 	/**
@@ -67,7 +66,7 @@ public class AnimatedGifEncoderW implements Encoder {
 			return;
 		}
 
-		JavaScriptObject urls = createJsArrayString(gifs);
+		JavaScriptObject urls = createJsArrayString(images);
 		finish(urls, filename, width, height, repeat, frameDelay * 0.001);
 	}
 
@@ -77,35 +76,33 @@ public class AnimatedGifEncoderW implements Encoder {
 
 		//console.log(urls);
 
-		$wnd.gifshot
-				.createGIF(
-						{
-							'images' : urls,
-							'gifWidth' : width,
-							'gifHeight' : height,
-							'interval' : delaySeconds
-						},
-						function(obj) {
-							if (!obj.error) {
-								var image = obj.image;
+		// pass framerate
+		var encoder = new $wnd.WebMGL.Video(1 / delaySeconds);
 
-								//console.log(image);
+		for (var i = 0; i < urls.length; i++) {
+			encoder.add(urls[i]);
+		}
 
-								@org.geogebra.web.html5.Browser::exportImage(Ljava/lang/String;Ljava/lang/String;)(image, filename);
-							} else {
-								console.log("error", obj);
-							}
-						});
+		var blob = encoder.compile();
 
-		return "";
+		var a = document.createElement('a');
+		document.body.appendChild(a);
+		var url = $wnd.URL.createObjectURL(blob);
+		a.href = url;
+		a.download = filename;
+		a.click();
+
+		//@org.geogebra.web.html5.Browser::exportImage(Ljava/lang/String;Ljava/lang/String;)(image, filename);
+
+		return url;
 	}-*/;
 
 	public void initialize() {
-		Log.debug("gifshot.image.min.js loading");
+		Log.debug("whammy.min.js loading");
 		JavaScriptInjector
-				.inject(GuiResourcesSimple.INSTANCE.gifShotJs());
+				.inject(GuiResourcesSimple.INSTANCE.WhammyJs());
 		this.jsLoaded = true;
-		gifs.clear();
+		images.clear();
 	}
 
 	private static JsArrayString createJsArrayString(List<String> list) {

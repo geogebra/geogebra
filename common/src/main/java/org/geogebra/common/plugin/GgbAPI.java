@@ -2284,4 +2284,11 @@ public abstract class GgbAPI implements JavaScriptAPI {
 		// not implemented in Android, iOS
 	}
 
+	public void exportWebM(String sliderLabel, double scale,
+			double timeBetweenFrames, boolean isLoop, String filename,
+			double rotate) {
+		// only works in Chrome
+
+	}
+
 }

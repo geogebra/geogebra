@@ -93,6 +93,9 @@ public class CmdExportImage extends CmdScripting {
 				case "gif":
 					type = ExportType.ANIMATED_GIF;
 					break;
+				case "webm":
+					type = ExportType.WEBM;
+					break;
 				}
 
 				break;
@@ -250,6 +253,10 @@ public class CmdExportImage extends CmdScripting {
 		case ANIMATED_GIF:
 			api.exportGIF(sliderName, exportScale, time, loop,
 					filename == null ? "anim.gif" : filename, rotate);
+			break;
+		case WEBM:
+			api.exportWebM(sliderName, exportScale, time, loop,
+					filename == null ? "anim.webm" : filename, rotate);
 			break;
 		}
 

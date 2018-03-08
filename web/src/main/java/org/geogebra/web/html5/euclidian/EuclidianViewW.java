@@ -352,10 +352,17 @@ public class EuclidianViewW extends EuclidianView implements
 		return g4copy.getCanvas();
 	}
 
-	@Override
 	public String getExportImageDataUrl(double scale, boolean transparency) {
+		return getExportImageDataUrl(scale, transparency, ExportType.PNG);
+	}
+
+	@Override
+	public String getExportImageDataUrl(double scale, boolean transparency,
+			ExportType format) {
 		Canvas c = getExportImageCanvas(scale, transparency);
-		return c == null ? "" : c.toDataUrl();
+		return c == null ? ""
+				: c.toDataUrl(
+						format == ExportType.WEBP ? "image/webp" : "image/png");
 	}
 
 	@Override

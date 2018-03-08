@@ -193,4 +193,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 
 	@Source("org/geogebra/web/resources/js/gifshot.image.min.js")
 	TextResource gifShotJs();
+
+	@Source("org/geogebra/web/resources/js/whammy.min.js")
+	TextResource WhammyJs();
 }

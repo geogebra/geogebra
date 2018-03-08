@@ -17,6 +17,7 @@ import org.geogebra.common.geogebra3D.euclidian3D.printer3D.Format;
 import org.geogebra.common.javax.swing.GBox;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoText;
+import org.geogebra.common.main.App.ExportType;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.util.DoubleUtil;
@@ -632,11 +633,18 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public String getExportImageDataUrl(double scale, boolean b) {
+	public String getExportImageDataUrl(double scale, boolean transparent) {
+		return getExportImageDataUrl(scale, transparent, ExportType.PNG);
+	}
+
+	@Override
+	public String getExportImageDataUrl(double scale, boolean transparent,
+			ExportType format) {
 		((RendererWInterface) this.renderer).setBuffering(true);
 		this.doRepaint2();
 
-		String url = ((Canvas) renderer.getCanvas()).toDataUrl();
+		String url = ((Canvas) renderer.getCanvas()).toDataUrl(
+				format == ExportType.WEBP ? "image/webp" : "image/png");
 		((RendererWInterface) this.renderer).setBuffering(false);
 		return url;
 	}

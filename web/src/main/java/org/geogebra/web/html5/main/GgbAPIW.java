@@ -1342,7 +1342,17 @@ public class GgbAPIW extends GgbAPI {
 			double rotate) {
 		GifShotExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
 				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
-				scale, rotate);
+				scale, rotate, true);
+
+	}
+
+	@Override
+	public void exportWebM(String sliderLabel, double scale,
+			double timeBetweenFrames, boolean isLoop, String filename,
+			double rotate) {
+		GifShotExporter.export(kernel.getApplication(), (int) timeBetweenFrames,
+				(GeoNumeric) kernel.lookupLabel(sliderLabel), isLoop, filename,
+				scale, rotate, false);
 
 	}
 
