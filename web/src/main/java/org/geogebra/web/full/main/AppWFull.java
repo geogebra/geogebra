@@ -1837,7 +1837,8 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return $wnd.copyGraphicsToClipboardExternal(s);
 	}-*/;
 
-	private native boolean isCopyImageToClipboardAvailable() /*-{
-	 	return !!$wnd.copyGraphicsToClipboardExternal;
- 	}-*/;
+	@Override
+	public native boolean isCopyImageToClipboardAvailable() /*-{
+		return !!$wnd.copyGraphicsToClipboardExternal;
+	}-*/;
 }

@@ -57,6 +57,9 @@ public class EditMenuW extends GMenuBar {
 			// separator
 			addSeparator();
 		}
+		if (app.isCopyImageToClipboardAvailable()) {
+			addCopyToClipboard();
+		}
 		addCopy();
 		addPasteItem();
 		addSeparator();
@@ -148,6 +151,23 @@ public class EditMenuW extends GMenuBar {
 									false);
 							getApp().setDefaultCursor();
 						}
+					}
+				});
+	}
+
+	private void addCopyToClipboard() {
+		addItem(MainMenu.getMenuBarHtml(
+				getApp().isUnbundledOrWhiteboard()
+						? MaterialDesignResources.INSTANCE.copy_black()
+								.getSafeUri().asString()
+						: GuiResources.INSTANCE.menu_icon_edit_copy()
+								.getSafeUri().asString(),
+				loc.getMenu("DrawingPadToClipboard"), true), true,
+				new MenuCommand(getApp()) {
+
+					@Override
+					public void doExecute() {
+						app.copyGraphicsViewToClipboard();
 					}
 				});
 	}

@@ -10,7 +10,7 @@ import com.google.gwt.user.client.Command;
  */
 public class MenuCommand implements Command {
 
-	private AppW app;
+	protected AppW app;
 	
 	/**
 	 * @param app

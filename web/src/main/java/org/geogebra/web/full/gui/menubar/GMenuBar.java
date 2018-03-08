@@ -23,7 +23,7 @@ import com.google.gwt.user.client.Event;
 public class GMenuBar extends AriaMenuBar {
 	private int separators = 0;
 	private String menuTitle;
-	private AppW app;
+	protected AppW app;
 	private List<TabHandler> tabHandlers;
 
 	/**
