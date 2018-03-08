@@ -3083,6 +3083,7 @@ namespace giac {
     } catch (std::runtime_error & err){
       last_evaled_argptr(contextptr)=NULL;
       res=string2gen(err.what(),false);
+      res.subtype=-1;
     }
     return res;
   }
