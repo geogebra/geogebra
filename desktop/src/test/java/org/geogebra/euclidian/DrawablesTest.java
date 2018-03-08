@@ -5,6 +5,7 @@ import java.util.TreeSet;
 import org.geogebra.commands.CommandsTest;
 import org.geogebra.common.euclidian.DrawableND;
 import org.geogebra.common.kernel.commands.AlgebraProcessor;
+import org.geogebra.common.kernel.geos.GeoAudio;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.GeoClass;
@@ -41,10 +42,14 @@ public class DrawablesTest {
 				"cub(t)=(t,t,t^3)", "x+y=z", "xx+yy+zz=1", "Cube[(0,0),(1,1)]",
 				"Surface[(u,v,u+v),u,0,1,v,0,1]", "x^3=z^3",
 				"Cone[(0,0,0),(0,0,1),1]", "Side[Cone[(0,0,0),(0,0,1),1]]",
-				"IntersectRegion(x+y+0z=0,Cone[(0,0,0),(0,0,1),1])", "tp" };
+				"IntersectRegion(x+y+0z=0,Cone[(0,0,0),(0,0,1),1])", "toolPic",
+				"audio" };
 		AlgebraProcessor ap = app.getKernel().getAlgebraProcessor();
-		ap.processAlgebraCommand("tp=ToolImage[2]", false);
-		TreeSet<GeoClass> types = new TreeSet<GeoClass>();
+		ap.processAlgebraCommand("toolPic=ToolImage[2]", false);
+		GeoAudio au = new GeoAudio(app.getKernel().getConstruction());
+		au.setLabel("audio");
+
+		TreeSet<GeoClass> types = new TreeSet<>();
 		for (int i = 0; i < def.length; i++) {
 			GeoElementND geo = ap.processAlgebraCommand(def[i], false)[0];
 			DrawableND draw = app.getEuclidianView1().newDrawable(geo);
@@ -78,6 +83,7 @@ public class DrawablesTest {
 		case IMPLICIT_SURFACE_3D:
 		case AXIS:
 		case AXIS3D:
+		case AUDIO:
 			return true;
 		}
 		return false;
