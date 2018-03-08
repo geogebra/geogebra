@@ -1824,6 +1824,10 @@ public class AppWFull extends AppW implements HasKeyboard {
 	}
 	
 	public void copyGraphicsViewToClipboard() {
+		if (!isCopyImageToClipboardAvailable()) {
+			return;
+		}
+		
 		EuclidianViewW ev = (EuclidianViewW)getActiveEuclidianView();
 		nativeCopyToClipboardExternal(ev.getExportImageDataUrl(3, false));
 	}
@@ -1832,4 +1836,7 @@ public class AppWFull extends AppW implements HasKeyboard {
 		return $wnd.copyGraphicsToClipboardExternal(s);
 	}-*/;
 
+	private native boolean isCopyImageToClipboardAvailable() /*-{
+	 	return !!$wnd.copyGraphicsToClipboardExternal;
+ 	}-*/;
 }
