@@ -223,6 +223,7 @@ public abstract class SubMenuPanel extends FlowPanel
 		}
 		StandardButton button = new StandardButton(null, "", 32, app);
 		button.getUpFace().setImage(im);
+		button.setBtnImage(im);
 		button.addFastClickHandler(this);
 		button.addStyleName("mowToolButton");
 		if (mode == EuclidianConstants.MODE_VIDEO
@@ -233,8 +234,12 @@ public abstract class SubMenuPanel extends FlowPanel
 						&& !app.has(Feature.MOW_IMAGE_DIALOG_UNBUNDLED))) {
 			button.addStyleName("inactiveToolButton");
 		}
+		String altText = app.getLocalization()
+				.getMenu(EuclidianConstants.getModeText(mode)) + ". "
+				+ app.getToolHelp(mode);
 		button.setTitle(app.getLocalization()
 				.getMenu(EuclidianConstants.getModeText(mode)));
+		button.setAltText(altText);
 		button.getElement().setAttribute("mode", mode + "");
 		button.getElement().setId("mode" + mode);
 		return button;

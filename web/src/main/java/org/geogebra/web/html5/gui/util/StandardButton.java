@@ -110,6 +110,14 @@ public class StandardButton extends FastButton {
 		setIconAndLabel(this.icon, text, this.width, this.height);
 	}
 
+	/**
+	 * @param btnImage
+	 *            image
+	 */
+	public void setBtnImage(NoDragImage btnImage) {
+		this.btnImage = btnImage;
+	}
+
 	@Override
 	public void focusInput(boolean force) {
 		app.getAccessibilityManager().focusInput(force);
