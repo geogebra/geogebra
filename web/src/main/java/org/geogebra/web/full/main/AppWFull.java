@@ -1,6 +1,7 @@
 package org.geogebra.web.full.main;
 
 import java.util.ArrayList;
+
 import java.util.List;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -99,7 +100,7 @@ import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
 import org.geogebra.web.html5.util.ViewW;
-
+import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
@@ -1821,4 +1822,14 @@ public class AppWFull extends AppW implements HasKeyboard {
 			}
 		}
 	}
+	
+	public void copyGraphicsViewToClipboard() {
+		EuclidianViewW ev = (EuclidianViewW)getActiveEuclidianView();
+		nativeCopyToClipboardExternal(ev.getExportImageDataUrl(3, false));
+	}
+
+	private native String nativeCopyToClipboardExternal(String s) /*-{
+		return $wnd.copyGraphicsToClipboardExternal(s);
+	}-*/;
+
 }
