@@ -187,7 +187,7 @@ public class ScreenshotManager : MonoBehaviour {
     {
             isReadyForNextPhoto = false;
             IsMakingPhoto = true;
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForEndOfFrame();
             Texture2D tempTex = GetInstanceOfRenderedTexture();
 
             //******** Save screenstho to file ***********
@@ -198,6 +198,7 @@ public class ScreenshotManager : MonoBehaviour {
 
             UploadTexture(tempTex, photoPreviewMain);
             UpdateGalleryImages();
+            yield return new WaitForSeconds(1);
             isReadyForNextPhoto = true;
     }
 
