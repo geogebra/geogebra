@@ -8,7 +8,6 @@ import org.geogebra.common.awt.GComposite;
 import org.geogebra.common.awt.GDimension;
 import org.geogebra.common.awt.GFont;
 import org.geogebra.common.awt.GFontRenderContext;
-import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GPaint;
 import org.geogebra.common.awt.GPathIterator;
 import org.geogebra.common.awt.GShape;
@@ -16,12 +15,12 @@ import org.geogebra.common.awt.MyImage;
 import org.geogebra.common.euclidian.GPaintSVG;
 import org.geogebra.common.euclidian.GeneralPathClipped;
 import org.geogebra.common.factories.AwtFactory;
-import org.geogebra.common.kernel.View;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.ggbjdk.java.awt.geom.GeneralPath;
 import org.geogebra.ggbjdk.java.awt.geom.Path2D;
 import org.geogebra.ggbjdk.java.awt.geom.Shape;
+import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.gawt.GBufferedImageW;
 import org.geogebra.web.html5.main.MyImageW;
 import org.geogebra.web.html5.util.ImageLoadCallback;
@@ -38,7 +37,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.himamis.retex.renderer.web.graphics.JLMContext2d;
 
-public class GGraphics2DW implements GGraphics2D {
+public class GGraphics2DW implements GGraphics2DWI {
 
 	protected final Canvas canvas;
 	private final JLMContext2d context;
@@ -53,8 +52,6 @@ public class GGraphics2DW implements GGraphics2D {
 
 	private int canvasWidth;
 	private int canvasHeight;
-
-	private View view;
 
 	private boolean lastDebugOk = false;
 	private boolean lastDebugException = false;
@@ -90,22 +87,6 @@ public class GGraphics2DW implements GGraphics2D {
 
 		this.context = (JLMContext2d) ctx.cast();
 		this.context.initTransform();
-	}
-
-	/**
-	 * @param view
-	 *            The view associated with this instance of GGraphics2DW
-	 */
-	public void setView(View view) {
-		this.view = view;
-	}
-
-	/**
-	 * @return The view associated with this instance of GGraphics2DW, null if
-	 *         no view has been set
-	 */
-	public View getView() {
-		return view;
 	}
 
 	public void setImageInterpolation(boolean b) {
@@ -485,6 +466,7 @@ public class GGraphics2DW implements GGraphics2D {
 		return (int) (logicalPX * getDevicePixelRatio());
 	}
 
+	@Override
 	public void setCoordinateSpaceSize(int width, int height) {
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
@@ -496,6 +478,7 @@ public class GGraphics2DW implements GGraphics2D {
 		this.updateCanvasColor();
 	}
 
+	@Override
 	public void setCoordinateSpaceSizeNoTransformNoColor(int width, int height) {
 		canvas.setCoordinateSpaceWidth(physicalPX(width));
 		canvas.setCoordinateSpaceHeight(physicalPX(height));
@@ -503,28 +486,34 @@ public class GGraphics2DW implements GGraphics2D {
 		setHeight(height);
 	}
 
+	@Override
 	public int getOffsetWidth() {
 		int width = canvas.getOffsetWidth();
 		return width == 0 ? canvasWidth : width;
 	}
 
+	@Override
 	public int getOffsetHeight() {
 		int height = canvas.getOffsetHeight();
 		return height == 0 ? canvasHeight : height;
 	}
 
+	@Override
 	public int getCoordinateSpaceWidth() {
 		return canvas.getCoordinateSpaceWidth();
 	}
 
+	@Override
 	public int getCoordinateSpaceHeight() {
 		return canvas.getCoordinateSpaceHeight();
 	}
 
+	@Override
 	public int getAbsoluteTop() {
 		return canvas.getAbsoluteTop();
 	}
 
+	@Override
 	public int getAbsoluteLeft() {
 		return canvas.getAbsoluteLeft();
 	}
@@ -540,7 +529,6 @@ public class GGraphics2DW implements GGraphics2D {
 				        + currentFont.getFullFontString());
 			}
 		}
-
 	}
 
 	@Override
@@ -736,6 +724,7 @@ public class GGraphics2DW implements GGraphics2D {
 		canvas.setHeight(h + "px");
 	}
 
+	@Override
 	public void setPreferredSize(GDimension preferredSize) {
 		setWidth(Math.max(0, preferredSize.getWidth()));
 		setHeight(Math.max(0, preferredSize.getHeight()));
@@ -749,6 +738,7 @@ public class GGraphics2DW implements GGraphics2D {
 						: 0);
 	}
 
+	@Override
 	public Canvas getCanvas() {
 		return this.canvas;
 	}
@@ -840,6 +830,7 @@ public class GGraphics2DW implements GGraphics2D {
 		return getDevicePixelRatio();
 	}
 
+	@Override
 	public JLMContext2d getContext() {
 		return context;
 	}
@@ -911,6 +902,7 @@ public class GGraphics2DW implements GGraphics2D {
 		context.restoreTransform();
 	}
 
+	@Override
 	public boolean setAltText(String altStr) {
 		boolean ret = !(canvas.getElement().getInnerText() + "").equals(altStr);
 		canvas.getElement().setInnerText(altStr);
@@ -921,6 +913,7 @@ public class GGraphics2DW implements GGraphics2D {
 		return canvas.getElement().getInnerText();
 	}
 
+	@Override
 	public void forceResize() {
 		int width = canvas.getOffsetWidth();
 		int height = canvas.getOffsetHeight();
@@ -938,14 +931,17 @@ public class GGraphics2DW implements GGraphics2D {
 	/**
 	 * Start debugging
 	 */
+	@Override
 	public void startDebug() {
 		debug = true;
 	}
 
+	@Override
 	public double getDevicePixelRatio() {
 		return devicePixelRatio;
 	}
 
+	@Override
 	public void setDevicePixelRatio(double devicePixelRatio) {
 		this.devicePixelRatio = devicePixelRatio;
 	}

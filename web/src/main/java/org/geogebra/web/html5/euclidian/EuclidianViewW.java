@@ -88,7 +88,7 @@ public class EuclidianViewW extends EuclidianView implements
 
 	final public static int DELAY_BETWEEN_MOVE_EVENTS = 15;
 
-	private GGraphics2DW g2p = null;
+	private GGraphics2DWI g2p = null;
 	private GGraphics2D g2dtemp;
 	private GGraphics2DW g4copy = null;
 	private GColor backgroundColor = GColor.WHITE;
@@ -168,7 +168,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	private void initClickStartHandler() {
-		if (g2p == null) {
+		if (g2p.getCanvas() == null) {
 			return;
 		}
 		ClickStartHandler.init(g2p.getCanvas(), new ClickStartHandler() {
@@ -267,15 +267,14 @@ public class EuclidianViewW extends EuclidianView implements
 	public final void doRepaint2() {
 		long time = System.currentTimeMillis();
 		this.updateBackgroundIfNecessary();
-		if (g2p != null) {
-			paint(this.g2p);
-		}
+
+		paint(this.g2p);
+
 		// if we have pen tool in action
 		// repaint the preview line
 		getEuclidianController().setCollectedRepaints(false);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
-
 	}
 
 	/**
@@ -285,8 +284,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getWidth() {
-		return g2p == null ? 0
-				: (int) (this.g2p.getCoordinateSpaceWidth()
+		return (int) (this.g2p.getCoordinateSpaceWidth()
 						/ this.g2p.getDevicePixelRatio());
 	}
 
@@ -297,8 +295,7 @@ public class EuclidianViewW extends EuclidianView implements
 	 */
 	@Override
 	public int getHeight() {
-		return g2p == null ? 0
-				: (int) (this.g2p.getCoordinateSpaceHeight()
+		return (int) (this.g2p.getCoordinateSpaceHeight()
 						/ this.g2p.getDevicePixelRatio());
 	}
 
@@ -325,7 +322,7 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	@Override
-	public final GGraphics2DW getGraphicsForPen() {
+	public final GGraphics2DWI getGraphicsForPen() {
 		return g2p;
 	}
 
@@ -587,14 +584,12 @@ public class EuclidianViewW extends EuclidianView implements
 	}
 
 	public void synCanvasSize() {
-		if (g2p != null) {
-			setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
-		}
+		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
 
 	@Override
 	public String getCanvasBase64WithTypeString() {
-		if (g2p == null) {
+		if (g2p.getCanvas() == null) {
 			return "";
 		}
 		return getCanvasBase64WithTypeString(g2p.getCoordinateSpaceWidth(),
@@ -697,10 +692,11 @@ public class EuclidianViewW extends EuclidianView implements
 		if (canvas != null) {
 			this.g2p = new GGraphics2DW(canvas);
 			g2p.setDevicePixelRatio(appW.getPixelRatio());
-			g2p.setView(this);
 			if (appW.getArticleElement().isDebugGraphics()) {
 				g2p.startDebug();
 			}
+		} else {
+			this.g2p = new GGraphics2DE();
 		}
 		updateFonts();
 		initView(true);
@@ -1061,7 +1057,7 @@ public class EuclidianViewW extends EuclidianView implements
 	private void setCursorClass(String className) {
 		// IMPORTANT: do nothing if we already have the classname,
 		// app.resetCursor is VERY expensive in IE
-		if (g2p != null
+		if (g2p.getCanvas() != null
 				&& !g2p.getCanvas().getElement().hasClassName(className)) {
 			this.appW.resetCursor();
 			g2p.getCanvas().setStyleName("");
@@ -1264,11 +1260,11 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public Canvas getCanvas() {
-		return g2p != null ? g2p.getCanvas() : null;
+		return g2p.getCanvas();
 	}
 
 	@Override
-	public GGraphics2DW getG2P() {
+	public GGraphics2DWI getG2P() {
 		return g2p;
 	}
 

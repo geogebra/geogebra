@@ -30,6 +30,8 @@ import org.geogebra.web.html5.awt.GGraphics2DW;
 import org.geogebra.web.html5.euclidian.EuclidianPanelWAbstract;
 import org.geogebra.web.html5.euclidian.EuclidianViewW;
 import org.geogebra.web.html5.euclidian.EuclidianViewWInterface;
+import org.geogebra.web.html5.euclidian.GGraphics2DE;
+import org.geogebra.web.html5.euclidian.GGraphics2DWI;
 import org.geogebra.web.html5.euclidian.IsEuclidianController;
 import org.geogebra.web.html5.euclidian.MyEuclidianViewPanel;
 import org.geogebra.web.html5.euclidian.PointerEventHandler;
@@ -77,7 +79,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	private boolean isInFocus = false;
 
 	/** graphics */
-	private GGraphics2DW g2p = null;
+	private GGraphics2DWI g2p = null;
 
 	private PointerEventHandler pointerHandler;
 
@@ -120,7 +122,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		setEvNo();
 		if (canvas != null) {
 			this.g2p = new GGraphics2DW(canvas);
-			g2p.setView(this);
+		} else {
+			this.g2p = new GGraphics2DE();
 		}
 
 		updateFonts();
@@ -619,7 +622,7 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	@Override
-	public GGraphics2DW getG2P() {
+	public GGraphics2DWI getG2P() {
 		return g2p;
 	}
 

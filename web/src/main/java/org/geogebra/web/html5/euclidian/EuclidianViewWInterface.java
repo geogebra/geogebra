@@ -7,7 +7,6 @@ import org.geogebra.common.euclidian.Hits;
 import org.geogebra.common.euclidian.Previewable;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.main.App;
-import org.geogebra.web.html5.awt.GGraphics2DW;
 
 import com.google.gwt.canvas.client.Canvas;
 
@@ -72,7 +71,7 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public int getAbsoluteTop();
 
-	public GGraphics2DW getG2P();
+	public GGraphics2DWI getG2P();
 
 	public void resetPointerEventHandler();
 
