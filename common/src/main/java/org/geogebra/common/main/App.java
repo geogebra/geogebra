@@ -4019,7 +4019,8 @@ public abstract class App implements UpdateSelection {
 		case MOB_LOAD_SAVE_FOR_PRE_LOLLIPOP:
 			return false;
 
-		case MOB_DEFAULT_SLIDER_INCERMENT_VALUE:
+		// MOB-1471
+		case MOB_DEFAULT_SLIDER_INCREMENT_VALUE:
 			return prerelease;
 
 		 case MOB_TABBED_SETTINGS_PANEL:
