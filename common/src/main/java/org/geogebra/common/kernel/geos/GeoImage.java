@@ -720,6 +720,10 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	/**
 	 * Gets the x offset of i. corner.
+	 * 
+	 * @param i
+	 *            index
+	 * @return corner x screen coord
 	 */
 	public int getAbsoluteScreenLocX(int i) {
 		return cornerScreenX[i];
@@ -727,6 +731,10 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	/**
 	 * Gets the y offset of i. corner.
+	 * 
+	 * @param i
+	 *            index
+	 * @return corner y screen coord
 	 */
 	public int getAbsoluteScreenLocY(int i) {
 		return cornerScreenY[i];
@@ -745,6 +753,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	 *            real world x coordinate
 	 * @param y
 	 *            real world y coordinate
+	 * @param i
+	 *            index
 	 */
 	public void setRealWorldCoord(double x, double y, int i) {
 		GeoPoint point = corners[i];
@@ -767,6 +777,10 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	/**
 	 * Gets the x real world coordinates of the i. corner.
+	 * 
+	 * @param i
+	 *            index
+	 * @return x real coord
 	 */
 	public double getRealWorldX(int i) {
 		if (corners[i] == null) {
@@ -777,6 +791,10 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	/**
 	 * Gets the y real world coordinates of the i. corner.
+	 * 
+	 * @param i
+	 *            index
+	 * @return y real coord
 	 */
 	public double getRealWorldY(int i) {
 		if (corners[i] == null) {
@@ -792,24 +810,26 @@ public class GeoImage extends GeoElement implements Locateable,
 	public void updateScaleAndLocation() {
 		int width = getFillImage().getWidth();
 		int height = getFillImage().getHeight();
-		double scaleX;
-		double scaleY;
+		double curScaleX;
+		double curScaleY;
 		if (getCorner(1) != null) {
-			scaleX = (getKernel().getApplication().getActiveEuclidianView().toScreenCoordXd(getCorner(1).inhomX)
+			curScaleX = (getKernel().getApplication().getActiveEuclidianView()
+					.toScreenCoordXd(getCorner(1).inhomX)
 					- getKernel().getApplication().getActiveEuclidianView().toScreenCoordXd(getCorner(0).inhomX))
 					/ width;
 		} else {
-			scaleX = 1;
+			curScaleX = 1;
 		}
 		if (getCorner(2) != null) {
-			scaleY = (getKernel().getApplication().getActiveEuclidianView().toScreenCoordYd(getCorner(0).inhomY)
+			curScaleY = (getKernel().getApplication().getActiveEuclidianView()
+					.toScreenCoordYd(getCorner(0).inhomY)
 					- getKernel().getApplication().getActiveEuclidianView().toScreenCoordYd(getCorner(2).inhomY))
 					/ height;
 		} else {
-			scaleY = scaleX;
+			curScaleY = scaleX;
 		}
-		setScaleX(scaleX);
-		setScaleY(scaleY);
+		setScaleX(curScaleX);
+		setScaleY(curScaleY);
 		setAbsoluteScreenLoc(getKernel().getApplication().getActiveEuclidianView().toScreenCoordX(getCorner(0).inhomX),
 				getKernel().getApplication().getActiveEuclidianView().toScreenCoordY(getCorner(0).inhomY));
 	}
@@ -1354,6 +1374,8 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	/**
 	 * Gets the scale of original width.
+	 * 
+	 * @return x scale
 	 */
 	public double getScaleX() {
 		return scaleX;
@@ -1371,6 +1393,8 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	/**
 	 * Gets the scale of original height.
+	 * 
+	 * @return z scale
 	 */
 	public double getScaleY() {
 		return scaleY;
