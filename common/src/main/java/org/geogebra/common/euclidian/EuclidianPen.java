@@ -25,7 +25,6 @@ import org.geogebra.common.main.Feature;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.GTimer;
 import org.geogebra.common.util.GTimerListener;
-import org.geogebra.common.util.MyMath;
 
 /**
  * Handles pen and freehand tool
@@ -89,6 +88,7 @@ public class EuclidianPen implements GTimerListener {
 	private static final double MAX_POINT_DIST = 30;
 	/** ignore consecutive pen points closer than this */
 	private static final double MIN_POINT_DIST = 3;
+	private static final double MAX_POINT_COS = Math.cos(Math.PI / 36);
 
 	private boolean startNewStroke = false;
 
@@ -478,7 +478,7 @@ public class EuclidianPen implements GTimerListener {
 			boolean anglesOK = true;
 			for (int j = 1; j < i; j++) {
 				if (angle(newPoint, penPoints.get(penPoints.size() - j),
-						current) > Math.PI / 36) {
+						current, MAX_POINT_COS)) {
 					anglesOK = false;
 				}
 			}
@@ -494,16 +494,17 @@ public class EuclidianPen implements GTimerListener {
 		view.repaintView();
 	}
 
-	private static double angle(GPoint a, GPoint b, GPoint c) {
+	private static boolean angle(GPoint a, GPoint b, GPoint c, double max) {
 		if (a == null || b == null || c == null) {
-			return Math.PI / 2;
+			return true;
 		}
 		double dx1 = a.x - b.x;
 		double dx2 = c.x - b.x;
 		double dy1 = a.y - b.y;
 		double dy2 = c.y - b.y;
-		double ret = Math.PI - MyMath.angle(dx1, dy1, dx2, dy2);
-		return Double.isNaN(ret) ? Math.PI / 2 : ret;
+		double ret = Math.abs(dx1 * dx2 + dy1 * dy2) / Math.hypot(dx1, dy1)
+				/ Math.hypot(dx2, dy2);
+		return Double.isNaN(ret) || ret < max;
 	}
 
 	/**
