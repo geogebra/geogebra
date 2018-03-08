@@ -412,6 +412,7 @@ public class MouseTouchGestureControllerW extends MouseTouchGestureController
 		        second.getY());
 		first.release();
 		second.release();
+		ec.getView().cacheLayers(-1);
 	}
 
 	public void onMouseWheel(MouseWheelEvent event) {

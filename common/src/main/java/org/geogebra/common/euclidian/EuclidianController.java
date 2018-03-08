@@ -10495,19 +10495,17 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			draggingOccured = false;
 			return;
 		}
-
-		if (isPenDragged) {
+		// make sure we start the timer also for single point
+		if (!isPenDragged && penMode(mode)) {
+			getPen().startTimer();
+		}
+		if (penMode(mode)) {
 			boolean geoCreated = getPen().handleMouseReleasedForPenMode(right, x, y);
 			if (geoCreated) {
 				storeUndoInfo();
 			}
 			draggingOccured = false;
 			return;
-		}
-
-		// make sure we start the timer also for single point
-		if (!isPenDragged && penMode(mode)) {
-			getPen().startTimer();
 		}
 
 		boolean changedKernel0 = false;
