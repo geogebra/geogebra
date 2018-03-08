@@ -2076,6 +2076,7 @@ public enum Operation {
 		case PSI:
 		case IF:
 		case IF_ELSE:
+		case IF_LIST:
 		case DATA:
 		case FREEHAND:
 

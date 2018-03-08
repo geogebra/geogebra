@@ -396,8 +396,6 @@ public final class ArticleElement extends Element implements ArticleElementInter
 				|| style.msTransform || style.oTransform || "";
 	}-*/;
 
-
-
 	private native double envScale(JavaScriptObject current, String type,
 			boolean deep) /*-{
 		var sx = 1;

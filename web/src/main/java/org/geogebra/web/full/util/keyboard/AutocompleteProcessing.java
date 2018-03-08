@@ -33,7 +33,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 		}
 
 		field.setFocus(focus);
-
 	}
 
 	@Override
@@ -43,7 +42,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void onEnter() {
-
 		NativeEvent event = Document.get().createKeyDownEvent(false, false,
 				false, false, ENTER);
 		field.getTextField().onBrowserEvent(Event.as(event));
@@ -60,8 +58,7 @@ public class AutocompleteProcessing implements KeyboardListener {
 	@Override
 	public void onBackSpace() {
 		field.onBackSpace();
-
-		}
+	}
 
 	@Override
 	public boolean isSVCell() {
@@ -70,7 +67,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 
 	@Override
 	public void insertString(String text) {
-
 		field.insertString(text);
 		if (text.startsWith("(")) {
 			// moves inside the brackets
@@ -94,7 +90,6 @@ public class AutocompleteProcessing implements KeyboardListener {
 				field.setCaretPosition(caretPos + 1);
 		}
 	}
-
 
 	@Override
 	public boolean resetAfterEnter() {

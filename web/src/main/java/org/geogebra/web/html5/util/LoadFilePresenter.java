@@ -146,7 +146,6 @@ public class LoadFilePresenter {
 			// only do this after app initialized
 			app.setUndoActive(undoActive);
 		}
-
 	}
 
 	/**
@@ -295,10 +294,7 @@ public class LoadFilePresenter {
 		}
 
 		app.updateRounding();
-
 	}
-
-
 
 	private boolean tryReloadDataInStorage() {
 		if (!Browser.supportsSessionStorage()) {

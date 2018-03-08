@@ -76,15 +76,12 @@ public class RendererWithImplZSpaceW extends RendererWithImplW {
 			@Override
 			public void cancel() {
 				canceled = true;
-
 			}
 
 		};
 		ResourcesInjector.addLoadHandler(matrixScript, scriptCallback);
 		Document.get().getBody().appendChild(matrixScript);
-
 	}
-
 
 	@Override
 	protected void createGLContext(boolean preserveDrawingBuffer) {

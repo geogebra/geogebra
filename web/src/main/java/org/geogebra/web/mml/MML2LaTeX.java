@@ -1,11 +1,8 @@
 package org.geogebra.web.mml;
 
-
 import org.geogebra.common.io.MathMLParser;
 
 import com.google.gwt.core.client.EntryPoint;
-
-
 
 /**
  * @author apa

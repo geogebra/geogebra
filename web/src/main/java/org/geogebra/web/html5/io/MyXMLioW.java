@@ -31,7 +31,6 @@ public class MyXMLioW extends MyXMLio {
 		xmlParser = new QDParser();
 	}
 
-
 	@Override
 	protected void resetXMLParser() {
 		// nothing to do in web

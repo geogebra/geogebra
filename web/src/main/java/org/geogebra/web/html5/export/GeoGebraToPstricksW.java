@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.export;
 
-
 import org.geogebra.common.awt.GGraphics2D;
 import org.geogebra.common.awt.GShape;
 import org.geogebra.common.export.pstricks.GeoGebraToPstricks;

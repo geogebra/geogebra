@@ -101,7 +101,6 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	public EuclidianPanel getEuclidianPanel() {
 		return euclidianpanel;
 	}
-	
 
 	@Override
 	public void calculateEnvironment() {

@@ -52,8 +52,6 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		        + new JSONString(Browser.navigatorLanguage()).toString() + "},";
 	}
 
-
-
 	@Override
 	protected String getToken() {
 		return "";

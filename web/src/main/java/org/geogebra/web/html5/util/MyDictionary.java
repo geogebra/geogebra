@@ -154,8 +154,6 @@ public final class MyDictionary {
 		return s;
 	}
 
-
-
 	private native void addKeys(HashSet<String> s) /*-{
 		var map = this.@org.geogebra.web.html5.util.MyDictionary::dict
 		for ( var key in map) {

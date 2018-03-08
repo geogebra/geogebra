@@ -250,7 +250,6 @@ public class AwtFactoryW extends AwtFactory {
 	public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
 		return new GTexturePaintW(
 				new GBufferedImageW(((MyImageW) subimage).getImage()));
-
 	}
 
 	@Override
@@ -308,6 +307,5 @@ public class AwtFactoryW extends AwtFactory {
 		}
 		repaintsFromHereInProgress--;
 	}
-
 
 }

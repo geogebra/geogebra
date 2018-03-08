@@ -77,7 +77,6 @@ public class GeoGebraFrameSimple extends GeoGebraFrameW {
 		GeoGebraFrameW.reCheckForDummies(el);
 	}
 
-
 	@Override
 	public boolean isKeyboardShowing() {
 		return false;

@@ -51,7 +51,6 @@ public class MultiRowsTabBar extends FlowPanel implements
 
 		tabPanel.deck.showWidget(selectedTab);
 		SelectionEvent.fire(tabPanel, index);
-
 	}
 
 	private static void setSelectionStyle(Widget item, boolean selected) {
@@ -67,7 +66,6 @@ public class MultiRowsTabBar extends FlowPanel implements
 			}
 		}
 	}
-
 
 	/*
 	 * @deprecated Use {@link #addTab(String)} instead
@@ -89,7 +87,6 @@ public class MultiRowsTabBar extends FlowPanel implements
 			super(label);
 			sinkEvents(Event.ONCLICK);
 		}
-
 
 		@Override
 		public void onBrowserEvent(Event event) {

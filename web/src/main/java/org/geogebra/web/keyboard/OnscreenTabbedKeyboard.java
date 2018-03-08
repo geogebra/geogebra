@@ -35,7 +35,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	private KeyboardListener processField;
 	private InputBarHelpPopup helpPopup=null;
 
-
 	/**
 	 * @param app
 	 *            keyboard context
@@ -81,13 +80,11 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 	@Override
 	public void resetKeyboardState() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void setStyleName() {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -106,8 +103,6 @@ public class OnscreenTabbedKeyboard extends TabbedKeyboard
 		}
 		this.processField = field;
 	}
-
-
 
 	@Override
 	public void onClick(KeyBoardButtonBase btn, PointerEventType type) {

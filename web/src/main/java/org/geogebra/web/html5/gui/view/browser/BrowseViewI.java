@@ -1,6 +1,5 @@
 package org.geogebra.web.html5.gui.view.browser;
 
-
 import java.util.ArrayList;
 import java.util.List;
 

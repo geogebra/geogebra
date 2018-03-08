@@ -64,9 +64,7 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 		boolean fmtMidi = url.startsWith("@");
 		if (fmtMp3 || fmtMidi) {
 			String id = url.substring(1);
-
 			url = app.getURLforID(id);
-
 		} 
 
 		if (fmtMidi || url.endsWith(".mid") || url.endsWith(".midi")) {
@@ -136,9 +134,8 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 						function() {
 							that.@org.geogebra.web.html5.sound.SoundManagerW::onCanPlay(Lcom/google/gwt/dom/client/Element;Ljava/lang/String;)(audioElement,url);
 						});
-
 	}-*/;
-	
+
 	@Override
 	public void playFunction(GeoFunction geoFunction, double min, double max,
 			int sampleRate, int bitDepth) {
@@ -156,8 +153,6 @@ public class SoundManagerW implements SoundManager /* , MidiSoundListenerW */ {
 	public void onInfo(String msg) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(msg, true,
 				app);
-
 	}
-	
 
 }

@@ -322,14 +322,13 @@ public class FileManagerW extends FileManager {
 			        material.getTitle());
 		}
 		try {
-		this.stockStore.setItem(key, material.toJson().toString());
-		this.offlineIDs.add(material.getId());
+			this.stockStore.setItem(key, material.toJson().toString());
+			this.offlineIDs.add(material.getId());
 		} catch (Exception e) {
 			Log.warn("Updating local copy failed.");
 		}
 	}
 
-	
 	@Override
 	public void showExportAsPictureDialog(final String url, String filename, String extension, String titleKey,
 			final App app1) {
@@ -356,7 +355,6 @@ public class FileManagerW extends FileManager {
 										"[\"" + extension2 + "\"]"));
 							}
 						}, loc.getMenu("Export"));
-
 	}
 
 	@Override
@@ -375,7 +373,6 @@ public class FileManagerW extends FileManager {
 		if (stockStore != null) {
 			stockStore.setItem(TIMESTAMP, "" + System.currentTimeMillis());
 		}
-
 	}
 
 }

@@ -8,7 +8,6 @@ import org.geogebra.common.move.operations.Network;
  */
 public class NetworkW implements Network {
 
-
 	private native boolean checkOnlineState() /*-{
 		return $wnd.navigator.onLine;
 	}-*/;

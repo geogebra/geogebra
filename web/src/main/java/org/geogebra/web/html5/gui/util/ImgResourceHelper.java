@@ -20,7 +20,6 @@ public class ImgResourceHelper {
 	    ImageOrText img = new ImageOrText();
 		img.setUrl(safeURI(ir));
 	    button.setIcon(img);
-	   
 	}
 
 	/**
@@ -32,6 +31,5 @@ public class ImgResourceHelper {
 	public static String safeURI(ResourcePrototype res) {
 		return NoDragImage.safeURI(res);
 	}
-
 
 }

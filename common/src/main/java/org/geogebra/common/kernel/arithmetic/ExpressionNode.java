@@ -5072,7 +5072,7 @@ public class ExpressionNode extends ValidExpression
 		case IF_ELSE:
 			MyNumberPair np = (MyNumberPair) left;
 
-			np = new MyNumberPair(kernel0, np.x, np.y.derivative(fv, kernel0));
+			np = new MyNumberPair(kernel0, np.x, np.y.integral(fv, kernel0));
 
 			return new ExpressionNode(kernel0, np, Operation.IF_ELSE,
 					right.integral(fv, kernel0));

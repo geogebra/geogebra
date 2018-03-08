@@ -970,8 +970,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 		return false;
 	}
 
-
-
 	@Override
 	public void onKeyPress(KeyPressEvent e) {
 		if (GlobalKeyDispatcherW.isBadKeyEvent(e)) {
@@ -1051,7 +1049,6 @@ public class AutoCompleteTextFieldW extends FlowPanel
 					caretPos++;
 				}
 			}
-
 		}
 
 		// auto-close parentheses

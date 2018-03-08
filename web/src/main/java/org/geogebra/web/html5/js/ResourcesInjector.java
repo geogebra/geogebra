@@ -21,7 +21,6 @@ import com.google.gwt.user.client.Window.Location;
  */
 public class ResourcesInjector {
 
-
 	private static boolean resourcesInjected = false;
 	private static ResourcesInjector instance;
 

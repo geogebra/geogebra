@@ -18,7 +18,6 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 		clear();
     }
 
-
 	public void addTextField(AutoCompleteW autoCompleteTextField) {
 		this.textField = autoCompleteTextField;
     }

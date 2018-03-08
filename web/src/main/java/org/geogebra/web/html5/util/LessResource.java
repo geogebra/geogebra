@@ -13,13 +13,11 @@ LessResource.java is based on SVG resource generator by Lukas Laag
 
 package org.geogebra.web.html5.util;
 
-
 import org.geogebra.web.vectomatic.LessResourceGenerator;
 
 import com.google.gwt.resources.client.TextResource;
 import com.google.gwt.resources.ext.DefaultExtensions;
 import com.google.gwt.resources.ext.ResourceGeneratorType;
-//import org.vectomatic.dom.svg.OMSVGSVGElement;
 
 /**
  * A resource for compiled LESS file
