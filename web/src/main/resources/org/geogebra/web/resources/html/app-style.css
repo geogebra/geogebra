@@ -113,6 +113,10 @@
     right: 0px;
 }
 
+.GeoGebraFrame .button.flatButton.graphicsContextMenuBtn.button-up img, .GeoGebraFrame .button.flatButton.graphicsContextMenuBtn.button-up-hovering img {
+    opacity: 0.54;
+}
+
 .startscreen .GeoGebraFrame .undoRedoPanel .buttonInactive img {
     opacity: 0.2;
 }
@@ -175,19 +179,7 @@
     border-top: #6557D2 solid 1px;
     border-bottom: #6557D2 solid 1px;
 }
-.GeoGebraFrame .toolbar .toolsPanel .moreLessBtn {
-    border-radius: 2px;
-    font-size: 90%;
-    min-width: 64px;
-    color: #008475;
-    text-transform: uppercase;
-    text-align: center;
-    float: left;
-    margin: 16px 0px 16px 0px;
-    padding: 0px 16px 0px 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease-out;
-}
+
 .GeoGebraFrame .toolbar .toolsPanel {
     padding: 0px 16px 14px 16px;
 }
@@ -440,9 +432,13 @@
 	
 	.paneSplit {
 		position: absolute;
-		overflow-x: hidden;
-		overflow-y: hidden !important;
-		left: 0;
+    overflow-x: hidden;
+    overflow-y: hidden !important;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    bottom: 300px;
+    top: initial;
 	}
 	
 	.startscreen .undoRedoPanel {
@@ -452,6 +448,18 @@
 	.drawingPane {
 	 left: 0;
 	 bottom: 300px;
+	}
+	.GeoGebraFrame .menu {
+		bottom: 250px;
+		top:initial;
+	}
+	
+	.GeoGebraFrame .hide-Dragger .gwt-SplitLayoutPanel-HDragger {
+		height: 8px;
+    	top: 8px !important;
+		top: initial;
+		width: 100% !important;
+		box-shadow: 0px -2px 2px rgba(0,0,0,0.4);
 	}
 }
 
