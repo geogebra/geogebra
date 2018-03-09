@@ -46,12 +46,14 @@ import java.util.Collections;
 @SuppressWarnings({"ClassWithTooManyFields", "ClassWithTooManyMethods", "OverlyComplexClass", "OverlyCoupledClass"})
 public class FormulaEditor extends View implements MathField {
 
+    private static final boolean HAS_MATERIAL_INPUT_FEATURE = true;
     private final static int CURSOR_MARGIN = 5;
     // tolerance for cursor color
     private final static int CURSOR_TOLERANCE = 10;
     private static final int DEFAULT_SIZE = 20;
+    private static final int PRE_INIT_VALUE = -1;
+    private static final int NO_BACKGROUND = -2;
 
-    @SuppressWarnings({"PublicField", "StaticNonFinalField"})
     public static MetaModel sMetaModel = new MetaModel();
     protected MathFieldInternal mMathFieldInternal;
     private TeXIcon mTeXIcon;
@@ -76,19 +78,21 @@ public class FormulaEditor extends View implements MathField {
 
     public FormulaEditor(Context context) {
         super(context);
-        init();
+        initFormulaEditor();
     }
 
     public FormulaEditor(Context context, AttributeSet attrs) {
         super(context, attrs);
+        beforeStyling();
         readAttributes(context, attrs, 0);
-        init();
+        initFormulaEditor();
     }
 
     public FormulaEditor(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        beforeStyling();
         readAttributes(context, attrs, defStyleAttr);
-        init();
+        initFormulaEditor();
     }
 
     public void debug(@SuppressWarnings("unused") String message) {
@@ -100,25 +104,101 @@ public class FormulaEditor extends View implements MathField {
         return false;
     }
 
-    private void readAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
+    private void beforeStyling() {
+        if (HAS_MATERIAL_INPUT_FEATURE) {
+            mSize = PRE_INIT_VALUE;
+            mMinWidth = PRE_INIT_VALUE;
+            mBackgroundColor = PRE_INIT_VALUE;
+            mForegroundColor = null;
+            mText = null;
+            mType = PRE_INIT_VALUE;
+        }
+    }
+
+    protected void readAttributes(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.FormulaEditor,
                 defStyleAttr, 0);
 
-        try {
-            mSize = a.getFloat(R.styleable.FormulaEditor_fe_size, DEFAULT_SIZE);
-            mMinWidth = a.getDimension(R.styleable.FormulaEditor_fe_minWidth, 0);
-            mBackgroundColor = a.getColor(R.styleable.FormulaEditor_fe_backgroundColor, Color.TRANSPARENT);
-            mForegroundColor = new ColorA(a.getColor(R.styleable.FormulaEditor_fe_foregroundColor, Color.BLACK));
-            mText = a.getString(R.styleable.FormulaEditor_fe_text);
-            mType = a.getInteger(R.styleable.FormulaEditor_fe_type, TeXFormula.SANSSERIF);
-        } finally {
-            a.recycle();
+        if (HAS_MATERIAL_INPUT_FEATURE) {
+            try {
+                initSize(a);
+                initMinWidth(a);
+                initBackgroundColor(a);
+                initForegroundColor(a);
+                initText(a);
+                initType(a);
+            } finally {
+                a.recycle();
+            }
+        } else {
+            try {
+                mSize = a.getFloat(R.styleable.FormulaEditor_fe_size, DEFAULT_SIZE);
+                mMinWidth = a.getDimension(R.styleable.FormulaEditor_fe_minWidth, 0);
+                mBackgroundColor = a.getColor(R.styleable.FormulaEditor_fe_backgroundColor, Color.TRANSPARENT);
+                mForegroundColor = new ColorA(a.getColor(R.styleable.FormulaEditor_fe_foregroundColor, Color.BLACK));
+                mText = a.getString(R.styleable.FormulaEditor_fe_text);
+                mType = a.getInteger(R.styleable.FormulaEditor_fe_type, TeXFormula.SANSSERIF);
+            } finally {
+                a.recycle();
+            }
         }
     }
 
-    protected void init() {
+    private void initSize(TypedArray typedArray) {
+        float size = typedArray.getFloat(R.styleable.FormulaEditor_fe_size, PRE_INIT_VALUE);
+        if (size != PRE_INIT_VALUE) {
+            mSize = size;
+        } else if (mSize == PRE_INIT_VALUE) {
+            mSize = DEFAULT_SIZE;
+        }
+    }
+
+    private void initMinWidth(TypedArray typedArray) {
+        float minWidth = typedArray.getDimension(R.styleable.FormulaEditor_fe_minWidth, PRE_INIT_VALUE);
+        if (minWidth != PRE_INIT_VALUE) {
+            mMinWidth = minWidth;
+        } else if (mMinWidth == PRE_INIT_VALUE) {
+            mMinWidth = 0;
+        }
+    }
+
+    private void initBackgroundColor(TypedArray typedArray) {
+        int backgroundColor = typedArray.getColor(R.styleable.FormulaEditor_fe_backgroundColor, PRE_INIT_VALUE);
+        if (backgroundColor != PRE_INIT_VALUE) {
+            mBackgroundColor = backgroundColor;
+        } else if (mBackgroundColor == PRE_INIT_VALUE) {
+            mBackgroundColor = NO_BACKGROUND;
+        }
+    }
+
+    private void initForegroundColor(TypedArray typedArray) {
+        int foregroundColor = typedArray.getColor(R.styleable.FormulaEditor_fe_foregroundColor, PRE_INIT_VALUE);
+        if (foregroundColor != PRE_INIT_VALUE) {
+            mForegroundColor = new ColorA(foregroundColor);
+        } else if (mForegroundColor == null) {
+            mForegroundColor = new ColorA(Color.BLACK);
+        }
+    }
+
+    private void initText(TypedArray typedArray) {
+        String text = typedArray.getString(R.styleable.FormulaEditor_fe_text);
+        if (text != null) {
+            mText = text;
+        }
+    }
+
+    private void initType(TypedArray typedArray) {
+        int type = typedArray.getInteger(R.styleable.FormulaEditor_fe_type, PRE_INIT_VALUE);
+        if (type != PRE_INIT_VALUE) {
+            mType = type;
+        } else if (mType == PRE_INIT_VALUE) {
+            mType = TeXFormula.SANSSERIF;
+        }
+    }
+
+    protected void initFormulaEditor() {
         initFactoryProvider();
         setFocusable(true);
         setFocusableInTouchMode(true);
@@ -308,8 +388,10 @@ public class FormulaEditor extends View implements MathField {
             mGraphics = new Graphics2DA();
         }
 
-        // draw background
-        canvas.drawColor(mBackgroundColor);
+        if (mBackgroundColor != NO_BACKGROUND) {
+            // draw background
+            canvas.drawColor(mBackgroundColor);
+        }
 
         //noinspection MagicNumber
         int y = Math.round((getMeasuredHeight() - teXIcon.getIconHeight()) / 2.0f);
@@ -550,7 +632,7 @@ public class FormulaEditor extends View implements MathField {
         return mFormulaPreviewTeXIcon != null;
     }
 
-    protected float getFontSize() {
+    public float getTextSize() {
         return mSize;
     }
     

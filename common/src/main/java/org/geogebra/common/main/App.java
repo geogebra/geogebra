@@ -4032,8 +4032,11 @@ public abstract class App implements UpdateSelection {
 		case MOB_DISABLE_3D_COMMANDS:
 			return prerelease;
 
+        // AND-722
+		case MOB_MATERIAL_INPUT:
+			return prerelease;
 
-			// **********************************************************************
+		// **********************************************************************
 		// MOBILE END
 		// *********************************************************
 		// **********************************************************************
@@ -5194,7 +5197,7 @@ public abstract class App implements UpdateSelection {
 
 	/**
 	 * enable/disable CAS and re-init command table
-	 * 
+	 *
 	 * @param cas
 	 *            if CAS is enabled
 	 * @param commands3d
