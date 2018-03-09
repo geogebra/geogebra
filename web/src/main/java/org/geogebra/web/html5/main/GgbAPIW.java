@@ -75,7 +75,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void setBase64(String base64) {
 		resetPerspective();
-		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app, null);
+		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
 		view.processBase64String(base64);
 	}
 
@@ -138,7 +138,7 @@ public class GgbAPIW extends GgbAPI {
 	@Override
 	public void openFile(String filename) {
 		resetPerspective();
-		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app, null);
+		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
 		view.processFileName(filename);
 	}
 
@@ -333,7 +333,7 @@ public class GgbAPIW extends GgbAPI {
 
 	public void setFileJSON(JavaScriptObject obj) {
 		resetPerspective();
-		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app, null);
+		ViewW view = new ViewW(RootPanel.getBodyElement(), (AppW) app);
 		view.processJSON(obj);
 	}
 

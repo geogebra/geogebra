@@ -25,56 +25,46 @@ public class LoadFilePresenter {
 	// NB this needs to be adjusted in app-release if we change it here
 	private static final int MIN_SIZE_FOR_PICKER = 650;
 
-	private ViewW mview;
-
-	/**
-	 * @return Article element wrapper
-	 */
-	public ViewW getView() {
-		return mview;
-	}
-
-	/**
-	 * @param view
-	 *            article element wrapper
-	 */
-	public void setView(ViewW view) {
-		this.mview = view;
-	}
 
 	/**
 	 * Run applet for current view
+	 * 
+	 * @param view
+	 *            applet parameters
+	 * @param app
+	 *            app
+	 * @param vv
+	 *            zip loader
 	 */
-	public void onPageLoad() {
+	public void onPageLoad(final ArticleElementInterface view, final AppW app,
+			ViewW vv) {
 
-		ViewW view = getView();
+		// ViewW view = getView();
 		String base64String;
 		String filename;
 		view.adjustScale();
-		final AppW app = view.getApplication();
 		boolean fileOpened = true;
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setErrorDialogsActive(view.getDataParamErrorDialogsActive());
-		if (!tryReloadDataInStorage()) {
+		if (!tryReloadDataInStorage(vv)) {
 			if (!"".equals(filename = view.getDataParamJSON())) {
-				processJSON(filename);
+				processJSON(filename, vv);
 			} else if (!""
 					.equals(base64String = view.getDataParamBase64String())) {
-				process(base64String);
+				process(base64String, vv);
 			} else if (!"".equals(filename = view.getDataParamFileName())) {
-				fetch(filename);
+				vv.processFileName(filename);
 			} else if (!"".equals(filename = view.getDataParamTubeID())) {
 				app.openMaterial(view.getDataParamTubeID(), new Runnable() {
 
 					@Override
 					public void run() {
 
-						openEmptyApp(app);
+						openEmptyApp(app, view);
 						ToolTipManagerW.sharedInstance().showBottomMessage(app
 								.getLocalization().getError("LoadFileFailed"),
 
 								false, app);
-
 					}
 				});
 			} else {
@@ -95,7 +85,7 @@ public class LoadFilePresenter {
 
 		app.setShowMenuBar(showMenuBar);
 		app.setShowAlgebraInput(showAlgebraInput, false);
-		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp());
+		app.setShowToolBar(showToolBar, view.getDataParamShowToolBarHelp(true));
 		app.getKernel().setShowAnimationButton(
 		        view.getDataParamShowAnimationButton());
 		app.setCapturingThreshold(view.getDataParamCapturingThreshold());
@@ -123,7 +113,6 @@ public class LoadFilePresenter {
 		}
 
 		app.setUseBrowserForJavaScript(view.getDataParamUseBrowserForJS());
-
 		app.setLabelDragsEnabled(view.getDataParamEnableLabelDrags());
 		app.setUndoRedoEnabled(view.getDataParamEnableUndoRedo());
 		app.setRightClickEnabled(view.getDataParamEnableRightClick());
@@ -135,7 +124,7 @@ public class LoadFilePresenter {
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
 
 		if (!fileOpened) {
-			if (!openEmptyApp(app)) {
+			if (!openEmptyApp(app, view)) {
 				app.updateToolBar();
 			}
 			GeoGebraProfiler.getInstance().profileEnd();
@@ -153,14 +142,16 @@ public class LoadFilePresenter {
 	 * 
 	 * @param app
 	 *            application
+	 * @param ae
+	 *            article element
 	 * @return whether special perspective (search / customize) was used
 	 */
-	boolean openEmptyApp(final AppW app) {
+	boolean openEmptyApp(final AppW app, ArticleElementInterface ae) {
 		// we dont have content, it is an app
 		Log.debug("no base64content, possibly App loaded?");
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - start
-		String perspective = mview.getDataParamPerspective();
+		String perspective = ae.getDataParamPerspective();
 		if (app.isUnbundledGraphing()) {
 			perspective = "1";
 		} else if (app.isUnbundledGeometry()) {
@@ -296,7 +287,7 @@ public class LoadFilePresenter {
 		app.updateRounding();
 	}
 
-	private boolean tryReloadDataInStorage() {
+	private static boolean tryReloadDataInStorage(ViewW view) {
 		if (!Browser.supportsSessionStorage()) {
 			return false;
 		}
@@ -309,36 +300,31 @@ public class LoadFilePresenter {
 		if ((base64String == null) || (base64String.length() == 0)) {
 			return false;
 		}
-		process(base64String);
+		process(base64String, view);
 		stockStore.removeItem("reloadBase64String");
 		return true;
 	}
 
-	/**
-	 * @param dataParamBase64String
-	 *            a base64 string
-	 */
-	public void process(String dataParamBase64String) {
-		getView().processBase64String(dataParamBase64String);
+	private static void process(String dataParamBase64String, ViewW view) {
+		view.processBase64String(dataParamBase64String);
 	}
 
 	/**
 	 * @param json
 	 *            JSON encoded ZIP file (zip.js)
+	 * @param view
+	 *            zip handler
 	 */
-	public void processJSON(final String json) {
+	public void processJSON(final String json, final ViewW view) {
 		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
 			@Override
 			public void execute() {
-				getView().processJSON(json);
+				view.processJSON(json);
 			}
 		};
 
 		Scheduler.get().scheduleDeferred(deferredOnRes);
 	}
 
-	private void fetch(String fileName) {
-		getView().processFileName(fileName);
-	}
 
 }

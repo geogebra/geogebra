@@ -33,7 +33,6 @@ public abstract class UndoManager {
 	public interface AppState {
 		/** deletes this application state (i.e. deletes file) */
 		void delete();
-
 	}
 
 	/**
@@ -296,7 +295,6 @@ public abstract class UndoManager {
 	public void storeAction(EventType action, String... args) {
 		iterator.add(new UndoCommand(action, args));
 		this.pruneStateList();
-
 		updateUndoActions();
 	}
 

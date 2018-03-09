@@ -99,7 +99,6 @@ import org.geogebra.web.html5.main.StringHandler;
 import org.geogebra.web.html5.util.ArticleElement;
 import org.geogebra.web.html5.util.ArticleElementInterface;
 import org.geogebra.web.html5.util.CSSAnimation;
-import org.geogebra.web.html5.util.ViewW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
@@ -962,14 +961,6 @@ public class AppWFull extends AppW implements HasKeyboard {
 			return new BrowserDevice();
 		}
 		return device;
-	}
-
-	/**
-	 * @param ggburl
-	 *            ggb file URL
-	 */
-	public final static void loadURL_GGB(String ggburl) {
-		ViewW.FILE_LOADER.getView().processFileName(ggburl);
 	}
 
 	@Override

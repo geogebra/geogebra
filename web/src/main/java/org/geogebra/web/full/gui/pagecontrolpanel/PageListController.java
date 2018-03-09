@@ -183,6 +183,10 @@ public class PageListController implements PageListControllerInterface,
 	/**
 	 * adds a new slide to the list
 	 * 
+	 * @param index
+	 *            insertion position
+	 * @param ggbFile
+	 *            file content
 	 * @return index of the added slide
 	 */
 	private PagePreviewCard addSlide(int index, GgbFile ggbFile) {

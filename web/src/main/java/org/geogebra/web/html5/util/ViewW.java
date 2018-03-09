@@ -20,16 +20,11 @@ public class ViewW {
 
 	private Element container;
 	private AppW app;
-	private ArticleElementInterface parameters;
 
-	/** Loads file into active GeoGebraFrame */
-	public static final LoadFilePresenter FILE_LOADER = new LoadFilePresenter();
 
-	public ViewW(Element container, AppW app,
-			ArticleElementInterface parameters) {
+	public ViewW(Element container, AppW app) {
 		this.app = app;
 		this.container = container;
-		this.parameters = parameters;
 	}
 
 	public static String checkLAF() {
@@ -49,103 +44,6 @@ public class ViewW {
 
 	public Element getContainer() {
 		return container;
-	}
-
-	public String getDataParamFileName() {
-		return getArticleElement().getDataParamFileName();
-	}
-
-	public String getDataParamJSON() {
-		return getArticleElement().getDataParamJSON();
-	}
-
-	public String getDataParamBase64String() {
-		return getArticleElement().getDataParamBase64String();
-	}
-
-	public String getDataParamLanguage() {
-		return getArticleElement().getDataParamLanguage();
-	}
-
-	public String getDataParamCountry() {
-		return getArticleElement().getDataParamCountry();
-	}
-
-	public boolean getDataParamUseBrowserForJS() {
-		return getArticleElement().getDataParamUseBrowserForJS();
-	}
-
-	public boolean getDataParamEnableLabelDrags() {
-		return getArticleElement().getDataParamEnableLabelDrags();
-	}
-
-	public boolean getDataParamEnableUndoRedo() {
-		return getArticleElement().getDataParamEnableUndoRedo();
-	}
-
-	public boolean getDataParamEnableRightClick() {
-		return getArticleElement().getDataParamEnableRightClick();
-	}
-
-	public boolean getDataParamShowMenuBar(boolean def) {
-		return getArticleElement().getDataParamShowMenuBar(def);
-	}
-
-	public boolean getDataParamShowAlgebraInput(boolean def) {
-		return getArticleElement().getDataParamShowAlgebraInput(def);
-	}
-
-	public boolean getDataParamShowToolBar(boolean def) {
-		return getArticleElement().getDataParamShowToolBar(def);
-	}
-
-	public boolean getDataParamShowToolBarHelp() {
-		// return getArticleElement().getDataParamShowToolBarHelp();
-		return false;
-	}
-
-	public boolean getDataParamShiftDragZoomEnabled() {
-		return getArticleElement().getDataParamShiftDragZoomEnabled();
-	}
-
-	public boolean getDataParamShowResetIcon() {
-		return getArticleElement().getDataParamShowResetIcon();
-	}
-
-	public boolean getDataParamButtonShadows() {
-		return getArticleElement().getDataParamButtonShadows();
-	}
-
-	public double getDataParamButtonRounding() {
-		return getArticleElement().getDataParamButtonRounding();
-	}
-
-	public boolean getDataParamShowAnimationButton() {
-		return getArticleElement().getDataParamShowAnimationButton();
-	}
-
-	public int getDataParamCapturingThreshold() {
-		return getArticleElement().getDataParamCapturingThreshold();
-	}
-
-	public boolean getDataParamAllowSymbolTable() {
-		return getArticleElement().getDataParamAllowSymbolTable();
-	}
-
-	public boolean getDataParamErrorDialogsActive() {
-		return getArticleElement().getDataParamErrorDialogsActive();
-	}
-
-	public String getDataParamPerspective() {
-		return getArticleElement().getDataParamPerspective();
-	}
-
-	public boolean getDataParamAllowStyleBar() {
-		return getArticleElement().getDataParamAllowStyleBar();
-	}
-
-	public ArticleElementInterface getArticleElement() {
-		return parameters == null ? ((ArticleElement) container) : parameters;
 	}
 
 	private native void log(Object ex)/*-{
@@ -359,17 +257,14 @@ public class ViewW {
 				@Override
 				public void onSuccess(String response) {
 					app.openCSV(response);
-
 				}
 
 				@Override
 				public void onError(String error) {
 					// TODO Auto-generated method stub
-
 				}
 			});
 			return;
-
 		}
 
 		populateArchiveContent(getHTTPReader(url));
@@ -378,8 +273,6 @@ public class ViewW {
 	private native JavaScriptObject getHTTPReader(String url)/*-{
 		return new $wnd.zip.HttpReader(url);
 	}-*/;
-
-
 
 	/**
 	 * @param binary
@@ -410,10 +303,6 @@ public class ViewW {
 		this.zippedLength = t;
 	}
 
-	public boolean getDataParamApp() {
-		return getArticleElement().getDataParamApp();
-	}
-
 	/**
 	 * @param encoded
 	 *            JSON encoded ZIP file (zip.js format)
@@ -442,11 +331,4 @@ public class ViewW {
 
 	}-*/;
 
-	public void adjustScale() {
-		getArticleElement().adjustScale();
-	}
-
-	public String getDataParamTubeID() {
-		return getArticleElement().getDataParamTubeID();
-	}
 }

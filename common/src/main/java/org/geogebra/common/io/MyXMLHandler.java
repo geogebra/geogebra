@@ -566,7 +566,6 @@ public class MyXMLHandler implements DocHandler {
 					if (!(kernel instanceof MacroKernel)) {
 						kernel.setContinuous(true);
 					}
-
 				}
 
 			} catch (RuntimeException e) {
@@ -2286,22 +2285,14 @@ public class MyXMLHandler implements DocHandler {
 			// if (ggbFileFormat < 3.3) {// also used in some special, newer
 			// files
 			compLayout.showAlgebra = parseBoolean(attrs.get("algebraView"));
-
 			compLayout.showSpreadsheet = parseBoolean(
 					attrs.get("spreadsheetView"));
-
 			String str = attrs.get("auxiliaryObjects");
-			boolean auxiliaryObjects = (str != null && "true".equals(str));
-			app1.setShowAuxiliaryObjects(auxiliaryObjects);
-
+			app1.setShowAuxiliaryObjects(parseBoolean(str));
 			str = attrs.get("algebraInput");
-			boolean algebraInput = (str == null || "true".equals(str));
-			tmp_perspective.setShowInputPanel(algebraInput);
-
+			tmp_perspective.setShowInputPanel(parseBooleanRev(str));
 			str = attrs.get("cmdList");
-			boolean cmdList = (str == null || "true".equals(str));
-			tmp_perspective.setShowInputPanelCommands(cmdList);
-
+			tmp_perspective.setShowInputPanelCommands(parseBooleanRev(str));
 			return true;
 		} catch (RuntimeException e) {
 			e.printStackTrace();

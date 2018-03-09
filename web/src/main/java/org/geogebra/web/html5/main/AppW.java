@@ -742,13 +742,13 @@ public abstract class AppW extends App implements SetLabels {
 	 */
 	public void loadGgbFileAsBase64Again(String dataUrl) {
 		prepareReloadGgbFile();
-		ViewW view = new ViewW(null, this, null);
+		ViewW view = new ViewW(null, this);
 		view.processBase64String(dataUrl);
 	}
 
 	public void loadGgbFileAsBinaryAgain(JavaScriptObject binary) {
 		prepareReloadGgbFile();
-		ViewW view = new ViewW(null, this, null);
+		ViewW view = new ViewW(null, this);
 		view.processBinaryString(binary);
 	}
 
@@ -771,9 +771,8 @@ public abstract class AppW extends App implements SetLabels {
 		final String construction = archive.remove(MyXMLio.XML_FILE);
 		final String macros = archive.remove(MyXMLio.XML_FILE_MACRO);
 		final String defaults2d = archive.remove(MyXMLio.XML_FILE_DEFAULTS_2D);
-		final String defaults3d = is3D() ?
-
-				archive.remove(MyXMLio.XML_FILE_DEFAULTS_3D) : null;
+		final String defaults3d = is3D()
+				? archive.remove(MyXMLio.XML_FILE_DEFAULTS_3D) : null;
 
 		String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
@@ -3628,6 +3627,12 @@ public abstract class AppW extends App implements SetLabels {
 		div.appendChild(elem);
 	}-*/;
 
+	/**
+	 * When multiple slides are present give ID of the current one, otherwise
+	 * give default slide ID
+	 * 
+	 * @return the string ID of current slide
+	 */
 	public String getSlideID() {
 		return getPageController() == null
 				? GgbFile.SLIDE_PREFIX + GgbFile.getCounter()
