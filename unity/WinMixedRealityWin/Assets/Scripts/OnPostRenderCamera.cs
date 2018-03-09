@@ -62,7 +62,7 @@ public class OnPostRenderCamera : MonoBehaviour
             renderedTexture.ReadPixels(rect, 0, 0);
             renderedTexture.Apply();
             grab = false;
-            SaveTextureToPath(renderedTexture);
+            //SaveTextureToPath(renderedTexture);
         }
     }
 

@@ -5,6 +5,12 @@ using HoloToolkit.Unity;
 using UnityEngine.XR.WSA.Input;
 using HoloToolkit.Unity.Controllers;
 using HoloToolkit.Unity.InputModule;
+using System.IO;
+using System;
+
+#if ENABLE_WINMD_SUPPORT
+using Windows.Storage;
+#endif
 
 
 public class ScreenshotManager : MonoBehaviour {
@@ -27,6 +33,14 @@ public class ScreenshotManager : MonoBehaviour {
         public Vector2 TouchpadPosition;
     }
 
+#if !UNITY_EDITOR
+    bool haveFolderPath = false;
+    StorageFolder picturesFolder;
+    string tempFilePathAndName;
+    string tempFileName;
+    string pictureFolderPath;
+#endif
+
     private Dictionary<uint, ControllerState> controllers;
 
     private bool isReadyForNextPhoto = true;
@@ -38,6 +52,8 @@ public class ScreenshotManager : MonoBehaviour {
     public GameObject photoPreview2;
     public GameObject photoPreview3;
     public GameObject photoPreview4;
+
+    public GameObject gameManager;
 
     private bool IsMakingPhoto
     {
@@ -54,6 +70,10 @@ public class ScreenshotManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        if (gameManager == null)
+        {
+            gameManager = GameObject.Find("GameManager");
+        }
         if (camera == null)
         {
             camera = Camera.main;
@@ -63,13 +83,27 @@ public class ScreenshotManager : MonoBehaviour {
 
         isReadyForNextPhoto = true;
         IsMakingPhoto = onPostRenderCameraScript.grab;
+
+#if ENABLE_WINMD_SUPPORT
+        StartCoroutine(syncFolderPath());
+#endif
     }
 
     // Update is called once per frame
     void Update () {
     }
 
-    #region InteractionSource
+#if ENABLE_WINMD_SUPPORT
+
+    async void getFolderPath()
+    {
+        StorageLibrary myPictures = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Pictures);
+        picturesFolder = myPictures.SaveFolder;
+        pictureFolderPath = picturesFolder.Path;
+    }
+#endif
+
+#region InteractionSource
     private void Awake()
     {
 #if UNITY_WSA && UNITY_2017_2_OR_NEWER
@@ -142,7 +176,7 @@ public class ScreenshotManager : MonoBehaviour {
         }
     }
 
-    #endregion
+#endregion
 
     public Texture2D GetInstanceOfRenderedTexture()
     {
@@ -157,12 +191,29 @@ public class ScreenshotManager : MonoBehaviour {
 
     public string GetScreenshotName()
     {
-        return "";
+        print("in screenshotname");
+        string objName;
+        string screenshotName;
+        string titleName = "GeoGebraMR";
+
+        if (gameManager.GetComponent<GameManager>().tempModel != null)
+        {
+            objName = gameManager.GetComponent<GameManager>().tempModel.name;
+            print("objName is " + objName.ToString().ToUpper());
+            screenshotName = titleName + "_" + objName + System.DateTime.Now.ToString("_yyyy-MM-dd-HHmmss") + ".png";
+        }
+        else
+        {
+            screenshotName = titleName + System.DateTime.Now.ToString("_yyyy-MM-dd-HHmmss") + ".png";
+        }
+        return screenshotName;
     }
 
     public void SaveScreenshot(Texture2D tex, string path, string name)
     {
-
+        string allPath = path + name;
+        byte[] bytes = tex.EncodeToPNG();
+        File.WriteAllBytes(allPath, bytes);
     }
 
     public void UpdateGalleryImages()
@@ -180,26 +231,32 @@ public class ScreenshotManager : MonoBehaviour {
 
     public string GetGalleryFolderPath()
     {
-        return "";
+        string picturePath = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyPictures);
+        Debug.Log(picturePath);
+        return picturePath;
     }
 
     IEnumerator MakingPhoto()
     {
-            isReadyForNextPhoto = false;
-            IsMakingPhoto = true;
-            yield return new WaitForEndOfFrame();
-            Texture2D tempTex = GetInstanceOfRenderedTexture();
+        // Uploading Gallery in the scene
+        isReadyForNextPhoto = false;
+        IsMakingPhoto = true;
+        yield return new WaitForEndOfFrame();
+        Texture2D tempTex = GetInstanceOfRenderedTexture();
+        UploadTexture(tempTex, photoPreviewMain);
+        UpdateGalleryImages();
 
-            //******** Save screenstho to file ***********
-            //string screenshotName = GetScreenshotName();
-            //string screenshotPath = GetGalleryFolderPath();
-            //SaveScreenshot(tempTex, screenshotPath, screenshotName);
-            //******** Save screenstho to file ***********
+        // Saving screenshot
+#if ENABLE_WINMD_SUPPORT
+        string screenshotPath = pictureFolderPath.Replace(@"\", "/");
+#else
+        string screenshotPath = GetGalleryFolderPath();
+#endif
+        string screenshotName = GetScreenshotName();
+        SaveScreenshot(tempTex, screenshotPath + "/", screenshotName);
 
-            UploadTexture(tempTex, photoPreviewMain);
-            UpdateGalleryImages();
-            yield return new WaitForSeconds(1);
-            isReadyForNextPhoto = true;
+        yield return new WaitForSeconds(1);
+        isReadyForNextPhoto = true;
     }
 
     public void SelectItem(GameObject gameObject)
@@ -228,4 +285,16 @@ public class ScreenshotManager : MonoBehaviour {
                 break;
         }
     }
+
+#if ENABLE_WINMD_SUPPORT
+    IEnumerator syncFolderPath()
+    {
+        bool loop = true;
+        while (loop)
+        {
+            getFolderPath();
+            yield return new WaitForSeconds(5);
+        }
+    }
+#endif
 }
