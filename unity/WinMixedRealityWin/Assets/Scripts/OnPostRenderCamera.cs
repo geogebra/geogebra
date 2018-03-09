@@ -33,7 +33,7 @@ public class OnPostRenderCamera : MonoBehaviour
         // Test current resolution
         print("Screen.currentResolution = " + Screen.currentResolution);
         //renderedTexture = new Texture2D(Screen.currentResolution.width, Screen.currentResolution.height);
-        renderedTexture = new Texture2D(1760, 1760);
+        renderedTexture = new Texture2D(1758, 1758);
         print("renderedTextured created " + renderedTexture.width + "x" + renderedTexture.height);
 
         mat.mainTexture = renderedTexture;
@@ -57,7 +57,7 @@ public class OnPostRenderCamera : MonoBehaviour
             //Rect rect = new Rect(0, 0, Screen.currentResolution.width, Screen.currentResolution.height); 
 
             // resolution for immersive headset is 1760
-            Rect rect = new Rect(0, 0, 1760, 1760);
+            Rect rect = new Rect(0, 0, 1758, 1758);
             print("new Rect Created " + rect.width + "x" + rect.height);
             renderedTexture.ReadPixels(rect, 0, 0);
             renderedTexture.Apply();
